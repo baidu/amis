@@ -269,7 +269,7 @@ export interface SchemaApiObject {
    * 携带 headers，用法和 data 一样，可以用变量。
    */
   headers?: {
-    [propName: string]: string;
+    [propName: string]: string | number;
   };
 
   /**

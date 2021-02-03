@@ -1,15 +1,13 @@
 import React = require('react');
 import {render} from 'react-testing-library';
 import '../../src/themes/default';
-import {
-    render as amisRender
-} from '../../src/index';
-import { makeEnv } from '../helper';
+import {render as amisRender} from '../../src/index';
+import {makeEnv} from '../helper';
 
 test('Renderer:date', async () => {
-    const {
-        container
-    } = render(amisRender({
+  const {container} = render(
+    amisRender(
+      {
         type: 'date',
         name: 'date',
         label: 'date',
@@ -19,11 +17,14 @@ test('Renderer:date', async () => {
         minDate: '1559664000',
         maxDate: '1561737600',
         className: 'show'
-    }, {}, makeEnv({
-    })));
+      },
+      {},
+      makeEnv({})
+    )
+  );
 
-    const input = container.querySelector('.a-DateField');
-    expect(input.innerHTML).toEqual('2019-06-07');
+  const input = container.querySelector('.a-DateField');
+  expect(input?.innerHTML).toEqual('2019-06-07');
 
-    expect(container).toMatchSnapshot();
+  expect(container).toMatchSnapshot();
 });

@@ -108,7 +108,7 @@ test('Renderer:Form:valdiate', async () => {
 
   const input = container.querySelector('input[name=a]');
   expect(input).toBeTruthy();
-  fireEvent.change(input, {
+  fireEvent.change(input!, {
     target: {
       value: '123'
     }
