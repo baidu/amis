@@ -3,7 +3,7 @@ title: FormItem 普通表单项
 description:
 type: 0
 group: null
-menuName: Formula 普通表单项
+menuName: Formula 表单项通用
 icon:
 order: 1
 ---
@@ -24,6 +24,11 @@ order: 1
       "type": "text",
       "label": "文本框",
       "name": "text"
+    },
+    {
+      "type": "password",
+      "label": "<a href='./password'>密码</a>",
+      "name": "password"
     }
   ]
 }
