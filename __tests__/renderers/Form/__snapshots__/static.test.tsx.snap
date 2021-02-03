@@ -110,6 +110,10 @@ exports[`Renderer:static 1`] = `
             </div>
           </div>
         </div>
+        <input
+          style="display: none;"
+          type="submit"
+        />
       </form>
     </div>
     <div

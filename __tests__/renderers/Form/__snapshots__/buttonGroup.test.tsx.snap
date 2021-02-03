@@ -95,6 +95,10 @@ exports[`Renderer:button-group 1`] = `
             </div>
           </div>
         </div>
+        <input
+          style="display: none;"
+          type="submit"
+        />
       </form>
     </div>
     <div
@@ -235,6 +239,10 @@ exports[`Renderer:button-group:multiple clearable 1`] = `
             </div>
           </div>
         </div>
+        <input
+          style="display: none;"
+          type="submit"
+        />
       </form>
     </div>
     <div
@@ -375,6 +383,10 @@ exports[`Renderer:button-group:multiple clearable 2`] = `
             </div>
           </div>
         </div>
+        <input
+          style="display: none;"
+          type="submit"
+        />
       </form>
     </div>
     <div

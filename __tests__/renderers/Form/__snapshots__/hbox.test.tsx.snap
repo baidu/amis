@@ -77,6 +77,10 @@ exports[`Renderer:hbox 1`] = `
             </div>
           </div>
         </div>
+        <input
+          style="display: none;"
+          type="submit"
+        />
       </form>
     </div>
     <div

@@ -59,6 +59,14 @@ exports[`Renderer:city 1`] = `
                   北京市
                 </div>
               </div>
+              <a
+                class="a-Select-clear"
+              >
+                <icon-mock
+                  classname="icon icon-close"
+                  icon="close"
+                />
+              </a>
               <span
                 class="a-Select-arrow"
               >
@@ -85,6 +93,14 @@ exports[`Renderer:city 1`] = `
                   北京市市辖区
                 </div>
               </div>
+              <a
+                class="a-Select-clear"
+              >
+                <icon-mock
+                  classname="icon icon-close"
+                  icon="close"
+                />
+              </a>
               <span
                 class="a-Select-arrow"
               >
@@ -111,6 +127,14 @@ exports[`Renderer:city 1`] = `
                   东城区
                 </div>
               </div>
+              <a
+                class="a-Select-clear"
+              >
+                <icon-mock
+                  classname="icon icon-close"
+                  icon="close"
+                />
+              </a>
               <span
                 class="a-Select-arrow"
               >
@@ -122,6 +146,10 @@ exports[`Renderer:city 1`] = `
             </div>
           </div>
         </div>
+        <input
+          style="display: none;"
+          type="submit"
+        />
       </form>
     </div>
     <div

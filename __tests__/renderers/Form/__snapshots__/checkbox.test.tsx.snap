@@ -63,6 +63,10 @@ exports[`Renderer:checkbox 1`] = `
             </label>
           </div>
         </div>
+        <input
+          style="display: none;"
+          type="submit"
+        />
       </form>
     </div>
     <div

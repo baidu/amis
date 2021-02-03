@@ -376,7 +376,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
   control: any;
   lastQuery: any;
   dataInvalid: boolean = false;
-  timer: NodeJS.Timeout;
+  timer: NodeJS.Timeout | number;
   mounted: boolean;
   constructor(props: CRUDProps) {
     super(props);
@@ -646,44 +646,59 @@ export default class CRUD extends React.Component<CRUDProps, any> {
       ids
     });
 
-    if (action.actionType === 'dialog') {
-      return this.handleAction(
-        e,
-        {
-          ...action,
-          __from: 'bulkAction'
-        },
-        ctx
-      );
-    } else if (action.actionType === 'ajax') {
-      isEffectiveApi(action.api, ctx) &&
-        store
-          .saveRemote(action.api as string, ctx, {
-            successMessage:
-              (action.messages && action.messages.success) ||
-              (messages && messages.saveSuccess),
-            errorMessage:
-              (action.messages && action.messages.failed) ||
-              (messages && messages.saveFailed)
-          })
-          .then(async (payload: object) => {
-            const data = createObject(ctx, payload);
-            if (action.feedback && isVisible(action.feedback, data)) {
-              await this.openFeedback(action.feedback, data);
-              stopAutoRefreshWhenModalIsOpen && clearTimeout(this.timer);
-            }
+    let fn = () => {
+      if (action.actionType === 'dialog') {
+        return this.handleAction(
+          e,
+          {
+            ...action,
+            __from: 'bulkAction'
+          },
+          ctx
+        );
+      } else if (action.actionType === 'ajax') {
+        isEffectiveApi(action.api, ctx) &&
+          store
+            .saveRemote(action.api as string, ctx, {
+              successMessage:
+                (action.messages && action.messages.success) ||
+                (messages && messages.saveSuccess),
+              errorMessage:
+                (action.messages && action.messages.failed) ||
+                (messages && messages.saveFailed)
+            })
+            .then(async (payload: object) => {
+              const data = createObject(ctx, payload);
+              if (action.feedback && isVisible(action.feedback, data)) {
+                await this.openFeedback(action.feedback, data);
+                stopAutoRefreshWhenModalIsOpen && clearTimeout(this.timer);
+              }
 
-            action.reload
-              ? this.reloadTarget(action.reload, data)
-              : this.search({[pageField || 'page']: 1}, undefined, true, true);
-            action.close && this.closeTarget(action.close);
+              action.reload
+                ? this.reloadTarget(action.reload, data)
+                : this.search(
+                    {[pageField || 'page']: 1},
+                    undefined,
+                    true,
+                    true
+                  );
+              action.close && this.closeTarget(action.close);
 
-            const redirect = action.redirect && filter(action.redirect, data);
-            redirect && env.jumpTo(redirect, action);
-          })
-          .catch(() => null);
-    } else if (onAction) {
-      onAction(e, action, ctx, false, this.context);
+              const redirect = action.redirect && filter(action.redirect, data);
+              redirect && env.jumpTo(redirect, action);
+            })
+            .catch(() => null);
+      } else if (onAction) {
+        onAction(e, action, ctx, false, this.context);
+      }
+    };
+
+    if (action.confirmText && env.confirm) {
+      env
+        .confirm(filter(action.confirmText, ctx))
+        .then((confirmed: boolean) => confirmed && fn());
+    } else {
+      fn();
     }
   }
 
@@ -1538,7 +1553,8 @@ export default class CRUD extends React.Component<CRUDProps, any> {
             {
               size: 'sm',
               ...omit(btn, ['visibleOn', 'hiddenOn', 'disabledOn']),
-              type: 'button'
+              type: 'button',
+              ignoreConfirm: true
             },
             {
               key: `bulk-${index}`,

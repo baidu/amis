@@ -116,6 +116,7 @@ export interface AjaxActionSchema extends ButtonSchema {
 
   reload?: SchemaReload;
   redirect?: string;
+  ignoreConfirm?: boolean;
 }
 
 export interface UrlActionSchema extends ButtonSchema {
@@ -443,9 +444,9 @@ export class ActionRenderer extends React.Component<
 > {
   @autobind
   handleAction(e: React.MouseEvent<any> | void | null, action: any) {
-    const {env, onAction, data} = this.props;
+    const {env, onAction, data, ignoreConfirm} = this.props;
 
-    if (action.confirmText && env.confirm) {
+    if (!ignoreConfirm && action.confirmText && env.confirm) {
       env
         .confirm(filter(action.confirmText, data))
         .then((confirmed: boolean) => confirmed && onAction(e, action, data));

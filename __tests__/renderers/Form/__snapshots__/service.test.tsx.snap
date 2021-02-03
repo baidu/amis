@@ -150,6 +150,10 @@ exports[`Renderer:service 1`] = `
             class="a-Spinner a-Spinner--overlay a-Spinner--lg"
           />
         </div>
+        <input
+          style="display: none;"
+          type="submit"
+        />
       </form>
     </div>
     <div

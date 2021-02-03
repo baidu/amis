@@ -274,22 +274,22 @@ exports[`factory:definitions 1`] = `
                                   </span>
                                 </div>
                               </div>
+                              <input
+                                style="display: none;"
+                                type="submit"
+                              />
                             </div>
                           </div>
-                          <div
-                            class="a-Combo-itemToolbar"
+                          <a
+                            class="a-Combo-delBtn "
+                            data-position="bottom"
+                            data-tooltip="删除"
                           >
-                            <a
-                              class="a-Combo-toolbarBtn "
-                              data-position="bottom"
-                              data-tooltip="删除"
-                            >
-                              <icon-mock
-                                classname="icon icon-close"
-                                icon="close"
-                              />
-                            </a>
-                          </div>
+                            <icon-mock
+                              classname="icon icon-close"
+                              icon="close"
+                            />
+                          </a>
                         </div>
                       </div>
                       <div
@@ -297,7 +297,7 @@ exports[`factory:definitions 1`] = `
                       >
                         <button
                           class="a-Button a-Combo-addBtn"
-                          data-tooltip="新增一条数据"
+                          data-tooltip="新增"
                           type="button"
                         >
                           <icon-mock
@@ -324,6 +324,10 @@ exports[`factory:definitions 1`] = `
                     </span>
                   </div>
                 </div>
+                <input
+                  style="display: none;"
+                  type="submit"
+                />
               </form>
             </div>
             <div
@@ -523,6 +527,10 @@ exports[`factory:definitions override 1`] = `
                     </span>
                   </div>
                 </div>
+                <input
+                  style="display: none;"
+                  type="submit"
+                />
               </form>
             </div>
             <div

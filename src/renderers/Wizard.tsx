@@ -278,6 +278,10 @@ export default class Wizard extends React.Component<WizardProps, WizardState> {
     }
 
     const dom = findDOMNode(this) as HTMLElement;
+    if (!(dom instanceof Element)) {
+      return;
+    }
+
     let parent: HTMLElement | Window | null = dom ? getScrollParent(dom) : null;
     if (!parent || parent === document.body) {
       parent = window;

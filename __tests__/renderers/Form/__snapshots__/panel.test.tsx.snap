@@ -73,7 +73,9 @@ exports[`Renderer:panel 1`] = `
                       </span>
                     </span>
                   </div>
-                  <div>
+                  <div
+                    class="a-Panel-footerWrap"
+                  >
                     <div
                       class="bg-black"
                     >
@@ -245,6 +247,10 @@ exports[`Renderer:panel 1`] = `
             </div>
           </div>
         </div>
+        <input
+          style="display: none;"
+          type="submit"
+        />
       </form>
     </div>
     <div

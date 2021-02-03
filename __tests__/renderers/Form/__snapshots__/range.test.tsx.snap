@@ -127,6 +127,10 @@ exports[`Renderer:number 1`] = `
             </a>
           </div>
         </div>
+        <input
+          style="display: none;"
+          type="submit"
+        />
       </form>
     </div>
     <div
@@ -332,6 +336,10 @@ exports[`Renderer:range:multiple 1`] = `
             </a>
           </div>
         </div>
+        <input
+          style="display: none;"
+          type="submit"
+        />
       </form>
     </div>
     <div

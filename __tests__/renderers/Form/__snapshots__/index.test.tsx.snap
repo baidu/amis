@@ -56,9 +56,15 @@ exports[`Renderer:Form 1`] = `
             </div>
           </div>
         </div>
+        <input
+          style="display: none;"
+          type="submit"
+        />
       </form>
     </div>
-    <div>
+    <div
+      class="a-Panel-footerWrap"
+    >
       <div
         class="a-Panel-btnToolbar a-Panel-footer"
       >
@@ -117,11 +123,14 @@ exports[`Renderer:Form 1`] = `
 
 exports[`Renderer:Form 2`] = `
 Object {
+  "body": Object {
+    "a": "123",
+  },
   "config": Object {
-    "errorMessage": "保存失败",
+    "errorMessage": "saveFailed",
     "method": "post",
     "onSuccess": [Function],
-    "successMessage": "保存成功",
+    "successMessage": "saveSuccess",
   },
   "data": Object {
     "a": "123",
@@ -221,9 +230,15 @@ exports[`Renderer:Form initApi 1`] = `
             </div>
           </div>
         </div>
+        <input
+          style="display: none;"
+          type="submit"
+        />
       </form>
     </div>
-    <div>
+    <div
+      class="a-Panel-footerWrap"
+    >
       <div
         class="a-Panel-btnToolbar a-Panel-footer"
       >
@@ -370,9 +385,15 @@ exports[`Renderer:Form sendOn:true 1`] = `
             </div>
           </div>
         </div>
+        <input
+          style="display: none;"
+          type="submit"
+        />
       </form>
     </div>
-    <div>
+    <div
+      class="a-Panel-footerWrap"
+    >
       <div
         class="a-Panel-btnToolbar a-Panel-footer"
       >
@@ -530,9 +551,15 @@ exports[`Renderer:Form:onValidate 1`] = `
             </li>
           </ul>
         </div>
+        <input
+          style="display: none;"
+          type="submit"
+        />
       </form>
     </div>
-    <div>
+    <div
+      class="a-Panel-footerWrap"
+    >
       <div
         class="a-Panel-btnToolbar a-Panel-footer"
       >
@@ -680,9 +707,15 @@ exports[`Renderer:Form:onValidate 3`] = `
             </div>
           </div>
         </div>
+        <input
+          style="display: none;"
+          type="submit"
+        />
       </form>
     </div>
-    <div>
+    <div
+      class="a-Panel-footerWrap"
+    >
       <div
         class="a-Panel-btnToolbar a-Panel-footer"
       >
@@ -815,9 +848,15 @@ exports[`Renderer:Form:remoteValidate 1`] = `
             </li>
           </ul>
         </div>
+        <input
+          style="display: none;"
+          type="submit"
+        />
       </form>
     </div>
-    <div>
+    <div
+      class="a-Panel-footerWrap"
+    >
       <div
         class="a-Panel-btnToolbar a-Panel-footer"
       >
@@ -942,9 +981,15 @@ exports[`Renderer:Form:valdiate 1`] = `
             </li>
           </ul>
         </div>
+        <input
+          style="display: none;"
+          type="submit"
+        />
       </form>
     </div>
-    <div>
+    <div
+      class="a-Panel-footerWrap"
+    >
       <div
         class="a-Panel-btnToolbar a-Panel-footer"
       >
@@ -1063,9 +1108,15 @@ exports[`Renderer:Form:valdiate 2`] = `
             </div>
           </div>
         </div>
+        <input
+          style="display: none;"
+          type="submit"
+        />
       </form>
     </div>
-    <div>
+    <div
+      class="a-Panel-footerWrap"
+    >
       <div
         class="a-Panel-btnToolbar a-Panel-footer"
       >

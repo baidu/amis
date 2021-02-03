@@ -83,6 +83,10 @@ exports[`Renderer:list 1`] = `
             </div>
           </div>
         </div>
+        <input
+          style="display: none;"
+          type="submit"
+        />
       </form>
     </div>
     <div
@@ -225,6 +229,10 @@ exports[`Renderer:list:multiple clearable 1`] = `
             </div>
           </div>
         </div>
+        <input
+          style="display: none;"
+          type="submit"
+        />
       </form>
     </div>
     <div
@@ -367,6 +375,10 @@ exports[`Renderer:list:multiple clearable 2`] = `
             </div>
           </div>
         </div>
+        <input
+          style="display: none;"
+          type="submit"
+        />
       </form>
     </div>
     <div

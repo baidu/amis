@@ -90,6 +90,10 @@ exports[`Renderer:number 1`] = `
             </div>
           </div>
         </div>
+        <input
+          style="display: none;"
+          type="submit"
+        />
       </form>
     </div>
     <div

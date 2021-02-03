@@ -250,6 +250,7 @@
       > th {
         background: var(--Table-thead-bg);
 
+        text-align: left;
         &[colspan] {
           text-align: center;
         }
