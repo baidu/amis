@@ -74,6 +74,12 @@ export interface DateControlSchema extends DateBaseControlSchema {
    * 限制最大日期
    */
   maxDate?: string;
+
+  /**
+   * 打开日历时的日期，默认为当天
+   * 文档：https://github.com/arqex/react-datetime/tree/v2.16.1#api
+   */
+  viewDate?: Date | string | moment.Moment;
 }
 
 /**
@@ -115,6 +121,12 @@ export interface DateTimeControlSchema extends DateBaseControlSchema {
    */
   maxDate?: string;
 
+  /**
+   * 打开日历时的日期，默认为当天
+   * 文档：https://github.com/arqex/react-datetime/tree/v2.16.1#api
+   */
+  viewDate?: Date | string | moment.Moment;
+  
   /**
    * 不记得了
    */
@@ -205,6 +217,7 @@ export interface DateProps extends FormControlProps {
   inputFormat?: string;
   timeFormat?: string;
   format?: string;
+  viewDate?: Date | string | moment.Moment;
   timeConstraints?: {
     hours?: {
       min: number;
@@ -315,11 +328,16 @@ export default class DateControl extends React.PureComponent<
       type,
       format,
       timeFormat,
+      viewDate,
       ...rest
     } = this.props;
 
     if (type === 'time' && timeFormat) {
       format = timeFormat;
+    }
+
+    if (viewDate) {
+      viewDate = moment(viewDate);
     }
 
     return (
@@ -328,6 +346,7 @@ export default class DateControl extends React.PureComponent<
           {...rest}
           timeFormat={timeFormat}
           format={format}
+          viewDate={viewDate}
           {...this.state}
           classnames={cx}
         />
