@@ -45,7 +45,15 @@ exports[`Renderer:fieldSet 1`] = `
                   class="a-Form-label a-Form-itemColumn--normal"
                 >
                   <span>
-                    
+                    <span
+                      class="a-TplField"
+                    >
+                      <span>
+                        <span
+                          class="text-muted"
+                        />
+                      </span>
+                    </span>
                   </span>
                 </label>
                 <div

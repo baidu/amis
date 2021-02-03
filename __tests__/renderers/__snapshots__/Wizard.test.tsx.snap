@@ -64,7 +64,13 @@ exports[`Renderer:Wizard 1`] = `
             className="a-Form-label"
           >
             <span>
-              网址
+              <span
+                className="a-TplField"
+              >
+                <span>
+                  网址
+                </span>
+              </span>
               <span
                 className="a-Form-star"
               >
@@ -100,7 +106,13 @@ exports[`Renderer:Wizard 1`] = `
             className="a-Form-label"
           >
             <span>
-              名称
+              <span
+                className="a-TplField"
+              >
+                <span>
+                  名称
+                </span>
+              </span>
               <span
                 className="a-Form-star"
               >
@@ -340,7 +352,13 @@ exports[`Renderer:Wizard actionPrevLabel actionNextLabel actionFinishLabel class
               class="a-Form-label"
             >
               <span>
-                网址
+                <span
+                  class="a-TplField"
+                >
+                  <span>
+                    网址
+                  </span>
+                </span>
               </span>
             </label>
             <div
@@ -368,7 +386,13 @@ exports[`Renderer:Wizard actionPrevLabel actionNextLabel actionFinishLabel class
               class="a-Form-label"
             >
               <span>
-                名称
+                <span
+                  class="a-TplField"
+                >
+                  <span>
+                    名称
+                  </span>
+                </span>
               </span>
             </label>
             <div
@@ -524,7 +548,13 @@ exports[`Renderer:Wizard dialog 1`] = `
                       class="a-Form-label"
                     >
                       <span>
-                        网址
+                        <span
+                          class="a-TplField"
+                        >
+                          <span>
+                            网址
+                          </span>
+                        </span>
                       </span>
                     </label>
                     <div
@@ -552,7 +582,13 @@ exports[`Renderer:Wizard dialog 1`] = `
                       class="a-Form-label"
                     >
                       <span>
-                        名称
+                        <span
+                          class="a-TplField"
+                        >
+                          <span>
+                            名称
+                          </span>
+                        </span>
                       </span>
                     </label>
                     <div
@@ -725,7 +761,13 @@ exports[`Renderer:Wizard dialog 2`] = `
                       class="a-Form-label"
                     >
                       <span>
-                        网址
+                        <span
+                          class="a-TplField"
+                        >
+                          <span>
+                            网址
+                          </span>
+                        </span>
                       </span>
                     </label>
                     <div
@@ -753,7 +795,13 @@ exports[`Renderer:Wizard dialog 2`] = `
                       class="a-Form-label"
                     >
                       <span>
-                        名称
+                        <span
+                          class="a-TplField"
+                        >
+                          <span>
+                            名称
+                          </span>
+                        </span>
                       </span>
                     </label>
                     <div
@@ -926,7 +974,13 @@ exports[`Renderer:Wizard initApi 1`] = `
             className="a-Form-label"
           >
             <span>
-              网址
+              <span
+                className="a-TplField"
+              >
+                <span>
+                  网址
+                </span>
+              </span>
               <span
                 className="a-Form-star"
               >
@@ -962,7 +1016,13 @@ exports[`Renderer:Wizard initApi 1`] = `
             className="a-Form-label"
           >
             <span>
-              名称
+              <span
+                className="a-TplField"
+              >
+                <span>
+                  名称
+                </span>
+              </span>
               <span
                 className="a-Form-star"
               >
@@ -1092,7 +1152,13 @@ exports[`Renderer:Wizard initApi reload 1`] = `
                       class="a-Form-label"
                     >
                       <span>
-                        网址
+                        <span
+                          class="a-TplField"
+                        >
+                          <span>
+                            网址
+                          </span>
+                        </span>
                       </span>
                     </label>
                     <div
@@ -1120,7 +1186,13 @@ exports[`Renderer:Wizard initApi reload 1`] = `
                       class="a-Form-label"
                     >
                       <span>
-                        名称
+                        <span
+                          class="a-TplField"
+                        >
+                          <span>
+                            名称
+                          </span>
+                        </span>
                       </span>
                     </label>
                     <div
@@ -1619,7 +1691,13 @@ exports[`Renderer:Wizard initApi show loading 2`] = `
             className="a-Form-label"
           >
             <span>
-              网址
+              <span
+                className="a-TplField"
+              >
+                <span>
+                  网址
+                </span>
+              </span>
               <span
                 className="a-Form-star"
               >
@@ -1655,7 +1733,13 @@ exports[`Renderer:Wizard initApi show loading 2`] = `
             className="a-Form-label"
           >
             <span>
-              名称
+              <span
+                className="a-TplField"
+              >
+                <span>
+                  名称
+                </span>
+              </span>
               <span
                 className="a-Form-star"
               >
@@ -1791,7 +1875,13 @@ exports[`Renderer:Wizard readOnly 1`] = `
             className="a-Form-label"
           >
             <span>
-              网址
+              <span
+                className="a-TplField"
+              >
+                <span>
+                  网址
+                </span>
+              </span>
             </span>
           </label>
           <div
@@ -1823,7 +1913,13 @@ exports[`Renderer:Wizard readOnly 1`] = `
             className="a-Form-label"
           >
             <span>
-              名称
+              <span
+                className="a-TplField"
+              >
+                <span>
+                  名称
+                </span>
+              </span>
             </span>
           </label>
           <div
@@ -2068,7 +2164,13 @@ exports[`Renderer:Wizard step initApi 1`] = `
               class="a-Form-label"
             >
               <span>
-                邮箱
+                <span
+                  class="a-TplField"
+                >
+                  <span>
+                    邮箱
+                  </span>
+                </span>
                 <span
                   class="a-Form-star"
                 >
@@ -2354,7 +2456,13 @@ exports[`Renderer:Wizard target 1`] = `
                     class="a-Form-label"
                   >
                     <span>
-                      Website
+                      <span
+                        class="a-TplField"
+                      >
+                        <span>
+                          Website
+                        </span>
+                      </span>
                     </span>
                   </label>
                   <div
@@ -2382,7 +2490,13 @@ exports[`Renderer:Wizard target 1`] = `
                     class="a-Form-label"
                   >
                     <span>
-                      Name
+                      <span
+                        class="a-TplField"
+                      >
+                        <span>
+                          Name
+                        </span>
+                      </span>
                     </span>
                   </label>
                   <div
@@ -2533,7 +2647,13 @@ exports[`Renderer:Wizard validate 1`] = `
               class="a-Form-label"
             >
               <span>
-                网址
+                <span
+                  class="a-TplField"
+                >
+                  <span>
+                    网址
+                  </span>
+                </span>
                 <span
                   class="a-Form-star"
                 >
@@ -2573,7 +2693,13 @@ exports[`Renderer:Wizard validate 1`] = `
               class="a-Form-label"
             >
               <span>
-                名称
+                <span
+                  class="a-TplField"
+                >
+                  <span>
+                    名称
+                  </span>
+                </span>
                 <span
                   class="a-Form-star"
                 >

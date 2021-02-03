@@ -36,7 +36,13 @@ exports[`Renderer:color 1`] = `
             class="a-Form-label"
           >
             <span>
-              color
+              <span
+                class="a-TplField"
+              >
+                <span>
+                  color
+                </span>
+              </span>
             </span>
           </label>
           <div

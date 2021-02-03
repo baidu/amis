@@ -36,7 +36,13 @@ exports[`Renderer:repeat 1`] = `
             class="a-Form-label"
           >
             <span>
-              repeat
+              <span
+                class="a-TplField"
+              >
+                <span>
+                  repeat
+                </span>
+              </span>
             </span>
           </label>
           <div
