@@ -297,7 +297,7 @@ export default function (doc) {
                 <a
                   href={`https://github.com/baidu/amis/blob/master${location.pathname
                     .replace(ContextPath, '')
-                    .replace(/(zh-CN)\/(docs)/, '$2/$1')}.md`}
+                    .replace(/(zh-CN)\/(docs|components|style)/, '$2/$1')}.md`}
                   rel="noopener"
                   target="_blank"
                 >
