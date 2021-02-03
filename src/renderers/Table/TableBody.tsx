@@ -81,7 +81,7 @@ export class TableBody extends React.Component<TableBodyProps> {
     return false;
   }
 
-  componentwillUnmount() {
+  componentWillUnmount() {
     this.reaction?.();
   }
 
