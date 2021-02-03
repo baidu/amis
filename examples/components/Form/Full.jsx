@@ -565,7 +565,8 @@ export default {
           type: 'datetime',
           name: 'datetime',
           inline: true,
-          label: '日期+时间'
+          label: '日期+时间',
+          viewDate: '2008-08-08 20:08:08'
         },
         {
           type: 'divider'
