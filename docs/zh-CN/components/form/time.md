@@ -175,4 +175,4 @@ order: 58
 | inputFormat     | `string`  | `HH:mm`        | 时间选择器显示格式，即时间戳格式，更多格式类型请参考 [moment](http://momentjs.com/) |
 | placeholder     | `string`  | `"请选择时间"` | 占位文本                                                                            |
 | clearable       | `boolean` | `true`         | 是否可清除                                                                          |
-| timeConstrainst | `object`  | `true`         | 请参考： [react-datetime](https://github.com/YouCanBookMe/react-datetime)           |
+| timeConstraints | `object`  | `true`         | 请参考： [react-datetime](https://github.com/YouCanBookMe/react-datetime)           |
