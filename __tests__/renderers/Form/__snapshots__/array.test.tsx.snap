@@ -36,7 +36,13 @@ exports[`Renderer:array 1`] = `
             class="a-Form-label"
           >
             <span>
-              颜色集合
+              <span
+                class="a-TplField"
+              >
+                <span>
+                  颜色集合
+                </span>
+              </span>
             </span>
           </label>
         </div>

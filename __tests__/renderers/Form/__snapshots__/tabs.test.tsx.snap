@@ -80,7 +80,13 @@ exports[`Renderer:tabs 1`] = `
                     class="a-Form-label"
                   >
                     <span>
-                      文本3
+                      <span
+                        class="a-TplField"
+                      >
+                        <span>
+                          文本3
+                        </span>
+                      </span>
                     </span>
                   </label>
                   <div
@@ -108,7 +114,13 @@ exports[`Renderer:tabs 1`] = `
                     class="a-Form-label"
                   >
                     <span>
-                      文本4
+                      <span
+                        class="a-TplField"
+                      >
+                        <span>
+                          文本4
+                        </span>
+                      </span>
                     </span>
                   </label>
                   <div

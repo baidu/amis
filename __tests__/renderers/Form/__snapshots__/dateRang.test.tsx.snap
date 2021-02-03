@@ -36,7 +36,13 @@ exports[`Renderer:dateRange 1`] = `
             class="a-Form-label"
           >
             <span>
-              date-range
+              <span
+                class="a-TplField"
+              >
+                <span>
+                  date-range
+                </span>
+              </span>
             </span>
           </label>
           <div

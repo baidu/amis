@@ -36,7 +36,13 @@ exports[`Renderer:radios 1`] = `
             class="a-Form-label"
           >
             <span>
-              radios
+              <span
+                class="a-TplField"
+              >
+                <span>
+                  radios
+                </span>
+              </span>
             </span>
           </label>
           <div
@@ -104,7 +110,13 @@ exports[`Renderer:radios 1`] = `
             class="a-Form-label"
           >
             <span>
-              当前值
+              <span
+                class="a-TplField"
+              >
+                <span>
+                  当前值
+                </span>
+              </span>
             </span>
           </label>
           <div
@@ -212,7 +224,13 @@ exports[`Renderer:radios 2`] = `
             class="a-Form-label"
           >
             <span>
-              radios
+              <span
+                class="a-TplField"
+              >
+                <span>
+                  radios
+                </span>
+              </span>
             </span>
           </label>
           <div
@@ -280,7 +298,13 @@ exports[`Renderer:radios 2`] = `
             class="a-Form-label"
           >
             <span>
-              当前值
+              <span
+                class="a-TplField"
+              >
+                <span>
+                  当前值
+                </span>
+              </span>
             </span>
           </label>
           <div

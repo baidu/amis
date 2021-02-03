@@ -36,7 +36,13 @@ exports[`Renderer:textarea 1`] = `
             class="a-Form-label"
           >
             <span>
-              textarea
+              <span
+                class="a-TplField"
+              >
+                <span>
+                  textarea
+                </span>
+              </span>
             </span>
           </label>
           <textarea

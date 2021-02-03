@@ -36,10 +36,10 @@ export default class ChartRadiosControl extends React.Component<
 > {
   highlightIndex: number = -1;
   prevIndex: number = -1;
-  chart?: echarts.ECharts;
+  chart?: any;
 
   @autobind
-  chartRef(chart?: echarts.ECharts) {
+  chartRef(chart?: any) {
     this.chart = chart;
 
     this.chart?.on('click', 'series', (params: any) => {

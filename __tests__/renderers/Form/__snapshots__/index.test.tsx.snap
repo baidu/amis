@@ -36,7 +36,13 @@ exports[`Renderer:Form 1`] = `
             class="a-Form-label"
           >
             <span>
-              Label
+              <span
+                class="a-TplField"
+              >
+                <span>
+                  Label
+                </span>
+              </span>
             </span>
           </label>
           <div
@@ -182,7 +188,13 @@ exports[`Renderer:Form initApi 1`] = `
             class="a-Form-label"
           >
             <span>
-              A
+              <span
+                class="a-TplField"
+              >
+                <span>
+                  A
+                </span>
+              </span>
             </span>
           </label>
           <div
@@ -210,7 +222,13 @@ exports[`Renderer:Form initApi 1`] = `
             class="a-Form-label"
           >
             <span>
-              B
+              <span
+                class="a-TplField"
+              >
+                <span>
+                  B
+                </span>
+              </span>
             </span>
           </label>
           <div
@@ -337,7 +355,13 @@ exports[`Renderer:Form sendOn:true 1`] = `
             class="a-Form-label"
           >
             <span>
-              A
+              <span
+                class="a-TplField"
+              >
+                <span>
+                  A
+                </span>
+              </span>
             </span>
           </label>
           <div
@@ -365,7 +389,13 @@ exports[`Renderer:Form sendOn:true 1`] = `
             class="a-Form-label"
           >
             <span>
-              B
+              <span
+                class="a-TplField"
+              >
+                <span>
+                  B
+                </span>
+              </span>
             </span>
           </label>
           <div
@@ -486,7 +516,13 @@ exports[`Renderer:Form:onValidate 1`] = `
             class="a-Form-label"
           >
             <span>
-              A
+              <span
+                class="a-TplField"
+              >
+                <span>
+                  A
+                </span>
+              </span>
             </span>
           </label>
           <div
@@ -521,7 +557,13 @@ exports[`Renderer:Form:onValidate 1`] = `
             class="a-Form-label"
           >
             <span>
-              B
+              <span
+                class="a-TplField"
+              >
+                <span>
+                  B
+                </span>
+              </span>
             </span>
           </label>
           <div
@@ -659,7 +701,13 @@ exports[`Renderer:Form:onValidate 3`] = `
             class="a-Form-label"
           >
             <span>
-              A
+              <span
+                class="a-TplField"
+              >
+                <span>
+                  A
+                </span>
+              </span>
             </span>
           </label>
           <div
@@ -687,7 +735,13 @@ exports[`Renderer:Form:onValidate 3`] = `
             class="a-Form-label"
           >
             <span>
-              B
+              <span
+                class="a-TplField"
+              >
+                <span>
+                  B
+                </span>
+              </span>
             </span>
           </label>
           <div
@@ -821,7 +875,13 @@ exports[`Renderer:Form:remoteValidate 1`] = `
             class="a-Form-label"
           >
             <span>
-              Label
+              <span
+                class="a-TplField"
+              >
+                <span>
+                  Label
+                </span>
+              </span>
             </span>
           </label>
           <div
@@ -949,7 +1009,13 @@ exports[`Renderer:Form:valdiate 1`] = `
             class="a-Form-label"
           >
             <span>
-              Label
+              <span
+                class="a-TplField"
+              >
+                <span>
+                  Label
+                </span>
+              </span>
               <span
                 class="a-Form-star"
               >
@@ -1083,7 +1149,13 @@ exports[`Renderer:Form:valdiate 2`] = `
             class="a-Form-label"
           >
             <span>
-              Label
+              <span
+                class="a-TplField"
+              >
+                <span>
+                  Label
+                </span>
+              </span>
               <span
                 class="a-Form-star"
               >

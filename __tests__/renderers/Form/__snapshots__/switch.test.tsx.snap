@@ -36,7 +36,13 @@ exports[`Renderer:switch 1`] = `
             class="a-Form-label"
           >
             <span>
-              开关
+              <span
+                class="a-TplField"
+              >
+                <span>
+                  开关
+                </span>
+              </span>
             </span>
           </label>
           <div
