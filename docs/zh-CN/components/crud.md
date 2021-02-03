@@ -1168,11 +1168,23 @@ crud 组件支持通过配置`headerToolbar`和`footerToolbar`属性，实现在
 
 - `items` `Array<object>` 选中的行数据。
 - `rows` items 的别名，推荐用 items。
+- `selectedItems` `Array<object>` 选中的行数据，建议直接用 items。
 - `unselectedItems` `Array<object>` 没选中的行数据也可获取。
 - `ids` `Array<number|string>` 前提是行数据中有 id 字段，或者有指定的 `primaryField` 字段。
 - `第一行所有行数据` 还有第一行的所有行数据也会包含进去。
 
 你可以通过[数据映射](../../docs/concepts/data-mapping)，在`api`中获取这些参数。
+
+**约束批量操作**
+
+有时候并不是勾选了就能支持批量操作的，比如想约束如果勾选了某条数据 owner 值不是当前用户的就不可以操作。
+
+有两种方式来约束。
+
+1. 批量操作按钮上配置 `disabledOn` 值为 `this.selectedItems.some(item => item.owner === this.amisUser.name)`
+2. 给表格加上 `itemCheckableOn` 值为 `this.owner === this.amisUser.name` 表示只有 owner 是自己的才可以打勾。
+
+
 
 ### 数据统计
 
