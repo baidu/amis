@@ -42,7 +42,13 @@ exports[`Renderer:group 1`] = `
                 class="a-Form-label a-Form-itemColumn--0"
               >
                 <span>
-                  Label
+                  <span
+                    class="a-TplField"
+                  >
+                    <span>
+                      Label
+                    </span>
+                  </span>
                 </span>
               </label>
               <div
@@ -78,7 +84,13 @@ exports[`Renderer:group 1`] = `
                 class="a-Form-label a-Form-itemColumn--0"
               >
                 <span>
-                  Label
+                  <span
+                    class="a-TplField"
+                  >
+                    <span>
+                      Label
+                    </span>
+                  </span>
                 </span>
               </label>
               <div
@@ -115,7 +127,13 @@ exports[`Renderer:group 1`] = `
               class="a-Form-label"
             >
               <span>
-                Label
+                <span
+                  class="a-TplField"
+                >
+                  <span>
+                    Label
+                  </span>
+                </span>
               </span>
             </label>
             <div
@@ -147,7 +165,13 @@ exports[`Renderer:group 1`] = `
               class="a-Form-label"
             >
               <span>
-                Label
+                <span
+                  class="a-TplField"
+                >
+                  <span>
+                    Label
+                  </span>
+                </span>
               </span>
             </label>
             <div
@@ -183,7 +207,13 @@ exports[`Renderer:group 1`] = `
               class="a-Form-label"
             >
               <span>
-                Label
+                <span
+                  class="a-TplField"
+                >
+                  <span>
+                    Label
+                  </span>
+                </span>
               </span>
             </label>
             <div
@@ -211,7 +241,13 @@ exports[`Renderer:group 1`] = `
               class="a-Form-label"
             >
               <span>
-                Label
+                <span
+                  class="a-TplField"
+                >
+                  <span>
+                    Label
+                  </span>
+                </span>
               </span>
             </label>
             <div

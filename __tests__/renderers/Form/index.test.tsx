@@ -11,7 +11,7 @@ import {createMemoryHistory} from 'history';
 // mock getComputedStyle
 Object.defineProperty(window, 'getComputedStyle', {
   value: () => ({
-    getPropertyValue: prop => {
+    getPropertyValue: (prop: any) => {
       return '';
     }
   })

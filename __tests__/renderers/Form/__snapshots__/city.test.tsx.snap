@@ -36,7 +36,13 @@ exports[`Renderer:city 1`] = `
             class="a-Form-label"
           >
             <span>
-              city
+              <span
+                class="a-TplField"
+              >
+                <span>
+                  city
+                </span>
+              </span>
             </span>
           </label>
           <div

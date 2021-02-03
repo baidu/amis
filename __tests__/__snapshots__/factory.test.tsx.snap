@@ -120,7 +120,13 @@ exports[`factory:definitions 1`] = `
                     class="a-Form-label"
                   >
                     <span>
-                      text2
+                      <span
+                        class="a-TplField"
+                      >
+                        <span>
+                          text2
+                        </span>
+                      </span>
                     </span>
                   </label>
                   <div
@@ -160,7 +166,13 @@ exports[`factory:definitions 1`] = `
                     class="a-Form-label"
                   >
                     <span>
-                      combo
+                      <span
+                        class="a-TplField"
+                      >
+                        <span>
+                          combo
+                        </span>
+                      </span>
                     </span>
                   </label>
                   <div
@@ -190,7 +202,13 @@ exports[`factory:definitions 1`] = `
                                   class="a-Form-label"
                                 >
                                   <span>
-                                    combo 1
+                                    <span
+                                      class="a-TplField"
+                                    >
+                                      <span>
+                                        combo 1
+                                      </span>
+                                    </span>
                                   </span>
                                 </label>
                                 <div
@@ -218,7 +236,13 @@ exports[`factory:definitions 1`] = `
                                   class="a-Form-label"
                                 >
                                   <span>
-                                    combo 2
+                                    <span
+                                      class="a-TplField"
+                                    >
+                                      <span>
+                                        combo 2
+                                      </span>
+                                    </span>
                                   </span>
                                 </label>
                                 <div
@@ -258,7 +282,13 @@ exports[`factory:definitions 1`] = `
                                   class="a-Form-label"
                                 >
                                   <span>
-                                    children
+                                    <span
+                                      class="a-TplField"
+                                    >
+                                      <span>
+                                        children
+                                      </span>
+                                    </span>
                                   </span>
                                 </label>
                                 <div
@@ -440,7 +470,13 @@ exports[`factory:definitions override 1`] = `
                     class="a-Form-label"
                   >
                     <span>
-                      text2
+                      <span
+                        class="a-TplField"
+                      >
+                        <span>
+                          text2
+                        </span>
+                      </span>
                     </span>
                   </label>
                   <div
@@ -480,7 +516,13 @@ exports[`factory:definitions override 1`] = `
                     class="a-Form-label"
                   >
                     <span>
-                      combo
+                      <span
+                        class="a-TplField"
+                      >
+                        <span>
+                          combo
+                        </span>
+                      </span>
                     </span>
                   </label>
                   <div

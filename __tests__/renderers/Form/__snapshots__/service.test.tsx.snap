@@ -36,7 +36,13 @@ exports[`Renderer:service 1`] = `
             class="a-Form-label"
           >
             <span>
-              模板
+              <span
+                class="a-TplField"
+              >
+                <span>
+                  模板
+                </span>
+              </span>
               <span
                 class="a-Form-star"
               >
@@ -89,7 +95,13 @@ exports[`Renderer:service 1`] = `
                 class="a-Form-label"
               >
                 <span>
-                  动态字段1
+                  <span
+                    class="a-TplField"
+                  >
+                    <span>
+                      动态字段1
+                    </span>
+                  </span>
                   <span
                     class="a-Form-star"
                   >
@@ -122,7 +134,13 @@ exports[`Renderer:service 1`] = `
                 class="a-Form-label"
               >
                 <span>
-                  动态字段2
+                  <span
+                    class="a-TplField"
+                  >
+                    <span>
+                      动态字段2
+                    </span>
+                  </span>
                 </span>
               </label>
               <div

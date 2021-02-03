@@ -36,7 +36,13 @@ exports[`Renderer:formula 1`] = `
             class="a-Form-label"
           >
             <span>
-              a
+              <span
+                class="a-TplField"
+              >
+                <span>
+                  a
+                </span>
+              </span>
             </span>
           </label>
           <div
@@ -98,7 +104,13 @@ exports[`Renderer:formula 1`] = `
             class="a-Form-label"
           >
             <span>
-              b
+              <span
+                class="a-TplField"
+              >
+                <span>
+                  b
+                </span>
+              </span>
             </span>
           </label>
           <div
@@ -160,7 +172,13 @@ exports[`Renderer:formula 1`] = `
             class="a-Form-label"
           >
             <span>
-              sum1
+              <span
+                class="a-TplField"
+              >
+                <span>
+                  sum1
+                </span>
+              </span>
             </span>
           </label>
           <div
@@ -222,7 +240,13 @@ exports[`Renderer:formula 1`] = `
             class="a-Form-label"
           >
             <span>
-              sum2
+              <span
+                class="a-TplField"
+              >
+                <span>
+                  sum2
+                </span>
+              </span>
             </span>
           </label>
           <div
@@ -284,7 +308,13 @@ exports[`Renderer:formula 1`] = `
             class="a-Form-label"
           >
             <span>
-              sum3
+              <span
+                class="a-TplField"
+              >
+                <span>
+                  sum3
+                </span>
+              </span>
             </span>
           </label>
           <div

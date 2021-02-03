@@ -36,7 +36,13 @@ exports[`Renderer:container 1`] = `
             class="a-Form-label a-Form-itemColumn--normal"
           >
             <span>
-              container
+              <span
+                class="a-TplField"
+              >
+                <span>
+                  container
+                </span>
+              </span>
             </span>
           </label>
           <div
@@ -56,7 +62,15 @@ exports[`Renderer:container 1`] = `
                     class="a-Form-label a-Form-itemColumn--normal"
                   >
                     <span>
-                      
+                      <span
+                        class="a-TplField"
+                      >
+                        <span>
+                          <span
+                            class="text-muted"
+                          />
+                        </span>
+                      </span>
                     </span>
                   </label>
                   <div

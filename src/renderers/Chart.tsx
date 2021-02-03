@@ -148,8 +148,8 @@ export interface ChartProps extends RendererProps, Omit<ChartSchema, 'type'> {
   chartRef?: (echart: any) => void;
   onDataFilter?: (config: any, echarts: any) => any;
   onChartWillMount?: (echarts: any) => void | Promise<void>;
-  onChartMount?: (chart: echarts.ECharts, echarts: any) => void;
-  onChartUnMount?: (chart: echarts.ECharts, echarts: any) => void;
+  onChartMount?: (chart: any, echarts: any) => void;
+  onChartUnMount?: (chart: any, echarts: any) => void;
   store: IServiceStore;
 }
 export class Chart extends React.Component<ChartProps> {
@@ -161,7 +161,7 @@ export class Chart extends React.Component<ChartProps> {
   static propsList: Array<string> = [];
 
   ref: any;
-  echarts?: echarts.ECharts;
+  echarts?: any;
   unSensor: Function;
   pending?: object;
   pendingCtx?: any;

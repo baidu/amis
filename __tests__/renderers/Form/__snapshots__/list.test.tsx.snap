@@ -36,7 +36,13 @@ exports[`Renderer:list 1`] = `
             class="a-Form-label"
           >
             <span>
-              单选
+              <span
+                class="a-TplField"
+              >
+                <span>
+                  单选
+                </span>
+              </span>
             </span>
           </label>
           <div
@@ -168,7 +174,13 @@ exports[`Renderer:list:multiple clearable 1`] = `
             class="a-Form-label"
           >
             <span>
-              多选
+              <span
+                class="a-TplField"
+              >
+                <span>
+                  多选
+                </span>
+              </span>
             </span>
           </label>
           <div
@@ -206,7 +218,13 @@ exports[`Renderer:list:multiple clearable 1`] = `
             class="a-Form-label"
           >
             <span>
-              当前值
+              <span
+                class="a-TplField"
+              >
+                <span>
+                  当前值
+                </span>
+              </span>
             </span>
           </label>
           <div
@@ -314,7 +332,13 @@ exports[`Renderer:list:multiple clearable 2`] = `
             class="a-Form-label"
           >
             <span>
-              多选
+              <span
+                class="a-TplField"
+              >
+                <span>
+                  多选
+                </span>
+              </span>
             </span>
           </label>
           <div
@@ -352,7 +376,13 @@ exports[`Renderer:list:multiple clearable 2`] = `
             class="a-Form-label"
           >
             <span>
-              当前值
+              <span
+                class="a-TplField"
+              >
+                <span>
+                  当前值
+                </span>
+              </span>
             </span>
           </label>
           <div

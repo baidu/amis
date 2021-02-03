@@ -36,7 +36,13 @@ exports[`Renderer:number 1`] = `
             class="a-Form-label"
           >
             <span>
-              number
+              <span
+                class="a-TplField"
+              >
+                <span>
+                  number
+                </span>
+              </span>
             </span>
           </label>
           <div
