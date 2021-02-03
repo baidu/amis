@@ -199,7 +199,7 @@ export const components = [
           )
       },
       {
-        label: 'FormItem 表单项',
+        label: 'FormItem 表单项通用',
         path: '/zh-CN/components/form/formitem',
         getComponent: () =>
           // @ts-ignore
@@ -519,6 +519,15 @@ export const components = [
         getComponent: () =>
           // @ts-ignore
           import('../../docs/zh-CN/components/form/panel.md').then(
+            makeMarkdownRenderer
+          )
+      },
+      {
+        label: 'Password 密码输入框',
+        path: '/zh-CN/components/form/password',
+        getComponent: () =>
+          // @ts-ignore
+          import('../../docs/zh-CN/components/form/password.md').then(
             makeMarkdownRenderer
           )
       },

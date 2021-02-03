@@ -776,7 +776,7 @@ export class FormItemWrap extends React.Component<FormItemProps> {
             )}
           >
             <span>
-              {filter(label, data)}
+              {render('label', filter(label, data))}
               {required && (label || labelRemark) ? (
                 <span className={cx(`Form-star`)}>*</span>
               ) : null}
@@ -888,7 +888,7 @@ export class FormItemWrap extends React.Component<FormItemProps> {
         {label && renderLabel !== false ? (
           <label className={cx(`Form-label`, labelClassName)}>
             <span>
-              {filter(label, data)}
+              {render('label', filter(label, data))}
               {required && (label || labelRemark) ? (
                 <span className={cx(`Form-star`)}>*</span>
               ) : null}
@@ -990,7 +990,7 @@ export class FormItemWrap extends React.Component<FormItemProps> {
         {label && renderLabel !== false ? (
           <label className={cx(`Form-label`, labelClassName)}>
             <span>
-              {filter(label, data)}
+              {render('label', filter(label, data))}
               {required && (label || labelRemark) ? (
                 <span className={cx(`Form-star`)}>*</span>
               ) : null}
@@ -1098,7 +1098,7 @@ export class FormItemWrap extends React.Component<FormItemProps> {
           {label && renderLabel !== false ? (
             <label className={cx(`Form-label`, labelClassName)}>
               <span>
-                {filter(label, data)}
+                {render('label', filter(label, data))}
                 {required && (label || labelRemark) ? (
                   <span className={cx(`Form-star`)}>*</span>
                 ) : null}
