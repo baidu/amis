@@ -1052,9 +1052,15 @@ exports[`Renderer:Page initApi reload by Form submit 1`] = `
                     </div>
                   </div>
                 </div>
+                <input
+                  style="display: none;"
+                  type="submit"
+                />
               </form>
             </div>
-            <div>
+            <div
+              class="a-Panel-footerWrap"
+            >
               <div
                 class="a-Panel-btnToolbar a-Panel-footer"
               >
@@ -1193,9 +1199,15 @@ exports[`Renderer:Page initApi reload by Form submit 2`] = `
                     </div>
                   </div>
                 </div>
+                <input
+                  style="display: none;"
+                  type="submit"
+                />
               </form>
             </div>
-            <div>
+            <div
+              class="a-Panel-footerWrap"
+            >
               <div
                 class="a-Panel-btnToolbar a-Panel-footer"
               >

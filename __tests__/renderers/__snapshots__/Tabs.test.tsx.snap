@@ -13,7 +13,6 @@ exports[`Renderer:tabs 1`] = `
         class="a-Tabs-link is-active"
       >
         <a>
-           
           基本配置
         </a>
       </li>
@@ -21,7 +20,6 @@ exports[`Renderer:tabs 1`] = `
         class="a-Tabs-link"
       >
         <a>
-           
           其他配置
         </a>
       </li>

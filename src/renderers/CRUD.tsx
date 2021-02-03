@@ -376,7 +376,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
   control: any;
   lastQuery: any;
   dataInvalid: boolean = false;
-  timer: NodeJS.Timeout;
+  timer: NodeJS.Timeout | number;
   mounted: boolean;
   constructor(props: CRUDProps) {
     super(props);

@@ -2,25 +2,167 @@
 
 exports[`Renderer:Wizard 1`] = `
 <div
-  className="a-Alert a-Alert--danger"
+  className="a-Panel a-Panel--default a-Wizard a-Wizard--horizontal"
 >
-  <p>
-    TypeError: The provided value is not of type 'Element'.
-  </p>
-  <pre>
-    <code>
-      
-    in WizardRenderer (created by WithStore(WizardRenderer))
-    in WithStore(WizardRenderer) (created by Scoped(WithStore(WizardRenderer)))
-    in Scoped(WithStore(WizardRenderer)) (created by Renderer)
-    in Renderer (created by RootRenderer)
-    in ImageGallery (created by I18N(ImageGallery))
-    in I18N(ImageGallery) (created by Themeable(I18N(ImageGallery)))
-    in Themeable(I18N(ImageGallery)) (created by RootRenderer)
-    in RootRenderer (created by Scoped(RootRenderer))
-    in Scoped(RootRenderer)
-    </code>
-  </pre>
+  <div
+    className="a-Wizard-step"
+  >
+    <div
+      className="a-Wizard-steps"
+      id="form-wizard"
+    >
+      <ul>
+        <li
+          className="is-active"
+          onClick={[Function]}
+        >
+          <span
+            className="a-Badge is-active"
+          >
+            1
+          </span>
+          Step 1
+        </li>
+        <li
+          className=""
+          onClick={[Function]}
+        >
+          <span
+            className="a-Badge"
+          >
+            2
+          </span>
+          Step 2
+        </li>
+        <li
+          className=""
+          onClick={[Function]}
+        >
+          <span
+            className="a-Badge"
+          >
+            3
+          </span>
+          Step 3
+        </li>
+      </ul>
+    </div>
+    <div
+      className="a-Wizard-stepContent clearfix"
+      role="wizard-body"
+    >
+      <form
+        className="a-Form a-Form--normal"
+        noValidate={true}
+        onSubmit={[Function]}
+      >
+        <div
+          className="a-Form-item a-Form-item--normal is-required"
+          data-role="form-item"
+        >
+          <label
+            className="a-Form-label"
+          >
+            <span>
+              网址
+              <span
+                className="a-Form-star"
+              >
+                *
+              </span>
+            </span>
+          </label>
+          <div
+            className="a-Form-control a-TextControl"
+          >
+            <div
+              className="a-TextControl-input"
+            >
+              <input
+                autoComplete="off"
+                name="website"
+                onBlur={[Function]}
+                onChange={[Function]}
+                onFocus={[Function]}
+                placeholder=""
+                size={10}
+                type="url"
+                value=""
+              />
+            </div>
+          </div>
+        </div>
+        <div
+          className="a-Form-item a-Form-item--normal is-required"
+          data-role="form-item"
+        >
+          <label
+            className="a-Form-label"
+          >
+            <span>
+              名称
+              <span
+                className="a-Form-star"
+              >
+                *
+              </span>
+            </span>
+          </label>
+          <div
+            className="a-Form-control a-TextControl"
+          >
+            <div
+              className="a-TextControl-input"
+            >
+              <input
+                autoComplete="off"
+                name="name"
+                onBlur={[Function]}
+                onChange={[Function]}
+                onFocus={[Function]}
+                placeholder=""
+                size={10}
+                type="text"
+                value=""
+              />
+            </div>
+          </div>
+        </div>
+        <input
+          style={
+            Object {
+              "display": "none",
+            }
+          }
+          type="submit"
+        />
+      </form>
+    </div>
+    <div
+      className="a-Panel-footer a-Wizard-footer"
+      role="wizard-footer"
+    >
+      <button
+        className="a-Button a-Button--default is-disabled"
+        disabled={true}
+        onClick={[Function]}
+        type="button"
+      >
+        <span>
+          上一步
+        </span>
+      </button>
+      <button
+        className="a-Button a-Button--default"
+        onClick={[Function]}
+        type="button"
+      >
+        <span>
+          下一步
+        </span>
+      </button>
+    </div>
+  </div>
 </div>
 `;
 
@@ -75,6 +217,10 @@ exports[`Renderer:Wizard actionPrevLabel actionNextLabel actionFinishLabel class
               这是最后一步了
             </span>
           </span>
+          <input
+            style="display: none;"
+            type="submit"
+          />
         </form>
       </div>
       <div
@@ -242,6 +388,10 @@ exports[`Renderer:Wizard actionPrevLabel actionNextLabel actionFinishLabel class
               </div>
             </div>
           </div>
+          <input
+            style="display: none;"
+            type="submit"
+          />
         </form>
       </div>
       <div
@@ -435,6 +585,10 @@ exports[`Renderer:Wizard dialog 1`] = `
                       </span>
                     </button>
                   </div>
+                  <input
+                    style="display: none;"
+                    type="submit"
+                  />
                 </form>
               </div>
               <div
@@ -632,6 +786,10 @@ exports[`Renderer:Wizard dialog 2`] = `
                       </span>
                     </button>
                   </div>
+                  <input
+                    style="display: none;"
+                    type="submit"
+                  />
                 </form>
               </div>
               <div
@@ -706,25 +864,167 @@ exports[`Renderer:Wizard dialog 2`] = `
 
 exports[`Renderer:Wizard initApi 1`] = `
 <div
-  className="a-Alert a-Alert--danger"
+  className="a-Panel a-Panel--default a-Wizard a-Wizard--horizontal"
 >
-  <p>
-    TypeError: The provided value is not of type 'Element'.
-  </p>
-  <pre>
-    <code>
-      
-    in WizardRenderer (created by WithStore(WizardRenderer))
-    in WithStore(WizardRenderer) (created by Scoped(WithStore(WizardRenderer)))
-    in Scoped(WithStore(WizardRenderer)) (created by Renderer)
-    in Renderer (created by RootRenderer)
-    in ImageGallery (created by I18N(ImageGallery))
-    in I18N(ImageGallery) (created by Themeable(I18N(ImageGallery)))
-    in Themeable(I18N(ImageGallery)) (created by RootRenderer)
-    in RootRenderer (created by Scoped(RootRenderer))
-    in Scoped(RootRenderer)
-    </code>
-  </pre>
+  <div
+    className="a-Wizard-step"
+  >
+    <div
+      className="a-Wizard-steps"
+      id="form-wizard"
+    >
+      <ul>
+        <li
+          className="is-active"
+          onClick={[Function]}
+        >
+          <span
+            className="a-Badge is-active"
+          >
+            1
+          </span>
+          Step 1
+        </li>
+        <li
+          className=""
+          onClick={[Function]}
+        >
+          <span
+            className="a-Badge"
+          >
+            2
+          </span>
+          Step 2
+        </li>
+        <li
+          className=""
+          onClick={[Function]}
+        >
+          <span
+            className="a-Badge"
+          >
+            3
+          </span>
+          Step 3
+        </li>
+      </ul>
+    </div>
+    <div
+      className="a-Wizard-stepContent clearfix"
+      role="wizard-body"
+    >
+      <form
+        className="a-Form a-Form--normal"
+        noValidate={true}
+        onSubmit={[Function]}
+      >
+        <div
+          className="a-Form-item a-Form-item--normal is-required"
+          data-role="form-item"
+        >
+          <label
+            className="a-Form-label"
+          >
+            <span>
+              网址
+              <span
+                className="a-Form-star"
+              >
+                *
+              </span>
+            </span>
+          </label>
+          <div
+            className="a-Form-control a-TextControl"
+          >
+            <div
+              className="a-TextControl-input"
+            >
+              <input
+                autoComplete="off"
+                name="website"
+                onBlur={[Function]}
+                onChange={[Function]}
+                onFocus={[Function]}
+                placeholder=""
+                size={10}
+                type="url"
+                value=""
+              />
+            </div>
+          </div>
+        </div>
+        <div
+          className="a-Form-item a-Form-item--normal is-required"
+          data-role="form-item"
+        >
+          <label
+            className="a-Form-label"
+          >
+            <span>
+              名称
+              <span
+                className="a-Form-star"
+              >
+                *
+              </span>
+            </span>
+          </label>
+          <div
+            className="a-Form-control a-TextControl"
+          >
+            <div
+              className="a-TextControl-input"
+            >
+              <input
+                autoComplete="off"
+                name="name"
+                onBlur={[Function]}
+                onChange={[Function]}
+                onFocus={[Function]}
+                placeholder=""
+                size={10}
+                type="text"
+                value="Amis renderer"
+              />
+            </div>
+          </div>
+        </div>
+        <input
+          style={
+            Object {
+              "display": "none",
+            }
+          }
+          type="submit"
+        />
+      </form>
+    </div>
+    <div
+      className="a-Panel-footer a-Wizard-footer"
+      role="wizard-footer"
+    >
+      <button
+        className="a-Button a-Button--default is-disabled"
+        disabled={true}
+        onClick={[Function]}
+        type="button"
+      >
+        <span>
+          上一步
+        </span>
+      </button>
+      <button
+        className="a-Button a-Button--default"
+        onClick={[Function]}
+        type="button"
+      >
+        <span>
+          下一步
+        </span>
+      </button>
+    </div>
+  </div>
 </div>
 `;
 
@@ -840,6 +1140,10 @@ exports[`Renderer:Wizard initApi reload 1`] = `
                       </div>
                     </div>
                   </div>
+                  <input
+                    style="display: none;"
+                    type="submit"
+                  />
                 </form>
               </div>
               <div
@@ -975,6 +1279,10 @@ exports[`Renderer:Wizard initApi reload 2`] = `
                       这是最后一步了
                     </span>
                   </span>
+                  <input
+                    style="display: none;"
+                    type="submit"
+                  />
                 </form>
               </div>
               <div
@@ -1109,6 +1417,10 @@ exports[`Renderer:Wizard initApi reload 3`] = `
                       这是最后一步了
                     </span>
                   </span>
+                  <input
+                    style="display: none;"
+                    type="submit"
+                  />
                 </form>
               </div>
               <div
@@ -1182,73 +1494,393 @@ exports[`Renderer:Wizard initApi reload 3`] = `
 
 exports[`Renderer:Wizard initApi show loading 1`] = `
 <div
-  className="a-Alert a-Alert--danger"
+  className="a-Panel a-Panel--default a-Wizard a-Wizard--horizontal"
 >
-  <p>
-    TypeError: The provided value is not of type 'Element'.
-  </p>
-  <pre>
-    <code>
-      
-    in WizardRenderer (created by WithStore(WizardRenderer))
-    in WithStore(WizardRenderer) (created by Scoped(WithStore(WizardRenderer)))
-    in Scoped(WithStore(WizardRenderer)) (created by Renderer)
-    in Renderer (created by RootRenderer)
-    in ImageGallery (created by I18N(ImageGallery))
-    in I18N(ImageGallery) (created by Themeable(I18N(ImageGallery)))
-    in Themeable(I18N(ImageGallery)) (created by RootRenderer)
-    in RootRenderer (created by Scoped(RootRenderer))
-    in Scoped(RootRenderer)
-    </code>
-  </pre>
+  <div
+    className="a-Wizard-step"
+  >
+    <div
+      className="a-Wizard-steps"
+      id="form-wizard"
+    >
+      <ul>
+        <li
+          className=""
+          onClick={[Function]}
+        >
+          <span
+            className="a-Badge"
+          >
+            1
+          </span>
+          Step 1
+        </li>
+        <li
+          className=""
+          onClick={[Function]}
+        >
+          <span
+            className="a-Badge"
+          >
+            2
+          </span>
+          Step 2
+        </li>
+        <li
+          className=""
+          onClick={[Function]}
+        >
+          <span
+            className="a-Badge"
+          >
+            3
+          </span>
+          Step 3
+        </li>
+      </ul>
+    </div>
+    <div
+      className="a-Wizard-stepContent clearfix"
+      role="wizard-body"
+    >
+      加载中
+    </div>
+  </div>
+  <div
+    className="a-Spinner-overlay in"
+  />
+  <div
+    className="a-Spinner in a-Spinner--overlay a-Spinner--lg"
+  />
 </div>
 `;
 
 exports[`Renderer:Wizard initApi show loading 2`] = `
 <div
-  className="a-Alert a-Alert--danger"
+  className="a-Panel a-Panel--default a-Wizard a-Wizard--horizontal"
 >
-  <p>
-    TypeError: The provided value is not of type 'Element'.
-  </p>
-  <pre>
-    <code>
-      
-    in WizardRenderer (created by WithStore(WizardRenderer))
-    in WithStore(WizardRenderer) (created by Scoped(WithStore(WizardRenderer)))
-    in Scoped(WithStore(WizardRenderer)) (created by Renderer)
-    in Renderer (created by RootRenderer)
-    in ImageGallery (created by I18N(ImageGallery))
-    in I18N(ImageGallery) (created by Themeable(I18N(ImageGallery)))
-    in Themeable(I18N(ImageGallery)) (created by RootRenderer)
-    in RootRenderer (created by Scoped(RootRenderer))
-    in Scoped(RootRenderer)
-    </code>
-  </pre>
+  <div
+    className="a-Wizard-step"
+  >
+    <div
+      className="a-Wizard-steps"
+      id="form-wizard"
+    >
+      <ul>
+        <li
+          className="is-active"
+          onClick={[Function]}
+        >
+          <span
+            className="a-Badge is-active"
+          >
+            1
+          </span>
+          Step 1
+        </li>
+        <li
+          className=""
+          onClick={[Function]}
+        >
+          <span
+            className="a-Badge"
+          >
+            2
+          </span>
+          Step 2
+        </li>
+        <li
+          className=""
+          onClick={[Function]}
+        >
+          <span
+            className="a-Badge"
+          >
+            3
+          </span>
+          Step 3
+        </li>
+      </ul>
+    </div>
+    <div
+      className="a-Wizard-stepContent clearfix"
+      role="wizard-body"
+    >
+      <form
+        className="a-Form a-Form--normal"
+        noValidate={true}
+        onSubmit={[Function]}
+      >
+        <div
+          className="a-Form-item a-Form-item--normal is-required"
+          data-role="form-item"
+        >
+          <label
+            className="a-Form-label"
+          >
+            <span>
+              网址
+              <span
+                className="a-Form-star"
+              >
+                *
+              </span>
+            </span>
+          </label>
+          <div
+            className="a-Form-control a-TextControl"
+          >
+            <div
+              className="a-TextControl-input"
+            >
+              <input
+                autoComplete="off"
+                name="website"
+                onBlur={[Function]}
+                onChange={[Function]}
+                onFocus={[Function]}
+                placeholder=""
+                size={10}
+                type="url"
+                value=""
+              />
+            </div>
+          </div>
+        </div>
+        <div
+          className="a-Form-item a-Form-item--normal is-required"
+          data-role="form-item"
+        >
+          <label
+            className="a-Form-label"
+          >
+            <span>
+              名称
+              <span
+                className="a-Form-star"
+              >
+                *
+              </span>
+            </span>
+          </label>
+          <div
+            className="a-Form-control a-TextControl"
+          >
+            <div
+              className="a-TextControl-input"
+            >
+              <input
+                autoComplete="off"
+                name="name"
+                onBlur={[Function]}
+                onChange={[Function]}
+                onFocus={[Function]}
+                placeholder=""
+                size={10}
+                type="text"
+                value=""
+              />
+            </div>
+          </div>
+        </div>
+        <input
+          style={
+            Object {
+              "display": "none",
+            }
+          }
+          type="submit"
+        />
+      </form>
+    </div>
+    <div
+      className="a-Panel-footer a-Wizard-footer"
+      role="wizard-footer"
+    >
+      <button
+        className="a-Button a-Button--default is-disabled"
+        disabled={true}
+        onClick={[Function]}
+        type="button"
+      >
+        <span>
+          上一步
+        </span>
+      </button>
+      <button
+        className="a-Button a-Button--default"
+        onClick={[Function]}
+        type="button"
+      >
+        <span>
+          下一步
+        </span>
+      </button>
+    </div>
+  </div>
+  <div
+    className="a-Spinner-overlay"
+  />
+  <div
+    className="a-Spinner a-Spinner--overlay a-Spinner--lg"
+  />
 </div>
 `;
 
 exports[`Renderer:Wizard readOnly 1`] = `
 <div
-  className="a-Alert a-Alert--danger"
+  className="a-Panel a-Panel--default a-Wizard a-Wizard--horizontal"
 >
-  <p>
-    TypeError: The provided value is not of type 'Element'.
-  </p>
-  <pre>
-    <code>
-      
-    in WizardRenderer (created by WithStore(WizardRenderer))
-    in WithStore(WizardRenderer) (created by Scoped(WithStore(WizardRenderer)))
-    in Scoped(WithStore(WizardRenderer)) (created by Renderer)
-    in Renderer (created by RootRenderer)
-    in ImageGallery (created by I18N(ImageGallery))
-    in I18N(ImageGallery) (created by Themeable(I18N(ImageGallery)))
-    in Themeable(I18N(ImageGallery)) (created by RootRenderer)
-    in RootRenderer (created by Scoped(RootRenderer))
-    in Scoped(RootRenderer)
-    </code>
-  </pre>
+  <div
+    className="a-Wizard-step"
+  >
+    <div
+      className="a-Wizard-steps"
+      id="form-wizard"
+    >
+      <ul>
+        <li
+          className="is-active"
+          onClick={[Function]}
+        >
+          <span
+            className="a-Badge is-active"
+          >
+            1
+          </span>
+          Step 1
+        </li>
+        <li
+          className=""
+          onClick={[Function]}
+        >
+          <span
+            className="a-Badge"
+          >
+            2
+          </span>
+          Step 2
+        </li>
+        <li
+          className=""
+          onClick={[Function]}
+        >
+          <span
+            className="a-Badge"
+          >
+            3
+          </span>
+          Step 3
+        </li>
+      </ul>
+    </div>
+    <div
+      className="a-Wizard-stepContent clearfix"
+      role="wizard-body"
+    >
+      <form
+        className="a-Form a-Form--normal"
+        noValidate={true}
+        onSubmit={[Function]}
+      >
+        <div
+          className="a-Form-item a-Form-item--normal"
+          data-role="form-item"
+        >
+          <label
+            className="a-Form-label"
+          >
+            <span>
+              网址
+            </span>
+          </label>
+          <div
+            className="a-Form-control a-TextControl"
+          >
+            <div
+              className="a-TextControl-input"
+            >
+              <input
+                autoComplete="off"
+                name="website"
+                onBlur={[Function]}
+                onChange={[Function]}
+                onFocus={[Function]}
+                placeholder=""
+                readOnly={true}
+                size={10}
+                type="url"
+                value="http://amis.baidu.com"
+              />
+            </div>
+          </div>
+        </div>
+        <div
+          className="a-Form-item a-Form-item--normal"
+          data-role="form-item"
+        >
+          <label
+            className="a-Form-label"
+          >
+            <span>
+              名称
+            </span>
+          </label>
+          <div
+            className="a-Form-control a-TextControl"
+          >
+            <div
+              className="a-TextControl-input"
+            >
+              <input
+                autoComplete="off"
+                name="name"
+                onBlur={[Function]}
+                onChange={[Function]}
+                onFocus={[Function]}
+                placeholder=""
+                size={10}
+                type="text"
+                value="Amis"
+              />
+            </div>
+          </div>
+        </div>
+        <input
+          style={
+            Object {
+              "display": "none",
+            }
+          }
+          type="submit"
+        />
+      </form>
+    </div>
+    <div
+      className="a-Panel-footer a-Wizard-footer"
+      role="wizard-footer"
+    >
+      <button
+        className="a-Button a-Button--default is-disabled"
+        disabled={true}
+        onClick={[Function]}
+        type="button"
+      >
+        <span>
+          上一步
+        </span>
+      </button>
+      <button
+        className="a-Button a-Button--default"
+        onClick={[Function]}
+        type="button"
+      >
+        <span>
+          下一步
+        </span>
+      </button>
+    </div>
+  </div>
 </div>
 `;
 
@@ -1303,6 +1935,10 @@ exports[`Renderer:Wizard send data 1`] = `
               这是最后一步了
             </span>
           </span>
+          <input
+            style="display: none;"
+            type="submit"
+          />
         </form>
       </div>
       <div
@@ -1457,6 +2093,10 @@ exports[`Renderer:Wizard step initApi 1`] = `
               </div>
             </div>
           </div>
+          <input
+            style="display: none;"
+            type="submit"
+          />
         </form>
       </div>
       <div
@@ -1526,25 +2166,26 @@ exports[`Renderer:Wizard step initApi 1`] = `
 
 exports[`Renderer:Wizard steps not array 1`] = `
 <div
-  className="a-Alert a-Alert--danger"
+  className="a-Panel a-Panel--default a-Wizard a-Wizard--horizontal"
 >
-  <p>
-    TypeError: The provided value is not of type 'Element'.
-  </p>
-  <pre>
-    <code>
-      
-    in WizardRenderer (created by WithStore(WizardRenderer))
-    in WithStore(WizardRenderer) (created by Scoped(WithStore(WizardRenderer)))
-    in Scoped(WithStore(WizardRenderer)) (created by Renderer)
-    in Renderer (created by RootRenderer)
-    in ImageGallery (created by I18N(ImageGallery))
-    in I18N(ImageGallery) (created by Themeable(I18N(ImageGallery)))
-    in Themeable(I18N(ImageGallery)) (created by RootRenderer)
-    in RootRenderer (created by Scoped(RootRenderer))
-    in Scoped(RootRenderer)
-    </code>
-  </pre>
+  <div
+    className="a-Wizard-step"
+  >
+    <div
+      className="a-Wizard-steps"
+      id="form-wizard"
+    />
+    <div
+      className="a-Wizard-stepContent clearfix"
+      role="wizard-body"
+    >
+      <p
+        className="text-danger"
+      >
+        配置错误
+      </p>
+    </div>
+  </div>
 </div>
 `;
 
@@ -1611,6 +2252,10 @@ exports[`Renderer:Wizard target 1`] = `
                       这是最后一步了
                     </span>
                   </span>
+                  <input
+                    style="display: none;"
+                    type="submit"
+                  />
                 </form>
               </div>
               <div
@@ -1757,9 +2402,15 @@ exports[`Renderer:Wizard target 1`] = `
                     </div>
                   </div>
                 </div>
+                <input
+                  style="display: none;"
+                  type="submit"
+                />
               </form>
             </div>
-            <div>
+            <div
+              class="a-Panel-footerWrap"
+            >
               <div
                 class="a-Panel-btnToolbar a-Panel-footer"
               >
@@ -1910,7 +2561,7 @@ exports[`Renderer:Wizard validate 1`] = `
               class="a-Form-feedback"
             >
               <li>
-                Url 格式不正确
+                URL 格式不正确
               </li>
             </ul>
           </div>
@@ -1954,6 +2605,10 @@ exports[`Renderer:Wizard validate 1`] = `
               </li>
             </ul>
           </div>
+          <input
+            style="display: none;"
+            type="submit"
+          />
         </form>
       </div>
       <div

@@ -49,6 +49,10 @@ exports[`Renderer:textarea 1`] = `
             456
           </textarea>
         </div>
+        <input
+          style="display: none;"
+          type="submit"
+        />
       </form>
     </div>
     <div

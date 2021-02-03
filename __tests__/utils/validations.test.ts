@@ -1,429 +1,757 @@
-import {
-    validate,
-    str2rules
-} from '../../src/utils/validations';
+import {validate, str2rules} from '../../src/utils/validations';
 
 test('validation:isRequired valid', () => {
-    expect(validate('somestring', {}, {
+  expect(
+    validate(
+      'somestring',
+      {},
+      {
         isRequired: true
-    }, {
+      },
+      {
         isRequired: 'This is required!'
-    })).toMatchObject([]);
+      }
+    )
+  ).toMatchObject([]);
 });
 
 test('validation:isRequired invalid', () => {
-    expect(validate('', {}, {
+  expect(
+    validate(
+      '',
+      {},
+      {
         isRequired: true
-    }, {
+      },
+      {
         isRequired: 'This is required!'
-    })).toMatchObject(['This is required!']);
+      }
+    )
+  ).toMatchObject(['This is required!']);
 });
 
 test('validation:isEmail valid', () => {
-    expect(validate('abc@gmail.com', {}, {
+  expect(
+    validate(
+      'abc@gmail.com',
+      {},
+      {
         isEmail: true
-    }, {
+      },
+      {
         isEmail: 'Email 格式不正确'
-    })).toMatchObject([]);
+      }
+    )
+  ).toMatchObject([]);
 });
 
 test('validation:isEmail invalid', () => {
-    expect(validate('somestring', {}, {
+  expect(
+    validate(
+      'somestring',
+      {},
+      {
         isEmail: true
-    }, {
+      },
+      {
         isEmail: 'Email 格式不正确'
-    })).toMatchObject(['Email 格式不正确']);
+      }
+    )
+  ).toMatchObject(['Email 格式不正确']);
 });
 
 test('validation:isUrl valid', () => {
-    expect(validate('http://www.baidu.com', {}, {
+  expect(
+    validate(
+      'http://www.baidu.com',
+      {},
+      {
         isUrl: true
-    }, {
+      },
+      {
         isUrl: 'Url 格式不正确'
-    })).toMatchObject([]);
+      }
+    )
+  ).toMatchObject([]);
 });
 
 test('validation:isUrl invalid', () => {
-    expect(validate('somestring', {}, {
+  expect(
+    validate(
+      'somestring',
+      {},
+      {
         isUrl: true
-    }, {
+      },
+      {
         isUrl: 'Url 格式不正确'
-    })).toMatchObject(['Url 格式不正确']);
+      }
+    )
+  ).toMatchObject(['Url 格式不正确']);
 });
 
 test('validation:isInt valid', () => {
-    expect(validate(1, {}, {
+  expect(
+    validate(
+      1,
+      {},
+      {
         isInt: true
-    }, {
+      },
+      {
         isInt: '请输入整型数字'
-    })).toMatchObject([]);
+      }
+    )
+  ).toMatchObject([]);
 });
 
 test('validation:isInt invalid', () => {
-    expect(validate(1.1, {}, {
+  expect(
+    validate(
+      1.1,
+      {},
+      {
         isInt: true
-    }, {
+      },
+      {
         isInt: '请输入整型数字'
-    })).toMatchObject(['请输入整型数字']);
+      }
+    )
+  ).toMatchObject(['请输入整型数字']);
 });
 
 test('validation:isAlpha valid', () => {
-    expect(validate('a', {}, {
+  expect(
+    validate(
+      'a',
+      {},
+      {
         isAlpha: true
-    }, {
+      },
+      {
         isAlpha: '请输入字母'
-    })).toMatchObject([]);
+      }
+    )
+  ).toMatchObject([]);
 });
 
 test('validation:isAlpha invalid', () => {
-    expect(validate('%', {}, {
+  expect(
+    validate(
+      '%',
+      {},
+      {
         isAlpha: true
-    }, {
+      },
+      {
         isAlpha: '请输入字母'
-    })).toMatchObject(['请输入字母']);
+      }
+    )
+  ).toMatchObject(['请输入字母']);
 });
 
 test('validation:isNumeric valid', () => {
-    expect(validate(1.1, {}, {
+  expect(
+    validate(
+      1.1,
+      {},
+      {
         isNumeric: true
-    }, {
+      },
+      {
         isNumeric: '请输入数字'
-    })).toMatchObject([]);
+      }
+    )
+  ).toMatchObject([]);
 });
 
 test('validation:isNumeric invalid', () => {
-    expect(validate('a', {}, {
+  expect(
+    validate(
+      'a',
+      {},
+      {
         isNumeric: true
-    }, {
+      },
+      {
         isNumeric: '请输入数字'
-    })).toMatchObject(['请输入数字']);
+      }
+    )
+  ).toMatchObject(['请输入数字']);
 });
 
 test('validation:isAlphanumeric Alpha valid', () => {
-    expect(validate('a', {}, {
+  expect(
+    validate(
+      'a',
+      {},
+      {
         isAlphanumeric: true
-    }, {
+      },
+      {
         isAlphanumeric: '请输入数字'
-    })).toMatchObject([]);
+      }
+    )
+  ).toMatchObject([]);
 });
 
 test('validation:isAlphanumeric numeric valid', () => {
-    expect(validate(1, {}, {
+  expect(
+    validate(
+      1,
+      {},
+      {
         isAlphanumeric: true
-    }, {
+      },
+      {
         isAlphanumeric: '请输入字母或者数字'
-    })).toMatchObject([]);
+      }
+    )
+  ).toMatchObject([]);
 });
 
 test('validation:isAlphanumeric invalid', () => {
-    expect(validate('%', {}, {
+  expect(
+    validate(
+      '%',
+      {},
+      {
         isAlphanumeric: true
-    }, {
+      },
+      {
         isAlphanumeric: '请输入字母或者数字'
-    })).toMatchObject(['请输入字母或者数字']);
+      }
+    )
+  ).toMatchObject(['请输入字母或者数字']);
 });
 
 test('validation:isFloat valid', () => {
-    expect(validate(1.1, {}, {
+  expect(
+    validate(
+      1.1,
+      {},
+      {
         isFloat: true
-    }, {
+      },
+      {
         isFloat: '请输入浮点型数值'
-    })).toMatchObject([]);
+      }
+    )
+  ).toMatchObject([]);
 });
 
 test('validation:isFloat invalid', () => {
-    expect(validate('a', {}, {
+  expect(
+    validate(
+      'a',
+      {},
+      {
         isFloat: true
-    }, {
+      },
+      {
         isFloat: '请输入浮点型数值'
-    })).toMatchObject(['请输入浮点型数值']);
+      }
+    )
+  ).toMatchObject(['请输入浮点型数值']);
 });
 
 test('validation:isWords valid', () => {
-    expect(validate('baidu', {}, {
+  expect(
+    validate(
+      'baidu',
+      {},
+      {
         isWords: true
-    }, {
+      },
+      {
         isWords: '请输入字母'
-    })).toMatchObject([]);
+      }
+    )
+  ).toMatchObject([]);
 });
 
 test('validation:isWords invalid', () => {
-    expect(validate('%', {}, {
+  expect(
+    validate(
+      '%',
+      {},
+      {
         isWords: true
-    }, {
+      },
+      {
         isWords: '请输入字母'
-    })).toMatchObject(['请输入字母']);
+      }
+    )
+  ).toMatchObject(['请输入字母']);
 });
 
 test('validation:isUrlPath valid', () => {
-    expect(validate('baidu-fex_team', {}, {
+  expect(
+    validate(
+      'baidu-fex_team',
+      {},
+      {
         isUrlPath: true
-    }, {
+      },
+      {
         isUrlPath: '只能输入字母、数字、`-` 和 `_`'
-    })).toMatchObject([]);
+      }
+    )
+  ).toMatchObject([]);
 });
 
 test('validation:isUrlPath invalid', () => {
-    expect(validate('baidu&fex%team', {}, {
+  expect(
+    validate(
+      'baidu&fex%team',
+      {},
+      {
         isUrlPath: true
-    }, {
+      },
+      {
         isUrlPath: '只能输入字母、数字、`-` 和 `_`'
-    })).toMatchObject(['只能输入字母、数字、`-` 和 `_`']);
+      }
+    )
+  ).toMatchObject(['只能输入字母、数字、`-` 和 `_`']);
 });
 
 test('validation:minLength valid', () => {
-    expect(validate('abcdef', {}, {
+  expect(
+    validate(
+      'abcdef',
+      {},
+      {
         minLength: 5
-    }, {
+      },
+      {
         minLength: '请至少输入 5 个字符。'
-    })).toMatchObject([]);
+      }
+    )
+  ).toMatchObject([]);
 });
 
 test('validation:minLength invalid', () => {
-    expect(validate('abcd', {}, {
+  expect(
+    validate(
+      'abcd',
+      {},
+      {
         minLength: 5
-    }, {
+      },
+      {
         minLength: '至少输入 5 个字符。'
-    })).toMatchObject(['至少输入 5 个字符。']);
+      }
+    )
+  ).toMatchObject(['至少输入 5 个字符。']);
 });
 
 test('validation:maxLength valid', () => {
-    expect(validate('abcde', {}, {
+  expect(
+    validate(
+      'abcde',
+      {},
+      {
         maxLength: 5
-    }, {
+      },
+      {
         maxLength: '请不要输入 5 个字符以上'
-    })).toMatchObject([]);
+      }
+    )
+  ).toMatchObject([]);
 });
 
 test('validation:maxLength invalid', () => {
-    expect(validate('abcded', {}, {
+  expect(
+    validate(
+      'abcded',
+      {},
+      {
         maxLength: 5
-    }, {
+      },
+      {
         maxLength: '请不要输入 5 个字符以上'
-    })).toMatchObject(['请不要输入 5 个字符以上']);
+      }
+    )
+  ).toMatchObject(['请不要输入 5 个字符以上']);
 });
 
 test('validation:minimum valid', () => {
-    expect(validate(6, {}, {
+  expect(
+    validate(
+      6,
+      {},
+      {
         minimum: 5
-    }, {
+      },
+      {
         minimum: '当前输入值低于最小值 5，请检查'
-    })).toMatchObject([]);
+      }
+    )
+  ).toMatchObject([]);
 });
 
 test('validation:minimum invalid', () => {
-    expect(validate(4, {}, {
+  expect(
+    validate(
+      4,
+      {},
+      {
         minimum: 5
-    }, {
+      },
+      {
         minimum: '当前输入值低于最小值 5，请检查'
-    })).toMatchObject(['当前输入值低于最小值 5，请检查']);
+      }
+    )
+  ).toMatchObject(['当前输入值低于最小值 5，请检查']);
 });
 
 test('validation:maximum valid', () => {
-    expect(validate(5, {}, {
+  expect(
+    validate(
+      5,
+      {},
+      {
         maximum: 5
-    }, {
+      },
+      {
         maximum: '当前输入值超出最大值 5，请检查'
-    })).toMatchObject([]);
+      }
+    )
+  ).toMatchObject([]);
 });
 
 test('validation:maximum invalid', () => {
-    expect(validate(6, {}, {
+  expect(
+    validate(
+      6,
+      {},
+      {
         maximum: 5
-    }, {
+      },
+      {
         maximum: '当前输入值超出最大值 5，请检查'
-    })).toMatchObject(['当前输入值超出最大值 5，请检查']);
+      }
+    )
+  ).toMatchObject(['当前输入值超出最大值 5，请检查']);
 });
 
 test('validation:isJson valid', () => {
-    expect(validate('{ "type": "select", "options": [ { "label": "A", "value": "a" } ] }', {}, {
+  expect(
+    validate(
+      '{ "type": "select", "options": [ { "label": "A", "value": "a" } ] }',
+      {},
+      {
         isJson: true
-    }, {
+      },
+      {
         isJson: '请检查 Json 格式'
-    })).toMatchObject([]);
+      }
+    )
+  ).toMatchObject([]);
 });
 
 test('validation:isJson invalid', () => {
-    expect(validate('string', {}, {
+  expect(
+    validate(
+      'string',
+      {},
+      {
         isJson: true
-    }, {
+      },
+      {
         isJson: '请检查 Json 格式'
-    })).toMatchObject(['请检查 Json 格式']);
+      }
+    )
+  ).toMatchObject(['请检查 Json 格式']);
 });
 
 test('validation:isLength valid', () => {
-    expect(validate('abcde', {}, {
+  expect(
+    validate(
+      'abcde',
+      {},
+      {
         isLength: 5
-    }, {
+      },
+      {
         isLength: '请输入长度为 5 的内容'
-    })).toMatchObject([]);
+      }
+    )
+  ).toMatchObject([]);
 });
 
 test('validation:isLength invalid', () => {
-    expect(validate('abc', {}, {
+  expect(
+    validate(
+      'abc',
+      {},
+      {
         isLength: 5
-    }, {
+      },
+      {
         isLength: '请输入长度为 5 的内容'
-    })).toMatchObject(['请输入长度为 5 的内容']);
+      }
+    )
+  ).toMatchObject(['请输入长度为 5 的内容']);
 });
 
 test('validation:notEmptyString valid', () => {
-    expect(validate('abc', {}, {
+  expect(
+    validate(
+      'abc',
+      {},
+      {
         notEmptyString: true
-    }, {
+      },
+      {
         notEmptyString: '请不要全输入空白字符'
-    })).toMatchObject([]);
+      }
+    )
+  ).toMatchObject([]);
 });
 
 test('validation:notEmptyString invalid', () => {
-    expect(validate('  ', {}, {
+  expect(
+    validate(
+      '  ',
+      {},
+      {
         notEmptyString: true
-    }, {
+      },
+      {
         notEmptyString: '请不要全输入空白字符'
-    })).toMatchObject(['请不要全输入空白字符']);
+      }
+    )
+  ).toMatchObject(['请不要全输入空白字符']);
 });
 
 test('validation:equalsField valid', () => {
-    expect(validate('a', {
+  expect(
+    validate(
+      'a',
+      {
         a: 'a'
-    }, {
+      },
+      {
         equalsField: 'a'
-    }, {
+      },
+      {
         equalsField: '输入的数据与 a 值不一致'
-    })).toMatchObject([]);
+      }
+    )
+  ).toMatchObject([]);
 });
 
 test('validation:equalsField invalid', () => {
-    expect(validate('b', {
+  expect(
+    validate(
+      'b',
+      {
         a: 'a'
-    }, {
+      },
+      {
         equalsField: 'a'
-    }, {
+      },
+      {
         equalsField: '输入的数据与 a 值不一致'
-    })).toMatchObject(['输入的数据与 a 值不一致']);
+      }
+    )
+  ).toMatchObject(['输入的数据与 a 值不一致']);
 });
 
 test('validation:equals valid', () => {
-    expect(validate('a', {}, {
+  expect(
+    validate(
+      'a',
+      {},
+      {
         equals: 'a'
-    }, {
+      },
+      {
         equals: '输入的数据与 a 不一致'
-    })).toMatchObject([]);
+      }
+    )
+  ).toMatchObject([]);
 });
 
 test('validation:equals invalid', () => {
-    expect(validate('b', {}, {
+  expect(
+    validate(
+      'b',
+      {},
+      {
         equals: 'a'
-    }, {
+      },
+      {
         equals: '输入的数据与 a 不一致'
-    })).toMatchObject(['输入的数据与 a 不一致']);
+      }
+    )
+  ).toMatchObject(['输入的数据与 a 不一致']);
 });
 
 test('validation:multipleRules invalid', () => {
-    expect(validate('abc', {}, {
+  expect(
+    validate(
+      'abc',
+      {},
+      {
         isUrl: true,
         isInt: true
-    })).toMatchObject(['Url 格式不正确', '请输入整型数字']);
+      }
+    )
+  ).toMatchObject(['validate.isUrl', 'validate.isInt']);
 });
 
 test('validation:matchRegexp valid', () => {
-    expect(validate('abcd', {}, {
+  expect(
+    validate(
+      'abcd',
+      {},
+      {
         matchRegexp: '/^abc/'
-    }, {
+      },
+      {
         matchRegexp: '请输入abc开头的好么'
-    })).toMatchObject([]);
+      }
+    )
+  ).toMatchObject([]);
 });
 
 test('validation:matchRegexp invalid', () => {
-    expect(validate('cba', {}, {
+  expect(
+    validate(
+      'cba',
+      {},
+      {
         matchRegexp: '/^abc/'
-    }, {
+      },
+      {
         matchRegexp: '请输入abc开头的好么'
-    })).toMatchObject(['请输入abc开头的好么']);
+      }
+    )
+  ).toMatchObject(['请输入abc开头的好么']);
 });
 
 test('validation:matchRegexp:noSlash valid', () => {
-    expect(validate('abcd', {}, {
+  expect(
+    validate(
+      'abcd',
+      {},
+      {
         matchRegexp: '^abc'
-    }, {
+      },
+      {
         matchRegexp: '请输入abc开头的好么'
-    })).toMatchObject([]);
+      }
+    )
+  ).toMatchObject([]);
 });
 
 test('validation:matchRegexp:noSlash invalid', () => {
-    expect(validate('cba', {}, {
+  expect(
+    validate(
+      'cba',
+      {},
+      {
         matchRegexp: '^abc'
-    }, {
+      },
+      {
         matchRegexp: '请输入abc开头的好么'
-    })).toMatchObject(['请输入abc开头的好么']);
+      }
+    )
+  ).toMatchObject(['请输入abc开头的好么']);
 });
 
 test('validation:multipleMatchRegexp valid', () => {
-    expect(validate('abcd123', {}, {
+  expect(
+    validate(
+      'abcd123',
+      {},
+      {
         matchRegexp1: '/^abc/',
-        matchRegexp2: '/123$/',
-    }, {
+        matchRegexp2: '/123$/'
+      },
+      {
         matchRegexp1: '请输入abc开头的好么',
-        matchRegexp2: '请输入123结尾的好么',
-    })).toMatchObject([]);
+        matchRegexp2: '请输入123结尾的好么'
+      }
+    )
+  ).toMatchObject([]);
 });
 
 test('validation:multipleMatchRegexp invalid', () => {
-    expect(validate('cba', {}, {
+  expect(
+    validate(
+      'cba',
+      {},
+      {
         matchRegexp1: '/^abc/',
-        matchRegexp2: '/123$/',
-    }, {
+        matchRegexp2: '/123$/'
+      },
+      {
         matchRegexp1: '请输入abc开头的好么',
-        matchRegexp2: '请输入123结尾的好么',
-    })).toMatchObject(['请输入abc开头的好么', '请输入123结尾的好么']);
+        matchRegexp2: '请输入123结尾的好么'
+      }
+    )
+  ).toMatchObject(['请输入abc开头的好么', '请输入123结尾的好么']);
 });
 
 test('validation:multipleMatchRegexp:noSlash valid', () => {
-    expect(validate('abcd123', {}, {
+  expect(
+    validate(
+      'abcd123',
+      {},
+      {
         matchRegexp1: '^abc',
-        matchRegexp2: '123$',
-    }, {
+        matchRegexp2: '123$'
+      },
+      {
         matchRegexp1: '请输入abc开头的好么',
-        matchRegexp2: '请输入123结尾的好么',
-    })).toMatchObject([]);
+        matchRegexp2: '请输入123结尾的好么'
+      }
+    )
+  ).toMatchObject([]);
 });
 
 test('validation:multipleMatchRegexp:noSlash invalid', () => {
-    expect(validate('cba', {}, {
+  expect(
+    validate(
+      'cba',
+      {},
+      {
         matchRegexp1: '^abc',
-        matchRegexp2: '123$',
-    }, {
+        matchRegexp2: '123$'
+      },
+      {
         matchRegexp1: '请输入abc开头的好么',
-        matchRegexp2: '请输入123结尾的好么',
-    })).toMatchObject(['请输入abc开头的好么', '请输入123结尾的好么']);
+        matchRegexp2: '请输入123结尾的好么'
+      }
+    )
+  ).toMatchObject(['请输入abc开头的好么', '请输入123结尾的好么']);
 });
 
 test('validation:str2rules', () => {
-    expect(str2rules('matchRegexp:/^abc/'))
-        .toMatchObject({
-            matchRegexp: ['/^abc/']
-        });
+  expect(str2rules('matchRegexp:/^abc/')).toMatchObject({
+    matchRegexp: ['/^abc/']
+  });
 });
 
 test('validation:multiplestr2rules', () => {
-    expect(str2rules('matchRegexp1:/^abc/,matchRegexp2:/123$/'))
-        .toMatchObject({
-            matchRegexp1: ['/^abc/'],
-            matchRegexp2: ['/123$/']
-        });
+  expect(str2rules('matchRegexp1:/^abc/,matchRegexp2:/123$/')).toMatchObject({
+    matchRegexp1: ['/^abc/'],
+    matchRegexp2: ['/123$/']
+  });
 });
 
 test('validation:str2rules:noSlash', () => {
-    expect(str2rules('matchRegexp:^abc'))
-        .toMatchObject({
-            matchRegexp: ['^abc']
-        });
+  expect(str2rules('matchRegexp:^abc')).toMatchObject({
+    matchRegexp: ['^abc']
+  });
 });
 
 test('validation:multiplestr2rules:noSlash', () => {
-    expect(str2rules('matchRegexp1:^abc,matchRegexp2:123$'))
-        .toMatchObject({
-            matchRegexp1: ['^abc'],
-            matchRegexp2: ['123$']
-        });
+  expect(str2rules('matchRegexp1:^abc,matchRegexp2:123$')).toMatchObject({
+    matchRegexp1: ['^abc'],
+    matchRegexp2: ['123$']
+  });
 });

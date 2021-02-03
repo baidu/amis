@@ -4,7 +4,9 @@
 
 import {findObjectsWithKey} from './utils/helper';
 
-const isMobile = window.matchMedia('(max-width: 768px)').matches ? true : false;
+const isMobile = (window as any).matchMedia?.('(max-width: 768px)').matches
+  ? true
+  : false;
 
 export const envOverwrite = (schema: any, locale?: string) => {
   if (schema.mobile && isMobile) {
