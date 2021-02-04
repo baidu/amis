@@ -11,6 +11,8 @@ import {
   string2regExp
 } from './helper';
 import {Enginer} from './tpl';
+import uniqBy from 'lodash/uniqBy';
+import uniq from 'lodash/uniq';
 
 const UNITS = ['B', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
 
@@ -292,6 +294,8 @@ export const filters: {
     order?: 'asc' | 'desc'
   ) =>
     Array.isArray(input) ? input.sort(makeSorter(key, method, order)) : input,
+  unique: (input: any, key?: string) =>
+    Array.isArray(input) ? (key ? uniqBy(input, key) : uniq(input)) : input,
   topAndOther: (
     input: any,
     len: number = 10,
