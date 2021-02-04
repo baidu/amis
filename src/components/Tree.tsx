@@ -517,7 +517,7 @@ export class TreeSelector extends React.Component<
       let selfChecked = !!uncheckable || checked;
 
       let childrenItems = null;
-      let tmpChildrenChecked = false;
+      let selfChildrenChecked = false;
       if (item.children && item.children.length) {
         childrenItems = this.renderList(
           item.children,
@@ -528,7 +528,7 @@ export class TreeSelector extends React.Component<
                 (selfDisabledAffectChildren ? selfDisabled : false) ||
                 (multiple && checked)
         );
-        tmpChildrenChecked = !!childrenItems.childrenChecked;
+        selfChildrenChecked = !!childrenItems.childrenChecked;
         if (
           !selfChecked &&
           onlyChildren &&
@@ -539,7 +539,7 @@ export class TreeSelector extends React.Component<
         childrenItems = childrenItems.dom;
       }
 
-      if (tmpChildrenChecked || checked) {
+      if ((onlyChildren ? selfChecked : selfChildrenChecked) || checked) {
         childrenChecked++;
       }
 
@@ -557,7 +557,8 @@ export class TreeSelector extends React.Component<
         <Checkbox
           size="sm"
           disabled={nodeDisabled}
-          checked={selfChecked}
+          checked={selfChecked || selfChildrenChecked}
+          partial={!selfChecked}
           onChange={this.handleCheck.bind(this, item, !selfChecked)}
         />
       ) : showRadio ? (
@@ -585,7 +586,7 @@ export class TreeSelector extends React.Component<
             <div
               className={cx('Tree-itemLabel', {
                 'is-children-checked':
-                  multiple && !cascade && tmpChildrenChecked && !nodeDisabled,
+                  multiple && !cascade && selfChildrenChecked && !nodeDisabled,
                 'is-checked': checked,
                 'is-disabled': nodeDisabled
               })}
