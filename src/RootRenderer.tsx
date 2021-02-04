@@ -77,7 +77,23 @@ export class RootRenderer extends React.Component<RootRendererProps> {
       return;
     }
 
-    if (
+    const scoped = delegate || this.context;
+    if (action.actionType === 'reload') {
+      action.target && scoped.reload(action.target, ctx);
+    } else if (action.target) {
+      action.target.split(',').forEach(name => {
+        let target = scoped.getComponentByName(name);
+        target &&
+          target.doAction &&
+          target.doAction(
+            {
+              ...action,
+              target: undefined
+            },
+            ctx
+          );
+      });
+    } else if (
       action.actionType === 'url' ||
       action.actionType === 'link' ||
       action.actionType === 'jump'
