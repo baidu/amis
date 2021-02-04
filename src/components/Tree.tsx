@@ -11,7 +11,8 @@ import {
   autobind,
   findTreeIndex,
   hasAbility,
-  createObject
+  createObject,
+  getTreeParent
 } from '../utils/helper';
 import {Option, Options, value2array} from './Select';
 import {ClassNamesFn, themeable, ThemeProps} from '../theme';
@@ -241,10 +242,12 @@ export class TreeSelector extends React.Component<
     const props = this.props;
     const value = this.state.value.concat();
     const idx = value.indexOf(item);
-    const onlyChildren = this.props.onlyChildren;
+    const onlyChildren = props.onlyChildren;
 
     if (checked) {
       ~idx || value.push(item);
+
+      // cascade 为 true 表示父节点跟子节点没有级联关系。
       if (!props.cascade) {
         const children = item.children ? item.children.concat([]) : [];
 
@@ -256,12 +259,10 @@ export class TreeSelector extends React.Component<
             let child = children.shift();
             let index = value.indexOf(child);
 
-            if (!~index && child.value !== 'undefined') {
-              value.push(child);
-            }
-
             if (child.children) {
               children.push.apply(children, child.children);
+            } else if (!~index && child.value !== 'undefined') {
+              value.push(child);
             }
           }
         } else {
@@ -280,6 +281,21 @@ export class TreeSelector extends React.Component<
 
             if (child.children && child.children.length) {
               children.push.apply(children, child.children);
+            }
+          }
+
+          const parent = getTreeParent(props.options, item);
+          if (parent?.value) {
+            // 如果所有孩子节点都勾选了，应该自动勾选父级。
+
+            if (parent.children.every((child: any) => ~value.indexOf(child))) {
+              parent.children.forEach((child: any) => {
+                const index = value.indexOf(child);
+                if (~index) {
+                  value.splice(index, 1);
+                }
+              });
+              value.push(parent);
             }
           }
         }
@@ -315,7 +331,7 @@ export class TreeSelector extends React.Component<
           valueField,
           delimiter,
           onChange
-        } = this.props;
+        } = props;
 
         onChange(
           joinValues
@@ -541,7 +557,7 @@ export class TreeSelector extends React.Component<
         <Checkbox
           size="sm"
           disabled={nodeDisabled}
-          checked={checked}
+          checked={selfChecked}
           onChange={this.handleCheck.bind(this, item, !selfChecked)}
         />
       ) : showRadio ? (
@@ -793,39 +809,6 @@ export class TreeSelector extends React.Component<
       </div>
     );
   }
-}
-
-/**
- * 查找某个值的所有祖先节点
- * @param ancestors
- * @param options
- * @param value
- */
-export function findAncestorsWithValue(
-  ancestors: any[],
-  options: any[],
-  value: any,
-  valueField = 'value'
-) {
-  for (let option of options) {
-    if (option[valueField] === value) {
-      return true;
-    }
-    // 如果没有就在 children 中查找
-    if (option.children) {
-      const inChild = findAncestorsWithValue(
-        ancestors,
-        option.children,
-        value,
-        valueField
-      );
-      if (inChild) {
-        ancestors.unshift(option);
-        return true;
-      }
-    }
-  }
-  return false;
 }
 
 export default themeable(localeable(TreeSelector));
