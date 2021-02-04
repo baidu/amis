@@ -11,7 +11,8 @@ import {
   flattenTree,
   isEmpty,
   filterTree,
-  string2regExp
+  string2regExp,
+  getTreeAncestors
 } from '../../utils/helper';
 import {dataMapping} from '../../utils/tpl-builtin';
 import {
@@ -120,7 +121,24 @@ export default class NestedSelectControl extends React.Component<
     onChange(value);
   }
 
-  renderValue() {
+  renderValue(item: Option, key?: any) {
+    const {classnames: cx, labelField, options} = this.props;
+    const ancestors = getTreeAncestors(options, item, true);
+
+    return (
+      <span className={cx('Select-valueLabel')} key={key}>
+        {`${
+          ancestors
+            ? ancestors
+                .map(item => `${item[labelField || 'label']}`)
+                .join(' / ')
+            : item[labelField || 'label']
+        }`}
+      </span>
+    );
+  }
+
+  renderValues() {
     const {
       multiple,
       classnames: cx,
@@ -148,14 +166,10 @@ export default class NestedSelectControl extends React.Component<
           >
             ×
           </span>
-          <span className={cx('Select-valueLabel')}>
-            {`${item[labelField || 'label']}`}
-          </span>
+          {this.renderValue(item)}
         </div>
       ) : (
-        <div className={cx('Select-value')} key={index}>
-          {`${item[labelField || 'label']}`}
-        </div>
+        this.renderValue(item, index)
       )
     );
   }
@@ -571,7 +585,7 @@ export default class NestedSelectControl extends React.Component<
           ref={this.domRef}
         >
           <div className={cx('NestedSelect-valueWrap')} onClick={this.open}>
-            {this.renderValue()}
+            {this.renderValues()}
           </div>
 
           {this.renderClear()}

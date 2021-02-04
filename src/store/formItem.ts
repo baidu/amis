@@ -23,7 +23,8 @@ import {
   findTree,
   findTreeIndex,
   spliceTree,
-  isEmpty
+  isEmpty,
+  getTreeAncestors
 } from '../utils/helper';
 import {flattenTree} from '../utils/helper';
 import {IRendererStore} from '.';
@@ -152,32 +153,6 @@ export const FormItemStore = StoreNode.named('FormItemStore')
             : item
         );
 
-        // Array.isArray(value)
-        //   ? value.map(item =>
-        //       item && item.hasOwnProperty(self.valueField || 'value')
-        //         ? item[self.valueField || 'value']
-        //         : item
-        //     )
-        //   : typeof value === 'string'
-        //   ? value.split(self.delimiter || ',')
-        //   : [
-        //       value && value.hasOwnProperty(self.valueField || 'value')
-        //         ? value[self.valueField || 'value']
-        //         : value
-        //     ];
-
-        // // 保留原来的 label 信息，如果原始值中有 label。
-        // if (
-        //   value &&
-        //   value.hasOwnProperty(self.labelField || 'label') &&
-        //   !selected[0].hasOwnProperty(self.labelField || 'label')
-        // ) {
-        //   selected[0] = {
-        //     [self.labelField || 'label']: value[self.labelField || 'label'],
-        //     [self.valueField || 'value']: value[self.valueField || 'value']
-        //   };
-        // }
-
         const selectedOptions: Array<any> = [];
 
         selected.forEach((item, index) => {
@@ -294,6 +269,7 @@ export const FormItemStore = StoreNode.named('FormItemStore')
 
       if (value !== void 0 && self.value === void 0) {
         form.setValueByName(self.name, value, true);
+        syncAutoFill(value, true);
       }
     }
 
@@ -445,6 +421,8 @@ export const FormItemStore = StoreNode.named('FormItemStore')
           changeValue(value, !form.inited);
         }
       }
+
+      syncAutoFill(self.value, !form.inited);
     }
 
     let loadCancel: Function | null = null;
@@ -819,7 +797,19 @@ export const FormItemStore = StoreNode.named('FormItemStore')
           return;
         }
 
-        const toSync = dataMapping(self.autoFill, selectedOptions[0]);
+        const toSync = dataMapping(
+          self.autoFill,
+          createObject(
+            {
+              ancestors: getTreeAncestors(
+                self.filteredOptions,
+                selectedOptions[0],
+                true
+              )
+            },
+            selectedOptions[0]
+          )
+        );
         Object.keys(toSync).forEach(key => {
           const value = toSync[key];
 
