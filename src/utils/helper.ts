@@ -1081,6 +1081,32 @@ export function getTreeDepth<T extends TreeItem>(tree: Array<T>): number {
   );
 }
 
+/**
+ * 从树中获取某个值的所有祖先
+ * @param tree
+ * @param value
+ */
+export function getTreeAncestors<T extends TreeItem>(
+  tree: Array<T>,
+  value: T,
+  includeSelf = false
+): Array<T> | null {
+  let ancestors: Array<T> | null = null;
+
+  findTree(tree, (item, index, level, paths) => {
+    if (item === value) {
+      ancestors = paths;
+      if (includeSelf) {
+        ancestors.push(item);
+      }
+      return true;
+    }
+    return false;
+  });
+
+  return ancestors;
+}
+
 export function ucFirst(str?: string) {
   return str ? str.substring(0, 1).toUpperCase() + str.substring(1) : '';
 }
