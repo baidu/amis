@@ -11,7 +11,7 @@ import find from 'lodash/find';
 import debouce from 'lodash/debounce';
 import {Api} from '../../types';
 import {isEffectiveApi} from '../../utils/api';
-import {isEmpty, createObject} from '../../utils/helper';
+import {isEmpty, createObject, autobind} from '../../utils/helper';
 import {dataMapping} from '../../utils/tpl-builtin';
 import {SchemaApi} from '../../Schema';
 
@@ -32,6 +32,11 @@ export interface SelectControlSchema extends FormOptionsControl {
    * 是否可以搜索值
    */
   searchable?: boolean;
+
+  /**
+   * 可以自定义菜单展示。
+   */
+  menuTpl?: string;
 }
 
 export interface SelectProps extends OptionsControlProps {
@@ -195,6 +200,15 @@ export default class SelectControl extends React.Component<SelectProps, any> {
     return combinedOptions;
   }
 
+  @autobind
+  renderMenu(option: Option, state: any) {
+    const {menuTpl, render, data} = this.props;
+
+    return render(`menu/${state.index}`, menuTpl, {
+      data: createObject(createObject(data, state), option)
+    });
+  }
+
   reload() {
     const reload = this.props.reloadOptions;
     reload && reload();
@@ -219,6 +233,7 @@ export default class SelectControl extends React.Component<SelectProps, any> {
       inline,
       noResultsText,
       render,
+      menuTpl,
       ...rest
     } = this.props;
 
@@ -243,6 +258,7 @@ export default class SelectControl extends React.Component<SelectProps, any> {
           onChange={this.changeValue}
           loading={loading}
           noResultsText={noResultsText}
+          renderMenu={menuTpl ? this.renderMenu : undefined}
         />
       </div>
     );

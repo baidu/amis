@@ -313,6 +313,18 @@ interface SelectProps extends OptionProps, ThemeProps, LocaleProps {
   multiple: boolean;
   valueField: string;
   labelField: string;
+  renderMenu?: (
+    item: Option,
+    states: {
+      index: number;
+      multiple?: boolean;
+      checkAll?: boolean;
+      checked: boolean;
+      onChange: () => void;
+      inputValue?: string;
+      searchable?: boolean;
+    }
+  ) => JSX.Element;
   searchable?: boolean;
   options: Array<Option>;
   value: any;
@@ -763,7 +775,8 @@ export class Select extends React.Component<SelectProps, SelectState> {
       editable,
       removable,
       overlayPlacement,
-      translate: __
+      translate: __,
+      renderMenu
     } = this.props;
     const {selection} = this.state;
 
@@ -832,7 +845,17 @@ export class Select extends React.Component<SelectProps, SelectState> {
             </a>
           ) : null}
 
-          {checkAll || multiple ? (
+          {renderMenu ? (
+            renderMenu(item, {
+              multiple,
+              checkAll,
+              checked,
+              onChange: () => this.handleChange(item),
+              inputValue: inputValue || '',
+              searchable,
+              index
+            })
+          ) : checkAll || multiple ? (
             <Checkbox
               checked={checked}
               trueValue={item.value}

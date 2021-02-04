@@ -12,6 +12,36 @@ order: 48
 
 参考 [Options](options)
 
+## 自定义菜单
+
+```schema: scope="body"
+{
+    "type": "form",
+    "controls": [
+        {
+            "label": "选项",
+            "type": "select",
+            "name": "select",
+            "menuTpl": "<div>${label} 值：${value}, 当前是否选中: ${checked}</div>",
+            "options": [
+                {
+                    "label":"A",
+                    "value":"a"
+                },
+                {
+                    "label":"B",
+                    "value":"b"
+                },
+                {
+                    "label":"C",
+                    "value":"c"
+                }
+            ]
+        }
+    ]
+}
+```
+
 ## 属性表
 
 除了支持 [普通表单项属性表](./formitem#%E5%B1%9E%E6%80%A7%E8%A1%A8) 中的配置以外，还支持下面一些配置
@@ -41,3 +71,4 @@ order: 48
 | removable       | `boolean`                                                                         | `false`      | [删除选项](./options#%E5%88%A0%E9%99%A4%E9%80%89%E9%A1%B9)                                                          |
 | deleteApi       | [API](../../docs/types/api)                                                       |              | [配置删除选项接口](./options#%E9%85%8D%E7%BD%AE%E5%88%A0%E9%99%A4%E6%8E%A5%E5%8F%A3-deleteapi)                      |
 | autoFill        | `object`                                                                          |              | [自动填充](./options#%E8%87%AA%E5%8A%A8%E5%A1%AB%E5%85%85-autofill)                                                 |
+| menuTpl         | `string`                                                                          |              | 支持配置自定义菜单                                                                                                  |
