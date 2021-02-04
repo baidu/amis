@@ -284,19 +284,28 @@ export class TreeSelector extends React.Component<
             }
           }
 
-          const parent = getTreeParent(props.options, item);
-          if (parent?.value) {
-            // 如果所有孩子节点都勾选了，应该自动勾选父级。
+          let toCheck = item;
 
-            if (parent.children.every((child: any) => ~value.indexOf(child))) {
-              parent.children.forEach((child: any) => {
-                const index = value.indexOf(child);
-                if (~index) {
-                  value.splice(index, 1);
-                }
-              });
-              value.push(parent);
+          while (true) {
+            const parent = getTreeParent(props.options, toCheck);
+            if (parent?.value) {
+              // 如果所有孩子节点都勾选了，应该自动勾选父级。
+
+              if (
+                parent.children.every((child: any) => ~value.indexOf(child))
+              ) {
+                parent.children.forEach((child: any) => {
+                  const index = value.indexOf(child);
+                  if (~index) {
+                    value.splice(index, 1);
+                  }
+                });
+                value.push(parent);
+                toCheck = parent;
+                continue;
+              }
             }
+            break;
           }
         }
       }
@@ -557,7 +566,7 @@ export class TreeSelector extends React.Component<
         <Checkbox
           size="sm"
           disabled={nodeDisabled}
-          checked={selfChecked || selfChildrenChecked}
+          checked={selfChecked || (!cascade && selfChildrenChecked)}
           partial={!selfChecked}
           onChange={this.handleCheck.bind(this, item, !selfChecked)}
         />
