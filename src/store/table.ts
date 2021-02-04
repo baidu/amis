@@ -24,7 +24,8 @@ import {
   eachTree,
   difference,
   immutableExtends,
-  extendObject
+  extendObject,
+  hasVisibleExpression
 } from '../utils/helper';
 import {evalExpression} from '../utils/tpl';
 import {IFormStore} from './form';
@@ -273,7 +274,9 @@ export const TableStore = iRendererStore
       return self.columns.filter(
         item =>
           item &&
-          isVisible(item.pristine, self.data) &&
+          (hasVisibleExpression(item.pristine)
+            ? isVisible(item.pristine, self.data)
+            : true) &&
           (item.type === '__checkme'
             ? self.selectable &&
               !self.dragging &&
