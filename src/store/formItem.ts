@@ -366,13 +366,13 @@ export const FormItemStore = StoreNode.named('FormItemStore')
       }
 
       for (let option of options) {
-        if (option[self.valueField || 'value'] && !option.disabled) {
-          return option;
-        } else if (Array.isArray(option.children)) {
+        if (Array.isArray(option.children)) {
           const childFirst = getFirstAvaibleOption(option.children);
           if (childFirst !== undefined) {
             return childFirst;
           }
+        } else if (option[self.valueField || 'value'] && !option.disabled) {
+          return option;
         }
       }
     }
