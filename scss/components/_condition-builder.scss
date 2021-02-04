@@ -4,7 +4,6 @@
   &-toolbar {
     display: flex;
     flex-direction: row;
-    justify-content: space-between;
     padding-bottom: 10px;
 
     .#{$ns}Button {
@@ -19,7 +18,9 @@
       }
     }
 
-    &:not(:hover) .#{$ns}CBGroup-toolbarLeft .#{$ns}Button:not(.is-active) {
+    &:not(:hover)
+      .#{$ns}CBGroup-toolbarCondition
+      .#{$ns}Button:not(.is-active) {
       width: 0;
       padding: 0;
       overflow: hidden;
@@ -28,16 +29,17 @@
       border: 0;
     }
 
-    .#{$ns}CBGroup-toolbarRight {
+    .#{$ns}CBGroup-toolbarConditionAdd {
       transition: opacity var(--animation-duration);
       display: flex;
       align-items: center;
+      margin-left: var(--gap-base);
 
       .#{$ns}CBDelete {
         margin-left: var(--gap-xs);
       }
     }
-    &:not(:hover) .#{$ns}CBGroup-toolbarRight {
+    &:not(:hover) .#{$ns}CBGroup-toolbarConditionAdd {
       opacity: 0;
     }
   }

@@ -125,7 +125,7 @@ export class ConditionGroup extends React.Component<ConditionGroupProps> {
     return (
       <div className={cx('CBGroup')} data-group-id={value?.id}>
         <div className={cx('CBGroup-toolbar')}>
-          <div className={cx('CBGroup-toolbarLeft')}>
+          <div className={cx('CBGroup-toolbarCondition')}>
             {showNot ? (
               <Button
                 onClick={this.handleNotClick}
@@ -156,7 +156,7 @@ export class ConditionGroup extends React.Component<ConditionGroupProps> {
               </Button>
             </div>
           </div>
-          <div className={cx('CBGroup-toolbarRight')}>
+          <div className={cx('CBGroup-toolbarConditionAdd')}>
             <div className={cx('ButtonGroup')}>
               <Button onClick={this.handleAdd} size="xs">
                 <Icon icon="plus" className="icon" />
