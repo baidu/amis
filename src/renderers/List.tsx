@@ -77,6 +77,11 @@ export interface ListItemSchema extends Omit<BaseSchema, 'type'> {
   actions?: Array<ActionSchema>;
 
   /**
+   * 操作位置，默认在右侧，可以设置成左侧。
+   */
+  actionsPosition?: 'left' | 'right';
+
+  /**
    * 图片地址
    */
   avatar?: SchemaUrlPath;
@@ -1240,7 +1245,8 @@ export class ListItem extends React.Component<ListItemProps> {
       checkOnItemClick,
       render,
       checkable,
-      classnames: cx
+      classnames: cx,
+      actionsPosition
     } = this.props;
 
     const avatar = filter(avatarTpl, data);
@@ -1251,7 +1257,10 @@ export class ListItem extends React.Component<ListItemProps> {
     return (
       <div
         onClick={checkOnItemClick && checkable ? this.handleClick : undefined}
-        className={cx('ListItem', className)}
+        className={cx(
+          `ListItem ListItem--actions-at-${actionsPosition || 'right'}`,
+          className
+        )}
       >
         {this.renderLeft()}
         {this.renderRight()}
@@ -1281,7 +1290,9 @@ export class ListItem extends React.Component<ListItemProps> {
   test: /(^|\/)(?:list|list-group)\/(?:.*\/)?list-item$/,
   name: 'list-item'
 })
-export class ListItemRenderer extends ListItem {}
+export class ListItemRenderer extends ListItem {
+  static propsList = ['multiple', ...ListItem.propsList];
+}
 
 @Renderer({
   test: /(^|\/)list-item-field$/,
