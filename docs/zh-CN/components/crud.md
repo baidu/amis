@@ -1184,8 +1184,6 @@ crud 组件支持通过配置`headerToolbar`和`footerToolbar`属性，实现在
 1. 批量操作按钮上配置 `disabledOn` 值为 `this.selectedItems.some(item => item.owner === this.amisUser.name)`
 2. 给表格加上 `itemCheckableOn` 值为 `this.owner === this.amisUser.name` 表示只有 owner 是自己的才可以打勾。
 
-
-
 ### 数据统计
 
 在`headerToolbar`或者`footerToolbar`数组中添加`statistics`字符串，可以实现简单的数据统计功能
@@ -1742,3 +1740,4 @@ CRUD 中不限制有多少个单条操作、添加一个操作对应的添加一
 | labelTpl                              | `string`                    |                                 | 单条描述模板，`keepItemSelectionOnPageChange`设置为`true`后会把所有已选择条目列出来，此选项可以用来定制条目展示文案。 |
 | headerToolbar                         | Array                       | `['bulkActions', 'pagination']` | 顶部工具栏配置                                                                                                        |
 | footerToolbar                         | Array                       | `['statistics', 'pagination']`  | 底部工具栏配置                                                                                                        |
+| alwaysShowPagination                  | `boolean`                   | `false`                         | 是否总是显示分页                                                                                                      |
