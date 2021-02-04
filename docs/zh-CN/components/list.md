@@ -95,3 +95,4 @@ order: 56
 | listItem.desc            | [模板](../../docs/concepts/template) |                       | 描述                                                                         |
 | listItem.body            | `Array`                              |                       | 内容容器，主要用来放置非表单项组件                                           |
 | listItem.actions         | Array<[Action](./action)>            |                       | 按钮区域                                                                     |
+| listItem.actionsPosition | 'left' or 'right'                    | 默认在右侧            | 按钮位置                                                                     |
