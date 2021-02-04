@@ -171,7 +171,8 @@ export function embed(
           scopeRef: (ref: any) => (scoped = ref)
         },
         {
-          getModalContainer: () => document.querySelector('.amis-scope'),
+          getModalContainer: () =>
+            env?.getModalContainer?.() || document.querySelector('.amis-scope'),
           notify: (type: string, msg: string) =>
             toast[type]
               ? toast[type](msg, type === 'error' ? '系统错误' : '系统消息')
