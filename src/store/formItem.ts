@@ -409,11 +409,12 @@ export const FormItemStore = StoreNode.named('FormItemStore')
           return item;
         });
 
-        const value = self.joinValues
-          ? list.join(self.delimiter)
-          : self.multiple
-          ? list
-          : list[0];
+        const value =
+          self.joinValues && self.multiple
+            ? list.join(self.delimiter)
+            : self.multiple
+            ? list
+            : list[0];
 
         if (form.inited && onChange) {
           onChange(value);
