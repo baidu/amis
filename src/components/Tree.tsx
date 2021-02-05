@@ -294,12 +294,14 @@ export class TreeSelector extends React.Component<
               if (
                 parent.children.every((child: any) => ~value.indexOf(child))
               ) {
-                parent.children.forEach((child: any) => {
-                  const index = value.indexOf(child);
-                  if (~index) {
-                    value.splice(index, 1);
-                  }
-                });
+                if (!props.withChildren) {
+                  parent.children.forEach((child: any) => {
+                    const index = value.indexOf(child);
+                    if (~index) {
+                      value.splice(index, 1);
+                    }
+                  });
+                }
                 value.push(parent);
                 toCheck = parent;
                 continue;
