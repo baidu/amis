@@ -9,6 +9,7 @@ import {
   SchemaClassName,
   SchemaCollection
 } from '../Schema';
+import {IScopedContext, ScopedContext} from '../Scoped';
 import {AppStore, IAppStore} from '../store/app';
 import {Api, SchemaNode} from '../types';
 import {isApiOutdated, isEffectiveApi} from '../utils/api';
@@ -166,6 +167,31 @@ export default class App extends React.Component<AppProps, object> {
   }
 
   async componentDidMount() {
+    this.reload();
+  }
+
+  async componentDidUpdate(prevProps: AppProps) {
+    const props = this.props;
+    const store = props.store;
+
+    store.syncProps(props, prevProps, ['pages']);
+
+    if (isApiOutdated(prevProps.api, props.api, prevProps.data, props.data)) {
+      this.reload();
+    } else if (props.location && props.location !== prevProps.location) {
+      store.updateActivePage(props.env);
+    }
+  }
+
+  componentWillUnmount() {
+    this.unWatchRouteChange?.();
+  }
+
+  async reload(subpath?: any, query?: any, ctx?: any, silent?: boolean) {
+    if (query) {
+      return this.receive(query);
+    }
+
     const {api, store, env} = this.props;
 
     if (isEffectiveApi(api, store.data)) {
@@ -177,26 +203,11 @@ export default class App extends React.Component<AppProps, object> {
     }
   }
 
-  async componentDidUpdate(prevProps: AppProps) {
-    const props = this.props;
-    const store = props.store;
+  receive(values: object) {
+    const {store} = this.props;
 
-    store.syncProps(props, prevProps, ['pages']);
-
-    if (isApiOutdated(prevProps.api, props.api, prevProps.data, props.data)) {
-      const json = await store.fetchData(props.api as Api, store.data);
-
-      if (json?.data.pages) {
-        store.setPages(json.data.pages);
-        store.updateActivePage(props.env);
-      }
-    } else if (props.location && props.location !== prevProps.location) {
-      store.updateActivePage(props.env);
-    }
-  }
-
-  componentWillUnmount() {
-    this.unWatchRouteChange?.();
+    store.updateData(values);
+    this.reload();
   }
 
   @autobind
@@ -393,4 +404,17 @@ export default class App extends React.Component<AppProps, object> {
   name: 'app',
   storeType: AppStore.name
 })
-export class AppRenderer extends App {}
+export class AppRenderer extends App {
+  static contextType = ScopedContext;
+
+  componentWillMount() {
+    const scoped = this.context as IScopedContext;
+    scoped.registerComponent(this);
+  }
+
+  componentWillUnmount() {
+    const scoped = this.context as IScopedContext;
+    scoped.unRegisterComponent(this);
+    super.componentWillUnmount();
+  }
+}
