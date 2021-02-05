@@ -37,6 +37,7 @@
     color: var(--text--muted-color);
     background: var(--Form-input-onDisabled-bg);
     border-color: var(--Form-input-onDisabled-borderColor);
+    pointer-events: none;
   }
 
   &-singleValue {

@@ -1072,32 +1072,103 @@ export default {
           label: '级联选择器多选',
           size: 'sm',
           multiple: true,
+          checkAll: false,
           options: [
             {
-              label: 'A',
-              value: 'a'
-            },
-            {
-              label: 'B',
-              value: 'b',
+              label: '概念',
+              value: 'concepts',
               children: [
                 {
-                  label: 'B-1',
-                  value: 'b-1'
+                  label: '配置与组件',
+                  value: 'schema'
                 },
                 {
-                  label: 'B-2',
-                  value: 'b-2'
+                  label: '数据域与数据链',
+                  value: 'scope'
                 },
                 {
-                  label: 'B-3',
-                  value: 'b-3'
+                  label: '模板',
+                  value: 'template'
+                },
+                {
+                  label: '数据映射',
+                  value: 'data-mapping'
+                },
+                {
+                  label: '表达式',
+                  value: 'expression'
+                },
+                {
+                  label: '联动',
+                  value: 'linkage'
+                },
+                {
+                  label: '行为',
+                  value: 'action'
+                },
+                {
+                  label: '样式',
+                  value: 'style'
                 }
               ]
             },
             {
-              label: 'C',
-              value: 'c'
+              label: '类型',
+              value: 'types',
+              children: [
+                {
+                  label: 'SchemaNode',
+                  value: 'schemanode'
+                },
+                {
+                  label: 'API',
+                  value: 'api'
+                },
+                {
+                  label: 'Definitions',
+                  value: 'definitions'
+                }
+              ]
+            },
+            {
+              label: '组件',
+              value: 'c',
+              children: [
+                {
+                  label: '布局',
+                  value: 'buju',
+                  children: [
+                    {
+                      label: 'Page 页面',
+                      value: 'page'
+                    },
+                    {
+                      label: 'Container 容器',
+                      value: 'container'
+                    },
+                    {
+                      label: 'Collapse 折叠器',
+                      value: 'Collapse'
+                    }
+                  ]
+                },
+                {
+                  label: '功能',
+                  value: 'gongneng'
+                },
+                {
+                  label: '数据输入',
+                  value: 'shujushuru'
+                },
+                {
+                  label: '数据展示',
+                  value: 'shujuzhanshi'
+                },
+                {
+                  label: '反馈',
+                  value: 'fankui'
+                }
+              ]
             }
           ]
         },
