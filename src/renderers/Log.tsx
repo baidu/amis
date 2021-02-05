@@ -93,7 +93,9 @@ export class Log extends React.Component<LogProps, LogState> {
         this.pauseOrResumeScrolling
       );
     }
-    this.loadLogs();
+    if (this.props.source) {
+      this.loadLogs();
+    }
   }
 
   componentDidUpdate() {
@@ -160,13 +162,19 @@ export class Log extends React.Component<LogProps, LogState> {
 
   render() {
     const {
+      source,
       className,
       classnames: cx,
-      render,
       placeholder,
       height,
       translate: __
     } = this.props;
+
+    let loading = __(placeholder);
+
+    if (!source) {
+      loading = __('Log.mustHaveSource');
+    }
 
     const lines = this.state.logs.map((line, index) => {
       return (
@@ -182,7 +190,7 @@ export class Log extends React.Component<LogProps, LogState> {
         className={cx('Log', className)}
         style={{height: height}}
       >
-        {lines.length ? lines : __(placeholder)}
+        {lines.length ? lines : loading}
         <div className={cx('Log-line')} key="last">
           <code>{this.state.lastLine}</code>
         </div>
