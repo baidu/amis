@@ -45,7 +45,7 @@ export class HeadCellFilterDropDown extends React.Component<
   }
 
   componentDidMount() {
-    const {filterable} = this.props;
+    const {filterable, name, store} = this.props;
 
     if (filterable.source) {
       this.fetchOptions();
@@ -80,9 +80,10 @@ export class HeadCellFilterDropDown extends React.Component<
       } else if (
         name &&
         !this.state.filterOptions.length &&
-        Array.isArray(props.store?.data.itemsRaw)
+        (Array.isArray(props.store?.data.itemsRaw) ||
+          Array.isArray(props.store?.data.items))
       ) {
-        const itemsRaw = props.store?.data.itemsRaw;
+        const itemsRaw = props.store?.data.itemsRaw || props.store?.data.items;
         const values: Array<any> = [];
         itemsRaw.forEach((item: any) => {
           const value = getVariable(item, name);
