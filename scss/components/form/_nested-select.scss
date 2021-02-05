@@ -1,97 +1,5 @@
 .#{$ns}NestedSelect {
-  display: inline-flex;
-  vertical-align: middle;
-  outline: none;
   position: relative;
-  border: var(--Form-select-borderWidth) solid var(--Form-select-borderColor);
-  background: var(--Form-select-bg);
-  border-radius: var(--Form-select-borderRadius);
-  min-height: var(--Form-selectOption-height);
-  $paddingY: calc(
-    (
-        var(--Form-selectOption-height) - var(--Form-input-lineHeight) *
-          var(--Form-input-fontSize) - var(--Form-select-borderWidth) * 2
-      ) / 2
-  );
-  padding: $paddingY 0 $paddingY var(--Form-select-paddingX);
-  cursor: pointer;
-  color: var(--Form-select-color);
-
-  &.is-disabled {
-    color: var(--text--muted-color);
-    background: var(--Form-input-onDisabled-bg);
-    border-color: var(--Form-input-onDisabled-borderColor);
-  }
-
-  &.is-focused,
-  &.is-opened {
-    border-color: var(--Form-input-onFocused-borderColor);
-    // border-bottom: 0;
-    color: var(--Form-select-onFocused-color);
-  }
-
-  &.is-opened .#{$ns}Select-arrow > svg {
-    transform: rotate(180deg);
-  }
-
-  &:not(.is-disabled):hover {
-    background: var(--Form-select-onHover-bg);
-  }
-
-  &--multi {
-    .#{$ns}Select-value {
-      position: static;
-      user-select: none;
-      line-height: calc(
-        var(--Form-input-lineHeight) * var(--Form-input-fontSize) - #{px2rem(
-            2px
-          )}
-      );
-      display: inline-block;
-      vertical-align: middle;
-      font-size: var(--Form-selectValue-fontSize);
-      color: var(--Form-selectValue-color);
-      background: var(--Form-selectValue-bg);
-      border: px2rem(1px) solid var(--Form-selectValue-borderColor);
-      border-radius: px2rem(2px);
-      margin-right: var(--gap-xs);
-      margin-bottom: var(--gap-xs);
-    }
-    .#{$ns}Select-valueLabel {
-      padding: 0 var(--gap-xs);
-    }
-  }
-
-  &-placeholder {
-    color: var(--Form-select-placeholderColor);
-    line-height: var(--Form-input-lineHeight);
-  }
-
-  &-valueWrap {
-    user-select: none;
-    position: relative;
-    flex-grow: 1;
-  }
-
-  &-clear {
-    padding: px2rem(3px);
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: relative;
-    z-index: 2;
-
-    svg {
-      fill: var(--Form-input-iconColor);
-      width: px2rem(10px);
-      height: px2rem(10px);
-    }
-
-    &:hover svg {
-      fill: var(--Form-input-onHover-iconColor);
-    }
-  }
 
   &-optionArrowRight {
     display: inline-block;
@@ -125,7 +33,7 @@
 
     .#{$ns}NestedSelect-option {
       position: relative;
-      padding-left: px2rem(10px);
+      padding-left: px2rem(15px);
       min-height: var(--Form-input-height);
       line-height: var(--Form-input-height);
       cursor: pointer;
@@ -133,10 +41,10 @@
 
       > .#{$ns}NestedSelect-optionLabel {
         flex: 1;
-        cursor: pointer;
-        span {
-          display: inline-flex;
-          word-break: break-all;
+
+        &.is-disabled {
+          cursor: not-allowed;
+          color: var(--text--muted-color);
         }
       }
 
@@ -154,24 +62,9 @@
         display: block;
       }
 
-      .#{$ns}Checkbox {
-        display: inline-block;
-        padding-top: 0;
-      }
-
       &.checkall {
         border-bottom: px2rem(1px) solid #eceff8;
       }
     }
-  }
-}
-
-// 需要能撑开
-@include media-breakpoint-up(sm) {
-  .#{$ns}Form-control--sizeXs > .#{$ns}NestedSelect,
-  .#{$ns}Form-control--sizeSm > .#{$ns}NestedSelect,
-  .#{$ns}Form-control--sizeMd > .#{$ns}NestedSelect,
-  .#{$ns}Form-control--sizeLg > .#{$ns}NestedSelect {
-    display: inline-flex !important;
   }
 }
