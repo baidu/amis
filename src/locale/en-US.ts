@@ -100,6 +100,7 @@ register('en-US', {
   'Image.sizeNotEqual': 'The image you selected does not meet the size requirements {{info}}',
   'Image.width': 'width: {{width}}px',
   'Image.zoomIn': 'Zoom In',
+  'Log.mustHaveSource': 'Must have source in config',
   'link': 'Link',
   'loading': 'Loading',
   'LocationPicker.placeholder': 'Pick location',
