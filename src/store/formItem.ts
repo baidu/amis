@@ -83,7 +83,8 @@ export const FormItemStore = StoreNode.named('FormItemStore')
     filteredOptions: types.optional(types.frozen(), []),
     dialogSchema: types.frozen(),
     dialogOpen: false,
-    dialogData: types.frozen()
+    dialogData: types.frozen(),
+    resetValue: types.optional(types.frozen(), '')
   })
   .views(self => {
     function getForm(): any {

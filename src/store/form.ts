@@ -514,6 +514,20 @@ export const FormStore = ServiceStore.named('FormStore')
       cb && cb(self.data);
     }
 
+    function clear(cb?: (data: any) => void) {
+      const toClear: any = {};
+      self.items.forEach(item => {
+        if (item.name && item.type !== 'hidden') {
+          toClear[item.name] = item.resetValue;
+        }
+      });
+      setValues(toClear);
+      self.validated = false;
+      self.submited = false;
+      self.items.forEach(item => item.reset());
+      cb && cb(self.data);
+    }
+
     function addFormItem(item: IFormItemStore) {
       self.itemsRef.push(item.id);
       // 默认值可能在原型上，把他挪到当前对象上。
@@ -589,6 +603,7 @@ export const FormStore = ServiceStore.named('FormStore')
       getPersistData,
       setPersistData,
       clearPersistData,
+      clear,
       onChildStoreDispose,
       updateSavedData,
       getItemsByPath,

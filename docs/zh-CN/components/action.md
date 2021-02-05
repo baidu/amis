@@ -542,6 +542,61 @@ icon 也可以是 url 地址，比如
 }
 ```
 
+### 清空表单
+
+在 form 中，配置`"actionType": "clear"`的按钮，可以实现清空表单数据的功能，跟重置不同的是，重置其实是还原到初始值，并不一定是清空。
+
+```schema: scope="body"
+{
+    "type": "form",
+    "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
+    "controls": [
+        {
+            "type": "text",
+            "name": "username",
+            "placeholder": "请输入用户名",
+            "label": "用户名",
+            "value": "rick"
+        },
+        {
+            "type": "password",
+            "name": "password",
+            "label": "密码",
+            "placeholder": "请输入密码"
+        },
+        {
+            "type": "checkbox",
+            "name": "rememberMe",
+            "option": "记住登录"
+        }
+    ],
+    "actions": [
+        {
+            "type": "button",
+            "actionType": "clear",
+            "label": "清空"
+        },
+        {
+            "type": "reset",
+            "label": "重置"
+        },
+        {
+            "type": "submit",
+            "label": "提交",
+            "level": "primary"
+        }
+    ]
+}
+```
+
+### 重置表单并提交
+
+`actionType` 配置成 `"reset-and-submit"`
+
+### 清空表单并提交
+
+`actionType` 配置成 `"clear-and-submit"`
+
 ## 通用属性表
 
 所有`actionType`都支持的通用配置项

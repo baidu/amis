@@ -189,6 +189,11 @@ export interface FormSchema extends BaseSchema {
   resetAfterSubmit?: boolean;
 
   /**
+   * 提交后清空表单
+   */
+  clearAfterSubmit?: boolean;
+
+  /**
    * 配置表单项默认的展示方式。
    */
   mode?: 'normal' | 'inline' | 'horizontal';
@@ -363,6 +368,7 @@ export default class Form extends React.Component<FormProps, object> {
     'messages',
     'wrapperComponent',
     'resetAfterSubmit',
+    'clearAfterSubmit',
     'submitOnInit',
     'submitOnChange',
     'onInit',
@@ -836,6 +842,7 @@ export default class Form extends React.Component<FormProps, object> {
       checkInterval,
       messages: {saveSuccess, saveFailed},
       resetAfterSubmit,
+      clearAfterSubmit,
       onAction,
       onSaved,
       onReset,
@@ -883,12 +890,15 @@ export default class Form extends React.Component<FormProps, object> {
       action.type === 'submit' ||
       action.actionType === 'submit' ||
       action.actionType === 'confirm' ||
-      action.actionType === 'reset-and-submit'
+      action.actionType === 'reset-and-submit' ||
+      action.actionType === 'clear-and-submit'
     ) {
       store.setCurrentAction(action);
 
       if (action.actionType === 'reset-and-submit') {
         store.reset(onReset);
+      } else if (action.actionType === 'clear-and-submit') {
+        store.clear(onReset);
       }
 
       return this.submit((values): any => {
@@ -963,6 +973,7 @@ export default class Form extends React.Component<FormProps, object> {
           }
 
           resetAfterSubmit && store.reset(onReset);
+          clearAfterSubmit && store.clear(onReset);
           clearPersistDataAfterSubmit && store.clearPersistData();
 
           if (action.redirect || redirect) {
@@ -992,6 +1003,9 @@ export default class Form extends React.Component<FormProps, object> {
     } else if (action.type === 'reset' || action.actionType === 'reset') {
       store.setCurrentAction(action);
       store.reset(onReset);
+    } else if (action.actionType === 'clear') {
+      store.setCurrentAction(action);
+      store.clear(onReset);
     } else if (action.actionType === 'dialog') {
       store.setCurrentAction(action);
       store.openDialog(data);

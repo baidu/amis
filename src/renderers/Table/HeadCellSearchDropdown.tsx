@@ -124,7 +124,7 @@ export class HeadCellSearchDropDown extends React.Component<
           {
             type: 'button',
             label: __('reset'),
-            actionType: 'reset'
+            actionType: 'clear-and-submit'
           },
 
           {
