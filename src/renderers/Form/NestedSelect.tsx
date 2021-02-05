@@ -1,6 +1,4 @@
 import React from 'react';
-import xorBy from 'lodash/xorBy';
-import unionBy from 'lodash/unionBy';
 import Overlay from '../../components/Overlay';
 import Checkbox from '../../components/Checkbox';
 import PopOver from '../../components/PopOver';
@@ -23,6 +21,8 @@ import {Option, Options} from '../../components/Select';
 import {findDOMNode} from 'react-dom';
 import {ResultBox, Spinner} from '../../components';
 import {isEffectiveApi} from '../../utils/api';
+import xor from 'lodash/xor';
+import union from 'lodash/union';
 
 /**
  * Nested Select
@@ -61,7 +61,7 @@ export default class NestedSelectControl extends React.Component<
     isOpened: false,
     isFocused: false,
     inputValue: '',
-    stack: []
+    stack: [this.props.options]
   };
 
   @autobind
@@ -74,16 +74,14 @@ export default class NestedSelectControl extends React.Component<
     const {options} = this.props;
     e.defaultPrevented ||
       this.setState({
-        isOpened: true,
-        stack: [options]
+        isOpened: true
       });
   }
 
   @autobind
   close() {
     this.setState({
-      isOpened: false,
-      stack: []
+      isOpened: false
     });
   }
 
@@ -186,8 +184,8 @@ export default class NestedSelectControl extends React.Component<
       }
     }
 
-    const items = selectedOptions.concat();
-    let newValue: any[];
+    const items = selectedOptions;
+    let value: any[];
 
     // 三种情况：
     // 1.全选，option为数组
@@ -196,31 +194,20 @@ export default class NestedSelectControl extends React.Component<
 
     if (Array.isArray(option)) {
       option = withChildren ? flattenTree(option) : option;
-      newValue = items.length === option.length ? [] : (option as Options);
+      value = items.length === option.length ? [] : (option as Options);
     } else if (Array.isArray(option.children)) {
       if (cascade) {
-        newValue = xorBy(items, [option], valueField);
+        value = xor(items, [option]);
       } else if (withChildren) {
         option = flattenTree([option]);
-        const fn = option.every(
-          (opt: Option) =>
-            !!~items.findIndex(item => item[valueField] === opt[valueField])
-        )
-          ? xorBy
-          : unionBy;
-        newValue = fn(items, option as any, valueField);
+        const isEvery = (option as Options).every(opt => !!~items.indexOf(opt));
+        value = (isEvery ? xor : union)(items, option as any);
       } else {
-        newValue = items.filter(
-          item =>
-            !~flattenTree([option], i => (i as Option)[valueField]).indexOf(
-              item[valueField]
-            )
-        );
-        !~items.map(item => item[valueField]).indexOf(option[valueField]) &&
-          newValue.push(option);
+        value = items.filter(item => !~flattenTree([option]).indexOf(item));
+        !~items.indexOf(option) && value.push(option);
       }
     } else {
-      newValue = xorBy(items, [option], valueField);
+      value = xor(items, [option]);
     }
 
     if (!cascade) {
@@ -231,14 +218,14 @@ export default class NestedSelectControl extends React.Component<
         if (parent?.value) {
           // 如果所有孩子节点都勾选了，应该自动勾选父级。
 
-          if (parent.children.every((child: any) => ~newValue.indexOf(child))) {
+          if (parent.children.every((child: any) => ~value.indexOf(child))) {
             parent.children.forEach((child: any) => {
-              const index = newValue.indexOf(child);
+              const index = value.indexOf(child);
               if (~index && !withChildren) {
-                newValue.splice(index, 1);
+                value.splice(index, 1);
               }
             });
-            newValue.push(parent);
+            value.push(parent);
             toCheck = parent;
             continue;
           }
@@ -249,33 +236,30 @@ export default class NestedSelectControl extends React.Component<
 
     onChange(
       joinValues
-        ? newValue.map(item => item[valueField as string]).join(delimiter)
+        ? value.map(item => item[valueField as string]).join(delimiter)
         : extractValue
-        ? newValue.map(item => item[valueField as string])
-        : newValue
+        ? value.map(item => item[valueField as string])
+        : value
     );
   }
 
   allChecked(options: Options): boolean {
-    const {selectedOptions, withChildren, valueField} = this.props;
+    const {selectedOptions, withChildren} = this.props;
     return options.every(option => {
       if (withChildren && option.children) {
         return this.allChecked(option.children);
       }
-      return selectedOptions.some(
-        item => item[valueField || 'value'] == option[valueField || 'value']
-      );
+      return selectedOptions.some(item => item === option);
     });
   }
 
   partialChecked(options: Options): boolean {
-    const {selectedOptions, withChildren, valueField} = this.props;
     return options.some(option => {
-      if (withChildren && option.children) {
-        return this.partialChecked(option.children);
-      }
-      return selectedOptions.some(
-        item => item[valueField || 'value'] == option[valueField || 'value']
+      const childrenPartialChecked =
+        option.children && this.partialChecked(option.children);
+      return (
+        childrenPartialChecked ||
+        this.props.selectedOptions.some(item => item === option)
       );
     });
   }
@@ -425,8 +409,10 @@ export default class NestedSelectControl extends React.Component<
             ) : null}
 
             {options.map((option: Option, idx: number) => {
-              const parent = getTreeParent(propOptions, option as any);
-              const parentChecked = !!~selectedOptions.indexOf(parent);
+              const ancestors = getTreeAncestors(propOptions, option as any);
+              const parentChecked = ancestors?.some(
+                item => !!~selectedOptions.indexOf(item)
+              );
               const uncheckable = cascade ? false : multiple && parentChecked;
 
               const selfChecked =
