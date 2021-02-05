@@ -274,9 +274,10 @@ export const TableStore = iRendererStore
       return self.columns.filter(
         item =>
           item &&
-          (hasVisibleExpression(item.pristine)
-            ? isVisible(item.pristine, self.data)
-            : true) &&
+          isVisible(
+            item.pristine,
+            hasVisibleExpression(item.pristine) ? self.data : {}
+          ) &&
           (item.type === '__checkme'
             ? self.selectable &&
               !self.dragging &&
