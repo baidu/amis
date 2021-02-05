@@ -1116,6 +1116,16 @@ export function getTreeAncestors<T extends TreeItem>(
   return ancestors;
 }
 
+/**
+ * 从树中获取某个值的上级
+ * @param tree
+ * @param value
+ */
+export function getTreeParent<T extends TreeItem>(tree: Array<T>, value: T) {
+  const ancestors = getTreeAncestors(tree, value);
+  return ancestors?.length ? ancestors[ancestors.length - 1] : null;
+}
+
 export function ucFirst(str?: string) {
   return str ? str.substring(0, 1).toUpperCase() + str.substring(1) : '';
 }

@@ -11,7 +11,6 @@ import {
 } from './Options';
 import {Icon} from '../../components/icons';
 import TreeSelector from '../../components/Tree';
-import {findAncestorsWithValue} from '../../components/Tree';
 // @ts-ignore
 import matchSorter from 'match-sorter';
 import debouce from 'lodash/debounce';
@@ -20,7 +19,7 @@ import {Api} from '../../types';
 import {isEffectiveApi} from '../../utils/api';
 import Spinner from '../../components/Spinner';
 import ResultBox from '../../components/ResultBox';
-import {autobind} from '../../utils/helper';
+import {autobind, getTreeAncestors} from '../../utils/helper';
 import {findDOMNode} from 'react-dom';
 
 /**
@@ -410,23 +409,15 @@ export default class TreeSelectControl extends React.Component<
 
   @autobind
   renderItem(item: Option) {
-    const {labelField, valueField} = this.props;
+    const {labelField, options} = this.props;
+
     // 将所有祖先节点也展现出来
-    const ancestors: any[] = [];
-    findAncestorsWithValue(
-      ancestors,
-      this.props.options,
-      item[valueField || 'value'],
-      valueField
-    );
-    let ancestorsLabel = '';
-    if (ancestors.length) {
-      ancestorsLabel =
-        ancestors
-          .map((option: any) => option[labelField || 'label'])
-          .join(' / ') + ' / ';
-    }
-    return ancestorsLabel + item[labelField || 'label'];
+    const ancestors = getTreeAncestors(options, item, true);
+    return `${
+      ancestors
+        ? ancestors.map(item => `${item[labelField || 'label']}`).join(' / ')
+        : item[labelField || 'label']
+    }`;
   }
 
   renderOuter() {
