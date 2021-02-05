@@ -20,7 +20,6 @@ import {
 import {Option, Options} from '../../components/Select';
 import {findDOMNode} from 'react-dom';
 import {ResultBox, Spinner} from '../../components';
-import {isEffectiveApi} from '../../utils/api';
 import xor from 'lodash/xor';
 import union from 'lodash/union';
 
@@ -541,8 +540,7 @@ export default class NestedSelectControl extends React.Component<
             'NestedSelect--inline': inline,
             'NestedSelect--single': !multiple,
             'NestedSelect--multi': multiple,
-            'NestedSelect--searchable':
-              searchable || isEffectiveApi(autoComplete),
+            'NestedSelect--searchable': searchable,
             'is-opened': this.state.isOpened,
             'is-focused': this.state.isFocused
           })}
@@ -563,7 +561,7 @@ export default class NestedSelectControl extends React.Component<
           onBlur={this.onBlur}
           onKeyDown={this.handleInputKeyDown}
           clearable={clearable}
-          allowInput={searchable || isEffectiveApi(autoComplete)}
+          allowInput={searchable}
           inputPlaceholder={''}
         >
           {loading ? <Spinner size="sm" /> : undefined}
