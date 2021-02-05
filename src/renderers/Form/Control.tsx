@@ -99,7 +99,8 @@ export default class FormControl extends React.PureComponent<ControlProps> {
         extractValue,
         selectFirst,
         autoFill,
-        clearValueOnHidden
+        clearValueOnHidden,
+        validateOnChange
       }
     } = this.props;
 
@@ -154,10 +155,19 @@ export default class FormControl extends React.PureComponent<ControlProps> {
     this.reaction = reaction(
       () => model.value,
       value => {
-        if (value === model.tmpValue) {
-          return;
+        if (value !== model.tmpValue) {
+          model.changeTmpValue(value);
         }
-        model.changeTmpValue(value);
+
+        if (
+          validateOnChange === true ||
+          (validateOnChange !== false &&
+            (form.submited || (isAlive(model) && model.validated)))
+        ) {
+          this.lazyValidate();
+        } else if (validateOnChange === false) {
+          model.reset();
+        }
       }
     );
   }
@@ -414,16 +424,6 @@ export default class FormControl extends React.PureComponent<ControlProps> {
     }
 
     this.model.changeValue(value);
-
-    if (
-      validateOnChange === true ||
-      (validateOnChange !== false &&
-        (form.submited || (isAlive(this.model) && this.model.validated)))
-    ) {
-      this.lazyValidate();
-    } else if (validateOnChange === false) {
-      this.model.reset();
-    }
 
     onFormItemChange && onFormItemChange(value, oldValue, this.model, form);
     onChange && onChange(value, name!, submitOnChange === true);
