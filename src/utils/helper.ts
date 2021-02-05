@@ -413,6 +413,15 @@ export function makeColumnClassBuild(
   };
 }
 
+export function hasVisibleExpression(schema: {
+  visibleOn?: string;
+  hiddenOn?: string;
+  visible?: boolean;
+  hidden?: boolean;
+}) {
+  return schema?.visibleOn || schema?.hiddenOn;
+}
+
 export function isVisible(
   schema: {
     visibleOn?: string;
