@@ -94,7 +94,9 @@ export interface Action extends Button {
     | 'next'
     | 'prev'
     | 'reset'
-    | 'reset-and-submit';
+    | 'reset-and-submit'
+    | 'clear'
+    | 'clear-and-submit';
   api?: Api;
   asyncApi?: Api;
   payload?: any;
