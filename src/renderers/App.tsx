@@ -342,7 +342,7 @@ export default class App extends React.Component<AppProps, object> {
           }}
           isActive={(link: any) => !!env.isCurrentUrl(link?.path, link)}
         />
-        {asideBefore ? render('aside-before', asideBefore) : null}
+        {asideAfter ? render('aside-before', asideAfter) : null}
       </>
     );
   }
