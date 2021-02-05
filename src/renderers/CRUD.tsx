@@ -279,6 +279,11 @@ export interface CRUDCommonSchema extends BaseSchema {
      */
     accordion?: boolean;
   };
+
+  /**
+   * 默认只有当分页数大于 1 是才显示，如果总是想显示请配置。
+   */
+  alwaysShowPagination?: boolean;
 }
 
 export type CRUDCardsSchema = CRUDCommonSchema & {
@@ -1592,11 +1597,15 @@ export default class CRUD extends React.Component<CRUDProps, any> {
   }
 
   renderPagination() {
-    const {store, render, classnames: cx} = this.props;
+    const {store, render, classnames: cx, alwaysShowPagination} = this.props;
 
     const {page, lastPage} = store;
 
-    if (store.mode !== 'simple' && store.lastPage < 2) {
+    if (
+      store.mode !== 'simple' &&
+      store.lastPage < 2 &&
+      !alwaysShowPagination
+    ) {
       return null;
     }
 
@@ -1620,9 +1629,14 @@ export default class CRUD extends React.Component<CRUDProps, any> {
   }
 
   renderStatistics() {
-    const {store, classnames: cx, translate: __} = this.props;
+    const {
+      store,
+      classnames: cx,
+      translate: __,
+      alwaysShowPagination
+    } = this.props;
 
-    if (store.lastPage <= 1) {
+    if (store.lastPage <= 1 && !alwaysShowPagination) {
       return null;
     }
 
