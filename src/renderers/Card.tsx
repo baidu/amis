@@ -173,7 +173,6 @@ export class Card extends React.Component<CardProps> {
   };
 
   static propsList: Array<string> = [
-    'multiple',
     'avatarClassName',
     'bodyClassName',
     'actionsCount',
@@ -553,7 +552,9 @@ export class Card extends React.Component<CardProps> {
   test: /(^|\/)card$/,
   name: 'card'
 })
-export class CardRenderer extends Card {}
+export class CardRenderer extends Card {
+  static propsList = ['multiple', ...Card.propsList];
+}
 
 @Renderer({
   test: /(^|\/)card-item-field$/,
