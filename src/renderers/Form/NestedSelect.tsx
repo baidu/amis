@@ -413,10 +413,12 @@ export default class NestedSelectControl extends React.Component<
                 item => !!~selectedOptions.indexOf(item)
               );
               const uncheckable = cascade ? false : multiple && parentChecked;
-
               const selfChecked =
                 uncheckable || !!~selectedOptions.indexOf(option);
-              let nodeDisabled = uncheckable || !!disabled;
+
+              const parentDisabled = ancestors?.some(item => !!item.disabled);
+              let nodeDisabled =
+                uncheckable || option.disabled || parentDisabled || !!disabled;
 
               let selfChildrenChecked = !!(
                 option.children && this.partialChecked(option.children)
