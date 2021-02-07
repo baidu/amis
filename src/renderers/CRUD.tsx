@@ -1091,7 +1091,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
 
     if (Array.isArray(rows)) {
       if (!isEffectiveApi(quickSaveApi)) {
-        env && env.alert('CRUD quickSaveApi is required!');
+        env && env.alert('CRUD quickSaveApi is required');
         return;
       }
 

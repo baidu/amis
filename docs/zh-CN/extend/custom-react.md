@@ -220,7 +220,7 @@ class MyFormItem extends React.Component {
 
 #### 自定义验证器
 
-如果 amis [自带的验证](../../docs/components/form/formitem.md)能满足需求了，则不需要关心。组件可以有自己的验证逻辑。
+如果 amis [自带的验证](../../components/form/formitem.md)能满足需求了，则不需要关心。组件可以有自己的验证逻辑。
 
 ```jsx
 import * as React from 'react';
