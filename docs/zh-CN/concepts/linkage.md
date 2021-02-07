@@ -340,9 +340,9 @@ order: 14
 
 更改配置后，提交表单时，如果有配置提交接口，会先请求提交，之后 amis 会寻找`target`所配置的目标组件，把`form`中所提交的数据，发送给该目标组件中，并将该数据**合并**到目标组件的数据域中，并触发目标组件的刷新操作，对于 CRUD 组件来说，刷新即重新拉取数据接口。
 
-> 当然，`crud`组件内置已经支持此功能，你只需要配置`crud`中的`filter`属性，就可以实现上面的效果，更多内容查看 [crud -> filter](../../docs/components/crud) 文档。
+> 当然，`crud`组件内置已经支持此功能，你只需要配置`crud`中的`filter`属性，就可以实现上面的效果，更多内容查看 [crud -> filter](../../components/crud) 文档。
 
-我们再来一个例子，这次我们实现 [两个 form 之间的联动](../../docs/components/form/index#%E5%B0%86%E6%95%B0%E6%8D%AE%E5%9F%9F%E5%8F%91%E9%80%81%E7%BB%99%E7%9B%AE%E6%A0%87%E7%BB%84%E4%BB%B6)
+我们再来一个例子，这次我们实现 [两个 form 之间的联动](../../components/form/index#%E5%B0%86%E6%95%B0%E6%8D%AE%E5%9F%9F%E5%8F%91%E9%80%81%E7%BB%99%E7%9B%AE%E6%A0%87%E7%BB%84%E4%BB%B6)
 
 ### 发送指定数据
 

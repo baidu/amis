@@ -47,7 +47,7 @@ SchemaNode 是指每一个 amis 配置节点的类型，支持`模板`、`Schema
 
 `type`, `data`, `body`这三个字段组成的`JSON`对象，便是一个`Schema`，它由`type`字段作为标识，指明当前 `Schema` 是 `Page`组件节点
 
-而通过查看 [Page 组件属性表](../../docs/components/page) 可知，`body`属性类型是`SchemaNode`，即可以在`body`中，嵌套配置其他组件。我们在这里，用`type`和`tpl` JSON 对象，配置了 `Tpl` 组件，渲染了一段模板字符串。
+而通过查看 [Page 组件属性表](../../components/page) 可知，`body`属性类型是`SchemaNode`，即可以在`body`中，嵌套配置其他组件。我们在这里，用`type`和`tpl` JSON 对象，配置了 `Tpl` 组件，渲染了一段模板字符串。
 
 > amis 可以通过该方法，在`Schema`中嵌套配置其他`SchemaNode`，从而搭建非常复杂的页面应用。
 
