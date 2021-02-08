@@ -193,7 +193,7 @@ page
 
 ### 常见误解
 
-需要注意，只有少数几个容器组件会创建新的数据域，除了最顶层的 Page，还有 CRUD、Dialog、IFrame、Form、Serice 等。
+需要注意，只有少数几个容器组件会创建新的数据域，除了最顶层的 Page，还有 CRUD、Dialog、IFrame、Form、Service 等。
 
 常见的错误写法是给容器组件加 data 属性，比如：
 
