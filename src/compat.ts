@@ -324,8 +324,8 @@ addSchemaFilter(function (scheam: Schema, renderer) {
 // 原 reciever 错别字改为 receiver
 addSchemaFilter(function (scheam: Schema, renderer) {
   if (
-    renderer.component !== FileControlRenderer ||
-    renderer.component !== ImageControlRenderer ||
+    renderer.component !== FileControlRenderer &&
+    renderer.component !== ImageControlRenderer &&
     renderer.component !== RichTextControlRenderer
   ) {
     return scheam;
