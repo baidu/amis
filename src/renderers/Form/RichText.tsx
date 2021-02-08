@@ -152,7 +152,7 @@ export default class RichTextControl extends React.Component<
         key: props.env.richTextToken,
         ...props.options,
         editorClass: props.editorClass,
-        placeholderText: props.placeholder,
+        placeholderText: props.translate(props.placeholder),
         imageUploadURL: props.receiver,
         imageUploadParams: {
           from: 'rich-text'
