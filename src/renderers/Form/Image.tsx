@@ -280,7 +280,7 @@ export default class ImageControl extends React.Component<
     accept: 'image/jpeg, image/jpg, image/png, image/gif',
     receiver: '/api/upload',
     hideUploadButton: false,
-    placeholder: 'Image.placeholder点击选择图片或者将图片拖入该区域',
+    placeholder: 'Image.placeholder',
     joinValues: true,
     extractValue: false,
     delimiter: ',',
