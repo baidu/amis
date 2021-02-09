@@ -134,7 +134,8 @@
     }
 
     &-actions {
-      > .#{$ns}Button + .#{$ns}Button {
+      > * + .#{$ns}Button,
+      > * + .#{$ns}Button--disabled-wrap {
         margin-left: var(--Crud-toolbar-gap);
       }
     }
