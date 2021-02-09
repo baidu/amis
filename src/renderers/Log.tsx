@@ -44,7 +44,9 @@ export interface LogSchema extends BaseSchema {
   encoding?: string;
 }
 
-export interface LogProps extends RendererProps, LogSchema {}
+export interface LogProps
+  extends RendererProps,
+    Omit<LogSchema, 'type' | 'className'> {}
 
 export interface LogState {
   lastLine: string;
