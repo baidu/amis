@@ -138,7 +138,9 @@ export interface TasksSchema extends BaseSchema {
   errorStatusCode?: number;
 }
 
-export interface TaskProps extends RendererProps, TasksSchema {}
+export interface TaskProps
+  extends RendererProps,
+    Omit<TasksSchema, 'className'> {}
 
 export interface TaskItem {
   label?: string;

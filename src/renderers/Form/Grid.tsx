@@ -51,7 +51,10 @@ export interface GridControlSchema
 
 export interface GridProps
   extends FormControlProps,
-    Omit<GridControlSchema, 'type'> {
+    Omit<
+      GridControlSchema,
+      'type' | 'className' | 'descriptionClassName' | 'inputClassName'
+    > {
   store: IIRendererStore;
 }
 const defaultHorizontal = {

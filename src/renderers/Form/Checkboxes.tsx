@@ -37,7 +37,14 @@ export interface CheckboxesControlSchema extends FormOptionsControl {
 
 export interface CheckboxesProps
   extends OptionsControlProps,
-    Omit<CheckboxesControlSchema, 'options'> {
+    Omit<
+      CheckboxesControlSchema,
+      | 'options'
+      | 'type'
+      | 'className'
+      | 'descriptionClassName'
+      | 'inputClassName'
+    > {
   placeholder?: any;
   itemClassName?: string;
   columnsCount?: number;

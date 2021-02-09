@@ -30,7 +30,9 @@ export interface IFrameSchema extends BaseSchema {
   height?: number | string;
 }
 
-export interface IFrameProps extends RendererProps, IFrameSchema {}
+export interface IFrameProps
+  extends RendererProps,
+    Omit<IFrameSchema, 'type' | 'className'> {}
 
 export default class IFrame extends React.Component<IFrameProps, object> {
   IFrameRef: React.RefObject<HTMLIFrameElement> = React.createRef();

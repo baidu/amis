@@ -134,7 +134,9 @@ export interface AppSchema extends BaseSchema {
   className?: SchemaClassName;
 }
 
-export interface AppProps extends RendererProps, Omit<AppSchema, 'type'> {
+export interface AppProps
+  extends RendererProps,
+    Omit<AppSchema, 'type' | 'className'> {
   children?: JSX.Element | ((props?: any) => JSX.Element);
   store: IAppStore;
 }

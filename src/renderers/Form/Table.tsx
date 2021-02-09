@@ -136,7 +136,10 @@ export interface TableControlSchema extends FormBaseControl, TableSchema {
 
 export interface TableProps
   extends FormControlProps,
-    Omit<TableControlSchema, 'type'> {}
+    Omit<
+      TableControlSchema,
+      'type' | 'className' | 'descriptionClassName' | 'inputClassName'
+    > {}
 
 export interface TableState {
   columns: Array<any>;

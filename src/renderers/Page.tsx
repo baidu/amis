@@ -146,7 +146,9 @@ export interface PageSchema extends BaseSchema {
   cssVars?: any;
 }
 
-export interface PageProps extends RendererProps, PageSchema {
+export interface PageProps
+  extends RendererProps,
+    Omit<PageSchema, 'type' | 'className'> {
   data: any;
   store: IServiceStore;
   location?: Location;

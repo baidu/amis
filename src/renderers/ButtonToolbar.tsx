@@ -18,7 +18,7 @@ export interface ButtonToolbarSchema extends BaseSchema {
 
 export interface ButtonToolbarProps
   extends RendererProps,
-    ButtonToolbarSchema {}
+    Omit<ButtonToolbarSchema, 'className'> {}
 
 export default class ButtonToolbar extends React.Component<
   ButtonToolbarProps,

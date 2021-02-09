@@ -12,7 +12,9 @@ export interface DividerSchema extends BaseSchema {
   [propName: string]: any;
 }
 
-export interface DividerProps extends RendererProps, DividerSchema {}
+export interface DividerProps
+  extends RendererProps,
+    Omit<DividerSchema, 'type' | 'className'> {}
 
 export default class Divider extends React.Component<DividerProps, object> {
   static defaultProps: Pick<DividerProps, 'className' | 'lineStyle'> = {

@@ -77,7 +77,9 @@ export function filterContents(
   return tooltip;
 }
 
-export interface RemarkProps extends RendererProps, RemarkSchema {
+export interface RemarkProps
+  extends RendererProps,
+    Omit<RemarkSchema, 'type' | 'className'> {
   icon: string;
   trigger: Array<'hover' | 'click' | 'focus'>;
 }

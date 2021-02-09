@@ -41,7 +41,10 @@ function loadComponent(): Promise<any> {
 
 export interface DiffEditorProps
   extends FormControlProps,
-    Omit<DiffControlSchema, 'type'> {}
+    Omit<
+      DiffControlSchema,
+      'type' | 'className' | 'descriptionClassName' | 'inputClassName'
+    > {}
 
 function normalizeValue(value: any, language?: string) {
   if (value && typeof value !== 'string') {

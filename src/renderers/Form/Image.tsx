@@ -228,7 +228,10 @@ let preventEvent = (e: any) => e.stopPropagation();
 
 export interface ImageProps
   extends FormControlProps,
-    Omit<ImageControlSchema, 'type'> {
+    Omit<
+      ImageControlSchema,
+      'type' | 'className' | 'descriptionClassName' | 'inputClassName'
+    > {
   onImageEnlarge?: (
     info: Pick<ImageThumbProps, 'src' | 'originalSrc' | 'title' | 'caption'> & {
       index?: number;

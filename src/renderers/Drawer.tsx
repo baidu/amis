@@ -101,7 +101,9 @@ export interface DrawerSchema extends BaseSchema {
 
 export type DrawerSchemaBase = Omit<DrawerSchema, 'type'>;
 
-export interface DrawerProps extends RendererProps, DrawerSchema {
+export interface DrawerProps
+  extends RendererProps,
+    Omit<DrawerSchema, 'className'> {
   onClose: () => void;
   onConfirm: (
     values: Array<object>,

@@ -41,7 +41,12 @@ export interface HBoxControlSchema
   >;
 }
 
-interface HBoxProps extends FormControlProps, HBoxControlSchema {
+interface HBoxProps
+  extends FormControlProps,
+    Omit<
+      HBoxControlSchema,
+      'type' | 'className' | 'descriptionClassName' | 'inputClassName'
+    > {
   store: IIRendererStore;
 }
 

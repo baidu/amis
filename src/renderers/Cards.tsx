@@ -134,7 +134,9 @@ export interface Column {
   [propName: string]: any;
 }
 
-export interface GridProps extends RendererProps, CardsSchema {
+export interface GridProps
+  extends RendererProps,
+    Omit<CardsSchema, 'className' | 'itemClassName'> {
   store: IListStore;
   selectable?: boolean;
   selected?: Array<any>;

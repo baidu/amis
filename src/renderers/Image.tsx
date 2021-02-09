@@ -76,7 +76,7 @@ export interface ImageSchema extends BaseSchema {
 export interface ImageThumbProps
   extends LocaleProps,
     ThemeProps,
-    Omit<ImageSchema, 'type'> {
+    Omit<ImageSchema, 'type' | 'className'> {
   onEnlarge?: (info: ImageThumbProps) => void;
   index?: number;
   onLoad?: React.EventHandler<any>;

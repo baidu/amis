@@ -1,7 +1,9 @@
 import {evalExpression, filter} from './tpl';
 
 import {Schema, PlainObject} from '../types';
-import {injectPropsToObject} from './helper';
+import {injectPropsToObject, mapObject} from './helper';
+import isPlainObject from 'lodash/isPlainObject';
+import cx from 'classnames';
 
 /**
  * 处理 Props 数据，所有带 On 结束的做一次
@@ -27,13 +29,13 @@ export default function getExprProperties(
       return;
     }
 
-    let parts = /^(.*)(On|Expr)$/.exec(key);
+    let parts = /^(.*)(On|Expr|(?:c|C)lassName)(Raw)?$/.exec(key);
     let value: any = schema[key];
 
     if (
       value &&
       typeof value === 'string' &&
-      parts &&
+      parts?.[1] &&
       (parts[2] === 'On' || parts[2] === 'Expr')
     ) {
       key = parts[1];
@@ -57,6 +59,18 @@ export default function getExprProperties(
       }
 
       exprProps[key] = value;
+    } else if (
+      value &&
+      isPlainObject(value) &&
+      (parts?.[2] === 'className' || parts?.[2] === 'ClassName')
+    ) {
+      key = parts[1] + parts[2];
+      exprProps[`${key}Raw`] = value;
+      exprProps[key] = cx(
+        mapObject(value, (value: any) =>
+          typeof value === 'string' ? evalExpression(value, data) : value
+        )
+      );
     }
   });
 

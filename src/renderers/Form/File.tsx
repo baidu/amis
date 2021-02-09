@@ -190,7 +190,10 @@ export interface FileControlSchema extends FormBaseControl {
 
 export interface FileProps
   extends FormControlProps,
-    Omit<FileControlSchema, 'type'> {
+    Omit<
+      FileControlSchema,
+      'type' | 'className' | 'descriptionClassName' | 'inputClassName'
+    > {
   stateTextMap: {
     init: string;
     pending: string;

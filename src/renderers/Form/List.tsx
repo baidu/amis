@@ -35,7 +35,14 @@ export interface ListControlSchema extends FormOptionsControl {
 
 export interface ListProps
   extends OptionsControlProps,
-    Omit<ListControlSchema, 'type' | 'options'> {}
+    Omit<
+      ListControlSchema,
+      | 'type'
+      | 'options'
+      | 'className'
+      | 'descriptionClassName'
+      | 'inputClassName'
+    > {}
 
 export default class ListControl extends React.Component<ListProps, any> {
   static propsList = ['itemSchema', 'value', 'renderFormItems'];

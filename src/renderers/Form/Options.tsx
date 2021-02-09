@@ -184,7 +184,10 @@ export interface OptionsConfig extends OptionsBasicConfig {
 // 下发给注册进来的组件的属性。
 export interface OptionsControlProps
   extends FormControlProps,
-    Omit<FormOptionsControl, 'type'> {
+    Omit<
+      FormOptionsControl,
+      'type' | 'className' | 'descriptionClassName' | 'inputClassName'
+    > {
   options: Array<Option>;
   onToggle: (
     option: Option,
@@ -207,7 +210,9 @@ export interface OptionsControlProps
 }
 
 // 自己接收的属性。
-export interface OptionsProps extends FormControlProps, OptionProps {
+export interface OptionsProps
+  extends FormControlProps,
+    Omit<OptionProps, 'className'> {
   source?: Api;
   deferApi?: Api;
   creatable?: boolean;

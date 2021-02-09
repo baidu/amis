@@ -97,7 +97,9 @@ export interface ServiceSchema extends BaseSchema {
   name?: SchemaName;
 }
 
-export interface ServiceProps extends RendererProps, ServiceSchema {
+export interface ServiceProps
+  extends RendererProps,
+    Omit<ServiceSchema, 'type' | 'className'> {
   store: IServiceStore;
   messages: SchemaMessage;
 }

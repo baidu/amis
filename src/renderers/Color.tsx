@@ -27,7 +27,9 @@ export interface ColorSchema extends BaseSchema {
   showValue?: boolean;
 }
 
-export interface ColorProps extends RendererProps, ColorSchema {}
+export interface ColorProps
+  extends RendererProps,
+    Omit<ColorSchema, 'type' | 'className'> {}
 
 export class ColorField extends React.Component<ColorProps, object> {
   static defaultProps = {

@@ -41,7 +41,10 @@ export interface ColorControlSchema extends FormBaseControl {
 
 export interface ColorProps
   extends FormControlProps,
-    Omit<ColorControlSchema, 'type'> {}
+    Omit<
+      ColorControlSchema,
+      'type' | 'className' | 'descriptionClassName' | 'inputClassName'
+    > {}
 
 export interface ColorControlState {
   open: boolean;

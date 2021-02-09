@@ -217,7 +217,9 @@ export interface Column {
   [propName: string]: any;
 }
 
-export interface ListProps extends RendererProps, ListSchema {
+export interface ListProps
+  extends RendererProps,
+    Omit<ListSchema, 'type' | 'className'> {
   store: IListStore;
   selectable?: boolean;
   selected?: Array<any>;
@@ -997,7 +999,9 @@ export class ListRenderer extends List {
   onCheck: (item: IItem) => void;
 }
 
-export interface ListItemProps extends RendererProps, ListItemSchema {
+export interface ListItemProps
+  extends RendererProps,
+    Omit<ListItemSchema, 'type' | 'className'> {
   hideCheckToggler?: boolean;
   item: IItem;
   itemIndex?: number;

@@ -298,16 +298,16 @@ import {DrawerSchema, DrawerSchemaBase} from './Drawer';
 import {generateIcon} from '../utils/icon';
 
 export interface ActionProps
-  extends ButtonSchema,
+  extends Omit<ButtonSchema, 'className' | 'iconClassName'>,
     ThemeProps,
-    AjaxActionSchema,
-    UrlActionSchema,
-    LinkActionSchema,
-    DialogActionSchema,
-    DrawerActionSchema,
-    CopyActionSchema,
-    ReloadActionSchema,
-    OtherActionSchema {
+    Omit<AjaxActionSchema, 'type' | 'className' | 'iconClassName'>,
+    Omit<UrlActionSchema, 'type' | 'className' | 'iconClassName'>,
+    Omit<LinkActionSchema, 'type' | 'className' | 'iconClassName'>,
+    Omit<DialogActionSchema, 'type' | 'className' | 'iconClassName'>,
+    Omit<DrawerActionSchema, 'type' | 'className' | 'iconClassName'>,
+    Omit<CopyActionSchema, 'type' | 'className' | 'iconClassName'>,
+    Omit<ReloadActionSchema, 'type' | 'className' | 'iconClassName'>,
+    Omit<OtherActionSchema, 'type' | 'className' | 'iconClassName'> {
   actionType: any;
   onAction?: (
     e: React.MouseEvent<any> | void | null,

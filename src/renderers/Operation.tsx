@@ -26,7 +26,9 @@ export interface OperationSchema extends BaseSchema {
   buttons: Array<ActionSchema>;
 }
 
-export interface OperationProps extends RendererProps, OperationSchema {}
+export interface OperationProps
+  extends RendererProps,
+    Omit<OperationSchema, 'type' | 'className'> {}
 
 export class OperationField extends React.Component<OperationProps, object> {
   static propsList: Array<string> = ['buttons', 'label'];

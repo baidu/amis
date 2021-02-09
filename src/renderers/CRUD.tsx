@@ -304,7 +304,9 @@ export type CRUDTableSchem = CRUDCommonSchema & {
  */
 export type CRUDSchema = CRUDCardsSchema | CRUDListSchema | CRUDTableSchem;
 
-export interface CRUDProps extends RendererProps, CRUDCommonSchema {
+export interface CRUDProps
+  extends RendererProps,
+    Omit<CRUDCommonSchema, 'type' | 'className'> {
   store: ICRUDStore;
   pickerMode?: boolean; // 选择模式，用做表单中的选择操作
 }

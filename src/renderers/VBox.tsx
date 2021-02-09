@@ -22,7 +22,9 @@ export interface VBoxSchema extends BaseSchema {
   rows?: Array<HboxRow>;
 }
 
-export interface HBoxProps extends RendererProps, VBoxSchema {}
+export interface HBoxProps
+  extends RendererProps,
+    Omit<VBoxSchema, 'className'> {}
 
 export default class VBox extends React.Component<HBoxProps, object> {
   static propsList: Array<string> = ['rows'];

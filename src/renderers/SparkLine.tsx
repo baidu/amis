@@ -71,7 +71,9 @@ export interface SparkLineSchema extends BaseSchema {
   >;
 }
 
-interface SparkLineRendProps extends RendererProps, SparkLineSchema {}
+interface SparkLineRendProps
+  extends RendererProps,
+    Omit<SparkLineSchema, 'type' | 'className'> {}
 
 @Renderer({
   test: /(^|\/)sparkline$/,

@@ -24,7 +24,16 @@ export interface ButtonGroupControlSchema
 
 export interface ButtonGroupProps
   extends OptionsControlProps,
-    Omit<ButtonGroupControlSchema, 'size' | 'source'> {
+    Omit<
+      ButtonGroupControlSchema,
+      | 'size'
+      | 'source'
+      | 'type'
+      | 'className'
+      | 'descriptionClassName'
+      | 'inputClassName'
+      | 'btnClassName'
+    > {
   options: Array<Option>;
 }
 

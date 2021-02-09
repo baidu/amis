@@ -53,7 +53,7 @@ export interface GroupControlSchema extends FormBaseControl {
 
 export interface InputGroupProps
   extends RendererProps,
-    Omit<GroupControlSchema, 'type'> {}
+    Omit<GroupControlSchema, 'type' | 'className'> {}
 
 @Renderer({
   test: /(^|\/)form(?:\/.+)?\/control\/(?:\d+\/)?group$/,

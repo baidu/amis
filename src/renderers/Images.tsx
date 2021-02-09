@@ -85,7 +85,9 @@ export interface ImagesSchema extends BaseSchema {
   listClassName?: SchemaClassName;
 }
 
-export interface ImagesProps extends RendererProps, Omit<ImagesSchema, 'type'> {
+export interface ImagesProps
+  extends RendererProps,
+    Omit<ImagesSchema, 'type' | 'className'> {
   delimiter: string;
 
   onEnlarge?: (

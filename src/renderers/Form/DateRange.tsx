@@ -73,7 +73,10 @@ export interface DateRangeControlSchema extends FormBaseControl {
 
 export interface DateRangeProps
   extends FormControlProps,
-    Omit<DateRangeControlSchema, 'type'> {
+    Omit<
+      DateRangeControlSchema,
+      'type' | 'className' | 'descriptionClassName' | 'inputClassName'
+    > {
   delimiter: string;
   format: string;
   joinValues: boolean;

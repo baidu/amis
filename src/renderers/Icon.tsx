@@ -17,7 +17,9 @@ export interface IconSchema extends BaseSchema {
   vendor?: 'iconfont' | 'fa';
 }
 
-export interface IconProps extends RendererProps, IconSchema {}
+export interface IconProps
+  extends RendererProps,
+    Omit<IconSchema, 'type' | 'className'> {}
 
 export class Icon extends React.Component<IconProps, object> {
   static defaultProps: Partial<IconProps> = {
