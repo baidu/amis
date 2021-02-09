@@ -201,7 +201,7 @@ amis.embed(
 
 ### 多页模式
 
-默认 amis 渲染是单页模式，如果想实现多页应用，请使用 [app 渲染器](../../components/app.md)。
+默认 amis 渲染是单页模式，如果想实现多页应用，请使用 [app 渲染器](../../components/app)。
 
 ### Hash 路由
 
