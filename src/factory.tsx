@@ -103,7 +103,7 @@ export interface RendererProps extends ThemeProps, LocaleProps {
     [propName: string]: any;
   };
   defaultData?: object;
-  className?: string;
+  className?: any;
   [propName: string]: any;
 }
 

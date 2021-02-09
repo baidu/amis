@@ -34,7 +34,9 @@ export interface MappingSchema extends BaseSchema {
   placeholder?: string;
 }
 
-export interface MappingProps extends RendererProps, MappingSchema {}
+export interface MappingProps
+  extends RendererProps,
+    Omit<MappingSchema, 'type' | 'className'> {}
 
 export class MappingField extends React.Component<MappingProps, object> {
   static defaultProps: Partial<MappingProps> = {

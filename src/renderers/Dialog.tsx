@@ -84,7 +84,9 @@ export interface DialogSchema extends BaseSchema {
 
 export type DialogSchemaBase = Omit<DialogSchema, 'type'>;
 
-export interface DialogProps extends RendererProps, DialogSchema {
+export interface DialogProps
+  extends RendererProps,
+    Omit<DialogSchema, 'className'> {
   onClose: () => void;
   onConfirm: (
     values: Array<object>,

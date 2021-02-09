@@ -55,7 +55,9 @@ export interface StatusSchema extends BaseSchema {
   };
 }
 
-export interface StatusProps extends RendererProps, StatusSchema {}
+export interface StatusProps
+  extends RendererProps,
+    Omit<StatusSchema, 'className'> {}
 
 export class StatusField extends React.Component<StatusProps, object> {
   static defaultProps: Partial<StatusProps> = {

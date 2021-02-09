@@ -51,7 +51,9 @@ export interface QRCodeSchema extends BaseSchema {
   placeholder?: string;
 }
 
-export interface QRCodeProps extends FormControlProps, QRCodeSchema {}
+export interface QRCodeProps
+  extends FormControlProps,
+    Omit<QRCodeSchema, 'type' | 'className'> {}
 
 export default class QRCode extends React.Component<QRCodeProps, any> {
   static defaultProps: Partial<QRCodeProps> = {

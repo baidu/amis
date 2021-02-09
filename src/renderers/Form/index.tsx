@@ -298,7 +298,9 @@ export interface FormGroupArray extends Array<FormGroupNode> {}
 
 export type FormHorizontal = FormSchemaHorizontal;
 
-export interface FormProps extends RendererProps, Omit<FormSchema, 'mode'> {
+export interface FormProps
+  extends RendererProps,
+    Omit<FormSchema, 'mode' | 'className'> {
   data: any;
   store: IFormStore;
   wrapperComponent: React.ElementType;

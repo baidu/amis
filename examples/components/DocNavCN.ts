@@ -124,6 +124,15 @@ export default [
           )
       },
       {
+        label: 'ClassName',
+        path: '/zh-CN/docs/types/classname',
+        getComponent: () =>
+          // @ts-ignore
+          import('../../docs/zh-CN/types/classname.md').then(
+            makeMarkdownRenderer
+          )
+      },
+      {
         label: 'API',
         path: '/zh-CN/docs/types/api',
         getComponent: () =>

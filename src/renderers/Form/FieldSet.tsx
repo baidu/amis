@@ -65,7 +65,10 @@ export interface FieldSetControlSchema
 
 export interface FieldSetProps
   extends RendererProps,
-    Omit<FieldSetControlSchema, 'type'> {}
+    Omit<
+      FieldSetControlSchema,
+      'type' | 'className' | 'descriptionClassName' | 'inputClassName'
+    > {}
 
 export default class FieldSetControl extends React.Component<
   FieldSetProps,

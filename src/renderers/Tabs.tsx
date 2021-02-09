@@ -120,7 +120,9 @@ export interface TabsSchema extends BaseSchema {
   toolbar?: ActionSchema;
 }
 
-export interface TabsProps extends RendererProps, TabsSchema {
+export interface TabsProps
+  extends RendererProps,
+    Omit<TabsSchema, 'className' | 'contentClassName'> {
   activeKey?: string | number;
   location?: any;
   tabRender?: (tab: TabSchema, props: TabsProps, index: number) => JSX.Element;

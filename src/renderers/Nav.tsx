@@ -75,7 +75,10 @@ export interface NavigationState {
   error?: string;
 }
 
-export interface NavigationProps extends RendererProps, ThemeProps, NavSchema {
+export interface NavigationProps
+  extends RendererProps,
+    Omit<ThemeProps, 'className'>,
+    Omit<NavSchema, 'type' | 'className'> {
   onSelect?: (item: Link) => any;
 }
 

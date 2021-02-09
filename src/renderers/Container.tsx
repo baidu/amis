@@ -31,7 +31,9 @@ export interface ContainerSchema extends BaseSchema {
   };
 }
 
-export interface ContainerProps extends RendererProps, ContainerSchema {
+export interface ContainerProps
+  extends RendererProps,
+    Omit<ContainerSchema, 'type' | 'className'> {
   children?: (props: any) => React.ReactNode;
 }
 

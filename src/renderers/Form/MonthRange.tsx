@@ -74,7 +74,10 @@ export interface MonthRangeControlSchema extends FormBaseControl {
 
 export interface MonthRangeProps
   extends FormControlProps,
-    Omit<MonthRangeControlSchema, 'type'> {
+    Omit<
+      MonthRangeControlSchema,
+      'type' | 'className' | 'descriptionClassName' | 'inputClassName'
+    > {
   delimiter: string;
   format: string;
   joinValues: boolean;

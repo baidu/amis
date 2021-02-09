@@ -27,7 +27,9 @@ export interface PaginationSchema extends BaseSchema {
   maxButtons?: number;
 }
 
-export interface PaginationProps extends RendererProps, PaginationSchema {
+export interface PaginationProps
+  extends RendererProps,
+    Omit<PaginationSchema, 'type' | 'className'> {
   activePage: number;
   lastPage: number;
   hasNext: boolean;

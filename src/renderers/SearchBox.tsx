@@ -34,7 +34,9 @@ export interface SearchBoxSchema extends BaseSchema {
   searchImediately?: boolean;
 }
 
-interface SearchBoxProps extends RendererProps, SearchBoxSchema {
+interface SearchBoxProps
+  extends RendererProps,
+    Omit<SearchBoxSchema, 'type' | 'className'> {
   name: string;
   onQuery?: (query: {[propName: string]: string}) => void;
 }

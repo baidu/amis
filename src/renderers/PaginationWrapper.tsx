@@ -45,7 +45,7 @@ export interface PaginationWrapperSchema extends BaseSchema {
 
 export interface PaginationWrapProps
   extends RendererProps,
-    PaginationWrapperSchema {
+    Omit<PaginationWrapperSchema, 'type' | 'className'> {
   inputName: string;
   outputName: string;
   perPage: number;

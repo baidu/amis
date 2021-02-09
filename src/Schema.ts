@@ -197,10 +197,28 @@ export type SchemaCollection =
  */
 export type SchemaExpression = string;
 
+/**
+ * css类名，配置字符串，或者对象。
+ *
+ *     className: "red"
+ *
+ * 用对象配置时意味着你能跟表达式一起搭配使用，如：
+ *
+ *     className: {
+ *         "red": "data.progress > 80",
+ *         "blue": "data.progress > 60"
+ *     }
+ */
+export type SchemaClassName =
+  | string
+  | {
+      [propName: string]: true | false | null | SchemaExpression;
+    };
+
 // /**
 //  * css类名，配置字符串，或者对象。
 //  *
-//  *     className: "red"
+//  *   className: "red"
 //  *
 //  * 用对象配置时意味着你能跟表达式一起搭配使用，如：
 //  *
@@ -209,16 +227,7 @@ export type SchemaExpression = string;
 //  *         "blue": "data.progress > 60"
 //  *     }
 //  */
-// export type SchemaClassName =
-//   | string
-//   | {
-//       [propName: string]: true | false | null | SchemaExpression;
-//     };
-
-/**
- * css类名，字符串格式
- */
-export type SchemaClassName = string; // todo 支持上面那种格式。
+// export type SchemaClassName = string;
 
 export interface SchemaApiObject {
   /**

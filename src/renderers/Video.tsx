@@ -381,7 +381,9 @@ export class HlsSource extends React.Component<HlsSourceProps, any> {
   }
 }
 
-export interface VideoProps extends RendererProps, VideoSchema {
+export interface VideoProps
+  extends RendererProps,
+    Omit<VideoSchema, 'className'> {
   columnsCount: number;
 }
 

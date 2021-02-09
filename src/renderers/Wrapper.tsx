@@ -21,7 +21,9 @@ export interface WrapperSchema extends BaseSchema {
   size?: 'xs' | 'sm' | 'md' | 'lg' | 'none';
 }
 
-export interface WrapperProps extends RendererProps, WrapperSchema {
+export interface WrapperProps
+  extends RendererProps,
+    Omit<WrapperSchema, 'className'> {
   children?: JSX.Element | ((props?: any) => JSX.Element);
 }
 

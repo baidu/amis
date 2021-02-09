@@ -76,7 +76,7 @@ export interface CollapseSchema extends BaseSchema {
 
 export interface CollapseProps
   extends RendererProps,
-    Omit<CollapseSchema, 'type'> {
+    Omit<CollapseSchema, 'type' | 'className'> {
   wrapperComponent?: any;
   headingComponent?: any;
 

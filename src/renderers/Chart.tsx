@@ -144,7 +144,9 @@ function recoverFunctionType(config: object) {
   });
 }
 
-export interface ChartProps extends RendererProps, Omit<ChartSchema, 'type'> {
+export interface ChartProps
+  extends RendererProps,
+    Omit<ChartSchema, 'type' | 'className'> {
   chartRef?: (echart: any) => void;
   onDataFilter?: (config: any, echarts: any) => any;
   onChartWillMount?: (echarts: any) => void | Promise<void>;

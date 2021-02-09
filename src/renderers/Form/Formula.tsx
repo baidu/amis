@@ -46,7 +46,10 @@ export interface FormulaControlSchema extends FormBaseControl {
 
 export interface FormulaProps
   extends FormControlProps,
-    Omit<FormulaControlSchema, 'type'> {}
+    Omit<
+      FormulaControlSchema,
+      'type' | 'className' | 'descriptionClassName' | 'inputClassName'
+    > {}
 
 export default class FormulaControl extends React.Component<
   FormControlProps,

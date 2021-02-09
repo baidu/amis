@@ -151,7 +151,9 @@ export interface CardSchema extends BaseSchema {
   actions?: Array<ActionSchema>;
 }
 
-export interface CardProps extends RendererProps, CardSchema {
+export interface CardProps
+  extends RendererProps,
+    Omit<CardSchema, 'className'> {
   onCheck: (item: IItem) => void;
   itemIndex?: number;
   multiple?: boolean;

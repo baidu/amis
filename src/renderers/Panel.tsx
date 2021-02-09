@@ -78,7 +78,12 @@ export interface PanelSchema extends BaseSchema {
   affixFooter?: boolean | 'always';
 }
 
-export interface PanelProps extends RendererProps, PanelSchema {}
+export interface PanelProps
+  extends RendererProps,
+    Omit<
+      PanelSchema,
+      'type' | 'className' | 'panelClassName' | 'bodyClassName'
+    > {}
 
 export default class Panel extends React.Component<PanelProps> {
   static propsList: Array<string> = [

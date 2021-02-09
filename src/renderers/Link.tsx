@@ -24,7 +24,9 @@ export interface LinkSchema extends BaseSchema {
   body?: SchemaTpl;
 }
 
-export interface LinkProps extends RendererProps, LinkSchema {}
+export interface LinkProps
+  extends RendererProps,
+    Omit<LinkSchema, 'type' | 'className'> {}
 
 export class LinkField extends React.Component<LinkProps, object> {
   static defaultProps = {

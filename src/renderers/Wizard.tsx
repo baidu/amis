@@ -159,7 +159,9 @@ export interface WizardSchema extends BaseSchema {
   steps: Array<WizardStepSchema>;
 }
 
-export interface WizardProps extends RendererProps, WizardSchema {
+export interface WizardProps
+  extends RendererProps,
+    Omit<WizardSchema, 'className'> {
   store: IServiceStore;
   onFinished: (values: object, action: any) => any;
 }

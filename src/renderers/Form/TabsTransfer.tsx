@@ -45,7 +45,14 @@ export interface TabsTransferControlSchema extends FormOptionsControl {
 
 export interface TabsTransferProps
   extends OptionsControlProps,
-    Omit<TabsTransferControlSchema, 'type' | 'options'> {}
+    Omit<
+      TabsTransferControlSchema,
+      | 'type'
+      | 'options'
+      | 'inputClassName'
+      | 'className'
+      | 'descriptionClassName'
+    > {}
 
 @OptionsControl({
   type: 'tabs-transfer'

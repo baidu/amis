@@ -53,7 +53,7 @@ export interface CityControlSchema extends FormBaseControl {
 }
 
 export interface CityPickerProps
-  extends Omit<CityControlSchema, 'type'>,
+  extends Omit<CityControlSchema, 'type' | 'className'>,
     LocaleProps,
     ThemeProps {
   value: any;

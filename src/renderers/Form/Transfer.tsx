@@ -80,7 +80,14 @@ export interface TransferControlSchema extends FormOptionsControl {
 
 export interface BaseTransferProps
   extends OptionsControlProps,
-    Omit<TransferControlSchema, 'type' | 'options'> {}
+    Omit<
+      TransferControlSchema,
+      | 'type'
+      | 'options'
+      | 'className'
+      | 'descriptionClassName'
+      | 'inputClassName'
+    > {}
 
 export class BaseTransferRenderer<
   T extends OptionsControlProps = BaseTransferProps

@@ -16,7 +16,10 @@ export interface ButtonToolbarControlSchema
 
 export interface ButtonToolbarProps
   extends FormControlProps,
-    ButtonToolbarControlSchema {}
+    Omit<
+      ButtonToolbarControlSchema,
+      'type' | 'className' | 'descriptionClassName' | 'inputClassName'
+    > {}
 
 export class ButtonToolbarControl extends React.Component<ButtonToolbarProps> {
   static defaultProps = {};

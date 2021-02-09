@@ -94,7 +94,9 @@ export interface Grid2DSchema extends BaseSchema {
   grids: Array<Grid>;
 }
 
-export interface Grid2DProps extends RendererProps, Grid2DSchema {
+export interface Grid2DProps
+  extends RendererProps,
+    Omit<Grid2DSchema, 'type' | 'className'> {
   itemRender?: (
     item: any,
     key: number,

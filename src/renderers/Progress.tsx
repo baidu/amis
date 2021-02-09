@@ -54,7 +54,9 @@ export interface ProgressSchema extends BaseSchema {
   animate?: boolean;
 }
 
-export interface ProgressProps extends RendererProps, ProgressSchema {
+export interface ProgressProps
+  extends RendererProps,
+    Omit<ProgressSchema, 'type' | 'className'> {
   map: Array<SchemaClassName>;
 }
 

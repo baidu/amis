@@ -250,7 +250,12 @@ function pickVars(vars: any, fields: Array<string>) {
   }, {});
 }
 
-export interface ComboProps extends FormControlProps, ComboControlSchema {
+export interface ComboProps
+  extends FormControlProps,
+    Omit<
+      ComboControlSchema,
+      'type' | 'className' | 'descriptionClassName' | 'inputClassName'
+    > {
   store: IComboStore;
   changeImmediately?: boolean;
 }

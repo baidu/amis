@@ -45,7 +45,9 @@ export interface DateSchema extends BaseSchema {
   updateFrequency?: number;
 }
 
-export interface DateProps extends RendererProps, DateSchema {}
+export interface DateProps
+  extends RendererProps,
+    Omit<DateSchema, 'type' | 'className'> {}
 
 export interface DateState {
   random?: number;
