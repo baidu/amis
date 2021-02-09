@@ -19,7 +19,8 @@ order: 44
         "buttons": [
             {
                 "type": "button",
-                "label": "按钮1"
+                "label": "按钮1",
+                "disabled": true
             },
             {
                 "type": "button",

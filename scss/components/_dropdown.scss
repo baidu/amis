@@ -72,6 +72,12 @@
       cursor: pointer;
     }
 
+    &.is-disabled {
+      cursor: not-allowed;
+      pointer-events: none;
+      color: var(--DropDown-menuItem-onDisabled-color);
+    }
+
     &.#{$ns}DropDown-divider {
       height: px2rem(1px);
       margin: px2rem(9px) 0;
@@ -82,6 +88,7 @@
   }
 
   &-menu > li a {
+    color: inherit;
     display: block;
     text-decoration: none;
   }
