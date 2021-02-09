@@ -70,7 +70,7 @@ export default class NestedSelectControl extends React.Component<
   }
 
   componentDidUpdate(prevProps: NestedSelectProps) {
-    if (!isEqual(prevProps.options, this.props.options)) {
+    if (prevProps.options !== this.props.options) {
       this.setState({
         stack: [this.props.options]
       });
