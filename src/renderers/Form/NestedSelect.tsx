@@ -22,6 +22,7 @@ import {findDOMNode} from 'react-dom';
 import {ResultBox, Spinner} from '../../components';
 import xor from 'lodash/xor';
 import union from 'lodash/union';
+import {isEqual} from 'lodash';
 
 /**
  * Nested Select
@@ -66,6 +67,14 @@ export default class NestedSelectControl extends React.Component<
   @autobind
   domRef(ref: any) {
     this.target = ref;
+  }
+
+  componentDidUpdate(prevProps: NestedSelectProps) {
+    if (prevProps.options !== this.props.options) {
+      this.setState({
+        stack: [this.props.options]
+      });
+    }
   }
 
   @autobind
