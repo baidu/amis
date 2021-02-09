@@ -561,6 +561,7 @@
   --DropDown-menuItem-onHover-bg: var(--ListMenu-item--onHover-bg);
   --DropDown-menuItem-onHover-color: inherit;
   --DropDown-menuItem-onActive-color: var(--info);
+  --DropDown-menuItem-onDisabled-color: var(--text--muted-color);
   --DropDown-menuItem-paddingX: var(--gap-sm);
   --DropDown-menuItem-paddingY: calc(
     (var(--DropDown-menu-height) - var(--fontSizeBase) * var(--lineHeightBase)) /

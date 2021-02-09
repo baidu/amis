@@ -5,7 +5,7 @@ import Overlay from '../components/Overlay';
 import PopOver from '../components/PopOver';
 import TooltipWrapper from '../components/TooltipWrapper';
 import type {TooltipObject, Trigger} from '../components/TooltipWrapper';
-import {isVisible, noop} from '../utils/helper';
+import {isDisabled, isVisible, noop} from '../utils/helper';
 import {filter} from '../utils/tpl';
 import {Icon} from '../components/icons';
 import {BaseSchema, SchemaClassName} from '../Schema';
@@ -191,7 +191,10 @@ export default class DropDownButton extends React.Component<
                 }
 
                 return (
-                  <li key={index}>
+                  <li
+                    key={index}
+                    className={isDisabled(button, data) ? 'is-disabled' : ''}
+                  >
                     {render(`button/${index}`, {
                       type: 'button',
                       ...(button as any),
