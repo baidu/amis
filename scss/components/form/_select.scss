@@ -58,7 +58,7 @@
     line-height: calc(
       var(--Form-input-lineHeight) * var(--Form-input-fontSize)
     );
-    // white-space: nowrap;
+    white-space: nowrap;
     max-width: 100%;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -84,6 +84,7 @@
 
     .#{$ns}Select-value {
       position: static;
+      white-space: normal;
       user-select: none;
       line-height: calc(
         var(--Form-input-lineHeight) * var(--Form-input-fontSize) - #{px2rem(
