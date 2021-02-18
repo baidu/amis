@@ -29,6 +29,7 @@ export interface ConditionItemProps extends ThemeProps {
   funcs?: Funcs;
   index?: number;
   value: ConditionRule;
+  data?: any;
   onChange: (value: ConditionRule, index?: number) => void;
 }
 
@@ -220,7 +221,7 @@ export class ConditionItem extends React.Component<ConditionItemProps> {
   }
 
   renderRightWidgets(type: string, op: OperatorType) {
-    const {funcs, value, fields, config, classnames: cx} = this.props;
+    const {funcs, value, data, fields, config, classnames: cx} = this.props;
     let field = {
       ...config.types[type],
       type
@@ -250,6 +251,7 @@ export class ConditionItem extends React.Component<ConditionItemProps> {
             funcs={funcs}
             valueField={field}
             value={(value.right as Array<ExpressionComplex>)?.[0]}
+            data={data}
             onChange={this.handleRightSubChange.bind(this, 0)}
             fields={fields}
             allowedTypes={
@@ -265,6 +267,7 @@ export class ConditionItem extends React.Component<ConditionItemProps> {
             funcs={funcs}
             valueField={field}
             value={(value.right as Array<ExpressionComplex>)?.[1]}
+            data={data}
             onChange={this.handleRightSubChange.bind(this, 1)}
             fields={fields}
             allowedTypes={
@@ -283,6 +286,7 @@ export class ConditionItem extends React.Component<ConditionItemProps> {
         funcs={funcs}
         valueField={field}
         value={value.right}
+        data={data}
         onChange={this.handleRightChange}
         fields={fields}
         allowedTypes={

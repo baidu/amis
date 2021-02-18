@@ -169,7 +169,7 @@
     cursor: move;
     width: 20px;
     margin-left: -5px;
-    opacity: 0;
+    opacity: 0.6;
     text-align: center;
     transition: opacity var(--animation-duration) ease-out;
     @include icon-color();

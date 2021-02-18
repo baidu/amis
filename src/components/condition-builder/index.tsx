@@ -21,6 +21,7 @@ export interface ConditionBuilderProps extends ThemeProps, LocaleProps {
   funcs?: Funcs;
   showNot?: boolean;
   value?: ConditionGroupValue;
+  data?: any;
   onChange: (value: ConditionGroupValue) => void;
   config?: Config;
 }
@@ -195,7 +196,8 @@ export class QueryBuilder extends React.Component<ConditionBuilderProps> {
       funcs,
       onChange,
       value,
-      showNot
+      showNot,
+      data
     } = this.props;
 
     const normalizedValue = Array.isArray(value?.children)
@@ -225,6 +227,7 @@ export class QueryBuilder extends React.Component<ConditionBuilderProps> {
         removeable={false}
         onDragStart={this.handleDragStart}
         showNot={showNot}
+        data={data}
       />
     );
   }

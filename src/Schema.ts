@@ -454,4 +454,73 @@ export interface BaseSchema {
   visibleOn?: SchemaExpression;
 }
 
+export interface Option {
+  /**
+   * 用来显示的文字
+   */
+  label?: string;
+
+  /**
+   * 可以用来给 Option 标记个范围，让数据展示更清晰。
+   *
+   * 这个只有在数值展示的时候显示。
+   */
+  scopeLabel?: string;
+
+  /**
+   * 请保证数值唯一，多个选项值一致会认为是同一个选项。
+   */
+  value?: any;
+
+  /**
+   * 是否禁用
+   */
+  disabled?: boolean;
+
+  /**
+   * 支持嵌套
+   */
+  children?: Options;
+
+  /**
+   * 是否可见
+   */
+  visible?: boolean;
+
+  /**
+   * 最好不要用！因为有 visible 就够了。
+   *
+   * @deprecated 用 visible
+   */
+  hidden?: boolean;
+
+  /**
+   * 描述，部分控件支持
+   */
+  description?: string;
+
+  /**
+   * 标记后数据延时加载
+   */
+  defer?: boolean;
+
+  /**
+   * 如果设置了，优先级更高，不设置走 source 接口加载。
+   */
+  deferApi?: SchemaApi;
+
+  /**
+   * 标记正在加载。只有 defer 为 true 时有意义。内部字段不可以外部设置
+   */
+  loading?: boolean;
+
+  /**
+   * 只有设置了 defer 才有意义，内部字段不可以外部设置
+   */
+  loaded?: boolean;
+
+  [propName: string]: any;
+}
+export interface Options extends Array<Option> {}
+
 export {PageSchema};
