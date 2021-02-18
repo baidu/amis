@@ -41,8 +41,10 @@ export class Value extends React.Component<ValueProps> {
       input = (
         <NumberInput
           placeholder={field.placeholder || __('NumberInput.placeholder')}
+          step={field.step}
           min={field.minimum}
           max={field.maximum}
+          precision={field.precision}
           value={value ?? field.defaultValue}
           onChange={onChange}
         />

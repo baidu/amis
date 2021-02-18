@@ -108,6 +108,8 @@ interface NumberField extends BaseField {
   type: 'number';
   maximum?: number;
   minimum?: number;
+  step?: number;
+  precision?: number;
 }
 
 interface DateField extends BaseField {
