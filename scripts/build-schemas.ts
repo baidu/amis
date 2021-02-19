@@ -32,7 +32,7 @@ async function main() {
   const config = {
     path: path.join(dir, 'Schema.ts'),
     tsconfig: tsConfig,
-    type: 'PageSchema'
+    type: 'RootSchema'
   };
 
   const generator = tsj.createGenerator(config);

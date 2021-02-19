@@ -88,7 +88,7 @@ export class Value extends React.Component<ValueProps> {
       input = (
         <Select
           simpleValue
-          options={field.options}
+          options={field.options!}
           source={field.source}
           searchable={field.searchable}
           value={value ?? field.defaultValue ?? ''}

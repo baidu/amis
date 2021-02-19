@@ -2,7 +2,6 @@
  * @file 组件 Env，包括如何发送 ajax，如何通知，如何跳转等等。。
  */
 import React from 'react';
-import Alert from './components/Alert2';
 import {RendererConfig} from './factory';
 import {ThemeInstance} from './theme';
 import {Action, Api, Payload, Schema} from './types';
