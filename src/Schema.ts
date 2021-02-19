@@ -523,4 +523,4 @@ export interface Option {
 }
 export interface Options extends Array<Option> {}
 
-export {PageSchema};
+export type RootSchema = PageSchema;

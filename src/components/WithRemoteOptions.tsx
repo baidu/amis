@@ -68,7 +68,7 @@ export type IStore = Instance<typeof Store>;
 
 export interface RemoteOptionsProps {
   options: Array<Option>;
-  loading: boolean;
+  loading?: boolean;
 }
 
 export interface OutterProps {

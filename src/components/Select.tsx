@@ -39,7 +39,7 @@ export interface OptionProps {
   labelField?: string;
   simpleValue?: boolean; // 默认onChange 出去是整个 option 节点，如果配置了 simpleValue 就只包含值。
   options: Options;
-  loading: boolean;
+  loading?: boolean;
   joinValues?: boolean;
   extractValue?: boolean;
   delimiter?: string;
@@ -1010,4 +1010,12 @@ const enhancedSelect = themeable(
 );
 
 export default enhancedSelect;
-export const SelectWithRemoteOptions = withRemoteOptions(enhancedSelect);
+export const SelectWithRemoteOptions = withRemoteOptions(
+  enhancedSelect
+) as React.ComponentType<
+  React.ComponentProps<typeof enhancedSelect> & {
+    source?: any;
+    options?: Options;
+    data?: any;
+  }
+>;
