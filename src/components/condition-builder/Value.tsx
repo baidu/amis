@@ -4,12 +4,13 @@ import {ThemeProps, themeable} from '../../theme';
 import InputBox from '../InputBox';
 import NumberInput from '../NumberInput';
 import DatePicker from '../DatePicker';
-import Select from '../Select';
+import {SelectWithRemoteOptions as Select} from '../Select';
 import Switch from '../Switch';
 import {localeable, LocaleProps} from '../../locale';
 
 export interface ValueProps extends ThemeProps, LocaleProps {
   value: any;
+  data?: any;
   onChange: (value: any) => void;
   field: FieldSimple;
   op?: OperatorType;
@@ -23,7 +24,8 @@ export class Value extends React.Component<ValueProps> {
       value,
       onChange,
       op,
-      translate: __
+      translate: __,
+      data
     } = this.props;
     let input: JSX.Element | undefined = undefined;
 
@@ -39,8 +41,10 @@ export class Value extends React.Component<ValueProps> {
       input = (
         <NumberInput
           placeholder={field.placeholder || __('NumberInput.placeholder')}
+          step={field.step}
           min={field.minimum}
           max={field.maximum}
+          precision={field.precision}
           value={value ?? field.defaultValue}
           onChange={onChange}
         />
@@ -84,8 +88,11 @@ export class Value extends React.Component<ValueProps> {
       input = (
         <Select
           simpleValue
-          options={field.options!}
-          value={value ?? field.defaultValue}
+          options={field.options}
+          source={field.source}
+          searchable={field.searchable}
+          value={value ?? field.defaultValue ?? ''}
+          data={data}
           onChange={onChange}
           multiple={op === 'select_any_in' || op === 'select_not_any_in'}
         />

@@ -1,3 +1,6 @@
+import {SchemaApi} from '../../Schema';
+import {Api} from '../../types';
+
 export type FieldTypes =
   | 'text'
   | 'number'
@@ -105,6 +108,8 @@ interface NumberField extends BaseField {
   type: 'number';
   maximum?: number;
   minimum?: number;
+  step?: number;
+  precision?: number;
 }
 
 interface DateField extends BaseField {
@@ -138,6 +143,8 @@ interface SelectField extends BaseField {
   name: string;
   multiple?: boolean;
   options?: Array<any>;
+  source?: SchemaApi;
+  searchable?: boolean;
 }
 
 interface BooleanField extends BaseField {

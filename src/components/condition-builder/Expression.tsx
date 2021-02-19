@@ -31,6 +31,7 @@ import Formula from './Formula';
 
 export interface ExpressionProps extends ThemeProps {
   value: ExpressionComplex;
+  data?: any;
   index?: number;
   onChange: (value: ExpressionComplex, index?: number) => void;
   valueField?: FieldSimple;
@@ -124,7 +125,8 @@ export class Expression extends React.Component<ExpressionProps> {
       fields,
       op,
       classnames: cx,
-      config
+      config,
+      data
     } = this.props;
     const inputType =
       ((value as any)?.type === 'field'
@@ -153,6 +155,7 @@ export class Expression extends React.Component<ExpressionProps> {
             value={value}
             onChange={this.handleValueChange}
             op={op}
+            data={data}
           />
         ) : null}
 

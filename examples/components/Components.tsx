@@ -307,6 +307,15 @@ export const components = [
           )
       },
       {
+        label: 'Condition-Builder 条件组合',
+        path: '/zh-CN/components/form/condition-builder',
+        getComponent: () =>
+          // @ts-ignore
+          import('../../docs/zh-CN/components/form/condition-builder.md').then(
+            makeMarkdownRenderer
+          )
+      },
+      {
         label: 'Date 日期选择器',
         path: '/zh-CN/components/form/date',
         getComponent: () =>
