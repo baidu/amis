@@ -22,6 +22,7 @@ import {
   withRouter
 } from 'react-router';
 import Select from '../../src/components/Select';
+import InputBox from '../../src/components/InputBox';
 import DocSearch from './DocSearch';
 import Doc from './Doc';
 import DocNavCN from './DocNavCN';
@@ -145,12 +146,14 @@ export class App extends React.PureComponent<{
     locale: localStorage.getItem('locale')
       ? localStorage.getItem('locale').replace('zh-cn', 'zh-CN')
       : '',
-    navigations: []
+    navigations: [],
+    filter: '' // 导航过滤，方便找组件
   };
 
   constructor(props) {
     super(props);
     this.setNavigations = this.setNavigations.bind(this);
+    this.setNavigationFilter = this.setNavigationFilter.bind(this);
   }
 
   componentDidUpdate(preProps, preState) {
@@ -349,22 +352,54 @@ export class App extends React.PureComponent<{
     );
   }
 
+  setNavigationFilter(value: string) {
+    this.setState({
+      filter: value
+    });
+  }
+
   renderNavigation() {
-    return <div className="Doc-navigation">{this.renderAsideNav()}</div>;
+    return (
+      <div className="Doc-navigation">
+        <InputBox
+          theme={this.state.theme.value}
+          placeholder={'过滤...'}
+          onChange={this.setNavigationFilter}
+          className="m-b m-r"
+        />
+        {this.renderAsideNav()}
+      </div>
+    );
   }
 
   renderAsideNav() {
+    const filterReg = new RegExp(
+      this.state.filter.replace(/[|\\{}()[\]^$+*?.]/g, '\\$&'),
+      'i'
+    );
+
     return (
       <AsideNav
-        navigations={this.state.navigations.map(item => ({
-          ...item,
-          children: item.children
-            ? item.children.map(item => ({
-                ...item,
-                className: 'is-top'
-              }))
-            : []
-        }))}
+        navigations={this.state.navigations
+          .filter(item => {
+            return true;
+          })
+          .map(item => ({
+            ...item,
+            children: item.children
+              ? item.children
+                  .filter(item => {
+                    if (item.label) {
+                      return filterReg.exec(item.label);
+                    }
+                    return true;
+                  })
+                  .map(item => ({
+                    ...item,
+                    className: 'is-top'
+                  }))
+              : []
+          }))}
         renderLink={({
           link,
           active,
