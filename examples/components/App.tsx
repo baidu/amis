@@ -380,26 +380,22 @@ export class App extends React.PureComponent<{
 
     return (
       <AsideNav
-        navigations={this.state.navigations
-          .filter(item => {
-            return true;
-          })
-          .map(item => ({
-            ...item,
-            children: item.children
-              ? item.children
-                  .filter(item => {
-                    if (item.label) {
-                      return filterReg.exec(item.label);
-                    }
-                    return true;
-                  })
-                  .map(item => ({
-                    ...item,
-                    className: 'is-top'
-                  }))
-              : []
-          }))}
+        navigations={this.state.navigations.map(item => ({
+          ...item,
+          children: item.children
+            ? item.children
+                .filter(item => {
+                  if (item.label) {
+                    return filterReg.exec(item.label);
+                  }
+                  return true;
+                })
+                .map(item => ({
+                  ...item,
+                  className: 'is-top'
+                }))
+            : []
+        }))}
         renderLink={({
           link,
           active,
