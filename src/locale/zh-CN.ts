@@ -150,7 +150,7 @@ register('zh-CN', {
   'Table.valueField': '请配置 valueField',
   'Tag.placeholder': '暂无标签',
   'Tag.tip': '最近使用的标签',
-  'Text.add': '新增：{{label}}}',
+  'Text.add': '新增：{{label}}',
   'Time.placeholder': '请选择时间',
   'Transfer.configError': '配置错误，选项无法与左侧选项对应',
   'Transfer.refreshIcon': '点击刷新重新加载',
