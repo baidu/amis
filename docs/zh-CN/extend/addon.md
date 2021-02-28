@@ -46,35 +46,6 @@ amisLib.addRule(
 import {addRule} from 'amis';
 ```
 
-## 事件扩展
-
-amis 默认会将配置项剩余参数都作为 React 的 props 传入对应标签，使得可以添加自己的自定义事件，比如 下面的例子
-
-```javascript
-let amis = amisRequire('amis/embed');
-let amisLib = amisRequire('amis');
-let amisScoped = amis.embed('#root', {
-  type: 'page',
-  title: '表单页面',
-  body: {
-    type: 'form',
-    mode: 'horizontal',
-    api: '/saveForm',
-    controls: [
-      {
-        type: 'button',
-        label: '按钮',
-        onClick: () => {
-          amisLib.toast.info('消息通知');
-        }
-      }
-    ]
-  }
-});
-```
-
-这样就能在点击按钮的时候执行自定义代码了。
-
 ## 同时支持多种类型编辑
 
 在表单编辑中，每个 name 一般对应一种类型，如果这个 name 有多种类型，比如下面的例子中 id 的值有可能是字符串，也有可能是数字，但 type 只能设置为一种类型，这种情况如何处理？

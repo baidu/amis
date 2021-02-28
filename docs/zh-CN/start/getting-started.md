@@ -17,7 +17,7 @@ SDK 版本适合对前端或 React 不了解的开发者，它不依赖 npm 及 
 1. github 的 [releases](https://github.com/baidu/amis/releases)，文件是 sdk.tar.gz。
 1. 使用 `npm i amis` 来下载，在 `node_modules\amis\sdk` 目录里就能找到。
 
-默认会提供一个 demo.html 作为示例，双击这个文件打开就能看到效果，其中最重要是如下代码：
+新建一个 hello.html 文件，内容如下：
 
 ```html
 <!DOCTYPE html>
