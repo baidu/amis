@@ -2,6 +2,39 @@
 title: 常见问题
 ---
 
+## 如何换行
+
+有时候返回结果中有 `\n`，在页面展现的时候默认不会有换行效果，解决办法有 3 个：
+
+1. 使用 tpl、html、plain 或 static 组件，加上 `"wrapperComponent": "pre"` 配置项
+2. 引入 `helper.css`，给组件加上 `"classname": "white-space-pre"` 配置项（预计从 1.1.5 开始内置这个类，从而不需要引入 `helper.css`）
+3. 包在 `container` 容器中，使用 `style` 控制样式
+
+前两种方法比较简单，这里就只演示第三种，如果熟悉 css 可以很灵活实现各种展现控制：
+
+```schema
+{
+  "type": "page",
+  "data": {
+    "log": "line 1\nline 2"
+  },
+  "body": {
+    "type": "container",
+    "style": {
+      "white-space": "pre"
+    },
+    "body": {
+      "type": "tpl",
+      "tpl": "${log}"
+    }
+  }
+}
+```
+
+## 如何折行
+
+折行需要给对应的组件加上 `"classname": "word-break"`。
+
 ## 如何实现左侧导航栏页面跳转？
 
 在 1.1.1 之后的版本提供了新的 app 组件，可以基于它实现导航功能，请参考 `https://github.com/aisuda/amis-admin` 项目。
