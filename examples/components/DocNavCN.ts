@@ -182,6 +182,15 @@ export default [
           )
       },
       {
+        label: '将 amis 当成 UI 库用',
+        path: '/zh-CN/docs/extend/ui-library',
+        getComponent: () =>
+          // @ts-ignore
+          import('../../docs/zh-CN/extend/ui-library.md').then(
+            makeMarkdownRenderer
+          )
+      },
+      {
         label: '扩展现有组件',
         path: '/zh-CN/docs/extend/addon',
         getComponent: () =>
