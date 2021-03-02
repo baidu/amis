@@ -319,6 +319,34 @@ icon 也可以是 url 地址，比如
 | feedback | `DialogObject`                                                                           | -      | 如果 ajax 类型的，当 ajax 返回正常后，还能接着弹出一个 dialog 做其他交互。返回的数据可用于这个 dialog 中。格式可参考[Dialog](./Dialog.md) |
 | messages | `object`                                                                                 | -      | `success`：ajax 操作成功后提示，可以不指定，不指定时以 api 返回为准。`failed`：ajax 操作失败提示。                                        |
 
+### 倒计时
+
+主要用于发验证码的场景，通过设置倒计时 `countDown`（单位是秒），让点击按钮后禁用一段时间：
+
+```schema: scope="body"
+{
+  "type": "form",
+  "controls": [
+    {
+      "name": "phone",
+      "type": "text",
+      "required": true,
+      "label": "手机号",
+      "addOn": {
+        "label": "发送验证码",
+        "type": "button",
+        "countDown": 60,
+        "countDownTpl": "${timeLeft} 秒后重发",
+        "actionType": "ajax",
+        "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm?phone=${phone}"
+      }
+    }
+  ]
+}
+```
+
+同时还能通过 `countDownTpl` 来控制显示的文本，其中 `${timeLeft}` 变量是剩余时间。
+
 ## 跳转链接
 
 ### 单页跳转

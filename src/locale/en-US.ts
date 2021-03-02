@@ -1,6 +1,7 @@
 import {register} from '../locale';
 
 register('en-US', {
+  'Action.countDown': 'Wait for ${timeLeft}s',
   'Alert.info': 'System Info',
   'asc': 'Asc',
   'cancel': 'Cancel',
