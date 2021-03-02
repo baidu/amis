@@ -1,6 +1,7 @@
 import {register} from '../locale';
 
 register('zh-CN', {
+  'Action.countDown': '请等待 ${timeLeft} 秒',
   'Alert.info': '系统消息',
   'asc': '正序',
   'cancel': '取消',
