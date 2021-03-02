@@ -52,6 +52,7 @@ export interface RendererEnv {
     path: string,
     reRender: Function
   ) => Promise<React.ReactType> | React.ReactType | JSX.Element | void;
+  loadChartExtends?: () => void | Promise<void>;
   [propName: string]: any;
 }
 

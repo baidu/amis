@@ -239,7 +239,8 @@ export class Chart extends React.Component<ChartProps> {
       chartTheme,
       onChartWillMount,
       onChartMount,
-      onChartUnMount
+      onChartUnMount,
+      env
     } = this.props;
 
     if (ref) {
@@ -269,6 +270,10 @@ export class Chart extends React.Component<ChartProps> {
         (echarts as any).registerTransform(
           (ecStat as any).transform.clustering
         );
+
+        if (env.loadChartExtends) {
+          await env.loadChartExtends();
+        }
 
         this.echarts = echarts.init(ref, theme);
         onChartMount?.(this.echarts, echarts);
