@@ -81,6 +81,12 @@ order: 72
 ]
 ```
 
+## style
+
+> 1.1.5 版本
+
+wrapper 可以设置 style，当成一个 `div` 标签来用
+
 ## 属性表
 
 | 属性名    | 类型                                      | 默认值      | 说明                         |
@@ -88,4 +94,5 @@ order: 72
 | type      | `string`                                  | `"wrapper"` | 指定为 Wrapper 渲染器        |
 | className | `string`                                  |             | 外层 Dom 的类名              |
 | size      | `string`                                  |             | 支持: `xs`、`sm`、`md`和`lg` |
+| style     | `Object`                                  |             | 自定义样式                   |
 | body      | [SchemaNode](../../docs/types/schemanode) |             | 内容容器                     |

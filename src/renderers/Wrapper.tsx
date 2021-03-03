@@ -19,6 +19,13 @@ export interface WrapperSchema extends BaseSchema {
   body: SchemaCollection;
 
   size?: 'xs' | 'sm' | 'md' | 'lg' | 'none';
+
+  /**
+   * 自定义样式
+   */
+  style?: {
+    [propName: string]: any;
+  };
 }
 
 export interface WrapperProps
@@ -30,7 +37,7 @@ export interface WrapperProps
 export default class Wrapper extends React.Component<WrapperProps, object> {
   static propsList: Array<string> = ['body', 'className', 'children', 'size'];
   static defaultProps: Partial<WrapperProps> = {
-    className: 'bg-white'
+    className: ''
   };
 
   renderBody(): JSX.Element | null {
@@ -46,10 +53,13 @@ export default class Wrapper extends React.Component<WrapperProps, object> {
   }
 
   render() {
-    const {className, size, classnames: cx} = this.props;
+    const {className, size, classnames: cx, style} = this.props;
 
     return (
-      <div className={cx('Wrapper', size ? `Wrapper--${size}` : '', className)}>
+      <div
+        className={cx('Wrapper', size ? `Wrapper--${size}` : '', className)}
+        style={style}
+      >
         {this.renderBody()}
       </div>
     );
