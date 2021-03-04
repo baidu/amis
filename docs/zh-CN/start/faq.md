@@ -2,6 +2,33 @@
 title: 常见问题
 ---
 
+## 如何水平垂直居中
+
+```schema: scope="body"
+{
+    "type": "wrapper",
+    "style": {
+        "display": "flex",
+        "flex-direction": "column",
+        "justify-content": "center",
+        "align-items": "center",
+        "height": "200px"
+    },
+    "body": [
+        {
+            "type": "tpl",
+            "tpl": "内容1",
+            "inline": false
+        },
+        {
+            "type": "tpl",
+            "tpl": "内容2",
+            "inline": false
+        }
+    ]
+}
+```
+
 ## 如何换行
 
 有时候返回结果中有 `\n`，在页面展现的时候默认不会有换行效果，解决办法有 3 个：
