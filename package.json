@@ -142,7 +142,7 @@
     "jest-canvas-mock": "^2.3.0",
     "js-yaml": "^3.10.0",
     "lint-staged": "^8.1.6",
-    "marked": "^1.2.8",
+    "marked": "2.0.1",
     "mkdirp": "^1.0.4",
     "mobx-wiretap": "^0.12.0",
     "path-to-regexp": "^6.2.0",
