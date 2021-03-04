@@ -670,9 +670,18 @@ body {
 
     &-content {
       width: px2rem(220px);
-      padding: px2rem(30px) 0 px2rem(30px) px2rem(30px);
       overflow-y: auto;
       overflow-x: hidden;
+
+      .HeaderLinks {
+        line-height: 64px;
+        box-shadow: 0 2px 10px 0 rgb(0 0 0 / 10%);
+        padding-left: px2rem(20px);
+      }
+
+      .Doc-navigation {
+        padding: px2rem(20px) 0 px2rem(20px) px2rem(20px);
+      }
     }
 
     &-close {
