@@ -1923,7 +1923,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
 
     return (
       <div className={cx('Crud-selection')}>
-        <div className={cx('Crud-selectionLabel')}>已选条目：</div>
+        <div className={cx('Crud-selectionLabel')}>{__('CRUD.selected')}</div>
         {store.selectedItems.map((item, index) => (
           <div key={index} className={cx(`Crud-value`)}>
             <span

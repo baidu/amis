@@ -23,6 +23,7 @@ register('en-US', {
   'CRUD.exportExcel': 'Export Excel',
   'CRUD.fetchFailed': 'Fetch failed',
   'CRUD.filter': 'Filter',
+  'CRUD.selected': 'selected items: ',
   'CRUD.invalidArray': 'data.items must be an array',
   'CRUD.invalidData': 'data is empty',
   'CRUD.loadMore': 'Load more',

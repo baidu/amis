@@ -19,7 +19,7 @@ function loadEditor() {
 
 const viewMode = localStorage.getItem('viewMode') || 'pc';
 
-export default function (schema, showCode, envOverrides?: any) {
+export default function (schema, showCode, envOverrides) {
   if (!schema['$schema']) {
     schema = {
       ...schema

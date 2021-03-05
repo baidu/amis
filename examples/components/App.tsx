@@ -365,7 +365,7 @@ export class App extends React.PureComponent<{
           theme={this.state.theme.value}
           placeholder={'过滤...'}
           onChange={this.setNavigationFilter}
-          className="m-b m-r"
+          className="m-b m-r-md"
         />
         {this.renderAsideNav()}
       </div>
@@ -558,6 +558,27 @@ export class App extends React.PureComponent<{
             show={this.state.offScreen}
             position="left"
           >
+            <ul className={`HeaderLinks`}>
+              <Link
+                to={`${ContextPath}/zh-CN/docs`}
+                activeClassName="is-active"
+              >
+                文档
+              </Link>
+
+              <Link
+                to={`${ContextPath}/zh-CN/components`}
+                activeClassName="is-active"
+              >
+                组件
+              </Link>
+              <Link
+                to={`${ContextPath}/zh-CN/style`}
+                activeClassName="is-active"
+              >
+                样式
+              </Link>
+            </ul>
             {this.renderNavigation()}
           </Drawer>
 

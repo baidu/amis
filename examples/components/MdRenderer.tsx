@@ -44,7 +44,6 @@ class Preview extends React.Component {
   constructor(props) {
     super(props);
     this.divRef = this.divRef.bind(this);
-    this.handleClick = this.handleClick.bind(this);
   }
 
   componentDidMount() {
@@ -72,14 +71,6 @@ class Preview extends React.Component {
 
   componentWillUnmount() {
     this.doms.forEach(dom => ReactDOM.unmountComponentAtNode(dom));
-  }
-
-  handleClick(e) {
-    const href = e.target.getAttribute('href');
-    if (href && href[0] !== '#' && !/^http/.test(href)) {
-      e.preventDefault();
-      this.props.push(href);
-    }
   }
 
   divRef(ref) {
@@ -199,7 +190,7 @@ export default function (doc) {
     handlePopOverClick = (e: React.MouseEvent<any>) => {
       this.setState({headingPopover: false});
       e.stopPropagation();
-      e.preventDefault();
+      // e.preventDefault();
     };
 
     renderHeadingPopover() {
