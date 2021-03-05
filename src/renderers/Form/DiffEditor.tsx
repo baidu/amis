@@ -127,16 +127,19 @@ export class DiffEditor extends React.Component<DiffEditorProps, any> {
       diffValue &&
       (diffValue !== prevProps.diffValue || data !== prevProps.data)
     ) {
-      this.originalEditor
-        .getModel()
-        .setValue(
-          isPureVariable(diffValue as string)
-            ? normalizeValue(
-                resolveVariableAndFilter(diffValue || '', data, '| raw'),
-                language
-              )
-            : normalizeValue(diffValue, language)
-        );
+      this.originalEditor.getModel().setValue(
+        isPureVariable(diffValue as string)
+          ? normalizeValue(
+              resolveVariableAndFilter(
+                diffValue || '',
+                data,
+                '| raw',
+                () => ''
+              ),
+              language
+            )
+          : normalizeValue(diffValue, language)
+      );
     }
 
     if (
