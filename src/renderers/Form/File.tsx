@@ -720,7 +720,8 @@ export default class FileControl extends React.Component<FileProps, FileState> {
         }
 
         onProgress(1);
-        const value = (ret.data as any).value || ret.data;
+        let value =
+          (ret.data as any).value || (ret.data as any).url || ret.data;
 
         cb(null, file, {
           ...(isPlainObject(ret.data) ? ret.data : null),

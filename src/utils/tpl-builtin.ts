@@ -271,8 +271,8 @@ export const filters: {
   },
   url_encode: input => encodeURIComponent(input),
   url_decode: input => decodeURIComponent(input),
-  default: (input, defaultValue) =>
-    input ??
+  default: (input, defaultValue, strict = false) =>
+    (strict ? input : input ? input : undefined) ??
     (() => {
       try {
         if (defaultValue === 'undefined') {
