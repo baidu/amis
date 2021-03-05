@@ -423,7 +423,7 @@ export const filters: {
         return input;
       }
 
-      let reg = string2regExp(arg1, false);
+      let reg = string2regExp(`${arg1}`, false);
       fn = value => reg.test(String(value));
     }
 
@@ -469,7 +469,7 @@ export const filters: {
     matchArg = getStrOrVariable(matchArg, this as any);
     return getConditionValue(
       input,
-      matchArg && string2regExp(matchArg, false).test(String(input)),
+      matchArg && string2regExp(`${matchArg}`, false).test(String(input)),
       trueValue,
       falseValue,
       this
@@ -479,7 +479,7 @@ export const filters: {
     matchArg = getStrOrVariable(matchArg, this as any);
     return getConditionValue(
       input,
-      matchArg && !string2regExp(matchArg, false).test(String(input)),
+      matchArg && !string2regExp(`${matchArg}`, false).test(String(input)),
       trueValue,
       falseValue,
       this
