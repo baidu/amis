@@ -61,6 +61,17 @@ order: 33
 
 其中的 `imageList` 要和配置的 `name` 值对应。
 
+## 自定义轮播图的展现
+
+通过配置 `itemSchema` 可以自定义轮播图的展现，比如图片默认背景配置是 contain，可以改成 cover：
+
+```
+itemSchema: {
+    type: 'tpl',
+    tpl: '<div style="background-image: url('<%= data.image %>'); background-size: cover; background-repeat: no-repeat; background-position: center center;" class="image <%= data.imageClassName %>"></div>'
+}
+```
+
 ## 属性表
 
 | 属性名                       | 类型      | 默认值               | 说明                                                    |
