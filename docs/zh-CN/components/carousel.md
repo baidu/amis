@@ -27,6 +27,40 @@ order: 33
 }
 ```
 
+## 动态列表
+
+轮播图组件目前没有获取数据的配置，因此需要依赖 `service` 来获取数据。
+
+```schema: scope="body"
+{
+  "type": "page",
+  "body": {
+    "type": "service",
+    "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/options/carousel",
+    "body": {
+      "type": "carousel",
+      "name": "imageList"
+    }
+  }
+}
+```
+
+目前数据关联是通过 name 的方式，因此 api 返回应该是类似这样的：
+
+```
+{
+    status: 0,
+    msg: '',
+    data: {
+        imageList: [{
+            "image": "https://internal-amis-res.cdn.bcebos.com/images/2019-12/1577157239810/da6376bf988c.png"
+        }]
+    }
+}
+```
+
+其中的 `imageList` 要和配置的 `name` 值对应。
+
 ## 属性表
 
 | 属性名                       | 类型      | 默认值               | 说明                                                    |
