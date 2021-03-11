@@ -75,7 +75,7 @@ const availableRanges: {[propName: string]: any} = {
   },
 
   '1dayago': {
-    label: 'DateRange.lastDay',
+    label: 'DateRange.1dayago',
     startDate: (now: moment.Moment) => {
       return now.add(-1, 'days');
     },
@@ -85,7 +85,7 @@ const availableRanges: {[propName: string]: any} = {
   },
 
   '7daysago': {
-    label: 'DateRange.last7Days',
+    label: 'DateRange.7daysago',
     startDate: (now: moment.Moment) => {
       return now.add(-7, 'days').startOf('day');
     },
@@ -95,7 +95,7 @@ const availableRanges: {[propName: string]: any} = {
   },
 
   '30daysago': {
-    label: 'DateRange.last30Days',
+    label: 'DateRange.30daysago',
     startDate: (now: moment.Moment) => {
       return now.add(-30, 'days').startOf('day');
     },
@@ -105,7 +105,7 @@ const availableRanges: {[propName: string]: any} = {
   },
 
   '90daysago': {
-    label: 'DateRange.last90Days',
+    label: 'DateRange.90daysago',
     startDate: (now: moment.Moment) => {
       return now.add(-90, 'days').startOf('day');
     },
