@@ -1,0 +1,49 @@
+/*!markdown
+
+---
+title: Font Weight
+---
+
+| Class       | Properties               |
+| ----------- | ------------------------ |
+| font-thin | font-weight: 100 |
+| font-extralight | font-weight: 200 |
+| font-light | font-weight: 300 |
+| font-normal | font-weight: 400 |
+| font-medium | font-weight: 500 |
+| font-semibold | font-weight: 600 |
+| font-bold | font-weight: 700 |
+| font-extrabold | font-weight: 800 |
+| font-black | font-weight: 900 |
+
+
+*/
+@mixin make-font-weight($prefix: '.') {
+  @each $name,
+    $value
+      in (
+        'thin': 100,
+        'extralight': 200,
+        'light': 300,
+        'normal': 400,
+        'medium': 500,
+        'semibold': 600,
+        'bold': 700,
+        'extrabold': 800,
+        'black': 900
+      )
+  {
+    #{$prefix}font-#{$name} {
+      font-weight: $value;
+    }
+  }
+}
+
+@include make-font-weight();
+@each $deivce in map-keys($devices) {
+  @include media-device($deivce) {
+    @include make-font-weight('.' + selector-escape($deivce + ':'));
+  }
+}
+
+// hover ?

@@ -1,0 +1,43 @@
+/*!markdown
+
+---
+title: List Style Type
+---
+
+| Class       | Properties               |
+| ----------- | ------------------------ |
+| list-none | list-style-type: none |
+| list-disc | list-style-type: disc |
+| list-decimal | list-style-type: decimal |
+| list-inside | list-style-position: inside |
+| list-outside | list-style-position: outside |
+
+
+*/
+
+@mixin make-list-style-type($prefix: '.') {
+  @each $name, $value in ('none': none, 'disc': disc, 'decimal': decimal) {
+    #{$prefix}list-#{$name} {
+      list-style-type: $value;
+    }
+  }
+}
+
+@mixin make-list-style-position($prefix: '.') {
+  @each $name, $value in ('inside': inside, 'outside': outside) {
+    #{$prefix}list-#{$name} {
+      list-style-position: $value;
+    }
+  }
+}
+
+@include make-list-style-type();
+@include make-list-style-position();
+@each $deivce in map-keys($devices) {
+  @include media-device($deivce) {
+    @include make-list-style-type('.' + selector-escape($deivce + ':'));
+    @include make-list-style-position('.' + selector-escape($deivce + ':'));
+  }
+}
+
+// hover ?

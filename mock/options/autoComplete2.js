@@ -1,32 +1,32 @@
 const db =  [
     {
-        "label": "liaoxuezhi",
-        "value": "liaoxuezhi"
+        "label": "诸葛亮",
+        "value": "zhugeliang"
     },
 
     {
-        "label": "zhangjun08",
-        "value": "zhangjun08"
+        "label": "王昭君",
+        "value": "wangzhaojun"
     },
 
     {
-        "label": "zhangtao07",
-        "value": "zhangtao07"
+        "label": "钟馗",
+        "value": "zhongkui"
     },
 
     {
-        "label": "wuduoyi",
-        "value": "wuduoyi"
+        "label": "露娜",
+        "value": "luna"
     },
 
     {
-        "label": "liuyiming04",
-        "value": "liuyiming04"
+        "label": "钟无艳",
+        "value": "zhongwuyan"
     },
 
     {
-        "label": "zhangzhuobin",
-        "value": "zhangzhuobin"
+        "label": "花木兰",
+        "value": "huamulan"
     }
 ];
 
@@ -38,7 +38,7 @@ module.exports = function(req, res) {
         status: 0,
         msg: '',
         data: term ? db.filter(function(item) {
-            return term ? ~item.label.indexOf(term) : false;
+            return term ? ~item.label.indexOf(term) || ~item.value.indexOf(term) : false;
         }) : db
     });
 }

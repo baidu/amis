@@ -1,95 +1,107 @@
 .#{$ns}Page {
+  width: 100%;
 
-    &-header {
-        padding: $Page-header-paddingY $Page-header-paddingX;
-    }
+  &-header {
+    padding: var(--Page-header-paddingY) var(--Page-header-paddingX);
+  }
 
-    &-main {
-        background: $Page-main-bg;
-    };
+  &-main {
+    background: var(--Page-main-bg);
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+  }
 
-    &-content {
-        padding: $Page-content-paddingY $Page-content-paddingX;
-    }
-
-    &-main > &-header {
-        border-bottom: $borderWidth solid $borderColor;
-    }
-
-    &-headerRow {
-        border-bottom: $borderWidth solid $borderColor;
-
-        display: table;
-        table-layout: fixed;
-        width: 100%;
-        border-spacing: 0;
-
-        .#{$ns}Page-header, 
-        .#{$ns}Page-toolbar {
-            display: table-cell;
-            vertical-align: middle;
-        }
-        
-        .#{$ns}Page-toolbar {
-            text-align: right;
-            padding-right: $gap-base;
-        }
-    }
-    
-    &-title {
-        margin: 0;
-        padding: 0;
-        color: $text--loud-color;
-        font-size: $fontSizeMd;
-        font-weight: $fontWeightNormal;
-    }
-
-    &-body {
-        padding: $gap-base;
-    }
-
-    &-asideTplWrapper {
-        padding: $gap-xs;
-    }
-    
-}
-
-.#{$ns}Page-aside {
-    &::before {
-        content: "";
-        position: absolute;
-        width: inherit;
-        top: 0;
-        bottom: 0;
-        z-index: -1;
-        background-color: inherit;
-        border: inherit;
-    }
-
-    width: $Page-aside-width;
-    background-color: $Page-aside-bg;
-    border-right: $borderWidth solid $borderColor;
-}
-
-.#{$ns}Page--withSidebar {
-    display: table;
-    table-layout: fixed;
+  &-content {
+    padding: var(--Page-content-paddingY) var(--Page-content-paddingX);
+    position: relative;
+    height: 100%;
     width: 100%;
-    border-spacing: 0;
+  }
 
-    .#{$ns}Page-aside, 
-    .#{$ns}Page-content {
-        display: table-cell;
-        vertical-align: top;
+  &-main > &-header {
+    border-bottom: var(--borderWidth) solid var(--borderColor);
+  }
+
+  &-headerRow {
+    border-bottom: var(--borderWidth) solid var(--borderColor);
+
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+
+    .#{$ns}Page-header,
+    .#{$ns}Page-toolbar {
+      flex-grow: 1;
+      min-height: 100%;
     }
 
-    .#{$ns}Page-content {
-        width: 100%;
+    .#{$ns}Page-toolbar {
+      text-align: right;
+      padding-right: var(--gap-base);
+      display: flex;
+      flex-direction: row;
+      justify-content: flex-end;
+      align-items: center;
+      flex-wrap: wrap;
     }
+  }
+
+  &-title {
+    margin: 0;
+    padding: 0;
+    color: var(--Page-title-color);
+    line-height: var(--Page-title-lineHeight);
+    font-size: var(--Page-title-fontSize);
+    font-weight: var(--Page-title-fontWeight);
+  }
+
+  &-body {
+    padding: var(--Page-body-padding);
+    flex: 1 auto;
+  }
+
+  &-asideTplWrapper {
+    padding: var(--gap-xs);
+  }
 }
 
 .#{$ns}Page-toolbar {
-    .#{$ns}Button + .#{$ns}Button {
-        margin-left: $gap-xs;
+  > * + * {
+    margin-left: var(--gap-xs);
+  }
+}
+
+.#{$ns}Page-aside {
+  background: var(--Page-aside-bg);
+}
+
+@include media-breakpoint-up(md) {
+  .#{$ns}Page-aside {
+    &::before {
+      content: '';
+      position: absolute;
+      width: inherit;
+      top: 0;
+      bottom: 0;
+      z-index: -1;
+      background: inherit;
+      border: inherit;
     }
+
+    width: var(--Page-aside-width);
+    max-width: var(--Page-aside-maxWidth);
+    border-right: var(--borderWidth) solid var(--borderColor);
+  }
+
+  .#{$ns}Page--withSidebar {
+    display: flex;
+    flex-direction: row;
+    align-items: stretch;
+
+    > .#{$ns}Page-content {
+      width: 0;
+      flex-grow: 1;
+    }
+  }
 }

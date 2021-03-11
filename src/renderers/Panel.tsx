@@ -1,204 +1,307 @@
-import * as React from 'react';
+import React from 'react';
+import {Renderer, RendererProps} from '../factory';
+import {SchemaNode, Action} from '../types';
+import {getScrollParent, autobind} from '../utils/helper';
+import {findDOMNode} from 'react-dom';
+import {resizeSensor} from '../utils/resize-sensor';
 import {
-    Renderer,
-    RendererProps
-} from '../factory';
-import {
-    SchemaNode,
-    Action
-} from '../types';
-import { getScrollParent } from '../utils/helper';
-import { findDOMNode } from 'react-dom';
+  BaseSchema,
+  SchemaClassName,
+  SchemaCollection,
+  SchemaTpl
+} from '../Schema';
+import {ActionSchema} from './Action';
 
-export interface PanelProps extends RendererProps {
-    title?: string; // 标题
-    header?: SchemaNode;
-    body?: SchemaNode;
-    footer?: SchemaNode;
-    actions?: Action[];
-    className?: string;
-    headerClassName?: string;
-    footerClassName?: string;
-    actionsClassName?: string;
-    bodyClassName?: string;
-    children?: React.ReactNode | ((props: any) => JSX.Element);
-    affixFooter?: boolean;
+/**
+ * Panel渲染器。
+ * 文档：https://baidu.gitee.io/amis/docs/components/panel
+ */
+export interface PanelSchema extends BaseSchema {
+  /**
+   * 指定为Panel渲染器。
+   */
+  type: 'panel';
+
+  /**
+   * 按钮集合
+   */
+  actions?: Array<ActionSchema>;
+
+  /**
+   * 按钮集合外层类名
+   */
+  actionsClassName?: SchemaClassName;
+
+  /**
+   * 内容区域
+   */
+  body?: SchemaCollection;
+
+  /**
+   * 配置 Body 容器 className
+   */
+  bodyClassName?: SchemaClassName;
+
+  /**
+   * 底部内容区域
+   */
+  footer?: SchemaCollection;
+
+  /**
+   * 配置 footer 容器 className
+   */
+  footerClassName?: SchemaClassName;
+
+  /**
+   * footer 和 actions 外层 div 类名。
+   */
+  footerWrapClassName?: SchemaClassName;
+
+  /**
+   * 头部内容, 和 title 二选一。
+   */
+  header?: SchemaCollection;
+
+  /**
+   * 配置 header 容器 className
+   */
+  headerClassName?: SchemaClassName;
+
+  /**
+   * Panel 标题
+   */
+  title?: SchemaTpl;
+
+  /**
+   * 固定底部, 想要把按钮固定在底部的时候配置。
+   */
+  affixFooter?: boolean | 'always';
 }
 
+export interface PanelProps
+  extends RendererProps,
+    Omit<
+      PanelSchema,
+      'type' | 'className' | 'panelClassName' | 'bodyClassName'
+    > {}
+
 export default class Panel extends React.Component<PanelProps> {
-    static propsList: Array<string> = [
-        "headerClassName",
-        "footerClassName",
-        "actionsClassName",
-        "bodyClassName"
-    ];
-    static defaultProps = {
-        // className: 'Panel--default',
-        // headerClassName: 'Panel-heading',
-        // footerClassName: 'Panel-footer bg-light lter Wrapper',
-        // actionsClassName: 'Panel-footer',
-        // bodyClassName: 'Panel-body'
+  static propsList: Array<string> = [
+    'header',
+    'headerClassName',
+    'footerClassName',
+    'footerWrapClassName',
+    'actionsClassName',
+    'bodyClassName'
+  ];
+  static defaultProps = {
+    // className: 'Panel--default',
+    // headerClassName: 'Panel-heading',
+    // footerClassName: 'Panel-footer bg-light lter Wrapper',
+    // actionsClassName: 'Panel-footer',
+    // bodyClassName: 'Panel-body'
+  };
+
+  parentNode?: any;
+  unSensor: Function;
+  affixDom: React.RefObject<HTMLDivElement> = React.createRef();
+  footerDom: React.RefObject<HTMLDivElement> = React.createRef();
+  timer: NodeJS.Timeout;
+
+  componentDidMount() {
+    const dom = findDOMNode(this) as HTMLElement;
+    let parent: HTMLElement | Window | null = dom ? getScrollParent(dom) : null;
+    if (!parent || parent === document.body) {
+      parent = window;
+    }
+    this.parentNode = parent;
+    parent.addEventListener('scroll', this.affixDetect);
+    this.unSensor = resizeSensor(dom as HTMLElement, this.affixDetect);
+    this.affixDetect();
+  }
+
+  componentWillUnmount() {
+    const parent = this.parentNode;
+    parent && parent.removeEventListener('scroll', this.affixDetect);
+    this.unSensor && this.unSensor();
+    clearTimeout(this.timer);
+  }
+
+  @autobind
+  affixDetect() {
+    if (
+      !this.props.affixFooter ||
+      !this.affixDom.current ||
+      !this.footerDom.current
+    ) {
+      return;
+    }
+
+    const affixDom = this.affixDom.current;
+    const footerDom = this.footerDom.current;
+    let affixed = false;
+
+    if (footerDom.offsetWidth) {
+      affixDom.style.cssText = `width: ${footerDom.offsetWidth}px`;
+    } else {
+      this.timer = setTimeout(this.affixDetect, 250);
+      return;
+    }
+
+    if (this.props.affixFooter === 'always') {
+      affixed = true;
+      footerDom.classList.add('invisible2');
+    } else {
+      const clip = footerDom.getBoundingClientRect();
+      const clientHeight = window.innerHeight;
+      affixed = clip.top + clip.height / 2 > clientHeight;
+    }
+
+    affixed ? affixDom.classList.add('in') : affixDom.classList.remove('in');
+  }
+
+  renderBody(): JSX.Element | null {
+    const {
+      type,
+      className,
+      data,
+      header,
+      body,
+      render,
+      bodyClassName,
+      headerClassName,
+      actionsClassName,
+      footerClassName,
+      children,
+      title,
+      actions,
+      footer,
+      classPrefix: ns,
+      ...rest
+    } = this.props;
+
+    const subProps = {
+      data,
+      ...rest
     };
 
-    parentNode?: any;
-    affixDom: React.RefObject<HTMLDivElement> = React.createRef();
-    footerDom: React.RefObject<HTMLDivElement> = React.createRef();
+    return children
+      ? typeof children === 'function'
+        ? children(this.props)
+        : children
+      : body
+      ? render('body', body, subProps)
+      : null;
+  }
 
-    componentDidMount() {
-        const dom = findDOMNode(this) as HTMLElement;
-        let parent:HTMLElement | Window | null = dom ? getScrollParent(dom) : null;
-        if (!parent || parent === document.body) {
-            parent = window;
-        }
-        this.parentNode = parent;
-        this.affixDetect = this.affixDetect.bind(this);
-        this.affixDetect();
-        parent.addEventListener('scroll', this.affixDetect);
-        window.addEventListener('resize', this.affixDetect);
+  renderActions() {
+    const {actions, render} = this.props;
+
+    if (Array.isArray(actions) && actions.length) {
+      return actions.map((action, key) =>
+        render('action', action, {
+          type: action.type || 'button',
+          key: key
+        })
+      );
     }
 
-    componentWillUnmount() {
-        const parent = this.parentNode;
-        parent && parent.removeEventListener('scroll', this.affixDetect);
-        window.removeEventListener('resize', this.affixDetect);
-    }
+    return null;
+  }
 
-    affixDetect() {
-        if (!this.props.affixFooter || !this.affixDom.current || !this.footerDom.current) {
-            return;
-        }
+  render() {
+    const {
+      type,
+      className,
+      data,
+      header,
+      body,
+      render,
+      bodyClassName,
+      headerClassName,
+      actionsClassName,
+      footerClassName,
+      footerWrapClassName,
+      children,
+      title,
+      footer,
+      affixFooter,
+      classPrefix: ns,
+      classnames: cx,
+      ...rest
+    } = this.props;
 
-        const affixDom = this.affixDom.current;
-        const footerDom = this.footerDom.current;
-        const clip = footerDom.getBoundingClientRect();
-        const clientHeight = window.innerHeight;
-        const affixed = clip.top > clientHeight;
-        
-        footerDom.offsetWidth && (affixDom.style.cssText = `width: ${footerDom.offsetWidth}px;`);
-        affixed ? affixDom.classList.add('in') : affixDom.classList.remove('in');
-    }
-    
-    renderBody(): JSX.Element | null {
-        const {
-            type,
-            className,
-            data,
-            header,
-            body,
-            render,
-            bodyClassName,
-            headerClassName,
-            actionsClassName,
-            footerClassName,
-            children,
-            title,
-            actions,
-            footer,
-            classPrefix: ns,
-            ...rest
-        } = this.props;
+    const subProps = {
+      data,
+      ...rest
+    };
 
-        const subProps = {
-            data,
-            ...rest
-        };
+    const footerDoms = [];
+    const actions = this.renderActions();
+    actions &&
+      footerDoms.push(
+        <div
+          key="actions"
+          className={cx(`Panel-btnToolbar`, actionsClassName || `Panel-footer`)}
+        >
+          {actions}
+        </div>
+      );
 
-        return children ? (
-            <div className={bodyClassName || `${ns}Panel-body`}>{typeof children === 'function' ? children(this.props) : children}</div>
-        ) : body ? (
-            <div className={bodyClassName || `${ns}Panel-body`}>{render('body', body, subProps)}</div>
-        ) : null;
-    }
+    footer &&
+      footerDoms.push(
+        <div key="footer" className={cx(footerClassName || `Panel-footer`)}>
+          {render('footer', footer, subProps)}
+        </div>
+      );
 
-    renderActions() {
-        const {
-            actions,
-            render,
-        } = this.props;
-        
-        if (Array.isArray(actions) && actions.length) {
-            return actions.map((action, key) => render('action', action, {
-                type: action.type || 'button',
-                key: key
-            }));
-        }
+    let footerDom = footerDoms.length ? (
+      <div
+        className={cx('Panel-footerWrap', footerWrapClassName)}
+        ref={this.footerDom}
+      >
+        {footerDoms}
+      </div>
+    ) : null;
 
-        return null;
-    }
+    return (
+      <div className={cx(`Panel`, className || `Panel--default`)}>
+        {header ? (
+          <div className={cx(headerClassName || `Panel-heading`)}>
+            {render('header', header, subProps)}
+          </div>
+        ) : title ? (
+          <div className={cx(headerClassName || `Panel-heading`)}>
+            <h3 className={cx(`Panel-title`)}>
+              {render('title', title, subProps)}
+            </h3>
+          </div>
+        ) : null}
 
-    render() {
-        const {
-            type,
-            className,
-            data,
-            header,
-            body,
-            render,
-            bodyClassName,
-            headerClassName,
-            actionsClassName,
-            footerClassName,
-            children,
-            title,
-            footer,
-            affixFooter,
-            classPrefix: ns,
-            classnames: cx,
-            ...rest
-        } = this.props;
+        <div className={bodyClassName || `${ns}Panel-body`}>
+          {this.renderBody()}
+        </div>
 
-        const subProps = {
-            data,
-            ...rest
-        };
+        {footerDom}
 
-        const footerDoms = [];
-        const actions = this.renderActions();
-        actions && footerDoms.push(
-            <div key="actions" className={cx(`Panel-btnToolbar`, actionsClassName || `Panel-footer`)}>
-                {actions}
-            </div>
-        );
-
-        footer && footerDoms.push(
-            <div key="footer" className={cx(footerClassName || `Panel-footer`)}>
-                {render('footer', footer, subProps)}
-            </div>
-        );
-
-        let footerDom = footerDoms.length ? (
-            <div ref={this.footerDom}>
-                {footerDoms}
-            </div>
-        ) : null;
-        
-
-        return (
-            <div
-                className={cx(`Panel`, className || `Panel--default`)}
-            >
-                {header ? (
-                    <div className={cx(headerClassName || `Panel-heading`)}>{render('header', header, subProps)}</div>
-                ) : title ? (
-                    <div className={cx(headerClassName || `Panel-heading`)}><h3 className={cx(`Panel-title`)}>{render('title', title, subProps)}</h3></div>
-                ) : null}
-
-                {this.renderBody()}
-
-                {footerDom}
-
-                {affixFooter && footerDoms.length ? (
-                    <div ref={this.affixDom} className={cx("Panel-fixedBottom")}>
-                        {footerDoms}
-                    </div>
-                ) : null}
-            </div>
-        );
-    }
+        {affixFooter && footerDoms.length ? (
+          <div
+            ref={this.affixDom}
+            className={cx(
+              'Panel-fixedBottom Panel-footerWrap',
+              footerWrapClassName
+            )}
+          >
+            {footerDoms}
+          </div>
+        ) : null}
+      </div>
+    );
+  }
 }
 
 @Renderer({
-    test: /(^|\/)panel$/,
-    name: 'panel'
+  test: /(^|\/)panel$/,
+  name: 'panel'
 })
 export class PanelRenderer extends Panel {}

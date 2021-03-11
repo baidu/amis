@@ -1,0 +1,41 @@
+/*!markdown
+
+---
+title: Flex Direction
+---
+
+| Class       | Properties               |
+| ----------- | ------------------------ |
+| flex-row | flex-direction: row |
+| flex-row-reverse | flex-direction: row-reverse |
+| flex-col | flex-direction: column |
+| flex-col-reverse | flex-direction: column-reverse |
+
+
+*/
+
+@mixin make-flex-direction($prefix: '.') {
+  #{$prefix}flex-row {
+    flex-direction: row;
+  }
+
+  #{$prefix}flex-row-reverse {
+    flex-direction: row-reverse;
+  }
+
+  #{$prefix}flex-col {
+    flex-direction: column;
+  }
+  #{$prefix}flex-col-reverse {
+    flex-direction: column-reverse;
+  }
+}
+
+@include make-flex-direction();
+@each $deivce in map-keys($devices) {
+  @include media-device($deivce) {
+    @include make-flex-direction('.' + selector-escape($deivce + ':'));
+  }
+}
+
+// hover ?

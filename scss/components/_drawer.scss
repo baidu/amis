@@ -1,157 +1,175 @@
 .#{$ns}Drawer {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: $zindex-modal;
+  overflow: hidden;
+  outline: 0;
+
+  &-content {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+    pointer-events: auto;
+    background: var(--Drawer-bg);
+    background-clip: padding-box;
+    outline: 0;
+    z-index: 2;
+    border: var(--Drawer-content-borderWidth) solid
+      var(--Drawer-content-borderColor);
+    border-radius: var(--Drawer-content-borderRadius);
+    transition: transform ease-in-out var(--animation-duration);
+  }
+
+  &-overlay {
+    transition: ease-out opacity var(--animation-duration);
     position: fixed;
     top: 0;
     right: 0;
     bottom: 0;
     left: 0;
-    z-index: $zindex-modal;
-    overflow: hidden;
-    outline: 0;
+    z-index: 1;
+    background: var(--Drawer-overlay-bg);
+    opacity: 0;
 
-    &-content {
-        position: absolute;
-        display: flex;
-        flex-direction: column;
-        width: 100%;
-        height: 100%;
-        pointer-events: auto;
-        background-color: $Drawer-bg;
-        background-clip: padding-box;
-        outline: 0;
-        z-index: 2;
-        border: $Drawer-content-borderWidth solid $Drawer-content-borderColor;
-        border-radius: $Drawer-content-borderRadius;
-        transition: transform ease-in-out 0.3s;
+    &.in {
+      opacity: 1;
+    }
+  }
+
+  &-header {
+    padding: var(--Drawer-header-padding);
+    background: var(--Drawer-header-bg);
+    @include clearfix();
+    border-bottom: var(--Drawer-content-borderWidth) solid
+      var(--Drawer-header-borderColor);
+    border-top-left-radius: var(--Drawer-content-borderRadius);
+    border-top-right-radius: var(--Drawer-content-borderRadius);
+  }
+
+  &-title {
+    font-size: var(--Drawer-title-fontSize);
+    color: var(--Drawer-title-fontColor);
+  }
+
+  &-close {
+    position: absolute;
+    color: var(--Drawer-close-color);
+    line-height: 1;
+    text-decoration: none;
+
+    svg {
+      width: 30px;
+      height: 30px;
+      fill: var(--Drawer-close-color);
     }
 
-    &-overlay {
-        transition: ease-out opacity 0.3s;
-        position: fixed;
-        top: 0;
-        right: 0;
-        bottom: 0;
-        left: 0;
-        z-index: 1;
-        background-color: $Drawer-overlay-bg;
-        opacity: 0;
+    &:not(.is-disabled) {
+      cursor: pointer;
 
-        &.in {
-            opacity: 1;
-        }
-    }
-
-    &-header {
-        padding: $Drawer-header-padding;
-        background-color: $Drawer-header-bg;
-        @include clearfix();
-        border-bottom: $Drawer-content-borderWidth solid lighten($Drawer-content-borderColor, 5%);
-        border-top-left-radius: $Drawer-content-borderRadius;
-        border-top-right-radius: $Drawer-content-borderRadius;
-    }
-
-    &-title {
-        font-size: $Drawer-title-fontSize;
-        color: $Drawer-title-fontColor;
-    }
-
-    &-close {
-        position: absolute;
-        color: $Drawer-close-color;
-        line-height: 1;
+      &:hover {
         text-decoration: none;
+        color: var(--Drawer-close-onHover-color);
 
         svg {
-            width: 30px;
-            height: 30px;
-            fill: $Drawer-close-color;
+          fill: var(--Drawer-close-onHover-color);
         }
+      }
+    }
+  }
 
-        &:not(.is-disabled) {
-            cursor: pointer;
+  &-body {
+    padding: var(--Drawer-body-padding);
+    flex-basis: 0;
+    flex-grow: 1;
+    overflow: auto;
+  }
 
-            &:hover {
-                text-decoration: none;
-                color: $Drawer-close-onHover-color;
+  &-footer {
+    display: flex;
+    align-items: flex-end;
+    justify-content: flex-end;
+    padding: var(--Drawer-footer-padding);
+    border-top: var(--Drawer-content-borderWidth) solid
+      var(--Drawer-footer-borderColor);
+    border-bottom-left-radius: var(--Drawer-content-borderRadius);
+    border-bottom-right-radius: var(--Drawer-content-borderRadius);
 
-                svg {
-                    fill: $Drawer-close-onHover-color;
-                }
-            }
-        }
+    .#{$ns}Button {
+      margin-left: var(--gap-xs);
     }
 
-    &-body {
-        padding: $Drawer-body-padding;
-        flex-basis: 0;
-        flex-grow: 1;
-        overflow: auto;
+    .#{$ns}Drawer-info {
+      flex-basis: 0;
+      flex-grow: 1;
+      text-align: left;
+      align-self: center;
     }
 
-    &-footer {
-        display: flex;
-        align-items: flex-end;
-        justify-content: flex-end;
-        padding: $Drawer-footer-padding;
-        border-top: $Drawer-content-borderWidth solid lighten($Drawer-content-borderColor, 5%);
-        border-bottom-left-radius: $Drawer-content-borderRadius;
-        border-bottom-right-radius: $Drawer-content-borderRadius;
-
-        .#{$ns}Button {
-            margin-left: $gap-xs;
-        }
+    .#{$ns}Drawer-error {
+      color: var(--danger);
+      white-space: pre-wrap;
     }
+  }
 
-    &.#{$ns}Drawer--noOverlay {
-        .#{$ns}Drawer-close svg {
-            margin-top: px2rem(2px);
-            width: px2rem(20px);
-            height: px2rem(20px);
-            fill: #99a6ad;
-        }
-    }
+  &.#{$ns}Drawer--noOverlay {
+    pointer-events: none;
 
-    .#{$ns}Drawer-resizeCtrl {
-        position: absolute;
-        border: $borderWidth solid $borderColor;
-        background-color: $white;
-        border-radius: $borderRadius;
-        font-size: $fontSizeSm;
-        line-height: $fontSizeSm;
-        text-align: center;
+    .#{$ns}Drawer-close svg {
+      margin-top: px2rem(2px);
+      width: px2rem(20px);
+      height: px2rem(20px);
+      fill: #99a6ad;
     }
+  }
+
+  .#{$ns}Drawer-resizeCtrl {
+    position: absolute;
+    border: var(--borderWidth) solid var(--borderColor);
+    background: var(--white);
+    border-radius: var(--borderRadius);
+    font-size: var(--fontSizeSm);
+    line-height: px2rem(10px);
+    text-align: center;
+    user-select: none;
+  }
 }
 
 // size
 @include media-breakpoint-up(sm) {
-    .#{$ns}Drawer .#{$ns}Drawer-content {
-        width: $Drawer-widthBase;
-        height: $Drawer-widthBase;
-    }
+  .#{$ns}Drawer .#{$ns}Drawer-content {
+    width: var(--Drawer-widthBase);
+    height: var(--Drawer-widthBase);
+  }
 
-    .#{$ns}Drawer--xs .#{$ns}Drawer-content {
-        width: $Drawer-widthXs;
-        height: $Drawer-widthXs;
-    }
+  .#{$ns}Drawer--xs .#{$ns}Drawer-content {
+    width: var(--Drawer-widthXs);
+    height: var(--Drawer-widthXs);
+  }
 
-    .#{$ns}Drawer--sm .#{$ns}Drawer-content {
-        width: $Drawer-widthSm;
-        height: $Drawer-widthSm;
-    }
+  .#{$ns}Drawer--sm .#{$ns}Drawer-content {
+    width: var(--Drawer-widthSm);
+    height: var(--Drawer-widthSm);
+  }
 
-    .#{$ns}Drawer--md .#{$ns}Drawer-content {
-        width: $Drawer-widthMd;
-        height: $Drawer-widthMd;
-    }
+  .#{$ns}Drawer--md .#{$ns}Drawer-content {
+    width: var(--Drawer-widthMd);
+    height: var(--Drawer-widthMd);
+  }
 
-    .#{$ns}Drawer--lg .#{$ns}Drawer-content {
-        width: $Drawer-widthLg;
-        height: $Drawer-widthLg;
-    }
+  .#{$ns}Drawer--lg .#{$ns}Drawer-content {
+    width: var(--Drawer-widthLg);
+    height: var(--Drawer-widthLg);
+  }
 
-    .#{$ns}Drawer--xl .#{$ns}Drawer-content {
-        width: $Drawer-widthXl;
-        height: $Drawer-widthXl;
-    }
+  .#{$ns}Drawer--xl .#{$ns}Drawer-content {
+    width: var(--Drawer-widthXl);
+    height: var(--Drawer-widthXl);
+  }
 }
 
 // positons
@@ -159,159 +177,171 @@
 .#{$ns}Drawer--right .#{$ns}Drawer-content.in,
 .#{$ns}Drawer--bottom .#{$ns}Drawer-content.in,
 .#{$ns}Drawer--left .#{$ns}Drawer-content.in {
-    transform: translate3d(0, 0, 0);
+  transform: translate3d(0, 0, 0);
 }
 
 .#{$ns}Drawer--top {
+  .#{$ns}Drawer-close {
+    top: 100%;
+    margin-top: var(--gap-sm);
+    left: var(--gap-sm);
+  }
+
+  &.#{$ns}Drawer--noOverlay {
     .#{$ns}Drawer-close {
-        top: 100%;
-        margin-top: $gap-sm;
-        left: $gap-sm;
+      top: var(--gap-base);
+      right: var(--gap-base);
+      left: auto;
+      margin-top: 0;
     }
+  }
 
-    &.#{$ns}Drawer--noOverlay {
-        .#{$ns}Drawer-close {
-            top: $gap-base;
-            right: $gap-base;
-            left: auto;
-            margin-top: 0;
-        }
-    }
+  .#{$ns}Drawer-content {
+    top: 0;
+    bottom: auto;
+    left: 0;
+    right: 0;
+    width: 100%;
+    transform: translate3d(0, -100%, 0);
+    box-shadow: 0 10px 10px -10px rgba(0, 0, 0, 0.2);
+    min-height: 120px;
+  }
 
-    .#{$ns}Drawer-content {
-        top: 0;
-        bottom: auto;
-        left: 0;
-        right: 0;
-        width: 100%;
-        transform: translate3d(0, -100%, 0);
-        box-shadow: 0 10px 10px -10px rgba(0, 0, 0, 0.2);
-        min-height: 120px;
-    }
-
-    .#{$ns}Drawer-resizeCtrl {
-        bottom: px2rem(-6px);
-        left: 50%;
-        cursor: ns-resize;
-        width: px2rem(20px);
-        height: px2rem(12px);
-    }
+  .#{$ns}Drawer-resizeCtrl {
+    bottom: px2rem(-6px);
+    left: 50%;
+    cursor: ns-resize;
+    width: px2rem(24px);
+    height: px2rem(12px);
+  }
 }
 
 .#{$ns}Drawer--right {
+  .#{$ns}Drawer-close {
+    right: 100%;
+    margin-right: var(--gap-sm);
+    top: var(--gap-sm);
+  }
+
+  &.#{$ns}Drawer--noOverlay {
     .#{$ns}Drawer-close {
-        right: 100%;
-        margin-right: $gap-sm;
-        top: $gap-sm;
+      top: var(--gap-base);
+      right: var(--gap-base);
+      margin-right: 0;
+    }
+  }
+
+  .#{$ns}Drawer-content {
+    top: 0;
+    bottom: 0;
+    left: auto;
+    right: 0;
+    height: 100%;
+    transform: translate3d(100%, 0, 0);
+    box-shadow: -10px 0 10px -10px rgba(0, 0, 0, 0.2);
+    min-width: 120px;
+  }
+
+  .#{$ns}Drawer-footer {
+    justify-content: flex-start;
+
+    .#{$ns}Button {
+      margin-left: 0;
+      margin-right: var(--gap-xs);
     }
 
-    &.#{$ns}Drawer--noOverlay {
-        .#{$ns}Drawer-close {
-            top: $gap-base;
-            right: $gap-base;
-            margin-right: 0;
-        }
+    .#{$ns}Drawer-info {
+      flex-basis: 0;
+      flex-grow: 1;
+      order: 10;
+      align-self: center;
+      text-align: right;
     }
 
-    .#{$ns}Drawer-content {
-        top: 0;
-        bottom: 0;
-        left: auto;
-        right: 0;
-        height: 100%;
-        transform: translate3d(100%, 0, 0);
-        box-shadow: -10px 0 10px -10px rgba(0, 0, 0, 0.2);
-        min-width: 120px;
+    .#{$ns}Drawer-error {
+      color: var(--danger);
     }
+  }
 
-    .#{$ns}Drawer-footer {
-        justify-content: flex-start;
-
-        .#{$ns}Button {
-            margin-left: 0;
-            margin-right: $gap-xs;
-        }
-    }
-
-    .#{$ns}Drawer-resizeCtrl {
-        left: px2rem(-6px);
-        top: 50%;
-        cursor: ew-resize;
-        writing-mode: vertical-lr;
-        width: px2rem(12px);
-        height: px2rem(20px);
-    }
+  .#{$ns}Drawer-resizeCtrl {
+    left: px2rem(-6px);
+    top: 50%;
+    cursor: ew-resize;
+    writing-mode: vertical-lr;
+    width: px2rem(12px);
+    height: px2rem(24px);
+  }
 }
 
 .#{$ns}Drawer--bottom {
+  .#{$ns}Drawer-close {
+    bottom: 100%;
+    margin-bottom: var(--gap-sm);
+    left: var(--gap-sm);
+  }
+
+  &.#{$ns}Drawer--noOverlay {
     .#{$ns}Drawer-close {
-        bottom: 100%;
-        margin-bottom: $gap-sm;
-        left: $gap-sm;
+      top: var(--gap-base);
+      right: var(--gap-base);
+      left: auto;
+      margin-bottom: 0;
     }
+  }
 
-    &.#{$ns}Drawer--noOverlay {
-        .#{$ns}Drawer-close {
-            top: $gap-base;
-            right: $gap-base;
-            left: auto;
-            margin-bottom: 0;
-        }
-    }
+  .#{$ns}Drawer-content {
+    top: auto;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    transform: translate3d(0, 100%, 0);
+    box-shadow: 0 -10px 10px -10px rgba(0, 0, 0, 0.2);
+    min-height: 120px;
+  }
 
-    .#{$ns}Drawer-content {
-        top: auto;
-        bottom: 0;
-        left: 0;
-        right: 0;
-        width: 100%;
-        transform: translate3d(0, 100%, 0);
-        box-shadow: 0 -10px 10px -10px rgba(0, 0, 0, 0.2);
-        min-height: 120px;
-    }
-
-    .#{$ns}Drawer-resizeCtrl {
-        top: px2rem(-6px);
-        left: 50%;
-        cursor: ns-resize;
-        width: px2rem(20px);
-        height: px2rem(12px);
-    }
+  .#{$ns}Drawer-resizeCtrl {
+    top: px2rem(-6px);
+    left: 50%;
+    cursor: ns-resize;
+    width: px2rem(24px);
+    height: px2rem(12px);
+  }
 }
 
 .#{$ns}Drawer--left {
+  .#{$ns}Drawer-close {
+    left: 100%;
+    margin-left: var(--gap-sm);
+    top: var(--gap-sm);
+  }
+
+  &.#{$ns}Drawer--noOverlay {
     .#{$ns}Drawer-close {
-        left: 100%;
-        margin-left: $gap-sm;
-        top: $gap-sm;
+      left: auto;
+      right: var(--gap-base);
+      top: var(--gap-base);
     }
+  }
 
-    &.#{$ns}Drawer--noOverlay {
-        .#{$ns}Drawer-close {
-            left: auto;
-            right: $gap-base;
-            top: $gap-base;
-        }
-    }
+  .#{$ns}Drawer-content {
+    top: 0;
+    bottom: 0;
+    right: auto;
+    left: 0;
+    height: 100%;
+    transform: translate3d(-100%, 0, 0);
+    box-shadow: 10px 0 10px -10px rgba(0, 0, 0, 0.2);
+    border-width: 0 var(--Drawer-content-borderWidth) 0 0;
+    min-width: 120px;
+  }
 
-    .#{$ns}Drawer-content {
-        top: 0;
-        bottom: 0;
-        right: auto;
-        left: 0;
-        height: 100%;
-        transform: translate3d(-100%, 0, 0);
-        box-shadow: 10px 0 10px -10px rgba(0, 0, 0, 0.2);
-        border-width: 0 $Drawer-content-borderWidth 0 0;
-        min-width: 120px;
-    }
-
-    .#{$ns}Drawer-resizeCtrl {
-        right: px2rem(-6px);
-        top: 50%;
-        cursor: ew-resize;
-        writing-mode: vertical-lr;
-        width: px2rem(12px);
-        height: px2rem(20px);
-    }
+  .#{$ns}Drawer-resizeCtrl {
+    right: px2rem(-6px);
+    top: 50%;
+    cursor: ew-resize;
+    writing-mode: vertical-lr;
+    width: px2rem(12px);
+    height: px2rem(24px);
+  }
 }

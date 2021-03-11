@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" 
+    xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 16 16" version="1.1" p-id="1463">
+    <g stroke="currentColor" stroke-width="2" fill="none" fill-rule="evenodd">
+        <path d="M8,12.2426 L8,1.2426"></path>
+        <path d="M4.4648,4.9496 L8.7068,0.7076"></path>
+        <path d="M11.5352,4.9496 L7.2932,0.7076"></path>
+        <path d="M0,14.2426 L16,14.2426"></path>
+        <path d="M1,9.2426 L1,15.2426"></path>
+        <path d="M15,9.2426 L15,15.2426"></path>
+    </g>
+</svg>

@@ -1,0 +1,31 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Renderer:image 1`] = `
+<div>
+  <div
+    class="a-ImageField show"
+  >
+    <div
+      class="a-Image"
+    >
+      <div
+        class="a-Image-thumb a-Image-thumb--contain a-Image-thumb--1-1"
+      >
+        <img
+          class="b"
+          src="https://www.baidu.com/img/bd_logo1.png"
+        />
+      </div>
+      <div
+        class="a-Image-info"
+      >
+        <div
+          class="a-Image-title"
+        >
+          图片
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;

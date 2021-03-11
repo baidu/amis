@@ -1,0 +1,12 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Renderer:iframe 1`] = `
+<div>
+  <iframe
+    class="b-a"
+    frameborder="0"
+    src="https://www.baidu.com"
+    style="width: 500px; height: 500px;"
+  />
+</div>
+`;

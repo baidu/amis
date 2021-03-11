@@ -4,6 +4,7 @@ exports[`Renderer:Form 1`] = `
 <div>
   <div
     class="a-Panel a-Panel--default a-Panel--form"
+    style="position: relative;"
   >
     <div
       class="a-Panel-heading"
@@ -14,7 +15,9 @@ exports[`Renderer:Form 1`] = `
         <span
           class="a-TplField"
         >
-          The form
+          <span>
+            The form
+          </span>
         </span>
       </h3>
     </div>
@@ -27,12 +30,19 @@ exports[`Renderer:Form 1`] = `
       >
         <div
           class="a-Form-item a-Form-item--normal"
+          data-role="form-item"
         >
           <label
             class="a-Form-label"
           >
             <span>
-              Label
+              <span
+                class="a-TplField"
+              >
+                <span>
+                  Label
+                </span>
+              </span>
             </span>
           </label>
           <div
@@ -45,15 +55,22 @@ exports[`Renderer:Form 1`] = `
                 autocomplete="off"
                 name="a"
                 placeholder=""
+                size="10"
                 type="text"
                 value="123"
               />
             </div>
           </div>
         </div>
+        <input
+          style="display: none;"
+          type="submit"
+        />
       </form>
     </div>
-    <div>
+    <div
+      class="a-Panel-footerWrap"
+    >
       <div
         class="a-Panel-btnToolbar a-Panel-footer"
       >
@@ -67,17 +84,59 @@ exports[`Renderer:Form 1`] = `
         </button>
       </div>
     </div>
+    <div
+      class="resize-sensor"
+      style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
+    >
+      
+  
+      <div
+        class="resize-sensor-expand"
+        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+      >
+        
+    
+        <div
+          style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
+        />
+        
+  
+      </div>
+      
+  
+      <div
+        class="resize-sensor-shrink"
+        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+      >
+        
+    
+        <div
+          style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
+        />
+        
+  
+      </div>
+      
+  
+      <div
+        class="resize-sensor-appear"
+        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
+      />
+    </div>
   </div>
 </div>
 `;
 
 exports[`Renderer:Form 2`] = `
 Object {
+  "body": Object {
+    "a": "123",
+  },
   "config": Object {
-    "errorMessage": "保存失败",
+    "errorMessage": "saveFailed",
     "method": "post",
     "onSuccess": [Function],
-    "successMessage": "保存成功",
+    "successMessage": "saveSuccess",
   },
   "data": Object {
     "a": "123",
@@ -91,6 +150,7 @@ exports[`Renderer:Form initApi 1`] = `
 <div>
   <div
     class="a-Panel a-Panel--default a-Panel--form"
+    style="position: relative;"
   >
     <div
       class="a-Panel-heading"
@@ -101,7 +161,9 @@ exports[`Renderer:Form initApi 1`] = `
         <span
           class="a-TplField"
         >
-          The form
+          <span>
+            The form
+          </span>
         </span>
       </h3>
     </div>
@@ -113,13 +175,26 @@ exports[`Renderer:Form initApi 1`] = `
         novalidate=""
       >
         <div
+          class="a-Spinner-overlay"
+        />
+        <div
+          class="a-Spinner a-Spinner--overlay"
+        />
+        <div
           class="a-Form-item a-Form-item--normal"
+          data-role="form-item"
         >
           <label
             class="a-Form-label"
           >
             <span>
-              A
+              <span
+                class="a-TplField"
+              >
+                <span>
+                  A
+                </span>
+              </span>
             </span>
           </label>
           <div
@@ -132,6 +207,7 @@ exports[`Renderer:Form initApi 1`] = `
                 autocomplete="off"
                 name="a"
                 placeholder=""
+                size="10"
                 type="text"
                 value="1"
               />
@@ -140,12 +216,19 @@ exports[`Renderer:Form initApi 1`] = `
         </div>
         <div
           class="a-Form-item a-Form-item--normal"
+          data-role="form-item"
         >
           <label
             class="a-Form-label"
           >
             <span>
-              B
+              <span
+                class="a-TplField"
+              >
+                <span>
+                  B
+                </span>
+              </span>
             </span>
           </label>
           <div
@@ -158,15 +241,22 @@ exports[`Renderer:Form initApi 1`] = `
                 autocomplete="off"
                 name="b"
                 placeholder=""
+                size="10"
                 type="text"
                 value="2"
               />
             </div>
           </div>
         </div>
+        <input
+          style="display: none;"
+          type="submit"
+        />
       </form>
     </div>
-    <div>
+    <div
+      class="a-Panel-footerWrap"
+    >
       <div
         class="a-Panel-btnToolbar a-Panel-footer"
       >
@@ -179,6 +269,45 @@ exports[`Renderer:Form initApi 1`] = `
           </span>
         </button>
       </div>
+    </div>
+    <div
+      class="resize-sensor"
+      style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
+    >
+      
+  
+      <div
+        class="resize-sensor-expand"
+        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+      >
+        
+    
+        <div
+          style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
+        />
+        
+  
+      </div>
+      
+  
+      <div
+        class="resize-sensor-shrink"
+        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+      >
+        
+    
+        <div
+          style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
+        />
+        
+  
+      </div>
+      
+  
+      <div
+        class="resize-sensor-appear"
+        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
+      />
     </div>
   </div>
 </div>
@@ -188,6 +317,7 @@ exports[`Renderer:Form sendOn:true 1`] = `
 <div>
   <div
     class="a-Panel a-Panel--default a-Panel--form"
+    style="position: relative;"
   >
     <div
       class="a-Panel-heading"
@@ -198,7 +328,9 @@ exports[`Renderer:Form sendOn:true 1`] = `
         <span
           class="a-TplField"
         >
-          The form
+          <span>
+            The form
+          </span>
         </span>
       </h3>
     </div>
@@ -210,13 +342,26 @@ exports[`Renderer:Form sendOn:true 1`] = `
         novalidate=""
       >
         <div
+          class="a-Spinner-overlay"
+        />
+        <div
+          class="a-Spinner a-Spinner--overlay"
+        />
+        <div
           class="a-Form-item a-Form-item--normal"
+          data-role="form-item"
         >
           <label
             class="a-Form-label"
           >
             <span>
-              A
+              <span
+                class="a-TplField"
+              >
+                <span>
+                  A
+                </span>
+              </span>
             </span>
           </label>
           <div
@@ -229,6 +374,7 @@ exports[`Renderer:Form sendOn:true 1`] = `
                 autocomplete="off"
                 name="a"
                 placeholder=""
+                size="10"
                 type="text"
                 value="1"
               />
@@ -237,12 +383,19 @@ exports[`Renderer:Form sendOn:true 1`] = `
         </div>
         <div
           class="a-Form-item a-Form-item--normal"
+          data-role="form-item"
         >
           <label
             class="a-Form-label"
           >
             <span>
-              B
+              <span
+                class="a-TplField"
+              >
+                <span>
+                  B
+                </span>
+              </span>
             </span>
           </label>
           <div
@@ -255,15 +408,22 @@ exports[`Renderer:Form sendOn:true 1`] = `
                 autocomplete="off"
                 name="b"
                 placeholder=""
+                size="10"
                 type="text"
                 value="2"
               />
             </div>
           </div>
         </div>
+        <input
+          style="display: none;"
+          type="submit"
+        />
       </form>
     </div>
-    <div>
+    <div
+      class="a-Panel-footerWrap"
+    >
       <div
         class="a-Panel-btnToolbar a-Panel-footer"
       >
@@ -277,6 +437,45 @@ exports[`Renderer:Form sendOn:true 1`] = `
         </button>
       </div>
     </div>
+    <div
+      class="resize-sensor"
+      style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
+    >
+      
+  
+      <div
+        class="resize-sensor-expand"
+        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+      >
+        
+    
+        <div
+          style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
+        />
+        
+  
+      </div>
+      
+  
+      <div
+        class="resize-sensor-shrink"
+        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+      >
+        
+    
+        <div
+          style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
+        />
+        
+  
+      </div>
+      
+  
+      <div
+        class="resize-sensor-appear"
+        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
+      />
+    </div>
   </div>
 </div>
 `;
@@ -285,6 +484,7 @@ exports[`Renderer:Form:onValidate 1`] = `
 <div>
   <div
     class="a-Panel a-Panel--default a-Panel--form"
+    style="position: relative;"
   >
     <div
       class="a-Panel-heading"
@@ -295,7 +495,9 @@ exports[`Renderer:Form:onValidate 1`] = `
         <span
           class="a-TplField"
         >
-          The form
+          <span>
+            The form
+          </span>
         </span>
       </h3>
     </div>
@@ -308,12 +510,19 @@ exports[`Renderer:Form:onValidate 1`] = `
       >
         <div
           class="a-Form-item a-Form-item--normal is-error"
+          data-role="form-item"
         >
           <label
             class="a-Form-label"
           >
             <span>
-              A
+              <span
+                class="a-TplField"
+              >
+                <span>
+                  A
+                </span>
+              </span>
             </span>
           </label>
           <div
@@ -326,6 +535,7 @@ exports[`Renderer:Form:onValidate 1`] = `
                 autocomplete="off"
                 name="a"
                 placeholder=""
+                size="10"
                 type="text"
                 value="1"
               />
@@ -341,12 +551,19 @@ exports[`Renderer:Form:onValidate 1`] = `
         </div>
         <div
           class="a-Form-item a-Form-item--normal is-error"
+          data-role="form-item"
         >
           <label
             class="a-Form-label"
           >
             <span>
-              B
+              <span
+                class="a-TplField"
+              >
+                <span>
+                  B
+                </span>
+              </span>
             </span>
           </label>
           <div
@@ -359,6 +576,7 @@ exports[`Renderer:Form:onValidate 1`] = `
                 autocomplete="off"
                 name="b"
                 placeholder=""
+                size="10"
                 type="text"
                 value="2"
               />
@@ -375,9 +593,15 @@ exports[`Renderer:Form:onValidate 1`] = `
             </li>
           </ul>
         </div>
+        <input
+          style="display: none;"
+          type="submit"
+        />
       </form>
     </div>
-    <div>
+    <div
+      class="a-Panel-footerWrap"
+    >
       <div
         class="a-Panel-btnToolbar a-Panel-footer"
       >
@@ -390,6 +614,45 @@ exports[`Renderer:Form:onValidate 1`] = `
           </span>
         </button>
       </div>
+    </div>
+    <div
+      class="resize-sensor"
+      style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
+    >
+      
+  
+      <div
+        class="resize-sensor-expand"
+        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+      >
+        
+    
+        <div
+          style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
+        />
+        
+  
+      </div>
+      
+  
+      <div
+        class="resize-sensor-shrink"
+        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+      >
+        
+    
+        <div
+          style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
+        />
+        
+  
+      </div>
+      
+  
+      <div
+        class="resize-sensor-appear"
+        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
+      />
     </div>
   </div>
 </div>
@@ -406,6 +669,7 @@ exports[`Renderer:Form:onValidate 3`] = `
 <div>
   <div
     class="a-Panel a-Panel--default a-Panel--form"
+    style="position: relative;"
   >
     <div
       class="a-Panel-heading"
@@ -416,7 +680,9 @@ exports[`Renderer:Form:onValidate 3`] = `
         <span
           class="a-TplField"
         >
-          The form
+          <span>
+            The form
+          </span>
         </span>
       </h3>
     </div>
@@ -429,12 +695,19 @@ exports[`Renderer:Form:onValidate 3`] = `
       >
         <div
           class="a-Form-item a-Form-item--normal"
+          data-role="form-item"
         >
           <label
             class="a-Form-label"
           >
             <span>
-              A
+              <span
+                class="a-TplField"
+              >
+                <span>
+                  A
+                </span>
+              </span>
             </span>
           </label>
           <div
@@ -447,6 +720,7 @@ exports[`Renderer:Form:onValidate 3`] = `
                 autocomplete="off"
                 name="a"
                 placeholder=""
+                size="10"
                 type="text"
                 value="1"
               />
@@ -455,12 +729,19 @@ exports[`Renderer:Form:onValidate 3`] = `
         </div>
         <div
           class="a-Form-item a-Form-item--normal"
+          data-role="form-item"
         >
           <label
             class="a-Form-label"
           >
             <span>
-              B
+              <span
+                class="a-TplField"
+              >
+                <span>
+                  B
+                </span>
+              </span>
             </span>
           </label>
           <div
@@ -473,15 +754,22 @@ exports[`Renderer:Form:onValidate 3`] = `
                 autocomplete="off"
                 name="b"
                 placeholder=""
+                size="10"
                 type="text"
                 value="2"
               />
             </div>
           </div>
         </div>
+        <input
+          style="display: none;"
+          type="submit"
+        />
       </form>
     </div>
-    <div>
+    <div
+      class="a-Panel-footerWrap"
+    >
       <div
         class="a-Panel-btnToolbar a-Panel-footer"
       >
@@ -494,6 +782,45 @@ exports[`Renderer:Form:onValidate 3`] = `
           </span>
         </button>
       </div>
+    </div>
+    <div
+      class="resize-sensor"
+      style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
+    >
+      
+  
+      <div
+        class="resize-sensor-expand"
+        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+      >
+        
+    
+        <div
+          style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
+        />
+        
+  
+      </div>
+      
+  
+      <div
+        class="resize-sensor-shrink"
+        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+      >
+        
+    
+        <div
+          style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
+        />
+        
+  
+      </div>
+      
+  
+      <div
+        class="resize-sensor-appear"
+        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
+      />
     </div>
   </div>
 </div>
@@ -510,6 +837,7 @@ exports[`Renderer:Form:remoteValidate 1`] = `
 <div>
   <div
     class="a-Panel a-Panel--default a-Panel--form"
+    style="position: relative;"
   >
     <div
       class="a-Panel-heading"
@@ -520,7 +848,9 @@ exports[`Renderer:Form:remoteValidate 1`] = `
         <span
           class="a-TplField"
         >
-          The form
+          <span>
+            The form
+          </span>
         </span>
       </h3>
     </div>
@@ -532,13 +862,26 @@ exports[`Renderer:Form:remoteValidate 1`] = `
         novalidate=""
       >
         <div
+          class="a-Spinner-overlay"
+        />
+        <div
+          class="a-Spinner a-Spinner--overlay"
+        />
+        <div
           class="a-Form-item a-Form-item--normal is-error"
+          data-role="form-item"
         >
           <label
             class="a-Form-label"
           >
             <span>
-              Label
+              <span
+                class="a-TplField"
+              >
+                <span>
+                  Label
+                </span>
+              </span>
             </span>
           </label>
           <div
@@ -551,6 +894,7 @@ exports[`Renderer:Form:remoteValidate 1`] = `
                 autocomplete="off"
                 name="a"
                 placeholder=""
+                size="10"
                 type="text"
                 value=""
               />
@@ -564,9 +908,15 @@ exports[`Renderer:Form:remoteValidate 1`] = `
             </li>
           </ul>
         </div>
+        <input
+          style="display: none;"
+          type="submit"
+        />
       </form>
     </div>
-    <div>
+    <div
+      class="a-Panel-footerWrap"
+    >
       <div
         class="a-Panel-btnToolbar a-Panel-footer"
       >
@@ -580,6 +930,45 @@ exports[`Renderer:Form:remoteValidate 1`] = `
         </button>
       </div>
     </div>
+    <div
+      class="resize-sensor"
+      style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
+    >
+      
+  
+      <div
+        class="resize-sensor-expand"
+        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+      >
+        
+    
+        <div
+          style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
+        />
+        
+  
+      </div>
+      
+  
+      <div
+        class="resize-sensor-shrink"
+        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+      >
+        
+    
+        <div
+          style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
+        />
+        
+  
+      </div>
+      
+  
+      <div
+        class="resize-sensor-appear"
+        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
+      />
+    </div>
   </div>
 </div>
 `;
@@ -588,6 +977,7 @@ exports[`Renderer:Form:valdiate 1`] = `
 <div>
   <div
     class="a-Panel a-Panel--default a-Panel--form"
+    style="position: relative;"
   >
     <div
       class="a-Panel-heading"
@@ -598,7 +988,9 @@ exports[`Renderer:Form:valdiate 1`] = `
         <span
           class="a-TplField"
         >
-          The form
+          <span>
+            The form
+          </span>
         </span>
       </h3>
     </div>
@@ -611,12 +1003,19 @@ exports[`Renderer:Form:valdiate 1`] = `
       >
         <div
           class="a-Form-item a-Form-item--normal is-error is-required"
+          data-role="form-item"
         >
           <label
             class="a-Form-label"
           >
             <span>
-              Label
+              <span
+                class="a-TplField"
+              >
+                <span>
+                  Label
+                </span>
+              </span>
               <span
                 class="a-Form-star"
               >
@@ -634,6 +1033,7 @@ exports[`Renderer:Form:valdiate 1`] = `
                 autocomplete="off"
                 name="a"
                 placeholder=""
+                size="10"
                 type="text"
                 value=""
               />
@@ -647,14 +1047,21 @@ exports[`Renderer:Form:valdiate 1`] = `
             </li>
           </ul>
         </div>
+        <input
+          style="display: none;"
+          type="submit"
+        />
       </form>
     </div>
-    <div>
+    <div
+      class="a-Panel-footerWrap"
+    >
       <div
         class="a-Panel-btnToolbar a-Panel-footer"
       >
         <button
-          class="a-Button a-Button--default"
+          class="a-Button a-Button--default is-disabled"
+          disabled=""
           type="submit"
         >
           <span>
@@ -662,6 +1069,45 @@ exports[`Renderer:Form:valdiate 1`] = `
           </span>
         </button>
       </div>
+    </div>
+    <div
+      class="resize-sensor"
+      style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
+    >
+      
+  
+      <div
+        class="resize-sensor-expand"
+        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+      >
+        
+    
+        <div
+          style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
+        />
+        
+  
+      </div>
+      
+  
+      <div
+        class="resize-sensor-shrink"
+        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+      >
+        
+    
+        <div
+          style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
+        />
+        
+  
+      </div>
+      
+  
+      <div
+        class="resize-sensor-appear"
+        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
+      />
     </div>
   </div>
 </div>
@@ -671,6 +1117,7 @@ exports[`Renderer:Form:valdiate 2`] = `
 <div>
   <div
     class="a-Panel a-Panel--default a-Panel--form"
+    style="position: relative;"
   >
     <div
       class="a-Panel-heading"
@@ -681,7 +1128,9 @@ exports[`Renderer:Form:valdiate 2`] = `
         <span
           class="a-TplField"
         >
-          The form
+          <span>
+            The form
+          </span>
         </span>
       </h3>
     </div>
@@ -694,12 +1143,19 @@ exports[`Renderer:Form:valdiate 2`] = `
       >
         <div
           class="a-Form-item a-Form-item--normal is-required"
+          data-role="form-item"
         >
           <label
             class="a-Form-label"
           >
             <span>
-              Label
+              <span
+                class="a-TplField"
+              >
+                <span>
+                  Label
+                </span>
+              </span>
               <span
                 class="a-Form-star"
               >
@@ -717,15 +1173,22 @@ exports[`Renderer:Form:valdiate 2`] = `
                 autocomplete="off"
                 name="a"
                 placeholder=""
+                size="10"
                 type="text"
                 value="123"
               />
             </div>
           </div>
         </div>
+        <input
+          style="display: none;"
+          type="submit"
+        />
       </form>
     </div>
-    <div>
+    <div
+      class="a-Panel-footerWrap"
+    >
       <div
         class="a-Panel-btnToolbar a-Panel-footer"
       >
@@ -738,6 +1201,45 @@ exports[`Renderer:Form:valdiate 2`] = `
           </span>
         </button>
       </div>
+    </div>
+    <div
+      class="resize-sensor"
+      style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
+    >
+      
+  
+      <div
+        class="resize-sensor-expand"
+        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+      >
+        
+    
+        <div
+          style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
+        />
+        
+  
+      </div>
+      
+  
+      <div
+        class="resize-sensor-shrink"
+        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+      >
+        
+    
+        <div
+          style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
+        />
+        
+  
+      </div>
+      
+  
+      <div
+        class="resize-sensor-appear"
+        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
+      />
     </div>
   </div>
 </div>

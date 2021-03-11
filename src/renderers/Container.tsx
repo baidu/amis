@@ -1,63 +1,94 @@
-import * as React from 'react';
-import {
-    Renderer,
-    RendererProps
-} from '../factory';
+import React from 'react';
+import {Renderer, RendererProps} from '../factory';
+import {BaseSchema, SchemaClassName, SchemaCollection} from '../Schema';
 import {SchemaNode} from '../types';
 
-export interface ContainerProps extends RendererProps {
-    body?: SchemaNode;
-    children?: (props:any) => React.ReactNode;
-    className?: string;
+/**
+ * Container 容器渲染器。
+ * 文档：https://baidu.gitee.io/amis/docs/components/container
+ */
+export interface ContainerSchema extends BaseSchema {
+  /**
+   * 指定为 container 类型
+   */
+  type: 'container';
+
+  /**
+   * 内容
+   */
+  body: SchemaCollection;
+
+  /**
+   * body 类名
+   */
+  bodyClassName?: SchemaClassName;
+
+  /**
+   * 自定义样式
+   */
+  style?: {
+    [propName: string]: any;
+  };
+
+  /**
+   * 使用的标签
+   */
+  wrapperComponent?: string;
 }
 
-export default class Container<T> extends React.Component<ContainerProps & T, object> {
-    static propsList: Array<string> = [
-        "body",
-        "className",
-    ];
-    static defaultProps= {
-        className: '',
-    };
+export interface ContainerProps
+  extends RendererProps,
+    Omit<ContainerSchema, 'type' | 'className'> {
+  children?: (props: any) => React.ReactNode;
+}
 
-    renderBody():JSX.Element | null {
-        const {
-            children,
-            body,
-            render,
-            classnames: cx
-        } = this.props;
+export default class Container<T> extends React.Component<
+  ContainerProps & T,
+  object
+> {
+  static propsList: Array<string> = ['body', 'className'];
+  static defaultProps = {
+    className: ''
+  };
 
-        return (
-            <div className={cx("Container-body")}>
-                {children ? (
-                    typeof children === 'function' ? children(this.props) as JSX.Element : children as JSX.Element
-                ) : body ? (
-                    render('body', body) as JSX.Element
-                ) : null}
-            </div>
-        );
-    }
+  renderBody(): JSX.Element | null {
+    const {children, body, render, classnames: cx, bodyClassName} = this.props;
 
-    render() {
-        const {
-            className,
-            size,
-            classnames: cx
-        } = this.props;
+    return (
+      <div className={cx('Container-body', bodyClassName)}>
+        {children
+          ? typeof children === 'function'
+            ? ((children as any)(this.props) as JSX.Element)
+            : (children as JSX.Element)
+          : body
+          ? (render('body', body as any) as JSX.Element)
+          : null}
+      </div>
+    );
+  }
 
-        return (
-            <div
-                className={cx('Container', className)}
-            >
-                {this.renderBody()}
-            </div>
-        );
-    }
+  render() {
+    const {
+      className,
+      wrapperComponent,
+      size,
+      classnames: cx,
+      style
+    } = this.props;
+
+    const Component =
+      (wrapperComponent as keyof JSX.IntrinsicElements) || 'div';
+
+    return (
+      <Component className={cx('Container', className)} style={style}>
+        {this.renderBody()}
+      </Component>
+    );
+  }
 }
 
 @Renderer({
-    test: /(^|\/)container$/,
-    name: 'container'
+  test: /(^|\/)container$/,
+  name: 'container'
 })
-export class ContainerRenderer extends Container<{}> {};
+export class ContainerRenderer extends Container<{}> {}

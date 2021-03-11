@@ -1,42 +1,41 @@
-
 .#{$ns}PopOver {
-    position: absolute;
-    background: $white;
+  position: absolute;
+  background: var(--PopOver-bg);
+  top: 0;
+  left: 0;
+  z-index: $zindex-popover;
+  display: none;
+  padding: 0;
+  margin: 0;
+  font-weight: var(--fontWeightNormal);
+  letter-spacing: normal;
+  line-height: var(--lineHeightBase);
+  text-align: left;
+  text-align: start;
+  text-decoration: none;
+  text-shadow: none;
+  text-transform: none;
+  white-space: normal;
+  word-break: normal;
+  word-spacing: normal;
+  word-wrap: normal;
+  font-size: var(--fontSizeBase);
+  box-shadow: var(--boxShadow);
+  border: var(--borderWidth) solid var(--borderColor);
+  border-radius: var(--borderRadius);
+
+  & > * {
+    position: relative;
+    z-index: 2;
+  }
+
+  &-overlay {
+    position: fixed !important;
     top: 0;
     left: 0;
-    z-index: $zindex-popover;
-    display: none;
-    padding: 0;
-    margin: 0;
-    font-weight: $fontWeightNormal;
-    letter-spacing: normal;
-    line-height: $lineHeightBase;
-    text-align: left;
-    text-align: start;
-    text-decoration: none;
-    text-shadow: none;
-    text-transform: none;
-    white-space: normal;
-    word-break: normal;
-    word-spacing: normal;
-    word-wrap: normal;
-    font-size: $fontSizeBase;
-    box-shadow: $boxShadow;
-    border: $borderWidth solid $borderColor;
-    border-radius: $borderRadius;
-
-    &-overlay {
-        position: fixed !important;
-        top: 0;
-        left: 0;
-        right: 0;
-        z-index: 1;
-        bottom: 0;
-        background: transparent;
-  
-        & + * {
-          position: relative;
-          z-index: 2;
-        }
-    }
+    right: 0;
+    z-index: 1;
+    bottom: 0;
+    background: transparent;
+  }
 }

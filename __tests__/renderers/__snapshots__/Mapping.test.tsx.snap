@@ -1,0 +1,15 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Renderer:mapping 1`] = `
+<div>
+  <span
+    class="a-MappingField"
+  >
+    <span
+      class="text-muted"
+    >
+      -
+    </span>
+  </span>
+</div>
+`;

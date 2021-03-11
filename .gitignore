@@ -3,19 +3,24 @@
 .ruby-version
 test.sass
 npm-debug.log
+yarn.lock
 
 # Folders
 .idea/
 .sass-cache
-_gh_pages
+gh_pages
 _site
 node_modules
 /dist
 /lib
+/sdk
 /public
+/gh-pages
 /.vscode
 /output
 /toolkit/amis-renderer
 /toolkit/output
 /coverage
 /package-lock.json
+/schema.json
+/npm

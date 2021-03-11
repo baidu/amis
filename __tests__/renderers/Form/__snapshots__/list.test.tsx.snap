@@ -1,0 +1,455 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Renderer:list 1`] = `
+<div>
+  <div
+    class="a-Panel a-Panel--default a-Panel--form"
+    style="position: relative;"
+  >
+    <div
+      class="a-Panel-heading"
+    >
+      <h3
+        class="a-Panel-title"
+      >
+        <span
+          class="a-TplField"
+        >
+          <span>
+            The form
+          </span>
+        </span>
+      </h3>
+    </div>
+    <div
+      class="a-Panel-body"
+    >
+      <form
+        class="a-Form a-Form--normal"
+        novalidate=""
+      >
+        <div
+          class="a-Form-item a-Form-item--normal"
+          data-role="form-item"
+        >
+          <label
+            class="a-Form-label"
+          >
+            <span>
+              <span
+                class="a-TplField"
+              >
+                <span>
+                  单选
+                </span>
+              </span>
+            </span>
+          </label>
+          <div
+            class="a-ListControl a-Form-control"
+          >
+            <div
+              class="a-ListControl-items"
+            >
+              <div
+                class="a-ListControl-item"
+              >
+                <div
+                  class="a-ListControl-itemLabel"
+                >
+                  Option A
+                </div>
+              </div>
+              <div
+                class="a-ListControl-item"
+              >
+                <div
+                  class="a-ListControl-itemLabel"
+                >
+                  Option B
+                </div>
+              </div>
+              <div
+                class="a-ListControl-item"
+              >
+                <div
+                  class="a-ListControl-itemImage"
+                >
+                  <img
+                    alt="OptionC"
+                    src="https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=3893101144,2877209892&fm=23&gp=0.jpg"
+                  />
+                </div>
+                <div
+                  class="a-ListControl-itemLabel"
+                >
+                  OptionC
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <input
+          style="display: none;"
+          type="submit"
+        />
+      </form>
+    </div>
+    <div
+      class="resize-sensor"
+      style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
+    >
+      
+  
+      <div
+        class="resize-sensor-expand"
+        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+      >
+        
+    
+        <div
+          style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
+        />
+        
+  
+      </div>
+      
+  
+      <div
+        class="resize-sensor-shrink"
+        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+      >
+        
+    
+        <div
+          style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
+        />
+        
+  
+      </div>
+      
+  
+      <div
+        class="resize-sensor-appear"
+        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
+      />
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Renderer:list:multiple clearable 1`] = `
+<div>
+  <div
+    class="a-Panel a-Panel--default a-Panel--form"
+    style="position: relative;"
+  >
+    <div
+      class="a-Panel-heading"
+    >
+      <h3
+        class="a-Panel-title"
+      >
+        <span
+          class="a-TplField"
+        >
+          <span>
+            The form
+          </span>
+        </span>
+      </h3>
+    </div>
+    <div
+      class="a-Panel-body"
+    >
+      <form
+        class="a-Form a-Form--normal"
+        novalidate=""
+      >
+        <div
+          class="a-Form-item a-Form-item--normal"
+          data-role="form-item"
+        >
+          <label
+            class="a-Form-label"
+          >
+            <span>
+              <span
+                class="a-TplField"
+              >
+                <span>
+                  多选
+                </span>
+              </span>
+            </span>
+          </label>
+          <div
+            class="a-ListControl a-Form-control"
+          >
+            <div
+              class="a-ListControl-items"
+            >
+              <div
+                class="a-ListControl-item is-active"
+              >
+                <div
+                  class="a-ListControl-itemLabel"
+                >
+                  Option A
+                </div>
+              </div>
+              <div
+                class="a-ListControl-item is-active"
+              >
+                <div
+                  class="a-ListControl-itemLabel"
+                >
+                  Option B
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div
+          class="a-Form-item a-Form-item--normal"
+          data-role="form-item"
+        >
+          <label
+            class="a-Form-label"
+          >
+            <span>
+              <span
+                class="a-TplField"
+              >
+                <span>
+                  当前值
+                </span>
+              </span>
+            </span>
+          </label>
+          <div
+            class="a-Form-static"
+          >
+            <div
+              class="a-Form-control"
+            >
+              <span
+                class="a-TplField"
+              >
+                <span>
+                  <span
+                    class="text-muted"
+                  >
+                    -
+                  </span>
+                </span>
+              </span>
+            </div>
+          </div>
+        </div>
+        <input
+          style="display: none;"
+          type="submit"
+        />
+      </form>
+    </div>
+    <div
+      class="resize-sensor"
+      style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
+    >
+      
+  
+      <div
+        class="resize-sensor-expand"
+        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+      >
+        
+    
+        <div
+          style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
+        />
+        
+  
+      </div>
+      
+  
+      <div
+        class="resize-sensor-shrink"
+        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+      >
+        
+    
+        <div
+          style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
+        />
+        
+  
+      </div>
+      
+  
+      <div
+        class="resize-sensor-appear"
+        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
+      />
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Renderer:list:multiple clearable 2`] = `
+<div>
+  <div
+    class="a-Panel a-Panel--default a-Panel--form"
+    style="position: relative;"
+  >
+    <div
+      class="a-Panel-heading"
+    >
+      <h3
+        class="a-Panel-title"
+      >
+        <span
+          class="a-TplField"
+        >
+          <span>
+            The form
+          </span>
+        </span>
+      </h3>
+    </div>
+    <div
+      class="a-Panel-body"
+    >
+      <form
+        class="a-Form a-Form--normal"
+        novalidate=""
+      >
+        <div
+          class="a-Form-item a-Form-item--normal"
+          data-role="form-item"
+        >
+          <label
+            class="a-Form-label"
+          >
+            <span>
+              <span
+                class="a-TplField"
+              >
+                <span>
+                  多选
+                </span>
+              </span>
+            </span>
+          </label>
+          <div
+            class="a-ListControl a-Form-control"
+          >
+            <div
+              class="a-ListControl-items"
+            >
+              <div
+                class="a-ListControl-item is-active"
+              >
+                <div
+                  class="a-ListControl-itemLabel"
+                >
+                  Option A
+                </div>
+              </div>
+              <div
+                class="a-ListControl-item"
+              >
+                <div
+                  class="a-ListControl-itemLabel"
+                >
+                  Option B
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div
+          class="a-Form-item a-Form-item--normal"
+          data-role="form-item"
+        >
+          <label
+            class="a-Form-label"
+          >
+            <span>
+              <span
+                class="a-TplField"
+              >
+                <span>
+                  当前值
+                </span>
+              </span>
+            </span>
+          </label>
+          <div
+            class="a-Form-static"
+          >
+            <div
+              class="a-Form-control"
+            >
+              <span
+                class="a-TplField"
+              >
+                <span>
+                  <span
+                    class="text-muted"
+                  >
+                    -
+                  </span>
+                </span>
+              </span>
+            </div>
+          </div>
+        </div>
+        <input
+          style="display: none;"
+          type="submit"
+        />
+      </form>
+    </div>
+    <div
+      class="resize-sensor"
+      style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
+    >
+      
+  
+      <div
+        class="resize-sensor-expand"
+        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+      >
+        
+    
+        <div
+          style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
+        />
+        
+  
+      </div>
+      
+  
+      <div
+        class="resize-sensor-shrink"
+        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+      >
+        
+    
+        <div
+          style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
+        />
+        
+  
+      </div>
+      
+  
+      <div
+        class="resize-sensor-appear"
+        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
+      />
+    </div>
+  </div>
+</div>
+`;

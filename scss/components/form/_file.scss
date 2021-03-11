@@ -1,0 +1,159 @@
+.#{$ns}FileControl {
+  &-dropzone {
+    outline: none;
+  }
+
+  &-selectBtn {
+    width: px2rem(120px);
+
+    > svg {
+      margin-right: 10px;
+      width: pxrem(16px);
+      height: pxrem(16px);
+    }
+  }
+
+  // &-dropzone:focus {
+  //     .#{$ns}FileControl-selectBtn {
+  //         background: var(--Button--default-onHover-bg);
+  //         border-color: var(--Button--default-onHover-border);
+  //         color: var(--Button--default-onHover-color);
+  //     }
+
+  //     &:after {
+  //         content: '当前状态接受从剪切板中粘贴文件。';
+  //         color: var(--text--muted-color);
+  //         font-size: 11px;
+  //         margin-top: 10px;
+  //     }
+  // }
+
+  &-description {
+    margin-left: 10px;
+    color: #999;
+    font-size: 12px;
+  }
+
+  &-list {
+    list-style: none;
+    margin: 10px 0;
+    padding: 0;
+    width: 250px;
+
+    > li {
+      color: #333;
+      font-size: 12px;
+
+      &:hover {
+        color: #108cee;
+        background: #f3f3f3;
+      }
+    }
+  }
+
+  &-itemInfo {
+    padding: 0px 6px;
+    line-height: 26px;
+    height: 26px;
+
+    &.is-invalid {
+      color: #999;
+    }
+
+    > svg:first-child {
+      margin-right: 10px;
+    }
+
+    > svg:not(:first-child) {
+      margin-left: 10px;
+      width: px2rem(16px);
+      height: px2rem(16px);
+      top: px2rem(5px);
+    }
+  }
+
+  &-itemInfoText {
+    white-space: nowrap;
+    max-width: 170px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: inline-block;
+    vertical-align: middle;
+  }
+
+  &-clear {
+    float: right;
+    color: #999;
+    display: none;
+    cursor: pointer;
+
+    &:hover {
+      color: #333;
+    }
+  }
+
+  &-list:empty {
+    display: none;
+  }
+
+  &-list > li:hover &-clear {
+    display: block;
+  }
+
+  &-progressInfo {
+    display: inline-flex;
+    height: 20px;
+    padding: 0 6px;
+    transform: translateY(-3px);
+    width: 100%;
+    align-items: center;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+
+    > span {
+      display: inline-block;
+      padding: 0 4px 0 10px;
+      font-size: 12px;
+    }
+
+    > svg {
+      display: inline-block;
+      margin: 0 4px 0 10px;
+      width: 14px;
+      height: 14px;
+      top: 0;
+    }
+  }
+
+  &-progress {
+    height: 5px;
+    flex: 1;
+    background: #ebebeb;
+
+    > span {
+      display: block;
+      background: var(--info);
+      height: 100%;
+      min-width: 10%;
+      transition: ease-out width var(--animation-duration);
+    }
+  }
+
+  &-acceptTip {
+    height: 120px;
+    color: #999;
+    border: 2px dashed var(--info);
+    border-radius: var(--borderRadius);
+    background: #f3f9fe;
+    line-height: 120px;
+    text-align: center;
+  }
+
+  &-sum {
+    font-size: var(--fontSizeSm);
+
+    > a {
+      cursor: pointer;
+    }
+  }
+}

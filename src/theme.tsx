@@ -1,133 +1,188 @@
 // 主题管理
-import * as cx  from 'classnames';
-import * as React from 'react';
-import hoistNonReactStatic = require('hoist-non-react-statics');
-import { ExtractProps, Omit } from './types';
-import * as PropTypes from 'prop-types';
+import cx from 'classnames';
+import React from 'react';
+import hoistNonReactStatic from 'hoist-non-react-statics';
 
-export type ClassValue = string | number | ClassDictionary | ClassArray | undefined | null | boolean;
+export type ClassValue =
+  | string
+  | number
+  | ClassDictionary
+  | ClassArray
+  | undefined
+  | null
+  | boolean;
 
 interface ClassDictionary {
-	[id: string]: any;
+  [id: string]: any;
 }
 
-// This is the only way I found to break circular references between ClassArray and ClassValue
-// https://github.com/Microsoft/TypeScript/issues/3496#issuecomment-128553540
-interface ClassArray extends Array<ClassValue> { } // tslint:disable-line no-empty-interface
+interface ClassArray extends Array<ClassValue> {}
 
 export type ClassNamesFn = (...classes: ClassValue[]) => string;
 
 interface ThemeConfig {
-    classPrefix?: string;
-    renderers?: {
-        [propName:string]: any
-    },
+  classPrefix?: string;
+  renderers?: {
+    [propName: string]: any;
+  };
+  components?: {
+    [propName: string]: any;
+  };
 
-    [propsName:string]: any
-};
-
-const themes:{
-    [propName:string]: ThemeConfig
-} = {
-    'default': {
-    }
-};
-
-export function theme(name:string, config:Partial<ThemeConfig>) {
-    themes[name] = {
-        ...config,
-    };
+  [propsName: string]: any;
 }
 
-const fns:{
-    [propName:string]: (...classes: ClassValue[]) => string
+const themes: {
+  [propName: string]: ThemeConfig;
+} = {
+  default: {}
+};
+
+export function theme(name: string, config: Partial<ThemeConfig>) {
+  themes[name] = {
+    ...config
+  };
+}
+
+const fns: {
+  [propName: string]: (...classes: ClassValue[]) => string;
 } = {};
-export function makeClassnames(ns?:string) {
-    if (ns && fns[ns]) {
-        return fns[ns]; 
-    }
+export function makeClassnames(ns?: string) {
+  if (ns && fns[ns]) {
+    return fns[ns];
+  }
 
-    const fn = (...classes: ClassValue[]) => {
-        const str = cx(...classes as any);
-        return str && ns ? str.replace(/(^|\s)([A-Z])/g, '$1' + ns + '$2') : (str || '');
-    }
+  const fn = (...classes: ClassValue[]) => {
+    const str = cx(...(classes as any));
+    return str && ns
+      ? str
+          .replace(/(^|\s)([A-Z])/g, '$1' + ns + '$2')
+          .replace(/(^|\s)\:/g, '$1')
+      : str || '';
+  };
 
-    ns && (fns[ns] = fn);
-    return fn;
+  ns && (fns[ns] = fn);
+  return fn;
 }
 
 export type ThemeInstance = ThemeConfig & {
-    getRendererConfig: (name?:string) => any;
-    classnames: ClassNamesFn;
+  getRendererConfig: (name?: string) => any;
+  getComponentConfig: (name?: string) => any;
+  classnames: ClassNamesFn;
 };
 
-export function hasTheme(theme:string):boolean {
-    return !!themes[theme];
+export function hasTheme(theme: string): boolean {
+  return !!themes[theme];
 }
 
-export function getTheme(theme:string):ThemeInstance {
-    if (!themes[theme]) {
-        throw new Error(`Theme with name "${theme}" does not exist!`);
-    }
+export function setDefaultTheme(theme: string) {
+  if (hasTheme(theme)) {
+    defaultTheme = theme;
+  }
+}
 
-    const config = themes[theme];
+export function classnames(...classes: ClassValue[]) {
+  return getTheme(defaultTheme).classnames(...classes);
+}
 
-    if (!config.getRendererConfig) {
-        config.getRendererConfig = (name?:string) => config.renderers && name ? config.renderers[name] : null;
-    }
+export function getClassPrefix() {
+  return getTheme(defaultTheme).classPrefix;
+}
 
-    if (!config.classnames) {
-        const ns = config.classPrefix;
-        config.classnames = config.classnames || makeClassnames(ns);
-    }
+export function getTheme(theme: string): ThemeInstance {
+  if (!themes[theme]) {
+    throw new Error(`Theme with name "${theme}" does not exist!`);
+  }
 
-    return config as ThemeInstance;
+  const config = themes[theme];
+
+  if (!config.getRendererConfig) {
+    config.getRendererConfig = (name?: string) =>
+      config.renderers && name ? config.renderers[name] : null;
+  }
+
+  if (!config.classnames) {
+    const ns = config.classPrefix;
+    config.classnames = config.classnames || makeClassnames(ns);
+  }
+
+  if (!config.getComponentConfig) {
+    config.getComponentConfig = (name?: string) =>
+      config.components && name ? config.components[name] : null;
+  }
+
+  return config as ThemeInstance;
 }
 
 export interface ThemeProps {
-    classPrefix: string;
-    classnames: ClassNamesFn;
+  className?: string;
+  classPrefix: string;
+  classnames: ClassNamesFn;
+  theme?: string;
 }
 
-export const ThemeContext = React.createContext('theme');
+export interface ThemeOutterProps {
+  theme?: string;
+  className?: string;
+  classPrefix?: string;
+  classnames?: ClassNamesFn;
+}
 
-export function themeable<T extends React.ComponentType<ThemeProps & ExtractProps<T>>>(ComposedComponent: T) {
-    type ComposedProps = JSX.LibraryManagedAttributes<T, ExtractProps<T>>;
-    type Props = Omit<ComposedProps, keyof ThemeProps> & {
-        theme?: string;
-        classPrefix?: string;
-        classnames?: ClassNamesFn;
-    }
+export let defaultTheme: string = 'default';
+export const ThemeContext = React.createContext('');
 
-    class EnhancedComponent extends React.Component<Props> {
-        static displayName = `Themeable(${ComposedComponent.displayName || ComposedComponent.name})`;
-        static contextType = ThemeContext;
-        static ComposedComponent = ComposedComponent;
+export function themeable<
+  T extends React.ComponentType<React.ComponentProps<T> & ThemeProps> & {
+    themeKey?: string;
+  }
+>(ComposedComponent: T) {
+  type OuterProps = JSX.LibraryManagedAttributes<
+    T,
+    Omit<React.ComponentProps<T>, keyof ThemeProps>
+  > &
+    ThemeOutterProps;
 
-        render() {
-            const theme:string = this.props.theme || this.context || 'default';
-            const config = hasTheme(theme) ? getTheme(theme) : getTheme('default');
-            const injectedProps:{
-                classPrefix: string;
-                classnames: ClassNamesFn;
-            } = {
-                classPrefix: config.classPrefix as string,
-                classnames: config.classnames
-            };
+  const result = hoistNonReactStatic(
+    class extends React.Component<OuterProps> {
+      static displayName = `Themeable(${
+        ComposedComponent.displayName || ComposedComponent.name
+      })`;
+      static contextType = ThemeContext;
+      static ComposedComponent = ComposedComponent;
 
-            return (
-                <ThemeContext.Provider value={theme}>
-                    <ComposedComponent
-                        {...this.props as any /* todo, 解决这个类型问题 */}
-                        {...injectedProps}
-                    />
-                </ThemeContext.Provider>
-            );
-        }
-    }
-    
-    return hoistNonReactStatic(EnhancedComponent, ComposedComponent) as 
-        React.ComponentClass<Props> & {
-            ComposedComponent: T
+      render() {
+        const theme: string = this.props.theme || this.context || defaultTheme;
+        const config = hasTheme(theme)
+          ? getTheme(theme)
+          : getTheme(defaultTheme);
+        const injectedProps: {
+          classPrefix: string;
+          classnames: ClassNamesFn;
+          theme: string;
+        } = {
+          classPrefix: config.classPrefix as string,
+          classnames: config.classnames,
+          theme
         };
+
+        return (
+          <ThemeContext.Provider value={theme}>
+            <ComposedComponent
+              {...config.getComponentConfig(ComposedComponent.themeKey)}
+              {...(this.props as JSX.LibraryManagedAttributes<
+                T,
+                React.ComponentProps<T>
+              >)}
+              {...injectedProps}
+            />
+          </ThemeContext.Provider>
+        );
+      }
+    },
+    ComposedComponent
+  );
+
+  return result as typeof result & {
+    ComposedComponent: T;
+  };
 }

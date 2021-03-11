@@ -1,173 +1,211 @@
 @keyframes bounceIn {
-    from,
-    20%,
-    40%,
-    60%,
-    80%,
-    to {
-        animation-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);
-    }
-    0% {
-        opacity: 0;
-        transform: scale3d(0.3, 0.3, 0.3);
-    }
-    20% {
-        transform: scale3d(1.1, 1.1, 1.1);
-    }
-    40% {
-        transform: scale3d(0.9, 0.9, 0.9);
-    }
-    60% {
-        opacity: 1;
-        transform: scale3d(1.03, 1.03, 1.03);
-    }
-    80% {
-        transform: scale3d(0.97, 0.97, 0.97);
-    }
-    to {
-        opacity: 1;
-        transform: scale3d(1, 1, 1);
-    }
+  from,
+  20%,
+  40%,
+  60%,
+  80%,
+  to {
+    animation-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);
+  }
+
+  0% {
+    opacity: 0;
+    transform: scale3d(0.3, 0.3, 0.3);
+  }
+
+  20% {
+    transform: scale3d(1.1, 1.1, 1.1);
+  }
+
+  40% {
+    transform: scale3d(0.9, 0.9, 0.9);
+  }
+
+  60% {
+    opacity: 1;
+    transform: scale3d(1.03, 1.03, 1.03);
+  }
+
+  80% {
+    transform: scale3d(0.97, 0.97, 0.97);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale3d(1, 1, 1);
+  }
 }
 
 @keyframes bounceOut {
-    20% {
-        transform: scale3d(0.9, 0.9, 0.9);
-    }
-    50%,
-    55% {
-        opacity: 1;
-        transform: scale3d(1.1, 1.1, 1.1);
-    }
-    to {
-        opacity: 0;
-        transform: scale3d(0.3, 0.3, 0.3);
-    }
+  20% {
+    transform: scale3d(0.9, 0.9, 0.9);
+  }
+
+  50%,
+  55% {
+    opacity: 1;
+    transform: scale3d(1.1, 1.1, 1.1);
+  }
+
+  to {
+    opacity: 0;
+    transform: scale3d(0.3, 0.3, 0.3);
+  }
 }
 
 .#{$ns}Toast {
-    &-wrap {
-        pointer-events: none;
-        position: fixed;
-        z-index: $zindex-toast;
-    }
+  &-wrap {
+    pointer-events: none;
+    position: fixed;
+    z-index: $zindex-toast;
+  }
 
-    width: $Toast-width;
-    pointer-events: auto;
-    margin-bottom: $gap-xs;
-    padding: $Toast-paddingY $Toast-paddingX $Toast-paddingY ($Toast-paddingX + $Toast-paddingL);
-    box-shadow: $Toast-box-shadow;
-    border-radius: $Toast-borderRadius;
-    border: $Toast-border-width solid;
-    color: $Toast-color; 
-    position: relative;
-    opacity: $Toast-opacity;
-    cursor: pointer;
+  width: var(--Toast-width);
+  pointer-events: auto;
+  margin-bottom: var(--gap-xs);
+
+  @if $Toast-icon-fillHeight {
+    padding: var(--Toast-paddingY)
+      var(--Toast-paddingX)
+      var(--Toast-paddingY)
+      calc(var(--Toast-paddingX) + var(--Toast-paddingL));
+  } @else {
+    padding: var(--Toast-paddingY) var(--Toast-paddingX);
+  }
+
+  box-shadow: var(--Toast-box-shadow);
+  border-radius: var(--Toast-borderRadius);
+  border: var(--Toast-border-width) solid;
+  color: var(--Toast-color);
+  position: relative;
+  opacity: var(--Toast-opacity);
+  cursor: pointer;
+  opacity: 0;
+  transform: translateZ(0);
+
+  &.in,
+  &.out {
+    animation-fill-mode: both;
+    animation-duration: var(--animation-duration);
+    opacity: 1;
+  }
+
+  &.in {
+    animation-name: bounceIn;
+  }
+
+  &.out {
+    animation-name: bounceOut;
+  }
+
+  &-close {
+    position: absolute;
+    top: var(--gap-xs);
+    right: var(--gap-sm);
+    color: var(--Toast-close-color);
+    line-height: 1;
+    opacity: 0.8;
 
     &:hover {
-        opacity: 1;
+      color: var(--Toast-close--onHover-color);
+      opacity: 1;
     }
-    
-    &.in {
-        animation-duration: 0.75s;
-        animation-name: bounceIn;
+  }
+
+  &-title {
+    display: var(--Toast-title-display);
+    margin-right: var(--gap-base);
+    font-size: var(--fontSizeMd);
+    vertical-align: middle;
+  }
+
+  &-body {
+    display: var(--Toast-title-display);
+    vertical-align: middle;
+    white-space: pre-wrap;
+  }
+
+  &-icon {
+    display: inline-flex;
+    text-rendering: auto;
+    -webkit-font-smoothing: antialiased;
+    vertical-align: middle;
+
+    @if $Toast-icon-fillHeight {
+      position: absolute;
+      left: var(--Toast-paddingX);
+      top: var(--Toast-paddingY);
+      width: calc(var(--Toast-paddingL) - var(--Toast-paddingX));
+      height: calc(var(--Toast-paddingL) - var(--Toast-paddingX));
+      align-items: center;
+      justify-content: center;
+    } @else {
+      margin-right: var(--gap-xs);
     }
 
-    &.out {
-        animation-duration: 0.75s;
-        animation-name: bounceOut;
+    > svg {
+      top: 0;
+      width: var(--Toast-icon-width);
+      height: var(--Toast-icon-height);
+      color: inherit;
     }
+  }
 
-    &.hidden {
-        display: none;
-    }
+  // colors
+  &--error {
+    color: var(--Toast--danger-color);
+    border-color: var(--Toast--danger-borderColor);
+    background: var(--Toast--danger-bgColor);
+  }
 
-    &-title {
-        display: $Toast-display;
-        font-size: $fontSizeMd;
-    }
-    &-body {
-        display: $Toast-display;
-    }
-    &::before {
-        display: inline-block;
-        font-family: $Toast-iconVendor;
-        font-size: $Toast-icon-fontSize;
-        text-rendering: auto;
-        -webkit-font-smoothing: antialiased;
-        position: absolute;
-        left: $Toast-paddingX;
-        top: $Toast-paddingY;
-    } 
-    
-    // colors
-    &--error {
-        color: $Toast--danger-color;
-        border-color: $Toast--danger-borderColor;
-        background-color: $Toast--danger-bgColor;
-        &::before {
-            content: $Toast--error-icon;
-        }
-    }
+  &--warning {
+    color: var(--Toast--warning-color);
+    border-color: var(--Toast--warning-borderColor);
+    background: var(--Toast--warning-bgColor);
+  }
 
-    &--warning {
-        color: $Toast--warning-color;
-        border-color: $Toast--warning-borderColor;
-        background-color: $Toast--warning-bgColor;
-        &::before {
-            content: $Toast--warning-icon;
-        }
-    } 
+  &--info {
+    color: var(--Toast--info-color);
+    border-color: var(--Toast--info-borderColor);
+    background: var(--Toast--info-bgColor);
+  }
 
-    &--info {
-        color: $Toast--info-color;
-        border-color: $Toast--info-borderColor;
-        background-color: $Toast--info-bgColor;
-        padding: $Toast-paddingY $Toast-paddingX $Toast-paddingY ($Toast-paddingX + $Toast--info-paddingL);
-        &::before {
-            content: $Toast--info-icon;
-        }
-    } 
+  &--success {
+    color: var(--Toast--success-color);
+    border-color: var(--Toast--success-borderColor);
+    background: var(--Toast--success-bgColor);
+  }
 
-    &--success {
-        color: $Toast--success-color;
-        border-color: $Toast--success-borderColor;
-        background-color: $Toast--success-bgColor;
-        &::before {
-            content: $Toast--success-icon;
-        }
-    } 
-    
-    // positions
-    &-wrap--topRight {
-        top: $gap-base;
-        right: $gap-base;
-    }
+  // positions
+  &-wrap--topRight {
+    top: var(--gap-base);
+    right: var(--gap-base);
+  }
 
-    &-wrap--topCenter {
-        top: $gap-base;
-        left: 50%;
-        margin-left: -$Toast-width/2;
-    }
+  &-wrap--topCenter {
+    top: var(--gap-base);
+    left: 50%;
+    margin-left: calc(var(--Toast-width) / -2);
+  }
 
-    &-wrap--topLeft {
-        top: $gap-base;
-        left: $gap-base;
-    }
+  &-wrap--topLeft {
+    top: var(--gap-base);
+    left: var(--gap-base);
+  }
 
-    &-wrap--bottomLeft {
-        left: $gap-base;
-        bottom: $gap-base;
-    }
+  &-wrap--bottomLeft {
+    left: var(--gap-base);
+    bottom: var(--gap-base);
+  }
 
-    &-wrap--bottomCenter {
-        left: 50%;
-        margin-left: -$Toast-width/2;
-        bottom: $gap-base;
-    }
+  &-wrap--bottomCenter {
+    left: 50%;
+    margin-left: calc(var(--Toast-width) / -2);
+    bottom: var(--gap-base);
+  }
 
-    &-wrap--bottomRight {
-        bottom: $gap-base;
-        right: $gap-base;
-    }
+  &-wrap--bottomRight {
+    bottom: var(--gap-base);
+    right: var(--gap-base);
+  }
 }

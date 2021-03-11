@@ -1,0 +1,31 @@
+/*!markdown
+
+---
+title: Font Style
+---
+
+| Class       | Properties               |
+| ----------- | ------------------------ |
+| italic | font-style: italic |
+| not-italic | font-style: normal |
+
+
+*/
+@mixin make-font-style($prefix: '.') {
+  #{$prefix}italic {
+    font-style: italic;
+  }
+
+  #{$prefix}not-italic {
+    font-style: normal;
+  }
+}
+
+@include make-font-style();
+@each $deivce in map-keys($devices) {
+  @include media-device($deivce) {
+    @include make-font-style('.' + selector-escape($deivce + ':'));
+  }
+}
+
+// hover ?

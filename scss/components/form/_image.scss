@@ -1,171 +1,256 @@
-// todo
-
 .#{$ns}ImageControl {
-    outline: none;
-}
+  position: relative;
 
-.drop-zone {
-    border: $Form-input-borderWidth*2 dashed $Form-input-borderColor;
-    height: 70px;
-    text-align: center;
-    display: table;
-    width: 100%;
-    color: $text--muted-color;
-    position: relative;
+  &-dropzone {
+    outline: none;
+  }
+
+  &-addBtn {
+    margin: 0;
+    width: px2rem(120px);
+    height: px2rem(120px);
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    border: var(--borderWidth) solid var(--borderColor);
     cursor: pointer;
-    >div:not(.image-list) {
-        display: table-cell;
-        vertical-align: middle;
-    }
-    &.has-files {
-        cursor: default;
-        border: 2px dashed transparent;
-    }
-}
+    margin-right: var(--gap-base);
 
-.drop-zone-wrapper:focus .drop-zone:not(.disabled) {
-    color: $text-color;
-    border:  $Form-input-borderWidth*2 dashed $Form-input-onFocused-borderColor;
-    height: 90px;
-    padding-bottom: 20px;
-    margin-bottom: 10px;
-    &:after {
-        content: '温馨提示：当前状态可以粘贴剪切板中的文件。如截屏';
-        position: absolute;
-        left: 10px;
-        bottom: 3px;
-        color: $text--muted-color;
-        font-size: $fontSizeSm;
-        overflow: hidden;
-        right: 0;
-        text-overflow: ellipsis;
-        background-color: white;
-    }
-}
+    @include button-variant(
+      var(--ImageControl-addBtn-bg),
+      var(--ImageControl-addBtn-border),
+      var(--ImageControl-addBtn-color),
+      var(--ImageControl-addBtn-onHover-bg),
+      var(--ImageControl-addBtn-onHover-border),
+      var(--ImageControl-addBtn-onHover-color),
+      var(--ImageControl-addBtn-onActive-bg),
+      var(--ImageControl-addBtn-onActive-border),
+      var(--ImageControl-addBtn-onActive-color)
+    );
 
-.drop-zone.disabled {
+    > svg {
+      width: px2rem(50px);
+      height: px2rem(50px);
+      top: 0;
+    }
+
+    &.is-disabled {
+      pointer-events: none;
+      border: px2rem(1px) solid var(--ImageControl-addBtn-onDisabled-border);
+      background: var(--ImageControl-addBtn-onDisabled-bg);
+      color: var(--ImageControl-addBtn-onDisabled-color);
+    }
+  }
+
+  &-pasteTip {
     pointer-events: none;
-}
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    position: absolute;
+    font-size: var(--Tooltip--attr-fontSize);
+    line-height: var(--Tooltip--attr-lineHeigt);
+    text-align: left;
+    white-space: nowrap;
+    background: var(--Tooltip--attr-bg);
+    border: var(--Tooltip--attr-borderWidth) solid
+      var(--Tooltip--attr-borderColor);
+    border-radius: var(--Tooltip--attr-borderRadius);
+    box-shadow: var(--Tooltip--attr-boxShadow);
+    left: 100%;
+    color: var(--Tooltip--attr-color);
+    padding: var(--Tooltip--attr-paddingY) var(--Tooltip--attr-paddingX);
+    margin: 30px 0 0 var(--Tooltip--attr-gap);
+  }
 
-.drop-zone-active,
-.drop-zone-active.has-files,
-.drop-zone:hover:not(.disabled):not(.has-files) {
-    color: $text-color;
-    border: $Form-input-borderWidth*2 dashed $Form-input-onFocused-borderColor;
-}
+  &-dropzone:focus &-addBtn {
+    border-color: var(--ImageControl-addBtn-onHover-border);
+    background: var(--ImageControl-addBtn-onHover-bg);
+    color: var(--ImageControl-addBtn-onHover-color);
+  }
 
-.image-list {
-    outline: none;
-    margin: -5px;
-    .image-item {
-        position: relative;
-        margin: 5px;
-        width: 90px;
-        .img-wrapper {
-            width: 90px;
-            min-height: 50px;
-            overflow: hidden;
-        }
-        img {
-            display: block;
-            width: 100%;
-        }
-        .fa-spinner {
-            position: absolute;
-            left: 50%;
-            top: 50%;
-            margin: -15px 0 0 -20px;
-            color: #fff;
-        }
-        .image-overlay {
-            background: rgba(0, 0, 0, 0.3);
-            border-radius: 5px;
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-content: center;
-            padding: 10px;
-
-            > a,
-            > button {
-                flex: 1;
-                outline: none;
-                display: flex;
-                color: #fff;
-                background: transparent;
-                border: 0;
-                text-decoration: none;
-                justify-content: center;
-                align-items: center;
-                opacity: 0.6;
-
-                &:hover {
-                    opacity: 1;
-                }
-            }
-        }
-        p {
-            margin: 0;
-            text-align: center;
-        }
-    }
-    &.image-list-multiple .image-item .img-wrapper {
-        height: 90px;
-        display: table-cell;
-        vertical-align: middle;
-    }
-    .image-add-btn {
-        width: 90px;
-        height: 110px;
-        line-height: 110px;
-        margin: 5px;
-        cursor: pointer;
-        float: left;
-        &:hover .fa {
-            color: $dark;
-        }
-    }
-    .image-item.uploaded {
-        .fa-spinner {
-            display: none;
-        }
-        .image-overlay {
-            display: none;
-        }
-        &:hover {
-            .image-overlay {
-                display: flex;
-            }
-        }
-    }
-}
-
-.cropper-wrapper {
+  &-item {
+    border: var(--borderWidth) solid var(--borderColor);
+    vertical-align: top;
+    padding: var(--gap-xs);
+    display: inline-block;
+    margin-right: var(--gap-base);
+    margin-bottom: var(--gap-base);
     position: relative;
-    img {
-        max-width: 100%;
-        max-height: 400px;
-    }
-    .btn {
-        position: absolute;
-        bottom: 0;
-        right: 0;
-    }
-    .btn:nth-child(2n + 1) {
-        bottom: 40px;
-        right: 4px;
-    }
-}
+    width: px2rem(120px);
+  }
 
-@media (min-width: 768px) {
-    .amis-image-control.form-contorl-inline,
-    .form-group-inline .amis-image-control {
-        display: inline-block;
-        min-width: 280px;
+  &-image {
+    width: 100%;
+    height: 100%;
+    padding: 0;
+    border: none;
+    display: block;
+  }
+
+  &-itemOverlay {
+    background: rgba(0, 0, 0, 0.6);
+    position: absolute;
+    width: px2rem(108px);
+    height: px2rem(108px);
+    display: none;
+    top: px2rem(5px);
+    left: px2rem(5px);
+
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+    flex-wrap: wrap;
+    color: #fff;
+
+    > div {
+      width: 100%;
+      text-align: center;
+      margin-bottom: 5px;
     }
+
+    > a {
+      cursor: pointer;
+      color: #fff;
+      display: inline-block;
+      padding: 0 5px;
+      line-height: 1;
+      font-size: px2rem(16px);
+    }
+  }
+
+  &-item:hover &-itemOverlay {
+    display: flex;
+  }
+
+  &-itemClear {
+    position: absolute;
+    cursor: pointer;
+
+    color: #999;
+    top: 5px;
+    right: 5px;
+    line-height: 1;
+
+    > svg {
+      top: 0;
+      width: 10px;
+      height: 10px;
+    }
+  }
+
+  &-itemInfo {
+    display: inline-flex;
+    width: 110px;
+    height: 110px;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+    flex-wrap: wrap;
+
+    > p {
+      width: 100%;
+      text-align: center;
+      font-size: 12px;
+      margin-bottom: 5px;
+    }
+  }
+
+  &-progress {
+    width: 70px;
+    height: 5px;
+    background: #ebebeb;
+  }
+
+  &-progressValue {
+    height: 5px;
+    display: block;
+    background: var(--info);
+    min-width: 10%;
+    transition: ease-out width var(--animation-duration);
+  }
+
+  &-item.is-invalid &-itemClear {
+    display: none;
+  }
+
+  &-item.is-invalid:hover &-itemClear {
+    display: block;
+  }
+
+  &-retryBtn {
+    margin: 0;
+    width: px2rem(108px);
+    height: px2rem(108px);
+    display: inline-flex;
+    cursor: pointer;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+    flex-wrap: wrap;
+    color: #666;
+
+    &:hover {
+      color: #333;
+      text-decoration: none;
+    }
+
+    > p {
+      width: 100%;
+      text-align: center;
+      color: var(--danger);
+      margin: 10px 0 0;
+    }
+  }
+
+  &-errorMsg {
+    color: var(--danger);
+    margin: 5px 0 0;
+  }
+
+  &-uploadBtn {
+    margin-top: 5px;
+  }
+
+  &-cropperWrapper {
+    position: relative;
+
+    img {
+      max-width: 100%;
+      max-height: 400px;
+    }
+  }
+
+  &-croperToolbar {
+    display: inline-flex;
+    width: 50px;
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    flex-direction: column;
+    align-items: flex-end;
+
+    > a {
+      color: #fff;
+      padding: 2px 5px;
+      cursor: pointer;
+      font-size: 20px;
+    }
+  }
+
+  &-acceptTip {
+    height: 120px;
+    color: #999;
+    border: 2px dashed var(--borderColor);
+
+    // &.is-accept {
+    border-color: var(--info);
+    background: #f3f9fe;
+    // }
+
+    border-radius: var(--borderRadius);
+
+    line-height: 120px;
+    text-align: center;
+  }
 }

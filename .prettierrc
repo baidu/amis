@@ -1,0 +1,20 @@
+{
+  "printWidth": 80,
+  "tabWidth": 2,
+  "useTabs": false,
+  "singleQuote": true,
+  "semi": true,
+  "trailingComma": "none",
+  "bracketSpacing": false,
+  "quoteProps": "consistent",
+  "arrowParens": "avoid",
+  "jsxBracketSameLine": false,
+  "overrides": [
+    {
+      "files": "src/locale/*.ts",
+      "options": {
+        "printWidth": 800
+      }
+    }
+  ]
+}

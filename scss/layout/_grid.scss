@@ -38,7 +38,6 @@
 //     }
 // }
 
-
 // @mixin calc-grid-column($index, $class, $type) {
 //     @if ($type==width) and ($index > 0) {
 //         .#{$ns}Grid-col--#{$class}#{$index} {
@@ -84,41 +83,39 @@
 // }
 
 @mixin make-grid($class) {
-    // @include float-grid-columns($class);
-    // @include loop-grid-columns($Grid-columns, $class, width);
-    // @include loop-grid-columns($Grid-columns, $class, pull);
-    // @include loop-grid-columns($Grid-columns, $class, push);
-    // @include loop-grid-columns($Grid-columns, $class, offset);
+  // @include float-grid-columns($class);
+  // @include loop-grid-columns($Grid-columns, $class, width);
+  // @include loop-grid-columns($Grid-columns, $class, pull);
+  // @include loop-grid-columns($Grid-columns, $class, push);
+  // @include loop-grid-columns($Grid-columns, $class, offset);
 
-    @for $i from 1 through $Grid-columns {
-        .#{$ns}Grid-col--#{$class}#{$i} {
-            flex: 0 0 percentage($i / $Grid-columns);
-            max-width: percentage($i / $Grid-columns);
-            min-height: 1px;
-            padding-left: ($Grid-gutterWidth / 2);
-            padding-right: ($Grid-gutterWidth / 2);
-        }
+  @for $i from 1 through $Grid-columns {
+    .#{$ns}Grid-col--#{$class}#{$i} {
+      flex: 0 0 percentage($i / $Grid-columns);
+      max-width: percentage($i / $Grid-columns);
+      min-height: 1px;
+      padding-left: ($Grid-gutterWidth / 2);
+      padding-right: ($Grid-gutterWidth / 2);
     }
+  }
 
-    .#{$ns}Grid-col--#{$class} {
-        flex-basis: 0;
-        flex-grow: 1;
-        min-height: 1px;
-        max-width: 100%;
-        width: 0; // 很重要，没有的话会被撑开。
-        padding-left: ($Grid-gutterWidth / 2);
-        padding-right: ($Grid-gutterWidth / 2);
-    }
+  .#{$ns}Grid-col--#{$class} {
+    flex-basis: 0;
+    flex-grow: 1;
+    min-height: 1px;
+    max-width: 100%;
+    width: 0; // 很重要，没有的话会被撑开。
+    padding-left: ($Grid-gutterWidth / 2);
+    padding-right: ($Grid-gutterWidth / 2);
+  }
 }
 
 // Generate Grid row
 @mixin make-row($gutter: $Grid-gutterWidth) {
-    margin-left: ($gutter / -2);
-    margin-right: ($gutter / -2);
-    display: flex;
-    flex-wrap: wrap;
-
-    @include clearfix;
+  margin-left: ($gutter / -2);
+  margin-right: ($gutter / -2);
+  display: flex;
+  flex-wrap: wrap;
 }
 
 // .#{$ns}Grid-container {
@@ -141,24 +138,22 @@
 //     @include container-fixed;
 // }
 
-
-
 // @include make-grid-columns;
 
 @include make-grid(xs);
 
 @include media-breakpoint-up(sm) {
-    .#{$ns}Grid {
-        @include make-row;
-    }
-    
-    @include make-grid(sm);
+  .#{$ns}Grid {
+    @include make-row;
+  }
+
+  @include make-grid(sm);
 }
 
 @include media-breakpoint-up(md) {
-    @include make-grid(md);
+  @include make-grid(md);
 }
 
 @include media-breakpoint-up(lg) {
-    @include make-grid(lg);
+  @include make-grid(lg);
 }

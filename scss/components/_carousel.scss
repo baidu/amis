@@ -1,0 +1,167 @@
+@mixin arrow-control {
+  width: 10%;
+  min-width: var(--Carousel-arrowControl-width);
+  height: 100%;
+  cursor: pointer;
+  position: absolute;
+  transition-duration: var(--Carousel-transitionDuration);
+  svg {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    right: 50%;
+    transform: translate(-50%, -50%);
+    width: var(--Carousel-svg-width);
+    height: var(--Carousel-svg-height);
+  }
+}
+
+.#{$ns}Carousel {
+  min-width: var(--Carousel-minWidth);
+  height: var(--Carousel-height);
+  position: relative;
+  display: block;
+  background: var(--Carousel-bg);
+
+  &.#{$ns}Carousel--light {
+    .#{$ns}Carousel-dot {
+      background: var(--Carousel--light-control);
+    }
+
+    svg {
+      fill: var(--Carousel--light-control);
+    }
+
+    .#{$ns}Carousel-item {
+      .title,
+      .description {
+        color: var(--Carousel--light-control);
+      }
+    }
+  }
+
+  &.#{$ns}Carousel--dark {
+    .#{$ns}Carousel-dot {
+      background: var(--Carousel--dark-control);
+    }
+
+    svg {
+      fill: var(--Carousel--dark-control);
+    }
+
+    .#{$ns}Carousel-item {
+      .title,
+      .description {
+        color: var(--Carousel--dark-control);
+      }
+    }
+  }
+
+  &-container {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    overflow: hidden;
+
+    .#{$ns}Carousel-item {
+      width: 100%;
+      height: 100%;
+      position: absolute;
+      transition: ease-out all var(--Carousel-transitionDuration);
+
+      &.fade {
+        opacity: 0;
+      }
+
+      &.fade.in {
+        opacity: 1;
+      }
+
+      &.slide {
+        transform: translateX(100%);
+      }
+
+      &.slide.in {
+        transform: translateX(0);
+      }
+
+      &.slide.out {
+        transform: translateX(-100%);
+      }
+
+      &.slideRight {
+        transform: translateX(-100%);
+      }
+
+      &.slideRight.in {
+        transform: translateX(0);
+      }
+
+      &.slideRight.out {
+        transform: translateX(100%);
+      }
+
+      .title {
+        position: absolute;
+        bottom: var(--Carousel-imageTitle-bottom);
+        text-align: center;
+        width: 100%;
+        opacity: 0.8;
+      }
+
+      .description {
+        position: absolute;
+        bottom: var(--Carousel-imageDescription-bottom);
+        text-align: center;
+        width: 100%;
+        opacity: 0.8;
+      }
+
+      .image {
+        width: 100%;
+        height: 100%;
+        background-size: cover;
+      }
+    }
+  }
+
+  &-dotsControl {
+    position: absolute;
+    bottom: 0px;
+    width: 100%;
+    z-index: 100;
+    text-align: center;
+
+    .#{$ns}Carousel-dot {
+      display: inline-block;
+      height: var(--Carousel-dot-width);
+      width: var(--Carousel-dot-height);
+      border-radius: var(--Carousel-dot-borderRadius);
+      margin: var(--Carousel-dot-margin);
+      transition-duration: var(--Carousel-transitionDuration);
+      opacity: 0.3;
+
+      &.is-active {
+        opacity: 1;
+      }
+    }
+  }
+
+  &-arrowsControl {
+    position: absolute;
+    width: 100%;
+    height: inherit;
+    z-index: 100;
+    text-align: center;
+
+    .#{$ns}Carousel-leftArrow {
+      @include arrow-control;
+      left: 0;
+    }
+
+    .#{$ns}Carousel-rightArrow {
+      @include arrow-control;
+      right: 0;
+    }
+  }
+}

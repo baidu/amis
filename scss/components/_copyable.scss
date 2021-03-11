@@ -1,10 +1,10 @@
 .#{$ns}Field-copyBtn {
-    color: $Copyable-iconColor;
-    margin-left: $gap-xs;
-    display: inline-block;
-    cursor: pointer;
+  color: var(--Copyable-iconColor);
+  margin-left: var(--gap-xs);
+  display: inline-block;
+  cursor: pointer;
 
-    &:hover {
-        color: $Copyable-onHover-iconColor
-    }
+  &:hover {
+    color: var(--Copyable-onHover-iconColor);
+  }
 }

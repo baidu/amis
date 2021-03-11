@@ -1,56 +1,59 @@
 .#{$ns}Alert {
-    font-size: $Alert-fontSize;
-    box-shadow: $Alert-boxShadow;
-    padding: $Alert-paddingY $Alert-paddingX;
-    border: $Alert-borderWidth solid $Alert-borderColor;
-    border-radius: $Alert-borderRadius;
-    margin-bottom: $Alert-marginBottom;
+  font-size: var(--Alert-fontSize);
+  box-shadow: var(--Alert-boxShadow);
+  padding: var(--Alert-paddingY) var(--Alert-paddingX);
+  border: var(--Alert-borderWidth) solid var(--Alert-borderColor);
+  border-radius: var(--Alert-borderRadius);
+  margin-bottom: var(--Alert-marginBottom);
+  position: relative;
 
-    &-close {
-        outline: none;
-        padding: 0;
-        cursor: pointer;
-        background: transparent;
-        border: 0;
-        float: right;
-        font-size: 21px;
-        font-weight: 700;
-        line-height: 1;
-        color: #000;
-        text-shadow: 0 1px 0 #fff;
-        filter: alpha(opacity=20);
-        opacity: .2;
+  &-close {
+    position: absolute;
+    outline: none;
+    padding: 0;
+    cursor: pointer;
+    background: transparent;
+    border: 0;
+    float: right;
+    line-height: 1;
+    color: #000;
+    text-shadow: 0 1px 0 #fff;
+    filter: alpha(opacity=20);
+    opacity: 0.2;
+    right: var(--Alert-paddingX);
+    top: 50%;
+    transform: translateY(-50%);
 
-        &:hover  {
-            color: #000;
-            text-decoration: none;
-            cursor: pointer;
-            filter: alpha(opacity=50);
-            opacity: .5;
-        }
+    &:hover {
+      color: #000;
+      text-decoration: none;
+      cursor: pointer;
+      filter: alpha(opacity=50);
+      opacity: 0.5;
     }
+  }
 
-    &--danger {
-        color: $Alert--danger-color;
-        background-color: $Alert--danger-bg;
-        border-color: $Alert--danger-borderColor;
-    }
+  &--danger {
+    color: var(--Alert--danger-color);
+    background: var(--Alert--danger-bg);
+    border-color: var(--Alert--danger-borderColor);
+  }
 
-    &--info {
-        color: $Alert--info-color;
-        background-color: $Alert--info-bg;
-        border-color: $Alert--info-borderColor;
-    }
+  &--info {
+    color: var(--Alert--info-color);
+    background: var(--Alert--info-bg);
+    border-color: var(--Alert--info-borderColor);
+  }
 
-    &--success {
-        color: $Alert--success-color;
-        background-color: $Alert--success-bg;
-        border-color: $Alert--success-borderColor;
-    }
+  &--success {
+    color: var(--Alert--success-color);
+    background: var(--Alert--success-bg);
+    border-color: var(--Alert--success-borderColor);
+  }
 
-    &--warning {
-        color: $Alert--warning-color;
-        background-color: $Alert--warning-bg;
-        border-color: $Alert--warning-borderColor;
-    }
+  &--warning {
+    color: var(--Alert--warning-color);
+    background: var(--Alert--warning-bg);
+    border-color: var(--Alert--warning-borderColor);
+  }
 }

@@ -1,260 +1,370 @@
+@mixin setControlWidth() {
+  width: var(--Form-control-widthBase);
+
+  &.#{$ns}Form-control--sizeXs {
+    min-width: auto;
+    width: var(--Form-control-widthXs);
+  }
+  &.#{$ns}Form-control--sizeSm {
+    min-width: auto;
+    width: var(--Form-control-widthSm);
+  }
+  &.#{$ns}Form-control--sizeMd {
+    min-width: auto;
+    width: var(--Form-control-sizeMd);
+  }
+  &.#{$ns}Form-control--sizeLg {
+    min-width: auto;
+    width: var(--Form-control-sizeLg);
+  }
+}
+
 .#{$ns}Form {
-    font-size: $Form-fontSize;
-    position: relative;
+  font-size: var(--Form-fontSize);
+  position: relative;
 
-    &--quickEdit .#{$ns}Form-item:last-child {
-        margin-bottom: 0;
-    }
+  &--quickEdit .#{$ns}Form-item:last-child {
+    margin-bottom: 0;
+  }
 
-    &--inline {
-        > .#{$ns}PlainField {
-            display: inline-block;
-            padding-top: $Form-input-paddingY;
-            // padding-bottom: $Form-input-paddingY;
-        }
+  &--inline {
+    > .#{$ns}PlainField {
+      display: inline-block;
+      padding-top: var(--Form-input-paddingY);
+      // padding-bottom: var(--Form-input-paddingY);
     }
+  }
+}
+
+.#{$ns}Form-static {
+  min-height: var(--Form-input-height);
+  padding-top: var(--Form-label-paddingTop);
+  padding-bottom: var(--Form-label-paddingTop);
+  margin-bottom: 0;
+
+  .#{$ns}Form-item--inline > .#{$ns}Form-value > & {
+    display: inline-block;
+    vertical-align: top;
+  }
 }
 
 .#{$ns}Form-label {
-    font-weight: $fontWeightNormal;
-    margin-bottom: px2rem(5px);
-    display: inline-block;
-    max-width: 100%;
-    
-    > span {
-        position: relative;
-    }
+  font-weight: var(--fontWeightNormal);
+  margin-bottom: px2rem(5px);
+  position: relative;
+
+  > span {
+    position: relative;
+  }
 }
 
 .#{$ns}Form-star {
-    color: $red;
-    font-size: $fontSizeXs;
-    position: absolute;
-    left: 100%;
-    top: px2rem(5px);
-    margin-left: px2rem(3px);
-    line-height: 1;
+  color: var(--danger);
+  font-size: var(--fontSizeXs);
+  line-height: 1;
 }
 
 .#{$ns}Form-feedback {
-    color: $danger;
-    margin: $Form-input-marginBottom 0 0;
-    padding-left: $gap-base;
-    font-size: $fontSizeSm;
+  color: var(--danger);
+  margin: var(--Form-input-marginBottom) 0 0;
+  padding-left: var(--gap-base);
+  font-size: var(--fontSizeSm);
 }
 
 .#{$ns}Form-description {
-    display: block;
-    color: $Form-description-color;
-    margin: $Form-input-marginBottom 0 0;
-    font-size: $Form-description-fontSize;
+  display: block;
+  color: var(--Form-description-color);
+  margin: var(--Form-input-marginBottom) 0 0;
+  font-size: var(--Form-description-fontSize);
 }
 
 .#{$ns}Form-hint {
-    display: inline-block;
-    margin-left: $gap-sm;
-    padding-top: $Form-input-paddingY;
-    vertical-align: top;
+  display: inline-block;
+  margin-left: var(--gap-sm);
+  padding-top: var(--Form-input-paddingY);
+  vertical-align: top;
 }
 
 .#{$ns}Form-item {
-    margin-bottom: $Form-item-gap;
+  margin-bottom: var(--Form-item-gap);
 
-    .#{$ns}Grid-form > &:last-child {
-        margin-bottom: 0;
+  .#{$ns}Grid-form > &:last-child {
+    margin-bottom: 0;
+  }
+
+  .#{$ns}Form--inline > &--inline {
+    &:last-child {
+      margin-right: 0;
+      margin-bottom: 0;
     }
+  }
 
-    .#{$ns}Form--inline > &--inline {
-        margin-bottom: $Form-item-gap/2;
-        margin-right: $Form-item-gap/2;
+  .#{$ns}Form-remark {
+    padding-top: var(--Form-label-paddingTop);
+    vertical-align: top;
+  }
 
-        &:last-child {
-            margin-right: 0;
-            margin-bottom: 0;
-        }
+  &--inline {
+    margin-bottom: calc(var(--Form-item-gap) / 2);
+    margin-right: calc(var(--Form-item-gap) / 2);
+  }
+
+  &--horizontal {
+    > .#{$ns}Form-label {
+      text-align: var(--Form--horizontal-label-align);
+      white-space: var(--Form--horizontal-label-whiteSpace);
     }
+  }
 
-    .#{$ns}Form-remark {
-        margin-top: ($Form-input-height - $fontSizeBase) / 2;
-        vertical-align: top;
-    }
+  &--normal {
+    > .#{$ns}Form-label {
+      display: block;
 
-    &--horizontal {
-        > .#{$ns}Form-label {
-            text-align: $Form--horizontal-label-align;
-        }
+      .#{$ns}Form-star {
+        position: absolute;
+        left: px2rem(-6px);
+        top: px2rem(3px);
+      }
     }
+  }
 
-    &--normal {
-        > .#{$ns}Form-label {
-            display: block;
-        }
-    }
-
-    &.is-error > .#{$ns}Form-label {
-        color: $danger;
-    }
+  &.is-error > .#{$ns}Form-label {
+    color: var(--danger);
+  }
 }
 
 .#{$ns}Form-placeholder {
-    color: $Form-input-placeholderColor;
+  color: var(--Form-input-placeholderColor);
+}
+
+.#{$ns}Form-caption {
+  display: inline-block;
+  line-height: var(--Form-input-height);
+  height: var(--Form-input-height);
+  margin-left: px2rem(10px);
 }
 
 @include media-breakpoint-up(sm) {
-    .#{$ns}Form-control--sizeXs {
-        min-width: $Form-control-widthXs;
-        display: inline-block;
-        vertical-align: top;
-    }
-    
-    .#{$ns}Form-control--sizeSm {
-        min-width: $Form-control-widthSm;
-        display: inline-block;
-        vertical-align: top;
-    }
-    
-    .#{$ns}Form-control--sizeMd {
-        min-width: $Form-control-widthMd;
-        display: inline-block;
-        vertical-align: top;
-    }
-    
-    .#{$ns}Form-control--sizeLg {
-        min-width: $Form-control-widthLg;
-        display: inline-block;
-        vertical-align: top;
+  .#{$ns}Form-label {
+    display: inline-block;
+    max-width: 100%;
+  }
+
+  .#{$ns}Form-control--sizeXs {
+    // min-width: var(--Form-control-widthXs);
+    // width: auto;
+    min-width: var(--Form-control-widthXs);
+    max-width: 100%;
+    display: inline-block;
+    vertical-align: top;
+
+    // 非常难受，number 类型的 input 不能设置size
+    &.#{$ns}NumberControl {
+      width: var(--Form-control-widthXs);
     }
 
-    .#{$ns}Form-item {
-        &--horizontal {
-            display: flex;
-            flex-wrap: nowrap;
-            margin-left: -$Form--horizontal-gutterWidth / 2;
-            margin-right: -$Form--horizontal-gutterWidth / 2;
-    
-            > * {
-                padding-left: $Form--horizontal-gutterWidth / 2;
-                padding-right: $Form--horizontal-gutterWidth / 2;
-            }
-    
-            > .#{$ns}Form-label,
-            > .#{$ns}Form-value {
-                flex-basis: 0;
-                flex-grow: 1;
-                max-width: 100%;
-            }
-    
-            .#{$ns}Form-itemColumn--xs,
-            .#{$ns}Form-itemColumn--sm,
-            .#{$ns}Form-itemColumn--normal,
-            .#{$ns}Form-itemColumn--md,
-            .#{$ns}Form-itemColumn--lg {
-                flex-grow: unset;
-                flex-basis: unset;
-            }
+    &.#{$ns}TextareaControl {
+      width: auto;
+    }
+  }
 
-            >.#{$ns}Form-label {
-                padding-top: $Form-label-paddingTop;
-                margin-bottom: 0;
-            }
-    
-            .#{$ns}Form-itemColumn--xs {
-                width: $Form--horizontal-label-widthXs;
-            }
-    
-            .#{$ns}Form-itemColumn--sm {
-                width: $Form--horizontal-label-widthSm;
-            }
-    
-            .#{$ns}Form-itemColumn--normal {
-                width: $Form--horizontal-label-widthBase;
-            }
-    
-            .#{$ns}Form-itemColumn--md {
-                width: $Form--horizontal-label-widthMd;
-            }
-    
-            .#{$ns}Form-itemColumn--lg {
-                width: $Form--horizontal-label-widthLg;
-            }
-    
-            @for $i from (1) through $Form--horizontal-columns  {
-                .#{$ns}Form-itemColumn--#{$i} {
-                    flex: 0 0 percentage($i / $Form--horizontal-columns);
-                    max-width: percentage($i / $Form--horizontal-columns);
-                    min-height: 1px;
-                }
-            }
-        }
+  .#{$ns}Form-control--sizeSm {
+    min-width: var(--Form-control-widthSm);
+    max-width: 100%;
+    display: inline-block;
+    vertical-align: top;
 
-        &--inline {
-            display: inline-block;
-            vertical-align: top;
-            
-
-            >.#{$ns}Form-label {
-                padding-top: $Form-label-paddingTop;
-                margin-bottom: 0;
-                margin-right: $Form-item-gap/2;
-
-                .#{$ns}Form-star {
-                    position: static;
-                }
-            }
-
-            >.#{$ns}Form-value {
-                display: inline;
-
-                > .#{$ns}Form-control {
-                    vertical-align: top;
-                    display: inline-block;
-                }
-
-                > .#{$ns}Form-control.#{$ns}InputGroup {
-                    display: inline-flex;
-                }
-
-                > .#{$ns}TextControl--withAddOn {
-                    display: inline-flex;
-                }
-            }
-        }
+    // 非常难受，number 类型的 input 不能设置size
+    &.#{$ns}NumberControl {
+      width: var(--Form-control-widthSm);
     }
 
-    .#{$ns}Form-row {
-        display: flex;
-        flex-wrap: wrap;
+    &.#{$ns}TextareaControl {
+      width: auto;
+    }
+  }
 
-        margin-left: -$Form-row-gutterWidth / 2;
-        margin-right: -$Form-row-gutterWidth / 2;
-        align-items: flex-start;
+  .#{$ns}Form-control--sizeMd {
+    min-width: var(--Form-control-widthMd);
+    max-width: 100%;
+    display: inline-block;
+    vertical-align: top;
 
-        > * {
-            padding-left: $Form-row-gutterWidth / 2;
-            padding-right: $Form-row-gutterWidth / 2;
-        }
+    &.#{$ns}TextareaControl {
+      width: auto;
+    }
+  }
+
+  .#{$ns}Form-control--sizeLg {
+    min-width: var(--Form-control-widthLg);
+    max-width: 100%;
+    display: inline-block;
+    vertical-align: top;
+
+    // 非常难受，number 类型的 input 不能设置size
+    &.#{$ns}NumberControl {
+      width: var(--Form-control-widthLg);
     }
 
-    .#{$ns}Form-col {
+    &.#{$ns}TextareaControl {
+      width: auto;
+    }
+  }
+
+  .#{$ns}Form-item {
+    &--horizontal {
+      display: flex;
+      flex-wrap: nowrap;
+      margin-left: calc(var(--Form--horizontal-gutterWidth) / 2 * -1);
+      margin-right: calc(var(--Form--horizontal-gutterWidth) / 2 * -1);
+
+      > * {
+        padding-left: calc(var(--Form--horizontal-gutterWidth) / 2);
+        padding-right: calc(var(--Form--horizontal-gutterWidth) / 2);
+      }
+
+      > .#{$ns}Form-label,
+      > .#{$ns}Form-value {
         flex-basis: 0;
         flex-grow: 1;
-        flex-shrink: 1;
+        max-width: 100%;
+        width: 0;
+      }
+
+      .#{$ns}Form-itemColumn--xs,
+      .#{$ns}Form-itemColumn--sm,
+      .#{$ns}Form-itemColumn--normal,
+      .#{$ns}Form-itemColumn--auto,
+      .#{$ns}Form-itemColumn--md,
+      .#{$ns}Form-itemColumn--lg {
+        flex-grow: unset;
+        flex-basis: unset;
+      }
+
+      > .#{$ns}Form-label {
+        padding-top: var(--Form-label-paddingTop);
+        margin-bottom: 0;
+
+        .#{$ns}Form-star {
+          position: absolute;
+          left: px2rem(-6px);
+          top: px2rem(3px);
+        }
+      }
+
+      .#{$ns}Form-itemColumn--xs {
+        width: var(--Form--horizontal-label-widthXs);
+      }
+
+      .#{$ns}Form-itemColumn--sm {
+        width: var(--Form--horizontal-label-widthSm);
+      }
+
+      .#{$ns}Form-itemColumn--normal {
+        width: var(--Form--horizontal-label-widthBase);
+      }
+
+      .#{$ns}Form-itemColumn--md {
+        width: var(--Form--horizontal-label-widthMd);
+      }
+
+      .#{$ns}Form-itemColumn--lg {
+        width: var(--Form--horizontal-label-widthLg);
+      }
+
+      .#{$ns}Form-itemColumn--auto {
+        width: auto;
+      }
+
+      @for $i from (1) through $Form--horizontal-columns {
+        .#{$ns}Form-itemColumn--#{$i} {
+          flex: 0 0 percentage($i / $Form--horizontal-columns);
+          max-width: percentage($i / $Form--horizontal-columns);
+          min-height: 1px;
+        }
+      }
     }
 
-    .#{$ns}Form-rowInner {
-        display: flex;
-        flex-wrap: nowrap;
+    &--inline {
+      display: inline-block;
+      vertical-align: top;
 
-        > .#{$ns}Form-label {
-            display: inline-block;
-            vertical-align: top;
-            padding-top: $Form-label-paddingTop;
-            padding-right: $Form-row-gutterWidth;
+      .#{$ns}TextControl {
+        @include setControlWidth();
+      }
+
+      > .#{$ns}Form-label {
+        padding-top: var(--Form-label-paddingTop);
+        margin-bottom: 0;
+        margin-right: calc(var(--Form-item-gap) / 2);
+
+        .#{$ns}Form-star {
+          position: static;
         }
+      }
+
+      > .#{$ns}Form-value {
+        display: inline-block;
+        vertical-align: top;
 
         > .#{$ns}Form-control {
-            flex-basis: 0;
-            flex-grow: 1;
+          vertical-align: top;
+          display: inline-block;
         }
+
+        > .#{$ns}Form-control.#{$ns}InputGroup {
+          display: inline-flex;
+        }
+
+        > .#{$ns}TextControl--withAddOn {
+          display: inline-flex;
+        }
+      }
     }
+  }
+
+  .#{$ns}Form-row {
+    display: flex;
+    flex-wrap: wrap;
+
+    margin-left: calc(var(--Form-row-gutterWidth) / -2);
+    margin-right: calc(var(--Form-row-gutterWidth) / -2);
+    align-items: flex-start;
+
+    > * {
+      padding-left: calc(var(--Form-row-gutterWidth) / 2);
+      padding-right: calc(var(--Form-row-gutterWidth) / 2);
+    }
+  }
+
+  .#{$ns}Form-col {
+    flex-basis: 0;
+    flex-grow: 1;
+    flex-shrink: 1;
+  }
+
+  .#{$ns}Form-rowInner {
+    display: flex;
+    flex-wrap: nowrap;
+
+    > .#{$ns}Form-label {
+      display: inline-block;
+      vertical-align: top;
+      padding-top: var(--Form-label-paddingTop);
+      padding-right: var(--Form-row-gutterWidth);
+    }
+
+    > .#{$ns}Form-control {
+      flex-basis: 0;
+      flex-grow: 1;
+
+      // &:not(.#{$ns}Form-control--withSize) {
+      //   width: var(--Form-control-widthBase);
+      // }
+    }
+  }
+}
+
+.#{$ns}Form--quickEdit {
+  min-width: var(--Form-control-widthSm);
 }

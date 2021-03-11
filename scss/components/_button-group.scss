@@ -1,113 +1,114 @@
 .#{$ns}ButtonGroup {
+  position: relative;
+  display: inline-flex;
+  vertical-align: middle;
+
+  > .#{$ns}Button {
     position: relative;
-    display: inline-flex;
-    vertical-align: middle;
+    flex: 0 1 auto;
+  }
 
-    >.#{$ns}Button {
-        position: relative;
-        flex: 0 1 auto;
+  > .#{$ns}Button {
+    @include hover {
+      z-index: 1;
     }
 
-    @if $Button-borderWidth > 0 {
-        >.#{$ns}Button {
-            @include hover {
-                z-index: 1;
-            }
-    
-            &:focus,
-            &:active,
-            &.active {
-                z-index: 1;
-            }
-        }
-    
-        .#{$ns}Button + .#{$ns}Button,
-        .#{$ns}Button + .#{$ns}ButtonGroup,
-        .#{$ns}ButtonGroup + .#{$ns}Button,
-        .#{$ns}ButtonGroup + .#{$ns}ButtonGroup {
-            margin-left: -$Button-borderWidth;
-        }
-    } @else if (variable-exists("ButtonGroup-divider-width") and variable-exists("ButtonGroup-divider-color")) {
-        background-color: $ButtonGroup-divider-color;
-        >.#{$ns}Button + .#{$ns}Button {
-            margin-left: $ButtonGroup-divider-width;
-        }
+    &:focus,
+    &:active,
+    &.active,
+    &.is-active {
+      z-index: 1;
     }
+  }
+
+  .#{$ns}Button + .#{$ns}Button,
+  .#{$ns}Button + .#{$ns}ButtonGroup,
+  .#{$ns}ButtonGroup + .#{$ns}Button,
+  .#{$ns}ButtonGroup + .#{$ns}ButtonGroup {
+    margin-left: calc(var(--Button-borderWidth) * -1);
+  }
+
+  &--block {
+    display: block;
+  }
 }
 
-
 .#{$ns}ButtonToolbar {
-    display: inline-flex;
-    flex-wrap: wrap;
-    justify-content: flex-start;
-    align-items: center;
+  display: inline-flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  align-items: center;
 
-    .#{$ns}ButtonGroup {
-        width: auto;
-    }
+  .#{$ns}ButtonGroup {
+    margin-left: px2rem(5px);
+    margin-top: px2rem(5px);
+    width: auto;
+  }
 }
 
 .#{$ns}ButtonGroup {
-    > .#{$ns}Button:first-child {
-        margin-left: 0;
-    }
+  > .#{$ns}Button:first-child {
+    margin-left: 0;
+  }
 
-    @if $Button-borderWidth > 0 {
-        > .#{$ns}Button:not(:last-child),
-        > .#{$ns}ButtonGroup:not(:last-child) > .#{$ns}Button {
-            border-top-right-radius: 0;
-            border-bottom-right-radius: 0;
-        }
+  // cxd的ButtonGroup的is-active和:active样式不一样，这里做个兼容
+  .#{$ns}Button--primary:not(:disabled):not(.is-disabled).is-active {
+    color: var(--ButtonGroup--primary-isActive-color);
+    background: var(--ButtonGroup--primary-isActive-bg);
+  }
 
-        > .#{$ns}Button:not(:first-child),
-        > .#{$ns}ButtonGroup:not(:first-child) > .#{$ns}Button {
-            border-top-left-radius: 0;
-            border-bottom-left-radius: 0;
-        }
-    }
+  > .#{$ns}Button:not(:last-child),
+  > .#{$ns}ButtonGroup:not(:last-child) > .#{$ns}Button {
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+  }
+
+  > .#{$ns}Button:not(:first-child),
+  > .#{$ns}ButtonGroup:not(:first-child) > .#{$ns}Button {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+  }
 }
-
 
 .#{$ns}ButtonGroup--vertical {
-    flex-direction: column;
-    align-items: flex-start;
-    justify-content: center;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
 
-    .#{$ns}Button,
-    .#{$ns}ButtonGroup {
-        width: 100%;
-    }
+  .#{$ns}Button,
+  .#{$ns}ButtonGroup {
+    width: 100%;
+  }
 
-    > .#{$ns}Button + .#{$ns}Button,
-    > .#{$ns}Button + .#{$ns}ButtonGroup,
-    > .#{$ns}ButtonGroup + .#{$ns}Button,
-    > .#{$ns}ButtonGroup + .#{$ns}ButtonGroup {
-        margin-top: -$Button-borderWidth;
-        margin-left: 0;
-    }
+  > .#{$ns}Button + .#{$ns}Button,
+  > .#{$ns}Button + .#{$ns}ButtonGroup,
+  > .#{$ns}ButtonGroup + .#{$ns}Button,
+  > .#{$ns}ButtonGroup + .#{$ns}ButtonGroup {
+    margin-top: calc(var(--Button-borderWidth) * -1);
+    margin-left: 0;
+  }
 
-    > .#{$ns}Button:not(:last-child),
-    > .#{$ns}ButtonGroup:not(:last-child) > .#{$ns}Button {
-        border-bottom-left-radius: 0;
-        border-bottom-right-radius: 0;
-    }
+  > .#{$ns}Button:not(:last-child),
+  > .#{$ns}ButtonGroup:not(:last-child) > .#{$ns}Button {
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+  }
 
-    > .#{$ns}Button:not(:first-child),
-    > .#{$ns}ButtonGroup:not(:first-child) > .btn {
-        border-top-left-radius: 0;
-        border-top-right-radius: 0;
-    }
+  > .#{$ns}Button:not(:first-child),
+  > .#{$ns}ButtonGroup:not(:first-child) > .btn {
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+  }
 }
 
-
 .#{$ns}ButtonGroupControl {
-    display: inline-block;
+  display: inline-block;
 
-    > .#{$ns}ButtonGroup--sm {
-        margin-top: ($Form-input-height - $Button--sm-height) / 2;
-    }
+  > .#{$ns}ButtonGroup--sm {
+    margin-top: calc((var(--Form-input-height) - var(--Button--sm-height)) / 2);
+  }
 
-    > .#{$ns}ButtonGroup--xs {
-        margin-top: ($Form-input-height - $Button--xs-height) / 2;
-    }
+  > .#{$ns}ButtonGroup--xs {
+    margin-top: calc((var(--Form-input-height) - var(--Button--xs-height)) / 2);
+  }
 }

@@ -1,86 +1,87 @@
 .#{$ns}ColorPicker {
-    position: relative;
-    display: inline-flex;
-    flex-wrap: nowrap;
-    white-space: nowrap;
-    border: $ColorPicker-borderWidth solid $ColorPicker-borderColor;
-    font-size: $ColorPicker-fontSize;
-    padding: $ColorPicker-paddingY $ColorPicker-paddingX;
-    background-color: $ColorPicker-bg;
-    color: $ColorPicker-color;
+  position: relative;
+  display: inline-flex;
+  flex-wrap: nowrap;
+  white-space: nowrap;
+  border: var(--ColorPicker-borderWidth) solid var(--ColorPicker-borderColor);
+  font-size: var(--ColorPicker-fontSize);
+  padding: var(--ColorPicker-paddingY) var(--ColorPicker-paddingX);
+  background: var(--ColorPicker-bg);
+  color: var(--ColorPicker-color);
 
-    &:not(.is-disabled) {
-        cursor: pointer;
+  &:not(.is-disabled) {
+    cursor: pointer;
 
-        &:hover {
-            background-color: $ColorPicker-onHover-bg;
-        }
+    &:hover {
+      background: var(--ColorPicker-onHover-bg);
+      border-color: var(--ColorPicker-onHover-borderColor);
     }
+  }
 
-    &-input {
-        border: 0;
-        background: transparent;
-        outline: none;
-        width: 100%;
-        flex-basis: 0;
-        flex-grow: 1;
-        padding: 0;
-        margin: 0;
-        height: $ColorPicker-fontSize * $ColorPicker-lineHeight;
+  &-input {
+    border: 0;
+    background: transparent;
+    outline: none;
+    width: 100%;
+    flex-basis: 0;
+    flex-grow: 1;
+    padding: 0;
+    margin: 0;
+    height: calc(var(--ColorPicker-fontSize) * var(--ColorPicker-lineHeight));
 
-        &::placeholder {
-            color: $ColorPicker-placeholderColor;
-        }
+    &::placeholder {
+      color: var(--ColorPicker-placeholderColor);
     }
+  }
 
-    &.is-focused {
-        border-color: $ColorPicker-onFocused-borderColor;
-        box-shadow: $Form-input-boxShadow;
+  &.is-focused {
+    border-color: var(--ColorPicker-onFocused-borderColor);
+    box-shadow: var(--Form-input-boxShadow);
+  }
+
+  &.is-disabled {
+    background: var(--ColorPicker-onDisabled-bg);
+    color: var(--ColorPicker-onDisabled-color);
+    pointer-events: none;
+
+    > .#{$ns}ColorPicker-input {
+      color: var(--ColorPicker-onDisabled-color);
+
+      &::placeholder {
+        color: var(--ColorPicker-onDisabled-color);
+      }
     }
+  }
 
-    &.is-disabled {
-        background: $ColorPicker-onDisabled-bg;
-        color: $ColorPicker-onDisabled-color;
-        pointer-events: none;
-        
-        > .#{$ns}ColorPicker-input {
-            color: $ColorPicker-onDisabled-color;
+  &-preview {
+    display: flex;
+    align-items: center;
+    margin-left: var(--gap-xs);
+    cursor: pointer;
+  }
 
-            &::placeholder {
-                color: $ColorPicker-onDisabled-color;
-            }
-        }
-    }
+  &-previewIcon {
+    display: block;
+    width: px2rem(16px);
+    height: px2rem(16px);
+    box-shadow: var(--boxShadowSm);
+  }
 
-    &-preview {
-        display: flex;
-        align-items: center;
-        margin-left: $gap-xs;
-        cursor: pointer;
-    }
-
-    &-previewIcon {
-        display: block;
-        width: px2rem(16px);
-        height: px2rem(16px);
-        box-shadow: $boxShadowSm;
-    }
-
-    &-clear {
-        @include input-clear();
-        display: inline-block;
-        line-height: 1;
-    }
+  &-clear {
+    @include input-clear();
+    display: inline-block;
+    line-height: 1;
+  }
 }
 
 .#{$ns}ColorControl:not(.is-inline) > .#{$ns}ColorPicker {
-    display: flex;
+  display: flex;
 }
 
 // override
 
 .sketch-picker {
-    box-shadow: none !important;
-    border-radius: 0 !important;
-    border: none !important;
+  box-shadow: none !important;
+  border-radius: 0 !important;
+  border: none !important;
 }

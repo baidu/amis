@@ -1,42 +1,75 @@
 .#{$ns}Collapse {
-    padding: 0;
-    margin-bottom: $Form-item-gap;
+  border: none;
+  padding: 0;
+  margin-bottom: var(--Form-item-gap);
 
-    &-header {
-        font-size: $fontSizeMd;
-        font-weight: $fontWeightNormal;
-        color: $text--loud-color;
-        padding: px2rem(5px) 0;
-        border-bottom: $borderWidth solid lighten($borderColor, 5%);
-    }
+  &-header {
+    font-size: var(--fontSizeMd);
+    font-weight: var(--fontWeightNormal);
+    color: var(--text--loud-color);
+    padding: px2rem(5px) 0;
+    border-bottom: var(--borderWidth) solid var(--borderColorLight);
+  }
 
-    &-arrow {
-        display: inline-block;
-        width: px2rem(16px);
-        text-align: center;
-        margin-left: $gap-xs;
-        cursor: pointer;
-        
-        &:before {
-            content: '';
-            position: relative;
-            display: inline-block;
-            width: px2rem(6px);
-            height: px2rem(6px);
-            top: px2rem(-4px);
-            border-color: $text-color;
-            border-style: solid;
-            border-width: px2rem(1px) px2rem(1px) 0 0;
-            transform: rotate(135deg);
-            transform-origin: center;
-        }
-    }
+  &-arrow {
+    display: inline-block;
+    width: px2rem(16px);
+    text-align: center;
+    margin-left: var(--gap-xs);
+    cursor: pointer;
 
-    &.is-collapsed &-arrow:before {
-        transform: rotate(45deg);
+    &:before {
+      content: '';
+      position: relative;
+      display: inline-block;
+      width: px2rem(6px);
+      height: px2rem(6px);
+      top: px2rem(-4px);
+      border-color: var(--text-color);
+      border-style: solid;
+      border-width: px2rem(1px) px2rem(1px) 0 0;
+      transform: rotate(135deg);
+      transform-origin: 50% 50%;
     }
+  }
 
-    &--collapsable &-header {
-        user-select: none;
+  &.is-collapsed &-arrow:before {
+    transform: rotate(45deg);
+    transform-origin: 0% 50%;
+  }
+
+  &--collapsable &-header {
+    cursor: pointer;
+    user-select: none;
+  }
+
+  // title 显示在底部的模式
+  &--title-bottom &-header {
+    text-align: center;
+    color: var(--link-color);
+    border-left: none;
+    font-size: var(--fontSizeBase);
+  }
+
+  &--title-bottom &-arrow:before {
+    top: px2rem(2px);
+    transform: rotate(-45deg);
+    transform-origin: 0% 50%;
+  }
+
+  &--title-bottom.is-collapsed &-arrow:before {
+    top: px2rem(-6px);
+    transform: rotate(135deg);
+    transform-origin: 0% 50%;
+  }
+
+  &-content {
+    transition: height var(--animation-duration) ease;
+
+    &.in,
+    &.out {
+      height: 0;
+      overflow: hidden;
     }
+  }
 }

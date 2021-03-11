@@ -1,5 +1,276 @@
-import * as React from 'react';
-export const closeIcon = (<svg className="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="1463"><path d="M967.81435 106.836237 917.16274 56.18565 512 461.34839 106.836237 56.18565 56.184627 106.836237 461.34839 512 56.184627 917.163763 106.836237 967.815373 512 562.65161 917.16274 967.815373 967.81435 917.163763 562.650587 512Z" p-id="1464" data-spm-anchor-id="a313x.7781069.0.i0"></path></svg>);
-export const unDoIcon = (<svg className="icon" viewBox="0 0 1024 1024" version="1.1"><path d="M661.333333 341.333333H167.04l183.253333-183.253333L320 128 85.333333 362.666667l234.666667 234.666666 30.08-30.08L167.04 384H661.333333a234.666667 234.666667 0 0 1 0 469.333333H448v42.666667h213.333333a277.333333 277.333333 0 0 0 0-554.666667z"></path></svg>);
-export const reDoIcon = (<svg className="icon" viewBox="0 0 1024 1024" version="1.1"><path d="M704 128l-30.08 30.08L856.96 341.333333H362.666667a277.333333 277.333333 0 0 0 0 554.666667h213.333333v-42.666667H362.666667a234.666667 234.666667 0 0 1 0-469.333333h494.293333l-183.253333 183.253333L704 597.333333l234.666667-234.666666z"></path></svg>)
-export const enterIcon = (<svg className="icon" viewBox="0 0 1024 1024" version="1.1"><path d="M864 192c-19.2 0-32 12.8-32 32v224c0 89.6-70.4 160-160 160H236.8l105.6-105.6c12.8-12.8 12.8-32 0-44.8s-32-12.8-44.8 0l-160 160c-3.2 3.2-6.4 6.4-6.4 9.6-3.2 6.4-3.2 16 0 25.6 3.2 3.2 3.2 6.4 6.4 9.6l160 160c6.4 6.4 12.8 9.6 22.4 9.6s16-3.2 22.4-9.6c12.8-12.8 12.8-32 0-44.8L236.8 672H672c124.8 0 224-99.2 224-224V224c0-19.2-12.8-32-32-32z"></path></svg>)
+/**
+ * @file Icon
+ * @description
+ * @author fex
+ */
+import React from 'react';
+
+// @ts-ignore
+import CloseIcon from '../icons/close.svg';
+// @ts-ignore
+import UnDoIcon from '../icons/undo.svg';
+// @ts-ignore
+import ReDoIcon from '../icons/redo.svg';
+// @ts-ignore
+import EnterIcon from '../icons/enter.svg';
+// @ts-ignore
+import VolumeIcon from '../icons/volume.svg';
+// @ts-ignore
+import MuteIcon from '../icons/mute.svg';
+// @ts-ignore
+import PlayIcon from '../icons/play.svg';
+// @ts-ignore
+import PauseIcon from '../icons/pause.svg';
+// @ts-ignore
+import LeftArrowIcon from '../icons/left-arrow.svg';
+// @ts-ignore
+import RightArrowIcon from '../icons/right-arrow.svg';
+// @ts-ignore
+import CheckIcon from '../icons/check.svg';
+// @ts-ignore
+import PlusIcon from '../icons/plus.svg';
+// @ts-ignore
+import MinusIcon from '../icons/minus.svg';
+// @ts-ignore
+import PencilIcon from '../icons/pencil.svg';
+// @ts-ignore
+import ViewIcon from '../icons/view.svg';
+// @ts-ignore
+import RemoveIcon from '../icons/remove.svg';
+// @ts-ignore
+import RetryIcon from '../icons/retry.svg';
+// @ts-ignore
+import UploadIcon from '../icons/upload.svg';
+// @ts-ignore
+import FileIcon from '../icons/file.svg';
+// @ts-ignore
+import SuccessIcon from '../icons/success.svg';
+// @ts-ignore
+import FailIcon from '../icons/fail.svg';
+
+// @ts-ignore
+import SearchIcon from '../icons/search.svg';
+
+// @ts-ignore
+import BackIcon from '../icons/back.svg';
+
+// @ts-ignore
+import MoveIcon from '../icons/move.svg';
+
+// @ts-ignore
+import InfoIcon from '../icons/info.svg';
+
+// @ts-ignore
+import LocationIcon from '../icons/location.svg';
+
+// @ts-ignore
+import DragBarIcon from '../icons/drag-bar.svg';
+
+// @ts-ignore
+import ReloadIcon from '../icons/reload.svg';
+
+// @ts-ignore
+import ExchangeIcon from '../icons/exchange.svg';
+
+// @ts-ignore
+import ColmunsIcon from '../icons/columns.svg';
+
+// @ts-ignore
+import CalendarIcon from '../icons/calendar.svg';
+
+// @ts-ignore
+import CopyIcon from '../icons/copy.svg';
+
+// @ts-ignore
+import FilterIcon from '../icons/filter.svg';
+
+// @ts-ignore
+import CaretIcon from '../icons/caret.svg';
+
+// @ts-ignore
+import RightArrowBoldIcon from '../icons/right-arrow-bold.svg';
+
+// @ts-ignore
+import ColumnFilterIcon from '../icons/column-filter.svg';
+
+// @ts-ignore
+import ZoomInIcon from '../icons/zoom-in.svg';
+// @ts-ignore
+import ZoomOutIcon from '../icons/zoom-out.svg';
+
+// @ts-ignore
+import QuestionIcon from '../icons/question.svg';
+
+// @ts-ignore
+import QuestionMarkIcon from '../icons/question-mark.svg';
+
+// @ts-ignore
+import WindowRestoreIcon from '../icons/window-restore.svg';
+
+// @ts-ignore
+import InfoCircleIcon from '../icons/info-circle.svg';
+
+// @ts-ignore
+import WarningIcon from '../icons/warning.svg';
+
+// @ts-ignore
+import WarningMarkIcon from '../icons/warning-mark.svg';
+
+// @ts-ignore
+import ScheduleIcon from '../icons/schedule.svg';
+
+// @ts-ignore
+import HomeIcon from '../icons/home.svg';
+
+// @ts-ignore
+import FolderIcon from '../icons/folder.svg';
+
+// @ts-ignore
+import SortDefaultIcon from '../icons/sort-default.svg';
+
+// @ts-ignore
+import SortAscIcon from '../icons/sort-asc.svg';
+
+// @ts-ignore
+import SortDescIcon from '../icons/sort-desc.svg';
+
+// @ts-ignore
+import SettingIcon from '../icons/setting.svg';
+
+// @ts-ignore
+import PlusCicleIcon from '../icons/plus-cicle.svg';
+
+// @ts-ignore
+import EllipsisVIcon from '../icons/ellipsis-v.svg';
+
+// 兼容原来的用法，后续不直接试用。
+// @ts-ignore
+export const closeIcon = <CloseIcon />;
+// @ts-ignore
+export const unDoIcon = <UnDoIcon />;
+// @ts-ignore
+export const reDoIcon = <ReDoIcon />;
+// @ts-ignore
+export const enterIcon = <EnterIcon />;
+// @ts-ignore
+export const volumeIcon = <VolumeIcon />;
+// @ts-ignore
+export const muteIcon = <MuteIcon />;
+// @ts-ignore
+export const playIcon = <PlayIcon />;
+// @ts-ignore
+export const pauseIcon = <PauseIcon />;
+// @ts-ignore
+export const leftArrowIcon = <LeftArrowIcon />;
+// @ts-ignore
+export const rightArrowIcon = <RightArrowIcon />;
+
+const iconFactory: {
+  [propName: string]: React.ReactType<{}>;
+} = {};
+
+export function getIcon(key: string) {
+  return iconFactory[key];
+}
+
+export function hasIcon(iconName: string) {
+  return !!getIcon(iconName);
+}
+
+export function registerIcon(key: string, component: React.ReactType<{}>) {
+  iconFactory[key] = component;
+}
+
+registerIcon('close', CloseIcon);
+registerIcon('undo', UnDoIcon);
+registerIcon('redo', ReDoIcon);
+registerIcon('enter', EnterIcon);
+registerIcon('volume', VolumeIcon);
+registerIcon('mute', MuteIcon);
+registerIcon('play', PlayIcon);
+registerIcon('pause', PauseIcon);
+registerIcon('left-arrow', LeftArrowIcon);
+registerIcon('right-arrow', RightArrowIcon);
+registerIcon('prev', LeftArrowIcon);
+registerIcon('next', RightArrowIcon);
+registerIcon('check', CheckIcon);
+registerIcon('plus', PlusIcon);
+registerIcon('add', PlusIcon);
+registerIcon('minus', MinusIcon);
+registerIcon('pencil', PencilIcon);
+registerIcon('view', ViewIcon);
+registerIcon('remove', RemoveIcon);
+registerIcon('retry', RetryIcon);
+registerIcon('upload', UploadIcon);
+registerIcon('file', FileIcon);
+registerIcon('success', SuccessIcon);
+registerIcon('fail', FailIcon);
+registerIcon('warning', WarningIcon);
+registerIcon('warning-mark', WarningMarkIcon);
+registerIcon('search', SearchIcon);
+registerIcon('back', BackIcon);
+registerIcon('move', MoveIcon);
+registerIcon('info', InfoIcon);
+registerIcon('info-circle', InfoCircleIcon);
+registerIcon('location', LocationIcon);
+registerIcon('drag-bar', DragBarIcon);
+registerIcon('reload', ReloadIcon);
+registerIcon('exchange', ExchangeIcon);
+registerIcon('columns', ColmunsIcon);
+registerIcon('calendar', CalendarIcon);
+registerIcon('copy', CopyIcon);
+registerIcon('filter', FilterIcon);
+registerIcon('column-filter', ColumnFilterIcon);
+registerIcon('caret', CaretIcon);
+registerIcon('right-arrow-bold', RightArrowBoldIcon);
+registerIcon('zoom-in', ZoomInIcon);
+registerIcon('zoom-out', ZoomOutIcon);
+registerIcon('question', QuestionIcon);
+registerIcon('question-mark', QuestionMarkIcon);
+registerIcon('window-restore', WindowRestoreIcon);
+registerIcon('schedule', ScheduleIcon);
+registerIcon('home', HomeIcon);
+registerIcon('folder', FolderIcon);
+registerIcon('sort-default', SortDefaultIcon);
+registerIcon('sort-asc', SortAscIcon);
+registerIcon('sort-desc', SortDescIcon);
+registerIcon('setting', SettingIcon);
+registerIcon('plus-cicle', PlusCicleIcon);
+registerIcon('ellipsis-v', EllipsisVIcon);
+
+export function Icon({
+  icon,
+  className,
+  ...rest
+}: {
+  icon: string;
+} & React.ComponentProps<any>) {
+  // jest 运行环境下，把指定的 icon 也输出到 snapshot 中。
+  if (typeof jest !== 'undefined') {
+    rest.icon = icon;
+  }
+
+  const Component = getIcon(icon);
+  return Component ? (
+    <Component {...rest} className={`${className || ''} icon-${icon}`} />
+  ) : (
+    <span className="text-danger">没有 icon {icon}</span>
+  );
+}
+
+export {
+  CloseIcon,
+  UnDoIcon,
+  ReDoIcon,
+  EnterIcon,
+  VolumeIcon,
+  MuteIcon,
+  PlayIcon,
+  PauseIcon,
+  LeftArrowIcon,
+  RightArrowIcon,
+  CheckIcon,
+  PlusIcon,
+  MinusIcon,
+  PencilIcon
+};

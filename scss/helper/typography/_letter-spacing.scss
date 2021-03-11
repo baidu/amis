@@ -1,0 +1,43 @@
+/*!markdown
+
+---
+title: Letter Spacing
+---
+
+| Class       | Properties               |
+| ----------- | ------------------------ |
+| tracking-tighter | letter-spacing: -0.05em |
+| tracking-tight | letter-spacing: -0.025em |
+| tracking-normal | letter-spacing: 0em |
+| tracking-wide | letter-spacing: 0.025 |
+| tracking-wider | letter-spacing: 0.05em |
+| tracking-widest | letter-spacing: 0.1em |
+
+
+*/
+@mixin make-letter-spacing($prefix: '.') {
+  @each $name,
+    $value
+      in (
+        'tighter': -0.05em,
+        'tight': -0.025em,
+        'normal': 0em,
+        'wide': 0.025,
+        'wider': 0.05em,
+        'widest': 0.1em
+      )
+  {
+    #{$prefix}tracking-#{$name} {
+      letter-spacing: $value;
+    }
+  }
+}
+
+@include make-letter-spacing();
+@each $deivce in map-keys($devices) {
+  @include media-device($deivce) {
+    @include make-letter-spacing('.' + selector-escape($deivce + ':'));
+  }
+}
+
+// hover ?

@@ -1,62 +1,73 @@
-import * as React from 'react';
-import {
-    Renderer,
-    RendererProps
-} from '../factory';
+import React from 'react';
+import {Renderer, RendererProps} from '../factory';
+import {BaseSchema, SchemaCollection} from '../Schema';
 import {SchemaNode} from '../types';
-import * as cx from 'classnames';
 
-export interface WrapperProps extends RendererProps {
-    body?: SchemaNode;
-    className?: string;
-    children?: JSX.Element | ((props?:any) => JSX.Element);
-    size?: 'xs' | 'sm' | 'md' | 'lg' | 'none';
+/**
+ * Wrapper 容器渲染器。
+ * 文档：https://baidu.gitee.io/amis/docs/components/wrapper
+ */
+export interface WrapperSchema extends BaseSchema {
+  /**
+   * 指定为 container 类型
+   */
+  type: 'wrapper';
+
+  /**
+   * 内容
+   */
+  body: SchemaCollection;
+
+  size?: 'xs' | 'sm' | 'md' | 'lg' | 'none';
+
+  /**
+   * 自定义样式
+   */
+  style?: {
+    [propName: string]: any;
+  };
+}
+
+export interface WrapperProps
+  extends RendererProps,
+    Omit<WrapperSchema, 'className'> {
+  children?: JSX.Element | ((props?: any) => JSX.Element);
 }
 
 export default class Wrapper extends React.Component<WrapperProps, object> {
-    static propsList: Array<string> = [
-        "body",
-        "className",
-        "children",
-        "size"
-    ];
-    static defaultProps:Partial<WrapperProps>= {
-        className: 'bg-white',
-    };
+  static propsList: Array<string> = ['body', 'className', 'children', 'size'];
+  static defaultProps: Partial<WrapperProps> = {
+    className: ''
+  };
 
-    renderBody():JSX.Element | null {
-        const {
-            children,
-            body,
-            render
-        } = this.props;
+  renderBody(): JSX.Element | null {
+    const {children, body, render} = this.props;
 
-        return children ? (
-            typeof children === 'function' ? children(this.props) as JSX.Element : children as JSX.Element
-        ) : body ? (
-            render('body', body) as JSX.Element
-        ) : null;
-    }
+    return children
+      ? typeof children === 'function'
+        ? (children(this.props) as JSX.Element)
+        : (children as JSX.Element)
+      : body
+      ? (render('body', body) as JSX.Element)
+      : null;
+  }
 
-    render() {
-        const {
-            className,
-            size,
-            classnames: cx
-        } = this.props;
+  render() {
+    const {className, size, classnames: cx, style} = this.props;
 
-        return (
-            <div
-                className={cx('Wrapper', size && size !== 'none' ? `Wrapper${size ? `--${size}` : ''}` : '', className)}
-            >
-                {this.renderBody()}
-            </div>
-        );
-    }
+    return (
+      <div
+        className={cx('Wrapper', size ? `Wrapper--${size}` : '', className)}
+        style={style}
+      >
+        {this.renderBody()}
+      </div>
+    );
+  }
 }
 
 @Renderer({
-    test: /(^|\/)wrapper$/,
-    name: 'wrapper'
+  test: /(^|\/)wrapper$/,
+  name: 'wrapper'
 })
-export class WrapperRenderer extends Wrapper {};
+export class WrapperRenderer extends Wrapper {}

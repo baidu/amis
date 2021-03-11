@@ -1,118 +1,305 @@
-// todo
 .#{$ns}TreeControl {
-    border: 1px solid $Form-input-borderColor;
-    padding: 6px 12px;
-    border-radius: 2px;
-    max-height: 300px;
-    overflow: auto;
+  border: 1px solid var(--Form-input-borderColor);
+  padding: 6px 12px;
+  border-radius: 2px;
+  max-height: 300px;
+  overflow: auto;
 
-    &.h-full {
-        max-height: none;
-    }
+  &.h-full {
+    max-height: none;
+    overflow: visible;
+  }
 
-    &.no-border {
-        border: 0;
-    }
+  &.no-border {
+    border: 0;
+  }
 }
 
-
 .#{$ns}Tree {
-  &-list, &-sublist {
+  &-list,
+  &-sublist {
     list-style: none;
     padding: 0;
     margin: 0;
   }
 
-  &-sublist {
-    padding-left: $Tree-indent;
-
-    &.is-folded {
-      display: none;
-    }
+  &-sublist.is-folded {
+    display: none;
   }
 
   &-item {
-    line-height: px2rem(30px);
+    line-height: var(--Tree-itemHeight);
     position: relative;
 
+    > div {
+      &:hover {
+        text-decoration: none;
+
+        > .#{$ns}Tree-item-icons {
+          visibility: visible;
+        }
+      }
+
+      > span > svg {
+        display: inline-block;
+        cursor: pointer;
+        position: relative;
+        top: 2px;
+        width: px2rem(16px);
+        height: px2rem(16px);
+        margin-left: px2rem(5px);
+      }
+    }
+  }
+
+  &-rootItem {
+    line-height: var(--Tree-itemHeight);
+  }
+
+  &-item > div:hover > .#{$ns}Tree-item-icons,
+  &-rootItem > div:hover > .#{$ns}Tree-item-icons {
+    visibility: visible;
+  }
+
+  &-itemLabel {
+    display: flex;
+    align-items: center;
+
+    &:hover {
+      background: var(--Tree-item-onHover-bg);
+    }
+  }
+
+  &-item-icons {
+    visibility: hidden;
+    transition: visibility var(--animation-duration) ease;
+    display: inline-block;
+    vertical-align: top;
+    height: var(--Tree-itemHeight);
+    line-height: var(--Tree-itemHeight);
+    padding-right: px2rem(5px);
+
     > a {
-      color: inherit;
+      display: inline-block;
+      vertical-align: middle;
+      margin-left: var(--gap-xs);
+      cursor: pointer;
+
+      > svg {
+        $svgSize: px2rem(12px);
+        width: $svgSize;
+        height: $svgSize;
+        top: 0;
+      }
+    }
+  }
+
+  &-itemInput {
+    padding-left: var(--Tree-itemArrowWidth);
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+
+    > a {
+      display: inline-block;
+      cursor: pointer;
+      margin-left: var(--gap-sm);
+      color: var(--icon-color);
 
       &:hover {
+        color: var(--icon-onHover-color);
         text-decoration: none;
       }
     }
 
-    &--isLeaf > a {
-      padding-left: $Tree-itemArrowWidth + $gap-xs;
+    > input {
+      flex-grow: 1;
+      width: 100%;
+      outline: none;
+      background: var(--Form-input-bg);
+      border: var(--Form-input-borderWidth) solid var(--Form-input-borderColor);
+      border-radius: var(--Form-input-borderRadius);
+      line-height: var(--Form-input-lineHeight);
+      padding: calc(
+          (
+              var(--Tree-inputHeight) - var(--Form-input-lineHeight) *
+                var(--Form-input-fontSize) - #{px2rem(2px)}
+            ) / 2
+        )
+        var(--Form-input-paddingX);
+      font-size: var(--Form-input-fontSize);
+
+      &::placeholder {
+        color: var(--Form-input-placeholderColor);
+        user-select: none;
+      }
+
+      &:focus {
+        border-color: var(--Form-input-onFocused-borderColor);
+        box-shadow: var(--Form-input-boxShadow);
+        background: var(--Form-input-onFocused-bg);
+      }
     }
   }
 
-  &-rootItem > a > i {
-    margin-left: 0 !important;
+  &-addTopBtn {
+    cursor: pointer;
+    height: var(--Tree-itemHeight);
+    line-height: var(--Tree-itemHeight);
+    display: block;
+
+    &:hover {
+      text-decoration: none;
+    }
+
+    &.is-disabled {
+      pointer-events: none;
+      color: var(--text--muted-color);
+    }
+
+    > svg {
+      $svgSize: px2rem(14px);
+      width: $svgSize;
+      height: $svgSize;
+      top: $svgSize * 0.125;
+      margin-right: var(--gap-xs);
+    }
   }
 
   &-itemArrow {
     cursor: pointer;
-    width: $Tree-itemArrowWidth;
-    margin-right: $gap-xs;
+    width: var(--Tree-itemArrowWidth);
+    display: inline-flex;
+    margin-right: px2rem(5px);
+
+    // &:before {
+    //   font-style: normal;
+    //   font-family: $Tree-arrowVendor;
+    //   content: $Tree-unfoldedArrowContent;
+    // }
+    > svg {
+      width: var(--Tree-itemArrowWidth);
+      height: var(--Tree-itemArrowWidth);
+      display: block;
+      transition: transform var(--animation-duration);
+      top: 0;
+      transform: rotate(90deg);
+    }
+
+    &.is-folded > svg {
+      transform: rotate(0deg);
+    }
+  }
+
+  &-itemArrowPlaceholder {
     display: inline-block;
-
-    &:before {
-      font-style: normal;
-      font-family: $Tree-arrowVendor;
-      content: $Tree-unfoldedArrowContent;
-    }
-
-    &.is-folded:before {
-      content: $Tree-foldedArrowContent;
-    }
+    width: calc(var(--Tree-itemArrowWidth) + #{px2rem(5px)});
   }
 
   &-itemIcon {
-    display: inline-block;
-    margin-right: $gap-xs;
+    display: inline-flex;
+    margin-right: px2rem(5px);
   }
 
-  &-rootIcon {
-    &:before {
-      font-style: normal;
-      font-family: $Tree-rootIconVendor;
-      content: $Tree-rootIconContent;
-    }
-  }
-
+  &-rootIcon,
+  &-folderIcon,
   &-leafIcon {
-    &:before {
-      font-style: normal;
-      font-family: $Tree-leafIconVendor;
-      content: $Tree-leafIconContent;
+    > svg {
+      top: 0;
+      width: px2rem(14px);
+      height: px2rem(14px);
     }
   }
 
-  &-folderIcon {
-    &:before {
-      font-style: normal;
-      font-family: $Tree-folderIconVendor;
-      content: $Tree-folderIconContent;
+  &-itemLabel {
+    user-select: none;
+
+    &.is-checked,
+    &.is-children-checked {
+      color: var(--Tree-itemLabel--onChecked-color);
+    }
+
+    &.is-disabled {
+      color: var(--text--muted-color);
+    }
+
+    > .#{$ns}Checkbox {
+      display: inline-flex;
+      align-self: center;
     }
   }
 
   &-itemText {
-    user-select: none;
     cursor: pointer;
-
-    &.is-checked,
-    &.is-children-checked {
-      color: $Tree-itemText--onChecked-color;
-    }
-
-    &.is-disabled {
-      color: $text--muted-color;
-    }
+    flex: 1 auto;
+    line-height: var(--lineHeightBase);
+    padding: px2rem(4px) 0;
   }
 
   &-placeholder {
-    color: $text--muted-color;
+    color: var(--text--muted-color);
+  }
+
+  &-item &-item > &-itemLabel,
+  &-item &-item > &-placeholder {
+    padding-left: var(--Tree-indent);
+  }
+
+  &-item &-item &-item > &-itemLabel,
+  &-item &-item &-item > &-placeholder {
+    padding-left: calc(var(--Tree-indent) * 2);
+  }
+
+  &-item &-item &-item &-item > &-itemLabel {
+    padding-left: calc(var(--Tree-indent) * 3);
+  }
+
+  &-item &-item &-item &-item &-item > &-itemLabel {
+    padding-left: calc(var(--Tree-indent) * 4);
+  }
+
+  &-item &-item &-item &-item &-item &-item > &-itemLabel {
+    padding-left: calc(var(--Tree-indent) * 5);
+  }
+
+  &-item &-item &-item &-item &-item &-item &-item > &-itemLabel {
+    padding-left: calc(var(--Tree-indent) * 6);
+  }
+
+  &-item &-item &-item &-item &-item &-item &-item &-item > &-itemLabel {
+    padding-left: calc(var(--Tree-indent) * 7);
+  }
+
+  &-item &-item &-item &-item &-item &-item &-item &-item &-item > &-itemLabel {
+    padding-left: calc(var(--Tree-indent) * 8);
+  }
+
+  &-item
+    &-item
+    &-item
+    &-item
+    &-item
+    &-item
+    &-item
+    &-item
+    &-item
+    &-item
+    > &-itemLabel {
+    padding-left: calc(var(--Tree-indent) * 9);
+  }
+
+  &-item
+    &-item
+    &-item
+    &-item
+    &-item
+    &-item
+    &-item
+    &-item
+    &-item
+    &-item
+    &-item
+    > &-itemLabel {
+    padding-left: calc(var(--Tree-indent) * 10);
   }
 }

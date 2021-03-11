@@ -1,213 +1,382 @@
 /**
-* @file scoped.jsx.
-* @author fex
-*/
+ * @file scoped.jsx.
+ * @author fex
+ */
 
-import * as React from 'react';
+import React from 'react';
 import {findDOMNode} from 'react-dom';
-import { RendererProps } from '../factory';
-import * as cx from 'classnames';
-import hoistNonReactStatic = require('hoist-non-react-statics');
-import { RootCloseWrapper} from 'react-overlays';
-import PopOver from '../components/PopOver';
+import {RendererProps} from '../factory';
+import cx from 'classnames';
+import hoistNonReactStatic from 'hoist-non-react-statics';
+import {RootCloseWrapper} from 'react-overlays';
+import PopOver, {Offset} from '../components/PopOver';
 import Overlay from '../components/Overlay';
+import {Icon} from '../components/icons';
+import {SchemaCollection} from '../Schema';
 
-export interface PopOverConfig {
+export interface SchemaPopOverObject {
+  /**
+   * 类名
+   */
+  className?: string;
+
+  /**
+   * 弹框外层类名
+   */
+  popOverClassName?: string;
+
+  /**
+   * 弹出模式
+   */
+  mode?: 'dialog' | 'drawer' | 'popOver';
+
+  /**
+   * 是弹窗形式的时候有用。
+   */
+  size?: 'sm' | 'md' | 'lg' | 'xl';
+
+  /**
+   * 弹出位置
+   */
+  position?:
+    | 'center'
+    | 'left-top'
+    | 'left-top-left-top'
+    | 'left-top-left-center'
+    | 'left-top-left-bottom'
+    | 'left-top-center-top'
+    | 'left-top-center-center'
+    | 'left-top-center-bottom'
+    | 'left-top-right-top'
+    | 'left-top-right-center'
+    | 'left-top-right-bottom'
+    | 'right-top'
+    | 'right-top-left-top'
+    | 'right-top-left-center'
+    | 'right-top-left-bottom'
+    | 'right-top-center-top'
+    | 'right-top-center-center'
+    | 'right-top-center-bottom'
+    | 'right-top-right-top'
+    | 'right-top-right-center'
+    | 'right-top-right-bottom'
+    | 'left-bottom'
+    | 'left-bottom-left-top'
+    | 'left-bottom-left-center'
+    | 'left-bottom-left-bottom'
+    | 'left-bottom-center-top'
+    | 'left-bottom-center-center'
+    | 'left-bottom-center-bottom'
+    | 'left-bottom-right-top'
+    | 'left-bottom-right-center'
+    | 'left-bottom-right-bottom'
+    | 'right-bottom'
+    | 'right-bottom-left-top'
+    | 'right-bottom-left-center'
+    | 'right-bottom-left-bottom'
+    | 'right-bottom-center-top'
+    | 'right-bottom-center-center'
+    | 'right-bottom-center-bottom'
+    | 'right-bottom-right-top'
+    | 'right-bottom-right-center'
+    | 'right-bottom-right-bottom'
+    | 'fixed-center'
+    | 'fixed-left-top'
+    | 'fixed-right-top'
+    | 'fixed-left-bottom'
+    | 'fixed-right-bottom';
+
+  /**
+   * 触发条件，默认是 click
+   */
+  trigger?: 'click' | 'hover';
+
+  /**
+   * 是否显示查看更多的 icon，通常是放大图标。
+   */
+  showIcon?: boolean;
+
+  /**
+   * 偏移量
+   */
+  offset?: {
+    top?: number;
+    left?: number;
+  };
+
+  /**
+   * 标题
+   */
+  title?: string;
+
+  body?: SchemaCollection;
 }
 
-const allowedPositions = [
-    'center',
-    'top'
-];
-
-export interface PopOverConfig {
-    saveImmediately?: boolean;
-    mode?: 'dialog' | 'drawer' | 'popOver';
-    title?: string;
-    size?: 'sm' | 'md' | 'lg' | 'xl';
-    position: 'center' | 'left-top' | 'right-top' | 'left-bottom' | 'right-bottom' 
-    | 'fixed-center' | 'fixed-left-top' | 'fixed-right-top' | 'fixed-left-bottom' | 'fixed-right-bottom';
-    [propName:string]: any;
-};
+export type SchemaPopOver = boolean | SchemaPopOverObject;
 
 export interface PopOverProps extends RendererProps {
-    name?: string;
-    label?: string;
-    popOver: boolean | PopOverConfig;
-    onPopOverOpen: (popover:any) => void;
-    onPopOverClose: (popover:any) => void;
-};
+  name?: string;
+  label?: string;
+  popOver: boolean | SchemaPopOverObject;
+  onPopOverOpened: (popover: any) => void;
+  onPopOverClosed: (popover: any) => void;
+}
 
 export interface PopOverState {
-    isOpened: boolean;
-};
+  isOpened: boolean;
+}
 
-export const HocPopOver = (config:Partial<PopOverConfig> = {}) => (Component: React.ComponentType<any>):any => {
+export const HocPopOver = (
+  config: {
+    targetOutter?: boolean; // 定位目标为整个外层
+  } = {}
+) => (Component: React.ComponentType<any>): any => {
+  let lastOpenedInstance: PopOverComponent | null = null;
+  class PopOverComponent extends React.Component<PopOverProps, PopOverState> {
+    target: HTMLElement;
+    timer: NodeJS.Timeout;
+    static ComposedComponent = Component;
+    constructor(props: PopOverProps) {
+      super(props);
 
-    class PopOverComponent extends React.Component<PopOverProps, PopOverState> {
-        target:HTMLElement;
-        static ComposedComponent = Component;
-        constructor(props:PopOverProps) {
-            super(props);
-
-            this.openPopOver = this.openPopOver.bind(this);
-            this.closePopOver = this.closePopOver.bind(this);
-            this.targetRef = this.targetRef.bind(this);
-            // this.handleClickOutside = this.handleClickOutside.bind(this);
-            this.state = {
-                isOpened: false
-            };
-        }
-
-        targetRef(ref:any) {
-            this.target = ref;
-        }
-
-        openPopOver() {
-            const onPopOverOpen = this.props.onPopOverOpen;
-            this.setState({
-                isOpened: true
-            },  () => onPopOverOpen && onPopOverOpen(this.props.popOver));
-        }
-
-        closePopOver() {
-            if (!this.state.isOpened) {
-                return;
-            }
-
-            const onPopOverClose = this.props.onPopOverClose;
-            this.setState({
-                isOpened: false
-            }, () => onPopOverClose && onPopOverClose(this.props.popOver));
-        }
-
-        buildSchema() {
-            const {
-                popOver,
-                name,
-                label
-            } = this.props;
-
-            let schema;
-
-            if (popOver === true) {
-                schema = {
-                    type: 'panel',
-                    body: '${name}'
-                };
-            } else if (popOver && (popOver.mode === 'dialog' || popOver.mode === 'drawer')) {
-                schema = {
-                    type: popOver.mode,
-                    actions: [
-                        {
-                            label: '关闭',
-                            type: 'button',
-                            actionType: 'cancel'
-                        }
-                    ],
-                    ...popOver
-                };
-            } else if (popOver) {
-                schema = {
-                    type: 'panel',
-                    ...popOver
-                };
-            }
-
-            return schema || 'error';
-        }
-
-        renderPopOver() {
-            let {
-                popOver,
-                render,
-                popOverContainer,
-                classnames: cx,
-                classPrefix: ns
-            } = this.props;
-
-            if (popOver && ((popOver as PopOverConfig).mode === 'dialog' 
-                || (popOver as PopOverConfig).mode === 'drawer')) {
-                return render('popover-detail', this.buildSchema(), {
-                    show: true,
-                    onClose: this.closePopOver,
-                    onConfirm: this.closePopOver
-                });
-            }
-
-            const content = render('popover-detail', this.buildSchema(), {
-                className: cx((popOver as PopOverConfig).className)
-            }) as JSX.Element;
-
-            if (!popOverContainer) {
-                popOverContainer = () => findDOMNode(this);
-            }
-
-            const position = popOver && (popOver as PopOverConfig).position || '';
-            const isFixed = /^fixed\-/.test(position);
-
-            return isFixed ? (
-                <RootCloseWrapper
-                    disabled={!this.state.isOpened}
-                    onRootClose={this.closePopOver}
-                ><div className={cx(`PopOverAble--fixed PopOverAble--${position}`)}>
-                    {content}
-                </div>
-                </RootCloseWrapper>
-            ) : (
-                <Overlay
-                    container={popOverContainer}
-                    placement={position || 'center'}
-                    target={() => this.target}
-                    onHide={this.closePopOver}
-                    rootClose
-                    show
-                >
-                    <PopOver
-                        classPrefix={ns}
-                        className={cx("PopOverAble-popover")}
-                    >
-                        {content}
-                    </PopOver>
-                </Overlay>
-            );
-        }
-
-        render() {
-            const {
-                onQuickChange,
-                popOver,
-                popOverEnabled,
-                className,
-                noHoc,
-                classnames: cx,
-                render
-            } = this.props;
-
-            if (!popOver || popOverEnabled === false || noHoc) {
-                return (
-                    <Component {...this.props} />
-                );
-            }
-
-            return (
-                <Component 
-                    {...this.props}
-                    className={cx(`Field--popOverAble`, className, {
-                        'in': this.state.isOpened
-                    })}
-                >
-                    <Component {...this.props} wrapperComponent={''} noHoc ref={this.targetRef} />
-                    <i key="popover-btn" className={cx("Field-popOverBtn fa fa-search-plus")} onClick={this.openPopOver} />
-                    {this.state.isOpened ? this.renderPopOver() : null}
-                </Component>
-            );
-        }
+      this.openPopOver = this.openPopOver.bind(this);
+      this.closePopOver = this.closePopOver.bind(this);
+      this.closePopOverLater = this.closePopOverLater.bind(this);
+      this.clearCloseTimer = this.clearCloseTimer.bind(this);
+      this.targetRef = this.targetRef.bind(this);
+      // this.handleClickOutside = this.handleClickOutside.bind(this);
+      this.state = {
+        isOpened: false
+      };
     }
 
-    hoistNonReactStatic(PopOverComponent, Component);
+    targetRef(ref: any) {
+      this.target = ref;
+    }
 
-    return PopOverComponent;
+    openPopOver() {
+      const onPopOverOpened = this.props.onPopOverOpened;
+      lastOpenedInstance?.closePopOver();
+      lastOpenedInstance = this;
+      this.setState(
+        {
+          isOpened: true
+        },
+        () => onPopOverOpened && onPopOverOpened(this.props.popOver)
+      );
+    }
+
+    closePopOver() {
+      clearTimeout(this.timer);
+      if (!this.state.isOpened) {
+        return;
+      }
+
+      lastOpenedInstance = null;
+      const onPopOverClosed = this.props.onPopOverClosed;
+      this.setState(
+        {
+          isOpened: false
+        },
+        () => onPopOverClosed && onPopOverClosed(this.props.popOver)
+      );
+    }
+
+    closePopOverLater() {
+      // 5s 后自动关闭。
+      this.timer = setTimeout(this.closePopOver, 2000);
+    }
+
+    clearCloseTimer() {
+      clearTimeout(this.timer);
+    }
+
+    buildSchema() {
+      const {popOver, name, label, translate: __} = this.props;
+
+      let schema;
+
+      if (popOver === true) {
+        schema = {
+          type: 'panel',
+          body: '${name}'
+        };
+      } else if (
+        popOver &&
+        (popOver.mode === 'dialog' || popOver.mode === 'drawer')
+      ) {
+        schema = {
+          type: popOver.mode,
+          actions: [
+            {
+              label: __('Dialog.close'),
+              type: 'button',
+              actionType: 'cancel'
+            }
+          ],
+          ...popOver
+        };
+      } else if (popOver) {
+        schema = {
+          type: 'panel',
+          ...popOver
+        };
+      }
+
+      return schema || 'error';
+    }
+
+    renderPopOver() {
+      let {
+        popOver,
+        render,
+        popOverContainer,
+        classnames: cx,
+        classPrefix: ns
+      } = this.props;
+      if (
+        popOver &&
+        ((popOver as SchemaPopOverObject).mode === 'dialog' ||
+          (popOver as SchemaPopOverObject).mode === 'drawer')
+      ) {
+        return render('popover-detail', this.buildSchema(), {
+          show: true,
+          onClose: this.closePopOver,
+          onConfirm: this.closePopOver
+        });
+      }
+
+      const content = render('popover-detail', this.buildSchema(), {
+        className: cx((popOver as SchemaPopOverObject).className)
+      }) as JSX.Element;
+
+      if (!popOverContainer) {
+        popOverContainer = () => findDOMNode(this);
+      }
+
+      const position =
+        (popOver && (popOver as SchemaPopOverObject).position) || '';
+      const isFixed = /^fixed\-/.test(position);
+
+      return isFixed ? (
+        // @ts-ignore
+        <RootCloseWrapper
+          disabled={!this.state.isOpened}
+          onRootClose={this.closePopOver}
+        >
+          <div
+            className={cx(`PopOverAble--fixed PopOverAble--${position}`)}
+            onMouseLeave={
+              (popOver as SchemaPopOverObject)?.trigger === 'hover'
+                ? this.closePopOver
+                : undefined
+            }
+            onMouseEnter={
+              (popOver as SchemaPopOverObject)?.trigger === 'hover'
+                ? this.clearCloseTimer
+                : undefined
+            }
+          >
+            {content}
+          </div>
+        </RootCloseWrapper>
+      ) : (
+        <Overlay
+          container={popOverContainer}
+          placement={position || 'center'}
+          target={() => this.target}
+          onHide={this.closePopOver}
+          rootClose
+          show
+        >
+          <PopOver
+            classPrefix={ns}
+            className={cx(
+              'PopOverAble-popover',
+              (popOver as SchemaPopOverObject).popOverClassName
+            )}
+            offset={(popOver as SchemaPopOverObject).offset}
+            onMouseLeave={
+              (popOver as SchemaPopOverObject)?.trigger === 'hover'
+                ? this.closePopOver
+                : undefined
+            }
+            onMouseEnter={
+              (popOver as SchemaPopOverObject)?.trigger === 'hover'
+                ? this.clearCloseTimer
+                : undefined
+            }
+          >
+            {content}
+          </PopOver>
+        </Overlay>
+      );
+    }
+
+    render() {
+      const {
+        popOver,
+        popOverEnabled,
+        className,
+        noHoc,
+        classnames: cx,
+        showIcon
+      } = this.props;
+
+      if (!popOver || popOverEnabled === false || noHoc) {
+        return <Component {...this.props} />;
+      }
+
+      const triggerProps: any = {};
+      const trigger = (popOver as SchemaPopOverObject)?.trigger;
+      if (trigger === 'hover') {
+        triggerProps.onMouseEnter = this.openPopOver;
+        triggerProps.onMouseLeave = this.closePopOverLater;
+      } else {
+        triggerProps.onClick = this.openPopOver;
+      }
+
+      return (
+        <Component
+          {...this.props}
+          className={cx(`Field--popOverAble`, className, {
+            in: this.state.isOpened
+          })}
+          ref={config.targetOutter ? this.targetRef : undefined}
+        >
+          {(popOver as SchemaPopOverObject)?.showIcon !== false ? (
+            <>
+              <Component {...this.props} wrapperComponent={''} noHoc />
+              <span
+                key="popover-btn"
+                className={cx('Field-popOverBtn')}
+                {...triggerProps}
+                ref={config.targetOutter ? undefined : this.targetRef}
+              >
+                <Icon icon="zoom-in" className="icon" />
+              </span>
+              {this.state.isOpened ? this.renderPopOver() : null}
+            </>
+          ) : (
+            <>
+              <div
+                className={cx('Field-popOverWrap')}
+                {...triggerProps}
+                ref={config.targetOutter ? undefined : this.targetRef}
+              >
+                <Component {...this.props} wrapperComponent={''} noHoc />
+              </div>
+              {this.state.isOpened ? this.renderPopOver() : null}
+            </>
+          )}
+        </Component>
+      );
+    }
+  }
+
+  hoistNonReactStatic(PopOverComponent, Component);
+
+  return PopOverComponent;
 };
 
 export default HocPopOver;

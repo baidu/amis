@@ -1,533 +1,861 @@
 .#{$ns}Table {
+  position: relative;
+  background: var(--Table-bg);
+  border: var(--Table-borderWidth) solid var(--Table-borderColor);
+  border-radius: var(--Table-borderRadius);
+  margin-bottom: var(--gap-md);
+
+  .#{$ns}Form-control > & {
+    margin-bottom: var(--gap-sm);
+  }
+
+  &-fixedLeft,
+  &-fixedRight {
+    position: absolute;
+    background: var(--Table-bg);
+    z-index: var(--Table-fixed-zIndex);
+    top: auto;
+    box-shadow: none;
+  }
+
+  &-fixedLeft {
+    // 还是改成默认不显示，footable 展示的时候，配置 固定列还没修复
+    left: 0;
+    top: -99999px;
+
+    &.in {
+      box-shadow: var(--Table-fixedLeft-boxShadow);
+      top: auto;
+    }
+
+    & > .#{$ns}Table-table {
+      > thead > tr > th:last-child,
+      > tbody > tr > td:last-child {
+        padding-right: var(--TableCell-paddingX);
+      }
+
+      // > thead > tr > th:last-child {
+      //   border-right: var(--Table-thead-borderWidth) solid var(--Table-thead-borderColor);
+      // }
+    }
+  }
+
+  &-fixedRight {
+    // 还是改成默认不显示，footable 展示的时候，配置 固定列还没修复
+    right: 0;
+    top: -99999px;
+
+    &.in {
+      box-shadow: var(--Table-fixedRight-boxShadow);
+      top: auto;
+    }
+
+    & > .#{$ns}Table-table {
+      > thead > tr > th:first-child,
+      > tbody > tr > td:first-child {
+        padding-left: var(--TableCell-paddingX);
+      }
+
+      // > thead > tr > th:first-child {
+      //   border-left: var(--Table-thead-borderWidth) solid var(--Table-thead-borderColor);
+      // }
+    }
+  }
+
+  &-fixedTop {
+    position: absolute;
+    background: var(--Table-bg);
+    z-index: -1;
+    opacity: 0;
+    box-shadow: var(--Table-fixedTop-boxShadow);
+
+    &.in {
+      position: fixed;
+      opacity: 1;
+      z-index: $zindex-affix;
+    }
+
+    > .#{$ns}Table-fixedLeft,
+    > .#{$ns}Table-fixedRight {
+      z-index: $zindex-affix + 10;
+      // box-shadow: none;
+      background: transparent;
+      border-top: var(--Table-borderWidth) solid var(--Table-borderColor);
+
+      > table {
+        margin-bottom: px2rem(5px);
+      }
+    }
+
+    > .#{$ns}Table-heading {
+      border-bottom: none;
+    }
+
+    > .#{$ns}Table-wrapper {
+      border-top: var(--Table-borderWidth) solid var(--Table-borderColor);
+    }
+
+    &.is-fakeHide {
+      > .#{$ns}Table-fixedLeft,
+      > .#{$ns}Table-fixedRight,
+      > .#{$ns}Table-wrapper {
+        visibility: hidden;
+        position: absolute;
+      }
+    }
+  }
+
+  &-heading {
+    background: var(--Table-heading-bg);
+    border-bottom: var(--Table-borderWidth) solid var(--Table-borderColor);
+    padding: calc(
+        (
+            var(--Table-heading-height) - var(--Table-fontSize) *
+              var(--lineHeightBase)
+          ) / 2
+      )
+      var(--Table-toolbar-paddingX);
+  }
+
+  &--unsaved &-heading {
+    background: var(--Table--unsaved-heading-bg);
+    color: var(--Table--unsaved-heading-color);
+  }
+
+  &-wrapper {
+    overflow: hidden;
+  }
+
+  &-placeholder {
+    color: var(--text--muted-color);
+    text-align: center;
+    height: var(--Table-placeholder-height);
+    background: transparent !important;
+
+    &:hover {
+      color: var(--text--muted-color);
+      background: transparent !important;
+    }
+
+    > td {
+      vertical-align: middle !important;
+      text-align: center;
+    }
+  }
+
+  &-header {
+    padding: var(--Table-toolbar-paddingY) var(--Table-toolbar-paddingX);
+
+    > * + .#{$ns}Button,
+    > * + .#{$ns}ButtonGroup,
+    > * + .#{$ns}ButtonToolbar {
+      margin-left: var(--Crud-toolbar-gap);
+    }
+  }
+
+  &-toolbar {
+    @include clearfix();
+    display: flex;
+    padding: var(--Table-toolbar-paddingY) var(--Table-toolbar-paddingX);
+    flex-wrap: wrap;
+
+    .#{$ns}DropDown {
+      &-menuItem {
+        height: auto;
+
+        .#{$ns}Checkbox {
+          display: flex;
+          align-items: center;
+        }
+      }
+    }
+  }
+
+  &-header + &-toolbar {
+    padding-top: 0;
+  }
+
+  &-contentWrap {
     position: relative;
-    background: $Table-bg;
-    border: $Table-borderWidth solid $Table-borderColor;
-    border-radius: $Table-borderRadius;
-    margin-bottom: $gap-md;
+  }
 
-    &-fixedLeft,
-    &-fixedRight {
-        position: absolute;
-        background: $Table-bg;
-        z-index: $zindex-affix - 10;
-        top: -999999px;
+  &-header + &-contentWrap,
+  &-toolbar + &-contentWrap {
+    border-top: var(--Table-borderWidth) solid var(--Table-borderColor);
+  }
 
-        &.in {
-            top: auto;
+  &-footToolbar {
+    border-top: var(--Table-borderWidth) solid var(--Table-borderColor);
+  }
+
+  &-actions {
+    display: inline-block;
+
+    > * {
+      margin-right: var(--Crud-toolbar-gap);
+    }
+  }
+
+  &-content {
+    min-height: 0.01%;
+    overflow-x: auto;
+    transform: translateZ(0);
+  }
+
+  &-table {
+    width: 100%;
+    min-width: 100%;
+    margin-bottom: 0;
+    font-size: var(--Table-fontSize);
+    color: var(--Table-color);
+    background: var(--Table-bg);
+    border-spacing: 0;
+    border-collapse: collapse;
+
+    &--withCombine {
+      > thead > tr > th,
+      > tbody > tr > td {
+        &:first-child {
+          padding-left: var(--TableCell-paddingX) !important;
         }
-    }
 
-    &-fixedLeft {
-        box-shadow: $Table-fixedLeft-boxShadow;
-        left: 0;
-    }
-
-    &-fixedRight {
-        box-shadow: $Table-fixedRight-boxShadow;
-        right: 0;
-    }
-
-    &-fixedTop {
-        position: absolute;
-        background: $Table-bg;
-        z-index: -1;
-        opacity: 0;
-        box-shadow: $Table-fixedTop-boxShadow;
-
-        &.in {
-            position: fixed;
-            opacity: 1;
-            z-index: $zindex-affix;
+        &:last-child {
+          padding-right: var(--TableCell-paddingX) !important;
         }
+      }
 
-        > .#{$ns}Table-fixedLeft,
-        > .#{$ns}Table-fixedRight {
-            z-index: $zindex-affix + 10;
-            // box-shadow: none;
+      // reset
+      > tbody > tr {
+        @if $Table-strip-bg !=transparent {
+          &.#{$ns}Table-tr--odd {
             background: transparent;
-            border-top: $Table-borderWidth solid $Table-borderColor;
-
-            > table {
-                margin-bottom: px2rem(5px);
-            }
+          }
         }
-
-        > .#{$ns}Table-wrapper {
-            border-top: $Table-borderWidth solid $Table-borderColor;
-        }
-    }
-
-    &-heading {
-        background: $Table-heading-bg;
-        border-bottom: $Table-borderWidth solid $Table-borderColor;
-        padding: ($Table-heading-height - $Table-fontSize * $lineHeightBase) / 2  $Table-toolbar-paddingX;
-    }
-
-    &--unsaved &-heading {
-        background: $Table--unsaved-heading-bg;
-        color: $Table--unsaved-heading-color;
-    }
-
-    &-wrapper {
-        overflow: hidden;
-    }
-
-    &-placeholder {
-        color: $text--muted-color;
-        text-align: center;
-        height: $Table-placeholder-height;
-        background-color: transparent !important;
 
         &:hover {
-            color: $text--muted-color;
-            background-color: transparent !important;
+          background: transparent;
         }
 
         > td {
-            vertical-align: middle !important;
+          vertical-align: middle;
         }
+
+        > td:not(:last-child) {
+          border-right: var(--Table-borderWidth) solid var(--Table-borderColor);
+        }
+      }
     }
 
-    &-header {
-        padding: $Table-toolbar-paddingY $Table-toolbar-paddingX;
+    > thead > tr {
+      > th {
+        background: var(--Table-thead-bg);
 
-        > * + .#{$ns}Button,
-        > * + .#{$ns}ButtonGroup,
-        > * + .#{$ns}ButtonToolbar {
-            margin-left: $Crud-toolbar-gap;
-        }
-    }
-
-    &-toolbar {
-        @include clearfix();
-        display: flex;
-        padding: $Table-toolbar-paddingY $Table-toolbar-paddingX;
-    }
-
-    &-header + &-toolbar {
-        padding-top: 0;
-    }
-
-    &-contentWrap {
-        position: relative;
-    }
-
-    &-header + &-contentWrap,
-    &-toolbar + &-contentWrap {
-        border-top: $Table-borderWidth solid $Table-borderColor;
-    }
-
-    &-footToolbar {
-        border-top: $Table-borderWidth solid $Table-borderColor;
-    }
-
-    &-actions {
-        display: inline-block;
-        
-        > * {
-            margin-right: $Crud-toolbar-gap;
-        }
-    }
-
-    
-
-    &-content {
-        min-height: .01%;
-        overflow-x: auto;
-    }
-
-    &-table {
-        width: 100%;
-        max-width: 100%;
-        margin-bottom: 0;
-        font-size: $Table-fontSize;
-        color: $Table-color;
-        background-color: $Table-bg;
-
-        > thead > tr {
-            background-color: $Table-thead-bg;
-            > th {
-                padding: $TableCell-paddingY $TableCell-paddingX;
-
-                &:first-child {
-                    padding-left: $TableCell--edge-paddingX;
-                }
-
-                &:last-child {
-                    padding-right: $TableCell--edge-paddingX;
-                }
-
-                &:not(:last-child) {
-                    border-right: $Table-thead-borderWidth solid $Table-thead-borderColor;
-                }
-                font-size: $Table-thead-fontSize;
-                color: $Table-thead-color;
-                font-weight: $fontWeightNormal;
-                white-space: nowrap;
-
-                .#{$ns}Remark {
-                    margin-left: $gap-xs;
-                }
-            }
+        text-align: left;
+        &[colspan] {
+          text-align: center;
         }
 
-        > tbody > tr {
-            border-top: $Table-borderWidth solid $Table-borderColor;
-            
-            > td {
-                padding: $TableCell-paddingY $TableCell-paddingX;
-                vertical-align: top;
+        padding: var(--TableCell-paddingY) var(--TableCell-paddingX);
 
-                &:first-child {
-                    padding-left: $TableCell--edge-paddingX;
-                }
-
-                &:last-child {
-                    padding-right: $TableCell--edge-paddingX;
-                }
-            }
-
-            @if $Table-strip-bg != transparent {
-                background-color: transparent;
-                &.#{$ns}Table-tr--odd {
-                    background-color: $Table-strip-bg;
-                }
-            }
-
-            &:hover,
-            &.is-hovered {
-                background-color: $Table-onHover-bg;
-                border-color: $Table-onHover-borderColor;
-                color: $Table-onHover-color;
-
-                & + tr {
-                    border-color: $Table-onHover-borderColor;
-                }
-            }
-
-            &.is-checked {
-                background-color: $Table-onChecked-bg;
-                border-color: $Table-onChecked-borderColor;
-                color: $Table-onChecked-color;
-
-                & + tr {
-                    border-color: $Table-onChecked-borderColor;
-                }
-
-                &:hover,
-                &.is-hovered {
-                    background-color: $Table-onChecked-onHover-bg;
-                    border-color: $Table-onChecked-onHover-borderColor;
-                    color: $Table-onChecked-onHover-color;
-
-                    & + tr {
-                        border-color: $Table-onChecked-onHover-borderColor;
-                    }
-                }
-            }
-
-            &.is-moved,
-            &.is-modified {
-                background-color: $Table-onModified-bg;
-                border-color: $Table-onModified-borderColor;
-                color: $Table-onModified-color;
-
-                & + tr {
-                    border-color: $Table-onModified-borderColor;
-                }
-
-                &:hover,
-                &.is-hovered {
-                    background-color: $Table-onModified-onHover-bg;
-                    border-color: $Table-onModified-onHover-borderColor;
-                    color: $Table-onModified-onHover-color;
-
-                    & + tr {
-                        border-color: $Table-onModified-onHover-borderColor;
-                    }
-                }
-            }
-
-            &.is-dragging {
-                opacity: $Table-onDragging-opacity;
-            }
+        &:first-child {
+          padding-left: var(--TableCell--edge-paddingX);
         }
 
-        @for $i from 2 through 10 {
-            tr.#{$ns}Table-tr--#{$i}th {
-                .#{$ns}Table-expandCell > button {
-                    position: relative;
-                    right: -20px * ($i - 1);
-                }
-                .#{$ns}Table-expandCell + td{
-                    > div, > span {
-                        margin-left: 20px * ($i - 1);
-                    }
-                }
-            }
+        &:last-child {
+          padding-right: var(--TableCell--edge-paddingX);
         }
 
-        > thead > tr > th.#{$ns}Table-checkCell,
-        > tbody > tr > td.#{$ns}Table-checkCell {
-            border-right: 0;
-            width: px2rem(1px);
-            .#{$ns}Checkbox {
-                margin: 0;
-            }
+        &:not(:last-child) {
+          border-right: var(--Table-thead-borderWidth) solid
+            var(--Table-thead-borderColor);
         }
+        border-bottom: var(--Table-thead-borderWidth) solid
+          var(--Table-thead-borderColor);
 
-        > thead > tr > th.#{$ns}TableCell--sortable {
-            padding-right: $TableCell-paddingX + $TableCell-sortBtn-width;
-            position: relative;
-        }
+        font-size: var(--Table-thead-fontSize);
+        color: var(--Table-thead-color);
+        font-weight: var(--fontWeightNormal);
+        white-space: nowrap;
 
-        > thead > tr > th.#{$ns}TableCell--searchable {
-            padding-right: $TableCell-paddingX + $TableCell-searchBtn-width;
-            position: relative;
-        }
-
-        > thead > tr > th.#{$ns}TableCell--filterable {
-            padding-right: $TableCell-paddingX + $TableCell-filterBtn-width;
-            position: relative;
-        }
-
-        &--withCombine {
-            > thead > tr > th,
-            > tbody > tr > td {
-                &:first-child {
-                    padding-left: $TableCell-paddingX;
-                }
-
-                &:last-child {
-                    padding-right: $TableCell-paddingX;
-                }
-            }
-
-            // reset
-            > tbody > tr {
-                @if $Table-strip-bg != transparent {
-                    &.#{$ns}Table-tr--odd {
-                        background-color: transparent;
-                    }
-                }
-
-                &:hover {
-                    background-color: transparent;
-                }
-
-                > td {
-                    vertical-align: middle;
-                }
-
-                > td:not(:last-child) {
-                    border-right: $Table-borderWidth solid $Table-borderColor;
-                }
-            }
-        }
-    }
-
-    &Cell-sortBtn {
-        cursor: pointer;
-        width: $TableCell-sortBtn-width;
-        position: absolute;
-        right: $TableCell-paddingX - $TableCell-sortBtn-width / 2;
-        color: $Table-thead-iconColor;
-
-        &--up:before {
-            display: inline-block;
-            content: $TableCell-sortBtn--up-icon;
-            font-family: $TableCell-sortBtn--up-iconVendor;
-        }
-
-        &--down:before {
-            display: inline-block;
-            content: $TableCell-sortBtn--down-icon;
-            font-family: $TableCell-sortBtn--down-iconVendor;
-        }
-
-        &--default:before {
-            display: inline-block;
-            content: $TableCell-sortBtn--default-icon;
-            font-family: $TableCell-sortBtn--default-iconVendor;
-        }
-        
-        &--up,
-        &--down {
-            display: none;
-            position: relative;
-            z-index: 2;
-            font-style: normal;
-
-            &.is-active {
-                display: inline-block;
-            }
-        }
-
-        &--default {
-            font-style: normal;
-            position: absolute;
-            z-index: 1;
-            display: inline-block;
-            opacity: $TableCell-sortBtn--default-opacity;
-            top: 0;
-            left: 0;
-
-            &.is-active {
-                opacity: $TableCell-sortBtn--default-onActive-opacity;
-            }
-        }
-    }
-
-    &Cell-searchBtn {
-        cursor: pointer;
-        width: $TableCell-searchBtn-width;
-        position: absolute;
-        right: $TableCell-paddingX - $TableCell-searchBtn-width / 2;
-        color: $text--muted-color;
-
-        &:hover {
-            color: $text-color;
-        }
-    }
-
-    &Cell-searchPopOver {
-        border: none;
-        min-width: px2rem(320px);
-        max-width: px2rem(640px);
-
-        .#{$ns}Panel {
-            margin: 0;
-        }
-    }
-
-    &Cell-filterBtn {
-        cursor: pointer;
-        width: $TableCell-filterBtn-width;
-        position: absolute;
-        right: $TableCell-paddingX - $TableCell-filterBtn-width / 2;
-        color: $text--muted-color;
-
-        &:hover {
-            color: $text-color;
-        }
-
+        // .#{$ns}TableCell--title {
+        //   display: flex;
+        //   align-items: center;
+        // }
         .#{$ns}Remark {
-            display: inline;
+          margin-left: var(--gap-xs);
         }
+      }
     }
 
-    &Cell-filterPopOver {
-        border: none;
-        min-width: px2rem(320px);
-        max-width: px2rem(640px);
+    > thead > tr + tr {
+      border-top: var(--Table-borderWidth) solid var(--Table-borderColor);
+    }
 
-        .#{$ns}DropDown-menu {
-            margin: 0;
-            padding: 0;
-            border-radius: 0;
+    > thead > tr {
+      border-bottom: var(--Table-borderWidth) solid var(--Table-borderColor);
+    }
 
-            .#{$ns}DropDown-divider {
-                height: $TableCell-filterPopOver-dropDownItem-height;
-                line-height: $TableCell-filterPopOver-dropDownItem-height;
-                padding: $TableCell-filterPopOver-dropDownItem-padding;
-                background-color: $white;
-                margin: 0;
-
-                &:hover {
-                    background-color: $light;
-                    color: $primary;
-                }
-
-                &.is-selected {
-                    background-color: $light;
-                    color: $primary;
-                }
-
-                .#{$ns}Checkbox {
-                    width: 100%;
-                    margin: 0;
-                }
-            }
+    > tbody > tr {
+      & + tr {
+        border-top: var(--Table-borderWidth) solid var(--Table-borderColor);
+        > th {
+          border-top: var(--Table-thead-borderWidth) solid
+            var(--Table-thead-borderColor);
         }
-    }
+      }
 
-    &-itemActions-wrap {
-        position: absolute;
-        width: 100%;
-        left: 0;
-        top: 0;
-        min-height: 30px;
-        pointer-events: none;
-        box-shadow: $Table-onHover-boxShadow;
-    }
+      > th {
+        text-align: left;
+        background: var(--Table-thead-bg);
+        // font-size: var(--Table-thead-fontSize);
+        color: var(--Table-thead-color);
+        font-weight: var(--fontWeightNormal);
+        white-space: nowrap;
+        border-right: var(--Table-thead-borderWidth) solid
+          var(--Table-thead-borderColor);
+      }
 
-    &-itemActions {
-        pointer-events: all;
-        position: absolute;
-        // background: $Table-onHover-bg;
-        background: linear-gradient(90deg, rgba($Table-onHover-bg, 0) 0%, rgba($Table-onHover-bg,1) 20%, rgba($Table-onHover-bg,1) 100%);
-        top: $Table-borderWidth;
-        bottom: 0;
-        right: 0;
-        padding-left: px2rem(50px); 
-        padding-right: $TableCell-paddingX;
-        display: flex;
-        align-items: center;
+      > td,
+      > th {
+        padding: var(--TableCell-paddingY) var(--TableCell-paddingX);
+        vertical-align: top;
 
-        a {
-            cursor: pointer;
-            padding: $gap-xs $gap-sm;
-            color: $link-color;
-            text-decoration: $link-decoration;
-
-            &:hover {
-                color: $link-onHover-color;
-                text-decoration: $link-onHover-decoration;
-            }
-
-            &.is-disabled {
-                pointer-events: none;
-                opacity: $Button-onDisabled-opacity;
-                color: $text--muted-color;
-            }
+        &:first-child {
+          padding-left: var(--TableCell--edge-paddingX);
         }
-    }
 
-    &-dragTip {
-        color: $text--loud-color;
-        clear: both;
-        margin-top: $gap-xs;
-    }
+        &:last-child {
+          padding-right: var(--TableCell--edge-paddingX);
+        }
+      }
 
-    &-footTable {
-        position: relative;
-        width: 100%;
-        border-spacing: 0;
-        border-collapse: collapse;
-        margin-bottom: 0;
+      @if var(--Table-strip-bg) !=transparent {
         background: transparent;
 
-        > tbody > tr > th {
-            width: px2rem(120px);
-            text-align: right;
-            padding: $TableCell-paddingY $TableCell-paddingX;
+        &.#{$ns}Table-tr--odd {
+          background: var(--Table-strip-bg);
         }
+      }
 
-        > tbody > tr > td {
-            word-break: break-all;
-            padding: $TableCell-paddingY $TableCell-paddingX;
-        }
+      &:hover,
+      &.is-hovered {
+        background: var(--Table-onHover-bg);
+        border-color: var(--Table-onHover-borderColor);
+        color: var(--Table-onHover-color);
 
-        > tbody > tr:not(:first-child) {
-            border-top: $Table-borderWidth solid lighten($Table-thead-borderColor, 2.5%);
+        & + tr {
+          border-color: var(--Table-onHover-borderColor);
         }
+      }
+
+      &.is-checked {
+        background: var(--Table-onChecked-bg);
+        border-color: var(--Table-onChecked-borderColor);
+        color: var(--Table-onChecked-color);
+
+        & + tr {
+          border-color: var(--Table-onChecked-borderColor);
+        }
+      }
+
+      &.is-moved,
+      &.is-modified {
+        background: var(--Table-onModified-bg);
+        border-color: var(--Table-onModified-borderColor);
+        color: var(--Table-onModified-color);
+
+        & + tr {
+          border-color: var(--Table-onModified-borderColor);
+        }
+      }
+
+      &.is-summary {
+        background: var(--Table-thead-bg);
+        color: var(--Table-thead-color);
+        font-weight: var(--fontWeightNormal);
+      }
+
+      &.bg-light {
+        @include color-variant($light, 2%, 3%, 3%, 5%);
+        color: $text-color;
+      }
+
+      &.bg-dark {
+        @include color-variant($dark, 5%, 10%, 5%, 10%);
+        @include font-variant($dark);
+      }
+
+      &.bg-black {
+        @include color-variant($black, 5%, 10%, 5%, 10%);
+        @include font-variant($black);
+      }
+
+      &.bg-primary {
+        @include color-variant($primary, 5%, 10%, 5%, 10%);
+        @include font-variant($primary);
+      }
+
+      &.bg-success {
+        @include color-variant($success, 5%, 10%, 5%, 10%);
+        @include font-variant($success);
+      }
+
+      &.bg-info {
+        @include color-variant($info, 5%, 10%, 5%, 10%);
+        @include font-variant($info);
+      }
+
+      &.bg-warning {
+        @include color-variant($warning, 5%, 10%, 5%, 10%);
+        @include font-variant($warning);
+      }
+
+      &.bg-danger {
+        @include color-variant($danger, 5%, 10%, 5%, 10%);
+        @include font-variant($danger);
+      }
+
+      &.is-dragging {
+        opacity: var(--Table-onDragging-opacity);
+      }
     }
+
+    @for $i from 2 through 10 {
+      tr.#{$ns}Table-tr--#{$i}th.is-expanded {
+        .#{$ns}Table-expandCell:before {
+          right: px2rem(7px) + px2rem(-20px) * ($i - 1);
+        }
+      }
+
+      tr.#{$ns}Table-tr--#{$i}th {
+        .#{$ns}Table-expandBtn {
+          position: relative;
+          right: -(px2rem(20px)) * ($i - 1);
+        }
+
+        .#{$ns}Table-expandCell + td {
+          position: relative;
+
+          &::before {
+            content: '';
+            position: absolute;
+            width: px2rem(1px);
+            top: 0;
+            bottom: 0;
+            left: px2rem(-8px) + px2rem(20px) * ($i - 2);
+            height: auto;
+            background: var(--Table-tree-borderColor);
+          }
+
+          &::after {
+            content: '';
+            position: absolute;
+            height: px2rem(1px);
+            top: px2rem(18px);
+            left: px2rem(-8px) + px2rem(20px) * ($i - 2);
+            width: px2rem(10px);
+            background: var(--Table-tree-borderColor);
+          }
+
+          padding-left: px2rem(20px) * $i - px2rem(20px);
+        }
+      }
+
+      tr.#{$ns}Table-tr--#{$i}th.is-expandable {
+        .#{$ns}Table-expandCell + td {
+          padding-left: px2rem(20px) * ($i - 1);
+        }
+      }
+
+      tr.#{$ns}Table-tr--#{$i}th.is-last:not(.is-expanded) {
+        .#{$ns}Table-expandCell + td {
+          &::before {
+            height: px2rem(18px);
+            bottom: auto;
+          }
+        }
+      }
+    }
+
+    > thead > tr > th.#{$ns}Table-checkCell,
+    > tbody > tr > td.#{$ns}Table-checkCell {
+      border-right: 0;
+      width: px2rem(1px);
+      padding-right: var(--TableCell-paddingX);
+
+      .#{$ns}Checkbox {
+        margin: 0;
+      }
+    }
+
+    > thead > tr > th.#{$ns}Table-expandCell,
+    > tbody > tr > td.#{$ns}Table-expandCell {
+      border-right: 0;
+      width: px2rem(1px);
+      padding-right: 0;
+    }
+
+    > thead > tr > th.#{$ns}Table-dragCell,
+    > tbody > tr > td.#{$ns}Table-dragCell {
+      border-right: 0;
+      width: px2rem(1px);
+      padding-right: 0;
+      cursor: move;
+    }
+
+    > tbody > tr > td.#{$ns}Table-expandCell {
+      position: relative;
+
+      @for $i from 1 through 7 {
+        .#{$ns}Table-divider-#{$i} {
+          position: absolute;
+          width: px2rem(1px);
+          top: 0;
+          bottom: 0;
+          height: 100%;
+          background: var(--Table-tree-borderColor);
+          right: px2rem(7px) + px2rem(-20px) * ($i - 1);
+        }
+      }
+    }
+
+    > tbody > tr.is-expanded > td.#{$ns}Table-expandCell {
+      // position: relative;
+
+      &::before {
+        content: '';
+        position: absolute;
+        width: px2rem(1px);
+        top: px2rem(28px);
+        bottom: 0;
+        right: px2rem(7px);
+        height: auto;
+        background: var(--Table-tree-borderColor);
+      }
+    }
+
+    > thead > tr > th.#{$ns}TableCell--sortable {
+      padding-right: calc(
+        var(--TableCell-paddingX) + var(--TableCell-sortBtn-width)
+      );
+      position: relative;
+    }
+
+    > thead > tr > th.#{$ns}TableCell--searchable {
+      padding-right: calc(
+        var(--TableCell-paddingX) + var(--TableCell-searchBtn-width)
+      );
+      position: relative;
+    }
+
+    > thead > tr > th.#{$ns}TableCell--filterable {
+      padding-right: calc(
+        var(--TableCell-paddingX) + var(--TableCell-filterBtn-width)
+      );
+      position: relative;
+    }
+  }
+
+  &Cell-sortBtn {
+    cursor: pointer;
+    width: var(--TableCell-sortBtn-width);
+    height: px2rem(20px);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    right: calc(var(--TableCell-paddingX) - var(--TableCell-sortBtn-width) / 2);
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--icon-color);
+
+    &:hover {
+      color: var(--icon-onHover-color);
+    }
+
+    &--up > svg,
+    &--down > svg,
+    &--default > svg {
+      color: inherit;
+      width: 12x;
+      height: 12px;
+    }
+
+    &--up,
+    &--down,
+    &--default {
+      display: none;
+      position: absolute;
+      z-index: 2;
+      font-style: normal;
+
+      &.is-active {
+        display: inline-block;
+      }
+    }
+
+    &--default {
+      &.is-active {
+        color: var(--text--muted-color);
+        &:hover {
+          color: var(--text-color);
+        }
+      }
+    }
+    &--up,
+    &--down {
+      &.is-active {
+        color: var(--TableCell-sortBtn--onActive-color);
+      }
+    }
+  }
+
+  &Cell-searchBtn {
+    cursor: pointer;
+    // width: var(--TableCell-searchBtn-width);
+    position: absolute;
+    right: px2rem(5px);
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--text--muted-color);
+
+    svg.icon {
+      width: 12px;
+      height: 12px;
+    }
+
+    &:hover {
+      color: var(--text-color);
+    }
+    &.is-active {
+      color: var(--TableCell-searchBtn--onActive-color);
+    }
+  }
+
+  &Cell-searchPopOver {
+    border: none;
+    min-width: px2rem(320px);
+    max-width: px2rem(640px);
+
+    .#{$ns}Panel {
+      margin: 0;
+    }
+  }
+
+  &Cell-filterBtn {
+    cursor: pointer;
+    width: var(--TableCell-filterBtn-width);
+    position: absolute;
+    right: calc(
+      var(--TableCell-paddingX) - var(--TableCell-filterBtn-width) / 2
+    );
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--text--muted-color);
+
+    svg.icon {
+      width: 12px;
+      height: 12px;
+    }
+
+    &:hover {
+      color: var(--text-color);
+    }
+
+    &.is-active {
+      color: var(--TableCell-filterBtn--onActive-color);
+    }
+
+    .#{$ns}Remark {
+      display: inline;
+    }
+  }
+
+  &Cell-filterPopOver {
+    border: none;
+    width: px2rem(160px);
+
+    .#{$ns}DropDown-menu {
+      margin: 0;
+      padding: 0;
+      border-radius: 0;
+
+      .#{$ns}DropDown-divider {
+        height: var(--TableCell-filterPopOver-dropDownItem-height);
+        line-height: var(--TableCell-filterPopOver-dropDownItem-height);
+        padding: var(--TableCell-filterPopOver-dropDownItem-padding);
+        background: var(--white);
+        margin: 0;
+
+        &:hover {
+          background: var(--light);
+          color: var(--primary);
+        }
+
+        &.is-selected {
+          background: var(--light);
+          color: var(--primary);
+        }
+
+        .#{$ns}Checkbox {
+          width: 100%;
+          margin: 0;
+        }
+      }
+    }
+  }
+
+  &-itemActions-wrap {
+    position: absolute;
+    width: 100%;
+    z-index: calc(var(--Table-fixed-zIndex) + 1);
+    left: 0;
+    top: 0;
+    min-height: 30px;
+    pointer-events: none;
+    box-shadow: var(--Table-onHover-boxShadow);
+  }
+
+  &-itemActions {
+    pointer-events: all;
+    position: absolute;
+    // background: var(--Table-onHover-bg);
+    background: linear-gradient(
+      90deg,
+      rgba(var(--Table-onHover-bg-rgb), 0) 0%,
+      rgba(var(--Table-onHover-bg-rgb), 1) 20%,
+      rgba(var(--Table-onHover-bg-rgb), 1) 100%
+    );
+    top: var(--Table-borderWidth);
+    bottom: 0;
+    right: 0;
+    padding-left: px2rem(50px);
+    padding-right: var(--TableCell-paddingX);
+    display: flex;
+    align-items: center;
+
+    a {
+      cursor: pointer;
+      padding: var(--gap-xs) var(--gap-sm);
+      color: var(--link-color);
+      text-decoration: var(--link-decoration);
+
+      &:hover {
+        color: var(--link-onHover-color);
+        text-decoration: var(--link-onHover-decoration);
+      }
+
+      &.is-disabled {
+        pointer-events: none;
+        opacity: var(--Button-onDisabled-opacity);
+        color: var(--text--muted-color);
+      }
+    }
+  }
+
+  &-dragTip {
+    color: var(--text--loud-color);
+    clear: both;
+    margin-top: var(--gap-xs);
+    width: 100%;
+    color: var(--info);
+  }
+
+  &-footTable {
+    position: relative;
+    width: 100%;
+    border-spacing: 0;
+    border-collapse: collapse;
+    margin-bottom: 0;
+    background: transparent;
+
+    > tbody > tr > th {
+      width: px2rem(120px);
+      text-align: right;
+      padding: var(--TableCell-paddingY) var(--TableCell-paddingX);
+    }
+
+    > tbody > tr > td {
+      word-break: break-all;
+      padding: var(--TableCell-paddingY) var(--TableCell-paddingX);
+    }
+
+    > tbody > tr:not(:first-child) {
+      border-top: var(--Table-borderWidth) solid
+        var(--Table-tbody-borderTopColor);
+    }
+  }
+
+  &-expandBtn {
+    position: relative;
+    z-index: 1;
+    color: var(--Table-expandBtn-color);
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    width: px2rem(14px);
+    line-height: 1;
+    height: 16px;
+
+    > svg {
+      display: inline-block;
+      text-align: center;
+      cursor: pointer;
+      transition: transform ease-in-out var(--animation-duration),
+        top ease-in-out var(--animation-duration);
+      position: relative;
+      transform-origin: 50% 50%;
+    }
+
+    &.is-active > svg {
+      transform: rotate(90deg);
+    }
+
+    &:hover {
+      text-decoration: none;
+    }
+  }
+
+  &-dragBtn {
+    margin-right: var(--gap-xs);
+    display: inline-block;
+    visibility: hidden;
+    cursor: move;
+    color: var(--icon-color);
+
+    &:hover {
+      text-decoration: none;
+      color: var(--icon-onHover-color);
+    }
+  }
+
+  &-table > tbody > tr:hover .#{$ns}Table-dragBtn,
+  &-table > tbody > tr.is-dragging .#{$ns}Table-dragBtn,
+  &-table > tbody > tr.is-drop-allowed .#{$ns}Table-dragBtn {
+    visibility: visible;
+  }
+
+  .fake-hide {
+    visibility: hidden;
+    position: absolute;
+  }
 }
 
 .#{$ns}OperationField {
-    margin: px2rem(-3px);
+  margin: px2rem(-3px);
 
-    > .#{$ns}Button {
-        margin: px2rem(3px);
-    }
+  > .#{$ns}Button,
+  > .#{$ns}Button--disabled-wrap > .#{$ns}Button {
+    margin: px2rem(3px);
+  }
+
+  > .#{$ns}Button--disabled-wrap > .#{$ns}Button--link {
+    padding: 0;
+  }
+
+  > .#{$ns}Button--link {
+    padding: 0;
+    margin-right: px2rem(10px);
+  }
 }

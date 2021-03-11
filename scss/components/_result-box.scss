@@ -1,0 +1,124 @@
+.#{$ns}ResultBox {
+  @include input-input();
+  flex-wrap: wrap;
+  padding: 0 px2rem(3px);
+  min-height: var(--Form-input-height);
+  align-items: center;
+
+  &.is-error {
+    border-color: var(--Form-input-onError-borderColor);
+    background: var(--Form-input-onError-bg);
+  }
+
+  &.is-focused,
+  &.is-active,
+  &:focus {
+    outline: none;
+    border-color: var(--Form-input-onFocused-borderColor);
+    box-shadow: var(--Form-input-boxShadow);
+    background: var(--Form-input-onFocused-bg);
+  }
+
+  &.is-clickable:not(.is-disabled) {
+    cursor: pointer;
+
+    &:hover {
+      border-color: var(--Form-input-onFocused-borderColor);
+      box-shadow: var(--Form-input-boxShadow);
+      background: var(--Form-input-onFocused-bg);
+    }
+  }
+
+  &.is-error.is-focused {
+    border-color: var(--Form-input-onError-borderColor);
+  }
+
+  &.is-disabled {
+    color: var(--text--muted-color);
+    background: var(--Form-input-onDisabled-bg);
+    border-color: var(--Form-input-onDisabled-borderColor);
+    pointer-events: none;
+  }
+
+  &-singleValue {
+    padding: 0 calc(var(--Form-input-paddingX) - #{px2rem(3px)});
+  }
+
+  &-clear {
+    @include input-clear();
+    width: px2rem(26px);
+    height: px2rem(26px);
+    margin: 0 px2rem(-2px);
+    margin-left: auto;
+
+    &:hover {
+      background: var(--ResultBox-value-bg);
+    }
+
+    > svg {
+      width: px2rem(12px);
+      height: px2rem(12px);
+    }
+  }
+
+  > svg {
+    display: inline-block;
+    width: px2rem(14px);
+    color: var(--icon-color);
+  }
+
+  > a {
+    cursor: pointer;
+  }
+
+  &-value {
+    background: var(--ResultBox-value-bg);
+    color: var(--ResultBox-value-color);
+    font-size: var(--Form-input-fontSize);
+    padding: 0 px2rem(5px);
+    min-height: px2rem(24px);
+    flex-wrap: nowrap;
+    display: inline-flex;
+    align-items: center;
+    margin: 2px 3px;
+    user-select: none;
+
+    > a {
+      cursor: pointer;
+      margin-left: px2rem(5px);
+      color: var(--ResultBox-icon-color);
+      &:hover {
+        color: var(--ResultBox-icon--onHover-color);
+      }
+
+      > svg {
+        width: px2rem(10px);
+        height: px2rem(10px);
+      }
+    }
+
+    &:hover {
+      background: var(--ResultBox-value--onHover-bg);
+    }
+
+    &.is-disabled {
+      pointer-events: none;
+      color: var(--ResultBox-value--onDisabled-color);
+
+      > a {
+        color: var(--ResultBox-icon--onDisabled-color);
+      }
+    }
+  }
+
+  &-placeholder {
+    color: var(--Form-input-placeholderColor);
+    user-select: none;
+    margin-left: 8px;
+  }
+
+  > input {
+    padding-left: 8px;
+    min-height: 24px;
+  }
+}

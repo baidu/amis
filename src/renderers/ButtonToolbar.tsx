@@ -1,43 +1,50 @@
-import * as React from 'react';
-import {
-    Renderer,
-    RendererProps
-} from '../factory';
-import {
-    Action
-} from '../types';
+import React from 'react';
+import {Renderer, RendererProps} from '../factory';
+import {BaseSchema} from '../Schema';
+import {ActionSchema} from './Action';
 
-export interface ButtonToolbarProps extends RendererProps {
-    buttons: Array<Action>;
+/**
+ * Button Toolar 渲染器。
+ * 文档：https://baidu.gitee.io/amis/docs/components/button-toolbar
+ */
+export interface ButtonToolbarSchema extends BaseSchema {
+  /**
+   * 指定为按钮工具集合类型
+   */
+  type: 'button-toolbar';
+
+  buttons: Array<ActionSchema>;
 }
 
-export default class ButtonToolbar extends React.Component<ButtonToolbarProps, object> {
-    static propsList: Array<string> = [
-        "buttons",
-    ];
+export interface ButtonToolbarProps
+  extends RendererProps,
+    Omit<ButtonToolbarSchema, 'className'> {}
 
-    render() {
-        const {
-            buttons,
-            className,
-            classnames: cx,
-            render
-        } = this.props;
+export default class ButtonToolbar extends React.Component<
+  ButtonToolbarProps,
+  object
+> {
+  static propsList: Array<string> = ['buttons', 'className'];
 
-        return (
-            <div
-                className={cx("ButtonToolbar", className)}
-            >
-                {Array.isArray(buttons) ? buttons.map((button, key) => render(`${key}`, button, {
-                    key
-                })) : null}
-            </div>
-        );
-    }
+  render() {
+    const {buttons, className, classnames: cx, render} = this.props;
+
+    return (
+      <div className={cx('ButtonToolbar', className)}>
+        {Array.isArray(buttons)
+          ? buttons.map((button, key) =>
+              render(`${key}`, button, {
+                key
+              })
+            )
+          : null}
+      </div>
+    );
+  }
 }
 
 @Renderer({
-    test: /(^|\/)button-toolbar$/,
-    name: 'button-toolbar'
+  test: /(^|\/)button-toolbar$/,
+  name: 'button-toolbar'
 })
-export class ButtonToolbarRenderer extends ButtonToolbar {};
+export class ButtonToolbarRenderer extends ButtonToolbar {}

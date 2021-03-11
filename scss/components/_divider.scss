@@ -1,6 +1,11 @@
 .#{$ns}Divider {
-    margin: ($gap-base) (-$gap-base);
-    border-bottom: $borderWidth dashed $borderColor;
-    height: px2rem(2px);
-    font-size: 0;
+  margin: var(--gap-base) calc(var(--gap-base) * -1);
+  border-bottom: var(--borderWidth) var(--Divider-borderStyle)
+    var(--borderColor);
+  height: px2rem(2px);
+  font-size: 0;
+
+  &--solid {
+    border-bottom-style: solid;
+  }
 }

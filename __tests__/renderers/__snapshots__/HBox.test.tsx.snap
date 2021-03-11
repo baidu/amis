@@ -1,0 +1,65 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Renderer:hbox 1`] = `
+<div>
+  <div
+    class="a-Hbox"
+  >
+    <div
+      class="a-Hbox-col w-xs"
+    >
+      <div
+        class="a-TplField bg-info"
+      >
+        <span>
+          w-xs
+        </span>
+      </div>
+    </div>
+    <div
+      class="a-Hbox-col w-sm"
+    >
+      <div
+        class="a-TplField bg-info lter"
+      >
+        <span>
+          w-sm
+        </span>
+      </div>
+    </div>
+    <div
+      class="a-Hbox-col w"
+    >
+      <div
+        class="a-TplField bg-info dk"
+      >
+        <span>
+          w
+        </span>
+      </div>
+    </div>
+    <div
+      class="a-Hbox-col"
+    >
+      <div
+        class="a-TplField bg-success"
+      >
+        <span>
+          平均分配
+        </span>
+      </div>
+    </div>
+    <div
+      class="a-Hbox-col"
+    >
+      <div
+        class="a-TplField bg-primary"
+      >
+        <span>
+          平均分配
+        </span>
+      </div>
+    </div>
+  </div>
+</div>
+`;

@@ -1,125 +1,156 @@
 .#{$ns}Nav {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-    &--tabs {
-        border-bottom: $Tabs-borderWidth solid $Tabs-borderColor;
-        .#{$ns}Nav-item {
-            margin-bottom: -$Tabs-borderWidth;
-            display: inline-block;
-            >a {
-                font-size: $Nav-item-fontSize;
-                display: block;
-                outline: none;
-                border: $Tabs-borderWidth solid transparent;
-                border-top-left-radius: $Tabs-borderRadius;
-                border-top-right-radius: $Tabs-borderRadius;
-                color: $Tabs-color;
-                text-decoration: none;
-                margin-right: px2rem(2px);
-                padding: $gap-sm $gap-base;
-                cursor: pointer;
-            }
-            &:hover>a,
-            >a:focus {
-                border-color: $Tabs-onHover-borderColor;
-                text-decoration: none;
-            }
-            &.disabled>a,
-            &.is-disabled>a {
-                color: $Tabs-onDisabled-color;
-                background-color: transparent;
-                border-color: transparent;
-                pointer-events: none;
-            }
-            &.active>a,
-            &.is-active>a {
-                color: $Tabs-onActive-color;
-                background-color: $Tabs-onActive-bg;
-                border-color: $Tabs-onActive-borderColor;
-                border-bottom-color: $Tabs-onActive-borderBottomColor;
-                border-bottom-width: $Tabs-onActive-borderBottomWidth;
-            }
-        }
-        .#{$ns}Nav-itemIcon {
-            margin-right: $gap-xs;
-        }
+  list-style: none;
+  user-select: none;
+  margin: 0;
+  padding: 0;
+
+  .#{$ns}Nav-itemIcon {
+    margin-right: var(--gap-xs);
+  }
+
+  img.#{$ns}Nav-itemIcon {
+    height: var(--Tabs-linkFontSize);
+    vertical-align: middle;
+  }
+
+  &--tabs {
+    border-bottom: var(--Tabs-borderWidth) solid var(--Tabs-borderColor);
+
+    .#{$ns}Nav-item {
+      margin-bottom: calc(var(--Tabs-borderWidth) * -1);
+      display: inline-block;
+
+      > a {
+        font-size: var(--Tabs-linkFontSize);
+        display: block;
+        outline: none;
+        border: var(--Tabs-borderWidth) solid transparent;
+        border-top-left-radius: var(--Tabs-borderRadius);
+        border-top-right-radius: var(--Tabs-borderRadius);
+        color: var(--Tabs-color);
+        text-decoration: none;
+        margin-right: px2rem(2px);
+        padding: var(--gap-sm) var(--gap-base);
+        cursor: pointer;
+      }
+
+      &:hover > a,
+      > a:focus {
+        border-color: var(--Tabs-onHover-borderColor);
+        text-decoration: none;
+      }
+
+      &.disabled > a,
+      &.is-disabled > a {
+        color: var(--Tabs-onDisabled-color);
+        background: transparent;
+        border-color: transparent;
+        pointer-events: none;
+      }
+
+      &.active > a,
+      &.is-active > a {
+        color: var(--Tabs-onActive-color);
+        background: var(--Tabs-onActive-bg);
+        border-color: var(--Tabs-onActive-borderColor);
+        border-bottom-color: var(--Tabs-content-bg);
+      }
     }
-    &--stacked {
-        .#{$ns}Nav-item {
-            position: relative;
-            >a {
-                display: block;
-                outline: none;
-                color: $Nav-item-color;
-                text-decoration: none;
-                padding: $gap-sm $gap-base;
-                cursor: pointer;
-                background-color: $Nav-item-bg;
-                border-radius: $Nav-item-borderRadius;
-            }
-            &:hover>a,
-            >a:focus {
-                border-color: $Nav-item-onHover-color;
-                text-decoration: none;
-                background-color: $Nav-item-onHover-bg;
-            }
-            &.disabled>a,
-            &.is-disabled>a {
-                color: $Nav-item-onDisabled-color;
-                background-color: transparent;
-                pointer-events: none;
-            }
-            &.active>a,
-            &.is-active>a {
-                color: $Nav-item-onActive-color;
-                background-color: $Nav-item-onActive-bg;
-                border-left: $Nav-item-onActive-borderLeft;
-                padding-left: px2rem(12px);
-            }
-            &.is-unfolded {
-                .#{$ns}Nav-itemToggler {
-                    transform: rotate(180deg) scale(0.8);
-                }
-                .#{$ns}Nav-subItems {
-                    display: block;
-                }
-            }
-            .#{$ns}Nav-itemToggler {
-                position: absolute;
-                width: px2rem(30px);
-                height: px2rem(30px);
-                text-align: center;
-                line-height: px2rem(30px);
-                vertical-align: middle;
-                top: px2rem(4px);
-                right: px2rem(2px);
-                cursor: pointer;
-                transform: scale(0.8);
-                transition: transform .3s;
-            }
-            .#{$ns}Nav-subItems {
-                display: none;
-                padding-left: 0;
-                list-style: none;
-            }
-            .#{$ns}Nav-item {
-                font-size: $Nav-subItem-fontSize;
-                a:before {
-                    content: '';
-                    display: inline-block;
-                    width: px2rem(4px);
-                    height: px2rem(4px);
-                    background-color: #ccc;
-                    border-radius: px2rem(500px);
-                    margin-right: px2rem(8px);
-                    vertical-align: middle;
-                }
-                &.active>a:before,
-                &.is-active>a:before {
-                    background-color: $Nav-subItem-onActiveBeforeBg;
-                }
-            }
+  }
+
+  &--stacked {
+    .#{$ns}Nav-item {
+      position: relative;
+
+      > a {
+        display: block;
+        outline: none;
+        color: var(--Nav-item-color);
+        text-decoration: none;
+        padding: var(--gap-sm) var(--gap-base);
+        cursor: pointer;
+        background: var(--Nav-item-bg);
+        border-radius: var(--Nav-item-borderRadius);
+      }
+
+      > a:hover,
+      > a:focus {
+        border-color: var(--Nav-item-onHover-color);
+        text-decoration: none;
+        background: var(--Nav-item-onHover-bg);
+      }
+
+      &.disabled > a,
+      &.is-disabled > a {
+        color: var(--Nav-item-onDisabled-color);
+        background: transparent;
+        pointer-events: none;
+      }
+
+      &.active > a,
+      &.is-active > a {
+        color: var(--Nav-item-onActive-color);
+        background: var(--Nav-item-onActive-bg);
+        border-left: var(--Nav-item-onActive-borderLeft);
+        padding-left: px2rem(12px);
+      }
+
+      &.is-unfolded > {
+        .#{$ns}Nav-itemToggler {
+          transform: rotate(180deg) scale(0.8);
         }
+
+        .#{$ns}Nav-subItems {
+          display: block;
+          margin-left: var(--gap-sm);
+        }
+      }
+
+      .#{$ns}Nav-itemToggler {
+        position: absolute;
+        width: px2rem(30px);
+        height: px2rem(30px);
+        text-align: center;
+        line-height: px2rem(30px);
+        vertical-align: middle;
+        top: px2rem(4px);
+        right: px2rem(2px);
+        cursor: pointer;
+        transform: scale(0.8);
+        transition: transform var(--animation-duration);
+
+        > svg {
+          width: 10px;
+          height: 10px;
+          top: 0;
+        }
+      }
+
+      .#{$ns}Nav-subItems {
+        display: none;
+        padding-left: 0;
+        list-style: none;
+      }
+
+      .#{$ns}Nav-item {
+        font-size: var(--Nav-subItem-fontSize);
+
+        a:before {
+          content: '';
+          display: inline-block;
+          width: px2rem(4px);
+          height: px2rem(4px);
+          background: #ccc;
+          border-radius: px2rem(500px);
+          margin-right: px2rem(8px);
+          vertical-align: middle;
+        }
+
+        &.active > a:before,
+        &.is-active > a:before {
+          background: var(--Nav-subItem-onActiveBeforeBg);
+        }
+      }
     }
+  }
 }

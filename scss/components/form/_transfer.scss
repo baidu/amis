@@ -1,0 +1,184 @@
+.#{$ns}Transfer {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  min-height: px2rem(300px);
+  position: relative;
+
+  &--inline {
+    display: inline-flex;
+    flex-wrap: nowrap;
+  }
+
+  &-title {
+    display: flex;
+    align-items: center;
+    background: var(--Transfer-title-bg);
+    height: px2rem(30px);
+    line-height: var(--Form-input-lineHeight);
+    font-size: var(--Form-input-fontSize);
+    padding: calc(
+        (
+            #{px2rem(30px)} - var(--Form-input-lineHeight) * var(--Form-input-fontSize)
+          ) / 2
+      )
+      var(--gap-sm);
+    flex-direction: row;
+
+    &--light {
+      background: transparent;
+    }
+
+    > span {
+      flex-grow: 1;
+    }
+  }
+
+  &-select,
+  &-result {
+    width: 0;
+    min-width: px2rem(200px);
+    max-height: px2rem(400px);
+    flex-grow: 1;
+    border: var(--Form-input-borderWidth) solid var(--Form-input-borderColor);
+    display: flex;
+    flex-direction: column;
+  }
+
+  &-select > &-checkboxes,
+  &-result > &-selections {
+    flex-grow: 1;
+    max-height: 100%;
+    overflow: auto;
+    position: relative; // 貌似不加 relative 会有 bug。
+  }
+
+  &-search + &-checkboxes {
+    border-top: 1px solid var(--borderColor);
+  }
+
+  &-checkboxes .#{$ns}ListCheckboxes-placeholder {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    text-align: center;
+    justify-content: center;
+  }
+
+  &-search {
+    padding: var(--gap-sm);
+  }
+
+  &-mid {
+    min-width: px2rem(10px);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  &-arrow {
+    width: 40px;
+    height: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid var(--borderColor);
+    margin: 0 10px;
+    color: var(--icon-color);
+
+    > svg {
+      top: 0;
+      width: 14px;
+      height: 14px;
+    }
+  }
+
+  &-checkAll,
+  &-clearAll {
+    user-select: none;
+    cursor: pointer;
+
+    &.is-disabled {
+      pointer-events: none;
+      color: var(--text--muted-color);
+    }
+  }
+
+  &-tabs {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+
+    > .#{$ns}Tabs-links {
+      border-top: 0 none;
+      padding: 5px 0 0 5px;
+      display: flex;
+      flex-direction: row;
+      flex-wrap: wrap;
+      align-items: center;
+
+      > .#{$ns}Tabs-link > a:first-child {
+        font-size: 12px;
+        padding: 7px 8px;
+      }
+
+      .#{$ns}TabsTransfer-tabsMid {
+        flex-grow: 1;
+      }
+
+      > .#{$ns}SearchBox {
+        margin: -5px 5px 0 10px;
+
+        &.is-active {
+          width: 150px;
+          margin-right: 10px;
+          padding-left: 10px;
+        }
+      }
+    }
+
+    > .#{$ns}Tabs-content {
+      flex-grow: 1;
+      position: relative;
+      padding: 5px 0 0;
+
+      > .#{$ns}Tabs-pane {
+        position: relative;
+        min-height: 100%;
+
+        &.is-active {
+          display: flex;
+          flex-direction: column;
+
+          > .#{$ns}Transfer-checkboxes {
+            flex-grow: 1;
+            max-height: 100%;
+            overflow: auto;
+          }
+        }
+      }
+    }
+  }
+}
+
+.#{$ns}TabsTransfer {
+  .#{$ns}Transfer-title {
+    height: 40px;
+  }
+
+  // .#{$ns}Transfer-result {
+  //   flex-grow: unset;
+  // }
+
+  &-placeholder {
+    @include checkboxes-placeholder();
+  }
+}
+
+.#{$ns}TransferControl {
+  position: relative;
+
+  &.is-inline {
+    display: inline-block;
+  }
+}

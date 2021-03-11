@@ -1,63 +1,70 @@
-// todo
-
 .#{$ns}EditorControl {
-    min-height: px2rem(200px);
-    max-height: px2rem(400px);
-    
-    > .#{$ns}MonacoEditor,
-    > .#{$ns}MonacoEditor > .monaco-diff-editor {
-        min-height: px2rem(198px);
+  min-height: px2rem(200px);
+  max-height: px2rem(400px);
+
+  > .#{$ns}MonacoEditor,
+  > .#{$ns}MonacoEditor > .monaco-diff-editor {
+    min-height: px2rem(198px);
+  }
+
+  overflow: visible;
+  height: auto;
+  border: var(--Form-input-borderWidth) solid var(--Form-input-borderColor);
+  max-width: 100%;
+  box-sizing: content-box;
+
+  &.is-error {
+    border-color: var(--Form-input-onError-borderColor);
+  }
+
+  &.is-focused {
+    border-color: var(--Form-input-onFocused-borderColor);
+  }
+
+  &--sm {
+    min-height: 100px;
+
+    > .#{$ns}MonacoEditor {
+      min-height: 100px;
     }
-    overflow: visible;
-    height: auto;
-    border: $Form-input-borderWidth solid $Form-input-borderColor;
-    max-width: 100%;
-    box-sizing: content-box;
+  }
 
-    &.is-error {
-        border-color: $Form-input-onError-borderColor;
+  &--md {
+    min-height: 250px;
+
+    > .#{$ns}MonacoEditor {
+      min-height: 250px;
     }
+  }
 
-    &.is-focused {
-      border-color: $Form-input-onFocused-borderColor;
+  &--lg {
+    min-height: 300px;
+
+    > .#{$ns}MonacoEditor {
+      min-height: 300px;
     }
+  }
 
-    &--md {
-        min-height: 250px;
-        > .#{$ns}MonacoEditor {
-            min-height: 250px;
-        }
+  &--xl {
+    min-height: 400px;
+
+    > .#{$ns}MonacoEditor {
+      min-height: 400px;
     }
+  }
 
-    &--lg {
-        min-height: 300px;
+  &--xxl {
+    min-height: 500px;
 
-        > .#{$ns}MonacoEditor {
-            min-height: 300px;
-        }
+    > .#{$ns}MonacoEditor {
+      min-height: 500px;
     }
-
-    &--xl {
-        min-height: 400px;
-
-        > .#{$ns}MonacoEditor {
-            min-height: 400px;
-        }
-    }
-
-    &--xxl {
-        min-height: 500px;
-
-        > .#{$ns}MonacoEditor {
-            min-height: 500px;
-        }
-    }
+  }
 }
 
-.monaco-inputbox>.wrapper {
-    padding: 0;
+.monaco-inputbox > .wrapper {
+  padding: 0;
 }
-
 
 // @media (min-width: 768px) {
 

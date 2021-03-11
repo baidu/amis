@@ -1,34 +1,34 @@
 .#{$ns}Rating {
-    position: relative;
+  position: relative;
+  overflow: hidden;
+  display: block;
+  float: left;
+  font-size: px2rem(24px);
+  color: var(--dark);
+  cursor: pointer;
+
+  &.is-active {
+    color: var(--Rating-onActive-color);
+  }
+
+  &.is-disabled {
+    cursor: not-allowed;
+  }
+
+  &-half:before {
+    position: absolute;
     overflow: hidden;
     display: block;
-    float: left;
-    font-size: px2rem(24px);;
-    color: $dark;
-    cursor: pointer;
-
-    &.is-active {
-        color: $info;
-    }
-
-    &.is-disabled {
-        cursor: default;
-    }
-
-    &-half:before {
-        position: absolute;
-        overflow: hidden;
-        display: block;
-        z-index: 1;
-        top: 0;
-        left: 0;
-        width: 50%;
-        content: attr(data-forhalf);
-        color: $info;
-    }
+    z-index: 1;
+    top: 0;
+    left: 0;
+    width: 50%;
+    content: attr(data-forhalf);
+    color: var(--Rating-onActive-color);
+  }
 }
 
 .#{$ns}RatingControl {
-    position: relative;
-    overflow: hidden;
+  position: relative;
+  overflow: hidden;
 }

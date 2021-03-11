@@ -1,0 +1,265 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Renderer:button 1`] = `
+<div>
+  <div
+    class="a-Panel a-Panel--default a-Panel--form"
+    style="position: relative;"
+  >
+    <div
+      class="a-Panel-heading"
+    >
+      <h3
+        class="a-Panel-title"
+      >
+        <span
+          class="a-TplField"
+        >
+          <span>
+            The form
+          </span>
+        </span>
+      </h3>
+    </div>
+    <div
+      class="a-Panel-body"
+    >
+      <form
+        class="a-Form a-Form--normal"
+        novalidate=""
+      >
+        <div
+          class="a-Form-item a-Form-item--normal"
+          data-role="form-item"
+        >
+          <button
+            class="a-Button a-Button--default a-Form-control"
+            type="button"
+          >
+            <span>
+              Text
+            </span>
+            <i
+              class="a-Button-icon fa fa-plus"
+            />
+          </button>
+        </div>
+        <div
+          class="a-Form-item a-Form-item--normal"
+          data-role="form-item"
+        >
+          <button
+            class="a-Button a-Button--default a-Form-control"
+            type="button"
+          >
+            <span>
+              OpenDialog
+            </span>
+          </button>
+        </div>
+        <div
+          class="a-Form-item a-Form-item--normal"
+          data-role="form-item"
+        >
+          <button
+            class="a-Button a-Button--primary a-Form-control"
+            type="submit"
+          >
+            <span>
+              Submit
+            </span>
+          </button>
+        </div>
+        <div
+          class="a-Form-item a-Form-item--normal r-2x"
+          data-role="form-item"
+        >
+          <button
+            class="a-Button a-Button--danger a-Button--sm a-Form-control"
+            type="reset"
+          >
+            <span>
+              Reset
+            </span>
+          </button>
+        </div>
+        <input
+          style="display: none;"
+          type="submit"
+        />
+      </form>
+    </div>
+    <div
+      class="resize-sensor"
+      style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
+    >
+      
+  
+      <div
+        class="resize-sensor-expand"
+        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+      >
+        
+    
+        <div
+          style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
+        />
+        
+  
+      </div>
+      
+  
+      <div
+        class="resize-sensor-shrink"
+        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+      >
+        
+    
+        <div
+          style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
+        />
+        
+  
+      </div>
+      
+  
+      <div
+        class="resize-sensor-appear"
+        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
+      />
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Renderer:button 2`] = `
+<div>
+  <div
+    class="a-Panel a-Panel--default a-Panel--form"
+    style="position: relative;"
+  >
+    <div
+      class="a-Panel-heading"
+    >
+      <h3
+        class="a-Panel-title"
+      >
+        <span
+          class="a-TplField"
+        >
+          <span>
+            The form
+          </span>
+        </span>
+      </h3>
+    </div>
+    <div
+      class="a-Panel-body"
+    >
+      <form
+        class="a-Form a-Form--normal"
+        novalidate=""
+      >
+        <div
+          class="a-Form-item a-Form-item--normal"
+          data-role="form-item"
+        >
+          <button
+            class="a-Button a-Button--default a-Form-control"
+            type="button"
+          >
+            <span>
+              Text
+            </span>
+            <i
+              class="a-Button-icon fa fa-plus"
+            />
+          </button>
+        </div>
+        <div
+          class="a-Form-item a-Form-item--normal"
+          data-role="form-item"
+        >
+          <button
+            class="a-Button a-Button--default a-Form-control"
+            type="button"
+          >
+            <span>
+              OpenDialog
+            </span>
+          </button>
+        </div>
+        <div
+          class="a-Form-item a-Form-item--normal"
+          data-role="form-item"
+        >
+          <button
+            class="a-Button a-Button--primary a-Form-control"
+            type="submit"
+          >
+            <span>
+              Submit
+            </span>
+          </button>
+        </div>
+        <div
+          class="a-Form-item a-Form-item--normal r-2x"
+          data-role="form-item"
+        >
+          <button
+            class="a-Button a-Button--danger a-Button--sm a-Form-control"
+            type="reset"
+          >
+            <span>
+              Reset
+            </span>
+          </button>
+        </div>
+        <input
+          style="display: none;"
+          type="submit"
+        />
+      </form>
+    </div>
+    <div
+      class="resize-sensor"
+      style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
+    >
+      
+  
+      <div
+        class="resize-sensor-expand"
+        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+      >
+        
+    
+        <div
+          style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
+        />
+        
+  
+      </div>
+      
+  
+      <div
+        class="resize-sensor-shrink"
+        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+      >
+        
+    
+        <div
+          style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
+        />
+        
+  
+      </div>
+      
+  
+      <div
+        class="resize-sensor-appear"
+        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
+      />
+    </div>
+  </div>
+</div>
+`;

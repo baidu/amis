@@ -1,77 +1,104 @@
-
 .#{$ns}DropDown {
-    position: relative;
+  position: relative;
+  display: inline-block;
+
+  &-caret {
+    margin-left: var(--DropDown-caret-marginLeft);
     display: inline-block;
+    vertical-align: top;
+    transition: transform var(--animation-duration) ease;
 
-    &-caret {
-        margin-left: $DropDown-caret-marginLeft;
+    > svg {
+      width: px2rem(10px);
+      height: px2rem(10px);
+      top: 0.125em;
+    }
+  }
+
+  &.is-opened &-caret {
+    transform: rotate(180deg);
+  }
+
+  &--block {
+    display: block;
+
+    .#{$ns}Button {
+      display: block;
+    }
+  }
+
+  &-menu {
+    position: absolute;
+    z-index: $zindex-dropdown;
+    top: 100%;
+    left: 0;
+    margin: px2rem(1px) 0 0;
+    background: var(--DropDown-menu-bg);
+    list-style: none;
+    padding: var(--DropDown-menu-paddingY) var(--DropDown-menu-paddingX);
+    border: var(--DropDown-menu-borderWidth) solid
+      var(--DropDown-menu-borderColor);
+    border-radius: var(--DropDown-menu-borderRadius);
+    box-shadow: var(--DropDown-menu-boxShadow);
+    min-width: var(--DropDown-menu-minWidth);
+    text-align: left;
+  }
+
+  &--alignRight &-menu {
+    left: auto;
+    right: 0;
+  }
+
+  &-menuItem,
+  &-menu > li {
+    padding: var(--DropDown-menuItem-paddingY) var(--DropDown-menuItem-paddingX);
+    white-space: nowrap;
+    box-sizing: border-box;
+    height: var(--DropDown-menu-height);
+    vertical-align: middle;
+    user-select: none;
+
+    &:hover {
+      background: var(--DropDown-menuItem-onHover-bg);
+      color: var(--DropDown-menuItem-onHover-color);
     }
 
-    &--block {
-        display: block;
-
-        .#{$ns}Button {
-            display: block;
-        }
+    &.is-active {
+      color: var(--DropDown-menuItem-onActive-color);
     }
 
-    &-menu {
-        position: absolute;
-        z-index: $zindex-dropdown;
-        top: 100%;
-        left: 0;
-        margin: px2rem(1px) 0 0;
-        background-color: $DropDown-menu-bg;
-        list-style: none;
-        padding: $DropDown-menu-paddingY $DropDown-menu-paddingX;
-        border: $DropDown-menu-borderWidth solid $DropDown-menu-borderColor;
-        border-radius: $DropDown-menu-borderRadius;
-        box-shadow: $DropDown-menu-boxShadow;
-        min-width: $DropDown-menu-minWidth;
-        text-align: left;
+    &:not(.is-disabled),
+    &:not(.disabled) {
+      cursor: pointer;
     }
 
-    &--alignRight &-menu {
-        left: auto;
-        right: 0;
+    &.is-disabled {
+      cursor: not-allowed;
+      pointer-events: none;
+      color: var(--DropDown-menuItem-onDisabled-color);
     }
 
-    &-menuItem,
-    &-menu > li {
-        padding: $DropDown-menuItem-paddingY $DropDown-menuItem-paddingX;
-        white-space: nowrap;
-        box-sizing: border-box;
-        height: $DropDown-menu-height;
-        vertical-align: middle;
-        user-select: none;
-
-        &:hover {
-            background-color: $DropDown-menuItem-onHover-bg;
-            color: $DropDown-menuItem-onHover-color;
-        }
-
-        &:not(.is-disabled),
-        &:not(.disabled) {
-            cursor: pointer;
-        }
-
-        &.#{$ns}DropDown-divider {
-            height: px2rem(1px);
-            margin: px2rem(9px) 0;
-            overflow: hidden;
-            background-color: $DropDown-menu-borderColor;
-            padding: 0;
-        }
+    &.#{$ns}DropDown-divider {
+      height: px2rem(1px);
+      margin: px2rem(9px) 0;
+      overflow: hidden;
+      background: var(--DropDown-menu-borderColor);
+      padding: 0;
     }
+  }
 
-    &-menu > li a {
-        display: block;
-        text-decoration: none;
-    }
-    
+  &-menu > li a {
+    color: inherit;
+    display: block;
+    text-decoration: none;
+  }
 
-    &-popover {
-        border: none;
-        box-shadow: none;
-    }
+  &-popover {
+    border: none;
+    box-shadow: none;
+  }
+
+  > .#{$ns}Button {
+    min-width: unset;
+  }
 }

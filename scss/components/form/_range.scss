@@ -1,194 +1,217 @@
 .#{$ns}RangeControl {
-    position: relative;
-    @include clearfix();
+  position: relative;
+  @include clearfix();
 
-    padding-top: 1.0rem;
-    padding-bottom: 1.1rem;
+  padding-top: 1rem;
+  padding-bottom: 1.1rem;
 
-    &--withInput {
-        .#{$ns}InputRange {
-            width: calc(100% - 120px);
-        }
-        .#{$ns}InputRange-label--mid {
-            left: calc(50% - 60px);
-        }
-    }
+  &--withInput {
     .#{$ns}InputRange {
-        &-input {
-            font-size: $fontSizeSm;
-            width: px2rem(74px);
-            position: absolute;
-            right: px2rem(26px);
-            top: px2rem(12px);
-            height: px2rem(30px);
-            input {
-                padding: px2rem(10px);
-                width: 100%;
-                height: 100%;
-                &:focus {
-                    outline: none;
-                    border: $borderWidth solid $info;
-                }
-            }
-        }
-        &-unit {
-            position: absolute;
-            right: px2rem(10px);
-            top: px2rem(7px);
-        }
-        &-clear {
-            position: absolute;
-            top: px2rem(18px);
-            right: 0;
-            cursor: pointer;
-            svg {
-                height: px2rem(16px);
-                width: px2rem(16px);
-                fill: #999
-            }
-        }
+      width: calc(100% - 120px);
     }
+
+    .#{$ns}InputRange-label--mid {
+      left: calc(50% - 60px);
+    }
+
+    &.is-multiple {
+      .#{$ns}InputRange {
+        width: calc(100% - 210px);
+      }
+    }
+  }
+
+  .#{$ns}InputRange {
+    &-input {
+      font-size: var(--fontSizeSm);
+      position: absolute;
+      right: px2rem(26px);
+      top: px2rem(12px);
+      height: px2rem(30px);
+
+      input {
+        padding: px2rem(10px);
+        width: px2rem(74px);
+        height: 100%;
+
+        &:focus {
+          outline: none;
+          border: var(--borderWidth) solid var(--info);
+        }
+      }
+
+      &-separator {
+        display: inline-block;
+        padding: 0 5px;
+      }
+    }
+
+    &-unit {
+      position: absolute;
+      right: px2rem(10px);
+      top: px2rem(7px);
+    }
+
+    &-clear {
+      position: absolute;
+      top: px2rem(18px);
+      right: 0;
+      cursor: pointer;
+
+      svg {
+        height: px2rem(16px);
+        width: px2rem(16px);
+        fill: #999;
+      }
+    }
+  }
 }
 
 .#{$ns}InputRange {
-    height: $InputRange-slider-height;
+  height: var(--InputRange-slider-height);
+  position: relative;
+  width: 100%;
+
+  // slider
+  &-slider {
+    appearance: none;
+    background: var(--InputRange-slider-bg);
+    border: var(--InputRange-slider-border);
+    // border-radius: 100%;
+    cursor: pointer;
+    display: block;
+    width: var(--InputRange-slider-width);
+    height: var(--InputRange-slider-height);
+    margin-left: calc(var(--InputRange-slider-width) / -2);
+    margin-top: calc(
+      var(--InputRange-slider-height) / -2 + var(--InputRange-track-height) / -2
+    );
+    outline: none;
+    position: absolute;
+    z-index: 2;
+    top: 50%;
+    transition: var(--InputRange-slider-transition);
+
+    &:active {
+      transform: var(--InputRange-slider-onActive-transform);
+    }
+
+    &:focus {
+      box-shadow: var(--InputRange-slider-onFocus-boxShadow);
+    }
+
+    .input-range--disabled & {
+      background: var(--InputRange-slider-onDisabled-bg);
+      border: var(--InputRange-slider-onDisabled-border);
+      box-shadow: none;
+      transform: none;
+    }
+
+    &:before {
+      content: '||';
+      color: #fff;
+      display: block;
+      line-height: px2rem(22px);
+      text-align: center;
+    }
+  }
+
+  &-sliderContainer {
+    transition: var(--InputRange-sliderContainer-transition);
+  }
+
+  // label
+  &-label {
+    color: var(--InputRange-label-color);
+    font-size: var(--InputRange-label-fontSize);
+    transform: translateZ(0);
+    white-space: nowrap;
+  }
+
+  &-label--min,
+  &-label--max,
+  &-label--mid {
+    bottom: var(--InputRange-label-positionBottom);
+    position: absolute;
+  }
+
+  // &-label--min {
+  //     left: px2rem(15px);
+  // }
+
+  &-label--mid {
+    left: 50%;
+    bottom: px2rem(-5px);
+  }
+
+  &-label--max {
+    right: 0;
+  }
+
+  &-label--value {
+    position: absolute;
+    display: var(--InputRange-label--value-display);
+    top: var(--InputRange-label--value-positionTop);
+    left: var(--InputRange-label--value-positionLeft);
+  }
+
+  // label Container
+
+  // &-labelContainer {
+  //     left: -50%;
+  //     position: relative;
+  //     .#{$ns}InputRange-label--max & {
+  //         left: 50%;
+  //     }
+  // }
+
+  // track
+  &-track {
+    background: var(--InputRange-track-bg);
+    // border-radius: 0;
+    cursor: pointer;
+    display: block;
+    height: var(--InputRange-track-height);
     position: relative;
-    width: 100%;
+    transition: var(--InputRange-track-transition);
 
-    // slider
-    &-slider {
-        appearance: none;
-        background: $InputRange-slider-bg;
-        border: $InputRange-slider-border;
-        // border-radius: 100%;
-        cursor: pointer;
-        display: block;
-        width: $InputRange-slider-width;
-        height: $InputRange-slider-height;
-        margin-left: $InputRange-slider-width / -2;
-        margin-top: $InputRange-slider-height / -2 + $InputRange-track-height / -2;
-        outline: none;
-        position: absolute;
-        z-index: 2;
-        top: 50%;
-        transition: $InputRange-slider-transition;
-    
-        &:active {
-            transform: $InputRange-slider-onActive-transform;
-        }
-    
-        &:focus {
-            box-shadow: $InputRange-slider-onFocus-boxShadow
-        }
-    
-        .input-range--disabled & {
-            background: $InputRange-slider-onDisabled-bg;
-            border: $InputRange-slider-onDisabled-border;
-            box-shadow: none;
-            transform: none;
-        }
-        &:before {
-            content: "||";
-            color: #fff;
-            display: block;
-            line-height: px2rem(22px);
-            text-align: center;
-        }
+    .#{$ns}InputRange.is-disabled & {
+      background: var(--InputRange-track-onDisabled-bg);
     }
 
-    &-sliderContainer {
-        transition: $InputRange-sliderContainer-transition;
+    &.is-active {
+      background: var(--InputRange-track-onActive-bg);
+    }
+  }
+
+  &-track--background {
+    left: 0.5rem;
+    margin-top: calc(-0.5 * var(--InputRange-track-height));
+    position: absolute;
+    right: 0.5rem;
+    top: 50%;
+
+    &::before,
+    &::after {
+      content: '';
+      width: 0.5rem;
+      height: 100%;
+      position: absolute;
+      top: 0;
+      background: inherit;
+      z-index: 1;
     }
 
-    // label
-    &-label {
-        color: $InputRange-label-color;
-        font-family: $InputRange-fontFamily;
-        font-size: $InputRange-label-fontSize;
-        transform: translateZ(0);
-        white-space: nowrap;
+    &::before {
+      left: -0.5rem;
     }
 
-    &-label--min,
-    &-label--max,
-    &-label--mid {
-        bottom: $InputRange-label-positionBottom;
-        position: absolute;
+    &::after {
+      right: -0.5rem;
     }
+  }
 
-    // &-label--min {
-    //     left: px2rem(15px);
-    // }
-
-    &-label--mid {
-        left: 50%;
-        bottom: px2rem(-5px);
-    }
-
-    &-label--max {
-        right: 0;
-    }
-
-    &-label--value {
-        position: absolute;
-        display: $InputRange-label--value-display;
-        top: $InputRange-label--value-positionTop;
-    }
-
-    // label Container
-
-    // &-labelContainer {
-    //     left: -50%;
-    //     position: relative;
-    //     .#{$ns}InputRange-label--max & {
-    //         left: 50%;
-    //     }
-    // } 
-
-    // track
-    &-track {
-        background: $InputRange-track-bg;
-        // border-radius: 0;
-        cursor: pointer;
-        display: block;
-        height: $InputRange-track-height;
-        position: relative;
-        transition: $InputRange-track-transition;
-        .#{$ns}InputRange.is-disabled & {
-            background: $InputRange-track-onDisabled-bg;
-        }
-    }
-
-    &-track--background {
-        left: 0.5rem;
-        margin-top: -0.5 * $InputRange-track-height;
-        position: absolute;
-        right: 0.5rem;
-        top: 50%;
-
-        &::before,
-        &::after {
-            content: '';
-            width: 0.5rem;
-            height: 100%;
-            position: absolute;
-            top: 0;
-            background: inherit;
-            z-index: 1;
-        }
-
-        &::before {
-            left: -0.5rem;
-        }
-
-        &::after {
-            right: -0.5rem;
-        }
-    }
-
-    &-track--active {
-        background: $InputRange-track-onActive-bg;
-    }
-      
+  &-track--active {
+    background: var(--InputRange-track-onActive-bg);
+  }
 }
-  

@@ -1,33 +1,53 @@
-import * as React from 'react';
-import {
-    Renderer,
-    RendererProps
-} from '../factory';
+import React from 'react';
+import {Renderer, RendererProps} from '../factory';
+import {BaseSchema} from '../Schema';
 
-export interface IconProps extends RendererProps {
-    icon: string;
+/**
+ * Icon 图表渲染器
+ * 文档：https://baidu.gitee.io/amis/docs/components/icon
+ */
+export interface IconSchema extends BaseSchema {
+  type: 'icon';
+
+  /**
+   * 按钮类型
+   */
+  icon: string;
+
+  vendor?: 'iconfont' | 'fa';
 }
 
+export interface IconProps
+  extends RendererProps,
+    Omit<IconSchema, 'type' | 'className'> {}
+
 export class Icon extends React.Component<IconProps, object> {
-    static defaultProps:Partial<IconProps> = {
-        icon: '',
-        vendor: 'fa'
-    };
+  static defaultProps: Partial<IconProps> = {
+    icon: '',
+    vendor: 'fa'
+  };
 
-    render() {
-        const {
-            icon,
-            vendor,
-            classnames: cx,
-            className
-        } = this.props;
+  render() {
+    const {icon, vendor, classnames: cx, className} = this.props;
 
-        return (<i className={cx(vendor === 'iconfont' ? `iconfont icon-${icon}` : `${vendor} ${vendor}-${icon}`, className)} />);
-    }
+    const isURLIcon = icon?.indexOf('.') !== -1;
+    return isURLIcon ? (
+      <img className={cx('Icon')} src={icon} />
+    ) : (
+      <i
+        className={cx(
+          vendor === 'iconfont'
+            ? `iconfont icon-${icon}`
+            : `${vendor} ${vendor}-${icon}`,
+          className
+        )}
+      />
+    );
+  }
 }
 
 @Renderer({
-    test: /(^|\/)icon$/,
-    name: 'icon'
+  test: /(^|\/)icon$/,
+  name: 'icon'
 })
-export class TplRenderer extends Icon {};
+export class TplRenderer extends Icon {}

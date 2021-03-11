@@ -1,0 +1,24 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Renderer:each 1`] = `
+<div>
+  <div
+    class="a-Each show"
+  >
+    <span
+      class="a-TplField"
+    >
+      <span>
+        jack
+      </span>
+    </span>
+    <span
+      class="a-TplField"
+    >
+      <span>
+        martin
+      </span>
+    </span>
+  </div>
+</div>
+`;

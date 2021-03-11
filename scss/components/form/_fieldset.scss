@@ -1,128 +1,128 @@
 %fieldSetBase {
+  position: relative;
+
+  &:after {
+    content: '';
+    pointer-events: none;
+    border: 1px solid var(--borderColor);
+    position: absolute;
+    z-index: 0;
+    top: 11px;
+    left: 0;
+    bottom: 0;
+    right: 0;
+  }
+
+  > legend {
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: inline-block;
+    border: 0;
+    width: auto;
+    z-index: 1;
+    background: var(--Fieldset-legend-bgColor);
+    border-left: 0 !important;
+  }
+
+  .collapse {
     position: relative;
-
-    &:after {
-        content: '';
-        pointer-events: none;
-        border: 1px solid lighten($borderColor, 5%);
-        position: absolute;
-        z-index: 0;
-        top: 11px;
-        left: 0;
-        bottom: 0;
-        right: 0;
-    }
-
-    >legend {
-        position: absolute;
-        top: 0;
-        left: 0;
-        display: inline-block;
-        border: 0;
-        width: auto;
-        z-index: 1;
-        background: $white;
-        border-left: 0 !important;
-    }
-
-    .collapse {
-        position: relative;
-    }
+  }
 }
 
 fieldset.#{$ns}Collapse {
+  > legend {
+    font-weight: var(--fontWeightNormal);
+    padding: var(--gap-xs) 0;
+    font-size: var(--fontSizeMd);
+    color: var(--text--loud-color);
+    border-left: var(--primary) px2rem(4px) solid;
+    line-height: 1.2;
+    margin: 8px 0 28px;
+    padding: 0 0 0 14px;
+    cursor: pointer;
+    border-bottom: 0;
+  }
+
+  &--xs {
+    @extend %fieldSetBase;
+    padding: 20px 5px 5px 5px;
+
     > legend {
-        font-weight: $fontWeightNormal;
-        padding: $gap-xs 0;
-        font-size: $fontSizeMd;
-        color: $text--loud-color;
-        border-left: $primary px2rem(4px) solid;
-        line-height: 1.2;
-        margin: 8px 0 28px;
-        padding: 0 0 0 14px;
-        cursor: pointer;
-        border-bottom: 0;
+      left: 5px;
+      font-size: var(--fontSizeXs);
+      padding: 0 3px;
+      margin: 0 0 0 -3px;
     }
 
-    &--xs {
-        @extend %fieldSetBase;
-        padding: 20px 5px 5px 5px;
+    &:after {
+      top: 6px;
+    }
+  }
 
-        >legend {
-            left: 5px;
-            font-size: $fontSizeXs;
-            padding: 0 3px;
-            margin: 0 0 0 -3px;
-        }
+  &--sm {
+    @extend %fieldSetBase;
 
-        &:after {
-            top: 6px;
-        }
+    padding: 25px 10px 10px 10px;
+
+    > legend {
+      left: 10px;
+      font-size: var(--fontSizeSm);
+      padding: 0 5px;
+      margin: 0 0 0 -5px;
     }
 
-    &--sm {
-        @extend %fieldSetBase;
+    &:after {
+      top: 6px;
+    }
+  }
 
-        padding: 25px 10px 10px 10px;
+  &--base {
+    @extend %fieldSetBase;
 
-        >legend {
-            left: 10px;
-            font-size: $fontSizeSm;
-            padding: 0 5px;
-            margin: 0 0 0 -5px;
-        }
+    padding: 30px 15px 15px 15px;
 
-        &:after {
-            top: 6px;
-        }
+    > legend {
+      left: 15px;
+      font-size: var(--fontSizeBase);
+      padding: 0 8px;
+      margin: 0 0 0 -8px;
     }
 
-    &--base {
-        @extend %fieldSetBase;
+    &:after {
+      top: 7px;
+    }
+  }
 
-        padding: 30px 15px 15px 15px;
+  &--md {
+    @extend %fieldSetBase;
+    padding: 30px 20px 20px 20px;
 
-        >legend {
-            left: 15px;
-            font-size: $fontSizeBase;
-            padding: 0 8px;
-            margin: 0 0 0 -8px;
-        }
-
-        &:after {
-            top: 7px;
-        }
+    > legend {
+      left: 20px;
+      font-size: var(--fontSizeMd);
+      padding: 0 10px;
+      margin: 0 0 0 -10px;
     }
 
-    &--md {
-        @extend %fieldSetBase;
-        padding: 30px 20px 20px 20px;
+    &:after {
+      top: 7px;
+    }
+  }
 
-        >legend {
-            left: 20px;
-            font-size: $fontSizeMd;
-            padding: 0 10px;
-            margin: 0 0 0 -10px;
-        }
+  &--lg {
+    @extend %fieldSetBase;
+    padding: 40px 30px 30px 30px;
 
-        &:after {
-            top: 7px;
-        }
+    > legend {
+      left: 30px;
+      font-size: var(--fontSizeLg);
+      padding: 0 15px;
+      margin: 0 0 0 -15px;
     }
 
-    &--lg {
-        @extend %fieldSetBase;
-        padding: 40px 30px 30px 30px;
-
-        >legend {
-            left: 30px;
-            font-size: $fontSizeLg;
-            padding: 0 15px;
-            margin: 0 0 0 -15px;
-        }
-
-        &:after {
-            top: 9px;
-        }
+    &:after {
+      top: 9px;
     }
+  }
 }

@@ -1,23 +1,27 @@
 .#{$ns}Wrapper {
-    padding: px2rem(15px);
+  padding: px2rem(15px);
 
-    &--xs {
-        padding: px2rem(5px);
-    }
+  &--xs {
+    padding: px2rem(5px);
+  }
 
-    &--sm {
-        padding: px2rem(10px);
-    }
+  &--sm {
+    padding: px2rem(10px);
+  }
 
-    &--md {
-        padding: px2rem(20px);
-    }
+  &--md {
+    padding: px2rem(20px);
+  }
 
-    &--lg {
-        padding: px2rem(30px);
-    }
+  &--lg {
+    padding: px2rem(30px);
+  }
 
-    &--xl {
-        padding: px2rem(50px);
-    }
+  &--xl {
+    padding: px2rem(50px);
+  }
+
+  &--none {
+    padding: 0;
+  }
 }

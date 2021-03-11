@@ -1,208 +1,286 @@
-import * as React from 'react';
-import * as ReactDOM from 'react-dom';
-import hoistNonReactStatic = require('hoist-non-react-statics');
-import domHelperWwnerDocument = require('dom-helpers/ownerDocument');
-import getOffset = require('dom-helpers/query/offset');
-import getPosition = require('dom-helpers/query/position');
-import getScrollTop = require('dom-helpers/query/scrollTop');
+import React from 'react';
+import ReactDOM from 'react-dom';
+import hoistNonReactStatic from 'hoist-non-react-statics';
+import domOwnerDocument from 'dom-helpers/ownerDocument';
+import css from 'dom-helpers/style/index';
+import getOffset from 'dom-helpers/query/offset';
+import getPosition from 'dom-helpers/query/position';
+import getScrollTop from 'dom-helpers/query/scrollTop';
 
 const bsMapping: {
-    [propName: string]: string;
+  [propName: string]: string;
 } = {
-    level: 'bsStyle',
-    classPrefix: 'bsClass',
-    size: 'bsSize'
+  level: 'bsStyle',
+  classPrefix: 'bsClass',
+  size: 'bsSize'
 };
 
 /**
-* 主要目的是希望在是用 bootstrap 组件的时候不需要带 bs 前缀。
-*
-* @param {Object} rawProps 原始属性对象。
-* @return {Object}
-*/
-export const props2BsProps = (rawProps: { [propName: string]: any; }) => {
-    let props: { [propName: string]: any; } = {};
+ * 主要目的是希望在是用 bootstrap 组件的时候不需要带 bs 前缀。
+ *
+ * @param {Object} rawProps 原始属性对象。
+ * @return {Object}
+ */
+export const props2BsProps = (rawProps: {[propName: string]: any}) => {
+  let props: {[propName: string]: any} = {};
 
-    Object.keys(rawProps).forEach(key => props[bsMapping[key] || key] = rawProps[key]);
+  Object.keys(rawProps).forEach(
+    key => (props[bsMapping[key] || key] = rawProps[key])
+  );
 
-    return props;
+  return props;
 };
 
 /**
-* props2BsProps 的 hoc 版本
-*
-* @param {*} ComposedComponent 组合组件
-* @return {Component}
-*/
-export const props2BsPropsHoc: (ComposedComponent: React.ComponentType<any>) => React.ComponentType<any> = (ComposedComponent) => {
-    class BsComponent extends React.Component<any> {
-        render() {
-            return (
-                <ComposedComponent {...props2BsProps(this.props)} />
-            );
-        }
+ * props2BsProps 的 hoc 版本
+ *
+ * @param {*} ComposedComponent 组合组件
+ * @return {Component}
+ */
+export const props2BsPropsHoc: (
+  ComposedComponent: React.ComponentType<any>
+) => React.ComponentType<any> = ComposedComponent => {
+  class BsComponent extends React.Component<any> {
+    render() {
+      return <ComposedComponent {...props2BsProps(this.props)} />;
     }
+  }
 
-    hoistNonReactStatic(BsComponent, ComposedComponent);
-    return BsComponent;
+  hoistNonReactStatic(BsComponent, ComposedComponent);
+  return BsComponent;
 };
 
 export function getContainer(container: any, defaultContainer: any) {
-    container = typeof container === 'function' ? container() : container;
-    return ReactDOM.findDOMNode(container) || defaultContainer;
+  container = typeof container === 'function' ? container() : container;
+  return ReactDOM.findDOMNode(container) || defaultContainer;
 }
 
 export function ownerDocument(componentOrElement: any) {
-    return domHelperWwnerDocument(ReactDOM.findDOMNode(componentOrElement));
+  return domOwnerDocument(ReactDOM.findDOMNode(componentOrElement) as Element);
 }
 
 function getContainerDimensions(containerNode: any) {
-    let width, height, scroll;
+  let width, height, scroll;
 
-    if (containerNode.tagName === 'BODY') {
-        width = window.innerWidth;
-        height = window.innerHeight;
+  if (containerNode.tagName === 'BODY') {
+    width = window.innerWidth;
+    height = window.innerHeight;
 
-        scroll =
-            getScrollTop(ownerDocument(containerNode).documentElement) ||
-            getScrollTop(containerNode);
-    } else {
-        ({ width, height } = getOffset(containerNode));
-        scroll = getScrollTop(containerNode);
-    }
+    scroll =
+      getScrollTop(ownerDocument(containerNode).documentElement) ||
+      getScrollTop(containerNode);
+  } else {
+    ({width, height} = getOffset(containerNode) as any);
+    scroll = getScrollTop(containerNode);
+  }
 
-    return { width, height, scroll };
+  return {width, height, scroll};
 }
 
-function getTopDelta(top: any, overlayHeight: any, container: any, padding: any) {
-    const containerDimensions = getContainerDimensions(container);
-    const containerScroll = containerDimensions.scroll;
-    const containerHeight = containerDimensions.height;
+function getTopDelta(
+  top: any,
+  overlayHeight: any,
+  container: any,
+  padding: any
+) {
+  const containerDimensions = getContainerDimensions(container);
+  const containerScroll = containerDimensions.scroll;
+  const containerHeight = containerDimensions.height;
 
-    const topEdgeOffset = top - padding - containerScroll;
-    const bottomEdgeOffset = top + padding - containerScroll + overlayHeight;
+  const topEdgeOffset = top - padding - containerScroll;
+  const bottomEdgeOffset = top + padding - containerScroll + overlayHeight;
 
-    if (topEdgeOffset < 0) {
-        return -topEdgeOffset;
-    } else if (bottomEdgeOffset > containerHeight) {
-        return containerHeight - bottomEdgeOffset;
-    } else {
-        return 0;
-    }
-}
-
-function getLeftDelta(left: any, overlayWidth: any, container: any, padding: any) {
-    const containerDimensions = getContainerDimensions(container);
-    const containerWidth = containerDimensions.width;
-
-    const leftEdgeOffset = left - padding;
-    const rightEdgeOffset = left + padding + overlayWidth;
-
-    if (leftEdgeOffset < 0) {
-        return -leftEdgeOffset;
-    } else if (rightEdgeOffset > containerWidth) {
-        return containerWidth - rightEdgeOffset;
-    }
-
+  if (topEdgeOffset < 0) {
+    return -topEdgeOffset;
+  } else if (bottomEdgeOffset > containerHeight) {
+    return containerHeight - bottomEdgeOffset;
+  } else {
     return 0;
+  }
 }
+
+function getLeftDelta(
+  left: any,
+  overlayWidth: any,
+  container: any,
+  padding: any
+) {
+  const containerDimensions = getContainerDimensions(container);
+  const containerWidth = containerDimensions.width;
+
+  const leftEdgeOffset = left - padding;
+  const rightEdgeOffset = left + padding + overlayWidth;
+
+  if (leftEdgeOffset < 0) {
+    return -leftEdgeOffset;
+  } else if (rightEdgeOffset > containerWidth) {
+    return containerWidth - rightEdgeOffset;
+  }
+
+  return 0;
+}
+
+// function position(node: HTMLElement, offsetParent: HTMLElement) {
+//   const rect = offsetParent.getBoundingClientRect();
+//   const rect2 = node.getBoundingClientRect();
+//   return {
+//     width:
+//       rect2.width -
+//         (parseInt(css(node, 'borderLeftWidth') || '', 10) || 0) -
+//         parseInt(css(node, 'borderRightWidth') || '', 10) || 0,
+//     height:
+//       rect2.height -
+//         (parseInt(css(node, 'borderTopWidth') || '', 10) || 0) -
+//         parseInt(css(node, 'borderBottomWidth') || '', 10) || 0,
+//     top: rect2.top - rect.top,
+//     left: rect2.left - rect.left
+//   };
+// }
 
 export function calculatePosition(
-    placement: any, overlayNode: any, target: any, container: any, padding: any
+  placement: any,
+  overlayNode: any,
+  target: HTMLElement,
+  container: any,
+  padding: any = 0
 ) {
-    const childOffset = container.tagName === 'BODY' ? getOffset(target) : getPosition(target, container);
-    const {
-        height: overlayHeight,
-        width: overlayWidth
-    } = getOffset(overlayNode);
+  const childOffset: any =
+    container.tagName === 'BODY'
+      ? getOffset(target)
+      : getPosition(target, container);
+  const {height: overlayHeight, width: overlayWidth} = getOffset(
+    overlayNode
+  ) as any;
 
-    let positionLeft = 0, positionTop = 0, arrowOffsetLeft: any = '', arrowOffsetTop: any = '';
+  const clip = container.getBoundingClientRect();
+  const clip2 = overlayNode.getBoundingClientRect();
+  const scaleX = overlayNode.offsetWidth
+    ? clip2.width / overlayNode.offsetWidth
+    : 1;
+  const scaleY = overlayNode.offsetHeight
+    ? clip2.height / overlayNode.offsetHeight
+    : 1;
 
-    if (~placement.indexOf('-')) {
-        const tests = placement.split(/\s+/);
+  // auto 尝试四个方向对齐。
+  placement =
+    placement === 'auto'
+      ? 'left-bottom-left-top right-bottom-right-top left-top-left-bottom right-top-right-bottom left-bottom-left-top'
+      : placement;
 
-        while (tests.length) {
-            const current = tests.shift();
-            let [atX, atY, myX, myY] = current.split('-');
-            myX = myX || atX;
-            myY = myY || atY;
+  let positionLeft = 0,
+    positionTop = 0,
+    arrowOffsetLeft: any = '',
+    arrowOffsetTop: any = '',
+    activePlacement: string = placement;
 
-            positionLeft = atX === 'left'
-                ? childOffset.left : atX === 'right'
-                    ? (childOffset.left + childOffset.width)
-                    : (childOffset.left + childOffset.width / 2);
-            positionTop = atY === 'top'
-                ? childOffset.top : atY === 'bottom'
-                    ? (childOffset.top + childOffset.height)
-                    : (childOffset.top + childOffset.height / 2);
+  if (~placement.indexOf('-')) {
+    const tests = placement.split(/\s+/);
 
-            positionLeft -= myX === 'left' ? 0 : myX === 'right' ? overlayWidth : overlayWidth / 2;
-            positionTop -= myY === 'top' ? 0 : myY === 'bottom' ? overlayHeight : overlayHeight / 2;
+    while (tests.length) {
+      const current = (activePlacement = tests.shift());
+      let [atX, atY, myX, myY] = current.split('-');
+      myX = myX || atX;
+      myY = myY || atY;
 
-            // 如果还有其他可选项，则做位置判断，是否在可视区域，不完全在则继续看其他定位情况。
-            if (tests.length) {
-                let clip = target.getBoundingClientRect();
-                const transformed = {
-                    x: clip.x + positionLeft - childOffset.left,
-                    y: clip.y + positionTop - childOffset.top,
-                    width: overlayWidth,
-                    height: overlayHeight
-                }
+      positionLeft =
+        atX === 'left'
+          ? childOffset.left
+          : atX === 'right'
+          ? childOffset.left + childOffset.width
+          : childOffset.left + childOffset.width / 2;
+      positionTop =
+        atY === 'top'
+          ? childOffset.top
+          : atY === 'bottom'
+          ? childOffset.top + childOffset.height
+          : childOffset.top + childOffset.height / 2;
 
-                if (
-                    transformed.x > 0 && (transformed.x + transformed.width) < window.innerWidth
-                    && transformed.y > 0 && (transformed.y + transformed.height) < window.innerHeight
-                ) {
-                    break;
-                }
-            }
+      positionLeft -=
+        myX === 'left' ? 0 : myX === 'right' ? overlayWidth : overlayWidth / 2;
+      positionTop -=
+        myY === 'top'
+          ? 0
+          : myY === 'bottom'
+          ? overlayHeight
+          : overlayHeight / 2;
+
+      // 如果还有其他可选项，则做位置判断，是否在可视区域，不完全在则继续看其他定位情况。
+      if (tests.length) {
+        const transformed = {
+          x: clip.x + positionLeft / scaleX,
+          y: clip.y + positionTop / scaleY,
+          width: overlayWidth,
+          height: overlayHeight
+        };
+
+        if (
+          transformed.x > 0 &&
+          transformed.x + transformed.width < window.innerWidth &&
+          transformed.y > 0 &&
+          transformed.y + transformed.height < window.innerHeight
+        ) {
+          break;
         }
-
-        // todo arrow 位置支持
-    } else if (placement === 'left' || placement === 'right') {
-        // atX = placement;
-        // atY = myY = 'center';
-        // myX = placement === 'left' ? 'right' : 'left';
-        if (placement === 'left') {
-            positionLeft = childOffset.left - overlayWidth;
-        } else {
-            positionLeft = childOffset.left + childOffset.width;
-        }
-
-        positionTop = childOffset.top + (childOffset.height - overlayHeight) / 2;
-        const topDelta = getTopDelta(
-            positionTop, overlayHeight, container, padding
-        );
-
-        positionTop += topDelta;
-        arrowOffsetTop = 50 * (1 - 2 * topDelta / overlayHeight) + '%';
-    } else if (placement === 'top' || placement === 'bottom') {
-        // atY = placement;
-        // atX = myX = 'center';
-        // myY = placement === 'top' ? 'bottom': 'top';
-        if (placement === 'top') {
-            positionTop = childOffset.top - overlayHeight;
-        } else {
-            positionTop = childOffset.top + childOffset.height;
-        }
-
-        positionLeft = childOffset.left + (childOffset.width - overlayWidth) / 2;
-        const leftDelta = getLeftDelta(
-            positionLeft, overlayWidth, container, padding
-        );
-
-        positionLeft += leftDelta;
-        arrowOffsetLeft = 50 * (1 - 2 * leftDelta / overlayHeight) + '%';
-    } else if (placement = 'center') {
-        // atX = atY = myX = myY = 'center';
-        positionLeft = childOffset.left + (childOffset.width - overlayWidth) / 2;
-        positionTop = childOffset.top + (childOffset.height - overlayHeight) / 2;
-        arrowOffsetLeft = arrowOffsetTop = void 0;
-    } else {
-        throw new Error(
-            `calcOverlayPosition(): No such placement of "${placement}" found.`
-        );
+      }
     }
 
-    return { positionLeft, positionTop, arrowOffsetLeft, arrowOffsetTop };
+    // todo arrow 位置支持
+  } else if (placement === 'left' || placement === 'right') {
+    // atX = placement;
+    // atY = myY = 'center';
+    // myX = placement === 'left' ? 'right' : 'left';
+    if (placement === 'left') {
+      positionLeft = childOffset.left - overlayWidth;
+    } else {
+      positionLeft = childOffset.left + childOffset.width;
+    }
+
+    positionTop = childOffset.top + (childOffset.height - overlayHeight) / 2;
+    const topDelta = getTopDelta(
+      positionTop,
+      overlayHeight,
+      container,
+      padding
+    );
+
+    positionTop += topDelta;
+    arrowOffsetTop = 50 * (1 - (2 * topDelta) / overlayHeight) + '%';
+  } else if (placement === 'top' || placement === 'bottom') {
+    // atY = placement;
+    // atX = myX = 'center';
+    // myY = placement === 'top' ? 'bottom': 'top';
+    if (placement === 'top') {
+      positionTop = childOffset.top - overlayHeight;
+    } else {
+      positionTop = childOffset.top + childOffset.height;
+    }
+
+    positionLeft = childOffset.left + (childOffset.width - overlayWidth) / 2;
+    const leftDelta = getLeftDelta(
+      positionLeft,
+      overlayWidth,
+      container,
+      padding
+    );
+
+    positionLeft += leftDelta;
+    arrowOffsetLeft = 50 * (1 - (2 * leftDelta) / overlayHeight) + '%';
+  } else if (placement === 'center') {
+    // atX = atY = myX = myY = 'center';
+    positionLeft = childOffset.left + (childOffset.width - overlayWidth) / 2;
+    positionTop = childOffset.top + (childOffset.height - overlayHeight) / 2;
+    arrowOffsetLeft = arrowOffsetTop = void 0;
+  } else {
+    throw new Error(
+      `calcOverlayPosition(): No such placement of "${placement}" found.`
+    );
+  }
+
+  return {
+    positionLeft: positionLeft / scaleX,
+    positionTop: positionTop / scaleY,
+    arrowOffsetLeft: arrowOffsetLeft / scaleX,
+    arrowOffsetTop: arrowOffsetTop / scaleY,
+    activePlacement
+  };
 }

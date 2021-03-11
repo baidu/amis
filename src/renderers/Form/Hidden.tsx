@@ -1,18 +1,26 @@
-import * as React from 'react';
-import {
-    FormItem,
-    FormControlProps
-} from './Item';
+import React from 'react';
+import {FormItem, FormControlProps, FormBaseControl} from './Item';
 
-export default class HiddenControl extends React.Component<FormControlProps, any> {
-    render() {
-        return null;
-    }
+/**
+ * Hidden 隐藏域。功能性组件
+ * 文档：https://baidu.gitee.io/amis/docs/components/form/hidden
+ */
+export interface HiddenControlSchema extends FormBaseControl {
+  type: 'hidden';
+}
+
+export default class HiddenControl extends React.Component<
+  FormControlProps,
+  any
+> {
+  render() {
+    return null;
+  }
 }
 
 @FormItem({
-    type: 'hidden',
-    wrap: false,
-    sizeMutable: false
+  type: 'hidden',
+  wrap: false,
+  sizeMutable: false
 })
-export class HiddenControlRenderer extends HiddenControl {};
+export class HiddenControlRenderer extends HiddenControl {}

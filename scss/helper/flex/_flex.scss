@@ -1,0 +1,38 @@
+/*!markdown
+
+---
+title: Flex
+---
+
+| Class       | Properties               |
+| ----------- | ------------------------ |
+| flex-1 | flex: 1 1 0% |
+| flex-auto | flex: 1 1 auto |
+| flex-initial | flex: 0 1 auto |
+| flex-none | flex: none |
+
+
+*/
+@mixin make-flex($prefix: '.') {
+  #{$prefix}flex-1 {
+    flex: 1 1 0%;
+  }
+
+  #{$prefix}flex-auto {
+    flex: 1 1 auto;
+  }
+
+  #{$prefix}flex-initial {
+    flex: 0 1 auto;
+  }
+  #{$prefix}flex-none {
+    flex: none;
+  }
+}
+
+@include make-flex();
+@each $deivce in map-keys($devices) {
+  @include media-device($deivce) {
+    @include make-flex('.' + selector-escape($deivce + ':'));
+  }
+}

@@ -318,7 +318,7 @@ const data = [
     "browser": "Nintendo DS browser",
     "platform": "Nintendo DS",
     "version": "8.5",
-    "grade": "C/A<sup>1</sup>"
+    "grade": "C"
   },
   {
     "engine": "KHTML",
@@ -435,6 +435,13 @@ const data = [
         "platform": "Win 95+",
         "version": "5",
         "grade": "C"
+      },
+      {
+        "engine": "Other browsers",
+        "browser": "All others",
+        "platform": "-",
+        "version": "-",
+        "grade": "U"
       }
     ].map(function(child, i) {
       return Object.assign({}, child, {

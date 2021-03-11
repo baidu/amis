@@ -1,130 +1,143 @@
 .#{$ns}Crud {
-    position: relative;
+  position: relative;
 
-    &.is-loading > &-body {
-        filter: blur(5px);
+  &.is-loading > &-body {
+    // 弹框中，blur 效果变成白班，先去掉。
+    // -webkit-filter: blur(5px);
+    // filter: blur(5px);
+  }
+
+  &-selection {
+    margin-bottom: var(--gap-base);
+  }
+
+  &-selectionLabel {
+    display: inline-block;
+    vertical-align: top;
+    margin-top: var(--gap-xs);
+  }
+
+  &-value {
+    cursor: pointer;
+    vertical-align: middle;
+    user-select: none;
+    line-height: calc(
+      var(--Form-input-lineHeight) * var(--Form-input-fontSize) - #{px2rem(2px)}
+    );
+    display: inline-block;
+    font-size: var(--Form-selectValue-fontSize);
+    color: var(--Form-selectValue-color);
+    background: var(--Form-selectValue-bg);
+    border: px2rem(1px) solid var(--Form-selectValue-borderColor);
+    border-radius: 2px;
+    margin-right: var(--gap-xs);
+    margin-top: var(--gap-xs);
+
+    &:hover {
+      background: var(--Form-selectValue-onHover-bg);
     }
 
-    &-selection {
-        margin-bottom: $gap-base;
+    &.is-disabled {
+      pointer-events: none;
+      opacity: var(--Button-onDisabled-opacity);
+    }
+  }
+
+  &-valueIcon {
+    cursor: pointer;
+    border-right: px2rem(1px) solid var(--Form-selectValue-borderColor);
+    padding: 1px 5px;
+
+    &:hover {
+      background: var(--Form-selectValue-onHover-bg);
+    }
+  }
+
+  &-valueLabel {
+    padding: 0 var(--gap-xs);
+  }
+
+  &-selectionClear {
+    display: inline-block;
+    cursor: pointer;
+    user-select: none;
+    margin-left: var(--gap-xs);
+    margin-top: var(--gap-xs);
+    vertical-align: middle;
+  }
+
+  &-toolbar-item {
+    margin-left: var(--Crud-toolbar-gap);
+    margin-top: var(--Crud-toolbar-gap);
+    line-height: var(--Crud-toolbar-lineHeight);
+    height: var(--Crud-toolbar-height);
+    vertical-align: middle;
+    display: inline-flex;
+    align-items: center;
+
+    &--left {
+      float: left;
     }
 
-    &-selectionLabel {
-        display: inline-block;
-        vertical-align: top;
-        margin-top: $gap-xs;
+    &--right {
+      float: right;
     }
+  }
 
-    &-value {
-        cursor: pointer;
-        vertical-align: top;
-        user-select: none;
-        line-height: $Form-input-lineHeight * $Form-input-fontSize - px2rem(2px);
-        display: inline-block;
-        font-size: $Form-selectValue-fontSize;
-        color: $Form-selectValue-color;
-        background: $Form-selectValue-bg;
-        border: px2rem(1px) solid $Form-selectValue-borderColor;
-        border-radius: 2px;
-        margin-right: $gap-xs;
-        margin-top: $gap-xs;
-
-        &:hover {
-            background-color: darken($Form-selectValue-bg, 5%);
-        }
-
-        &.is-disabled {
-            pointer-events: none;
-            opacity: $Button-onDisabled-opacity;
-        }
+  &-actions {
+    > * + .#{$ns}Button,
+    > * + .#{$ns}ButtonGroup,
+    > * + .#{$ns}ButtonToolbar {
+      margin-left: var(--Crud-toolbar-gap);
     }
+  }
 
-    &-valueIcon {
-        cursor: pointer;
-        border-right: px2rem(1px) solid $Form-selectValue-borderColor;
-        padding: 1px 5px;
+  &-statistics {
+    line-height: var(--Crud-toolbar-height);
+    vertical-align: middle;
+  }
 
-        &:hover {
-            background-color: darken($Form-selectValue-bg, 5%);
-        }
+  &-pageSwitch {
+    .#{$ns}Select {
+      margin-left: var(--Crud-toolbar-gap);
     }
+  }
 
-    &-valueLabel {
-        padding: 0 $gap-xs;
-    }
-
-    &-selectionClear {
-        display: inline-block;
-        cursor: pointer;
-        user-select: none;
-        margin-left: $gap-xs;
-        margin-top: $gap-xs;
-        vertical-align: top;
-    }
-
-    &-toolbar-item {
-        margin-left: $Crud-toolbar-gap;
-        line-height: $Crud-toolbar-lineHeight;
-        height: $Crud-toolbar-height;
-        vertical-align: middle;
-
-        &--left {
-            float: left;
-        }
-
-        &--right {
-            float: right;
-        }
-    }
-
-    &-actions {
-        > * + .#{$ns}Button,
-        > * + .#{$ns}ButtonGroup,
-        > * + .#{$ns}ButtonToolbar {
-            margin-left: $Crud-toolbar-gap;
-        }
-    }
-
-    &-statistics {
-        line-height: $Crud-toolbar-height;
-        vertical-align: middle;
-    }
-
-    &-pageSwitch {
-        .#{$ns}Select {
-            margin-left: $Crud-toolbar-gap;
-        }
-    }
+  &-pager {
+    align-self: flex-start;
+  }
 }
 
 @include media-breakpoint-up(sm) {
-    .#{$ns}Crud {
-        &-toolbar {
-            margin-left: -$Crud-toolbar-gap;
-            flex-basis: 0;
-            flex-grow: 1;
-            @include clearfix();
-        }
+  .#{$ns}Crud {
+    &-toolbar {
+      margin-left: calc(var(--Crud-toolbar-gap) * -1);
+      margin-top: calc(var(--Crud-toolbar-gap) * -1);
+      flex-basis: 0;
+      flex-grow: 1;
+      @include clearfix();
     }
 
     &-toolbar-item {
-        margin-left: $Crud-toolbar-gap;
-        line-height: $Crud-toolbar-lineHeight;
-        height: $Crud-toolbar-height;
-        vertical-align: middle;
+      margin-left: var(--Crud-toolbar-gap);
+      line-height: var(--Crud-toolbar-lineHeight);
+      height: var(--Crud-toolbar-height);
+      vertical-align: middle;
 
-        &--left {
-            float: left;
-        }
+      &--left {
+        float: left;
+      }
 
-        &--right {
-            float: right;
-        }
+      &--right {
+        float: right;
+      }
     }
 
     &-actions {
-        > .#{$ns}Button + .#{$ns}Button {
-            margin-left: $Crud-toolbar-gap;
-        }
+      > * + .#{$ns}Button,
+      > * + .#{$ns}Button--disabled-wrap {
+        margin-left: var(--Crud-toolbar-gap);
+      }
     }
+  }
 }

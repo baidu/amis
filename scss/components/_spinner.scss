@@ -1,56 +1,93 @@
 @keyframes rotate {
-    0% {
-      transform: rotate(0deg);
-    }
-    100% {
-      transform: rotate(359deg);
-    }
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(359deg);
+  }
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(1turn);
+  }
+}
+
+.is-spin {
+  animation: spin 2s linear infinite;
 }
 
 .#{$ns}Spinner-overlay {
-    position: absolute;
-    z-index: 10;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: $Spinner-overlay-bg;
+  position: absolute;
+  z-index: 10;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: var(--Spinner-overlay-bg);
+  transition: ease-out opacity var(--animation-duration);
 
-    .#{$ns}Spinner {
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate3d(-50%, -50%, 0);
-    }
+  opacity: 0;
 
-    .#{$ns}Spinner--lg {
-        width: $Spinner--lg-width;
-        height: $Spinner--lg-height;
-        line-height: $Spinner--lg-height;
-    }
+  &.in {
+    opacity: 1;
+  }
 }
 
 .#{$ns}Spinner {
-    width: $Spinner-width;
-    height: $Spinner-height;
-    transform: translateZ(0);
-    display: inline-block;
-    background: $Spinner-bg;
-    background-size: 100%;
+  width: var(--Spinner-width);
+  height: var(--Spinner-height);
+  transform: translateZ(0);
+  display: inline-block;
+  background: var(--Spinner-bg);
+  background-size: 100%;
 
-    &--lg {
-        width: $Spinner--lg-width;
-        height: $Spinner--lg-height;
-    }
+  &--lg {
+    width: var(--Spinner--lg-width);
+    height: var(--Spinner--lg-height);
+  }
+
+  &--sm {
+    width: var(--Spinner--sm-width);
+    height: var(--Spinner--sm-height);
+  }
+
+  transition: ease-out all var(--animation-duration);
+
+  &--icon {
+    background: transparent;
+    animation: spin 2s linear infinite;
+    width: auto;
+    height: auto;
+  }
 }
 
+// 当启用 overlay 的时候，应该是居中模式。
+.#{$ns}Spinner--overlay {
+  position: absolute;
+  z-index: 11;
+  top: 50%;
+  left: 50%;
+  transform: translate3d(-50%, -50%, 0);
+}
+
+.#{$ns}Spinner--overlay.#{$ns}Spinner--lg {
+  width: var(--Spinner--lg-width);
+  height: var(--Spinner--lg-height);
+  line-height: var(--Spinner--lg-height);
+}
 
 @include media-breakpoint-up(md) {
-    .#{$ns}Layout .#{$ns}Page-body>.#{$ns}Spinner-overlay {
-        left: $Layout-aside-width;
-    }
+  .#{$ns}Layout .#{$ns}Page-body > .#{$ns}Spinner-overlay {
+    left: var(--Layout-aside-width);
+  }
 
-    .#{$ns}Layout--folded .#{$ns}Page-body>.#{$ns}Spinner-overlay {
-        left: $Layout-aside--folded-width;
-    }
+  .#{$ns}Layout--folded .#{$ns}Page-body > .#{$ns}Spinner-overlay {
+    left: var(--Layout-aside--folded-width);
+  }
 }

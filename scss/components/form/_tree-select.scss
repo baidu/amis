@@ -1,134 +1,35 @@
-// todo
 .#{$ns}TreeSelectControl {
-    position: relative;
+  position: relative;
+
+  > .#{$ns}TreeSelect-popover {
+    width: 100%;
+  }
 }
 
 .#{$ns}TreeSelect {
-    @include input-text();
-    outline: none;
+  @include input-text();
+  outline: none;
 
-    &.is-opened > &-input {
-        border-color: $Form-input-onFocused-borderColor;
-        box-shadow: $Form-input-boxShadow;
-
-        @if $Form-input-onFocused-bg != $Form-input-bg {
-            background-color: $Form-input-onFocused-bg;
-        }
-    }
-
-    &-placeholder {
-        color: $Form-input-placeholderColor;
-        user-select: none;
-        position: absolute;
-        // margin-top: 2 * $Form-input-borderWidth;
-        line-height: $Form-input-lineHeight;
-    }
-
-    &-input {
-        min-height: $Form-input-height;
-        height: auto;
-    }
-
-    &-valueWrap {
-        flex-grow: 1;
-        position: relative;
-    }
-
-    &--searchable {
-        .#{$ns}TreeSelect-placeholder,
-        .#{$ns}TreeSelect-value {
-            position: absolute;
-            top: 0;
-            left: 0;
-        }
-    }
-
-    &--multi {
-        &.#{$ns}TreeSelect--searchable {
-            .#{$ns}TreeSelect-value {
-                position: static;
-            }
-        }
-
-        .#{$ns}TreeSelect-valueWrap {
-            margin-bottom: -$gap-xs;
-            line-height: 1;
-
-            > input {
-                width: auto;
-            }
-        }
-
-        .#{$ns}TreeSelect-value {
-            cursor: pointer;
-            user-select: none;
-            white-space: nowrap;
-            vertical-align: middle;
-            line-height: $Form-input-lineHeight * $Form-input-fontSize - px2rem(2px);
-            display: inline-block;
-            font-size: $Form-selectValue-fontSize;
-            color: $Form-selectValue-color;
-            background: $Form-selectValue-bg;
-            border: px2rem(1px) solid $Form-selectValue-borderColor;
-            border-radius: 2px;
-            margin-right: $gap-xs;
-            margin-bottom: $gap-xs;
-    
-            &.is-disabled {
-                pointer-events: none;
-                opacity: $Button-onDisabled-opacity;
-            }
-        }
-    
-        .#{$ns}TreeSelect-valueIcon {
-            cursor: pointer;
-            border-right: px2rem(1px) solid $Form-selectValue-borderColor;
-            padding: 1px 5px;
-    
-            &:hover {
-                background-color: darken($Form-selectValue-bg, 5%);
-            }
-        }
-    
-        .#{$ns}TreeSelect-valueLabel {
-            padding: 0 $gap-xs;
-        }
-    }
-
-    &-arrow {
-        width: px2rem(20px);
-        cursor: pointer;
-        text-align: center;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-
-        &:before {
-            content: '';
-            border-color: $Form-input-iconColor transparent transparent;
-            border-style: solid;
-            border-width: px2rem(5px) px2rem(5px) px2rem(2.5px);
-            display: inline-block;
-            height: 0;
-            width: 0;
-            position: relative;
-            top: px2rem(2px);
-        }
-    }
+  &.is-opened {
+    border-color: var(--Form-input-onFocused-borderColor);
+    box-shadow: var(--Form-input-boxShadow);
+    background: var(--Form-input-onFocused-bg);
+  }
 }
 
 .#{$ns}TreeSelect-popover {
-    background: transparent;
-    border: none;
-    box-shadow: none;
+  background: transparent;
+  border: none;
+  box-shadow: none;
 
-    > .#{$ns}Tree {
-        background: #fff;
-        border: $Form-input-borderWidth solid $Form-input-onFocused-borderColor;
-        padding: $gap-xs $Form-input-paddingX;
-        border-radius: 0;
-        margin-top: -1px;
-        max-height: 400px;
-        overflow: auto;
-    }
+  > .#{$ns}Tree {
+    background: var(--TreeSelect-popover-bg);
+    border: var(--Form-input-borderWidth) solid
+      var(--Form-input-onFocused-borderColor);
+    padding: var(--gap-xs) var(--Form-input-paddingX);
+    border-radius: 0;
+    margin-top: -1px;
+    max-height: 400px;
+    overflow: auto;
+  }
 }

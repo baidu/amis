@@ -1,214 +1,275 @@
 .#{$ns}Wizard {
+  @include clearfix();
+
+  position: relative;
+
+  &,
+  &-tabs {
+    padding: 0;
+
+    .#{$ns}Badge {
+      display: inline-block;
+      width: var(--Wizard-badge-size);
+      height: var(--Wizard-badge-size);
+      font-size: var(--Wizard-badge-fontSize);
+      line-height: var(--Wizard-badge-size);
+      color: var(--Wizard-badge-color);
+      text-align: center;
+      white-space: nowrap;
+      vertical-align: middle;
+      background: var(--Wizard-badge-bg);
+      border-radius: var(--Wizard-badge-borderRadius); // font-weight: 700;
+      text-shadow: 0 px2rem(1px) 0 rgba(0, 0, 0, 0.2);
+      margin-right: var(--Wizard-badge-marginRight);
+      border: var(--Wizard-badge-border);
+      box-sizing: content-box;
+
+      // &--primary {
+      //     background: var(--primary);
+      // }
+
+      // &--secondary {
+      //     background: var(--secondary);
+      // }
+
+      // &--success {
+      //     background: var(--success);
+      // }
+
+      // &--info {
+      //     background: var(--info);
+      // }
+
+      // &--warning {
+      //     background: var(--warning);
+      // }
+
+      // &--danger {
+      //     background: var(--danger);
+      // }
+
+      // &--light {
+      //     background: var(--light);
+      // }
+
+      // &--dark {
+      //     background: var(--dark);
+      // }
+      &.is-active {
+        color: var(--white);
+        background: var(--Wizard-badge-onActive-backgroundColor);
+      }
+    }
+
+    ul li.active {
+      color: var(--info);
+    }
+
+    .#{$ns}Panel-footer > .#{$ns}Form-group,
+    .#{$ns}Panel-footer > .btn {
+      margin-left: px2rem(5px);
+    }
+
+    > ul.nav {
+      padding: 0;
+      margin: 0;
+      border: var(--borderWidth) solid var(--borderColor);
+
+      li {
+        position: relative;
+        float: left;
+        padding: 0 px2rem(15px) 0 px2rem(25px);
+        margin: 0;
+        color: #999999;
+        cursor: pointer;
+        height: var(--Wizard-steps-height);
+        line-height: var(--Wizard-steps-height);
+
+        a {
+          border: 0 none !important;
+          background: transparent !important;
+          color: inherit;
+          display: inline;
+          padding: 0;
+
+          div {
+            display: inline;
+          }
+        }
+
+        &:first-child {
+          padding-left: px2rem(15px);
+          border-radius: px2rem(4px) 0 0 0;
+        }
+
+        &:before,
+        &:after {
+          content: '';
+          position: absolute;
+          right: px2rem(-10px);
+          border: px2rem(20px) solid transparent;
+          border-right: 0;
+          border-left: px2rem(10px) solid var(--borderColor);
+          border-left-color: rgba(0, 0, 0, 0.05);
+          z-index: 1;
+          bottom: 0;
+        }
+
+        &:after {
+          right: px2rem(-9px);
+          border-left-color: var(--Wizard-steps-bg);
+          z-index: 2;
+        }
+
+        &.is-active {
+          color: var(--Wizard-steps-li-onActive-color);
+          background: #fff;
+        }
+
+        &.is-active:after {
+          border-left-color: #fff;
+        }
+      }
+
+      // .Badge {
+      //     margin-right: px2rem(4px);
+      // }
+    }
+  }
+
+  &-steps {
+    font-size: var(--fontSizeBase);
+    padding: var(--Wizard-steps-padding);
+    background: var(--Wizard-steps-bg);
+    border-bottom: var(--Wizard-steps-borderWidth) solid var(--borderColor);
+    text-align: var(--Wizard-steps-textAlign);
     @include clearfix();
 
-    position: relative;
-    &,
-    &-tabs {
-        padding: 0;
-        .Badge {
-            display: inline-block; // min-width: px2rem(10px);
-            // padding: px2rem(3px) px2rem(7px);
-            width: $Wizard-badge-size;
-            height: $Wizard-badge-size;
-            font-size: $Wizard-badge-fontSize;
-            line-height: $Wizard-badge-size;
-            color: $white;
-            text-align: center;
-            white-space: nowrap;
-            vertical-align: middle;
-            background-color: $Wizard-badge-bg;
-            border-radius: $Wizard-badge-borderRadius; // font-weight: 700;
-            text-shadow: 0 px2rem(1px) 0 rgba(0, 0, 0, .2);
-            margin-right: $Wizard-badge-marginRight;
-            &--primary {
-                background-color: $primary;
-            }
-            &--secondary {
-                background-color: $secondary;
-            }
-            &--success {
-                background-color: $success;
-            }
-            &--info {
-                background-color: $info;
-            }
-            &--warning {
-                background-color: $warning;
-            }
-            &--danger {
-                background-color: $danger;
-            }
-            &--light {
-                background-color: $light;
-            }
-            &--dark {
-                background-color: $dark;
-            }
-        }
-        ul li.active {
-            color: $info;
-        }
-        .#{$ns}Panel-footer>.#{$ns}Form-group,
-        .#{$ns}Panel-footer>.btn {
-            margin-left: px2rem(5px);
-        }
-        >ul.nav {
-            padding: 0;
-            margin: 0;
-            border: $borderWidth solid $borderColor;
-            li {
-                position: relative;
-                float: left;
-                padding: 0 px2rem(15px) 0 px2rem(25px);
-                margin: 0;
-                color: #999999;
-                cursor: pointer;
-                height: $Wizard-steps-height;
-                line-height: $Wizard-steps-height;
-                a {
-                    border: 0 none !important;
-                    background: transparent !important;
-                    color: inherit;
-                    display: inline;
-                    padding: 0;
-                    div {
-                        display: inline;
-                    }
-                }
-                &:first-child {
-                    padding-left: px2rem(15px);
-                    border-radius: px2rem(4px) 0 0 0;
-                }
-                &:before,
-                &:after {
-                    content: "";
-                    position: absolute;
-                    right: px2rem(-10px);
-                    border: px2rem(20px) solid transparent;
-                    border-right: 0;
-                    border-left: px2rem(10px) solid $borderColor;
-                    border-left-color: rgba(0, 0, 0, 0.05);
-                    z-index: 1;
-                    bottom: 0;
-                }
-                &:after {
-                    right: px2rem(-9px);
-                    border-left-color: $Wizard-steps-bg;
-                    z-index: 2;
-                }
-                &.is-active {
-                    color: #3a87ad;
-                    background: #fff;
-                }
-                &.is-active:after {
-                    border-left-color: #fff;
-                }
-            } // .Badge {
-            //     margin-right: px2rem(4px);
-            // }
-        }
-    }
-    &-steps {
-        font-size: $fontSizeBase;
-        padding: $Wizard-steps-padding;
-        background-color: $Wizard-steps-bg;
-        border-bottom: $Wizard-steps-borderWidth solid $borderColor;
-        text-align: $Wizard-steps-textAlign;
-        height: $Wizard-steps-height;
-        ul {
-            display: $Wizard-steps-ulDisplay;
-            padding: 0;
-            margin: 0;
-            list-style: none outside none;
-            li {
-                position: relative;
-                float: left;
-                padding: 0 px2rem(15px) 0 px2rem(25px);
-                margin: 0;
-                color: #999999;
-                cursor: default;
-                height: $Wizard-steps-height;
-                line-height: $Wizard-steps-height;
-                &:first-child {
-                    padding-left: px2rem(15px);
-                    border-radius: px2rem(4px) 0 0 0;
-                }
-                &:before,
-                &:after {
-                    font-family: $Wizard-steps-liVender;
-                    content: $Wizard-steps-liAfterContent;
-                    position: absolute;
-                    bottom: 0;
-                    right: px2rem(-10px);
-                    border: $Wizard-steps-liAfterBorder;
-                    border-right: 0;
-                    border-left: px2rem(10px) solid $borderColor;
-                    border-left-color: rgba(0, 0, 0, 0.05);
-                    z-index: 2;
-                }
-                &:after {
-                    right: px2rem(-9px);
-                    border-left-color: $Wizard-steps-bg;
-                    z-index: 2;
-                }
-                &.is-active {
-                    color: #3a87ad;
-                    background: #fff;
-                }
-                &.is-active:after {
-                    border-left-color: #fff;
-                }
-                &.is-complete,
-                &.is-complete:hover {
-                    cursor: pointer;
-                    background: $Wizard-steps-bg--isComplete;
-                }
-                &.is-complete:after {
-                    border-left-color: #f1f5f9;
-                }
-            } // .Badge {
-            //     margin-right: px2rem(4px);
-            // }
-        }
-    }
-    &-stepContent {
-        padding: $Wizard-stepsContent-padding;
-        & .Step-pane {
-            display: none;
-            &.is-active {
-                display: inherit;
-            }
-        }
-    }
-    &--vertical {
+    ul {
+      display: var(--Wizard-steps-ulDisplay);
+      padding: 0;
+      margin: 0;
+      list-style: none outside none;
+
+      li {
+        position: relative;
         float: left;
-        border-bottom: none;
-        margin-bottom: px2rem(30px); // padding: 0;
-        &.#{$ns}Wizard-steps {
-            height: auto;
+        padding: 0 px2rem(15px) 0 px2rem(25px);
+        margin: 0;
+        color: #999999;
+        cursor: default;
+        height: var(--Wizard-steps-height);
+        line-height: var(--Wizard-steps-height);
+
+        &:first-child {
+          padding-left: px2rem(15px);
+          border-radius: px2rem(4px) 0 0 0;
         }
-        &+.#{$ns}Wizard-stepContent {
-            zoom: 1;
-            overflow: hidden;
-            padding-left: px2rem(40px);
+
+        &:before,
+        &:after {
+          font-family: var(--Wizard-steps-liVender);
+          content: var(--Wizard-steps-liAfterContent);
+          position: absolute;
+          bottom: 0;
+          right: px2rem(-10px);
+          border: $Wizard-steps-liAfterBorder;
+          border-right: 0;
+          border-left: px2rem(10px) solid var(--borderColor);
+          border-left-color: rgba(0, 0, 0, 0.05);
+          z-index: 2;
         }
-        & li {
-            background-color: $Wizard-steps-bg;
+
+        &:after {
+          right: px2rem(-9px);
+          border-left-color: var(--Wizard-steps-bg);
+          z-index: 2;
         }
-        & ul li {
-            height: px2rem(40px);
-            line-height: px2rem(40px);
-            position: relative;
-            float: none;
-            border-bottom: $borderWidth solid $borderColor;
-            padding-left: px2rem(15px); // &:before,
-            // &:after {
-            // border: px2rem(20px) solid transparent;
-            // content: '';
-            // }
+
+        &.is-active {
+          color: var(--Wizard-steps-li-onActive-color);
+          background: var(--Wizard-steps-li-onActive-bg);
         }
-        &+.#{$ns}Wizard-stepContent+.#{$ns}Panel-footer {
-            clear: both;
+
+        &.is-active:after {
+          border-left-color: var(--Wizard-steps-li-onActive-arrow-bg);
         }
+
+        &.is-complete,
+        &.is-complete:hover {
+          color: var(--Wizard-steps-li-onActive-color);
+          cursor: pointer;
+          background: var(--Wizard-steps-bg--isComplete);
+        }
+
+        &.is-complete:after {
+          border-left-color: #f1f5f9;
+        }
+      }
+
+      // .Badge {
+      //     margin-right: px2rem(4px);
+      // }
     }
+  }
+
+  &-stepContent {
+    padding: var(--Wizard-stepsContent-padding);
+
+    & .Step-pane {
+      display: none;
+
+      &.is-active {
+        display: inherit;
+      }
+    }
+  }
+
+  &--vertical {
+    > .#{$ns}Wizard-step {
+      display: flex;
+      flex-direction: row;
+      flex-wrap: wrap;
+      border-bottom: none;
+
+      > .#{$ns}Wizard-steps {
+        height: auto;
+        min-width: 40px;
+        margin-right: 30px;
+        margin-bottom: px2rem(30px); // padding: 0;
+        background: none;
+        border-bottom: none;
+
+        li {
+          background: var(--Wizard-steps-bg);
+        }
+
+        ul li {
+          height: px2rem(40px);
+          line-height: px2rem(40px);
+          position: relative;
+          float: none;
+          border-bottom: var(--borderWidth) solid var(--borderColor);
+          padding-left: px2rem(15px); // &:before,
+          // &:after {
+          // border: px2rem(20px) solid transparent;
+          // content: '';
+          // }
+
+          &.is-active {
+            background: #fff;
+          }
+        }
+      }
+
+      > .#{$ns}Wizard-stepContent {
+        flex-grow: 1;
+        width: 0;
+      }
+
+      > .#{$ns}Wizard-footer {
+        width: 100%;
+      }
+    }
+  }
 }

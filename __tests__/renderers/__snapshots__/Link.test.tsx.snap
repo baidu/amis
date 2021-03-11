@@ -1,0 +1,13 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Renderer:link 1`] = `
+<div>
+  <a
+    class="a-Link show"
+    href="https://www.baidu.com"
+    target="_blank"
+  >
+    https://www.baidu.com
+  </a>
+</div>
+`;

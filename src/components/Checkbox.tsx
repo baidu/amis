@@ -1,107 +1,107 @@
 /**
- * @file checkbox组件
+ * @file Checkbox
  * @author fex
  */
 
-import * as React from 'react';
-import * as cx from 'classnames';
-import { ClassNamesFn, themeable } from '../theme';
+import React from 'react';
+import {ClassNamesFn, themeable} from '../theme';
+import {autobind} from '../utils/helper';
 
-const sizeMap = {
-    sm: 'i-checks-sm',
-    lg: 'i-checks-lg',
-    small: 'i-checks-sm',
-    large: 'i-checks-lg'
-};
+const preventEvent = (e: any) => e.stopPropagation();
 
 interface CheckboxProps {
-    id?: string;
-    key?: string | number;
-    style?: React.CSSProperties;
-    type?: string;
-    size?: 'sm' | 'lg' | 'small' | 'large';
-    label?: string;
-    className?: string;
-    onChange?: (value:any) => void;
-    value?: any;
-    containerClass?: string;
-    inline?: boolean;
-    trueValue?: boolean;
-    falseValue?: boolean;
-    disabled?: boolean;
-    readOnly?: boolean;
-    checked?: boolean;
-    name?: string;
-    classPrefix: string;
-    classnames: ClassNamesFn;
-    partial?: boolean;
+  type: 'checkbox' | 'radio';
+  size?: 'sm' | 'lg' | 'small' | 'large';
+  label?: string;
+  labelClassName?: string;
+  className?: string;
+  onChange?: (value: any) => void;
+  value?: any;
+  inline?: boolean;
+  trueValue?: any;
+  falseValue?: any;
+  disabled?: boolean;
+  readOnly?: boolean;
+  checked?: boolean;
+  name?: string;
+  description?: string;
+  classPrefix: string;
+  classnames: ClassNamesFn;
+  partial?: boolean;
 }
 
 export class Checkbox extends React.Component<CheckboxProps, any> {
-    static defaultProps = {
-        trueValue: true,
-        falseValue: false,
-        type: 'checkbox'
-    };
+  static defaultProps: Pick<
+    CheckboxProps,
+    'trueValue' | 'falseValue' | 'type'
+  > = {
+    trueValue: true,
+    falseValue: false,
+    type: 'checkbox'
+  };
 
-    constructor(props:CheckboxProps) {
-        super(props);
+  @autobind
+  handleCheck(e: React.ChangeEvent<any>) {
+    const {trueValue, falseValue, onChange} = this.props;
 
-        this.hanldeCheck = this.hanldeCheck.bind(this);
+    if (!onChange) {
+      return;
     }
 
-    hanldeCheck(e:React.ChangeEvent<any>) {
-        const {
-            trueValue,
-            falseValue,
-            onChange
-        } = this.props;
+    onChange(e.currentTarget.checked ? trueValue : falseValue);
+  }
 
-        if (!onChange) {
-            return;
-        }
+  render() {
+    let {
+      size,
+      className,
+      classnames: cx,
+      value,
+      label,
+      partial,
+      trueValue,
+      children,
+      disabled,
+      description,
+      readOnly,
+      checked,
+      type,
+      name,
+      labelClassName
+    } = this.props;
 
-        onChange(e.currentTarget.checked ? trueValue : falseValue);
-    }
-
-    render() {
-        let {
-            size,
-            className,
-            classPrefix: ns,
-            value,
-            label,
-            partial,
-            trueValue,
-            children,
-            disabled,
-            readOnly,
-            checked,
-            type,
-            name
-        } = this.props;
-
-        className = (className ? className : '') + (size && sizeMap[size] ? ` ${sizeMap[size]}` : '');
-
-        return (
-            <label 
-                className={cx(`${ns}Checkbox ${ns}Checkbox--${type}`, {
-                    [`${ns}Checkbox--full`]: !partial
-                }, className)}
-            >
-                <input
-                    type={type}
-                    checked={typeof checked !== 'undefined' ? checked : typeof value === 'undefined' ? value : value == trueValue}
-                    onChange={this.hanldeCheck}
-                    disabled={disabled}
-                    readOnly={readOnly}
-                    name={name}
-                />
-                <i />
-                <span>{children || label}</span>
-            </label>
-        );
-    }
+    return (
+      <label
+        className={cx(`Checkbox Checkbox--${type}`, className, {
+          'Checkbox--full': !partial,
+          [`Checkbox--${size}`]: size
+        })}
+      >
+        <input
+          type={type}
+          checked={
+            typeof checked !== 'undefined'
+              ? checked
+              : typeof value === 'undefined'
+              ? value
+              : value == trueValue
+          }
+          onChange={this.handleCheck}
+          onClick={
+            preventEvent // 当点击 i 的时候，这个地方也会触发 click，很奇怪，干脆禁掉
+          }
+          disabled={disabled}
+          readOnly={readOnly}
+          name={name}
+        />
+        <i />
+        <span className={cx(labelClassName)}>{children || label}</span>
+        {description ? (
+          <div className={cx('Checkbox-desc')}>{description}</div>
+        ) : null}
+      </label>
+    );
+  }
 }
 
 export default themeable(Checkbox);

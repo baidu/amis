@@ -1,0 +1,101 @@
+.#{$ns}ArrayInput {
+  &-placeholder {
+    color: var(--text--muted-color);
+    padding-top: var(--Form-label-paddingTop);
+  }
+
+  &-addBtn {
+    > svg {
+      width: var(--Combo-addBtn-fontSize);
+      height: var(--Combo-addBtn-fontSize);
+    }
+
+    font-size: var(--Combo-addBtn-fontSize);
+
+    @include button-size(
+      var(--Combo-addBtn-paddingY),
+      var(--Combo-addBtn-paddingX),
+      var(--Combo-addBtn-fontSize),
+      var(--Combo-addBtn-lineHeight),
+      var(--Combo-addBtn-borderRadius),
+      var(--Combo-addBtn-height)
+    );
+
+    @include button-variant(
+      var(--Combo-addBtn-bg),
+      var(--Combo-addBtn-border),
+      var(--Combo-addBtn-color),
+      var(--Combo-addBtn-onHover-bg),
+      var(--Combo-addBtn-onHover-border),
+      var(--Combo-addBtn-onHover-color),
+      var(--Combo-addBtn-onActive-bg),
+      var(--Combo-addBtn-onActive-border),
+      var(--Combo-addBtn-onActive-color)
+    );
+
+    &.is-disabled {
+      pointer-events: none;
+      opacity: var(--Button-onDisabled-opacity);
+    }
+  }
+
+  &-toolbar {
+    margin-top: var(--gap-sm);
+
+    &--dnd {
+      padding-left: 29px;
+    }
+
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+  }
+
+  &-sortTip {
+    color: var(--text--muted-color);
+  }
+
+  &-item {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    margin-bottom: var(--gap-xs);
+
+    > div {
+      flex-grow: 1;
+      width: 0;
+      min-width: 120px;
+      margin-right: var(--gap-xs);
+
+      &:not(:first-child) {
+        margin-left: var(--gap-xs);
+      }
+    }
+
+    &--dragging {
+      position: relative;
+      opacity: 0.4;
+    }
+  }
+
+  &-itemRemove,
+  &-itemDrager {
+    margin: 0;
+    flex-grow: unset;
+    display: inline-block;
+    padding: var(--Form-label-paddingTop) var(--gap-xs);
+    cursor: pointer;
+
+    > svg {
+      color: var(--icon-color);
+    }
+
+    &:hover > svg {
+      color: var(--icon-onHover-color);
+    }
+  }
+
+  &-itemDrager {
+    cursor: move;
+  }
+}

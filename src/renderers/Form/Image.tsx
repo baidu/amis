@@ -1,813 +1,1382 @@
-import * as React from 'react';
-import {
-    FormItem,
-    FormControlProps
-} from './Item';
-import * as cx from 'classnames';
+import React from 'react';
+import {FormItem, FormControlProps, FormBaseControl} from './Item';
+import 'cropperjs/dist/cropper.css';
 import Cropper from 'react-cropper';
-import * as DropZone from 'react-dropzone';
+import DropZone from 'react-dropzone';
+import {FileRejection} from 'react-dropzone';
 import 'blueimp-canvastoblob';
-// @require 'cropperjs/dist/cropper.css';
-// jest 不能支持这种写法
-// import 'cropperjs/dist/cropper.css';
-import find = require('lodash/find');
-import * as qs from 'qs';
-import { FileValue } from './Image';
+import find from 'lodash/find';
+import qs from 'qs';
 import {Payload} from '../../types';
-import { filter } from '../../utils/tpl';
-import { Switch } from '../../components';
+import {buildApi} from '../../utils/api';
+import {createObject, qsstringify, guid, isEmpty} from '../../utils/helper';
+import {Icon} from '../../components/icons';
+import Button from '../../components/Button';
+import accepts from 'attr-accept';
+import {getNameFromUrl} from './File';
+import ImageComponent, {ImageThumbProps} from '../Image';
+import {TranslateFn} from '../../locale';
+import {dataMapping} from '../../utils/tpl-builtin';
+import {
+  SchemaApi,
+  SchemaClassName,
+  SchemaTokenizeableString,
+  SchemaUrlPath
+} from '../../Schema';
 
-export interface ImageProps extends FormControlProps {
-    placeholder?: string;
-    reciever?: string;
-    limit?: {
-        width?: number;
-        height?: number;
-        maxWidth?: number;
-        minWidth?: number;
-        maxHeight?: number;
-        minHeight?: number;
+/**
+ * Image 图片上传控件
+ * 文档：https://baidu.gitee.io/amis/docs/components/form/image
+ */
+export interface ImageControlSchema extends FormBaseControl {
+  /**
+   * 指定为图片上传控件
+   */
+  type: 'image';
+
+  /**
+   * 默认展示图片的链接
+   */
+  src?: SchemaUrlPath;
+
+  /**
+   * 默认展示图片的类名
+   */
+  imageClassName?: string;
+
+  /**
+   * 配置接收的图片类型
+   *
+   * 建议直接填写文件后缀
+   * 如：.txt,.csv
+   *
+   * 多个类型用逗号隔开。
+   */
+  accept?: string;
+
+  /**
+   * 默认都是通过用户选择图片后上传返回图片地址，如果开启此选项，则可以允许用户图片地址。
+   */
+  allowInput?: boolean;
+
+  /**
+   * 是否自动开始上传
+   */
+  autoUpload?: boolean;
+
+  /**
+   * 选择图片按钮的 CSS 类名
+   */
+  btnClassName?: SchemaClassName;
+
+  /**
+   * 上传按钮的 CSS 类名
+   */
+  btnUploadClassName?: SchemaClassName;
+
+  /**
+   * @deprecated
+   */
+  compress?: boolean;
+
+  /**
+   * @deprecated
+   */
+  compressOptions?: {
+    maxHeight?: number;
+    maxWidth?: number;
+  };
+
+  crop?:
+    | boolean
+    | {
+        /**
+         * 默认 `1` 即 `1:1`
+         *
+         * 留空将不限制
+         */
         aspectRatio?: number;
-        aspectRatioLabel?: string;
-    },
-    accept?: string;
-    btnUploadClassName?: string;
-    btnClassName?: string;
-    hideUploadButton?: boolean;
-    joinValues?: boolean;
-    extractValue?: boolean;
-    delimiter?: string;
-    autoUpload?: boolean;
-    multiple?: boolean;
-};
+
+        guides?: boolean;
+        dragMode?: string;
+        viewMode?: number;
+        rotatable?: boolean;
+        scalable?: boolean;
+      };
+
+  /**
+   * 是否允许二次裁剪。
+   */
+  reCropable?: boolean;
+
+  /**
+   * 是否隐藏上传按钮
+   */
+  hideUploadButton?: boolean;
+
+  /**
+   * 限制图片大小，超出不让上传。
+   */
+  limit?: {
+    /**
+     * 比率不对时的提示文字
+     */
+    aspectRatioLabel?: string;
+    /**
+     * 限制比率
+     */
+    aspectRatio?: number;
+
+    /**
+     * 限制图片高度
+     */
+    height?: number;
+
+    /**
+     *  限制图片宽度
+     */
+    width?: number;
+
+    /**
+     * 限制图片最大高度
+     */
+    maxHeight?: number;
+
+    /**
+     * 限制图片最大宽度
+     */
+    maxWidth?: number;
+
+    /**
+     * 限制图片最小高度
+     */
+    minHeight?: number;
+
+    /**
+     *  限制图片最小宽度
+     */
+    minWidth?: number;
+  };
+
+  /**
+   * 最多的个数
+   */
+  maxLength?: number;
+
+  /**
+   * 默认没有限制，当设置后，文件大小大于此值将不允许上传。
+   */
+  maxSize?: number;
+
+  /**
+   * 默认 `/api/upload` 如果想自己存储，请设置此选项。
+   */
+  receiver?: SchemaApi;
+
+  /**
+   * 默认为 false, 开启后，允许用户输入压缩选项。
+   *
+   * @deprecated
+   */
+  showCompressOptions?: boolean;
+
+  /**
+   * 是否为多选
+   */
+  multiple?: boolean;
+
+  /**
+   * 单选模式：当用户选中某个选项时，选项中的 value 将被作为该表单项的值提交，否则，整个选项对象都会作为该表单项的值提交。
+   * 多选模式：选中的多个选项的 `value` 会通过 `delimiter` 连接起来，否则直接将以数组的形式提交值。
+   */
+  joinValues?: boolean;
+
+  /**
+   * 分割符
+   */
+  delimiter?: string;
+
+  /**
+   * 开启后将选中的选项 value 的值封装为数组，作为当前表单项的值。
+   */
+  extractValue?: boolean;
+
+  /**
+   * 清除时设置的值
+   */
+  resetValue?: any;
+
+  /**
+   * 缩路图展示模式
+   */
+  thumbMode?: 'w-full' | 'h-full' | 'contain' | 'cover';
+
+  /**
+   * 缩路图展示比率。
+   */
+  thumbRatio?: '1:1' | '4:3' | '16:9';
+
+  /**
+   * 上传后把其他字段同步到表单内部。
+   */
+  autoFill?: {
+    [propName: string]: SchemaTokenizeableString;
+  };
+}
+
+let preventEvent = (e: any) => e.stopPropagation();
+
+export interface ImageProps
+  extends FormControlProps,
+    Omit<
+      ImageControlSchema,
+      'type' | 'className' | 'descriptionClassName' | 'inputClassName'
+    > {
+  onImageEnlarge?: (
+    info: Pick<ImageThumbProps, 'src' | 'originalSrc' | 'title' | 'caption'> & {
+      index?: number;
+      list?: Array<
+        Pick<ImageThumbProps, 'src' | 'originalSrc' | 'title' | 'caption'>
+      >;
+    }
+  ) => void;
+}
 
 export interface ImageState {
-    uploading: boolean;
-    locked: boolean;
-    lockedReason?: string;
-    compress: boolean;
-    compressOptions: {
-        maxWidth?: number;
-        maxHeight?: number;
-    };
-    files: Array<FileValue|FileX>;
-    crop?: object;
-    error?: string;
-    cropFile?: FileValue;
-    submitOnChange?: boolean;
-};
+  uploading: boolean;
+  locked: boolean;
+  lockedReason?: string;
+  files: Array<FileValue | FileX>;
+  crop?: any;
+  error?: string;
+  cropFile?: FileValue;
+  submitOnChange?: boolean;
+}
 
 export interface FileValue {
-    value?: any;
-    state: 'init' | 'error' | 'pending' | 'uploading' | 'uploaded' | 'invalid',
-    url?: string;
-    error?: string;
-    info?: {
-        width: number;
-        height: number;
-        len?: number;
-    };
-    [propName:string]: any;
+  value?: any;
+  state: 'init' | 'error' | 'pending' | 'uploading' | 'uploaded' | 'invalid';
+  url?: string;
+  error?: string;
+  info?: {
+    width: number;
+    height: number;
+    len?: number;
+  };
+  [propName: string]: any;
 }
 
 export interface FileX extends File {
-    preview?: string;
-    state?: 'init' | 'error' | 'pending' | 'uploading' | 'uploaded' | 'invalid';
-    [propName:string]: any;
+  id?: string | number;
+  preview?: string;
+  state?: 'init' | 'error' | 'pending' | 'uploading' | 'uploaded' | 'invalid';
+  progress?: number;
+  [propName: string]: any;
 }
 
-export default class ImageControl extends React.Component<ImageProps, ImageState> {
-    static defaultProps = {
-        limit: undefined,
-        accept: 'image/jpeg, image/jpg, image/png, image/gif',
-        reciever: '/api/upload',
-        btnUploadClassName: 'btn-success',
-        btnClassName: 'btn-info btn-sm',
-        hideUploadButton: false,
-        compressOptions: {},
-        placeholder: '将图片拖入该区域，或者',
-        joinValues: true,
-        extractValue: false,
-        delimiter: ',',
-        autoUpload: true,
-        multiple: false
-    };
+export default class ImageControl extends React.Component<
+  ImageProps,
+  ImageState
+> {
+  static defaultProps = {
+    limit: undefined,
+    accept: 'image/jpeg, image/jpg, image/png, image/gif',
+    receiver: '/api/upload',
+    hideUploadButton: false,
+    placeholder: 'Image.placeholder',
+    joinValues: true,
+    extractValue: false,
+    delimiter: ',',
+    autoUpload: true,
+    multiple: false
+  };
 
-    static formatFileSize(size:number | string, units = [' B', ' KB', ' M', ' G']) {
-        size = parseInt(size as string, 10) || 0;
+  static formatFileSize(
+    size: number | string,
+    units = [' B', ' KB', ' M', ' G']
+  ) {
+    size = parseInt(size as string, 10) || 0;
 
-        while (size > 1024 && units.length > 1) {
-            size /= 1024;
-            units.shift();
-        }
-
-        return size.toFixed(2) + units[0];
+    while (size > 1024 && units.length > 1) {
+      size /= 1024;
+      units.shift();
     }
 
-    static valueToFile(value:string | object, props?:ImageProps):FileValue|undefined {
-        return value ? {
-            ...(typeof value === 'string' ? {
+    return size.toFixed(2) + units[0];
+  }
+
+  static valueToFile(
+    value: string | object,
+    props?: ImageProps
+  ): FileValue | undefined {
+    return value
+      ? {
+          ...(typeof value === 'string'
+            ? {
                 value,
-                url: value
-            } : value),
-            state: 'init'
-        } : undefined;
-    }
-
-    static sizeInfo(width?:number, height?:number):string {
-        if (!width) {
-            return `高度${height}px`;
-        } else if (!height) {
-            return `宽度${width}px`;
+                url: value,
+                id: guid()
+              }
+            : value),
+          state: 'init'
         }
+      : undefined;
+  }
 
-        return `尺寸（${width} x ${height}）`;
+  static sizeInfo(
+    width: number | undefined,
+    height: number | undefined,
+    __: TranslateFn
+  ): string {
+    if (!width) {
+      return __('Image.height', {height: height});
+    } else if (!height) {
+      return __('Image.width', {width: width});
     }
 
-    state:ImageState = {
-        uploading: false,
-        locked: false,
-        compress: false,
-        files: [],
-        compressOptions: {}
+    return __('Image.size', {width, height});
+  }
+
+  state: ImageState = {
+    uploading: false,
+    locked: false,
+    files: []
+  };
+
+  files: Array<FileValue | FileX> = [];
+  cropper = React.createRef<Cropper>();
+  dropzone = React.createRef<any>();
+  current: FileValue | FileX | null = null;
+  resolve?: (value?: any) => void;
+  emitValue: any;
+  unmounted = false;
+
+  constructor(props: ImageProps) {
+    super(props);
+    const value: string | Array<string | FileValue> | FileValue = props.value;
+    const multiple = props.multiple;
+    const joinValues = props.joinValues;
+    const delimiter = props.delimiter as string;
+    let files: Array<FileValue> = [];
+
+    if (value) {
+      // files = (multiple && Array.isArray(value) ? value : joinValues ? (value as string).split(delimiter) : [value])
+      files = (Array.isArray(value)
+        ? value
+        : joinValues && typeof value === 'string' && multiple
+        ? (value as string).split(delimiter)
+        : [value]
+      )
+        .map(item => ImageControl.valueToFile(item) as FileValue)
+        .filter(item => item);
+    }
+
+    this.state = {
+      ...this.state,
+      files: (this.files = files),
+      crop: this.buildCrop(props)
     };
 
-    current: FileValue|FileX|null = null;
-    resolve?: (value?:any) => void;
+    this.sendFile = this.sendFile.bind(this);
+    this.removeFile = this.removeFile.bind(this);
+    this.handleDrop = this.handleDrop.bind(this);
+    this.handleClick = this.handleClick.bind(this);
+    this.handleClick = this.handleClick.bind(this);
+    this.handleCrop = this.handleCrop.bind(this);
+    this.handleDropRejected = this.handleDropRejected.bind(this);
+    this.cancelCrop = this.cancelCrop.bind(this);
+    this.handleImageLoaded = this.handleImageLoaded.bind(this);
+    this.startUpload = this.startUpload.bind(this);
+    this.stopUpload = this.stopUpload.bind(this);
+    this.toggleUpload = this.toggleUpload.bind(this);
+    this.tick = this.tick.bind(this);
+    this.onChange = this.onChange.bind(this);
+    this.addFiles = this.addFiles.bind(this);
+    this.handleSelect = this.handleSelect.bind(this);
+    this.handlePaste = this.handlePaste.bind(this);
+  }
 
-    constructor(props:ImageProps) {
-        super(props);
-        const value:string|Array<string | FileValue>|FileValue = props.value;
-        const multiple = props.multiple;
-        const joinValues = props.joinValues;
-        const delimiter = props.delimiter as string;
-        let files:Array<FileValue> = [];
+  componentWillReceiveProps(nextProps: ImageProps) {
+    const props = this.props;
 
-        if (value) {
-            // files = (multiple && Array.isArray(value) ? value : joinValues ? (value as string).split(delimiter) : [value])
-            files = (Array.isArray(value) ? value : (joinValues && typeof value === 'string' && multiple) ? (value as string).split(delimiter) : [value])
-            .map(item => ImageControl.valueToFile(item) as FileValue)
-            .filter(item => item);
-        }
+    if (props.value !== nextProps.value && this.emitValue !== nextProps.value) {
+      const value: string | Array<string | FileValue> | FileValue =
+        nextProps.value;
+      const multiple = nextProps.multiple;
+      const joinValues = nextProps.joinValues;
+      const delimiter = nextProps.delimiter as string;
 
-        this.state = {
-            ...this.state,
-            files: files,
-            crop: this.buildCrop(props),
-            compress: !!props.compress,
-            compressOptions: props.compressOptions
-        };
+      let files: Array<FileValue> = [];
 
-        this.sendFile = this.sendFile.bind(this);
-        this.removeFile = this.removeFile.bind(this);
-        this.handleDrop = this.handleDrop.bind(this);
-        this.handleClick = this.handleClick.bind(this);
-        this.handleClick = this.handleClick.bind(this);
-        this.handleCrop = this.handleCrop.bind(this);
-        this.handleDropRejected = this.handleDropRejected.bind(this);
-        this.cancelCrop = this.cancelCrop.bind(this);
-        this.handleImageLoaded = this.handleImageLoaded.bind(this);
-        this.startUpload = this.startUpload.bind(this);
-        this.stopUpload = this.stopUpload.bind(this);
-        this.toggleUpload = this.toggleUpload.bind(this);
-        this.tick = this.tick.bind(this);
-        this.onChange = this.onChange.bind(this);
-        this.addFiles = this.addFiles.bind(this);
-        this.handleSelect = this.handleSelect.bind(this);
-        this.handlePaste = this.handlePaste.bind(this);
-    }
+      if (value) {
+        files = (Array.isArray(value)
+          ? value
+          : joinValues && typeof value === 'string'
+          ? (value as string).split(delimiter)
+          : [value]
+        )
+          .map(item => {
+            let obj = ImageControl.valueToFile(item, nextProps) as FileValue;
+            let org;
 
-    componentWillReceiveProps(nextProps:ImageProps) {
-        const props = this.props;
-
-        if (props.value !== nextProps.value) {
-            const value:string|Array<string | FileValue>|FileValue = nextProps.value;
-            const multiple = nextProps.multiple;
-            const joinValues = nextProps.joinValues;
-            const delimiter = nextProps.delimiter as string;
-
-            let files:Array<FileValue> = [];
-
-            if (value) {
-                files = (Array.isArray(value) ? value : (joinValues && typeof value === 'string') ? (value as string).split(delimiter) : [value])
-                .map(item => {
-                    let obj = ImageControl.valueToFile(item, nextProps) as FileValue;
-                    let org;
-
-                    if (obj && (org = find(this.state.files, item => (item as FileValue).value === obj.value))) {
-                        obj = {
-                            ...org,
-                            ...obj
-                        };
-                    }
-
-                    return obj;
-                })
-                .filter(item => item);
+            if (
+              obj &&
+              (org = find(
+                this.files,
+                item => (item as FileValue).value === obj.value
+              ))
+            ) {
+              obj = {
+                ...org,
+                ...obj,
+                id: org.id || obj.id
+              };
             }
 
-            this.setState({
-                files
-            });
-        }
+            return obj;
+          })
+          .filter(item => item);
+      }
 
-        if (props.crop !== nextProps.crop) {
-            this.setState({
-                crop: this.buildCrop(nextProps)
-            });
-        }
+      this.setState({
+        files: (this.files = files)
+      });
     }
 
-    buildCrop(props:ImageProps) {
-        let crop = props.crop;
+    if (props.crop !== nextProps.crop) {
+      this.setState({
+        crop: this.buildCrop(nextProps)
+      });
+    }
+  }
 
-        if (crop && props.multiple) {
-            props.env && props.env.alert && props.env.alert('图片多选配置和裁剪配置冲突，目前不能二者都支持！');
-            return null;
-        }
+  componentWillUnmount() {
+    this.unmounted = true;
+  }
 
-        if (crop === true) {
-            crop = {};
-        }
+  buildCrop(props: ImageProps) {
+    let crop = props.crop;
+    const __ = this.props.translate;
 
-        if (crop) {
-            crop = {
-                aspectRatio: 1, // 1 : 1
-                guides: true,
-                dragMode: 'move',
-                viewMode: 1,
-                rotatable: false,
-                scalable: false,
-                ...crop
-            };
-        }
-
-        return crop;
+    if (crop && props.multiple) {
+      props.env && props.env.alert && props.env.alert(__('Image.configError'));
+      return null;
     }
 
-    handleDropRejected(rejectedFiles:any, evt:React.DragEvent<any>) {
-        evt.type === 'change' && alert('您选择的文件类型不符已被过滤！');
+    if (crop === true) {
+      crop = {};
     }
 
-    startUpload() {
-        if (this.state.uploading) {
-            return;
-        }
-
-        this.setState({
-            uploading: true,
-            locked: true,
-            files: this.state.files.map(file => {
-                if (file.state === 'error') {
-                    file.state = 'pending';
-                }
-
-                return file;
-            })
-        }, this.tick);
+    if (crop) {
+      crop = {
+        aspectRatio: undefined, // 默认不限制
+        guides: true,
+        dragMode: 'move',
+        viewMode: 1,
+        rotatable: false,
+        scalable: false,
+        ...crop
+      };
     }
 
-    toggleUpload() {
-        return this.state.uploading ? this.stopUpload() : this.startUpload();
+    return crop;
+  }
+
+  handleDropRejected(
+    rejectedFiles: FileRejection[],
+    evt: React.DragEvent<any>
+  ) {
+    if (evt.type !== 'change' && evt.type !== 'drop') {
+      return;
+    }
+    const {multiple, env, accept, translate: __} = this.props;
+
+    const files = rejectedFiles.map(fileRejection => ({
+      ...fileRejection.file,
+      state: 'invalid',
+      id: guid(),
+      name: fileRejection.file.name
+    }));
+
+    // this.setState({
+    //   files: this.files = multiple
+    //     ? this.files.concat(files)
+    //     : this.files.length
+    //     ? this.files
+    //     : files.slice(0, 1)
+    // });
+
+    env.alert(
+      __('File.invalidType', {
+        files: files.map((file: any) => `「${file.name}」`).join(' '),
+        accept
+      })
+    );
+  }
+
+  startUpload(retry: boolean = false) {
+    if (this.state.uploading) {
+      return;
     }
 
-    stopUpload() {
-        if (!this.state.uploading) {
-            return;
-        }
-
-        this.setState({
-            uploading: false
-        });
-    }
-
-    tick() {
-        if (this.current || !this.state.uploading) {return;}
-
-        const file = find(this.state.files, item => item.state === 'pending');
-        if (file) {
-            this.current = file;
-
-            file.state = 'uploading';
-            this.setState({
-                files: this.state.files.concat()
-            }, () => this.sendFile(file as FileX, (error, file, obj) => {
-                const files = this.state.files.concat();
-                const idx = files.indexOf(file);
-
-                if (!~idx) {
-                    return;
-                }
-
-                let newFile:FileX | FileValue = file;
-
-                if (error) {
-                    newFile.state = file.state !== 'uploading' ? file.state : 'error';
-                    newFile.error = error;
-
-                    if (!this.props.multiple && newFile.state === 'invalid') {
-                        files.splice(idx, 1);
-                        this.current = null;
-
-                        return this.setState({
-                            files: files,
-                            error: error
-                        }, this.tick);
-                    }
-
-                } else {
-                    newFile = obj as FileValue;
-                }
-                files.splice(idx, 1, newFile);
-                this.current = null;
-                this.setState({
-                    files: files
-                }, this.tick);
-            }));
-        } else {
-            this.setState({
-                uploading: false,
-                locked: false
-            }, () => {
-                this.onChange();
-
-                if (this.resolve) {
-                    this.resolve(this.state.files.some(file => file.state === 'error') ? '文件上传失败请重试' : null);
-                    this.resolve = undefined;
-                }
-            });
-            
-        }
-    }
-
-    removeFile(file:FileValue, index:number) {
-        const files = this.state.files.concat();
-
-        files.splice(index, 1);
-
-        this.setState({
-            files: files
-        }, this.onChange);
-    }
-
-    editImage(index:number) {
-        const {
-            multiple
-        } = this.props;
-
-        const files = this.state.files;
-
-        this.setState({
-            cropFile: {
-                preview: files[index].url as string,
-                state: 'init'
-            }
-        });
-
-    }
-
-    onChange() {
-        const {
-            multiple,
-            onChange,
-            joinValues,
-            extractValue,
-            delimiter,
-            valueField
-        } = this.props;
-
-        const files = this.state.files.filter(file => file.state == 'uploaded' || file.state == 'init');
-
-        let newValue:any = files.length ? joinValues ? files[0].value : files[0] : '';
-
-        if (multiple) {
-            newValue = joinValues ? files.map(item => item.value).join(delimiter) : extractValue ? files.map(item => item.value) : files;
-        } else {
-            newValue = joinValues ? newValue.value || newValue : extractValue ? newValue[valueField || 'value'] : newValue;
-        }
-
-        onChange(newValue);
-    }
-
-    handleSelect() {
-        this.refs.dropzone && (this.refs.dropzone as any).open();
-    }
-
-    handleDrop(files:Array<FileX>) {
-        const {multiple, crop} = this.props;
-
-        if (crop && !multiple ) {
-            return this.setState({
-                locked: true,
-                lockedReason: '请选择放弃或者应用',
-                cropFile: files[0] as FileValue
-            });
-        }
-
-        this.addFiles(files);
-    }
-
-    handlePaste(e:React.ClipboardEvent<any>) {
-        const event = e.nativeEvent;
-        const files:Array<FileX> = [];
-        const items = event.clipboardData.items;
-
-        [].slice.call(items).forEach((item:DataTransferItem) => {
-            let blob:FileX;
-
-            if (item.kind !== 'file' || !(blob = item.getAsFile() as File) || !/^image/i.test(blob.type)) {
-                return;
-            }
-
-            blob.preview = window.URL.createObjectURL(blob);
-            files.push(blob);
-        });
-
-        this.handleDrop(files);
-    }
-
-    handleCrop() {
-        (this.refs.cropper as any).getCroppedCanvas().toBlob((file:File) => {
-            this.addFiles([file]);
-            this.setState({
-                cropFile: undefined,
-                locked: false,
-                lockedReason: ''
-            });
-        });
-    }
-
-    cancelCrop() {
-        this.setState({
-            cropFile: undefined,
-            locked: false,
-            lockedReason: ''
-        }, this.onChange);
-    }
-
-    addFiles(files:Array<FileX>) {
-        if (!files.length) {
-            return;
-        }
-
-        const {multiple, maxLength, maxSize, accept} = this.props;
-        let currentFiles = this.state.files;
-
-        if (!multiple && currentFiles.length) {
-            currentFiles = [];
-        }
-
-        const allowed = (multiple ? maxLength ? maxLength : (files.length + currentFiles.length) : 1) - currentFiles.length;
-        const inputFiles:Array<FileX> = [];
-
-        [].slice.call(files, 0, allowed).forEach((file: FileX) => {
-            if (maxSize && file.size > maxSize) {
-                alert(`您选择的文件 ${file.name} 大小为 ${ImageControl.formatFileSize(file.size)} 超出了最大为 ${ImageControl.formatFileSize(maxSize)} 的限制，请重新选择`);
-                return;
-            }
-
+    this.setState(
+      {
+        uploading: true,
+        locked: true,
+        files: (this.files = this.files.map(file => {
+          if (retry && file.state === 'error') {
             file.state = 'pending';
-            if (!file.preview || !file.url) {
-                file.preview = window.URL.createObjectURL(file);
-            }
-            inputFiles.push(file);
-        });
+            file.progress = 0;
+          }
 
-        if (!inputFiles.length) {
-            return;
-        }
+          return file;
+        }))
+      },
+      this.tick
+    );
+  }
 
-        this.setState({
-            error: undefined,
-            files: currentFiles.concat(inputFiles),
-            locked: true
-        }, () => {
-            const {
-                autoUpload
-            } = this.props;
+  toggleUpload() {
+    return this.state.uploading ? this.stopUpload() : this.startUpload();
+  }
 
-            if (autoUpload) {
-                this.startUpload();
-            }
-        });
+  stopUpload() {
+    if (!this.state.uploading) {
+      return;
     }
 
-    sendFile(file:FileX, cb:(error:null|string, file:FileX, obj?: FileValue) => void) {
-        const {limit} = this.props;
+    this.setState({
+      uploading: false
+    });
+  }
 
-        if (!limit) {
-            return this._upload(file, cb);
-        }
-
-        const image = new Image();
-        image.onload = () => {
-            const width = image.width;
-            const height = image.height;
-            let error = '';
-
-            if (limit.width && limit.width != width || limit.height && limit.height != height) {
-                error = `您选择的图片不符合尺寸要求, 请上传${ImageControl.sizeInfo(limit.width, limit.height)}的图片`;
-            } else if (limit.maxWidth && limit.maxWidth < width || limit.maxHeight && limit.maxHeight < height) {
-                error = `您选择的图片不符合尺寸要求, 请上传不要超过${ImageControl.sizeInfo(limit.maxWidth, limit.maxHeight)}的图片`;
-            } else if (limit.minWidth && limit.minWidth > width || limit.minHeight && limit.minHeight > height) {
-                error = `您选择的图片不符合尺寸要求, 请上传不要小于${ImageControl.sizeInfo(limit.minWidth, limit.minHeight)}的图片`;
-            } else if (limit.aspectRatio && Math.abs((width / height) - limit.aspectRatio) > 0.01) {
-                error = `您选择的图片不符合尺寸要求, 请上传尺寸比率为 ${limit.aspectRatioLabel || limit.aspectRatio} 的图片`
-            }
-
-            if (error) {
-                file.state = 'invalid';
-                cb(error, file);
-            } else {
-                this._upload(file, cb);
-            }
-        };
-        image.src = (file.preview || file.url) as string;
+  tick() {
+    const {multiple, autoFill, onBulkChange} = this.props;
+    if (this.current || !this.state.uploading) {
+      return;
     }
 
-    _upload(file:Blob, cb:(error:null|string, file:Blob, obj?: FileValue) => void) {
-        let compressOptions = this.state.compressOptions;
+    const env = this.props.env;
+    const __ = this.props.translate;
+    const file = find(this.files, item => item.state === 'pending') as FileX;
+    if (file) {
+      this.current = file;
 
-        if (this.props.showCompressOptions) {
-            compressOptions = {
-                maxWidth: 800,
-                maxHeight: 600,
-                ...compressOptions
-            };
-        }
+      file.state = 'uploading';
+      this.setState(
+        {
+          files: (this.files = this.files.concat())
+        },
+        () =>
+          this.sendFile(
+            file as FileX,
+            (error, file, obj) => {
+              const files = this.files.concat();
+              const idx = files.indexOf(file);
 
-        this._send(file, this.props.reciever as string, {compress: this.state.compress, compressOptions})
-        .then((ret: Payload) => {
-            if (ret.status) {
-                throw new Error(ret.msg || '上传失败, 请重试');
-            }
-
-            const obj:FileValue = {
-                ...ret.data,
-                state: 'uploaded'
-            };
-            obj.value = obj.value || obj.url;
-
-            cb(null, file, obj);
-        })
-        .catch(error => cb(error.message || '上传失败，请重试', file))
-    }
-
-    _send(file:Blob, reciever:string, params:object):Promise<Payload> {
-        const fd = new FormData();
-        const data = this.props.data;
-        reciever = filter(reciever, data);
-        fd.append('file', file, (file as File).name);
-
-        const idx = reciever.indexOf('?');
-
-        if (~idx && params) {
-            params = {
-                ...qs.parse(reciever.substring(idx + 1)),
-                ...params
-            };
-            reciever = reciever.substring(0, idx) + '?' + qs.stringify(params);
-        } else if (params) {
-            reciever += '?' + qs.stringify(params);
-        }
-
-        // params && Object.keys(params).forEach(key => {
-        //     const value = (params as any)[key];
-        //     fd.append(key, value);
-        // });
-
-        const env = this.props.env;
-
-        if (!env || !env.fetcher) {
-            throw new Error('fetcher is required');
-        }
-
-        return env.fetcher(reciever, fd, {
-            method: 'post'
-        });
-    }
-
-    handleClick() {
-        (this.refs.dropzone as any).open();
-    }
-
-    handleImageLoaded(index:number, e:React.UIEvent<any>) {
-        const imgDom = e.currentTarget;
-        const img = new Image();
-        img.onload = () => {
-            delete img.onload;
-            const files = this.state.files.concat();
-            const file = files[index];
-
-            if (!file) {
+              if (!~idx) {
                 return;
+              }
+
+              let newFile: FileX | FileValue = file;
+
+              if (error) {
+                newFile.state =
+                  file.state !== 'uploading' ? file.state : 'error';
+                newFile.error = error;
+
+                if (!this.props.multiple && newFile.state === 'invalid') {
+                  files.splice(idx, 1);
+                  this.current = null;
+
+                  return this.setState(
+                    {
+                      files: (this.files = files),
+                      error: error
+                    },
+                    this.tick
+                  );
+                }
+
+                env.notify('error', error || __('File.errorRetry'));
+              } else {
+                newFile = {
+                  name: file.name,
+                  ...obj,
+                  preview: file.preview
+                } as FileValue;
+              }
+              files.splice(idx, 1, newFile);
+              this.current = null;
+              this.setState(
+                {
+                  files: (this.files = files)
+                },
+                () => {
+                  // todo 这个逻辑应该移到 onChange 里面去，因为这个时候并不一定修改了表单项的值。
+                  const sendTo =
+                    !multiple &&
+                    autoFill &&
+                    !isEmpty(autoFill) &&
+                    dataMapping(autoFill, newFile || {});
+                  sendTo && onBulkChange(sendTo);
+
+                  this.tick();
+                }
+              );
+            },
+            progress => {
+              const files = this.files.concat();
+              const idx = files.indexOf(file);
+
+              if (!~idx) {
+                return;
+              }
+
+              // file 是个非 File 对象，先不copy了直接改。
+              file.progress = progress;
+              this.setState({
+                files: (this.files = files)
+              });
             }
+          )
+      );
+    } else {
+      this.setState(
+        {
+          uploading: false,
+          locked: false
+        },
+        () => {
+          this.onChange(!!this.resolve);
 
-            file.info = {
-                ...file.info,
-                width: img.width,
-                height: img.height
-            };
+          if (this.resolve) {
+            this.resolve(
+              this.files.some(file => file.state === 'error')
+                ? __('File.errorRetry')
+                : null
+            );
+            this.resolve = undefined;
+          }
+        }
+      );
+    }
+  }
 
-            files.splice(index, 1, file);
+  removeFile(file: FileValue, index: number) {
+    const files = this.files.concat();
 
-            this.setState({
-                files: files
-            }, file.state == 'uploaded' || file.state == 'init' ? this.onChange : undefined);
+    files.splice(index, 1);
+
+    this.setState(
+      {
+        files: (this.files = files)
+      },
+      this.onChange
+    );
+  }
+
+  previewImage(file: FileX, index: number, e: React.MouseEvent<any>) {
+    const {onImageEnlarge} = this.props;
+
+    if (onImageEnlarge) {
+      const files = this.files;
+      e.preventDefault();
+
+      onImageEnlarge({
+        src: (file.preview || file.url) as string,
+        originalSrc: (file.preview || file.url) as string,
+        index,
+        list: files.map(file => ({
+          src: (file.preview || file.url) as string,
+          originalSrc: (file.preview || file.url) as string,
+          title: file.name || getNameFromUrl(file.value || file.url)
+        }))
+      });
+    }
+  }
+
+  editImage(index: number) {
+    const files = this.files;
+
+    this.setState({
+      cropFile: {
+        preview: files[index].preview || (files[index].url as string),
+        state: 'init'
+      }
+    });
+  }
+
+  onChange(changeImmediately?: boolean) {
+    const {
+      multiple,
+      onChange,
+      joinValues,
+      extractValue,
+      delimiter,
+      valueField
+    } = this.props;
+
+    const files = this.files.filter(
+      file => file.state == 'uploaded' || file.state == 'init'
+    );
+
+    let newValue: any = files.length
+      ? joinValues
+        ? files[0].value
+        : files[0]
+      : '';
+
+    if (multiple) {
+      newValue = joinValues
+        ? files.map(item => item.value).join(delimiter)
+        : extractValue
+        ? files.map(item => item.value)
+        : files;
+    } else {
+      newValue = joinValues
+        ? newValue.value || newValue
+        : extractValue
+        ? newValue[valueField || 'value']
+        : newValue;
+    }
+
+    onChange((this.emitValue = newValue || ''), undefined, changeImmediately);
+  }
+
+  handleSelect() {
+    this.dropzone.current && this.dropzone.current.open();
+  }
+
+  handleRetry(index: number) {
+    const files = this.files.concat();
+    const file = files[index];
+
+    if (file.state !== 'invalid' && file.state !== 'error') {
+      return;
+    }
+
+    file.state = 'pending';
+    file.progress = 0;
+
+    this.setState(
+      {
+        files: files
+      },
+      this.startUpload
+    );
+  }
+
+  handleDrop(files: Array<FileX>) {
+    const {multiple, crop} = this.props;
+
+    if (crop && !multiple) {
+      const file = files[0] as FileValue;
+      if (!file.preview || !file.url) {
+        file.preview = window.URL.createObjectURL(file);
+      }
+
+      return this.setState({
+        cropFile: file
+      });
+    }
+
+    this.addFiles(files);
+  }
+
+  handlePaste(e: React.ClipboardEvent<any>) {
+    const event = e.nativeEvent as any;
+    const files: Array<FileX> = [];
+    const items = event.clipboardData.items;
+    const accept = this.props.accept || '*';
+
+    [].slice.call(items).forEach((item: DataTransferItem) => {
+      let blob: FileX;
+
+      if (
+        item.kind !== 'file' ||
+        !(blob = item.getAsFile() as File) ||
+        !accepts(blob, accept)
+      ) {
+        return;
+      }
+
+      blob.id = guid();
+      files.push(blob);
+    });
+
+    this.handleDrop(files);
+  }
+
+  handleCrop() {
+    this.cropper.current!.getCroppedCanvas().toBlob((file: File) => {
+      this.addFiles([file]);
+      this.setState({
+        cropFile: undefined,
+        locked: false,
+        lockedReason: ''
+      });
+    });
+  }
+
+  cancelCrop() {
+    this.setState(
+      {
+        cropFile: undefined,
+        locked: false,
+        lockedReason: ''
+      },
+      this.onChange
+    );
+  }
+
+  addFiles(files: Array<FileX>) {
+    if (!files.length) {
+      return;
+    }
+
+    const {multiple, maxLength, maxSize, accept, translate: __} = this.props;
+    let currentFiles = this.files;
+
+    if (!multiple && currentFiles.length) {
+      currentFiles = [];
+    }
+
+    const allowed =
+      (multiple
+        ? maxLength
+          ? maxLength
+          : files.length + currentFiles.length
+        : 1) - currentFiles.length;
+    const inputFiles: Array<FileX> = [];
+
+    [].slice.call(files, 0, allowed).forEach((file: FileX) => {
+      if (maxSize && file.size > maxSize) {
+        this.props.env.alert(
+          __('File.maxSize', {
+            filename: file.name,
+            actualSize: ImageControl.formatFileSize(file.size),
+            maxSize: ImageControl.formatFileSize(maxSize)
+          })
+        );
+        return;
+      }
+
+      file.state = 'pending';
+      file.id = guid();
+      if (!file.preview || !file.url) {
+        file.preview = URL.createObjectURL(file);
+      }
+      inputFiles.push(file);
+    });
+
+    if (!inputFiles.length) {
+      return;
+    }
+
+    this.setState(
+      {
+        error: undefined,
+        files: (this.files = currentFiles.concat(inputFiles)),
+        locked: true
+      },
+      () => {
+        const {autoUpload} = this.props;
+
+        if (autoUpload) {
+          this.startUpload();
+        }
+      }
+    );
+  }
+
+  sendFile(
+    file: FileX,
+    cb: (error: null | string, file: FileX, obj?: FileValue) => void,
+    onProgress: (progress: number) => void
+  ) {
+    const {limit, translate: __} = this.props;
+
+    if (!limit) {
+      return this._upload(file, cb, onProgress);
+    }
+
+    const image = new Image();
+    image.onload = () => {
+      const width = image.width;
+      const height = image.height;
+      let error = '';
+
+      if (
+        (limit.width && limit.width != width) ||
+        (limit.height && limit.height != height)
+      ) {
+        error = __('Image.sizeNotEqual', {
+          info: ImageControl.sizeInfo(limit.width, limit.height, __)
+        });
+      } else if (
+        (limit.maxWidth && limit.maxWidth < width) ||
+        (limit.maxHeight && limit.maxHeight < height)
+      ) {
+        error = __('Image.limitMax', {
+          info: ImageControl.sizeInfo(limit.maxWidth, limit.maxHeight, __)
+        });
+      } else if (
+        (limit.minWidth && limit.minWidth > width) ||
+        (limit.minHeight && limit.minHeight > height)
+      ) {
+        error = __('Image.limitMin', {
+          info: ImageControl.sizeInfo(limit.minWidth, limit.minHeight, __)
+        });
+      } else if (
+        limit.aspectRatio &&
+        Math.abs(width / height - limit.aspectRatio) > 0.01
+      ) {
+        error = __(limit.aspectRatioLabel || 'Image.limitRatio', {
+          ratio: limit.aspectRatio
+        });
+      }
+
+      if (error) {
+        file.state = 'invalid';
+        cb(error, file);
+      } else {
+        this._upload(file, cb, onProgress);
+      }
+    };
+    image.src = (file.preview || file.url) as string;
+  }
+
+  _upload(
+    file: Blob,
+    cb: (error: null | string, file: Blob, obj?: FileValue) => void,
+    onProgress: (progress: number) => void
+  ) {
+    const __ = this.props.translate;
+    this._send(file, this.props.receiver as string, {}, onProgress)
+      .then((ret: Payload) => {
+        if (ret.status) {
+          throw new Error(ret.msg || __('File.errorRetry'));
+        }
+
+        const obj: FileValue = {
+          ...ret.data,
+          state: 'uploaded'
         };
-        img.src = imgDom.src;
+        obj.value = obj.value || obj.url;
+
+        cb(null, file, obj);
+      })
+      .catch(error => cb(error.message || __('File.errorRetry'), file));
+  }
+
+  _send(
+    file: Blob,
+    receiver: string,
+    params: object,
+    onProgress: (progress: number) => void
+  ): Promise<Payload> {
+    const fd = new FormData();
+    const data = this.props.data;
+    const api = buildApi(receiver, createObject(data, params), {
+      method: 'post'
+    });
+    const fileField = this.props.fileField || 'file';
+
+    const idx = api.url.indexOf('?');
+
+    if (~idx && params) {
+      params = {
+        ...qs.parse(api.url.substring(idx + 1)),
+        ...params
+      };
+      api.url = api.url.substring(0, idx) + '?' + qsstringify(params);
+    } else if (params) {
+      api.url += '?' + qsstringify(params);
     }
 
-    validate():any {
-        if (this.state.locked && this.state.lockedReason) {
-            return this.state.lockedReason;
-        } else if (this.state.uploading || this.state.files.some(item => item.state === 'pending')) {
-            return new Promise((resolve) => {
-                this.resolve = resolve;
-                this.startUpload();
-            });
-        } else if (this.state.files.some(item => item.state === 'error')) {
-            return '文件上传失败请重试';
-        }
+    if (api.data) {
+      qsstringify(api.data)
+        .split('&')
+        .forEach(item => {
+          let parts = item.split('=');
+          fd.append(parts[0], decodeURIComponent(parts[1]));
+        });
     }
 
-    renderCompressOptions() {
-        const showCompressOptions = this.props.showCompressOptions;
-        const cx = this.props.classnames;
-        const classPrefix = this.props.classPrefix;
+    // Note: File类型字段放在后面，可以支持第三方云存储鉴权
+    fd.append(fileField, file, (file as File).name);
 
-        if (!showCompressOptions) {
-            return;
-        }
+    const env = this.props.env;
 
-        return (
-            <div key="options" className="m-t">
+    if (!env || !env.fetcher) {
+      throw new Error('fetcher is required');
+    }
 
-            <Switch
-                classPrefix={classPrefix} 
-                checked={!!this.state.compress}
-                onChange={checked => this.setState({compress: checked})}
-                disabled={this.props.disabled}
-            />
+    return env.fetcher(api, fd, {
+      method: 'post',
+      onUploadProgress: (event: {loaded: number; total: number}) =>
+        onProgress(event.loaded / event.total)
+    });
+  }
 
-            <span className="m-l-xs">开启缩放?</span>
+  handleClick() {
+    (this.refs.dropzone as any).open();
+  }
 
-            {this.state.compress && (
-                <div className="inline">
-                    <input
-                        className="form-control w-xs inline m-l-xs m-r-xs"
-                        type="text"
-                        value={typeof this.state.compressOptions.maxWidth === 'undefined' ? 800 : this.state.compressOptions.maxWidth}
-                        onChange={e => this.setState({compressOptions: {
-                            ...this.state.compressOptions,
-                            maxWidth: parseInt(e.currentTarget.value, 10) || 0
-                        }})}
-                        disabled={this.props.disabled}
-                    />
+  handleImageLoaded(index: number, e: React.UIEvent<any>) {
+    const imgDom = e.currentTarget;
+    const img = new Image();
+    img.onload = () => {
+      delete (img as any).onload;
+      const files = this.files.concat();
+      const file = files[index];
 
-                    <span className=" m-l-xs m-r-xs">X</span>
+      if (!file) {
+        return;
+      }
 
-                    <input
-                        className="form-control w-xs inline  m-l-xs m-r-xs"
-                        type="text"
-                        value={typeof this.state.compressOptions.maxHeight  === 'undefined' ? 600 : this.state.compressOptions.maxHeight}
-                        onChange={e => this.setState({compressOptions: {
-                            ...this.state.compressOptions,
-                            maxHeight: parseInt(e.currentTarget.value, 10) || 0
-                        }})}
-                        disabled={this.props.disabled}
-                    />
-                </div>
-            )}
-            </div>
+      file.info = {
+        ...file.info,
+        width: img.width,
+        height: img.height
+      };
+
+      files.splice(index, 1, file);
+      const needUploading = !!(
+        this.current || find(files, file => file.state === 'pending')
+      );
+
+      this.unmounted ||
+        this.setState(
+          {
+            files: (this.files = files)
+          },
+          !needUploading ? this.onChange : undefined
         );
+    };
+    img.src = imgDom.src;
+  }
+
+  validate(): any {
+    const __ = this.props.translate;
+
+    if (this.state.locked && this.state.lockedReason) {
+      return this.state.lockedReason;
+    } else if (this.state.cropFile) {
+      return new Promise(resolve => {
+        this.resolve = resolve;
+        this.handleCrop();
+      });
+    } else if (
+      this.state.uploading ||
+      this.files.some(item => item.state === 'pending')
+    ) {
+      return new Promise(resolve => {
+        this.resolve = resolve;
+        this.startUpload();
+      });
+    } else if (this.files.some(item => item.state === 'error')) {
+      return __('File.errorRetry');
     }
+  }
 
-    render() {
-        const {
-            className,
-            classPrefix: ns,
-            placeholder,
-            disabled,
-            multiple,
-            accept,
-            maxLength,
-            autoUpload,
-            btnUploadClassName,
-            btnClassName,
-            hideUploadButton
-        } = this.props;
+  render() {
+    const {
+      className,
+      classnames: cx,
+      placeholder,
+      disabled,
+      multiple,
+      accept,
+      maxLength,
+      autoUpload,
+      hideUploadButton,
+      thumbMode,
+      thumbRatio,
+      reCropable,
+      translate: __
+    } = this.props;
 
-        const {
-            files,
-            error,
-            crop,
-            uploading,
-            cropFile
-        } = this.state;
+    const {files, error, crop, uploading, cropFile} = this.state;
 
-        const hasPending = files.some(file => file.state == 'pending');
+    const hasPending = files.some(file => file.state == 'pending');
+    return (
+      <div className={cx(`ImageControl`, className)}>
+        {cropFile ? (
+          <div className={cx('ImageControl-cropperWrapper')}>
+            <Cropper {...crop} ref={this.cropper} src={cropFile.preview} />
+            <div className={cx('ImageControl-croperToolbar')}>
+              <a
+                className={cx('ImageControl-cropCancel')}
+                onClick={this.cancelCrop}
+                data-tooltip={__('cancle')}
+                data-position="left"
+              >
+                <Icon icon="close" className="icon" />
+              </a>
+              <a
+                className={cx('ImageControl-cropConfirm')}
+                onClick={this.handleCrop}
+                data-tooltip={__('confirm')}
+                data-position="left"
+              >
+                <Icon icon="check" className="icon" />
+              </a>
+            </div>
+          </div>
+        ) : (
+          <DropZone
+            key="drop-zone"
+            ref={this.dropzone}
+            onDrop={this.handleDrop}
+            onDropRejected={this.handleDropRejected}
+            accept={accept}
+            multiple={multiple}
+          >
+            {({
+              getRootProps,
+              getInputProps,
+              isDragActive,
+              isDragAccept,
+              isDragReject,
+              isFocused
+            }) => (
+              <div
+                {...getRootProps({
+                  onClick: preventEvent,
+                  onPaste: this.handlePaste,
+                  className: cx('ImageControl-dropzone', {
+                    disabled,
+                    'is-empty': !files.length,
+                    'is-active': isDragActive
+                  })
+                })}
+              >
+                <input {...getInputProps()} />
 
-        return (
-            <div
-                className={cx(`${ns}ImageControl`, className)}
-                tabIndex={-1}
-                onPaste={this.handlePaste}
-            >
-                {cropFile ? (
-                    <div className="cropper-wrapper">
-                        <Cropper
-                            {...crop}
-                            ref="cropper"
-                            src={cropFile.preview}
-                        />
-                        <button
-                            type="button"
-                            className="btn-sm btn btn-link"
-                            onClick={this.handleCrop}
-                        >
-                            <i className="fa fa-2x fa-check text-warning" />
-                        </button>
-                        <button
-                            type="button"
-                            className="btn-sm btn btn-link"
-                            onClick={this.cancelCrop}
-                            >
-                            <i className="fa fa-2x fa-times text-white" />
-                        </button>
-                    </div>
+                {isDragActive || isDragAccept || isDragReject ? (
+                  <div
+                    className={cx('ImageControl-acceptTip', {
+                      'is-accept': isDragAccept,
+                      'is-reject': isDragReject
+                    })}
+                  >
+                    {__('Image.dragDrop')}
+                  </div>
                 ) : (
-                    <DropZone
-                        key="drop-zone"
-                        className={cx('drop-zone', {
-                            disabled,
-                            'has-files': !!files.length
-                        })}
-                        activeClassName="drop-zone-active"
-                        ref="dropzone"
-                        onDrop={this.handleDrop}
-                        onDropRejected={this.handleDropRejected}
-                        disableClick
-                        accept={accept}
-                        multiple={multiple}
-                        >
-                            {files && files.length ? (
-                                <div className={cx("image-list clearfix", {
-                                    'image-list-multiple': multiple
-                                })}>
-                                {files.map((file, key) => (
-                                    <div
-                                        key={key}
-                                        className={cx('image-item pull-left', {
-                                            uploaded: file.state !== 'uploading',
-                                            invalid: file.state === 'error' || file.state == 'invalid'
-                                        })}
-                                    >
-                                        <div className="img-wrapper"><img onLoad={this.handleImageLoaded.bind(this, key)} src={file.url || file.preview} alt={file.name} className="img-rounded" /></div>
-                                        {file.info ? [
-                                            <p key="1">{file.info.width} x {file.info.height}</p>,
-                                            file.info.len ? (<p key="2">{ImageControl.formatFileSize(file.info.len)}</p>) : null
-                                        ] : (<p>...</p>)}
+                  <>
+                    {files && files.length
+                      ? files.map((file, key) => (
+                          <div
+                            key={file.id || key}
+                            className={cx('ImageControl-item', {
+                              'is-uploaded': file.state !== 'uploading',
+                              'is-invalid':
+                                file.state === 'error' ||
+                                file.state === 'invalid'
+                            })}
+                          >
+                            {file.state === 'invalid' ||
+                            file.state === 'error' ? (
+                              <>
+                                <a
+                                  className={cx('ImageControl-itemClear')}
+                                  data-tooltip={__('Select.clear')}
+                                  data-position="bottom"
+                                  onClick={this.removeFile.bind(
+                                    this,
+                                    file,
+                                    key
+                                  )}
+                                >
+                                  <Icon icon="close" className="icon" />
+                                </a>
 
-                                        {file.error ? (<p className="text-danger">{file.error}</p>) : null}
-
-                                        <div className="image-overlay">
-                                            {file.state === 'uploading' ? (<i className="fa fa-spinner fa-spin fa-2x fa-fw" />) : null}
-                                            {!disabled && file.state !== 'uploading' ? (<button onClick={this.removeFile.bind(this, file, key)} type="button" className={cx("close", {'crop-close' :!!crop})}><span>&times;</span></button>) : null}
-                                            {!!crop && !disabled && file.state !== 'uploading' ? (<button onClick={this.editImage.bind(this, key)} type="button" className="edit"><i className="fa fa-pencil"></i></button>) : null}
-                                            {!disabled && file.state !== 'uploading' ? (<a target="_blank" href={file.url || file.preview} className="view"><i className="fa fa-search"></i></a>) : null}
-                                        </div>
-                                    </div>
-                                ))}
-
-                                {multiple && (!maxLength || files.length < maxLength) || !multiple && !files.length ? (
-                                    <label className={cx("image-add-btn", {disabled})} onClick={this.handleSelect}>
-                                    <i className="fa fa-plus fa-3x" />
-                                    </label>
-                                ) : null}
+                                <a
+                                  className={cx('ImageControl-retryBtn', {
+                                    'is-disabled': disabled
+                                  })}
+                                  onClick={this.handleRetry.bind(this, key)}
+                                >
+                                  <Icon icon="retry" className="icon" />
+                                  <p className="ImageControl-itemInfoError">
+                                    {__('File.repick')}
+                                  </p>
+                                </a>
+                              </>
+                            ) : file.state === 'uploading' ? (
+                              <>
+                                <a
+                                  onClick={this.removeFile.bind(
+                                    this,
+                                    file,
+                                    key
+                                  )}
+                                  key="clear"
+                                  className={cx('ImageControl-itemClear')}
+                                  data-tooltip={__('Select.clear')}
+                                >
+                                  <Icon icon="close" className="icon" />
+                                </a>
+                                <div
+                                  key="info"
+                                  className={cx('ImageControl-itemInfo')}
+                                >
+                                  <p>{__('File.uploading')}</p>
+                                  <div className={cx('ImageControl-progress')}>
+                                    <span
+                                      style={{
+                                        width: `${Math.round(
+                                          file.progress * 100
+                                        )}%`
+                                      }}
+                                      className={cx(
+                                        'ImageControl-progressValue'
+                                      )}
+                                    />
+                                  </div>
                                 </div>
-                            ) : (<div className={error ? 'text-danger' : undefined}>{error || placeholder}
-                            <button type="button" className={cx('btn m-l-sm', btnClassName)} disabled={disabled} onClick={this.handleSelect}><i className="fa fa-cloud-upload" /> 选择文件</button>
-                        </div>)}
-                    </DropZone>
+                              </>
+                            ) : (
+                              <>
+                                <ImageComponent
+                                  key="image"
+                                  className={cx('ImageControl-image')}
+                                  onLoad={this.handleImageLoaded.bind(
+                                    this,
+                                    key
+                                  )}
+                                  src={file.preview || file.url}
+                                  alt={file.name}
+                                  thumbMode={thumbMode}
+                                  thumbRatio={thumbRatio}
+                                />
+
+                                <div
+                                  key="overlay"
+                                  className={cx('ImageControl-itemOverlay')}
+                                >
+                                  {file.info ? (
+                                    [
+                                      <div key="info">
+                                        {file.info.width} x {file.info.height}
+                                      </div>,
+                                      file.info.len ? (
+                                        <div key="size">
+                                          {ImageControl.formatFileSize(
+                                            file.info.len
+                                          )}
+                                        </div>
+                                      ) : null
+                                    ]
+                                  ) : (
+                                    <div>...</div>
+                                  )}
+
+                                  <a
+                                    data-tooltip={__('Image.zoomIn')}
+                                    data-position="bottom"
+                                    target="_blank"
+                                    rel="noopener"
+                                    href={file.url || file.preview}
+                                    onClick={this.previewImage.bind(
+                                      this,
+                                      file,
+                                      key
+                                    )}
+                                  >
+                                    <Icon icon="view" className="icon" />
+                                  </a>
+
+                                  {!!crop &&
+                                  reCropable !== false &&
+                                  !disabled ? (
+                                    <a
+                                      data-tooltip={__('Image.crop')}
+                                      data-position="bottom"
+                                      onClick={this.editImage.bind(this, key)}
+                                    >
+                                      <Icon icon="pencil" className="icon" />
+                                    </a>
+                                  ) : null}
+                                  {!disabled ? (
+                                    <a
+                                      data-tooltip={__('Select.clear')}
+                                      data-position="bottom"
+                                      onClick={this.removeFile.bind(
+                                        this,
+                                        file,
+                                        key
+                                      )}
+                                    >
+                                      <Icon icon="remove" className="icon" />
+                                    </a>
+                                  ) : null}
+                                  <a
+                                    data-tooltip={
+                                      file.name ||
+                                      getNameFromUrl(file.value || file.url)
+                                    }
+                                    data-position="bottom"
+                                    target="_blank"
+                                  >
+                                    <Icon icon="info" className="icon" />
+                                  </a>
+                                </div>
+                              </>
+                            )}
+                          </div>
+                        ))
+                      : null}
+
+                    {(multiple && (!maxLength || files.length < maxLength)) ||
+                    (!multiple && !files.length) ? (
+                      <label
+                        className={cx('ImageControl-addBtn', {
+                          'is-disabled': disabled
+                        })}
+                        onClick={this.handleSelect}
+                        data-tooltip={__(placeholder)}
+                        data-position="right"
+                      >
+                        <Icon icon="plus" className="icon" />
+
+                        {isFocused ? (
+                          <span className={cx('ImageControl-pasteTip')}>
+                            {__('Image.pasteTip')}
+                          </span>
+                        ) : null}
+                      </label>
+                    ) : null}
+
+                    {!autoUpload && !hideUploadButton && files.length ? (
+                      <Button
+                        level="default"
+                        className={cx('ImageControl-uploadBtn')}
+                        disabled={!hasPending}
+                        onClick={this.toggleUpload}
+                      >
+                        {__(uploading ? 'File.pause' : 'File.start')}
+                      </Button>
+                    ) : null}
+
+                    {error ? (
+                      <div className={cx('ImageControl-errorMsg')}>{error}</div>
+                    ) : null}
+                  </>
                 )}
-
-                {this.renderCompressOptions()}
-
-                {!autoUpload && !hideUploadButton && files.length ? (
-                    <button className={cx('btn m-r-xs', btnUploadClassName)} disabled={!hasPending} onClick={this.toggleUpload}>
-                        {uploading ? '暂停上传' : '开始上传'}
-                    </button>
-                ) : null}
-            </div>
-        );
-    }
+              </div>
+            )}
+          </DropZone>
+        )}
+      </div>
+    );
+  }
 }
-
 
 @FormItem({
-    type: 'image',
-    sizeMutable: false
+  type: 'image',
+  sizeMutable: false
 })
-export class ImageControlRenderer extends ImageControl {};
-
+export class ImageControlRenderer extends ImageControl {}

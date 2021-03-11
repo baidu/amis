@@ -1,339 +1,678 @@
 export default {
-    $schema: "http://amis.baidu.com/v2/schemas/page.json#",
-    title: "Combo 示例",
-    body: [
+  $schema: 'https://houtai.baidu.com/v2/schemas/page.json#',
+  title: 'Combo 示例',
+  body: [
+    {
+      type: 'tabs',
+      tabs: [
         {
-            type: "form",
-            api: "/api/mock2/saveForm?waitSeconds=2",
-            title: "",
-            mode: "horizontal",
-            // debug: true,
-            controls: [
+          title: '基本用法',
+          hash: 'basic',
+          body: [
+            {
+              type: 'form',
+              api: '/api/mock2/saveForm?waitSeconds=2',
+              title: '',
+              mode: 'horizontal',
+              wrapWithPanel: false,
+              className: 'm-t',
+              // debug: true,
+              controls: [
                 {
-                    type: 'text',
-                    label: '文本',
-                    name: 'a'
+                  type: 'text',
+                  label: '文本',
+                  name: 'a'
                 },
                 {
-                    type: 'divider'
+                  type: 'divider'
                 },
                 {
-                    type: "combo",
-                    name: "combo1",
-                    label: "组合多条多行",
-                    multiple: true,
-                    multiLine: true,
-                    value: [{}],
-                    controls: [
-                        {
-                            name: "a",
-                            label: "文本",
-                            type: "text",
-                            placeholder: "文本",
-                            value: '',
-                            size: 'full'
-                        },
-                        {
-                            name: "b",
-                            label: "选项",
-                            type: "select",
-                            options: ["a", "b", "c"],
-                            size: 'full'
-                        }
-                    ]
-                },
-
-                {
-                    type: "button",
-                    label: "独立排序",
-                    level: "dark",
-                    className: "m-t-n-xs",
-                    size: "sm",
-                    actionType: "dialog",
-                    visibleOn: "data.combo1.length > 1",
-                    dialog: {
-                        title: "对 Combo 进行 拖拽排序",
-                        body: {
-                            type: "form",
-                            controls: [
-                                {
-                                    type: "combo",
-                                    name: "combo1",
-                                    label: false,
-                                    multiple: true,
-                                    draggable: true,
-                                    addable: false,
-                                    removable: false,
-                                    value: [{}],
-                                    controls: [
-                                        {
-                                            name: "a",
-                                            type: "static",
-                                            tpl: "${a} - ${b}"
-                                        }
-                                    ]
-                                }
-                            ]
-                        },
-                        actions: [
-                            {
-                                type: "submit",
-                                mergeData: true,
-                                label: "确认",
-                                level: "primary"
-                            },
-
-                            {
-                                type: "button",
-                                actionType: "close",
-                                label: "取消"
-                            }
-                        ]
+                  type: 'combo',
+                  name: 'combo1',
+                  label: '组合多条多行',
+                  multiple: true,
+                  multiLine: true,
+                  value: [{}],
+                  controls: [
+                    {
+                      name: 'a',
+                      label: '文本',
+                      type: 'text',
+                      placeholder: '文本',
+                      value: '',
+                      size: 'full'
+                    },
+                    {
+                      name: 'b',
+                      label: '选项',
+                      type: 'select',
+                      options: ['a', 'b', 'c'],
+                      size: 'full'
                     }
+                  ]
                 },
 
                 {
-                    type: "combo",
-                    name: "combo2",
-                    label: "组合多条单行",
-                    multiple: true,
-                    value: [{}],
-                    controls: [
+                  type: 'button',
+                  label: '独立排序',
+                  level: 'dark',
+                  className: 'm-t-n-xs',
+                  size: 'sm',
+                  actionType: 'dialog',
+                  visibleOn: 'data.combo1.length > 1',
+                  dialog: {
+                    title: '对 Combo 进行 拖拽排序',
+                    body: {
+                      type: 'form',
+                      controls: [
                         {
-                            name: "a",
-                            type: "text",
-                            placeholder: "文本",
-                            value: ''
+                          type: 'combo',
+                          name: 'combo1',
+                          label: false,
+                          multiple: true,
+                          draggable: true,
+                          addable: false,
+                          removable: false,
+                          value: [{}],
+                          controls: [
+                            {
+                              name: 'a',
+                              type: 'static',
+                              tpl: '${a} - ${b}'
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    actions: [
+                      {
+                        type: 'submit',
+                        mergeData: true,
+                        label: '确认',
+                        level: 'primary'
+                      },
+
+                      {
+                        type: 'button',
+                        actionType: 'close',
+                        label: '取消'
+                      }
+                    ]
+                  }
+                },
+
+                {
+                  type: 'combo',
+                  name: 'combo2',
+                  label: '组合多条单行',
+                  multiple: true,
+                  value: [{}],
+                  controls: [
+                    {
+                      name: 'a',
+                      type: 'text',
+                      placeholder: '文本',
+                      value: '',
+                      columnClassName: 'w-sm'
+                    },
+                    {
+                      name: 'b',
+                      type: 'select',
+                      options: ['a', 'b', 'c']
+                    }
+                  ]
+                },
+                {
+                  type: 'divider'
+                },
+                {
+                  type: 'combo',
+                  name: 'combo3',
+                  label: '组合单条多行',
+                  multiLine: true,
+                  controls: [
+                    {
+                      name: 'a',
+                      label: '文本',
+                      type: 'text',
+                      placeholder: '文本',
+                      value: '',
+                      size: 'full'
+                    },
+                    {
+                      name: 'b',
+                      label: '选项',
+                      type: 'select',
+                      options: ['a', 'b', 'c']
+                    }
+                  ]
+                },
+
+                {
+                  type: 'combo',
+                  name: 'combo4',
+                  label: '组合单条单行',
+                  controls: [
+                    {
+                      name: 'a',
+                      type: 'text',
+                      placeholder: '文本',
+                      value: '',
+                      size: 'full'
+                    },
+                    {
+                      name: 'b',
+                      type: 'select',
+                      options: ['a', 'b', 'c']
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+
+        {
+          title: '内联样式',
+          hash: 'inline',
+          body: [
+            {
+              type: 'form',
+              api: '/api/mock2/saveForm?waitSeconds=2',
+              title: '',
+              mode: 'horizontal',
+              wrapWithPanel: false,
+              className: 'm-t',
+              controls: [
+                {
+                  type: 'combo',
+                  name: 'combo11',
+                  label: '组合多条多行内联',
+                  multiple: true,
+                  multiLine: true,
+                  inline: true,
+                  value: [{}],
+                  controls: [
+                    {
+                      name: 'a',
+                      label: '文本',
+                      type: 'text',
+                      placeholder: '文本',
+                      value: ''
+                    },
+                    {
+                      name: 'b',
+                      label: '选项',
+                      type: 'select',
+                      options: ['a', 'b', 'c']
+                    }
+                  ]
+                },
+
+                {
+                  type: 'combo',
+                  name: 'combo22',
+                  label: '组合多条单行内联',
+                  multiple: true,
+                  inline: true,
+                  value: [{}],
+                  controls: [
+                    {
+                      name: 'a',
+                      type: 'text',
+                      placeholder: '文本',
+                      value: ''
+                    },
+                    {
+                      name: 'b',
+                      type: 'select',
+                      options: ['a', 'b', 'c']
+                    }
+                  ]
+                },
+                {
+                  type: 'divider'
+                },
+                {
+                  type: 'combo',
+                  name: 'combo33',
+                  label: '组合单条多行内联',
+                  multiLine: true,
+                  inline: true,
+                  controls: [
+                    {
+                      name: 'a',
+                      label: '文本',
+                      type: 'text',
+                      placeholder: '文本',
+                      value: ''
+                    },
+                    {
+                      name: 'b',
+                      label: '选项',
+                      type: 'select',
+                      options: ['a', 'b', 'c']
+                    }
+                  ]
+                },
+
+                {
+                  type: 'combo',
+                  name: 'combo44',
+                  label: '组合单条单行内联',
+                  inline: true,
+                  controls: [
+                    {
+                      name: 'a',
+                      type: 'text',
+                      placeholder: '文本',
+                      value: ''
+                    },
+                    {
+                      name: 'b',
+                      type: 'select',
+                      options: ['a', 'b', 'c']
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+
+        {
+          title: '唯一验证',
+          hash: 'unique',
+          body: [
+            {
+              type: 'form',
+              api: '/api/mock2/saveForm?waitSeconds=2',
+              title: '',
+              mode: 'horizontal',
+              wrapWithPanel: false,
+              className: 'm-t',
+              // debug: true,
+              controls: [
+                {
+                  type: 'combo',
+                  name: 'combo666',
+                  label: '组合多条唯一',
+                  multiple: true,
+                  value: [{}],
+                  controls: [
+                    {
+                      name: 'a',
+                      type: 'text',
+                      placeholder: '文本',
+                      value: '',
+                      unique: true
+                    },
+                    {
+                      name: 'b',
+                      type: 'select',
+                      options: ['a', 'b', 'c'],
+                      unique: true
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+
+        {
+          title: '可拖拽排序',
+          hash: 'sortable',
+          body: [
+            {
+              type: 'form',
+              api: '/api/mock2/saveForm?waitSeconds=2',
+              title: '',
+              mode: 'horizontal',
+              wrapWithPanel: false,
+              className: 'm-t',
+              // debug: true,
+              controls: [
+                {
+                  type: 'combo',
+                  name: 'combo777',
+                  label: '可拖拽排序',
+                  multiple: true,
+                  value: [
+                    {a: '1', b: 'a'},
+                    {a: '2', b: 'b'}
+                  ],
+                  draggable: true,
+                  controls: [
+                    {
+                      name: 'a',
+                      type: 'text',
+                      placeholder: '文本',
+                      unique: true
+                    },
+                    {
+                      name: 'b',
+                      type: 'select',
+                      options: ['a', 'b', 'c'],
+                      unique: true
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+
+        {
+          title: '值打平',
+          hash: 'flat',
+          body: [
+            {
+              type: 'form',
+              api: '/api/mock2/saveForm?waitSeconds=2',
+              title: '',
+              mode: 'horizontal',
+              wrapWithPanel: false,
+              className: 'm-t',
+              // debug: true,
+              controls: [
+                {
+                  type: 'combo',
+                  name: 'combo888',
+                  label: '可打平只存储值',
+                  multiple: true,
+                  flat: true,
+                  value: ['red', 'pink'],
+                  draggable: true,
+                  controls: [
+                    {
+                      name: 'a',
+                      type: 'color',
+                      placeholder: '选取颜色'
+                    }
+                  ]
+                },
+                {
+                  type: 'static',
+                  name: 'combo888',
+                  label: '当前值',
+                  tpl: '<pre>${combo888|json}</pre>'
+                }
+              ]
+            }
+          ]
+        },
+
+        {
+          title: '条件',
+          hash: 'conditions',
+          body: [
+            {
+              type: 'form',
+              api: '/api/mock2/saveForm?waitSeconds=2',
+              title: '',
+              mode: 'horizontal',
+              wrapWithPanel: false,
+              className: 'm-t',
+              // debug: true,
+              controls: [
+                {
+                  type: 'tpl',
+                  tpl:
+                    '<p class="m-b-xl">添加时可选择类型，比如这个例子，可以选择是文本类型还是数字类型</p>'
+                },
+                {
+                  type: 'combo',
+                  name: 'combo-conditions1',
+                  label: '单选',
+                  value: {
+                    type: 'number'
+                  },
+                  multiLine: true,
+                  conditions: [
+                    {
+                      label: '文本',
+                      test: 'this.type === "text"',
+                      scaffold: {
+                        type: 'text',
+                        label: '文本',
+                        name: ''
+                      },
+                      controls: [
+                        {
+                          label: '名称',
+                          name: 'label',
+                          type: 'text'
                         },
                         {
-                            name: "b",
-                            type: "select",
-                            options: ["a", "b", "c"]
+                          label: '字段名',
+                          name: 'name',
+                          type: 'text'
                         }
-                    ]
-                },
-                {
-                    type: 'divider'
-                },
-                {
-                    type: "combo",
-                    name: "combo3",
-                    label: "组合单条多行",
-                    multiLine: true,
-                    controls: [
+                      ]
+                    },
+
+                    {
+                      label: '数字',
+                      test: 'this.type === "number"',
+                      scaffold: {
+                        type: 'number',
+                        label: '数字',
+                        name: ''
+                      },
+                      controls: [
                         {
-                            name: "a",
-                            label: "文本",
-                            type: "text",
-                            placeholder: "文本",
-                            value: '',
-                            size: 'full'
+                          label: '名称',
+                          name: 'label',
+                          type: 'text'
                         },
                         {
-                            name: "b",
-                            label: "选项",
-                            type: "select",
-                            options: ["a", "b", "c"]
-                        }
-                    ]
-                },
-
-                {
-                    type: "combo",
-                    name: "combo4",
-                    label: "组合单条单行",
-                    controls: [
-                        {
-                            name: "a",
-                            type: "text",
-                            placeholder: "文本",
-                            value: '',
-                            size: 'full'
+                          label: '字段名',
+                          name: 'name',
+                          type: 'text'
                         },
                         {
-                            name: "b",
-                            type: "select",
-                            options: ["a", "b", "c"]
-                        }
-                    ]
-                },
-
-                {
-                    type: 'divider'
-                },
-                {
-                    type: "combo",
-                    name: "combo11",
-                    label: "组合多条多行内联",
-                    multiple: true,
-                    multiLine: true,
-                    inline: true,
-                    value: [{}],
-                    controls: [
-                        {
-                            name: "a",
-                            label: "文本",
-                            type: "text",
-                            placeholder: "文本",
-                            value: ''
+                          label: '最小值',
+                          name: 'min',
+                          type: 'number'
                         },
                         {
-                            name: "b",
-                            label: "选项",
-                            type: "select",
-                            options: ["a", "b", "c"]
-                        }
-                    ]
-                },
-
-                {
-                    type: "combo",
-                    name: "combo22",
-                    label: "组合多条单行内联",
-                    multiple: true,
-                    inline: true,
-                    value: [{}],
-                    controls: [
-                        {
-                            name: "a",
-                            type: "text",
-                            placeholder: "文本",
-                            value: ''
+                          label: '最大值',
+                          name: 'max',
+                          type: 'number'
                         },
                         {
-                            name: "b",
-                            type: "select",
-                            options: ["a", "b", "c"]
+                          label: '步长',
+                          name: 'step',
+                          type: 'number'
                         }
-                    ]
+                      ]
+                    }
+                  ]
                 },
+
                 {
-                    type: 'divider'
-                },
-                {
-                    type: "combo",
-                    name: "combo33",
-                    label: "组合单条多行内联",
-                    multiLine: true,
-                    inline: true,
-                    controls: [
+                  type: 'combo',
+                  name: 'combo-conditions2',
+                  label: '多选',
+                  value: [
+                    {
+                      type: 'text'
+                    }
+                  ],
+                  multiLine: true,
+                  multiple: true,
+                  typeSwitchable: false,
+                  conditions: [
+                    {
+                      label: '文本',
+                      test: 'this.type === "text"',
+                      scaffold: {
+                        type: 'text',
+                        label: '文本',
+                        name: ''
+                      },
+                      controls: [
                         {
-                            name: "a",
-                            label: "文本",
-                            type: "text",
-                            placeholder: "文本",
-                            value: ''
+                          label: '名称',
+                          name: 'label',
+                          type: 'text'
                         },
                         {
-                            name: "b",
-                            label: "选项",
-                            type: "select",
-                            options: ["a", "b", "c"]
+                          label: '字段名',
+                          name: 'name',
+                          type: 'text'
                         }
-                    ]
-                },
+                      ]
+                    },
 
-                {
-                    type: "combo",
-                    name: "combo44",
-                    label: "组合单条单行内联",
-                    inline: true,
-                    controls: [
+                    {
+                      label: '数字',
+                      test: 'this.type === "number"',
+                      scaffold: {
+                        type: 'number',
+                        label: '数字',
+                        name: ''
+                      },
+                      controls: [
                         {
-                            name: "a",
-                            type: "text",
-                            placeholder: "文本",
-                            value: ''
+                          label: '名称',
+                          name: 'label',
+                          type: 'text'
                         },
                         {
-                            name: "b",
-                            type: "select",
-                            options: ["a", "b", "c"]
-                        }
-                    ]
-                },
-
-                {
-                    type: 'divider'
-                },
-
-                {
-                    type: "combo",
-                    name: "combo666",
-                    label: "组合多条唯一",
-                    multiple: true,
-                    value: [{}],
-                    controls: [
-                        {
-                            name: "a",
-                            type: "text",
-                            placeholder: "文本",
-                            value: '',
-                            unique: true
+                          label: '字段名',
+                          name: 'name',
+                          type: 'text'
                         },
                         {
-                            name: "b",
-                            type: "select",
-                            options: ["a", "b", "c"],
-                            unique: true
-                        }
-                    ]
-                },
-
-                {
-                    type: 'divider'
-                },
-
-                {
-                    type: "combo",
-                    name: "combo777",
-                    label: "可拖拽排序",
-                    multiple: true,
-                    value: [{a: '1', b: "a"}, {a: '2', b: "b"}],
-                    draggable: true,
-                    controls: [
-                        {
-                            name: "a",
-                            type: "text",
-                            placeholder: "文本",
-                            unique: true
+                          label: '最小值',
+                          name: 'min',
+                          type: 'number'
                         },
                         {
-                            name: "b",
-                            type: "select",
-                            options: ["a", "b", "c"],
-                            unique: true
-                        }
-                    ]
-                },
-
-                {
-                    type: 'divider'
-                },
-
-                {
-                    type: "combo",
-                    name: "combo888",
-                    label: "可打平只存储值",
-                    multiple: true,
-                    flat: true,
-                    value: ["red", "pink"],
-                    draggable: true,
-                    controls: [
+                          label: '最大值',
+                          name: 'max',
+                          type: 'number'
+                        },
                         {
-                            name: "a",
-                            type: "color",
-                            placeholder: "选取颜色"
+                          label: '步长',
+                          name: 'step',
+                          type: 'number'
                         }
-                    ]
-                },
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+
+        {
+          title: 'Tabs',
+          hash: 'tabs',
+          body: [
+            {
+              type: 'form',
+              api: '/api/mock2/saveForm?waitSeconds=2',
+              title: '',
+              mode: 'horizontal',
+              wrapWithPanel: false,
+              className: 'm-t',
+              // debug: true,
+              controls: [
                 {
-                    type: "static",
-                    name: "combo888",
-                    label: "当前值",
-                    tpl: "<pre>${combo888|json}</pre>"
+                  type: 'combo',
+                  name: 'combo101',
+                  label: '组合多条多行',
+                  multiple: true,
+                  multiLine: true,
+                  value: [{}],
+                  tabsMode: true,
+                  tabsStyle: 'card',
+                  maxLength: 3,
+                  controls: [
+                    {
+                      name: 'a',
+                      label: '文本',
+                      type: 'text',
+                      placeholder: '文本',
+                      value: '',
+                      size: 'full'
+                    },
+                    {
+                      name: 'b',
+                      label: '选项',
+                      type: 'select',
+                      options: ['a', 'b', 'c'],
+                      size: 'full'
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+
+        {
+          title: '其他',
+          hash: 'others',
+          body: [
+            {
+              type: 'form',
+              api: '/api/mock2/saveForm?waitSeconds=2',
+              title: '',
+              mode: 'horizontal',
+              wrapWithPanel: false,
+              className: 'm-t',
+              // debug: true,
+              controls: [
+                {
+                  type: 'text',
+                  disabled: true,
+                  label: '父级值',
+                  name: 'a_super',
+                  value: '123'
                 },
-            ]
+
+                {
+                  type: 'combo',
+                  name: 'combo999',
+                  label: '可获取父级数据',
+                  multiple: true,
+                  canAccessSuperData: true,
+                  controls: [
+                    {
+                      name: 'a_super',
+                      type: 'text'
+                    }
+                  ]
+                },
+
+                {
+                  type: 'combo',
+                  name: 'combo9999',
+                  label: '显示序号',
+                  multiple: true,
+                  controls: [
+                    {
+                      type: 'tpl',
+                      tpl: '<%= data.index + 1%>',
+                      className: 'p-t-xs',
+                      mode: 'inline'
+                    },
+                    {
+                      name: 'a',
+                      type: 'text'
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
         }
-    ]
+      ]
+    }
+  ]
 };

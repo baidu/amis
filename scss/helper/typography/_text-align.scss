@@ -1,0 +1,34 @@
+/*!markdown
+
+---
+title: Text Align
+---
+
+| Class       | Properties               |
+| ----------- | ------------------------ |
+| text-left | text-align: left |
+| text-center | text-align: center |
+| text-right | text-align: right |
+| text-justify | text-align: justify |
+
+
+*/
+@mixin make-text-align($prefix: '.') {
+  @each $name,
+    $value
+      in ('left': left, 'center': center, 'right': right, 'justify': justify)
+  {
+    #{$prefix}text-#{$name} {
+      text-align: $value;
+    }
+  }
+}
+
+@include make-text-align();
+@each $deivce in map-keys($devices) {
+  @include media-device($deivce) {
+    @include make-text-align('.' + selector-escape($deivce + ':'));
+  }
+}
+
+// hover ?

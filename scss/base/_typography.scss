@@ -1,41 +1,53 @@
 /**
  * Basic typography style for copy text
  */
- html {
-    font-size: $remFactor;
- }
+html {
+  font-size: $remFactor;
+}
 
- body {
-    color: $body-color;
-    background-color: $body-bg;
-    font-size: $body-size;
-    font-weight: $body-weight;
-    font-family: $fontFamilyBase;
-    line-height: $body-lineHeight;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
+body {
+  color: var(--body-color);
+  background: var(--body-bg);
+  font-size: var(--body-size);
+  font-weight: var(--body-weight);
+  font-family: var(--fontFamilyBase);
+  line-height: var(--body-lineHeight);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 a {
-    color: $link-color;
-    text-decoration: $link-decoration;
+  color: var(--link-color);
+  text-decoration: var(--link-decoration);
 
-    &:hover {
-        color: $link-onHover-color;
-        text-decoration: $link-onHover-decoration;
-    }
+  &:hover {
+    color: var(--link-onHover-color);
+    text-decoration: var(--link-onHover-decoration);
+  }
 }
 
 label {
-    font-weight: $fontWeightNormal;
+  font-weight: var(--fontWeightNormal);
 }
 
-h1, h2, h3, h4, h5, h6 {
-    font-weight: $fontWeightNormal;
-    color: $text--loud-color;
-    line-height: 1.1;
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-weight: var(--fontWeightNormal);
+  color: var(--text--loud-color);
+  line-height: 1.1;
 }
 
 .is-matched {
-    color: $danger;
+  color: var(--danger);
+}
+
+pre,
+code,
+kbd,
+samp {
+  font-family: var(--fontFamilyMonospace);
 }

@@ -1,166 +1,150 @@
 .#{$ns}InputGroup {
+  display: inline-flex;
+  flex-wrap: nowrap;
+
+  &.#{$ns}Form-control--sizeXs,
+  &.#{$ns}Form-control--sizeSm,
+  &.#{$ns}Form-control--sizeMd,
+  &.#{$ns}Form-control--sizeLg {
     display: inline-flex;
-    flex-wrap: nowrap;
+  }
 
-    &.#{$ns}Form-control--sizeXs,
-    &.#{$ns}Form-control--sizeSm,
-    &.#{$ns}Form-control--sizeMd,
-    &.#{$ns}Form-control--sizeLg {
-        display: inline-flex;
+  &-addOn,
+  & .#{$ns}Form-control {
+    display: inline-block;
+    white-space: nowrap;
+  }
+
+  &-addOn {
+    background: var(--InputGroup-addOn-bg);
+    border: var(--InputGroup-addOn-borderWidth) solid
+      var(--InputGroup-addOn-borderColor);
+    line-height: calc(
+      var(--InputGroup-height) - var(--InputGroup-paddingY) * 2 -
+        var(--InputGroup-addOn-borderWidth) * 2
+    );
+    height: var(--InputGroup-height);
+    box-sizing: border-box;
+    padding: var(--InputGroup-paddingY) var(--InputGroup-paddingX);
+
+    &:not(:last-child) {
+      border-right: 0;
     }
 
-    &-addOn,
-    & .#{$ns}Form-control {
-        display: inline-block;
-        white-space: nowrap;
+    &:first-child {
+      border-top-left-radius: var(--InputGroup-addOn-borderRadius);
+      border-bottom-left-radius: var(--InputGroup-addOn-borderRadius);
     }
 
-    &-addOn {
-        background: $InputGroup-addOn-bg;
-        border: $InputGroup-addOn-borderWidth solid $InputGroup-addOn-borderColor;
-        line-height: $InputGroup-height - $InputGroup-paddingY * 2 - $InputGroup-addOn-borderWidth * 2;
-        height: $InputGroup-height;
-        box-sizing: border-box;
-        padding: $InputGroup-paddingY $InputGroup-paddingX;
-        
-        &:not(:last-child) {
-            border-right: 0;
-        }
+    &:last-child {
+      border-top-right-radius: var(--InputGroup-addOn-borderRadius);
+      border-bottom-right-radius: var(--InputGroup-addOn-borderRadius);
+    }
+  }
 
-        &:first-child {
-            @if $InputGroup-addOn-borderRadius {
-                border-top-left-radius: $InputGroup-addOn-borderRadius;
-                border-bottom-left-radius: $InputGroup-addOn-borderRadius;
-            }
-        }
-
-        &:last-child {
-            @if $InputGroup-addOn-borderRadius {
-                border-top-right-radius: $InputGroup-addOn-borderRadius;
-                border-bottom-right-radius: $InputGroup-addOn-borderRadius;
-            }
-        }
+  &-btn {
+    .#{$ns}Button {
+      border-radius: 0;
+      border: var(--InputGroup-button-borderWidth) solid
+        var(--InputGroup-button-borderColor);
     }
 
-    &-btn {
-        .#{$ns}Button {
-            border-radius: 0;
-            border: $InputGroup-button-borderWidth solid $InputGroup-button-borderColor;
-        }
-
-        &:not(:last-child) .#{$ns}Button {
-            border-right: 0;
-        }
-
-        &:first-child .#{$ns}Button  {
-            @if $InputGroup-button-borderRadius {
-                border-top-left-radius: $InputGroup-button-borderRadius;
-                border-bottom-left-radius: $InputGroup-button-borderRadius;
-            }
-        }
-
-        &:last-child .#{$ns}Button  {
-            @if $InputGroup-button-borderRadius {
-                border-top-right-radius: $InputGroup-button-borderRadius;
-                border-bottom-right-radius: $InputGroup-button-borderRadius;
-            }
-        }
+    &:not(:last-child) .#{$ns}Button {
+      border-right: 0;
     }
 
-    .#{$ns}TextControl-input {
-        flex-basis: 0;
-        flex-grow: 1;
-
-        &:not(:first-child) {
-            border-top-left-radius: 0;
-            border-bottom-left-radius: 0;
-        }
-
-        &:not(:last-child) {
-            border-right-width: 0;
-            border-top-right-radius: 0;
-            border-bottom-right-radius: 0;
-        }
+    &:first-child .#{$ns}Button {
+      border-top-left-radius: var(--InputGroup-button-borderRadius);
+      border-bottom-left-radius: var(--InputGroup-button-borderRadius);
     }
 
-    .#{$ns}SelectControl {
-        @if $InputGroup-select-borderWidth {
-            .#{$ns}Select {
-                background-color: $InputGroup-select-bg;
-                border: $InputGroup-select-borderWidth solid $InputGroup-select-borderColor;
-                
-                @if $InputGroup-select-color != $Form-select-color {
-                    color: $InputGroup-select-color;
-                }
-            }
+    &:last-child .#{$ns}Button {
+      border-top-right-radius: var(--InputGroup-button-borderRadius);
+      border-bottom-right-radius: var(--InputGroup-button-borderRadius);
+    }
+  }
 
-            &:not(:last-child) .#{$ns}Select {
-                border-right: 0;
-            }
-    
-            &:first-child .#{$ns}Select {
-                @if $InputGroup-select-borderRadius {
-                    border-top-left-radius: $InputGroup-select-borderRadius;
-                    border-bottom-left-radius: $InputGroup-select-borderRadius;
-                }
-            }
-    
-            &:last-child .#{$ns}Select {
-                @if $InputGroup-select-borderRadius {
-                    border-top-right-radius: $InputGroup-select-borderRadius;
-                    border-bottom-right-radius: $InputGroup-select-borderRadius;
-                }
-            }
-        }
+  .#{$ns}TextControl-input {
+    flex-basis: 0;
+    flex-grow: 1;
+    display: inline-flex;
 
-        
-        &:not(:first-child) .#{$ns}Select {
-            border-top-left-radius: 0;
-            border-bottom-left-radius: 0;
-        }
-
-        &:not(:last-child) .#{$ns}Select {
-            border-right-width: 0;
-            border-top-right-radius: 0;
-            border-bottom-right-radius: 0;
-        }
+    &:not(:first-child) {
+      border-top-left-radius: 0;
+      border-bottom-left-radius: 0;
     }
 
-    @if $InputGroup-select-arrowColor != $Form-select-caret-iconColor {
-        .#{$ns}Select-arrow {
-            color: $InputGroup-select-arrowColor;
-        }
+    &:not(:last-child) {
+      border-right-width: 0;
+      border-top-right-radius: 0;
+      border-bottom-right-radius: 0;
     }
-    
+  }
 
-    &.is-focused {
-        .#{$ns}InputGroup-addOn,
-        .#{$ns}TextControl-input,
-        .#{$ns}Select,
-        .#{$ns}InputGroup-btn .#{$ns}Button {
-            border-color: $InputGroup-addOn-onFocused-borderColor;
-        }
-
-        @if $InputGroup-select-onFocused-bg != $InputGroup-select-bg {
-            .#{$ns}Select {
-                background-color: $InputGroup-select-onFocused-bg;
-            }
-        }
-
-        @if $InputGroup-select-onFocused-color != $InputGroup-select-color {
-            .#{$ns}Select {
-                color: $InputGroup-select-onFocused-color;
-            }
-        }
-
-        @if $InputGroup-select-onFocused-arrowColor != $Form-select-caret-iconColor {
-            .#{$ns}Select-arrow {
-                color: $InputGroup-select-onFocused-arrowColor;
-            }
-        }
+  .#{$ns}SelectControl {
+    .#{$ns}Select {
+      background: var(--InputGroup-select-bg);
+      border: var(--InputGroup-select-borderWidth) solid
+        var(--InputGroup-select-borderColor);
+      color: var(--InputGroup-select-color);
     }
+
+    &:not(:last-child) .#{$ns}Select {
+      border-right: 0;
+    }
+
+    &:first-child .#{$ns}Select {
+      border-top-left-radius: var(--InputGroup-select-borderRadius);
+      border-bottom-left-radius: var(--InputGroup-select-borderRadius);
+    }
+
+    &:last-child .#{$ns}Select {
+      border-top-right-radius: var(--InputGroup-select-borderRadius);
+      border-bottom-right-radius: var(--InputGroup-select-borderRadius);
+    }
+
+    &:not(:first-child) .#{$ns}Select {
+      border-top-left-radius: 0;
+      border-bottom-left-radius: 0;
+    }
+
+    &:not(:last-child) .#{$ns}Select {
+      border-right-width: 0;
+      border-top-right-radius: 0;
+      border-bottom-right-radius: 0;
+    }
+  }
+
+  .#{$ns}Select-arrow {
+    color: var(--InputGroup-select-arrowColor);
+  }
+
+  &.is-focused {
+    .#{$ns}InputGroup-addOn,
+    .#{$ns}TextControl-input,
+    .#{$ns}Select,
+    .#{$ns}InputGroup-btn .#{$ns}Button {
+      border-color: var(--InputGroup-addOn-onFocused-borderColor);
+    }
+
+    .#{$ns}Select {
+      background: var(--InputGroup-select-onFocused-bg);
+    }
+
+    .#{$ns}Select {
+      color: var(--InputGroup-select-onFocused-color);
+    }
+
+    .#{$ns}Select-arrow {
+      color: var(--InputGroup-select-onFocused-arrowColor);
+    }
+
+    .#{$ns}InputGroup-addOn {
+      color: var(--primary);
+    }
+  }
 }
 
 .#{$ns}InputGroup:not(.is-inline) {
-    display: flex;
+  display: flex;
 }

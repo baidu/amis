@@ -1,0 +1,33 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Renderer:alert 1`] = `
+<div>
+  <div
+    class="a-Page"
+  >
+    <div
+      class="a-Page-content"
+    >
+      <div
+        class="a-Page-main"
+      >
+        <div
+          class="a-Page-body"
+        >
+          <div
+            class="a-Alert a-Alert--success"
+          >
+            <span
+              class="a-TplField"
+            >
+              <span>
+                提示内容
+              </span>
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;

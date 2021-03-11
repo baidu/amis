@@ -1,0 +1,74 @@
+.#{$ns}ListMenu {
+  background: var(--ListMenu-item-bg);
+  min-width: px2rem(200px);
+  border: var(--ListMenu-borderWidth) solid var(--ListMenu-bordrColor);
+  border-radius: var(--ListMenu-borderRadius);
+
+  &-groupLabel {
+    font-size: var(--fontSizeXs);
+    color: var(--text--muted-color);
+    padding: calc(
+        (
+            var(--ListMenu-item-height) - var(--Form-input-lineHeight) *
+              var(--Form-input-fontSize) - var(--gap-sm)
+          ) / 2
+      )
+      0 0 calc(var(--Form-select-paddingX) - var(--gap-xs));
+  }
+
+  &-group:not(:first-child) > &-groupLabel {
+    border-top: px2rem(1px) solid var(--ListMenu-divider-color);
+  }
+
+  &-item {
+    display: flex;
+    min-height: var(--ListMenu-item-height);
+    color: var(--ListMenu-item-color);
+    line-height: var(--Form-input-lineHeight);
+    font-size: var(--Form-input-fontSize);
+    cursor: pointer;
+    padding: calc(
+        (
+            var(--ListMenu-item-height) - var(--Form-input-lineHeight) *
+              var(--Form-input-fontSize)
+          ) / 2
+      )
+      var(--Form-select-paddingX);
+
+    &.is-active {
+      color: var(--ListMenu-item--onActive-color);
+      background: var(--ListMenu-item--onActive-bg);
+    }
+
+    // &:hover,
+    &.is-highlight {
+      color: var(--ListMenu-item--onHover-color);
+      background: var(--ListMenu-item--onHover-bg);
+    }
+
+    &.is-disabled {
+      color: var(--ListMenu-item--onDisabled-color);
+      background: var(--ListMenu-item--onDisabled-bg);
+    }
+  }
+
+  &-placeholder {
+    display: block;
+    min-height: var(--ListMenu-item-height);
+    color: var(--text--muted-color);
+    line-height: var(--Form-input-lineHeight);
+    font-size: var(--Form-input-fontSize);
+    cursor: pointer;
+    padding: calc(
+        (
+            var(--ListMenu-item-height) - var(--Form-input-lineHeight) *
+              var(--Form-input-fontSize)
+          ) / 2
+      )
+      var(--Form-select-paddingX);
+  }
+}
+
+.#{$ns}PopOver > .#{$ns}ListMenu {
+  border-color: var(--listMenu--onActive-borderColor);
+}

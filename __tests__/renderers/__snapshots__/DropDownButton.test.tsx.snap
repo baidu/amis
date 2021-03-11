@@ -1,0 +1,61 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Renderer:dropdown-button 1`] = `
+<div>
+  <div
+    class="a-DropDown  is-opened"
+  >
+    <button
+      class="a-Button show a-Button--primary"
+    >
+      <span
+        class="a-DropDown-caret"
+      >
+        <icon-mock
+          classname="icon icon-caret"
+          icon="caret"
+        />
+      </span>
+    </button>
+    <ul
+      class="a-DropDown-menu"
+    >
+      <li>
+        <a
+          class=""
+        >
+          按钮
+        </a>
+      </li>
+      <li>
+        <a
+          class=""
+        >
+          按钮
+        </a>
+      </li>
+    </ul>
+  </div>
+</div>
+`;
+
+exports[`Renderer:dropdown-button 2`] = `
+<div>
+  <div
+    class="a-DropDown "
+  >
+    <button
+      class="a-Button show a-Button--primary"
+    >
+      <span
+        class="a-DropDown-caret"
+      >
+        <icon-mock
+          classname="icon icon-caret"
+          icon="caret"
+        />
+      </span>
+    </button>
+  </div>
+</div>
+`;

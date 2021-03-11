@@ -1,144 +1,181 @@
 .#{$ns}Panel {
-    margin-bottom: $Panel-marginBottom;
-    background-color: $Panel-bg;
-    border: $Panel-border;
-    border-radius: $Panel-borderRadius;
-    -webkit-box-shadow: $Panel-boxShadow;
-    box-shadow: $Panel-boxShadow;
+  margin-bottom: var(--Panel-marginBottom);
+  background: var(--Panel-bg);
+  border: var(--Panel-border);
+  border-radius: var(--Panel-borderRadius);
+  -webkit-box-shadow: var(--Panel-boxShadow);
+  box-shadow: var(--Panel-boxShadow);
 
-    &-fixedBottom {
-        position: absolute;
-        background: $white;
-        z-index: $zindex-affix;
-        bottom: 999999px;
-        box-shadow: $Panel-fixedBottom-boxShadow;
+  &-fixedBottom {
+    position: absolute;
+    background: var(--white);
+    z-index: $zindex-affix;
+    bottom: 999999px;
+    box-shadow: var(--Panel-fixedBottom-boxShadow);
+    border-top: var(--Panel-fixedBottom-borderTop);
 
-        &.in {
-            position: fixed;
-            bottom: 0;
-        }
+    &.in {
+      position: fixed;
+      bottom: 0;
+    }
+  }
+
+  /* 主题 */
+  &--default {
+    border-color: var(--borderColor);
+
+    > .#{$ns}Panel-heading {
+      background: var(--Panel--default-bg);
+      color: var(--Panel--default-color);
+
+      .badge {
+        color: var(--Panel--default-badgeColor);
+        background: var(--Panel--default-badgeBg);
+      }
     }
 
-    /* 主题 */
-    &--default {
-        border-color: $borderColor;
-        >.#{$ns}Panel-heading {
-            background-color: $Panel--default-bg;
-            color: $Panel--default-color;
-            .badge {
-                color: $Panel--default-badgeColor;
-                background-color: $Panel--default-badgeBg;
-            }
-        }
-        >.#{$ns}Panel-heading {
-            border-color: $Panel--default-headingBorderColor;
-        }
+    > .#{$ns}Panel-heading {
+      border-color: var(--Panel--default-headingBorderColor);
     }
-    &--primary {
-        border-color: $primary;
-        >.#{$ns}Panel-heading {
-            background-color: $primary;
-            color: $white;
-            .badge {
-                color: $primary;
-                background-color: $white
-            }
-        }
-        >.#{$ns}Panel-heading,
-        >.#{$ns}Panel-footer {
-            border-color: $primary;
-        }
+  }
+
+  &--primary {
+    border-color: var(--primary);
+
+    > .#{$ns}Panel-heading {
+      background: var(--primary);
+      color: var(--white);
+
+      .badge {
+        color: var(--primary);
+        background: var(--white);
+      }
     }
-    &--success {
-        border-color: $success;
-        >.#{$ns}Panel-heading {
-            background-color: $success;
-            color: $white;
-            .badge {
-                color: $success;
-                background-color: $white
-            }
-        }
-        >.#{$ns}Panel-heading,
-        >.#{$ns}Panel-footer {
-            border-color: $success;
-        }
+
+    > .#{$ns}Panel-heading,
+    > .#{$ns}Panel-footer {
+      border-color: var(--primary);
     }
-    &--info {
-        border-color: $info;
-        >.#{$ns}Panel-heading {
-            background-color: $info;
-            color: $white;
-            .badge {
-                color: $info;
-                background-color: $white
-            }
-        }
-        >.#{$ns}Panel-heading,
-        >.#{$ns}Panel-footer {
-            border-color: $info;
-        }
+  }
+
+  &--success {
+    border-color: var(--success);
+
+    > .#{$ns}Panel-heading {
+      background: var(--success);
+      color: var(--white);
+
+      .badge {
+        color: var(--success);
+        background: var(--white);
+      }
     }
-    &--warning {
-        border-color: $warning;
-        >.#{$ns}Panel-heading {
-            background-color: $warning;
-            color: $white;
-            .badge {
-                color: $warning;
-                background-color: $white
-            }
-        }
-        >.#{$ns}Panel-heading,
-        >.#{$ns}Panel-footer {
-            border-color: $warning;
-        }
+
+    > .#{$ns}Panel-heading,
+    > .#{$ns}Panel-footer {
+      border-color: var(--success);
     }
-    &--danger {
-        border-color: $danger;
-        >.#{$ns}Panel-heading {
-            background-color: $danger;
-            color: $white;
-            .badge {
-                color: $danger;
-                background-color: $white
-            }
-        }
-        >.#{$ns}Panel-heading,
-        >.#{$ns}Panel-footer {
-            border-color: $danger;
-        }
+  }
+
+  &--info {
+    border-color: var(--info);
+
+    > .#{$ns}Panel-heading {
+      background: var(--info);
+      color: var(--white);
+
+      .badge {
+        color: var(--info);
+        background: var(--white);
+      }
     }
-    /* 子组件 */
-    &-heading {
-        padding: $Panel-headingPadding;
-        border-bottom: $Panel-headingBorderBottom;
-        border-radius: $Panel-headingBorderRadius;
+
+    > .#{$ns}Panel-heading,
+    > .#{$ns}Panel-footer {
+      border-color: var(--info);
     }
-    &-title {
-        margin-top: $Panel-titleMarginTop;
-        margin-bottom: $Panel-titleMarginBottom;
-        font-size: $Panel-titleFontSize;
-        color: $Panel-titleColor;
+  }
+
+  &--warning {
+    border-color: var(--warning);
+
+    > .#{$ns}Panel-heading {
+      background: var(--warning);
+      color: var(--white);
+
+      .badge {
+        color: var(--warning);
+        background: var(--white);
+      }
     }
-    &-body {
-        padding: $Panel-bodyPadding;
+
+    > .#{$ns}Panel-heading,
+    > .#{$ns}Panel-footer {
+      border-color: var(--warning);
     }
-    &-footer {
-        border-color: $Panel-footerBorderColor;
-        border-radius: $Panel-footerBorderRadius;
-        background-color: $Panel-footerBg;
-        padding: $Panel-footerPadding;
-        border-style: solid;
-        border-width: $Panel-borderWidth 0 0 0;
-        .#{$ns}Button + .#{$ns}Button {
-            margin-left: $Panel-footerButtomMarginLeft;
-        }
+  }
+
+  &--danger {
+    border-color: var(--danger);
+
+    > .#{$ns}Panel-heading {
+      background: var(--danger);
+      color: var(--white);
+
+      .badge {
+        color: var(--danger);
+        background: var(--white);
+      }
     }
-    &-btnToolbar {
-        text-align: $Panel-btnToolbarTextAlign;
-        .#{$ns}Button {
-            margin-left: $Panel-footerButtomMarginLeft;
-        }
+
+    > .#{$ns}Panel-heading,
+    > .#{$ns}Panel-footer {
+      border-color: var(--danger);
     }
+  }
+
+  /* 子组件 */
+  &-heading {
+    padding: var(--Panel-headingPadding);
+    border-bottom: var(--Panel-headingBorderBottom);
+    border-radius: var(--Panel-headingBorderRadius);
+  }
+
+  &-title {
+    margin-top: var(--Panel-titleMarginTop);
+    margin-bottom: var(--Panel-titleMarginBottom);
+    font-size: var(--Panel-titleFontSize);
+    color: var(--Panel-titleColor);
+  }
+
+  &-body {
+    padding: var(--Panel-bodyPadding);
+  }
+
+  &-footer {
+    border-color: var(--Panel-footerBorderColor);
+    border-radius: var(--Panel-footerBorderRadius);
+    background: var(--Panel-footerBg);
+    padding: var(--Panel-footerPadding);
+    border-style: solid;
+    border-width: var(--Panel-borderWidth) 0 0 0;
+    clear: both;
+
+    .#{$ns}Button + .#{$ns}Button {
+      margin-left: var(--Panel-footerButtonMarginLeft);
+    }
+  }
+
+  &-btnToolbar {
+    @include clearfix();
+    text-align: var(--Panel-btnToolbarTextAlign);
+
+    .#{$ns}Button {
+      margin-left: var(--Panel-footerButtonMarginLeft);
+    }
+
+    &:empty {
+      display: none;
+    }
+  }
 }
