@@ -159,6 +159,17 @@ API 还支持配置对象类型
 
 > 当`method`配置为`get`时，`data`中的值默认会添加到请求路径中
 
+需要注意一下，配置了数据发送，默认如果值是 `undefined` 也会作为空字符发送，比如以上这个例子直接提交会发送, name 和 email 两个字段，值分别为空字符。由于历史原因这个已经不能再修改了。如果你想实现没有填写的值不发送，则需要配置成。
+
+```
+"data": {
+  "myName": "${name|default:undefined}",
+  "myEmail": "${email|default:undefined}"
+}
+```
+
+这样 `undefined` 的值不会发送了。
+
 ### 配置请求数据格式
 
 可以配置`dataType`，来指定请求的数据体格式，默认为`json`

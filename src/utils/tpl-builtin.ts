@@ -271,8 +271,8 @@ export const filters: {
   },
   url_encode: input => encodeURIComponent(input),
   url_decode: input => decodeURIComponent(input),
-  default: (input, defaultValue) =>
-    input ||
+  default: (input, defaultValue, strict = false) =>
+    (strict ? input : input ? input : undefined) ??
     (() => {
       try {
         if (defaultValue === 'undefined') {
@@ -423,7 +423,7 @@ export const filters: {
         return input;
       }
 
-      let reg = string2regExp(arg1, false);
+      let reg = string2regExp(`${arg1}`, false);
       fn = value => reg.test(String(value));
     }
 
@@ -469,7 +469,7 @@ export const filters: {
     matchArg = getStrOrVariable(matchArg, this as any);
     return getConditionValue(
       input,
-      matchArg && string2regExp(matchArg, false).test(String(input)),
+      matchArg && string2regExp(`${matchArg}`, false).test(String(input)),
       trueValue,
       falseValue,
       this
@@ -479,7 +479,7 @@ export const filters: {
     matchArg = getStrOrVariable(matchArg, this as any);
     return getConditionValue(
       input,
-      matchArg && !string2regExp(matchArg, false).test(String(input)),
+      matchArg && !string2regExp(`${matchArg}`, false).test(String(input)),
       trueValue,
       falseValue,
       this
@@ -636,7 +636,8 @@ export const isPureVariable = (path?: any) =>
 export const resolveVariableAndFilter = (
   path?: string,
   data: object = {},
-  defaultFilter: string = '| html'
+  defaultFilter: string = '| html',
+  fallbackValue = (value: any) => value
 ): any => {
   if (!path) {
     return undefined;
@@ -683,7 +684,7 @@ export const resolveVariableAndFilter = (
   return ret == null &&
     !~originalKey.indexOf('default') &&
     !~originalKey.indexOf('now')
-    ? ret
+    ? fallbackValue(ret)
     : paths.reduce((input, filter) => {
         let params = filter
           .replace(
@@ -757,7 +758,7 @@ function resolveMapping(
   defaultFilter = '| raw'
 ) {
   return typeof value === 'string' && isPureVariable(value)
-    ? resolveVariableAndFilter(value, data, defaultFilter)
+    ? resolveVariableAndFilter(value, data, defaultFilter, () => '')
     : typeof value === 'string' && ~value.indexOf('$')
     ? tokenize(value, data, defaultFilter)
     : value;
