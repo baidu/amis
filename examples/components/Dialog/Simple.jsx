@@ -44,13 +44,30 @@ export default {
                   actions: [
                     {
                       type: 'button',
+                      actionType: 'close',
+                      label: '算了'
+                    },
+                    {
+                      type: 'button',
                       actionType: 'dialog',
                       label: '来吧',
                       level: 'info',
                       dialog: {
                         title: '弹框中的弹框',
                         closeOnEsc: true,
-                        body: '如果你想，可以无限弹下去',
+                        body: [
+                          {
+                            type: 'tpl',
+                            tpl: '如果你想，可以无限弹下去',
+                            inline: false
+                          },
+                          {
+                            type: 'button',
+                            actionType: 'submit',
+                            label: '算了，不弹了',
+                            close: true
+                          }
+                        ],
                         actions: [
                           {
                             type: 'button',
