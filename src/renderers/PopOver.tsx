@@ -323,19 +323,14 @@ export const HocPopOver = (
       const {
         popOver,
         popOverEnabled,
-        popOverEnableOn,
-        data,
-        rowIndex,
+        popOverEnable,
         className,
         noHoc,
         classnames: cx,
         showIcon
       } = this.props;
-      const popOverOn = popOverEnableOn
-        ? evalExpression(popOverEnableOn, {...data, rowIndex})
-        : true;
 
-      if (!popOver || popOverEnabled === false || noHoc || !popOverOn) {
+      if (!popOver || popOverEnabled === false || noHoc || popOverEnable === false) {
         return <Component {...this.props} />;
       }
 

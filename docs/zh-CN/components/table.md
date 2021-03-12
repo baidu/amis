@@ -579,8 +579,7 @@ order: 67
                     "type": "tpl",
                     "tpl": "${engine}"
                 }
-            },
-            "popOverEnableOn": "this.rowIndex > 3"
+            }
         }
     ]
 }
@@ -620,8 +619,6 @@ order: 67
 - `showIcon` 是否显示图标。默认会有个放大形状的图标出现在列里面。如果配置成 false，则触发事件出现在列上就会触发弹出。
 - `title` 弹出框的标题。
 - `body` 弹出框的内容。
-
-`popOverEnableOn` 属性的数据域：当前行的数据以及行的`rowIndex`。
 
 ### 表头样式
 
