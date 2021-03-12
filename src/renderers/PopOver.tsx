@@ -11,7 +11,6 @@ import hoistNonReactStatic from 'hoist-non-react-statics';
 import {RootCloseWrapper} from 'react-overlays';
 import PopOver, {Offset} from '../components/PopOver';
 import Overlay from '../components/Overlay';
-import {evalExpression} from '../utils/tpl';
 import {Icon} from '../components/icons';
 import {SchemaCollection, SchemaExpression} from '../Schema';
 

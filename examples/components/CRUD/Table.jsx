@@ -169,7 +169,7 @@ export default {
           body: 'Popover 内容：${platform}',
           trigger: 'hover'
         },
-        popOverEnableOn: 'this.id === 1 || this.rowIndex > 5',
+        popOverEnableOn: 'this.id === 1',
         type: 'text',
         toggled: true
       },
