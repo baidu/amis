@@ -154,7 +154,7 @@ fis.match('{*.ts,*.jsx,*.tsx,/src/**.js,/src/**.ts}', {
       importHelpers: true,
       esModuleInterop: true,
       experimentalDecorators: true,
-      sourceMap: true,
+      inlineSourceMap: true,
       target: 4
     }),
 

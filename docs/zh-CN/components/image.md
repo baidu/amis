@@ -165,6 +165,22 @@ order: 52
 }
 ```
 
+## 设置高宽
+
+通过 `width` 和 `height` 可以设置缩率图显示的高宽
+
+```schema
+{
+    "type": "page",
+    "body": {
+        "type": "image",
+        "width": "200px",
+        "height": "200px",
+        "src": "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395692722/4f3cb4202335.jpeg@s_0,w_216,l_1,f_jpg,q_80"
+    }
+}
+```
+
 ## 用作 Field 时
 
 当用在 Table 的列配置 Column、List 的内容、Card 卡片的内容和表单的 Static-XXX 中时，可以设置`name`属性，映射同名变量
@@ -225,11 +241,16 @@ List 的内容、Card 卡片的内容配置同上
 }
 ```
 
+## 属性表
+
 | 属性名         | 类型      | 默认值    | 说明                                                                                   |
 | -------------- | --------- | --------- | -------------------------------------------------------------------------------------- |
 | type           | `string`  |           | 如果在 Table、Card 和 List 中，为`"color"`；在 Form 中用作静态展示，为`"static-color"` |
 | className      | `string`  |           | 外层 CSS 类名                                                                          |
 | imageClassName | `string`  |           | 图片 CSS 类名                                                                          |
+| thumbClassName | `string`  |           | 图片缩率图 CSS 类名                                                                    |
+| height         | `string`  |           | 图片缩率高度                                                                           |
+| width          | `string`  |           | 图片缩率宽度                                                                           |
 | title          | `string`  |           | 标题                                                                                   |
 | imageCaption   | `string`  |           | 描述                                                                                   |
 | placeholder    | `string`  |           | 占位文本                                                                               |

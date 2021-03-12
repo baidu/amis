@@ -44,6 +44,43 @@ order: 9
 }
 ```
 
+## 在一行内显示
+
+设置 `"inline": true`
+
+```schema: scope="body"
+{
+    "type": "form",
+    "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
+    "controls": [
+        {
+        "name": "checkboxes",
+        "type": "checkboxes",
+        "label": "复选框",
+        "inline": true,
+        "options": [
+            {
+                "label": "OptionA",
+                "value": "a"
+            },
+            {
+                "label": "OptionB",
+                "value": "b"
+            },
+            {
+                "label": "OptionC",
+                "value": "c"
+            },
+            {
+                "label": "OptionD",
+                "value": "d"
+            }
+            ]
+        }
+    ]
+}
+```
+
 ## 展示多行
 
 可以配置`columnsCount`属性调整展示列的个数
@@ -122,6 +159,7 @@ order: 9
 | extractValue    | `boolean`                                 | `false`      | [提取值](./options#%E6%8F%90%E5%8F%96%E5%A4%9A%E9%80%89%E5%80%BC-extractvalue)                                      |
 | columnsCount    | `number`                                  | `1`          | 选项按几列显示，默认为一列                                                                                          |
 | checkAll        | `boolean`                                 | `false`      | 是否支持全选                                                                                                        |
+| inline        | `boolean`                                   | `false`      | 是否显示为一行                                                                                                        |
 | defaultCheckAll | `boolean`                                 | `false`      | 默认是否全选                                                                                                        |
 | creatable       | `boolean`                                 | `false`      | [新增选项](./options#%E5%89%8D%E7%AB%AF%E6%96%B0%E5%A2%9E-creatable)                                                |
 | createBtnLabel  | `string`                                  | `"新增选项"` | [新增选项](./options#%E6%96%B0%E5%A2%9E%E9%80%89%E9%A1%B9)                                                          |

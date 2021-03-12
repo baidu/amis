@@ -782,7 +782,10 @@ export class DialogRenderer extends Dialog {
     } else if (onAction) {
       let ret = onAction(
         e,
-        action,
+        {
+          ...action,
+          close: false
+        },
         data,
         throwErrors,
         delegate || this.context

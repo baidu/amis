@@ -39,7 +39,7 @@ order: 57
             "2": "<span class='label label-success'>开心</span>",
             "3": "<span class='label label-danger'>惊吓</span>",
             "4": "<span class='label label-warning'>紧张</span>",
-            "*": "其他：${type}"
+            "*": "<span class='label label-default'>其他：${type}</span>"
         }
     }
 }
