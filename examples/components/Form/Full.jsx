@@ -493,6 +493,19 @@ export default {
           label: '开关'
         },
         {
+          type: 'switch',
+          name: 'switch2',
+          value: true,
+          label: '开关开启'
+        },
+        {
+          type: 'switch',
+          name: 'switch3',
+          value: true,
+          disabled: true,
+          label: '开关禁用'
+        },
+        {
           type: 'divider'
         },
         {
