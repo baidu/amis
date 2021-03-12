@@ -157,28 +157,40 @@ export class TableContent extends React.Component<TableContentProps> {
               )}
             </tr>
           </thead>
-          <TableBody
-            classnames={cx}
-            placeholder={placeholder}
-            render={render}
-            renderCell={renderCell}
-            onCheck={onCheck}
-            onQuickChange={onQuickChange}
-            footable={footable}
-            footableColumns={footableColumns}
-            checkOnItemClick={checkOnItemClick}
-            buildItemProps={buildItemProps}
-            onAction={onAction}
-            rowClassNameExpr={rowClassNameExpr}
-            rowClassName={rowClassName}
-            rows={rows}
-            columns={columns}
-            locale={locale}
-            translate={translate}
-            prefixRow={prefixRow}
-            affixRow={affixRow}
-            data={data}
-          ></TableBody>
+          {!rows.length ? (
+            <tbody>
+              <tr className={cx('Table-placeholder')}>
+                <td colSpan={columns.length}>
+                  {render(
+                    'placeholder',
+                    translate(placeholder || 'placeholder.noData')
+                  )}
+                </td>
+              </tr>
+            </tbody>
+          ) : (
+            <TableBody
+              classnames={cx}
+              render={render}
+              renderCell={renderCell}
+              onCheck={onCheck}
+              onQuickChange={onQuickChange}
+              footable={footable}
+              footableColumns={footableColumns}
+              checkOnItemClick={checkOnItemClick}
+              buildItemProps={buildItemProps}
+              onAction={onAction}
+              rowClassNameExpr={rowClassNameExpr}
+              rowClassName={rowClassName}
+              rows={rows}
+              columns={columns}
+              locale={locale}
+              translate={translate}
+              prefixRow={prefixRow}
+              affixRow={affixRow}
+              data={data}
+            ></TableBody>
+          )}
         </table>
       </div>
     );
