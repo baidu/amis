@@ -553,6 +553,39 @@ order: 67
 
 > 示例内容没那么长，直接配置成 2 个字符了。
 
+可以给列上配置`popOverEnableOn`属性，该属性为[表达式](../../docs/concepts/expression)，通过[表达式](../../docs/concepts/expression)配置当前行是否启动`popOver`功能
+
+```schema: scope="body"
+{
+    "type": "crud",
+    "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/sample?waitSeconds=1",
+    "columns": [
+        {
+            "name": "id",
+            "label": "ID",
+            "popOver": {
+                "body": {
+                    "type": "tpl",
+                    "tpl": "${id}"
+                }
+            },
+            "popOverEnableOn": "this.id == 1"
+        },
+        {
+            "name": "engine",
+            "label": "Rendering engine",
+            "popOver": {
+                "body": {
+                    "type": "tpl",
+                    "tpl": "${engine}"
+                }
+            },
+            "popOverEnableOn": "this.rowIndex > 3"
+        }
+    ]
+}
+```
+
 `popOver` 配置详情：
 
 - `mode` 可配置成 `popOver`、`dialog` 或者 `drawer`。 默认为 `popOver`。
@@ -582,11 +615,13 @@ order: 67
   - `fixed-left-bottom`
   - `fixed-right-bottom`。
 
-- `offset` 默认 `{top: 0, left: 0}`，如果要来一定的便宜请设置这个。
+- `offset` 默认 `{top: 0, left: 0}`，如果要来一定的偏移请设置这个。
 - `trigger` 触发弹出的条件。可配置为 `click` 或者 `hover`。默认为 `click`。
 - `showIcon` 是否显示图标。默认会有个放大形状的图标出现在列里面。如果配置成 false，则触发事件出现在列上就会触发弹出。
 - `title` 弹出框的标题。
 - `body` 弹出框的内容。
+
+`popOverEnableOn` 属性的数据域：当前行的数据以及行的`rowIndex`。
 
 ### 表头样式
 

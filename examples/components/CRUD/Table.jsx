@@ -165,6 +165,11 @@ export default {
         label: 'Rendering engine',
         sortable: true,
         searchable: true,
+        popOver: {
+          body: 'Popover 内容：${platform}',
+          trigger: 'hover'
+        },
+        popOverEnableOn: 'this.id === 1 || this.rowIndex > 5',
         type: 'text',
         toggled: true
       },

@@ -11,8 +11,9 @@ import hoistNonReactStatic from 'hoist-non-react-statics';
 import {RootCloseWrapper} from 'react-overlays';
 import PopOver, {Offset} from '../components/PopOver';
 import Overlay from '../components/Overlay';
+import {evalExpression} from '../utils/tpl';
 import {Icon} from '../components/icons';
-import {SchemaCollection} from '../Schema';
+import {SchemaCollection, SchemaExpression} from '../Schema';
 
 export interface SchemaPopOverObject {
   /**
@@ -24,6 +25,11 @@ export interface SchemaPopOverObject {
    * 弹框外层类名
    */
   popOverClassName?: string;
+
+  /**
+   * 配置当前行是否启动，要用表达式
+   */
+  popOverEnableOn?: SchemaExpression;
 
   /**
    * 弹出模式
@@ -231,9 +237,18 @@ export const HocPopOver = (
         popOver,
         render,
         popOverContainer,
+        data,
+        rowIndex,
         classnames: cx,
         classPrefix: ns
       } = this.props;
+      const popOverEnableOn = popOver && (popOver as SchemaPopOverObject).popOverEnableOn;
+      const popOverEnabled = popOverEnableOn
+        ? evalExpression(popOverEnableOn, {data: this.props.data, rowIndex: this.props.rowIndex})
+        : true;
+      // if (popOverEnableOn)
+
+
       if (
         popOver &&
         ((popOver as SchemaPopOverObject).mode === 'dialog' ||
@@ -317,13 +332,19 @@ export const HocPopOver = (
       const {
         popOver,
         popOverEnabled,
+        popOverEnableOn,
+        data,
+        rowIndex,
         className,
         noHoc,
         classnames: cx,
         showIcon
       } = this.props;
+      const popOverOn = popOverEnableOn
+        ? evalExpression(popOverEnableOn, {...data, rowIndex})
+        : true;
 
-      if (!popOver || popOverEnabled === false || noHoc) {
+      if (!popOver || popOverEnabled === false || noHoc || !popOverOn) {
         return <Component {...this.props} />;
       }
 
