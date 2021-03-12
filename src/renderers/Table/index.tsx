@@ -1648,14 +1648,24 @@ export default class Table extends React.Component<TableProps, object> {
           </tr>
         </thead>
 
-        {headerOnly ? null : (
+        {headerOnly ? null : !rows.length ? (
+          <tbody>
+            <tr className={cx('Table-placeholder')}>
+              <td colSpan={columns.length}>
+                {render(
+                  'placeholder',
+                  translate(placeholder || 'placeholder.noData')
+                )}
+              </td>
+            </tr>
+          </tbody>
+        ) : (
           <TableBody
             tableClassName={cx(
               store.combineNum > 0 ? 'Table-table--withCombine' : '',
               tableClassName
             )}
             classnames={cx}
-            placeholder={placeholder}
             render={render}
             renderCell={this.renderCell}
             onCheck={this.handleCheck}

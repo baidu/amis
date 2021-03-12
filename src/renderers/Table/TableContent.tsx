@@ -2,11 +2,6 @@ import React from 'react';
 import {ClassNamesFn} from '../../theme';
 import {IColumn, IRow} from '../../store/table';
 import {SchemaNode, Action} from '../../types';
-import {TableRow} from './TableRow';
-import {filter} from '../../utils/tpl';
-import {observer} from 'mobx-react';
-import {trace, reaction} from 'mobx';
-import {flattenTree} from '../../utils/helper';
 import {TableBody} from './TableBody';
 import {LocaleProps} from '../../locale';
 
@@ -54,46 +49,6 @@ export interface TableContentProps extends LocaleProps {
 }
 
 export class TableContent extends React.Component<TableContentProps> {
-  reaction?: () => void;
-  constructor(props: TableContentProps) {
-    super(props);
-
-    const rows = props.rows;
-
-    this.reaction = reaction(
-      () =>
-        `${flattenTree(rows)
-          .map(item => `${item.id}`)
-          .join(',')}${rows
-          .filter(item => item.checked)
-          .map(item => item.id)
-          .join(',')}`,
-      () => this.forceUpdate(),
-      {
-        onError: () => this.reaction!()
-      }
-    );
-  }
-
-  shouldComponentUpdate(nextProps: TableContentProps) {
-    const props = this.props;
-
-    if (
-      props.columns !== nextProps.columns ||
-      props.buildItemProps !== nextProps.buildItemProps ||
-      props.prefixRow ||
-      props.affixRow
-    ) {
-      return true;
-    }
-
-    return false;
-  }
-
-  componentWillUnmount() {
-    this.reaction?.();
-  }
-
   render() {
     const {
       placeholder,
@@ -157,28 +112,40 @@ export class TableContent extends React.Component<TableContentProps> {
               )}
             </tr>
           </thead>
-          <TableBody
-            classnames={cx}
-            placeholder={placeholder}
-            render={render}
-            renderCell={renderCell}
-            onCheck={onCheck}
-            onQuickChange={onQuickChange}
-            footable={footable}
-            footableColumns={footableColumns}
-            checkOnItemClick={checkOnItemClick}
-            buildItemProps={buildItemProps}
-            onAction={onAction}
-            rowClassNameExpr={rowClassNameExpr}
-            rowClassName={rowClassName}
-            rows={rows}
-            columns={columns}
-            locale={locale}
-            translate={translate}
-            prefixRow={prefixRow}
-            affixRow={affixRow}
-            data={data}
-          ></TableBody>
+          {!rows.length ? (
+            <tbody>
+              <tr className={cx('Table-placeholder')}>
+                <td colSpan={columns.length}>
+                  {render(
+                    'placeholder',
+                    translate(placeholder || 'placeholder.noData')
+                  )}
+                </td>
+              </tr>
+            </tbody>
+          ) : (
+            <TableBody
+              classnames={cx}
+              render={render}
+              renderCell={renderCell}
+              onCheck={onCheck}
+              onQuickChange={onQuickChange}
+              footable={footable}
+              footableColumns={footableColumns}
+              checkOnItemClick={checkOnItemClick}
+              buildItemProps={buildItemProps}
+              onAction={onAction}
+              rowClassNameExpr={rowClassNameExpr}
+              rowClassName={rowClassName}
+              rows={rows}
+              columns={columns}
+              locale={locale}
+              translate={translate}
+              prefixRow={prefixRow}
+              affixRow={affixRow}
+              data={data}
+            ></TableBody>
+          )}
         </table>
       </div>
     );
