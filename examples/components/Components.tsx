@@ -147,6 +147,15 @@ export const components = [
           )
       },
       {
+        label: 'Breadcrumb 面包屑',
+        path: '/zh-CN/components/breadcrumb',
+        getComponent: () =>
+          // @ts-ignore
+          import('../../docs/zh-CN/components/breadcrumb.md').then(
+            makeMarkdownRenderer
+          )
+      },
+      {
         label: 'Custom 自定义组件',
         path: '/zh-CN/components/custom',
         getComponent: () =>

@@ -51,6 +51,7 @@ import './renderers/App';
 import './renderers/Remark';
 import './renderers/ButtonGroup';
 import './renderers/ButtonToolbar';
+import './renderers/Breadcrumb';
 import './renderers/DropDownButton';
 import './renderers/Collapse';
 import './renderers/Color';

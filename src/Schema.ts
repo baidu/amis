@@ -64,6 +64,7 @@ export type SchemaType =
   | 'audio'
   | 'button-group'
   | 'button-toolbar'
+  | 'breadcrumb'
   | 'card'
   | 'cards'
   | 'carousel'
