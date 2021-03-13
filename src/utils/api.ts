@@ -165,7 +165,7 @@ function str2function(
   }
 }
 
-function responseAdaptor(ret: fetcherResult, api: ApiObject) {
+export function responseAdaptor(ret: fetcherResult, api: ApiObject) {
   const data = ret.data;
   let hasStatusField = true;
 
