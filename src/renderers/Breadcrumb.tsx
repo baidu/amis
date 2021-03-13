@@ -82,7 +82,9 @@ export class BreadcrumbField extends React.Component<BreadcrumbProps, object> {
     const crumbs = crumbItems
       .map<React.ReactNode>(item => (
         <span className={cx('Breadcrumb-item', itemClassName)}>
-          {item.icon ? generateIcon(cx, item.icon, 'Icon') : null}
+          {item.icon
+            ? generateIcon(cx, item.icon, 'Icon', 'Breadcrumb-icon')
+            : null}
           {item.href ? (
             <a href={item.href}>{filter(item.label, data)}</a>
           ) : (
