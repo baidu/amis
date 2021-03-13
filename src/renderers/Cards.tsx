@@ -134,7 +134,9 @@ export interface Column {
   [propName: string]: any;
 }
 
-export interface GridProps extends RendererProps, CardsSchema {
+export interface GridProps
+  extends RendererProps,
+    Omit<CardsSchema, 'className' | 'itemClassName'> {
   store: IListStore;
   selectable?: boolean;
   selected?: Array<any>;
@@ -150,7 +152,8 @@ export interface GridProps extends RendererProps, CardsSchema {
     diff: Array<object> | object,
     rowIndexes: Array<number> | number,
     unModifiedItems?: Array<object>,
-    rowOrigins?: Array<object> | object
+    rowOrigins?: Array<object> | object,
+    resetOnFailed?: boolean
   ) => void;
   onSaveOrder?: (moved: Array<object>, items: Array<object>) => void;
   onQuery: (values: object) => void;
@@ -178,7 +181,7 @@ export default class Cards extends React.Component<GridProps, object> {
   ];
   static defaultProps: Partial<GridProps> = {
     className: '',
-    placeholder: '没有数据',
+    placeholder: 'placeholder.noData',
     source: '$items',
     selectable: false,
     headerClassName: '',
@@ -419,7 +422,8 @@ export default class Cards extends React.Component<GridProps, object> {
     item: IItem,
     values: object,
     saveImmediately?: boolean | any,
-    saveSilent?: boolean
+    saveSilent?: boolean,
+    resetOnFailed?: boolean
   ) {
     item.change(values, saveSilent);
 
@@ -450,7 +454,8 @@ export default class Cards extends React.Component<GridProps, object> {
       difference(item.data, item.pristine, ['id', primaryField]),
       item.index,
       undefined,
-      item.pristine
+      item.pristine,
+      resetOnFailed
     );
   }
 
@@ -703,7 +708,7 @@ export default class Cards extends React.Component<GridProps, object> {
           {child}
           {store.dragging ? (
             <div className={cx('Cards-dragTip')} ref={this.dragTipRef}>
-              {__('请拖动顶部的按钮进行排序')}
+              {__('Card.dragTip')}
             </div>
           ) : null}
         </div>
@@ -801,7 +806,7 @@ export default class Cards extends React.Component<GridProps, object> {
       <Button
         iconOnly
         key="dragging-toggle"
-        tooltip={__('对卡片进行排序操作')}
+        tooltip={__('Card.toggleDrag')}
         tooltipContainer={
           env && env.getModalContainer ? env.getModalContainer : undefined
         }

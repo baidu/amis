@@ -3,24 +3,26 @@
   outline: none;
 
   &.is-focus > &-input {
-    border-color: $Form-input-onFocused-borderColor;
-    box-shadow: $Form-input-boxShadow;
+    border-color: var(--Form-input-onFocused-borderColor);
+    box-shadow: var(--Form-input-boxShadow);
+    background: var(--Form-input-onFocused-bg);
+  }
 
-    @if $Form-input-onFocused-bg !=$Form-input-bg {
-      background-color: $Form-input-onFocused-bg;
-    }
+  &.is-disabled {
+    pointer-events: none;
+    opacity: var(--Button-onDisabled-opacity);
   }
 
   &-placeholder {
-    color: $Form-input-placeholderColor;
+    color: var(--Form-input-placeholderColor);
     user-select: none;
     position: absolute;
-    // margin-top: 2 * $Form-input-borderWidth;
-    line-height: $Form-input-lineHeight;
+    // margin-top: 2 * var(--Form-input-borderWidth);
+    line-height: var(--Form-input-lineHeight);
   }
 
   &-input {
-    min-height: $Form-input-height;
+    min-height: var(--Form-input-height);
     height: auto;
   }
 
@@ -39,7 +41,7 @@
   }
 
   .#{$ns}Picker-valueWrap {
-    margin-bottom: -$gap-xs;
+    margin-bottom: calc(var(--gap-xs) * -1);
     line-height: 1;
   }
 
@@ -48,42 +50,39 @@
     user-select: none;
     white-space: nowrap;
     vertical-align: middle;
-    line-height: $Form-input-lineHeight * $Form-input-fontSize - px2rem(2px);
+    line-height: calc(
+      var(--Form-input-lineHeight) * var(--Form-input-fontSize) - #{px2rem(2px)}
+    );
     display: inline-block;
-    font-size: $Form-selectValue-fontSize;
-    color: $Form-selectValue-color;
-    background: $Form-selectValue-bg;
-    border: px2rem(1px) solid $Form-selectValue-borderColor;
+    font-size: var(--Form-selectValue-fontSize);
+    color: var(--Form-selectValue-color);
+    background: var(--Form-selectValue-bg);
+    border: px2rem(1px) solid var(--Form-selectValue-borderColor);
     border-radius: 2px;
-    margin-right: $gap-xs;
-    margin-bottom: $gap-xs;
-
-    &.is-disabled {
-      pointer-events: none;
-      opacity: $Button-onDisabled-opacity;
-    }
+    margin-right: var(--gap-xs);
+    margin-bottom: var(--gap-xs);
   }
 
   .#{$ns}Picker-valueIcon {
     cursor: pointer;
-    border-right: px2rem(1px) solid $Form-selectValue-borderColor;
+    border-right: px2rem(1px) solid var(--Form-selectValue-borderColor);
     padding: 1px 5px;
 
     &:hover {
-      background-color: darken($Form-selectValue-bg, 5%);
+      background: var(--Form-selectValue-onHover-bg);
     }
   }
 
   .#{$ns}Picker-valueLabel {
-    padding: 0 $gap-xs;
+    padding: 0 var(--gap-xs);
   }
 
   &-btn {
     cursor: pointer;
-    color: $Picker-iconColor;
+    color: var(--Picker-iconColor);
 
     &:hover {
-      color: $Picker-onHover-iconColor;
+      color: var(--Picker-onHover-iconColor);
     }
   }
 
@@ -91,7 +90,7 @@
     display: inline-block;
     @include input-clear();
     line-height: 1;
-    margin-right: $gap-xs;
+    margin-right: var(--gap-xs);
   }
 }
 

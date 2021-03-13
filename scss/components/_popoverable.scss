@@ -1,6 +1,6 @@
 .#{$ns}Field-popOverBtn {
-  color: $PopOverAble-iconColor;
-  margin-left: $gap-xs;
+  color: var(--PopOverAble-iconColor);
+  margin-left: var(--gap-xs);
   visibility: hidden;
   display: inline-block;
   cursor: pointer;
@@ -8,7 +8,7 @@
   vertical-align: middle;
 
   &:hover {
-    color: $PopOverAble-onHover-iconColor;
+    color: var(--PopOverAble-onHover-iconColor);
     opacity: 1;
   }
 }
@@ -30,4 +30,38 @@
     margin-bottom: 0;
     border: none;
   }
+}
+
+.#{$ns}PopOverAble--fixed {
+  position: fixed;
+
+  > * {
+    margin-bottom: 0;
+  }
+}
+
+.#{$ns}PopOverAble--fixed-center {
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.#{$ns}PopOverAble--fixed-left-top {
+  top: 0;
+  left: 0;
+}
+
+.#{$ns}PopOverAble--fixed-right-top {
+  top: 0;
+  right: 0;
+}
+
+.#{$ns}PopOverAble--fixed-left-bottom {
+  bottom: 0;
+  left: 0;
+}
+
+.#{$ns}PopOverAble--fixed-right-bottom {
+  bottom: 0;
+  right: 0;
 }

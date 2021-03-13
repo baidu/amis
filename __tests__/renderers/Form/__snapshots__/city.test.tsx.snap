@@ -15,7 +15,9 @@ exports[`Renderer:city 1`] = `
         <span
           class="a-TplField"
         >
-          The form
+          <span>
+            The form
+          </span>
         </span>
       </h3>
     </div>
@@ -28,12 +30,19 @@ exports[`Renderer:city 1`] = `
       >
         <div
           class="a-Form-item a-Form-item--normal"
+          data-role="form-item"
         >
           <label
             class="a-Form-label"
           >
             <span>
-              city
+              <span
+                class="a-TplField"
+              >
+                <span>
+                  city
+                </span>
+              </span>
             </span>
           </label>
           <div
@@ -56,9 +65,22 @@ exports[`Renderer:city 1`] = `
                   北京市
                 </div>
               </div>
+              <a
+                class="a-Select-clear"
+              >
+                <icon-mock
+                  classname="icon icon-close"
+                  icon="close"
+                />
+              </a>
               <span
                 class="a-Select-arrow"
-              />
+              >
+                <icon-mock
+                  classname="icon icon-caret"
+                  icon="caret"
+                />
+              </span>
             </div>
             <div
               aria-expanded="false"
@@ -77,9 +99,22 @@ exports[`Renderer:city 1`] = `
                   北京市市辖区
                 </div>
               </div>
+              <a
+                class="a-Select-clear"
+              >
+                <icon-mock
+                  classname="icon icon-close"
+                  icon="close"
+                />
+              </a>
               <span
                 class="a-Select-arrow"
-              />
+              >
+                <icon-mock
+                  classname="icon icon-caret"
+                  icon="caret"
+                />
+              </span>
             </div>
             <div
               aria-expanded="false"
@@ -98,12 +133,29 @@ exports[`Renderer:city 1`] = `
                   东城区
                 </div>
               </div>
+              <a
+                class="a-Select-clear"
+              >
+                <icon-mock
+                  classname="icon icon-close"
+                  icon="close"
+                />
+              </a>
               <span
                 class="a-Select-arrow"
-              />
+              >
+                <icon-mock
+                  classname="icon icon-caret"
+                  icon="caret"
+                />
+              </span>
             </div>
           </div>
         </div>
+        <input
+          style="display: none;"
+          type="submit"
+        />
       </form>
     </div>
     <div

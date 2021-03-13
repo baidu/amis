@@ -1,286 +1,286 @@
 export default {
-  $schema: "https://houtai.baidu.com/v2/schemas/page.json#",
-  title: "表格编辑",
+  $schema: 'https://houtai.baidu.com/v2/schemas/page.json#',
+  title: '表格编辑',
   body: {
-    type: "form",
-    mode: "horizontal",
-    api: "/api/mock2/form/saveForm?waitSeconds=2",
+    type: 'form',
+    mode: 'horizontal',
+    api: '/api/mock2/form/saveForm?waitSeconds=2',
     actions: [
       {
-        type: "submit",
-        label: "提交",
+        type: 'submit',
+        label: '提交',
         primary: true
       }
     ],
     controls: [
-      "<p>常规模式</p>",
+      '<p>常规模式</p>',
       {
-        type: "divider"
+        type: 'divider'
       },
       {
-        type: "picker",
-        name: "type",
-        label: "单选",
+        type: 'picker',
+        name: 'type',
+        label: '单选',
         value: 1,
         inline: true,
         options: [
           {
-            label: "选项1",
+            label: '选项1',
             value: 1
           },
           {
-            label: "选项2",
+            label: '选项2',
             value: 2
           },
           {
-            label: "选项3",
+            label: '选项3',
             value: 3
           },
           {
-            label: "选项4",
+            label: '选项4',
             value: 4
           }
         ]
       },
 
       {
-        type: "picker",
-        name: "type2",
-        label: "多选",
+        type: 'picker',
+        name: 'type2',
+        label: '多选',
         multiple: true,
         options: [
           {
-            label: "选项1",
+            label: '选项1',
             value: 1
           },
           {
-            label: "选项2",
+            label: '选项2',
             value: 2
           },
           {
-            label: "选项3",
+            label: '选项3',
             value: 3
           },
           {
-            label: "选项4",
+            label: '选项4',
             value: 4
           }
         ]
       },
 
       {
-        type: "divider"
+        type: 'divider'
       },
 
-      "<p>Table 渲染类型</p>",
+      '<p>Table 渲染类型</p>',
       {
-        type: "divider"
+        type: 'divider'
       },
 
       {
-        type: "picker",
-        name: "type3",
+        type: 'picker',
+        name: 'type3',
         joinValues: true,
-        valueField: "id",
-        labelField: "engine",
-        label: "单选",
-        source: "/api/sample",
-        size: "lg",
-        value: "4",
+        valueField: 'id',
+        labelField: 'engine',
+        label: '单选',
+        source: '/api/sample',
+        size: 'lg',
+        value: '4',
         pickerSchema: {
-          mode: "table",
-          name: "thelist",
-          quickSaveApi: "/api/sample/bulkUpdate",
-          quickSaveItemApi: "/api/sample/$id",
+          mode: 'table',
+          name: 'thelist',
+          quickSaveApi: '/api/sample/bulkUpdate',
+          quickSaveItemApi: '/api/sample/$id',
           draggable: true,
           headerToolbar: {
             wrapWithPanel: false,
-            type: "form",
-            className: "text-right",
-            target: "thelist",
-            mode: "inline",
+            type: 'form',
+            className: 'text-right',
+            target: 'thelist',
+            mode: 'inline',
             controls: [
               {
-                type: "text",
-                name: "keywords",
+                type: 'text',
+                name: 'keywords',
                 addOn: {
-                  type: "submit",
-                  label: "搜索",
-                  level: "primary",
-                  icon: "fa fa-search pull-left"
+                  type: 'submit',
+                  label: '搜索',
+                  level: 'primary',
+                  icon: 'fa fa-search pull-left'
                 }
               }
             ]
           },
           columns: [
             {
-              name: "engine",
-              label: "Rendering engine",
+              name: 'engine',
+              label: 'Rendering engine',
               sortable: true,
               searchable: true,
-              type: "text",
+              type: 'text',
               toggled: true
             },
             {
-              name: "browser",
-              label: "Browser",
+              name: 'browser',
+              label: 'Browser',
               sortable: true,
-              type: "text",
+              type: 'text',
               toggled: true
             },
             {
-              name: "platform",
-              label: "Platform(s)",
+              name: 'platform',
+              label: 'Platform(s)',
               sortable: true,
-              type: "text",
+              type: 'text',
               toggled: true
             },
             {
-              name: "version",
-              label: "Engine version",
+              name: 'version',
+              label: 'Engine version',
               quickEdit: true,
-              type: "text",
+              type: 'text',
               toggled: true
             },
             {
-              name: "grade",
-              label: "CSS grade",
+              name: 'grade',
+              label: 'CSS grade',
               quickEdit: {
-                mode: "inline",
-                type: "select",
-                options: ["A", "B", "C", "D", "X"],
+                mode: 'inline',
+                type: 'select',
+                options: ['A', 'B', 'C', 'D', 'X'],
                 saveImmediately: true
               },
-              type: "text",
+              type: 'text',
               toggled: true
             },
             {
-              type: "operation",
-              label: "操作",
+              type: 'operation',
+              label: '操作',
               width: 100,
               buttons: [
                 {
-                  type: "button",
-                  icon: "fa fa-eye",
-                  actionType: "dialog",
+                  type: 'button',
+                  icon: 'fa fa-eye',
+                  actionType: 'dialog',
                   dialog: {
-                    title: "查看",
+                    title: '查看',
                     body: {
-                      type: "form",
+                      type: 'form',
                       controls: [
                         {
-                          type: "static",
-                          name: "engine",
-                          label: "Engine"
+                          type: 'static',
+                          name: 'engine',
+                          label: 'Engine'
                         },
                         {
-                          type: "divider"
+                          type: 'divider'
                         },
                         {
-                          type: "static",
-                          name: "browser",
-                          label: "Browser"
+                          type: 'static',
+                          name: 'browser',
+                          label: 'Browser'
                         },
                         {
-                          type: "divider"
+                          type: 'divider'
                         },
                         {
-                          type: "static",
-                          name: "platform",
-                          label: "Platform(s)"
+                          type: 'static',
+                          name: 'platform',
+                          label: 'Platform(s)'
                         },
                         {
-                          type: "divider"
+                          type: 'divider'
                         },
                         {
-                          type: "static",
-                          name: "version",
-                          label: "Engine version"
+                          type: 'static',
+                          name: 'version',
+                          label: 'Engine version'
                         },
                         {
-                          type: "divider"
+                          type: 'divider'
                         },
                         {
-                          type: "static",
-                          name: "grade",
-                          label: "CSS grade"
+                          type: 'static',
+                          name: 'grade',
+                          label: 'CSS grade'
                         },
                         {
-                          type: "divider"
+                          type: 'divider'
                         },
                         {
-                          type: "html",
+                          type: 'html',
                           html:
-                            "<p>添加其他 <span>Html 片段</span> 需要支持变量替换（todo）.</p>"
+                            '<p>添加其他 <span>Html 片段</span> 需要支持变量替换（todo）.</p>'
                         }
                       ]
                     }
                   }
                 },
                 {
-                  type: "button",
-                  icon: "fa fa-pencil",
-                  actionType: "dialog",
+                  type: 'button',
+                  icon: 'fa fa-pencil',
+                  actionType: 'dialog',
                   dialog: {
-                    position: "left",
-                    size: "lg",
-                    title: "编辑",
+                    position: 'left',
+                    size: 'lg',
+                    title: '编辑',
                     body: {
-                      type: "form",
-                      name: "sample-edit-form",
-                      api: "/api/sample/$id",
+                      type: 'form',
+                      name: 'sample-edit-form',
+                      api: '/api/sample/$id',
                       controls: [
                         {
-                          type: "text",
-                          name: "engine",
-                          label: "Engine",
+                          type: 'text',
+                          name: 'engine',
+                          label: 'Engine',
                           required: true
                         },
                         {
-                          type: "divider"
+                          type: 'divider'
                         },
                         {
-                          type: "text",
-                          name: "browser",
-                          label: "Browser",
+                          type: 'text',
+                          name: 'browser',
+                          label: 'Browser',
                           required: true
                         },
                         {
-                          type: "divider"
+                          type: 'divider'
                         },
                         {
-                          type: "text",
-                          name: "platform",
-                          label: "Platform(s)",
+                          type: 'text',
+                          name: 'platform',
+                          label: 'Platform(s)',
                           required: true
                         },
                         {
-                          type: "divider"
+                          type: 'divider'
                         },
                         {
-                          type: "text",
-                          name: "version",
-                          label: "Engine version"
+                          type: 'text',
+                          name: 'version',
+                          label: 'Engine version'
                         },
                         {
-                          type: "divider"
+                          type: 'divider'
                         },
                         {
-                          type: "select",
-                          name: "grade",
-                          label: "CSS grade",
-                          options: ["A", "B", "C", "D", "X"]
+                          type: 'select',
+                          name: 'grade',
+                          label: 'CSS grade',
+                          options: ['A', 'B', 'C', 'D', 'X']
                         }
                       ]
                     }
                   }
                 },
                 {
-                  type: "button",
-                  icon: "fa fa-times text-danger",
-                  actionType: "ajax",
-                  confirmText: "您确认要删除?",
-                  api: "delete:/api/sample/$id"
+                  type: 'button',
+                  icon: 'fa fa-times text-danger',
+                  actionType: 'ajax',
+                  confirmText: '您确认要删除?',
+                  api: 'delete:/api/sample/$id'
                 }
               ],
               toggled: true
@@ -290,210 +290,210 @@ export default {
       },
 
       {
-        type: "picker",
-        name: "type4",
+        type: 'picker',
+        name: 'type4',
         joinValues: true,
-        valueField: "id",
-        labelField: "engine",
-        label: "多选",
-        source: "/api/sample",
-        size: "lg",
-        value: "4,5",
+        valueField: 'id',
+        labelField: 'engine',
+        label: '多选',
+        source: '/api/sample',
+        size: 'lg',
+        value: '4,5',
         multiple: true,
         pickerSchema: {
-          mode: "table",
-          name: "thelist",
-          quickSaveApi: "/api/sample/bulkUpdate",
-          quickSaveItemApi: "/api/sample/$id",
+          mode: 'table',
+          name: 'thelist',
+          quickSaveApi: '/api/sample/bulkUpdate',
+          quickSaveItemApi: '/api/sample/$id',
           draggable: true,
           headerToolbar: {
             wrapWithPanel: false,
-            type: "form",
-            className: "text-right",
-            target: "thelist",
-            mode: "inline",
+            type: 'form',
+            className: 'text-right',
+            target: 'thelist',
+            mode: 'inline',
             controls: [
               {
-                type: "text",
-                name: "keywords",
+                type: 'text',
+                name: 'keywords',
                 addOn: {
-                  type: "submit",
-                  label: "搜索",
-                  level: "primary",
-                  icon: "fa fa-search pull-left"
+                  type: 'submit',
+                  label: '搜索',
+                  level: 'primary',
+                  icon: 'fa fa-search pull-left'
                 }
               }
             ]
           },
           columns: [
             {
-              name: "engine",
-              label: "Rendering engine",
+              name: 'engine',
+              label: 'Rendering engine',
               sortable: true,
               searchable: true,
-              type: "text",
+              type: 'text',
               toggled: true
             },
             {
-              name: "browser",
-              label: "Browser",
+              name: 'browser',
+              label: 'Browser',
               sortable: true,
-              type: "text",
+              type: 'text',
               toggled: true
             },
             {
-              name: "platform",
-              label: "Platform(s)",
+              name: 'platform',
+              label: 'Platform(s)',
               sortable: true,
-              type: "text",
+              type: 'text',
               toggled: true
             },
             {
-              name: "version",
-              label: "Engine version",
+              name: 'version',
+              label: 'Engine version',
               quickEdit: true,
-              type: "text",
+              type: 'text',
               toggled: true
             },
             {
-              name: "grade",
-              label: "CSS grade",
+              name: 'grade',
+              label: 'CSS grade',
               quickEdit: {
-                mode: "inline",
-                type: "select",
-                options: ["A", "B", "C", "D", "X"],
+                mode: 'inline',
+                type: 'select',
+                options: ['A', 'B', 'C', 'D', 'X'],
                 saveImmediately: true
               },
-              type: "text",
+              type: 'text',
               toggled: true
             },
             {
-              type: "operation",
-              label: "操作",
+              type: 'operation',
+              label: '操作',
               width: 100,
               buttons: [
                 {
-                  type: "button",
-                  icon: "fa fa-eye",
-                  actionType: "dialog",
+                  type: 'button',
+                  icon: 'fa fa-eye',
+                  actionType: 'dialog',
                   dialog: {
-                    title: "查看",
+                    title: '查看',
                     body: {
-                      type: "form",
+                      type: 'form',
                       controls: [
                         {
-                          type: "static",
-                          name: "engine",
-                          label: "Engine"
+                          type: 'static',
+                          name: 'engine',
+                          label: 'Engine'
                         },
                         {
-                          type: "divider"
+                          type: 'divider'
                         },
                         {
-                          type: "static",
-                          name: "browser",
-                          label: "Browser"
+                          type: 'static',
+                          name: 'browser',
+                          label: 'Browser'
                         },
                         {
-                          type: "divider"
+                          type: 'divider'
                         },
                         {
-                          type: "static",
-                          name: "platform",
-                          label: "Platform(s)"
+                          type: 'static',
+                          name: 'platform',
+                          label: 'Platform(s)'
                         },
                         {
-                          type: "divider"
+                          type: 'divider'
                         },
                         {
-                          type: "static",
-                          name: "version",
-                          label: "Engine version"
+                          type: 'static',
+                          name: 'version',
+                          label: 'Engine version'
                         },
                         {
-                          type: "divider"
+                          type: 'divider'
                         },
                         {
-                          type: "static",
-                          name: "grade",
-                          label: "CSS grade"
+                          type: 'static',
+                          name: 'grade',
+                          label: 'CSS grade'
                         },
                         {
-                          type: "divider"
+                          type: 'divider'
                         },
                         {
-                          type: "html",
+                          type: 'html',
                           html:
-                            "<p>添加其他 <span>Html 片段</span> 需要支持变量替换（todo）.</p>"
+                            '<p>添加其他 <span>Html 片段</span> 需要支持变量替换（todo）.</p>'
                         }
                       ]
                     }
                   }
                 },
                 {
-                  type: "button",
-                  icon: "fa fa-pencil",
-                  actionType: "dialog",
+                  type: 'button',
+                  icon: 'fa fa-pencil',
+                  actionType: 'dialog',
                   dialog: {
-                    position: "left",
-                    size: "lg",
-                    title: "编辑",
+                    position: 'left',
+                    size: 'lg',
+                    title: '编辑',
                     body: {
-                      type: "form",
-                      name: "sample-edit-form",
-                      api: "/api/sample/$id",
+                      type: 'form',
+                      name: 'sample-edit-form',
+                      api: '/api/sample/$id',
                       controls: [
                         {
-                          type: "text",
-                          name: "engine",
-                          label: "Engine",
+                          type: 'text',
+                          name: 'engine',
+                          label: 'Engine',
                           required: true
                         },
                         {
-                          type: "divider"
+                          type: 'divider'
                         },
                         {
-                          type: "text",
-                          name: "browser",
-                          label: "Browser",
+                          type: 'text',
+                          name: 'browser',
+                          label: 'Browser',
                           required: true
                         },
                         {
-                          type: "divider"
+                          type: 'divider'
                         },
                         {
-                          type: "text",
-                          name: "platform",
-                          label: "Platform(s)",
+                          type: 'text',
+                          name: 'platform',
+                          label: 'Platform(s)',
                           required: true
                         },
                         {
-                          type: "divider"
+                          type: 'divider'
                         },
                         {
-                          type: "text",
-                          name: "version",
-                          label: "Engine version"
+                          type: 'text',
+                          name: 'version',
+                          label: 'Engine version'
                         },
                         {
-                          type: "divider"
+                          type: 'divider'
                         },
                         {
-                          type: "select",
-                          name: "grade",
-                          label: "CSS grade",
-                          options: ["A", "B", "C", "D", "X"]
+                          type: 'select',
+                          name: 'grade',
+                          label: 'CSS grade',
+                          options: ['A', 'B', 'C', 'D', 'X']
                         }
                       ]
                     }
                   }
                 },
                 {
-                  type: "button",
-                  icon: "fa fa-times text-danger",
-                  actionType: "ajax",
-                  confirmText: "您确认要删除?",
-                  api: "delete:/api/sample/$id"
+                  type: 'button',
+                  icon: 'fa fa-times text-danger',
+                  actionType: 'ajax',
+                  confirmText: '您确认要删除?',
+                  api: 'delete:/api/sample/$id'
                 }
               ],
               toggled: true
@@ -503,45 +503,45 @@ export default {
       },
 
       {
-        type: "divider"
+        type: 'divider'
       },
 
-      "<p>List 渲染类型</p>",
+      '<p>List 渲染类型</p>',
       {
-        type: "divider"
+        type: 'divider'
       },
 
       {
-        type: "picker",
-        name: "type5",
+        type: 'picker',
+        name: 'type5',
         joinValues: true,
-        valueField: "id",
-        labelField: "engine",
-        label: "单选",
-        source: "/api/sample",
-        size: "lg",
-        value: "4",
+        valueField: 'id',
+        labelField: 'engine',
+        label: '单选',
+        source: '/api/sample',
+        size: 'lg',
+        value: '4',
         pickerSchema: {
-          mode: "list",
-          name: "thelist",
-          quickSaveApi: "/api/sample/bulkUpdate",
-          quickSaveItemApi: "/api/sample/$id",
+          mode: 'list',
+          name: 'thelist',
+          quickSaveApi: '/api/sample/bulkUpdate',
+          quickSaveItemApi: '/api/sample/$id',
           draggable: true,
           headerToolbar: {
             wrapWithPanel: false,
-            type: "form",
-            className: "text-right",
-            target: "thelist",
-            mode: "inline",
+            type: 'form',
+            className: 'text-right',
+            target: 'thelist',
+            mode: 'inline',
             controls: [
               {
-                type: "text",
-                name: "keywords",
+                type: 'text',
+                name: 'keywords',
                 addOn: {
-                  type: "submit",
-                  label: "搜索",
-                  level: "primary",
-                  icon: "fa fa-search pull-left"
+                  type: 'submit',
+                  label: '搜索',
+                  level: 'primary',
+                  icon: 'fa fa-search pull-left'
                 }
               }
             ]
@@ -549,187 +549,187 @@ export default {
           listItem: {
             actions: [
               {
-                type: "button",
-                icon: "fa fa-eye",
-                actionType: "dialog",
+                type: 'button',
+                icon: 'fa fa-eye',
+                actionType: 'dialog',
                 dialog: {
-                  title: "查看",
+                  title: '查看',
                   body: {
-                    type: "form",
+                    type: 'form',
                     controls: [
                       {
-                        type: "static",
-                        name: "engine",
-                        label: "Engine"
+                        type: 'static',
+                        name: 'engine',
+                        label: 'Engine'
                       },
                       {
-                        type: "divider"
+                        type: 'divider'
                       },
                       {
-                        type: "static",
-                        name: "browser",
-                        label: "Browser"
+                        type: 'static',
+                        name: 'browser',
+                        label: 'Browser'
                       },
                       {
-                        type: "divider"
+                        type: 'divider'
                       },
                       {
-                        type: "static",
-                        name: "platform",
-                        label: "Platform(s)"
+                        type: 'static',
+                        name: 'platform',
+                        label: 'Platform(s)'
                       },
                       {
-                        type: "divider"
+                        type: 'divider'
                       },
                       {
-                        type: "static",
-                        name: "version",
-                        label: "Engine version"
+                        type: 'static',
+                        name: 'version',
+                        label: 'Engine version'
                       },
                       {
-                        type: "divider"
+                        type: 'divider'
                       },
                       {
-                        type: "static",
-                        name: "grade",
-                        label: "CSS grade"
+                        type: 'static',
+                        name: 'grade',
+                        label: 'CSS grade'
                       },
                       {
-                        type: "divider"
+                        type: 'divider'
                       },
                       {
-                        type: "html",
+                        type: 'html',
                         html:
-                          "<p>添加其他 <span>Html 片段</span> 需要支持变量替换（todo）.</p>"
+                          '<p>添加其他 <span>Html 片段</span> 需要支持变量替换（todo）.</p>'
                       }
                     ]
                   }
                 }
               },
               {
-                type: "button",
-                icon: "fa fa-pencil",
-                actionType: "dialog",
+                type: 'button',
+                icon: 'fa fa-pencil',
+                actionType: 'dialog',
                 dialog: {
-                  title: "编辑",
+                  title: '编辑',
                   body: {
-                    type: "form",
-                    name: "sample-edit-form",
-                    api: "/api/sample/$id",
+                    type: 'form',
+                    name: 'sample-edit-form',
+                    api: '/api/sample/$id',
                     controls: [
                       {
-                        type: "text",
-                        name: "engine",
-                        label: "Engine",
+                        type: 'text',
+                        name: 'engine',
+                        label: 'Engine',
                         required: true
                       },
                       {
-                        type: "divider"
+                        type: 'divider'
                       },
                       {
-                        type: "text",
-                        name: "browser",
-                        label: "Browser",
+                        type: 'text',
+                        name: 'browser',
+                        label: 'Browser',
                         required: true
                       },
                       {
-                        type: "divider"
+                        type: 'divider'
                       },
                       {
-                        type: "text",
-                        name: "platform",
-                        label: "Platform(s)",
+                        type: 'text',
+                        name: 'platform',
+                        label: 'Platform(s)',
                         required: true
                       },
                       {
-                        type: "divider"
+                        type: 'divider'
                       },
                       {
-                        type: "text",
-                        name: "version",
-                        label: "Engine version"
+                        type: 'text',
+                        name: 'version',
+                        label: 'Engine version'
                       },
                       {
-                        type: "divider"
+                        type: 'divider'
                       },
                       {
-                        type: "text",
-                        name: "grade",
-                        label: "CSS grade"
+                        type: 'text',
+                        name: 'grade',
+                        label: 'CSS grade'
                       }
                     ]
                   }
                 }
               },
               {
-                type: "button",
-                icon: "fa fa-times text-danger",
-                actionType: "ajax",
-                confirmText: "您确认要删除?",
-                api: "delete:/api/sample/$id"
+                type: 'button',
+                icon: 'fa fa-times text-danger',
+                actionType: 'ajax',
+                confirmText: '您确认要删除?',
+                api: 'delete:/api/sample/$id'
               }
             ],
             body: [
               {
-                name: "engine",
-                label: "Rendering engine",
+                name: 'engine',
+                label: 'Rendering engine',
                 sortable: true,
                 quickEdit: true,
-                labelClassName: "w-sm"
+                labelClassName: 'w-sm'
               },
               [
                 {
-                  name: "browser",
-                  label: "Browser",
-                  labelClassName: "w-sm"
+                  name: 'browser',
+                  label: 'Browser',
+                  labelClassName: 'w-sm'
                 },
                 {
-                  name: "platform",
-                  label: "Platform(s)",
-                  labelClassName: "w-sm"
+                  name: 'platform',
+                  label: 'Platform(s)',
+                  labelClassName: 'w-sm'
                 }
               ],
               {
-                name: "version",
-                label: "Engine version",
-                labelClassName: "w-sm"
+                name: 'version',
+                label: 'Engine version',
+                labelClassName: 'w-sm'
               }
             ]
           }
         }
       },
       {
-        type: "picker",
-        name: "type6",
+        type: 'picker',
+        name: 'type6',
         joinValues: true,
-        valueField: "id",
-        labelField: "engine",
-        label: "多选",
-        source: "/api/sample",
-        size: "lg",
-        value: "4,5",
+        valueField: 'id',
+        labelField: 'engine',
+        label: '多选',
+        source: '/api/sample',
+        size: 'lg',
+        value: '4,5',
         multiple: true,
         pickerSchema: {
-          mode: "list",
-          name: "thelist",
-          quickSaveApi: "/api/sample/bulkUpdate",
-          quickSaveItemApi: "/api/sample/$id",
+          mode: 'list',
+          name: 'thelist',
+          quickSaveApi: '/api/sample/bulkUpdate',
+          quickSaveItemApi: '/api/sample/$id',
           draggable: true,
           headerToolbar: {
             wrapWithPanel: false,
-            type: "form",
-            className: "text-right",
-            target: "thelist",
-            mode: "inline",
+            type: 'form',
+            className: 'text-right',
+            target: 'thelist',
+            mode: 'inline',
             controls: [
               {
-                type: "text",
-                name: "keywords",
+                type: 'text',
+                name: 'keywords',
                 addOn: {
-                  type: "submit",
-                  label: "搜索",
-                  level: "primary",
-                  icon: "fa fa-search pull-left"
+                  type: 'submit',
+                  label: '搜索',
+                  level: 'primary',
+                  icon: 'fa fa-search pull-left'
                 }
               }
             ]
@@ -737,150 +737,150 @@ export default {
           listItem: {
             actions: [
               {
-                type: "button",
-                icon: "fa fa-eye",
-                actionType: "dialog",
+                type: 'button',
+                icon: 'fa fa-eye',
+                actionType: 'dialog',
                 dialog: {
-                  title: "查看",
+                  title: '查看',
                   body: {
-                    type: "form",
+                    type: 'form',
                     controls: [
                       {
-                        type: "static",
-                        name: "engine",
-                        label: "Engine"
+                        type: 'static',
+                        name: 'engine',
+                        label: 'Engine'
                       },
                       {
-                        type: "divider"
+                        type: 'divider'
                       },
                       {
-                        type: "static",
-                        name: "browser",
-                        label: "Browser"
+                        type: 'static',
+                        name: 'browser',
+                        label: 'Browser'
                       },
                       {
-                        type: "divider"
+                        type: 'divider'
                       },
                       {
-                        type: "static",
-                        name: "platform",
-                        label: "Platform(s)"
+                        type: 'static',
+                        name: 'platform',
+                        label: 'Platform(s)'
                       },
                       {
-                        type: "divider"
+                        type: 'divider'
                       },
                       {
-                        type: "static",
-                        name: "version",
-                        label: "Engine version"
+                        type: 'static',
+                        name: 'version',
+                        label: 'Engine version'
                       },
                       {
-                        type: "divider"
+                        type: 'divider'
                       },
                       {
-                        type: "static",
-                        name: "grade",
-                        label: "CSS grade"
+                        type: 'static',
+                        name: 'grade',
+                        label: 'CSS grade'
                       },
                       {
-                        type: "divider"
+                        type: 'divider'
                       },
                       {
-                        type: "html",
+                        type: 'html',
                         html:
-                          "<p>添加其他 <span>Html 片段</span> 需要支持变量替换（todo）.</p>"
+                          '<p>添加其他 <span>Html 片段</span> 需要支持变量替换（todo）.</p>'
                       }
                     ]
                   }
                 }
               },
               {
-                type: "button",
-                icon: "fa fa-pencil",
-                actionType: "dialog",
+                type: 'button',
+                icon: 'fa fa-pencil',
+                actionType: 'dialog',
                 dialog: {
-                  title: "编辑",
+                  title: '编辑',
                   body: {
-                    type: "form",
-                    name: "sample-edit-form",
-                    api: "/api/sample/$id",
+                    type: 'form',
+                    name: 'sample-edit-form',
+                    api: '/api/sample/$id',
                     controls: [
                       {
-                        type: "text",
-                        name: "engine",
-                        label: "Engine",
+                        type: 'text',
+                        name: 'engine',
+                        label: 'Engine',
                         required: true
                       },
                       {
-                        type: "divider"
+                        type: 'divider'
                       },
                       {
-                        type: "text",
-                        name: "browser",
-                        label: "Browser",
+                        type: 'text',
+                        name: 'browser',
+                        label: 'Browser',
                         required: true
                       },
                       {
-                        type: "divider"
+                        type: 'divider'
                       },
                       {
-                        type: "text",
-                        name: "platform",
-                        label: "Platform(s)",
+                        type: 'text',
+                        name: 'platform',
+                        label: 'Platform(s)',
                         required: true
                       },
                       {
-                        type: "divider"
+                        type: 'divider'
                       },
                       {
-                        type: "text",
-                        name: "version",
-                        label: "Engine version"
+                        type: 'text',
+                        name: 'version',
+                        label: 'Engine version'
                       },
                       {
-                        type: "divider"
+                        type: 'divider'
                       },
                       {
-                        type: "text",
-                        name: "grade",
-                        label: "CSS grade"
+                        type: 'text',
+                        name: 'grade',
+                        label: 'CSS grade'
                       }
                     ]
                   }
                 }
               },
               {
-                type: "button",
-                icon: "fa fa-times text-danger",
-                actionType: "ajax",
-                confirmText: "您确认要删除?",
-                api: "delete:/api/sample/$id"
+                type: 'button',
+                icon: 'fa fa-times text-danger',
+                actionType: 'ajax',
+                confirmText: '您确认要删除?',
+                api: 'delete:/api/sample/$id'
               }
             ],
             body: [
               {
-                name: "engine",
-                label: "Rendering engine",
+                name: 'engine',
+                label: 'Rendering engine',
                 sortable: true,
                 quickEdit: true,
-                labelClassName: "w-sm"
+                labelClassName: 'w-sm'
               },
               [
                 {
-                  name: "browser",
-                  label: "Browser",
-                  labelClassName: "w-sm"
+                  name: 'browser',
+                  label: 'Browser',
+                  labelClassName: 'w-sm'
                 },
                 {
-                  name: "platform",
-                  label: "Platform(s)",
-                  labelClassName: "w-sm"
+                  name: 'platform',
+                  label: 'Platform(s)',
+                  labelClassName: 'w-sm'
                 }
               ],
               {
-                name: "version",
-                label: "Engine version",
-                labelClassName: "w-sm"
+                name: 'version',
+                label: 'Engine version',
+                labelClassName: 'w-sm'
               }
             ]
           }
@@ -888,198 +888,198 @@ export default {
       },
 
       {
-        type: "divider"
+        type: 'divider'
       },
 
-      "<p>Cards 渲染类型</p>",
+      '<p>Cards 渲染类型</p>',
       {
-        type: "divider"
+        type: 'divider'
       },
 
       {
-        type: "picker",
-        name: "type7",
+        type: 'picker',
+        name: 'type7',
         joinValues: true,
-        valueField: "id",
-        labelField: "engine",
-        label: "单选",
-        source: "/api/sample",
-        size: "lg",
-        value: "4",
+        valueField: 'id',
+        labelField: 'engine',
+        label: '单选',
+        source: '/api/sample',
+        size: 'lg',
+        value: '4',
         pickerSchema: {
-          mode: "cards",
-          name: "thelist",
-          quickSaveApi: "/api/sample/bulkUpdate",
-          quickSaveItemApi: "/api/sample/$id",
+          mode: 'cards',
+          name: 'thelist',
+          quickSaveApi: '/api/sample/bulkUpdate',
+          quickSaveItemApi: '/api/sample/$id',
           draggable: true,
           headerToolbar: {
             wrapWithPanel: false,
-            type: "form",
-            className: "text-right",
-            target: "thelist",
-            mode: "inline",
+            type: 'form',
+            className: 'text-right',
+            target: 'thelist',
+            mode: 'inline',
             controls: [
               {
-                type: "text",
-                name: "keywords",
+                type: 'text',
+                name: 'keywords',
                 addOn: {
-                  type: "submit",
-                  label: "搜索",
-                  level: "primary",
-                  icon: "fa fa-search pull-left"
+                  type: 'submit',
+                  label: '搜索',
+                  level: 'primary',
+                  icon: 'fa fa-search pull-left'
                 }
               }
             ]
           },
           card: {
             header: {
-              title: "$engine",
-              subTitle: "$platform",
-              subTitlePlaceholder: "暂无说明",
+              title: '$engine',
+              subTitle: '$platform',
+              subTitlePlaceholder: '暂无说明',
               avatar:
                 '<%= data.avatar || "https://internal-amis-res.cdn.bcebos.com/images/2019-12/1575350573496/4873dbfaf6a5.png" %>',
-              avatarClassName: "pull-left thumb b-3x m-r"
+              avatarClassName: 'pull-left thumb b-3x m-r'
             },
             actions: [
               {
-                type: "button",
-                label: "查看",
-                actionType: "dialog",
+                type: 'button',
+                label: '查看',
+                actionType: 'dialog',
                 dialog: {
-                  title: "查看",
+                  title: '查看',
                   body: {
-                    type: "form",
+                    type: 'form',
                     controls: [
                       {
-                        type: "static",
-                        name: "engine",
-                        label: "Engine"
+                        type: 'static',
+                        name: 'engine',
+                        label: 'Engine'
                       },
                       {
-                        type: "divider"
+                        type: 'divider'
                       },
                       {
-                        type: "static",
-                        name: "browser",
-                        label: "Browser"
+                        type: 'static',
+                        name: 'browser',
+                        label: 'Browser'
                       },
                       {
-                        type: "divider"
+                        type: 'divider'
                       },
                       {
-                        type: "static",
-                        name: "platform",
-                        label: "Platform(s)"
+                        type: 'static',
+                        name: 'platform',
+                        label: 'Platform(s)'
                       },
                       {
-                        type: "divider"
+                        type: 'divider'
                       },
                       {
-                        type: "static",
-                        name: "version",
-                        label: "Engine version"
+                        type: 'static',
+                        name: 'version',
+                        label: 'Engine version'
                       },
                       {
-                        type: "divider"
+                        type: 'divider'
                       },
                       {
-                        type: "static",
-                        name: "grade",
-                        label: "CSS grade"
+                        type: 'static',
+                        name: 'grade',
+                        label: 'CSS grade'
                       },
                       {
-                        type: "divider"
+                        type: 'divider'
                       },
                       {
-                        type: "html",
+                        type: 'html',
                         html:
-                          "<p>添加其他 <span>Html 片段</span> 需要支持变量替换（todo）.</p>"
+                          '<p>添加其他 <span>Html 片段</span> 需要支持变量替换（todo）.</p>'
                       }
                     ]
                   }
                 }
               },
               {
-                type: "button",
-                label: "编辑",
-                actionType: "dialog",
+                type: 'button',
+                label: '编辑',
+                actionType: 'dialog',
                 dialog: {
-                  title: "编辑",
+                  title: '编辑',
                   body: {
-                    type: "form",
-                    name: "sample-edit-form",
-                    api: "/api/sample/$id",
+                    type: 'form',
+                    name: 'sample-edit-form',
+                    api: '/api/sample/$id',
                     controls: [
                       {
-                        type: "text",
-                        name: "engine",
-                        label: "Engine",
+                        type: 'text',
+                        name: 'engine',
+                        label: 'Engine',
                         required: true
                       },
                       {
-                        type: "divider"
+                        type: 'divider'
                       },
                       {
-                        type: "text",
-                        name: "browser",
-                        label: "Browser",
+                        type: 'text',
+                        name: 'browser',
+                        label: 'Browser',
                         required: true
                       },
                       {
-                        type: "divider"
+                        type: 'divider'
                       },
                       {
-                        type: "text",
-                        name: "platform",
-                        label: "Platform(s)",
+                        type: 'text',
+                        name: 'platform',
+                        label: 'Platform(s)',
                         required: true
                       },
                       {
-                        type: "divider"
+                        type: 'divider'
                       },
                       {
-                        type: "text",
-                        name: "version",
-                        label: "Engine version"
+                        type: 'text',
+                        name: 'version',
+                        label: 'Engine version'
                       },
                       {
-                        type: "divider"
+                        type: 'divider'
                       },
                       {
-                        type: "text",
-                        name: "grade",
-                        label: "CSS grade"
+                        type: 'text',
+                        name: 'grade',
+                        label: 'CSS grade'
                       }
                     ]
                   }
                 }
               },
               {
-                type: "button",
-                label: "删除",
-                actionType: "ajax",
-                confirmText: "您确认要删除?",
-                api: "delete:/api/sample/$id"
+                type: 'button',
+                label: '删除',
+                actionType: 'ajax',
+                confirmText: '您确认要删除?',
+                api: 'delete:/api/sample/$id'
               }
             ],
             body: [
               {
-                name: "engine",
-                label: "engine",
+                name: 'engine',
+                label: 'engine',
                 sortable: true,
                 quickEdit: true
               },
               {
-                name: "browser",
-                label: "Browser"
+                name: 'browser',
+                label: 'Browser'
               },
               {
-                name: "platform",
-                label: "Platform"
+                name: 'platform',
+                label: 'Platform'
               },
               {
-                name: "version",
-                label: "version"
+                name: 'version',
+                label: 'version'
               }
             ]
           }
@@ -1087,190 +1087,190 @@ export default {
       },
 
       {
-        type: "picker",
-        name: "type8",
+        type: 'picker',
+        name: 'type8',
         joinValues: true,
-        valueField: "id",
-        labelField: "engine",
-        label: "多选",
-        source: "/api/sample",
-        size: "lg",
-        value: "4,5",
+        valueField: 'id',
+        labelField: 'engine',
+        label: '多选',
+        source: '/api/sample',
+        size: 'lg',
+        value: '4,5',
         multiple: true,
         pickerSchema: {
-          mode: "cards",
-          name: "thelist",
-          quickSaveApi: "/api/sample/bulkUpdate",
-          quickSaveItemApi: "/api/sample/$id",
+          mode: 'cards',
+          name: 'thelist',
+          quickSaveApi: '/api/sample/bulkUpdate',
+          quickSaveItemApi: '/api/sample/$id',
           draggable: true,
           headerToolbar: {
             wrapWithPanel: false,
-            type: "form",
-            className: "text-right",
-            target: "thelist",
-            mode: "inline",
+            type: 'form',
+            className: 'text-right',
+            target: 'thelist',
+            mode: 'inline',
             controls: [
               {
-                type: "text",
-                name: "keywords",
+                type: 'text',
+                name: 'keywords',
                 addOn: {
-                  type: "submit",
-                  label: "搜索",
-                  level: "primary",
-                  icon: "fa fa-search pull-left"
+                  type: 'submit',
+                  label: '搜索',
+                  level: 'primary',
+                  icon: 'fa fa-search pull-left'
                 }
               }
             ]
           },
           card: {
             header: {
-              title: "$engine",
-              subTitle: "$platform",
-              subTitlePlaceholder: "暂无说明",
+              title: '$engine',
+              subTitle: '$platform',
+              subTitlePlaceholder: '暂无说明',
               avatar:
                 '<%= data.avatar || "https://internal-amis-res.cdn.bcebos.com/images/2019-12/1575350573496/4873dbfaf6a5.png" %>',
-              avatarClassName: "pull-left thumb b-3x m-r"
+              avatarClassName: 'pull-left thumb b-3x m-r'
             },
             actions: [
               {
-                type: "button",
-                label: "查看",
-                actionType: "dialog",
+                type: 'button',
+                label: '查看',
+                actionType: 'dialog',
                 dialog: {
-                  title: "查看",
+                  title: '查看',
                   body: {
-                    type: "form",
+                    type: 'form',
                     controls: [
                       {
-                        type: "static",
-                        name: "engine",
-                        label: "Engine"
+                        type: 'static',
+                        name: 'engine',
+                        label: 'Engine'
                       },
                       {
-                        type: "divider"
+                        type: 'divider'
                       },
                       {
-                        type: "static",
-                        name: "browser",
-                        label: "Browser"
+                        type: 'static',
+                        name: 'browser',
+                        label: 'Browser'
                       },
                       {
-                        type: "divider"
+                        type: 'divider'
                       },
                       {
-                        type: "static",
-                        name: "platform",
-                        label: "Platform(s)"
+                        type: 'static',
+                        name: 'platform',
+                        label: 'Platform(s)'
                       },
                       {
-                        type: "divider"
+                        type: 'divider'
                       },
                       {
-                        type: "static",
-                        name: "version",
-                        label: "Engine version"
+                        type: 'static',
+                        name: 'version',
+                        label: 'Engine version'
                       },
                       {
-                        type: "divider"
+                        type: 'divider'
                       },
                       {
-                        type: "static",
-                        name: "grade",
-                        label: "CSS grade"
+                        type: 'static',
+                        name: 'grade',
+                        label: 'CSS grade'
                       },
                       {
-                        type: "divider"
+                        type: 'divider'
                       },
                       {
-                        type: "html",
+                        type: 'html',
                         html:
-                          "<p>添加其他 <span>Html 片段</span> 需要支持变量替换（todo）.</p>"
+                          '<p>添加其他 <span>Html 片段</span> 需要支持变量替换（todo）.</p>'
                       }
                     ]
                   }
                 }
               },
               {
-                type: "button",
-                label: "编辑",
-                actionType: "dialog",
+                type: 'button',
+                label: '编辑',
+                actionType: 'dialog',
                 dialog: {
-                  title: "编辑",
+                  title: '编辑',
                   body: {
-                    type: "form",
-                    name: "sample-edit-form",
-                    api: "/api/sample/$id",
+                    type: 'form',
+                    name: 'sample-edit-form',
+                    api: '/api/sample/$id',
                     controls: [
                       {
-                        type: "text",
-                        name: "engine",
-                        label: "Engine",
+                        type: 'text',
+                        name: 'engine',
+                        label: 'Engine',
                         required: true
                       },
                       {
-                        type: "divider"
+                        type: 'divider'
                       },
                       {
-                        type: "text",
-                        name: "browser",
-                        label: "Browser",
+                        type: 'text',
+                        name: 'browser',
+                        label: 'Browser',
                         required: true
                       },
                       {
-                        type: "divider"
+                        type: 'divider'
                       },
                       {
-                        type: "text",
-                        name: "platform",
-                        label: "Platform(s)",
+                        type: 'text',
+                        name: 'platform',
+                        label: 'Platform(s)',
                         required: true
                       },
                       {
-                        type: "divider"
+                        type: 'divider'
                       },
                       {
-                        type: "text",
-                        name: "version",
-                        label: "Engine version"
+                        type: 'text',
+                        name: 'version',
+                        label: 'Engine version'
                       },
                       {
-                        type: "divider"
+                        type: 'divider'
                       },
                       {
-                        type: "text",
-                        name: "grade",
-                        label: "CSS grade"
+                        type: 'text',
+                        name: 'grade',
+                        label: 'CSS grade'
                       }
                     ]
                   }
                 }
               },
               {
-                type: "button",
-                label: "删除",
-                actionType: "ajax",
-                confirmText: "您确认要删除?",
-                api: "delete:/api/sample/$id"
+                type: 'button',
+                label: '删除',
+                actionType: 'ajax',
+                confirmText: '您确认要删除?',
+                api: 'delete:/api/sample/$id'
               }
             ],
             body: [
               {
-                name: "engine",
-                label: "engine",
+                name: 'engine',
+                label: 'engine',
                 sortable: true,
                 quickEdit: true
               },
               {
-                name: "browser",
-                label: "Browser"
+                name: 'browser',
+                label: 'Browser'
               },
               {
-                name: "platform",
-                label: "Platform"
+                name: 'platform',
+                label: 'Platform'
               },
               {
-                name: "version",
-                label: "version"
+                name: 'version',
+                label: 'version'
               }
             ]
           }

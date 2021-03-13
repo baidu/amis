@@ -10,6 +10,7 @@ import {LocaleProps, localeable} from '../locale';
 
 export interface LocationProps extends ThemeProps, LocaleProps {
   vendor: 'baidu' | 'gaode' | 'tenxun';
+  coordinatesType: 'bd09' | 'gcj02';
   placeholder: string;
   clearable: boolean;
   ak: string;
@@ -35,7 +36,7 @@ export class LocationPicker extends React.Component<
   LocationState
 > {
   static defaultProps = {
-    placeholder: '请选择位置',
+    placeholder: 'LocationPicker.placeholder',
     clearable: false
   };
   domRef: React.RefObject<HTMLDivElement> = React.createRef();
@@ -134,6 +135,7 @@ export class LocationPicker extends React.Component<
       clearable,
       popOverContainer,
       vendor,
+      coordinatesType,
       ak
     } = this.props;
     const __ = this.props.translate;
@@ -192,6 +194,7 @@ export class LocationPicker extends React.Component<
               <BaiduMapPicker
                 ak={ak}
                 value={value}
+                coordinatesType={coordinatesType}
                 onChange={this.handleChange}
               />
             ) : (

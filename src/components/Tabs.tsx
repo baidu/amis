@@ -9,6 +9,7 @@ import {Schema} from '../types';
 import Transition, {ENTERED, ENTERING} from 'react-transition-group/Transition';
 import {themeable, ThemeProps} from '../theme';
 import {uncontrollable} from 'uncontrollable';
+import {generateIcon} from '../utils/icon';
 
 const transitionStyles: {
   [propName: string]: string;
@@ -20,6 +21,7 @@ const transitionStyles: {
 export interface TabProps extends ThemeProps {
   title?: string; // 标题
   icon?: string;
+  iconPosition?: 'left' | 'right';
   disabled?: boolean | string;
   eventKey: string | number;
   tab?: Schema;
@@ -80,8 +82,8 @@ class TabComponent extends React.PureComponent<TabProps> {
 export const Tab = themeable(TabComponent);
 
 export interface TabsProps extends ThemeProps {
-  mode: '' | 'line' | 'card' | 'radio' | 'vertical';
-  tabsMode?: '' | 'line' | 'card' | 'radio' | 'vertical';
+  mode: '' | 'line' | 'card' | 'radio' | 'vertical' | 'chrome';
+  tabsMode?: '' | 'line' | 'card' | 'radio' | 'vertical' | 'chrome';
   additionBtns?: React.ReactNode;
   onSelect?: (key: string | number) => void;
   activeKey?: string | number;
@@ -110,10 +112,19 @@ export class Tabs extends React.Component<TabsProps> {
       return;
     }
 
-    const {classnames: cx, activeKey: activeKeyProp} = this.props;
-    const {eventKey, disabled, icon, title, toolbar} = child.props;
+    const {classnames: cx, activeKey: activeKeyProp, mode} = this.props;
+    const {
+      eventKey,
+      disabled,
+      icon,
+      iconPosition,
+      title,
+      toolbar
+    } = child.props;
     const activeKey =
       activeKeyProp === undefined && index === 0 ? eventKey : activeKeyProp;
+
+    const iconElement = generateIcon(cx, icon, 'Icon');
 
     return (
       <li
@@ -126,9 +137,57 @@ export class Tabs extends React.Component<TabsProps> {
         onClick={() => (disabled ? '' : this.handleSelect(eventKey))}
       >
         <a>
-          {icon ? <i className={icon} /> : null} {title}
+          {icon ? (
+            iconPosition === 'right' ? (
+              <>
+                {title} {iconElement}
+              </>
+            ) : (
+              <>
+                {iconElement} {title}
+              </>
+            )
+          ) : (
+            title
+          )}
+          {React.isValidElement(toolbar) ? toolbar : null}
         </a>
-        {React.isValidElement(toolbar) ? toolbar : null}
+        {/* svg 来自 https://github.com/adamschwartz/chrome-tabs */}
+        {mode === 'chrome' ? (
+          <div className="chrome-tab-background">
+            <svg version="1.1" xmlns="http://www.w3.org/2000/svg">
+              <defs>
+                <symbol id="chrome-tab-geometry-left" viewBox="0 0 214 36">
+                  <path d="M17 0h197v36H0v-2c4.5 0 9-3.5 9-8V8c0-4.5 3.5-8 8-8z" />
+                </symbol>
+                <symbol id="chrome-tab-geometry-right" viewBox="0 0 214 36">
+                  <use href="#chrome-tab-geometry-left" />
+                </symbol>
+                <clipPath id="crop">
+                  <rect className="mask" width="100%" height="100%" x="0" />
+                </clipPath>
+              </defs>
+              <svg width="52%" height="100%">
+                <use
+                  href="#chrome-tab-geometry-left"
+                  width="214"
+                  height="36"
+                  className="chrome-tab-geometry"
+                />
+              </svg>
+              <g transform="scale(-1, 1)">
+                <svg width="52%" height="100%" x="-100%" y="0">
+                  <use
+                    href="#chrome-tab-geometry-right"
+                    width="214"
+                    height="36"
+                    className="chrome-tab-geometry"
+                  />
+                </svg>
+              </g>
+            </svg>
+          </div>
+        ) : null}
       </li>
     );
   }

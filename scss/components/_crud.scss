@@ -8,67 +8,69 @@
   }
 
   &-selection {
-    margin-bottom: $gap-base;
+    margin-bottom: var(--gap-base);
   }
 
   &-selectionLabel {
     display: inline-block;
     vertical-align: top;
-    margin-top: $gap-xs;
+    margin-top: var(--gap-xs);
   }
 
   &-value {
     cursor: pointer;
     vertical-align: middle;
     user-select: none;
-    line-height: $Form-input-lineHeight * $Form-input-fontSize - px2rem(2px);
+    line-height: calc(
+      var(--Form-input-lineHeight) * var(--Form-input-fontSize) - #{px2rem(2px)}
+    );
     display: inline-block;
-    font-size: $Form-selectValue-fontSize;
-    color: $Form-selectValue-color;
-    background: $Form-selectValue-bg;
-    border: px2rem(1px) solid $Form-selectValue-borderColor;
+    font-size: var(--Form-selectValue-fontSize);
+    color: var(--Form-selectValue-color);
+    background: var(--Form-selectValue-bg);
+    border: px2rem(1px) solid var(--Form-selectValue-borderColor);
     border-radius: 2px;
-    margin-right: $gap-xs;
-    margin-top: $gap-xs;
+    margin-right: var(--gap-xs);
+    margin-top: var(--gap-xs);
 
     &:hover {
-      background-color: darken($Form-selectValue-bg, 5%);
+      background: var(--Form-selectValue-onHover-bg);
     }
 
     &.is-disabled {
       pointer-events: none;
-      opacity: $Button-onDisabled-opacity;
+      opacity: var(--Button-onDisabled-opacity);
     }
   }
 
   &-valueIcon {
     cursor: pointer;
-    border-right: px2rem(1px) solid $Form-selectValue-borderColor;
+    border-right: px2rem(1px) solid var(--Form-selectValue-borderColor);
     padding: 1px 5px;
 
     &:hover {
-      background-color: darken($Form-selectValue-bg, 5%);
+      background: var(--Form-selectValue-onHover-bg);
     }
   }
 
   &-valueLabel {
-    padding: 0 $gap-xs;
+    padding: 0 var(--gap-xs);
   }
 
   &-selectionClear {
     display: inline-block;
     cursor: pointer;
     user-select: none;
-    margin-left: $gap-xs;
-    margin-top: $gap-xs;
+    margin-left: var(--gap-xs);
+    margin-top: var(--gap-xs);
     vertical-align: middle;
   }
 
   &-toolbar-item {
-    margin-left: $Crud-toolbar-gap;
-    margin-top: $Crud-toolbar-gap;
-    line-height: $Crud-toolbar-lineHeight;
-    height: $Crud-toolbar-height;
+    margin-left: var(--Crud-toolbar-gap);
+    margin-top: var(--Crud-toolbar-gap);
+    line-height: var(--Crud-toolbar-lineHeight);
+    height: var(--Crud-toolbar-height);
     vertical-align: middle;
     display: inline-flex;
     align-items: center;
@@ -86,18 +88,18 @@
     > * + .#{$ns}Button,
     > * + .#{$ns}ButtonGroup,
     > * + .#{$ns}ButtonToolbar {
-      margin-left: $Crud-toolbar-gap;
+      margin-left: var(--Crud-toolbar-gap);
     }
   }
 
   &-statistics {
-    line-height: $Crud-toolbar-height;
+    line-height: var(--Crud-toolbar-height);
     vertical-align: middle;
   }
 
   &-pageSwitch {
     .#{$ns}Select {
-      margin-left: $Crud-toolbar-gap;
+      margin-left: var(--Crud-toolbar-gap);
     }
   }
 
@@ -109,32 +111,33 @@
 @include media-breakpoint-up(sm) {
   .#{$ns}Crud {
     &-toolbar {
-      margin-left: -$Crud-toolbar-gap;
-      margin-top: -$Crud-toolbar-gap;
+      margin-left: calc(var(--Crud-toolbar-gap) * -1);
+      margin-top: calc(var(--Crud-toolbar-gap) * -1);
       flex-basis: 0;
       flex-grow: 1;
       @include clearfix();
     }
-  }
 
-  &-toolbar-item {
-    margin-left: $Crud-toolbar-gap;
-    line-height: $Crud-toolbar-lineHeight;
-    height: $Crud-toolbar-height;
-    vertical-align: middle;
+    &-toolbar-item {
+      margin-left: var(--Crud-toolbar-gap);
+      line-height: var(--Crud-toolbar-lineHeight);
+      height: var(--Crud-toolbar-height);
+      vertical-align: middle;
 
-    &--left {
-      float: left;
+      &--left {
+        float: left;
+      }
+
+      &--right {
+        float: right;
+      }
     }
 
-    &--right {
-      float: right;
-    }
-  }
-
-  &-actions {
-    > .#{$ns}Button + .#{$ns}Button {
-      margin-left: $Crud-toolbar-gap;
+    &-actions {
+      > * + .#{$ns}Button,
+      > * + .#{$ns}Button--disabled-wrap {
+        margin-left: var(--Crud-toolbar-gap);
+      }
     }
   }
 }

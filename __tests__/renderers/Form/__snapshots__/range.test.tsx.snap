@@ -15,7 +15,9 @@ exports[`Renderer:number 1`] = `
         <span
           class="a-TplField"
         >
-          The form
+          <span>
+            The form
+          </span>
         </span>
       </h3>
     </div>
@@ -28,12 +30,19 @@ exports[`Renderer:number 1`] = `
       >
         <div
           class="a-Form-item a-Form-item--normal"
+          data-role="form-item"
         >
           <label
             class="a-Form-label"
           >
             <span>
-              range
+              <span
+                class="a-TplField"
+              >
+                <span>
+                  range
+                </span>
+              </span>
             </span>
           </label>
           <div
@@ -65,6 +74,7 @@ exports[`Renderer:number 1`] = `
                 >
                   <span
                     class="a-InputRange-label a-InputRange-label--value"
+                    style="left: calc(50% - 0px);"
                   >
                     <span
                       class="a-InputRange-labelContainer"
@@ -95,6 +105,7 @@ exports[`Renderer:number 1`] = `
             </div>
             <span
               class="a-InputRange-label a-InputRange-label--mid"
+              style="left: calc(50% - 60px);"
             >
               <span
                 class="a-InputRange-labelContainer"
@@ -116,12 +127,16 @@ exports[`Renderer:number 1`] = `
               class="a-InputRange-clear is-active"
             >
               <icon-mock
-                classname="icon"
+                classname="icon icon-close"
                 icon="close"
               />
             </a>
           </div>
         </div>
+        <input
+          style="display: none;"
+          type="submit"
+        />
       </form>
     </div>
     <div
@@ -182,7 +197,9 @@ exports[`Renderer:range:multiple 1`] = `
         <span
           class="a-TplField"
         >
-          The form
+          <span>
+            The form
+          </span>
         </span>
       </h3>
     </div>
@@ -195,12 +212,19 @@ exports[`Renderer:range:multiple 1`] = `
       >
         <div
           class="a-Form-item a-Form-item--normal"
+          data-role="form-item"
         >
           <label
             class="a-Form-label"
           >
             <span>
-              range
+              <span
+                class="a-TplField"
+              >
+                <span>
+                  range
+                </span>
+              </span>
             </span>
           </label>
           <div
@@ -285,6 +309,7 @@ exports[`Renderer:range:multiple 1`] = `
             </div>
             <span
               class="a-InputRange-label a-InputRange-label--mid"
+              style="left: calc(50% - 60px);"
             >
               <span
                 class="a-InputRange-labelContainer"
@@ -317,12 +342,16 @@ exports[`Renderer:range:multiple 1`] = `
               class="a-InputRange-clear is-active"
             >
               <icon-mock
-                classname="icon"
+                classname="icon icon-close"
                 icon="close"
               />
             </a>
           </div>
         </div>
+        <input
+          style="display: none;"
+          type="submit"
+        />
       </form>
     </div>
     <div

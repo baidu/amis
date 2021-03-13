@@ -1,0 +1,213 @@
+/*!markdown
+
+---
+title: 背景色
+---
+
+| Class       | Properties               |
+| ----------- | ------------------------ |
+| bg-transparent | background: transparent |
+| bg-none | background: none !important |
+| bg-transparent | background: transparent |
+| bg-current | background: currentColor |
+| bg-black | background: #000 |
+| bg-white | background: #fff |
+| bg-primary | background: #007bff |
+| bg-secondary | background: #6c757d |
+| bg-success | background: #28a745 |
+| bg-info | background: #17a2b8 |
+| bg-warning | background: #28a745 |
+| bg-danger | background: #dc3545 |
+| bg-light | background: #f8f9fa |
+| bg-dark | background: #343a40 |
+| bg-gray-transparent | background: transparent |
+| bg-gray-current | background: currentColor |
+| bg-gray-50 | background: #f9fafb |
+| bg-gray-100 | background: #f3f4f6 |
+| bg-gray-200 | background: #e5e7eb |
+| bg-gray-300 | background: #d1d5db |
+| bg-gray-400 | background: #9ca3af |
+| bg-gray-500 | background: #6b7280 |
+| bg-gray-600 | background: #4b5563 |
+| bg-gray-700 | background: #374151 |
+| bg-gray-800 | background: #1f2937 |
+| bg-gray-900 | background: #111827 |
+| bg-red-transparent | background: transparent |
+| bg-red-current | background: currentColor |
+| bg-red-50 | background: #fef2f2 |
+| bg-red-100 | background: #fee2e2 |
+| bg-red-200 | background: #fecaca |
+| bg-red-300 | background: #fca5a5 |
+| bg-red-400 | background: #f87171 |
+| bg-red-500 | background: #ef4444 |
+| bg-red-600 | background: #dc2626 |
+| bg-red-700 | background: #b91c1c |
+| bg-red-800 | background: #991b1b |
+| bg-red-900 | background: #7f1d1d |
+| bg-yellow-transparent | background: transparent |
+| bg-yellow-current | background: currentColor |
+| bg-yellow-50 | background: #fffbeb |
+| bg-yellow-100 | background: #fef3c7 |
+| bg-yellow-200 | background: #fde68a |
+| bg-yellow-300 | background: #fcd34d |
+| bg-yellow-400 | background: #fbbf24 |
+| bg-yellow-500 | background: #f59e0b |
+| bg-yellow-600 | background: #d97706 |
+| bg-yellow-700 | background: #b45309 |
+| bg-yellow-800 | background: #92400e |
+| bg-yellow-900 | background: #78350f |
+| bg-green-transparent | background: transparent |
+| bg-green-current | background: currentColor |
+| bg-green-50 | background: #ecfdf5 |
+| bg-green-100 | background: #d1fae5 |
+| bg-green-200 | background: #a7f3d0 |
+| bg-green-300 | background: #6ee7b7 |
+| bg-green-400 | background: #34d399 |
+| bg-green-500 | background: #10b981 |
+| bg-green-600 | background: #059669 |
+| bg-green-700 | background: #047857 |
+| bg-green-800 | background: #065f46 |
+| bg-green-900 | background: #064e3b |
+| bg-blue-transparent | background: transparent |
+| bg-blue-current | background: currentColor |
+| bg-blue-50 | background: #eff6ff |
+| bg-blue-100 | background: #dbeafe |
+| bg-blue-200 | background: #bfdbfe |
+| bg-blue-300 | background: #93c5fd |
+| bg-blue-400 | background: #60a5fa |
+| bg-blue-500 | background: #3b82f6 |
+| bg-blue-600 | background: #2563eb |
+| bg-blue-700 | background: #1d4ed8 |
+| bg-blue-800 | background: #1e40af |
+| bg-blue-900 | background: #1e3a8a |
+| bg-cyan-transparent | background: transparent |
+| bg-cyan-current | background: currentColor |
+| bg-cyan-50 | background: #ecfeff |
+| bg-cyan-100 | background: #cffafe |
+| bg-cyan-200 | background: #a5f3fc |
+| bg-cyan-300 | background: #67e8f9 |
+| bg-cyan-400 | background: #22d3ee |
+| bg-cyan-500 | background: #06b6d4 |
+| bg-cyan-600 | background: #0891b2 |
+| bg-cyan-700 | background: #0e7490 |
+| bg-cyan-800 | background: #155e75 |
+| bg-cyan-900 | background: #164e63 |
+| bg-indigo-transparent | background: transparent |
+| bg-indigo-current | background: currentColor |
+| bg-indigo-50 | background: #eef2ff |
+| bg-indigo-100 | background: #e0e7ff |
+| bg-indigo-200 | background: #c7d2fe |
+| bg-indigo-300 | background: #a5b4fc |
+| bg-indigo-400 | background: #818cf8 |
+| bg-indigo-500 | background: #6366f1 |
+| bg-indigo-600 | background: #4f46e5 |
+| bg-indigo-700 | background: #4338ca |
+| bg-indigo-800 | background: #3730a3 |
+| bg-indigo-900 | background: #312e81 |
+| bg-purple-transparent | background: transparent |
+| bg-purple-current | background: currentColor |
+| bg-purple-50 | background: #f5f3ff |
+| bg-purple-100 | background: #ede9fe |
+| bg-purple-200 | background: #ddd6fe |
+| bg-purple-300 | background: #c4b5fd |
+| bg-purple-400 | background: #a78bfa |
+| bg-purple-500 | background: #8b5cf6 |
+| bg-purple-600 | background: #7c3aed |
+| bg-purple-700 | background: #6d28d9 |
+| bg-purple-800 | background: #5b21b6 |
+| bg-purple-900 | background: #4c1d95 |
+| bg-pink-transparent | background: transparent |
+| bg-pink-current | background: currentColor |
+| bg-pink-50 | background: #fdf2f8 |
+| bg-pink-100 | background: #fce7f3 |
+| bg-pink-200 | background: #fbcfe8 |
+| bg-pink-300 | background: #f9a8d4 |
+| bg-pink-400 | background: #f472b6 |
+| bg-pink-500 | background: #ec4899 |
+| bg-pink-600 | background: #db2777 |
+| bg-pink-700 | background: #be185d |
+| bg-pink-800 | background: #9d174d |
+| bg-pink-900 | background: #831843 |
+
+还有 hover、active、focus、disabled 扩展，比如 `hover:bg-black`
+
+*/
+
+@mixin bg-colors-map(
+  $colors: $colors,
+  $namePrefix: '',
+  $prefix: '.',
+  $suffix: ''
+) {
+  #{$prefix}bg#{$namePrefix}-transparent#{$suffix} {
+    background: transparent;
+  }
+
+  #{$prefix}bg#{$namePrefix}-current#{$suffix} {
+    background: currentColor;
+  }
+
+  @each $name, $color in $colors {
+    @if (is-map($color)) {
+      @include bg-colors-map($color, #{'-' + $name}, $prefix, $suffix);
+    } @else if $suffix == '.is-active' {
+      #{$prefix}bg#{$namePrefix}-#{'' + $name}.is-active,
+      #{$prefix}bg#{$namePrefix}-#{'' + $name}:active {
+        background-color: $color;
+      }
+    } @else if $suffix == '.is-disabled' {
+      #{$prefix}bg#{$namePrefix}-#{'' + $name}.is-disabled,
+      #{$prefix}bg#{$namePrefix}-#{'' + $name}:disabled {
+        background-color: $color;
+      }
+    } @else {
+      #{$prefix}bg#{$namePrefix}-#{'' + $name}#{$suffix} {
+        background-color: $color;
+      }
+    }
+  }
+}
+
+@mixin bg-colors($prefix: '.', $suffix: '') {
+  #{$prefix}bg-transparent#{$suffix} {
+    background: transparent;
+  }
+  #{$prefix}bg-none#{$suffix} {
+    background: none !important;
+  }
+  @include bg-colors-map($colors, '', $prefix, $suffix);
+}
+
+@include bg-colors();
+@include bg-colors('.' + selector-escape('hover:'), ':hover');
+@include bg-colors('.' + selector-escape('active:'), '.is-active');
+@include bg-colors('.' + selector-escape('focus:'), ':focus');
+@include bg-colors('.' + selector-escape('disabled:'), '.is-disabled');
+@include bg-colors('.group:hover .' + selector-escape('group-hover:'));
+
+@each $deivce in map-keys($devices) {
+  @include media-device($deivce) {
+    @include bg-colors('.' + selector-escape($deivce + ':'));
+
+    @include bg-colors(
+      '.' + selector-escape($deivce + ':') + selector-escape('hover:'),
+      ':hover'
+    );
+    @include bg-colors(
+      '.' + selector-escape($deivce + ':') + selector-escape('active:'),
+      '.is-active'
+    );
+    @include bg-colors(
+      '.' + selector-escape($deivce + ':') + selector-escape('focus:'),
+      ':focus'
+    );
+    @include bg-colors(
+      '.' + selector-escape($deivce + ':') + selector-escape('disabled:'),
+      '.is-disabled'
+    );
+    @include bg-colors(
+      '.group:hover .' + selector-escape($deivce + ':') +
+        selector-escape('group-hover:')
+    );
+  }
+}

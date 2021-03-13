@@ -21,6 +21,7 @@ interface TableRowProps extends Pick<RendererProps, 'render'> {
   itemIndex: number;
   regionPrefix?: string;
   checkOnItemClick?: boolean;
+  ignoreFootableContent?: boolean;
   [propName: string]: any;
 }
 
@@ -53,7 +54,7 @@ export class TableRow extends React.Component<TableRowProps> {
       return true;
     }
 
-    // 不需要更新，因为孩子节点已经 observer 了
+    // 不需要更新，因为子节点已经 observer 了
     return false;
   }
 
@@ -86,10 +87,12 @@ export class TableRow extends React.Component<TableRowProps> {
   handleQuickChange(
     values: object,
     saveImmediately?: boolean,
-    savePristine?: boolean
+    savePristine?: boolean,
+    resetOnFailed?: boolean
   ) {
     const {onQuickChange, item} = this.props;
-    onQuickChange && onQuickChange(item, values, saveImmediately, savePristine);
+    onQuickChange &&
+      onQuickChange(item, values, saveImmediately, savePristine, resetOnFailed);
   }
 
   render() {
@@ -101,6 +104,7 @@ export class TableRow extends React.Component<TableRowProps> {
       renderCell,
       children,
       footableMode,
+      ignoreFootableContent,
       footableColSpan,
       regionPrefix,
       checkOnItemClick,
@@ -135,33 +139,40 @@ export class TableRow extends React.Component<TableRowProps> {
           <td className={cx(`Table-foot`)} colSpan={footableColSpan}>
             <table className={cx(`Table-footTable`)}>
               <tbody>
-                {columns.map(column => (
-                  <tr key={column.index}>
-                    {column.label !== false ? (
-                      <th>
-                        {render(
-                          `${regionPrefix}${itemIndex}/${column.index}/tpl`,
-                          column.label
-                        )}
-                      </th>
-                    ) : null}
+                {ignoreFootableContent
+                  ? columns.map(column => (
+                      <tr key={column.index}>
+                        {column.label !== false ? <th></th> : null}
+                        <td></td>
+                      </tr>
+                    ))
+                  : columns.map(column => (
+                      <tr key={column.index}>
+                        {column.label !== false ? (
+                          <th>
+                            {render(
+                              `${regionPrefix}${itemIndex}/${column.index}/tpl`,
+                              column.label
+                            )}
+                          </th>
+                        ) : null}
 
-                    {renderCell(
-                      `${regionPrefix}${itemIndex}/${column.index}`,
-                      column,
-                      item,
-                      {
-                        ...rest,
-                        width: null,
-                        rowIndex: itemIndex,
-                        colIndex: column.rawIndex,
-                        key: column.index,
-                        onAction: this.handleAction,
-                        onQuickChange: this.handleQuickChange
-                      }
-                    )}
-                  </tr>
-                ))}
+                        {renderCell(
+                          `${regionPrefix}${itemIndex}/${column.index}`,
+                          column,
+                          item,
+                          {
+                            ...rest,
+                            width: null,
+                            rowIndex: itemIndex,
+                            colIndex: column.index,
+                            key: column.index,
+                            onAction: this.handleAction,
+                            onQuickChange: this.handleQuickChange
+                          }
+                        )}
+                      </tr>
+                    ))}
               </tbody>
             </table>
           </td>
@@ -197,7 +208,7 @@ export class TableRow extends React.Component<TableRowProps> {
           renderCell(`${itemIndex}/${column.index}`, column, item, {
             ...rest,
             rowIndex: itemIndex,
-            colIndex: column.rawIndex,
+            colIndex: column.index,
             key: column.index,
             onAction: this.handleAction,
             onQuickChange: this.handleQuickChange

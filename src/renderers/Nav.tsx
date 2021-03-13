@@ -13,6 +13,7 @@ import {Api} from '../types';
 import {ClassNamesFn, themeable, ThemeProps} from '../theme';
 import {Icon} from '../components/icons';
 import {BaseSchema, SchemaApi, SchemaIcon, SchemaUrlPath} from '../Schema';
+import {generateIcon} from '../utils/icon';
 
 export type NavItemSchema = {
   /**
@@ -74,7 +75,10 @@ export interface NavigationState {
   error?: string;
 }
 
-export interface NavigationProps extends RendererProps, ThemeProps, NavSchema {
+export interface NavigationProps
+  extends RendererProps,
+    Omit<ThemeProps, 'className'>,
+    Omit<NavSchema, 'type' | 'className'> {
   onSelect?: (item: Link) => any;
 }
 
@@ -180,7 +184,7 @@ export class Navigation extends React.Component<
 
         if (!payload.ok) {
           this.setState({
-            error: payload.msg || __('获取链接错误')
+            error: payload.msg || __('Nav.sourceError')
           });
         } else {
           const links = Array.isArray(payload.data)
@@ -311,7 +315,7 @@ export class Navigation extends React.Component<
         })}
       >
         <a onClick={this.handleClick.bind(this, link)}>
-          {link.icon ? <i className={cx('Nav-itemIcon', link.icon)} /> : null}
+          {generateIcon(cx, link.icon, 'Nav-itemIcon')}
           {link.label}
         </a>
 

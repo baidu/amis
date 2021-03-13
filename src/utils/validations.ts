@@ -1,4 +1,6 @@
+import {createObject} from './helper';
 import {filter} from './tpl';
+import {isPureVariable, resolveVariableAndFilter} from './tpl-builtin';
 const isExisty = (value: any) => value !== null && value !== undefined;
 const isEmpty = (value: any) => value === '';
 const makeRegexp = (reg: string | RegExp) => {
@@ -141,7 +143,7 @@ export const validations: {
     );
   },
   isJson: function (values, value, minimum) {
-    if (isExisty(value) && !isEmpty(value)) {
+    if (isExisty(value) && !isEmpty(value) && typeof value === 'string') {
       try {
         JSON.parse(value);
       } catch (e) {
@@ -220,32 +222,32 @@ export function addRule(
 export const validateMessages: {
   [propName: string]: string;
 } = {
-  isEmail: 'Email 格式不正确',
-  isRequired: '这是必填项',
-  isUrl: 'Url 格式不正确',
-  isInt: '请输入整型数字',
-  isAlpha: '请输入字母',
-  isNumeric: '请输入数字',
-  isAlphanumeric: '请输入字母或者数字',
-  isFloat: '请输入浮点型数值',
-  isWords: '请输入字母',
-  isUrlPath: '只能输入字母、数字、`-` 和 `_`.',
-  matchRegexp: '格式不正确, 请输入符合规则为 `${1|raw}` 的内容。',
-  minLength: '请输入更多的内容，至少输入 $1 个字符。',
-  maxLength: '请控制内容长度, 不要输入 $1 个字符以上',
-  maximum: '当前输入值超出最大值 $1，请检查',
-  lt: '请输入小于 $1 的值',
-  minimum: '当前输入值低于最小值 $1，请检查',
-  gt: '请输入大于 $1 的值',
-  isJson: '请检查 Json 格式。',
-  isLength: '请输入长度为 $1 的内容',
-  notEmptyString: '请不要全输入空白字符',
-  equalsField: '输入的数据与 $1 值不一致',
-  equals: '输入的数据与 $1 不一致',
-  isPhoneNumber: '请输入合法的手机号码',
-  isTelNumber: '请输入合法的电话号码',
-  isZipcode: '请输入合法的邮编地址',
-  isId: '请输入合法的身份证号'
+  isEmail: 'validate.isEmail',
+  isRequired: 'validate.isRequired',
+  isUrl: 'validate.isUrl',
+  isInt: 'validate.isInt',
+  isAlpha: 'validate.isAlpha',
+  isNumeric: 'validate.isNumeric',
+  isAlphanumeric: 'validate.isAlphanumeric',
+  isFloat: 'validate.isFloat',
+  isWords: 'validate.isWords',
+  isUrlPath: 'validate.isUrlPath',
+  matchRegexp: 'validate.matchRegexp',
+  minLength: 'validate.minLength',
+  maxLength: 'validate.maxLength',
+  maximum: 'validate.maximum',
+  lt: 'validate.lt',
+  minimum: 'validate.minimum',
+  gt: 'validate.gt',
+  isJson: 'validate.isJson',
+  isLength: 'validate.isLength',
+  notEmptyString: 'validate.notEmptyString',
+  equalsField: 'validate.equalsField',
+  equals: 'validate.equals',
+  isPhoneNumber: 'validate.isPhoneNumber',
+  isTelNumber: 'validate.isTelNumber',
+  isZipcode: 'validate.isZipcode',
+  isId: 'validate.isId'
 };
 
 export function validate(
@@ -266,21 +268,23 @@ export function validate(
       }
 
       const fn = validations[ruleName];
+      const args = (Array.isArray(rules[ruleName])
+        ? rules[ruleName]
+        : [rules[ruleName]]
+      ).map((item: any) => {
+        if (typeof item === 'string' && isPureVariable(item)) {
+          return resolveVariableAndFilter(item, values, '|raw');
+        }
 
-      if (
-        !fn(
-          values,
-          value,
-          ...(Array.isArray(rules[ruleName])
-            ? rules[ruleName]
-            : [rules[ruleName]])
-        )
-      ) {
+        return item;
+      });
+
+      if (!fn(values, value, ...args)) {
         errors.push(
           filter(
             __((messages && messages[ruleName]) || validateMessages[ruleName]),
             {
-              ...[''].concat(rules[ruleName])
+              ...[''].concat(args)
             }
           )
         );

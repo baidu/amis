@@ -4,13 +4,19 @@ import {Icon} from './icons';
 import {uncontrollable} from 'uncontrollable';
 import {autobind} from '../utils/helper';
 import {LocaleProps, localeable} from '../locale';
+import debounce from 'lodash/debounce';
 
 export interface SearchBoxProps extends ThemeProps, LocaleProps {
   name?: string;
+  disabled?: boolean;
+  mini?: boolean;
+  searchImediately?: boolean;
   onChange?: (text: string) => void;
   placeholder?: string;
+  defaultValue?: string;
   value?: string;
   active?: boolean;
+  defaultActive?: boolean;
   onActiveChange?: (active: boolean) => void;
   onSearch?: (value: string) => void;
   onCancel?: () => void;
@@ -18,6 +24,26 @@ export interface SearchBoxProps extends ThemeProps, LocaleProps {
 
 export class SearchBox extends React.Component<SearchBoxProps> {
   inputRef: React.RefObject<HTMLInputElement> = React.createRef();
+  static defaultProps = {
+    mini: true,
+    searchImediately: true
+  };
+
+  lazyEmitSearch = debounce(
+    () => {
+      const onSearch = this.props.onSearch;
+      onSearch?.(this.props.value || '');
+    },
+    250,
+    {
+      leading: false,
+      trailing: true
+    }
+  );
+
+  componentWillUnmount() {
+    this.lazyEmitSearch.cancel();
+  }
 
   @autobind
   handleActive() {
@@ -36,9 +62,23 @@ export class SearchBox extends React.Component<SearchBoxProps> {
 
   @autobind
   handleChange(e: React.ChangeEvent<HTMLInputElement>) {
-    const {onChange, onSearch} = this.props;
+    const {onChange, onSearch, searchImediately} = this.props;
     onChange?.(e.currentTarget.value);
-    onSearch?.(e.currentTarget.value);
+    searchImediately && this.lazyEmitSearch();
+  }
+
+  @autobind
+  handleSearch() {
+    const {value, onSearch} = this.props;
+    onSearch?.(value || '');
+  }
+
+  @autobind
+  handleKeyDown(e: React.KeyboardEvent<any>) {
+    if (e.key === 'Enter') {
+      this.handleSearch();
+      e.preventDefault();
+    }
   }
 
   render() {
@@ -48,21 +88,36 @@ export class SearchBox extends React.Component<SearchBoxProps> {
       active,
       name,
       onChange,
+      disabled,
       placeholder,
+      mini,
       translate: __
     } = this.props;
 
     return (
-      <div className={cx('SearchBox', active ? 'is-active' : '')}>
+      <div
+        className={cx(
+          'SearchBox',
+          disabled ? 'is-disabled' : '',
+          !mini || active ? 'is-active' : ''
+        )}
+      >
         <input
           name={name}
+          disabled={disabled}
           onChange={this.handleChange}
           value={value || ''}
-          placeholder={__(placeholder || '输入关键字')}
+          placeholder={__(placeholder || 'placeholder.enter')}
           ref={this.inputRef}
+          autoComplete="off"
+          onKeyDown={this.handleKeyDown}
         />
 
-        {active ? (
+        {!mini ? (
+          <a className={cx('SearchBox-searchBtn')} onClick={this.handleSearch}>
+            <Icon icon="search" className="icon" />
+          </a>
+        ) : active ? (
           <a className={cx('SearchBox-cancelBtn')} onClick={this.handleCancel}>
             <Icon icon="close" className="icon" />
           </a>

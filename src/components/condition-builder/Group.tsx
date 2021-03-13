@@ -1,13 +1,11 @@
 import React from 'react';
 import {Fields, ConditionGroupValue, Funcs} from './types';
-import {ClassNamesFn, ThemeProps, themeable} from '../../theme';
+import {ThemeProps, themeable} from '../../theme';
 import Button from '../Button';
 import GroupOrItem from './GroupOrItem';
 import {autobind, guid} from '../../utils/helper';
 import {Config} from './config';
 import {Icon} from '../icons';
-import PopOverContainer from '../PopOverContainer';
-import ListRadios from '../ListRadios';
 
 export interface ConditionGroupProps extends ThemeProps {
   config: Config;
@@ -15,6 +13,7 @@ export interface ConditionGroupProps extends ThemeProps {
   fields: Fields;
   funcs?: Funcs;
   showNot?: boolean;
+  data?: any;
   onChange: (value: ConditionGroupValue) => void;
   removeable?: boolean;
   onRemove?: (e: React.MouseEvent) => void;
@@ -113,6 +112,7 @@ export class ConditionGroup extends React.Component<ConditionGroupProps> {
     const {
       classnames: cx,
       value,
+      data,
       fields,
       funcs,
       config,
@@ -125,7 +125,7 @@ export class ConditionGroup extends React.Component<ConditionGroupProps> {
     return (
       <div className={cx('CBGroup')} data-group-id={value?.id}>
         <div className={cx('CBGroup-toolbar')}>
-          <div className={cx('CBGroup-toolbarLeft')}>
+          <div className={cx('CBGroup-toolbarCondition')}>
             {showNot ? (
               <Button
                 onClick={this.handleNotClick}
@@ -156,7 +156,7 @@ export class ConditionGroup extends React.Component<ConditionGroupProps> {
               </Button>
             </div>
           </div>
-          <div className={cx('CBGroup-toolbarRight')}>
+          <div className={cx('CBGroup-toolbarConditionAdd')}>
             <div className={cx('ButtonGroup')}>
               <Button onClick={this.handleAdd} size="xs">
                 <Icon icon="plus" className="icon" />
@@ -167,13 +167,12 @@ export class ConditionGroup extends React.Component<ConditionGroupProps> {
                 添加条件组
               </Button>
             </div>
-
-            {removeable ? (
-              <a className={cx('CBDelete')} onClick={onRemove}>
-                <Icon icon="close" className="icon" />
-              </a>
-            ) : null}
           </div>
+          {removeable ? (
+            <a className={cx('CBDelete')} onClick={onRemove}>
+              <Icon icon="close" className="icon" />
+            </a>
+          ) : null}
         </div>
 
         <div className={cx('CBGroup-body')}>
@@ -190,6 +189,7 @@ export class ConditionGroup extends React.Component<ConditionGroupProps> {
                 onChange={this.handleItemChange}
                 funcs={funcs}
                 onRemove={this.handleItemRemove}
+                data={data}
               />
             ))
           ) : (

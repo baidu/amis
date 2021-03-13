@@ -10,33 +10,30 @@
   }
 
   &.is-error {
-    border-color: $Form-input-onError-borderColor;
-    background-color: $Form-input-onError-bg;
+    border-color: var(--Form-input-onError-borderColor);
+    background: var(--Form-input-onError-bg);
   }
 
   &.is-focused {
-    border-color: $Form-input-onFocused-borderColor;
-    box-shadow: $Form-input-boxShadow;
-
-    @if $Form-input-onFocused-bg !=$Form-input-bg {
-      background-color: $Form-input-onFocused-bg;
-    }
+    border-color: var(--Form-input-onFocused-borderColor);
+    box-shadow: var(--Form-input-boxShadow);
+    background: var(--Form-input-onFocused-bg);
   }
 
   &.is-clickable:hover {
-    border-color: $Form-input-onFocused-borderColor;
-    box-shadow: $Form-input-boxShadow;
+    border-color: var(--Form-input-onFocused-borderColor);
+    box-shadow: var(--Form-input-boxShadow);
     cursor: pointer;
   }
 
   &.is-error.is-focused {
-    border-color: $Form-input-onError-borderColor;
+    border-color: var(--Form-input-onError-borderColor);
   }
 
   &.is-disabled {
-    color: $text--muted-color;
-    background: $Form-input-onDisabled-bg;
-    border-color: $Form-input-onDisabled-borderColor;
+    color: var(--text--muted-color);
+    background: var(--Form-input-onDisabled-bg);
+    border-color: var(--Form-input-onDisabled-borderColor);
   }
 
   &-clear {
@@ -46,7 +43,7 @@
   > svg {
     display: inline-block;
     width: 14px;
-    color: $icon-color;
+    color: var(--icon-color);
   }
 
   > a {

@@ -2,26 +2,29 @@
   width: 100%;
 
   &-header {
-    padding: $Page-header-paddingY $Page-header-paddingX;
+    padding: var(--Page-header-paddingY) var(--Page-header-paddingX);
   }
 
   &-main {
-    background: $Page-main-bg;
+    background: var(--Page-main-bg);
     height: 100%;
     display: flex;
     flex-direction: column;
   }
 
   &-content {
-    padding: $Page-content-paddingY $Page-content-paddingX;
+    padding: var(--Page-content-paddingY) var(--Page-content-paddingX);
+    position: relative;
+    height: 100%;
+    width: 100%;
   }
 
   &-main > &-header {
-    border-bottom: $borderWidth solid $borderColor;
+    border-bottom: var(--borderWidth) solid var(--borderColor);
   }
 
   &-headerRow {
-    border-bottom: $borderWidth solid $borderColor;
+    border-bottom: var(--borderWidth) solid var(--borderColor);
 
     display: flex;
     flex-direction: row;
@@ -30,41 +33,47 @@
     .#{$ns}Page-header,
     .#{$ns}Page-toolbar {
       flex-grow: 1;
+      min-height: 100%;
     }
 
     .#{$ns}Page-toolbar {
       text-align: right;
-      padding-right: $gap-base;
+      padding-right: var(--gap-base);
+      display: flex;
+      flex-direction: row;
+      justify-content: flex-end;
+      align-items: center;
+      flex-wrap: wrap;
     }
   }
 
   &-title {
     margin: 0;
     padding: 0;
-    color: $Page-title-color;
-    line-height: $Page-title-lineHeight;
-    font-size: $Page-title-fontSize;
-    font-weight: $Page-title-fontWeight;
+    color: var(--Page-title-color);
+    line-height: var(--Page-title-lineHeight);
+    font-size: var(--Page-title-fontSize);
+    font-weight: var(--Page-title-fontWeight);
   }
 
   &-body {
-    padding: $Page-body-padding;
+    padding: var(--Page-body-padding);
     flex: 1 auto;
   }
 
   &-asideTplWrapper {
-    padding: $gap-xs;
+    padding: var(--gap-xs);
   }
 }
 
 .#{$ns}Page-toolbar {
-  .#{$ns}Button + .#{$ns}Button {
-    margin-left: $gap-xs;
+  > * + * {
+    margin-left: var(--gap-xs);
   }
 }
 
 .#{$ns}Page-aside {
-  background-color: $Page-aside-bg;
+  background: var(--Page-aside-bg);
 }
 
 @include media-breakpoint-up(md) {
@@ -76,13 +85,13 @@
       top: 0;
       bottom: 0;
       z-index: -1;
-      background-color: inherit;
+      background: inherit;
       border: inherit;
     }
 
-    width: $Page-aside-width;
-    max-width: $Page-aside-maxWidth;
-    border-right: $borderWidth solid $borderColor;
+    width: var(--Page-aside-width);
+    max-width: var(--Page-aside-maxWidth);
+    border-right: var(--borderWidth) solid var(--borderColor);
   }
 
   .#{$ns}Page--withSidebar {

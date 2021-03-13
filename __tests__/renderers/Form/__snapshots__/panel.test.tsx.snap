@@ -15,7 +15,9 @@ exports[`Renderer:panel 1`] = `
         <span
           class="a-TplField"
         >
-          The form
+          <span>
+            The form
+          </span>
         </span>
       </h3>
     </div>
@@ -28,6 +30,7 @@ exports[`Renderer:panel 1`] = `
       >
         <div
           class="a-Form-item a-Form-item--normal"
+          data-role="form-item"
         >
           <div
             class="a-FormHbox a-Form-control"
@@ -51,7 +54,9 @@ exports[`Renderer:panel 1`] = `
                       <span
                         class="a-TplField"
                       >
-                        bla bla
+                        <span>
+                          bla bla
+                        </span>
                       </span>
                     </h3>
                   </div>
@@ -68,16 +73,20 @@ exports[`Renderer:panel 1`] = `
                       </span>
                     </span>
                   </div>
-                  <div>
+                  <div
+                    class="a-Panel-footerWrap"
+                  >
                     <div
                       class="bg-black"
                     >
                       <span
                         class="a-TplField"
                       >
-                        <p>
-                          footer 内容
-                        </p>
+                        <span>
+                          <p>
+                            footer 内容
+                          </p>
+                        </span>
                       </span>
                     </div>
                   </div>
@@ -138,7 +147,9 @@ exports[`Renderer:panel 1`] = `
                       <span
                         class="a-TplField"
                       >
-                        bla bla
+                        <span>
+                          bla bla
+                        </span>
                       </span>
                     </h3>
                   </div>
@@ -150,6 +161,7 @@ exports[`Renderer:panel 1`] = `
                     >
                       <div
                         class="a-Form-item a-Form-item--normal"
+                        data-role="form-item"
                       >
                         <div
                           class="a-Form-control a-TextControl"
@@ -170,6 +182,7 @@ exports[`Renderer:panel 1`] = `
                       </div>
                       <div
                         class="a-Form-item a-Form-item--normal"
+                        data-role="form-item"
                       >
                         <div
                           class="a-Form-control a-TextControl"
@@ -234,6 +247,10 @@ exports[`Renderer:panel 1`] = `
             </div>
           </div>
         </div>
+        <input
+          style="display: none;"
+          type="submit"
+        />
       </form>
     </div>
     <div

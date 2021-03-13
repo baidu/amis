@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {render} from '../../src/index';
+import {getTheme, render} from '../../src/index';
 import axios from 'axios';
 import TitleBar from '../../src/components/TitleBar';
 import LazyComponent from '../../src/components/LazyComponent';
@@ -11,59 +11,30 @@ import NestedLinks from '../../src/components/AsideNav';
 import {Portal} from 'react-overlays';
 import classnames from 'classnames';
 import {Link} from 'react-router';
+import Play from './Play';
 
-class CodePreview extends React.Component {
+class CodePreview extends React.Component<any> {
   state = {
     PlayGround: null
   };
-  componentDidMount() {
-    require(['./Play'], component =>
-      this.setState({
-        PlayGround: component.default
-      }));
-  }
 
   render() {
-    const {
-      container,
-      height,
-      setAsideFolded,
-      setHeaderVisible,
-      ...rest
-    } = this.props;
+    const {container, setAsideFolded, setHeaderVisible, ...rest} = this.props;
 
-    const PlayGround = this.state.PlayGround;
-    // 不要放在 .markdown-body 下面，因为样式会干扰，复写又麻烦，所以通过 Overlay 渲染到同级
-
-    return (
-      <div>
-        <span style={{display: 'block', height: height}} ref="span" />
-        {PlayGround ? (
-          <Overlay
-            container={container}
-            target={() => this.refs.span}
-            placement="bottom"
-            show
-          >
-            <PopOver
-              theme={(rest as any).theme}
-              offset={{x: 0, y: -height}}
-              style={{height}}
-              className=":MDPreview-shcema-preview-popover"
-            >
-              <div className="MDPreview-schema-preview">
-                <PlayGround {...rest} vertical />
-              </div>
-            </PopOver>
-          </Overlay>
-        ) : null}
-      </div>
-    );
+    return <Play {...rest} vertical />;
   }
 }
 
-function isActive(link, location) {
-  return !!(link.fullPath && link.fullPath === location.hash);
+function eachDom(dom: HTMLElement, iterator: (dom: HTMLElement) => void) {
+  if (!dom) {
+    return;
+  }
+
+  iterator(dom);
+
+  if (dom.children && dom.children.length) {
+    [].slice.call(dom.children).forEach(dom => eachDom(dom, iterator));
+  }
 }
 
 class Preview extends React.Component {
@@ -73,11 +44,11 @@ class Preview extends React.Component {
   constructor(props) {
     super(props);
     this.divRef = this.divRef.bind(this);
-    this.handleClick = this.handleClick.bind(this);
   }
 
   componentDidMount() {
     this.renderSchema();
+    this.fixHtmlPreview();
 
     if (location.hash && location.hash.length > 1) {
       // 禁用自动跳转
@@ -94,18 +65,12 @@ class Preview extends React.Component {
 
   componentDidUpdate() {
     this.renderSchema();
+
+    this.fixHtmlPreview();
   }
 
   componentWillUnmount() {
     this.doms.forEach(dom => ReactDOM.unmountComponentAtNode(dom));
-  }
-
-  handleClick(e) {
-    const href = e.target.getAttribute('href');
-    if (href && href[0] !== '#' && !/^http/.test(href)) {
-      e.preventDefault();
-      this.props.push(href);
-    }
   }
 
   divRef(ref) {
@@ -131,22 +96,30 @@ class Preview extends React.Component {
 
       let dom = document.createElement('div');
       let height = props.height ? parseInt(props.height, 10) : 200;
+
+      if (this.props.viewMode === 'mobile') {
+        // 移动端下高度不能太低
+        if (height < 500) {
+          height = 500;
+        }
+      }
+
       dom.setAttribute('class', 'doc-play-ground');
-      dom.setAttribute('style', `height: ${height}px;`);
-      script.parentNode.replaceChild(dom, script);
+      // dom.setAttribute('style', `min-height: ${height}px;`);
+      const origin = script.parentNode;
+      origin.parentNode.replaceChild(dom, origin);
 
       this.doms.push(dom);
       ReactDOM.unstable_renderSubtreeIntoContainer(
         this,
         <LazyComponent
           {...this.props}
-          height={height}
           container={() => ReactDOM.findDOMNode(this)}
-          height={height}
           component={CodePreview}
           code={script.innerText}
           scope={props.scope}
-          unMountOnHidden
+          // unMountOnHidden
+          height={height}
           placeholder="加载中，请稍后。。。"
         />,
         dom
@@ -154,10 +127,30 @@ class Preview extends React.Component {
     }
   }
 
+  fixHtmlPreview() {
+    const htmlPreviews = document.querySelectorAll('.amis-doc>.preview');
+    if (!htmlPreviews && !htmlPreviews.length) {
+      return;
+    }
+    const ns = getTheme((this.props as any).theme)?.classPrefix;
+    [].slice.call(htmlPreviews).forEach(dom => {
+      eachDom(dom as HTMLElement, dom => {
+        if (typeof dom.className !== 'string') {
+          return;
+        }
+
+        dom.className = dom.className.replace(
+          /(^|\s)([A-Z])/g,
+          '$1' + ns + '$2'
+        );
+      });
+    });
+  }
+
   render() {
     return (
       <div className="MDPreview">
-        <div className="markdown-body" ref={this.divRef}>
+        <div className="markdown" ref={this.divRef}>
           Doc
         </div>
       </div>
@@ -167,6 +160,16 @@ class Preview extends React.Component {
 
 export default function (doc) {
   return class extends React.Component {
+    popoverDom = null;
+
+    state = {
+      headingPopover: false
+    };
+
+    popoverRef = (ref: HTMLDivElement) => {
+      this.popoverDom = ref;
+    };
+
     renderHeading(children) {
       return children.map((child, idx) => (
         <div
@@ -184,6 +187,34 @@ export default function (doc) {
       ));
     }
 
+    handlePopOverClick = (e: React.MouseEvent<any>) => {
+      this.setState({headingPopover: false});
+      e.stopPropagation();
+      // e.preventDefault();
+    };
+
+    renderHeadingPopover() {
+      return this.state.headingPopover ? (
+        <Overlay
+          target={this.popoverDom}
+          container={this.popoverDom}
+          rootClose={false}
+          placement="right-bottom-right-top"
+          show
+        >
+          <PopOver
+            classPrefix="cxd-"
+            className=":Doc-headingPopover"
+            onHide={() => this.setState({headingPopover: false})}
+            overlay
+            onClick={this.handlePopOverClick}
+          >
+            {this.renderHeading(doc.toc.children)}
+          </PopOver>
+        </Overlay>
+      ) : null;
+    }
+
     render() {
       const {prevDoc, nextDoc, ContextPath} = this.props;
 
@@ -193,6 +224,21 @@ export default function (doc) {
             {doc.title ? (
               <div className="Doc-title">
                 <h1>{doc.title}</h1>
+
+                {doc?.toc.children?.length ? (
+                  <div
+                    ref={this.popoverRef}
+                    onClick={e =>
+                      this.setState({
+                        headingPopover: !this.state.headingPopover
+                      })
+                    }
+                    className="Doc-headingPopBtn visible-xs"
+                  >
+                    <i className="fa fa-align-right"></i>
+                    {this.renderHeadingPopover()}
+                  </div>
+                ) : null}
               </div>
             ) : null}
 
@@ -240,10 +286,10 @@ export default function (doc) {
               <div className="Doc-footer-fixme">
                 文档有误？
                 <a
-                  href={`https://github.com/baidu/amis/tree/master${location.pathname.replace(
-                    ContextPath,
-                    ''
-                  )}.md`}
+                  href={`https://github.com/baidu/amis/blob/master${location.pathname
+                    .replace(ContextPath, '')
+                    .replace(/(zh-CN)\/(docs|components|style)/, '$2/$1')}.md`}
+                  rel="noopener"
                   target="_blank"
                 >
                   在 Github 上编辑此页！

@@ -80,7 +80,14 @@ export interface TransferControlSchema extends FormOptionsControl {
 
 export interface BaseTransferProps
   extends OptionsControlProps,
-    Omit<TransferControlSchema, 'type' | 'options'> {}
+    Omit<
+      TransferControlSchema,
+      | 'type'
+      | 'options'
+      | 'className'
+      | 'descriptionClassName'
+      | 'inputClassName'
+    > {}
 
 export class BaseTransferRenderer<
   T extends OptionsControlProps = BaseTransferProps
@@ -153,7 +160,7 @@ export class BaseTransferRenderer<
         const result =
           payload.data.options || payload.data.items || payload.data;
         if (!Array.isArray(result)) {
-          throw new Error('期望接口返回数组信息');
+          throw new Error('CRUD.invalidArray');
         }
 
         return result.map(item => {

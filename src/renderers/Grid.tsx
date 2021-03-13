@@ -128,7 +128,9 @@ export interface GridSchema extends BaseSchema {
   columns: Array<GridColumn>;
 }
 
-export interface GridProps extends RendererProps, GridSchema {
+export interface GridProps
+  extends RendererProps,
+    Omit<GridSchema, 'type' | 'className' | 'columnClassName'> {
   itemRender?: (
     item: any,
     key: number,
@@ -190,7 +192,7 @@ export default class Grid<T> extends React.Component<GridProps & T, object> {
         key={key}
         className={cx(
           copProps2Class(colProps),
-          fromBsClass((column as GridColumn).columnClassName!)
+          fromBsClass((column as any).columnClassName!)
         )}
       >
         {Array.isArray(column) ? (

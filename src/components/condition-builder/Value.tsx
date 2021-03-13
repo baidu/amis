@@ -4,11 +4,13 @@ import {ThemeProps, themeable} from '../../theme';
 import InputBox from '../InputBox';
 import NumberInput from '../NumberInput';
 import DatePicker from '../DatePicker';
-import Select from '../Select';
+import {SelectWithRemoteOptions as Select} from '../Select';
 import Switch from '../Switch';
+import {localeable, LocaleProps} from '../../locale';
 
-export interface ValueProps extends ThemeProps {
+export interface ValueProps extends ThemeProps, LocaleProps {
   value: any;
+  data?: any;
   onChange: (value: any) => void;
   field: FieldSimple;
   op?: OperatorType;
@@ -16,7 +18,15 @@ export interface ValueProps extends ThemeProps {
 
 export class Value extends React.Component<ValueProps> {
   render() {
-    const {classnames: cx, field, value, onChange, op} = this.props;
+    const {
+      classnames: cx,
+      field,
+      value,
+      onChange,
+      op,
+      translate: __,
+      data
+    } = this.props;
     let input: JSX.Element | undefined = undefined;
 
     if (field.type === 'text') {
@@ -30,9 +40,11 @@ export class Value extends React.Component<ValueProps> {
     } else if (field.type === 'number') {
       input = (
         <NumberInput
-          placeholder={field.placeholder || '请输入数字'}
+          placeholder={field.placeholder || __('NumberInput.placeholder')}
+          step={field.step}
           min={field.minimum}
           max={field.maximum}
+          precision={field.precision}
           value={value ?? field.defaultValue}
           onChange={onChange}
         />
@@ -40,7 +52,7 @@ export class Value extends React.Component<ValueProps> {
     } else if (field.type === 'date') {
       input = (
         <DatePicker
-          placeholder={field.placeholder || '请选择日期'}
+          placeholder={field.placeholder || __('Date.placeholder')}
           format={field.format || 'YYYY-MM-DD'}
           inputFormat={field.inputFormat || 'YYYY-MM-DD'}
           value={value ?? field.defaultValue}
@@ -52,7 +64,7 @@ export class Value extends React.Component<ValueProps> {
       input = (
         <DatePicker
           viewMode="time"
-          placeholder={field.placeholder || '请选择时间'}
+          placeholder={field.placeholder || 'Time.placeholder'}
           format={field.format || 'HH:mm'}
           inputFormat={field.inputFormat || 'HH:mm'}
           value={value ?? field.defaultValue}
@@ -77,7 +89,10 @@ export class Value extends React.Component<ValueProps> {
         <Select
           simpleValue
           options={field.options!}
-          value={value ?? field.defaultValue}
+          source={field.source}
+          searchable={field.searchable}
+          value={value ?? field.defaultValue ?? ''}
+          data={data}
           onChange={onChange}
           multiple={op === 'select_any_in' || op === 'select_not_any_in'}
         />
@@ -92,4 +107,4 @@ export class Value extends React.Component<ValueProps> {
   }
 }
 
-export default themeable(Value);
+export default themeable(localeable(Value));

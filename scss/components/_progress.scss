@@ -1,0 +1,44 @@
+.#{$ns}Progress {
+  height: 10px;
+  background: #ebebeb;
+  overflow: hidden;
+
+  &-bar {
+    float: left;
+    width: 0;
+    height: 100%;
+    font-size: 12px;
+    line-height: 10px;
+    color: #fff;
+    text-align: center;
+    background: var(--primary);
+    transition: width var(--animation-duration) ease;
+
+    &--stripe {
+      background-image: linear-gradient(
+        45deg,
+        rgba(255, 255, 255, 0.15) 25%,
+        transparent 25%,
+        transparent 50%,
+        rgba(255, 255, 255, 0.15) 50%,
+        rgba(255, 255, 255, 0.15) 75%,
+        transparent 75%,
+        transparent
+      );
+      background-size: 2rem 2rem;
+    }
+
+    &--animate {
+      animation: progress-bar-stripes 1s linear infinite;
+    }
+  }
+}
+
+@keyframes progress-bar-stripes {
+  from {
+    background-position: 2rem 0;
+  }
+  to {
+    background-position: 0 0;
+  }
+}

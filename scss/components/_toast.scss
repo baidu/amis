@@ -60,25 +60,25 @@
     z-index: $zindex-toast;
   }
 
-  width: $Toast-width;
+  width: var(--Toast-width);
   pointer-events: auto;
-  margin-bottom: $gap-xs;
+  margin-bottom: var(--gap-xs);
 
   @if $Toast-icon-fillHeight {
-    padding: $Toast-paddingY
-      $Toast-paddingX
-      $Toast-paddingY
-      ($Toast-paddingX + $Toast-paddingL);
+    padding: var(--Toast-paddingY)
+      var(--Toast-paddingX)
+      var(--Toast-paddingY)
+      calc(var(--Toast-paddingX) + var(--Toast-paddingL));
   } @else {
-    padding: $Toast-paddingY $Toast-paddingX;
+    padding: var(--Toast-paddingY) var(--Toast-paddingX);
   }
 
-  box-shadow: $Toast-box-shadow;
-  border-radius: $Toast-borderRadius;
-  border: $Toast-border-width solid;
-  color: $Toast-color;
+  box-shadow: var(--Toast-box-shadow);
+  border-radius: var(--Toast-borderRadius);
+  border: var(--Toast-border-width) solid;
+  color: var(--Toast-color);
   position: relative;
-  opacity: $Toast-opacity;
+  opacity: var(--Toast-opacity);
   cursor: pointer;
   opacity: 0;
   transform: translateZ(0);
@@ -86,7 +86,7 @@
   &.in,
   &.out {
     animation-fill-mode: both;
-    animation-duration: 0.75s;
+    animation-duration: var(--animation-duration);
     opacity: 1;
   }
 
@@ -100,28 +100,29 @@
 
   &-close {
     position: absolute;
-    top: $gap-xs;
-    right: $gap-sm;
-    color: $Toast-close-color;
+    top: var(--gap-xs);
+    right: var(--gap-sm);
+    color: var(--Toast-close-color);
     line-height: 1;
     opacity: 0.8;
 
     &:hover {
-      color: $Toast-close--onHover-color;
+      color: var(--Toast-close--onHover-color);
       opacity: 1;
     }
   }
 
   &-title {
-    display: $Toast-title-display;
-    margin-right: $gap-base;
-    font-size: $fontSizeMd;
+    display: var(--Toast-title-display);
+    margin-right: var(--gap-base);
+    font-size: var(--fontSizeMd);
     vertical-align: middle;
   }
 
   &-body {
-    display: $Toast-title-display;
+    display: var(--Toast-title-display);
     vertical-align: middle;
+    white-space: pre-wrap;
   }
 
   &-icon {
@@ -132,79 +133,79 @@
 
     @if $Toast-icon-fillHeight {
       position: absolute;
-      left: $Toast-paddingX;
-      top: $Toast-paddingY;
-      width: $Toast-paddingL - $Toast-paddingX;
-      height: $Toast-paddingL - $Toast-paddingX;
+      left: var(--Toast-paddingX);
+      top: var(--Toast-paddingY);
+      width: calc(var(--Toast-paddingL) - var(--Toast-paddingX));
+      height: calc(var(--Toast-paddingL) - var(--Toast-paddingX));
       align-items: center;
       justify-content: center;
     } @else {
-      margin-right: $gap-xs;
+      margin-right: var(--gap-xs);
     }
 
     > svg {
       top: 0;
-      width: $Toast-icon-width;
-      height: $Toast-icon-height;
+      width: var(--Toast-icon-width);
+      height: var(--Toast-icon-height);
       color: inherit;
     }
   }
 
   // colors
   &--error {
-    color: $Toast--danger-color;
-    border-color: $Toast--danger-borderColor;
-    background-color: $Toast--danger-bgColor;
+    color: var(--Toast--danger-color);
+    border-color: var(--Toast--danger-borderColor);
+    background: var(--Toast--danger-bgColor);
   }
 
   &--warning {
-    color: $Toast--warning-color;
-    border-color: $Toast--warning-borderColor;
-    background-color: $Toast--warning-bgColor;
+    color: var(--Toast--warning-color);
+    border-color: var(--Toast--warning-borderColor);
+    background: var(--Toast--warning-bgColor);
   }
 
   &--info {
-    color: $Toast--info-color;
-    border-color: $Toast--info-borderColor;
-    background-color: $Toast--info-bgColor;
+    color: var(--Toast--info-color);
+    border-color: var(--Toast--info-borderColor);
+    background: var(--Toast--info-bgColor);
   }
 
   &--success {
-    color: $Toast--success-color;
-    border-color: $Toast--success-borderColor;
-    background-color: $Toast--success-bgColor;
+    color: var(--Toast--success-color);
+    border-color: var(--Toast--success-borderColor);
+    background: var(--Toast--success-bgColor);
   }
 
   // positions
   &-wrap--topRight {
-    top: $gap-base;
-    right: $gap-base;
+    top: var(--gap-base);
+    right: var(--gap-base);
   }
 
   &-wrap--topCenter {
-    top: $gap-base;
+    top: var(--gap-base);
     left: 50%;
-    margin-left: -$Toast-width/2;
+    margin-left: calc(var(--Toast-width) / -2);
   }
 
   &-wrap--topLeft {
-    top: $gap-base;
-    left: $gap-base;
+    top: var(--gap-base);
+    left: var(--gap-base);
   }
 
   &-wrap--bottomLeft {
-    left: $gap-base;
-    bottom: $gap-base;
+    left: var(--gap-base);
+    bottom: var(--gap-base);
   }
 
   &-wrap--bottomCenter {
     left: 50%;
-    margin-left: -$Toast-width/2;
-    bottom: $gap-base;
+    margin-left: calc(var(--Toast-width) / -2);
+    bottom: var(--gap-base);
   }
 
   &-wrap--bottomRight {
-    bottom: $gap-base;
-    right: $gap-base;
+    bottom: var(--gap-base);
+    right: var(--gap-base);
   }
 }

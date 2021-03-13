@@ -1,47 +1,53 @@
 .#{$ns}Button {
   display: inline-block;
-  font-weight: $Button-fontWeight;
+  font-weight: var(--Button-fontWeight);
   text-align: center;
   vertical-align: middle;
   user-select: none;
-  background-color: transparent;
-  border: $Button-borderWidth solid transparent;
-  transition: $Button-transition;
+  background: transparent;
+  border: var(--Button-borderWidth) solid transparent;
+  transition: var(--Button-transition);
   white-space: nowrap;
+  min-width: var(--Button-mimWidth);
 
-  @if $Button-mimWidth !=auto {
-    min-width: $Button-mimWidth;
+  &:active,
+  &.is-active {
+    box-shadow: var(--Button-onActive-boxShadow);
+
+    &:focus {
+      box-shadow: var(--Button-onActive-boxShadow);
+    }
   }
 
   @include button-size(
-    $Button-paddingY,
-    $Button-paddingX,
-    $Button-fontSize,
-    $Button-lineHeight,
-    $Button-borderRadius,
-    $Button-height
+    var(--Button-paddingY),
+    var(--Button-paddingX),
+    var(--Button-fontSize),
+    var(--Button-lineHeight),
+    var(--Button-borderRadius),
+    var(--Button-height)
   );
 
   @include hover-focus {
-    color: $text-color;
+    // color: var(--text-color);
     text-decoration: none;
   }
 
   &:focus,
   &.focus {
     outline: 0;
-    box-shadow: $Button-onFocus-boxShadow;
+    box-shadow: var(--Button-onFocus-boxShadow);
   }
 
   &.is-disabled,
   &:disabled {
-    opacity: $Button-onDisabled-opacity;
+    opacity: var(--Button-onDisabled-opacity);
     box-shadow: none;
     pointer-events: none;
-    border-color: $Button-onDisabled-borderColor;
+    border-color: var(--Button-onDisabled-borderColor);
 
     @if variable-exists(Button-onDisabled-bg) {
-      background-color: $Button-onDisabled-bg;
+      background: $Button-onDisabled-bg;
     }
 
     @if variable-exists(Button-onDisabled-color) {
@@ -51,22 +57,13 @@
     &.is-active,
     &:active {
       @if variable-exists(Button-onDisabledActive-bg) {
-        background-color: $Button-onDisabledActive-bg !important;
+        background: $Button-onDisabledActive-bg !important;
       }
     }
   }
 
   &:not(:disabled):not(.is-disabled) {
     cursor: pointer;
-  }
-
-  &:not(:disabled):not(.is-disabled):active,
-  &:not(:disabled):not(.is-disabled).is-active {
-    box-shadow: $Button-onActive-boxShadow;
-
-    &:focus {
-      box-shadow: $Button-onActive-boxShadow;
-    }
   }
 
   > .pull-left,
@@ -88,192 +85,200 @@ fieldset:disabled a.#{$ns}Button {
 
 .#{$ns}Button--primary {
   @include button-variant(
-    $Button--primary-bg,
-    $Button--primary-border,
-    $Button--primary-color,
-    $Button--primary-onHover-bg,
-    $Button--primary-onHover-border,
-    $Button--primary-onHover-color,
-    $Button--primary-onActive-bg,
-    $Button--primary-onActive-border,
-    $Button--primary-onActive-color
+    var(--Button--primary-bg),
+    var(--Button--primary-border),
+    var(--Button--primary-color),
+    var(--Button--primary-onHover-bg),
+    var(--Button--primary-onHover-border),
+    var(--Button--primary-onHover-color),
+    var(--Button--primary-onActive-bg),
+    var(--Button--primary-onActive-border),
+    var(--Button--primary-onActive-color)
   );
 }
 
 .#{$ns}Button--secondary {
   @include button-variant(
-    $Button--secondary-bg,
-    $Button--secondary-border,
-    $Button--secondary-color,
-    $Button--secondary-onHover-bg,
-    $Button--secondary-onHover-border,
-    $Button--secondary-onHover-color,
-    $Button--secondary-onActive-bg,
-    $Button--secondary-onActive-border,
-    $Button--secondary-onActive-color
+    var(--Button--secondary-bg),
+    var(--Button--secondary-border),
+    var(--Button--secondary-color),
+    var(--Button--secondary-onHover-bg),
+    var(--Button--secondary-onHover-border),
+    var(--Button--secondary-onHover-color),
+    var(--Button--secondary-onActive-bg),
+    var(--Button--secondary-onActive-border),
+    var(--Button--secondary-onActive-color)
   );
 }
 
 .#{$ns}Button--success {
   @include button-variant(
-    $Button--success-bg,
-    $Button--success-border,
-    $Button--success-color,
-    $Button--success-onHover-bg,
-    $Button--success-onHover-border,
-    $Button--success-onHover-color,
-    $Button--success-onActive-bg,
-    $Button--success-onActive-border,
-    $Button--success-onActive-color
+    var(--Button--success-bg),
+    var(--Button--success-border),
+    var(--Button--success-color),
+    var(--Button--success-onHover-bg),
+    var(--Button--success-onHover-border),
+    var(--Button--success-onHover-color),
+    var(--Button--success-onActive-bg),
+    var(--Button--success-onActive-border),
+    var(--Button--success-onActive-color)
   );
 }
 
 .#{$ns}Button--info {
   @include button-variant(
-    $Button--info-bg,
-    $Button--info-border,
-    $Button--info-color,
-    $Button--info-onHover-bg,
-    $Button--info-onHover-border,
-    $Button--info-onHover-color,
-    $Button--info-onActive-bg,
-    $Button--info-onActive-border,
-    $Button--info-onActive-color
+    var(--Button--info-bg),
+    var(--Button--info-border),
+    var(--Button--info-color),
+    var(--Button--info-onHover-bg),
+    var(--Button--info-onHover-border),
+    var(--Button--info-onHover-color),
+    var(--Button--info-onActive-bg),
+    var(--Button--info-onActive-border),
+    var(--Button--info-onActive-color)
   );
 }
 
 .#{$ns}Button--warning {
   @include button-variant(
-    $Button--warning-bg,
-    $Button--warning-border,
-    $Button--warning-color,
-    $Button--warning-onHover-bg,
-    $Button--warning-onHover-border,
-    $Button--warning-onHover-color,
-    $Button--warning-onActive-bg,
-    $Button--warning-onActive-border,
-    $Button--warning-onActive-color
+    var(--Button--warning-bg),
+    var(--Button--warning-border),
+    var(--Button--warning-color),
+    var(--Button--warning-onHover-bg),
+    var(--Button--warning-onHover-border),
+    var(--Button--warning-onHover-color),
+    var(--Button--warning-onActive-bg),
+    var(--Button--warning-onActive-border),
+    var(--Button--warning-onActive-color)
   );
 }
 
 .#{$ns}Button--danger {
   @include button-variant(
-    $Button--danger-bg,
-    $Button--danger-border,
-    $Button--danger-color,
-    $Button--danger-onHover-bg,
-    $Button--danger-onHover-border,
-    $Button--danger-onHover-color,
-    $Button--danger-onActive-bg,
-    $Button--danger-onActive-border,
-    $Button--danger-onActive-color
+    var(--Button--danger-bg),
+    var(--Button--danger-border),
+    var(--Button--danger-color),
+    var(--Button--danger-onHover-bg),
+    var(--Button--danger-onHover-border),
+    var(--Button--danger-onHover-color),
+    var(--Button--danger-onActive-bg),
+    var(--Button--danger-onActive-border),
+    var(--Button--danger-onActive-color)
   );
 }
 
 .#{$ns}Button--light {
   @include button-variant(
-    $Button--light-bg,
-    $Button--light-border,
-    $Button--light-color,
-    $Button--light-onHover-bg,
-    $Button--light-onHover-border,
-    $Button--light-onHover-color,
-    $Button--light-onActive-bg,
-    $Button--light-onActive-border,
-    $Button--light-onActive-color
+    var(--Button--light-bg),
+    var(--Button--light-border),
+    var(--Button--light-color),
+    var(--Button--light-onHover-bg),
+    var(--Button--light-onHover-border),
+    var(--Button--light-onHover-color),
+    var(--Button--light-onActive-bg),
+    var(--Button--light-onActive-border),
+    var(--Button--light-onActive-color)
   );
 }
 
 .#{$ns}Button--dark {
   @include button-variant(
-    $Button--dark-bg,
-    $Button--dark-border,
-    $Button--dark-color,
-    $Button--dark-onHover-bg,
-    $Button--dark-onHover-border,
-    $Button--dark-onHover-color,
-    $Button--dark-onActive-bg,
-    $Button--dark-onActive-border,
-    $Button--dark-onActive-color
+    var(--Button--dark-bg),
+    var(--Button--dark-border),
+    var(--Button--dark-color),
+    var(--Button--dark-onHover-bg),
+    var(--Button--dark-onHover-border),
+    var(--Button--dark-onHover-color),
+    var(--Button--dark-onActive-bg),
+    var(--Button--dark-onActive-border),
+    var(--Button--dark-onActive-color)
   );
 }
 
 .#{$ns}Button--default {
   @include button-variant(
-    $Button--default-bg,
-    $Button--default-border,
-    $Button--default-color,
-    $Button--default-onHover-bg,
-    $Button--default-onHover-border,
-    $Button--default-onHover-color,
-    $Button--default-onActive-bg,
-    $Button--default-onActive-border,
-    $Button--default-onActive-color
+    var(--Button--default-bg),
+    var(--Button--default-border),
+    var(--Button--default-color),
+    var(--Button--default-onHover-bg),
+    var(--Button--default-onHover-border),
+    var(--Button--default-onHover-color),
+    var(--Button--default-onActive-bg),
+    var(--Button--default-onActive-border),
+    var(--Button--default-onActive-color)
   );
 }
 
 .#{$ns}Button--xs {
   @include button-size(
-    $Button--xs-paddingY,
-    $Button--xs-paddingX,
-    $Button--xs-fontSize,
-    $Button--xs-lineHeight,
-    $Button--sm-borderRadius,
-    $Button--xs-height
+    var(--Button--xs-paddingY),
+    var(--Button--xs-paddingX),
+    var(--Button--xs-fontSize),
+    var(--Button--xs-lineHeight),
+    var(--Button--sm-borderRadius),
+    var(--Button--xs-height)
   );
 
   &.#{$ns}Button--iconOnly {
-    min-width: $Button--xs-height * $Button--iconOnly-minWidthRate;
+    min-width: calc(
+      var(--Button--xs-height) * var(--Button--iconOnly-minWidthRate)
+    );
   }
 }
 
 .#{$ns}Button--sm {
   @include button-size(
-    $Button--sm-paddingY,
-    $Button--sm-paddingX,
-    $Button--sm-fontSize,
-    $Button--sm-lineHeight,
-    $Button--sm-borderRadius,
-    $Button--sm-height
+    var(--Button--sm-paddingY),
+    var(--Button--sm-paddingX),
+    var(--Button--sm-fontSize),
+    var(--Button--sm-lineHeight),
+    var(--Button--sm-borderRadius),
+    var(--Button--sm-height)
   );
 
   &.#{$ns}Button--iconOnly {
-    min-width: $Button--sm-height * $Button--iconOnly-minWidthRate;
+    min-width: calc(
+      var(--Button--sm-height) * var(--Button--iconOnly-minWidthRate)
+    );
   }
 }
 
 .#{$ns}Button--md {
   @include button-size(
-    $Button--md-paddingY,
-    $Button--md-paddingX,
-    $Button--md-fontSize,
-    $Button--md-lineHeight,
-    $Button-borderRadius,
-    $Button--md-height
+    var(--Button--md-paddingY),
+    var(--Button--md-paddingX),
+    var(--Button--md-fontSize),
+    var(--Button--md-lineHeight),
+    var(--Button-borderRadius),
+    var(--Button--md-height)
   );
 
   &.#{$ns}Button--iconOnly {
-    min-width: $Button--md-height * $Button--iconOnly-minWidthRate;
+    min-width: calc(
+      var(--Button--md-height) * var(--Button--iconOnly-minWidthRate)
+    );
   }
 }
 
 .#{$ns}Button--lg {
   @include button-size(
-    $Button--lg-paddingY,
-    $Button--lg-paddingX,
-    $Button--lg-fontSize,
-    $Button--lg-lineHeight,
-    $Button--lg-borderRadius,
-    $Button--lg-height
+    var(--Button--lg-paddingY),
+    var(--Button--lg-paddingX),
+    var(--Button--lg-fontSize),
+    var(--Button--lg-lineHeight),
+    var(--Button--lg-borderRadius),
+    var(--Button--lg-height)
   );
 
   &.#{$ns}Button--iconOnly {
-    min-width: $Button--lg-height * $Button--iconOnly-minWidthRate;
+    min-width: calc(
+      var(--Button--lg-height) * var(--Button--iconOnly-minWidthRate)
+    );
   }
 }
 
 .#{$ns}Button--iconOnly {
-  min-width: $Button-height * $Button--iconOnly-minWidthRate;
+  min-width: calc(var(--Button-height) * var(--Button--iconOnly-minWidthRate));
 
   &:not(.#{$ns}Button--link) {
     > svg.icon {
@@ -284,7 +289,7 @@ fieldset:disabled a.#{$ns}Button {
 
     > .fa,
     > .iconfont {
-      font-size: $fontSizeMd;
+      font-size: var(--fontSizeMd);
     }
 
     > .iconfont {
@@ -296,25 +301,25 @@ fieldset:disabled a.#{$ns}Button {
 .#{$ns}Button--link {
   width: auto;
   min-width: auto;
-  font-weight: $fontWeightNormal;
-  color: $Button--link-color;
-  text-decoration: $link-decoration;
+  font-weight: var(--fontWeightNormal);
+  color: var(--Button--link-color);
+  text-decoration: var(--link-decoration);
   border: none;
   padding-top: 0;
   padding-bottom: 0;
   height: auto;
 
   @include hover-focus {
-    color: $Button--link-onHover-color;
-    text-decoration: $link-onHover-decoration;
+    color: var(--Button--link-onHover-color);
+    text-decoration: var(--link-onHover-decoration);
     box-shadow: none;
   }
 
   &:disabled,
   &.is-disabled {
-    color: $text--muted-color;
+    color: var(--text--muted-color);
     pointer-events: none;
-    background-color: transparent;
+    background: transparent;
   }
 }
 
@@ -323,7 +328,7 @@ fieldset:disabled a.#{$ns}Button {
   width: 100%;
 
   + .#{$ns}Button--block {
-    margin-top: $gap-base;
+    margin-top: var(--gap-base);
   }
 }
 
@@ -340,6 +345,11 @@ input[type='button'] {
   margin-top: px2rem(-5px);
 
   > .#{$ns}Button {
+    margin-left: px2rem(5px);
+    margin-top: px2rem(5px);
+  }
+
+  > .#{$ns}Button--disabled-wrap > .#{$ns}Button {
     margin-left: px2rem(5px);
     margin-top: px2rem(5px);
   }

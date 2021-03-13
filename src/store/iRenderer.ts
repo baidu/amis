@@ -1,4 +1,4 @@
-import {types} from 'mobx-state-tree';
+import {Instance, SnapshotIn, types} from 'mobx-state-tree';
 import {extendObject, createObject} from '../utils/helper';
 import {dataMapping} from '../utils/tpl-builtin';
 import {SimpleMap} from '../utils/SimpleMap';
@@ -21,9 +21,10 @@ export const iRendererStore = StoreNode.named('iRendererStore')
     const dialogCallbacks = new SimpleMap<(result?: any) => void>();
 
     return {
-      initData(data: object = {}) {
+      initData(data: object = {}, skipSetPristine = false) {
         self.initedAt = Date.now();
-        self.pristine = data;
+
+        !skipSetPristine && (self.pristine = data);
         self.data = data;
       },
 
@@ -142,6 +143,6 @@ export const iRendererStore = StoreNode.named('iRendererStore')
     };
   });
 
-export type IIRendererStore = typeof iRendererStore.Type;
-export type SIRendererStore = typeof iRendererStore.SnapshotType;
+export type IIRendererStore = Instance<typeof iRendererStore>;
+export type SIRendererStore = SnapshotIn<typeof iRendererStore>;
 // export type SIRendererStore = typeof iRendererStore.SnapshotType;

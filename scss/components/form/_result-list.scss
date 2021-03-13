@@ -6,24 +6,28 @@
   flex-direction: column;
 
   &-title {
-    height: $Form-input-height;
-    background: $Table-thead-bg;
-    font-size: $Form-input-fontSize;
-    padding: (
-        $Form-input-height - $Form-input-lineHeight * $Form-input-fontSize
-      )/2 $gap-sm;
+    height: var(--Form-input-height);
+    background: var(--Table-thead-bg);
+    font-size: var(--Form-input-fontSize);
+    padding: calc(
+        (
+            var(--Form-input-height) - var(--Form-input-lineHeight) *
+              var(--Form-input-fontSize)
+          ) / 2
+      )
+      var(--gap-sm);
   }
 
   &-placeholder {
-    color: $Form-input-placeholderColor;
+    color: var(--Form-input-placeholderColor);
     text-align: center;
     width: 100%;
-    flex-basis: $Form-input-height;
+    flex-basis: var(--Form-input-height);
     flex-grow: 1;
     display: flex;
     flex-direction: column;
     justify-content: center;
-    font-size: $Form-input-fontSize;
+    font-size: var(--Form-input-fontSize);
   }
 
   &-items {
@@ -33,12 +37,16 @@
   &-item {
     display: flex;
     flex-direction: row;
-    height: $Form-input-height;
-    line-height: $Form-input-lineHeight;
-    font-size: $Form-input-fontSize;
-    padding: (
-        $Form-input-height - $Form-input-lineHeight * $Form-input-fontSize
-      )/2 $gap-sm;
+    height: var(--Form-input-height);
+    line-height: var(--Form-input-lineHeight);
+    font-size: var(--Form-input-fontSize);
+    padding: calc(
+        (
+            var(--Form-input-height) - var(--Form-input-lineHeight) *
+              var(--Form-input-fontSize)
+          ) / 2
+      )
+      var(--gap-sm);
 
     > label {
       flex-basis: px2rem(50px);
@@ -49,7 +57,7 @@
       width: px2rem(20px);
       position: relative;
       left: px2rem(-5px);
-      color: $icon-color;
+      color: var(--icon-color);
       cursor: move;
     }
 
@@ -61,11 +69,11 @@
   }
 
   &-delBtn {
-    color: $icon-color;
+    color: var(--icon-color);
     cursor: pointer;
 
     &:hover {
-      color: $icon-onHover-color;
+      color: var(--icon-onHover-color);
     }
 
     > svg {

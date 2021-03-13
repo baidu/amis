@@ -2,13 +2,13 @@
   @include input-text();
 
   &-placeholder {
-    color: $Form-input-placeholderColor;
+    color: var(--Form-input-placeholderColor);
     user-select: none;
     position: absolute;
-    left: $Form-input-paddingX;
-    top: $Form-input-paddingY;
-    margin-top: 2 * $Form-input-borderWidth;
-    line-height: $Form-input-lineHeight;
+    left: var(--Form-input-paddingX);
+    top: var(--Form-input-paddingY);
+    margin-top: calc(2 * var(--Form-input-borderWidth));
+    line-height: var(--Form-input-lineHeight);
   }
 
   &-valueWrap {
@@ -34,9 +34,10 @@
 
   &-sugsPanel {
     position: absolute;
-    background: $Form-select-menu-bg;
-    color: $Form-select-menu-color;
-    border: $Form-input-borderWidth solid $Form-input-onFocused-borderColor;
+    background: var(--Form-select-menu-bg);
+    color: var(--Form-select-menu-color);
+    border: var(--Form-input-borderWidth) solid
+      var(--Form-input-onFocused-borderColor);
     left: px2rem(-1px);
     right: px2rem(-1px);
     top: 100%;
@@ -45,58 +46,60 @@
   }
 
   &-tabs {
-    background: $IconPicker-tabs-bg;
+    background: var(--IconPicker-tabs-bg);
   }
 
   &-tab {
     display: inline-block;
-    padding: $IconPicker-tab-padding;
-    height: $IconPicker-tab-height;
-    line-height: $IconPicker-tab-lineHeight;
+    padding: var(--IconPicker-tab-padding);
+    height: var(--IconPicker-tab-height);
+    line-height: var(--IconPicker-tab-lineHeight);
     cursor: pointer;
     text-align: center;
-    font-size: $fontSizeSm;
+    font-size: var(--fontSizeSm);
     user-select: none;
 
     &.active {
-      background: $IconPicker-tab-onActive-bg;
+      background: var(--IconPicker-tab-onActive-bg);
     }
   }
 
   &-sugs {
     position: relative;
-    padding: $IconPicker-padding;
-    max-height: $IconPicker-content-maxHeight;
+    padding: var(--IconPicker-padding);
+    max-height: var(--IconPicker-content-maxHeight);
     overflow-y: auto;
   }
 
   &-sugItem {
     display: inline-block;
-    width: $IconPicker-sugItem-width;
-    height: $IconPicker-sugItem-height;
+    width: var(--IconPicker-sugItem-width);
+    height: var(--IconPicker-sugItem-height);
     text-align: center;
-    line-height: $IconPicker-sugItem-lineHeight;
+    line-height: var(--IconPicker-sugItem-lineHeight);
     cursor: pointer;
 
     &:hover {
-      background-color: $Form-select-menu-onHover-bg;
+      background: var(--Form-select-menu-onHover-bg);
     }
 
     &.is-active {
-      color: $white;
-      background-color: $Form-select-menu-onActive-color;
+      color: var(--white);
+      background: var(--Form-select-menu-onActive-color);
     }
   }
 
   &-value {
     user-select: none;
-    line-height: $Form-input-lineHeight * $Form-input-fontSize;
+    line-height: calc(
+      var(--Form-input-lineHeight) * var(--Form-input-fontSize)
+    );
     vertical-align: middle;
     display: inline-block;
 
     > i {
       display: inline-block;
-      margin-right: $IconPicker-selectedIcon-marginRight;
+      margin-right: var(--IconPicker-selectedIcon-marginRight);
     }
   }
 }

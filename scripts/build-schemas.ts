@@ -32,7 +32,7 @@ async function main() {
   const config = {
     path: path.join(dir, 'Schema.ts'),
     tsconfig: tsConfig,
-    type: 'PageSchema'
+    type: 'RootSchema'
   };
 
   const generator = tsj.createGenerator(config);
@@ -78,6 +78,11 @@ function fixSchema(schema: Schema) {
   });
 
   copyAnyOf(schema, list);
+
+  schema.definitions!['UnkownSchema'] = {
+    type: 'object',
+    description: '不能识别渲染器类型，无法提供提示信息。'
+  };
 }
 
 function copyAnyOf(
@@ -184,7 +189,7 @@ function hackIt(generator: any) {
   replaceNodeParser(
     chainNodeParser.nodeParsers,
     IntersectionNodeParser,
-    new MyIntersectionNodeParser(typeChecker, chainNodeParser)
+    new MyIntersectionNodeParser(typeChecker as any, chainNodeParser) as any
   );
 }
 

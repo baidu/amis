@@ -10,7 +10,9 @@ import {ActionSchema} from '../Action';
  */
 export type ButtonControlSchema = ActionSchema & FormBaseControl;
 
-export interface ButtonProps extends FormControlProps, Omit<Button, 'size'> {}
+export interface ButtonProps
+  extends FormControlProps,
+    Omit<Button, 'size' | 'className'> {}
 
 export class ButtonControl extends React.Component<ButtonProps, any> {
   static defaultProps: Partial<ButtonProps> = {};

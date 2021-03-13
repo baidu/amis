@@ -64,11 +64,11 @@
 @include text-wariant($black, black);
 
 .text-muted {
-  color: $text--muted-color;
+  color: var(--text--muted-color);
 }
 
 .text-loud {
-  color: $text--loud-color;
+  color: var(--text--loud-color);
 }
 
 .clearfix {
@@ -114,7 +114,7 @@
 
 .line-dashed {
   border-style: dashed !important;
-  background-color: transparent;
+  background: transparent;
   border-width: 0;
 }
 
@@ -157,7 +157,7 @@
 }
 
 .inline {
-  display: inline-block !important;
+  display: inline-block;
 }
 
 .none {
@@ -178,7 +178,7 @@
 }
 
 .no-bg {
-  background-color: transparent;
+  background: transparent;
   color: inherit;
 }
 
@@ -187,7 +187,7 @@
 }
 
 .l-h {
-  line-height: $lineHeightBase;
+  line-height: var(--lineHeightBase);
 }
 
 .l-h-0x {
@@ -243,27 +243,27 @@
 }
 
 .text-xl {
-  font-size: $fontSizeXl !important;
+  font-size: var(--fontSizeXl) !important;
 }
 
 .text-lg {
-  font-size: $fontSizeLg !important;
+  font-size: var(--fontSizeLg) !important;
 }
 
 .text-md {
-  font-size: $fontSizeMd !important;
+  font-size: var(--fontSizeMd) !important;
 }
 
 .text-base {
-  font-size: $fontSizeBase !important;
+  font-size: var(--fontSizeBase) !important;
 }
 
 .text-sm {
-  font-size: $fontSizeSm !important;
+  font-size: var(--fontSizeSm) !important;
 }
 
 .text-xs {
-  font-size: $fontSizeXs !important;
+  font-size: var(--fontSizeXs) !important;
 }
 
 .text-xxs {
@@ -311,7 +311,7 @@
 
 .text-shadow {
   font-size: 170px;
-  text-shadow: 0 1px 0 $borderColor, 0 2px 0 lighten($borderColor, 10%),
+  text-shadow: 0 1px 0 var(--borderColor), 0 2px 0 var(--borderColorLight),
     0 5px 10px rgba(0, 0, 0, 0.125), 0 10px 20px rgba(0, 0, 0, 0.2);
 }
 
@@ -411,11 +411,11 @@
 }
 
 .b-a {
-  border: 1px solid $borderColor;
+  border: 1px solid var(--borderColor);
 }
 
 .b-t {
-  border-top: 1px solid $borderColor;
+  border-top: 1px solid var(--borderColor);
 }
 
 .b-t-none {
@@ -423,7 +423,7 @@
 }
 
 .b-r {
-  border-right: 1px solid $borderColor;
+  border-right: 1px solid var(--borderColor);
 }
 
 .b-r-none {
@@ -431,7 +431,7 @@
 }
 
 .b-b {
-  border-bottom: 1px solid $borderColor;
+  border-bottom: 1px solid var(--borderColor);
 }
 
 .b-b-none {
@@ -439,7 +439,7 @@
 }
 
 .b-l {
-  border-left: 1px solid $borderColor;
+  border-left: 1px solid var(--borderColor);
 }
 
 .b-l-none {
@@ -447,35 +447,35 @@
 }
 
 .b-light {
-  border-color: $light;
+  border-color: var(--light);
 }
 
 .b-dark {
-  border-color: $dark;
+  border-color: var(--dark);
 }
 
 .b-black {
-  border-color: $dark;
+  border-color: var(--dark);
 }
 
 .b-primary {
-  border-color: $primary;
+  border-color: var(--primary);
 }
 
 .b-success {
-  border-color: $success;
+  border-color: var(--success);
 }
 
 .b-info {
-  border-color: $info;
+  border-color: var(--info);
 }
 
 .b-warning {
-  border-color: $warning;
+  border-color: var(--warning);
 }
 
 .b-danger {
-  border-color: $danger;
+  border-color: var(--danger);
 }
 
 .b-white {
@@ -487,35 +487,35 @@
 }
 
 .b-l-light {
-  border-left-color: $light;
+  border-left-color: var(--light);
 }
 
 .b-l-dark {
-  border-left-color: $dark;
+  border-left-color: var(--dark);
 }
 
 .b-l-black {
-  border-left-color: $dark;
+  border-left-color: var(--dark);
 }
 
 .b-l-primary {
-  border-left-color: $primary;
+  border-left-color: var(--primary);
 }
 
 .b-l-success {
-  border-left-color: $success;
+  border-left-color: var(--success);
 }
 
 .b-l-info {
-  border-left-color: $info;
+  border-left-color: var(--info);
 }
 
 .b-l-warning {
-  border-left-color: $warning;
+  border-left-color: var(--warning);
 }
 
 .b-l-danger {
-  border-left-color: $danger;
+  border-left-color: var(--danger);
 }
 
 .b-l-white {
@@ -555,31 +555,32 @@
 }
 
 .r {
-  border-radius: $borderRadius $borderRadius $borderRadius $borderRadius;
+  border-radius: var(--borderRadius) var(--borderRadius) var(--borderRadius)
+    var(--borderRadius);
 }
 
 .r-2x {
-  border-radius: $borderRadiusMd;
+  border-radius: var(--borderRadiusMd);
 }
 
 .r-3x {
-  border-radius: $borderRadiusLg;
+  border-radius: var(--borderRadiusLg);
 }
 
 .r-l {
-  border-radius: $borderRadius 0 0 $borderRadius;
+  border-radius: var(--borderRadius) 0 0 var(--borderRadius);
 }
 
 .r-r {
-  border-radius: 0 $borderRadius $borderRadius 0;
+  border-radius: 0 var(--borderRadius) var(--borderRadius) 0;
 }
 
 .r-t {
-  border-radius: $borderRadius $borderRadius 0 0;
+  border-radius: var(--borderRadius) var(--borderRadius) 0 0;
 }
 
 .r-b {
-  border-radius: 0 0 $borderRadius $borderRadius;
+  border-radius: 0 0 var(--borderRadius) var(--borderRadius);
 }
 
 .m-xxs {
@@ -1100,19 +1101,19 @@
     }
 
     &.on {
-      background-color: $success;
+      background: var(--success);
     }
 
     &.off {
-      background-color: $text--muted-color;
+      background: var(--text--muted-color);
     }
 
     &.busy {
-      background-color: $danger;
+      background: var(--danger);
     }
 
     &.away {
-      background-color: $warning;
+      background: var(--warning);
     }
   }
 
@@ -1246,6 +1247,7 @@
 
 .nowrap {
   white-space: nowrap;
+  flex-wrap: nowrap;
 }
 
 @include media-breakpoint-up(sm) {
@@ -1298,7 +1300,7 @@
 
 .thumb-wrapper {
   padding: 2px;
-  border: 1px solid $borderColor;
+  border: 1px solid var(--borderColor);
 }
 
 .thumb,
@@ -1389,7 +1391,8 @@
 }
 
 .hover-rotate {
-  transition: all 0.2s ease-in-out 0.1s;
+  transition: all var(--animation-duration) ease-in-out
+    var(--animation-duration);
 }
 
 .hover-anchor:hover,
@@ -1517,6 +1520,10 @@
   word-wrap: break-word;
 }
 
+.white-space-pre {
+  white-space: pre;
+}
+
 //
 // Labels
 // --------------------------------------------------
@@ -1527,7 +1534,7 @@
   font-size: 75%;
   font-weight: 700;
   line-height: 1;
-  color: $label-color;
+  color: var(--label-color);
   text-align: center;
   white-space: nowrap;
   vertical-align: baseline;
@@ -1547,7 +1554,7 @@
 a.label {
   &:hover,
   &:focus {
-    color: $label-link--hover-color;
+    color: var(--label-link--hover-color);
     text-decoration: none;
     cursor: pointer;
   }
@@ -1557,27 +1564,27 @@ a.label {
 // Contextual variations (linked labels get darker on :hover)
 
 .label-default {
-  @include label-variant($label--default-bg);
+  @include label-variant(var(--label--default-bg));
 }
 
 .label-primary {
-  @include label-variant($label--primary-bg);
+  @include label-variant(var(--label--primary-bg));
 }
 
 .label-success {
-  @include label-variant($label--success-bg);
+  @include label-variant(var(--label--success-bg));
 }
 
 .label-info {
-  @include label-variant($label--info-bg);
+  @include label-variant(var(--label--info-bg));
 }
 
 .label-warning {
-  @include label-variant($label--warning-bg);
+  @include label-variant(var(--label--warning-bg));
 }
 
 .label-danger {
-  @include label-variant($label--danger-bg);
+  @include label-variant(var(--label--danger-bg));
 }
 
 @keyframes apearSensor {
@@ -1644,7 +1651,11 @@ a.label {
 /*phone*/
 @media (max-width: 767px) {
   .visible-xs {
-    display: block;
+    display: block !important;
+  }
+
+  .hidden-xs {
+    display: none !important;
   }
 
   .w-auto-xs {

@@ -29,6 +29,7 @@ export interface ConditionItemProps extends ThemeProps {
   funcs?: Funcs;
   index?: number;
   value: ConditionRule;
+  data?: any;
   onChange: (value: ConditionRule, index?: number) => void;
 }
 
@@ -99,14 +100,16 @@ export class ConditionItem extends React.Component<ConditionItemProps> {
 
     return (
       <Expression
+        config={config}
         funcs={funcs}
         value={value.left}
         onChange={this.handleLeftChange}
         fields={fields}
-        defaultType="field"
-        allowedTypes={(config.valueTypes || ['field', 'func']).filter(
-          type => type === 'field' || type === 'func'
-        )}
+        allowedTypes={
+          ['field', 'func'].filter(
+            type => type === 'field' || type === 'func'
+          ) as any
+        }
       />
     );
   }
@@ -218,7 +221,7 @@ export class ConditionItem extends React.Component<ConditionItemProps> {
   }
 
   renderRightWidgets(type: string, op: OperatorType) {
-    const {funcs, value, fields, config, classnames: cx} = this.props;
+    const {funcs, value, data, fields, config, classnames: cx} = this.props;
     let field = {
       ...config.types[type],
       type
@@ -244,30 +247,32 @@ export class ConditionItem extends React.Component<ConditionItemProps> {
       return (
         <>
           <Expression
+            config={config}
             funcs={funcs}
             valueField={field}
             value={(value.right as Array<ExpressionComplex>)?.[0]}
+            data={data}
             onChange={this.handleRightSubChange.bind(this, 0)}
             fields={fields}
-            defaultType="value"
             allowedTypes={
               field?.valueTypes ||
-              config.valueTypes || ['value', 'field', 'func', 'raw']
+              config.valueTypes || ['value', 'field', 'func', 'formula']
             }
           />
 
           <span className={cx('CBSeprator')}>~</span>
 
           <Expression
+            config={config}
             funcs={funcs}
             valueField={field}
             value={(value.right as Array<ExpressionComplex>)?.[1]}
+            data={data}
             onChange={this.handleRightSubChange.bind(this, 1)}
             fields={fields}
-            defaultType="value"
             allowedTypes={
               field?.valueTypes ||
-              config.valueTypes || ['value', 'field', 'func', 'raw']
+              config.valueTypes || ['value', 'field', 'func', 'formula']
             }
           />
         </>
@@ -276,16 +281,17 @@ export class ConditionItem extends React.Component<ConditionItemProps> {
 
     return (
       <Expression
+        config={config}
         op={op}
         funcs={funcs}
         valueField={field}
         value={value.right}
+        data={data}
         onChange={this.handleRightChange}
         fields={fields}
-        defaultType="value"
         allowedTypes={
           field?.valueTypes ||
-          config.valueTypes || ['value', 'field', 'func', 'raw']
+          config.valueTypes || ['value', 'field', 'func', 'formula']
         }
       />
     );

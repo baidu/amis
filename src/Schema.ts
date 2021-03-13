@@ -20,6 +20,7 @@ import {DividerSchema} from './renderers/Divider';
 import {DropdownButtonSchema} from './renderers/DropDownButton';
 import {EachSchema} from './renderers/Each';
 import {GridSchema} from './renderers/Grid';
+import {Grid2DSchema} from './renderers/Grid2D';
 import {HBoxSchema} from './renderers/HBox';
 import {IconSchema} from './renderers/Icon';
 import {IFrameSchema} from './renderers/IFrame';
@@ -45,18 +46,21 @@ import {VideoSchema} from './renderers/Video';
 import {WizardSchema} from './renderers/Wizard';
 import {WrapperSchema} from './renderers/Wrapper';
 import {TableSchema} from './renderers/Table';
+import {DialogSchema} from './renderers/Dialog';
+import {DrawerSchema} from './renderers/Drawer';
+import {SearchBoxSchema} from './renderers/SearchBox';
+import {SparkLineSchema} from './renderers/SparkLine';
+import {PaginationWrapperSchema} from './renderers/PaginationWrapper';
+import {PaginationSchema} from './renderers/Pagination';
 
 // 每加个类型，这补充一下。
 export type SchemaType =
-  | 'page'
   | 'form'
-  | 'tpl'
-  | 'html'
-  | 'remark'
   | 'button'
   | 'submit'
   | 'reset'
   | 'alert'
+  | 'app'
   | 'audio'
   | 'button-group'
   | 'button-toolbar'
@@ -68,16 +72,22 @@ export type SchemaType =
   | 'color'
   | 'container'
   | 'crud'
+  | 'custom'
   | 'date'
   | 'static-date' // 这个几个跟表单项同名，再form下面用必须带前缀 static-
   | 'datetime'
   | 'static-datetime' // 这个几个跟表单项同名，再form下面用必须带前缀 static-
   | 'time'
   | 'static-time' // 这个几个跟表单项同名，再form下面用必须带前缀 static-
+  | 'month'
+  | 'static-month' // 这个几个跟表单项同名，再form下面用必须带前缀 static-
+  | 'dialog'
   | 'divider'
   | 'dropdown-button'
+  | 'drawer'
   | 'each'
   | 'grid'
+  | 'grid-2d'
   | 'hbox'
   | 'icon'
   | 'iframe'
@@ -89,10 +99,14 @@ export type SchemaType =
   | 'static-json' // 这个几个跟表单项同名，再form下面用必须带前缀 static-
   | 'link'
   | 'list'
+  | 'log'
   | 'static-list' // 这个几个跟表单项同名，再form下面用必须带前缀 static-
   | 'map'
   | 'mapping'
   | 'nav'
+  | 'page'
+  | 'pagination'
+  | 'pagination-wrapper'
   | 'operation'
   | 'panel'
   | 'plain'
@@ -100,12 +114,17 @@ export type SchemaType =
   | 'progress'
   | 'qrcode'
   | 'qr-code'
+  | 'remark'
+  | 'search-box'
   | 'service'
+  | 'sparkline'
   | 'status'
   | 'switch'
   | 'table'
   | 'static-table' // 这个几个跟表单项同名，再form下面用必须带前缀 static-
   | 'tabs'
+  | 'html'
+  | 'tpl'
   | 'tasks'
   | 'vbox'
   | 'video'
@@ -130,10 +149,13 @@ export type SchemaObject =
   | ContainerSchema
   | CRUDSchema
   | DateSchema
+  | DialogSchema
   | DividerSchema
+  | DrawerSchema
   | DropdownButtonSchema
   | EachSchema
   | GridSchema
+  | Grid2DSchema
   | HBoxSchema
   | IconSchema
   | IFrameSchema
@@ -145,11 +167,15 @@ export type SchemaObject =
   | MappingSchema
   | NavSchema
   | OperationSchema
+  | PaginationSchema
+  | PaginationWrapperSchema
   | PanelSchema
   | PlainSchema
   | ProgressSchema
   | QRCodeSchema
+  | SearchBoxSchema
   | ServiceSchema
+  | SparkLineSchema
   | StatusSchema
   | SwitchSchema
   | TableSchema
@@ -171,10 +197,28 @@ export type SchemaCollection =
  */
 export type SchemaExpression = string;
 
+/**
+ * css类名，配置字符串，或者对象。
+ *
+ *     className: "red"
+ *
+ * 用对象配置时意味着你能跟表达式一起搭配使用，如：
+ *
+ *     className: {
+ *         "red": "data.progress > 80",
+ *         "blue": "data.progress > 60"
+ *     }
+ */
+export type SchemaClassName =
+  | string
+  | {
+      [propName: string]: true | false | null | SchemaExpression;
+    };
+
 // /**
 //  * css类名，配置字符串，或者对象。
 //  *
-//  *     className: "red"
+//  *   className: "red"
 //  *
 //  * 用对象配置时意味着你能跟表达式一起搭配使用，如：
 //  *
@@ -183,16 +227,7 @@ export type SchemaExpression = string;
 //  *         "blue": "data.progress > 60"
 //  *     }
 //  */
-// export type SchemaClassName =
-//   | string
-//   | {
-//       [propName: string]: true | false | null | SchemaExpression;
-//     };
-
-/**
- * css类名，字符串格式
- */
-export type SchemaClassName = string; // todo 支持上面那种格式。
+// export type SchemaClassName = string;
 
 export interface SchemaApiObject {
   /**
@@ -213,6 +248,23 @@ export interface SchemaApiObject {
   };
 
   /**
+   * 用来做接口返回的数据映射。
+   */
+  responseData?: {
+    [propName: string]: any;
+  };
+
+  /**
+   * 如果 method 为 get 的接口，设置了 data 信息。
+   * 默认 data 会自动附带在 query 里面发送给后端。
+   *
+   * 如果想通过 body 发送给后端，那么请把这个配置成 false。
+   *
+   * 但是，浏览器还不支持啊，设置了只是摆设。
+   */
+  attachDataToQuery?: boolean;
+
+  /**
    * 发送体的格式
    */
   dataType?: 'json' | 'form-data' | 'form';
@@ -226,7 +278,7 @@ export interface SchemaApiObject {
    * 携带 headers，用法和 data 一样，可以用变量。
    */
   headers?: {
-    [propName: string]: string;
+    [propName: string]: string | number;
   };
 
   /**
@@ -402,4 +454,73 @@ export interface BaseSchema {
   visibleOn?: SchemaExpression;
 }
 
-export {PageSchema};
+export interface Option {
+  /**
+   * 用来显示的文字
+   */
+  label?: string;
+
+  /**
+   * 可以用来给 Option 标记个范围，让数据展示更清晰。
+   *
+   * 这个只有在数值展示的时候显示。
+   */
+  scopeLabel?: string;
+
+  /**
+   * 请保证数值唯一，多个选项值一致会认为是同一个选项。
+   */
+  value?: any;
+
+  /**
+   * 是否禁用
+   */
+  disabled?: boolean;
+
+  /**
+   * 支持嵌套
+   */
+  children?: Options;
+
+  /**
+   * 是否可见
+   */
+  visible?: boolean;
+
+  /**
+   * 最好不要用！因为有 visible 就够了。
+   *
+   * @deprecated 用 visible
+   */
+  hidden?: boolean;
+
+  /**
+   * 描述，部分控件支持
+   */
+  description?: string;
+
+  /**
+   * 标记后数据延时加载
+   */
+  defer?: boolean;
+
+  /**
+   * 如果设置了，优先级更高，不设置走 source 接口加载。
+   */
+  deferApi?: SchemaApi;
+
+  /**
+   * 标记正在加载。只有 defer 为 true 时有意义。内部字段不可以外部设置
+   */
+  loading?: boolean;
+
+  /**
+   * 只有设置了 defer 才有意义，内部字段不可以外部设置
+   */
+  loaded?: boolean;
+
+  [propName: string]: any;
+}
+export interface Options extends Array<Option> {}
+
+export type RootSchema = PageSchema;

@@ -151,7 +151,9 @@ export interface CardSchema extends BaseSchema {
   actions?: Array<ActionSchema>;
 }
 
-export interface CardProps extends RendererProps, CardSchema {
+export interface CardProps
+  extends RendererProps,
+    Omit<CardSchema, 'className'> {
   onCheck: (item: IItem) => void;
   itemIndex?: number;
   multiple?: boolean;
@@ -173,7 +175,6 @@ export class Card extends React.Component<CardProps> {
   };
 
   static propsList: Array<string> = [
-    'multiple',
     'avatarClassName',
     'bodyClassName',
     'actionsCount',
@@ -226,10 +227,12 @@ export class Card extends React.Component<CardProps> {
   handleQuickChange(
     values: object,
     saveImmediately?: boolean,
-    savePristine?: boolean
+    savePristine?: boolean,
+    resetOnFailed?: boolean
   ) {
     const {onQuickChange, item} = this.props;
-    onQuickChange && onQuickChange(item, values, saveImmediately, savePristine);
+    onQuickChange &&
+      onQuickChange(item, values, saveImmediately, savePristine, resetOnFailed);
   }
 
   getPopOverContainer() {
@@ -551,7 +554,9 @@ export class Card extends React.Component<CardProps> {
   test: /(^|\/)card$/,
   name: 'card'
 })
-export class CardRenderer extends Card {}
+export class CardRenderer extends Card {
+  static propsList = ['multiple', ...Card.propsList];
+}
 
 @Renderer({
   test: /(^|\/)card-item-field$/,

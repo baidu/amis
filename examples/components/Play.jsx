@@ -1,6 +1,7 @@
 import React from 'react';
 import {toast} from '../../src/components/Toast';
 import {render} from '../../src/index';
+import {normalizeLink} from '../../src/utils/normalizeLink';
 import {alert, confirm} from '../../src/components/Alert';
 import axios from 'axios';
 import Frame from 'react-frame-component';
@@ -60,15 +61,15 @@ export default class PlayGround extends React.Component {
   startX = 0;
   oldContents = '';
   frameTemplate;
+  iframeRef;
 
   static defaultProps = {
-    useIFrame: false,
     vertical: false
   };
 
   constructor(props) {
     super(props);
-
+    this.iframeRef = React.createRef();
     const {router} = props;
 
     const schema = this.buildSchema(props.code || DEFAULT_CONTENT, props);
@@ -83,49 +84,7 @@ export default class PlayGround extends React.Component {
     this.handleMouseUp = this.handleMouseUp.bind(this);
     this.removeWindowEvents = this.removeWindowEvents.bind(this);
     this.handleChange = this.handleChange.bind(this);
-    this.schemaProps = {
-      style: {
-        height: '100%'
-      }
-    };
-    const normalizeLink = to => {
-      to = to || '';
-      const location = router.getCurrentLocation();
-
-      if (to && to[0] === '#') {
-        to = location.pathname + location.search + to;
-      } else if (to && to[0] === '?') {
-        to = location.pathname + to;
-      }
-
-      const idx = to.indexOf('?');
-      const idx2 = to.indexOf('#');
-      let pathname = ~idx
-        ? to.substring(0, idx)
-        : ~idx2
-        ? to.substring(0, idx2)
-        : to;
-      let search = ~idx ? to.substring(idx, ~idx2 ? idx2 : undefined) : '';
-      let hash = ~idx2 ? to.substring(idx2) : location.hash;
-
-      if (!pathname) {
-        pathname = location.pathname;
-      } else if (pathname[0] != '/' && !/^https?:\/\//.test(pathname)) {
-        let relativeBase = location.pathname;
-        const paths = relativeBase.split('/');
-        paths.pop();
-        let m;
-        while ((m = /^\.\.?\//.exec(pathname))) {
-          if (m[0] === '../') {
-            paths.pop();
-          }
-          pathname = pathname.substring(m[0].length);
-        }
-        pathname = paths.concat(pathname).join('/');
-      }
-
-      return pathname + search + hash;
-    };
+    this.schemaProps = {};
     this.env = {
       session: 'doc',
       updateLocation: (location, replace) => {
@@ -139,9 +98,7 @@ export default class PlayGround extends React.Component {
         to = normalizeLink(to);
 
         if (action && action.actionType === 'url') {
-          action.blank === false
-            ? (window.location.href = to)
-            : window.open(to);
+          action.blank === true ? window.open(to) : (window.location.href = to);
           return;
         }
 
@@ -178,12 +135,27 @@ export default class PlayGround extends React.Component {
       }
     };
 
-    const links = [].slice
-      .call(document.head.querySelectorAll('link,style'))
-      .map(item => item.outerHTML);
-    this.frameTemplate = `<!DOCTYPE html><html><head>${links.join(
-      ''
-    )}</head><body><div></div></body></html>`;
+    this.watchIframeReady = this.watchIframeReady.bind(this);
+    window.addEventListener('message', this.watchIframeReady, false);
+  }
+
+  watchIframeReady(event) {
+    // iframe 里面的 amis 初始化了就可以发数据
+    if (event.data && event.data === 'amisReady') {
+      this.updateIframe();
+    }
+  }
+
+  updateIframe() {
+    if (this.iframeRef && this.iframeRef.current) {
+      this.iframeRef.current.contentWindow.postMessage(
+        {
+          schema: this.state.schema,
+          props: {theme: this.props.theme, locale: this.props.locale}
+        },
+        '*'
+      );
+    }
   }
 
   componentWillReceiveProps(nextprops) {
@@ -207,6 +179,7 @@ export default class PlayGround extends React.Component {
 
   componentWillUnmount() {
     this.props.setAsideFolded && this.props.setAsideFolded(false);
+    window.removeEventListener('message', this.watchIframeReady, false);
   }
 
   buildSchema(schemaContent, props = this.props) {
@@ -263,33 +236,37 @@ export default class PlayGround extends React.Component {
       affixFooter: false
     };
 
-    if (!this.props.useIFrame) {
-      return render(schema, props, this.env);
+    if (this.props.viewMode === 'mobile') {
+      return (
+        <iframe
+          width="375"
+          height="100%"
+          frameBorder={0}
+          className="mobile-frame"
+          ref={this.iframeRef}
+          // @ts-ignore
+          src={__uri('../mobile.html')}
+        ></iframe>
+      );
     }
 
-    return (
-      <Frame
-        width="100%"
-        height="100%"
-        frameBorder={0}
-        initialContent={this.frameTemplate}
-      >
-        {render(schema, props, this.env)}
-      </Frame>
-    );
+    return render(schema, props, this.env);
   }
 
   handleChange(value) {
     this.setState({
       schemaCode: value
     });
-
     try {
       const schema = JSON.parse(value);
-
-      this.setState({
-        schema
-      });
+      this.setState(
+        {
+          schema
+        },
+        () => {
+          this.updateIframe();
+        }
+      );
     } catch (e) {
       //ignore
     }
@@ -373,6 +350,7 @@ export default class PlayGround extends React.Component {
   // };
 
   renderEditor() {
+    const {theme} = this.props;
     return (
       <CodeEditor
         value={this.state.schemaCode}
@@ -380,25 +358,20 @@ export default class PlayGround extends React.Component {
         // editorFactory={this.editorFactory}
         editorDidMount={this.editorDidMount}
         language="json"
+        editorTheme={theme === 'dark' ? 'vs-dark' : 'vs'}
       />
     );
   }
 
   render() {
-    const {vertical} = this.props;
+    const {vertical, height} = this.props;
     if (vertical) {
       return (
-        <div className="vbox">
-          <div className="row-row">
-            <div className="cell pos-rlt">
-              <div className="scroll-y h-full pos-abt w-full">
-                {this.renderPreview()}
-              </div>
-            </div>
+        <div className="Playgroud">
+          <div style={{minHeight: height}} className="Playgroud-preview">
+            {this.renderPreview()}
           </div>
-          <div className="row-row b-t" style={{height: 200}}>
-            <div className="cell">{this.renderEditor()}</div>
-          </div>
+          <div className="Playgroud-code">{this.renderEditor()}</div>
         </div>
       );
     }
@@ -413,7 +386,7 @@ export default class PlayGround extends React.Component {
       >
         <div className="hbox">
           <div className="col pos-rlt">
-            <div className="scroll-y h-full pos-abt w-full">
+            <div className="scroll-y h-full pos-abt w-full b-b">
               {this.renderPreview()}
             </div>
           </div>

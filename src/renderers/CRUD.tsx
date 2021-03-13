@@ -1,4 +1,5 @@
 import React from 'react';
+
 import PropTypes from 'prop-types';
 import {Renderer, RendererProps} from '../factory';
 import {
@@ -54,17 +55,21 @@ import {CardsSchema} from './Cards';
 import {ListSchema} from './List';
 import {TableSchema} from './Table';
 
+export type CRUDBultinToolbarType =
+  | 'columns-toggler'
+  | 'drag-toggler'
+  | 'pagination'
+  | 'bulkActions'
+  | 'bulk-actions'
+  | 'statistics'
+  | 'switch-per-page'
+  | 'load-more'
+  | 'filter-toggler'
+  | 'export-csv'
+  | 'export-excel';
+
 export interface CRUDBultinToolbar extends Omit<BaseSchema, 'type'> {
-  type:
-    | 'columns-toggler'
-    | 'drag-toggler'
-    | 'pagination'
-    | 'bulkActions'
-    | 'bulk-actions'
-    | 'statistics'
-    | 'switch-per-page'
-    | 'load-more'
-    | 'filter-toggler';
+  type: CRUDBultinToolbarType;
 }
 
 export type CRUDToolbarChild = SchemaObject | CRUDBultinToolbar;
@@ -187,12 +192,16 @@ export interface CRUDCommonSchema extends BaseSchema {
   /**
    * 顶部工具栏
    */
-  headerToolbar?: Array<CRUDToolbarChild & CRUDToolbarObject>;
+  headerToolbar?: Array<
+    (CRUDToolbarChild & CRUDToolbarObject) | CRUDBultinToolbarType
+  >;
 
   /**
    * 底部工具栏
    */
-  footerToolbar?: Array<CRUDToolbarChild & CRUDToolbarObject>;
+  footerToolbar?: Array<
+    (CRUDToolbarChild & CRUDToolbarObject) | CRUDBultinToolbarType
+  >;
 
   /**
    * 每页显示多少个空间成员的配置如： [10, 20, 50, 100]。
@@ -270,6 +279,11 @@ export interface CRUDCommonSchema extends BaseSchema {
      */
     accordion?: boolean;
   };
+
+  /**
+   * 默认只有当分页数大于 1 是才显示，如果总是想显示请配置。
+   */
+  alwaysShowPagination?: boolean;
 }
 
 export type CRUDCardsSchema = CRUDCommonSchema & {
@@ -290,7 +304,9 @@ export type CRUDTableSchem = CRUDCommonSchema & {
  */
 export type CRUDSchema = CRUDCardsSchema | CRUDListSchema | CRUDTableSchem;
 
-export interface CRUDProps extends RendererProps, CRUDCommonSchema {
+export interface CRUDProps
+  extends RendererProps,
+    Omit<CRUDCommonSchema, 'type' | 'className'> {
   store: ICRUDStore;
   pickerMode?: boolean; // 选择模式，用做表单中的选择操作
 }
@@ -344,7 +360,8 @@ export default class CRUD extends React.Component<CRUDProps, any> {
     'size',
     'onChange',
     'onInit',
-    'onSaved'
+    'onSaved',
+    'onQuery'
   ];
   static defaultProps = {
     toolbarInline: true,
@@ -388,7 +405,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
     this.handleChildPopOverClose = this.handleChildPopOverClose.bind(this);
     this.search = this.search.bind(this);
     this.silentSearch = this.silentSearch.bind(this);
-    this.handlQuery = this.handlQuery.bind(this);
+    this.handleQuery = this.handleQuery.bind(this);
     this.renderHeaderToolbar = this.renderHeaderToolbar.bind(this);
     this.renderFooterToolbar = this.renderFooterToolbar.bind(this);
     this.clearSelection = this.clearSelection.bind(this);
@@ -636,44 +653,59 @@ export default class CRUD extends React.Component<CRUDProps, any> {
       ids
     });
 
-    if (action.actionType === 'dialog') {
-      return this.handleAction(
-        e,
-        {
-          ...action,
-          __from: 'bulkAction'
-        },
-        ctx
-      );
-    } else if (action.actionType === 'ajax') {
-      isEffectiveApi(action.api, ctx) &&
-        store
-          .saveRemote(action.api as string, ctx, {
-            successMessage:
-              (action.messages && action.messages.success) ||
-              (messages && messages.saveSuccess),
-            errorMessage:
-              (action.messages && action.messages.failed) ||
-              (messages && messages.saveFailed)
-          })
-          .then(async (payload: object) => {
-            const data = createObject(ctx, payload);
-            if (action.feedback && isVisible(action.feedback, data)) {
-              await this.openFeedback(action.feedback, data);
-              stopAutoRefreshWhenModalIsOpen && clearTimeout(this.timer);
-            }
+    let fn = () => {
+      if (action.actionType === 'dialog') {
+        return this.handleAction(
+          e,
+          {
+            ...action,
+            __from: 'bulkAction'
+          },
+          ctx
+        );
+      } else if (action.actionType === 'ajax') {
+        isEffectiveApi(action.api, ctx) &&
+          store
+            .saveRemote(action.api as string, ctx, {
+              successMessage:
+                (action.messages && action.messages.success) ||
+                (messages && messages.saveSuccess),
+              errorMessage:
+                (action.messages && action.messages.failed) ||
+                (messages && messages.saveFailed)
+            })
+            .then(async (payload: object) => {
+              const data = createObject(ctx, payload);
+              if (action.feedback && isVisible(action.feedback, data)) {
+                await this.openFeedback(action.feedback, data);
+                stopAutoRefreshWhenModalIsOpen && clearTimeout(this.timer);
+              }
 
-            action.reload
-              ? this.reloadTarget(action.reload, data)
-              : this.search({[pageField || 'page']: 1}, undefined, true, true);
-            action.close && this.closeTarget(action.close);
+              action.reload
+                ? this.reloadTarget(action.reload, data)
+                : this.search(
+                    {[pageField || 'page']: 1},
+                    undefined,
+                    true,
+                    true
+                  );
+              action.close && this.closeTarget(action.close);
 
-            const redirect = action.redirect && filter(action.redirect, data);
-            redirect && env.jumpTo(redirect, action);
-          })
-          .catch(() => null);
-    } else if (onAction) {
-      onAction(e, action, ctx, false, this.context);
+              const redirect = action.redirect && filter(action.redirect, data);
+              redirect && env.jumpTo(redirect, action);
+            })
+            .catch(() => null);
+      } else if (onAction) {
+        onAction(e, action, ctx, false, this.context);
+      }
+    };
+
+    if (action.confirmText && env.confirm) {
+      env
+        .confirm(filter(action.confirmText, ctx))
+        .then((confirmed: boolean) => confirmed && fn());
+    } else {
+      fn();
     }
   }
 
@@ -805,7 +837,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
     if (stopAutoRefreshWhenModalIsOpen && interval) {
       this.timer = setTimeout(
         silentPolling ? this.silentSearch : this.search,
-        Math.max(interval, 3000)
+        Math.max(interval, 1000)
       );
     }
 
@@ -891,7 +923,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
     if (stopAutoRefreshWhenModalIsOpen && interval) {
       this.timer = setTimeout(
         silentPolling ? this.silentSearch : this.search,
-        Math.max(interval, 3000)
+        Math.max(interval, 1000)
       );
     }
   }
@@ -994,7 +1026,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
                       undefined,
                       true
                     ),
-                Math.max(interval, 3000)
+                Math.max(interval, 1000)
               ));
             return value;
           })
@@ -1046,7 +1078,8 @@ export default class CRUD extends React.Component<CRUDProps, any> {
     diff: Array<object> | object,
     indexes: Array<number>,
     unModifiedItems?: Array<any>,
-    rowsOrigin?: Array<object> | object
+    rowsOrigin?: Array<object> | object,
+    resetOnFailed?: boolean
   ) {
     const {
       store,
@@ -1060,7 +1093,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
 
     if (Array.isArray(rows)) {
       if (!isEffectiveApi(quickSaveApi)) {
-        env && env.alert('CRUD quickSaveApi is required!');
+        env && env.alert('CRUD quickSaveApi is required');
         return;
       }
 
@@ -1110,7 +1143,9 @@ export default class CRUD extends React.Component<CRUDProps, any> {
           reload && this.reloadTarget(reload, data);
           this.search(undefined, undefined, true, true);
         })
-        .catch(() => {});
+        .catch(() => {
+          resetOnFailed && this.control.reset();
+        });
     }
   }
 
@@ -1243,8 +1278,9 @@ export default class CRUD extends React.Component<CRUDProps, any> {
         const idx = findIndex(
           oldItems,
           a =>
-            a[primaryField || 'id'] &&
-            a[primaryField || 'id'] == item[primaryField || 'id']
+            a === item ||
+            (a[primaryField || 'id'] &&
+              a[primaryField || 'id'] == item[primaryField || 'id'])
         );
 
         if (~idx) {
@@ -1252,21 +1288,35 @@ export default class CRUD extends React.Component<CRUDProps, any> {
         } else {
           oldItems.push(item);
         }
+
+        const idx2 = findIndex(
+          oldUnselectedItems,
+          a =>
+            a === item ||
+            (a[primaryField || 'id'] &&
+              a[primaryField || 'id'] == item[primaryField || 'id'])
+        );
+
+        if (~idx2) {
+          oldUnselectedItems.splice(idx2, 1);
+        }
       });
 
       unSelectedItems.forEach(item => {
         const idx = findIndex(
           oldUnselectedItems,
           a =>
-            a[primaryField || 'id'] &&
-            a[primaryField || 'id'] == item[primaryField || 'id']
+            a === item ||
+            (a[primaryField || 'id'] &&
+              a[primaryField || 'id'] == item[primaryField || 'id'])
         );
 
         const idx2 = findIndex(
           oldItems,
           a =>
-            a[primaryField || 'id'] &&
-            a[primaryField || 'id'] == item[primaryField || 'id']
+            a === item ||
+            (a[primaryField || 'id'] &&
+              a[primaryField || 'id'] == item[primaryField || 'id'])
         );
 
         if (~idx) {
@@ -1295,8 +1345,11 @@ export default class CRUD extends React.Component<CRUDProps, any> {
       // newUnSelectedItems.push(...unSelectedItems);
     }
 
-    if (pickerMode && !multiple && newItems.length > 1) {
-      newUnSelectedItems.push(...newItems.splice(0, newItems.length - 1));
+    if (pickerMode && multiple === false && newItems.length > 1) {
+      newUnSelectedItems.push.apply(
+        newUnSelectedItems,
+        newItems.splice(0, newItems.length - 1)
+      );
     }
 
     store.setSelectedItems(newItems);
@@ -1328,13 +1381,13 @@ export default class CRUD extends React.Component<CRUDProps, any> {
       if (stopAutoRefreshWhenModalIsOpen && interval) {
         this.timer = setTimeout(
           silentPolling ? this.silentSearch : this.search,
-          Math.max(interval, 3000)
+          Math.max(interval, 1000)
         );
       }
     }
   }
 
-  handlQuery(values: object, forceReload: boolean = false) {
+  handleQuery(values: object, forceReload: boolean = false) {
     const {store, syncLocation, env, pageField, perPageField} = this.props;
 
     store.updateQuery(
@@ -1360,7 +1413,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
   }
 
   receive(values: object) {
-    this.handlQuery(values, true);
+    this.handleQuery(values, true);
   }
 
   reloadTarget(target: string, data: any) {
@@ -1381,7 +1434,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
     const unSelected = store.unSelectedItems.concat();
 
     const idx = selected.indexOf(item);
-    ~idx && unSelected.push(...selected.splice(idx, 1));
+    ~idx && unSelected.push.apply(unSelected, selected.splice(idx, 1));
 
     store.setSelectedItems(selected);
     store.setUnSelectedItems(unSelected);
@@ -1510,7 +1563,8 @@ export default class CRUD extends React.Component<CRUDProps, any> {
             {
               size: 'sm',
               ...omit(btn, ['visibleOn', 'hiddenOn', 'disabledOn']),
-              type: 'button'
+              type: 'button',
+              ignoreConfirm: true
             },
             {
               key: `bulk-${index}`,
@@ -1548,11 +1602,15 @@ export default class CRUD extends React.Component<CRUDProps, any> {
   }
 
   renderPagination() {
-    const {store, render, classnames: cx} = this.props;
+    const {store, render, classnames: cx, alwaysShowPagination} = this.props;
 
     const {page, lastPage} = store;
 
-    if (store.mode !== 'simple' && store.lastPage < 2) {
+    if (
+      store.mode !== 'simple' &&
+      store.lastPage < 2 &&
+      !alwaysShowPagination
+    ) {
       return null;
     }
 
@@ -1565,7 +1623,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
           },
           {
             activePage: page,
-            items: lastPage,
+            lastPage: lastPage,
             hasNext: store.hasNext,
             mode: store.mode,
             onPageChange: this.handleChangePage
@@ -1576,15 +1634,20 @@ export default class CRUD extends React.Component<CRUDProps, any> {
   }
 
   renderStatistics() {
-    const {store, classnames: cx, translate: __} = this.props;
+    const {
+      store,
+      classnames: cx,
+      translate: __,
+      alwaysShowPagination
+    } = this.props;
 
-    if (store.lastPage <= 1) {
+    if (store.lastPage <= 1 && !alwaysShowPagination) {
       return null;
     }
 
     return (
       <div className={cx('Crud-statistics')}>
-        {__('{{page}}/{{lastPage}} 总共：{{total}} 项。', {
+        {__('CRUD.stat', {
           page: store.page,
           lastPage: store.lastPage,
           total: store.total
@@ -1617,11 +1680,11 @@ export default class CRUD extends React.Component<CRUDProps, any> {
 
     return (
       <div className={cx('Crud-pageSwitch')}>
-        {__('每页显示')}
+        {__('CRUD.perPage')}
         <Select
           classPrefix={ns}
           searchable={false}
-          placeholder={__('请选择')}
+          placeholder={__('Select.placeholder')}
           options={perPages}
           value={store.perPage + ''}
           onChange={(value: any) => this.handleChangePage(1, value.value)}
@@ -1644,7 +1707,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
           }
           size="sm"
         >
-          {__('加载更多')}
+          {__('CRUD.loadMore')}
         </Button>
       </div>
     ) : (
@@ -1667,8 +1730,34 @@ export default class CRUD extends React.Component<CRUDProps, any> {
         })}
       >
         <Icon icon="filter" className="icon m-r-xs" />
-        {__('筛选')}
+        {__('CRUD.filter')}
       </button>
+    );
+  }
+
+  renderExportCSV() {
+    const {
+      store,
+      classPrefix: ns,
+      classnames: cx,
+      translate: __,
+      loadDataOnce,
+      api
+    } = this.props;
+
+    return (
+      <Button
+        classPrefix={ns}
+        onClick={() =>
+          store.exportAsCSV({
+            loadDataOnce,
+            api
+          })
+        }
+        size="sm"
+      >
+        {__('CRUD.exportCSV')}
+      </Button>
     );
   }
 
@@ -1696,6 +1785,8 @@ export default class CRUD extends React.Component<CRUDProps, any> {
       return this.renderLoadMore();
     } else if (type === 'filter-toggler') {
       return this.renderFilterToggler();
+    } else if (type === 'export-csv') {
+      return this.renderExportCSV();
     } else if (Array.isArray(toolbar)) {
       const children: Array<any> = toolbar
         .map((toolbar, index) => ({
@@ -1764,6 +1855,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
       lastPage: store.lastPage,
       perPage: store.perPage,
       total: store.total,
+      onQuery: this.handleQuery,
       onAction: this.handleAction,
       onChangePage: this.handleChangePage,
       onBulkAction: this.handleBulkAction,
@@ -1834,11 +1926,11 @@ export default class CRUD extends React.Component<CRUDProps, any> {
 
     return (
       <div className={cx('Crud-selection')}>
-        <div className={cx('Crud-selectionLabel')}>已选条目：</div>
+        <div className={cx('Crud-selectionLabel')}>{__('CRUD.selected')}</div>
         {store.selectedItems.map((item, index) => (
           <div key={index} className={cx(`Crud-value`)}>
             <span
-              data-tooltip={__('删除')}
+              data-tooltip={__('delete')}
               data-position="bottom"
               className={cx('Crud-valueIcon')}
               onClick={this.unSelectItem.bind(this, item, index)}
@@ -1856,7 +1948,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
           </div>
         ))}
         <a onClick={this.clearSelection} className={cx('Crud-selectionClear')}>
-          {__('清空')}
+          {__('clear')}
         </a>
       </div>
     );
@@ -1885,6 +1977,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
       onAction,
       popOverContainer,
       translate: __,
+      onQuery,
       ...rest
     } = this.props;
 
@@ -1898,9 +1991,9 @@ export default class CRUD extends React.Component<CRUDProps, any> {
           ? render(
               'filter',
               {
-                title: __('条件过滤'),
+                title: __('CRUD.filter'),
                 mode: 'inline',
-                submitText: __('搜索'),
+                submitText: __('search'),
                 ...filter,
                 type: 'form',
                 api: null
@@ -1915,7 +2008,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
             )
           : null}
 
-        {keepItemSelectionOnPageChange && multiple
+        {keepItemSelectionOnPageChange && multiple !== false
           ? this.renderSelection()
           : null}
 
@@ -1955,7 +2048,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
             onAction: this.handleAction,
             onSave: this.handleSave,
             onSaveOrder: this.handleSaveOrder,
-            onQuery: this.handlQuery,
+            onQuery: this.handleQuery,
             onSelect: this.handleSelect,
             onPopOverOpened: this.handleChildPopOverOpen,
             onPopOverClosed: this.handleChildPopOverClose,

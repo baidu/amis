@@ -1,0 +1,5 @@
+# 避免 windows 下自动转
+* text eol=lf
+*.jpg   -text
+*.png   -text
+*.eot   -text

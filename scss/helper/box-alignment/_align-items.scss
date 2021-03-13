@@ -1,0 +1,41 @@
+/*!markdown
+
+---
+title: Align Items
+---
+
+| Class       | Properties               |
+| ----------- | ------------------------ |
+| items-start | align-items: flex-start |
+| items-end | align-items: flex-end |
+| items-center | align-items: center |
+| items-baseline | align-items: baseline |
+| items-stretch | align-items: stretch |
+
+
+*/
+
+@mixin make-align-items($prefix: '.') {
+  #{$prefix}items-start {
+    align-items: flex-start;
+  }
+  #{$prefix}items-end {
+    align-items: flex-end;
+  }
+  #{$prefix}items-center {
+    align-items: center;
+  }
+  #{$prefix}items-baseline {
+    align-items: baseline;
+  }
+  #{$prefix}items-stretch {
+    align-items: stretch;
+  }
+}
+
+@include make-align-items();
+@each $deivce in map-keys($devices) {
+  @include media-device($deivce) {
+    @include make-align-items('.' + selector-escape($deivce + ':'));
+  }
+}

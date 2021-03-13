@@ -1,20 +1,20 @@
 .#{$ns}Form-groupColumn {
-  margin-bottom: $gap-sm;
+  margin-bottom: var(--gap-sm);
 }
 
 @include media-breakpoint-up(md) {
   .#{$ns}Form-group {
-    margin-bottom: $Form-item-gap;
+    margin-bottom: var(--Form-item-gap);
 
     .#{$ns}Form-value > & {
-      margin-bottom: $Form-input-marginBottom;
+      margin-bottom: var(--Form-input-marginBottom);
     }
 
     &--hor {
       display: flex;
-      flex-wrap: nowrap;
-      margin-left: -$Form-group-gutterWidth / 2;
-      margin-right: -$Form-group-gutterWidth / 2;
+      flex-wrap: wrap;
+      margin-left: calc(var(--Form-group-gutterWidth) / -2);
+      margin-right: calc(var(--Form-group-gutterWidth) / -2);
       align-items: flex-start;
 
       &.v-middle {
@@ -26,8 +26,8 @@
       }
 
       > * {
-        padding-left: $Form-group-gutterWidth / 2;
-        padding-right: $Form-group-gutterWidth / 2;
+        padding-left: calc(var(--Form-group-gutterWidth) / 2);
+        padding-right: calc(var(--Form-group-gutterWidth) / 2);
       }
 
       > .#{$ns}Form-item--inline {
@@ -45,42 +45,42 @@
     }
 
     &--lg {
-      margin-left: -$Form-group--lg-gutterWidth / 2;
-      margin-right: -$Form-group--lg-gutterWidth / 2;
+      margin-left: calc(var(--Form-group--lg-gutterWidth) / -2);
+      margin-right: calc(var(--Form-group--lg-gutterWidth) / -2);
 
       > * {
-        padding-left: $Form-group--lg-gutterWidth / 2;
-        padding-right: $Form-group--lg-gutterWidth / 2;
+        padding-left: calc(var(--Form-group--lg-gutterWidth) / 2);
+        padding-left: calc(var(--Form-group--lg-gutterWidth) / 2);
       }
     }
 
     &--md {
-      margin-left: -$Form-group--md-gutterWidth / 2;
-      margin-right: -$Form-group--md-gutterWidth / 2;
+      margin-left: calc(var(--Form-group--md-gutterWidth) / -2);
+      margin-right: calc(var(--Form-group--md-gutterWidth) / -2);
 
       > * {
-        padding-left: $Form-group--md-gutterWidth / 2;
-        padding-right: $Form-group--md-gutterWidth / 2;
+        padding-left: calc(var(--Form-group--md-gutterWidth) / 2);
+        padding-right: calc(var(--Form-group--md-gutterWidth) / 2);
       }
     }
 
     &--sm {
-      margin-left: -$Form-group--sm-gutterWidth / 2;
-      margin-right: -$Form-group--sm-gutterWidth / 2;
+      margin-left: calc(var(--Form-group--sm-gutterWidth) / -2);
+      margin-right: calc(var(--Form-group--sm-gutterWidth) / -2);
 
       > * {
-        padding-left: $Form-group--sm-gutterWidth / 2;
-        padding-right: $Form-group--sm-gutterWidth / 2;
+        padding-left: calc(var(--Form-group--sm-gutterWidth) / 2);
+        padding-right: calc(var(--Form-group--sm-gutterWidth) / 2);
       }
     }
 
     &--xs {
-      margin-left: -$Form-group--xs-gutterWidth / 2;
-      margin-right: -$Form-group--xs-gutterWidth / 2;
+      margin-left: calc(var(--Form-group--xs-gutterWidth) / -2);
+      margin-right: calc(var(--Form-group--xs-gutterWidth) / -2);
 
       > * {
-        padding-left: $Form-group--xs-gutterWidth / 2;
-        padding-right: $Form-group--xs-gutterWidth / 2;
+        padding-left: calc(var(--Form-group--xs-gutterWidth) / 2);
+        padding-right: calc(var(--Form-group--xs-gutterWidth) / 2);
       }
     }
   }

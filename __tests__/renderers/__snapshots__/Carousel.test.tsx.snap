@@ -15,33 +15,35 @@ exports[`Renderer:carousel 1`] = `
         <span
           class="a-TplField"
         >
-          
+          <span>
+            
     
         
-          <div
-            class="image "
-            style="background-image: url(https://internal-amis-res.cdn.bcebos.com/images/2019-12/1577157239810/da6376bf988c.png); background-size: contain; background-repeat: no-repeat; background-position: center center;"
-          />
-          
+            <div
+              class="image "
+              style="background-image: url('https://internal-amis-res.cdn.bcebos.com/images/2019-12/1577157239810/da6376bf988c.png'); background-size: contain; background-repeat: no-repeat; background-position: center center;"
+            />
+            
         
             
-          <div
-            class="title block"
-          >
-            标题
-          </div>
-          
+            <div
+              class="title block"
+            >
+              标题
+            </div>
+            
          
             
-          <div
-            class="description block"
-          >
-            描述
-          </div>
-           
+            <div
+              class="description block"
+            >
+              描述
+            </div>
+             
         
     
     
+          </span>
         </span>
       </div>
       <div
@@ -50,17 +52,19 @@ exports[`Renderer:carousel 1`] = `
         <span
           class="a-TplField"
         >
-          
+          <span>
+            
     
         
-          <div
-            class="image "
-            style="background-image: url(https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=3893101144,2877209892&fm=23&gp=0.jpg); background-size: contain; background-repeat: no-repeat; background-position: center center;"
-          />
-          
+            <div
+              class="image "
+              style="background-image: url('https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=3893101144,2877209892&fm=23&gp=0.jpg'); background-size: contain; background-repeat: no-repeat; background-position: center center;"
+            />
+            
         
     
     
+          </span>
         </span>
       </div>
       <div
@@ -83,7 +87,7 @@ exports[`Renderer:carousel 1`] = `
           class="a-Carousel-leftArrow"
         >
           <icon-mock
-            classname="icon"
+            classname="icon icon-left-arrow"
             icon="left-arrow"
           />
         </div>
@@ -91,7 +95,7 @@ exports[`Renderer:carousel 1`] = `
           class="a-Carousel-rightArrow"
         >
           <icon-mock
-            classname="icon"
+            classname="icon icon-right-arrow"
             icon="right-arrow"
           />
         </div>

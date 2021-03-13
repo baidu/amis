@@ -15,7 +15,9 @@ exports[`Renderer:dateRange 1`] = `
         <span
           class="a-TplField"
         >
-          The form
+          <span>
+            The form
+          </span>
         </span>
       </h3>
     </div>
@@ -28,12 +30,19 @@ exports[`Renderer:dateRange 1`] = `
       >
         <div
           class="a-Form-item a-Form-item--normal"
+          data-role="form-item"
         >
           <label
             class="a-Form-label"
           >
             <span>
-              date-range
+              <span
+                class="a-TplField"
+              >
+                <span>
+                  date-range
+                </span>
+              </span>
             </span>
           </label>
           <div
@@ -52,20 +61,25 @@ exports[`Renderer:dateRange 1`] = `
                 class="a-DateRangePicker-clear"
               >
                 <icon-mock
-                  classname="icon"
+                  classname="icon icon-close"
                   icon="close"
                 />
               </a>
               <a
                 class="a-DateRangePicker-toggler"
               >
-                <i
-                  class="fa fa-calendar"
+                <icon-mock
+                  classname="icon icon-calendar"
+                  icon="calendar"
                 />
               </a>
             </div>
           </div>
         </div>
+        <input
+          style="display: none;"
+          type="submit"
+        />
       </form>
     </div>
     <div

@@ -1,0 +1,40 @@
+/*!markdown
+
+---
+title: Place Items
+---
+
+| Class       | Properties               |
+| ----------- | ------------------------ |
+| place-items-auto | place-items: auto |
+| place-items-start | place-items: start |
+| place-items-end | place-items: end |
+| place-items-center | place-items: center |
+| place-items-stretch | place-items: stretch |
+
+
+*/
+@mixin make-place-items($prefix: '.') {
+  #{$prefix}place-items-auto {
+    place-items: auto;
+  }
+  #{$prefix}place-items-start {
+    place-items: start;
+  }
+  #{$prefix}place-items-end {
+    place-items: end;
+  }
+  #{$prefix}place-items-center {
+    place-items: center;
+  }
+  #{$prefix}place-items-stretch {
+    place-items: stretch;
+  }
+}
+
+@include make-place-items();
+@each $deivce in map-keys($devices) {
+  @include media-device($deivce) {
+    @include make-place-items('.' + selector-escape($deivce + ':'));
+  }
+}

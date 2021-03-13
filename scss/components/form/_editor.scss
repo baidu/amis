@@ -1,5 +1,3 @@
-// todo
-
 .#{$ns}EditorControl {
   min-height: px2rem(200px);
   max-height: px2rem(400px);
@@ -11,16 +9,16 @@
 
   overflow: visible;
   height: auto;
-  border: $Form-input-borderWidth solid $Form-input-borderColor;
+  border: var(--Form-input-borderWidth) solid var(--Form-input-borderColor);
   max-width: 100%;
   box-sizing: content-box;
 
   &.is-error {
-    border-color: $Form-input-onError-borderColor;
+    border-color: var(--Form-input-onError-borderColor);
   }
 
   &.is-focused {
-    border-color: $Form-input-onFocused-borderColor;
+    border-color: var(--Form-input-onFocused-borderColor);
   }
 
   &--sm {

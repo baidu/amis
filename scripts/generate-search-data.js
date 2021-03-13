@@ -28,10 +28,13 @@ glob('./docs/**/*.md', {}, function (er, docs) {
       body: content
         .replace(/<\!---.+-->/g, '')
         .replace(/!?\[.*\]\(.*\)/g, '')
-        .replace(/\n/g, '')
-        .replace(/```[^`]*```/g, '')
-        .toLowerCase(),
-      path: doc.slice(1).replace('.md', '')
+        .replace(/```[^`]*```/g, ''),
+      path: doc
+        .slice(1)
+        .replace('.md', '')
+        .replace('/docs/zh-CN/components/', '/zh-CN/components/')
+        .replace('/docs/zh-CN/style/', '/zh-CN/style/')
+        .replace('/docs/zh-CN/', '/zh-CN/docs/')
     });
   }
   fs.writeFileSync('./examples/docs.json', JSON.stringify(resultData));

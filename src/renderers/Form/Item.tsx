@@ -7,8 +7,7 @@ import {
   RendererProps,
   registerRenderer,
   TestFunc,
-  RendererConfig,
-  HocStoreFactory
+  RendererConfig
 } from '../../factory';
 import {anyChanged, ucFirst, getWidthRate, autobind} from '../../utils/helper';
 import {observer} from 'mobx-react';
@@ -35,6 +34,8 @@ import {ContainerControlSchema} from './Container';
 import {
   DateControlSchema,
   DateTimeControlSchema,
+  MonthControlSchema,
+  QuarterControlSchema,
   TimeControlSchema
 } from './Date';
 import {DateRangeControlSchema} from './DateRange';
@@ -73,9 +74,12 @@ import {TagControlSchema} from './Tag';
 import {TransferControlSchema} from './Transfer';
 import {TreeControlSchema} from './Tree';
 import {TreeSelectControlSchema} from './TreeSelect';
+import {UUIDControlSchema} from './UUID';
 import {PlainSchema} from '../Plain';
 import {TplSchema} from '../Tpl';
 import {DividerSchema} from '../Divider';
+import {HocStoreFactory} from '../../WithStore';
+import {MonthRangeControlSchema} from './MonthRange';
 
 export type FormControlType =
   | 'array'
@@ -85,6 +89,7 @@ export type FormControlType =
   | 'button-group'
   | 'button-toolbar'
   | 'chained-select'
+  | 'chart-radios'
   | 'checkbox'
   | 'checkboxes'
   | 'city'
@@ -95,6 +100,8 @@ export type FormControlType =
   | 'date'
   | 'datetime'
   | 'time'
+  | 'quarter'
+  | 'month'
   | 'date-range'
   | 'diff'
 
@@ -154,6 +161,7 @@ export type FormControlType =
   | 'list'
   | 'location'
   | 'matrix'
+  | 'month-range'
   | 'nested-select'
   | 'number'
   | 'panel'
@@ -176,6 +184,7 @@ export type FormControlType =
   | 'password'
   | 'email'
   | 'url'
+  | 'uuid'
   | 'multi-select'
   | 'textarea'
   | 'transfer'
@@ -204,6 +213,9 @@ export type FormControlSchema =
   | DateControlSchema
   | DateTimeControlSchema
   | TimeControlSchema
+  | MonthControlSchema
+  | MonthControlSchema
+  | QuarterControlSchema
   | DateRangeControlSchema
   | DiffControlSchema
   | EditorControlSchema
@@ -219,7 +231,9 @@ export type FormControlSchema =
   | InputGroupControlSchema
   | ListControlSchema
   | LocationControlSchema
+  | UUIDControlSchema
   | MatrixControlSchema
+  | MonthRangeControlSchema
   | NestedSelectControlSchema
   | NumberControlSchema
   | PanelControlSchema
@@ -484,6 +498,11 @@ export interface FormBaseControl extends Omit<BaseSchema, 'type'> {
    * 默认值，切记只能是静态值，不支持取变量，跟数据关联是通过设置 name 属性来实现的。
    */
   value?: any;
+
+  /**
+   * 表单项隐藏时，是否在当前 Form 中删除掉该表单项值。注意同名的未隐藏的表单项值也会删掉
+   */
+  clearValueOnHidden?: boolean;
 }
 
 export interface FormItemBasicConfig extends Partial<RendererConfig> {
@@ -757,13 +776,14 @@ export class FormItemWrap extends React.Component<FormItemProps> {
             )}
           >
             <span>
-              {filter(label, data)}
+              {label ? render('label', filter(label, data)) : null}
               {required && (label || labelRemark) ? (
                 <span className={cx(`Form-star`)}>*</span>
               ) : null}
               {labelRemark
                 ? render('label-remark', {
                     type: 'remark',
+                    icon: labelRemark.icon || 'warning-mark',
                     tooltip: labelRemark,
                     className: cx(`Form-labelRemark`),
                     container:
@@ -793,6 +813,7 @@ export class FormItemWrap extends React.Component<FormItemProps> {
           {remark
             ? render('remark', {
                 type: 'remark',
+                icon: remark.icon || 'warning-mark',
                 tooltip: remark,
                 className: cx(`Form-remark`),
                 container:
@@ -808,7 +829,10 @@ export class FormItemWrap extends React.Component<FormItemProps> {
               })
             : null}
 
-          {model && !model.valid && showErrorMsg !== false ? (
+          {model &&
+          !model.valid &&
+          showErrorMsg !== false &&
+          Array.isArray(model.errors) ? (
             <ul className={cx(`Form-feedback`)}>
               {model.errors.map((msg: string, key: number) => (
                 <li key={key}>{msg}</li>
@@ -864,13 +888,14 @@ export class FormItemWrap extends React.Component<FormItemProps> {
         {label && renderLabel !== false ? (
           <label className={cx(`Form-label`, labelClassName)}>
             <span>
-              {filter(label, data)}
+              {label ? render('label', filter(label, data)) : null}
               {required && (label || labelRemark) ? (
                 <span className={cx(`Form-star`)}>*</span>
               ) : null}
               {labelRemark
                 ? render('label-remark', {
                     type: 'remark',
+                    icon: labelRemark.icon || 'warning-mark',
                     tooltip: labelRemark,
                     className: cx(`Form-lableRemark`),
                     container:
@@ -894,6 +919,7 @@ export class FormItemWrap extends React.Component<FormItemProps> {
         {remark
           ? render('remark', {
               type: 'remark',
+              icon: remark.icon || 'warning-mark',
               className: cx(`Form-remark`),
               tooltip: remark,
               container:
@@ -907,7 +933,10 @@ export class FormItemWrap extends React.Component<FormItemProps> {
             })
           : null}
 
-        {model && !model.valid && showErrorMsg !== false ? (
+        {model &&
+        !model.valid &&
+        showErrorMsg !== false &&
+        Array.isArray(model.errors) ? (
           <ul className={cx(`Form-feedback`)}>
             {model.errors.map((msg: string, key: number) => (
               <li key={key}>{msg}</li>
@@ -961,13 +990,14 @@ export class FormItemWrap extends React.Component<FormItemProps> {
         {label && renderLabel !== false ? (
           <label className={cx(`Form-label`, labelClassName)}>
             <span>
-              {filter(label, data)}
+              {label ? render('label', filter(label, data)) : label}
               {required && (label || labelRemark) ? (
                 <span className={cx(`Form-star`)}>*</span>
               ) : null}
               {labelRemark
                 ? render('label-remark', {
                     type: 'remark',
+                    icon: labelRemark.icon || 'warning-mark',
                     tooltip: labelRemark,
                     className: cx(`Form-lableRemark`),
                     container:
@@ -992,6 +1022,7 @@ export class FormItemWrap extends React.Component<FormItemProps> {
           {remark
             ? render('remark', {
                 type: 'remark',
+                icon: remark.icon || 'warning-mark',
                 className: cx(`Form-remark`),
                 tooltip: remark,
                 container:
@@ -1007,7 +1038,10 @@ export class FormItemWrap extends React.Component<FormItemProps> {
               })
             : null}
 
-          {model && !model.valid && showErrorMsg !== false ? (
+          {model &&
+          !model.valid &&
+          showErrorMsg !== false &&
+          Array.isArray(model.errors) ? (
             <ul className={cx(`Form-feedback`)}>
               {model.errors.map((msg: string, key: number) => (
                 <li key={key}>{msg}</li>
@@ -1064,13 +1098,14 @@ export class FormItemWrap extends React.Component<FormItemProps> {
           {label && renderLabel !== false ? (
             <label className={cx(`Form-label`, labelClassName)}>
               <span>
-                {filter(label, data)}
+                {render('label', filter(label, data))}
                 {required && (label || labelRemark) ? (
                   <span className={cx(`Form-star`)}>*</span>
                 ) : null}
                 {labelRemark
                   ? render('label-remark', {
                       type: 'remark',
+                      icon: labelRemark.icon || 'warning-mark',
                       tooltip: labelRemark,
                       className: cx(`Form-lableRemark`),
                       container:
@@ -1094,6 +1129,7 @@ export class FormItemWrap extends React.Component<FormItemProps> {
           {remark
             ? render('remark', {
                 type: 'remark',
+                icon: remark.icon || 'warning-mark',
                 className: cx(`Form-remark`),
                 tooltip: remark,
                 container:
@@ -1110,7 +1146,10 @@ export class FormItemWrap extends React.Component<FormItemProps> {
             })
           : null}
 
-        {model && !model.valid && showErrorMsg !== false ? (
+        {model &&
+        !model.valid &&
+        showErrorMsg !== false &&
+        Array.isArray(model.errors) ? (
           <ul className={cx('Form-feedback')}>
             {model.errors.map((msg: string, key: number) => (
               <li key={key}>{msg}</li>
@@ -1229,7 +1268,6 @@ export function asFormItem(config: Omit<FormItemConfig, 'component'>) {
     if (config.validate && !Control.prototype.validate) {
       const fn = config.validate;
       Control.prototype.validate = function () {
-        // console.warn('推荐直接在类中定义，而不是 FormItem HOC 的参数中传入。');
         const host = {
           input: this
         };

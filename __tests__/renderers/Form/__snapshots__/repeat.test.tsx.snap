@@ -15,7 +15,9 @@ exports[`Renderer:repeat 1`] = `
         <span
           class="a-TplField"
         >
-          The form
+          <span>
+            The form
+          </span>
         </span>
       </h3>
     </div>
@@ -28,12 +30,19 @@ exports[`Renderer:repeat 1`] = `
       >
         <div
           class="a-Form-item a-Form-item--normal"
+          data-role="form-item"
         >
           <label
             class="a-Form-label"
           >
             <span>
-              repeat
+              <span
+                class="a-TplField"
+              >
+                <span>
+                  repeat
+                </span>
+              </span>
             </span>
           </label>
           <div
@@ -118,6 +127,7 @@ exports[`Renderer:repeat 1`] = `
                   aria-owns="downshift-0-menu"
                   class="a-Select is-opened pull-right has-popover"
                   role="combobox"
+                  style="position: relative;"
                   tabindex="0"
                 >
                   <div
@@ -131,10 +141,16 @@ exports[`Renderer:repeat 1`] = `
                   </div>
                   <span
                     class="a-Select-arrow"
-                  />
+                  >
+                    <icon-mock
+                      classname="icon icon-caret"
+                      icon="caret"
+                    />
+                  </span>
                   <div
                     class="a-PopOver a-Select-popover a-PopOver--leftBottomLeftTop"
-                    style="display: block; min-width: 0; left: 0px; top: 0px;"
+                    style="display: block; min-width: 0; left: 0px; top: 0px; position: relative;"
+                    theme="default"
                   >
                     <div
                       class="a-PopOver-overlay"
@@ -142,6 +158,13 @@ exports[`Renderer:repeat 1`] = `
                     <div
                       class="a-Select-menu"
                     >
+                      <div
+                        class="a-Select-option invisible"
+                      >
+                        <span>
+                          Placeholder
+                        </span>
+                      </div>
                       <div
                         aria-selected="false"
                         class="a-Select-option"
@@ -233,12 +256,94 @@ exports[`Renderer:repeat 1`] = `
                         </span>
                       </div>
                     </div>
+                    <div
+                      class="resize-sensor"
+                      style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
+                    >
+                      
+  
+                      <div
+                        class="resize-sensor-expand"
+                        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+                      >
+                        
+    
+                        <div
+                          style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
+                        />
+                        
+  
+                      </div>
+                      
+  
+                      <div
+                        class="resize-sensor-shrink"
+                        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+                      >
+                        
+    
+                        <div
+                          style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
+                        />
+                        
+  
+                      </div>
+                      
+  
+                      <div
+                        class="resize-sensor-appear"
+                        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
+                      />
+                    </div>
+                  </div>
+                  <div
+                    class="resize-sensor"
+                    style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
+                  >
+                    
+  
+                    <div
+                      class="resize-sensor-expand"
+                      style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+                    >
+                      
+    
+                      <div
+                        style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
+                      />
+                      
+  
+                    </div>
+                    
+  
+                    <div
+                      class="resize-sensor-shrink"
+                      style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+                    >
+                      
+    
+                      <div
+                        style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
+                      />
+                      
+  
+                    </div>
+                    
+  
+                    <div
+                      class="resize-sensor-appear"
+                      style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
+                    />
                   </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
+        <input
+          style="display: none;"
+          type="submit"
+        />
       </form>
     </div>
     <div

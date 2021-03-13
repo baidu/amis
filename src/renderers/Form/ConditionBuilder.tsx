@@ -33,11 +33,12 @@ export interface ConditionBuilderControlSchema extends FormBaseControl {
 
 export interface ConditionBuilderProps
   extends FormControlProps,
-    ConditionBuilderControlSchema {}
+    Omit<
+      ConditionBuilderControlSchema,
+      'type' | 'className' | 'descriptionClassName' | 'inputClassName'
+    > {}
 
-export default class ConditionBuilderControl extends React.PureComponent<
-  ConditionBuilderProps
-> {
+export default class ConditionBuilderControl extends React.PureComponent<ConditionBuilderProps> {
   render() {
     const {className, classnames: cx, ...rest} = this.props;
 

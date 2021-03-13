@@ -6,6 +6,7 @@ import Overlay from '../../components/Overlay';
 import {findDOMNode} from 'react-dom';
 import PopOver from '../../components/PopOver';
 import {ITableStore} from '../../store/table';
+import {setVariable} from '../../utils/helper';
 
 export interface QuickSearchConfig {
   type?: string;
@@ -90,14 +91,14 @@ export class HeadCellSearchDropDown extends React.Component<
         {
           type: 'button-group',
           name: 'orderDir',
-          label: __('排序'),
+          label: __('sort'),
           options: [
             {
-              label: __('正序'),
+              label: __('asc'),
               value: 'asc'
             },
             {
-              label: __('降序'),
+              label: __('desc'),
               value: 'desc'
             }
           ]
@@ -122,18 +123,18 @@ export class HeadCellSearchDropDown extends React.Component<
         actions: [
           {
             type: 'button',
-            label: __('重置'),
-            actionType: 'reset'
+            label: __('reset'),
+            actionType: 'clear-and-submit'
           },
 
           {
             type: 'button',
-            label: __('取消'),
+            label: __('cancle'),
             actionType: 'cancel'
           },
 
           {
-            label: __('搜索'),
+            label: __('search'),
             type: 'submit',
             primary: true
           }
@@ -180,7 +181,7 @@ export class HeadCellSearchDropDown extends React.Component<
   handleReset() {
     const {onQuery, data, name} = this.props;
     const values = {...data};
-    this.formItems.forEach(key => (values[key] = undefined));
+    this.formItems.forEach(key => setVariable(values, key, undefined));
 
     if (values.orderBy === name) {
       values.orderBy = '';

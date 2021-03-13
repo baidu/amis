@@ -16,6 +16,9 @@ import Value from './Value';
 import InputSwitch from './InputSwitch';
 import ConditionFunc from './Func';
 import {ThemeProps, themeable} from '../../theme';
+import {Config} from './config';
+import InputBox from '../InputBox';
+import Formula from './Formula';
 
 /**
  * 支持4中表达式设置方式
@@ -28,26 +31,27 @@ import {ThemeProps, themeable} from '../../theme';
 
 export interface ExpressionProps extends ThemeProps {
   value: ExpressionComplex;
+  data?: any;
   index?: number;
   onChange: (value: ExpressionComplex, index?: number) => void;
   valueField?: FieldSimple;
   fields?: Field[];
   funcs?: Funcs;
-  defaultType?: 'value' | 'field' | 'func' | 'raw';
-  allowedTypes?: Array<'value' | 'field' | 'func' | 'raw'>;
+  allowedTypes?: Array<'value' | 'field' | 'func' | 'formula'>;
   op?: OperatorType;
+  config: Config;
 }
 
 const fieldMap = {
   value: '值',
   field: '字段',
   func: '函数',
-  raw: '公式'
+  formula: '公式'
 };
 
 export class Expression extends React.Component<ExpressionProps> {
   @autobind
-  handleInputTypeChange(type: 'value' | 'field' | 'func' | 'raw') {
+  handleInputTypeChange(type: 'value' | 'field' | 'func' | 'formula') {
     let value = this.props.value;
     const onChange = this.props.onChange;
 
@@ -65,9 +69,9 @@ export class Expression extends React.Component<ExpressionProps> {
         type: 'field',
         field: ''
       };
-    } else if (type === 'raw') {
+    } else if (type === 'formula') {
       value = {
-        type: 'raw',
+        type: 'formula',
         value: ''
       };
     }
@@ -102,29 +106,38 @@ export class Expression extends React.Component<ExpressionProps> {
   }
 
   @autobind
-  handleRawChange() {}
+  handleFormulaChange(formula: string) {
+    let value = this.props.value;
+    const onChange = this.props.onChange;
+    value = {
+      type: 'formula',
+      value: formula
+    };
+    onChange(value, this.props.index);
+  }
 
   render() {
     const {
       value,
       valueField,
-      defaultType,
       allowedTypes,
       funcs,
       fields,
-      op
+      op,
+      classnames: cx,
+      config,
+      data
     } = this.props;
     const inputType =
       ((value as any)?.type === 'field'
         ? 'field'
         : (value as any)?.type === 'func'
         ? 'func'
-        : (value as any)?.type === 'raw'
-        ? 'raw'
+        : (value as any)?.type === 'formula'
+        ? 'formula'
         : value !== undefined
         ? 'value'
         : undefined) ||
-      defaultType ||
       allowedTypes?.[0] ||
       'value';
 
@@ -142,6 +155,7 @@ export class Expression extends React.Component<ExpressionProps> {
             value={value}
             onChange={this.handleValueChange}
             op={op}
+            data={data}
           />
         ) : null}
 
@@ -164,12 +178,19 @@ export class Expression extends React.Component<ExpressionProps> {
 
         {inputType === 'func' ? (
           <ConditionFunc
+            config={config}
             value={value as ExpressionFunc}
             onChange={this.handleFuncChange}
             funcs={funcs}
             fields={fields}
-            defaultType={defaultType}
             allowedTypes={allowedTypes}
+          />
+        ) : null}
+
+        {inputType === 'formula' ? (
+          <Formula
+            value={(value as any)?.value}
+            onChange={this.handleFormulaChange}
           />
         ) : null}
 

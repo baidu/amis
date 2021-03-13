@@ -15,7 +15,9 @@ exports[`Renderer:checkbox 1`] = `
         <span
           class="a-TplField"
         >
-          The form
+          <span>
+            The form
+          </span>
         </span>
       </h3>
     </div>
@@ -28,12 +30,19 @@ exports[`Renderer:checkbox 1`] = `
       >
         <div
           class="a-Form-item a-Form-item--normal"
+          data-role="form-item"
         >
           <label
             class="a-Form-label"
           >
             <span>
-              Checkbox
+              <span
+                class="a-TplField"
+              >
+                <span>
+                  Checkbox
+                </span>
+              </span>
             </span>
           </label>
           <div
@@ -52,12 +61,18 @@ exports[`Renderer:checkbox 1`] = `
                 <span
                   class="a-TplField"
                 >
-                  选项说明
+                  <span>
+                    选项说明
+                  </span>
                 </span>
               </span>
             </label>
           </div>
         </div>
+        <input
+          style="display: none;"
+          type="submit"
+        />
       </form>
     </div>
     <div

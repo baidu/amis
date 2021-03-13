@@ -1,0 +1,44 @@
+/*!markdown
+
+---
+title: Align Content
+---
+
+| Class       | Properties               |
+| ----------- | ------------------------ |
+| content-center | align-content: center |
+| content-start | align-content: flex-start |
+| content-end | align-content: flex-end |
+| content-between | align-content: space-between |
+| content-around | align-content: space-around |
+| content-evenly | align-content: space-evenly |
+
+
+*/
+@mixin make-align-content($prefix: '.') {
+  #{$prefix}content-center {
+    align-content: center;
+  }
+  #{$prefix}content-start {
+    align-content: flex-start;
+  }
+  #{$prefix}content-end {
+    align-content: flex-end;
+  }
+  #{$prefix}content-between {
+    align-content: space-between;
+  }
+  #{$prefix}content-around {
+    align-content: space-around;
+  }
+  #{$prefix}content-evenly {
+    align-content: space-evenly;
+  }
+}
+
+@include make-align-content();
+@each $deivce in map-keys($devices) {
+  @include media-device($deivce) {
+    @include make-align-content('.' + selector-escape($deivce + ':'));
+  }
+}

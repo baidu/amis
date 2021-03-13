@@ -8,37 +8,28 @@
     flex: 0 1 auto;
   }
 
-  @if $Button-borderWidth>0 {
-    > .#{$ns}Button {
-      @include hover {
-        z-index: 1;
-      }
-
-      &:focus,
-      &:active,
-      &.active,
-      &.is-active {
-        z-index: 1;
-      }
+  > .#{$ns}Button {
+    @include hover {
+      z-index: 1;
     }
 
-    .#{$ns}Button + .#{$ns}Button,
-    .#{$ns}Button + .#{$ns}ButtonGroup,
-    .#{$ns}ButtonGroup + .#{$ns}Button,
-    .#{$ns}ButtonGroup + .#{$ns}ButtonGroup {
-      margin-left: -$Button-borderWidth;
+    &:focus,
+    &:active,
+    &.active,
+    &.is-active {
+      z-index: 1;
     }
-  } @else if
-    (
-      variable-exists('ButtonGroup-divider-width') and
-        variable-exists('ButtonGroup-divider-color')
-    )
-  {
-    background-color: $ButtonGroup-divider-color;
+  }
 
-    > .#{$ns}Button + .#{$ns}Button {
-      margin-left: $ButtonGroup-divider-width;
-    }
+  .#{$ns}Button + .#{$ns}Button,
+  .#{$ns}Button + .#{$ns}ButtonGroup,
+  .#{$ns}ButtonGroup + .#{$ns}Button,
+  .#{$ns}ButtonGroup + .#{$ns}ButtonGroup {
+    margin-left: calc(var(--Button-borderWidth) * -1);
+  }
+
+  &--block {
+    display: block;
   }
 }
 
@@ -62,26 +53,20 @@
 
   // cxd的ButtonGroup的is-active和:active样式不一样，这里做个兼容
   .#{$ns}Button--primary:not(:disabled):not(.is-disabled).is-active {
-    @if variable-exists('ButtonGroup--primary-isActive-color') {
-      color: $ButtonGroup--primary-isActive-color;
-    }
-    @if variable-exists('ButtonGroup--primary-isActive-bg') {
-      background-color: $ButtonGroup--primary-isActive-bg;
-    }
+    color: var(--ButtonGroup--primary-isActive-color);
+    background: var(--ButtonGroup--primary-isActive-bg);
   }
 
-  @if $Button-borderWidth>0 {
-    > .#{$ns}Button:not(:last-child),
-    > .#{$ns}ButtonGroup:not(:last-child) > .#{$ns}Button {
-      border-top-right-radius: 0;
-      border-bottom-right-radius: 0;
-    }
+  > .#{$ns}Button:not(:last-child),
+  > .#{$ns}ButtonGroup:not(:last-child) > .#{$ns}Button {
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+  }
 
-    > .#{$ns}Button:not(:first-child),
-    > .#{$ns}ButtonGroup:not(:first-child) > .#{$ns}Button {
-      border-top-left-radius: 0;
-      border-bottom-left-radius: 0;
-    }
+  > .#{$ns}Button:not(:first-child),
+  > .#{$ns}ButtonGroup:not(:first-child) > .#{$ns}Button {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
   }
 }
 
@@ -99,7 +84,7 @@
   > .#{$ns}Button + .#{$ns}ButtonGroup,
   > .#{$ns}ButtonGroup + .#{$ns}Button,
   > .#{$ns}ButtonGroup + .#{$ns}ButtonGroup {
-    margin-top: -$Button-borderWidth;
+    margin-top: calc(var(--Button-borderWidth) * -1);
     margin-left: 0;
   }
 
@@ -120,10 +105,10 @@
   display: inline-block;
 
   > .#{$ns}ButtonGroup--sm {
-    margin-top: ($Form-input-height - $Button--sm-height) / 2;
+    margin-top: calc((var(--Form-input-height) - var(--Button--sm-height)) / 2);
   }
 
   > .#{$ns}ButtonGroup--xs {
-    margin-top: ($Form-input-height - $Button--xs-height) / 2;
+    margin-top: calc((var(--Form-input-height) - var(--Button--xs-height)) / 2);
   }
 }

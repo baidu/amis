@@ -1,10 +1,12 @@
+import {saveAs} from 'file-saver';
 import {
   types,
   getParent,
   flow,
   getEnv,
   getRoot,
-  isAlive
+  isAlive,
+  Instance
 } from 'mobx-state-tree';
 import {IRendererStore} from './index';
 import {ServiceStore} from './service';
@@ -17,7 +19,6 @@ import {
   qsstringify
 } from '../utils/helper';
 import {Api, Payload, fetchOptions, Action, ApiObject} from '../types';
-import qs from 'qs';
 import pick from 'lodash/pick';
 import {resolveVariableAndFilter} from '../utils/tpl-builtin';
 
@@ -160,7 +161,7 @@ export const CRUDStore = ServiceStore.named('CRUDStore')
               self.page * self.perPage
             )
           };
-          self.total = parseInt(data.total || data.count, 10) || 0;
+          self.total = parseInt(data.total ?? data.count, 10) || 0;
           self.reInitData(data);
           return;
         }
@@ -192,7 +193,7 @@ export const CRUDStore = ServiceStore.named('CRUDStore')
 
         if (!json.ok) {
           self.updateMessage(
-            json.msg || options.errorMessage || self.__('获取失败'),
+            json.msg ?? options.errorMessage ?? self.__('CRUD.fetchFailed'),
             true
           );
           getEnv(self).notify(
@@ -207,9 +208,7 @@ export const CRUDStore = ServiceStore.named('CRUDStore')
           );
         } else {
           if (!json.data) {
-            throw new Error(
-              self.__('返回数据格式不正确，payload.data 没有数据')
-            );
+            throw new Error(self.__('CRUD.invalidData'));
           }
 
           self.updatedAt = Date.now();
@@ -243,9 +242,7 @@ export const CRUDStore = ServiceStore.named('CRUDStore')
           }
 
           if (!Array.isArray(items)) {
-            throw new Error(
-              self.__('返回数据格式不正确，payload.data.items 必须是数组')
-            );
+            throw new Error(self.__('CRUD.invalidArray'));
           } else {
             // 确保成员是对象。
             items.map((item: any) =>
@@ -305,7 +302,7 @@ export const CRUDStore = ServiceStore.named('CRUDStore')
             self.hasNext = !!hasNext;
           }
 
-          self.updateMessage(json.msg || options.successMessage);
+          self.updateMessage(json.msg ?? options.successMessage);
 
           // 配置了获取成功提示后提示，默认是空不会提示。
           options &&
@@ -375,7 +372,7 @@ export const CRUDStore = ServiceStore.named('CRUDStore')
 
         if (!json.ok) {
           self.updateMessage(
-            json.msg || options.errorMessage || self.__('保存失败'),
+            json.msg ?? options.errorMessage ?? self.__('saveFailed'),
             true
           );
           getEnv(self).notify(
@@ -390,8 +387,18 @@ export const CRUDStore = ServiceStore.named('CRUDStore')
           );
           throw new ServerError(self.msg);
         } else {
-          self.updateMessage(json.msg || options.successMessage);
-          self.msg && getEnv(self).notify('success', self.msg);
+          self.updateMessage(json.msg ?? options.successMessage);
+          self.msg &&
+            getEnv(self).notify(
+              'success',
+              self.msg,
+              json.msgTimeout !== undefined
+                ? {
+                    closeButton: true,
+                    timeout: json.msgTimeout
+                  }
+                : undefined
+            );
         }
         return json.data;
       } catch (e) {
@@ -462,8 +469,42 @@ export const CRUDStore = ServiceStore.named('CRUDStore')
       setSelectedItems,
       setUnSelectedItems,
       setInnerModalOpened,
-      initFromScope
+      initFromScope,
+      async exportAsCSV(options: {loadDataOnce?: boolean; api?: Api} = {}) {
+        let items = options.loadDataOnce ? self.data.itemsRaw : self.data.items;
+
+        if (!options.loadDataOnce && options.api) {
+          const json = await self.fetchData(
+            options.api,
+            {
+              ...self.query,
+              page: undefined,
+              perPage: undefined,
+              op: 'export-csv'
+            },
+            {
+              autoAppend: true
+            }
+          );
+          if (
+            json.ok &&
+            (Array.isArray(json.data.items) || Array.isArray(json.data.rows))
+          ) {
+            items = json.data.items || json.data.rows;
+          }
+        }
+
+        import('papaparse').then((papaparse: any) => {
+          const csvText = papaparse.unparse(items);
+          if (csvText) {
+            const blob = new Blob([csvText], {
+              type: 'text/plain;charset=utf-8'
+            });
+            saveAs(blob, 'data.csv');
+          }
+        });
+      }
     };
   });
 
-export type ICRUDStore = typeof CRUDStore.Type;
+export type ICRUDStore = Instance<typeof CRUDStore>;

@@ -41,7 +41,12 @@ export interface HBoxControlSchema
   >;
 }
 
-interface HBoxProps extends FormControlProps, HBoxControlSchema {
+interface HBoxProps
+  extends FormControlProps,
+    Omit<
+      HBoxControlSchema,
+      'type' | 'className' | 'descriptionClassName' | 'inputClassName'
+    > {
   store: IIRendererStore;
 }
 
@@ -79,12 +84,12 @@ export class HBoxRenderer extends React.Component<HBoxProps, any> {
       >
         {itemRender
           ? itemRender(column, key, length, this.props)
-          : this.renderChild(`column/${key}`, column)}
+          : this.renderChild(`column/${key}`, column, key)}
       </div>
     );
   }
 
-  renderChild(region: string, node: Schema) {
+  renderChild(region: string, node: Schema, index: number) {
     const {render, renderFormItems, formMode, store, $path} = this.props;
 
     if (node && !node.type && (node.controls || node.tabs || node.feildSet)) {
@@ -108,6 +113,14 @@ export class HBoxRenderer extends React.Component<HBoxProps, any> {
     return render(region, node.body || node);
   }
 
+  renderColumns() {
+    const {columns} = this.props;
+
+    return columns.map((column, key) =>
+      this.renderColumn(column, key, columns.length)
+    );
+  }
+
   render() {
     const {className, columns, gap, classPrefix: ns} = this.props;
 
@@ -119,11 +132,7 @@ export class HBoxRenderer extends React.Component<HBoxProps, any> {
           className
         )}
       >
-        <div className={`${ns}Hbox`}>
-          {columns.map((column: any, key: number) =>
-            this.renderColumn(column, key, columns.length)
-          )}
-        </div>
+        <div className={`${ns}Hbox`}>{this.renderColumns()}</div>
       </div>
     );
   }

@@ -57,6 +57,9 @@ export function monacoFactory(
     minimap: {
       enabled: false
     },
+    scrollbar: {
+      alwaysConsumeMouseWheel: false
+    },
     ...options
   });
 }
@@ -106,28 +109,41 @@ export class Editor extends React.Component<EditorProps, any> {
     this.currentValue = props.value;
   }
 
-  componentWillReceiveProps(nextProps: EditorProps) {
-    if (
-      this.props.options.readOnly !== nextProps.options.readOnly &&
-      this.editor
-    ) {
-      this.editor.updateOptions && this.editor.updateOptions(nextProps.options);
-    }
-  }
-
-  componentDidUpdate() {
+  componentDidUpdate(prevProps: EditorProps) {
     if (this.props.value !== this.currentValue && this.editor) {
       let value = String(this.props.value);
 
       if (this.props.language === 'json') {
         try {
-          value = JSON.stringify(JSON.parse(value), null, 4);
+          value = JSON.stringify(JSON.parse(value), null, 2);
         } catch (e) {}
       }
 
       this.preventTriggerChangeEvent = true;
-      this.editor.setValue && this.editor.setValue(value);
+      const eidtor = this.editor.getModifiedEditor
+        ? this.editor.getModifiedEditor()
+        : this.editor;
+      const model = eidtor.getModel();
+      eidtor.pushUndoStop();
+      // pushEditOperations says it expects a cursorComputer, but doesn't seem to need one.
+      model.pushEditOperations(
+        [],
+        [
+          {
+            range: model.getFullModelRange(),
+            text: value
+          }
+        ]
+      );
+      eidtor.pushUndoStop();
       this.preventTriggerChangeEvent = false;
+    }
+
+    if (
+      this.props.options.readOnly !== prevProps.options.readOnly &&
+      this.editor
+    ) {
+      this.editor.updateOptions?.(this.props.options);
     }
   }
 
@@ -140,6 +156,7 @@ export class Editor extends React.Component<EditorProps, any> {
     }
     this.disposes.forEach(({dispose}) => dispose());
     this.disposes = [];
+    this.editor?.dispose();
   }
 
   wrapperRef(ref: any) {
@@ -162,9 +179,7 @@ export class Editor extends React.Component<EditorProps, any> {
   }
 
   loadMonaco() {
-    (require as any)(['monaco-editor'], (monaco: any) => {
-      this.initMonaco(monaco);
-    });
+    import('monaco-editor').then(monaco => this.initMonaco(monaco));
   }
 
   initMonaco(monaco: any) {
@@ -184,7 +199,7 @@ export class Editor extends React.Component<EditorProps, any> {
         value = JSON.stringify(
           typeof value === 'string' ? JSON.parse(value) : value,
           null,
-          4
+          2
         );
       } catch (e) {
         // ignore
@@ -205,7 +220,8 @@ export class Editor extends React.Component<EditorProps, any> {
     monaco.languages.json?.jsonDefaults.setDiagnosticsOptions({
       enableSchemaRequest: true,
       validate: true,
-      allowComments: true
+      allowComments: true,
+      ...monaco.languages.json?.jsonDefaults.diagnosticsOptions
     });
 
     // After initializing monaco editor

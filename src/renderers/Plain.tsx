@@ -30,7 +30,9 @@ export interface PlainSchema extends BaseSchema {
    */
   placeholder?: string;
 }
-export interface PlainProps extends RendererProps, PlainSchema {
+export interface PlainProps
+  extends RendererProps,
+    Omit<PlainSchema, 'type' | 'className'> {
   wrapperComponent?: any;
 }
 

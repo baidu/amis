@@ -15,7 +15,9 @@ exports[`Renderer:service 1`] = `
         <span
           class="a-TplField"
         >
-          The form
+          <span>
+            The form
+          </span>
         </span>
       </h3>
     </div>
@@ -28,12 +30,19 @@ exports[`Renderer:service 1`] = `
       >
         <div
           class="a-Form-item a-Form-item--normal is-required"
+          data-role="form-item"
         >
           <label
             class="a-Form-label"
           >
             <span>
-              模板
+              <span
+                class="a-TplField"
+              >
+                <span>
+                  模板
+                </span>
+              </span>
               <span
                 class="a-Form-star"
               >
@@ -63,7 +72,12 @@ exports[`Renderer:service 1`] = `
               </div>
               <span
                 class="a-Select-arrow"
-              />
+              >
+                <icon-mock
+                  classname="icon icon-caret"
+                  icon="caret"
+                />
+              </span>
             </div>
           </div>
         </div>
@@ -75,12 +89,19 @@ exports[`Renderer:service 1`] = `
           >
             <div
               class="a-Form-item a-Form-item--normal is-required"
+              data-role="form-item"
             >
               <label
                 class="a-Form-label"
               >
                 <span>
-                  动态字段1
+                  <span
+                    class="a-TplField"
+                  >
+                    <span>
+                      动态字段1
+                    </span>
+                  </span>
                   <span
                     class="a-Form-star"
                   >
@@ -107,12 +128,19 @@ exports[`Renderer:service 1`] = `
             </div>
             <div
               class="a-Form-item a-Form-item--normal"
+              data-role="form-item"
             >
               <label
                 class="a-Form-label"
               >
                 <span>
-                  动态字段2
+                  <span
+                    class="a-TplField"
+                  >
+                    <span>
+                      动态字段2
+                    </span>
+                  </span>
                 </span>
               </label>
               <div
@@ -140,6 +168,10 @@ exports[`Renderer:service 1`] = `
             class="a-Spinner a-Spinner--overlay a-Spinner--lg"
           />
         </div>
+        <input
+          style="display: none;"
+          type="submit"
+        />
       </form>
     </div>
     <div

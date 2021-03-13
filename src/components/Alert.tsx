@@ -11,8 +11,6 @@ import {ClassNamesFn, themeable, ThemeProps} from '../theme';
 import {LocaleProps, localeable} from '../locale';
 import Html from './Html';
 import {PlainObject} from '../types';
-import {render as renderSchema} from '../factory';
-
 export interface AlertProps extends ThemeProps, LocaleProps {
   container?: any;
   confirmText?: string;
@@ -68,9 +66,9 @@ export class Alert extends React.Component<AlertProps, AlertState> {
   }
 
   static defaultProps = {
-    confirmText: '确认',
-    cancelText: '取消',
-    title: '系统消息',
+    confirmText: 'confirm',
+    cancelText: 'cancel',
+    title: 'Alert.info',
     alertBtnLevel: 'primary',
     confirmBtnLevel: 'danger'
   };
@@ -149,8 +147,8 @@ export class Alert extends React.Component<AlertProps, AlertState> {
   prompt(
     controls: any,
     defaultValue?: any,
-    title: string = '请输入',
-    confirmText: string = '确认'
+    title: string = 'placeholder.enter',
+    confirmText: string = 'confirm'
   ) {
     if (typeof controls === 'string') {
       // 兼容浏览器标准用法。
@@ -256,6 +254,18 @@ export class Alert extends React.Component<AlertProps, AlertState> {
   }
 }
 
+export type renderSchemaFn = (
+  controls: Array<any>,
+  value: PlainObject,
+  callback?: (values: PlainObject) => void,
+  scopeRef?: (value: any) => void,
+  theme?: string
+) => JSX.Element;
+let renderSchemaFn: renderSchemaFn;
+export function setRenderSchemaFn(fn: renderSchemaFn) {
+  renderSchemaFn = fn;
+}
+
 function renderForm(
   controls: Array<any>,
   value: PlainObject = {},
@@ -263,27 +273,7 @@ function renderForm(
   scopeRef?: (value: any) => void,
   theme?: string
 ) {
-  return renderSchema(
-    {
-      name: 'form',
-      type: 'form',
-      wrapWithPanel: false,
-      mode: 'horizontal',
-      controls,
-      messages: {
-        validateFailed: ''
-      }
-    },
-    {
-      data: value,
-      onFinished: callback,
-      scopeRef,
-      theme
-    },
-    {
-      session: 'prompt'
-    }
-  );
+  return renderSchemaFn?.(controls, value, callback, scopeRef, theme);
 }
 
 export const alert: (content: string, title?: string) => void = (

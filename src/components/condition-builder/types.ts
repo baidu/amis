@@ -1,3 +1,6 @@
+import {SchemaApi} from '../../Schema';
+import {Api} from '../../types';
+
 export type FieldTypes =
   | 'text'
   | 'number'
@@ -48,8 +51,8 @@ export type ExpressionField = {
   type: 'field';
   field: string;
 };
-export type ExpressionRaw = {
-  type: 'raw';
+export type ExpressionFormula = {
+  type: 'formula';
   value: string;
 };
 
@@ -57,7 +60,7 @@ export type ExpressionComplex =
   | ExpressionValue
   | ExpressionFunc
   | ExpressionField
-  | ExpressionRaw;
+  | ExpressionFormula;
 
 export interface ConditionRule {
   id: any;
@@ -78,7 +81,7 @@ export interface ConditionValue extends ConditionGroupValue {}
 interface BaseField {
   type: FieldTypes;
   label: string;
-  valueTypes?: Array<'value' | 'field' | 'func' | 'raw'>;
+  valueTypes?: Array<'value' | 'field' | 'func' | 'formula'>;
   operators?: Array<string>;
 
   // valueTypes 里面配置 func 才有效。
@@ -105,6 +108,8 @@ interface NumberField extends BaseField {
   type: 'number';
   maximum?: number;
   minimum?: number;
+  step?: number;
+  precision?: number;
 }
 
 interface DateField extends BaseField {
@@ -138,6 +143,8 @@ interface SelectField extends BaseField {
   name: string;
   multiple?: boolean;
   options?: Array<any>;
+  source?: SchemaApi;
+  searchable?: boolean;
 }
 
 interface BooleanField extends BaseField {
@@ -184,5 +191,5 @@ export type Type = {
   defaultOp?: OperatorType;
   operators: Array<OperatorType>;
   placeholder?: string;
-  valueTypes?: Array<'value' | 'field' | 'func' | 'raw'>;
+  valueTypes?: Array<'value' | 'field' | 'func' | 'formula'>;
 };

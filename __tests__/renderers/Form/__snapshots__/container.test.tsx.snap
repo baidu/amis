@@ -15,7 +15,9 @@ exports[`Renderer:container 1`] = `
         <span
           class="a-TplField"
         >
-          The form
+          <span>
+            The form
+          </span>
         </span>
       </h3>
     </div>
@@ -28,12 +30,19 @@ exports[`Renderer:container 1`] = `
       >
         <div
           class="a-Form-item a-Form-item--horizontal no-border"
+          data-role="form-item"
         >
           <label
             class="a-Form-label a-Form-itemColumn--normal"
           >
             <span>
-              container
+              <span
+                class="a-TplField"
+              >
+                <span>
+                  container
+                </span>
+              </span>
             </span>
           </label>
           <div
@@ -47,12 +56,21 @@ exports[`Renderer:container 1`] = `
               >
                 <div
                   class="a-Form-item a-Form-item--horizontal"
+                  data-role="form-item"
                 >
                   <label
                     class="a-Form-label a-Form-itemColumn--normal"
                   >
                     <span>
-                      
+                      <span
+                        class="a-TplField"
+                      >
+                        <span>
+                          <span
+                            class="text-muted"
+                          />
+                        </span>
+                      </span>
                     </span>
                   </label>
                   <div
@@ -92,6 +110,10 @@ exports[`Renderer:container 1`] = `
             </div>
           </div>
         </div>
+        <input
+          style="display: none;"
+          type="submit"
+        />
       </form>
     </div>
     <div

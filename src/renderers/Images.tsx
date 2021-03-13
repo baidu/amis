@@ -1,10 +1,14 @@
 import React from 'react';
 import {Renderer, RendererProps} from '../factory';
 import {filter} from '../utils/tpl';
-import {resolveVariable, isPureVariable} from '../utils/tpl-builtin';
-import Image, {ImageThumbProps} from './Image';
+import {
+  resolveVariable,
+  isPureVariable,
+  resolveVariableAndFilter
+} from '../utils/tpl-builtin';
+import Image, {ImageThumbProps, imagePlaceholder} from './Image';
 import {autobind} from '../utils/helper';
-import {BaseSchema, SchemaUrlPath} from '../Schema';
+import {BaseSchema, SchemaClassName, SchemaUrlPath} from '../Schema';
 
 /**
  * 图片集展示控件。
@@ -49,13 +53,41 @@ export interface ImagesSchema extends BaseSchema {
 
   value?: any; // todo 补充 description
   source?: string;
+
+  /**
+   * 图片地址，如果配置了 name，这个属性不用配置。
+   */
   src?: string;
+
+  /**
+   * 大图地址，不设置用 src
+   */
   originalSrc?: string; // 原图
+
+  /**
+   * 是否启动放大功能。
+   */
   enlargeAble?: boolean;
+
+  /**
+   * 是否显示尺寸。
+   */
   showDimensions?: boolean;
+
+  /**
+   * 外层 CSS 类名
+   */
+  className?: SchemaClassName;
+
+  /**
+   * 列表 CSS 类名
+   */
+  listClassName?: SchemaClassName;
 }
 
-export interface ImagesProps extends RendererProps, Omit<ImagesSchema, 'type'> {
+export interface ImagesProps
+  extends RendererProps,
+    Omit<ImagesSchema, 'type' | 'className'> {
   delimiter: string;
 
   onEnlarge?: (
@@ -79,8 +111,7 @@ export class ImagesField extends React.Component<ImagesProps> {
   > = {
     className: '',
     delimiter: ',',
-    defaultImage:
-      'https://fex.bdstatic.com/n/static/amis/renderers/crud/field/placeholder_cfad9b1.png',
+    defaultImage: imagePlaceholder,
     placehoder: '-',
     thumbMode: 'contain',
     thumbRatio: '1:1'
@@ -128,13 +159,14 @@ export class ImagesField extends React.Component<ImagesProps> {
       delimiter,
       enlargeAble,
       src,
-      originalSrc
+      originalSrc,
+      listClassName
     } = this.props;
 
     let list: any;
 
     if (typeof source === 'string' && isPureVariable(source)) {
-      list = resolveVariable(source, data) || undefined;
+      list = resolveVariableAndFilter(source, data, '| raw') || undefined;
     } else if (Array.isArray(value)) {
       list = value;
     } else if (name && data[name]) {
@@ -152,7 +184,7 @@ export class ImagesField extends React.Component<ImagesProps> {
     return (
       <div className={cx('ImagesField', className)}>
         {Array.isArray(list) ? (
-          <div className={cx('Images')}>
+          <div className={cx('Images', listClassName)}>
             {list.map((item: any, index: number) => (
               <Image
                 index={index}
@@ -177,12 +209,14 @@ export class ImagesField extends React.Component<ImagesProps> {
             ))}
           </div>
         ) : defaultImage ? (
-          <Image
-            className={cx('Images-item')}
-            src={defaultImage}
-            thumbMode={thumbMode}
-            thumbRatio={thumbRatio}
-          />
+          <div className={cx('Images', listClassName)}>
+            <Image
+              className={cx('Images-item')}
+              src={defaultImage}
+              thumbMode={thumbMode}
+              thumbRatio={thumbRatio}
+            />
+          </div>
         ) : (
           placeholder
         )}
@@ -192,6 +226,7 @@ export class ImagesField extends React.Component<ImagesProps> {
 }
 
 @Renderer({
-  test: /(^|\/)images$/
+  test: /(^|\/)images$/,
+  name: 'images'
 })
 export class ImagesFieldRenderer extends ImagesField {}

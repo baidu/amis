@@ -15,7 +15,9 @@ exports[`Renderer:group 1`] = `
         <span
           class="a-TplField"
         >
-          The form
+          <span>
+            The form
+          </span>
         </span>
       </h3>
     </div>
@@ -34,12 +36,19 @@ exports[`Renderer:group 1`] = `
           >
             <div
               class="a-Form-item a-Form-item--horizontal"
+              data-role="form-item"
             >
               <label
                 class="a-Form-label a-Form-itemColumn--0"
               >
                 <span>
-                  Label
+                  <span
+                    class="a-TplField"
+                  >
+                    <span>
+                      Label
+                    </span>
+                  </span>
                 </span>
               </label>
               <div
@@ -69,12 +78,19 @@ exports[`Renderer:group 1`] = `
           >
             <div
               class="a-Form-item a-Form-item--horizontal"
+              data-role="form-item"
             >
               <label
                 class="a-Form-label a-Form-itemColumn--0"
               >
                 <span>
-                  Label
+                  <span
+                    class="a-TplField"
+                  >
+                    <span>
+                      Label
+                    </span>
+                  </span>
                 </span>
               </label>
               <div
@@ -105,12 +121,19 @@ exports[`Renderer:group 1`] = `
         >
           <div
             class="a-Form-item a-Form-item--inline"
+            data-role="form-item"
           >
             <label
               class="a-Form-label"
             >
               <span>
-                Label
+                <span
+                  class="a-TplField"
+                >
+                  <span>
+                    Label
+                  </span>
+                </span>
               </span>
             </label>
             <div
@@ -136,12 +159,19 @@ exports[`Renderer:group 1`] = `
           </div>
           <div
             class="a-Form-item a-Form-item--inline"
+            data-role="form-item"
           >
             <label
               class="a-Form-label"
             >
               <span>
-                Label
+                <span
+                  class="a-TplField"
+                >
+                  <span>
+                    Label
+                  </span>
+                </span>
               </span>
             </label>
             <div
@@ -171,12 +201,19 @@ exports[`Renderer:group 1`] = `
         >
           <div
             class="a-Form-item a-Form-item--normal"
+            data-role="form-item"
           >
             <label
               class="a-Form-label"
             >
               <span>
-                Label
+                <span
+                  class="a-TplField"
+                >
+                  <span>
+                    Label
+                  </span>
+                </span>
               </span>
             </label>
             <div
@@ -198,12 +235,19 @@ exports[`Renderer:group 1`] = `
           </div>
           <div
             class="a-Form-item a-Form-item--normal"
+            data-role="form-item"
           >
             <label
               class="a-Form-label"
             >
               <span>
-                Label
+                <span
+                  class="a-TplField"
+                >
+                  <span>
+                    Label
+                  </span>
+                </span>
               </span>
             </label>
             <div
@@ -224,6 +268,10 @@ exports[`Renderer:group 1`] = `
             </div>
           </div>
         </div>
+        <input
+          style="display: none;"
+          type="submit"
+        />
       </form>
     </div>
     <div

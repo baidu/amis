@@ -31,7 +31,10 @@ export interface CheckboxControlSchema extends FormBaseControl {
 
 export interface CheckboxProps
   extends FormControlProps,
-    CheckboxControlSchema {}
+    Omit<
+      CheckboxControlSchema,
+      'type' | 'className' | 'descriptionClassName' | 'inputClassName'
+    > {}
 
 export default class CheckboxControl extends React.Component<
   CheckboxProps,

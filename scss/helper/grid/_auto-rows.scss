@@ -1,0 +1,38 @@
+/*!markdown
+
+---
+title: Grid Auto Flow
+---
+
+| Class       | Properties               |
+| ----------- | ------------------------ |
+| auto-rows-auto | grid-auto-rows: auto |
+| auto-rows-min | grid-auto-rows: min-content |
+| auto-rows-max | grid-auto-rows: max-content |
+| auto-rows-fr | grid-auto-rows: minmax(0, 1fr) |
+
+
+*/
+@mixin make-grid-auto-rows($prefix: '.') {
+  #{$prefix}auto-rows-auto {
+    grid-auto-rows: auto;
+  }
+
+  #{$prefix}auto-rows-min {
+    grid-auto-rows: min-content;
+  }
+
+  #{$prefix}auto-rows-max {
+    grid-auto-rows: max-content;
+  }
+  #{$prefix}auto-rows-fr {
+    grid-auto-rows: minmax(0, 1fr);
+  }
+}
+
+@include make-grid-auto-rows();
+@each $deivce in map-keys($devices) {
+  @include media-device($deivce) {
+    @include make-grid-auto-rows('.' + selector-escape($deivce + ':'));
+  }
+}

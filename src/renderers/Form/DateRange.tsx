@@ -1,8 +1,7 @@
 import React from 'react';
 import {FormItem, FormControlProps, FormBaseControl} from './Item';
 import cx from 'classnames';
-import {filterDate} from '../../utils/tpl-builtin';
-import moment from 'moment';
+import {filterDate, parseDuration} from '../../utils/tpl-builtin';
 import 'moment/locale/zh-cn';
 import DateRangePicker, {
   DateRangePicker as BaseDateRangePicker
@@ -50,44 +49,43 @@ export interface DateRangeControlSchema extends FormBaseControl {
   minDate?: string;
 
   /**
+   * 最大跨度，比如 2days
+   */
+  maxDuration?: string;
+
+  /**
+   * 最小跨度，比如 2days
+   */
+  minDuration?: string;
+
+  /**
    * 这里面 value 需要特殊说明一下，因为支持相对值。* `-2mins` 2分钟前\n * `+2days` 2天后\n* `-10week` 十周前\n可用单位： `min`、`hour`、`day`、`week`、`month`、`year`。所有单位支持复数形式。
    */
   value?: any;
+
+  /**
+   * 开启后变成非弹出模式，即内联模式。
+   */
+  embed?: boolean;
 }
 
 export interface DateRangeProps
   extends FormControlProps,
-    Omit<DateRangeControlSchema, 'type'> {
+    Omit<
+      DateRangeControlSchema,
+      'type' | 'className' | 'descriptionClassName' | 'inputClassName'
+    > {
   delimiter: string;
   format: string;
   joinValues: boolean;
 }
 
-interface DateControlState {
-  minDate?: moment.Moment;
-  maxDate?: moment.Moment;
-}
-
-export default class DateRangeControl extends React.Component<
-  DateRangeProps,
-  DateControlState
-> {
+export default class DateRangeControl extends React.Component<DateRangeProps> {
   static defaultProps = {
     format: 'X',
     joinValues: true,
     delimiter: ','
   };
-
-  constructor(props: DateRangeProps) {
-    super(props);
-
-    const {minDate, maxDate, data, format} = props;
-
-    this.state = {
-      minDate: minDate ? filterDate(minDate, data, format) : undefined,
-      maxDate: maxDate ? filterDate(maxDate, data, format) : undefined
-    };
-  }
 
   componentWillMount() {
     const {
@@ -118,22 +116,6 @@ export default class DateRangeControl extends React.Component<
           utc
         )
       );
-    }
-  }
-
-  componentWillReceiveProps(nextProps: DateRangeProps) {
-    const {data, minDate, maxDate, format} = nextProps;
-    const props = this.props;
-
-    if (
-      props.minDate !== minDate ||
-      props.maxDate !== maxDate ||
-      props.data !== data
-    ) {
-      this.setState({
-        minDate: minDate ? filterDate(minDate, data, format) : undefined,
-        maxDate: maxDate ? filterDate(maxDate, data, format) : undefined
-      });
     }
   }
 
@@ -179,12 +161,25 @@ export default class DateRangeControl extends React.Component<
       defaultData,
       minDate,
       maxDate,
+      minDuration,
+      maxDuration,
+      data,
+      format,
       ...rest
     } = this.props;
 
     return (
       <div className={cx(`${ns}DateRangeControl`, className)}>
-        <DateRangePicker {...rest} {...this.state} classPrefix={ns} />
+        <DateRangePicker
+          {...rest}
+          classPrefix={ns}
+          data={data}
+          format={format}
+          minDate={minDate ? filterDate(minDate, data, format) : undefined}
+          maxDate={maxDate ? filterDate(maxDate, data, format) : undefined}
+          minDuration={minDuration ? parseDuration(minDuration) : undefined}
+          maxDuration={maxDuration ? parseDuration(maxDuration) : undefined}
+        />
       </div>
     );
   }

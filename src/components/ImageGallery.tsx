@@ -103,7 +103,7 @@ export class ImageGallery extends React.Component<
           container={modalContainer}
         >
           <a
-            data-tooltip={__('关闭')}
+            data-tooltip={__('Dialog.close')}
             data-position="left"
             className={cx('ImageGallery-close')}
             onClick={this.close}

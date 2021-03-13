@@ -1,0 +1,161 @@
+/*!markdown
+
+---
+title: Height
+---
+
+| Class       | Properties               |
+| ----------- | ------------------------ |
+| h-px | height: 0.0625rem |
+| h-0 | height: 0 |
+| h-none | height: 0 |
+| h-0\.5 | height: 0.125rem |
+| h-1 | height: 0.25rem |
+| h-1\.5 | height: 0.375rem |
+| h-2 | height: 0.5rem |
+| h-2\.5 | height: 0.625rem |
+| h-3 | height: 0.75rem |
+| h-3\.5 | height: 0.875rem |
+| h-4 | height: 1rem |
+| h-5 | height: 1.25rem |
+| h-6 | height: 1.5rem |
+| h-7 | height: 1.75rem |
+| h-8 | height: 2rem |
+| h-9 | height: 2.25rem |
+| h-10 | height: 2.5rem |
+| h-11 | height: 2.75rem |
+| h-12 | height: 3rem |
+| h-14 | height: 3.5rem |
+| h-16 | height: 4rem |
+| h-18 | height: 4.5rem |
+| h-20 | height: 5rem |
+| h-24 | height: 6rem |
+| h-28 | height: 7rem |
+| h-32 | height: 8rem |
+| h-36 | height: 9rem |
+| h-40 | height: 10rem |
+| h-44 | height: 11rem |
+| h-48 | height: 12rem |
+| h-52 | height: 13rem |
+| h-56 | height: 14rem |
+| h-60 | height: 15rem |
+| h-64 | height: 16rem |
+| h-72 | height: 18rem |
+| h-80 | height: 20rem |
+| h-96 | height: 24rem |
+| h-auto | height: auto |
+| h-1\/2 | height: 50% |
+| h-1\/3 | height: 33.333333% |
+| h-2\/3 | height: 66.666667% |
+| h-1\/4 | height: 25% |
+| h-2\/4 | height: 50% |
+| h-3\/4 | height: 75% |
+| h-1\/5 | height: 20% |
+| h-2\/5 | height: 40% |
+| h-3\/5 | height: 60% |
+| h-4\/5 | height: 80% |
+| h-1\/6 | height: 16.666667% |
+| h-2\/6 | height: 33.333333% |
+| h-3\/6 | height: 50% |
+| h-4\/6 | height: 66.666667% |
+| h-5\/6 | height: 83.333333% |
+| h-full | height: 100% |
+| h-screen | height: 100vh |
+| min-h-0 | min-height: 0px |
+| min-h-full | min-height: 100% |
+| min-h-screen | min-height: 100vh |
+| max-h-px | max-height: 0.0625rem |
+| max-h-0 | max-height: 0 |
+| max-h-none | max-height: 0 |
+| max-h-0\.5 | max-height: 0.125rem |
+| max-h-1 | max-height: 0.25rem |
+| max-h-1\.5 | max-height: 0.375rem |
+| max-h-2 | max-height: 0.5rem |
+| max-h-2\.5 | max-height: 0.625rem |
+| max-h-3 | max-height: 0.75rem |
+| max-h-3\.5 | max-height: 0.875rem |
+| max-h-4 | max-height: 1rem |
+| max-h-5 | max-height: 1.25rem |
+| max-h-6 | max-height: 1.5rem |
+| max-h-7 | max-height: 1.75rem |
+| max-h-8 | max-height: 2rem |
+| max-h-9 | max-height: 2.25rem |
+| max-h-10 | max-height: 2.5rem |
+| max-h-11 | max-height: 2.75rem |
+| max-h-12 | max-height: 3rem |
+| max-h-14 | max-height: 3.5rem |
+| max-h-16 | max-height: 4rem |
+| max-h-18 | max-height: 4.5rem |
+| max-h-20 | max-height: 5rem |
+| max-h-24 | max-height: 6rem |
+| max-h-28 | max-height: 7rem |
+| max-h-32 | max-height: 8rem |
+| max-h-36 | max-height: 9rem |
+| max-h-40 | max-height: 10rem |
+| max-h-44 | max-height: 11rem |
+| max-h-48 | max-height: 12rem |
+| max-h-52 | max-height: 13rem |
+| max-h-56 | max-height: 14rem |
+| max-h-60 | max-height: 15rem |
+| max-h-64 | max-height: 16rem |
+| max-h-72 | max-height: 18rem |
+| max-h-80 | max-height: 20rem |
+| max-h-96 | max-height: 24rem |
+| max-h-full | max-height: 100% |
+| max-h-screen | max-height: 100vh |
+
+
+*/
+
+@mixin height-sizing($map: $heights, $prefix: '.') {
+  @each $name, $value in $map {
+    @if $name == default {
+      #{$prefix}h {
+        height: $value;
+      }
+    } @else {
+      #{$prefix}h-#{'' + selector-escape($name)} {
+        height: $value;
+      }
+    }
+  }
+}
+
+@mixin max-height-sizing($map: $maxHeights, $prefix: '.') {
+  @each $name, $value in $map {
+    @if $name == default {
+      #{$prefix}max-h {
+        max-height: $value;
+      }
+    } @else {
+      #{$prefix}max-h-#{'' + selector-escape($name)} {
+        max-height: $value;
+      }
+    }
+  }
+}
+
+@mixin make-heights($prefix: '.') {
+  @include height-sizing($heights, $prefix);
+
+  #{$prefix}min-h-0 {
+    min-height: 0px;
+  }
+
+  #{$prefix}min-h-full {
+    min-height: 100%;
+  }
+
+  #{$prefix}min-h-screen {
+    min-height: 100vh;
+  }
+
+  @include max-height-sizing($maxHeights, $prefix);
+}
+
+@include make-heights();
+@each $deivce in map-keys($devices) {
+  @include media-device($deivce) {
+    @include make-heights('.' + selector-escape($deivce + ':'));
+  }
+}

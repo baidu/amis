@@ -46,7 +46,9 @@ export interface SwitchSchema extends BaseSchema {
   saveImmediately?: boolean;
 }
 
-export interface SwitchProps extends RendererProps, SwitchSchema {}
+export interface SwitchProps
+  extends RendererProps,
+    Omit<SwitchSchema, 'className'> {}
 
 export class SwitchField extends React.Component<SwitchProps, object> {
   static defaultProps: Partial<SwitchProps> = {

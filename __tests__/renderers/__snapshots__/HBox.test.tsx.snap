@@ -11,7 +11,9 @@ exports[`Renderer:hbox 1`] = `
       <div
         class="a-TplField bg-info"
       >
-        w-xs
+        <span>
+          w-xs
+        </span>
       </div>
     </div>
     <div
@@ -20,7 +22,9 @@ exports[`Renderer:hbox 1`] = `
       <div
         class="a-TplField bg-info lter"
       >
-        w-sm
+        <span>
+          w-sm
+        </span>
       </div>
     </div>
     <div
@@ -29,7 +33,9 @@ exports[`Renderer:hbox 1`] = `
       <div
         class="a-TplField bg-info dk"
       >
-        w
+        <span>
+          w
+        </span>
       </div>
     </div>
     <div
@@ -38,7 +44,9 @@ exports[`Renderer:hbox 1`] = `
       <div
         class="a-TplField bg-success"
       >
-        平均分配
+        <span>
+          平均分配
+        </span>
       </div>
     </div>
     <div
@@ -47,7 +55,9 @@ exports[`Renderer:hbox 1`] = `
       <div
         class="a-TplField bg-primary"
       >
-        平均分配
+        <span>
+          平均分配
+        </span>
       </div>
     </div>
   </div>

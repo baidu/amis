@@ -2,7 +2,7 @@ import React from 'react';
 import {FormItem, Renderer} from '../../../src/index';
 
 @FormItem({
-  type: 'custom'
+  type: 'my-custom'
 })
 class MyFormItem extends React.Component {
   render() {
@@ -54,10 +54,42 @@ export default {
       ],
       controls: [
         {
+          label: '姓名',
+          type: 'text',
+          name: 'name'
+        },
+
+        {
+          type: 'divider'
+        },
+
+        {
+          label: '使用 custom 组件',
+          name: 'name',
+          type: 'custom',
+          onMount: (dom, data, onChange) => {
+            const button = document.createElement('button');
+            button.innerText = '点击修改姓名';
+            button.onclick = event => {
+              onChange('new name');
+              event.preventDefault();
+            };
+            dom.appendChild(button);
+          },
+          onUpdate: (dom, data) => {
+            console.log('数据有变化', data);
+          }
+        },
+
+        {
+          type: 'divider'
+        },
+
+        {
           name: 'a',
           children: ({value, onChange}) => (
             <div>
-              <p>这个是个自定义组件。最简单直接的方式，不用注册直接使用。</p>
+              <p>这是使用 children 的方式，也无需注册。</p>
 
               <p>当前值：{value}</p>
 
@@ -77,7 +109,7 @@ export default {
 
         {
           name: 'b',
-          type: 'custom',
+          type: 'my-custom',
           label: '自定义FormItem'
         },
 

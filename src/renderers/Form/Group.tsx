@@ -53,7 +53,7 @@ export interface GroupControlSchema extends FormBaseControl {
 
 export interface InputGroupProps
   extends RendererProps,
-    Omit<GroupControlSchema, 'type'> {}
+    Omit<GroupControlSchema, 'type' | 'className'> {}
 
 @Renderer({
   test: /(^|\/)form(?:\/.+)?\/control\/(?:\d+\/)?group$/,
@@ -138,6 +138,10 @@ export class ControlGroupRenderer extends React.Component<InputGroupProps> {
       data,
       gap
     } = props;
+
+    if (!Array.isArray(controls)) {
+      return null;
+    }
 
     formMode = mode || formMode;
 

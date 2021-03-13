@@ -1,6 +1,6 @@
-import { createObject } from './helper';
-import { register as registerBulitin, getFilters } from './tpl-builtin';
-import { register as registerLodash } from './tpl-lodash';
+import {createObject} from './helper';
+import {register as registerBulitin, getFilters} from './tpl-builtin';
+import {register as registerLodash} from './tpl-lodash';
 
 export interface Enginer {
   test: (tpl: string) => boolean;
@@ -35,6 +35,9 @@ export function filter(
   return tpl;
 }
 
+// 缓存一下提升性能
+const EVAL_CACHE: {[key: string]: Function} = {};
+
 let customEvalExpressionFn: (expression: string, data?: any) => boolean;
 export function setCustomEvalExpression(
   fn: (expression: string, data?: any) => boolean
@@ -62,15 +65,22 @@ export function evalExpression(expression: string, data?: object): boolean {
       expression = expression.replace(/debugger;?/, '');
     }
 
-    const fn = new Function(
-      'data',
-      'utils',
-      `with(data) {${debug ? 'debugger;' : ''}return !!(${expression});}`
-    );
+    let fn;
+    if (expression in EVAL_CACHE) {
+      fn = EVAL_CACHE[expression];
+    } else {
+      fn = new Function(
+        'data',
+        'utils',
+        `with(data) {${debug ? 'debugger;' : ''}return !!(${expression});}`
+      );
+      EVAL_CACHE[expression] = fn;
+    }
+
     data = data || {};
     return fn.call(data, data, getFilters());
   } catch (e) {
-    console.warn(e);
+    console.warn(expression, e);
     return false;
   }
 }
@@ -97,7 +107,7 @@ export function evalJS(js: string, data: object): any {
     data = data || {};
     return fn.call(data, data, getFilters());
   } catch (e) {
-    console.warn(e);
+    console.warn(js, e);
     return null;
   }
 }

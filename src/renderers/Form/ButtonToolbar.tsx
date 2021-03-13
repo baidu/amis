@@ -16,23 +16,31 @@ export interface ButtonToolbarControlSchema
 
 export interface ButtonToolbarProps
   extends FormControlProps,
-    ButtonToolbarControlSchema {}
+    Omit<
+      ButtonToolbarControlSchema,
+      'type' | 'className' | 'descriptionClassName' | 'inputClassName'
+    > {}
 
 export class ButtonToolbarControl extends React.Component<ButtonToolbarProps> {
   static defaultProps = {};
+
+  renderButtons() {
+    const {render, classPrefix: ns, buttons} = this.props;
+    return Array.isArray(buttons)
+      ? buttons.map((button, key) =>
+          render(`button/${key}`, button, {
+            key: key
+          })
+        )
+      : null;
+  }
 
   render() {
     const {render, className, classPrefix: ns, buttons} = this.props;
 
     return (
       <div className={cx(`${ns}ButtonToolbar`, className)}>
-        {Array.isArray(buttons)
-          ? buttons.map((button, key) =>
-              render(`button/${key}`, button, {
-                key: key
-              })
-            )
-          : null}
+        {this.renderButtons()}
       </div>
     );
   }

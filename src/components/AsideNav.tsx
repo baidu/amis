@@ -23,7 +23,7 @@ interface LinkItemProps {
   component?: React.ReactType;
 }
 
-interface Navigation {
+export interface Navigation {
   label: string;
   children: Array<LinkItem>;
   prefix?: JSX.Element;
@@ -32,7 +32,7 @@ interface Navigation {
   [propName: string]: any;
 }
 
-interface AsideNavProps {
+export interface AsideNavProps {
   id?: string;
   className?: string;
   classPrefix: string;
@@ -66,7 +66,15 @@ export class AsideNav extends React.Component<AsideNavProps, AsideNavState> {
         <ul className={cx('AsideNav-subList')}>
           {link.label ? (
             <li key="subHeader" className={cx('AsideNav-subHeader')}>
-              <a>{link.label}</a>
+              {renderLink(
+                {
+                  ...link,
+                  children: undefined
+                },
+                'subHeader',
+                {},
+                depth
+              )}
             </li>
           ) : null}
           {link.children.map((link, key) =>
@@ -183,11 +191,16 @@ export class AsideNav extends React.Component<AsideNavProps, AsideNavState> {
       toggleExpand: this.toggleExpand,
       depth,
       classnames: cx,
+      subHeader: key === 'subHeader',
       ...others
     });
 
     if (!dom) {
       return;
+    } else if (key === 'subHeader') {
+      return React.cloneElement(dom, {
+        key
+      });
     }
 
     return (
@@ -211,6 +224,10 @@ export class AsideNav extends React.Component<AsideNavProps, AsideNavState> {
     const {className, classnames: cx} = this.props;
 
     navigations.forEach((navigation, index) => {
+      if (!Array.isArray(navigation.children)) {
+        return;
+      }
+
       if (navigation.prefix) {
         const prefix: JSX.Element =
           typeof navigation.prefix === 'function'

@@ -15,7 +15,9 @@ exports[`Renderer:static 1`] = `
         <span
           class="a-TplField"
         >
-          The form
+          <span>
+            The form
+          </span>
         </span>
       </h3>
     </div>
@@ -28,16 +30,23 @@ exports[`Renderer:static 1`] = `
       >
         <div
           class="a-Form-item a-Form-item--normal bg-white"
+          data-role="form-item"
         >
           <label
             class="a-Form-label"
           >
             <span>
-              label
+              <span
+                class="a-TplField"
+              >
+                <span>
+                  label
+                </span>
+              </span>
             </span>
           </label>
           <div
-            class="form-control-static"
+            class="a-Form-static"
           >
             <div
               class="a-Form-control is-inline"
@@ -45,21 +54,26 @@ exports[`Renderer:static 1`] = `
               <span
                 class="a-TplField"
               >
-                static
+                <span>
+                  static
+                </span>
               </span>
             </div>
           </div>
           <span
             class="a-TplField a-Form-description"
           >
-            static description
+            <span>
+              static description
+            </span>
           </span>
         </div>
         <div
           class="a-Form-item a-Form-item--normal"
+          data-role="form-item"
         >
           <div
-            class="form-control-static"
+            class="a-Form-static"
           >
             <div
               class="a-Form-control"
@@ -67,10 +81,12 @@ exports[`Renderer:static 1`] = `
               <span
                 class="a-TplField"
               >
-                <span
-                  class="text-muted"
-                >
-                  -
+                <span>
+                  <span
+                    class="text-muted"
+                  >
+                    -
+                  </span>
                 </span>
               </span>
             </div>
@@ -78,9 +94,10 @@ exports[`Renderer:static 1`] = `
         </div>
         <div
           class="a-Form-item a-Form-item--normal"
+          data-role="form-item"
         >
           <div
-            class="form-control-static"
+            class="a-Form-static"
           >
             <div
               class="a-Form-control"
@@ -88,15 +105,21 @@ exports[`Renderer:static 1`] = `
               <span
                 class="a-TplField"
               >
-                <span
-                  class="text-muted"
-                >
-                  -
+                <span>
+                  <span
+                    class="text-muted"
+                  >
+                    -
+                  </span>
                 </span>
               </span>
             </div>
           </div>
         </div>
+        <input
+          style="display: none;"
+          type="submit"
+        />
       </form>
     </div>
     <div

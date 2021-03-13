@@ -5,10 +5,14 @@ export interface BaseFieldConfig {
 }
 
 export interface Config {
-  valueTypes?: Array<'value' | 'field' | 'func' | 'raw'>;
+  valueTypes?: Array<'value' | 'field' | 'func' | 'formula'>;
   fields?: Fields;
   funcs?: Funcs;
   maxLevel?: number; // 还没实现
+
+  // todo 起码需要支持 formula 组件可以自定义。
+
+  // todo 很多还不能配置。
   types: {
     [propName: string]: Type;
   };

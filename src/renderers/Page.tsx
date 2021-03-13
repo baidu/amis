@@ -30,6 +30,7 @@ import {
   SchemaMessage
 } from '../Schema';
 import {SchemaRemark} from './Remark';
+import {onAction} from 'mobx-state-tree';
 
 /**
  * amis Page 渲染器。详情请见：https://baidu.gitee.io/amis/docs/components/page
@@ -138,9 +139,16 @@ export interface PageSchema extends BaseSchema {
    * 是否显示错误信息，默认是显示的。
    */
   showErrorMsg?: boolean;
+
+  /**
+   * css 变量
+   */
+  cssVars?: any;
 }
 
-export interface PageProps extends RendererProps, PageSchema {
+export interface PageProps
+  extends RendererProps,
+    Omit<PageSchema, 'type' | 'className'> {
   data: any;
   store: IServiceStore;
   location?: Location;
@@ -184,6 +192,7 @@ export default class Page extends React.Component<PageProps> {
     // autobind 会让继承里面的 super 指向有问题，所以先这样！
     bulkBindFunctions<Page /*为毛 this 的类型自动识别不出来？*/>(this, [
       'handleAction',
+      'handleQuery',
       'handleDialogConfirm',
       'handleDialogClose',
       'handleDrawerConfirm',
@@ -249,27 +258,9 @@ export default class Page extends React.Component<PageProps> {
     throwErrors: boolean = false,
     delegate?: IScopedContext
   ) {
-    const {env, store, messages} = this.props;
+    const {env, store, messages, onAction} = this.props;
 
-    if (
-      action.actionType === 'url' ||
-      action.actionType === 'link' ||
-      action.actionType === 'jump'
-    ) {
-      if (!env || !env.jumpTo) {
-        throw new Error('env.jumpTo is required!');
-      }
-
-      env.jumpTo(
-        filter(
-          (action.to || action.url || action.link) as string,
-          ctx,
-          '| raw'
-        ),
-        action,
-        ctx
-      );
-    } else if (action.actionType === 'dialog') {
+    if (action.actionType === 'dialog') {
       store.setCurrentAction(action);
       store.openDialog(ctx);
     } else if (action.actionType === 'drawer') {
@@ -297,12 +288,13 @@ export default class Page extends React.Component<PageProps> {
           action.reload && this.reloadTarget(action.reload, store.data);
         })
         .catch(() => {});
-    } else if (
-      action.actionType === 'copy' &&
-      (action.content || action.copy)
-    ) {
-      env.copy && env.copy(filter(action.content || action.copy, ctx, '| raw'));
+    } else {
+      onAction(e, action, ctx, throwErrors, delegate || this.context);
     }
+  }
+
+  handleQuery(query: any) {
+    this.receive(query);
   }
 
   handleDialogConfirm(values: object[], action: Action, ...args: Array<any>) {
@@ -412,7 +404,7 @@ export default class Page extends React.Component<PageProps> {
       (!stopAutoRefreshWhen || !evalExpression(stopAutoRefreshWhen, data)) &&
       (this.timer = setTimeout(
         silentPolling ? this.silentReload : this.reload,
-        Math.max(interval, 3000)
+        Math.max(interval, 1000)
       ));
     return value;
   }
@@ -428,12 +420,14 @@ export default class Page extends React.Component<PageProps> {
       toolbar,
       render,
       store,
+      initApi,
       env,
       classnames: cx
     } = this.props;
 
     const subProps = {
-      onAction: this.handleAction
+      onAction: this.handleAction,
+      onQuery: initApi ? this.handleQuery : undefined
     };
     let header, right;
 
@@ -491,26 +485,62 @@ export default class Page extends React.Component<PageProps> {
       store,
       body,
       bodyClassName,
+      cssVars,
       render,
       aside,
       asideClassName,
       classnames: cx,
       header,
-      showErrorMsg
+      showErrorMsg,
+      initApi
     } = this.props;
 
     const subProps = {
       onAction: this.handleAction,
+      onQuery: initApi ? this.handleQuery : undefined,
       loading: store.loading
     };
 
     const hasAside = aside && (!Array.isArray(aside) || aside.length);
+
+    let cssVarsContent = '';
+    if (cssVars) {
+      for (const key in cssVars) {
+        if (key.startsWith('--')) {
+          if (key.indexOf(':') !== -1) {
+            continue;
+          }
+          const value = cssVars[key];
+          // 这是为了防止 xss，可能还有别的
+          if (
+            typeof value === 'string' &&
+            (value.indexOf('expression(') !== -1 || value.indexOf(';') !== -1)
+          ) {
+            continue;
+          }
+          cssVarsContent += `${key}: ${value}; \n`;
+        }
+      }
+    }
 
     return (
       <div
         className={cx(`Page`, hasAside ? `Page--withSidebar` : '', className)}
         onClick={this.handleClick}
       >
+        {cssVarsContent ? (
+          <style
+            // 似乎无法用 style 属性的方式来实现，所以目前先这样做
+            dangerouslySetInnerHTML={{
+              __html: `
+          :root {
+            ${cssVarsContent}
+          }
+        `
+            }}
+          />
+        ) : null}
+
         {hasAside ? (
           <div className={cx(`Page-aside`, asideClassName)}>
             {render('aside', aside as any, {
@@ -560,7 +590,8 @@ export default class Page extends React.Component<PageProps> {
             onConfirm: this.handleDialogConfirm,
             onClose: this.handleDialogClose,
             show: store.dialogOpen,
-            onAction: this.handleAction
+            onAction: this.handleAction,
+            onQuery: initApi ? this.handleQuery : undefined
           }
         )}
 
@@ -577,7 +608,8 @@ export default class Page extends React.Component<PageProps> {
             onConfirm: this.handleDrawerConfirm,
             onClose: this.handleDrawerClose,
             show: store.drawerOpen,
-            onAction: this.handleAction
+            onAction: this.handleAction,
+            onQuery: initApi ? this.handleQuery : undefined
           }
         )}
       </div>

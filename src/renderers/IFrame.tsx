@@ -3,7 +3,7 @@ import {Renderer, RendererProps} from '../factory';
 import {filter} from '../utils/tpl';
 import {autobind, createObject} from '../utils/helper';
 import {ScopedContext, IScopedContext} from '../Scoped';
-import {buildApi} from '../utils/api';
+import {buildApi, isApiOutdated} from '../utils/api';
 import {BaseSchema, SchemaUrlPath} from '../Schema';
 import {ActionSchema} from './Action';
 
@@ -30,7 +30,9 @@ export interface IFrameSchema extends BaseSchema {
   height?: number | string;
 }
 
-export interface IFrameProps extends RendererProps, IFrameSchema {}
+export interface IFrameProps
+  extends RendererProps,
+    Omit<IFrameSchema, 'type' | 'className'> {}
 
 export default class IFrame extends React.Component<IFrameProps, object> {
   IFrameRef: React.RefObject<HTMLIFrameElement> = React.createRef();
@@ -54,6 +56,14 @@ export default class IFrame extends React.Component<IFrameProps, object> {
 
     if (data !== prevProps.data) {
       this.postMessage('update', data);
+    } else if (
+      this.props.width !== prevProps.width ||
+      this.props.height !== prevProps.height
+    ) {
+      this.setState({
+        width: this.props.width || '100%',
+        height: this.props.height || '100%'
+      });
     }
   }
 
@@ -65,7 +75,7 @@ export default class IFrame extends React.Component<IFrameProps, object> {
   onMessage(e: MessageEvent) {
     const {events, onAction, data} = this.props;
 
-    if (!e.data || e.data === '' || !events) {
+    if (typeof e?.data?.type !== 'string' || !events) {
       return;
     }
 
@@ -113,20 +123,21 @@ export default class IFrame extends React.Component<IFrameProps, object> {
   @autobind
   receive(values: object) {
     const {src, data} = this.props;
+    const newData = createObject(data, values);
 
-    if (src) {
+    this.postMessage('receive', newData);
+
+    if (isApiOutdated(src, src, data, newData)) {
       (this.IFrameRef.current as HTMLIFrameElement).src = buildApi(
         src,
-        createObject(data, values)
+        newData
       ).url;
-
-      this.postMessage('receive', createObject(data, values));
     }
   }
 
   @autobind
   postMessage(type: string, data: any) {
-    (this.IFrameRef.current as HTMLIFrameElement).contentWindow?.postMessage(
+    (this.IFrameRef.current as HTMLIFrameElement)?.contentWindow?.postMessage(
       {
         type: `amis:${type}`,
         data
@@ -148,6 +159,17 @@ export default class IFrame extends React.Component<IFrameProps, object> {
       ...tempStyle,
       ...style
     };
+
+    const finalSrc = src ? buildApi(src, data).url : undefined;
+
+    if (
+      typeof finalSrc === 'string' &&
+      finalSrc &&
+      !/^(\.\/|\.\.\/|\/|https?\:\/\/|\/\/)/.test(finalSrc)
+    ) {
+      return <p>请填写合法的 iframe 地址</p>;
+    }
+
     return (
       <iframe
         className={className}
@@ -155,7 +177,7 @@ export default class IFrame extends React.Component<IFrameProps, object> {
         style={style}
         ref={this.IFrameRef}
         onLoad={this.onLoad}
-        src={src ? buildApi(src, data).url : undefined}
+        src={finalSrc}
       />
     );
   }

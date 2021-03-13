@@ -23,17 +23,22 @@ export interface LocationControlSchema extends FormBaseControl {
 
 export interface LocationControlProps
   extends FormControlProps,
-    ThemeProps,
-    Omit<LocationControlSchema, 'type'> {
+    Omit<ThemeProps, 'className'>,
+    Omit<
+      LocationControlSchema,
+      'type' | 'className' | 'descriptionClassName' | 'inputClassName'
+    > {
   value: any;
   onChange: (value: any) => void;
   vendor: 'baidu' | 'gaode' | 'tenxun';
   ak: string;
+  coordinatesType: 'bd09' | 'gcj02';
 }
 
 export class LocationControl extends React.Component<LocationControlProps> {
   static defaultProps = {
-    vendor: 'baidu'
+    vendor: 'baidu',
+    coordinatesType: 'bd09'
   };
 
   render() {

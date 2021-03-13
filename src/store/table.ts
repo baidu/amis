@@ -6,7 +6,8 @@ import {
   getEnv,
   getRoot,
   IAnyModelType,
-  isAlive
+  isAlive,
+  Instance
 } from 'mobx-state-tree';
 import {iRendererStore} from './iRenderer';
 import {resolveVariable} from '../utils/tpl-builtin';
@@ -23,9 +24,12 @@ import {
   eachTree,
   difference,
   immutableExtends,
-  extendObject
+  extendObject,
+  hasVisibleExpression
 } from '../utils/helper';
 import {evalExpression} from '../utils/tpl';
+import {IFormStore} from './form';
+import {getStoreById} from './manager';
 
 export const Column = types
   .model('Column', {
@@ -65,7 +69,7 @@ export const Column = types
     }
   }));
 
-export type IColumn = typeof Column.Type;
+export type IColumn = Instance<typeof Column>;
 export type SColumn = SnapshotIn<typeof Column>;
 
 export const Row = types
@@ -117,10 +121,27 @@ export const Row = types
       return data;
     },
 
-    get expanded(): boolean {
+    get collapsed(): boolean {
       const table = getParent(self, self.depth * 2) as ITableStore;
+      if (table.dragging) {
+        return true;
+      }
 
-      return !table.dragging && table.isExpanded(self as IRow);
+      let from: IRow = self as any;
+
+      while (from && (from as any) !== table) {
+        if (!table.isExpanded(from)) {
+          return true;
+        }
+
+        from = getParent(from, 2);
+      }
+
+      return false;
+    },
+
+    get expanded(): boolean {
+      return !this.collapsed;
     },
 
     get moved() {
@@ -176,12 +197,39 @@ export const Row = types
     },
 
     replaceWith(data: any) {
-      delete data.id;
-      Object.keys(data).forEach(key => ((self as any)[key] = data[key]));
+      Object.keys(data).forEach(key => {
+        if (key !== 'id') {
+          (self as any)[key] = data[key];
+        }
+      });
+
+      if (Array.isArray(data.children)) {
+        const arr = data.children;
+        const pool = arr.concat();
+
+        // 把多的删了先
+        if (self.children.length > arr.length) {
+          self.children.splice(arr.length, self.children.length - arr.length);
+        }
+
+        let index = 0;
+        const len = self.children.length;
+        while (pool.length) {
+          const item = pool.shift()!;
+
+          if (index < len) {
+            self.children[index].replaceWith(item);
+          } else {
+            const row = Row.create(item);
+            self.children.push(row);
+          }
+          index++;
+        }
+      }
     }
   }));
 
-export type IRow = typeof Row.Type;
+export type IRow = Instance<typeof Row>;
 export type SRow = SnapshotIn<typeof Row>;
 
 export const TableStore = iRendererStore
@@ -211,13 +259,25 @@ export const TableStore = iRendererStore
     itemCheckableOn: '',
     itemDraggableOn: '',
     hideCheckToggler: false,
-    combineNum: 0
+    combineNum: 0,
+    formsRef: types.optional(types.array(types.frozen()), [])
   })
   .views(self => {
+    function getForms() {
+      return self.formsRef.map(item => ({
+        store: getStoreById(item.id) as IFormStore,
+        rowIndex: item.rowIndex
+      }));
+    }
+
     function getFilteredColumns() {
       return self.columns.filter(
         item =>
-          isVisible(item.pristine, self.data) &&
+          item &&
+          isVisible(
+            item.pristine,
+            hasVisibleExpression(item.pristine) ? self.data : {}
+          ) &&
           (item.type === '__checkme'
             ? self.selectable &&
               !self.dragging &&
@@ -398,6 +458,10 @@ export const TableStore = iRendererStore
     }
 
     return {
+      get forms() {
+        return getForms();
+      },
+
       get filteredColumns() {
         return getFilteredColumns();
       },
@@ -484,6 +548,12 @@ export const TableStore = iRendererStore
 
       getRowById(id: string) {
         return findTree(self.rows, item => item.id === id);
+      },
+
+      getItemsByName(name: string): any {
+        return this.forms
+          .filter(form => form.rowIndex === parseInt(name, 10))
+          .map(item => item.store);
       }
     };
   })
@@ -518,7 +588,9 @@ export const TableStore = iRendererStore
         (self.combineNum = parseInt(config.combineNum as any, 10) || 0);
 
       if (config.columns && Array.isArray(config.columns)) {
-        let columns: Array<SColumn> = config.columns.concat();
+        let columns: Array<SColumn> = config.columns
+          .filter(column => column)
+          .concat();
         if (!columns.length) {
           columns.push({
             type: 'text',
@@ -653,7 +725,6 @@ export const TableStore = iRendererStore
           pristine: item,
           data: item,
           rowSpans: {},
-          modified: false,
           children:
             item && Array.isArray(item.children)
               ? initChildren(item.children, depth, key, id)
@@ -754,6 +825,7 @@ export const TableStore = iRendererStore
           find(
             selected,
             a =>
+              a[valueField || 'value'] &&
               a[valueField || 'value'] == item.pristine[valueField || 'value']
           )
         ) {
@@ -884,6 +956,13 @@ export const TableStore = iRendererStore
       );
     }
 
+    function addForm(form: IFormStore, rowIndex: number) {
+      self.formsRef.push({
+        id: form.id,
+        rowIndex
+      });
+    }
+
     return {
       update,
       initRows,
@@ -899,11 +978,12 @@ export const TableStore = iRendererStore
       toggleDragging,
       stopDragging,
       exchange,
+      addForm,
 
       persistSaveToggledColumns,
 
       // events
-      afterAttach() {
+      afterCreate() {
         setTimeout(() => {
           if (!isAlive(self)) {
             return;
@@ -912,6 +992,7 @@ export const TableStore = iRendererStore
             location.pathname +
             self.path +
             self.toggableColumns.map(item => item.name || item.index).join('-');
+
           const data = localStorage.getItem(key);
 
           if (data) {
@@ -925,5 +1006,5 @@ export const TableStore = iRendererStore
     };
   });
 
-export type ITableStore = typeof TableStore.Type;
+export type ITableStore = Instance<typeof TableStore>;
 export type STableStore = SnapshotIn<typeof TableStore>;

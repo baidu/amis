@@ -46,7 +46,7 @@ interface TinymceEditorProps extends LocaleProps {
   disabled?: boolean;
   config?: any;
   outputFormat?: 'html' | 'text';
-  reciever?: string;
+  receiver?: string;
 }
 
 export default class TinymceEditor extends React.Component<TinymceEditorProps> {
@@ -67,7 +67,7 @@ export default class TinymceEditor extends React.Component<TinymceEditorProps> {
       skin: false,
       content_css: false,
       height: 400,
-      language: !locale || locale === 'zh-cn' ? 'zh_CN' : 'en',
+      language: !locale || locale === 'zh-CN' ? 'zh_CN' : 'en',
       plugins: [
         'advlist autolink link image lists charmap print preview hr anchor pagebreak spellchecker',
         'searchreplace wordcount visualblocks visualchars code fullscreen insertdatetime media nonbreaking',

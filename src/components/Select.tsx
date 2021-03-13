@@ -26,76 +26,10 @@ import Input from './Input';
 import {Api} from '../types';
 import {LocaleProps, localeable} from '../locale';
 import Spinner from './Spinner';
-import {SchemaApi} from '../Schema';
+import {Option, Options} from '../Schema';
+import {withRemoteOptions} from './WithRemoteOptions';
 
-export interface Option {
-  /**
-   * 用来显示的文字
-   */
-  label?: string;
-
-  /**
-   * 可以用来给 Option 标记个范围，让数据展示更清晰。
-   *
-   * 这个只有在数值展示的时候显示。
-   */
-  scopeLabel?: string;
-
-  /**
-   * 请保证数值唯一，多个选项值一致会认为是同一个选项。
-   */
-  value?: any;
-
-  /**
-   * 是否禁用
-   */
-  disabled?: boolean;
-
-  /**
-   * 支持嵌套
-   */
-  children?: Options;
-
-  /**
-   * 是否可见
-   */
-  visible?: boolean;
-
-  /**
-   * 最好不要用！因为有 visible 就够了。
-   *
-   * @deprecated 用 visible
-   */
-  hidden?: boolean;
-
-  /**
-   * 描述，部分控件支持
-   */
-  description?: string;
-
-  /**
-   * 标记后数据延时加载
-   */
-  defer?: boolean;
-
-  /**
-   * 如果设置了，优先级更高，不设置走 source 接口加载。
-   */
-  deferApi?: SchemaApi;
-
-  /**
-   * 标记正在加载。只有 defer 为 true 时有意义。内部字段不可以外部设置
-   */
-  loading?: boolean;
-
-  /**
-   * 只有设置了 defer 才有意义，内部字段不可以外部设置
-   */
-  loaded?: boolean;
-
-  [propName: string]: any;
-}
-export interface Options extends Array<Option> {}
+export {Option, Options};
 
 export interface OptionProps {
   className?: string;
@@ -105,10 +39,12 @@ export interface OptionProps {
   labelField?: string;
   simpleValue?: boolean; // 默认onChange 出去是整个 option 节点，如果配置了 simpleValue 就只包含值。
   options: Options;
+  loading?: boolean;
   joinValues?: boolean;
   extractValue?: boolean;
   delimiter?: string;
   clearable?: boolean;
+  resetValue: any;
   placeholder?: string;
   disabled?: boolean;
   creatable?: boolean;
@@ -312,12 +248,23 @@ interface SelectProps extends OptionProps, ThemeProps, LocaleProps {
   multiple: boolean;
   valueField: string;
   labelField: string;
+  renderMenu?: (
+    item: Option,
+    states: {
+      index: number;
+      multiple?: boolean;
+      checkAll?: boolean;
+      checked: boolean;
+      onChange: () => void;
+      inputValue?: string;
+      searchable?: boolean;
+    }
+  ) => JSX.Element;
   searchable?: boolean;
   options: Array<Option>;
   value: any;
   loadOptions?: Function;
   searchPromptText: string;
-  loading?: boolean;
   loadingPlaceholder: string;
   spinnerClassName?: string;
   noResultsText: string;
@@ -353,19 +300,20 @@ export class Select extends React.Component<SelectProps, SelectState> {
     multiple: false,
     clearable: true,
     creatable: false,
-    createBtnLabel: '新增选项',
-    searchPromptText: '输入内容进行检索',
-    loadingPlaceholder: '加载中..',
-    noResultsText: '未找到任何结果',
-    clearAllText: '移除所有',
-    clearValueText: '移除',
-    placeholder: '请选择',
+    createBtnLabel: 'Select.createLabel',
+    searchPromptText: 'Select.searchPromptText',
+    loadingPlaceholder: 'loading',
+    noResultsText: 'noResult',
+    clearAllText: 'Select.clearAll',
+    clearValueText: 'Select.clear',
+    placeholder: 'Select.placeholder',
     valueField: 'value',
     labelField: 'label',
+    resetValue: '',
     inline: false,
     disabled: false,
     checkAll: false,
-    checkAllLabel: '全选',
+    checkAllLabel: 'Select.checkAll',
     defaultCheckAll: false,
     overlayPlacement: 'auto'
   };
@@ -584,7 +532,6 @@ export class Select extends React.Component<SelectProps, SelectState> {
 
   handleInputChange(evt: React.ChangeEvent<HTMLInputElement>) {
     const {loadOptions} = this.props;
-
     this.setState(
       {
         inputValue: evt.currentTarget.value
@@ -633,6 +580,7 @@ export class Select extends React.Component<SelectProps, SelectState> {
         break;
       case DownshiftChangeTypes.changeInput:
         update.highlightedIndex = 0;
+        break;
       case DownshiftChangeTypes.keyDownArrowDown:
       case DownshiftChangeTypes.keyDownArrowUp:
       case DownshiftChangeTypes.itemMouseEnter:
@@ -652,7 +600,7 @@ export class Select extends React.Component<SelectProps, SelectState> {
   }
 
   handleKeyPress(e: React.KeyboardEvent) {
-    if (e.key === ' ') {
+    if (this.props.multiple && e.key === ' ') {
       this.toggle();
       e.preventDefault();
     }
@@ -662,7 +610,7 @@ export class Select extends React.Component<SelectProps, SelectState> {
     const onChange = this.props.onChange;
     e.preventDefault();
     e.stopPropagation();
-    onChange('');
+    onChange(this.props.resetValue);
   }
 
   handleAddClick() {
@@ -722,12 +670,12 @@ export class Select extends React.Component<SelectProps, SelectState> {
             ×
           </span>
           <span className={`${ns}Select-valueLabel`}>
-            {item[labelField || 'label']}
+            {`${item[labelField || 'label']}`}
           </span>
         </div>
       ) : (
         <div className={`${ns}Select-value`} key={index}>
-          {item[labelField || 'label']}
+          {`${item[labelField || 'label']}`}
         </div>
       )
     );
@@ -761,7 +709,8 @@ export class Select extends React.Component<SelectProps, SelectState> {
       editable,
       removable,
       overlayPlacement,
-      translate: __
+      translate: __,
+      renderMenu
     } = this.props;
     const {selection} = this.state;
 
@@ -812,7 +761,7 @@ export class Select extends React.Component<SelectProps, SelectState> {
           })}
         >
           {removable ? (
-            <a data-tooltip="移除" data-position="left">
+            <a data-tooltip={__('Select.clear')} data-position="left">
               <Icon
                 icon="minus"
                 className="icon"
@@ -830,7 +779,17 @@ export class Select extends React.Component<SelectProps, SelectState> {
             </a>
           ) : null}
 
-          {checkAll || multiple ? (
+          {renderMenu ? (
+            renderMenu(item, {
+              multiple,
+              checkAll,
+              checked,
+              onChange: () => this.handleChange(item),
+              inputValue: inputValue || '',
+              searchable,
+              index
+            })
+          ) : checkAll || multiple ? (
             <Checkbox
               checked={checked}
               trueValue={item.value}
@@ -915,7 +874,7 @@ export class Select extends React.Component<SelectProps, SelectState> {
             <VirtualList
               height={
                 filtedOptions.length > 8
-                  ? 280
+                  ? 266
                   : filtedOptions.length * itemHeight
               }
               itemCount={filtedOptions.length}
@@ -943,7 +902,11 @@ export class Select extends React.Component<SelectProps, SelectState> {
         <PopOver
           overlay
           className={cx('Select-popover')}
-          style={{minWidth: this.target ? this.target.offsetWidth : 'auto'}}
+          style={{
+            minWidth: this.target
+              ? this.target.getBoundingClientRect().width
+              : 'auto'
+          }}
           onHide={this.close}
         >
           {menu}
@@ -969,6 +932,7 @@ export class Select extends React.Component<SelectProps, SelectState> {
 
     const selection = this.state.selection;
     const inputValue = this.state.inputValue;
+    const resetValue = this.props.resetValue;
 
     return (
       <Downshift
@@ -983,7 +947,7 @@ export class Select extends React.Component<SelectProps, SelectState> {
             : this.handleChange
         }
         onStateChange={this.handleStateChange}
-        itemToString={item => (item ? item[labelField] : '')}
+        itemToString={item => (item ? `${item[labelField]}` : '')}
       >
         {(options: ControllerStateAndHelpers<any>) => {
           const {isOpen} = options;
@@ -1010,7 +974,9 @@ export class Select extends React.Component<SelectProps, SelectState> {
               <div className={cx(`Select-valueWrap`)}>
                 {this.renderValue(options)}
               </div>
-              {clearable && !disabled && value && value.length ? (
+              {clearable &&
+              !disabled &&
+              (Array.isArray(value) ? value.length : value !== resetValue) ? (
                 <a onClick={this.clearValue} className={cx('Select-clear')}>
                   <Icon icon="close" className="icon" />
                 </a>
@@ -1035,10 +1001,21 @@ export class Select extends React.Component<SelectProps, SelectState> {
   }
 }
 
-export default themeable(
+const enhancedSelect = themeable(
   localeable(
     uncontrollable(Select, {
       value: 'onChange'
     })
   )
 );
+
+export default enhancedSelect;
+export const SelectWithRemoteOptions = withRemoteOptions(
+  enhancedSelect
+) as React.ComponentType<
+  React.ComponentProps<typeof enhancedSelect> & {
+    source?: any;
+    options?: Options;
+    data?: any;
+  }
+>;

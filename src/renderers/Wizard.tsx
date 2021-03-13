@@ -27,6 +27,53 @@ import {
 import {FormSchema} from './Form';
 import {ActionSchema} from './Action';
 
+export type WizardStepSchema = Omit<FormSchema, 'type'> & {
+  /**
+   * 当前步骤用来保存数据的 api。
+   */
+  api?: SchemaApi;
+
+  asyncApi?: SchemaApi;
+
+  /**
+   * 当前步骤用来获取初始数据的 api
+   */
+  initApi?: SchemaApi;
+
+  /**
+   * 是否可直接跳转到该步骤，一般编辑模式需要可直接跳转查看。
+   */
+  jumpable?: boolean;
+
+  /**
+   * 通过 JS 表达式来配置当前步骤可否被直接跳转到。
+   */
+  jumpableOn?: SchemaExpression;
+
+  /**
+   * Step 标题
+   */
+  title?: string;
+  label?: string;
+
+  /**
+   * 每一步可以单独配置按钮。如果不配置wizard会自动生成。
+   */
+  actions?: Array<ActionSchema>;
+
+  /**
+   * 保存完后，可以指定跳转地址，支持相对路径和组内绝对路径，同时可以通过 $xxx 使用变量
+   */
+  redirect?: string;
+
+  reload?: SchemaReload;
+
+  /**
+   * 默认表单提交自己会通过发送 api 保存数据，但是也可以设定另外一个 form 的 name 值，或者另外一个 `CRUD` 模型的 name 值。 如果 target 目标是一个 `Form` ，则目标 `Form` 会重新触发 `initApi` 和 `schemaApi`，api 可以拿到当前 form 数据。如果目标是一个 `CRUD` 模型，则目标模型会重新触发搜索，参数为当前 Form 数据。
+   */
+  target?: string;
+};
+
 /**
  * 表单向导
  * 文档：https://baidu.gitee.io/amis/docs/components/wizard
@@ -109,57 +156,12 @@ export interface WizardSchema extends BaseSchema {
    */
   affixFooter?: boolean | 'always';
 
-  steps: Array<
-    Omit<FormSchema, 'type'> & {
-      /**
-       * 当前步骤用来保存数据的 api。
-       */
-      api?: SchemaApi;
-
-      asyncApi?: SchemaApi;
-
-      /**
-       * 当前步骤用来获取初始数据的 api
-       */
-      initApi?: SchemaApi;
-
-      /**
-       * 是否可直接跳转到该步骤，一般编辑模式需要可直接跳转查看。
-       */
-      jumpable?: boolean;
-
-      /**
-       * 通过 JS 表达式来配置当前步骤可否被直接跳转到。
-       */
-      jumpableOn?: SchemaExpression;
-
-      /**
-       * Step 标题
-       */
-      title?: string;
-      label?: string;
-
-      /**
-       * 每一步可以单独配置按钮。如果不配置wizard会自动生成。
-       */
-      actions?: Array<ActionSchema>;
-
-      /**
-       * 保存完后，可以指定跳转地址，支持相对路径和组内绝对路径，同时可以通过 $xxx 使用变量
-       */
-      redirect?: string;
-
-      reload?: SchemaReload;
-
-      /**
-       * 默认表单提交自己会通过发送 api 保存数据，但是也可以设定另外一个 form 的 name 值，或者另外一个 `CRUD` 模型的 name 值。 如果 target 目标是一个 `Form` ，则目标 `Form` 会重新触发 `initApi` 和 `schemaApi`，api 可以拿到当前 form 数据。如果目标是一个 `CRUD` 模型，则目标模型会重新触发搜索，参数为当前 Form 数据。
-       */
-      target?: string;
-    }
-  >;
+  steps: Array<WizardStepSchema>;
 }
 
-export interface WizardProps extends RendererProps, WizardSchema {
+export interface WizardProps
+  extends RendererProps,
+    Omit<WizardSchema, 'className'> {
   store: IServiceStore;
   onFinished: (values: object, action: any) => any;
 }
@@ -174,10 +176,10 @@ export default class Wizard extends React.Component<WizardProps, WizardState> {
     readOnly: false,
     messages: {},
     actionClassName: '',
-    actionPrevLabel: '上一步',
-    actionNextLabel: '下一步',
-    actionNextSaveLabel: '保存并下一步',
-    actionFinishLabel: '完成'
+    actionPrevLabel: 'Wizard.prev',
+    actionNextLabel: 'Wizard.next',
+    actionNextSaveLabel: 'Wizard.saveAndNext',
+    actionFinishLabel: 'Wizard.finish'
   };
 
   static propsList: Array<string> = [
@@ -278,6 +280,10 @@ export default class Wizard extends React.Component<WizardProps, WizardState> {
     }
 
     const dom = findDOMNode(this) as HTMLElement;
+    if (!(dom instanceof Element)) {
+      return;
+    }
+
     let parent: HTMLElement | Window | null = dom ? getScrollParent(dom) : null;
     if (!parent || parent === document.body) {
       parent = window;
@@ -539,6 +545,15 @@ export default class Wizard extends React.Component<WizardProps, WizardState> {
     }
   }
 
+  @autobind
+  handleQuery(query: any) {
+    if (this.props.initApi) {
+      this.receive(query);
+    } else {
+      this.props.onQuery?.(query);
+    }
+  }
+
   openFeedback(dialog: any, ctx: any) {
     return new Promise(resolve => {
       const {store} = this.props;
@@ -740,10 +755,7 @@ export default class Wizard extends React.Component<WizardProps, WizardState> {
     const currentStep = this.state.currentStep;
 
     return (
-      <div
-        className={`${ns}Wizard-steps ${ns}Wizard--${mode}`}
-        id="form-wizard"
-      >
+      <div className={`${ns}Wizard-steps`} id="form-wizard">
         {Array.isArray(steps) && steps.length ? (
           <ul>
             {steps.map((step, key) => {
@@ -881,12 +893,19 @@ export default class Wizard extends React.Component<WizardProps, WizardState> {
 
     return (
       <>
-        <div ref={this.footerDom} className={cx('Panel-footer')}>
+        <div
+          role="wizard-footer"
+          ref={this.footerDom}
+          className={cx('Panel-footer Wizard-footer')}
+        >
           {actions}
         </div>
 
         {affixFooter ? (
-          <div ref={this.affixDom} className={cx('Panel-fixedBottom')}>
+          <div
+            ref={this.affixDom}
+            className={cx('Panel-fixedBottom Wizard-footer')}
+          >
             <div className={cx('Panel-footer')}>{actions}</div>
           </div>
         ) : null}
@@ -902,7 +921,9 @@ export default class Wizard extends React.Component<WizardProps, WizardState> {
       store,
       classPrefix: ns,
       classnames: cx,
-      popOverContainer
+      popOverContainer,
+      mode,
+      translate: __
     } = this.props;
 
     const currentStep = this.state.currentStep;
@@ -911,38 +932,49 @@ export default class Wizard extends React.Component<WizardProps, WizardState> {
     return (
       <div
         ref={this.domRef}
-        className={cx(`${ns}Panel ${ns}Panel--default ${ns}Wizard`, className)}
+        className={cx(
+          `${ns}Panel ${ns}Panel--default ${ns}Wizard ${ns}Wizard--${mode}`,
+          className
+        )}
       >
-        {this.renderSteps()}
-        <div className={`${ns}Wizard-stepContent clearfix`}>
-          {step ? (
-            render(
-              'body',
-              {
-                ...step,
-                type: 'form',
-                wrapWithPanel: false,
+        <div className={`${ns}Wizard-step`}>
+          {this.renderSteps()}
+          <div
+            role="wizard-body"
+            className={`${ns}Wizard-stepContent clearfix`}
+          >
+            {step ? (
+              render(
+                'body',
+                {
+                  ...step,
+                  type: 'form',
+                  wrapWithPanel: false,
 
-                // 接口相关需要外部来接管
-                api: null
-              },
-              {
-                key: this.state.currentStep,
-                ref: this.formRef,
-                onInit: this.handleInit,
-                onReset: this.handleReset,
-                onSubmit: this.handleSubmit,
-                onAction: this.handleAction,
-                disabled: store.loading,
-                popOverContainer: popOverContainer || this.getPopOverContainer,
-                onChange: this.handleChange
-              }
-            )
-          ) : currentStep === -1 ? (
-            '初始中。。'
-          ) : (
-            <p className="text-danger">配置错误</p>
-          )}
+                  // 接口相关需要外部来接管
+                  api: null
+                },
+                {
+                  key: this.state.currentStep,
+                  ref: this.formRef,
+                  onInit: this.handleInit,
+                  onReset: this.handleReset,
+                  onSubmit: this.handleSubmit,
+                  onAction: this.handleAction,
+                  onQuery: this.handleQuery,
+                  disabled: store.loading,
+                  popOverContainer:
+                    popOverContainer || this.getPopOverContainer,
+                  onChange: this.handleChange
+                }
+              )
+            ) : currentStep === -1 ? (
+              __('loading')
+            ) : (
+              <p className="text-danger">{__('Wizard.configError')}</p>
+            )}
+          </div>
+          {this.renderFooter()}
         </div>
 
         {render(
@@ -960,8 +992,6 @@ export default class Wizard extends React.Component<WizardProps, WizardState> {
             show: store.dialogOpen
           }
         )}
-        {this.renderFooter()}
-
         <Spinner size="lg" overlay key="info" show={store.loading} />
       </div>
     );

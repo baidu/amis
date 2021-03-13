@@ -15,24 +15,24 @@
       position: relative;
       float: left;
       text-decoration: none;
-      min-width: $Pagination-minWidth;
-      height: $Pagination-height;
+      min-width: var(--Pagination-minWidth);
+      height: var(--Pagination-height);
       border: 0;
-      line-height: $Pagination-height;
-      padding: $Pagination-padding;
+      line-height: var(--Pagination-height);
+      padding: var(--Pagination-padding);
       text-align: center;
       color: #666666;
       border-radius: 0;
       margin-left: 0;
-      font-size: $Pagination-fontSize;
+      font-size: var(--Pagination-fontSize);
     }
 
     > a:hover,
     > span:hover,
     > a:focus,
     > span:focus {
-      background-color: transparent;
-      color: $primary;
+      background: transparent;
+      color: var(--primary);
     }
   }
 
@@ -59,9 +59,10 @@
     > span:hover,
     > a:focus,
     > span:focus {
-      background-color: $Pagination-onActive-backgroundColor;
-      color: $Pagination-onActive-color;
-      border: $Pagination-onActive-border;
+      background: var(--Pagination-onActive-backgroundColor);
+      color: var(--Pagination-onActive-color);
+      border: var(--Pagination-onActive-border);
+      border-radius: var(--borderRadius);
     }
   }
 
@@ -90,23 +91,31 @@
 
     .#{$ns}Pagination-input {
       width: px2rem(50px);
-      height: $Pagination-height;
-      border: $borderWidth solid $borderColor;
-      border-top-left-radius: $borderRadius;
-      border-bottom-left-radius: $borderRadius;
+      height: var(--Pagination-height);
+      border: var(--borderWidth) solid var(--borderColor);
+      border-top-left-radius: var(--borderRadius);
+      border-bottom-left-radius: var(--borderRadius);
       padding: px2rem(5px) px2rem(10px);
 
       &:focus {
         outline: none;
-        border: $borderWidth solid $primary;
+        border: var(--borderWidth) solid var(--primary);
       }
     }
 
     .#{$ns}Button {
-      height: $Pagination-height;
+      height: var(--Pagination-height);
       margin-left: px2rem(-1px);
-      border-radius: 0 $borderRadius $borderRadius 0;
+      border-radius: 0 var(--borderRadius) var(--borderRadius) 0;
       padding: 0 px2rem(10px);
     }
   }
+}
+
+.#{$ns}PaginationWrapper-pager {
+  &:first-child {
+    margin-bottom: var(--gap-sm);
+  }
+
+  text-align: right;
 }

@@ -99,6 +99,16 @@ export interface ButtonSchema extends BaseSchema {
    * 可以指定让谁来触发这个动作。
    */
   target?: string;
+
+  /**
+   * 点击后的禁止倒计时（秒）
+   */
+  countDown?: number;
+
+  /**
+   * 倒计时文字自定义
+   */
+  countDownTpl?: string;
 }
 
 export interface AjaxActionSchema extends ButtonSchema {
@@ -112,10 +122,11 @@ export interface AjaxActionSchema extends ButtonSchema {
    */
   api: SchemaApi;
 
-  feedback?: DialogSchema;
+  feedback?: DialogSchemaBase;
 
   reload?: SchemaReload;
   redirect?: string;
+  ignoreConfirm?: boolean;
 }
 
 export interface UrlActionSchema extends ButtonSchema {
@@ -141,7 +152,11 @@ export interface DialogActionSchema extends ButtonSchema {
    */
   actionType: 'dialog';
 
-  dialog: DialogSchema;
+  /**
+   * 弹框详情
+   * 文档：https://baidu.gitee.io/amis/docs/components/dialog
+   */
+  dialog: DialogSchemaBase;
 
   /**
    * 是否有下一个的表达式，正常可以不用配置，如果想要刷掉某些数据可以配置这个。
@@ -156,10 +171,12 @@ export interface DrawerActionSchema extends ButtonSchema {
    * 指定为打开弹窗，抽出式弹窗
    */
   actionType: 'drawer';
+
   /**
-   * 弹窗内容
+   * 抽出式弹框详情
+   * 文档：https://baidu.gitee.io/amis/docs/components/drawer
    */
-  drawer: DrawerSchema;
+  drawer: DrawerSchemaBase;
 
   /**
    * 是否有下一个的表达式，正常可以不用配置，如果想要刷掉某些数据可以配置这个。
@@ -213,7 +230,9 @@ export interface OtherActionSchema extends ButtonSchema {
     | 'close'
     | 'submit'
     | 'confirm'
-    | 'add';
+    | 'add'
+    | 'reset'
+    | 'reset-and-submit';
   [propName: string]: any;
 }
 
@@ -221,6 +240,10 @@ export interface VanillaAction extends ButtonSchema {
   actionType?: string;
 }
 
+/**
+ * 按钮动作渲染器。
+ * 文档：https://baidu.gitee.io/amis/docs/components/action
+ */
 export type ActionSchema =
   | AjaxActionSchema
   | UrlActionSchema
@@ -280,20 +303,21 @@ import {
   SchemaTooltip,
   SchemaTpl
 } from '../Schema';
-import {DialogSchema} from './Dialog';
-import {DrawerSchema} from './Drawer';
+import {DialogSchema, DialogSchemaBase} from './Dialog';
+import {DrawerSchema, DrawerSchemaBase} from './Drawer';
+import {generateIcon} from '../utils/icon';
 
 export interface ActionProps
-  extends ButtonSchema,
+  extends Omit<ButtonSchema, 'className' | 'iconClassName'>,
     ThemeProps,
-    AjaxActionSchema,
-    UrlActionSchema,
-    LinkActionSchema,
-    DialogActionSchema,
-    DrawerActionSchema,
-    CopyActionSchema,
-    ReloadActionSchema,
-    OtherActionSchema {
+    Omit<AjaxActionSchema, 'type' | 'className' | 'iconClassName'>,
+    Omit<UrlActionSchema, 'type' | 'className' | 'iconClassName'>,
+    Omit<LinkActionSchema, 'type' | 'className' | 'iconClassName'>,
+    Omit<DialogActionSchema, 'type' | 'className' | 'iconClassName'>,
+    Omit<DrawerActionSchema, 'type' | 'className' | 'iconClassName'>,
+    Omit<CopyActionSchema, 'type' | 'className' | 'iconClassName'>,
+    Omit<ReloadActionSchema, 'type' | 'className' | 'iconClassName'>,
+    Omit<OtherActionSchema, 'type' | 'className' | 'iconClassName'> {
   actionType: any;
   onAction?: (
     e: React.MouseEvent<any> | void | null,
@@ -310,19 +334,53 @@ export interface ActionProps
 
 const allowedType = ['button', 'submit', 'reset'];
 
-export class Action extends React.Component<ActionProps> {
+interface ActionState {
+  inCountDown: boolean; // 是否在倒计时
+  countDownEnd: number; // 倒计时结束的精确时间
+  timeLeft: number; // 倒计时剩余时间
+}
+
+export class Action extends React.Component<ActionProps, ActionState> {
   static defaultProps = {
     type: 'button' as 'button',
     componentClass: 'button' as React.ReactType,
     tooltipPlacement: 'bottom' as 'bottom',
-    activeClassName: 'is-active'
+    activeClassName: 'is-active',
+    countDownTpl: 'Action.countDown',
+    countDown: 0
   };
+
+  state: ActionState = {
+    inCountDown: false,
+    countDownEnd: 0,
+    timeLeft: 0
+  };
+
+  localStorageKey: string;
 
   dom: any;
 
+  constructor(props: ActionProps) {
+    super(props);
+    this.localStorageKey = 'amis-countdownend-' + (this.props.name || '');
+    const countDownEnd = parseInt(
+      localStorage.getItem(this.localStorageKey) || '0'
+    );
+    if (countDownEnd && this.props.countDown) {
+      if (Date.now() < countDownEnd) {
+        this.state = {
+          inCountDown: true,
+          countDownEnd,
+          timeLeft: Math.floor((countDownEnd - Date.now()) / 1000)
+        };
+        this.handleCountDown();
+      }
+    }
+  }
+
   @autobind
   handleAction(e: React.MouseEvent<any>) {
-    const {onAction, onClick, disabled} = this.props;
+    const {onAction, onClick, disabled, countDown} = this.props;
 
     const result: any = onClick && onClick(e, this.props);
 
@@ -333,18 +391,51 @@ export class Action extends React.Component<ActionProps> {
     e.preventDefault();
     const action = pick(this.props, ActionProps) as ActionSchema;
     onAction(e, action);
+
+    if (countDown) {
+      const countDownEnd = Date.now() + countDown * 1000;
+      this.setState({
+        countDownEnd: countDownEnd,
+        inCountDown: true,
+        timeLeft: countDown
+      });
+
+      localStorage.setItem(this.localStorageKey, String(countDownEnd));
+
+      setTimeout(() => {
+        this.handleCountDown();
+      }, 1000);
+    }
+  }
+
+  @autobind
+  handleCountDown() {
+    // setTimeout 一般会晚于 1s，经过几十次后就不准了，所以使用真实时间进行 diff
+    const timeLeft = Math.floor((this.state.countDownEnd - Date.now()) / 1000);
+    if (timeLeft <= 0) {
+      this.setState({
+        inCountDown: false,
+        timeLeft: timeLeft
+      });
+    } else {
+      this.setState({
+        timeLeft: timeLeft
+      });
+      setTimeout(() => {
+        this.handleCountDown();
+      }, 1000);
+    }
   }
 
   render() {
     const {
       type,
-      label,
       icon,
       iconClassName,
       primary,
       size,
       level,
-      disabled,
+      countDownTpl,
       block,
       className,
       componentClass,
@@ -354,6 +445,7 @@ export class Action extends React.Component<ActionProps> {
       actionType,
       link,
       data,
+      translate: __,
       activeClassName,
       isCurrentUrl,
       isMenuItem,
@@ -363,11 +455,24 @@ export class Action extends React.Component<ActionProps> {
       classnames: cx
     } = this.props;
 
+    let label = this.props.label;
+    let disabled = this.props.disabled;
     let isActive = !!active;
 
     if (actionType === 'link' && !isActive && link && isCurrentUrl) {
       isActive = isCurrentUrl(link);
     }
+
+    // 倒计时
+    if (this.state.inCountDown) {
+      label = filterContents(__(countDownTpl), {
+        ...data,
+        timeLeft: this.state.timeLeft
+      }) as string;
+      disabled = true;
+    }
+
+    const iconElement = generateIcon(cx, icon, 'Button-icon', iconClassName);
 
     return isMenuItem ? (
       <a
@@ -378,7 +483,7 @@ export class Action extends React.Component<ActionProps> {
         onClick={this.handleAction}
       >
         {label}
-        {icon ? <i className={cx('Button-icon', icon)} /> : null}
+        {iconElement}
       </a>
     ) : (
       <Button
@@ -402,8 +507,8 @@ export class Action extends React.Component<ActionProps> {
         block={block}
         iconOnly={!!(icon && !label && level !== 'link')}
       >
-        {label ? <span>{filter(label, data)}</span> : null}
-        {icon ? <i className={cx('Button-icon', icon, iconClassName)} /> : null}
+        {label ? <span>{filter(String(label), data)}</span> : null}
+        {iconElement}
       </Button>
     );
   }
@@ -428,9 +533,9 @@ export class ActionRenderer extends React.Component<
 > {
   @autobind
   handleAction(e: React.MouseEvent<any> | void | null, action: any) {
-    const {env, onAction, data} = this.props;
+    const {env, onAction, data, ignoreConfirm} = this.props;
 
-    if (action.confirmText && env.confirm) {
+    if (!ignoreConfirm && action.confirmText && env.confirm) {
       env
         .confirm(filter(action.confirmText, data))
         .then((confirmed: boolean) => confirmed && onAction(e, action, data));

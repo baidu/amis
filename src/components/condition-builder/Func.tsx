@@ -7,14 +7,15 @@ import {autobind, findTree, noop} from '../../utils/helper';
 import ResultBox from '../ResultBox';
 import {Icon} from '../icons';
 import Expression from './Expression';
+import {Config} from './config';
 
 export interface ConditionFuncProps extends ThemeProps {
   value: ExpressionFunc;
   onChange: (value: ExpressionFunc) => void;
+  config: Config;
   fields?: Field[];
   funcs?: Funcs;
-  defaultType?: 'value' | 'field' | 'func' | 'raw';
-  allowedTypes?: Array<'value' | 'field' | 'func' | 'raw'>;
+  allowedTypes?: Array<'value' | 'field' | 'func' | 'formula'>;
 }
 
 const option2value = (item: Func) => item.type;
@@ -36,14 +37,7 @@ export class ConditionFunc extends React.Component<ConditionFuncProps> {
   }
 
   renderFunc(func: Func) {
-    const {
-      classnames: cx,
-      fields,
-      value,
-      funcs,
-      defaultType,
-      allowedTypes
-    } = this.props;
+    const {classnames: cx, fields, value, funcs, config} = this.props;
 
     return (
       <div className={cx('CBFunc-args')}>
@@ -52,6 +46,7 @@ export class ConditionFunc extends React.Component<ConditionFuncProps> {
           <div>
             {func.args.map((item, index) => (
               <Expression
+                config={config}
                 key={index}
                 index={index}
                 fields={fields}
@@ -59,7 +54,6 @@ export class ConditionFunc extends React.Component<ConditionFuncProps> {
                 valueField={{type: item.type} as any}
                 onChange={this.handleArgChange}
                 funcs={funcs}
-                defaultType={defaultType}
                 // allowedTypes={allowedTypes}
               />
             ))}

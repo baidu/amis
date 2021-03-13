@@ -13,6 +13,9 @@ import {ListItemRenderer} from './renderers/List';
 import {ButtonGroupControlRenderer} from './renderers/Form/ButtonGroup';
 import {getLevelFromClassName} from './utils/helper';
 import {ServiceRenderer} from './renderers/Form/Service';
+import {FileControlRenderer} from './renderers/Form/File';
+import {ImageControlRenderer} from './renderers/Form/Image';
+import {RichTextControlRenderer} from './renderers/Form/RichText';
 
 // 兼容老的用法，老用法 label 用在 checkbox 的右侧内容，新用法用 option 来代替。
 addSchemaFilter(function CheckboxPropsFilter(schema: Schema, renderer) {
@@ -313,6 +316,35 @@ addSchemaFilter(function (scheam: Schema, renderer) {
       controls: scheam.body.controls
     };
     delete scheam.body;
+  }
+
+  return scheam;
+});
+
+// 原 reciever 错别字改为 receiver
+addSchemaFilter(function (scheam: Schema, renderer) {
+  if (
+    renderer.component !== FileControlRenderer &&
+    renderer.component !== ImageControlRenderer &&
+    renderer.component !== RichTextControlRenderer
+  ) {
+    return scheam;
+  }
+
+  if (scheam.reciever) {
+    scheam = {
+      ...scheam,
+      receiver: scheam.reciever
+    };
+    delete scheam.reciever;
+  }
+
+  if (scheam.videoReciever) {
+    scheam = {
+      ...scheam,
+      videoReceiver: scheam.reciever
+    };
+    delete scheam.reciever;
   }
 
   return scheam;

@@ -8,6 +8,7 @@ export interface NumberProps extends ThemeProps {
   max?: number;
   min?: number;
   step?: number;
+  showSteps?: boolean;
   precision?: number;
   disabled?: boolean;
   value?: number;
@@ -31,7 +32,8 @@ export class NumberInput extends React.Component<NumberProps, any> {
       min,
       disabled,
       placeholder,
-      onChange
+      onChange,
+      showSteps
     } = this.props;
 
     let precisionProps: any = {};
@@ -42,7 +44,7 @@ export class NumberInput extends React.Component<NumberProps, any> {
 
     return (
       <InputNumber
-        className={cx(className)}
+        className={cx(className, showSteps === false ? 'no-steps' : '')}
         prefixCls={`${ns}Number`}
         value={value}
         step={step}

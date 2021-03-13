@@ -21,7 +21,15 @@ export interface ChainedSelectControlSchema extends FormOptionsControl {
 
 export interface ChainedSelectProps
   extends OptionsControlProps,
-    Omit<ChainedSelectControlSchema, 'options' | 'source'> {}
+    Omit<
+      ChainedSelectControlSchema,
+      | 'options'
+      | 'type'
+      | 'source'
+      | 'className'
+      | 'descriptionClassName'
+      | 'inputClassName'
+    > {}
 
 export interface SelectState {
   stack: Array<{

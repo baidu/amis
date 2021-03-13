@@ -88,7 +88,9 @@ const animationStyles: {
   [EXITING]: 'out'
 };
 
-export interface CarouselProps extends RendererProps, CarouselSchema {
+export interface CarouselProps
+  extends RendererProps,
+    Omit<CarouselSchema, 'className'> {
   value?: any;
 }
 

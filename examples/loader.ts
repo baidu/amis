@@ -6,16 +6,17 @@ const mapping: {
   'jquery': __moduleId('jquery'),
   'react': __moduleId('react'),
   'react-dom': __moduleId('react-dom'),
-  'react-addons-update': __moduleId('react-addons-update'),
-  'immutability-helper': __moduleId('react-addons-update'),
+  'immutability-helper': __moduleId('immutability-helper'),
   'react-cropper': __moduleId('react-cropper'),
   'react-dropzone': __moduleId('react-dropzone'),
   'classnames': __moduleId('classnames'),
   'axios': __moduleId('axios'),
+  'exceljs': __moduleId('exceljs'),
   'moment': __moduleId('moment'),
   'mobx': __moduleId('mobx'),
   'mobx-state-tree': __moduleId('mobx-state-tree'),
   'react-transition-group': __moduleId('react-transition-group'),
+  'papaparse': __moduleId('papaparse'),
   'echarts': __moduleId('echarts'),
   'zrender': __moduleId('zrender'),
   'sortablejs': __moduleId('sortablejs'),
@@ -23,7 +24,8 @@ const mapping: {
   'amis/embed': __moduleId('./embed.tsx'),
   'prop-types': __moduleId('prop-types'),
   'async/mapLimit': __moduleId('async/mapLimit'),
-  'qs': __moduleId('qs')
+  'qs': __moduleId('qs'),
+  'path-to-regexp': __moduleId('path-to-regexp')
 };
 
 function amisRequire(...args: Array<any>) {

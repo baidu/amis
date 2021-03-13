@@ -1,6 +1,6 @@
 .#{$ns}Checkbox {
-  margin: 0 $gap-sm 0 0;
-  font-weight: $fontWeightNormal;
+  margin: 0 var(--gap-sm) 0 0;
+  font-weight: var(--fontWeightNormal);
   user-select: none;
   pointer-events: none;
 
@@ -12,14 +12,14 @@
   }
 
   &:hover input:not(:disabled) + i {
-    border-color: $Checkbox-onHover-color;
-    // box-shadow: 0 0 px2rem(1px) $Checkbox-onHover-color inset;
+    border-color: var(--Checkbox-onHover-color);
+    // box-shadow: 0 0 px2rem(1px) var(--Checkbox-onHover-color) inset;
   }
 
   > i {
     cursor: pointer;
     line-height: 1;
-    background: $Checkbox-gb;
+    background: var(--Checkbox-gb);
     display: inline-block;
     vertical-align: middle;
     position: relative;
@@ -27,7 +27,7 @@
 
     + span {
       pointer-events: all;
-      margin-left: $Checkbox-gap;
+      margin-left: var(--Checkbox-gap);
       cursor: pointer;
 
       > a {
@@ -48,8 +48,8 @@
       top: 50%;
       width: 0px;
       height: 0px;
-      background-color: transparent;
-      transition: all 0.2s;
+      background: transparent;
+      transition: all var(--animation-duration);
       transform-origin: 50% 50%;
       transform: translate(-50%, -50%);
     }
@@ -60,75 +60,79 @@
   }
 
   &--checkbox {
-    padding-left: $Checkbox-size;
+    padding-left: var(--Checkbox-size);
 
     input {
-      margin-left: -$Checkbox-size;
+      margin-left: calc(var(--Checkbox-size) * -1);
 
       &:checked + i {
-        border-color: $Checkbox-onHover-color;
+        border-color: var(--Checkbox-onHover-color);
 
         &:before {
-          width: $Checkbox-inner-size;
-          height: $Checkbox-inner-size;
-          background: $Checkbox-onHover-color;
+          width: var(--Checkbox-inner-size);
+          height: var(--Checkbox-inner-size);
+          background: var(--Checkbox-onHover-color);
         }
       }
 
       &[disabled] + i {
-        border-color: lighten($Checkbox-color, 5%);
+        border-color: var(--Checkbox-onDisabled-color);
         cursor: not-allowed;
 
         &:before {
-          background-color: lighten($Checkbox-color, 5%);
-          border-color: $white;
+          width: var(--Checkbox-inner-size);
+          height: calc(var(--Checkbox-inner-size) / 2);
+          background: var(--Checkbox-onDisabled-bg);
         }
       }
 
       &[disabled] + i + span {
         cursor: not-allowed;
-        color: $text--muted-color;
+        color: var(--text--muted-color);
       }
     }
 
     > i {
-      width: $Checkbox-size;
-      height: $Checkbox-size;
-      border: px2rem(1px) solid $Checkbox-color;
-      border-radius: $Checkbox-borderRadius;
-      margin-left: -$Checkbox-size;
+      width: var(--Checkbox-size);
+      height: var(--Checkbox-size);
+      border: px2rem(1px) solid var(--Checkbox-color);
+      border-radius: var(--Checkbox-borderRadius);
+      margin-left: calc(var(--Checkbox-size) * -1);
       margin-top: px2rem(-3px);
     }
   }
 
   &--full.#{$ns}Checkbox--checkbox {
     &:not(:disabled) + i:hover {
-      border-color: $Checkbox-color;
+      border-color: var(--Checkbox-color);
     }
 
     input {
       &:checked + i {
-        border-color: $Checkbox-onHover-color;
-        background: $Checkbox-onHover-color;
+        border-color: var(--Checkbox-onHover-color);
+        background: var(--Checkbox-onHover-color);
 
         &:before {
-          width: $Checkbox--full-inner-size;
-          height: $Checkbox--full-inner-size / 2;
-          border-color: $white;
+          width: var(--Checkbox--full-inner-size);
+          height: calc(var(--Checkbox--full-inner-size) / 2);
+          border-color: var(--Checkbox-gb);
         }
       }
 
-      // &[disabled] + i {
-      //     border-color: lighten($Checkbox-color, 5%);
+      &[disabled] + i {
+        border-color: var(--Checkbox-onDisabled-color);
+        background: var(--Checkbox-onDisabled-bg);
+      }
 
-      //     &:before {
-      //         background-color: lighten($Checkbox-color, 5%);
-      //     }
-      // }
+      &[disabled]:checked + i {
+        &:before {
+          border-color: var(--Checkbox-onDisabled-color);
+        }
+      }
 
       &:checked[disabled] + i {
-        border-color: lighten($Checkbox-color, 5%);
-        background-color: lighten($Checkbox-color, 5%);
+        border-color: var(--Checkbox-onDisabled-color);
+        background: var(--Checkbox-onDisabled-bg);
       }
     }
 
@@ -144,7 +148,8 @@
         width: 0;
         height: 0;
         border-color: transparent;
-        transition: width 0.2s, height 0.2s, transform 0.2s;
+        transition: width var(--animation-duration),
+          height var(--animation-duration), transform var(--animation-duration);
         border-width: 0 0 px2rem(2px) px2rem(2px);
         transform: translate(-50%, -60%) rotate(-40deg);
         border-style: solid;
@@ -153,70 +158,75 @@
   }
 
   &--radio {
-    padding-left: $Radio-size;
+    padding-left: var(--Radio-size);
 
     input {
-      margin-left: -$Radio-size;
+      margin-left: calc(var(--Radio-size) * -1);
 
       &:checked + i {
-        border-color: $Radio-onHover-color;
+        border-color: var(--Radio-onHover-color);
 
         &:before {
-          width: $Radio-inner-size;
-          height: $Radio-inner-size;
-          background-color: $Radio-onHover-color;
+          width: var(--Radio-inner-size);
+          height: var(--Radio-inner-size);
+          background: var(--Radio-onHover-color);
           border-radius: 50%;
         }
       }
 
       &[disabled] + i {
-        border-color: lighten($Radio-color, 5%);
+        border-color: var(--Radio-onDisabled-color);
+        background: var(--Radio-onDisabled-bg);
         cursor: not-allowed;
 
         &:before {
-          background-color: lighten($Radio-color, 5%);
+          background: var(--Radio-onDisabled-color);
         }
       }
 
       &[disabled] + i + span {
         cursor: not-allowed;
-        color: $text--muted-color;
+        color: var(--text--muted-color);
+      }
+
+      &:focus + i {
+        box-shadow: var(--Radio-onFocus-boxShadow);
       }
     }
 
     > i {
       cursor: pointer;
-      width: $Radio-size;
-      height: $Radio-size;
-      border: px2rem(1px) solid $Radio-color;
-      margin-left: -$Radio-size;
+      width: var(--Radio-size);
+      height: var(--Radio-size);
+      border: px2rem(1px) solid var(--Radio-color);
+      margin-left: calc(var(--Radio-size) * -1);
       margin-top: px2rem(-2px);
       border-radius: 50%;
     }
   }
 
   &--sm {
-    padding-left: $Checkbox--sm-size;
+    padding-left: var(--Checkbox--sm-size);
 
     input {
-      margin-left: -$Checkbox--sm-size;
+      margin-left: calc(var(--Checkbox--sm-size) * -1);
 
       &:checked + i {
         &:before {
-          width: $Checkbox--sm-inner-size;
-          height: $Checkbox--sm-inner-size;
+          width: var(--Checkbox--sm-inner-size);
+          height: var(--Checkbox--sm-inner-size);
         }
       }
     }
 
     > i {
-      width: $Checkbox--sm-size;
-      height: $Checkbox--sm-size;
-      margin-left: -$Checkbox--sm-size;
+      width: var(--Checkbox--sm-size);
+      height: var(--Checkbox--sm-size);
+      margin-left: calc(var(--Checkbox--sm-size) * -1);
       margin-top: 0;
 
       + span {
-        margin-left: $gap-xs;
+        margin-left: var(--gap-xs);
       }
     }
   }
@@ -225,17 +235,17 @@
     input[type='checkbox'] {
       &:checked + i {
         &:before {
-          width: $Checkbox--sm--full-inner-size;
-          height: $Checkbox--sm--full-inner-size / 2;
+          width: var(--Checkbox--sm--full-inner-size);
+          height: calc(var(--Checkbox--sm--full-inner-size) / 2);
         }
       }
     }
   }
 
   &-desc {
-    color: $text--muted-color;
-    margin-left: $Checkbox-gap;
-    margin-top: $gap-xs;
+    color: var(--text--muted-color);
+    margin-left: var(--Checkbox-gap);
+    margin-top: var(--gap-xs);
     pointer-events: all;
   }
 }
@@ -243,19 +253,19 @@
 .#{$ns}CheckboxControl,
 .#{$ns}RadiosControl,
 .#{$ns}CheckboxesControl {
-  padding-top: ($Form-input-height - $Checkbox-size) / 2;
+  padding-top: calc((var(--Form-input-height) - var(--Checkbox-size)) / 2);
 }
 
 .#{$ns}RadiosControl,
 .#{$ns}CheckboxesControl {
   .#{$ns}Checkbox {
     display: block;
-    margin-bottom: $Form-label-paddingTop;
+    margin-bottom: var(--Form-label-paddingTop);
   }
 
   &.is-inline .#{$ns}Checkbox {
     display: inline-block;
-    margin-right: $gap-md;
+    margin-right: var(--gap-md);
   }
 }
 
@@ -283,14 +293,23 @@
 .#{$ns}Checkboxes {
   > .#{$ns}Checkbox {
     display: block;
-    height: $Form-input-height;
-    line-height: $Form-input-lineHeight;
-    font-size: $Form-input-fontSize;
-    padding: (
-        $Form-input-height - $Form-input-lineHeight * $Form-input-fontSize
-      )/2 $gap-sm
-      ($Form-input-height - $Form-input-lineHeight * $Form-input-fontSize)/2
-      ($gap-sm + $Checkbox-size);
+    height: var(--Form-input-height);
+    line-height: var(--Form-input-lineHeight);
+    font-size: var(--Form-input-fontSize);
+    padding: calc(
+        (
+            var(--Form-input-height) - var(--Form-input-lineHeight) *
+              var(--Form-input-fontSize)
+          ) / 2
+      )
+      var(--gap-sm)
+      calc(
+        (
+            var(--Form-input-height) - var(--Form-input-lineHeight) *
+              var(--Form-input-fontSize)
+          ) / 2
+      )
+      calc(var(--gap-sm) + var(--Checkbox-size));
   }
 
   &--inline > .#{$ns}Checkbox {
@@ -308,7 +327,7 @@
     > svg {
       width: px2rem(14px);
       height: px2rem(14px);
-      margin-right: $Checkbox-gap;
+      margin-right: var(--Checkbox-gap);
     }
   }
 }
@@ -316,23 +335,27 @@
 .#{$ns}ListCheckboxes,
 .#{$ns}ListRadios {
   &-group:not(:first-child) > &-itemLabel {
-    border-top: px2rem(1px) solid $ListMenu-divider-color;
+    border-top: px2rem(1px) solid var(--ListMenu-divider-color);
   }
 
   &-group > &-itemLabel {
-    font-size: $fontSizeSm;
-    padding: $gap-xs $gap-xs;
-    color: $text--muted-color;
+    font-size: var(--fontSizeSm);
+    padding: var(--gap-xs) var(--gap-xs);
+    color: var(--text--muted-color);
   }
 
   &-item {
     display: flex;
-    height: $Form-input-height;
-    line-height: $Form-input-lineHeight;
-    font-size: $Form-input-fontSize;
-    padding: (
-        $Form-input-height - $Form-input-lineHeight * $Form-input-fontSize
-      )/2 $gap-sm;
+    height: var(--Form-input-height);
+    line-height: var(--Form-input-lineHeight);
+    font-size: var(--Form-input-fontSize);
+    padding: calc(
+        (
+            var(--Form-input-height) - var(--Form-input-lineHeight) *
+              var(--Form-input-fontSize)
+          ) / 2
+      )
+      var(--gap-sm);
     flex-direction: row;
 
     > .#{$ns}Checkbox {
@@ -342,22 +365,22 @@
     user-select: none;
 
     &.is-active {
-      color: $Form-select-menu-onActive-color;
-      background-color: $Form-select-menu-onActive-bg;
+      color: var(--Form-select-menu-onActive-color);
+      background: var(--Form-select-menu-onActive-bg);
     }
 
     &:hover {
-      background-color: $Tree-item-onHover-bg;
+      background: var(--Tree-item-onHover-bg);
     }
 
     &.is-disabled {
       pointer-events: none;
-      color: $text--muted-color;
+      color: var(--text--muted-color);
     }
   }
 
   &-group > &-items > &-item {
-    padding-left: $gap-base;
+    padding-left: var(--gap-base);
   }
 
   &-itemLabel {
@@ -371,12 +394,12 @@
 
 .#{$ns}TableCheckboxes {
   .#{$ns}Table-content {
-    border-top: $Table-borderWidth solid $Table-borderColor;
+    border-top: var(--Table-borderWidth) solid var(--Table-borderColor);
   }
 
   .#{$ns}Table-table > thead > tr > th,
   .#{$ns}Table-table > tbody > tr > td {
-    font-size: $fontSizeSm;
+    font-size: var(--fontSizeSm);
     padding-top: px2rem(5px);
     padding-bottom: px2rem(6px);
     vertical-align: middle;
@@ -405,7 +428,7 @@
 .#{$ns}TreeCheckboxes,
 .#{$ns}TreeRadios {
   .#{$ns}Table-expandBtn {
-    color: $icon-color;
+    color: var(--icon-color);
     margin-right: 5px;
   }
 
@@ -420,9 +443,9 @@
       display: block;
       position: absolute;
       top: px2rem(-5px);
-      bottom: $Form-input-height / 2;
+      bottom: calc(var(--Form-input-height) / 2);
       left: -19px;
-      border-left: dashed 1px $icon-color;
+      border-left: dashed 1px var(--icon-color);
     }
   }
 
@@ -442,42 +465,46 @@
     content: '';
     display: block;
     position: absolute;
-    top: $Form-input-height / 2;
+    top: calc(var(--Form-input-height) / 2);
     width: 19px;
     left: -19px;
-    border-top: dashed 1px $icon-color;
+    border-top: dashed 1px var(--icon-color);
   }
 
   &-itemInner {
     display: flex;
     align-items: center;
-    height: $Form-input-height;
-    line-height: $Form-input-lineHeight;
-    font-size: $Form-input-fontSize;
-    padding: (
-        $Form-input-height - $Form-input-lineHeight * $Form-input-fontSize
-      )/2 $gap-sm;
+    height: var(--Form-input-height);
+    line-height: var(--Form-input-lineHeight);
+    font-size: var(--Form-input-fontSize);
+    padding: calc(
+        (
+            var(--Form-input-height) - var(--Form-input-lineHeight) *
+              var(--Form-input-fontSize)
+          ) / 2
+      )
+      var(--gap-sm);
     flex-direction: row;
 
     > .#{$ns}Checkbox {
       margin-right: 0;
-      margin-left: $gap-sm;
+      margin-left: var(--gap-sm);
     }
     cursor: pointer;
     user-select: none;
 
     &.is-active {
-      color: $Form-select-menu-onActive-color;
-      background-color: $Form-select-menu-onActive-bg;
+      color: var(--Form-select-menu-onActive-color);
+      background: var(--Form-select-menu-onActive-bg);
     }
 
     &:hover {
-      background-color: $Tree-item-onHover-bg;
+      background: var(--Tree-item-onHover-bg);
     }
 
     &.is-disabled {
       pointer-events: none;
-      color: $text--muted-color;
+      color: var(--text--muted-color);
     }
   }
 
@@ -500,23 +527,27 @@
   }
 
   &-col:not(:last-child) {
-    border-right: 1px solid $borderColor;
+    border-right: 1px solid var(--borderColor);
   }
 
   &-subTitle {
-    font-size: $fontSizeSm;
-    padding: $gap-xs $gap-xs;
-    color: $text--muted-color;
+    font-size: var(--fontSizeSm);
+    padding: var(--gap-xs) var(--gap-xs);
+    color: var(--text--muted-color);
   }
 
   &-item {
     display: flex;
-    height: $Form-input-height;
-    line-height: $Form-input-lineHeight;
-    font-size: $Form-input-fontSize;
-    padding: (
-        $Form-input-height - $Form-input-lineHeight * $Form-input-fontSize
-      )/2 $gap-sm;
+    height: var(--Form-input-height);
+    line-height: var(--Form-input-lineHeight);
+    font-size: var(--Form-input-fontSize);
+    padding: calc(
+        (
+            var(--Form-input-height) - var(--Form-input-lineHeight) *
+              var(--Form-input-fontSize)
+          ) / 2
+      )
+      var(--gap-sm);
     flex-direction: row;
 
     > .#{$ns}Checkbox {
@@ -526,17 +557,17 @@
     user-select: none;
 
     &.is-active {
-      color: $Form-select-menu-onActive-color;
-      background-color: $Form-select-menu-onActive-bg;
+      color: var(--Form-select-menu-onActive-color);
+      background: var(--Form-select-menu-onActive-bg);
     }
 
     &:hover {
-      background-color: $Tree-item-onHover-bg;
+      background: var(--Tree-item-onHover-bg);
     }
 
     &.is-disabled {
       pointer-events: none;
-      color: $text--muted-color;
+      color: var(--text--muted-color);
     }
   }
 
@@ -561,12 +592,12 @@
   }
 
   &-left {
-    border-right: 1px solid $borderColor;
+    border-right: 1px solid var(--borderColor);
   }
 
   &-reload {
     text-align: center;
-    color: $info;
+    color: var(--info);
     margin: 20px 0 0;
 
     &.is-clickable {
@@ -575,9 +606,9 @@
   }
 
   &-box {
-    line-height: $Form-input-lineHeight;
-    font-size: $fontSizeSm;
-    color: $text--muted-color;
+    line-height: var(--Form-input-lineHeight);
+    font-size: var(--fontSizeSm);
+    color: var(--text--muted-color);
     flex-grow: 1;
     display: flex;
     flex-direction: column;
@@ -588,7 +619,7 @@
     > p {
       text-align: center;
       margin: 10px 0 20px;
-      color: $text--muted-color;
+      color: var(--text--muted-color);
     }
   }
 }

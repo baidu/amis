@@ -4,7 +4,7 @@
   &:after {
     content: '';
     pointer-events: none;
-    border: 1px solid $borderColor;
+    border: 1px solid var(--borderColor);
     position: absolute;
     z-index: 0;
     top: 11px;
@@ -21,7 +21,7 @@
     border: 0;
     width: auto;
     z-index: 1;
-    background: $Fieldset-legend-bgColor;
+    background: var(--Fieldset-legend-bgColor);
     border-left: 0 !important;
   }
 
@@ -32,11 +32,11 @@
 
 fieldset.#{$ns}Collapse {
   > legend {
-    font-weight: $fontWeightNormal;
-    padding: $gap-xs 0;
-    font-size: $fontSizeMd;
-    color: $text--loud-color;
-    border-left: $primary px2rem(4px) solid;
+    font-weight: var(--fontWeightNormal);
+    padding: var(--gap-xs) 0;
+    font-size: var(--fontSizeMd);
+    color: var(--text--loud-color);
+    border-left: var(--primary) px2rem(4px) solid;
     line-height: 1.2;
     margin: 8px 0 28px;
     padding: 0 0 0 14px;
@@ -50,7 +50,7 @@ fieldset.#{$ns}Collapse {
 
     > legend {
       left: 5px;
-      font-size: $fontSizeXs;
+      font-size: var(--fontSizeXs);
       padding: 0 3px;
       margin: 0 0 0 -3px;
     }
@@ -67,7 +67,7 @@ fieldset.#{$ns}Collapse {
 
     > legend {
       left: 10px;
-      font-size: $fontSizeSm;
+      font-size: var(--fontSizeSm);
       padding: 0 5px;
       margin: 0 0 0 -5px;
     }
@@ -84,7 +84,7 @@ fieldset.#{$ns}Collapse {
 
     > legend {
       left: 15px;
-      font-size: $fontSizeBase;
+      font-size: var(--fontSizeBase);
       padding: 0 8px;
       margin: 0 0 0 -8px;
     }
@@ -100,7 +100,7 @@ fieldset.#{$ns}Collapse {
 
     > legend {
       left: 20px;
-      font-size: $fontSizeMd;
+      font-size: var(--fontSizeMd);
       padding: 0 10px;
       margin: 0 0 0 -10px;
     }
@@ -116,7 +116,7 @@ fieldset.#{$ns}Collapse {
 
     > legend {
       left: 30px;
-      font-size: $fontSizeLg;
+      font-size: var(--fontSizeLg);
       padding: 0 15px;
       margin: 0 0 0 -15px;
     }

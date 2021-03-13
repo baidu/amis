@@ -45,7 +45,9 @@ export interface DateSchema extends BaseSchema {
   updateFrequency?: number;
 }
 
-export interface DateProps extends RendererProps, DateSchema {}
+export interface DateProps
+  extends RendererProps,
+    Omit<DateSchema, 'type' | 'className'> {}
 
 export interface DateState {
   random?: number;
@@ -117,7 +119,7 @@ export class DateField extends React.Component<DateProps, DateState> {
     }
 
     viewValue = !viewValue ? (
-      <span className="text-danger">{__('日期无效')}</span>
+      <span className="text-danger">{__('Date.invalid')}</span>
     ) : (
       viewValue
     );
@@ -156,5 +158,15 @@ export class TimeFieldRenderer extends DateField {
   static defaultProps: Partial<DateProps> = {
     ...DateField.defaultProps,
     format: 'HH:mm'
+  };
+}
+@Renderer({
+  test: /(^|\/)month$/,
+  name: 'month-field'
+})
+export class MonthFieldRenderer extends DateField {
+  static defaultProps: Partial<DateProps> = {
+    ...DateField.defaultProps,
+    format: 'YYYY-MM'
   };
 }

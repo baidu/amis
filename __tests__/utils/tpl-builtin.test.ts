@@ -506,7 +506,7 @@ test('tpl-builtin:dataMapping', () => {
   expect(
     dataMapping(
       {
-        '&': data => ({b: data.b})
+        '&': (data: any) => ({b: data.b})
       },
       data
     )
@@ -604,7 +604,7 @@ test('tpl-builtin:dataMapping', () => {
   expect(
     dataMapping(
       {
-        value: data => data.a
+        value: (data: any) => data.a
       },
       data
     )

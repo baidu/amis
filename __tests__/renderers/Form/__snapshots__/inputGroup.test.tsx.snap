@@ -15,7 +15,9 @@ exports[`Renderer:fieldSet 1`] = `
         <span
           class="a-TplField"
         >
-          The form
+          <span>
+            The form
+          </span>
         </span>
       </h3>
     </div>
@@ -28,12 +30,19 @@ exports[`Renderer:fieldSet 1`] = `
       >
         <div
           class="a-Form-item a-Form-item--horizontal no-border"
+          data-role="form-item"
         >
           <label
             class="a-Form-label a-Form-itemColumn--normal"
           >
             <span>
-              input-group
+              <span
+                class="a-TplField"
+              >
+                <span>
+                  input-group
+                </span>
+              </span>
             </span>
           </label>
           <div
@@ -57,6 +66,10 @@ exports[`Renderer:fieldSet 1`] = `
             </div>
           </div>
         </div>
+        <input
+          style="display: none;"
+          type="submit"
+        />
       </form>
     </div>
     <div

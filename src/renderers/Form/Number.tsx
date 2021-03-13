@@ -31,6 +31,11 @@ export interface NumberControlSchema extends FormBaseControl {
    * 精度
    */
   precision?: number;
+
+  /**
+   * 默认当然是
+   */
+  showSteps?: boolean;
 }
 
 export interface NumberProps extends FormControlProps {
@@ -56,7 +61,11 @@ export default class NumberControl extends React.Component<NumberProps, any> {
   handleChange(inputValue: any) {
     const {classPrefix: ns, onChange, resetValue} = this.props;
 
-    onChange(typeof inputValue === 'undefined' ? resetValue || '' : inputValue);
+    if (inputValue && typeof inputValue !== 'number') {
+      return;
+    }
+
+    onChange(inputValue === null ? resetValue ?? null : inputValue);
   }
 
   filterNum(value: number | string | undefined) {
@@ -77,13 +86,15 @@ export default class NumberControl extends React.Component<NumberProps, any> {
       max,
       min,
       disabled,
-      placeholder
+      placeholder,
+      showSteps
     } = this.props;
 
     let precisionProps: any = {};
 
-    if (typeof precision === 'number') {
-      precisionProps.precision = precision;
+    const finalPrecision = this.filterNum(precision);
+    if (typeof finalPrecision === 'number') {
+      precisionProps.precision = finalPrecision;
     }
 
     return (
@@ -96,7 +107,8 @@ export default class NumberControl extends React.Component<NumberProps, any> {
           onChange={this.handleChange}
           disabled={disabled}
           placeholder={placeholder}
-          precision={precision}
+          precision={finalPrecision}
+          showSteps={showSteps}
         />
       </div>
     );

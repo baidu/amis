@@ -1,8 +1,7 @@
 import React from 'react';
 import {FormItem, FormControlProps, FormBaseControl} from './Item';
-import db, {province, city, district} from './CityDB';
 import {ClassNamesFn, themeable, ThemeProps} from '../../theme';
-import {Select} from '../../components';
+import {Select, Spinner} from '../../components';
 import {autobind} from '../../utils/helper';
 import {Option} from './Options';
 import {localeable, LocaleProps} from '../../locale';
@@ -46,10 +45,15 @@ export interface CityControlSchema extends FormBaseControl {
    * 允许选择街道？
    */
   allowStreet?: boolean;
+
+  /**
+   * 是否显示搜索框
+   */
+  searchable?: boolean;
 }
 
 export interface CityPickerProps
-  extends Omit<CityControlSchema, 'type'>,
+  extends Omit<CityControlSchema, 'type' | 'className'>,
     LocaleProps,
     ThemeProps {
   value: any;
@@ -71,6 +75,21 @@ export interface CityPickerState {
   district: string;
   districtCode: number;
   street: string;
+
+  db?: {
+    province: Array<string>;
+    city: {
+      [propName: number]: Array<number>;
+    };
+    district: {
+      [propName: number]:
+        | {
+            [propName: number]: Array<number>;
+          }
+        | Array<number>;
+    };
+    [propName: string]: any;
+  };
 }
 
 export class CityPicker extends React.Component<
@@ -86,7 +105,7 @@ export class CityPicker extends React.Component<
     allowStreet: false
   };
 
-  state = {
+  state: CityPickerState = {
     code: 0,
     province: '',
     provinceCode: 0,
@@ -98,15 +117,50 @@ export class CityPicker extends React.Component<
   };
 
   componentDidMount() {
-    this.syncIn();
+    this.loadDb(() => this.syncIn());
   }
 
   componentDidUpdate(prevProps: CityPickerProps) {
     const props = this.props;
 
     if (props.value !== prevProps.value) {
-      this.syncIn(props);
+      this.loadDb(() => this.syncIn(props));
     }
+  }
+
+  loadDb(callback?: () => void) {
+    if (this.state.db) {
+      callback?.();
+      return;
+    }
+
+    import('./CityDB').then(db => {
+      this.setState(
+        {
+          db: {
+            ...db.default,
+            province: db.province as any,
+            city: db.city,
+            district: db.district
+          }
+        },
+        callback
+      );
+    });
+
+    // require.ensure(['./CityDB'], (db: any) =>
+    //   this.setState(
+    //     {
+    //       db: {
+    //         ...db.default,
+    //         province: db.province,
+    //         city: db.city,
+    //         district: db.district
+    //       }
+    //     },
+    //     callback
+    //   )
+    // );
   }
 
   @autobind
@@ -178,7 +232,12 @@ export class CityPicker extends React.Component<
 
   @autobind
   syncIn(props = this.props) {
+    const db = this.state.db!;
     const {value, delimiter} = props;
+
+    if (!db) {
+      return;
+    }
 
     const state = {
       code: 0,
@@ -210,6 +269,9 @@ export class CityPicker extends React.Component<
       if (db[cityCode]) {
         state.cityCode = cityCode;
         state.city = db[cityCode];
+      } else if (~db.city[provinceCode]?.indexOf(code)) {
+        state.cityCode = code;
+        state.city = db[code];
       }
 
       if (code % 100) {
@@ -268,16 +330,18 @@ export class CityPicker extends React.Component<
       allowCity,
       allowDistrict,
       allowStreet,
+      searchable,
       translate: __
     } = this.props;
 
-    const {provinceCode, cityCode, districtCode, street} = this.state;
+    const {provinceCode, cityCode, districtCode, street, db} = this.state;
 
-    return (
+    return db ? (
       <div className={cx('CityPicker', className)}>
         <Select
+          searchable={searchable}
           disabled={disabled}
-          options={province.map(item => ({
+          options={db.province.map(item => ({
             label: db[item],
             value: item
           }))}
@@ -287,20 +351,24 @@ export class CityPicker extends React.Component<
 
         {provinceCode &&
         allowDistrict &&
-        Array.isArray(district[provinceCode]) ? (
+        Array.isArray(db.district[provinceCode]) ? (
           <Select
+            searchable={searchable}
             disabled={disabled}
-            options={(district[provinceCode] as Array<number>).map(item => ({
+            options={(db.district[provinceCode] as Array<number>).map(item => ({
               label: db[item],
               value: item
             }))}
             value={districtCode}
             onChange={this.handleDistrictChange}
           />
-        ) : allowCity && city[provinceCode] && city[provinceCode].length ? (
+        ) : allowCity &&
+          db.city[provinceCode] &&
+          db.city[provinceCode].length ? (
           <Select
+            searchable={searchable}
             disabled={disabled}
-            options={city[provinceCode].map(item => ({
+            options={db.city[provinceCode].map(item => ({
               label: db[item],
               value: item
             }))}
@@ -311,11 +379,11 @@ export class CityPicker extends React.Component<
 
         {cityCode &&
         allowDistrict &&
-        district[provinceCode] &&
-        district[provinceCode][cityCode] ? (
+        (db.district[provinceCode]?.[cityCode] as any)?.length ? (
           <Select
+            searchable={searchable}
             disabled={disabled}
-            options={(district[provinceCode][cityCode] as Array<number>).map(
+            options={(db.district[provinceCode][cityCode] as Array<number>).map(
               item => ({
                 label: db[item],
                 value: item
@@ -332,10 +400,13 @@ export class CityPicker extends React.Component<
             value={street}
             onChange={this.handleStreetChange}
             onBlur={this.handleStreetEnd}
-            placeholder={__('请输入街道信息')}
+            placeholder={__('City.street')}
+            disabled={disabled}
           />
         ) : null}
       </div>
+    ) : (
+      <Spinner show size="sm" />
     );
   }
 }
@@ -359,10 +430,13 @@ export class LocationControl extends React.Component<LocationControlProps> {
       allowDistrict,
       extractValue,
       joinValues,
-      allowStreet
+      allowStreet,
+      disabled,
+      searchable
     } = this.props;
     return (
       <ThemedCity
+        searchable={searchable}
         value={value}
         onChange={onChange}
         allowCity={allowCity}
@@ -370,6 +444,7 @@ export class LocationControl extends React.Component<LocationControlProps> {
         extractValue={extractValue}
         joinValues={joinValues}
         allowStreet={allowStreet}
+        disabled={disabled}
       />
     );
   }

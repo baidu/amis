@@ -1,12 +1,13 @@
 import React from 'react';
 import {Renderer} from '../../factory';
 import {FormItem, FormControlProps, FormBaseControl} from './Item';
-import {filter} from '../../utils/tpl';
-import cx from 'classnames';
 import LazyComponent from '../../components/LazyComponent';
-import debouce from 'lodash/debounce';
-import {isPureVariable} from '../../utils/tpl-builtin';
+import {
+  isPureVariable,
+  resolveVariableAndFilter
+} from '../../utils/tpl-builtin';
 import {SchemaTokenizeableString} from '../../Schema';
+import {autobind} from '../../utils/helper';
 
 /**
  * Diff 编辑器
@@ -34,21 +35,20 @@ export interface DiffControlSchema extends FormBaseControl {
   options?: any;
 }
 
-function loadComponent(): Promise<React.ReactType> {
-  return new Promise(resolve =>
-    (require as any)(['../../components/Editor'], (component: any) =>
-      resolve(component.default)
-    )
-  );
+function loadComponent(): Promise<any> {
+  return import('../../components/Editor').then(item => item.default);
 }
 
 export interface DiffEditorProps
   extends FormControlProps,
-    Omit<DiffControlSchema, 'type'> {}
+    Omit<
+      DiffControlSchema,
+      'type' | 'className' | 'descriptionClassName' | 'inputClassName'
+    > {}
 
 function normalizeValue(value: any, language?: string) {
   if (value && typeof value !== 'string') {
-    value = JSON.stringify(value, null, 4);
+    value = JSON.stringify(value, null, 2);
   }
 
   if (language && language === 'json') {
@@ -56,7 +56,7 @@ function normalizeValue(value: any, language?: string) {
       value = JSON.stringify(
         typeof value === 'string' ? JSON.parse(value) : value,
         null,
-        4
+        2
       );
     } catch (e) {}
   }
@@ -89,6 +89,7 @@ export class DiffEditor extends React.Component<DiffEditorProps, any> {
   originalEditor: any;
   modifiedEditor: any;
   toDispose: Array<Function> = [];
+  divRef = React.createRef<HTMLDivElement>();
 
   constructor(props: DiffEditorProps) {
     super(props);
@@ -100,15 +101,6 @@ export class DiffEditor extends React.Component<DiffEditorProps, any> {
     this.handleModifiedEditorChange = this.handleModifiedEditorChange.bind(
       this
     );
-    this.updateContainerSize = debouce(
-      this.updateContainerSize.bind(this),
-      250,
-      {
-        trailing: true,
-        leading: false
-      }
-    );
-    this.toDispose.push((this.updateContainerSize as any).cancel);
   }
 
   componentWillUnmount() {
@@ -135,13 +127,19 @@ export class DiffEditor extends React.Component<DiffEditorProps, any> {
       diffValue &&
       (diffValue !== prevProps.diffValue || data !== prevProps.data)
     ) {
-      this.originalEditor
-        .getModel()
-        .setValue(
-          isPureVariable(diffValue as string)
-            ? normalizeValue(filter(diffValue || '', data, '| raw'), language)
-            : normalizeValue(diffValue, language)
-        );
+      this.originalEditor.getModel().setValue(
+        isPureVariable(diffValue as string)
+          ? normalizeValue(
+              resolveVariableAndFilter(
+                diffValue || '',
+                data,
+                '| raw',
+                () => ''
+              ),
+              language
+            )
+          : normalizeValue(diffValue, language)
+      );
     }
 
     if (
@@ -178,10 +176,22 @@ export class DiffEditor extends React.Component<DiffEditorProps, any> {
       ).dispose
     );
 
+    this.toDispose.push(
+      this.modifiedEditor.onDidChangeModelDecorations(() => {
+        this.updateContainerSize(this.modifiedEditor, monaco); // typing
+        requestAnimationFrame(
+          this.updateContainerSize.bind(this, this.modifiedEditor, monaco)
+        ); // folding
+      }).dispose
+    );
+
     this.editor.setModel({
       original: this.monaco.editor.createModel(
         isPureVariable(diffValue as string)
-          ? normalizeValue(filter(diffValue || '', data, '| raw'), language)
+          ? normalizeValue(
+              resolveVariableAndFilter(diffValue || '', data, '| raw'),
+              language
+            )
           : normalizeValue(diffValue, language),
         language
       ),
@@ -190,27 +200,29 @@ export class DiffEditor extends React.Component<DiffEditorProps, any> {
         language
       )
     });
-
-    this.updateContainerSize();
   }
 
   handleModifiedEditorChange() {
     const {onChange} = this.props;
     onChange && onChange(this.modifiedEditor.getModel().getValue());
-    this.updateContainerSize();
   }
 
-  updateContainerSize() {
-    const editor = this.modifiedEditor;
-    const parentDom = editor._domElement.parentNode.parentNode.parentNode;
-    const configuration = editor.getConfiguration();
-    const lineHeight = configuration.lineHeight;
-    const lineCount = editor.getModel().getLineCount();
-    const contentHeight = lineHeight * lineCount;
-    const horizontalScrollbarHeight =
-      configuration.layoutInfo.horizontalScrollbarHeight;
-    const editorHeight = contentHeight + horizontalScrollbarHeight;
-    parentDom.style.cssText = `height:${editorHeight}px`;
+  prevHeight = 0;
+  @autobind
+  updateContainerSize(editor: any, monaco: any) {
+    if (!this.divRef.current) {
+      return;
+    }
+
+    const lineHeight = editor.getOption(monaco.editor.EditorOption.lineHeight);
+    const lineCount = editor.getModel()?.getLineCount() || 1;
+    const height = editor.getTopForLineNumber(lineCount + 1) + lineHeight;
+
+    if (this.prevHeight !== height) {
+      this.prevHeight = height;
+      this.divRef.current.style.height = `${height}px`;
+      editor.layout();
+    }
   }
 
   render() {
@@ -228,6 +240,7 @@ export class DiffEditor extends React.Component<DiffEditorProps, any> {
 
     return (
       <div
+        ref={this.divRef}
         className={cx(
           'EditorControl',
           size ? `EditorControl--${size}` : '',

@@ -1,18 +1,32 @@
-# amis
+<div align="center">
+  <p>
+    <img width="284" src="https://github.com/baidu/amis/raw/master/examples/static/logo.png">
+  </p>
+  
+  [文档（国内）](https://baidu.gitee.io/amis/) |
+  [文档（国外）](https://baidu.github.io/amis/) |
+  [可视化编辑器](https://aisuda.github.io/amis-editor-demo/) |
+  [amis-admin](https://github.com/aisuda/amis-admin) |
+  [爱速搭](https://suda.baidu.com/)
+</div>
+
+<div align="center">
+  QQ 群: 1147750223（已满） | 
+  QQ 群2: 651547026 |
+  如流群：3395342
+</div>
+
+<div align="center">
+  
+![build](https://api.travis-ci.org/baidu/amis.svg?branch=master)
+![license](https://img.shields.io/github/license/baidu/amis.svg)
+![version](https://img.shields.io/npm/v/amis)
+![language](https://img.shields.io/github/languages/top/baidu/amis)
+![last](https://img.shields.io/github/last-commit/baidu/amis.svg)
+
+</div>
 
 前端低代码框架，通过 JSON 配置就能生成各种后台页面，极大减少开发成本，甚至可以不需要了解前端。
-
-目前在百度广泛用于内部平台的前端开发，已有 100+ 部门使用，创建了 3w+ 页面。
-
-## 文档
-
-<https://baidu.gitee.io/amis/docs/index>
-
-## 相关工具及平台
-
-- 通过 amis 搭建自己的后台系统：https://github.com/fex-team/amis-admin
-- 可视化编辑器：https://github.com/fex-team/amis-editor
-- 爱速搭，基于 amis 的低代码平台：https://suda.baidu.com/
 
 ## 开发指南
 
@@ -57,9 +71,3 @@ npm run coverage
 - [RickCole21](https://github.com/RickCole21)
 - [catchonme](https://github.com/catchonme)
 - [nwind](https://github.com/nwind)
-
-## 讨论
-
-- Issues: https://github.com/baidu/amis/issues
-- [如流](https://infoflow.baidu.com/)群：3395342
-- QQ 群: 1147750223

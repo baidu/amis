@@ -1,32 +1,32 @@
 .#{$ns}List {
-  border: $List-borderWidth solid $List-borderColor;
-  border-radius: $List-borderRadius;
-  background-color: $List-bg;
-  margin-bottom: $gap-md;
+  border: var(--List-borderWidth) solid var(--List-borderColor);
+  border-radius: var(--List-borderRadius);
+  background: var(--List-bg);
+  margin-bottom: var(--gap-md);
   position: relative;
 
   &-toolbar {
     @include clearfix();
     display: flex;
     flex-wrap: wrap;
-    padding: $List-toolbar-paddingY $List-toolbar-paddingX;
+    padding: var(--List-toolbar-paddingY) var(--List-toolbar-paddingX);
   }
 
   &-actions {
     display: inline-block;
 
     > * {
-      margin-right: $Crud-toolbar-gap;
+      margin-right: var(--Crud-toolbar-gap);
     }
   }
 
   &-header {
-    padding: $List-toolbar-paddingY $List-toolbar-paddingX;
+    padding: var(--List-toolbar-paddingY) var(--List-toolbar-paddingX);
 
     > * + .#{$ns}Button,
     > * + .#{$ns}ButtonGroup,
     > * + .#{$ns}ButtonToolbar {
-      margin-left: $Crud-toolbar-gap;
+      margin-left: var(--Crud-toolbar-gap);
     }
   }
 
@@ -35,16 +35,16 @@
   }
 
   &-heading {
-    padding: $gap-xs 0;
+    padding: var(--gap-xs) 0;
   }
 
   &-fixedTop {
     position: absolute;
-    background: $white;
+    background: var(--white);
     z-index: -1;
     opacity: 0;
-    box-shadow: $List-fixedTop-boxShadow;
-    padding: $gap-sm;
+    box-shadow: var(--List-fixedTop-boxShadow);
+    padding: var(--gap-sm);
 
     &.in {
       position: fixed;
@@ -62,24 +62,24 @@
   }
 
   &--unsaved &-heading {
-    background: $List--unsaved-heading-bg;
-    color: $List--unsaved-heading-color;
-    padding: $gap-xs $gap-sm;
-    margin-bottom: $gap-sm;
+    background: var(--List--unsaved-heading-bg);
+    color: var(--List--unsaved-heading-color);
+    padding: var(--gap-xs) var(--gap-sm);
+    margin-bottom: var(--gap-sm);
   }
 
   &-dragTip {
     width: 100%;
-    color: $info;
+    color: var(--info);
     clear: both;
-    margin-top: $gap-xs;
+    margin-top: var(--gap-xs);
   }
 
   &-placeholder {
-    color: $text--muted-color;
+    color: var(--text--muted-color);
     text-align: center;
-    min-height: $List-placeholder-height;
-    line-height: $List-placeholder-height;
+    min-height: var(--List-placeholder-height);
+    line-height: var(--List-placeholder-height);
   }
 }
 
@@ -91,19 +91,19 @@
   &-item {
     position: relative;
     display: block;
-    padding: $ListItem-paddingY $ListItem-paddingX;
+    padding: var(--ListItem-paddingY) var(--ListItem-paddingX);
     margin-bottom: px2rem(-1px);
-    background-color: $white;
-    border: $ListItem-borderWidth solid $List-borderColor;
+    background: var(--white);
+    border: var(--ListItem-borderWidth) solid var(--List-borderColor);
 
     &:first-child {
-      border-top-left-radius: $borderRadius;
-      border-top-right-radius: $borderRadius;
+      border-top-left-radius: var(--borderRadius);
+      border-top-right-radius: var(--borderRadius);
     }
 
     &:last-child {
-      border-bottom-left-radius: $borderRadius;
-      border-bottom-right-radius: $borderRadius;
+      border-bottom-left-radius: var(--borderRadius);
+      border-bottom-right-radius: var(--borderRadius);
       margin-bottom: 0;
     }
 
@@ -118,15 +118,15 @@
     }
 
     &.is-disabled {
-      color: $text--muted-color;
+      color: var(--text--muted-color);
     }
   }
 
   &--expanded {
     .#{$ns}ListGroup-item {
-      border-radius: $borderRadius;
+      border-radius: var(--borderRadius);
 
-      margin-bottom: $gap-sm;
+      margin-bottom: var(--gap-sm);
 
       &:last-child {
         margin-bottom: 0;
@@ -139,38 +139,43 @@
   @include clearfix();
 
   & + & {
-    border-top: $ListItem-borderWidth solid $ListItem-borderColor;
+    border-top: var(--ListItem-borderWidth) solid var(--ListItem-borderColor);
   }
 
   position: relative;
   display: block;
-  padding: $ListItem-paddingY $ListItem-paddingX;
+  padding: var(--ListItem-paddingY) var(--ListItem-paddingX);
 
   &:nth-child(even) {
-    background-color: $ListItem--strip-bg;
+    background: var(--ListItem--strip-bg);
   }
 
   &-checkBtn {
     float: left;
-    margin-right: $gap-sm;
+    margin-right: var(--gap-sm);
   }
 
   &-dragBtn {
     cursor: move;
     float: left;
-    margin-right: $gap-sm;
+    margin-right: var(--gap-sm);
   }
 
   &-actions {
     float: right;
   }
 
+  &--actions-at-left &-actions {
+    float: left;
+    margin-right: var(--gap-base);
+  }
+
   &-title {
     margin: 0;
     padding: 0;
-    font-size: $fontSizeBase;
-    color: $text--loud-color;
-    font-weight: $fontWeightNormal;
+    font-size: var(--fontSizeBase);
+    color: var(--text--loud-color);
+    font-weight: var(--fontWeightNormal);
   }
 
   &-content {
@@ -195,39 +200,39 @@
 
   &-fieldLabel {
     width: px2rem(150px);
-    color: $text--muted-color;
+    color: var(--text--muted-color);
   }
 
   &.is-checked {
-    background-color: $ListItem-onChecked-bg;
-    border-color: $ListItem-onChecked-borderColor;
-    color: $ListItem-onChecked-color;
+    background: var(--ListItem-onChecked-bg);
+    border-color: var(--ListItem-onChecked-borderColor);
+    color: var(--ListItem-onChecked-color);
 
     + .#{$ns}ListItem {
-      border-color: $ListItem-onChecked-borderColor;
+      border-color: var(--ListItem-onChecked-borderColor);
     }
 
     .#{$ns}ListItem-fieldLabel {
-      color: lighten($ListItem-onChecked-color, 20%);
+      color: var(--ListItem-onChecked-fieldLabel-color);
     }
   }
 
   &.is-modified,
   &.is-moved {
-    background-color: $ListItem-onModified-bg;
-    border-color: $ListItem-onModified-borderColor;
-    color: $ListItem-onModified-color;
+    background: var(--ListItem-onModified-bg);
+    border-color: var(--ListItem-onModified-borderColor);
+    color: var(--ListItem-onModified-color);
 
     + .#{$ns}ListItem {
-      border-color: $ListItem-onModified-borderColor;
+      border-color: var(--ListItem-onModified-borderColor);
     }
 
     .#{$ns}ListItem-fieldLabel {
-      color: lighten($ListItem-onModified-color, 20%);
+      color: var(--ListItem-onModified-fieldLabel-color);
     }
   }
 
   &.is-dragging {
-    opacity: $ListItem-onDragging-opacity;
+    opacity: var(--ListItem-onDragging-opacity);
   }
 }

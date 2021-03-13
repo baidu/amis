@@ -5,7 +5,9 @@ const path = require('path');
 const fs = require('fs');
 const package = require('./package.json');
 const parserMarkdown = require('./scripts/md-parser');
-fis.get('project.ignore').push('public/**', 'gh-pages/**');
+const convertSCSSIE11 = require('./scripts/scss-ie11');
+const parserCodeMarkdown = require('./scripts/code-md-parser');
+fis.get('project.ignore').push('public/**', 'npm/**', 'gh-pages/**');
 // 配置只编译哪些文件。
 
 const Resource = fis.require('postpackager-loader/lib/resource.js');
@@ -31,9 +33,12 @@ Resource.extend({
 
 fis.set('project.files', [
   'schema.json',
-  'scss/**.scss',
+  '/scss/helper.scss',
+  '/scss/themes/*.scss',
   '/examples/*.html',
   '/examples/*.tpl',
+  '/examples/static/*.png',
+  '/examples/static/*.svg',
   '/src/**.html',
   'mock/**'
 ]);
@@ -51,7 +56,7 @@ fis.match('mod.js', {
 });
 
 fis.match('*.scss', {
-  parser: fis.plugin('node-sass', {
+  parser: fis.plugin('sass', {
     sourceMap: true
   }),
   rExt: '.css'
@@ -77,10 +82,6 @@ fis.match('/src/icons/**.svg', {
       sourceMap: false
     })
   ]
-});
-
-fis.match('_*.scss', {
-  release: false
 });
 
 fis.match('/node_modules/**.js', {
@@ -109,33 +110,21 @@ fis.match('/docs/**.md', {
   parser: [
     parserMarkdown,
     function (contents, file) {
-      return contents.replace(/\bhref=\\('|")(.+?)\\\1/g, function (
-        _,
-        quota,
-        link
-      ) {
-        if (/\.md($|#)/.test(link) && !/^https?\:/.test(link)) {
-          let parts = link.split('#');
-          parts[0] = parts[0].replace('.md', '');
-
-          if (parts[0][0] !== '/') {
-            parts[0] = path.resolve(path.dirname(file.subpath), parts[0]);
+      return contents.replace(
+        /\bhref=\\('|")(.+?)\\\1/g,
+        function (_, quota, link) {
+          if (/\.md($|#)/.test(link) && !/^https?\:/.test(link)) {
+            let parts = link.split('#');
+            parts[0] = parts[0].replace('.md', '');
+            return 'href=\\' + quota + parts.join('#') + '\\' + quota;
           }
 
-          return 'href=\\' + quota + parts.join('#') + '\\' + quota;
+          return _;
         }
-
-        return _;
-      });
+      );
     }
   ],
   isMod: true
-});
-
-fis.on('compile:parser', function (file) {
-  if (file.subpath === '/src/index.tsx') {
-    file.setContent(file.getContent().replace('@version', package.version));
-  }
 });
 
 fis.on('compile:optimizer', function (file) {
@@ -165,11 +154,19 @@ fis.match('{*.ts,*.jsx,*.tsx,/src/**.js,/src/**.ts}', {
       importHelpers: true,
       esModuleInterop: true,
       experimentalDecorators: true,
-      sourceMap: true
+      inlineSourceMap: true,
+      target: 4
     }),
 
     function (content) {
-      return content.replace(/\b[a-zA-Z_0-9$]+\.__uri\s*\(/g, '__uri(');
+      return content
+        .replace(/\b[a-zA-Z_0-9$]+\.__uri\s*\(/g, '__uri(')
+        .replace(
+          /(return|=>)\s*(tslib_\d+)\.__importStar\(require\(('|")(.*?)\3\)\)/g,
+          function (_, r, tslib, quto, value) {
+            return `${r} new Promise(function(resolve){require(['${value}'], function(ret) {resolve(${tslib}.__importStar(ret));})})`;
+          }
+        );
     }
   ],
   preprocessor: fis.plugin('js-require-css'),
@@ -197,6 +194,40 @@ fis.hook('commonjs', {
   }
 });
 
+fis.match('_*.scss', {
+  release: false
+});
+
+fis.media('dev').match('_*.scss', {
+  parser: [
+    parserCodeMarkdown,
+    function (contents, file) {
+      return contents.replace(
+        /\bhref=\\('|")(.+?)\\\1/g,
+        function (_, quota, link) {
+          if (/\.md($|#)/.test(link) && !/^https?\:/.test(link)) {
+            let parts = link.split('#');
+            parts[0] = parts[0].replace('.md', '');
+
+            if (parts[0][0] !== '/') {
+              parts[0] = path
+                .resolve(path.dirname(file.subpath), parts[0])
+                .replace(/^\/docs/, '');
+            }
+
+            return 'href=\\' + quota + parts.join('#') + '\\' + quota;
+          }
+
+          return _;
+        }
+      );
+    }
+  ],
+  release: '$0',
+  isMod: true,
+  rExt: '.js'
+});
+
 fis.media('dev').match('::package', {
   postpackager: fis.plugin('loader', {
     useInlineMap: false,
@@ -216,6 +247,15 @@ if (fis.project.currentMedia() === 'publish') {
   const publishEnv = fis.media('publish');
   publishEnv.get('project.ignore').push('lib/**');
   publishEnv.set('project.files', ['/scss/**', '/src/**']);
+
+  fis.on('compile:end', function (file) {
+    if (
+      file.subpath === '/src/index.tsx' ||
+      file.subpath === '/examples/mod.js'
+    ) {
+      file.setContent(file.getContent().replace('@version', package.version));
+    }
+  });
 
   publishEnv.match('/scss/(**)', {
     release: '/$1',
@@ -238,26 +278,29 @@ if (fis.project.currentMedia() === 'publish') {
         allowUmdGlobalAccess: true
       }),
       function (contents) {
-        return contents.replace(
-          /(?:\w+\.)?\b__uri\s*\(\s*('|")(.*?)\1\s*\)/g,
-          function (_, quote, value) {
-            let str = quote + value + quote;
-            return (
-              '(function(){try {return __uri(' +
-              str +
-              ')} catch(e) {return ' +
-              str +
-              '}})()'
-            );
-          }
-        );
+        return contents
+          .replace(
+            /(?:\w+\.)?\b__uri\s*\(\s*('|")(.*?)\1\s*\)/g,
+            function (_, quote, value) {
+              let str = quote + value + quote;
+              return (
+                '(function(){try {return __uri(' +
+                str +
+                ')} catch(e) {return ' +
+                str +
+                '}})()'
+              );
+            }
+          )
+          .replace(
+            /return\s+(tslib_\d+)\.__importStar\(require\(('|")(.*?)\2\)\);/g,
+            function (_, tslib, quto, value) {
+              return `return new Promise(function(resolve){require(['${value}'], function(ret) {resolve(${tslib}.__importStar(ret));})});`;
+            }
+          );
       }
     ],
     preprocessor: null
-  });
-
-  publishEnv.match('_*.scss', {
-    release: false
   });
 
   publishEnv.match('*', {
@@ -307,13 +350,26 @@ if (fis.project.currentMedia() === 'publish') {
   });
   // publishEnv.unhook('node_modules');
   publishEnv.hook('relative');
+
+  publishEnv.match('_*.scss', {
+    release: false
+  });
 } else if (fis.project.currentMedia() === 'publish-sdk') {
   const env = fis.media('publish-sdk');
+
+  fis.on('compile:end', function (file) {
+    if (
+      file.subpath === '/src/index.tsx' ||
+      file.subpath === '/examples/mod.js'
+    ) {
+      file.setContent(file.getContent().replace('@version', package.version));
+    }
+  });
 
   env.get('project.ignore').push('sdk/**');
   env.set('project.files', ['examples/sdk-placeholder.html']);
 
-  env.match('/{examples,scss}/(**)', {
+  env.match('/{examples,scss,src}/(**)', {
     release: '/$1'
   });
 
@@ -330,7 +386,7 @@ if (fis.project.currentMedia() === 'publish') {
   });
 
   env.match('*.scss', {
-    parser: fis.plugin('node-sass', {
+    parser: fis.plugin('sass', {
       sourceMap: false
     })
   });
@@ -344,9 +400,15 @@ if (fis.project.currentMedia() === 'publish') {
         experimentalDecorators: true,
         sourceMap: false
       }),
-
       function (content) {
-        return content.replace(/\b[a-zA-Z_0-9$]+\.__uri\s*\(/g, '__uri(');
+        return content
+          .replace(/\b[a-zA-Z_0-9$]+\.__uri\s*\(/g, '__uri(')
+          .replace(
+            /return\s+(tslib_\d+)\.__importStar\(require\(('|")(.*?)\2\)\);/g,
+            function (_, tslib, quto, value) {
+              return `return new Promise(function(resolve){require(['${value}'], function(ret) {resolve(${tslib}.__importStar(ret));})});`;
+            }
+          );
       }
     ],
     preprocessor: fis.plugin('js-require-css'),
@@ -354,8 +416,9 @@ if (fis.project.currentMedia() === 'publish') {
     rExt: '.js'
   });
 
-  env.match('/examples/sdk-mod.js', {
-    isMod: false
+  env.match('/examples/mod.js', {
+    isMod: false,
+    optimizer: fis.plugin('uglify-js')
   });
 
   env.match('*.{js,jsx,ts,tsx}', {
@@ -386,8 +449,13 @@ if (fis.project.currentMedia() === 'publish') {
         '!jquery/**',
         '!zrender/**',
         '!echarts/**',
+        '!papaparse/**',
+        '!exceljs/**',
         '!docsearch.js/**',
-        '!monaco-editor/**.css'
+        '!monaco-editor/**.css',
+        '!src/components/RichText.tsx',
+        '!src/components/Tinymce.tsx',
+        '!src/lib/renderers/Form/CityDB.js'
       ],
 
       'rich-text.js': [
@@ -397,6 +465,10 @@ if (fis.project.currentMedia() === 'publish') {
       ],
 
       'tinymce.js': ['src/components/Tinymce.tsx', 'tinymce/**'],
+
+      'papaparse.js': ['papaparse/**'],
+
+      'exceljs.js': ['exceljs/**'],
 
       'charts.js': ['zrender/**', 'echarts/**'],
 
@@ -409,7 +481,9 @@ if (fis.project.currentMedia() === 'publish') {
         '!src/components/RichText.tsx',
         '!jquery/**',
         '!zrender/**',
-        '!echarts/**'
+        '!echarts/**',
+        '!papaparse/**',
+        '!exceljs/**'
       ]
     }),
     postpackager: [
@@ -424,6 +498,10 @@ if (fis.project.currentMedia() === 'publish') {
 
   env.match('{*.min.js,monaco-editor/min/**.js}', {
     optimizer: null
+  });
+
+  env.match('monaco-editor/**.css', {
+    standard: false
   });
 
   fis.on('compile:optimizer', function (file) {
@@ -443,7 +521,7 @@ if (fis.project.currentMedia() === 'publish') {
     try {
       throw new Error()
     } catch (e) {
-      _path = (/((?:https?|file)\:.*)$/.test(e.stack) && RegExp.$1).replace(/\\/[^\\/]*$/, '');
+      _path = (/((?:https?|file)\:.*)\\n?$/.test(e.stack) && RegExp.$1).replace(/\\/[^\\/]*$/, '');
     }
     function filterUrl(url) {
       return _path + url.substring(1);`;
@@ -488,7 +566,17 @@ if (fis.project.currentMedia() === 'publish') {
     ]
   });
 } else if (fis.project.currentMedia() === 'gh-pages') {
+  fis.match('*-ie11.scss', {
+    postprocessor: convertSCSSIE11
+  });
   const ghPages = fis.media('gh-pages');
+
+  ghPages.match('*.scss', {
+    parser: fis.plugin('sass', {
+      sourceMap: false
+    }),
+    rExt: '.css'
+  });
 
   ghPages.match('/docs/**.md', {
     rExt: 'js',
@@ -497,26 +585,53 @@ if (fis.project.currentMedia() === 'publish') {
     parser: [
       parserMarkdown,
       function (contents, file) {
-        return contents.replace(/\bhref=\\('|")(.+?)\\\1/g, function (
-          _,
-          quota,
-          link
-        ) {
-          if (/\.md($|#)/.test(link) && !/^https?\:/.test(link)) {
-            let parts = link.split('#');
-            parts[0] = parts[0].replace('.md', '');
+        return contents.replace(
+          /\bhref=\\('|")(.+?)\\\1/g,
+          function (_, quota, link) {
+            if (/\.md($|#)/.test(link) && !/^https?\:/.test(link)) {
+              let parts = link.split('#');
+              parts[0] = parts[0].replace('.md', '');
 
-            if (parts[0][0] !== '/') {
-              parts[0] = path.resolve(path.dirname(file.subpath), parts[0]);
+              return (
+                'href=\\' + quota + '/amis' + parts.join('#') + '\\' + quota
+              );
             }
 
-            return 'href=\\' + quota + '/amis' + parts.join('#') + '\\' + quota;
+            return _;
           }
-
-          return _;
-        });
+        );
       }
     ]
+  });
+
+  ghPages.match(/^(\/.*)(_)(.+\.scss)$/, {
+    parser: [
+      parserCodeMarkdown,
+      function (contents, file) {
+        return contents.replace(
+          /\bhref=\\('|")(.+?)\\\1/g,
+          function (_, quota, link) {
+            if (/\.md($|#)/.test(link) && !/^https?\:/.test(link)) {
+              let parts = link.split('#');
+              parts[0] = parts[0].replace('.md', '');
+
+              if (parts[0][0] !== '/') {
+                parts[0] = path
+                  .resolve(path.dirname(file.subpath), parts[0])
+                  .replace(/^\/docs/, '/amis');
+              }
+
+              return 'href=\\' + quota + parts.join('#') + '\\' + quota;
+            }
+
+            return _;
+          }
+        );
+      }
+    ],
+    isMod: true,
+    rExt: '.js',
+    release: '$1$3'
   });
 
   ghPages.match('/node_modules/(**)', {
@@ -538,7 +653,9 @@ if (fis.project.currentMedia() === 'publish') {
           /(\\?(?:'|"))((?:get|post|delete|put)\:)?\/api\/mock2?/gi,
           function (_, qutoa, method) {
             return (
-              qutoa + (method || '') + 'https://houtai.baidu.com/api/mock2'
+              qutoa +
+              (method || '') +
+              'https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2'
             );
           }
         )
@@ -546,7 +663,9 @@ if (fis.project.currentMedia() === 'publish') {
           /(\\?(?:'|"))((?:get|post|delete|put)\:)?\/api\/sample/gi,
           function (_, qutoa, method) {
             return (
-              qutoa + (method || '') + 'https://houtai.baidu.com/api/sample'
+              qutoa +
+              (method || '') +
+              'https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/sample'
             );
           }
         );
@@ -569,7 +688,9 @@ if (fis.project.currentMedia() === 'publish') {
         '!tinymce/**',
         '!jquery/**',
         '!zrender/**',
-        '!echarts/**'
+        '!echarts/**',
+        '!papaparse/**',
+        '!exceljs/**'
       ],
       'pkg/rich-text.js': [
         'src/components/RichText.js',
@@ -578,24 +699,33 @@ if (fis.project.currentMedia() === 'publish') {
       ],
       'pkg/tinymce.js': ['src/components/Tinymce.tsx', 'tinymce/**'],
       'pkg/charts.js': ['zrender/**', 'echarts/**'],
+      'pkg/papaparse.js': ['papaparse/**'],
+      'pkg/exceljs.js': ['exceljs/**'],
       'pkg/api-mock.js': ['mock/*.ts'],
       'pkg/app.js': [
         '/examples/components/App.tsx',
         '/examples/components/App.tsx:deps'
       ],
 
+      'pkg/echarts-editor.js': [
+        '/examples/components/EChartsEditor/*.tsx',
+        '!/examples/components/EChartsEditor/Example.tsx',
+        '!/examples/components/EChartsEditor/Common.tsx'
+      ],
+
       'pkg/rest.js': [
         '**.{js,jsx,ts,tsx}',
         '!static/mod.js',
         '!monaco-editor/**',
-        '!echarts/**',
         '!flv.js/**',
         '!hls.js/**',
         '!froala-editor/**',
         '!jquery/**',
         '!src/components/RichText.js',
         '!zrender/**',
-        '!echarts/**'
+        '!echarts/**',
+        '!papaparse/**',
+        '!exceljs/**'
       ],
 
       'pkg/npm.css': ['node_modules/*/**.css', '!monaco-editor/**'],
@@ -608,6 +738,7 @@ if (fis.project.currentMedia() === 'publish') {
         // 要切换主题，不能打在一起。'/scss/*.scss',
         '!/examples/style.scss',
         '!monaco-editor/**',
+        '!/scss/helper.scss',
         '/examples/style.scss' // 让它在最下面
       ]
     }),
@@ -621,26 +752,31 @@ if (fis.project.currentMedia() === 'publish') {
         const indexHtml = ret.src['/examples/index.html'];
         const appJs = ret.src['/examples/components/App.tsx'];
         const DocJs = ret.src['/examples/components/Doc.tsx'];
+        const DocNavCN = ret.src['/examples/components/DocNavCN.ts'];
+        const Components = ret.src['/examples/components/Components.tsx'];
+        const DocCSS = ret.src['/examples/components/CssDocs.tsx'];
         const ExampleJs = ret.src['/examples/components/Example.tsx'];
 
         const pages = [];
         const source = [
           appJs.getContent(),
           DocJs.getContent(),
+          DocNavCN.getContent(),
+          Components.getContent(),
+          DocCSS.getContent(),
           ExampleJs.getContent()
         ].join('\n');
-        source.replace(/\bpath\b\s*\:\s*('|")(.*?)\1/g, function (
-          _,
-          qutoa,
-          path
-        ) {
-          if (path === '*') {
-            return;
-          }
+        source.replace(
+          /\bpath\b\s*\:\s*('|")(.*?)\1/g,
+          function (_, qutoa, path) {
+            if (path === '*') {
+              return;
+            }
 
-          pages.push(path.replace(/^\//, ''));
-          return _;
-        });
+            pages.push(path.replace(/^\//, ''));
+            return _;
+          }
+        );
 
         const contents = indexHtml.getContent();
         pages.forEach(function (path) {
@@ -656,7 +792,16 @@ if (fis.project.currentMedia() === 'publish') {
   });
 
   ghPages.match('*.{css,less,scss}', {
-    optimizer: fis.plugin('clean-css'),
+    optimizer: [
+      function (contents) {
+        if (typeof contents === 'string') {
+          contents = contents.replace(/\/\*\!markdown[\s\S]*?\*\//g, '');
+        }
+
+        return contents;
+      },
+      fis.plugin('clean-css')
+    ],
     useHash: true
   });
 
@@ -684,7 +829,30 @@ if (fis.project.currentMedia() === 'publish') {
         sourceMap: false,
         importHelpers: true,
         esModuleInterop: true
-      })
+      }),
+
+      function (contents) {
+        return contents
+          .replace(
+            /(?:\w+\.)?\b__uri\s*\(\s*('|")(.*?)\1\s*\)/g,
+            function (_, quote, value) {
+              let str = quote + value + quote;
+              return (
+                '(function(){try {return __uri(' +
+                str +
+                ')} catch(e) {return ' +
+                str +
+                '}})()'
+              );
+            }
+          )
+          .replace(
+            /return\s+(tslib_\d+)\.__importStar\(require\(('|")(.*?)\2\)\);/g,
+            function (_, tslib, quto, value) {
+              return `return new Promise(function(resolve){require(['${value}'], function(ret) {resolve(${tslib}.__importStar(ret));})});`;
+            }
+          );
+      }
     ]
   });
   ghPages.match('*', {

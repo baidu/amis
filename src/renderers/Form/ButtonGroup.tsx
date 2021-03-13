@@ -24,7 +24,16 @@ export interface ButtonGroupControlSchema
 
 export interface ButtonGroupProps
   extends OptionsControlProps,
-    Omit<ButtonGroupControlSchema, 'size' | 'source'> {
+    Omit<
+      ButtonGroupControlSchema,
+      | 'size'
+      | 'source'
+      | 'type'
+      | 'className'
+      | 'descriptionClassName'
+      | 'inputClassName'
+      | 'btnClassName'
+    > {
   options: Array<Option>;
 }
 
@@ -42,13 +51,6 @@ export default class ButtonGroupControl extends React.Component<
   @autobind
   handleToggle(option: Option) {
     const {onToggle, multiple, autoFill, onBulkChange} = this.props;
-
-    const sendTo =
-      !multiple &&
-      autoFill &&
-      !isEmpty(autoFill) &&
-      dataMapping(autoFill, option as Option);
-    sendTo && onBulkChange(sendTo);
     onToggle(option);
   }
 
@@ -110,7 +112,7 @@ export default class ButtonGroupControl extends React.Component<
           }
         );
       });
-    } else if (buttons) {
+    } else if (Array.isArray(buttons)) {
       body = buttons.map((button, key) =>
         render(
           `button/${key}`,

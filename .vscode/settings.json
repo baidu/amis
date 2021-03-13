@@ -1,4 +1,8 @@
 {
-    "editor.formatOnSave": true,
-    "typescript.tsdk": "node_modules/typescript/lib"
+  "editor.formatOnSave": true,
+  "typescript.tsdk": "node_modules/typescript/lib",
+  "gitHistory.showEditorTitleMenuBarIcons": false,
+  "search.exclude": {
+    "examples/docs.json": true
+  }
 }

@@ -60,8 +60,8 @@ export default class TagControl extends React.PureComponent<
     labelField: 'label',
     valueField: 'value',
     multiple: true,
-    placeholder: '暂无标签',
-    optionsTip: '最近您使用的标签'
+    placeholder: 'Tag.placeholder',
+    optionsTip: 'Tag.tip'
   };
 
   state = {
@@ -199,9 +199,9 @@ export default class TagControl extends React.PureComponent<
   }
 
   @autobind
-  renderItem(item: Option) {
+  renderItem(item: Option): any {
     const {labelField} = this.props;
-    return item[labelField || 'label'];
+    return `${item[labelField || 'label']}`;
   }
 
   @autobind
@@ -324,7 +324,7 @@ export default class TagControl extends React.PureComponent<
                 {...getInputProps({
                   name,
                   ref: this.input,
-                  placeholder: __(placeholder || '暂无标签'),
+                  placeholder: __(placeholder || 'Tag.placeholder'),
                   value: this.state.inputValue,
                   onKeyDown: this.handleKeyDown,
                   onFocus: this.handleFocus,

@@ -15,7 +15,9 @@ exports[`Renderer:list 1`] = `
         <span
           class="a-TplField"
         >
-          The form
+          <span>
+            The form
+          </span>
         </span>
       </h3>
     </div>
@@ -28,12 +30,19 @@ exports[`Renderer:list 1`] = `
       >
         <div
           class="a-Form-item a-Form-item--normal"
+          data-role="form-item"
         >
           <label
             class="a-Form-label"
           >
             <span>
-              单选
+              <span
+                class="a-TplField"
+              >
+                <span>
+                  单选
+                </span>
+              </span>
             </span>
           </label>
           <div
@@ -80,6 +89,10 @@ exports[`Renderer:list 1`] = `
             </div>
           </div>
         </div>
+        <input
+          style="display: none;"
+          type="submit"
+        />
       </form>
     </div>
     <div
@@ -140,7 +153,9 @@ exports[`Renderer:list:multiple clearable 1`] = `
         <span
           class="a-TplField"
         >
-          The form
+          <span>
+            The form
+          </span>
         </span>
       </h3>
     </div>
@@ -153,12 +168,19 @@ exports[`Renderer:list:multiple clearable 1`] = `
       >
         <div
           class="a-Form-item a-Form-item--normal"
+          data-role="form-item"
         >
           <label
             class="a-Form-label"
           >
             <span>
-              多选
+              <span
+                class="a-TplField"
+              >
+                <span>
+                  多选
+                </span>
+              </span>
             </span>
           </label>
           <div
@@ -190,16 +212,23 @@ exports[`Renderer:list:multiple clearable 1`] = `
         </div>
         <div
           class="a-Form-item a-Form-item--normal"
+          data-role="form-item"
         >
           <label
             class="a-Form-label"
           >
             <span>
-              当前值
+              <span
+                class="a-TplField"
+              >
+                <span>
+                  当前值
+                </span>
+              </span>
             </span>
           </label>
           <div
-            class="form-control-static"
+            class="a-Form-static"
           >
             <div
               class="a-Form-control"
@@ -207,15 +236,21 @@ exports[`Renderer:list:multiple clearable 1`] = `
               <span
                 class="a-TplField"
               >
-                <span
-                  class="text-muted"
-                >
-                  -
+                <span>
+                  <span
+                    class="text-muted"
+                  >
+                    -
+                  </span>
                 </span>
               </span>
             </div>
           </div>
         </div>
+        <input
+          style="display: none;"
+          type="submit"
+        />
       </form>
     </div>
     <div
@@ -276,7 +311,9 @@ exports[`Renderer:list:multiple clearable 2`] = `
         <span
           class="a-TplField"
         >
-          The form
+          <span>
+            The form
+          </span>
         </span>
       </h3>
     </div>
@@ -289,12 +326,19 @@ exports[`Renderer:list:multiple clearable 2`] = `
       >
         <div
           class="a-Form-item a-Form-item--normal"
+          data-role="form-item"
         >
           <label
             class="a-Form-label"
           >
             <span>
-              多选
+              <span
+                class="a-TplField"
+              >
+                <span>
+                  多选
+                </span>
+              </span>
             </span>
           </label>
           <div
@@ -326,16 +370,23 @@ exports[`Renderer:list:multiple clearable 2`] = `
         </div>
         <div
           class="a-Form-item a-Form-item--normal"
+          data-role="form-item"
         >
           <label
             class="a-Form-label"
           >
             <span>
-              当前值
+              <span
+                class="a-TplField"
+              >
+                <span>
+                  当前值
+                </span>
+              </span>
             </span>
           </label>
           <div
-            class="form-control-static"
+            class="a-Form-static"
           >
             <div
               class="a-Form-control"
@@ -343,15 +394,21 @@ exports[`Renderer:list:multiple clearable 2`] = `
               <span
                 class="a-TplField"
               >
-                <span
-                  class="text-muted"
-                >
-                  -
+                <span>
+                  <span
+                    class="text-muted"
+                  >
+                    -
+                  </span>
                 </span>
               </span>
             </div>
           </div>
         </div>
+        <input
+          style="display: none;"
+          type="submit"
+        />
       </form>
     </div>
     <div

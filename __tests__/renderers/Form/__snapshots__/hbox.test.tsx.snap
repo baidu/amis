@@ -15,7 +15,9 @@ exports[`Renderer:hbox 1`] = `
         <span
           class="a-TplField"
         >
-          The form
+          <span>
+            The form
+          </span>
         </span>
       </h3>
     </div>
@@ -28,6 +30,7 @@ exports[`Renderer:hbox 1`] = `
       >
         <div
           class="a-Form-item a-Form-item--normal"
+          data-role="form-item"
         >
           <div
             class="a-FormHbox a-Form-control"
@@ -40,6 +43,7 @@ exports[`Renderer:hbox 1`] = `
               >
                 <div
                   class="a-Form-item a-Form-item--normal"
+                  data-role="form-item"
                 >
                   <div
                     class="a-Form-control a-TextControl"
@@ -65,12 +69,18 @@ exports[`Renderer:hbox 1`] = `
                 <span
                   class="a-TplField"
                 >
-                  其他类型的渲染器
+                  <span>
+                    其他类型的渲染器
+                  </span>
                 </span>
               </div>
             </div>
           </div>
         </div>
+        <input
+          style="display: none;"
+          type="submit"
+        />
       </form>
     </div>
     <div

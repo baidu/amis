@@ -1,5 +1,5 @@
 .#{$ns}ChainedSelectControl {
   .#{$ns}Select {
-    margin-right: $gap-xs;
+    margin-right: var(--gap-xs);
   }
 }

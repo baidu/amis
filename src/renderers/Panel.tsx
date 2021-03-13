@@ -53,6 +53,11 @@ export interface PanelSchema extends BaseSchema {
   footerClassName?: SchemaClassName;
 
   /**
+   * footer 和 actions 外层 div 类名。
+   */
+  footerWrapClassName?: SchemaClassName;
+
+  /**
    * 头部内容, 和 title 二选一。
    */
   header?: SchemaCollection;
@@ -73,13 +78,19 @@ export interface PanelSchema extends BaseSchema {
   affixFooter?: boolean | 'always';
 }
 
-export interface PanelProps extends RendererProps, PanelSchema {}
+export interface PanelProps
+  extends RendererProps,
+    Omit<
+      PanelSchema,
+      'type' | 'className' | 'panelClassName' | 'bodyClassName'
+    > {}
 
 export default class Panel extends React.Component<PanelProps> {
   static propsList: Array<string> = [
     'header',
     'headerClassName',
     'footerClassName',
+    'footerWrapClassName',
     'actionsClassName',
     'bodyClassName'
   ];
@@ -210,6 +221,7 @@ export default class Panel extends React.Component<PanelProps> {
       headerClassName,
       actionsClassName,
       footerClassName,
+      footerWrapClassName,
       children,
       title,
       footer,
@@ -244,7 +256,12 @@ export default class Panel extends React.Component<PanelProps> {
       );
 
     let footerDom = footerDoms.length ? (
-      <div ref={this.footerDom}>{footerDoms}</div>
+      <div
+        className={cx('Panel-footerWrap', footerWrapClassName)}
+        ref={this.footerDom}
+      >
+        {footerDoms}
+      </div>
     ) : null;
 
     return (
@@ -268,7 +285,13 @@ export default class Panel extends React.Component<PanelProps> {
         {footerDom}
 
         {affixFooter && footerDoms.length ? (
-          <div ref={this.affixDom} className={cx('Panel-fixedBottom')}>
+          <div
+            ref={this.affixDom}
+            className={cx(
+              'Panel-fixedBottom Panel-footerWrap',
+              footerWrapClassName
+            )}
+          >
             {footerDoms}
           </div>
         ) : null}

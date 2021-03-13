@@ -1,0 +1,178 @@
+/*!markdown
+
+---
+title: 边框颜色
+---
+
+| Class       | Properties               |
+| ----------- | ------------------------ |
+| border-black | border-color: #000 |
+| border-white | border-color: #fff |
+| border-primary | border-color: #007bff |
+| border-secondary | border-color: #6c757d |
+| border-success | border-color: #28a745 |
+| border-info | border-color: #17a2b8 |
+| border-warning | border-color: #28a745 |
+| border-danger | border-color: #dc3545 |
+| border-light | border-color: #f8f9fa |
+| border-dark | border-color: #343a40 |
+| border-gray-50 | border-color: #f9fafb |
+| border-gray-100 | border-color: #f3f4f6 |
+| border-gray-200 | border-color: #e5e7eb |
+| border-gray-300 | border-color: #d1d5db |
+| border-gray-400 | border-color: #9ca3af |
+| border-gray-500 | border-color: #6b7280 |
+| border-gray-600 | border-color: #4b5563 |
+| border-gray-700 | border-color: #374151 |
+| border-gray-800 | border-color: #1f2937 |
+| border-gray-900 | border-color: #111827 |
+| border-red-50 | border-color: #fef2f2 |
+| border-red-100 | border-color: #fee2e2 |
+| border-red-200 | border-color: #fecaca |
+| border-red-300 | border-color: #fca5a5 |
+| border-red-400 | border-color: #f87171 |
+| border-red-500 | border-color: #ef4444 |
+| border-red-600 | border-color: #dc2626 |
+| border-red-700 | border-color: #b91c1c |
+| border-red-800 | border-color: #991b1b |
+| border-red-900 | border-color: #7f1d1d |
+| border-yellow-50 | border-color: #fffbeb |
+| border-yellow-100 | border-color: #fef3c7 |
+| border-yellow-200 | border-color: #fde68a |
+| border-yellow-300 | border-color: #fcd34d |
+| border-yellow-400 | border-color: #fbbf24 |
+| border-yellow-500 | border-color: #f59e0b |
+| border-yellow-600 | border-color: #d97706 |
+| border-yellow-700 | border-color: #b45309 |
+| border-yellow-800 | border-color: #92400e |
+| border-yellow-900 | border-color: #78350f |
+| border-green-50 | border-color: #ecfdf5 |
+| border-green-100 | border-color: #d1fae5 |
+| border-green-200 | border-color: #a7f3d0 |
+| border-green-300 | border-color: #6ee7b7 |
+| border-green-400 | border-color: #34d399 |
+| border-green-500 | border-color: #10b981 |
+| border-green-600 | border-color: #059669 |
+| border-green-700 | border-color: #047857 |
+| border-green-800 | border-color: #065f46 |
+| border-green-900 | border-color: #064e3b |
+| border-blue-50 | border-color: #eff6ff |
+| border-blue-100 | border-color: #dbeafe |
+| border-blue-200 | border-color: #bfdbfe |
+| border-blue-300 | border-color: #93c5fd |
+| border-blue-400 | border-color: #60a5fa |
+| border-blue-500 | border-color: #3b82f6 |
+| border-blue-600 | border-color: #2563eb |
+| border-blue-700 | border-color: #1d4ed8 |
+| border-blue-800 | border-color: #1e40af |
+| border-blue-900 | border-color: #1e3a8a |
+| border-cyan-50 | border-color: #ecfeff |
+| border-cyan-100 | border-color: #cffafe |
+| border-cyan-200 | border-color: #a5f3fc |
+| border-cyan-300 | border-color: #67e8f9 |
+| border-cyan-400 | border-color: #22d3ee |
+| border-cyan-500 | border-color: #06b6d4 |
+| border-cyan-600 | border-color: #0891b2 |
+| border-cyan-700 | border-color: #0e7490 |
+| border-cyan-800 | border-color: #155e75 |
+| border-cyan-900 | border-color: #164e63 |
+| border-indigo-50 | border-color: #eef2ff |
+| border-indigo-100 | border-color: #e0e7ff |
+| border-indigo-200 | border-color: #c7d2fe |
+| border-indigo-300 | border-color: #a5b4fc |
+| border-indigo-400 | border-color: #818cf8 |
+| border-indigo-500 | border-color: #6366f1 |
+| border-indigo-600 | border-color: #4f46e5 |
+| border-indigo-700 | border-color: #4338ca |
+| border-indigo-800 | border-color: #3730a3 |
+| border-indigo-900 | border-color: #312e81 |
+| border-purple-50 | border-color: #f5f3ff |
+| border-purple-100 | border-color: #ede9fe |
+| border-purple-200 | border-color: #ddd6fe |
+| border-purple-300 | border-color: #c4b5fd |
+| border-purple-400 | border-color: #a78bfa |
+| border-purple-500 | border-color: #8b5cf6 |
+| border-purple-600 | border-color: #7c3aed |
+| border-purple-700 | border-color: #6d28d9 |
+| border-purple-800 | border-color: #5b21b6 |
+| border-purple-900 | border-color: #4c1d95 |
+| border-pink-50 | border-color: #fdf2f8 |
+| border-pink-100 | border-color: #fce7f3 |
+| border-pink-200 | border-color: #fbcfe8 |
+| border-pink-300 | border-color: #f9a8d4 |
+| border-pink-400 | border-color: #f472b6 |
+| border-pink-500 | border-color: #ec4899 |
+| border-pink-600 | border-color: #db2777 |
+| border-pink-700 | border-color: #be185d |
+| border-pink-800 | border-color: #9d174d |
+| border-pink-900 | border-color: #831843 |
+
+
+还有 hover、active、focus、disabled 扩展，比如 `hover:border-black`
+
+*/
+
+@mixin border-colors-map(
+  $colors: $colors,
+  $namePrefix: '',
+  $prefix: '.',
+  $suffix: ''
+) {
+  @each $name, $color in $colors {
+    @if (is-map($color)) {
+      @include border-colors-map($color, #{'-' + $name}, $prefix, $suffix);
+    } @else if $suffix == '.is-active' {
+      #{$prefix}border#{$namePrefix}-#{'' + $name}.is-active,
+      #{$prefix}border#{$namePrefix}-#{'' + $name}:active {
+        border-color: $color;
+      }
+    } @else if $suffix == '.is-disabled' {
+      #{$prefix}border#{$namePrefix}-#{'' + $name}.is-disabled,
+      #{$prefix}border#{$namePrefix}-#{'' + $name}:disabled {
+        border-color: $color;
+      }
+    } @else {
+      #{$prefix}border#{$namePrefix}-#{'' + $name}#{$suffix} {
+        border-color: $color;
+      }
+    }
+  }
+}
+
+@mixin border-colors($prefix: '.', $suffix: '') {
+  @include border-colors-map($colors, '', $prefix, $suffix);
+}
+
+@include border-colors();
+@include border-colors('.' + selector-escape('hover:'), ':hover');
+@include border-colors('.' + selector-escape('active:'), '.is-active');
+@include border-colors('.' + selector-escape('focus:'), ':focus');
+@include border-colors('.' + selector-escape('disabled:'), '.is-disabled');
+@include border-colors('.group:hover .' + selector-escape('group-hover:'));
+
+@each $deivce in map-keys($devices) {
+  @include media-device($deivce) {
+    @include border-colors('.' + selector-escape($deivce + ':'));
+
+    @include border-colors(
+      '.' + selector-escape($deivce + ':') + selector-escape('hover:'),
+      ':hover'
+    );
+    @include border-colors(
+      '.' + selector-escape($deivce + ':') + selector-escape('active:'),
+      '.is-active'
+    );
+    @include border-colors(
+      '.' + selector-escape($deivce + ':') + selector-escape('focus:'),
+      ':focus'
+    );
+    @include border-colors(
+      '.' + selector-escape($deivce + ':') + selector-escape('disabled:'),
+      '.is-disabled'
+    );
+    @include border-colors(
+      '.group:hover .' + selector-escape($deivce + ':') +
+        selector-escape('group-hover:')
+    );
+  }
+}

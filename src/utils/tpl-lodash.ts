@@ -1,6 +1,6 @@
-import { registerTplEnginer, filter, Enginer } from './tpl';
+import {registerTplEnginer, filter, Enginer} from './tpl';
 import template from 'lodash/template';
-import { getFilters } from './tpl-builtin';
+import {getFilters} from './tpl-builtin';
 import React from 'react';
 import moment from 'moment';
 
@@ -25,6 +25,9 @@ const imports = {
     moment(value, inputFormat).format(format)
 };
 
+// 缓存一下提升性能
+const EVAL_CACHE: {[key: string]: Function} = {};
+
 function lodashCompile(str: string, data: object) {
   try {
     const filters = getFilters();
@@ -36,18 +39,20 @@ function lodashCompile(str: string, data: object) {
       ...imports
     };
     delete finnalImports.default; // default 是个关键字，不能 imports 到 lodash 里面去。
-    const fn = template(str, {
-      imports: finnalImports,
-      variable: 'data'
-    });
+    const fn =
+      EVAL_CACHE[str] ||
+      (EVAL_CACHE[str] = template(str, {
+        imports: finnalImports,
+        variable: 'data'
+      }));
 
-    return fn(data);
+    return fn.call(data, data);
   } catch (e) {
     return `<span class="text-danger">${e.message}</span>`;
   }
 }
 
-export function register(): Enginer & { name: string } {
+export function register(): Enginer & {name: string} {
   return {
     name: 'lodash',
     test: (str: string) => !!~str.indexOf('<%'),

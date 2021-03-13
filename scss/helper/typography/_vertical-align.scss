@@ -1,0 +1,44 @@
+/*!markdown
+
+---
+title: Vertial Align
+---
+
+| Class       | Properties               |
+| ----------- | ------------------------ |
+| align-baseline | vertical-align: baseline |
+| align-top | vertical-align: top |
+| align-middle | vertical-align: middle |
+| align-bottom | vertical-align: bottom |
+| align-text-top | vertical-align: text-top |
+| align-text-bottom | vertical-align: text-bottom |
+
+
+
+*/
+@mixin make-vertical-align($prefix: '.') {
+  @each $name,
+    $value
+      in (
+        'baseline': baseline,
+        'top': top,
+        'middle': middle,
+        'bottom': bottom,
+        'text-top': text-top,
+        'text-bottom': text-bottom
+      )
+  {
+    #{$prefix}align-#{$name} {
+      vertical-align: $value;
+    }
+  }
+}
+
+@include make-vertical-align();
+@each $deivce in map-keys($devices) {
+  @include media-device($deivce) {
+    @include make-vertical-align('.' + selector-escape($deivce + ':'));
+  }
+}
+
+// hover ?

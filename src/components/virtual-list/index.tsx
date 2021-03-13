@@ -345,7 +345,7 @@ export default class VirtualList extends React.PureComponent<Props, State> {
 
     if (typeof start !== 'undefined' && typeof stop !== 'undefined') {
       for (let index = start; index <= stop; index++) {
-        if (stickyIndices != null && stickyIndices.includes(index)) {
+        if (stickyIndices != null && ~stickyIndices.indexOf(index)) {
           continue;
         }
 

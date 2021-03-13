@@ -1,4 +1,5 @@
 import React from 'react';
+import {match} from 'path-to-regexp';
 import makeSchemaRenderer from './SchemaRender';
 
 import SimplePageSchema from './Page/Simple';
@@ -16,6 +17,7 @@ import HintFormSchema from './Form/Hint';
 import FieldSetInTabsFormSchema from './Form/FieldSetInTabs';
 import ComboFormSchema from './Form/Combo';
 import ConditionBuilderSchema from './Form/ConditionBuilder';
+import StyleBuilderSchema from './Form/StyleBuilder';
 import SubFormSchema from './Form/SubForm';
 import RichTextSchema from './Form/RichText';
 import EditorSchema from './Form/Editor';
@@ -38,6 +40,7 @@ import FixedCrudSchema from './CRUD/Fix';
 import AsideCrudSchema from './CRUD/Aside';
 import FieldsCrudSchema from './CRUD/Fields';
 import JumpNextCrudSchema from './CRUD/JumpNext';
+import PopOverCrudSchema from './CRUD/PopOver';
 import KeyboardsCrudSchema from './CRUD/Keyboards';
 import FootableCrudSchema from './CRUD/Footable';
 import NestedCrudSchema from './CRUD/Nested';
@@ -45,6 +48,7 @@ import MergeCellSchema from './CRUD/MergeCell';
 import HeaderGroupSchema from './CRUD/HeaderGroup';
 import HeaderHideSchema from './CRUD/HeaderHide';
 import LoadOnceTableCrudSchema from './CRUD/LoadOnce';
+import ExportCSVExcelSchema from './CRUD/ExportCSVExcel';
 import SdkTest from './Sdk/Test';
 import JSONSchemaForm from './Form/Schem';
 import SimpleDialogSchema from './Dialog/Simple';
@@ -58,6 +62,7 @@ import OptionsPageSchema from './Linkage/Options';
 import OptionsLocalPageSchema from './Linkage/OptionsLocal';
 import WizardSchema from './Wizard';
 import ChartSchema from './Chart';
+import EChartsEditorSchema from './ECharts';
 import HorizontalSchema from './Horizontal';
 import VideoSchema from './Video';
 import AudioSchema from './Audio';
@@ -70,14 +75,17 @@ import IFrameSchema from './IFrame';
 
 import NormalTabSchema from './Tabs/Normal';
 import FormTabSchema from './Tabs/Form';
+import DynamicTabSchema from './Tabs/Dynamic';
 import Tab1Schema from './Tabs/Tab1';
 import Tab2Schema from './Tabs/Tab2';
 import Tab3Schema from './Tabs/Tab3';
 import TestComponent from './Test';
+import JSSDK from './JSSDK/index';
+import {normalizeLink} from '../../src/utils/normalizeLink';
 
 export const examples = [
   {
-    prefix: ({classnames: cx}) => <li className={cx('AsideNav-divider')} />,
+    // prefix: ({classnames: cx}) => <li className={cx('AsideNav-divider')} />,
     label: '示例',
     children: [
       {
@@ -237,6 +245,12 @@ export const examples = [
             label: '引用',
             path: '/examples/form/definitions',
             component: makeSchemaRenderer(Definitions)
+          },
+
+          {
+            label: '样式编辑',
+            path: '/examples/form/style-builder',
+            component: makeSchemaRenderer(StyleBuilderSchema)
           }
 
           // {
@@ -333,9 +347,19 @@ export const examples = [
             component: makeSchemaRenderer(JumpNextCrudSchema)
           },
           {
+            label: '列展示详情',
+            path: '/examples/crud/popover',
+            component: makeSchemaRenderer(PopOverCrudSchema)
+          },
+          {
             label: '一次性加载',
             path: '/examples/crud/load-once',
             component: makeSchemaRenderer(LoadOnceTableCrudSchema)
+          },
+          {
+            label: '导出 Excel/CSV',
+            path: '/examples/crud/export-excel-csv',
+            component: makeSchemaRenderer(ExportCSVExcelSchema)
           }
           // {
           //     label: '测试',
@@ -376,6 +400,12 @@ export const examples = [
             label: '表单中选项卡分组',
             path: '/examples/tabs/form',
             component: makeSchemaRenderer(FormTabSchema)
+          },
+
+          {
+            label: '动态选项卡',
+            path: '/examples/tabs/dynamic',
+            component: makeSchemaRenderer(DynamicTabSchema)
           },
           {
             label: '选项卡页面1',
@@ -474,6 +504,13 @@ export const examples = [
         path: '/examples/chart',
         component: makeSchemaRenderer(ChartSchema)
       },
+
+      {
+        label: 'ECharts 编辑器',
+        icon: 'fa fa-bar-chart',
+        path: '/examples/echarts',
+        component: makeSchemaRenderer(EChartsEditorSchema)
+      },
       {
         label: '轮播图',
         icon: 'fa fa-pause',
@@ -510,6 +547,38 @@ export const examples = [
         icon: 'fa fa-rocket',
         path: '/examples/sdk',
         component: SdkTest
+      },
+
+      {
+        label: 'JSSDK',
+        icon: 'fa fa-cubes',
+        path: '/examples/jssdk',
+        component: makeSchemaRenderer(JSSDK, false, {
+          session: 'jssdk',
+          jumpTo: (to: string) => {
+            location.hash = to;
+          },
+          isCurrentUrl: (to: string, ctx: any) => {
+            if (!to) {
+              return false;
+            }
+            const pathname = location.hash ? location.hash.substring(1) : '/';
+            const link = normalizeLink(to, {
+              ...location,
+              pathname,
+              hash: ''
+            });
+
+            if (!~link.indexOf('http') && ~link.indexOf(':')) {
+              return match(link, {
+                decode: decodeURIComponent,
+                strict: ctx?.strict ?? true
+              })(pathname);
+            }
+
+            return pathname === link;
+          }
+        })
       }
 
       // {
@@ -538,7 +607,9 @@ export default class Example extends React.PureComponent {
           ...this.props.children.props,
           theme: this.props.theme,
           classPrefix: this.props.classPrefix,
-          locale: this.props.locale
+          locale: this.props.locale,
+          viewMode: this.props.viewMode,
+          offScreen: this.props.offScreen
         })}
       </>
     );

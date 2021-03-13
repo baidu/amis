@@ -5,8 +5,8 @@ import cx from 'classnames';
 import TooltipWrapper from '../components/TooltipWrapper';
 import {filter} from '../utils/tpl';
 import {themeable} from '../theme';
-import {Icon} from '../components/icons';
-import {BaseSchema, SchemaIcon, SchemaTpl} from '../Schema';
+import {hasIcon, Icon} from '../components/icons';
+import {BaseSchema, SchemaClassName, SchemaIcon, SchemaTpl} from '../Schema';
 
 /**
  * 提示渲染器，默认会显示个小图标，鼠标放上来的时候显示配置的内容。
@@ -17,7 +17,11 @@ export interface RemarkSchema extends BaseSchema {
    */
   type: 'remark';
 
+  label?: string;
+
   icon?: SchemaIcon;
+
+  tooltipClassName?: SchemaClassName;
 
   /**
    * 触发规则
@@ -51,7 +55,7 @@ export function filterContents(
   tooltip:
     | string
     | undefined
-    | {title?: string; content?: string; body?: string},
+    | {title?: string; render?: any; content?: string; body?: string},
   data: any
 ) {
   if (typeof tooltip === 'string') {
@@ -59,6 +63,7 @@ export function filterContents(
   } else if (tooltip) {
     return tooltip.title
       ? {
+          render: tooltip.render ? () => tooltip.render(data) : undefined,
           title: filter(tooltip.title, data),
           content:
             tooltip.content || tooltip.body
@@ -72,7 +77,9 @@ export function filterContents(
   return tooltip;
 }
 
-export interface RemarkProps extends RendererProps, RemarkSchema {
+export interface RemarkProps
+  extends RendererProps,
+    Omit<RemarkSchema, 'type' | 'className'> {
   icon: string;
   trigger: Array<'hover' | 'click' | 'focus'>;
 }
@@ -88,6 +95,7 @@ class Remark extends React.Component<RemarkProps> {
     const {
       className,
       icon,
+      label,
       tooltip,
       placement,
       rootClose,
@@ -96,36 +104,50 @@ class Remark extends React.Component<RemarkProps> {
       classPrefix: ns,
       classnames: cx,
       content,
-      data
+      data,
+      env,
+      tooltipClassName
     } = this.props;
 
-    const finalIcon = (tooltip && tooltip.icon) || icon;
+    const finalIcon = tooltip?.icon ?? icon;
+    const finalLabel = tooltip?.label ?? label;
 
     return (
-      <div
-        className={cx(
-          `Remark`,
-          (tooltip && tooltip.className) || className || `Remark--warning`
-        )}
+      <TooltipWrapper
+        classPrefix={ns}
+        classnames={cx}
+        tooltip={filterContents(tooltip || content, data)}
+        tooltipClassName={
+          (tooltip && tooltip.tooltipClassName) || tooltipClassName
+        }
+        placement={(tooltip && tooltip.placement) || placement}
+        rootClose={(tooltip && tooltip.rootClose) || rootClose}
+        trigger={(tooltip && tooltip.trigger) || trigger}
+        container={container || env.getModalContainer}
+        delay={tooltip && tooltip.delay}
       >
-        <TooltipWrapper
-          classPrefix={ns}
-          classnames={cx}
-          tooltip={filterContents(tooltip || content, data)}
-          tooltipClassName={tooltip && tooltip.tooltipClassName}
-          placement={(tooltip && tooltip.placement) || placement}
-          rootClose={(tooltip && tooltip.rootClose) || rootClose}
-          trigger={(tooltip && tooltip.trigger) || trigger}
-          container={container}
-          delay={tooltip && tooltip.delay}
-        >
-          {finalIcon ? (
-            <i className={cx('Remark-icon', finalIcon)} />
-          ) : (
-            <Icon icon="question" className="icon" />
+        <div
+          className={cx(
+            `Remark`,
+            (tooltip && tooltip.className) || className || `Remark--warning`
           )}
-        </TooltipWrapper>
-      </div>
+        >
+          {finalLabel ? <span>{finalLabel}</span> : null}
+          {finalIcon ? (
+            hasIcon(finalIcon) ? (
+              <span className={cx('Remark-icon')}>
+                <Icon icon={finalIcon} />
+              </span>
+            ) : (
+              <i className={cx('Remark-icon', finalIcon)} />
+            )
+          ) : finalIcon === false && finalLabel ? null : (
+            <span className={cx('Remark-icon icon')}>
+              <Icon icon="question-mark" />
+            </span>
+          )}
+        </div>
+      </TooltipWrapper>
     );
   }
 }

@@ -23,7 +23,9 @@ import {ActionSchema} from './Action';
  * Drawer 抽出式弹框。
  * 文档：https://baidu.gitee.io/amis/docs/components/drawer
  */
-export interface DrawerSchema extends Omit<BaseSchema, 'type'> {
+export interface DrawerSchema extends BaseSchema {
+  type: 'drawer';
+
   /**
    * 默认不用填写，自动会创建确认和取消按钮。
    */
@@ -90,9 +92,18 @@ export interface DrawerSchema extends Omit<BaseSchema, 'type'> {
    * 点击外部的时候是否关闭弹框。
    */
   closeOnOutside?: boolean;
+
+  /**
+   * 是否显示错误信息
+   */
+  showErrorMsg?: boolean;
 }
 
-export interface DrawerProps extends RendererProps, DrawerSchema {
+export type DrawerSchemaBase = Omit<DrawerSchema, 'type'>;
+
+export interface DrawerProps
+  extends RendererProps,
+    Omit<DrawerSchema, 'className'> {
   onClose: () => void;
   onConfirm: (
     values: Array<object>,
@@ -122,7 +133,8 @@ export default class Drawer extends React.Component<DrawerProps, object> {
     'resizable',
     'overlay',
     'body',
-    'popOverContainer'
+    'popOverContainer',
+    'showErrorMsg'
   ];
   static defaultProps: Partial<DrawerProps> = {
     title: '',
@@ -131,7 +143,8 @@ export default class Drawer extends React.Component<DrawerProps, object> {
     position: 'right',
     resizable: false,
     overlay: true,
-    closeOnEsc: false
+    closeOnEsc: false,
+    showErrorMsg: true
   };
 
   reaction: any;
@@ -192,14 +205,14 @@ export default class Drawer extends React.Component<DrawerProps, object> {
     ret.push({
       type: 'button',
       actionType: 'close',
-      label: __('取消')
+      label: __('cancle')
     });
 
     if (confirm) {
       ret.push({
         type: 'button',
         actionType: 'confirm',
-        label: __('确认'),
+        label: __('confirm'),
         primary: true
       });
     }
@@ -370,14 +383,14 @@ export default class Drawer extends React.Component<DrawerProps, object> {
       return null;
     }
 
-    const {store, render, classnames: cx} = this.props;
+    const {store, render, classnames: cx, showErrorMsg} = this.props;
 
     return (
       <div className={cx('Drawer-footer')}>
         {store.loading || store.error ? (
           <div className={cx('Drawer-info')}>
             <Spinner size="sm" key="info" show={store.loading} />
-            {store.error ? (
+            {showErrorMsg && store.error ? (
               <span className={cx('Drawer-error')}>{store.msg}</span>
             ) : null}
           </div>
@@ -742,6 +755,10 @@ export class DrawerRenderer extends Drawer {
     } else if (action.actionType === 'reload') {
       store.setCurrentAction(action);
       action.target && scoped.reload(action.target, data);
+      if (action.close) {
+        this.handleSelfClose();
+        this.closeTarget(action.close);
+      }
     } else if (this.tryChildrenToHandle(action, data)) {
       // do nothing
     } else if (action.actionType === 'ajax') {

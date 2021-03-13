@@ -1,46 +1,46 @@
 .#{$ns}ArrayInput {
   &-placeholder {
-    color: $text--muted-color;
-    padding-top: $Form-label-paddingTop;
+    color: var(--text--muted-color);
+    padding-top: var(--Form-label-paddingTop);
   }
 
   &-addBtn {
     > svg {
-      width: $Combo-addBtn-fontSize;
-      height: $Combo-addBtn-fontSize;
+      width: var(--Combo-addBtn-fontSize);
+      height: var(--Combo-addBtn-fontSize);
     }
 
-    font-size: $Combo-addBtn-fontSize;
+    font-size: var(--Combo-addBtn-fontSize);
 
     @include button-size(
-      $Combo-addBtn-paddingY,
-      $Combo-addBtn-paddingX,
-      $Combo-addBtn-fontSize,
-      $Combo-addBtn-lineHeight,
-      $Combo-addBtn-borderRadius,
-      $Combo-addBtn-height
+      var(--Combo-addBtn-paddingY),
+      var(--Combo-addBtn-paddingX),
+      var(--Combo-addBtn-fontSize),
+      var(--Combo-addBtn-lineHeight),
+      var(--Combo-addBtn-borderRadius),
+      var(--Combo-addBtn-height)
     );
 
     @include button-variant(
-      $Combo-addBtn-bg,
-      $Combo-addBtn-border,
-      $Combo-addBtn-color,
-      $Combo-addBtn-onHover-bg,
-      $Combo-addBtn-onHover-border,
-      $Combo-addBtn-onHover-color,
-      $Combo-addBtn-onActive-bg,
-      $Combo-addBtn-onActive-border,
-      $Combo-addBtn-onActive-color
+      var(--Combo-addBtn-bg),
+      var(--Combo-addBtn-border),
+      var(--Combo-addBtn-color),
+      var(--Combo-addBtn-onHover-bg),
+      var(--Combo-addBtn-onHover-border),
+      var(--Combo-addBtn-onHover-color),
+      var(--Combo-addBtn-onActive-bg),
+      var(--Combo-addBtn-onActive-border),
+      var(--Combo-addBtn-onActive-color)
     );
 
     &.is-disabled {
       pointer-events: none;
-      opacity: $Button-onDisabled-opacity;
+      opacity: var(--Button-onDisabled-opacity);
     }
   }
 
   &-toolbar {
-    margin-top: $gap-sm;
+    margin-top: var(--gap-sm);
 
     &--dnd {
       padding-left: 29px;
@@ -52,23 +52,23 @@
   }
 
   &-sortTip {
-    color: $text--muted-color;
+    color: var(--text--muted-color);
   }
 
   &-item {
     display: flex;
     flex-direction: row;
     align-items: flex-start;
-    margin-bottom: $gap-xs;
+    margin-bottom: var(--gap-xs);
 
     > div {
       flex-grow: 1;
       width: 0;
       min-width: 120px;
-      margin-right: $gap-xs;
+      margin-right: var(--gap-xs);
 
       &:not(:first-child) {
-        margin-left: $gap-xs;
+        margin-left: var(--gap-xs);
       }
     }
 
@@ -83,15 +83,15 @@
     margin: 0;
     flex-grow: unset;
     display: inline-block;
-    padding: $Form-label-paddingTop $gap-xs;
+    padding: var(--Form-label-paddingTop) var(--gap-xs);
     cursor: pointer;
 
     > svg {
-      color: $icon-color;
+      color: var(--icon-color);
     }
 
     &:hover > svg {
-      color: $icon-onHover-color;
+      color: var(--icon-onHover-color);
     }
   }
 

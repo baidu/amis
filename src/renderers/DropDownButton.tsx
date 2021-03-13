@@ -3,16 +3,12 @@ import {Renderer, RendererProps} from '../factory';
 import {RootCloseWrapper} from 'react-overlays';
 import Overlay from '../components/Overlay';
 import PopOver from '../components/PopOver';
-import cx from 'classnames';
-import {isVisible, noop} from '../utils/helper';
+import TooltipWrapper from '../components/TooltipWrapper';
+import type {TooltipObject, Trigger} from '../components/TooltipWrapper';
+import {isDisabled, isVisible, noop} from '../utils/helper';
 import {filter} from '../utils/tpl';
 import {Icon} from '../components/icons';
-import {
-  BaseSchema,
-  SchemaClassName,
-  SchemaExpression,
-  SchemaTooltip
-} from '../Schema';
+import {BaseSchema, SchemaClassName} from '../Schema';
 import {ActionSchema} from './Action';
 import {DividerSchema} from './Divider';
 
@@ -54,7 +50,7 @@ export interface DropdownButtonSchema extends BaseSchema {
   /**
    * 按钮提示文字，hover 时显示
    */
-  tooltip?: SchemaTooltip;
+  // tooltip?: SchemaTooltip;
 
   /**
    * 点击外部是否关闭
@@ -84,7 +80,16 @@ export interface DropdownButtonSchema extends BaseSchema {
 
 export interface DropDownButtonProps
   extends RendererProps,
-    Omit<DropdownButtonSchema, 'type'> {
+    Omit<DropdownButtonSchema, 'type' | 'className'> {
+  disabledTip?: string | TooltipObject;
+  /**
+   * 按钮提示文字，hover focus 时显示
+   */
+  tooltip?: string | TooltipObject;
+  placement?: 'top' | 'right' | 'bottom' | 'left';
+  tooltipContainer?: any;
+  tooltipTrigger?: Trigger | Array<Trigger>;
+  tooltipRootClose?: boolean;
   defaultIsOpened?: boolean;
   label?: any;
 }
@@ -101,7 +106,14 @@ export default class DropDownButton extends React.Component<
     isOpened: false
   };
 
-  static defaultProps = {};
+  static defaultProps: Pick<
+    DropDownButtonProps,
+    'placement' | 'tooltipTrigger' | 'tooltipRootClose'
+  > = {
+    placement: 'top',
+    tooltipTrigger: ['hover', 'focus'],
+    tooltipRootClose: false
+  };
 
   target: any;
   constructor(props: DropDownButtonProps) {
@@ -179,7 +191,10 @@ export default class DropDownButton extends React.Component<
                 }
 
                 return (
-                  <li key={index}>
+                  <li
+                    key={index}
+                    className={isDisabled(button, data) ? 'is-disabled' : ''}
+                  >
                     {render(`button/${index}`, {
                       type: 'button',
                       ...(button as any),
@@ -201,7 +216,7 @@ export default class DropDownButton extends React.Component<
             onHide={this.close}
             classPrefix={ns}
             className={cx('DropDown-popover')}
-            style={{minWidth: this.target?.offsetWidth}}
+            style={{minWidth: this.target?.getBoundingClientRect().width}}
           >
             {body}
           </PopOver>
@@ -214,6 +229,12 @@ export default class DropDownButton extends React.Component<
 
   render() {
     const {
+      tooltip,
+      placement,
+      tooltipContainer,
+      tooltipTrigger,
+      tooltipRootClose,
+      disabledTip,
       block,
       disabled,
       btnDisabled,
@@ -238,38 +259,45 @@ export default class DropDownButton extends React.Component<
         })}
         ref={this.domRef}
       >
-        <button
-          onClick={this.toogle}
-          disabled={disabled || btnDisabled}
-          className={cx(
-            'Button',
-            className,
-            typeof level === 'undefined'
-              ? 'Button--default'
-              : level
-              ? `Button--${level}`
-              : '',
-            {
-              'Button--block': block,
-              'Button--primary': primary,
-              'Button--iconOnly': iconOnly
-            },
-            size ? `Button--${size}` : ''
-          )}
+        <TooltipWrapper
+          placement={placement}
+          tooltip={disabled ? disabledTip : tooltip}
+          container={tooltipContainer}
+          trigger={tooltipTrigger}
+          rootClose={tooltipRootClose}
         >
-          {icon ? (
-            typeof icon === 'string' ? (
-              <i className={cx(icon, 'm-r-xs')} />
-            ) : (
-              icon
-            )
-          ) : null}
-          {typeof label === 'string' ? filter(label, data) : label}
-          <span className={cx('DropDown-caret')}>
-            <Icon icon="caret" className="icon" />
-          </span>
-        </button>
-
+          <button
+            onClick={this.toogle}
+            disabled={disabled || btnDisabled}
+            className={cx(
+              'Button',
+              className,
+              typeof level === 'undefined'
+                ? 'Button--default'
+                : level
+                ? `Button--${level}`
+                : '',
+              {
+                'Button--block': block,
+                'Button--primary': primary,
+                'Button--iconOnly': iconOnly
+              },
+              size ? `Button--${size}` : ''
+            )}
+          >
+            {icon ? (
+              typeof icon === 'string' ? (
+                <i className={cx(icon, 'm-r-xs')} />
+              ) : (
+                icon
+              )
+            ) : null}
+            {typeof label === 'string' ? filter(label, data) : label}
+            <span className={cx('DropDown-caret')}>
+              <Icon icon="caret" className="icon" />
+            </span>
+          </button>
+        </TooltipWrapper>
         {this.state.isOpened ? this.renderOuter() : null}
       </div>
     );

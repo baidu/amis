@@ -19,7 +19,9 @@
     padding: 0;
     border: none;
     width: 100%;
-    margin-top: $Form-select-popoverGap - $Form-select-outer-borderWidth;
+    margin-top: calc(
+      var(--Form-select-popoverGap) - var(--Form-select-outer-borderWidth)
+    );
 
     &.#{$ns}PopOver--leftBottomLeftTop {
       top: 100% !important;
@@ -32,46 +34,46 @@
   }
 
   &-sug {
-    margin-top: $Form-input-marginBottom;
+    margin-top: var(--Form-input-marginBottom);
 
     &Tip {
-      color: $TagControl-sugTip-color;
-      margin-bottom: $Form-input-marginBottom;
+      color: var(--TagControl-sugTip-color);
+      margin-bottom: var(--Form-input-marginBottom);
     }
 
     &Item {
-      margin-right: $gap-sm;
-      margin-bottom: $gap-sm;
+      margin-right: var(--gap-sm);
+      margin-bottom: var(--gap-sm);
       display: inline-block;
-      font-size: $TagControl-sugBtn-fontSize;
+      font-size: var(--TagControl-sugBtn-fontSize);
       cursor: pointer;
       user-select: none;
-      border: $TagControl-sugBtn-borderWidth solid transparent;
+      border: var(--TagControl-sugBtn-borderWidth) solid transparent;
 
       @include button-size(
-        $TagControl-sugBtn-paddingY,
-        $TagControl-sugBtn-paddingX,
-        $TagControl-sugBtn-fontSize,
-        $TagControl-sugBtn-lineHeight,
-        $TagControl-sugBtn-borderRadius,
-        $TagControl-sugBtn-height
+        var(--TagControl-sugBtn-paddingY),
+        var(--TagControl-sugBtn-paddingX),
+        var(--TagControl-sugBtn-fontSize),
+        var(--TagControl-sugBtn-lineHeight),
+        var(--TagControl-sugBtn-borderRadius),
+        var(--TagControl-sugBtn-height)
       );
 
       @include button-variant(
-        $TagControl-sugBtn-bg,
-        $TagControl-sugBtn-border,
-        $TagControl-sugBtn-color,
-        $TagControl-sugBtn-onHover-bg,
-        $TagControl-sugBtn-onHover-border,
-        $TagControl-sugBtn-onHover-color,
-        $TagControl-sugBtn-onActive-bg,
-        $TagControl-sugBtn-onActive-border,
-        $TagControl-sugBtn-onActive-color
+        var(--TagControl-sugBtn-bg),
+        var(--TagControl-sugBtn-border),
+        var(--TagControl-sugBtn-color),
+        var(--TagControl-sugBtn-onHover-bg),
+        var(--TagControl-sugBtn-onHover-border),
+        var(--TagControl-sugBtn-onHover-color),
+        var(--TagControl-sugBtn-onActive-bg),
+        var(--TagControl-sugBtn-onActive-border),
+        var(--TagControl-sugBtn-onActive-color)
       );
 
       &.is-disabled {
         pointer-events: none;
-        opacity: $Button-onDisabled-opacity;
+        opacity: var(--Button-onDisabled-opacity);
       }
     }
   }

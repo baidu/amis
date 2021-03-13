@@ -30,6 +30,7 @@ export type MenuItem = {
   disabled?: boolean;
   children?: Array<MenuItem | MenuDivider>;
   data?: any;
+  className?: string;
   onSelect?: (data: any) => void;
   onHighlight?: (isHiglight: boolean, data: any) => void;
 };
@@ -42,6 +43,7 @@ interface ContextMenuState {
   x: number;
   y: number;
   align?: 'left' | 'right';
+  onClose?: () => void;
 }
 
 export class ContextMenu extends React.Component<
@@ -89,23 +91,32 @@ export class ContextMenu extends React.Component<
   }
 
   @autobind
-  openContextMenus(info: {x: number; y: number}, menus: Array<MenuItem>) {
+  openContextMenus(
+    info: {x: number; y: number},
+    menus: Array<MenuItem>,
+    onClose?: () => void
+  ) {
     this.setState({
       isOpened: true,
       x: info.x,
       y: info.y,
-      menus: menus
+      menus: menus,
+      onClose
     });
   }
 
   @autobind
   close() {
-    this.setState({
-      isOpened: false,
-      x: -99999,
-      y: -99999,
-      menus: []
-    });
+    const onClose = this.state.onClose;
+    this.setState(
+      {
+        isOpened: false,
+        x: -99999,
+        y: -99999,
+        menus: []
+      },
+      onClose
+    );
   }
 
   @autobind
@@ -124,6 +135,7 @@ export class ContextMenu extends React.Component<
   }
 
   handleClick(item: MenuItem) {
+    const onClose = this.state.onClose;
     item.disabled ||
       (Array.isArray(item.children) && item.children.length) ||
       this.setState(
@@ -133,7 +145,10 @@ export class ContextMenu extends React.Component<
           y: -99999,
           menus: []
         },
-        () => (item.onSelect ? item.onSelect(item.data) : null)
+        () => {
+          item.onSelect?.(item.data);
+          onClose?.();
+        }
       );
   }
 
@@ -190,7 +205,7 @@ export class ContextMenu extends React.Component<
       return (
         <li
           key={`${item.label}-${index}`}
-          className={cx('ContextMenu-item', {
+          className={cx('ContextMenu-item', item.className, {
             'has-child': hasChildren,
             'is-disabled': item.disabled
           })}
@@ -264,7 +279,8 @@ export default ThemedContextMenu;
 
 export function openContextMenus(
   info: Event | {x: number; y: number},
-  menus: Array<MenuItem | MenuDivider>
+  menus: Array<MenuItem | MenuDivider>,
+  onClose?: () => void
 ) {
-  return ContextMenu.getInstance().openContextMenus(info, menus);
+  return ContextMenu.getInstance().openContextMenus(info, menus, onClose);
 }

@@ -35,7 +35,14 @@ export interface ListControlSchema extends FormOptionsControl {
 
 export interface ListProps
   extends OptionsControlProps,
-    Omit<ListControlSchema, 'type' | 'options'> {}
+    Omit<
+      ListControlSchema,
+      | 'type'
+      | 'options'
+      | 'className'
+      | 'descriptionClassName'
+      | 'inputClassName'
+    > {}
 
 export default class ListControl extends React.Component<ListProps, any> {
   static propsList = ['itemSchema', 'value', 'renderFormItems'];
@@ -57,14 +64,7 @@ export default class ListControl extends React.Component<ListProps, any> {
       return;
     }
 
-    const {onToggle, multiple, autoFill, onBulkChange} = this.props;
-
-    const sendTo =
-      !multiple &&
-      autoFill &&
-      !isEmpty(autoFill) &&
-      dataMapping(autoFill, option as Option);
-    sendTo && onBulkChange(sendTo);
+    const {onToggle} = this.props;
 
     onToggle(option);
   }
@@ -130,7 +130,7 @@ export default class ListControl extends React.Component<ListProps, any> {
                     ) : null,
                     option[labelField || 'label'] ? (
                       <div key="label" className={cx('ListControl-itemLabel')}>
-                        {option[labelField || 'label']}
+                        {String(option[labelField || 'label'])}
                       </div>
                     ) : null
                     // {/* {option.tip ? (<div className={`${ns}ListControl-tip`}>{option.tip}</div>) : null} */}

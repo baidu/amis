@@ -19,7 +19,7 @@ import {Api} from '../../types';
 import {isEffectiveApi} from '../../utils/api';
 import Spinner from '../../components/Spinner';
 import ResultBox from '../../components/ResultBox';
-import {autobind} from '../../utils/helper';
+import {autobind, getTreeAncestors} from '../../utils/helper';
 import {findDOMNode} from 'react-dom';
 
 /**
@@ -86,8 +86,8 @@ export default class TreeSelectControl extends React.Component<
   TreeSelectState
 > {
   static defaultProps = {
-    placeholder: '请选择',
-    optionsPlaceholder: '暂无数据',
+    placeholder: 'Select.placeholder',
+    optionsPlaceholder: 'placeholder.noData',
     multiple: false,
     clearable: true,
     rootLabel: '顶级',
@@ -409,8 +409,15 @@ export default class TreeSelectControl extends React.Component<
 
   @autobind
   renderItem(item: Option) {
-    const {labelField} = this.props;
-    return item[labelField || 'label'];
+    const {labelField, options} = this.props;
+
+    // 将所有祖先节点也展现出来
+    const ancestors = getTreeAncestors(options, item, true);
+    return `${
+      ancestors
+        ? ancestors.map(item => `${item[labelField || 'label']}`).join(' / ')
+        : item[labelField || 'label']
+    }`;
   }
 
   renderOuter() {
@@ -459,7 +466,9 @@ export default class TreeSelectControl extends React.Component<
           classPrefix={ns}
           className={`${ns}TreeSelect-popover`}
           style={{
-            minWidth: this.target ? this.target.offsetWidth : undefined
+            minWidth: this.target
+              ? this.target.getBoundingClientRect().width
+              : undefined
           }}
           onHide={this.close}
           overlay

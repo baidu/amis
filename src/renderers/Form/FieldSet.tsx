@@ -18,9 +18,24 @@ export interface FieldSetControlSchema
   type: 'fieldset' | 'fieldSet';
 
   /**
+   * 标题展示位置
+   */
+  titlePosition: 'top' | 'bottom';
+
+  /**
    * 表单项集合
    */
   controls?: Array<FormControlSchema>;
+
+  /**
+   * 是否可折叠
+   */
+  collapsable?: boolean;
+
+  /**
+   * 默认是否折叠
+   */
+  collapsed?: boolean;
 
   /**
    * 内容区域
@@ -31,11 +46,29 @@ export interface FieldSetControlSchema
    * 标题
    */
   title?: SchemaTpl;
+
+  /**
+   * 收起的标题
+   */
+  collapseTitle?: SchemaTpl;
+
+  /**
+   * 点开时才加载内容
+   */
+  mountOnEnter?: boolean;
+
+  /**
+   * 卡片隐藏就销毁内容。
+   */
+  unmountOnExit?: boolean;
 }
 
 export interface FieldSetProps
   extends RendererProps,
-    Omit<FieldSetControlSchema, 'type'> {}
+    Omit<
+      FieldSetControlSchema,
+      'type' | 'className' | 'descriptionClassName' | 'inputClassName'
+    > {}
 
 export default class FieldSetControl extends React.Component<
   FieldSetProps,
@@ -47,6 +80,7 @@ export default class FieldSetControl extends React.Component<
   }
 
   static defaultProps = {
+    titlePosition: 'top',
     headingClassName: '',
     collapsable: false
   };
@@ -87,11 +121,7 @@ export default class FieldSetControl extends React.Component<
           formClassName
         )}
       >
-        {renderFormItems(
-          {controls},
-          ($path as string).replace(/^.*form\//, ''),
-          props
-        )}
+        {renderFormItems({controls}, 'controls', props)}
       </div>
     );
   }
@@ -106,7 +136,7 @@ export default class FieldSetControl extends React.Component<
         className={className}
         children={this.renderBody}
         wrapperComponent="fieldset"
-        headingComponent="legend"
+        headingComponent={rest.titlePosition === 'bottom' ? 'div' : 'legend'}
       />
     );
   }

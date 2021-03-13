@@ -102,6 +102,9 @@ import ZoomOutIcon from '../icons/zoom-out.svg';
 import QuestionIcon from '../icons/question.svg';
 
 // @ts-ignore
+import QuestionMarkIcon from '../icons/question-mark.svg';
+
+// @ts-ignore
 import WindowRestoreIcon from '../icons/window-restore.svg';
 
 // @ts-ignore
@@ -109,6 +112,9 @@ import InfoCircleIcon from '../icons/info-circle.svg';
 
 // @ts-ignore
 import WarningIcon from '../icons/warning.svg';
+
+// @ts-ignore
+import WarningMarkIcon from '../icons/warning-mark.svg';
 
 // @ts-ignore
 import ScheduleIcon from '../icons/schedule.svg';
@@ -167,6 +173,10 @@ export function getIcon(key: string) {
   return iconFactory[key];
 }
 
+export function hasIcon(iconName: string) {
+  return !!getIcon(iconName);
+}
+
 export function registerIcon(key: string, component: React.ReactType<{}>) {
   iconFactory[key] = component;
 }
@@ -196,6 +206,7 @@ registerIcon('file', FileIcon);
 registerIcon('success', SuccessIcon);
 registerIcon('fail', FailIcon);
 registerIcon('warning', WarningIcon);
+registerIcon('warning-mark', WarningMarkIcon);
 registerIcon('search', SearchIcon);
 registerIcon('back', BackIcon);
 registerIcon('move', MoveIcon);
@@ -215,6 +226,7 @@ registerIcon('right-arrow-bold', RightArrowBoldIcon);
 registerIcon('zoom-in', ZoomInIcon);
 registerIcon('zoom-out', ZoomOutIcon);
 registerIcon('question', QuestionIcon);
+registerIcon('question-mark', QuestionMarkIcon);
 registerIcon('window-restore', WindowRestoreIcon);
 registerIcon('schedule', ScheduleIcon);
 registerIcon('home', HomeIcon);

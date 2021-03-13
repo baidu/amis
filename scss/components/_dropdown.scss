@@ -3,10 +3,10 @@
   display: inline-block;
 
   &-caret {
-    margin-left: $DropDown-caret-marginLeft;
+    margin-left: var(--DropDown-caret-marginLeft);
     display: inline-block;
     vertical-align: top;
-    transition: transform 0.2s ease;
+    transition: transform var(--animation-duration) ease;
 
     > svg {
       width: px2rem(10px);
@@ -33,13 +33,14 @@
     top: 100%;
     left: 0;
     margin: px2rem(1px) 0 0;
-    background-color: $DropDown-menu-bg;
+    background: var(--DropDown-menu-bg);
     list-style: none;
-    padding: $DropDown-menu-paddingY $DropDown-menu-paddingX;
-    border: $DropDown-menu-borderWidth solid $DropDown-menu-borderColor;
-    border-radius: $DropDown-menu-borderRadius;
-    box-shadow: $DropDown-menu-boxShadow;
-    min-width: $DropDown-menu-minWidth;
+    padding: var(--DropDown-menu-paddingY) var(--DropDown-menu-paddingX);
+    border: var(--DropDown-menu-borderWidth) solid
+      var(--DropDown-menu-borderColor);
+    border-radius: var(--DropDown-menu-borderRadius);
+    box-shadow: var(--DropDown-menu-boxShadow);
+    min-width: var(--DropDown-menu-minWidth);
     text-align: left;
   }
 
@@ -50,16 +51,20 @@
 
   &-menuItem,
   &-menu > li {
-    padding: $DropDown-menuItem-paddingY $DropDown-menuItem-paddingX;
+    padding: var(--DropDown-menuItem-paddingY) var(--DropDown-menuItem-paddingX);
     white-space: nowrap;
     box-sizing: border-box;
-    height: $DropDown-menu-height;
+    height: var(--DropDown-menu-height);
     vertical-align: middle;
     user-select: none;
 
     &:hover {
-      background-color: $DropDown-menuItem-onHover-bg;
-      color: $DropDown-menuItem-onHover-color;
+      background: var(--DropDown-menuItem-onHover-bg);
+      color: var(--DropDown-menuItem-onHover-color);
+    }
+
+    &.is-active {
+      color: var(--DropDown-menuItem-onActive-color);
     }
 
     &:not(.is-disabled),
@@ -67,16 +72,23 @@
       cursor: pointer;
     }
 
+    &.is-disabled {
+      cursor: not-allowed;
+      pointer-events: none;
+      color: var(--DropDown-menuItem-onDisabled-color);
+    }
+
     &.#{$ns}DropDown-divider {
       height: px2rem(1px);
       margin: px2rem(9px) 0;
       overflow: hidden;
-      background-color: $DropDown-menu-borderColor;
+      background: var(--DropDown-menu-borderColor);
       padding: 0;
     }
   }
 
   &-menu > li a {
+    color: inherit;
     display: block;
     text-decoration: none;
   }

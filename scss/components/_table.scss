@@ -1,47 +1,73 @@
 .#{$ns}Table {
   position: relative;
-  background: $Table-bg;
-  border: $Table-borderWidth solid $Table-borderColor;
-  border-radius: $Table-borderRadius;
-  margin-bottom: $gap-md;
+  background: var(--Table-bg);
+  border: var(--Table-borderWidth) solid var(--Table-borderColor);
+  border-radius: var(--Table-borderRadius);
+  margin-bottom: var(--gap-md);
 
   .#{$ns}Form-control > & {
-    margin-bottom: $gap-sm;
+    margin-bottom: var(--gap-sm);
   }
 
   &-fixedLeft,
   &-fixedRight {
     position: absolute;
-    background: $Table-bg;
-    z-index: 5;
-    top: -999999px;
-
-    &.in {
-      top: auto;
-    }
+    background: var(--Table-bg);
+    z-index: var(--Table-fixed-zIndex);
+    top: auto;
+    box-shadow: none;
   }
 
   &-fixedLeft {
-    box-shadow: $Table-fixedLeft-boxShadow;
+    // 还是改成默认不显示，footable 展示的时候，配置 固定列还没修复
     left: 0;
+    top: -99999px;
+
+    &.in {
+      box-shadow: var(--Table-fixedLeft-boxShadow);
+      top: auto;
+    }
+
+    & > .#{$ns}Table-table {
+      > thead > tr > th:last-child,
+      > tbody > tr > td:last-child {
+        padding-right: var(--TableCell-paddingX);
+      }
+
+      // > thead > tr > th:last-child {
+      //   border-right: var(--Table-thead-borderWidth) solid var(--Table-thead-borderColor);
+      // }
+    }
   }
 
   &-fixedRight {
-    box-shadow: $Table-fixedRight-boxShadow;
+    // 还是改成默认不显示，footable 展示的时候，配置 固定列还没修复
     right: 0;
+    top: -99999px;
 
-    .#{$ns}Table-table > thead > tr > th:first-child,
-    .#{$ns}Table-table > tbody > tr > td:first-child {
-      padding-left: $TableCell-paddingX;
+    &.in {
+      box-shadow: var(--Table-fixedRight-boxShadow);
+      top: auto;
+    }
+
+    & > .#{$ns}Table-table {
+      > thead > tr > th:first-child,
+      > tbody > tr > td:first-child {
+        padding-left: var(--TableCell-paddingX);
+      }
+
+      // > thead > tr > th:first-child {
+      //   border-left: var(--Table-thead-borderWidth) solid var(--Table-thead-borderColor);
+      // }
     }
   }
 
   &-fixedTop {
     position: absolute;
-    background: $Table-bg;
+    background: var(--Table-bg);
     z-index: -1;
     opacity: 0;
-    box-shadow: $Table-fixedTop-boxShadow;
+    box-shadow: var(--Table-fixedTop-boxShadow);
 
     &.in {
       position: fixed;
@@ -54,7 +80,7 @@
       z-index: $zindex-affix + 10;
       // box-shadow: none;
       background: transparent;
-      border-top: $Table-borderWidth solid $Table-borderColor;
+      border-top: var(--Table-borderWidth) solid var(--Table-borderColor);
 
       > table {
         margin-bottom: px2rem(5px);
@@ -66,7 +92,7 @@
     }
 
     > .#{$ns}Table-wrapper {
-      border-top: $Table-borderWidth solid $Table-borderColor;
+      border-top: var(--Table-borderWidth) solid var(--Table-borderColor);
     }
 
     &.is-fakeHide {
@@ -80,15 +106,20 @@
   }
 
   &-heading {
-    background: $Table-heading-bg;
-    border-bottom: $Table-borderWidth solid $Table-borderColor;
-    padding: ($Table-heading-height - $Table-fontSize * $lineHeightBase) / 2
-      $Table-toolbar-paddingX;
+    background: var(--Table-heading-bg);
+    border-bottom: var(--Table-borderWidth) solid var(--Table-borderColor);
+    padding: calc(
+        (
+            var(--Table-heading-height) - var(--Table-fontSize) *
+              var(--lineHeightBase)
+          ) / 2
+      )
+      var(--Table-toolbar-paddingX);
   }
 
   &--unsaved &-heading {
-    background: $Table--unsaved-heading-bg;
-    color: $Table--unsaved-heading-color;
+    background: var(--Table--unsaved-heading-bg);
+    color: var(--Table--unsaved-heading-color);
   }
 
   &-wrapper {
@@ -96,14 +127,14 @@
   }
 
   &-placeholder {
-    color: $text--muted-color;
+    color: var(--text--muted-color);
     text-align: center;
-    height: $Table-placeholder-height;
-    background-color: transparent !important;
+    height: var(--Table-placeholder-height);
+    background: transparent !important;
 
     &:hover {
-      color: $text--muted-color;
-      background-color: transparent !important;
+      color: var(--text--muted-color);
+      background: transparent !important;
     }
 
     > td {
@@ -113,19 +144,19 @@
   }
 
   &-header {
-    padding: $Table-toolbar-paddingY $Table-toolbar-paddingX;
+    padding: var(--Table-toolbar-paddingY) var(--Table-toolbar-paddingX);
 
     > * + .#{$ns}Button,
     > * + .#{$ns}ButtonGroup,
     > * + .#{$ns}ButtonToolbar {
-      margin-left: $Crud-toolbar-gap;
+      margin-left: var(--Crud-toolbar-gap);
     }
   }
 
   &-toolbar {
     @include clearfix();
     display: flex;
-    padding: $Table-toolbar-paddingY $Table-toolbar-paddingX;
+    padding: var(--Table-toolbar-paddingY) var(--Table-toolbar-paddingX);
     flex-wrap: wrap;
 
     .#{$ns}DropDown {
@@ -150,18 +181,18 @@
 
   &-header + &-contentWrap,
   &-toolbar + &-contentWrap {
-    border-top: $Table-borderWidth solid $Table-borderColor;
+    border-top: var(--Table-borderWidth) solid var(--Table-borderColor);
   }
 
   &-footToolbar {
-    border-top: $Table-borderWidth solid $Table-borderColor;
+    border-top: var(--Table-borderWidth) solid var(--Table-borderColor);
   }
 
   &-actions {
     display: inline-block;
 
     > * {
-      margin-right: $Crud-toolbar-gap;
+      margin-right: var(--Crud-toolbar-gap);
     }
   }
 
@@ -173,11 +204,11 @@
 
   &-table {
     width: 100%;
-    max-width: 100%;
+    min-width: 100%;
     margin-bottom: 0;
-    font-size: $Table-fontSize;
-    color: $Table-color;
-    background-color: $Table-bg;
+    font-size: var(--Table-fontSize);
+    color: var(--Table-color);
+    background: var(--Table-bg);
     border-spacing: 0;
     border-collapse: collapse;
 
@@ -185,11 +216,11 @@
       > thead > tr > th,
       > tbody > tr > td {
         &:first-child {
-          padding-left: $TableCell-paddingX !important;
+          padding-left: var(--TableCell-paddingX) !important;
         }
 
         &:last-child {
-          padding-right: $TableCell-paddingX !important;
+          padding-right: var(--TableCell-paddingX) !important;
         }
       }
 
@@ -197,12 +228,12 @@
       > tbody > tr {
         @if $Table-strip-bg !=transparent {
           &.#{$ns}Table-tr--odd {
-            background-color: transparent;
+            background: transparent;
           }
         }
 
         &:hover {
-          background-color: transparent;
+          background: transparent;
         }
 
         > td {
@@ -210,37 +241,40 @@
         }
 
         > td:not(:last-child) {
-          border-right: $Table-borderWidth solid $Table-borderColor;
+          border-right: var(--Table-borderWidth) solid var(--Table-borderColor);
         }
       }
     }
 
     > thead > tr {
       > th {
-        background-color: $Table-thead-bg;
+        background: var(--Table-thead-bg);
 
+        text-align: left;
         &[colspan] {
           text-align: center;
         }
 
-        padding: $TableCell-paddingY $TableCell-paddingX;
+        padding: var(--TableCell-paddingY) var(--TableCell-paddingX);
 
         &:first-child {
-          padding-left: $TableCell--edge-paddingX;
+          padding-left: var(--TableCell--edge-paddingX);
         }
 
         &:last-child {
-          padding-right: $TableCell--edge-paddingX;
+          padding-right: var(--TableCell--edge-paddingX);
         }
 
         &:not(:last-child) {
-          border-right: $Table-thead-borderWidth solid $Table-thead-borderColor;
+          border-right: var(--Table-thead-borderWidth) solid
+            var(--Table-thead-borderColor);
         }
-        border-bottom: $Table-thead-borderWidth solid $Table-thead-borderColor;
+        border-bottom: var(--Table-thead-borderWidth) solid
+          var(--Table-thead-borderColor);
 
-        font-size: $Table-thead-fontSize;
-        color: $Table-thead-color;
-        font-weight: $fontWeightNormal;
+        font-size: var(--Table-thead-fontSize);
+        color: var(--Table-thead-color);
+        font-weight: var(--fontWeightNormal);
         white-space: nowrap;
 
         // .#{$ns}TableCell--title {
@@ -248,89 +282,97 @@
         //   align-items: center;
         // }
         .#{$ns}Remark {
-          margin-left: $gap-xs;
+          margin-left: var(--gap-xs);
         }
       }
     }
 
     > thead > tr + tr {
-      border-top: $Table-borderWidth solid $Table-borderColor;
+      border-top: var(--Table-borderWidth) solid var(--Table-borderColor);
     }
 
     > thead > tr {
-      border-bottom: $Table-borderWidth solid $Table-borderColor;
+      border-bottom: var(--Table-borderWidth) solid var(--Table-borderColor);
     }
 
     > tbody > tr {
       & + tr {
-        border-top: $Table-borderWidth solid $Table-borderColor;
+        border-top: var(--Table-borderWidth) solid var(--Table-borderColor);
         > th {
-          border-top: $Table-thead-borderWidth solid $Table-thead-borderColor;
+          border-top: var(--Table-thead-borderWidth) solid
+            var(--Table-thead-borderColor);
         }
       }
 
       > th {
         text-align: left;
-        background-color: $Table-thead-bg;
-        // font-size: $Table-thead-fontSize;
-        color: $Table-thead-color;
-        font-weight: $fontWeightNormal;
+        background: var(--Table-thead-bg);
+        // font-size: var(--Table-thead-fontSize);
+        color: var(--Table-thead-color);
+        font-weight: var(--fontWeightNormal);
         white-space: nowrap;
-        border-right: $Table-thead-borderWidth solid $Table-thead-borderColor;
+        border-right: var(--Table-thead-borderWidth) solid
+          var(--Table-thead-borderColor);
       }
 
       > td,
       > th {
-        padding: $TableCell-paddingY $TableCell-paddingX;
+        padding: var(--TableCell-paddingY) var(--TableCell-paddingX);
         vertical-align: top;
 
         &:first-child {
-          padding-left: $TableCell--edge-paddingX;
+          padding-left: var(--TableCell--edge-paddingX);
         }
 
         &:last-child {
-          padding-right: $TableCell--edge-paddingX;
+          padding-right: var(--TableCell--edge-paddingX);
         }
       }
 
-      @if $Table-strip-bg !=transparent {
-        background-color: transparent;
+      @if var(--Table-strip-bg) !=transparent {
+        background: transparent;
 
         &.#{$ns}Table-tr--odd {
-          background-color: $Table-strip-bg;
+          background: var(--Table-strip-bg);
         }
       }
 
       &:hover,
       &.is-hovered {
-        background-color: $Table-onHover-bg;
-        border-color: $Table-onHover-borderColor;
-        color: $Table-onHover-color;
+        background: var(--Table-onHover-bg);
+        border-color: var(--Table-onHover-borderColor);
+        color: var(--Table-onHover-color);
 
         & + tr {
-          border-color: $Table-onHover-borderColor;
+          border-color: var(--Table-onHover-borderColor);
         }
       }
 
       &.is-checked {
-        background-color: $Table-onChecked-bg;
-        border-color: $Table-onChecked-borderColor;
-        color: $Table-onChecked-color;
+        background: var(--Table-onChecked-bg);
+        border-color: var(--Table-onChecked-borderColor);
+        color: var(--Table-onChecked-color);
 
         & + tr {
-          border-color: $Table-onChecked-borderColor;
+          border-color: var(--Table-onChecked-borderColor);
         }
       }
 
       &.is-moved,
       &.is-modified {
-        background-color: $Table-onModified-bg;
-        border-color: $Table-onModified-borderColor;
-        color: $Table-onModified-color;
+        background: var(--Table-onModified-bg);
+        border-color: var(--Table-onModified-borderColor);
+        color: var(--Table-onModified-color);
 
         & + tr {
-          border-color: $Table-onModified-borderColor;
+          border-color: var(--Table-onModified-borderColor);
         }
+      }
+
+      &.is-summary {
+        background: var(--Table-thead-bg);
+        color: var(--Table-thead-color);
+        font-weight: var(--fontWeightNormal);
       }
 
       &.bg-light {
@@ -374,7 +416,7 @@
       }
 
       &.is-dragging {
-        opacity: $Table-onDragging-opacity;
+        opacity: var(--Table-onDragging-opacity);
       }
     }
 
@@ -402,7 +444,7 @@
             bottom: 0;
             left: px2rem(-8px) + px2rem(20px) * ($i - 2);
             height: auto;
-            background-color: $Table-tree-borderColor;
+            background: var(--Table-tree-borderColor);
           }
 
           &::after {
@@ -412,7 +454,7 @@
             top: px2rem(18px);
             left: px2rem(-8px) + px2rem(20px) * ($i - 2);
             width: px2rem(10px);
-            background-color: $Table-tree-borderColor;
+            background: var(--Table-tree-borderColor);
           }
 
           padding-left: px2rem(20px) * $i - px2rem(20px);
@@ -439,6 +481,7 @@
     > tbody > tr > td.#{$ns}Table-checkCell {
       border-right: 0;
       width: px2rem(1px);
+      padding-right: var(--TableCell-paddingX);
 
       .#{$ns}Checkbox {
         margin: 0;
@@ -470,7 +513,7 @@
           top: 0;
           bottom: 0;
           height: 100%;
-          background-color: $Table-tree-borderColor;
+          background: var(--Table-tree-borderColor);
           right: px2rem(7px) + px2rem(-20px) * ($i - 1);
         }
       }
@@ -487,42 +530,48 @@
         bottom: 0;
         right: px2rem(7px);
         height: auto;
-        background-color: $Table-tree-borderColor;
+        background: var(--Table-tree-borderColor);
       }
     }
 
     > thead > tr > th.#{$ns}TableCell--sortable {
-      padding-right: $TableCell-paddingX + $TableCell-sortBtn-width;
+      padding-right: calc(
+        var(--TableCell-paddingX) + var(--TableCell-sortBtn-width)
+      );
       position: relative;
     }
 
     > thead > tr > th.#{$ns}TableCell--searchable {
-      padding-right: $TableCell-paddingX + $TableCell-searchBtn-width;
+      padding-right: calc(
+        var(--TableCell-paddingX) + var(--TableCell-searchBtn-width)
+      );
       position: relative;
     }
 
     > thead > tr > th.#{$ns}TableCell--filterable {
-      padding-right: $TableCell-paddingX + $TableCell-filterBtn-width;
+      padding-right: calc(
+        var(--TableCell-paddingX) + var(--TableCell-filterBtn-width)
+      );
       position: relative;
     }
   }
 
   &Cell-sortBtn {
     cursor: pointer;
-    width: $TableCell-sortBtn-width;
+    width: var(--TableCell-sortBtn-width);
     height: px2rem(20px);
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     position: absolute;
-    right: $TableCell-paddingX - $TableCell-sortBtn-width / 2;
+    right: calc(var(--TableCell-paddingX) - var(--TableCell-sortBtn-width) / 2);
     top: 50%;
     transform: translateY(-50%);
-    color: $icon-color;
+    color: var(--icon-color);
 
     &:hover {
-      color: $icon-onHover-color;
+      color: var(--icon-onHover-color);
     }
 
     &--up > svg,
@@ -548,28 +597,28 @@
 
     &--default {
       &.is-active {
-        color: $text--muted-color;
+        color: var(--text--muted-color);
         &:hover {
-          color: $text-color;
+          color: var(--text-color);
         }
       }
     }
     &--up,
     &--down {
       &.is-active {
-        color: $TableCell-sortBtn--onActive-color;
+        color: var(--TableCell-sortBtn--onActive-color);
       }
     }
   }
 
   &Cell-searchBtn {
     cursor: pointer;
-    // width: $TableCell-searchBtn-width;
+    // width: var(--TableCell-searchBtn-width);
     position: absolute;
     right: px2rem(5px);
     top: 50%;
     transform: translateY(-50%);
-    color: $text--muted-color;
+    color: var(--text--muted-color);
 
     svg.icon {
       width: 12px;
@@ -577,10 +626,10 @@
     }
 
     &:hover {
-      color: $text-color;
+      color: var(--text-color);
     }
     &.is-active {
-      color: $TableCell-searchBtn--onActive-color;
+      color: var(--TableCell-searchBtn--onActive-color);
     }
   }
 
@@ -596,12 +645,14 @@
 
   &Cell-filterBtn {
     cursor: pointer;
-    width: $TableCell-filterBtn-width;
+    width: var(--TableCell-filterBtn-width);
     position: absolute;
-    right: $TableCell-paddingX - $TableCell-filterBtn-width / 2;
+    right: calc(
+      var(--TableCell-paddingX) - var(--TableCell-filterBtn-width) / 2
+    );
     top: 50%;
     transform: translateY(-50%);
-    color: $text--muted-color;
+    color: var(--text--muted-color);
 
     svg.icon {
       width: 12px;
@@ -609,11 +660,11 @@
     }
 
     &:hover {
-      color: $text-color;
+      color: var(--text-color);
     }
 
     &.is-active {
-      color: $TableCell-filterBtn--onActive-color;
+      color: var(--TableCell-filterBtn--onActive-color);
     }
 
     .#{$ns}Remark {
@@ -631,20 +682,20 @@
       border-radius: 0;
 
       .#{$ns}DropDown-divider {
-        height: $TableCell-filterPopOver-dropDownItem-height;
-        line-height: $TableCell-filterPopOver-dropDownItem-height;
-        padding: $TableCell-filterPopOver-dropDownItem-padding;
-        background-color: $white;
+        height: var(--TableCell-filterPopOver-dropDownItem-height);
+        line-height: var(--TableCell-filterPopOver-dropDownItem-height);
+        padding: var(--TableCell-filterPopOver-dropDownItem-padding);
+        background: var(--white);
         margin: 0;
 
         &:hover {
-          background-color: $light;
-          color: $primary;
+          background: var(--light);
+          color: var(--primary);
         }
 
         &.is-selected {
-          background-color: $light;
-          color: $primary;
+          background: var(--light);
+          color: var(--primary);
         }
 
         .#{$ns}Checkbox {
@@ -658,56 +709,57 @@
   &-itemActions-wrap {
     position: absolute;
     width: 100%;
+    z-index: calc(var(--Table-fixed-zIndex) + 1);
     left: 0;
     top: 0;
     min-height: 30px;
     pointer-events: none;
-    box-shadow: $Table-onHover-boxShadow;
+    box-shadow: var(--Table-onHover-boxShadow);
   }
 
   &-itemActions {
     pointer-events: all;
     position: absolute;
-    // background: $Table-onHover-bg;
+    // background: var(--Table-onHover-bg);
     background: linear-gradient(
       90deg,
-      rgba($Table-onHover-bg, 0) 0%,
-      rgba($Table-onHover-bg, 1) 20%,
-      rgba($Table-onHover-bg, 1) 100%
+      rgba(var(--Table-onHover-bg-rgb), 0) 0%,
+      rgba(var(--Table-onHover-bg-rgb), 1) 20%,
+      rgba(var(--Table-onHover-bg-rgb), 1) 100%
     );
-    top: $Table-borderWidth;
+    top: var(--Table-borderWidth);
     bottom: 0;
     right: 0;
     padding-left: px2rem(50px);
-    padding-right: $TableCell-paddingX;
+    padding-right: var(--TableCell-paddingX);
     display: flex;
     align-items: center;
 
     a {
       cursor: pointer;
-      padding: $gap-xs $gap-sm;
-      color: $link-color;
-      text-decoration: $link-decoration;
+      padding: var(--gap-xs) var(--gap-sm);
+      color: var(--link-color);
+      text-decoration: var(--link-decoration);
 
       &:hover {
-        color: $link-onHover-color;
-        text-decoration: $link-onHover-decoration;
+        color: var(--link-onHover-color);
+        text-decoration: var(--link-onHover-decoration);
       }
 
       &.is-disabled {
         pointer-events: none;
-        opacity: $Button-onDisabled-opacity;
-        color: $text--muted-color;
+        opacity: var(--Button-onDisabled-opacity);
+        color: var(--text--muted-color);
       }
     }
   }
 
   &-dragTip {
-    color: $text--loud-color;
+    color: var(--text--loud-color);
     clear: both;
-    margin-top: $gap-xs;
+    margin-top: var(--gap-xs);
     width: 100%;
-    color: $info;
+    color: var(--info);
   }
 
   &-footTable {
@@ -721,24 +773,24 @@
     > tbody > tr > th {
       width: px2rem(120px);
       text-align: right;
-      padding: $TableCell-paddingY $TableCell-paddingX;
+      padding: var(--TableCell-paddingY) var(--TableCell-paddingX);
     }
 
     > tbody > tr > td {
       word-break: break-all;
-      padding: $TableCell-paddingY $TableCell-paddingX;
+      padding: var(--TableCell-paddingY) var(--TableCell-paddingX);
     }
 
     > tbody > tr:not(:first-child) {
-      border-top: $Table-borderWidth solid
-        lighten($Table-thead-borderColor, 2.5%);
+      border-top: var(--Table-borderWidth) solid
+        var(--Table-tbody-borderTopColor);
     }
   }
 
   &-expandBtn {
     position: relative;
     z-index: 1;
-    color: $Table-expandBtn-color;
+    color: var(--Table-expandBtn-color);
     display: inline-flex;
     justify-content: center;
     align-items: center;
@@ -750,7 +802,8 @@
       display: inline-block;
       text-align: center;
       cursor: pointer;
-      transition: transform ease-in-out 0.2s, top ease-in-out 0.2s;
+      transition: transform ease-in-out var(--animation-duration),
+        top ease-in-out var(--animation-duration);
       position: relative;
       transform-origin: 50% 50%;
     }
@@ -765,15 +818,15 @@
   }
 
   &-dragBtn {
-    margin-right: $gap-xs;
+    margin-right: var(--gap-xs);
     display: inline-block;
     visibility: hidden;
     cursor: move;
-    color: $icon-color;
+    color: var(--icon-color);
 
     &:hover {
       text-decoration: none;
-      color: $icon-onHover-color;
+      color: var(--icon-onHover-color);
     }
   }
 
@@ -797,7 +850,7 @@
     margin: px2rem(3px);
   }
 
-  > .#{$ns}Button--disabled-wrap > .#{$ns}Button {
+  > .#{$ns}Button--disabled-wrap > .#{$ns}Button--link {
     padding: 0;
   }
 

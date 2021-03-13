@@ -44,7 +44,7 @@ export class CustomYearsView extends YearsView {
                 «
               </th>
               <th className="rdtSwitch">
-                {__('{{from}}年-{{to}}年', {from: year, to: year + 9})}
+                {__('year-to-year', {from: year, to: year + 9})}
               </th>
               <th className="rdtNext" onClick={this.props.addTime(10, 'years')}>
                 »

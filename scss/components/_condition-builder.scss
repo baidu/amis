@@ -1,14 +1,14 @@
 .#{$ns}CBGroup {
-  font-size: $fontSizeSm;
+  font-size: var(--fontSizeSm);
 
   &-toolbar {
     display: flex;
     flex-direction: row;
-    justify-content: space-between;
     padding-bottom: 10px;
 
     .#{$ns}Button {
-      transition: padding 0.2s;
+      transition: padding var(--animation-duration);
+      min-width: unset;
 
       svg {
         width: 10px;
@@ -18,7 +18,9 @@
       }
     }
 
-    &:not(:hover) .#{$ns}CBGroup-toolbarLeft .#{$ns}Button:not(.is-active) {
+    &:not(:hover)
+      .#{$ns}CBGroup-toolbarCondition
+      .#{$ns}Button:not(.is-active) {
       width: 0;
       padding: 0;
       overflow: hidden;
@@ -27,16 +29,17 @@
       border: 0;
     }
 
-    .#{$ns}CBGroup-toolbarRight {
-      transition: opacity 0.2s;
+    .#{$ns}CBGroup-toolbarConditionAdd {
+      transition: opacity var(--animation-duration);
       display: flex;
       align-items: center;
+      margin-left: var(--gap-base);
 
       .#{$ns}CBDelete {
-        margin-left: $gap-xs;
+        margin-left: var(--gap-xs);
       }
     }
-    &:not(:hover) .#{$ns}CBGroup-toolbarRight {
+    &:not(:hover) .#{$ns}CBGroup-toolbarConditionAdd {
       opacity: 0;
     }
   }
@@ -51,17 +54,17 @@
 
   &-fieldCaret,
   &-operatorCaret {
-    transition: transform 0.3s ease-out;
-    margin: 3px;
+    transition: transform var(--animation-duration) ease-out;
+    margin: 5px;
     display: flex;
-    color: $icon-color;
+    color: var(--Form-select-caret-iconColor);
     &:hover {
-      color: $icon-onHover-color;
+      color: var(--Form-select-caret-onHover-iconColor);
     }
 
     > svg {
-      width: px2rem(12px);
-      height: px2rem(12px);
+      width: px2rem(10px);
+      height: px2rem(10px);
       top: 0;
     }
   }
@@ -72,7 +75,7 @@
   }
 
   &-placeholder {
-    color: $text--muted-color;
+    color: var(--text--muted-color);
     position: relative;
     margin-left: 30px;
     padding: 10px;
@@ -85,7 +88,7 @@
       top: -10px;
       left: -30px;
       width: 20px;
-      border-left: solid 1px $borderColor;
+      border-left: solid 1px var(--borderColor);
       bottom: 0;
     }
 
@@ -95,13 +98,13 @@
       top: 50%;
       width: 20px;
       left: -30px;
-      border-top: solid 1px $borderColor;
+      border-top: solid 1px var(--borderColor);
     }
 
     &:last-child {
       &:before {
         border-bottom-left-radius: 5px;
-        border-bottom: solid 1px $borderColor;
+        border-bottom: solid 1px var(--borderColor);
         bottom: 50%;
       }
 
@@ -116,7 +119,7 @@
   @include icon-color();
   cursor: pointer;
   margin-left: auto;
-  transition: opacity 0.2s;
+  transition: opacity var(--animation-duration);
 }
 
 .#{$ns}CBGroupOrItem {
@@ -136,7 +139,7 @@
     position: relative;
 
     background: rgba(0, 0, 0, 0.03);
-    transition: all 0.3s ease-out;
+    transition: all var(--animation-duration) ease-out;
 
     > .#{$ns}CBGroup {
       margin: 3px;
@@ -166,9 +169,9 @@
     cursor: move;
     width: 20px;
     margin-left: -5px;
-    opacity: 0;
+    opacity: 0.6;
     text-align: center;
-    transition: opacity 0.3s ease-out;
+    transition: opacity var(--animation-duration) ease-out;
     @include icon-color();
   }
 
@@ -177,7 +180,7 @@
   }
 
   &:hover > &-body {
-    background-color: rgba(0, 0, 0, 0.05);
+    background: rgba(0, 0, 0, 0.05);
   }
 
   &:hover > &-body > &-dragbar {
@@ -190,7 +193,7 @@
     top: -10px;
     left: -30px;
     width: 20px;
-    border-left: solid 1px $borderColor;
+    border-left: solid 1px var(--borderColor);
     bottom: 0;
   }
 
@@ -200,13 +203,13 @@
     top: 50%;
     width: 20px;
     left: -30px;
-    border-top: solid 1px $borderColor;
+    border-top: solid 1px var(--borderColor);
   }
 
   &:last-child {
     &:before {
       border-bottom-left-radius: 5px;
-      border-bottom: solid 1px $borderColor;
+      border-bottom: solid 1px var(--borderColor);
       bottom: 50%;
     }
 
@@ -243,7 +246,7 @@
   }
 
   &-error {
-    color: $danger;
+    color: var(--danger);
   }
 
   &-args {
@@ -251,7 +254,7 @@
     > span {
       display: inline-block;
       padding: 0 5px;
-      color: $info;
+      color: var(--info);
     }
 
     > div {
@@ -265,6 +268,25 @@
   display: inline-block;
   vertical-align: middle;
   margin: px2rem(3px);
+}
+
+.#{$ns}CBFormula {
+  position: relative;
+  display: inline-block;
+  vertical-align: middle;
+  margin: px2rem(3px);
+
+  &-label {
+    background: var(--ResultBox-value-bg);
+    color: var(--text--muted-color);
+    display: block;
+    font-size: var(--fontSizeSm);
+    align-self: center;
+    margin: -5px 5px -5px -8px;
+    padding: 5px;
+    border-radius: 5px;
+    user-select: none;
+  }
 }
 
 .#{$ns}CBSeprator {

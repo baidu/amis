@@ -9,6 +9,9 @@ import {
   render,
   Renderer,
   getRendererByName,
+  getRenderers,
+  registerRenderer,
+  unRegisterRenderer,
   resolveRenderer,
   filterSchema,
   clearStoresCache,
@@ -34,6 +37,9 @@ import {
   makeTranslator,
   register as registerLocale
 } from './locale';
+
+import './locale/zh-CN';
+
 import animation from './utils/Animation';
 
 export * from './Schema';
@@ -41,6 +47,7 @@ export * from './Schema';
 // 注册渲染器
 import './renderers/Action';
 import './renderers/Alert';
+import './renderers/App';
 import './renderers/Remark';
 import './renderers/ButtonGroup';
 import './renderers/ButtonToolbar';
@@ -51,6 +58,7 @@ import './renderers/CRUD';
 import './renderers/Pagination';
 import './renderers/Cards';
 import './renderers/Card';
+import './renderers/Custom';
 import './renderers/Date';
 import './renderers/Dialog';
 import './renderers/Divider';
@@ -65,6 +73,7 @@ import './renderers/Form/Textarea';
 import './renderers/Form/Checkboxes';
 import './renderers/Form/Checkbox';
 import './renderers/Form/City';
+import './renderers/Form/ChartRadios';
 import './renderers/Form/Rating';
 import './renderers/Form/Switch';
 import './renderers/Form/Button';
@@ -82,7 +91,9 @@ import './renderers/Form/Tree';
 import './renderers/Form/TreeSelect';
 import './renderers/Form/Image';
 import './renderers/Form/File';
+import './renderers/Form/UUID';
 import './renderers/Form/Matrix';
+import './renderers/Form/MonthRange';
 import './renderers/Form/Range';
 import './renderers/Form/Array';
 import './renderers/Form/Combo';
@@ -110,13 +121,16 @@ import './renderers/Form/TabsTransfer';
 import './renderers/Form/Group';
 import './renderers/Form/InputGroup';
 import './renderers/Grid';
+import './renderers/Grid2D';
 import './renderers/HBox';
 import './renderers/VBox';
 import './renderers/Image';
 import './renderers/Images';
 import './renderers/List';
+import './renderers/Log';
 import './renderers/Operation';
 import './renderers/Page';
+import './renderers/PaginationWrapper';
 import './renderers/Panel';
 import './renderers/Plain';
 import './renderers/Spinner';
@@ -132,7 +146,9 @@ import './renderers/Switch';
 import './renderers/Wizard';
 import './renderers/Chart';
 import './renderers/Container';
+import './renderers/SearchBox';
 import './renderers/Service';
+import './renderers/SparkLine';
 import './renderers/Video';
 import './renderers/Audio';
 import './renderers/Nav';
@@ -145,7 +161,7 @@ import './renderers/Icon';
 import './renderers/Carousel';
 import Scoped, {ScopedContext} from './Scoped';
 
-import {FormItem} from './renderers/Form/Item';
+import {FormItem, registerFormItem} from './renderers/Form/Item';
 
 // 兼容旧版本用法
 import './compat';
@@ -153,6 +169,7 @@ import './compat';
 import './themes/default';
 import './themes/cxd';
 import './themes/dark';
+import './themes/antd';
 import {
   registerFilter,
   filterDate,
@@ -167,7 +184,7 @@ import {
   validateObject
 } from './utils/validations';
 import {normalizeOptions} from './components/Select';
-import {OptionsControl} from './renderers/Form/Options';
+import {OptionsControl, registerOptionsControl} from './renderers/Form/Options';
 
 import {
   classnames,
@@ -204,6 +221,11 @@ export {
   str2rules,
   normalizeOptions,
   getRendererByName,
+  registerRenderer,
+  unRegisterRenderer,
+  getRenderers,
+  registerFormItem,
+  registerOptionsControl,
   resolveRenderer,
   filterSchema,
   filterDate,

@@ -15,7 +15,9 @@ exports[`Renderer:formula 1`] = `
         <span
           class="a-TplField"
         >
-          The form
+          <span>
+            The form
+          </span>
         </span>
       </h3>
     </div>
@@ -28,12 +30,19 @@ exports[`Renderer:formula 1`] = `
       >
         <div
           class="a-Form-item a-Form-item--normal"
+          data-role="form-item"
         >
           <label
             class="a-Form-label"
           >
             <span>
-              a
+              <span
+                class="a-TplField"
+              >
+                <span>
+                  a
+                </span>
+              </span>
             </span>
           </label>
           <div
@@ -46,40 +55,40 @@ exports[`Renderer:formula 1`] = `
                 class="a-Number-handler-wrap"
               >
                 <span
-                  aria-disabled="false"
                   aria-label="Increase Value"
-                  class="a-Number-handler a-Number-handler-up "
+                  class="a-Number-handler a-Number-handler-up"
                   role="button"
-                  unselectable="unselectable"
+                  unselectable="on"
                 >
                   <span
                     class="a-Number-handler-up-inner"
-                    unselectable="unselectable"
+                    unselectable="on"
                   />
                 </span>
                 <span
-                  aria-disabled="false"
                   aria-label="Decrease Value"
-                  class="a-Number-handler a-Number-handler-down "
+                  class="a-Number-handler a-Number-handler-down"
                   role="button"
-                  unselectable="unselectable"
+                  unselectable="on"
                 >
                   <span
                     class="a-Number-handler-down-inner"
-                    unselectable="unselectable"
+                    unselectable="on"
                   />
                 </span>
               </div>
               <div
-                aria-valuemin="-9007199254740991"
-                aria-valuenow="1"
                 class="a-Number-input-wrap"
-                role="spinbutton"
               >
                 <input
+                  aria-valuemax="9007199254740991"
+                  aria-valuemin="-9007199254740991"
+                  aria-valuenow="1"
                   autocomplete="off"
                   class="a-Number-input"
+                  max="9007199254740991"
                   min="-9007199254740991"
+                  role="spinbutton"
                   step="1"
                   value="1"
                 />
@@ -89,12 +98,19 @@ exports[`Renderer:formula 1`] = `
         </div>
         <div
           class="a-Form-item a-Form-item--normal"
+          data-role="form-item"
         >
           <label
             class="a-Form-label"
           >
             <span>
-              b
+              <span
+                class="a-TplField"
+              >
+                <span>
+                  b
+                </span>
+              </span>
             </span>
           </label>
           <div
@@ -107,40 +123,40 @@ exports[`Renderer:formula 1`] = `
                 class="a-Number-handler-wrap"
               >
                 <span
-                  aria-disabled="false"
                   aria-label="Increase Value"
-                  class="a-Number-handler a-Number-handler-up "
+                  class="a-Number-handler a-Number-handler-up"
                   role="button"
-                  unselectable="unselectable"
+                  unselectable="on"
                 >
                   <span
                     class="a-Number-handler-up-inner"
-                    unselectable="unselectable"
+                    unselectable="on"
                   />
                 </span>
                 <span
-                  aria-disabled="false"
                   aria-label="Decrease Value"
-                  class="a-Number-handler a-Number-handler-down "
+                  class="a-Number-handler a-Number-handler-down"
                   role="button"
-                  unselectable="unselectable"
+                  unselectable="on"
                 >
                   <span
                     class="a-Number-handler-down-inner"
-                    unselectable="unselectable"
+                    unselectable="on"
                   />
                 </span>
               </div>
               <div
-                aria-valuemin="-9007199254740991"
-                aria-valuenow="2"
                 class="a-Number-input-wrap"
-                role="spinbutton"
               >
                 <input
+                  aria-valuemax="9007199254740991"
+                  aria-valuemin="-9007199254740991"
+                  aria-valuenow="2"
                   autocomplete="off"
                   class="a-Number-input"
+                  max="9007199254740991"
                   min="-9007199254740991"
+                  role="spinbutton"
                   step="1"
                   value="2"
                 />
@@ -150,12 +166,19 @@ exports[`Renderer:formula 1`] = `
         </div>
         <div
           class="a-Form-item a-Form-item--normal"
+          data-role="form-item"
         >
           <label
             class="a-Form-label"
           >
             <span>
-              sum1
+              <span
+                class="a-TplField"
+              >
+                <span>
+                  sum1
+                </span>
+              </span>
             </span>
           </label>
           <div
@@ -168,40 +191,40 @@ exports[`Renderer:formula 1`] = `
                 class="a-Number-handler-wrap"
               >
                 <span
-                  aria-disabled="false"
                   aria-label="Increase Value"
-                  class="a-Number-handler a-Number-handler-up "
+                  class="a-Number-handler a-Number-handler-up"
                   role="button"
-                  unselectable="unselectable"
+                  unselectable="on"
                 >
                   <span
                     class="a-Number-handler-up-inner"
-                    unselectable="unselectable"
+                    unselectable="on"
                   />
                 </span>
                 <span
-                  aria-disabled="false"
                   aria-label="Decrease Value"
-                  class="a-Number-handler a-Number-handler-down "
+                  class="a-Number-handler a-Number-handler-down"
                   role="button"
-                  unselectable="unselectable"
+                  unselectable="on"
                 >
                   <span
                     class="a-Number-handler-down-inner"
-                    unselectable="unselectable"
+                    unselectable="on"
                   />
                 </span>
               </div>
               <div
-                aria-valuemin="-9007199254740991"
-                aria-valuenow="3"
                 class="a-Number-input-wrap"
-                role="spinbutton"
               >
                 <input
+                  aria-valuemax="9007199254740991"
+                  aria-valuemin="-9007199254740991"
+                  aria-valuenow="3"
                   autocomplete="off"
                   class="a-Number-input"
+                  max="9007199254740991"
                   min="-9007199254740991"
+                  role="spinbutton"
                   step="1"
                   value="3"
                 />
@@ -211,12 +234,19 @@ exports[`Renderer:formula 1`] = `
         </div>
         <div
           class="a-Form-item a-Form-item--normal"
+          data-role="form-item"
         >
           <label
             class="a-Form-label"
           >
             <span>
-              sum2
+              <span
+                class="a-TplField"
+              >
+                <span>
+                  sum2
+                </span>
+              </span>
             </span>
           </label>
           <div
@@ -229,40 +259,40 @@ exports[`Renderer:formula 1`] = `
                 class="a-Number-handler-wrap"
               >
                 <span
-                  aria-disabled="false"
                   aria-label="Increase Value"
-                  class="a-Number-handler a-Number-handler-up "
+                  class="a-Number-handler a-Number-handler-up"
                   role="button"
-                  unselectable="unselectable"
+                  unselectable="on"
                 >
                   <span
                     class="a-Number-handler-up-inner"
-                    unselectable="unselectable"
+                    unselectable="on"
                   />
                 </span>
                 <span
-                  aria-disabled="false"
                   aria-label="Decrease Value"
-                  class="a-Number-handler a-Number-handler-down "
+                  class="a-Number-handler a-Number-handler-down"
                   role="button"
-                  unselectable="unselectable"
+                  unselectable="on"
                 >
                   <span
                     class="a-Number-handler-down-inner"
-                    unselectable="unselectable"
+                    unselectable="on"
                   />
                 </span>
               </div>
               <div
-                aria-valuemin="-9007199254740991"
-                aria-valuenow="4"
                 class="a-Number-input-wrap"
-                role="spinbutton"
               >
                 <input
+                  aria-valuemax="9007199254740991"
+                  aria-valuemin="-9007199254740991"
+                  aria-valuenow="4"
                   autocomplete="off"
                   class="a-Number-input"
+                  max="9007199254740991"
                   min="-9007199254740991"
+                  role="spinbutton"
                   step="1"
                   value="4"
                 />
@@ -272,12 +302,19 @@ exports[`Renderer:formula 1`] = `
         </div>
         <div
           class="a-Form-item a-Form-item--normal"
+          data-role="form-item"
         >
           <label
             class="a-Form-label"
           >
             <span>
-              sum3
+              <span
+                class="a-TplField"
+              >
+                <span>
+                  sum3
+                </span>
+              </span>
             </span>
           </label>
           <div
@@ -290,40 +327,40 @@ exports[`Renderer:formula 1`] = `
                 class="a-Number-handler-wrap"
               >
                 <span
-                  aria-disabled="false"
                   aria-label="Increase Value"
-                  class="a-Number-handler a-Number-handler-up "
+                  class="a-Number-handler a-Number-handler-up"
                   role="button"
-                  unselectable="unselectable"
+                  unselectable="on"
                 >
                   <span
                     class="a-Number-handler-up-inner"
-                    unselectable="unselectable"
+                    unselectable="on"
                   />
                 </span>
                 <span
-                  aria-disabled="false"
                   aria-label="Decrease Value"
-                  class="a-Number-handler a-Number-handler-down "
+                  class="a-Number-handler a-Number-handler-down"
                   role="button"
-                  unselectable="unselectable"
+                  unselectable="on"
                 >
                   <span
                     class="a-Number-handler-down-inner"
-                    unselectable="unselectable"
+                    unselectable="on"
                   />
                 </span>
               </div>
               <div
-                aria-valuemin="-9007199254740991"
-                aria-valuenow="5"
                 class="a-Number-input-wrap"
-                role="spinbutton"
               >
                 <input
+                  aria-valuemax="9007199254740991"
+                  aria-valuemin="-9007199254740991"
+                  aria-valuenow="5"
                   autocomplete="off"
                   class="a-Number-input"
+                  max="9007199254740991"
                   min="-9007199254740991"
+                  role="spinbutton"
                   step="1"
                   value="5"
                 />
@@ -331,6 +368,10 @@ exports[`Renderer:formula 1`] = `
             </div>
           </div>
         </div>
+        <input
+          style="display: none;"
+          type="submit"
+        />
       </form>
     </div>
     <div

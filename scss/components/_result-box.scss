@@ -2,51 +2,46 @@
   @include input-input();
   flex-wrap: wrap;
   padding: 0 px2rem(3px);
-  min-height: $Form-input-height;
+  min-height: var(--Form-input-height);
   align-items: center;
 
   &.is-error {
-    border-color: $Form-input-onError-borderColor;
-    background-color: $Form-input-onError-bg;
+    border-color: var(--Form-input-onError-borderColor);
+    background: var(--Form-input-onError-bg);
   }
 
   &.is-focused,
   &.is-active,
   &:focus {
     outline: none;
-    border-color: $Form-input-onFocused-borderColor;
-    box-shadow: $Form-input-boxShadow;
-
-    @if $Form-input-onFocused-bg !=$Form-input-bg {
-      background-color: $Form-input-onFocused-bg;
-    }
+    border-color: var(--Form-input-onFocused-borderColor);
+    box-shadow: var(--Form-input-boxShadow);
+    background: var(--Form-input-onFocused-bg);
   }
 
   &.is-clickable:not(.is-disabled) {
     cursor: pointer;
 
     &:hover {
-      border-color: $Form-input-onFocused-borderColor;
-      box-shadow: $Form-input-boxShadow;
-
-      @if $Form-input-onFocused-bg !=$Form-input-bg {
-        background-color: $Form-input-onFocused-bg;
-      }
+      border-color: var(--Form-input-onFocused-borderColor);
+      box-shadow: var(--Form-input-boxShadow);
+      background: var(--Form-input-onFocused-bg);
     }
   }
 
   &.is-error.is-focused {
-    border-color: $Form-input-onError-borderColor;
+    border-color: var(--Form-input-onError-borderColor);
   }
 
   &.is-disabled {
-    color: $text--muted-color;
-    background: $Form-input-onDisabled-bg;
-    border-color: $Form-input-onDisabled-borderColor;
+    color: var(--text--muted-color);
+    background: var(--Form-input-onDisabled-bg);
+    border-color: var(--Form-input-onDisabled-borderColor);
+    pointer-events: none;
   }
 
   &-singleValue {
-    padding: 0 ($Form-input-paddingX - px2rem(3px));
+    padding: 0 calc(var(--Form-input-paddingX) - #{px2rem(3px)});
   }
 
   &-clear {
@@ -57,7 +52,7 @@
     margin-left: auto;
 
     &:hover {
-      background: $ResultBox-value-bg;
+      background: var(--ResultBox-value-bg);
     }
 
     > svg {
@@ -69,7 +64,7 @@
   > svg {
     display: inline-block;
     width: px2rem(14px);
-    color: $icon-color;
+    color: var(--icon-color);
   }
 
   > a {
@@ -77,9 +72,9 @@
   }
 
   &-value {
-    background: $ResultBox-value-bg;
-    color: $ResultBox-value-color;
-    font-size: $Form-input-fontSize;
+    background: var(--ResultBox-value-bg);
+    color: var(--ResultBox-value-color);
+    font-size: var(--Form-input-fontSize);
     padding: 0 px2rem(5px);
     min-height: px2rem(24px);
     flex-wrap: nowrap;
@@ -91,9 +86,9 @@
     > a {
       cursor: pointer;
       margin-left: px2rem(5px);
-      color: $ResultBox-icon-color;
+      color: var(--ResultBox-icon-color);
       &:hover {
-        color: $ResultBox-icon--onHover-color;
+        color: var(--ResultBox-icon--onHover-color);
       }
 
       > svg {
@@ -103,21 +98,21 @@
     }
 
     &:hover {
-      background: $ResultBox-value--onHover-bg;
+      background: var(--ResultBox-value--onHover-bg);
     }
 
     &.is-disabled {
       pointer-events: none;
-      color: $ResultBox-value--onDisabled-color;
+      color: var(--ResultBox-value--onDisabled-color);
 
       > a {
-        color: $ResultBox-icon--onDisabled-color;
+        color: var(--ResultBox-icon--onDisabled-color);
       }
     }
   }
 
   &-placeholder {
-    color: $Form-input-placeholderColor;
+    color: var(--Form-input-placeholderColor);
     user-select: none;
     margin-left: 8px;
   }

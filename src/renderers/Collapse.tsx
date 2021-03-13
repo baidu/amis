@@ -19,6 +19,11 @@ export interface CollapseSchema extends BaseSchema {
   type: 'collapse';
 
   /**
+   * 标题展示位置
+   */
+  titlePosition: 'top' | 'bottom';
+
+  /**
    * 内容区域
    */
   body: SchemaCollection;
@@ -49,14 +54,29 @@ export interface CollapseSchema extends BaseSchema {
   title?: SchemaTpl;
 
   /**
+   * 收起的标题
+   */
+  collapseTitle?: SchemaTpl;
+
+  /**
    * 控件大小
    */
   size?: 'xs' | 'sm' | 'md' | 'lg' | 'base';
+
+  /**
+   * 点开时才加载内容
+   */
+  mountOnEnter?: boolean;
+
+  /**
+   * 卡片隐藏就销毁内容。
+   */
+  unmountOnExit?: boolean;
 }
 
 export interface CollapseProps
   extends RendererProps,
-    Omit<CollapseSchema, 'type'> {
+    Omit<CollapseSchema, 'type' | 'className'> {
   wrapperComponent?: any;
   headingComponent?: any;
 
@@ -77,10 +97,14 @@ export default class Collapse extends React.Component<
     'headingComponent',
     'bodyClassName',
     'collapsed',
-    'headingClassName'
+    'headingClassName',
+    'title',
+    'mountOnEnter',
+    'unmountOnExit'
   ];
 
   static defaultProps: Partial<CollapseProps> = {
+    titlePosition: 'top',
     wrapperComponent: 'div',
     headingComponent: 'h4',
     className: '',
@@ -125,14 +149,57 @@ export default class Collapse extends React.Component<
       wrapperComponent: WrapperComponent,
       headingComponent: HeadingComponent,
       className,
-      title,
       headingClassName,
       children,
+      titlePosition,
+      title,
+      collapseTitle,
       body,
       bodyClassName,
       render,
-      collapsable
+      collapsable,
+      translate: __,
+      mountOnEnter,
+      unmountOnExit
     } = this.props;
+    // 默认给个 title，不然没法点
+    const finalTitle = this.state.collapsed ? title : collapseTitle || title;
+
+    let dom = [
+      finalTitle ? (
+        <HeadingComponent
+          key="title"
+          onClick={this.toggleCollapsed}
+          className={cx(`Collapse-header`, headingClassName)}
+        >
+          {render('heading', finalTitle)}
+          {collapsable && <span className={cx('Collapse-arrow')} />}
+        </HeadingComponent>
+      ) : null,
+
+      <BasicCollapse
+        show={collapsable ? !this.state.collapsed : true}
+        classnames={cx}
+        classPrefix={ns}
+        key="body"
+        mountOnEnter={mountOnEnter}
+        unmountOnExit={unmountOnExit}
+      >
+        <div className={cx(`Collapse-body`, bodyClassName)}>
+          {children
+            ? typeof children === 'function'
+              ? children(this.props)
+              : children
+            : body
+            ? render('body', body)
+            : null}
+        </div>
+      </BasicCollapse>
+    ];
+
+    if (titlePosition === 'bottom') {
+      dom.reverse();
+    }
 
     return (
       <WrapperComponent
@@ -141,36 +208,13 @@ export default class Collapse extends React.Component<
           {
             'is-collapsed': this.state.collapsed,
             [`Collapse--${size}`]: size,
-            'Collapse--collapsable': collapsable
+            'Collapse--collapsable': collapsable,
+            'Collapse--title-bottom': titlePosition === 'bottom'
           },
           className
         )}
       >
-        {title ? (
-          <HeadingComponent
-            onClick={this.toggleCollapsed}
-            className={cx(`Collapse-header`, headingClassName)}
-          >
-            {render('heading', title)}
-            {collapsable && <span className={cx('Collapse-arrow')} />}
-          </HeadingComponent>
-        ) : null}
-
-        <BasicCollapse
-          show={collapsable ? !this.state.collapsed : true}
-          classnames={cx}
-          classPrefix={ns}
-        >
-          <div className={cx(`Collapse-body`, bodyClassName)}>
-            {children
-              ? typeof children === 'function'
-                ? children(this.props)
-                : children
-              : body
-              ? render('body', body)
-              : null}
-          </div>
-        </BasicCollapse>
+        {dom}
       </WrapperComponent>
     );
   }

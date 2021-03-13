@@ -48,7 +48,9 @@ export interface AudioSchema extends BaseSchema {
   controls?: Array<'rates' | 'play' | 'time' | 'process' | 'volume'>;
 }
 
-export interface AudioProps extends RendererProps, AudioSchema {}
+export interface AudioProps
+  extends RendererProps,
+    Omit<AudioSchema, 'className'> {}
 
 export interface AudioState {
   src?: string;

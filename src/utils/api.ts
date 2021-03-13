@@ -9,7 +9,8 @@ import {
   hasFile,
   object2formData,
   qsstringify,
-  cloneObject
+  cloneObject,
+  createObject
 } from './helper';
 
 const rSchema = /(?:^|raw\:)(get|post|put|delete|patch|options|head):/i;
@@ -53,7 +54,7 @@ export function buildApi(
   api.config = {
     ...rest
   };
-  api.method = api.method || (options as any).method || 'get';
+  api.method = (api.method || (options as any).method || 'get').toLowerCase();
 
   if (!data) {
     return api;
@@ -76,7 +77,7 @@ export function buildApi(
     );
     api.url =
       tokenize(api.url.substring(0, idx + 1), data, '| url_encode') +
-      qsstringify(dataMapping(params, data)) +
+      qsstringify((api.query = dataMapping(params, data))) +
       (~hashIdx ? api.url.substring(hashIdx) : '');
   } else {
     api.url = tokenize(api.url, data, '| url_encode');
@@ -87,26 +88,44 @@ export function buildApi(
   }
 
   if (api.data) {
-    api.data = dataMapping(api.data, data);
+    api.body = api.data = dataMapping(api.data, data);
   } else if (api.method === 'post' || api.method === 'put') {
-    api.data = cloneObject(data);
+    api.body = api.data = cloneObject(data);
   }
 
   // get 类请求，把 data 附带到 url 上。
   if (api.method === 'get') {
     if (!~raw.indexOf('$') && !api.data && autoAppend) {
-      api.data = data;
-    }
-
-    if (api.data) {
+      api.query = api.data = data;
+    } else if (
+      api.attachDataToQuery === false &&
+      api.data &&
+      !~raw.indexOf('$') &&
+      autoAppend
+    ) {
       const idx = api.url.indexOf('?');
       if (~idx) {
-        let params = {
+        let params = (api.query = {
           ...qs.parse(api.url.substring(idx + 1)),
-          ...api.data
-        };
+          ...data
+        });
         api.url = api.url.substring(0, idx) + '?' + qsstringify(params);
       } else {
+        api.query = data;
+        api.url += '?' + qsstringify(data);
+      }
+    }
+
+    if (api.data && api.attachDataToQuery !== false) {
+      const idx = api.url.indexOf('?');
+      if (~idx) {
+        let params = (api.query = {
+          ...qs.parse(api.url.substring(idx + 1)),
+          ...api.data
+        });
+        api.url = api.url.substring(0, idx) + '?' + qsstringify(params);
+      } else {
+        api.query = api.data;
         api.url += '?' + qsstringify(api.data);
       }
       delete api.data;
@@ -146,27 +165,41 @@ function str2function(
   }
 }
 
-function responseAdaptor(ret: fetcherResult) {
+function responseAdaptor(ret: fetcherResult, api: ApiObject) {
   const data = ret.data;
+  let hasStatusField = true;
 
   if (!data) {
     throw new Error('Response is empty!');
   } else if (!data.hasOwnProperty('status')) {
-    throw new Error(
-      '接口返回格式不符合，请参考 http://amis.baidu.com/v2/docs/api'
-    );
+    hasStatusField = false;
   }
 
   const payload: Payload = {
-    ok: data.status == 0,
-    status: data.status,
+    ok: hasStatusField === false || data.status == 0,
+    status: hasStatusField === false ? 0 : data.status,
     msg: data.msg,
     msgTimeout: data.msgTimeout,
-    data: data.data
+    data: !data.data && !hasStatusField ? data : data.data // 兼容直接返回数据的情况
   };
 
   if (payload.status == 422) {
     payload.errors = data.errors;
+  }
+
+  if (payload.ok && api.responseData) {
+    payload.data = dataMapping(
+      api.responseData,
+
+      createObject(
+        {api},
+        (Array.isArray(payload.data)
+          ? {
+              items: payload.data
+            }
+          : payload.data) || {}
+      )
+    );
   }
 
   return payload;
@@ -217,12 +250,20 @@ export function wrapAdaptor(promise: Promise<fetcherResult>, api: ApiObject) {
   const adaptor = api.adaptor;
   return adaptor
     ? promise
-        .then(response => ({
-          ...response,
-          data: adaptor((response as any).data, response, api)
-        }))
-        .then(responseAdaptor)
-    : promise.then(responseAdaptor);
+        .then(async response => {
+          let result = adaptor((response as any).data, response, api);
+
+          if (result?.then) {
+            result = await result;
+          }
+
+          return {
+            ...response,
+            data: result
+          };
+        })
+        .then(ret => responseAdaptor(ret, api))
+    : promise.then(ret => responseAdaptor(ret, api));
 }
 
 export function isApiOutdated(
@@ -255,7 +296,7 @@ export function isApiOutdated(
 export function isValidApi(api: string) {
   return (
     api &&
-    /^(?:(https?|wss?|taf):\/\/[^\/]+)?(\/[^\s\/\?]*){1,}(\?.*)?$/.test(api)
+    /^(?:(https?|wss?|taf):\/\/[^\/]+)?(\/?[^\s\/\?]*){1,}(\?.*)?$/.test(api)
   );
 }
 

@@ -28,7 +28,12 @@ export interface ArrayControlSchema
   items: FormControlSchema;
 }
 
-export interface ArrayProps extends FormControlProps, ArrayControlSchema {
+export interface ArrayProps
+  extends FormControlProps,
+    Omit<
+      ArrayControlSchema,
+      'type' | 'className' | 'descriptionClassName' | 'inputClassName'
+    > {
   store: IComboStore;
 }
 

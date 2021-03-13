@@ -58,11 +58,18 @@ export interface TreeControlSchema extends FormOptionsControl {
 
 export interface TreeProps
   extends OptionsControlProps,
-    Omit<TreeControlSchema, 'type' | 'options'> {}
+    Omit<
+      TreeControlSchema,
+      | 'type'
+      | 'options'
+      | 'className'
+      | 'inputClassName'
+      | 'descriptionClassName'
+    > {}
 
 export default class TreeControl extends React.Component<TreeProps> {
   static defaultProps: Partial<TreeProps> = {
-    placeholder: '选项加载中...',
+    placeholder: 'loading',
     multiple: false,
     rootLabel: '顶级',
     rootValue: '',

@@ -23,7 +23,9 @@ exports[`Renderer:container 1`] = `
               <span
                 class="a-TplField"
               >
-                内容1
+                <span>
+                  内容1
+                </span>
               </span>
               <span
                 class="a-PlainField"

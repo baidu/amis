@@ -16,9 +16,7 @@ interface ClassDictionary {
   [id: string]: any;
 }
 
-// This is the only way I found to break circular references between ClassArray and ClassValue
-// https://github.com/Microsoft/TypeScript/issues/3496#issuecomment-128553540
-interface ClassArray extends Array<ClassValue> {} // tslint:disable-line no-empty-interface
+interface ClassArray extends Array<ClassValue> {}
 
 export type ClassNamesFn = (...classes: ClassValue[]) => string;
 
@@ -123,6 +121,13 @@ export interface ThemeProps {
   theme?: string;
 }
 
+export interface ThemeOutterProps {
+  theme?: string;
+  className?: string;
+  classPrefix?: string;
+  classnames?: ClassNamesFn;
+}
+
 export let defaultTheme: string = 'default';
 export const ThemeContext = React.createContext('');
 
@@ -134,12 +139,8 @@ export function themeable<
   type OuterProps = JSX.LibraryManagedAttributes<
     T,
     Omit<React.ComponentProps<T>, keyof ThemeProps>
-  > & {
-    theme?: string;
-    className?: string;
-    classPrefix?: string;
-    classnames?: ClassNamesFn;
-  };
+  > &
+    ThemeOutterProps;
 
   const result = hoistNonReactStatic(
     class extends React.Component<OuterProps> {

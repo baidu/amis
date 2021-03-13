@@ -11,7 +11,8 @@ import {
   autobind,
   findTreeIndex,
   hasAbility,
-  createObject
+  createObject,
+  getTreeParent
 } from '../utils/helper';
 import {Option, Options, value2array} from './Select';
 import {ClassNamesFn, themeable, ThemeProps} from '../theme';
@@ -58,8 +59,8 @@ interface TreeSelectorProps extends ThemeProps, LocaleProps {
   rootLabel?: string;
   rootValue?: any;
 
-  // 这个配置名字没取好，目前的含义是，如果这个配置成true，点父级的时候，孩子几点不会自选中。
-  // 否则点击父级，孩子节点选中。
+  // 这个配置名字没取好，目前的含义是，如果这个配置成true，点父级的时候，子级点不会自选中。
+  // 否则点击父级，子节点选中。
   cascade?: boolean;
   selfDisabledAffectChildren?: boolean;
   minLength?: number;
@@ -118,14 +119,14 @@ export class TreeSelector extends React.Component<
     extractValue: false,
     delimiter: ',',
     hideRoot: true,
-    rootLabel: '顶级',
+    rootLabel: 'Tree.root',
     rootValue: 0,
     cascade: false,
     selfDisabledAffectChildren: true,
-    rootCreateTip: '添加一级节点',
-    createTip: '添加孩子节点',
-    editTip: '编辑该节点',
-    removeTip: '移除该节点'
+    rootCreateTip: 'Tree.addRoot',
+    createTip: 'Tree.addChild',
+    editTip: 'Tree.editNode',
+    removeTip: 'Tree.removeNode'
   };
 
   componentWillMount() {
@@ -241,10 +242,12 @@ export class TreeSelector extends React.Component<
     const props = this.props;
     const value = this.state.value.concat();
     const idx = value.indexOf(item);
-    const onlyChildren = this.props.onlyChildren;
+    const onlyChildren = props.onlyChildren;
 
     if (checked) {
       ~idx || value.push(item);
+
+      // cascade 为 true 表示父节点跟子节点没有级联关系。
       if (!props.cascade) {
         const children = item.children ? item.children.concat([]) : [];
 
@@ -256,12 +259,10 @@ export class TreeSelector extends React.Component<
             let child = children.shift();
             let index = value.indexOf(child);
 
-            if (!~index && child.value !== 'undefined') {
-              value.push(child);
-            }
-
             if (child.children) {
               children.push.apply(children, child.children);
+            } else if (!~index && child.value !== 'undefined') {
+              value.push(child);
             }
           }
         } else {
@@ -281,6 +282,32 @@ export class TreeSelector extends React.Component<
             if (child.children && child.children.length) {
               children.push.apply(children, child.children);
             }
+          }
+
+          let toCheck = item;
+
+          while (true) {
+            const parent = getTreeParent(props.options, toCheck);
+            if (parent?.value) {
+              // 如果所有孩子节点都勾选了，应该自动勾选父级。
+
+              if (
+                parent.children.every((child: any) => ~value.indexOf(child))
+              ) {
+                if (!props.withChildren) {
+                  parent.children.forEach((child: any) => {
+                    const index = value.indexOf(child);
+                    if (~index) {
+                      value.splice(index, 1);
+                    }
+                  });
+                }
+                value.push(parent);
+                toCheck = parent;
+                continue;
+              }
+            }
+            break;
           }
         }
       }
@@ -315,7 +342,7 @@ export class TreeSelector extends React.Component<
           valueField,
           delimiter,
           onChange
-        } = this.props;
+        } = props;
 
         onChange(
           joinValues
@@ -331,13 +358,10 @@ export class TreeSelector extends React.Component<
   @autobind
   handleAdd(parent: Option | null = null) {
     const {bultinCUD, onAdd, options} = this.props;
-    let idx: Array<number> | undefined = undefined;
 
     if (!bultinCUD) {
-      idx = parent
-        ? findTreeIndex(options, item => item === parent)
-        : undefined;
-      return onAdd && onAdd(idx);
+      const idxes = findTreeIndex(options, item => item === parent) || [];
+      return onAdd && onAdd(idxes.concat(0));
     } else {
       this.setState({
         isEditing: false,
@@ -349,13 +373,18 @@ export class TreeSelector extends React.Component<
 
   @autobind
   handleEdit(item: Option) {
-    const labelField = this.props.labelField;
-    this.setState({
-      isEditing: true,
-      isAdding: false,
-      editingItem: item,
-      inputValue: item[labelField]
-    });
+    const {bultinCUD, onEdit, labelField, options} = this.props;
+
+    if (!bultinCUD) {
+      onEdit?.(item);
+    } else {
+      this.setState({
+        isEditing: true,
+        isAdding: false,
+        editingItem: item,
+        inputValue: item[labelField]
+      });
+    }
   }
 
   @autobind
@@ -395,11 +424,11 @@ export class TreeSelector extends React.Component<
       },
       () => {
         if (isAdding && onAdd) {
-          let idx =
+          const idxes =
             (addingParent &&
               findTreeIndex(options, item => item === addingParent)) ||
             [];
-          onAdd(idx.concat(0), {[labelField]: value}, true);
+          onAdd(idxes.concat(0), {[labelField]: value}, true);
         } else if (isEditing && onEdit) {
           onEdit(
             {
@@ -434,12 +463,12 @@ export class TreeSelector extends React.Component<
           <input
             onChange={this.handleInputChange}
             value={inputValue}
-            placeholder={__('请输入')}
+            placeholder={__('placeholder.enter')}
           />
-          <a data-tooltip={__('取消')} onClick={this.handleCancel}>
+          <a data-tooltip={__('cancle')} onClick={this.handleCancel}>
             <Icon icon="close" className="icon" />
           </a>
-          <a data-tooltip={__('确认')} onClick={this.handleConfirm}>
+          <a data-tooltip={__('confirm')} onClick={this.handleConfirm}>
             <Icon icon="check" className="icon" />
           </a>
         </div>
@@ -499,7 +528,7 @@ export class TreeSelector extends React.Component<
       let selfChecked = !!uncheckable || checked;
 
       let childrenItems = null;
-      let tmpChildrenChecked = false;
+      let selfChildrenChecked = false;
       if (item.children && item.children.length) {
         childrenItems = this.renderList(
           item.children,
@@ -510,7 +539,7 @@ export class TreeSelector extends React.Component<
                 (selfDisabledAffectChildren ? selfDisabled : false) ||
                 (multiple && checked)
         );
-        tmpChildrenChecked = !!childrenItems.childrenChecked;
+        selfChildrenChecked = !!childrenItems.childrenChecked;
         if (
           !selfChecked &&
           onlyChildren &&
@@ -521,7 +550,7 @@ export class TreeSelector extends React.Component<
         childrenItems = childrenItems.dom;
       }
 
-      if (tmpChildrenChecked || checked) {
+      if ((onlyChildren ? selfChecked : selfChildrenChecked) || checked) {
         childrenChecked++;
       }
 
@@ -539,7 +568,8 @@ export class TreeSelector extends React.Component<
         <Checkbox
           size="sm"
           disabled={nodeDisabled}
-          checked={checked}
+          checked={selfChecked || (!cascade && selfChildrenChecked)}
+          partial={!selfChecked}
           onChange={this.handleCheck.bind(this, item, !selfChecked)}
         />
       ) : showRadio ? (
@@ -567,7 +597,7 @@ export class TreeSelector extends React.Component<
             <div
               className={cx('Tree-itemLabel', {
                 'is-children-checked':
-                  multiple && !cascade && tmpChildrenChecked && !nodeDisabled,
+                  multiple && !cascade && selfChildrenChecked && !nodeDisabled,
                 'is-checked': checked,
                 'is-disabled': nodeDisabled
               })}
@@ -619,8 +649,8 @@ export class TreeSelector extends React.Component<
                 }
               >
                 {highlightTxt
-                  ? highlight(item[labelField], highlightTxt)
-                  : item[labelField]}
+                  ? highlight(`${item[labelField]}`, highlightTxt)
+                  : `${item[labelField]}`}
               </span>
 
               {!nodeDisabled && !isAdding && !isEditing ? (
@@ -730,7 +760,7 @@ export class TreeSelector extends React.Component<
 
     return (
       <div className={cx(`Tree ${className || ''}`)}>
-        {options && options.length ? (
+        {(options && options.length) || addBtn || hideRoot === false ? (
           <ul className={cx('Tree-list')}>
             {hideRoot ? (
               <>
@@ -768,6 +798,7 @@ export class TreeSelector extends React.Component<
                         <a
                           onClick={this.handleAdd.bind(this, null)}
                           data-tooltip={rootCreateTip}
+                          data-position="left"
                         >
                           <Icon icon="plus" className="icon" />
                         </a>
