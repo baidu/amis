@@ -64,6 +64,7 @@ import './renderers/Date';
 import './renderers/Dialog';
 import './renderers/Divider';
 import './renderers/Each';
+import './renderers/Flex';
 import './renderers/Form/index';
 import './renderers/Form/Control';
 import './renderers/Form/Hidden';
