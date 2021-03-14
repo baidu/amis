@@ -769,14 +769,15 @@ export function dataMapping(
   from: PlainObject,
   ignoreFunction: boolean | ((key: string, value: any) => boolean) = false
 ): any {
-  let ret = {};
-
   if (Array.isArray(to)) {
     return to.map(item => dataMapping(item, from, ignoreFunction));
-  } else if (!to) {
-    return ret;
+  } else if (typeof to === 'string') {
+    return resolveMapping(to, from);
+  } else if (!isPlainObject(to)) {
+    return to;
   }
 
+  let ret = {};
   Object.keys(to).forEach(key => {
     const value = to[key];
     let keys: Array<string>;
