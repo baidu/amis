@@ -63,7 +63,8 @@ export class HeadCellSearchDropDown extends React.Component<
       if (searchable.controls || searchable.tabs || searchable.fieldSet) {
         schema = {
           title: '',
-          ...searchable
+          ...searchable,
+          controls: searchable.controls ? [...searchable.controls] : undefined
         };
       } else {
         schema = {
