@@ -45,7 +45,7 @@ export class HeadCellSearchDropDown extends React.Component<
   buildSchema() {
     const {searchable, sortable, name, label, translate: __} = this.props;
 
-    let schema;
+    let schema: any;
 
     if (searchable === true) {
       schema = {
