@@ -142,6 +142,7 @@ export default class Tabs extends React.Component<TabsProps, TabsState> {
   };
 
   renderTab?: (tab: TabSchema, props: TabsProps, index: number) => JSX.Element;
+  activeKey: any;
 
   constructor(props: TabsProps) {
     super(props);
@@ -160,68 +161,65 @@ export default class Tabs extends React.Component<TabsProps, TabsState> {
 
     this.state = {
       prevKey: undefined,
-      activeKey: activeKey
+      activeKey: (this.activeKey = activeKey)
     };
   }
 
   componentDidMount() {
-    this.autoJumpToNeighbour();
+    this.autoJumpToNeighbour(this.activeKey);
   }
 
-  componentWillReceiveProps(nextProps: TabsProps) {
+  componentDidUpdate(preProps: TabsProps, prevState: any) {
     const props = this.props;
 
-    if (nextProps.location && nextProps.location.hash !== props.location.hash) {
-      const hash = nextProps.location.hash.substring(1);
+    if (props.location && props.location.hash !== preProps.location.hash) {
+      const hash = props.location.hash.substring(1);
       if (!hash) {
         return;
       }
 
       const tab: TabSchema = find(
-        nextProps.tabs,
+        props.tabs,
         tab => tab.hash === hash
       ) as TabSchema;
       if (tab && tab.hash && tab.hash !== this.state.activeKey) {
         this.setState({
-          activeKey: tab.hash,
+          activeKey: (this.activeKey = tab.hash),
           prevKey: this.state.activeKey
         });
       }
-    } else if (props.tabs !== nextProps.tabs) {
+    } else if (preProps.tabs !== props.tabs) {
       let activeKey: any = this.state.activeKey;
-      const location = nextProps.location;
+      const location = props.location;
       let tab: TabSchema | null = null;
 
-      if (location && Array.isArray(nextProps.tabs)) {
+      if (location && Array.isArray(props.tabs)) {
         const hash = location.hash.substring(1);
-        tab = find(nextProps.tabs, tab => tab.hash === hash) as TabSchema;
+        tab = find(props.tabs, tab => tab.hash === hash) as TabSchema;
       }
 
       if (tab) {
         activeKey = tab.hash;
       } else if (
-        !nextProps.tabs ||
-        !nextProps.tabs.some((item, index) =>
+        !props.tabs ||
+        !props.tabs.some((item, index) =>
           item.hash ? item.hash === activeKey : index === activeKey
         )
       ) {
-        activeKey =
-          (nextProps.tabs && nextProps.tabs[0] && nextProps.tabs[0].hash) || 0;
+        activeKey = (props.tabs && props.tabs[0] && props.tabs[0].hash) || 0;
       }
 
       this.setState({
         prevKey: undefined,
-        activeKey: activeKey
+        activeKey: (this.activeKey = activeKey)
       });
     }
-  }
 
-  componentDidUpdate() {
-    this.autoJumpToNeighbour();
+    this.autoJumpToNeighbour(this.activeKey);
   }
 
   @autobind
-  autoJumpToNeighbour() {
+  autoJumpToNeighbour(key: any) {
     const {tabs, data} = this.props;
 
     if (!Array.isArray(tabs)) {
@@ -230,9 +228,7 @@ export default class Tabs extends React.Component<TabsProps, TabsState> {
 
     // 当前 tab 可能不可见，所以需要自动切到一个可见的 tab, 向前找，找一圈
     const tabIndex = findIndex(tabs, (tab: TabSchema, index) =>
-      tab.hash
-        ? tab.hash === this.state.activeKey
-        : index === this.state.activeKey
+      tab.hash ? tab.hash === key : index === key
     );
 
     if (tabs[tabIndex] && !isVisible(tabs[tabIndex], this.props.data)) {
@@ -245,7 +241,7 @@ export default class Tabs extends React.Component<TabsProps, TabsState> {
         if (isVisible(tabs[index], data)) {
           let activeKey = tabs[index].hash || index;
           this.setState({
-            activeKey
+            activeKey: (this.activeKey = activeKey)
           });
           break;
         }
@@ -265,7 +261,7 @@ export default class Tabs extends React.Component<TabsProps, TabsState> {
     }
 
     this.setState({
-      activeKey: key,
+      activeKey: (this.activeKey = key),
       prevKey: this.state.activeKey
     });
   }
@@ -277,7 +273,7 @@ export default class Tabs extends React.Component<TabsProps, TabsState> {
     Array.isArray(tabs) &&
       tabs[index] &&
       this.setState({
-        activeKey: tabs[index].hash || index
+        activeKey: (this.activeKey = tabs[index].hash || index)
       });
   }
 
@@ -317,22 +313,11 @@ export default class Tabs extends React.Component<TabsProps, TabsState> {
       tabsMode,
       mountOnEnter,
       unmountOnExit,
-      source,
-      value
+      source
     } = this.props;
 
     const mode = tabsMode || dMode;
-    const arr =
-      typeof value !== 'undefined'
-        ? isObject(value)
-          ? Object.keys(value).map(key => ({
-              key: key,
-              value: value[key]
-            }))
-          : Array.isArray(value)
-          ? value
-          : []
-        : resolveVariable(source, data);
+    const arr = resolveVariable(source, data);
 
     let tabs = this.props.tabs;
     if (!tabs) {
