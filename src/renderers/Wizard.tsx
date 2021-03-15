@@ -638,6 +638,11 @@ export default class Wizard extends React.Component<WizardProps, WizardState> {
                 (ret: any) => ret && ret[finishedField || 'finished'],
                 cancel => (this.asyncCancel = cancel)
               );
+            },
+            onFailed: json => {
+              if (json.status === 422 && json.errors && this.form) {
+                this.form.props.store.handleRemoteError(json.errors);
+              }
             }
           })
           .then((value: any) =>
