@@ -87,6 +87,7 @@ export type SchemaType =
   | 'dropdown-button'
   | 'drawer'
   | 'each'
+  | 'flex'
   | 'grid'
   | 'grid-2d'
   | 'hbox'

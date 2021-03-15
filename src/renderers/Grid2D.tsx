@@ -59,7 +59,7 @@ export type Grid = GridObject & SchemaObject;
  */
 export interface Grid2DSchema extends BaseSchema {
   /**
-   * 指定为each展示类型
+   * 指定为 grid-2d 展示类型
    */
   type: 'grid-2d';
 

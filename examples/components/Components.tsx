@@ -42,6 +42,15 @@ export const components = [
           )
       },
       {
+        label: 'Flex 布局',
+        path: '/zh-CN/components/flex',
+        getComponent: () =>
+          // @ts-ignore
+          import('../../docs/zh-CN/components/flex.md').then(
+            makeMarkdownRenderer
+          )
+      },
+      {
         label: 'Grid 水平布局',
         path: '/zh-CN/components/grid',
         getComponent: () =>
