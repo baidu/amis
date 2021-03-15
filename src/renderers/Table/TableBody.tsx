@@ -16,7 +16,6 @@ export interface TableBodyProps extends LocaleProps {
   classnames: ClassNamesFn;
   columns: Array<IColumn>;
   rows: Array<IRow>;
-  placeholder?: string;
   render: (region: string, node: SchemaNode, props?: any) => JSX.Element;
   renderCell: (
     region: string,
@@ -247,7 +246,6 @@ export class TableBody extends React.Component<TableBodyProps> {
 
   render() {
     const {
-      placeholder,
       classnames: cx,
       className,
       render,
@@ -267,13 +265,7 @@ export class TableBody extends React.Component<TableBodyProps> {
             {this.renderRows(rows, columns, rowsProps)}
             {this.renderSummary(affixRow)}
           </>
-        ) : (
-          <tr className={cx('Table-placeholder')}>
-            <td colSpan={columns.length}>
-              {render('placeholder', __(placeholder || 'placeholder.noData'))}
-            </td>
-          </tr>
-        )}
+        ) : null}
       </tbody>
     );
   }
