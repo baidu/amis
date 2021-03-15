@@ -1,21 +1,21 @@
 ---
-title: Elevator 电梯导航
+title: Anchor 锚点
 description:
 type: 0
 group: ⚙ 组件
-menuName: Elevator
+menuName: Anchor
 icon:
 order: 68
 ---
 
-电梯导航容器组件。
+锚点容器组件。
 
 ## 基本用法
 
 ```schema: scope="body"
 {
-    "type": "elevator",
-    "floors": [
+    "type": "anchor",
+    "links": [
         {
             "title": "基本信息",
             "body": [
@@ -103,22 +103,22 @@ order: 68
 }
 ```
 
-默认想要显示多少楼层配置多少个 `floors` 成员即可。
+默认想要显示多少锚点配置多少个 `links` 成员即可。
 
-## 默认定位到某个楼层
+## 默认定位到某个区域
 
 主要配置`active`属性来实现该效果，共有下面两种方法：
 
-#### 配置 anchor 值
+#### 配置 href 值
 
 ```schema: scope="body"
 {
-    "type": "elevator",
+    "type": "anchor",
     "active": "work",
-    "floors": [
+    "links": [
         {
             "title": "基本信息",
-            "anchor": "base",
+            "href": "base",
             "body": [
                 {
                     "type": "form",
@@ -140,7 +140,7 @@ order: 68
         },
         {
             "title": "工作信息",
-            "anchor": "work",
+            "href": "work",
             "body": [
                 {
                     "type": "form",
@@ -162,7 +162,7 @@ order: 68
         },
         {
             "title": "兴趣爱好",
-            "anchor": "interest",
+            "href": "interest",
             "body": [
                 {
                     "type": "form",
@@ -208,13 +208,13 @@ order: 68
 
 #### 配置索引值
 
-单个`floor`上不要配置`anchor`属性，配置需要展示的`floor`索引值，`0`代表第一个。
+单个`link`上不要配置`href`属性，配置需要展示的`link`索引值，`0`代表第一个。
 
 ```schema: scope="body"
 {
-    "type": "elevator",
+    "type": "anchor",
     "active": 1,
-    "floors": [
+    "links": [
         {
             "title": "基本信息",
             "body": [
@@ -304,15 +304,15 @@ order: 68
 
 ## 属性表
 
-| 属性名              | 类型                              | 默认值                              | 说明                   |
-| ------------------- | --------------------------------- | ----------------------------------- | ---------------------- |
-| type                | `string`                          | `"elevator"`                        | 指定为 Elevator 渲染器 |
-| className           | `string`                          |                                     | 外层 Dom 的类名        |
-| navClassName        | `string`                          |                                     | 导航 Dom 的类名        |
-| floorClassName      | `string`                          |                                     | 楼层 Dom 的类名        |
-| floors              | `Array`                           |                                     | floors 内容            |
-| active              | `string`                          |                                     | 需要定位的楼层         |
-| floors[x].title     | `string`                          |                                     | 楼层 标题              |
-| floors[x].anchor    | `string`                          |                                     | 楼层 标识              |
-| floors[x].body      | [SchemaNode](../types/schemanode) |                                     | 楼层 内容区            |
-| floors[x].className | `string`                          | `"bg-white b-l b-r b-b wrapper-md"` | 楼层成员 区域样式      |
+| 属性名             | 类型                              | 默认值                              | 说明                 |
+| ------------------ | --------------------------------- | ----------------------------------- | -------------------- |
+| type               | `string`                          | `"anchor"`                          | 指定为 Anchor 渲染器 |
+| className          | `string`                          |                                     | 外层 Dom 的类名      |
+| linkClassName      | `string`                          |                                     | 导航 Dom 的类名      |
+| sectionClassName   | `string`                          |                                     | 锚点区域 Dom 的类名  |
+| links              | `Array`                           |                                     | links 内容           |
+| active             | `string`                          |                                     | 需要定位的区域       |
+| links[x].title     | `string`                          |                                     | 区域 标题            |
+| links[x].href      | `string`                          |                                     | 区域 标识            |
+| links[x].body      | [SchemaNode](../types/schemanode) |                                     | 区域 内容区          |
+| links[x].className | `string`                          | `"bg-white b-l b-r b-b wrapper-md"` | 区域成员 样式        |

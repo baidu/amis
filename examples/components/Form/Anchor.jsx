@@ -1,6 +1,6 @@
 export default {
   $schema: 'https://houtai.baidu.com/v2/schemas/page.json#',
-  title: '表单内电梯导航示例',
+  title: '表单内锚点导航示例',
   body: [
     {
       type: 'form',
@@ -9,8 +9,8 @@ export default {
       title: '',
       controls: [
         {
-          type: 'elevator',
-          floors: [
+          type: 'anchor',
+          links: [
             {
               title: '员工基本信息',
               controls: [

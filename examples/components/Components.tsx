@@ -185,11 +185,11 @@ export const components = [
       },
 
       {
-        label: 'Elevator 电梯导航',
-        path: '/zh-CN/components/elevator',
+        label: 'Anchor 锚点',
+        path: '/zh-CN/components/anchor',
         getComponent: () =>
           // @ts-ignore
-          import('../../docs/zh-CN/components/elevator.md').then(
+          import('../../docs/zh-CN/components/anchor.md').then(
             makeMarkdownRenderer
           )
       }
@@ -758,11 +758,11 @@ export const components = [
           )
       },
       {
-        label: 'Elevator 电梯导航',
-        path: '/zh-CN/components/form/elevator',
+        label: 'Anchor 锚点',
+        path: '/zh-CN/components/form/anchor',
         getComponent: () =>
           // @ts-ignore
-          import('../../docs/zh-CN/components/form/elevator.md').then(
+          import('../../docs/zh-CN/components/form/anchor.md').then(
             makeMarkdownRenderer
           )
       }

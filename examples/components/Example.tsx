@@ -29,7 +29,7 @@ import FormulaFormSchema from './Form/Formula';
 import CustomFormSchema from './Form/Custom';
 import FormLayoutTestSchema from './Form/layoutTest';
 import Definitions from './Form/Definitions';
-import Elevator from './Form/Elevator';
+import Anchor from './Form/Anchor';
 
 import TableCrudSchema from './CRUD/Table';
 import ItemActionsSchema from './CRUD/ItemActions';
@@ -255,9 +255,9 @@ export const examples = [
           },
 
           {
-            label: '电梯导航',
-            path: '/examples/form/elevator',
-            component: makeSchemaRenderer(Elevator)
+            label: '锚点',
+            path: '/examples/form/anchor',
+            component: makeSchemaRenderer(Anchor)
           }
 
           // {

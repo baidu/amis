@@ -54,7 +54,7 @@ import ListGroup from './ListGroup';
 import NumberInput from './NumberInput';
 import ArrayInput from './ArrayInput';
 import SearchBox from './SearchBox';
-import Elevator from './Elevator';
+import Anchor from './Anchor';
 
 export {
   NotFound,
@@ -113,5 +113,5 @@ export {
   ListGroup,
   NumberInput,
   ArrayInput,
-  Elevator
+  Anchor
 };

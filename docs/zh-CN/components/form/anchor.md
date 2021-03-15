@@ -1,14 +1,14 @@
 ---
-title: Elevator 电梯导航
+title: Anchor 锚点
 description:
 type: 0
 group: null
-menuName: Elevator 电梯导航
+menuName: Anchor 锚点
 icon:
 order: 53
 ---
 
-有多组输入框时，可以通过电梯导航来分组，方便定位查看。
+有多组输入框时，可以通过锚点导航来分组，方便定位查看。
 
 ## 基本用法
 
@@ -17,8 +17,8 @@ order: 53
   "type": "form",
   "controls": [
     {
-      "type": "elevator",
-      "floors": [
+      "type": "anchor",
+      "links": [
         {
           "title": "员工基本信息",
           "controls": [
@@ -126,8 +126,8 @@ order: 53
 
 ## 更多功能
 
-请参考[这里](../elevator)。
+请参考[这里](../anchor)。
 
 ## 属性表
 
-请参考[这里](../elevator#属性表)。
+请参考[这里](../anchor#属性表)。

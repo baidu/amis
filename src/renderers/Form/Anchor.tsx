@@ -1,18 +1,18 @@
 import React from 'react';
 import {Renderer, RendererProps} from '../../factory';
-import Elevator, {FloorSchema, ElevatorSchema} from '../Elevator';
+import Anchor, {AnchorSectionSchema, AnchorSchema} from '../Anchor';
 import {FormBaseControl, FormControlSchema} from './Item';
 
-export type FloorControlSchema = FloorSchema & {
+export type AnchorSectionControlSchema = AnchorSectionSchema & {
   /**
    * 表单项集合
    */
   controls?: Array<FormControlSchema>;
 
   /**
-   * @deprecated 请用类型 elevator
+   * @deprecated 请用类型 anchor
    */
-  elevator?: any;
+  anchor?: any;
 
   /**
    * @deprecated 请用类型 fieldSet
@@ -21,31 +21,31 @@ export type FloorControlSchema = FloorSchema & {
 };
 
 /**
- * Elevator
- * 文档：https://baidu.gitee.io/amis/docs/components/form/elevator
+ * Anchor
+ * 文档：https://baidu.gitee.io/amis/docs/components/form/anchor
  */
-export interface ElevatorControlSchema
+export interface AnchorControlSchema
   extends FormBaseControl,
-    Omit<ElevatorSchema, 'floors'> {
-  type: 'elevator';
+    Omit<AnchorSchema, 'links'> {
+  type: 'anchor';
 
-  floors: Array<FloorControlSchema>;
+  links: Array<AnchorSectionControlSchema>;
 }
 
-export interface ElevatorProps extends RendererProps {}
+export interface AnchorProps extends RendererProps {}
 
 @Renderer({
-  test: /(^|\/)form(?:.+)?\/control\/elevator$/i,
+  test: /(^|\/)form(?:.+)?\/control\/anchor$/i,
   weight: -100,
-  name: 'elevator-control'
+  name: 'anchor-control'
 })
-export class ElevatorRenderer extends Elevator {
+export class AnchorRenderer extends Anchor {
   static defaultProps = {
     mountOnEnter: false // form 中的不按需渲染
   };
-  static propsList: Array<string> = ['onChange', 'floors'];
+  static propsList: Array<string> = ['onChange', 'links'];
 
-  renderFloor = (floor: any, props: any, key: number) => {
+  renderSection = (section: any, props: any, key: number) => {
     const {
       renderFormItems,
       formMode,
@@ -57,13 +57,13 @@ export class ElevatorRenderer extends Elevator {
 
     if (
       renderFormItems &&
-      !floor.type &&
-      (floor.controls || floor.fieldSet || floor.floors)
+      !section.type &&
+      (section.controls || section.fieldSet || section.anchor)
     ) {
       return (
         <div className={cx(`Form--${formMode || 'normal'}`)}>
           {renderFormItems(
-            floor,
+            section,
             `${($path as string).replace(/^.*form\//, '')}/${key}`,
             {
               mode: formMode,
@@ -74,6 +74,6 @@ export class ElevatorRenderer extends Elevator {
       );
     }
 
-    return render(`floor/${key}`, floor.body || floor);
+    return render(`section/${key}`, section.body || section);
   };
 }

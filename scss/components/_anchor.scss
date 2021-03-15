@@ -1,22 +1,22 @@
-.#{$ns}Elevator {
+.#{$ns}Anchor {
   display: flex;
   height: px2rem(400px);
 
-  &-nav-wrap {
+  &-link-wrap {
     margin: 0;
     padding: 0;
     width: var(--Tabs--vertical-width);
-    border-right: var(--Elevator-links-container-borderRight);
+    border-right: var(--Anchor-links-container-borderRight);
     padding-bottom: px2rem(60px);
 
-    > .#{$ns}Elevator-nav {
+    > .#{$ns}Anchor-link {
       position: relative;
       display: block;
 
       > a {
         display: block;
         border: var(--Tabs-borderWidth) solid transparent;
-        border-width: var(--Elevator-onActive-borderWidth);
+        border-width: var(--Anchor-onActive-borderWidth);
         color: var(--Tabs-color);
         padding: var(--Tabs-linkPadding);
         font-size: var(--Tabs-linkFontSize);
@@ -41,13 +41,13 @@
     }
   }
 
-  &-floor-wrap {
+  &-section-wrap {
     border: none;
     flex-grow: 1;
     overflow: auto;
     background: var(--Tabs-content-bg);
 
-    > .#{$ns}Elevator-floor {
+    > .#{$ns}Anchor-section {
       display: block;
       padding: var(--gap-base);
     }

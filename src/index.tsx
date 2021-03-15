@@ -159,8 +159,8 @@ import './renderers/IFrame';
 import './renderers/QRCode';
 import './renderers/Icon';
 import './renderers/Carousel';
-import './renderers/Elevator';
-import './renderers/Form/Elevator';
+import './renderers/Anchor';
+import './renderers/Form/Anchor';
 import Scoped, {ScopedContext} from './Scoped';
 
 import {FormItem, registerFormItem} from './renderers/Form/Item';
