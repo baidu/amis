@@ -34,6 +34,7 @@ export interface fetchOptions {
   autoAppend?: boolean;
   beforeSend?: (data: any) => any;
   onSuccess?: (json: Payload) => any;
+  onFailed?: (json: Payload) => any;
   silent?: boolean;
   [propName: string]: any;
 }
