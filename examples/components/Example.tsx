@@ -29,6 +29,7 @@ import FormulaFormSchema from './Form/Formula';
 import CustomFormSchema from './Form/Custom';
 import FormLayoutTestSchema from './Form/layoutTest';
 import Definitions from './Form/Definitions';
+import Elevator from './Form/Elevator';
 
 import TableCrudSchema from './CRUD/Table';
 import ItemActionsSchema from './CRUD/ItemActions';
@@ -251,6 +252,12 @@ export const examples = [
             label: '样式编辑',
             path: '/examples/form/style-builder',
             component: makeSchemaRenderer(StyleBuilderSchema)
+          },
+
+          {
+            label: '电梯导航',
+            path: '/examples/form/elevator',
+            component: makeSchemaRenderer(Elevator)
           }
 
           // {

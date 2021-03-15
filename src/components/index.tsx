@@ -54,6 +54,7 @@ import ListGroup from './ListGroup';
 import NumberInput from './NumberInput';
 import ArrayInput from './ArrayInput';
 import SearchBox from './SearchBox';
+import Elevator from './Elevator';
 
 export {
   NotFound,
@@ -111,5 +112,6 @@ export {
   TreeRadios,
   ListGroup,
   NumberInput,
-  ArrayInput
+  ArrayInput,
+  Elevator
 };
