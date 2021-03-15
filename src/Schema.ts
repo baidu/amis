@@ -1,57 +1,58 @@
-import {PageSchema} from './renderers/Page';
-import {TplSchema} from './renderers/Tpl';
-import {RemarkSchema} from './renderers/Remark';
-import {ActionSchema} from './renderers/Action';
-import {AlertSchema} from './renderers/Alert';
-import {AudioSchema} from './renderers/Audio';
-import {ButtonGroupSchema} from './renderers/ButtonGroup';
-import {ButtonToolbarSchema} from './renderers/ButtonToolbar';
-import {CardSchema} from './renderers/Card';
-import {CardsSchema} from './renderers/Cards';
-import {FormSchema} from './renderers/Form';
-import {CarouselSchema} from './renderers/Carousel';
-import {ChartSchema} from './renderers/Chart';
-import {CollapseSchema} from './renderers/Collapse';
-import {ColorSchema} from './renderers/Color';
-import {ContainerSchema} from './renderers/Container';
-import {CRUDSchema} from './renderers/CRUD';
-import {DateSchema} from './renderers/Date';
-import {DividerSchema} from './renderers/Divider';
-import {DropdownButtonSchema} from './renderers/DropDownButton';
-import {EachSchema} from './renderers/Each';
-import {GridSchema} from './renderers/Grid';
-import {Grid2DSchema} from './renderers/Grid2D';
-import {HBoxSchema} from './renderers/HBox';
-import {IconSchema} from './renderers/Icon';
-import {IFrameSchema} from './renderers/IFrame';
-import {ImageSchema} from './renderers/Image';
-import {ImagesSchema} from './renderers/Images';
-import {JsonSchema} from './renderers/Json';
-import {LinkSchema} from './renderers/Link';
-import {ListSchema} from './renderers/List';
-import {MappingSchema} from './renderers/Mapping';
-import {NavSchema} from './renderers/Nav';
-import {OperationSchema} from './renderers/Operation';
-import {PanelSchema} from './renderers/Panel';
-import {PlainSchema} from './renderers/Plain';
-import {ProgressSchema} from './renderers/Progress';
-import {QRCodeSchema} from './renderers/QRCode';
-import {ServiceSchema} from './renderers/Service';
-import {StatusSchema} from './renderers/Status';
-import {SwitchSchema} from './renderers/Switch';
-import {TabsSchema} from './renderers/Tabs';
-import {TasksSchema} from './renderers/Tasks';
-import {VBoxSchema} from './renderers/VBox';
-import {VideoSchema} from './renderers/Video';
-import {WizardSchema} from './renderers/Wizard';
-import {WrapperSchema} from './renderers/Wrapper';
-import {TableSchema} from './renderers/Table';
-import {DialogSchema} from './renderers/Dialog';
-import {DrawerSchema} from './renderers/Drawer';
-import {SearchBoxSchema} from './renderers/SearchBox';
-import {SparkLineSchema} from './renderers/SparkLine';
-import {PaginationWrapperSchema} from './renderers/PaginationWrapper';
-import {PaginationSchema} from './renderers/Pagination';
+import { PageSchema } from './renderers/Page';
+import { TplSchema } from './renderers/Tpl';
+import { RemarkSchema } from './renderers/Remark';
+import { ActionSchema } from './renderers/Action';
+import { AlertSchema } from './renderers/Alert';
+import { AudioSchema } from './renderers/Audio';
+import { ButtonGroupSchema } from './renderers/ButtonGroup';
+import { ButtonToolbarSchema } from './renderers/ButtonToolbar';
+import { CardSchema } from './renderers/Card';
+import { CardsSchema } from './renderers/Cards';
+import { FormSchema } from './renderers/Form';
+import { CarouselSchema } from './renderers/Carousel';
+import { ChartSchema } from './renderers/Chart';
+import { CollapseSchema } from './renderers/Collapse';
+import { ColorSchema } from './renderers/Color';
+import { ContainerSchema } from './renderers/Container';
+import { CRUDSchema } from './renderers/CRUD';
+import { DateSchema } from './renderers/Date';
+import { DividerSchema } from './renderers/Divider';
+import { DropdownButtonSchema } from './renderers/DropDownButton';
+import { EachSchema } from './renderers/Each';
+import { GridSchema } from './renderers/Grid';
+import { Grid2DSchema } from './renderers/Grid2D';
+import { HBoxSchema } from './renderers/HBox';
+import { IconSchema } from './renderers/Icon';
+import { IFrameSchema } from './renderers/IFrame';
+import { ImageSchema } from './renderers/Image';
+import { ImagesSchema } from './renderers/Images';
+import { JsonSchema } from './renderers/Json';
+import { LinkSchema } from './renderers/Link';
+import { ListSchema } from './renderers/List';
+import { MappingSchema } from './renderers/Mapping';
+import { NavSchema } from './renderers/Nav';
+import { OperationSchema } from './renderers/Operation';
+import { PanelSchema } from './renderers/Panel';
+import { PlainSchema } from './renderers/Plain';
+import { ProgressSchema } from './renderers/Progress';
+import { QRCodeSchema } from './renderers/QRCode';
+import { ServiceSchema } from './renderers/Service';
+import { StatusSchema } from './renderers/Status';
+import { SwitchSchema } from './renderers/Switch';
+import { TabsSchema } from './renderers/Tabs';
+import { TasksSchema } from './renderers/Tasks';
+import { VBoxSchema } from './renderers/VBox';
+import { VideoSchema } from './renderers/Video';
+import { WizardSchema } from './renderers/Wizard';
+import { WrapperSchema } from './renderers/Wrapper';
+import { TableSchema } from './renderers/Table';
+import { DialogSchema } from './renderers/Dialog';
+import { DrawerSchema } from './renderers/Drawer';
+import { SearchBoxSchema } from './renderers/SearchBox';
+import { SparkLineSchema } from './renderers/SparkLine';
+import { PaginationWrapperSchema } from './renderers/PaginationWrapper';
+import { PaginationSchema } from './renderers/Pagination';
+import { ElevatorSchema } from './renderers/Elevator';
 
 // 每加个类型，这补充一下。
 export type SchemaType =
@@ -129,7 +130,8 @@ export type SchemaType =
   | 'vbox'
   | 'video'
   | 'wizard'
-  | 'wrapper';
+  | 'wrapper'
+  | 'elevator';
 
 export type SchemaObject =
   | PageSchema
@@ -185,7 +187,8 @@ export type SchemaObject =
   | VideoSchema
   | WizardSchema
   | WrapperSchema
-  | FormSchema;
+  | FormSchema
+  | ElevatorSchema;
 
 export type SchemaCollection =
   | SchemaObject
@@ -212,8 +215,8 @@ export type SchemaExpression = string;
 export type SchemaClassName =
   | string
   | {
-      [propName: string]: true | false | null | SchemaExpression;
-    };
+    [propName: string]: true | false | null | SchemaExpression;
+  };
 
 // /**
 //  * css类名，配置字符串，或者对象。
@@ -369,16 +372,16 @@ export type SchemaUrlPath = SchemaTokenizeableString;
 export type SchemaTooltip =
   | string
   | {
-      /**
-       * 标题
-       */
-      title?: string;
+    /**
+     * 标题
+     */
+    title?: string;
 
-      /**
-       * 内容
-       */
-      content: string;
-    };
+    /**
+     * 内容
+     */
+    content: string;
+  };
 
 /**
  * 消息文案配置，记住这个优先级是最低的，如果你的接口返回了 msg，接口返回的优先。
@@ -521,6 +524,6 @@ export interface Option {
 
   [propName: string]: any;
 }
-export interface Options extends Array<Option> {}
+export interface Options extends Array<Option> { }
 
 export type RootSchema = PageSchema;

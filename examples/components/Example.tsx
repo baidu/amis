@@ -1,5 +1,5 @@
 import React from 'react';
-import {match} from 'path-to-regexp';
+import { match } from 'path-to-regexp';
 import makeSchemaRenderer from './SchemaRender';
 
 import SimplePageSchema from './Page/Simple';
@@ -29,6 +29,7 @@ import FormulaFormSchema from './Form/Formula';
 import CustomFormSchema from './Form/Custom';
 import FormLayoutTestSchema from './Form/layoutTest';
 import Definitions from './Form/Definitions';
+import Elevator from './Form/Elevator';
 
 import TableCrudSchema from './CRUD/Table';
 import ItemActionsSchema from './CRUD/ItemActions';
@@ -81,7 +82,7 @@ import Tab2Schema from './Tabs/Tab2';
 import Tab3Schema from './Tabs/Tab3';
 import TestComponent from './Test';
 import JSSDK from './JSSDK/index';
-import {normalizeLink} from '../../src/utils/normalizeLink';
+import { normalizeLink } from '../../src/utils/normalizeLink';
 
 export const examples = [
   {
@@ -251,6 +252,12 @@ export const examples = [
             label: '样式编辑',
             path: '/examples/form/style-builder',
             component: makeSchemaRenderer(StyleBuilderSchema)
+          },
+
+          {
+            label: '电梯导航',
+            path: '/examples/form/elevator',
+            component: makeSchemaRenderer(Elevator)
           }
 
           // {

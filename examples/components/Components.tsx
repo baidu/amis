@@ -182,6 +182,16 @@ export const components = [
           import('../../docs/zh-CN/components/nav.md').then(
             makeMarkdownRenderer
           )
+      },
+
+      {
+        label: 'Elevator 电梯导航',
+        path: '/zh-CN/components/elevator',
+        getComponent: () =>
+          // @ts-ignore
+          import('../../docs/zh-CN/components/elevator.md').then(
+            makeMarkdownRenderer
+          )
       }
     ]
   },
@@ -744,6 +754,15 @@ export const components = [
         getComponent: () =>
           // @ts-ignore
           import('../../docs/zh-CN/components/form/year.md').then(
+            makeMarkdownRenderer
+          )
+      },
+      {
+        label: 'Elevator 电梯导航',
+        path: '/zh-CN/components/form/elevator',
+        getComponent: () =>
+          // @ts-ignore
+          import('../../docs/zh-CN/components/form/elevator.md').then(
             makeMarkdownRenderer
           )
       }
