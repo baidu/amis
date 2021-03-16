@@ -2,10 +2,9 @@ const originalWarn = console.warn.bind(console.warn);
 
 require('moment-timezone');
 const moment = require('moment');
+moment.tz.setDefault('Asia/Shanghai');
 
 global.beforeAll(() => {
-  moment.tz.setDefault('Asia/Shanghai');
-
   console.warn = msg => {
     // warning 先关了，实在太吵。
     // const str = msg.toString();
