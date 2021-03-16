@@ -48,6 +48,7 @@ export * from './Schema';
 import './renderers/Action';
 import './renderers/Alert';
 import './renderers/App';
+import './renderers/Avatar';
 import './renderers/Remark';
 import './renderers/ButtonGroup';
 import './renderers/ButtonToolbar';
