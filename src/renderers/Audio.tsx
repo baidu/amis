@@ -69,8 +69,8 @@ export interface AudioState {
 
 export class Audio extends React.Component<AudioProps, AudioState> {
   audio: any;
-  progressTimeout: NodeJS.Timeout;
-  durationTimeout: NodeJS.Timeout;
+  progressTimeout: ReturnType<typeof setTimeout>;
+  durationTimeout: ReturnType<typeof setTimeout>;
 
   static defaultProps: Pick<
     AudioProps,

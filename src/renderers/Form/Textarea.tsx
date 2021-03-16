@@ -117,8 +117,8 @@ export default class TextAreaControl extends React.Component<
             : JSON.stringify(value)
         }
         placeholder={placeholder}
-        autocorrect="off"
-        spellcheck="false"
+        autoCorrect="off"
+        spellCheck="false"
         readOnly={readOnly}
         minRows={minRows}
         maxRows={maxRows}
