@@ -1,0 +1,9 @@
+.#{$ns}Breadcrumb {
+  &-icon {
+    margin-right: px2rem(2px);
+  }
+  &-separator {
+    user-select: none;
+    margin: 0 var(--gap-xs);
+  }
+}

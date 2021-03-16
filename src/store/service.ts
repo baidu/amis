@@ -289,6 +289,14 @@ export const ServiceStore = iRendererStore
         }
 
         if (!json.ok) {
+          if (options && options.onFailed) {
+            const ret = options.onFailed(json);
+
+            if (ret && ret.then) {
+              yield ret;
+            }
+          }
+
           updateMessage(
             json.msg ??
               (options && options.errorMessage) ??

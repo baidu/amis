@@ -1346,7 +1346,10 @@ export default class CRUD extends React.Component<CRUDProps, any> {
     }
 
     if (pickerMode && multiple === false && newItems.length > 1) {
-      newUnSelectedItems.push(...newItems.splice(0, newItems.length - 1));
+      newUnSelectedItems.push.apply(
+        newUnSelectedItems,
+        newItems.splice(0, newItems.length - 1)
+      );
     }
 
     store.setSelectedItems(newItems);
@@ -1431,7 +1434,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
     const unSelected = store.unSelectedItems.concat();
 
     const idx = selected.indexOf(item);
-    ~idx && unSelected.push(...selected.splice(idx, 1));
+    ~idx && unSelected.push.apply(unSelected, selected.splice(idx, 1));
 
     store.setSelectedItems(selected);
     store.setUnSelectedItems(unSelected);
