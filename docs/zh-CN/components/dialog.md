@@ -285,6 +285,43 @@ Dialog 弹框 主要由 [Action](./action) 触发，主要展示一个对话框�
 }
 ```
 
+## 配置弹窗的按钮
+
+可以通过设置 `actions` 来控制弹窗中的按钮。
+
+```schema: scope="body"
+{
+    "type": "button-toolbar",
+    "buttons": [
+        {
+            "type": "button",
+            "label": "无按钮",
+            "actionType": "dialog",
+            "dialog": {
+                "title": "提示",
+                "actions": [],
+                "body": "无按钮的弹框"
+            }
+        },
+        {
+            "type": "button",
+            "label": "只有一个确认按钮",
+            "actionType": "dialog",
+            "dialog": {
+                "title": "提示",
+                "actions": [{
+                  "type": "button",
+                  "actionType": "confirm",
+                  "label": "OK",
+                  "primary": true
+                }],
+                "body": "只有一个 OK 的弹框"
+            }
+        }
+    ]
+}
+```
+
 ## 弹框中配置表单
 
 ### 基本使用
