@@ -794,8 +794,7 @@ export default {
           label: '图片有默认图片',
           defaultImage:
             'https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=3893101144,2877209892&fm=23&gp=0.jpg',
-          defaultImageMode: 'cover',
-          defaultImageRatio: '1:1'
+          fixedSize: 'w-52 h-32'
         },
         {
           type: 'divider'
