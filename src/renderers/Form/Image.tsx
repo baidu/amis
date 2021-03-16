@@ -222,6 +222,21 @@ export interface ImageControlSchema extends FormBaseControl {
   autoFill?: {
     [propName: string]: SchemaTokenizeableString;
   };
+
+  /**
+   * 默认图片地址
+   */
+  defaultImage?: SchemaUrlPath;
+
+  /**
+   * 默认图片展示模式
+   */
+  defaultImageMode?: 'w-full' | 'h-full' | 'contain' | 'cover';
+
+  /**
+   * 默认图片展示比率。
+   */
+  defaultImageRatio?: '1:1' | '4:3' | '16:9';
 }
 
 let preventEvent = (e: any) => e.stopPropagation();
@@ -1095,6 +1110,9 @@ export default class ImageControl extends React.Component<
       thumbMode,
       thumbRatio,
       reCropable,
+      defaultImage,
+      defaultImageMode,
+      defaultImageRatio,
       translate: __
     } = this.props;
 
@@ -1340,7 +1358,17 @@ export default class ImageControl extends React.Component<
                         data-tooltip={__(placeholder)}
                         data-position="right"
                       >
-                        <Icon icon="plus" className="icon" />
+                        {defaultImage ? (
+                          <ImageComponent
+                            key="upload-default-image"
+                            className={cx('ImageControl-upload-default-image')}
+                            src={defaultImage}
+                            thumbMode={defaultImageMode}
+                            thumbRatio={defaultImageRatio}
+                          />
+                        ) : (
+                          <Icon icon="plus" className="icon" />
+                        )}
 
                         {isFocused ? (
                           <span className={cx('ImageControl-pasteTip')}>
