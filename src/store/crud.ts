@@ -292,7 +292,7 @@ export const CRUDStore = ServiceStore.named('CRUDStore')
               options.perPageField || 'perPage'
             );
 
-          self.total = parseInt(data.total || data.count, 10) || 0;
+          self.total = parseInt(data.total ?? data.count, 10) || 0;
           typeof page !== 'undefined' && (self.page = parseInt(page, 10));
 
           // 分页情况不清楚，只能知道有没有下一页。

@@ -108,6 +108,13 @@ export interface CRUDCommonSchema extends BaseSchema {
   itemActions?: Array<ActionSchema>;
 
   /**
+   * 每页个数，默认为 10，如果不是请设置。
+   *
+   * @default 10
+   */
+  perPage?: number;
+
+  /**
    * 可以默认给定初始参数如： {\"perPage\": 24}
    */
   defaultParams?: PlainObject;
@@ -447,6 +454,10 @@ export default class CRUD extends React.Component<CRUDProps, any> {
 
   componentDidMount() {
     const store = this.props.store;
+
+    if (this.props.perPage) {
+      store.changePage(store.page, this.props.perPage);
+    }
 
     if (!this.props.filter || (store.filterTogggable && !store.filterVisible)) {
       this.handleFilterInit({});
