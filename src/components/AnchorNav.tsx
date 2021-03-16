@@ -1,6 +1,6 @@
 /**
- * @file Anchor
- * @description 锚点
+ * @file AnchorNav
+ * @description 锚点导航
  * @author hsm-lv
  */
 
@@ -12,14 +12,14 @@ import {autobind} from '../utils/helper';
 import {uncontrollable} from 'uncontrollable';
 import {find} from 'lodash';
 
-export interface AnchorSectionProps extends ThemeProps {
+export interface AnchorNavSectionProps extends ThemeProps {
   title?: string; // 标题
   name: string | number; // 标识
   body?: Schema; // Schema
   className?: string; // 样式名
 }
 
-class AnchorSectionComponent extends React.PureComponent<AnchorSectionProps> {
+class AnchorNavSectionComponent extends React.PureComponent<AnchorNavSectionProps> {
   contentDom: any;
   contentRef = (ref: any) => (this.contentDom = ref);
 
@@ -27,35 +27,35 @@ class AnchorSectionComponent extends React.PureComponent<AnchorSectionProps> {
     const {classnames: cx, children, className} = this.props;
 
     return (
-      <div ref={this.contentRef} className={cx('Anchor-section', className)}>
+      <div ref={this.contentRef} className={cx('AnchorNav-section', className)}>
         {children}
       </div>
     );
   }
 }
 
-export const AnchorSection = themeable(AnchorSectionComponent);
+export const AnchorNavSection = themeable(AnchorNavSectionComponent);
 
-export interface AnchorProps extends ThemeProps {
-  links?: Array<AnchorSectionProps>; // 锚点数据
+export interface AnchorNavProps extends ThemeProps {
+  links?: Array<AnchorNavSectionProps>; // 锚点数据
   active?: string | number; // 激活标识
   linkClassName?: string; // 导航 CSS类名
   sectionClassName?: string; // 区域 CSS类名
   sectionRender?: (
-    section: AnchorSectionProps,
-    props?: AnchorProps
+    section: AnchorNavSectionProps,
+    props?: AnchorNavProps
   ) => JSX.Element; // 锚点区域渲染器
   onSelect?: (key: string | number) => void; // 选中回调方法
 }
 
-export interface AnchorState {
+export interface AnchorNavState {
   offsetArr: PlainObject[]; // 记录每个段落的offsetTop
   fromSelect: boolean; // 标识滚动触发来源
 }
 
-export class Anchor extends React.Component<AnchorProps, AnchorState> {
+export class AnchorNav extends React.Component<AnchorNavProps, AnchorNavState> {
   static defaultProps: Pick<
-    AnchorProps,
+    AnchorNavProps,
     'linkClassName' | 'sectionClassName'
   > = {
     linkClassName: '',
@@ -80,7 +80,7 @@ export class Anchor extends React.Component<AnchorProps, AnchorState> {
     children &&
       React.Children.forEach(
         children,
-        (section: AnchorSectionComponent, index: number) => {
+        (section: AnchorNavSectionComponent, index: number) => {
           offsetArr.push({
             key: section.props.name,
             offsetTop: (sectionRootDom.children[index] as HTMLElement).offsetTop
@@ -182,7 +182,7 @@ export class Anchor extends React.Component<AnchorProps, AnchorState> {
 
     return (
       <li
-        className={cx('Anchor-link', active === name ? 'is-active' : '')}
+        className={cx('AnchorNav-link', active === name ? 'is-active' : '')}
         key={index}
         onClick={() => this.handleSelect(name)}
       >
@@ -222,13 +222,16 @@ export class Anchor extends React.Component<AnchorProps, AnchorState> {
     }
 
     return (
-      <div className={cx(`Anchor`, className)}>
-        <ul className={cx('Anchor-link-wrap', linkClassName)} role="anchorlist">
+      <div className={cx(`AnchorNav`, className)}>
+        <ul
+          className={cx('AnchorNav-link-wrap', linkClassName)}
+          role="anchorlist"
+        >
           {children.map((link, index) => this.renderLink(link, index))}
         </ul>
 
         <div
-          className={cx('Anchor-section-wrap', sectionClassName)}
+          className={cx('AnchorNav-section-wrap', sectionClassName)}
           ref={this.contentDom}
         >
           {children.map((section, index) => {
@@ -240,12 +243,12 @@ export class Anchor extends React.Component<AnchorProps, AnchorState> {
   }
 }
 
-const ThemedAnchor = themeable(
-  uncontrollable(Anchor, {
+const ThemedAnchorNav = themeable(
+  uncontrollable(AnchorNav, {
     active: 'onSelect'
   })
 );
 
-export default ThemedAnchor as typeof ThemedAnchor & {
-  AnchorSection: typeof AnchorSection;
+export default ThemedAnchorNav as typeof ThemedAnchorNav & {
+  AnchorNavSection: typeof AnchorNavSection;
 };

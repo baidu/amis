@@ -52,7 +52,7 @@ import {SearchBoxSchema} from './renderers/SearchBox';
 import {SparkLineSchema} from './renderers/SparkLine';
 import {PaginationWrapperSchema} from './renderers/PaginationWrapper';
 import {PaginationSchema} from './renderers/Pagination';
-import {AnchorSchema} from './renderers/Anchor';
+import {AnchorNavSchema} from './renderers/AnchorNav';
 
 // 每加个类型，这补充一下。
 export type SchemaType =
@@ -133,7 +133,7 @@ export type SchemaType =
   | 'video'
   | 'wizard'
   | 'wrapper'
-  | 'anchor';
+  | 'anchor-nav';
 
 export type SchemaObject =
   | PageSchema
@@ -190,7 +190,7 @@ export type SchemaObject =
   | WizardSchema
   | WrapperSchema
   | FormSchema
-  | ElevatorSchema;
+  | AnchorNavSchema;
 
 export type SchemaCollection =
   | SchemaObject

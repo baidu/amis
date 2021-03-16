@@ -9,7 +9,7 @@ export default {
       title: '',
       controls: [
         {
-          type: 'anchor',
+          type: 'anchor-nav',
           links: [
             {
               title: '员工基本信息',

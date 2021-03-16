@@ -161,8 +161,8 @@ import './renderers/IFrame';
 import './renderers/QRCode';
 import './renderers/Icon';
 import './renderers/Carousel';
-import './renderers/Anchor';
-import './renderers/Form/Anchor';
+import './renderers/AnchorNav';
+import './renderers/Form/AnchorNav';
 import Scoped, {ScopedContext} from './Scoped';
 
 import {FormItem, registerFormItem} from './renderers/Form/Item';

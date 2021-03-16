@@ -1,19 +1,22 @@
 import React from 'react';
 import {Renderer, RendererProps} from '../factory';
-import {Anchor as CAnchor, AnchorSection} from '../components/Anchor';
+import {
+  AnchorNav as CAnchorNav,
+  AnchorNavSection
+} from '../components/AnchorNav';
 import {isVisible, autobind} from '../utils/helper';
 import {filter} from '../utils/tpl';
 import {find} from 'lodash';
 import {BaseSchema, SchemaClassName, SchemaCollection} from '../Schema';
 
 /**
- * AnchorSection 锚点区域渲染器
- * 文档：https://baidu.gitee.io/amis/docs/components/anchor
+ * AnchorNavSection 锚点区域渲染器
+ * 文档：https://baidu.gitee.io/amis/docs/components/anchor-nav
  */
 
-export type AnchorSectionSchema = {
+export type AnchorNavSectionSchema = {
   /**
-   * 文字说明
+   * 导航文字说明
    */
   title: string;
 
@@ -29,19 +32,19 @@ export type AnchorSectionSchema = {
 } & Omit<BaseSchema, 'type'>;
 
 /**
- * Anchor 锚点渲染器
- * 文档：https://baidu.gitee.io/amis/docs/components/anchor
+ * AnchorNav 锚点导航渲染器
+ * 文档：https://baidu.gitee.io/amis/docs/components/anchor-nav
  */
-export interface AnchorSchema extends BaseSchema {
+export interface AnchorNavSchema extends BaseSchema {
   /**
-   * 指定为 Anchor 锚点渲染器
+   * 指定为 AnchorNav 锚点导航渲染器
    */
-  type: 'anchor';
+  type: 'anchor-nav';
 
   /**
    * 楼层集合
    */
-  links: Array<AnchorSectionSchema>;
+  links: Array<AnchorNavSectionSchema>;
 
   /**
    * 被激活（定位）的楼层
@@ -64,35 +67,38 @@ export interface AnchorSchema extends BaseSchema {
   sectionClassName?: SchemaClassName;
 }
 
-export interface AnchorProps
+export interface AnchorNavProps
   extends RendererProps,
-    Omit<AnchorSchema, 'className' | 'linkClassName' | 'sectionClassName'> {
+    Omit<AnchorNavSchema, 'className' | 'linkClassName' | 'sectionClassName'> {
   active?: string | number;
   sectionRender?: (
-    section: AnchorSectionSchema,
-    props: AnchorProps,
+    section: AnchorNavSectionSchema,
+    props: AnchorNavProps,
     index: number
   ) => JSX.Element;
 }
 
-export interface AnchorState {
+export interface AnchorNavState {
   active: any;
 }
 
-export default class Anchor extends React.Component<AnchorProps, AnchorState> {
-  static defaultProps: Partial<AnchorProps> = {
+export default class AnchorNav extends React.Component<
+  AnchorNavProps,
+  AnchorNavState
+> {
+  static defaultProps: Partial<AnchorNavProps> = {
     className: '',
     linkClassName: '',
     sectionClassName: ''
   };
 
   renderSection?: (
-    section: AnchorSectionSchema,
-    props: AnchorProps,
+    section: AnchorNavSectionSchema,
+    props: AnchorNavProps,
     index: number
   ) => JSX.Element;
 
-  constructor(props: AnchorProps) {
+  constructor(props: AnchorNavProps) {
     super(props);
 
     // 设置默认激活项
@@ -102,10 +108,10 @@ export default class Anchor extends React.Component<AnchorProps, AnchorState> {
     if (typeof props.active !== 'undefined') {
       active = props.active;
     } else {
-      const section: AnchorSectionSchema = find(
+      const section: AnchorNavSectionSchema = find(
         links,
         section => section.href === props.active
-      ) as AnchorSectionSchema;
+      ) as AnchorNavSectionSchema;
       active =
         section && section.href
           ? section.href
@@ -157,7 +163,7 @@ export default class Anchor extends React.Component<AnchorProps, AnchorState> {
 
     children = links.map((section, index) =>
       isVisible(section, data) ? (
-        <AnchorSection
+        <AnchorNavSection
           {...(section as any)}
           title={filter(section.title, data)}
           key={index}
@@ -168,12 +174,12 @@ export default class Anchor extends React.Component<AnchorProps, AnchorState> {
             : sectionRender
             ? sectionRender(section, this.props, index)
             : render(`section/${index}`, section.body || '')}
-        </AnchorSection>
+        </AnchorNavSection>
       ) : null
     );
 
     return (
-      <CAnchor
+      <CAnchorNav
         classPrefix={ns}
         classnames={cx}
         className={className}
@@ -183,13 +189,13 @@ export default class Anchor extends React.Component<AnchorProps, AnchorState> {
         active={this.state.active}
       >
         {children}
-      </CAnchor>
+      </CAnchorNav>
     );
   }
 }
 
 @Renderer({
-  test: /(^|\/)anchor$/,
-  name: 'anchor'
+  test: /(^|\/)anchor-nav$/,
+  name: 'anchor-nav'
 })
-export class AnchorRenderer extends Anchor {}
+export class AnchorNavRenderer extends AnchorNav {}

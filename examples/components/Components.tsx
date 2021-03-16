@@ -203,11 +203,11 @@ export const components = [
       },
 
       {
-        label: 'Anchor 锚点',
-        path: '/zh-CN/components/anchor',
+        label: 'AnchorNav 锚点导航',
+        path: '/zh-CN/components/anchor-nav',
         getComponent: () =>
           // @ts-ignore
-          import('../../docs/zh-CN/components/anchor.md').then(
+          import('../../docs/zh-CN/components/anchor-nav.md').then(
             makeMarkdownRenderer
           )
       }
@@ -776,11 +776,11 @@ export const components = [
           )
       },
       {
-        label: 'Anchor 锚点',
-        path: '/zh-CN/components/form/anchor',
+        label: 'AnchorNav 锚点导航',
+        path: '/zh-CN/components/form/anchor-nav',
         getComponent: () =>
           // @ts-ignore
-          import('../../docs/zh-CN/components/form/anchor.md').then(
+          import('../../docs/zh-CN/components/form/anchor-nav.md').then(
             makeMarkdownRenderer
           )
       }

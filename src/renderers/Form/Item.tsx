@@ -80,7 +80,7 @@ import {TplSchema} from '../Tpl';
 import {DividerSchema} from '../Divider';
 import {HocStoreFactory} from '../../WithStore';
 import {MonthRangeControlSchema} from './MonthRange';
-import {AnchorControlSchema} from './Anchor';
+import {AnchorNavControlSchema} from './AnchorNav';
 
 export type FormControlType =
   | 'array'
@@ -197,7 +197,7 @@ export type FormControlType =
   | 'html'
   | 'plain'
   | 'tpl'
-  | 'anchor';
+  | 'anchor-nav';
 
 export type FormControlSchema =
   | ArrayControlSchema
@@ -260,7 +260,7 @@ export type FormControlSchema =
   | TransferControlSchema
   | TreeControlSchema
   | TreeSelectControlSchema
-  | AnchorControlSchema
+  | AnchorNavControlSchema
 
   // 非表单项，但是也可以放进来。
   | DividerSchema;

@@ -1,14 +1,14 @@
 ---
-title: Anchor 锚点
+title: AnchorNav 锚点导航
 description:
 type: 0
 group: null
-menuName: Anchor 锚点
+menuName: AnchorNav 锚点导航
 icon:
 order: 53
 ---
 
-有多组输入框时，可以通过锚点导航来分组，方便定位查看。
+有多组表单输入框时，可以通过锚点导航来分组，方便定位查看。
 
 ## 基本用法
 
@@ -17,7 +17,7 @@ order: 53
   "type": "form",
   "controls": [
     {
-      "type": "anchor",
+      "type": "anchor-nav",
       "links": [
         {
           "title": "员工基本信息",
@@ -47,7 +47,7 @@ order: 53
           "controls": [
             {
                 "type": "fieldSet",
-                "title": "地址信息",
+                "title": "在职信息",
                 "controls": [
                     {
                     "name": "home",
@@ -126,8 +126,8 @@ order: 53
 
 ## 更多功能
 
-请参考[这里](../anchor)。
+请参考[这里](../anchor-nav)。
 
 ## 属性表
 
-请参考[这里](../anchor#属性表)。
+请参考[这里](../anchor-nav#属性表)。

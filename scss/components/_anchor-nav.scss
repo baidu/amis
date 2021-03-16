@@ -1,4 +1,4 @@
-.#{$ns}Anchor {
+.#{$ns}AnchorNav {
   display: flex;
   height: px2rem(400px);
 
@@ -6,17 +6,17 @@
     margin: 0;
     padding: 0;
     width: var(--Tabs--vertical-width);
-    border-right: var(--Anchor-links-container-borderRight);
+    border-right: var(--AnchorNav-links-container-borderRight);
     padding-bottom: px2rem(60px);
 
-    > .#{$ns}Anchor-link {
+    > .#{$ns}AnchorNav-link {
       position: relative;
       display: block;
 
       > a {
         display: block;
         border: var(--Tabs-borderWidth) solid transparent;
-        border-width: var(--Anchor-onActive-borderWidth);
+        border-width: var(--AnchorNav-onActive-borderWidth);
         color: var(--Tabs-color);
         padding: var(--Tabs-linkPadding);
         font-size: var(--Tabs-linkFontSize);
@@ -47,7 +47,7 @@
     overflow: auto;
     background: var(--Tabs-content-bg);
 
-    > .#{$ns}Anchor-section {
+    > .#{$ns}AnchorNav-section {
       display: block;
       padding: var(--gap-base);
     }

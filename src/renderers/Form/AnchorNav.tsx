@@ -1,45 +1,35 @@
 import React from 'react';
 import {Renderer, RendererProps} from '../../factory';
-import Anchor, {AnchorSectionSchema, AnchorSchema} from '../Anchor';
+import AnchorNav, {AnchorNavSectionSchema, AnchorNavSchema} from '../AnchorNav';
 import {FormBaseControl, FormControlSchema} from './Item';
 
-export type AnchorSectionControlSchema = AnchorSectionSchema & {
+export type AnchorNavSectionControlSchema = AnchorNavSectionSchema & {
   /**
    * 表单项集合
    */
   controls?: Array<FormControlSchema>;
-
-  /**
-   * @deprecated 请用类型 anchor
-   */
-  anchor?: any;
-
-  /**
-   * @deprecated 请用类型 fieldSet
-   */
-  fieldSet?: any;
 };
 
 /**
- * Anchor
- * 文档：https://baidu.gitee.io/amis/docs/components/form/anchor
+ * AnchorNav
+ * 文档：https://baidu.gitee.io/amis/docs/components/form/anchor-nav
  */
-export interface AnchorControlSchema
+export interface AnchorNavControlSchema
   extends FormBaseControl,
-    Omit<AnchorSchema, 'links'> {
-  type: 'anchor';
+    Omit<AnchorNavSchema, 'links'> {
+  type: 'anchor-nav';
 
-  links: Array<AnchorSectionControlSchema>;
+  links: Array<AnchorNavSectionControlSchema>;
 }
 
-export interface AnchorProps extends RendererProps {}
+export interface AnchorNavProps extends RendererProps {}
 
 @Renderer({
-  test: /(^|\/)form(?:.+)?\/control\/anchor$/i,
+  test: /(^|\/)form(?:.+)?\/control\/anchor-nav$/i,
   weight: -100,
-  name: 'anchor-control'
+  name: 'anchor-nav-control'
 })
-export class AnchorRenderer extends Anchor {
+export class AnchorNavRenderer extends AnchorNav {
   static defaultProps = {
     mountOnEnter: false // form 中的不按需渲染
   };
@@ -54,12 +44,8 @@ export class AnchorRenderer extends Anchor {
       render,
       classnames: cx
     } = this.props;
-
-    if (
-      renderFormItems &&
-      !section.type &&
-      (section.controls || section.fieldSet || section.anchor)
-    ) {
+    debugger;
+    if (renderFormItems && !section.type && section.controls) {
       return (
         <div className={cx(`Form--${formMode || 'normal'}`)}>
           {renderFormItems(

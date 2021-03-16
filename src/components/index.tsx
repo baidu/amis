@@ -54,7 +54,7 @@ import ListGroup from './ListGroup';
 import NumberInput from './NumberInput';
 import ArrayInput from './ArrayInput';
 import SearchBox from './SearchBox';
-import Anchor from './Anchor';
+import AnchorNav from './AnchorNav';
 
 export {
   NotFound,
@@ -113,5 +113,5 @@ export {
   ListGroup,
   NumberInput,
   ArrayInput,
-  Anchor
+  AnchorNav
 };
