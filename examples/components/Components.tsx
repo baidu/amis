@@ -200,6 +200,16 @@ export const components = [
           import('../../docs/zh-CN/components/nav.md').then(
             makeMarkdownRenderer
           )
+      },
+
+      {
+        label: 'AnchorNav 锚点导航',
+        path: '/zh-CN/components/anchor-nav',
+        getComponent: () =>
+          // @ts-ignore
+          import('../../docs/zh-CN/components/anchor-nav.md').then(
+            makeMarkdownRenderer
+          )
       }
     ]
   },
@@ -762,6 +772,15 @@ export const components = [
         getComponent: () =>
           // @ts-ignore
           import('../../docs/zh-CN/components/form/year.md').then(
+            makeMarkdownRenderer
+          )
+      },
+      {
+        label: 'AnchorNav 锚点导航',
+        path: '/zh-CN/components/form/anchor-nav',
+        getComponent: () =>
+          // @ts-ignore
+          import('../../docs/zh-CN/components/form/anchor-nav.md').then(
             makeMarkdownRenderer
           )
       }

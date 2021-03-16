@@ -1322,4 +1322,7 @@
   --Wizard-steps-textAlign: left;
   --Wizard-steps-ulDisplay: block;
   --Wizard-stepsContent-padding: #{px2rem(15px)};
+
+  --AnchorNav-links-container-borderRight: #{px2rem(1px)} solid #d3dae0;
+  --AnchorNav-onActive-borderWidth: 0 #{px2rem(2px)} 0 0;
 }
