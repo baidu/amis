@@ -108,6 +108,7 @@ order: 58
 | type              | `string`                                 | `"nav"` | 指定为 Nav 渲染器                      |
 | className         | `string`                                 |         | 外层 Dom 的类名                        |
 | stacked           | `boolean`                                | `true`  | 设置成 false 可以以 tabs 的形式展示    |
+| source            | `string` 或 [API](../../docs/types/api)  |         | 可以通过变量或 API 接口动态创建导航    |
 | links             | `Array`                                  |         | 链接集合                               |
 | links[x].label    | `string`                                 |         | 名称                                   |
 | links[x].to       | [模板](../../docs/concepts/template)     |         | 链接地址                               |

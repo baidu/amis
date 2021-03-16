@@ -10,17 +10,23 @@ order: 66
 
 ## 基本用法
 
-```schema
+常见的用法是放 CRUD 中
+
+```schema: scope="body"
 {
-    "type": "page",
-    "body": {
-        "type": "switch",
-        "value": true
-    }
+    "type": "crud",
+    "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/sample",
+    "quickSaveItemApi": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/sample/$id",
+    "syncLocation": false,
+    "columns": [
+        {
+            "name": "id",
+            "type": "switch",
+            "label": "switch"
+        }
+    ]
 }
 ```
-
-这仅用于查看，表单中的请参考[这里](form/switch)
 
 ## 属性表
 
