@@ -294,32 +294,7 @@ export const FormStore = ServiceStore.named('FormStore')
         if (!json.ok) {
           // 验证错误
           if (json.status === 422 && json.errors) {
-            const errors = json.errors;
-            Object.keys(errors).forEach((key: string) => {
-              const item = self.getItemById(key);
-              const items = self.getItemsByName(key);
-
-              if (item) {
-                item.setError(errors[key]);
-                delete errors[key];
-              } else if (items.length) {
-                // 通过 name 直接找到的
-                items.forEach(item => item.setError(errors[key]));
-                delete errors[key];
-              } else {
-                // 尝试通过path寻找
-                const items = getItemsByPath(key);
-
-                if (Array.isArray(items) && items.length) {
-                  items.forEach(item => item.setError(`${errors[key]}`));
-                  delete errors[key];
-                }
-              }
-            });
-
-            // 没有映射上的error信息加在msg后显示出来
-            !isEmpty(errors) &&
-              setRestError(Object.keys(errors).map(key => errors[key]));
+            handleRemoteError(json.errors);
 
             self.updateMessage(
               json.msg ??
@@ -387,6 +362,34 @@ export const FormStore = ServiceStore.named('FormStore')
         throw e;
       }
     });
+
+    function handleRemoteError(errors: {[propName: string]: string}) {
+      Object.keys(errors).forEach((key: string) => {
+        const item = self.getItemById(key);
+        const items = self.getItemsByName(key);
+
+        if (item) {
+          item.setError(errors[key]);
+          delete errors[key];
+        } else if (items.length) {
+          // 通过 name 直接找到的
+          items.forEach(item => item.setError(errors[key]));
+          delete errors[key];
+        } else {
+          // 尝试通过path寻找
+          const items = getItemsByPath(key);
+
+          if (Array.isArray(items) && items.length) {
+            items.forEach(item => item.setError(`${errors[key]}`));
+            delete errors[key];
+          }
+        }
+      });
+
+      // 没有映射上的error信息加在msg后显示出来
+      !isEmpty(errors) &&
+        setRestError(Object.keys(errors).map(key => String(errors[key])));
+    }
 
     const getItemsByPath = (key: string) => {
       const paths = keyToPath(key);
@@ -606,6 +609,7 @@ export const FormStore = ServiceStore.named('FormStore')
       clear,
       onChildStoreDispose,
       updateSavedData,
+      handleRemoteError,
       getItemsByPath,
       setRestError,
       addRestError,

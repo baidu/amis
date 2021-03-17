@@ -4,30 +4,11 @@ title: 常见问题
 
 ## 如何水平垂直居中
 
-```schema: scope="body"
-{
-    "type": "wrapper",
-    "style": {
-        "display": "flex",
-        "flex-direction": "column",
-        "justify-content": "center",
-        "align-items": "center",
-        "height": "200px"
-    },
-    "body": [
-        {
-            "type": "tpl",
-            "tpl": "内容1",
-            "inline": false
-        },
-        {
-            "type": "tpl",
-            "tpl": "内容2",
-            "inline": false
-        }
-    ]
-}
-```
+1.1.5 版本之后可以使用 flex 布局，默认就是水平垂直居中。
+
+## CRUD 顶部有重叠遮挡
+
+在初始化 amis 渲染器的时候设置 `affixOffsetTop`，或者通过 `"affixHeader": false` 关闭固定顶部功能。
 
 ## 如何换行
 

@@ -26,6 +26,13 @@ export interface TplSchema extends BaseSchema {
    * 是否内联显示？
    */
   inline?: boolean;
+
+  /**
+   * 自定义样式
+   */
+  style?: {
+    [propName: string]: any;
+  };
 }
 
 export interface TplProps extends RendererProps, TplSchema {
@@ -95,11 +102,21 @@ export class Tpl extends React.Component<TplProps, object> {
   }
 
   render() {
-    const {className, wrapperComponent, inline, classnames: cx} = this.props;
+    const {
+      className,
+      wrapperComponent,
+      inline,
+      classnames: cx,
+      style
+    } = this.props;
     const Component = wrapperComponent || (inline ? 'span' : 'div');
 
     return (
-      <Component ref={this.htmlRef} className={cx('TplField', className)}>
+      <Component
+        ref={this.htmlRef}
+        className={cx('TplField', className)}
+        style={style}
+      >
         <span>{this.getContent()}</span>
       </Component>
     );

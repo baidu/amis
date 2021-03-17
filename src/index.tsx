@@ -64,6 +64,7 @@ import './renderers/Date';
 import './renderers/Dialog';
 import './renderers/Divider';
 import './renderers/Each';
+import './renderers/Flex';
 import './renderers/Form/index';
 import './renderers/Form/Control';
 import './renderers/Form/Hidden';
@@ -160,6 +161,8 @@ import './renderers/IFrame';
 import './renderers/QRCode';
 import './renderers/Icon';
 import './renderers/Carousel';
+import './renderers/AnchorNav';
+import './renderers/Form/AnchorNav';
 import Scoped, {ScopedContext} from './Scoped';
 
 import {FormItem, registerFormItem} from './renderers/Form/Item';

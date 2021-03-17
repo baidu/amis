@@ -19,6 +19,7 @@ order: 60
       "type": "tree-select",
       "name": "tree",
       "label": "Tree",
+      "searchable": true,
       "options": [
         {
           "label": "Folder A",
