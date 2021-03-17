@@ -395,7 +395,7 @@ export default class Form extends React.Component<FormProps, object> {
   disposeOnValidate: () => void;
   disposeRulesValidate: () => void;
   shouldLoadInitApi: boolean = false;
-  timer: NodeJS.Timeout;
+  timer: ReturnType<typeof setTimeout>;
   mounted: boolean;
   lazyHandleChange = debouce(this.handleChange.bind(this), 250, {
     trailing: true,

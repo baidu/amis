@@ -678,7 +678,7 @@ export function until(
   getCanceler: (fn: () => any) => void,
   interval: number = 5000
 ) {
-  let timer: NodeJS.Timeout;
+  let timer: ReturnType<typeof setTimeout>;
   let stoped: boolean = false;
 
   return new Promise((resolve, reject) => {

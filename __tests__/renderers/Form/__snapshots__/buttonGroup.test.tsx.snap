@@ -250,10 +250,8 @@ exports[`Renderer:button-group:multiple clearable 1`] = `
               <span
                 class="a-PlainField"
               >
-                <span
-                  class="text-muted"
-                >
-                  -
+                <span>
+                  a,b
                 </span>
               </span>
             </div>
@@ -404,10 +402,8 @@ exports[`Renderer:button-group:multiple clearable 2`] = `
               <span
                 class="a-PlainField"
               >
-                <span
-                  class="text-muted"
-                >
-                  -
+                <span>
+                  a
                 </span>
               </span>
             </div>

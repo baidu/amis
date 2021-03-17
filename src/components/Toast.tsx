@@ -229,7 +229,7 @@ export class ToastMessage extends React.Component<
   };
 
   // content: React.RefObject<HTMLDivElement>;
-  timer: NodeJS.Timeout;
+  timer: ReturnType<typeof setTimeout>;
   mounted: boolean = false;
 
   componentDidMount() {
