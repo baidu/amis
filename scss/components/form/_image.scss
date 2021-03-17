@@ -94,8 +94,9 @@
     width: px2rem(108px);
     height: px2rem(108px);
     display: none;
-    top: px2rem(5px);
-    left: px2rem(5px);
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
 
     justify-content: center;
     align-items: center;

@@ -75,6 +75,11 @@ export interface ImageControlSchema extends FormBaseControl {
   btnUploadClassName?: SchemaClassName;
 
   /**
+   * 悬浮遮罩 CSS 类名
+   */
+  overlayClassName?: SchemaClassName;
+
+  /**
    * @deprecated
    */
   compress?: boolean;
@@ -229,14 +234,9 @@ export interface ImageControlSchema extends FormBaseControl {
   defaultImage?: SchemaUrlPath;
 
   /**
-   * 默认图片展示模式
+   * 图片展示的相关配置
    */
-  defaultImageMode?: 'w-full' | 'h-full' | 'contain' | 'cover';
-
-  /**
-   * 默认图片展示比率。
-   */
-  defaultImageRatio?: '1:1' | '4:3' | '16:9';
+  imageSchema?: ImageThumbProps;
 }
 
 let preventEvent = (e: any) => e.stopPropagation();
@@ -948,7 +948,7 @@ export default class ImageControl extends React.Component<
         Math.abs(width / height - limit.aspectRatio) > 0.01
       ) {
         error = __(limit.aspectRatioLabel || 'Image.limitRatio', {
-          ratio: limit.aspectRatio
+          ratio: limit.aspectRatio.toFixed(2)
         });
       }
 
@@ -1110,9 +1110,10 @@ export default class ImageControl extends React.Component<
       thumbMode,
       thumbRatio,
       reCropable,
+      btnUploadClassName,
+      overlayClassName,
+      imageSchema,
       defaultImage,
-      defaultImageMode,
-      defaultImageRatio,
       translate: __
     } = this.props;
 
@@ -1188,12 +1189,16 @@ export default class ImageControl extends React.Component<
                       ? files.map((file, key) => (
                           <div
                             key={file.id || key}
-                            className={cx('ImageControl-item', {
-                              'is-uploaded': file.state !== 'uploading',
-                              'is-invalid':
-                                file.state === 'error' ||
-                                file.state === 'invalid'
-                            })}
+                            className={cx(
+                              'ImageControl-item',
+                              {
+                                'is-uploaded': file.state !== 'uploading',
+                                'is-invalid':
+                                  file.state === 'error' ||
+                                  file.state === 'invalid'
+                              },
+                              btnUploadClassName ? btnUploadClassName : ''
+                            )}
                           >
                             {file.state === 'invalid' ||
                             file.state === 'error' ? (
@@ -1269,11 +1274,15 @@ export default class ImageControl extends React.Component<
                                   alt={file.name}
                                   thumbMode={thumbMode}
                                   thumbRatio={thumbRatio}
+                                  {...imageSchema}
                                 />
 
                                 <div
                                   key="overlay"
-                                  className={cx('ImageControl-itemOverlay')}
+                                  className={cx(
+                                    'ImageControl-itemOverlay',
+                                    overlayClassName ? overlayClassName : ''
+                                  )}
                                 >
                                   {file.info ? (
                                     [
@@ -1351,9 +1360,13 @@ export default class ImageControl extends React.Component<
                     {(multiple && (!maxLength || files.length < maxLength)) ||
                     (!multiple && !files.length) ? (
                       <label
-                        className={cx('ImageControl-addBtn', {
-                          'is-disabled': disabled
-                        })}
+                        className={cx(
+                          'ImageControl-addBtn',
+                          {
+                            'is-disabled': disabled
+                          },
+                          btnUploadClassName ? btnUploadClassName : ''
+                        )}
                         onClick={this.handleSelect}
                         data-tooltip={__(placeholder)}
                         data-position="right"
@@ -1361,10 +1374,8 @@ export default class ImageControl extends React.Component<
                         {defaultImage ? (
                           <ImageComponent
                             key="upload-default-image"
-                            className={cx('ImageControl-upload-default-image')}
                             src={defaultImage}
-                            thumbMode={defaultImageMode}
-                            thumbRatio={defaultImageRatio}
+                            {...imageSchema}
                           />
                         ) : (
                           <Icon icon="plus" className="icon" />
