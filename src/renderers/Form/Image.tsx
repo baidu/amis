@@ -75,11 +75,6 @@ export interface ImageControlSchema extends FormBaseControl {
   btnUploadClassName?: SchemaClassName;
 
   /**
-   * 悬浮遮罩 CSS 类名
-   */
-  overlayClassName?: SchemaClassName;
-
-  /**
    * @deprecated
    */
   compress?: boolean;
@@ -234,9 +229,9 @@ export interface ImageControlSchema extends FormBaseControl {
   defaultImage?: SchemaUrlPath;
 
   /**
-   * 图片展示的相关配置
+   * 图片展示 固定高度的类名 宽度自适应
    */
-  imageSchema?: ImageThumbProps;
+  fixedSize?: SchemaClassName;
 }
 
 let preventEvent = (e: any) => e.stopPropagation();
@@ -1110,10 +1105,8 @@ export default class ImageControl extends React.Component<
       thumbMode,
       thumbRatio,
       reCropable,
-      btnUploadClassName,
-      overlayClassName,
-      imageSchema,
       defaultImage,
+      fixedSize,
       translate: __
     } = this.props;
 
@@ -1197,7 +1190,8 @@ export default class ImageControl extends React.Component<
                                   file.state === 'error' ||
                                   file.state === 'invalid'
                               },
-                              btnUploadClassName ? btnUploadClassName : ''
+                              fixedSize ? 'ImageControl-fixed-size' : '',
+                              fixedSize ? fixedSize : ''
                             )}
                           >
                             {file.state === 'invalid' ||
@@ -1217,9 +1211,13 @@ export default class ImageControl extends React.Component<
                                 </a>
 
                                 <a
-                                  className={cx('ImageControl-retryBtn', {
-                                    'is-disabled': disabled
-                                  })}
+                                  className={cx(
+                                    'ImageControl-retryBtn',
+                                    {
+                                      'is-disabled': disabled
+                                    },
+                                    fixedSize ? fixedSize : ''
+                                  )}
                                   onClick={this.handleRetry.bind(this, key)}
                                 >
                                   <Icon icon="retry" className="icon" />
@@ -1244,7 +1242,10 @@ export default class ImageControl extends React.Component<
                                 </a>
                                 <div
                                   key="info"
-                                  className={cx('ImageControl-itemInfo')}
+                                  className={cx(
+                                    'ImageControl-itemInfo',
+                                    fixedSize ? fixedSize : ''
+                                  )}
                                 >
                                   <p>{__('File.uploading')}</p>
                                   <div className={cx('ImageControl-progress')}>
@@ -1265,7 +1266,10 @@ export default class ImageControl extends React.Component<
                               <>
                                 <ImageComponent
                                   key="image"
-                                  className={cx('ImageControl-image')}
+                                  className={cx(
+                                    'ImageControl-image',
+                                    fixedSize ? 'Image-thumb--fixed-size' : ''
+                                  )}
                                   onLoad={this.handleImageLoaded.bind(
                                     this,
                                     key
@@ -1274,15 +1278,11 @@ export default class ImageControl extends React.Component<
                                   alt={file.name}
                                   thumbMode={thumbMode}
                                   thumbRatio={thumbRatio}
-                                  {...imageSchema}
                                 />
 
                                 <div
                                   key="overlay"
-                                  className={cx(
-                                    'ImageControl-itemOverlay',
-                                    overlayClassName ? overlayClassName : ''
-                                  )}
+                                  className={cx('ImageControl-itemOverlay')}
                                 >
                                   {file.info ? (
                                     [
@@ -1365,7 +1365,8 @@ export default class ImageControl extends React.Component<
                           {
                             'is-disabled': disabled
                           },
-                          btnUploadClassName ? btnUploadClassName : ''
+                          fixedSize ? 'ImageControl-fixed-size' : '',
+                          fixedSize ? fixedSize : ''
                         )}
                         onClick={this.handleSelect}
                         data-tooltip={__(placeholder)}
@@ -1375,7 +1376,9 @@ export default class ImageControl extends React.Component<
                           <ImageComponent
                             key="upload-default-image"
                             src={defaultImage}
-                            {...imageSchema}
+                            className={cx(
+                              fixedSize ? 'Image-thumb--fixed-size' : ''
+                            )}
                           />
                         ) : (
                           <Icon icon="plus" className="icon" />

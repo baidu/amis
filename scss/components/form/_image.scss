@@ -124,6 +124,17 @@
     display: flex;
   }
 
+  &-fixed-size {
+    width: 100%;
+    height: 100%;
+    padding: 0;
+  }
+
+  &-fixed-size &-itemOverlay {
+    width: 100%;
+    height: 100%;
+  }
+
   &-itemClear {
     position: absolute;
     cursor: pointer;

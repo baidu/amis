@@ -791,10 +791,11 @@ export default {
         {
           type: 'image',
           name: 'image',
-          label: '图片有默认图片',
+          label: '图片有默认占位图',
           defaultImage:
             'https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=3893101144,2877209892&fm=23&gp=0.jpg',
-          fixedSize: 'w-52 h-32'
+          fixedSize: 'h-32 w-52',
+          thumbMode: 'contain'
         },
         {
           type: 'divider'
