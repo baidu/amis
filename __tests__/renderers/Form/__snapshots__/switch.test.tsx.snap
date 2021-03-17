@@ -49,14 +49,19 @@ exports[`Renderer:switch 1`] = `
             class="a-SwitchControl a-Form-control"
           >
             <label
-              class="a-Switch"
+              class="a-Switch is-checked"
             >
               <input
                 checked=""
                 theme="default"
                 type="checkbox"
               />
-              <i />
+              <span
+                class="text"
+              />
+              <span
+                class="slider"
+              />
             </label>
             <span
               class="a-Switch-option"

@@ -61,17 +61,7 @@ exports[`Renderer:container 1`] = `
                   <label
                     class="a-Form-label a-Form-itemColumn--normal"
                   >
-                    <span>
-                      <span
-                        class="a-TplField"
-                      >
-                        <span>
-                          <span
-                            class="text-muted"
-                          />
-                        </span>
-                      </span>
-                    </span>
+                    <span />
                   </label>
                   <div
                     class="a-Form-value a-Form-itemColumn--7"

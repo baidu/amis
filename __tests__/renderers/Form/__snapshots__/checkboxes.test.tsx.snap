@@ -126,14 +126,12 @@ exports[`Renderer:checkboxes 1`] = `
               class="a-Form-control"
             >
               <span
-                class="a-TplField"
+                class="a-PlainField"
               >
-                <span>
-                  <span
-                    class="text-muted"
-                  >
-                    -
-                  </span>
+                <span
+                  class="text-muted"
+                >
+                  -
                 </span>
               </span>
             </div>
@@ -314,14 +312,12 @@ exports[`Renderer:checkboxes 2`] = `
               class="a-Form-control"
             >
               <span
-                class="a-TplField"
+                class="a-PlainField"
               >
-                <span>
-                  <span
-                    class="text-muted"
-                  >
-                    -
-                  </span>
+                <span
+                  class="text-muted"
+                >
+                  -
                 </span>
               </span>
             </div>

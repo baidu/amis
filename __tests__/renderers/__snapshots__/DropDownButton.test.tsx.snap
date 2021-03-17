@@ -20,14 +20,18 @@ exports[`Renderer:dropdown-button 1`] = `
     <ul
       class="a-DropDown-menu"
     >
-      <li>
+      <li
+        class=""
+      >
         <a
           class=""
         >
           按钮
         </a>
       </li>
-      <li>
+      <li
+        class=""
+      >
         <a
           class=""
         >
