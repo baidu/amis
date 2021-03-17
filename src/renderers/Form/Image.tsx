@@ -76,6 +76,11 @@ export interface ImageControlSchema extends FormBaseControl {
   btnUploadClassName?: SchemaClassName;
 
   /**
+   * 悬浮遮罩 CSS 类名
+   */
+  overlayClassName?: SchemaClassName;
+
+  /**
    * @deprecated
    */
   compress?: boolean;
@@ -1111,6 +1116,9 @@ export default class ImageControl extends React.Component<
       thumbMode,
       thumbRatio,
       reCropable,
+      btnUploadClassName,
+      overlayClassName,
+      imageSchema,
       defaultImage,
       fixedSize,
       fixedSizeClassName,
@@ -1287,11 +1295,15 @@ export default class ImageControl extends React.Component<
                                   alt={file.name}
                                   thumbMode={thumbMode}
                                   thumbRatio={thumbRatio}
+                                  {...imageSchema}
                                 />
 
                                 <div
                                   key="overlay"
-                                  className={cx('ImageControl-itemOverlay')}
+                                  className={cx(
+                                    'ImageControl-itemOverlay',
+                                    overlayClassName ? overlayClassName : ''
+                                  )}
                                 >
                                   {file.info ? (
                                     [
