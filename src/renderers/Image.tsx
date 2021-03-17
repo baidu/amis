@@ -107,6 +107,7 @@ export interface ImageThumbProps
   onEnlarge?: (info: ImageThumbProps) => void;
   index?: number;
   onLoad?: React.EventHandler<any>;
+  fixedSize?: SchemaClassName;
 }
 
 export class ImageThumb extends React.Component<ImageThumbProps> {
@@ -132,6 +133,7 @@ export class ImageThumb extends React.Component<ImageThumbProps> {
       caption,
       onLoad,
       enlargeAble,
+      fixedSize,
       translate: __
     } = this.props;
 
@@ -142,13 +144,14 @@ export class ImageThumb extends React.Component<ImageThumbProps> {
             'Image-thumb',
             thumbClassName,
             thumbMode ? `Image-thumb--${thumbMode}` : '',
-            thumbRatio ? `Image-thumb--${thumbRatio.replace(/:/g, '-')}` : ''
+            thumbRatio ? `Image-thumb--${thumbRatio.replace(/:/g, '-')}` : '',
+            fixedSize ? 'Image-thumb--fixed-size' : ''
           )}
           style={{height: height, width: width}}
         >
           <img
             onLoad={onLoad}
-            className={cx(imageClassName)}
+            className={cx(imageClassName, fixedSize ? fixedSize : '')}
             src={src}
             alt={alt}
           />
@@ -263,7 +266,8 @@ export class ImageField extends React.Component<ImageFieldProps, object> {
       placeholder,
       originalSrc,
       enlargeAble,
-      showDimensions
+      showDimensions,
+      fixedSize
     } = this.props;
 
     const finnalSrc = src ? filter(src, data, '| raw') : '';
@@ -273,6 +277,7 @@ export class ImageField extends React.Component<ImageFieldProps, object> {
       <div className={cx('ImageField', className)}>
         {value ? (
           <ThemedImageThumb
+            fixedSize={fixedSize}
             imageClassName={imageClassName}
             thumbClassName={thumbClassName}
             height={height}
