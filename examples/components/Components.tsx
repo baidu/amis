@@ -42,6 +42,15 @@ export const components = [
           )
       },
       {
+        label: 'Flex 布局',
+        path: '/zh-CN/components/flex',
+        getComponent: () =>
+          // @ts-ignore
+          import('../../docs/zh-CN/components/flex.md').then(
+            makeMarkdownRenderer
+          )
+      },
+      {
         label: 'Grid 水平布局',
         path: '/zh-CN/components/grid',
         getComponent: () =>
@@ -147,6 +156,15 @@ export const components = [
           )
       },
       {
+        label: 'Breadcrumb 面包屑',
+        path: '/zh-CN/components/breadcrumb',
+        getComponent: () =>
+          // @ts-ignore
+          import('../../docs/zh-CN/components/breadcrumb.md').then(
+            makeMarkdownRenderer
+          )
+      },
+      {
         label: 'Custom 自定义组件',
         path: '/zh-CN/components/custom',
         getComponent: () =>
@@ -180,6 +198,16 @@ export const components = [
         getComponent: () =>
           // @ts-ignore
           import('../../docs/zh-CN/components/nav.md').then(
+            makeMarkdownRenderer
+          )
+      },
+
+      {
+        label: 'AnchorNav 锚点导航',
+        path: '/zh-CN/components/anchor-nav',
+        getComponent: () =>
+          // @ts-ignore
+          import('../../docs/zh-CN/components/anchor-nav.md').then(
             makeMarkdownRenderer
           )
       }
@@ -744,6 +772,15 @@ export const components = [
         getComponent: () =>
           // @ts-ignore
           import('../../docs/zh-CN/components/form/year.md').then(
+            makeMarkdownRenderer
+          )
+      },
+      {
+        label: 'AnchorNav 锚点导航',
+        path: '/zh-CN/components/form/anchor-nav',
+        getComponent: () =>
+          // @ts-ignore
+          import('../../docs/zh-CN/components/form/anchor-nav.md').then(
             makeMarkdownRenderer
           )
       }

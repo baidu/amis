@@ -45,7 +45,7 @@ export class HeadCellSearchDropDown extends React.Component<
   buildSchema() {
     const {searchable, sortable, name, label, translate: __} = this.props;
 
-    let schema;
+    let schema: any;
 
     if (searchable === true) {
       schema = {
@@ -63,7 +63,10 @@ export class HeadCellSearchDropDown extends React.Component<
       if (searchable.controls || searchable.tabs || searchable.fieldSet) {
         schema = {
           title: '',
-          ...searchable
+          ...searchable,
+          controls: Array.isArray(searchable.controls)
+            ? searchable.controls.concat()
+            : undefined
         };
       } else {
         schema = {

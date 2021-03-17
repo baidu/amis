@@ -65,6 +65,7 @@ export default {
     type: 'crud',
     draggable: true,
     api: '/api/sample?waitSeconds=1',
+    perPage: 15,
     keepItemSelectionOnPageChange: true,
     labelTpl: '${id} ${engine}',
     filter: {

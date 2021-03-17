@@ -110,7 +110,8 @@ export default {
       controls: [
         {
           type: 'tabs',
-
+          name: 'outertabs',
+          className: 'm-b',
           tabs: [
             {
               title: '基本信息',
@@ -174,6 +175,25 @@ export default {
                   label: '记住我'
                 }
               ]
+            }
+          ]
+        },
+
+        {
+          type: 'radios',
+          name: 'outertabs',
+          label: 'Tabs值',
+          mode: 'normal',
+          description:
+            '如果 tabs 设置了 name 是可以跟表单值联动的，默认并不会开启此功能。',
+          options: [
+            {
+              label: '基本信息',
+              value: '基本信息'
+            },
+            {
+              label: '其他信息',
+              value: '其他信息'
             }
           ]
         }

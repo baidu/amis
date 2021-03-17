@@ -47,8 +47,10 @@ exports[`Renderer:textarea 1`] = `
           </label>
           <textarea
             autocomplete="off"
+            autocorrect="off"
             class="a-TextareaControl a-Form-control"
             name="a"
+            spellcheck="false"
             style="height: -40px;"
             type="textarea"
           >

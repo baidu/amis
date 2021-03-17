@@ -52,6 +52,7 @@ import {SearchBoxSchema} from './renderers/SearchBox';
 import {SparkLineSchema} from './renderers/SparkLine';
 import {PaginationWrapperSchema} from './renderers/PaginationWrapper';
 import {PaginationSchema} from './renderers/Pagination';
+import {AnchorNavSchema} from './renderers/AnchorNav';
 
 // 每加个类型，这补充一下。
 export type SchemaType =
@@ -64,6 +65,7 @@ export type SchemaType =
   | 'audio'
   | 'button-group'
   | 'button-toolbar'
+  | 'breadcrumb'
   | 'card'
   | 'cards'
   | 'carousel'
@@ -86,6 +88,7 @@ export type SchemaType =
   | 'dropdown-button'
   | 'drawer'
   | 'each'
+  | 'flex'
   | 'grid'
   | 'grid-2d'
   | 'hbox'
@@ -129,7 +132,8 @@ export type SchemaType =
   | 'vbox'
   | 'video'
   | 'wizard'
-  | 'wrapper';
+  | 'wrapper'
+  | 'anchor-nav';
 
 export type SchemaObject =
   | PageSchema
@@ -185,7 +189,8 @@ export type SchemaObject =
   | VideoSchema
   | WizardSchema
   | WrapperSchema
-  | FormSchema;
+  | FormSchema
+  | AnchorNavSchema;
 
 export type SchemaCollection =
   | SchemaObject

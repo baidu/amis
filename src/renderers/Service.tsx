@@ -104,7 +104,7 @@ export interface ServiceProps
   messages: SchemaMessage;
 }
 export default class Service extends React.Component<ServiceProps> {
-  timer: NodeJS.Timeout;
+  timer: ReturnType<typeof setTimeout>;
   mounted: boolean;
 
   // 主要是用于关闭 socket

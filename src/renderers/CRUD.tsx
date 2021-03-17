@@ -108,6 +108,13 @@ export interface CRUDCommonSchema extends BaseSchema {
   itemActions?: Array<ActionSchema>;
 
   /**
+   * 每页个数，默认为 10，如果不是请设置。
+   *
+   * @default 10
+   */
+  perPage?: number;
+
+  /**
    * 可以默认给定初始参数如： {\"perPage\": 24}
    */
   defaultParams?: PlainObject;
@@ -383,7 +390,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
   control: any;
   lastQuery: any;
   dataInvalid: boolean = false;
-  timer: NodeJS.Timeout;
+  timer: ReturnType<typeof setTimeout>;
   mounted: boolean;
   constructor(props: CRUDProps) {
     super(props);
@@ -447,6 +454,10 @@ export default class CRUD extends React.Component<CRUDProps, any> {
 
   componentDidMount() {
     const store = this.props.store;
+
+    if (this.props.perPage) {
+      store.changePage(store.page, this.props.perPage);
+    }
 
     if (!this.props.filter || (store.filterTogggable && !store.filterVisible)) {
       this.handleFilterInit({});
@@ -1346,7 +1357,10 @@ export default class CRUD extends React.Component<CRUDProps, any> {
     }
 
     if (pickerMode && multiple === false && newItems.length > 1) {
-      newUnSelectedItems.push(...newItems.splice(0, newItems.length - 1));
+      newUnSelectedItems.push.apply(
+        newUnSelectedItems,
+        newItems.splice(0, newItems.length - 1)
+      );
     }
 
     store.setSelectedItems(newItems);
@@ -1431,7 +1445,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
     const unSelected = store.unSelectedItems.concat();
 
     const idx = selected.indexOf(item);
-    ~idx && unSelected.push(...selected.splice(idx, 1));
+    ~idx && unSelected.push.apply(unSelected, selected.splice(idx, 1));
 
     store.setSelectedItems(selected);
     store.setUnSelectedItems(unSelected);

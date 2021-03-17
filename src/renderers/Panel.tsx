@@ -106,7 +106,7 @@ export default class Panel extends React.Component<PanelProps> {
   unSensor: Function;
   affixDom: React.RefObject<HTMLDivElement> = React.createRef();
   footerDom: React.RefObject<HTMLDivElement> = React.createRef();
-  timer: NodeJS.Timeout;
+  timer: ReturnType<typeof setTimeout>;
 
   componentDidMount() {
     const dom = findDOMNode(this) as HTMLElement;

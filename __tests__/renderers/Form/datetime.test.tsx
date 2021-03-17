@@ -5,6 +5,7 @@ import {render, fireEvent, cleanup, getByText} from 'react-testing-library';
 import '../../../src/themes/default';
 import {render as amisRender} from '../../../src/index';
 import {makeEnv} from '../../helper';
+import moment from 'moment';
 
 test('Renderer:date', async () => {
   const {container} = render(
@@ -31,7 +32,9 @@ test('Renderer:date', async () => {
   );
 
   const input = container.querySelector('.a-DatePicker-value');
-  expect(input?.innerHTML).toEqual('2019-06-06 21:11:00');
+  expect(input?.innerHTML).toEqual(
+    moment(1559826660, 'X').format('YYYY-MM-DD HH:mm:ss')
+  );
 
   expect(container).toMatchSnapshot();
 });

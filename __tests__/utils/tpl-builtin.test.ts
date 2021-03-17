@@ -3,6 +3,7 @@ import {
   resolveVariableAndFilter,
   dataMapping
 } from '../../src/utils/tpl-builtin';
+import moment from 'moment';
 
 const filters = [
   {
@@ -109,7 +110,7 @@ const filters = [
     },
     path: '${value}',
     filter: '| date',
-    expectValue: 'June 4, 2019 8:06 PM'
+    expectValue: moment(1559649981, 'X').format('LLL')
   },
   {
     type: 'number',
@@ -411,7 +412,7 @@ const filters = [
     },
     path: '${value}',
     filter: '| str2date:X:YYYY-MM-DD HH-mm-ss',
-    expectValue: '2019-06-04 20-06-21'
+    expectValue: moment('1559649981', 'X').format('YYYY-MM-DD HH-mm-ss')
   },
   {
     type: 'asArray',

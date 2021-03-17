@@ -9,6 +9,7 @@
 @import '../layout/hbox';
 @import '../layout/vbox';
 @import '../components/button'; // 这个要放在最前面
+@import '../components/breadcrumb';
 @import '../components/modal';
 @import '../components/drawer';
 @import '../components/tooltip';
@@ -99,5 +100,6 @@
 @import '../components/form/nested-select';
 @import '../components/form/icon-picker';
 @import '../components/form/form';
+@import '../components/anchor-nav';
 
 @import '../utilities';

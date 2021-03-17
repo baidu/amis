@@ -10,15 +10,25 @@ order: 66
 
 ## 基本用法
 
-```schema
+常见的用法是放 CRUD 中
+
+```schema: scope="body"
 {
-    "type": "page",
-    "body": {
-        "type": "switch",
-        "value": true
-    }
+    "type": "crud",
+    "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/sample",
+    "quickSaveItemApi": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/sample/$id",
+    "syncLocation": false,
+    "columns": [
+        {
+            "name": "id",
+            "type": "switch",
+            "label": "switch"
+        }
+    ]
 }
 ```
+
+## 属性表
 
 | 属性名    | 类型     | 默认值 | 说明                            |
 | --------- | -------- | ------ | ------------------------------- |

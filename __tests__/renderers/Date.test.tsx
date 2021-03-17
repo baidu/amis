@@ -3,6 +3,7 @@ import {render} from 'react-testing-library';
 import '../../src/themes/default';
 import {render as amisRender} from '../../src/index';
 import {makeEnv} from '../helper';
+import moment from 'moment';
 
 test('Renderer:date', async () => {
   const {container} = render(
@@ -24,7 +25,9 @@ test('Renderer:date', async () => {
   );
 
   const input = container.querySelector('.a-DateField');
-  expect(input?.innerHTML).toEqual('2019-06-07');
+  expect(input?.innerHTML).toEqual(
+    moment('1559836800', 'X').format('YYYY-MM-DD')
+  );
 
   expect(container).toMatchSnapshot();
 });

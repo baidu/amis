@@ -52,11 +52,9 @@ exports[`Renderer:static 1`] = `
               class="a-Form-control is-inline"
             >
               <span
-                class="a-TplField"
+                class="a-PlainField"
               >
-                <span>
-                  static
-                </span>
+                static
               </span>
             </div>
           </div>
@@ -79,14 +77,12 @@ exports[`Renderer:static 1`] = `
               class="a-Form-control"
             >
               <span
-                class="a-TplField"
+                class="a-PlainField"
               >
-                <span>
-                  <span
-                    class="text-muted"
-                  >
-                    -
-                  </span>
+                <span
+                  class="text-muted"
+                >
+                  -
                 </span>
               </span>
             </div>
@@ -103,14 +99,12 @@ exports[`Renderer:static 1`] = `
               class="a-Form-control"
             >
               <span
-                class="a-TplField"
+                class="a-PlainField"
               >
-                <span>
-                  <span
-                    class="text-muted"
-                  >
-                    -
-                  </span>
+                <span
+                  class="text-muted"
+                >
+                  -
                 </span>
               </span>
             </div>

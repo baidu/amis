@@ -309,6 +309,8 @@ Table 模式支持 [Table](./table) 中的所有功能。
 }
 ```
 
+这个模式下会默认开启固定表头功能，如果不需要可以使用 `"affixHeader": false` 关闭。
+
 ### List 列表模式
 
 List 模式支持 [List](./list) 中的所有功能。
@@ -1728,6 +1730,7 @@ CRUD 中不限制有多少个单条操作、添加一个操作对应的添加一
 | messages.quickSaveFailed              | `string`                    |                                 | 快速保存失败提示                                                                                                      |
 | messages.quickSaveSuccess             | `string`                    |                                 | 快速保存成功提示                                                                                                      |
 | primaryField                          | `string`                    | `"id"`                          | 设置 ID 字段名。                                                                                                      |
+| perPage                               | `number`                    | 10                              | 设置一页显示多少条数据。                                                                                              |
 | defaultParams                         | `Object`                    |                                 | 设置默认 filter 默认参数，会在查询的时候一起发给后端                                                                  |
 | pageField                             | `string`                    | `"page"`                        | 设置分页页码字段名。                                                                                                  |
 | perPageField                          | `string`                    | `"perPage"`                     | 设置分页一页显示的多少条数据的字段名。注意：最好与 defaultParams 一起使用，请看下面例子。                             |
@@ -1741,3 +1744,4 @@ CRUD 中不限制有多少个单条操作、添加一个操作对应的添加一
 | headerToolbar                         | Array                       | `['bulkActions', 'pagination']` | 顶部工具栏配置                                                                                                        |
 | footerToolbar                         | Array                       | `['statistics', 'pagination']`  | 底部工具栏配置                                                                                                        |
 | alwaysShowPagination                  | `boolean`                   | `false`                         | 是否总是显示分页                                                                                                      |
+| affixHeader                           | `boolean`                   | `true`                          | 是否固定表头(table 下)                                                                                                |

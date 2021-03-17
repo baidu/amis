@@ -196,7 +196,7 @@ export class App extends React.PureComponent<{
     if (location.pathname === '/edit') {
       return (
         <div id="headerBar" className="box-shadow bg-dark">
-          <div className={`${theme.ns}Layout-brand`}>AMis 可视化编辑器</div>
+          <div className={`${theme.ns}Layout-brand`}>amis 可视化编辑器</div>
         </div>
       );
     }
@@ -276,7 +276,7 @@ export class App extends React.PureComponent<{
               href="https://github.com/fex-team/amis-editor-demo"
               target="_blank"
             >
-              可视化编辑器
+              编辑器
             </a>
             {/* <a href="https://suda.bce.baidu.com" target="_blank">
               爱速搭

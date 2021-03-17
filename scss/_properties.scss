@@ -1100,8 +1100,6 @@
   --Switch-onDisabled-color: #fff;
   --Switch-valueColor: var(--white);
   --Switch-width: #{px2rem(50px)};
-  --Switch-label: '关';
-  --Switch-checked-label: '开';
 
   --Table--unsaved-heading-bg: #e8f0fe;
   --Table--unsaved-heading-color: #4285f4;
@@ -1324,4 +1322,7 @@
   --Wizard-steps-textAlign: left;
   --Wizard-steps-ulDisplay: block;
   --Wizard-stepsContent-padding: #{px2rem(15px)};
+
+  --AnchorNav-links-container-borderRight: #{px2rem(1px)} solid #d3dae0;
+  --AnchorNav-onActive-borderWidth: 0 #{px2rem(2px)} 0 0;
 }

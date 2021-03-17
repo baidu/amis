@@ -23,6 +23,11 @@ export interface TextareaControlSchema extends FormBaseControl {
    * 最小行数
    */
   minRows?: number;
+
+  /**
+   * 是否只读
+   */
+  readOnly?: boolean;
 }
 
 export interface TextAreaProps extends FormControlProps {
@@ -92,8 +97,10 @@ export default class TextAreaControl extends React.Component<
       disabled,
       minRows,
       maxRows,
+      readOnly,
       name
     } = this.props;
+
     return (
       <Textarea
         autoComplete="off"
@@ -110,6 +117,9 @@ export default class TextAreaControl extends React.Component<
             : JSON.stringify(value)
         }
         placeholder={placeholder}
+        autoCorrect="off"
+        spellCheck="false"
+        readOnly={readOnly}
         minRows={minRows}
         maxRows={maxRows}
         onChange={this.handleChange}
