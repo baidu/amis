@@ -92,18 +92,16 @@ export default class StaticControl extends React.Component<StaticProps, any> {
       data,
       classnames: cx,
       name,
-      tpl,
       ...rest
     } = this.props;
 
     const subType = /^static/.test(type)
-      ? type.substring(7) || (tpl ? 'tpl' : 'plain')
+      ? type.substring(7) || (rest.tpl ? 'tpl' : 'plain')
       : type;
 
     const field = {
       label,
       name,
-      tpl,
       ...rest,
       type: subType
     };
