@@ -65,7 +65,7 @@ export class SwitchField extends React.Component<SwitchProps, object> {
     placeholder: '-',
     trueValue: true,
     falseValue: false,
-    readOnly: true,
+    readOnly: false,
     saveImmediately: false
   };
 
