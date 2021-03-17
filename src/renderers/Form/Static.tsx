@@ -103,6 +103,7 @@ export default class StaticControl extends React.Component<StaticProps, any> {
     const field = {
       label,
       name,
+      tpl,
       ...rest,
       type: subType
     };
