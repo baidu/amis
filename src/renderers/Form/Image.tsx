@@ -23,6 +23,7 @@ import {
   SchemaTokenizeableString,
   SchemaUrlPath
 } from '../../Schema';
+import {filter} from '../../utils/tpl';
 
 /**
  * Image 图片上传控件
@@ -1383,7 +1384,7 @@ export default class ImageControl extends React.Component<
                         {defaultImage ? (
                           <ImageComponent
                             key="upload-default-image"
-                            src={defaultImage}
+                            src={filter(defaultImage, this.props.data, '| raw')}
                             className={cx(
                               fixedSize ? 'Image-thumb--fixed-size' : ''
                             )}
