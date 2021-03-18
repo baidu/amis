@@ -229,9 +229,14 @@ export interface ImageControlSchema extends FormBaseControl {
   defaultImage?: SchemaUrlPath;
 
   /**
-   * 图片展示 固定高度的类名 宽度自适应
+   * 是否开启固定尺寸
    */
-  fixedSize?: SchemaClassName;
+  fixedSize?: boolean;
+
+  /**
+   * 固定尺寸的 CSS类名
+   */
+  fixedSizeClassName?: SchemaClassName;
 }
 
 let preventEvent = (e: any) => e.stopPropagation();
@@ -1107,6 +1112,7 @@ export default class ImageControl extends React.Component<
       reCropable,
       defaultImage,
       fixedSize,
+      fixedSizeClassName,
       translate: __
     } = this.props;
 
@@ -1191,7 +1197,7 @@ export default class ImageControl extends React.Component<
                                   file.state === 'invalid'
                               },
                               fixedSize ? 'ImageControl-fixed-size' : '',
-                              fixedSize ? fixedSize : ''
+                              fixedSize ? fixedSizeClassName : ''
                             )}
                           >
                             {file.state === 'invalid' ||
@@ -1216,7 +1222,8 @@ export default class ImageControl extends React.Component<
                                     {
                                       'is-disabled': disabled
                                     },
-                                    fixedSize ? fixedSize : ''
+                                    fixedSize ? 'ImageControl-fixed-size' : '',
+                                    fixedSize ? fixedSizeClassName : ''
                                   )}
                                   onClick={this.handleRetry.bind(this, key)}
                                 >
@@ -1244,7 +1251,8 @@ export default class ImageControl extends React.Component<
                                   key="info"
                                   className={cx(
                                     'ImageControl-itemInfo',
-                                    fixedSize ? fixedSize : ''
+                                    fixedSize ? 'ImageControl-fixed-size' : '',
+                                    fixedSize ? fixedSizeClassName : ''
                                   )}
                                 >
                                   <p>{__('File.uploading')}</p>
@@ -1366,7 +1374,7 @@ export default class ImageControl extends React.Component<
                             'is-disabled': disabled
                           },
                           fixedSize ? 'ImageControl-fixed-size' : '',
-                          fixedSize ? fixedSize : ''
+                          fixedSize ? fixedSizeClassName : ''
                         )}
                         onClick={this.handleSelect}
                         data-tooltip={__(placeholder)}
