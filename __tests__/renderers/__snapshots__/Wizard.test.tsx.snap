@@ -1543,12 +1543,6 @@ exports[`Renderer:Wizard initApi reload 3`] = `
           class="a-Page-body"
         >
           <div
-            class="a-Spinner-overlay"
-          />
-          <div
-            class="a-Spinner a-Spinner--overlay a-Spinner--lg"
-          />
-          <div
             class="a-Panel a-Panel--default a-Wizard a-Wizard--horizontal"
             style="position: relative;"
           >
