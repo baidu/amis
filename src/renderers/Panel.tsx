@@ -157,7 +157,6 @@ export default class Panel extends React.Component<PanelProps> {
       const clip = footerDom.getBoundingClientRect();
       const clientHeight = window.innerHeight;
       // affixed = clip.top + clip.height / 2 > clientHeight;
-
       affixed = clip.bottom > clientHeight - offsetBottom;
     }
 
