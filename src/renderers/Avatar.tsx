@@ -12,7 +12,7 @@ import {resolveVariable, resolveVariableAndFilter} from '../utils/tpl-builtin';
  */
 export interface AvatarSchema extends BaseSchema {
   /**
-   *  指定为面包屑显示控件
+   *  指定为用户头像控件
    */
   type: 'avatar';
 
