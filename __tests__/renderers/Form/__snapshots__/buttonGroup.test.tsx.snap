@@ -94,14 +94,12 @@ exports[`Renderer:button-group 1`] = `
               class="a-Form-control"
             >
               <span
-                class="a-TplField"
+                class="a-PlainField"
               >
-                <span>
-                  <span
-                    class="text-muted"
-                  >
-                    -
-                  </span>
+                <span
+                  class="text-muted"
+                >
+                  -
                 </span>
               </span>
             </div>
@@ -250,15 +248,9 @@ exports[`Renderer:button-group:multiple clearable 1`] = `
               class="a-Form-control"
             >
               <span
-                class="a-TplField"
+                class="a-PlainField"
               >
-                <span>
-                  <span
-                    class="text-muted"
-                  >
-                    -
-                  </span>
-                </span>
+                a,b
               </span>
             </div>
           </div>
@@ -406,15 +398,9 @@ exports[`Renderer:button-group:multiple clearable 2`] = `
               class="a-Form-control"
             >
               <span
-                class="a-TplField"
+                class="a-PlainField"
               >
-                <span>
-                  <span
-                    class="text-muted"
-                  >
-                    -
-                  </span>
-                </span>
+                a
               </span>
             </div>
           </div>

@@ -155,7 +155,7 @@ export interface PageProps
 }
 
 export default class Page extends React.Component<PageProps> {
-  timer: NodeJS.Timeout;
+  timer: ReturnType<typeof setTimeout>;
   mounted: boolean;
 
   static defaultProps = {

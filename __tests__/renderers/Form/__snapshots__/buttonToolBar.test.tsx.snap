@@ -217,5 +217,67 @@ exports[`Renderer:button-toolbar 2`] = `
       />
     </div>
   </div>
+  <div
+    class="amis-dialog-widget a-Modal a-Modal--1th"
+    role="dialog"
+  >
+    <div
+      class="a-Modal-overlay in"
+    />
+    <div
+      class="a-Modal-content in"
+    >
+      <div
+        class="a-Modal-header"
+      >
+        <a
+          class="a-Modal-close"
+          data-position="left"
+          data-tooltip="关闭"
+        >
+          <icon-mock
+            classname="icon icon-close"
+            icon="close"
+          />
+        </a>
+        <div
+          class="a-Modal-title"
+        >
+          提示
+        </div>
+      </div>
+      <div
+        class="a-Modal-body"
+      >
+        <span
+          class="a-TplField"
+        >
+          <span>
+            对，你刚点击了！
+          </span>
+        </span>
+      </div>
+      <div
+        class="a-Modal-footer"
+      >
+        <button
+          class="a-Button a-Button--default"
+          type="button"
+        >
+          <span>
+            取消
+          </span>
+        </button>
+        <button
+          class="a-Button a-Button--primary"
+          type="button"
+        >
+          <span>
+            确认
+          </span>
+        </button>
+      </div>
+    </div>
+  </div>
 </div>
 `;

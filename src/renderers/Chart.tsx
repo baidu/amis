@@ -167,7 +167,7 @@ export class Chart extends React.Component<ChartProps> {
   unSensor: Function;
   pending?: object;
   pendingCtx?: any;
-  timer: NodeJS.Timeout;
+  timer: ReturnType<typeof setTimeout>;
   mounted: boolean;
   reloadCancel?: Function;
 

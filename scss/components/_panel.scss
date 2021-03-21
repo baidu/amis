@@ -9,7 +9,8 @@
   &-fixedBottom {
     position: absolute;
     background: var(--white);
-    z-index: $zindex-affix;
+    z-index: -1;
+    opacity: 0;
     bottom: 999999px;
     box-shadow: var(--Panel-fixedBottom-boxShadow);
     border-top: var(--Panel-fixedBottom-borderTop);
@@ -17,6 +18,8 @@
     &.in {
       position: fixed;
       bottom: 0;
+      z-index: $zindex-affix;
+      opacity: 1;
     }
   }
 

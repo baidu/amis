@@ -5,6 +5,7 @@ import {render, fireEvent, cleanup, getByText} from 'react-testing-library';
 import '../../../src/themes/default';
 import {render as amisRender} from '../../../src/index';
 import {makeEnv} from '../../helper';
+import moment from 'moment';
 
 test('Renderer:dateRange', async () => {
   const {container}: any = render(
@@ -31,7 +32,12 @@ test('Renderer:dateRange', async () => {
   );
 
   const input = container.querySelector('.a-DateRangePicker-value');
-  expect(input?.innerHTML).toEqual('2019-06-06 至 2019-06-26');
+  expect(input?.innerHTML).toEqual(
+    `${moment(1559750400, 'X').format('YYYY-MM-DD')} 至 ${moment(
+      1561564799,
+      'X'
+    ).format('YYYY-MM-DD')}`
+  );
 
   expect(container).toMatchSnapshot();
 });

@@ -89,6 +89,25 @@ order: 56
 }
 ```
 
+## 可清除
+
+通过 `"clearable": true` 可以设置文本可清除
+
+```schema: scope="body"
+{
+    "type": "form",
+    "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
+    "controls": [
+        {
+            "name": "text",
+            "type": "text",
+            "label": "text",
+            "clearable: true
+        }
+    ]
+}
+```
+
 ## 选择器模式
 
 配置`options`即可支持选择器模式。

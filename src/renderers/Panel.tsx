@@ -106,7 +106,7 @@ export default class Panel extends React.Component<PanelProps> {
   unSensor: Function;
   affixDom: React.RefObject<HTMLDivElement> = React.createRef();
   footerDom: React.RefObject<HTMLDivElement> = React.createRef();
-  timer: NodeJS.Timeout;
+  timer: ReturnType<typeof setTimeout>;
 
   componentDidMount() {
     const dom = findDOMNode(this) as HTMLElement;
@@ -139,10 +139,12 @@ export default class Panel extends React.Component<PanelProps> {
 
     const affixDom = this.affixDom.current;
     const footerDom = this.footerDom.current;
+    const offsetBottom =
+      this.props.affixOffsetBottom ?? this.props.env.affixOffsetBottom ?? 0;
     let affixed = false;
 
     if (footerDom.offsetWidth) {
-      affixDom.style.cssText = `width: ${footerDom.offsetWidth}px`;
+      affixDom.style.cssText = `bottom: ${offsetBottom}px;width: ${footerDom.offsetWidth}px`;
     } else {
       this.timer = setTimeout(this.affixDetect, 250);
       return;
@@ -154,7 +156,8 @@ export default class Panel extends React.Component<PanelProps> {
     } else {
       const clip = footerDom.getBoundingClientRect();
       const clientHeight = window.innerHeight;
-      affixed = clip.top + clip.height / 2 > clientHeight;
+      // affixed = clip.top + clip.height / 2 > clientHeight;
+      affixed = clip.bottom > clientHeight - offsetBottom;
     }
 
     affixed ? affixDom.classList.add('in') : affixDom.classList.remove('in');

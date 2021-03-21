@@ -217,7 +217,7 @@
   --Button--light-onHover-bg: #{darken($light, 7.5%)};
   --Button--light-onHover-border: #{darken($light, 10%)};
   --Button--light-onHover-color: var(--Button--light-color);
-  --Button--link-color: var(--text-color);
+  --Button--link-color: var(--primary);
   --Button--link-onDisabled-color: #{$gray600};
   --Button--link-onHover-color: var(--text--loud-color);
   --Button--md-fontSize: var(--Button-fontSize);

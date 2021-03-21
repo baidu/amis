@@ -222,6 +222,68 @@ exports[`Renderer:Page handleAction actionType=ajax & feedback 1`] = `
       </div>
     </div>
   </div>
+  <div
+    class="amis-dialog-widget a-Modal a-Modal--1th"
+    role="dialog"
+  >
+    <div
+      class="a-Modal-overlay in"
+    />
+    <div
+      class="a-Modal-content in"
+    >
+      <div
+        class="a-Modal-header"
+      >
+        <a
+          class="a-Modal-close"
+          data-position="left"
+          data-tooltip="关闭"
+        >
+          <icon-mock
+            classname="icon icon-close"
+            icon="close"
+          />
+        </a>
+        <div
+          class="a-Modal-title"
+        >
+          弹框
+        </div>
+      </div>
+      <div
+        class="a-Modal-body"
+      >
+        <span
+          class="a-TplField"
+        >
+          <span>
+            this is feedback
+          </span>
+        </span>
+      </div>
+      <div
+        class="a-Modal-footer"
+      >
+        <button
+          class="a-Button a-Button--default"
+          type="button"
+        >
+          <span>
+            取消
+          </span>
+        </button>
+        <button
+          class="a-Button a-Button--primary"
+          type="button"
+        >
+          <span>
+            确认
+          </span>
+        </button>
+      </div>
+    </div>
+  </div>
 </div>
 `;
 
@@ -340,6 +402,68 @@ exports[`Renderer:Page handleAction actionType=dialog 1`] = `
       </div>
     </div>
   </div>
+  <div
+    class="amis-dialog-widget a-Modal a-Modal--1th"
+    role="dialog"
+  >
+    <div
+      class="a-Modal-overlay in"
+    />
+    <div
+      class="a-Modal-content in"
+    >
+      <div
+        class="a-Modal-header"
+      >
+        <a
+          class="a-Modal-close"
+          data-position="left"
+          data-tooltip="关闭"
+        >
+          <icon-mock
+            classname="icon icon-close"
+            icon="close"
+          />
+        </a>
+        <div
+          class="a-Modal-title"
+        >
+          弹框
+        </div>
+      </div>
+      <div
+        class="a-Modal-body"
+      >
+        <span
+          class="a-TplField"
+        >
+          <span>
+            this is dialog
+          </span>
+        </span>
+      </div>
+      <div
+        class="a-Modal-footer"
+      >
+        <button
+          class="a-Button a-Button--default"
+          type="button"
+        >
+          <span>
+            取消
+          </span>
+        </button>
+        <button
+          class="a-Button a-Button--primary"
+          type="button"
+        >
+          <span>
+            确认
+          </span>
+        </button>
+      </div>
+    </div>
+  </div>
 </div>
 `;
 
@@ -412,6 +536,100 @@ exports[`Renderer:Page handleAction actionType=dialog mergeData 1`] = `
       </div>
     </div>
   </div>
+  <div
+    class="amis-dialog-widget a-Modal a-Modal--1th"
+    role="dialog"
+  >
+    <div
+      class="a-Modal-overlay in"
+    />
+    <div
+      class="a-Modal-content in"
+    >
+      <div
+        class="a-Modal-header"
+      >
+        <a
+          class="a-Modal-close"
+          data-position="left"
+          data-tooltip="关闭"
+        >
+          <icon-mock
+            classname="icon icon-close"
+            icon="close"
+          />
+        </a>
+        <div
+          class="a-Modal-title"
+        >
+          弹框
+        </div>
+      </div>
+      <div
+        class="a-Modal-body"
+      >
+        <form
+          class="a-Form a-Form--horizontal"
+          novalidate=""
+        >
+          <div
+            class="a-Form-item a-Form-item--horizontal"
+            data-role="form-item"
+          >
+            <label
+              class="a-Form-label a-Form-itemColumn--2"
+            >
+              <span>
+                <span
+                  class="a-TplField"
+                >
+                  <span>
+                    A
+                  </span>
+                </span>
+              </span>
+            </label>
+            <div
+              class="a-Form-value"
+            >
+              <div
+                class="a-Form-control a-TextControl"
+              >
+                <div
+                  class="a-TextControl-input"
+                >
+                  <input
+                    autocomplete="off"
+                    name="a"
+                    placeholder=""
+                    size="10"
+                    type="text"
+                    value="3"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+          <input
+            style="display: none;"
+            type="submit"
+          />
+        </form>
+      </div>
+      <div
+        class="a-Modal-footer"
+      >
+        <button
+          class="a-Button a-Button--default"
+          type="submit"
+        >
+          <span>
+            确认
+          </span>
+        </button>
+      </div>
+    </div>
+  </div>
 </div>
 `;
 
@@ -449,6 +667,100 @@ exports[`Renderer:Page handleAction actionType=dialog mergeData 2`] = `
             </span>
           </span>
         </div>
+      </div>
+    </div>
+  </div>
+  <div
+    class="amis-dialog-widget a-Modal a-Modal--1th"
+    role="dialog"
+  >
+    <div
+      class="a-Modal-overlay out"
+    />
+    <div
+      class="a-Modal-content out"
+    >
+      <div
+        class="a-Modal-header"
+      >
+        <a
+          class="a-Modal-close"
+          data-position="left"
+          data-tooltip="关闭"
+        >
+          <icon-mock
+            classname="icon icon-close"
+            icon="close"
+          />
+        </a>
+        <div
+          class="a-Modal-title"
+        >
+          弹框
+        </div>
+      </div>
+      <div
+        class="a-Modal-body"
+      >
+        <form
+          class="a-Form a-Form--horizontal"
+          novalidate=""
+        >
+          <div
+            class="a-Form-item a-Form-item--horizontal"
+            data-role="form-item"
+          >
+            <label
+              class="a-Form-label a-Form-itemColumn--2"
+            >
+              <span>
+                <span
+                  class="a-TplField"
+                >
+                  <span>
+                    A
+                  </span>
+                </span>
+              </span>
+            </label>
+            <div
+              class="a-Form-value"
+            >
+              <div
+                class="a-Form-control a-TextControl"
+              >
+                <div
+                  class="a-TextControl-input"
+                >
+                  <input
+                    autocomplete="off"
+                    name="a"
+                    placeholder=""
+                    size="10"
+                    type="text"
+                    value="3"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+          <input
+            style="display: none;"
+            type="submit"
+          />
+        </form>
+      </div>
+      <div
+        class="a-Modal-footer"
+      >
+        <button
+          class="a-Button a-Button--default"
+          type="submit"
+        >
+          <span>
+            确认
+          </span>
+        </button>
       </div>
     </div>
   </div>
@@ -816,6 +1128,100 @@ exports[`Renderer:Page initApi reload by Dialog action 2`] = `
       </div>
     </div>
   </div>
+  <div
+    class="amis-dialog-widget a-Modal a-Modal--1th"
+    role="dialog"
+  >
+    <div
+      class="a-Modal-overlay in"
+    />
+    <div
+      class="a-Modal-content in"
+    >
+      <div
+        class="a-Modal-header"
+      >
+        <a
+          class="a-Modal-close"
+          data-position="left"
+          data-tooltip="关闭"
+        >
+          <icon-mock
+            classname="icon icon-close"
+            icon="close"
+          />
+        </a>
+        <div
+          class="a-Modal-title"
+        >
+          弹框
+        </div>
+      </div>
+      <div
+        class="a-Modal-body"
+      >
+        <form
+          class="a-Form a-Form--horizontal"
+          novalidate=""
+        >
+          <div
+            class="a-Form-item a-Form-item--horizontal"
+            data-role="form-item"
+          >
+            <label
+              class="a-Form-label a-Form-itemColumn--2"
+            >
+              <span />
+            </label>
+            <div
+              class="a-Form-value"
+            >
+              <div
+                class="a-Form-control a-TextControl"
+              >
+                <div
+                  class="a-TextControl-input"
+                >
+                  <input
+                    autocomplete="off"
+                    name="a"
+                    placeholder=""
+                    size="10"
+                    type="text"
+                    value="1"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+          <input
+            style="display: none;"
+            type="submit"
+          />
+        </form>
+      </div>
+      <div
+        class="a-Modal-footer"
+      >
+        <button
+          class="a-Button a-Button--default"
+          type="button"
+        >
+          <span>
+            取消
+          </span>
+        </button>
+        <button
+          class="a-Button a-Button--primary"
+          type="button"
+        >
+          <span>
+            确认
+          </span>
+        </button>
+      </div>
+    </div>
+  </div>
 </div>
 `;
 
@@ -853,6 +1259,100 @@ exports[`Renderer:Page initApi reload by Dialog action 3`] = `
             </span>
           </span>
         </div>
+      </div>
+    </div>
+  </div>
+  <div
+    class="amis-dialog-widget a-Modal a-Modal--1th"
+    role="dialog"
+  >
+    <div
+      class="a-Modal-overlay out"
+    />
+    <div
+      class="a-Modal-content out"
+    >
+      <div
+        class="a-Modal-header"
+      >
+        <a
+          class="a-Modal-close"
+          data-position="left"
+          data-tooltip="关闭"
+        >
+          <icon-mock
+            classname="icon icon-close"
+            icon="close"
+          />
+        </a>
+        <div
+          class="a-Modal-title"
+        >
+          弹框
+        </div>
+      </div>
+      <div
+        class="a-Modal-body"
+      >
+        <form
+          class="a-Form a-Form--horizontal"
+          novalidate=""
+        >
+          <div
+            class="a-Form-item a-Form-item--horizontal"
+            data-role="form-item"
+          >
+            <label
+              class="a-Form-label a-Form-itemColumn--2"
+            >
+              <span />
+            </label>
+            <div
+              class="a-Form-value"
+            >
+              <div
+                class="a-Form-control a-TextControl"
+              >
+                <div
+                  class="a-TextControl-input"
+                >
+                  <input
+                    autocomplete="off"
+                    name="a"
+                    placeholder=""
+                    size="10"
+                    type="text"
+                    value="1"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+          <input
+            style="display: none;"
+            type="submit"
+          />
+        </form>
+      </div>
+      <div
+        class="a-Modal-footer"
+      >
+        <button
+          class="a-Button a-Button--default"
+          type="button"
+        >
+          <span>
+            取消
+          </span>
+        </button>
+        <button
+          class="a-Button a-Button--primary"
+          type="button"
+        >
+          <span>
+            确认
+          </span>
+        </button>
       </div>
     </div>
   </div>

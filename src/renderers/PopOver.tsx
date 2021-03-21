@@ -139,7 +139,7 @@ export const HocPopOver = (
   let lastOpenedInstance: PopOverComponent | null = null;
   class PopOverComponent extends React.Component<PopOverProps, PopOverState> {
     target: HTMLElement;
-    timer: NodeJS.Timeout;
+    timer: ReturnType<typeof setTimeout>;
     static ComposedComponent = Component;
     constructor(props: PopOverProps) {
       super(props);
@@ -329,7 +329,12 @@ export const HocPopOver = (
         showIcon
       } = this.props;
 
-      if (!popOver || popOverEnabled === false || noHoc || popOverEnable === false) {
+      if (
+        !popOver ||
+        popOverEnabled === false ||
+        noHoc ||
+        popOverEnable === false
+      ) {
         return <Component {...this.props} />;
       }
 

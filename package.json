@@ -145,6 +145,7 @@
     "marked": "2.0.1",
     "mkdirp": "^1.0.4",
     "mobx-wiretap": "^0.12.0",
+    "moment-timezone": "^0.5.33",
     "path-to-regexp": "^6.2.0",
     "postcss": "^8.2.1",
     "postcss-cli": "^8.3.1",
