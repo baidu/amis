@@ -160,6 +160,9 @@
   --Audio-volume-width: #{px2rem(20px)};
   --Audio-volumeControl-width: #{px2rem(110px)};
 
+  --Badge-size: #{px2rem(20px)};
+  --Badge-color: var(--white);
+
   --Button--danger-bg: var(--danger);
   --Button--danger-border: var(--Button--danger-bg);
   --Button--danger-color: var(--button-color);
