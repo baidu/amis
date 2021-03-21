@@ -3,7 +3,12 @@
  */
 import React from 'react';
 import {Renderer, RendererProps} from '../factory';
-import {BaseSchema, SchemaIcon, SchemaUrlPath} from '../Schema';
+import {
+  BaseSchema,
+  SchemaClassName,
+  SchemaIcon,
+  SchemaUrlPath
+} from '../Schema';
 import {resolveVariable, resolveVariableAndFilter} from '../utils/tpl-builtin';
 
 /**
@@ -50,6 +55,18 @@ export interface AvatarSchema extends BaseSchema {
    * 图片无法显示时的替换文字地址
    */
   alt?: string;
+
+  /**
+   * 类名
+   */
+  className?: SchemaClassName;
+
+  /**
+   * 自定义样式
+   */
+  style?: {
+    [propName: string]: any;
+  };
 }
 
 export interface AvatarProps
