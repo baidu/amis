@@ -19,7 +19,7 @@ export interface AvatarSchema extends BaseSchema {
   /**
    * 大小
    */
-  size?: 'xs' | 'sm' | 'md' | 'lg';
+  size?: number;
 
   /**
    * 形状
@@ -58,14 +58,32 @@ export interface AvatarProps
 
 export class AvatarField extends React.Component<AvatarProps, object> {
   static defaultProps = {
-    size: ' sm',
+    size: 40,
     shape: 'circle',
     fit: 'cover',
     icon: 'fa fa-user'
   };
 
   render() {
-    let {className, icon, text, src, fit, data, classnames: cx} = this.props;
+    let {
+      className,
+      icon,
+      text,
+      src,
+      fit,
+      data,
+      shape,
+      size,
+      style,
+      classnames: cx,
+      props
+    } = this.props;
+
+    let sizeStyle = {
+      height: size,
+      width: size,
+      lineHeight: size + 'px'
+    };
 
     let avatar = <i className={icon} />;
 
@@ -80,15 +98,23 @@ export class AvatarField extends React.Component<AvatarProps, object> {
     if (text) {
       if (text.length > 2) {
         text = text.substring(0, 2).toUpperCase();
-        avatar = <span>text</span>;
       }
+      avatar = <span>{text}</span>;
     }
 
     if (src) {
       avatar = <img src={src} style={{objectFit: fit}} />;
     }
 
-    return <div className={cx('Avatar', className)}>{avatar}</div>;
+    return (
+      <div
+        className={cx('Avatar', className, `Avatar--${shape}`)}
+        style={{...sizeStyle, ...style}}
+        {...props}
+      >
+        {avatar}
+      </div>
+    );
   }
 }
 

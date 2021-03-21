@@ -1,21 +1,37 @@
 .#{$ns}Avatar {
-  width: 40px;
-  height: 40px;
-  display: flex;
+  background: var(--Avatar-bg);
+  width: var(--Avatar-width);
+  height: var(--Avatar-width);
+  line-height: var(--Avatar-width);
+  display: inline-block;
   overflow: hidden;
-  position: relative;
-  align-items: center;
   flex-shrink: 0;
-  line-height: 1;
-  user-select: none;
   border-radius: 50%;
-  justify-content: center;
   text-align: center;
+
+  &--square {
+    border-radius: 0%;
+  }
+
+  &--rounded {
+    border-radius: 10%;
+  }
+
+  i {
+    font-size: var(--fontSizeLg);
+  }
 
   img {
     color: transparent;
     width: 100%;
     height: 100%;
     object-fit: cover;
+  }
+
+  &:hover {
+    img,
+    i {
+      transform: scale(1.1);
+    }
   }
 }
