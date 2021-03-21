@@ -73,10 +73,10 @@ export default class Badge extends React.Component<BadgeProps, object> {
 
     return children
       ? typeof children === 'function'
-        ? (children(this.props) as JSX.Element)
+        ? children(this.props)
         : (children as JSX.Element)
       : body
-      ? (render('body', body) as JSX.Element)
+      ? render('body', body)
       : null;
   }
 
