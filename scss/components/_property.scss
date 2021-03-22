@@ -1,27 +1,15 @@
 .#{$ns}Property {
-  border-radius: 2px;
-  border: 1px solid var(--borderColor);
-
   > table {
+    border: 1px solid var(--borderColor);
     width: 100%;
     border-collapse: collapse;
-    table-layout: auto;
     > tbody > tr {
       background: var(--background);
-      border-bottom: 1px solid var(--borderColor);
-
-      &:last-child {
-        border-bottom: none;
-      }
 
       > td,
       > th {
-        border-right: 1px solid var(--borderColor);
+        border: 1px solid var(--borderColor);
         padding: var(--gap-sm);
-      }
-
-      > td:last-child {
-        border-right: none;
       }
       > th {
         background: var(--Property-th-bg);
@@ -30,16 +18,15 @@
   }
 
   &--simple {
-    border: none;
     > table {
+      border: none;
       > tbody > tr {
         background: transparent;
-        border-bottom: none;
       }
 
       > tbody > tr > td,
       > tbody > tr > th {
-        border-right: none;
+        border: none;
       }
     }
   }
