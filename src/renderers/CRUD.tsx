@@ -31,7 +31,12 @@ import pick from 'lodash/pick';
 import qs from 'qs';
 import {findDOMNode} from 'react-dom';
 import {evalExpression, filter} from '../utils/tpl';
-import {isValidApi, buildApi, isEffectiveApi} from '../utils/api';
+import {
+  isValidApi,
+  buildApi,
+  isEffectiveApi,
+  isApiOutdated
+} from '../utils/api';
 import omit from 'lodash/omit';
 import find from 'lodash/find';
 import findIndex from 'lodash/findIndex';
@@ -512,22 +517,12 @@ export default class CRUD extends React.Component<CRUDProps, any> {
         this.lastQuery,
         false
       );
-    } else if (!props.syncLocation && props.api && nextProps.api) {
-      // 如果不同步地址栏，则直接看api上是否绑定参数，结果变了就重新刷新。
-      let prevApi = buildApi(props.api, props.data as object, {
-        ignoreData: true
-      });
-      let nextApi = buildApi(nextProps.api, nextProps.data as object, {
-        ignoreData: true
-      });
-
-      if (
-        prevApi.url !== nextApi.url &&
-        isValidApi(nextApi.url) &&
-        (!nextApi.sendOn || evalExpression(nextApi.sendOn, nextProps.data))
-      ) {
-        this.dataInvalid = true;
-      }
+    } else if (
+      props.api &&
+      nextProps.api &&
+      isApiOutdated(props.api, nextProps.api, props.data, nextProps.data)
+    ) {
+      this.dataInvalid = true;
     }
   }
 
