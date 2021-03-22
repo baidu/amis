@@ -133,7 +133,7 @@ export default class Property extends React.Component<PropertyProps, object> {
       render,
       contentStyle,
       labelStyle,
-      separator = ':',
+      separator = ': ',
       mode = 'table'
     } = this.props;
     return rows.map((row, key) => {
@@ -151,8 +151,14 @@ export default class Property extends React.Component<PropertyProps, object> {
                 </td>
               </React.Fragment>
             ) : (
-              <td colSpan={property.span} style={contentStyle}>
-                {render('label', property.label)}
+              <td
+                colSpan={property.span}
+                style={contentStyle}
+                key={`item-${index}`}
+              >
+                <span style={labelStyle}>
+                  {render('label', property.label)}
+                </span>
                 {separator}
                 {render('content', property.content)}
               </td>

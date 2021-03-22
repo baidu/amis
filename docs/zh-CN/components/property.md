@@ -248,12 +248,16 @@ order: 60
 }
 ```
 
-如果是简易模式，因为合并到一个单元格中了，因此 `labelStyle` 将会失效，只能设置 `contentStyle`
+如果是简易模式，因为合并到一个单元格中了，因此只能通过 `contentStyle` 设置单元格样式，`labelStyle` 只能设置属性名文本的样式。
 
 ```schema: scope="body"
 {
   "type": "property",
   "mode": "simple",
+  "labelStyle": {
+    "fontWeight": "bold",
+    "textTransform": "capitalize"
+  },
   "contentStyle": {
     "verticalAlign": "top"
   },
@@ -291,16 +295,56 @@ order: 60
 }
 ```
 
+## 显示列数
+
+通过 `column` 来控制一行显示几列，默认是 3 列，下面示例是改成 2 列的效果
+
+```schema: scope="body"
+{
+  "type": "property",
+  "column": 2,
+  "items": [
+    {
+      "label": "cpu",
+      "content": "1 core"
+    },
+    {
+      "label": "memory",
+      "content": "4G"
+    },
+    {
+      "label": "disk",
+      "content": "80G"
+    },
+    {
+      "label": "IDC",
+      "content": "beijing"
+    },
+    {
+      "label": "network",
+      "content": "4M",
+      "span": 2
+    },
+    {
+      "label": "Note",
+      "content": "其它说明",
+      "span": 2
+    }
+  ]
+}
+```
+
 ## 属性表
 
-| 属性名          | 类型        | 默认值  | 说明            |
-| --------------- | ----------- | ------- | --------------- |
-| className       | `string`    |         | 外层 dom 的类名 |
-| style           | `object`    |         | 外层 dom 的样式 |
-| labelStyle      | `object`    |         | 属性名的样式    |
-| contentStyle    | `object`    |         | 属性值的样式    |
-| column          | `number`    | 3       | 每行几列        |
-| mode            | `string`    | 'table' | 显示模式        |
-| items[].label   | `SchemaTpl` |         | 属性名          |
-| items[].content | `SchemaTpl` |         | 属性值          |
-| items[].span    | `SchemaTpl` |         | 属性值跨几列    |
+| 属性名          | 类型        | 默认值  | 说明                                   |
+| --------------- | ----------- | ------- | -------------------------------------- |
+| className       | `string`    |         | 外层 dom 的类名                        |
+| style           | `object`    |         | 外层 dom 的样式                        |
+| labelStyle      | `object`    |         | 属性名的样式                           |
+| contentStyle    | `object`    |         | 属性值的样式                           |
+| column          | `number`    | 3       | 每行几列                               |
+| mode            | `string`    | 'table' | 显示模式，目前只有 'table' 和 'simple' |
+| separator       | `string`    | ','     | 'simple' 模式下属性名和值之间的分隔符  |
+| items[].label   | `SchemaTpl` |         | 属性名                                 |
+| items[].content | `SchemaTpl` |         | 属性值                                 |
+| items[].span    | `SchemaTpl` |         | 属性值跨几列                           |
