@@ -63,6 +63,7 @@ export type SchemaType =
   | 'alert'
   | 'app'
   | 'audio'
+  | 'avatar'
   | 'button-group'
   | 'button-toolbar'
   | 'breadcrumb'
