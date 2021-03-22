@@ -1389,11 +1389,39 @@ export const keyToPath = (string: string) => {
 };
 
 /**
+ * 检查对象是否有循环引用，来自 https://stackoverflow.com/a/34909127
+ * @param obj
+ */
+function isCyclic(obj: any): boolean {
+  const seenObjects: any = [];
+  function detect(obj: any) {
+    if (obj && typeof obj === 'object') {
+      if (seenObjects.indexOf(obj) !== -1) {
+        return true;
+      }
+      seenObjects.push(obj);
+      for (var key in obj) {
+        if (obj.hasOwnProperty(key) && detect(obj[key])) {
+          console.log(obj, 'cycle at ' + key);
+          return true;
+        }
+      }
+    }
+    return false;
+  }
+  return detect(obj);
+}
+
+/**
  * 深度查找具有某个 key 名字段的对象
  * @param obj
  * @param key
  */
 export function findObjectsWithKey(obj: any, key: string) {
+  // 避免循环引用导致死循环
+  if (isCyclic(obj)) {
+    return [];
+  }
   let objects: any[] = [];
   for (const k in obj) {
     if (!obj.hasOwnProperty(k)) continue;
