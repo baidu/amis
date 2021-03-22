@@ -293,13 +293,14 @@ order: 60
 
 ## 属性表
 
-| 属性名          | 类型        | 默认值 | 说明            |
-| --------------- | ----------- | ------ | --------------- |
-| className       | `string`    |        | 外层 dom 的类名 |
-| style           | `object`    |        | 外层 dom 的样式 |
-| labelStyle      | `object`    |        | 属性名的样式    |
-| contentStyle    | `object`    |        | 属性值的样式    |
-| column          | `number`    | 3      | 每行几列        |
-| items[].label   | `SchemaTpl` |        | 属性名          |
-| items[].content | `SchemaTpl` |        | 属性值          |
-| items[].span    | `SchemaTpl` |        | 属性值跨几列    |
+| 属性名          | 类型        | 默认值  | 说明            |
+| --------------- | ----------- | ------- | --------------- |
+| className       | `string`    |         | 外层 dom 的类名 |
+| style           | `object`    |         | 外层 dom 的样式 |
+| labelStyle      | `object`    |         | 属性名的样式    |
+| contentStyle    | `object`    |         | 属性值的样式    |
+| column          | `number`    | 3       | 每行几列        |
+| mode            | `string`    | 'table' | 显示模式        |
+| items[].label   | `SchemaTpl` |         | 属性名          |
+| items[].content | `SchemaTpl` |         | 属性值          |
+| items[].span    | `SchemaTpl` |         | 属性值跨几列    |

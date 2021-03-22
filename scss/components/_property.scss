@@ -1,6 +1,5 @@
 .#{$ns}Property {
   > table {
-    border: 1px solid var(--borderColor);
     width: 100%;
     border-collapse: collapse;
     > tbody > tr {
@@ -19,7 +18,6 @@
 
   &--simple {
     > table {
-      border: none;
       > tbody > tr {
         background: transparent;
       }
