@@ -976,6 +976,15 @@ export const components = [
           )
       },
       {
+        label: 'Property 属性表',
+        path: '/zh-CN/components/property',
+        getComponent: () =>
+          // @ts-ignore
+          import('../../docs/zh-CN/components/property.md').then(
+            makeMarkdownRenderer
+          )
+      },
+      {
         label: 'QRCode 二维码',
         path: '/zh-CN/components/qrcode',
         getComponent: () =>

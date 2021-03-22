@@ -110,6 +110,7 @@ export type SchemaType =
   | 'page'
   | 'pagination'
   | 'pagination-wrapper'
+  | 'property'
   | 'operation'
   | 'panel'
   | 'plain'
