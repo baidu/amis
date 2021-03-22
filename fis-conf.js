@@ -37,7 +37,10 @@ fis.set('project.files', [
   '/scss/themes/*.scss',
   '/examples/*.html',
   '/examples/*.tpl',
-  '/examples/static/*',
+  '/examples/static/*.png',
+  '/examples/static/*.svg',
+  '/examples/static/*.jpg',
+  '/examples/static/*.jpeg',
   '/src/**.html',
   'mock/**'
 ]);
