@@ -250,9 +250,7 @@ exports[`Renderer:button-group:multiple clearable 1`] = `
               <span
                 class="a-PlainField"
               >
-                <span>
-                  a,b
-                </span>
+                a,b
               </span>
             </div>
           </div>
@@ -402,9 +400,7 @@ exports[`Renderer:button-group:multiple clearable 2`] = `
               <span
                 class="a-PlainField"
               >
-                <span>
-                  a
-                </span>
+                a
               </span>
             </div>
           </div>

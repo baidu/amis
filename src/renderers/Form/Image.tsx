@@ -23,6 +23,7 @@ import {
   SchemaTokenizeableString,
   SchemaUrlPath
 } from '../../Schema';
+import {filter} from '../../utils/tpl';
 
 /**
  * Image 图片上传控件
@@ -222,6 +223,21 @@ export interface ImageControlSchema extends FormBaseControl {
   autoFill?: {
     [propName: string]: SchemaTokenizeableString;
   };
+
+  /**
+   * 默认图片地址
+   */
+  defaultImage?: SchemaUrlPath;
+
+  /**
+   * 是否开启固定尺寸
+   */
+  fixedSize?: boolean;
+
+  /**
+   * 固定尺寸的 CSS类名
+   */
+  fixedSizeClassName?: SchemaClassName;
 }
 
 let preventEvent = (e: any) => e.stopPropagation();
@@ -933,7 +949,7 @@ export default class ImageControl extends React.Component<
         Math.abs(width / height - limit.aspectRatio) > 0.01
       ) {
         error = __(limit.aspectRatioLabel || 'Image.limitRatio', {
-          ratio: limit.aspectRatio
+          ratio: limit.aspectRatio.toFixed(2)
         });
       }
 
@@ -1095,6 +1111,9 @@ export default class ImageControl extends React.Component<
       thumbMode,
       thumbRatio,
       reCropable,
+      defaultImage,
+      fixedSize,
+      fixedSizeClassName,
       translate: __
     } = this.props;
 
@@ -1170,12 +1189,17 @@ export default class ImageControl extends React.Component<
                       ? files.map((file, key) => (
                           <div
                             key={file.id || key}
-                            className={cx('ImageControl-item', {
-                              'is-uploaded': file.state !== 'uploading',
-                              'is-invalid':
-                                file.state === 'error' ||
-                                file.state === 'invalid'
-                            })}
+                            className={cx(
+                              'ImageControl-item',
+                              {
+                                'is-uploaded': file.state !== 'uploading',
+                                'is-invalid':
+                                  file.state === 'error' ||
+                                  file.state === 'invalid'
+                              },
+                              fixedSize ? 'ImageControl-fixed-size' : '',
+                              fixedSize ? fixedSizeClassName : ''
+                            )}
                           >
                             {file.state === 'invalid' ||
                             file.state === 'error' ? (
@@ -1194,9 +1218,14 @@ export default class ImageControl extends React.Component<
                                 </a>
 
                                 <a
-                                  className={cx('ImageControl-retryBtn', {
-                                    'is-disabled': disabled
-                                  })}
+                                  className={cx(
+                                    'ImageControl-retryBtn',
+                                    {
+                                      'is-disabled': disabled
+                                    },
+                                    fixedSize ? 'ImageControl-fixed-size' : '',
+                                    fixedSize ? fixedSizeClassName : ''
+                                  )}
                                   onClick={this.handleRetry.bind(this, key)}
                                 >
                                   <Icon icon="retry" className="icon" />
@@ -1221,7 +1250,11 @@ export default class ImageControl extends React.Component<
                                 </a>
                                 <div
                                   key="info"
-                                  className={cx('ImageControl-itemInfo')}
+                                  className={cx(
+                                    'ImageControl-itemInfo',
+                                    fixedSize ? 'ImageControl-fixed-size' : '',
+                                    fixedSize ? fixedSizeClassName : ''
+                                  )}
                                 >
                                   <p>{__('File.uploading')}</p>
                                   <div className={cx('ImageControl-progress')}>
@@ -1242,7 +1275,10 @@ export default class ImageControl extends React.Component<
                               <>
                                 <ImageComponent
                                   key="image"
-                                  className={cx('ImageControl-image')}
+                                  className={cx(
+                                    'ImageControl-image',
+                                    fixedSize ? 'Image-thumb--fixed-size' : ''
+                                  )}
                                   onLoad={this.handleImageLoaded.bind(
                                     this,
                                     key
@@ -1333,14 +1369,29 @@ export default class ImageControl extends React.Component<
                     {(multiple && (!maxLength || files.length < maxLength)) ||
                     (!multiple && !files.length) ? (
                       <label
-                        className={cx('ImageControl-addBtn', {
-                          'is-disabled': disabled
-                        })}
+                        className={cx(
+                          'ImageControl-addBtn',
+                          {
+                            'is-disabled': disabled
+                          },
+                          fixedSize ? 'ImageControl-fixed-size' : '',
+                          fixedSize ? fixedSizeClassName : ''
+                        )}
                         onClick={this.handleSelect}
                         data-tooltip={__(placeholder)}
                         data-position="right"
                       >
-                        <Icon icon="plus" className="icon" />
+                        {defaultImage ? (
+                          <ImageComponent
+                            key="upload-default-image"
+                            src={filter(defaultImage, this.props.data, '| raw')}
+                            className={cx(
+                              fixedSize ? 'Image-thumb--fixed-size' : ''
+                            )}
+                          />
+                        ) : (
+                          <Icon icon="plus" className="icon" />
+                        )}
 
                         {isFocused ? (
                           <span className={cx('ImageControl-pasteTip')}>

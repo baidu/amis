@@ -11,11 +11,11 @@
   }
   &.#{$ns}Form-control--sizeMd {
     min-width: auto;
-    width: var(--Form-control-sizeMd);
+    width: var(--Form-control-widthMd);
   }
   &.#{$ns}Form-control--sizeLg {
     min-width: auto;
-    width: var(--Form-control-sizeLg);
+    width: var(--Form-control-widthLg);
   }
 }
 

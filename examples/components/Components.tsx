@@ -1089,6 +1089,16 @@ export const components = [
     label: '其他',
     children: [
       {
+        label: 'Avatar 头像',
+        path: '/zh-CN/components/avatar',
+        getComponent: () =>
+          // @ts-ignore
+          import('../../docs/zh-CN/components/avatar.md').then(
+            makeMarkdownRenderer
+          )
+      },
+
+      {
         label: 'Audio 音频',
         path: '/zh-CN/components/audio',
         getComponent: () =>
