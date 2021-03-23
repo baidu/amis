@@ -105,6 +105,8 @@ register('zh-CN', {
   'Image.sizeNotEqual': '请上传{{info}}的图片',
   'Image.width': '宽度 {{width}}px',
   'Image.zoomIn': '查看大图',
+  'Image.limitMax':'上传图片大于{{info}},请检查图片尺寸',
+  'Image.limitMin':'上传图片小于{{info}},请检查图片尺寸',
   'Log.mustHaveSource': '需要配置 Source',
   'link': '链接',
   'loading': '加载中',
