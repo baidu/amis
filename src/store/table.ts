@@ -13,6 +13,7 @@ import {iRendererStore} from './iRenderer';
 import {resolveVariable} from '../utils/tpl-builtin';
 import isEqual from 'lodash/isEqual';
 import find from 'lodash/find';
+import chunk from 'lodash/chunk';
 import {
   isBreakpoint,
   createObject,
@@ -30,6 +31,7 @@ import {
 import {evalExpression} from '../utils/tpl';
 import {IFormStore} from './form';
 import {getStoreById} from './manager';
+import { func } from 'prop-types';
 
 export const Column = types
   .model('Column', {
@@ -41,6 +43,7 @@ export const Column = types
     toggled: false,
     toggable: true,
     expandable: false,
+    checkdisable: false,
     isPrimary: false,
     searchable: types.maybe(types.frozen()),
     sortable: false,
@@ -83,6 +86,7 @@ export const Row = types
     index: types.number,
     newIndex: types.number,
     expandable: false,
+    checkdisable: false,
     isHover: false,
     children: types.optional(
       types.array(types.late((): IAnyModelType => Row)),
@@ -192,6 +196,10 @@ export const Row = types
       self.data = self.pristine;
     },
 
+    setCheckdisable(bool: boolean) {
+      self.checkdisable = bool;
+    },
+
     setIsHover(value: boolean) {
       self.isHover = value;
     },
@@ -260,7 +268,9 @@ export const TableStore = iRendererStore
     itemDraggableOn: '',
     hideCheckToggler: false,
     combineNum: 0,
-    formsRef: types.optional(types.array(types.frozen()), [])
+    formsRef: types.optional(types.array(types.frozen()), []),
+    maxKeepItemSelectionLength: 0,
+    keepItemSelectionOnPageChange: false
   })
   .views(self => {
     function getForms() {
@@ -540,6 +550,17 @@ export const TableStore = iRendererStore
         return getHoverIndex();
       },
 
+      get disabledHeadCheckbox() {
+        const selectedLength = self.data?.selectedItems.length;
+        const maxLength = self.maxKeepItemSelectionLength;
+
+        if (!self.data || !self.keepItemSelectionOnPageChange || !maxLength) {
+          return false;
+        }
+
+        return maxLength === selectedLength;
+      },
+
       getData,
 
       get columnGroup() {
@@ -586,6 +607,11 @@ export const TableStore = iRendererStore
 
       config.combineNum !== void 0 &&
         (self.combineNum = parseInt(config.combineNum as any, 10) || 0);
+
+      config.maxKeepItemSelectionLength !== void 0 &&
+        (self.maxKeepItemSelectionLength = config.maxKeepItemSelectionLength);
+      config.keepItemSelectionOnPageChange !== void 0 &&
+        (self.keepItemSelectionOnPageChange = config.keepItemSelectionOnPageChange);
 
       if (config.columns && Array.isArray(config.columns)) {
         let columns: Array<SColumn> = config.columns
@@ -832,13 +858,27 @@ export const TableStore = iRendererStore
           self.selectedRows.push(item);
         }
       });
+      updateCheckDisable();
     }
 
     function toggleAll() {
+      const maxLength = self.maxKeepItemSelectionLength;
+      const keep = self.keepItemSelectionOnPageChange;
+
       if (self.allChecked) {
         self.selectedRows.clear();
       } else {
-        self.selectedRows.replace(self.checkableRows);
+        const selectedItems = self.data?.selectedItems;
+
+        if (keep && maxLength && selectedItems && maxLength >= selectedItems.length) {
+          const restCheckableRows = self.checkableRows.filter(item => !item.checked);
+          const checkableRows = restCheckableRows.filter((item, i) => i < maxLength - selectedItems.length);
+
+          self.selectedRows.replace([...self.selectedRows, ...checkableRows]);
+        }
+        else {
+          self.selectedRows.replace(self.checkableRows);
+        }
       }
     }
 
@@ -855,6 +895,22 @@ export const TableStore = iRendererStore
         ~idx
           ? self.selectedRows.splice(idx, 1)
           : self.selectedRows.replace([row]);
+      }
+    }
+
+    function updateCheckDisable() {
+      if (!self.data) {
+        return;
+      }
+      const maxLength = self.maxKeepItemSelectionLength;
+      const selectedItems = self.data.selectedItems;
+
+      self.selectedRows.map(item => item.setCheckdisable(false));
+      if (maxLength && maxLength <= selectedItems.length) {
+        self.unSelectedRows.map(item => !item.checked && item.setCheckdisable(true));
+      }
+      else {
+        self.unSelectedRows.map(item => item.checkdisable && item.setCheckdisable(false));
       }
     }
 

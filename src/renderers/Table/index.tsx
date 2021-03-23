@@ -3,6 +3,7 @@ import {findDOMNode} from 'react-dom';
 import {Renderer, RendererProps} from '../../factory';
 import {SchemaNode, Action, Schema} from '../../types';
 import forEach from 'lodash/forEach';
+import chunk from 'lodash/chunk';
 import {filter} from '../../utils/tpl';
 import DropDownButton from '../DropDownButton';
 import Checkbox from '../../components/Checkbox';
@@ -248,6 +249,7 @@ export interface TableProps extends RendererProps {
   source?: string;
   selectable?: boolean;
   selected?: Array<any>;
+  maxKeepItemSelectionLength?: number;
   valueField?: string;
   draggable?: boolean;
   columnsTogglable?: boolean | 'auto';
@@ -458,7 +460,9 @@ export default class Table extends React.Component<TableProps, object> {
       hideCheckToggler,
       combineNum,
       expandConfig,
-      formItem
+      formItem,
+      keepItemSelectionOnPageChange,
+      maxKeepItemSelectionLength
     } = this.props;
 
     store.update({
@@ -475,7 +479,9 @@ export default class Table extends React.Component<TableProps, object> {
       itemCheckableOn,
       itemDraggableOn,
       hideCheckToggler,
-      combineNum
+      combineNum,
+      keepItemSelectionOnPageChange,
+      maxKeepItemSelectionLength
     });
 
     formItem && isAlive(formItem) && formItem.setSubStore(store);
@@ -1252,6 +1258,7 @@ export default class Table extends React.Component<TableProps, object> {
               classPrefix={ns}
               partial={!store.allChecked}
               checked={store.someChecked}
+              disabled={store.disabledHeadCheckbox}
               onChange={this.handleCheckAll}
             />
           ) : (
@@ -1434,16 +1441,15 @@ export default class Table extends React.Component<TableProps, object> {
     if (column.type === '__checkme') {
       return (
         <td key={props.key} className={cx(column.pristine.className)}>
-          {item.checkable ? (
-            <Checkbox
-              classPrefix={ns}
-              type={multiple ? 'checkbox' : 'radio'}
-              checked={item.checked}
-              onChange={
-                checkOnItemClick ? noop : this.handleCheck.bind(this, item)
-              }
-            />
-          ) : null}
+          <Checkbox
+            classPrefix={ns}
+            type={multiple ? 'checkbox' : 'radio'}
+            checked={item.checked}
+            disabled={item.checkdisable}
+            onChange={
+              checkOnItemClick ? noop : this.handleCheck.bind(this, item)
+            }
+          />
         </td>
       );
     } else if (column.type === '__dragme') {
