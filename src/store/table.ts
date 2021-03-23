@@ -13,7 +13,6 @@ import {iRendererStore} from './iRenderer';
 import {resolveVariable} from '../utils/tpl-builtin';
 import isEqual from 'lodash/isEqual';
 import find from 'lodash/find';
-import chunk from 'lodash/chunk';
 import {
   isBreakpoint,
   createObject,
@@ -31,7 +30,6 @@ import {
 import {evalExpression} from '../utils/tpl';
 import {IFormStore} from './form';
 import {getStoreById} from './manager';
-import { func } from 'prop-types';
 
 export const Column = types
   .model('Column', {

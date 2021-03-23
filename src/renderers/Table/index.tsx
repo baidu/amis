@@ -3,7 +3,6 @@ import {findDOMNode} from 'react-dom';
 import {Renderer, RendererProps} from '../../factory';
 import {SchemaNode, Action, Schema} from '../../types';
 import forEach from 'lodash/forEach';
-import chunk from 'lodash/chunk';
 import {filter} from '../../utils/tpl';
 import DropDownButton from '../DropDownButton';
 import Checkbox from '../../components/Checkbox';
