@@ -4,9 +4,10 @@
 
 import React from 'react';
 import {Renderer, RendererProps} from '../factory';
-import {Schema} from '../types';
-import {BaseSchema, SchemaObject, SchemaTpl} from '../Schema';
-import {resolveVariable} from '..';
+import {BaseSchema, SchemaExpression, SchemaObject, SchemaTpl} from '../Schema';
+import PopOver from './PopOver';
+import {resolveVariable} from '../utils/tpl-builtin';
+import {visibilityFilter} from '../utils/helper';
 
 export type PropertyItemProps = {
   /**
@@ -20,9 +21,18 @@ export type PropertyItemProps = {
   content?: SchemaTpl;
 
   /**
+   * 配置是否显示，如果不显示，后续的节点会补上来
+   */
+  visibleOn?: SchemaExpression;
+
+  /**
+   * 配置是否显示，如果不显示，后续的节点会补上来
+   */
+  hiddenOn?: SchemaExpression;
+
+  /**
    * 跨几列
    */
-
   span?: number;
 };
 
@@ -101,7 +111,9 @@ export default class Property extends React.Component<PropertyProps, object> {
     let row: PropertyContent[] = [];
     let columnLeft = column;
     let index = 0;
-    for (const item of propertyItems) {
+    const filteredItems = visibilityFilter(propertyItems, data);
+
+    for (const item of filteredItems) {
       index = index + 1;
       const span = Math.min(item.span || 1, column);
       columnLeft = columnLeft - span;
@@ -120,7 +132,7 @@ export default class Property extends React.Component<PropertyProps, object> {
       }
 
       // 最后一行将最后的数据 push
-      if (index === propertyItems.length) {
+      if (index === filteredItems.length) {
         rows.push(row);
       }
     }

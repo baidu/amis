@@ -334,17 +334,46 @@ order: 60
 }
 ```
 
+## 隐藏某个属性值
+
+items 里的属性还支持 `visibleOn` 和 `hiddenOn` 表达式，能隐藏部分属性，如果有空间后续组件会自动补上来，如下示例的 memory 隐藏了：
+
+```schema: scope="body"
+{
+  "type": "property",
+  "items": [
+    {
+      "label": "cpu",
+      "content": "1 core"
+    },
+    {
+      "label": "memory",
+      "content": "4G",
+      "visibleOn": "data.cpu > 1"
+    },
+    {
+      "label": "network",
+      "content": "4M",
+      "span": 2
+    }
+  ]
+}
+```
+
 ## 属性表
 
-| 属性名          | 类型        | 默认值  | 说明                                   |
-| --------------- | ----------- | ------- | -------------------------------------- |
-| className       | `string`    |         | 外层 dom 的类名                        |
-| style           | `object`    |         | 外层 dom 的样式                        |
-| labelStyle      | `object`    |         | 属性名的样式                           |
-| contentStyle    | `object`    |         | 属性值的样式                           |
-| column          | `number`    | 3       | 每行几列                               |
-| mode            | `string`    | 'table' | 显示模式，目前只有 'table' 和 'simple' |
-| separator       | `string`    | ','     | 'simple' 模式下属性名和值之间的分隔符  |
-| items[].label   | `SchemaTpl` |         | 属性名                                 |
-| items[].content | `SchemaTpl` |         | 属性值                                 |
-| items[].span    | `SchemaTpl` |         | 属性值跨几列                           |
+| 属性名            | 类型                                     | 默认值  | 说明                                   |
+| ----------------- | ---------------------------------------- | ------- | -------------------------------------- |
+| className         | `string`                                 |         | 外层 dom 的类名                        |
+| style             | `object`                                 |         | 外层 dom 的样式                        |
+| labelStyle        | `object`                                 |         | 属性名的样式                           |
+| contentStyle      | `object`                                 |         | 属性值的样式                           |
+| column            | `number`                                 | 3       | 每行几列                               |
+| mode              | `string`                                 | 'table' | 显示模式，目前只有 'table' 和 'simple' |
+| separator         | `string`                                 | ','     | 'simple' 模式下属性名和值之间的分隔符  |
+| items[].label     | `SchemaTpl`                              |         | 属性名                                 |
+| items[].content   | `SchemaTpl`                              |         | 属性值                                 |
+| items[].span      | `SchemaTpl`                              |         | 属性值跨几列                           |
+| items[].visibleOn | [表达式](../../docs/concepts/expression) |         | 显示表达式                             |
+| items[].hiddenOn  | [表达式](../../docs/concepts/expression) |         | 隐藏表达式                             |
+| items[].span      | `SchemaTpl`                              |         | 属性值跨几列                           |
