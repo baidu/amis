@@ -1779,8 +1779,6 @@ export default class CRUD extends React.Component<CRUDProps, any> {
       return null;
     }
 
-    // console.log('toolbar', toolbar);
-
     const type = (toolbar as Schema).type || toolbar;
 
     if (type === 'bulkActions' || type === 'bulk-actions') {
