@@ -1,6 +1,5 @@
 .#{$ns}Pagination {
   display: inline-block;
-  padding-left: 0;
   padding: 0;
   margin: 0 0 px2rem(-10px);
   border-radius: px2rem(4px);
@@ -88,26 +87,22 @@
   &-inputGroup {
     display: inline-flex;
     flex-wrap: nowrap;
+    align-items: center;
 
-    .#{$ns}Pagination-input {
+    input {
       width: px2rem(50px);
       height: var(--Pagination-height);
       border: var(--borderWidth) solid var(--borderColor);
-      border-top-left-radius: var(--borderRadius);
-      border-bottom-left-radius: var(--borderRadius);
+      border-radius: var(--borderRadius);
       padding: px2rem(5px) px2rem(10px);
+      margin: 0 px2rem(10px);
+      text-align: center;
 
-      &:focus {
+      &:focus,
+      &:hover {
         outline: none;
         border: var(--borderWidth) solid var(--primary);
       }
-    }
-
-    .#{$ns}Button {
-      height: var(--Pagination-height);
-      margin-left: px2rem(-1px);
-      border-radius: 0 var(--borderRadius) var(--borderRadius) 0;
-      padding: 0 px2rem(10px);
     }
   }
 }

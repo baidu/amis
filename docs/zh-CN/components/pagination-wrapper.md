@@ -44,3 +44,16 @@ order: 59
     ]
 }
 ```
+
+## 属性表
+
+| 属性名        | 类型                                      | 默认值                 | 说明                                                                               |
+| ------------- | ----------------------------------------- | ---------------------- | ---------------------------------------------------------------------------------- |
+| type          | `string`                                  | `"pagination-wrapper"` | 指定为 Pagination-Wrapper 渲染器                                                   |
+| showPageInput | `boolean`                                 | `false`                | 是否显示快速跳转输入框                                                             |
+| maxButtons    | `number`                                  | `5`                    | 最多显示多少个分页按钮                                                             |
+| inputName     | `string`                                  | `"items"`              | 输入字段名                                                                         |
+| outputName    | `string`                                  | `"items"`              | 输出字段名                                                                         |
+| perPage       | `number`                                  | `10`                   | 每页显示多条数据                                                                   |
+| position      | `'top'` 或 `'bottom'` 或 `'none'`         | `"top"`                | 分页显示位置，如果配置为 none 则需要自己在内容区域配置 pagination 组件，否则不显示 |
+| body          | [SchemaNode](../../docs/types/schemanode) |                        | 内容区域                                                                           |

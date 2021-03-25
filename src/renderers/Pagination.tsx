@@ -10,7 +10,7 @@ export interface PaginationSchema extends BaseSchema {
   className?: SchemaClassName;
 
   /**
-   * 是否显示跳转表单
+   * 是否显示快速跳转输入框
    */
   showPageInput?: boolean;
 
@@ -51,7 +51,7 @@ export default class Pagination extends React.Component<
     maxButtons: 5,
     mode: 'normal',
     hasNext: false,
-    showPageInput: true
+    showPageInput: false
   };
 
   state = {
@@ -123,7 +123,8 @@ export default class Pagination extends React.Component<
       onPageChange,
       classnames: cx,
       showPageInput,
-      className
+      className,
+      translate: __
     } = this.props;
     const pageNum = this.state.pageNum;
 
@@ -257,30 +258,20 @@ export default class Pagination extends React.Component<
       <div className={cx('Pagination-wrap', className)}>
         <ul className={cx('Pagination', 'Pagination--sm')}>{pageButtons}</ul>
 
-        {lastPage > 9 && showPageInput ? (
-          <div className="inline m-l-xs w-xs" key="toPage">
-            <span className={cx('Pagination-inputGroup')}>
-              <input
-                type="text"
-                className={cx('Pagination-input')}
-                onChange={this.handlePageChange}
-                onFocus={(e: any) => e.currentTarget.select()}
-                onKeyUp={(e: any) =>
-                  e.keyCode == 13 &&
-                  onPageChange(parseInt(e.currentTarget.value, 10))
-                }
-                value={pageNum}
-              />
-              <span>
-                <button
-                  onClick={() => onPageChange(parseInt(pageNum, 10))}
-                  type="submit"
-                  className={cx('Button', 'Button--default')}
-                >
-                  Go
-                </button>
-              </span>
-            </span>
+        {showPageInput === true || lastPage > 9 ? (
+          <div className={cx('Pagination-inputGroup')} key="toPage">
+            {__('CRUD.paginationGoText')}
+            <input
+              type="text"
+              onChange={this.handlePageChange}
+              onFocus={(e: any) => e.currentTarget.select()}
+              onKeyUp={(e: any) =>
+                e.keyCode == 13 &&
+                onPageChange(parseInt(e.currentTarget.value, 10))
+              }
+              value={pageNum}
+            />
+            {__('CRUD.paginationPageText')}
           </div>
         ) : null}
       </div>
