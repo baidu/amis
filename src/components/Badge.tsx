@@ -1,19 +1,21 @@
+/**
+ * @file 角标组件
+ */
+
 import React from 'react';
+import hoistNonReactStatic from 'hoist-non-react-statics';
 import {Renderer, RendererProps} from '../factory';
 import {BaseSchema, SchemaCollection, SchemaExpression} from '../Schema';
 import {evalExpression} from '../utils/tpl';
 import {resolveVariable} from '../utils/tpl-builtin';
+import {classnames} from '..';
+import {ClassNamesFn} from 'classnames/types';
 
 /**
- * Badge 角标渲染器。
+ * Badge 角标。
  * 文档：https://baidu.gitee.io/amis/docs/components/badge
  */
 export interface BadgeSchema extends BaseSchema {
-  /**
-   * 指定为 badge 类型
-   */
-  type: 'badge';
-
   /**
    * 内容
    */
@@ -42,59 +44,53 @@ export interface BadgeSchema extends BaseSchema {
   /**
    * 动态控制是否显示
    */
-  displayOn?: SchemaExpression;
+  visibleOn?: SchemaExpression;
 
   /**
-   * 自定义样式
+   * 角标的自定义样式
    */
   style?: {
     [propName: string]: any;
   };
-
-  /**
-   *  角标的自定义样式
-   */
-  badgeStyle?: {
-    [propName: string]: any;
-  };
 }
 
-export interface BadgeProps
-  extends RendererProps,
-    Omit<BadgeSchema, 'className'> {
-  children?: JSX.Element | ((props?: any) => JSX.Element);
+export interface BadgeProps {
+  badge?: BadgeSchema;
+  classnames: ClassNamesFn;
+  data: any;
 }
 
-export default class Badge extends React.Component<BadgeProps, object> {
+export class Badge extends React.Component<BadgeProps, object> {
   static propsList: Array<string> = ['body', 'className', 'children'];
 
-  renderBody(): JSX.Element | null {
-    const {children, body, render} = this.props;
-
-    return children
-      ? typeof children === 'function'
-        ? children(this.props)
-        : (children as JSX.Element)
-      : body
-      ? render('body', body)
-      : null;
+  constructor(props: BadgeProps) {
+    super(props);
   }
 
   render() {
+    const badge = this.props.badge;
+    if (!badge) {
+      return this.props.children;
+    }
+    const {children, classnames: cx, data} = this.props;
+    let isDisplay = true;
+    if (typeof badge === 'string') {
+      isDisplay = evalExpression(badge, data) === true;
+    }
+
     let {
       mode = 'dot',
       text,
-      classnames: cx,
-      badgeStyle,
       size,
       style,
-      data,
       position = 'top-right',
-      displayOn = 'true',
+      visibleOn,
       className
-    } = this.props;
+    } = badge;
 
-    let isDisplay = evalExpression(displayOn, data) === true;
+    if (visibleOn) {
+      isDisplay = evalExpression(visibleOn, data) === true;
+    }
 
     if (typeof text === 'string' && text[0] === '$') {
       text = resolveVariable(text, data);
@@ -127,18 +123,18 @@ export default class Badge extends React.Component<BadgeProps, object> {
     }
 
     return (
-      <div className={cx('Badge', className)} style={style}>
-        {this.renderBody()}
+      <div className={cx('Badge', className)}>
+        {children}
         {isDisplay ? (
           mode === 'dot' ? (
             <span
               className={cx('Badge-dot', `Badge--${position}`)}
-              style={{...sizeStyle, ...badgeStyle}}
+              style={{...sizeStyle, ...style}}
             ></span>
           ) : (
             <span
               className={cx('Badge-text', `Badge--${position}`)}
-              style={{...sizeStyle, ...badgeStyle}}
+              style={{...sizeStyle, ...style}}
             >
               {text}
             </span>
@@ -150,8 +146,28 @@ export default class Badge extends React.Component<BadgeProps, object> {
   }
 }
 
-@Renderer({
-  test: /(^|\/)badge$/,
-  name: 'badge'
-})
-export class BadgeRenderer extends Badge {}
+export const withBadge = <P extends object>(
+  Component: React.ComponentType<P>
+) => {
+  class WithBadge extends React.Component<P & BadgeProps> {
+    static displayName = `WithBadge(${
+      Component.displayName || Component.name
+    })`;
+
+    render() {
+      const badge = this.props.badge;
+
+      if (!badge) {
+        return <Component {...(this.props as P)} />;
+      }
+
+      return (
+        <Badge {...(this.props as BadgeProps)}>
+          <Component {...(this.props as P)} />
+        </Badge>
+      );
+    }
+  }
+  hoistNonReactStatic(WithBadge, Component);
+  return WithBadge;
+};

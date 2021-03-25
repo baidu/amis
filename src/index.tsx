@@ -50,7 +50,6 @@ import './renderers/Alert';
 import './renderers/App';
 import './renderers/Avatar';
 import './renderers/Remark';
-import './renderers/Badge';
 import './renderers/ButtonGroup';
 import './renderers/ButtonToolbar';
 import './renderers/Breadcrumb';

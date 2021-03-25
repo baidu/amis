@@ -10,16 +10,18 @@ order: 30
 
 ## 基本用法
 
-Badge 一般配合其他组件使用，它可以包裹任意组件，比如按钮
+部分组件可以设置 `badge` 属性来显示角标，目前只支持头像组件，后续将增加更多组件。
 
 ```schema: scope="body"
-{
-  "type": "badge",
-  "body": {
-    "label": "按钮",
-    "type": "button"
+[
+  {
+    "type": "avatar",
+    "badge": {
+      "mode": "text",
+      "text": 10
+    }
   }
-}
+]
 ```
 
 ## 显示文字或数值
@@ -29,32 +31,26 @@ Badge 一般配合其他组件使用，它可以包裹任意组件，比如按�
 ```schema: scope="body"
 [
   {
-    "type": "badge",
-    "mode": "text",
-    "text": 10,
-    "body": {
-      "label": "按钮",
-      "type": "button"
+    "type": "avatar",
+    "badge": {
+      "mode": "text",
+      "text": 10
     }
   },
   {
-    "type": "badge",
-    "mode": "text",
-    "text": 0,
-    "className": "m-l",
-    "body": {
-      "label": "按钮",
-      "type": "button"
+    "type": "avatar",
+    "className": "m-l"
+    "badge": {
+      "mode": "text",
+      "text": 0
     }
   },
   {
-    "type": "badge",
-    "mode": "text",
-    "text": "new",
+    "type": "avatar",
     "className": "m-l",
-    "body": {
-      "label": "按钮",
-      "type": "button"
+    "badge": {
+      "mode": "text",
+      "text": "new"
     }
   }
 ]
@@ -67,29 +63,23 @@ Badge 一般配合其他组件使用，它可以包裹任意组件，比如按�
 ```schema: scope="body"
 [
   {
-    "type": "badge",
-    "position": "top-left",
-    "body": {
-      "label": "按钮",
-      "type": "button"
+    "type": "avatar",
+    "badge": {
+      "position": "top-left"
     }
   },
   {
-    "type": "badge",
-    "position": "bottom-left",
+    "type": "avatar",
     "className": "m-l",
-    "body": {
-      "label": "按钮",
-      "type": "button"
+    "badge": {
+      "position": "bottom-left"
     }
   },
   {
-    "type": "badge",
-    "position": "bottom-right",
+    "type": "avatar",
     "className": "m-l",
-    "body": {
-      "label": "按钮",
-      "type": "button"
+    "badge": {
+      "position": "bottom-right"
     }
   }
 ]
@@ -107,13 +97,11 @@ Badge 一般配合其他组件使用，它可以包裹任意组件，比如按�
   "type": "page",
   "body": [
     {
-      "type": "badge",
-      "mode": "text",
-      "displayOn": "this.myData > 1",
-      "text": "${myData}",
-      "body": {
-        "label": "按钮 1",
-        "type": "button"
+      "type": "avatar",
+      "badge": {
+        "mode": "text",
+        "visibleOn": "this.myData > 1",
+        "text": "${myData}"
       }
     }
   ]
@@ -122,7 +110,7 @@ Badge 一般配合其他组件使用，它可以包裹任意组件，比如按�
 
 ## 动态控制是否显示角标
 
-通过 `displayOn` 表达式来动态控制是否显示角标
+角标可以直接写表达式来判断是否显示
 
 ```schema
 {
@@ -132,20 +120,38 @@ Badge 一般配合其他组件使用，它可以包裹任意组件，比如按�
   "type": "page",
   "body": [
     {
-      "type": "badge",
-      "displayOn": "this.myData > 1",
-      "body": {
-        "label": "按钮 1",
-        "type": "button"
+      "type": "avatar",
+      "badge": "this.myData > 1"
+    },
+    {
+      "type": "avatar",
+      "className": "m-l",
+      "badge": "this.myData > 10"
+    }
+  ]
+}
+```
+
+还可以通过 `visibleOn` 表达式来动态控制，这样还能设置其他属性
+
+```schema
+{
+  "data": {
+    "myData": 10
+  },
+  "type": "page",
+  "body": [
+    {
+      "type": "avatar",
+      "badge": {
+        "visibleOn": "this.myData > 1"
       }
     },
     {
-      "type": "badge",
-      "displayOn": "this.myData > 10",
-      "body": {
-        "label": "按钮 2",
-        "className": "m-l",
-        "type": "button"
+      "type": "avatar",
+      "className": "m-l",
+      "badge": {
+        "visibleOn": "this.myData > 10"
       }
     }
   ]
@@ -159,42 +165,34 @@ Badge 一般配合其他组件使用，它可以包裹任意组件，比如按�
 ```schema: scope="body"
 [
   {
-    "type": "badge",
-    "mode": "text",
-    "text": 10,
-    "size": 20,
-    "body": {
-      "label": "按钮 1",
-      "type": "button"
+    "type": "avatar",
+    "badge": {
+      "mode": "text",
+      "text": 10,
+      "size": 20
     }
   },
   {
-    "type": "badge",
-    "mode": "text",
-    "text": 10,
-    "size": 12,
-    "className": "m-l",
-    "body": {
-      "label": "按钮 2",
-      "type": "button"
+    "type": "avatar",
+    "className": "m-l"，
+    "badge": {
+      "mode": "text",
+      "text": 10,
+      "size": 12
     }
   },
   {
-    "type": "badge",
-    "size": 12,
-    "className": "m-l",
-    "body": {
-      "label": "按钮 3",
-      "type": "button"
+    "type": "avatar",
+    "className": "m-l"
+    "badge": {
+      "size": 12
     }
   },
   {
-    "type": "badge",
-    "size": 4,
+    "type": "avatar",
     "className": "m-l",
-    "body": {
-      "label": "按钮 3",
-      "type": "button"
+    "badge": {
+      "size": 4
     }
   }
 ]
@@ -207,28 +205,24 @@ Badge 一般配合其他组件使用，它可以包裹任意组件，比如按�
 ```schema: scope="body"
 [
   {
-    "type": "badge",
-    "mode": "text",
-    "text": 10,
-    "badgeStyle": {
-      "background": "#46C93A"
-    },
-    "body": {
-      "label": "按钮 1",
-      "type": "button"
+    "type": "avatar",
+    "badge": {
+      "mode": "text",
+      "text": 10,
+      "style": {
+        "background": "#46C93A"
+      }
     }
   },
   {
-    "type": "badge",
-    "mode": "text",
-    "text": 10,
-    "badgeStyle": {
-      "background": "#1A5CFF"
-    },
+    "type": "avatar",
     "className": "m-l",
-    "body": {
-      "label": "按钮 2",
-      "type": "button"
+    "badge": {
+      "mode": "text",
+      "text": 10,
+      "style": {
+        "background": "#1A5CFF"
+      }
     }
   }
 ]
@@ -236,12 +230,10 @@ Badge 一般配合其他组件使用，它可以包裹任意组件，比如按�
 
 ## 属性表
 
-| 属性名     | 类型                                   | 默认值 | 说明                      |
-| ---------- | -------------------------------------- | ------ | ------------------------- |
-| className  | `string`                               |        | 外层 Dom 的类名           |
-| body       | [SchemaNode](../docs/types/schemanode) |        | 被包裹的节点              |
-| text       | `text`                                 |        | 数字                      |
-| mode       | `string`                               |        | 角标类型，可以是 dot/text |
-| className  | `string`                               |        | 外层 dom 的类名           |
-| style      | `object`                               |        | 外层 dom 的自定义样式     |
-| badgeStyle | `object`                               |        | 角标的自定义样式          |
+| 属性名    | 类型     | 默认值 | 说明                      |
+| --------- | -------- | ------ | ------------------------- |
+| className | `string` |        | 外层 dom 的类名           |
+| text      | `text`   |        | 数字                      |
+| mode      | `string` |        | 角标类型，可以是 dot/text |
+| className | `string` |        | 外层 dom 的类名           |
+| style     | `object` |        | 角标的自定义样式          |

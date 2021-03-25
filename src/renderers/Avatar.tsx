@@ -9,6 +9,7 @@ import {
   SchemaIcon,
   SchemaUrlPath
 } from '../Schema';
+import {withBadge} from '../components/Badge';
 import {resolveVariable, resolveVariableAndFilter} from '../utils/tpl-builtin';
 
 /**
@@ -74,23 +75,16 @@ export interface AvatarProps
     Omit<AvatarSchema, 'type' | 'className'> {}
 
 export class AvatarField extends React.Component<AvatarProps, object> {
-  static defaultProps = {
-    size: 40,
-    shape: 'circle',
-    fit: 'cover',
-    icon: 'fa fa-user'
-  };
-
   render() {
     let {
       className,
-      icon,
+      icon = 'fa fa-user',
       text,
       src,
-      fit,
+      fit = 'cover',
       data,
-      shape,
-      size,
+      shape = 'circle',
+      size = 40,
       style,
       classnames: cx,
       props
@@ -139,4 +133,5 @@ export class AvatarField extends React.Component<AvatarProps, object> {
   test: /(^|\/)avatar$/,
   name: 'avatar'
 })
+@withBadge
 export class AvatarFieldRenderer extends AvatarField {}
