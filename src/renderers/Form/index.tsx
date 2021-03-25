@@ -955,6 +955,8 @@ export default class Form extends React.Component<FormProps, object> {
                 // 如果 feedback 配置了，取消就跳过原有逻辑。
                 if (feedback.skipRestOnCancel && !confirmed) {
                   throw new SkipOperation();
+                } else if (feedback.skipRestOnConfirm && confirmed) {
+                  throw new SkipOperation();
                 }
               }
 
