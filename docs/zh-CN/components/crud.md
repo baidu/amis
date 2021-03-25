@@ -1186,6 +1186,80 @@ crud 组件支持通过配置`headerToolbar`和`footerToolbar`属性，实现在
 1. 批量操作按钮上配置 `disabledOn` 值为 `this.selectedItems.some(item => item.owner === this.amisUser.name)`
 2. 给表格加上 `itemCheckableOn` 值为 `this.owner === this.amisUser.name` 表示只有 owner 是自己的才可以打勾。
 
+**保留条目选择**
+
+默认分页、搜素后，用户选择条目会被清空，配置`keepItemSelectionOnPageChange`属性后会保留用户选择，可以实现跨页面批量操作。
+同时可以通过配置`maxKeepItemSelectionLength`属性限制最大勾选数
+
+```schema: scope="body"
+{
+    "type": "crud",
+    "syncLocation": false,
+    "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/sample",
+    "headerToolbar": [
+        "bulkActions"
+    ],
+    "keepItemSelectionOnPageChange": true,
+    "maxKeepItemSelectionLength": 4,
+    "bulkActions": [
+        {
+            "label": "批量删除",
+            "actionType": "ajax",
+            "api": "delete:https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/sample/${ids|raw}",
+            "confirmText": "确定要批量删除?"
+        },
+        {
+            "label": "批量修改",
+            "actionType": "dialog",
+            "dialog": {
+                "title": "批量编辑",
+                "body": {
+                    "type": "form",
+                    "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/sample/bulkUpdate2",
+                    "controls": [
+                        {
+                            "type": "hidden",
+                            "name": "ids"
+                        },
+                        {
+                            "type": "text",
+                            "name": "engine",
+                            "label": "Engine"
+                        }
+                    ]
+                }
+            }
+        }
+    ],
+    "columns": [
+        {
+            "name": "id",
+            "label": "ID"
+        },
+        {
+            "name": "engine",
+            "label": "Rendering engine"
+        },
+        {
+            "name": "browser",
+            "label": "Browser"
+        },
+        {
+            "name": "platform",
+            "label": "Platform(s)"
+        },
+        {
+            "name": "version",
+            "label": "Engine version"
+        },
+        {
+            "name": "grade",
+            "label": "CSS grade"
+        }
+    ]
+}
+```
+
 ### 数据统计
 
 在`headerToolbar`或者`footerToolbar`数组中添加`statistics`字符串，可以实现简单的数据统计功能

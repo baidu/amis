@@ -67,6 +67,7 @@ export default {
     api: '/api/sample?waitSeconds=1',
     perPage: 15,
     keepItemSelectionOnPageChange: true,
+    maxKeepItemSelectionLength: 11,
     labelTpl: '${id} ${engine}',
     filter: {
       title: '条件搜索',
