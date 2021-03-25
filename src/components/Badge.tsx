@@ -4,11 +4,9 @@
 
 import React from 'react';
 import hoistNonReactStatic from 'hoist-non-react-statics';
-import {Renderer, RendererProps} from '../factory';
-import {BaseSchema, SchemaCollection, SchemaExpression} from '../Schema';
+import {BaseSchema, SchemaExpression} from '../Schema';
 import {evalExpression} from '../utils/tpl';
 import {resolveVariable} from '../utils/tpl-builtin';
-import {classnames} from '..';
 import {ClassNamesFn} from 'classnames/types';
 
 /**
@@ -17,12 +15,7 @@ import {ClassNamesFn} from 'classnames/types';
  */
 export interface BadgeSchema extends BaseSchema {
   /**
-   * 内容
-   */
-  body: SchemaCollection;
-
-  /**
-   * 显示内容
+   * 文本内容
    */
   text?: string;
 

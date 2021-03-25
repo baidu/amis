@@ -521,7 +521,6 @@ export default themeable(Action);
   test: /(^|\/)action$/,
   name: 'action'
 })
-@withBadge
 export class ActionRenderer extends React.Component<
   RendererProps &
     Omit<ActionProps, 'onAction' | 'isCurrentUrl' | 'tooltipContainer'> & {

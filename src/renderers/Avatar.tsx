@@ -9,7 +9,7 @@ import {
   SchemaIcon,
   SchemaUrlPath
 } from '../Schema';
-import {withBadge} from '../components/Badge';
+import {BadgeSchema, withBadge} from '../components/Badge';
 import {resolveVariable, resolveVariableAndFilter} from '../utils/tpl-builtin';
 
 /**
@@ -68,6 +68,11 @@ export interface AvatarSchema extends BaseSchema {
   style?: {
     [propName: string]: any;
   };
+
+  /**
+   * 角标
+   */
+  badge?: BadgeSchema;
 }
 
 export interface AvatarProps
