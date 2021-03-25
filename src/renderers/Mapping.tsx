@@ -54,17 +54,19 @@ export class MappingField extends React.Component<MappingProps, object> {
       <span className="text-muted">{placeholder}</span>
     );
 
-    key = typeof key === 'string' ? key.trim() : key; // trim 一下，干掉一些空白字符。
+    key =
+      typeof key === 'string'
+        ? key.trim()
+        : key === true
+        ? '1'
+        : key === false
+        ? '0'
+        : key; // trim 一下，干掉一些空白字符。
 
     if (typeof key !== 'undefined' && map && (map[key] ?? map['*'])) {
       viewValue = render(
         'tpl',
-        map[key] ??
-          (key === true && map['1']
-            ? map['1']
-            : key === false && map['0']
-            ? map['0']
-            : map['*']) // 兼容平台旧用法：即 value 为 true 时映射 1 ，为 false 时映射 0
+        map[key] ?? map['*'] // 兼容平台旧用法：即 value 为 true 时映射 1 ，为 false 时映射 0
       );
     }
 

@@ -54,6 +54,7 @@ import {PaginationWrapperSchema} from './renderers/PaginationWrapper';
 import {PaginationSchema} from './renderers/Pagination';
 import {AnchorNavSchema} from './renderers/AnchorNav';
 import {BadgeSchema} from './renderers/Badge';
+import {AvatarSchema} from './renderers/Avatar';
 
 // 每加个类型，这补充一下。
 export type SchemaType =
@@ -65,6 +66,7 @@ export type SchemaType =
   | 'app'
   | 'audio'
   | 'badge'
+  | 'avatar'
   | 'button-group'
   | 'button-toolbar'
   | 'breadcrumb'
@@ -139,12 +141,13 @@ export type SchemaType =
 
 export type SchemaObject =
   | PageSchema
-  | BadgeSchema
   | TplSchema
   | RemarkSchema
   | ActionSchema
   | AlertSchema
   | AudioSchema
+  | AvatarSchema
+  | BadgeSchema
   | ButtonGroupSchema
   | ButtonToolbarSchema
   | CardSchema

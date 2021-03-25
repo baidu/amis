@@ -235,13 +235,8 @@ export class Chart extends React.Component<ChartProps> {
 
   refFn(ref: any) {
     const chartRef = this.props.chartRef;
-    const {
-      chartTheme,
-      onChartWillMount,
-      onChartMount,
-      onChartUnMount,
-      env
-    } = this.props;
+    const {chartTheme, onChartWillMount, onChartUnMount, env} = this.props;
+    let onChartMount = this.props.onChartMount;
 
     if (ref) {
       Promise.all([
@@ -276,6 +271,11 @@ export class Chart extends React.Component<ChartProps> {
         }
 
         this.echarts = echarts.init(ref, theme);
+
+        if (typeof onChartMount === 'string') {
+          onChartMount = new Function('chart', 'echarts') as any;
+        }
+
         onChartMount?.(this.echarts, echarts);
         this.echarts.on('click', this.handleClick);
         this.unSensor = resizeSensor(ref, () => {
