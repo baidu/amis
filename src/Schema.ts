@@ -46,7 +46,7 @@ import {VideoSchema} from './renderers/Video';
 import {WizardSchema} from './renderers/Wizard';
 import {WrapperSchema} from './renderers/Wrapper';
 import {TableSchema} from './renderers/Table';
-import {DialogSchema} from './renderers/Dialog';
+import {DialogSchema, DialogSchemaBase} from './renderers/Dialog';
 import {DrawerSchema} from './renderers/Drawer';
 import {SearchBoxSchema} from './renderers/SearchBox';
 import {SparkLineSchema} from './renderers/SparkLine';
@@ -528,5 +528,22 @@ export interface Option {
   [propName: string]: any;
 }
 export interface Options extends Array<Option> {}
+
+export interface FeedbackDialog extends DialogSchemaBase {
+  /**
+   * 可以用来配置 feedback 的出现条件
+   */
+  visibleOn?: string;
+
+  /**
+   * feedback 弹框取消是否中断后续操作
+   */
+  skipRestOnCancel?: boolean;
+
+  /**
+   * feedback 弹框确认是否中断后续操作
+   */
+  skipRestOnConfirm?: boolean;
+}
 
 export type RootSchema = PageSchema;

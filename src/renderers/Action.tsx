@@ -122,7 +122,7 @@ export interface AjaxActionSchema extends ButtonSchema {
    */
   api: SchemaApi;
 
-  feedback?: DialogSchemaBase;
+  feedback?: FeedbackDialog;
 
   reload?: SchemaReload;
   redirect?: string;
@@ -295,6 +295,7 @@ import {ClassNamesFn, themeable, ThemeProps} from '../theme';
 import {autobind} from '../utils/helper';
 import {
   BaseSchema,
+  FeedbackDialog,
   SchemaApi,
   SchemaClassName,
   SchemaExpression,
