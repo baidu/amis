@@ -1607,7 +1607,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
     ) : null;
   }
 
-  renderPagination() {
+  renderPagination(toolbar: SchemaNode) {
     const {store, render, classnames: cx, alwaysShowPagination} = this.props;
 
     const {page, lastPage} = store;
@@ -1620,6 +1620,12 @@ export default class CRUD extends React.Component<CRUDProps, any> {
       return null;
     }
 
+    const extraProps: any = {};
+    if (typeof toolbar !== 'string') {
+      extraProps.showPageInput = (toolbar as Schema).showPageInput;
+      extraProps.maxButtons = (toolbar as Schema).maxButtons;
+    }
+
     return (
       <div className={cx('Crud-pager')}>
         {render(
@@ -1628,6 +1634,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
             type: 'pagination'
           },
           {
+            ...extraProps,
             activePage: page,
             lastPage: lastPage,
             hasNext: store.hasNext,
@@ -1782,7 +1789,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
     if (type === 'bulkActions' || type === 'bulk-actions') {
       return this.renderBulkActions(childProps);
     } else if (type === 'pagination') {
-      return this.renderPagination();
+      return this.renderPagination(toolbar);
     } else if (type === 'statistics') {
       return this.renderStatistics();
     } else if (type === 'switch-per-page') {

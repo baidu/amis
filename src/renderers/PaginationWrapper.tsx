@@ -13,6 +13,18 @@ export interface PaginationWrapperSchema extends BaseSchema {
   type: 'pagination-wrapper';
 
   /**
+   * 是否显示快速跳转输入框
+   */
+  showPageInput?: boolean;
+
+  /**
+   * 最多显示多少个分页按钮。
+   *
+   * @default 5
+   */
+  maxButtons?: number;
+
+  /**
    * 输入字段名
    *
    * @default items
@@ -81,7 +93,14 @@ export class PaginationWrapper extends React.Component<PaginationWrapProps> {
   }
 
   render() {
-    const {position, render, store, classnames: cx, body} = this.props;
+    const {
+      position,
+      render,
+      store,
+      classnames: cx,
+      body,
+      translate: __
+    } = this.props;
 
     const pagination =
       position !== 'none'
@@ -108,7 +127,7 @@ export class PaginationWrapper extends React.Component<PaginationWrapProps> {
             data: store.locals
           })
         ) : (
-          <span>请配置内容</span>
+          <span>{__('PaginationWrapper.placeholder')}</span>
         )}
         {position === 'bottom' ? pagination : null}
       </div>
