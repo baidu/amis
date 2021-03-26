@@ -31,6 +31,10 @@
     }
   }
 
+  &-info {
+    width: px2rem(108px);
+  }
+
   &-thumb--4-3 {
     height: px2rem(108px * 3 / 4);
   }
@@ -40,6 +44,8 @@
   }
 
   &-thumb--fixed-size {
+    min-width: px2rem(108px);
+    min-height: px2rem(108px);
     width: 100%;
     padding: 0;
     height: 100%;
@@ -86,6 +92,16 @@
 
   &-caption {
     font-size: var(--fontSizeSm);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  &-title {
+    font-size: var(--fontSizeSm);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 
   &-overlay {

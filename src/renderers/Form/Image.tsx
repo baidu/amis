@@ -225,9 +225,9 @@ export interface ImageControlSchema extends FormBaseControl {
   };
 
   /**
-   * 默认图片地址
+   * 默认占位图图片地址
    */
-  defaultImage?: SchemaUrlPath;
+  frameImage?: SchemaUrlPath;
 
   /**
    * 是否开启固定尺寸
@@ -267,6 +267,7 @@ export interface ImageState {
   error?: string;
   cropFile?: FileValue;
   submitOnChange?: boolean;
+  frameImageWidth?: number;
 }
 
 export interface FileValue {
@@ -362,6 +363,7 @@ export default class ImageControl extends React.Component<
   files: Array<FileValue | FileX> = [];
   cropper = React.createRef<Cropper>();
   dropzone = React.createRef<any>();
+  frameImageRef = React.createRef<any>();
   current: FileValue | FileX | null = null;
   resolve?: (value?: any) => void;
   emitValue: any;
@@ -390,7 +392,8 @@ export default class ImageControl extends React.Component<
     this.state = {
       ...this.state,
       files: (this.files = files),
-      crop: this.buildCrop(props)
+      crop: this.buildCrop(props),
+      frameImageWidth: 0
     };
 
     this.sendFile = this.sendFile.bind(this);
@@ -402,6 +405,7 @@ export default class ImageControl extends React.Component<
     this.handleDropRejected = this.handleDropRejected.bind(this);
     this.cancelCrop = this.cancelCrop.bind(this);
     this.handleImageLoaded = this.handleImageLoaded.bind(this);
+    this.handleFrameImageLoaded = this.handleFrameImageLoaded.bind(this);
     this.startUpload = this.startUpload.bind(this);
     this.stopUpload = this.stopUpload.bind(this);
     this.toggleUpload = this.toggleUpload.bind(this);
@@ -1074,6 +1078,22 @@ export default class ImageControl extends React.Component<
     img.src = imgDom.src;
   }
 
+  handleFrameImageLoaded(e: React.UIEvent<any>) {
+    const imgDom = e.currentTarget;
+    const img = new Image();
+    const {clientHeight} = this.frameImageRef.current;
+
+    const _this = this;
+    img.onload = function () {
+      const ratio = (this as any).width / (this as any).height;
+      const finalWidth = (ratio * (clientHeight - 2)).toFixed(2);
+      _this.setState({
+        frameImageWidth: +finalWidth
+      });
+    };
+    img.src = imgDom.src;
+  }
+
   validate(): any {
     const __ = this.props.translate;
 
@@ -1111,13 +1131,24 @@ export default class ImageControl extends React.Component<
       thumbMode,
       thumbRatio,
       reCropable,
-      defaultImage,
+      frameImage,
       fixedSize,
       fixedSizeClassName,
       translate: __
     } = this.props;
-
-    const {files, error, crop, uploading, cropFile} = this.state;
+    const {
+      files,
+      error,
+      crop,
+      uploading,
+      cropFile,
+      frameImageWidth
+    } = this.state;
+    let frameImageStyle: any = {};
+    if (fixedSizeClassName && frameImageWidth && fixedSize) {
+      frameImageStyle.width = frameImageWidth;
+    }
+    const filterFrameImage = filter(frameImage, this.props.data, '| raw');
 
     const hasPending = files.some(file => file.state == 'pending');
     return (
@@ -1200,6 +1231,7 @@ export default class ImageControl extends React.Component<
                               fixedSize ? 'ImageControl-fixed-size' : '',
                               fixedSize ? fixedSizeClassName : ''
                             )}
+                            style={frameImageStyle}
                           >
                             {file.state === 'invalid' ||
                             file.state === 'error' ? (
@@ -1377,17 +1409,22 @@ export default class ImageControl extends React.Component<
                           fixedSize ? 'ImageControl-fixed-size' : '',
                           fixedSize ? fixedSizeClassName : ''
                         )}
+                        style={frameImageStyle}
                         onClick={this.handleSelect}
                         data-tooltip={__(placeholder)}
                         data-position="right"
+                        ref={this.frameImageRef}
                       >
-                        {defaultImage ? (
+                        {filterFrameImage ? (
                           <ImageComponent
                             key="upload-default-image"
-                            src={filter(defaultImage, this.props.data, '| raw')}
+                            src={filterFrameImage}
                             className={cx(
                               fixedSize ? 'Image-thumb--fixed-size' : ''
                             )}
+                            onLoad={this.handleFrameImageLoaded.bind(this)}
+                            thumbMode={thumbMode}
+                            thumbRatio={thumbRatio}
                           />
                         ) : (
                           <Icon icon="plus" className="icon" />

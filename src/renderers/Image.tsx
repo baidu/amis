@@ -168,9 +168,15 @@ export class ImageThumb extends React.Component<ImageThumbProps> {
         </div>
         {title || caption ? (
           <div key="caption" className={cx('Image-info')}>
-            {title ? <div className={cx('Image-title')}>{title}</div> : null}
+            {title ? (
+              <div className={cx('Image-title')} title={title}>
+                {title}
+              </div>
+            ) : null}
             {caption ? (
-              <div className={cx('Image-caption')}>{caption}</div>
+              <div className={cx('Image-caption')} title={caption}>
+                {caption}
+              </div>
             ) : null}
           </div>
         ) : null}
