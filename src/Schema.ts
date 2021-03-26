@@ -53,6 +53,7 @@ import {SparkLineSchema} from './renderers/SparkLine';
 import {PaginationWrapperSchema} from './renderers/PaginationWrapper';
 import {PaginationSchema} from './renderers/Pagination';
 import {AnchorNavSchema} from './renderers/AnchorNav';
+import {AvatarSchema} from './renderers/Avatar';
 
 // 每加个类型，这补充一下。
 export type SchemaType =
@@ -144,6 +145,7 @@ export type SchemaObject =
   | ActionSchema
   | AlertSchema
   | AudioSchema
+  | AvatarSchema
   | ButtonGroupSchema
   | ButtonToolbarSchema
   | CardSchema

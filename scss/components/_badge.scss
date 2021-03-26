@@ -1,0 +1,58 @@
+.#{$ns}Badge {
+  display: inline-block;
+  position: relative;
+
+  &-text,
+  &-dot {
+    background: var(--danger);
+    position: absolute;
+    top: 0;
+    right: 0;
+    transform: translate(50%, -50%);
+    transform-origin: 100% 0;
+    z-index: auto;
+    border-radius: calc(var(--Badge-size) / 2);
+    box-shadow: 0 0 0 1px #fff;
+  }
+
+  &--top-left {
+    top: 0;
+    left: 0;
+    right: auto;
+    transform: translate(-50%, -50%);
+  }
+
+  &--bottom-left {
+    top: auto;
+    bottom: 0;
+    left: 0;
+    right: auto;
+    transform: translate(-50%, 50%);
+  }
+
+  &--bottom-right {
+    top: auto;
+    bottom: 0;
+    left: auto;
+    right: 0;
+    transform: translate(50%, 50%);
+  }
+
+  // 显示文字
+  &-text {
+    color: var(--Badge-color);
+    height: var(--Badge-size);
+    line-height: var(--Badge-size);
+    white-space: nowrap;
+    text-align: center;
+    padding: 0 6px;
+  }
+
+  // 只显示小红点
+  &-dot {
+    z-index: auto;
+    width: var(--Badge-size);
+    height: var(--Badge-size);
+    border-radius: 50%;
+  }
+}

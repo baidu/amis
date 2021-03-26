@@ -1072,7 +1072,6 @@ export const components = [
             makeMarkdownRenderer
           )
       },
-
       {
         label: 'Drawer 抽屉',
         path: '/zh-CN/components/drawer',
@@ -1126,7 +1125,15 @@ export const components = [
             makeMarkdownRenderer
           )
       },
-
+      {
+        label: 'Badge 角标',
+        path: '/zh-CN/components/badge',
+        getComponent: () =>
+          // @ts-ignore
+          import('../../docs/zh-CN/components/badge.md').then(
+            makeMarkdownRenderer
+          )
+      },
       {
         label: 'Wizard 向导',
         path: '/zh-CN/components/wizard',
