@@ -136,6 +136,7 @@ import './renderers/Page';
 import './renderers/PaginationWrapper';
 import './renderers/Panel';
 import './renderers/Plain';
+import './renderers/Property';
 import './renderers/Spinner';
 import './renderers/Table/index';
 import './renderers/Tabs';

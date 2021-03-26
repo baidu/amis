@@ -439,6 +439,15 @@ export function isVisible(
   );
 }
 
+/**
+ * 过滤掉被隐藏的数组元素
+ */
+export function visibilityFilter(items: any, data?: object) {
+  return items.filter((item: any) => {
+    return isVisible(item, data);
+  });
+}
+
 export function isDisabled(
   schema: {
     disabledOn?: string;

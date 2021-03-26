@@ -832,6 +832,14 @@ amis 集成了 [fontawesome](http://fontawesome.io/icons/)，所以关于图标�
 .text-right {
   text-align: right;
 }
+.word-break {
+  white-space: normal;
+  word-break: break-all;
+  word-wrap: break-word;
+}
+.white-space-pre {
+  white-space: pre;
+}
 ```
 
 ## 定位
