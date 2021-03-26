@@ -15,6 +15,7 @@ order: 60
 ```schema: scope="body"
 {
   "type": "property",
+  "title": "机器配置",
   "items": [
     {
       "label": "cpu",

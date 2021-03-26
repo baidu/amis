@@ -2,6 +2,13 @@
   > table {
     width: 100%;
     border-collapse: collapse;
+
+    > thead > tr > th {
+      padding: var(--gap-sm);
+      background: var(--Property-title-bg);
+      border: 1px solid var(--borderColor);
+    }
+
     > tbody > tr {
       background: var(--background);
 
@@ -11,13 +18,18 @@
         padding: var(--gap-sm);
       }
       > th {
-        background: var(--Property-th-bg);
+        background: var(--Property-label-bg);
       }
     }
   }
 
   &--simple {
     > table {
+      > thead > tr > th {
+        background: transparent;
+        border: none;
+      }
+
       > tbody > tr {
         background: transparent;
       }

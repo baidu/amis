@@ -48,8 +48,19 @@ export interface PropertySchema extends BaseSchema {
    */
   type: 'property';
 
+  /**
+   * 标题
+   */
+  title?: string;
+
+  /**
+   * 一共几列
+   */
   column?: number;
 
+  /**
+   * 显示模式
+   */
   mode?: 'table' | 'simple';
 
   /**
@@ -61,6 +72,13 @@ export interface PropertySchema extends BaseSchema {
    * 自定义样式
    */
   style?: {
+    [propName: string]: any;
+  };
+
+  /**
+   * 标题样式
+   */
+  titleStyle?: {
     [propName: string]: any;
   };
 
@@ -182,7 +200,15 @@ export default class Property extends React.Component<PropertyProps, object> {
   }
 
   render() {
-    const {style, classnames: cx, className, mode = 'table'} = this.props;
+    const {
+      style,
+      title,
+      column = 3,
+      classnames: cx,
+      className,
+      titleStyle,
+      mode = 'table'
+    } = this.props;
 
     const rows = this.prepareRows();
 
@@ -192,6 +218,18 @@ export default class Property extends React.Component<PropertyProps, object> {
         style={style}
       >
         <table>
+          {title ? (
+            <thead>
+              <tr>
+                <th
+                  colSpan={mode === 'table' ? column + column : column}
+                  style={titleStyle}
+                >
+                  {title}
+                </th>
+              </tr>
+            </thead>
+          ) : null}
           <tbody>{this.renderRow(rows)}</tbody>
         </table>
       </div>
