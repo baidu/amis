@@ -791,13 +791,11 @@ export default {
         {
           type: 'image',
           name: 'image',
-          inputClassName: 'w-52',
           label: '图片有默认占位图',
-          defaultImage:
+          frameImage:
             'https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=3893101144,2877209892&fm=23&gp=0.jpg',
           fixedSize: true,
-          fixedSizeClassName: 'h-32',
-          thumbMode: 'contain'
+          fixedSizeClassName: 'h-32'
         },
         {
           type: 'divider'
