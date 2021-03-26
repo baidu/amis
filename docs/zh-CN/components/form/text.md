@@ -102,7 +102,7 @@ order: 56
             "name": "text",
             "type": "text",
             "label": "text",
-            "clearable: true
+            "clearable": true
         }
     ]
 }
