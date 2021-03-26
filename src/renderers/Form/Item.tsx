@@ -197,7 +197,12 @@ export type FormControlType =
   | 'html'
   | 'plain'
   | 'tpl'
-  | 'anchor-nav';
+  | 'anchor-nav'
+
+  // 原生 input 类型
+  | 'native-date'
+  | 'native-time'
+  | 'native-number';
 
 export type FormControlSchema =
   | ArrayControlSchema

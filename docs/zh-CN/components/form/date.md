@@ -311,6 +311,24 @@ order: 13
 }
 ```
 
+## 原生日期组件
+
+原生数字日期将直接使用浏览器的实现，最终展现效果和浏览器有关，而且只支持 `min`、`max`、`step` 这几个属性设置。
+
+```schema: scope="body"
+{
+    "type": "form",
+    "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
+    "controls": [
+        {
+            "type": "native-date",
+            "name": "date",
+            "label": "日期"
+        }
+    ]
+}
+```
+
 ## 属性表
 
 除了支持 [普通表单项属性表](./formitem#%E5%B1%9E%E6%80%A7%E8%A1%A8) 中的配置以外，还支持下面一些配置
