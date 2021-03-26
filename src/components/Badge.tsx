@@ -139,28 +139,27 @@ export class Badge extends React.Component<BadgeProps, object> {
   }
 }
 
-export const withBadge = <P extends object>(
-  Component: React.ComponentType<P>
-) => {
-  class WithBadge extends React.Component<P & BadgeProps> {
-    static displayName = `WithBadge(${
-      Component.displayName || Component.name
-    })`;
+export function withBadge<P extends object>(Component: React.ComponentType<P>) {
+  return hoistNonReactStatic(
+    class WithBadge extends React.Component<P & BadgeProps> {
+      static displayName = `WithBadge(${
+        Component.displayName || Component.name
+      })`;
 
-    render() {
-      const badge = this.props.badge;
+      render() {
+        const badge = this.props.badge;
 
-      if (!badge) {
-        return <Component {...(this.props as P)} />;
+        if (!badge) {
+          return <Component {...(this.props as P)} />;
+        }
+
+        return (
+          <Badge {...(this.props as BadgeProps)}>
+            <Component {...(this.props as P)} />
+          </Badge>
+        );
       }
-
-      return (
-        <Badge {...(this.props as BadgeProps)}>
-          <Component {...(this.props as P)} />
-        </Badge>
-      );
-    }
-  }
-  hoistNonReactStatic(WithBadge, Component);
-  return WithBadge;
-};
+    },
+    Component
+  );
+}
