@@ -73,6 +73,21 @@ export const CRUDStore = ServiceStore.named('CRUDStore')
 
     get selectedItemsAsArray() {
       return self.selectedItems.concat();
+    },
+
+    fetchCtxOf(
+      data: any,
+      options: {
+        pageField?: string;
+        perPageField?: string;
+      }
+    ) {
+      return createObject(data, {
+        ...self.query,
+        [options.pageField || 'page']: self.page,
+        [options.perPageField || 'perPage']: self.perPage,
+        ...data
+      });
     }
   }))
   .actions(self => {

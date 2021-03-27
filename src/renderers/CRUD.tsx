@@ -520,7 +520,18 @@ export default class CRUD extends React.Component<CRUDProps, any> {
     } else if (
       props.api &&
       nextProps.api &&
-      isApiOutdated(props.api, nextProps.api, props.data, nextProps.data)
+      isApiOutdated(
+        props.api,
+        nextProps.api,
+        store.fetchCtxOf(props.data, {
+          pageField: props.pageField,
+          perPageField: props.perPageField
+        }),
+        store.fetchCtxOf(nextProps.data, {
+          pageField: nextProps.pageField,
+          perPageField: nextProps.perPageField
+        })
+      )
     ) {
       this.dataInvalid = true;
     }
