@@ -42,7 +42,8 @@ export default class TextAreaControl extends React.Component<
 > {
   static defaultProps: Partial<TextAreaProps> = {
     minRows: 3,
-    maxRows: 20
+    maxRows: 20,
+    trimContents: true
   };
 
   input?: HTMLInputElement;

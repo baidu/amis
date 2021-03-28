@@ -118,7 +118,8 @@ export default class TextControl extends React.PureComponent<
     labelField: 'label',
     valueField: 'value',
     placeholder: '',
-    allowInputText: true
+    allowInputText: true,
+    trimContents: true
   };
 
   componentWillReceiveProps(nextProps: TextProps) {
