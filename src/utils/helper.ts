@@ -1411,7 +1411,6 @@ function isCyclic(obj: any): boolean {
       seenObjects.push(obj);
       for (var key in obj) {
         if (obj.hasOwnProperty(key) && detect(obj[key])) {
-          console.log(obj, 'cycle at ' + key);
           return true;
         }
       }
