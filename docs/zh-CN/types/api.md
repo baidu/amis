@@ -462,6 +462,38 @@ API 还支持配置对象类型
 }
 ```
 
+另一个常用示例是 `"type": "select"` 的 `source` 数据源，如果接口返回的是：
+
+```json
+{
+  "data": [
+    {
+      "myLabel": "lab",
+      "myValue": 1
+    }
+  ]
+}
+```
+
+而 select 所需的数据格式是 `[{"label": "lab", "value": 1}]`，如何进行映射？
+
+方法是
+
+```json
+{
+  "type": "select",
+  "source": {
+    "method": "get",
+    "url": "http://xxx",
+    "responseData": {
+      "options": "${items|pick:label~myLabel,value~myValue}"
+    }
+  }
+}
+```
+
+需要注意上面例子中 `items` 是因为数据直接放在了 `data` 中，如果是放在其他字段中就换成对应的字段名。
+
 ### 配置请求适配器
 
 amis 的 API 配置，如果无法配置出你想要的请求结构，那么可以配置`requestAdaptor`发送适配器
