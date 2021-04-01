@@ -89,7 +89,7 @@
       border: inherit;
     }
 
-    width: var(--Page-aside-width);
+    min-width: var(--Page-aside-width);
     max-width: var(--Page-aside-maxWidth);
     border-right: var(--borderWidth) solid var(--borderColor);
   }
