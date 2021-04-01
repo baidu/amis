@@ -76,7 +76,7 @@ $Wizard-steps-liAfterBorder: none !important;
   --Page-header-paddingX: #{px2rem(20px)};
   --Page-header-paddingY: #{px2rem(10px)};
 
-  --Form-item-gap: #{px2rem(15px)};
+  --Form-item-gap: var(--gap-base);
   --Form-input-height: #{px2rem(30px)};
   --Form-input-onFocused-bg: var(--white);
   --Form-input-borderRadius: 0;
@@ -321,12 +321,12 @@ $Wizard-steps-liAfterBorder: none !important;
   --Modal-content-minHeight: #{px2rem(193px)};
   --Modal-header-bg: #f6f7fb;
   --Modal-title-color: #333;
-  --Modal-body-paddingY: #{px2rem(30px)};
-  --Modal-body-paddingX: #{px2rem(30px)};
+  --Modal-body-paddingY: var(--gap-md);
+  --Modal-body-paddingX: var(--gap-md);
   --Modal-body-borderTop: none;
   --Modal-body-borderBottom: #{px2rem(1px)} solid #eceff8;
-  --Modal-footer-marginX: #{px2rem(30px)};
-  --Modal-footer-padding: #{px2rem(15px)} 0;
+  --Modal-footer-marginX: var(--gap-md);
+  --Modal-footer-padding: var(--gap-base) 0;
 
   // Drawer
   --Drawer-widthBase: #{px2rem(400px)};
