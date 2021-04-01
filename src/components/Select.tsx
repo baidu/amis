@@ -565,7 +565,6 @@ export class Select extends React.Component<SelectProps, SelectState> {
     const {multiple, checkAll, loadOptions} = this.props;
     let {inputValue} = this.state;
     let update: any = {};
-    let doLoad = false;
 
     switch (changes.type) {
       case DownshiftChangeTypes.keyDownEnter:
@@ -576,8 +575,9 @@ export class Select extends React.Component<SelectProps, SelectState> {
           isFocused: multiple && checkAll ? true : false,
           inputValue: !multiple ? '' : inputValue
         };
-        doLoad = !multiple;
         break;
+      case DownshiftChangeTypes.controlledPropUpdatedSelectedItem: 
+    
       case DownshiftChangeTypes.changeInput:
         update.highlightedIndex = 0;
         break;
@@ -593,8 +593,7 @@ export class Select extends React.Component<SelectProps, SelectState> {
 
     if (Object.keys(update).length) {
       this.setState(
-        update,
-        doLoad && loadOptions ? () => loadOptions('') : undefined
+        update
       );
     }
   }
@@ -611,6 +610,8 @@ export class Select extends React.Component<SelectProps, SelectState> {
     e.preventDefault();
     e.stopPropagation();
     onChange(this.props.resetValue);
+    const {multiple, loadOptions} = this.props;
+    !multiple && loadOptions && loadOptions('')
   }
 
   handleAddClick() {
