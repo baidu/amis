@@ -238,6 +238,7 @@ export default class DropDownButton extends React.Component<
       block,
       disabled,
       btnDisabled,
+      btnClassName,
       size,
       label,
       level,
@@ -252,11 +253,15 @@ export default class DropDownButton extends React.Component<
 
     return (
       <div
-        className={cx('DropDown ', {
-          'DropDown--block': block,
-          'DropDown--alignRight': align === 'right',
-          'is-opened': this.state.isOpened
-        })}
+        className={cx(
+          'DropDown ',
+          {
+            'DropDown--block': block,
+            'DropDown--alignRight': align === 'right',
+            'is-opened': this.state.isOpened
+          },
+          className
+        )}
         ref={this.domRef}
       >
         <TooltipWrapper
@@ -271,7 +276,7 @@ export default class DropDownButton extends React.Component<
             disabled={disabled || btnDisabled}
             className={cx(
               'Button',
-              className,
+              btnClassName,
               typeof level === 'undefined'
                 ? 'Button--default'
                 : level
