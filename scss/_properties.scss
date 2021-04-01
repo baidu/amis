@@ -34,9 +34,9 @@
     SimSun, sans-serif;
 
   --fontSizeBase: #{px2rem(14px)};
-  --fontSizeMd: #{px2rem(16px)};
-  --fontSizeLg: #{px2rem(20px)};
-  --fontSizeXl: #{px2rem(24px)};
+  --fontSizeMd: #{px2rem(14px)};
+  --fontSizeLg: #{px2rem(16px)};
+  --fontSizeXl: #{px2rem(20px)};
   --fontSizeSm: #{px2rem(12px)};
   --fontSizeXs: #{px2rem(11px)};
 
@@ -84,8 +84,8 @@
   --body-color: var(--text-color);
   --body-weight: var(--fontWeightBase);
 
-  --gap-xs: #{px2rem(2.5px)};
-  --gap-sm: #{px2rem(5px)};
+  --gap-xs: #{px2rem(5px)};
+  --gap-sm: #{px2rem(10px)};
   --gap-base: #{px2rem(10px)};
   --gap-md: #{px2rem(15px)};
   --gap-lg: #{px2rem(20px)};
