@@ -377,4 +377,3 @@ items 里的属性还支持 `visibleOn` 和 `hiddenOn` 表达式，能隐藏部�
 | items[].span      | `SchemaTpl`                              |         | 属性值跨几列                           |
 | items[].visibleOn | [表达式](../../docs/concepts/expression) |         | 显示表达式                             |
 | items[].hiddenOn  | [表达式](../../docs/concepts/expression) |         | 隐藏表达式                             |
-| items[].span      | `SchemaTpl`                              |         | 属性值跨几列                           |
