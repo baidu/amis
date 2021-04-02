@@ -34,9 +34,9 @@
     SimSun, sans-serif;
 
   --fontSizeBase: #{px2rem(14px)};
-  --fontSizeMd: #{px2rem(16px)};
-  --fontSizeLg: #{px2rem(20px)};
-  --fontSizeXl: #{px2rem(24px)};
+  --fontSizeMd: #{px2rem(14px)};
+  --fontSizeLg: #{px2rem(16px)};
+  --fontSizeXl: #{px2rem(20px)};
   --fontSizeSm: #{px2rem(12px)};
   --fontSizeXs: #{px2rem(11px)};
 
@@ -86,9 +86,9 @@
 
   --gap-xs: #{px2rem(5px)};
   --gap-sm: #{px2rem(10px)};
-  --gap-base: #{px2rem(15px)};
-  --gap-md: #{px2rem(20px)};
-  --gap-lg: #{px2rem(30px)};
+  --gap-base: #{px2rem(10px)};
+  --gap-md: #{px2rem(15px)};
+  --gap-lg: #{px2rem(20px)};
 
   --icon-color: #{$gray600};
   --icon-onHover-color: #{$gray900};
@@ -636,7 +636,7 @@
   );
   --Form-input-placeholderColor: var(--text--muted-color);
 
-  --Form-item-gap: #{px2rem(15px)};
+  --Form-item-gap: var(--gap-base);
 
   --Form-label-paddingTop: calc(
     (
@@ -995,7 +995,7 @@
   --Panel--default-color: var(--text-color);
   --Panel--default-headingBorderColor: var(--borderColor);
   --Panel-bg: var(--white);
-  --Panel-bodyPadding: #{px2rem(15px)};
+  --Panel-bodyPadding: var(--gap-base);
   --Panel-border: var(--borderWidth) solid transparent;
   --Panel-borderRadius: var(--borderRadius);
   --Panel-borderWidth: #{px2rem(1px)};
@@ -1007,11 +1007,11 @@
   --Panel-footerBorderColor: var(--borderColorLight);
   --Panel-footerBorderRadius: 0 0 #{px2rem(2px)} #{px2rem(2px)};
   --Panel-footerButtonMarginLeft: var(--gap-sm);
-  --Panel-footerPadding: #{px2rem(10px)} #{px2rem(15px)};
+  --Panel-footerPadding: var(--gap-sm) var(--gap-base);
   --Panel-headingBorderBottom: var(--borderWidth) solid transparent;
   --Panel-headingBorderRadius: var(--borderRadius) var(--borderRadius) 0 0;
-  --Panel-headingPadding: #{px2rem(10px)} #{px2rem(15px)};
-  --Panel-marginBottom: #{px2rem(20px)};
+  --Panel-headingPadding: var(--gap-sm) var(--gap-base);
+  --Panel-marginBottom: var(--gap-lg);
   --Panel-titleColor: inherit;
   --Panel-titleFontSize: var(--fontSizeMd);
   --Panel-titleMarginBottom: 0;
@@ -1024,8 +1024,8 @@
   --PopOverAble-iconColor: inherit;
   --PopOverAble-onHover-iconColor: inherit;
 
-  --Property-title-bg: #F2F2F2;
-  --Property-label-bg: #F7F7F7;
+  --Property-title-bg: #f2f2f2;
+  --Property-label-bg: #f7f7f7;
 
   --QuickEdit-iconColor: inherit;
   --QuickEdit-onFocus-borderColor: var(--info);
@@ -1329,7 +1329,7 @@
   --Wizard-steps-padding: 0;
   --Wizard-steps-textAlign: left;
   --Wizard-steps-ulDisplay: block;
-  --Wizard-stepsContent-padding: #{px2rem(15px)};
+  --Wizard-stepsContent-padding: var(--gap-base);
 
   --AnchorNav-links-container-borderRight: #{px2rem(1px)} solid #d3dae0;
   --AnchorNav-onActive-borderWidth: 0 #{px2rem(2px)} 0 0;
