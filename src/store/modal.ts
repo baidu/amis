@@ -1,10 +1,13 @@
 import {ServiceStore} from './service';
-import {types, SnapshotIn, Instance} from 'mobx-state-tree';
+import {types, SnapshotIn, Instance, isAlive} from 'mobx-state-tree';
 import {createObject} from '../utils/helper';
 
 export const ModalStore = ServiceStore.named('ModalStore')
   .props({
-    form: types.frozen()
+    form: types.frozen(),
+    entered: false,
+    resizeCoord: 0,
+    schema: types.frozen()
   })
   .views(self => {
     return {
@@ -15,8 +18,26 @@ export const ModalStore = ServiceStore.named('ModalStore')
   })
   .actions(self => {
     return {
+      setEntered(value: boolean) {
+        self.entered = value;
+      },
       setFormData(obj: any) {
         self.form = obj;
+      },
+
+      setResizeCoord(value: number) {
+        self.resizeCoord = value;
+      },
+
+      setSchema(schema: any) {
+        if (schema && schema.then) {
+          schema.then(
+            (value: any) => isAlive(self) && (self as any).setSchema(value)
+          );
+          return;
+        }
+
+        self.schema = schema;
       }
     };
   });

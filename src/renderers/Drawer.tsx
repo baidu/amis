@@ -112,13 +112,20 @@ export interface DrawerProps
     targets: Array<any>
   ) => void;
   children?: React.ReactNode | ((props?: any) => React.ReactNode);
+  wrapperComponent: React.ElementType;
+  lazySchema?: (props: DrawerProps) => SchemaCollection;
   store: IModalStore;
-
   show?: boolean;
   drawerContainer?: () => HTMLElement;
 }
 
-export default class Drawer extends React.Component<DrawerProps, object> {
+export interface DrawerState {
+  entered: boolean;
+  resizeCoord: number;
+  [propName: string]: any;
+}
+
+export default class Drawer extends React.Component<DrawerProps> {
   static propsList: Array<string> = [
     'title',
     'size',
@@ -150,12 +157,10 @@ export default class Drawer extends React.Component<DrawerProps, object> {
   reaction: any;
   $$id: string = guid();
   drawer: any;
-  state = {
-    resizeCoord: 0
-  };
   constructor(props: DrawerProps) {
     super(props);
 
+    props.store.setEntered(!!props.show);
     this.handleSelfClose = this.handleSelfClose.bind(this);
     this.handleAction = this.handleAction.bind(this);
     this.handleDrawerConfirm = this.handleDrawerConfirm.bind(this);
@@ -166,6 +171,7 @@ export default class Drawer extends React.Component<DrawerProps, object> {
     this.resizeMouseDown = this.resizeMouseDown.bind(this);
     this.bindResize = this.bindResize.bind(this);
     this.removeResize = this.removeResize.bind(this);
+    this.handleEntered = this.handleEntered.bind(this);
     this.handleExisted = this.handleExisted.bind(this);
     this.handleFormInit = this.handleFormInit.bind(this);
     this.handleFormChange = this.handleFormChange.bind(this);
@@ -333,9 +339,19 @@ export default class Drawer extends React.Component<DrawerProps, object> {
     });
   }
 
+  handleEntered() {
+    const {lazySchema, store} = this.props;
+
+    store.setEntered(true);
+    if (typeof lazySchema === 'function') {
+      store.setSchema(lazySchema(this.props));
+    }
+  }
+
   handleExisted() {
     const store = this.props.store;
     store.reset();
+    store.setEntered(false);
   }
 
   @autobind
@@ -421,7 +437,7 @@ export default class Drawer extends React.Component<DrawerProps, object> {
   }
 
   resizeMouseDown(e: React.MouseEvent<any>) {
-    const {position, classPrefix: ns} = this.props;
+    const {position, classPrefix: ns, store} = this.props;
 
     this.drawer = (findDOMNode(this) as HTMLElement).querySelector(
       `.${ns}Drawer-content`
@@ -432,12 +448,11 @@ export default class Drawer extends React.Component<DrawerProps, object> {
     const drawerWidth = getComputedStyle(this.drawer).width as string;
     const drawerHeight = getComputedStyle(this.drawer).height as string;
 
-    this.setState({
-      resizeCoord:
-        (position === 'left' &&
-          e.clientX -
-            resizeCtrl.offsetWidth -
-            parseInt(drawerWidth.substring(0, drawerWidth.length - 2))) ||
+    store.setResizeCoord(
+      (position === 'left' &&
+        e.clientX -
+          resizeCtrl.offsetWidth -
+          parseInt(drawerWidth.substring(0, drawerWidth.length - 2))) ||
         (position === 'right' &&
           document.body.offsetWidth -
             e.clientX -
@@ -453,14 +468,14 @@ export default class Drawer extends React.Component<DrawerProps, object> {
             resizeCtrl.offsetHeight -
             parseInt(drawerHeight.substring(0, drawerHeight.length - 2))) ||
         0
-    });
+    );
 
     document.body.addEventListener('mousemove', this.bindResize);
     document.body.addEventListener('mouseup', this.removeResize);
   }
 
   bindResize(e: any) {
-    const {position} = this.props;
+    const {position, store} = this.props;
     const maxWH = 'calc(100% - 50px)';
     const drawerStyle = this.drawer.style;
     let wh =
@@ -469,7 +484,7 @@ export default class Drawer extends React.Component<DrawerProps, object> {
       (position === 'top' && e.clientY) ||
       (position === 'bottom' && document.body.offsetHeight - e.clientY) ||
       0;
-    wh = wh - this.state.resizeCoord + 'px';
+    wh = wh - store.resizeCoord + 'px';
 
     if (position === 'left' || position === 'right') {
       drawerStyle.maxWidth = maxWH;
@@ -501,13 +516,13 @@ export default class Drawer extends React.Component<DrawerProps, object> {
   }
 
   render() {
+    const store = this.props.store;
     const {
       className,
       size,
       closeOnEsc,
       position,
       title,
-      store,
       render,
       header,
       body,
@@ -521,7 +536,10 @@ export default class Drawer extends React.Component<DrawerProps, object> {
       classPrefix: ns,
       classnames: cx,
       drawerContainer
-    } = this.props;
+    } = {
+      ...this.props,
+      ...store.schema
+    } as any;
 
     const Container = wrapperComponent || DrawerContainer;
 
@@ -535,6 +553,7 @@ export default class Drawer extends React.Component<DrawerProps, object> {
         show={show}
         position={position}
         overlay={overlay}
+        onEntered={this.handleEntered}
         onExisted={this.handleExisted}
         closeOnEsc={closeOnEsc}
         closeOnOutside={
