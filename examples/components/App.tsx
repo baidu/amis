@@ -692,7 +692,7 @@ export default function entry({pathPrefix}) {
         {/* expamles */}
         <Redirect
           from={`${ContextPath}/examples`}
-          to={`${ContextPath}/examples/pages/simple`}
+          to={`${ContextPath}/examples/index`}
         />
         <Redirect
           from={`${ContextPath}/${locate}/style`}
