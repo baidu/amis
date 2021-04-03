@@ -91,6 +91,7 @@ export type SchemaType =
   | 'drawer'
   | 'each'
   | 'flex'
+  | 'flex-item'
   | 'grid'
   | 'grid-2d'
   | 'hbox'
