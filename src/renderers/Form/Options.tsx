@@ -605,12 +605,13 @@ export function registerOptionsControl(config: OptionsConfig) {
       } = this.props;
 
       if (formItem && isPureVariable(source as string)) {
-        formItem.setOptions(
-          normalizeOptions(
-            resolveVariableAndFilter(source as string, data, '| raw') || []
-          ),
-          onChange
-        );
+        isAlive(formItem) &&
+          formItem.setOptions(
+            normalizeOptions(
+              resolveVariableAndFilter(source as string, data, '| raw') || []
+            ),
+            onChange
+          );
         return;
       } else if (!formItem || !isEffectiveApi(source, data)) {
         return;
