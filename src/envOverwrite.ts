@@ -11,12 +11,12 @@ const isMobile = (window as any).matchMedia?.('(max-width: 768px)').matches
   ? true
   : false;
 
-addSchemaFilter(function (schema: Schema, renderer, props) {
+addSchemaFilter(function (schema: Schema, renderer, props?: any) {
   if (schema.mobile && isMobile) {
     return {...schema, ...schema.mobile};
   }
 
-  if (props.locale && schema[props.locale]) {
+  if (props?.locale && schema[props.locale]) {
     return {...schema, ...schema[props.locale]};
   }
 
