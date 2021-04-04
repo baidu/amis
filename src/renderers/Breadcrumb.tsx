@@ -80,8 +80,8 @@ export class BreadcrumbField extends React.Component<BreadcrumbProps, object> {
       : (resolveVariable(source, data) as Array<BreadcrumbItemSchema>);
 
     const crumbs = crumbItems
-      .map<React.ReactNode>(item => (
-        <span className={cx('Breadcrumb-item', itemClassName)}>
+      .map<React.ReactNode>((item, index) => (
+        <span className={cx('Breadcrumb-item', itemClassName)} key={index}>
           {item.icon
             ? generateIcon(cx, item.icon, 'Icon', 'Breadcrumb-icon')
             : null}
@@ -92,9 +92,12 @@ export class BreadcrumbField extends React.Component<BreadcrumbProps, object> {
           )}
         </span>
       ))
-      .reduce((prev, curr) => [
+      .reduce((prev, curr, index) => [
         prev,
-        <span className={cx('Breadcrumb-separator', separatorClassName)}>
+        <span
+          className={cx('Breadcrumb-separator', separatorClassName)}
+          key={`separator-${index}`}
+        >
           {separator}
         </span>,
         curr
