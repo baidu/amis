@@ -19,7 +19,17 @@ export default {
 
           {
             label: '分类2',
-            value: 'cat2'
+            value: 'cat2',
+            children: [
+              {
+                label: '分类 2.1',
+                value: 'cat2.1'
+              },
+              {
+                label: '分类 2.2',
+                value: 'cat2.2'
+              }
+            ]
           },
 
           {
