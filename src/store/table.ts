@@ -510,7 +510,8 @@ export const TableStore = iRendererStore
 
       get allExpanded() {
         return !!(
-          self.expandedRows.length === self.rows.length && self.rows.length
+          self.expandedRows.length === this.expandableRows.length &&
+          this.expandableRows.length
         );
       },
 
@@ -534,6 +535,10 @@ export const TableStore = iRendererStore
 
       get checkableRows() {
         return self.rows.filter(item => item.checkable);
+      },
+
+      get expandableRows() {
+        return self.rows.filter(item => item.expandable);
       },
 
       get moved() {
@@ -609,7 +614,8 @@ export const TableStore = iRendererStore
       config.maxKeepItemSelectionLength !== void 0 &&
         (self.maxKeepItemSelectionLength = config.maxKeepItemSelectionLength);
       config.keepItemSelectionOnPageChange !== void 0 &&
-        (self.keepItemSelectionOnPageChange = config.keepItemSelectionOnPageChange);
+        (self.keepItemSelectionOnPageChange =
+          config.keepItemSelectionOnPageChange);
 
       if (config.columns && Array.isArray(config.columns)) {
         let columns: Array<SColumn> = config.columns
@@ -868,13 +874,21 @@ export const TableStore = iRendererStore
       } else {
         const selectedItems = self.data?.selectedItems;
 
-        if (keep && maxLength && selectedItems && maxLength >= selectedItems.length) {
-          const restCheckableRows = self.checkableRows.filter(item => !item.checked);
-          const checkableRows = restCheckableRows.filter((item, i) => i < maxLength - selectedItems.length);
+        if (
+          keep &&
+          maxLength &&
+          selectedItems &&
+          maxLength >= selectedItems.length
+        ) {
+          const restCheckableRows = self.checkableRows.filter(
+            item => !item.checked
+          );
+          const checkableRows = restCheckableRows.filter(
+            (item, i) => i < maxLength - selectedItems.length
+          );
 
           self.selectedRows.replace([...self.selectedRows, ...checkableRows]);
-        }
-        else {
+        } else {
           self.selectedRows.replace(self.checkableRows);
         }
       }
@@ -905,10 +919,13 @@ export const TableStore = iRendererStore
 
       self.selectedRows.map(item => item.setCheckdisable(false));
       if (maxLength && maxLength <= selectedItems.length) {
-        self.unSelectedRows.map(item => !item.checked && item.setCheckdisable(true));
-      }
-      else {
-        self.unSelectedRows.map(item => item.checkdisable && item.setCheckdisable(false));
+        self.unSelectedRows.map(
+          item => !item.checked && item.setCheckdisable(true)
+        );
+      } else {
+        self.unSelectedRows.map(
+          item => item.checkdisable && item.setCheckdisable(false)
+        );
       }
     }
 
@@ -920,7 +937,7 @@ export const TableStore = iRendererStore
       if (self.allExpanded) {
         self.expandedRows.clear();
       } else {
-        self.expandedRows.replace(self.rows);
+        self.expandedRows.replace(self.rows.filter(item => item.expandable));
       }
     }
 
