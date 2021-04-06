@@ -628,11 +628,11 @@ export const resolveVariable = (path?: string, data: any = {}): any => {
   }, data);
 };
 
-export const isPureVariable = (path?: any) =>
-  typeof path === 'string'
+export function isPureVariable(path?: any): path is string {
+  return typeof path === 'string'
     ? /^\$(?:([a-z0-9_.]+)|{[^}{]+})$/.test(path)
     : false;
-
+}
 export const resolveVariableAndFilter = (
   path?: string,
   data: object = {},
