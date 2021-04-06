@@ -270,7 +270,7 @@ export interface SchemaApiObject {
    *
    * 如果想通过 body 发送给后端，那么请把这个配置成 false。
    *
-   * 但是，浏览器还不支持啊，设置了只是摆设。
+   * 但是，浏览器还不支持啊，设置了只是摆设。除非服务端支持 method-override
    */
   attachDataToQuery?: boolean;
 
@@ -303,8 +303,16 @@ export interface SchemaApiObject {
 
   /**
    * 是否自动刷新，当 url 中的取值结果变化时，自动刷新数据。
+   *
+   * @default true
    */
   autoRefresh?: boolean;
+
+  /**
+   * 当开启自动刷新的时候，默认是 api 的 url 来自动跟踪变量变化的。
+   * 如果你希望监控 url 外的变量，请配置 traceExpression。
+   */
+  trackExpression?: string;
 
   /**
    * 如果设置了值，同一个接口，相同参数，指定的时间（单位：ms）内请求将直接走缓存。
