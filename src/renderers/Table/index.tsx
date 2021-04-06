@@ -1710,11 +1710,11 @@ export default class Table extends React.Component<TableProps, object> {
   renderToolbar(toolbar: SchemaNode) {
     const type = (toolbar as Schema).type || (toolbar as string);
 
-    this.renderedToolbars.push(type);
-
     if (type === 'columns-toggler') {
+      this.renderedToolbars.push(type);
       return this.renderColumnsToggler(toolbar as any);
     } else if (type === 'drag-toggler') {
+      this.renderedToolbars.push(type);
       return this.renderDragToggler();
     } else if (type === 'export-excel') {
       return this.renderExportExcel();
