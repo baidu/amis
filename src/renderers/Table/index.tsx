@@ -766,8 +766,7 @@ export default class Table extends React.Component<TableProps, object> {
       this.props.affixOffsetTop ?? this.props.env.affixOffsetTop ?? 0;
 
     // 50 是 headerToolbar 的高度
-    const toolbarHeight =
-      this.renderedToolbars.length || this.props.headerToolbarRender ? 50 : 0;
+    const toolbarHeight = this.props.headerToolbar.length ? 50 : 0;
     const affixed =
       clip.top - toolbarHeight < offsetY &&
       clip.top + clip.height - 40 > offsetY;
@@ -1711,11 +1710,11 @@ export default class Table extends React.Component<TableProps, object> {
   renderToolbar(toolbar: SchemaNode) {
     const type = (toolbar as Schema).type || (toolbar as string);
 
+    this.renderedToolbars.push(type);
+
     if (type === 'columns-toggler') {
-      this.renderedToolbars.push(type);
       return this.renderColumnsToggler(toolbar as any);
     } else if (type === 'drag-toggler') {
-      this.renderedToolbars.push(type);
       return this.renderDragToggler();
     } else if (type === 'export-excel') {
       return this.renderExportExcel();
