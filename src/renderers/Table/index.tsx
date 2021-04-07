@@ -764,11 +764,15 @@ export default class Table extends React.Component<TableProps, object> {
     const clip = (this.table as HTMLElement).getBoundingClientRect();
     const offsetY =
       this.props.affixOffsetTop ?? this.props.env.affixOffsetTop ?? 0;
+    const headingHeight =
+      dom.querySelector(`.${ns}Table-heading`)?.getBoundingClientRect()
+        .height || 0;
+    const headerHeight =
+      dom.querySelector(`.${ns}Table-headToolbar`)?.getBoundingClientRect()
+        .height || 0;
 
-    // 50 是 headerToolbar 的高度
-    const toolbarHeight = this.props.headerToolbar?.length ? 50 : 0;
     const affixed =
-      clip.top - toolbarHeight < offsetY &&
+      clip.top - headerHeight - headingHeight < offsetY &&
       clip.top + clip.height - 40 > offsetY;
     const affixedDom = dom.querySelector(`.${ns}Table-fixedTop`) as HTMLElement;
 
