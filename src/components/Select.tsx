@@ -27,7 +27,7 @@ import {Api} from '../types';
 import {LocaleProps, localeable} from '../locale';
 import Spinner from './Spinner';
 import {Option, Options} from '../Schema';
-import {withRemoteOptions} from './WithRemoteOptions';
+import {RemoteOptionsProps, withRemoteConfig} from './WithRemoteConfig';
 
 export {Option, Options};
 
@@ -1012,7 +1012,7 @@ export class Select extends React.Component<SelectProps, SelectState> {
   }
 }
 
-const enhancedSelect = themeable(
+const EnhancedSelect = themeable(
   localeable(
     uncontrollable(Select, {
       value: 'onChange'
@@ -1020,13 +1020,32 @@ const enhancedSelect = themeable(
   )
 );
 
-export default enhancedSelect;
-export const SelectWithRemoteOptions = withRemoteOptions(
-  enhancedSelect
-) as React.ComponentType<
-  React.ComponentProps<typeof enhancedSelect> & {
-    source?: any;
-    options?: Options;
-    data?: any;
+export default EnhancedSelect;
+export const SelectWithRemoteOptions = withRemoteConfig<Array<Options>>({
+  adaptor: data => data.options || data.items || data.rows || data,
+  normalizeConfig: (options: any, origin) => {
+    options = normalizeOptions(options);
+
+    if (Array.isArray(options)) {
+      return options.concat();
+    }
+
+    return origin;
   }
->;
+})(
+  class extends React.Component<
+    RemoteOptionsProps<Array<Options>> &
+      React.ComponentProps<typeof EnhancedSelect>
+  > {
+    render() {
+      const {loading, config, ...rest} = this.props;
+      return (
+        <EnhancedSelect
+          {...rest}
+          options={config || rest.options || []}
+          loading={loading}
+        />
+      );
+    }
+  }
+);

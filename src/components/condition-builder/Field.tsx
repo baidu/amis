@@ -10,6 +10,7 @@ export interface ConditionFieldProps extends ThemeProps {
   options: Array<any>;
   value: any;
   onChange: (value: any) => void;
+  disabled?: boolean;
 }
 
 const option2value = (item: any) => item.name;
@@ -18,7 +19,8 @@ export function ConditionField({
   options,
   onChange,
   value,
-  classnames: cx
+  classnames: cx,
+  disabled
 }: ConditionFieldProps) {
   return (
     <PopOverContainer
@@ -45,6 +47,7 @@ export function ConditionField({
             onResultChange={noop}
             onResultClick={onClick}
             placeholder="请选择字段"
+            disabled={disabled}
           >
             <span className={cx('CBGroup-fieldCaret')}>
               <Icon icon="caret" className="icon" />
