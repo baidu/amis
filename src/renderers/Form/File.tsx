@@ -85,8 +85,10 @@ export interface FileControlSchema extends FormBaseControl {
    * 默认显示文件路径的时候会支持直接下载，
    * 可以支持加前缀如：`http://xx.dom/filename=` ，
    * 如果不希望这样，可以把当前配置项设置为 `false`。
+   *
+   * 1.1.6 版本开始将支持变量 ${xxx} 来自己拼凑个下载地址，并且支持配置成 post.
    */
-  downloadUrl?: string;
+  downloadUrl?: SchemaApi;
 
   /**
    * 默认 `file`, 如果你不想自己存储，则可以忽略此属性。
@@ -174,6 +176,21 @@ export interface FileControlSchema extends FormBaseControl {
   autoFill?: {
     [propName: string]: SchemaTokenizeableString;
   };
+
+  /**
+   * 接口返回的数据中，哪个用来当做值
+   */
+  valueField?: string;
+
+  /**
+   * 接口返回的数据中，哪个用来展示文件名
+   */
+  nameField?: string;
+
+  /**
+   * 接口返回的数据中哪个用来作为下载地址。
+   */
+  urlField?: string;
 
   /**
    * 按钮状态文案配置。
@@ -294,32 +311,27 @@ export default class FileControl extends React.Component<FileProps, FileState> {
       files && typeof value === 'string'
         ? find(files, item => (item as FileValue).value === value)
         : undefined;
+    const valueField = props.valueField || 'value';
+    const nameField = props.nameField || 'name';
     return value
       ? value instanceof File
         ? {
             state: 'ready',
-            value: value,
-            name: value.name,
-            url: '',
+            [valueField]: value,
+            [nameField]: value.name,
             id: guid()
           }
         : {
             ...(typeof value === 'string'
               ? {
                   state: file && file.state ? file.state : 'init',
-                  value,
-                  name:
+                  [valueField]: value,
+                  [nameField]:
                     (file && file.name) ||
                     (/^data:/.test(value)
                       ? 'base64数据'
                       : getNameFromUrl(value)),
-                  id: guid(),
-                  url:
-                    typeof props.downloadUrl === 'string' &&
-                    value &&
-                    !/^data:/.test(value)
-                      ? `${props.downloadUrl}${value}`
-                      : undefined
+                  id: guid()
                 }
               : (value as FileValue))
           }
@@ -331,7 +343,7 @@ export default class FileControl extends React.Component<FileProps, FileState> {
     super(props);
 
     const value: string | Array<string | FileValue> | FileValue = props.value;
-    const multiple = props.multiple;
+    const valueField = props.valueField || 'value';
     const joinValues = props.joinValues;
     const delimiter = props.delimiter as string;
     let files: Array<FileValue> = [];
@@ -342,8 +354,8 @@ export default class FileControl extends React.Component<FileProps, FileState> {
       files = (Array.isArray(value)
         ? value
         : joinValues
-        ? `${(value as any).value || value}`.split(delimiter)
-        : [((value as any).value || value) as string]
+        ? `${(value as any)[valueField] || value}`.split(delimiter)
+        : [value as any]
       )
         .map(item => FileControl.valueToFile(item, props) as FileValue)
         .filter(item => item);
@@ -427,6 +439,7 @@ export default class FileControl extends React.Component<FileProps, FileState> {
     }
 
     const {maxSize, multiple, maxLength, translate: __} = this.props;
+    const nameField = this.props.nameField || 'name';
     let allowed =
       multiple && maxLength
         ? maxLength - this.state.files.length
@@ -438,7 +451,7 @@ export default class FileControl extends React.Component<FileProps, FileState> {
       if (maxSize && file.size > maxSize) {
         this.props.env.alert(
           __('File.maxSize', {
-            filename: file.name,
+            filename: file[nameField as keyof typeof file] || file.name,
             actualSize: ImageControl.formatFileSize(file.size),
             maxSize: ImageControl.formatFileSize(maxSize)
           })
@@ -479,12 +492,13 @@ export default class FileControl extends React.Component<FileProps, FileState> {
       return;
     }
     const {multiple, env, accept, translate: __} = this.props;
+    const nameField = this.props.nameField || 'name';
 
     const files = rejectedFiles.map(fileRejection => ({
       ...fileRejection.file,
       state: 'invalid',
       id: guid(),
-      name: fileRejection.file.name
+      [nameField]: fileRejection.file.name
     }));
 
     // this.setState({
@@ -497,10 +511,40 @@ export default class FileControl extends React.Component<FileProps, FileState> {
 
     env.alert(
       __('File.invalidType', {
-        files: files.map((item: any) => `「${item.name}」`).join(' '),
+        files: files.map((item: any) => `「${item[nameField]}」`).join(' '),
         accept
       })
     );
+  }
+
+  handleClickFile(file: FileX | FileValue, e: React.MouseEvent) {
+    e.preventDefault();
+    e.stopPropagation();
+
+    const {data, env, downloadUrl} = this.props;
+    const urlField = this.props.urlField || 'url';
+
+    let api =
+      typeof downloadUrl === 'string' && !~downloadUrl.indexOf('$')
+        ? `${downloadUrl}${file[urlField as keyof typeof file]}`
+        : downloadUrl
+        ? downloadUrl
+        : `${file[urlField as keyof typeof file]}`;
+
+    if (api) {
+      const ctx = createObject(data, {
+        ...file
+      });
+      const apiObjec = buildApi(api, ctx);
+
+      if (apiObjec.method?.toLowerCase() === 'get' && !apiObjec.data) {
+        window.open(apiObjec.url);
+      } else {
+        env.fetcher(api, ctx, {
+          responseType: 'blob'
+        });
+      }
+    }
   }
 
   handleSelect() {
@@ -553,6 +597,7 @@ export default class FileControl extends React.Component<FileProps, FileState> {
     }
 
     const {translate: __, multiple, autoFill, onBulkChange} = this.props;
+    const nameField = this.props.nameField || 'name';
     const file = find(
       this.state.files,
       item => item.state === 'pending'
@@ -584,7 +629,7 @@ export default class FileControl extends React.Component<FileProps, FileState> {
                 newFile.error = error;
               } else {
                 newFile = obj as FileValue;
-                newFile.name = newFile.name || file!.name;
+                newFile[nameField] = newFile[nameField] || file!.name;
               }
               files.splice(idx, 1, newFile);
               this.current = null;
@@ -651,7 +696,6 @@ export default class FileControl extends React.Component<FileProps, FileState> {
     const {
       receiver,
       fileField,
-      downloadUrl,
       useChunk,
       chunkSize,
       startChunkApi,
@@ -662,6 +706,8 @@ export default class FileControl extends React.Component<FileProps, FileState> {
       data,
       translate: __
     } = this.props;
+    const nameField = this.props.nameField || 'name';
+    const valueField = this.props.valueField || 'value';
 
     if (asBase64) {
       const reader = new FileReader();
@@ -669,9 +715,8 @@ export default class FileControl extends React.Component<FileProps, FileState> {
       reader.onload = () => {
         file.state = 'ready';
         cb(null, file, {
-          value: reader.result as string,
-          name: file.name,
-          url: '',
+          [valueField]: reader.result as string,
+          [nameField]: file.name,
           state: 'ready',
           id: file.id
         });
@@ -683,9 +728,8 @@ export default class FileControl extends React.Component<FileProps, FileState> {
       setTimeout(
         () =>
           cb(null, file, {
-            name: file.name,
-            value: file,
-            url: '',
+            [nameField]: file.name,
+            [valueField]: file,
             state: 'ready',
             id: file.id
           }),
@@ -726,12 +770,6 @@ export default class FileControl extends React.Component<FileProps, FileState> {
         cb(null, file, {
           ...(isPlainObject(ret.data) ? ret.data : null),
           value: value,
-          url:
-            typeof downloadUrl === 'string' && value
-              ? `${downloadUrl}${value}`
-              : ret.data
-              ? (ret.data as any).url
-              : null,
           state: 'uploaded',
           id: file.id
         });
@@ -834,6 +872,7 @@ export default class FileControl extends React.Component<FileProps, FileState> {
     let endProgress = 0.9;
     let progressArr: Array<number>;
     const __ = this.props.translate;
+    const nameField = this.props.nameField || 'name';
 
     interface ObjectState {
       key: string;
@@ -858,7 +897,8 @@ export default class FileControl extends React.Component<FileProps, FileState> {
         config.startChunkApi!,
         createObject(config.data, {
           ...params,
-          filename: file.name
+          filename: file.name,
+          [nameField]: file.name
         }),
         {
           method: 'post',
@@ -919,6 +959,7 @@ export default class FileControl extends React.Component<FileProps, FileState> {
             ...params,
             uploadId: state.uploadId,
             key: state.key,
+            [nameField]: file.name,
             filename: file.name,
             partList
           }),
@@ -1056,6 +1097,7 @@ export default class FileControl extends React.Component<FileProps, FileState> {
       render
     } = this.props;
     let {files, uploading, error} = this.state;
+    const nameField = this.props.nameField || 'name';
 
     const hasPending = files.some(file => file.state == 'pending');
 
@@ -1142,13 +1184,16 @@ export default class FileControl extends React.Component<FileProps, FileState> {
                                 className={cx('FileControl-itemInfoText')}
                                 target="_blank"
                                 rel="noopener"
-                                href={(file as FileValue).url}
+                                href="#"
+                                onClick={this.handleClickFile.bind(this, file)}
                               >
-                                {file.name || (file as FileValue).filename}
+                                {file[nameField as keyof typeof file] ||
+                                  (file as FileValue).filename}
                               </a>
                             ) : (
                               <span className={cx('FileControl-itemInfoText')}>
-                                {file.name || (file as FileValue).filename}
+                                {file[nameField as keyof typeof file] ||
+                                  (file as FileValue).filename}
                               </span>
                             )}
 

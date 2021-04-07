@@ -2,31 +2,23 @@
  * @file 用于在移动端或不同语言环境下使用不同配置
  */
 
-import {findObjectsWithKey} from './utils/helper';
+import {SchemaNode, Schema} from './types';
+import {cloneDeep} from 'lodash';
+
+import {RendererProps, RendererConfig, addSchemaFilter} from './factory';
 
 const isMobile = (window as any).matchMedia?.('(max-width: 768px)').matches
   ? true
   : false;
 
-export const envOverwrite = (schema: any, locale?: string) => {
+addSchemaFilter(function (schema: Schema, renderer, props?: any) {
   if (schema.mobile && isMobile) {
-    Object.assign(schema, schema.mobile);
-    delete schema.mobile;
+    return {...schema, ...schema.mobile};
   }
 
-  if (locale) {
-    let schemaNodes = findObjectsWithKey(schema, locale);
-    for (let schemaNode of schemaNodes) {
-      Object.assign(schemaNode, schemaNode[locale]);
-      delete schemaNode[locale];
-    }
+  if (props?.locale && schema[props.locale]) {
+    return {...schema, ...schema[props.locale]};
   }
 
-  if (isMobile) {
-    let schemaNodes = findObjectsWithKey(schema, 'mobile');
-    for (let schemaNode of schemaNodes) {
-      Object.assign(schemaNode, schemaNode['mobile']);
-      delete schemaNode['mobile'];
-    }
-  }
-};
+  return schema;
+});

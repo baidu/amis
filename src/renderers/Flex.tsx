@@ -5,33 +5,7 @@
 import React from 'react';
 import {Renderer, RendererProps} from '../factory';
 import {Schema} from '../types';
-import {BaseSchema, SchemaObject} from '../Schema';
-
-export type FlexItemProps = {
-  /**
-   * 宽度
-   */
-  width?: number;
-
-  /**
-   * 高度
-   */
-  height?: number;
-
-  /**
-   * 这个 Flex 的布局
-   */
-  align: 'auto' | 'flex-start' | 'flex-end' | 'center' | 'baseline' | 'stretch';
-
-  /**
-   * 自定义样式
-   */
-  style?: {
-    [propName: string]: any;
-  };
-};
-
-export type FlexItem = FlexItemProps & SchemaObject;
+import {BaseSchema, SchemaCollection, SchemaObject} from '../Schema';
 
 /**
  * Flex 布局
@@ -89,7 +63,7 @@ export interface FlexSchema extends BaseSchema {
   /**
    * 每个 flex 的设置
    */
-  items: Array<FlexItem>;
+  items: Array<SchemaObject>;
 
   /**
    * 自定义样式
@@ -144,8 +118,65 @@ export default class Flex extends React.Component<FlexProps, object> {
   }
 }
 
+export interface FlexItemSchema extends BaseSchema {
+  /**
+   * 功能和 wrapper 类似，主要是给 flex 子节点用的
+   */
+  type: 'flex-item';
+
+  /**
+   * 内容
+   */
+  body: SchemaCollection;
+
+  /**
+   * 自定义样式
+   */
+  style?: {
+    [propName: string]: any;
+  };
+}
+
+export interface FlexItemProps
+  extends RendererProps,
+    Omit<FlexItemSchema, 'className'> {
+  children?: JSX.Element | ((props?: any) => JSX.Element);
+}
+
+export class FlexItem extends React.Component<FlexItemProps, object> {
+  static propsList: Array<string> = ['body', 'className', 'children'];
+
+  renderBody(): JSX.Element | null {
+    const {children, body, render} = this.props;
+
+    return children
+      ? typeof children === 'function'
+        ? (children(this.props) as JSX.Element)
+        : (children as JSX.Element)
+      : body
+      ? (render('body', body) as JSX.Element)
+      : null;
+  }
+
+  render() {
+    const {className, size, classnames: cx, style} = this.props;
+
+    return (
+      <div className={className} style={style}>
+        {this.renderBody()}
+      </div>
+    );
+  }
+}
+
 @Renderer({
   test: /(^|\/)flex$/,
   name: 'flex'
 })
 export class FlexRenderer extends Flex {}
+
+@Renderer({
+  test: /(^|\/)flex-item$/,
+  name: 'flex-item'
+})
+export class FlexItemRenderer extends FlexItem {}

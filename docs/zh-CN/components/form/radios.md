@@ -43,6 +43,42 @@ order: 36
 }
 ```
 
+## 横向
+
+设置 `inline` 可以横向显示
+
+```schema: scope="body"
+{
+  "type": "form",
+  "controls": [
+    {
+      "name": "radios",
+      "type": "radios",
+      "label": "radios",
+      "inline": true,
+      "options": [
+        {
+          "label": "OptionA",
+          "value": "a"
+        },
+        {
+          "label": "OptionB",
+          "value": "b"
+        },
+        {
+          "label": "OptionC",
+          "value": "c"
+        },
+        {
+          "label": "OptionD",
+          "value": "d"
+        }
+      ]
+    }
+  ]
+}
+```
+
 ## 属性表
 
 当做选择器表单项使用时，除了支持 [普通表单项属性表](./formitem#%E5%B1%9E%E6%80%A7%E8%A1%A8) 中的配置以外，还支持下面一些配置

@@ -44,7 +44,7 @@ export class AnchorNavRenderer extends AnchorNav {
       render,
       classnames: cx
     } = this.props;
-    debugger;
+
     if (renderFormItems && !section.type && section.controls) {
       return (
         <div className={cx(`Form--${formMode || 'normal'}`)}>

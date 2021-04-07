@@ -121,6 +121,7 @@
     "core-js": "^3.7.0",
     "css": "2.2.1",
     "faker": "^4.1.0",
+    "fis-optimizer-terser": "^1.0.1",
     "fis-parser-sass": "^1.0.1",
     "fis-parser-svgr": "^1.0.0",
     "fis3": "^3.4.41",

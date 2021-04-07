@@ -38,9 +38,12 @@ export class TableRow extends React.Component<TableRowProps> {
     const columns = props.columns;
     this.reaction = reaction(
       () =>
-        `${item.isHover}${item.checked}${item.checkdisable}${JSON.stringify(item.data)}${
-          item.moved
-        }${item.modified}${item.expanded}${parent?.expanded}${columns.length}`,
+        `${item.isHover}${item.checked}${item.checkdisable}${JSON.stringify({
+          data: item.data,
+          rowSpans: item.rowSpans
+        })}${item.moved}${item.modified}${item.expanded}${parent?.expanded}${
+          columns.length
+        }`,
       () => this.forceUpdate(),
       {
         onError: () => this.reaction!()

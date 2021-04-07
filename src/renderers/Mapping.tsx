@@ -1,10 +1,27 @@
 import React from 'react';
-import {Renderer, RendererProps} from '../factory';
+import {Renderer, RendererEnv, RendererProps} from '../factory';
 import {ServiceStore, IServiceStore} from '../store/service';
-import {Api, SchemaNode, PlainObject} from '../types';
+import {Api, SchemaNode, PlainObject, Payload} from '../types';
 import {filter} from '../utils/tpl';
 import cx from 'classnames';
-import {BaseSchema, SchemaTpl} from '../Schema';
+import {
+  BaseSchema,
+  SchemaApi,
+  SchemaTokenizeableString,
+  SchemaTpl
+} from '../Schema';
+import {withStore} from '../components/WithStore';
+import {flow, Instance, types} from 'mobx-state-tree';
+import {getVariable, guid, isObject} from '../utils/helper';
+import {StoreNode} from '../store/node';
+import isPlainObject from 'lodash/isPlainObject';
+import {isPureVariable, resolveVariableAndFilter} from '../utils/tpl-builtin';
+import {
+  buildApi,
+  isApiOutdated,
+  isEffectiveApi,
+  normalizeApi
+} from '../utils/api';
 
 /**
  * Mapping 映射展示控件。
@@ -29,53 +46,181 @@ export interface MappingSchema extends BaseSchema {
   };
 
   /**
+   * 如果想远程拉取字典，请配置 source 为接口。
+   */
+  source?: SchemaApi | SchemaTokenizeableString;
+
+  /**
    * 占位符
    */
   placeholder?: string;
 }
 
-export interface MappingProps
-  extends RendererProps,
-    Omit<MappingSchema, 'type' | 'className'> {}
+export const Store = StoreNode.named('MappingStore')
+  .props({
+    fetching: false,
+    errorMsg: '',
+    map: types.frozen<{
+      [propName: string]: any;
+    }>({})
+  })
+  .actions(self => {
+    const load: (env: RendererEnv, api: Api, data: any) => Promise<any> = flow(
+      function* (env, api, data) {
+        try {
+          self.fetching = true;
+          const ret: Payload = yield env.fetcher(api, data);
 
-export class MappingField extends React.Component<MappingProps, object> {
-  static defaultProps: Partial<MappingProps> = {
-    placeholder: '-',
-    map: {
-      '*': '通配值'
-    }
-  };
-
-  render() {
-    const {className, placeholder, map, render, classnames: cx} = this.props;
-    let key = this.props.value;
-
-    let viewValue: React.ReactNode = (
-      <span className="text-muted">{placeholder}</span>
+          if (ret.ok) {
+            const data = ret.data || {};
+            (self as any).setMap(data);
+          } else {
+            throw new Error(ret.msg || 'fetch error');
+          }
+        } catch (e) {
+          self.errorMsg = e.message;
+        } finally {
+          self.fetching = false;
+        }
+      }
     );
 
-    key =
-      typeof key === 'string'
-        ? key.trim()
-        : key === true
-        ? '1'
-        : key === false
-        ? '0'
-        : key; // trim 一下，干掉一些空白字符。
+    return {
+      load,
+      setMap(options: any) {
+        if (isObject(options)) {
+          self.map = {
+            ...options
+          };
+        }
+      }
+    };
+  });
 
-    if (typeof key !== 'undefined' && map && (map[key] ?? map['*'])) {
-      viewValue = render(
-        'tpl',
-        map[key] ?? map['*'] // 兼容平台旧用法：即 value 为 true 时映射 1 ，为 false 时映射 0
-      );
+export type IStore = Instance<typeof Store>;
+
+export interface MappingProps
+  extends Omit<RendererProps, 'store'>,
+    Omit<MappingSchema, 'type' | 'className'> {
+  store: IStore;
+}
+
+export const MappingField = withStore(props =>
+  Store.create(
+    {
+      id: guid(),
+      storeType: Store.name
+    },
+    props.env
+  )
+)(
+  class extends React.Component<MappingProps, object> {
+    static defaultProps: Partial<MappingProps> = {
+      placeholder: '-',
+      map: {
+        '*': '通配值'
+      }
+    };
+
+    constructor(props: MappingProps) {
+      super(props);
+
+      props.store.syncProps(props, undefined, ['map']);
     }
 
-    return <span className={cx('MappingField', className)}>{viewValue}</span>;
+    componentDidMount() {
+      const {store, source, data} = this.props;
+
+      this.reload();
+    }
+
+    componentDidUpdate(prevProps: MappingProps) {
+      const props = this.props;
+      const {store, source, data} = this.props;
+
+      store.syncProps(props, prevProps, ['map']);
+
+      if (isPureVariable(source)) {
+        const prev = resolveVariableAndFilter(
+          prevProps.source as string,
+          prevProps.data,
+          '| raw'
+        );
+        const curr = resolveVariableAndFilter(source as string, data, '| raw');
+
+        if (prev !== curr) {
+          store.setMap(curr);
+        }
+      } else if (
+        isApiOutdated(
+          prevProps.source,
+          props.source,
+          prevProps.data,
+          props.data
+        )
+      ) {
+        this.reload();
+      }
+    }
+
+    reload() {
+      const {source, data, env} = this.props;
+      const store = this.props.store;
+      if (isPureVariable(source)) {
+        store.setMap(resolveVariableAndFilter(source, data, '| raw'));
+      } else if (isEffectiveApi(source, data)) {
+        const api = normalizeApi(source, 'get');
+        api.cache = api.cache ?? 30 * 1000;
+        store.load(env, api, data);
+      }
+    }
+
+    render() {
+      const {
+        className,
+        placeholder,
+        render,
+        classnames: cx,
+        name,
+        data,
+        store
+      } = this.props;
+      const map = store.map;
+
+      let key =
+        this.props.value ?? (name ? getVariable(data, name) : undefined);
+
+      let viewValue: React.ReactNode = (
+        <span className="text-muted">{placeholder}</span>
+      );
+
+      key =
+        typeof key === 'string'
+          ? key.trim()
+          : key === true
+          ? '1'
+          : key === false
+          ? '0'
+          : key; // trim 一下，干掉一些空白字符。
+
+      if (typeof key !== 'undefined' && map && (map[key] ?? map['*'])) {
+        viewValue = render(
+          'tpl',
+          map[key] ?? map['*'] // 兼容平台旧用法：即 value 为 true 时映射 1 ，为 false 时映射 0
+        );
+      }
+
+      return <span className={cx('MappingField', className)}>{viewValue}</span>;
+    }
   }
-}
+);
 
 @Renderer({
   test: /(^|\/)(?:map|mapping)$/,
   name: 'mapping'
 })
-export class MappingFieldRenderer extends MappingField {}
+export class MappingFieldRenderer extends React.Component<RendererProps> {
+  render() {
+    return <MappingField {...this.props} />;
+  }
+}

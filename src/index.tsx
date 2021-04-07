@@ -172,6 +172,8 @@ import {FormItem, registerFormItem} from './renderers/Form/Item';
 // 兼容旧版本用法
 import './compat';
 
+import './envOverwrite';
+
 import './themes/default';
 import './themes/cxd';
 import './themes/dark';

@@ -334,6 +334,7 @@ export class Select extends React.Component<SelectProps, SelectState> {
     this.handleChange = this.handleChange.bind(this);
     this.handleInputChange = this.handleInputChange.bind(this);
     this.clearValue = this.clearValue.bind(this);
+    this.clearSearchValue = this.clearSearchValue.bind(this);
     this.handleStateChange = this.handleStateChange.bind(this);
     this.handleKeyPress = this.handleKeyPress.bind(this);
     this.getTarget = this.getTarget.bind(this);
@@ -562,8 +563,7 @@ export class Select extends React.Component<SelectProps, SelectState> {
   }
 
   handleStateChange(changes: any) {
-    const {multiple, checkAll, loadOptions} = this.props;
-    let {inputValue} = this.state;
+    const {multiple, checkAll} = this.props;
     let update: any = {};
 
     switch (changes.type) {
@@ -572,12 +572,11 @@ export class Select extends React.Component<SelectProps, SelectState> {
         update = {
           ...update,
           isOpen: multiple ? true : false,
-          isFocused: multiple && checkAll ? true : false,
-          inputValue: !multiple ? '' : inputValue
+          isFocused: multiple && checkAll ? true : false
         };
         break;
-      case DownshiftChangeTypes.controlledPropUpdatedSelectedItem: 
-    
+      case DownshiftChangeTypes.controlledPropUpdatedSelectedItem:
+
       case DownshiftChangeTypes.changeInput:
         update.highlightedIndex = 0;
         break;
@@ -592,9 +591,7 @@ export class Select extends React.Component<SelectProps, SelectState> {
     }
 
     if (Object.keys(update).length) {
-      this.setState(
-        update
-      );
+      this.setState(update);
     }
   }
 
@@ -610,8 +607,16 @@ export class Select extends React.Component<SelectProps, SelectState> {
     e.preventDefault();
     e.stopPropagation();
     onChange(this.props.resetValue);
-    const {multiple, loadOptions} = this.props;
-    !multiple && loadOptions && loadOptions('')
+  }
+
+  clearSearchValue() {
+    const {loadOptions} = this.props;
+    this.setState(
+      {
+        inputValue: ''
+      },
+      () => loadOptions?.('')
+    );
   }
 
   handleAddClick() {
@@ -844,6 +849,11 @@ export class Select extends React.Component<SelectProps, SelectState> {
                 ref: this.inputRef
               })}
             />
+            {inputValue?.length ? (
+              <a onClick={this.clearSearchValue} className={cx('Select-clear')}>
+                <Icon icon="close" className="icon" />
+              </a>
+            ) : null}
           </div>
         ) : null}
 

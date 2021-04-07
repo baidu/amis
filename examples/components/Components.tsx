@@ -6,6 +6,15 @@ export const components = [
     label: '布局',
     children: [
       {
+        label: '组件介绍',
+        path: '/zh-CN/components/index',
+        getComponent: () =>
+          // @ts-ignore
+          import('../../docs/zh-CN/components/index.md').then(
+            makeMarkdownRenderer
+          )
+      },
+      {
         label: 'Page 页面',
         path: '/zh-CN/components/page',
         getComponent: () =>
