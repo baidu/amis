@@ -83,6 +83,7 @@ export const Row = types
     rowSpans: types.frozen({} as any),
     index: types.number,
     newIndex: types.number,
+    path: '', // 行数据的位置
     expandable: false,
     checkdisable: false,
     isHover: false,
@@ -733,10 +734,11 @@ export const TableStore = iRendererStore
       children: Array<any>,
       depth: number,
       pindex: number,
-      parentId: string
+      parentId: string,
+      path: string = ''
     ): any {
       depth += 1;
-      return children.map((item, key) => {
+      return children.map((item, index) => {
         item = isObject(item)
           ? item
           : {
@@ -748,16 +750,23 @@ export const TableStore = iRendererStore
           // id: String(item && (item as any)[self.primaryField] || `${pindex}-${depth}-${key}`),
           id: id,
           parentId,
-          key: String(`${pindex}-${depth}-${key}`),
+          key: String(`${pindex}-${depth}-${index}`),
+          path: `${path}${index}`,
           depth: depth,
-          index: key,
-          newIndex: key,
+          index: index,
+          newIndex: index,
           pristine: item,
           data: item,
           rowSpans: {},
           children:
             item && Array.isArray(item.children)
-              ? initChildren(item.children, depth, key, id)
+              ? initChildren(
+                  item.children,
+                  depth,
+                  index,
+                  id,
+                  `${path}${index}.`
+                )
               : [],
           expandable: !!(
             (item && Array.isArray(item.children) && item.children.length) ||
@@ -774,21 +783,22 @@ export const TableStore = iRendererStore
       self.selectedRows.clear();
       self.expandedRows.clear();
 
-      let arr: Array<SRow> = rows.map((item, key) => {
-        let id = getEntryId ? getEntryId(item, key) : guid();
+      let arr: Array<SRow> = rows.map((item, index) => {
+        let id = getEntryId ? getEntryId(item, index) : guid();
         return {
           // id: getEntryId ? getEntryId(item, key) : String(item && (item as any)[self.primaryField] || `${key}-1-${key}`),
           id: id,
-          key: String(`${key}-1-${key}`),
+          key: String(`${index}-1-${index}`),
           depth: 1, // 最大父节点默认为第一层，逐层叠加
-          index: key,
-          newIndex: key,
+          index: index,
+          newIndex: index,
           pristine: item,
+          path: `${index}`,
           data: item,
           rowSpans: {},
           children:
             item && Array.isArray(item.children)
-              ? initChildren(item.children, 1, key, id)
+              ? initChildren(item.children, 1, index, id, `${index}.`)
               : [],
           expandable: !!(
             (item && Array.isArray(item.children) && item.children.length) ||
