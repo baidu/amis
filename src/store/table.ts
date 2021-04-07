@@ -152,11 +152,21 @@ export const Row = types
     },
 
     get locals(): any {
+      let children: Array<any> | null = null;
+      if (self.children.length) {
+        children = self.children.map(item => item.locals);
+      }
+
       return createObject(
         extendObject((getParent(self, self.depth * 2) as ITableStore).data, {
           index: self.index
         }),
-        self.data
+        children
+          ? {
+              ...self.data,
+              children
+            }
+          : self.data
       );
     },
 

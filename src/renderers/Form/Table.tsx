@@ -789,6 +789,7 @@ export default class FormTable extends React.Component<TableProps, TableState> {
       combineNum,
       translate: __,
       canAccessSuperData,
+      expandConfig,
       affixRow,
       prefixRow
     } = this.props;
@@ -825,6 +826,7 @@ export default class FormTable extends React.Component<TableProps, TableState> {
             quickEditFormRef: this.subFormRef,
             columnsTogglable: columnsTogglable,
             combineNum: combineNum,
+            expandConfig,
             canAccessSuperData
           }
         )}
