@@ -791,7 +791,7 @@ export const TableStore = iRendererStore
       getEntryId?: (entry: any, index: number) => string
     ) {
       self.selectedRows.clear();
-      self.expandedRows.clear();
+      // self.expandedRows.clear();
 
       let arr: Array<SRow> = rows.map((item, index) => {
         let id = getEntryId ? getEntryId(item, index) : guid();

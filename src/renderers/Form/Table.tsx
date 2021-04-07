@@ -705,7 +705,7 @@ export default class FormTable extends React.Component<TableProps, TableState> {
   ) {
     const {onChange, value, needConfirm} = this.props;
 
-    const newValue = Array.isArray(value) ? value.concat() : [];
+    let newValue = Array.isArray(value) ? value.concat() : [];
 
     if (~this.state.editIndex) {
       this.setState({
@@ -724,7 +724,7 @@ export default class FormTable extends React.Component<TableProps, TableState> {
           ...(diff as Array<object>)[index]
         };
 
-        spliceTree(newValue, indexes, 1, data);
+        newValue = spliceTree(newValue, indexes, 1, data);
       });
     } else {
       const indexes = (rowIndexes as string)
@@ -736,7 +736,7 @@ export default class FormTable extends React.Component<TableProps, TableState> {
         ...diff
       };
 
-      spliceTree(newValue, indexes, 1, data);
+      newValue = spliceTree(newValue, indexes, 1, data);
       this.entries.set(data, this.entries.get(origin) || this.entityId++);
       // this.entries.delete(origin); // 反正最后都会清理的，先不删了吧。
     }
