@@ -411,8 +411,8 @@
 
   --Carousel--dark-control: black;
   --Carousel--light-control: white;
-  --Carousel-arrowControl-height: var(--gap-md);
-  --Carousel-arrowControl-width: var(--gap-md);
+  --Carousel-arrowControl-height: var(--gap-lg);
+  --Carousel-arrowControl-width: var(--gap-lg);
   --Carousel-bg: #f6f8f8;
   --Carousel-dot-borderRadius: #{px2rem(4px)};
   --Carousel-dot-height: #{px2rem(8px)};
@@ -422,8 +422,8 @@
   --Carousel-imageDescription-bottom: #{px2rem(25px)};
   --Carousel-imageTitle-bottom: #{px2rem(45px)};
   --Carousel-minWidth: #{px2rem(100px)};
-  --Carousel-svg-height: var(--gap-md);
-  --Carousel-svg-width: var(--gap-md);
+  --Carousel-svg-height: var(--gap-lg);
+  --Carousel-svg-width: var(--gap-lg);
   --Carousel-transitionDuration: var(--animation-duration);
 
   --Checkbox--full-inner-size: #{px2rem(12px)};
@@ -434,7 +434,7 @@
   --Checkbox-color: var(--Form-input-borderColor);
   --Checkbox-gap: var(--gap-sm);
   --Checkbox-gb: #fff;
-  --Checkbox-size: var(--gap-md);
+  --Checkbox-size: var(--gap-lg);
   --Checkbox-inner-size: calc(var(--Checkbox-size) / 2);
   --Checkbox-onHover-color: var(--info);
   --Checkbox-onDisabled-bg: #e5e7eb;
@@ -965,7 +965,7 @@
   --Number-handler-onDisabled-color: var(--text--muted-color);
   --Number-handler-onHover-bg: #{darken($white, 5%)};
   --Number-handler-onHover-color: var(--text-color);
-  --Number-handler-width: var(--gap-md);
+  --Number-handler-width: var(--gap-lg);
   --Number-onDisabled-bg: var(--Form-input-bg);
 
   --Page-aside-bg: #{desaturate(darken($light, 3%), 2.5%)};
@@ -1063,8 +1063,8 @@
 
   --Rating-onActive-color: var(--info);
 
+  --Satus-icon-width: var(--gap-lg);
   --Satus-icon-height: var(--Satus-icon-width);
-  --Satus-icon-width: var(--gap-md);
 
   --Sparkline-line-color: var(--info);
   --Sparkline-area-color: #{rgba($info, 0.1)};
