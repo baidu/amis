@@ -15,12 +15,12 @@
 }
 
 .#{$ns}FormHbox {
-  margin-left: -15px;
-  margin-right: -15px;
+  margin-left: calc(var(--gap-md) * -1);
+  margin-right: calc(var(--gap-md) * -1);
 
   > .#{$ns}Hbox > .#{$ns}Hbox-col {
-    padding-left: 15px;
-    padding-right: 15px;
+    padding-left: var(--gap-md);
+    padding-right: var(--gap-md);
     vertical-align: top;
 
     > .#{$ns}Form-group {

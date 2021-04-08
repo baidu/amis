@@ -75,7 +75,7 @@
     background: var(--ResultBox-value-bg);
     color: var(--ResultBox-value-color);
     font-size: var(--Form-input-fontSize);
-    padding: 0 px2rem(5px);
+    padding: 0 var(--gap-xs);
     min-height: px2rem(24px);
     flex-wrap: nowrap;
     display: inline-flex;
@@ -85,7 +85,7 @@
 
     > a {
       cursor: pointer;
-      margin-left: px2rem(5px);
+      margin-left: var(--gap-xs);
       color: var(--ResultBox-icon-color);
       &:hover {
         color: var(--ResultBox-icon--onHover-color);

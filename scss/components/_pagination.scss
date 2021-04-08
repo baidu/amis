@@ -94,7 +94,7 @@
       height: var(--Pagination-height);
       border: var(--borderWidth) solid var(--borderColor);
       border-radius: var(--borderRadius);
-      padding: px2rem(5px) px2rem(10px);
+      padding: var(--gap-xs) px2rem(10px);
       margin: 0 px2rem(10px);
       text-align: center;
 

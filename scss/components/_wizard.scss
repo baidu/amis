@@ -67,7 +67,7 @@
 
     .#{$ns}Panel-footer > .#{$ns}Form-group,
     .#{$ns}Panel-footer > .btn {
-      margin-left: px2rem(5px);
+      margin-left: var(--gap-xs);
     }
 
     > ul.nav {
@@ -78,7 +78,7 @@
       li {
         position: relative;
         float: left;
-        padding: 0 px2rem(15px) 0 px2rem(25px);
+        padding: 0 var(--gap-md) 0 px2rem(25px);
         margin: 0;
         color: #999999;
         cursor: pointer;
@@ -98,7 +98,7 @@
         }
 
         &:first-child {
-          padding-left: px2rem(15px);
+          padding-left: var(--gap-md);
           border-radius: px2rem(4px) 0 0 0;
         }
 
@@ -107,7 +107,7 @@
           content: '';
           position: absolute;
           right: px2rem(-10px);
-          border: px2rem(20px) solid transparent;
+          border: var(--gap-md) solid transparent;
           border-right: 0;
           border-left: px2rem(10px) solid var(--borderColor);
           border-left-color: rgba(0, 0, 0, 0.05);
@@ -154,7 +154,7 @@
       li {
         position: relative;
         float: left;
-        padding: 0 px2rem(15px) 0 px2rem(25px);
+        padding: 0 var(--gap-md) 0 px2rem(25px);
         margin: 0;
         color: #999999;
         cursor: default;
@@ -162,7 +162,7 @@
         line-height: var(--Wizard-steps-height);
 
         &:first-child {
-          padding-left: px2rem(15px);
+          padding-left: var(--gap-md);
           border-radius: px2rem(4px) 0 0 0;
         }
 
@@ -250,11 +250,7 @@
           position: relative;
           float: none;
           border-bottom: var(--borderWidth) solid var(--borderColor);
-          padding-left: px2rem(15px); // &:before,
-          // &:after {
-          // border: px2rem(20px) solid transparent;
-          // content: '';
-          // }
+          padding-left: var(--gap-md);
 
           &.is-active {
             background: #fff;

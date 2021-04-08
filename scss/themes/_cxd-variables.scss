@@ -69,22 +69,17 @@ $Wizard-steps-liAfterBorder: none !important;
   --Page-content-paddingY: 0;
   --Page-content-paddingX: 0;
   --Page-main-bg: #fff;
-  --Page-body-padding: #{px2rem(20px)};
-  --Page-title-fontSize: #{px2rem(16px)};
   --Page-title-color: #000;
-  --Page-title-lineHeight: 1.75;
-  --Page-header-paddingX: #{px2rem(20px)};
+  --Page-header-paddingX: var(--gap-md);
   --Page-header-paddingY: #{px2rem(10px)};
 
   --Form-item-gap: var(--gap-base);
-  --Form-input-height: #{px2rem(30px)};
   --Form-input-onFocused-bg: var(--white);
   --Form-input-borderRadius: 0;
   --Form-input-borderColor: #ccc;
   --Form-input-onFocused-borderColor: var(--primary);
   --Form-input-onError-borderColor: #d0021b;
   --Form-input-paddingX: #{px2rem(10px)};
-  --Form-fontSize: #{px2rem(12px)};
   --Form-description-color: #999;
   --Form-input-onError-bg: #fffbfb;
   --Form-input-onDisabled-bg: #f5f5f5;
@@ -136,7 +131,7 @@ $Wizard-steps-liAfterBorder: none !important;
   --Number-borderWidth: #{px2rem(1px)};
 
   --Number-handler-borderBottom: 0;
-  --Number-handler-width: #{px2rem(20px)};
+  --Number-handler-width: var(--gap-md);
   --Number-handler-color: #666;
   --Number-handler-onDisabled-color: #999;
   // $Number-handler-bg: var(--info);
@@ -153,7 +148,6 @@ $Wizard-steps-liAfterBorder: none !important;
   --Checkbox-onDisabled-color: #ebebeb;
   --Checkbox-onDisabled-bg: #cccccc;
 
-  --Checkbox-size: #{px2rem(14px)};
   --Checkbox-inner-size: #{px2rem(8px)};
   --Checkbox--full-inner-size: #{px2rem(10px)};
   --Checkbox--sm-size: #{px2rem(14px)};
@@ -395,13 +389,8 @@ $Wizard-steps-liAfterBorder: none !important;
   --TransferSelect-heading-borderBottom: 0;
 
   // Alert
-  --Alert-xs: #{px2rem(5px)};
-  --Alert-md: #{px2rem(20px)};
-
   --Alert-height: #{px2rem(30px)};
   --Alert-fontSize: #{px2rem(12px)};
-  --Alert-paddingX: var(--Alert-md);
-  --Alert-paddingY: var(--Alert-xs);
   --Alert-borderRadius: 0;
   --Alert-marginBottom: var(--Alert-md);
 
@@ -424,8 +413,8 @@ $Wizard-steps-liAfterBorder: none !important;
   // Toast size
   --Toast-width: #{px2rem(300px)};
   --Toast-borderRadius: 0;
-  --Toast-paddingY: #{px2rem(5px)};
-  --Toast-paddingX: #{px2rem(15px)};
+  --Toast-paddingY: var(--gap-xs);
+  --Toast-paddingX: var(--gap-md);
   --Toast-paddingL: #{px2rem(26px)};
   --Toast--info-paddingL: 0;
   --Toast-border-width: #{px2rem(1px)};
@@ -475,7 +464,7 @@ $Wizard-steps-liAfterBorder: none !important;
   --Card-actions-fontSize: #{px2rem(12px)};
 
   // Combo
-  --Combo--horizontal-dragger-top: #{px2rem(5px)};
+  --Combo--horizontal-dragger-top: var(--gap-xs);
 
   // ListMenu
   --ListMenu-borderWidth: 0;

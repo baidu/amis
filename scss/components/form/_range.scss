@@ -135,13 +135,9 @@
     position: absolute;
   }
 
-  // &-label--min {
-  //     left: px2rem(15px);
-  // }
-
   &-label--mid {
     left: 50%;
-    bottom: px2rem(-5px);
+    bottom: calc(var(--gap-xs) * -1);
   }
 
   &-label--max {

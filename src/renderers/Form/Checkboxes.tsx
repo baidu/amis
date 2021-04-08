@@ -66,6 +66,7 @@ export default class CheckboxesControl extends React.Component<
     multiple: true,
     placeholder: 'placeholder.noOption',
     creatable: false,
+    inline: true,
     createBtnLabel: 'Select.createLabel'
   };
 

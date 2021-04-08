@@ -33,7 +33,7 @@
 
     .#{$ns}NestedSelect-option {
       position: relative;
-      padding-left: px2rem(15px);
+      padding-left: var(--gap-md);
       min-height: var(--Form-input-height);
       line-height: var(--Form-input-height);
       cursor: pointer;
