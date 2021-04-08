@@ -420,11 +420,11 @@ if (fis.project.currentMedia() === 'publish') {
 
   env.match('/examples/mod.js', {
     isMod: false,
-    optimizer: fis.plugin('uglify-js')
+    optimizer: fis.plugin('terser')
   });
 
   env.match('*.{js,jsx,ts,tsx}', {
-    optimizer: fis.plugin('uglify-js'),
+    optimizer: fis.plugin('terser'),
     moduleId: function (m, path) {
       return fis.util.md5('amis-sdk' + path);
     }
@@ -812,7 +812,7 @@ if (fis.project.currentMedia() === 'publish') {
   });
 
   ghPages.match('*.{js,ts,tsx,jsx}', {
-    optimizer: fis.plugin('uglify-js'),
+    optimizer: fis.plugin('terser'),
     useHash: true
   });
 

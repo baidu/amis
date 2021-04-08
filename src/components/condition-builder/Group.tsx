@@ -14,6 +14,7 @@ export interface ConditionGroupProps extends ThemeProps {
   funcs?: Funcs;
   showNot?: boolean;
   data?: any;
+  disabled?: boolean;
   onChange: (value: ConditionGroupValue) => void;
   removeable?: boolean;
   onRemove?: (e: React.MouseEvent) => void;
@@ -119,7 +120,8 @@ export class ConditionGroup extends React.Component<ConditionGroupProps> {
       removeable,
       onRemove,
       onDragStart,
-      showNot
+      showNot,
+      disabled
     } = this.props;
 
     return (
@@ -133,6 +135,7 @@ export class ConditionGroup extends React.Component<ConditionGroupProps> {
                 size="xs"
                 active={value?.not}
                 level={value?.not ? 'info' : 'default'}
+                disabled={disabled}
               >
                 非
               </Button>
@@ -143,6 +146,7 @@ export class ConditionGroup extends React.Component<ConditionGroupProps> {
                 onClick={this.handleConjunctionClick}
                 active={value?.conjunction !== 'or'}
                 level={value?.conjunction !== 'or' ? 'info' : 'default'}
+                disabled={disabled}
               >
                 并且
               </Button>
@@ -151,6 +155,7 @@ export class ConditionGroup extends React.Component<ConditionGroupProps> {
                 onClick={this.handleConjunctionClick}
                 active={value?.conjunction === 'or'}
                 level={value?.conjunction === 'or' ? 'info' : 'default'}
+                disabled={disabled}
               >
                 或者
               </Button>
@@ -158,11 +163,15 @@ export class ConditionGroup extends React.Component<ConditionGroupProps> {
           </div>
           <div className={cx('CBGroup-toolbarConditionAdd')}>
             <div className={cx('ButtonGroup')}>
-              <Button onClick={this.handleAdd} size="xs">
+              <Button onClick={this.handleAdd} size="xs" disabled={disabled}>
                 <Icon icon="plus" className="icon" />
                 添加条件
               </Button>
-              <Button onClick={this.handleAddGroup} size="xs">
+              <Button
+                onClick={this.handleAddGroup}
+                size="xs"
+                disabled={disabled}
+              >
                 <Icon icon="plus-cicle" className="icon" />
                 添加条件组
               </Button>
@@ -190,6 +199,7 @@ export class ConditionGroup extends React.Component<ConditionGroupProps> {
                 funcs={funcs}
                 onRemove={this.handleItemRemove}
                 data={data}
+                disabled={disabled}
               />
             ))
           ) : (

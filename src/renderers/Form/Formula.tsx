@@ -104,7 +104,7 @@ export default class FormulaControl extends React.Component<
       } else {
         const prevResult: any = evalJS(formula, data as object);
         if (JSON.stringify(prevResult) !== JSON.stringify(nextResult)) {
-          onChange(nextResult || '');
+          onChange(nextResult ?? '');
         }
       }
     }
