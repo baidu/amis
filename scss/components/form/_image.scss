@@ -12,7 +12,7 @@
     display: inline-flex;
     justify-content: center;
     align-items: center;
-    border: var(--borderWidth) solid var(--borderColor);
+    border: var(--borderWidth) solid var(--border-color);
     cursor: pointer;
     margin-right: var(--gap-base);
 
@@ -70,7 +70,7 @@
   }
 
   &-item {
-    border: var(--borderWidth) solid var(--borderColor);
+    border: var(--borderWidth) solid var(--border-color);
     vertical-align: top;
     padding: var(--gap-xs);
     display: inline-block;
@@ -242,14 +242,14 @@
   &-acceptTip {
     height: 120px;
     color: #999;
-    border: 2px dashed var(--borderColor);
+    border: 2px dashed var(--border-color);
 
     // &.is-accept {
     border-color: var(--info);
     background: #f3f9fe;
     // }
 
-    border-radius: var(--borderRadius);
+    border-radius: var(--border-radius);
 
     line-height: 120px;
     text-align: center;

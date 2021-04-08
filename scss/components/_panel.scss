@@ -25,7 +25,7 @@
 
   /* 主题 */
   &--default {
-    border-color: var(--borderColor);
+    border-color: var(--border-color);
 
     > .#{$ns}Panel-heading {
       background: var(--Panel--default-bg);

@@ -88,7 +88,7 @@
       top: -10px;
       left: -30px;
       width: var(--gap-md);
-      border-left: solid 1px var(--borderColor);
+      border-left: solid 1px var(--border-color);
       bottom: 0;
     }
 
@@ -98,13 +98,13 @@
       top: 50%;
       width: var(--gap-md);
       left: -30px;
-      border-top: solid 1px var(--borderColor);
+      border-top: solid 1px var(--border-color);
     }
 
     &:last-child {
       &:before {
         border-bottom-left-radius: 5px;
-        border-bottom: solid 1px var(--borderColor);
+        border-bottom: solid 1px var(--border-color);
         bottom: 50%;
       }
 
@@ -193,7 +193,7 @@
     top: -10px;
     left: -30px;
     width: 20px;
-    border-left: solid 1px var(--borderColor);
+    border-left: solid 1px var(--border-color);
     bottom: 0;
   }
 
@@ -203,13 +203,13 @@
     top: 50%;
     width: 20px;
     left: -30px;
-    border-top: solid 1px var(--borderColor);
+    border-top: solid 1px var(--border-color);
   }
 
   &:last-child {
     &:before {
       border-bottom-left-radius: 5px;
-      border-bottom: solid 1px var(--borderColor);
+      border-bottom: solid 1px var(--border-color);
       bottom: 50%;
     }
 

@@ -73,7 +73,7 @@
     > ul.nav {
       padding: 0;
       margin: 0;
-      border: var(--borderWidth) solid var(--borderColor);
+      border: var(--borderWidth) solid var(--border-color);
 
       li {
         position: relative;
@@ -109,7 +109,7 @@
           right: px2rem(-10px);
           border: var(--gap-md) solid transparent;
           border-right: 0;
-          border-left: px2rem(10px) solid var(--borderColor);
+          border-left: px2rem(10px) solid var(--border-color);
           border-left-color: rgba(0, 0, 0, 0.05);
           z-index: 1;
           bottom: 0;
@@ -141,7 +141,7 @@
     font-size: var(--fontSizeBase);
     padding: var(--Wizard-steps-padding);
     background: var(--Wizard-steps-bg);
-    border-bottom: var(--Wizard-steps-borderWidth) solid var(--borderColor);
+    border-bottom: var(--Wizard-steps-borderWidth) solid var(--border-color);
     text-align: var(--Wizard-steps-textAlign);
     @include clearfix();
 
@@ -175,7 +175,7 @@
           right: px2rem(-10px);
           border: $Wizard-steps-liAfterBorder;
           border-right: 0;
-          border-left: px2rem(10px) solid var(--borderColor);
+          border-left: px2rem(10px) solid var(--border-color);
           border-left-color: rgba(0, 0, 0, 0.05);
           z-index: 2;
         }
@@ -249,7 +249,7 @@
           line-height: px2rem(40px);
           position: relative;
           float: none;
-          border-bottom: var(--borderWidth) solid var(--borderColor);
+          border-bottom: var(--borderWidth) solid var(--border-color);
           padding-left: var(--gap-md);
 
           &.is-active {

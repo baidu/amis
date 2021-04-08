@@ -97,13 +97,13 @@
     border: var(--ListItem-borderWidth) solid var(--List-borderColor);
 
     &:first-child {
-      border-top-left-radius: var(--borderRadius);
-      border-top-right-radius: var(--borderRadius);
+      border-top-left-radius: var(--border-radius);
+      border-top-right-radius: var(--border-radius);
     }
 
     &:last-child {
-      border-bottom-left-radius: var(--borderRadius);
-      border-bottom-right-radius: var(--borderRadius);
+      border-bottom-left-radius: var(--border-radius);
+      border-bottom-right-radius: var(--border-radius);
       margin-bottom: 0;
     }
 
@@ -124,7 +124,7 @@
 
   &--expanded {
     .#{$ns}ListGroup-item {
-      border-radius: var(--borderRadius);
+      border-radius: var(--border-radius);
 
       margin-bottom: var(--gap-sm);
 

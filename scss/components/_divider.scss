@@ -1,7 +1,7 @@
 .#{$ns}Divider {
   margin: var(--gap-base) calc(var(--gap-base) * -1);
   border-bottom: var(--borderWidth) var(--Divider-borderStyle)
-    var(--borderColor);
+    var(--border-color);
   height: px2rem(2px);
   font-size: 0;
 

@@ -4,7 +4,7 @@
   &:after {
     content: '';
     pointer-events: none;
-    border: 1px solid var(--borderColor);
+    border: 1px solid var(--border-color);
     position: absolute;
     z-index: 0;
     top: 11px;

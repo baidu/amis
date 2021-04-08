@@ -21,11 +21,11 @@
   }
 
   &-main > &-header {
-    border-bottom: var(--borderWidth) solid var(--borderColor);
+    border-bottom: var(--borderWidth) solid var(--border-color);
   }
 
   &-headerRow {
-    border-bottom: var(--borderWidth) solid var(--borderColor);
+    border-bottom: var(--borderWidth) solid var(--border-color);
 
     display: flex;
     flex-direction: row;
@@ -92,7 +92,7 @@
 
     min-width: var(--Page-aside-width);
     max-width: var(--Page-aside-maxWidth);
-    border-right: var(--borderWidth) solid var(--borderColor);
+    border-right: var(--borderWidth) solid var(--border-color);
   }
 
   .#{$ns}Page--withSidebar {

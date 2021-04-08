@@ -50,11 +50,11 @@
 
   --pre-color: var(--text-color);
 
-  --borderColor: #{$borderColor};
-  --borderColorLight: #{lighten($borderColor, 5%)};
-  --borderRadius: 0.142rem;
-  --borderRadiusMd: 0.285rem;
-  --borderRadiusLg: 0.428rem;
+  --border-color: #{$borderColor};
+  --border-color-light: #{lighten($borderColor, 5%)};
+  --border-radius: 0.142rem;
+  --border-radius--md: 0.285rem;
+  --border-radius--lg: 0.428rem;
 
   --boxShadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
   --boxShadowSm: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
@@ -121,7 +121,7 @@
   --Alert--warning-borderColor: #{darken(adjust-hue(#fcf8e3, -10), 5%)};
   --Alert--warning-color: #8a6d3b;
   --Alert-borderColor: transparent;
-  --Alert-borderRadius: var(--borderRadiusMd);
+  --Alert-borderRadius: var(--border-radius--md);
   --Alert-borderWidth: var(--borderWidth);
   --Alert-boxShadow: none;
   --Alert-fontSize: var(--fontSizeBase);
@@ -185,7 +185,7 @@
   --Button--dark-onHover-border: #{darken($dark, 10%)};
   --Button--dark-onHover-color: var(--Button--dark-color);
   --Button--default-bg: var(--white);
-  --Button--default-border: var(--borderColor);
+  --Button--default-border: var(--border-color);
   --Button--default-color: var(--text-color);
   --Button--default-onActive-bg: #{darken($white, 10%)};
   --Button--default-onActive-border: #{darken($borderColor, 12.5%)};
@@ -203,7 +203,7 @@
   --Button--info-onHover-bg: var(--info-onHover);
   --Button--info-onHover-border: var(--info-onActive);
   --Button--info-onHover-color: var(--Button--info-color);
-  --Button--lg-borderRadius: var(--borderRadius);
+  --Button--lg-borderRadius: var(--border-radius);
   --Button--lg-fontSize: var(--fontSizeLg);
   --Button--lg-height: #{px2rem(46px)};
   --Button--lg-lineHeight: 24 / 20;
@@ -215,7 +215,7 @@
       ) / 2
   );
   --Button--light-bg: var(--light);
-  --Button--light-border: var(--borderColor);
+  --Button--light-border: var(--border-color);
   --Button--light-color: var(--text-color);
   --Button--light-onActive-bg: #{darken($light, 10%)};
   --Button--light-onActive-border: #{darken($light, 12.5%)};
@@ -254,7 +254,7 @@
   --Button--secondary-onHover-bg: var(--secondary-onHover);
   --Button--secondary-onHover-border: var(--secondary-onActive);
   --Button--secondary-onHover-color: var(--Button--secondary-color);
-  --Button--sm-borderRadius: var(--borderRadius);
+  --Button--sm-borderRadius: var(--border-radius);
   --Button--sm-fontSize: var(--fontSizeSm);
   --Button--sm-height: #{px2rem(30px)};
   --Button--sm-lineHeight: 18 / 12;
@@ -293,7 +293,7 @@
           var(--Button--xs-lineHeight) * var(--Button--xs-fontSize)
       ) / 2
   );
-  --Button-borderRadius: var(--borderRadius);
+  --Button-borderRadius: var(--border-radius);
   --Button-borderWidth: var(--Form-input-borderWidth);
   --Button-boxShadow: inset 0 1px 0 rgba(255, 255, 255, 0.15),
     0 1px 1px rgba(0, 0, 0, 0.075);
@@ -359,8 +359,8 @@
   --Calendar-cell-onHover-bg: #{darken($white, 7%)};
   --Calendar-color: var(--text-color);
   --Calendar-fontSize: var(--fontSizeBase);
-  --Calendar-input-borderColor: var(--borderColor);
-  --Calendar-input-borderRadius: var(--borderRadius);
+  --Calendar-input-borderColor: var(--border-color);
+  --Calendar-input-borderRadius: var(--border-radius);
   --Calendar-input-color: var(--info);
   --Calendar-input-fontSize: var(--fontSizeBase);
   --Calendar-input-height: #{px2rem(30px)};
@@ -388,8 +388,8 @@
   --Card-actions-onHover-bg: #{darken($white, 5%)};
   --Card-actions-onHover-color: #{darken($gray900, 5%)};
   --Card-bg: var(--white);
-  --Card-borderColor: var(--borderColor);
-  --Card-borderRadius: var(--borderRadius);
+  --Card-borderColor: var(--border-color);
+  --Card-borderRadius: var(--border-radius);
   --Card-borderWidth: var(--borderWidth);
   --Card-onChecked-bg: #d9f3fb;
   --Card-onChecked-borderColor: #{darken(#d9f3fb, 10%)};
@@ -430,7 +430,7 @@
   --Checkbox--sm--full-inner-size: #{px2rem(10px)};
   --Checkbox--sm-inner-size: calc(var(--Checkbox--sm-size) / 2);
   --Checkbox--sm-size: #{px2rem(16px)};
-  --Checkbox-borderRadius: var(--borderRadius);
+  --Checkbox-borderRadius: var(--border-radius);
   --Checkbox-color: var(--Form-input-borderColor);
   --Checkbox-gap: var(--gap-sm);
   --Checkbox-gb: #fff;
@@ -452,7 +452,7 @@
   --ColorPicker-onDisabled-color: var(--text--muted-color);
   --ColorPicker-onFocused-borderColor: var(--Form-input-onFocused-borderColor);
   --ColorPicker-onHover-bg: #{darken($white, 5%)};
-  --ColorPicker-onHover-borderColor: var(--borderColor);
+  --ColorPicker-onHover-borderColor: var(--border-color);
   --ColorPicker-paddingX: #{px2rem(12px)};
   --ColorPicker-paddingY: calc(
     (
@@ -464,8 +464,8 @@
 
   --Combo--horizontal-dragger-top: var(--Form-label-paddingTop);
   --Combo--horizontal-item-gap: var(--gap-xs);
-  --Combo--vertical-item-borderColor: var(--borderColor);
-  --Combo--vertical-item-borderRadius: var(--borderRadius);
+  --Combo--vertical-item-borderColor: var(--border-color);
+  --Combo--vertical-item-borderRadius: var(--border-radius);
   --Combo--vertical-item-borderWidth: var(--borderWidth);
   --Combo--vertical-item-gap: var(--gap-xs);
   --Combo--vertical-item-onHover-borderColor: var(--info);
@@ -536,7 +536,7 @@
   --Drawer-body-padding: var(--gap-base);
   --Drawer-close-color: rgba(255, 255, 255, 0.8);
   --Drawer-close-onHover-color: rgba(255, 255, 255, 1);
-  --Drawer-content-borderColor: var(--borderColor);
+  --Drawer-content-borderColor: var(--border-color);
   --Drawer-content-borderRadius: 0;
   --Drawer-content-borderWidth: var(--borderWidth);
   --Drawer-footer-borderColor: #{lighten($borderColor, 5%)};
@@ -556,8 +556,8 @@
 
   --DropDown-caret-marginLeft: var(--gap-sm);
   --DropDown-menu-bg: var(--white);
-  --DropDown-menu-borderColor: var(--borderColor);
-  --DropDown-menu-borderRadius: var(--borderRadius);
+  --DropDown-menu-borderColor: var(--border-color);
+  --DropDown-menu-borderRadius: var(--border-radius);
   --DropDown-menu-borderWidth: var(--borderWidth);
   --DropDown-menu-boxShadow: var(--boxShadow);
   --DropDown-menu-height: #{px2rem(34px)};
@@ -606,8 +606,8 @@
   --Form-input-addOnColor: var(--text-color);
   --Form-input-addOnDividerBorderWidth: var(--borderWidth);
   --Form-input-bg: var(--white);
-  --Form-input-borderColor: var(--borderColor);
-  --Form-input-borderRadius: var(--borderRadius);
+  --Form-input-borderColor: var(--border-color);
+  --Form-input-borderRadius: var(--border-radius);
   --Form-input-borderWidth: #{px2rem(1px)};
   --Form-input-boxShadow: none;
   --Form-input-color: var(--text-color);
@@ -726,7 +726,7 @@
     --Form-input-onFocused-borderColor
   );
   --InputGroup-button-borderColor: var(--Form-input-borderColor);
-  --InputGroup-button-borderRadius: var(--borderRadius);
+  --InputGroup-button-borderRadius: var(--border-radius);
   --InputGroup-button-borderWidth: var(--borderWidth);
   --InputGroup-height: var(--Form-input-height);
   --InputGroup-paddingX: #{px2rem(10px)};
@@ -762,7 +762,7 @@
   --InputRange-slider-onActive-transform: scale(1.3);
   --InputRange-slider-onDisabled-bg: var(--InputRange-onDisabled-color);
   --InputRange-slider-onDisabled-border: #{px2rem(1px)} solid var(--InputRange-onDisabled-color);
-  --InputRange-slider-onFocus-borderRadius: var(--borderRadiusMd);
+  --InputRange-slider-onFocus-borderRadius: var(--border-radius--md);
   --InputRange-slider-onFocus-boxShadow: 0 0 0
     var(--InputRange-slider-onFocus-borderRadius) #{transparentize($info, 0.8)};
   --InputRange-slider-transition: transform var(--animation-duration) ease-out,
@@ -824,8 +824,8 @@
   --List--unsaved-heading-bg: #e8f0fe;
   --List--unsaved-heading-color: #4285f4;
   --List-bg: var(--white);
-  --List-borderColor: var(--borderColor);
-  --List-borderRadius: var(--borderRadius);
+  --List-borderColor: var(--border-color);
+  --List-borderRadius: var(--border-radius);
   --List-borderWidth: var(--borderWidth);
   --List-fixedTop-boxShadow: var(--boxShadow);
   --List-placeholder-height: #{px2rem(30px)};
@@ -835,7 +835,7 @@
   --ListControl-fontSize: var(--Form-fontSize);
   --ListControl-gutterWidth: #{px2rem(10px)};
   --ListControl-item-bg: var(--white);
-  --ListControl-item-borderColor: var(--borderColor);
+  --ListControl-item-borderColor: var(--border-color);
   --ListControl-item-borderWidth: var(--borderWidth);
   --ListControl-item-color: var(--text-color);
   --ListControl-item-onActive-after-borderColor: var(--primary);
@@ -873,8 +873,8 @@
   --listMenu--onActive-borderColor: var(--info);
   --ListMenu-borderRadius: #{px2rem(2px)};
   --ListMenu-borderWidth: #{px2rem(1px)};
-  --ListMenu-bordrColor: var(--borderColor);
-  --ListMenu-divider-color: var(--borderColorLight);
+  --ListMenu-bordrColor: var(--border-color);
+  --ListMenu-divider-color: var(--border-color-light);
   --ListMenu-item--onActive-bg: transparent;
   --ListMenu-item--onActive-color: var(--info);
   --ListMenu-item--onDisabled-bg: transparent;
@@ -905,8 +905,8 @@
   --Modal-body-paddingY: var(--gap-md);
   --Modal-close-color: var(--text--muted-color);
   --Modal-close-width: #{px2rem(12px)};
-  --Modal-content-borderColor: var(--borderColor);
-  --Modal-content-borderRadius: var(--borderRadius);
+  --Modal-content-borderColor: var(--border-color);
+  --Modal-content-borderRadius: var(--border-radius);
   --Modal-content-borderWidth: var(--borderWidth);
   --Modal-content-minHeight: unset;
   --Modal-content-startMarginTop: #{px2rem(60px)};
@@ -994,23 +994,23 @@
   --Panel--default-badgeColor: #f5f5f5;
   --Panel--default-bg: #f6f8f8;
   --Panel--default-color: var(--text-color);
-  --Panel--default-headingBorderColor: var(--borderColor);
+  --Panel--default-headingBorderColor: var(--border-color);
   --Panel-bg: var(--white);
   --Panel-bodyPadding: var(--gap-base);
   --Panel-border: var(--borderWidth) solid transparent;
-  --Panel-borderRadius: var(--borderRadius);
+  --Panel-borderRadius: var(--border-radius);
   --Panel-borderWidth: #{px2rem(1px)};
   --Panel-boxShadow: 0 #{px2rem(1px)} #{px2rem(1px)} rgba(0, 0, 0, 0.05);
   --Panel-btnToolbarTextAlign: right;
   --Panel-fixedBottom-borderTop: none;
   --Panel-fixedBottom-boxShadow: 0 -0.5rem 1rem rgba(0, 0, 0, 0.15);
   --Panel-footerBg: transparent;
-  --Panel-footerBorderColor: var(--borderColorLight);
+  --Panel-footerBorderColor: var(--border-color-light);
   --Panel-footerBorderRadius: 0 0 #{px2rem(2px)} #{px2rem(2px)};
   --Panel-footerButtonMarginLeft: var(--gap-sm);
   --Panel-footerPadding: var(--gap-sm) var(--gap-base);
   --Panel-headingBorderBottom: var(--borderWidth) solid transparent;
-  --Panel-headingBorderRadius: var(--borderRadius) var(--borderRadius) 0 0;
+  --Panel-headingBorderRadius: var(--border-radius) var(--border-radius) 0 0;
   --Panel-headingPadding: var(--gap-sm) var(--gap-base);
   --Panel-marginBottom: var(--gap-lg);
   --Panel-titleColor: inherit;
@@ -1043,7 +1043,7 @@
   --Radio-onFocus-boxShadow: none;
 
   --Remark-bg: #fff;
-  --Remark-borderColor: var(--borderColor);
+  --Remark-borderColor: var(--border-color);
   --Remark-borderWidth: #{px2rem(1px)};
   --Remark-icon-fontSize: var(--fontSizeBase);
   --Remark-iconColor: var(--icon-color);
@@ -1113,8 +1113,8 @@
   --Table--unsaved-heading-bg: #e8f0fe;
   --Table--unsaved-heading-color: #4285f4;
   --Table-bg: var(--background);
-  --Table-borderColor: var(--borderColor);
-  --Table-borderRadius: var(--borderRadius);
+  --Table-borderColor: var(--border-color);
+  --Table-borderRadius: var(--border-radius);
   --Table-borderWidth: var(--borderWidth);
   --Table-color: var(--text-color);
   --Table-expandBtn-color: var(--info);
@@ -1171,13 +1171,13 @@
   --TableCell-sortBtn-width: #{px2rem(8px)};
 
   --Tabs--card-bg: #f6f8f8;
-  --Tabs--card-borderTopColor: var(--borderColor);
+  --Tabs--card-borderTopColor: var(--border-color);
   --Tabs--card-linkMargin: 0 10px 0 0;
   --Tabs--card-linkPadding: #{px2rem(10px)} #{px2rem(10px)};
   --Tabs--card-onActive-bg: var(--background);
-  --Tabs--card-onActive-borderColor: var(--borderColor);
+  --Tabs--card-onActive-borderColor: var(--border-color);
   --Tabs--card-padding: #{px2rem(6px)} 0 0 #{px2rem(10px)};
-  --Tabs--line-borderColor: var(--borderColor);
+  --Tabs--line-borderColor: var(--border-color);
   --Tabs--line-borderWidth: #{px2rem(2px)};
   --Tabs--line-content-bg: transparent;
   --Tabs--line-content-padding: var(--gap-base) 0;
@@ -1187,8 +1187,8 @@
   --Tabs--line-onHover-color: var(--primary);
   --Tabs--radio-bg: #eaf6fe;
   --Tabs--vertical-onActive-borderColor: var(--primary);
-  --Tabs-borderColor: var(--borderColor);
-  --Tabs-borderRadius: var(--borderRadius);
+  --Tabs-borderColor: var(--border-color);
+  --Tabs-borderRadius: var(--border-radius);
   --Tabs-borderWidth: var(--borderWidth);
   --Tabs-color: var(--text-color);
   --Tabs-content-bg: var(--background);
@@ -1196,7 +1196,7 @@
   --Tabs-linkMargin: 0 #{px2rem(3px)} 0 0;
   --Tabs-linkPadding: var(--gap-sm) var(--gap-base);
   --Tabs-onActive-bg: var(--background);
-  --Tabs-onActive-borderColor: var(--borderColor);
+  --Tabs-onActive-borderColor: var(--border-color);
   --Tabs-onActive-color: #{$gray700};
   --Tabs-onDisabled-color: #{$gray600};
   --Tabs-onHover-borderColor: #{$gray200};
@@ -1248,7 +1248,7 @@
   --Toast--warning-borderColor: var(--warning);
   --Toast--warning-color: var(--Toast-color);
   --Toast-border-width: 0;
-  --Toast-borderRadius: var(--borderRadiusLg);
+  --Toast-borderRadius: var(--border-radius--lg);
   --Toast-box-shadow: var(--boxShadow);
   --Toast-close--onHover-color: var(--Toast-close-color);
   --Toast-close-color: var(--white);
@@ -1264,8 +1264,8 @@
   --Toast-width: #{px2rem(300px)};
 
   --Tooltip--attr-bg: rgba(0, 0, 0, 0.7);
-  --Tooltip--attr-borderColor: var(--borderColor);
-  --Tooltip--attr-borderRadius: var(--borderRadius);
+  --Tooltip--attr-borderColor: var(--border-color);
+  --Tooltip--attr-borderRadius: var(--border-radius);
   --Tooltip--attr-borderWidth: 0;
   --Tooltip--attr-boxShadow: var(--boxShadow);
   --Tooltip--attr-color: var(--background);
@@ -1286,8 +1286,8 @@
   --Tooltip-body-color: var(--text-color);
   --Tooltip-body-paddingX: var(--gap-sm);
   --Tooltip-body-paddingY: var(--gap-sm);
-  --Tooltip-borderColor: var(--borderColor);
-  --Tooltip-borderRadius: var(--borderRadiusLg);
+  --Tooltip-borderColor: var(--border-color);
+  --Tooltip-borderRadius: var(--border-radius--lg);
   --Tooltip-borderWidth: var(--borderWidth);
   --Tooltip-boxShadow: var(--boxShadow);
   --Tooltip-fontSize: var(--fontSizeSm);

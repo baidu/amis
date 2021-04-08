@@ -54,7 +54,7 @@
   }
 
   &-search + &-checkboxes {
-    border-top: 1px solid var(--borderColor);
+    border-top: 1px solid var(--border-color);
   }
 
   &-checkboxes .#{$ns}ListCheckboxes-placeholder {
@@ -82,7 +82,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    border: 1px solid var(--borderColor);
+    border: 1px solid var(--border-color);
     margin: 0 10px;
     color: var(--icon-color);
 
