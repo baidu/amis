@@ -187,11 +187,15 @@
       }
 
       .#{$ns}AsideNav-item a {
-        padding-left: calc(var(--Layout-nav-height) + #{px2rem(35px)});
+        padding-left: calc(var(--Layout-nav-height) + #{px2rem(15px)});
       }
 
       .#{$ns}AsideNav-item .#{$ns}AsideNav-item a {
-        padding-left: calc(var(--Layout-nav-height) + #{px2rem(65px)});
+        padding-left: calc(var(--Layout-nav-height) + #{px2rem(30px)});
+      }
+
+      .#{$ns}AsideNav-item .#{$ns}AsideNav-item .#{$ns}AsideNav-item a {
+        padding-left: calc(var(--Layout-nav-height) + #{px2rem(45px)});
       }
 
       .#{$ns}AsideNav-subList {
