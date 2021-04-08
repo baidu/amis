@@ -2,7 +2,12 @@ import React from 'react';
 import {FormItem, FormControlProps, FormBaseControl} from './Item';
 import cx from 'classnames';
 import Button from '../../components/Button';
-import {createObject, isObjectShallowModified} from '../../utils/helper';
+import {
+  createObject,
+  getTree,
+  isObjectShallowModified,
+  spliceTree
+} from '../../utils/helper';
 import {RendererData, Action, Api, Payload, ApiObject} from '../../types';
 import {isEffectiveApi} from '../../utils/api';
 import {filter} from '../../utils/tpl';
@@ -696,11 +701,11 @@ export default class FormTable extends React.Component<TableProps, TableState> {
   handleTableSave(
     rows: Array<object> | object,
     diff: Array<object> | object,
-    rowIndexes: Array<number> | number
+    rowIndexes: Array<string> | string
   ) {
     const {onChange, value, needConfirm} = this.props;
 
-    const newValue = Array.isArray(value) ? value.concat() : [];
+    let newValue = Array.isArray(value) ? value.concat() : [];
 
     if (~this.state.editIndex) {
       this.setState({
@@ -710,23 +715,28 @@ export default class FormTable extends React.Component<TableProps, TableState> {
       });
       return;
     } else if (Array.isArray(rows)) {
-      (rowIndexes as Array<number>).forEach((rowIndex, index) => {
+      (rowIndexes as Array<string>).forEach((rowIndex, index) => {
+        const indexes = rowIndex.split('.').map(item => parseInt(item, 10));
+        const origin = getTree(newValue, indexes);
+
         const data = {
-          ...newValue.splice(rowIndex, 1)[0],
+          ...origin,
           ...(diff as Array<object>)[index]
         };
 
-        newValue.splice(rowIndex, 0, data);
+        newValue = spliceTree(newValue, indexes, 1, data);
       });
     } else {
-      const idx = rowIndexes as number;
-      const origin = newValue[idx];
+      const indexes = (rowIndexes as string)
+        .split('.')
+        .map(item => parseInt(item, 10));
+      const origin = getTree(newValue, indexes);
       const data = {
-        ...newValue.splice(idx, 1)[0],
+        ...origin,
         ...diff
       };
 
-      newValue.splice(rowIndexes as number, 0, data);
+      newValue = spliceTree(newValue, indexes, 1, data);
       this.entries.set(data, this.entries.get(origin) || this.entityId++);
       // this.entries.delete(origin); // 反正最后都会清理的，先不删了吧。
     }
@@ -779,6 +789,7 @@ export default class FormTable extends React.Component<TableProps, TableState> {
       combineNum,
       translate: __,
       canAccessSuperData,
+      expandConfig,
       affixRow,
       prefixRow
     } = this.props;
@@ -815,6 +826,7 @@ export default class FormTable extends React.Component<TableProps, TableState> {
             quickEditFormRef: this.subFormRef,
             columnsTogglable: columnsTogglable,
             combineNum: combineNum,
+            expandConfig,
             canAccessSuperData
           }
         )}

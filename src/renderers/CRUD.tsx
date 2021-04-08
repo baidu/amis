@@ -1093,7 +1093,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
   handleSave(
     rows: Array<object> | object,
     diff: Array<object> | object,
-    indexes: Array<number>,
+    indexes: Array<string>,
     unModifiedItems?: Array<any>,
     rowsOrigin?: Array<object> | object,
     resetOnFailed?: boolean

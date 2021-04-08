@@ -277,7 +277,7 @@ export interface TableProps extends RendererProps {
   onSave?: (
     items: Array<object> | object,
     diff: Array<object> | object,
-    rowIndexes: Array<number> | number,
+    rowIndexes: Array<string> | string,
     unModifiedItems?: Array<object>,
     rowOrigins?: Array<object> | object,
     resetOnFailed?: boolean
@@ -654,7 +654,7 @@ export default class Table extends React.Component<TableProps, object> {
     onSave(
       item.data,
       difference(item.data, item.pristine, ['id', primaryField]),
-      item.index,
+      item.path,
       undefined,
       item.pristine,
       resetOnFailed
@@ -681,7 +681,7 @@ export default class Table extends React.Component<TableProps, object> {
     }
 
     const rows = store.modifiedRows.map(item => item.data);
-    const rowIndexes = store.modifiedRows.map(item => item.index);
+    const rowIndexes = store.modifiedRows.map(item => item.path);
     const diff = store.modifiedRows.map(item =>
       difference(item.data, item.pristine, ['id', primaryField])
     );
