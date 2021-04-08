@@ -71,7 +71,7 @@ const ConditionBuilderWithRemoteOptions = withRemoteConfig({
       return (
         <ConditionBuilder
           {...rest}
-          fields={config || rest.fields}
+          fields={config || rest.fields || []}
           disabled={loading}
         />
       );

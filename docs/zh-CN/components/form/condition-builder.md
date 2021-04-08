@@ -370,7 +370,7 @@ type Value = ValueGroup;
         "label": "条件组件",
         "name": "conditions",
         "description": "适合让用户自己拼查询条件，然后后端根据数据生成 query where",
-        "source": "/api/mock2/condition-fields?a=${a}&waitSeconds=2"
+        "source": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/condition-fields?a=${a}&waitSeconds=2"
       }
     ]
 }
