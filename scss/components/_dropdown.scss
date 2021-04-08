@@ -57,6 +57,8 @@
     height: var(--DropDown-menu-height);
     vertical-align: middle;
     user-select: none;
+    color: var(--link-color);
+    text-decoration: var(--link-decoration);
 
     &:hover {
       background: var(--DropDown-menuItem-onHover-bg);
