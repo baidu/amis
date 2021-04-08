@@ -12,6 +12,7 @@ import {Config} from './config';
 export interface ConditionFuncProps extends ThemeProps {
   value: ExpressionFunc;
   onChange: (value: ExpressionFunc) => void;
+  disabled?: boolean;
   config: Config;
   fields?: Field[];
   funcs?: Funcs;
@@ -37,7 +38,7 @@ export class ConditionFunc extends React.Component<ConditionFuncProps> {
   }
 
   renderFunc(func: Func) {
-    const {classnames: cx, fields, value, funcs, config} = this.props;
+    const {classnames: cx, fields, value, funcs, config, disabled} = this.props;
 
     return (
       <div className={cx('CBFunc-args')}>
@@ -54,6 +55,7 @@ export class ConditionFunc extends React.Component<ConditionFuncProps> {
                 valueField={{type: item.type} as any}
                 onChange={this.handleArgChange}
                 funcs={funcs}
+                disabled={disabled}
                 // allowedTypes={allowedTypes}
               />
             ))}
@@ -65,7 +67,7 @@ export class ConditionFunc extends React.Component<ConditionFuncProps> {
   }
 
   render() {
-    const {value, classnames: cx, funcs} = this.props;
+    const {value, classnames: cx, funcs, disabled} = this.props;
     const func = value
       ? findTree(funcs!, item => (item as Func).type === value.func)
       : null;
@@ -97,6 +99,7 @@ export class ConditionFunc extends React.Component<ConditionFuncProps> {
                 onResultChange={noop}
                 onResultClick={onClick}
                 placeholder="请选择字段"
+                disabled={disabled}
               >
                 <span className={cx('CBGroup-fieldCaret')}>
                   <Icon icon="caret" className="icon" />
