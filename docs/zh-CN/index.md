@@ -157,9 +157,8 @@ amis 是一个低代码前端框架，它使用 JSON 配置来生成页面，可
         "buttons": [
           {
             "type": "button",
-            "icon": "fa fa-times text-danger",
             "actionType": "ajax",
-            "tooltip": "删除",
+            "label": "删除",
             "confirmText": "您确认要删除?",
             "api": "delete:https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/sample/$id"
           }
