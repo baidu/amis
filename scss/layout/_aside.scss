@@ -19,7 +19,7 @@
   &-itemArrow {
     float: right;
     display: block;
-    width: px2rem(20px);
+    width: var(--gap-md);
     text-align: center;
     line-height: px2rem(17px);
     margin-top: px2rem(2px);
@@ -55,7 +55,7 @@
   }
 
   &-itemBadge {
-    padding: px2rem(2px) px2rem(5px);
+    padding: px2rem(2px) var(--gap-xs);
     margin-top: px2rem(2px);
     font-size: var(--fontSizeXs);
     text-shadow: 0 px2rem(1px) 0 rgba(0, 0, 0, 0.2);
@@ -102,7 +102,7 @@
     opacity: 0;
     height: 0;
     overflow: hidden;
-    margin-left: px2rem(-20px);
+    margin-left: calc(var(--gap-md) * -1);
     transition: all var(--animation-duration) ease-in-out 0s;
     background: var(--Layout-aside-subList-bg);
 
@@ -140,7 +140,7 @@
                 var(--Layout-asideLink-fontSize)
             ) / 2
         )
-        px2rem(15px);
+        var(--gap-base);
       position: relative;
       transition: background-color var(--animation-duration) ease-in-out 0s;
       color: var(--Layout-asideLink-color);
@@ -177,7 +177,7 @@
                   var(--Layout-asideLink-fontSize)
               ) / 2
           )
-          px2rem(15px);
+          var(--gap-md);
       }
     }
 
@@ -218,7 +218,7 @@
                 var(--Layout-asideLink-fontSize)
             ) / 2
         )
-        px2rem(20px);
+        var(--gap-md);
 
       &:hover {
         color: var(--Layout-asideLink-onHover-color);
@@ -329,7 +329,7 @@ img.#{$ns}AsideNav-itemIcon {
     }
 
     .#{$ns}AsideNav-item .#{$ns}AsideNav-item a {
-      padding-left: px2rem(20px) !important;
+      padding-left: var(--gap-md) !important;
     }
 
     .#{$ns}AsideNav-subList {

@@ -7,7 +7,7 @@
     font-size: var(--fontSizeMd);
     font-weight: var(--fontWeightNormal);
     color: var(--text--loud-color);
-    padding: px2rem(5px) 0;
+    padding: var(--gap-xs) 0;
     border-bottom: var(--borderWidth) solid var(--borderColorLight);
   }
 

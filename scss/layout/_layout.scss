@@ -55,7 +55,7 @@ body {
     > button {
       padding: px2rem(10px) px2rem(17px);
       font-size: px2rem(16px);
-      line-height: calc(var(--Layout-header-height) - #{px2rem(20px)});
+      line-height: calc(var(--Layout-header-height) - var(--gap-md));
       text-decoration: none;
       background: transparent;
       border: none;
@@ -72,7 +72,7 @@ body {
     line-height: var(--Layout-header-height);
     display: inline-block;
     vertical-align: middle;
-    padding: 0 px2rem(20px);
+    padding: 0 var(--gap-base);
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -101,7 +101,7 @@ body {
   &-offScreenBtn {
     display: none;
     float: right;
-    padding: 13px 15px;
+    padding: 13px var(--gap-md);
   }
 
   &-aside {

@@ -195,8 +195,8 @@ export default {
         {
           type: 'checkboxes',
           name: 'checkboxesInline',
-          label: '多选内联',
-          inline: true,
+          label: '多选非联',
+          inline: false,
           options: [
             {
               label: '选项 A',
@@ -242,8 +242,8 @@ export default {
         {
           type: 'radios',
           name: 'radiosInline',
-          label: '单选内联',
-          inline: true,
+          label: '单选 非内联',
+          inline: false,
           options: [
             {
               label: '选项1',
@@ -256,6 +256,59 @@ export default {
             {
               label: '选项3',
               value: 3
+            }
+          ]
+        },
+        {
+          type: 'divider'
+        },
+        {
+          type: 'button-toolbar',
+          label: '各种按钮',
+          buttons: [
+            {
+              type: 'action',
+              label: '默认'
+            },
+            {
+              type: 'action',
+              label: '主要',
+              level: 'primary'
+            },
+            {
+              type: 'action',
+              label: '次要',
+              level: 'secondary'
+            },
+            {
+              type: 'action',
+              label: '成功',
+              level: 'success'
+            },
+            {
+              type: 'action',
+              label: '警告',
+              level: 'warning'
+            },
+            {
+              type: 'action',
+              label: '危险',
+              level: 'danger'
+            },
+            {
+              type: 'action',
+              label: '浅色',
+              level: 'light'
+            },
+            {
+              type: 'action',
+              label: '深色',
+              level: 'dark'
+            },
+            {
+              type: 'action',
+              label: '链接',
+              level: 'link'
             }
           ]
         },

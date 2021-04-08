@@ -184,7 +184,7 @@
     border-top: 0;
 
     td {
-      padding-top: px2rem(5px);
+      padding-top: var(--gap-xs);
       text-align: left;
 
       span {
@@ -199,20 +199,6 @@
       }
     }
   }
-
-  // .rdtCounter {
-  //   .rdtBtn {
-  //     height: 30%;
-  //     line-height: px2rem(20px);
-  //   }
-
-  //   .rdtCount {
-  //     height: 40%;
-  //     display: flex;
-  //     align-items: center;
-  //     justify-content: center;
-  //   }
-  // }
 }
 
 .#{$ns}CalendarInput {
@@ -268,7 +254,7 @@
   }
 
   &-sep {
-    width: 15px;
+    width: var(--gap-md);
     text-align: center;
   }
 
@@ -355,10 +341,10 @@
 .rdtPrev,
 .rdtNext {
   cursor: pointer !important;
-  width: px2rem(20px);
+  width: var(--gap-md);
   padding: 0;
   color: #999;
-  font-size: px2rem(20px);
+  font-size: var(--fontSizeXl);
   text-decoration: none;
   font-family: auto;
   font-weight: normal;

@@ -54,9 +54,9 @@
     }
 
     > .#{$ns}Selections-dragbar {
-      width: px2rem(20px);
+      width: var(--gap-lg);
       position: relative;
-      left: px2rem(-5px);
+      left: calc(var(--gap-xs) * -1);
       color: var(--icon-color);
       cursor: move;
     }

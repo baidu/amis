@@ -50,7 +50,7 @@
 
 .#{$ns}Form-label {
   font-weight: var(--fontWeightNormal);
-  margin-bottom: px2rem(5px);
+  margin-bottom: var(--gap-xs);
   position: relative;
 
   > span {

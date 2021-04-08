@@ -64,7 +64,7 @@ export default class RadiosControl extends React.Component<RadiosProps, any> {
       delimiter,
       placeholder,
       options,
-      inline,
+      inline = true,
       formMode,
       columnsCount,
       classPrefix,
@@ -104,6 +104,7 @@ export default class RadiosControl extends React.Component<RadiosProps, any> {
 })
 export class RadiosControlRenderer extends RadiosControl {
   static defaultProps = {
-    multiple: false
+    multiple: false,
+    inline: true
   };
 }

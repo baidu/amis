@@ -64,8 +64,8 @@
 
     color: rgba(0, 0, 0, 0.75);
     font-family: -apple-system, Lucida Grande;
-    font-size: 14px;
-    line-height: 15px;
+    font-size: var(--fontSizeMd);
+    line-height: 1.1;
 
     &::before {
       display: block;
@@ -172,8 +172,8 @@
 
     color: rgba(0, 0, 0, 0.75);
     font-family: -apple-system, Lucida Grande;
-    font-size: 14px;
-    line-height: 15px;
+    font-size: var(--fontSizeMd);
+    line-height: 1.1;
 
     &::before {
       display: block;

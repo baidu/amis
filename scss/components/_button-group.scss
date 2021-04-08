@@ -40,8 +40,8 @@
   align-items: center;
 
   .#{$ns}ButtonGroup {
-    margin-left: px2rem(5px);
-    margin-top: px2rem(5px);
+    margin-left: var(--gap-xs);
+    margin-top: var(--gap-xs);
     width: auto;
   }
 }
