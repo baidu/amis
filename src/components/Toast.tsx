@@ -17,7 +17,7 @@ import {uuid, autobind, noop} from '../utils/helper';
 import {ClassNamesFn, themeable, classnames, ThemeProps} from '../theme';
 import {Icon} from './icons';
 import {LocaleProps, localeable, TranslateFn} from '../locale';
-import {groupBy} from 'lodash';
+import groupBy from 'lodash/groupBy';
 
 interface Config {
   closeButton?: boolean;
