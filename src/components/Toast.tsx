@@ -166,10 +166,11 @@ export class ToastComponent extends React.Component<
     } = this.props;
     const items = this.state.items;
 
-    const groupItems = groupBy(items, item => item.position || position);
+    const groupedItems = groupBy(items, item => item.position || position);
 
-    return Object.keys(groupItems).map(position => {
-      const items = groupItems[position];
+    return Object.keys(groupedItems).map(position => {
+      const toasts = groupedItems[position];
+
       return (
         <div
           key={position}
@@ -180,7 +181,7 @@ export class ToastComponent extends React.Component<
             className
           )}
         >
-          {items.map((item, index) => (
+          {toasts.map(item => (
             <ToastMessage
               classnames={cx}
               key={item.id}
@@ -189,7 +190,7 @@ export class ToastComponent extends React.Component<
               level={item.level || 'info'}
               timeout={item.timeout ?? timeout}
               closeButton={item.closeButton ?? closeButton}
-              onDismiss={this.handleDismissed.bind(this, index)}
+              onDismiss={this.handleDismissed.bind(this, items.indexOf(item))}
               translate={translate}
               showIcon={showIcon}
             />
