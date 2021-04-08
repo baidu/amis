@@ -129,9 +129,9 @@
 
   .#{$ns}Drawer-resizeCtrl {
     position: absolute;
-    border: var(--borderWidth) solid var(--border-color);
+    border: var(--borderWidth) solid var(--borderColor);
     background: var(--white);
-    border-radius: var(--border-radius);
+    border-radius: var(--borderRadius);
     font-size: var(--fontSizeSm);
     line-height: px2rem(10px);
     text-align: center;

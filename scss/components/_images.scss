@@ -11,7 +11,7 @@
 
 .#{$ns}Image {
   display: inline-block;
-  border: var(--borderWidth) solid var(--border-color);
+  border: var(--borderWidth) solid var(--borderColor);
   padding: var(--gap-xs);
 
   &-thumb {

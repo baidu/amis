@@ -21,8 +21,8 @@
   word-wrap: normal;
   font-size: var(--fontSizeBase);
   box-shadow: var(--boxShadow);
-  border: var(--borderWidth) solid var(--border-color);
-  border-radius: var(--border-radius);
+  border: var(--borderWidth) solid var(--borderColor);
+  border-radius: var(--borderRadius);
 
   & > * {
     position: relative;

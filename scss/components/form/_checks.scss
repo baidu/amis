@@ -529,7 +529,7 @@
   }
 
   &-col:not(:last-child) {
-    border-right: 1px solid var(--border-color);
+    border-right: 1px solid var(--borderColor);
   }
 
   &-subTitle {
@@ -595,7 +595,7 @@
   }
 
   &-left {
-    border-right: 1px solid var(--border-color);
+    border-right: 1px solid var(--borderColor);
   }
 
   &-reload {

@@ -6,7 +6,7 @@
     > thead > tr > th {
       padding: var(--gap-sm);
       background: var(--Property-title-bg);
-      border: 1px solid var(--border-color);
+      border: 1px solid var(--borderColor);
     }
 
     > tbody > tr {
@@ -14,7 +14,7 @@
 
       > td,
       > th {
-        border: 1px solid var(--border-color);
+        border: 1px solid var(--borderColor);
         padding: var(--gap-sm);
       }
       > th {

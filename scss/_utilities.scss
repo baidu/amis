@@ -311,7 +311,7 @@
 
 .text-shadow {
   font-size: 170px;
-  text-shadow: 0 1px 0 var(--border-color), 0 2px 0 var(--border-color-light),
+  text-shadow: 0 1px 0 var(--borderColor), 0 2px 0 var(--borderColorLight),
     0 5px 10px rgba(0, 0, 0, 0.125), 0 10px 20px rgba(0, 0, 0, 0.2);
 }
 
@@ -411,11 +411,11 @@
 }
 
 .b-a {
-  border: 1px solid var(--border-color);
+  border: 1px solid var(--borderColor);
 }
 
 .b-t {
-  border-top: 1px solid var(--border-color);
+  border-top: 1px solid var(--borderColor);
 }
 
 .b-t-none {
@@ -423,7 +423,7 @@
 }
 
 .b-r {
-  border-right: 1px solid var(--border-color);
+  border-right: 1px solid var(--borderColor);
 }
 
 .b-r-none {
@@ -431,7 +431,7 @@
 }
 
 .b-b {
-  border-bottom: 1px solid var(--border-color);
+  border-bottom: 1px solid var(--borderColor);
 }
 
 .b-b-none {
@@ -439,7 +439,7 @@
 }
 
 .b-l {
-  border-left: 1px solid var(--border-color);
+  border-left: 1px solid var(--borderColor);
 }
 
 .b-l-none {
@@ -555,32 +555,32 @@
 }
 
 .r {
-  border-radius: var(--border-radius) var(--border-radius) var(--border-radius)
-    var(--border-radius);
+  border-radius: var(--borderRadius) var(--borderRadius) var(--borderRadius)
+    var(--borderRadius);
 }
 
 .r-2x {
-  border-radius: var(--border-radius--md);
+  border-radius: var(--borderRadiusMd);
 }
 
 .r-3x {
-  border-radius: var(--border-radius--lg);
+  border-radius: var(--borderRadiusLg);
 }
 
 .r-l {
-  border-radius: var(--border-radius) 0 0 var(--border-radius);
+  border-radius: var(--borderRadius) 0 0 var(--borderRadius);
 }
 
 .r-r {
-  border-radius: 0 var(--border-radius) var(--border-radius) 0;
+  border-radius: 0 var(--borderRadius) var(--borderRadius) 0;
 }
 
 .r-t {
-  border-radius: var(--border-radius) var(--border-radius) 0 0;
+  border-radius: var(--borderRadius) var(--borderRadius) 0 0;
 }
 
 .r-b {
-  border-radius: 0 0 var(--border-radius) var(--border-radius);
+  border-radius: 0 0 var(--borderRadius) var(--borderRadius);
 }
 
 .m-xxs {
@@ -1300,7 +1300,7 @@
 
 .thumb-wrapper {
   padding: 2px;
-  border: 1px solid var(--border-color);
+  border: 1px solid var(--borderColor);
 }
 
 .thumb,

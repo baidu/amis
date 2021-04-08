@@ -61,7 +61,7 @@
       background: var(--Pagination-onActive-backgroundColor);
       color: var(--Pagination-onActive-color);
       border: var(--Pagination-onActive-border);
-      border-radius: var(--border-radius);
+      border-radius: var(--borderRadius);
     }
   }
 
@@ -92,8 +92,8 @@
     input {
       width: px2rem(50px);
       height: var(--Pagination-height);
-      border: var(--borderWidth) solid var(--border-color);
-      border-radius: var(--border-radius);
+      border: var(--borderWidth) solid var(--borderColor);
+      border-radius: var(--borderRadius);
       padding: var(--gap-xs) px2rem(10px);
       margin: 0 px2rem(10px);
       text-align: center;
