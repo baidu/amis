@@ -116,7 +116,7 @@ export class Log extends React.Component<LogProps, LogState> {
 
   async loadLogs() {
     const {source, data, env, translate: __, encoding} = this.props;
-    // 因为这里返回结果是流式的，和普通 api 请求不一样，如果直接用 fetcher 经过 responseAdpater 可能会导致出错，所以就直接 fetch 了
+    // 因为这里返回结果是流式的，和普通 api 请求不一样，如果直接用 fetcher 经过 responseAdapter 可能会导致出错，所以就直接 fetch 了
     const api = buildApi(source, data);
     const res = await fetch(api.url);
     if (res.status === 200) {

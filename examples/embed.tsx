@@ -122,9 +122,13 @@ export function embed(
     return response;
   };
 
-  const responseAdpater = (api: any) => (value: any) => {
+  const responseAdapter = (api: any) => (value: any) => {
     let response = value.data;
-    if (env && env.responseAdpater) {
+    // 之前拼写错了，需要兼容
+    if (env.responseAdpater) {
+      env.responseAdapter = env.responseAdpater;
+    }
+    if (env && env.responseAdapter) {
       const url = api.url;
       const idx = api.url.indexOf('?');
       const query = ~idx ? qs.parse(api.url.substring(idx)) : {};
@@ -133,7 +137,7 @@ export function embed(
         query: query,
         body: api.data
       };
-      response = env.responseAdpater(api, response, query, request);
+      response = env.responseAdapter(api, response, query, request);
     } else {
       if (response.hasOwnProperty('errno')) {
         response.status = response.errno;
@@ -276,7 +280,7 @@ export function embed(
             data && (config.data = data);
             return axios(url, config)
               .then(attachmentAdpator)
-              .then(responseAdpater(api));
+              .then(responseAdapter(api));
           },
           isCancel: (value: any) => (axios as any).isCancel(value),
           copy: (contents: string, options: any = {}) => {
