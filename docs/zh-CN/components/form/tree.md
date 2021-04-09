@@ -104,6 +104,8 @@ order: 59
 
 ## 是否显示展开线
 
+> 1.1.6 版本
+
 通过 `showOutline` 来控制是否显示展开线。
 
 ```schema: scope="body"
