@@ -1301,10 +1301,10 @@
 
   --Transfer-title-bg: #f6f8f8;
 
-  --Tree-indent: var(--gap-md);
+  --Tree-indent: var(--gap-sm);
   --Tree-inputHeight: calc(var(--Form-input-height) * 0.85);
   --Tree-item-onHover-bg: rgba(0, 126, 255, 0.08);
-  --Tree-itemArrowWidth: #{px2rem(10px)};
+  --Tree-itemArrowWidth: #{px2rem(12px)};
   --Tree-itemHeight: #{px2rem(30px)};
   --Tree-itemLabel--onChecked-color: var(--Form-selectValue-color);
   --TreeSelect-popover-bg: #fff;

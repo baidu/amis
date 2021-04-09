@@ -31,8 +31,18 @@ order: 59
               "value": 2
             },
             {
-              "label": "file B",
-              "value": 3
+              "label": "Folder B",
+              "value": 3,
+              "children": [
+                {
+                  "label": "file b1",
+                  "value": 3.1
+                },
+                {
+                  "label": "file b2",
+                  "value": 3.2
+                }
+              ]
             }
           ]
         },
@@ -75,6 +85,59 @@ order: 59
             {
               "label": "file B",
               "value": 3
+            }
+          ]
+        },
+        {
+          "label": "file C",
+          "value": 4
+        },
+        {
+          "label": "file D",
+          "value": 5
+        }
+      ]
+    }
+  ]
+}
+```
+
+## 是否显示展开线
+
+通过 `showOutline` 来控制是否显示展开线。
+
+```schema: scope="body"
+{
+  "type": "form",
+  "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
+  "controls": [
+    {
+      "type": "tree",
+      "name": "tree",
+      "label": "Tree",
+      "showOutline": true,
+      "options": [
+        {
+          "label": "Folder A",
+          "value": 1,
+          "children": [
+            {
+              "label": "file A",
+              "value": 2
+            },
+            {
+              "label": "Folder B",
+              "value": 3,
+              "children": [
+                {
+                  "label": "file b1",
+                  "value": 3.1
+                },
+                {
+                  "label": "file b2",
+                  "value": 3.2
+                }
+              ]
             }
           ]
         },
