@@ -318,7 +318,6 @@
       > td,
       > th {
         padding: var(--TableCell-paddingY) var(--TableCell-paddingX);
-        vertical-align: top;
 
         &:first-child {
           padding-left: var(--TableCell--edge-paddingX);
