@@ -64,6 +64,7 @@ interface Item extends Config {
   body: string;
   level: 'info' | 'success' | 'error' | 'warning';
   id: string;
+  onDissmiss?: () => void;
   position?:
     | 'top-right'
     | 'top-center'
@@ -144,7 +145,9 @@ export class ToastComponent extends React.Component<
 
   handleDismissed(index: number) {
     const items = this.state.items.concat();
-    items.splice(index, 1);
+    const [item] = items.splice(index, 1);
+
+    item?.onDissmiss?.();
     this.setState({
       items: items
     });
