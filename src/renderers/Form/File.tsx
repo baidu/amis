@@ -11,7 +11,7 @@ import {Payload, ApiObject, ApiString} from '../../types';
 import {filter} from '../../utils/tpl';
 import Alert from '../../components/Alert2';
 import {qsstringify, createObject, guid, isEmpty} from '../../utils/helper';
-import {buildApi} from '../../utils/api';
+import {buildApi, normalizeApi} from '../../utils/api';
 import Button from '../../components/Button';
 import {Icon} from '../../components/icons';
 import DropZone from 'react-dropzone';
@@ -535,12 +535,13 @@ export default class FileControl extends React.Component<FileProps, FileState> {
       const ctx = createObject(data, {
         ...file
       });
-      const apiObjec = buildApi(api, ctx);
+      const apiObject = normalizeApi(api);
 
-      if (apiObjec.method?.toLowerCase() === 'get' && !apiObjec.data) {
-        window.open(apiObjec.url);
+      if (apiObject.method?.toLowerCase() === 'get' && !apiObject.data) {
+        window.open(apiObject.url);
       } else {
-        env.fetcher(api, ctx, {
+        apiObject.responseType = apiObject.responseType ?? 'blob';
+        env.fetcher(apiObject, ctx, {
           responseType: 'blob'
         });
       }
