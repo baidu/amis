@@ -125,7 +125,7 @@ export function embed(
   const responseAdaptor = (api: any) => (value: any) => {
     let response = value.data;
     // 之前拼写错了，需要兼容
-    if (env.responseAdpater) {
+    if (env && env.responseAdpater) {
       env.responseAdaptor = env.responseAdpater;
     }
     if (env && env.responseAdaptor) {
@@ -248,10 +248,10 @@ export function embed(
               location.href = to;
             }
           },
-          fetcher: (api: any) => {
+          fetcher: async (api: any) => {
             let {url, method, data, responseType, config, headers} = api;
             config = config || {};
-            config.withCredentials = true;
+            // config.withCredentials = true;
             responseType && (config.responseType = responseType);
 
             if (config.cancelExecutor) {
@@ -277,10 +277,31 @@ export function embed(
               config.headers['Content-Type'] = 'application/json';
             }
 
+            // 支持返回各种报错信息
+            config.validateStatus = function (status) {
+              return true;
+            };
+
             data && (config.data = data);
-            return axios(url, config)
-              .then(attachmentAdpator)
-              .then(responseAdaptor(api));
+            let response = await axios(url, config);
+            response = attachmentAdpator(response);
+            response = responseAdaptor(api)(response);
+
+            if (response.status >= 400) {
+              if (response.data) {
+                if (response.data.msg) {
+                  throw new Error(response.data.msg);
+                } else {
+                  throw new Error(
+                    '接口报错：' + JSON.stringify(response.data, null, 2)
+                  );
+                }
+              } else {
+                throw new Error(`接口出错，状态码是 ${response.status}`);
+              }
+            }
+
+            return response;
           },
           isCancel: (value: any) => (axios as any).isCancel(value),
           copy: (contents: string, options: any = {}) => {
