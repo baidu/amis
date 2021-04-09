@@ -46,6 +46,9 @@ interface TreeSelectorProps extends ThemeProps, LocaleProps {
   foldedField: string;
   disabledField: string;
 
+  // 是否显示 outline 辅助线
+  showOutline?: boolean;
+
   className?: string;
   itemClassName?: string;
   joinValues?: boolean;
@@ -102,6 +105,7 @@ export class TreeSelector extends React.Component<
 > {
   static defaultProps = {
     showIcon: true,
+    showOutline: false,
     initiallyOpen: true,
     unfoldedLevel: 0,
     showRadio: false,
@@ -731,6 +735,7 @@ export class TreeSelector extends React.Component<
       placeholder,
       hideRoot,
       rootLabel,
+      showOutline,
       showIcon,
       classnames: cx,
       creatable,
@@ -759,7 +764,11 @@ export class TreeSelector extends React.Component<
     }
 
     return (
-      <div className={cx(`Tree ${className || ''}`)}>
+      <div
+        className={cx(`Tree ${className || ''}`, {
+          'Tree--outline': showOutline
+        })}
+      >
         {(options && options.length) || addBtn || hideRoot === false ? (
           <ul className={cx('Tree-list')}>
             {hideRoot ? (
