@@ -6,6 +6,7 @@ import {ScopedContext, IScopedContext} from '../Scoped';
 import {buildApi, isApiOutdated} from '../utils/api';
 import {BaseSchema, SchemaUrlPath} from '../Schema';
 import {ActionSchema} from './Action';
+import {resolveVariable} from '../utils/tpl-builtin';
 
 /**
  * IFrame 渲染器
@@ -159,6 +160,10 @@ export default class IFrame extends React.Component<IFrameProps, object> {
       ...tempStyle,
       ...style
     };
+
+    if (typeof src === 'string' && src[0] === '$') {
+      src = resolveVariable(src, data);
+    }
 
     const finalSrc = src ? buildApi(src, data).url : undefined;
 
