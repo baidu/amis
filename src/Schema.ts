@@ -54,6 +54,7 @@ import {PaginationWrapperSchema} from './renderers/PaginationWrapper';
 import {PaginationSchema} from './renderers/Pagination';
 import {AnchorNavSchema} from './renderers/AnchorNav';
 import {AvatarSchema} from './renderers/Avatar';
+import {StepsSchema} from './renderers/Steps';
 
 // 每加个类型，这补充一下。
 export type SchemaType =
@@ -137,7 +138,8 @@ export type SchemaType =
   | 'video'
   | 'wizard'
   | 'wrapper'
-  | 'anchor-nav';
+  | 'anchor-nav'
+  | 'steps';
 
 export type SchemaObject =
   | PageSchema
@@ -195,7 +197,8 @@ export type SchemaObject =
   | WizardSchema
   | WrapperSchema
   | FormSchema
-  | AnchorNavSchema;
+  | AnchorNavSchema
+  | StepsSchema;
 
 export type SchemaCollection =
   | SchemaObject

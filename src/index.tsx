@@ -165,6 +165,7 @@ import './renderers/Icon';
 import './renderers/Carousel';
 import './renderers/AnchorNav';
 import './renderers/Form/AnchorNav';
+import './renderers/Steps';
 import Scoped, {ScopedContext} from './Scoped';
 
 import {FormItem, registerFormItem} from './renderers/Form/Item';

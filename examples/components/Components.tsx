@@ -985,6 +985,15 @@ export const components = [
           )
       },
       {
+        label: 'Steps 步骤条',
+        path: '/zh-CN/components/steps',
+        getComponent: () =>
+          // @ts-ignore
+          import('../../docs/zh-CN/components/steps.md').then(
+            makeMarkdownRenderer
+          )
+      },
+      {
         label: 'Property 属性表',
         path: '/zh-CN/components/property',
         getComponent: () =>

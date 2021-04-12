@@ -75,6 +75,7 @@ export class Tpl extends React.Component<TplProps, object> {
 
   getContent() {
     const {tpl, html, text, raw, value, data, placeholder} = this.props;
+    console.log(this.props);
 
     if (raw) {
       return raw;

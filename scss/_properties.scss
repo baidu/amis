@@ -52,6 +52,7 @@
 
   --borderColor: #{$borderColor};
   --borderColorLight: #{lighten($borderColor, 5%)};
+  --borderColorDarken: #{darken($borderColor, 10%)};
   --borderRadius: 0.142rem;
   --borderRadiusMd: 0.285rem;
   --borderRadiusLg: 0.428rem;
@@ -1333,4 +1334,15 @@
 
   --AnchorNav-links-container-borderRight: #{px2rem(1px)} solid #d3dae0;
   --AnchorNav-onActive-borderWidth: 0 #{px2rem(2px)} 0 0;
+
+  --Steps-bg: var(--borderColorDarken);
+  --Steps-status-success: var(--info);
+  --Steps-status-error: var(--danger);
+  --Steps-icon-fontsize: var(--fontSizeLg);
+  --Steps-title-fontsize: var(--fontSizeLg);
+  --Steps-title-color: var(--text--loud-color);
+  --Steps-sub-title-fontsize: var(--fontSizeBase);
+  --Steps-sub-title-color: var(--text-color);
+  --Steps-line-bg: var(--Steps-bg);
+  --Steps-line-success-bg: var(--Steps-status-success);
 }
