@@ -375,3 +375,10 @@ type Value = ValueGroup;
     ]
 }
 ```
+
+## 属性表
+
+| 属性名         | 类型     | 默认值 | 说明           |
+| -------------- | -------- | ------ | -------------- |
+| className      | `string` |        | 外层 dom 类名  |
+| fieldClassName | `string` |        | 输入字段的类名 |

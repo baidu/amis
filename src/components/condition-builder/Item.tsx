@@ -32,6 +32,7 @@ export interface ConditionItemProps extends ThemeProps {
   data?: any;
   disabled?: boolean;
   onChange: (value: ConditionRule, index?: number) => void;
+  fieldClassName?: string;
 }
 
 export class ConditionItem extends React.Component<ConditionItemProps> {
@@ -97,13 +98,14 @@ export class ConditionItem extends React.Component<ConditionItemProps> {
   }
 
   renderLeft() {
-    const {value, fields, funcs, config, disabled} = this.props;
+    const {value, fields, funcs, config, disabled, fieldClassName} = this.props;
 
     return (
       <Expression
         config={config}
         funcs={funcs}
         value={value.left}
+        fieldClassName={fieldClassName}
         onChange={this.handleLeftChange}
         fields={fields}
         disabled={disabled}

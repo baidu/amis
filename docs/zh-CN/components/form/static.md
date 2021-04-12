@@ -250,3 +250,26 @@ order: 52
 ```
 
 想要调整展示组件的配置，请查阅相应组件的文档。
+
+## 快速编辑
+
+通过 `quickEdit` 开启快速编辑功能，比如
+
+```schema: scope="body"
+{
+    "type": "form",
+    "controls": [
+        {
+            "name": "static",
+            "type": "static",
+            "label": "静态展示",
+            "value": "aaa",
+            "quickEdit": {
+                "type": "number"
+            }
+        }
+    ]
+}
+```
+
+其他配置项参考 [快速编辑](../crud#快速编辑)

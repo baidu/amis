@@ -17,6 +17,7 @@ export interface ConditionFuncProps extends ThemeProps {
   fields?: Field[];
   funcs?: Funcs;
   allowedTypes?: Array<'value' | 'field' | 'func' | 'formula'>;
+  fieldClassName?: string;
 }
 
 const option2value = (item: Func) => item.type;
@@ -67,7 +68,7 @@ export class ConditionFunc extends React.Component<ConditionFuncProps> {
   }
 
   render() {
-    const {value, classnames: cx, funcs, disabled} = this.props;
+    const {value, classnames: cx, fieldClassName, funcs, disabled} = this.props;
     const func = value
       ? findTree(funcs!, item => (item as Func).type === value.func)
       : null;
@@ -91,6 +92,7 @@ export class ConditionFunc extends React.Component<ConditionFuncProps> {
               <ResultBox
                 className={cx(
                   'CBGroup-fieldInput',
+                  fieldClassName,
                   isOpened ? 'is-active' : ''
                 )}
                 ref={ref}
