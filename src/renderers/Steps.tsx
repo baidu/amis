@@ -1,7 +1,7 @@
 import React from 'react';
-import { Renderer, RendererProps } from '../factory';
-import { BaseSchema, SchemaTpl } from '../Schema';
-import { Icon } from '../components/icons';
+import {Renderer, RendererProps} from '../factory';
+import {BaseSchema} from '../Schema';
+import {Icon} from '../components/icons';
 
 enum StepStatus {
     wait = 'wait',

@@ -1,5 +1,5 @@
 import React from 'react';
-import { match } from 'path-to-regexp';
+import {match} from 'path-to-regexp';
 import makeSchemaRenderer from './SchemaRender';
 
 import IndexPageSchema from './Index';
@@ -82,7 +82,7 @@ import Tab2Schema from './Tabs/Tab2';
 import Tab3Schema from './Tabs/Tab3';
 import TestComponent from './Test';
 import JSSDK from './JSSDK/index';
-import { normalizeLink } from '../../src/utils/normalizeLink';
+import {normalizeLink} from '../../src/utils/normalizeLink';
 
 export const examples = [
   {

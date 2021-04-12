@@ -5,8 +5,8 @@
  */
 
 import NotFound from './404';
-import { default as Alert, alert, confirm, prompt } from './Alert';
-import { default as ContextMenu, openContextMenus } from './ContextMenu';
+import {default as Alert, alert, confirm, prompt} from './Alert';
+import {default as ContextMenu, openContextMenus} from './ContextMenu';
 import AsideNav from './AsideNav';
 import Button from './Button';
 import Checkbox from './Checkbox';
@@ -16,7 +16,7 @@ import ColorPicker from './ColorPicker';
 import DatePicker from './DatePicker';
 import DateRangePicker from './DateRangePicker';
 import Drawer from './Drawer';
-import { default as Tabs, Tab } from './Tabs';
+import {default as Tabs, Tab} from './Tabs';
 import Editor from './Editor';
 import Html from './Html';
 import * as Icons from './icons';
@@ -35,7 +35,7 @@ import Spinner from './Spinner';
 import Switch from './Switch';
 import Textarea from './Textarea';
 import TitleBar from './TitleBar';
-import { default as ToastComponent, toast } from './Toast';
+import {default as ToastComponent, toast} from './Toast';
 import Tooltip from './Tooltip';
 import TooltipWrapper from './TooltipWrapper';
 import Tree from './Tree';
