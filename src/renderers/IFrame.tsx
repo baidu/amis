@@ -162,7 +162,7 @@ export default class IFrame extends React.Component<IFrameProps, object> {
     };
 
     if (isPureVariable(src)) {
-      src = resolveVariable(src, data);
+      src = resolveVaraibleAndFilter(src, data);
     }
 
     const finalSrc = src ? buildApi(src, data).url : undefined;
