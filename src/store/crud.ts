@@ -37,6 +37,7 @@ export const CRUDStore = ServiceStore.named('CRUDStore')
     mode: 'normal',
     hasNext: false,
     selectedAction: types.frozen(),
+    columns: types.frozen(),
     items: types.optional(types.array(types.frozen()), []),
     selectedItems: types.optional(types.array(types.frozen()), []),
     unSelectedItems: types.optional(types.array(types.frozen()), []),
@@ -242,6 +243,7 @@ export const CRUDStore = ServiceStore.named('CRUDStore')
             hasNext,
             items: oItems,
             rows: oRows,
+            columns,
             ...rest
           } = result;
 
@@ -295,6 +297,12 @@ export const CRUDStore = ServiceStore.named('CRUDStore')
               self.page * self.perPage
             );
             data.count = data.total = rowsData.length;
+          }
+
+          if (Array.isArray(columns)) {
+            self.columns = columns.concat();
+          } else {
+            self.columns = undefined;
           }
 
           self.items.replace(rowsData);
