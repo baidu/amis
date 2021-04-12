@@ -431,8 +431,6 @@ Form 默认会在底部渲染一个提交按钮，用于执行表单的提交行
 
 > 表单项的 value 是不支持表达式，所以不要尝试用 `value: "${xxx}"` 来关联数据。
 
-
-
 ### 轮询初始化请求
 
 Form 支持轮询初始化接口，步骤如下：
@@ -918,6 +916,30 @@ Form 支持轮询初始化接口，步骤如下：
 
 如果想提交成功后，清空该缓存，则配置`"clearPersistDataAfterSubmit": true`
 
+## 禁用回车提交
+
+表单默认情况下回车就会提交，如果想阻止这个行为，可以加上 `preventEnterSubmit` 配置项。
+
+```schema: scope="body"
+{
+    "type": "form",
+    "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
+    "preventEnterSubmit": true,
+    "controls": [
+      {
+        "type": "text",
+        "name": "name",
+        "label": "姓名："
+      },
+      {
+        "name": "email",
+        "type": "email",
+        "label": "邮箱："
+      }
+    ]
+}
+```
+
 ## 属性表
 
 | 属性名                      | 类型                                | 默认值                                                                 | 说明                                                                                                                                                                                                                                                                                                                                                         |
@@ -963,5 +985,6 @@ Form 支持轮询初始化接口，步骤如下：
 | canAccessSuperData          | `boolean`                           | `true`                                                                 | 指定是否可以自动获取上层的数据并映射到表单项上                                                                                                                                                                                                                                                                                                               |
 | persistData                 | `boolean`                           | `true`                                                                 | 指定表单是否开启本地缓存                                                                                                                                                                                                                                                                                                                                     |
 | clearPersistDataAfterSubmit | `boolean`                           | `true`                                                                 | 指定表单提交成功后是否清除本地缓存                                                                                                                                                                                                                                                                                                                           |
+| preventEnterSubmit          | `boolean`                           | `false`                                                                | 禁用回车提交表单                                                                                                                                                                                                                                                                                                                                             |
 | trimValues                  | `boolean`                           | `false`                                                                | trim 当前表单项的每一个值                                                                                                                                                                                                                                                                                                                                    |
 | promptPageLeave             | `boolean`                           | `false`                                                                | form 还没保存，即将离开页面前是否弹框确认。                                                                                                                                                                                                                                                                                                                  |
