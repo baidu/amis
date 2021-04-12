@@ -2041,6 +2041,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
           'body',
           {
             ...rest,
+            columns: store.columns ?? rest.columns,
             type: mode || 'table'
           },
           {

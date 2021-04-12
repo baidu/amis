@@ -1769,6 +1769,20 @@ CRUD 中不限制有多少个单条操作、添加一个操作对应的添加一
 
 > **注意：**如果你的数据量较大，请务必使用服务端分页的方案，过多的前端数据展示，会显著影响前端页面的性能
 
+## 动态列
+
+> since 1.1.6
+
+在 1.1.6 之前的版本，只能通过 service + schemaApi 让后端返回 schema 配置来实现，1.1.6 版本之后可以直接通过 crud 的数据接口返回了。
+用这种方式可以简化动态列的实现，与 items 并列返回 columns 数组即即可。
+
+```schema: scope="body"
+{
+    "type": "crud",
+    "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/crud/dynamic?waitSeconds=1"
+}
+```
+
 ## 属性表
 
 | 属性名                                | 类型                        | 默认值                          | 说明                                                                                                                  |
