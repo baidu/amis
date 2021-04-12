@@ -2,18 +2,18 @@
     display: flex;
     list-style: none;
     padding: 0;
-    &-item {
+    .#{$ns}StepsItem {
         flex: 1;
         overflow: hidden;
         padding: 0 px2rem(20px);
         height: auto;
         line-height: px2rem(32px);
-        &-wrapper {
-            &-icon {
+        &-container {
+            &Icon {
                 vertical-align: top;
                 display: inline-block;
                 padding-right: px2rem(10px);
-                .#{$ns}Step-icon {
+                .#{$ns}StepsItem-icon {
                     display: inline-block;
                     width: px2rem(30px);
                     height: px2rem(30px);
@@ -23,11 +23,11 @@
                     text-align: center;
                 }
             }
-            &-container {
+            &Wrapper {
                 display: inline-block;
                 position: relative;
-                &-content {
-                    .#{$ns}Step-title {
+                .#{$ns}StepsItem-body {
+                    .#{$ns}StepsItem-title {
                         font-size: var(--Steps-title-fontsize);
                         color: var(--Steps-title-color);
                         padding-right: px2rem(20px);
@@ -35,11 +35,6 @@
                         display: inline-block;
                         > span {
                             display: inline-block;
-                        }
-                        .subtitle {
-                            padding-left: px2rem(10px);
-                            font-size: var(--Steps-sub-title-fontsize);
-                            color: var(--Steps-sub-title-color);
                         }
                         &:after {
                             content: '';
@@ -52,13 +47,18 @@
                             padding-right: 10px;
                             background-color: var(--Steps-line-bg);
                         }
-                        &.#{$ns}Step-success {
-                            &:after {
-                                background-color: var(--Steps-line-success-bg);
-                            }
+                    }
+                    .#{$ns}StepsItem-title.is-success {
+                        &:after {
+                            background-color: var(--Steps-line-success-bg);
                         }
                     }
-                    .step-description {
+                    .#{$ns}StepsItem-subTitle {
+                        padding-left: px2rem(10px);
+                        font-size: var(--Steps-sub-title-fontsize);
+                        color: var(--Steps-sub-title-color);
+                    }
+                    .#{$ns}StepsItem-description {
                         max-width: px2rem(140px);
                         white-space: nowrap;
                     }
@@ -67,38 +67,32 @@
         }
         &:last-child {
             flex: none;
-            .#{$ns}Step-title {
+            .#{$ns}StepsItem-title {
                 &:after {
                     display: none;
                 }
             }
         }
     }
-    &-item-wait {
-        .#{$ns}Step-icon {
+    .#{$ns}StepsItem.is-wait {
+        .#{$ns}StepsItem-icon {
             background-color: var(--white);
             color: var(--Steps-bg);
             border: 1px solid var(--Steps-bg);
         }
     }
-    &-item-error {
-        .#{$ns}Step-icon {
+    .#{$ns}StepsItem.is-error {
+        .#{$ns}StepsItem-icon {
             background-color: var(--Steps-status-error);
             color: var(--white);
             border: 1px solid var(--Steps-status-error);
         }
-        .#{$ns}Step-title {
-            color: var(--Steps-status-error);
-            .subtitle {
-                color: var(--Steps-status-error);
-            }
-        }
-        .step-description {
+        .#{$ns}StepsItem-title, .#{$ns}StepsItem-subTitle, .#{$ns}StepsItem-description {
             color: var(--Steps-status-error);
         }
     }
-    &-item-finish, &-item-process {
-        .#{$ns}Step-icon {
+    .#{$ns}StepsItem.is-finish, .#{$ns}StepsItem.is-process {
+        .#{$ns}StepsItem-icon {
             background-color: var(--Steps-status-success);
             color: var(--white);
             border: 1px solid var(--Steps-status-success);
