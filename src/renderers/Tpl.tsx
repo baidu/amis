@@ -1,10 +1,10 @@
 import React from 'react';
-import { Renderer, RendererProps } from '../factory';
-import { filter } from '../utils/tpl';
+import {Renderer, RendererProps} from '../factory';
+import {filter} from '../utils/tpl';
 import cx from 'classnames';
-import { anyChanged } from '../utils/helper';
-import { escapeHtml } from '../utils/tpl-builtin';
-import { BaseSchema, SchemaTpl } from '../Schema';
+import {anyChanged} from '../utils/helper';
+import {escapeHtml} from '../utils/tpl-builtin';
+import {BaseSchema, SchemaTpl} from '../Schema';
 
 /**
  * tpl 渲染器
@@ -74,7 +74,7 @@ export class Tpl extends React.Component<TplProps, object> {
   }
 
   getContent() {
-    const { tpl, html, text, raw, value, data, placeholder } = this.props;
+    const {tpl, html, text, raw, value, data, placeholder} = this.props;
 
     if (raw) {
       return raw;
@@ -88,8 +88,8 @@ export class Tpl extends React.Component<TplProps, object> {
       return value == null || value === ''
         ? `<span class="text-muted">${placeholder}</span>`
         : typeof value === 'string'
-          ? value
-          : JSON.stringify(value);
+        ? value
+        : JSON.stringify(value);
     }
   }
 
@@ -127,4 +127,4 @@ export class Tpl extends React.Component<TplProps, object> {
   test: /(^|\/)(?:tpl|html)$/,
   name: 'tpl'
 })
-export class TplRenderer extends Tpl { }
+export class TplRenderer extends Tpl {}

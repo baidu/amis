@@ -66,7 +66,7 @@ export interface StepsSchema extends BaseSchema {
     mode?: 'horizontal' | 'vertical';
 }
 
-export interface StepsProps extends RendererProps, Omit<StepsSchema, 'className'> { }
+export interface StepsProps extends RendererProps, Omit<StepsSchema, 'className'> {}
 
 export function Steps(props: StepsProps) {
 
