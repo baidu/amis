@@ -15,8 +15,26 @@ order: 51
 ```schema: scope="body"
 {
     "type": "iframe",
-    "src": "https://www.baidu.com",
-    "height": 600
+    "src": "https://gitee.com/baidu/amis",
+    "height": 300
+}
+```
+
+## src 也可以从上下文获取
+
+> 1.1.6
+
+```schema:
+{
+  "type": "page",
+  "data": {
+    "iframeSrc": "https://gitee.com/baidu/amis"
+  },
+  "body": {
+    "type": "iframe",
+    "src": "${iframeSrc}",
+    "height": 300
+  }
 }
 ```
 
