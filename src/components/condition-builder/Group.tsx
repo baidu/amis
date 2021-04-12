@@ -19,6 +19,7 @@ export interface ConditionGroupProps extends ThemeProps {
   removeable?: boolean;
   onRemove?: (e: React.MouseEvent) => void;
   onDragStart?: (e: React.MouseEvent) => void;
+  fieldClassName?: string;
 }
 
 export class ConditionGroup extends React.Component<ConditionGroupProps> {
@@ -112,6 +113,7 @@ export class ConditionGroup extends React.Component<ConditionGroupProps> {
   render() {
     const {
       classnames: cx,
+      fieldClassName,
       value,
       data,
       fields,
@@ -193,6 +195,7 @@ export class ConditionGroup extends React.Component<ConditionGroupProps> {
                 config={config}
                 key={item.id}
                 fields={fields}
+                fieldClassName={fieldClassName}
                 value={item as ConditionGroupValue}
                 index={index}
                 onChange={this.handleItemChange}

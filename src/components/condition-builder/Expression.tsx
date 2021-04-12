@@ -41,6 +41,7 @@ export interface ExpressionProps extends ThemeProps {
   op?: OperatorType;
   config: Config;
   disabled?: boolean;
+  fieldClassName?: string;
 }
 
 const fieldMap = {
@@ -126,6 +127,7 @@ export class Expression extends React.Component<ExpressionProps> {
       fields,
       op,
       classnames: cx,
+      fieldClassName,
       config,
       data,
       disabled
@@ -166,6 +168,7 @@ export class Expression extends React.Component<ExpressionProps> {
           <ConditionField
             value={(value as any)?.field}
             onChange={this.handleFieldChange}
+            fieldClassName={fieldClassName}
             disabled={disabled}
             options={
               valueField
@@ -185,6 +188,7 @@ export class Expression extends React.Component<ExpressionProps> {
             config={config}
             value={value as ExpressionFunc}
             onChange={this.handleFuncChange}
+            fieldClassName={fieldClassName}
             funcs={funcs}
             fields={fields}
             allowedTypes={allowedTypes}

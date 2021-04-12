@@ -20,6 +20,7 @@ export interface CBGroupOrItemProps extends ThemeProps {
   removeable?: boolean;
   onDragStart?: (e: React.MouseEvent) => void;
   onRemove?: (index: number) => void;
+  fieldClassName?: string;
 }
 
 export class CBGroupOrItem extends React.Component<CBGroupOrItemProps> {
@@ -36,6 +37,7 @@ export class CBGroupOrItem extends React.Component<CBGroupOrItemProps> {
   render() {
     const {
       classnames: cx,
+      fieldClassName,
       value,
       config,
       fields,
@@ -67,6 +69,7 @@ export class CBGroupOrItem extends React.Component<CBGroupOrItemProps> {
               fields={fields}
               value={value as ConditionGroupValue}
               onChange={this.handleItemChange}
+              fieldClassName={fieldClassName}
               funcs={funcs}
               removeable
               onRemove={this.handleItemRemove}
@@ -80,6 +83,7 @@ export class CBGroupOrItem extends React.Component<CBGroupOrItemProps> {
                 fields={fields}
                 value={value as ConditionValue}
                 onChange={this.handleItemChange}
+                fieldClassName={fieldClassName}
                 funcs={funcs}
                 data={data}
               />

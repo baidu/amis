@@ -11,6 +11,7 @@ export interface ConditionFieldProps extends ThemeProps {
   value: any;
   onChange: (value: any) => void;
   disabled?: boolean;
+  fieldClassName?: string;
 }
 
 const option2value = (item: any) => item.name;
@@ -20,6 +21,7 @@ export function ConditionField({
   onChange,
   value,
   classnames: cx,
+  fieldClassName,
   disabled
 }: ConditionFieldProps) {
   return (
@@ -38,7 +40,11 @@ export function ConditionField({
       {({onClick, ref, isOpened}) => (
         <div className={cx('CBGroup-field')}>
           <ResultBox
-            className={cx('CBGroup-fieldInput', isOpened ? 'is-active' : '')}
+            className={cx(
+              'CBGroup-fieldInput',
+              fieldClassName,
+              isOpened ? 'is-active' : ''
+            )}
             ref={ref}
             allowInput={false}
             result={
