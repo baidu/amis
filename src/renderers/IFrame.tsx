@@ -6,7 +6,7 @@ import {ScopedContext, IScopedContext} from '../Scoped';
 import {buildApi, isApiOutdated} from '../utils/api';
 import {BaseSchema, SchemaUrlPath} from '../Schema';
 import {ActionSchema} from './Action';
-import {resolveVariable} from '../utils/tpl-builtin';
+import {isPureVariable, resolveVariable} from '../utils/tpl-builtin';
 
 /**
  * IFrame 渲染器
@@ -161,7 +161,7 @@ export default class IFrame extends React.Component<IFrameProps, object> {
       ...style
     };
 
-    if (typeof src === 'string' && src[0] === '$') {
+    if (isPureVariable(src)) {
       src = resolveVariable(src, data);
     }
 
