@@ -538,7 +538,7 @@ export default class FileControl extends React.Component<FileProps, FileState> {
       const apiObject = normalizeApi(api);
 
       if (apiObject.method?.toLowerCase() === 'get' && !apiObject.data) {
-        window.open(apiObject.url);
+        window.open(buildApi(apiObject, ctx).url);
       } else {
         apiObject.responseType = apiObject.responseType ?? 'blob';
         env.fetcher(apiObject, ctx, {
@@ -1100,6 +1100,7 @@ export default class FileControl extends React.Component<FileProps, FileState> {
     } = this.props;
     let {files, uploading, error} = this.state;
     const nameField = this.props.nameField || 'name';
+    const urlField = this.props.urlField || 'url';
 
     const hasPending = files.some(file => file.state == 'pending');
 
@@ -1181,7 +1182,7 @@ export default class FileControl extends React.Component<FileProps, FileState> {
                             })}
                           >
                             <Icon icon="file" className="icon" />
-                            {(file as FileValue).url || downloadUrl ? (
+                            {(file as FileValue)[urlField] || downloadUrl ? (
                               <a
                                 className={cx('FileControl-itemInfoText')}
                                 target="_blank"
