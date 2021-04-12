@@ -69,12 +69,12 @@
         content: '';
         position: absolute;
         width: px2rem(10px);
-        height: px2rem(5px);
+        height: var(--gap-xs);
         border-color: var(--ListControl-item-onActive-after-borderColor);
         border-style: solid;
         border-width: 0 0 px2rem(2px) px2rem(2px);
         right: px2rem(1px);
-        bottom: px2rem(5px);
+        bottom: var(--gap-xs);
         transform: rotate(-40deg);
       }
     }

@@ -106,6 +106,7 @@ export default class TreeControl extends React.Component<TreeProps> {
       rootValue,
       showIcon,
       showRadio,
+      showOutline,
       onAdd,
       creatable,
       createTip,
@@ -148,6 +149,7 @@ export default class TreeControl extends React.Component<TreeProps> {
             rootValue={rootValue}
             showIcon={showIcon}
             showRadio={showRadio}
+            showOutline={showOutline}
             cascade={cascade}
             foldedField="collapsed"
             value={value || ''}

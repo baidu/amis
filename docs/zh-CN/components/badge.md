@@ -39,7 +39,7 @@ order: 30
   },
   {
     "type": "avatar",
-    "className": "m-l"
+    "className": "m-l",
     "badge": {
       "mode": "text",
       "text": 0

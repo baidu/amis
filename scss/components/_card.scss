@@ -96,7 +96,7 @@
     border-radius: 100%;
     display: inline-block;
     position: absolute;
-    top: px2rem(5px);
+    top: var(--gap-xs);
     right: px2rem(2px);
   }
 

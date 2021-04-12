@@ -121,8 +121,8 @@
 
     .#{$ns}Drawer-close svg {
       margin-top: px2rem(2px);
-      width: px2rem(20px);
-      height: px2rem(20px);
+      width: var(--gap-md);
+      height: var(--gap-md);
       fill: #99a6ad;
     }
   }

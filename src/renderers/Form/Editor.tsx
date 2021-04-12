@@ -86,6 +86,7 @@ export interface EditorControlSchema extends Omit<FormBaseControl, 'size'> {
     | 'ruby'
     | 'sb'
     | 'scss'
+    | 'shell'
     | 'sol'
     | 'sql'
     | 'swift'
@@ -266,6 +267,7 @@ export const availableLanguages = [
   'sb',
   'scss',
   'sol',
+  'shell',
   'sql',
   'swift',
   'typescript',

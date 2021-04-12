@@ -55,6 +55,8 @@ export class TableRow extends React.Component<TableRowProps> {
     const props = this.props;
     if (props.columns !== nextProps.columns) {
       return true;
+    } else if (nextProps.columns.some(column => column.pristine.tpl)) {
+      return true;
     }
 
     // 不需要更新，因为子节点已经 observer 了

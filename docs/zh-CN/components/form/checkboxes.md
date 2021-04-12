@@ -44,9 +44,9 @@ order: 9
 }
 ```
 
-## 在一行内显示
+## 按列显示
 
-设置 `"inline": true`
+设置 `"inline": false`
 
 ```schema: scope="body"
 {
@@ -57,7 +57,7 @@ order: 9
         "name": "checkboxes",
         "type": "checkboxes",
         "label": "复选框",
-        "inline": true,
+        "inline": false,
         "options": [
             {
                 "label": "OptionA",
@@ -121,6 +121,7 @@ order: 9
             "type": "checkboxes",
             "label": "显示两列的复选框",
             "columnsCount": 2,
+            "inline": false,
             "options": [
                 {
                     "label": "OptionA",
@@ -152,14 +153,14 @@ order: 9
 | --------------- | ----------------------------------------- | ------------ | ------------------------------------------------------------------------------------------------------------------- |
 | options         | `Array<object>`或`Array<string>`          |              | [选项组](./options#%E9%9D%99%E6%80%81%E9%80%89%E9%A1%B9%E7%BB%84-options)                                           |
 | source          | `string`或 [API](../../../docs/types/api) |              | [动态选项组](./options#%E5%8A%A8%E6%80%81%E9%80%89%E9%A1%B9%E7%BB%84-source)                                        |
-| delimeter       | `string`                                  | `,`      | [拼接符](./options#%E6%8B%BC%E6%8E%A5%E7%AC%A6-delimiter)                                                           |
+| delimeter       | `string`                                  | `,`          | [拼接符](./options#%E6%8B%BC%E6%8E%A5%E7%AC%A6-delimiter)                                                           |
 | labelField      | `string`                                  | `"label"`    | [选项标签字段](./options#%E9%80%89%E9%A1%B9%E6%A0%87%E7%AD%BE%E5%AD%97%E6%AE%B5-labelfield)                         |
 | valueField      | `string`                                  | `"value"`    | [选项值字段](./options#%E9%80%89%E9%A1%B9%E5%80%BC%E5%AD%97%E6%AE%B5-valuefield)                                    |
 | joinValues      | `boolean`                                 | `true`       | [拼接值](./options#%E6%8B%BC%E6%8E%A5%E5%80%BC-joinvalues)                                                          |
 | extractValue    | `boolean`                                 | `false`      | [提取值](./options#%E6%8F%90%E5%8F%96%E5%A4%9A%E9%80%89%E5%80%BC-extractvalue)                                      |
 | columnsCount    | `number`                                  | `1`          | 选项按几列显示，默认为一列                                                                                          |
 | checkAll        | `boolean`                                 | `false`      | 是否支持全选                                                                                                        |
-| inline        | `boolean`                                   | `false`      | 是否显示为一行                                                                                                        |
+| inline          | `boolean`                                 | `true`       | 是否显示为一行                                                                                                      |
 | defaultCheckAll | `boolean`                                 | `false`      | 默认是否全选                                                                                                        |
 | creatable       | `boolean`                                 | `false`      | [新增选项](./options#%E5%89%8D%E7%AB%AF%E6%96%B0%E5%A2%9E-creatable)                                                |
 | createBtnLabel  | `string`                                  | `"新增选项"` | [新增选项](./options#%E6%96%B0%E5%A2%9E%E9%80%89%E9%A1%B9)                                                          |

@@ -7,8 +7,8 @@
 
   &-addBtn {
     margin: 0;
-    width: px2rem(120px);
-    height: px2rem(120px);
+    width: px2rem(80px);
+    height: px2rem(80px);
     display: inline-flex;
     justify-content: center;
     align-items: center;
@@ -29,8 +29,8 @@
     );
 
     > svg {
-      width: px2rem(50px);
-      height: px2rem(50px);
+      width: px2rem(40px);
+      height: px2rem(40px);
       top: 0;
     }
 

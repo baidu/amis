@@ -22,7 +22,10 @@ interface ApiCacheConfig extends ApiObject {
 
 const apiCaches: Array<ApiCacheConfig> = [];
 
-export function normalizeApi(api: Api, defaultMethod?: string): ApiObject {
+export function normalizeApi(
+  api: Api,
+  defaultMethod: string = 'get'
+): ApiObject {
   if (typeof api === 'string') {
     let method = rSchema.test(api) ? RegExp.$1 : '';
     method && (api = api.replace(method + ':', ''));

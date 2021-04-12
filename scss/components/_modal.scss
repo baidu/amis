@@ -2,7 +2,7 @@
   overflow: hidden;
 
   &.has-scrollbar {
-    padding-right: px2rem(15px);
+    padding-right: var(--gap-md);
   }
 
   .#{$ns}Modal {

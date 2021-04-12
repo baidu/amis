@@ -355,3 +355,23 @@ type Value = ValueGroup;
     ]
 }
 ```
+
+## 字段选项远程拉取
+
+- 方式 1 配置 `source` 接口返回的数据对象 `data` 中存在 fields 变量即可。
+- 方式 2 关联上下文变量如 `source: "${xxxxField}"`
+
+```schema: scope="body"
+{
+    "type": "form",
+    "controls": [
+      {
+        "type": "condition-builder",
+        "label": "条件组件",
+        "name": "conditions",
+        "description": "适合让用户自己拼查询条件，然后后端根据数据生成 query where",
+        "source": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/condition-fields?a=${a}&waitSeconds=2"
+      }
+    ]
+}
+```

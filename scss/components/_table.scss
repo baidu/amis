@@ -83,7 +83,7 @@
       border-top: var(--Table-borderWidth) solid var(--Table-borderColor);
 
       > table {
-        margin-bottom: px2rem(5px);
+        margin-bottom: var(--gap-xs);
       }
     }
 
@@ -318,7 +318,6 @@
       > td,
       > th {
         padding: var(--TableCell-paddingY) var(--TableCell-paddingX);
-        vertical-align: top;
 
         &:first-child {
           padding-left: var(--TableCell--edge-paddingX);
@@ -423,14 +422,14 @@
     @for $i from 2 through 10 {
       tr.#{$ns}Table-tr--#{$i}th.is-expanded {
         .#{$ns}Table-expandCell:before {
-          right: px2rem(7px) + px2rem(-20px) * ($i - 1);
+          right: px2rem(7px) + px2rem(-18px) * ($i - 1);
         }
       }
 
       tr.#{$ns}Table-tr--#{$i}th {
         .#{$ns}Table-expandBtn {
           position: relative;
-          right: -(px2rem(20px)) * ($i - 1);
+          right: -(px2rem(18px)) * ($i - 1);
         }
 
         .#{$ns}Table-expandCell + td {
@@ -442,7 +441,7 @@
             width: px2rem(1px);
             top: 0;
             bottom: 0;
-            left: px2rem(-8px) + px2rem(20px) * ($i - 2);
+            left: px2rem(-8px) + px2rem(18px) * ($i - 2);
             height: auto;
             background: var(--Table-tree-borderColor);
           }
@@ -452,18 +451,18 @@
             position: absolute;
             height: px2rem(1px);
             top: px2rem(18px);
-            left: px2rem(-8px) + px2rem(20px) * ($i - 2);
+            left: px2rem(-8px) + px2rem(18px) * ($i - 2);
             width: px2rem(10px);
             background: var(--Table-tree-borderColor);
           }
 
-          padding-left: px2rem(20px) * $i - px2rem(20px);
+          padding-left: px2rem(18px) * $i - px2rem(18px);
         }
       }
 
       tr.#{$ns}Table-tr--#{$i}th.is-expandable {
         .#{$ns}Table-expandCell + td {
-          padding-left: px2rem(20px) * ($i - 1);
+          padding-left: px2rem(18px) * ($i - 1);
         }
       }
 
@@ -514,7 +513,7 @@
           bottom: 0;
           height: 100%;
           background: var(--Table-tree-borderColor);
-          right: px2rem(7px) + px2rem(-20px) * ($i - 1);
+          right: px2rem(7px) + px2rem(-18px) * ($i - 1);
         }
       }
     }
@@ -559,7 +558,7 @@
   &Cell-sortBtn {
     cursor: pointer;
     width: var(--TableCell-sortBtn-width);
-    height: px2rem(20px);
+    height: var(--gap-md);
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -615,7 +614,7 @@
     cursor: pointer;
     // width: var(--TableCell-searchBtn-width);
     position: absolute;
-    right: px2rem(5px);
+    right: var(--gap-xs);
     top: 50%;
     transform: translateY(-50%);
     color: var(--text--muted-color);

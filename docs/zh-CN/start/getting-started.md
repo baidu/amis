@@ -121,7 +121,7 @@ let amisScoped = amis.embed(
 
     // 可以不传，全局 api 适配器。
     // 另外在 amis 配置项中的 api 也可以配置适配器，针对某个特定接口单独处理。
-    responseAdpater(api, response, query, request) {
+    responseAdaptor(api, response, query, request) {
       return response;
     }
 

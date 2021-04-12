@@ -108,7 +108,7 @@ export default class PlayGround extends React.Component {
           router.push(to);
         }
       },
-      fetcher: config => {
+      fetcher: async config => {
         config = {
           dataType: 'json',
           ...config
@@ -120,7 +120,31 @@ export default class PlayGround extends React.Component {
           config.headers['Content-Type'] = 'application/json';
         }
 
-        return axios[config.method](config.url, config.data, config);
+        // 支持返回各种报错信息
+        config.validateStatus = function (status) {
+          return true;
+        };
+
+        const response = await axios[config.method](
+          config.url,
+          config.data,
+          config
+        );
+
+        if (response.status >= 400) {
+          if (response.data) {
+            if (response.data.msg) {
+              throw new Error(response.data.msg);
+            } else {
+              throw new Error(
+                '接口报错：' + JSON.stringify(response.data, null, 2)
+              );
+            }
+          } else {
+            throw new Error(`接口出错，状态码是 ${response.status}`);
+          }
+        }
+        return response;
       },
       isCancel: value => axios.isCancel(value),
       notify: (type, msg) =>

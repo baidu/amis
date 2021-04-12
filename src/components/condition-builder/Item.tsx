@@ -30,6 +30,7 @@ export interface ConditionItemProps extends ThemeProps {
   index?: number;
   value: ConditionRule;
   data?: any;
+  disabled?: boolean;
   onChange: (value: ConditionRule, index?: number) => void;
 }
 
@@ -96,7 +97,7 @@ export class ConditionItem extends React.Component<ConditionItemProps> {
   }
 
   renderLeft() {
-    const {value, fields, funcs, config} = this.props;
+    const {value, fields, funcs, config, disabled} = this.props;
 
     return (
       <Expression
@@ -105,6 +106,7 @@ export class ConditionItem extends React.Component<ConditionItemProps> {
         value={value.left}
         onChange={this.handleLeftChange}
         fields={fields}
+        disabled={disabled}
         allowedTypes={
           ['field', 'func'].filter(
             type => type === 'field' || type === 'func'
@@ -115,7 +117,7 @@ export class ConditionItem extends React.Component<ConditionItemProps> {
   }
 
   renderOperator() {
-    const {funcs, config, fields, value, classnames: cx} = this.props;
+    const {funcs, config, fields, value, classnames: cx, disabled} = this.props;
     const left = value?.left;
     let operators: Array<string> = [];
 
@@ -168,6 +170,7 @@ export class ConditionItem extends React.Component<ConditionItemProps> {
                 result={OperationMap[value?.op as keyof typeof OperationMap]}
                 onResultChange={noop}
                 onResultClick={onClick}
+                disabled={disabled}
                 placeholder="请选择操作"
               >
                 <span className={cx('CBGroup-operatorCaret')}>
@@ -221,7 +224,15 @@ export class ConditionItem extends React.Component<ConditionItemProps> {
   }
 
   renderRightWidgets(type: string, op: OperatorType) {
-    const {funcs, value, data, fields, config, classnames: cx} = this.props;
+    const {
+      funcs,
+      value,
+      data,
+      fields,
+      config,
+      classnames: cx,
+      disabled
+    } = this.props;
     let field = {
       ...config.types[type],
       type
@@ -258,6 +269,7 @@ export class ConditionItem extends React.Component<ConditionItemProps> {
               field?.valueTypes ||
               config.valueTypes || ['value', 'field', 'func', 'formula']
             }
+            disabled={disabled}
           />
 
           <span className={cx('CBSeprator')}>~</span>
@@ -274,6 +286,7 @@ export class ConditionItem extends React.Component<ConditionItemProps> {
               field?.valueTypes ||
               config.valueTypes || ['value', 'field', 'func', 'formula']
             }
+            disabled={disabled}
           />
         </>
       );
@@ -293,6 +306,7 @@ export class ConditionItem extends React.Component<ConditionItemProps> {
           field?.valueTypes ||
           config.valueTypes || ['value', 'field', 'func', 'formula']
         }
+        disabled={disabled}
       />
     );
   }

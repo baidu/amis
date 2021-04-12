@@ -6,6 +6,7 @@ import {ClassNamesFn, themeable, ThemeProps} from '../../theme';
 
 export interface InputSwitchProps extends ThemeProps {
   options: Array<any>;
+  disabled?: boolean;
   value: any;
   onChange: (value: any) => void;
 }
@@ -16,7 +17,8 @@ export function InputSwitch({
   options,
   value,
   onChange,
-  classnames: cx
+  classnames: cx,
+  disabled
 }: InputSwitchProps) {
   return (
     <PopOverContainer
@@ -28,6 +30,7 @@ export function InputSwitch({
           options={options}
           value={value}
           showRadio={false}
+          disabled={disabled}
         />
       )}
     >

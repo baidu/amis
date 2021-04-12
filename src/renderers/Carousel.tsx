@@ -97,7 +97,6 @@ export interface CarouselProps
 export interface CarouselState {
   current: number;
   options: any[];
-  showArrows: boolean;
   nextAnimation: string;
 }
 
@@ -108,8 +107,8 @@ const defaultSchema = {
         <div style="background-image: url('<%= data.image %>'); background-size: contain; background-repeat: no-repeat; background-position: center center;" class="image <%= data.imageClassName %>"></div>
         <% if (data.hasOwnProperty('title')) { %>
             <div class="title <%= data.titleClassName %>"><%= data.title %></div>
-        <% } if (data.hasOwnProperty('description')) { %> 
-            <div class="description <%= data.descriptionClassName %>"><%= data.description %></div> 
+        <% } if (data.hasOwnProperty('description')) { %>
+            <div class="description <%= data.descriptionClassName %>"><%= data.description %></div>
         <% } %>
     <% } else if (data.hasOwnProperty('html')) { %>
         <%= data.html %>"
@@ -117,8 +116,8 @@ const defaultSchema = {
         <div style="background-image: url('<%= data.image %>')" class="image <%= data.imageClassName %>"></div>
         <% if (data.title) { %>
             <div class="title <%= data.titleClassName %>"><%= data.title %></div>
-        <% } if (data.description) { %> 
-            <div class="description <%= data.descriptionClassName %>"><%= data.description %></div> 
+        <% } if (data.description) { %>
+            <div class="description <%= data.descriptionClassName %>"><%= data.description %></div>
         <% } %>
     <% } else if (data.hasOwnProperty('html')) { %>
         <%= data.html %>
@@ -161,7 +160,6 @@ export class Carousel extends React.Component<CarouselProps, CarouselState> {
       this.props.options ||
       resolveVariable(this.props.name, this.props.data) ||
       [],
-    showArrows: false,
     nextAnimation: ''
   };
 
@@ -313,17 +311,11 @@ export class Carousel extends React.Component<CarouselProps, CarouselState> {
 
   @autobind
   handleMouseEnter() {
-    this.setState({
-      showArrows: true
-    });
     this.clearAutoTimeout();
   }
 
   @autobind
   handleMouseLeave() {
-    this.setState({
-      showArrows: false
-    });
     this.prepareAutoSlide();
   }
 
@@ -342,7 +334,7 @@ export class Carousel extends React.Component<CarouselProps, CarouselState> {
       data,
       name
     } = this.props;
-    const {options, showArrows, current, nextAnimation} = this.state;
+    const {options, current, nextAnimation} = this.state;
 
     let body: JSX.Element | null = null;
     let carouselStyles: {
@@ -406,7 +398,7 @@ export class Carousel extends React.Component<CarouselProps, CarouselState> {
             </Transition>
           ))}
           {dots ? this.renderDots() : null}
-          {arrows && showArrows ? this.renderArrows() : null}
+          {arrows ? this.renderArrows() : null}
         </div>
       );
     }
