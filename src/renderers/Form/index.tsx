@@ -287,6 +287,11 @@ export interface FormSchema extends BaseSchema {
     rule: string;
     message: string;
   }>;
+
+  /**
+   * 禁用回车提交
+   */
+  preventEnterSubmit?: boolean;
 }
 
 export type FormGroup = FormSchema & {
@@ -818,7 +823,13 @@ export default class Form extends React.Component<FormProps, object> {
   }
 
   handleFormSubmit(e: React.UIEvent<any>) {
+    const {preventEnterSubmit} = this.props;
+
     e.preventDefault();
+    if (preventEnterSubmit) {
+      return false;
+    }
+
     return this.handleAction(
       e,
       {
