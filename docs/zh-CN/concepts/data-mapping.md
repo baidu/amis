@@ -353,6 +353,29 @@ order: 12
 }
 ```
 
+### namespace
+
+> since 1.1.6
+
+默认取值都是从当前组件上下文数据链中取数据，但是有些数据可能不在这个数据链中，比如有些数据存在全局变量，有的数据存在 localstorage 中。
+
+从 1.1.6 版本开始，支持了一种新的语法如：`${window:document.title}` 意思是从全局变量中取页面的标题。
+
+目前有以下三种 namespace
+
+- `window` 即全局变量
+- `ls` 即 localStorage， 如果值是 json 对象，可以直接当对象用比如：`${ls:xxxxxlocalStrorageKey.xxxx}`
+- `ss` 即 sessionStorage，同上。
+
+```schema
+{
+  "type": "page",
+  "body": "当前页面标题为：<span class='label label-info'>${window:document[title]}</span>"
+}
+```
+
+注意，localStoarge
+
 ## 过滤器
 
 过滤器是对数据映射的一种增强，它的作用是对获取数据做一些处理，基本用法如下：
