@@ -38,7 +38,7 @@ fieldset.#{$ns}Collapse {
     color: var(--text--loud-color);
     border-left: var(--primary) px2rem(4px) solid;
     line-height: 1.2;
-    margin: 8px 0 28px;
+    margin: var(--gap-base) 0;
     padding: 0 0 0 14px;
     cursor: pointer;
     border-bottom: 0;
