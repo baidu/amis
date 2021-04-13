@@ -85,10 +85,6 @@ export function Steps(props: StepsProps) {
 	const FINISH_ICON = 'check';
 	const ERROR_ICON = 'close';
 
-	console.log('resolveValue', resolveValue);
-	console.log('valueIndex', valueIndex);
-	console.log('currentValue', currentValue);
-
 	function getStepStatus(step: StepSchema, i: number): {stepStatus: StepStatus, icon?: string} {
 		let stepStatus = StepStatus.wait;
 		let icon = step.icon;
