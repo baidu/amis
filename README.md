@@ -63,6 +63,14 @@ npm run coverage
 
 ### 如何贡献
 
+请使用分支开发，首先创建分支
+
+    git checkout -b feat-xxx
+ 
+开发提交后使用 `git push --set-upstream origin feat-xxx` 创建远程分支。
+
+然后通过系统提示的 https://github.com/xxx/amis/pull/new/feat-xxx 链接来提交 PR。
+
 请采用 typescript 编写，所有合理的改动、新的公用渲染器、用例或者文档的提交都会被接收。
 
 ## 维护者
