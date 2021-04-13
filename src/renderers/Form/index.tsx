@@ -149,7 +149,7 @@ export interface FormSchema extends BaseSchema {
   /**
    * 是否开启本地缓存
    */
-  persistData?: boolean;
+  persistData?: string;
 
   /**
    * 提交成功后清空本地缓存
@@ -436,7 +436,8 @@ export default class Form extends React.Component<FormProps, object> {
     const {store, canAccessSuperData, persistData, simpleMode} = this.props;
 
     store.setCanAccessSuperData(canAccessSuperData !== false);
-    persistData && store.getPersistData();
+    store.setPersistData(persistData);
+    persistData && store.getLocalPersistData();
 
     if (simpleMode) {
       store.setInited(true);
@@ -989,7 +990,7 @@ export default class Form extends React.Component<FormProps, object> {
 
           resetAfterSubmit && store.reset(onReset);
           clearAfterSubmit && store.clear(onReset);
-          clearPersistDataAfterSubmit && store.clearPersistData();
+          clearPersistDataAfterSubmit && store.clearLocalPersistData();
 
           if (action.redirect || redirect) {
             const finalRedirect = filter(

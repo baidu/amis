@@ -28,6 +28,7 @@ import {
 import isEqual from 'lodash/isEqual';
 import flatten from 'lodash/flatten';
 import {getStoreById, removeStore} from './manager';
+import {filter} from '../utils/tpl';
 
 export const FormStore = ServiceStore.named('FormStore')
   .props({
@@ -40,7 +41,7 @@ export const FormStore = ServiceStore.named('FormStore')
     // items: types.optional(types.array(types.late(() => FormItemStore)), []),
     itemsRef: types.optional(types.array(types.string), []),
     canAccessSuperData: true,
-    persistData: false,
+    persistData: '',
     restError: types.optional(types.array(types.string), []) // 没有映射到表达项上的 errors
   })
   .views(self => {
@@ -110,6 +111,14 @@ export const FormStore = ServiceStore.named('FormStore')
         }
 
         return !this.isPristine;
+      },
+
+      get persistKey() {
+        return `${location.pathname}/${self.path}/${
+          typeof self.persistData === 'string'
+            ? filter(self.persistData, self.data)
+            : self.persistData
+        }`;
       }
     };
   })
@@ -179,7 +188,7 @@ export const FormStore = ServiceStore.named('FormStore')
       self.data = data;
 
       if (self.persistData) {
-        setPersistData();
+        setLocalPersistData();
       }
 
       // 同步 options
@@ -550,12 +559,12 @@ export const FormStore = ServiceStore.named('FormStore')
       self.inited = value;
     }
 
-    const setPersistData = debounce(
-      () =>
-        localStorage.setItem(
-          location.pathname + self.path,
-          JSON.stringify(self.data)
-        ),
+    function setPersistData(value = '') {
+      self.persistData = value;
+    }
+
+    const setLocalPersistData = debounce(
+      () => localStorage.setItem(self.persistKey, JSON.stringify(self.data)),
       250,
       {
         trailing: true,
@@ -563,16 +572,15 @@ export const FormStore = ServiceStore.named('FormStore')
       }
     );
 
-    function getPersistData() {
-      self.persistData = true;
-      let data = localStorage.getItem(location.pathname + self.path);
+    function getLocalPersistData() {
+      let data = localStorage.getItem(self.persistKey);
       if (data) {
         self.updateData(JSON.parse(data));
       }
     }
 
-    function clearPersistData() {
-      localStorage.removeItem(location.pathname + self.path);
+    function clearLocalPersistData() {
+      localStorage.removeItem(self.persistKey);
     }
 
     function onChildStoreDispose(child: IFormItemStore) {
@@ -603,9 +611,10 @@ export const FormStore = ServiceStore.named('FormStore')
       syncOptions,
       setCanAccessSuperData,
       deleteValueByName,
-      getPersistData,
+      getLocalPersistData,
+      setLocalPersistData,
+      clearLocalPersistData,
       setPersistData,
-      clearPersistData,
       clear,
       onChildStoreDispose,
       updateSavedData,
@@ -616,7 +625,7 @@ export const FormStore = ServiceStore.named('FormStore')
       clearRestError,
       beforeDestroy() {
         syncOptions.cancel();
-        setPersistData.cancel();
+        setLocalPersistData.cancel();
       }
     };
   });
