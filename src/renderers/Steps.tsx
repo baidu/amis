@@ -46,7 +46,12 @@ export interface StepsSchema extends BaseSchema {
 	/**
 	 * 步骤
 	 */
-	steps: Array<StepSchema>;
+	steps?: Array<StepSchema>;
+
+	/**
+	 * API 或 数据映射
+	 */
+	source?: string;
 
 	/**
 	 * 指定当前步骤

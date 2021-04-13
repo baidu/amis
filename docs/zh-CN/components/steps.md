@@ -225,13 +225,14 @@ order: 68
 
 ## 属性表
 
-| 属性名    | 类型                                                           | 默认值 | 说明                                                 |
-| --------- | -------------------------------------------------------------- | ------ | ---------------------------------------------------- |
-| type      | `string`                                                       |        | `"steps"` 指定为 步骤条 渲染器                       |
-| steps     | Array<[step](#step)>                                           | []     | 数组，配置步骤信息                                   |
-| value     | `string` \| `number`                                           | `-`    | 指定当前步骤，如果是`string`需要在 step 中配置 value |
-| status    | [StepStatus](#StepStatus) \| {[propName: string]: stepStatus;} | `-`    | 状态                                                 |
-| className | `string`                                                       | `-`    | 自定义类名                                           |
+| 属性名    | 类型                                                                              | 默认值 | 说明                                                          |
+| --------- | --------------------------------------------------------------------------------- | ------ | ------------------------------------------------------------- |
+| type      | `string`                                                                          |        | `"steps"` 指定为 步骤条 渲染器                                |
+| steps     | Array<[step](#step)>                                                              | []     | 数组，配置步骤信息                                            |
+| source    | [API](../../../docs/types/api) 或 [数据映射](../../../docs/concepts/data-mapping) |        | 选项组源，可通过数据映射获取当前数据域变量、或者配置 API 对象 |
+| value     | `string` \| `number`                                                              | `-`    | 指定当前步骤，如果是`string`需要在 step 中配置 value          |
+| status    | [StepStatus](#StepStatus) \| {[propName: string]: stepStatus;}                    | `-`    | 状态                                                          |
+| className | `string`                                                                          | `-`    | 自定义类名                                                    |
 
 ### step
 
