@@ -16,6 +16,10 @@
     display: flex;
   }
 
+  &-noResult {
+    padding: 0 var(--gap-xs);
+  }
+
   &-menu {
     width: px2rem(160px);
     height: px2rem(175px); // 高度写死，否则有可能会上下闪动

@@ -314,4 +314,5 @@ order: 31
 | withChildren     | `boolean`                                 | `false`              | 设置 `true`时，选中父节点时，值里面将包含子节点的值，否则只会保留父节点的值。               |
 | searchable       | `boolean`                                 | `false`              | 可否搜索                                                                                    |
 | searchPromptText | `string`                                  | `"输入内容进行检索"` | 搜索框占位文本                                                                              |
+| noResultsText    | `string`                                  | `"未找到任何结果"`   | 无结果时的文本                                                                              |
 | multiple         | `boolean`                                 | `false`              | 可否多选                                                                                    |
