@@ -15,6 +15,7 @@ import {current, addModal, removeModal} from './ModalManager';
 import {ClassNamesFn, themeable, ThemeProps} from '../theme';
 import {Icon} from './icons';
 import {LocaleProps, localeable} from '../locale';
+import {getScrollbarWidth} from '../utils/helper';
 
 export interface ModalProps extends ThemeProps, LocaleProps {
   className?: string;
@@ -145,8 +146,12 @@ export class Modal extends React.Component<ModalProps, ModalState> {
 
   handleEnter = () => {
     document.body.classList.add(`is-modalOpened`);
-    if (document.body.scrollHeight > window.innerHeight) {
-      document.body.classList.add(`has-scrollbar`);
+    if (
+      window.innerWidth - document.documentElement.clientWidth > 0 ||
+      document.body.scrollHeight > document.body.clientHeight
+    ) {
+      const scrollbarWidth = getScrollbarWidth();
+      document.body.style.width = `calc(100% - ${scrollbarWidth}px)`;
     }
   };
 
@@ -161,7 +166,7 @@ export class Modal extends React.Component<ModalProps, ModalState> {
     setTimeout(() => {
       if (!document.querySelector('.amis-dialog-widget')) {
         document.body.classList.remove(`is-modalOpened`);
-        document.body.classList.remove(`has-scrollbar`);
+        document.body.style.width = '';
       }
     }, 200);
   };

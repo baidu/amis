@@ -1,10 +1,6 @@
 .is-modalOpened {
   overflow: hidden;
 
-  &.has-scrollbar {
-    padding-right: var(--gap-md);
-  }
-
   .#{$ns}Modal {
     overflow-x: hidden;
     overflow-y: auto;
