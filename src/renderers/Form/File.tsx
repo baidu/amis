@@ -312,12 +312,14 @@ export default class FileControl extends React.Component<FileProps, FileState> {
         ? find(files, item => (item as FileValue).value === value)
         : undefined;
     const valueField = props.valueField || 'value';
+    const urlField = props.urlField || 'url';
     const nameField = props.nameField || 'name';
     return value
       ? value instanceof File
         ? {
             state: 'ready',
             [valueField]: value,
+            [urlField]: value,
             [nameField]: value.name,
             id: guid()
           }
@@ -326,6 +328,7 @@ export default class FileControl extends React.Component<FileProps, FileState> {
               ? {
                   state: file && file.state ? file.state : 'init',
                   [valueField]: value,
+                  [urlField]: value,
                   [nameField]:
                     (file && file.name) ||
                     (/^data:/.test(value)
