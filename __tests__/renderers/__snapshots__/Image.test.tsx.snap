@@ -21,6 +21,7 @@ exports[`Renderer:image 1`] = `
       >
         <div
           class="a-Image-title"
+          title="图片"
         >
           图片
         </div>

@@ -3,10 +3,10 @@
 exports[`Renderer:dropdown-button 1`] = `
 <div>
   <div
-    class="a-DropDown  is-opened"
+    class="a-DropDown  is-opened show"
   >
     <button
-      class="a-Button show a-Button--primary"
+      class="a-Button a-Button--primary"
     >
       <span
         class="a-DropDown-caret"
@@ -46,10 +46,10 @@ exports[`Renderer:dropdown-button 1`] = `
 exports[`Renderer:dropdown-button 2`] = `
 <div>
   <div
-    class="a-DropDown "
+    class="a-DropDown  show"
   >
     <button
-      class="a-Button show a-Button--primary"
+      class="a-Button a-Button--primary"
     >
       <span
         class="a-DropDown-caret"
