@@ -1445,3 +1445,35 @@ export function findObjectsWithKey(obj: any, key: string) {
   }
   return internalFindObjectsWithKey(obj, key);
 }
+
+let scrollbarWidth: number;
+
+/**
+ * 获取浏览器滚动条宽度 https://stackoverflow.com/a/13382873
+ */
+
+export function getScrollbarWidth() {
+  if (typeof scrollbarWidth !== 'undefined') {
+    return scrollbarWidth;
+  }
+  // Creating invisible container
+  const outer = document.createElement('div');
+  outer.style.visibility = 'hidden';
+  outer.style.overflow = 'scroll'; // forcing scrollbar to appear
+  // @ts-ignore
+  outer.style.msOverflowStyle = 'scrollbar'; // needed for WinJS apps
+  document.body.appendChild(outer);
+
+  // Creating inner element and placing it in the container
+  const inner = document.createElement('div');
+  outer.appendChild(inner);
+
+  // Calculating difference between container's full width and the child width
+  scrollbarWidth = outer.offsetWidth - inner.offsetWidth;
+
+  // Removing temporary elements from the DOM
+  // @ts-ignore
+  outer.parentNode.removeChild(outer);
+
+  return scrollbarWidth;
+}

@@ -15,7 +15,7 @@ import {Icon} from './icons';
 import cx from 'classnames';
 import {current, addModal, removeModal} from './ModalManager';
 import {ClassNamesFn, themeable} from '../theme';
-import {noop, autobind} from '../utils/helper';
+import {noop, autobind, getScrollbarWidth} from '../utils/helper';
 
 type DrawerPosition = 'top' | 'right' | 'bottom' | 'left';
 
@@ -84,8 +84,14 @@ export class Drawer extends React.Component<DrawerProps, DrawerState> {
 
   handleEnter = () => {
     document.body.classList.add(`is-modalOpened`);
-    if (document.body.scrollHeight > window.innerHeight) {
-      document.body.classList.add(`has-scrollbar`);
+    if (
+      window.innerWidth - document.documentElement.clientWidth > 0 ||
+      document.body.scrollHeight > document.body.clientHeight
+    ) {
+      const scrollbarWidth = getScrollbarWidth();
+      if (scrollbarWidth) {
+        document.body.style.width = `calc(100% - ${scrollbarWidth}px)`;
+      }
     }
   };
 
@@ -100,7 +106,7 @@ export class Drawer extends React.Component<DrawerProps, DrawerState> {
     setTimeout(() => {
       if (!document.querySelector('.amis-dialog-widget')) {
         document.body.classList.remove(`is-modalOpened`);
-        document.body.classList.remove(`has-scrollbar`);
+        document.body.style.width = '';
       }
     }, 200);
   };
