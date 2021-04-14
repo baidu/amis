@@ -70,7 +70,8 @@ order: 68
   "type": "page",
   "data": {
     "step": 1,
-    "status": "error"
+    "status": "error",
+    "secondTitle": "Second"
   },
   "body": [
     {
@@ -84,7 +85,7 @@ order: 68
           "description": "this is description"
         },
         {
-          "title": "Second"
+          "title": "${secondTitle}"
         },
         {
           "title": "Last"
@@ -236,13 +237,14 @@ order: 68
 
 ### step
 
-| 属性名    | 类型     | 默认值 | 说明                                    |
-| --------- | -------- | ------ | --------------------------------------- |
-| title     | `string` | `-`    | 标题                                    |
-| subTitle  | `string` | `-`    | 子标题                                  |
-| icon      | `string` |        | icon 名，支持 fontawesome v4 或使用 url |
-| value     | `string` |        | value                                   |
-| className | `string` | `-`    | 自定义类名                              |
+| 属性名      | 类型            | 默认值 | 说明                                    |
+| ----------- | --------------- | ------ | --------------------------------------- |
+| title       | `string \| tpl` |        | 标题                                    |
+| subTitle    | `string \| tpl` |        | 子标题                                  |
+| description | `string \| tpl` |        | 详细描述                                |
+| icon        | `string`        |        | icon 名，支持 fontawesome v4 或使用 url |
+| value       | `string`        |        | value                                   |
+| className   | `string`        |        | 自定义类名                              |
 
 ### StepStatus
 
