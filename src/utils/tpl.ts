@@ -16,7 +16,7 @@ export function registerTplEnginer(name: string, enginer: Enginer) {
 }
 
 export function filter(
-  tpl?: string,
+  tpl?: any,
   data: object = {},
   ...rest: Array<any>
 ): string {
