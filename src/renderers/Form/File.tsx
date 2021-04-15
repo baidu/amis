@@ -526,13 +526,18 @@ export default class FileControl extends React.Component<FileProps, FileState> {
 
     const {data, env, downloadUrl} = this.props;
     const urlField = this.props.urlField || 'url';
+    const valueField = this.props.valueField || 'value';
+
+    const fileUrl =
+      file[urlField as keyof typeof file] ||
+      file[valueField as keyof typeof file];
 
     let api =
       typeof downloadUrl === 'string' && !~downloadUrl.indexOf('$')
-        ? `${downloadUrl}${file[urlField as keyof typeof file]}`
+        ? `${downloadUrl}${fileUrl}`
         : downloadUrl
         ? downloadUrl
-        : `${file[urlField as keyof typeof file]}`;
+        : `${fileUrl}`;
 
     if (api) {
       const ctx = createObject(data, {
