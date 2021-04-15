@@ -216,28 +216,47 @@ export default class RangeControl extends React.PureComponent<
   }
 
   clearValue() {
-    const {multiple, min, max} = this.props;
+    const {multiple, joinValues, delimiter, min, max, onChange} = this.props;
     if (multiple) {
-      this.setState({
-        value: {
-          min: min,
-          max: max
+      this.setState(
+        {
+          value: {
+            min: min,
+            max: max
+          },
+          minValue: min,
+          maxValue: max
         },
-        minValue: min,
-        maxValue: max
-      });
+        () =>
+          onChange(
+            joinValues
+              ? [min, max].join(delimiter || ',')
+              : {
+                  min: min,
+                  max: max
+                }
+          )
+      );
     } else {
-      this.setState({
-        value: min
-      });
+      this.setState(
+        {
+          value: min
+        },
+        () => onChange(min)
+      );
     }
   }
 
   handleEnd(value: any) {
     const {multiple, joinValues, delimiter} = this.props;
     let endValue = value;
-    if (multiple && joinValues) {
-      endValue = [value.min, value.max].join(delimiter || ',');
+    if (multiple) {
+      endValue = joinValues
+        ? [value.min, value.max].join(delimiter || ',')
+        : {
+            min: value.min,
+            max: value.max
+          };
     }
     const {onChange} = this.props;
     this.setState(
@@ -298,37 +317,66 @@ export default class RangeControl extends React.PureComponent<
   }
 
   handleInputChange(evt: React.ChangeEvent<HTMLInputElement>) {
-    this.setState({
-      value: this.getValue(evt.target.value)
-    });
+    const value = this.getValue(evt.target.value);
+    this.setState(
+      {
+        value
+      },
+      () => this.props.onChange(value)
+    );
   }
 
   handleMinInputBlur(evt: React.ChangeEvent<HTMLInputElement>) {
+    const {joinValues, delimiter} = this.props;
     const minValue = this.getValue(evt.target.value, 'min');
     const {value} = this.state;
     isObject(value)
-      ? this.setState({
-          value: {
-            min: minValue,
-            max: value.max
+      ? this.setState(
+          {
+            value: {
+              min: minValue,
+              max: value.max
+            },
+            minValue: minValue
           },
-          minValue: minValue
-        })
+          () =>
+            this.props.onChange(
+              joinValues
+                ? [minValue, value.max].join(delimiter || ',')
+                : {
+                    min: minValue,
+                    max: value.max
+                  }
+            )
+        )
       : null;
   }
 
   handleMaxInputBlur(evt: React.ChangeEvent<HTMLInputElement>) {
+    const {joinValues, delimiter} = this.props;
     const maxValue = this.getValue(evt.target.value, 'max');
     const {value} = this.state;
-    isObject(value)
-      ? this.setState({
+
+    if (isObject(value)) {
+      this.setState(
+        {
           value: {
             min: value.min,
             max: maxValue
           },
           maxValue: maxValue
-        })
-      : null;
+        },
+        () =>
+          this.props.onChange(
+            joinValues
+              ? [value.min, maxValue].join(delimiter || ',')
+              : {
+                  min: value.min,
+                  max: maxValue
+                }
+          )
+      );
+    }
   }
 
   handleMinInputChange(evt: React.ChangeEvent<HTMLInputElement>) {
