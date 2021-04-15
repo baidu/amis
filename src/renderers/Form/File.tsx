@@ -1103,6 +1103,7 @@ export default class FileControl extends React.Component<FileProps, FileState> {
     } = this.props;
     let {files, uploading, error} = this.state;
     const nameField = this.props.nameField || 'name';
+    const valueField = this.props.valueField || 'value';
     const urlField = this.props.urlField || 'url';
 
     const hasPending = files.some(file => file.state == 'pending');
@@ -1185,7 +1186,9 @@ export default class FileControl extends React.Component<FileProps, FileState> {
                             })}
                           >
                             <Icon icon="file" className="icon" />
-                            {(file as FileValue)[urlField] || downloadUrl ? (
+                            {(file as FileValue)[urlField] ||
+                            (file as FileValue)[valueField] ||
+                            downloadUrl ? (
                               <a
                                 className={cx('FileControl-itemInfoText')}
                                 target="_blank"
