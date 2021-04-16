@@ -484,8 +484,8 @@ export class Action extends React.Component<ActionProps, ActionState> {
         })}
         onClick={this.handleAction}
       >
-        {label}
         {iconElement}
+        {label}
       </a>
     ) : (
       <Button
@@ -509,8 +509,8 @@ export class Action extends React.Component<ActionProps, ActionState> {
         block={block}
         iconOnly={!!(icon && !label && level !== 'link')}
       >
-        {label ? <span>{filter(String(label), data)}</span> : null}
         {iconElement}
+        {label ? <span>{filter(String(label), data)}</span> : null}
       </Button>
     );
   }

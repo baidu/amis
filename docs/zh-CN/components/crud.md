@@ -954,7 +954,50 @@ crud 组件支持通过配置`headerToolbar`和`footerToolbar`属性，实现在
 
 > 如果你不希望在顶部或者底部渲染默认组件，你可以设置`headerToolbar`和`footerToolbar`为空数组`[]`
 
-除了可以配置[SchemaNode 类型](../../docs/types/schemanode)以外，`headerToolbar`和`footerToolbar`还支持一些针对列表场景而内置的一些常用组件，下面分别介绍：
+### 其它 amis 组件
+
+在 `headerToolbar` 和 `footerToolbar` 中可以配置各种 amis 其它组件，比如按钮和 tpl：
+
+```schema: scope="body"
+{
+    "type": "crud",
+    "name": "myCRUD",
+    "syncLocation": false,
+    "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/sample",
+    "headerToolbar": [
+        {
+            "label": "点击弹框",
+            "type": "button",
+            "actionType": "dialog",
+            "icon": "fa fa-plus",
+            "level": "primary",
+            "dialog": {
+                "title": "弹框标题",
+                "body": "这是一个弹框"
+            }
+        },
+        {
+            "type": "tpl",
+            "tpl": "自定义模板"
+        },
+        {
+            "label": "",
+            "icon": "fa fa-repeat",
+            "type": "button",
+            "actionType": "reload",
+            "target": "myCRUD",
+            "align": "right"
+        }
+    ],
+    "footerToolbar": [],
+    "columns": [
+        {
+            "name": "id",
+            "label": "ID"
+        }
+    ]
+}
+```
 
 ### 分页
 

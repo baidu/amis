@@ -65,10 +65,10 @@ exports[`Renderers:Action MenuItem display icon 2`] = `
   className="a"
   onClick={[Function]}
 >
-  123
   <i
     className="a-Button-icon fa fa-cloud"
   />
+  123
 </a>
 `;
 

@@ -36,12 +36,12 @@ exports[`Renderer:button 1`] = `
             class="a-Button a-Button--default a-Form-control"
             type="button"
           >
-            <span>
-              Text
-            </span>
             <i
               class="a-Button-icon fa fa-plus"
             />
+            <span>
+              Text
+            </span>
           </button>
         </div>
         <div
@@ -168,12 +168,12 @@ exports[`Renderer:button 2`] = `
             class="a-Button a-Button--default a-Form-control"
             type="button"
           >
-            <span>
-              Text
-            </span>
             <i
               class="a-Button-icon fa fa-plus"
             />
+            <span>
+              Text
+            </span>
           </button>
         </div>
         <div
