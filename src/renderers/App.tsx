@@ -386,7 +386,7 @@ export default class App extends React.Component<AppProps, object> {
             ) : null}
 
             {render('page', store.schema, {
-              key: store.activePage?.id,
+              key: `${store.activePage?.id}-${store.schemaKey}`,
               data: store.pageData
             })}
           </>

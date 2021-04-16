@@ -162,7 +162,9 @@ export const AppStore = ServiceStore.named('AppStore')
 
       if (page.schema) {
         self.schema = page.schema;
+        self.schemaKey = '' + Date.now();
       } else if (page.schemaApi) {
+        self.schema = null;
         self.fetchSchema(page.schemaApi, self.activePage);
       } else if (page.redirect) {
         env.jumpTo(page.redirect);
@@ -171,6 +173,7 @@ export const AppStore = ServiceStore.named('AppStore')
         this.rewrite(page.rewrite, env);
       } else {
         self.schema = null;
+        self.schemaKey = '';
       }
     },
 
