@@ -2,22 +2,23 @@
   <p>
     <img width="284" src="https://github.com/baidu/amis/raw/master/examples/static/logo.png">
   </p>
-  
-  [文档（国内）](https://baidu.gitee.io/amis/) |
-  [文档（国外）](https://baidu.github.io/amis/) |
-  [可视化编辑器](https://aisuda.github.io/amis-editor-demo/) |
-  [amis-admin](https://github.com/aisuda/amis-admin) |
-  [爱速搭](https://suda.baidu.com/)
+
+[文档（国内）](https://baidu.gitee.io/amis/) |
+[文档（国外）](https://baidu.github.io/amis/) |
+[可视化编辑器](https://aisuda.github.io/amis-editor-demo/) |
+[amis-admin](https://github.com/aisuda/amis-admin) |
+[爱速搭](https://suda.baidu.com/)
+
 </div>
 
 <div align="center">
-  QQ 群: 1147750223（已满） | 
+  QQ 群: 1147750223（已满） |
   QQ 群2: 651547026 |
   如流群：3395342
 </div>
 
 <div align="center">
-  
+
 ![build](https://api.travis-ci.org/baidu/amis.svg?branch=master)
 ![license](https://img.shields.io/github/license/baidu/amis.svg)
 ![version](https://img.shields.io/npm/v/amis)
@@ -59,6 +60,9 @@ npm test
 
 # 查看测试用例覆盖率
 npm run coverage
+
+# 更新 snapshot
+npm run update-snapshot
 ```
 
 ### 如何贡献
@@ -66,7 +70,7 @@ npm run coverage
 请使用分支开发，首先创建分支
 
     git checkout -b feat-xxx
- 
+
 开发提交后使用 `git push --set-upstream origin feat-xxx` 创建远程分支。
 
 然后通过系统提示的 https://github.com/xxx/amis/pull/new/feat-xxx 链接来提交 PR。
