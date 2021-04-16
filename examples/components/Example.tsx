@@ -92,7 +92,7 @@ export const examples = [
     children: [
       {
         label: '页面',
-        icon: 'glyphicon glyphicon-th',
+        icon: 'fa fa-th',
         badge: 3,
         badgeClassName: 'bg-info',
         children: [
