@@ -185,7 +185,8 @@ export class App extends React.PureComponent<{
 
   setNavigations(items) {
     this.setState({
-      navigations: items
+      navigations: items,
+      filter: ''
     });
   }
 
@@ -367,8 +368,10 @@ export class App extends React.PureComponent<{
         <InputBox
           theme={this.state.theme.value}
           placeholder={'过滤...'}
+          value={this.state.filter || ''}
           onChange={this.setNavigationFilter}
           className="m-b m-r-md"
+          clearable={false}
         />
         {this.renderAsideNav()}
       </div>
