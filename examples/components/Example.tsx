@@ -3,6 +3,7 @@ import {match} from 'path-to-regexp';
 import makeSchemaRenderer from './SchemaRender';
 
 import IndexPageSchema from './Index';
+import SimplePageSchema from './Index';
 import ErrorPageSchema from './Page/Error';
 import FormPageSchema from './Page/Form';
 import ModeFormSchema from './Form/Mode';
@@ -98,8 +99,8 @@ export const examples = [
         children: [
           {
             label: '简单页面',
-            path: '/examples/index',
-            component: makeSchemaRenderer(IndexPageSchema)
+            path: '/examples/pages/simple',
+            component: makeSchemaRenderer(SimplePageSchema)
           },
           {
             label: '初始化出错',

@@ -269,10 +269,7 @@ export class App extends React.PureComponent<{
             <Link to={`${ContextPath}/zh-CN/style`} activeClassName="is-active">
               样式
             </Link>
-            <Link
-              to={`${ContextPath}/examples/index`}
-              activeClassName="is-active"
-            >
+            <Link to={`${ContextPath}/examples`} activeClassName="is-active">
               示例
             </Link>
             <a
@@ -695,7 +692,7 @@ export default function entry({pathPrefix}) {
         {/* expamles */}
         <Redirect
           from={`${ContextPath}/examples`}
-          to={`${ContextPath}/examples/index`}
+          to={`${ContextPath}/examples/pages/simple`}
         />
         <Redirect
           from={`${ContextPath}/${locate}/style`}
