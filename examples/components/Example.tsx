@@ -571,6 +571,22 @@ export const examples = [
           jumpTo: (to: string) => {
             location.hash = to;
           },
+          updateLocation: (to, replace) => {
+            if (to === 'goBack') {
+              return window.history.back();
+            }
+
+            if (replace && window.history.replaceState) {
+              window.history.replaceState(
+                '',
+                document.title,
+                normalizeLink(to)
+              );
+              return;
+            }
+
+            window.history.pushState('', document.title, normalizeLink(to));
+          },
           isCurrentUrl: (to: string, ctx: any) => {
             if (!to) {
               return false;
