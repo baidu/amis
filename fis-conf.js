@@ -457,7 +457,11 @@ if (fis.project.currentMedia() === 'publish') {
         '!monaco-editor/**.css',
         '!src/components/RichText.tsx',
         '!src/components/Tinymce.tsx',
-        '!src/lib/renderers/Form/CityDB.js'
+        '!src/lib/renderers/Form/CityDB.js',
+        '!src/components/Markdown.tsx',
+        '!src/utils/markdown.ts:deps',
+        '!highlight.js/**',
+        '!markdown-it/**'
       ],
 
       'rich-text.js': [
@@ -471,6 +475,13 @@ if (fis.project.currentMedia() === 'publish') {
       'papaparse.js': ['papaparse/**'],
 
       'exceljs.js': ['exceljs/**'],
+
+      'markdown.js': [
+        'src/components/Markdown.tsx',
+        'src/utils/markdown.ts',
+        'highlight.js/**',
+        'markdown-it/**'
+      ],
 
       'charts.js': ['zrender/**', 'echarts/**'],
 
