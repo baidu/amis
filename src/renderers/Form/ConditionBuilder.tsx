@@ -1,6 +1,5 @@
 import React from 'react';
 import {FormItem, FormControlProps, FormBaseControl} from './Item';
-import ColorPicker from '../../components/ColorPicker';
 import {Funcs, Fields} from '../../components/condition-builder/types';
 import {Config} from '../../components/condition-builder/config';
 import ConditionBuilder from '../../components/condition-builder/index';

@@ -8,6 +8,12 @@ interface MarkdownProps {
 
 export default class Markdown extends React.Component<MarkdownProps> {
   dom: any;
+
+  constructor(props: MarkdownProps) {
+    super(props);
+    this.htmlRef = this.htmlRef.bind(this);
+  }
+
   htmlRef(dom: any) {
     this.dom = dom;
     if (!dom) {
