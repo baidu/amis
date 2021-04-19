@@ -238,8 +238,8 @@ export class App extends React.PureComponent<{
 
         <div
           className={`${theme.ns}Layout-headerBar ${
-            docPage ? 'DocLayout-headerBar' : ''
-          } pc:inline-flex items-center`}
+            docPage ? 'DocLayout-headerBar pc:inline-flex' : 'pc:flex'
+          } items-center`}
         >
           {docPage ? null : (
             <Button

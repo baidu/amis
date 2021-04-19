@@ -189,7 +189,7 @@ const StepsWithRemoteConfig = withRemoteConfig({
     RemoteOptionsProps & React.ComponentProps<typeof Steps>
   > {
     render() {
-      const {config, ...rest} = this.props;
+      const {config, deferLoad, loading, updateConfig, ...rest} = this.props;
       return <Steps config={config} {...rest} />;
     }
   }

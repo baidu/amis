@@ -836,7 +836,7 @@ body {
 
     &-nav > div {
       position: fixed;
-      width: 180px;
+      width: 200px;
       top: 100px;
       bottom: 0;
       overflow-y: auto;
@@ -856,6 +856,9 @@ body {
         }
       }
 
+      &-brandBar {
+        width: 200px;
+      }
       &-brandBar > div {
         width: 220px;
         position: fixed;

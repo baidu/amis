@@ -253,33 +253,4 @@
   &-placeholder {
     color: var(--text--muted-color);
   }
-
-  &-item
-    &-item
-    &-item
-    &-item
-    &-item
-    &-item
-    &-item
-    &-item
-    &-item
-    &-item
-    > &-itemLabel {
-    padding-left: calc(var(--Tree-indent) * 9);
-  }
-
-  &-item
-    &-item
-    &-item
-    &-item
-    &-item
-    &-item
-    &-item
-    &-item
-    &-item
-    &-item
-    &-item
-    > &-itemLabel {
-    padding-left: calc(var(--Tree-indent) * 10);
-  }
 }

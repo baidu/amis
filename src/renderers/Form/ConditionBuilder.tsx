@@ -67,7 +67,7 @@ const ConditionBuilderWithRemoteOptions = withRemoteConfig({
     RemoteOptionsProps & React.ComponentProps<typeof ConditionBuilder>
   > {
     render() {
-      const {loading, config, ...rest} = this.props;
+      const {loading, config, deferLoad, ...rest} = this.props;
       return (
         <ConditionBuilder
           {...rest}
