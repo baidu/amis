@@ -354,9 +354,9 @@ export const CRUDStore = ServiceStore.named('CRUDStore')
       }
     });
 
-    function changePage(page: number, perPage?: number) {
+    function changePage(page: number, perPage?: number | string) {
       self.page = page;
-      perPage && (self.perPage = perPage);
+      perPage && (self.perPage = parseInt(perPage as string, 10));
     }
 
     function selectAction(action: Action) {
