@@ -2,7 +2,9 @@ import React, {Suspense} from 'react';
 import {FormItem, FormControlProps, FormBaseControl} from './Item';
 import cx from 'classnames';
 
-const ColorPicker = React.lazy(() => import('../../components/ColorPicker'));
+export const ColorPicker = React.lazy(
+  () => import('../../components/ColorPicker')
+);
 
 /**
  * Color 颜色选择框
