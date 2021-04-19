@@ -370,7 +370,7 @@ body {
   }
 
   &-nav {
-    width: 200px;
+    width: 180px;
   }
 
   &-toc {
@@ -388,7 +388,7 @@ body {
       }
 
       &-label {
-        font-size: px2rem(14px);
+        font-size: px2rem(12px);
         font-weight: 700;
         margin-bottom: px2rem(10px);
         margin-top: px2rem(30px);
@@ -407,7 +407,7 @@ body {
         position: relative;
 
         a {
-          font-size: px2rem(14px);
+          font-size: px2rem(12px);
           font-weight: 700;
           color: #666;
           padding: px2rem(3px) 0;
@@ -836,7 +836,7 @@ body {
 
     &-nav > div {
       position: fixed;
-      width: 200px;
+      width: 180px;
       top: 100px;
       bottom: 0;
       overflow-y: auto;
