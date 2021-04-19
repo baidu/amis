@@ -285,9 +285,17 @@ const ConditionBuilderWithRemoteOptions = withRemoteConfig({
       this.handleSelect = this.handleSelect.bind(this);
     }
 
+    componentDidMount() {
+      if (Array.isArray(this.props.links)) {
+        this.props.updateConfig(this.props.links, 'mount');
+      }
+    }
+
     componentDidUpdate(prevProps: any) {
       if (this.props.location !== prevProps.location) {
         this.props.updateConfig(this.props.config, 'location-change');
+      } else if (this.props.links !== prevProps.links) {
+        this.props.updateConfig(this.props.links, 'update');
       }
     }
 

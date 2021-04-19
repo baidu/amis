@@ -289,6 +289,10 @@ export function withRemoteConfig<P = any>(
             ret && store.setConfig(ret, config, 'before-defer-load');
             let response: Payload;
             try {
+              if (!isEffectiveApi(item.deferApi || deferApi || source)) {
+                throw new Error('deferApi is required');
+              }
+
               response = await env.fetcher(
                 item.deferApi || deferApi || source,
                 createObject(data, item)
