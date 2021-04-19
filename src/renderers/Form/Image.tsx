@@ -1,7 +1,7 @@
-import React from 'react';
+import React, {Suspense} from 'react';
 import {FormItem, FormControlProps, FormBaseControl} from './Item';
 import 'cropperjs/dist/cropper.css';
-import Cropper from 'react-cropper';
+const Cropper = React.lazy(() => import('react-cropper'));
 import DropZone from 'react-dropzone';
 import {FileRejection} from 'react-dropzone';
 import 'blueimp-canvastoblob';
@@ -1155,7 +1155,9 @@ export default class ImageControl extends React.Component<
       <div className={cx(`ImageControl`, className)}>
         {cropFile ? (
           <div className={cx('ImageControl-cropperWrapper')}>
-            <Cropper {...crop} ref={this.cropper} src={cropFile.preview} />
+            <Suspense fallback={<div>...</div>}>
+              <Cropper {...crop} ref={this.cropper} src={cropFile.preview} />
+            </Suspense>
             <div className={cx('ImageControl-croperToolbar')}>
               <a
                 className={cx('ImageControl-cropCancel')}
