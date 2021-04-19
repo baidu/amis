@@ -204,6 +204,7 @@ const ConditionBuilderWithRemoteOptions = withRemoteConfig({
   afterLoad: (response: any, config: any, props: any) => {
     if (response.value && !someTree(config, item => item.active)) {
       const {env} = props;
+
       env.jumpTo(filter(response.value as string, props.data));
     }
   },

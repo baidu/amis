@@ -47,7 +47,7 @@ export const Store = types
             ? config.adaptor(data, component.props)
             : data;
           (self as any).setConfig(options, config, 'remote');
-          config.afterLoad?.(ret, self.config, component.props);
+          config.afterLoad?.(data, self.config, component.props);
           return ret;
         } else {
           throw new Error(ret.msg || 'fetch error');
