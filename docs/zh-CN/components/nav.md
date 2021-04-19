@@ -103,6 +103,16 @@ order: 58
 
 ## 懒加载
 
+可以一次只加载部分层级，更深层次的选项可以标记为 `defer` 为 true，这样只有点开的时才会加载。
+
+```schema: scope="body"
+{
+    "type": "nav",
+    "stacked": true,
+    "source": "/api/mock2/options/nav?parentId=${value}"
+}
+```
+
 ## 属性表
 
 | 属性名            | 类型                                     | 默认值  | 说明                                                             |
