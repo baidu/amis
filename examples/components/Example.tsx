@@ -39,6 +39,7 @@ import LoadMoreSchema from './CRUD/LoadMore';
 import TestCrudSchema from './CRUD/test';
 import FixedCrudSchema from './CRUD/Fix';
 import AsideCrudSchema from './CRUD/Aside';
+import Aside2CrudSchema from './CRUD/Aside2';
 import FieldsCrudSchema from './CRUD/Fields';
 import JumpNextCrudSchema from './CRUD/JumpNext';
 import PopOverCrudSchema from './CRUD/PopOver';
@@ -335,9 +336,14 @@ export const examples = [
             component: makeSchemaRenderer(HeaderHideSchema)
           },
           {
-            label: '带边栏',
+            label: '带边栏（用 tree）',
             path: '/examples/crud/aside',
             component: makeSchemaRenderer(AsideCrudSchema)
+          },
+          {
+            label: '带边栏（用 Nav）',
+            path: '/examples/crud/aside2',
+            component: makeSchemaRenderer(Aside2CrudSchema)
           },
           {
             label: '固定表头/列',

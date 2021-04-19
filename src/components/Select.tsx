@@ -1038,7 +1038,7 @@ export const SelectWithRemoteOptions = withRemoteConfig<Array<Options>>({
       React.ComponentProps<typeof EnhancedSelect>
   > {
     render() {
-      const {loading, config, ...rest} = this.props;
+      const {loading, config, deferLoad, updateConfig, ...rest} = this.props;
       return (
         <EnhancedSelect
           {...rest}

@@ -18,9 +18,10 @@ import {
   tokenize
 } from '../utils/tpl-builtin';
 import {reaction} from 'mobx';
+import {createObject, findIndex, findTreeIndex} from '../utils/helper';
 
 export const Store = types
-  .model('OptionsStore')
+  .model('RemoteConfigStore')
   .props({
     fetching: false,
     errorMsg: '',
@@ -28,20 +29,26 @@ export const Store = types
     data: types.frozen({})
   })
   .actions(self => {
+    let component: any = undefined;
+
     const load: (
       env: RendererEnv,
       api: Api,
-      data: any,
+      ctx: any,
       config: WithRemoteConfigSettings
-    ) => Promise<any> = flow(function* (env, api, data, config = {}) {
+    ) => Promise<any> = flow(function* (env, api, ctx, config = {}): any {
       try {
         self.fetching = true;
-        const ret: Payload = yield env.fetcher(api, data);
+        const ret: Payload = yield env.fetcher(api, ctx);
 
         if (ret.ok) {
           const data = ret.data || {};
-          let options = config.adaptor ? config.adaptor(data) : data;
-          (self as any).setConfig(options, config);
+          let options = config.adaptor
+            ? config.adaptor(data, component.props)
+            : data;
+          (self as any).setConfig(options, config, 'remote');
+          config.afterLoad?.(ret, self.config, component.props);
+          return ret;
         } else {
           throw new Error(ret.msg || 'fetch error');
         }
@@ -53,13 +60,27 @@ export const Store = types
     });
 
     return {
+      setComponent(c: any) {
+        component = c;
+      },
+
       load,
       setData(data: any) {
         self.data = data || {};
       },
-      setConfig(options: any, config: WithRemoteConfigSettings) {
+      setConfig(
+        options: any,
+        config: WithRemoteConfigSettings,
+        motivation?: any
+      ) {
         if (config.normalizeConfig) {
-          options = config.normalizeConfig(options, self.config) || options;
+          options =
+            config.normalizeConfig(
+              options,
+              self.config,
+              component.props,
+              motivation
+            ) || options;
         }
 
         self.config = options;
@@ -73,17 +94,65 @@ export interface OutterProps {
   env?: RendererEnv;
   data: any;
   source?: SchemaApi | SchemaTokenizeableString;
+  deferApi?: SchemaApi;
+  remoteConfigRef?: (
+    instance:
+      | {
+          loadConfig: () => Promise<any> | void;
+          setConfig: (value: any) => void;
+        }
+      | undefined
+  ) => void;
 }
 
 export interface RemoteOptionsProps<T = any> {
   config: T;
   loading?: boolean;
+  deferLoad: (item: any) => Promise<any>;
+  updateConfig: (value: T, ctx?: any) => void;
 }
 
 export interface WithRemoteConfigSettings {
-  configField?: string;
-  adaptor?: (json: any) => any;
-  normalizeConfig?: (config: any, origin: any) => any;
+  /**
+   * 从接口返回数据适配到配置
+   */
+  adaptor?: (json: any, props: any) => any;
+
+  /**
+   * 配置格式化
+   */
+  normalizeConfig?: (
+    config: any,
+    origin: any,
+    props: any,
+    motivation?: any
+  ) => any;
+
+  /**
+   * 请求返回后的回调
+   */
+  afterLoad?: (ret: any, config: any, props: any) => void;
+
+  /**
+   * 懒加载选项相关，开始懒加载的回调
+   */
+  beforeDeferLoad?: (
+    item: any,
+    indexes: Array<number>,
+    config: any,
+    props: any
+  ) => any;
+
+  /**
+   * 懒加载选项相关，结束懒加载的回调
+   */
+  afterDeferLoad?: (
+    item: any,
+    indexes: Array<number>,
+    reponse: Payload,
+    config: any,
+    props: any
+  ) => any;
 }
 
 export function withRemoteConfig<P = any>(
@@ -114,6 +183,19 @@ export function withRemoteConfig<P = any>(
           static contextType = EnvContext;
           toDispose: Array<() => void> = [];
 
+          constructor(
+            props: FinalOutterProps & {
+              store: IStore;
+            }
+          ) {
+            super(props);
+
+            this.setConfig = this.setConfig.bind(this);
+            props.store.setComponent(this);
+            this.deferLoadConfig = this.deferLoadConfig.bind(this);
+            props.remoteConfigRef?.(this);
+          }
+
           componentDidMount() {
             const env: RendererEnv = this.props.env || this.context;
             const {store, source, data} = this.props;
@@ -121,7 +203,7 @@ export function withRemoteConfig<P = any>(
             store.setData(data);
 
             if (isPureVariable(source)) {
-              this.syncOptions();
+              this.syncConfig();
               this.toDispose.push(
                 reaction(
                   () =>
@@ -130,11 +212,11 @@ export function withRemoteConfig<P = any>(
                       store.data,
                       '| raw'
                     ),
-                  () => this.syncOptions()
+                  () => this.syncConfig()
                 )
               );
             } else if (env && isEffectiveApi(source, data)) {
-              this.loadOptions();
+              this.loadConfig();
               this.toDispose.push(
                 reaction(
                   () => {
@@ -145,7 +227,7 @@ export function withRemoteConfig<P = any>(
                           ignoreData: true
                         }).url;
                   },
-                  () => this.loadOptions()
+                  () => this.loadConfig()
                 )
               );
             }
@@ -162,38 +244,86 @@ export function withRemoteConfig<P = any>(
           componentWillUnmount() {
             this.toDispose.forEach(fn => fn());
             this.toDispose = [];
+
+            this.props.remoteConfigRef?.(undefined);
           }
 
-          loadOptions() {
+          async loadConfig(ctx = this.props.data) {
             const env: RendererEnv = this.props.env || this.context;
-            const {store, source, data} = this.props;
+            const {store, source} = this.props;
 
-            if (env && isEffectiveApi(source, data)) {
-              store.load(env, source, data, config);
+            if (env && isEffectiveApi(source, ctx)) {
+              await store.load(env, source, ctx, config);
             }
           }
 
-          syncOptions() {
+          setConfig(value: any, ctx?: any) {
+            const {store} = this.props;
+            store.setConfig(value, config, ctx);
+          }
+
+          syncConfig() {
             const {store, source, data} = this.props;
 
             if (isPureVariable(source)) {
               store.setConfig(
                 resolveVariableAndFilter(source as string, data, '| raw') || [],
-                config
+                config,
+                'syncConfig'
               );
             }
+          }
+
+          async deferLoadConfig(item: any) {
+            const {store, source, data, deferApi} = this.props;
+            const env: RendererEnv = this.props.env || this.context;
+            const indexes = findTreeIndex(store.config, a => a === item)!;
+
+            const ret = config.beforeDeferLoad?.(
+              item,
+              indexes,
+              store.config,
+              this.props
+            );
+
+            ret && store.setConfig(ret, config, 'before-defer-load');
+            let response: Payload;
+            try {
+              response = await env.fetcher(
+                item.deferApi || deferApi || source,
+                createObject(data, item)
+              );
+            } catch (e) {
+              response = {
+                ok: false,
+                msg: e.message,
+                status: 500,
+                data: undefined
+              };
+            }
+            const ret2 = config.afterDeferLoad?.(
+              item,
+              indexes, // 只能假定还是那个 index 了
+              response,
+              store.config,
+              this.props
+            );
+            ret2 && store.setConfig(ret2, config, 'after-defer-load');
           }
 
           render() {
             const store = this.props.store;
             const injectedProps: RemoteOptionsProps<P> = {
               config: store.config,
-              loading: store.fetching
+              loading: store.fetching,
+              deferLoad: this.deferLoadConfig,
+              updateConfig: this.setConfig
             };
+            const {remoteConfigRef, ...rest} = this.props;
 
             return (
               <ComposedComponent
-                {...(this.props as JSX.LibraryManagedAttributes<
+                {...(rest as JSX.LibraryManagedAttributes<
                   T,
                   React.ComponentProps<T>
                 >)}

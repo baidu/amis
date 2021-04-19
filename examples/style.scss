@@ -123,6 +123,7 @@ body {
     &-header {
       height: 64px !important;
       box-shadow: none !important;
+      white-space: nowrap;
 
       &::before {
         position: fixed;
@@ -206,9 +207,8 @@ body {
       // padding-left: 10px;
 
       > a {
-        position: absolute;
-        top: 20px;
-        left: 20px;
+        display: inline-block;
+        padding: 20px;
         cursor: pointer;
         color: #666;
 
@@ -278,6 +278,7 @@ body {
   margin: 0;
   padding: 0;
   line-height: 50px;
+  white-space: nowrap;
 
   > a {
     display: inline-block;
@@ -303,6 +304,10 @@ body {
       }
     }
   }
+}
+
+#Header-toolbar {
+  white-space: nowrap;
 }
 
 .a-Layout-offScreen-btn,
@@ -365,7 +370,7 @@ body {
   }
 
   &-nav {
-    width: 200px;
+    width: 180px;
   }
 
   &-toc {
@@ -383,7 +388,7 @@ body {
       }
 
       &-label {
-        font-size: px2rem(14px);
+        font-size: px2rem(12px);
         font-weight: 700;
         margin-bottom: px2rem(10px);
         margin-top: px2rem(30px);
@@ -402,7 +407,7 @@ body {
         position: relative;
 
         a {
-          font-size: px2rem(14px);
+          font-size: px2rem(12px);
           font-weight: 700;
           color: #666;
           padding: px2rem(3px) 0;
@@ -799,6 +804,12 @@ body {
       text-align: left;
     }
   }
+
+  .app-wrapper .DocLayout-brandBar,
+  .app-wrapper .DocLayout-searchBar {
+    float: none;
+    display: inline-block;
+  }
 }
 
 @include media-breakpoint-up(lg) {
@@ -845,6 +856,9 @@ body {
         }
       }
 
+      &-brandBar {
+        width: 200px;
+      }
       &-brandBar > div {
         width: 220px;
         position: fixed;
