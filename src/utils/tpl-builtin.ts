@@ -13,6 +13,7 @@ import {
 import {Enginer} from './tpl';
 import uniqBy from 'lodash/uniqBy';
 import uniq from 'lodash/uniq';
+import transform from 'lodash/transform';
 
 const UNITS = ['B', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
 
@@ -294,6 +295,17 @@ export const filters: {
     order?: 'asc' | 'desc'
   ) =>
     Array.isArray(input) ? input.sort(makeSorter(key, method, order)) : input,
+  transform: (input: any, label: string = 'label', value: string = 'value') =>
+    transform(
+      input,
+      (result: any, val, key) => {
+        (result || (result = [])).push({
+          [label]: key,
+          [value]: val
+        });
+      },
+      []
+    ),
   unique: (input: any, key?: string) =>
     Array.isArray(input) ? (key ? uniqBy(input, key) : uniq(input)) : input,
   topAndOther: (

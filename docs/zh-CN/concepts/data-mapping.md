@@ -1054,6 +1054,51 @@ ${xxx | pick[:path]}
 
 可以用变量 index 来获取下标。
 
+### transform
+
+对象转换为数组
+
+- key：自定义 key 值转换后的 key，默认是'label',
+- value: 自定义 value 值转换后的 key，默认是'value'
+
+```
+${xxx | transform[:key][:value]}
+```
+
+```schema
+{
+  "type": "page",
+  "data": {
+    "row": {
+      "a": "A",
+      "b": "B",
+      "c": "C"
+    }
+  },
+  "body": {
+    "type": "tpl",
+    "tpl": "row is: ${row|transform|json}"
+  }
+}
+```
+
+```schema
+{
+  "type": "page",
+  "data": {
+    "row": {
+      "a": "A",
+      "b": "B",
+      "c": "C"
+    }
+  },
+  "body": {
+    "type": "tpl",
+    "tpl": "row is: ${row|transform:key:val|json}"
+  }
+}
+```
+
 ### plus
 
 加法运算比如加 2
