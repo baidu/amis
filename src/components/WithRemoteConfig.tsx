@@ -98,7 +98,7 @@ export interface OutterProps {
   remoteConfigRef?: (
     instance:
       | {
-          loadConfig: () => Promise<any> | void;
+          loadConfig: (ctx?: any) => Promise<any> | void;
           setConfig: (value: any) => void;
         }
       | undefined
