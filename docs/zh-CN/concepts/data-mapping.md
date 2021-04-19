@@ -1058,8 +1058,8 @@ ${xxx | pick[:path]}
 
 对象转换为数组
 
-- key: 对象的属性转换之后的字段名，默认是'label'
-- value: 对象的属性转换之后的字段名，默认是'value'
+- key: 对象的键转换之后的字段名，默认是'label'
+- value: 对象的值转换之后的字段名，默认是'value'
 
 ```
 ${xxx | objectToArray[:key][:value]}
