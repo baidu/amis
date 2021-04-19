@@ -182,6 +182,20 @@ fis.match('*.html:jsx', {
   isMod: false
 });
 
+// 这些用了 esm
+fis.match(
+  '{echarts/extension/**.js,zrender/**.js,ansi-to-react/lib/index.js}',
+  {
+    parser: fis.plugin('typescript', {
+      sourceMap: false,
+      importHelpers: true,
+      esModuleInterop: true,
+      emitDecoratorMetadata: false,
+      experimentalDecorators: false
+    })
+  }
+);
+
 fis.hook('node_modules', {
   shimProcess: false,
   shimGlobal: false,
