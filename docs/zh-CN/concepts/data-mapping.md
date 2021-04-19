@@ -1054,15 +1054,15 @@ ${xxx | pick[:path]}
 
 可以用变量 index 来获取下标。
 
-### transform
+### objectToArray
 
 对象转换为数组
 
-- key：自定义 key 值转换后的 key，默认是'label',
-- value: 自定义 value 值转换后的 key，默认是'value'
+- key: 自定义 object 的 value 值转换后的 key，默认是'label'
+- value: 自定义 object 的 key 值转换后的 key，默认是'value'
 
 ```
-${xxx | transform[:key][:value]}
+${xxx | objectToArray[:key][:value]}
 ```
 
 ```schema
@@ -1077,7 +1077,7 @@ ${xxx | transform[:key][:value]}
   },
   "body": {
     "type": "tpl",
-    "tpl": "row is: ${row|transform|json}"
+    "tpl": "row is: ${row|objectToArray|json}"
   }
 }
 ```
@@ -1094,7 +1094,7 @@ ${xxx | transform[:key][:value]}
   },
   "body": {
     "type": "tpl",
-    "tpl": "row is: ${row|transform:key:val|json}"
+    "tpl": "row is: ${row|objectToArray:key:val|json}"
   }
 }
 ```

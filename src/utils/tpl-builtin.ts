@@ -295,13 +295,17 @@ export const filters: {
     order?: 'asc' | 'desc'
   ) =>
     Array.isArray(input) ? input.sort(makeSorter(key, method, order)) : input,
-  transform: (input: any, label: string = 'label', value: string = 'value') =>
+  objectToArray: (
+    input: any,
+    label: string = 'label',
+    value: string = 'value'
+  ) =>
     transform(
       input,
-      (result: any, val, key) => {
+      (result: any, v, k) => {
         (result || (result = [])).push({
-          [label]: key,
-          [value]: val
+          [label]: v,
+          [value]: k
         });
       },
       []
