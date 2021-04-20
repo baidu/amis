@@ -35,6 +35,9 @@ export type NavItemSchema = {
 
   to?: SchemaUrlPath;
 
+  defer?: boolean;
+  deferApi?: SchemaApi;
+
   children?: Array<NavItemSchema>;
 } & Omit<BaseSchema, 'type'>;
 
@@ -62,6 +65,11 @@ export interface NavSchema extends BaseSchema {
    * 可以通过 API 拉取。
    */
   source?: SchemaApi;
+
+  /**
+   * 懒加载 api，如果不配置复用 source 接口。
+   */
+  deferApi?: SchemaApi;
 
   /**
    * true 为垂直排列，false 为水平排列类似如 tabs。
