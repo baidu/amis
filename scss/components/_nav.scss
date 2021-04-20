@@ -3,9 +3,10 @@
   user-select: none;
   margin: 0;
   padding: 0;
+  position: relative;
 
   .#{$ns}Nav-itemIcon {
-    margin-right: var(--gap-xs);
+    margin-right: var(--gap-sm);
   }
 
   img.#{$ns}Nav-itemIcon {
@@ -71,6 +72,24 @@
         cursor: pointer;
         background: var(--Nav-item-bg);
         border-radius: var(--Nav-item-borderRadius);
+        text-overflow: ellipsis;
+
+        &::after {
+          border-left: var(--Nav-item-onActive-borderLeft);
+          position: absolute;
+          left: 0;
+          top: 0;
+          content: '';
+          width: 1px;
+          height: 100%;
+          transform: scaleY(0.0001);
+          transition: transform 0.15s cubic-bezier(0.215, 0.61, 0.355, 1),
+            opacity 0.15s cubic-bezier(0.215, 0.61, 0.355, 1);
+        }
+      }
+
+      &.has-sub > a {
+        padding-right: calc(var(--gap-base) + var(--gap-sm));
       }
 
       > a:hover,
@@ -91,8 +110,12 @@
       &.is-active > a {
         color: var(--Nav-item-onActive-color);
         background: var(--Nav-item-onActive-bg);
-        border-left: var(--Nav-item-onActive-borderLeft);
         padding-left: px2rem(12px);
+        position: relative;
+
+        &::after {
+          transform: scaleY(1);
+        }
       }
 
       &.is-unfolded > {
@@ -102,19 +125,25 @@
 
         .#{$ns}Nav-subItems {
           display: block;
-          margin-left: var(--gap-sm);
+          // margin-left: var(--gap-sm);
         }
+      }
+
+      .#{$ns}Nav-spinner {
+        position: absolute;
+        right: px2rem(10px);
+        top: px2rem(8px);
       }
 
       .#{$ns}Nav-itemToggler {
         position: absolute;
+        right: 0;
+        top: px2rem(3px);
         width: px2rem(30px);
         height: px2rem(30px);
         text-align: center;
         line-height: px2rem(30px);
         vertical-align: middle;
-        top: px2rem(4px);
-        right: px2rem(2px);
         cursor: pointer;
         transform: scale(0.8);
         transition: transform var(--animation-duration);
@@ -127,6 +156,7 @@
       }
 
       .#{$ns}Nav-subItems {
+        background: var(--Nav-subNav-bg);
         display: none;
         padding-left: 0;
         list-style: none;
@@ -135,21 +165,21 @@
       .#{$ns}Nav-item {
         font-size: var(--Nav-subItem-fontSize);
 
-        a:before {
-          content: '';
-          display: inline-block;
-          width: px2rem(4px);
-          height: px2rem(4px);
-          background: #ccc;
-          border-radius: px2rem(500px);
-          margin-right: px2rem(8px);
-          vertical-align: middle;
-        }
+        // a:before {
+        //   content: '';
+        //   display: inline-block;
+        //   width: px2rem(4px);
+        //   height: px2rem(4px);
+        //   background: #ccc;
+        //   border-radius: px2rem(500px);
+        //   margin-right: px2rem(8px);
+        //   vertical-align: middle;
+        // }
 
-        &.active > a:before,
-        &.is-active > a:before {
-          background: var(--Nav-subItem-onActiveBeforeBg);
-        }
+        // &.active > a:before,
+        // &.is-active > a:before {
+        //   background: var(--Nav-subItem-onActiveBeforeBg);
+        // }
       }
     }
   }

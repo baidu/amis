@@ -2,50 +2,9 @@ export default {
   $schema: 'https://houtai.baidu.com/v2/schemas/page.json#',
   title: '带边栏联动',
   aside: {
-    type: 'form',
-    wrapWithPanel: false,
-    target: 'window', // 直接修改location，当然也可以直接指向某个组件。
-    submitOnInit: true,
-    controls: [
-      {
-        type: 'tree',
-        name: 'cat',
-        inputClassName: 'no-border',
-        submitOnChange: true,
-        selectFirst: true,
-        options: [
-          {
-            label: '分类1',
-            value: 'cat1'
-          },
-
-          {
-            label: '分类2',
-            value: 'cat2',
-            children: [
-              {
-                label: '分类 2.1',
-                value: 'cat2.1'
-              },
-              {
-                label: '分类 2.2',
-                value: 'cat2.2'
-              }
-            ]
-          },
-
-          {
-            label: '分类3',
-            value: 'cat3'
-          },
-
-          {
-            label: '分类4',
-            value: 'cat4'
-          }
-        ]
-      }
-    ]
+    type: 'nav',
+    stacked: true,
+    source: '/api/mock2/options/nav?parentId=${value}&waitSeconds=2'
   },
   toolbar: [
     {
