@@ -47,7 +47,7 @@ export const Store = types
             ? config.adaptor(data, component.props)
             : data;
           (self as any).setConfig(options, config, 'remote');
-          config.afterLoad?.(ret, self.config, component.props);
+          config.afterLoad?.(data, self.config, component.props);
           return ret;
         } else {
           throw new Error(ret.msg || 'fetch error');
@@ -98,7 +98,7 @@ export interface OutterProps {
   remoteConfigRef?: (
     instance:
       | {
-          loadConfig: () => Promise<any> | void;
+          loadConfig: (ctx?: any) => Promise<any> | void;
           setConfig: (value: any) => void;
         }
       | undefined
@@ -289,6 +289,10 @@ export function withRemoteConfig<P = any>(
             ret && store.setConfig(ret, config, 'before-defer-load');
             let response: Payload;
             try {
+              if (!isEffectiveApi(item.deferApi || deferApi || source)) {
+                throw new Error('deferApi is required');
+              }
+
               response = await env.fetcher(
                 item.deferApi || deferApi || source,
                 createObject(data, item)

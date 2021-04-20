@@ -3,65 +3,18 @@ export default {
   title: '带边栏联动',
   aside: {
     type: 'nav',
+    name: 'nav',
     stacked: true,
-    source: '/api/mock2/options/nav?parentId=${value}&waitSeconds=2'
+    source:
+      'http://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/options/nav?parentId=${value}&waitSeconds=2'
   },
   toolbar: [
     {
       type: 'button',
-      actionType: 'dialog',
-      label: '新增',
+      actionType: 'reload',
+      label: 'Reload Nav',
       primary: true,
-      dialog: {
-        title: '新增',
-        body: {
-          type: 'form',
-          name: 'sample-edit-form',
-          api: 'post:/api/sample',
-          controls: [
-            {
-              type: 'text',
-              name: 'engine',
-              label: 'Engine',
-              required: true
-            },
-            {
-              type: 'divider'
-            },
-            {
-              type: 'text',
-              name: 'browser',
-              label: 'Browser',
-              required: true
-            },
-            {
-              type: 'divider'
-            },
-            {
-              type: 'text',
-              name: 'platform',
-              label: 'Platform(s)',
-              required: true
-            },
-            {
-              type: 'divider'
-            },
-            {
-              type: 'text',
-              name: 'version',
-              label: 'Engine version'
-            },
-            {
-              type: 'divider'
-            },
-            {
-              type: 'text',
-              name: 'grade',
-              label: 'CSS grade'
-            }
-          ]
-        }
-      }
+      target: 'nav'
     }
   ],
   body: {

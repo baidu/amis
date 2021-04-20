@@ -4,6 +4,7 @@ import getExprProperties from '../utils/filter-schema';
 import {filter, evalExpression} from '../utils/tpl';
 import {
   autobind,
+  createObject,
   findTree,
   mapTree,
   someTree,
@@ -203,6 +204,7 @@ const ConditionBuilderWithRemoteOptions = withRemoteConfig({
   afterLoad: (response: any, config: any, props: any) => {
     if (response.value && !someTree(config, item => item.active)) {
       const {env} = props;
+
       env.jumpTo(filter(response.value as string, props.data));
     }
   },
@@ -285,9 +287,17 @@ const ConditionBuilderWithRemoteOptions = withRemoteConfig({
       this.handleSelect = this.handleSelect.bind(this);
     }
 
+    componentDidMount() {
+      if (Array.isArray(this.props.links)) {
+        this.props.updateConfig(this.props.links, 'mount');
+      }
+    }
+
     componentDidUpdate(prevProps: any) {
       if (this.props.location !== prevProps.location) {
         this.props.updateConfig(this.props.config, 'location-change');
+      } else if (this.props.links !== prevProps.links) {
+        this.props.updateConfig(this.props.links, 'update');
       }
     }
 
@@ -350,6 +360,18 @@ export default ThemedNavigation;
 export class NavigationRenderer extends React.Component<RendererProps> {
   static contextType = ScopedContext;
 
+  remoteRef:
+    | {
+        loadConfig: (ctx?: any) => Promise<any> | void;
+        setConfig: (value: any) => void;
+      }
+    | undefined = undefined;
+
+  @autobind
+  remoteConfigRef(ref: any) {
+    this.remoteRef = ref;
+  }
+
   componentWillMount() {
     const scoped = this.context as IScopedContext;
     scoped.registerComponent(this);
@@ -360,12 +382,31 @@ export class NavigationRenderer extends React.Component<RendererProps> {
     scoped.unRegisterComponent(this);
   }
 
-  // reload() {}
-  // reciever
+  @autobind
+  reload(target?: string, query?: any, values?: object) {
+    if (query) {
+      return this.receive(query);
+    }
+
+    const {data, env, source, translate: __} = this.props;
+    const finalData = values ? createObject(data, values) : data;
+
+    this.remoteRef?.loadConfig(finalData);
+  }
+
+  @autobind
+  receive(values: object) {
+    this.reload(undefined, undefined, values);
+  }
 
   render() {
     const {...rest} = this.props;
 
-    return <ConditionBuilderWithRemoteOptions {...rest} />;
+    return (
+      <ConditionBuilderWithRemoteOptions
+        {...rest}
+        remoteConfigRef={this.remoteConfigRef}
+      />
+    );
   }
 }
