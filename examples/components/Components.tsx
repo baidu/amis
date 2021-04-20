@@ -976,6 +976,15 @@ export const components = [
           )
       },
       {
+        label: 'Markdown 渲染',
+        path: '/zh-CN/components/markdown',
+        getComponent: () =>
+          // @ts-ignore
+          import('../../docs/zh-CN/components/markdown.md').then(
+            makeMarkdownRenderer
+          )
+      },
+      {
         label: 'Progress 进度条',
         path: '/zh-CN/components/progress',
         getComponent: () =>

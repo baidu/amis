@@ -1721,7 +1721,8 @@ export default class Table extends React.Component<TableProps, object> {
       this.renderedToolbars.push(type);
       return this.renderDragToggler();
     } else if (type === 'export-excel') {
-      return this.renderExportExcel();
+      this.renderedToolbars.push(type);
+      return this.renderExportExcel(toolbar);
     }
 
     return void 0;
@@ -1803,13 +1804,15 @@ export default class Table extends React.Component<TableProps, object> {
     );
   }
 
-  renderExportExcel() {
+  renderExportExcel(toolbar: SchemaNode) {
     const {
       store,
+      env,
       classPrefix: ns,
       classnames: cx,
       translate: __,
-      columns
+      columns,
+      data
     } = this.props;
 
     if (!columns) {
@@ -1821,9 +1824,28 @@ export default class Table extends React.Component<TableProps, object> {
         classPrefix={ns}
         onClick={() => {
           import('exceljs').then(async (ExcelJS: any) => {
-            if (!store.data.items || store.data.items.length === 0) {
+            let rows = [];
+            // 支持配置 api 远程获取
+            if (typeof toolbar === 'object' && (toolbar as Schema).api) {
+              const res = await env.fetcher((toolbar as Schema).api, data);
+              if (!res.data) {
+                env.notify('warning', __('placeholder.noData'));
+                return;
+              }
+              if (Array.isArray(res.data)) {
+                rows = res.data;
+              } else {
+                rows = res.data.rows || res.data.items;
+              }
+            } else {
+              rows = store.rows;
+            }
+
+            if (rows.length === 0) {
+              env.notify('warning', __('placeholder.noData'));
               return;
             }
+
             const workbook = new ExcelJS.Workbook();
             const worksheet = workbook.addWorksheet('sheet', {
               properties: {defaultColWidth: 15}
@@ -1847,7 +1869,7 @@ export default class Table extends React.Component<TableProps, object> {
             };
             // 数据从第二行开始
             let rowIndex = 1;
-            for (const row of store.rows) {
+            for (const row of rows) {
               rowIndex += 1;
               const sheetRow = worksheet.getRow(rowIndex);
               let columIndex = 0;
@@ -1976,7 +1998,7 @@ export default class Table extends React.Component<TableProps, object> {
         }}
         size="sm"
       >
-        {__('CRUD.exportExcel')}
+        {(toolbar as Schema).label || __('CRUD.exportExcel')}
       </Button>
     );
   }

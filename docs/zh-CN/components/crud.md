@@ -1432,8 +1432,52 @@ crud 组件支持通过配置`headerToolbar`和`footerToolbar`属性，实现在
 {
     "type": "crud",
     "syncLocation": false,
-    "api": "https://houtai.baidu.com/api/sample",
+    "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/sample",
     "headerToolbar": ["export-excel"],
+    "columns": [
+        {
+            "name": "id",
+            "label": "ID"
+        },
+        {
+            "name": "engine",
+            "label": "Rendering engine"
+        },
+        {
+            "name": "browser",
+            "label": "Browser"
+        },
+        {
+            "name": "platform",
+            "label": "Platform(s)"
+        },
+        {
+            "name": "version",
+            "label": "Engine version"
+        },
+        {
+            "name": "grade",
+            "label": "CSS grade"
+        }
+    ]
+}
+```
+
+### 通过 api 导出 Excel
+
+> 1.1.6 以上版本支持
+
+除了前面的用法，还可以配置 api 来通过数据请求来导出 Excel，实现类似全量导出的功能
+
+```schema: scope="body"
+{
+    "type": "crud",
+    "syncLocation": false,
+    "headerToolbar": [{
+        "type": "export-excel",
+        "label": "全量导出 Excel",
+        "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/sample"
+    }],
     "columns": [
         {
             "name": "id",

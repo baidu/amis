@@ -154,6 +154,7 @@ export class App extends React.PureComponent<{
     super(props);
     this.setNavigations = this.setNavigations.bind(this);
     this.setNavigationFilter = this.setNavigationFilter.bind(this);
+    document.querySelector('body').classList.add(this.state.theme.value);
   }
 
   componentDidUpdate(preProps, preState) {

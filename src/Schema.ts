@@ -110,6 +110,7 @@ export type SchemaType =
   | 'static-list' // 这个几个跟表单项同名，再form下面用必须带前缀 static-
   | 'map'
   | 'mapping'
+  | 'markdown'
   | 'nav'
   | 'page'
   | 'pagination'

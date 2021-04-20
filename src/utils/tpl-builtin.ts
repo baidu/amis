@@ -13,6 +13,7 @@ import {
 import {Enginer} from './tpl';
 import uniqBy from 'lodash/uniqBy';
 import uniq from 'lodash/uniq';
+import transform from 'lodash/transform';
 
 const UNITS = ['B', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
 
@@ -294,6 +295,21 @@ export const filters: {
     order?: 'asc' | 'desc'
   ) =>
     Array.isArray(input) ? input.sort(makeSorter(key, method, order)) : input,
+  objectToArray: (
+    input: any,
+    label: string = 'label',
+    value: string = 'value'
+  ) =>
+    transform(
+      input,
+      (result: any, v, k) => {
+        (result || (result = [])).push({
+          [label]: v,
+          [value]: k
+        });
+      },
+      []
+    ),
   unique: (input: any, key?: string) =>
     Array.isArray(input) ? (key ? uniqBy(input, key) : uniq(input)) : input,
   topAndOther: (
@@ -702,7 +718,7 @@ export const resolveVariableAndFilter = (
 
   // 先只支持一层吧
   finalKey = finalKey.replace(
-    /(\\|\\\$)?\$(?:((?:\w+\:)?[a-zA-Z0-9_.][a-zA-Z0-9_.\[\]]*)|{([^}{]+)})/g,
+    /(\\|\\\$)?\$(?:([a-zA-Z0-9_.][a-zA-Z0-9_.\[\]]*)|{([^}{]+)})/g,
     (_, escape) => {
       return escape
         ? _.substring(1)
