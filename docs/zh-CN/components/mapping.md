@@ -119,6 +119,50 @@ List 的内容、Card 卡片的内容配置同上
 }
 ```
 
+### 布尔值映射
+
+```schema: scope="body"
+{
+    "type": "form",
+    "data": {
+        "type": true
+    },
+    "controls": [
+        {
+            "type": "static-mapping",
+            "name": "type",
+            "label": "映射",
+            "map": {
+                "1": "<span class='label label-info'>开</span>",
+                "0": "<span class='label label-default'>关</span>"
+            }
+        }
+    ]
+}
+```
+
+或者
+
+```schema: scope="body"
+{
+    "type": "form",
+    "data": {
+        "type": true
+    },
+    "controls": [
+        {
+            "type": "static-mapping",
+            "name": "type",
+            "label": "映射",
+            "map": {
+                "true": "<span class='label label-info'>开</span>",
+                "false": "<span class='label label-default'>关</span>"
+            }
+        }
+    ]
+}
+```
+
 ### 远程拉取字典
 
 > since 1.1.6
