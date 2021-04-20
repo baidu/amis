@@ -465,7 +465,7 @@ export const FormItemStore = StoreNode.named('FormItemStore')
             );
           getEnv(self).notify(
             'error',
-            self.errors.join(''),
+            self.errors.join('') || `${api}：${json.msg}`,
             json.msgTimeout !== undefined
               ? {
                   closeButton: true,
