@@ -571,9 +571,9 @@ order: 59
 
 ## 懒加载
 
-需要懒加载的选项请配置 `defer` 为 true，然后配置 `deferApi` 节课完成懒加载。如果不配置 `deferApi` 会使用 `source` 接口。
-
 > since 1.1.6
+
+需要懒加载的选项请配置 `defer` 为 true，然后配置 `deferApi` 节课完成懒加载。如果不配置 `deferApi` 会使用 `source` 接口。
 
 ```schema: scope="body"
 {
