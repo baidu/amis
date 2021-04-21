@@ -1,6 +1,5 @@
 import React from 'react';
 import {FormItem, FormControlProps, FormBaseControl} from './Item';
-import cx from 'classnames';
 import Switch from '../../components/Switch';
 
 /**

@@ -91,7 +91,7 @@
   "devDependencies": {
     "@fortawesome/fontawesome-free": "^5.15.3",
     "@types/async": "^2.0.45",
-    "@types/classnames": "^2.2.3",
+    "@types/classnames": "2.2.3",
     "@types/dom-helpers": "^3.4.1",
     "@types/echarts": "^4.9.2",
     "@types/file-saver": "^2.0.1",

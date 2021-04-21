@@ -1,6 +1,4 @@
 import React from 'react';
-import {Renderer} from '../../factory';
-import cx from 'classnames';
 import Container, {ContainerSchema} from '../Container';
 import FormItem, {
   FormBaseControl,
@@ -62,6 +60,7 @@ export class ContainerControlRenderer extends Container<ContainerProps> {
       horizontal,
       $path,
       classPrefix: ns,
+      classnames: cx,
       store,
       render
     } = this.props;

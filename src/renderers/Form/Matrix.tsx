@@ -4,7 +4,6 @@
  */
 
 import React from 'react';
-import cx from 'classnames';
 import {FormBaseControl, FormControlProps, FormItem} from './Item';
 import {buildApi, isValidApi, isEffectiveApi} from '../../utils/api';
 import {Checkbox, Spinner} from '../../components';

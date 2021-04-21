@@ -5,7 +5,6 @@
  */
 
 import React from 'react';
-import cx from 'classnames';
 import {mapTree} from '../utils/helper';
 import {ClassNamesFn, themeable} from '../theme';
 

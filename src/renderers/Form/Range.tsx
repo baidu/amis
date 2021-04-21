@@ -3,7 +3,7 @@ import isNumber from 'lodash/isNumber';
 import isObject from 'lodash/isObject';
 import isEqual from 'lodash/isEqual';
 import {FormItem, FormControlProps, FormBaseControl} from './Item';
-import cx from 'classnames';
+
 import InputRange from '../../components/Range';
 import {Icon} from '../../components/icons';
 import {FormOptionsControl} from './Options';

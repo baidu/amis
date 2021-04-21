@@ -1,5 +1,4 @@
 import React from 'react';
-import cx from 'classnames';
 import Overlay from '../../components/Overlay';
 import PopOver from '../../components/PopOver';
 

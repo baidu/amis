@@ -226,7 +226,7 @@ export type SchemaExpression = string;
 export type SchemaClassName =
   | string
   | {
-      [propName: string]: true | false | null | SchemaExpression;
+      [propName: string]: boolean | undefined | null | SchemaExpression;
     };
 
 // /**

@@ -5,7 +5,6 @@ import {
   highlight,
   FormOptionsControl
 } from './Options';
-import cx from 'classnames';
 import {Action} from '../../types';
 import Downshift, {StateChangeOptions} from 'downshift';
 // @ts-ignore

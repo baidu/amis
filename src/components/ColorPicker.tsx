@@ -5,7 +5,6 @@
  */
 
 import React from 'react';
-import cx from 'classnames';
 import {findDOMNode} from 'react-dom';
 import {SketchPicker, GithubPicker, ColorState} from 'react-color';
 import {Icon} from './icons';

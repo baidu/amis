@@ -5,7 +5,6 @@
  */
 
 import React from 'react';
-import cx from 'classnames';
 import {ClassNamesFn, themeable} from '../theme';
 import {classPrefix, classnames} from '../themes/default';
 
