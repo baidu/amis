@@ -160,6 +160,10 @@ export const AppStore = ServiceStore.named('AppStore')
         bcn
       };
 
+      if (page.label) {
+        document.title = page.label;
+      }
+
       if (page.schema) {
         self.schema = page.schema;
         self.schemaKey = '' + Date.now();
