@@ -389,6 +389,49 @@ icon 也可以是 url 地址，比如
 | url        | `string`  | -       | 按钮点击后，会打开指定页面。可用 `${xxx}` 取值。 |
 | blank      | `boolean` | `false` | 如果为 `true` 将在新 tab 页面打开。              |
 
+## 发送邮件
+
+```schema: scope="body"
+{
+  "label": "发送邮件",
+  "type": "button",
+  "actionType": "email",
+  "to": "amis@baidu.com",
+  "cc": "baidu@baidu.com",
+  "subject": "这是邮件主题",
+  "body": "这是邮件正文"
+}
+```
+
+### 异步获取数据
+
+```schema: scope="body"
+{
+  "type": "page",
+  "initApi": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/mail/mailInfo",
+  "body": {
+    "label": "发送邮件",
+    "type": "button",
+    "actionType": "email",
+    "to": "${to}",
+    "cc": "${cc}",
+    "subject": "${subject}",
+    "body": "${body}"
+  }
+}
+```
+
+**属性表**
+
+| 属性名     | 类型     | 默认值  | 说明                             |
+| ---------- | -------- | ------- | -------------------------------- |
+| actionType | `string` | `email` | 点击后显示一个弹出框             |
+| to         | `string` | -       | 收件人邮箱，可用 ${xxx} 取值。   |
+| cc         | `string` | -       | 抄送邮箱，可用 ${xxx} 取值。     |
+| bcc        | `string` | -       | 匿名抄送邮箱，可用 ${xxx} 取值。 |
+| subject    | `string` | -       | 邮件主题，可用 ${xxx} 取值。     |
+| body       | `string` | -       | 邮件正文，可用 ${xxx} 取值。     |
+
 ## 弹框
 
 ```schema: scope="body"

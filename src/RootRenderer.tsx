@@ -8,6 +8,9 @@ import {IRootStore, RootStore} from './store/root';
 import {Action} from './types';
 import {bulkBindFunctions, guid, isVisible} from './utils/helper';
 import {filter} from './utils/tpl';
+import qs from 'qs';
+import pick from 'lodash/pick';
+import mapValues from 'lodash/mapValues';
 
 export interface RootRendererProps extends RootProps {
   location?: any;
@@ -111,6 +114,14 @@ export class RootRenderer extends React.Component<RootRendererProps> {
         action,
         ctx
       );
+    } else if (action.actionType === 'email') {
+      const mailTo = filter(action.to, ctx);
+      const mailInfo = mapValues(pick(action, 'to', 'cc', 'bcc', 'subject', 'body'), val => filter(val, ctx));
+      const mailStr = qs.stringify(mailInfo);
+      const mailto = `mailto:${mailTo}?${mailStr}`;
+
+      window.open(mailto);
+
     } else if (action.actionType === 'dialog') {
       store.setCurrentAction(action);
       store.openDialog(ctx);
