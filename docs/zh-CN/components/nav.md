@@ -109,7 +109,7 @@ order: 58
 {
     "type": "nav",
     "stacked": true,
-    "source": "http://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/options/nav?parentId=${value}"
+    "source": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/options/nav?parentId=${value}"
 }
 ```
 

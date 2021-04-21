@@ -6,7 +6,7 @@ export default {
     name: 'nav',
     stacked: true,
     source:
-      'http://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/options/nav?parentId=${value}&waitSeconds=2'
+      'https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/options/nav?parentId=${value}&waitSeconds=2'
   },
   toolbar: [
     {
