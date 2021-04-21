@@ -92,6 +92,7 @@ export interface Link {
   children?: Links;
   defer?: boolean;
   loading?: boolean;
+  loaded?: boolean;
   [propName: string]: any;
 }
 export interface Links extends Array<Link> {}
@@ -135,7 +136,8 @@ export class Navigation extends React.Component<
     }
     const isActive: boolean = !!link.active;
     const {disabled, togglerClassName, classnames: cx, indentSize} = this.props;
-    const hasSub = link.defer || (link.children && link.children.length);
+    const hasSub =
+      (link.defer && !link.loaded) || (link.children && link.children.length);
 
     return (
       <li
@@ -258,7 +260,6 @@ const ConditionBuilderWithRemoteOptions = withRemoteConfig({
   beforeDeferLoad(item: Link, indexes: Array<number>, links: Array<Link>) {
     return spliceTree(links, indexes, 1, {
       ...item,
-      defer: undefined,
       loading: true
     });
   },
@@ -271,8 +272,8 @@ const ConditionBuilderWithRemoteOptions = withRemoteConfig({
   ) {
     const newItem = {
       ...item,
-      defer: false,
       loading: false,
+      loaded: true,
       error: ret.ok ? undefined : ret.msg
     };
 
@@ -321,7 +322,7 @@ const ConditionBuilderWithRemoteOptions = withRemoteConfig({
     toggleLink(target: Link) {
       const {config, updateConfig, deferLoad} = this.props;
 
-      if (target.defer) {
+      if (target.defer && !target.loaded) {
         deferLoad(target);
       } else {
         updateConfig(
@@ -344,7 +345,11 @@ const ConditionBuilderWithRemoteOptions = withRemoteConfig({
         return;
       }
 
-      if (!link.to && ((link.children && link.children.length) || link.defer)) {
+      if (
+        !link.to &&
+        ((link.children && link.children.length) ||
+          (link.defer && !link.loaded))
+      ) {
         this.toggleLink(link);
         return;
       }

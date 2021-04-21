@@ -210,6 +210,10 @@
     width: calc(var(--Tree-itemArrowWidth) + var(--gap-xs));
   }
 
+  &-spinner {
+    margin-right: var(--gap-xs);
+  }
+
   &-itemIcon {
     display: inline-flex;
     margin-right: var(--gap-xs);
