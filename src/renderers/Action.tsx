@@ -222,6 +222,38 @@ export interface ReloadActionSchema extends ButtonSchema {
   target?: SchemaReload;
 }
 
+export interface EmailActionSchema extends ButtonSchema {
+  /**
+   * 指定为打开邮箱行为
+   */
+  actionType: 'email';
+
+  /**
+   * 收件人邮箱
+   */
+  to: string;
+
+  /**
+   * 抄送邮箱
+   */
+  cc?: string;
+
+  /**
+   * 匿名抄送邮箱
+   */
+  bcc?: string;
+
+  /**
+   * 邮件主题
+   */
+  subject?: string;
+
+  /**
+   * 邮件正文
+   */
+  body?: string;
+}
+
 export interface OtherActionSchema extends ButtonSchema {
   actionType:
     | 'prev'
@@ -252,6 +284,7 @@ export type ActionSchema =
   | DrawerActionSchema
   | CopyActionSchema
   | ReloadActionSchema
+  | EmailActionSchema
   | OtherActionSchema
   | VanillaAction;
 
@@ -274,6 +307,10 @@ const ActionProps = [
   'blank',
   'tooltipPlacement',
   'to',
+  'cc',
+  'bcc',
+  'subject',
+  'body',
   'content',
   'required',
   'type',
@@ -319,6 +356,7 @@ export interface ActionProps
     Omit<DrawerActionSchema, 'type' | 'className' | 'iconClassName'>,
     Omit<CopyActionSchema, 'type' | 'className' | 'iconClassName'>,
     Omit<ReloadActionSchema, 'type' | 'className' | 'iconClassName'>,
+    Omit<EmailActionSchema, 'type' | 'className' | 'iconClassName'>,
     Omit<OtherActionSchema, 'type' | 'className' | 'iconClassName'> {
   actionType: any;
   onAction?: (

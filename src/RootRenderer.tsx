@@ -8,6 +8,7 @@ import {IRootStore, RootStore} from './store/root';
 import {Action} from './types';
 import {bulkBindFunctions, guid, isVisible} from './utils/helper';
 import {filter} from './utils/tpl';
+import qs from 'qs';
 
 export interface RootRendererProps extends RootProps {
   location?: any;
@@ -111,6 +112,13 @@ export class RootRenderer extends React.Component<RootRendererProps> {
         action,
         ctx
       );
+    } else if (action.actionType === 'email') {
+      const {to, cc, bcc, subject, body} = action;
+      const mailStr = qs.stringify({cc, bcc, subject, body});
+      const mailto = `mailto:${to}?${mailStr}`;
+
+      window.open(mailto);
+
     } else if (action.actionType === 'dialog') {
       store.setCurrentAction(action);
       store.openDialog(ctx);
