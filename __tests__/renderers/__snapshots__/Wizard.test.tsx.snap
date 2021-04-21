@@ -2259,12 +2259,6 @@ exports[`Renderer:Wizard step initApi 1`] = `
           novalidate=""
         >
           <div
-            class="a-Spinner-overlay"
-          />
-          <div
-            class="a-Spinner a-Spinner--overlay"
-          />
-          <div
             class="a-Form-item a-Form-item--normal is-required"
             data-role="form-item"
           >
