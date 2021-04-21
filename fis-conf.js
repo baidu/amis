@@ -491,7 +491,8 @@ if (fis.project.currentMedia() === 'publish') {
         '!linkify-it/**',
         '!mdurl/**',
         '!uc.micro/**',
-        '!markdown-it/**'
+        '!markdown-it/**',
+        '!punycode/**'
       ],
 
       'rich-text.js': [
@@ -514,7 +515,8 @@ if (fis.project.currentMedia() === 'publish') {
         'linkify-it/**',
         'mdurl/**',
         'uc.micro/**',
-        'markdown-it/**'
+        'markdown-it/**',
+        'punycode/**'
       ],
 
       'color-picker.js': [
