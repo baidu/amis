@@ -290,6 +290,7 @@ import {toast} from 'amis/lib/components/Toast';
 
 class MyComponent extends React.Component<any, any> {
   render() {
+  let amisScoped;
     return (
       <div>
         <p>通过 amis 渲染页面</p>
@@ -305,6 +306,7 @@ class MyComponent extends React.Component<any, any> {
           {
             // props...
             // locale: 'en-US' // 请参考「多语言」的文档
+            // scopeRef: (ref: any) => (amisScoped = ref)  // 功能和前面 SDK 的 amisScoped 一样
           },
           {
             // 下面三个接口必须实现
