@@ -119,7 +119,7 @@ export class ServiceRenderer extends BasicService {
       body: schema,
       controls,
       tabs,
-      feildSet,
+      fieldSet,
       renderFormItems,
       classnames: cx
     } = this.props;
@@ -128,13 +128,13 @@ export class ServiceRenderer extends BasicService {
       schema || {
         controls,
         tabs,
-        feildSet
+        fieldSet
       };
 
     return (
       finnalSchema &&
       !finnalSchema.type &&
-      (finnalSchema.controls || finnalSchema.tabs || finnalSchema.feildSet) &&
+      (finnalSchema.controls || finnalSchema.tabs || finnalSchema.fieldSet) &&
       renderFormItems
     );
   }
@@ -146,7 +146,7 @@ export class ServiceRenderer extends BasicService {
       body: schema,
       controls,
       tabs,
-      feildSet,
+      fieldSet,
       renderFormItems,
       formMode,
       classnames: cx
@@ -157,7 +157,7 @@ export class ServiceRenderer extends BasicService {
         schema || {
           controls,
           tabs,
-          feildSet
+          fieldSet
         };
 
       return (

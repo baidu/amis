@@ -82,7 +82,7 @@ export class GridRenderer extends Grid<GridProps> {
       store
     } = this.props;
 
-    if (node && !node.type && (node.controls || node.tabs || node.feildSet)) {
+    if (node && !node.type && (node.controls || node.tabs || node.fieldSet)) {
       return (
         <div className={cx(`Grid-form Form--${node.mode || 'normal'}`)}>
           {renderFormItems(
