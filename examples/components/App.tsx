@@ -516,7 +516,7 @@ export class App extends React.PureComponent<{
     const theme = this.state.theme;
     const location = this.props.location;
 
-    if (/examples\/jssdk/.test(location.pathname)) {
+    if (/examples\/app/.test(location.pathname)) {
       return (
         <>
           <ToastComponent theme={theme.value} locale={this.state.locale} />

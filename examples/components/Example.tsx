@@ -83,7 +83,7 @@ import Tab1Schema from './Tabs/Tab1';
 import Tab2Schema from './Tabs/Tab2';
 import Tab3Schema from './Tabs/Tab3';
 import TestComponent from './Test';
-import JSSDK from './JSSDK/index';
+import APP from './APP/index';
 import {normalizeLink} from '../../src/utils/normalizeLink';
 
 export const examples = [
@@ -569,11 +569,11 @@ export const examples = [
       },
 
       {
-        label: 'JSSDK',
+        label: 'APP 多页应用',
         icon: 'fa fa-cubes',
-        path: '/examples/jssdk',
-        component: makeSchemaRenderer(JSSDK, false, {
-          session: 'jssdk',
+        path: '/examples/app',
+        component: makeSchemaRenderer(APP, false, {
+          session: 'app',
           jumpTo: (to: string) => {
             location.hash = to;
           },

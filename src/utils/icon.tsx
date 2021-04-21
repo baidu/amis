@@ -21,9 +21,9 @@ export const generateIcon = (
 
   return icon ? (
     isURLIcon ? (
-      <img className={cx(className, classNameProp)} src={icon} />
+      <img className={cx(className, classNameProp)} src={icon} key={icon} />
     ) : (
-      <i className={cx(className, icon, classNameProp)} />
+      <i className={cx(className, icon, classNameProp)} key={icon} />
     )
   ) : null;
 };
