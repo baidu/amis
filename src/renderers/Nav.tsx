@@ -6,6 +6,7 @@ import {
   autobind,
   createObject,
   findTree,
+  isUnfolded,
   mapTree,
   someTree,
   spliceTree
@@ -34,6 +35,9 @@ export type NavItemSchema = {
   icon?: SchemaIcon;
 
   to?: SchemaUrlPath;
+
+  unfolded?: boolean;
+  active?: boolean;
 
   defer?: boolean;
   deferApi?: SchemaApi;
@@ -223,10 +227,10 @@ const ConditionBuilderWithRemoteOptions = withRemoteConfig({
     motivation?: string
   ) {
     if (Array.isArray(links) && motivation !== 'toggle') {
-      const {data, env} = props;
+      const {data, env, unfoldedField, foldedField} = props;
 
       links = mapTree(links, (link: Link) => {
-        return {
+        const item: any = {
           ...link,
           ...getExprProperties(link, data as object),
           active:
@@ -237,11 +241,14 @@ const ConditionBuilderWithRemoteOptions = withRemoteConfig({
                   link.hasOwnProperty('to') &&
                   env &&
                   env.isCurrentUrl(filter(link.to as string, data))
-                )),
-          unfolded:
-            link.unfolded ||
-            (link.children && link.children.some(link => !!link.active))
+                ))
         };
+
+        item.unfolded =
+          isUnfolded(item, {unfoldedField, foldedField}) ||
+          (link.children && link.children.some(link => !!link.active));
+
+        return item;
       });
     }
 
@@ -287,6 +294,8 @@ const ConditionBuilderWithRemoteOptions = withRemoteConfig({
         location?: any;
         env?: RendererEnv;
         data?: any;
+        unfoldedField?: string;
+        foldedField?: string;
       }
   > {
     constructor(props: any) {

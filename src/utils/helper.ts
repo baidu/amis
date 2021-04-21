@@ -439,6 +439,28 @@ export function isVisible(
   );
 }
 
+export function isUnfolded(
+  node: any,
+  config: {
+    foldedField?: string;
+    unfoldedField?: string;
+  }
+): boolean {
+  let {foldedField, unfoldedField} = config;
+
+  unfoldedField = unfoldedField || 'unfolded';
+  foldedField = foldedField || 'folded';
+
+  let ret: boolean = false;
+  if (unfoldedField && typeof node[unfoldedField] !== 'undefined') {
+    ret = !!node[unfoldedField];
+  } else if (foldedField && typeof node[foldedField] !== 'undefined') {
+    ret = !node[foldedField];
+  }
+
+  return ret;
+}
+
 /**
  * 过滤掉被隐藏的数组元素
  */
