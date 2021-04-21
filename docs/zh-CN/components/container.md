@@ -8,7 +8,9 @@ icon:
 order: 38
 ---
 
-Container 是一种容器组件，它可以渲染其他 amis 组件
+Container 是一种容器组件，它可以渲染其他 amis 组件。
+
+注意 Container 组件因为历史原因多了一层 div，推荐使用 [wrapper](wrapper) 来作为容器。
 
 ## 基本用法
 
