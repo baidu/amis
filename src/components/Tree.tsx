@@ -191,7 +191,12 @@ export class TreeSelector extends React.Component<
       if (node.children && node.children.length) {
         let ret: any = true;
 
-        if (unfoldedField && typeof node[unfoldedField] !== 'undefined') {
+        if (node.defer && node.loaded) {
+          ret = true;
+        } else if (
+          unfoldedField &&
+          typeof node[unfoldedField] !== 'undefined'
+        ) {
           ret = !!node[unfoldedField];
         } else if (foldedField && typeof node[foldedField] !== 'undefined') {
           ret = !node[foldedField];
@@ -634,7 +639,7 @@ export class TreeSelector extends React.Component<
                   icon="reload"
                   spinnerClassName={cx('Tree-spinner')}
                 />
-              ) : !isLeaf || item.defer ? (
+              ) : !isLeaf || (item.defer && !item.loaded) ? (
                 <div
                   onClick={() => this.toggleUnfolded(item)}
                   className={cx('Tree-itemArrow', {
@@ -685,7 +690,10 @@ export class TreeSelector extends React.Component<
                   : `${item[labelField]}`}
               </span>
 
-              {!nodeDisabled && !isAdding && !isEditing ? (
+              {!nodeDisabled &&
+              !isAdding &&
+              !isEditing &&
+              !(item.defer && !item.loaded) ? (
                 <div className={cx('Tree-item-icons')}>
                   {creatable && hasAbility(item, 'creatable') ? (
                     <a
