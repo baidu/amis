@@ -41,7 +41,7 @@
     "async": "2.6.0",
     "attr-accept": "2.2.2",
     "blueimp-canvastoblob": "2.1.0",
-    "classnames": "2.2.5",
+    "classnames": "2.3.1",
     "dom-helpers": "^3.3.1",
     "downshift": "3.1.4",
     "echarts": "5.0.2",
@@ -92,7 +92,6 @@
   "devDependencies": {
     "@fortawesome/fontawesome-free": "^5.15.3",
     "@types/async": "^2.0.45",
-    "@types/classnames": "2.2.3",
     "@types/dom-helpers": "^3.4.1",
     "@types/echarts": "^4.9.2",
     "@types/file-saver": "^2.0.1",
