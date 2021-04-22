@@ -351,7 +351,7 @@
     border: none;
     color: var(--Form-input-color);
     width: 100%;
-    height: calc(var(--Form-input-lineHeight) * var(--Form-input-fontSize));
+    // height: calc(var(--Form-input-lineHeight) * var(--Form-input-fontSize));
 
     &::placeholder {
       color: var(--Form-input-placeholderColor);
@@ -369,7 +369,7 @@
   max-width: 100%;
 
   &.is-inline {
-    display: inline-block;
+    display: inline-block !important;
     width: var(--Form-control-widthBase);
   }
 
