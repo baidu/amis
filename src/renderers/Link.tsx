@@ -44,6 +44,7 @@ export class LinkField extends React.Component<LinkProps, object> {
       htmlTarget,
       data,
       render,
+      translate: __,
       title
     } = this.props;
 
