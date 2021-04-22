@@ -439,6 +439,28 @@ export function isVisible(
   );
 }
 
+export function isUnfolded(
+  node: any,
+  config: {
+    foldedField?: string;
+    unfoldedField?: string;
+  }
+): boolean {
+  let {foldedField, unfoldedField} = config;
+
+  unfoldedField = unfoldedField || 'unfolded';
+  foldedField = foldedField || 'folded';
+
+  let ret: boolean = false;
+  if (unfoldedField && typeof node[unfoldedField] !== 'undefined') {
+    ret = !!node[unfoldedField];
+  } else if (foldedField && typeof node[foldedField] !== 'undefined') {
+    ret = !node[foldedField];
+  }
+
+  return ret;
+}
+
 /**
  * 过滤掉被隐藏的数组元素
  */
@@ -925,7 +947,7 @@ export function getTree<T extends TreeItem>(
  */
 export function filterTree<T extends TreeItem>(
   tree: Array<T>,
-  iterator: (item: T, key: number, level: number) => boolean,
+  iterator: (item: T, key: number, level: number) => any,
   level: number = 1,
   depthFirst: boolean = false
 ) {
@@ -935,7 +957,15 @@ export function filterTree<T extends TreeItem>(
         let children: TreeArray | undefined = item.children
           ? filterTree(item.children, iterator, level + 1, depthFirst)
           : undefined;
-        children && (item = {...item, children: children});
+
+        if (
+          Array.isArray(children) &&
+          Array.isArray(item.children) &&
+          children.length !== item.children.length
+        ) {
+          item = {...item, children: children};
+        }
+
         return item;
       })
       .filter((item, index) => iterator(item, index, level));
@@ -945,10 +975,20 @@ export function filterTree<T extends TreeItem>(
     .filter((item, index) => iterator(item, index, level))
     .map(item => {
       if (item.children && item.children.splice) {
-        item = {
-          ...item,
-          children: filterTree(item.children, iterator, level + 1, depthFirst)
-        };
+        let children = filterTree(
+          item.children,
+          iterator,
+          level + 1,
+          depthFirst
+        );
+
+        if (
+          Array.isArray(children) &&
+          Array.isArray(item.children) &&
+          children.length !== item.children.length
+        ) {
+          item = {...item, children: children};
+        }
       }
       return item;
     });

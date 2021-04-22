@@ -24,7 +24,8 @@ import {
   findTreeIndex,
   spliceTree,
   isEmpty,
-  getTreeAncestors
+  getTreeAncestors,
+  filterTree
 } from '../utils/helper';
 import {flattenTree} from '../utils/helper';
 import {IRendererStore} from '.';
@@ -74,7 +75,7 @@ export const FormItemStore = StoreNode.named('FormItemStore')
     labelField: 'label',
     joinValues: true,
     extractValue: false,
-    options: types.optional(types.array(types.frozen()), []),
+    options: types.optional(types.frozen<Array<any>>(), []),
     expressionsInOptions: false,
     selectFirst: false,
     autoFill: types.frozen(),
@@ -385,9 +386,9 @@ export const FormItemStore = StoreNode.named('FormItemStore')
       if (!Array.isArray(options)) {
         return;
       }
-      options = options.filter(item => item);
+      options = filterTree(options, item => item);
       const originOptions = self.options.concat();
-      options.length ? self.options.replace(options) : self.options.clear();
+      self.options = options;
       syncOptions(originOptions);
       let selectedOptions;
 
@@ -446,7 +447,9 @@ export const FormItemStore = StoreNode.named('FormItemStore')
           self.loading = false;
         }
 
-        self.loading = true;
+        if (!config?.silent) {
+          self.loading = true;
+        }
 
         const json: Payload = yield getEnv(self).fetcher(api, data, {
           autoAppend: false,
@@ -568,7 +571,15 @@ export const FormItemStore = StoreNode.named('FormItemStore')
         })
       );
 
-      let json = yield fetchOptions(api, data, config, false);
+      let json = yield fetchOptions(
+        api,
+        data,
+        {
+          ...config,
+          silent: true
+        },
+        false
+      );
       if (!json) {
         setOptions(
           spliceTree(self.options, indexes, 1, {

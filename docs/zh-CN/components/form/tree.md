@@ -569,6 +569,53 @@ order: 59
 }
 ```
 
+## 懒加载
+
+> since 1.1.6
+
+需要懒加载的选项请配置 `defer` 为 true，然后配置 `deferApi` 即可完成懒加载。如果不配置 `deferApi` 会使用 `source` 接口。
+
+```schema: scope="body"
+{
+  "type": "form",
+  "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
+  "controls": [
+    {
+      "type": "tree",
+      "name": "tree",
+      "label": "Tree",
+      "deferApi": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/deferOptions?label=${label}&waitSeconds=2",
+      "options": [
+        {
+          "label": "Folder A",
+          "value": 1,
+          "collapsed": true,
+          "children": [
+            {
+              "label": "file A",
+              "value": 2
+            },
+            {
+              "label": "file B",
+              "value": 3
+            }
+          ]
+        },
+        {
+          "label": "这下面是懒加载的",
+          "value": 4,
+          "defer": true
+        },
+        {
+          "label": "file D",
+          "value": 5
+        }
+      ]
+    }
+  ]
+}
+```
+
 ## 属性表
 
 当做选择器表单项使用时，除了支持 [普通表单项属性表](./formitem#%E5%B1%9E%E6%80%A7%E8%A1%A8) 中的配置以外，还支持下面一些配置

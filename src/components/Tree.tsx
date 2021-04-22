@@ -20,6 +20,7 @@ import {highlight} from '../renderers/Form/Options';
 import {Icon} from './icons';
 import Checkbox from './Checkbox';
 import {LocaleProps, localeable} from '../locale';
+import Spinner from './Spinner';
 
 interface TreeSelectorProps extends ThemeProps, LocaleProps {
   highlightTxt?: string;
@@ -86,11 +87,11 @@ interface TreeSelectorProps extends ThemeProps, LocaleProps {
   removable?: boolean;
   removeTip?: string;
   onDelete?: (value: Option) => void;
+  onDeferLoad?: (option: Option) => void;
 }
 
 interface TreeSelectorState {
   value: Array<any>;
-  unfolded: {[propName: string]: string};
 
   inputValue: string;
   addingParent: Option | null;
@@ -133,54 +134,60 @@ export class TreeSelector extends React.Component<
     removeTip: 'Tree.removeNode'
   };
 
-  componentWillMount() {
-    const props = this.props;
+  unfolded: WeakMap<Object, boolean> = new WeakMap();
 
-    this.setState({
+  constructor(props: TreeSelectorProps) {
+    super(props);
+    this.state = {
       value: value2array(props.value, {
         multiple: props.multiple,
         delimiter: props.delimiter,
         valueField: props.valueField,
         options: props.options
       }),
-      unfolded: this.syncUnFolded(props),
 
       inputValue: '',
       addingParent: null,
       isAdding: false,
       isEditing: false,
       editingItem: null
-    });
+    };
+
+    this.syncUnFolded(props);
   }
 
-  componentWillReceiveProps(nextProps: TreeSelectorProps) {
-    const toUpdate: any = {};
+  componentDidUpdate(prevProps: TreeSelectorProps) {
+    const props = this.props;
+
+    if (prevProps.options !== props.options) {
+      this.syncUnFolded(props);
+    }
 
     if (
-      this.props.value !== nextProps.value ||
-      this.props.options !== nextProps.options
+      prevProps.value !== props.value ||
+      prevProps.options !== props.options
     ) {
-      toUpdate.value = value2array(nextProps.value, {
-        multiple: nextProps.multiple,
-        delimiter: nextProps.delimiter,
-        valueField: nextProps.valueField,
-        options: nextProps.options
+      this.setState({
+        value: value2array(props.value, {
+          multiple: props.multiple,
+          delimiter: props.delimiter,
+          valueField: props.valueField,
+          options: props.options
+        })
       });
     }
-
-    if (this.props.options !== nextProps.options) {
-      toUpdate.unfolded = this.syncUnFolded(nextProps);
-    }
-
-    this.setState(toUpdate);
   }
 
   syncUnFolded(props: TreeSelectorProps) {
     // 初始化树节点的展开状态
-    let unfolded: {[propName: string]: string} = {};
+    let unfolded = this.unfolded;
     const {foldedField, unfoldedField} = this.props;
 
     eachTree(props.options, (node: Option, index, level) => {
+      if (unfolded.has(node)) {
+        return;
+      }
+
       if (node.children && node.children.length) {
         let ret: any = true;
 
@@ -194,7 +201,7 @@ export class TreeSelector extends React.Component<
             ret = true;
           }
         }
-        unfolded[node[props.valueField as string]] = ret;
+        unfolded.set(node, ret);
       }
     });
 
@@ -203,14 +210,21 @@ export class TreeSelector extends React.Component<
 
   @autobind
   toggleUnfolded(node: any) {
-    this.setState({
-      unfolded: {
-        ...this.state.unfolded,
-        [node[this.props.valueField as string]]: !this.state.unfolded[
-          node[this.props.valueField as string]
-        ]
-      }
-    });
+    const unfolded = this.unfolded;
+    const {onDeferLoad} = this.props;
+
+    if (node.defer && !node.loaded) {
+      onDeferLoad?.(node);
+      return;
+    }
+
+    unfolded.set(node, !unfolded.get(node));
+    this.forceUpdate();
+  }
+
+  isUnfolded(node: any) {
+    const unfolded = this.unfolded;
+    return unfolded.get(node);
   }
 
   @autobind
@@ -229,13 +243,21 @@ export class TreeSelector extends React.Component<
 
   @autobind
   handleSelect(node: any, value?: any) {
+    const {joinValues, valueField, onChange} = this.props;
+
+    if (node[valueField as string] === undefined) {
+      if (node.defer && !node.loaded) {
+        this.toggleUnfolded(node);
+      }
+
+      return;
+    }
+
     this.setState(
       {
         value: [node]
       },
       () => {
-        const {joinValues, valueField, onChange} = this.props;
-
         onChange(joinValues ? node[valueField as string] : node);
       }
     );
@@ -513,7 +535,6 @@ export class TreeSelector extends React.Component<
       translate: __
     } = this.props;
     const {
-      unfolded,
       value: stateValue,
       isAdding,
       addingParent,
@@ -606,11 +627,18 @@ export class TreeSelector extends React.Component<
                 'is-disabled': nodeDisabled
               })}
             >
-              {!isLeaf ? (
+              {item.loading ? (
+                <Spinner
+                  size="sm"
+                  show
+                  icon="reload"
+                  spinnerClassName={cx('Tree-spinner')}
+                />
+              ) : !isLeaf || item.defer ? (
                 <div
                   onClick={() => this.toggleUnfolded(item)}
                   className={cx('Tree-itemArrow', {
-                    'is-folded': !unfolded[item[valueField]]
+                    'is-folded': !this.isUnfolded(item)
                   })}
                 >
                   <Icon icon="right-arrow-bold" className="icon" />
@@ -693,7 +721,7 @@ export class TreeSelector extends React.Component<
             </div>
           )}
           {/* 有children而且为展开状态 或者 添加child时 */}
-          {(childrenItems && unfolded[item[valueField]]) ||
+          {(childrenItems && this.isUnfolded(item)) ||
           (isAdding && addingParent === item) ? (
             <ul className={cx('Tree-sublist')}>
               {isAdding && addingParent === item ? (
@@ -710,9 +738,7 @@ export class TreeSelector extends React.Component<
               ) : null}
               {childrenItems}
             </ul>
-          ) : !childrenItems &&
-            item.placeholder &&
-            unfolded[item[valueField]] ? (
+          ) : !childrenItems && item.placeholder && this.isUnfolded(item) ? (
             <ul className={cx('Tree-sublist')}>
               <li className={cx('Tree-item')}>
                 <div className={cx('Tree-placeholder')}>{item.placeholder}</div>

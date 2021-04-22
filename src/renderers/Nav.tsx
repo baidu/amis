@@ -6,6 +6,7 @@ import {
   autobind,
   createObject,
   findTree,
+  isUnfolded,
   mapTree,
   someTree,
   spliceTree
@@ -34,6 +35,9 @@ export type NavItemSchema = {
   icon?: SchemaIcon;
 
   to?: SchemaUrlPath;
+
+  unfolded?: boolean;
+  active?: boolean;
 
   defer?: boolean;
   deferApi?: SchemaApi;
@@ -88,6 +92,7 @@ export interface Link {
   children?: Links;
   defer?: boolean;
   loading?: boolean;
+  loaded?: boolean;
   [propName: string]: any;
 }
 export interface Links extends Array<Link> {}
@@ -131,7 +136,8 @@ export class Navigation extends React.Component<
     }
     const isActive: boolean = !!link.active;
     const {disabled, togglerClassName, classnames: cx, indentSize} = this.props;
-    const hasSub = link.defer || (link.children && link.children.length);
+    const hasSub =
+      (link.defer && !link.loaded) || (link.children && link.children.length);
 
     return (
       <li
@@ -223,10 +229,10 @@ const ConditionBuilderWithRemoteOptions = withRemoteConfig({
     motivation?: string
   ) {
     if (Array.isArray(links) && motivation !== 'toggle') {
-      const {data, env} = props;
+      const {data, env, unfoldedField, foldedField} = props;
 
       links = mapTree(links, (link: Link) => {
-        return {
+        const item: any = {
           ...link,
           ...getExprProperties(link, data as object),
           active:
@@ -237,11 +243,14 @@ const ConditionBuilderWithRemoteOptions = withRemoteConfig({
                   link.hasOwnProperty('to') &&
                   env &&
                   env.isCurrentUrl(filter(link.to as string, data))
-                )),
-          unfolded:
-            link.unfolded ||
-            (link.children && link.children.some(link => !!link.active))
+                ))
         };
+
+        item.unfolded =
+          isUnfolded(item, {unfoldedField, foldedField}) ||
+          (link.children && link.children.some(link => !!link.active));
+
+        return item;
       });
     }
 
@@ -251,7 +260,6 @@ const ConditionBuilderWithRemoteOptions = withRemoteConfig({
   beforeDeferLoad(item: Link, indexes: Array<number>, links: Array<Link>) {
     return spliceTree(links, indexes, 1, {
       ...item,
-      defer: undefined,
       loading: true
     });
   },
@@ -264,8 +272,8 @@ const ConditionBuilderWithRemoteOptions = withRemoteConfig({
   ) {
     const newItem = {
       ...item,
-      defer: false,
       loading: false,
+      loaded: true,
       error: ret.ok ? undefined : ret.msg
     };
 
@@ -287,6 +295,8 @@ const ConditionBuilderWithRemoteOptions = withRemoteConfig({
         location?: any;
         env?: RendererEnv;
         data?: any;
+        unfoldedField?: string;
+        foldedField?: string;
       }
   > {
     constructor(props: any) {
@@ -312,7 +322,7 @@ const ConditionBuilderWithRemoteOptions = withRemoteConfig({
     toggleLink(target: Link) {
       const {config, updateConfig, deferLoad} = this.props;
 
-      if (target.defer) {
+      if (target.defer && !target.loaded) {
         deferLoad(target);
       } else {
         updateConfig(
@@ -335,7 +345,11 @@ const ConditionBuilderWithRemoteOptions = withRemoteConfig({
         return;
       }
 
-      if (!link.to && ((link.children && link.children.length) || link.defer)) {
+      if (
+        !link.to &&
+        ((link.children && link.children.length) ||
+          (link.defer && !link.loaded))
+      ) {
         this.toggleLink(link);
         return;
       }

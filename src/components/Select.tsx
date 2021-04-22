@@ -198,7 +198,11 @@ export function normalizeOptions(
     return (options as Options).map(item => {
       const value = item && item.value;
 
-      const idx = value !== undefined ? share.values.indexOf(value) : -1;
+      const idx =
+        value !== undefined && !item.children
+          ? share.values.indexOf(value)
+          : -1;
+
       if (~idx) {
         return share.options[idx];
       }

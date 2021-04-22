@@ -73,9 +73,52 @@ export default {
         },
         {
           name: 'tree',
+          showOutline: true,
           type: 'tree',
           label: '动态树',
           source: '/api/mock2/options/tree?waitSeconds=1'
+        },
+        {
+          type: 'divider'
+        },
+        {
+          name: 'tree',
+          type: 'tree',
+          label: '树懒加载',
+          multiple: true,
+          deferApi: '/api/mock2/form/deferOptions?label=${label}&waitSeconds=2',
+          options: [
+            {
+              label: '法师',
+              children: [
+                {
+                  label: '诸葛亮',
+                  value: 'zhugeliang'
+                }
+              ]
+            },
+            {
+              label: '战士',
+              defer: true
+            },
+            {
+              label: '打野',
+              children: [
+                {
+                  label: '李白',
+                  value: 'libai'
+                },
+                {
+                  label: '韩信',
+                  value: 'hanxin'
+                },
+                {
+                  label: '云中君',
+                  value: 'yunzhongjun'
+                }
+              ]
+            }
+          ]
         },
         {
           type: 'divider'
