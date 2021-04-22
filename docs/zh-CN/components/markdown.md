@@ -26,6 +26,32 @@ order: 58
 
 动态数据可以通过 name 来关联，类似 [static](form/static) 组件
 
+## 基于 Editor 和数据联动来实现预览功能
+
+```schema: scope="body"
+{
+    "type": "form",
+    "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
+    "controls": [
+        {
+            "type": "group",
+            "controls": [
+                {
+                    "type": "editor",
+                    "name": "md",
+                    "language": "markdown"
+                },
+                {
+                    "type": "markdown",
+                    "name": "md"
+                }
+            ]
+        }
+
+    ]
+}
+```
+
 ## 属性表
 
 | 属性名    | 类型     | 默认值 | 说明   |
