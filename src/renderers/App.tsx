@@ -239,9 +239,7 @@ export default class App extends React.Component<AppProps, object> {
               <Html className={cx('AppLogo-html')} html={logo} />
             ) : logo ? (
               <img className={cx('AppLogo')} src={logo} />
-            ) : (
-              <i className={logo} />
-            )}
+            ) : null}
             <span className="hidden-folded m-l-sm">{brandName}</span>
           </div>
         </div>

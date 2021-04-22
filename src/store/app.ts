@@ -169,17 +169,7 @@ export const AppStore = ServiceStore.named('AppStore')
         self.schemaKey = '' + Date.now();
       } else if (page.schemaApi) {
         self.schema = null;
-        // fetchSchema 默认是用 post，但这里 get 更常见，因此默认加上方便填写
-        let schemaApi = page.schemaApi;
-        if (typeof schemaApi === 'string') {
-          if (
-            /^https?:|\/|\.\/|\w/.test(schemaApi) &&
-            !/^get:|^post/i.test(schemaApi)
-          ) {
-            schemaApi = 'get:' + schemaApi;
-          }
-        }
-        self.fetchSchema(schemaApi, self.activePage);
+        self.fetchSchema(page.schemaApi, self.activePage, {method: 'get'});
       } else if (page.redirect) {
         env.jumpTo(page.redirect);
         return;
