@@ -169,16 +169,17 @@ export const AppStore = ServiceStore.named('AppStore')
         self.schemaKey = '' + Date.now();
       } else if (page.schemaApi) {
         self.schema = null;
-        // fetchSchema 默认是用 post，但这里 get 更常见
-        if (typeof page.schemaApi === 'string') {
+        // fetchSchema 默认是用 post，但这里 get 更常见，因此默认加上方便填写
+        let schemaApi = page.schemaApi;
+        if (typeof schemaApi === 'string') {
           if (
-            /^https?:|\/|\.\/|\w/.test(page.schemaApi) &&
-            !page.schemaApi.toLowerCase().startsWith('get:')
+            /^https?:|\/|\.\/|\w/.test(schemaApi) &&
+            !/^get:|^post/i.test(schemaApi)
           ) {
-            page.schemaApi = 'get:' + page.schemaApi;
+            schemaApi = 'get:' + schemaApi;
           }
         }
-        self.fetchSchema(page.schemaApi, self.activePage);
+        self.fetchSchema(schemaApi, self.activePage);
       } else if (page.redirect) {
         env.jumpTo(page.redirect);
         return;
