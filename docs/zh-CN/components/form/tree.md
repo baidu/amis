@@ -574,6 +574,7 @@ order: 59
 > since 1.1.6
 
 需要懒加载的选项请配置 `defer` 为 true，然后配置 `deferApi` 即可完成懒加载。如果不配置 `deferApi` 会使用 `source` 接口。
+`deferApi` 中可以用到当前选项中的任何字段，比如以下这个例子是把 label 传给了 defer 接口
 
 ```schema: scope="body"
 {
