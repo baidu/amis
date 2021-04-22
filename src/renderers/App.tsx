@@ -240,7 +240,7 @@ export default class App extends React.Component<AppProps, object> {
             ) : logo ? (
               <img className={cx('AppLogo')} src={logo} />
             ) : (
-              <i className="fa fa-paw" />
+              <i className={logo} />
             )}
             <span className="hidden-folded m-l-sm">{brandName}</span>
           </div>
