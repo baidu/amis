@@ -44,7 +44,7 @@ import {toDataURL, getImageDimensions} from '../../utils/image';
 import {TableBody} from './TableBody';
 import {TplSchema} from '../Tpl';
 import {MappingSchema} from '../Mapping';
-import {isAlive} from 'mobx-state-tree';
+import {isAlive, getSnapshot} from 'mobx-state-tree';
 
 /**
  * 表格列，不指定类型时默认为文本类型。
@@ -1825,6 +1825,7 @@ export default class Table extends React.Component<TableProps, object> {
         onClick={() => {
           import('exceljs').then(async (ExcelJS: any) => {
             let rows = [];
+            let tmpStore;
             // 支持配置 api 远程获取
             if (typeof toolbar === 'object' && (toolbar as Schema).api) {
               const res = await env.fetcher((toolbar as Schema).api, data);
@@ -1837,6 +1838,10 @@ export default class Table extends React.Component<TableProps, object> {
               } else {
                 rows = res.data.rows || res.data.items;
               }
+              // 因为很多方法是 store 里的，所以需要构建 store 来处理
+              tmpStore = TableStore.create(getSnapshot(store));
+              tmpStore.initRows(rows);
+              rows = tmpStore.rows;
             } else {
               rows = store.rows;
             }
@@ -1876,7 +1881,7 @@ export default class Table extends React.Component<TableProps, object> {
               for (const column of columns) {
                 columIndex += 1;
                 const name = column.name!;
-                const value = getVariable(row.data, name);
+                const value = getVariable(row, name);
                 if (
                   typeof value === 'undefined' &&
                   !(column as TplSchema).tpl
