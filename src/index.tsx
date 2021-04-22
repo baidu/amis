@@ -14,6 +14,7 @@ import {
   unRegisterRenderer,
   resolveRenderer,
   filterSchema,
+  addSchemaFilter,
   clearStoresCache,
   updateEnv
 } from './factory';
