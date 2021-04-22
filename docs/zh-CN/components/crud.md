@@ -880,6 +880,31 @@ amis 只负责生成下拉选择器组件，并将搜索参数传递给接口，
 }
 ```
 
+#### 配置快速编辑启动条件
+
+通过 `quickEditEnabledOn` 配置表达式来实现，如下，只有 id 小于 5 的数据可以编辑 engine。
+
+```schema: scope="body"
+{
+    "type": "crud",
+    "syncLocation": false,
+    "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/sample",
+    "quickSaveApi": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/sample/bulkUpdate",
+    "columns": [
+        {
+            "name": "id",
+            "label": "ID"
+        },
+        {
+            "name": "engine",
+            "label": "Rendering engine",
+            "quickEdit":true,
+            "quickEditEnabledOn": "this.id < 5"
+        }
+    ]
+}
+```
+
 ## 顶部和底部工具栏
 
 crud 组件支持通过配置`headerToolbar`和`footerToolbar`属性，实现在表格顶部和底部渲染组件，
