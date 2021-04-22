@@ -106,7 +106,9 @@ export class Custom extends React.Component<CustomProps, object> {
       id,
       wrapperComponent,
       inline,
-      classnames: cx
+      translate: __,
+      classnames: cx,
+      ...rest
     } = this.props;
     const Component = wrapperComponent || inline ? 'span' : 'div';
     return (
@@ -115,6 +117,7 @@ export class Custom extends React.Component<CustomProps, object> {
         className={cx(className)}
         id={id}
         dangerouslySetInnerHTML={{__html: html ? html : ''}}
+        {...rest}
       ></Component>
     );
   }
