@@ -13,12 +13,20 @@ export default {
         align: 'right'
       },
       {
+        type: 'search-box',
+        align: 'right',
+        name: 'keywords',
+        placeholder: '请输入关键字',
+        mini: true
+      },
+
+      {
         type: 'drag-toggler',
-        className: 'pull-right'
+        align: 'right'
       },
       {
         type: 'pagination',
-        className: 'pull-right'
+        align: 'right'
       }
     ],
     itemActions: [

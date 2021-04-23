@@ -87,6 +87,7 @@ export class SearchBox extends React.Component<SearchBoxProps> {
       value,
       active,
       name,
+      className,
       onChange,
       disabled,
       placeholder,
@@ -98,6 +99,7 @@ export class SearchBox extends React.Component<SearchBoxProps> {
       <div
         className={cx(
           'SearchBox',
+          className,
           disabled ? 'is-disabled' : '',
           !mini || active ? 'is-active' : ''
         )}

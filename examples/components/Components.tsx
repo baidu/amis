@@ -1031,6 +1031,16 @@ export const components = [
       },
 
       {
+        label: '搜索框',
+        path: '/zh-CN/components/search-box',
+        getComponent: () =>
+          // @ts-ignore
+          import('../../docs/zh-CN/components/search-box.md').then(
+            makeMarkdownRenderer
+          )
+      },
+
+      {
         label: 'Sparkline 走势图',
         path: '/zh-CN/components/sparkline',
         getComponent: () =>
