@@ -212,6 +212,7 @@ export default class IconPickerControl extends React.PureComponent<
       name,
       value,
       noDataTip,
+      disabled,
       translate: __
     } = this.props;
     const options = this.formatOptions();
@@ -267,6 +268,7 @@ export default class IconPickerControl extends React.PureComponent<
                     value: this.state.inputValue
                   })}
                   autoComplete="off"
+                  disabled={disabled}
                   size={10}
                 />
               </div>
