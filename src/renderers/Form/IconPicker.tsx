@@ -108,6 +108,10 @@ export default class IconPickerControl extends React.PureComponent<
 
   @autobind
   handleClick() {
+    if (this.props.disabled) {
+      return;
+    }
+
     this.focus();
     this.setState({
       isOpen: true
@@ -170,7 +174,11 @@ export default class IconPickerControl extends React.PureComponent<
 
   @autobind
   handleChange(value: any) {
-    const {onChange} = this.props;
+    const {onChange, disabled} = this.props;
+
+    if (disabled) {
+      return;
+    }
 
     onChange(value);
     this.setState({
@@ -337,7 +345,7 @@ export default class IconPickerControl extends React.PureComponent<
   }
 
   render(): JSX.Element {
-    const {className, classPrefix: ns, inputOnly} = this.props;
+    const {className, classPrefix: ns, inputOnly, disabled} = this.props;
 
     let input = this.renderFontIcons();
 
@@ -348,7 +356,8 @@ export default class IconPickerControl extends React.PureComponent<
     return (
       <div
         className={cx(className, `${ns}IconPickerControl`, {
-          'is-focused': this.state.isFocused
+          'is-focused': this.state.isFocused,
+          'is-disabled': disabled
         })}
       >
         {input}
