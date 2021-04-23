@@ -22,6 +22,7 @@ export interface fetcherResult {
     errors?: {
       [propName: string]: string;
     };
+    type?: string;
   };
   status: number;
   headers: object;

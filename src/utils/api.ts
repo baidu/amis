@@ -186,6 +186,11 @@ export function responseAdaptor(ret: fetcherResult, api: ApiObject) {
     data: !data.data && !hasStatusField ? data : data.data // 兼容直接返回数据的情况
   };
 
+  // 兼容返回 schema 的情况，用于 app 模式
+  if (data && data.type) {
+    payload.data = data;
+  }
+
   if (payload.status == 422) {
     payload.errors = data.errors;
   }

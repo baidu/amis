@@ -428,6 +428,7 @@ export const ServiceStore = iRendererStore
                 !!(api as ApiObject).replaceData
               );
           }
+
           updateMessage(json.msg ?? (options && options.successMessage));
 
           // 配置了获取成功提示后提示，默认是空不会提示。

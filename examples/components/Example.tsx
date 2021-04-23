@@ -611,7 +611,7 @@ export const examples = [
               })(pathname);
             }
 
-            return pathname === link;
+            return pathname === encodeURI(link);
           }
         })
       }
