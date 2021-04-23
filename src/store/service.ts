@@ -418,19 +418,12 @@ export const ServiceStore = iRendererStore
               : undefined
           );
         } else {
-          let schema;
-          // 支持直接返回 schema，而不是包裹在 data 里，让 json 更加单纯
-          if (json.type) {
-            schema = json;
-          } else if (json.data) {
-            schema = json.data;
-          }
-          if (schema) {
-            self.schema = schema;
+          if (json.data) {
+            self.schema = json.data;
             self.schemaKey = '' + Date.now();
-            isObject(schema.data) &&
+            isObject(json.data.data) &&
               self.updateData(
-                schema.data,
+                json.data.data,
                 undefined,
                 !!(api as ApiObject).replaceData
               );

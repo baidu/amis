@@ -25,11 +25,7 @@ export default {
         {
           label: '页面A',
           url: 'pageA',
-          schema: {
-            type: 'page',
-            title: '页面A',
-            body: '页面A'
-          },
+          schemaApi: 'http://127.0.0.1:8084/aisuda/pages/04VojKwzG2.json',
 
           children: [
             {

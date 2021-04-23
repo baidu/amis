@@ -41,7 +41,6 @@ export interface fetchOptions {
 }
 
 export interface Payload {
-  type?: string;
   ok: boolean;
   msg: string;
   msgTimeout?: number;
