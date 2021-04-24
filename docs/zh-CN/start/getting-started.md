@@ -291,11 +291,12 @@ import {toast} from 'amis/lib/components/Toast';
 class MyComponent extends React.Component<any, any> {
   render() {
   let amisScoped;
+  let theme = 'default';
     return (
       <div>
         <p>通过 amis 渲染页面</p>
-        <ToastComponent key="toast" position={'top-right'} />
-        <AlertComponent key="alert" />
+        <ToastComponent theme={theme} key="toast" position={'top-right'} />
+        <AlertComponent theme={theme} key="alert" />
         {renderAmis(
           {
             // 这里是 amis 的 Json 配置。
@@ -356,7 +357,8 @@ class MyComponent extends React.Component<any, any> {
             copy: content => {
               copy(content);
               toast.success('内容已复制到粘贴板');
-            }
+            },
+            theme
 
             // 后面这些接口可以不用实现
 
