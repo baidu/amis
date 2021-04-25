@@ -55,6 +55,10 @@
     }
   }
 
+  &.is-disabled {
+    pointer-events: none;
+  }
+
   &--outline &-sublist &-item--isLeaf {
     &:before {
       position: absolute;

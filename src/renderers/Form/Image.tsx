@@ -1199,7 +1199,7 @@ export default class ImageControl extends React.Component<
                   onClick: preventEvent,
                   onPaste: this.handlePaste,
                   className: cx('ImageControl-dropzone', {
-                    disabled,
+                    'is-disabled': disabled,
                     'is-empty': !files.length,
                     'is-active': isDragActive
                   })
