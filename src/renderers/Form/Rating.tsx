@@ -42,6 +42,7 @@ export default class RatingControl extends React.Component<RatingProps, any> {
       count,
       half,
       readOnly,
+      disabled,
       onChange,
       size,
       classnames: cx
@@ -52,6 +53,7 @@ export default class RatingControl extends React.Component<RatingProps, any> {
         <Rating
           classnames={cx}
           value={value}
+          disabled={disabled}
           count={count}
           half={half}
           readOnly={readOnly}

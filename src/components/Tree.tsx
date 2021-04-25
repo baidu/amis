@@ -800,7 +800,8 @@ export class TreeSelector extends React.Component<
     return (
       <div
         className={cx(`Tree ${className || ''}`, {
-          'Tree--outline': showOutline
+          'Tree--outline': showOutline,
+          'is-disabled': disabled
         })}
       >
         {(options && options.length) || addBtn || hideRoot === false ? (

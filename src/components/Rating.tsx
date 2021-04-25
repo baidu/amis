@@ -22,6 +22,7 @@ interface RatingProps {
   containerClass: string;
   readOnly: boolean;
   classPrefix: string;
+  disabled?: boolean;
   classnames: ClassNamesFn;
 }
 
@@ -172,12 +173,12 @@ export class Rating extends React.Component<RatingProps, any> {
 
   renderStars() {
     const {halfStar, stars} = this.state;
-    const {char, half, readOnly, classnames: cx} = this.props;
+    const {char, half, disabled, readOnly, classnames: cx} = this.props;
     return stars.map((star: any, i: number) => {
       let className = cx('Rating', {
         'Rating-half': half && !halfStar.hidden && halfStar.at === i,
         'is-active': star.active,
-        'is-disabled': readOnly
+        'is-disabled': readOnly || disabled
       });
 
       return (

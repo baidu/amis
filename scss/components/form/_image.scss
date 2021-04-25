@@ -5,6 +5,10 @@
     outline: none;
   }
 
+  &-dropzone.is-disabled {
+    pointer-events: none;
+  }
+
   &-addBtn {
     margin: 0;
     width: px2rem(80px);

@@ -277,7 +277,7 @@ export default class MatrixCheckbox extends React.Component<
 
   renderInput() {
     const {columns, rows} = this.state;
-    const {rowLabel, className, classnames: cx, multiple} = this.props;
+    const {rowLabel, disabled, classnames: cx, multiple} = this.props;
 
     const value = this.props.value || buildDefaultValue(columns, rows);
 
@@ -310,6 +310,7 @@ export default class MatrixCheckbox extends React.Component<
                     <td key={x} className="text-center">
                       <Checkbox
                         type={multiple ? 'checkbox' : 'radio'}
+                        disabled={disabled}
                         checked={
                           !!(value[x] && value[x][y] && value[x][y].checked)
                         }
