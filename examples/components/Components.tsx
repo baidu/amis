@@ -1031,7 +1031,7 @@ export const components = [
       },
 
       {
-        label: '搜索框',
+        label: 'SearchBox 搜索框',
         path: '/zh-CN/components/search-box',
         getComponent: () =>
           // @ts-ignore
