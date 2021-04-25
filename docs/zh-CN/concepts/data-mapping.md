@@ -599,7 +599,7 @@ ${_|now}
 将 xxx 修改成 7 天前，假如值是 10 月 8 号，那么处理完后就是 10 月 1 号。
 
 ```
-${xxx | dateModify:substract:-7:day}
+${xxx | dateModify:subtract:-7:day}
 ```
 
 来个高级点的，比如我想返回个上个月开头的第一天。
@@ -607,7 +607,7 @@ ${xxx | dateModify:substract:-7:day}
 ```schema
 {
   "type": "page",
-  "body": "上个月第一天是：${_|now|dateModify:substract:1:month|dateModify:startOf:month|date:YYYY-MM-DD HH\\:mm\\:ss}"
+  "body": "上个月第一天是：${_|now|dateModify:subtract:1:month|dateModify:startOf:month|date:YYYY-MM-DD HH\\:mm\\:ss}"
 }
 ```
 
