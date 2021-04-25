@@ -18,6 +18,7 @@ import {
   SchemaName
 } from '../Schema';
 import {ActionSchema} from './Action';
+import {isAlive} from 'mobx-state-tree';
 
 /**
  * Drawer 抽出式弹框。
@@ -349,9 +350,14 @@ export default class Drawer extends React.Component<DrawerProps> {
   }
 
   handleExisted() {
-    const store = this.props.store;
-    store.reset();
-    store.setEntered(false);
+    const {lazySchema, store} = this.props;
+    if (isAlive(store)) {
+      store.reset();
+      store.setEntered(false);
+      if (typeof lazySchema === 'function') {
+        store.setSchema('');
+      }
+    }
   }
 
   @autobind
