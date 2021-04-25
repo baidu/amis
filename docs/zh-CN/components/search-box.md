@@ -1,5 +1,5 @@
 ---
-title: 搜索框
+title: Search Box 搜索框
 description:
 type: 0
 group: ⚙ 组件
