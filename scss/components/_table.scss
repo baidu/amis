@@ -450,7 +450,7 @@
             content: '';
             position: absolute;
             height: px2rem(1px);
-            top: px2rem(18px);
+            top: 50%;
             left: px2rem(-8px) + px2rem(18px) * ($i - 2);
             width: px2rem(10px);
             background: var(--Table-tree-borderColor);
@@ -469,7 +469,7 @@
       tr.#{$ns}Table-tr--#{$i}th.is-last:not(.is-expanded) {
         .#{$ns}Table-expandCell + td {
           &::before {
-            height: px2rem(18px);
+            height: 50%;
             bottom: auto;
           }
         }
@@ -525,7 +525,7 @@
         content: '';
         position: absolute;
         width: px2rem(1px);
-        top: px2rem(28px);
+        top: 50%;
         bottom: 0;
         right: px2rem(7px);
         height: auto;
