@@ -1213,7 +1213,12 @@ export default class FileControl extends React.Component<FileProps, FileState> {
 
                             {file.state === 'invalid' ||
                             file.state === 'error' ? (
-                              <Icon icon="fail" className="icon" />
+                              <>
+                                <Icon icon="fail" className="icon" />
+                                <span className="text-danger">
+                                  {(file as FileValue).error || null}
+                                </span>
+                              </>
                             ) : null}
                             {file.state !== 'uploading' && !disabled ? (
                               <a
