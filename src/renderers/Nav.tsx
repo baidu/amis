@@ -195,7 +195,7 @@ export class Navigation extends React.Component<
           ? links.map((item, index) => this.renderItem(item, index))
           : null}
 
-        <Spinner show={loading} overlay icon="reload" />
+        <Spinner show={!!loading} overlay icon="reload" />
       </ul>
     );
   }
