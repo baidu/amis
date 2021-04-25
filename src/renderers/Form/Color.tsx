@@ -66,12 +66,12 @@ export default class ColorControl extends React.PureComponent<
   };
 
   render() {
-    const {className, classPrefix: ns, ...rest} = this.props;
+    const {className, classPrefix: ns, value, ...rest} = this.props;
 
     return (
       <div className={cx(`${ns}ColorControl`, className)}>
         <Suspense fallback={<div>...</div>}>
-          <ColorPicker classPrefix={ns} {...rest} />
+          <ColorPicker classPrefix={ns} {...rest} value={value || ''} />
         </Suspense>
       </div>
     );
