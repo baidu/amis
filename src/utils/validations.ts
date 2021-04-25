@@ -106,6 +106,10 @@ export const validations: {
     return value == values[field];
   },
   maxLength: function (values, value, length) {
+    // 此方法应该判断文本长度，如果传入数据为number，导致 maxLength 和 maximum 表现一致了，默认转成string
+    if (typeof value === 'number') {
+      value = String(value);
+    }
     return !isExisty(value) || value.length <= length;
   },
   minLength: function (values, value, length) {
