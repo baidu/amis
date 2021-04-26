@@ -1,4 +1,3 @@
-import {isPlainObject} from 'lodash';
 import find from 'lodash/find';
 import React from 'react';
 import {Renderer, RendererProps} from '../../factory';

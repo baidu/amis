@@ -10,7 +10,7 @@ import {ThemeProps, themeable} from '../theme';
 import {PlainObject} from '../types';
 import {autobind} from '../utils/helper';
 import {uncontrollable} from 'uncontrollable';
-import {find} from 'lodash';
+import find from 'lodash/find';
 
 export interface AnchorNavSectionProps extends ThemeProps {
   title?: string; // 标题

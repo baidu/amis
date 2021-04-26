@@ -22,7 +22,6 @@ import {findDOMNode} from 'react-dom';
 import {ResultBox, Spinner} from '../../components';
 import xor from 'lodash/xor';
 import union from 'lodash/union';
-import {isEqual} from 'lodash';
 
 /**
  * Nested Select
