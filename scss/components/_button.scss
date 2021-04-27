@@ -305,8 +305,6 @@ fieldset:disabled a.#{$ns}Button {
   color: var(--Button--link-color);
   text-decoration: var(--link-decoration);
   border: none;
-  padding-top: 0;
-  padding-bottom: 0;
   height: auto;
 
   @include hover-focus {
