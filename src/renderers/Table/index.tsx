@@ -1881,7 +1881,7 @@ export default class Table extends React.Component<TableProps, object> {
               for (const column of columns) {
                 columIndex += 1;
                 const name = column.name!;
-                const value = getVariable(row, name);
+                const value = getVariable(row.data, name);
                 if (
                   typeof value === 'undefined' &&
                   !(column as TplSchema).tpl
