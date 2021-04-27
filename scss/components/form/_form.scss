@@ -308,6 +308,10 @@
         display: inline-block;
         vertical-align: top;
 
+        > .#{$ns}Button--link {
+          padding-top: var(--Form-label-paddingTop);
+        }
+
         > .#{$ns}Form-control {
           vertical-align: top;
           display: inline-block;
