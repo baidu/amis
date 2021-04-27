@@ -83,3 +83,7 @@ npm run update-snapshot
 - [RickCole21](https://github.com/RickCole21)
 - [catchonme](https://github.com/catchonme)
 - [nwind](https://github.com/nwind)
+
+## 低代码平台
+
+amis 只能实现前端低代码，如果需要完整的低代码平台推荐使用[爱速搭](https://suda.baidu.com/)。
