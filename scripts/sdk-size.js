@@ -13,7 +13,7 @@ let currentModule = '';
 let moduleSizeMap = {};
 
 readInterface.on('line', (line) => {
-   if (line.startsWith(`;/*!node_modules`) || line.startsWith(`;/*!src/`)) {
+   if (line.startsWith(`;/*`)) {
      currentModule = line.trim();
    }
    if (currentModule in moduleSizeMap) {
