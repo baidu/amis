@@ -95,7 +95,8 @@ export default class ListControl extends React.Component<ListProps, any> {
       itemSchema,
       data,
       labelField,
-      listClassName
+      listClassName,
+      translate: __
     } = this.props;
 
     let body: JSX.Element | null = null;
@@ -153,7 +154,9 @@ export default class ListControl extends React.Component<ListProps, any> {
         {body ? (
           body
         ) : (
-          <span className={cx('ListControl-placeholder')}>{placeholder}</span>
+          <span className={cx('ListControl-placeholder')}>
+            {__(placeholder)}
+          </span>
         )}
       </div>
     );
