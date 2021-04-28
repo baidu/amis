@@ -44,7 +44,7 @@
     "classnames": "2.3.1",
     "dom-helpers": "^3.3.1",
     "downshift": "3.1.4",
-    "echarts": "5.0.2",
+    "echarts": "5.1.1",
     "echarts-stat": "^1.2.0",
     "exceljs": "^4.2.0",
     "file-saver": "^2.0.2",
