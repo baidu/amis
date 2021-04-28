@@ -1596,10 +1596,10 @@ export class FormRenderer extends Form {
     throwErrors: boolean = false,
     delegate?: IScopedContext
   ) {
-    // 禁用了不要做任何动作。
-    if (this.props.disabled) {
-      return;
-    }
+    // 禁用了不要做任何动作。@先注释掉，会引起其他问题
+    // if (this.props.disabled) {
+    //   return;
+    // }
 
     if (action.target && action.actionType !== 'reload') {
       const scoped = this.context as IScopedContext;
