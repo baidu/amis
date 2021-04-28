@@ -76,7 +76,8 @@ export default class ButtonGroupControl extends React.Component<
       buttons,
       size,
       block,
-      vertical
+      vertical,
+      translate: __
     } = props;
 
     let body: Array<React.ReactNode> = [];
