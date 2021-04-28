@@ -631,7 +631,7 @@ export default class FormTable extends React.Component<TableProps, TableState> {
               size="sm"
               key={key}
               level="link"
-              tooltip={__('cancle')}
+              tooltip={__('cancel')}
               tooltipContainer={
                 env && env.getModalContainer ? env.getModalContainer : undefined
               }

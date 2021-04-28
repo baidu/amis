@@ -132,7 +132,7 @@ export class HeadCellSearchDropDown extends React.Component<
 
           {
             type: 'button',
-            label: __('cancle'),
+            label: __('cancel'),
             actionType: 'cancel'
           },
 

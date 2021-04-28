@@ -17,7 +17,7 @@ register('zh-CN', {
   'Combo.minLength': '组合表单数量不足{{minLength}}个，请添加更多',
   'Combo.type': '类型',
   'confirm': '确认',
-  'cancle': '取消',
+  'cancel': '取消',
   'Copyable.tip': '点击复制',
   'CRUD.exportCSV': '导出 CSV',
   'CRUD.exportExcel': '导出 Excel',

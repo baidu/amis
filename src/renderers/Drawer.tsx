@@ -212,7 +212,7 @@ export default class Drawer extends React.Component<DrawerProps> {
     ret.push({
       type: 'button',
       actionType: 'close',
-      label: __('cancle')
+      label: __('cancel')
     });
 
     if (confirm) {

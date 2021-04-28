@@ -1162,7 +1162,7 @@ export default class ImageControl extends React.Component<
               <a
                 className={cx('ImageControl-cropCancel')}
                 onClick={this.cancelCrop}
-                data-tooltip={__('cancle')}
+                data-tooltip={__('cancel')}
                 data-position="left"
               >
                 <Icon icon="close" className="icon" />

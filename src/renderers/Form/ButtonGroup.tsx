@@ -70,6 +70,7 @@ export default class ButtonGroupControl extends React.Component<
       value,
       labelField,
       placeholder,
+      translate: __,
       btnClassName,
       btnActiveClassName,
       selectedOptions,
