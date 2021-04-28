@@ -44,22 +44,6 @@
     opacity: var(--Button-onDisabled-opacity);
     box-shadow: none;
     pointer-events: none;
-    border-color: var(--Button-onDisabled-borderColor);
-
-    @if variable-exists(Button-onDisabled-bg) {
-      background: $Button-onDisabled-bg;
-    }
-
-    @if variable-exists(Button-onDisabled-color) {
-      color: $Button-onDisabled-color !important;
-    }
-
-    &.is-active,
-    &:active {
-      @if variable-exists(Button-onDisabledActive-bg) {
-        background: $Button-onDisabledActive-bg !important;
-      }
-    }
   }
 
   &:not(:disabled):not(.is-disabled) {

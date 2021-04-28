@@ -278,37 +278,6 @@
     // border-color: $hover-border;
     box-shadow: var(--Button-boxShadow);
   }
-
-  &:active,
-  &.is-active {
-    @if ($active-color != $color) {
-      color: $active-color;
-    }
-
-    @if ($active-background != $background) {
-      background: $active-background;
-    }
-
-    @if ($active-border != $border) {
-      border-color: $active-border;
-    }
-  }
-
-  &.is-disabled,
-  &:disabled {
-    cursor: not-allowed;
-    @if variable-exists(Button-onDisabled-bg) {
-      background: $Button-onDisabled-bg;
-    }
-
-    @if variable-exists(Button-onDisabled-color) {
-      color: $Button-onDisabled-color;
-    }
-
-    @if variable-exists(Button-onDisabled-borderColor) {
-      border-color: var(--Button-onDisabled-borderColor);
-    }
-  }
 }
 
 @mixin input-clear {
