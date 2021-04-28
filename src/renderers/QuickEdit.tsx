@@ -423,7 +423,7 @@ export const HocQuickEdit = (config: Partial<QuickEditConfig> = {}) => (
               : [
                   {
                     type: 'button',
-                    label: __('cancle'),
+                    label: __('cancel'),
                     actionType: 'cancel'
                   },
 

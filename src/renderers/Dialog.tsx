@@ -189,7 +189,7 @@ export default class Dialog extends React.Component<DialogProps> {
     ret.push({
       type: 'button',
       actionType: 'cancel',
-      label: __('cancle')
+      label: __('cancel')
     });
 
     if (confirm) {

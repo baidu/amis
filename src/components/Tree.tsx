@@ -496,7 +496,7 @@ export class TreeSelector extends React.Component<
             value={inputValue}
             placeholder={__('placeholder.enter')}
           />
-          <a data-tooltip={__('cancle')} onClick={this.handleCancel}>
+          <a data-tooltip={__('cancel')} onClick={this.handleCancel}>
             <Icon icon="close" className="icon" />
           </a>
           <a data-tooltip={__('confirm')} onClick={this.handleConfirm}>
