@@ -121,11 +121,12 @@ export default class TreeControl extends React.Component<TreeProps> {
       rootCreatable,
       rootCreateTip,
       labelField,
-      translate: __
+      translate: __,
+      maxHeight = 300
     } = this.props;
 
     return (
-      <div className={cx(`${ns}TreeControl`, className)}>
+      <div className={cx(`${ns}TreeControl`, className)} style={{maxHeight}}>
         <Spinner size="sm" key="info" show={loading} />
         {loading ? null : (
           <TreeSelector

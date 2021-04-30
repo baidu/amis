@@ -606,3 +606,4 @@ order: 59
 | rootCreateTip | `string`                                     | `"添加一级节点"` | 创建顶级节点的悬浮提示                                                                                              |
 | minLength     | `number`                                     |                  | 最少选中的节点数                                                                                                    |
 | maxLength     | `number`                                     |                  | 最多选中的节点数                                                                                                    |
+| maxHeight     | `number`                                     | `300`            | 外层树容器最大高度，默认是 300                                                                                      |
