@@ -112,7 +112,12 @@ function createScopedTools(
         let query = null;
 
         if (~idx2) {
-          query = dataMapping(qs.parse(name.substring(idx2 + 1)), ctx);
+          const queryObj = qs.parse(
+            name
+              .substring(idx2 + 1)
+              .replace(/\$\{(.*?)\}/, (_, match) => '${' + escape(match) + '}')
+          );
+          query = dataMapping(queryObj, ctx);
           name = name.substring(0, idx2);
         }
 
@@ -142,6 +147,11 @@ function createScopedTools(
 
     send(receive: string, values: object) {
       const scoped = this;
+
+      if (~receive.indexOf('?')) {
+        return scoped.reload(receive, values);
+      }
+
       let receives =
         typeof receive === 'string' ? receive.split(/\s*,\s*/) : receive;
 
