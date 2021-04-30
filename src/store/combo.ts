@@ -57,7 +57,11 @@ export const ComboStore = iRendererStore
         if (self.uniques.size) {
           let isFull = false;
           self.uniques.forEach(item => {
-            if (isFull || !item.items.length) {
+            if (
+              isFull ||
+              !item.items.length ||
+              item.items[0].type === 'select'
+            ) {
               return;
             }
 
