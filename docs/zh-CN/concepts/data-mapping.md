@@ -521,8 +521,8 @@ ${xxx | toFloat}
 ${xxx | date[:format][:inputFormat]}
 ```
 
-- **format**：需要展示的格式，默认为`'LLL'`，即本地化时间格式
-- **inputFormat**：指定该变量值的格式，默认为`'X'`，即时间戳
+- **format**：需要展示的格式，默认为`LLL`，即本地化时间格式
+- **inputFormat**：指定该变量值的格式，默认为`X`，即时间戳秒，如果是毫秒则是 `x`
 
 具体参数的配置需要参考 [moment](https://momentjs.com/docs/)
 
@@ -534,7 +534,20 @@ ${xxx | date[:format][:inputFormat]}
   },
   "body": {
     "type": "tpl",
-    "tpl": "now is ${now|date}" // 输出: now is 2020年4月14日晚上7点59分
+    "tpl": "now is ${now|date}"
+  }
+}
+```
+
+```schema
+{
+  "type": "page",
+  "data": {
+    "now": 1586865590000
+  },
+  "body": {
+    "type": "tpl",
+    "tpl": "毫秒 ${now|date:LLL:x}"
   }
 }
 ```
