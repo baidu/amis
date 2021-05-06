@@ -624,7 +624,7 @@ const schema = {
 字符串形式实际上可以认为是外层包裹了一层函数，你需要补充内部的函数实现，并将修改好的 `payload` 对象 `return` 出去：
 
 ```js
-function (payload, responsee) {
+function (payload, response) {
   // 你的适配器代码
 }
 ```
