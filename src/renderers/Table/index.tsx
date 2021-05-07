@@ -1826,6 +1826,7 @@ export default class Table extends React.Component<TableProps, object> {
           import('exceljs').then(async (ExcelJS: any) => {
             let rows = [];
             let tmpStore;
+            let filename = 'data';
             // 支持配置 api 远程获取
             if (typeof toolbar === 'object' && (toolbar as Schema).api) {
               const res = await env.fetcher((toolbar as Schema).api, data);
@@ -1844,6 +1845,10 @@ export default class Table extends React.Component<TableProps, object> {
               rows = tmpStore.rows;
             } else {
               rows = store.rows;
+            }
+
+            if (typeof toolbar === 'object' && (toolbar as Schema).filename) {
+              filename = filter((toolbar as Schema).filename, data, '| raw');
             }
 
             if (rows.length === 0) {
@@ -1997,7 +2002,7 @@ export default class Table extends React.Component<TableProps, object> {
                 type:
                   'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
               });
-              saveAs(blob, 'data.xlsx');
+              saveAs(blob, filename + '.xlsx');
             }
           });
         }}
