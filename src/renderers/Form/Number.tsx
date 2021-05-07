@@ -71,7 +71,7 @@ export default class NumberControl extends React.Component<NumberProps, any> {
   filterNum(value: number | string | undefined) {
     if (typeof value !== 'number') {
       value = filter(value, this.props.data);
-      value = /^[-]?\d+/.test(value) ? parseInt(value, 10) : undefined;
+      value = /^[-]?\d+/.test(value) ? +value : undefined;
     }
     return value;
   }
