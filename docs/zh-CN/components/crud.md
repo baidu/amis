@@ -979,6 +979,19 @@ crud 组件支持通过配置`headerToolbar`和`footerToolbar`属性，实现在
 
 > 如果你不希望在顶部或者底部渲染默认组件，你可以设置`headerToolbar`和`footerToolbar`为空数组`[]`
 
+这些组件还能设置 `align` 来控制位置，有 `left` 和 `right` 两种，比如
+
+```json
+{
+  "headerToolbar": [
+    {
+      "type": "bulkActions",
+      "align": "right"
+    }
+  ]
+}
+```
+
 ### 其它 amis 组件
 
 在 `headerToolbar` 和 `footerToolbar` 中可以配置各种 amis 其它组件，比如按钮和 tpl：
