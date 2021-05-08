@@ -91,6 +91,13 @@ const availableShortcuts: {[propName: string]: any} = {
     date: (now: moment.Moment) => {
       return now.endOf('month');
     }
+  },
+
+  endoflastmonth: {
+    label: 'Date.endOfLastMonth',
+    date: (now: moment.Moment) => {
+      return now.add(-1, 'month').endOf('month');
+    }
   }
 };
 
