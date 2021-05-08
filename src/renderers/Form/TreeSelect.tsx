@@ -447,7 +447,8 @@ export default class TreeSelectControl extends React.Component<
       maxLength,
       minLength,
       labelField,
-      translate: __
+      translate: __,
+      deferLoad
     } = this.props;
 
     let filtedOptions =
@@ -499,6 +500,7 @@ export default class TreeSelectControl extends React.Component<
             value={value || ''}
             maxLength={maxLength}
             minLength={minLength}
+            onDeferLoad={deferLoad}
           />
         </PopOver>
       </Overlay>
