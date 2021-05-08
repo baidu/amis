@@ -605,7 +605,7 @@ export default class FileControl extends React.Component<FileProps, FileState> {
       return;
     }
 
-    const {translate: __, multiple, autoFill, onBulkChange} = this.props;
+    const {translate: __} = this.props;
     const nameField = this.props.nameField || 'name';
     const file = find(
       this.state.files,
@@ -647,17 +647,7 @@ export default class FileControl extends React.Component<FileProps, FileState> {
                   error: error ? error : null,
                   files: files
                 },
-                () => {
-                  // todo 这个逻辑应该移到 onChange 里面去，因为这个时候并不一定修改了表单项的值。
-                  const sendTo =
-                    !multiple &&
-                    autoFill &&
-                    !isEmpty(autoFill) &&
-                    dataMapping(autoFill, obj || {});
-                  sendTo && onBulkChange(sendTo);
-
-                  this.tick();
-                }
+                this.tick
               );
             },
             progress => {
@@ -816,7 +806,9 @@ export default class FileControl extends React.Component<FileProps, FileState> {
       valueField,
       delimiter,
       resetValue,
-      asBlob
+      asBlob,
+      autoFill,
+      onBulkChange
     } = this.props;
 
     const files = this.state.files.filter(
@@ -841,6 +833,18 @@ export default class FileControl extends React.Component<FileProps, FileState> {
     }
 
     onChange((this.emitValue = value), undefined, changeImmediately);
+
+    if (!isEmpty(autoFill)) {
+      const toSync = dataMapping(
+        autoFill,
+        multiple
+          ? {
+              items: files
+            }
+          : files[0]
+      );
+      onBulkChange(toSync);
+    }
   }
 
   uploadFile(
