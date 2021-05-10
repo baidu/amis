@@ -112,7 +112,7 @@ const defaultSchema = {
             <div class="description <%= data.descriptionClassName %>"><%= data.description %></div>
         <% } %>
     <% } else if (data.hasOwnProperty('html')) { %>
-        <%= data.html %>"
+        <%= data.html %>
     <% } else if (data.hasOwnProperty('item')) { %>
         <%= data.item %>
     <% } else { %>
