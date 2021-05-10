@@ -24,18 +24,16 @@ export default class Markdown extends React.Component<MarkdownProps> {
 
   componentDidUpdate(nextProps: MarkdownProps) {
     if (this.props.content !== nextProps.content) {
-      this.dom.innerHTML = markdownRender(nextProps.content || '');
+      this._render();
     }
   }
 
   _render() {
     const {content} = this.props;
-    if (content) {
-      this.dom.innerHTML = markdownRender(content);
-    }
+    this.dom.innerHTML = markdownRender(content || '');
   }
 
   render() {
-    return <div ref={this.htmlRef}></div>;
+    return <div className="markdown-body" ref={this.htmlRef}></div>;
   }
 }
