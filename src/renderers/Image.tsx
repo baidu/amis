@@ -6,6 +6,7 @@ import {autobind} from '../utils/helper';
 import {Icon} from '../components/icons';
 import {LocaleProps, localeable} from '../locale';
 import {BaseSchema, SchemaClassName, SchemaTpl, SchemaUrlPath} from '../Schema';
+import {resolveVariable} from '../utils/tpl-builtin';
 
 /**
  * 图片展示控件。
@@ -269,11 +270,16 @@ export class ImageField extends React.Component<ImageFieldProps, object> {
       placeholder,
       originalSrc,
       enlargeAble,
-      showDimensions
+      showDimensions,
+      name
     } = this.props;
 
     const finnalSrc = src ? filter(src, data, '| raw') : '';
-    let value = finnalSrc || this.props.value || defaultImage;
+    let value =
+      finnalSrc ||
+      this.props.value ||
+      resolveVariable(name, data) ||
+      defaultImage;
 
     return (
       <div className={cx('ImageField', className)}>
