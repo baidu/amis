@@ -34,6 +34,7 @@ register('en-US', {
   'Date.daysago': '{{days}} day(s) ago',
   'Date.dayslater': '{{days}} day(s) later',
   'Date.endOfMonth': 'last day of the month',
+  'Date.endOfLastMonth': 'last day of last month',
   'Date.endOfWeek': 'Saturday',
   'Date.hoursago': '{{hours}} hour(s) ago',
   'Date.hourslater': '{{hours}} hour(s) later',

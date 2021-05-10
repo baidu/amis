@@ -571,7 +571,6 @@ export default class ImageControl extends React.Component<
   }
 
   tick() {
-    const {multiple, autoFill, onBulkChange} = this.props;
     if (this.current || !this.state.uploading) {
       return;
     }
@@ -632,17 +631,7 @@ export default class ImageControl extends React.Component<
                 {
                   files: (this.files = files)
                 },
-                () => {
-                  // todo 这个逻辑应该移到 onChange 里面去，因为这个时候并不一定修改了表单项的值。
-                  const sendTo =
-                    !multiple &&
-                    autoFill &&
-                    !isEmpty(autoFill) &&
-                    dataMapping(autoFill, newFile || {});
-                  sendTo && onBulkChange(sendTo);
-
-                  this.tick();
-                }
+                this.tick
               );
             },
             progress => {
@@ -734,7 +723,9 @@ export default class ImageControl extends React.Component<
       joinValues,
       extractValue,
       delimiter,
-      valueField
+      valueField,
+      autoFill,
+      onBulkChange
     } = this.props;
 
     const files = this.files.filter(
@@ -762,6 +753,18 @@ export default class ImageControl extends React.Component<
     }
 
     onChange((this.emitValue = newValue || ''), undefined, changeImmediately);
+
+    if (!isEmpty(autoFill)) {
+      const toSync = dataMapping(
+        autoFill,
+        multiple
+          ? {
+              items: files
+            }
+          : files[0]
+      );
+      onBulkChange(toSync);
+    }
   }
 
   handleSelect() {

@@ -790,15 +790,35 @@ export class Select extends React.Component<SelectProps, SelectState> {
           ) : null}
 
           {renderMenu ? (
-            renderMenu(item, {
-              multiple,
-              checkAll,
-              checked,
-              onChange: () => this.handleChange(item),
-              inputValue: inputValue || '',
-              searchable,
-              index
-            })
+            checkAll || multiple ? (
+              <Checkbox
+                checked={checked}
+                trueValue={item.value}
+                onChange={() => {
+                  this.handleChange(item);
+                }}
+                disabled={item.disabled}
+              >
+                {renderMenu(item, {
+                  multiple,
+                  checkAll,
+                  checked,
+                  onChange: () => this.handleChange(item),
+                  inputValue: inputValue || '',
+                  searchable,
+                  index
+                })}
+              </Checkbox>
+            )
+            : renderMenu(item, {
+                multiple,
+                checkAll,
+                checked,
+                onChange: () => this.handleChange(item),
+                inputValue: inputValue || '',
+                searchable,
+                index
+              })
           ) : checkAll || multiple ? (
             <Checkbox
               checked={checked}
@@ -807,6 +827,7 @@ export class Select extends React.Component<SelectProps, SelectState> {
                 this.handleChange(item);
               }}
               disabled={item.disabled}
+              size="sm"
             >
               {item.disabled
                 ? item[labelField]
@@ -867,6 +888,7 @@ export class Select extends React.Component<SelectProps, SelectState> {
               checked={checkedPartial}
               partial={checkedPartial && !checkedAll}
               onChange={this.toggleCheckAll}
+              size="sm"
             >
               {__(checkAllLabel)}
             </Checkbox>
@@ -874,7 +896,11 @@ export class Select extends React.Component<SelectProps, SelectState> {
         ) : null}
 
         <div ref={this.menuItemRef} className={cx('Select-option invisible')}>
-          <span>Placeholder</span>
+          {multiple ? (
+            <Checkbox size="sm">Placeholder</Checkbox>
+          ) : (
+            <span>Placeholder</span>
+          )}
         </div>
 
         {creatable && !disabled ? (

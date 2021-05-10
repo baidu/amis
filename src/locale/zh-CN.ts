@@ -35,6 +35,7 @@ register('zh-CN', {
   'Date.dayslater': '{{days}}天后',
   'Date.endOfMonth': '本月最后一天',
   'Date.endOfWeek': '周日',
+  'Date.endOfLastMonth': '上月最后一天',
   'Date.hoursago': '{{hours}}小时前',
   'Date.hourslater': '{{hours}}小时后',
   'Date.invalid': '日期无效',

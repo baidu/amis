@@ -391,6 +391,7 @@ export const FormItemStore = StoreNode.named('FormItemStore')
       self.options = options;
       syncOptions(originOptions);
       let selectedOptions;
+      let skipAyncAutoFill = false;
 
       if (
         self.selectFirst &&
@@ -422,10 +423,11 @@ export const FormItemStore = StoreNode.named('FormItemStore')
           onChange(value);
         } else {
           changeValue(value, !form.inited);
+          skipAyncAutoFill = true; // changeValue 里面本来就会调用 syncAutoFill 所以跳过
         }
       }
 
-      syncAutoFill(self.value, !form.inited);
+      skipAyncAutoFill || syncAutoFill(self.value, !form.inited);
     }
 
     let loadCancel: Function | null = null;
@@ -799,29 +801,35 @@ export const FormItemStore = StoreNode.named('FormItemStore')
       value: any = self.value,
       isPrintine: boolean = false
     ) {
-      if (
-        !self.multiple &&
-        self.autoFill &&
-        !isEmpty(self.autoFill) &&
-        self.options.length
-      ) {
+      if (self.autoFill && !isEmpty(self.autoFill) && self.options.length) {
         const selectedOptions = self.getSelectedOptions(value);
-        if (selectedOptions.length !== 1) {
-          return;
-        }
-
         const toSync = dataMapping(
           self.autoFill,
-          createObject(
-            {
-              ancestors: getTreeAncestors(
-                self.filteredOptions,
-                selectedOptions[0],
-                true
+          self.multiple
+            ? {
+                items: selectedOptions.map(item =>
+                  createObject(
+                    {
+                      ancestors: getTreeAncestors(
+                        self.filteredOptions,
+                        item,
+                        true
+                      )
+                    },
+                    item
+                  )
+                )
+              }
+            : createObject(
+                {
+                  ancestors: getTreeAncestors(
+                    self.filteredOptions,
+                    selectedOptions[0],
+                    true
+                  )
+                },
+                selectedOptions[0]
               )
-            },
-            selectedOptions[0]
-          )
         );
         Object.keys(toSync).forEach(key => {
           const value = toSync[key];
