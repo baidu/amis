@@ -296,6 +296,11 @@ export interface CRUDCommonSchema extends BaseSchema {
    * 默认只有当分页数大于 1 是才显示，如果总是想显示请配置。
    */
   alwaysShowPagination?: boolean;
+  
+  /**
+  * 默认只有单条选中记录时才显示，如果总是想显示请配置。
+  */
+  alwaysShowItemActions?: boolean;
 }
 
 export type CRUDCardsSchema = CRUDCommonSchema & {
@@ -1518,7 +1523,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
   }
 
   renderBulkActions(childProps: any) {
-    let {bulkActions, itemActions, store, render, classnames: cx} = this.props;
+    let {bulkActions, itemActions, store, render, classnames: cx, alwaysShowItemActions} = this.props;
 
     const items = childProps.items;
 
@@ -1563,7 +1568,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
       selectedItems.length ? selectedItems[0] : {}
     );
 
-    if (itemActions && selectedItems.length === 1) {
+    if (itemActions && (selectedItems.length === 1 || alwaysShowItemActions)) {
       itemBtns = itemActions
         .map(item => ({
           ...item,
