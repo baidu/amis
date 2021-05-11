@@ -107,16 +107,8 @@ const defaultSchema = {
         <div style="background-image: url('<%= data.image %>'); background-size: contain; background-repeat: no-repeat; background-position: center center;" class="image <%= data.imageClassName %>"></div>
         <% if (data.hasOwnProperty('title')) { %>
             <div class="title <%= data.titleClassName %>"><%= data.title %></div>
-        <% } if (data.hasOwnProperty('description')) { %>
-            <div class="description <%= data.descriptionClassName %>"><%= data.description %></div>
         <% } %>
-    <% } else if (data.hasOwnProperty('html')) { %>
-        <%= data.html %>"
-    <% } else if (data.hasOwnProperty('image')) { %>
-        <div style="background-image: url('<%= data.image %>')" class="image <%= data.imageClassName %>"></div>
-        <% if (data.title) { %>
-            <div class="title <%= data.titleClassName %>"><%= data.title %></div>
-        <% } if (data.description) { %>
+        <% if (data.hasOwnProperty('description')) { %>
             <div class="description <%= data.descriptionClassName %>"><%= data.description %></div>
         <% } %>
     <% } else if (data.hasOwnProperty('html')) { %>
@@ -156,29 +148,36 @@ export class Carousel extends React.Component<CarouselProps, CarouselState> {
   state = {
     current: 0,
     options:
-      this.props.value ||
       this.props.options ||
+      this.props.value ||
       resolveVariable(this.props.name, this.props.data) ||
       [],
     nextAnimation: ''
   };
 
-  componentWillReceiveProps(nextProps: CarouselProps) {
-    const currentOptions = this.state.options;
+  componentDidMount() {
+    this.prepareAutoSlide();
+  }
+
+  componentDidUpdate(prevProps: CarouselProps) {
+    const props = this.props;
+
     const nextOptions =
-      nextProps.value ||
-      nextProps.options ||
-      resolveVariable(nextProps.name, nextProps.data) ||
+      props.options ||
+      props.value ||
+      resolveVariable(props.name, props.data) ||
       [];
-    if (isArrayChildrenModified(currentOptions, nextOptions)) {
+    const prevOptions =
+      prevProps.options ||
+      prevProps.value ||
+      resolveVariable(prevProps.name, prevProps.data) ||
+      [];
+
+    if (isArrayChildrenModified(prevOptions, nextOptions)) {
       this.setState({
         options: nextOptions
       });
     }
-  }
-
-  componentDidMount() {
-    this.prepareAutoSlide();
   }
 
   componentWillUnmount() {
