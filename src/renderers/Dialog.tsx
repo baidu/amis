@@ -296,6 +296,9 @@ export default class Dialog extends React.Component<DialogProps> {
     store.setEntered(true);
     if (typeof lazySchema === 'function') {
       store.setSchema(lazySchema(this.props));
+    } else {
+      if (lazySchema)
+        store.fetchSchema(lazySchema);
     }
 
     const activeElem = document.activeElement as HTMLElement;
@@ -310,7 +313,7 @@ export default class Dialog extends React.Component<DialogProps> {
     if (isAlive(store)) {
       store.setFormData({});
       store.setEntered(false);
-      if (typeof lazySchema === 'function') {
+      if (lazySchema) {
         store.setSchema('');
       }
     }

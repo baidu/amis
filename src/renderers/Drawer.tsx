@@ -346,6 +346,9 @@ export default class Drawer extends React.Component<DrawerProps> {
     store.setEntered(true);
     if (typeof lazySchema === 'function') {
       store.setSchema(lazySchema(this.props));
+    } else {
+      if (lazySchema)
+        store.fetchSchema(lazySchema);
     }
   }
 
@@ -354,7 +357,7 @@ export default class Drawer extends React.Component<DrawerProps> {
     if (isAlive(store)) {
       store.reset();
       store.setEntered(false);
-      if (typeof lazySchema === 'function') {
+      if (lazySchema) {
         store.setSchema('');
       }
     }
