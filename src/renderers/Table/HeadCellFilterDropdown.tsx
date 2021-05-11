@@ -146,7 +146,7 @@ export class HeadCellFilterDropDown extends React.Component<
     } else {
       options = options.map(option => ({
         ...option,
-        selected: option.value === filterValue
+        selected: option.value == filterValue
       }));
     }
     return options;

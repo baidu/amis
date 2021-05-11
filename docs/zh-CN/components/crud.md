@@ -979,6 +979,19 @@ crud 组件支持通过配置`headerToolbar`和`footerToolbar`属性，实现在
 
 > 如果你不希望在顶部或者底部渲染默认组件，你可以设置`headerToolbar`和`footerToolbar`为空数组`[]`
 
+这些组件还能设置 `align` 来控制位置，有 `left` 和 `right` 两种，比如
+
+```json
+{
+  "headerToolbar": [
+    {
+      "type": "bulkActions",
+      "align": "right"
+    }
+  ]
+}
+```
+
 ### 其它 amis 组件
 
 在 `headerToolbar` 和 `footerToolbar` 中可以配置各种 amis 其它组件，比如按钮和 tpl：
@@ -1501,6 +1514,51 @@ crud 组件支持通过配置`headerToolbar`和`footerToolbar`属性，实现在
     "headerToolbar": [{
         "type": "export-excel",
         "label": "全量导出 Excel",
+        "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/sample"
+    }],
+    "columns": [
+        {
+            "name": "id",
+            "label": "ID"
+        },
+        {
+            "name": "engine",
+            "label": "Rendering engine"
+        },
+        {
+            "name": "browser",
+            "label": "Browser"
+        },
+        {
+            "name": "platform",
+            "label": "Platform(s)"
+        },
+        {
+            "name": "version",
+            "label": "Engine version"
+        },
+        {
+            "name": "grade",
+            "label": "CSS grade"
+        }
+    ]
+}
+```
+
+### 自定义导出 Excel 的文件名
+
+> 1.1.7 以上版本支持
+
+通过 filename 自定义导出文件名（支持模板变量）
+
+```schema: scope="body"
+{
+    "type": "crud",
+    "syncLocation": false,
+    "headerToolbar": [{
+        "type": "export-excel",
+        "label": "自定义导出 Excel",
+        "filename": "自定义文件名${test}",
         "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/sample"
     }],
     "columns": [

@@ -391,7 +391,7 @@ export const HocQuickEdit = (config: Partial<QuickEditConfig> = {}) => (
             title: '',
             autoFocus: (quickEdit as QuickEditConfig).mode !== 'inline',
             ...quickEdit,
-            mode: 'noraml',
+            mode: 'normal',
             type: 'form'
           };
         } else {

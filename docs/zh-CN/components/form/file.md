@@ -143,6 +143,31 @@ order: 21
 
 这样上传成功后，会把接口中的 `url` 变量，赋值给 `myUrl` 变量
 
+**多选模式**
+
+当表单项为多选模式时，不能再直接取选项中的值了，而是通过 `items` 变量来取，通过它可以获取当前选中的选项集合。
+
+```schema: scope="body"
+{
+  "type": "form",
+  "debug": true,
+  "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
+  "controls": [
+    {
+      "type": "file",
+      "name": "file",
+      "label": "File",
+      "multiple": true,
+      "receiver": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/upload/file",
+      "autoFill": {
+        "myUrl": "${items|pick:url}",
+        "lastUrl": "${items|last|pick:url}"
+      }
+    }
+  ]
+}
+```
+
 ## 属性表
 
 除了支持 [普通表单项属性表](./formitem#%E5%B1%9E%E6%80%A7%E8%A1%A8) 中的配置以外，还支持下面一些配置

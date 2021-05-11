@@ -102,7 +102,7 @@ function createScopedTools(
       return components.concat();
     },
 
-    reload(target: string, ctx: any) {
+    reload(target: string | Array<string>, ctx: any) {
       const scoped = this;
 
       let targets =
@@ -112,7 +112,15 @@ function createScopedTools(
         let query = null;
 
         if (~idx2) {
-          query = dataMapping(qs.parse(name.substring(idx2 + 1)), ctx);
+          const queryObj = qs.parse(
+            name
+              .substring(idx2 + 1)
+              .replace(
+                /\$\{(.*?)\}/,
+                (_, match) => '${' + encodeURIComponent(match) + '}'
+              )
+          );
+          query = dataMapping(queryObj, ctx);
           name = name.substring(0, idx2);
         }
 
@@ -140,13 +148,27 @@ function createScopedTools(
       });
     },
 
-    send(receive: string, values: object) {
+    send(receive: string | Array<string>, values: object) {
       const scoped = this;
       let receives =
         typeof receive === 'string' ? receive.split(/\s*,\s*/) : receive;
 
       // todo 没找到做提示！
       receives.forEach(name => {
+        const askIdx = name.indexOf('?');
+        if (~askIdx) {
+          const query = name.substring(askIdx + 1);
+          const queryObj = qs.parse(
+            query.replace(
+              /\$\{(.*?)\}/,
+              (_, match) => '${' + encodeURIComponent(match) + '}'
+            )
+          );
+
+          name = name.substring(0, askIdx);
+          values = dataMapping(queryObj, values);
+        }
+
         const idx = name.indexOf('.');
         let subPath = '';
 
