@@ -341,6 +341,12 @@ body {
         text-align: center;
       }
     }
+    
+    &--footerFixed {
+      .#{$ns}Layout-footer {
+        position: fixed;
+      }
+    }
 
     &--asideFixed {
       .#{$ns}Layout-aside {

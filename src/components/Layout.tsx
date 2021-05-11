@@ -29,6 +29,7 @@ interface LayoutProps {
   headerFixed: boolean;
   className?: string;
   contentClassName?: string;
+  footerFixed?: boolean;
   footer: boolean | React.ReactNode;
   offScreen: boolean;
   classPrefix: string;
@@ -49,6 +50,7 @@ export function Layout({
   folded,
   asideFixed,
   headerFixed,
+  footerFixed,
   footer,
   offScreen,
   size,
@@ -83,6 +85,7 @@ export function Layout({
         'Layout--withAside': !!aside,
         'Layout--headerFixed': header ? headerFixed : false,
         'Layout--asideFixed': aside ? asideFixed : false,
+        'Layout--footerFixed': footer ? footerFixed : false,
         'Layout--folded': folded,
         'Layout--offScreen': offScreen,
         [`Layout--${size}`]: size,
@@ -116,6 +119,7 @@ Layout.defaultProps = {
   asideFixed: true,
   asideClassName: '',
   headerFixed: true,
+  footerFixed: false,
   offScreen: false,
   footer: false
 };

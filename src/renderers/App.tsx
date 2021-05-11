@@ -129,6 +129,21 @@ export interface AppSchema extends BaseSchema {
   footer?: SchemaCollection;
 
   /**
+  * 顶部是否固定
+  */
+  headerFixed?: boolean;
+
+  /**
+  * 底部是否固定
+  */
+  footerFixed?: boolean;
+
+  /**
+  * 边栏是否固定
+  */
+  asideFixed?: boolean;
+
+  /**
    * css 类名。
    */
   className?: SchemaClassName;
@@ -353,7 +368,7 @@ export default class App extends React.Component<AppProps, object> {
   }
 
   render() {
-    const {className, size, classnames: cx, store, render} = this.props;
+    const {className, size, classnames: cx, store, render, headerFixed, footerFixed, asideFixed} = this.props;
 
     return (
       <Layout
@@ -362,6 +377,9 @@ export default class App extends React.Component<AppProps, object> {
         footer={this.renderFooter()}
         folded={store.folded}
         offScreen={store.offScreen}
+        headerFixed={headerFixed}
+        footerFixed={footerFixed}
+        asideFixed={asideFixed}
       >
         {store.activePage && store.schema ? (
           <>
