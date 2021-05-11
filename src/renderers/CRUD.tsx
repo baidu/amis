@@ -1579,6 +1579,23 @@ export default class CRUD extends React.Component<CRUDProps, any> {
 
     return bulkBtns.length || itemBtns.length ? (
       <div className={cx('Crud-actions')}>
+        {itemBtns.map((btn, index) =>
+          render(
+            `bulk-action/${index}`,
+            {
+              size: 'sm',
+              ...omit(btn, ['visibleOn', 'hiddenOn', 'disabledOn']),
+              type: 'button'
+            },
+            {
+              key: `item-${index}`,
+              data: itemData,
+              disabled: btn.disabled || (alwaysShowItemActions ? selectedItems.length == 0 : btn.disabled),
+              onAction: this.handleItemAction.bind(this, btn, itemData)
+            }
+          )
+        )}
+
         {bulkBtns.map((btn, index) =>
           render(
             `bulk-action/${index}`,
@@ -1599,23 +1616,6 @@ export default class CRUD extends React.Component<CRUDProps, any> {
                 selectedItems.concat(),
                 unSelectedItems.concat()
               )
-            }
-          )
-        )}
-
-        {itemBtns.map((btn, index) =>
-          render(
-            `bulk-action/${index}`,
-            {
-              size: 'sm',
-              ...omit(btn, ['visibleOn', 'hiddenOn', 'disabledOn']),
-              type: 'button'
-            },
-            {
-              key: `item-${index}`,
-              data: itemData,
-              disabled: btn.disabled,
-              onAction: this.handleItemAction.bind(this, btn, itemData)
             }
           )
         )}
