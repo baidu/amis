@@ -2,7 +2,7 @@ import React from 'react';
 import {FormItem, FormControlProps, FormBaseControl} from './Item';
 import cx from 'classnames';
 import LazyComponent from '../../components/LazyComponent';
-import {noop} from '../../utils/helper';
+import {tokenize} from '../../utils/tpl-builtin';
 
 /**
  * RichText
@@ -153,11 +153,11 @@ export default class RichTextControl extends React.Component<
         ...props.options,
         editorClass: props.editorClass,
         placeholderText: props.translate(props.placeholder),
-        imageUploadURL: props.receiver,
+        imageUploadURL: tokenize(props.receiver, props.data),
         imageUploadParams: {
           from: 'rich-text'
         },
-        videoUploadURL: props.videoReceiver,
+        videoUploadURL: tokenize(props.videoReceiver, props.data),
         videoUploadParams: {
           from: 'rich-text'
         },
