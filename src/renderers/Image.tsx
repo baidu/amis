@@ -279,7 +279,8 @@ export class ImageField extends React.Component<ImageFieldProps, object> {
       finnalSrc ||
       this.props.value ||
       resolveVariable(name, data) ||
-      defaultImage;
+      defaultImage ||
+      imagePlaceholder;
 
     return (
       <div className={cx('ImageField', className)}>
