@@ -882,7 +882,7 @@ export function registerOptionsControl(config: OptionsConfig) {
         return;
       }
 
-      if (source && !editApi) {
+      if (source && editApi) {
         this.reload();
       } else {
         const indexes = findTreeIndex(model.options, item => item === origin);
