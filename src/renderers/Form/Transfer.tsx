@@ -76,6 +76,16 @@ export interface TransferControlSchema extends FormOptionsControl {
    * 搜索 API
    */
   searchApi?: SchemaApi;
+
+  /**
+   * 左侧的标题文字
+   */
+   selectTitle?: string;
+
+  /**
+   * 右侧结果的标题文字
+   */
+  resultTitle?: string;
 }
 
 export interface BaseTransferProps
@@ -243,7 +253,9 @@ export class BaseTransferRenderer<
       leftOptions,
       leftMode,
       rightMode,
-      disabled
+      disabled,
+      selectTitle,
+      resultTitle
     } = this.props;
 
     return (
@@ -265,6 +277,8 @@ export class BaseTransferRenderer<
           leftMode={leftMode}
           rightMode={rightMode}
           cellRender={this.renderCell}
+          selectTitle={selectTitle}
+          resultTitle={resultTitle}
         />
 
         <Spinner overlay key="info" show={loading} />

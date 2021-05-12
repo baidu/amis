@@ -23,7 +23,7 @@ export interface TransferProps
   statistics?: boolean;
   showArrow?: boolean;
 
-  selectTitle: string;
+  selectTitle?: string;
   selectMode?: 'table' | 'list' | 'tree' | 'chained' | 'associated';
   columns?: Array<{
     name: string;
@@ -68,7 +68,7 @@ export interface TransferProps
     }
   ) => JSX.Element;
 
-  resultTitle: string;
+  resultTitle?: string;
   sortable?: boolean;
 }
 
@@ -79,8 +79,6 @@ export interface TransferState {
 
 export class Transfer extends React.Component<TransferProps, TransferState> {
   static defaultProps = {
-    selectTitle: 'Select.placeholder',
-    resultTitle: 'Transfer.selectd',
     itemRender: (option: Option) => <span>{option.label}</span>
   };
 
@@ -223,7 +221,7 @@ export class Transfer extends React.Component<TransferProps, TransferState> {
           )}
         >
           <span>
-            {__(selectTitle)}
+            {selectTitle || __('Select.placeholder')}
             {statistics !== false ? (
               <span>
                 （{this.valueArray.length}/{this.availableOptions.length}）
@@ -449,7 +447,7 @@ export class Transfer extends React.Component<TransferProps, TransferState> {
         <div className={cx('Transfer-result')}>
           <div className={cx('Transfer-title')}>
             <span>
-              {__(resultTitle)}
+              {resultTitle || __('Transfer.selectd')}
               {statistics !== false ? (
                 <span>
                   （{this.valueArray.length}/{this.availableOptions.length}）
