@@ -145,6 +145,61 @@ order: 9
 }
 ```
 
+## 分组显示
+
+`"inline": false` 下，选项中配置 `children` 字段可以实现分组展示效果。
+
+```schema: scope="body"
+{
+  "type": "form",
+  "mode": "horizontal",
+  "controls": [
+    {
+      "type": "checkboxes",
+      "name": "checkboxes",
+      "label": "城市选择",
+      "inline": false,
+      "options": [
+        {
+          "label": "A类型",
+          "children": [
+            {
+              "value": "选项 A-1",
+              "label": "a-1"
+            },
+            {
+              "value": "选项 A-2",
+              "label": "a-2"
+            }
+          ]
+        },
+        {
+          "label": "B类型",
+          "children": [
+            {
+              "value": "选项 B-1",
+              "label": "b-1"
+            },
+            {
+              "value": "选项 B-2",
+              "label": "b-2"
+            },
+            {
+              "value": "选项 B-3",
+              "label": "b-3"
+            },
+            {
+              "value": "选项 B-4",
+              "label": "b-4"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
+```
+
 ## 属性表
 
 当做选择器表单项使用时，除了支持 [普通表单项属性表](./formitem#%E5%B1%9E%E6%80%A7%E8%A1%A8) 中的配置以外，还支持下面一些配置

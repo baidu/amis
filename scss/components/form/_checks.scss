@@ -271,23 +271,16 @@
 
 .#{$ns}RadiosControl-group,
 .#{$ns}CheckboxesControl-group {
-  .#{$ns}RadiosControl-group,
-  .#{$ns}CheckboxesControl-group {
-    padding-left: px2rem(80px);
-    @include clearfix();
-
-    > .#{$ns}RadiosControl-groupLabel,
-    > .#{$ns}CheckboxesControl-groupLabel {
-      float: left;
-      width: px2rem(80px);
-      margin-left: px2rem(-80px);
-    }
+  &:not(:first-child) {
+    margin-top: px2rem(10px);
   }
-}
 
-.#{$ns}RadiosControl-groupLabel,
-.#{$ns}CheckboxesControl-groupLabel {
-  display: block;
+  .#{$ns}RadiosControl-groupLabel,
+  .#{$ns}CheckboxesControl-groupLabel {
+    display: block;
+    font-size: var(--fontSizeSm);
+    color: #999;
+  }
 }
 
 .#{$ns}Checkboxes {

@@ -115,6 +115,10 @@ export default class CheckboxesControl extends React.Component<
   renderGroup(option: Option, index: number) {
     const {classnames: cx, labelField} = this.props;
 
+    if (!option.children?.length) {
+      return null;
+    }
+
     return (
       <div
         key={index}
@@ -126,11 +130,7 @@ export default class CheckboxesControl extends React.Component<
           {option[labelField || 'label']}
         </label>
 
-        {option.children && option.children.length
-          ? option.children.map((option, index) =>
-              this.renderItem(option, index)
-            )
-          : null}
+        {option.children.map((option, index) => this.renderItem(option, index))}
       </div>
     );
   }
