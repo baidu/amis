@@ -236,6 +236,7 @@ export type ShortCuts =
 export interface DateProps extends LocaleProps, ThemeProps {
   viewMode: 'years' | 'months' | 'days' | 'time' | 'quarters';
   className?: string;
+  popoverClassName?: string;
   placeholder?: string;
   inputFormat?: string;
   timeFormat?: string;
@@ -523,6 +524,7 @@ export class DatePicker extends React.Component<DateProps, DatePickerState> {
       classPrefix: ns,
       classnames: cx,
       className,
+      popoverClassName,
       value,
       placeholder,
       disabled,
@@ -621,7 +623,7 @@ export class DatePicker extends React.Component<DateProps, DatePickerState> {
           >
             <PopOver
               classPrefix={ns}
-              className={cx(`DatePicker-popover`)}
+              className={cx(`DatePicker-popover`, popoverClassName)}
               onHide={this.close}
               overlay
               onClick={this.handlePopOverClick}

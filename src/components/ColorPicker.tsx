@@ -21,6 +21,7 @@ export interface ColorProps extends LocaleProps, ThemeProps {
   // closeOnSelect:boolean;
   clearable: boolean;
   className?: string;
+  popoverClassName?: string;
   disabled?: boolean;
   popOverContainer?: any;
   placement?: string;
@@ -205,6 +206,7 @@ export class ColorControl extends React.PureComponent<
     const {
       classPrefix: ns,
       className,
+      popoverClassName,
       value,
       placeholder,
       disabled,
@@ -272,7 +274,7 @@ export class ColorControl extends React.PureComponent<
           >
             <PopOver
               classPrefix={ns}
-              className={cx('ColorPicker-popover')}
+              className={cx('ColorPicker-popover', popoverClassName)}
               onHide={this.close}
               overlay
             >

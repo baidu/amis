@@ -22,6 +22,7 @@ export interface LocationProps extends ThemeProps, LocaleProps {
   };
   disabled?: boolean;
   className?: string;
+  popoverClassName?: string;
   onChange: (value: any) => void;
   popOverContainer?: any;
 }
@@ -130,6 +131,7 @@ export class LocationPicker extends React.Component<
       classnames: cx,
       value,
       className,
+      popoverClassName,
       disabled,
       placeholder,
       clearable,
@@ -184,7 +186,7 @@ export class LocationPicker extends React.Component<
           show={isOpened}
         >
           <PopOver
-            className={cx('LocationPicker-popover')}
+            className={cx('LocationPicker-popover', popoverClassName)}
             onHide={this.close}
             overlay
             onClick={this.handlePopOverClick}
