@@ -935,6 +935,7 @@ export class Select extends React.Component<SelectProps, SelectState> {
         )}
       </div>
     );
+
     return (
       <Overlay
         container={popOverContainer || this.getTarget}
