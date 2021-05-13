@@ -87,6 +87,7 @@ export default class TreeControl extends React.Component<TreeProps> {
   render() {
     const {
       className,
+      treeContainerClassName,
       classPrefix: ns,
       value,
       onChange,
@@ -129,7 +130,9 @@ export default class TreeControl extends React.Component<TreeProps> {
     } = this.props;
 
     return (
-      <div className={cx(`${ns}TreeControl`, className)}>
+      <div
+        className={cx(`${ns}TreeControl`, className, treeContainerClassName)}
+      >
         <Spinner size="sm" key="info" show={loading} />
         {loading ? null : (
           <TreeSelector
