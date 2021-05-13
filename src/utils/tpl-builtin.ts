@@ -8,7 +8,8 @@ import {
   setVariable,
   qsstringify,
   keyToPath,
-  string2regExp
+  string2regExp,
+  deleteVariable
 } from './helper';
 import {Enginer} from './tpl';
 import uniqBy from 'lodash/uniqBy';
@@ -842,7 +843,7 @@ export function dataMapping(
 
     if (typeof ignoreFunction === 'function' && ignoreFunction(key, value)) {
       // 如果被ignore，不做数据映射处理。
-      (ret as PlainObject)[key] = value;
+      setVariable(ret, key, value);
     } else if (key === '&' && value === '$$') {
       ret = {
         ...ret,
@@ -878,13 +879,13 @@ export function dataMapping(
         };
       }
     } else if (value === '$$') {
-      (ret as PlainObject)[key] = from;
+      setVariable(ret, key, from);
     } else if (value && value[0] === '$') {
       const v = resolveMapping(value, from);
-      (ret as PlainObject)[key] = v;
+      setVariable(ret, key, v);
 
       if (v === '__undefined') {
-        delete (ret as PlainObject)[key];
+        deleteVariable(ret, key);
       }
     } else if (
       isPlainObject(value) &&
@@ -910,22 +911,26 @@ export function dataMapping(
         dataMapping(mapping, createObject(from, raw), ignoreFunction)
       );
     } else if (isPlainObject(value)) {
-      (ret as PlainObject)[key] = dataMapping(value, from, ignoreFunction);
+      setVariable(ret, key, dataMapping(value, from, ignoreFunction));
     } else if (Array.isArray(value)) {
-      (ret as PlainObject)[key] = value.map((value: any) =>
-        isPlainObject(value)
-          ? dataMapping(value, from, ignoreFunction)
-          : resolveMapping(value, from)
+      setVariable(
+        ret,
+        key,
+        value.map((value: any) =>
+          isPlainObject(value)
+            ? dataMapping(value, from, ignoreFunction)
+            : resolveMapping(value, from)
+        )
       );
     } else if (typeof value == 'string' && ~value.indexOf('$')) {
-      (ret as PlainObject)[key] = resolveMapping(value, from);
+      setVariable(ret, key, resolveMapping(value, from));
     } else if (typeof value === 'function' && ignoreFunction !== true) {
-      (ret as PlainObject)[key] = value(from);
+      setVariable(ret, key, value(from));
     } else {
-      (ret as PlainObject)[key] = value;
+      setVariable(ret, key, value);
 
       if (value === '__undefined') {
-        delete (ret as PlainObject)[key];
+        deleteVariable(ret, key);
       }
     }
   });
