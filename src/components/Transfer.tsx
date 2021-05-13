@@ -221,7 +221,7 @@ export class Transfer extends React.Component<TransferProps, TransferState> {
           )}
         >
           <span>
-            {selectTitle || __('Select.placeholder')}
+            {__(selectTitle || 'Select.placeholder')}
             {statistics !== false ? (
               <span>
                 （{this.valueArray.length}/{this.availableOptions.length}）
@@ -447,7 +447,7 @@ export class Transfer extends React.Component<TransferProps, TransferState> {
         <div className={cx('Transfer-result')}>
           <div className={cx('Transfer-title')}>
             <span>
-              {resultTitle || __('Transfer.selectd')}
+              {__(resultTitle || 'Transfer.selectd')}
               {statistics !== false ? (
                 <span>
                   （{this.valueArray.length}/{this.availableOptions.length}）
