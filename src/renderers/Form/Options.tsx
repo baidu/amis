@@ -945,14 +945,16 @@ export function registerOptionsControl(config: OptionsConfig) {
           this.reload();
         } else {
           const options = model.options.concat();
-          const idx = findIndex(
+          const indexes = findTreeIndex(
             options,
             item => item[valueField || 'value'] == value[valueField || 'value']
           );
 
-          if (~idx) {
-            options.splice(idx, 1);
-            model.setOptions(options, this.props.onChange);
+          if (indexes) {
+            model.setOptions(
+              spliceTree(options, indexes, 1),
+              this.props.onChange
+            );
           }
         }
       } catch (e) {
