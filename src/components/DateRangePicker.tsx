@@ -20,6 +20,7 @@ import {LocaleProps, localeable} from '../locale';
 
 export interface DateRangePickerProps extends ThemeProps, LocaleProps {
   className?: string;
+  popoverClassName?: string;
   placeholder?: string;
   theme?: any;
   format: string;
@@ -677,6 +678,7 @@ export class DateRangePicker extends React.Component<
   render() {
     const {
       className,
+      popoverClassName,
       classPrefix: ns,
       value,
       placeholder,
@@ -774,7 +776,7 @@ export class DateRangePicker extends React.Component<
           >
             <PopOver
               classPrefix={ns}
-              className={`${ns}DateRangePicker-popover`}
+              className={cx(`${ns}DateRangePicker-popover`, popoverClassName)}
               onHide={this.close}
               onClick={this.handlePopOverClick}
               overlay

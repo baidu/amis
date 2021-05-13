@@ -216,7 +216,7 @@ export default class DropDownButton extends React.Component<
             onHide={this.close}
             classPrefix={ns}
             className={cx('DropDown-popover')}
-            style={{minWidth: this.target?.getBoundingClientRect().width}}
+            style={{minWidth: this.target?.offsetWidth}}
           >
             {body}
           </PopOver>

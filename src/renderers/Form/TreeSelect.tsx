@@ -466,9 +466,7 @@ export default class TreeSelectControl extends React.Component<
           classPrefix={ns}
           className={`${ns}TreeSelect-popover`}
           style={{
-            minWidth: this.target
-              ? this.target.getBoundingClientRect().width
-              : undefined
+            minWidth: this.target ? this.target.offsetWidth : undefined
           }}
           onHide={this.close}
           overlay

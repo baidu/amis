@@ -247,6 +247,7 @@ const DownshiftChangeTypes = Downshift.stateChangeTypes;
 
 interface SelectProps extends OptionProps, ThemeProps, LocaleProps {
   className?: string;
+  popoverClassName?: string;
   creatable: boolean;
   createBtnLabel: string;
   multiple: boolean;
@@ -710,6 +711,7 @@ export class Select extends React.Component<SelectProps, SelectState> {
       creatable,
       multiple,
       classnames: cx,
+      popoverClassName,
       checkAll,
       checkAllLabel,
       searchable,
@@ -809,8 +811,8 @@ export class Select extends React.Component<SelectProps, SelectState> {
                   index
                 })}
               </Checkbox>
-            )
-            : renderMenu(item, {
+            ) : (
+              renderMenu(item, {
                 multiple,
                 checkAll,
                 checked,
@@ -819,6 +821,7 @@ export class Select extends React.Component<SelectProps, SelectState> {
                 searchable,
                 index
               })
+            )
           ) : checkAll || multiple ? (
             <Checkbox
               checked={checked}
@@ -942,11 +945,9 @@ export class Select extends React.Component<SelectProps, SelectState> {
       >
         <PopOver
           overlay
-          className={cx('Select-popover')}
+          className={cx('Select-popover', popoverClassName)}
           style={{
-            minWidth: this.target
-              ? this.target.getBoundingClientRect().width
-              : 'auto'
+            minWidth: this.target ? this.target.offsetWidth : 'auto'
           }}
           onHide={this.close}
         >
