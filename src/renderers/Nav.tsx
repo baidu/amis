@@ -231,27 +231,32 @@ const ConditionBuilderWithRemoteOptions = withRemoteConfig({
     if (Array.isArray(links) && motivation !== 'toggle') {
       const {data, env, unfoldedField, foldedField} = props;
 
-      links = mapTree(links, (link: Link) => {
-        const item: any = {
-          ...link,
-          ...getExprProperties(link, data as object),
-          active:
-            (motivation !== 'location-change' && link.active) ||
-            (link.activeOn
-              ? evalExpression(link.activeOn as string, data)
-              : !!(
-                  link.hasOwnProperty('to') &&
-                  env &&
-                  env.isCurrentUrl(filter(link.to as string, data))
-                ))
-        };
+      links = mapTree(
+        links,
+        (link: Link) => {
+          const item: any = {
+            ...link,
+            ...getExprProperties(link, data as object),
+            active:
+              (motivation !== 'location-change' && link.active) ||
+              (link.activeOn
+                ? evalExpression(link.activeOn as string, data)
+                : !!(
+                    link.hasOwnProperty('to') &&
+                    env &&
+                    env.isCurrentUrl(filter(link.to as string, data))
+                  ))
+          };
 
-        item.unfolded =
-          isUnfolded(item, {unfoldedField, foldedField}) ||
-          (link.children && link.children.some(link => !!link.active));
+          item.unfolded =
+            isUnfolded(item, {unfoldedField, foldedField}) ||
+            (link.children && link.children.some(link => !!link.active));
 
-        return item;
-      });
+          return item;
+        },
+        1,
+        true
+      );
     }
 
     return links;
