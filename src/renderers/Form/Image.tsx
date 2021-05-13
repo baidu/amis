@@ -956,7 +956,7 @@ export default class ImageControl extends React.Component<
         Math.abs(width / height - limit.aspectRatio) > 0.01
       ) {
         error = __(limit.aspectRatioLabel || 'Image.limitRatio', {
-          ratio: limit.aspectRatio.toFixed(2)
+          ratio: (+limit.aspectRatio).toFixed(2)
         });
       }
 
