@@ -9,12 +9,16 @@ exports[`Renderer:image 1`] = `
       class="a-Image"
     >
       <div
-        class="a-Image-thumb a-Image-thumb--contain a-Image-thumb--1-1"
+        class="a-Image-thumbWrap"
       >
-        <img
-          class="b"
-          src="https://www.baidu.com/img/bd_logo1.png"
-        />
+        <div
+          class="a-Image-thumb a-Image-thumb--contain a-Image-thumb--1-1"
+        >
+          <img
+            class="b"
+            src="https://www.baidu.com/img/bd_logo1.png"
+          />
+        </div>
       </div>
       <div
         class="a-Image-info"

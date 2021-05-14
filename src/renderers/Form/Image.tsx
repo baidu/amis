@@ -1188,6 +1188,7 @@ export default class ImageControl extends React.Component<
             onDropRejected={this.handleDropRejected}
             accept={accept}
             multiple={multiple}
+            disabled={disabled}
           >
             {({
               getRootProps,
@@ -1324,79 +1325,87 @@ export default class ImageControl extends React.Component<
                                   alt={file.name}
                                   thumbMode={thumbMode}
                                   thumbRatio={thumbRatio}
-                                />
-
-                                <div
-                                  key="overlay"
-                                  className={cx('ImageControl-itemOverlay')}
-                                >
-                                  {file.info ? (
-                                    [
-                                      <div key="info">
-                                        {file.info.width} x {file.info.height}
-                                      </div>,
-                                      file.info.len ? (
-                                        <div key="size">
-                                          {ImageControl.formatFileSize(
-                                            file.info.len
-                                          )}
-                                        </div>
-                                      ) : null
-                                    ]
-                                  ) : (
-                                    <div>...</div>
-                                  )}
-
-                                  <a
-                                    data-tooltip={__('Image.zoomIn')}
-                                    data-position="bottom"
-                                    target="_blank"
-                                    rel="noopener"
-                                    href={file.url || file.preview}
-                                    onClick={this.previewImage.bind(
-                                      this,
-                                      file,
-                                      key
-                                    )}
-                                  >
-                                    <Icon icon="view" className="icon" />
-                                  </a>
-
-                                  {!!crop &&
-                                  reCropable !== false &&
-                                  !disabled ? (
-                                    <a
-                                      data-tooltip={__('Image.crop')}
-                                      data-position="bottom"
-                                      onClick={this.editImage.bind(this, key)}
-                                    >
-                                      <Icon icon="pencil" className="icon" />
-                                    </a>
-                                  ) : null}
-                                  {!disabled ? (
-                                    <a
-                                      data-tooltip={__('Select.clear')}
-                                      data-position="bottom"
-                                      onClick={this.removeFile.bind(
-                                        this,
-                                        file,
-                                        key
+                                  overlays={
+                                    <>
+                                      {file.info ? (
+                                        [
+                                          <div key="info">
+                                            {file.info.width} x{' '}
+                                            {file.info.height}
+                                          </div>,
+                                          file.info.len ? (
+                                            <div key="size">
+                                              {ImageControl.formatFileSize(
+                                                file.info.len
+                                              )}
+                                            </div>
+                                          ) : null
+                                        ]
+                                      ) : (
+                                        <div>...</div>
                                       )}
-                                    >
-                                      <Icon icon="remove" className="icon" />
-                                    </a>
-                                  ) : null}
-                                  <a
-                                    data-tooltip={
-                                      file.name ||
-                                      getNameFromUrl(file.value || file.url)
-                                    }
-                                    data-position="bottom"
-                                    target="_blank"
-                                  >
-                                    <Icon icon="info" className="icon" />
-                                  </a>
-                                </div>
+
+                                      <a
+                                        data-tooltip={__('Image.zoomIn')}
+                                        data-position="bottom"
+                                        target="_blank"
+                                        rel="noopener"
+                                        href={file.url || file.preview}
+                                        onClick={this.previewImage.bind(
+                                          this,
+                                          file,
+                                          key
+                                        )}
+                                      >
+                                        <Icon icon="view" className="icon" />
+                                      </a>
+
+                                      {!!crop &&
+                                      reCropable !== false &&
+                                      !disabled ? (
+                                        <a
+                                          data-tooltip={__('Image.crop')}
+                                          data-position="bottom"
+                                          onClick={this.editImage.bind(
+                                            this,
+                                            key
+                                          )}
+                                        >
+                                          <Icon
+                                            icon="pencil"
+                                            className="icon"
+                                          />
+                                        </a>
+                                      ) : null}
+                                      {!disabled ? (
+                                        <a
+                                          data-tooltip={__('Select.clear')}
+                                          data-position="bottom"
+                                          onClick={this.removeFile.bind(
+                                            this,
+                                            file,
+                                            key
+                                          )}
+                                        >
+                                          <Icon
+                                            icon="remove"
+                                            className="icon"
+                                          />
+                                        </a>
+                                      ) : null}
+                                      <a
+                                        data-tooltip={
+                                          file.name ||
+                                          getNameFromUrl(file.value || file.url)
+                                        }
+                                        data-position="bottom"
+                                        target="_blank"
+                                      >
+                                        <Icon icon="info" className="icon" />
+                                      </a>
+                                    </>
+                                  }
+                                />
                               </>
                             )}
                           </div>
