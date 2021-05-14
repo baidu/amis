@@ -650,8 +650,10 @@ order: 59
 | cascade                | `boolean`                                    | `false`          | 当选中父节点时不自动选择子节点。                                                                                    |
 | withChildren           | `boolean`                                    | `false`          | 选中父节点时，值里面将包含子节点的值，否则只会保留父节点的值。                                                      |
 | onlyChildren           | `boolean`                                    | `false`          | 多选时，选中父节点时，是否只将其子节点加入到值中。                                                                  |
-| rootCreatable          | `boolean`                                    | `false`          | 是否可以创建顶级节点                                                                                                |
 | rootCreateTip          | `string`                                     | `"添加一级节点"` | 创建顶级节点的悬浮提示                                                                                              |
 | minLength              | `number`                                     |                  | 最少选中的节点数                                                                                                    |
 | maxLength              | `number`                                     |                  | 最多选中的节点数                                                                                                    |
 | treeContainerClassName | `string`                                     |                  | tree 最外层容器类名                                                                                                 |
+| editableLevelList      | `Array<number>`                              |                  | 配置 editable 为 true 时默认所有层级的都支持编辑，当传递这个参数时，只有指定层级的才可以编辑， level 从 1 开始      |
+| removableLevelList     | `Array<number>`                              |                  | 仅当 removable 为 true 时生效，逻辑同 editableLevelList                                                             |
+| creatableLevelList     | `Array<number>`                              |                  | 仅当 creatable 为 true 时生效，逻辑同 editableLevelList                                                             |

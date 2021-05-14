@@ -72,9 +72,9 @@ interface TreeSelectorProps extends ThemeProps, LocaleProps {
 
   // 是否为内建 增、改、删。当有复杂表单的时候直接抛出去让外层能统一处理
   bultinCUD?: boolean;
-  rootCreatable?: boolean;
   rootCreateTip?: string;
   creatable?: boolean;
+  creatableLevelList?: Array<number>;
   createTip?: string;
   onAdd?: (
     idx?: number | Array<number>,
@@ -82,9 +82,11 @@ interface TreeSelectorProps extends ThemeProps, LocaleProps {
     skipForm?: boolean
   ) => void;
   editable?: boolean;
+  editableLevelList?: Array<number>;
   editTip?: string;
   onEdit?: (value: Option, origin?: Option, skipForm?: boolean) => void;
   removable?: boolean;
+  removableLevelList?: Array<number>;
   removeTip?: string;
   onDelete?: (value: Option) => void;
   onDeferLoad?: (option: Option) => void;
@@ -511,7 +513,8 @@ export class TreeSelector extends React.Component<
   renderList(
     list: Options,
     value: Option[],
-    uncheckable: boolean
+    uncheckable: boolean,
+    level: number
   ): {dom: Array<JSX.Element | null>; childrenChecked: number} {
     const {
       itemClassName,
@@ -532,8 +535,11 @@ export class TreeSelector extends React.Component<
       maxLength,
       minLength,
       creatable,
+      creatableLevelList,
       editable,
+      editableLevelList,
       removable,
+      removableLevelList,
       createTip,
       editTip,
       removeTip,
@@ -567,7 +573,8 @@ export class TreeSelector extends React.Component<
             ? false
             : uncheckable ||
                 (selfDisabledAffectChildren ? selfDisabled : false) ||
-                (multiple && checked)
+                (multiple && checked),
+          level + 1
         );
         selfChildrenChecked = !!childrenItems.childrenChecked;
         if (
@@ -695,7 +702,10 @@ export class TreeSelector extends React.Component<
               !isEditing &&
               !(item.defer && !item.loaded) ? (
                 <div className={cx('Tree-item-icons')}>
-                  {creatable && hasAbility(item, 'creatable') ? (
+                  {creatable &&
+                  (!creatableLevelList ||
+                    creatableLevelList.includes(level + 1)) &&
+                  hasAbility(item, 'creatable') ? (
                     <a
                       onClick={this.handleAdd.bind(this, item)}
                       data-tooltip={__(createTip)}
@@ -705,7 +715,9 @@ export class TreeSelector extends React.Component<
                     </a>
                   ) : null}
 
-                  {removable && hasAbility(item, 'removable') ? (
+                  {removable &&
+                  (!removableLevelList || removableLevelList.includes(level)) &&
+                  hasAbility(item, 'removable') ? (
                     <a
                       onClick={this.handleRemove.bind(this, item)}
                       data-tooltip={__(removeTip)}
@@ -715,7 +727,9 @@ export class TreeSelector extends React.Component<
                     </a>
                   ) : null}
 
-                  {editable && hasAbility(item, 'editable') ? (
+                  {editable &&
+                  (!editableLevelList || editableLevelList.includes(level)) &&
+                  hasAbility(item, 'editable') ? (
                     <a
                       onClick={this.handleEdit.bind(this, item)}
                       data-tooltip={__(editTip)}
@@ -773,7 +787,7 @@ export class TreeSelector extends React.Component<
       showIcon,
       classnames: cx,
       creatable,
-      rootCreatable,
+      creatableLevelList,
       rootCreateTip,
       disabled,
       translate: __
@@ -783,7 +797,11 @@ export class TreeSelector extends React.Component<
 
     let addBtn = null;
 
-    if (creatable && rootCreatable !== false && hideRoot) {
+    if (
+      creatable &&
+      (!creatableLevelList || creatableLevelList.includes(1)) &&
+      hideRoot
+    ) {
       addBtn = (
         <a
           className={cx('Tree-addTopBtn', {
@@ -812,7 +830,7 @@ export class TreeSelector extends React.Component<
                 {isAdding && !addingParent ? (
                   <li className={cx('Tree-item')}>{this.renderInput()}</li>
                 ) : null}
-                {this.renderList(options, value, false).dom}
+                {this.renderList(options, value, false, 1).dom}
               </>
             ) : (
               <li
@@ -834,7 +852,7 @@ export class TreeSelector extends React.Component<
                   </span>
                   {!disabled &&
                   creatable &&
-                  rootCreatable !== false &&
+                  (!creatableLevelList || creatableLevelList.includes(1)) &&
                   !isAdding &&
                   !isEditing ? (
                     <div className={cx('Tree-item-icons')}>
@@ -854,7 +872,7 @@ export class TreeSelector extends React.Component<
                   {isAdding && !addingParent ? (
                     <li className={cx('Tree-item')}>{this.renderInput()}</li>
                   ) : null}
-                  {this.renderList(options, value, false).dom}
+                  {this.renderList(options, value, false, 1).dom}
                 </ul>
               </li>
             )}

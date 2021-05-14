@@ -62,11 +62,6 @@ export interface TreeSelectControlSchema extends FormOptionsControl {
    * 选父级的时候，是否只把子节点的值包含在内
    */
   onlyChildren?: boolean;
-
-  /**
-   * 顶级节点是否可以创建子节点
-   */
-  rootCreatable?: boolean;
 }
 
 export interface TreeSelectProps extends OptionsControlProps {

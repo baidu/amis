@@ -51,11 +51,6 @@ export interface TreeControlSchema extends FormOptionsControl {
    */
   onlyChildren?: boolean;
 
-  /**
-   * 顶级节点是否可以创建子节点
-   */
-  rootCreatable?: boolean;
-
   deferApi?: SchemaApi;
 }
 
@@ -113,16 +108,18 @@ export default class TreeControl extends React.Component<TreeProps> {
       showOutline,
       onAdd,
       creatable,
+      creatableLevelList,
       createTip,
       addControls,
       onEdit,
       editable,
+      editableLevelList,
       editTip,
       editControls,
       removable,
+      removableLevelList,
       removeTip,
       onDelete,
-      rootCreatable,
       rootCreateTip,
       labelField,
       deferLoad,
@@ -163,13 +160,15 @@ export default class TreeControl extends React.Component<TreeProps> {
             selfDisabledAffectChildren={false}
             onAdd={onAdd}
             creatable={creatable}
+            creatableLevelList={creatableLevelList}
             createTip={createTip}
-            rootCreatable={rootCreatable}
             rootCreateTip={rootCreateTip}
             onEdit={onEdit}
             editable={editable}
+            editableLevelList={editableLevelList}
             editTip={editTip}
             removable={removable}
+            removableLevelList={removableLevelList}
             removeTip={removeTip}
             onDelete={onDelete}
             bultinCUD={!addControls && !editControls}
