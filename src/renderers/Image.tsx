@@ -108,6 +108,7 @@ export interface ImageThumbProps
   onEnlarge?: (info: ImageThumbProps) => void;
   index?: number;
   onLoad?: React.EventHandler<any>;
+  overlays?: JSX.Element;
 }
 
 export class ImageThumb extends React.Component<ImageThumbProps> {
@@ -133,7 +134,8 @@ export class ImageThumb extends React.Component<ImageThumbProps> {
       caption,
       onLoad,
       enlargeAble,
-      translate: __
+      translate: __,
+      overlays
     } = this.props;
 
     return (
@@ -154,16 +156,19 @@ export class ImageThumb extends React.Component<ImageThumbProps> {
             alt={alt}
           />
 
-          {enlargeAble ? (
+          {enlargeAble || overlays ? (
             <div key="overlay" className={cx('Image-overlay')}>
-              <a
-                data-tooltip={__('Image.zoomIn')}
-                data-position="bottom"
-                target="_blank"
-                onClick={this.handleEnlarge}
-              >
-                <Icon icon="view" className="icon" />
-              </a>
+              {enlargeAble ? (
+                <a
+                  data-tooltip={__('Image.zoomIn')}
+                  data-position="bottom"
+                  target="_blank"
+                  onClick={this.handleEnlarge}
+                >
+                  <Icon icon="view" className="icon" />
+                </a>
+              ) : null}
+              {overlays}
             </div>
           ) : null}
         </div>
