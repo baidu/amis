@@ -31,8 +31,6 @@ export interface TabsTransferProps
 
 export class TabsTransfer extends React.Component<TabsTransferProps> {
   static defaultProps = {
-    selectTitle: 'Select.placeholder',
-    resultTitle: 'Transfer.selectd',
     itemRender: (option: Option) => <span>{option.label}</span>
   };
 
