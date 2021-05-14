@@ -265,7 +265,7 @@ export const FormItemStore = StoreNode.named('FormItemStore')
 
       if (isObjectShallowModified(rules, self.rules)) {
         self.rules = rules;
-        clearError('bultin');
+        clearError('builtin');
         self.validated = false;
       }
 
@@ -338,12 +338,12 @@ export const FormItemStore = StoreNode.named('FormItemStore')
       return self.valid;
     });
 
-    function setError(msg: string | Array<string>, tag: string = 'bultin') {
+    function setError(msg: string | Array<string>, tag: string = 'builtin') {
       clearError();
       addError(msg, tag);
     }
 
-    function addError(msg: string | Array<string>, tag: string = 'bultin') {
+    function addError(msg: string | Array<string>, tag: string = 'builtin') {
       const msgs: Array<string> = Array.isArray(msg) ? msg : [msg];
       msgs.forEach(item =>
         self.errorData.push({

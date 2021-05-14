@@ -382,7 +382,7 @@ export const FormStore = ServiceStore.named('FormStore')
           delete errors[key];
         } else if (items.length) {
           // 通过 name 直接找到的
-          items.forEach(item => item.setError(errors[key]));
+          items.forEach(item => item.setError(errors[key], 'remote'));
           delete errors[key];
         } else {
           // 尝试通过path寻找
@@ -436,7 +436,11 @@ export const FormStore = ServiceStore.named('FormStore')
       try {
         let valid = yield validate(hooks);
 
-        if (!valid) {
+        // 如果不是valid，而且有包含不是remote的报错的表单项时，不可提交
+        if (
+          !valid &&
+          self.items.some(item => item.errorData.some(e => e.tag !== 'remote'))
+        ) {
           const msg = failedMessage ?? self.__('Form.validateFailed');
           msg && getEnv(self).notify('error', msg);
           throw new Error(self.__('Form.validateFailed'));
