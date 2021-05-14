@@ -121,8 +121,8 @@ export default class TextAreaControl extends React.Component<
         autoCorrect="off"
         spellCheck="false"
         readOnly={readOnly}
-        minRows={minRows}
-        maxRows={maxRows}
+        minRows={minRows || 1}
+        maxRows={maxRows || 1}
         onChange={this.handleChange}
         onFocus={this.handleFocus}
         onBlur={this.handleBlur}

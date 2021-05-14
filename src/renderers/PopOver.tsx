@@ -134,6 +134,7 @@ export interface PopOverState {
 export const HocPopOver = (
   config: {
     targetOutter?: boolean; // 定位目标为整个外层
+    position?: string;
   } = {}
 ) => (Component: React.ComponentType<any>): any => {
   let lastOpenedInstance: PopOverComponent | null = null;
@@ -262,7 +263,6 @@ export const HocPopOver = (
       const position =
         (popOver && (popOver as SchemaPopOverObject).position) || '';
       const isFixed = /^fixed\-/.test(position);
-
       return isFixed ? (
         // @ts-ignore
         <RootCloseWrapper
@@ -288,7 +288,7 @@ export const HocPopOver = (
       ) : (
         <Overlay
           container={popOverContainer}
-          placement={position || 'center'}
+          placement={position || config.position || 'center'}
           target={() => this.target}
           onHide={this.closePopOver}
           rootClose

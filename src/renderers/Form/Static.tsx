@@ -154,7 +154,9 @@ export class StaticControlRenderer extends StaticControl {}
   test: /(^|\/)static\-field$/
 })
 @QuickEdit()
-@PopOver()
+@PopOver({
+  position: 'right'
+})
 @Copyable()
 export class StaticFieldRenderer extends TableCell {
   static defaultProps = {
