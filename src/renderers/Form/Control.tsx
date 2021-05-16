@@ -386,7 +386,9 @@ export default class FormControl extends React.PureComponent<ControlProps> {
     if (
       !this.model ||
       // todo 以后想办法不要強耦合类型。
-      ~['service', 'group', 'hbox', 'panel', 'grid'].indexOf(type)
+      ~['service', 'group', 'hbox', 'panel', 'grid', 'input-group'].indexOf(
+        type
+      )
     ) {
       onChange && onChange.apply(null, arguments as any);
       return;
@@ -559,8 +561,7 @@ export default class FormControl extends React.PureComponent<ControlProps> {
       data: store ? store.data : data,
       value,
       formItemValue: value, // 为了兼容老版本的自定义组件
-      onChange:
-        control.type === 'input-group' ? superOnChange : this.handleChange,
+      onChange: this.handleChange,
 
       onBlur: this.handleBlur,
       setValue: this.setValue,
