@@ -674,7 +674,7 @@ Form 支持轮询初始化接口，步骤如下：
 ```schema:scope="body"
 {
   "type": "form",
-  "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/saveForm",
+  "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/form/saveForm",
   "rules": [
     {
       "rule": "!(data.a && data.b)",
