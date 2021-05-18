@@ -42,8 +42,9 @@
   &.is-disabled,
   &:disabled {
     opacity: var(--Button-onDisabled-opacity);
+    filter: grayscale(80%);
     box-shadow: none;
-    pointer-events: none;
+    cursor: not-allowed;
   }
 
   &:not(:disabled):not(.is-disabled) {
