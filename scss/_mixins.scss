@@ -252,17 +252,12 @@
   box-shadow: var(--Button-boxShadow);
   text-shadow: var(--Button-textShadow);
 
-  @include hover {
-    // todo: 无法支持 css 变量
-    // @if ($color != $hover-color) {
-    color: $hover-color;
-    // }
-    // @if ($background != $hover-background) {
-    background: $hover-background;
-    // }
-    // @if ($border != $hover-border) {
-    border-color: $hover-border;
-    // }
+  &:not(:disabled):not(.is-disabled) {
+    @include hover {
+      color: $hover-color;
+      background: $hover-background;
+      border-color: $hover-border;
+    }
   }
 
   // @include focus {
