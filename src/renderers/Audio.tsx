@@ -68,7 +68,7 @@ export interface AudioState {
 }
 
 export class Audio extends React.Component<AudioProps, AudioState> {
-  audio: any;
+  audio: HTMLMediaElement;
   progressTimeout: ReturnType<typeof setTimeout>;
   durationTimeout: ReturnType<typeof setTimeout>;
 
@@ -94,7 +94,7 @@ export class Audio extends React.Component<AudioProps, AudioState> {
   state: AudioState = {
     src:
       this.props.value ||
-      (this.props.src ? filter(this.props.src, this.props.data) : '') ||
+      (this.props.src ? filter(this.props.src, this.props.data, '| raw') : '') ||
       resolveVariable(this.props.name, this.props.data) ||
       '',
     isReady: false,
@@ -131,13 +131,13 @@ export class Audio extends React.Component<AudioProps, AudioState> {
 
     if (
       props.value !== nextProps.value ||
-      filter(props.src as string, props.data) !==
-        filter(nextProps.src as string, nextProps.data)
+      filter(props.src as string, props.data, '| raw') !==
+        filter(nextProps.src as string, nextProps.data, '| raw')
     ) {
       this.setState(
         {
           src:
-            nextProps.value || filter(nextProps.src as string, nextProps.data),
+            nextProps.value || filter(nextProps.src as string, nextProps.data, '| raw'),
           playing: false
         },
         () => {
@@ -169,7 +169,7 @@ export class Audio extends React.Component<AudioProps, AudioState> {
   }
 
   @autobind
-  audioRef(audio: any) {
+  audioRef(audio: HTMLMediaElement) {
     this.audio = audio;
   }
 
