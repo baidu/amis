@@ -438,8 +438,11 @@ export const FormStore = ServiceStore.named('FormStore')
 
         // 如果不是valid，而且有包含不是remote的报错的表单项时，不可提交
         if (
-          !valid &&
-          self.items.some(item => item.errorData.some(e => e.tag !== 'remote'))
+          (!valid &&
+            self.items.some(item =>
+              item.errorData.some(e => e.tag !== 'remote')
+            )) ||
+          self.restError.length
         ) {
           const msg = failedMessage ?? self.__('Form.validateFailed');
           msg && getEnv(self).notify('error', msg);
