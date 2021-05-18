@@ -20,7 +20,7 @@ import {
 } from '../Schema';
 import {ActionSchema} from './Action';
 import {filter} from '../utils/tpl';
-import {resolveVariable} from '../utils/tpl-builtin';
+import {resolveVariable, resolveMapping} from '../utils/tpl-builtin';
 
 export interface TabSchema extends Omit<BaseSchema, 'type'> {
   /**
@@ -152,7 +152,7 @@ export default class Tabs extends React.Component<TabsProps, TabsState> {
     let activeKey: any = 0;
 
     if (typeof props.activeKey !== 'undefined') {
-      activeKey = props.activeKey;
+      activeKey = resolveMapping(props.activeKey, props.data);
     } else if (location && Array.isArray(tabs)) {
       const hash = location.hash.substring(1);
       const tab: TabSchema = find(tabs, tab => tab.hash === hash) as TabSchema;
