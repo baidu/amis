@@ -811,7 +811,7 @@ export const tokenize = (
   );
 };
 
-function resolveMapping(
+export function resolveMapping(
   value: any,
   data: PlainObject,
   defaultFilter = '| raw'
