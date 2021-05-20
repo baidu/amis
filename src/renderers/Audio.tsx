@@ -248,7 +248,6 @@ export class Audio extends React.Component<AudioProps, AudioState> {
     clearTimeout(this.durationTimeout);
     const duration = this.audio && this.audio.duration;
     if (!duration) {
-      this.audio.load();
       this.durationTimeout = setTimeout(this.onDurationCheck, 500);
     }
   }
