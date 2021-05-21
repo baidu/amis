@@ -1282,8 +1282,14 @@ export function qsstringify(
   options: any = {
     arrayFormat: 'indices',
     encodeValuesOnly: true
-  }
+  },
+  keepEmptyArray?: boolean
 ) {
+  // qs会保留空字符串。fix: Combo模式的空数组，无法清空。改为存为空字符串；只转换一层
+  keepEmptyArray &&
+    Object.keys(data).forEach((key: any) => {
+      Array.isArray(data[key]) && !data[key].length && (data[key] = '');
+    });
   return qs.stringify(data, options);
 }
 
