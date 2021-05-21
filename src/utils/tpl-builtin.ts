@@ -641,6 +641,15 @@ function parseJson(str: string, defaultValue?: any) {
   }
 }
 
+function getCookie(name: string) {
+  const value = `; ${document.cookie}`;
+  const parts = value.split(`; ${name}=`);
+  if (parts.length === 2) {
+    return parts.pop()!.split(';').shift();
+  }
+  return undefined;
+}
+
 export const resolveVariable = (path?: string, data: any = {}): any => {
   if (!path || !data || typeof path !== 'string') {
     return undefined;
@@ -672,6 +681,9 @@ export const resolveVariable = (path?: string, data: any = {}): any => {
     }
 
     return undefined;
+  } else if (ns === 'cookie') {
+    const key = varname.replace(/^{|}$/g, '').trim();
+    return getCookie(key);
   }
 
   if (varname === '$$') {
