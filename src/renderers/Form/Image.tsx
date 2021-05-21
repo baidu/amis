@@ -414,17 +414,21 @@ export default class ImageControl extends React.Component<
     this.addFiles = this.addFiles.bind(this);
     this.handleSelect = this.handleSelect.bind(this);
     this.handlePaste = this.handlePaste.bind(this);
+    this.syncAutoFill = this.syncAutoFill.bind(this);
   }
 
-  componentWillReceiveProps(nextProps: ImageProps) {
+  componentDidMount() {
+    this.syncAutoFill();
+  }
+
+  componentDidUpdate(prevProps: ImageProps) {
     const props = this.props;
 
-    if (props.value !== nextProps.value && this.emitValue !== nextProps.value) {
-      const value: string | Array<string | FileValue> | FileValue =
-        nextProps.value;
-      const multiple = nextProps.multiple;
-      const joinValues = nextProps.joinValues;
-      const delimiter = nextProps.delimiter as string;
+    if (prevProps.value !== props.value && this.emitValue !== props.value) {
+      const value: string | Array<string | FileValue> | FileValue = props.value;
+      const multiple = props.multiple;
+      const joinValues = props.joinValues;
+      const delimiter = props.delimiter as string;
 
       let files: Array<FileValue> = [];
 
@@ -436,7 +440,7 @@ export default class ImageControl extends React.Component<
           : [value]
         )
           .map(item => {
-            let obj = ImageControl.valueToFile(item, nextProps) as FileValue;
+            let obj = ImageControl.valueToFile(item, props) as FileValue;
             let org;
 
             if (
@@ -458,14 +462,17 @@ export default class ImageControl extends React.Component<
           .filter(item => item);
       }
 
-      this.setState({
-        files: (this.files = files)
-      });
+      this.setState(
+        {
+          files: (this.files = files)
+        },
+        this.syncAutoFill
+      );
     }
 
-    if (props.crop !== nextProps.crop) {
+    if (prevProps.crop !== props.crop) {
       this.setState({
-        crop: this.buildCrop(nextProps)
+        crop: this.buildCrop(props)
       });
     }
   }
@@ -723,9 +730,7 @@ export default class ImageControl extends React.Component<
       joinValues,
       extractValue,
       delimiter,
-      valueField,
-      autoFill,
-      onBulkChange
+      valueField
     } = this.props;
 
     const files = this.files.filter(
@@ -753,8 +758,15 @@ export default class ImageControl extends React.Component<
     }
 
     onChange((this.emitValue = newValue || ''), undefined, changeImmediately);
+    this.syncAutoFill();
+  }
 
+  syncAutoFill() {
+    const {autoFill, multiple, onBulkChange} = this.props;
     if (!isEmpty(autoFill)) {
+      const files = this.state.files.filter(
+        file => ~['uploaded', 'init', 'ready'].indexOf(file.state as string)
+      );
       const toSync = dataMapping(
         autoFill,
         multiple
