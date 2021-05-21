@@ -383,17 +383,20 @@ export default class FileControl extends React.Component<FileProps, FileState> {
     this.uploadFile = this.uploadFile.bind(this);
     this.uploadBigFile = this.uploadBigFile.bind(this);
     this.handleSelect = this.handleSelect.bind(this);
+    this.syncAutoFill = this.syncAutoFill.bind(this);
   }
 
-  componentWillReceiveProps(nextProps: FileProps) {
+  componentDidMount() {
+    this.syncAutoFill();
+  }
+
+  componentDidUpdate(prevProps: FileProps) {
     const props = this.props;
 
-    if (props.value !== nextProps.value && this.emitValue !== nextProps.value) {
-      const value: string | Array<string | FileValue> | FileValue =
-        nextProps.value;
-      const multiple = nextProps.multiple;
-      const joinValues = nextProps.joinValues;
-      const delimiter = nextProps.delimiter as string;
+    if (prevProps.value !== props.value && this.emitValue !== props.value) {
+      const value: string | Array<string | FileValue> | FileValue = props.value;
+      const joinValues = props.joinValues;
+      const delimiter = props.delimiter as string;
       let files: Array<FileValue> = [];
 
       if (value) {
@@ -406,7 +409,7 @@ export default class FileControl extends React.Component<FileProps, FileState> {
           .map(item => {
             let obj = FileControl.valueToFile(
               item,
-              nextProps,
+              props,
               this.state.files
             ) as FileValue;
             let org;
@@ -430,9 +433,12 @@ export default class FileControl extends React.Component<FileProps, FileState> {
           .filter(item => item);
       }
 
-      this.setState({
-        files: files
-      });
+      this.setState(
+        {
+          files: files
+        },
+        this.syncAutoFill
+      );
     }
   }
 
@@ -833,8 +839,15 @@ export default class FileControl extends React.Component<FileProps, FileState> {
     }
 
     onChange((this.emitValue = value), undefined, changeImmediately);
+    this.syncAutoFill();
+  }
 
+  syncAutoFill() {
+    const {autoFill, multiple, onBulkChange} = this.props;
     if (!isEmpty(autoFill)) {
+      const files = this.state.files.filter(
+        file => ~['uploaded', 'init', 'ready'].indexOf(file.state as string)
+      );
       const toSync = dataMapping(
         autoFill,
         multiple
