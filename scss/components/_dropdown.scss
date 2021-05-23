@@ -76,8 +76,9 @@
 
     &.is-disabled {
       cursor: not-allowed;
-      pointer-events: none;
+      // pointer-events: none;
       color: var(--DropDown-menuItem-onDisabled-color);
+      filter: grayscale(80%);
     }
 
     &.#{$ns}DropDown-divider {

@@ -514,18 +514,7 @@ export class Action extends React.Component<ActionProps, ActionState> {
 
     const iconElement = generateIcon(cx, icon, 'Button-icon', iconClassName);
 
-    return isMenuItem ? (
-      <a
-        className={cx(className, {
-          [activeClassName || 'is-active']: isActive,
-          'is-disabled': disabled
-        })}
-        onClick={this.handleAction}
-      >
-        {iconElement}
-        {label}
-      </a>
-    ) : (
+    return (
       <Button
         className={cx(className, {
           [activeClassName || 'is-active']: isActive
@@ -539,7 +528,8 @@ export class Action extends React.Component<ActionProps, ActionState> {
         onClick={this.handleAction}
         type={type && ~allowedType.indexOf(type) ? type : 'button'}
         disabled={disabled}
-        componentClass={componentClass}
+        componentClass={isMenuItem ? 'a' : componentClass}
+        overrideClassName={isMenuItem}
         tooltip={filterContents(tooltip, data)}
         disabledTip={filterContents(disabledTip, data)}
         placement={tooltipPlacement}
