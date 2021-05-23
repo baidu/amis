@@ -29,7 +29,9 @@ exports[`Renderers:Action MenuItem changes class when actived & disabled 1`] = `
   className="a"
   onClick={[Function]}
 >
-  123
+  <span>
+    123
+  </span>
 </a>
 `;
 
@@ -38,16 +40,21 @@ exports[`Renderers:Action MenuItem changes class when actived & disabled 2`] = `
   className="a is-active"
   onClick={[Function]}
 >
-  233
+  <span>
+    233
+  </span>
 </a>
 `;
 
 exports[`Renderers:Action MenuItem changes class when actived & disabled 3`] = `
 <a
-  className="a is-active is-disabled"
+  className="a is-active"
+  disabled={true}
   onClick={[Function]}
 >
-  233
+  <span>
+    233
+  </span>
 </a>
 `;
 
@@ -56,7 +63,9 @@ exports[`Renderers:Action MenuItem display icon 1`] = `
   className="a"
   onClick={[Function]}
 >
-  123
+  <span>
+    123
+  </span>
 </a>
 `;
 
@@ -68,7 +77,9 @@ exports[`Renderers:Action MenuItem display icon 2`] = `
   <i
     className="a-Button-icon fa fa-cloud"
   />
-  123
+  <span>
+    123
+  </span>
 </a>
 `;
 

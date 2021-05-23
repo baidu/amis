@@ -26,7 +26,9 @@ exports[`Renderer:dropdown-button 1`] = `
         <a
           class=""
         >
-          按钮
+          <span>
+            按钮
+          </span>
         </a>
       </li>
       <li
@@ -35,7 +37,9 @@ exports[`Renderer:dropdown-button 1`] = `
         <a
           class=""
         >
-          按钮
+          <span>
+            按钮
+          </span>
         </a>
       </li>
     </ul>
