@@ -236,7 +236,7 @@ export default class CheckboxesControl extends React.Component<
       );
     }
 
-    if (!inline && (columnsCount as number) > 1) {
+    if ((columnsCount as number) > 1) {
       let weight = 12 / (columnsCount as number);
       let cellClassName = `Grid-col--sm${
         weight === Math.round(weight) ? weight : ''
