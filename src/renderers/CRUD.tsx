@@ -784,8 +784,18 @@ export default class CRUD extends React.Component<CRUDProps, any> {
       perPageField,
       loadDataOnceFetchOnFilter
     } = this.props;
-    values = syncLocation ? qs.parse(qsstringify(values)) : values;
-
+    values = syncLocation
+      ? qs.parse(
+          qsstringify(
+            values,
+            {
+              arrayFormat: 'indices',
+              encodeValuesOnly: true
+            },
+            true
+          )
+        )
+      : values;
     store.updateQuery(
       {
         ...values,
