@@ -27,6 +27,8 @@ import {
 import {FormSchema} from './Form';
 import {ActionSchema} from './Action';
 
+import { tokenize} from '../utils/tpl-builtin';
+
 export type WizardStepSchema = Omit<FormSchema, 'type'> & {
   /**
    * 当前步骤用来保存数据的 api。
@@ -157,6 +159,8 @@ export interface WizardSchema extends BaseSchema {
   affixFooter?: boolean | 'always';
 
   steps: Array<WizardStepSchema>;
+
+  startStep?: string;
 }
 
 export interface WizardProps
@@ -179,7 +183,8 @@ export default class Wizard extends React.Component<WizardProps, WizardState> {
     actionPrevLabel: 'Wizard.prev',
     actionNextLabel: 'Wizard.next',
     actionNextSaveLabel: 'Wizard.saveAndNext',
-    actionFinishLabel: 'Wizard.finish'
+    actionFinishLabel: 'Wizard.finish',
+    startStep:"1",
   };
 
   static propsList: Array<string> = [
@@ -192,7 +197,8 @@ export default class Wizard extends React.Component<WizardProps, WizardState> {
     'actionNextSaveLabel',
     'actionFinishLabel',
     'onFinished',
-    'affixFooter'
+    'affixFooter',
+    'startStep'
   ];
 
   dom: any;
@@ -245,7 +251,7 @@ export default class Wizard extends React.Component<WizardProps, WizardState> {
         .then(value => {
           onInit && onInit(store.data);
           const state = {
-            currentStep: 1
+            currentStep: typeof this.props.startStep === 'string' ? parseInt(tokenize(this.props.startStep, this.props.data)):1
           };
 
           if (
@@ -273,7 +279,7 @@ export default class Wizard extends React.Component<WizardProps, WizardState> {
     } else {
       this.setState(
         {
-          currentStep: 1
+          currentStep: typeof this.props.startStep === 'string'  ? parseInt(tokenize(this.props.startStep, this.props.data)):1
         },
         () => onInit && onInit(store.data)
       );
@@ -352,9 +358,13 @@ export default class Wizard extends React.Component<WizardProps, WizardState> {
     const steps = this.props.steps || [];
     index = Math.max(Math.min(steps.length, index), 1);
 
-    this.setState({
-      currentStep: index
-    });
+    if(index!=this.state.currentStep)
+    {
+      this.setState({
+        currentStep: index
+      });
+    }
+
   }
 
   @autobind
