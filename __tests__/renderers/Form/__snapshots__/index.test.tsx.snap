@@ -1059,15 +1059,14 @@ exports[`Renderer:Form:valdiate 1`] = `
       <div
         class="a-Panel-btnToolbar a-Panel-footer"
       >
-        <button
+        <div
           class="a-Button a-Button--default is-disabled"
           disabled=""
-          type="submit"
         >
           <span>
             Submit
           </span>
-        </button>
+        </div>
       </div>
     </div>
     <div

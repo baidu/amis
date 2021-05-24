@@ -154,16 +154,15 @@ exports[`Renderer:Wizard 1`] = `
       className="a-Panel-footer a-Wizard-footer"
       role="wizard-footer"
     >
-      <button
+      <div
         className="a-Button a-Button--default is-disabled"
         disabled={true}
         onClick={[Function]}
-        type="button"
       >
         <span>
           上一步
         </span>
-      </button>
+      </div>
       <button
         className="a-Button a-Button--default"
         onClick={[Function]}
@@ -422,15 +421,14 @@ exports[`Renderer:Wizard actionPrevLabel actionNextLabel actionFinishLabel class
         class="a-Panel-footer a-Wizard-footer"
         role="wizard-footer"
       >
-        <button
+        <div
           class="a-Button a-Button--default is-disabled btn-lg btn-primary"
           disabled=""
-          type="button"
         >
           <span>
             PrevStep
           </span>
-        </button>
+        </div>
         <button
           class="a-Button a-Button--default btn-lg btn-primary"
           type="button"
@@ -631,15 +629,14 @@ exports[`Renderer:Wizard dialog 1`] = `
                 class="a-Panel-footer a-Wizard-footer"
                 role="wizard-footer"
               >
-                <button
+                <div
                   class="a-Button a-Button--default is-disabled"
                   disabled=""
-                  type="button"
                 >
                   <span>
                     上一步
                   </span>
-                </button>
+                </div>
                 <button
                   class="a-Button a-Button--default"
                   type="button"
@@ -946,15 +943,14 @@ exports[`Renderer:Wizard dialog 2`] = `
                 class="a-Panel-footer a-Wizard-footer"
                 role="wizard-footer"
               >
-                <button
+                <div
                   class="a-Button a-Button--default is-disabled"
                   disabled=""
-                  type="button"
                 >
                   <span>
                     上一步
                   </span>
-                </button>
+                </div>
                 <button
                   class="a-Button a-Button--default"
                   type="button"
@@ -1166,16 +1162,15 @@ exports[`Renderer:Wizard initApi 1`] = `
       className="a-Panel-footer a-Wizard-footer"
       role="wizard-footer"
     >
-      <button
+      <div
         className="a-Button a-Button--default is-disabled"
         disabled={true}
         onClick={[Function]}
-        type="button"
       >
         <span>
           上一步
         </span>
-      </button>
+      </div>
       <button
         className="a-Button a-Button--default"
         onClick={[Function]}
@@ -1324,15 +1319,14 @@ exports[`Renderer:Wizard initApi reload 1`] = `
                 class="a-Panel-footer a-Wizard-footer"
                 role="wizard-footer"
               >
-                <button
+                <div
                   class="a-Button a-Button--default is-disabled"
                   disabled=""
-                  type="button"
                 >
                   <span>
                     上一步
                   </span>
-                </button>
+                </div>
                 <button
                   class="a-Button a-Button--default"
                   type="button"
@@ -1883,16 +1877,15 @@ exports[`Renderer:Wizard initApi show loading 2`] = `
       className="a-Panel-footer a-Wizard-footer"
       role="wizard-footer"
     >
-      <button
+      <div
         className="a-Button a-Button--default is-disabled"
         disabled={true}
         onClick={[Function]}
-        type="button"
       >
         <span>
           上一步
         </span>
-      </button>
+      </div>
       <button
         className="a-Button a-Button--default"
         onClick={[Function]}
@@ -2058,16 +2051,15 @@ exports[`Renderer:Wizard readOnly 1`] = `
       className="a-Panel-footer a-Wizard-footer"
       role="wizard-footer"
     >
-      <button
+      <div
         className="a-Button a-Button--default is-disabled"
         disabled={true}
         onClick={[Function]}
-        type="button"
       >
         <span>
           上一步
         </span>
-      </button>
+      </div>
       <button
         className="a-Button a-Button--default"
         onClick={[Function]}
@@ -2843,15 +2835,14 @@ exports[`Renderer:Wizard validate 1`] = `
         class="a-Panel-footer a-Wizard-footer"
         role="wizard-footer"
       >
-        <button
+        <div
           class="a-Button a-Button--default is-disabled"
           disabled=""
-          type="button"
         >
           <span>
             上一步
           </span>
-        </button>
+        </div>
         <button
           class="a-Button a-Button--default"
           type="button"
