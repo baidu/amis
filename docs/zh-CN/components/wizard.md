@@ -76,7 +76,7 @@ order: 73
 | redirect            | [模板](../../docs/concepts/template)     | `3000`               | 操作完后跳转。                                                                                                                                           |
 | target              | `string`                                 | `false`              | 可以把数据提交给别的组件而不是自己保存。请填写目标组件设置的 name 值，如果填写为 `window` 则把数据同步到地址栏上，同时依赖这些数据的组件会自动重新刷新。 |
 | steps               | Array<[step](#step)>                     |                      | 数组，配置步骤信息                                                                                                                                       |
-
+| startStep           | `string`                                 |  `1`                 | 起始默认值，从第几步开始。可支持模版，但是只有在组件创建时渲染模版并设置当前步数，在之后组件被刷新时，当前step不会根据startStep改变                                    |
 ### step
 
 | 属性名            | 类型                                     | 默认值 | 说明                                                                                          |
