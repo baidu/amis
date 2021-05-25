@@ -349,3 +349,29 @@ addSchemaFilter(function (scheam: Schema, renderer) {
 
   return scheam;
 });
+
+function maybeFormItem(type?: string): boolean {
+  return !~['container', 'group', 'hbox', 'panel', 'service', 'tabs'].indexOf(
+    type || ''
+  );
+}
+
+addSchemaFilter(function (schema: Schema) {
+  // controls 转成 body
+  if (Array.isArray(schema?.controls)) {
+    schema = {
+      ...schema,
+      body: schema?.controls.map(item =>
+        item && !/^input\-/.test(item?.type) && maybeFormItem(item?.type)
+          ? {
+              ...item,
+              type: `input-${item?.type}`
+            }
+          : item
+      )
+    };
+    delete schema.controls;
+  }
+
+  return schema;
+});

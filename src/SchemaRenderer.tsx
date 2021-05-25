@@ -241,6 +241,7 @@ export class SchemaRenderer extends React.Component<SchemaRendererProps, any> {
         {...chainEvents(rest, restSchema)}
         defaultData={defaultData}
         $path={$path}
+        $schema={schema}
         ref={this.refFn}
         render={this.renderChild}
       />
