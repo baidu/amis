@@ -42,7 +42,7 @@
   &.is-disabled,
   &:disabled {
     opacity: var(--Button-onDisabled-opacity);
-    filter: grayscale(80%);
+    filter: grayscale(100%);
     box-shadow: none;
     cursor: not-allowed;
   }
