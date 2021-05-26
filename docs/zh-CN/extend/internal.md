@@ -6,7 +6,7 @@ title: 工作原理
 
 ## 工作原理
 
-amis 的渲染过程是将 `json` 转成对应的 React 组件。先通过 `json` 的 type 找到对应的 `Component` 然后，然后把其他属性作为 `props` 传递过去完成渲染。
+amis 的渲染过程是将 `json` 转成对应的 React 组件。先通过 `json` 的 type 找到对应的 `Component`，然后把其他属性作为 `props` 传递过去完成渲染。
 
 拿一个表单页面来说，如果用 React 组件开发一般长这样。
 
