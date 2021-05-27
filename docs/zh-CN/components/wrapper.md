@@ -24,6 +24,8 @@ order: 72
 
 ## 动态获取
 
+直接返回一个对象
+
 ```schema: scope="body"
 {
   "type": "page",
@@ -38,6 +40,28 @@ order: 72
       "body": "内容",
       "className": "b",
       "style": "${style}"
+    }
+  ]
+}
+```
+
+返回变量
+
+```schema: scope="body"
+{
+  "type": "page",
+  "data": {
+    "color": "#aaa"
+  },
+  "body": [
+    {
+      "type": "wrapper",
+      "body": "内容",
+      "className": "b",
+      "style": {
+        "color": "${color}",
+        "fontSize": "30px"
+      }
     }
   ]
 }
