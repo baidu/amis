@@ -1,6 +1,7 @@
 import React from 'react';
 import {Renderer, RendererProps} from '../factory';
 import {BaseSchema, SchemaCollection} from '../Schema';
+import {resolveVariable} from '../utils/tpl-builtin';
 import {SchemaNode} from '../types';
 
 /**
@@ -53,12 +54,15 @@ export default class Wrapper extends React.Component<WrapperProps, object> {
   }
 
   render() {
-    const {className, size, classnames: cx, style} = this.props;
+    const {className, size, classnames: cx, style, data} = this.props;
+    let styleVar = typeof style === 'string'
+      ? resolveVariable(style, data) || {}
+      : style;
 
     return (
       <div
         className={cx('Wrapper', size ? `Wrapper--${size}` : '', className)}
-        style={style}
+        style={styleVar}
       >
         {this.renderBody()}
       </div>
