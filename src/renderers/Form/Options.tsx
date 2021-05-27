@@ -12,7 +12,9 @@ import {
   setVariable,
   spliceTree,
   findTreeIndex,
-  getTree
+  getTree,
+  isEmpty,
+  getTreeAncestors
 } from '../../utils/helper';
 import {reaction} from 'mobx';
 import {
@@ -29,7 +31,8 @@ export type OptionsControlComponent = React.ComponentType<FormControlProps>;
 import React from 'react';
 import {
   resolveVariableAndFilter,
-  isPureVariable
+  isPureVariable,
+  dataMapping
 } from '../../utils/tpl-builtin';
 import {
   Option,
@@ -345,6 +348,7 @@ export function registerOptionsControl(config: OptionsConfig) {
       }
 
       if (prevProps.value !== props.value || formItem.expressionsInOptions) {
+        this.syncAutoFill(props.value);
         formItem.syncOptions();
       }
 
@@ -404,6 +408,44 @@ export function registerOptionsControl(config: OptionsConfig) {
     componentWillUnmount() {
       this.props.removeHook && this.props.removeHook(this.reload, 'init');
       this.reaction && this.reaction();
+    }
+
+    syncAutoFill(value: any) {
+      const {autoFill, multiple, onBulkChange} = this.props;
+      const formItem = this.props.formItem as IFormItemStore;
+
+      if (autoFill && !isEmpty(autoFill) && formItem.filteredOptions.length) {
+        const selectedOptions = formItem.getSelectedOptions(value);
+        const toSync = dataMapping(
+          autoFill,
+          multiple
+            ? {
+                items: selectedOptions.map(item =>
+                  createObject(
+                    {
+                      ancestors: getTreeAncestors(
+                        formItem.filteredOptions,
+                        item,
+                        true
+                      )
+                    },
+                    item
+                  )
+                )
+              }
+            : createObject(
+                {
+                  ancestors: getTreeAncestors(
+                    formItem.filteredOptions,
+                    selectedOptions[0],
+                    true
+                  )
+                },
+                selectedOptions[0]
+              )
+        );
+        onBulkChange(toSync);
+      }
     }
 
     normalizeValue() {

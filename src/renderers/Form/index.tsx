@@ -82,7 +82,7 @@ export interface FormSchema extends BaseSchema {
   /**
    * 表单项集合
    */
-  controls?: Array<FormControlSchema>;
+  body?: Array<FormControlSchema>;
 
   /**
    * @deprecated 请用类型 tabs
@@ -261,11 +261,6 @@ export interface FormSchema extends BaseSchema {
   wrapWithPanel?: boolean;
 
   /**
-   * 内容区
-   */
-  body?: SchemaCollection;
-
-  /**
    * 是否固定底下的按钮在底部。
    */
   affixFooter?: boolean;
@@ -424,6 +419,7 @@ export default class Form extends React.Component<FormProps, object> {
     this.addHook = this.addHook.bind(this);
     this.removeHook = this.removeHook.bind(this);
     this.handleChange = this.handleChange.bind(this);
+    this.handleBulkChange = this.handleBulkChange.bind(this);
     this.renderFormItems = this.renderFormItems.bind(this);
     this.reload = this.reload.bind(this);
     this.silentReload = this.silentReload.bind(this);
@@ -805,8 +801,35 @@ export default class Form extends React.Component<FormProps, object> {
     }
   }
 
-  handleChange(value: any, name: string, submit: boolean) {
+  handleChange(
+    value: any,
+    name: string,
+    submit: boolean,
+    changePristine = false
+  ) {
     const {onChange, store, submitOnChange} = this.props;
+
+    store.changeValue(name, value, changePristine);
+
+    onChange &&
+      onChange(store.data, difference(store.data, store.pristine), this.props);
+
+    store.clearRestError();
+
+    (submit || submitOnChange) &&
+      this.handleAction(
+        undefined,
+        {
+          type: 'submit'
+        },
+        store.data
+      );
+  }
+
+  handleBulkChange(values: Object, submit: boolean) {
+    const {onChange, store, submitOnChange} = this.props;
+
+    store.updateData(values);
 
     onChange &&
       onChange(store.data, difference(store.data, store.pristine), this.props);
@@ -1178,13 +1201,13 @@ export default class Form extends React.Component<FormProps, object> {
   }
 
   buildActions() {
-    const {actions, submitText, controls, translate: __} = this.props;
+    const {actions, submitText, body, translate: __} = this.props;
 
     if (
       typeof actions !== 'undefined' ||
       !submitText ||
-      (Array.isArray(controls) &&
-        controls.some(
+      (Array.isArray(body) &&
+        body.some(
           item =>
             item &&
             (!!~['submit', 'button', 'reset'].indexOf(item.type) ||
@@ -1209,27 +1232,24 @@ export default class Form extends React.Component<FormProps, object> {
     region: string = '',
     otherProps: Partial<FormProps> = {}
   ): React.ReactNode {
-    return this.renderControls(schema.controls!, region, otherProps);
-
-    // return schema.tabs ? this.renderTabs(schema.tabs, schema, region)
-    // : schema.fieldSet ? this.renderFiledSet(schema.fieldSet, schema, region) : this.renderControls(schema.controls as SchemaNode, schema, region);
+    return this.renderChildren(schema.body!, region, otherProps);
   }
 
-  renderControls(
-    controls: Array<any>,
+  renderChildren(
+    children: Array<any>,
     region: string,
     otherProps: Partial<FormProps> = {}
   ): React.ReactNode {
-    controls = controls || [];
+    children = children || [];
 
-    if (!Array.isArray(controls)) {
-      controls = [controls];
+    if (!Array.isArray(children)) {
+      children = [children];
     }
 
     if (this.props.mode === 'row') {
       const ns = this.props.classPrefix;
 
-      controls = flatten(controls).filter(item => {
+      children = flatten(children).filter(item => {
         if ((item as Schema).hidden || (item as Schema).visible === false) {
           return false;
         }
@@ -1247,16 +1267,16 @@ export default class Form extends React.Component<FormProps, object> {
         return true;
       });
 
-      if (!controls.length) {
+      if (!children.length) {
         return null;
       }
 
       return (
         <div className={`${ns}Form-row`}>
-          {controls.map((control, key) =>
+          {children.map((control, key) =>
             ~['hidden', 'formula'].indexOf((control as any).type) ||
             (control as any).mode === 'inline' ? (
-              this.renderControl(control, key, otherProps)
+              this.renderChild(control, key, otherProps)
             ) : (
               <div
                 key={key}
@@ -1265,7 +1285,7 @@ export default class Form extends React.Component<FormProps, object> {
                   (control as Schema).columnClassName
                 )}
               >
-                {this.renderControl(control, '', {
+                {this.renderChild(control, '', {
                   ...otherProps,
                   mode: 'row'
                 })}
@@ -1276,12 +1296,12 @@ export default class Form extends React.Component<FormProps, object> {
       );
     }
 
-    return controls.map((control, key) =>
-      this.renderControl(control, key, otherProps, region)
+    return children.map((control, key) =>
+      this.renderChild(control, key, otherProps, region)
     );
   }
 
-  renderControl(
+  renderChild(
     control: SchemaNode,
     key: any = '',
     otherProps: Partial<FormProps> = {},
@@ -1329,69 +1349,52 @@ export default class Form extends React.Component<FormProps, object> {
       onQuery: this.handleQuery,
       onChange:
         formLazyChange === false ? this.handleChange : this.lazyHandleChange,
+      onBulkChange: this.handleBulkChange,
       addHook: this.addHook,
       removeHook: this.removeHook,
       renderFormItems: this.renderFormItems,
       formPristine: form.pristine
     };
 
-    const subSchema: any =
-      (control as Schema).type === 'control'
-        ? control
-        : {
-            type: 'control',
-            control
-          };
+    let subSchema: any = {
+      ...control
+    };
 
-    if (subSchema.control) {
-      let control = subSchema.control as Schema;
-      if (control.$ref) {
-        subSchema.control = control = {
-          ...resolveDefinitions(control.$ref),
-          ...control,
-          ...getExprProperties(control, store.data, undefined, subProps)
-        };
-      } else {
-        subSchema.control = control = {
-          ...control,
-          ...getExprProperties(control, store.data, undefined, subProps)
-        };
-      }
-
-      // 自定义组件如果在节点设置了 label name 什么的，就用 formItem 包一层
-      // 至少自动支持了 valdiations, label, description 等逻辑。
-      if (
-        control.component &&
-        (control.formItemConfig ||
-          (control.label !== undefined && control.name))
-      ) {
-        const cache = this.componentCache.get(control.component);
-
-        if (cache) {
-          control.component = cache;
-        } else {
-          const cache = asFormItem({
-            strictMode: false,
-            ...control.formItemConfig
-          })(control.component);
-          this.componentCache.set(control.component, cache);
-          control.component = cache;
-        }
-      }
-
-      control.hiddenOn && (subSchema.hiddenOn = control.hiddenOn);
-      control.visibleOn && (subSchema.visibleOn = control.visibleOn);
-      lazyChange === false && (control.changeImmediately = true);
+    if (subSchema.$ref) {
+      subSchema = {
+        ...subSchema,
+        ...resolveDefinitions(subSchema.$ref)
+      };
     }
 
+    // 自定义组件如果在节点设置了 label name 什么的，就用 formItem 包一层
+    // 至少自动支持了 valdiations, label, description 等逻辑。
+    if (
+      subSchema.component &&
+      (subSchema.formItemConfig ||
+        (subSchema.label !== undefined && subSchema.name))
+    ) {
+      const cache = this.componentCache.get(subSchema.component);
+
+      if (cache) {
+        subSchema.component = cache;
+      } else {
+        const cache = asFormItem({
+          strictMode: false,
+          ...subSchema.formItemConfig
+        })(subSchema.component);
+        this.componentCache.set(subSchema.component, cache);
+        subSchema.component = cache;
+      }
+    }
+
+    lazyChange === false && (subSchema.changeImmediately = true);
     return render(`${region ? `${region}/` : ''}${key}`, subSchema, subProps);
   }
 
   renderBody() {
     const {
-      tabs,
-      fieldSet,
-      controls,
+      body,
       mode,
       className,
       classnames: cx,
@@ -1422,9 +1425,7 @@ export default class Form extends React.Component<FormProps, object> {
         <Spinner show={store.loading} overlay />
 
         {this.renderFormItems({
-          tabs,
-          fieldSet,
-          controls
+          body
         })}
 
         {/* 显示没有映射上的 errors */}

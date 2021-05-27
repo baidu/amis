@@ -81,6 +81,7 @@ import {DividerSchema} from '../Divider';
 import {HocStoreFactory} from '../../WithStore';
 import {MonthRangeControlSchema} from './MonthRange';
 import {AnchorNavControlSchema} from './AnchorNav';
+import {warpControl} from './Control';
 
 export type FormControlType =
   | 'array'
@@ -1412,18 +1413,13 @@ export function asFormItem(config: Omit<FormItemConfig, 'component'>) {
 }
 
 export function registerFormItem(config: FormItemConfig): RendererConfig {
-  let Control = asFormItem(config)(config.component);
+  let Control = warpControl(asFormItem(config)(config.component) as any);
 
   return registerRenderer({
     ...config,
     name: config.name || `${config.type}-control`,
     weight: typeof config.weight !== 'undefined' ? config.weight : -100, // 优先级高点
-    test:
-      config.test ||
-      new RegExp(
-        `(^|\/)form(?:\/.+)?\/control\/(?:\d+\/)?${config.type}$`,
-        'i'
-      ),
+    test: config.test || new RegExp(`(^|\/)input\-${config.type}$`, 'i'),
     component: Control,
     isFormItem: true
   });

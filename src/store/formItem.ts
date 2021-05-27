@@ -271,7 +271,6 @@ export const FormItemStore = StoreNode.named('FormItemStore')
 
       if (value !== void 0 && self.value === void 0) {
         form.setValueByName(self.name, value, true);
-        syncAutoFill(value, true);
       }
     }
 
@@ -281,16 +280,6 @@ export const FormItemStore = StoreNode.named('FormItemStore')
 
     function blur() {
       self.isFocused = false;
-    }
-
-    function changeValue(value: any, isPrintine: boolean = false) {
-      if (typeof value === 'undefined' || value === '__undefined') {
-        self.form.deleteValueByName(self.name);
-      } else {
-        self.form.setValueByName(self.name, value, isPrintine);
-      }
-
-      syncAutoFill(value, isPrintine);
     }
 
     const validate: (hook?: any) => Promise<boolean> = flow(function* validate(
@@ -391,7 +380,6 @@ export const FormItemStore = StoreNode.named('FormItemStore')
       self.options = options;
       syncOptions(originOptions);
       let selectedOptions;
-      let skipAyncAutoFill = false;
 
       if (
         self.selectFirst &&
@@ -421,13 +409,8 @@ export const FormItemStore = StoreNode.named('FormItemStore')
 
         if (form.inited && onChange) {
           onChange(value);
-        } else {
-          changeValue(value, !form.inited);
-          skipAyncAutoFill = true; // changeValue 里面本来就会调用 syncAutoFill 所以跳过
         }
       }
-
-      skipAyncAutoFill || syncAutoFill(self.value, !form.inited);
     }
 
     let loadCancel: Function | null = null;
@@ -797,52 +780,6 @@ export const FormItemStore = StoreNode.named('FormItemStore')
       }
     }
 
-    function syncAutoFill(
-      value: any = self.value,
-      isPrintine: boolean = false
-    ) {
-      if (self.autoFill && !isEmpty(self.autoFill) && self.options.length) {
-        const selectedOptions = self.getSelectedOptions(value);
-        const toSync = dataMapping(
-          self.autoFill,
-          self.multiple
-            ? {
-                items: selectedOptions.map(item =>
-                  createObject(
-                    {
-                      ancestors: getTreeAncestors(
-                        self.filteredOptions,
-                        item,
-                        true
-                      )
-                    },
-                    item
-                  )
-                )
-              }
-            : createObject(
-                {
-                  ancestors: getTreeAncestors(
-                    self.filteredOptions,
-                    selectedOptions[0],
-                    true
-                  )
-                },
-                selectedOptions[0]
-              )
-        );
-        Object.keys(toSync).forEach(key => {
-          const value = toSync[key];
-
-          if (typeof value === 'undefined' || value === '__undefined') {
-            self.form.deleteValueByName(key);
-          } else {
-            self.form.setValueByName(key, value, isPrintine);
-          }
-        });
-      }
-    }
-
     function changeTmpValue(value: any) {
       self.tmpValue = value;
     }
@@ -862,7 +799,6 @@ export const FormItemStore = StoreNode.named('FormItemStore')
       focus,
       blur,
       config,
-      changeValue,
       validate,
       setError,
       addError,
@@ -877,7 +813,6 @@ export const FormItemStore = StoreNode.named('FormItemStore')
       reset,
       openDialog,
       closeDialog,
-      syncAutoFill,
       changeTmpValue,
       addSubFormItem,
       removeSubFormItem
