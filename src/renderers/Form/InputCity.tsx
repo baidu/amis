@@ -10,11 +10,11 @@ import {localeable, LocaleProps} from '../../locale';
  * City 城市选择框。
  * 文档：https://baidu.gitee.io/amis/docs/components/form/city
  */
-export interface CityControlSchema extends FormBaseControl {
+export interface InputCityControlSchema extends FormBaseControl {
   /**
    * 指定为城市选择框。
    */
-  type: 'city';
+  type: 'input-city';
 
   /**
    * 开启后只会存城市的 code 信息
@@ -53,7 +53,7 @@ export interface CityControlSchema extends FormBaseControl {
 }
 
 export interface CityPickerProps
-  extends Omit<CityControlSchema, 'type' | 'className'>,
+  extends Omit<InputCityControlSchema, 'type' | 'className'>,
     LocaleProps,
     ThemeProps {
   value: any;
@@ -451,7 +451,7 @@ export class LocationControl extends React.Component<LocationControlProps> {
 }
 
 @FormItem({
-  type: 'city',
+  type: 'input-city',
   sizeMutable: false
 })
 export class CheckboxControlRenderer extends LocationControl {}

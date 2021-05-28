@@ -14,7 +14,7 @@ import {FormItem, FormControlProps, FormBaseControl} from './Item';
  * 文档：https://baidu.gitee.io/amis/docs/components/form/repeat
  */
 export interface RepeatControlSchema extends FormBaseControl {
-  type: 'rating';
+  type: 'input-repeat';
 
   options?: string;
 }
@@ -233,7 +233,7 @@ export default class RepeatControl extends React.Component<RepeatProps, any> {
 }
 
 @FormItem({
-  type: 'repeat',
+  type: 'input-repeat',
   sizeMutable: false
 })
 export class RepeatControlRenderer extends RepeatControl {}

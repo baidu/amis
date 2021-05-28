@@ -8,7 +8,7 @@ import LocationPicker from '../../components/LocationPicker';
  * 文档：https://baidu.gitee.io/amis/docs/components/form/location
  */
 export interface LocationControlSchema extends FormBaseControl {
-  type: 'location';
+  type: 'location-picker';
 
   /**
    * 选择地图类型
@@ -51,6 +51,6 @@ export class LocationControl extends React.Component<LocationControlProps> {
 }
 
 @FormItem({
-  type: 'location'
+  type: 'location-picker'
 })
 export class LocationRenderer extends LocationControl {}

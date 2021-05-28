@@ -20,7 +20,7 @@ export interface ArrayControlSchema
   /**
    * 指定为数组输入框类型
    */
-  type: 'array';
+  type: 'input-array';
 
   /**
    * 成员渲染器配置
@@ -28,7 +28,7 @@ export interface ArrayControlSchema
   items: FormControlSchema;
 }
 
-export interface ArrayProps
+export interface InputArrayProps
   extends FormControlProps,
     Omit<
       ArrayControlSchema,
@@ -37,9 +37,9 @@ export interface ArrayProps
   store: IComboStore;
 }
 
-export default class ArrayControl extends React.Component<ArrayProps> {
+export default class InputArrayControl extends React.Component<InputArrayProps> {
   comboInstance: any;
-  constructor(props: ArrayProps) {
+  constructor(props: InputArrayProps) {
     super(props);
     this.comboRef = this.comboRef.bind(this);
   }
@@ -69,7 +69,7 @@ export default class ArrayControl extends React.Component<ArrayProps> {
 }
 
 @FormItem({
-  type: 'array',
+  type: 'input-array',
   storeType: ComboStore.name
 })
-export class ArrayControlRenderer extends ArrayControl {}
+export class ArrayControlRenderer extends InputArrayControl {}

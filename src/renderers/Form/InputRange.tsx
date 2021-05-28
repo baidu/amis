@@ -13,7 +13,7 @@ import {FormOptionsControl} from './Options';
  * 文档：https://baidu.gitee.io/amis/docs/components/form/range
  */
 export interface RangeControlSchema extends FormBaseControl {
-  type: 'range';
+  type: 'input-range';
 
   /**
    * 最大值
@@ -496,7 +496,7 @@ export default class RangeControl extends React.PureComponent<
 }
 
 @FormItem({
-  test: /(^|\/)form(?:\/.+)?\/control\/(?:\d+\/)?(slider|range)$/,
+  type: 'input-range',
   name: 'range-control'
 })
 export class RangeControlRenderer extends RangeControl {}

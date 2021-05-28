@@ -138,7 +138,7 @@ export const FormItemStore = StoreNode.named('FormItemStore')
         return getLastOptionValue();
       },
 
-      getSelectedOptions: (value: any = getValue()) => {
+      getSelectedOptions: (value: any = self.tmpValue) => {
         if (typeof value === 'undefined') {
           return [];
         }
@@ -317,7 +317,8 @@ export const FormItemStore = StoreNode.named('FormItemStore')
 
           if (
             group.items.some(
-              item => item !== self && self.value && item.value === self.value
+              item =>
+                item !== self && self.tmpValue && item.value === self.tmpValue
             )
           ) {
             addError(self.__('`当前值不唯一`'));
@@ -409,6 +410,7 @@ export const FormItemStore = StoreNode.named('FormItemStore')
             ? list
             : list[0];
 
+        // @issue 这个判断不太准确
         if (form.inited && onChange) {
           onChange(value);
         }
@@ -597,6 +599,7 @@ export const FormItemStore = StoreNode.named('FormItemStore')
       return json;
     });
 
+    // @issue 强依赖form，需要改造暂且放过。
     function syncOptions(originOptions?: Array<any>) {
       if (!self.options.length && typeof self.value === 'undefined') {
         self.selectedOptions = [];
@@ -763,7 +766,7 @@ export const FormItemStore = StoreNode.named('FormItemStore')
 
     function openDialog(
       schema: any,
-      data: any = form.data,
+      data: any,
       callback?: (ret?: any) => void
     ) {
       self.dialogSchema = schema;

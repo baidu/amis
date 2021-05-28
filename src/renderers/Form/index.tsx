@@ -16,7 +16,8 @@ import {
   isVisible,
   cloneObject,
   SkipOperation,
-  isEmpty
+  isEmpty,
+  getVariable
 } from '../../utils/helper';
 import debouce from 'lodash/debounce';
 import flatten from 'lodash/flatten';
@@ -49,7 +50,7 @@ import {
   SchemaReload
 } from '../../Schema';
 import {ActionSchema} from '../Action';
-import {ButtonGroupControlSchema} from './ButtonGroup';
+import {ButtonGroupControlSchema} from './ButtonGroupSelect';
 import {DialogSchemaBase} from '../Dialog';
 
 export interface FormSchemaHorizontal {
@@ -1353,7 +1354,11 @@ export default class Form extends React.Component<FormProps, object> {
       addHook: this.addHook,
       removeHook: this.removeHook,
       renderFormItems: this.renderFormItems,
-      formPristine: form.pristine
+      formPristine: form.pristine,
+      value: (control as any)?.name
+        ? getVariable(form.data, (control as any)?.name)
+        : (control as any)?.value,
+      defaultValue: (control as any)?.value
     };
 
     let subSchema: any = {

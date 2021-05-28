@@ -16,7 +16,7 @@ import {SchemaApi} from '../../Schema';
  * 文档：https://baidu.gitee.io/amis/docs/components/form/matrix
  */
 export interface MatrixControlSchema extends FormBaseControl {
-  type: 'matrix';
+  type: 'matrix-checkboxes';
 
   /**
    * 配置singleSelectMode时设置为false
@@ -386,7 +386,7 @@ function mergeValue(
 }
 
 @FormItem({
-  type: 'matrix',
+  type: 'matrix-checkboxes',
   strictMode: false,
   sizeMutable: false
 })

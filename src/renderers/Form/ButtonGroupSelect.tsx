@@ -19,7 +19,7 @@ import {FormBaseControl} from './Item';
 export interface ButtonGroupControlSchema
   extends ButtonGroupSchema,
     Omit<FormOptionsControl, 'size'> {
-  type: 'button-group';
+  type: 'button-group-select';
 }
 
 export interface ButtonGroupProps
@@ -156,7 +156,7 @@ export default class ButtonGroupControl extends React.Component<
 }
 
 @OptionsControl({
-  type: 'button-group',
+  type: 'button-group-select',
   sizeMutable: false,
   strictMode: false
 })

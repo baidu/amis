@@ -13,7 +13,7 @@ import {createObject, qsstringify, guid, isEmpty} from '../../utils/helper';
 import {Icon} from '../../components/icons';
 import Button from '../../components/Button';
 import accepts from 'attr-accept';
-import {getNameFromUrl} from './File';
+import {getNameFromUrl} from './InputFile';
 import ImageComponent, {ImageThumbProps} from '../Image';
 import {TranslateFn} from '../../locale';
 import {dataMapping} from '../../utils/tpl-builtin';
@@ -33,7 +33,7 @@ export interface ImageControlSchema extends FormBaseControl {
   /**
    * 指定为图片上传控件
    */
-  type: 'image';
+  type: 'input-image';
 
   /**
    * 默认展示图片的链接
@@ -1490,7 +1490,7 @@ export default class ImageControl extends React.Component<
 }
 
 @FormItem({
-  type: 'image',
+  type: 'input-image',
   sizeMutable: false
 })
 export class ImageControlRenderer extends ImageControl {}

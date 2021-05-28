@@ -16,96 +16,89 @@ import {Schema} from '../../types';
 import {filter} from '../../utils/tpl';
 import {SchemaRemark} from '../Remark';
 import {BaseSchema, SchemaClassName} from '../../Schema';
-import {TextControlSchema} from './Text';
+import {TextControlSchema} from './InputText';
 import {SelectControlSchema} from './Select';
 import {TextareaControlSchema} from './Textarea';
-import {ArrayControlSchema} from './Array';
+import {ArrayControlSchema} from './InputArray';
 import {ComboControlSchema} from './Combo';
-import {ButtonControlSchema} from './Button';
-import {ButtonGroupControlSchema} from './ButtonGroup';
-import {ButtonToolbarControlSchema} from './ButtonToolbar';
+import {ButtonGroupControlSchema} from './ButtonGroupSelect';
 import {ChainedSelectControlSchema} from './ChainedSelect';
 import {CheckboxControlSchema} from './Checkbox';
 import {CheckboxesControlSchema} from './Checkboxes';
-import {CityControlSchema} from './City';
-import {ColorControlSchema} from './Color';
+import {InputCityControlSchema} from './InputCity';
+import {InputColorControlSchema} from './InputColor';
 import {ConditionBuilderControlSchema} from './ConditionBuilder';
-import {ContainerControlSchema} from './Container';
 import {
   DateControlSchema,
   DateTimeControlSchema,
   MonthControlSchema,
   QuarterControlSchema,
   TimeControlSchema
-} from './Date';
-import {DateRangeControlSchema} from './DateRange';
+} from './InputDate';
+import {DateRangeControlSchema} from './InputDateRange';
 import {DiffControlSchema} from './DiffEditor';
 import {EditorControlSchema} from './Editor';
 import {FieldSetControlSchema} from './FieldSet';
-import {FileControlSchema} from './File';
+import {FileControlSchema} from './InputFile';
 import {FormulaControlSchema} from './Formula';
-import {GridControlSchema} from './Grid';
 import {GroupControlSchema} from './Group';
-import {HBoxControlSchema} from './HBox';
 import {HiddenControlSchema} from './Hidden';
 import {IconPickerControlSchema} from './IconPicker';
-import {ImageControlSchema} from './Image';
+import {ImageControlSchema} from './InputImage';
 import {InputGroupControlSchema} from './InputGroup';
-import {ListControlSchema} from './List';
-import {LocationControlSchema} from './Location';
-import {MatrixControlSchema} from './Matrix';
+import {ListControlSchema} from './ListSelect';
+import {LocationControlSchema} from './LocationPicker';
+import {MatrixControlSchema} from './MatrixCheckboxes';
 import {NestedSelectControlSchema} from './NestedSelect';
-import {NumberControlSchema} from './Number';
-import {PanelControlSchema} from './Panel';
+import {NumberControlSchema} from './InputNumber';
 import {PickerControlSchema} from './Picker';
 import {RadiosControlSchema} from './Radios';
-import {RangeControlSchema} from './Range';
-import {RatingControlSchema} from './Rating';
-import {RepeatControlSchema} from './Repeat';
-import {RichTextControlSchema} from './RichText';
-import {ServiceControlSchema} from './Service';
+import {RangeControlSchema} from './InputRange';
+import {RatingControlSchema} from './InputRating';
+import {RepeatControlSchema} from './InputRepeat';
+import {RichTextControlSchema} from './InputRichText';
 import {StaticControlRestSchema, StaticControlSchema} from './Static';
-import {SubFormControlSchema} from './SubForm';
+import {SubFormControlSchema} from './InputSubForm';
 import {SwitchControlSchema} from './Switch';
-import {TableControlSchema} from './Table';
-import {TabsControlSchema} from './Tabs';
+import {TableControlSchema} from './InputTable';
 import {TabsTransferControlSchema} from './TabsTransfer';
-import {TagControlSchema} from './Tag';
+import {TagControlSchema} from './InputTag';
 import {TransferControlSchema} from './Transfer';
-import {TreeControlSchema} from './Tree';
+import {TreeControlSchema} from './InputTree';
 import {TreeSelectControlSchema} from './TreeSelect';
 import {UUIDControlSchema} from './UUID';
 import {PlainSchema} from '../Plain';
 import {TplSchema} from '../Tpl';
 import {DividerSchema} from '../Divider';
 import {HocStoreFactory} from '../../WithStore';
-import {MonthRangeControlSchema} from './MonthRange';
-import {AnchorNavControlSchema} from './AnchorNav';
+import {MonthRangeControlSchema} from './InputMonthRange';
 import {warpControl} from './Control';
 
 export type FormControlType =
-  | 'array'
+  | 'control'
+  | 'input-array'
   | 'button'
   | 'submit'
   | 'reset'
-  | 'button-group'
+  | 'button-group-select'
   | 'button-toolbar'
   | 'chained-select'
   | 'chart-radios'
   | 'checkbox'
   | 'checkboxes'
-  | 'city'
-  | 'color'
+  | 'input-city'
+  | 'input-color'
   | 'combo'
   | 'condition-builder'
   | 'container'
-  | 'date'
-  | 'datetime'
-  | 'time'
-  | 'quarter'
-  | 'month'
-  | 'date-range'
-  | 'diff'
+  | 'input-date'
+  | 'input-datetime'
+  | 'input-time'
+  | 'input-quarter'
+  | 'input-year'
+  | 'input-month'
+  | 'input-date-range'
+  | 'diff-editor'
 
   // editor 系列
   | 'editor'
@@ -151,46 +144,46 @@ export type FormControlType =
   //
   | 'fieldset'
   | 'fieldSet'
-  | 'file'
+  | 'input-file'
   | 'formula'
   | 'grid'
   | 'group'
   | 'hbox'
   | 'hidden'
   | 'icon-picker'
-  | 'image'
+  | 'input-image'
   | 'input-group'
-  | 'list'
-  | 'location'
-  | 'matrix'
-  | 'month-range'
+  | 'list-select'
+  | 'location-picker'
+  | 'matrix-checkboxes'
+  | 'input-month-range'
   | 'nested-select'
-  | 'number'
+  | 'input-number'
   | 'panel'
   | 'picker'
   | 'radios'
-  | 'range'
-  | 'rating'
-  | 'repeat'
-  | 'rich-text'
+  | 'input-range'
+  | 'input-rating'
+  | 'input-repeat'
+  | 'input-rich-text'
   | 'select'
   | 'service'
   | 'static'
-  | 'form'
+  | 'input-sub-form'
   | 'switch'
-  | 'table'
+  | 'input-table'
   | 'tabs'
   | 'tabs-transfer'
-  | 'tag'
-  | 'text'
-  | 'password'
-  | 'email'
-  | 'url'
+  | 'input-tag'
+  | 'input-text'
+  | 'input-password'
+  | 'input-email'
+  | 'input-url'
   | 'uuid'
   | 'multi-select'
   | 'textarea'
   | 'transfer'
-  | 'tree'
+  | 'input-tree'
   | 'tree-select'
 
   // 非表单项但是也可以放进来
@@ -207,17 +200,14 @@ export type FormControlType =
 
 export type FormControlSchema =
   | ArrayControlSchema
-  | ButtonControlSchema
   | ButtonGroupControlSchema
-  | ButtonToolbarControlSchema
   | ChainedSelectControlSchema
   | CheckboxControlSchema
   | CheckboxesControlSchema
-  | CityControlSchema
-  | ColorControlSchema
+  | InputCityControlSchema
+  | InputColorControlSchema
   | ComboControlSchema
   | ConditionBuilderControlSchema
-  | ContainerControlSchema
   | DateControlSchema
   | DateTimeControlSchema
   | TimeControlSchema
@@ -230,9 +220,7 @@ export type FormControlSchema =
   | FieldSetControlSchema
   | FileControlSchema
   | FormulaControlSchema
-  | GridControlSchema
   | GroupControlSchema
-  | HBoxControlSchema
   | HiddenControlSchema
   | IconPickerControlSchema
   | ImageControlSchema
@@ -244,7 +232,6 @@ export type FormControlSchema =
   | MonthRangeControlSchema
   | NestedSelectControlSchema
   | NumberControlSchema
-  | PanelControlSchema
   | PickerControlSchema
   | RadiosControlSchema
   | RangeControlSchema
@@ -252,13 +239,11 @@ export type FormControlSchema =
   | RichTextControlSchema
   | RepeatControlSchema
   | SelectControlSchema
-  | ServiceControlSchema
   | SubFormControlSchema
   | SwitchControlSchema
   | StaticControlSchema
   | StaticControlRestSchema
   | TableControlSchema
-  | TabsControlSchema
   | TabsTransferControlSchema
   | TagControlSchema
   | TextControlSchema
@@ -266,7 +251,6 @@ export type FormControlSchema =
   | TransferControlSchema
   | TreeControlSchema
   | TreeSelectControlSchema
-  | AnchorNavControlSchema
 
   // 非表单项，但是也可以放进来。
   | DividerSchema;
@@ -1419,8 +1403,7 @@ export function registerFormItem(config: FormItemConfig): RendererConfig {
     ...config,
     name: config.name || `${config.type}-control`,
     weight: typeof config.weight !== 'undefined' ? config.weight : -100, // 优先级高点
-    test: config.test || new RegExp(`(^|\/)input\-${config.type}$`, 'i'),
-    component: Control,
+    component: Control as any,
     isFormItem: true
   });
 }

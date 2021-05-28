@@ -15,7 +15,7 @@ import {SchemaClassName, SchemaCollection} from '../../Schema';
  * 文档：https://baidu.gitee.io/amis/docs/components/form/list
  */
 export interface ListControlSchema extends FormOptionsControl {
-  type: 'list';
+  type: 'list-select';
 
   /**
    * 开启双击点选并提交。
@@ -164,7 +164,7 @@ export default class ListControl extends React.Component<ListProps, any> {
 }
 
 @OptionsControl({
-  type: 'list',
+  type: 'list-select',
   sizeMutable: false
 })
 export class ListControlRenderer extends ListControl {}

@@ -20,8 +20,10 @@ import {Icon} from '../../components/icons';
 import {TableSchema} from '../Table';
 import {SchemaApi} from '../../Schema';
 
-export interface TableControlSchema extends FormBaseControl, TableSchema {
-  type: 'table';
+export interface TableControlSchema
+  extends FormBaseControl,
+    Omit<TableSchema, 'type'> {
+  type: 'input-table';
 
   /**
    * 可新增
@@ -836,7 +838,7 @@ export default class FormTable extends React.Component<TableProps, TableState> {
 }
 
 @FormItem({
-  test: /(^|\/)form(?:\/.+)?\/control\/table$/,
+  type: 'input-table',
   name: 'table-control'
 })
 export class TableControlRenderer extends FormTable {}

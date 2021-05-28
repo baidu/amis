@@ -10,11 +10,11 @@ export const ColorPicker = React.lazy(
  * Color 颜色选择框
  * 文档：https://baidu.gitee.io/amis/docs/components/form/color
  */
-export interface ColorControlSchema extends FormBaseControl {
+export interface InputColorControlSchema extends FormBaseControl {
   /**
    * 指定为颜色选择框
    */
-  type: 'color';
+  type: 'input-color';
 
   /**
    * 是否显示清除按钮
@@ -45,7 +45,7 @@ export interface ColorControlSchema extends FormBaseControl {
 export interface ColorProps
   extends FormControlProps,
     Omit<
-      ColorControlSchema,
+      InputColorControlSchema,
       'type' | 'className' | 'descriptionClassName' | 'inputClassName'
     > {}
 
@@ -79,6 +79,6 @@ export default class ColorControl extends React.PureComponent<
 }
 
 @FormItem({
-  type: 'color'
+  type: 'input-color'
 })
 export class ColorControlRenderer extends ColorControl {}

@@ -10,7 +10,7 @@ import {FormOptionsControl} from './Options';
  * 文档：https://baidu.gitee.io/amis/docs/components/form/number
  */
 export interface NumberControlSchema extends FormBaseControl {
-  type: 'number';
+  type: 'input-number';
 
   /**
    * 最大值
@@ -116,7 +116,7 @@ export default class NumberControl extends React.Component<NumberProps, any> {
 }
 
 @FormItem({
-  type: 'number'
+  type: 'input-number'
 })
 export class NumberControlRenderer extends NumberControl {
   static defaultProps: Partial<FormControlProps> = {

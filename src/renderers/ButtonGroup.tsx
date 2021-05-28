@@ -1,5 +1,5 @@
 import React from 'react';
-import ButtonGroup from './Form/ButtonGroup';
+import ButtonGroup from './Form/ButtonGroupSelect';
 import {Renderer} from '../factory';
 import {BaseSchema, SchemaClassName, SchemaExpression} from '../Schema';
 import {ActionSchema} from './Action';

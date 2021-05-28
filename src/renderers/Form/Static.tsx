@@ -108,7 +108,19 @@ export default class StaticControl extends React.Component<StaticProps, any> {
 
     return (
       <div className={cx('Form-static')}>
-        {render(
+        <StaticFieldRenderer
+          {...{
+            ...(rest as any),
+            render,
+            field,
+            value,
+            className,
+            onQuickChange: this.handleQuickChange,
+            data,
+            classnames: cx
+          }}
+        />
+        {/* {render(
           'field',
           {
             ...field,
@@ -120,29 +132,14 @@ export default class StaticControl extends React.Component<StaticProps, any> {
             className,
             onQuickChange: this.handleQuickChange
           }
-        )}
+        )} */}
       </div>
     );
   }
 }
 
 @FormItem({
-  test: (path, schema, resolveRenderer) => {
-    if (/(^|\/)form(?:\/.+)?\/control\/static(\-[^\/]+)?$/.test(path)) {
-      return true;
-    } else if (
-      /(^|\/)form(?:\/.+)?\/control\/[^\/]+$/.test(path) &&
-      schema &&
-      schema.type &&
-      (schema.name || schema.label) &&
-      resolveRenderer &&
-      resolveRenderer(`${path}/static-field/${schema.type}`)
-    ) {
-      // 不一定
-      return true;
-    }
-    return false;
-  },
+  test: /(^|\/)static(\-[^\/]+)?$/,
   weight: -90,
   strictMode: false,
   sizeMutable: false,
@@ -150,9 +147,6 @@ export default class StaticControl extends React.Component<StaticProps, any> {
 })
 export class StaticControlRenderer extends StaticControl {}
 
-@Renderer({
-  test: /(^|\/)static\-field$/
-})
 @QuickEdit()
 @PopOver({
   position: 'right'

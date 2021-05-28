@@ -20,7 +20,7 @@ import ListMenu from '../../components/ListMenu';
  * 文档：https://baidu.gitee.io/amis/docs/components/form/tag
  */
 export interface TagControlSchema extends FormOptionsControl {
-  type: 'tag';
+  type: 'input-tag';
 
   /**
    * 选项提示信息
@@ -398,6 +398,6 @@ export default class TagControl extends React.PureComponent<
 }
 
 @OptionsControl({
-  type: 'tag'
+  type: 'input-tag'
 })
 export class TagControlRenderer extends TagControl {}

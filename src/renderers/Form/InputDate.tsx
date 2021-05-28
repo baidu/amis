@@ -6,11 +6,16 @@ import moment from 'moment';
 import 'moment/locale/zh-cn';
 import DatePicker from '../../components/DatePicker';
 
-export interface DateBaseControlSchema extends FormBaseControl {
+export interface InputDateBaseControlSchema extends FormBaseControl {
   /**
    * 指定为日期选择控件
    */
-  type: 'date' | 'datetime' | 'time' | 'month' | 'quarter';
+  type:
+    | 'input-date'
+    | 'input-datetime'
+    | 'input-time'
+    | 'input-month'
+    | 'input-quarter';
 
   /**
    * 是否显示清除按钮
@@ -42,11 +47,11 @@ export interface DateBaseControlSchema extends FormBaseControl {
  * Date日期选择控件
  * 文档：https://baidu.gitee.io/amis/docs/components/form/date
  */
-export interface DateControlSchema extends DateBaseControlSchema {
+export interface DateControlSchema extends InputDateBaseControlSchema {
   /**
    * 指定为日期选择控件
    */
-  type: 'date';
+  type: 'input-date';
 
   /**
    * 日期存储格式
@@ -80,11 +85,11 @@ export interface DateControlSchema extends DateBaseControlSchema {
  * Datetime日期时间选择控件
  * 文档：https://baidu.gitee.io/amis/docs/components/form/datetime
  */
-export interface DateTimeControlSchema extends DateBaseControlSchema {
+export interface DateTimeControlSchema extends InputDateBaseControlSchema {
   /**
    * 指定为日期时间选择控件
    */
-  type: 'datetime';
+  type: 'input-datetime';
 
   /**
    * 日期存储格式
@@ -125,11 +130,11 @@ export interface DateTimeControlSchema extends DateBaseControlSchema {
  * Time 时间选择控件
  * 文档：https://baidu.gitee.io/amis/docs/components/form/time
  */
-export interface TimeControlSchema extends DateBaseControlSchema {
+export interface TimeControlSchema extends InputDateBaseControlSchema {
   /**
    * 指定为日期时间选择控件
    */
-  type: 'time';
+  type: 'input-time';
 
   /**
    * 日期存储格式
@@ -160,11 +165,11 @@ export interface TimeControlSchema extends DateBaseControlSchema {
  * Month 月份选择控件
  * 文档：https://baidu.gitee.io/amis/docs/components/form/Month
  */
-export interface MonthControlSchema extends DateBaseControlSchema {
+export interface MonthControlSchema extends InputDateBaseControlSchema {
   /**
    * 指定为月份时间选择控件
    */
-  type: 'month';
+  type: 'input-month';
 
   /**
    * 月份存储格式
@@ -182,11 +187,11 @@ export interface MonthControlSchema extends DateBaseControlSchema {
 /**
  * 季度选择控件
  */
-export interface QuarterControlSchema extends DateBaseControlSchema {
+export interface QuarterControlSchema extends InputDateBaseControlSchema {
   /**
    * 指定为月份时间选择控件
    */
-  type: 'quarter';
+  type: 'input-quarter';
 
   /**
    * 月份存储格式
@@ -337,7 +342,7 @@ export default class DateControl extends React.PureComponent<
 }
 
 @FormItem({
-  type: 'date',
+  type: 'input-date',
   weight: -150
 })
 export class DateControlRenderer extends DateControl {
@@ -351,7 +356,7 @@ export class DateControlRenderer extends DateControl {
 }
 
 @FormItem({
-  type: 'datetime'
+  type: 'input-datetime'
 })
 export class DatetimeControlRenderer extends DateControl {
   static defaultProps = {
@@ -366,7 +371,7 @@ export class DatetimeControlRenderer extends DateControl {
 }
 
 @FormItem({
-  type: 'time'
+  type: 'input-time'
 })
 export class TimeControlRenderer extends DateControl {
   static defaultProps = {
@@ -381,7 +386,7 @@ export class TimeControlRenderer extends DateControl {
 }
 
 @FormItem({
-  type: 'month'
+  type: 'input-month'
 })
 export class MonthControlRenderer extends DateControl {
   static defaultProps = {
@@ -396,7 +401,7 @@ export class MonthControlRenderer extends DateControl {
 }
 
 @FormItem({
-  type: 'quarter'
+  type: 'input-quarter'
 })
 export class QuarterControlRenderer extends DateControl {
   static defaultProps = {
@@ -411,7 +416,7 @@ export class QuarterControlRenderer extends DateControl {
 }
 
 @FormItem({
-  type: 'year'
+  type: 'input-year'
 })
 export class YearControlRenderer extends DateControl {
   static defaultProps = {

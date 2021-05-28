@@ -6,7 +6,7 @@ import find from 'lodash/find';
 import isPlainObject from 'lodash/isPlainObject';
 // @ts-ignore
 import mapLimit from 'async/mapLimit';
-import ImageControl from './Image';
+import ImageControl from './InputImage';
 import {Payload, ApiObject, ApiString} from '../../types';
 import {filter} from '../../utils/tpl';
 import Alert from '../../components/Alert2';
@@ -31,7 +31,7 @@ export interface FileControlSchema extends FormBaseControl {
   /**
    * 指定为文件上传
    */
-  type: 'file';
+  type: 'input-file';
 
   /**
    * 上传文件按钮说明
@@ -1308,7 +1308,7 @@ export default class FileControl extends React.Component<FileProps, FileState> {
 }
 
 @FormItem({
-  type: 'file',
+  type: 'input-file',
   sizeMutable: false,
   renderDescription: false
 })

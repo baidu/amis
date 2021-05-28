@@ -14,7 +14,7 @@ import {SchemaApi} from '../../Schema';
  * 文档：https://baidu.gitee.io/amis/docs/components/form/tree
  */
 export interface TreeControlSchema extends FormOptionsControl {
-  type: 'tree';
+  type: 'input-tree';
 
   /**
    * 是否隐藏顶级
@@ -182,6 +182,6 @@ export default class TreeControl extends React.Component<TreeProps> {
 }
 
 @OptionsControl({
-  type: 'tree'
+  type: 'input-tree'
 })
 export class TreeControlRenderer extends TreeControl {}

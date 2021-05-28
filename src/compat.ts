@@ -7,15 +7,13 @@ import {RendererProps, RendererConfig, addSchemaFilter} from './factory';
 import {CheckboxControlRenderer} from './renderers/Form/Checkbox';
 import {FormRenderer} from './renderers/Form/index';
 import {FieldSetRenderer} from './renderers/Form/FieldSet';
-import {TabsRenderer} from './renderers/Form/Tabs';
 import {CardRenderer} from './renderers/Card';
 import {ListItemRenderer} from './renderers/List';
-import {ButtonGroupControlRenderer} from './renderers/Form/ButtonGroup';
+import {ButtonGroupControlRenderer} from './renderers/Form/ButtonGroupSelect';
 import {getLevelFromClassName} from './utils/helper';
-import {ServiceRenderer} from './renderers/Form/Service';
-import {FileControlRenderer} from './renderers/Form/File';
-import {ImageControlRenderer} from './renderers/Form/Image';
-import {RichTextControlRenderer} from './renderers/Form/RichText';
+import {FileControlRenderer} from './renderers/Form/InputFile';
+import {ImageControlRenderer} from './renderers/Form/InputImage';
+import {RichTextControlRenderer} from './renderers/Form/InputRichText';
 
 // 兼容老的用法，老用法 label 用在 checkbox 的右侧内容，新用法用 option 来代替。
 addSchemaFilter(function CheckboxPropsFilter(schema: Schema, renderer) {
@@ -161,51 +159,6 @@ addSchemaFilter(function FormPropsFilter(schema: Schema, renderer) {
 });
 
 // Form 里面的 Tabs 中把 controls 里面的数组用法转成 {type: 'group', controls: []}
-addSchemaFilter(function FormPropsFilter(schema: Schema, renderer) {
-  if (renderer.component !== TabsRenderer) {
-    return schema;
-  }
-
-  if (Array.isArray(schema.tabs)) {
-    let flag = false;
-    let converted = schema.tabs.map((tab: any) => {
-      let flag2 = false;
-      let converted = (tab.controls || []).map((control: any) => {
-        if (Array.isArray(control)) {
-          let converted = convertFieldSetTabs2Controls({
-            type: 'group',
-            controls: control
-          });
-
-          if (converted !== control) {
-            flag2 = true;
-          }
-          return converted;
-        }
-        return control;
-      });
-
-      if (flag2) {
-        flag = true;
-        tab = {
-          ...tab,
-          controls: converted
-        };
-      }
-
-      return tab;
-    });
-
-    if (flag) {
-      schema = {
-        ...schema,
-        tabs: converted
-      };
-    }
-  }
-
-  return schema;
-});
 
 function convertArray2Hbox(arr: Array<any>): any {
   let flag = false;
@@ -304,23 +257,6 @@ addSchemaFilter(function (scheam: Schema, renderer) {
   return scheam;
 });
 
-// FieldSet  className 定制样式方式改成 size 来配置
-addSchemaFilter(function (scheam: Schema, renderer) {
-  if (renderer.component !== ServiceRenderer) {
-    return scheam;
-  }
-
-  if (scheam.body && scheam.body.controls) {
-    scheam = {
-      ...scheam,
-      controls: scheam.body.controls
-    };
-    delete scheam.body;
-  }
-
-  return scheam;
-});
-
 // 原 reciever 错别字改为 receiver
 addSchemaFilter(function (scheam: Schema, renderer) {
   if (
@@ -350,10 +286,103 @@ addSchemaFilter(function (scheam: Schema, renderer) {
   return scheam;
 });
 
-function maybeFormItem(type?: string): boolean {
-  return !~['container', 'group', 'hbox', 'panel', 'service', 'tabs'].indexOf(
-    type || ''
-  );
+const controlMapping: any = {
+  'array': 'input-array',
+  'button-group': 'button-group-select',
+  'city': 'input-city',
+  'color': 'input-color',
+  'date': 'input-date',
+  'datetime': 'input-datetime',
+  'time': 'input-time',
+  'quarter': 'input-quarter',
+  'month': 'input-month',
+  'year': 'input-year',
+  'date-range': 'input-date-range',
+  'datetime-range': 'input-datetime-range',
+  'diff': 'diff-editor',
+  'file': 'input-file',
+  'image': 'input-image',
+  'list': 'list-select',
+  'location': 'location-picker',
+  'matrix': 'matrix-checkboxes',
+  'month-range': 'input-month-range',
+  'number': 'input-number',
+  'range': 'input-range',
+  'rating': 'input-rating',
+  'repeat': 'input-repeat',
+  'rich-text': 'input-rich-text',
+  'form': 'input-sub-form',
+  'table': 'input-table',
+  'tag': 'input-tag',
+  'text': 'input-text',
+  'url': 'input-url',
+  'password': 'input-password',
+  'email': 'input-email',
+  'tree': 'input-tree',
+  'progress': 'static-progress',
+  'mapping': 'static-mapping'
+};
+
+const maybeFormItem = [
+  'button',
+  'submit',
+  'reset',
+  'button-group',
+  'button-toolbar',
+  'container',
+  'grid',
+  'hbox',
+  'panel',
+  'service',
+  'tabs',
+  'anchor-nav'
+];
+
+function wrapControl(item: any) {
+  if (!item || !item.type) {
+    return item;
+  }
+
+  let {
+    label,
+    description,
+    name,
+    required,
+    remark,
+    inputOnly,
+    labelClassName,
+    caption,
+    labelRemark,
+    descriptionClassName,
+    captionClassName,
+    hint,
+    showErrorMsg,
+    ...rest
+  } = item;
+
+  // 如果是按钮
+  if (~['button', 'submit', 'reset'].indexOf(rest.type)) {
+    rest.label = label;
+    label = '';
+  }
+
+  return {
+    type: 'control',
+    label,
+    description,
+    name,
+    required,
+    remark,
+    inputOnly,
+    labelClassName,
+    caption,
+    labelRemark,
+    descriptionClassName,
+    captionClassName,
+    hint,
+    showErrorMsg,
+    control: rest
+  };
 }
 
 addSchemaFilter(function (schema: Schema) {
@@ -362,11 +391,13 @@ addSchemaFilter(function (schema: Schema) {
     schema = {
       ...schema,
       body: schema?.controls.map(item =>
-        item && !/^input\-/.test(item?.type) && maybeFormItem(item?.type)
+        item && controlMapping[item.type]
           ? {
               ...item,
-              type: `input-${item?.type}`
+              type: controlMapping[item.type]
             }
+          : ~maybeFormItem.indexOf(item?.type)
+          ? wrapControl(item)
           : item
       )
     };

@@ -2,23 +2,20 @@ import React from 'react';
 import {FormItem, FormControlProps, FormBaseControl} from './Item';
 import cx from 'classnames';
 import {filterDate, parseDuration} from '../../utils/tpl-builtin';
-import moment from 'moment';
 import 'moment/locale/zh-cn';
 import DateRangePicker, {
   DateRangePicker as BaseDateRangePicker
 } from '../../components/DateRangePicker';
-import {anyChanged} from '../../utils/helper';
-import MonthRangePicker from '../../components/MonthRangePicker';
 
 /**
- * MonthRange 月范围控件
- * 文档：https://baidu.gitee.io/amis/docs/components/form/month-range
+ * DateRange 日期范围控件
+ * 文档：https://baidu.gitee.io/amis/docs/components/form/date-range
  */
-export interface MonthRangeControlSchema extends FormBaseControl {
+export interface DateRangeControlSchema extends FormBaseControl {
   /**
    * 指定为日期范围控件
    */
-  type: 'month-range';
+  type: 'input-date-range';
 
   /**
    * 分割符, 因为有两个值，开始时间和结束时间，所以要有连接符。默认为英文逗号。
@@ -32,7 +29,7 @@ export interface MonthRangeControlSchema extends FormBaseControl {
   format?: string;
 
   /**
-   * 默认 `YYYY-MM` 用来配置显示的时间格式。
+   * 默认 `YYYY-MM-DD` 用来配置显示的时间格式。
    */
   inputFormat?: string;
 
@@ -72,10 +69,10 @@ export interface MonthRangeControlSchema extends FormBaseControl {
   embed?: boolean;
 }
 
-export interface MonthRangeProps
+export interface DateRangeProps
   extends FormControlProps,
     Omit<
-      MonthRangeControlSchema,
+      DateRangeControlSchema,
       'type' | 'className' | 'descriptionClassName' | 'inputClassName'
     > {
   delimiter: string;
@@ -83,7 +80,7 @@ export interface MonthRangeProps
   joinValues: boolean;
 }
 
-export default class MonthRangeControl extends React.Component<MonthRangeProps> {
+export default class DateRangeControl extends React.Component<DateRangeProps> {
   static defaultProps = {
     format: 'X',
     joinValues: true,
@@ -122,7 +119,7 @@ export default class MonthRangeControl extends React.Component<MonthRangeProps> 
     }
   }
 
-  componentDidUpdate(prevProps: MonthRangeProps) {
+  componentDidUpdate(prevProps: DateRangeProps) {
     const {
       defaultValue,
       delimiter,
@@ -173,7 +170,7 @@ export default class MonthRangeControl extends React.Component<MonthRangeProps> 
 
     return (
       <div className={cx(`${ns}DateRangeControl`, className)}>
-        <MonthRangePicker
+        <DateRangePicker
           {...rest}
           classPrefix={ns}
           data={data}
@@ -189,11 +186,23 @@ export default class MonthRangeControl extends React.Component<MonthRangeProps> 
 }
 
 @FormItem({
-  type: 'month-range'
+  type: 'input-date-range'
 })
-export class MonthRangeControlRenderer extends MonthRangeControl {
+export class DateRangeControlRenderer extends DateRangeControl {
   static defaultProps = {
-    ...MonthRangeControl.defaultProps,
+    ...DateRangeControl.defaultProps,
     timeFormat: ''
+  };
+}
+
+@FormItem({
+  type: 'input-datetime-range',
+  sizeMutable: false
+})
+export class DateTimeRangeControlRenderer extends DateRangeControl {
+  static defaultProps = {
+    ...DateRangeControl.defaultProps,
+    timeFormat: 'HH:mm',
+    inputFormat: 'YYYY-MM-DD HH:mm'
   };
 }

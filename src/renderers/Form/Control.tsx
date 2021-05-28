@@ -9,7 +9,8 @@ import {
   promisify,
   isObject,
   guid,
-  isEmpty
+  isEmpty,
+  autobind
 } from '../../utils/helper';
 import {IIRendererStore, IRendererStore} from '../../store';
 import {ScopedContext, IScopedContext} from '../../Scoped';
@@ -19,6 +20,7 @@ import {isAlive} from 'mobx-state-tree';
 import {observer} from 'mobx-react';
 import hoistNonReactStatic from 'hoist-non-react-statics';
 import {withRootStore} from '../../WithRootStore';
+import {FormBaseControl, FormItemWrap} from './Item';
 
 export interface ControlOutterProps extends RendererProps {
   formStore?: IFormStore;
@@ -100,6 +102,7 @@ export function warpControl<
               rootStore,
               store,
               onChange,
+              value: propValue,
               $schema: {
                 name,
                 id,
@@ -174,7 +177,7 @@ export function warpControl<
             }
 
             // 同步 value
-            model.changeTmpValue(model.value);
+            model.changeTmpValue(propValue);
           }
 
           componentDidMount() {
@@ -397,7 +400,8 @@ export function warpControl<
                 pipeOut,
                 changeImmediately: conrolChangeImmediately
               },
-              formInited
+              formInited,
+              data
             } = this.props;
 
             if (
@@ -418,7 +422,7 @@ export function warpControl<
 
             if (pipeOut) {
               const oldValue = this.model.value;
-              value = pipeOut(value, oldValue, form?.data);
+              value = pipeOut(value, oldValue, data);
             }
 
             this.model.changeTmpValue(value);
@@ -449,9 +453,8 @@ export function warpControl<
               return;
             }
 
-            onFormItemChange &&
-              onFormItemChange(value, oldValue, this.model, form);
-            onChange && onChange(value, name!, submitOnChange === true);
+            onFormItemChange?.(value, oldValue, this.model, form);
+            onChange?.(value, name!, submitOnChange === true);
           }
 
           handleBlur(e: any) {
@@ -477,22 +480,23 @@ export function warpControl<
               name,
               $schema: {pipeOut},
               onChange,
-              value: oldValue
+              value: oldValue,
+              data
             } = this.props;
 
             if (pipeOut) {
-              value = pipeOut(value, oldValue, form?.data);
+              value = pipeOut(value, oldValue, data);
             }
 
             onChange?.(value, name!, false, true);
           }
 
           getValue() {
-            const {formStore: form, $schema: control} = this.props;
+            const {formStore: data, $schema: control} = this.props;
             let value: any = this.model ? this.model.tmpValue : control.value;
 
             if (control.pipeIn) {
-              value = control.pipeIn(value, form?.data);
+              value = control.pipeIn(value, data);
             }
 
             return value;
@@ -532,7 +536,6 @@ export function warpControl<
               formItem: this.model,
               formMode: control.mode || formMode,
               ref: this.controlRef,
-              defaultValue: control.value,
               data: store ? store.data : data,
               value,
               formItemValue: value, // 为了兼容老版本的自定义组件
@@ -564,4 +567,43 @@ export function warpControl<
   return result as typeof result & {
     ComposedComponent: T;
   };
+}
+
+/**
+ * Group 表单集合渲染器，能让多个表单在一行显示
+ * 文档：https://baidu.gitee.io/amis/docs/components/form/group
+ */
+export interface GroupControlSchema extends FormBaseControl {
+  type: 'control';
+
+  /**
+   * FormItem 集合
+   */
+  control: FormBaseControl;
+}
+
+@Renderer({
+  type: 'control',
+  name: 'control'
+})
+export class ControlRenderer extends React.Component<RendererProps> {
+  @autobind
+  renderInput() {
+    const {render, control} = this.props;
+
+    return render('inner', control);
+  }
+
+  render() {
+    const {render, label, control, ...rest} = this.props;
+    return (
+      <FormItemWrap
+        {...(rest as any)}
+        render={render}
+        sizeMutable={false}
+        label={label}
+        renderControl={this.renderInput}
+      />
+    );
+  }
 }

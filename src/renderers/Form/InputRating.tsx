@@ -7,7 +7,7 @@ import Rating from '../../components/Rating';
  * 文档：https://baidu.gitee.io/amis/docs/components/form/rating
  */
 export interface RatingControlSchema extends FormBaseControl {
-  type: 'rating';
+  type: 'input-rating';
 
   /**
    * 分数
@@ -65,7 +65,7 @@ export default class RatingControl extends React.Component<RatingProps, any> {
 }
 
 @FormItem({
-  type: 'rating',
+  type: 'input-rating',
   sizeMutable: false
 })
 export class RatingControlRenderer extends RatingControl {}

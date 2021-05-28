@@ -9,7 +9,7 @@ import {tokenize} from '../../utils/tpl-builtin';
  * 文档：https://baidu.gitee.io/amis/docs/components/form/rich-text
  */
 export interface RichTextControlSchema extends FormBaseControl {
-  type: 'rich-text';
+  type: 'input-rich-text';
 
   vendor?: 'froala' | 'tinymce';
 
@@ -274,7 +274,7 @@ export default class RichTextControl extends React.Component<
 }
 
 @FormItem({
-  type: 'rich-text',
+  type: 'input-rich-text',
   sizeMutable: false
 })
 export class RichTextControlRenderer extends RichTextControl {}

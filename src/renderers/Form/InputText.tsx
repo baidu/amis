@@ -30,10 +30,10 @@ import {generateIcon} from '../../utils/icon';
  */
 export interface TextControlSchema extends FormOptionsControl {
   type:
-    | 'text'
-    | 'email'
-    | 'url'
-    | 'password'
+    | 'input-text'
+    | 'input-email'
+    | 'input-url'
+    | 'input-password'
     | 'native-date'
     | 'native-time'
     | 'native-number';
@@ -765,23 +765,23 @@ export function mapItemIndex(
 }
 
 @OptionsControl({
-  type: 'text'
+  type: 'input-text'
 })
 export class TextControlRenderer extends TextControl {}
 
 @OptionsControl({
-  type: 'password'
+  type: 'input-password'
 })
 export class PasswordControlRenderer extends TextControl {}
 
 @OptionsControl({
-  type: 'email',
+  type: 'input-email',
   validations: 'isEmail'
 })
 export class EmailControlRenderer extends TextControl {}
 
 @OptionsControl({
-  type: 'url',
+  type: 'input-url',
   validations: 'isUrl'
 })
 export class UrlControlRenderer extends TextControl {}

@@ -31,7 +31,8 @@ export interface TestFunc {
 }
 
 export interface RendererBasicConfig {
-  test: RegExp | TestFunc;
+  test?: RegExp | TestFunc;
+  type?: string;
   name?: string;
   storeType?: string;
   shouldSyncSuperStore?: (
@@ -150,12 +151,13 @@ export function Renderer(config: RendererBasicConfig) {
 }
 
 export function registerRenderer(config: RendererConfig): RendererConfig {
-  if (!config.test) {
-    throw new TypeError('config.test is required');
+  if (!config.test && !config.type) {
+    throw new TypeError('please set config.test or config.type');
   } else if (!config.component) {
     throw new TypeError('config.component is required');
   }
 
+  config.test = config.test || new RegExp(`(^|\/)${config.type}$`, 'i');
   config.weight = config.weight || 0;
   config.Renderer = config.component;
   config.name = config.name || `anonymous-${anonymousIndex++}`;

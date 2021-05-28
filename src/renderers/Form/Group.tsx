@@ -33,7 +33,7 @@ export interface GroupControlSchema extends FormBaseControl {
   /**
    * FormItem 集合
    */
-  controls: Array<GroupSubControl>;
+  body: Array<GroupSubControl>;
 
   /**
    * 子表单项默认的展示模式
@@ -56,7 +56,7 @@ export interface InputGroupProps
     Omit<GroupControlSchema, 'type' | 'className'> {}
 
 @Renderer({
-  test: /(^|\/)form(?:\/.+)?\/control\/(?:\d+\/)?group$/,
+  type: 'group',
   name: 'group-control'
 })
 export class ControlGroupRenderer extends React.Component<InputGroupProps> {
@@ -72,25 +72,7 @@ export class ControlGroupRenderer extends React.Component<InputGroupProps> {
       return null;
     }
 
-    const subSchema: any =
-      control && (control as Schema).type === 'control'
-        ? control
-        : {
-            type: 'control',
-            control
-          };
-
-    if (subSchema.control) {
-      let control = subSchema.control as Schema;
-
-      control = subSchema.control = {
-        ...control,
-        ...getExprProperties(control, data)
-      };
-
-      control.hiddenOn && (subSchema.hiddenOn = control.hiddenOn);
-      control.visibleOn && (subSchema.visibleOn = control.visibleOn);
-    }
+    const subSchema: any = control;
 
     return render(`${index}`, subSchema, {
       ...otherProps,
@@ -99,8 +81,12 @@ export class ControlGroupRenderer extends React.Component<InputGroupProps> {
   }
 
   renderVertical(props = this.props) {
-    let {controls, className, classnames: cx, mode, formMode, data} = props;
+    let {body, className, classnames: cx, mode, formMode, data} = props;
     formMode = mode || formMode;
+
+    if (!Array.isArray(body)) {
+      return null;
+    }
 
     return (
       <div
@@ -109,7 +95,7 @@ export class ControlGroupRenderer extends React.Component<InputGroupProps> {
           className
         )}
       >
-        {controls.map((control, index) => {
+        {body.map((control, index) => {
           if (!isVisible(control, data)) {
             return null;
           }
@@ -127,7 +113,7 @@ export class ControlGroupRenderer extends React.Component<InputGroupProps> {
 
   renderHorizontal(props = this.props) {
     let {
-      controls,
+      body,
       className,
       classPrefix: ns,
       classnames: cx,
@@ -139,7 +125,7 @@ export class ControlGroupRenderer extends React.Component<InputGroupProps> {
       gap
     } = props;
 
-    if (!Array.isArray(controls)) {
+    if (!Array.isArray(body)) {
       return null;
     }
 
@@ -149,7 +135,7 @@ export class ControlGroupRenderer extends React.Component<InputGroupProps> {
       horizontal ||
       makeHorizontalDeeper(
         formHorizontal,
-        controls.filter(item => item.mode !== 'inline' && isVisible(item, data))
+        body.filter(item => item.mode !== 'inline' && isVisible(item, data))
           .length
       );
 
@@ -161,7 +147,7 @@ export class ControlGroupRenderer extends React.Component<InputGroupProps> {
           className
         )}
       >
-        {controls.map((control, index) => {
+        {body.map((control, index) => {
           if (!isVisible(control, data)) {
             return null;
           }

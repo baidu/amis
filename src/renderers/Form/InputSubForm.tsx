@@ -16,7 +16,7 @@ export interface SubFormControlSchema extends FormBaseControl {
   /**
    * 指定为 SubForm 子表单
    */
-  type: 'form';
+  type: 'input-sub-form';
 
   /**
    * 占位符
@@ -354,7 +354,7 @@ export default class SubFormControl extends React.PureComponent<
 }
 
 @FormItem({
-  type: 'form',
+  type: 'input-sub-form',
   sizeMutable: false
 })
 export class SubFormControlRenderer extends SubFormControl {}
