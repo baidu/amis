@@ -498,7 +498,7 @@ export const FormStore = ServiceStore.named('FormStore')
 
         // 验证过，或者是 unique 的表单项，或者强制验证
         if (!item.validated || item.unique || forceValidate) {
-          yield item.validate();
+          yield item.validate(self.data);
         }
       }
 
@@ -521,7 +521,7 @@ export const FormStore = ServiceStore.named('FormStore')
           let item = items[i] as IFormItemStore;
 
           if (~fields.indexOf(item.name)) {
-            result.push(yield item.validate());
+            result.push(yield item.validate(self.data));
           }
         }
         self.validating = false;

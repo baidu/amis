@@ -89,10 +89,6 @@ export function warpControl<
           static contextType = ScopedContext;
           static defaultProps = {};
 
-          lazyValidate = debouce(this.validate.bind(this), 250, {
-            trailing: true,
-            leading: false
-          });
           lazyEmitChange = debouce(this.emitChange.bind(this), 250, {
             trailing: true,
             leading: false
@@ -103,6 +99,7 @@ export function warpControl<
               formItem,
               rootStore,
               store,
+              onChange,
               $schema: {
                 name,
                 id,
@@ -143,26 +140,31 @@ export function warpControl<
               name
             }) as IFormItemStore;
             this.model = model;
+            // @issue 打算干掉这个
             formItem?.addSubFormItem(model);
-            model.config({
-              id,
-              type,
-              required,
-              unique,
-              value,
-              rules: validations,
-              messages: validationErrors,
-              multiple,
-              delimiter,
-              valueField,
-              labelField,
-              joinValues,
-              extractValue,
-              selectFirst,
-              autoFill,
-              clearValueOnHidden
-            });
+            model.config(
+              {
+                id,
+                type,
+                required,
+                unique,
+                value,
+                rules: validations,
+                messages: validationErrors,
+                multiple,
+                delimiter,
+                valueField,
+                labelField,
+                joinValues,
+                extractValue,
+                selectFirst,
+                autoFill,
+                clearValueOnHidden
+              },
+              onChange
+            );
 
+            // issue 这个逻辑应该在 combo 里面自己实现。
             if (
               this.model.unique &&
               form?.parentStore?.storeType === ComboStore.name
@@ -186,7 +188,6 @@ export function warpControl<
             // 提交前先把之前的 lazyEmit 执行一下。
             this.hook3 = () => {
               this.lazyEmitChange.flush();
-              this.lazyValidate.flush();
             };
             addHook?.(this.hook3, 'flush');
 
@@ -196,9 +197,9 @@ export function warpControl<
               this.hook2 = function () {
                 formItem.clearError('control:valdiate');
                 return finalValidate(
-                  form?.data,
-                  formItem.value,
-                  formItem.name
+                  this.props.data,
+                  this.getValue(),
+                  name
                 ).then((ret: any) => {
                   if ((typeof ret === 'string' || Array.isArray(ret)) && ret) {
                     formItem.addError(ret, 'control:valdiate');
@@ -238,25 +239,28 @@ export function warpControl<
                 props.$schema
               )
             ) {
-              model.config({
-                required: props.$schema.required,
-                id: props.$schema.id,
-                unique: props.$schema.unique,
+              model.config(
+                {
+                  required: props.$schema.required,
+                  id: props.$schema.id,
+                  unique: props.$schema.unique,
 
-                // @issue 这个地方可能不对了
-                value: props.$schema.value,
-                rules: props.$schema.validations,
-                multiple: props.$schema.multiple,
-                delimiter: props.$schema.delimiter,
-                valueField: props.$schema.valueField,
-                labelField: props.$schema.labelField,
-                joinValues: props.$schema.joinValues,
-                extractValue: props.$schema.extractValue,
-                messages: props.$schema.validationErrors,
-                selectFirst: props.$schema.selectFirst,
-                autoFill: props.$schema.autoFill,
-                clearValueOnHidden: props.$schema.clearValueOnHidden
-              });
+                  // @issue 这个地方可能不对了
+                  value: props.$schema.value,
+                  rules: props.$schema.validations,
+                  multiple: props.$schema.multiple,
+                  delimiter: props.$schema.delimiter,
+                  valueField: props.$schema.valueField,
+                  labelField: props.$schema.labelField,
+                  joinValues: props.$schema.joinValues,
+                  extractValue: props.$schema.extractValue,
+                  messages: props.$schema.validationErrors,
+                  selectFirst: props.$schema.selectFirst,
+                  autoFill: props.$schema.autoFill,
+                  clearValueOnHidden: props.$schema.clearValueOnHidden
+                },
+                props.onChange
+              );
             }
 
             if (model && props.value !== prevProps.value) {
@@ -269,7 +273,7 @@ export function warpControl<
                 (props.validateOnChange !== false &&
                   (form?.submited || (isAlive(model) && model.validated)))
               ) {
-                this.lazyValidate();
+                this.validate();
               } else if (props.validateOnChange === false) {
                 model.reset();
               }
@@ -280,10 +284,9 @@ export function warpControl<
             this.hook && this.props.removeHook?.(this.hook);
             this.hook2 && this.props.removeHook?.(this.hook2);
             this.hook3 && this.props.removeHook?.(this.hook3, 'flush');
-            this.lazyValidate.cancel();
             // this.lazyEmitChange.flush();
             this.lazyEmitChange.cancel();
-            this.reaction && this.reaction();
+            this.reaction?.();
             this.disposeModel();
           }
 
@@ -307,7 +310,12 @@ export function warpControl<
           }
 
           controlRef(control: any) {
-            const {addHook, removeHook, formStore: form} = this.props;
+            const {
+              addHook,
+              removeHook,
+              formStore: form,
+              $schema: {name}
+            } = this.props;
 
             // 因为 control 有可能被 n 层 hoc 包裹。
             while (control && control.getWrappedInstance) {
@@ -320,7 +328,7 @@ export function warpControl<
               this.hook = function () {
                 formItem.clearError('component:valdiate');
 
-                return validate(form?.data, formItem.value, formItem.name).then(
+                return validate(this.props.data, this.getValue(), name).then(
                   ret => {
                     if (
                       (typeof ret === 'string' || Array.isArray(ret)) &&
@@ -354,7 +362,7 @@ export function warpControl<
           }
 
           validate() {
-            const {formStore: form} = this.props;
+            const {formStore: form, data} = this.props;
 
             if (this.model) {
               if (
@@ -366,12 +374,12 @@ export function warpControl<
                 const group = combo.uniques.get(
                   this.model.name
                 ) as IUniqueGroup;
-                group.items.forEach(item => item.validate());
+                group.items.forEach(item => item.validate(data));
               } else {
-                this.model.validate(this.hook);
+                this.model.validate(data, this.hook);
                 form
                   ?.getItemsByName(this.model.name)
-                  .forEach(item => item !== this.model && item.validate());
+                  .forEach(item => item !== this.model && item.validate(data));
               }
             }
           }

@@ -347,11 +347,6 @@ export function registerOptionsControl(config: OptionsConfig) {
         // todo 优化 name 变化情况。
       }
 
-      if (prevProps.value !== props.value || formItem.expressionsInOptions) {
-        this.syncAutoFill(props.value);
-        formItem.syncOptions();
-      }
-
       if (prevProps.options !== props.options && formItem) {
         formItem.setOptions(
           normalizeOptions(props.options || []),
@@ -403,11 +398,16 @@ export function registerOptionsControl(config: OptionsConfig) {
             .then(() => this.normalizeValue());
         }
       }
+
+      if (prevProps.value !== props.value || formItem.expressionsInOptions) {
+        formItem.syncOptions();
+        this.syncAutoFill(props.value);
+      }
     }
 
     componentWillUnmount() {
-      this.props.removeHook && this.props.removeHook(this.reload, 'init');
-      this.reaction && this.reaction();
+      this.props.removeHook?.(this.reload, 'init');
+      this.reaction?.();
     }
 
     syncAutoFill(value: any) {
@@ -444,10 +444,11 @@ export function registerOptionsControl(config: OptionsConfig) {
                 selectedOptions[0]
               )
         );
-        onBulkChange(toSync);
+        onBulkChange?.(toSync);
       }
     }
 
+    // 当前值，跟设置预期的值格式不一致时自动转换。
     normalizeValue() {
       const {
         joinValues,
@@ -455,7 +456,8 @@ export function registerOptionsControl(config: OptionsConfig) {
         value,
         multiple,
         formItem,
-        valueField
+        valueField,
+        onChange
       } = this.props;
 
       if (!formItem || joinValues !== false || !formItem.options.length) {
@@ -467,9 +469,7 @@ export function registerOptionsControl(config: OptionsConfig) {
         (typeof value === 'string' || typeof value === 'number')
       ) {
         const selectedOptions = formItem.getSelectedOptions(value);
-        formItem.changeValue(
-          multiple ? selectedOptions.concat() : selectedOptions[0]
-        );
+        onChange?.(multiple ? selectedOptions.concat() : selectedOptions[0]);
       } else if (
         extractValue === true &&
         value &&
@@ -487,9 +487,7 @@ export function registerOptionsControl(config: OptionsConfig) {
           .map(
             (selectedOption: Option) => selectedOption[valueField || 'value']
           );
-        formItem.changeValue(
-          multiple ? selectedOptions.concat() : selectedOptions[0]
-        );
+        onChange?.(multiple ? selectedOptions.concat() : selectedOptions[0]);
       }
     }
 

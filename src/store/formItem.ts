@@ -198,41 +198,49 @@ export const FormItemStore = StoreNode.named('FormItemStore')
     const form = self.form as IFormStore;
     const dialogCallbacks = new SimpleMap<(result?: any) => void>();
 
-    function config({
-      required,
-      unique,
-      value,
-      rules,
-      messages,
-      delimiter,
-      multiple,
-      valueField,
-      labelField,
-      joinValues,
-      extractValue,
-      type,
-      id,
-      selectFirst,
-      autoFill,
-      clearValueOnHidden
-    }: {
-      required?: boolean;
-      unique?: boolean;
-      value?: any;
-      rules?: string | {[propName: string]: any};
-      messages?: {[propName: string]: string};
-      multiple?: boolean;
-      delimiter?: string;
-      valueField?: string;
-      labelField?: string;
-      joinValues?: boolean;
-      extractValue?: boolean;
-      type?: string;
-      id?: string;
-      selectFirst?: boolean;
-      autoFill?: any;
-      clearValueOnHidden?: boolean;
-    }) {
+    function config(
+      {
+        required,
+        unique,
+        value,
+        rules,
+        messages,
+        delimiter,
+        multiple,
+        valueField,
+        labelField,
+        joinValues,
+        extractValue,
+        type,
+        id,
+        selectFirst,
+        autoFill,
+        clearValueOnHidden
+      }: {
+        required?: boolean;
+        unique?: boolean;
+        value?: any;
+        rules?: string | {[propName: string]: any};
+        messages?: {[propName: string]: string};
+        multiple?: boolean;
+        delimiter?: string;
+        valueField?: string;
+        labelField?: string;
+        joinValues?: boolean;
+        extractValue?: boolean;
+        type?: string;
+        id?: string;
+        selectFirst?: boolean;
+        autoFill?: any;
+        clearValueOnHidden?: boolean;
+      },
+      onChange?: (
+        value: any,
+        name: string,
+        submit?: boolean,
+        changePristine?: boolean
+      ) => void
+    ) {
       if (typeof rules === 'string') {
         rules = str2rules(rules);
       }
@@ -270,7 +278,7 @@ export const FormItemStore = StoreNode.named('FormItemStore')
       }
 
       if (value !== void 0 && self.value === void 0) {
-        form.setValueByName(self.name, value, true);
+        onChange?.(value, self.name, false, true);
       }
     }
 
@@ -282,50 +290,44 @@ export const FormItemStore = StoreNode.named('FormItemStore')
       self.isFocused = false;
     }
 
-    const validate: (hook?: any) => Promise<boolean> = flow(function* validate(
-      hook?: any
-    ) {
-      if (self.validating) {
-        return self.valid;
-      }
+    const validate: (data: Object, hook?: any) => Promise<boolean> = flow(
+      function* validate(data: Object, hook?: any) {
+        if (self.validating) {
+          return self.valid;
+        }
 
-      self.validating = true;
-      clearError();
-      if (hook) {
-        yield hook();
-      }
+        self.validating = true;
+        clearError();
+        if (hook) {
+          yield hook();
+        }
 
-      addError(
-        doValidate(
-          self.value,
-          self.form.data,
-          self.rules,
-          self.messages,
-          self.__
-        )
-      );
-      self.validated = true;
-
-      if (
-        self.unique &&
-        self.form.parentStore &&
-        self.form.parentStore.storeType === 'ComboStore'
-      ) {
-        const combo = self.form.parentStore as IComboStore;
-        const group = combo.uniques.get(self.name) as IUniqueGroup;
+        addError(
+          doValidate(self.tmpValue, data, self.rules, self.messages, self.__)
+        );
+        self.validated = true;
 
         if (
-          group.items.some(
-            item => item !== self && self.value && item.value === self.value
-          )
+          self.unique &&
+          self.form.parentStore &&
+          self.form.parentStore.storeType === 'ComboStore'
         ) {
-          addError(self.__('`当前值不唯一`'));
-        }
-      }
+          const combo = self.form.parentStore as IComboStore;
+          const group = combo.uniques.get(self.name) as IUniqueGroup;
 
-      self.validating = false;
-      return self.valid;
-    });
+          if (
+            group.items.some(
+              item => item !== self && self.value && item.value === self.value
+            )
+          ) {
+            addError(self.__('`当前值不唯一`'));
+          }
+        }
+
+        self.validating = false;
+        return self.valid;
+      }
+    );
 
     function setError(msg: string | Array<string>, tag: string = 'builtin') {
       clearError();

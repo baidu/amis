@@ -100,6 +100,7 @@ export class InputGroup extends React.Component<
 
     const errors: Array<string> = [];
 
+    // issue 处理这个，按理不需要这么弄。
     formItem?.subFormItems.forEach((item: IFormItemStore) => {
       if (item.errors.length) {
         errors.push(...item.errors);
