@@ -10,7 +10,8 @@ import {
   isObject,
   guid,
   isEmpty,
-  autobind
+  autobind,
+  getVariable
 } from '../../utils/helper';
 import {IIRendererStore, IRendererStore} from '../../store';
 import {ScopedContext, IScopedContext} from '../../Scoped';
@@ -177,7 +178,7 @@ export function warpControl<
             }
 
             // 同步 value
-            model.changeTmpValue(propValue);
+            model.changeTmpValue(propValue ?? value);
           }
 
           componentDidMount() {
@@ -266,19 +267,43 @@ export function warpControl<
               );
             }
 
+            let modified = false;
             if (model && props.value !== prevProps.value) {
               if (props.value !== model.tmpValue) {
                 model.changeTmpValue(props.value);
+                modified = true;
               }
+            } else if (
+              model &&
+              props.data !== prevProps.data &&
+              (!model.emitedValue || model.emitedValue === model.tmpValue)
+            ) {
+              model.changeEmitedValue(undefined);
+              const value = getVariable(
+                props.data,
+                model.name,
+                props.canAccessSuperData !== false
+              );
+              const prevValue = getVariable(
+                prevProps.data,
+                model.name,
+                props.canAccessSuperData !== false
+              );
+              if (value !== prevValue && value !== model.tmpValue) {
+                model.changeTmpValue(value);
+                modified = true;
+              }
+            }
 
+            if (modified) {
               if (
                 props.validateOnChange === true ||
                 (props.validateOnChange !== false &&
-                  (form?.submited || (isAlive(model) && model.validated)))
+                  (props.formSubmited || (isAlive(model!) && model!.validated)))
               ) {
                 this.validate();
               } else if (props.validateOnChange === false) {
-                model.reset();
+                model!.reset();
               }
             }
           }
@@ -440,19 +465,26 @@ export function warpControl<
             const {
               formStore: form,
               onChange,
-              $schema: {name, onChange: onFormItemChange}
+              $schema: {name, onChange: onFormItemChange},
+              data,
+              canAccessSuperData
             } = this.props;
 
             if (!this.model) {
               return;
             }
             const value = this.model.tmpValue;
-            const oldValue = this.model.value;
+            const oldValue = getVariable(
+              data,
+              this.model.name,
+              canAccessSuperData !== false
+            );
 
             if (oldValue === value) {
               return;
             }
 
+            this.model.changeEmitedValue(value);
             onFormItemChange?.(value, oldValue, this.model, form);
             onChange?.(value, name!, submitOnChange === true);
           }

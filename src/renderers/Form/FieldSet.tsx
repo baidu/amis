@@ -143,7 +143,7 @@ export default class FieldSetControl extends React.Component<
 }
 
 @Renderer({
-  test: /(^|\/)form(?:.+)?\/control\/fieldSet$/i,
+  test: /(^|\/)fieldSet$/i,
   weight: -100,
   name: 'fieldset'
 })

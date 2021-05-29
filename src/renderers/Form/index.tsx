@@ -1331,7 +1331,8 @@ export default class Form extends React.Component<FormProps, object> {
       controlWidth,
       resolveDefinitions,
       lazyChange,
-      formLazyChange
+      formLazyChange,
+      canAccessSuperData
     } = props;
 
     const subProps = {
@@ -1341,6 +1342,7 @@ export default class Form extends React.Component<FormProps, object> {
         (control as Schema).type
       }-${key}`,
       formInited: form.inited,
+      formSubmited: form.submited,
       formMode: mode,
       formHorizontal: horizontal,
       controlWidth,
@@ -1355,10 +1357,11 @@ export default class Form extends React.Component<FormProps, object> {
       removeHook: this.removeHook,
       renderFormItems: this.renderFormItems,
       formPristine: form.pristine,
-      value: (control as any)?.name
-        ? getVariable(form.data, (control as any)?.name)
-        : (control as any)?.value,
-      defaultValue: (control as any)?.value
+      canAccessSuperData
+      // value: (control as any)?.name
+      //   ? getVariable(form.data, (control as any)?.name, canAccessSuperData)
+      //   : (control as any)?.value,
+      // defaultValue: (control as any)?.value
     };
 
     let subSchema: any = {

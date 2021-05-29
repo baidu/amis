@@ -60,6 +60,7 @@ export const FormItemStore = StoreNode.named('FormItemStore')
     loading: false,
     required: false,
     tmpValue: types.frozen(),
+    emitedValue: types.frozen(),
     rules: types.optional(types.frozen(), {}),
     messages: types.optional(types.frozen(), {}),
     errorData: types.optional(types.array(ErrorDetail), []),
@@ -789,6 +790,10 @@ export const FormItemStore = StoreNode.named('FormItemStore')
       self.tmpValue = value;
     }
 
+    function changeEmitedValue(value: any) {
+      self.emitedValue = value;
+    }
+
     function addSubFormItem(item: IFormItemStore) {
       self.itemsRef.push(item.id);
     }
@@ -819,6 +824,7 @@ export const FormItemStore = StoreNode.named('FormItemStore')
       openDialog,
       closeDialog,
       changeTmpValue,
+      changeEmitedValue,
       addSubFormItem,
       removeSubFormItem
     };

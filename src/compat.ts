@@ -334,7 +334,6 @@ const maybeFormItem = [
   'hbox',
   'panel',
   'service',
-  'tabs',
   'anchor-nav'
 ];
 
@@ -385,23 +384,77 @@ function wrapControl(item: any) {
   };
 }
 
+function controlToNormalRenderer(item: any) {
+  return item && controlMapping[item.type]
+    ? {
+        ...item,
+        type: controlMapping[item.type]
+      }
+    : ~maybeFormItem.indexOf(item?.type)
+    ? wrapControl(item)
+    : item;
+}
+
 addSchemaFilter(function (schema: Schema) {
   // controls 转成 body
+  if (schema?.type === 'combo' && Array.isArray(schema.conditions)) {
+    schema = {
+      ...schema,
+      conditions: schema.conditions.map(condition => {
+        if (Array.isArray(condition.controls)) {
+          condition = {
+            ...condition,
+            body: condition.controls.map(controlToNormalRenderer)
+          };
+          delete condition.controls;
+        }
+
+        return condition;
+      })
+    };
+  }
+
   if (Array.isArray(schema?.controls)) {
     schema = {
       ...schema,
-      body: schema?.controls.map(item =>
-        item && controlMapping[item.type]
-          ? {
-              ...item,
-              type: controlMapping[item.type]
-            }
-          : ~maybeFormItem.indexOf(item?.type)
-          ? wrapControl(item)
-          : item
+      [schema.type === 'combo' ? `items` : 'body']: schema?.controls.map(
+        controlToNormalRenderer
       )
     };
     delete schema.controls;
+  } else if (schema?.type === 'tabs' && Array.isArray(schema.tabs)) {
+    schema = {
+      ...schema,
+      tabs: schema.tabs.map(tab => {
+        if (Array.isArray(tab.controls)) {
+          tab = {
+            ...tab,
+            body: tab?.controls.map(controlToNormalRenderer)
+          };
+        }
+
+        return tab;
+      })
+    };
+  } else if (schema?.type === 'anchor-nav' && Array.isArray(schema.links)) {
+    schema = {
+      ...schema,
+      links: schema.links.map(link => {
+        if (Array.isArray(link.controls)) {
+          link = {
+            ...link,
+            body: link?.controls.map(controlToNormalRenderer)
+          };
+        }
+
+        return link;
+      })
+    };
+  } else if (schema?.type === 'input-array' && Array.isArray(schema.items)) {
+    schema = {
+      ...schema,
+      items: schema.items.map(controlToNormalRenderer)
+    };
   }
 
   return schema;
