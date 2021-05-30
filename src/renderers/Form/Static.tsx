@@ -121,19 +121,6 @@ export default class StaticControl extends React.Component<StaticProps, any> {
             classnames: cx
           }}
         />
-        {/* {render(
-          'field',
-          {
-            ...field,
-            type: 'static-field',
-            field
-          },
-          {
-            value,
-            className,
-            onQuickChange: this.handleQuickChange
-          }
-        )} */}
       </div>
     );
   }
