@@ -329,6 +329,11 @@ export function warpControl<
             this.hook2 && this.props.removeHook?.(this.hook2);
             this.hook3 && this.props.removeHook?.(this.hook3, 'flush');
             // this.lazyEmitChange.flush();
+
+            if (this.model?.clearValueOnHidden) {
+              this.props.onChange?.(undefined, this.model.name);
+            }
+
             this.lazyEmitChange.cancel();
             this.reaction?.();
             this.disposeModel();

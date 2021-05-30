@@ -111,6 +111,7 @@ export default class StaticControl extends React.Component<StaticProps, any> {
         <StaticFieldRenderer
           {...{
             ...(rest as any),
+            name,
             render,
             field,
             value,

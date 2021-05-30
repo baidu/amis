@@ -835,23 +835,11 @@ export default class Form extends React.Component<FormProps, object> {
   }
 
   handleBulkChange(values: Object, submit: boolean) {
-    const {onChange, store, submitOnChange} = this.props;
+    const {onChange, store, formLazyChange} = this.props;
 
     store.updateData(values);
 
-    onChange &&
-      onChange(store.data, difference(store.data, store.pristine), this.props);
-
-    store.clearRestError();
-
-    (submit || submitOnChange) &&
-      this.handleAction(
-        undefined,
-        {
-          type: 'submit'
-        },
-        store.data
-      );
+    (formLazyChange === false ? this.emitChange : this.lazyEmitChange)(submit);
   }
 
   handleFormSubmit(e: React.UIEvent<any>) {
