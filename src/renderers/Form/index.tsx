@@ -398,7 +398,7 @@ export default class Form extends React.Component<FormProps, object> {
   shouldLoadInitApi: boolean = false;
   timer: ReturnType<typeof setTimeout>;
   mounted: boolean;
-  lazyHandleChange = debouce(this.handleChange.bind(this), 250, {
+  lazyEmitChange = debouce(this.emitChange.bind(this), 250, {
     trailing: true,
     leading: false
   });
@@ -410,6 +410,7 @@ export default class Form extends React.Component<FormProps, object> {
     this.onInit = this.onInit.bind(this);
     this.handleAction = this.handleAction.bind(this);
     this.handleQuery = this.handleQuery.bind(this);
+    this.handleChange = this.handleChange.bind(this);
     this.handleDialogConfirm = this.handleDialogConfirm.bind(this);
     this.handleDialogClose = this.handleDialogClose.bind(this);
     this.handleDrawerConfirm = this.handleDrawerConfirm.bind(this);
@@ -419,7 +420,7 @@ export default class Form extends React.Component<FormProps, object> {
     this.submit = this.submit.bind(this);
     this.addHook = this.addHook.bind(this);
     this.removeHook = this.removeHook.bind(this);
-    this.handleChange = this.handleChange.bind(this);
+    this.emitChange = this.emitChange.bind(this);
     this.handleBulkChange = this.handleBulkChange.bind(this);
     this.renderFormItems = this.renderFormItems.bind(this);
     this.reload = this.reload.bind(this);
@@ -580,7 +581,7 @@ export default class Form extends React.Component<FormProps, object> {
     this.mounted = false;
     clearTimeout(this.timer);
     // this.lazyHandleChange.flush();
-    this.lazyHandleChange.cancel();
+    this.lazyEmitChange.cancel();
     this.asyncCancel && this.asyncCancel();
     this.disposeOnValidate && this.disposeOnValidate();
     this.disposeRulesValidate && this.disposeRulesValidate();
@@ -767,7 +768,7 @@ export default class Form extends React.Component<FormProps, object> {
   flush() {
     const hooks = this.hooks['flush'] || [];
     hooks.forEach(fn => fn());
-    this.lazyHandleChange.flush();
+    this.lazyEmitChange.flush();
   }
 
   reset() {
@@ -808,9 +809,15 @@ export default class Form extends React.Component<FormProps, object> {
     submit: boolean,
     changePristine = false
   ) {
-    const {onChange, store, submitOnChange} = this.props;
+    const {store, formLazyChange} = this.props;
 
     store.changeValue(name, value, changePristine);
+
+    (formLazyChange === false ? this.emitChange : this.lazyEmitChange)(submit);
+  }
+
+  emitChange(submit: boolean) {
+    const {onChange, store, submitOnChange} = this.props;
 
     onChange &&
       onChange(store.data, difference(store.data, store.pristine), this.props);
@@ -1212,8 +1219,7 @@ export default class Form extends React.Component<FormProps, object> {
           item =>
             item &&
             (!!~['submit', 'button', 'reset'].indexOf(item.type) ||
-              (item.type === 'button-group' &&
-                !(item as ButtonGroupControlSchema).options))
+              (item.type === 'button-group' && !(item as any).options))
         ))
     ) {
       return actions;
@@ -1350,8 +1356,7 @@ export default class Form extends React.Component<FormProps, object> {
       btnDisabled: form.loading || form.validating,
       onAction: this.handleAction,
       onQuery: this.handleQuery,
-      onChange:
-        formLazyChange === false ? this.handleChange : this.lazyHandleChange,
+      onChange: this.handleChange,
       onBulkChange: this.handleBulkChange,
       addHook: this.addHook,
       removeHook: this.removeHook,

@@ -359,6 +359,8 @@ function wrapControl(item: any) {
     ...rest
   } = item;
 
+  rest.name = name;
+
   // 如果是按钮
   if (~['button', 'submit', 'reset'].indexOf(rest.type)) {
     rest.label = label;

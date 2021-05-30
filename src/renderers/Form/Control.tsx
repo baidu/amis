@@ -11,6 +11,7 @@ import {
   guid,
   isEmpty,
   autobind,
+  getVariable,
   getVariable
 } from '../../utils/helper';
 import {IIRendererStore, IRendererStore} from '../../store';
@@ -104,6 +105,8 @@ export function warpControl<
               store,
               onChange,
               value: propValue,
+              canAccessSuperData,
+              data,
               $schema: {
                 name,
                 id,
@@ -178,7 +181,20 @@ export function warpControl<
             }
 
             // 同步 value
-            model.changeTmpValue(propValue ?? value);
+            model.changeTmpValue(
+              propValue ??
+                getVariable(data, model.name, canAccessSuperData) ??
+                value
+            );
+
+            // 如果没有初始值，通过 onChange 设置过去
+            if (
+              onChange &&
+              typeof propValue === 'undefined' &&
+              typeof getVariable(data, model.name, false) === 'undefined'
+            ) {
+              onChange(model.tmpValue, model.name, false, true);
+            }
           }
 
           componentDidMount() {
@@ -622,7 +638,6 @@ export class ControlRenderer extends React.Component<RendererProps> {
   @autobind
   renderInput() {
     const {render, control} = this.props;
-
     return render('inner', control);
   }
 
