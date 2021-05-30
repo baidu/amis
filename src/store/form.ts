@@ -560,19 +560,6 @@ export const FormStore = ServiceStore.named('FormStore')
       cb && cb(self.data);
     }
 
-    // @issue
-    // function addFormItem(item: IFormItemStore) {
-    //   self.itemsRef.push(item.id);
-    //   // 默认值可能在原型上，把他挪到当前对象上。
-    //   setValueByName(item.name, item.value, false, false);
-    // }
-
-    // @issue
-    // function removeFormItem(item: IFormItemStore) {
-    //   item.clearValueOnHidden && deleteValueByName(item.name);
-    //   removeStore(item);
-    // }
-
     function setCanAccessSuperData(value: boolean = true) {
       self.canAccessSuperData = value;
     }

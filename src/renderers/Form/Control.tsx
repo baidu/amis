@@ -264,8 +264,6 @@ export function warpControl<
                   required: props.$schema.required,
                   id: props.$schema.id,
                   unique: props.$schema.unique,
-
-                  // @issue 这个地方可能不对了
                   value: props.$schema.value,
                   rules: props.$schema.validations,
                   multiple: props.$schema.multiple,
