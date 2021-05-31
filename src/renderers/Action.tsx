@@ -424,7 +424,13 @@ export class Action extends React.Component<ActionProps, ActionState> {
 
     const result: any = onClick && onClick(e, this.props);
 
-    if (disabled || e.isDefaultPrevented() || result === false || !onAction) {
+    if (
+      disabled ||
+      e.isDefaultPrevented() ||
+      result === false ||
+      !onAction ||
+      this.state.inCountDown
+    ) {
       return;
     }
 
