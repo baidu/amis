@@ -348,9 +348,13 @@ export default class Page extends React.Component<PageProps> {
   handleClick(e: any) {
     const target: HTMLElement = e.target as HTMLElement;
     const {env} = this.props;
+    const link =
+      target.tagName === 'A' && target.hasAttribute('data-link')
+        ? target.getAttribute('data-link')
+        : target.closest('a[data-link]')?.getAttribute('data-link');
 
-    if (env && target.tagName === 'A' && target.hasAttribute('data-link')) {
-      env.jumpTo(target.getAttribute('data-link') as string);
+    if (env && link) {
+      env.jumpTo(link);
       e.preventDefault();
     }
   }

@@ -41,11 +41,7 @@
 # 安装项目 npm 依赖，在 node 12 下会有报错但不影响正常使用。
 npm i
 
-# 开始编译，把代码产出到刚开启的服务的 webroot 目录。
-# 这个程序不会自动结束，进入一个 watch 模式，文件变动会重新编译。
-npm run dev
-
-# 开启 fis3 服务，请通过 http://127.0.0.1:8888/examples/pages/simple 访问。
+# 启动项目，等编译结束后通过 http://127.0.0.1:8888/examples/pages/simple 访问。
 npm start
 ```
 

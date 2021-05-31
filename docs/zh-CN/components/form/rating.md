@@ -33,3 +33,4 @@ order: 37
 | half     | `boolean` | `false` | 是否使用半星选择   |
 | count    | `number`  | `5`     | 共有多少星可供选择 |
 | readOnly | `boolean` | `false` | 只读               |
+| allowClear | `boolean` | `true` | 是否允许再次点击后清除  |
