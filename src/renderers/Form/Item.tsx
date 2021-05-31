@@ -1281,123 +1281,127 @@ export function asFormItem(config: Omit<FormItemConfig, 'component'>) {
       delete config.storeType;
     }
 
-    return hoistNonReactStatic(
-      class extends FormItemWrap {
-        static defaultProps = {
-          className: '',
-          renderLabel: config.renderLabel,
-          renderDescription: config.renderDescription,
-          sizeMutable: config.sizeMutable,
-          wrap: config.wrap,
-          showErrorMsg: config.showErrorMsg,
-          ...Control.defaultProps
-        };
-        static propsList: any = [
-          'value',
-          'defaultValue',
-          'onChange',
-          'setPrinstineValue',
-          'readOnly',
-          'strictMode',
-          ...((Control as any).propsList || [])
-        ];
+    return warpControl(
+      hoistNonReactStatic(
+        class extends FormItemWrap {
+          static defaultProps = {
+            className: '',
+            renderLabel: config.renderLabel,
+            renderDescription: config.renderDescription,
+            sizeMutable: config.sizeMutable,
+            wrap: config.wrap,
+            showErrorMsg: config.showErrorMsg,
+            ...Control.defaultProps
+          };
+          static propsList: any = [
+            'value',
+            'defaultValue',
+            'onChange',
+            'setPrinstineValue',
+            'readOnly',
+            'strictMode',
+            ...((Control as any).propsList || [])
+          ];
 
-        static displayName = `FormItem${config.type ? `(${config.type})` : ''}`;
-        static ComposedComponent = Control;
+          static displayName = `FormItem${
+            config.type ? `(${config.type})` : ''
+          }`;
+          static ComposedComponent = Control;
 
-        ref: any;
+          ref: any;
 
-        constructor(props: FormItemProps) {
-          super(props);
-          this.refFn = this.refFn.bind(this);
-        }
-
-        componentWillMount() {
-          const {validations, formItem: model} = this.props;
-
-          // 组件注册的时候可能默认指定验证器类型
-          if (model && !validations && config.validations) {
-            model.config({
-              rules: config.validations
-            });
+          constructor(props: FormItemProps) {
+            super(props);
+            this.refFn = this.refFn.bind(this);
           }
 
-          super.componentWillMount();
-        }
+          componentWillMount() {
+            const {validations, formItem: model} = this.props;
 
-        shouldComponentUpdate(nextProps: FormControlProps) {
-          if (nextProps.strictMode === false || config.strictMode === false) {
-            return true;
+            // 组件注册的时候可能默认指定验证器类型
+            if (model && !validations && config.validations) {
+              model.config({
+                rules: config.validations
+              });
+            }
+
+            super.componentWillMount();
           }
 
-          // 把可能会影响视图的白名单弄出来，减少重新渲染次数。
-          if (anyChanged(detectProps, this.props, nextProps)) {
-            return true;
+          shouldComponentUpdate(nextProps: FormControlProps) {
+            if (nextProps.strictMode === false || config.strictMode === false) {
+              return true;
+            }
+
+            // 把可能会影响视图的白名单弄出来，减少重新渲染次数。
+            if (anyChanged(detectProps, this.props, nextProps)) {
+              return true;
+            }
+
+            return false;
           }
 
-          return false;
-        }
+          getWrappedInstance() {
+            return this.ref;
+          }
 
-        getWrappedInstance() {
-          return this.ref;
-        }
+          refFn(ref: any) {
+            this.ref = ref;
+          }
 
-        refFn(ref: any) {
-          this.ref = ref;
-        }
+          renderControl() {
+            const {
+              inputClassName,
+              formItem: model,
+              classnames: cx,
+              children,
+              type,
+              size,
+              defaultSize,
+              ...rest
+            } = this.props;
 
-        renderControl() {
-          const {
-            inputClassName,
-            formItem: model,
-            classnames: cx,
-            children,
-            type,
-            size,
-            defaultSize,
-            ...rest
-          } = this.props;
+            const controlSize = size || defaultSize;
 
-          const controlSize = size || defaultSize;
-
-          return (
-            <Control
-              {...rest}
-              onOpenDialog={this.handleOpenDialog}
-              size={config.sizeMutable !== false ? undefined : size}
-              onFocus={this.handleFocus}
-              onBlur={this.handleBlur}
-              type={type}
-              classnames={cx}
-              ref={isSFC ? undefined : this.refFn}
-              forwardedRef={isSFC ? this.refFn : undefined}
-              formItem={model}
-              className={cx(
-                `Form-control`,
-                {
-                  'is-inline': !!rest.inline,
-                  'is-error': model && !model.valid,
-                  [`Form-control--withSize Form-control--size${ucFirst(
-                    controlSize
-                  )}`]:
-                    config.sizeMutable !== false &&
-                    typeof controlSize === 'string' &&
-                    !!controlSize &&
-                    controlSize !== 'full'
-                },
-                inputClassName
-              )}
-            />
-          );
-        }
-      },
-      Control
+            return (
+              <Control
+                {...rest}
+                onOpenDialog={this.handleOpenDialog}
+                size={config.sizeMutable !== false ? undefined : size}
+                onFocus={this.handleFocus}
+                onBlur={this.handleBlur}
+                type={type}
+                classnames={cx}
+                ref={isSFC ? undefined : this.refFn}
+                forwardedRef={isSFC ? this.refFn : undefined}
+                formItem={model}
+                className={cx(
+                  `Form-control`,
+                  {
+                    'is-inline': !!rest.inline,
+                    'is-error': model && !model.valid,
+                    [`Form-control--withSize Form-control--size${ucFirst(
+                      controlSize
+                    )}`]:
+                      config.sizeMutable !== false &&
+                      typeof controlSize === 'string' &&
+                      !!controlSize &&
+                      controlSize !== 'full'
+                  },
+                  inputClassName
+                )}
+              />
+            );
+          }
+        },
+        Control
+      ) as any
     );
   };
 }
 
 export function registerFormItem(config: FormItemConfig): RendererConfig {
-  let Control = warpControl(asFormItem(config)(config.component) as any);
+  let Control = asFormItem(config)(config.component);
 
   return registerRenderer({
     ...config,
@@ -1416,6 +1420,20 @@ export function FormItem(config: FormItemBasicConfig) {
     });
 
     return renderer.component as any;
+  };
+}
+
+export function renderToComponent(
+  children: JSX.Element | ((props: any) => JSX.Element)
+) {
+  return class extends React.Component {
+    render() {
+      if (typeof children === 'function') {
+        return children(this.props);
+      }
+
+      return children;
+    }
   };
 }
 

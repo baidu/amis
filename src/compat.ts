@@ -334,8 +334,7 @@ const maybeFormItem = [
   'hbox',
   'panel',
   'service',
-  'anchor-nav',
-  'custom'
+  'anchor-nav'
 ];
 
 function wrapControl(item: any) {

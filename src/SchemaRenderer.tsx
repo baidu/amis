@@ -189,6 +189,7 @@ export class SchemaRenderer extends React.Component<SchemaRendererProps, any> {
         : (schema.children as Function)({
             ...rest,
             $path: $path,
+            $schema: schema,
             render: this.renderChild,
             forwardedRef: this.refFn
           });
@@ -198,6 +199,7 @@ export class SchemaRenderer extends React.Component<SchemaRendererProps, any> {
         ...rest,
         ...schema,
         $path: $path,
+        $schema: schema,
         ref: isSFC ? undefined : this.refFn,
         forwardedRef: isSFC ? this.refFn : undefined,
         render: this.renderChild
@@ -224,6 +226,7 @@ export class SchemaRenderer extends React.Component<SchemaRendererProps, any> {
             return () => loadRenderer(schema, $path);
           }}
           $path={$path}
+          $schema={schema}
           retry={this.reRender}
         />
       );

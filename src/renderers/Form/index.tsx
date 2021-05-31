@@ -34,7 +34,7 @@ import {isApiOutdated, isEffectiveApi} from '../../utils/api';
 import Spinner from '../../components/Spinner';
 import {LazyComponent} from '../../components';
 import {isAlive} from 'mobx-state-tree';
-import {asFormItem, FormControlSchema} from './Item';
+import {asFormItem, FormControlSchema, renderToComponent} from './Item';
 import {SimpleMap} from '../../utils/SimpleMap';
 import {trace} from 'mobx';
 import {
@@ -1370,11 +1370,31 @@ export default class Form extends React.Component<FormProps, object> {
 
     // 自定义组件如果在节点设置了 label name 什么的，就用 formItem 包一层
     // 至少自动支持了 valdiations, label, description 等逻辑。
-    // @issue 这里需要改造
+    if (
+      subSchema.children &&
+      !subSchema.component &&
+      (subSchema.formItemConfig ||
+        subSchema.name ||
+        subSchema.hasOwnProperty('label'))
+    ) {
+      // 如果是 children 用法，先转成 component，然后让下面的逻辑再包裹  asFormItem
+      const cache = this.componentCache.get(subSchema.children);
+      if (cache) {
+        subSchema.component = cache;
+      } else {
+        const cache = renderToComponent(subSchema.children);
+        this.componentCache.set(subSchema.children, cache);
+        subSchema.component = cache;
+      }
+
+      delete subSchema.children;
+    }
+
     if (
       subSchema.component &&
       (subSchema.formItemConfig ||
-        (subSchema.label !== undefined && subSchema.name))
+        subSchema.name ||
+        subSchema.hasOwnProperty('label'))
     ) {
       const cache = this.componentCache.get(subSchema.component);
 

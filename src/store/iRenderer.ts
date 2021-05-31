@@ -78,6 +78,10 @@ export const iRendererStore = StoreNode.named('iRendererStore')
         force?: boolean,
         otherModifier?: (data: Object) => void
       ) {
+        if (!name) {
+          return;
+        }
+
         const origin = getVariable(self.data, name, false);
 
         if (value === origin && !force) {

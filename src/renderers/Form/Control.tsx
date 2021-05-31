@@ -11,7 +11,6 @@ import {
   guid,
   isEmpty,
   autobind,
-  getVariable,
   getVariable
 } from '../../utils/helper';
 import {IIRendererStore, IRendererStore} from '../../store';

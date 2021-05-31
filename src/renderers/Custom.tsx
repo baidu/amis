@@ -4,6 +4,7 @@ import {Renderer, RendererProps} from '../factory';
 
 import {anyChanged} from '../utils/helper';
 import {BaseSchema} from '../Schema';
+import FormItem from './Form/Item';
 
 /**
  * 自定义组件
@@ -121,8 +122,8 @@ export class Custom extends React.Component<CustomProps, object> {
   }
 }
 
-@Renderer({
-  test: /(^|\/)custom$/,
+@FormItem({
+  type: 'custom',
   name: 'custom'
 })
 export class CustomRenderer extends Custom {}
