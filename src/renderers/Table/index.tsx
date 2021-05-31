@@ -836,17 +836,18 @@ export default class Table extends React.Component<TableProps, object> {
       ),
       (table: HTMLTableElement) => {
         let totalWidth = 0;
-
         forEach(
           table.querySelectorAll('thead>tr:last-child>th'),
           (item: HTMLElement) => {
             const width = widths[item.getAttribute('data-index') as string];
-
             item.style.cssText += `width: ${width}px; height: ${heights.header}px`;
             totalWidth += width;
           }
         );
-
+        forEach(table.querySelectorAll('colgroup>col'), (item: HTMLElement) => {
+          const width = widths[item.getAttribute('data-index') as string];
+          item.setAttribute('width', `${width}`);
+        });
         forEach(
           table.querySelectorAll('tbody>tr'),
           (item: HTMLElement, index) => {
@@ -1576,6 +1577,11 @@ export default class Table extends React.Component<TableProps, object> {
         </div>
         <div className={cx('Table-wrapper')}>
           <table ref={this.affixedTableRef} className={tableClassName}>
+            <colgroup>
+              {store.filteredColumns.map(column => (
+                <col key={column.index} data-index={column.index} />
+              ))}
+            </colgroup>
             <thead>
               {store.columnGroup.length ? (
                 <tr>
@@ -1625,7 +1631,6 @@ export default class Table extends React.Component<TableProps, object> {
       rowClassName
     } = this.props;
     const hideHeader = store.filteredColumns.every(column => !column.label);
-
     return (
       <table
         className={cx(
