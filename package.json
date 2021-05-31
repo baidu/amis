@@ -85,7 +85,7 @@
     "react-visibility-sensor": "3.11.0",
     "setimmediate": "1.0.5",
     "sortablejs": "1.10.0",
-    "tinymce": "5.6.2",
+    "tinymce": ">=5.7.1",
     "tslib": "^2.1.0",
     "uncontrollable": "7.0.2",
     "video-react": "0.14.1"
