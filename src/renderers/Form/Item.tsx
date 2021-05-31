@@ -72,7 +72,7 @@ import {TplSchema} from '../Tpl';
 import {DividerSchema} from '../Divider';
 import {HocStoreFactory} from '../../WithStore';
 import {MonthRangeControlSchema} from './InputMonthRange';
-import {warpControl} from './Control';
+import {warpControl} from './wrapControl';
 
 export type FormControlType =
   | 'control'
