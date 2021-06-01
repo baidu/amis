@@ -8,7 +8,6 @@ import {
   isDisabled,
   isObject,
   createObject,
-  getVariable,
   getVariable
 } from '../utils/helper';
 import findIndex from 'lodash/findIndex';
@@ -397,13 +396,20 @@ export default class Tabs extends React.Component<TabsProps, TabsState> {
       data,
       mode: dMode,
       tabsMode,
-      mountOnEnter,
       unmountOnExit,
-      source
+      source,
+      formStore
     } = this.props;
 
     const mode = tabsMode || dMode;
     const arr = resolveVariable(source, data);
+    let mountOnEnter = this.props.mountOnEnter;
+
+    // 如果在form下面，其他tabs默认需要渲染出来
+    // 否则在其他 tab 下面的必填项检测不到
+    if (formStore) {
+      mountOnEnter = false;
+    }
 
     let tabs = this.props.tabs;
     if (!tabs) {

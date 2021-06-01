@@ -68,7 +68,7 @@ export interface ControlProps {
   store: IIRendererStore;
 }
 
-export function warpControl<
+export function wrapControl<
   T extends React.ComponentType<React.ComponentProps<T> & ControlProps>
 >(ComposedComponent: T) {
   type OuterProps = JSX.LibraryManagedAttributes<
@@ -308,18 +308,6 @@ export function warpControl<
                 modified = true;
               }
             }
-
-            if (modified) {
-              if (
-                props.validateOnChange === true ||
-                (props.validateOnChange !== false &&
-                  (props.formSubmited || (isAlive(model!) && model!.validated)))
-              ) {
-                this.validate();
-              } else if (props.validateOnChange === false) {
-                model!.reset();
-              }
-            }
           }
 
           componentWillUnmount() {
@@ -486,7 +474,9 @@ export function warpControl<
               onChange,
               $schema: {name, onChange: onFormItemChange},
               data,
-              canAccessSuperData
+              canAccessSuperData,
+              validateOnChange,
+              formSubmited
             } = this.props;
 
             if (!this.model) {
@@ -506,6 +496,16 @@ export function warpControl<
             this.model.changeEmitedValue(value);
             onFormItemChange?.(value, oldValue, this.model, form);
             onChange?.(value, name!, submitOnChange === true);
+
+            if (
+              validateOnChange === true ||
+              (validateOnChange !== false &&
+                (formSubmited || this.model.validated))
+            ) {
+              this.validate();
+            } else if (validateOnChange === false) {
+              this.model.reset();
+            }
           }
 
           handleBlur(e: any) {

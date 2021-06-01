@@ -72,7 +72,7 @@ import {TplSchema} from '../Tpl';
 import {DividerSchema} from '../Divider';
 import {HocStoreFactory} from '../../WithStore';
 import {MonthRangeControlSchema} from './InputMonthRange';
-import {warpControl} from './wrapControl';
+import {wrapControl} from './wrapControl';
 
 export type FormControlType =
   | 'control'
@@ -792,7 +792,8 @@ export class FormItemWrap extends React.Component<FormItemProps> {
         <div
           className={cx(`Form-value`, {
             // [`Form-itemColumn--offset${getWidthRate(horizontal.offset)}`]: !label && label !== false,
-            [`Form-itemColumn--${right}`]: !!right && right !== 12 - left
+            [`Form-itemColumn--${right}`]:
+              !horizontal.leftFixed && !!right && right !== 12 - left
           })}
         >
           {this.renderControl()}
@@ -1281,7 +1282,7 @@ export function asFormItem(config: Omit<FormItemConfig, 'component'>) {
       delete config.storeType;
     }
 
-    return warpControl(
+    return wrapControl(
       hoistNonReactStatic(
         class extends FormItemWrap {
           static defaultProps = {

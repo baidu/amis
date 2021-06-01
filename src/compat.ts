@@ -334,7 +334,8 @@ const maybeFormItem = [
   'hbox',
   'panel',
   'service',
-  'anchor-nav'
+  'anchor-nav',
+  'qr-code'
 ];
 
 function wrapControl(item: any) {
@@ -356,10 +357,15 @@ function wrapControl(item: any) {
     captionClassName,
     hint,
     showErrorMsg,
+    mode,
+    horizontal,
+    className,
+    inputClassName,
     ...rest
   } = item;
 
   rest.name = name;
+  rest.className = inputClassName;
 
   // 如果是按钮
   if (~['button', 'submit', 'reset'].indexOf(rest.type)) {
@@ -382,6 +388,9 @@ function wrapControl(item: any) {
     captionClassName,
     hint,
     showErrorMsg,
+    mode,
+    horizontal,
+    className,
     control: rest
   };
 }
@@ -422,6 +431,7 @@ addSchemaFilter(function (schema: Schema, renderer: any, props: any) {
             ...tab,
             body: tab?.controls.map(controlToNormalRenderer)
           };
+          delete tab.controls;
         }
 
         return tab;
@@ -436,6 +446,8 @@ addSchemaFilter(function (schema: Schema, renderer: any, props: any) {
             ...link,
             body: link?.controls.map(controlToNormalRenderer)
           };
+
+          delete link.controls;
         }
 
         return link;
@@ -445,6 +457,26 @@ addSchemaFilter(function (schema: Schema, renderer: any, props: any) {
     schema = {
       ...schema,
       items: schema.items.map(controlToNormalRenderer)
+    };
+  } else if (
+    (schema?.type === 'grid' || schema?.type === 'hbox') &&
+    Array.isArray(schema.columns)
+  ) {
+    schema = {
+      ...schema,
+      columns: schema.columns.map(column => {
+        if (Array.isArray(column.controls)) {
+          column = {
+            ...column,
+            type: 'wrapper',
+            size: 'none',
+            body: column?.controls.map(controlToNormalRenderer)
+          };
+          delete column.controls;
+        }
+
+        return column;
+      })
     };
   }
 

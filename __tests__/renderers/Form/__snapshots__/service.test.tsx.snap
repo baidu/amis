@@ -82,91 +82,100 @@ exports[`Renderer:service 1`] = `
           </div>
         </div>
         <div
-          class="a-Service m-t"
+          class="a-Form-item a-Form-item--normal m-t"
+          data-role="form-item"
         >
           <div
-            class="a-Form--normal"
+            class="a-Service"
           >
             <div
-              class="a-Form-item a-Form-item--normal is-required"
-              data-role="form-item"
+              class="a-Service-body"
             >
-              <label
-                class="a-Form-label"
-              >
-                <span>
-                  <span
-                    class="a-TplField"
-                  >
-                    <span>
-                      动态字段1
-                    </span>
-                  </span>
-                  <span
-                    class="a-Form-star"
-                  >
-                    *
-                  </span>
-                </span>
-              </label>
               <div
-                class="a-Form-control a-TextControl"
+                class="a-Wrapper a-Wrapper--md"
               >
                 <div
-                  class="a-TextControl-input"
+                  class="a-Form-item a-Form-item--normal is-required"
+                  data-role="form-item"
                 >
-                  <input
-                    autocomplete="off"
-                    name="dy_1"
-                    placeholder=""
-                    size="10"
-                    type="text"
-                    value=""
-                  />
+                  <label
+                    class="a-Form-label"
+                  >
+                    <span>
+                      <span
+                        class="a-TplField"
+                      >
+                        <span>
+                          动态字段1
+                        </span>
+                      </span>
+                      <span
+                        class="a-Form-star"
+                      >
+                        *
+                      </span>
+                    </span>
+                  </label>
+                  <div
+                    class="a-Form-control a-TextControl"
+                  >
+                    <div
+                      class="a-TextControl-input"
+                    >
+                      <input
+                        autocomplete="off"
+                        name="dy_1"
+                        placeholder=""
+                        size="10"
+                        type="text"
+                        value=""
+                      />
+                    </div>
+                  </div>
+                </div>
+                <div
+                  class="a-Form-item a-Form-item--normal"
+                  data-role="form-item"
+                >
+                  <label
+                    class="a-Form-label"
+                  >
+                    <span>
+                      <span
+                        class="a-TplField"
+                      >
+                        <span>
+                          动态字段2
+                        </span>
+                      </span>
+                    </span>
+                  </label>
+                  <div
+                    class="a-Form-control a-TextControl"
+                  >
+                    <div
+                      class="a-TextControl-input"
+                    >
+                      <input
+                        autocomplete="off"
+                        name="dy_2"
+                        placeholder=""
+                        size="10"
+                        type="text"
+                        value=""
+                      />
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
             <div
-              class="a-Form-item a-Form-item--normal"
-              data-role="form-item"
-            >
-              <label
-                class="a-Form-label"
-              >
-                <span>
-                  <span
-                    class="a-TplField"
-                  >
-                    <span>
-                      动态字段2
-                    </span>
-                  </span>
-                </span>
-              </label>
-              <div
-                class="a-Form-control a-TextControl"
-              >
-                <div
-                  class="a-TextControl-input"
-                >
-                  <input
-                    autocomplete="off"
-                    name="dy_2"
-                    placeholder=""
-                    size="10"
-                    type="text"
-                    value=""
-                  />
-                </div>
-              </div>
-            </div>
+              class="a-Spinner-overlay"
+            />
+            <div
+              class="a-Spinner a-Spinner--overlay a-Spinner--lg"
+            />
           </div>
-          <div
-            class="a-Spinner-overlay"
-          />
-          <div
-            class="a-Spinner a-Spinner--overlay a-Spinner--lg"
-          />
         </div>
         <input
           style="display: none;"

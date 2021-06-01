@@ -2,7 +2,13 @@ import React from 'react';
 
 import {RendererProps, Renderer} from '../../factory';
 import {autobind} from '../../utils/helper';
-import {FormBaseControl, FormItemWrap} from './Item';
+import {
+  asFormItem,
+  FormBaseControl,
+  FormItemWrap,
+  renderToComponent
+} from './Item';
+import {wrapControl} from './wrapControl';
 /**
  * Group 表单集合渲染器，能让多个表单在一行显示
  * 文档：https://baidu.gitee.io/amis/docs/components/form/group
@@ -32,6 +38,7 @@ export class ControlRenderer extends React.Component<RendererProps> {
     return (
       <FormItemWrap
         {...(rest as any)}
+        formMode={rest.mode ?? rest.formMode}
         render={render}
         sizeMutable={false}
         label={label}
