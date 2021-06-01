@@ -216,11 +216,21 @@ export default class Service extends React.Component<ServiceProps> {
     }
   }
 
-  afterDataFetch(data: any) {
-    this.initInterval(data);
+  afterDataFetch(schema: any) {
+    const {onBulkChange, formMode} = this.props;
+    if (formMode && schema?.data && onBulkChange) {
+      onBulkChange(schema?.data);
+    }
+
+    this.initInterval(schema);
   }
 
   afterSchemaFetch(schema: any) {
+    const {onBulkChange, formMode} = this.props;
+    if (formMode && schema?.data && onBulkChange) {
+      onBulkChange(schema.data);
+    }
+
     this.initInterval(schema);
   }
 
