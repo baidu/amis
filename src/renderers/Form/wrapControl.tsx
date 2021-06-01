@@ -103,7 +103,6 @@ export function warpControl<
               rootStore,
               store,
               onChange,
-              value: propValue,
               canAccessSuperData,
               data,
               $schema: {
@@ -138,6 +137,8 @@ export function warpControl<
               return;
             }
 
+            let propValue =
+              this.props.value !== value ? this.props.value : undefined;
             const model = rootStore.addStore({
               id: guid(),
               path: this.props.$path,

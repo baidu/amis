@@ -458,7 +458,6 @@ export default class TextControl extends React.PureComponent<
       className,
       inputOnly,
       value,
-      type,
       placeholder,
       classnames: cx,
       disabled,
@@ -474,6 +473,7 @@ export default class TextControl extends React.PureComponent<
       creatable,
       translate: __
     } = this.props;
+    let type = this.props.type?.replace(/^(?:native|input)\-/, '');
 
     return (
       <Downshift
@@ -649,7 +649,7 @@ export default class TextControl extends React.PureComponent<
       name
     } = this.props;
 
-    const type = this.props.type?.replace('native-', '');
+    const type = this.props.type?.replace(/^(?:native|input)\-/, '');
 
     return (
       <div className={cx('TextControl-input', inputOnly ? className : '')}>

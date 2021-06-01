@@ -1363,8 +1363,8 @@ export default class Form extends React.Component<FormProps, object> {
 
     if (subSchema.$ref) {
       subSchema = {
-        ...subSchema,
-        ...resolveDefinitions(subSchema.$ref)
+        ...resolveDefinitions(subSchema.$ref),
+        ...subSchema
       };
     }
 

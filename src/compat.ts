@@ -386,18 +386,7 @@ function wrapControl(item: any) {
   };
 }
 
-function controlToNormalRenderer(item: any) {
-  return item && controlMapping[item.type]
-    ? {
-        ...item,
-        type: controlMapping[item.type]
-      }
-    : ~maybeFormItem.indexOf(item?.type)
-    ? wrapControl(item)
-    : item;
-}
-
-addSchemaFilter(function (schema: Schema) {
+addSchemaFilter(function (schema: Schema, renderer: any, props: any) {
   // controls 转成 body
   if (schema?.type === 'combo' && Array.isArray(schema.conditions)) {
     schema = {
@@ -460,4 +449,23 @@ addSchemaFilter(function (schema: Schema) {
   }
 
   return schema;
+
+  function controlToNormalRenderer(item: any) {
+    if (item.$ref && props.resolveDefinitions) {
+      item = {
+        ...props.resolveDefinitions(item.$ref),
+        ...item
+      };
+      delete item.$ref;
+    }
+
+    return item && controlMapping[item.type]
+      ? {
+          ...item,
+          type: controlMapping[item.type]
+        }
+      : ~maybeFormItem.indexOf(item?.type)
+      ? wrapControl(item)
+      : item;
+  }
 });
