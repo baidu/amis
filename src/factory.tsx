@@ -436,7 +436,7 @@ export function resolveRenderer(
   renderers.some(item => {
     let matched = false;
 
-    // 不应该搞得这么复杂的，让每个渲染器唯一 id，自己不晕别人用起来也不晕。
+    // 直接匹配类型，后续注册渲染都应该用这个方式而不是之前的判断路径。
     if (item.type && schema?.type) {
       matched = item.type === schema.type;
 
@@ -445,6 +445,7 @@ export function resolveRenderer(
         cache[schema.type] = item;
       }
     } else if (typeof item.test === 'function') {
+      // 不应该搞得这么复杂的，让每个渲染器唯一 id，自己不晕别人用起来也不晕。
       matched = item.test(path, schema, resolveRenderer);
     } else if (item.test instanceof RegExp) {
       matched = item.test.test(path);
