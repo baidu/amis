@@ -196,7 +196,7 @@ const StepsWithRemoteConfig = withRemoteConfig({
 );
 
 @Renderer({
-  test: /(^|\/)steps$/,
+  type: 'steps',
   name: 'steps'
 })
 export class StepsRenderer extends React.Component<StepsProps> {

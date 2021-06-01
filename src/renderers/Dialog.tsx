@@ -587,7 +587,7 @@ export default class Dialog extends React.Component<DialogProps> {
 }
 
 @Renderer({
-  test: /(^|\/)dialog$/,
+  type: 'dialog',
   storeType: ModalStore.name,
   storeExtendsData: false,
   name: 'dialog',

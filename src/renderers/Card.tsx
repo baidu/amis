@@ -551,7 +551,7 @@ export class Card extends React.Component<CardProps> {
 }
 
 @Renderer({
-  test: /(^|\/)card$/,
+  type: 'card',
   name: 'card'
 })
 export class CardRenderer extends Card {
@@ -559,7 +559,7 @@ export class CardRenderer extends Card {
 }
 
 @Renderer({
-  test: /(^|\/)card-item-field$/,
+  type: 'card-item-field',
   name: 'card-item'
 })
 @QuickEdit()

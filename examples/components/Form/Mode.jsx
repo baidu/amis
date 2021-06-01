@@ -152,6 +152,74 @@ export default {
     },
     {
       type: 'form',
+      className: 'm-b',
+      // debug: true,
+      body: [
+        {
+          type: 'property',
+          title: '机器配置',
+          items: [
+            {
+              label: 'cpu',
+              content: {
+                type: 'select',
+                name: 'cpu',
+                value: '1',
+                options: [
+                  {
+                    label: '1 core',
+                    value: '1'
+                  },
+                  {
+                    label: '4 core',
+                    value: '4'
+                  },
+                  {
+                    label: '8 core',
+                    value: '8'
+                  }
+                ]
+              }
+            },
+            {
+              label: 'memory',
+              content: '4G'
+            },
+            {
+              label: 'disk',
+              content: '80G'
+            },
+            {
+              label: 'network',
+              content: '4M',
+              span: 2
+            },
+            {
+              label: 'IDC',
+              content: 'beijing'
+            },
+            {
+              label: 'Note',
+              content: {
+                type: 'textarea',
+                required: true,
+                name: 'note',
+                value: ''
+              },
+              span: 3
+            }
+          ]
+        }
+      ],
+      actions: [
+        {
+          type: 'submit',
+          label: 'Submit'
+        }
+      ]
+    },
+    {
+      type: 'form',
       api: '/api/mock2/form/saveForm?waitSeconds=2',
       title: '内联模式',
       mode: 'inline',

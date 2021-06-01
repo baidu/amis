@@ -94,7 +94,9 @@ export class Audio extends React.Component<AudioProps, AudioState> {
   state: AudioState = {
     src:
       this.props.value ||
-      (this.props.src ? filter(this.props.src, this.props.data, '| raw') : '') ||
+      (this.props.src
+        ? filter(this.props.src, this.props.data, '| raw')
+        : '') ||
       resolveVariable(this.props.name, this.props.data) ||
       '',
     isReady: false,
@@ -137,7 +139,8 @@ export class Audio extends React.Component<AudioProps, AudioState> {
       this.setState(
         {
           src:
-            nextProps.value || filter(nextProps.src as string, nextProps.data, '| raw'),
+            nextProps.value ||
+            filter(nextProps.src as string, nextProps.data, '| raw'),
           playing: false
         },
         () => {
@@ -496,7 +499,7 @@ export class Audio extends React.Component<AudioProps, AudioState> {
 }
 
 @Renderer({
-  test: /(^|\/)audio/,
+  type: 'audio',
   name: 'audio'
 })
 export class AudioRenderer extends Audio {}

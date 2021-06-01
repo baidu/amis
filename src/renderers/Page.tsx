@@ -640,7 +640,7 @@ export default class Page extends React.Component<PageProps> {
 }
 
 @Renderer({
-  test: /(?:^|\/)page$/,
+  type: 'page',
   name: 'page',
   storeType: ServiceStore.name,
   isolateScope: true

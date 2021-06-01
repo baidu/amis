@@ -435,7 +435,9 @@ export function resolveRenderer(
     let matched = false;
 
     // 不应该搞得这么复杂的，让每个渲染器唯一 id，自己不晕别人用起来也不晕。
-    if (typeof item.test === 'function') {
+    if (item.type && schema?.type) {
+      matched = item.type === schema.type;
+    } else if (typeof item.test === 'function') {
       matched = item.test(path, schema, resolveRenderer);
     } else if (item.test instanceof RegExp) {
       matched = item.test.test(path);
@@ -452,7 +454,8 @@ export function resolveRenderer(
   // 因为自定义 test 函数的有可能依赖 schema 的结果
   if (
     renderer !== null &&
-    ((renderer as RendererConfig).test instanceof RegExp ||
+    ((renderer as RendererConfig).type ||
+      (renderer as RendererConfig).test instanceof RegExp ||
       (typeof (renderer as RendererConfig).test === 'function' &&
         ((renderer as RendererConfig).test as Function).length < 2))
   ) {

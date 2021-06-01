@@ -645,7 +645,7 @@ export default class Drawer extends React.Component<DrawerProps> {
 }
 
 @Renderer({
-  test: /(^|\/)drawer$/,
+  type: 'drawer',
   storeType: ModalStore.name,
   storeExtendsData: false,
   name: 'drawer',

@@ -416,7 +416,7 @@ export default class Service extends React.Component<ServiceProps> {
 }
 
 @Renderer({
-  test: /(^|\/)service$/,
+  type: 'service',
   storeType: ServiceStore.name,
   name: 'service'
 })

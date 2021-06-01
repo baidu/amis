@@ -76,7 +76,7 @@ interface SparkLineRendProps
     Omit<SparkLineSchema, 'type' | 'className'> {}
 
 @Renderer({
-  test: /(^|\/)sparkline$/,
+  type: 'sparkline',
   name: 'sparkline'
 })
 export class SparkLineRenderer extends React.Component<SparkLineRendProps> {

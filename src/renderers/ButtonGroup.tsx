@@ -73,7 +73,7 @@ export interface ButtonGroupSchema extends BaseSchema {
 export default ButtonGroup;
 
 @Renderer({
-  test: /(^|\/)(?:button|action)\-group$/,
+  type: 'button-group',
   name: 'button-group'
 })
 export class ButtonGroupRenderer extends ButtonGroup {}

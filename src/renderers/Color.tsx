@@ -66,7 +66,7 @@ export class ColorField extends React.Component<ColorProps, object> {
 }
 
 @Renderer({
-  test: /(^|\/)color$/,
+  type: 'color',
   name: 'color'
 })
 export class ColorFieldRenderer extends ColorField {}

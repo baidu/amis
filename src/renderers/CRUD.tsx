@@ -2113,7 +2113,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
 }
 
 @Renderer({
-  test: /(^|\/)crud$/,
+  type: 'crud',
   storeType: CRUDStore.name,
   name: 'crud'
 })

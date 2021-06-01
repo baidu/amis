@@ -304,7 +304,7 @@ export default class Panel extends React.Component<PanelProps> {
 }
 
 @Renderer({
-  test: /(^|\/)panel$/,
+  type: 'panel',
   name: 'panel'
 })
 export class PanelRenderer extends Panel {}

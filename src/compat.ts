@@ -468,11 +468,14 @@ addSchemaFilter(function (schema: Schema, renderer: any, props: any) {
         if (Array.isArray(column.controls)) {
           column = {
             ...column,
-            type: 'wrapper',
-            size: 'none',
+
             body: column?.controls.map(controlToNormalRenderer)
           };
           delete column.controls;
+          if (!column.type) {
+            column.type = 'wrapper';
+            column.size = 'none';
+          }
         }
 
         return column;
