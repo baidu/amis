@@ -25,8 +25,8 @@ export const iRendererStore = StoreNode.named('iRendererStore')
     drawerData: types.optional(types.frozen(), undefined)
   })
   .views(self => ({
-    getValueByName(name: string) {
-      return getVariable(self.data, name, false);
+    getValueByName(name: string, canAccessSuper: boolean = false) {
+      return getVariable(self.data, name, canAccessSuper);
     },
 
     getPristineValueByName(name: string) {

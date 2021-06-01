@@ -333,7 +333,6 @@ const maybeFormItem = [
   'grid',
   'hbox',
   'panel',
-  'service',
   'anchor-nav',
   'qr-code'
 ];

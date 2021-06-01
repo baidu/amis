@@ -229,6 +229,7 @@ export interface OptionsProps
 }
 
 export const detectProps = itemDetectProps.concat([
+  'value',
   'options',
   'size',
   'buttons',
@@ -321,6 +322,10 @@ export function registerOptionsControl(config: OptionsConfig) {
 
     componentDidMount() {
       this.normalizeValue();
+
+      if (this.props.value) {
+        this.syncAutoFill(this.props.value);
+      }
     }
 
     shouldComponentUpdate(nextProps: OptionsProps) {

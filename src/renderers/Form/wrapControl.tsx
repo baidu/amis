@@ -183,7 +183,7 @@ export function wrapControl<
             // 同步 value
             model.changeTmpValue(
               propValue ??
-                getVariable(data, model.name, canAccessSuperData) ??
+                store?.getValueByName(model.name, canAccessSuperData) ??
                 value
             );
 
@@ -191,7 +191,7 @@ export function wrapControl<
             if (
               onChange &&
               typeof propValue === 'undefined' &&
-              typeof getVariable(data, model.name, false) === 'undefined'
+              typeof store?.getValueByName(model.name, false) === 'undefined'
             ) {
               onChange(model.tmpValue, model.name, false, true);
             }
