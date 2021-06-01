@@ -192,6 +192,7 @@ export default class Page extends React.Component<PageProps> {
     // autobind 会让继承里面的 super 指向有问题，所以先这样！
     bulkBindFunctions<Page /*为毛 this 的类型自动识别不出来？*/>(this, [
       'handleAction',
+      'handleChange',
       'handleQuery',
       'handleDialogConfirm',
       'handleDialogClose',
@@ -413,6 +414,22 @@ export default class Page extends React.Component<PageProps> {
     return value;
   }
 
+  handleChange(
+    value: any,
+    name: string,
+    submit?: boolean,
+    changePristine?: boolean
+  ) {
+    const {store} = this.props;
+
+    // 注意 form 也有 onChange 会进来，但是传参会不一样，而且不应该处理。
+    if (typeof name !== 'string' || !name) {
+      return;
+    }
+
+    store.changeValue(name, value, changePristine);
+  }
+
   renderHeader() {
     const {
       title,
@@ -502,6 +519,7 @@ export default class Page extends React.Component<PageProps> {
     const subProps = {
       onAction: this.handleAction,
       onQuery: initApi ? this.handleQuery : undefined,
+      onChange: this.handleChange,
       loading: store.loading
     };
 

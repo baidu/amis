@@ -322,8 +322,15 @@ export default class Dialog extends React.Component<DialogProps> {
     store.setFormData(data);
   }
 
-  handleFormChange(data: any) {
+  handleFormChange(data: any, name?: string) {
     const {store} = this.props;
+
+    // 如果 dialog 里面不放 form，而是直接放表单项就会进到这里来。
+    if (typeof name === 'string') {
+      data = {
+        [name]: data
+      };
+    }
 
     store.setFormData(data);
   }
