@@ -423,7 +423,9 @@ export function resolveRenderer(
   path: string,
   schema?: Schema
 ): null | RendererConfig {
-  if (cache[path]) {
+  if (schema?.type && cache[schema.type]) {
+    return cache[schema.type];
+  } else if (cache[path]) {
     return cache[path];
   } else if (path && path.length > 1024) {
     throw new Error('Path太长是不是死循环了？');
@@ -437,6 +439,11 @@ export function resolveRenderer(
     // 不应该搞得这么复杂的，让每个渲染器唯一 id，自己不晕别人用起来也不晕。
     if (item.type && schema?.type) {
       matched = item.type === schema.type;
+
+      // 如果是type来命中的，那么cache的key直接用 type 即可。
+      if (matched) {
+        cache[schema.type] = item;
+      }
     } else if (typeof item.test === 'function') {
       matched = item.test(path, schema, resolveRenderer);
     } else if (item.test instanceof RegExp) {
