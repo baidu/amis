@@ -328,6 +328,8 @@ export function registerOptionsControl(config: OptionsConfig) {
         return true;
       } else if (nextProps.source || nextProps.autoComplete) {
         return true;
+      } else if (nextProps.formItem?.expressionsInOptions) {
+        return true;
       }
 
       if (anyChanged(detectProps, this.props, nextProps)) {
