@@ -874,7 +874,7 @@ export class FormItemWrap extends React.Component<FormItemProps> {
     return (
       <div
         data-role="form-item"
-        className={cx(`Form-item Form-item--${formMode}`, className, {
+        className={cx(`Form-item Form-item--normal`, className, {
           'is-error': model && !model.valid,
           [`is-required`]: required
         })}
