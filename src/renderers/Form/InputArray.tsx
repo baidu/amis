@@ -16,7 +16,10 @@ import {SchemaApi} from '../../Schema';
  * 文档：https://baidu.gitee.io/amis/docs/components/form/array
  */
 export interface ArrayControlSchema
-  extends Omit<ComboControlSchema, 'type' | 'controls' | 'conditions'> {
+  extends Omit<
+    ComboControlSchema,
+    'type' | 'controls' | 'conditions' | 'items'
+  > {
   /**
    * 指定为数组输入框类型
    */
@@ -58,7 +61,7 @@ export default class InputArrayControl extends React.Component<InputArrayProps> 
     return (
       <Combo
         {...(rest as any)}
-        controls={[items]}
+        items={[items]}
         flat
         multiple
         multiLine={false}
