@@ -632,6 +632,11 @@ amis 会有默认的报错信息，如果你想自定义校验信息，配置`va
 - `equalsField:xxx` 当前值必须与 xxx 变量值一致。
 - `isJson` 是否是合法的 Json 字符串。
 - `isUrlPath` 是 url 路径。
+- `isPhoneNumber` 是否为合法的手机号码
+- `isTelNumber` 是否为合法的电话号码
+- `isZipcode` 是否为邮编号码
+- `isZipcode` 是否为邮编号码
+- `isId` 是否为身份证号码，没做校验
 - `matchRegexp:/foo/` 必须命中某个正则。
 - `matchRegexp1:/foo/` 必须命中某个正则。
 - `matchRegexp2:/foo/` 必须命中某个正则。
