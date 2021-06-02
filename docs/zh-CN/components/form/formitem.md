@@ -635,7 +635,6 @@ amis 会有默认的报错信息，如果你想自定义校验信息，配置`va
 - `isPhoneNumber` 是否为合法的手机号码
 - `isTelNumber` 是否为合法的电话号码
 - `isZipcode` 是否为邮编号码
-- `isZipcode` 是否为邮编号码
 - `isId` 是否为身份证号码，没做校验
 - `matchRegexp:/foo/` 必须命中某个正则。
 - `matchRegexp1:/foo/` 必须命中某个正则。
