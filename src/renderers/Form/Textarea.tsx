@@ -101,7 +101,6 @@ export default class TextAreaControl extends React.Component<
       readOnly,
       name
     } = this.props;
-
     return (
       <Textarea
         autoComplete="off"
@@ -121,8 +120,8 @@ export default class TextAreaControl extends React.Component<
         autoCorrect="off"
         spellCheck="false"
         readOnly={readOnly}
-        minRows={minRows || 1}
-        maxRows={maxRows || 1}
+        minRows={minRows || undefined}
+        maxRows={maxRows || undefined}
         onChange={this.handleChange}
         onFocus={this.handleFocus}
         onBlur={this.handleBlur}
