@@ -68,7 +68,6 @@
     overflow: hidden;
     text-overflow: ellipsis;
   }
-
   &--multi {
     height: auto;
     min-height: var(--Form-selectOption-height);
@@ -110,7 +109,6 @@
       padding: 0 var(--gap-xs);
     }
   }
-
   &-valueIcon {
     cursor: pointer;
     border-right: px2rem(1px) solid var(--Form-selectValue-borderColor);
@@ -157,7 +155,10 @@
     overflow: auto;
     user-select: none;
   }
-
+  &--longlist {
+    overflow: hidden;
+    max-height: max-content;
+  }
   &-input {
     cursor: pointer;
     outline: none;

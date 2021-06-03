@@ -870,7 +870,12 @@ export class Select extends React.Component<SelectProps, SelectState> {
     };
 
     const menu = (
-      <div ref={this.menu} className={cx('Select-menu')}>
+      <div
+        ref={this.menu}
+        className={cx('Select-menu', {
+          'Select--longlist': filtedOptions.length && filtedOptions.length > 100
+        })}
+      >
         {searchable ? (
           <div
             className={cx(`Select-input`, {
