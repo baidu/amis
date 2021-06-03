@@ -1,9 +1,9 @@
 ---
-title: Month-Range 月份范围
+title: InputMonthRange 月份范围
 description:
 type: 0
 group: null
-menuName: Month-Range
+menuName: InputMonthRange
 icon:
 order: 15
 ---
@@ -14,9 +14,9 @@ order: 15
 {
     "type": "form",
     "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
-    "controls": [
+    "body": [
         {
-            "type": "month-range",
+            "type": "input-month-range",
             "name": "a",
             "label": "月份范围"
         }
@@ -31,9 +31,9 @@ order: 15
     "type": "form",
     "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
     "debug": true,
-    "controls": [
+    "body": [
         {
-            "type": "month-range",
+            "type": "input-month-range",
             "name": "a",
             "label": "月份范围",
             "embed": true

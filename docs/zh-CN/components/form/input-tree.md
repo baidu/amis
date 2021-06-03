@@ -1,9 +1,9 @@
 ---
-title: Tree 树形选择框
+title: InputTree 树形选择框
 description:
 type: 0
 group: null
-menuName: Tree 树形选择框
+menuName: InpputTree 树形选择框
 icon:
 order: 59
 ---
@@ -16,9 +16,9 @@ order: 59
 {
   "type": "form",
   "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
-  "controls": [
+  "body": [
     {
-      "type": "tree",
+      "type": "input-tree",
       "name": "tree",
       "label": "Tree",
       "options": [
@@ -68,7 +68,7 @@ order: 59
 {
   "type": "form",
   "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
-  "controls": [
+  "body": [
     {
       "type": "tree-select",
       "name": "tree",
@@ -112,9 +112,9 @@ order: 59
 {
   "type": "form",
   "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
-  "controls": [
+  "body": [
     {
-      "type": "tree",
+      "type": "input-tree",
       "name": "tree",
       "label": "Tree",
       "showOutline": true,
@@ -166,9 +166,9 @@ order: 59
   "type": "form",
   "debug": true,
   "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
-  "controls": [
+  "body": [
     {
-      "type": "tree",
+      "type": "input-tree",
       "name": "tree1",
       "label": "默认自动选中子节点",
       "multiple": true,
@@ -205,7 +205,7 @@ order: 59
         "type": "divider"
     },
      {
-      "type": "tree",
+      "type": "input-tree",
       "name": "tree2",
       "label": "不自动选中子节点",
       "multiple": true,
@@ -252,9 +252,9 @@ order: 59
   "type": "form",
   "debug": true,
   "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
-  "controls": [
+  "body": [
     {
-      "type": "tree",
+      "type": "input-tree",
       "name": "tree1",
       "label": "默认不自动带上子节点的值",
       "multiple": true,
@@ -291,7 +291,7 @@ order: 59
         "type": "divider"
     },
      {
-      "type": "tree",
+      "type": "input-tree",
       "name": "tree2",
       "label": "自动带上子节点的值",
       "multiple": true,
@@ -336,9 +336,9 @@ order: 59
   "type": "form",
   "debug": true,
   "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
-  "controls": [
+  "body": [
     {
-      "type": "tree",
+      "type": "input-tree",
       "name": "tree1",
       "label": "默认不自动带上子节点的值",
       "multiple": true,
@@ -375,7 +375,7 @@ order: 59
         "type": "divider"
     },
      {
-      "type": "tree",
+      "type": "input-tree",
       "name": "tree2",
       "label": "只包含子节点的值",
       "multiple": true,
@@ -422,9 +422,9 @@ order: 59
   "type": "form",
   "debug": true,
   "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
-  "controls": [
+  "body": [
     {
-      "type": "tree",
+      "type": "input-tree",
       "name": "tree1",
       "label": "默认不自动带上子节点的值",
       "initiallyOpen": false,
@@ -470,9 +470,9 @@ order: 59
   "type": "form",
   "debug": true,
   "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
-  "controls": [
+  "body": [
     {
-      "type": "tree",
+      "type": "input-tree",
       "name": "tree1",
       "label": "默认不自动带上子节点的值",
       "initiallyOpen": false,
@@ -532,9 +532,9 @@ order: 59
 {
   "type": "form",
   "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
-  "controls": [
+  "body": [
     {
-      "type": "tree",
+      "type": "input-tree",
       "name": "tree",
       "label": "Tree",
       "creatable": true,
@@ -580,9 +580,9 @@ order: 59
 {
   "type": "form",
   "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
-  "controls": [
+  "body": [
     {
-      "type": "tree",
+      "type": "input-tree",
       "name": "tree",
       "label": "Tree",
       "deferApi": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/deferOptions?label=${label}&waitSeconds=2",

@@ -1,9 +1,9 @@
 ---
-title: Range 滑块
+title: InputRange 滑块
 description:
 type: 0
 group: null
-menuName: Range 范围
+menuName: InputRange 范围
 icon:
 order: 38
 ---
@@ -18,9 +18,9 @@ order: 38
 {
     "type": "form",
     "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
-    "controls": [
+    "body": [
         {
-            "type": "range",
+            "type": "input-range",
             "name": "range",
             "label": "range"
         }
@@ -37,9 +37,9 @@ order: 38
     "type": "form",
     "debug": true,
     "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
-    "controls": [
+    "body": [
         {
-            "type": "range",
+            "type": "input-range",
             "name": "range",
             "label": "range",
             "multiple": true

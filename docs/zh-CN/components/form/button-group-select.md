@@ -1,67 +1,25 @@
 ---
-title: Button-Group 按钮集合
+title: Button-Group-Select 按钮点选
 description:
 type: 0
 group: null
-menuName: Button-Group
+menuName: Button-Group-Select
 icon:
 order: 6
 ---
 
 ## 基本用法
 
-用于将多个按钮在展现上合并到一起。
-
-```schema: scope="body"
-{
-  "type": "form",
-  "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
-  "controls": [
-    {
-      "type": "text",
-      "name": "name",
-      "label": "姓名："
-    },
-    {
-      "type": "button-group",
-      "buttons": [
-        {
-          "type": "button",
-          "label": "Button",
-          "actionType": "dialog",
-          "dialog": {
-            "title": "提示",
-            "body": "对，你刚点击了！"
-          }
-        },
-
-        {
-          "type": "submit",
-          "label": "提交"
-        },
-
-        {
-          "type": "reset",
-          "label": "重置"
-        }
-      ]
-    }
-  ]
-}
-```
-
-## 作为选择器表单项
-
-当不配置 `buttons` 属性时，`button-group`还可以作为 [选择类表单项](./options) 使用。
+按钮集合当 select 点选用。
 
 ```schema: scope="body"
 {
   "type": "form",
   "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
   "debug": true,
-  "controls": [
+  "body": [
     {
-      "type": "button-group",
+      "type": "button-group-select",
       "label": "选项",
       "name": "type",
       "options": [
@@ -78,8 +36,6 @@ order: 6
   ]
 }
 ```
-
-更多属性查看 [选择类表单项文档](./options) 。
 
 ## 属性表
 

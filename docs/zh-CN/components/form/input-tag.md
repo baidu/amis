@@ -1,9 +1,9 @@
 ---
-title: Tag 标签选择器
+title: InputTag 标签选择器
 description:
 type: 0
 group: null
-menuName: Tag 标签选择器
+menuName: InputTag 标签选择器
 icon:
 order: 55
 ---
@@ -13,9 +13,9 @@ order: 55
 ```schema: scope="body"
 {
     "type": "form",
-    "controls": [
+    "body": [
         {
-            "type": "tag",
+            "type": "input-tag",
             "name": "tag",
             "label": "标签",
             "options": [

@@ -1,14 +1,14 @@
 ---
-title: Image 图片
+title: InputImage 图片
 description:
 type: 0
 group: null
-menuName: Image
+menuName: InputImage
 icon:
 order: 27
 ---
 
-图片格式输入，需要实现接收器，提交时将以 url 的方式提交，如果需要以表单方式提交请使用 [File](file#手动上传)。
+图片格式输入，需要实现接收器，提交时将以 url 的方式提交，如果需要以表单方式提交请使用 [InputFile](input-file#手动上传)。
 
 ## 基本用法
 
@@ -16,9 +16,9 @@ order: 27
 {
     "type": "form",
     "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
-    "controls": [
+    "body": [
         {
-            "type": "image",
+            "type": "input-image",
             "name": "image",
             "label": "image",
             "receiver": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/upload/file"
@@ -49,9 +49,9 @@ order: 27
 {
     "type": "form",
     "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
-    "controls": [
+    "body": [
         {
-            "type": "image",
+            "type": "input-image",
             "name": "image",
             "label": "限制只能上传jpg图片",
             "accept": ".jpg",
@@ -71,9 +71,9 @@ order: 27
 {
     "type": "form",
     "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
-    "controls": [
+    "body": [
         {
-            "type": "image",
+            "type": "input-image",
             "name": "image",
             "label": "限制只能上传宽度大于 1000 的图片",
             "accept": ".jpg",
@@ -92,9 +92,9 @@ order: 27
 {
     "type": "form",
     "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
-    "controls": [
+    "body": [
         {
-            "type": "image",
+            "type": "input-image",
             "name": "image",
             "label": "限制只能上传jpg图片",
             "accept": ".jpg",
@@ -113,9 +113,9 @@ order: 27
 {
   "type": "form",
   "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
-  "controls": [
+  "body": [
     {
-      "type": "image",
+      "type": "input-image",
       "name": "image",
       "label": "image",
       "receiver": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/upload/file",
@@ -165,9 +165,9 @@ order: 27
   "type": "form",
   "debug": true,
   "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
-  "controls": [
+  "body": [
     {
-      "type": "image",
+      "type": "input-image",
       "name": "image",
       "label": "image",
       "multiple": true,

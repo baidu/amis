@@ -17,7 +17,7 @@ import {FormBaseControl} from './Item';
  * 文档：https://baidu.gitee.io/amis/docs/components/form/button-group
  */
 export interface ButtonGroupControlSchema
-  extends ButtonGroupSchema,
+  extends Omit<ButtonGroupSchema, 'type'>,
     Omit<FormOptionsControl, 'size'> {
   type: 'button-group-select';
 }

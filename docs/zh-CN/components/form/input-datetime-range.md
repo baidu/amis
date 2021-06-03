@@ -1,9 +1,9 @@
 ---
-title: Datetime-Range 日期时间范围
+title: InputDatetimeRange 日期时间范围
 description:
 type: 0
 group: null
-menuName: Datetime-Range
+menuName: InputDatetimeRange
 icon:
 order: 16
 ---
@@ -14,9 +14,9 @@ order: 16
 {
     "type": "form",
     "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
-    "controls": [
+    "body": [
         {
-            "type": "datetime-range",
+            "type": "input-datetime-range",
             "name": "select",
             "label": "日期时间范围"
         }

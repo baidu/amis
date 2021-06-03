@@ -1,9 +1,9 @@
 ---
-title: SubForm 子表单
+title: InputSubForm 子表单
 description:
 type: 0
 group: null
-menuName: SubForm 子表单
+menuName: InputSubForm 子表单
 icon:
 order: 50
 ---
@@ -14,25 +14,25 @@ order: 50
 {
   "type": "form",
   "debug": true,
-  "controls": [
+  "body": [
       {
-        "type": "form",
+        "type": "input-sub-form",
         "name": "form",
         "label": "子Form",
         "btnLabel": "设置子表单",
         "form": {
           "title": "配置子表单",
-          "controls": [
+          "body": [
             {
               "name": "a",
               "label": "A",
-              "type": "text"
+              "type": "input-text"
             },
 
             {
               "name": "b",
               "label": "B",
-              "type": "text"
+              "type": "input-text"
             }
           ]
         }
@@ -49,9 +49,9 @@ order: 50
 {
   "type": "form",
   "debug": true,
-  "controls": [
+  "body": [
       {
-        "type": "form",
+        "type": "input-sub-form",
         "name": "form2",
         "label": "多选",
         "multiple": true,
@@ -59,16 +59,16 @@ order: 50
         "btnLabel": "设置子表单",
         "form": {
           "title": "配置子表单",
-          "controls": [
+          "body": [
             {
               "name": "a",
               "label": "A",
-              "type": "text"
+              "type": "input-text"
             },
             {
               "name": "b",
               "label": "B",
-              "type": "text"
+              "type": "input-text"
             }
           ]
         }

@@ -1,27 +1,28 @@
 ---
-title: Array 数组输入框
+title: InputArray 数组输入框
 description:
 type: 0
 group: null
-menuName: Array 数组输入框
+menuName: InputArray 数组输入框
 icon:
 order: 3
 ---
 
-Array 是一种简化的 [Combo](./combo)，用于输入多个某种类型的[表单项](./formitem)，提交的时将以数组的形式提交。
+InputArray 是一种简化的 [Combo](./combo)，用于输入多个某种类型的[表单项](./formitem)，提交的时将以数组的形式提交。
 
 ## 基本用法
 
-```schema: scope="form"
+```schema: scope="form2"
 [
   {
     "name": "array",
     "label": "颜色集合",
-    "type": "array",
+    "type": "input-array",
     "value": ["red"],
     "inline": true,
     "items": {
-      "type": "color"
+      "type": "input-color",
+      "clearable": false
     }
   }
 ]

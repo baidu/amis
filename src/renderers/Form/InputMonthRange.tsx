@@ -189,7 +189,7 @@ export default class MonthRangeControl extends React.Component<MonthRangeProps> 
 }
 
 @FormItem({
-  type: 'month-range'
+  type: 'input-month-range'
 })
 export class MonthRangeControlRenderer extends MonthRangeControl {
   static defaultProps = {

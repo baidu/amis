@@ -1,9 +1,9 @@
 ---
-title: Number 数字输入框
+title: InputNumber 数字输入框
 description:
 type: 0
 group: null
-menuName: Number
+menuName: InputNumber
 icon:
 order: 32
 ---
@@ -14,9 +14,9 @@ order: 32
 {
     "type": "form",
     "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
-    "controls": [
+    "body": [
         {
-            "type": "number",
+            "type": "input-number",
             "name": "number",
             "label": "数字"
         }
@@ -32,7 +32,7 @@ order: 32
 {
     "type": "form",
     "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
-    "controls": [
+    "body": [
         {
             "type": "native-number",
             "name": "number",

@@ -1,9 +1,9 @@
 ---
-title: Month 月份
+title: InputMonth 月份
 description:
 type: 0
 group: null
-menuName: Month 月份
+menuName: InputMonth 月份
 icon:
 order: 81
 ---
@@ -14,9 +14,9 @@ order: 81
 {
     "type": "form",
     "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
-    "controls": [
+    "body": [
         {
-            "type": "month",
+            "type": "input-month",
             "name": "month",
             "label": "时间"
         }
@@ -34,9 +34,9 @@ order: 81
 {
     "type": "form",
     "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
-    "controls": [
+    "body": [
         {
-            "type": "month",
+            "type": "input-month",
             "name": "month",
             "label": "月份",
             "inputFormat": "MM月"
@@ -56,9 +56,9 @@ order: 81
     "type": "form",
     "debug": true,
     "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
-    "controls": [
+    "body": [
         {
-            "type": "month",
+            "type": "input-month",
             "name": "month",
             "label": "月份"
         }
@@ -75,9 +75,9 @@ order: 81
     "type": "form",
     "debug": true,
     "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
-    "controls": [
+    "body": [
         {
-            "type": "month",
+            "type": "input-month",
             "name": "month",
             "label": "月份",
             "format": "MM"
@@ -101,9 +101,9 @@ order: 81
     "type": "form",
     "debug": true,
     "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
-    "controls": [
+    "body": [
         {
-            "type": "month",
+            "type": "input-month",
             "name": "month",
             "label": "月份",
             "value": "1582992000"
@@ -121,9 +121,9 @@ order: 81
     "type": "form",
     "debug": true,
     "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
-    "controls": [
+    "body": [
         {
-            "type": "month",
+            "type": "input-month",
             "name": "month",
             "label": "月份",
             "value": "+1month"

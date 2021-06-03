@@ -1,9 +1,9 @@
 ---
-title: Matrix 矩阵
+title: MatrixCheckboxes 矩阵
 description:
 type: 0
 group: null
-menuName: Matrix
+menuName: MatrixCheckboxes
 icon:
 order: 30
 ---
@@ -17,9 +17,9 @@ order: 30
   "type": "form",
   "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
   "debug": true,
-  "controls": [
+  "body": [
     {
-      "type": "matrix",
+      "type": "matrix-checkboxes",
       "name": "matrix",
       "label": "Matrix",
       "rowLabel": "行标题说明",
@@ -53,9 +53,9 @@ order: 30
   "type": "form",
   "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
   "debug": true,
-  "controls": [
+  "body": [
     {
-      "type": "matrix",
+      "type": "matrix-checkboxes",
       "name": "matrix",
       "label": "Matrix",
       "rowLabel": "行标题说明",
@@ -89,10 +89,10 @@ order: 30
 {
   "type": "form",
   "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
-  "controls": [
+  "body": [
     {
         "name": "matrix",
-        "type": "matrix",
+        "type": "matrix-checkboxes",
         "label": "动态矩阵组件",
         "source": "/api/mock2/options/matrix?waitSeconds=1"
     }
@@ -167,9 +167,9 @@ order: 30
 {
   "type": "form",
   "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
-  "controls": [
+  "body": [
     {
-      "type": "matrix",
+      "type": "matrix-checkboxes",
       "name": "matrix",
       "label": "Matrix",
       "rowLabel": "行标题说明",
@@ -203,9 +203,9 @@ cell 模式，指全部选项中只能单选某个单元格
 {
   "type": "form",
   "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
-  "controls": [
+  "body": [
     {
-      "type": "matrix",
+      "type": "matrix-checkboxes",
       "name": "matrix",
       "label": "Matrix",
       "rowLabel": "行标题说明",
@@ -240,9 +240,9 @@ row 模式，每行只能单选某个单元格
 {
   "type": "form",
   "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
-  "controls": [
+  "body": [
     {
-      "type": "matrix",
+      "type": "matrix-checkboxes",
       "name": "matrix",
       "label": "Matrix",
       "rowLabel": "行标题说明",

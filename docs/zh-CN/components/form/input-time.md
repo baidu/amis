@@ -1,9 +1,9 @@
 ---
-title: Time 时间
+title: InputTime 时间
 description:
 type: 0
 group: null
-menuName: Time 时间
+menuName: InputTime 时间
 icon:
 order: 58
 ---
@@ -14,9 +14,9 @@ order: 58
 {
     "type": "form",
     "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
-    "controls": [
+    "body": [
         {
-            "type": "time",
+            "type": "input-time",
             "name": "time",
             "label": "时间"
         }
@@ -34,9 +34,9 @@ order: 58
 {
     "type": "form",
     "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
-    "controls": [
+    "body": [
         {
-            "type": "time",
+            "type": "input-time",
             "name": "time",
             "label": "时间",
             "inputFormat": "HH时mm分"
@@ -56,9 +56,9 @@ order: 58
     "type": "form",
     "debug": true,
     "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
-    "controls": [
+    "body": [
         {
-            "type": "time",
+            "type": "input-time",
             "name": "time",
             "label": "时间"
         }
@@ -75,9 +75,9 @@ order: 58
     "type": "form",
     "debug": true,
     "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
-    "controls": [
+    "body": [
         {
-            "type": "time",
+            "type": "input-time",
             "name": "time",
             "label": "时间",
             "format": "HH:mm"
@@ -97,9 +97,9 @@ order: 58
     "type": "form",
     "debug": true,
     "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
-    "controls": [
+    "body": [
         {
-            "type": "time",
+            "type": "input-time",
             "name": "time",
             "label": "时间",
             "format": "HH:mm:ss",
@@ -123,9 +123,9 @@ order: 58
     "type": "form",
     "debug": true,
     "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
-    "controls": [
+    "body": [
         {
-            "type": "time",
+            "type": "input-time",
             "name": "time",
             "label": "时间",
             "value": "1591862818"
@@ -143,9 +143,9 @@ order: 58
     "type": "form",
     "debug": true,
     "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
-    "controls": [
+    "body": [
         {
-            "type": "time",
+            "type": "input-time",
             "name": "time",
             "label": "时间",
             "value": "+1hours"
@@ -171,7 +171,7 @@ order: 58
 {
     "type": "form",
     "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
-    "controls": [
+    "body": [
         {
             "type": "native-time",
             "name": "time",

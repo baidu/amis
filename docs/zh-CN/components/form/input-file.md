@@ -1,9 +1,9 @@
 ---
-title: File 文件上传
+title: InputFile 文件上传
 description:
 type: 0
 group: null
-menuName: File
+menuName: InputFile
 icon:
 order: 21
 ---
@@ -16,9 +16,9 @@ order: 21
 {
     "type": "form",
     "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
-    "controls": [
+    "body": [
         {
-            "type": "file",
+            "type": "input-file",
             "name": "file",
             "label": "File",
             "accept": "*",
@@ -50,9 +50,9 @@ order: 21
 {
     "type": "form",
     "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
-    "controls": [
+    "body": [
         {
-            "type": "file",
+            "type": "input-file",
             "name": "file",
             "label": "限制只能上传csv文件",
             "accept": ".csv",
@@ -73,9 +73,9 @@ order: 21
     "type": "form",
     "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
     "debug": true,
-    "controls": [
+    "body": [
         {
-            "type": "file",
+            "type": "input-file",
             "name": "file",
             "label": "File",
             "accept": "*",
@@ -99,9 +99,9 @@ order: 21
 {
   "type": "form",
   "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
-  "controls": [
+  "body": [
     {
-      "type": "file",
+      "type": "input-file",
       "name": "file",
       "label": "File",
       "accept": "*",
@@ -152,9 +152,9 @@ order: 21
   "type": "form",
   "debug": true,
   "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
-  "controls": [
+  "body": [
     {
-      "type": "file",
+      "type": "input-file",
       "name": "file",
       "label": "File",
       "multiple": true,

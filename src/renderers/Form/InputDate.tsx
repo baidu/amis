@@ -15,7 +15,8 @@ export interface InputDateBaseControlSchema extends FormBaseControl {
     | 'input-datetime'
     | 'input-time'
     | 'input-month'
-    | 'input-quarter';
+    | 'input-quarter'
+    | 'input-year';
 
   /**
    * 是否显示清除按钮
@@ -192,6 +193,28 @@ export interface QuarterControlSchema extends InputDateBaseControlSchema {
    * 指定为月份时间选择控件
    */
   type: 'input-quarter';
+
+  /**
+   * 月份存储格式
+   * @default X
+   */
+  format?: string;
+
+  /**
+   * 月份展示格式
+   * @default YYYY-MM
+   */
+  inputFormat?: string;
+}
+
+/**
+ * 年份选择控件
+ */
+export interface YearControlSchema extends InputDateBaseControlSchema {
+  /**
+   * 指定为月份时间选择控件
+   */
+  type: 'input-year';
 
   /**
    * 月份存储格式

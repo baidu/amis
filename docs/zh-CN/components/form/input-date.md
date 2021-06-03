@@ -1,5 +1,5 @@
 ---
-title: Date 日期
+title: InputDate 日期
 description:
 type: 0
 group: null
@@ -14,9 +14,9 @@ order: 13
 {
     "type": "form",
     "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
-    "controls": [
+    "body": [
         {
-            "type": "date",
+            "type": "input-date",
             "name": "date",
             "label": "日期"
         }
@@ -34,9 +34,9 @@ order: 13
 {
     "type": "form",
     "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
-    "controls": [
+    "body": [
         {
-            "type": "date",
+            "type": "input-date",
             "name": "date",
             "label": "日期",
             "inputFormat": "YYYY年MM月DD日"
@@ -56,9 +56,9 @@ order: 13
     "type": "form",
     "debug": true,
     "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
-    "controls": [
+    "body": [
         {
-            "type": "date",
+            "type": "input-date",
             "name": "date",
             "label": "日期"
         }
@@ -75,9 +75,9 @@ order: 13
     "type": "form",
     "debug": true,
     "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
-    "controls": [
+    "body": [
         {
-            "type": "date",
+            "type": "input-date",
             "name": "date",
             "label": "日期",
             "format": "YYYY-MM-DD"
@@ -101,9 +101,9 @@ order: 13
     "type": "form",
     "debug": true,
     "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
-    "controls": [
+    "body": [
         {
-            "type": "date",
+            "type": "input-date",
             "name": "date",
             "label": "日期",
             "value": "1591862818"
@@ -121,9 +121,9 @@ order: 13
     "type": "form",
     "debug": true,
     "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
-    "controls": [
+    "body": [
         {
-            "type": "date",
+            "type": "input-date",
             "name": "date",
             "label": "日期",
             "value": "+1days"
@@ -153,16 +153,16 @@ order: 13
     "type": "form",
     "debug": true,
     "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
-    "controls": [
+    "body": [
         {
-            "type": "date",
+            "type": "input-date",
             "name": "start",
             "label": "开始时间",
             "minDate": "1591862818",
             "description": "限制可选最小日期是 <code>2020-06-11 16:06:58</code>"
         },
         {
-            "type": "date",
+            "type": "input-date",
             "name": "end",
             "label": "结束时间",
             "maxDate": "1591862818",
@@ -181,9 +181,9 @@ order: 13
     "type": "form",
     "debug": true,
     "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
-    "controls": [
+    "body": [
         {
-            "type": "date",
+            "type": "input-date",
             "name": "start",
             "label": "开始时间",
             "minDate": "-1days",
@@ -204,15 +204,15 @@ order: 13
     "type": "form",
     "debug": true,
     "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
-    "controls": [
+    "body": [
         {
-            "type": "date",
+            "type": "input-date",
             "name": "start",
             "label": "开始日期",
             "maxDate": "$end"
         },
         {
-            "type": "date",
+            "type": "input-date",
             "name": "end",
             "label": "结束日期",
             "minDate": "$start"
@@ -230,9 +230,9 @@ order: 13
     "type": "form",
     "debug": true,
     "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
-    "controls": [
+    "body": [
         {
-            "type": "date",
+            "type": "input-date",
             "name": "date",
             "label": "日期",
             "shortcuts": ["yesterday" ,"today", "tomorrow"]
@@ -272,15 +272,15 @@ order: 13
     "type": "form",
     "debug": true,
     "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
-    "controls": [
+    "body": [
         {
-            "type": "date",
+            "type": "input-date",
             "name": "date",
             "label": "普通日期",
             "format": "YYYY-MM-DD"
         },
         {
-            "type": "date",
+            "type": "input-date",
             "name": "date-utc",
             "label": "UTC日期",
             "utc": true,
@@ -296,14 +296,14 @@ order: 13
 {
     "type": "form",
     "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
-    "controls": [
+    "body": [
         {
             "type": "static-date",
             "name": "date",
             "label": "当前值"
         },
         {
-            "type": "date",
+            "type": "input-date",
             "name": "date",
             "label": "日期",
             "embed": true
@@ -320,7 +320,7 @@ order: 13
 {
     "type": "form",
     "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
-    "controls": [
+    "body": [
         {
             "type": "native-date",
             "name": "date",

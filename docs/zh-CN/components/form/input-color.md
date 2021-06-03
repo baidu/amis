@@ -1,9 +1,9 @@
 ---
-title: Color 颜色选择器
+title: InputColor 颜色选择器
 description:
 type: 0
 group: null
-menuName: Color
+menuName: InputColor
 icon:
 order: 11
 ---
@@ -14,9 +14,9 @@ order: 11
 {
     "type": "form",
     "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
-    "controls": [
+    "body": [
         {
-            "type": "color",
+            "type": "input-color",
             "name": "color",
             "label": "颜色"
         }
@@ -40,7 +40,7 @@ order: 11
     "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
     "controls": [
         {
-            "type": "color",
+            "type": "input-color",
             "name": "color",
             "label": "颜色",
             "format": "rgba"

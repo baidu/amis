@@ -589,6 +589,7 @@ export function wrapControl<
               ref: this.controlRef,
               data: store ? store.data : data,
               value,
+              defaultValue: control.value,
               formItemValue: value, // 为了兼容老版本的自定义组件
               onChange: this.handleChange,
 

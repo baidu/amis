@@ -1,9 +1,9 @@
 ---
-title: Repeat 重复频率选择器
+title: InputRepeat 重复频率选择器
 description:
 type: 0
 group: null
-menuName: Repeat 重复频率
+menuName: InputRepeat 重复频率
 icon:
 order: 39
 ---
@@ -14,9 +14,9 @@ order: 39
 {
     "type": "form",
     "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
-    "controls": [
+    "body": [
         {
-            "type": "repeat",
+            "type": "input-repeat",
             "name": "repeat",
             "label": "重复频率"
         }

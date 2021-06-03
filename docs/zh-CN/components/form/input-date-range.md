@@ -1,9 +1,9 @@
 ---
-title: Date-Range 日期范围
+title: InputDateRange 日期范围
 description:
 type: 0
 group: null
-menuName: Date-Range
+menuName: InputDateRange
 icon:
 order: 15
 ---
@@ -14,9 +14,9 @@ order: 15
 {
     "type": "form",
     "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
-    "controls": [
+    "body": [
         {
-            "type": "date-range",
+            "type": "input-date-range",
             "name": "select",
             "label": "日期范围"
         }
@@ -31,9 +31,9 @@ order: 15
     "type": "form",
     "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
     "debug": true,
-    "controls": [
+    "body": [
         {
-            "type": "date-range",
+            "type": "input-date-range",
             "name": "date",
             "label": "日期范围",
             "embed": true

@@ -1,9 +1,9 @@
 ---
-title: Table 表格
+title: InputTable 表格
 description:
 type: 0
 group: null
-menuName: Table 表格
+menuName: InputTable 表格
 icon:
 order: 54
 ---
@@ -33,9 +33,9 @@ order: 54
     ]
   },
   "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
-  "controls": [
+  "body": [
     {
-    "type":"table",
+    "type":"input-table",
     "name":"table",
     "columns":[
         {
@@ -62,9 +62,9 @@ order: 54
 {
   "type": "form",
   "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
-  "controls": [
+  "body": [
     {
-    "type":"table",
+    "type":"input-table",
     "name":"table",
     "addable": true,
     "editable": true,
@@ -107,9 +107,9 @@ order: 54
     ]
   },
   "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
-  "controls": [
+  "body": [
     {
-      "type": "table",
+      "type": "input-table",
       "name": "table",
       "label": "Table",
       "columns": [
@@ -159,9 +159,9 @@ order: 54
     ]
   },
   "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
-  "controls": [
+  "body": [
     {
-      "type": "table",
+      "type": "input-table",
       "name": "table",
       "label": "Table",
       "columns": [
@@ -205,9 +205,9 @@ order: 54
     ]
   },
   "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
-  "controls": [
+  "body": [
     {
-      "type": "table",
+      "type": "input-table",
       "name": "table",
       "label": "Table",
       "draggable": true,
@@ -250,9 +250,9 @@ order: 54
     ]
   },
   "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
-  "controls": [
+  "body": [
     {
-      "type": "table",
+      "type": "input-table",
       "name": "table",
       "label": "Table",
       "needConfirm": false,
@@ -284,15 +284,15 @@ order: 54
   "debug": true,
   "mode": "horizontal",
   "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
-  "controls": [
+  "body": [
     {
-        "type": "text",
+        "type": "input-text",
         "label": "父级文本框",
         "name": "super_text",
         "value": "123"
     },
     {
-        "type": "table",
+        "type": "input-table",
         "name": "list",
         "label": "不可获取父级数据",
         "addable": true,
@@ -317,9 +317,9 @@ order: 54
   "debug": true,
   "mode": "horizontal",
   "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
-  "controls": [
+  "body": [
     {
-        "type": "text",
+        "type": "input-text",
         "label": "父级文本框",
         "name": "super_text",
         "value": "123"
@@ -331,7 +331,7 @@ order: 54
         "value": false
     },
     {
-        "type": "table",
+        "type": "input-table",
         "name": "list",
         "label": "可获取父级数据",
         "addable": true,

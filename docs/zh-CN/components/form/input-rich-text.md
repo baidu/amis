@@ -1,9 +1,9 @@
 ---
-title: Rich-Text 富文本编辑器
+title: InputRichText 富文本编辑器
 description:
 type: 0
 group: null
-menuName: Rich-Text
+menuName: InputRichText
 icon:
 order: 47
 ---
@@ -16,9 +16,9 @@ order: 47
 {
     "type": "form",
     "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
-    "controls": [
+    "body": [
         {
-            "type": "rich-text",
+            "type": "input-rich-text",
             "name": "rich",
             "label": "Rich Text"
         }
@@ -36,9 +36,9 @@ order: 47
 {
     "type": "form",
     "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
-    "controls": [
+    "body": [
         {
-            "type": "rich-text",
+            "type": "input-rich-text",
             "name": "rich",
             "options": {
                 "menubar": false,
@@ -63,9 +63,9 @@ order: 47
 {
     "type": "form",
     "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
-    "controls": [
+    "body": [
         {
-            "type": "rich-text",
+            "type": "input-rich-text",
             "vendor": "froala",
             "name": "rich",
             "label": "Rich Text"

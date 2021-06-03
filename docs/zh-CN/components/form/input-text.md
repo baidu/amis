@@ -1,9 +1,9 @@
 ---
-title: Text 输入框
+title: InputText 输入框
 description:
 type: 0
 group: null
-menuName: Text 输入框
+menuName: InputText 输入框
 icon:
 order: 56
 ---
@@ -14,10 +14,10 @@ order: 56
 {
     "type": "form",
     "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
-    "controls": [
+    "body": [
         {
             "name": "text",
-            "type": "text",
+            "type": "input-text",
             "label": "text"
         }
     ]
@@ -32,17 +32,17 @@ order: 56
 {
     "type": "form",
     "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
-    "controls": [
+    "body": [
         {
             "name": "text",
-            "type": "text",
+            "type": "input-text",
             "label": "text"
         },
         {
             "type": "divider"
         },
         {
-            "type": "url",
+            "type": "input-url",
             "name": "url",
             "label": "链接"
         },
@@ -50,7 +50,7 @@ order: 56
             "type": "divider"
         },
         {
-            "type": "email",
+            "type": "input-email",
             "name": "email",
             "label": "邮箱"
         },
@@ -58,7 +58,7 @@ order: 56
             "type": "divider"
         },
         {
-            "type": "password",
+            "type": "input-password",
             "name": "password",
             "label": "密码"
         }
@@ -74,10 +74,10 @@ order: 56
 {
     "type": "form",
     "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
-    "controls": [
+    "body": [
         {
             "name": "text",
-            "type": "text",
+            "type": "input-text",
             "label": "text",
             "addOn": {
                 "type": "button",
@@ -97,10 +97,10 @@ order: 56
 {
     "type": "form",
     "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
-    "controls": [
+    "body": [
         {
             "name": "text",
-            "type": "text",
+            "type": "input-text",
             "label": "text",
             "clearable": true
         }
@@ -116,10 +116,10 @@ order: 56
 {
     "type": "form",
     "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
-    "controls": [
+    "body": [
         {
             "name": "text",
-            "type": "text",
+            "type": "input-text",
             "label": "text",
             "options": [
                 {

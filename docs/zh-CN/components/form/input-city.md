@@ -1,9 +1,9 @@
 ---
-title: City 城市选择器
+title: InputCity 城市选择器
 description:
 type: 0
 group: null
-menuName: City
+menuName: InputCity
 icon:
 order: 10
 ---
@@ -17,10 +17,10 @@ order: 10
     "type": "form",
     "debug": true,
     "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
-    "controls": [
+    "body": [
         {
             "name": "city",
-            "type": "city",
+            "type": "input-city",
             "label": "城市",
             "searchable": true
         }
@@ -39,10 +39,10 @@ order: 10
     "type": "form",
     "debug": true,
     "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
-    "controls": [
+    "body": [
         {
             "name": "city",
-            "type": "city",
+            "type": "input-city",
             "label": "城市",
             "allowDistrict": false,
             "allowCity": false
@@ -60,10 +60,10 @@ order: 10
     "type": "form",
     "debug": true,
     "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
-    "controls": [
+    "body": [
         {
             "name": "city",
-            "type": "city",
+            "type": "input-city",
             "label": "城市",
             "extractValue": false
         }

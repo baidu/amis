@@ -15,7 +15,7 @@ export interface DateRangeControlSchema extends FormBaseControl {
   /**
    * 指定为日期范围控件
    */
-  type: 'input-date-range';
+  type: 'input-date-range' | 'input-datetime-range';
 
   /**
    * 分割符, 因为有两个值，开始时间和结束时间，所以要有连接符。默认为英文逗号。

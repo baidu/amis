@@ -90,6 +90,19 @@ const viewModes = [
   }
 ];
 
+const docVersions = [
+  {
+    label: '1.2.x',
+    disabled: true,
+    value: ''
+  },
+  {
+    label: '1.1.x 文档',
+    value: '1.1.7',
+    url: 'https://aisuda.github.io/amis-1.1.7/zh-CN/docs/index'
+  }
+];
+
 function getPath(path) {
   return path
     ? path[0] === '/'
@@ -288,8 +301,9 @@ export class App extends React.PureComponent<{
             </a> */}
           </ul>
 
-          <div className="hidden-xs ml-auto">
+          <div className="hidden-xs ml-2">
             <Select
+              overlayPlacement="right-bottom-right-top"
               clearable={false}
               theme={this.state.theme.value}
               value={this.state.locale || 'zh-CN'}
@@ -304,6 +318,7 @@ export class App extends React.PureComponent<{
 
           <div className="hidden-xs ml-2">
             <Select
+              overlayPlacement="right-bottom-right-top"
               clearable={false}
               theme={this.state.theme.value}
               value={this.state.theme}
@@ -320,6 +335,7 @@ export class App extends React.PureComponent<{
 
           <div className="hidden-xs ml-2">
             <Select
+              overlayPlacement="right-bottom-right-top"
               clearable={false}
               theme={this.state.theme.value}
               value={this.state.viewMode || 'pc'}
@@ -328,6 +344,21 @@ export class App extends React.PureComponent<{
                 this.setState({viewMode: viewMode.value});
                 localStorage.setItem('viewMode', viewMode.value);
                 window.location.reload();
+              }}
+            />
+          </div>
+
+          <div className="hidden-xs ml-2">
+            <Select
+              overlayPlacement="right-bottom-right-top"
+              clearable={false}
+              theme={this.state.theme.value}
+              value={docVersions[0].value}
+              options={docVersions}
+              onChange={doc => {
+                if (doc.url) {
+                  window.open(doc.url);
+                }
               }}
             />
           </div>

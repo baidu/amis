@@ -33,7 +33,8 @@ import {
   DateTimeControlSchema,
   MonthControlSchema,
   QuarterControlSchema,
-  TimeControlSchema
+  TimeControlSchema,
+  YearControlSchema
 } from './InputDate';
 import {DateRangeControlSchema} from './InputDateRange';
 import {DiffControlSchema} from './DiffEditor';
@@ -98,6 +99,7 @@ export type FormControlType =
   | 'input-year'
   | 'input-month'
   | 'input-date-range'
+  | 'input-datetime-range'
   | 'diff-editor'
 
   // editor 系列
@@ -214,6 +216,7 @@ export type FormControlSchema =
   | MonthControlSchema
   | MonthControlSchema
   | QuarterControlSchema
+  | YearControlSchema
   | DateRangeControlSchema
   | DiffControlSchema
   | EditorControlSchema

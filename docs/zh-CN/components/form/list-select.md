@@ -1,14 +1,14 @@
 ---
-title: List 列表
+title: ListSelect 列表
 description:
 type: 0
 group: null
-menuName: List
+menuName: ListSelect
 icon:
 order: 29
 ---
 
-List 一般用来实现选择，可以单选也可以多选，和 Radio/Checkboxs 最大的不同是在展现方面支持带图片。
+ListSelect 一般用来实现选择，可以单选也可以多选，和 Radio/Checkboxs 最大的不同是在展现方面支持带图片。
 
 ## 基本用法
 
@@ -16,9 +16,9 @@ List 一般用来实现选择，可以单选也可以多选，和 Radio/Checkbox
 {
   "type": "form",
   "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
-  "controls": [
+  "body": [
     {
-      "type": "list",
+      "type": "list-select",
       "name": "select",
       "label": "单选",
       "clearable": true,
@@ -43,9 +43,9 @@ List 一般用来实现选择，可以单选也可以多选，和 Radio/Checkbox
 {
     "type": "form",
     "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
-    "controls": [
+    "body": [
       {
-        "type": "list",
+        "type": "list-select",
         "name": "select",
         "label": "图片",
         "options": [
