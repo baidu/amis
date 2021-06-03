@@ -111,9 +111,3 @@ export default class QRCode extends React.Component<QRCodeProps, any> {
   name: 'qrcode'
 })
 export class QRCodeRenderer extends QRCode {}
-
-@FormItem({
-  type: 'qr-code',
-  sizeMutable: false
-})
-export class QRCodeControlRenderer extends QRCode {}

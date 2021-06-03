@@ -34,7 +34,7 @@ import {SchemaApi, SchemaClassName, SchemaIcon, SchemaTpl} from '../../Schema';
 
 export type ComboCondition = {
   test: string;
-  controls: Array<FormControlSchema>;
+  body: Array<FormControlSchema>;
   label: string;
   scaffold?: any;
   mode?: string;
@@ -118,7 +118,7 @@ export interface ComboControlSchema extends FormBaseControl {
   /**
    * 数组输入框的子项
    */
-  controls?: Array<ComboSubControl>;
+  items?: Array<ComboSubControl>;
 
   /**
    * 是否可拖拽排序
@@ -319,7 +319,7 @@ export default class ComboControl extends React.Component<ComboProps> {
     'lazyLoad',
     'changeImmediately',
     'strictMode',
-    'controls',
+    'items',
     'conditions',
     'messages'
   ];
@@ -931,7 +931,7 @@ export default class ComboControl extends React.Component<ComboProps> {
       translate: __
     } = this.props;
 
-    let controls = this.props.controls;
+    let items = this.props.items;
     let value = this.props.value;
 
     if (flat && typeof value === 'string') {
@@ -1029,18 +1029,18 @@ export default class ComboControl extends React.Component<ComboProps> {
 
           if (Array.isArray(conditions) && conditions.length) {
             condition = this.pickCondition(data);
-            controls = condition ? condition.controls : undefined;
+            items = condition ? condition.body : undefined;
           }
 
           let finnalControls =
-            flat && controls
+            flat && items
               ? [
                   {
-                    ...(controls && controls[0]),
+                    ...(items && items[0]),
                     name: 'flat'
                   }
                 ]
-              : controls;
+              : items;
 
           const hasUnique =
             Array.isArray(finnalControls) &&
@@ -1082,7 +1082,7 @@ export default class ComboControl extends React.Component<ComboProps> {
                     `multiple/${index}`,
                     {
                       type: 'form',
-                      controls: finnalControls,
+                      body: finnalControls,
                       wrapperComponent: 'div',
                       wrapWithPanel: false,
                       mode: subFormMode,
@@ -1152,7 +1152,7 @@ export default class ComboControl extends React.Component<ComboProps> {
       translate: __
     } = this.props;
 
-    let controls = this.props.controls;
+    let items = this.props.items;
     let value = this.props.value;
 
     if (flat && typeof value === 'string') {
@@ -1210,18 +1210,18 @@ export default class ComboControl extends React.Component<ComboProps> {
 
               if (Array.isArray(conditions) && conditions.length) {
                 condition = this.pickCondition(data);
-                controls = condition ? condition.controls : undefined;
+                items = condition ? condition.body : undefined;
               }
 
               let finnalControls =
-                flat && controls
+                flat && items
                   ? [
                       {
-                        ...(controls && controls[0]),
+                        ...(items && items[0]),
                         name: 'flat'
                       }
                     ]
-                  : controls;
+                  : items;
 
               return (
                 <div
@@ -1265,7 +1265,7 @@ export default class ComboControl extends React.Component<ComboProps> {
                         `multiple/${index}`,
                         {
                           type: 'form',
-                          controls: finnalControls,
+                          body: finnalControls,
                           wrapperComponent: 'div',
                           wrapWithPanel: false,
                           mode: multiLine ? subFormMode : 'row',
@@ -1365,13 +1365,13 @@ export default class ComboControl extends React.Component<ComboProps> {
       translate: __
     } = this.props;
 
-    let controls = this.props.controls;
+    let items = this.props.items;
     const data = isObject(value) ? this.formatValue(value) : this.defaultValue;
     let condition: ComboCondition | null = null;
 
     if (Array.isArray(conditions) && conditions.length) {
       condition = this.pickCondition(data);
-      controls = condition ? condition.controls : undefined;
+      items = condition ? condition.body : undefined;
     }
 
     return (
@@ -1400,12 +1400,12 @@ export default class ComboControl extends React.Component<ComboProps> {
           ) : null}
 
           <div className={cx(`Combo-itemInner`)}>
-            {controls ? (
+            {items ? (
               render(
                 'single',
                 {
                   type: 'form',
-                  controls,
+                  body: items,
                   wrapperComponent: 'div',
                   wrapWithPanel: false,
                   mode: multiLine ? 'normal' : 'row',

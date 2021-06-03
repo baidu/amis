@@ -92,6 +92,7 @@
   },
   "devDependencies": {
     "@fortawesome/fontawesome-free": "^5.15.3",
+    "@testing-library/react": "^11.2.7",
     "@types/async": "^2.0.45",
     "@types/dom-helpers": "^3.4.1",
     "@types/echarts": "^4.9.2",
@@ -162,7 +163,6 @@
     "react-frame-component": "^2.0.0",
     "react-router": "3.2.0",
     "react-test-renderer": "^16.8.6",
-    "react-testing-library": "6.0.4",
     "strip-json-comments": "^2.0.1",
     "ts-jest": "^26.4.4",
     "ts-json-schema-generator": "^0.80.0",

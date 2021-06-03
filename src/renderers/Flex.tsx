@@ -170,13 +170,13 @@ export class FlexItem extends React.Component<FlexItemProps, object> {
 }
 
 @Renderer({
-  test: /(^|\/)flex$/,
+  type: 'flex',
   name: 'flex'
 })
 export class FlexRenderer extends Flex {}
 
 @Renderer({
-  test: /(^|\/)flex-item$/,
+  type: 'flex-item',
   name: 'flex-item'
 })
 export class FlexItemRenderer extends FlexItem {}

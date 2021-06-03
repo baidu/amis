@@ -1362,7 +1362,12 @@ export function chainEvents(props: any, schema: any) {
       typeof schema[key] === 'function' &&
       schema[key] !== props[key]
     ) {
-      ret[key] = chainFunctions(schema[key], props[key]);
+      // 表单项里面的 onChange 很特殊，这个不要处理。
+      if (props.formStore && key === 'onChange') {
+        ret[key] = props[key];
+      } else {
+        ret[key] = chainFunctions(schema[key], props[key]);
+      }
     } else {
       ret[key] = props[key];
     }

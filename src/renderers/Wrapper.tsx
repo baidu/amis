@@ -39,7 +39,8 @@ export interface WrapperProps
 export default class Wrapper extends React.Component<WrapperProps, object> {
   static propsList: Array<string> = ['body', 'className', 'children', 'size'];
   static defaultProps: Partial<WrapperProps> = {
-    className: ''
+    className: '',
+    size: 'md'
   };
 
   renderBody(): JSX.Element | null {
@@ -56,13 +57,18 @@ export default class Wrapper extends React.Component<WrapperProps, object> {
 
   render() {
     const {className, size, classnames: cx, style, data} = this.props;
-    let styleVar = typeof style === 'string'
-      ? resolveVariable(style, data) || {}
-      : mapValues(style, s => resolveVariable(s, data) || s);
+    let styleVar =
+      typeof style === 'string'
+        ? resolveVariable(style, data) || {}
+        : mapValues(style, s => resolveVariable(s, data) || s);
 
     return (
       <div
-        className={cx('Wrapper', size ? `Wrapper--${size}` : '', className)}
+        className={cx(
+          'Wrapper',
+          size && size !== 'none' ? `Wrapper--${size}` : '',
+          className
+        )}
         style={styleVar}
       >
         {this.renderBody()}
@@ -72,7 +78,7 @@ export default class Wrapper extends React.Component<WrapperProps, object> {
 }
 
 @Renderer({
-  test: /(^|\/)wrapper$/,
+  type: 'wrapper',
   name: 'wrapper'
 })
 export class WrapperRenderer extends Wrapper {}

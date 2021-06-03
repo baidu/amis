@@ -44,7 +44,7 @@ export default class ButtonToolbar extends React.Component<
 }
 
 @Renderer({
-  test: /(^|\/)button-toolbar$/,
+  type: 'button-toolbar',
   name: 'button-toolbar'
 })
 export class ButtonToolbarRenderer extends ButtonToolbar {}

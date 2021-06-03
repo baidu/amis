@@ -148,7 +148,7 @@ export class SwitchField extends React.Component<SwitchProps, object> {
 }
 
 @Renderer({
-  test: /(^|\/)switch$/,
+  type: 'switch',
   name: 'switch'
 })
 export class SwitchFieldRenderer extends SwitchField {}

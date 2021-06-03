@@ -414,7 +414,7 @@ export class Carousel extends React.Component<CarouselProps, CarouselState> {
 }
 
 @Renderer({
-  test: /(^|\/)carousel/,
+  type: 'carousel',
   name: 'carousel'
 })
 export class CarouselRenderer extends Carousel {}

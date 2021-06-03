@@ -88,7 +88,6 @@ export default class FieldSetControl extends React.Component<
   renderBody(): JSX.Element {
     const {
       renderFormItems,
-      controls,
       body,
       collapsable,
       horizontal,
@@ -100,10 +99,6 @@ export default class FieldSetControl extends React.Component<
       store,
       formClassName
     } = this.props;
-
-    if (!controls) {
-      return render('body', body!) as JSX.Element;
-    }
 
     let props: any = {
       store,
@@ -121,7 +116,7 @@ export default class FieldSetControl extends React.Component<
           formClassName
         )}
       >
-        {renderFormItems({controls}, 'controls', props)}
+        {renderFormItems({body}, 'controls', props)}
       </div>
     );
   }
@@ -143,7 +138,7 @@ export default class FieldSetControl extends React.Component<
 }
 
 @Renderer({
-  test: /(^|\/)form(?:.+)?\/control\/fieldSet$/i,
+  test: /(^|\/)fieldSet$/i,
   weight: -100,
   name: 'fieldset'
 })

@@ -105,7 +105,7 @@ export default class HBox extends React.Component<HBoxProps, object> {
 }
 
 @Renderer({
-  test: /(^|\/)hbox$/,
+  type: 'hbox',
   name: 'hbox'
 })
 export class HBoxRenderer extends HBox {}

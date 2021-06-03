@@ -39,14 +39,27 @@ export const FormStore = ServiceStore.named('FormStore')
     validating: false,
     savedData: types.frozen(),
     // items: types.optional(types.array(types.late(() => FormItemStore)), []),
-    itemsRef: types.optional(types.array(types.string), []),
     canAccessSuperData: true,
     persistData: '',
     restError: types.optional(types.array(types.string), []) // 没有映射到表达项上的 errors
   })
   .views(self => {
     function getItems() {
-      return self.itemsRef.map(item => getStoreById(item) as IFormItemStore);
+      const formItems: Array<IFormItemStore> = [];
+
+      // 查找孩子节点中是 formItem 的表单项
+      const pool = self.children.concat();
+      while (pool.length) {
+        const current = pool.shift()!;
+
+        if (current.storeType === FormItemStore.name) {
+          formItems.push(current);
+        } else {
+          pool.push(...current.children);
+        }
+      }
+
+      return formItems;
     }
 
     return {
@@ -485,7 +498,7 @@ export const FormStore = ServiceStore.named('FormStore')
 
         // 验证过，或者是 unique 的表单项，或者强制验证
         if (!item.validated || item.unique || forceValidate) {
-          yield item.validate();
+          yield item.validate(self.data);
         }
       }
 
@@ -508,7 +521,7 @@ export const FormStore = ServiceStore.named('FormStore')
           let item = items[i] as IFormItemStore;
 
           if (~fields.indexOf(item.name)) {
-            result.push(yield item.validate());
+            result.push(yield item.validate(self.data));
           }
         }
         self.validating = false;
@@ -547,17 +560,6 @@ export const FormStore = ServiceStore.named('FormStore')
       cb && cb(self.data);
     }
 
-    function addFormItem(item: IFormItemStore) {
-      self.itemsRef.push(item.id);
-      // 默认值可能在原型上，把他挪到当前对象上。
-      setValueByName(item.name, item.value, false, false);
-    }
-
-    function removeFormItem(item: IFormItemStore) {
-      item.clearValueOnHidden && deleteValueByName(item.name);
-      removeStore(item);
-    }
-
     function setCanAccessSuperData(value: boolean = true) {
       self.canAccessSuperData = value;
     }
@@ -590,14 +592,6 @@ export const FormStore = ServiceStore.named('FormStore')
       localStorage.removeItem(self.persistKey);
     }
 
-    function onChildStoreDispose(child: IFormItemStore) {
-      if (child.storeType === FormItemStore.name) {
-        const itemsRef = self.itemsRef.filter(id => id !== child.id);
-        self.itemsRef.replace(itemsRef);
-      }
-      self.removeChildId(child.id);
-    }
-
     function updateSavedData() {
       self.savedData = self.data;
     }
@@ -613,8 +607,6 @@ export const FormStore = ServiceStore.named('FormStore')
       clearErrors,
       saveRemote,
       reset,
-      addFormItem,
-      removeFormItem,
       syncOptions,
       setCanAccessSuperData,
       deleteValueByName,
@@ -623,7 +615,6 @@ export const FormStore = ServiceStore.named('FormStore')
       clearLocalPersistData,
       setPersistData,
       clear,
-      onChildStoreDispose,
       updateSavedData,
       handleRemoteError,
       getItemsByPath,

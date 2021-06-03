@@ -54,11 +54,13 @@ export class TableCell extends React.Component<RendererProps> {
       className: innerClassName,
       type: (column && column.type) || 'plain'
     };
+    delete schema.label;
 
     let body = children
       ? children
       : render('field', schema, {
           ...rest,
+          inputOnly: true,
           value,
           data
         });

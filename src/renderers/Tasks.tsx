@@ -459,7 +459,7 @@ export default class Task extends React.Component<TaskProps, TaskState> {
 }
 
 @Renderer({
-  test: /(^|\/)tasks$/,
+  type: 'tasks',
   name: 'tasks'
 })
 export class TaskRenderer extends Task {

@@ -1,63 +1,64 @@
 import React = require('react');
-import {render, cleanup, fireEvent} from 'react-testing-library';
+import {render, cleanup, fireEvent} from '@testing-library/react';
 import '../../../src/themes/default';
-import {
-    render as amisRender
-} from '../../../src/index';
+import {render as amisRender} from '../../../src/index';
 import {makeEnv, wait} from '../../helper';
-import { clearStoresCache } from '../../../src/factory';
+import {clearStoresCache} from '../../../src/factory';
 
 afterEach(() => {
-    cleanup();
-    clearStoresCache();
+  cleanup();
+  clearStoresCache();
 });
 
 test('Renderer:checkboxes', async () => {
-    const {
-        getByText,
-        container
-    } = render(amisRender({
+  const {getByText, container} = render(
+    amisRender(
+      {
         type: 'form',
         title: 'The form',
         controls: [
-            {
-                name: 'checkboxes',
-                type: 'checkboxes',
-                label: 'Checkboxes',
-                columnsCount: 1,
-                options: [
-                    {
-                        label: 'Option A',
-                        value: 'a'
-                    },
-                    {
-                        label: 'Option B',
-                        value: 'b'
-                    },
-                    {
-                        label: 'Option C',
-                        value: 'c'
-                    },
-                    {
-                        label: 'Option D',
-                        value: 'd'
-                    }
-                ]
-            },
-            {
-                type: 'static',
-                name: 'checkboxes',
-                label: '当前值'
-            }
+          {
+            name: 'checkboxes',
+            type: 'checkboxes',
+            label: 'Checkboxes',
+            columnsCount: 1,
+            options: [
+              {
+                label: 'Option A',
+                value: 'a'
+              },
+              {
+                label: 'Option B',
+                value: 'b'
+              },
+              {
+                label: 'Option C',
+                value: 'c'
+              },
+              {
+                label: 'Option D',
+                value: 'd'
+              }
+            ]
+          },
+          {
+            type: 'static',
+            name: 'checkboxes',
+            label: '当前值'
+          }
         ],
         submitText: null,
         actions: []
-    }, {}, makeEnv()));
-    expect(container).toMatchSnapshot();
-    await wait(100);
-    fireEvent.click(getByText(/Option A/));
-    await wait(100);
-    fireEvent.click(getByText(/Option B/));
-    await wait(100);
-    expect(container).toMatchSnapshot();
+      },
+      {},
+      makeEnv()
+    )
+  );
+  expect(container).toMatchSnapshot();
+  await wait(100);
+  fireEvent.click(getByText(/Option A/));
+  await wait(100);
+  fireEvent.click(getByText(/Option B/));
+  await wait(100);
+  expect(container).toMatchSnapshot();
 });

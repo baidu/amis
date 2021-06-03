@@ -20,15 +20,15 @@ order: 24
 {
     "type": "form",
     "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
-    "controls": [
+    "body": [
       {
-        "type": "text",
+        "type": "input-text",
         "name": "name",
         "label": "姓名："
       },
       {
         "name": "email",
-        "type": "email",
+        "type": "input-email",
         "label": "邮箱："
       }
     ]
@@ -45,9 +45,9 @@ order: 24
 {
     "type": "form",
     "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
-    "controls": [
+    "body": [
       {
-        "type": "text",
+        "type": "input-text",
         "name": "name",
         "label": "姓名："
       },
@@ -69,15 +69,15 @@ order: 24
     "type": "form",
     "title": "水平模式",
     "mode": "horizontal",
-    "controls": [
+    "body": [
       {
-        "type": "email",
+        "type": "input-email",
         "name": "email",
         "label": "邮箱",
         "required": true
       },
       {
-        "type": "password",
+        "type": "input-password",
         "name": "password",
         "label": "密码"
       },
@@ -110,15 +110,15 @@ order: 24
       "right": 10,
       "offset": 2
     },
-    "controls": [
+    "body": [
       {
-        "type": "email",
+        "type": "input-email",
         "name": "email",
         "label": "邮箱",
         "required": true
       },
       {
-        "type": "password",
+        "type": "input-password",
         "name": "password",
         "label": "密码"
       },
@@ -149,15 +149,15 @@ order: 24
     "horizontal": {
       "leftFixed": "sm"
     },
-    "controls": [
+    "body": [
       {
-        "type": "email",
+        "type": "input-email",
         "name": "email",
         "label": "邮箱",
         "required": true
       },
       {
-        "type": "password",
+        "type": "input-password",
         "name": "password",
         "label": "密码"
       },
@@ -179,14 +179,14 @@ order: 24
     "type": "form",
     "title": "内联模式",
     "mode": "inline",
-    "controls": [
+    "body": [
       {
-        "type": "email",
+        "type": "input-email",
         "name": "email",
         "label": "邮箱"
       },
       {
-        "type": "password",
+        "type": "input-password",
         "name": "password"
       },
       {
@@ -211,17 +211,17 @@ order: 24
     {
       "type": "form",
       "title": "常规模式",
-      "controls": [
+      "body": [
         {
           "type": "group",
-          "controls": [
+          "body": [
             {
-              "type": "email",
+              "type": "input-email",
               "name": "email",
               "label": "邮箱"
             },
             {
-              "type": "password",
+              "type": "input-password",
               "name": "password",
               "label": "密码"
             }
@@ -233,17 +233,17 @@ order: 24
       "type": "form",
       "title": "水平模式",
       "mode": "horizontal",
-      "controls": [
+      "body": [
         {
           "type": "group",
-          "controls": [
+          "body": [
             {
-              "type": "email",
+              "type": "input-email",
               "name": "email2",
               "label": "邮箱"
             },
             {
-              "type": "password",
+              "type": "input-password",
               "name": "password2",
               "label": "密码"
             }
@@ -255,17 +255,17 @@ order: 24
       "type": "form",
       "title": "内联模式",
       "mode": "inline",
-      "controls": [
+      "body": [
         {
           "type": "group",
-          "controls": [
+          "body": [
             {
-              "type": "email",
+              "type": "input-email",
               "name": "email",
               "label": "邮箱"
             },
             {
-              "type": "password",
+              "type": "input-password",
               "name": "password",
               "label": "密码"
             }
@@ -291,9 +291,9 @@ Form 默认会在底部渲染一个提交按钮，用于执行表单的提交行
       "type": "form",
       "title": "通过 submitText 去掉提交按钮",
       "submitText": "",
-      "controls": [
+      "body": [
         {
-          "type": "text",
+          "type": "input-text",
           "name": "email",
           "label": "邮箱"
         }
@@ -303,9 +303,9 @@ Form 默认会在底部渲染一个提交按钮，用于执行表单的提交行
       "type": "form",
       "title": "通过 actions 去掉提交按钮",
       "actions": [],
-      "controls": [
+      "body": [
         {
-          "type": "text",
+          "type": "input-text",
           "name": "email",
           "label": "邮箱"
         }
@@ -322,14 +322,14 @@ Form 默认会在底部渲染一个提交按钮，用于执行表单的提交行
 {
     "type": "form",
     "title": "表单",
-    "controls": [
+    "body": [
       {
-        "type": "text",
+        "type": "input-text",
         "name": "email",
         "label": "邮箱"
       },
       {
-        "type": "password",
+        "type": "input-password",
         "name": "password",
         "label": "密码"
       }
@@ -367,14 +367,14 @@ Form 默认会在底部渲染一个提交按钮，用于执行表单的提交行
 {
     "type": "form",
     "wrapWithPanel": false,
-    "controls": [
+    "body": [
       {
-        "type": "text",
+        "type": "input-text",
         "name": "email",
         "label": "邮箱"
       },
       {
-        "type": "password",
+        "type": "input-password",
         "name": "password",
         "label": "密码"
       }
@@ -397,14 +397,14 @@ Form 默认会在底部渲染一个提交按钮，用于执行表单的提交行
     "type": "form",
     "initApi": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/initData",
     "title": "编辑用户信息",
-    "controls": [
+    "body": [
       {
-        "type": "text",
+        "type": "input-text",
         "name": "name",
         "label": "姓名"
       },
       {
-        "type": "text",
+        "type": "input-text",
         "name": "email",
         "label": "邮箱"
       }
@@ -444,9 +444,9 @@ Form 支持轮询初始化接口，步骤如下：
     "initApi": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/page/initData",
     "interval": 3000,
     "title": "表单",
-    "controls": [
+    "body": [
       {
-        "type": "text",
+        "type": "input-text",
         "name": "date",
         "label": "时间戳"
       }
@@ -463,9 +463,9 @@ Form 支持轮询初始化接口，步骤如下：
     "interval": 3000,
     "title": "表单",
     "stopAutoRefreshWhen": "this.date % 5",
-    "controls": [
+    "body": [
       {
-        "type": "text",
+        "type": "input-text",
         "name": "date",
         "label": "时间戳"
       }
@@ -485,14 +485,14 @@ Form 支持轮询初始化接口，步骤如下：
       "email": "rick@gmail.com"
     },
     "title": "用户信息",
-    "controls": [
+    "body": [
       {
-        "type": "text",
+        "type": "input-text",
         "name": "name",
         "label": "姓名"
       },
       {
-        "type": "email",
+        "type": "input-email",
         "name": "email",
         "label": "邮箱"
       }
@@ -512,7 +512,7 @@ Form 支持轮询初始化接口，步骤如下：
     "data": {
         "select": ["a", "c"]
     },
-    "controls": [
+    "body": [
         {
             "label": "选项",
             "type": "select",
@@ -555,14 +555,14 @@ Form 支持轮询初始化接口，步骤如下：
     "type": "form",
     "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/saveForm",
     "title": "用户信息",
-    "controls": [
+    "body": [
       {
-        "type": "text",
+        "type": "input-text",
         "name": "name",
         "label": "姓名"
       },
       {
-        "type": "email",
+        "type": "input-email",
         "name": "email",
         "label": "邮箱"
       }
@@ -617,14 +617,14 @@ Form 支持轮询初始化接口，步骤如下：
       }
     },
     "title": "用户信息",
-    "controls": [
+    "body": [
       {
-        "type": "text",
+        "type": "input-text",
         "name": "name",
         "label": "姓名"
       },
       {
-        "type": "email",
+        "type": "input-email",
         "name": "email",
         "label": "邮箱"
       }
@@ -648,14 +648,14 @@ Form 支持轮询初始化接口，步骤如下：
     "initApi": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/page/initData",
     "asyncApi": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/page/initData",
     "title": "用户信息",
-    "controls": [
+    "body": [
       {
-        "type": "text",
+        "type": "input-text",
         "name": "name",
         "label": "姓名"
       },
       {
-        "type": "email",
+        "type": "input-email",
         "name": "email",
         "label": "邮箱"
       }
@@ -681,14 +681,14 @@ Form 支持轮询初始化接口，步骤如下：
       "message": "a 和 b 不能同时有值"
     }
   ],
-  "controls": [
+  "body": [
     {
-      "type": "text",
+      "type": "input-text",
       "name": "a",
       "label": "A"
     },
     {
-      "type": "text",
+      "type": "input-text",
       "name": "b",
       "label": "B"
     }

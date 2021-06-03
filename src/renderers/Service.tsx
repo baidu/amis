@@ -18,6 +18,7 @@ import {
   SchemaMessage,
   SchemaName
 } from '../Schema';
+import {IIRendererStore} from '../store';
 
 /**
  * Service 服务类控件。
@@ -123,6 +124,7 @@ export default class Service extends React.Component<ServiceProps> {
 
     this.handleQuery = this.handleQuery.bind(this);
     this.handleAction = this.handleAction.bind(this);
+    this.handleChange = this.handleChange.bind(this);
     this.reload = this.reload.bind(this);
     this.silentReload = this.silentReload.bind(this);
     this.initInterval = this.initInterval.bind(this);
@@ -214,11 +216,21 @@ export default class Service extends React.Component<ServiceProps> {
     }
   }
 
-  afterDataFetch(data: any) {
-    this.initInterval(data);
+  afterDataFetch(schema: any) {
+    const {onBulkChange, formMode} = this.props;
+    if (formMode && schema?.data && onBulkChange) {
+      onBulkChange(schema?.data);
+    }
+
+    this.initInterval(schema);
   }
 
   afterSchemaFetch(schema: any) {
+    const {onBulkChange, formMode} = this.props;
+    if (formMode && schema?.data && onBulkChange) {
+      onBulkChange(schema.data);
+    }
+
     this.initInterval(schema);
   }
 
@@ -350,6 +362,20 @@ export default class Service extends React.Component<ServiceProps> {
     }
   }
 
+  handleChange(
+    value: any,
+    name: string,
+    submit?: boolean,
+    changePristine?: boolean
+  ) {
+    const {store, formStore, onChange} = this.props;
+
+    (store as IIRendererStore).changeValue?.(name, value);
+
+    // 如果在form底下，则继续向上派送。
+    formStore && onChange?.(value, name, submit, changePristine);
+  }
+
   renderBody() {
     const {render, store, body: schema, classnames: cx} = this.props;
 
@@ -359,7 +385,8 @@ export default class Service extends React.Component<ServiceProps> {
           render('body', store.schema || schema, {
             key: store.schemaKey || 'body',
             onQuery: this.handleQuery,
-            onAction: this.handleAction
+            onAction: this.handleAction,
+            onChange: this.handleChange
           }) as JSX.Element
         }
       </div>
@@ -399,7 +426,7 @@ export default class Service extends React.Component<ServiceProps> {
 }
 
 @Renderer({
-  test: /(^|\/)service$/,
+  type: 'service',
   storeType: ServiceStore.name,
   name: 'service'
 })

@@ -33,13 +33,13 @@ exports[`Renderer:hbox 1`] = `
           data-role="form-item"
         >
           <div
-            class="a-FormHbox a-Form-control"
+            class="a-Hbox"
           >
             <div
-              class="a-Hbox"
+              class="a-Hbox-col w-sm"
             >
               <div
-                class="a-Hbox-col a-Form--normal w-sm"
+                class="a-Wrapper"
               >
                 <div
                   class="a-Form-item a-Form-item--normal"
@@ -63,17 +63,17 @@ exports[`Renderer:hbox 1`] = `
                   </div>
                 </div>
               </div>
-              <div
-                class="a-Hbox-col a-Form--normal"
+            </div>
+            <div
+              class="a-Hbox-col"
+            >
+              <span
+                class="a-TplField"
               >
-                <span
-                  class="a-TplField"
-                >
-                  <span>
-                    其他类型的渲染器
-                  </span>
+                <span>
+                  其他类型的渲染器
                 </span>
-              </div>
+              </span>
             </div>
           </div>
         </div>
