@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Renderer:alert 1`] = `
+exports[`Renderer:audio 1`] = `
 <div>
   <div
     class="a-Audio a-Audio--inline"

@@ -1118,6 +1118,8 @@ export default class FileControl extends React.Component<FileProps, FileState> {
       description,
       hideUploadButton,
       className,
+      btnClassName,
+      btnUploadClassName,
       classnames: cx,
       translate: __,
       render,
@@ -1176,7 +1178,7 @@ export default class FileControl extends React.Component<FileProps, FileState> {
                     <Button
                       level="default"
                       disabled={disabled}
-                      className={cx('FileControl-selectBtn')}
+                      className={cx('FileControl-selectBtn', btnClassName)}
                       onClick={this.handleSelect}
                     >
                       <Icon icon="upload" className="icon" />
@@ -1296,7 +1298,7 @@ export default class FileControl extends React.Component<FileProps, FileState> {
           <Button
             level="default"
             disabled={!hasPending}
-            className={cx('FileControl-uploadBtn')}
+            className={cx('FileControl-uploadBtn', btnUploadClassName)}
             onClick={this.toggleUpload}
           >
             {__(uploading ? 'File.pause' : 'File.start')}
