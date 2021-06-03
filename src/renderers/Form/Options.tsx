@@ -348,12 +348,6 @@ export function registerOptionsControl(config: OptionsConfig) {
       const props = this.props;
       const formItem = props.formItem as IFormItemStore;
 
-      if (!formItem || !props.formInited) {
-        return;
-      } else if (!prevProps.formItem) {
-        // todo 优化 name 变化情况。
-      }
-
       if (prevProps.options !== props.options && formItem) {
         formItem.setOptions(
           normalizeOptions(props.options || []),
@@ -362,6 +356,7 @@ export function registerOptionsControl(config: OptionsConfig) {
         this.normalizeValue();
       } else if (
         config.autoLoadOptionsFromSource !== false &&
+        props.formInited &&
         props.source &&
         formItem &&
         (prevProps.source !== props.source || prevProps.data !== props.data)
@@ -406,7 +401,7 @@ export function registerOptionsControl(config: OptionsConfig) {
         }
       }
 
-      if (prevProps.value !== props.value || formItem.expressionsInOptions) {
+      if (prevProps.value !== props.value || formItem?.expressionsInOptions) {
         formItem.syncOptions();
         this.syncAutoFill(props.value);
       }
