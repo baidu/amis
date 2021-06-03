@@ -220,3 +220,214 @@ exports[`Renderer:service 1`] = `
   </div>
 </div>
 `;
+
+exports[`form:service:remoteData 1`] = `
+<div>
+  <form
+    class="a-Form a-Form--normal"
+    novalidate=""
+  >
+    <div
+      class="a-Service"
+    >
+      <div
+        class="a-Service-body"
+      >
+        <div
+          class="a-Form-item a-Form-item--normal"
+          data-role="form-item"
+        >
+          <div
+            class="a-Form-control a-TextControl"
+          >
+            <div
+              class="a-TextControl-input"
+            >
+              <input
+                autocomplete="off"
+                name="child-a"
+                placeholder=""
+                size="10"
+                type="text"
+                value="123"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        class="a-Spinner-overlay"
+      />
+      <div
+        class="a-Spinner a-Spinner--overlay a-Spinner--lg"
+      />
+    </div>
+    <div
+      class="a-Form-item a-Form-item--normal"
+      data-role="form-item"
+    >
+      <button
+        class="a-Button a-Button--default"
+        type="submit"
+      >
+        <span>
+          Submit
+        </span>
+      </button>
+    </div>
+    <input
+      style="display: none;"
+      type="submit"
+    />
+  </form>
+</div>
+`;
+
+exports[`form:service:remoteSchmea+data 1`] = `
+<div>
+  <form
+    class="a-Form a-Form--normal"
+    novalidate=""
+  >
+    <div
+      class="a-Service"
+    >
+      <div
+        class="a-Service-body"
+      >
+        <div
+          class="a-Wrapper a-Wrapper--md"
+        >
+          <div
+            class="a-Form-item a-Form-item--normal"
+            data-role="form-item"
+          >
+            <div
+              class="a-Form-control a-TextControl"
+            >
+              <div
+                class="a-TextControl-input"
+              >
+                <input
+                  autocomplete="off"
+                  name="child-a"
+                  placeholder=""
+                  size="10"
+                  type="text"
+                  value="123"
+                />
+              </div>
+            </div>
+          </div>
+          <div
+            class="a-Form-item a-Form-item--normal"
+            data-role="form-item"
+          >
+            <div
+              class="a-Form-control a-TextControl"
+            >
+              <div
+                class="a-TextControl-input"
+              >
+                <input
+                  autocomplete="off"
+                  name="child-b"
+                  placeholder=""
+                  size="10"
+                  type="text"
+                  value="344"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        class="a-Spinner-overlay"
+      />
+      <div
+        class="a-Spinner a-Spinner--overlay a-Spinner--lg"
+      />
+    </div>
+    <div
+      class="a-Form-item a-Form-item--normal"
+      data-role="form-item"
+    >
+      <button
+        class="a-Button a-Button--default"
+        type="submit"
+      >
+        <span>
+          Submit
+        </span>
+      </button>
+    </div>
+    <input
+      style="display: none;"
+      type="submit"
+    />
+  </form>
+</div>
+`;
+
+exports[`form:service:super-remoteData 1`] = `
+<div>
+  <form
+    class="a-Form a-Form--normal"
+    novalidate=""
+  >
+    <div
+      class="a-Spinner-overlay"
+    />
+    <div
+      class="a-Spinner a-Spinner--overlay"
+    />
+    <div
+      class="a-Service"
+    >
+      <div
+        class="a-Service-body"
+      >
+        <div
+          class="a-Form-item a-Form-item--normal"
+          data-role="form-item"
+        >
+          <div
+            class="a-Form-control a-TextControl"
+          >
+            <div
+              class="a-TextControl-input"
+            >
+              <input
+                autocomplete="off"
+                name="child-a"
+                placeholder=""
+                size="10"
+                type="text"
+                value="123"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      class="a-Form-item a-Form-item--normal"
+      data-role="form-item"
+    >
+      <button
+        class="a-Button a-Button--default"
+        type="submit"
+      >
+        <span>
+          Submit
+        </span>
+      </button>
+    </div>
+    <input
+      style="display: none;"
+      type="submit"
+    />
+  </form>
+</div>
+`;

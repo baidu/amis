@@ -360,6 +360,7 @@ function wrapControl(item: any) {
     horizontal,
     className,
     inputClassName,
+    columnClassName,
     ...rest
   } = item;
 
@@ -390,6 +391,7 @@ function wrapControl(item: any) {
     mode,
     horizontal,
     className,
+    columnClassName,
     control: rest
   };
 }

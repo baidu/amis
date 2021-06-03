@@ -18,6 +18,7 @@ import {
   SchemaMessage,
   SchemaName
 } from '../Schema';
+import {IIRendererStore} from '../store';
 
 /**
  * Service 服务类控件。
@@ -129,7 +130,6 @@ export default class Service extends React.Component<ServiceProps> {
     this.initInterval = this.initInterval.bind(this);
     this.afterDataFetch = this.afterDataFetch.bind(this);
     this.afterSchemaFetch = this.afterSchemaFetch.bind(this);
-    this.handleChange = this.handleChange.bind(this);
   }
 
   componentDidMount() {
@@ -370,7 +370,7 @@ export default class Service extends React.Component<ServiceProps> {
   ) {
     const {store, formStore, onChange} = this.props;
 
-    store.changeValue(name, value);
+    (store as IIRendererStore).changeValue?.(name, value);
 
     // 如果在form底下，则继续向上派送。
     formStore && onChange?.(value, name, submit, changePristine);
