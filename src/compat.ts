@@ -452,10 +452,12 @@ addSchemaFilter(function (schema: Schema, renderer: any, props: any) {
         return link;
       })
     };
-  } else if (schema?.type === 'input-array' && Array.isArray(schema.items)) {
+  } else if (schema?.type === 'input-array' && schema.items) {
     schema = {
       ...schema,
-      items: schema.items.map(controlToNormalRenderer)
+      items: Array.isArray(schema.items)
+        ? schema.items.map(controlToNormalRenderer)
+        : controlToNormalRenderer(schema.items)
     };
   } else if (
     (schema?.type === 'grid' || schema?.type === 'hbox') &&

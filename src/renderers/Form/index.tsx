@@ -1223,11 +1223,28 @@ export default class Form extends React.Component<FormProps, object> {
   }
 
   renderFormItems(
-    schema: Partial<FormSchema>,
+    schema: Partial<FormSchema> & {
+      controls?: Array<any>;
+    },
     region: string = '',
     otherProps: Partial<FormProps> = {}
   ): React.ReactNode {
-    return this.renderChildren(schema.body!, region, otherProps);
+    let body: Array<any> = schema.body!;
+
+    // 旧用法，让 wrapper 走走 compat 逻辑兼容旧用法
+    // 后续可以删除。
+    if (!body && schema.controls) {
+      console.warn('请用 body 代替 controls');
+      body = [
+        {
+          size: 'none',
+          type: 'wrapper',
+          controls: schema.controls
+        }
+      ];
+    }
+
+    return this.renderChildren(body, region, otherProps);
   }
 
   renderChildren(
