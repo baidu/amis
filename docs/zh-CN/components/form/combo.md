@@ -14,23 +14,23 @@ order: 12
 
 ## 基本使用
 
-配置`controls`属性，组合多个表单项
+配置`items`属性，组合多个表单项
 
 ```schema: scope="body"
 {
   "type": "form",
   "debug": true,
   "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
-  "controls": [
+  "body": [
     {
       "type": "combo",
       "name": "user",
       "label": "用户",
-      "controls": [
+      "items": [
         {
           "name": "text",
           "label": "名字",
-          "type": "text"
+          "type": "input-text"
         },
         {
           "name": "gender",
@@ -53,16 +53,16 @@ order: 12
   "type": "form",
   "mode": "horizontal",
   "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
-  "controls": [
+  "body": [
     {
       "type": "combo",
       "name": "combo1",
       "label": "Combo 单行展示",
-      "controls": [
+      "items": [
         {
           "name": "text",
           "label": "文本",
-          "type": "text"
+          "type": "input-text"
         },
         {
           "name": "select",
@@ -80,11 +80,11 @@ order: 12
       "name": "combo2",
       "label": "Combo 多行展示",
       "multiLine": true,
-      "controls": [
+      "items": [
         {
           "name": "text",
           "label": "文本",
-          "type": "text"
+          "type": "input-text"
         },
         {
           "name": "select",
@@ -110,16 +110,16 @@ order: 12
   "mode": "horizontal",
   "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
   "debug": true,
-  "controls": [
+  "body": [
     {
       "type": "combo",
       "name": "combo1",
       "label": "Combo 单选展示",
-      "controls": [
+      "items": [
         {
           "name": "text",
           "label": "文本",
-          "type": "text"
+          "type": "input-text"
         },
         {
           "name": "select",
@@ -137,11 +137,11 @@ order: 12
       "name": "combo2",
       "label": "Combo 多选展示",
       "multiple": true,
-      "controls": [
+      "items": [
         {
           "name": "text",
           "label": "文本",
-          "type": "text"
+          "type": "input-text"
         },
         {
           "name": "select",
@@ -164,18 +164,18 @@ order: 12
   "type": "form",
   "mode": "horizontal",
   "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
-  "controls": [
+  "body": [
     {
       "type": "combo",
       "name": "combo1",
       "label": "最少添加1条",
       "multiple": true,
       "minLength": 1,
-      "controls": [
+      "items": [
         {
           "name": "text",
           "label": "文本",
-          "type": "text"
+          "type": "input-text"
         },
         {
           "name": "select",
@@ -191,11 +191,11 @@ order: 12
       "label": "最多添加3条",
       "multiple": true,
       "maxLength": 3,
-      "controls": [
+      "items": [
         {
           "name": "text",
           "label": "文本",
-          "type": "text"
+          "type": "input-text"
         },
         {
           "name": "select",
@@ -222,16 +222,16 @@ order: 12
   "debug": true,
   "mode": "horizontal",
   "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
-  "controls": [
+  "body": [
     {
       "type": "combo",
       "name": "combo1",
       "label": "Combo 单选展示",
-      "controls": [
+      "items": [
         {
           "name": "text",
           "label": "文本",
-          "type": "text"
+          "type": "input-text"
         },
         {
           "name": "select",
@@ -249,11 +249,11 @@ order: 12
       "name": "combo2",
       "label": "Combo 多选展示",
       "multiple": true,
-      "controls": [
+      "items": [
         {
           "name": "text",
           "label": "文本",
-          "type": "text"
+          "type": "input-text"
         },
         {
           "name": "select",
@@ -277,16 +277,16 @@ order: 12
   "debug": true,
   "mode": "horizontal",
   "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
-  "controls": [
+  "body": [
     {
         "type": "combo",
         "name": "combo1",
         "label": "默认模式",
         "multiple": true,
-        "controls": [
+        "items": [
             {
                 "name": "text",
-                "type": "text"
+                "type": "input-text"
             }
         ]
     },
@@ -299,10 +299,10 @@ order: 12
         "label": "打平模式",
         "multiple": true,
         "flat": true,
-        "controls": [
+        "items": [
             {
                 "name": "text",
-                "type": "text"
+                "type": "input-text"
             }
         ]
     }
@@ -339,9 +339,9 @@ combo 还有一个作用是增加层级，比如返回的数据是一个深层�
   "label": "",
   "noBorder": true,
   "multiLine": true,
-  "controls": [
+  "items": [
     {
-      "type": "text",
+      "type": "input-text",
       "name": "b"
     }
   ]
@@ -360,16 +360,16 @@ combo 还有一个作用是增加层级，比如返回的数据是一个深层�
   "debug": true,
   "mode": "horizontal",
   "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
-  "controls": [
+  "body": [
     {
         "type": "combo",
         "name": "combo666",
         "label": "唯一",
         "multiple": true,
-        "controls": [
+        "items": [
             {
                 "name": "text",
-                "type": "text",
+                "type": "input-text",
                 "placeholder": "文本",
                 "unique": true
             },
@@ -403,7 +403,7 @@ combo 还有一个作用是增加层级，比如返回的数据是一个深层�
   "debug": true,
   "mode": "horizontal",
   "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
-  "controls": [
+  "body": [
     {
         "type": "combo",
         "name": "combo",
@@ -420,10 +420,10 @@ combo 还有一个作用是增加层级，比如返回的数据是一个深层�
             }
         ],
         "draggable": true,
-        "controls": [
+        "items": [
             {
                 "name": "text",
-                "type": "text"
+                "type": "input-text"
             },
             {
                 "name": "select",
@@ -446,7 +446,7 @@ combo 还有一个作用是增加层级，比如返回的数据是一个深层�
 
 如下面的例子，定义了两种类型：文本和数字，用户新增的时候可以选择是新增文本还是数字。区分是文字和数字的方式是根据成员数据中的 type 字段来决定。
 
-```schema: scope="form-item"
+```schema: scope="form-item2"
 {
   "type": "combo",
   "name": "combo-conditions2",
@@ -468,16 +468,16 @@ combo 还有一个作用是增加层级，比如返回的数据是一个深层�
         "label": "文本",
         "name": ""
       },
-      "controls": [
+      "items": [
         {
           "label": "名称",
           "name": "label",
-          "type": "text"
+          "type": "input-text"
         },
         {
           "label": "字段名",
           "name": "name",
-          "type": "text"
+          "type": "input-text"
         }
       ]
     },
@@ -489,31 +489,31 @@ combo 还有一个作用是增加层级，比如返回的数据是一个深层�
         "label": "数字",
         "name": ""
       },
-      "controls": [
+      "items": [
         {
           "label": "名称",
           "name": "label",
-          "type": "text"
+          "type": "input-text"
         },
         {
           "label": "字段名",
           "name": "name",
-          "type": "text"
+          "type": "input-text"
         },
         {
           "label": "最小值",
           "name": "min",
-          "type": "number"
+          "type": "input-number"
         },
         {
           "label": "最大值",
           "name": "max",
-          "type": "number"
+          "type": "input-number"
         },
         {
           "label": "步长",
           "name": "step",
-          "type": "number"
+          "type": "input-number"
         }
       ]
     }
@@ -525,14 +525,14 @@ combo 还有一个作用是增加层级，比如返回的数据是一个深层�
 - `conditions[x].label` 类型名称
 - `conditions[x].test` 表达式，目标成员数据是否属于这个类型？
 - `conditions[x].scaffold` 初始数据，当新增的时候直接使用此数据。
-- `conditions[x].controls` 该类型的表单设置。
+- `conditions[x].items` 该类型的表单设置。
 - `typeSwitchable` 类型是否允许切换，如果设置成 true 会多一个类型切换的按钮。
 
 ## Tabs 模式
 
 默认成员是一个一个排列的，如果数据比较多有点让人眼花缭乱。所以 Combo 支持了 tabs 的排列方式。
 
-```schema: scope="form-item"
+```schema: scope="form-item2"
 {
   "type": "combo",
   "name": "combo101",
@@ -545,11 +545,11 @@ combo 还有一个作用是增加层级，比如返回的数据是一个深层�
   "tabsMode": true,
   "tabsStyle": "card",
   "maxLength": 3,
-  "controls": [
+  "items": [
     {
       "name": "a",
       "label": "文本",
-      "type": "text",
+      "type": "input-text",
       "placeholder": "文本",
       "value": "",
       "size": "full"
@@ -585,9 +585,9 @@ combo 还有一个作用是增加层级，比如返回的数据是一个深层�
   "debug": true,
   "mode": "horizontal",
   "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
-  "controls": [
+  "body": [
     {
-        "type": "text",
+        "type": "input-text",
         "label": "父级文本框",
         "name": "super_text",
         "value": "123"
@@ -597,10 +597,10 @@ combo 还有一个作用是增加层级，比如返回的数据是一个深层�
         "name": "combo1",
         "label": "不可获取父级数据",
         "multiple": true,
-        "controls": [
+        "items": [
             {
                 "name": "super_text",
-                "type": "text"
+                "type": "input-text"
             }
         ]
     }
@@ -616,9 +616,9 @@ combo 还有一个作用是增加层级，比如返回的数据是一个深层�
   "debug": true,
   "mode": "horizontal",
   "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
-  "controls": [
+  "body": [
     {
-        "type": "text",
+        "type": "input-text",
         "label": "父级文本框",
         "name": "super_text",
         "value": "123"
@@ -629,10 +629,10 @@ combo 还有一个作用是增加层级，比如返回的数据是一个深层�
         "label": "可获取父级数据",
         "multiple": true,
         "canAccessSuperData": true,
-        "controls": [
+        "items": [
             {
                 "name": "super_text",
-                "type": "text"
+                "type": "input-text"
             }
         ]
     }
@@ -652,9 +652,9 @@ combo 还有一个作用是增加层级，比如返回的数据是一个深层�
   "debug": true,
   "mode": "horizontal",
   "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
-  "controls": [
+  "body": [
     {
-        "type": "text",
+        "type": "input-text",
         "label": "父级文本框",
         "name": "super_text",
         "value": "123"
@@ -665,10 +665,10 @@ combo 还有一个作用是增加层级，比如返回的数据是一个深层�
         "label": "可获取父级数据",
         "multiple": true,
         "canAccessSuperData": true,
-        "controls": [
+        "items": [
             {
                 "name": "super_text",
-                "type": "text"
+                "type": "input-text"
             }
         ]
     }
@@ -689,9 +689,9 @@ combo 还有一个作用是增加层级，比如返回的数据是一个深层�
   "debug": true,
   "mode": "horizontal",
   "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
-  "controls": [
+  "body": [
     {
-        "type": "text",
+        "type": "input-text",
         "label": "父级文本框",
         "name": "super_text",
         "value": "123"
@@ -704,10 +704,10 @@ combo 还有一个作用是增加层级，比如返回的数据是一个深层�
         "canAccessSuperData": true,
         "strictMode": false,
         "syncFields": ["super_text"],
-        "controls": [
+        "items": [
             {
                 "name": "super_text",
-                "type": "text"
+                "type": "input-text"
             }
         ]
     }
@@ -725,13 +725,13 @@ combo 还有一个作用是增加层级，比如返回的数据是一个深层�
   "debug": true,
   "mode": "horizontal",
   "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
-  "controls": [
+  "body": [
     {
         "type": "combo",
         "name": "combo",
         "label": "显示序号",
         "multiple": true,
-        "controls": [
+        "items": [
             {
                 "type": "tpl",
                 "tpl": "<%= this.index + 1%>",
@@ -740,7 +740,7 @@ combo 还有一个作用是增加层级，比如返回的数据是一个深层�
             },
             {
                 "name": "text",
-                "type": "text"
+                "type": "input-text"
             }
         ]
     }

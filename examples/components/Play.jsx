@@ -67,7 +67,22 @@ const scopes = {
             "submitText": null,
             "actions": []
         }
-    }`
+    }`,
+
+  'form-item2': `{
+      "type": "page",
+      "body": {
+          "title": "",
+          "type": "form",
+          "mode": "horizontal",
+          "autoFocus": false,
+          "body": [
+              SCHEMA_PLACEHOLDER
+          ],
+          "submitText": null,
+          "actions": []
+      }
+  }`
 };
 
 export default class PlayGround extends React.Component {
