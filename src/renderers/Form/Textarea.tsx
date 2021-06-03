@@ -89,7 +89,7 @@ export default class TextAreaControl extends React.Component<
   }
 
   render() {
-    let {
+    const {
       className,
       classPrefix: ns,
       value,
@@ -101,9 +101,6 @@ export default class TextAreaControl extends React.Component<
       readOnly,
       name
     } = this.props;
-    // 如果传入的是空字符串 '' 会无法识别，这里统一处理成 undefined
-    minRows = !minRows ? undefined : minRows;
-    maxRows = !maxRows ? undefined : maxRows;
     return (
       <Textarea
         autoComplete="off"
@@ -123,8 +120,8 @@ export default class TextAreaControl extends React.Component<
         autoCorrect="off"
         spellCheck="false"
         readOnly={readOnly}
-        minRows={minRows}
-        maxRows={maxRows}
+        minRows={minRows || undefined}
+        maxRows={maxRows || undefined}
         onChange={this.handleChange}
         onFocus={this.handleFocus}
         onBlur={this.handleBlur}
