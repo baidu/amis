@@ -24,6 +24,14 @@ export default [
       },
 
       {
+        label: '1.2.0 版本变更',
+        path: '/zh-CN/docs/start/1-2-0',
+        getComponent: () =>
+          // @ts-ignore
+          import('../../docs/zh-CN/start/1-2-0.md').then(makeMarkdownRenderer)
+      },
+
+      {
         label: '常见问题',
         path: '/zh-CN/docs/start/faq',
         getComponent: () =>
