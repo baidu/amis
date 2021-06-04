@@ -274,29 +274,6 @@ export default class TreeSelectControl extends React.Component<
     onChange(typeof resetValue === 'undefined' ? '' : resetValue);
   }
 
-  filterOptions(options: Array<Option>, keywords: string): Array<Option> {
-    const {labelField, valueField} = this.props;
-
-    return options.map(option => {
-      option = {
-        ...option
-      };
-      option.visible = !!matchSorter([option], keywords, {
-        keys: [labelField || 'label', valueField || 'value']
-      }).length;
-
-      if (!option.visible && option.children) {
-        option.children = this.filterOptions(option.children, keywords);
-        const visibleCount = option.children.filter(item => item.visible)
-          .length;
-        option.visible = !!visibleCount;
-      }
-
-      option.visible && (option.collapsed = false);
-      return option;
-    });
-  }
-
   loadRemote(input: string) {
     const {autoComplete, env, data, setOptions, setLoading} = this.props;
 
