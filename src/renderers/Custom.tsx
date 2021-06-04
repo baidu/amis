@@ -4,7 +4,7 @@ import {Renderer, RendererProps} from '../factory';
 
 import {anyChanged} from '../utils/helper';
 import {BaseSchema} from '../Schema';
-import FormItem from './Form/Item';
+import FormItem, {FormControlProps} from './Form/Item';
 
 /**
  * 自定义组件
@@ -24,7 +24,7 @@ export interface CustomSchema extends BaseSchema {
   html?: string;
 }
 
-export interface CustomProps extends RendererProps, CustomSchema {
+export interface CustomProps extends FormControlProps, CustomSchema {
   className?: string;
   value?: any;
   wrapperComponent?: any;
