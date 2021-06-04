@@ -127,6 +127,7 @@ export default class TreeSelectControl extends React.Component<
     this.handleFocus = this.handleFocus.bind(this);
     this.handleBlur = this.handleBlur.bind(this);
     this.handleKeyPress = this.handleKeyPress.bind(this);
+    this.handleInputChange = this.handleInputChange.bind(this);
     this.handleInputKeyDown = this.handleInputKeyDown.bind(this);
 
     this.loadRemote = debouce(this.loadRemote.bind(this), 250, {
@@ -252,6 +253,19 @@ export default class TreeSelectControl extends React.Component<
           },
           () => onChange(value)
         );
+  }
+
+  handleInputChange(value: string) {
+    const {autoComplete, data} = this.props;
+
+    this.setState(
+      {
+        inputValue: value
+      },
+      isEffectiveApi(autoComplete, data)
+        ? () => this.loadRemote(this.state.inputValue)
+        : undefined
+    );
   }
 
   handleInputKeyDown(event: React.KeyboardEvent) {
@@ -514,6 +528,7 @@ export default class TreeSelectControl extends React.Component<
           }
           onResultClick={this.handleOutClick}
           value={this.state.inputValue}
+          onChange={this.handleInputChange}
           onResultChange={this.handleResultChange}
           itemRender={this.renderItem}
           onKeyPress={this.handleKeyPress}
