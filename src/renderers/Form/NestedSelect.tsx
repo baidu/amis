@@ -511,7 +511,7 @@ export default class NestedSelectControl extends React.Component<
     } = this.props;
     let noResultsText: any = this.props.noResultsText;
 
-    if (noResultsText && /<\w+/.test(noResultsText)) {
+    if (noResultsText) {
       noResultsText = render('noResultText', noResultsText);
     }
 
