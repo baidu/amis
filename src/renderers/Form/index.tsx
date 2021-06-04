@@ -811,6 +811,10 @@ export default class Form extends React.Component<FormProps, object> {
   ) {
     const {store, formLazyChange} = this.props;
 
+    if (typeof name !== 'string') {
+      return;
+    }
+
     store.changeValue(name, value, changePristine);
 
     (formLazyChange === false ? this.emitChange : this.lazyEmitChange)(submit);
