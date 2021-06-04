@@ -87,8 +87,11 @@ export const FormStore = ServiceStore.named('FormStore')
         return errors;
       },
 
-      getValueByName(name: string) {
-        return getVariable(self.data, name, self.canAccessSuperData);
+      getValueByName(
+        name: string,
+        canAccessSuperData = self.canAccessSuperData
+      ) {
+        return getVariable(self.data, name, canAccessSuperData);
       },
 
       getPristineValueByName(name: string) {
