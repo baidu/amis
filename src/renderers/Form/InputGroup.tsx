@@ -29,11 +29,11 @@ export interface InputGroupControlSchema extends FormBaseControl {
   /**
    * FormItem 集合
    */
-  controls: Array<FormControlSchema>;
+  body: Array<FormControlSchema>;
 }
 
 export interface InputGroupProps extends FormControlProps {
-  controls: Array<any>;
+  body: Array<any>;
   formStore: IFormStore;
 }
 

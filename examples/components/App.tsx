@@ -301,7 +301,7 @@ export class App extends React.PureComponent<{
             </a> */}
           </ul>
 
-          <div className="hidden-xs ml-2">
+          <div className="hidden-xs ml-auto">
             <Select
               overlayPlacement="right-bottom-right-top"
               clearable={false}

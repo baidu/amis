@@ -360,7 +360,7 @@ export function wrapControl<
             if (control && control.validate && this.model) {
               const formItem = this.model as IFormItemStore;
               let validate = promisify(control.validate.bind(control));
-              this.hook = function () {
+              this.hook = () => {
                 formItem.clearError('component:valdiate');
 
                 return validate(this.props.data, this.getValue(), name).then(
