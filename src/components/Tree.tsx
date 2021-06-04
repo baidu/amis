@@ -136,7 +136,7 @@ export class TreeSelector extends React.Component<
     createTip: 'Tree.addChild',
     editTip: 'Tree.editNode',
     removeTip: 'Tree.removeNode',
-    searchPromptText: 'Select.searchPromptText'
+    searchPromptText: 'Tree.searchPromptText'
   };
 
   unfolded: WeakMap<Object, boolean> = new WeakMap();
