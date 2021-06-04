@@ -791,12 +791,6 @@ export class TreeSelector extends React.Component<
     const {labelField, valueField} = this.props;
 
     options.forEach(option => {
-      console.log(
-        'match',
-        matchSorter([option], keywords, {
-          keys: [labelField || 'label', valueField || 'value']
-        })
-      );
       option.visible = !!matchSorter([option], keywords, {
         keys: [labelField || 'label', valueField || 'value']
       }).length;
