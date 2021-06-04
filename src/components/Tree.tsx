@@ -21,10 +21,9 @@ import {Icon} from './icons';
 import Checkbox from './Checkbox';
 import {LocaleProps, localeable} from '../locale';
 import Spinner from './Spinner';
+import matchSorter from 'match-sorter';
 
 interface TreeSelectorProps extends ThemeProps, LocaleProps {
-  highlightTxt?: string;
-
   showIcon?: boolean;
   // 是否默认都展开
   initiallyOpen?: boolean;
@@ -67,8 +66,11 @@ interface TreeSelectorProps extends ThemeProps, LocaleProps {
   // 否则点击父级，子节点选中。
   cascade?: boolean;
   selfDisabledAffectChildren?: boolean;
+  searchable?: boolean;
+  loadOptions?: Function;
   minLength?: number;
   maxLength?: number;
+  searchPromptText?: string;
 
   // 是否为内建 增、改、删。当有复杂表单的时候直接抛出去让外层能统一处理
   bultinCUD?: boolean;
@@ -94,6 +96,7 @@ interface TreeSelectorState {
   value: Array<any>;
 
   inputValue: string;
+  searchInputValue: string;
   addingParent: Option | null;
   isAdding: boolean;
   isEditing: boolean;
@@ -128,10 +131,12 @@ export class TreeSelector extends React.Component<
     rootValue: 0,
     cascade: false,
     selfDisabledAffectChildren: true,
+    searchable: false,
     rootCreateTip: 'Tree.addRoot',
     createTip: 'Tree.addChild',
     editTip: 'Tree.editNode',
-    removeTip: 'Tree.removeNode'
+    removeTip: 'Tree.removeNode',
+    searchPromptText: 'Select.searchPromptText'
   };
 
   unfolded: WeakMap<Object, boolean> = new WeakMap();
@@ -147,6 +152,7 @@ export class TreeSelector extends React.Component<
       }),
 
       inputValue: '',
+      searchInputValue: '',
       addingParent: null,
       isAdding: false,
       isEditing: false,
@@ -527,7 +533,6 @@ export class TreeSelector extends React.Component<
       selfDisabledAffectChildren,
       onlyChildren,
       classnames: cx,
-      highlightTxt,
       options,
       maxLength,
       minLength,
@@ -544,7 +549,8 @@ export class TreeSelector extends React.Component<
       isAdding,
       addingParent,
       editingItem,
-      isEditing
+      isEditing,
+      searchInputValue
     } = this.state;
 
     let childrenChecked = 0;
@@ -685,8 +691,8 @@ export class TreeSelector extends React.Component<
                     : this.handleSelect(item))
                 }
               >
-                {highlightTxt
-                  ? highlight(`${item[labelField]}`, highlightTxt)
+                {searchInputValue
+                  ? highlight(`${item[labelField]}`, searchInputValue)
                   : `${item[labelField]}`}
               </span>
 
@@ -763,6 +769,60 @@ export class TreeSelector extends React.Component<
     };
   }
 
+  input: HTMLInputElement;
+
+  @autobind
+  inputRef(ref: HTMLInputElement) {
+    this.input = ref;
+  }
+
+  @autobind
+  clearSearchValue() {
+    const {loadOptions} = this.props;
+    this.setState(
+      {
+        searchInputValue: ''
+      },
+      () => () => loadOptions?.('')
+    );
+  }
+
+  filterOptions(options: Array<Option>, keywords: string) {
+    const {labelField, valueField} = this.props;
+
+    options.forEach(option => {
+      console.log(
+        'match',
+        matchSorter([option], keywords, {
+          keys: [labelField || 'label', valueField || 'value']
+        })
+      );
+      option.visible = !!matchSorter([option], keywords, {
+        keys: [labelField || 'label', valueField || 'value']
+      }).length;
+
+      if (option.children) {
+        this.filterOptions(option.children, keywords);
+        const visibleCount = option.children.filter(item => item.visible)
+          .length;
+        option.visible = !!visibleCount;
+      }
+
+      option.visible && (option.collapsed = false);
+    });
+  }
+
+  @autobind
+  handleSearchInputChange(e: React.ChangeEvent<HTMLInputElement>) {
+    const {loadOptions} = this.props;
+    this.setState(
+      {
+        searchInputValue: e.currentTarget.value
+      },
+      () => loadOptions && loadOptions(this.state.searchInputValue)
+    );
+  }
+
   render() {
     const {
       className,
@@ -776,12 +836,26 @@ export class TreeSelector extends React.Component<
       rootCreatable,
       rootCreateTip,
       disabled,
-      translate: __
+      searchable,
+      translate: __,
+      options,
+      searchPromptText,
+      loadOptions
     } = this.props;
-    let options = this.props.options;
-    const {value, isAdding, addingParent, isEditing, inputValue} = this.state;
+
+    const {
+      value,
+      isAdding,
+      addingParent,
+      isEditing,
+      searchInputValue
+    } = this.state;
 
     let addBtn = null;
+
+    if (searchable && !loadOptions) {
+      this.filterOptions(options, this.state.searchInputValue);
+    }
 
     if (creatable && rootCreatable !== false && hideRoot) {
       addBtn = (
@@ -804,6 +878,24 @@ export class TreeSelector extends React.Component<
           'is-disabled': disabled
         })}
       >
+        {searchable ? (
+          <div className={cx(`Select-input`)}>
+            <Icon icon="search" className="icon" />
+            <input
+              value={searchInputValue}
+              disabled={disabled}
+              placeholder={__(searchPromptText)}
+              onChange={this.handleSearchInputChange}
+              ref={this.inputRef}
+            />
+            {searchInputValue?.length ? (
+              <a onClick={this.clearSearchValue} className={cx('Select-clear')}>
+                <Icon icon="close" className="icon" />
+              </a>
+            ) : null}
+          </div>
+        ) : null}
+
         {(options && options.length) || addBtn || hideRoot === false ? (
           <ul className={cx('Tree-list')}>
             {hideRoot ? (

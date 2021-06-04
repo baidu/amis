@@ -168,6 +168,7 @@ register('en-US', {
   'Tree.editNode': 'Edit this node',
   'Tree.removeNode': 'Remove this node',
   'Tree.root': 'Root',
+  'Tree.searchPromptText': 'Input to search',
   'validate.equals': 'value must be $1',
   'validate.equalsField': 'value must be $1',
   'validate.gt': 'Please enter a value greater than $1',

@@ -171,6 +171,7 @@ register('zh-CN', {
   'Tree.editNode': '编辑该节点',
   'Tree.removeNode': '移除该节点',
   'Tree.root': '顶级',
+  'Tree.searchPromptText': '输入内容进行检索',
   'validate.equals': '输入的数据与 $1 不一致',
   'validate.equalsField': '输入的数据与 $1 值不一致',
   'validate.gt': '请输入大于 $1 的值',

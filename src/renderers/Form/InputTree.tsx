@@ -126,7 +126,8 @@ export default class TreeControl extends React.Component<TreeProps> {
       rootCreateTip,
       labelField,
       deferLoad,
-      translate: __
+      translate: __,
+      searchable
     } = this.props;
 
     return (
@@ -171,6 +172,7 @@ export default class TreeControl extends React.Component<TreeProps> {
             editTip={editTip}
             removable={removable}
             removeTip={removeTip}
+            searchable={searchable}
             onDelete={onDelete}
             bultinCUD={!addControls && !editControls}
             onDeferLoad={deferLoad}

@@ -101,6 +101,7 @@ export default class TreeSelectControl extends React.Component<
   container: React.RefObject<HTMLDivElement> = React.createRef();
 
   input: React.RefObject<any> = React.createRef();
+  lazyloadRemote: Function;
 
   cache: {
     [propName: string]: any;
@@ -126,10 +127,13 @@ export default class TreeSelectControl extends React.Component<
     this.handleFocus = this.handleFocus.bind(this);
     this.handleBlur = this.handleBlur.bind(this);
     this.handleKeyPress = this.handleKeyPress.bind(this);
-    this.handleInputChange = this.handleInputChange.bind(this);
     this.handleInputKeyDown = this.handleInputKeyDown.bind(this);
 
     this.loadRemote = debouce(this.loadRemote.bind(this), 250, {
+      trailing: true,
+      leading: false
+    });
+    this.lazyloadRemote = debouce(this.loadRemote.bind(this), 250, {
       trailing: true,
       leading: false
     });
@@ -248,19 +252,6 @@ export default class TreeSelectControl extends React.Component<
           },
           () => onChange(value)
         );
-  }
-
-  handleInputChange(value: string) {
-    const {autoComplete, data} = this.props;
-
-    this.setState(
-      {
-        inputValue: value
-      },
-      isEffectiveApi(autoComplete, data)
-        ? () => this.loadRemote(this.state.inputValue)
-        : undefined
-    );
   }
 
   handleInputKeyDown(event: React.KeyboardEvent) {
@@ -451,11 +442,6 @@ export default class TreeSelectControl extends React.Component<
       deferLoad
     } = this.props;
 
-    let filtedOptions =
-      !isEffectiveApi(autoComplete) && searchable && this.state.inputValue
-        ? this.filterOptions(options, this.state.inputValue)
-        : options;
-
     return (
       <Overlay
         container={popOverContainer || (() => this.container.current)}
@@ -482,8 +468,11 @@ export default class TreeSelectControl extends React.Component<
             extractValue={extractValue}
             delimiter={delimiter}
             placeholder={__(optionsPlaceholder)}
-            options={filtedOptions}
-            highlightTxt={this.state.inputValue}
+            options={options}
+            loadOptions={
+              isEffectiveApi(autoComplete) ? this.lazyloadRemote : undefined
+            }
+            searchable={searchable || !!autoComplete}
             multiple={multiple}
             initiallyOpen={initiallyOpen}
             unfoldedLevel={unfoldedLevel}
@@ -548,7 +537,6 @@ export default class TreeSelectControl extends React.Component<
           }
           onResultClick={this.handleOutClick}
           value={this.state.inputValue}
-          onChange={this.handleInputChange}
           onResultChange={this.handleResultChange}
           itemRender={this.renderItem}
           onKeyPress={this.handleKeyPress}
@@ -556,7 +544,6 @@ export default class TreeSelectControl extends React.Component<
           onBlur={this.handleBlur}
           onKeyDown={this.handleInputKeyDown}
           clearable={clearable}
-          allowInput={searchable || isEffectiveApi(autoComplete)}
           inputPlaceholder={''}
         >
           {loading ? <Spinner size="sm" /> : undefined}
