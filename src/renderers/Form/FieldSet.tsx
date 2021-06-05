@@ -3,7 +3,7 @@ import {FormSchemaHorizontal} from '.';
 import {Renderer, RendererProps} from '../../factory';
 import {SchemaCollection, SchemaTpl} from '../../Schema';
 import Collapse, {CollapseSchema} from '../Collapse';
-import {FormBaseControl, FormControlSchema} from './Item';
+import {FormBaseControl} from './Item';
 
 /**
  * FieldSet 表单项集合
@@ -21,11 +21,6 @@ export interface FieldSetControlSchema
    * 标题展示位置
    */
   titlePosition: 'top' | 'bottom';
-
-  /**
-   * 表单项集合
-   */
-  controls?: Array<FormControlSchema>;
 
   /**
    * 是否可折叠

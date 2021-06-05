@@ -4,7 +4,6 @@ import {
   FormItem,
   FormControlProps,
   FormBaseControl,
-  FormControlSchema,
   FormControlSchemaAlias
 } from './Item';
 import {Schema, Action, Api} from '../../types';
@@ -30,17 +29,24 @@ import {Alert2} from '../../components';
 import memoize from 'lodash/memoize';
 import {Icon} from '../../components/icons';
 import {isAlive} from 'mobx-state-tree';
-import {SchemaApi, SchemaClassName, SchemaIcon, SchemaTpl} from '../../Schema';
+import {
+  SchemaApi,
+  SchemaClassName,
+  SchemaCollection,
+  SchemaIcon,
+  SchemaObject,
+  SchemaTpl
+} from '../../Schema';
 
 export type ComboCondition = {
   test: string;
-  items: Array<FormControlSchema>;
+  items: Array<ComboSubControl>;
   label: string;
   scaffold?: any;
   mode?: string;
 };
 
-export type ComboSubControl = FormControlSchema & {
+export type ComboSubControl = SchemaObject & {
   /**
    * 是否唯一, 只有在 combo 里面才有用
    */

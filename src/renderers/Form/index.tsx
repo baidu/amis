@@ -34,7 +34,7 @@ import {isApiOutdated, isEffectiveApi} from '../../utils/api';
 import Spinner from '../../components/Spinner';
 import {LazyComponent} from '../../components';
 import {isAlive} from 'mobx-state-tree';
-import {asFormItem, FormControlSchema, renderToComponent} from './Item';
+import {asFormItem, renderToComponent} from './Item';
 import {SimpleMap} from '../../utils/SimpleMap';
 import {trace} from 'mobx';
 import {
@@ -46,6 +46,7 @@ import {
   SchemaExpression,
   SchemaMessage,
   SchemaName,
+  SchemaObject,
   SchemaRedirect,
   SchemaReload
 } from '../../Schema';
@@ -83,7 +84,7 @@ export interface FormSchema extends BaseSchema {
   /**
    * 表单项集合
    */
-  body?: Array<FormControlSchema>;
+  body?: SchemaCollection;
 
   /**
    * @deprecated 请用类型 tabs
@@ -1211,7 +1212,7 @@ export default class Form extends React.Component<FormProps, object> {
           item =>
             item &&
             !!~['submit', 'button', 'button-group', 'reset'].indexOf(
-              (item as any)?.control?.type || item.type
+              (item as any)?.control?.type || (item as SchemaObject).type
             )
         ))
     ) {
@@ -1234,7 +1235,11 @@ export default class Form extends React.Component<FormProps, object> {
     region: string = '',
     otherProps: Partial<FormProps> = {}
   ): React.ReactNode {
-    let body: Array<any> = schema.body!;
+    let body: Array<any> = Array.isArray(schema.body)
+      ? schema.body
+      : schema.body
+      ? [schema.body]
+      : [];
 
     // 旧用法，让 wrapper 走走 compat 逻辑兼容旧用法
     // 后续可以删除。

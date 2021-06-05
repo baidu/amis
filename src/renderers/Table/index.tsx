@@ -35,7 +35,6 @@ import {
   SchemaTokenizeableString,
   SchemaType
 } from '../../Schema';
-import {FormControlSchema, FormControlType} from '../Form/Item';
 import {SchemaPopOver} from '../PopOver';
 import {SchemaQuickEdit} from '../QuickEdit';
 import {SchemaCopyable} from '../Copyable';

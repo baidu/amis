@@ -5,7 +5,7 @@
 import React from 'react';
 import {Renderer, RendererProps} from '../factory';
 import {Schema} from '../types';
-import {BaseSchema, SchemaCollection, SchemaObject} from '../Schema';
+import {BaseSchema, SchemaCollection} from '../Schema';
 
 /**
  * Flex 布局
@@ -63,7 +63,7 @@ export interface FlexSchema extends BaseSchema {
   /**
    * 每个 flex 的设置
    */
-  items: Array<SchemaObject>;
+  items: SchemaCollection;
 
   /**
    * 自定义样式

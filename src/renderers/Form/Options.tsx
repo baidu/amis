@@ -22,8 +22,7 @@ import {
   registerFormItem,
   FormItemBasicConfig,
   detectProps as itemDetectProps,
-  FormBaseControl,
-  FormControlSchema
+  FormBaseControl
 } from './Item';
 import {IFormItemStore} from '../../store/formItem';
 export type OptionsControlComponent = React.ComponentType<FormControlProps>;
@@ -45,6 +44,7 @@ import findIndex from 'lodash/findIndex';
 import {
   SchemaApi,
   SchemaExpression,
+  SchemaObject,
   SchemaTokenizeableString
 } from '../../Schema';
 
@@ -126,7 +126,7 @@ export interface FormOptionsControl extends FormBaseControl {
   /**
    * 新增时的表单项。
    */
-  addControls?: Array<FormControlSchema>;
+  addControls?: Array<SchemaObject>;
 
   /**
    * 是否可以新增
@@ -151,7 +151,7 @@ export interface FormOptionsControl extends FormBaseControl {
   /**
    * 选项修改的表单项
    */
-  editControls?: Array<FormControlSchema>;
+  editControls?: Array<SchemaObject>;
 
   /**
    * 是否可删除

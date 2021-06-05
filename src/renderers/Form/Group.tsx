@@ -7,11 +7,11 @@ import {
   makeHorizontalDeeper
 } from '../../utils/helper';
 import cx from 'classnames';
-import {FormBaseControl, FormControlSchema, FormItemWrap} from './Item';
+import {FormBaseControl, FormItemWrap} from './Item';
 import getExprProperties from '../../utils/filter-schema';
-import {SchemaClassName} from '../../Schema';
+import {SchemaClassName, SchemaObject} from '../../Schema';
 
-export type GroupSubControl = FormControlSchema & {
+export type GroupSubControl = SchemaObject & {
   /**
    * 列类名
    */
@@ -100,7 +100,7 @@ export class ControlGroupRenderer extends React.Component<InputGroupProps> {
             return null;
           }
 
-          const controlMode = (control && control.mode) || formMode;
+          const controlMode = (control as FormBaseControl)?.mode || formMode;
 
           return this.renderControl(control, index, {
             key: index,
@@ -135,8 +135,11 @@ export class ControlGroupRenderer extends React.Component<InputGroupProps> {
       horizontal ||
       makeHorizontalDeeper(
         formHorizontal,
-        body.filter(item => item.mode !== 'inline' && isVisible(item, data))
-          .length
+        body.filter(
+          item =>
+            (item as FormBaseControl)?.mode !== 'inline' &&
+            isVisible(item, data)
+        ).length
       );
 
     return (
@@ -151,7 +154,7 @@ export class ControlGroupRenderer extends React.Component<InputGroupProps> {
           if (!isVisible(control, data)) {
             return null;
           }
-          const controlMode = (control && control.mode) || formMode;
+          const controlMode = (control as FormBaseControl)?.mode || formMode;
 
           if (
             controlMode === 'inline' ||

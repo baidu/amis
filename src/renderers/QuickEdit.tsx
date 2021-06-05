@@ -18,7 +18,7 @@ import matches from 'dom-helpers/query/matches';
 import Overlay from '../components/Overlay';
 import PopOver from '../components/PopOver';
 import {Icon} from '../components/icons';
-import {FormControlSchema} from './Form/Item';
+import {SchemaCollection, SchemaObject} from '../Schema';
 
 export type SchemaQuickEditObject =
   /**
@@ -39,7 +39,7 @@ export type SchemaQuickEditObject =
        * 是否直接内嵌
        */
       mode?: 'inline';
-    } & FormControlSchema)
+    } & SchemaObject)
 
   /**
    * 表单项集合
@@ -60,7 +60,7 @@ export type SchemaQuickEditObject =
        */
       mode?: 'inline';
 
-      controls: Array<FormControlSchema>;
+      controls: SchemaCollection;
     };
 
 export type SchemaQuickEdit = boolean | SchemaQuickEditObject;

@@ -139,7 +139,6 @@ import './renderers/Progress';
 import './renderers/Status';
 import './renderers/Json';
 import './renderers/Link';
-import './renderers/Switch';
 import './renderers/Wizard';
 import './renderers/Chart';
 import './renderers/Container';
