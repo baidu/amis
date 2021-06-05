@@ -112,7 +112,7 @@ export default {
             },
             {
               type: 'control',
-              control: {
+              body: {
                 type: 'submit',
                 label: 'Submit'
               }
@@ -154,7 +154,7 @@ export default {
             },
             {
               type: 'control',
-              control: {
+              body: {
                 type: 'submit',
                 label: 'Submit'
               }

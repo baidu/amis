@@ -119,7 +119,7 @@ export default {
 
         {
           type: 'control',
-          control: {
+          body: {
             type: 'my-renderer'
           }
         },

@@ -87,7 +87,7 @@ export default {
         {
           type: 'control',
           label: '映射',
-          control: {
+          body: {
             type: 'mapping',
             value: Math.floor(Math.random() * 5),
             map: {
@@ -108,7 +108,7 @@ export default {
         {
           type: 'control',
           label: '进度',
-          control: {
+          body: {
             type: 'progress',
             value: 66.66
           }

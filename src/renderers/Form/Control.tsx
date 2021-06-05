@@ -18,9 +18,9 @@ export interface FormControlSchema extends FormBaseControl {
   type: 'control';
 
   /**
-   * FormItem 集合
+   * FormItem 内容
    */
-  control: SchemaCollection;
+  body: SchemaCollection;
 }
 
 @Renderer({
@@ -30,8 +30,8 @@ export interface FormControlSchema extends FormBaseControl {
 export class ControlRenderer extends React.Component<RendererProps> {
   @autobind
   renderInput() {
-    const {render, control} = this.props;
-    return render('inner', control);
+    const {render, body} = this.props;
+    return render('inner', body);
   }
 
   render() {

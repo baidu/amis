@@ -67,7 +67,7 @@ export default {
       },
       {
         type: 'control',
-        control: {
+        body: {
           type: 'button',
           label: 'Table2新增一行',
           target: 'table2',

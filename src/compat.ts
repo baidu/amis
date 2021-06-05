@@ -392,7 +392,7 @@ function wrapControl(item: any) {
     horizontal,
     className,
     columnClassName,
-    control: rest
+    body: rest
   };
 }
 
