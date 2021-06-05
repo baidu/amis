@@ -34,7 +34,7 @@ import {SchemaApi, SchemaClassName, SchemaIcon, SchemaTpl} from '../../Schema';
 
 export type ComboCondition = {
   test: string;
-  body: Array<FormControlSchema>;
+  items: Array<FormControlSchema>;
   label: string;
   scaffold?: any;
   mode?: string;
@@ -1029,7 +1029,7 @@ export default class ComboControl extends React.Component<ComboProps> {
 
           if (Array.isArray(conditions) && conditions.length) {
             condition = this.pickCondition(data);
-            items = condition ? condition.body : undefined;
+            items = condition ? condition.items : undefined;
           }
 
           let finnalControls =
@@ -1210,7 +1210,7 @@ export default class ComboControl extends React.Component<ComboProps> {
 
               if (Array.isArray(conditions) && conditions.length) {
                 condition = this.pickCondition(data);
-                items = condition ? condition.body : undefined;
+                items = condition ? condition.items : undefined;
               }
 
               let finnalControls =
@@ -1371,7 +1371,7 @@ export default class ComboControl extends React.Component<ComboProps> {
 
     if (Array.isArray(conditions) && conditions.length) {
       condition = this.pickCondition(data);
-      items = condition ? condition.body : undefined;
+      items = condition ? condition.items : undefined;
     }
 
     return (

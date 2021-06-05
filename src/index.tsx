@@ -52,7 +52,7 @@ import './renderers/App';
 import './renderers/Avatar';
 import './renderers/Remark';
 import './renderers/ButtonGroup';
-import './renderers/ButtonToolbar';
+import './renderers/Form/ButtonToolbar';
 import './renderers/Breadcrumb';
 import './renderers/DropDownButton';
 import './renderers/Collapse';
@@ -204,7 +204,7 @@ export {
   render,
   clearStoresCache,
   updateEnv,
-  Renderer,
+  Renderer as Renderer,
   RegisterStore,
   FormItem,
   OptionsControl,

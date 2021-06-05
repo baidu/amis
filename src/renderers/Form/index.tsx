@@ -1210,8 +1210,9 @@ export default class Form extends React.Component<FormProps, object> {
         body.some(
           item =>
             item &&
-            (!!~['submit', 'button', 'reset'].indexOf(item.type) ||
-              (item.type === 'button-group' && !(item as any).options))
+            !!~['submit', 'button', 'button-group', 'reset'].indexOf(
+              (item as any)?.control?.type || item.type
+            )
         ))
     ) {
       return actions;
@@ -1346,8 +1347,7 @@ export default class Form extends React.Component<FormProps, object> {
       controlWidth,
       resolveDefinitions,
       lazyChange,
-      formLazyChange,
-      canAccessSuperData
+      formLazyChange
     } = props;
 
     const subProps = {
@@ -1370,8 +1370,7 @@ export default class Form extends React.Component<FormProps, object> {
       addHook: this.addHook,
       removeHook: this.removeHook,
       renderFormItems: this.renderFormItems,
-      formPristine: form.pristine,
-      canAccessSuperData
+      formPristine: form.pristine
       // value: (control as any)?.name
       //   ? getVariable(form.data, (control as any)?.name, canAccessSuperData)
       //   : (control as any)?.value,

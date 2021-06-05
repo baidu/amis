@@ -1,5 +1,4 @@
 export default {
-  $schema: 'https://houtai.baidu.com/v2/schemas/page.json#',
   title: '所有 Form 元素列举',
   data: {
     id: 1,
@@ -44,7 +43,7 @@ export default {
       api: '/api/mock2/saveForm?waitSeconds=2',
       title: '表单项静态展示',
       mode: 'horizontal',
-      controls: [
+      body: [
         {
           type: 'static',
           label: '文本',
@@ -86,16 +85,19 @@ export default {
         },
 
         {
-          type: 'mapping',
+          type: 'control',
           label: '映射',
-          value: Math.floor(Math.random() * 5),
-          map: {
-            '*': "<span class='label label-default'>-</span>",
-            '0': "<span class='label label-info'>一</span>",
-            '1': "<span class='label label-success'>二</span>",
-            '2': "<span class='label label-danger'>三</span>",
-            '3': "<span class='label label-warning'>四</span>",
-            '4': "<span class='label label-primary'>五</span>"
+          control: {
+            type: 'mapping',
+            value: Math.floor(Math.random() * 5),
+            map: {
+              '*': "<span class='label label-default'>-</span>",
+              '0': "<span class='label label-info'>一</span>",
+              '1': "<span class='label label-success'>二</span>",
+              '2': "<span class='label label-danger'>三</span>",
+              '3': "<span class='label label-warning'>四</span>",
+              '4': "<span class='label label-primary'>五</span>"
+            }
           }
         },
 
@@ -104,9 +106,12 @@ export default {
         },
 
         {
-          type: 'progress',
+          type: 'control',
           label: '进度',
-          value: 66.66
+          control: {
+            type: 'progress',
+            value: 66.66
+          }
         },
 
         {

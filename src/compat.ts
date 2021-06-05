@@ -405,7 +405,7 @@ addSchemaFilter(function (schema: Schema, renderer: any, props: any) {
         if (Array.isArray(condition.controls)) {
           condition = {
             ...condition,
-            body: condition.controls.map(controlToNormalRenderer)
+            items: condition.controls.map(controlToNormalRenderer)
           };
           delete condition.controls;
         }
@@ -415,7 +415,7 @@ addSchemaFilter(function (schema: Schema, renderer: any, props: any) {
     };
   }
 
-  if (Array.isArray(schema?.controls)) {
+  if (Array.isArray(schema?.controls) && schema.type !== 'audio') {
     schema = {
       ...schema,
       [schema.type === 'combo' ? `items` : 'body']: schema?.controls.map(
@@ -423,6 +423,11 @@ addSchemaFilter(function (schema: Schema, renderer: any, props: any) {
       )
     };
     delete schema.controls;
+  } else if (schema?.quickEdit?.type) {
+    schema = {
+      ...schema,
+      quickEdit: controlToNormalRenderer(schema.quickEdit)
+    };
   } else if (schema?.type === 'tabs' && Array.isArray(schema.tabs)) {
     schema = {
       ...schema,

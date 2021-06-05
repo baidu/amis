@@ -5,7 +5,7 @@ import {ActionSchema} from './renderers/Action';
 import {AlertSchema} from './renderers/Alert';
 import {AudioSchema} from './renderers/Audio';
 import {ButtonGroupSchema} from './renderers/ButtonGroup';
-import {ButtonToolbarSchema} from './renderers/ButtonToolbar';
+import {ButtonToolbarSchema} from './renderers/Form/ButtonToolbar';
 import {CardSchema} from './renderers/Card';
 import {CardsSchema} from './renderers/Cards';
 import {FormSchema} from './renderers/Form';

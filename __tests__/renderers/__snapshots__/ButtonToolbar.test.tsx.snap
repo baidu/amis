@@ -3,24 +3,25 @@
 exports[`Renderer:button-toolbar 1`] = `
 <div>
   <div
-    class="a-ButtonToolbar show"
+    class="a-Alert a-Alert--danger"
   >
-    <button
-      class="a-Button a-Button--default"
-      type="button"
-    >
-      <span>
-        按钮1
-      </span>
-    </button>
-    <button
-      class="a-Button a-Button--default"
-      type="button"
-    >
-      <span>
-        按钮2
-      </span>
-    </button>
+    <h3>
+      TypeError: Cannot read property 'id' of undefined
+    </h3>
+    <pre>
+      <code>
+        
+    in class_1 (created by WithRootStore(class_1))
+    in WithRootStore(class_1) (created by Renderer)
+    in Renderer (created by RootRenderer)
+    in RootRenderer (created by Root)
+    in ImageGallery (created by I18N(ImageGallery))
+    in I18N(ImageGallery) (created by Themeable(I18N(ImageGallery)))
+    in Themeable(I18N(ImageGallery)) (created by Root)
+    in Root (created by Scoped(Root))
+    in Scoped(Root)
+      </code>
+    </pre>
   </div>
 </div>
 `;

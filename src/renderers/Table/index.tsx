@@ -620,6 +620,10 @@ export default class Table extends React.Component<TableProps, object> {
     savePristine?: boolean,
     resetOnFailed?: boolean
   ) {
+    if (!isAlive(item)) {
+      return;
+    }
+
     const {
       onSave,
       saveImmediately: propsSaveImmediately,
