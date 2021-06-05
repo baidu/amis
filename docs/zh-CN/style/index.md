@@ -28,14 +28,14 @@ title: 快速开始
   },
   "body": {
     "type": "form",
-    "controls": [
+    "body": [
       {
-        "type": "text",
+        "type": "input-text",
         "label": "文本",
         "name": "text"
       },
       {
-        "type": "password",
+        "type": "input-password",
         "label": "密码",
         "name": "password"
       }
@@ -65,15 +65,15 @@ title: 快速开始
 {
   "type": "form",
   "panelClassName": "border-solid border-2 border-blue-500 rounded-xl shadow-lg",
-  "controls": [
+  "body": [
     {
-      "type": "text",
+      "type": "input-text",
       "className": "text-green-700",
       "label": "文本框",
       "name": "text"
     },
     {
-      "type": "password",
+      "type": "input-password",
       "label": "密码",
       "name": "password"
     }

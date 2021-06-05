@@ -16,19 +16,19 @@ order: 34
 {
     "type": "form",
     "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
-    "controls": [
+    "body": [
         {
           "type": "panel",
-          "controls": [
+          "body": [
             {
               "name": "text",
-              "type": "text",
+              "type": "input-text",
               "label": "text"
             },
 
             {
               "name": "text2",
-              "type": "text",
+              "type": "input-text",
               "label": "text2"
             }
           ]
@@ -39,18 +39,16 @@ order: 34
 
 ## 属性表
 
-| 属性名          | 类型                                         | 默认值 | 说明                                                                |
-| --------------- | -------------------------------------------- | ------ | ------------------------------------------------------------------- |
-| title           | `string`                                     |        | panel 标题                                                          |
-| body            | [SchemaNode](../../../docs/types/schemanode) |        | 内容区                                                              |
-| bodyClassName   | `string`                                     |        | body 的 className                                                   |
-| footer          | [SchemaNode](../../../docs/types/schemanode) |        | 底部区                                                              |
-| footerClassName | `string`                                     |        | footer 的 className                                                 |
-| controls        | Array<表单项>                                |        | `controls` 跟 `body` 二选一，如果设置了 controls 优先显示表单集合。 |
+| 属性名          | 类型                                         | 默认值 | 说明                |
+| --------------- | -------------------------------------------- | ------ | ------------------- |
+| title           | `string`                                     |        | panel 标题          |
+| body            | [SchemaNode](../../../docs/types/schemanode) |        | 内容区              |
+| bodyClassName   | `string`                                     |        | body 的 className   |
+| footer          | [SchemaNode](../../../docs/types/schemanode) |        | 底部区              |
+| footerClassName | `string`                                     |        | footer 的 className |
 
 - `title` panel 标题
 - `body` [SchemaNode](../../../docs/types/schemanode) 可以是其他渲染模型。
 - `bodyClassName` body 的 className.
 - `footer` [SchemaNode](../../../docs/types/schemanode) 可以是其他渲染模型。
 - `footerClassName` footer 的 className.
-- `controls` 跟 `body` 二选一，如果设置了 controls 优先显示表单集合。

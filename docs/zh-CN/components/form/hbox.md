@@ -15,15 +15,15 @@ order: 25
 ```schema: scope="body"
 {
   "type": "form",
-  "controls": [
+  "body": [
     {
       "type": "hbox",
       "columns": [
         {
-          "controls": [
+          "body": [
             {
               "name": "text",
-              "type": "text",
+              "type": "input-text",
               "label": false,
               "placeholder": "Text"
             }
@@ -53,4 +53,4 @@ order: 25
 | 属性名          | 类型                        | 默认值 | 说明                                                                         |
 | --------------- | --------------------------- | ------ | ---------------------------------------------------------------------------- |
 | columnClassName | `string`                    |        | 配置列的 CSS 类名                                                            |
-| controls        | Array<[表单项](./formitem)> |        | 表单项数组，如果配置了表单集合，同时没有指定 type 类型，则优先展示表单集合。 |
+| body            | Array<[表单项](./formitem)> |        | 表单项数组，如果配置了表单集合，同时没有指定 type 类型，则优先展示表单集合。 |

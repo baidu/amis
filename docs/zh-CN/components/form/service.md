@@ -14,13 +14,13 @@ order: 49
 {
     "type": "form",
     "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
-    "controls": [
+    "body": [
         {
             "type": "service",
             "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/page/initData",
-            "controls": [
+            "body": [
                 {
-                    "type": "text",
+                    "type": "input-text",
                     "label": "时间",
                     "name": "date"
                 }
@@ -55,13 +55,13 @@ order: 49
 }
 ```
 
-### 放在 controls 属性下，输出表单项
+### 放在 body 属性下，输出表单项
 
 ```schema: scope="form-item"
 {
     "type": "service",
     "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/page/initData",
-    "controls": [
+    "body": [
       {
           "type": "text",
           "label": "文本输入",
@@ -90,7 +90,7 @@ Service 中的`api`和`schemaApi`都支持**接口联动**。
   "type": "form",
   "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock/saveForm?waitSeconds=1",
   "mode": "horizontal",
-  "controls": [
+  "body": [
     {
       "label": "数据模板",
       "type": "select",
@@ -116,20 +116,20 @@ Service 中的`api`和`schemaApi`都支持**接口联动**。
     {
       "type": "service",
       "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/initData?tpl=${tpl}",
-      "controls": [
+      "body": [
         {
           "label": "名称",
-          "type": "text",
+          "type": "input-text",
           "name": "name"
         },
         {
           "label": "作者",
-          "type": "text",
+          "type": "input-text",
           "name": "author"
         },
         {
           "label": "请求时间",
-          "type": "datetime",
+          "type": "input-datetime",
           "name": "date"
         }
       ]
@@ -148,9 +148,9 @@ Service 中的`api`和`schemaApi`都支持**接口联动**。
   "status": 0,
   "msg": "",
   "data": {
-    "controls": [
+    "body": [
       {
-        "type": "text",
+        "type": "input-text",
         "name": "text",
         "label": "文本输入"
       }
@@ -178,7 +178,7 @@ Service 中的`api`和`schemaApi`都支持**接口联动**。
     "data": {
       "a": "b" // 这样返回的选项会选中第二个选项B
     },
-    "controls": [
+    "body": [
       {
         "type": "select",
         "name": "a",

@@ -16,22 +16,22 @@ order: 53
 {
     "type": "form",
     "debug": true,
-    "controls": [
+    "body": [
       {
       "type": "tabs",
       "tabs": [
         {
           "title": "基本配置",
-          "controls": [
+          "body": [
             {
               "name": "text1",
-              "type": "text",
+              "type": "input-text",
               "label": "文本1"
             },
 
             {
               "name": "text2",
-              "type": "text",
+              "type": "input-text",
               "label": "文本2"
             }
           ]
@@ -39,16 +39,16 @@ order: 53
 
         {
           "title": "其他配置",
-          "controls": [
+          "body": [
             {
               "name": "text3",
-              "type": "text",
+              "type": "input-text",
               "label": "文本3"
             },
 
             {
               "name": "text4",
-              "type": "text",
+              "type": "input-text",
               "label": "文本4"
             }
           ]
@@ -67,7 +67,7 @@ order: 53
 {
     "type": "form",
     "debug": true,
-    "controls": [
+    "body": [
       {
       "type": "radios",
       "name": "tabs",
@@ -93,16 +93,16 @@ order: 53
         {
           "title": "基本配置",
           "value": "tab1",
-          "controls": [
+          "body": [
             {
               "name": "text1",
-              "type": "text",
+              "type": "input-text",
               "label": "文本1"
             },
 
             {
               "name": "text2",
-              "type": "text",
+              "type": "input-text",
               "label": "文本2"
             }
           ]
@@ -111,16 +111,16 @@ order: 53
         {
           "title": "其他配置",
           "value": "tab2",
-          "controls": [
+          "body": [
             {
               "name": "text3",
-              "type": "text",
+              "type": "input-text",
               "label": "文本3"
             },
 
             {
               "name": "text4",
-              "type": "text",
+              "type": "input-text",
               "label": "文本4"
             }
           ]

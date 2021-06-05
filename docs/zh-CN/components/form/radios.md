@@ -15,7 +15,7 @@ order: 36
 ```schema: scope="body"
 {
   "type": "form",
-  "controls": [
+  "body": [
     {
       "name": "radios",
       "type": "radios",
@@ -50,7 +50,7 @@ order: 36
 ```schema: scope="body"
 {
   "type": "form",
-  "controls": [
+  "body": [
     {
       "name": "radios",
       "type": "radios",
@@ -86,7 +86,7 @@ order: 36
 ```schema: scope="body"
 {
   "type": "form",
-  "controls": [
+  "body": [
     {
       "name": "radios",
       "type": "radios",

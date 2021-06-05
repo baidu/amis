@@ -22,15 +22,15 @@ order: 68
                 {
                     "type": "form",
                     "title": "基本信息",
-                    "controls": [
+                    "body": [
                         {
-                            "type": "text",
+                            "type": "input-text",
                             "name": "name",
                             "label": "姓名："
                         },
                         {
                             "name": "email",
-                            "type": "email",
+                            "type": "input-email",
                             "label": "邮箱："
                         }
                     ]
@@ -43,15 +43,15 @@ order: 68
                 {
                     "type": "form",
                     "title": "工作信息",
-                    "controls": [
+                    "body": [
                         {
-                            "type": "text",
+                            "type": "input-text",
                             "name": "cname",
                             "label": "公司名称："
                         },
                         {
                             "name": "caddress",
-                            "type": "text",
+                            "type": "input-text",
                             "label": "公司地址："
                         }
                     ]
@@ -64,35 +64,35 @@ order: 68
                 {
                     "type": "form",
                     "title": "兴趣爱好",
-                    "controls": [
+                    "body": [
                         {
-                            "type": "text",
+                            "type": "input-text",
                             "name": "interest1",
                             "label": "兴趣爱好1："
                         },
                         {
                             "name": "interest2",
-                            "type": "text",
+                            "type": "input-text",
                             "label": "兴趣爱好2："
                         },
                         {
                             "name": "interest3",
-                            "type": "text",
+                            "type": "input-text",
                             "label": "兴趣爱好3："
                         },
                         {
                             "name": "interest4",
-                            "type": "text",
+                            "type": "input-text",
                             "label": "兴趣爱好4："
                         },
                         {
                             "name": "interest5",
-                            "type": "text",
+                            "type": "input-text",
                             "label": "兴趣爱好5："
                         },
                         {
                             "name": "interest6",
-                            "type": "text",
+                            "type": "input-text",
                             "label": "兴趣爱好6："
                         }
                     ]
@@ -123,15 +123,15 @@ order: 68
                 {
                     "type": "form",
                     "title": "基本信息",
-                    "controls": [
+                    "body": [
                         {
-                            "type": "text",
+                            "type": "input-text",
                             "name": "name",
                             "label": "姓名："
                         },
                         {
                             "name": "email",
-                            "type": "email",
+                            "type": "input-email",
                             "label": "邮箱："
                         }
                     ]
@@ -145,15 +145,15 @@ order: 68
                 {
                     "type": "form",
                     "title": "工作信息",
-                    "controls": [
+                    "body": [
                         {
-                            "type": "text",
+                            "type": "input-text",
                             "name": "cname",
                             "label": "公司名称："
                         },
                         {
                             "name": "caddress",
-                            "type": "text",
+                            "type": "input-text",
                             "label": "公司地址："
                         }
                     ]
@@ -167,35 +167,35 @@ order: 68
                 {
                     "type": "form",
                     "title": "兴趣爱好",
-                    "controls": [
+                    "body": [
                         {
-                            "type": "text",
+                            "type": "input-text",
                             "name": "interest1",
                             "label": "兴趣爱好1："
                         },
                         {
                             "name": "interest2",
-                            "type": "text",
+                            "type": "input-text",
                             "label": "兴趣爱好2："
                         },
                         {
                             "name": "interest3",
-                            "type": "text",
+                            "type": "input-text",
                             "label": "兴趣爱好3："
                         },
                         {
                             "name": "interest4",
-                            "type": "text",
+                            "type": "input-text",
                             "label": "兴趣爱好4："
                         },
                         {
                             "name": "interest5",
-                            "type": "text",
+                            "type": "input-text",
                             "label": "兴趣爱好5："
                         },
                         {
                             "name": "interest6",
-                            "type": "text",
+                            "type": "input-text",
                             "label": "兴趣爱好6："
                         }
                     ]
@@ -221,15 +221,15 @@ order: 68
                 {
                     "type": "form",
                     "title": "基本信息",
-                    "controls": [
+                    "body": [
                         {
-                            "type": "text",
+                            "type": "input-text",
                             "name": "name",
                             "label": "姓名："
                         },
                         {
                             "name": "email",
-                            "type": "email",
+                            "type": "input-email",
                             "label": "邮箱："
                         }
                     ]
@@ -242,15 +242,15 @@ order: 68
                 {
                     "type": "form",
                     "title": "工作信息",
-                    "controls": [
+                    "body": [
                         {
-                            "type": "text",
+                            "type": "input-text",
                             "name": "cname",
                             "label": "公司名称："
                         },
                         {
                             "name": "caddress",
-                            "type": "text",
+                            "type": "input-text",
                             "label": "公司地址："
                         }
                     ]
@@ -263,35 +263,35 @@ order: 68
                 {
                     "type": "form",
                     "title": "兴趣爱好",
-                    "controls": [
+                    "body": [
                         {
-                            "type": "text",
+                            "type": "input-text",
                             "name": "interest1",
                             "label": "兴趣爱好1："
                         },
                         {
                             "name": "interest2",
-                            "type": "text",
+                            "type": "input-text",
                             "label": "兴趣爱好2："
                         },
                         {
                             "name": "interest3",
-                            "type": "text",
+                            "type": "input-text",
                             "label": "兴趣爱好3："
                         },
                         {
                             "name": "interest4",
-                            "type": "text",
+                            "type": "input-text",
                             "label": "兴趣爱好4："
                         },
                         {
                             "name": "interest5",
-                            "type": "text",
+                            "type": "input-text",
                             "label": "兴趣爱好5："
                         },
                         {
                             "name": "interest6",
-                            "type": "text",
+                            "type": "input-text",
                             "label": "兴趣爱好6："
                         }
                     ]

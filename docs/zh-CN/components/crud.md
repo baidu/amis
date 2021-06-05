@@ -117,14 +117,14 @@ CRUD，即增删改查组件，主要用来展现数据列表，并支持各类�
             "body": {
                 "type": "form",
                 "api": "post:/api/sample",
-                "controls": [
+                "body": [
                     {
-                        "type": "text",
+                        "type": "input-text",
                         "name": "engine",
                         "label": "Engine"
                     },
                     {
-                        "type": "text",
+                        "type": "input-text",
                         "name": "browser",
                         "label": "Browser"
                     }
@@ -244,14 +244,14 @@ CRUD，即增删改查组件，主要用来展现数据列表，并支持各类�
                             "type": "form",
                             "initApi": "/api/sample/${id}",
                             "api": "post:/api/sample/${id}",
-                            "controls": [
+                            "body": [
                                 {
-                                    "type": "text",
+                                    "type": "input-text",
                                     "name": "engine",
                                     "label": "Engine"
                                 },
                                 {
-                                    "type": "text",
+                                    "type": "input-text",
                                     "name": "browser",
                                     "label": "Browser"
                                 }
@@ -335,7 +335,7 @@ List 模式支持 [List](./list) 中的所有功能。
         "title": "编辑能力（权限）",
         "body": {
           "type": "form",
-          "controls": [
+          "body": [
           {
             "type": "hidden",
             "name": "id"
@@ -343,7 +343,7 @@ List 模式支持 [List](./list) 中的所有功能。
           {
             "name": "name",
             "label": "权限名称",
-            "type": "text",
+            "type": "input-text",
             "disabled": true
           },
           {
@@ -411,7 +411,7 @@ Cards 模式支持 [Cards](./cards) 中的所有功能。
             "tabs": [
               {
                 "title": "基本信息",
-                "controls": [
+                "body": [
                   {
                     "type": "hidden",
                     "name": "id"
@@ -420,7 +420,7 @@ Cards 模式支持 [Cards](./cards) 中的所有功能。
                     "name": "name",
                     "label": "帐号",
                     "disabled": true,
-                    "type": "text"
+                    "type": "input-text"
                   },
                   {
                     "type": "divider"
@@ -428,7 +428,7 @@ Cards 模式支持 [Cards](./cards) 中的所有功能。
                   {
                     "name": "email",
                     "label": "邮箱",
-                    "type": "text",
+                    "type": "input-text",
                     "disabled": true
                   },
                   {
@@ -444,11 +444,11 @@ Cards 模式支持 [Cards](./cards) 中的所有功能。
               },
               {
                 "title": "角色信息",
-                "controls": []
+                "body": []
               },
               {
                 "title": "设置权限",
-                "controls": []
+                "body": []
               }
             ]
           }
@@ -478,9 +478,9 @@ Cards 模式支持 [Cards](./cards) 中的所有功能。
     "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/sample",
      "filter": {
         "title": "条件搜索",
-        "controls": [
+        "body": [
             {
-                "type": "text",
+                "type": "input-text",
                 "name": "keywords",
                 "placeholder": "通过关键字搜索"
             }
@@ -1203,13 +1203,13 @@ crud 组件支持通过配置`headerToolbar`和`footerToolbar`属性，实现在
                 "body": {
                     "type": "form",
                     "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/sample/bulkUpdate2",
-                    "controls": [
+                    "body": [
                         {
                             "type": "hidden",
                             "name": "ids"
                         },
                         {
-                            "type": "text",
+                            "type": "input-text",
                             "name": "engine",
                             "label": "Engine"
                         }
@@ -1297,13 +1297,13 @@ crud 组件支持通过配置`headerToolbar`和`footerToolbar`属性，实现在
                 "body": {
                     "type": "form",
                     "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/sample/bulkUpdate2",
-                    "controls": [
+                    "body": [
                         {
                             "type": "hidden",
                             "name": "ids"
                         },
                         {
-                            "type": "text",
+                            "type": "input-text",
                             "name": "engine",
                             "label": "Engine"
                         }
@@ -1601,9 +1601,9 @@ crud 组件支持通过配置`headerToolbar`和`footerToolbar`属性，实现在
     "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/sample",
      "filter": {
         "title": "条件搜索",
-        "controls": [
+        "body": [
             {
-                "type": "text",
+                "type": "input-text",
                 "name": "keywords",
                 "placeholder": "通过关键字搜索"
             }
@@ -1698,9 +1698,9 @@ crud 组件支持通过配置`headerToolbar`和`footerToolbar`属性，实现在
           {
             "type": "form",
             "api": "/api/sample/$id",
-            "controls": [
+            "body": [
               {
-                "type": "text",
+                "type": "input-text",
                 "name": "engine",
                 "label": "Engine"
               }
@@ -1898,9 +1898,9 @@ CRUD 中不限制有多少个单条操作、添加一个操作对应的添加一
     "loadDataOnce": true,
     "source": "${rows | filter:engine:match:keywords}",
     "filter":{
-        "controls": [
+        "body": [
             {
-                "type": "text",
+                "type": "input-text",
                 "name": "keywords",
                 "label": "引擎"
             }

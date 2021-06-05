@@ -16,14 +16,14 @@ order: 4
 {
     "type": "form",
     "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
-    "controls": [
+    "body": [
       {
-        "type": "text",
+        "type": "input-text",
         "name": "name",
         "label": "姓名："
       },
       {
-        "type": "action",
+        "type": "button",
         "actionType": "dialog",
         "label": "按钮",
         "dialog": {
@@ -43,9 +43,9 @@ order: 4
 {
     "type": "form",
     "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
-    "controls": [
+    "body": [
       {
-        "type": "text",
+        "type": "input-text",
         "name": "name",
         "label": "姓名："
       },
@@ -65,9 +65,9 @@ order: 4
 {
     "type": "form",
     "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
-    "controls": [
+    "body": [
       {
-        "type": "text",
+        "type": "input-text",
         "name": "name",
         "label": "姓名："
       },

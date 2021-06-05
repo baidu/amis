@@ -226,7 +226,7 @@ amis 中部分组件，作为展示组件，自身没有**使用接口初始化�
     "type": "form",
     "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock/saveForm?waitSeconds=1",
     "mode": "horizontal",
-    "controls": [
+    "body": [
         {
         "label": "数据模板",
         "type": "select",
@@ -252,20 +252,20 @@ amis 中部分组件，作为展示组件，自身没有**使用接口初始化�
         {
         "type": "service",
         "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/initData?tpl=${tpl}",
-        "controls": [
+        "body": [
             {
             "label": "名称",
-            "type": "text",
+            "type": "input-text",
             "name": "name"
             },
             {
             "label": "作者",
-            "type": "text",
+            "type": "input-text",
             "name": "author"
             },
             {
             "label": "请求时间",
-            "type": "datetime",
+            "type": "input-datetime",
             "name": "date"
             }
         ]

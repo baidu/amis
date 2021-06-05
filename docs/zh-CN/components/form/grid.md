@@ -16,16 +16,16 @@ order: 23
 {
     "type": "form",
     "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
-    "controls": [
+    "body": [
         {
             "type": "grid",
             "columns": [
                 {
                     "md": 3,
-                    "controls": [
+                    "body": [
                         {
                             "name": "text",
-                            "type": "text",
+                            "type": "input-text",
                             "label": "text"
                         }
                     ]
@@ -33,7 +33,7 @@ order: 23
 
                 {
                     "md": 9,
-                    "controls": [
+                    "body": [
                         {
                             "name": "editor",
                             "type": "editor",
@@ -55,7 +55,7 @@ order: 23
 | className                  | `string`                                  |          | 外层 Dom 的类名                                                |
 | columns                    | `Array`                                   |          | 列集合                                                         |
 | columns[x]                 | [SchemaNode](../../docs/types/schemanode) |          | 成员可以是其他渲染器                                           |
-| columns[x].controls        | Array<[表单项](./formitem)>               |          | 如果配置了表单集合，同时没有指定 type 类型，则优先展示表单集合 |
+| columns[x].body            | Array<[表单项](./formitem)>               |          | 如果配置了表单集合，同时没有指定 type 类型，则优先展示表单集合 |
 | columns[x].columnClassName | `int`                                     |          | 配置列的 `className`                                           |
 | columns[x].xs              | `int`                                     |          | 宽度占比： 1 - 12                                              |
 | columns[x].xsHidden        | `boolean`                                 |          | 是否隐藏                                                       |

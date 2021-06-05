@@ -71,15 +71,15 @@ order: 12
 {
     "type": "form",
     "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
-    "controls": [
+    "body": [
       {
-        "type": "text",
+        "type": "input-text",
         "name": "name",
         "label": "姓名："
       },
       {
         "name": "email",
-        "type": "text",
+        "type": "input-text",
         "label": "邮箱："
       }
     ]
@@ -117,15 +117,15 @@ order: 12
             "userEmail": "${email}"
         }
     },
-    "controls": [
+    "body": [
       {
-        "type": "text",
+        "type": "input-text",
         "name": "name",
         "label": "姓名："
       },
       {
         "name": "email",
-        "type": "text",
+        "type": "input-text",
         "label": "邮箱："
       }
     ]
@@ -172,15 +172,15 @@ order: 12
       "g": "${c.g}"
     }
   },
-  "controls": [
+  "body": [
     {
-      "type": "text",
+      "type": "input-text",
       "name": "name",
       "label": "姓名："
     },
     {
       "name": "email",
-      "type": "text",
+      "type": "input-text",
       "label": "邮箱："
     }
   ]
@@ -222,15 +222,15 @@ order: 12
       "&": "${c}"
     }
   },
-  "controls": [
+  "body": [
     {
-      "type": "text",
+      "type": "input-text",
       "name": "name",
       "label": "姓名："
     },
     {
       "name": "email",
-      "type": "text",
+      "type": "input-text",
       "label": "邮箱："
     }
   ]
@@ -276,9 +276,9 @@ order: 12
             }
         }
     },
-    "controls": [
+    "body": [
       {
-        "type": "table",
+        "type": "input-table",
         "name": "table",
         "label": "table",
         "columns": [
@@ -1603,7 +1603,7 @@ ${xxx | map[:filterName][:...args]}
         "test": "${combo2|pick:text|map:toInt|map:date:LLL:x}"
       }
     },
-    "controls": [
+    "body": [
       {
         "type": "combo",
         "name": "combo2",
@@ -1617,7 +1617,7 @@ ${xxx | map[:filterName][:...args]}
             "text": "2696865590000"
           }
         ],
-        "controls": [
+        "items": [
           {
             "name": "text",
             "type": "text"

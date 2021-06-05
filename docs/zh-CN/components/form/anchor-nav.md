@@ -15,26 +15,26 @@ order: 53
 ```schema: scope="body"
 {
   "type": "form",
-  "controls": [
+  "body": [
     {
       "type": "anchor-nav",
       "links": [
         {
           "title": "员工基本信息",
-          "controls": [
+          "body": [
             {
                 "type": "fieldSet",
                 "title": "员工基本信息",
-                "controls": [
+                "body": [
                     {
                     "name": "name",
-                    "type": "text",
+                    "type": "input-text",
                     "label": "用户名"
                     },
 
                     {
                     "name": "age",
-                    "type": "text",
+                    "type": "input-text",
                     "label": "年龄"
                     }
                 ]
@@ -44,20 +44,20 @@ order: 53
 
         {
           "title": "在职信息",
-          "controls": [
+          "body": [
             {
                 "type": "fieldSet",
                 "title": "在职信息",
-                "controls": [
+                "body": [
                     {
                     "name": "home",
-                    "type": "text",
+                    "type": "input-text",
                     "label": "居住地址"
                     },
 
                     {
                     "name": "address",
-                    "type": "text",
+                    "type": "input-text",
                     "label": "工作地址"
                     }
                 ]
@@ -67,24 +67,24 @@ order: 53
 
         {
           "title": "教育经历",
-          "controls": [
+          "body": [
             {
                 "type": "fieldSet",
                 "title": "教育经历",
-                "controls": [
+                "body": [
                     {
                     "name": "school1",
-                    "type": "text",
+                    "type": "input-text",
                     "label": "经历1"
                     },
                     {
                     "name": "school2",
-                    "type": "text",
+                    "type": "input-text",
                     "label": "经历2"
                     },
                     {
                     "name": "school2",
-                    "type": "text",
+                    "type": "input-text",
                     "label": "经历2"
                     }
                 ]
@@ -94,24 +94,24 @@ order: 53
 
         {
           "title": "紧急联系人信息",
-          "controls": [
+          "body": [
             {
                 "type": "fieldSet",
                 "title": "紧急联系人信息",
-                "controls": [
+                "body": [
                     {
                     "name": "contact1",
-                    "type": "text",
+                    "type": "input-text",
                     "label": "联系人1"
                     },
                     {
                     "name": "contact2",
-                    "type": "text",
+                    "type": "input-text",
                     "label": "联系人2"
                     },
                     {
                     "name": "contact3",
-                    "type": "text",
+                    "type": "input-text",
                     "label": "联系人3"
                     }
                 ]

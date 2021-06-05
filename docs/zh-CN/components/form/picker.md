@@ -18,7 +18,7 @@ order: 35
 {
     "type": "form",
     "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
-    "controls": [
+    "body": [
         {
             "type": "picker",
             "name": "picker",
@@ -51,7 +51,7 @@ order: 35
   "type": "form",
   "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
   "debug": true,
-  "controls": [
+  "body": [
     {
       "type": "picker",
       "name": "type4",
@@ -75,9 +75,9 @@ order: 35
           "className": "text-right",
           "target": "thelist",
           "mode": "inline",
-          "controls": [
+          "body": [
             {
-              "type": "text",
+              "type": "input-text",
               "name": "keywords",
               "addOn": {
                 "type": "submit",
@@ -143,7 +143,7 @@ order: 35
                   "title": "查看",
                   "body": {
                     "type": "form",
-                    "controls": [
+                    "body": [
                       {
                         "type": "static",
                         "name": "engine",
@@ -204,9 +204,9 @@ order: 35
                     "type": "form",
                     "name": "sample-edit-form",
                     "api": "/api/sample/$id",
-                    "controls": [
+                    "body": [
                       {
-                        "type": "text",
+                        "type": "input-text",
                         "name": "engine",
                         "label": "Engine",
                         "required": true
@@ -215,7 +215,7 @@ order: 35
                         "type": "divider"
                       },
                       {
-                        "type": "text",
+                        "type": "input-text",
                         "name": "browser",
                         "label": "Browser",
                         "required": true
@@ -224,7 +224,7 @@ order: 35
                         "type": "divider"
                       },
                       {
-                        "type": "text",
+                        "type": "input-text",
                         "name": "platform",
                         "label": "Platform(s)",
                         "required": true
@@ -233,7 +233,7 @@ order: 35
                         "type": "divider"
                       },
                       {
-                        "type": "text",
+                        "type": "input-text",
                         "name": "version",
                         "label": "Engine version"
                       },
@@ -275,7 +275,7 @@ order: 35
 {
   "type": "form",
   "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
-  "controls": [
+  "body": [
     {
       "type": "picker",
       "name": "type4",
@@ -300,9 +300,9 @@ order: 35
           "className": "text-right",
           "target": "thelist",
           "mode": "inline",
-          "controls": [
+          "body": [
             {
-              "type": "text",
+              "type": "input-text",
               "name": "keywords",
               "addOn": {
                 "type": "submit",
@@ -368,7 +368,7 @@ order: 35
                   "title": "查看",
                   "body": {
                     "type": "form",
-                    "controls": [
+                    "body": [
                       {
                         "type": "static",
                         "name": "engine",
@@ -429,9 +429,9 @@ order: 35
                     "type": "form",
                     "name": "sample-edit-form",
                     "api": "/api/sample/$id",
-                    "controls": [
+                    "body": [
                       {
-                        "type": "text",
+                        "type": "input-text",
                         "name": "engine",
                         "label": "Engine",
                         "required": true
@@ -440,7 +440,7 @@ order: 35
                         "type": "divider"
                       },
                       {
-                        "type": "text",
+                        "type": "input-text",
                         "name": "browser",
                         "label": "Browser",
                         "required": true
@@ -449,7 +449,7 @@ order: 35
                         "type": "divider"
                       },
                       {
-                        "type": "text",
+                        "type": "input-text",
                         "name": "platform",
                         "label": "Platform(s)",
                         "required": true
@@ -458,7 +458,7 @@ order: 35
                         "type": "divider"
                       },
                       {
-                        "type": "text",
+                        "type": "input-text",
                         "name": "version",
                         "label": "Engine version"
                       },

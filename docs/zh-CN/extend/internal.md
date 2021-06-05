@@ -14,9 +14,9 @@ amis 的渲染过程是将 `json` 转成对应的 React 组件。先通过 `json
 <Page title="页面标题" subTitle="副标题">
   <Form
     title="用户登录"
-    controls={[
+    body={[
       {
-        type: 'text',
+        type: 'input-text',
         name: 'username',
         label: '用户名'
       }
@@ -35,9 +35,9 @@ amis 的渲染过程是将 `json` 转成对应的 React 组件。先通过 `json
   "body": {
     "type": "form",
     "title": "用户登录",
-    "controls": [
+    "body": [
       {
-        "type": "text",
+        "type": "input-text",
         "name": "username",
         "label": "用户名"
       }
@@ -52,7 +52,7 @@ amis 的渲染过程是将 `json` 转成对应的 React 组件。先通过 `json
 
 - `page` 页面节点
 - `page/body/form` 表单节点
-- `page/body/form/controls/0/text` 文本框节点。
+- `page/body/form/body/0/text` 文本框节点。
 
 根据 path 的信息就能很容易注册组件跟节点对应了。
 
@@ -107,12 +107,12 @@ export class FormRenderer extends React.Component {
   render() {
     const {
       title,
-      controls,
+      body,
       render // 用来渲染孩子节点，如果当前是叶子节点则可以忽略。
     } = this.props;
     return (
       <form className="form">
-        {controls.map((control, index) => (
+        {body.map((control, index) => (
           <div className="form-item" key={index}>
             {render(`${index}/control`, control)}
           </div>
