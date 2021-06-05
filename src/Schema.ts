@@ -107,6 +107,7 @@ import {TextareaControlSchema} from './renderers/Form/Textarea';
 import {TransferControlSchema} from './renderers/Form/Transfer';
 import {TreeSelectControlSchema} from './renderers/Form/TreeSelect';
 import {UUIDControlSchema} from './renderers/Form/UUID';
+import {FormControlSchema} from './renderers/Form/Control';
 
 // 每加个类型，这补充一下。
 export type SchemaType =
@@ -369,6 +370,7 @@ export type SchemaObject =
   | StepsSchema
 
   // 表单项
+  | FormControlSchema
   | ArrayControlSchema
   | ButtonGroupControlSchema
   | ChainedSelectControlSchema

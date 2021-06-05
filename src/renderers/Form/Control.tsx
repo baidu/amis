@@ -14,7 +14,7 @@ import {wrapControl} from './wrapControl';
  * Group 表单集合渲染器，能让多个表单在一行显示
  * 文档：https://baidu.gitee.io/amis/docs/components/form/group
  */
-export interface GroupControlSchema extends FormBaseControl {
+export interface FormControlSchema extends FormBaseControl {
   type: 'control';
 
   /**
