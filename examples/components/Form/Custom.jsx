@@ -52,7 +52,7 @@ export default {
           primary: true
         }
       ],
-      controls: [
+      body: [
         {
           label: '姓名',
           type: 'text',

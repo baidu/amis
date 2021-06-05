@@ -1,6 +1,7 @@
 import React from 'react';
 
 import {RendererProps, Renderer} from '../../factory';
+import {SchemaCollection} from '../../Schema';
 import {autobind} from '../../utils/helper';
 import {
   asFormItem,
@@ -19,7 +20,7 @@ export interface GroupControlSchema extends FormBaseControl {
   /**
    * FormItem 集合
    */
-  control: FormBaseControl;
+  control: SchemaCollection;
 }
 
 @Renderer({

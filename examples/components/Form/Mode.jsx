@@ -128,7 +128,7 @@ export default {
           horizontal: {
             leftFixed: 'xs'
           },
-          controls: [
+          body: [
             {
               type: 'input-email',
               name: 'email',
@@ -289,7 +289,7 @@ export default {
         },
         {
           type: 'group',
-          controls: [
+          body: [
             {
               type: 'input-email',
               name: 'email',

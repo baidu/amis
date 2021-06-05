@@ -63,7 +63,7 @@ export default {
                   body: {
                     api: '/api/sample/$id',
                     type: 'form',
-                    controls: [
+                    body: [
                       {
                         name: 'engine',
                         label: 'Rendering engine',
