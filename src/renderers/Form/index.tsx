@@ -1580,9 +1580,7 @@ export default class Form extends React.Component<FormProps, object> {
 }
 
 @Renderer({
-  test: (path: string) =>
-    /(^|\/)form$/.test(path) &&
-    !/(^|\/)form(?:\/.+)?\/control\/form$/.test(path),
+  type: 'form',
   storeType: FormStore.name,
   name: 'form',
   isolateScope: true,
