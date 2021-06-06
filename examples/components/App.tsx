@@ -93,8 +93,8 @@ const viewModes = [
 const docVersions = [
   {
     label: '1.2.x',
-    disabled: true,
-    value: ''
+    value: '',
+    url: '/zh-CN/docs/start/1-2-0'
   },
   {
     label: '1.1.x 文档',
@@ -356,8 +356,10 @@ export class App extends React.PureComponent<{
               value={docVersions[0].value}
               options={docVersions}
               onChange={doc => {
-                if (doc.url) {
+                if (doc.url && /^https?\:\/\//.test(doc.url)) {
                   window.open(doc.url);
+                } else {
+                  window.location.href = doc.url;
                 }
               }}
             />

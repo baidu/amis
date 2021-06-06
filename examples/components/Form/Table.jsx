@@ -55,9 +55,8 @@ export default {
           {
             label: 'Color',
             name: 'color',
-            quickEdit: {
-              type: 'input-color'
-            }
+            type: 'input-color',
+            quickEdit: false
           },
           {
             label: '说明文字',

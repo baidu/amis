@@ -315,7 +315,7 @@ export function registerOptionsControl(config: OptionsConfig) {
 
       loadOptions &&
         config.autoLoadOptionsFromSource !== false &&
-        (formInited && !addHook
+        (formInited || !addHook
           ? this.reload()
           : addHook && addHook(this.initOptions, 'init'));
     }
