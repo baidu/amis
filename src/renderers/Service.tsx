@@ -370,6 +370,11 @@ export default class Service extends React.Component<ServiceProps> {
   ) {
     const {store, formStore, onChange} = this.props;
 
+    // form 触发的 onChange,直接忽略
+    if (typeof name !== 'string') {
+      return;
+    }
+
     (store as IIRendererStore).changeValue?.(name, value);
 
     // 如果在form底下，则继续向上派送。

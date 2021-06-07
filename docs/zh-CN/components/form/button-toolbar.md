@@ -15,9 +15,9 @@ order: 5
 ```schema: scope="body"
 {
     "type": "form",
-    "controls": [
+    "body": [
         {
-            "type": "text",
+            "type": "input-text",
             "name": "test",
             "label": "Text"
         },

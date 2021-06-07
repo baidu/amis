@@ -96,7 +96,10 @@ export function wrapControl<
             trailing: true,
             leading: false
           });
-          componentWillMount() {
+
+          constructor(props: OuterProps) {
+            super(props);
+
             const {
               formStore: form,
               formItem,
@@ -494,7 +497,11 @@ export function wrapControl<
             }
 
             this.model.changeEmitedValue(value);
-            onFormItemChange?.(value, oldValue, this.model, form);
+            if (
+              onFormItemChange?.(value, oldValue, this.model, form) === false
+            ) {
+              return;
+            }
             onChange?.(value, name!, submitOnChange === true);
 
             if (

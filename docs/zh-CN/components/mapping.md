@@ -102,7 +102,7 @@ List 的内容、Card 卡片的内容配置同上
     "data": {
         "type": "2"
     },
-    "controls": [
+    "body": [
         {
             "type": "static-mapping",
             "name": "type",
@@ -127,7 +127,7 @@ List 的内容、Card 卡片的内容配置同上
     "data": {
         "type": true
     },
-    "controls": [
+    "body": [
         {
             "type": "static-mapping",
             "name": "type",
@@ -149,7 +149,7 @@ List 的内容、Card 卡片的内容配置同上
     "data": {
         "type": true
     },
-    "controls": [
+    "body": [
         {
             "type": "static-mapping",
             "name": "type",
@@ -175,7 +175,7 @@ List 的内容、Card 卡片的内容配置同上
     "data": {
         "type": "2"
     },
-    "controls": [
+    "body": [
         {
             "type": "mapping",
             "name": "type",
@@ -205,7 +205,7 @@ List 的内容、Card 卡片的内容配置同上
             "type": "2"
         }
     },
-    "controls": [
+    "body": [
         {
             "type": "mapping",
             "name": "type",

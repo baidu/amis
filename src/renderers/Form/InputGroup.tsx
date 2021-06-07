@@ -10,14 +10,9 @@ import {
 } from '../../utils/helper';
 import cx from 'classnames';
 import getExprProperties from '../../utils/filter-schema';
-import {
-  FormItem,
-  FormControlProps,
-  FormBaseControl,
-  FormControlSchema
-} from './Item';
+import {FormItem, FormControlProps, FormBaseControl} from './Item';
 import {IFormItemStore, IFormStore} from '../../store/form';
-import {SchemaClassName} from '../../Schema';
+import {SchemaClassName, SchemaCollection, SchemaObject} from '../../Schema';
 
 /**
  * InputGroup
@@ -29,7 +24,7 @@ export interface InputGroupControlSchema extends FormBaseControl {
   /**
    * FormItem 集合
    */
-  body: Array<FormControlSchema>;
+  body: SchemaCollection;
 }
 
 export interface InputGroupProps extends FormControlProps {

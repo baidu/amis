@@ -1,7 +1,8 @@
 import React from 'react';
-import {Renderer, RendererProps} from '../factory';
-import {BaseSchema} from '../Schema';
-import {ActionSchema} from './Action';
+import {RendererProps} from '../../factory';
+import {BaseSchema} from '../../Schema';
+import {ActionSchema} from '../Action';
+import {FormControlProps, FormItem} from './Item';
 
 /**
  * Button Toolar 渲染器。
@@ -17,7 +18,7 @@ export interface ButtonToolbarSchema extends BaseSchema {
 }
 
 export interface ButtonToolbarProps
-  extends RendererProps,
+  extends FormControlProps,
     Omit<ButtonToolbarSchema, 'className'> {}
 
 export default class ButtonToolbar extends React.Component<
@@ -43,7 +44,7 @@ export default class ButtonToolbar extends React.Component<
   }
 }
 
-@Renderer({
+@FormItem({
   type: 'button-toolbar',
   name: 'button-toolbar'
 })

@@ -1,5 +1,4 @@
 export default {
-  $schema: 'https://houtai.baidu.com/v2/schemas/page.json#',
   title: '当 column 每一项的 label 值都为空字符时，可以隐藏表头',
   body: [
     {

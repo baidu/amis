@@ -133,7 +133,7 @@ order: 68
   "body": {
     "type": "form",
     "initApi": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/steps/steps",
-    "controls": [
+    "body": [
       {
         "type": "steps",
         "source": "${steps}",
@@ -153,7 +153,7 @@ order: 68
   "type": "page",
   "body": {
     "type": "form",
-    "controls": [
+    "body": [
       {
         "type": "steps",
         "name": "steps",

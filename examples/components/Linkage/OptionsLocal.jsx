@@ -6,7 +6,7 @@ export default {
     mode: 'horizontal',
     title: '',
     actions: [],
-    controls: [
+    body: [
       '<p class="text-danger">表单选项内也能联动，通过配置 visibleOn、hiddenOn或者disabledOn</p>',
       {
         type: 'divider'
@@ -14,7 +14,7 @@ export default {
 
       {
         label: '选项1',
-        type: 'list',
+        type: 'list-select',
         multiple: false,
         labelClassName: 'text-muted',
         name: 'a',

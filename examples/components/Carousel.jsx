@@ -73,7 +73,7 @@ export default {
           type: 'form',
           title: '表单内展示',
           sm: 6,
-          controls: [
+          body: [
             {
               type: 'carousel',
               controlsTheme: 'dark',
