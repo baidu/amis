@@ -15,7 +15,7 @@ order: 8
 ```schema: scope="body"
 {
     "type": "form",
-    "controls": [
+    "body": [
         {
             "name": "checkbox",
             "type": "checkbox",
@@ -37,7 +37,7 @@ order: 8
 {
     "type": "form",
     "debug": true,
-    "controls": [
+    "body": [
         {
             "name": "checkbox",
             "type": "checkbox",
@@ -53,7 +53,7 @@ order: 8
 {
     "type": "form",
     "debug": true,
-    "controls": [
+    "body": [
         {
             "name": "checkbox",
             "type": "checkbox",

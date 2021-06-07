@@ -32,7 +32,7 @@ order: 26
   body: {
     type: 'form',
     title: 'custom 组件',
-    controls: [
+    body: [
       {
         type: 'custom',
         name: 'myName',
@@ -65,16 +65,16 @@ onUpdate 是在数据变更的时候调用，注意这个数据变更会包含�
   body: {
     type: 'form',
     title: 'custom 组件',
-    controls: [
+    body: [
       {
         name: 'email',
         label: '邮箱',
-        type: 'text'
+        type: 'input-text'
       },
       {
         name: 'username',
         label: '用户名',
-        type: 'text'
+        type: 'input-text'
       },
       {
         type: 'custom',
@@ -109,7 +109,7 @@ onUnmount 是在组件销毁的时候执行，可以在这里做资源清理，�
   body: {
     type: 'form',
     title: 'custom 组件',
-    controls: [
+    body: [
       {
         type: 'custom',
         name: 'my-custom',

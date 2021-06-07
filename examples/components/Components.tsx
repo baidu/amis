@@ -263,15 +263,6 @@ export const components = [
           )
       },
       {
-        label: 'Button 按钮',
-        path: '/zh-CN/components/form/button',
-        getComponent: () =>
-          // @ts-ignore
-          import('../../docs/zh-CN/components/form/button.md').then(
-            makeMarkdownRenderer
-          )
-      },
-      {
         label: 'Button-Toolbar 按钮工具栏',
         path: '/zh-CN/components/form/button-toolbar',
         getComponent: () =>
@@ -452,29 +443,11 @@ export const components = [
           )
       },
       {
-        label: 'Grid 水平布局',
-        path: '/zh-CN/components/form/grid',
-        getComponent: () =>
-          // @ts-ignore
-          import('../../docs/zh-CN/components/form/grid.md').then(
-            makeMarkdownRenderer
-          )
-      },
-      {
         label: 'Group 表单项组',
         path: '/zh-CN/components/form/group',
         getComponent: () =>
           // @ts-ignore
           import('../../docs/zh-CN/components/form/group.md').then(
-            makeMarkdownRenderer
-          )
-      },
-      {
-        label: 'HBox',
-        path: '/zh-CN/components/form/hbox',
-        getComponent: () =>
-          // @ts-ignore
-          import('../../docs/zh-CN/components/form/hbox.md').then(
             makeMarkdownRenderer
           )
       },
@@ -560,15 +533,6 @@ export const components = [
           )
       },
       {
-        label: 'Panel 面板',
-        path: '/zh-CN/components/form/panel',
-        getComponent: () =>
-          // @ts-ignore
-          import('../../docs/zh-CN/components/form/panel.md').then(
-            makeMarkdownRenderer
-          )
-      },
-      {
         label: 'Password 密码输入框',
         path: '/zh-CN/components/form/password',
         getComponent: () =>
@@ -650,15 +614,6 @@ export const components = [
           )
       },
       {
-        label: 'Service 功能容器',
-        path: '/zh-CN/components/form/service',
-        getComponent: () =>
-          // @ts-ignore
-          import('../../docs/zh-CN/components/form/service.md').then(
-            makeMarkdownRenderer
-          )
-      },
-      {
         label: 'InputSubForm 子表单',
         path: '/zh-CN/components/form/input-sub-form',
         getComponent: () =>
@@ -682,15 +637,6 @@ export const components = [
         getComponent: () =>
           // @ts-ignore
           import('../../docs/zh-CN/components/form/static.md').then(
-            makeMarkdownRenderer
-          )
-      },
-      {
-        label: 'Tabs 选项卡',
-        path: '/zh-CN/components/form/tabs',
-        getComponent: () =>
-          // @ts-ignore
-          import('../../docs/zh-CN/components/form/tabs.md').then(
             makeMarkdownRenderer
           )
       },
@@ -781,15 +727,6 @@ export const components = [
         getComponent: () =>
           // @ts-ignore
           import('../../docs/zh-CN/components/form/input-year.md').then(
-            makeMarkdownRenderer
-          )
-      },
-      {
-        label: 'AnchorNav 锚点导航',
-        path: '/zh-CN/components/form/anchor-nav',
-        getComponent: () =>
-          // @ts-ignore
-          import('../../docs/zh-CN/components/form/anchor-nav.md').then(
             makeMarkdownRenderer
           )
       }
@@ -1055,15 +992,6 @@ export const components = [
         getComponent: () =>
           // @ts-ignore
           import('../../docs/zh-CN/components/status.md').then(
-            makeMarkdownRenderer
-          )
-      },
-      {
-        label: 'Switch 开关',
-        path: '/zh-CN/components/switch',
-        getComponent: () =>
-          // @ts-ignore
-          import('../../docs/zh-CN/components/switch.md').then(
             makeMarkdownRenderer
           )
       },

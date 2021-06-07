@@ -93,7 +93,14 @@ test('Form:initData:super', async () => {
   await wait(300);
 
   expect(onSubmit).toBeCalled();
-  expect(onSubmit.mock.calls[0][0]).toMatchSnapshot();
+  expect(onSubmit.mock.calls[0][0]).toMatchInlineSnapshot(
+    `
+    Object {
+      "a": 1,
+      "b": 2,
+    }
+  `
+  );
 });
 
 test('Form:initData:without-super', async () => {

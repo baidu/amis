@@ -276,7 +276,6 @@ const table = {
 };
 
 export default {
-  $schema: 'https://houtai.baidu.com/v2/schemas/page.json#',
   title: '固顶和列固定示例',
   remark: 'bla bla bla',
   body: [

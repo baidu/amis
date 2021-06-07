@@ -34,9 +34,9 @@ amis 是一个低代码前端框架，它使用 JSON 配置来生成页面，可
     "filter": {
       "title": "筛选",
       "submitText": "",
-      "controls": [
+      "body": [
         {
-          "type": "text",
+          "type": "input-text",
           "name": "keywords",
           "placeholder": "关键字",
           "addOn": {
@@ -64,13 +64,13 @@ amis 是一个低代码前端框架，它使用 JSON 配置来生成页面，可
           "body": {
             "type": "form",
             "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/sample/bulkUpdate2",
-            "controls": [
+            "body": [
               {
                 "type": "hidden",
                 "name": "ids"
               },
               {
-                "type": "text",
+                "type": "input-text",
                 "name": "engine",
                 "label": "Engine"
               }
@@ -132,6 +132,7 @@ amis 是一个低代码前端框架，它使用 JSON 配置来生成页面，可
         "name": "platform",
         "label": "平台",
         "popOver": {
+          "trigger": "hover",
           "body": {
             "type": "tpl",
             "tpl": "就是为了演示有个叫 popOver 的功能"
@@ -143,12 +144,8 @@ amis 是一个低代码前端框架，它使用 JSON 配置来生成页面，可
       {
         "name": "grade",
         "label": "CSS 等级",
-        "quickEdit": {
-          "mode": "inline",
-          "type": "select",
-          "options": ["A", "B", "C", "D", "X"]
-        },
-        "type": "text"
+        "type": "select",
+        "options": ["A", "B", "C", "D", "X"]
       },
       {
         "type": "operation",

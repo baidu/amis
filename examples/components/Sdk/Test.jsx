@@ -16,21 +16,21 @@ export default class SdkTest extends React.Component {
       {
         title: '',
         type: 'form',
-        controls: [
+        body: [
           {
-            type: 'text',
+            type: 'input-text',
             name: 'name',
             label: 'Name'
           },
 
           {
-            type: 'text',
+            type: 'input-text',
             name: 'id',
             label: 'Id'
           },
 
           {
-            type: 'email',
+            type: 'input-email',
             name: 'email',
             label: 'Email'
           },

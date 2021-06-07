@@ -441,8 +441,6 @@ exports[`Form:initData:super 1`] = `
 </div>
 `;
 
-exports[`Form:initData:super 2`] = `Object {}`;
-
 exports[`Form:initData:without-super 1`] = `
 <div>
   <div

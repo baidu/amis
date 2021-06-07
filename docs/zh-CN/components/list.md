@@ -50,7 +50,7 @@ order: 56
                 "title": "查看详情",
                 "body": {
                   "type": "form",
-                  "controls": [
+                  "body": [
                     {
                       "label": "Engine",
                       "name": "engine",

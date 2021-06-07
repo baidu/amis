@@ -1,5 +1,4 @@
 export default {
-  $schema: 'https://houtai.baidu.com/v2/schemas/page.json#',
   title: '表格编辑',
   body: {
     type: 'form',
@@ -12,7 +11,7 @@ export default {
         primary: true
       }
     ],
-    controls: [
+    body: [
       '<p>常规模式</p>',
       {
         type: 'divider'
@@ -99,9 +98,9 @@ export default {
             className: 'text-right',
             target: 'thelist',
             mode: 'inline',
-            controls: [
+            body: [
               {
-                type: 'text',
+                type: 'input-text',
                 name: 'keywords',
                 addOn: {
                   type: 'submit',
@@ -167,7 +166,7 @@ export default {
                     title: '查看',
                     body: {
                       type: 'form',
-                      controls: [
+                      body: [
                         {
                           type: 'static',
                           name: 'engine',
@@ -229,9 +228,9 @@ export default {
                       type: 'form',
                       name: 'sample-edit-form',
                       api: '/api/sample/$id',
-                      controls: [
+                      body: [
                         {
-                          type: 'text',
+                          type: 'input-text',
                           name: 'engine',
                           label: 'Engine',
                           required: true
@@ -240,7 +239,7 @@ export default {
                           type: 'divider'
                         },
                         {
-                          type: 'text',
+                          type: 'input-text',
                           name: 'browser',
                           label: 'Browser',
                           required: true
@@ -249,7 +248,7 @@ export default {
                           type: 'divider'
                         },
                         {
-                          type: 'text',
+                          type: 'input-text',
                           name: 'platform',
                           label: 'Platform(s)',
                           required: true
@@ -258,7 +257,7 @@ export default {
                           type: 'divider'
                         },
                         {
-                          type: 'text',
+                          type: 'input-text',
                           name: 'version',
                           label: 'Engine version'
                         },
@@ -312,9 +311,9 @@ export default {
             className: 'text-right',
             target: 'thelist',
             mode: 'inline',
-            controls: [
+            body: [
               {
-                type: 'text',
+                type: 'input-text',
                 name: 'keywords',
                 addOn: {
                   type: 'submit',
@@ -380,7 +379,7 @@ export default {
                     title: '查看',
                     body: {
                       type: 'form',
-                      controls: [
+                      body: [
                         {
                           type: 'static',
                           name: 'engine',
@@ -442,9 +441,9 @@ export default {
                       type: 'form',
                       name: 'sample-edit-form',
                       api: '/api/sample/$id',
-                      controls: [
+                      body: [
                         {
-                          type: 'text',
+                          type: 'input-text',
                           name: 'engine',
                           label: 'Engine',
                           required: true
@@ -453,7 +452,7 @@ export default {
                           type: 'divider'
                         },
                         {
-                          type: 'text',
+                          type: 'input-text',
                           name: 'browser',
                           label: 'Browser',
                           required: true
@@ -462,7 +461,7 @@ export default {
                           type: 'divider'
                         },
                         {
-                          type: 'text',
+                          type: 'input-text',
                           name: 'platform',
                           label: 'Platform(s)',
                           required: true
@@ -471,7 +470,7 @@ export default {
                           type: 'divider'
                         },
                         {
-                          type: 'text',
+                          type: 'input-text',
                           name: 'version',
                           label: 'Engine version'
                         },
@@ -533,9 +532,9 @@ export default {
             className: 'text-right',
             target: 'thelist',
             mode: 'inline',
-            controls: [
+            body: [
               {
-                type: 'text',
+                type: 'input-text',
                 name: 'keywords',
                 addOn: {
                   type: 'submit',
@@ -556,7 +555,7 @@ export default {
                   title: '查看',
                   body: {
                     type: 'form',
-                    controls: [
+                    body: [
                       {
                         type: 'static',
                         name: 'engine',
@@ -616,9 +615,9 @@ export default {
                     type: 'form',
                     name: 'sample-edit-form',
                     api: '/api/sample/$id',
-                    controls: [
+                    body: [
                       {
-                        type: 'text',
+                        type: 'input-text',
                         name: 'engine',
                         label: 'Engine',
                         required: true
@@ -627,7 +626,7 @@ export default {
                         type: 'divider'
                       },
                       {
-                        type: 'text',
+                        type: 'input-text',
                         name: 'browser',
                         label: 'Browser',
                         required: true
@@ -636,7 +635,7 @@ export default {
                         type: 'divider'
                       },
                       {
-                        type: 'text',
+                        type: 'input-text',
                         name: 'platform',
                         label: 'Platform(s)',
                         required: true
@@ -645,7 +644,7 @@ export default {
                         type: 'divider'
                       },
                       {
-                        type: 'text',
+                        type: 'input-text',
                         name: 'version',
                         label: 'Engine version'
                       },
@@ -653,7 +652,7 @@ export default {
                         type: 'divider'
                       },
                       {
-                        type: 'text',
+                        type: 'input-text',
                         name: 'grade',
                         label: 'CSS grade'
                       }
@@ -677,18 +676,21 @@ export default {
                 quickEdit: true,
                 labelClassName: 'w-sm'
               },
-              [
-                {
-                  name: 'browser',
-                  label: 'Browser',
-                  labelClassName: 'w-sm'
-                },
-                {
-                  name: 'platform',
-                  label: 'Platform(s)',
-                  labelClassName: 'w-sm'
-                }
-              ],
+              {
+                type: 'hbox',
+                columns: [
+                  {
+                    name: 'browser',
+                    label: 'Browser',
+                    labelClassName: 'w-sm'
+                  },
+                  {
+                    name: 'platform',
+                    label: 'Platform(s)',
+                    labelClassName: 'w-sm'
+                  }
+                ]
+              },
               {
                 name: 'version',
                 label: 'Engine version',
@@ -721,9 +723,9 @@ export default {
             className: 'text-right',
             target: 'thelist',
             mode: 'inline',
-            controls: [
+            body: [
               {
-                type: 'text',
+                type: 'input-text',
                 name: 'keywords',
                 addOn: {
                   type: 'submit',
@@ -744,7 +746,7 @@ export default {
                   title: '查看',
                   body: {
                     type: 'form',
-                    controls: [
+                    body: [
                       {
                         type: 'static',
                         name: 'engine',
@@ -804,9 +806,9 @@ export default {
                     type: 'form',
                     name: 'sample-edit-form',
                     api: '/api/sample/$id',
-                    controls: [
+                    body: [
                       {
-                        type: 'text',
+                        type: 'input-text',
                         name: 'engine',
                         label: 'Engine',
                         required: true
@@ -815,7 +817,7 @@ export default {
                         type: 'divider'
                       },
                       {
-                        type: 'text',
+                        type: 'input-text',
                         name: 'browser',
                         label: 'Browser',
                         required: true
@@ -824,7 +826,7 @@ export default {
                         type: 'divider'
                       },
                       {
-                        type: 'text',
+                        type: 'input-text',
                         name: 'platform',
                         label: 'Platform(s)',
                         required: true
@@ -833,7 +835,7 @@ export default {
                         type: 'divider'
                       },
                       {
-                        type: 'text',
+                        type: 'input-text',
                         name: 'version',
                         label: 'Engine version'
                       },
@@ -841,7 +843,7 @@ export default {
                         type: 'divider'
                       },
                       {
-                        type: 'text',
+                        type: 'input-text',
                         name: 'grade',
                         label: 'CSS grade'
                       }
@@ -865,18 +867,21 @@ export default {
                 quickEdit: true,
                 labelClassName: 'w-sm'
               },
-              [
-                {
-                  name: 'browser',
-                  label: 'Browser',
-                  labelClassName: 'w-sm'
-                },
-                {
-                  name: 'platform',
-                  label: 'Platform(s)',
-                  labelClassName: 'w-sm'
-                }
-              ],
+              {
+                type: 'hbox',
+                columns: [
+                  {
+                    name: 'browser',
+                    label: 'Browser',
+                    labelClassName: 'w-sm'
+                  },
+                  {
+                    name: 'platform',
+                    label: 'Platform(s)',
+                    labelClassName: 'w-sm'
+                  }
+                ]
+              },
               {
                 name: 'version',
                 label: 'Engine version',
@@ -918,9 +923,9 @@ export default {
             className: 'text-right',
             target: 'thelist',
             mode: 'inline',
-            controls: [
+            body: [
               {
-                type: 'text',
+                type: 'input-text',
                 name: 'keywords',
                 addOn: {
                   type: 'submit',
@@ -949,7 +954,7 @@ export default {
                   title: '查看',
                   body: {
                     type: 'form',
-                    controls: [
+                    body: [
                       {
                         type: 'static',
                         name: 'engine',
@@ -1009,9 +1014,9 @@ export default {
                     type: 'form',
                     name: 'sample-edit-form',
                     api: '/api/sample/$id',
-                    controls: [
+                    body: [
                       {
-                        type: 'text',
+                        type: 'input-text',
                         name: 'engine',
                         label: 'Engine',
                         required: true
@@ -1020,7 +1025,7 @@ export default {
                         type: 'divider'
                       },
                       {
-                        type: 'text',
+                        type: 'input-text',
                         name: 'browser',
                         label: 'Browser',
                         required: true
@@ -1029,7 +1034,7 @@ export default {
                         type: 'divider'
                       },
                       {
-                        type: 'text',
+                        type: 'input-text',
                         name: 'platform',
                         label: 'Platform(s)',
                         required: true
@@ -1038,7 +1043,7 @@ export default {
                         type: 'divider'
                       },
                       {
-                        type: 'text',
+                        type: 'input-text',
                         name: 'version',
                         label: 'Engine version'
                       },
@@ -1046,7 +1051,7 @@ export default {
                         type: 'divider'
                       },
                       {
-                        type: 'text',
+                        type: 'input-text',
                         name: 'grade',
                         label: 'CSS grade'
                       }
@@ -1109,9 +1114,9 @@ export default {
             className: 'text-right',
             target: 'thelist',
             mode: 'inline',
-            controls: [
+            body: [
               {
-                type: 'text',
+                type: 'input-text',
                 name: 'keywords',
                 addOn: {
                   type: 'submit',
@@ -1140,7 +1145,7 @@ export default {
                   title: '查看',
                   body: {
                     type: 'form',
-                    controls: [
+                    body: [
                       {
                         type: 'static',
                         name: 'engine',
@@ -1200,9 +1205,9 @@ export default {
                     type: 'form',
                     name: 'sample-edit-form',
                     api: '/api/sample/$id',
-                    controls: [
+                    body: [
                       {
-                        type: 'text',
+                        type: 'input-text',
                         name: 'engine',
                         label: 'Engine',
                         required: true
@@ -1211,7 +1216,7 @@ export default {
                         type: 'divider'
                       },
                       {
-                        type: 'text',
+                        type: 'input-text',
                         name: 'browser',
                         label: 'Browser',
                         required: true
@@ -1220,7 +1225,7 @@ export default {
                         type: 'divider'
                       },
                       {
-                        type: 'text',
+                        type: 'input-text',
                         name: 'platform',
                         label: 'Platform(s)',
                         required: true
@@ -1229,7 +1234,7 @@ export default {
                         type: 'divider'
                       },
                       {
-                        type: 'text',
+                        type: 'input-text',
                         name: 'version',
                         label: 'Engine version'
                       },
@@ -1237,7 +1242,7 @@ export default {
                         type: 'divider'
                       },
                       {
-                        type: 'text',
+                        type: 'input-text',
                         name: 'grade',
                         label: 'CSS grade'
                       }

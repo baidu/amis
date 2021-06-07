@@ -1,5 +1,4 @@
 export default {
-  $schema: 'https://houtai.baidu.com/v2/schemas/page.json#',
   title: 'Combo 示例',
   body: [
     {
@@ -17,9 +16,9 @@ export default {
               wrapWithPanel: false,
               className: 'm-t',
               // debug: true,
-              controls: [
+              body: [
                 {
-                  type: 'text',
+                  type: 'input-text',
                   label: '文本',
                   name: 'a'
                 },
@@ -33,11 +32,11 @@ export default {
                   multiple: true,
                   multiLine: true,
                   value: [{}],
-                  controls: [
+                  items: [
                     {
                       name: 'a',
                       label: '文本',
-                      type: 'text',
+                      type: 'input-text',
                       placeholder: '文本',
                       value: '',
                       size: 'full'
@@ -64,7 +63,7 @@ export default {
                     title: '对 Combo 进行 拖拽排序',
                     body: {
                       type: 'form',
-                      controls: [
+                      body: [
                         {
                           type: 'combo',
                           name: 'combo1',
@@ -74,7 +73,7 @@ export default {
                           addable: false,
                           removable: false,
                           value: [{}],
-                          controls: [
+                          items: [
                             {
                               name: 'a',
                               type: 'static',
@@ -107,10 +106,10 @@ export default {
                   label: '组合多条单行',
                   multiple: true,
                   value: [{}],
-                  controls: [
+                  items: [
                     {
                       name: 'a',
-                      type: 'text',
+                      type: 'input-text',
                       placeholder: '文本',
                       value: '',
                       columnClassName: 'w-sm'
@@ -130,11 +129,11 @@ export default {
                   name: 'combo3',
                   label: '组合单条多行',
                   multiLine: true,
-                  controls: [
+                  items: [
                     {
                       name: 'a',
                       label: '文本',
-                      type: 'text',
+                      type: 'input-text',
                       placeholder: '文本',
                       value: '',
                       size: 'full'
@@ -152,10 +151,10 @@ export default {
                   type: 'combo',
                   name: 'combo4',
                   label: '组合单条单行',
-                  controls: [
+                  items: [
                     {
                       name: 'a',
-                      type: 'text',
+                      type: 'input-text',
                       placeholder: '文本',
                       value: '',
                       size: 'full'
@@ -183,7 +182,7 @@ export default {
               mode: 'horizontal',
               wrapWithPanel: false,
               className: 'm-t',
-              controls: [
+              body: [
                 {
                   type: 'combo',
                   name: 'combo11',
@@ -192,11 +191,11 @@ export default {
                   multiLine: true,
                   inline: true,
                   value: [{}],
-                  controls: [
+                  items: [
                     {
                       name: 'a',
                       label: '文本',
-                      type: 'text',
+                      type: 'input-text',
                       placeholder: '文本',
                       value: ''
                     },
@@ -216,10 +215,10 @@ export default {
                   multiple: true,
                   inline: true,
                   value: [{}],
-                  controls: [
+                  items: [
                     {
                       name: 'a',
-                      type: 'text',
+                      type: 'input-text',
                       placeholder: '文本',
                       value: ''
                     },
@@ -239,11 +238,11 @@ export default {
                   label: '组合单条多行内联',
                   multiLine: true,
                   inline: true,
-                  controls: [
+                  items: [
                     {
                       name: 'a',
                       label: '文本',
-                      type: 'text',
+                      type: 'input-text',
                       placeholder: '文本',
                       value: ''
                     },
@@ -261,10 +260,10 @@ export default {
                   name: 'combo44',
                   label: '组合单条单行内联',
                   inline: true,
-                  controls: [
+                  items: [
                     {
                       name: 'a',
-                      type: 'text',
+                      type: 'input-text',
                       placeholder: '文本',
                       value: ''
                     },
@@ -292,17 +291,17 @@ export default {
               wrapWithPanel: false,
               className: 'm-t',
               // debug: true,
-              controls: [
+              body: [
                 {
                   type: 'combo',
                   name: 'combo666',
                   label: '组合多条唯一',
                   multiple: true,
                   value: [{}],
-                  controls: [
+                  items: [
                     {
                       name: 'a',
-                      type: 'text',
+                      type: 'input-text',
                       placeholder: '文本',
                       value: '',
                       unique: true
@@ -332,7 +331,7 @@ export default {
               wrapWithPanel: false,
               className: 'm-t',
               // debug: true,
-              controls: [
+              body: [
                 {
                   type: 'combo',
                   name: 'combo777',
@@ -343,10 +342,10 @@ export default {
                     {a: '2', b: 'b'}
                   ],
                   draggable: true,
-                  controls: [
+                  items: [
                     {
                       name: 'a',
-                      type: 'text',
+                      type: 'input-text',
                       placeholder: '文本',
                       unique: true
                     },
@@ -375,7 +374,7 @@ export default {
               wrapWithPanel: false,
               className: 'm-t',
               // debug: true,
-              controls: [
+              body: [
                 {
                   type: 'combo',
                   name: 'combo888',
@@ -384,10 +383,10 @@ export default {
                   flat: true,
                   value: ['red', 'pink'],
                   draggable: true,
-                  controls: [
+                  items: [
                     {
                       name: 'a',
-                      type: 'color',
+                      type: 'input-color',
                       placeholder: '选取颜色'
                     }
                   ]
@@ -415,7 +414,7 @@ export default {
               wrapWithPanel: false,
               className: 'm-t',
               // debug: true,
-              controls: [
+              body: [
                 {
                   type: 'tpl',
                   tpl:
@@ -438,16 +437,16 @@ export default {
                         label: '文本',
                         name: ''
                       },
-                      controls: [
+                      items: [
                         {
                           label: '名称',
                           name: 'label',
-                          type: 'text'
+                          type: 'input-text'
                         },
                         {
                           label: '字段名',
                           name: 'name',
-                          type: 'text'
+                          type: 'input-text'
                         }
                       ]
                     },
@@ -460,31 +459,31 @@ export default {
                         label: '数字',
                         name: ''
                       },
-                      controls: [
+                      items: [
                         {
                           label: '名称',
                           name: 'label',
-                          type: 'text'
+                          type: 'input-text'
                         },
                         {
                           label: '字段名',
                           name: 'name',
-                          type: 'text'
+                          type: 'input-text'
                         },
                         {
                           label: '最小值',
                           name: 'min',
-                          type: 'number'
+                          type: 'input-number'
                         },
                         {
                           label: '最大值',
                           name: 'max',
-                          type: 'number'
+                          type: 'input-number'
                         },
                         {
                           label: '步长',
                           name: 'step',
-                          type: 'number'
+                          type: 'input-number'
                         }
                       ]
                     }
@@ -512,16 +511,16 @@ export default {
                         label: '文本',
                         name: ''
                       },
-                      controls: [
+                      items: [
                         {
                           label: '名称',
                           name: 'label',
-                          type: 'text'
+                          type: 'input-text'
                         },
                         {
                           label: '字段名',
                           name: 'name',
-                          type: 'text'
+                          type: 'input-text'
                         }
                       ]
                     },
@@ -534,31 +533,31 @@ export default {
                         label: '数字',
                         name: ''
                       },
-                      controls: [
+                      items: [
                         {
                           label: '名称',
                           name: 'label',
-                          type: 'text'
+                          type: 'input-text'
                         },
                         {
                           label: '字段名',
                           name: 'name',
-                          type: 'text'
+                          type: 'input-text'
                         },
                         {
                           label: '最小值',
                           name: 'min',
-                          type: 'number'
+                          type: 'input-number'
                         },
                         {
                           label: '最大值',
                           name: 'max',
-                          type: 'number'
+                          type: 'input-number'
                         },
                         {
                           label: '步长',
                           name: 'step',
-                          type: 'number'
+                          type: 'input-number'
                         }
                       ]
                     }
@@ -581,7 +580,7 @@ export default {
               wrapWithPanel: false,
               className: 'm-t',
               // debug: true,
-              controls: [
+              body: [
                 {
                   type: 'combo',
                   name: 'combo101',
@@ -592,11 +591,11 @@ export default {
                   tabsMode: true,
                   tabsStyle: 'card',
                   maxLength: 3,
-                  controls: [
+                  items: [
                     {
                       name: 'a',
                       label: '文本',
-                      type: 'text',
+                      type: 'input-text',
                       placeholder: '文本',
                       value: '',
                       size: 'full'
@@ -627,9 +626,9 @@ export default {
               wrapWithPanel: false,
               className: 'm-t',
               // debug: true,
-              controls: [
+              body: [
                 {
-                  type: 'text',
+                  type: 'input-text',
                   disabled: true,
                   label: '父级值',
                   name: 'a_super',
@@ -642,10 +641,11 @@ export default {
                   label: '可获取父级数据',
                   multiple: true,
                   canAccessSuperData: true,
-                  controls: [
+                  strictMode: false,
+                  items: [
                     {
                       name: 'a_super',
-                      type: 'text'
+                      type: 'input-text'
                     }
                   ]
                 },
@@ -655,7 +655,7 @@ export default {
                   name: 'combo9999',
                   label: '显示序号',
                   multiple: true,
-                  controls: [
+                  items: [
                     {
                       type: 'tpl',
                       tpl: '<%= data.index + 1%>',
@@ -664,7 +664,7 @@ export default {
                     },
                     {
                       name: 'a',
-                      type: 'text'
+                      type: 'input-text'
                     }
                   ]
                 }

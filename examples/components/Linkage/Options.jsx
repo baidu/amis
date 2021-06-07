@@ -6,7 +6,7 @@ export default {
     mode: 'horizontal',
     title: '',
     actions: [],
-    controls: [
+    body: [
       '<p class="text-danger">表单选项可以设置 source 通过 API 远程拉取，同时如果 source 中有变量的话，变量值发生变化就会重新拉取，达到联动效果。</p>',
       {
         type: 'divider'

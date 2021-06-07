@@ -41,13 +41,6 @@ export interface StaticExactControlSchema extends FormBaseControl {
   copyable?: SchemaCopyable;
 }
 
-export type StaticControlRestSchema = Omit<StaticExactControlSchema, 'type'> &
-  SchemaObject;
-
-export type StaticControlSchema =
-  | StaticControlRestSchema
-  | StaticExactControlSchema;
-
 export interface StaticProps extends FormControlProps {
   placeholder?: string;
   tpl?: string;

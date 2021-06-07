@@ -35,7 +35,6 @@ import {
   SchemaTokenizeableString,
   SchemaType
 } from '../../Schema';
-import {FormControlSchema, FormControlType} from '../Form/Item';
 import {SchemaPopOver} from '../PopOver';
 import {SchemaQuickEdit} from '../QuickEdit';
 import {SchemaCopyable} from '../Copyable';
@@ -620,6 +619,10 @@ export default class Table extends React.Component<TableProps, object> {
     savePristine?: boolean,
     resetOnFailed?: boolean
   ) {
+    if (!isAlive(item)) {
+      return;
+    }
+
     const {
       onSave,
       saveImmediately: propsSaveImmediately,

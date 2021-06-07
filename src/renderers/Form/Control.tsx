@@ -1,6 +1,7 @@
 import React from 'react';
 
 import {RendererProps, Renderer} from '../../factory';
+import {SchemaCollection} from '../../Schema';
 import {autobind} from '../../utils/helper';
 import {
   asFormItem,
@@ -13,13 +14,13 @@ import {wrapControl} from './wrapControl';
  * Group 表单集合渲染器，能让多个表单在一行显示
  * 文档：https://baidu.gitee.io/amis/docs/components/form/group
  */
-export interface GroupControlSchema extends FormBaseControl {
+export interface FormControlSchema extends FormBaseControl {
   type: 'control';
 
   /**
-   * FormItem 集合
+   * FormItem 内容
    */
-  control: FormBaseControl;
+  body: SchemaCollection;
 }
 
 @Renderer({
@@ -29,8 +30,8 @@ export interface GroupControlSchema extends FormBaseControl {
 export class ControlRenderer extends React.Component<RendererProps> {
   @autobind
   renderInput() {
-    const {render, control} = this.props;
-    return render('inner', control);
+    const {render, body} = this.props;
+    return render('inner', body);
   }
 
   render() {

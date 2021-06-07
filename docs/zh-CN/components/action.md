@@ -17,7 +17,7 @@ Action 行为按钮，是触发页面行为的主要方法之一
 ```schema: scope="body"
 {
   "label": "弹框",
-  "type": "action",
+  "type": "button",
   "actionType": "dialog",
   "dialog": {
     "title": "弹框",
@@ -37,26 +37,26 @@ Action 行为按钮，是触发页面行为的主要方法之一
   "type": "button-toolbar",
   "buttons": [
     {
-      "type": "action",
+      "type": "button",
       "label": "默认尺寸"
     },
     {
-      "type": "action",
+      "type": "button",
       "label": "极小",
       "size": "xs"
     },
     {
-      "type": "action",
+      "type": "button",
       "label": "小",
       "size": "sm"
     },
     {
-      "type": "action",
+      "type": "button",
       "label": "中等",
       "size": "md"
     },
     {
-      "type": "action",
+      "type": "button",
       "label": "大",
       "size": "lg"
     }
@@ -73,46 +73,46 @@ Action 行为按钮，是触发页面行为的主要方法之一
   "type": "button-toolbar",
   "buttons": [
     {
-      "type": "action",
+      "type": "button",
       "label": "默认"
     },
     {
-      "type": "action",
+      "type": "button",
       "label": "主要",
       "level": "primary"
     },
     {
-      "type": "action",
+      "type": "button",
       "label": "次要",
       "level": "secondary"
     },
     {
-      "type": "action",
+      "type": "button",
       "label": "成功",
       "level": "success"
     },
     {
-      "type": "action",
+      "type": "button",
       "label": "警告",
       "level": "warning"
     },
     {
-      "type": "action",
+      "type": "button",
       "label": "危险",
       "level": "danger"
     },
     {
-      "type": "action",
+      "type": "button",
       "label": "浅色",
       "level": "light"
     },
     {
-      "type": "action",
+      "type": "button",
       "label": "深色",
       "level": "dark"
     },
     {
-      "type": "action",
+      "type": "button",
       "label": "链接",
       "level": "link"
     }
@@ -127,7 +127,7 @@ Action 行为按钮，是触发页面行为的主要方法之一
 ```schema: scope="body"
 {
   "label": "弹框",
-  "type": "action",
+  "type": "button",
   "actionType": "dialog",
   "icon": "fa fa-plus",
   "dialog": {
@@ -142,7 +142,7 @@ icon 也可以是 url 地址，比如
 ```schema: scope="body"
 {
   "label": "弹框",
-  "type": "action",
+  "type": "button",
   "actionType": "dialog",
   "icon": "https://suda.cdn.bcebos.com/images%2F2021-01%2Fdiamond.svg",
   "dialog": {
@@ -157,7 +157,7 @@ icon 也可以是 url 地址，比如
 ```schema: scope="body"
 {
   "label": "",
-  "type": "action",
+  "type": "button",
   "actionType": "dialog",
   "icon": "fa fa-plus",
   "dialog": {
@@ -326,10 +326,10 @@ icon 也可以是 url 地址，比如
 ```schema: scope="body"
 {
   "type": "form",
-  "controls": [
+  "body": [
     {
       "name": "phone",
-      "type": "text",
+      "type": "input-text",
       "required": true,
       "label": "手机号",
       "addOn": {
@@ -445,9 +445,9 @@ icon 也可以是 url 地址，比如
     "body": {
       "type": "form",
       "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
-      "controls": [
+      "body": [
         {
-          "type": "text",
+          "type": "input-text",
           "name": "text",
           "label": "文本"
         }
@@ -466,7 +466,7 @@ icon 也可以是 url 地址，比如
     "type": "form",
     "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
     "name": "myForm",
-    "controls": [
+    "body": [
         {
           "type": "select",
           "name": "group",
@@ -484,9 +484,9 @@ icon 也可以是 url 地址，比如
             "body": {
               "type": "form",
               "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
-              "controls": [
+              "body": [
                 {
-                  "type": "text",
+                  "type": "input-text",
                   "name": "groupName",
                   "label": "分组名"
                 }
@@ -520,9 +520,9 @@ icon 也可以是 url 地址，比如
     "body": {
       "type": "form",
       "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm?waitSeconds=1",
-      "controls": [
+      "body": [
         {
-          "type": "text",
+          "type": "input-text",
           "name": "text",
           "label": "文本"
         }
@@ -580,15 +580,15 @@ icon 也可以是 url 地址，比如
 {
     "type": "form",
     "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
-    "controls": [
+    "body": [
         {
-            "type": "text",
+            "type": "input-text",
             "name": "username",
             "placeholder": "请输入用户名",
             "label": "用户名"
         },
         {
-            "type": "password",
+            "type": "input-password",
             "name": "password",
             "label": "密码",
             "placeholder": "请输入密码"
@@ -621,16 +621,16 @@ icon 也可以是 url 地址，比如
 {
     "type": "form",
     "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
-    "controls": [
+    "body": [
         {
-            "type": "text",
+            "type": "input-text",
             "name": "username",
             "placeholder": "请输入用户名",
             "label": "用户名",
             "value": "rick"
         },
         {
-            "type": "password",
+            "type": "input-password",
             "name": "password",
             "label": "密码",
             "placeholder": "请输入密码"

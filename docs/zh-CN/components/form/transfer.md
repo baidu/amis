@@ -13,7 +13,7 @@ icon:
 {
   "type": "form",
   "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
-  "controls": [
+  "body": [
     {
       "label": "默认",
       "type": "transfer",
@@ -57,7 +57,7 @@ icon:
 {
   "type": "form",
   "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
-  "controls": [
+  "body": [
     {
       "label": "分组",
       "type": "transfer",
@@ -114,7 +114,7 @@ icon:
 {
   "type": "form",
   "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
-  "controls": [
+  "body": [
     {
       "label": "表格形式",
       "type": "transfer",
@@ -173,7 +173,7 @@ icon:
 {
   "type": "form",
   "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
-  "controls": [
+  "body": [
     {
       "label": "树型展示",
       "type": "transfer",
@@ -231,7 +231,7 @@ icon:
 {
   "type": "form",
   "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
-  "controls": [
+  "body": [
     {
       "label": "级联选择",
       "type": "transfer",
@@ -289,7 +289,7 @@ icon:
 {
   "type": "form",
   "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
-  "controls": [
+  "body": [
     {
       "label": "带搜索",
       "type": "transfer",
@@ -349,7 +349,7 @@ icon:
 {
   "type": "form",
   "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
-  "controls": [
+  "body": [
     {
       "label": "延时加载",
       "type": "transfer",
@@ -399,7 +399,7 @@ icon:
 {
   "type": "form",
   "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
-  "controls": [
+  "body": [
     {
       "label": "关联选择模式",
       "type": "transfer",

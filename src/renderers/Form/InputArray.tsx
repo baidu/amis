@@ -1,15 +1,10 @@
 import React from 'react';
-import {
-  FormItem,
-  FormControlProps,
-  FormBaseControl,
-  FormControlSchema
-} from './Item';
+import {FormItem, FormControlProps, FormBaseControl} from './Item';
 import {Schema} from '../../types';
 import {ComboStore, IComboStore} from '../../store/combo';
 import {observer} from 'mobx-react';
 import Combo, {ComboControlSchema} from './Combo';
-import {SchemaApi} from '../../Schema';
+import {SchemaApi, SchemaCollection, SchemaObject} from '../../Schema';
 
 /**
  * InputArray 数组输入框。 combo 的别名。
@@ -28,7 +23,7 @@ export interface ArrayControlSchema
   /**
    * 成员渲染器配置
    */
-  items: FormControlSchema;
+  items: SchemaCollection;
 }
 
 export interface InputArrayProps

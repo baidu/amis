@@ -1,5 +1,4 @@
 export default {
-  $schema: 'https://houtai.baidu.com/v2/schemas/page.json#',
   title: '其他类型演示',
   body: [
     {
@@ -10,21 +9,12 @@ export default {
       horizontal: {
         leftFixed: true
       },
-      controls: [
-        {
-          name: 'button',
-          type: 'button',
-          label: 'ID',
-          value: '',
-          size: 'xs',
-          hint: '比如输入 a-xxxx-xxx'
-        },
-
+      body: [
         {
           type: 'input-group',
           size: 'md',
           label: 'Icon 组合',
-          controls: [
+          body: [
             {
               type: 'icon',
               addOnclassName: 'no-bg',
@@ -33,7 +23,7 @@ export default {
               vendor: 'iconfont'
             },
             {
-              type: 'text',
+              type: 'input-text',
               placeholder: '搜索作业ID/名称',
               inputClassName: 'b-l-none p-l-none',
               name: 'jobName'
@@ -43,7 +33,7 @@ export default {
 
         {
           name: 'a',
-          type: 'text',
+          type: 'input-text',
           label: 'ID',
           value: '',
           size: 'xs',
@@ -52,7 +42,7 @@ export default {
 
         {
           name: 'b',
-          type: 'text',
+          type: 'input-text',
           label: 'ID',
           value: '',
           size: 'sm',
@@ -61,7 +51,7 @@ export default {
 
         {
           name: 'c',
-          type: 'text',
+          type: 'input-text',
           label: 'ID',
           value: '',
           size: 'md',
@@ -70,7 +60,7 @@ export default {
 
         {
           name: 'd',
-          type: 'text',
+          type: 'input-text',
           label: 'ID',
           value: '',
           size: 'lg',
@@ -79,7 +69,7 @@ export default {
 
         {
           name: 'tag',
-          type: 'tag',
+          type: 'input-tag',
           label: 'Tag',
           size: 'md',
           clearable: true,
