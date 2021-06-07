@@ -35,7 +35,7 @@ export interface CustomProps extends FormControlProps, CustomSchema {
 // 缓存一下，避免在 crud 中的自定义组件被大量执行
 const getFunction = memoize((...args) => {
   return new Function(...args);
-}, function(...args) => {var args=arguments;return args[args.length-1];});
+}, function(...args) {var args=arguments;return args[args.length-1];});
 
 export class Custom extends React.Component<CustomProps, object> {
   static defaultProps: Partial<CustomProps> = {
