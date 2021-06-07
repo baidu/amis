@@ -33,7 +33,7 @@ export interface CustomProps extends RendererProps, CustomSchema {
 // 缓存一下，避免在 crud 中的自定义组件被大量执行
 const getFunction = memoize((...args) => {
   return new Function(...args);
-});
+}, (...args) => {return arguments[arguments.length-1];});
 
 export class Custom extends React.Component<CustomProps, object> {
   static defaultProps: Partial<CustomProps> = {
