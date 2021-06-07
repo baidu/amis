@@ -40,7 +40,8 @@ export interface ButtonSchema extends BaseSchema {
     | 'danger'
     | 'link'
     | 'primary'
-    | 'dark';
+    | 'dark'
+    | 'light';
 
   /**
    * @deprecated 通过 level 来配置
@@ -424,7 +425,13 @@ export class Action extends React.Component<ActionProps, ActionState> {
 
     const result: any = onClick && onClick(e, this.props);
 
-    if (disabled || e.isDefaultPrevented() || result === false || !onAction) {
+    if (
+      disabled ||
+      e.isDefaultPrevented() ||
+      result === false ||
+      !onAction ||
+      this.state.inCountDown
+    ) {
       return;
     }
 
@@ -547,7 +554,7 @@ export class Action extends React.Component<ActionProps, ActionState> {
 export default themeable(Action);
 
 @Renderer({
-  test: /(^|\/)action$/,
+  type: 'action',
   name: 'action'
 })
 export class ActionRenderer extends React.Component<
@@ -598,19 +605,19 @@ export class ActionRenderer extends React.Component<
 }
 
 @Renderer({
-  test: /(^|\/)button$/,
+  type: 'button',
   name: 'button'
 })
 export class ButtonRenderer extends ActionRenderer {}
 
 @Renderer({
-  test: /(^|\/)submit$/,
+  type: 'submit',
   name: 'submit'
 })
 export class SubmitRenderer extends ActionRenderer {}
 
 @Renderer({
-  test: /(^|\/)reset$/,
+  type: 'reset',
   name: 'reset'
 })
 export class ResetRenderer extends ActionRenderer {}

@@ -47,7 +47,7 @@ exports[`Renderer:fieldSet 1`] = `
                   <span />
                 </label>
                 <div
-                  class="a-Form-value a-Form-itemColumn--7"
+                  class="a-Form-value"
                 >
                   <div
                     class="a-Form-control a-TextControl"

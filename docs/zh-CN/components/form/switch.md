@@ -14,7 +14,7 @@ order: 51
 {
     "type": "form",
     "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
-    "controls": [
+    "body": [
         {
             "name": "switch",
             "type": "switch",
@@ -36,7 +36,7 @@ order: 51
 {
     "type": "form",
     "debug": true,
-    "controls": [
+    "body": [
         {
             "name": "switch",
             "type": "switch",
@@ -52,7 +52,7 @@ order: 51
 {
     "type": "form",
     "debug": true,
-    "controls": [
+    "body": [
         {
             "name": "switch",
             "type": "switch",
@@ -73,7 +73,7 @@ order: 51
 ```schema: scope="body"
 {
     "type": "form",
-    "controls": [
+    "body": [
         {
             "name": "switch",
             "type": "switch",

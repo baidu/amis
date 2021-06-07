@@ -62,15 +62,15 @@ SDK 版本适合对前端或 React 不了解的开发者，它不依赖 npm 及 
             type: 'form',
             mode: 'horizontal',
             api: '/saveForm',
-            controls: [
+            body: [
               {
                 label: 'Name',
-                type: 'text',
+                type: 'input-text',
                 name: 'name'
               },
               {
                 label: 'Email',
-                type: 'email',
+                type: 'input-email',
                 name: 'email'
               }
             ]
@@ -164,10 +164,10 @@ let amisScoped = amis.embed(
   "body": {
     "type": "form",
     "name": "form1",
-    "controls": [
+    "body": [
       {
         "label": "Name",
-        "type": "text",
+        "type": "input-text",
         "name": "name1"
       }
     ]
@@ -290,8 +290,8 @@ import {toast} from 'amis/lib/components/Toast';
 
 class MyComponent extends React.Component<any, any> {
   render() {
-  let amisScoped;
-  let theme = 'default';
+    let amisScoped;
+    let theme = 'default';
     return (
       <div>
         <p>通过 amis 渲染页面</p>

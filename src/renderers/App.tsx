@@ -400,7 +400,7 @@ export default class App extends React.Component<AppProps, object> {
 }
 
 @Renderer({
-  test: /(^|\/)app$/,
+  type: 'app',
   name: 'app',
   storeType: AppStore.name
 })

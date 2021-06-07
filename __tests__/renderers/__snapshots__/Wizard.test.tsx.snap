@@ -611,7 +611,7 @@ exports[`Renderer:Wizard dialog 1`] = `
                     data-role="form-item"
                   >
                     <button
-                      class="a-Button a-Button--default a-Form-control"
+                      class="a-Button a-Button--default"
                       type="button"
                     >
                       <span>
@@ -925,7 +925,7 @@ exports[`Renderer:Wizard dialog 2`] = `
                     data-role="form-item"
                   >
                     <button
-                      class="a-Button a-Button--default a-Form-control"
+                      class="a-Button a-Button--default"
                       type="button"
                     >
                       <span>

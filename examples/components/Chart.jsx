@@ -1,5 +1,4 @@
 export default {
-  $schema: 'https://houtai.baidu.com/v2/schemas/page.json#',
   title: '图表示例',
   body: [
     {
@@ -103,9 +102,9 @@ export default {
           className: 'm-b',
           wrapWithPanel: false,
           mode: 'inline',
-          controls: [
+          body: [
             {
-              type: 'date',
+              type: 'input-date',
               label: '开始日期',
               name: 'starttime',
               value: '-8days',
@@ -113,14 +112,14 @@ export default {
             },
 
             {
-              type: 'date',
+              type: 'input-date',
               label: '结束日期',
               name: 'endtime',
               value: '-1days',
               minDate: '${starttime}'
             },
             {
-              type: 'text',
+              type: 'input-text',
               label: '条件',
               name: 'name',
               addOn: {

@@ -103,7 +103,7 @@ List 的内容、Card 卡片的内容配置同上
     "data": {
         "each": ["A", "B", "C"]
     },
-    "controls": [
+    "body": [
         {
             "type": "each",
             "label": "静态展示each",

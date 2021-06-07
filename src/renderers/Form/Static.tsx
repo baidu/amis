@@ -41,13 +41,6 @@ export interface StaticExactControlSchema extends FormBaseControl {
   copyable?: SchemaCopyable;
 }
 
-export type StaticControlRestSchema = Omit<StaticExactControlSchema, 'type'> &
-  SchemaObject;
-
-export type StaticControlSchema =
-  | StaticControlRestSchema
-  | StaticExactControlSchema;
-
 export interface StaticProps extends FormControlProps {
   placeholder?: string;
   tpl?: string;
@@ -108,41 +101,26 @@ export default class StaticControl extends React.Component<StaticProps, any> {
 
     return (
       <div className={cx('Form-static')}>
-        {render(
-          'field',
-          {
-            ...field,
-            type: 'static-field',
-            field
-          },
-          {
+        <StaticFieldRenderer
+          {...{
+            ...(rest as any),
+            name,
+            render,
+            field,
             value,
             className,
-            onQuickChange: this.handleQuickChange
-          }
-        )}
+            onQuickChange: this.handleQuickChange,
+            data,
+            classnames: cx
+          }}
+        />
       </div>
     );
   }
 }
 
 @FormItem({
-  test: (path, schema, resolveRenderer) => {
-    if (/(^|\/)form(?:\/.+)?\/control\/static(\-[^\/]+)?$/.test(path)) {
-      return true;
-    } else if (
-      /(^|\/)form(?:\/.+)?\/control\/[^\/]+$/.test(path) &&
-      schema &&
-      schema.type &&
-      (schema.name || schema.label) &&
-      resolveRenderer &&
-      resolveRenderer(`${path}/static-field/${schema.type}`)
-    ) {
-      // 不一定
-      return true;
-    }
-    return false;
-  },
+  test: /(^|\/)static(\-[^\/]+)?$/,
   weight: -90,
   strictMode: false,
   sizeMutable: false,
@@ -150,9 +128,6 @@ export default class StaticControl extends React.Component<StaticProps, any> {
 })
 export class StaticControlRenderer extends StaticControl {}
 
-@Renderer({
-  test: /(^|\/)static\-field$/
-})
 @QuickEdit()
 @PopOver({
   position: 'right'

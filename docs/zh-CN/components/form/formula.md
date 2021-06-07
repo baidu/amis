@@ -17,19 +17,19 @@ order: 22
 ```schema: scope="body"
 {
   "type": "form",
-  "controls": [
+  "body": [
   {
-    "type": "number",
+    "type": "input-number",
     "name": "a",
     "label": "A"
   },
   {
-    "type": "number",
+    "type": "input-number",
     "name": "b",
     "label": "B"
   },
   {
-    "type": "number",
+    "type": "input-number",
     "name": "sum",
     "label": "和",
     "disabled": true,
@@ -50,19 +50,19 @@ order: 22
 ```schema: scope="body"
 {
   "type": "form",
-  "controls": [
+  "body": [
     {
-        "type": "number",
+        "type": "input-number",
         "name": "a",
         "label": "A"
     },
     {
-        "type": "number",
+        "type": "input-number",
         "name": "b",
         "label": "B"
     },
     {
-        "type": "number",
+        "type": "input-number",
         "name": "sum",
         "label": "和",
         "disabled": true,
@@ -85,22 +85,22 @@ order: 22
 ```schema: scope="body"
 {
   "type": "form",
-  "controls": [
+  "body": [
     {
-        "type": "number",
+        "type": "input-number",
         "name": "a",
         "label": "A"
     },
     {
-        "type": "number",
+        "type": "input-number",
         "name": "b",
         "label": "B"
     },
     {
         "type": "group",
-        "controls": [
+        "body": [
             {
-                "type": "number",
+                "type": "input-number",
                 "name": "sum",
                 "label": "和",
                 "disabled": true,
@@ -141,7 +141,7 @@ order: 22
 ```schema: scope="body"
 {
   "type": "form",
-  "controls": [
+  "body": [
     {
       "type": "radios",
       "name": "radios",
@@ -159,7 +159,7 @@ order: 22
       "description": "radios 变化会自动清空 B"
     },
     {
-      "type": "text",
+      "type": "input-text",
       "name": "b",
       "label": "B"
     },

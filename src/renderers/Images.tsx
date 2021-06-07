@@ -230,7 +230,7 @@ export class ImagesField extends React.Component<ImagesProps> {
 }
 
 @Renderer({
-  test: /(^|\/)images$/,
+  type: 'images',
   name: 'images'
 })
 export class ImagesFieldRenderer extends ImagesField {}

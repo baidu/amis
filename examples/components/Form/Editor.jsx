@@ -1,14 +1,13 @@
 import React from 'react';
 
 export default {
-  $schema: 'https://houtai.baidu.com/v2/schemas/page.json#',
   title: 'Editor',
   body: [
     {
       type: 'form',
       api: '/api/mock2/saveForm?waitSeconds=2',
       title: '',
-      controls: [
+      body: [
         {
           name: 'javascript',
           type: 'editor',

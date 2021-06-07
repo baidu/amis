@@ -147,7 +147,7 @@ export class StatusField extends React.Component<StatusProps, object> {
 }
 
 @Renderer({
-  test: /(^|\/)status$/,
+  type: 'status',
   name: 'status'
 })
 export class StatusFieldRenderer extends StatusField {}

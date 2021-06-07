@@ -22,10 +22,10 @@ let amisJSON = {
         console.log('form', values);
         return false; // 这样可以禁掉 amis 后续的默认行为
       },
-      controls: [
+      body: [
         {
           label: 'Name',
-          type: 'text',
+          type: 'input-text',
           name: 'name',
           onChange: value => {
             console.log('Name', value);
@@ -60,7 +60,7 @@ let amisScoped = amis.embed('#root', {
     type: 'form',
     mode: 'horizontal',
     api: '/saveForm',
-    controls: [
+    body: [
       {
         type: 'button',
         label: '按钮',

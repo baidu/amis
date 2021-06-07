@@ -1,6 +1,6 @@
 {
   "name": "amis",
-  "version": "1.1.6",
+  "version": "1.2.0-beta.2",
   "description": "一种MIS页面生成工具",
   "main": "lib/index.js",
   "scripts": {
@@ -64,7 +64,7 @@
     "mobx-react": "^6.1.4",
     "mobx-state-tree": "^3.17.3",
     "moment": "^2.19.3",
-    "monaco-editor": "0.23.0",
+    "monaco-editor": "0.24.0",
     "papaparse": "^5.3.0",
     "prop-types": "^15.6.1",
     "punycode": "^2.1.1",
@@ -92,6 +92,7 @@
   },
   "devDependencies": {
     "@fortawesome/fontawesome-free": "^5.15.3",
+    "@testing-library/react": "^11.2.7",
     "@types/async": "^2.0.45",
     "@types/dom-helpers": "^3.4.1",
     "@types/echarts": "^4.9.2",
@@ -162,7 +163,6 @@
     "react-frame-component": "^2.0.0",
     "react-router": "3.2.0",
     "react-test-renderer": "^16.8.6",
-    "react-testing-library": "6.0.4",
     "strip-json-comments": "^2.0.1",
     "ts-jest": "^26.4.4",
     "ts-json-schema-generator": "^0.80.0",

@@ -15,7 +15,7 @@ icon:
 {
     "type": "form",
     "debug": true,
-    "controls": [
+    "body": [
         {
           "type": "condition-builder",
           "label": "条件组件",
@@ -167,7 +167,7 @@ type Value = ValueGroup;
 {
     "type": "form",
     "debug": true,
-    "controls": [
+    "body": [
         {
           "type": "condition-builder",
           "label": "条件组件",
@@ -200,7 +200,7 @@ type Value = ValueGroup;
 {
     "type": "form",
     "debug": true,
-    "controls": [
+    "body": [
         {
           "type": "condition-builder",
           "label": "条件组件",
@@ -236,7 +236,7 @@ type Value = ValueGroup;
 {
     "type": "form",
     "debug": true,
-    "controls": [
+    "body": [
         {
           "type": "condition-builder",
           "label": "条件组件",
@@ -270,7 +270,7 @@ type Value = ValueGroup;
 {
     "type": "form",
     "debug": true,
-    "controls": [
+    "body": [
         {
           "type": "condition-builder",
           "label": "条件组件",
@@ -303,7 +303,7 @@ type Value = ValueGroup;
 {
     "type": "form",
     "debug": true,
-    "controls": [
+    "body": [
         {
           "type": "condition-builder",
           "label": "条件组件",
@@ -336,7 +336,7 @@ type Value = ValueGroup;
 {
     "type": "form",
     "debug": true,
-    "controls": [
+    "body": [
         {
           "type": "condition-builder",
           "label": "条件组件",
@@ -364,7 +364,7 @@ type Value = ValueGroup;
 ```schema: scope="body"
 {
     "type": "form",
-    "controls": [
+    "body": [
       {
         "type": "condition-builder",
         "label": "条件组件",

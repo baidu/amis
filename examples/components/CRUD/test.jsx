@@ -1,5 +1,4 @@
 export default {
-  $schema: 'https://houtai.baidu.com/v2/schemas/page.json#',
   title: 'Test 信息：${page}',
   body: {
     type: 'crud',
@@ -45,7 +44,7 @@ export default {
                   disabled: true,
                   body: {
                     type: 'form',
-                    controls: [
+                    body: [
                       {
                         name: 'engine',
                         label: 'Rendering engine',
@@ -64,7 +63,7 @@ export default {
                   body: {
                     api: '/api/sample/$id',
                     type: 'form',
-                    controls: [
+                    body: [
                       {
                         name: 'engine',
                         label: 'Rendering engine',

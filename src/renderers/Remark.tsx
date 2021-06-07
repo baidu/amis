@@ -155,7 +155,7 @@ class Remark extends React.Component<RemarkProps> {
 export default themeable(Remark);
 
 @Renderer({
-  test: /(^|\/)remark$/,
+  type: 'remark',
   name: 'remark'
 })
 export class RemarkRenderer extends Remark {}

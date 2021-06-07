@@ -6,7 +6,7 @@ import {
 import '../src/themes/default';
 import {render as amisRender} from '../src/index';
 import React = require('react');
-import {render, fireEvent, cleanup} from 'react-testing-library';
+import {render, fireEvent, cleanup} from '@testing-library/react';
 import {wait, makeEnv} from './helper';
 
 test('factory unregistered Renderer', async () => {

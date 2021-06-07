@@ -7,9 +7,9 @@ title: 移动端定制
 ```schema: scope="body"
 {
   "type": "form",
-  "controls": [{
+  "body": [{
     "name": "email",
-    "type": "email",
+    "type": "input-email",
     "label": "邮箱：",
     "mobile": {
       "name": "phone",
@@ -25,20 +25,20 @@ title: 移动端定制
 
 请点击上方切换到移动端预览效果。
 
-`mobile` 属性可以出现在配置中的任意地方，替换父节点的任意属性，比如前面的例子可以写成放在 `form` 上替换所有 `controls`
+`mobile` 属性可以出现在配置中的任意地方，替换父节点的任意属性，比如前面的例子可以写成放在 `form` 上替换所有 `body`
 
 ```schema: scope="body"
 {
   "type": "form",
-  "controls": [{
+  "body": [{
     "name": "email",
-    "type": "email",
+    "type": "input-email",
     "label": "邮箱："
   }],
   "mobile": {
-    "controls": [{
+    "body": [{
       "name": "phone",
-      "type": "text",
+      "type": "input-text",
       "label": "电话：",
       "validations": {
         "isPhoneNumber": true

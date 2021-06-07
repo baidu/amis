@@ -5,16 +5,17 @@ export default {
     type: 'form',
     mode: 'horizontal',
     api: '/api/mock2/form/saveForm',
-    controls: [
+    body: [
       {
         label: 'Name',
-        type: 'text',
+        type: 'input-text',
         name: 'name'
       },
 
       {
         label: 'Email',
-        type: 'email',
+        type: 'input-email',
+        placeholder: '请输入邮箱地址',
         name: 'email'
       }
     ]

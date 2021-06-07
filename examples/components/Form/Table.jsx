@@ -1,5 +1,4 @@
 export default {
-  $schema: 'https://houtai.baidu.com/v2/schemas/page.json#',
   title: '表格编辑',
   body: {
     type: 'form',
@@ -12,7 +11,7 @@ export default {
         primary: true
       }
     ],
-    controls: [
+    body: [
       {
         type: 'combo',
         name: 'colors',
@@ -26,13 +25,14 @@ export default {
             name: '颜色'
           }
         ],
-        controls: [
+        items: [
           {
-            type: 'color',
-            name: 'color'
+            type: 'input-color',
+            name: 'color',
+            clearable: false
           },
           {
-            type: 'text',
+            type: 'input-text',
             name: 'name',
             placeholder: '说明文字'
           }
@@ -44,7 +44,7 @@ export default {
         tpl: '<pre>${colors|json}</pre>'
       },
       {
-        type: 'table',
+        type: 'input-table',
         name: 'colors',
         label: 'Table',
         draggable: true,
@@ -55,9 +55,8 @@ export default {
           {
             label: 'Color',
             name: 'color',
-            quickEdit: {
-              type: 'color'
-            }
+            type: 'input-color',
+            quickEdit: false
           },
           {
             label: '说明文字',
@@ -66,13 +65,16 @@ export default {
         ]
       },
       {
-        type: 'button',
-        label: 'Table2新增一行',
-        target: 'table2',
-        actionType: 'add'
+        type: 'control',
+        body: {
+          type: 'button',
+          label: 'Table2新增一行',
+          target: 'table2',
+          actionType: 'add'
+        }
       },
       {
-        type: 'table',
+        type: 'input-table',
         name: 'table2',
         label: 'Table2',
         editable: true,
@@ -105,7 +107,7 @@ export default {
       },
 
       {
-        type: 'table',
+        type: 'input-table',
         name: 'table3',
         label: 'Table3(指定第2列只有update时能编辑)',
         editable: true,

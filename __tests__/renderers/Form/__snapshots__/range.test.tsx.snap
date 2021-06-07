@@ -256,6 +256,7 @@ exports[`Renderer:range:multiple 1`] = `
                 >
                   <span
                     class="a-InputRange-label a-InputRange-label--value"
+                    style="left: calc(50% - 0px);"
                   >
                     <span
                       class="a-InputRange-labelContainer"

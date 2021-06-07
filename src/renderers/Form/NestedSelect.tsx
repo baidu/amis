@@ -505,10 +505,15 @@ export default class NestedSelectControl extends React.Component<
     const {
       popOverContainer,
       translate: __,
-      noResultsText,
       classnames: cx,
-      options
+      options,
+      render
     } = this.props;
+    let noResultsText: any = this.props.noResultsText;
+
+    if (noResultsText) {
+      noResultsText = render('noResultText', noResultsText);
+    }
 
     let body = (
       <RootCloseWrapper
