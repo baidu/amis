@@ -520,9 +520,13 @@ export const CRUDStore = ServiceStore.named('CRUDStore')
         import('papaparse').then((papaparse: any) => {
           const csvText = papaparse.unparse(items);
           if (csvText) {
-            const blob = new Blob([csvText], {
-              type: 'text/plain;charset=utf-8'
-            });
+            const blob = new Blob(
+              // 加上 BOM 这样 Excel 打开的时候就不会乱码
+              [new Uint8Array([0xef, 0xbb, 0xbf]), csvText],
+              {
+                type: 'text/plain;charset=utf-8'
+              }
+            );
             saveAs(blob, 'data.csv');
           }
         });
