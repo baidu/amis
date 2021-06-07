@@ -194,7 +194,7 @@ export class JSONField extends React.Component<JSONProps, object> {
 }
 
 @Renderer({
-  test: /(^|\/)json$/,
+  type: 'json',
   name: 'json'
 })
 export class JSONFieldRenderer extends JSONField {}

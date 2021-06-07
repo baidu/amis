@@ -70,74 +70,70 @@ exports[`Renderer:tabs 1`] = `
               class="a-Tabs-pane"
             >
               <div
-                class="a-Form--normal"
+                class="a-Form-item a-Form-item--normal"
+                data-role="form-item"
               >
-                <div
-                  class="a-Form-item a-Form-item--normal"
-                  data-role="form-item"
+                <label
+                  class="a-Form-label"
                 >
-                  <label
-                    class="a-Form-label"
-                  >
-                    <span>
-                      <span
-                        class="a-TplField"
-                      >
-                        <span>
-                          文本3
-                        </span>
+                  <span>
+                    <span
+                      class="a-TplField"
+                    >
+                      <span>
+                        文本3
                       </span>
                     </span>
-                  </label>
+                  </span>
+                </label>
+                <div
+                  class="a-Form-control a-TextControl"
+                >
                   <div
-                    class="a-Form-control a-TextControl"
+                    class="a-TextControl-input"
                   >
-                    <div
-                      class="a-TextControl-input"
-                    >
-                      <input
-                        autocomplete="off"
-                        name="c"
-                        placeholder=""
-                        size="10"
-                        type="text"
-                        value=""
-                      />
-                    </div>
+                    <input
+                      autocomplete="off"
+                      name="c"
+                      placeholder=""
+                      size="10"
+                      type="text"
+                      value=""
+                    />
                   </div>
                 </div>
-                <div
-                  class="a-Form-item a-Form-item--normal"
-                  data-role="form-item"
+              </div>
+              <div
+                class="a-Form-item a-Form-item--normal"
+                data-role="form-item"
+              >
+                <label
+                  class="a-Form-label"
                 >
-                  <label
-                    class="a-Form-label"
-                  >
-                    <span>
-                      <span
-                        class="a-TplField"
-                      >
-                        <span>
-                          文本4
-                        </span>
+                  <span>
+                    <span
+                      class="a-TplField"
+                    >
+                      <span>
+                        文本4
                       </span>
                     </span>
-                  </label>
+                  </span>
+                </label>
+                <div
+                  class="a-Form-control a-TextControl"
+                >
                   <div
-                    class="a-Form-control a-TextControl"
+                    class="a-TextControl-input"
                   >
-                    <div
-                      class="a-TextControl-input"
-                    >
-                      <input
-                        autocomplete="off"
-                        name="d"
-                        placeholder=""
-                        size="10"
-                        type="text"
-                        value=""
-                      />
-                    </div>
+                    <input
+                      autocomplete="off"
+                      name="d"
+                      placeholder=""
+                      size="10"
+                      type="text"
+                      value=""
+                    />
                   </div>
                 </div>
               </div>

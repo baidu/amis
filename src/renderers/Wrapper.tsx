@@ -1,7 +1,9 @@
 import React from 'react';
 import {Renderer, RendererProps} from '../factory';
 import {BaseSchema, SchemaCollection} from '../Schema';
+import {resolveVariable} from '../utils/tpl-builtin';
 import {SchemaNode} from '../types';
+import mapValues from 'lodash/mapValues';
 
 /**
  * Wrapper 容器渲染器。
@@ -37,7 +39,8 @@ export interface WrapperProps
 export default class Wrapper extends React.Component<WrapperProps, object> {
   static propsList: Array<string> = ['body', 'className', 'children', 'size'];
   static defaultProps: Partial<WrapperProps> = {
-    className: ''
+    className: '',
+    size: 'md'
   };
 
   renderBody(): JSX.Element | null {
@@ -53,12 +56,20 @@ export default class Wrapper extends React.Component<WrapperProps, object> {
   }
 
   render() {
-    const {className, size, classnames: cx, style} = this.props;
+    const {className, size, classnames: cx, style, data} = this.props;
+    let styleVar =
+      typeof style === 'string'
+        ? resolveVariable(style, data) || {}
+        : mapValues(style, s => resolveVariable(s, data) || s);
 
     return (
       <div
-        className={cx('Wrapper', size ? `Wrapper--${size}` : '', className)}
-        style={style}
+        className={cx(
+          'Wrapper',
+          size && size !== 'none' ? `Wrapper--${size}` : '',
+          className
+        )}
+        style={styleVar}
       >
         {this.renderBody()}
       </div>
@@ -67,7 +78,7 @@ export default class Wrapper extends React.Component<WrapperProps, object> {
 }
 
 @Renderer({
-  test: /(^|\/)wrapper$/,
+  type: 'wrapper',
   name: 'wrapper'
 })
 export class WrapperRenderer extends Wrapper {}

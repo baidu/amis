@@ -71,15 +71,15 @@ order: 12
 {
     "type": "form",
     "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
-    "controls": [
+    "body": [
       {
-        "type": "text",
+        "type": "input-text",
         "name": "name",
         "label": "姓名："
       },
       {
         "name": "email",
-        "type": "text",
+        "type": "input-text",
         "label": "邮箱："
       }
     ]
@@ -117,15 +117,15 @@ order: 12
             "userEmail": "${email}"
         }
     },
-    "controls": [
+    "body": [
       {
-        "type": "text",
+        "type": "input-text",
         "name": "name",
         "label": "姓名："
       },
       {
         "name": "email",
-        "type": "text",
+        "type": "input-text",
         "label": "邮箱："
       }
     ]
@@ -172,15 +172,15 @@ order: 12
       "g": "${c.g}"
     }
   },
-  "controls": [
+  "body": [
     {
-      "type": "text",
+      "type": "input-text",
       "name": "name",
       "label": "姓名："
     },
     {
       "name": "email",
-      "type": "text",
+      "type": "input-text",
       "label": "邮箱："
     }
   ]
@@ -222,15 +222,15 @@ order: 12
       "&": "${c}"
     }
   },
-  "controls": [
+  "body": [
     {
-      "type": "text",
+      "type": "input-text",
       "name": "name",
       "label": "姓名："
     },
     {
       "name": "email",
-      "type": "text",
+      "type": "input-text",
       "label": "邮箱："
     }
   ]
@@ -276,9 +276,9 @@ order: 12
             }
         }
     },
-    "controls": [
+    "body": [
       {
-        "type": "table",
+        "type": "input-table",
         "name": "table",
         "label": "table",
         "columns": [
@@ -1575,10 +1575,59 @@ ${xxx | isEquals[:equalsValue][:trueValue][:falseValue]
 ##### 基本用法
 
 ```
-${xxx | notEquals[:equalsValue][:trueValue][:falseValue]
+${xxx | notEquals[:equalsValue][:trueValue][:falseValue]}
 ```
 
 用法与 [isEquals](#isEquals) 相同，判断逻辑相反。
+
+### map
+
+数组操作，操作对象为数组，当目标对象不是数组或者 mapFn(filterName) 不存在时将无效。
+
+##### 基本用法
+
+```
+${xxx | map[:filterName][:...args]}
+```
+
+```schema
+{
+  "type": "page",
+  "body": {
+    "type": "form",
+    "mode": "horizontal",
+    "api": {
+      "method": "post",
+      "url": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
+      "data": {
+        "test": "${combo2|pick:text|map:toInt|map:date:LLL:x}"
+      }
+    },
+    "body": [
+      {
+        "type": "combo",
+        "name": "combo2",
+        "label": "Combo 多选展示",
+        "multiple": true,
+        "value": [
+          {
+            "text": "1586865590000"
+          },
+          {
+            "text": "2696865590000"
+          }
+        ],
+        "items": [
+          {
+            "name": "text",
+            "type": "text"
+          }
+        ]
+      }
+    ]
+  }
+}
+```
 
 ### filter
 

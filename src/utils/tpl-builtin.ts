@@ -182,6 +182,10 @@ export function parseDuration(str: string): moment.Duration | undefined {
 export const filters: {
   [propName: string]: (input: any, ...args: any[]) => any;
 } = {
+  map: (input: Array<unknown>, fn: string, ...arg: any) =>
+    Array.isArray(input) && filters[fn]
+      ? input.map(item => filters[fn](item, ...arg))
+      : input,
   html: (input: string) => escapeHtml(input),
   json: (input, tabSize: number | string = 2) =>
     tabSize

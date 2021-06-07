@@ -52,7 +52,7 @@ interface SearchBoxProps
 }
 
 @Renderer({
-  test: /(^|\/)search\-box$/,
+  type: 'search-box',
   name: 'search'
 })
 export class SearchBoxRenderer extends React.Component<SearchBoxProps> {

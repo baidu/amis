@@ -5,7 +5,7 @@ import React from 'react';
 interface SpinnerProps extends RendererProps {}
 
 @Renderer({
-  test: /(^|\/)spinner$/,
+  type: 'spinner',
   name: 'spinner'
 })
 export class SpinnerRenderer extends React.Component<SpinnerProps> {

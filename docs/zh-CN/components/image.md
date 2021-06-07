@@ -60,7 +60,7 @@ order: 52
     "data": {
         "image": "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395692722/4f3cb4202335.jpeg@s_0,w_216,l_1,f_jpg,q_80"
     },
-    "controls": [
+    "body": [
         {
             "type": "static-image",
             "name": "image",
@@ -99,7 +99,7 @@ order: 52
     "data": {
         "image": "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395692722/4f3cb4202335.jpeg@s_0,w_216,l_1,f_jpg,q_80"
     },
-    "controls": [
+    "body": [
         {
             "type": "static-image",
             "name": "image",
@@ -234,7 +234,7 @@ List 的内容、Card 卡片的内容配置同上
     "data": {
         "image": "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395692722/4f3cb4202335.jpeg@s_0,w_216,l_1,f_jpg,q_80"
     },
-    "controls": [
+    "body": [
         {
             "type": "static-image",
             "name": "image",

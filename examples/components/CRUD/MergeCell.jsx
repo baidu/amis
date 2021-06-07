@@ -1,5 +1,4 @@
 export default {
-  $schema: 'https://houtai.baidu.com/v2/schemas/page.json#',
   title:
     '支持自动合并单元格，从左到右，可配置从左侧起多少列内启动自动合并单元格，当前配置 3',
   body: {

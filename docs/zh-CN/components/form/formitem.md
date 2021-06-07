@@ -19,14 +19,14 @@ order: 1
 ```schema: scope="body"
 {
   "type": "form",
-  "controls": [
+  "body": [
     {
-      "type": "text",
+      "type": "input-text",
       "label": "文本框",
       "name": "text"
     },
     {
-      "type": "password",
+      "type": "input-password",
       "label": "<a href='./password'>密码</a>",
       "name": "password"
     }
@@ -38,7 +38,7 @@ order: 1
 - `type`: **必填属性**，标识表单项类型
 - `label`: 标识表单项的标签
 
-> 所有表单项都只可以配置在`form`组件中，即`form`的`controls`属性中。
+> 所有表单项都只可以配置在`form`组件中，即`form`的`body`属性中。
 
 ## 表单项展示
 
@@ -49,14 +49,14 @@ order: 1
 ```schema: scope="body"
 {
   "type": "form",
-  "controls": [
+  "body": [
     {
-      "type": "text",
+      "type": "input-text",
       "label": "常规",
       "name": "text1"
     },
     {
-      "type": "text",
+      "type": "input-text",
       "label": "内联",
       "name": "text2",
       "mode": "inline"
@@ -72,33 +72,33 @@ order: 1
 ```schema: scope="body"
 {
   "type": "form",
-  "controls": [
+  "body": [
     {
-      "type": "text",
+      "type": "input-text",
       "label": "极小",
       "name": "text-xs",
       "size": "xs"
     },
     {
-      "type": "text",
+      "type": "input-text",
       "label": "小",
       "name": "text-sm",
       "size": "sm"
     },
     {
-      "type": "text",
+      "type": "input-text",
       "label": "中",
       "name": "text-md",
       "size": "md"
     },
     {
-      "type": "text",
+      "type": "input-text",
       "label": "大",
       "name": "text-lg",
       "size": "lg"
     },
     {
-      "type": "text",
+      "type": "input-text",
       "label": "占满",
       "name": "text-lg",
       "size": "full"
@@ -119,21 +119,21 @@ order: 1
 {
   "type": "form",
   "mode": "horizontal",
-  "controls": [
+  "body": [
     {
-      "type": "text",
+      "type": "input-text",
       "label": "常规",
       "name": "text1",
       "placeholder": "常规标签"
     },
     {
-      "type": "text",
+      "type": "input-text",
       "label": "",
       "name": "text1",
       "placeholder": "不显示标签"
     },
     {
-      "type": "text",
+      "type": "input-text",
       "label": false,
       "name": "text1",
       "placeholder": "不显示标签且清除空间"
@@ -150,20 +150,20 @@ order: 1
 {
   "type": "form",
   "mode": "horizontal",
-  "controls": [
+  "body": [
     {
-      "type": "text",
+      "type": "input-text",
       "label": "无标签提示",
       "name": "text1"
     },
     {
-      "type": "text",
+      "type": "input-text",
       "label": "有标签提示",
       "labelRemark": "这是一段提示",
       "name": "text2"
     },
     {
-      "type": "text",
+      "type": "input-text",
       "label": "更复杂的标签提示",
       "labelRemark": {
         "type": "remark", "title": "提示", "content": "<pre>first \nsecond\n${text1}</pre>"
@@ -183,14 +183,14 @@ order: 1
 ```schema: scope="body"
 {
   "type": "form",
-  "controls": [
+  "body": [
     {
-      "type": "text",
+      "type": "input-text",
       "label": "常规",
       "name": "text1"
     },
     {
-      "type": "text",
+      "type": "input-text",
       "label": "禁用",
       "name": "text2",
       "disabled": true
@@ -206,16 +206,16 @@ order: 1
 ```schema: scope="body"
 {
   "type": "form",
-  "controls": [
+  "body": [
     {
-      "type": "number",
+      "type": "input-number",
       "label": "数量",
       "name": "number",
       "value": 0,
       "description": "调整数量大小查看效果吧！"
     },
     {
-      "type": "text",
+      "type": "input-text",
       "label": "文本",
       "name": "text",
       "disabledOn": "this.number > 1",
@@ -234,14 +234,14 @@ order: 1
 ```schema: scope="body"
 {
   "type": "form",
-  "controls": [
+  "body": [
     {
-      "type": "text",
+      "type": "input-text",
       "label": "常规",
       "name": "text1"
     },
     {
-      "type": "text",
+      "type": "input-text",
       "label": "隐藏",
       "name": "text2",
       "hidden": true
@@ -260,16 +260,16 @@ order: 1
 ```schema: scope="body"
 {
   "type": "form",
-  "controls": [
+  "body": [
     {
-      "type": "number",
+      "type": "input-number",
       "label": "数量",
       "name": "number",
       "value": 0,
       "description": "调整数量大小查看效果吧！"
     },
     {
-      "type": "text",
+      "type": "input-text",
       "label": "文本",
       "name": "text",
       "hiddenOn": "this.number > 1",
@@ -289,9 +289,9 @@ order: 1
 {
   "type": "form",
   "debug": true,
-  "controls": [
+  "body": [
     {
-      "type": "text",
+      "type": "input-text",
       "label": "姓名",
       "name": "name"
     }
@@ -307,9 +307,9 @@ order: 1
 {
   "type": "form",
   "debug": true,
-  "controls": [
+  "body": [
     {
-      "type": "text",
+      "type": "input-text",
       "label": "姓名",
       "name": "person.name"
     }
@@ -334,9 +334,9 @@ order: 1
 ```schema: scope="body"
 {
   "type": "form",
-  "controls": [
+  "body": [
     {
-      "type": "text",
+      "type": "input-text",
       "label": "text",
       "name": "text",
       "value": "hello world!",
@@ -354,9 +354,9 @@ order: 1
   "data":{
     "text": "hello world!"
   },
-  "controls": [
+  "body": [
     {
-      "type": "text",
+      "type": "input-text",
       "label": "text",
       "name": "text",
       "description": "拥有默认值的 text"
@@ -375,16 +375,16 @@ order: 1
 {
   "type": "form",
   "debug":"true",
-  "controls": [
+  "body": [
     {
-      "type": "number",
+      "type": "input-number",
       "label": "数量",
       "name": "number",
       "value": 0,
       "description": "调整数量大小查看效果吧！"
     },
     {
-      "type": "text",
+      "type": "input-text",
       "label": "文本",
       "value":"这是一段文本",
       "name": "text",
@@ -403,16 +403,16 @@ order: 1
 {
   "type": "form",
   "debug":"true",
-  "controls": [
+  "body": [
     {
-      "type": "number",
+      "type": "input-number",
       "label": "数量",
       "name": "number",
       "value": 0,
       "description": "调整数量大小查看效果吧！"
     },
     {
-      "type": "text",
+      "type": "input-text",
       "label": "文本",
       "value":"这是一段文本",
       "name": "text",
@@ -438,9 +438,9 @@ order: 1
 {
   "type": "form",
   "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
-  "controls": [
+  "body": [
     {
-      "type": "text",
+      "type": "input-text",
       "label": "常规",
       "name": "text",
       "required": true
@@ -457,16 +457,16 @@ order: 1
 {
   "type": "form",
   "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
-  "controls": [
+  "body": [
     {
-      "type": "number",
+      "type": "input-number",
       "label": "数量",
       "name": "number",
       "value": 0,
       "description": "调整数量大小查看效果吧！"
     },
     {
-      "type": "text",
+      "type": "input-text",
       "label": "文本",
       "name": "text",
       "requiredOn": "this.number > 1",
@@ -486,9 +486,9 @@ order: 1
 {
   "type": "form",
   "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
-  "controls": [
+  "body": [
     {
-      "type": "text",
+      "type": "input-text",
       "label": "文本",
       "name": "text",
       "validations": {
@@ -506,9 +506,9 @@ order: 1
 {
   "type": "form",
   "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
-  "controls": [
+  "body": [
     {
-      "type": "text",
+      "type": "input-text",
       "label": "文本",
       "name": "text",
       "validations": {
@@ -529,9 +529,9 @@ order: 1
 {
   "type": "form",
   "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
-  "controls": [
+  "body": [
     {
-      "type": "text",
+      "type": "input-text",
       "label": "文本",
       "name": "text",
       "validations": "isNumeric",
@@ -547,9 +547,9 @@ order: 1
 {
   "type": "form",
   "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
-  "controls": [
+  "body": [
     {
-      "type": "text",
+      "type": "input-text",
       "label": "文本",
       "name": "text",
       "validations": "isNumeric,minimum:10",
@@ -569,9 +569,9 @@ amis 会有默认的报错信息，如果你想自定义校验信息，配置`va
 {
   "type": "form",
   "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
-  "controls": [
+  "body": [
     {
-      "type": "text",
+      "type": "input-text",
       "label": "文本",
       "name": "text",
       "validations": {
@@ -592,9 +592,9 @@ amis 会有默认的报错信息，如果你想自定义校验信息，配置`va
 {
   "type": "form",
   "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
-  "controls": [
+  "body": [
     {
-      "type": "text",
+      "type": "input-text",
       "label": "文本",
       "name": "text",
       "validations": {
@@ -632,6 +632,10 @@ amis 会有默认的报错信息，如果你想自定义校验信息，配置`va
 - `equalsField:xxx` 当前值必须与 xxx 变量值一致。
 - `isJson` 是否是合法的 Json 字符串。
 - `isUrlPath` 是 url 路径。
+- `isPhoneNumber` 是否为合法的手机号码
+- `isTelNumber` 是否为合法的电话号码
+- `isZipcode` 是否为邮编号码
+- `isId` 是否为身份证号码，没做校验
 - `matchRegexp:/foo/` 必须命中某个正则。
 - `matchRegexp1:/foo/` 必须命中某个正则。
 - `matchRegexp2:/foo/` 必须命中某个正则。
@@ -650,10 +654,10 @@ amis 会有默认的报错信息，如果你想自定义校验信息，配置`va
 {
   "type": "form",
   "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveFormFailed?waitSeconds=1",
-  "controls": [
+  "body": [
     {
         "name": "test2",
-        "type": "text",
+        "type": "input-text",
         "label": "服务端验证"
     }
   ]
@@ -687,7 +691,7 @@ Combo 类型的表单项，要实现服务端校验，可以使用 `路径key` �
   "debug": true,
   "mode": "horizontal",
   "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveFormFailedCombo?waitSeconds=1",
-  "controls": [
+  "body": [
     {
       "type": "combo",
       "name": "combo1",
@@ -703,10 +707,10 @@ Combo 类型的表单项，要实现服务端校验，可以使用 `路径key` �
           "b": "c"
         }
       ],
-      "controls": [
+      "items": [
         {
           "name": "a",
-          "type": "text"
+          "type": "input-text"
         },
         {
           "name": "b",
@@ -723,10 +727,10 @@ Combo 类型的表单项，要实现服务端校验，可以使用 `路径key` �
         "a": "a",
         "b": "b"
       },
-      "controls": [
+      "items": [
         {
           "name": "a",
-          "type": "text"
+          "type": "input-text"
         },
         {
           "name": "b",
@@ -767,10 +771,10 @@ Table 类型的表单项，要实现服务端校验，可以使用 `路径key` �
   "debug": true,
   "mode": "horizontal",
   "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveFormFailedTable?waitSeconds=1",
-  "controls": [
+  "body": [
     {
       "label": "Table 服务端校验",
-      "type": "table",
+      "type": "input-table",
       "name": "table",
       "multiple": true,
       "value": [
@@ -807,7 +811,7 @@ Table 类型的表单项，要实现服务端校验，可以使用 `路径key` �
       "label": "Combo 内 Table 服务端校验",
       "type": "combo",
       "name": "combo",
-      "controls": [
+      "items": [
         {
           "name": "a",
           "type": "text",
@@ -815,7 +819,7 @@ Table 类型的表单项，要实现服务端校验，可以使用 `路径key` �
         },
         {
           "label": "Table",
-          "type": "table",
+          "type": "input-table",
           "name": "table",
           "multiple": true,
           "value": [

@@ -28,7 +28,7 @@ order: 14
 ```schema: scope="body"
 {
     "type": "form",
-    "controls": [
+    "body": [
         {
             "type": "radios",
             "name": "foo",
@@ -45,14 +45,14 @@ order: 14
             ]
         },
         {
-            "type": "text",
+            "type": "input-text",
             "name": "text1",
             "label": false,
             "placeholder": "选中 类型1 时可见",
             "visibleOn": "this.foo == 1"
         },
         {
-            "type": "text",
+            "type": "input-text",
             "name": "text2",
             "label": false,
             "placeholder": "选中 类型2 时不可点",
@@ -84,7 +84,7 @@ order: 14
     "title": "",
     "type": "form",
     "mode": "horizontal",
-    "controls": [
+    "body": [
       {
         "label": "选项1",
         "type": "radios",
@@ -154,7 +154,7 @@ order: 14
     "title": "",
     "type": "form",
     "mode": "horizontal",
-    "controls": [
+    "body": [
       {
         "label": "选项1",
         "type": "radios",
@@ -202,9 +202,9 @@ order: 14
 {
     "type": "form",
     "name": "my_form",
-    "controls": [
+    "body": [
       {
-        "type": "text",
+        "type": "input-text",
         "name": "keyword",
         "addOn": {
           "label": "搜索",
@@ -248,9 +248,9 @@ order: 14
     {
       "title": "查询条件",
       "type": "form",
-      "controls": [
+      "body": [
         {
-          "type": "text",
+          "type": "input-text",
           "name": "keywords",
           "label": "关键字："
         }
@@ -294,9 +294,9 @@ order: 14
       "title": "查询条件",
       "type": "form",
       "target": "my_crud",
-      "controls": [
+      "body": [
         {
-          "type": "text",
+          "type": "input-text",
           "name": "keywords",
           "label": "关键字："
         }
@@ -355,22 +355,22 @@ order: 14
     "title": "form1",
     "mode": "horizontal",
     "api": "/api/mock2/form/saveForm",
-    "controls": [
+    "body": [
       {
         "label": "Name",
-        "type": "text",
+        "type": "input-text",
         "name": "name"
       },
 
       {
         "label": "Email",
-        "type": "text",
+        "type": "input-text",
         "name": "email"
       },
 
       {
         "label": "Company",
-        "type": "text",
+        "type": "input-text",
         "name": "company"
       }
     ],
@@ -389,22 +389,22 @@ order: 14
     "name": "form2",
     "mode": "horizontal",
     "api": "/api/mock2/form/saveForm",
-    "controls": [
+    "body": [
       {
         "label": "MyName",
-        "type": "text",
+        "type": "input-text",
         "name": "name"
       },
 
       {
         "label": "MyEmail",
-        "type": "text",
+        "type": "input-text",
         "name": "email"
       },
 
       {
         "label": "Company",
-        "type": "text",
+        "type": "input-text",
         "name": "company"
       }
     ]

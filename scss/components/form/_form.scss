@@ -29,6 +29,11 @@
   }
 
   &--inline {
+    > .#{$ns}Button {
+      margin-bottom: calc(var(--Form-item-gap) / 2);
+      margin-right: calc(var(--Form-item-gap) / 2);
+    }
+
     > .#{$ns}PlainField {
       display: inline-block;
       padding-top: var(--Form-input-paddingY);

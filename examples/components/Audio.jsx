@@ -1,5 +1,4 @@
 export default {
-  $schema: 'https://houtai.baidu.com/v2/schemas/page.json#',
   title: '音频播放器',
   body: [
     {
@@ -14,7 +13,7 @@ export default {
       title: '',
       actions: [],
       className: 'b v-middle inline w-lg h-xs',
-      controls: [
+      body: [
         {
           type: 'card',
           className: 'v-middle w inline no-border',

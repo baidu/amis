@@ -1,5 +1,4 @@
 export default {
-  $schema: 'https://houtai.baidu.com/v2/schemas/page.json#',
   title: 'Tabs 示例',
   body: [
     {
@@ -30,24 +29,24 @@ export default {
                   primary: true
                 }
               ],
-              controls: [
+              body: [
                 {
                   type: 'tabs',
                   tabs: [
                     {
                       title: '基本信息',
-                      controls: [
+                      body: [
                         {
                           type: 'group',
-                          controls: [
+                          body: [
                             {
-                              type: 'email',
+                              type: 'input-email',
                               name: 'email1',
                               placeholder: '请输入邮箱地址',
                               label: '邮箱'
                             },
                             {
-                              type: 'password',
+                              type: 'input-password',
                               name: 'password',
                               placeholder: '密码',
                               label: false
@@ -59,9 +58,9 @@ export default {
                         },
                         {
                           type: 'group',
-                          controls: [
+                          body: [
                             {
-                              type: 'email',
+                              type: 'input-email',
                               name: 'email2',
                               placeholder: '请输入邮箱地址',
                               label: '邮箱'
@@ -78,9 +77,9 @@ export default {
                     },
                     {
                       title: '其他信息',
-                      controls: [
+                      body: [
                         {
-                          type: 'email',
+                          type: 'input-email',
                           name: 'email3',
                           placeholder: '请输入邮箱地址',
                           label: '邮箱'
@@ -107,7 +106,7 @@ export default {
           primary: true
         }
       ],
-      controls: [
+      body: [
         {
           type: 'tabs',
           name: 'outertabs',
@@ -116,18 +115,18 @@ export default {
             {
               title: '基本信息',
               hash: 'tab1',
-              controls: [
+              body: [
                 {
                   type: 'group',
-                  controls: [
+                  body: [
                     {
-                      type: 'email',
+                      type: 'input-email',
                       name: 'email',
                       placeholder: '请输入邮箱地址',
                       label: '邮箱'
                     },
                     {
-                      type: 'password',
+                      type: 'input-password',
                       name: 'password',
                       placeholder: '密码',
                       label: false
@@ -139,9 +138,9 @@ export default {
                 },
                 {
                   type: 'group',
-                  controls: [
+                  body: [
                     {
-                      type: 'email',
+                      type: 'input-email',
                       name: 'email2',
                       placeholder: '请输入邮箱地址',
                       label: '邮箱'
@@ -159,9 +158,9 @@ export default {
             {
               title: '其他信息',
               hash: 'tab2',
-              controls: [
+              body: [
                 {
-                  type: 'email',
+                  type: 'input-email',
                   name: 'email3',
                   placeholder: '请输入邮箱地址',
                   label: '邮箱'

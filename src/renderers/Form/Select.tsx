@@ -237,7 +237,7 @@ export default class SelectControl extends React.Component<SelectProps, any> {
       ...rest
     } = this.props;
 
-    if (noResultsText && /<\w+/.test(noResultsText)) {
+    if (noResultsText) {
       noResultsText = render('noResultText', noResultsText);
     }
 

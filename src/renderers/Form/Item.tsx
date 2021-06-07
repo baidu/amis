@@ -15,268 +15,22 @@ import {FormHorizontal, FormSchema, FormSchemaHorizontal} from '.';
 import {Schema} from '../../types';
 import {filter} from '../../utils/tpl';
 import {SchemaRemark} from '../Remark';
-import {BaseSchema, SchemaClassName} from '../../Schema';
-import {TextControlSchema} from './Text';
-import {SelectControlSchema} from './Select';
-import {TextareaControlSchema} from './Textarea';
-import {ArrayControlSchema} from './Array';
-import {ComboControlSchema} from './Combo';
-import {ButtonControlSchema} from './Button';
-import {ButtonGroupControlSchema} from './ButtonGroup';
-import {ButtonToolbarControlSchema} from './ButtonToolbar';
-import {ChainedSelectControlSchema} from './ChainedSelect';
-import {CheckboxControlSchema} from './Checkbox';
-import {CheckboxesControlSchema} from './Checkboxes';
-import {CityControlSchema} from './City';
-import {ColorControlSchema} from './Color';
-import {ConditionBuilderControlSchema} from './ConditionBuilder';
-import {ContainerControlSchema} from './Container';
 import {
-  DateControlSchema,
-  DateTimeControlSchema,
-  MonthControlSchema,
-  QuarterControlSchema,
-  TimeControlSchema
-} from './Date';
-import {DateRangeControlSchema} from './DateRange';
-import {DiffControlSchema} from './DiffEditor';
-import {EditorControlSchema} from './Editor';
-import {FieldSetControlSchema} from './FieldSet';
-import {FileControlSchema} from './File';
-import {FormulaControlSchema} from './Formula';
-import {GridControlSchema} from './Grid';
-import {GroupControlSchema} from './Group';
-import {HBoxControlSchema} from './HBox';
-import {HiddenControlSchema} from './Hidden';
-import {IconPickerControlSchema} from './IconPicker';
-import {ImageControlSchema} from './Image';
-import {InputGroupControlSchema} from './InputGroup';
-import {ListControlSchema} from './List';
-import {LocationControlSchema} from './Location';
-import {MatrixControlSchema} from './Matrix';
-import {NestedSelectControlSchema} from './NestedSelect';
-import {NumberControlSchema} from './Number';
-import {PanelControlSchema} from './Panel';
-import {PickerControlSchema} from './Picker';
-import {RadiosControlSchema} from './Radios';
-import {RangeControlSchema} from './Range';
-import {RatingControlSchema} from './Rating';
-import {RepeatControlSchema} from './Repeat';
-import {RichTextControlSchema} from './RichText';
-import {ServiceControlSchema} from './Service';
-import {StaticControlRestSchema, StaticControlSchema} from './Static';
-import {SubFormControlSchema} from './SubForm';
-import {SwitchControlSchema} from './Switch';
-import {TableControlSchema} from './Table';
-import {TabsControlSchema} from './Tabs';
-import {TabsTransferControlSchema} from './TabsTransfer';
-import {TagControlSchema} from './Tag';
-import {TransferControlSchema} from './Transfer';
-import {TreeControlSchema} from './Tree';
-import {TreeSelectControlSchema} from './TreeSelect';
-import {UUIDControlSchema} from './UUID';
-import {PlainSchema} from '../Plain';
-import {TplSchema} from '../Tpl';
-import {DividerSchema} from '../Divider';
+  BaseSchema,
+  SchemaClassName,
+  SchemaObject,
+  SchemaType
+} from '../../Schema';
 import {HocStoreFactory} from '../../WithStore';
-import {MonthRangeControlSchema} from './MonthRange';
-import {AnchorNavControlSchema} from './AnchorNav';
+import {wrapControl} from './wrapControl';
 
-export type FormControlType =
-  | 'array'
-  | 'button'
-  | 'submit'
-  | 'reset'
-  | 'button-group'
-  | 'button-toolbar'
-  | 'chained-select'
-  | 'chart-radios'
-  | 'checkbox'
-  | 'checkboxes'
-  | 'city'
-  | 'color'
-  | 'combo'
-  | 'condition-builder'
-  | 'container'
-  | 'date'
-  | 'datetime'
-  | 'time'
-  | 'quarter'
-  | 'month'
-  | 'date-range'
-  | 'diff'
-
-  // editor 系列
-  | 'editor'
-  | 'bat-editor'
-  | 'c-editor'
-  | 'coffeescript-editor'
-  | 'cpp-editor'
-  | 'csharp-editor'
-  | 'css-editor'
-  | 'dockerfile-editor'
-  | 'fsharp-editor'
-  | 'go-editor'
-  | 'handlebars-editor'
-  | 'html-editor'
-  | 'ini-editor'
-  | 'java-editor'
-  | 'javascript-editor'
-  | 'json-editor'
-  | 'less-editor'
-  | 'lua-editor'
-  | 'markdown-editor'
-  | 'msdax-editor'
-  | 'objective-c-editor'
-  | 'php-editor'
-  | 'plaintext-editor'
-  | 'postiats-editor'
-  | 'powershell-editor'
-  | 'pug-editor'
-  | 'python-editor'
-  | 'r-editor'
-  | 'razor-editor'
-  | 'ruby-editor'
-  | 'sb-editor'
-  | 'scss-editor'
-  | 'sol-editor'
-  | 'sql-editor'
-  | 'swift-editor'
-  | 'typescript-editor'
-  | 'vb-editor'
-  | 'xml-editor'
-  | 'yaml-editor'
-
-  //
-  | 'fieldset'
-  | 'fieldSet'
-  | 'file'
-  | 'formula'
-  | 'grid'
-  | 'group'
-  | 'hbox'
-  | 'hidden'
-  | 'icon-picker'
-  | 'image'
-  | 'input-group'
-  | 'list'
-  | 'location'
-  | 'matrix'
-  | 'month-range'
-  | 'nested-select'
-  | 'number'
-  | 'panel'
-  | 'picker'
-  | 'radios'
-  | 'range'
-  | 'rating'
-  | 'repeat'
-  | 'rich-text'
-  | 'select'
-  | 'service'
-  | 'static'
-  | 'form'
-  | 'switch'
-  | 'table'
-  | 'tabs'
-  | 'tabs-transfer'
-  | 'tag'
-  | 'text'
-  | 'password'
-  | 'email'
-  | 'url'
-  | 'uuid'
-  | 'multi-select'
-  | 'textarea'
-  | 'transfer'
-  | 'tree'
-  | 'tree-select'
-
-  // 非表单项但是也可以放进来
-  | 'divider'
-  | 'html'
-  | 'plain'
-  | 'tpl'
-  | 'anchor-nav'
-
-  // 原生 input 类型
-  | 'native-date'
-  | 'native-time'
-  | 'native-number';
-
-export type FormControlSchema =
-  | ArrayControlSchema
-  | ButtonControlSchema
-  | ButtonGroupControlSchema
-  | ButtonToolbarControlSchema
-  | ChainedSelectControlSchema
-  | CheckboxControlSchema
-  | CheckboxesControlSchema
-  | CityControlSchema
-  | ColorControlSchema
-  | ComboControlSchema
-  | ConditionBuilderControlSchema
-  | ContainerControlSchema
-  | DateControlSchema
-  | DateTimeControlSchema
-  | TimeControlSchema
-  | MonthControlSchema
-  | MonthControlSchema
-  | QuarterControlSchema
-  | DateRangeControlSchema
-  | DiffControlSchema
-  | EditorControlSchema
-  | FieldSetControlSchema
-  | FileControlSchema
-  | FormulaControlSchema
-  | GridControlSchema
-  | GroupControlSchema
-  | HBoxControlSchema
-  | HiddenControlSchema
-  | IconPickerControlSchema
-  | ImageControlSchema
-  | InputGroupControlSchema
-  | ListControlSchema
-  | LocationControlSchema
-  | UUIDControlSchema
-  | MatrixControlSchema
-  | MonthRangeControlSchema
-  | NestedSelectControlSchema
-  | NumberControlSchema
-  | PanelControlSchema
-  | PickerControlSchema
-  | RadiosControlSchema
-  | RangeControlSchema
-  | RatingControlSchema
-  | RichTextControlSchema
-  | RepeatControlSchema
-  | SelectControlSchema
-  | ServiceControlSchema
-  | SubFormControlSchema
-  | SwitchControlSchema
-  | StaticControlSchema
-  | StaticControlRestSchema
-  | TableControlSchema
-  | TabsControlSchema
-  | TabsTransferControlSchema
-  | TagControlSchema
-  | TextControlSchema
-  | TextareaControlSchema
-  | TransferControlSchema
-  | TreeControlSchema
-  | TreeSelectControlSchema
-  | AnchorNavControlSchema
-
-  // 非表单项，但是也可以放进来。
-  | DividerSchema;
-
-export type FormControlSchemaAlias = FormControlSchema;
+export type FormControlSchemaAlias = SchemaObject;
 
 export interface FormBaseControl extends Omit<BaseSchema, 'type'> {
   /**
    * 表单项类型
    */
-  type: FormControlType;
+  type: SchemaType;
 
   /**
    * 表单项大小
@@ -807,7 +561,8 @@ export class FormItemWrap extends React.Component<FormItemProps> {
         <div
           className={cx(`Form-value`, {
             // [`Form-itemColumn--offset${getWidthRate(horizontal.offset)}`]: !label && label !== false,
-            [`Form-itemColumn--${right}`]: !!right && right !== 12 - left
+            [`Form-itemColumn--${right}`]:
+              !horizontal.leftFixed && !!right && right !== 12 - left
           })}
         >
           {this.renderControl()}
@@ -888,7 +643,7 @@ export class FormItemWrap extends React.Component<FormItemProps> {
     return (
       <div
         data-role="form-item"
-        className={cx(`Form-item Form-item--${formMode}`, className, {
+        className={cx(`Form-item Form-item--normal`, className, {
           'is-error': model && !model.valid,
           [`is-required`]: required
         })}
@@ -1296,117 +1051,121 @@ export function asFormItem(config: Omit<FormItemConfig, 'component'>) {
       delete config.storeType;
     }
 
-    return hoistNonReactStatic(
-      class extends FormItemWrap {
-        static defaultProps = {
-          className: '',
-          renderLabel: config.renderLabel,
-          renderDescription: config.renderDescription,
-          sizeMutable: config.sizeMutable,
-          wrap: config.wrap,
-          showErrorMsg: config.showErrorMsg,
-          ...Control.defaultProps
-        };
-        static propsList: any = [
-          'value',
-          'defaultValue',
-          'onChange',
-          'setPrinstineValue',
-          'readOnly',
-          'strictMode',
-          ...((Control as any).propsList || [])
-        ];
+    return wrapControl(
+      hoistNonReactStatic(
+        class extends FormItemWrap {
+          static defaultProps = {
+            className: '',
+            renderLabel: config.renderLabel,
+            renderDescription: config.renderDescription,
+            sizeMutable: config.sizeMutable,
+            wrap: config.wrap,
+            showErrorMsg: config.showErrorMsg,
+            ...Control.defaultProps
+          };
+          static propsList: any = [
+            'value',
+            'defaultValue',
+            'onChange',
+            'setPrinstineValue',
+            'readOnly',
+            'strictMode',
+            ...((Control as any).propsList || [])
+          ];
 
-        static displayName = `FormItem${config.type ? `(${config.type})` : ''}`;
-        static ComposedComponent = Control;
+          static displayName = `FormItem${
+            config.type ? `(${config.type})` : ''
+          }`;
+          static ComposedComponent = Control;
 
-        ref: any;
+          ref: any;
 
-        constructor(props: FormItemProps) {
-          super(props);
-          this.refFn = this.refFn.bind(this);
-        }
-
-        componentWillMount() {
-          const {validations, formItem: model} = this.props;
-
-          // 组件注册的时候可能默认指定验证器类型
-          if (model && !validations && config.validations) {
-            model.config({
-              rules: config.validations
-            });
+          constructor(props: FormItemProps) {
+            super(props);
+            this.refFn = this.refFn.bind(this);
           }
 
-          super.componentWillMount();
-        }
+          componentWillMount() {
+            const {validations, formItem: model} = this.props;
 
-        shouldComponentUpdate(nextProps: FormControlProps) {
-          if (nextProps.strictMode === false || config.strictMode === false) {
-            return true;
+            // 组件注册的时候可能默认指定验证器类型
+            if (model && !validations && config.validations) {
+              model.config({
+                rules: config.validations
+              });
+            }
+
+            super.componentWillMount();
           }
 
-          // 把可能会影响视图的白名单弄出来，减少重新渲染次数。
-          if (anyChanged(detectProps, this.props, nextProps)) {
-            return true;
+          shouldComponentUpdate(nextProps: FormControlProps) {
+            if (nextProps.strictMode === false || config.strictMode === false) {
+              return true;
+            }
+
+            // 把可能会影响视图的白名单弄出来，减少重新渲染次数。
+            if (anyChanged(detectProps, this.props, nextProps)) {
+              return true;
+            }
+
+            return false;
           }
 
-          return false;
-        }
+          getWrappedInstance() {
+            return this.ref;
+          }
 
-        getWrappedInstance() {
-          return this.ref;
-        }
+          refFn(ref: any) {
+            this.ref = ref;
+          }
 
-        refFn(ref: any) {
-          this.ref = ref;
-        }
+          renderControl() {
+            const {
+              inputClassName,
+              formItem: model,
+              classnames: cx,
+              children,
+              type,
+              size,
+              defaultSize,
+              ...rest
+            } = this.props;
 
-        renderControl() {
-          const {
-            inputClassName,
-            formItem: model,
-            classnames: cx,
-            children,
-            type,
-            size,
-            defaultSize,
-            ...rest
-          } = this.props;
+            const controlSize = size || defaultSize;
 
-          const controlSize = size || defaultSize;
-
-          return (
-            <Control
-              {...rest}
-              onOpenDialog={this.handleOpenDialog}
-              size={config.sizeMutable !== false ? undefined : size}
-              onFocus={this.handleFocus}
-              onBlur={this.handleBlur}
-              type={type}
-              classnames={cx}
-              ref={isSFC ? undefined : this.refFn}
-              forwardedRef={isSFC ? this.refFn : undefined}
-              formItem={model}
-              className={cx(
-                `Form-control`,
-                {
-                  'is-inline': !!rest.inline,
-                  'is-error': model && !model.valid,
-                  [`Form-control--withSize Form-control--size${ucFirst(
-                    controlSize
-                  )}`]:
-                    config.sizeMutable !== false &&
-                    typeof controlSize === 'string' &&
-                    !!controlSize &&
-                    controlSize !== 'full'
-                },
-                inputClassName
-              )}
-            />
-          );
-        }
-      },
-      Control
+            return (
+              <Control
+                {...rest}
+                onOpenDialog={this.handleOpenDialog}
+                size={config.sizeMutable !== false ? undefined : size}
+                onFocus={this.handleFocus}
+                onBlur={this.handleBlur}
+                type={type}
+                classnames={cx}
+                ref={isSFC ? undefined : this.refFn}
+                forwardedRef={isSFC ? this.refFn : undefined}
+                formItem={model}
+                className={cx(
+                  `Form-control`,
+                  {
+                    'is-inline': !!rest.inline,
+                    'is-error': model && !model.valid,
+                    [`Form-control--withSize Form-control--size${ucFirst(
+                      controlSize
+                    )}`]:
+                      config.sizeMutable !== false &&
+                      typeof controlSize === 'string' &&
+                      !!controlSize &&
+                      controlSize !== 'full'
+                  },
+                  inputClassName
+                )}
+              />
+            );
+          }
+        },
+        Control
+      ) as any
     );
   };
 }
@@ -1418,13 +1177,7 @@ export function registerFormItem(config: FormItemConfig): RendererConfig {
     ...config,
     name: config.name || `${config.type}-control`,
     weight: typeof config.weight !== 'undefined' ? config.weight : -100, // 优先级高点
-    test:
-      config.test ||
-      new RegExp(
-        `(^|\/)form(?:\/.+)?\/control\/(?:\d+\/)?${config.type}$`,
-        'i'
-      ),
-    component: Control,
+    component: Control as any,
     isFormItem: true
   });
 }
@@ -1437,6 +1190,20 @@ export function FormItem(config: FormItemBasicConfig) {
     });
 
     return renderer.component as any;
+  };
+}
+
+export function renderToComponent(
+  children: JSX.Element | ((props: any) => JSX.Element)
+) {
+  return class extends React.Component {
+    render() {
+      if (typeof children === 'function') {
+        return children(this.props);
+      }
+
+      return children;
+    }
   };
 }
 

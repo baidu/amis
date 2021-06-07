@@ -325,8 +325,14 @@ export default class Drawer extends React.Component<DrawerProps> {
     store.setFormData(data);
   }
 
-  handleFormChange(data: any) {
+  handleFormChange(data: any, name?: string) {
     const {store} = this.props;
+
+    if (typeof name === 'string') {
+      data = {
+        [name]: data
+      };
+    }
 
     store.setFormData(data);
   }
@@ -639,7 +645,7 @@ export default class Drawer extends React.Component<DrawerProps> {
 }
 
 @Renderer({
-  test: /(^|\/)drawer$/,
+  type: 'drawer',
   storeType: ModalStore.name,
   storeExtendsData: false,
   name: 'drawer',

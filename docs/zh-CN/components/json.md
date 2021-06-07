@@ -122,7 +122,7 @@ List 的内容、Card 卡片的内容配置同上
             }
         }
     },
-    "controls": [
+    "body": [
         {
             "type": "static-json",
             "name": "json",

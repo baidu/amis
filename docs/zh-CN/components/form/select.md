@@ -17,7 +17,7 @@ order: 48
 ```schema: scope="body"
 {
     "type": "form",
-    "controls": [
+    "body": [
         {
             "label": "选项",
             "type": "select",

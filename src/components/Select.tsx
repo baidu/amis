@@ -251,6 +251,7 @@ interface SelectProps extends OptionProps, ThemeProps, LocaleProps {
   creatable: boolean;
   createBtnLabel: string;
   multiple: boolean;
+  valuesNoWrap?: boolean;
   valueField: string;
   labelField: string;
   renderMenu?: (
@@ -651,6 +652,7 @@ export class Select extends React.Component<SelectProps, SelectState> {
   renderValue({inputValue, isOpen}: ControllerStateAndHelpers<any>) {
     const {
       multiple,
+      valuesNoWrap,
       placeholder,
       classPrefix: ns,
       labelField,
@@ -669,8 +671,20 @@ export class Select extends React.Component<SelectProps, SelectState> {
       );
     }
 
-    return selection.map((item, index) =>
-      multiple ? (
+    return selection.map((item, index) => {
+      if (!multiple) {
+        return (
+          <div className={`${ns}Select-value`} key={index}>
+            {`${item[labelField || 'label']}`}
+          </div>
+        );
+      }
+
+      return valuesNoWrap ? (
+        `${item[labelField || 'label']}${
+          index === selection.length - 1 ? '' : ' + '
+        }`
+      ) : (
         <div className={`${ns}Select-value`} key={index}>
           <span
             className={`${ns}Select-valueIcon ${
@@ -684,12 +698,8 @@ export class Select extends React.Component<SelectProps, SelectState> {
             {`${item[labelField || 'label']}`}
           </span>
         </div>
-      ) : (
-        <div className={`${ns}Select-value`} key={index}>
-          {`${item[labelField || 'label']}`}
-        </div>
-      )
-    );
+      );
+    });
   }
 
   renderOuter({
@@ -710,6 +720,7 @@ export class Select extends React.Component<SelectProps, SelectState> {
       loadOptions,
       creatable,
       multiple,
+      valuesNoWrap,
       classnames: cx,
       popoverClassName,
       checkAll,
@@ -859,7 +870,12 @@ export class Select extends React.Component<SelectProps, SelectState> {
     };
 
     const menu = (
-      <div ref={this.menu} className={cx('Select-menu')}>
+      <div
+        ref={this.menu}
+        className={cx('Select-menu', {
+          'Select--longlist': filtedOptions.length && filtedOptions.length > 100
+        })}
+      >
         {searchable ? (
           <div
             className={cx(`Select-input`, {
@@ -884,7 +900,11 @@ export class Select extends React.Component<SelectProps, SelectState> {
             ) : null}
           </div>
         ) : null}
-
+        {multiple && valuesNoWrap ? (
+          <div className={cx('Select-option')}>
+            已选择({selectionValues.length})
+          </div>
+        ) : null}
         {multiple && checkAll && filtedOptions.length ? (
           <div className={cx('Select-option')}>
             <Checkbox
@@ -961,6 +981,7 @@ export class Select extends React.Component<SelectProps, SelectState> {
     const {
       classnames: cx,
       multiple,
+      valuesNoWrap,
       searchable,
       inline,
       className,
@@ -1013,7 +1034,11 @@ export class Select extends React.Component<SelectProps, SelectState> {
                 className
               )}
             >
-              <div className={cx(`Select-valueWrap`)}>
+              <div
+                className={cx(`Select-valueWrap`, {
+                  'Select-valuesNoWrap': valuesNoWrap
+                })}
+              >
                 {this.renderValue(options)}
               </div>
               {clearable &&

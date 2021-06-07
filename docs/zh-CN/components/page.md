@@ -29,9 +29,9 @@ Page 组件是 amis 页面 JSON 配置中顶级容器组件，是整个页面配
 {
     "type": "form",
     "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
-    "controls": [
+    "body": [
       {
-        "type": "text",
+        "type": "input-text",
         "name": "name",
         "label": "姓名："
       }
@@ -138,9 +138,9 @@ Page 默认将页面分为几个区域，分别是**内容区（`body`）**、**
   },
   "body": {
     "type": "form",
-    "controls": [
+    "body": [
       {
-        "type": "text",
+        "type": "input-text",
         "label": "文本框",
         "name": "text"
       }

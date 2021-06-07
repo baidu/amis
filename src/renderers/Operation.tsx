@@ -64,8 +64,7 @@ export class OperationField extends React.Component<OperationProps, object> {
 }
 
 @Renderer({
-  // test: /(^|\/)table\/(.*\/)operation$/,
-  test: (path: string) => /(^|\/)table\/(.*\/)operation$/.test(path),
+  type: 'operation',
   name: 'operation'
 })
 export class OperationFieldRenderer extends OperationField {}

@@ -472,7 +472,7 @@ export class Chart extends React.Component<ChartProps> {
 }
 
 @Renderer({
-  test: /(^|\/)chart$/,
+  type: 'chart',
   storeType: ServiceStore.name,
   name: 'chart'
 })

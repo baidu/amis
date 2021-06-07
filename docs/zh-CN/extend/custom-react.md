@@ -12,9 +12,9 @@ amis 的配置最终会转成 React 组件来执行，所以如果只是想在�
   "title": "自定义组件示例",
   "body": {
     "type": "form",
-    "controls": [
+    "body": [
       {
-        "type": "text",
+        "type": "input-text",
         "label": "用户名",
         "name": "usename"
       },
@@ -126,9 +126,9 @@ class CustomRenderer extends React.Component {
     "tip": "简单示例",
     "body": {
       "type": "form",
-      "controls": [
+      "body": [
         {
-          "type": "text",
+          "type": "input-text",
           "label": "用户名",
           "name": "usename"
         }
@@ -183,9 +183,9 @@ class MyFormItem extends React.Component {
   "title": "自定义组件示例",
   "body": {
     "type": "form",
-    "controls": [
+    "body": [
       {
-        "type": "text",
+        "type": "input-text",
         "label": "用户名",
         "name": "usename"
       },
