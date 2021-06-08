@@ -31,7 +31,7 @@ export interface CustomProps extends FormControlProps, CustomSchema {
   inline?: boolean;
 }
 
-// 添加resolver，指定最后一个参数为key。因为最后一个参数为函数体
+// 添加resolver，指定所有参数的联合字符串参数为key。因为最后一个参数为函数体
 // 缓存一下，避免在 crud 中的自定义组件被大量执行
 const getFunction = memoize((...args) => {
   return new Function(...args);
