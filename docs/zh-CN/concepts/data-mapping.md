@@ -522,9 +522,9 @@ ${xxx | date[:format][:inputFormat]}
 ```
 
 - **format**：需要展示的格式，默认为`LLL`，即本地化时间格式
-- **inputFormat**：指定该变量值的格式，默认为`X`，即时间戳秒，如果是毫秒则是 `x`
-
-具体参数的配置需要参考 [moment](https://momentjs.com/docs/)
+- **inputFormat**：指定该变量值的格式，默认为`X`，即时间戳秒，具体参数的配置需要参考 [moment](https://momentjs.com/docs/)，下面是其它几种常见的格式：
+  - `x`，毫秒
+  - `YYYY-MM-DDTHH:mm:ssZ`，ISO8601 格式，其中 YYYY 是年，MM 是月，DD 是日，HH 是小时，mm 是分钟，ss 是秒
 
 ```schema
 {
