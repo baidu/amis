@@ -14,6 +14,7 @@ import {getLevelFromClassName} from './utils/helper';
 import {FileControlRenderer} from './renderers/Form/InputFile';
 import {ImageControlRenderer} from './renderers/Form/InputImage';
 import {RichTextControlRenderer} from './renderers/Form/InputRichText';
+import isPlainObject from 'lodash/isPlainObject';
 
 // 兼容老的用法，老用法 label 用在 checkbox 的右侧内容，新用法用 option 来代替。
 addSchemaFilter(function CheckboxPropsFilter(schema: Schema, renderer) {
@@ -428,6 +429,15 @@ addSchemaFilter(function (schema: Schema, renderer: any, props: any) {
       ...schema,
       quickEdit: controlToNormalRenderer(schema.quickEdit)
     };
+  } else if (Array.isArray(schema?.quickEdit?.controls)) {
+    schema = {
+      ...schema,
+      quickEdit: {
+        ...schema.quickEdit,
+        body: schema.quickEdit.controls.map(controlToNormalRenderer)
+      }
+    };
+    delete schema.quickEdit.controls;
   } else if (schema?.type === 'tabs' && Array.isArray(schema.tabs)) {
     schema = {
       ...schema,

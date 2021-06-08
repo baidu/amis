@@ -774,6 +774,48 @@ amis 只负责生成下拉选择器组件，并将搜索参数传递给接口，
 }
 ```
 
+#### 快速编辑多个表单项
+
+```schema: scope="body"
+{
+    "type": "crud",
+    "syncLocation": false,
+    "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/sample",
+    "quickSaveApi": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/sample/bulkUpdate",
+    "columns": [
+        {
+            "name": "id",
+            "label": "ID"
+        },
+        {
+            "name": "grade",
+            "label": "CSS grade",
+            "quickEdit": {
+                "body": [
+                    {
+                        "type": "select",
+                        "name": "grade",
+                        "options": [
+                            "A",
+                            "B",
+                            "C",
+                            "D",
+                            "X"
+                        ]
+                    },
+
+                    {
+                        "label": "id",
+                        "type": "input-text",
+                        "name": "id"
+                    }
+                ]
+            }
+        }
+    ]
+}
+```
+
 #### 内联模式
 
 配置`quickEdit`的`mode`为`inline`。可以直接将编辑表单项渲染至表格内，可以直接操作编辑。

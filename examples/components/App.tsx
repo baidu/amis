@@ -117,18 +117,18 @@ class BackTop extends React.PureComponent {
   };
 
   componentDidMount() {
-    document.addEventListener('scroll', this.handleScroll.bind(this));
+    document.addEventListener('scroll', this.handleScroll);
   }
 
   componentWillUnmount() {
-    document.removeEventListener('scroll', this.handleScroll.bind(this));
+    document.removeEventListener('scroll', this.handleScroll);
   }
 
-  handleScroll(e) {
+  handleScroll = (e: any) => {
     this.setState({
       show: e.target.scrollingElement?.scrollTop > 350
     });
-  }
+  };
 
   render() {
     return (
