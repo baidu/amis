@@ -882,7 +882,7 @@ ${xxx | join[:glue]}
 
 ### topAndOther
 
-取前多少个，身下的归位一组比如：`${list|topAndOther:10:name:Others}`
+取前多少个，剩下的归位一组比如：`${list|topAndOther:10:name:Others}`
 
 对数组分为 10 组，前面 9 组分别拿前 9 个，最后一组将剩下的归为一组，并对每项做数字累加。
 
