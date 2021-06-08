@@ -494,6 +494,10 @@ addSchemaFilter(function (schema: Schema, renderer: any, props: any) {
   return schema;
 
   function controlToNormalRenderer(item: any) {
+    if (!item) {
+      return item;
+    }
+
     if (item?.$ref && props.resolveDefinitions) {
       item = {
         ...props.resolveDefinitions(item.$ref),
