@@ -83,6 +83,7 @@ import {FileControlSchema} from './renderers/Form/InputFile';
 import {InputGroupControlSchema} from './renderers/Form/InputGroup';
 import {ImageControlSchema} from './renderers/Form/InputImage';
 import {MonthRangeControlSchema} from './renderers/Form/InputMonthRange';
+import {QuarterRangeControlSchema} from './renderers/Form/InputQuarterRange';
 import {NumberControlSchema} from './renderers/Form/InputNumber';
 import {RangeControlSchema} from './renderers/Form/InputRange';
 import {RatingControlSchema} from './renderers/Form/InputRating';
@@ -277,6 +278,7 @@ export type SchemaType =
   | 'location-picker'
   | 'matrix-checkboxes'
   | 'input-month-range'
+  | 'input-quarter-range'
   | 'nested-select'
   | 'input-number'
   | 'panel'
@@ -403,6 +405,7 @@ export type SchemaObject =
   | UUIDControlSchema
   | MatrixControlSchema
   | MonthRangeControlSchema
+  | QuarterRangeControlSchema
   | NestedSelectControlSchema
   | NumberControlSchema
   | PickerControlSchema

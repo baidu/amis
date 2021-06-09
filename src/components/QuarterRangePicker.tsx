@@ -34,6 +34,7 @@ export interface QuarterRangePickerProps extends ThemeProps, LocaleProps {
   joinValues: boolean;
   delimiter: string;
   value?: any;
+  data?: any;
   onChange: (value: any) => void;
   disabled?: boolean;
   closeOnSelect?: boolean;
