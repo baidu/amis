@@ -7,7 +7,7 @@ import hoistNonReactStatic from 'hoist-non-react-statics';
 import {BaseSchema, SchemaExpression} from '../Schema';
 import {evalExpression} from '../utils/tpl';
 import {resolveVariable} from '../utils/tpl-builtin';
-import {ClassNamesFn} from 'classnames/types';
+import {ClassNamesFn} from '../theme';
 
 /**
  * Badge 角标。

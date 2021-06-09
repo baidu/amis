@@ -32,7 +32,7 @@ class AMISComponent extends React.Component {
     return this.state.schema ? (
       <div>
         {renderAmis(this.state.schema, this.state.props, {
-          fetcher: ({
+          fetcher: async ({
             url, // 接口地址
             method, // 请求方法 get、post、put、delete
             data, // 请求数据
@@ -40,39 +40,42 @@ class AMISComponent extends React.Component {
             config, // 其他配置
             headers // 请求头
           }: any) => {
-            config = config || {};
-            config.withCredentials = true;
-            responseType && (config.responseType = responseType);
+            config = {
+              dataType: 'json',
+              ...config
+            };
 
-            if (config.cancelExecutor) {
-              config.cancelToken = new (axios as any).CancelToken(
-                config.cancelExecutor
-              );
-            }
-
-            config.headers = headers || {};
-
-            if (method !== 'post' && method !== 'put' && method !== 'patch') {
-              if (data) {
-                config.params = data;
-              }
-
-              return (axios as any)[method](url, config);
-            } else if (data && data instanceof FormData) {
-              config.headers = config.headers || {};
-              config.headers['Content-Type'] = 'multipart/form-data';
-            } else if (
-              data &&
-              typeof data !== 'string' &&
-              !(data instanceof Blob) &&
-              !(data instanceof ArrayBuffer)
-            ) {
-              data = JSON.stringify(data);
+            if (config.dataType === 'json' && config.data) {
+              config.data = JSON.stringify(config.data);
               config.headers = config.headers || {};
               config.headers['Content-Type'] = 'application/json';
             }
 
-            return (axios as any)[method](url, data, config);
+            // 支持返回各种报错信息
+            config.validateStatus = function (status) {
+              return true;
+            };
+
+            const response = await axios[config.method](
+              config.url,
+              config.data,
+              config
+            );
+
+            if (response.status >= 400) {
+              if (response.data) {
+                if (response.data.msg) {
+                  throw new Error(response.data.msg);
+                } else {
+                  throw new Error(
+                    '接口报错：' + JSON.stringify(response.data, null, 2)
+                  );
+                }
+              } else {
+                throw new Error(`接口出错，状态码是 ${response.status}`);
+              }
+            }
+            return response;
           },
           isCancel: (value: any) => (axios as any).isCancel(value),
           copy: content => {

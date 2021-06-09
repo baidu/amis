@@ -129,8 +129,7 @@ export class DateField extends React.Component<DateProps, DateState> {
 }
 
 @Renderer({
-  test: /(^|\/)date$/,
-  name: 'date-field'
+  type: 'date'
 })
 export class DateFieldRenderer extends DateField {
   static defaultProps: Partial<DateProps> = {
@@ -140,8 +139,7 @@ export class DateFieldRenderer extends DateField {
 }
 
 @Renderer({
-  test: /(^|\/)datetime$/,
-  name: 'datetime-field'
+  type: 'datetime'
 })
 export class DateTimeFieldRenderer extends DateField {
   static defaultProps: Partial<DateProps> = {
@@ -151,8 +149,7 @@ export class DateTimeFieldRenderer extends DateField {
 }
 
 @Renderer({
-  test: /(^|\/)time$/,
-  name: 'time-field'
+  type: 'time'
 })
 export class TimeFieldRenderer extends DateField {
   static defaultProps: Partial<DateProps> = {
@@ -161,8 +158,7 @@ export class TimeFieldRenderer extends DateField {
   };
 }
 @Renderer({
-  test: /(^|\/)month$/,
-  name: 'month-field'
+  type: 'month'
 })
 export class MonthFieldRenderer extends DateField {
   static defaultProps: Partial<DateProps> = {

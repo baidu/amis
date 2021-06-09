@@ -20,35 +20,35 @@ order: 73
     "steps": [
         {
             "title": "第一步",
-            "controls": [
+            "body": [
                 {
                     "name": "website",
                     "label": "网址",
-                    "type": "url",
+                    "type": "input-url",
                     "required": true
                 },
                 {
                     "name": "email",
                     "label": "邮箱",
-                    "type": "email",
+                    "type": "input-email",
                     "required": true
                 }
             ]
         },
         {
             "title": "Step 2",
-            "controls": [
+            "body": [
                 {
                     "name": "email2",
                     "label": "邮箱",
-                    "type": "email",
+                    "type": "input-email",
                     "required": true
                 }
             ]
         },
         {
             "title": "Step 3",
-            "controls": [
+            "body": [
                 "这是最后一步了"
             ]
         }
@@ -76,6 +76,7 @@ order: 73
 | redirect            | [模板](../../docs/concepts/template)     | `3000`               | 操作完后跳转。                                                                                                                                           |
 | target              | `string`                                 | `false`              | 可以把数据提交给别的组件而不是自己保存。请填写目标组件设置的 name 值，如果填写为 `window` 则把数据同步到地址栏上，同时依赖这些数据的组件会自动重新刷新。 |
 | steps               | Array<[step](#step)>                     |                      | 数组，配置步骤信息                                                                                                                                       |
+| startStep           | `string`                                 | `1`                  | 起始默认值，从第几步开始。可支持模版，但是只有在组件创建时渲染模版并设置当前步数，在之后组件被刷新时，当前 step 不会根据 startStep 改变                  |
 
 ### step
 
@@ -91,4 +92,4 @@ order: 73
 | initApi           | [API](../../docs/types/api)              |        | 当前步骤数据初始化接口。                                                                      |
 | initFetch         | `boolean`                                |        | 当前步骤数据初始化接口是否初始拉取。                                                          |
 | initFetchOn       | [表达式](../../docs/concepts/expression) |        | 当前步骤数据初始化接口是否初始拉取，用表达式来决定。                                          |
-| controls          | Array<[FormItem](./form/formItem)>       |        | 当前步骤的表单项集合，请参考 [FormItem](./form/formItem)。                                    |
+| body              | Array<[FormItem](./form/formItem)>       |        | 当前步骤的表单项集合，请参考 [FormItem](./form/formItem)。                                    |

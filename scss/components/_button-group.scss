@@ -40,8 +40,8 @@
   align-items: center;
 
   .#{$ns}ButtonGroup {
-    margin-left: px2rem(5px);
-    margin-top: px2rem(5px);
+    margin-left: var(--gap-xs);
+    margin-top: var(--gap-xs);
     width: auto;
   }
 }
@@ -52,7 +52,7 @@
   }
 
   // cxd的ButtonGroup的is-active和:active样式不一样，这里做个兼容
-  .#{$ns}Button--primary:not(:disabled):not(.is-disabled).is-active {
+  .#{$ns}Button--primary.is-active {
     color: var(--ButtonGroup--primary-isActive-color);
     background: var(--ButtonGroup--primary-isActive-bg);
   }

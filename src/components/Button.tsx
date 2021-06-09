@@ -28,6 +28,7 @@ interface ButtonProps extends React.DOMAttributes<HTMLButtonElement> {
   classPrefix: string;
   classnames: ClassNamesFn;
   componentClass: React.ReactType;
+  overrideClassName?: boolean;
 }
 
 export class Button extends React.Component<ButtonProps> {
@@ -63,28 +64,33 @@ export class Button extends React.Component<ButtonProps> {
       active,
       iconOnly,
       href,
+      overrideClassName,
       ...rest
     } = this.props;
 
     if (href) {
       Comp = 'a';
+    } else if (Comp === 'button' && disabled) {
+      Comp = 'div';
     }
 
     return (
       <Comp
-        type={Comp === 'a' ? undefined : type}
+        type={Comp === 'input' || Comp === 'button' ? type : undefined}
         {...pickEventsProps(rest)}
         href={href}
         className={cx(
-          `Button`,
-          {
-            [`Button--${level}`]: level,
-            [`Button--${size}`]: size,
-            [`Button--block`]: block,
-            [`Button--iconOnly`]: iconOnly,
-            'is-disabled': disabled,
-            'is-active': active
-          },
+          overrideClassName
+            ? ''
+            : {
+                'Button': true,
+                [`Button--${level}`]: level,
+                [`Button--${size}`]: size,
+                [`Button--block`]: block,
+                [`Button--iconOnly`]: iconOnly,
+                'is-disabled': disabled,
+                'is-active': active
+              },
           className
         )}
         disabled={disabled}
@@ -103,7 +109,6 @@ export class Button extends React.Component<ButtonProps> {
       tooltipRootClose,
       disabled,
       disabledTip,
-      classPrefix,
       classnames: cx
     } = this.props;
 
@@ -115,13 +120,7 @@ export class Button extends React.Component<ButtonProps> {
         trigger={tooltipTrigger}
         rootClose={tooltipRootClose}
       >
-        {disabled && disabledTip ? (
-          <div className={cx('Button--disabled-wrap')}>
-            {this.renderButton()}
-          </div>
-        ) : (
-          this.renderButton()
-        )}
+        {this.renderButton()}
       </TooltipWrapper>
     );
   }

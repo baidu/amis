@@ -4,6 +4,7 @@ import {Renderer, RendererProps} from '../factory';
 
 import {anyChanged} from '../utils/helper';
 import {BaseSchema} from '../Schema';
+import FormItem, {FormControlProps} from './Form/Item';
 
 /**
  * 自定义组件
@@ -23,17 +24,18 @@ export interface CustomSchema extends BaseSchema {
   html?: string;
 }
 
-export interface CustomProps extends RendererProps, CustomSchema {
+export interface CustomProps extends FormControlProps, CustomSchema {
   className?: string;
   value?: any;
   wrapperComponent?: any;
   inline?: boolean;
 }
 
+// 添加resolver，指定所有参数的联合字符串为key。因为最后一个参数为函数体
 // 缓存一下，避免在 crud 中的自定义组件被大量执行
 const getFunction = memoize((...args) => {
   return new Function(...args);
-});
+}, (...args) => JSON.stringify(args));
 
 export class Custom extends React.Component<CustomProps, object> {
   static defaultProps: Partial<CustomProps> = {
@@ -106,6 +108,7 @@ export class Custom extends React.Component<CustomProps, object> {
       id,
       wrapperComponent,
       inline,
+      translate: __,
       classnames: cx
     } = this.props;
     const Component = wrapperComponent || inline ? 'span' : 'div';
@@ -120,8 +123,7 @@ export class Custom extends React.Component<CustomProps, object> {
   }
 }
 
-@Renderer({
-  test: /(^|\/)custom$/,
-  name: 'custom'
+@FormItem({
+  type: 'custom'
 })
 export class CustomRenderer extends Custom {}

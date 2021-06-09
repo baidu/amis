@@ -87,7 +87,7 @@
       content: '';
       top: -10px;
       left: -30px;
-      width: 20px;
+      width: var(--gap-md);
       border-left: solid 1px var(--borderColor);
       bottom: 0;
     }
@@ -96,7 +96,7 @@
       position: absolute;
       content: '';
       top: 50%;
-      width: 20px;
+      width: var(--gap-md);
       left: -30px;
       border-top: solid 1px var(--borderColor);
     }

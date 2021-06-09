@@ -41,6 +41,16 @@ export interface TabsTransferControlSchema extends FormOptionsControl {
    * 搜索 API
    */
   searchApi?: SchemaApi;
+
+  /**
+   * 左侧的标题文字
+   */
+  selectTitle?: string;
+
+  /**
+   * 右侧结果的标题文字
+   */
+  resultTitle?: string;
 }
 
 export interface TabsTransferProps
@@ -70,7 +80,9 @@ export class TabsTransferRenderer extends BaseTransferRenderer<TabsTransferProps
       searchResultMode,
       showArrow,
       deferLoad,
-      disabled
+      disabled,
+      selectTitle,
+      resultTitle
     } = this.props;
 
     return (
@@ -86,6 +98,8 @@ export class TabsTransferRenderer extends BaseTransferRenderer<TabsTransferProps
           onSearch={searchable ? this.handleSearch : undefined}
           showArrow={showArrow}
           onDeferLoad={deferLoad}
+          selectTitle={selectTitle}
+          resultTitle={resultTitle}
         />
 
         <Spinner overlay key="info" show={loading} />

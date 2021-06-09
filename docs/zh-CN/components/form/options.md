@@ -19,7 +19,7 @@ order: 2
 ```schema: scope="body"
 {
     "type": "form",
-    "controls": [
+    "body": [
         {
             "label": "选项",
             "type": "select",
@@ -78,7 +78,7 @@ order: 2
 {
     "type": "form",
     "debug": true,
-    "controls": [
+    "body": [
         {
             "label": "选项",
             "type": "select",
@@ -110,7 +110,7 @@ order: 2
 {
     "type": "form",
     "debug": true,
-    "controls": [
+    "body": [
         {
             "label": "选项",
             "type": "select",
@@ -128,7 +128,7 @@ order: 2
 ```schema: scope="body"
 {
     "type": "form",
-    "controls": [
+    "body": [
         {
             "label": "选项",
             "type": "select",
@@ -177,7 +177,7 @@ order: 2
             }
         ]
     },
-    "controls": [
+    "body": [
         {
             "label": "选项",
             "type": "select",
@@ -197,7 +197,7 @@ order: 2
 ```schema: scope="body"
 {
     "type": "form",
-    "controls": [
+    "body": [
         {
             "label": "选项",
             "type": "select",
@@ -247,7 +247,7 @@ order: 2
 ```schema: scope="body"
 {
     "type": "form",
-    "controls": [
+    "body": [
         {
             "label": "选项",
             "type": "select",
@@ -279,7 +279,7 @@ order: 2
 ```schema: scope="body"
 {
     "type": "form",
-    "controls": [
+    "body": [
         {
             "label": "选项",
             "type": "select",
@@ -341,7 +341,7 @@ order: 2
 ```schema: scope="body"
 {
     "type": "form",
-    "controls": [
+    "body": [
         {
             "label": "选项",
             "type": "select",
@@ -400,7 +400,7 @@ order: 2
             }
         ]
     },
-    "controls": [
+    "body": [
         {
             "label": "单选",
             "type": "select",
@@ -431,7 +431,7 @@ order: 2
 {
     "type": "form",
     "debug": true,
-    "controls": [
+    "body": [
         {
             "label": "选项",
             "type": "select",
@@ -464,7 +464,7 @@ order: 2
 {
     "type": "form",
     "debug": true,
-    "controls": [
+    "body": [
         {
             "label": "选项",
             "type": "select",
@@ -505,7 +505,7 @@ order: 2
 {
     "type": "form",
     "debug": true,
-    "controls": [
+    "body": [
         {
             "label": "单选",
             "type": "select",
@@ -562,7 +562,7 @@ order: 2
 {
     "type": "form",
     "debug": true,
-    "controls": [
+    "body": [
         {
             "label": "选项",
             "type": "select",
@@ -595,7 +595,7 @@ order: 2
 {
     "type": "form",
     "debug": true,
-    "controls": [
+    "body": [
         {
             "label": "选项",
             "type": "select",
@@ -631,7 +631,7 @@ order: 2
 {
     "type": "form",
     "debug": true,
-    "controls": [
+    "body": [
         {
             "label": "选项",
             "type": "select",
@@ -668,7 +668,7 @@ order: 2
 {
     "type": "form",
     "debug": true,
-    "controls": [
+    "body": [
         {
             "label": "选项",
             "type": "select",
@@ -707,7 +707,7 @@ order: 2
 {
     "type": "form",
     "debug": true,
-    "controls": [
+    "body": [
         {
             "label": "选项",
             "type": "select",
@@ -742,7 +742,7 @@ order: 2
 ```schema: scope="body"
 {
     "type": "form",
-    "controls": [
+    "body": [
         {
             "label": "选项",
             "type": "select",
@@ -772,7 +772,7 @@ order: 2
 ```schema: scope="body"
 {
     "type": "form",
-    "controls": [
+    "body": [
         {
             "name": "select",
             "type": "select",
@@ -798,7 +798,7 @@ order: 2
 {
     "type": "form",
     "debug": true,
-    "controls": [
+    "body": [
         {
             "label": "选项",
             "type": "select",
@@ -828,7 +828,7 @@ order: 2
 {
     "type": "form",
     "debug": true,
-    "controls": [
+    "body": [
         {
             "label": "选项",
             "type": "select",
@@ -865,7 +865,7 @@ order: 2
 {
     "type": "form",
     "debug": true,
-    "controls": [
+    "body": [
         {
             "label": "选项",
             "type": "select",
@@ -895,7 +895,7 @@ order: 2
 {
     "type": "form",
     "debug": true,
-    "controls": [
+    "body": [
         {
             "label": "选项",
             "type": "select",
@@ -935,7 +935,7 @@ order: 2
 ```schema: scope="body"
 {
     "type": "form",
-    "controls": [
+    "body": [
         {
             "label": "选项",
             "type": "select",
@@ -970,7 +970,7 @@ order: 2
   "title": "新增选项",
   "body": {
     "type": "form",
-    "controls": [
+    "body": [
       {
         "type": "text",
         "name": "label",
@@ -994,7 +994,7 @@ order: 2
 {
     "type": "form",
     "debug": true,
-    "controls": [
+    "body": [
         {
             "label": "选项",
             "type": "select",
@@ -1044,7 +1044,7 @@ order: 2
 ```schema: scope="body"
 {
     "type": "form",
-    "controls": [
+    "body": [
         {
             "label": "选项",
             "type": "select",
@@ -1087,7 +1087,7 @@ order: 2
 {
     "type": "form",
     "debug": true,
-    "controls": [
+    "body": [
         {
             "label": "选项",
             "type": "select",
@@ -1122,7 +1122,7 @@ order: 2
   "title": "新增选项",
   "body": {
     "type": "form",
-    "controls": [
+    "body": [
       {
         "type": "text",
         "name": "label",
@@ -1145,7 +1145,7 @@ order: 2
 {
     "type": "form",
     "debug": true,
-    "controls": [
+    "body": [
         {
             "label": "选项",
             "type": "select",
@@ -1191,7 +1191,7 @@ order: 2
 ```schema: scope="body"
 {
     "type": "form",
-    "controls": [
+    "body": [
         {
             "label": "选项",
             "type": "select",
@@ -1236,7 +1236,7 @@ order: 2
 {
     "type": "form",
     "debug": true,
-    "controls": [
+    "body": [
         {
             "label": "选项",
             "type": "select",
@@ -1265,13 +1265,14 @@ order: 2
 
 ## 自动填充 autoFill
 
-一些选择器组件，支持配置`autoFill`，将当前已选中的选项的某个字段的值，自动填充到表单中某个表单项中，**只在单选时有效**，支持[数据映射](../../../docs/concepts/data-mapping)
+一些选择器组件，支持配置`autoFill`，将当前已选中的选项的某个字段的值，自动填充到表单中某个表单项中，支持[数据映射](../../../docs/concepts/data-mapping)
 
 ```schema: scope="body"
 {
     "type": "form",
     "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
-    "controls": [
+    "debug": true,
+    "body": [
         {
             "type": "select",
             "label": "选项",
@@ -1279,6 +1280,7 @@ order: 2
             "autoFill": {
                 "option": "${label}"
             },
+            "clearable": true,
             "options": [
                 {
                     "label": "Option A",
@@ -1300,6 +1302,41 @@ order: 2
 ```
 
 上例中我们配置了`"autoFill": {"option": "${label}"}`，表示将选中项中的`label`的值，自动填充到当前表单项中`name`为`option`的文本框中。
+
+**多选模式**
+
+当表单项为多选模式时，不能再直接取选项中的值了，而是通过 `items` 变量来取，通过它可以获取当前选中的选项集合。
+
+```schema: scope="body"
+{
+    "type": "form",
+    "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
+    "debug": true,
+    "body": [
+        {
+            "type": "select",
+            "label": "选项",
+            "name": "select",
+            "autoFill": {
+                "options": "${items|pick:label}",
+                "firstOption": "${items|first|pick:label}"
+            },
+            "multiple": true,
+            "clearable": true,
+            "options": [
+                {
+                    "label": "Option A",
+                    "value": "a"
+                },
+                {
+                    "label": "Option B",
+                    "value": "b"
+                }
+            ]
+        }
+    ]
+}
+```
 
 支持该配置项的有：ButtonGroup、List、NestedSelect、Picker、Radios、Select。
 

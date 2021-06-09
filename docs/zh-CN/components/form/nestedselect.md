@@ -14,7 +14,7 @@ order: 31
 {
   "type": "form",
   "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
-  "controls": [
+  "body": [
     {
       "type": "nested-select",
       "name": "nestedSelect",
@@ -52,6 +52,78 @@ order: 31
 }
 ```
 
+## 动态选项
+
+通过 source 可以从上下文或 api 中获取选项信息，比如
+
+```schema: scope="body"
+{
+  "type": "page",
+  "data": {
+    "options": [
+        {
+          "label": "A",
+          "value": "a"
+        },
+        {
+          "label": "B",
+          "value": "b",
+          "children": [
+            {
+              "label": "B-1",
+              "value": "b-1"
+            },
+            {
+              "label": "B-2",
+              "value": "b-2"
+            },
+            {
+              "label": "B-3",
+              "value": "b-3"
+            }
+          ]
+        },
+        {
+          "label": "C",
+          "value": "c"
+        }
+      ]
+  },
+  "body": {
+    "type": "form",
+    "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
+    "body": [
+      {
+        "type": "nested-select",
+        "name": "nestedSelect",
+        "label": "级联选择器",
+        "source": "${options}"
+      }
+    ]
+  }
+}
+```
+
+也可以是 api 地址
+
+```schema: scope="body"
+{
+  "type": "page",
+  "body": {
+    "type": "form",
+    "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
+    "body": [
+      {
+        "type": "nested-select",
+        "name": "nestedSelect",
+        "label": "级联选择器",
+        "source": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/getTreeOptions"
+      }
+    ]
+  }
+}
+```
+
 ## 选中父节点是否自动选中子节点
 
 默认选中父节点会自动选中子节点，可以设置`"cascade": true`，不自动选中子节点
@@ -61,7 +133,7 @@ order: 31
   "type": "form",
   "debug": true,
   "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
-  "controls": [
+  "body": [
     {
       "type": "nested-select",
       "name": "nestedSelect1",
@@ -147,7 +219,7 @@ order: 31
   "type": "form",
   "debug": true,
   "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
-  "controls": [
+  "body": [
     {
       "type": "nested-select",
       "name": "nestedSelect1",
@@ -242,4 +314,5 @@ order: 31
 | withChildren     | `boolean`                                 | `false`              | 设置 `true`时，选中父节点时，值里面将包含子节点的值，否则只会保留父节点的值。               |
 | searchable       | `boolean`                                 | `false`              | 可否搜索                                                                                    |
 | searchPromptText | `string`                                  | `"输入内容进行检索"` | 搜索框占位文本                                                                              |
+| noResultsText    | `string`                                  | `"未找到任何结果"`   | 无结果时的文本                                                                              |
 | multiple         | `boolean`                                 | `false`              | 可否多选                                                                                    |

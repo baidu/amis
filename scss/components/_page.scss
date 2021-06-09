@@ -1,5 +1,6 @@
 .#{$ns}Page {
   width: 100%;
+  height: 100%;
 
   &-header {
     padding: var(--Page-header-paddingY) var(--Page-header-paddingX);
@@ -89,7 +90,7 @@
       border: inherit;
     }
 
-    width: var(--Page-aside-width);
+    min-width: var(--Page-aside-width);
     max-width: var(--Page-aside-maxWidth);
     border-right: var(--borderWidth) solid var(--borderColor);
   }

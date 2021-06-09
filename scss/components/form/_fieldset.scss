@@ -38,7 +38,7 @@ fieldset.#{$ns}Collapse {
     color: var(--text--loud-color);
     border-left: var(--primary) px2rem(4px) solid;
     line-height: 1.2;
-    margin: 8px 0 28px;
+    margin: var(--gap-base) 0;
     padding: 0 0 0 14px;
     cursor: pointer;
     border-bottom: 0;
@@ -80,10 +80,10 @@ fieldset.#{$ns}Collapse {
   &--base {
     @extend %fieldSetBase;
 
-    padding: 30px 15px 15px 15px;
+    padding: 30px var(--gap-md) var(--gap-md) var(--gap-md);
 
     > legend {
-      left: 15px;
+      left: var(--gap-md);
       font-size: var(--fontSizeBase);
       padding: 0 8px;
       margin: 0 0 0 -8px;
@@ -117,8 +117,8 @@ fieldset.#{$ns}Collapse {
     > legend {
       left: 30px;
       font-size: var(--fontSizeLg);
-      padding: 0 15px;
-      margin: 0 0 0 -15px;
+      padding: 0 var(--gap-md);
+      margin: 0 0 0 calc(var(--gap-md) * -1);
     }
 
     &:after {

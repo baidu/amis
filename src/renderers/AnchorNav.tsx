@@ -6,7 +6,7 @@ import {
 } from '../components/AnchorNav';
 import {isVisible, autobind} from '../utils/helper';
 import {filter} from '../utils/tpl';
-import {find} from 'lodash';
+import find from 'lodash/find';
 import {BaseSchema, SchemaClassName, SchemaCollection} from '../Schema';
 
 /**
@@ -195,7 +195,6 @@ export default class AnchorNav extends React.Component<
 }
 
 @Renderer({
-  test: /(^|\/)anchor-nav$/,
-  name: 'anchor-nav'
+  type: 'anchor-nav'
 })
 export class AnchorNavRenderer extends AnchorNav {}

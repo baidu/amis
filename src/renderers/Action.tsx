@@ -40,7 +40,8 @@ export interface ButtonSchema extends BaseSchema {
     | 'danger'
     | 'link'
     | 'primary'
-    | 'dark';
+    | 'dark'
+    | 'light';
 
   /**
    * @deprecated 通过 level 来配置
@@ -222,6 +223,38 @@ export interface ReloadActionSchema extends ButtonSchema {
   target?: SchemaReload;
 }
 
+export interface EmailActionSchema extends ButtonSchema {
+  /**
+   * 指定为打开邮箱行为
+   */
+  actionType: 'email';
+
+  /**
+   * 收件人邮箱
+   */
+  to: string;
+
+  /**
+   * 抄送邮箱
+   */
+  cc?: string;
+
+  /**
+   * 匿名抄送邮箱
+   */
+  bcc?: string;
+
+  /**
+   * 邮件主题
+   */
+  subject?: string;
+
+  /**
+   * 邮件正文
+   */
+  body?: string;
+}
+
 export interface OtherActionSchema extends ButtonSchema {
   actionType:
     | 'prev'
@@ -252,6 +285,7 @@ export type ActionSchema =
   | DrawerActionSchema
   | CopyActionSchema
   | ReloadActionSchema
+  | EmailActionSchema
   | OtherActionSchema
   | VanillaAction;
 
@@ -274,6 +308,10 @@ const ActionProps = [
   'blank',
   'tooltipPlacement',
   'to',
+  'cc',
+  'bcc',
+  'subject',
+  'body',
   'content',
   'required',
   'type',
@@ -319,6 +357,7 @@ export interface ActionProps
     Omit<DrawerActionSchema, 'type' | 'className' | 'iconClassName'>,
     Omit<CopyActionSchema, 'type' | 'className' | 'iconClassName'>,
     Omit<ReloadActionSchema, 'type' | 'className' | 'iconClassName'>,
+    Omit<EmailActionSchema, 'type' | 'className' | 'iconClassName'>,
     Omit<OtherActionSchema, 'type' | 'className' | 'iconClassName'> {
   actionType: any;
   onAction?: (
@@ -386,7 +425,13 @@ export class Action extends React.Component<ActionProps, ActionState> {
 
     const result: any = onClick && onClick(e, this.props);
 
-    if (disabled || e.isDefaultPrevented() || result === false || !onAction) {
+    if (
+      disabled ||
+      e.isDefaultPrevented() ||
+      result === false ||
+      !onAction ||
+      this.state.inCountDown
+    ) {
       return;
     }
 
@@ -476,18 +521,7 @@ export class Action extends React.Component<ActionProps, ActionState> {
 
     const iconElement = generateIcon(cx, icon, 'Button-icon', iconClassName);
 
-    return isMenuItem ? (
-      <a
-        className={cx(className, {
-          [activeClassName || 'is-active']: isActive,
-          'is-disabled': disabled
-        })}
-        onClick={this.handleAction}
-      >
-        {label}
-        {iconElement}
-      </a>
-    ) : (
+    return (
       <Button
         className={cx(className, {
           [activeClassName || 'is-active']: isActive
@@ -501,7 +535,8 @@ export class Action extends React.Component<ActionProps, ActionState> {
         onClick={this.handleAction}
         type={type && ~allowedType.indexOf(type) ? type : 'button'}
         disabled={disabled}
-        componentClass={componentClass}
+        componentClass={isMenuItem ? 'a' : componentClass}
+        overrideClassName={isMenuItem}
         tooltip={filterContents(tooltip, data)}
         disabledTip={filterContents(disabledTip, data)}
         placement={tooltipPlacement}
@@ -509,8 +544,8 @@ export class Action extends React.Component<ActionProps, ActionState> {
         block={block}
         iconOnly={!!(icon && !label && level !== 'link')}
       >
-        {label ? <span>{filter(String(label), data)}</span> : null}
         {iconElement}
+        {label ? <span>{filter(String(label), data)}</span> : null}
       </Button>
     );
   }
@@ -519,8 +554,7 @@ export class Action extends React.Component<ActionProps, ActionState> {
 export default themeable(Action);
 
 @Renderer({
-  test: /(^|\/)action$/,
-  name: 'action'
+  type: 'action'
 })
 export class ActionRenderer extends React.Component<
   RendererProps &
@@ -570,19 +604,16 @@ export class ActionRenderer extends React.Component<
 }
 
 @Renderer({
-  test: /(^|\/)button$/,
-  name: 'button'
+  type: 'button'
 })
 export class ButtonRenderer extends ActionRenderer {}
 
 @Renderer({
-  test: /(^|\/)submit$/,
-  name: 'submit'
+  type: 'submit'
 })
 export class SubmitRenderer extends ActionRenderer {}
 
 @Renderer({
-  test: /(^|\/)reset$/,
-  name: 'reset'
+  type: 'reset'
 })
 export class ResetRenderer extends ActionRenderer {}

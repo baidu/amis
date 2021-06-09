@@ -17,7 +17,7 @@ order: 7
     "type": "form",
     "debug": true,
     "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
-    "controls": [
+    "body": [
         {
             "name": "select3",
             "type": "chained-select",

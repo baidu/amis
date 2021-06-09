@@ -7,8 +7,8 @@
 
   &-addBtn {
     margin: 0;
-    width: px2rem(120px);
-    height: px2rem(120px);
+    width: px2rem(80px);
+    height: px2rem(80px);
     display: inline-flex;
     justify-content: center;
     align-items: center;
@@ -29,8 +29,8 @@
     );
 
     > svg {
-      width: px2rem(50px);
-      height: px2rem(50px);
+      width: px2rem(40px);
+      height: px2rem(40px);
       top: 0;
     }
 
@@ -86,42 +86,6 @@
     padding: 0;
     border: none;
     display: block;
-  }
-
-  &-itemOverlay {
-    background: rgba(0, 0, 0, 0.6);
-    position: absolute;
-    width: px2rem(108px);
-    height: px2rem(108px);
-    display: none;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-
-    justify-content: center;
-    align-items: center;
-    align-content: center;
-    flex-wrap: wrap;
-    color: #fff;
-
-    > div {
-      width: 100%;
-      text-align: center;
-      margin-bottom: 5px;
-    }
-
-    > a {
-      cursor: pointer;
-      color: #fff;
-      display: inline-block;
-      padding: 0 5px;
-      line-height: 1;
-      font-size: px2rem(16px);
-    }
-  }
-
-  &-item:hover &-itemOverlay {
-    display: flex;
   }
 
   &-itemClear {

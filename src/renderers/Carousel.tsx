@@ -97,7 +97,6 @@ export interface CarouselProps
 export interface CarouselState {
   current: number;
   options: any[];
-  showArrows: boolean;
   nextAnimation: string;
 }
 
@@ -108,17 +107,9 @@ const defaultSchema = {
         <div style="background-image: url('<%= data.image %>'); background-size: contain; background-repeat: no-repeat; background-position: center center;" class="image <%= data.imageClassName %>"></div>
         <% if (data.hasOwnProperty('title')) { %>
             <div class="title <%= data.titleClassName %>"><%= data.title %></div>
-        <% } if (data.hasOwnProperty('description')) { %> 
-            <div class="description <%= data.descriptionClassName %>"><%= data.description %></div> 
         <% } %>
-    <% } else if (data.hasOwnProperty('html')) { %>
-        <%= data.html %>"
-    <% } else if (data.hasOwnProperty('image')) { %>
-        <div style="background-image: url('<%= data.image %>')" class="image <%= data.imageClassName %>"></div>
-        <% if (data.title) { %>
-            <div class="title <%= data.titleClassName %>"><%= data.title %></div>
-        <% } if (data.description) { %> 
-            <div class="description <%= data.descriptionClassName %>"><%= data.description %></div> 
+        <% if (data.hasOwnProperty('description')) { %>
+            <div class="description <%= data.descriptionClassName %>"><%= data.description %></div>
         <% } %>
     <% } else if (data.hasOwnProperty('html')) { %>
         <%= data.html %>
@@ -157,30 +148,36 @@ export class Carousel extends React.Component<CarouselProps, CarouselState> {
   state = {
     current: 0,
     options:
-      this.props.value ||
       this.props.options ||
+      this.props.value ||
       resolveVariable(this.props.name, this.props.data) ||
       [],
-    showArrows: false,
     nextAnimation: ''
   };
 
-  componentWillReceiveProps(nextProps: CarouselProps) {
-    const currentOptions = this.state.options;
+  componentDidMount() {
+    this.prepareAutoSlide();
+  }
+
+  componentDidUpdate(prevProps: CarouselProps) {
+    const props = this.props;
+
     const nextOptions =
-      nextProps.value ||
-      nextProps.options ||
-      resolveVariable(nextProps.name, nextProps.data) ||
+      props.options ||
+      props.value ||
+      resolveVariable(props.name, props.data) ||
       [];
-    if (isArrayChildrenModified(currentOptions, nextOptions)) {
+    const prevOptions =
+      prevProps.options ||
+      prevProps.value ||
+      resolveVariable(prevProps.name, prevProps.data) ||
+      [];
+
+    if (isArrayChildrenModified(prevOptions, nextOptions)) {
       this.setState({
         options: nextOptions
       });
     }
-  }
-
-  componentDidMount() {
-    this.prepareAutoSlide();
   }
 
   componentWillUnmount() {
@@ -313,17 +310,11 @@ export class Carousel extends React.Component<CarouselProps, CarouselState> {
 
   @autobind
   handleMouseEnter() {
-    this.setState({
-      showArrows: true
-    });
     this.clearAutoTimeout();
   }
 
   @autobind
   handleMouseLeave() {
-    this.setState({
-      showArrows: false
-    });
     this.prepareAutoSlide();
   }
 
@@ -342,7 +333,7 @@ export class Carousel extends React.Component<CarouselProps, CarouselState> {
       data,
       name
     } = this.props;
-    const {options, showArrows, current, nextAnimation} = this.state;
+    const {options, current, nextAnimation} = this.state;
 
     let body: JSX.Element | null = null;
     let carouselStyles: {
@@ -406,7 +397,7 @@ export class Carousel extends React.Component<CarouselProps, CarouselState> {
             </Transition>
           ))}
           {dots ? this.renderDots() : null}
-          {arrows && showArrows ? this.renderArrows() : null}
+          {arrows ? this.renderArrows() : null}
         </div>
       );
     }
@@ -423,7 +414,6 @@ export class Carousel extends React.Component<CarouselProps, CarouselState> {
 }
 
 @Renderer({
-  test: /(^|\/)carousel/,
-  name: 'carousel'
+  type: 'carousel'
 })
 export class CarouselRenderer extends Carousel {}

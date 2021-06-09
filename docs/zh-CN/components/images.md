@@ -12,11 +12,13 @@ order: 53
 
 ## 基本用法
 
+通过 source 关联上下文数据，或者通过 name 关联。
+
 ```schema
 {
     "type": "page",
     "data": {
-        "images": [
+        "imageList": [
             "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395692722/4f3cb4202335.jpeg@s_0,w_216,l_1,f_jpg,q_80",
             "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395692942/d8e4992057f9.jpeg@s_0,w_216,l_1,f_jpg,q_80",
             "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395693148/1314a2a3d3f6.jpeg@s_0,w_216,l_1,f_jpg,q_80",
@@ -24,21 +26,30 @@ order: 53
             "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395693566/552b175ef11d.jpeg@s_0,w_216,l_1,f_jpg,q_80"
         ]
     },
-    "body": {
-        "type": "images",
-        "source": "${images}"
-    }
+    "body": [
+        {
+            "type": "images",
+            "source": "${imageList}"
+        },
+        {
+            "type": "divider"
+        },
+        {
+            "type": "images",
+            "name": "imageList"
+        }
+    ]
 }
 ```
 
-也可以直接指定`value`字段：
+也可以静态展示，即不关联数据固定显示。
 
 ```schema
 {
     "type": "page",
     "body": {
         "type": "images",
-        "value": [
+        "options": [
             "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395692722/4f3cb4202335.jpeg@s_0,w_216,l_1,f_jpg,q_80",
             "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395692942/d8e4992057f9.jpeg@s_0,w_216,l_1,f_jpg,q_80",
             "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395693148/1314a2a3d3f6.jpeg@s_0,w_216,l_1,f_jpg,q_80",
@@ -49,9 +60,19 @@ order: 53
 }
 ```
 
-## 图片集值是对象数组
+## 值格式
 
-除了支持纯文本数组以外，也支持对象数组，
+除了支持纯文本数组以外，也支持对象数组，如：
+
+```ts
+Array<{
+    image: string; // 小图，预览图
+    src?: string; // 原图
+    title?: string; // 标题
+    description?: string; // 描述
+    [propName:string]: any; // 还可以有其他数据
+}>
+```
 
 ### 配置预览图地址
 
@@ -278,6 +299,28 @@ order: 53
 }
 ```
 
+## 显示比例和缩略图模式
+
+比如这个例子配置成 16:9 的比率展示缩略图，并裁剪部分去掉空白。
+
+```schema
+{
+    "type": "page",
+    "body": {
+        "type": "images",
+        "thumbRatio": "16:9",
+        "thumbMode": "cover",
+        "options": [
+            "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395692722/4f3cb4202335.jpeg@s_0,w_216,l_1,f_jpg,q_80",
+            "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395692942/d8e4992057f9.jpeg@s_0,w_216,l_1,f_jpg,q_80",
+            "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395693148/1314a2a3d3f6.jpeg@s_0,w_216,l_1,f_jpg,q_80",
+            "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395693379/8f2e79f82be0.jpeg@s_0,w_216,l_1,f_jpg,q_80",
+            "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395693566/552b175ef11d.jpeg@s_0,w_216,l_1,f_jpg,q_80"
+        ]
+    }
+}
+```
+
 ## 配置放大预览
 
 在 **images 组件** 上，配置`enlargeAble`，支持放大预览
@@ -289,26 +332,31 @@ order: 53
         "images": [
             {
                 "image": "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395692722/4f3cb4202335.jpeg@s_0,w_216,l_1,f_jpg,q_80",
+                "src": "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395692722/4f3cb4202335.jpeg",
                 "title": "图片1",
                 "description": "图片1的描述"
             },
             {
                 "image": "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395692942/d8e4992057f9.jpeg@s_0,w_216,l_1,f_jpg,q_80",
+                "src": "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395692722/4f3cb4202335.jpeg",
                 "title": "图片2",
                 "description": "图片2的描述"
             },
             {
                 "image": "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395693148/1314a2a3d3f6.jpeg@s_0,w_216,l_1,f_jpg,q_80",
+                "src": "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395692722/4f3cb4202335.jpeg",
                 "title": "图片3",
                 "description": "图片3的描述"
             },
             {
                 "image": "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395693379/8f2e79f82be0.jpeg@s_0,w_216,l_1,f_jpg,q_80",
+                "src": "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395692722/4f3cb4202335.jpeg",
                 "title": "图片4",
                 "description": "图片4的描述"
             },
             {
                 "image": "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395693566/552b175ef11d.jpeg@s_0,w_216,l_1,f_jpg,q_80",
+                "src": "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395692722/4f3cb4202335.jpeg",
                 "title": "图片5",
                 "description": "图片5的描述"
             }
@@ -382,7 +430,7 @@ order: 53
 
 List 的内容、Card 卡片的内容配置同上
 
-### Form 中静态展示
+### Form 中关联数据静态展示
 
 ```schema: scope="body"
 {
@@ -396,7 +444,7 @@ List 的内容、Card 卡片的内容配置同上
             "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395693566/552b175ef11d.jpeg@s_0,w_216,l_1,f_jpg,q_80"
         ]
     },
-    "controls": [
+    "body": [
         {
             "type": "static-images",
             "name": "images",

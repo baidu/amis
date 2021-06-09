@@ -1,0 +1,17 @@
+template: |
+ 
+ ## 更新记录
+
+  $CHANGES
+  
+categories:
+  - title: 新功能
+    label: feat
+  - title: Bugfix
+    label: fix
+  - title: 依赖更新
+    label: dep
+  - title: 日常维护
+    label: chore
+  - title: 文档
+    label: docs

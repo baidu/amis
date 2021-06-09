@@ -42,24 +42,9 @@
   &.is-disabled,
   &:disabled {
     opacity: var(--Button-onDisabled-opacity);
+    filter: grayscale(100%);
     box-shadow: none;
-    pointer-events: none;
-    border-color: var(--Button-onDisabled-borderColor);
-
-    @if variable-exists(Button-onDisabled-bg) {
-      background: $Button-onDisabled-bg;
-    }
-
-    @if variable-exists(Button-onDisabled-color) {
-      color: $Button-onDisabled-color !important;
-    }
-
-    &.is-active,
-    &:active {
-      @if variable-exists(Button-onDisabledActive-bg) {
-        background: $Button-onDisabledActive-bg !important;
-      }
-    }
+    cursor: not-allowed;
   }
 
   &:not(:disabled):not(.is-disabled) {
@@ -305,8 +290,6 @@ fieldset:disabled a.#{$ns}Button {
   color: var(--Button--link-color);
   text-decoration: var(--link-decoration);
   border: none;
-  padding-top: 0;
-  padding-bottom: 0;
   height: auto;
 
   @include hover-focus {
@@ -341,20 +324,11 @@ input[type='button'] {
 }
 
 .#{$ns}ButtonToolbar {
-  margin-left: px2rem(-5px);
-  margin-top: px2rem(-5px);
+  margin-left: calc(var(--gap-xs) * -1);
+  margin-top: calc(var(--gap-xs) * -1);
 
   > .#{$ns}Button {
-    margin-left: px2rem(5px);
-    margin-top: px2rem(5px);
+    margin-left: var(--gap-xs);
+    margin-top: var(--gap-xs);
   }
-
-  > .#{$ns}Button--disabled-wrap > .#{$ns}Button {
-    margin-left: px2rem(5px);
-    margin-top: px2rem(5px);
-  }
-}
-
-.#{$ns}Button--disabled-wrap {
-  display: inline-block !important;
 }

@@ -192,6 +192,7 @@ export default class Page extends React.Component<PageProps> {
     // autobind 会让继承里面的 super 指向有问题，所以先这样！
     bulkBindFunctions<Page /*为毛 this 的类型自动识别不出来？*/>(this, [
       'handleAction',
+      'handleChange',
       'handleQuery',
       'handleDialogConfirm',
       'handleDialogClose',
@@ -348,9 +349,13 @@ export default class Page extends React.Component<PageProps> {
   handleClick(e: any) {
     const target: HTMLElement = e.target as HTMLElement;
     const {env} = this.props;
+    const link =
+      target.tagName === 'A' && target.hasAttribute('data-link')
+        ? target.getAttribute('data-link')
+        : target.closest('a[data-link]')?.getAttribute('data-link');
 
-    if (env && target.tagName === 'A' && target.hasAttribute('data-link')) {
-      env.jumpTo(target.getAttribute('data-link') as string);
+    if (env && link) {
+      env.jumpTo(link);
       e.preventDefault();
     }
   }
@@ -407,6 +412,22 @@ export default class Page extends React.Component<PageProps> {
         Math.max(interval, 1000)
       ));
     return value;
+  }
+
+  handleChange(
+    value: any,
+    name: string,
+    submit?: boolean,
+    changePristine?: boolean
+  ) {
+    const {store} = this.props;
+
+    // 注意 form 也有 onChange 会进来，但是传参会不一样，而且不应该处理。
+    if (typeof name !== 'string' || !name) {
+      return;
+    }
+
+    store.changeValue(name, value, changePristine);
   }
 
   renderHeader() {
@@ -498,6 +519,7 @@ export default class Page extends React.Component<PageProps> {
     const subProps = {
       onAction: this.handleAction,
       onQuery: initApi ? this.handleQuery : undefined,
+      onChange: this.handleChange,
       loading: store.loading
     };
 
@@ -618,8 +640,7 @@ export default class Page extends React.Component<PageProps> {
 }
 
 @Renderer({
-  test: /(?:^|\/)page$/,
-  name: 'page',
+  type: 'page',
   storeType: ServiceStore.name,
   isolateScope: true
 })

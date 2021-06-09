@@ -16,7 +16,7 @@ order: 19
 {
     "type": "form",
     "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
-    "controls": [
+    "body": [
         {
             "type": "editor",
             "name": "editor",
@@ -30,13 +30,13 @@ order: 19
 
 可以设置`language`配置高亮的语言，支持的语言有：
 
-`bat`、 `c`、 `coffeescript`、 `cpp`、 `csharp`、 `css`、 `dockerfile`、 `fsharp`、 `go`、 `handlebars`、 `html`、 `ini`、 `java`、 `javascript`、 `json`、 `less`、 `lua`、 `markdown`、 `msdax`、 `objective-c`、 `php`、 `plaintext`、 `postiats`、 `powershell`、 `pug`、 `python`、 `r`、 `razor`、 `ruby`、 `sb`、 `scss`、 `sol`、 `sql`、 `swift`、 `typescript`、 `vb`、 `xml`、 `yaml`
+`bat`、 `c`、 `coffeescript`、 `cpp`、 `csharp`、 `css`、 `dockerfile`、 `fsharp`、 `go`、 `handlebars`、 `html`、 `ini`、 `java`、 `javascript`、 `json`、 `less`、 `lua`、 `markdown`、 `msdax`、 `objective-c`、 `php`、 `plaintext`、 `postiats`、 `powershell`、 `pug`、 `python`、 `r`、 `razor`、 `ruby`、 `sb`、 `scss`、`shell`、 `sol`、 `sql`、 `swift`、 `typescript`、 `vb`、 `xml`、 `yaml`
 
 ```schema: scope="body"
 {
     "type": "form",
     "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
-    "controls": [
+    "body": [
         {
             "type": "editor",
             "name": "editor",
@@ -47,13 +47,15 @@ order: 19
 }
 ```
 
+> 因为性能原因，上面的例子不支持实时修改 language 生效
+
 当然你也可以使用`xxx-editor`这种形式，例如`"type": "json-editor"`
 
 ```schema: scope="body"
 {
     "type": "form",
     "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
-    "controls": [
+    "body": [
         {
             "type": "json-editor",
             "name": "editor",
@@ -73,6 +75,6 @@ order: 19
 
 | 属性名   | 类型     | 默认值       | 说明                                                                                                                                                                                                     |
 | -------- | -------- | ------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| language | `string` | `javascript` | 编辑器高亮的语言                                                                                                                                                                                         |
+| language | `string` | `javascript` | 编辑器高亮的语言，支持通过 `${xxx}` 变量获取                                                                                                                                                             |
 | size     | `string` | `md`         | 编辑器高度，取值可以是 `md`、`lg`、`xl`、`xxl`                                                                                                                                                           |
 | options  | `object` |              | monaco 编辑器的其它配置，比如是否显示行号等，请参考[这里](https://microsoft.github.io/monaco-editor/api/enums/monaco.editor.editoroption.html)，不过无法设置 readOnly，只读模式需要使用 `disabled: true` |

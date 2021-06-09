@@ -1,54 +1,50 @@
 import React from 'react';
-import {FormItem, FormControlProps, FormBaseControl} from './Item';
-import cx from 'classnames';
-import {Button} from '../../types';
-import {ButtonToolbarSchema} from '../ButtonToolbar';
+import {RendererProps} from '../../factory';
+import {BaseSchema} from '../../Schema';
+import {ActionSchema} from '../Action';
+import {FormControlProps, FormItem} from './Item';
 
 /**
- * 按钮工具栏控件。
- * 文档：https://baidu.gitee.io/amis/docs/components/form/button-toolbar
+ * Button Toolar 渲染器。
+ * 文档：https://baidu.gitee.io/amis/docs/components/button-toolbar
  */
-export interface ButtonToolbarControlSchema
-  extends ButtonToolbarSchema,
-    FormBaseControl {
+export interface ButtonToolbarSchema extends BaseSchema {
+  /**
+   * 指定为按钮工具集合类型
+   */
   type: 'button-toolbar';
+
+  buttons: Array<ActionSchema>;
 }
 
 export interface ButtonToolbarProps
   extends FormControlProps,
-    Omit<
-      ButtonToolbarControlSchema,
-      'type' | 'className' | 'descriptionClassName' | 'inputClassName'
-    > {}
+    Omit<ButtonToolbarSchema, 'className'> {}
 
-export class ButtonToolbarControl extends React.Component<ButtonToolbarProps> {
-  static defaultProps = {};
-
-  renderButtons() {
-    const {render, classPrefix: ns, buttons} = this.props;
-    return Array.isArray(buttons)
-      ? buttons.map((button, key) =>
-          render(`button/${key}`, button, {
-            key: key
-          })
-        )
-      : null;
-  }
+export default class ButtonToolbar extends React.Component<
+  ButtonToolbarProps,
+  object
+> {
+  static propsList: Array<string> = ['buttons', 'className'];
 
   render() {
-    const {render, className, classPrefix: ns, buttons} = this.props;
+    const {buttons, className, classnames: cx, render} = this.props;
 
     return (
-      <div className={cx(`${ns}ButtonToolbar`, className)}>
-        {this.renderButtons()}
+      <div className={cx('ButtonToolbar', className)}>
+        {Array.isArray(buttons)
+          ? buttons.map((button, key) =>
+              render(`${key}`, button, {
+                key
+              })
+            )
+          : null}
       </div>
     );
   }
 }
 
 @FormItem({
-  type: 'button-toolbar',
-  sizeMutable: false,
-  strictMode: false // data 变化也更新
+  type: 'button-toolbar'
 })
-export class ButtonToolbarRenderer extends ButtonToolbarControl {}
+export class ButtonToolbarRenderer extends ButtonToolbar {}

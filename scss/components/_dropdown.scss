@@ -57,6 +57,8 @@
     height: var(--DropDown-menu-height);
     vertical-align: middle;
     user-select: none;
+    color: var(--link-color);
+    text-decoration: var(--link-decoration);
 
     &:hover {
       background: var(--DropDown-menuItem-onHover-bg);
@@ -74,8 +76,9 @@
 
     &.is-disabled {
       cursor: not-allowed;
-      pointer-events: none;
+      // pointer-events: none;
       color: var(--DropDown-menuItem-onDisabled-color);
+      filter: grayscale(80%);
     }
 
     &.#{$ns}DropDown-divider {

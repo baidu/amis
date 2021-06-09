@@ -46,7 +46,12 @@
     // width: 0;
     max-width: 100%;
   }
-
+  &-valuesNoWrap {
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    line-height: px2rem(20px);
+  }
   &-placeholder {
     color: var(--Form-select-placeholderColor);
     line-height: var(--Form-input-lineHeight);
@@ -63,7 +68,6 @@
     overflow: hidden;
     text-overflow: ellipsis;
   }
-
   &--multi {
     height: auto;
     min-height: var(--Form-selectOption-height);
@@ -77,7 +81,6 @@
         margin-bottom: var(--gap-xs);
       }
     }
-
     .#{$ns}Select-values + .#{$ns}Select-input {
       transform: translateY(0);
     }
@@ -106,7 +109,6 @@
       padding: 0 var(--gap-xs);
     }
   }
-
   &-valueIcon {
     cursor: pointer;
     border-right: px2rem(1px) solid var(--Form-selectValue-borderColor);
@@ -127,7 +129,7 @@
   &-arrow {
     margin-right: var(--gap-xs);
     // margin-left: var(--gap-xs);
-    width: px2rem(20px);
+    width: var(--gap-md);
     text-align: center;
     display: flex;
     align-items: center;
@@ -153,7 +155,10 @@
     overflow: auto;
     user-select: none;
   }
-
+  &--longlist {
+    overflow: hidden;
+    max-height: max-content;
+  }
   &-input {
     cursor: pointer;
     outline: none;
@@ -174,7 +179,7 @@
       width: px2rem(14px);
       min-width: px2rem(14px);
       height: px2rem(14px);
-      margin-right: px2rem(5px);
+      margin-right: var(--gap-xs);
     }
 
     > input {
@@ -223,7 +228,7 @@
 
     > a {
       float: right;
-      margin-left: px2rem(5px);
+      margin-left: var(--gap-xs);
       display: none;
     }
 

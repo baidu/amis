@@ -1,5 +1,4 @@
 export default {
-  $schema: 'https://houtai.baidu.com/v2/schemas/page.json#',
   title: '动态拉取选项',
   name: 'page-form-remote',
   body: [
@@ -15,7 +14,7 @@ export default {
           label: '提交'
         }
       ],
-      controls: [
+      body: [
         {
           name: 'select',
           type: 'select',
@@ -40,7 +39,7 @@ export default {
           type: 'divider'
         },
         {
-          type: 'text',
+          type: 'input-text',
           name: 'text',
           label: '文本提示',
           source: '/api/mock2/form/getOptions?waitSeconds=1',
@@ -52,7 +51,7 @@ export default {
         },
         {
           name: 'text2',
-          type: 'text',
+          type: 'input-text',
           label: '文本自动补全',
           clearable: true,
           autoComplete: '/api/mock2/options/autoComplete2?term=$term',
@@ -73,7 +72,8 @@ export default {
         },
         {
           name: 'tree',
-          type: 'tree',
+          showOutline: true,
+          type: 'input-tree',
           label: '动态树',
           source: '/api/mock2/options/tree?waitSeconds=1'
         },
@@ -81,8 +81,50 @@ export default {
           type: 'divider'
         },
         {
+          name: 'tree',
+          type: 'input-tree',
+          label: '树懒加载',
+          multiple: true,
+          deferApi: '/api/mock2/form/deferOptions?label=${label}&waitSeconds=2',
+          options: [
+            {
+              label: '法师',
+              children: [
+                {
+                  label: '诸葛亮',
+                  value: 'zhugeliang'
+                }
+              ]
+            },
+            {
+              label: '战士',
+              defer: true
+            },
+            {
+              label: '打野',
+              children: [
+                {
+                  label: '李白',
+                  value: 'libai'
+                },
+                {
+                  label: '韩信',
+                  value: 'hanxin'
+                },
+                {
+                  label: '云中君',
+                  value: 'yunzhongjun'
+                }
+              ]
+            }
+          ]
+        },
+        {
+          type: 'divider'
+        },
+        {
           name: 'matrix',
-          type: 'matrix',
+          type: 'matrix-checkboxes',
           label: '动态矩阵开关',
           source: '/api/mock2/options/matrix?waitSeconds=1'
         }

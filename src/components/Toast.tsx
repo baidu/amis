@@ -17,6 +17,7 @@ import {uuid, autobind, noop} from '../utils/helper';
 import {ClassNamesFn, themeable, classnames, ThemeProps} from '../theme';
 import {Icon} from './icons';
 import {LocaleProps, localeable, TranslateFn} from '../locale';
+import groupBy from 'lodash/groupBy';
 
 interface Config {
   closeButton?: boolean;
@@ -63,6 +64,14 @@ interface Item extends Config {
   body: string;
   level: 'info' | 'success' | 'error' | 'warning';
   id: string;
+  onDissmiss?: () => void;
+  position?:
+    | 'top-right'
+    | 'top-center'
+    | 'top-left'
+    | 'bottom-center'
+    | 'bottom-left'
+    | 'bottom-right';
 }
 
 interface ToastComponentState {
@@ -136,7 +145,9 @@ export class ToastComponent extends React.Component<
 
   handleDismissed(index: number) {
     const items = this.state.items.concat();
-    items.splice(index, 1);
+    const [item] = items.splice(index, 1);
+
+    item?.onDissmiss?.();
     this.setState({
       items: items
     });
@@ -158,31 +169,38 @@ export class ToastComponent extends React.Component<
     } = this.props;
     const items = this.state.items;
 
-    return (
-      <div
-        className={cx(
-          `Toast-wrap Toast-wrap--${position.replace(/\-(\w)/g, (_, l) =>
-            l.toUpperCase()
-          )}`,
-          className
-        )}
-      >
-        {items.map((item, index) => (
-          <ToastMessage
-            classnames={cx}
-            key={item.id}
-            title={item.title}
-            body={item.body}
-            level={item.level || 'info'}
-            timeout={item.timeout ?? timeout}
-            closeButton={item.closeButton ?? closeButton}
-            onDismiss={this.handleDismissed.bind(this, index)}
-            translate={translate}
-            showIcon={showIcon}
-          />
-        ))}
-      </div>
-    );
+    const groupedItems = groupBy(items, item => item.position || position);
+
+    return Object.keys(groupedItems).map(position => {
+      const toasts = groupedItems[position];
+
+      return (
+        <div
+          key={position}
+          className={cx(
+            `Toast-wrap Toast-wrap--${position.replace(/\-(\w)/g, (_, l) =>
+              l.toUpperCase()
+            )}`,
+            className
+          )}
+        >
+          {toasts.map(item => (
+            <ToastMessage
+              classnames={cx}
+              key={item.id}
+              title={item.title}
+              body={item.body}
+              level={item.level || 'info'}
+              timeout={item.timeout ?? timeout}
+              closeButton={item.closeButton ?? closeButton}
+              onDismiss={this.handleDismissed.bind(this, items.indexOf(item))}
+              translate={translate}
+              showIcon={showIcon}
+            />
+          ))}
+        </div>
+      );
+    });
   }
 }
 

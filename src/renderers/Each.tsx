@@ -64,7 +64,7 @@ export default class Each extends React.Component<EachProps> {
 
     return (
       <div className={cx('Each', className)}>
-        {Array.isArray(arr) && items ? (
+        {Array.isArray(arr) && arr.length && items ? (
           arr.map((item: any, index: number) =>
             render(`item/${index}`, items, {
               data: createObject(
@@ -87,7 +87,6 @@ export default class Each extends React.Component<EachProps> {
 }
 
 @Renderer({
-  test: /(^|\/)(?:repeat|each)$/,
-  name: 'each'
+  type: 'each'
 })
 export class EachRenderer extends Each {}

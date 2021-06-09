@@ -54,7 +54,7 @@
     .text {
       margin: 0 25px 0 7px;
       color: var(--white);
-      text-indent: px2rem(5px); // todo
+      text-indent: var(--gap-xs); // todo
     }
   }
 

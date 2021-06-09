@@ -41,6 +41,7 @@ export class Radios extends React.Component<RadioProps, any> {
   static defaultProps = {
     type: 'radio',
     resetValue: '',
+    inline: true,
     joinValues: true,
     clearable: false,
     columnsCount: 1 // 一行显示一个

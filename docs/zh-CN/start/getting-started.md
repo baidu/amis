@@ -32,6 +32,7 @@ SDK 版本适合对前端或 React 不了解的开发者，它不依赖 npm 及 
     />
     <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
     <link rel="stylesheet" href="sdk.css" />
+    <link rel="stylesheet" href="helper.css" />
     <!-- 从 1.1.0 开始 sdk.css 将不支持 IE 11，如果要支持 IE11 请引用这个 css，并把前面那个删了 -->
     <!-- <link rel="stylesheet" href="sdk-ie11.css" /> -->
     <!-- 不过 amis 开发团队几乎没测试过 IE 11 下的效果，所以可能有细节功能用不了，如果发现请报 issue -->
@@ -61,15 +62,15 @@ SDK 版本适合对前端或 React 不了解的开发者，它不依赖 npm 及 
             type: 'form',
             mode: 'horizontal',
             api: '/saveForm',
-            controls: [
+            body: [
               {
                 label: 'Name',
-                type: 'text',
+                type: 'input-text',
                 name: 'name'
               },
               {
                 label: 'Email',
-                type: 'email',
+                type: 'input-email',
                 name: 'email'
               }
             ]
@@ -121,7 +122,7 @@ let amisScoped = amis.embed(
 
     // 可以不传，全局 api 适配器。
     // 另外在 amis 配置项中的 api 也可以配置适配器，针对某个特定接口单独处理。
-    responseAdpater(api, response, query, request) {
+    responseAdaptor(api, response, query, request) {
       return response;
     }
 
@@ -163,10 +164,10 @@ let amisScoped = amis.embed(
   "body": {
     "type": "form",
     "name": "form1",
-    "controls": [
+    "body": [
       {
         "label": "Name",
-        "type": "text",
+        "type": "input-text",
         "name": "name1"
       }
     ]
@@ -180,7 +181,7 @@ let amisScoped = amis.embed(
 
 ### 切换主题
 
-jssdk 版本默认使用 `sdk.css` 即默认主题，如果你想用使用云舍，请改成引用 `cxd.scss`。同时 js 渲染地方第四个参数传入 `theme` 属性。如：
+jssdk 版本默认使用 `sdk.css` 即默认主题，如果你想用使用云舍，请改成引用 `cxd.css`。同时 js 渲染地方第四个参数传入 `theme` 属性。如：
 
 ```js
 amis.embed(
@@ -289,11 +290,13 @@ import {toast} from 'amis/lib/components/Toast';
 
 class MyComponent extends React.Component<any, any> {
   render() {
+    let amisScoped;
+    let theme = 'default';
     return (
       <div>
         <p>通过 amis 渲染页面</p>
-        <ToastComponent key="toast" position={'top-right'} />
-        <AlertComponent key="alert" />
+        <ToastComponent theme={theme} key="toast" position={'top-right'} />
+        <AlertComponent theme={theme} key="alert" />
         {renderAmis(
           {
             // 这里是 amis 的 Json 配置。
@@ -304,6 +307,7 @@ class MyComponent extends React.Component<any, any> {
           {
             // props...
             // locale: 'en-US' // 请参考「多语言」的文档
+            // scopeRef: (ref: any) => (amisScoped = ref)  // 功能和前面 SDK 的 amisScoped 一样
           },
           {
             // 下面三个接口必须实现
@@ -353,7 +357,8 @@ class MyComponent extends React.Component<any, any> {
             copy: content => {
               copy(content);
               toast.success('内容已复制到粘贴板');
-            }
+            },
+            theme
 
             // 后面这些接口可以不用实现
 

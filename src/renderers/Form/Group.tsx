@@ -7,11 +7,11 @@ import {
   makeHorizontalDeeper
 } from '../../utils/helper';
 import cx from 'classnames';
-import {FormBaseControl, FormControlSchema, FormItemWrap} from './Item';
+import {FormBaseControl, FormItemWrap} from './Item';
 import getExprProperties from '../../utils/filter-schema';
-import {SchemaClassName} from '../../Schema';
+import {SchemaClassName, SchemaObject} from '../../Schema';
 
-export type GroupSubControl = FormControlSchema & {
+export type GroupSubControl = SchemaObject & {
   /**
    * 列类名
    */
@@ -33,7 +33,7 @@ export interface GroupControlSchema extends FormBaseControl {
   /**
    * FormItem 集合
    */
-  controls: Array<GroupSubControl>;
+  body: Array<GroupSubControl>;
 
   /**
    * 子表单项默认的展示模式
@@ -56,8 +56,7 @@ export interface InputGroupProps
     Omit<GroupControlSchema, 'type' | 'className'> {}
 
 @Renderer({
-  test: /(^|\/)form(?:\/.+)?\/control\/(?:\d+\/)?group$/,
-  name: 'group-control'
+  type: 'group'
 })
 export class ControlGroupRenderer extends React.Component<InputGroupProps> {
   constructor(props: InputGroupProps) {
@@ -72,25 +71,7 @@ export class ControlGroupRenderer extends React.Component<InputGroupProps> {
       return null;
     }
 
-    const subSchema: any =
-      control && (control as Schema).type === 'control'
-        ? control
-        : {
-            type: 'control',
-            control
-          };
-
-    if (subSchema.control) {
-      let control = subSchema.control as Schema;
-
-      control = subSchema.control = {
-        ...control,
-        ...getExprProperties(control, data)
-      };
-
-      control.hiddenOn && (subSchema.hiddenOn = control.hiddenOn);
-      control.visibleOn && (subSchema.visibleOn = control.visibleOn);
-    }
+    const subSchema: any = control;
 
     return render(`${index}`, subSchema, {
       ...otherProps,
@@ -99,8 +80,12 @@ export class ControlGroupRenderer extends React.Component<InputGroupProps> {
   }
 
   renderVertical(props = this.props) {
-    let {controls, className, classnames: cx, mode, formMode, data} = props;
+    let {body, className, classnames: cx, mode, formMode, data} = props;
     formMode = mode || formMode;
+
+    if (!Array.isArray(body)) {
+      return null;
+    }
 
     return (
       <div
@@ -109,12 +94,12 @@ export class ControlGroupRenderer extends React.Component<InputGroupProps> {
           className
         )}
       >
-        {controls.map((control, index) => {
+        {body.map((control, index) => {
           if (!isVisible(control, data)) {
             return null;
           }
 
-          const controlMode = (control && control.mode) || formMode;
+          const controlMode = (control as FormBaseControl)?.mode || formMode;
 
           return this.renderControl(control, index, {
             key: index,
@@ -127,7 +112,7 @@ export class ControlGroupRenderer extends React.Component<InputGroupProps> {
 
   renderHorizontal(props = this.props) {
     let {
-      controls,
+      body,
       className,
       classPrefix: ns,
       classnames: cx,
@@ -139,7 +124,7 @@ export class ControlGroupRenderer extends React.Component<InputGroupProps> {
       gap
     } = props;
 
-    if (!Array.isArray(controls)) {
+    if (!Array.isArray(body)) {
       return null;
     }
 
@@ -149,8 +134,11 @@ export class ControlGroupRenderer extends React.Component<InputGroupProps> {
       horizontal ||
       makeHorizontalDeeper(
         formHorizontal,
-        controls.filter(item => item.mode !== 'inline' && isVisible(item, data))
-          .length
+        body.filter(
+          item =>
+            (item as FormBaseControl)?.mode !== 'inline' &&
+            isVisible(item, data)
+        ).length
       );
 
     return (
@@ -161,11 +149,11 @@ export class ControlGroupRenderer extends React.Component<InputGroupProps> {
           className
         )}
       >
-        {controls.map((control, index) => {
+        {body.map((control, index) => {
           if (!isVisible(control, data)) {
             return null;
           }
-          const controlMode = (control && control.mode) || formMode;
+          const controlMode = (control as FormBaseControl)?.mode || formMode;
 
           if (
             controlMode === 'inline' ||

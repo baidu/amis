@@ -22,7 +22,10 @@ interface ApiCacheConfig extends ApiObject {
 
 const apiCaches: Array<ApiCacheConfig> = [];
 
-export function normalizeApi(api: Api, defaultMethod?: string): ApiObject {
+export function normalizeApi(
+  api: Api,
+  defaultMethod: string = 'get'
+): ApiObject {
   if (typeof api === 'string') {
     let method = rSchema.test(api) ? RegExp.$1 : '';
     method && (api = api.replace(method + ':', ''));
@@ -171,17 +174,47 @@ export function responseAdaptor(ret: fetcherResult, api: ApiObject) {
 
   if (!data) {
     throw new Error('Response is empty!');
-  } else if (!data.hasOwnProperty('status')) {
+  }
+
+  // 兼容几种常见写法
+  if (data.hasOwnProperty('errorCode')) {
+    // 阿里 Java 规范
+    data.status = data.errorCode;
+    data.msg = data.errorMessage;
+  } else if (data.hasOwnProperty('errno')) {
+    data.status = data.errno;
+    data.msg = data.errmsg || data.errstr || data.msg;
+  } else if (data.hasOwnProperty('no')) {
+    data.status = data.no;
+    data.msg = data.error || data.msg;
+  } else if (data.hasOwnProperty('error')) {
+    // Google JSON guide
+    // https://google.github.io/styleguide/jsoncstyleguide.xml#error
+    if (typeof data.error === 'object' && data.error.hasOwnProperty('code')) {
+      data.status = data.error.code;
+      data.msg = data.error.message;
+    } else {
+      data.status = data.error;
+      data.msg = data.errmsg || data.msg;
+    }
+  }
+
+  if (!data.hasOwnProperty('status')) {
     hasStatusField = false;
   }
 
   const payload: Payload = {
     ok: hasStatusField === false || data.status == 0,
     status: hasStatusField === false ? 0 : data.status,
-    msg: data.msg,
+    msg: data.msg || data.message,
     msgTimeout: data.msgTimeout,
     data: !data.data && !hasStatusField ? data : data.data // 兼容直接返回数据的情况
   };
+
+  // 兼容返回 schema 的情况，用于 app 模式
+  if (data && data.type) {
+    payload.data = data;
+  }
 
   if (payload.status == 422) {
     payload.errors = data.errors;
@@ -272,25 +305,42 @@ export function isApiOutdated(
   prevData: any,
   nextData: any
 ): nextApi is Api {
-  const url: string =
-    (nextApi && (nextApi as ApiObject).url) || (nextApi as string);
+  if (!nextApi) {
+    return false;
+  } else if (!prevApi) {
+    return true;
+  }
 
-  if (nextApi && (nextApi as ApiObject).autoRefresh === false) {
+  nextApi = normalizeApi(nextApi);
+
+  if (nextApi.autoRefresh === false) {
     return false;
   }
 
-  if (url && typeof url === 'string' && ~url.indexOf('$')) {
+  const trackExpression = nextApi.trackExpression ?? nextApi.url;
+
+  if (typeof trackExpression !== 'string' || !~trackExpression.indexOf('$')) {
+    return false;
+  }
+  prevApi = normalizeApi(prevApi);
+
+  let isModified = false;
+
+  if (nextApi.trackExpression || prevApi.trackExpression) {
+    isModified =
+      tokenize(prevApi.trackExpression || '', prevData) !==
+      tokenize(nextApi.trackExpression || '', nextData);
+  } else {
     prevApi = buildApi(prevApi as Api, prevData as object, {ignoreData: true});
     nextApi = buildApi(nextApi as Api, nextData as object, {ignoreData: true});
-
-    return !!(
-      prevApi.url !== nextApi.url &&
-      isValidApi(nextApi.url) &&
-      (!nextApi.sendOn || evalExpression(nextApi.sendOn, nextData))
-    );
+    isModified = prevApi.url !== nextApi.url;
   }
 
-  return false;
+  return !!(
+    isModified &&
+    isValidApi(nextApi.url) &&
+    (!nextApi.sendOn || evalExpression(nextApi.sendOn, nextData))
+  );
 }
 
 export function isValidApi(api: string) {

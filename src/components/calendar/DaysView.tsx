@@ -170,7 +170,7 @@ export class CustomDaysView extends DaysView {
       return null;
     }
 
-    const __ = this.props.translate;
+    const {translate: __, classnames: cx} = this.props;
 
     return (
       <tfoot key="tf">
@@ -179,11 +179,17 @@ export class CustomDaysView extends DaysView {
             {this.props.timeFormat ? this.renderTimes() : null}
             {this.props.requiredConfirm ? (
               <div key="button" className="rdtActions">
-                <a className="rdtBtn rdtBtnConfirm" onClick={this.confirm}>
-                  {__('confirm')}
+                <a
+                  className={cx('Button', 'Button--default')}
+                  onClick={this.cancel}
+                >
+                  {__('cancel')}
                 </a>
-                <a className="rdtBtn rdtBtnCancel" onClick={this.cancel}>
-                  {__('cancle')}
+                <a
+                  className={cx('Button', 'Button--primary', 'm-l-sm')}
+                  onClick={this.confirm}
+                >
+                  {__('confirm')}
                 </a>
               </div>
             ) : null}

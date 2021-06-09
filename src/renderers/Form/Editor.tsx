@@ -4,6 +4,10 @@ import LazyComponent from '../../components/LazyComponent';
 import debouce from 'lodash/debounce';
 import Editor from '../../components/Editor';
 import {autobind} from '../../utils/helper';
+import {
+  isPureVariable,
+  resolveVariableAndFilter
+} from '../../utils/tpl-builtin';
 
 /**
  * Editor 代码编辑器
@@ -86,6 +90,7 @@ export interface EditorControlSchema extends Omit<FormBaseControl, 'size'> {
     | 'ruby'
     | 'sb'
     | 'scss'
+    | 'shell'
     | 'sol'
     | 'sql'
     | 'swift'
@@ -189,15 +194,21 @@ export default class EditorControl extends React.Component<EditorProps, any> {
       onChange,
       disabled,
       options,
-      language,
       editorTheme,
-      size
+      size,
+      data
     } = this.props;
+
+    let language = this.props.language;
 
     let finnalValue = value;
 
     if (finnalValue && typeof finnalValue !== 'string') {
       finnalValue = JSON.stringify(finnalValue, null, 2);
+    }
+
+    if (isPureVariable(language)) {
+      language = resolveVariableAndFilter(language, data);
     }
 
     return (
@@ -266,6 +277,7 @@ export const availableLanguages = [
   'sb',
   'scss',
   'sol',
+  'shell',
   'sql',
   'swift',
   'typescript',

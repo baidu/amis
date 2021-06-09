@@ -156,12 +156,23 @@
 
     .#{$ns}Carousel-leftArrow {
       @include arrow-control;
+      display: none;
       left: 0;
     }
 
     .#{$ns}Carousel-rightArrow {
       @include arrow-control;
+      display: none;
       right: 0;
+    }
+
+    &:hover {
+      .#{$ns}Carousel-leftArrow {
+        display: block;
+      }
+      .#{$ns}Carousel-rightArrow {
+        display: block;
+      }
     }
   }
 }

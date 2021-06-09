@@ -46,11 +46,15 @@ export function embed(
     ) {
       const disposition = response.headers['content-disposition'];
       let filename = '';
+
       if (disposition && disposition.indexOf('attachment') !== -1) {
-        let filenameRegex = /filename[^;=\n]*=((['"]).*?\2|[^;\n]*)/i;
-        let matches = filenameRegex.exec(disposition);
-        if (matches != null && matches[1]) {
-          filename = matches[1].replace(/['"]/g, '');
+        // disposition 有可能是 attachment; filename="??.xlsx"; filename*=UTF-8''%E4%B8%AD%E6%96%87.xlsx
+        // 这种情况下最后一个才是正确的文件名
+        let filenameRegex = /filename[^;=\n]*=((['"]).*?\2|[^;\n]*)$/;
+
+        let matches = disposition.match(filenameRegex);
+        if (matches && matches.length) {
+          filename = matches[1].replace(`UTF-8''`, '').replace(/['"]/g, '');
         }
 
         // 很可能是中文被 url-encode 了
@@ -122,9 +126,13 @@ export function embed(
     return response;
   };
 
-  const responseAdpater = (api: any) => (value: any) => {
-    let response = value.data;
+  const responseAdaptor = (api: any) => (value: any) => {
+    let response = value.data || {}; // blob 下可能会返回内容为空？
+    // 之前拼写错了，需要兼容
     if (env && env.responseAdpater) {
+      env.responseAdaptor = env.responseAdpater;
+    }
+    if (env && env.responseAdaptor) {
       const url = api.url;
       const idx = api.url.indexOf('?');
       const query = ~idx ? qs.parse(api.url.substring(idx)) : {};
@@ -133,7 +141,7 @@ export function embed(
         query: query,
         body: api.data
       };
-      response = env.responseAdpater(api, response, query, request);
+      response = env.responseAdaptor(api, response, query, request);
     } else {
       if (response.hasOwnProperty('errno')) {
         response.status = response.errno;
@@ -244,10 +252,10 @@ export function embed(
               location.href = to;
             }
           },
-          fetcher: (api: any) => {
+          fetcher: async (api: any) => {
             let {url, method, data, responseType, config, headers} = api;
             config = config || {};
-            config.withCredentials = true;
+            // config.withCredentials = true;
             responseType && (config.responseType = responseType);
 
             if (config.cancelExecutor) {
@@ -273,10 +281,31 @@ export function embed(
               config.headers['Content-Type'] = 'application/json';
             }
 
+            // 支持返回各种报错信息
+            config.validateStatus = function (status) {
+              return true;
+            };
+
             data && (config.data = data);
-            return axios(url, config)
-              .then(attachmentAdpator)
-              .then(responseAdpater(api));
+            let response = await axios(url, config);
+            response = await attachmentAdpator(response);
+            response = responseAdaptor(api)(response);
+
+            if (response.status >= 400) {
+              if (response.data) {
+                if (response.data.msg) {
+                  throw new Error(response.data.msg);
+                } else {
+                  throw new Error(
+                    '接口报错：' + JSON.stringify(response.data, null, 2)
+                  );
+                }
+              } else {
+                throw new Error(`接口出错，状态码是 ${response.status}`);
+              }
+            }
+
+            return response;
           },
           isCancel: (value: any) => (axios as any).isCancel(value),
           copy: (contents: string, options: any = {}) => {

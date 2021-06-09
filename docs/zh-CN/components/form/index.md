@@ -20,15 +20,15 @@ order: 24
 {
     "type": "form",
     "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
-    "controls": [
+    "body": [
       {
-        "type": "text",
+        "type": "input-text",
         "name": "name",
         "label": "姓名："
       },
       {
         "name": "email",
-        "type": "email",
+        "type": "input-email",
         "label": "邮箱："
       }
     ]
@@ -45,15 +45,15 @@ order: 24
 {
     "type": "form",
     "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
-    "controls": [
+    "body": [
       {
-        "type": "text",
+        "type": "input-text",
         "name": "name",
         "label": "姓名："
       },
       {
         "name": "email",
-        "type": "email",
+        "type": "input-email",
         "label": "邮箱："
       }
     ]
@@ -69,15 +69,15 @@ order: 24
     "type": "form",
     "title": "水平模式",
     "mode": "horizontal",
-    "controls": [
+    "body": [
       {
-        "type": "email",
+        "type": "input-email",
         "name": "email",
         "label": "邮箱",
         "required": true
       },
       {
-        "type": "password",
+        "type": "input-password",
         "name": "password",
         "label": "密码"
       },
@@ -110,15 +110,15 @@ order: 24
       "right": 10,
       "offset": 2
     },
-    "controls": [
+    "body": [
       {
-        "type": "email",
+        "type": "input-email",
         "name": "email",
         "label": "邮箱",
         "required": true
       },
       {
-        "type": "password",
+        "type": "input-password",
         "name": "password",
         "label": "密码"
       },
@@ -149,15 +149,15 @@ order: 24
     "horizontal": {
       "leftFixed": "sm"
     },
-    "controls": [
+    "body": [
       {
-        "type": "email",
+        "type": "input-email",
         "name": "email",
         "label": "邮箱",
         "required": true
       },
       {
-        "type": "password",
+        "type": "input-password",
         "name": "password",
         "label": "密码"
       },
@@ -179,14 +179,14 @@ order: 24
     "type": "form",
     "title": "内联模式",
     "mode": "inline",
-    "controls": [
+    "body": [
       {
-        "type": "email",
+        "type": "input-email",
         "name": "email",
         "label": "邮箱"
       },
       {
-        "type": "password",
+        "type": "input-password",
         "name": "password"
       },
       {
@@ -211,17 +211,17 @@ order: 24
     {
       "type": "form",
       "title": "常规模式",
-      "controls": [
+      "body": [
         {
           "type": "group",
-          "controls": [
+          "body": [
             {
-              "type": "email",
+              "type": "input-email",
               "name": "email",
               "label": "邮箱"
             },
             {
-              "type": "password",
+              "type": "input-password",
               "name": "password",
               "label": "密码"
             }
@@ -233,17 +233,17 @@ order: 24
       "type": "form",
       "title": "水平模式",
       "mode": "horizontal",
-      "controls": [
+      "body": [
         {
           "type": "group",
-          "controls": [
+          "body": [
             {
-              "type": "email",
+              "type": "input-email",
               "name": "email2",
               "label": "邮箱"
             },
             {
-              "type": "password",
+              "type": "input-password",
               "name": "password2",
               "label": "密码"
             }
@@ -255,17 +255,17 @@ order: 24
       "type": "form",
       "title": "内联模式",
       "mode": "inline",
-      "controls": [
+      "body": [
         {
           "type": "group",
-          "controls": [
+          "body": [
             {
-              "type": "email",
+              "type": "input-email",
               "name": "email",
               "label": "邮箱"
             },
             {
-              "type": "password",
+              "type": "input-password",
               "name": "password",
               "label": "密码"
             }
@@ -291,9 +291,9 @@ Form 默认会在底部渲染一个提交按钮，用于执行表单的提交行
       "type": "form",
       "title": "通过 submitText 去掉提交按钮",
       "submitText": "",
-      "controls": [
+      "body": [
         {
-          "type": "text",
+          "type": "input-text",
           "name": "email",
           "label": "邮箱"
         }
@@ -303,9 +303,9 @@ Form 默认会在底部渲染一个提交按钮，用于执行表单的提交行
       "type": "form",
       "title": "通过 actions 去掉提交按钮",
       "actions": [],
-      "controls": [
+      "body": [
         {
-          "type": "text",
+          "type": "input-text",
           "name": "email",
           "label": "邮箱"
         }
@@ -322,14 +322,14 @@ Form 默认会在底部渲染一个提交按钮，用于执行表单的提交行
 {
     "type": "form",
     "title": "表单",
-    "controls": [
+    "body": [
       {
-        "type": "text",
+        "type": "input-text",
         "name": "email",
         "label": "邮箱"
       },
       {
-        "type": "password",
+        "type": "input-password",
         "name": "password",
         "label": "密码"
       }
@@ -367,14 +367,14 @@ Form 默认会在底部渲染一个提交按钮，用于执行表单的提交行
 {
     "type": "form",
     "wrapWithPanel": false,
-    "controls": [
+    "body": [
       {
-        "type": "text",
+        "type": "input-text",
         "name": "email",
         "label": "邮箱"
       },
       {
-        "type": "password",
+        "type": "input-password",
         "name": "password",
         "label": "密码"
       }
@@ -397,14 +397,14 @@ Form 默认会在底部渲染一个提交按钮，用于执行表单的提交行
     "type": "form",
     "initApi": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/initData",
     "title": "编辑用户信息",
-    "controls": [
+    "body": [
       {
-        "type": "text",
+        "type": "input-text",
         "name": "name",
         "label": "姓名"
       },
       {
-        "type": "text",
+        "type": "input-text",
         "name": "email",
         "label": "邮箱"
       }
@@ -431,8 +431,6 @@ Form 默认会在底部渲染一个提交按钮，用于执行表单的提交行
 
 > 表单项的 value 是不支持表达式，所以不要尝试用 `value: "${xxx}"` 来关联数据。
 
-
-
 ### 轮询初始化请求
 
 Form 支持轮询初始化接口，步骤如下：
@@ -446,9 +444,9 @@ Form 支持轮询初始化接口，步骤如下：
     "initApi": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/page/initData",
     "interval": 3000,
     "title": "表单",
-    "controls": [
+    "body": [
       {
-        "type": "text",
+        "type": "input-text",
         "name": "date",
         "label": "时间戳"
       }
@@ -465,9 +463,9 @@ Form 支持轮询初始化接口，步骤如下：
     "interval": 3000,
     "title": "表单",
     "stopAutoRefreshWhen": "this.date % 5",
-    "controls": [
+    "body": [
       {
-        "type": "text",
+        "type": "input-text",
         "name": "date",
         "label": "时间戳"
       }
@@ -487,14 +485,14 @@ Form 支持轮询初始化接口，步骤如下：
       "email": "rick@gmail.com"
     },
     "title": "用户信息",
-    "controls": [
+    "body": [
       {
-        "type": "text",
+        "type": "input-text",
         "name": "name",
         "label": "姓名"
       },
       {
-        "type": "email",
+        "type": "input-email",
         "name": "email",
         "label": "邮箱"
       }
@@ -514,7 +512,7 @@ Form 支持轮询初始化接口，步骤如下：
     "data": {
         "select": ["a", "c"]
     },
-    "controls": [
+    "body": [
         {
             "label": "选项",
             "type": "select",
@@ -557,14 +555,14 @@ Form 支持轮询初始化接口，步骤如下：
     "type": "form",
     "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/saveForm",
     "title": "用户信息",
-    "controls": [
+    "body": [
       {
-        "type": "text",
+        "type": "input-text",
         "name": "name",
         "label": "姓名"
       },
       {
-        "type": "email",
+        "type": "input-email",
         "name": "email",
         "label": "邮箱"
       }
@@ -619,14 +617,14 @@ Form 支持轮询初始化接口，步骤如下：
       }
     },
     "title": "用户信息",
-    "controls": [
+    "body": [
       {
-        "type": "text",
+        "type": "input-text",
         "name": "name",
         "label": "姓名"
       },
       {
-        "type": "email",
+        "type": "input-email",
         "name": "email",
         "label": "邮箱"
       }
@@ -650,14 +648,14 @@ Form 支持轮询初始化接口，步骤如下：
     "initApi": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/page/initData",
     "asyncApi": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/page/initData",
     "title": "用户信息",
-    "controls": [
+    "body": [
       {
-        "type": "text",
+        "type": "input-text",
         "name": "name",
         "label": "姓名"
       },
       {
-        "type": "email",
+        "type": "input-email",
         "name": "email",
         "label": "邮箱"
       }
@@ -676,21 +674,21 @@ Form 支持轮询初始化接口，步骤如下：
 ```schema:scope="body"
 {
   "type": "form",
-  "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/saveForm",
+  "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/form/saveForm",
   "rules": [
     {
       "rule": "!(data.a && data.b)",
       "message": "a 和 b 不能同时有值"
     }
   ],
-  "controls": [
+  "body": [
     {
-      "type": "text",
+      "type": "input-text",
       "name": "a",
       "label": "A"
     },
     {
-      "type": "text",
+      "type": "input-text",
       "name": "b",
       "label": "B"
     }
@@ -707,14 +705,14 @@ Form 支持轮询初始化接口，步骤如下：
 ```schema: scope="body"
 {
     "type": "form",
-    "controls": [
+    "body": [
       {
-        "type": "text",
+        "type": "input-text",
         "name": "name",
         "label": "姓名"
       },
       {
-        "type": "email",
+        "type": "input-email",
         "name": "email",
         "label": "邮箱"
       }
@@ -743,14 +741,14 @@ Form 支持轮询初始化接口，步骤如下：
     "type": "form",
     "title": "用户信息",
     "debug": true,
-    "controls": [
+    "body": [
       {
-        "type": "text",
+        "type": "input-text",
         "name": "name",
         "label": "姓名"
       },
       {
-        "type": "email",
+        "type": "input-email",
         "name": "email",
         "label": "邮箱"
       }
@@ -779,15 +777,15 @@ Form 支持轮询初始化接口，步骤如下：
     "type": "form",
     "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
     "resetAfterSubmit": true,
-    "controls": [
+    "body": [
       {
-        "type": "text",
+        "type": "input-text",
         "name": "name",
         "label": "姓名："
       },
       {
         "name": "email",
-        "type": "email",
+        "type": "input-email",
         "label": "邮箱："
       }
     ]
@@ -808,14 +806,14 @@ Form 支持轮询初始化接口，步骤如下：
     "initApi": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/page/initData",
     "redirect": "/user/list",
     "title": "用户信息",
-    "controls": [
+    "body": [
       {
-        "type": "text",
+        "type": "input-text",
         "name": "name",
         "label": "姓名"
       },
       {
-        "type": "email",
+        "type": "input-email",
         "name": "email",
         "label": "邮箱"
       }
@@ -834,14 +832,14 @@ Form 支持轮询初始化接口，步骤如下：
       "initApi": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/page/initData",
       "title": "用户信息",
       "reload": "my_service",
-      "controls": [
+      "body": [
         {
-          "type": "text",
+          "type": "input-text",
           "name": "name",
           "label": "姓名"
         },
         {
-          "type": "email",
+          "type": "input-email",
           "name": "email",
           "label": "邮箱"
         }
@@ -869,9 +867,9 @@ Form 支持轮询初始化接口，步骤如下：
     {
       "type": "form",
       "target": "detailForm",
-      "controls": [
+      "body": [
         {
-          "type": "text",
+          "type": "input-text",
           "placeholder": "关键字",
           "name": "keywords"
         }
@@ -881,7 +879,7 @@ Form 支持轮询初始化接口，步骤如下：
       "type": "form",
       "name": "detailForm",
       "initApi": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/page/initData?keywords=${keywords}",
-      "controls": [
+      "body": [
         {
           "label": "名称",
           "type": "static",
@@ -914,54 +912,81 @@ Form 支持轮询初始化接口，步骤如下：
 
 ## 持久化保存表单项数据
 
-表单默认在重置之后（切换页面、弹框中表单关闭表单），会自动清空掉表单中的所有数据，如果你想持久化保留当前表单项的数据而不清空它，那么配置`persistData:true`
+表单默认在重置之后（切换页面、弹框中表单关闭表单），会自动清空掉表单中的所有数据，如果你想持久化保留当前表单项的数据而不清空它，那么通过 Form 配置 `persistData: "xxx"`，指定一个 `key` ，来实现数据持久化保存
+
+> 注意，如果使用在 CRUD 列表中的编辑框内的 Form 中，可以利用数据映射语法，`persistData: "xxx:${id}"`，来为 form 指定一个唯一的 key
 
 如果想提交成功后，清空该缓存，则配置`"clearPersistDataAfterSubmit": true`
 
+## 禁用回车提交
+
+表单默认情况下回车就会提交，如果想阻止这个行为，可以加上 `preventEnterSubmit` 配置项。
+
+```schema: scope="body"
+{
+    "type": "form",
+    "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
+    "preventEnterSubmit": true,
+    "body": [
+      {
+        "type": "input-text",
+        "name": "name",
+        "label": "姓名："
+      },
+      {
+        "name": "email",
+        "type": "input-email",
+        "label": "邮箱："
+      }
+    ]
+}
+```
+
 ## 属性表
 
-| 属性名                      | 类型                                | 默认值                                                                 | 说明                                                                                                                                                                                                                                                                                                                                                         |
-| --------------------------- | ----------------------------------- | ---------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| type                        | `string`                            |                                                                        | `"form"` 指定为 Form 渲染器                                                                                                                                                                                                                                                                                                                                  |
-| name                        | `string`                            |                                                                        | 设置一个名字后，方便其他组件与其通信                                                                                                                                                                                                                                                                                                                         |
-| mode                        | `string`                            | `normal`                                                               | 表单展示方式，可以是：`normal`、`horizontal` 或者 `inline`                                                                                                                                                                                                                                                                                                   |
-| horizontal                  | `Object`                            | `{"left":"col-sm-2", "right":"col-sm-10", "offset":"col-sm-offset-2"}` | 当 mode 为 `horizontal` 时有用，用来控制 label                                                                                                                                                                                                                                                                                                               |
-| title                       | `string`                            | `"表单"`                                                               | Form 的标题                                                                                                                                                                                                                                                                                                                                                  |
-| submitText                  | `String`                            | `"提交"`                                                               | 默认的提交按钮名称，如果设置成空，则可以把默认按钮去掉。                                                                                                                                                                                                                                                                                                     |
-| className                   | `string`                            |                                                                        | 外层 Dom 的类名                                                                                                                                                                                                                                                                                                                                              |
-| controls                    | Array<[表单项](./formitem)>         |                                                                        | Form 表单项集合                                                                                                                                                                                                                                                                                                                                              |
-| actions                     | Array<[行为按钮](../action)>        |                                                                        | Form 提交按钮，成员为 Action                                                                                                                                                                                                                                                                                                                                 |
-| messages                    | `Object`                            |                                                                        | 消息提示覆写，默认消息读取的是 API 返回的消息，但是在此可以覆写它。                                                                                                                                                                                                                                                                                          |
-| messages.fetchSuccess       | `string`                            |                                                                        | 获取成功时提示                                                                                                                                                                                                                                                                                                                                               |
-| messages.fetchFailed        | `string`                            |                                                                        | 获取失败时提示                                                                                                                                                                                                                                                                                                                                               |
-| messages.saveSuccess        | `string`                            |                                                                        | 保存成功时提示                                                                                                                                                                                                                                                                                                                                               |
-| messages.saveFailed         | `string`                            |                                                                        | 保存失败时提示                                                                                                                                                                                                                                                                                                                                               |
-| wrapWithPanel               | `boolean`                           | `true`                                                                 | 是否让 Form 用 panel 包起来，设置为 false 后，actions 将无效。                                                                                                                                                                                                                                                                                               |
-| panelClassName              | `string`                            |                                                                        | 外层 panel 的类名                                                                                                                                                                                                                                                                                                                                            |
-| api                         | [API](../../../docs/types/api)      |                                                                        | Form 用来保存数据的 api。                                                                                                                                                                                                                                                                                                                                    |
-| initApi                     | [API](../../../docs/types/api)      |                                                                        | Form 用来获取初始数据的 api。                                                                                                                                                                                                                                                                                                                                |
-| rules                       | Array<{rule:string;message:string}> |                                                                        | 表单组合校验规则                                                                                                                                                                                                                                                                                                                                             |
-| interval                    | `number`                            | `3000`                                                                 | 刷新时间(最低 3000)                                                                                                                                                                                                                                                                                                                                          |
-| silentPolling               | `boolean`                           | `false`                                                                | 配置刷新时是否显示加载动画                                                                                                                                                                                                                                                                                                                                   |
-| stopAutoRefreshWhen         | `string`                            | `""`                                                                   | 通过[表达式](./Types.md#表达式) 来配置停止刷新的条件                                                                                                                                                                                                                                                                                                         |
-| initAsyncApi                | [API](../../../docs/types/api)      |                                                                        | Form 用来获取初始数据的 api,与 initApi 不同的是，会一直轮询请求该接口，直到返回 finished 属性为 true 才 结束。                                                                                                                                                                                                                                               |
-| initFetch                   | `boolean`                           | `true`                                                                 | 设置了 initApi 或者 initAsyncApi 后，默认会开始就发请求，设置为 false 后就不会起始就请求接口                                                                                                                                                                                                                                                                 |
-| initFetchOn                 | `string`                            |                                                                        | 用表达式来配置                                                                                                                                                                                                                                                                                                                                               |
-| initFinishedField           | `string`                            | `finished`                                                             | 设置了 initAsyncApi 后，默认会从返回数据的 data.finished 来判断是否完成，也可以设置成其他的 xxx，就会从 data.xxx 中获取                                                                                                                                                                                                                                      |
-| initCheckInterval           | `number`                            | `3000`                                                                 | 设置了 initAsyncApi 以后，默认拉取的时间间隔                                                                                                                                                                                                                                                                                                                 |
-| asyncApi                    | [API](../../../docs/types/api)      |                                                                        | 设置此属性后，表单提交发送保存接口后，还会继续轮询请求该接口，直到返回 `finished` 属性为 `true` 才 结束。                                                                                                                                                                                                                                                    |
-| checkInterval               | `number`                            | 3000                                                                   | 轮询请求的时间间隔，默认为 3 秒。设置 `asyncApi` 才有效                                                                                                                                                                                                                                                                                                      |
-| finishedField               | `string`                            | `"finished"`                                                           | 如果决定结束的字段名不是 `finished` 请设置此属性，比如 `is_success`                                                                                                                                                                                                                                                                                          |
-| submitOnChange              | `boolean`                           | `false`                                                                | 表单修改即提交                                                                                                                                                                                                                                                                                                                                               |
-| submitOnInit                | `boolean`                           | `false`                                                                | 初始就提交一次                                                                                                                                                                                                                                                                                                                                               |
-| resetAfterSubmit            | `boolean`                           | `false`                                                                | 提交后是否重置表单                                                                                                                                                                                                                                                                                                                                           |
-| primaryField                | `string`                            | `"id"`                                                                 | 设置主键 id, 当设置后，检测表单是否完成时（asyncApi），只会携带此数据。                                                                                                                                                                                                                                                                                      |
-| target                      | `string`                            |                                                                        | 默认表单提交自己会通过发送 api 保存数据，但是也可以设定另外一个 form 的 name 值，或者另外一个 `CRUD` 模型的 name 值。 如果 target 目标是一个 `Form` ，则目标 `Form` 会重新触发 `initApi`，api 可以拿到当前 form 数据。如果目标是一个 `CRUD` 模型，则目标模型会重新触发搜索，参数为当前 Form 数据。当目标是 `window` 时，会把当前表单的数据附带到页面地址上。 |
-| redirect                    | `string`                            |                                                                        | 设置此属性后，Form 保存成功后，自动跳转到指定页面。支持相对地址，和绝对地址（相对于组内的）。                                                                                                                                                                                                                                                                |
-| reload                      | `string`                            |                                                                        | 操作完后刷新目标对象。请填写目标组件设置的 name 值，如果填写为 `window` 则让当前页面整体刷新。                                                                                                                                                                                                                                                               |
-| autoFocus                   | `boolean`                           | `false`                                                                | 是否自动聚焦。                                                                                                                                                                                                                                                                                                                                               |
-| canAccessSuperData          | `boolean`                           | `true`                                                                 | 指定是否可以自动获取上层的数据并映射到表单项上                                                                                                                                                                                                                                                                                                               |
-| persistData                 | `boolean`                           | `true`                                                                 | 指定表单是否开启本地缓存                                                                                                                                                                                                                                                                                                                                     |
-| clearPersistDataAfterSubmit | `boolean`                           | `true`                                                                 | 指定表单提交成功后是否清除本地缓存                                                                                                                                                                                                                                                                                                                           |
-| trimValues                  | `boolean`                           | `false`                                                                | trim 当前表单项的每一个值                                                                                                                                                                                                                                                                                                                                    |
-| promptPageLeave             | `boolean`                           | `false`                                                                | form 还没保存，即将离开页面前是否弹框确认。                                                                                                                                                                                                                                                                                                                  |
+| 属性名                      | 类型                                                                      | 默认值                                                                 | 说明                                                                                                                                                                                                                                                                                                                                                         |
+| --------------------------- | ------------------------------------------------------------------------- | ---------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| type                        | `string`                                                                  |                                                                        | `"form"` 指定为 Form 渲染器                                                                                                                                                                                                                                                                                                                                  |
+| name                        | `string`                                                                  |                                                                        | 设置一个名字后，方便其他组件与其通信                                                                                                                                                                                                                                                                                                                         |
+| mode                        | `string`                                                                  | `normal`                                                               | 表单展示方式，可以是：`normal`、`horizontal` 或者 `inline`                                                                                                                                                                                                                                                                                                   |
+| horizontal                  | `Object`                                                                  | `{"left":"col-sm-2", "right":"col-sm-10", "offset":"col-sm-offset-2"}` | 当 mode 为 `horizontal` 时有用，用来控制 label                                                                                                                                                                                                                                                                                                               |
+| title                       | `string`                                                                  | `"表单"`                                                               | Form 的标题                                                                                                                                                                                                                                                                                                                                                  |
+| submitText                  | `String`                                                                  | `"提交"`                                                               | 默认的提交按钮名称，如果设置成空，则可以把默认按钮去掉。                                                                                                                                                                                                                                                                                                     |
+| className                   | `string`                                                                  |                                                                        | 外层 Dom 的类名                                                                                                                                                                                                                                                                                                                                              |
+| body                        | Array<[表单项](./formitem) or [SchemaNode](../../docs/types/schemanode) > |                                                                        | Form 表单项集合                                                                                                                                                                                                                                                                                                                                              |
+| actions                     | Array<[行为按钮](../action)>                                              |                                                                        | Form 提交按钮，成员为 Action                                                                                                                                                                                                                                                                                                                                 |
+| messages                    | `Object`                                                                  |                                                                        | 消息提示覆写，默认消息读取的是 API 返回的消息，但是在此可以覆写它。                                                                                                                                                                                                                                                                                          |
+| messages.fetchSuccess       | `string`                                                                  |                                                                        | 获取成功时提示                                                                                                                                                                                                                                                                                                                                               |
+| messages.fetchFailed        | `string`                                                                  |                                                                        | 获取失败时提示                                                                                                                                                                                                                                                                                                                                               |
+| messages.saveSuccess        | `string`                                                                  |                                                                        | 保存成功时提示                                                                                                                                                                                                                                                                                                                                               |
+| messages.saveFailed         | `string`                                                                  |                                                                        | 保存失败时提示                                                                                                                                                                                                                                                                                                                                               |
+| wrapWithPanel               | `boolean`                                                                 | `true`                                                                 | 是否让 Form 用 panel 包起来，设置为 false 后，actions 将无效。                                                                                                                                                                                                                                                                                               |
+| panelClassName              | `string`                                                                  |                                                                        | 外层 panel 的类名                                                                                                                                                                                                                                                                                                                                            |
+| api                         | [API](../../../docs/types/api)                                            |                                                                        | Form 用来保存数据的 api。                                                                                                                                                                                                                                                                                                                                    |
+| initApi                     | [API](../../../docs/types/api)                                            |                                                                        | Form 用来获取初始数据的 api。                                                                                                                                                                                                                                                                                                                                |
+| rules                       | Array<{rule:string;message:string}>                                       |                                                                        | 表单组合校验规则                                                                                                                                                                                                                                                                                                                                             |
+| interval                    | `number`                                                                  | `3000`                                                                 | 刷新时间(最低 3000)                                                                                                                                                                                                                                                                                                                                          |
+| silentPolling               | `boolean`                                                                 | `false`                                                                | 配置刷新时是否显示加载动画                                                                                                                                                                                                                                                                                                                                   |
+| stopAutoRefreshWhen         | `string`                                                                  | `""`                                                                   | 通过[表达式](./Types.md#表达式) 来配置停止刷新的条件                                                                                                                                                                                                                                                                                                         |
+| initAsyncApi                | [API](../../../docs/types/api)                                            |                                                                        | Form 用来获取初始数据的 api,与 initApi 不同的是，会一直轮询请求该接口，直到返回 finished 属性为 true 才 结束。                                                                                                                                                                                                                                               |
+| initFetch                   | `boolean`                                                                 | `true`                                                                 | 设置了 initApi 或者 initAsyncApi 后，默认会开始就发请求，设置为 false 后就不会起始就请求接口                                                                                                                                                                                                                                                                 |
+| initFetchOn                 | `string`                                                                  |                                                                        | 用表达式来配置                                                                                                                                                                                                                                                                                                                                               |
+| initFinishedField           | `string`                                                                  | `finished`                                                             | 设置了 initAsyncApi 后，默认会从返回数据的 data.finished 来判断是否完成，也可以设置成其他的 xxx，就会从 data.xxx 中获取                                                                                                                                                                                                                                      |
+| initCheckInterval           | `number`                                                                  | `3000`                                                                 | 设置了 initAsyncApi 以后，默认拉取的时间间隔                                                                                                                                                                                                                                                                                                                 |
+| asyncApi                    | [API](../../../docs/types/api)                                            |                                                                        | 设置此属性后，表单提交发送保存接口后，还会继续轮询请求该接口，直到返回 `finished` 属性为 `true` 才 结束。                                                                                                                                                                                                                                                    |
+| checkInterval               | `number`                                                                  | 3000                                                                   | 轮询请求的时间间隔，默认为 3 秒。设置 `asyncApi` 才有效                                                                                                                                                                                                                                                                                                      |
+| finishedField               | `string`                                                                  | `"finished"`                                                           | 如果决定结束的字段名不是 `finished` 请设置此属性，比如 `is_success`                                                                                                                                                                                                                                                                                          |
+| submitOnChange              | `boolean`                                                                 | `false`                                                                | 表单修改即提交                                                                                                                                                                                                                                                                                                                                               |
+| submitOnInit                | `boolean`                                                                 | `false`                                                                | 初始就提交一次                                                                                                                                                                                                                                                                                                                                               |
+| resetAfterSubmit            | `boolean`                                                                 | `false`                                                                | 提交后是否重置表单                                                                                                                                                                                                                                                                                                                                           |
+| primaryField                | `string`                                                                  | `"id"`                                                                 | 设置主键 id, 当设置后，检测表单是否完成时（asyncApi），只会携带此数据。                                                                                                                                                                                                                                                                                      |
+| target                      | `string`                                                                  |                                                                        | 默认表单提交自己会通过发送 api 保存数据，但是也可以设定另外一个 form 的 name 值，或者另外一个 `CRUD` 模型的 name 值。 如果 target 目标是一个 `Form` ，则目标 `Form` 会重新触发 `initApi`，api 可以拿到当前 form 数据。如果目标是一个 `CRUD` 模型，则目标模型会重新触发搜索，参数为当前 Form 数据。当目标是 `window` 时，会把当前表单的数据附带到页面地址上。 |
+| redirect                    | `string`                                                                  |                                                                        | 设置此属性后，Form 保存成功后，自动跳转到指定页面。支持相对地址，和绝对地址（相对于组内的）。                                                                                                                                                                                                                                                                |
+| reload                      | `string`                                                                  |                                                                        | 操作完后刷新目标对象。请填写目标组件设置的 name 值，如果填写为 `window` 则让当前页面整体刷新。                                                                                                                                                                                                                                                               |
+| autoFocus                   | `boolean`                                                                 | `false`                                                                | 是否自动聚焦。                                                                                                                                                                                                                                                                                                                                               |
+| canAccessSuperData          | `boolean`                                                                 | `true`                                                                 | 指定是否可以自动获取上层的数据并映射到表单项上                                                                                                                                                                                                                                                                                                               |
+| persistData                 | `string`                                                                  | `""`                                                                   | 指定一个唯一的 key，来配置当前表单是否开启本地缓存                                                                                                                                                                                                                                                                                                           |
+| clearPersistDataAfterSubmit | `boolean`                                                                 | `true`                                                                 | 指定表单提交成功后是否清除本地缓存                                                                                                                                                                                                                                                                                                                           |
+| preventEnterSubmit          | `boolean`                                                                 | `false`                                                                | 禁用回车提交表单                                                                                                                                                                                                                                                                                                                                             |
+| trimValues                  | `boolean`                                                                 | `false`                                                                | trim 当前表单项的每一个值                                                                                                                                                                                                                                                                                                                                    |
+| promptPageLeave             | `boolean`                                                                 | `false`                                                                | form 还没保存，即将离开页面前是否弹框确认。                                                                                                                                                                                                                                                                                                                  |

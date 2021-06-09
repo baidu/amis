@@ -22,6 +22,8 @@ export interface fetcherResult {
     errors?: {
       [propName: string]: string;
     };
+    type?: string;
+    [propName: string]: any; // 为了兼容其他返回格式
   };
   status: number;
   headers: object;
@@ -85,6 +87,7 @@ export interface Action extends Button {
     | 'jump'
     | 'link'
     | 'url'
+    | 'email'
     | 'close'
     | 'confirm'
     | 'add'
@@ -106,6 +109,10 @@ export interface Action extends Button {
   target?: string;
   link?: string;
   url?: string;
+  cc?: string;
+  bcc?: string;
+  subject?: string;
+  body?: string;
   mergeData?: boolean;
   reload?: string;
   messages?: {

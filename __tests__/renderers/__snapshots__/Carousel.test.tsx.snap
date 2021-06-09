@@ -32,14 +32,15 @@ exports[`Renderer:carousel 1`] = `
               标题
             </div>
             
-         
+        
+        
             
             <div
               class="description block"
             >
               描述
             </div>
-             
+            
         
     
     
@@ -61,6 +62,7 @@ exports[`Renderer:carousel 1`] = `
               style="background-image: url('https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=3893101144,2877209892&fm=23&gp=0.jpg'); background-size: contain; background-repeat: no-repeat; background-position: center center;"
             />
             
+        
         
     
     

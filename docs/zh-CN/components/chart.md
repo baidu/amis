@@ -339,23 +339,23 @@ api 返回支持两种格式，一种是直接返回完整 echarts 配置，数�
         "className": "m-b",
         "wrapWithPanel": false,
         "mode": "inline",
-        "controls": [
+        "body": [
             {
-                "type": "date",
+                "type": "input-date",
                 "label": "开始日期",
                 "name": "starttime",
                 "value": "-8days",
                 "maxDate": "${endtime}"
             },
             {
-                "type": "date",
+                "type": "input-date",
                 "label": "结束日期",
                 "name": "endtime",
                 "value": "-1days",
                 "minDate": "${starttime}"
             },
             {
-                "type": "text",
+                "type": "input-text",
                 "label": "条件",
                 "name": "name",
                 "addOn": {

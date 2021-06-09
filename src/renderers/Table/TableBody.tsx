@@ -188,7 +188,7 @@ export class TableBody extends React.Component<TableBodyProps> {
 
     for (let index = 0; index < filterColumns.length; index++) {
       const item = items[filterColumns[index].rawIndex];
-      item && result.push(item);
+      item && result.push({...item});
     }
 
     //  如果是勾选栏，让它和下一列合并。

@@ -14,6 +14,7 @@ export interface ValueProps extends ThemeProps, LocaleProps {
   onChange: (value: any) => void;
   field: FieldSimple;
   op?: OperatorType;
+  disabled?: boolean;
 }
 
 export class Value extends React.Component<ValueProps> {
@@ -25,7 +26,8 @@ export class Value extends React.Component<ValueProps> {
       onChange,
       op,
       translate: __,
-      data
+      data,
+      disabled
     } = this.props;
     let input: JSX.Element | undefined = undefined;
 
@@ -35,6 +37,7 @@ export class Value extends React.Component<ValueProps> {
           value={value ?? field.defaultValue}
           onChange={onChange}
           placeholder={field.placeholder}
+          disabled={disabled}
         />
       );
     } else if (field.type === 'number') {
@@ -47,6 +50,7 @@ export class Value extends React.Component<ValueProps> {
           precision={field.precision}
           value={value ?? field.defaultValue}
           onChange={onChange}
+          disabled={disabled}
         />
       );
     } else if (field.type === 'date') {
@@ -58,6 +62,7 @@ export class Value extends React.Component<ValueProps> {
           value={value ?? field.defaultValue}
           onChange={onChange}
           timeFormat=""
+          disabled={disabled}
         />
       );
     } else if (field.type === 'time') {
@@ -71,6 +76,7 @@ export class Value extends React.Component<ValueProps> {
           onChange={onChange}
           dateFormat=""
           timeFormat={field.format || 'HH:mm'}
+          disabled={disabled}
         />
       );
     } else if (field.type === 'datetime') {
@@ -82,6 +88,7 @@ export class Value extends React.Component<ValueProps> {
           value={value ?? field.defaultValue}
           onChange={onChange}
           timeFormat={field.timeFormat || 'HH:mm'}
+          disabled={disabled}
         />
       );
     } else if (field.type === 'select') {
@@ -95,11 +102,16 @@ export class Value extends React.Component<ValueProps> {
           data={data}
           onChange={onChange}
           multiple={op === 'select_any_in' || op === 'select_not_any_in'}
+          disabled={disabled}
         />
       );
     } else if (field.type === 'boolean') {
       input = (
-        <Switch value={value ?? field.defaultValue} onChange={onChange} />
+        <Switch
+          value={value ?? field.defaultValue}
+          onChange={onChange}
+          disabled={disabled}
+        />
       );
     }
 

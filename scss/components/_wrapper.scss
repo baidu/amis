@@ -1,27 +1,21 @@
 .#{$ns}Wrapper {
-  padding: px2rem(15px);
-
   &--xs {
-    padding: px2rem(5px);
+    padding: var(--gap-xs);
   }
 
   &--sm {
-    padding: px2rem(10px);
+    padding: var(--gap-sm);
   }
 
   &--md {
-    padding: px2rem(20px);
+    padding: var(--gap-md);
   }
 
   &--lg {
-    padding: px2rem(30px);
+    padding: var(--gap-lg);
   }
 
   &--xl {
-    padding: px2rem(50px);
-  }
-
-  &--none {
-    padding: 0;
+    padding: var(--gap-xl);
   }
 }

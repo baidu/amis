@@ -1,5 +1,4 @@
 export default {
-  $schema: 'https://houtai.baidu.com/v2/schemas/page.json#',
   title: '增删改查示例',
   remark: 'bla bla bla',
   body: {
@@ -14,9 +13,9 @@ export default {
     filter: {
       title: '条件搜索',
       submitText: '',
-      controls: [
+      body: [
         {
-          type: 'text',
+          type: 'input-text',
           name: 'keywords',
           placeholder: '通过关键字搜索',
           addOn: {
@@ -49,10 +48,10 @@ export default {
           body: {
             type: 'form',
             api: '/api/sample/bulkUpdate2',
-            controls: [
+            body: [
               {type: 'hidden', name: 'ids'},
               {
-                type: 'text',
+                type: 'input-text',
                 name: 'engine',
                 label: 'Engine'
               }
@@ -75,7 +74,7 @@ export default {
             title: '查看',
             body: {
               type: 'form',
-              controls: [
+              body: [
                 {
                   type: 'static',
                   name: 'engine',
@@ -135,9 +134,9 @@ export default {
               type: 'form',
               name: 'sample-edit-form',
               api: '/api/sample/$id',
-              controls: [
+              body: [
                 {
-                  type: 'text',
+                  type: 'input-text',
                   name: 'engine',
                   label: 'Engine',
                   required: true
@@ -146,7 +145,7 @@ export default {
                   type: 'divider'
                 },
                 {
-                  type: 'text',
+                  type: 'input-text',
                   name: 'browser',
                   label: 'Browser',
                   required: true
@@ -155,7 +154,7 @@ export default {
                   type: 'divider'
                 },
                 {
-                  type: 'text',
+                  type: 'input-text',
                   name: 'platform',
                   label: 'Platform(s)',
                   required: true
@@ -164,7 +163,7 @@ export default {
                   type: 'divider'
                 },
                 {
-                  type: 'text',
+                  type: 'input-text',
                   name: 'version',
                   label: 'Engine version'
                 },
@@ -172,7 +171,7 @@ export default {
                   type: 'divider'
                 },
                 {
-                  type: 'text',
+                  type: 'input-text',
                   name: 'grade',
                   label: 'CSS grade'
                 }
@@ -196,18 +195,21 @@ export default {
           quickEdit: true,
           labelClassName: 'w-sm pull-left text-muted'
         },
-        [
-          {
-            name: 'browser',
-            label: 'Browser',
-            labelClassName: 'w-sm pull-left text-muted'
-          },
-          {
-            name: 'platform',
-            label: 'Platform(s)',
-            labelClassName: 'w-sm pull-left text-muted'
-          }
-        ],
+        {
+          type: 'hbox',
+          columns: [
+            {
+              name: 'browser',
+              label: 'Browser',
+              labelClassName: 'w-sm pull-left text-muted'
+            },
+            {
+              name: 'platform',
+              label: 'Platform(s)',
+              labelClassName: 'w-sm pull-left text-muted'
+            }
+          ]
+        },
         {
           name: 'version',
           label: 'Engine version',

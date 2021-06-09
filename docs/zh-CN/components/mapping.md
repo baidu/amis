@@ -102,7 +102,7 @@ List 的内容、Card 卡片的内容配置同上
     "data": {
         "type": "2"
     },
-    "controls": [
+    "body": [
         {
             "type": "static-mapping",
             "name": "type",
@@ -119,11 +119,109 @@ List 的内容、Card 卡片的内容配置同上
 }
 ```
 
+### 布尔值映射
+
+```schema: scope="body"
+{
+    "type": "form",
+    "data": {
+        "type": true
+    },
+    "body": [
+        {
+            "type": "static-mapping",
+            "name": "type",
+            "label": "映射",
+            "map": {
+                "1": "<span class='label label-info'>开</span>",
+                "0": "<span class='label label-default'>关</span>"
+            }
+        }
+    ]
+}
+```
+
+或者
+
+```schema: scope="body"
+{
+    "type": "form",
+    "data": {
+        "type": true
+    },
+    "body": [
+        {
+            "type": "static-mapping",
+            "name": "type",
+            "label": "映射",
+            "map": {
+                "true": "<span class='label label-info'>开</span>",
+                "false": "<span class='label label-default'>关</span>"
+            }
+        }
+    ]
+}
+```
+
+### 远程拉取字典
+
+> since 1.1.6
+
+通过配置 `source` 接口来实现，接口返回字典对象即可，数据格式参考 map 配置。
+
+```schema: scope="body"
+{
+    "type": "form",
+    "data": {
+        "type": "2"
+    },
+    "body": [
+        {
+            "type": "mapping",
+            "name": "type",
+            "label": "映射",
+            "source": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mapping"
+        }
+    ]
+}
+```
+
+> 默认 source 是有 30s 缓存的，通常字典数据不长变更。如果想修改，请参考 [API](../../../docs/types/api) 文档配置缓存。
+
+### 关联上下文变量
+
+> since 1.1.6
+
+同样通过配置 `source` 来实现，只是格式是取变量。
+
+```schema: scope="body"
+{
+    "type": "form",
+    "initApi": {
+        "url": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mapping",
+        "method": "get",
+        "responseData": {
+            "zidian": "$$$$",
+            "type": "2"
+        }
+    },
+    "body": [
+        {
+            "type": "mapping",
+            "name": "type",
+            "label": "映射",
+            "source": "$${zidian}"
+        }
+    ]
+}
+```
+
 ## 属性表
 
-| 属性名      | 类型     | 默认值 | 说明                                                                                   |
-| ----------- | -------- | ------ | -------------------------------------------------------------------------------------- |
-| type        | `string` |        | 如果在 Table、Card 和 List 中，为`"color"`；在 Form 中用作静态展示，为`"static-color"` |
-| className   | `string` |        | 外层 CSS 类名                                                                          |
-| placeholder | `string` |        | 占位文本                                                                               |
-| map         | `object` |        | 映射配置                                                                               |
+| 属性名      | 类型              | 默认值 | 说明                                                                                   |
+| ----------- | ----------------- | ------ | -------------------------------------------------------------------------------------- |
+| type        | `string`          |        | 如果在 Table、Card 和 List 中，为`"color"`；在 Form 中用作静态展示，为`"static-color"` |
+| className   | `string`          |        | 外层 CSS 类名                                                                          |
+| placeholder | `string`          |        | 占位文本                                                                               |
+| map         | `object`          |        | 映射配置                                                                               |
+| source      | `string` or `API` |        | [API](../../../docs/types/api) 或 [数据映射](../../../docs/concepts/data-mapping)      |

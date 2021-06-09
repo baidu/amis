@@ -50,7 +50,17 @@ API 类型用于配置请求接口的格式，涉及请求方式、请求地址�
 - **msg**: 返回接口处理信息，主要用于表单提交或请求失败时的 `toast` 显示；
 - **data**: 必须返回一个具有 `key-value` 结构的对象。
 
-**`status`**、**`msg`** 和 **`data`** 字段为接口返回的必要字段；
+**`status`**、**`msg`** 和 **`data`** 字段为接口返回的必要字段。
+
+> 1.1.7
+
+为了方便更多场景使用，还兼容了以下这些错误返回格式：
+
+1. errorCode 作为 status、errorMessage 作为 msg
+2. errno 作为 status、errmsg/errstr 作为 msg
+3. error 作为 status、errmsg 作为 msg
+4. error.code 作为 status、error.message 作为 msg
+5. message 作为 msg
 
 ### 正确的格式
 
@@ -140,15 +150,15 @@ API 还支持配置对象类型
         }
 
     },
-    "controls": [
+    "body": [
       {
-        "type": "text",
+        "type": "input-text",
         "name": "name",
         "label": "姓名："
       },
       {
         "name": "email",
-        "type": "email",
+        "type": "input-email",
         "label": "邮箱："
       }
     ]
@@ -191,15 +201,15 @@ API 还支持配置对象类型
             "&": "$$$$" // 获取表单数据域中的所有值
         }
     },
-    "controls": [
+    "body": [
       {
-        "type": "text",
+        "type": "input-text",
         "name": "name",
         "label": "姓名："
       },
       {
         "name": "email",
-        "type": "email",
+        "type": "input-email",
         "label": "邮箱："
       }
     ]
@@ -218,15 +228,15 @@ API 还支持配置对象类型
         "url": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
         "dataType": "form"
     },
-    "controls": [
+    "body": [
       {
-        "type": "text",
+        "type": "input-text",
         "name": "name",
         "label": "姓名："
       },
       {
         "name": "email",
-        "type": "email",
+        "type": "input-email",
         "label": "邮箱："
       }
     ]
@@ -245,15 +255,15 @@ API 还支持配置对象类型
         "url": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
         "dataType": "form-data"
     },
-    "controls": [
+    "body": [
       {
-        "type": "text",
+        "type": "input-text",
         "name": "name",
         "label": "姓名："
       },
       {
         "name": "email",
-        "type": "email",
+        "type": "input-email",
         "label": "邮箱："
       }
     ]
@@ -269,15 +279,15 @@ API 还支持配置对象类型
         "method": "post",
         "url": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm"
     },
-    "controls": [
+    "body": [
       {
-        "type": "text",
+        "type": "input-text",
         "name": "name",
         "label": "姓名："
       },
       {
         "name": "file",
-        "type": "file",
+        "type": "input-file",
         "label": "附件：",
         "asBlob": true
       }
@@ -301,15 +311,15 @@ API 还支持配置对象类型
             "my-header": "aaa"
         }
     },
-    "controls": [
+    "body": [
       {
-        "type": "text",
+        "type": "input-text",
         "name": "name",
         "label": "姓名："
       },
       {
         "name": "email",
-        "type": "email",
+        "type": "input-email",
         "label": "邮箱："
       }
     ]
@@ -325,7 +335,7 @@ API 还支持配置对象类型
     "title": "",
     "type": "form",
     "mode": "horizontal",
-    "controls": [
+    "body": [
       {
         "label": "选项1",
         "type": "radios",
@@ -462,6 +472,38 @@ API 还支持配置对象类型
 }
 ```
 
+另一个常用示例是 `"type": "select"` 的 `source` 数据源，如果接口返回的是：
+
+```json
+{
+  "data": [
+    {
+      "myLabel": "lab",
+      "myValue": 1
+    }
+  ]
+}
+```
+
+而 select 所需的数据格式是 `[{"label": "lab", "value": 1}]`，如何进行映射？
+
+方法是
+
+```json
+{
+  "type": "select",
+  "source": {
+    "method": "get",
+    "url": "http://xxx",
+    "responseData": {
+      "options": "${items|pick:label~myLabel,value~myValue}"
+    }
+  }
+}
+```
+
+需要注意上面例子中 `items` 是因为数据直接放在了 `data` 中，如果是放在其他字段中就换成对应的字段名。
+
 ### 配置请求适配器
 
 amis 的 API 配置，如果无法配置出你想要的请求结构，那么可以配置`requestAdaptor`发送适配器
@@ -500,15 +542,15 @@ function (api) {
         "url": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
         "requestAdaptor": "return {\n    ...api,\n    data: {\n        ...api.data,    // 获取暴露的 api 中的 data 变量\n        foo: 'bar'      // 新添加数据\n    }\n}"
     },
-    "controls": [
+    "body": [
       {
-        "type": "text",
+        "type": "input-text",
         "name": "name",
         "label": "姓名："
       },
       {
         "name": "email",
-        "type": "email",
+        "type": "input-email",
         "label": "邮箱："
       }
     ]
@@ -551,15 +593,15 @@ const schema = {
       };
     }
   },
-  controls: [
+  body: [
     {
-      type: 'text',
+      type: 'input-text',
       name: 'name',
       label: '姓名：'
     },
     {
       name: 'text',
-      type: 'email',
+      type: 'input-email',
       label: '邮箱：'
     }
   ]
@@ -592,7 +634,7 @@ const schema = {
 字符串形式实际上可以认为是外层包裹了一层函数，你需要补充内部的函数实现，并将修改好的 `payload` 对象 `return` 出去：
 
 ```js
-function (payload, responsee) {
+function (payload, response) {
   // 你的适配器代码
 }
 ```
@@ -607,15 +649,15 @@ function (payload, responsee) {
     "url": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
     "adaptor": "return {\n    ...payload,\n    status: payload.code === 200 ? 0 : payload.code\n}"
   },
-  "controls": [
+  "body": [
     {
-      "type": "text",
+      "type": "input-text",
       "name": "name",
       "label": "姓名："
     },
     {
       "name": "file",
-      "type": "file",
+      "type": "input-file",
       "label": "附件：",
       "asBlob": true
     }
@@ -653,15 +695,15 @@ const schema = {
       };
     }
   },
-  controls: [
+  body: [
     {
-      type: 'text',
+      type: 'input-text',
       name: 'name',
       label: '姓名：'
     },
     {
       name: 'email',
-      type: 'email',
+      type: 'input-email',
       label: '邮箱：'
     }
   ]
@@ -717,7 +759,7 @@ Content-Disposition: attachment; filename="download.pdf"
   "title": "监听表单内部的修改",
   "initApi": "/api/mock2/form/initData?tpl=${tpl}",
   "actions": [],
-  "controls": [
+  "body": [
     {
       "label": "数据模板",
       "type": "select",
@@ -771,20 +813,73 @@ Content-Disposition: attachment; filename="download.pdf"
 
 【重点】利用这个 feature 结合 `sendOn` 接口发送条件，可以做到接口的串行加载。比如，接口 2 的地址上写上接口 1 会返回的某个字段，然后配置接口 2 的发送条件为这个字段必须存在时。这样接口 2 就会等接口 1 完了才会加载。
 
+## 跟踪数据自动刷新
+
+> since 1.1.6
+
+之前的版本，配置的 api 默认就会具备自动刷新功能，除非显式的配置 `autoRefresh: false` 来关闭。自动刷新主要通过跟踪 api 的 url 属性来完成的，如果 url 中了使用了某个变量，而这个变量发生变化则会触发自动刷新。
+也就说这个 url 地址，既能控制 api 请求的 query 参数，同时又起到跟踪变量重新刷新接口的作用。这个设定大部分情况下都是合理的，但是有时候想要跟踪 url 参数以外的变量就做不到了。所以新增了此属性 `trackExpression`，显式的配置需要跟踪的变量如：
+
+```schema: scope="body"
+{
+    "title": "",
+    "type": "form",
+    "mode": "horizontal",
+    "body": [
+      {
+        "label": "选项1",
+        "type": "radios",
+        "name": "a",
+        "inline": true,
+        "options": [
+          {
+            "label": "选项A",
+            "value": 1
+          },
+          {
+            "label": "选项B",
+            "value": 2
+          },
+          {
+            "label": "选项C",
+            "value": 3
+          }
+        ]
+      },
+      {
+        "label": "选项2",
+        "type": "select",
+        "size": "sm",
+        "name": "b",
+        "source": {
+          "method": "get",
+          "url": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/options/level2",
+          "trackExpression": "${a}"
+        },
+        "description": "切换<code>选项1</code>的值，会触发<code>选项2</code>的<code>source</code> 接口重新拉取"
+      }
+    ],
+    "actions": []
+}
+```
+
 ## 属性表
 
-| 字段名         | 说明         | 类型                                                                                                 | 备注                                                                                                                                                                                          |
-| -------------- | ------------ | ---------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| method         | 请求方式     | 字符串                                                                                               | 支持：get、post、put、delete                                                                                                                                                                  |
-| url            | 请求地址     | [模板字符串](https://suda.bce.baidu.com/docs/template#%E6%A8%A1%E6%9D%BF%E5%AD%97%E7%AC%A6%E4%B8%B2) | -                                                                                                                                                                                             |
-| data           | 请求数据     | 对象或字符串                                                                                         | 支持数据映射                                                                                                                                                                                  |
-| dataType       | 数据体格式   | 字符串                                                                                               | 默认为 `json` 可以配置成 `form` 或者 `form-data`。当 `data` 中包含文件时，自动会采用 `form-data（multipart/form-data）` 格式。当配置为 `form` 时为 `application/x-www-form-urlencoded` 格式。 |
-| qsOptions      | --           | 对象或字符串                                                                                         | 当 dataType 为 form 或者 form-data 的时候有用。具体参数请参考这里，默认设置为: `{ arrayFormat: 'indices', encodeValuesOnly: true }`                                                           |
-| headers        | 请求头       | 对象                                                                                                 | -                                                                                                                                                                                             |
-| sendOn         | 请求条件     | [表达式](../concepts/expression)                                                                     | -                                                                                                                                                                                             |
-| cache          | 接口缓存时间 | 整型数字                                                                                             | -                                                                                                                                                                                             |
-| requestAdaptor | 发送适配器   | 字符串                                                                                               | ，支持字符串串格式，或者直接就是函数如：                                                                                                                                                      |
-| adaptor        | 接收适配器   | 字符串                                                                                               | 如果接口返回不符合要求，可以通过配置一个适配器来处理成 amis 需要的。同样支持 Function 或者 字符串函数体格式                                                                                   |
-| replaceData    | 替换当前数据 | 布尔                                                                                                 | 返回的数据是否替换掉当前的数据，默认为 `false`，即：`追加`，设置成 `true` 就是完全替换。                                                                                                      |
-| responseType   | 返回类型     | 字符串                                                                                               | 如果是下载需要设置为 'blob'                                                                                                                                                                   |
-| autoRefresh    | 是否自动刷新 | 布尔                                                                                                 | 配置是否需要自动刷新接口。                                                                                                                                                                    |
+| 字段名          | 说明         | 类型                                                                                                 | 备注                                                                                                                                                                                          |
+| --------------- | ------------ | ---------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| method          | 请求方式     | 字符串                                                                                               | 支持：get、post、put、delete                                                                                                                                                                  |
+| url             | 请求地址     | [模板字符串](https://suda.bce.baidu.com/docs/template#%E6%A8%A1%E6%9D%BF%E5%AD%97%E7%AC%A6%E4%B8%B2) | -                                                                                                                                                                                             |
+| data            | 请求数据     | 对象或字符串                                                                                         | 支持数据映射                                                                                                                                                                                  |
+| dataType        | 数据体格式   | 字符串                                                                                               | 默认为 `json` 可以配置成 `form` 或者 `form-data`。当 `data` 中包含文件时，自动会采用 `form-data（multipart/form-data）` 格式。当配置为 `form` 时为 `application/x-www-form-urlencoded` 格式。 |
+| qsOptions       | --           | 对象或字符串                                                                                         | 当 dataType 为 form 或者 form-data 的时候有用。具体参数请参考这里，默认设置为: `{ arrayFormat: 'indices', encodeValuesOnly: true }`                                                           |
+| headers         | 请求头       | 对象                                                                                                 | -                                                                                                                                                                                             |
+| sendOn          | 请求条件     | [表达式](../concepts/expression)                                                                     | -                                                                                                                                                                                             |
+| cache           | 接口缓存时间 | 整型数字                                                                                             | -                                                                                                                                                                                             |
+| requestAdaptor  | 发送适配器   | 字符串                                                                                               | ，支持字符串串格式，或者直接就是函数如：                                                                                                                                                      |
+| adaptor         | 接收适配器   | 字符串                                                                                               | 如果接口返回不符合要求，可以通过配置一个适配器来处理成 amis 需要的。同样支持 Function 或者 字符串函数体格式                                                                                   |
+| replaceData     | 替换当前数据 | 布尔                                                                                                 | 返回的数据是否替换掉当前的数据，默认为 `false`，即：`追加`，设置成 `true` 就是完全替换。                                                                                                      |
+| responseType    | 返回类型     | 字符串                                                                                               | 如果是下载需要设置为 'blob'                                                                                                                                                                   |
+| autoRefresh     | 是否自动刷新 | 布尔                                                                                                 | 配置是否需要自动刷新接口。                                                                                                                                                                    |
+| responseData    | 配置返回数据 | 对象                                                                                                 | 对返回结果做个映射                                                                                                                                                                            |
+| autoRefresh     | 是否自动刷新 | 布尔                                                                                                 |                                                                                                                                                                                               |
+| trackExpression | 跟踪变量     | 字符串                                                                                               | 配置跟踪变量表达式                                                                                                                                                                            |

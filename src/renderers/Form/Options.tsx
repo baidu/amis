@@ -12,7 +12,9 @@ import {
   setVariable,
   spliceTree,
   findTreeIndex,
-  getTree
+  getTree,
+  isEmpty,
+  getTreeAncestors
 } from '../../utils/helper';
 import {reaction} from 'mobx';
 import {
@@ -20,8 +22,7 @@ import {
   registerFormItem,
   FormItemBasicConfig,
   detectProps as itemDetectProps,
-  FormBaseControl,
-  FormControlSchema
+  FormBaseControl
 } from './Item';
 import {IFormItemStore} from '../../store/formItem';
 export type OptionsControlComponent = React.ComponentType<FormControlProps>;
@@ -29,7 +30,8 @@ export type OptionsControlComponent = React.ComponentType<FormControlProps>;
 import React from 'react';
 import {
   resolveVariableAndFilter,
-  isPureVariable
+  isPureVariable,
+  dataMapping
 } from '../../utils/tpl-builtin';
 import {
   Option,
@@ -42,6 +44,7 @@ import findIndex from 'lodash/findIndex';
 import {
   SchemaApi,
   SchemaExpression,
+  SchemaObject,
   SchemaTokenizeableString
 } from '../../Schema';
 
@@ -123,7 +126,7 @@ export interface FormOptionsControl extends FormBaseControl {
   /**
    * 新增时的表单项。
    */
-  addControls?: Array<FormControlSchema>;
+  addControls?: Array<SchemaObject>;
 
   /**
    * 是否可以新增
@@ -148,7 +151,7 @@ export interface FormOptionsControl extends FormBaseControl {
   /**
    * 选项修改的表单项
    */
-  editControls?: Array<FormControlSchema>;
+  editControls?: Array<SchemaObject>;
 
   /**
    * 是否可删除
@@ -226,6 +229,7 @@ export interface OptionsProps
 }
 
 export const detectProps = itemDetectProps.concat([
+  'value',
   'options',
   'size',
   'buttons',
@@ -311,19 +315,25 @@ export function registerOptionsControl(config: OptionsConfig) {
 
       loadOptions &&
         config.autoLoadOptionsFromSource !== false &&
-        (formInited
+        (formInited || !addHook
           ? this.reload()
           : addHook && addHook(this.initOptions, 'init'));
     }
 
     componentDidMount() {
       this.normalizeValue();
+
+      if (this.props.value) {
+        this.syncAutoFill(this.props.value);
+      }
     }
 
     shouldComponentUpdate(nextProps: OptionsProps) {
       if (config.strictMode === false || nextProps.strictMode === false) {
         return true;
       } else if (nextProps.source || nextProps.autoComplete) {
+        return true;
+      } else if (nextProps.formItem?.expressionsInOptions) {
         return true;
       }
 
@@ -338,16 +348,6 @@ export function registerOptionsControl(config: OptionsConfig) {
       const props = this.props;
       const formItem = props.formItem as IFormItemStore;
 
-      if (!formItem || !props.formInited) {
-        return;
-      } else if (!prevProps.formItem) {
-        // todo 优化 name 变化情况。
-      }
-
-      if (prevProps.value !== props.value || formItem.expressionsInOptions) {
-        formItem.syncOptions();
-      }
-
       if (prevProps.options !== props.options && formItem) {
         formItem.setOptions(
           normalizeOptions(props.options || []),
@@ -356,6 +356,7 @@ export function registerOptionsControl(config: OptionsConfig) {
         this.normalizeValue();
       } else if (
         config.autoLoadOptionsFromSource !== false &&
+        props.formInited &&
         props.source &&
         formItem &&
         (prevProps.source !== props.source || prevProps.data !== props.data)
@@ -399,13 +400,57 @@ export function registerOptionsControl(config: OptionsConfig) {
             .then(() => this.normalizeValue());
         }
       }
+
+      if (prevProps.value !== props.value || formItem?.expressionsInOptions) {
+        formItem.syncOptions();
+        this.syncAutoFill(props.value);
+      }
     }
 
     componentWillUnmount() {
-      this.props.removeHook && this.props.removeHook(this.reload, 'init');
-      this.reaction && this.reaction();
+      this.props.removeHook?.(this.reload, 'init');
+      this.reaction?.();
     }
 
+    syncAutoFill(value: any) {
+      const {autoFill, multiple, onBulkChange} = this.props;
+      const formItem = this.props.formItem as IFormItemStore;
+
+      if (autoFill && !isEmpty(autoFill) && formItem.filteredOptions.length) {
+        const selectedOptions = formItem.getSelectedOptions(value);
+        const toSync = dataMapping(
+          autoFill,
+          multiple
+            ? {
+                items: selectedOptions.map(item =>
+                  createObject(
+                    {
+                      ancestors: getTreeAncestors(
+                        formItem.filteredOptions,
+                        item,
+                        true
+                      )
+                    },
+                    item
+                  )
+                )
+              }
+            : createObject(
+                {
+                  ancestors: getTreeAncestors(
+                    formItem.filteredOptions,
+                    selectedOptions[0],
+                    true
+                  )
+                },
+                selectedOptions[0]
+              )
+        );
+        onBulkChange?.(toSync);
+      }
+    }
+
+    // 当前值，跟设置预期的值格式不一致时自动转换。
     normalizeValue() {
       const {
         joinValues,
@@ -413,7 +458,8 @@ export function registerOptionsControl(config: OptionsConfig) {
         value,
         multiple,
         formItem,
-        valueField
+        valueField,
+        onChange
       } = this.props;
 
       if (!formItem || joinValues !== false || !formItem.options.length) {
@@ -425,9 +471,7 @@ export function registerOptionsControl(config: OptionsConfig) {
         (typeof value === 'string' || typeof value === 'number')
       ) {
         const selectedOptions = formItem.getSelectedOptions(value);
-        formItem.changeValue(
-          multiple ? selectedOptions.concat() : selectedOptions[0]
-        );
+        onChange?.(multiple ? selectedOptions.concat() : selectedOptions[0]);
       } else if (
         extractValue === true &&
         value &&
@@ -445,9 +489,7 @@ export function registerOptionsControl(config: OptionsConfig) {
           .map(
             (selectedOption: Option) => selectedOption[valueField || 'value']
           );
-        formItem.changeValue(
-          multiple ? selectedOptions.concat() : selectedOptions[0]
-        );
+        onChange?.(multiple ? selectedOptions.concat() : selectedOptions[0]);
       }
     }
 
@@ -605,12 +647,13 @@ export function registerOptionsControl(config: OptionsConfig) {
       } = this.props;
 
       if (formItem && isPureVariable(source as string)) {
-        formItem.setOptions(
-          normalizeOptions(
-            resolveVariableAndFilter(source as string, data, '| raw') || []
-          ),
-          onChange
-        );
+        isAlive(formItem) &&
+          formItem.setOptions(
+            normalizeOptions(
+              resolveVariableAndFilter(source as string, data, '| raw') || []
+            ),
+            onChange
+          );
         return;
       } else if (!formItem || !isEffectiveApi(source, data)) {
         return;
@@ -629,10 +672,6 @@ export function registerOptionsControl(config: OptionsConfig) {
     @autobind
     deferLoad(option: Option) {
       const {deferApi, source, env, formItem, data} = this.props;
-
-      if (option.loaded) {
-        return;
-      }
 
       const api = option.deferApi || deferApi || source;
 
@@ -723,12 +762,15 @@ export function registerOptionsControl(config: OptionsConfig) {
           }
         ];
       }
+      const parent = Array.isArray(idx)
+        ? getTree(model.options, idx.slice(0, -1))
+        : undefined;
 
-      const ctx = createObject(
+      const ctx: any = createObject(
         data,
         Array.isArray(idx)
           ? {
-              parent: getTree(model.options, idx.slice(0, -1)),
+              parent: parent,
               ...value
             }
           : value
@@ -782,9 +824,12 @@ export function registerOptionsControl(config: OptionsConfig) {
         };
       }
 
-      // 如果配置了 source 且配置了 addApi 直接重新拉取接口就够了
-      // 不能不判断 addApi 就刷新，因为有些场景就是临时添加的。
-      if (source && addApi) {
+      // 如果是懒加载的，只懒加载当前节点。
+      if (parent?.defer) {
+        this.deferLoad(parent);
+      } else if (source && addApi) {
+        // 如果配置了 source 且配置了 addApi 直接重新拉取接口就够了
+        // 不能不判断 addApi 就刷新，因为有些场景就是临时添加的。
         this.reload();
       } else {
         // 否则直接前端变更 options
@@ -881,7 +926,7 @@ export function registerOptionsControl(config: OptionsConfig) {
         return;
       }
 
-      if (source && !editApi) {
+      if (source && editApi) {
         this.reload();
       } else {
         const indexes = findTreeIndex(model.options, item => item === origin);
@@ -942,14 +987,16 @@ export function registerOptionsControl(config: OptionsConfig) {
           this.reload();
         } else {
           const options = model.options.concat();
-          const idx = findIndex(
+          const indexes = findTreeIndex(
             options,
             item => item[valueField || 'value'] == value[valueField || 'value']
           );
 
-          if (~idx) {
-            options.splice(idx, 1);
-            model.setOptions(options, this.props.onChange);
+          if (indexes) {
+            model.setOptions(
+              spliceTree(options, indexes, 1),
+              this.props.onChange
+            );
           }
         }
       } catch (e) {

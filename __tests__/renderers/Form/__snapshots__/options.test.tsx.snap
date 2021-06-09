@@ -1,0 +1,462 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`options:linkage 1`] = `
+<div>
+  <form
+    class="a-Form a-Form--normal"
+    novalidate=""
+  >
+    <div
+      class="a-Form-item a-Form-item--normal"
+      data-role="form-item"
+    >
+      <label
+        class="a-Form-label text-muted"
+      >
+        <span>
+          <span
+            class="a-TplField"
+          >
+            <span>
+              选项x
+            </span>
+          </span>
+        </span>
+      </label>
+      <div
+        class="a-ListControl a-Form-control is-inline"
+      >
+        <div
+          class="a-ListControl-items"
+        >
+          <div
+            class="a-ListControl-item"
+          >
+            <div
+              class="a-ListControl-itemLabel"
+            >
+              选项1
+            </div>
+          </div>
+          <div
+            class="a-ListControl-item"
+          >
+            <div
+              class="a-ListControl-itemLabel"
+            >
+              选项2
+            </div>
+          </div>
+          <div
+            class="a-ListControl-item"
+          >
+            <div
+              class="a-ListControl-itemLabel"
+            >
+              选项3
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      class="a-Form-item a-Form-item--normal"
+      data-role="form-item"
+    >
+      <label
+        class="a-Form-label text-muted"
+      >
+        <span>
+          <span
+            class="a-TplField"
+          >
+            <span>
+              选项y
+            </span>
+          </span>
+        </span>
+      </label>
+      <div
+        class="a-RadiosControl a-Form-control is-inline"
+      >
+        <label
+          class="a-Checkbox a-Checkbox--radio a-Checkbox--full"
+        >
+          <input
+            type="radio"
+          />
+          <i />
+          <span
+            class="text-muted"
+          >
+            选项a
+          </span>
+        </label>
+        <label
+          class="a-Checkbox a-Checkbox--radio a-Checkbox--full"
+        >
+          <input
+            type="radio"
+          />
+          <i />
+          <span
+            class="text-muted"
+          >
+            选项b
+          </span>
+        </label>
+      </div>
+    </div>
+    <input
+      style="display: none;"
+      type="submit"
+    />
+  </form>
+</div>
+`;
+
+exports[`options:linkage 2`] = `
+<div>
+  <form
+    class="a-Form a-Form--normal"
+    novalidate=""
+  >
+    <div
+      class="a-Form-item a-Form-item--normal"
+      data-role="form-item"
+    >
+      <label
+        class="a-Form-label text-muted"
+      >
+        <span>
+          <span
+            class="a-TplField"
+          >
+            <span>
+              选项x
+            </span>
+          </span>
+        </span>
+      </label>
+      <div
+        class="a-ListControl a-Form-control is-inline"
+      >
+        <div
+          class="a-ListControl-items"
+        >
+          <div
+            class="a-ListControl-item is-active"
+          >
+            <div
+              class="a-ListControl-itemLabel"
+            >
+              选项1
+            </div>
+          </div>
+          <div
+            class="a-ListControl-item"
+          >
+            <div
+              class="a-ListControl-itemLabel"
+            >
+              选项2
+            </div>
+          </div>
+          <div
+            class="a-ListControl-item"
+          >
+            <div
+              class="a-ListControl-itemLabel"
+            >
+              选项3
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      class="a-Form-item a-Form-item--normal"
+      data-role="form-item"
+    >
+      <label
+        class="a-Form-label text-muted"
+      >
+        <span>
+          <span
+            class="a-TplField"
+          >
+            <span>
+              选项y
+            </span>
+          </span>
+        </span>
+      </label>
+      <div
+        class="a-RadiosControl a-Form-control is-inline"
+      >
+        <label
+          class="a-Checkbox a-Checkbox--radio a-Checkbox--full"
+        >
+          <input
+            disabled=""
+            type="radio"
+          />
+          <i />
+          <span
+            class="text-muted"
+          >
+            选项a
+          </span>
+        </label>
+        <label
+          class="a-Checkbox a-Checkbox--radio a-Checkbox--full"
+        >
+          <input
+            type="radio"
+          />
+          <i />
+          <span
+            class="text-muted"
+          >
+            选项b
+          </span>
+        </label>
+      </div>
+    </div>
+    <input
+      style="display: none;"
+      type="submit"
+    />
+  </form>
+</div>
+`;
+
+exports[`options:linkage 3`] = `
+<div>
+  <form
+    class="a-Form a-Form--normal"
+    novalidate=""
+  >
+    <div
+      class="a-Form-item a-Form-item--normal"
+      data-role="form-item"
+    >
+      <label
+        class="a-Form-label text-muted"
+      >
+        <span>
+          <span
+            class="a-TplField"
+          >
+            <span>
+              选项x
+            </span>
+          </span>
+        </span>
+      </label>
+      <div
+        class="a-ListControl a-Form-control is-inline"
+      >
+        <div
+          class="a-ListControl-items"
+        >
+          <div
+            class="a-ListControl-item"
+          >
+            <div
+              class="a-ListControl-itemLabel"
+            >
+              选项1
+            </div>
+          </div>
+          <div
+            class="a-ListControl-item is-active"
+          >
+            <div
+              class="a-ListControl-itemLabel"
+            >
+              选项2
+            </div>
+          </div>
+          <div
+            class="a-ListControl-item"
+          >
+            <div
+              class="a-ListControl-itemLabel"
+            >
+              选项3
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      class="a-Form-item a-Form-item--normal"
+      data-role="form-item"
+    >
+      <label
+        class="a-Form-label text-muted"
+      >
+        <span>
+          <span
+            class="a-TplField"
+          >
+            <span>
+              选项y
+            </span>
+          </span>
+        </span>
+      </label>
+      <div
+        class="a-RadiosControl a-Form-control is-inline"
+      >
+        <label
+          class="a-Checkbox a-Checkbox--radio a-Checkbox--full"
+        >
+          <input
+            type="radio"
+          />
+          <i />
+          <span
+            class="text-muted"
+          >
+            选项a
+          </span>
+        </label>
+      </div>
+    </div>
+    <input
+      style="display: none;"
+      type="submit"
+    />
+  </form>
+</div>
+`;
+
+exports[`options:linkage 4`] = `
+<div>
+  <form
+    class="a-Form a-Form--normal"
+    novalidate=""
+  >
+    <div
+      class="a-Form-item a-Form-item--normal"
+      data-role="form-item"
+    >
+      <label
+        class="a-Form-label text-muted"
+      >
+        <span>
+          <span
+            class="a-TplField"
+          >
+            <span>
+              选项x
+            </span>
+          </span>
+        </span>
+      </label>
+      <div
+        class="a-ListControl a-Form-control is-inline"
+      >
+        <div
+          class="a-ListControl-items"
+        >
+          <div
+            class="a-ListControl-item"
+          >
+            <div
+              class="a-ListControl-itemLabel"
+            >
+              选项1
+            </div>
+          </div>
+          <div
+            class="a-ListControl-item"
+          >
+            <div
+              class="a-ListControl-itemLabel"
+            >
+              选项2
+            </div>
+          </div>
+          <div
+            class="a-ListControl-item is-active"
+          >
+            <div
+              class="a-ListControl-itemLabel"
+            >
+              选项3
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      class="a-Form-item a-Form-item--normal"
+      data-role="form-item"
+    >
+      <label
+        class="a-Form-label text-muted"
+      >
+        <span>
+          <span
+            class="a-TplField"
+          >
+            <span>
+              选项y
+            </span>
+          </span>
+        </span>
+      </label>
+      <div
+        class="a-RadiosControl a-Form-control is-inline"
+      >
+        <label
+          class="a-Checkbox a-Checkbox--radio a-Checkbox--full"
+        >
+          <input
+            type="radio"
+          />
+          <i />
+          <span
+            class="text-muted"
+          >
+            选项a
+          </span>
+        </label>
+        <label
+          class="a-Checkbox a-Checkbox--radio a-Checkbox--full"
+        >
+          <input
+            type="radio"
+          />
+          <i />
+          <span
+            class="text-muted"
+          >
+            选项b
+          </span>
+        </label>
+        <label
+          class="a-Checkbox a-Checkbox--radio a-Checkbox--full"
+        >
+          <input
+            type="radio"
+          />
+          <i />
+          <span
+            class="text-muted"
+          >
+            选项c
+          </span>
+        </label>
+      </div>
+    </div>
+    <input
+      style="display: none;"
+      type="submit"
+    />
+  </form>
+</div>
+`;

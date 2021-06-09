@@ -38,7 +38,6 @@
     list-style: none;
     margin: 10px 0;
     padding: 0;
-    width: 250px;
 
     > li {
       color: #333;
@@ -54,7 +53,11 @@
   &-itemInfo {
     padding: 0px 6px;
     line-height: 26px;
-    height: 26px;
+    height: auto;
+
+    span {
+      word-break: break-all;
+    }
 
     &.is-invalid {
       color: #999;
@@ -68,7 +71,7 @@
       margin-left: 10px;
       width: px2rem(16px);
       height: px2rem(16px);
-      top: px2rem(5px);
+      top: var(--gap-xs);
     }
   }
 

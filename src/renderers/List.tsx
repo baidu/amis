@@ -427,12 +427,7 @@ export default class List extends React.Component<ListProps, object> {
     const clip = (this.body as HTMLElement).getBoundingClientRect();
     const offsetY =
       this.props.affixOffsetTop ?? this.props.env.affixOffsetTop ?? 0;
-    // 50 是 headerToolbar 的高度
-    const toolbarHeight =
-      this.renderedToolbars.length || this.props.headerToolbarRender ? 50 : 0;
-    const affixed =
-      clip.top - toolbarHeight < offsetY &&
-      clip.top + clip.height - 40 > offsetY;
+    const affixed = clip.top < offsetY && clip.top + clip.height - 40 > offsetY;
 
     this.body.offsetWidth &&
       (afixedDom.style.cssText = `top: ${offsetY}px;width: ${this.body.offsetWidth}px;`);
@@ -986,9 +981,8 @@ export default class List extends React.Component<ListProps, object> {
 }
 
 @Renderer({
-  test: /(^|\/)(?:list|list-group)$/,
-  storeType: ListStore.name,
-  name: 'list'
+  type: 'list',
+  storeType: ListStore.name
 })
 export class ListRenderer extends List {
   dragging: boolean;
@@ -1304,8 +1298,7 @@ export class ListItemRenderer extends ListItem {
 }
 
 @Renderer({
-  test: /(^|\/)list-item-field$/,
-  name: 'list-item-field'
+  type: 'list-item-field'
 })
 @QuickEdit()
 @PopOver()

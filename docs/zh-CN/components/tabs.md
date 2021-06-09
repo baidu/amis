@@ -273,6 +273,8 @@ order: 68
 
 #### 配置 hash 值
 
+支持变量，如 `"tab${id}"`
+
 ```schema: scope="body"
 {
     "type": "tabs",
@@ -295,7 +297,7 @@ order: 68
 
 #### 配置索引值
 
-单个`tab`上不要配置`hash`属性，配置需要展示的`tab`索引值，`0`代表第一个。
+单个`tab`上不要配置`hash`属性，配置需要展示的`tab`索引值，`0`代表第一个。支持变量，如`"${id}"`
 
 ```schema: scope="body"
 {

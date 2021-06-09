@@ -15,7 +15,7 @@ order: 27
 ```schema: scope="body"
 {
   "type": "avatar",
-  "src": "../../../examples/static/ai-fake-face.jpg"
+  "src": "https://suda.cdn.bcebos.com/images/amis/ai-fake-face.jpg"
 }
 ```
 
@@ -48,7 +48,7 @@ src、text 都支持变量，可以从上下文中动态获取图片或文字，
 ```schema
 {
   "data": {
-    "myAvatar": "../../../examples/static/ai-fake-face.jpg"
+    "myAvatar": "https://suda.cdn.bcebos.com/images/amis/ai-fake-face.jpg"
   },
   "type": "page",
   "body": [
@@ -98,12 +98,12 @@ src、text 都支持变量，可以从上下文中动态获取图片或文字，
   {
     "type": "avatar",
     "size": 20,
-    "src": "../../../examples/static/ai-fake-face.jpg"
+    "src": "https://suda.cdn.bcebos.com/images/amis/ai-fake-face.jpg"
   },
   {
     "type": "avatar",
     "size": 60,
-    "src": "../../../examples/static/ai-fake-face.jpg"
+    "src": "https://suda.cdn.bcebos.com/images/amis/ai-fake-face.jpg"
   }
 ]
 
@@ -118,27 +118,27 @@ src、text 都支持变量，可以从上下文中动态获取图片或文字，
   {
     "type": "avatar",
     "fit": "cover",
-    "src": "../../../examples/static/plumeria.jpeg"
+    "src": "https://suda.cdn.bcebos.com/images/amis/plumeria.jpeg"
   },
   {
     "type": "avatar",
     "fit": "fill",
-    "src": "../../../examples/static/plumeria.jpeg"
+    "src": "https://suda.cdn.bcebos.com/images/amis/plumeria.jpeg"
   },
   {
     "type": "avatar",
     "fit": "contain",
-    "src": "../../../examples/static/plumeria.jpeg"
+    "src": "https://suda.cdn.bcebos.com/images/amis/plumeria.jpeg"
   },
   {
     "type": "avatar",
     "fit": "none",
-    "src": "../../../examples/static/plumeria.jpeg"
+    "src": "https://suda.cdn.bcebos.com/images/amis/plumeria.jpeg"
   },
     {
     "type": "avatar",
     "fit": "scale-down",
-    "src": "../../../examples/static/plumeria.jpeg"
+    "src": "https://suda.cdn.bcebos.com/images/amis/plumeria.jpeg"
   }
 ]
 ```

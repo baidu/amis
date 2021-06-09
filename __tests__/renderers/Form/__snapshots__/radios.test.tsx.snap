@@ -46,7 +46,7 @@ exports[`Renderer:radios 1`] = `
             </span>
           </label>
           <div
-            class="a-RadiosControl a-Form-control"
+            class="a-RadiosControl a-Form-control is-inline"
           >
             <label
               class="a-Checkbox a-Checkbox--radio a-Checkbox--full"
@@ -232,7 +232,7 @@ exports[`Renderer:radios 2`] = `
             </span>
           </label>
           <div
-            class="a-RadiosControl a-Form-control"
+            class="a-RadiosControl a-Form-control is-inline"
           >
             <label
               class="a-Checkbox a-Checkbox--radio a-Checkbox--full"

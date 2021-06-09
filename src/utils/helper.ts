@@ -439,6 +439,28 @@ export function isVisible(
   );
 }
 
+export function isUnfolded(
+  node: any,
+  config: {
+    foldedField?: string;
+    unfoldedField?: string;
+  }
+): boolean {
+  let {foldedField, unfoldedField} = config;
+
+  unfoldedField = unfoldedField || 'unfolded';
+  foldedField = foldedField || 'folded';
+
+  let ret: boolean = false;
+  if (unfoldedField && typeof node[unfoldedField] !== 'undefined') {
+    ret = !!node[unfoldedField];
+  } else if (foldedField && typeof node[foldedField] !== 'undefined') {
+    ret = !node[foldedField];
+  }
+
+  return ret;
+}
+
 /**
  * 过滤掉被隐藏的数组元素
  */
@@ -925,7 +947,7 @@ export function getTree<T extends TreeItem>(
  */
 export function filterTree<T extends TreeItem>(
   tree: Array<T>,
-  iterator: (item: T, key: number, level: number) => boolean,
+  iterator: (item: T, key: number, level: number) => any,
   level: number = 1,
   depthFirst: boolean = false
 ) {
@@ -935,7 +957,15 @@ export function filterTree<T extends TreeItem>(
         let children: TreeArray | undefined = item.children
           ? filterTree(item.children, iterator, level + 1, depthFirst)
           : undefined;
-        children && (item = {...item, children: children});
+
+        if (
+          Array.isArray(children) &&
+          Array.isArray(item.children) &&
+          children.length !== item.children.length
+        ) {
+          item = {...item, children: children};
+        }
+
         return item;
       })
       .filter((item, index) => iterator(item, index, level));
@@ -945,10 +975,20 @@ export function filterTree<T extends TreeItem>(
     .filter((item, index) => iterator(item, index, level))
     .map(item => {
       if (item.children && item.children.splice) {
-        item = {
-          ...item,
-          children: filterTree(item.children, iterator, level + 1, depthFirst)
-        };
+        let children = filterTree(
+          item.children,
+          iterator,
+          level + 1,
+          depthFirst
+        );
+
+        if (
+          Array.isArray(children) &&
+          Array.isArray(item.children) &&
+          children.length !== item.children.length
+        ) {
+          item = {...item, children: children};
+        }
       }
       return item;
     });
@@ -1242,8 +1282,14 @@ export function qsstringify(
   options: any = {
     arrayFormat: 'indices',
     encodeValuesOnly: true
-  }
+  },
+  keepEmptyArray?: boolean
 ) {
+  // qs会保留空字符串。fix: Combo模式的空数组，无法清空。改为存为空字符串；只转换一层
+  keepEmptyArray &&
+    Object.keys(data).forEach((key: any) => {
+      Array.isArray(data[key]) && !data[key].length && (data[key] = '');
+    });
   return qs.stringify(data, options);
 }
 
@@ -1316,7 +1362,12 @@ export function chainEvents(props: any, schema: any) {
       typeof schema[key] === 'function' &&
       schema[key] !== props[key]
     ) {
-      ret[key] = chainFunctions(schema[key], props[key]);
+      // 表单项里面的 onChange 很特殊，这个不要处理。
+      if (props.formStore && key === 'onChange') {
+        ret[key] = props[key];
+      } else {
+        ret[key] = chainFunctions(schema[key], props[key]);
+      }
     } else {
       ret[key] = props[key];
     }
@@ -1411,7 +1462,6 @@ function isCyclic(obj: any): boolean {
       seenObjects.push(obj);
       for (var key in obj) {
         if (obj.hasOwnProperty(key) && detect(obj[key])) {
-          console.log(obj, 'cycle at ' + key);
           return true;
         }
       }
@@ -1445,4 +1495,36 @@ export function findObjectsWithKey(obj: any, key: string) {
     return [];
   }
   return internalFindObjectsWithKey(obj, key);
+}
+
+let scrollbarWidth: number;
+
+/**
+ * 获取浏览器滚动条宽度 https://stackoverflow.com/a/13382873
+ */
+
+export function getScrollbarWidth() {
+  if (typeof scrollbarWidth !== 'undefined') {
+    return scrollbarWidth;
+  }
+  // Creating invisible container
+  const outer = document.createElement('div');
+  outer.style.visibility = 'hidden';
+  outer.style.overflow = 'scroll'; // forcing scrollbar to appear
+  // @ts-ignore
+  outer.style.msOverflowStyle = 'scrollbar'; // needed for WinJS apps
+  document.body.appendChild(outer);
+
+  // Creating inner element and placing it in the container
+  const inner = document.createElement('div');
+  outer.appendChild(inner);
+
+  // Calculating difference between container's full width and the child width
+  scrollbarWidth = outer.offsetWidth - inner.offsetWidth;
+
+  // Removing temporary elements from the DOM
+  // @ts-ignore
+  outer.parentNode.removeChild(outer);
+
+  return scrollbarWidth;
 }

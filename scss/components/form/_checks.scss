@@ -21,7 +21,7 @@
     line-height: 1;
     background: var(--Checkbox-gb);
     display: inline-block;
-    vertical-align: middle;
+    vertical-align: sub;
     position: relative;
     pointer-events: all;
 
@@ -32,7 +32,7 @@
 
       > a {
         // float: right;
-        margin-left: px2rem(5px);
+        margin-left: var(--gap-xs);
         display: none;
       }
 
@@ -271,23 +271,16 @@
 
 .#{$ns}RadiosControl-group,
 .#{$ns}CheckboxesControl-group {
-  .#{$ns}RadiosControl-group,
-  .#{$ns}CheckboxesControl-group {
-    padding-left: px2rem(80px);
-    @include clearfix();
-
-    > .#{$ns}RadiosControl-groupLabel,
-    > .#{$ns}CheckboxesControl-groupLabel {
-      float: left;
-      width: px2rem(80px);
-      margin-left: px2rem(-80px);
-    }
+  &:not(:first-child) {
+    margin-top: px2rem(10px);
   }
-}
 
-.#{$ns}RadiosControl-groupLabel,
-.#{$ns}CheckboxesControl-groupLabel {
-  display: block;
+  .#{$ns}RadiosControl-groupLabel,
+  .#{$ns}CheckboxesControl-groupLabel {
+    display: block;
+    font-size: var(--fontSizeSm);
+    color: #999;
+  }
 }
 
 .#{$ns}Checkboxes {
@@ -400,7 +393,7 @@
   .#{$ns}Table-table > thead > tr > th,
   .#{$ns}Table-table > tbody > tr > td {
     font-size: var(--fontSizeSm);
-    padding-top: px2rem(5px);
+    padding-top: var(--gap-xs);
     padding-bottom: px2rem(6px);
     vertical-align: middle;
   }
@@ -417,7 +410,7 @@
 
   .#{$ns}Table-table > thead > tr > th:last-child,
   .#{$ns}Table-table > tbody > tr > td:last-child {
-    padding-right: px2rem(15px);
+    padding-right: var(--gap-md);
   }
 
   .#{$ns}Table-table > tbody > tr {
@@ -442,7 +435,7 @@
       content: '';
       display: block;
       position: absolute;
-      top: px2rem(-5px);
+      top: calc(var(--gap-xs) * -1);
       bottom: calc(var(--Form-input-height) / 2);
       left: -19px;
       border-left: dashed 1px var(--icon-color);
@@ -588,6 +581,7 @@
   &-right {
     flex-grow: 1;
     width: 0;
+    height: px2rem(175px);
     overflow: auto;
   }
 

@@ -4,7 +4,6 @@ import React from 'react';
 import Alert from './components/Alert2';
 import ImageGallery from './components/ImageGallery';
 import {RendererEnv} from './env';
-import {envOverwrite} from './envOverwrite';
 import {RendererProps} from './factory';
 import {LocaleContext, TranslateFn} from './locale';
 import {RootRenderer} from './RootRenderer';
@@ -58,9 +57,6 @@ export class Root extends React.Component<RootProps> {
     } = this.props;
 
     const theme = env.theme;
-
-    // 根据环境覆盖 schema，这个要在最前面做，不然就无法覆盖 validations
-    envOverwrite(schema, locale);
 
     return (
       <RootStoreContext.Provider value={rootStore}>
@@ -128,6 +124,11 @@ export function renderChild(
   }
 
   const typeofnode = typeof node;
+
+  if (typeofnode === 'undefined' || node === null) {
+    return null;
+  }
+
   let schema: Schema =
     typeofnode === 'string' || typeofnode === 'number'
       ? {type: 'tpl', tpl: String(node)}

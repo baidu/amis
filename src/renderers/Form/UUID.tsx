@@ -20,6 +20,19 @@ export default class UUIDControl extends React.Component<
 > {
   constructor(props: FormControlProps) {
     super(props);
+    if (!props.value) {
+      this.setValue();
+    }
+  }
+
+  componentDidUpdate(props: FormControlProps) {
+    if (!props.value) {
+      this.setValue();
+    }
+  }
+
+  setValue() {
+    const props = this.props;
     let uuid = uuidv4();
     if (props.length) {
       uuid = uuid.substring(0, props.length);

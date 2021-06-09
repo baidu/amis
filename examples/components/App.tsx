@@ -90,6 +90,19 @@ const viewModes = [
   }
 ];
 
+const docVersions = [
+  {
+    label: '1.2.x',
+    value: '',
+    url: '/zh-CN/docs/start/1-2-0'
+  },
+  {
+    label: '1.1.x 文档',
+    value: '1.1.7',
+    url: 'https://aisuda.github.io/amis-1.1.7/zh-CN/docs/index'
+  }
+];
+
 function getPath(path) {
   return path
     ? path[0] === '/'
@@ -104,18 +117,18 @@ class BackTop extends React.PureComponent {
   };
 
   componentDidMount() {
-    document.addEventListener('scroll', this.handleScroll.bind(this));
+    document.addEventListener('scroll', this.handleScroll);
   }
 
   componentWillUnmount() {
-    document.removeEventListener('scroll', this.handleScroll.bind(this));
+    document.removeEventListener('scroll', this.handleScroll);
   }
 
-  handleScroll(e) {
+  handleScroll = (e: any) => {
     this.setState({
       show: e.target.scrollingElement?.scrollTop > 350
     });
-  }
+  };
 
   render() {
     return (
@@ -154,6 +167,7 @@ export class App extends React.PureComponent<{
     super(props);
     this.setNavigations = this.setNavigations.bind(this);
     this.setNavigationFilter = this.setNavigationFilter.bind(this);
+    document.querySelector('body').classList.add(this.state.theme.value);
   }
 
   componentDidUpdate(preProps, preState) {
@@ -185,7 +199,8 @@ export class App extends React.PureComponent<{
 
   setNavigations(items) {
     this.setState({
-      navigations: items
+      navigations: items,
+      filter: ''
     });
   }
 
@@ -237,8 +252,8 @@ export class App extends React.PureComponent<{
 
         <div
           className={`${theme.ns}Layout-headerBar ${
-            docPage ? 'DocLayout-headerBar' : ''
-          } pc:flex items-center`}
+            docPage ? 'DocLayout-headerBar pc:inline-flex' : 'pc:flex'
+          } items-center`}
         >
           {docPage ? null : (
             <Button
@@ -269,7 +284,10 @@ export class App extends React.PureComponent<{
             <Link to={`${ContextPath}/zh-CN/style`} activeClassName="is-active">
               样式
             </Link>
-            <Link to={`${ContextPath}/examples`} activeClassName="is-active">
+            <Link
+              to={`${ContextPath}/examples/index`}
+              activeClassName="is-active"
+            >
               示例
             </Link>
             <a
@@ -285,6 +303,7 @@ export class App extends React.PureComponent<{
 
           <div className="hidden-xs ml-auto">
             <Select
+              overlayPlacement="right-bottom-right-top"
               clearable={false}
               theme={this.state.theme.value}
               value={this.state.locale || 'zh-CN'}
@@ -299,6 +318,7 @@ export class App extends React.PureComponent<{
 
           <div className="hidden-xs ml-2">
             <Select
+              overlayPlacement="right-bottom-right-top"
               clearable={false}
               theme={this.state.theme.value}
               value={this.state.theme}
@@ -315,6 +335,7 @@ export class App extends React.PureComponent<{
 
           <div className="hidden-xs ml-2">
             <Select
+              overlayPlacement="right-bottom-right-top"
               clearable={false}
               theme={this.state.theme.value}
               value={this.state.viewMode || 'pc'}
@@ -323,6 +344,23 @@ export class App extends React.PureComponent<{
                 this.setState({viewMode: viewMode.value});
                 localStorage.setItem('viewMode', viewMode.value);
                 window.location.reload();
+              }}
+            />
+          </div>
+
+          <div className="hidden-xs ml-2">
+            <Select
+              overlayPlacement="right-bottom-right-top"
+              clearable={false}
+              theme={this.state.theme.value}
+              value={docVersions[0].value}
+              options={docVersions}
+              onChange={doc => {
+                if (doc.url && /^https?\:\/\//.test(doc.url)) {
+                  window.open(doc.url);
+                } else {
+                  window.location.href = doc.url;
+                }
               }}
             />
           </div>
@@ -364,8 +402,10 @@ export class App extends React.PureComponent<{
         <InputBox
           theme={this.state.theme.value}
           placeholder={'过滤...'}
+          value={this.state.filter || ''}
           onChange={this.setNavigationFilter}
           className="m-b m-r-md"
+          clearable={false}
         />
         {this.renderAsideNav()}
       </div>
@@ -509,7 +549,7 @@ export class App extends React.PureComponent<{
     const theme = this.state.theme;
     const location = this.props.location;
 
-    if (/examples\/jssdk/.test(location.pathname)) {
+    if (/examples\/app/.test(location.pathname)) {
       return (
         <>
           <ToastComponent theme={theme.value} locale={this.state.locale} />
@@ -692,7 +732,7 @@ export default function entry({pathPrefix}) {
         {/* expamles */}
         <Redirect
           from={`${ContextPath}/examples`}
-          to={`${ContextPath}/examples/pages/simple`}
+          to={`${ContextPath}/examples/index`}
         />
         <Redirect
           from={`${ContextPath}/${locate}/style`}

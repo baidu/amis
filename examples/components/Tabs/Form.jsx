@@ -11,9 +11,9 @@ export default {
         {
           title: '选项卡1',
           hash: 'tab1',
-          controls: [
+          body: [
             {
-              type: 'text',
+              type: 'input-text',
               label: '文本1',
               name: 'a'
             }
@@ -22,9 +22,9 @@ export default {
         {
           title: '选项卡2',
           hash: 'tab2',
-          controls: [
+          body: [
             {
-              type: 'text',
+              type: 'input-text',
               label: '文本2',
               name: 'b'
             }
@@ -34,9 +34,9 @@ export default {
         {
           title: '选项卡3',
           hash: 'tab3',
-          controls: [
+          body: [
             {
-              type: 'text',
+              type: 'input-text',
               label: '文本3',
               name: 'c'
             }

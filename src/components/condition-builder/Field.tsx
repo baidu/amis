@@ -10,6 +10,8 @@ export interface ConditionFieldProps extends ThemeProps {
   options: Array<any>;
   value: any;
   onChange: (value: any) => void;
+  disabled?: boolean;
+  fieldClassName?: string;
 }
 
 const option2value = (item: any) => item.name;
@@ -18,7 +20,9 @@ export function ConditionField({
   options,
   onChange,
   value,
-  classnames: cx
+  classnames: cx,
+  fieldClassName,
+  disabled
 }: ConditionFieldProps) {
   return (
     <PopOverContainer
@@ -36,7 +40,11 @@ export function ConditionField({
       {({onClick, ref, isOpened}) => (
         <div className={cx('CBGroup-field')}>
           <ResultBox
-            className={cx('CBGroup-fieldInput', isOpened ? 'is-active' : '')}
+            className={cx(
+              'CBGroup-fieldInput',
+              fieldClassName,
+              isOpened ? 'is-active' : ''
+            )}
             ref={ref}
             allowInput={false}
             result={
@@ -45,6 +53,7 @@ export function ConditionField({
             onResultChange={noop}
             onResultClick={onClick}
             placeholder="请选择字段"
+            disabled={disabled}
           >
             <span className={cx('CBGroup-fieldCaret')}>
               <Icon icon="caret" className="icon" />

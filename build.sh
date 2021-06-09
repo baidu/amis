@@ -1,6 +1,8 @@
 #!/bin/bash
 set -e
 
+export NODE_ENV=production
+
 rm -rf lib
 rm -rf output
 

@@ -98,11 +98,11 @@
   }
 
   &-prevBtn {
-    left: px2rem(20px);
+    left: var(--gap-md);
   }
 
   &-nextBtn {
-    right: px2rem(20px);
+    right: var(--gap-md);
   }
 
   &-footer {
@@ -115,7 +115,7 @@
 
   &-prevList,
   &-nextList {
-    width: px2rem(20px);
+    width: var(--gap-md);
     display: flex;
     align-items: center;
     justify-content: center;

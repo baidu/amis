@@ -22,7 +22,6 @@ import {findDOMNode} from 'react-dom';
 import {ResultBox, Spinner} from '../../components';
 import xor from 'lodash/xor';
 import union from 'lodash/union';
-import {isEqual} from 'lodash';
 
 /**
  * Nested Select
@@ -34,6 +33,7 @@ export interface NestedSelectControlSchema extends FormOptionsControl {
 
 export interface NestedSelectProps extends OptionsControlProps {
   cascade?: boolean;
+  noResultsText?: string;
   withChildren?: boolean;
 }
 
@@ -52,6 +52,7 @@ export default class NestedSelectControl extends React.Component<
     cascade: false,
     withChildren: false,
     searchPromptText: 'Select.searchPromptText',
+    noResultsText: 'noResult',
     checkAll: true,
     checkAllLabel: '全选'
   };
@@ -501,7 +502,18 @@ export default class NestedSelectControl extends React.Component<
   }
 
   renderOuter() {
-    const {popOverContainer, classnames: cx} = this.props;
+    const {
+      popOverContainer,
+      translate: __,
+      classnames: cx,
+      options,
+      render
+    } = this.props;
+    let noResultsText: any = this.props.noResultsText;
+
+    if (noResultsText) {
+      noResultsText = render('noResultText', noResultsText);
+    }
 
     let body = (
       <RootCloseWrapper
@@ -509,7 +521,13 @@ export default class NestedSelectControl extends React.Component<
         onRootClose={this.close}
       >
         <div className={cx('NestedSelect-menuOuter')}>
-          {this.renderOptions()}
+          {options.length ? (
+            this.renderOptions()
+          ) : (
+            <div className={cx('NestedSelect-noResult')}>
+              {__(noResultsText)}
+            </div>
+          )}
         </div>
       </RootCloseWrapper>
     );

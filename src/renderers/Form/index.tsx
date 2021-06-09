@@ -16,7 +16,8 @@ import {
   isVisible,
   cloneObject,
   SkipOperation,
-  isEmpty
+  isEmpty,
+  getVariable
 } from '../../utils/helper';
 import debouce from 'lodash/debounce';
 import flatten from 'lodash/flatten';
@@ -33,7 +34,7 @@ import {isApiOutdated, isEffectiveApi} from '../../utils/api';
 import Spinner from '../../components/Spinner';
 import {LazyComponent} from '../../components';
 import {isAlive} from 'mobx-state-tree';
-import {asFormItem, FormControlSchema} from './Item';
+import {asFormItem, renderToComponent} from './Item';
 import {SimpleMap} from '../../utils/SimpleMap';
 import {trace} from 'mobx';
 import {
@@ -45,11 +46,12 @@ import {
   SchemaExpression,
   SchemaMessage,
   SchemaName,
+  SchemaObject,
   SchemaRedirect,
   SchemaReload
 } from '../../Schema';
 import {ActionSchema} from '../Action';
-import {ButtonGroupControlSchema} from './ButtonGroup';
+import {ButtonGroupControlSchema} from './ButtonGroupSelect';
 import {DialogSchemaBase} from '../Dialog';
 
 export interface FormSchemaHorizontal {
@@ -82,7 +84,7 @@ export interface FormSchema extends BaseSchema {
   /**
    * 表单项集合
    */
-  controls?: Array<FormControlSchema>;
+  body?: SchemaCollection;
 
   /**
    * @deprecated 请用类型 tabs
@@ -149,7 +151,7 @@ export interface FormSchema extends BaseSchema {
   /**
    * 是否开启本地缓存
    */
-  persistData?: boolean;
+  persistData?: string;
 
   /**
    * 提交成功后清空本地缓存
@@ -261,11 +263,6 @@ export interface FormSchema extends BaseSchema {
   wrapWithPanel?: boolean;
 
   /**
-   * 内容区
-   */
-  body?: SchemaCollection;
-
-  /**
    * 是否固定底下的按钮在底部。
    */
   affixFooter?: boolean;
@@ -287,6 +284,11 @@ export interface FormSchema extends BaseSchema {
     rule: string;
     message: string;
   }>;
+
+  /**
+   * 禁用回车提交
+   */
+  preventEnterSubmit?: boolean;
 }
 
 export type FormGroup = FormSchema & {
@@ -397,7 +399,7 @@ export default class Form extends React.Component<FormProps, object> {
   shouldLoadInitApi: boolean = false;
   timer: ReturnType<typeof setTimeout>;
   mounted: boolean;
-  lazyHandleChange = debouce(this.handleChange.bind(this), 250, {
+  lazyEmitChange = debouce(this.emitChange.bind(this), 250, {
     trailing: true,
     leading: false
   });
@@ -409,6 +411,7 @@ export default class Form extends React.Component<FormProps, object> {
     this.onInit = this.onInit.bind(this);
     this.handleAction = this.handleAction.bind(this);
     this.handleQuery = this.handleQuery.bind(this);
+    this.handleChange = this.handleChange.bind(this);
     this.handleDialogConfirm = this.handleDialogConfirm.bind(this);
     this.handleDialogClose = this.handleDialogClose.bind(this);
     this.handleDrawerConfirm = this.handleDrawerConfirm.bind(this);
@@ -418,7 +421,8 @@ export default class Form extends React.Component<FormProps, object> {
     this.submit = this.submit.bind(this);
     this.addHook = this.addHook.bind(this);
     this.removeHook = this.removeHook.bind(this);
-    this.handleChange = this.handleChange.bind(this);
+    this.emitChange = this.emitChange.bind(this);
+    this.handleBulkChange = this.handleBulkChange.bind(this);
     this.renderFormItems = this.renderFormItems.bind(this);
     this.reload = this.reload.bind(this);
     this.silentReload = this.silentReload.bind(this);
@@ -431,7 +435,8 @@ export default class Form extends React.Component<FormProps, object> {
     const {store, canAccessSuperData, persistData, simpleMode} = this.props;
 
     store.setCanAccessSuperData(canAccessSuperData !== false);
-    persistData && store.getPersistData();
+    store.setPersistData(persistData);
+    persistData && store.getLocalPersistData();
 
     if (simpleMode) {
       store.setInited(true);
@@ -577,7 +582,7 @@ export default class Form extends React.Component<FormProps, object> {
     this.mounted = false;
     clearTimeout(this.timer);
     // this.lazyHandleChange.flush();
-    this.lazyHandleChange.cancel();
+    this.lazyEmitChange.cancel();
     this.asyncCancel && this.asyncCancel();
     this.disposeOnValidate && this.disposeOnValidate();
     this.disposeRulesValidate && this.disposeRulesValidate();
@@ -764,7 +769,7 @@ export default class Form extends React.Component<FormProps, object> {
   flush() {
     const hooks = this.hooks['flush'] || [];
     hooks.forEach(fn => fn());
-    this.lazyHandleChange.flush();
+    this.lazyEmitChange.flush();
   }
 
   reset() {
@@ -799,7 +804,24 @@ export default class Form extends React.Component<FormProps, object> {
     }
   }
 
-  handleChange(value: any, name: string, submit: boolean) {
+  handleChange(
+    value: any,
+    name: string,
+    submit: boolean,
+    changePristine = false
+  ) {
+    const {store, formLazyChange} = this.props;
+
+    if (typeof name !== 'string') {
+      return;
+    }
+
+    store.changeValue(name, value, changePristine);
+
+    (formLazyChange === false ? this.emitChange : this.lazyEmitChange)(submit);
+  }
+
+  emitChange(submit: boolean) {
     const {onChange, store, submitOnChange} = this.props;
 
     onChange &&
@@ -817,8 +839,22 @@ export default class Form extends React.Component<FormProps, object> {
       );
   }
 
+  handleBulkChange(values: Object, submit: boolean) {
+    const {onChange, store, formLazyChange} = this.props;
+
+    store.updateData(values);
+
+    (formLazyChange === false ? this.emitChange : this.lazyEmitChange)(submit);
+  }
+
   handleFormSubmit(e: React.UIEvent<any>) {
+    const {preventEnterSubmit} = this.props;
+
     e.preventDefault();
+    if (preventEnterSubmit) {
+      return false;
+    }
+
     return this.handleAction(
       e,
       {
@@ -978,7 +1014,7 @@ export default class Form extends React.Component<FormProps, object> {
 
           resetAfterSubmit && store.reset(onReset);
           clearAfterSubmit && store.clear(onReset);
-          clearPersistDataAfterSubmit && store.clearPersistData();
+          clearPersistDataAfterSubmit && store.clearLocalPersistData();
 
           if (action.redirect || redirect) {
             const finalRedirect = filter(
@@ -1166,18 +1202,18 @@ export default class Form extends React.Component<FormProps, object> {
   }
 
   buildActions() {
-    const {actions, submitText, controls, translate: __} = this.props;
+    const {actions, submitText, body, translate: __} = this.props;
 
     if (
       typeof actions !== 'undefined' ||
       !submitText ||
-      (Array.isArray(controls) &&
-        controls.some(
+      (Array.isArray(body) &&
+        body.some(
           item =>
             item &&
-            (!!~['submit', 'button', 'reset'].indexOf(item.type) ||
-              (item.type === 'button-group' &&
-                !(item as ButtonGroupControlSchema).options))
+            !!~['submit', 'button', 'button-group', 'reset'].indexOf(
+              (item as any)?.control?.type || (item as SchemaObject).type
+            )
         ))
     ) {
       return actions;
@@ -1193,31 +1229,49 @@ export default class Form extends React.Component<FormProps, object> {
   }
 
   renderFormItems(
-    schema: Partial<FormSchema>,
+    schema: Partial<FormSchema> & {
+      controls?: Array<any>;
+    },
     region: string = '',
     otherProps: Partial<FormProps> = {}
   ): React.ReactNode {
-    return this.renderControls(schema.controls!, region, otherProps);
+    let body: Array<any> = Array.isArray(schema.body)
+      ? schema.body
+      : schema.body
+      ? [schema.body]
+      : [];
 
-    // return schema.tabs ? this.renderTabs(schema.tabs, schema, region)
-    // : schema.fieldSet ? this.renderFiledSet(schema.fieldSet, schema, region) : this.renderControls(schema.controls as SchemaNode, schema, region);
+    // 旧用法，让 wrapper 走走 compat 逻辑兼容旧用法
+    // 后续可以删除。
+    if (!body && schema.controls) {
+      console.warn('请用 body 代替 controls');
+      body = [
+        {
+          size: 'none',
+          type: 'wrapper',
+          controls: schema.controls
+        }
+      ];
+    }
+
+    return this.renderChildren(body, region, otherProps);
   }
 
-  renderControls(
-    controls: Array<any>,
+  renderChildren(
+    children: Array<any>,
     region: string,
     otherProps: Partial<FormProps> = {}
   ): React.ReactNode {
-    controls = controls || [];
+    children = children || [];
 
-    if (!Array.isArray(controls)) {
-      controls = [controls];
+    if (!Array.isArray(children)) {
+      children = [children];
     }
 
     if (this.props.mode === 'row') {
       const ns = this.props.classPrefix;
 
-      controls = flatten(controls).filter(item => {
+      children = flatten(children).filter(item => {
         if ((item as Schema).hidden || (item as Schema).visible === false) {
           return false;
         }
@@ -1235,16 +1289,16 @@ export default class Form extends React.Component<FormProps, object> {
         return true;
       });
 
-      if (!controls.length) {
+      if (!children.length) {
         return null;
       }
 
       return (
         <div className={`${ns}Form-row`}>
-          {controls.map((control, key) =>
+          {children.map((control, key) =>
             ~['hidden', 'formula'].indexOf((control as any).type) ||
             (control as any).mode === 'inline' ? (
-              this.renderControl(control, key, otherProps)
+              this.renderChild(control, key, otherProps)
             ) : (
               <div
                 key={key}
@@ -1253,7 +1307,7 @@ export default class Form extends React.Component<FormProps, object> {
                   (control as Schema).columnClassName
                 )}
               >
-                {this.renderControl(control, '', {
+                {this.renderChild(control, '', {
                   ...otherProps,
                   mode: 'row'
                 })}
@@ -1264,12 +1318,12 @@ export default class Form extends React.Component<FormProps, object> {
       );
     }
 
-    return controls.map((control, key) =>
-      this.renderControl(control, key, otherProps, region)
+    return children.map((control, key) =>
+      this.renderChild(control, key, otherProps, region)
     );
   }
 
-  renderControl(
+  renderChild(
     control: SchemaNode,
     key: any = '',
     otherProps: Partial<FormProps> = {},
@@ -1308,6 +1362,7 @@ export default class Form extends React.Component<FormProps, object> {
         (control as Schema).type
       }-${key}`,
       formInited: form.inited,
+      formSubmited: form.submited,
       formMode: mode,
       formHorizontal: horizontal,
       controlWidth,
@@ -1315,71 +1370,78 @@ export default class Form extends React.Component<FormProps, object> {
       btnDisabled: form.loading || form.validating,
       onAction: this.handleAction,
       onQuery: this.handleQuery,
-      onChange:
-        formLazyChange === false ? this.handleChange : this.lazyHandleChange,
+      onChange: this.handleChange,
+      onBulkChange: this.handleBulkChange,
       addHook: this.addHook,
       removeHook: this.removeHook,
       renderFormItems: this.renderFormItems,
       formPristine: form.pristine
+      // value: (control as any)?.name
+      //   ? getVariable(form.data, (control as any)?.name, canAccessSuperData)
+      //   : (control as any)?.value,
+      // defaultValue: (control as any)?.value
     };
 
-    const subSchema: any =
-      (control as Schema).type === 'control'
-        ? control
-        : {
-            type: 'control',
-            control
-          };
+    let subSchema: any = {
+      ...control
+    };
 
-    if (subSchema.control) {
-      let control = subSchema.control as Schema;
-      if (control.$ref) {
-        subSchema.control = control = {
-          ...resolveDefinitions(control.$ref),
-          ...control,
-          ...getExprProperties(control, store.data, undefined, subProps)
-        };
-      } else {
-        subSchema.control = control = {
-          ...control,
-          ...getExprProperties(control, store.data, undefined, subProps)
-        };
-      }
-
-      // 自定义组件如果在节点设置了 label name 什么的，就用 formItem 包一层
-      // 至少自动支持了 valdiations, label, description 等逻辑。
-      if (
-        control.component &&
-        (control.formItemConfig ||
-          (control.label !== undefined && control.name))
-      ) {
-        const cache = this.componentCache.get(control.component);
-
-        if (cache) {
-          control.component = cache;
-        } else {
-          const cache = asFormItem({
-            strictMode: false,
-            ...control.formItemConfig
-          })(control.component);
-          this.componentCache.set(control.component, cache);
-          control.component = cache;
-        }
-      }
-
-      control.hiddenOn && (subSchema.hiddenOn = control.hiddenOn);
-      control.visibleOn && (subSchema.visibleOn = control.visibleOn);
-      lazyChange === false && (control.changeImmediately = true);
+    if (subSchema.$ref) {
+      subSchema = {
+        ...resolveDefinitions(subSchema.$ref),
+        ...subSchema
+      };
     }
 
+    // 自定义组件如果在节点设置了 label name 什么的，就用 formItem 包一层
+    // 至少自动支持了 valdiations, label, description 等逻辑。
+    if (
+      subSchema.children &&
+      !subSchema.component &&
+      (subSchema.formItemConfig ||
+        subSchema.name ||
+        subSchema.hasOwnProperty('label'))
+    ) {
+      // 如果是 children 用法，先转成 component，然后让下面的逻辑再包裹  asFormItem
+      const cache = this.componentCache.get(subSchema.children);
+      if (cache) {
+        subSchema.component = cache;
+      } else {
+        const cache = renderToComponent(subSchema.children);
+        this.componentCache.set(subSchema.children, cache);
+        subSchema.component = cache;
+      }
+
+      delete subSchema.children;
+    }
+
+    if (
+      subSchema.component &&
+      (subSchema.formItemConfig ||
+        subSchema.name ||
+        subSchema.hasOwnProperty('label'))
+    ) {
+      const cache = this.componentCache.get(subSchema.component);
+
+      if (cache) {
+        subSchema.component = cache;
+      } else {
+        const cache = asFormItem({
+          strictMode: false,
+          ...subSchema.formItemConfig
+        })(subSchema.component);
+        this.componentCache.set(subSchema.component, cache);
+        subSchema.component = cache;
+      }
+    }
+
+    lazyChange === false && (subSchema.changeImmediately = true);
     return render(`${region ? `${region}/` : ''}${key}`, subSchema, subProps);
   }
 
   renderBody() {
     const {
-      tabs,
-      fieldSet,
-      controls,
+      body,
       mode,
       className,
       classnames: cx,
@@ -1410,9 +1472,7 @@ export default class Form extends React.Component<FormProps, object> {
         <Spinner show={store.loading} overlay />
 
         {this.renderFormItems({
-          tabs,
-          fieldSet,
-          controls
+          body
         })}
 
         {/* 显示没有映射上的 errors */}
@@ -1520,11 +1580,8 @@ export default class Form extends React.Component<FormProps, object> {
 }
 
 @Renderer({
-  test: (path: string) =>
-    /(^|\/)form$/.test(path) &&
-    !/(^|\/)form(?:\/.+)?\/control\/form$/.test(path),
+  type: 'form',
   storeType: FormStore.name,
-  name: 'form',
   isolateScope: true,
   shouldSyncSuperStore: (store, nextProps) => {
     // 如果是 QuickEdit，让 store 同步 __super 数据。
@@ -1584,6 +1641,11 @@ export class FormRenderer extends Form {
     throwErrors: boolean = false,
     delegate?: IScopedContext
   ) {
+    // 禁用了不要做任何动作。@先注释掉，会引起其他问题
+    // if (this.props.disabled) {
+    //   return;
+    // }
+
     if (action.target && action.actionType !== 'reload') {
       const scoped = this.context as IScopedContext;
 

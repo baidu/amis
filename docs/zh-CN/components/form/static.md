@@ -15,7 +15,7 @@ order: 52
 ```schema: scope="body"
 {
     "type": "form",
-    "controls": [
+    "body": [
         {
             "name": "static",
             "type": "static",
@@ -33,7 +33,7 @@ order: 52
 ```schema: scope="body"
 {
     "type": "form",
-    "controls": [
+    "body": [
         {
             "type": "select",
             "name": "select",
@@ -69,7 +69,7 @@ order: 52
 ```schema: scope="body"
 {
     "type": "form",
-    "controls": [
+    "body": [
         {
             "type": "static-json",
             "name": "json",
@@ -117,7 +117,7 @@ order: 52
     "api": "/api/mock2/saveForm?waitSeconds=2",
     "title": "表单项静态展示",
     "mode": "horizontal",
-    "controls": [
+    "body": [
         {
             "type": "static",
             "label": "文本",
@@ -250,3 +250,26 @@ order: 52
 ```
 
 想要调整展示组件的配置，请查阅相应组件的文档。
+
+## 快速编辑
+
+通过 `quickEdit` 开启快速编辑功能，比如
+
+```schema: scope="body"
+{
+    "type": "form",
+    "body": [
+        {
+            "name": "static",
+            "type": "static",
+            "label": "静态展示",
+            "value": "aaa",
+            "quickEdit": {
+                "type": "number"
+            }
+        }
+    ]
+}
+```
+
+其他配置项参考 [快速编辑](../crud#快速编辑)

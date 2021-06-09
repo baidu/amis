@@ -8,7 +8,7 @@ export default {
       title: '监听表单内部的修改',
       initApi: '/api/mock2/form/initData?tpl=${tpl}',
       actions: [],
-      controls: [
+      body: [
         '<span class="text-danger">当 <code>initApi</code> 中有变量，且变量的值发生了变化了，则该表单就会重新初始数据。</span>',
         {
           type: 'divider'
@@ -72,7 +72,7 @@ export default {
           mode: 'horizontal',
           title: '自动填充',
           actions: [],
-          controls: [
+          body: [
             {
               label: '数据模板',
               type: 'select',
@@ -104,24 +104,24 @@ export default {
             {
               type: 'service',
               api: '/api/mock2/form/initData?tpl=${tpl}',
-              controls: [
+              body: [
                 {
                   label: '名称',
-                  type: 'text',
+                  type: 'input-text',
                   labelClassName: 'text-muted',
                   name: 'name'
                 },
 
                 {
                   label: '作者',
-                  type: 'text',
+                  type: 'input-text',
                   labelClassName: 'text-muted',
                   name: 'author'
                 },
 
                 {
                   label: '请求时间',
-                  type: 'datetime',
+                  type: 'input-datetime',
                   labelClassName: 'text-muted',
                   inputFormat: 'YYYY-MM-DD HH:mm:ss',
                   name: 'date'
@@ -136,12 +136,12 @@ export default {
           mode: 'horizontal',
           title: '手动填充',
           actions: [],
-          controls: [
+          body: [
             {
               type: 'group',
               label: '数据模板',
               labelClassName: 'text-muted',
-              controls: [
+              body: [
                 {
                   type: 'select',
                   name: 'tpl',
@@ -188,24 +188,24 @@ export default {
                   tpl: '${tpl}'
                 }
               },
-              controls: [
+              body: [
                 {
                   label: '名称',
-                  type: 'text',
+                  type: 'input-text',
                   labelClassName: 'text-muted',
                   name: 'name'
                 },
 
                 {
                   label: '作者',
-                  type: 'text',
+                  type: 'input-text',
                   labelClassName: 'text-muted',
                   name: 'author'
                 },
 
                 {
                   label: '请求时间',
-                  type: 'datetime',
+                  type: 'input-datetime',
                   labelClassName: 'text-muted',
                   inputFormat: 'YYYY-MM-DD HH:mm:ss',
                   name: 'date'
@@ -227,7 +227,7 @@ export default {
       target: 'detailForm',
       submitOnInit: true,
       mode: 'inline',
-      controls: [
+      body: [
         {
           label: '数据模板',
           type: 'select',
@@ -268,7 +268,7 @@ export default {
       initApi: '/api/mock2/form/initData?tpl=${tpl}',
       initFetchOn: 'data.tpl',
       actions: [],
-      controls: [
+      body: [
         '<span class="text-danger">当 <code>initApi</code> 中有变量，且变量的值发生了变化了，则该表单就会重新初始数据。</span>',
         {
           type: 'divider'

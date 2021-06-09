@@ -42,9 +42,9 @@ title: 自定义组件 - SDK
 {
   "type": "form",
   "title": "custom 组件",
-  "controls": [
+  "body": [
     {
-      "type": "text",
+      "type": "input-text",
       "name": "username",
       "label": "姓名"
     },
@@ -97,7 +97,7 @@ let amisScoped = amis.embed('#root', {
     type: 'form',
     mode: 'horizontal',
     api: '/saveForm',
-    controls: [
+    body: [
       {
         label: 'Name',
         type: 'my-custom', // 注意这个的 type 对应之前注册的 test

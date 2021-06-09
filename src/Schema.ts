@@ -5,7 +5,7 @@ import {ActionSchema} from './renderers/Action';
 import {AlertSchema} from './renderers/Alert';
 import {AudioSchema} from './renderers/Audio';
 import {ButtonGroupSchema} from './renderers/ButtonGroup';
-import {ButtonToolbarSchema} from './renderers/ButtonToolbar';
+import {ButtonToolbarSchema} from './renderers/Form/ButtonToolbar';
 import {CardSchema} from './renderers/Card';
 import {CardsSchema} from './renderers/Cards';
 import {FormSchema} from './renderers/Form';
@@ -38,7 +38,6 @@ import {ProgressSchema} from './renderers/Progress';
 import {QRCodeSchema} from './renderers/QRCode';
 import {ServiceSchema} from './renderers/Service';
 import {StatusSchema} from './renderers/Status';
-import {SwitchSchema} from './renderers/Switch';
 import {TabsSchema} from './renderers/Tabs';
 import {TasksSchema} from './renderers/Tasks';
 import {VBoxSchema} from './renderers/VBox';
@@ -54,6 +53,61 @@ import {PaginationWrapperSchema} from './renderers/PaginationWrapper';
 import {PaginationSchema} from './renderers/Pagination';
 import {AnchorNavSchema} from './renderers/AnchorNav';
 import {AvatarSchema} from './renderers/Avatar';
+import {StepsSchema} from './renderers/Steps';
+import {ArrayControlSchema} from './renderers/Form/InputArray';
+import {ButtonGroupControlSchema} from './renderers/Form/ButtonGroupSelect';
+import {ChainedSelectControlSchema} from './renderers/Form/ChainedSelect';
+import {CheckboxControlSchema} from './renderers/Form/Checkbox';
+import {CheckboxesControlSchema} from './renderers/Form/Checkboxes';
+import {ComboControlSchema} from './renderers/Form/Combo';
+import {ConditionBuilderControlSchema} from './renderers/Form/ConditionBuilder';
+import {DiffControlSchema} from './renderers/Form/DiffEditor';
+import {EditorControlSchema} from './renderers/Form/Editor';
+import {FieldSetControlSchema} from './renderers/Form/FieldSet';
+import {FormulaControlSchema} from './renderers/Form/Formula';
+import {GroupControlSchema} from './renderers/Form/Group';
+import {HiddenControlSchema} from './renderers/Form/Hidden';
+import {IconPickerControlSchema} from './renderers/Form/IconPicker';
+import {InputCityControlSchema} from './renderers/Form/InputCity';
+import {InputColorControlSchema} from './renderers/Form/InputColor';
+import {
+  DateControlSchema,
+  DateTimeControlSchema,
+  TimeControlSchema,
+  MonthControlSchema,
+  QuarterControlSchema,
+  YearControlSchema
+} from './renderers/Form/InputDate';
+import {DateRangeControlSchema} from './renderers/Form/InputDateRange';
+import {FileControlSchema} from './renderers/Form/InputFile';
+import {InputGroupControlSchema} from './renderers/Form/InputGroup';
+import {ImageControlSchema} from './renderers/Form/InputImage';
+import {MonthRangeControlSchema} from './renderers/Form/InputMonthRange';
+import {NumberControlSchema} from './renderers/Form/InputNumber';
+import {RangeControlSchema} from './renderers/Form/InputRange';
+import {RatingControlSchema} from './renderers/Form/InputRating';
+import {RepeatControlSchema} from './renderers/Form/InputRepeat';
+import {RichTextControlSchema} from './renderers/Form/InputRichText';
+import {SubFormControlSchema} from './renderers/Form/InputSubForm';
+import {TableControlSchema} from './renderers/Form/InputTable';
+import {TagControlSchema} from './renderers/Form/InputTag';
+import {TextControlSchema} from './renderers/Form/InputText';
+import {TreeControlSchema} from './renderers/Form/InputTree';
+import {ListControlSchema} from './renderers/Form/ListSelect';
+import {LocationControlSchema} from './renderers/Form/LocationPicker';
+import {MatrixControlSchema} from './renderers/Form/MatrixCheckboxes';
+import {NestedSelectControlSchema} from './renderers/Form/NestedSelect';
+import {PickerControlSchema} from './renderers/Form/Picker';
+import {RadiosControlSchema} from './renderers/Form/Radios';
+import {SelectControlSchema} from './renderers/Form/Select';
+import {StaticExactControlSchema} from './renderers/Form/Static';
+import {SwitchControlSchema} from './renderers/Form/Switch';
+import {TabsTransferControlSchema} from './renderers/Form/TabsTransfer';
+import {TextareaControlSchema} from './renderers/Form/Textarea';
+import {TransferControlSchema} from './renderers/Form/Transfer';
+import {TreeSelectControlSchema} from './renderers/Form/TreeSelect';
+import {UUIDControlSchema} from './renderers/Form/UUID';
+import {FormControlSchema} from './renderers/Form/Control';
 
 // 每加个类型，这补充一下。
 export type SchemaType =
@@ -91,6 +145,7 @@ export type SchemaType =
   | 'drawer'
   | 'each'
   | 'flex'
+  | 'flex-item'
   | 'grid'
   | 'grid-2d'
   | 'hbox'
@@ -108,6 +163,7 @@ export type SchemaType =
   | 'static-list' // 这个几个跟表单项同名，再form下面用必须带前缀 static-
   | 'map'
   | 'mapping'
+  | 'markdown'
   | 'nav'
   | 'page'
   | 'pagination'
@@ -136,7 +192,124 @@ export type SchemaType =
   | 'video'
   | 'wizard'
   | 'wrapper'
-  | 'anchor-nav';
+  | 'anchor-nav'
+  | 'steps'
+  | 'control'
+  | 'input-array'
+  | 'button'
+  | 'submit'
+  | 'reset'
+  | 'button-group-select'
+  | 'button-toolbar'
+  | 'chained-select'
+  | 'chart-radios'
+  | 'checkbox'
+  | 'checkboxes'
+  | 'input-city'
+  | 'input-color'
+  | 'combo'
+  | 'condition-builder'
+  | 'container'
+  | 'input-date'
+  | 'input-datetime'
+  | 'input-time'
+  | 'input-quarter'
+  | 'input-year'
+  | 'input-month'
+  | 'input-date-range'
+  | 'input-datetime-range'
+  | 'diff-editor'
+
+  // editor 系列
+  | 'editor'
+  | 'bat-editor'
+  | 'c-editor'
+  | 'coffeescript-editor'
+  | 'cpp-editor'
+  | 'csharp-editor'
+  | 'css-editor'
+  | 'dockerfile-editor'
+  | 'fsharp-editor'
+  | 'go-editor'
+  | 'handlebars-editor'
+  | 'html-editor'
+  | 'ini-editor'
+  | 'java-editor'
+  | 'javascript-editor'
+  | 'json-editor'
+  | 'less-editor'
+  | 'lua-editor'
+  | 'markdown-editor'
+  | 'msdax-editor'
+  | 'objective-c-editor'
+  | 'php-editor'
+  | 'plaintext-editor'
+  | 'postiats-editor'
+  | 'powershell-editor'
+  | 'pug-editor'
+  | 'python-editor'
+  | 'r-editor'
+  | 'razor-editor'
+  | 'ruby-editor'
+  | 'sb-editor'
+  | 'scss-editor'
+  | 'sol-editor'
+  | 'sql-editor'
+  | 'swift-editor'
+  | 'typescript-editor'
+  | 'vb-editor'
+  | 'xml-editor'
+  | 'yaml-editor'
+
+  //
+  | 'fieldset'
+  | 'fieldSet'
+  | 'input-file'
+  | 'formula'
+  | 'grid'
+  | 'group'
+  | 'hbox'
+  | 'hidden'
+  | 'icon-picker'
+  | 'input-image'
+  | 'input-group'
+  | 'list-select'
+  | 'location-picker'
+  | 'matrix-checkboxes'
+  | 'input-month-range'
+  | 'nested-select'
+  | 'input-number'
+  | 'panel'
+  | 'picker'
+  | 'radios'
+  | 'input-range'
+  | 'input-rating'
+  | 'input-repeat'
+  | 'input-rich-text'
+  | 'select'
+  | 'service'
+  | 'static'
+  | 'input-sub-form'
+  | 'switch'
+  | 'input-table'
+  | 'tabs'
+  | 'tabs-transfer'
+  | 'input-tag'
+  | 'input-text'
+  | 'input-password'
+  | 'input-email'
+  | 'input-url'
+  | 'uuid'
+  | 'multi-select'
+  | 'textarea'
+  | 'transfer'
+  | 'input-tree'
+  | 'tree-select'
+
+  // 原生 input 类型
+  | 'native-date'
+  | 'native-time'
+  | 'native-number';
 
 export type SchemaObject =
   | PageSchema
@@ -185,7 +358,6 @@ export type SchemaObject =
   | ServiceSchema
   | SparkLineSchema
   | StatusSchema
-  | SwitchSchema
   | TableSchema
   | TabsSchema
   | TasksSchema
@@ -194,7 +366,63 @@ export type SchemaObject =
   | WizardSchema
   | WrapperSchema
   | FormSchema
-  | AnchorNavSchema;
+  | AnchorNavSchema
+  | StepsSchema
+
+  // 表单项
+  | FormControlSchema
+  | ArrayControlSchema
+  | ButtonGroupControlSchema
+  | ChainedSelectControlSchema
+  | CheckboxControlSchema
+  | CheckboxesControlSchema
+  | InputCityControlSchema
+  | InputColorControlSchema
+  | ComboControlSchema
+  | ConditionBuilderControlSchema
+  | DateControlSchema
+  | DateTimeControlSchema
+  | TimeControlSchema
+  | MonthControlSchema
+  | MonthControlSchema
+  | QuarterControlSchema
+  | YearControlSchema
+  | DateRangeControlSchema
+  | DiffControlSchema
+  | EditorControlSchema
+  | FieldSetControlSchema
+  | FileControlSchema
+  | FormulaControlSchema
+  | GroupControlSchema
+  | HiddenControlSchema
+  | IconPickerControlSchema
+  | ImageControlSchema
+  | InputGroupControlSchema
+  | ListControlSchema
+  | LocationControlSchema
+  | UUIDControlSchema
+  | MatrixControlSchema
+  | MonthRangeControlSchema
+  | NestedSelectControlSchema
+  | NumberControlSchema
+  | PickerControlSchema
+  | RadiosControlSchema
+  | RangeControlSchema
+  | RatingControlSchema
+  | RichTextControlSchema
+  | RepeatControlSchema
+  | SelectControlSchema
+  | SubFormControlSchema
+  | SwitchControlSchema
+  | StaticExactControlSchema
+  | TableControlSchema
+  | TabsTransferControlSchema
+  | TagControlSchema
+  | TextControlSchema
+  | TextareaControlSchema
+  | TransferControlSchema
+  | TreeControlSchema
+  | TreeSelectControlSchema;
 
 export type SchemaCollection =
   | SchemaObject
@@ -221,7 +449,7 @@ export type SchemaExpression = string;
 export type SchemaClassName =
   | string
   | {
-      [propName: string]: true | false | null | SchemaExpression;
+      [propName: string]: boolean | undefined | null | SchemaExpression;
     };
 
 // /**
@@ -269,7 +497,7 @@ export interface SchemaApiObject {
    *
    * 如果想通过 body 发送给后端，那么请把这个配置成 false。
    *
-   * 但是，浏览器还不支持啊，设置了只是摆设。
+   * 但是，浏览器还不支持啊，设置了只是摆设。除非服务端支持 method-override
    */
   attachDataToQuery?: boolean;
 
@@ -302,8 +530,16 @@ export interface SchemaApiObject {
 
   /**
    * 是否自动刷新，当 url 中的取值结果变化时，自动刷新数据。
+   *
+   * @default true
    */
   autoRefresh?: boolean;
+
+  /**
+   * 当开启自动刷新的时候，默认是 api 的 url 来自动跟踪变量变化的。
+   * 如果你希望监控 url 外的变量，请配置 traceExpression。
+   */
+  trackExpression?: string;
 
   /**
    * 如果设置了值，同一个接口，相同参数，指定的时间（单位：ms）内请求将直接走缓存。

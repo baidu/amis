@@ -160,10 +160,16 @@ export const AppStore = ServiceStore.named('AppStore')
         bcn
       };
 
+      if (page.label) {
+        document.title = page.label;
+      }
+
       if (page.schema) {
         self.schema = page.schema;
+        self.schemaKey = '' + Date.now();
       } else if (page.schemaApi) {
-        self.fetchSchema(page.schemaApi, self.activePage);
+        self.schema = null;
+        self.fetchSchema(page.schemaApi, self.activePage, {method: 'get'});
       } else if (page.redirect) {
         env.jumpTo(page.redirect);
         return;
@@ -171,6 +177,7 @@ export const AppStore = ServiceStore.named('AppStore')
         this.rewrite(page.rewrite, env);
       } else {
         self.schema = null;
+        self.schemaKey = '';
       }
     },
 

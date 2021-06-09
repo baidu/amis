@@ -1,5 +1,4 @@
 export default {
-  $schema: 'https://houtai.baidu.com/v2/schemas/page.json#',
   title: '条件生成器',
   body: [
     {
@@ -21,7 +20,7 @@ export default {
           }
         }
       ],
-      controls: [
+      body: [
         {
           type: 'condition-builder',
           label: '条件组件',

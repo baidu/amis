@@ -35,7 +35,6 @@ import {
   SchemaTokenizeableString,
   SchemaType
 } from '../../Schema';
-import {FormControlSchema, FormControlType} from '../Form/Item';
 import {SchemaPopOver} from '../PopOver';
 import {SchemaQuickEdit} from '../QuickEdit';
 import {SchemaCopyable} from '../Copyable';
@@ -44,7 +43,7 @@ import {toDataURL, getImageDimensions} from '../../utils/image';
 import {TableBody} from './TableBody';
 import {TplSchema} from '../Tpl';
 import {MappingSchema} from '../Mapping';
-import {isAlive} from 'mobx-state-tree';
+import {isAlive, getSnapshot} from 'mobx-state-tree';
 
 /**
  * 表格列，不指定类型时默认为文本类型。
@@ -277,7 +276,7 @@ export interface TableProps extends RendererProps {
   onSave?: (
     items: Array<object> | object,
     diff: Array<object> | object,
-    rowIndexes: Array<number> | number,
+    rowIndexes: Array<string> | string,
     unModifiedItems?: Array<object>,
     rowOrigins?: Array<object> | object,
     resetOnFailed?: boolean
@@ -620,6 +619,10 @@ export default class Table extends React.Component<TableProps, object> {
     savePristine?: boolean,
     resetOnFailed?: boolean
   ) {
+    if (!isAlive(item)) {
+      return;
+    }
+
     const {
       onSave,
       saveImmediately: propsSaveImmediately,
@@ -654,7 +657,7 @@ export default class Table extends React.Component<TableProps, object> {
     onSave(
       item.data,
       difference(item.data, item.pristine, ['id', primaryField]),
-      item.index,
+      item.path,
       undefined,
       item.pristine,
       resetOnFailed
@@ -681,7 +684,7 @@ export default class Table extends React.Component<TableProps, object> {
     }
 
     const rows = store.modifiedRows.map(item => item.data);
-    const rowIndexes = store.modifiedRows.map(item => item.index);
+    const rowIndexes = store.modifiedRows.map(item => item.path);
     const diff = store.modifiedRows.map(item =>
       difference(item.data, item.pristine, ['id', primaryField])
     );
@@ -764,12 +767,15 @@ export default class Table extends React.Component<TableProps, object> {
     const clip = (this.table as HTMLElement).getBoundingClientRect();
     const offsetY =
       this.props.affixOffsetTop ?? this.props.env.affixOffsetTop ?? 0;
+    const headingHeight =
+      dom.querySelector(`.${ns}Table-heading`)?.getBoundingClientRect()
+        .height || 0;
+    const headerHeight =
+      dom.querySelector(`.${ns}Table-headToolbar`)?.getBoundingClientRect()
+        .height || 0;
 
-    // 50 是 headerToolbar 的高度
-    const toolbarHeight =
-      this.renderedToolbars.length || this.props.headerToolbarRender ? 50 : 0;
     const affixed =
-      clip.top - toolbarHeight < offsetY &&
+      clip.top - headerHeight - headingHeight < offsetY &&
       clip.top + clip.height - 40 > offsetY;
     const affixedDom = dom.querySelector(`.${ns}Table-fixedTop`) as HTMLElement;
 
@@ -833,17 +839,18 @@ export default class Table extends React.Component<TableProps, object> {
       ),
       (table: HTMLTableElement) => {
         let totalWidth = 0;
-
         forEach(
           table.querySelectorAll('thead>tr:last-child>th'),
           (item: HTMLElement) => {
             const width = widths[item.getAttribute('data-index') as string];
-
             item.style.cssText += `width: ${width}px; height: ${heights.header}px`;
             totalWidth += width;
           }
         );
-
+        forEach(table.querySelectorAll('colgroup>col'), (item: HTMLElement) => {
+          const width = widths[item.getAttribute('data-index') as string];
+          item.setAttribute('width', `${width}`);
+        });
         forEach(
           table.querySelectorAll('tbody>tr'),
           (item: HTMLElement, index) => {
@@ -1573,6 +1580,11 @@ export default class Table extends React.Component<TableProps, object> {
         </div>
         <div className={cx('Table-wrapper')}>
           <table ref={this.affixedTableRef} className={tableClassName}>
+            <colgroup>
+              {store.filteredColumns.map(column => (
+                <col key={column.index} data-index={column.index} />
+              ))}
+            </colgroup>
             <thead>
               {store.columnGroup.length ? (
                 <tr>
@@ -1622,7 +1634,6 @@ export default class Table extends React.Component<TableProps, object> {
       rowClassName
     } = this.props;
     const hideHeader = store.filteredColumns.every(column => !column.label);
-
     return (
       <table
         className={cx(
@@ -1718,7 +1729,8 @@ export default class Table extends React.Component<TableProps, object> {
       this.renderedToolbars.push(type);
       return this.renderDragToggler();
     } else if (type === 'export-excel') {
-      return this.renderExportExcel();
+      this.renderedToolbars.push(type);
+      return this.renderExportExcel(toolbar);
     }
 
     return void 0;
@@ -1800,13 +1812,15 @@ export default class Table extends React.Component<TableProps, object> {
     );
   }
 
-  renderExportExcel() {
+  renderExportExcel(toolbar: SchemaNode) {
     const {
       store,
+      env,
       classPrefix: ns,
       classnames: cx,
       translate: __,
-      columns
+      columns,
+      data
     } = this.props;
 
     if (!columns) {
@@ -1818,9 +1832,38 @@ export default class Table extends React.Component<TableProps, object> {
         classPrefix={ns}
         onClick={() => {
           import('exceljs').then(async (ExcelJS: any) => {
-            if (!store.data.items || store.data.items.length === 0) {
+            let rows = [];
+            let tmpStore;
+            let filename = 'data';
+            // 支持配置 api 远程获取
+            if (typeof toolbar === 'object' && (toolbar as Schema).api) {
+              const res = await env.fetcher((toolbar as Schema).api, data);
+              if (!res.data) {
+                env.notify('warning', __('placeholder.noData'));
+                return;
+              }
+              if (Array.isArray(res.data)) {
+                rows = res.data;
+              } else {
+                rows = res.data.rows || res.data.items;
+              }
+              // 因为很多方法是 store 里的，所以需要构建 store 来处理
+              tmpStore = TableStore.create(getSnapshot(store));
+              tmpStore.initRows(rows);
+              rows = tmpStore.rows;
+            } else {
+              rows = store.rows;
+            }
+
+            if (typeof toolbar === 'object' && (toolbar as Schema).filename) {
+              filename = filter((toolbar as Schema).filename, data, '| raw');
+            }
+
+            if (rows.length === 0) {
+              env.notify('warning', __('placeholder.noData'));
               return;
             }
+
             const workbook = new ExcelJS.Workbook();
             const worksheet = workbook.addWorksheet('sheet', {
               properties: {defaultColWidth: 15}
@@ -1844,7 +1887,7 @@ export default class Table extends React.Component<TableProps, object> {
             };
             // 数据从第二行开始
             let rowIndex = 1;
-            for (const row of store.rows) {
+            for (const row of rows) {
               rowIndex += 1;
               const sheetRow = worksheet.getRow(rowIndex);
               let columIndex = 0;
@@ -1967,13 +2010,13 @@ export default class Table extends React.Component<TableProps, object> {
                 type:
                   'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
               });
-              saveAs(blob, 'data.xlsx');
+              saveAs(blob, filename + '.xlsx');
             }
           });
         }}
         size="sm"
       >
-        {__('CRUD.exportExcel')}
+        {(toolbar as Schema).label || __('CRUD.exportExcel')}
       </Button>
     );
   }

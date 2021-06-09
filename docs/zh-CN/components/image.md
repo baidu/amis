@@ -20,14 +20,17 @@ order: 52
 }
 ```
 
-也可以配置`value`属性
+也可以配置`name`属性关联上下文数据
 
 ```schema
 {
     "type": "page",
+    "data": {
+        "imageUrl": "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395692722/4f3cb4202335.jpeg@s_0,w_216,l_1,f_jpg,q_80"
+    },
     "body": {
         "type": "image",
-        "value": "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395692722/4f3cb4202335.jpeg@s_0,w_216,l_1,f_jpg,q_80"
+        "name": "imageUrl"
     }
 }
 ```
@@ -57,7 +60,7 @@ order: 52
     "data": {
         "image": "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395692722/4f3cb4202335.jpeg@s_0,w_216,l_1,f_jpg,q_80"
     },
-    "controls": [
+    "body": [
         {
             "type": "static-image",
             "name": "image",
@@ -96,7 +99,7 @@ order: 52
     "data": {
         "image": "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395692722/4f3cb4202335.jpeg@s_0,w_216,l_1,f_jpg,q_80"
     },
-    "controls": [
+    "body": [
         {
             "type": "static-image",
             "name": "image",
@@ -231,7 +234,7 @@ List 的内容、Card 卡片的内容配置同上
     "data": {
         "image": "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395692722/4f3cb4202335.jpeg@s_0,w_216,l_1,f_jpg,q_80"
     },
-    "controls": [
+    "body": [
         {
             "type": "static-image",
             "name": "image",

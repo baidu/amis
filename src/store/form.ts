@@ -28,6 +28,7 @@ import {
 import isEqual from 'lodash/isEqual';
 import flatten from 'lodash/flatten';
 import {getStoreById, removeStore} from './manager';
+import {filter} from '../utils/tpl';
 
 export const FormStore = ServiceStore.named('FormStore')
   .props({
@@ -38,14 +39,27 @@ export const FormStore = ServiceStore.named('FormStore')
     validating: false,
     savedData: types.frozen(),
     // items: types.optional(types.array(types.late(() => FormItemStore)), []),
-    itemsRef: types.optional(types.array(types.string), []),
     canAccessSuperData: true,
-    persistData: false,
+    persistData: '',
     restError: types.optional(types.array(types.string), []) // 没有映射到表达项上的 errors
   })
   .views(self => {
     function getItems() {
-      return self.itemsRef.map(item => getStoreById(item) as IFormItemStore);
+      const formItems: Array<IFormItemStore> = [];
+
+      // 查找孩子节点中是 formItem 的表单项
+      const pool = self.children.concat();
+      while (pool.length) {
+        const current = pool.shift()!;
+
+        if (current.storeType === FormItemStore.name) {
+          formItems.push(current);
+        } else {
+          pool.push(...current.children);
+        }
+      }
+
+      return formItems;
     }
 
     return {
@@ -73,8 +87,11 @@ export const FormStore = ServiceStore.named('FormStore')
         return errors;
       },
 
-      getValueByName(name: string) {
-        return getVariable(self.data, name, self.canAccessSuperData);
+      getValueByName(
+        name: string,
+        canAccessSuperData = self.canAccessSuperData
+      ) {
+        return getVariable(self.data, name, canAccessSuperData);
       },
 
       getPristineValueByName(name: string) {
@@ -110,6 +127,14 @@ export const FormStore = ServiceStore.named('FormStore')
         }
 
         return !this.isPristine;
+      },
+
+      get persistKey() {
+        return `${location.pathname}/${self.path}/${
+          typeof self.persistData === 'string'
+            ? filter(self.persistData, self.data)
+            : self.persistData
+        }`;
       }
     };
   })
@@ -179,7 +204,7 @@ export const FormStore = ServiceStore.named('FormStore')
       self.data = data;
 
       if (self.persistData) {
-        setPersistData();
+        setLocalPersistData();
       }
 
       // 同步 options
@@ -373,7 +398,7 @@ export const FormStore = ServiceStore.named('FormStore')
           delete errors[key];
         } else if (items.length) {
           // 通过 name 直接找到的
-          items.forEach(item => item.setError(errors[key]));
+          items.forEach(item => item.setError(errors[key], 'remote'));
           delete errors[key];
         } else {
           // 尝试通过path寻找
@@ -427,7 +452,14 @@ export const FormStore = ServiceStore.named('FormStore')
       try {
         let valid = yield validate(hooks);
 
-        if (!valid) {
+        // 如果不是valid，而且有包含不是remote的报错的表单项时，不可提交
+        if (
+          (!valid &&
+            self.items.some(item =>
+              item.errorData.some(e => e.tag !== 'remote')
+            )) ||
+          self.restError.length
+        ) {
           const msg = failedMessage ?? self.__('Form.validateFailed');
           msg && getEnv(self).notify('error', msg);
           throw new Error(self.__('Form.validateFailed'));
@@ -469,7 +501,7 @@ export const FormStore = ServiceStore.named('FormStore')
 
         // 验证过，或者是 unique 的表单项，或者强制验证
         if (!item.validated || item.unique || forceValidate) {
-          yield item.validate();
+          yield item.validate(self.data);
         }
       }
 
@@ -492,7 +524,7 @@ export const FormStore = ServiceStore.named('FormStore')
           let item = items[i] as IFormItemStore;
 
           if (~fields.indexOf(item.name)) {
-            result.push(yield item.validate());
+            result.push(yield item.validate(self.data));
           }
         }
         self.validating = false;
@@ -531,17 +563,6 @@ export const FormStore = ServiceStore.named('FormStore')
       cb && cb(self.data);
     }
 
-    function addFormItem(item: IFormItemStore) {
-      self.itemsRef.push(item.id);
-      // 默认值可能在原型上，把他挪到当前对象上。
-      setValueByName(item.name, item.value, false, false);
-    }
-
-    function removeFormItem(item: IFormItemStore) {
-      item.clearValueOnHidden && deleteValueByName(item.name);
-      removeStore(item);
-    }
-
     function setCanAccessSuperData(value: boolean = true) {
       self.canAccessSuperData = value;
     }
@@ -550,12 +571,12 @@ export const FormStore = ServiceStore.named('FormStore')
       self.inited = value;
     }
 
-    const setPersistData = debounce(
-      () =>
-        localStorage.setItem(
-          location.pathname + self.path,
-          JSON.stringify(self.data)
-        ),
+    function setPersistData(value = '') {
+      self.persistData = value;
+    }
+
+    const setLocalPersistData = debounce(
+      () => localStorage.setItem(self.persistKey, JSON.stringify(self.data)),
       250,
       {
         trailing: true,
@@ -563,24 +584,15 @@ export const FormStore = ServiceStore.named('FormStore')
       }
     );
 
-    function getPersistData() {
-      self.persistData = true;
-      let data = localStorage.getItem(location.pathname + self.path);
+    function getLocalPersistData() {
+      let data = localStorage.getItem(self.persistKey);
       if (data) {
         self.updateData(JSON.parse(data));
       }
     }
 
-    function clearPersistData() {
-      localStorage.removeItem(location.pathname + self.path);
-    }
-
-    function onChildStoreDispose(child: IFormItemStore) {
-      if (child.storeType === FormItemStore.name) {
-        const itemsRef = self.itemsRef.filter(id => id !== child.id);
-        self.itemsRef.replace(itemsRef);
-      }
-      self.removeChildId(child.id);
+    function clearLocalPersistData() {
+      localStorage.removeItem(self.persistKey);
     }
 
     function updateSavedData() {
@@ -598,16 +610,14 @@ export const FormStore = ServiceStore.named('FormStore')
       clearErrors,
       saveRemote,
       reset,
-      addFormItem,
-      removeFormItem,
       syncOptions,
       setCanAccessSuperData,
       deleteValueByName,
-      getPersistData,
+      getLocalPersistData,
+      setLocalPersistData,
+      clearLocalPersistData,
       setPersistData,
-      clearPersistData,
       clear,
-      onChildStoreDispose,
       updateSavedData,
       handleRemoteError,
       getItemsByPath,
@@ -616,7 +626,7 @@ export const FormStore = ServiceStore.named('FormStore')
       clearRestError,
       beforeDestroy() {
         syncOptions.cancel();
-        setPersistData.cancel();
+        setLocalPersistData.cancel();
       }
     };
   });

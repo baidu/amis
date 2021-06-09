@@ -252,17 +252,12 @@
   box-shadow: var(--Button-boxShadow);
   text-shadow: var(--Button-textShadow);
 
-  @include hover {
-    // todo: 无法支持 css 变量
-    // @if ($color != $hover-color) {
-    color: $hover-color;
-    // }
-    // @if ($background != $hover-background) {
-    background: $hover-background;
-    // }
-    // @if ($border != $hover-border) {
-    border-color: $hover-border;
-    // }
+  &:not(:disabled):not(.is-disabled) {
+    @include hover {
+      color: $hover-color;
+      background: $hover-background;
+      border-color: $hover-border;
+    }
   }
 
   // @include focus {
@@ -277,37 +272,6 @@
     // background: $hover-background;
     // border-color: $hover-border;
     box-shadow: var(--Button-boxShadow);
-  }
-
-  &:active,
-  &.is-active {
-    @if ($active-color != $color) {
-      color: $active-color;
-    }
-
-    @if ($active-background != $background) {
-      background: $active-background;
-    }
-
-    @if ($active-border != $border) {
-      border-color: $active-border;
-    }
-  }
-
-  &.is-disabled,
-  &:disabled {
-    cursor: not-allowed;
-    @if variable-exists(Button-onDisabled-bg) {
-      background: $Button-onDisabled-bg;
-    }
-
-    @if variable-exists(Button-onDisabled-color) {
-      color: $Button-onDisabled-color;
-    }
-
-    @if variable-exists(Button-onDisabled-borderColor) {
-      border-color: var(--Button-onDisabled-borderColor);
-    }
   }
 }
 

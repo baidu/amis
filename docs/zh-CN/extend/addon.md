@@ -54,10 +54,10 @@ import {addRule} from 'amis';
 {
     "type": "form",
     "mode": "horizontal",
-    "controls": [
+    "body": [
         {
             "name": "id",
-            "type": "text",
+            "type": "input-text",
             "label": "id"
         }
     ]
@@ -72,7 +72,7 @@ import {addRule} from 'amis';
 {
   "type": "form",
   "mode": "horizontal",
-  "controls": [
+  "body": [
     {
       "name": "idIsNumber",
       "type": "switch",
@@ -80,13 +80,13 @@ import {addRule} from 'amis';
     },
     {
       "name": "id",
-      "type": "text",
+      "type": "input-text",
       "label": "id",
       "hiddenOn": "data.idIsNumber"
     },
     {
       "name": "id",
-      "type": "number",
+      "type": "input-number",
       "label": "id",
       "visibleOn": "data.idIsNumber"
     }
@@ -113,7 +113,7 @@ let amisScoped = amis.embed('#root', {
     type: 'form',
     mode: 'horizontal',
     api: '/saveForm',
-    controls: [
+    body: [
       {
         type: 'switch',
         label: 'id 是数字',

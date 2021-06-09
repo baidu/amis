@@ -784,8 +784,18 @@ export default class CRUD extends React.Component<CRUDProps, any> {
       perPageField,
       loadDataOnceFetchOnFilter
     } = this.props;
-    values = syncLocation ? qs.parse(qsstringify(values)) : values;
-
+    values = syncLocation
+      ? qs.parse(
+          qsstringify(
+            values,
+            {
+              arrayFormat: 'indices',
+              encodeValuesOnly: true
+            },
+            true
+          )
+        )
+      : values;
     store.updateQuery(
       {
         ...values,
@@ -1093,7 +1103,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
   handleSave(
     rows: Array<object> | object,
     diff: Array<object> | object,
-    indexes: Array<number>,
+    indexes: Array<string>,
     unModifiedItems?: Array<any>,
     rowsOrigin?: Array<object> | object,
     resetOnFailed?: boolean
@@ -1826,13 +1836,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
             {children.map(({toolbar, dom: child}, index) => {
               const type = (toolbar as Schema).type || toolbar;
               let align =
-                toolbar.align ||
-                (type === 'pagination' || (index === len - 1 && index > 0)
-                  ? 'right'
-                  : index < len - 1
-                  ? 'left'
-                  : '');
-
+                toolbar.align || (type === 'pagination' ? 'right' : 'left');
               return (
                 <div
                   key={index}
@@ -2041,6 +2045,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
           'body',
           {
             ...rest,
+            columns: store.columns ?? rest.columns,
             type: mode || 'table'
           },
           {
@@ -2108,9 +2113,8 @@ export default class CRUD extends React.Component<CRUDProps, any> {
 }
 
 @Renderer({
-  test: /(^|\/)crud$/,
-  storeType: CRUDStore.name,
-  name: 'crud'
+  type: 'crud',
+  storeType: CRUDStore.name
 })
 export class CRUDRenderer extends CRUD {
   static contextType = ScopedContext;

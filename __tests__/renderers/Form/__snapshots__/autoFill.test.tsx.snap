@@ -1,0 +1,49 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Form:options:autoFill:data 1`] = `
+Object {
+  "a": "a",
+  "aId": 233,
+  "aLabel": "OptionA",
+  "aValue": "a",
+}
+`;
+
+exports[`Form:options:autoFill:data 2`] = `
+Object {
+  "a": "b",
+  "aId": "",
+  "aLabel": "OptionB",
+  "aValue": "b",
+}
+`;
+
+exports[`Form:options:autoFill:multiple:data 1`] = `
+Object {
+  "a": "a",
+  "aIds": Array [
+    233,
+  ],
+  "aLabels": Array [
+    "OptionA",
+  ],
+  "aValues": Array [
+    "a",
+  ],
+}
+`;
+
+exports[`Form:options:autoFill:multiple:data 2`] = `
+Object {
+  "a": "b",
+  "aIds": Array [
+    undefined,
+  ],
+  "aLabels": Array [
+    "OptionB",
+  ],
+  "aValues": Array [
+    "b",
+  ],
+}
+`;

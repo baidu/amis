@@ -10,7 +10,7 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [12.x]
+        node-version: [14.x]
         # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
 
     steps:
@@ -36,3 +36,4 @@ jobs:
           BRANCH: gh-pages # The branch the action should deploy to.
           FOLDER: gh-pages # The folder the action should deploy.
           CLEAN: true # Automatically remove deleted files from the deploy branch
+          SINGLE_COMMIT: true

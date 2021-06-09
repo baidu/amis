@@ -216,7 +216,7 @@ export default class DropDownButton extends React.Component<
             onHide={this.close}
             classPrefix={ns}
             className={cx('DropDown-popover')}
-            style={{minWidth: this.target?.getBoundingClientRect().width}}
+            style={{minWidth: this.target?.offsetWidth}}
           >
             {body}
           </PopOver>
@@ -238,6 +238,7 @@ export default class DropDownButton extends React.Component<
       block,
       disabled,
       btnDisabled,
+      btnClassName,
       size,
       label,
       level,
@@ -252,11 +253,15 @@ export default class DropDownButton extends React.Component<
 
     return (
       <div
-        className={cx('DropDown ', {
-          'DropDown--block': block,
-          'DropDown--alignRight': align === 'right',
-          'is-opened': this.state.isOpened
-        })}
+        className={cx(
+          'DropDown ',
+          {
+            'DropDown--block': block,
+            'DropDown--alignRight': align === 'right',
+            'is-opened': this.state.isOpened
+          },
+          className
+        )}
         ref={this.domRef}
       >
         <TooltipWrapper
@@ -271,7 +276,7 @@ export default class DropDownButton extends React.Component<
             disabled={disabled || btnDisabled}
             className={cx(
               'Button',
-              className,
+              btnClassName,
               typeof level === 'undefined'
                 ? 'Button--default'
                 : level
@@ -305,7 +310,6 @@ export default class DropDownButton extends React.Component<
 }
 
 @Renderer({
-  test: /(^|\/)dropdown-button$/,
-  name: 'dropdown-button'
+  type: 'dropdown-button'
 })
 export class DropDownButtonRenderer extends DropDownButton {}

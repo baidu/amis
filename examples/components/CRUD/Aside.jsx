@@ -1,16 +1,17 @@
 export default {
-  $schema: 'https://houtai.baidu.com/v2/schemas/page.json#',
   title: '带边栏联动',
   aside: {
     type: 'form',
     wrapWithPanel: false,
     target: 'window', // 直接修改location，当然也可以直接指向某个组件。
-    controls: [
+    submitOnInit: true,
+    body: [
       {
-        type: 'tree',
+        type: 'input-tree',
         name: 'cat',
         inputClassName: 'no-border',
         submitOnChange: true,
+        selectFirst: true,
         options: [
           {
             label: '分类1',
@@ -19,7 +20,17 @@ export default {
 
           {
             label: '分类2',
-            value: 'cat2'
+            value: 'cat2',
+            children: [
+              {
+                label: '分类 2.1',
+                value: 'cat2.1'
+              },
+              {
+                label: '分类 2.2',
+                value: 'cat2.2'
+              }
+            ]
           },
 
           {
@@ -47,9 +58,9 @@ export default {
           type: 'form',
           name: 'sample-edit-form',
           api: 'post:/api/sample',
-          controls: [
+          body: [
             {
-              type: 'text',
+              type: 'input-text',
               name: 'engine',
               label: 'Engine',
               required: true
@@ -58,7 +69,7 @@ export default {
               type: 'divider'
             },
             {
-              type: 'text',
+              type: 'input-text',
               name: 'browser',
               label: 'Browser',
               required: true
@@ -67,7 +78,7 @@ export default {
               type: 'divider'
             },
             {
-              type: 'text',
+              type: 'input-text',
               name: 'platform',
               label: 'Platform(s)',
               required: true
@@ -76,7 +87,7 @@ export default {
               type: 'divider'
             },
             {
-              type: 'text',
+              type: 'input-text',
               name: 'version',
               label: 'Engine version'
             },
@@ -84,7 +95,7 @@ export default {
               type: 'divider'
             },
             {
-              type: 'text',
+              type: 'input-text',
               name: 'grade',
               label: 'CSS grade'
             }
@@ -96,13 +107,16 @@ export default {
   body: {
     type: 'crud',
     draggable: true,
-    api: '/api/sample',
+    api: {
+      url: '/api/sample',
+      sendOn: 'this.cat'
+    },
     filter: {
       title: '条件搜索',
       submitText: '',
-      controls: [
+      body: [
         {
-          type: 'text',
+          type: 'input-text',
           name: 'keywords',
           placeholder: '通过关键字搜索',
           addOn: {
@@ -132,13 +146,13 @@ export default {
           body: {
             type: 'form',
             api: '/api/sample/bulkUpdate2',
-            controls: [
+            body: [
               {
                 type: 'hidden',
                 name: 'ids'
               },
               {
-                type: 'text',
+                type: 'input-text',
                 name: 'engine',
                 label: 'Engine'
               }
@@ -212,7 +226,7 @@ export default {
               title: '查看',
               body: {
                 type: 'form',
-                controls: [
+                body: [
                   {
                     type: 'static',
                     name: 'engine',
@@ -272,9 +286,9 @@ export default {
                 type: 'form',
                 name: 'sample-edit-form',
                 api: '/api/sample/$id',
-                controls: [
+                body: [
                   {
-                    type: 'text',
+                    type: 'input-text',
                     name: 'engine',
                     label: 'Engine',
                     required: true
@@ -283,7 +297,7 @@ export default {
                     type: 'divider'
                   },
                   {
-                    type: 'text',
+                    type: 'input-text',
                     name: 'browser',
                     label: 'Browser',
                     required: true
@@ -292,7 +306,7 @@ export default {
                     type: 'divider'
                   },
                   {
-                    type: 'text',
+                    type: 'input-text',
                     name: 'platform',
                     label: 'Platform(s)',
                     required: true
@@ -301,7 +315,7 @@ export default {
                     type: 'divider'
                   },
                   {
-                    type: 'text',
+                    type: 'input-text',
                     name: 'version',
                     label: 'Engine version'
                   },
@@ -309,7 +323,7 @@ export default {
                     type: 'divider'
                   },
                   {
-                    type: 'text',
+                    type: 'input-text',
                     name: 'grade',
                     label: 'CSS grade'
                   }

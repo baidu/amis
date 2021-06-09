@@ -526,7 +526,7 @@ exports[`factory:definitions override 1`] = `
                     </span>
                   </label>
                   <div
-                    class="a-CheckboxesControl a-Form-control"
+                    class="a-CheckboxesControl a-Form-control is-inline"
                   >
                     <label
                       class="a-Checkbox a-Checkbox--checkbox a-Checkbox--full"

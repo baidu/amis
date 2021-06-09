@@ -21,6 +21,7 @@ import capitalize from 'lodash/capitalize';
 
 export interface MonthRangePickerProps extends ThemeProps, LocaleProps {
   className?: string;
+  popoverClassName?: string;
   placeholder?: string;
   theme?: any;
   format: string;
@@ -374,7 +375,7 @@ export class MonthRangePicker extends React.Component<
   }
 
   renderCalendar() {
-    const {classPrefix: ns, locale, embed} = this.props;
+    const {classPrefix: ns, classnames: cx, locale, embed} = this.props;
     const __ = this.props.translate;
     const viewMode: 'months' = 'months';
     const dateFormat = 'YYYY-MM';
@@ -416,17 +417,17 @@ export class MonthRangePicker extends React.Component<
         />
 
         {embed ? null : (
-          <div key="button" className={`${ns}DateRangePicker-actions`}>
+          <div key="button" className={cx('DateRangePicker-actions')}>
+            <a className={cx('Button', 'Button--default')} onClick={this.close}>
+              {__('cancel')}
+            </a>
             <a
-              className={cx('rdtBtn rdtBtnConfirm', {
+              className={cx('Button', 'Button--primary', 'm-l-sm', {
                 'is-disabled': !this.state.startDate || !this.state.endDate
               })}
               onClick={this.confirm}
             >
               {__('confirm')}
-            </a>
-            <a className="rdtBtn rdtBtnCancel" onClick={this.close}>
-              {__('cancle')}
             </a>
           </div>
         )}
@@ -437,6 +438,7 @@ export class MonthRangePicker extends React.Component<
   render() {
     const {
       className,
+      popoverClassName,
       classPrefix: ns,
       value,
       placeholder,
@@ -534,7 +536,7 @@ export class MonthRangePicker extends React.Component<
           >
             <PopOver
               classPrefix={ns}
-              className={`${ns}DateRangePicker-popover`}
+              className={cx(`${ns}DateRangePicker-popover`, popoverClassName)}
               onHide={this.close}
               onClick={this.handlePopOverClick}
               overlay

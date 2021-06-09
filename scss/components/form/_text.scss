@@ -66,7 +66,7 @@
     }
   }
 
-  &--withAddOn > &-addOn {
+  &-addOn {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -133,6 +133,21 @@
 
   &--withAddOn.is-disabled > &-addOn {
     color: var(--text--muted-color);
+  }
+
+  &--withAddOn.is-inline {
+    display: inline-block;
+
+    @include media-breakpoint-up(sm) {
+      &.#{$ns}Form-control--sizeXs,
+      &.#{$ns}Form-control--sizeSm,
+      &.#{$ns}Form-control--sizeMd,
+      &.#{$ns}Form-control--sizeLg {
+        > .#{$ns}TextControl-input {
+          min-width: 100%;
+        }
+      }
+    }
   }
 
   &-input--withAC {

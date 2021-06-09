@@ -1,5 +1,5 @@
 import React from 'react';
-import ButtonGroup from './Form/ButtonGroup';
+import ButtonGroup from './Form/ButtonGroupSelect';
 import {Renderer} from '../factory';
 import {BaseSchema, SchemaClassName, SchemaExpression} from '../Schema';
 import {ActionSchema} from './Action';
@@ -73,7 +73,6 @@ export interface ButtonGroupSchema extends BaseSchema {
 export default ButtonGroup;
 
 @Renderer({
-  test: /(^|\/)(?:button|action)\-group$/,
-  name: 'button-group'
+  type: 'button-group'
 })
 export class ButtonGroupRenderer extends ButtonGroup {}

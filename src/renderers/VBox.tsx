@@ -67,7 +67,6 @@ export default class VBox extends React.Component<HBoxProps, object> {
 }
 
 @Renderer({
-  test: /(^|\/)vbox$/,
-  name: 'vbox'
+  type: 'vbox'
 })
 export class VBoxRenderer extends VBox {}

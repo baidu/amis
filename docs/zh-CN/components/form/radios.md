@@ -15,11 +15,84 @@ order: 36
 ```schema: scope="body"
 {
   "type": "form",
-  "controls": [
+  "body": [
     {
       "name": "radios",
       "type": "radios",
       "label": "radios",
+      "options": [
+        {
+          "label": "OptionA",
+          "value": "a"
+        },
+        {
+          "label": "OptionB",
+          "value": "b"
+        },
+        {
+          "label": "OptionC",
+          "value": "c"
+        },
+        {
+          "label": "OptionD",
+          "value": "d"
+        }
+      ]
+    }
+  ]
+}
+```
+
+## 列显示
+
+设置 `inline` 可以纵向显示，用于显示列很多的情况
+
+```schema: scope="body"
+{
+  "type": "form",
+  "body": [
+    {
+      "name": "radios",
+      "type": "radios",
+      "label": "radios",
+      "inline": false,
+      "options": [
+        {
+          "label": "OptionA",
+          "value": "a"
+        },
+        {
+          "label": "OptionB",
+          "value": "b"
+        },
+        {
+          "label": "OptionC",
+          "value": "c"
+        },
+        {
+          "label": "OptionD",
+          "value": "d"
+        }
+      ]
+    }
+  ]
+}
+```
+
+## 控制列显示的分裂
+
+通过 columnsCount 来设置列显示的列数，比如下面例子是两列。
+
+```schema: scope="body"
+{
+  "type": "form",
+  "body": [
+    {
+      "name": "radios",
+      "type": "radios",
+      "label": "radios",
+      "inline": false,
+      "columnsCount": 2,
       "options": [
         {
           "label": "OptionA",
@@ -54,4 +127,5 @@ order: 36
 | labelField   | `boolean`                                 | `"label"` | [选项标签字段](./options#%E9%80%89%E9%A1%B9%E6%A0%87%E7%AD%BE%E5%AD%97%E6%AE%B5-labelfield) |
 | valueField   | `boolean`                                 | `"value"` | [选项值字段](./options#%E9%80%89%E9%A1%B9%E5%80%BC%E5%AD%97%E6%AE%B5-valuefield)            |
 | columnsCount | `number`                                  | `1`       | 选项按几列显示，默认为一列                                                                  |
+| inline       | `boolean`                                 | `true`    | 是否显示为一行                                                                              |
 | autoFill     | `object`                                  |           | [自动填充](./options#%E8%87%AA%E5%8A%A8%E5%A1%AB%E5%85%85-autofill)                         |
