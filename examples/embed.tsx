@@ -46,11 +46,15 @@ export function embed(
     ) {
       const disposition = response.headers['content-disposition'];
       let filename = '';
+
       if (disposition && disposition.indexOf('attachment') !== -1) {
-        let filenameRegex = /filename[^;=\n]*=((['"]).*?\2|[^;\n]*)/i;
-        let matches = filenameRegex.exec(disposition);
-        if (matches != null && matches[1]) {
-          filename = matches[1].replace(/['"]/g, '');
+        // disposition 有可能是 attachment; filename="??.xlsx"; filename*=UTF-8''%E4%B8%AD%E6%96%87.xlsx
+        // 这种情况下最后一个才是正确的文件名
+        let filenameRegex = /filename[^;=\n]*=((['"]).*?\2|[^;\n]*)$/;
+
+        let matches = disposition.match(filenameRegex);
+        if (matches && matches.length) {
+          filename = matches[1].replace(`UTF-8''`, '').replace(/['"]/g, '');
         }
 
         // 很可能是中文被 url-encode 了
@@ -123,7 +127,7 @@ export function embed(
   };
 
   const responseAdaptor = (api: any) => (value: any) => {
-    let response = value.data;
+    let response = value.data || {}; // blob 下可能会返回内容为空？
     // 之前拼写错了，需要兼容
     if (env && env.responseAdpater) {
       env.responseAdaptor = env.responseAdpater;
@@ -284,7 +288,7 @@ export function embed(
 
             data && (config.data = data);
             let response = await axios(url, config);
-            response = attachmentAdpator(response);
+            response = await attachmentAdpator(response);
             response = responseAdaptor(api)(response);
 
             if (response.status >= 400) {
