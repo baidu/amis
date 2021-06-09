@@ -56,8 +56,7 @@ export interface InputGroupProps
     Omit<GroupControlSchema, 'type' | 'className'> {}
 
 @Renderer({
-  type: 'group',
-  name: 'group-control'
+  type: 'group'
 })
 export class ControlGroupRenderer extends React.Component<InputGroupProps> {
   constructor(props: InputGroupProps) {

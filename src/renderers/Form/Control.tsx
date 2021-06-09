@@ -24,8 +24,7 @@ export interface FormControlSchema extends FormBaseControl {
 }
 
 @Renderer({
-  type: 'control',
-  name: 'control'
+  type: 'control'
 })
 export class ControlRenderer extends React.Component<RendererProps> {
   @autobind

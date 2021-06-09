@@ -125,7 +125,6 @@ export class ProgressField extends React.Component<ProgressProps, object> {
 }
 
 @Renderer({
-  type: 'progress',
-  name: 'progress'
+  type: 'progress'
 })
 export class ProgressFieldRenderer extends ProgressField {}

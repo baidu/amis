@@ -777,7 +777,6 @@ export default class Video extends React.Component<VideoProps, VideoState> {
 }
 
 @Renderer({
-  type: 'video',
-  name: 'video'
+  type: 'video'
 })
 export class VideoRenderer extends Video {}

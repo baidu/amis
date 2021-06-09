@@ -175,13 +175,11 @@ export class FlexItem extends React.Component<FlexItemProps, object> {
 }
 
 @Renderer({
-  type: 'flex',
-  name: 'flex'
+  type: 'flex'
 })
 export class FlexRenderer extends Flex {}
 
 @Renderer({
-  type: 'flex-item',
-  name: 'flex-item'
+  type: 'flex-item'
 })
 export class FlexItemRenderer extends FlexItem {}

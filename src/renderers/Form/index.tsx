@@ -1582,7 +1582,6 @@ export default class Form extends React.Component<FormProps, object> {
 @Renderer({
   type: 'form',
   storeType: FormStore.name,
-  name: 'form',
   isolateScope: true,
   shouldSyncSuperStore: (store, nextProps) => {
     // 如果是 QuickEdit，让 store 同步 __super 数据。

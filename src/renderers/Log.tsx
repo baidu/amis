@@ -202,7 +202,6 @@ export class Log extends React.Component<LogProps, LogState> {
 }
 
 @Renderer({
-  type: 'log',
-  name: 'log'
+  type: 'log'
 })
 export class LogRenderer extends Log {}

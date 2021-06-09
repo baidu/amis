@@ -554,8 +554,7 @@ export class Action extends React.Component<ActionProps, ActionState> {
 export default themeable(Action);
 
 @Renderer({
-  type: 'action',
-  name: 'action'
+  type: 'action'
 })
 export class ActionRenderer extends React.Component<
   RendererProps &
@@ -605,19 +604,16 @@ export class ActionRenderer extends React.Component<
 }
 
 @Renderer({
-  type: 'button',
-  name: 'button'
+  type: 'button'
 })
 export class ButtonRenderer extends ActionRenderer {}
 
 @Renderer({
-  type: 'submit',
-  name: 'submit'
+  type: 'submit'
 })
 export class SubmitRenderer extends ActionRenderer {}
 
 @Renderer({
-  type: 'reset',
-  name: 'reset'
+  type: 'reset'
 })
 export class ResetRenderer extends ActionRenderer {}

@@ -401,7 +401,6 @@ export default class App extends React.Component<AppProps, object> {
 
 @Renderer({
   type: 'app',
-  name: 'app',
   storeType: AppStore.name
 })
 export class AppRenderer extends App {

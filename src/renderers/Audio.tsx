@@ -498,7 +498,6 @@ export class Audio extends React.Component<AudioProps, AudioState> {
 }
 
 @Renderer({
-  type: 'audio',
-  name: 'audio'
+  type: 'audio'
 })
 export class AudioRenderer extends Audio {}

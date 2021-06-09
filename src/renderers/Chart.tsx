@@ -473,8 +473,7 @@ export class Chart extends React.Component<ChartProps> {
 
 @Renderer({
   type: 'chart',
-  storeType: ServiceStore.name,
-  name: 'chart'
+  storeType: ServiceStore.name
 })
 export class ChartRenderer extends Chart {
   static contextType = ScopedContext;

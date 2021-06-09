@@ -1175,7 +1175,6 @@ export function registerFormItem(config: FormItemConfig): RendererConfig {
 
   return registerRenderer({
     ...config,
-    name: config.name || `${config.type}-control`,
     weight: typeof config.weight !== 'undefined' ? config.weight : -100, // 优先级高点
     component: Control as any,
     isFormItem: true

@@ -506,7 +506,6 @@ export default class Tabs extends React.Component<TabsProps, TabsState> {
 }
 
 @Renderer({
-  type: 'tabs',
-  name: 'tabs'
+  type: 'tabs'
 })
 export class TabsRenderer extends Tabs {}

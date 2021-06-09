@@ -52,8 +52,7 @@ interface SearchBoxProps
 }
 
 @Renderer({
-  type: 'search-box',
-  name: 'search'
+  type: 'search-box'
 })
 export class SearchBoxRenderer extends React.Component<SearchBoxProps> {
   static defaultProps = {

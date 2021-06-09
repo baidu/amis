@@ -590,7 +590,6 @@ export default class Dialog extends React.Component<DialogProps> {
   type: 'dialog',
   storeType: ModalStore.name,
   storeExtendsData: false,
-  name: 'dialog',
   isolateScope: true,
   shouldSyncSuperStore: (store: IServiceStore, props: any) =>
     store.dialogOpen || props.show

@@ -982,8 +982,7 @@ export default class List extends React.Component<ListProps, object> {
 
 @Renderer({
   type: 'list',
-  storeType: ListStore.name,
-  name: 'list'
+  storeType: ListStore.name
 })
 export class ListRenderer extends List {
   dragging: boolean;
@@ -1299,8 +1298,7 @@ export class ListItemRenderer extends ListItem {
 }
 
 @Renderer({
-  type: 'list-item-field',
-  name: 'list-item-field'
+  type: 'list-item-field'
 })
 @QuickEdit()
 @PopOver()
