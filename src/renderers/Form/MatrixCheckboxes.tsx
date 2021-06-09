@@ -113,7 +113,7 @@ export default class MatrixCheckbox extends React.Component<
   componentDidMount() {
     const {formInited, addHook} = this.props;
 
-    formInited ? this.reload() : addHook(this.initOptions, 'init');
+    formInited ? this.reload() : addHook?.(this.initOptions, 'init');
   }
 
   componentWillReceiveProps(nextProps: MatrixProps) {
