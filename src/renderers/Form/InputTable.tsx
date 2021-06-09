@@ -838,7 +838,6 @@ export default class FormTable extends React.Component<TableProps, TableState> {
 }
 
 @FormItem({
-  type: 'input-table',
-  name: 'table-control'
+  type: 'input-table'
 })
 export class TableControlRenderer extends FormTable {}
