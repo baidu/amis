@@ -542,7 +542,7 @@ export default class FormTable extends React.Component<TableProps, TableState> {
           : {
               ...column,
               quickEdit: {
-                type: 'text',
+                type: 'input-text',
                 ...quickEdit,
                 saveImmediately: true,
                 mode: 'inline'
@@ -561,7 +561,7 @@ export default class FormTable extends React.Component<TableProps, TableState> {
           : {
               ...column,
               quickEdit: {
-                type: 'text',
+                type: 'input-text',
                 ...quickEdit,
                 saveImmediately: true,
                 mode: 'inline'
