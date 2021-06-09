@@ -288,7 +288,7 @@ export function embed(
 
             data && (config.data = data);
             let response = await axios(url, config);
-            response = attachmentAdpator(response);
+            response = await attachmentAdpator(response);
             response = responseAdaptor(api)(response);
 
             if (response.status >= 400) {
