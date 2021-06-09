@@ -30,7 +30,7 @@ export interface AlertSchema extends BaseSchema {
 }
 
 @Renderer({
-  test: /(^|\/)alert$/,
+  type: 'alert',
   name: 'alert'
 })
 export class TplRenderer extends React.Component<AlertProps & RendererProps> {

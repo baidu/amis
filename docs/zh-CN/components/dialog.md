@@ -127,9 +127,9 @@ Dialog 弹框 主要由 [Action](./action) 触发，主要展示一个对话框�
           {
             "type": "form",
             "api": "/api/sample/$id",
-            "controls": [
+            "body": [
               {
-                "type": "text",
+                "type": "input-text",
                 "name": "engine",
                 "label": "Engine"
               }
@@ -187,9 +187,9 @@ Dialog 弹框 主要由 [Action](./action) 触发，主要展示一个对话框�
           {
             "type": "form",
             "api": "/api/sample/$id",
-            "controls": [
+            "body": [
               {
-                "type": "text",
+                "type": "input-text",
                 "name": "engine2",
                 "label": "Engine"
               }
@@ -336,16 +336,16 @@ Dialog 弹框 主要由 [Action](./action) 触发，主要展示一个对话框�
         "body": {
             "type": "form",
             "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm?waitSeconds=2",
-            "controls": [
+            "body": [
                 {
-                    "type": "text",
+                    "type": "input-text",
                     "name": "username",
                     "required": true,
                     "placeholder": "请输入用户名",
                     "label": "用户名"
                 },
                 {
-                    "type": "password",
+                    "type": "input-password",
                     "name": "password",
                     "label": "密码",
                     "required": true,
@@ -391,16 +391,16 @@ Dialog 弹框 主要由 [Action](./action) 触发，主要展示一个对话框�
         "body": {
             "type": "form",
             "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm?waitSeconds=2",
-            "controls": [
+            "body": [
                 {
-                    "type": "text",
+                    "type": "input-text",
                     "name": "text",
                     "required": true,
                     "label": "用户名",
                     "placeholder": "请输入用户名"
                 },
                 {
-                    "type": "password",
+                    "type": "input-password",
                     "name": "password",
                     "label": "密码",
                     "placeholder": "请输入密码",
@@ -447,16 +447,16 @@ Dialog 弹框 主要由 [Action](./action) 触发，主要展示一个对话框�
         "body": {
             "type": "form",
             "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm?waitSeconds=2",
-            "controls": [
+            "body": [
                 {
-                    "type": "text",
+                    "type": "input-text",
                     "name": "text",
                     "required": true,
                     "label": "用户名",
                     "placeholder": "请输入用户名"
                 },
                 {
-                    "type": "password",
+                    "type": "input-password",
                     "name": "password",
                     "label": "密码",
                     "required": true,
@@ -513,16 +513,16 @@ feedback 反馈弹框是指，在 ajax 请求后，可以显示一个弹框，�
      "body": {
             "type": "form",
             "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm?waitSeconds=2",
-            "controls": [
+            "body": [
                 {
-                    "type": "text",
+                    "type": "input-text",
                     "name": "text",
                     "required": true,
                     "label": "用户名",
                     "placeholder": "请输入用户名"
                 },
                 {
-                    "type": "password",
+                    "type": "input-password",
                     "name": "password",
                     "label": "密码",
                     "required": true,
@@ -586,16 +586,16 @@ feedback 反馈弹框是指，在 ajax 请求后，可以显示一个弹框，�
     "body": {
         "type": "form",
         "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm?waitSeconds=2",
-        "controls": [
+        "body": [
             {
-                "type": "text",
+                "type": "input-text",
                 "name": "text",
                 "required": true,
                 "label": "用户名",
                 "placeholder": "请输入用户名"
             },
             {
-                "type": "password",
+                "type": "input-password",
                 "name": "password",
                 "label": "密码",
                 "required": true,
@@ -617,7 +617,7 @@ feedback 反馈弹框是指，在 ajax 请求后，可以显示一个弹框，�
           "body": {
             "type": "form",
             "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm?waitSeconds=1",
-            "controls": [
+            "body": [
               {
                 "type": "tpl",
                 "tpl": "点击确认，请求接口，接口请求成功后，关闭弹框"
@@ -644,7 +644,7 @@ feedback 反馈弹框是指，在 ajax 请求后，可以显示一个弹框，�
           "body": {
             "type": "form",
             "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm?waitSeconds=1",
-            "controls": [
+            "body": [
               {
                 "type": "tpl",
                 "tpl": "点击确认，请求接口，接口请求成功后，关闭弹框"
@@ -682,7 +682,7 @@ feedback 反馈弹框是指，在 ajax 请求后，可以显示一个弹框，�
     "body": {
       "type": "form",
       "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/initData?waitSeconds=1",
-      "controls": [
+      "body": [
         {
           "type": "tpl",
           "tpl": "这是一个简单的弹框"

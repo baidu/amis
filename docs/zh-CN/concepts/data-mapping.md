@@ -71,15 +71,15 @@ order: 12
 {
     "type": "form",
     "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
-    "controls": [
+    "body": [
       {
-        "type": "text",
+        "type": "input-text",
         "name": "name",
         "label": "姓名："
       },
       {
         "name": "email",
-        "type": "text",
+        "type": "input-text",
         "label": "邮箱："
       }
     ]
@@ -117,15 +117,15 @@ order: 12
             "userEmail": "${email}"
         }
     },
-    "controls": [
+    "body": [
       {
-        "type": "text",
+        "type": "input-text",
         "name": "name",
         "label": "姓名："
       },
       {
         "name": "email",
-        "type": "text",
+        "type": "input-text",
         "label": "邮箱："
       }
     ]
@@ -172,15 +172,15 @@ order: 12
       "g": "${c.g}"
     }
   },
-  "controls": [
+  "body": [
     {
-      "type": "text",
+      "type": "input-text",
       "name": "name",
       "label": "姓名："
     },
     {
       "name": "email",
-      "type": "text",
+      "type": "input-text",
       "label": "邮箱："
     }
   ]
@@ -222,15 +222,15 @@ order: 12
       "&": "${c}"
     }
   },
-  "controls": [
+  "body": [
     {
-      "type": "text",
+      "type": "input-text",
       "name": "name",
       "label": "姓名："
     },
     {
       "name": "email",
-      "type": "text",
+      "type": "input-text",
       "label": "邮箱："
     }
   ]
@@ -276,9 +276,9 @@ order: 12
             }
         }
     },
-    "controls": [
+    "body": [
       {
-        "type": "table",
+        "type": "input-table",
         "name": "table",
         "label": "table",
         "columns": [
@@ -522,9 +522,9 @@ ${xxx | date[:format][:inputFormat]}
 ```
 
 - **format**：需要展示的格式，默认为`LLL`，即本地化时间格式
-- **inputFormat**：指定该变量值的格式，默认为`X`，即时间戳秒，如果是毫秒则是 `x`
-
-具体参数的配置需要参考 [moment](https://momentjs.com/docs/)
+- **inputFormat**：指定该变量值的格式，默认为`X`，即时间戳秒，具体参数的配置需要参考 [moment](https://momentjs.com/docs/)，下面是其它几种常见的格式：
+  - `x`，毫秒
+  - `YYYY-MM-DDTHH:mm:ssZ`，ISO8601 格式，其中 YYYY 是年，MM 是月，DD 是日，HH 是小时，mm 是分钟，ss 是秒
 
 ```schema
 {
@@ -882,7 +882,7 @@ ${xxx | join[:glue]}
 
 ### topAndOther
 
-取前多少个，身下的归位一组比如：`${list|topAndOther:10:name:Others}`
+取前多少个，剩下的归位一组比如：`${list|topAndOther:10:name:Others}`
 
 对数组分为 10 组，前面 9 组分别拿前 9 个，最后一组将剩下的归为一组，并对每项做数字累加。
 
@@ -1603,7 +1603,7 @@ ${xxx | map[:filterName][:...args]}
         "test": "${combo2|pick:text|map:toInt|map:date:LLL:x}"
       }
     },
-    "controls": [
+    "body": [
       {
         "type": "combo",
         "name": "combo2",
@@ -1617,7 +1617,7 @@ ${xxx | map[:filterName][:...args]}
             "text": "2696865590000"
           }
         ],
-        "controls": [
+        "items": [
           {
             "name": "text",
             "type": "text"

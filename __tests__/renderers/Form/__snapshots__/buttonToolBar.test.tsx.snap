@@ -33,32 +33,37 @@ exports[`Renderer:button-toolbar 1`] = `
           data-role="form-item"
         >
           <div
-            class="a-ButtonToolbar a-Form-control"
+            class="a-Form-item a-Form-item--normal"
+            data-role="form-item"
           >
-            <button
-              class="a-Button a-Button--default"
-              type="button"
+            <div
+              class="a-ButtonToolbar a-Form-control"
             >
-              <span>
-                OpenDialog
-              </span>
-            </button>
-            <button
-              class="a-Button a-Button--default"
-              type="submit"
-            >
-              <span>
-                Submit
-              </span>
-            </button>
-            <button
-              class="a-Button a-Button--default"
-              type="reset"
-            >
-              <span>
-                Reset
-              </span>
-            </button>
+              <button
+                class="a-Button a-Button--default"
+                type="button"
+              >
+                <span>
+                  OpenDialog
+                </span>
+              </button>
+              <button
+                class="a-Button a-Button--default"
+                type="submit"
+              >
+                <span>
+                  Submit
+                </span>
+              </button>
+              <button
+                class="a-Button a-Button--default"
+                type="reset"
+              >
+                <span>
+                  Reset
+                </span>
+              </button>
+            </div>
           </div>
         </div>
         <input
@@ -143,32 +148,37 @@ exports[`Renderer:button-toolbar 2`] = `
           data-role="form-item"
         >
           <div
-            class="a-ButtonToolbar a-Form-control"
+            class="a-Form-item a-Form-item--normal"
+            data-role="form-item"
           >
-            <button
-              class="a-Button a-Button--default"
-              type="button"
+            <div
+              class="a-ButtonToolbar a-Form-control"
             >
-              <span>
-                OpenDialog
-              </span>
-            </button>
-            <button
-              class="a-Button a-Button--default"
-              type="submit"
-            >
-              <span>
-                Submit
-              </span>
-            </button>
-            <button
-              class="a-Button a-Button--default"
-              type="reset"
-            >
-              <span>
-                Reset
-              </span>
-            </button>
+              <button
+                class="a-Button a-Button--default"
+                type="button"
+              >
+                <span>
+                  OpenDialog
+                </span>
+              </button>
+              <button
+                class="a-Button a-Button--default"
+                type="submit"
+              >
+                <span>
+                  Submit
+                </span>
+              </button>
+              <button
+                class="a-Button a-Button--default"
+                type="reset"
+              >
+                <span>
+                  Reset
+                </span>
+              </button>
+            </div>
           </div>
         </div>
         <input

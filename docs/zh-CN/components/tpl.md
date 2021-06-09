@@ -34,7 +34,7 @@ order: 70
 ```schema: scope="body"
 {
     "type": "form",
-    "controls": [
+    "body": [
         {
             "name": "static",
             "type": "static",

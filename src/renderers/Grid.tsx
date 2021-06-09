@@ -229,7 +229,7 @@ export default class Grid<T> extends React.Component<GridProps & T, object> {
 }
 
 @Renderer({
-  test: /(^|\/)grid$/,
+  type: 'grid',
   name: 'grid'
 })
 export class GridRenderer extends Grid<{}> {}

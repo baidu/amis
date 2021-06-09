@@ -513,6 +513,18 @@ export const cssDocs = [
     label: 'Typography',
     children: [
       {
+        label: 'Font Family',
+        path: '/zh-CN/style/typography/font-family',
+        getComponent: (location: any, cb: any) =>
+          (require as any)(
+            ['../../scss/helper/typography/_font-family.scss'],
+            (doc: any) => {
+              cb(null, makeMarkdownRenderer(doc));
+            }
+          )
+      },
+
+      {
         label: 'Font Size',
         path: '/zh-CN/style/typography/font-size',
         getComponent: (location: any, cb: any) =>

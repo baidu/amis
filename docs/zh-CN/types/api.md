@@ -150,15 +150,15 @@ API 还支持配置对象类型
         }
 
     },
-    "controls": [
+    "body": [
       {
-        "type": "text",
+        "type": "input-text",
         "name": "name",
         "label": "姓名："
       },
       {
         "name": "email",
-        "type": "email",
+        "type": "input-email",
         "label": "邮箱："
       }
     ]
@@ -201,15 +201,15 @@ API 还支持配置对象类型
             "&": "$$$$" // 获取表单数据域中的所有值
         }
     },
-    "controls": [
+    "body": [
       {
-        "type": "text",
+        "type": "input-text",
         "name": "name",
         "label": "姓名："
       },
       {
         "name": "email",
-        "type": "email",
+        "type": "input-email",
         "label": "邮箱："
       }
     ]
@@ -228,15 +228,15 @@ API 还支持配置对象类型
         "url": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
         "dataType": "form"
     },
-    "controls": [
+    "body": [
       {
-        "type": "text",
+        "type": "input-text",
         "name": "name",
         "label": "姓名："
       },
       {
         "name": "email",
-        "type": "email",
+        "type": "input-email",
         "label": "邮箱："
       }
     ]
@@ -255,15 +255,15 @@ API 还支持配置对象类型
         "url": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
         "dataType": "form-data"
     },
-    "controls": [
+    "body": [
       {
-        "type": "text",
+        "type": "input-text",
         "name": "name",
         "label": "姓名："
       },
       {
         "name": "email",
-        "type": "email",
+        "type": "input-email",
         "label": "邮箱："
       }
     ]
@@ -279,15 +279,15 @@ API 还支持配置对象类型
         "method": "post",
         "url": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm"
     },
-    "controls": [
+    "body": [
       {
-        "type": "text",
+        "type": "input-text",
         "name": "name",
         "label": "姓名："
       },
       {
         "name": "file",
-        "type": "file",
+        "type": "input-file",
         "label": "附件：",
         "asBlob": true
       }
@@ -311,15 +311,15 @@ API 还支持配置对象类型
             "my-header": "aaa"
         }
     },
-    "controls": [
+    "body": [
       {
-        "type": "text",
+        "type": "input-text",
         "name": "name",
         "label": "姓名："
       },
       {
         "name": "email",
-        "type": "email",
+        "type": "input-email",
         "label": "邮箱："
       }
     ]
@@ -335,7 +335,7 @@ API 还支持配置对象类型
     "title": "",
     "type": "form",
     "mode": "horizontal",
-    "controls": [
+    "body": [
       {
         "label": "选项1",
         "type": "radios",
@@ -542,15 +542,15 @@ function (api) {
         "url": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
         "requestAdaptor": "return {\n    ...api,\n    data: {\n        ...api.data,    // 获取暴露的 api 中的 data 变量\n        foo: 'bar'      // 新添加数据\n    }\n}"
     },
-    "controls": [
+    "body": [
       {
-        "type": "text",
+        "type": "input-text",
         "name": "name",
         "label": "姓名："
       },
       {
         "name": "email",
-        "type": "email",
+        "type": "input-email",
         "label": "邮箱："
       }
     ]
@@ -593,15 +593,15 @@ const schema = {
       };
     }
   },
-  controls: [
+  body: [
     {
-      type: 'text',
+      type: 'input-text',
       name: 'name',
       label: '姓名：'
     },
     {
       name: 'text',
-      type: 'email',
+      type: 'input-email',
       label: '邮箱：'
     }
   ]
@@ -649,15 +649,15 @@ function (payload, response) {
     "url": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
     "adaptor": "return {\n    ...payload,\n    status: payload.code === 200 ? 0 : payload.code\n}"
   },
-  "controls": [
+  "body": [
     {
-      "type": "text",
+      "type": "input-text",
       "name": "name",
       "label": "姓名："
     },
     {
       "name": "file",
-      "type": "file",
+      "type": "input-file",
       "label": "附件：",
       "asBlob": true
     }
@@ -695,15 +695,15 @@ const schema = {
       };
     }
   },
-  controls: [
+  body: [
     {
-      type: 'text',
+      type: 'input-text',
       name: 'name',
       label: '姓名：'
     },
     {
       name: 'email',
-      type: 'email',
+      type: 'input-email',
       label: '邮箱：'
     }
   ]
@@ -759,7 +759,7 @@ Content-Disposition: attachment; filename="download.pdf"
   "title": "监听表单内部的修改",
   "initApi": "/api/mock2/form/initData?tpl=${tpl}",
   "actions": [],
-  "controls": [
+  "body": [
     {
       "label": "数据模板",
       "type": "select",
@@ -825,7 +825,7 @@ Content-Disposition: attachment; filename="download.pdf"
     "title": "",
     "type": "form",
     "mode": "horizontal",
-    "controls": [
+    "body": [
       {
         "label": "选项1",
         "type": "radios",

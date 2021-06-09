@@ -47,7 +47,7 @@ export class Icon extends React.Component<IconProps, object> {
 }
 
 @Renderer({
-  test: /(^|\/)icon$/,
+  type: 'icon',
   name: 'icon'
 })
 export class TplRenderer extends Icon {}

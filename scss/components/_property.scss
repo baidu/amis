@@ -16,6 +16,10 @@
       > th {
         border: 1px solid var(--borderColor);
         padding: var(--gap-sm);
+
+        .#{$ns}Form-item:last-child {
+          margin-bottom: 0;
+        }
       }
       > th {
         background: var(--Property-label-bg);

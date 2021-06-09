@@ -15,7 +15,7 @@ order: 52
 ```schema: scope="body"
 {
     "type": "form",
-    "controls": [
+    "body": [
         {
             "name": "static",
             "type": "static",
@@ -33,7 +33,7 @@ order: 52
 ```schema: scope="body"
 {
     "type": "form",
-    "controls": [
+    "body": [
         {
             "type": "select",
             "name": "select",
@@ -69,7 +69,7 @@ order: 52
 ```schema: scope="body"
 {
     "type": "form",
-    "controls": [
+    "body": [
         {
             "type": "static-json",
             "name": "json",
@@ -117,7 +117,7 @@ order: 52
     "api": "/api/mock2/saveForm?waitSeconds=2",
     "title": "表单项静态展示",
     "mode": "horizontal",
-    "controls": [
+    "body": [
         {
             "type": "static",
             "label": "文本",
@@ -258,7 +258,7 @@ order: 52
 ```schema: scope="body"
 {
     "type": "form",
-    "controls": [
+    "body": [
         {
             "name": "static",
             "type": "static",

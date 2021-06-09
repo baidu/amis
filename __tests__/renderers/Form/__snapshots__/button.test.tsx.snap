@@ -33,7 +33,7 @@ exports[`Renderer:button 1`] = `
           data-role="form-item"
         >
           <button
-            class="a-Button a-Button--default a-Form-control"
+            class="a-Button a-Button--default"
             type="button"
           >
             <i
@@ -49,7 +49,7 @@ exports[`Renderer:button 1`] = `
           data-role="form-item"
         >
           <button
-            class="a-Button a-Button--default a-Form-control"
+            class="a-Button a-Button--default"
             type="button"
           >
             <span>
@@ -62,7 +62,7 @@ exports[`Renderer:button 1`] = `
           data-role="form-item"
         >
           <button
-            class="a-Button a-Button--primary a-Form-control"
+            class="a-Button a-Button--primary"
             type="submit"
           >
             <span>
@@ -75,7 +75,7 @@ exports[`Renderer:button 1`] = `
           data-role="form-item"
         >
           <button
-            class="a-Button a-Button--danger a-Button--sm a-Form-control"
+            class="a-Button a-Button--danger a-Button--sm"
             type="reset"
           >
             <span>
@@ -165,7 +165,7 @@ exports[`Renderer:button 2`] = `
           data-role="form-item"
         >
           <button
-            class="a-Button a-Button--default a-Form-control"
+            class="a-Button a-Button--default"
             type="button"
           >
             <i
@@ -181,7 +181,7 @@ exports[`Renderer:button 2`] = `
           data-role="form-item"
         >
           <button
-            class="a-Button a-Button--default a-Form-control"
+            class="a-Button a-Button--default"
             type="button"
           >
             <span>
@@ -194,7 +194,7 @@ exports[`Renderer:button 2`] = `
           data-role="form-item"
         >
           <button
-            class="a-Button a-Button--primary a-Form-control"
+            class="a-Button a-Button--primary"
             type="submit"
           >
             <span>
@@ -207,7 +207,7 @@ exports[`Renderer:button 2`] = `
           data-role="form-item"
         >
           <button
-            class="a-Button a-Button--danger a-Button--sm a-Form-control"
+            class="a-Button a-Button--danger a-Button--sm"
             type="reset"
           >
             <span>

@@ -315,7 +315,7 @@ export class ImageField extends React.Component<ImageFieldProps, object> {
 }
 
 @Renderer({
-  test: /(^|\/)image$/,
+  type: 'image',
   name: 'image'
 })
 export class ImageFieldRenderer extends ImageField {}

@@ -444,7 +444,7 @@ List 的内容、Card 卡片的内容配置同上
             "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395693566/552b175ef11d.jpeg@s_0,w_216,l_1,f_jpg,q_80"
         ]
     },
-    "controls": [
+    "body": [
         {
             "type": "static-images",
             "name": "images",

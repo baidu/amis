@@ -87,7 +87,7 @@ export default class Each extends React.Component<EachProps> {
 }
 
 @Renderer({
-  test: /(^|\/)(?:repeat|each)$/,
+  type: 'each',
   name: 'each'
 })
 export class EachRenderer extends Each {}

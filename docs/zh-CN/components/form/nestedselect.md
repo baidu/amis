@@ -14,7 +14,7 @@ order: 31
 {
   "type": "form",
   "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
-  "controls": [
+  "body": [
     {
       "type": "nested-select",
       "name": "nestedSelect",
@@ -92,7 +92,7 @@ order: 31
   "body": {
     "type": "form",
     "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
-    "controls": [
+    "body": [
       {
         "type": "nested-select",
         "name": "nestedSelect",
@@ -112,7 +112,7 @@ order: 31
   "body": {
     "type": "form",
     "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
-    "controls": [
+    "body": [
       {
         "type": "nested-select",
         "name": "nestedSelect",
@@ -133,7 +133,7 @@ order: 31
   "type": "form",
   "debug": true,
   "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
-  "controls": [
+  "body": [
     {
       "type": "nested-select",
       "name": "nestedSelect1",
@@ -219,7 +219,7 @@ order: 31
   "type": "form",
   "debug": true,
   "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
-  "controls": [
+  "body": [
     {
       "type": "nested-select",
       "name": "nestedSelect1",

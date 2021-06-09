@@ -238,7 +238,7 @@ export default class Property extends React.Component<PropertyProps, object> {
 }
 
 @Renderer({
-  test: /(^|\/)property$/,
+  type: 'property',
   name: 'property'
 })
 export class PropertyRenderer extends Property {}

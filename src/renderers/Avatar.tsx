@@ -135,7 +135,7 @@ export class AvatarField extends React.Component<AvatarProps, object> {
 }
 
 @Renderer({
-  test: /(^|\/)avatar$/,
+  type: 'avatar',
   name: 'avatar'
 })
 @withBadge

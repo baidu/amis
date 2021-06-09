@@ -1,5 +1,4 @@
 export default {
-  $schema: 'http://amis.baidu.com/v2/schemas/page.json#',
   title: '动态表格',
   subTitle: '返回表格数据的同时返回列信息',
   body: {

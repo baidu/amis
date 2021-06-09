@@ -419,7 +419,10 @@ export const ServiceStore = iRendererStore
           );
         } else {
           if (json.data) {
-            self.schema = json.data;
+            self.schema = {
+              type: 'wrapper',
+              ...json.data
+            };
             self.schemaKey = '' + Date.now();
             isObject(json.data.data) &&
               self.updateData(

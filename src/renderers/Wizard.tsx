@@ -27,7 +27,7 @@ import {
 import {FormSchema} from './Form';
 import {ActionSchema} from './Action';
 
-import { tokenize} from '../utils/tpl-builtin';
+import {tokenize} from '../utils/tpl-builtin';
 
 export type WizardStepSchema = Omit<FormSchema, 'type'> & {
   /**
@@ -184,7 +184,7 @@ export default class Wizard extends React.Component<WizardProps, WizardState> {
     actionNextLabel: 'Wizard.next',
     actionNextSaveLabel: 'Wizard.saveAndNext',
     actionFinishLabel: 'Wizard.finish',
-    startStep:"1",
+    startStep: '1'
   };
 
   static propsList: Array<string> = [
@@ -251,7 +251,10 @@ export default class Wizard extends React.Component<WizardProps, WizardState> {
         .then(value => {
           onInit && onInit(store.data);
           const state = {
-            currentStep: typeof this.props.startStep === 'string' ? parseInt(tokenize(this.props.startStep, this.props.data)):1
+            currentStep:
+              typeof this.props.startStep === 'string'
+                ? parseInt(tokenize(this.props.startStep, this.props.data))
+                : 1
           };
 
           if (
@@ -279,7 +282,10 @@ export default class Wizard extends React.Component<WizardProps, WizardState> {
     } else {
       this.setState(
         {
-          currentStep: typeof this.props.startStep === 'string'  ? parseInt(tokenize(this.props.startStep, this.props.data)):1
+          currentStep:
+            typeof this.props.startStep === 'string'
+              ? parseInt(tokenize(this.props.startStep, this.props.data))
+              : 1
         },
         () => onInit && onInit(store.data)
       );
@@ -358,13 +364,11 @@ export default class Wizard extends React.Component<WizardProps, WizardState> {
     const steps = this.props.steps || [];
     index = Math.max(Math.min(steps.length, index), 1);
 
-    if(index!=this.state.currentStep)
-    {
+    if (index != this.state.currentStep) {
       this.setState({
         currentStep: index
       });
     }
-
   }
 
   @autobind
@@ -1037,7 +1041,7 @@ function isJumpable(step: any, index: number, currentStep: number, data: any) {
 }
 
 @Renderer({
-  test: /(^|\/)wizard$/,
+  type: 'wizard',
   storeType: ServiceStore.name,
   name: 'wizard',
   isolateScope: true

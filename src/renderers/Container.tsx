@@ -88,7 +88,7 @@ export default class Container<T> extends React.Component<
 }
 
 @Renderer({
-  test: /(^|\/)container$/,
+  type: 'container',
   name: 'container'
 })
 export class ContainerRenderer extends Container<{}> {}

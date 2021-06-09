@@ -1,5 +1,4 @@
 export default {
-  $schema: 'https://houtai.baidu.com/v2/schemas/page.json#',
   title: 'SubForm 示例',
   body: [
     {
@@ -8,18 +7,18 @@ export default {
       title: 'Form elements',
       mode: 'horizontal',
       // debug: true,
-      controls: [
+      body: [
         {
-          type: 'form',
+          type: 'input-sub-form',
           label: '子表单单条',
           name: 'subForm1',
-          btnLabel: '点击设置',
+          btnLabel: '点击设置${a}',
           form: {
             title: '子表单',
-            controls: [
+            body: [
               {
                 name: 'a',
-                type: 'text',
+                type: 'input-text',
                 label: 'Foo'
               },
               {
@@ -32,7 +31,7 @@ export default {
         },
 
         {
-          type: 'form',
+          type: 'input-sub-form',
           label: '子表单多条',
           name: 'subForm2',
           labelField: 'a',
@@ -40,10 +39,10 @@ export default {
           multiple: true,
           form: {
             title: '子表单',
-            controls: [
+            body: [
               {
                 name: 'a',
-                type: 'text',
+                type: 'input-text',
                 label: 'Foo'
               },
               {

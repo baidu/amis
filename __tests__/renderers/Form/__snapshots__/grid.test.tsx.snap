@@ -33,13 +33,13 @@ exports[`Renderer:hbox 1`] = `
           data-role="form-item"
         >
           <div
-            class="a-Grid a-Form-control"
+            class="a-Grid"
           >
             <div
               class="a-Grid-col--md3 bg-white"
             >
               <div
-                class="a-Grid-form a-Form--normal"
+                class="a-Wrapper"
               >
                 <div
                   class="a-Form-item a-Form-item--normal"

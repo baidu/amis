@@ -189,7 +189,7 @@ export default class IFrame extends React.Component<IFrameProps, object> {
 }
 
 @Renderer({
-  test: /(^|\/)iframe$/,
+  type: 'iframe',
   name: 'iframe'
 })
 export class IFrameRenderer extends IFrame {

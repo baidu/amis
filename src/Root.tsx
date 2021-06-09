@@ -124,6 +124,11 @@ export function renderChild(
   }
 
   const typeofnode = typeof node;
+
+  if (typeofnode === 'undefined' || node === null) {
+    return null;
+  }
+
   let schema: Schema =
     typeofnode === 'string' || typeofnode === 'number'
       ? {type: 'tpl', tpl: String(node)}

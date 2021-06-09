@@ -981,7 +981,7 @@ export default class List extends React.Component<ListProps, object> {
 }
 
 @Renderer({
-  test: /(^|\/)(?:list|list-group)$/,
+  type: 'list',
   storeType: ListStore.name,
   name: 'list'
 })
@@ -1299,7 +1299,7 @@ export class ListItemRenderer extends ListItem {
 }
 
 @Renderer({
-  test: /(^|\/)list-item-field$/,
+  type: 'list-item-field',
   name: 'list-item-field'
 })
 @QuickEdit()
