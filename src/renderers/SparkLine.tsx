@@ -76,8 +76,7 @@ interface SparkLineRendProps
     Omit<SparkLineSchema, 'type' | 'className'> {}
 
 @Renderer({
-  type: 'sparkline',
-  name: 'sparkline'
+  type: 'sparkline'
 })
 export class SparkLineRenderer extends React.Component<SparkLineRendProps> {
   @autobind

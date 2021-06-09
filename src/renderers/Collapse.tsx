@@ -221,7 +221,6 @@ export default class Collapse extends React.Component<
 }
 
 @Renderer({
-  type: 'collapse',
-  name: 'collapse'
+  type: 'collapse'
 })
 export class CollapseRenderer extends Collapse {}

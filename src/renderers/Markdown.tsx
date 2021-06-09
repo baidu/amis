@@ -56,7 +56,6 @@ export class Markdown extends React.Component<MarkdownProps, object> {
 }
 
 @Renderer({
-  type: 'markdown',
-  name: 'markdown'
+  type: 'markdown'
 })
 export class MarkdownRenderer extends Markdown {}

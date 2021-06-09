@@ -64,7 +64,6 @@ export class OperationField extends React.Component<OperationProps, object> {
 }
 
 @Renderer({
-  type: 'operation',
-  name: 'operation'
+  type: 'operation'
 })
 export class OperationFieldRenderer extends OperationField {}

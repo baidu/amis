@@ -189,8 +189,7 @@ export default class IFrame extends React.Component<IFrameProps, object> {
 }
 
 @Renderer({
-  type: 'iframe',
-  name: 'iframe'
+  type: 'iframe'
 })
 export class IFrameRenderer extends IFrame {
   static contextType = ScopedContext;

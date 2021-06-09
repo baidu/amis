@@ -551,16 +551,14 @@ export class Card extends React.Component<CardProps> {
 }
 
 @Renderer({
-  type: 'card',
-  name: 'card'
+  type: 'card'
 })
 export class CardRenderer extends Card {
   static propsList = ['multiple', ...Card.propsList];
 }
 
 @Renderer({
-  type: 'card-item-field',
-  name: 'card-item'
+  type: 'card-item-field'
 })
 @QuickEdit()
 @PopOver()

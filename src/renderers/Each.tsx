@@ -87,7 +87,6 @@ export default class Each extends React.Component<EachProps> {
 }
 
 @Renderer({
-  type: 'each',
-  name: 'each'
+  type: 'each'
 })
 export class EachRenderer extends Each {}

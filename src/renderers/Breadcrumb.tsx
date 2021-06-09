@@ -108,7 +108,6 @@ export class BreadcrumbField extends React.Component<BreadcrumbProps, object> {
 }
 
 @Renderer({
-  type: 'breadcrumb',
-  name: 'breadcrumb'
+  type: 'breadcrumb'
 })
 export class BreadcrumbFieldRenderer extends BreadcrumbField {}

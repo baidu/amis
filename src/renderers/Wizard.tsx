@@ -1043,7 +1043,6 @@ function isJumpable(step: any, index: number, currentStep: number, data: any) {
 @Renderer({
   type: 'wizard',
   storeType: ServiceStore.name,
-  name: 'wizard',
   isolateScope: true
 })
 export class WizardRenderer extends Wizard {

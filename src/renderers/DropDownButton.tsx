@@ -310,7 +310,6 @@ export default class DropDownButton extends React.Component<
 }
 
 @Renderer({
-  type: 'dropdown-button',
-  name: 'dropdown-button'
+  type: 'dropdown-button'
 })
 export class DropDownButtonRenderer extends DropDownButton {}

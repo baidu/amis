@@ -648,7 +648,6 @@ export default class Drawer extends React.Component<DrawerProps> {
   type: 'drawer',
   storeType: ModalStore.name,
   storeExtendsData: false,
-  name: 'drawer',
   isolateScope: true,
   shouldSyncSuperStore: (store: IServiceStore, props: any) =>
     store.drawerOpen || props.show

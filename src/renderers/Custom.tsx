@@ -124,7 +124,6 @@ export class Custom extends React.Component<CustomProps, object> {
 }
 
 @FormItem({
-  type: 'custom',
-  name: 'custom'
+  type: 'custom'
 })
 export class CustomRenderer extends Custom {}

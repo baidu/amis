@@ -65,7 +65,6 @@ export class LinkField extends React.Component<LinkProps, object> {
 }
 
 @Renderer({
-  type: 'link',
-  name: 'link'
+  type: 'link'
 })
 export class LinkFieldRenderer extends LinkField {}
