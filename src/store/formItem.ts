@@ -387,7 +387,10 @@ export const FormItemStore = StoreNode.named('FormItemStore')
       }
       options = options.filter(item => item);
       const originOptions = self.options.concat();
-      options.length ? self.options.replace(options) : self.options.clear();
+      self.options.clear();
+      if (options.length) {
+        self.options.push(...options);
+      }
       syncOptions(originOptions);
       let selectedOptions;
 
