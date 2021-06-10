@@ -45,6 +45,7 @@ export interface DateRangePickerProps extends ThemeProps, LocaleProps {
   popOverContainer?: any;
   dateFormat?: string;
   embed?: boolean;
+  viewMode?: 'days' | 'months' | 'years' | 'time' | 'quarters';
 }
 
 export interface DateRangePickerState {
@@ -262,6 +263,7 @@ export class DateRangePicker extends React.Component<
     this.handleKeyPress = this.handleKeyPress.bind(this);
     this.handlePopOverClick = this.handlePopOverClick.bind(this);
     this.renderDay = this.renderDay.bind(this);
+    this.renderQuarter = this.renderQuarter.bind(this);
     const {format, joinValues, delimiter, value} = this.props;
 
     this.state = {
@@ -384,6 +386,8 @@ export class DateRangePicker extends React.Component<
       value = value[type === 'start' ? 'startOf' : 'endOf']('minute');
     } else if (typeof timeFormat === 'string' && /HH/i.test(timeFormat)) {
       value = value[type === 'start' ? 'startOf' : 'endOf']('hour');
+    } else if (typeof timeFormat === 'string' && /Q/i.test(timeFormat)) {
+      value = value[type === 'start' ? 'startOf' : 'endOf']('quarter');
     } else {
       value = value[type === 'start' ? 'startOf' : 'endOf']('day');
     }
@@ -606,18 +610,38 @@ export class DateRangePicker extends React.Component<
     return <td {...props}>{currentDate.date()}</td>;
   }
 
+  renderQuarter(props: any, quarter: number, year: number) {
+    const currentDate = moment().year(year).quarter(quarter);
+    const {startDate, endDate} = this.state;
+
+    if (
+      startDate &&
+      endDate &&
+      currentDate.isBetween(startDate, endDate, 'quarter', '[]')
+    ) {
+      props.className += ' rdtBetween';
+    }
+
+    return (
+      <td {...props}>
+        <span>Q{quarter}</span>
+      </td>
+    );
+  }
+
   renderCalendar() {
     const {
       classPrefix: ns,
       classnames: cx,
       dateFormat,
       timeFormat,
+      inputFormat,
       ranges,
       locale,
-      embed
+      embed,
+      viewMode = 'days'
     } = this.props;
     const __ = this.props.translate;
-    let viewMode: 'days' | 'months' | 'years' | 'time' = 'days';
 
     const {startDate, endDate} = this.state;
     return (
@@ -630,12 +654,14 @@ export class DateRangePicker extends React.Component<
           onChange={this.handleStartChange}
           requiredConfirm={false}
           dateFormat={dateFormat}
+          inputFormat={inputFormat}
           timeFormat={timeFormat}
           isValidDate={this.checkStartIsValidDate}
           viewMode={viewMode}
           input={false}
           onClose={this.close}
           renderDay={this.renderDay}
+          renderQuarter={this.renderQuarter}
           locale={locale}
         />
 
@@ -645,6 +671,7 @@ export class DateRangePicker extends React.Component<
           onChange={this.handleEndChange}
           requiredConfirm={false}
           dateFormat={dateFormat}
+          inputFormat={inputFormat}
           timeFormat={timeFormat}
           viewDate={this.nextMonth}
           isEndDate
@@ -653,6 +680,7 @@ export class DateRangePicker extends React.Component<
           input={false}
           onClose={this.close}
           renderDay={this.renderDay}
+          renderQuarter={this.renderQuarter}
           locale={locale}
         />
 

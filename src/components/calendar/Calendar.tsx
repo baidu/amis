@@ -141,6 +141,7 @@ class BaseDatePicker extends ReactDatePicker {
       date = viewDate
         .clone()
         .quarter(parseInt(target.getAttribute('data-value')!, 10))
+        .startOf('quarter')
         .date(currentDate.date());
     } else if (target.className.indexOf('rdtYear') !== -1) {
       date = viewDate
