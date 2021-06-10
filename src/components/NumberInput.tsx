@@ -2,6 +2,7 @@ import React from 'react';
 // @ts-ignore
 import InputNumber from 'rc-input-number';
 import {ThemeProps, themeable} from '../theme';
+import {autobind} from '../utils/helper';
 
 export interface NumberProps extends ThemeProps {
   placeholder?: string;
@@ -19,6 +20,23 @@ export class NumberInput extends React.Component<NumberProps, any> {
   static defaultProps = {
     step: 1
   };
+
+  @autobind
+  handleChange(value: any) {
+    const {min, max, onChange} = this.props;
+
+    if (typeof value === 'number') {
+      if (typeof min === 'number') {
+        value = Math.max(value, min);
+      }
+
+      if (typeof max === 'number') {
+        value = Math.min(value, max);
+      }
+    }
+
+    onChange?.(value);
+  }
 
   render(): JSX.Element {
     const {
@@ -50,7 +68,7 @@ export class NumberInput extends React.Component<NumberProps, any> {
         step={step}
         max={max}
         min={min}
-        onChange={onChange}
+        onChange={this.handleChange}
         disabled={disabled}
         placeholder={placeholder}
         {...precisionProps}
