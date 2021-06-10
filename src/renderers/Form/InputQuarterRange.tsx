@@ -2,12 +2,16 @@ import React from 'react';
 import {FormItem} from './Item';
 import cx from 'classnames';
 import {filterDate, parseDuration} from '../../utils/tpl-builtin';
-import InputDateRange from './InputDateRange';
+import InputDateRange, {DateRangeControlSchema} from './InputDateRange';
 import DateRangePicker from '../../components/DateRangePicker';
 /**
  * QuarterRange 季度范围控件
  * 文档：https://baidu.gitee.io/amis/docs/components/form/input-quarter-range
  */
+export interface QuarterRangeControlSchema
+  extends Omit<DateRangeControlSchema, 'type'> {
+  type: 'input-quarter-range';
+}
 
 export default class QuarterRangeControl extends InputDateRange {
   render() {
