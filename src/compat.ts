@@ -307,6 +307,7 @@ const controlMapping: any = {
   'location': 'location-picker',
   'matrix': 'matrix-checkboxes',
   'month-range': 'input-month-range',
+  'quarter-range': 'input-quarter-range',
   'number': 'input-number',
   'range': 'input-range',
   'rating': 'input-rating',

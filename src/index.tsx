@@ -96,6 +96,7 @@ import './renderers/Form/InputFile';
 import './renderers/Form/UUID';
 import './renderers/Form/MatrixCheckboxes';
 import './renderers/Form/InputMonthRange';
+import './renderers/Form/InputQuarterRange';
 import './renderers/Form/InputRange';
 import './renderers/Form/InputArray';
 import './renderers/Form/Combo';
