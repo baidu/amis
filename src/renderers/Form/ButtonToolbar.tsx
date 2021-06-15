@@ -45,6 +45,7 @@ export default class ButtonToolbar extends React.Component<
 }
 
 @FormItem({
-  type: 'button-toolbar'
+  type: 'button-toolbar',
+  strictMode: false
 })
 export class ButtonToolbarRenderer extends ButtonToolbar {}
