@@ -1192,18 +1192,4 @@ export function FormItem(config: FormItemBasicConfig) {
   };
 }
 
-export function renderToComponent(
-  children: JSX.Element | ((props: any) => JSX.Element)
-) {
-  return class extends React.Component {
-    render() {
-      if (typeof children === 'function') {
-        return children(this.props);
-      }
-
-      return children;
-    }
-  };
-}
-
 export default FormItem;
