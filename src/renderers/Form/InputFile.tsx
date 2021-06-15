@@ -301,6 +301,10 @@ export default class FileControl extends React.Component<FileProps, FileState> {
   current: FileValue | FileX | null;
   resolve?: (value?: any) => void;
   emitValue: any;
+  fileUploadCancelExecutors: Array<{
+    file: any;
+    executor: () => void;
+  }> = [];
 
   static valueToFile(
     value: string | FileValue,
@@ -787,13 +791,19 @@ export default class FileControl extends React.Component<FileProps, FileState> {
   removeFile(file: FileX | FileValue, index: number) {
     const files = this.state.files.concat();
 
+    this.removeFileCanelExecutor(file, true);
     files.splice(index, 1);
+
+    const isUploading = this.current === file;
+    if (isUploading) {
+      this.current = null;
+    }
 
     this.setState(
       {
         files: files
       },
-      this.onChange
+      isUploading ? this.tick : this.onChange
     );
   }
 
@@ -882,7 +892,9 @@ export default class FileControl extends React.Component<FileProps, FileState> {
     // Note: File类型字段放在后面，可以支持第三方云存储鉴权
     fd.append(config.fieldName || 'file', file);
 
-    return this._send(api, fd, {}, onProgress);
+    return this._send(file, api, fd, {}, onProgress).finally(() => {
+      this.removeFileCanelExecutor(file);
+    });
   }
 
   uploadBigFile(
@@ -932,7 +944,7 @@ export default class FileControl extends React.Component<FileProps, FileState> {
         }
       );
 
-      self._send(startApi).then(startChunk).catch(reject);
+      self._send(file, startApi).then(startChunk).catch(reject);
 
       function startChunk(ret: Payload) {
         onProgress(startProgress);
@@ -995,7 +1007,13 @@ export default class FileControl extends React.Component<FileProps, FileState> {
           }
         );
 
-        self._send(endApi).then(resolve).catch(reject);
+        self
+          ._send(file, endApi)
+          .finally(() => {
+            self.removeFileCanelExecutor(file);
+          })
+          .then(resolve)
+          .catch(reject);
       }
 
       function uploadPartFile(state: ObjectState, conf: Partial<FileProps>) {
@@ -1027,7 +1045,7 @@ export default class FileControl extends React.Component<FileProps, FileState> {
           fd.append(config.fieldName || 'file', blob, file.name);
 
           return self
-            ._send(api, fd, {}, progress =>
+            ._send(file, api, fd, {}, progress =>
               updateProgress(task.partNumber, progress)
             )
             .then(ret => {
@@ -1069,6 +1087,7 @@ export default class FileControl extends React.Component<FileProps, FileState> {
   }
 
   _send(
+    file: FileX,
     api: ApiObject | ApiString,
     data?: any,
     options?: object,
@@ -1084,11 +1103,30 @@ export default class FileControl extends React.Component<FileProps, FileState> {
       method: 'post',
       ...options,
       withCredentials: true,
+      cancelExecutor: (cancelExecutor: () => void) => {
+        // 记录取消器，取消的时候要调用
+        this.fileUploadCancelExecutors.push({
+          file: file,
+          executor: cancelExecutor
+        });
+      },
       onUploadProgress: onProgress
         ? (event: {loaded: number; total: number}) =>
             onProgress(event.loaded / event.total)
         : undefined
     });
+  }
+
+  removeFileCanelExecutor(file: any, execute = false) {
+    this.fileUploadCancelExecutors = this.fileUploadCancelExecutors.filter(
+      item => {
+        if (execute && item.file === file) {
+          item.executor();
+        }
+
+        return item.file !== file;
+      }
+    );
   }
 
   validate(): any {
@@ -1239,7 +1277,7 @@ export default class FileControl extends React.Component<FileProps, FileState> {
                                 </span>
                               </>
                             ) : null}
-                            {file.state !== 'uploading' && !disabled ? (
+                            {!disabled ? (
                               <a
                                 data-tooltip={__('Select.clear')}
                                 className={cx('FileControl-clear')}

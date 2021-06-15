@@ -361,6 +361,10 @@ export default class ImageControl extends React.Component<
   };
 
   files: Array<FileValue | FileX> = [];
+  fileUploadCancelExecutors: Array<{
+    file: any;
+    executor: () => void;
+  }> = [];
   cropper = React.createRef<Cropper>();
   dropzone = React.createRef<any>();
   frameImageRef = React.createRef<any>();
@@ -682,13 +686,19 @@ export default class ImageControl extends React.Component<
   removeFile(file: FileValue, index: number) {
     const files = this.files.concat();
 
+    this.removeFileCanelExecutor(file, true);
     files.splice(index, 1);
+
+    const isUploading = this.current === file;
+    if (isUploading) {
+      this.current = null;
+    }
 
     this.setState(
       {
         files: (this.files = files)
       },
-      this.onChange
+      isUploading ? this.tick : this.onChange
     );
   }
 
@@ -1048,11 +1058,34 @@ export default class ImageControl extends React.Component<
       throw new Error('fetcher is required');
     }
 
-    return env.fetcher(api, fd, {
-      method: 'post',
-      onUploadProgress: (event: {loaded: number; total: number}) =>
-        onProgress(event.loaded / event.total)
-    });
+    return env
+      .fetcher(api, fd, {
+        method: 'post',
+        cancelExecutor: (cancelExecutor: () => void) => {
+          // 记录取消器，取消的时候要调用
+          this.fileUploadCancelExecutors.push({
+            file: file,
+            executor: cancelExecutor
+          });
+        },
+        onUploadProgress: (event: {loaded: number; total: number}) =>
+          onProgress(event.loaded / event.total)
+      })
+      .finally(() => {
+        this.removeFileCanelExecutor(file);
+      });
+  }
+
+  removeFileCanelExecutor(file: any, execute = false) {
+    this.fileUploadCancelExecutors = this.fileUploadCancelExecutors.filter(
+      item => {
+        if (execute && item.file === file) {
+          item.executor();
+        }
+
+        return item.file !== file;
+      }
+    );
   }
 
   handleClick() {
