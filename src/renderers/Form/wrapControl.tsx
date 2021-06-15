@@ -146,7 +146,7 @@ export function wrapControl<
               id: guid(),
               path: this.props.$path,
               storeType: FormItemStore.name,
-              parentId: store!.id,
+              parentId: store?.id,
               name
             }) as IFormItemStore;
             this.model = model;
