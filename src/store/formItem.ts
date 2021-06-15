@@ -123,7 +123,7 @@ export const FormItemStore = StoreNode.named('FormItemStore')
       },
 
       get prinstine(): any {
-        return (getForm() as IFormStore).getPristineValueByName(self.name);
+        return (getForm() as IFormStore)?.getPristineValueByName(self.name);
       },
 
       get errors() {
