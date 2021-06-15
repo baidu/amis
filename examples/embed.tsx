@@ -255,7 +255,7 @@ export function embed(
           fetcher: async (api: any) => {
             let {url, method, data, responseType, config, headers} = api;
             config = config || {};
-            // config.withCredentials = true;
+            config.withCredentials = true;
             responseType && (config.responseType = responseType);
 
             if (config.cancelExecutor) {
@@ -293,7 +293,18 @@ export function embed(
 
             if (response.status >= 400) {
               if (response.data) {
-                if (response.data.msg) {
+                // 主要用于 raw: 模式下，后端自己校验登录，
+                if (
+                  response.status === 401 &&
+                  response.data.location &&
+                  response.data.location.startsWith('http')
+                ) {
+                  location.href = response.data.location.replace(
+                    '{{redirect}}',
+                    encodeURIComponent(location.href)
+                  );
+                  return new Promise(() => {});
+                } else if (response.data.msg) {
                   throw new Error(response.data.msg);
                 } else {
                   throw new Error(
