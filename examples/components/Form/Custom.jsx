@@ -12,7 +12,7 @@ class MyFormItem extends React.Component {
       <div>
         <p>这个是个自定义组件。通过注册渲染器的方式实现。</p>
 
-        <p>当前值：{value}</p>
+        <p>当前值：{JSON.stringify(value)}</p>
 
         <a
           className="btn btn-default"
@@ -139,7 +139,8 @@ export default {
                   {
                     type: 'input-text',
                     name: 'x',
-                    label: 'X'
+                    label: 'X',
+                    value: '1'
                   },
                   {
                     type: 'input-text',
@@ -155,7 +156,7 @@ export default {
           )
         },
         {
-          name: 'b',
+          name: 'c',
           label: '',
           component: ({render, value, onChange, name}) => {
             function handleXChange(x) {
@@ -185,25 +186,28 @@ export default {
                 <p>组合现有组件并控制数据</p>
 
                 {render(
-                  'formitem',
-                  [
-                    {
-                      type: 'input-text',
-                      name: 'x',
-                      label: 'X',
-                      value: value?.x || '',
-                      onChange: handleXChange
-                    },
-                    {
-                      type: 'input-text',
-                      name: 'y',
-                      label: 'Y',
-                      value: value?.y || '',
-                      onChange: handleYChange
-                    }
-                  ],
+                  'item1',
                   {
-                    formMode: 'normal'
+                    type: 'input-text',
+                    name: 'x',
+                    label: 'X'
+                  },
+                  {
+                    value: value?.x || '',
+                    onChange: handleXChange
+                  }
+                )}
+
+                {render(
+                  'item2',
+                  {
+                    type: 'input-text',
+                    name: 'y',
+                    label: 'Y'
+                  },
+                  {
+                    value: value?.y || '',
+                    onChange: handleYChange
                   }
                 )}
               </div>

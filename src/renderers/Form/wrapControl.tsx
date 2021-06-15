@@ -284,11 +284,9 @@ export function wrapControl<
               );
             }
 
-            let modified = false;
             if (model && props.value !== prevProps.value) {
               if (props.value !== model.tmpValue) {
                 model.changeTmpValue(props.value);
-                modified = true;
               }
             } else if (
               model &&
@@ -308,7 +306,6 @@ export function wrapControl<
               );
               if (value !== prevValue && value !== model.tmpValue) {
                 model.changeTmpValue(value);
-                modified = true;
               }
             }
           }
