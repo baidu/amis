@@ -5,6 +5,7 @@ import {Api, SchemaNode, PlainObject} from '../types';
 import {filter} from '../utils/tpl';
 import cx from 'classnames';
 import {BaseSchema, SchemaClassName} from '../Schema';
+import {getPropValue} from '../utils/helper';
 
 /**
  * 进度展示控件。
@@ -91,7 +92,7 @@ export class ProgressField extends React.Component<ProgressProps, object> {
       classnames: cx
     } = this.props;
 
-    let value = this.props.value;
+    let value = getPropValue(this.props);
     let viewValue: React.ReactNode = (
       <span className="text-muted">{placeholder}</span>
     );

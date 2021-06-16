@@ -75,11 +75,12 @@ export default class QRCode extends React.Component<QRCodeProps, any> {
       placeholder,
       level,
       value,
+      defaultValue,
       data,
       classPrefix: ns
     } = this.props;
 
-    const finalValue = filter(value, data, '| raw');
+    const finalValue = value || filter(defaultValue, data, '| raw');
 
     return (
       <div className={cx(`${ns}QrCode`, className)}>
