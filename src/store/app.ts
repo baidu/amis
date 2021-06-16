@@ -134,6 +134,11 @@ export const AppStore = ServiceStore.named('AppStore')
     },
 
     setActivePage(page: any, env: RendererEnv, params?: any) {
+      // 同一个页面直接返回。
+      if (self.activePage?.id === page.id) {
+        return;
+      }
+
       let bcn: Array<any> = [];
 
       findTree(self.pages, (item, index, level, paths) => {
