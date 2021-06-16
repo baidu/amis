@@ -510,7 +510,7 @@ export class FormItemWrap extends React.Component<FormItemProps> {
     }
 
     description = description || desc;
-    const horizontal = this.props.horizontal || this.props.formHorizontal;
+    const horizontal = this.props.horizontal || this.props.formHorizontal || {};
     const left = getWidthRate(horizontal.left);
     const right = getWidthRate(horizontal.right);
 

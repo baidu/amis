@@ -69,6 +69,16 @@ export interface ComboControlSchema extends FormBaseControl {
   type: 'combo';
 
   /**
+   * 内部单组表单项的类名
+   */
+  formClassName?: SchemaClassName;
+
+  /**
+   * 新增按钮CSS类名
+   */
+  addButtonClassName?: SchemaClassName;
+
+  /**
    * 单组表单项初始值。默认为 `{}`
    *
    * @default {}
@@ -91,24 +101,14 @@ export interface ComboControlSchema extends FormBaseControl {
   deleteApi?: SchemaApi;
 
   /**
-   * 是否可切换条件，配合`conditions`使用
-   */
-  typeSwitchable?: boolean;
-
-  /**
    * 符合某类条件后才渲染的schema
    */
   conditions?: Array<ComboCondition>;
 
   /**
-   * 内部单组表单项的类名
+   * 是否可切换条件，配合`conditions`使用
    */
-  formClassName?: SchemaClassName;
-
-  /**
-   * 新增按钮CSS类名
-   */
-  addButtonClassName?: SchemaClassName;
+  typeSwitchable?: boolean;
 
   /**
    * 新增按钮文字
@@ -221,6 +221,13 @@ export interface ComboControlSchema extends FormBaseControl {
    * 严格模式，为了性能默认不开的。
    */
   strictMode?: boolean;
+
+  /**
+   * 配置同步字段。只有 `strictMode` 为 `false` 时有效。
+   * 如果 Combo 层级比较深，底层的获取外层的数据可能不同步。
+   * 但是给 combo 配置这个属性就能同步下来。输入格式：`["os"]`
+   */
+  syncFields?: string[];
 
   /**
    * 允许为空，如果子表单项里面配置验证器，且又是单条模式。可以允许用户选择清空（不填）。
@@ -1452,7 +1459,7 @@ export default class ComboControl extends React.Component<ComboProps> {
       disabled
     } = this.props;
 
-    return formInited ? (
+    return formInited || typeof formInited === 'undefined' ? (
       <div className={cx(`ComboControl`, className)}>
         {multiple ? this.renderMultipe() : this.renderSingle()}
       </div>
