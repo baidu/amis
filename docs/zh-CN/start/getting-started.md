@@ -179,6 +179,26 @@ let amisScoped = amis.embed(
 
 还可以通过 `amisScoped.getComponentByName('page1.form1').setValues({'name1': 'othername'})` 来修改表单中的值。
 
+### 更新属性
+
+可以通过 amisScoped 对象的 updateProps 方法来更新下发到 amis 的属性。
+
+```ts
+amisScoped.updateProps(
+  {
+    // 新的属性对象
+  } /*, () => {} 更新回调 */
+);
+```
+
+### 销毁
+
+如果是单页应用，在离开当前页面的时候通常需要销毁实例，可以通过 unmount 方法来完成。
+
+```ts
+amisScoped.unmount();
+```
+
 ### 切换主题
 
 jssdk 版本默认使用 `sdk.css` 即默认主题，如果你想用使用云舍，请改成引用 `cxd.css`。同时 js 渲染地方第四个参数传入 `theme` 属性。如：
