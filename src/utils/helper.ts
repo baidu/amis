@@ -150,7 +150,7 @@ export function findIndex(
 
 export function getVariable(
   data: {[propName: string]: any},
-  key: string,
+  key: string | undefined,
   canAccessSuper: boolean = true
 ): any {
   if (!data || !key) {
@@ -1527,4 +1527,50 @@ export function getScrollbarWidth() {
   outer.parentNode.removeChild(outer);
 
   return scrollbarWidth;
+}
+
+// 统一的获取 value 值方法
+export function getPropValue<
+  T extends {
+    value?: any;
+    name?: string;
+    data?: any;
+    defaultValue?: any;
+  }
+>(props: T, getter?: (props: T) => any) {
+  const {name, value, data, defaultValue} = props;
+  return value ?? getter?.(props) ?? getVariable(data, name) ?? defaultValue;
+}
+
+// 检测 value 是否有变化，有变化就执行 onChange
+export function detectPropValueChanged<
+  T extends {
+    value?: any;
+    name?: string;
+    data?: any;
+    defaultValue?: any;
+  }
+>(
+  props: T,
+  prevProps: T,
+  onChange: (value: any) => void,
+  getter?: (props: T) => any
+) {
+  let nextValue: any;
+  if (props.value !== prevProps.value) {
+    onChange(props.value);
+  } else if (
+    (nextValue = getter?.(props)) !== undefined &&
+    nextValue !== getter!(prevProps)
+  ) {
+    onChange(nextValue);
+  } else if (
+    typeof props.name === 'string' &&
+    (nextValue = getVariable(props.data, props.name)) !== undefined &&
+    nextValue !== getVariable(prevProps.data, prevProps.name)
+  ) {
+    onChange(nextValue);
+  } else if (props.defaultValue !== prevProps.defaultValue) {
+    onChange(props.defaultValue);
+  }
 }

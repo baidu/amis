@@ -2,7 +2,7 @@ import React from 'react';
 import {Renderer, RendererProps} from '../factory';
 import {Schema} from '../types';
 import {resolveVariable} from '../utils/tpl-builtin';
-import {createObject, isObject} from '../utils/helper';
+import {createObject, getPropValue, isObject} from '../utils/helper';
 import {BaseSchema, SchemaCollection} from '../Schema';
 
 /**
@@ -43,24 +43,23 @@ export default class Each extends React.Component<EachProps> {
       name,
       className,
       render,
-      value,
+      defaultValue,
       items,
       placeholder,
       classnames: cx,
       translate: __
     } = this.props;
 
-    const arr =
-      typeof value !== 'undefined'
-        ? isObject(value)
-          ? Object.keys(value).map(key => ({
-              key: key,
-              value: value[key]
-            }))
-          : Array.isArray(value)
-          ? value
-          : []
-        : resolveVariable(name, data);
+    const value = getPropValue(this.props);
+
+    const arr = isObject(value)
+      ? Object.keys(value).map(key => ({
+          key: key,
+          value: value[key]
+        }))
+      : Array.isArray(value)
+      ? value
+      : [];
 
     return (
       <div className={cx('Each', className)}>

@@ -10,7 +10,8 @@ import {
   autobind,
   createObject,
   isObject,
-  isArrayChildrenModified
+  isArrayChildrenModified,
+  getPropValue
 } from '../utils/helper';
 import {Icon} from '../components/icons';
 import {BaseSchema, SchemaCollection, SchemaName, SchemaTpl} from '../Schema';
@@ -147,11 +148,7 @@ export class Carousel extends React.Component<CarouselProps, CarouselState> {
 
   state = {
     current: 0,
-    options:
-      this.props.options ||
-      this.props.value ||
-      resolveVariable(this.props.name, this.props.data) ||
-      [],
+    options: this.props.options || getPropValue(this.props) || [],
     nextAnimation: ''
   };
 
@@ -162,16 +159,8 @@ export class Carousel extends React.Component<CarouselProps, CarouselState> {
   componentDidUpdate(prevProps: CarouselProps) {
     const props = this.props;
 
-    const nextOptions =
-      props.options ||
-      props.value ||
-      resolveVariable(props.name, props.data) ||
-      [];
-    const prevOptions =
-      prevProps.options ||
-      prevProps.value ||
-      resolveVariable(prevProps.name, prevProps.data) ||
-      [];
+    const nextOptions = props.options || getPropValue(props);
+    const prevOptions = prevProps.options || getPropValue(prevProps) || [];
 
     if (isArrayChildrenModified(prevOptions, nextOptions)) {
       this.setState({
