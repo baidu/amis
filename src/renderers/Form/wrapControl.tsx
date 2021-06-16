@@ -140,8 +140,7 @@ export function wrapControl<
               return;
             }
 
-            let propValue =
-              this.props.value !== value ? this.props.value : undefined;
+            let propValue = this.props.value;
             const model = rootStore.addStore({
               id: guid(),
               path: this.props.$path,
@@ -284,11 +283,16 @@ export function wrapControl<
               );
             }
 
-            if (model && props.value !== prevProps.value) {
-              if (props.value !== model.tmpValue) {
+            if (model && typeof props.value !== 'undefined') {
+              // 自己控制的 value 优先
+              if (
+                props.value !== prevProps.value &&
+                props.value !== model.tmpValue
+              ) {
                 model.changeTmpValue(props.value);
               }
             } else if (
+              // 然后才是查看关联的 name 属性值是否变化
               model &&
               props.data !== prevProps.data &&
               (!model.emitedValue || model.emitedValue === model.tmpValue)

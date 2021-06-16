@@ -236,7 +236,7 @@ export class SchemaRenderer extends React.Component<SchemaRendererProps, any> {
 
     const renderer = this.renderer as RendererConfig;
     schema = filterSchema(schema, renderer, rest);
-    const {data: defaultData, value: deafultValue, ...restSchema} = schema;
+    const {data: defaultData, value: defaultValue, ...restSchema} = schema;
     const Component = renderer.component;
 
     return (
@@ -245,7 +245,7 @@ export class SchemaRenderer extends React.Component<SchemaRendererProps, any> {
         {...restSchema}
         {...chainEvents(rest, restSchema)}
         defaultData={defaultData}
-        deafultValue={deafultValue}
+        defaultValue={defaultValue}
         $path={$path}
         $schema={schema}
         ref={this.refFn}
