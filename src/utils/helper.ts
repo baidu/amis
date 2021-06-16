@@ -1557,19 +1557,16 @@ export function detectPropValueChanged<
   getter?: (props: T) => any
 ) {
   let nextValue: any;
-  if (props.value !== prevProps.value) {
-    onChange(props.value);
-  } else if (
-    (nextValue = getter?.(props)) !== undefined &&
-    nextValue !== getter!(prevProps)
-  ) {
-    onChange(nextValue);
+  if (typeof props.value !== 'undefined') {
+    props.value !== prevProps.value && onChange(props.value);
+  } else if ((nextValue = getter?.(props)) !== undefined) {
+    nextValue !== getter!(prevProps) && onChange(nextValue);
   } else if (
     typeof props.name === 'string' &&
-    (nextValue = getVariable(props.data, props.name)) !== undefined &&
-    nextValue !== getVariable(prevProps.data, prevProps.name)
+    (nextValue = getVariable(props.data, props.name)) !== undefined
   ) {
-    onChange(nextValue);
+    nextValue !== getVariable(prevProps.data, prevProps.name) &&
+      onChange(nextValue);
   } else if (props.defaultValue !== prevProps.defaultValue) {
     onChange(props.defaultValue);
   }
