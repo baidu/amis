@@ -398,6 +398,27 @@ function wrapControl(item: any) {
   };
 }
 
+const maybeStatic = [
+  'tpl',
+  'mapping',
+  'progress',
+  'status',
+  'json',
+  'video',
+  'qrcode'
+];
+
+function wrapStatic(item: any) {
+  if (!item || !item.type) {
+    return item;
+  }
+
+  return {
+    ...item,
+    type: `static-${item.type}`
+  };
+}
+
 addSchemaFilter(function (schema: Schema, renderer: any, props: any) {
   // controls 转成 body
   if (schema?.type === 'combo' && Array.isArray(schema.conditions)) {
@@ -520,6 +541,8 @@ addSchemaFilter(function (schema: Schema, renderer: any, props: any) {
         }
       : ~maybeFormItem.indexOf(item?.type)
       ? wrapControl(item)
+      : ~maybeStatic.indexOf(item?.type)
+      ? wrapStatic(item)
       : item;
   }
 });
