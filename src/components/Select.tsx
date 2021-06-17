@@ -596,8 +596,6 @@ export class Select extends React.Component<SelectProps, SelectState> {
         break;
     }
 
-    console.log('==================', update);
-
     if (Object.keys(update).length) {
       this.setState(update);
     }
