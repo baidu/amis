@@ -582,7 +582,7 @@ export class Select extends React.Component<SelectProps, SelectState> {
         };
         break;
       case DownshiftChangeTypes.controlledPropUpdatedSelectedItem:
-
+        break;
       case DownshiftChangeTypes.changeInput:
         update.highlightedIndex = 0;
         break;
@@ -595,6 +595,8 @@ export class Select extends React.Component<SelectProps, SelectState> {
         };
         break;
     }
+
+    console.log('==================', update);
 
     if (Object.keys(update).length) {
       this.setState(update);
