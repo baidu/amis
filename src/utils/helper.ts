@@ -1534,6 +1534,12 @@ export function getScrollbarWidth() {
   return scrollbarWidth;
 }
 
+function resolveValueByName(data: any, name?: string) {
+  return isPureVariable(name)
+    ? resolveVariableAndFilter(name, data)
+    : resolveVariable(name, data);
+}
+
 // 统一的获取 value 值方法
 export function getPropValue<
   T extends {
@@ -1545,12 +1551,7 @@ export function getPropValue<
 >(props: T, getter?: (props: T) => any) {
   const {name, value, data, defaultValue} = props;
   return (
-    value ??
-    getter?.(props) ??
-    (isPureVariable(name)
-      ? resolveVariableAndFilter(name, data)
-      : resolveVariable(name, data)) ??
-    defaultValue
+    value ?? getter?.(props) ?? resolveValueByName(data, name) ?? defaultValue
   );
 }
 
@@ -1575,9 +1576,9 @@ export function detectPropValueChanged<
     nextValue !== getter!(prevProps) && onChange(nextValue);
   } else if (
     typeof props.name === 'string' &&
-    (nextValue = getVariable(props.data, props.name)) !== undefined
+    (nextValue = resolveValueByName(props.data, props.name)) !== undefined
   ) {
-    nextValue !== getVariable(prevProps.data, prevProps.name) &&
+    nextValue !== resolveValueByName(prevProps.data, prevProps.name) &&
       onChange(nextValue);
   } else if (props.defaultValue !== prevProps.defaultValue) {
     onChange(props.defaultValue);
