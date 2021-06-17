@@ -255,6 +255,13 @@
     &:hover {
       background: var(--Form-selectValue-onHover-bg);
     }
+
+    &.is-disabled {
+      pointer-events: none;
+      display: none;
+      cursor: not-allowed;
+      background: var(--Form-selectValue-onDisable-bg);
+    }
   }
 
   &-input--multiple &-valueLabel {

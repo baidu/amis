@@ -543,7 +543,9 @@ export default class TextControl extends React.PureComponent<
                   multiple ? (
                     <div className={cx('TextControl-value')} key={index}>
                       <span
-                        className={cx('TextControl-valueIcon')}
+                        className={cx('TextControl-valueIcon', {
+                          'is-disabled': disabled || item.disabled
+                        })}
                         onClick={this.removeItem.bind(this, index)}
                       >
                         ×
