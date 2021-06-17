@@ -4,7 +4,7 @@ import React from 'react';
 import {resolveVariableAndFilter} from '../utils/tpl-builtin';
 import {BaseSchema, SchemaClassName} from '../Schema';
 import {ActionSchema} from './Action';
-import {autobind, createObject} from '../utils/helper';
+import {autobind, createObject, getPropValue} from '../utils/helper';
 
 export interface SparkLineSchema extends BaseSchema {
   type: 'sparkline';
@@ -91,9 +91,7 @@ export class SparkLineRenderer extends React.Component<SparkLineRendProps> {
 
   render() {
     const {value, name, data, clickAction} = this.props;
-
-    const finalValue =
-      value ?? (name ? resolveVariableAndFilter(name, data) : [1, 1]);
+    const finalValue = getPropValue(this.props) || [1, 1];
 
     return (
       <SparkLine

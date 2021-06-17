@@ -2,6 +2,7 @@ import React from 'react';
 import {Renderer, RendererProps} from '../factory';
 import moment from 'moment';
 import {BaseSchema} from '../Schema';
+import {getPropValue} from '../utils/helper';
 
 /**
  * Date 展示渲染器。
@@ -90,7 +91,6 @@ export class DateField extends React.Component<DateProps, DateState> {
 
   render() {
     const {
-      value,
       valueFormat,
       format,
       placeholder,
@@ -102,6 +102,8 @@ export class DateField extends React.Component<DateProps, DateState> {
     let viewValue: React.ReactNode = (
       <span className="text-muted">{placeholder}</span>
     );
+
+    const value = getPropValue(this.props);
 
     if (value) {
       let ISODate = moment(value, moment.ISO_8601);

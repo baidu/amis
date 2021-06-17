@@ -36,6 +36,8 @@ const defaultOmitList = [
   'disabledOn',
   'component',
   'detectField',
+  'defaultValue',
+  'defaultData',
   'required',
   'requiredOn',
   'syncSuperStore'
@@ -234,7 +236,7 @@ export class SchemaRenderer extends React.Component<SchemaRendererProps, any> {
 
     const renderer = this.renderer as RendererConfig;
     schema = filterSchema(schema, renderer, rest);
-    const {data: defaultData, ...restSchema} = schema;
+    const {data: defaultData, value: defaultValue, ...restSchema} = schema;
     const Component = renderer.component;
 
     return (
@@ -243,6 +245,7 @@ export class SchemaRenderer extends React.Component<SchemaRendererProps, any> {
         {...restSchema}
         {...chainEvents(rest, restSchema)}
         defaultData={defaultData}
+        defaultValue={defaultValue}
         $path={$path}
         $schema={schema}
         ref={this.refFn}

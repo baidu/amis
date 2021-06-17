@@ -8,6 +8,7 @@ import {
 } from '../components/WithRemoteConfig';
 import {resolveVariable} from '../utils/tpl-builtin';
 import {filter} from '../utils/tpl';
+import {getPropValue} from '../utils/helper';
 
 enum StepStatus {
   wait = 'wait',
@@ -87,7 +88,6 @@ export function Steps(props: StepsProps) {
     className,
     classnames: cx,
     steps,
-    value = 0,
     status,
     data,
     source,
@@ -98,6 +98,8 @@ export function Steps(props: StepsProps) {
     config ||
     steps ||
     [];
+
+  const value = getPropValue(props) ?? 0;
   const resolveValue =
     typeof value === 'string' && isNaN(+value)
       ? (resolveVariable(value, data) as string) || +value

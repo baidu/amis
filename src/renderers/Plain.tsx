@@ -3,6 +3,7 @@ import {Renderer, RendererProps} from '../factory';
 import {filter} from '../utils/tpl';
 import cx from 'classnames';
 import {BaseSchema, SchemaTpl} from '../Schema';
+import {getPropValue} from '../utils/helper';
 
 /**
  * Plain 纯文本渲染器
@@ -47,7 +48,6 @@ export class Plain extends React.Component<PlainProps, object> {
     const {
       className,
       wrapperComponent,
-      value,
       text,
       data,
       tpl,
@@ -56,6 +56,7 @@ export class Plain extends React.Component<PlainProps, object> {
       classnames: cx
     } = this.props;
 
+    const value = getPropValue(this.props);
     const Component = wrapperComponent || (inline ? 'span' : 'div');
 
     return (

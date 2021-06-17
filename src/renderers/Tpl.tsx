@@ -2,7 +2,7 @@ import React from 'react';
 import {Renderer, RendererProps} from '../factory';
 import {filter} from '../utils/tpl';
 import cx from 'classnames';
-import {anyChanged} from '../utils/helper';
+import {anyChanged, getPropValue} from '../utils/helper';
 import {escapeHtml} from '../utils/tpl-builtin';
 import {BaseSchema, SchemaTpl} from '../Schema';
 
@@ -74,7 +74,8 @@ export class Tpl extends React.Component<TplProps, object> {
   }
 
   getContent() {
-    const {tpl, html, text, raw, value, data, placeholder} = this.props;
+    const {tpl, html, text, raw, data, placeholder} = this.props;
+    const value = getPropValue(this.props);
 
     if (raw) {
       return raw;
