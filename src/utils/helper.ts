@@ -7,6 +7,11 @@ import qs from 'qs';
 import {IIRendererStore} from '../store';
 import {IFormStore} from '../store/form';
 import {autobindMethod} from './autobind';
+import {
+  isPureVariable,
+  resolveVariable,
+  resolveVariableAndFilter
+} from './tpl-builtin';
 
 // 方便取值的时候能够把上层的取到，但是获取的时候不会全部把所有的数据获取到。
 export function createObject(
@@ -1539,7 +1544,14 @@ export function getPropValue<
   }
 >(props: T, getter?: (props: T) => any) {
   const {name, value, data, defaultValue} = props;
-  return value ?? getter?.(props) ?? getVariable(data, name) ?? defaultValue;
+  return (
+    value ??
+    getter?.(props) ??
+    (isPureVariable(name)
+      ? resolveVariableAndFilter(name, data)
+      : resolveVariable(name, data)) ??
+    defaultValue
+  );
 }
 
 // 检测 value 是否有变化，有变化就执行 onChange
