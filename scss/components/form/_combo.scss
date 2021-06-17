@@ -257,6 +257,11 @@
 
 .#{$ns}ComboTabs > .#{$ns}Tabs-links {
   @include clearfix();
+  .#{$ns}Tabs-link {
+    > a {
+      word-break: break-all;
+    }
+  }
 }
 
 .#{$ns}ComboTabs-addLink {
