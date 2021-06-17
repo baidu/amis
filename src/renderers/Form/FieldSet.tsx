@@ -98,7 +98,8 @@ export default class FieldSetControl extends React.Component<
       $path,
       classnames: cx,
       store,
-      formClassName
+      formClassName,
+      disabled
     } = this.props;
 
     if (!controls) {
@@ -108,7 +109,8 @@ export default class FieldSetControl extends React.Component<
     let props: any = {
       store,
       data: store!.data,
-      render
+      render,
+      disabled
     };
     mode && (props.mode = mode);
     typeof collapsable !== 'undefined' && (props.collapsable = collapsable);
