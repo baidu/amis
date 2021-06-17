@@ -532,7 +532,7 @@ export class DateRangePicker extends React.Component<
   checkStartIsValidDate(currentDate: moment.Moment) {
     let {endDate, startDate} = this.state;
     let {minDate, maxDate, minDuration, maxDuration, viewMode} = this.props;
-    const precision = viewMode === 'quarters' ? 'quarter' : 'day';
+    const precision = viewMode === 'time' ? 'hours' : viewMode || 'day';
 
     maxDate =
       maxDate && endDate
@@ -566,7 +566,7 @@ export class DateRangePicker extends React.Component<
   checkEndIsValidDate(currentDate: moment.Moment) {
     let {startDate} = this.state;
     let {minDate, maxDate, minDuration, maxDuration, viewMode} = this.props;
-    const precision = viewMode === 'quarters' ? 'quarter' : 'day';
+    const precision = viewMode === 'time' ? 'hours' : viewMode || 'day';
 
     minDate =
       minDate && startDate
