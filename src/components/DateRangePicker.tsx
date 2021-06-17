@@ -531,8 +531,8 @@ export class DateRangePicker extends React.Component<
 
   checkStartIsValidDate(currentDate: moment.Moment) {
     let {endDate, startDate} = this.state;
-
-    let {minDate, maxDate, minDuration, maxDuration} = this.props;
+    let {minDate, maxDate, minDuration, maxDuration, viewMode} = this.props;
+    const precision = viewMode === 'quarters' ? 'quarter' : 'day';
 
     maxDate =
       maxDate && endDate
@@ -541,9 +541,9 @@ export class DateRangePicker extends React.Component<
           : endDate
         : maxDate || endDate;
 
-    if (minDate && currentDate.isBefore(minDate, 'day')) {
+    if (minDate && currentDate.isBefore(minDate, precision)) {
       return false;
-    } else if (maxDate && currentDate.isAfter(maxDate, 'day')) {
+    } else if (maxDate && currentDate.isAfter(maxDate, precision)) {
       return false;
     } else if (
       // 如果配置了 minDuration 那么 EndDate - minDuration 之后的天数也不能选
@@ -565,8 +565,8 @@ export class DateRangePicker extends React.Component<
 
   checkEndIsValidDate(currentDate: moment.Moment) {
     let {startDate} = this.state;
-
-    let {minDate, maxDate, minDuration, maxDuration} = this.props;
+    let {minDate, maxDate, minDuration, maxDuration, viewMode} = this.props;
+    const precision = viewMode === 'quarters' ? 'quarter' : 'day';
 
     minDate =
       minDate && startDate
@@ -575,9 +575,9 @@ export class DateRangePicker extends React.Component<
           : startDate
         : minDate || startDate;
 
-    if (minDate && currentDate.isBefore(minDate, 'day')) {
+    if (minDate && currentDate.isBefore(minDate, precision)) {
       return false;
-    } else if (maxDate && currentDate.isAfter(maxDate, 'day')) {
+    } else if (maxDate && currentDate.isAfter(maxDate, precision)) {
       return false;
     } else if (
       startDate &&
