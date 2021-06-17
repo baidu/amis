@@ -511,11 +511,8 @@ addSchemaFilter(function (schema: Schema, renderer: any, props: any) {
 
             body: column?.controls.map(controlToNormalRenderer)
           };
+          delete column.type;
           delete column.controls;
-          if (!column.type) {
-            column.type = 'wrapper';
-            column.size = 'none';
-          }
         }
 
         return column;
