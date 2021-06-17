@@ -1145,6 +1145,7 @@ export default class FileControl extends React.Component<FileProps, FileState> {
     return (
       <div className={cx('FileControl', className)}>
         <DropZone
+          disabled={disabled}
           key="drop-zone"
           ref={this.dropzone}
           onDrop={this.handleDrop}
@@ -1163,7 +1164,7 @@ export default class FileControl extends React.Component<FileProps, FileState> {
                 'is-active': isDragActive
               })}
             >
-              <input disabled={disabled} {...getInputProps()} />
+              <input {...getInputProps()} />
 
               {isDragActive ? (
                 <div className={cx('FileControl-acceptTip')}>
