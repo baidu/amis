@@ -464,10 +464,10 @@ addSchemaFilter(function (schema: Schema, renderer: any, props: any) {
     schema = {
       ...schema,
       tabs: schema.tabs.map(tab => {
-        if (Array.isArray(tab.controls)) {
+        if (Array.isArray(tab.controls) && !Array.isArray(tab.body)) {
           tab = {
             ...tab,
-            body: tab?.controls.map(controlToNormalRenderer)
+            body: tab.controls.map(controlToNormalRenderer)
           };
           delete tab.controls;
         }
