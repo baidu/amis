@@ -24,4 +24,4 @@ order: 62
 }
 ```
 
-更多用法和配置可以参考 [InputDate 日期](input-date)，quarter 就是 data 的特定配置，所以 data 的所有配置都能使用。
+更多用法和配置可以参考 [InputDate 日期](input-date)，quarter 就是 date 的特定配置，所以 date 的所有配置都能使用。
