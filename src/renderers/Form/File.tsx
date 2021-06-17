@@ -1145,6 +1145,7 @@ export default class FileControl extends React.Component<FileProps, FileState> {
     return (
       <div className={cx('FileControl', className)}>
         <DropZone
+          disabled={disabled}
           key="drop-zone"
           ref={this.dropzone}
           onDrop={this.handleDrop}
