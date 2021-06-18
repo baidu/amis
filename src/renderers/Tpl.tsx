@@ -45,8 +45,7 @@ export interface TplProps extends RendererProps, TplSchema {
 export class Tpl extends React.Component<TplProps, object> {
   static defaultProps: Partial<TplProps> = {
     inline: true,
-    placeholder: '',
-    value: ''
+    placeholder: ''
   };
 
   dom: any;
