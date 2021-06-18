@@ -185,7 +185,10 @@ export function wrapControl<
             // 同步 value
             model.changeTmpValue(
               propValue ??
-                store?.getValueByName(model.name, canAccessSuperData) ??
+                store?.getValueByName(
+                  model.name,
+                  canAccessSuperData !== false
+                ) ??
                 value
             );
 

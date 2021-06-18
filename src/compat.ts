@@ -398,6 +398,27 @@ function wrapControl(item: any) {
   };
 }
 
+const maybeStatic = [
+  'tpl',
+  'mapping',
+  'progress',
+  'status',
+  'json',
+  'video',
+  'qrcode'
+];
+
+function wrapStatic(item: any) {
+  if (!item || !item.type) {
+    return item;
+  }
+
+  return {
+    ...item,
+    type: `static-${item.type}`
+  };
+}
+
 addSchemaFilter(function (schema: Schema, renderer: any, props: any) {
   // controls 转成 body
   if (schema?.type === 'combo' && Array.isArray(schema.conditions)) {
@@ -443,10 +464,10 @@ addSchemaFilter(function (schema: Schema, renderer: any, props: any) {
     schema = {
       ...schema,
       tabs: schema.tabs.map(tab => {
-        if (Array.isArray(tab.controls)) {
+        if (Array.isArray(tab.controls) && !Array.isArray(tab.body)) {
           tab = {
             ...tab,
-            body: tab?.controls.map(controlToNormalRenderer)
+            body: tab.controls.map(controlToNormalRenderer)
           };
           delete tab.controls;
         }
@@ -490,11 +511,8 @@ addSchemaFilter(function (schema: Schema, renderer: any, props: any) {
 
             body: column?.controls.map(controlToNormalRenderer)
           };
+          delete column.type;
           delete column.controls;
-          if (!column.type) {
-            column.type = 'wrapper';
-            column.size = 'none';
-          }
         }
 
         return column;
@@ -520,6 +538,8 @@ addSchemaFilter(function (schema: Schema, renderer: any, props: any) {
         }
       : ~maybeFormItem.indexOf(item?.type)
       ? wrapControl(item)
+      : ~maybeStatic.indexOf(item?.type)
+      ? wrapStatic(item)
       : item;
   }
 });

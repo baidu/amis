@@ -56,7 +56,9 @@ export interface HBoxProps extends RendererProps, HBoxSchema {
 export default class HBox extends React.Component<HBoxProps, object> {
   static propsList: Array<string> = ['columns'];
 
-  static defaultProps: Partial<HBoxProps> = {};
+  static defaultProps: Partial<HBoxProps> = {
+    gap: 'xs'
+  };
 
   renderChild(region: string, node: Schema) {
     const {render} = this.props;
@@ -85,7 +87,10 @@ export default class HBox extends React.Component<HBoxProps, object> {
       >
         {itemRender
           ? itemRender(column, key, length, this.props)
-          : this.renderChild(`column/${key}`, column)}
+          : this.renderChild(
+              `column/${key}`,
+              column.type ? column : (column as any).body
+            )}
       </div>
     );
   }
@@ -99,8 +104,12 @@ export default class HBox extends React.Component<HBoxProps, object> {
   }
 
   render() {
-    const {className, classnames: cx} = this.props;
-    return <div className={cx(`Hbox`, className)}>{this.renderColumns()}</div>;
+    const {className, classnames: cx, gap} = this.props;
+    return (
+      <div className={cx(`Hbox`, className, gap ? `Hbox--${gap}` : '')}>
+        {this.renderColumns()}
+      </div>
+    );
   }
 }
 
