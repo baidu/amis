@@ -12,32 +12,12 @@
     width: 100%;
     float: none;
   }
-}
-
-.#{$ns}FormHbox {
-  margin-left: calc(var(--gap-md) * -1);
-  margin-right: calc(var(--gap-md) * -1);
-
-  > .#{$ns}Hbox > .#{$ns}Hbox-col {
-    padding-left: var(--gap-md);
-    padding-right: var(--gap-md);
-    vertical-align: top;
-
-    > .#{$ns}Form-group {
-      margin-left: 0;
-      margin-right: 0;
-    }
-
-    > .#{$ns}Form-group:last-child {
-      margin-bottom: 0;
-    }
-  }
 
   &.#{$ns}Hbox--xs {
     margin-left: -5px;
     margin-right: -5px;
 
-    > .#{$ns}Hbox > .#{$ns}Hbox-col {
+    > .#{$ns}Hbox-col {
       padding-left: 5px;
       padding-right: 5px;
     }
@@ -47,12 +27,32 @@
     margin-left: -10px;
     margin-right: -10px;
 
-    > .#{$ns}Hbox > .#{$ns}Hbox-col {
+    > .#{$ns}Hbox-col {
       padding-left: 10px;
       padding-right: 10px;
     }
   }
 }
+
+// .#{$ns}FormHbox {
+//   margin-left: calc(var(--gap-md) * -1);
+//   margin-right: calc(var(--gap-md) * -1);
+
+//   > .#{$ns}Hbox > .#{$ns}Hbox-col {
+//     padding-left: var(--gap-md);
+//     padding-right: var(--gap-md);
+//     vertical-align: top;
+
+//     > .#{$ns}Form-group {
+//       margin-left: 0;
+//       margin-right: 0;
+//     }
+
+//     > .#{$ns}Form-group:last-child {
+//       margin-bottom: 0;
+//     }
+//   }
+// }
 
 @include media-breakpoint-down(md) {
   .#{$ns}Hbox--autoSm {

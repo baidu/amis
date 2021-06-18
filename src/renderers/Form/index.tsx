@@ -398,7 +398,8 @@ export default class Form extends React.Component<FormProps, object> {
     'formLazyChange',
     'lazyLoad',
     'formInited',
-    'simpleMode'
+    'simpleMode',
+    'inputOnly'
   ];
 
   hooks: {
