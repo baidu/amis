@@ -92,6 +92,8 @@ export interface DropDownButtonProps
   tooltipRootClose?: boolean;
   defaultIsOpened?: boolean;
   label?: any;
+  // 激活状态
+  isActived?: boolean;
 }
 
 export interface DropDownButtonState {
@@ -248,6 +250,7 @@ export default class DropDownButton extends React.Component<
       align,
       iconOnly,
       icon,
+      isActived,
       data
     } = this.props;
 
@@ -258,7 +261,8 @@ export default class DropDownButton extends React.Component<
           {
             'DropDown--block': block,
             'DropDown--alignRight': align === 'right',
-            'is-opened': this.state.isOpened
+            'is-opened': this.state.isOpened,
+            'is-actived': isActived
           },
           className
         )}
