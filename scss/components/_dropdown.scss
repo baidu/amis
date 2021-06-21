@@ -19,6 +19,12 @@
     transform: rotate(180deg);
   }
 
+  &.is-actived {
+    .#{$ns}Button {
+      color: var(--link-color);
+    }
+  }
+
   &--block {
     display: block;
 
