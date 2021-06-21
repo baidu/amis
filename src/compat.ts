@@ -523,6 +523,14 @@ addSchemaFilter(function (schema: Schema, renderer: any, props: any) {
         return column;
       })
     };
+  } else if (
+    schema?.type === 'service' &&
+    Array.isArray(schema?.body?.controls)
+  ) {
+    schema = {
+      ...schema,
+      body: schema.body.controls.map(controlToNormalRenderer)
+    };
   }
 
   return schema;
