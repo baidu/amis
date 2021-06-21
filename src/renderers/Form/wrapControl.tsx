@@ -585,8 +585,14 @@ export function wrapControl<
               formMode,
               $schema: control,
               store,
-              data
+              data,
+              invisible
             } = this.props;
+
+            if (invisible) {
+              return null;
+            }
+
             const value = this.getValue();
             const model = this.model;
 
