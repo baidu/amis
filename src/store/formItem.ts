@@ -81,6 +81,7 @@ export const FormItemStore = StoreNode.named('FormItemStore')
     selectFirst: false,
     autoFill: types.frozen(),
     clearValueOnHidden: false,
+    validateApi: types.optional(types.frozen(), ''),
     selectedOptions: types.optional(types.frozen(), []),
     filteredOptions: types.optional(types.frozen(), []),
     dialogSchema: types.frozen(),
@@ -216,7 +217,8 @@ export const FormItemStore = StoreNode.named('FormItemStore')
         id,
         selectFirst,
         autoFill,
-        clearValueOnHidden
+        clearValueOnHidden,
+        validateApi
       }: {
         required?: boolean;
         unique?: boolean;
@@ -234,6 +236,7 @@ export const FormItemStore = StoreNode.named('FormItemStore')
         selectFirst?: boolean;
         autoFill?: any;
         clearValueOnHidden?: boolean;
+        validateApi?: boolean;
       },
       onChange?: (
         value: any,
@@ -265,6 +268,7 @@ export const FormItemStore = StoreNode.named('FormItemStore')
         (self.labelField = (labelField as string) || 'label');
       typeof clearValueOnHidden !== 'undefined' &&
         (self.clearValueOnHidden = !!clearValueOnHidden);
+      typeof validateApi !== 'undefined' && (self.validateApi = validateApi);
 
       rules = rules || {};
       rules = {
@@ -291,9 +295,10 @@ export const FormItemStore = StoreNode.named('FormItemStore')
       self.isFocused = false;
     }
 
+    let validateCancel: Function | null = null;
     const validate: (data: Object, hook?: any) => Promise<boolean> = flow(
       function* validate(data: Object, hook?: any) {
-        if (self.validating) {
+        if (self.validating && !self.validateApi) {
           return self.valid;
         }
 
@@ -306,6 +311,30 @@ export const FormItemStore = StoreNode.named('FormItemStore')
         addError(
           doValidate(self.tmpValue, data, self.rules, self.messages, self.__)
         );
+
+        if (!self.errors.length && self.validateApi) {
+          if (validateCancel) {
+            validateCancel();
+            validateCancel = null;
+          }
+
+          console.log('data', data);
+
+          const json: Payload = yield getEnv(self).fetcher(
+            self.validateApi,
+            data,
+            {
+              cancelExecutor: (executor: Function) =>
+                (validateCancel = executor)
+            }
+          );
+          validateCancel = null;
+
+          if (!json.ok && json.status === 422 && json.errors) {
+            addError(String(json.errors));
+          }
+        }
+
         self.validated = true;
 
         if (

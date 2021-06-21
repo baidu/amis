@@ -12,7 +12,7 @@ import {
 import {anyChanged, ucFirst, getWidthRate, autobind} from '../../utils/helper';
 import {observer} from 'mobx-react';
 import {FormHorizontal, FormSchema, FormSchemaHorizontal} from '.';
-import {Schema} from '../../types';
+import {Api, Schema} from '../../types';
 import {filter} from '../../utils/tpl';
 import {SchemaRemark} from '../Remark';
 import {
@@ -265,6 +265,11 @@ export interface FormBaseControl extends Omit<BaseSchema, 'type'> {
    * 表单项隐藏时，是否在当前 Form 中删除掉该表单项值。注意同名的未隐藏的表单项值也会删掉
    */
   clearValueOnHidden?: boolean;
+
+  /**
+   * 远端校验表单项接口
+   */
+  validateApi?: Api;
 }
 
 export interface FormItemBasicConfig extends Partial<RendererConfig> {

@@ -22,6 +22,7 @@ import {observer} from 'mobx-react';
 import hoistNonReactStatic from 'hoist-non-react-statics';
 import {withRootStore} from '../../WithRootStore';
 import {FormBaseControl, FormItemWrap} from './Item';
+import {Api} from '../../types';
 
 export interface ControlOutterProps extends RendererProps {
   formStore?: IFormStore;
@@ -43,6 +44,7 @@ export interface ControlOutterProps extends RendererProps {
   selectFirst?: boolean;
   autoFill?: any;
   clearValueOnHidden?: boolean;
+  validateApi?: Api;
   submitOnChange?: boolean;
   validate?: (value: any, values: any, name: string) => any;
   formItem?: IFormItemStore;
@@ -125,7 +127,8 @@ export function wrapControl<
                 extractValue,
                 selectFirst,
                 autoFill,
-                clearValueOnHidden
+                clearValueOnHidden,
+                validateApi
               }
             } = this.props;
 
@@ -168,7 +171,8 @@ export function wrapControl<
                 extractValue,
                 selectFirst,
                 autoFill,
-                clearValueOnHidden
+                clearValueOnHidden,
+                validateApi
               },
               onChange
             );
@@ -253,7 +257,8 @@ export function wrapControl<
                   'extractValue',
                   'selectFirst',
                   'autoFill',
-                  'clearValueOnHidden'
+                  'clearValueOnHidden',
+                  'validateApi'
                 ],
                 prevProps.$schema,
                 props.$schema
@@ -275,7 +280,8 @@ export function wrapControl<
                   messages: props.$schema.validationErrors,
                   selectFirst: props.$schema.selectFirst,
                   autoFill: props.$schema.autoFill,
-                  clearValueOnHidden: props.$schema.clearValueOnHidden
+                  clearValueOnHidden: props.$schema.clearValueOnHidden,
+                  validateApi: props.$schema.validateApi
                 },
                 props.onChange
               );
