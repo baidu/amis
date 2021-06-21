@@ -184,12 +184,7 @@ export function wrapControl<
 
             // 同步 value
             model.changeTmpValue(
-              propValue ??
-                store?.getValueByName(
-                  model.name,
-                  canAccessSuperData !== false
-                ) ??
-                value
+              propValue ?? store?.getValueByName(model.name) ?? value
             );
 
             // 如果没有初始值，通过 onChange 设置过去
