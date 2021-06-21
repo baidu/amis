@@ -1694,7 +1694,7 @@ exports[`Renderer:Page initApi reload by Form submit 2`] = `
                         placeholder=""
                         size="10"
                         type="text"
-                        value="2"
+                        value="1"
                       />
                     </div>
                   </div>
@@ -1775,7 +1775,7 @@ exports[`Renderer:Page initApi reload by Form submit 2`] = `
             class="a-TplField"
           >
             <span>
-              The variable value is 2
+              The variable value is 1
             </span>
           </span>
         </div>
