@@ -133,24 +133,6 @@ export function renderChild(
     typeofnode === 'string' || typeofnode === 'number'
       ? {type: 'tpl', tpl: String(node)}
       : (node as Schema);
-  const detectData =
-    schema &&
-    (schema.detectField === '&' ? props : props[schema.detectField || 'data']);
-  const exprProps = detectData
-    ? getExprProperties(schema, detectData, undefined, props)
-    : null;
-
-  if (
-    exprProps &&
-    (exprProps.hidden ||
-      exprProps.visible === false ||
-      schema.hidden ||
-      schema.visible === false ||
-      props.hidden ||
-      props.visible === false)
-  ) {
-    return null;
-  }
 
   const transform = props.propsTransform;
 
@@ -163,7 +145,6 @@ export function renderChild(
   return (
     <SchemaRenderer
       {...props}
-      {...exprProps}
       schema={schema}
       $path={`${prefix ? `${prefix}/` : ''}${(schema && schema.type) || ''}`}
     />
