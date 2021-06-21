@@ -33,106 +33,102 @@ exports[`Renderer:panel 1`] = `
           data-role="form-item"
         >
           <div
-            class="a-Hbox"
+            class="a-Hbox a-Hbox--xs"
           >
             <div
               class="a-Hbox-col"
             >
               <div
-                class="a-Wrapper"
+                class="a-Form-item a-Form-item--normal"
+                data-role="form-item"
               >
                 <div
-                  class="a-Form-item a-Form-item--normal"
-                  data-role="form-item"
+                  class="a-Panel a-Panel--default"
+                  style="position: relative;"
                 >
                   <div
-                    class="a-Panel a-Panel--default"
-                    style="position: relative;"
+                    class="a-Panel-heading"
                   >
-                    <div
-                      class="a-Panel-heading"
-                    >
-                      <h3
-                        class="a-Panel-title"
-                      >
-                        <span
-                          class="a-TplField"
-                        >
-                          <span>
-                            bla bla
-                          </span>
-                        </span>
-                      </h3>
-                    </div>
-                    <div
-                      class="bg-white"
+                    <h3
+                      class="a-Panel-title"
                     >
                       <span
-                        class="a-PlainField"
+                        class="a-TplField"
                       >
-                        <span
-                          class="text-muted"
-                        >
-                          Text
+                        <span>
+                          bla bla
+                        </span>
+                      </span>
+                    </h3>
+                  </div>
+                  <div
+                    class="bg-white"
+                  >
+                    <span
+                      class="a-PlainField"
+                    >
+                      <span
+                        class="text-muted"
+                      >
+                        Text
+                      </span>
+                    </span>
+                  </div>
+                  <div
+                    class="a-Panel-footerWrap"
+                  >
+                    <div
+                      class="bg-black"
+                    >
+                      <span
+                        class="a-TplField"
+                      >
+                        <span>
+                          <p>
+                            footer 内容
+                          </p>
                         </span>
                       </span>
                     </div>
+                  </div>
+                  <div
+                    class="resize-sensor"
+                    style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
+                  >
+                    
+  
                     <div
-                      class="a-Panel-footerWrap"
-                    >
-                      <div
-                        class="bg-black"
-                      >
-                        <span
-                          class="a-TplField"
-                        >
-                          <span>
-                            <p>
-                              footer 内容
-                            </p>
-                          </span>
-                        </span>
-                      </div>
-                    </div>
-                    <div
-                      class="resize-sensor"
-                      style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
+                      class="resize-sensor-expand"
+                      style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
                     >
                       
-  
-                      <div
-                        class="resize-sensor-expand"
-                        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-                      >
-                        
     
-                        <div
-                          style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
-                        />
-                        
-  
-                      </div>
-                      
-  
                       <div
-                        class="resize-sensor-shrink"
-                        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-                      >
-                        
-    
-                        <div
-                          style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
-                        />
-                        
-  
-                      </div>
-                      
-  
-                      <div
-                        class="resize-sensor-appear"
-                        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
+                        style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
                       />
+                      
+  
                     </div>
+                    
+  
+                    <div
+                      class="resize-sensor-shrink"
+                      style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+                    >
+                      
+    
+                      <div
+                        style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
+                      />
+                      
+  
+                    </div>
+                    
+  
+                    <div
+                      class="resize-sensor-appear"
+                      style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
+                    />
                   </div>
                 </div>
               </div>
@@ -141,114 +137,110 @@ exports[`Renderer:panel 1`] = `
               class="a-Hbox-col"
             >
               <div
-                class="a-Wrapper"
+                class="a-Form-item a-Form-item--normal"
+                data-role="form-item"
               >
                 <div
-                  class="a-Form-item a-Form-item--normal"
-                  data-role="form-item"
+                  class="a-Panel a-Panel--default"
+                  style="position: relative;"
                 >
                   <div
-                    class="a-Panel a-Panel--default"
-                    style="position: relative;"
+                    class="a-Panel-heading"
+                  >
+                    <h3
+                      class="a-Panel-title"
+                    >
+                      <span
+                        class="a-TplField"
+                      >
+                        <span>
+                          bla bla
+                        </span>
+                      </span>
+                    </h3>
+                  </div>
+                  <div
+                    class="a-Panel-body"
                   >
                     <div
-                      class="a-Panel-heading"
-                    >
-                      <h3
-                        class="a-Panel-title"
-                      >
-                        <span
-                          class="a-TplField"
-                        >
-                          <span>
-                            bla bla
-                          </span>
-                        </span>
-                      </h3>
-                    </div>
-                    <div
-                      class="a-Panel-body"
+                      class="a-Form-item a-Form-item--normal"
+                      data-role="form-item"
                     >
                       <div
-                        class="a-Form-item a-Form-item--normal"
-                        data-role="form-item"
+                        class="a-Form-control a-TextControl"
                       >
                         <div
-                          class="a-Form-control a-TextControl"
+                          class="a-TextControl-input"
                         >
-                          <div
-                            class="a-TextControl-input"
-                          >
-                            <input
-                              autocomplete="off"
-                              placeholder="Text 1"
-                              size="10"
-                              type="text"
-                              value=""
-                            />
-                          </div>
-                        </div>
-                      </div>
-                      <div
-                        class="a-Form-item a-Form-item--normal"
-                        data-role="form-item"
-                      >
-                        <div
-                          class="a-Form-control a-TextControl"
-                        >
-                          <div
-                            class="a-TextControl-input"
-                          >
-                            <input
-                              autocomplete="off"
-                              placeholder="Text 2"
-                              size="10"
-                              type="text"
-                              value=""
-                            />
-                          </div>
+                          <input
+                            autocomplete="off"
+                            placeholder="Text 1"
+                            size="10"
+                            type="text"
+                            value=""
+                          />
                         </div>
                       </div>
                     </div>
                     <div
-                      class="resize-sensor"
-                      style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
+                      class="a-Form-item a-Form-item--normal"
+                      data-role="form-item"
+                    >
+                      <div
+                        class="a-Form-control a-TextControl"
+                      >
+                        <div
+                          class="a-TextControl-input"
+                        >
+                          <input
+                            autocomplete="off"
+                            placeholder="Text 2"
+                            size="10"
+                            type="text"
+                            value=""
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div
+                    class="resize-sensor"
+                    style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
+                  >
+                    
+  
+                    <div
+                      class="resize-sensor-expand"
+                      style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
                     >
                       
-  
-                      <div
-                        class="resize-sensor-expand"
-                        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-                      >
-                        
     
-                        <div
-                          style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
-                        />
-                        
-  
-                      </div>
-                      
-  
                       <div
-                        class="resize-sensor-shrink"
-                        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-                      >
-                        
-    
-                        <div
-                          style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
-                        />
-                        
-  
-                      </div>
-                      
-  
-                      <div
-                        class="resize-sensor-appear"
-                        style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
+                        style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
                       />
+                      
+  
                     </div>
+                    
+  
+                    <div
+                      class="resize-sensor-shrink"
+                      style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+                    >
+                      
+    
+                      <div
+                        style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
+                      />
+                      
+  
+                    </div>
+                    
+  
+                    <div
+                      class="resize-sensor-appear"
+                      style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
+                    />
                   </div>
                 </div>
               </div>

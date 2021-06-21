@@ -421,6 +421,10 @@ export const TableStore = iRendererStore
       });
     }
 
+    function hasColumnHidden() {
+      return self.columns.findIndex(column => !column.toggled) !== -1;
+    }
+
     function getColumnGroup(): Array<{
       label: string;
       index: number;
@@ -590,6 +594,11 @@ export const TableStore = iRendererStore
         return this.forms
           .filter(form => form.rowIndex === parseInt(name, 10))
           .map(item => item.store);
+      },
+
+      // 是否隐藏了某列
+      hasColumnHidden() {
+        return hasColumnHidden();
       },
 
       getExpandedRows() {

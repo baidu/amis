@@ -67,4 +67,4 @@ order: 60
 }
 ```
 
-更多用法，见 [Tree](./tree)
+更多用法，见 [InputTree](./input-tree)

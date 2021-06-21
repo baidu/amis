@@ -1761,6 +1761,7 @@ export default class Table extends React.Component<TableProps, object> {
           env && env.getModalContainer ? env.getModalContainer : undefined
         }
         align={config ? config.align : 'left'}
+        isActived={store.hasColumnHidden()}
         classnames={cx}
         classPrefix={ns}
         key="columns-toggable"

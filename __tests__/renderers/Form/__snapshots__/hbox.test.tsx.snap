@@ -33,33 +33,29 @@ exports[`Renderer:hbox 1`] = `
           data-role="form-item"
         >
           <div
-            class="a-Hbox"
+            class="a-Hbox a-Hbox--xs"
           >
             <div
               class="a-Hbox-col w-sm"
             >
               <div
-                class="a-Wrapper"
+                class="a-Form-item a-Form-item--normal"
+                data-role="form-item"
               >
                 <div
-                  class="a-Form-item a-Form-item--normal"
-                  data-role="form-item"
+                  class="a-Form-control a-TextControl"
                 >
                   <div
-                    class="a-Form-control a-TextControl"
+                    class="a-TextControl-input"
                   >
-                    <div
-                      class="a-TextControl-input"
-                    >
-                      <input
-                        autocomplete="off"
-                        name="text"
-                        placeholder="Text"
-                        size="10"
-                        type="text"
-                        value=""
-                      />
-                    </div>
+                    <input
+                      autocomplete="off"
+                      name="text"
+                      placeholder="Text"
+                      size="10"
+                      type="text"
+                      value=""
+                    />
                   </div>
                 </div>
               </div>
