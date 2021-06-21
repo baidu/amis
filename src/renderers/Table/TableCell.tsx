@@ -54,7 +54,11 @@ export class TableCell extends React.Component<RendererProps> {
       className: innerClassName,
       type: (column && column.type) || 'plain'
     };
-    delete schema.label;
+
+    // 如果本来就是 type 为 button，不要删除，其他情况下都应该删除。
+    if (schema.type !== 'button') {
+      delete schema.label;
+    }
 
     let body = children
       ? children

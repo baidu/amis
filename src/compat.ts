@@ -511,12 +511,25 @@ addSchemaFilter(function (schema: Schema, renderer: any, props: any) {
 
             body: column?.controls.map(controlToNormalRenderer)
           };
-          delete column.type;
+
+          // 有可能直接外面的grid 或者 bhox 列里面用 form 的。
+          if (column.type !== 'form') {
+            delete column.type;
+          }
+
           delete column.controls;
         }
 
         return column;
       })
+    };
+  } else if (
+    schema?.type === 'service' &&
+    Array.isArray(schema?.body?.controls)
+  ) {
+    schema = {
+      ...schema,
+      body: schema.body.controls.map(controlToNormalRenderer)
     };
   }
 
