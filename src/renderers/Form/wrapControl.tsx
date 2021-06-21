@@ -328,7 +328,7 @@ export function wrapControl<
           }
 
           disposeModel() {
-            const {formStore: form, formItem} = this.props;
+            const {formStore: form, formItem, rootStore} = this.props;
 
             if (
               this.model &&
@@ -340,10 +340,13 @@ export function wrapControl<
               combo.unBindUniuqueItem(this.model);
             }
 
-            this.model &&
+            if (this.model) {
               formItem &&
-              isAlive(formItem) &&
-              formItem.removeSubFormItem(this.model);
+                isAlive(formItem) &&
+                formItem.removeSubFormItem(this.model);
+
+              rootStore.removeStore(this.model);
+            }
           }
 
           controlRef(control: any) {
