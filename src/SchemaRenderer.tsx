@@ -191,9 +191,9 @@ export class SchemaRenderer extends React.Component<SchemaRendererProps, any> {
     const detectData =
       schema &&
       (schema.detectField === '&' ? rest : rest[schema.detectField || 'data']);
-    const exprProps = detectData
+    const exprProps: any = detectData
       ? getExprProperties(schema, detectData, undefined, rest)
-      : null;
+      : {};
 
     if (
       exprProps &&
@@ -268,7 +268,17 @@ export class SchemaRenderer extends React.Component<SchemaRendererProps, any> {
     const {data: defaultData, value: defaultValue, ...restSchema} = schema;
     const Component = renderer.component;
 
-    if (rest.invisible && !renderer.isFormItem) {
+    // 原来表单项的 visible: false 和 hidden: true 表单项的值和验证是有效的
+    // 而 visibleOn 和 hiddenOn 是无效的，
+    // 这个本来就是个bug，但是已经被广泛使用了
+    // 我只能继续实现这个bug了
+    if (
+      rest.invisible &&
+      (exprProps.hidden ||
+        exprProps.visible === false ||
+        !renderer.isFormItem ||
+        (schema.visible !== false && !schema.hidden))
+    ) {
       return null;
     }
 
