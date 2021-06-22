@@ -378,6 +378,10 @@
 
   &-itemLabel {
     flex-grow: 1;
+
+    span {
+      white-space: nowrap; // 避免在条件组合中折行
+    }
   }
 
   &-placeholder {
