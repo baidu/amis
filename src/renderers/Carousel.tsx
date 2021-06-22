@@ -159,7 +159,7 @@ export class Carousel extends React.Component<CarouselProps, CarouselState> {
   componentDidUpdate(prevProps: CarouselProps) {
     const props = this.props;
 
-    const nextOptions = props.options || getPropValue(props);
+    const nextOptions = props.options || getPropValue(props) || [];
     const prevOptions = prevProps.options || getPropValue(prevProps) || [];
 
     if (isArrayChildrenModified(prevOptions, nextOptions)) {
