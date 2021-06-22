@@ -106,7 +106,6 @@ export function wrapControl<
               rootStore,
               store,
               onChange,
-              canAccessSuperData,
               data,
               $schema: {
                 name,
@@ -184,12 +183,7 @@ export function wrapControl<
 
             // 同步 value
             model.changeTmpValue(
-              propValue ??
-                store?.getValueByName(
-                  model.name,
-                  canAccessSuperData !== false
-                ) ??
-                value
+              propValue ?? store?.getValueByName(model.name) ?? value
             );
 
             // 如果没有初始值，通过 onChange 设置过去
@@ -301,17 +295,14 @@ export function wrapControl<
               (!model.emitedValue || model.emitedValue === model.tmpValue)
             ) {
               model.changeEmitedValue(undefined);
-              const value = getVariable(
-                props.data,
-                model.name,
-                props.canAccessSuperData !== false
-              );
-              const prevValue = getVariable(
-                prevProps.data,
-                model.name,
-                props.canAccessSuperData !== false
-              );
-              if (value !== prevValue && value !== model.tmpValue) {
+              const value = getVariable(props.data, model.name);
+              const prevValue = getVariable(prevProps.data, model.name);
+              if (
+                (value !== prevValue ||
+                  getVariable(props.data, model.name, false) !==
+                    getVariable(prevProps.data, model.name, false)) &&
+                value !== model.tmpValue
+              ) {
                 model.changeTmpValue(value);
               }
             }
@@ -333,7 +324,7 @@ export function wrapControl<
           }
 
           disposeModel() {
-            const {formStore: form, formItem} = this.props;
+            const {formStore: form, formItem, rootStore} = this.props;
 
             if (
               this.model &&
@@ -345,10 +336,13 @@ export function wrapControl<
               combo.unBindUniuqueItem(this.model);
             }
 
-            this.model &&
+            if (this.model) {
               formItem &&
-              isAlive(formItem) &&
-              formItem.removeSubFormItem(this.model);
+                isAlive(formItem) &&
+                formItem.removeSubFormItem(this.model);
+
+              rootStore.removeStore(this.model);
+            }
           }
 
           controlRef(control: any) {
@@ -481,7 +475,6 @@ export function wrapControl<
               onChange,
               $schema: {name, onChange: onFormItemChange},
               data,
-              canAccessSuperData,
               validateOnChange,
               formSubmited
             } = this.props;
@@ -490,11 +483,7 @@ export function wrapControl<
               return;
             }
             const value = this.model.tmpValue;
-            const oldValue = getVariable(
-              data,
-              this.model.name,
-              canAccessSuperData !== false
-            );
+            const oldValue = getVariable(data, this.model.name);
 
             if (oldValue === value) {
               return;
@@ -587,8 +576,14 @@ export function wrapControl<
               formMode,
               $schema: control,
               store,
-              data
+              data,
+              invisible
             } = this.props;
+
+            if (invisible) {
+              return null;
+            }
+
             const value = this.getValue();
             const model = this.model;
 

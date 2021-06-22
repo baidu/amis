@@ -3,7 +3,7 @@
 exports[`Renderer:hbox 1`] = `
 <div>
   <div
-    class="a-Hbox"
+    class="a-Hbox a-Hbox--xs"
   >
     <div
       class="a-Hbox-col w-xs"

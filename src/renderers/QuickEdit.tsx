@@ -399,7 +399,7 @@ export const HocQuickEdit = (config: Partial<QuickEditConfig> = {}) => (
             mode: 'normal',
             body: [
               {
-                type: quickEdit.type || 'text',
+                type: quickEdit.type || 'input-text',
                 name: quickEdit.name || name,
                 ...quickEdit,
                 mode: undefined

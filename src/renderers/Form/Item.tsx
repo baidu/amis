@@ -1171,6 +1171,11 @@ export function asFormItem(config: Omit<FormItemConfig, 'component'>) {
 }
 
 export function registerFormItem(config: FormItemConfig): RendererConfig {
+  // 不知道业务线之前是为啥是这样注册的，兼容一下这个用法。
+  if ((config as any).name?.type) {
+    config.type = config.name = (config as any).name.type;
+  }
+
   let Control = asFormItem(config)(config.component);
 
   return registerRenderer({
