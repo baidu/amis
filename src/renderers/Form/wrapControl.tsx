@@ -106,7 +106,6 @@ export function wrapControl<
               rootStore,
               store,
               onChange,
-              canAccessSuperData,
               data,
               $schema: {
                 name,
@@ -296,17 +295,14 @@ export function wrapControl<
               (!model.emitedValue || model.emitedValue === model.tmpValue)
             ) {
               model.changeEmitedValue(undefined);
-              const value = getVariable(
-                props.data,
-                model.name,
-                props.canAccessSuperData !== false
-              );
-              const prevValue = getVariable(
-                prevProps.data,
-                model.name,
-                props.canAccessSuperData !== false
-              );
-              if (value !== prevValue && value !== model.tmpValue) {
+              const value = getVariable(props.data, model.name);
+              const prevValue = getVariable(prevProps.data, model.name);
+              if (
+                (value !== prevValue ||
+                  getVariable(props.data, model.name, false) !==
+                    getVariable(prevProps.data, model.name, false)) &&
+                value !== model.tmpValue
+              ) {
                 model.changeTmpValue(value);
               }
             }
@@ -479,7 +475,6 @@ export function wrapControl<
               onChange,
               $schema: {name, onChange: onFormItemChange},
               data,
-              canAccessSuperData,
               validateOnChange,
               formSubmited
             } = this.props;
@@ -488,11 +483,7 @@ export function wrapControl<
               return;
             }
             const value = this.model.tmpValue;
-            const oldValue = getVariable(
-              data,
-              this.model.name,
-              canAccessSuperData !== false
-            );
+            const oldValue = getVariable(data, this.model.name);
 
             if (oldValue === value) {
               return;
