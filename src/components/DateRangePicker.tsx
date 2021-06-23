@@ -273,11 +273,11 @@ export class DateRangePicker extends React.Component<
     };
   }
 
-  componentWillReceiveProps(nextProps: DateRangePickerProps) {
+  componentDidUpdate(prevProps: DateRangePickerProps) {
     const props = this.props;
-    const {value, format, joinValues, delimiter} = nextProps;
+    const {value, format, joinValues, delimiter} = props;
 
-    if (props.value !== value) {
+    if (prevProps.value !== value) {
       this.setState({
         ...DateRangePicker.unFormatValue(value, format, joinValues, delimiter)
       });

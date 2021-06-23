@@ -358,9 +358,9 @@ export default class List extends React.Component<ListProps, object> {
     window.addEventListener('resize', this.affixDetect);
   }
 
-  componentWillReceiveProps(nextProps: ListProps) {
+  componentDidUpdate(prevProps: ListProps) {
     const props = this.props;
-    const store = nextProps.store;
+    const store = props.store;
 
     if (
       anyChanged(
@@ -374,30 +374,30 @@ export default class List extends React.Component<ListProps, object> {
           'itemCheckableOn',
           'itemDraggableOn'
         ],
-        props,
-        nextProps
+        prevProps,
+        props
       )
     ) {
       store.update({
-        multiple: nextProps.multiple,
-        selectable: nextProps.selectable,
-        draggable: nextProps.draggable,
-        orderBy: nextProps.orderBy,
-        orderDir: nextProps.orderDir,
-        hideCheckToggler: nextProps.hideCheckToggler,
-        itemCheckableOn: nextProps.itemCheckableOn,
-        itemDraggableOn: nextProps.itemDraggableOn
+        multiple: props.multiple,
+        selectable: props.selectable,
+        draggable: props.draggable,
+        orderBy: props.orderBy,
+        orderDir: props.orderDir,
+        hideCheckToggler: props.hideCheckToggler,
+        itemCheckableOn: props.itemCheckableOn,
+        itemDraggableOn: props.itemDraggableOn
       });
     }
 
     if (
-      anyChanged(['source', 'value', 'items'], props, nextProps) ||
-      (!nextProps.value && !nextProps.items && nextProps.data !== props.data)
+      anyChanged(['source', 'value', 'items'], prevProps, props) ||
+      (!props.value && !props.items && props.data !== prevProps.data)
     ) {
-      List.syncItems(store, nextProps, props);
+      List.syncItems(store, props, prevProps);
       this.syncSelected();
-    } else if (props.selected !== nextProps.selected) {
-      store.updateSelected(nextProps.selected || [], nextProps.valueField);
+    } else if (prevProps.selected !== props.selected) {
+      store.updateSelected(props.selected || [], props.valueField);
     }
   }
 

@@ -302,31 +302,27 @@ export default class DateControl extends React.PureComponent<
     });
   }
 
-  componentWillReceiveProps(nextProps: DateProps) {
+  componentDidUpdate(prevProps: DateProps) {
     const props = this.props;
 
-    if (props.defaultValue !== nextProps.defaultValue) {
-      const date = filterDate(
-        nextProps.defaultValue,
-        nextProps.data,
-        nextProps.format
-      );
-      nextProps.setPrinstineValue(
-        (nextProps.utc ? moment.utc(date) : date).format(nextProps.format)
+    if (prevProps.defaultValue !== props.defaultValue) {
+      const date = filterDate(props.defaultValue, props.data, props.format);
+      props.setPrinstineValue(
+        (props.utc ? moment.utc(date) : date).format(props.format)
       );
     }
 
     if (
-      props.minDate !== nextProps.minDate ||
-      props.maxDate !== nextProps.maxDate ||
-      props.data !== nextProps.data
+      prevProps.minDate !== props.minDate ||
+      prevProps.maxDate !== props.maxDate ||
+      prevProps.data !== props.data
     ) {
       this.setState({
-        minDate: nextProps.minDate
-          ? filterDate(nextProps.minDate, nextProps.data, this.props.format)
+        minDate: props.minDate
+          ? filterDate(props.minDate, props.data, this.props.format)
           : undefined,
-        maxDate: nextProps.maxDate
-          ? filterDate(nextProps.maxDate, nextProps.data, this.props.format)
+        maxDate: props.maxDate
+          ? filterDate(props.maxDate, props.data, this.props.format)
           : undefined
       });
     }

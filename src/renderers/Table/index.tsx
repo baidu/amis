@@ -509,9 +509,9 @@ export default class Table extends React.Component<TableProps, object> {
     window.addEventListener('resize', this.affixDetect);
   }
 
-  componentWillReceiveProps(nextProps: TableProps) {
+  componentDidUpdate(prevProps: TableProps) {
     const props = this.props;
-    const store = nextProps.store;
+    const store = props.store;
 
     if (
       anyChanged(
@@ -530,46 +530,43 @@ export default class Table extends React.Component<TableProps, object> {
           'combineNum',
           'expandConfig'
         ],
-        props,
-        nextProps
+        prevProps,
+        props
       )
     ) {
       store.update({
-        selectable: nextProps.selectable,
-        columnsTogglable: nextProps.columnsTogglable,
-        draggable: nextProps.draggable,
-        orderBy: nextProps.orderBy,
-        orderDir: nextProps.orderDir,
-        multiple: nextProps.multiple,
-        primaryField: nextProps.primaryField,
-        footable: nextProps.footable,
-        itemCheckableOn: nextProps.itemCheckableOn,
-        itemDraggableOn: nextProps.itemDraggableOn,
-        hideCheckToggler: nextProps.hideCheckToggler,
-        combineNum: nextProps.combineNum,
-        expandConfig: nextProps.expandConfig
+        selectable: props.selectable,
+        columnsTogglable: props.columnsTogglable,
+        draggable: props.draggable,
+        orderBy: props.orderBy,
+        orderDir: props.orderDir,
+        multiple: props.multiple,
+        primaryField: props.primaryField,
+        footable: props.footable,
+        itemCheckableOn: props.itemCheckableOn,
+        itemDraggableOn: props.itemDraggableOn,
+        hideCheckToggler: props.hideCheckToggler,
+        combineNum: props.combineNum,
+        expandConfig: props.expandConfig
       });
     }
 
-    if (props.columns !== nextProps.columns) {
+    if (prevProps.columns !== props.columns) {
       store.update({
-        columns: nextProps.columns
+        columns: props.columns
       });
     }
 
     if (
-      anyChanged(['source', 'value', 'items'], props, nextProps) ||
-      (!nextProps.value && !nextProps.items && nextProps.data !== props.data)
+      anyChanged(['source', 'value', 'items'], prevProps, props) ||
+      (!props.value && !props.items && props.data !== prevProps.data)
     ) {
-      Table.syncRows(store, nextProps, props);
+      Table.syncRows(store, props, prevProps);
       this.syncSelected();
-    } else if (isArrayChildrenModified(props.selected!, nextProps.selected!)) {
-      store.updateSelected(nextProps.selected || [], nextProps.valueField);
+    } else if (isArrayChildrenModified(prevProps.selected!, props.selected!)) {
+      store.updateSelected(props.selected || [], props.valueField);
       this.syncSelected();
     }
-  }
-
-  componentDidUpdate() {
     this.updateTableInfoLazy();
   }
 

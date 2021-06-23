@@ -70,10 +70,10 @@ export default class TagControl extends React.PureComponent<
     isFocused: false
   };
 
-  componentWillReceiveProps(nextProps: TagProps) {
+  componentDidUpdate(prevProps: TagProps) {
     const props = this.props;
 
-    if (props.value !== nextProps.value) {
+    if (prevProps.value !== props.value) {
       this.setState({
         inputValue: ''
       });

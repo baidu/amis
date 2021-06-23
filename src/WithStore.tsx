@@ -44,6 +44,10 @@ export function HocStoreFactory(renderer: {
       context!: React.ContextType<typeof RootStoreContext>;
       ref: any;
 
+      constructor(props: Props) {
+        super(props);
+      }
+
       getWrappedInstance() {
         return this.ref;
       }

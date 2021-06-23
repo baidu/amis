@@ -289,9 +289,9 @@ export default class Cards extends React.Component<GridProps, object> {
     window.addEventListener('resize', this.affixDetect);
   }
 
-  componentWillReceiveProps(nextProps: GridProps) {
+  componentDidUpdate(prevProps: GridProps) {
     const props = this.props;
-    const store = nextProps.store;
+    const store = props.store;
 
     if (
       anyChanged(
@@ -305,30 +305,30 @@ export default class Cards extends React.Component<GridProps, object> {
           'itemCheckableOn',
           'itemDraggableOn'
         ],
-        props,
-        nextProps
+        prevProps,
+        props
       )
     ) {
       store.update({
-        selectable: nextProps.selectable,
-        draggable: nextProps.draggable,
-        orderBy: nextProps.orderBy,
-        orderDir: nextProps.orderDir,
-        multiple: nextProps.multiple,
-        hideCheckToggler: nextProps.hideCheckToggler,
-        itemCheckableOn: nextProps.itemCheckableOn,
-        itemDraggableOn: nextProps.itemDraggableOn
+        selectable: props.selectable,
+        draggable: props.draggable,
+        orderBy: props.orderBy,
+        orderDir: props.orderDir,
+        multiple: props.multiple,
+        hideCheckToggler: props.hideCheckToggler,
+        itemCheckableOn: props.itemCheckableOn,
+        itemDraggableOn: props.itemDraggableOn
       });
     }
 
     if (
-      anyChanged(['source', 'value', 'items'], props, nextProps) ||
-      (!nextProps.value && !nextProps.items && nextProps.data !== props.data)
+      anyChanged(['source', 'value', 'items'], prevProps, props) ||
+      (!props.value && !props.items && props.data !== prevProps.data)
     ) {
-      Cards.syncItems(store, nextProps, props);
+      Cards.syncItems(store, props, prevProps);
       this.syncSelected();
-    } else if (props.selected !== nextProps.selected) {
-      store.updateSelected(nextProps.selected || [], nextProps.valueField);
+    } else if (prevProps.selected !== props.selected) {
+      store.updateSelected(props.selected || [], props.valueField);
     }
   }
 

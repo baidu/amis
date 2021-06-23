@@ -103,11 +103,11 @@ export class MonthRangePicker extends React.Component<
     };
   }
 
-  componentWillReceiveProps(nextProps: MonthRangePickerProps) {
+  componentDidUpdate(prevProps: MonthRangePickerProps) {
     const props = this.props;
-    const {value, format, joinValues, delimiter} = nextProps;
+    const {value, format, joinValues, delimiter} = props;
 
-    if (props.value !== value) {
+    if (prevProps.value !== value) {
       this.setState({
         ...DateRangePicker.unFormatValue(value, format, joinValues, delimiter)
       });
