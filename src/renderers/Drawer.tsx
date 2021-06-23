@@ -4,7 +4,12 @@ import {Renderer, RendererProps} from '../factory';
 import {SchemaNode, Schema, Action} from '../types';
 import {default as DrawerContainer} from '../components/Drawer';
 import findLast from 'lodash/findLast';
-import {guid, isVisible, autobind} from '../utils/helper';
+import {
+  guid,
+  isVisible,
+  autobind,
+  isObjectShallowModified
+} from '../utils/helper';
 import {reaction} from 'mobx';
 import {findDOMNode} from 'react-dom';
 import {IModalStore, ModalStore} from '../store/modal';
@@ -649,8 +654,9 @@ export default class Drawer extends React.Component<DrawerProps> {
   storeType: ModalStore.name,
   storeExtendsData: false,
   isolateScope: true,
-  shouldSyncSuperStore: (store: IServiceStore, props: any) =>
-    store.drawerOpen || props.show
+  shouldSyncSuperStore: (store: IServiceStore, props: any, prevProps: any) =>
+    (store.drawerOpen || props.show) &&
+    isObjectShallowModified(prevProps.data, props.data)
 })
 export class DrawerRenderer extends Drawer {
   static contextType = ScopedContext;
