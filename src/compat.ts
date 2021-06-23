@@ -405,7 +405,8 @@ const maybeStatic = [
   'status',
   'json',
   'video',
-  'qrcode'
+  'qrcode',
+  'plain'
 ];
 
 function wrapStatic(item: any) {

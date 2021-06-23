@@ -56,7 +56,7 @@ export class TableCell extends React.Component<RendererProps> {
     };
 
     // 如果本来就是 type 为 button，不要删除，其他情况下都应该删除。
-    if (schema.type !== 'button') {
+    if (schema.type !== 'button' && schema.type !== 'dropdown-button') {
       delete schema.label;
     }
 

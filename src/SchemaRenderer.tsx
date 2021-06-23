@@ -63,16 +63,16 @@ export class SchemaRenderer extends React.Component<SchemaRendererProps, any> {
     this.resolveRenderer(this.props);
   }
 
-  componentWillReceiveProps(nextProps: SchemaRendererProps) {
+  componentDidUpdate(prevProps: SchemaRendererProps) {
     const props = this.props;
 
     if (
+      prevProps.schema &&
       props.schema &&
-      nextProps.schema &&
-      (props.schema.type !== nextProps.schema.type ||
-        props.schema.$$id !== nextProps.schema.$$id)
+      (prevProps.schema.type !== props.schema.type ||
+        prevProps.schema.$$id !== props.schema.$$id)
     ) {
-      this.resolveRenderer(nextProps);
+      this.resolveRenderer(props);
     }
   }
 
