@@ -18,6 +18,9 @@ import {noop} from '../utils/helper';
 import {LocaleProps, localeable} from '../locale';
 import {DateRangePicker} from './DateRangePicker';
 import capitalize from 'lodash/capitalize';
+import {ShortCuts, ShortCutDateRange} from './DatePicker';
+import {availableRanges} from './DateRangePicker';
+
 
 export interface MonthRangePickerProps extends ThemeProps, LocaleProps {
   className?: string;
@@ -27,7 +30,7 @@ export interface MonthRangePickerProps extends ThemeProps, LocaleProps {
   format: string;
   utc?: boolean;
   inputFormat?: string;
-  // ranges?: string | Array<ShortCuts>;
+  ranges?: string | Array<ShortCuts>;
   clearable?: boolean;
   minDate?: moment.Moment;
   maxDate?: moment.Moment;
@@ -275,6 +278,68 @@ export class MonthRangePicker extends React.Component<
     );
   }
 
+  selectRannge(range: PlainObject) {
+    const {closeOnSelect, minDate, maxDate} = this.props;
+    this.setState(
+      {
+        startDate: minDate
+          ? moment.max(range.startDate(moment()), minDate)
+          : range.startDate(moment()),
+        endDate: maxDate
+          ? moment.min(maxDate, range.endDate(moment()))
+          : range.endDate(moment())
+      },
+      closeOnSelect ? this.confirm : noop
+    );
+  }
+
+  renderRanges(ranges: string | Array<ShortCuts> | undefined) {
+    if (!ranges) {
+      return null;
+    }
+    const {classPrefix: ns} = this.props;
+    let rangeArr: Array<string | ShortCuts>;
+    if (typeof ranges === 'string') {
+      rangeArr = ranges.split(',');
+    } else {
+      rangeArr = ranges;
+    }
+    const __ = this.props.translate;
+
+    return (
+      <ul className={`${ns}DateRangePicker-rangers`}>
+        {rangeArr.map(item => {
+          if (!item) {
+            return null;
+          }
+          let range: PlainObject = {};
+          if (typeof item === 'string') {
+            range = availableRanges[item];
+            range.key = item;
+          } else if (
+            (item as ShortCutDateRange).startDate &&
+            (item as ShortCutDateRange).endDate
+          ) {
+            range = {
+              ...item,
+              startDate: () => (item as ShortCutDateRange).startDate,
+              endDate: () => (item as ShortCutDateRange).endDate
+            };
+          }
+          return (
+            <li
+              className={`${ns}DateRangePicker-ranger`}
+              onClick={() => this.selectRannge(range)}
+              key={range.key || range.label}
+            >
+              <a>{__(range.label)}</a>
+            </li>
+          );
+        })}
+      </ul>
+    );
+  }
+
   clearValue(e: React.MouseEvent<any>) {
     e.preventDefault();
     e.stopPropagation();
@@ -375,7 +440,7 @@ export class MonthRangePicker extends React.Component<
   }
 
   renderCalendar() {
-    const {classPrefix: ns, classnames: cx, locale, embed} = this.props;
+    const {classPrefix: ns, classnames: cx, locale, embed, ranges} = this.props;
     const __ = this.props.translate;
     const viewMode: 'months' = 'months';
     const dateFormat = 'YYYY-MM';
@@ -383,6 +448,7 @@ export class MonthRangePicker extends React.Component<
 
     return (
       <div className={`${ns}DateRangePicker-wrap`}>
+        {this.renderRanges(ranges)}
         <Calendar
           className={`${ns}DateRangePicker-start`}
           value={startDate}
