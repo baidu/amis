@@ -17,7 +17,8 @@ import {
   cloneObject,
   SkipOperation,
   isEmpty,
-  getVariable
+  getVariable,
+  isObjectShallowModified
 } from '../../utils/helper';
 import debouce from 'lodash/debounce';
 import flatten from 'lodash/flatten';
@@ -1587,12 +1588,14 @@ export default class Form extends React.Component<FormProps, object> {
   type: 'form',
   storeType: FormStore.name,
   isolateScope: true,
-  shouldSyncSuperStore: (store, nextProps) => {
+  shouldSyncSuperStore: (store, props, prevProps) => {
     // 如果是 QuickEdit，让 store 同步 __super 数据。
     if (
-      nextProps.canAccessSuperData &&
-      nextProps.quickEditFormRef &&
-      nextProps.onQuickChange
+      props.canAccessSuperData &&
+      props.quickEditFormRef &&
+      props.onQuickChange &&
+      (isObjectShallowModified(prevProps.data, props.data) ||
+        isObjectShallowModified(prevProps.data.__super, props.data.__super))
     ) {
       return true;
     }

@@ -39,7 +39,7 @@ export const FormStore = ServiceStore.named('FormStore')
     savedData: types.frozen(),
     // items: types.optional(types.array(types.late(() => FormItemStore)), []),
     canAccessSuperData: true,
-    persistData: '',
+    persistData: types.optional(types.union(types.string, types.boolean), ''),
     restError: types.optional(types.array(types.string), []) // 没有映射到表达项上的 errors
   })
   .views(self => {
