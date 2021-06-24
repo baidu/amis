@@ -20,6 +20,7 @@ import {DateRangePicker} from './DateRangePicker';
 import capitalize from 'lodash/capitalize';
 import {ShortCuts, ShortCutDateRange} from './DatePicker';
 import {availableRanges} from './DateRangePicker';
+
 export interface MonthRangePickerProps extends ThemeProps, LocaleProps {
   className?: string;
   popoverClassName?: string;
