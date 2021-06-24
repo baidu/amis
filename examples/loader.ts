@@ -21,7 +21,9 @@ const mapping: {
   'zrender': __moduleId('zrender'),
   'sortablejs': __moduleId('sortablejs'),
   'amis': __moduleId('../src'),
+  'amis@@version': __moduleId('../src'),
   'amis/embed': __moduleId('./embed.tsx'),
+  'amis@@version/embed': __moduleId('./embed.tsx'),
   'prop-types': __moduleId('prop-types'),
   'async/mapLimit': __moduleId('async/mapLimit'),
   'qs': __moduleId('qs'),
@@ -30,10 +32,19 @@ const mapping: {
 };
 
 function amisRequire(...args: Array<any>) {
+  let mapping = amisRequire.mapping;
   let id = args.shift();
   id = Array.isArray(id) ? id.map(id => mapping[id] || id) : mapping[id] || id;
   args.unshift(id);
   return amis.require.apply(this, args);
 }
+amisRequire.mapping = mapping;
 
-(window as any).amisRequire = amisRequire;
+// 如果已经有了，只是补充进去，不要覆盖了。
+if ((window as any).amisRequire?.mapping) {
+  Object.keys(mapping).forEach(
+    key => ((window as any).amisRequire.mapping[key] = mapping[key])
+  );
+} else {
+  (window as any).amisRequire = amisRequire;
+}
