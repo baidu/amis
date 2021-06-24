@@ -119,6 +119,7 @@ module.exports = function (ret, pack, settings, opt) {
         if (file) {
           file.skiped = true;
           let contents = file.getContent();
+          
 
           if (/_map\.js$/.test(file.subpath)) {
             contents = `(function() {
@@ -130,7 +131,7 @@ module.exports = function (ret, pack, settings, opt) {
     }
     amis.host = d;
     ${contents.replace(
-      /\"url\"\s*\:\s*('|")(\.\/.*)\1/g,
+      /\"url\"\s*\:\s*('|")(\.\/.*?)\1/g,
       function (_, quote, value) {
         return `"url": d + ${quote}${value.substring(1)}${quote}`;
       }
