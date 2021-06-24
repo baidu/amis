@@ -117,7 +117,9 @@ export default class Flex extends React.Component<FlexProps, object> {
           : items
           ? [items]
           : []
-        ).map((item, key) => render(`flexItem/${key}`, item))}
+        ).map((item, key) =>
+          render(`flexItem/${key}`, item, {key: `flexItem/${key}`})
+        )}
       </div>
     );
   }
