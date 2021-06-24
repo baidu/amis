@@ -329,7 +329,11 @@ export const FormItemStore = StoreNode.named('FormItemStore')
           validateCancel = null;
 
           if (!json.ok && json.status === 422 && json.errors) {
-            addError(String(json.errors));
+            addError(
+              String(
+                json.errors || json.msg || `表单项「${self.name}」校验失败`
+              )
+            );
           }
         }
 
