@@ -17,6 +17,7 @@ import {
 } from '../src/index';
 
 import '../src/locale/en-US';
+import 'history';
 
 export function embed(
   container: string | HTMLElement,
