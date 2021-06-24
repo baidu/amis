@@ -20,7 +20,6 @@ import {DateRangePicker} from './DateRangePicker';
 import capitalize from 'lodash/capitalize';
 import {ShortCuts, ShortCutDateRange} from './DatePicker';
 import {availableRanges} from './DateRangePicker';
-
 export interface MonthRangePickerProps extends ThemeProps, LocaleProps {
   className?: string;
   popoverClassName?: string;
@@ -29,6 +28,7 @@ export interface MonthRangePickerProps extends ThemeProps, LocaleProps {
   format: string;
   utc?: boolean;
   inputFormat?: string;
+  timeFormat?: string;
   ranges?: string | Array<ShortCuts>;
   clearable?: boolean;
   minDate?: moment.Moment;
@@ -439,7 +439,7 @@ export class MonthRangePicker extends React.Component<
   }
 
   renderCalendar() {
-    const {classPrefix: ns, classnames: cx, locale, embed, ranges} = this.props;
+    const {classPrefix: ns, classnames: cx, locale, embed, ranges, inputFormat, timeFormat} = this.props;
     const __ = this.props.translate;
     const viewMode: 'months' = 'months';
     const dateFormat = 'YYYY-MM';
@@ -454,6 +454,8 @@ export class MonthRangePicker extends React.Component<
           onChange={this.handleStartChange}
           requiredConfirm={false}
           dateFormat={dateFormat}
+          inputFormat={inputFormat}
+          timeFormat={timeFormat}
           isValidDate={this.checkStartIsValidDate}
           viewMode={viewMode}
           input={false}
@@ -471,6 +473,8 @@ export class MonthRangePicker extends React.Component<
           onChange={this.handleEndChange}
           requiredConfirm={false}
           dateFormat={dateFormat}
+          inputFormat={inputFormat}
+          timeFormat={timeFormat}
           viewDate={this.nextMonth}
           isEndDate
           isValidDate={this.checkEndIsValidDate}
