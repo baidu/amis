@@ -1,8 +1,14 @@
 import React = require('react');
-import {render, fireEvent} from '@testing-library/react';
+import {render, fireEvent, cleanup} from '@testing-library/react';
 import '../../../src/themes/default';
 import {render as amisRender} from '../../../src/index';
 import {wait, makeEnv} from '../../helper';
+import {clearStoresCache} from '../../../src/factory';
+
+afterEach(() => {
+  cleanup();
+  clearStoresCache();
+});
 
 test('Renderer:FormItem:validateApi:success', async () => {
   const notify = jest.fn();
