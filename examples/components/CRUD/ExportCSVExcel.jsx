@@ -155,7 +155,8 @@ export default {
       {
         name: 'engine.version',
         label: 'CSS版本',
-        tpl: '${engine.version}'
+        type: 'tpl',
+        tpl: '<b>${engine.version}</b>'
       },
       {
         name: 'grade',

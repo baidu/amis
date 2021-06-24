@@ -22,15 +22,15 @@ export default {
   tabs: [
     {
       title: '坐标系',
-      controls: buildOptions('polar.', polarOptions)
+      body: buildOptions('polar.', polarOptions)
     },
     {
       title: '径向轴',
-      controls: buildOptions('radiusAxis.', radiusAxisOptions)
+      body: buildOptions('radiusAxis.', radiusAxisOptions)
     },
     {
       title: '角度轴',
-      controls: buildOptions('angleAxis.', angleAxisOptions)
+      body: buildOptions('angleAxis.', angleAxisOptions)
     }
   ]
 };
