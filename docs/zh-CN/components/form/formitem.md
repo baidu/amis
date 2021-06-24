@@ -648,7 +648,9 @@ amis 会有默认的报错信息，如果你想自定义校验信息，配置`va
 
 ## 服务端校验
 
-也可以通过接口返回错误信息，实现服务端校验
+### 通过表单提交接口
+
+也可以通过表单提交接口返回错误信息，实现服务端校验
 
 ```schema: scope="body"
 {
@@ -679,7 +681,7 @@ amis 会有默认的报错信息，如果你想自定义校验信息，配置`va
 }
 ```
 
-### Combo 校验
+#### Combo 校验
 
 Combo 类型的表单项，要实现服务端校验，可以使用 `路径key` 来定位要显示报错信息的表单项，例如 `a[0].b` 定位到 a combo 的第一项中 b 表单项。
 
@@ -759,7 +761,7 @@ Combo 类型的表单项，要实现服务端校验，可以使用 `路径key` �
 }
 ```
 
-### Table 校验
+#### Table 校验
 
 Table 类型的表单项，要实现服务端校验，可以使用 `路径key` 来定位要显示报错信息的表单项，例如 `a[0].b` 定位到 a table 的第一项中 b 表单项。
 
@@ -874,6 +876,46 @@ Table 类型的表单项，要实现服务端校验，可以使用 `路径key` �
 }
 ```
 
+### 通过表单项校验接口
+
+可以在表单项上，配置校验接口 `validateApi`，实现单个表单项后端校验。
+
+```schema:scope="body"
+{
+  "type": "form",
+  "mode": "horizontal",
+  "api": "/api/mock2/form/saveForm",
+  "body": [
+    {
+      "label": "name",
+      "type": "input-text",
+      "name": "name",
+      "required": true,
+      "validateApi": "/api/mock2/form/formitemFailed"
+    },
+    {
+      "label": "email",
+      "type": "input-text",
+      "name": "email",
+      "validateApi": "/api/mock2/form/formitemSuccess",
+      "required": true
+    }
+  ]
+}
+```
+
+校验接口显示校验信息返回格式如下：
+
+```json
+{
+  "status": 422,
+  "errors": "当前用户已存在"
+}
+```
+
+- `status`: 返回 `0` 表示校验成功，`422` 表示校验失败;
+- `errors`: 返回 `status` 为 `422` 时，显示的校验失败信息;
+
 ## 属性表
 
 | 属性名         | 类型                                               | 默认值 | 说明                                                       |
@@ -896,3 +938,4 @@ Table 类型的表单项，要实现服务端校验，可以使用 `路径key` �
 | required       | `boolean`                                          |        | 是否为必填。                                               |
 | requiredOn     | [表达式](../../../docs/concepts/expression)        |        | 过[表达式](../Types.md#表达式)来配置当前表单项是否为必填。 |
 | validations    | [表达式](../../../docs/concepts/expression)        |        | 表单项值格式验证，支持设置多个，多个规则用英文逗号隔开。   |
+| validateApi    | [表达式](../../../docs/types/api)                  |        | 表单校验接口                                               |

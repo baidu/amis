@@ -307,6 +307,7 @@ export type SchemaType =
   | 'transfer'
   | 'input-tree'
   | 'tree-select'
+  | 'table-view'
 
   // 原生 input 类型
   | 'native-date'

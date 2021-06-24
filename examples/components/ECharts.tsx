@@ -26,7 +26,7 @@ const LazyComponent = lazyData(
   ([title, legend, Global, Axis, polar, tooltip, toolbox, series]) => {
     return ({renderFormItems}: any) => {
       return renderFormItems({
-        controls: [
+        body: [
           createHierarchy('config', [
             {
               type: 'tabs',
@@ -37,39 +37,39 @@ const LazyComponent = lazyData(
               tabs: [
                 {
                   title: '图表',
-                  controls: [series]
+                  body: [series]
                 },
                 {
                   title: '标题',
-                  controls: [title]
+                  body: [title]
                 },
                 {
                   title: '图例',
-                  controls: [legend]
+                  body: [legend]
                 },
                 {
                   title: 'X 轴',
-                  controls: Axis('x')
+                  body: Axis('x')
                 },
                 {
                   title: 'Y 轴',
-                  controls: Axis('y')
+                  body: Axis('y')
                 },
                 {
                   title: '极标',
-                  controls: [polar]
+                  body: [polar]
                 },
                 {
                   title: '提示框',
-                  controls: [tooltip]
+                  body: [tooltip]
                 },
                 {
                   title: '工具栏',
-                  controls: [toolbox]
+                  body: [toolbox]
                 },
                 {
                   title: '全局',
-                  controls: [Global]
+                  body: [Global]
                 }
               ]
             }
