@@ -460,14 +460,14 @@ if (fis.project.currentMedia() === 'publish') {
   env.match('*.{js,jsx,ts,tsx}', {
     optimizer: fis.plugin('terser'),
     moduleId: function (m, path) {
-      return fis.util.md5('amis-sdk' + path);
+      return fis.util.md5(package.version + 'amis-sdk' + path);
     }
   });
 
   env.match('/src/icons/**.svg', {
     optimizer: fis.plugin('uglify-js'),
     moduleId: function (m, path) {
-      return fis.util.md5('amis-sdk' + path);
+      return fis.util.md5(package.version + 'amis-sdk' + path);
     }
   });
 
