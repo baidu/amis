@@ -10,7 +10,7 @@ const isMobile = (window as any).matchMedia?.('(max-width: 768px)').matches
   : false;
 
 addSchemaFilter(function (schema: Schema, renderer, props?: any) {
-  if (schema.mobile && isMobile) {
+  if (schema && schema.mobile && isMobile) {
     return {...schema, ...schema.mobile};
   }
 
