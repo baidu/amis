@@ -12,9 +12,9 @@ export default {
   tabs: [
     {
       title: '主题',
-      controls: [
+      body: [
         {
-          type: 'array',
+          type: 'input-array',
           name: 'color',
           label: '调色盘颜色列表',
           labelRemark:
@@ -41,15 +41,15 @@ export default {
     },
     {
       title: '动画',
-      controls: [animation(null, false)]
+      body: [animation(null, false)]
     },
     {
       title: '文字样式',
-      controls: [textStyleControls('textStyle', '全局文字')]
+      body: [textStyleControls('textStyle', '全局文字')]
     },
     {
       title: '其它',
-      controls: [
+      body: [
         text(
           'blendMode',
           '图形的混合模式',

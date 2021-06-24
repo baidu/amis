@@ -564,9 +564,9 @@ export const components = [
         path: '/zh-CN/components/form/input-quarter-range',
         getComponent: () =>
           // @ts-ignore
-          import('../../docs/zh-CN/components/form/input-quarter-range.md').then(
-            makeMarkdownRenderer
-          )
+          import(
+            '../../docs/zh-CN/components/form/input-quarter-range.md'
+          ).then(makeMarkdownRenderer)
       },
       {
         label: 'Radios 单选框',
@@ -761,6 +761,15 @@ export const components = [
         getComponent: () =>
           // @ts-ignore
           import('../../docs/zh-CN/components/table.md').then(
+            makeMarkdownRenderer
+          )
+      },
+      {
+        label: 'Table View 表格视图',
+        path: '/zh-CN/components/table-view',
+        getComponent: () =>
+          // @ts-ignore
+          import('../../docs/zh-CN/components/table-view.md').then(
             makeMarkdownRenderer
           )
       },

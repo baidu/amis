@@ -21,7 +21,7 @@ const buildSerieOptions = (type: string, options: any) => {
   return {
     type: 'container',
     visibleOn: `this.type == "${type}"`,
-    controls: buildOptions('', options)
+    body: buildOptions('', options)
   };
 };
 
@@ -35,7 +35,7 @@ export default {
   multiLine: true,
   multiple: true,
   addButtonText: '新增系列',
-  controls: [
+  items: [
     select('type', '图表类型', [
       'line',
       'bar',
@@ -45,11 +45,11 @@ export default {
       'gauge'
     ]),
     {
-      type: 'array',
+      type: 'input-array',
       name: 'data', //TODO: 目前只支持一维
       label: '数据',
       items: {
-        type: 'number'
+        type: 'input-number'
       }
     },
     buildSerieOptions('line', lineOptions),
