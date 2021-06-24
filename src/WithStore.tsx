@@ -183,13 +183,14 @@ export function HocStoreFactory(renderer: {
           props.data.__super
         ) {
           // 这个用法很少，当 data.__super 值发生变化时，更新 store.data
-          (!prevProps.data ||
+          if (
+            !prevProps.data ||
             isObjectShallowModified(
               props.data.__super,
               prevProps.data.__super,
               false
-            )) &&
-            // nextProps.data.__super !== props.data.__super) &&
+            )
+          ) {
             store.initData(
               createObject(props.data.__super, {
                 ...props.data,
@@ -199,6 +200,8 @@ export function HocStoreFactory(renderer: {
               store.storeType === 'FormStore' &&
                 prevProps.store?.storeType === 'CRUDStore'
             );
+          }
+          // nextProps.data.__super !== props.data.__super) &&
         } else if (
           props.scope &&
           props.data === props.store!.data &&
