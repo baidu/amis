@@ -318,8 +318,6 @@ export const FormItemStore = StoreNode.named('FormItemStore')
             validateCancel = null;
           }
 
-          console.log('data', data);
-
           const json: Payload = yield getEnv(self).fetcher(
             self.validateApi,
             data,
