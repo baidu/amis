@@ -119,7 +119,6 @@ module.exports = function (ret, pack, settings, opt) {
         if (file) {
           file.skiped = true;
           let contents = file.getContent();
-          
 
           if (/_map\.js$/.test(file.subpath)) {
             contents = `(function() {
@@ -127,7 +126,7 @@ module.exports = function (ret, pack, settings, opt) {
     try {
         throw new Error()
     } catch (e) {
-        d = (/((?:https?|file)\:.*)\\n?$/.test(e.stack) ? RegExp.$1 : '').replace(/\\/[^\\/]*$/, '');
+        d = (/((?:https?|file):.*?)\\n/.test(e.stack) && RegExp.$1).replace(/\\/[^\\/]*$/, '');
     }
     amis.host = d;
     ${contents.replace(
