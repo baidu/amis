@@ -101,8 +101,6 @@ export class AvatarField extends React.Component<AvatarProps, object> {
       lineHeight: size + 'px'
     };
 
-    let avatar = <i className={icon} />;
-
     if (typeof text === 'string' && text[0] === '$') {
       text = resolveVariable(text, data);
     }
@@ -110,6 +108,12 @@ export class AvatarField extends React.Component<AvatarProps, object> {
     if (typeof src === 'string' && src[0] === '$') {
       src = resolveVariable(src, data);
     }
+
+    if (typeof icon === 'string' && icon[0] === '$') {
+      icon = resolveVariable(icon, data);
+    }
+
+    let avatar = <i className={icon} />;
 
     if (text) {
       if (text.length > 2) {
