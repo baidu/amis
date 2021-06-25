@@ -2,7 +2,9 @@
   <p>
     <img width="284" src="https://github.com/baidu/amis/raw/master/examples/static/logo.png">
   </p>
-
+  <p>
+    [爱速搭-低代码应用开发大赛火热招募，丰厚大奖等您拿！](https://suda.baidu.com/dasai)
+  </p>
 [文档（国内）](https://baidu.gitee.io/amis/) |
 [文档（国外）](https://baidu.github.io/amis/) |
 [可视化编辑器](https://aisuda.github.io/amis-editor-demo/) |
@@ -26,9 +28,7 @@
 ![last](https://img.shields.io/github/last-commit/baidu/amis.svg)
 
 </div>
-<div align="center">
-  [爱速搭-低代码应用开发大赛火热招募，丰厚大奖等您拿！](https://suda.baidu.com/dasai)
-</div>
+
 前端低代码框架，通过 JSON 配置就能生成各种后台页面，极大减少开发成本，甚至可以不需要了解前端。
 
 ## 开发指南
