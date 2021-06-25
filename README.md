@@ -7,7 +7,6 @@
 [可视化编辑器](https://aisuda.github.io/amis-editor-demo/) |
 [amis-admin](https://github.com/aisuda/amis-admin) |
 [爱速搭](https://suda.baidu.com/)
-[爱速搭-低代码应用开发大赛火热招募，丰厚大奖等您拿!](https://suda.baidu.com/dasai)
 
 </div>
 <div align="center">
