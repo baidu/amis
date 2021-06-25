@@ -96,6 +96,7 @@ import './renderers/Form/InputFile';
 import './renderers/Form/UUID';
 import './renderers/Form/MatrixCheckboxes';
 import './renderers/Form/InputMonthRange';
+import './renderers/Form/InputQuarterRange';
 import './renderers/Form/InputRange';
 import './renderers/Form/InputArray';
 import './renderers/Form/Combo';
@@ -158,6 +159,7 @@ import './renderers/Carousel';
 import './renderers/AnchorNav';
 import './renderers/Steps';
 import './renderers/Markdown';
+import './renderers/TableView';
 
 import Scoped, {ScopedContext} from './Scoped';
 

@@ -7,6 +7,11 @@ import qs from 'qs';
 import {IIRendererStore} from '../store';
 import {IFormStore} from '../store/form';
 import {autobindMethod} from './autobind';
+import {
+  isPureVariable,
+  resolveVariable,
+  resolveVariableAndFilter
+} from './tpl-builtin';
 
 // 方便取值的时候能够把上层的取到，但是获取的时候不会全部把所有的数据获取到。
 export function createObject(
@@ -150,7 +155,7 @@ export function findIndex(
 
 export function getVariable(
   data: {[propName: string]: any},
-  key: string,
+  key: string | undefined,
   canAccessSuper: boolean = true
 ): any {
   if (!data || !key) {
@@ -1527,4 +1532,60 @@ export function getScrollbarWidth() {
   outer.parentNode.removeChild(outer);
 
   return scrollbarWidth;
+}
+
+function resolveValueByName(data: any, name?: string) {
+  return isPureVariable(name)
+    ? resolveVariableAndFilter(name, data)
+    : resolveVariable(name, data);
+}
+
+// 统一的获取 value 值方法
+export function getPropValue<
+  T extends {
+    value?: any;
+    name?: string;
+    data?: any;
+    defaultValue?: any;
+  }
+>(props: T, getter?: (props: T) => any) {
+  const {name, value, data, defaultValue} = props;
+  return (
+    value ?? getter?.(props) ?? resolveValueByName(data, name) ?? defaultValue
+  );
+}
+
+// 检测 value 是否有变化，有变化就执行 onChange
+export function detectPropValueChanged<
+  T extends {
+    value?: any;
+    name?: string;
+    data?: any;
+    defaultValue?: any;
+  }
+>(
+  props: T,
+  prevProps: T,
+  onChange: (value: any) => void,
+  getter?: (props: T) => any
+) {
+  let nextValue: any;
+  if (typeof props.value !== 'undefined') {
+    props.value !== prevProps.value && onChange(props.value);
+  } else if ((nextValue = getter?.(props)) !== undefined) {
+    nextValue !== getter!(prevProps) && onChange(nextValue);
+  } else if (
+    typeof props.name === 'string' &&
+    (nextValue = resolveValueByName(props.data, props.name)) !== undefined
+  ) {
+    nextValue !== resolveValueByName(prevProps.data, prevProps.name) &&
+      onChange(nextValue);
+  } else if (props.defaultValue !== prevProps.defaultValue) {
+    onChange(props.defaultValue);
+  }
+}
+
+// 去掉字符串中的 html 标签，不完全准确但效率比较高
+export function removeHTMLTag(str: string) {
+  return str.replace(/<\/?[^>]+(>|$)/g, '');
 }

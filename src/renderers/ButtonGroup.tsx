@@ -73,7 +73,6 @@ export interface ButtonGroupSchema extends BaseSchema {
 export default ButtonGroup;
 
 @Renderer({
-  type: 'button-group',
-  name: 'button-group'
+  type: 'button-group'
 })
 export class ButtonGroupRenderer extends ButtonGroup {}

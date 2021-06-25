@@ -124,7 +124,7 @@ export default class StaticControl extends React.Component<StaticProps, any> {
   weight: -90,
   strictMode: false,
   sizeMutable: false,
-  name: 'static-control'
+  name: 'static'
 })
 export class StaticControlRenderer extends StaticControl {}
 

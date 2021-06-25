@@ -145,6 +145,7 @@
 @include media-breakpoint-up(sm) {
   .#{$ns}Grid {
     @include make-row;
+    flex: 1;
   }
 
   @include make-grid(sm);

@@ -78,7 +78,6 @@ export default class Wrapper extends React.Component<WrapperProps, object> {
 }
 
 @Renderer({
-  type: 'wrapper',
-  name: 'wrapper'
+  type: 'wrapper'
 })
 export class WrapperRenderer extends Wrapper {}

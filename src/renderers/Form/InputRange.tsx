@@ -496,7 +496,6 @@ export default class RangeControl extends React.PureComponent<
 }
 
 @FormItem({
-  type: 'input-range',
-  name: 'range-control'
+  type: 'input-range'
 })
 export class RangeControlRenderer extends RangeControl {}

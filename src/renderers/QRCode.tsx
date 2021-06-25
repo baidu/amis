@@ -6,6 +6,7 @@ import {filter} from '../utils/tpl';
 // @ts-ignore
 import QrCode from 'qrcode.react';
 import {BaseSchema, SchemaClassName} from '../Schema';
+import {getPropValue} from '../utils/helper';
 
 /**
  * 二维码展示控件。
@@ -74,12 +75,15 @@ export default class QRCode extends React.Component<QRCodeProps, any> {
       foregroundColor,
       placeholder,
       level,
-      value,
+      defaultValue,
       data,
       classPrefix: ns
     } = this.props;
 
-    const finalValue = filter(value, data, '| raw');
+    const finalValue = getPropValue(
+      this.props,
+      () => filter(defaultValue, data, '| raw') || undefined
+    );
 
     return (
       <div className={cx(`${ns}QrCode`, className)}>

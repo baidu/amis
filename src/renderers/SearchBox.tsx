@@ -3,7 +3,12 @@ import {Renderer, RendererProps} from '../factory';
 import React from 'react';
 import {BaseSchema, SchemaClassName} from '../Schema';
 import SearchBox from '../components/SearchBox';
-import {autobind, getVariable, setVariable} from '../utils/helper';
+import {
+  autobind,
+  getPropValue,
+  getVariable,
+  setVariable
+} from '../utils/helper';
 
 /**
  * 搜索框渲染器
@@ -52,8 +57,7 @@ interface SearchBoxProps
 }
 
 @Renderer({
-  type: 'search-box',
-  name: 'search'
+  type: 'search-box'
 })
 export class SearchBoxRenderer extends React.Component<SearchBoxProps> {
   static defaultProps = {
@@ -68,7 +72,7 @@ export class SearchBoxRenderer extends React.Component<SearchBoxProps> {
   handleCancel() {
     const name = this.props.name;
     const onQuery = this.props.onQuery;
-    const value = this.props.value ?? getVariable(this.props.data, name);
+    const value = getPropValue(this.props);
     if (value !== '') {
       const data: any = {};
       setVariable(data, name, '');
@@ -96,7 +100,7 @@ export class SearchBoxRenderer extends React.Component<SearchBoxProps> {
       className
     } = this.props;
 
-    const value = this.props.value ?? getVariable(data, name);
+    const value = getPropValue(this.props);
 
     return (
       <SearchBox

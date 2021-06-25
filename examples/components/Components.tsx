@@ -560,6 +560,15 @@ export const components = [
           )
       },
       {
+        label: 'InputQuarterRange 季度范围',
+        path: '/zh-CN/components/form/input-quarter-range',
+        getComponent: () =>
+          // @ts-ignore
+          import(
+            '../../docs/zh-CN/components/form/input-quarter-range.md'
+          ).then(makeMarkdownRenderer)
+      },
+      {
         label: 'Radios 单选框',
         path: '/zh-CN/components/form/radios',
         getComponent: () =>
@@ -752,6 +761,15 @@ export const components = [
         getComponent: () =>
           // @ts-ignore
           import('../../docs/zh-CN/components/table.md').then(
+            makeMarkdownRenderer
+          )
+      },
+      {
+        label: 'Table View 表格视图',
+        path: '/zh-CN/components/table-view',
+        getComponent: () =>
+          // @ts-ignore
+          import('../../docs/zh-CN/components/table-view.md').then(
             makeMarkdownRenderer
           )
       },

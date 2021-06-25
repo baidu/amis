@@ -15,7 +15,8 @@ import {
   noop,
   autobind,
   isArrayChildrenModified,
-  getVariable
+  getVariable,
+  removeHTMLTag
 } from '../../utils/helper';
 import {resolveVariable} from '../../utils/tpl-builtin';
 import debounce from 'lodash/debounce';
@@ -1761,6 +1762,7 @@ export default class Table extends React.Component<TableProps, object> {
           env && env.getModalContainer ? env.getModalContainer : undefined
         }
         align={config ? config.align : 'left'}
+        isActived={store.hasColumnHidden()}
         classnames={cx}
         classPrefix={ns}
         key="columns-toggable"
@@ -1992,9 +1994,8 @@ export default class Table extends React.Component<TableProps, object> {
                   }
                 } else {
                   if ((column as TplSchema).tpl) {
-                    sheetRow.getCell(columIndex).value = filter(
-                      (column as TplSchema).tpl,
-                      row.data
+                    sheetRow.getCell(columIndex).value = removeHTMLTag(
+                      filter((column as TplSchema).tpl, row.data)
                     );
                   } else {
                     sheetRow.getCell(columIndex).value = value;

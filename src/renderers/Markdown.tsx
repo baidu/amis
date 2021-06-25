@@ -6,6 +6,7 @@ import {Renderer, RendererProps} from '../factory';
 import {BaseSchema} from '../Schema';
 import {resolveVariableAndFilter} from '../utils/tpl-builtin';
 import LazyComponent from '../components/LazyComponent';
+import {getPropValue} from '../utils/helper';
 
 /**
  * Markdown 渲染
@@ -43,9 +44,10 @@ export interface MarkdownProps
 
 export class Markdown extends React.Component<MarkdownProps, object> {
   render() {
-    const {className, data, classnames: cx, name, value} = this.props;
+    const {className, data, classnames: cx, name} = this.props;
     const content =
-      value || (name ? resolveVariableAndFilter(name, data, '| raw') : null);
+      getPropValue(this.props) ||
+      (name ? resolveVariableAndFilter(name, data, '| raw') : null);
 
     return (
       <div className={cx('Markdown', className)}>
@@ -56,7 +58,6 @@ export class Markdown extends React.Component<MarkdownProps, object> {
 }
 
 @Renderer({
-  type: 'markdown',
-  name: 'markdown'
+  type: 'markdown'
 })
 export class MarkdownRenderer extends Markdown {}

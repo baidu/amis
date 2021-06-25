@@ -1,5 +1,4 @@
 import React from 'react';
-import {FormSchemaHorizontal} from '.';
 import {Renderer, RendererProps} from '../../factory';
 import {SchemaCollection, SchemaTpl} from '../../Schema';
 import Collapse, {CollapseSchema} from '../Collapse';
@@ -82,14 +81,12 @@ export default class FieldSetControl extends React.Component<
 
   renderBody(): JSX.Element {
     const {
-      renderFormItems,
       body,
       collapsable,
       horizontal,
       render,
       mode,
       formMode,
-      $path,
       classnames: cx,
       store,
       formClassName,
@@ -113,7 +110,7 @@ export default class FieldSetControl extends React.Component<
           formClassName
         )}
       >
-        {renderFormItems({body}, 'controls', props)}
+        {body ? render('fieldSet', body, props) : null}
       </div>
     );
   }

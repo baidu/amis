@@ -5,7 +5,12 @@ import {SchemaNode, Schema, Action} from '../types';
 import {filter} from '../utils/tpl';
 import Modal from '../components/Modal';
 import findLast from 'lodash/findLast';
-import {guid, isVisible, autobind} from '../utils/helper';
+import {
+  guid,
+  isVisible,
+  autobind,
+  isObjectShallowModified
+} from '../utils/helper';
 import {reaction} from 'mobx';
 import {Icon} from '../components/icons';
 import {ModalStore, IModalStore} from '../store/modal';
@@ -590,10 +595,10 @@ export default class Dialog extends React.Component<DialogProps> {
   type: 'dialog',
   storeType: ModalStore.name,
   storeExtendsData: false,
-  name: 'dialog',
   isolateScope: true,
-  shouldSyncSuperStore: (store: IServiceStore, props: any) =>
-    store.dialogOpen || props.show
+  shouldSyncSuperStore: (store: IServiceStore, props: any, prevProps: any) =>
+    (store.dialogOpen || props.show) &&
+    isObjectShallowModified(prevProps.data, props.data)
 })
 export class DialogRenderer extends Dialog {
   static contextType = ScopedContext;

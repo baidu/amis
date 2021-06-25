@@ -17,7 +17,8 @@ import {
   cloneObject,
   SkipOperation,
   isEmpty,
-  getVariable
+  getVariable,
+  isObjectShallowModified
 } from '../../utils/helper';
 import debouce from 'lodash/debounce';
 import flatten from 'lodash/flatten';
@@ -34,7 +35,7 @@ import {isApiOutdated, isEffectiveApi} from '../../utils/api';
 import Spinner from '../../components/Spinner';
 import {LazyComponent} from '../../components';
 import {isAlive} from 'mobx-state-tree';
-import {asFormItem, renderToComponent} from './Item';
+import {asFormItem} from './Item';
 import {SimpleMap} from '../../utils/SimpleMap';
 import {trace} from 'mobx';
 import {
@@ -332,6 +333,17 @@ export interface FormProps
   formLazyChange?: boolean; // 表单的
 }
 
+class PlaceholderComponent extends React.Component {
+  render() {
+    const {renderChildren, ...rest} = this.props as any;
+
+    if (typeof renderChildren === 'function') {
+      return renderChildren(rest);
+    }
+
+    return null;
+  }
+}
 export default class Form extends React.Component<FormProps, object> {
   static defaultProps = {
     title: 'Form.title',
@@ -387,7 +399,8 @@ export default class Form extends React.Component<FormProps, object> {
     'formLazyChange',
     'lazyLoad',
     'formInited',
-    'simpleMode'
+    'simpleMode',
+    'inputOnly'
   ];
 
   hooks: {
@@ -1402,16 +1415,8 @@ export default class Form extends React.Component<FormProps, object> {
         subSchema.name ||
         subSchema.hasOwnProperty('label'))
     ) {
-      // 如果是 children 用法，先转成 component，然后让下面的逻辑再包裹  asFormItem
-      const cache = this.componentCache.get(subSchema.children);
-      if (cache) {
-        subSchema.component = cache;
-      } else {
-        const cache = renderToComponent(subSchema.children);
-        this.componentCache.set(subSchema.children, cache);
-        subSchema.component = cache;
-      }
-
+      subSchema.component = PlaceholderComponent;
+      subSchema.renderChildren = subSchema.children;
       delete subSchema.children;
     }
 
@@ -1582,14 +1587,15 @@ export default class Form extends React.Component<FormProps, object> {
 @Renderer({
   type: 'form',
   storeType: FormStore.name,
-  name: 'form',
   isolateScope: true,
-  shouldSyncSuperStore: (store, nextProps) => {
+  shouldSyncSuperStore: (store, props, prevProps) => {
     // 如果是 QuickEdit，让 store 同步 __super 数据。
     if (
-      nextProps.canAccessSuperData &&
-      nextProps.quickEditFormRef &&
-      nextProps.onQuickChange
+      props.canAccessSuperData &&
+      props.quickEditFormRef &&
+      props.onQuickChange &&
+      (isObjectShallowModified(prevProps.data, props.data) ||
+        isObjectShallowModified(prevProps.data.__super, props.data.__super))
     ) {
       return true;
     }

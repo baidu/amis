@@ -60,7 +60,7 @@ export type SchemaQuickEditObject =
        */
       mode?: 'inline';
 
-      controls: SchemaCollection;
+      body: SchemaCollection;
     };
 
 export type SchemaQuickEdit = boolean | SchemaQuickEditObject;
@@ -70,9 +70,7 @@ export interface QuickEditConfig {
   resetOnFailed?: boolean;
   mode?: 'inline' | 'dialog' | 'popOver' | 'append';
   type?: string;
-  controls?: any;
-  tabs?: any;
-  fieldSet?: any;
+  body?: any;
   focusable?: boolean;
   popOverClassName?: string;
   [propName: string]: any;
@@ -369,9 +367,9 @@ export const HocQuickEdit = (config: Partial<QuickEditConfig> = {}) => (
           type: 'form',
           title: '',
           autoFocus: true,
-          controls: [
+          body: [
             {
-              type: 'text',
+              type: 'input-text',
               name,
               placeholder: label,
               label: false
@@ -380,12 +378,10 @@ export const HocQuickEdit = (config: Partial<QuickEditConfig> = {}) => (
         };
       } else if (quickEdit) {
         if (
-          (quickEdit.controls &&
-            !~['combo', 'group', 'panel', 'fieldSet'].indexOf(
-              (quickEdit as any).type
-            )) ||
-          quickEdit.tabs ||
-          quickEdit.fieldSet
+          quickEdit.body &&
+          !~['combo', 'group', 'panel', 'fieldSet', 'fieldset'].indexOf(
+            (quickEdit as any).type
+          )
         ) {
           schema = {
             title: '',
@@ -401,9 +397,9 @@ export const HocQuickEdit = (config: Partial<QuickEditConfig> = {}) => (
             type: 'form',
             autoFocus: (quickEdit as QuickEditConfig).mode !== 'inline',
             mode: 'normal',
-            controls: [
+            body: [
               {
-                type: quickEdit.type || 'text',
+                type: quickEdit.type || 'input-text',
                 name: quickEdit.name || name,
                 ...quickEdit,
                 mode: undefined
@@ -467,6 +463,7 @@ export const HocQuickEdit = (config: Partial<QuickEditConfig> = {}) => (
           className={cx((quickEdit as QuickEditConfig).className)}
         >
           {render('quick-edit-form', this.buildSchema(), {
+            value: undefined,
             onSubmit: this.handleSubmit,
             onAction: this.handleAction,
             onChange: null,
@@ -523,6 +520,7 @@ export const HocQuickEdit = (config: Partial<QuickEditConfig> = {}) => (
         return (
           <Component {...this.props}>
             {render('inline-form', this.buildSchema(), {
+              value: undefined,
               wrapperComponent: 'div',
               className: cx('Form--quickEdit'),
               ref: this.formRef,

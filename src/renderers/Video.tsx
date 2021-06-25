@@ -13,7 +13,7 @@ import {
   PlaybackRateMenuButton
   // @ts-ignore
 } from 'video-react';
-import {padArr} from '../utils/helper';
+import {getPropValue, padArr} from '../utils/helper';
 import {Renderer, RendererProps} from '../factory';
 import {resolveVariable} from '../utils/tpl-builtin';
 import {filter} from '../utils/tpl';
@@ -646,9 +646,7 @@ export default class Video extends React.Component<VideoProps, VideoState> {
     } = this.props;
 
     let source =
-      this.props.src ||
-      (name && data && (data as any)[name]) ||
-      (amisConfig && amisConfig.value);
+      filter(this.props.src, data, '| raw') || getPropValue(this.props);
     const videoState = this.state.videoState;
     let highlight =
       videoState.duration &&
@@ -777,7 +775,6 @@ export default class Video extends React.Component<VideoProps, VideoState> {
 }
 
 @Renderer({
-  type: 'video',
-  name: 'video'
+  type: 'video'
 })
 export class VideoRenderer extends Video {}

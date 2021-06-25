@@ -160,7 +160,7 @@ export function registerRenderer(config: RendererConfig): RendererConfig {
   config.test = config.test || new RegExp(`(^|\/)${config.type}$`, 'i');
   config.weight = config.weight || 0;
   config.Renderer = config.component;
-  config.name = config.name || `anonymous-${anonymousIndex++}`;
+  config.name = config.name || config.type || `anonymous-${anonymousIndex++}`;
 
   if (~rendererNames.indexOf(config.name)) {
     throw new Error(

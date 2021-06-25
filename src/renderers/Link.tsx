@@ -1,6 +1,7 @@
 import React from 'react';
 import {Renderer, RendererProps} from '../factory';
 import {BaseSchema, SchemaTpl} from '../Schema';
+import {getPropValue} from '../utils/helper';
 import {filter} from '../utils/tpl';
 
 /**
@@ -48,7 +49,7 @@ export class LinkField extends React.Component<LinkProps, object> {
       title
     } = this.props;
 
-    let value = this.props.value;
+    let value = getPropValue(this.props);
     const finnalHref = href ? filter(href, data, '| raw') : '';
 
     return (
@@ -65,7 +66,6 @@ export class LinkField extends React.Component<LinkProps, object> {
 }
 
 @Renderer({
-  type: 'link',
-  name: 'link'
+  type: 'link'
 })
 export class LinkFieldRenderer extends LinkField {}

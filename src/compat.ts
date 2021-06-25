@@ -14,6 +14,7 @@ import {getLevelFromClassName} from './utils/helper';
 import {FileControlRenderer} from './renderers/Form/InputFile';
 import {ImageControlRenderer} from './renderers/Form/InputImage';
 import {RichTextControlRenderer} from './renderers/Form/InputRichText';
+import isPlainObject from 'lodash/isPlainObject';
 
 // 兼容老的用法，老用法 label 用在 checkbox 的右侧内容，新用法用 option 来代替。
 addSchemaFilter(function CheckboxPropsFilter(schema: Schema, renderer) {
@@ -306,6 +307,7 @@ const controlMapping: any = {
   'location': 'location-picker',
   'matrix': 'matrix-checkboxes',
   'month-range': 'input-month-range',
+  'quarter-range': 'input-quarter-range',
   'number': 'input-number',
   'range': 'input-range',
   'rating': 'input-rating',
@@ -396,6 +398,28 @@ function wrapControl(item: any) {
   };
 }
 
+const maybeStatic = [
+  'tpl',
+  'mapping',
+  'progress',
+  'status',
+  'json',
+  'video',
+  'qrcode',
+  'plain'
+];
+
+function wrapStatic(item: any) {
+  if (!item || !item.type) {
+    return item;
+  }
+
+  return {
+    ...item,
+    type: `static-${item.type}`
+  };
+}
+
 addSchemaFilter(function (schema: Schema, renderer: any, props: any) {
   // controls 转成 body
   if (schema?.type === 'combo' && Array.isArray(schema.conditions)) {
@@ -428,14 +452,23 @@ addSchemaFilter(function (schema: Schema, renderer: any, props: any) {
       ...schema,
       quickEdit: controlToNormalRenderer(schema.quickEdit)
     };
+  } else if (Array.isArray(schema?.quickEdit?.controls)) {
+    schema = {
+      ...schema,
+      quickEdit: {
+        ...schema.quickEdit,
+        body: schema.quickEdit.controls.map(controlToNormalRenderer)
+      }
+    };
+    delete schema.quickEdit.controls;
   } else if (schema?.type === 'tabs' && Array.isArray(schema.tabs)) {
     schema = {
       ...schema,
       tabs: schema.tabs.map(tab => {
-        if (Array.isArray(tab.controls)) {
+        if (Array.isArray(tab.controls) && !Array.isArray(tab.body)) {
           tab = {
             ...tab,
-            body: tab?.controls.map(controlToNormalRenderer)
+            body: tab.controls.map(controlToNormalRenderer)
           };
           delete tab.controls;
         }
@@ -479,15 +512,25 @@ addSchemaFilter(function (schema: Schema, renderer: any, props: any) {
 
             body: column?.controls.map(controlToNormalRenderer)
           };
-          delete column.controls;
-          if (!column.type) {
-            column.type = 'wrapper';
-            column.size = 'none';
+
+          // 有可能直接外面的grid 或者 bhox 列里面用 form 的。
+          if (column.type !== 'form') {
+            delete column.type;
           }
+
+          delete column.controls;
         }
 
         return column;
       })
+    };
+  } else if (
+    schema?.type === 'service' &&
+    Array.isArray(schema?.body?.controls)
+  ) {
+    schema = {
+      ...schema,
+      body: schema.body.controls.map(controlToNormalRenderer)
     };
   }
 
@@ -509,6 +552,8 @@ addSchemaFilter(function (schema: Schema, renderer: any, props: any) {
         }
       : ~maybeFormItem.indexOf(item?.type)
       ? wrapControl(item)
+      : ~maybeStatic.indexOf(item?.type)
+      ? wrapStatic(item)
       : item;
   }
 });

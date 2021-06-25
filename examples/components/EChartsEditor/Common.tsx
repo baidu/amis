@@ -15,7 +15,7 @@ export const createHierarchy = (name: string, controls: any[]) => {
     label: '',
     noBorder: true,
     multiLine: true,
-    controls: controls
+    items: controls
   };
 };
 
@@ -159,7 +159,7 @@ export const fieldSet = (
     collapsable: true,
     collapsed: collapsed,
     mountOnEnter: true,
-    controls: controls
+    body: controls
   };
 };
 
@@ -172,7 +172,7 @@ export const visibleOn = (visibleOn: string, controls: any[]) => {
   return {
     type: 'container',
     visibleOn: visibleOn,
-    controls: controls
+    body: controls
   };
 };
 
@@ -192,7 +192,7 @@ export const number = (
   step: number = 1
 ) => {
   const control: any = {
-    type: 'number',
+    type: 'input-number',
     name: name,
     label: label
   };
@@ -230,7 +230,7 @@ export const text = (
   defaultText?: string
 ) => {
   const control: any = {
-    type: 'text',
+    type: 'input-text',
     name: name,
     label: label
   };
@@ -321,13 +321,13 @@ export const viewportControl = (
       visibleOn: `(typeof this.${name} === "undefined") || ((typeof this.${name} === "string") && (this.${name}.indexOf("%") === -1))`
     },
     {
-      type: 'number',
+      type: 'input-number',
       name: name,
       label: label,
       visibleOn: `(typeof this.${name} === "number")`
     },
     {
-      type: 'text',
+      type: 'input-text',
       name: name,
       label: label,
       visibleOn: `(typeof this.${name} === "string") && (this.${name}.indexOf("%") !== -1)`
@@ -347,7 +347,7 @@ export const viewport = (scope: string, label: string) => {
     collapsable: true,
     collapsed: true,
     mountOnEnter: true,
-    controls: [
+    body: [
       ...viewportControl(
         `${scope}left`,
         `${label}离容器左侧的距离`,
@@ -414,7 +414,7 @@ export const origin = (label: string) => {
  */
 export const formatter = (label: string) => {
   return {
-    type: 'text',
+    type: 'input-text',
     name: 'formatter',
     label: `格式化${label}文本`
   };
@@ -560,9 +560,9 @@ export const numberOrArray = (
   return [
     {
       type: 'group',
-      controls: [
+      body: [
         {
-          type: 'number',
+          type: 'input-number',
           name: name,
           hiddenOn: `Array.isArray(this.${name})`,
           label: label
@@ -582,7 +582,7 @@ export const numberOrArray = (
     },
 
     {
-      type: 'array',
+      type: 'input-array',
       name: name,
       label: label,
       labelRemark:
@@ -591,7 +591,7 @@ export const numberOrArray = (
       minLength: 2,
       maxLength: 4,
       items: {
-        type: 'number'
+        type: 'input-number'
       }
     }
   ];
@@ -616,21 +616,21 @@ export const vector = (
 ) => {
   return [
     {
-      type: 'array',
+      type: 'input-array',
       name: name,
       label: label,
       visibleOn: `Array.isArray(this.${name})`,
       minLength: 2,
       maxLength: 4,
       items: {
-        type: 'number'
+        type: 'input-number'
       }
     },
     {
       type: 'group',
-      controls: [
+      body: [
         {
-          type: 'number',
+          type: 'input-number',
           name: name,
           hiddenOn: `Array.isArray(this.${name})`,
           label: label
@@ -667,7 +667,7 @@ export const shadowControls = (scope: string) => {
     collapsable: true,
     collapsed: true,
     mountOnEnter: true,
-    controls: [
+    body: [
       color(`${scope}shadowColor`, '阴影颜色'),
       number(`${scope}shadowBlur`, '阴影模糊大小'),
       number(`${scope}shadowOffsetX`, '阴影水平方向上的偏移距离'),
@@ -692,7 +692,7 @@ export const keywordOrNumber = (
 ) => {
   return {
     type: 'group',
-    controls: [
+    body: [
       {
         type: 'switch',
         label: labelForSwitch,
@@ -712,7 +712,7 @@ export const keywordOrNumber = (
         }
       },
       {
-        type: 'number',
+        type: 'input-number',
         name: name,
         visibleOn: `typeof(this.${name}) === 'number'`,
         label: label
@@ -746,7 +746,7 @@ export const keywordOrString = (
 ) => {
   return {
     type: 'group',
-    controls: [
+    body: [
       {
         type: 'switch',
         label: labelForSwitch,
@@ -767,7 +767,7 @@ export const keywordOrString = (
         labelRemark: remark
       },
       {
-        type: 'text',
+        type: 'input-text',
         name: name,
         visibleOn: `this.${name} && ${JSON.stringify(
           keywordList
@@ -835,7 +835,7 @@ export const objectOrArray = (
       multiLine: true,
       visibleOn: `typeof(this.${name}) === 'undefined' || !Array.isArray(this.${name})`,
       multiple: false,
-      controls: controls
+      items: controls
     },
     {
       type: 'combo',
@@ -845,7 +845,7 @@ export const objectOrArray = (
       multiLine: true,
       visibleOn: `Array.isArray(this.${name})`,
       multiple: true,
-      controls: controls
+      items: controls
     }
   ];
 };
@@ -973,7 +973,7 @@ export const numberOrPercentage = (
   return [
     {
       type: 'group',
-      controls: [
+      body: [
         {
           type: 'switch',
           label: labelForSwitch,
@@ -999,13 +999,13 @@ export const numberOrPercentage = (
             : undefined
         },
         {
-          type: 'number',
+          type: 'input-number',
           name: name,
           visibleOn: `typeof(this.${name}) === 'number'`,
           label: label
         },
         {
-          type: 'text',
+          type: 'input-text',
           name: name,
           label: label,
           visibleOn: `typeof(this.${name}) === 'undefined' || typeof(this.${name}) === 'string'`
@@ -1025,7 +1025,7 @@ export const textStyleControls = (scope: string, label: string) => {
       type: 'fieldSet',
       title: label,
       collapsable: true,
-      controls: [
+      body: [
         color('color', `${label}文字的颜色`),
         select('fontStyle', `${label}文字字体的风格`, [
           'normal',
@@ -1039,7 +1039,7 @@ export const textStyleControls = (scope: string, label: string) => {
           ['normal', 'bold', 'bolder', 'lighter']
         ),
         {
-          type: 'text',
+          type: 'input-text',
           name: 'fontFamily',
           label: `${label}文字的字体`,
           options: [

@@ -83,6 +83,18 @@ SDK 版本适合对前端或 React 不了解的开发者，它不依赖 npm 及 
 </html>
 ```
 
+### 更新属性
+
+可以通过 amisScoped 对象的 updateProps 方法来更新下发到 amis 的属性。
+
+```ts
+amisScoped.updateProps(
+  {
+    // 新的属性对象
+  } /*, () => {} 更新回调 */
+);
+```
+
 ### 切换主题
 
 jssdk 版本默认使用 `sdk.css` 即默认主题，如果你想用使用云舍，请改成引用 `cxd.css`。同时 js 渲染地方第四个参数传入 `theme` 属性。如：
@@ -100,6 +112,11 @@ amis.embed(
     theme: 'cxd'
   }
 );
+
+// 或者
+amisScoped.updateProps({
+  theme: 'cxd'
+});
 ```
 
 暗黑主题同理，改成引用 'dark.css' 同时主题设置成 `dark`。
@@ -179,6 +196,26 @@ let amisScoped = amis.embed(
 
 还可以通过 `amisScoped.getComponentByName('page1.form1').setValues({'name1': 'othername'})` 来修改表单中的值。
 
+### 更新属性
+
+可以通过 amisScoped 对象的 updateProps 方法来更新下发到 amis 的属性。
+
+```ts
+amisScoped.updateProps(
+  {
+    // 新的属性对象
+  } /*, () => {} 更新回调 */
+);
+```
+
+### 销毁
+
+如果是单页应用，在离开当前页面的时候通常需要销毁实例，可以通过 unmount 方法来完成。
+
+```ts
+amisScoped.unmount();
+```
+
 ### 切换主题
 
 jssdk 版本默认使用 `sdk.css` 即默认主题，如果你想用使用云舍，请改成引用 `cxd.css`。同时 js 渲染地方第四个参数传入 `theme` 属性。如：
@@ -209,6 +246,14 @@ amis.embed(
 默认 JSSDK 不是 hash 路由，如果你想改成 hash 路由模式，请查看此处代码实现。只需要修改 env.isCurrentUrl、env.jumpTo 和 env.updateLocation 这几个方法即可。
 
 参考：https://github.com/baidu/amis/blob/master/examples/components/Example.tsx#L551-L575
+
+### 销毁
+
+如果是单页应用，在离开当前页面的时候通常需要销毁实例，可以通过 unmount 方法来完成。
+
+```ts
+amisScoped.unmount();
+```
 
 ## react
 

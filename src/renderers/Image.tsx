@@ -2,7 +2,7 @@ import React from 'react';
 import {Renderer, RendererProps} from '../factory';
 import {filter} from '../utils/tpl';
 import {ClassNamesFn, themeable, ThemeProps} from '../theme';
-import {autobind} from '../utils/helper';
+import {autobind, getPropValue} from '../utils/helper';
 import {Icon} from '../components/icons';
 import {LocaleProps, localeable} from '../locale';
 import {BaseSchema, SchemaClassName, SchemaTpl, SchemaUrlPath} from '../Schema';
@@ -282,11 +282,7 @@ export class ImageField extends React.Component<ImageFieldProps, object> {
 
     const finnalSrc = src ? filter(src, data, '| raw') : '';
     let value =
-      finnalSrc ||
-      this.props.value ||
-      resolveVariable(name, data) ||
-      defaultImage ||
-      imagePlaceholder;
+      finnalSrc || getPropValue(this.props) || defaultImage || imagePlaceholder;
 
     return (
       <div className={cx('ImageField', className)}>
@@ -315,7 +311,6 @@ export class ImageField extends React.Component<ImageFieldProps, object> {
 }
 
 @Renderer({
-  type: 'image',
-  name: 'image'
+  type: 'image'
 })
 export class ImageFieldRenderer extends ImageField {}

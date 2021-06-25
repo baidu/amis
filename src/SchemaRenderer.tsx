@@ -12,6 +12,7 @@ import {
 } from './factory';
 import {renderChild, renderChildren} from './Root';
 import {Schema, SchemaNode} from './types';
+import getExprProperties from './utils/filter-schema';
 import {anyChanged, chainEvents} from './utils/helper';
 
 interface SchemaRendererProps extends Partial<RendererProps> {
@@ -36,6 +37,8 @@ const defaultOmitList = [
   'disabledOn',
   'component',
   'detectField',
+  'defaultValue',
+  'defaultData',
   'required',
   'requiredOn',
   'syncSuperStore'
@@ -60,16 +63,16 @@ export class SchemaRenderer extends React.Component<SchemaRendererProps, any> {
     this.resolveRenderer(this.props);
   }
 
-  componentWillReceiveProps(nextProps: SchemaRendererProps) {
+  componentDidUpdate(prevProps: SchemaRendererProps) {
     const props = this.props;
 
     if (
+      prevProps.schema &&
       props.schema &&
-      nextProps.schema &&
-      (props.schema.type !== nextProps.schema.type ||
-        props.schema.$$id !== nextProps.schema.$$id)
+      (prevProps.schema.type !== props.schema.type ||
+        prevProps.schema.$$id !== props.schema.$$id)
     ) {
-      this.resolveRenderer(nextProps);
+      this.resolveRenderer(props);
     }
   }
 
@@ -183,11 +186,35 @@ export class SchemaRenderer extends React.Component<SchemaRendererProps, any> {
 
     if (Array.isArray(schema)) {
       return renderChildren($path, schema as any, rest) as JSX.Element;
-    } else if (schema.children) {
-      return React.isValidElement(schema.children)
+    }
+
+    const detectData =
+      schema &&
+      (schema.detectField === '&' ? rest : rest[schema.detectField || 'data']);
+    const exprProps: any = detectData
+      ? getExprProperties(schema, detectData, undefined, rest)
+      : {};
+
+    if (
+      exprProps &&
+      (exprProps.hidden ||
+        exprProps.visible === false ||
+        schema.hidden ||
+        schema.visible === false ||
+        rest.hidden ||
+        rest.visible === false)
+    ) {
+      (rest as any).invisible = true;
+    }
+
+    if (schema.children) {
+      return rest.invisible
+        ? null
+        : React.isValidElement(schema.children)
         ? schema.children
         : (schema.children as Function)({
             ...rest,
+            ...exprProps,
             $path: $path,
             $schema: schema,
             render: this.renderChild,
@@ -195,21 +222,25 @@ export class SchemaRenderer extends React.Component<SchemaRendererProps, any> {
           });
     } else if (typeof schema.component === 'function') {
       const isSFC = !(schema.component.prototype instanceof React.Component);
-      return React.createElement(schema.component as any, {
-        ...rest,
-        ...schema,
-        $path: $path,
-        $schema: schema,
-        ref: isSFC ? undefined : this.refFn,
-        forwardedRef: isSFC ? this.refFn : undefined,
-        render: this.renderChild
-      });
+      return rest.invisible
+        ? null
+        : React.createElement(schema.component as any, {
+            ...rest,
+            ...exprProps,
+            ...schema,
+            $path: $path,
+            $schema: schema,
+            ref: isSFC ? undefined : this.refFn,
+            forwardedRef: isSFC ? this.refFn : undefined,
+            render: this.renderChild
+          });
     } else if (Object.keys(schema).length === 0) {
       return null;
     } else if (!this.renderer) {
-      return (
+      return rest.invisible ? null : (
         <LazyComponent
           {...rest}
+          {...exprProps}
           getComponent={async () => {
             const result = await rest.env.loadRenderer(
               schema,
@@ -234,15 +265,31 @@ export class SchemaRenderer extends React.Component<SchemaRendererProps, any> {
 
     const renderer = this.renderer as RendererConfig;
     schema = filterSchema(schema, renderer, rest);
-    const {data: defaultData, ...restSchema} = schema;
+    const {data: defaultData, value: defaultValue, ...restSchema} = schema;
     const Component = renderer.component;
+
+    // 原来表单项的 visible: false 和 hidden: true 表单项的值和验证是有效的
+    // 而 visibleOn 和 hiddenOn 是无效的，
+    // 这个本来就是个bug，但是已经被广泛使用了
+    // 我只能继续实现这个bug了
+    if (
+      rest.invisible &&
+      (exprProps.hidden ||
+        exprProps.visible === false ||
+        !renderer.isFormItem ||
+        (schema.visible !== false && !schema.hidden))
+    ) {
+      return null;
+    }
 
     return (
       <Component
         {...theme.getRendererConfig(renderer.name)}
         {...restSchema}
         {...chainEvents(rest, restSchema)}
+        {...exprProps}
         defaultData={defaultData}
+        defaultValue={defaultValue}
         $path={$path}
         $schema={schema}
         ref={this.refFn}

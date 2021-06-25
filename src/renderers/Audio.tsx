@@ -1,7 +1,7 @@
 import React from 'react';
 import upperFirst from 'lodash/upperFirst';
 import {Renderer, RendererProps} from '../factory';
-import {autobind} from '../utils/helper';
+import {autobind, detectPropValueChanged, getPropValue} from '../utils/helper';
 import {Icon} from '../components/icons';
 import {resolveVariable} from '../utils/tpl-builtin';
 import {filter} from '../utils/tpl';
@@ -93,12 +93,9 @@ export class Audio extends React.Component<AudioProps, AudioState> {
 
   state: AudioState = {
     src:
-      this.props.value ||
-      (this.props.src
-        ? filter(this.props.src, this.props.data, '| raw')
-        : '') ||
-      resolveVariable(this.props.name, this.props.data) ||
-      '',
+      getPropValue(this.props, props =>
+        props.src ? filter(props.src, props.data, '| raw') : undefined
+      ) || '',
     isReady: false,
     muted: false,
     playing: false,
@@ -131,24 +128,22 @@ export class Audio extends React.Component<AudioProps, AudioState> {
   componentWillReceiveProps(nextProps: AudioProps) {
     const props = this.props;
 
-    if (
-      props.value !== nextProps.value ||
-      filter(props.src as string, props.data, '| raw') !==
-        filter(nextProps.src as string, nextProps.data, '| raw')
-    ) {
-      this.setState(
-        {
-          src:
-            nextProps.value ||
-            filter(nextProps.src as string, nextProps.data, '| raw'),
-          playing: false
-        },
-        () => {
-          this.audio.load();
-          this.progress();
-        }
-      );
-    }
+    detectPropValueChanged(
+      nextProps,
+      props,
+      value =>
+        this.setState(
+          {
+            src: value,
+            playing: false
+          },
+          () => {
+            this.audio.load();
+            this.progress();
+          }
+        ),
+      props => (props.src ? filter(props.src, props.data, '| raw') : undefined)
+    );
   }
 
   @autobind
@@ -498,7 +493,6 @@ export class Audio extends React.Component<AudioProps, AudioState> {
 }
 
 @Renderer({
-  type: 'audio',
-  name: 'audio'
+  type: 'audio'
 })
 export class AudioRenderer extends Audio {}

@@ -218,7 +218,6 @@ export default class Grid2D extends React.Component<Grid2DProps, object> {
 }
 
 @Renderer({
-  type: 'grid-2d',
-  name: 'grid-2d'
+  type: 'grid-2d'
 })
 export class Grid2DRenderer extends Grid2D {}

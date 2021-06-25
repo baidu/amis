@@ -12,7 +12,7 @@ import {
 } from '../Schema';
 import {withStore} from '../components/WithStore';
 import {flow, Instance, types} from 'mobx-state-tree';
-import {getVariable, guid, isObject} from '../utils/helper';
+import {getPropValue, getVariable, guid, isObject} from '../utils/helper';
 import {StoreNode} from '../store/node';
 import isPlainObject from 'lodash/isPlainObject';
 import {isPureVariable, resolveVariableAndFilter} from '../utils/tpl-builtin';
@@ -187,8 +187,7 @@ export const MappingField = withStore(props =>
       } = this.props;
       const map = store.map;
 
-      let key =
-        this.props.value ?? (name ? getVariable(data, name) : undefined);
+      let key = getPropValue(this.props);
 
       let viewValue: React.ReactNode = (
         <span className="text-muted">{placeholder}</span>
