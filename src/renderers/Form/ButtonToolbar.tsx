@@ -27,18 +27,27 @@ export default class ButtonToolbar extends React.Component<
 > {
   static propsList: Array<string> = ['buttons', 'className'];
 
+  /**
+   * 这个方法editor里要用作hack，所以不能删掉这个方法
+   * @returns
+   */
+  renderButtons() {
+    const {render, classPrefix: ns, buttons} = this.props;
+    return Array.isArray(buttons)
+      ? buttons.map((button, key) =>
+          render(`button/${key}`, button, {
+            key: key
+          })
+        )
+      : null;
+  }
+
   render() {
     const {buttons, className, classnames: cx, render} = this.props;
 
     return (
       <div className={cx('ButtonToolbar', className)}>
-        {Array.isArray(buttons)
-          ? buttons.map((button, key) =>
-              render(`${key}`, button, {
-                key
-              })
-            )
-          : null}
+        {this.renderButtons()}
       </div>
     );
   }
