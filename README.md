@@ -11,7 +11,7 @@
 
 </div>
 
-<div>
+<div  align="center">
 
 [爱速搭-低代码应用开发大赛火热招募，丰厚大奖等您拿！](https://suda.baidu.com/dasai)
 
