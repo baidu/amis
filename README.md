@@ -2,9 +2,6 @@
   <p>
     <img width="284" src="https://github.com/baidu/amis/raw/master/examples/static/logo.png">
   </p>
-  <p>
-    [爱速搭-低代码应用开发大赛火热招募，丰厚大奖等您拿！](https://suda.baidu.com/dasai)
-  </p>
 [文档（国内）](https://baidu.gitee.io/amis/) |
 [文档（国外）](https://baidu.github.io/amis/) |
 [可视化编辑器](https://aisuda.github.io/amis-editor-demo/) |
@@ -12,7 +9,9 @@
 [爱速搭](https://suda.baidu.com/)
 
 </div>
-
+<div align="center">
+  [爱速搭-低代码应用开发大赛火热招募，丰厚大奖等您拿！](https://suda.baidu.com/dasai)
+</div>
 <div align="center">
   QQ 群: 1147750223（已满） |
   QQ 群2: 651547026 |
