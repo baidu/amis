@@ -36,7 +36,6 @@ export const FormStore = ServiceStore.named('FormStore')
     validated: false,
     submited: false,
     submiting: false,
-    validating: false,
     savedData: types.frozen(),
     // items: types.optional(types.array(types.late(() => FormItemStore)), []),
     canAccessSuperData: true,
@@ -115,6 +114,10 @@ export const FormStore = ServiceStore.named('FormStore')
           getItems().every(item => item.valid) &&
           (!self.restError || !self.restError.length)
         );
+      },
+
+      get validating() {
+        return getItems().some(item => item.validating);
       },
 
       get isPristine() {
@@ -493,14 +496,18 @@ export const FormStore = ServiceStore.named('FormStore')
       hooks?: Array<() => Promise<any>>,
       forceValidate?: boolean
     ) {
-      self.validating = true;
       self.validated = true;
       const items = self.items.concat();
       for (let i = 0, len = items.length; i < len; i++) {
         let item = items[i] as IFormItemStore;
 
-        // 验证过，或者是 unique 的表单项，或者强制验证
-        if (!item.validated || item.unique || forceValidate) {
+        // 验证过，或者是 unique 的表单项，或者强制验证，或者有远端校验api
+        if (
+          !item.validated ||
+          item.unique ||
+          forceValidate ||
+          !!item.validateApi
+        ) {
           yield item.validate(self.data);
         }
       }
@@ -511,13 +518,11 @@ export const FormStore = ServiceStore.named('FormStore')
         }
       }
 
-      self.validating = false;
       return self.valid;
     });
 
     const validateFields: (fields: Array<string>) => Promise<boolean> = flow(
       function* validateFields(fields: Array<string>) {
-        self.validating = true;
         const items = self.items.concat();
         let result: Array<boolean> = [];
         for (let i = 0, len = items.length; i < len; i++) {
@@ -527,7 +532,6 @@ export const FormStore = ServiceStore.named('FormStore')
             result.push(yield item.validate(self.data));
           }
         }
-        self.validating = false;
         return result.every(item => item);
       }
     );

@@ -100,6 +100,8 @@ test('Renderer:Form:valdiate', async () => {
   );
 
   fireEvent.click(getByText('Submit'));
+  await wait(100);
+
   expect(container).toMatchSnapshot();
   expect(onSubmit).not.toHaveBeenCalled();
 

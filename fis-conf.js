@@ -11,10 +11,25 @@ fis.get('project.ignore').push('public/**', 'npm/**', 'gh-pages/**');
 // 配置只编译哪些文件。
 
 const Resource = fis.require('postpackager-loader/lib/resource.js');
+const versionHash = fis.util.md5(package.version);
 
 Resource.extend({
   buildResourceMap: function () {
-    return 'amis.' + this.__super();
+    const resourceMap = this.__super();
+
+    const map = JSON.parse(resourceMap.substring(20, resourceMap.length - 2));
+
+    Object.keys(map.res).forEach(function (key) {
+      if (map.res[key].pkg) {
+        map.res[key].pkg = `${versionHash}-${map.res[key].pkg}`;
+      }
+    });
+    Object.keys(map.pkg).forEach(function (key) {
+      map.pkg[`${versionHash}-${key}`] = map.pkg[key];
+      delete map.pkg[key];
+    });
+
+    return `amis.require.resourceMap(${JSON.stringify(map)});`;
   },
 
   calculate: function () {
@@ -380,9 +395,10 @@ if (fis.project.currentMedia() === 'publish') {
   fis.on('compile:end', function (file) {
     if (
       file.subpath === '/src/index.tsx' ||
-      file.subpath === '/examples/mod.js'
+      file.subpath === '/examples/mod.js' ||
+      file.subpath === '/examples/loader.ts'
     ) {
-      file.setContent(file.getContent().replace('@version', package.version));
+      file.setContent(file.getContent().replace(/@version/g, package.version));
     }
   });
 
@@ -444,14 +460,14 @@ if (fis.project.currentMedia() === 'publish') {
   env.match('*.{js,jsx,ts,tsx}', {
     optimizer: fis.plugin('terser'),
     moduleId: function (m, path) {
-      return fis.util.md5('amis-sdk' + path);
+      return fis.util.md5(package.version + 'amis-sdk' + path);
     }
   });
 
   env.match('/src/icons/**.svg', {
     optimizer: fis.plugin('uglify-js'),
     moduleId: function (m, path) {
-      return fis.util.md5('amis-sdk' + path);
+      return fis.util.md5(package.version + 'amis-sdk' + path);
     }
   });
 
@@ -588,7 +604,7 @@ if (fis.project.currentMedia() === 'publish') {
     try {
       throw new Error()
     } catch (e) {
-      _path = (/((?:https?|file)\:.*)\\n?$/.test(e.stack) && RegExp.$1).replace(/\\/[^\\/]*$/, '');
+      _path = (/((?:https?|file):.*?)\\n/.test(e.stack) && RegExp.$1).replace(/\\/[^\\/]*$/, '');
     }
     function filterUrl(url) {
       return _path + url.substring(1);`;

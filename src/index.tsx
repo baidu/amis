@@ -159,6 +159,7 @@ import './renderers/Carousel';
 import './renderers/AnchorNav';
 import './renderers/Steps';
 import './renderers/Markdown';
+import './renderers/TableView';
 
 import Scoped, {ScopedContext} from './Scoped';
 

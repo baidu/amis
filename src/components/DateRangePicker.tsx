@@ -55,7 +55,7 @@ export interface DateRangePickerState {
   endDate?: moment.Moment;
 }
 
-const availableRanges: {[propName: string]: any} = {
+export const availableRanges: {[propName: string]: any} = {
   'today': {
     label: 'Date.today',
     startDate: (now: moment.Moment) => {
