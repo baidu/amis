@@ -6,7 +6,7 @@ import {
   Option,
   FormOptionsControl
 } from './Options';
-import Select from '../../components/Select';
+import Select, {normalizeOptions} from '../../components/Select';
 import find from 'lodash/find';
 import debouce from 'lodash/debounce';
 import {Api} from '../../types';
@@ -183,7 +183,7 @@ export default class SelectControl extends React.Component<SelectProps, any> {
 
   mergeOptions(options: Array<object>) {
     const {selectedOptions} = this.props;
-    let combinedOptions = options.concat();
+    let combinedOptions = normalizeOptions(options).concat();
 
     if (Array.isArray(selectedOptions) && selectedOptions.length) {
       selectedOptions.forEach(option => {
