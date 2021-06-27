@@ -17,6 +17,7 @@ import {filter} from '../../utils/tpl';
 import {SchemaRemark} from '../Remark';
 import {
   BaseSchema,
+  SchemaApi,
   SchemaClassName,
   SchemaObject,
   SchemaType
@@ -269,7 +270,7 @@ export interface FormBaseControl extends Omit<BaseSchema, 'type'> {
   /**
    * 远端校验表单项接口
    */
-  validateApi?: Api;
+  validateApi?: SchemaApi;
 }
 
 export interface FormItemBasicConfig extends Partial<RendererConfig> {
