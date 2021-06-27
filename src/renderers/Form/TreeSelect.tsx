@@ -20,6 +20,7 @@ import Spinner from '../../components/Spinner';
 import ResultBox from '../../components/ResultBox';
 import {autobind, getTreeAncestors} from '../../utils/helper';
 import {findDOMNode} from 'react-dom';
+import {normalizeOptions} from '../../components/Select';
 
 /**
  * Tree 下拉选择框。
@@ -347,7 +348,7 @@ export default class TreeSelectControl extends React.Component<
 
   mergeOptions(options: Array<object>) {
     const {selectedOptions} = this.props;
-    let combinedOptions = options.concat();
+    let combinedOptions = normalizeOptions(options).concat();
 
     if (Array.isArray(selectedOptions) && selectedOptions.length) {
       selectedOptions.forEach(option => {
