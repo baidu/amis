@@ -64,7 +64,7 @@ order: 68
               "rowspan": 2,
               "body": {
                 "type": "tpl",
-                "tpl": " 华北"
+                "tpl": "华北"
               }
             },
             {
@@ -141,3 +141,109 @@ table view 的设置项有三层，可以分别对表格级别、行级别、单
 | colspan    | `number`                                  |                | 单元格水平跨几行                                                 |
 | rowspan    | `number`                                  |                | 单元格垂直跨几列                                                 |
 | body       | [SchemaNode](../../docs/types/schemanode) |                | 其它 amis 设置                                                   |
+
+### 列设置项
+
+列设置项主要是用于控制整列的样式，比如
+
+```schema: scope="body"
+{
+  "type": "table-view",
+  "cols": [
+    {
+
+    },
+    {
+      "style": {
+        "background": "#F7F7F7"
+      }
+    }
+  ],
+  "trs": [
+    {
+      "tds": [
+        {
+          "rowspan": 2,
+          "body": {
+            "type": "tpl",
+            "tpl": "华北"
+          }
+        },
+        {
+          "body": {
+            "type": "tpl",
+            "tpl": "北京"
+          }
+        }
+      ]
+    },
+    {
+      "tds": [
+        {
+          "body": {
+            "type": "tpl",
+            "tpl": "天津"
+          }
+        }
+      ]
+    }
+  ]
+}
+```
+
+| 属性名 | 类型     | 默认值 | 说明                 |
+| ------ | -------- | ------ | -------------------- |
+| span   | `number` |        | 这是个跨几列的设置项 |
+| style  | `object` |        | 列样式               |
+
+### 标题设置
+
+可以通过 title 来添加段标题文本
+
+```schema: scope="body"
+{
+  "type": "table-view",
+  "title": "标题",
+  "trs": [
+    {
+      "tds": [
+        {
+          "rowspan": 2,
+          "body": {
+            "type": "tpl",
+            "tpl": "华北"
+          }
+        },
+        {
+          "body": {
+            "type": "tpl",
+            "tpl": "北京"
+          }
+        },
+        {
+          "body": {
+            "type": "tpl",
+            "tpl": "${beijing}"
+          }
+        }
+      ]
+    },
+    {
+      "tds": [
+        {
+          "body": {
+            "type": "tpl",
+            "tpl": "天津"
+          }
+        },
+        {
+          "body": {
+            "type": "tpl",
+            "tpl": "${tianjing}"
+          }
+        }
+      ]
+    }
+  ]
+}
+```
