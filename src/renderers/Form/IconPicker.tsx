@@ -54,10 +54,10 @@ export default class IconPickerControl extends React.PureComponent<
     noDataTip: '未找到匹配的图标'
   };
 
-  componentWillReceiveProps(nextProps: IconPickerProps) {
+  componentDidUpdate(prevProps: IconPickerProps) {
     const props = this.props;
 
-    if (props.value !== nextProps.value) {
+    if (prevProps.value !== props.value) {
       this.setState({
         inputValue: ''
       });

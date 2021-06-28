@@ -73,31 +73,26 @@ export default class FormulaControl extends React.Component<
     result !== null && setPrinstineValue(result);
   }
 
-  componentWillReceiveProps(nextProps: FormControlProps) {
-    const {formula, data, onChange, autoSet, value, condition} = this.props;
+  componentDidUpdate(prevProps: FormControlProps) {
+    const props = this.props;
+    const {formula, data, onChange, autoSet, value, condition} = prevProps;
 
     if (
       autoSet !== false &&
       formula &&
-      nextProps.formula &&
-      isObjectShallowModified(data, nextProps.data, false) &&
-      value === nextProps.value
+      props.formula &&
+      isObjectShallowModified(data, props.data, false) &&
+      value === props.value
     ) {
-      const nextResult: any = evalJS(
-        nextProps.formula,
-        nextProps.data as object
-      );
+      const nextResult: any = evalJS(props.formula, props.data as object);
 
-      if (condition && nextProps.condition) {
+      if (condition && props.condition) {
         if (!!~condition.indexOf('$') || !!~condition.indexOf('<%')) {
           // 使用${xxx}，来监听某个变量的变化
-          if (
-            filter(condition, data) !==
-            filter(nextProps.condition, nextProps.data)
-          ) {
+          if (filter(condition, data) !== filter(props.condition, props.data)) {
             onChange(nextResult);
           }
-        } else if (evalJS(nextProps.condition, nextProps.data as object)) {
+        } else if (evalJS(props.condition, props.data as object)) {
           // 使用 data.xxx == 'a' 表达式形式来判断
           onChange(nextResult);
         }

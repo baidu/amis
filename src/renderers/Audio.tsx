@@ -125,12 +125,12 @@ export class Audio extends React.Component<AudioProps, AudioState> {
     );
   }
 
-  componentWillReceiveProps(nextProps: AudioProps) {
+  componentDidUpdate(prevProps: AudioProps) {
     const props = this.props;
 
     detectPropValueChanged(
-      nextProps,
       props,
+      prevProps,
       value =>
         this.setState(
           {

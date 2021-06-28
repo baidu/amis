@@ -239,17 +239,29 @@ export function HocScoped<
 > & {
   ComposedComponent: React.ComponentType<T>;
 } {
-  class ScopedComponent extends React.Component<
-    T & {
-      scopeRef?: (ref: any) => void;
-    }
-  > {
+  type ScopedProps = T & {
+    scopeRef?: (ref: any) => void;
+  };
+  class ScopedComponent extends React.Component<ScopedProps> {
     static displayName = `Scoped(${
       ComposedComponent.displayName || ComposedComponent.name
     })`;
     static contextType = ScopedContext;
     static ComposedComponent = ComposedComponent;
     ref: any;
+    scoped?: IScopedContext;
+
+    constructor(props: ScopedProps, context: IScopedContext) {
+      super(props);
+
+      this.scoped = createScopedTools(
+        this.props.$path,
+        context,
+        this.props.env
+      );
+      const scopeRef = props.scopeRef;
+      scopeRef && scopeRef(this.scoped);
+    }
 
     getWrappedInstance() {
       return this.ref;
@@ -264,23 +276,17 @@ export function HocScoped<
       this.ref = ref;
     }
 
-    scoped = createScopedTools(this.props.$path, this.context, this.props.env);
-
-    componentWillMount() {
-      const scopeRef = this.props.scopeRef;
-      scopeRef && scopeRef(this.scoped);
-    }
-
     componentWillUnmount() {
       const scopeRef = this.props.scopeRef;
       scopeRef && scopeRef(null);
+      delete this.scoped;
     }
 
     render() {
       const {scopeRef, ...rest} = this.props;
 
       return (
-        <ScopedContext.Provider value={this.scoped}>
+        <ScopedContext.Provider value={this.scoped!}>
           <ComposedComponent
             {
               ...(rest as any) /* todo */

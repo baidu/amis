@@ -194,8 +194,10 @@ export default class IFrame extends React.Component<IFrameProps, object> {
 export class IFrameRenderer extends IFrame {
   static contextType = ScopedContext;
 
-  componentWillMount() {
-    const scoped = this.context as IScopedContext;
+  constructor(props: IFrameProps, context: IScopedContext) {
+    super(props);
+
+    const scoped = context;
     scoped.registerComponent(this);
   }
 

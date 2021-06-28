@@ -124,12 +124,12 @@ export default class Collapse extends React.Component<
     this.state.collapsed = !!props.collapsed;
   }
 
-  componentWillReceiveProps(nextProps: CollapseProps) {
+  componentDidUpdate(prevProps: CollapseProps) {
     const props = this.props;
 
-    if (props.collapsed !== nextProps.collapsed) {
+    if (prevProps.collapsed !== props.collapsed) {
       this.setState({
-        collapsed: !!nextProps.collapsed
+        collapsed: !!props.collapsed
       });
     }
   }

@@ -366,9 +366,7 @@ export default class ComboControl extends React.Component<ComboProps> {
     this.defaultValue = {
       ...props.scaffold
     };
-  }
 
-  componentWillMount() {
     const {
       store,
       value,
@@ -377,25 +375,25 @@ export default class ComboControl extends React.Component<ComboProps> {
       maxLength,
       formItem,
       addHook
-    } = this.props;
+    } = props;
 
     store.config({
       multiple,
       minLength,
       maxLength,
-      length: this.getValueAsArray().length
+      length: this.getValueAsArray(props).length
     });
 
     formItem && isAlive(formItem) && formItem.setSubStore(store);
     addHook && this.toDispose.push(addHook(this.flush, 'flush'));
   }
 
-  componentWillReceiveProps(nextProps: ComboProps) {
+  componentDidUpdate(prevProps: ComboProps) {
     const props = this.props;
 
-    if (anyChanged(['minLength', 'maxLength', 'value'], props, nextProps)) {
-      const {store, minLength, maxLength, multiple} = nextProps;
-      const values = this.getValueAsArray(nextProps);
+    if (anyChanged(['minLength', 'maxLength', 'value'], prevProps, props)) {
+      const {store, minLength, maxLength, multiple} = props;
+      const values = this.getValueAsArray(props);
 
       store.config({
         multiple,
@@ -411,8 +409,8 @@ export default class ComboControl extends React.Component<ComboProps> {
       // combo 进来了新的值，且这次 form 初始化时带来的新值变化，但是之前的值已经 onInit 过了
       // 所以，之前 onInit 设置进去的初始值是过时了的。这个时候修复一下。
       if (
-        nextProps.value !== props.value &&
-        !props.formInited &&
+        props.value !== prevProps.value &&
+        !prevProps.formInited &&
         this.subFormDefaultValues.length
       ) {
         this.subFormDefaultValues = this.subFormDefaultValues.map(

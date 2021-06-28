@@ -177,10 +177,8 @@ export class Chart extends React.Component<ChartProps> {
     this.refFn = this.refFn.bind(this);
     this.reload = this.reload.bind(this);
     this.handleClick = this.handleClick.bind(this);
-  }
 
-  componentWillMount() {
-    const {config, api, data, initFetch, source} = this.props;
+    const {config, api, data, initFetch, source} = props;
 
     this.mounted = true;
 
@@ -478,9 +476,10 @@ export class Chart extends React.Component<ChartProps> {
 export class ChartRenderer extends Chart {
   static contextType = ScopedContext;
 
-  componentWillMount() {
-    super.componentWillMount();
-    const scoped = this.context as IScopedContext;
+  constructor(props: ChartProps, context: IScopedContext) {
+    super(props);
+
+    const scoped = context;
     scoped.registerComponent(this);
   }
 

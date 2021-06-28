@@ -182,10 +182,8 @@ export default class Drawer extends React.Component<DrawerProps> {
     this.handleFormInit = this.handleFormInit.bind(this);
     this.handleFormChange = this.handleFormChange.bind(this);
     this.handleFormSaved = this.handleFormSaved.bind(this);
-  }
 
-  componentWillMount() {
-    const store = this.props.store;
+    const store = props.store;
     this.reaction = reaction(
       () => `${store.loading}${store.error}`,
       () => this.forceUpdate()
@@ -661,10 +659,11 @@ export default class Drawer extends React.Component<DrawerProps> {
 export class DrawerRenderer extends Drawer {
   static contextType = ScopedContext;
 
-  componentWillMount() {
-    const scoped = this.context as IScopedContext;
+  constructor(props: DrawerProps, context: IScopedContext) {
+    super(props);
+    const scoped = context;
+
     scoped.registerComponent(this);
-    super.componentWillMount();
   }
 
   componentWillUnmount() {

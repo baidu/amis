@@ -75,12 +75,12 @@ export class ColorControl extends React.PureComponent<
     this.input = React.createRef();
   }
 
-  componentWillReceiveProps(nextProps: ColorProps) {
+  componentDidUpdate(prevProps: ColorProps) {
     const props = this.props;
 
-    if (props.value !== nextProps.value) {
+    if (prevProps.value !== props.value) {
       this.setState({
-        inputValue: nextProps.value || ''
+        inputValue: props.value || ''
       });
     }
   }

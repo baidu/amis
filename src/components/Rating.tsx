@@ -67,15 +67,19 @@ export class Rating extends React.Component<RatingProps, any> {
     });
   }
 
-  componentWillReceiveProps(props: RatingProps) {
-    this.setState({
-      stars: this.getStars(props.value),
-      value: props.value,
-      halfStar: {
-        at: Math.floor(props.value),
-        hidden: props.half && props.value % 1 < 0.5
-      }
-    });
+  componentDidUpdate(prevProps: RatingProps) {
+    const props = this.props;
+
+    if (props.value !== prevProps.value) {
+      this.setState({
+        stars: this.getStars(props.value),
+        value: props.value,
+        halfStar: {
+          at: Math.floor(props.value),
+          hidden: props.half && props.value % 1 < 0.5
+        }
+      });
+    }
   }
 
   getRate() {
@@ -175,7 +179,9 @@ export class Rating extends React.Component<RatingProps, any> {
     const isClear = allowClear && value === this.state.value;
     if (isClear) value = index = 0;
     this.setState({
-      value, stars: this.getStars(index), isClear
+      value,
+      stars: this.getStars(index),
+      isClear
     });
     onChange && onChange(value);
   }

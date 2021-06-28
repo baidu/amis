@@ -57,9 +57,6 @@ export class SchemaRenderer extends React.Component<SchemaRendererProps, any> {
     this.refFn = this.refFn.bind(this);
     this.renderChild = this.renderChild.bind(this);
     this.reRender = this.reRender.bind(this);
-  }
-
-  componentWillMount() {
     this.resolveRenderer(this.props);
   }
 
