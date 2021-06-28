@@ -129,7 +129,12 @@ export interface TableViewSchema extends BaseSchema {
   /**
    * 标题设置
    */
-  title?: string;
+  caption?: string;
+
+  /**
+   * 标题位置
+   */
+  captionSide?: 'top' | 'bottom';
 
   /**
    * 行设置
@@ -230,9 +235,17 @@ export default class TableView extends React.Component<TableViewProps, object> {
     return null;
   }
 
-  renderTitle() {
-    if (this.props.title) {
-      return <caption>{this.props.title}</caption>;
+  renderCaption() {
+    if (this.props.caption) {
+      return (
+        <caption
+          style={{
+            captionSide: this.props.captionSide === 'bottom' ? 'bottom' : 'top'
+          }}
+        >
+          {this.props.caption}
+        </caption>
+      );
     }
     return null;
   }
@@ -255,7 +268,7 @@ export default class TableView extends React.Component<TableViewProps, object> {
         className={cx('TableView', className)}
         style={{width: width, border: styleBorder, borderCollapse: 'collapse'}}
       >
-        {this.renderTitle()}
+        {this.renderCaption()}
         {this.renderCols()}
         <tbody>{this.renderTrs(trs)}</tbody>
       </table>

@@ -198,12 +198,13 @@ table view 的设置项有三层，可以分别对表格级别、行级别、单
 
 ### 标题设置
 
-可以通过 title 来添加段标题文本
+可以通过 `caption` 来添加段标题文本，并通过 `captionSide` 来控制显示在底部还是顶部。
 
 ```schema: scope="body"
 {
   "type": "table-view",
-  "title": "标题",
+  "caption": "标题",
+  "captionSide": "bottom",
   "trs": [
     {
       "tds": [
