@@ -233,7 +233,11 @@ export const Row = types
         let index = 0;
         const len = self.children.length;
         while (pool.length) {
-          const item = pool.shift()!;
+          // 因为父级id未更新，所以需要将子级的parentId正确指向父级id
+          const item = {
+            ...pool.shift(),
+            parentId: self.id
+          }!;
 
           if (index < len) {
             self.children[index].replaceWith(item);
