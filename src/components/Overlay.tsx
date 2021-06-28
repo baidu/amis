@@ -112,10 +112,11 @@ export default class Overlay extends React.Component<
     };
   }
 
-  componentWillReceiveProps(nextProps: OverlayProps) {
-    if (nextProps.show) {
+  componentDidUpdate(prevProps: OverlayProps) {
+    const props = this.props;
+    if (prevProps.show !== props.show && props.show) {
       this.setState({exited: false});
-    } else if (!nextProps.transition) {
+    } else if (props.transition !== prevProps.transition && !props.transition) {
       // Otherwise let handleHidden take care of marking exited.
       this.setState({exited: true});
     }

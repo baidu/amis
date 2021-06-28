@@ -399,8 +399,10 @@ export class NavigationRenderer extends React.Component<RendererProps> {
     this.remoteRef = ref;
   }
 
-  componentWillMount() {
-    const scoped = this.context as IScopedContext;
+  constructor(props: RendererProps, context: IScopedContext) {
+    super(props);
+
+    const scoped = context;
     scoped.registerComponent(this);
   }
 

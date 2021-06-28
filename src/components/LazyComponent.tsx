@@ -39,15 +39,12 @@ export default class LazyComponent extends React.Component<
     super(props);
 
     this.handleVisibleChange = this.handleVisibleChange.bind(this);
+    this.mounted = true;
 
     this.state = {
       visible: false,
       component: props.component as React.ReactType
     };
-  }
-
-  componentWillMount() {
-    this.mounted = true;
   }
 
   componentWillUnmount() {

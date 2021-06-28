@@ -118,22 +118,22 @@ export class AsideNav extends React.Component<AsideNavProps, AsideNavState> {
     this.toggleExpand = this.toggleExpand.bind(this);
   }
 
-  componentWillReceiveProps(nextProps: AsideNavProps) {
+  componentDidUpdate(prevProps: AsideNavProps) {
     const props = this.props;
-    const isOpen = props.isOpen;
+    const isOpen = prevProps.isOpen;
 
     if (
-      props.navigations !== nextProps.navigations ||
-      props.isActive !== nextProps.isActive
+      prevProps.navigations !== props.navigations ||
+      prevProps.isActive !== props.isActive
     ) {
       let id = 1;
       this.setState({
         navigations: mapTree(
-          nextProps.navigations,
+          props.navigations,
           (item: Navigation) => {
             const isActive =
               typeof item.active === 'undefined'
-                ? (nextProps.isActive as Function)(item)
+                ? (props.isActive as Function)(item)
                 : item.active;
 
             return {

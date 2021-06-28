@@ -328,10 +328,12 @@ export class DatePicker extends React.Component<DateProps, DatePickerState> {
 
   dom: HTMLDivElement;
 
-  componentWillReceiveProps(nextProps: DateProps) {
-    if (this.props.value !== nextProps.value) {
+  componentDidUpdate(prevProps: DateProps) {
+    const props = this.props;
+
+    if (prevProps.value !== props.value) {
       this.setState({
-        value: normalizeValue(nextProps.value, nextProps.format)
+        value: normalizeValue(props.value, props.format)
       });
     }
   }
