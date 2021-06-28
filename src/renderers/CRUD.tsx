@@ -420,9 +420,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
     this.renderHeaderToolbar = this.renderHeaderToolbar.bind(this);
     this.renderFooterToolbar = this.renderFooterToolbar.bind(this);
     this.clearSelection = this.clearSelection.bind(this);
-  }
 
-  componentWillMount() {
     const {
       location,
       store,
@@ -430,7 +428,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
       perPageField,
       syncLocation,
       loadDataOnce
-    } = this.props;
+    } = props;
 
     this.mounted = true;
 
@@ -2113,10 +2111,10 @@ export default class CRUD extends React.Component<CRUDProps, any> {
 export class CRUDRenderer extends CRUD {
   static contextType = ScopedContext;
 
-  componentWillMount() {
-    super.componentWillMount();
+  constructor(props: CRUDProps, context: IScopedContext) {
+    super(props);
 
-    const scoped = this.context as IScopedContext;
+    const scoped = context;
     scoped.registerComponent(this);
   }
 

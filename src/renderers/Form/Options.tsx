@@ -269,7 +269,9 @@ export function registerOptionsControl(config: OptionsConfig) {
     reaction?: () => void;
     input: any;
 
-    componentWillMount() {
+    constructor(props: OptionsProps) {
+      super(props);
+
       const {
         initFetch,
         formItem,
@@ -286,7 +288,7 @@ export function registerOptionsControl(config: OptionsConfig) {
         options,
         value,
         onChange
-      } = this.props;
+      } = props;
 
       if (formItem) {
         formItem.setOptions(normalizeOptions(options), onChange);

@@ -458,9 +458,10 @@ export default class Task extends React.Component<TaskProps, TaskState> {
 export class TaskRenderer extends Task {
   static contextType = ScopedContext;
 
-  componentWillMount() {
-    // super.componentWillMount();
-    const scoped = this.context as IScopedContext;
+  constructor(props: TaskProps, context: IScopedContext) {
+    super(props);
+
+    const scoped = context;
     scoped.registerComponent(this);
   }
 

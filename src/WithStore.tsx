@@ -44,30 +44,13 @@ export function HocStoreFactory(renderer: {
       context!: React.ContextType<typeof RootStoreContext>;
       ref: any;
 
-      constructor(props: Props) {
+      constructor(
+        props: Props,
+        context: React.ContextType<typeof RootStoreContext>
+      ) {
         super(props);
-      }
 
-      getWrappedInstance() {
-        return this.ref;
-      }
-
-      refFn(ref: any) {
-        this.ref = ref;
-      }
-
-      formatData(data: any): object {
-        if (Array.isArray(data)) {
-          return {
-            items: data
-          };
-        }
-
-        return data as object;
-      }
-
-      componentWillMount() {
-        const rootStore = this.context;
+        const rootStore = context;
         this.renderChild = this.renderChild.bind(this);
         this.refFn = this.refFn.bind(this);
 
@@ -118,6 +101,24 @@ export function HocStoreFactory(renderer: {
             ...this.formatData(this.props.data)
           });
         }
+      }
+
+      getWrappedInstance() {
+        return this.ref;
+      }
+
+      refFn(ref: any) {
+        this.ref = ref;
+      }
+
+      formatData(data: any): object {
+        if (Array.isArray(data)) {
+          return {
+            items: data
+          };
+        }
+
+        return data as object;
       }
 
       componentDidUpdate(prevProps: RendererProps) {

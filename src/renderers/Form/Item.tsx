@@ -376,8 +376,10 @@ export interface FormItemConfig extends FormItemBasicConfig {
 export class FormItemWrap extends React.Component<FormItemProps> {
   reaction: any;
 
-  componentWillMount() {
-    const {formItem: model} = this.props;
+  constructor(props: FormItemProps) {
+    super(props);
+
+    const {formItem: model} = props;
 
     if (model) {
       this.reaction = reaction(
@@ -1083,10 +1085,8 @@ export function asFormItem(config: Omit<FormItemConfig, 'component'>) {
           constructor(props: FormItemProps) {
             super(props);
             this.refFn = this.refFn.bind(this);
-          }
 
-          componentWillMount() {
-            const {validations, formItem: model} = this.props;
+            const {validations, formItem: model} = props;
 
             // 组件注册的时候可能默认指定验证器类型
             if (model && !validations && config.validations) {
@@ -1094,8 +1094,6 @@ export function asFormItem(config: Omit<FormItemConfig, 'component'>) {
                 rules: config.validations
               });
             }
-
-            super.componentWillMount();
           }
 
           shouldComponentUpdate(nextProps: FormControlProps) {

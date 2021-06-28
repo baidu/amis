@@ -1048,8 +1048,10 @@ function isJumpable(step: any, index: number, currentStep: number, data: any) {
 export class WizardRenderer extends Wizard {
   static contextType = ScopedContext;
 
-  componentWillMount() {
-    const scoped = this.context as IScopedContext;
+  constructor(props: WizardProps, context: IScopedContext) {
+    super(props);
+
+    const scoped = context;
     scoped.registerComponent(this);
   }
 

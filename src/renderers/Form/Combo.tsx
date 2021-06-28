@@ -366,9 +366,7 @@ export default class ComboControl extends React.Component<ComboProps> {
     this.defaultValue = {
       ...props.scaffold
     };
-  }
 
-  componentWillMount() {
     const {
       store,
       value,
@@ -377,13 +375,13 @@ export default class ComboControl extends React.Component<ComboProps> {
       maxLength,
       formItem,
       addHook
-    } = this.props;
+    } = props;
 
     store.config({
       multiple,
       minLength,
       maxLength,
-      length: this.getValueAsArray().length
+      length: this.getValueAsArray(props).length
     });
 
     formItem && isAlive(formItem) && formItem.setSubStore(store);

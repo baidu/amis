@@ -87,7 +87,9 @@ export default class DateRangeControl extends React.Component<DateRangeProps> {
     delimiter: ','
   };
 
-  componentWillMount() {
+  constructor(props: DateRangeProps) {
+    super(props);
+
     const {
       defaultValue,
       setPrinstineValue,
@@ -97,7 +99,7 @@ export default class DateRangeControl extends React.Component<DateRangeProps> {
       value,
       joinValues,
       utc
-    } = this.props;
+    } = props;
 
     if (defaultValue && value === defaultValue) {
       let arr =

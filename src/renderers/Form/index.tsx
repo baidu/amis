@@ -442,10 +442,8 @@ export default class Form extends React.Component<FormProps, object> {
     this.initInterval = this.initInterval.bind(this);
     this.blockRouting = this.blockRouting.bind(this);
     this.beforePageUnload = this.beforePageUnload.bind(this);
-  }
 
-  componentWillMount() {
-    const {store, canAccessSuperData, persistData, simpleMode} = this.props;
+    const {store, canAccessSuperData, persistData, simpleMode} = props;
 
     store.setCanAccessSuperData(canAccessSuperData !== false);
     store.setPersistData(persistData);
@@ -1606,10 +1604,11 @@ export default class Form extends React.Component<FormProps, object> {
 export class FormRenderer extends Form {
   static contextType = ScopedContext;
 
-  componentWillMount() {
-    const scoped = this.context as IScopedContext;
+  constructor(props: FormProps, context: IScopedContext) {
+    super(props);
+
+    const scoped = context;
     scoped.registerComponent(this);
-    super.componentWillMount();
   }
 
   componentDidMount() {

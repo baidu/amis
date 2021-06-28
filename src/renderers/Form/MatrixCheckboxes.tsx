@@ -103,9 +103,6 @@ export default class MatrixCheckbox extends React.Component<
     this.toggleItem = this.toggleItem.bind(this);
     this.reload = this.reload.bind(this);
     this.initOptions = this.initOptions.bind(this);
-  }
-
-  componentWillMount() {
     this.mounted = true;
   }
 

@@ -90,7 +90,9 @@ export default class MonthRangeControl extends React.Component<MonthRangeProps> 
     delimiter: ','
   };
 
-  componentWillMount() {
+  constructor(props: MonthRangeProps) {
+    super(props);
+
     const {
       defaultValue,
       setPrinstineValue,
@@ -100,7 +102,7 @@ export default class MonthRangeControl extends React.Component<MonthRangeProps> 
       value,
       joinValues,
       utc
-    } = this.props;
+    } = props;
 
     if (defaultValue && value === defaultValue) {
       let arr =

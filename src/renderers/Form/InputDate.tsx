@@ -279,7 +279,9 @@ export default class DateControl extends React.PureComponent<
     clearable: true
   };
 
-  componentWillMount() {
+  constructor(props: DateProps) {
+    super(props);
+
     const {
       minDate,
       maxDate,
@@ -289,17 +291,17 @@ export default class DateControl extends React.PureComponent<
       data,
       format,
       utc
-    } = this.props;
+    } = props;
 
     if (defaultValue && value === defaultValue) {
       const date = filterDate(defaultValue, data, format);
       setPrinstineValue((utc ? moment.utc(date) : date).format(format));
     }
 
-    this.setState({
+    this.state = {
       minDate: minDate ? filterDate(minDate, data, format) : undefined,
       maxDate: maxDate ? filterDate(maxDate, data, format) : undefined
-    });
+    };
   }
 
   componentDidUpdate(prevProps: DateProps) {

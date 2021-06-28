@@ -405,9 +405,10 @@ export default class App extends React.Component<AppProps, object> {
 })
 export class AppRenderer extends App {
   static contextType = ScopedContext;
+  constructor(props: AppProps, context: IScopedContext) {
+    super(props);
 
-  componentWillMount() {
-    const scoped = this.context as IScopedContext;
+    const scoped = context;
     scoped.registerComponent(this);
   }
 

@@ -221,6 +221,32 @@ export default class Cards extends React.Component<GridProps, object> {
     //     trailing: true,
     //     leading: false
     // })
+
+    const {
+      store,
+      selectable,
+      draggable,
+      orderBy,
+      orderDir,
+      multiple,
+      hideCheckToggler,
+      itemCheckableOn,
+      itemDraggableOn
+    } = props;
+
+    store.update({
+      selectable,
+      draggable,
+      orderBy,
+      orderDir,
+      multiple,
+      hideCheckToggler,
+      itemCheckableOn,
+      itemDraggableOn
+    });
+
+    Cards.syncItems(store, this.props);
+    this.syncSelected();
   }
 
   static syncItems(store: IListStore, props: GridProps, prevProps?: GridProps) {
@@ -245,34 +271,6 @@ export default class Cards extends React.Component<GridProps, object> {
     updateItems && store.initItems(items);
     typeof props.selected !== 'undefined' &&
       store.updateSelected(props.selected, props.valueField);
-  }
-
-  componentWillMount() {
-    const {
-      store,
-      selectable,
-      draggable,
-      orderBy,
-      orderDir,
-      multiple,
-      hideCheckToggler,
-      itemCheckableOn,
-      itemDraggableOn
-    } = this.props;
-
-    store.update({
-      selectable,
-      draggable,
-      orderBy,
-      orderDir,
-      multiple,
-      hideCheckToggler,
-      itemCheckableOn,
-      itemDraggableOn
-    });
-
-    Cards.syncItems(store, this.props);
-    this.syncSelected();
   }
 
   componentDidMount() {

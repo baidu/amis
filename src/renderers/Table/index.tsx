@@ -411,6 +411,50 @@ export default class Table extends React.Component<TableProps, object> {
     this.handleMouseMove = this.handleMouseMove.bind(this);
     this.handleMouseLeave = this.handleMouseLeave.bind(this);
     this.subFormRef = this.subFormRef.bind(this);
+
+    const {
+      store,
+      columns,
+      selectable,
+      columnsTogglable,
+      draggable,
+      orderBy,
+      orderDir,
+      multiple,
+      footable,
+      primaryField,
+      itemCheckableOn,
+      itemDraggableOn,
+      hideCheckToggler,
+      combineNum,
+      expandConfig,
+      formItem,
+      keepItemSelectionOnPageChange,
+      maxKeepItemSelectionLength
+    } = props;
+
+    store.update({
+      selectable,
+      draggable,
+      columns,
+      columnsTogglable,
+      orderBy,
+      orderDir,
+      multiple,
+      footable,
+      expandConfig,
+      primaryField,
+      itemCheckableOn,
+      itemDraggableOn,
+      hideCheckToggler,
+      combineNum,
+      keepItemSelectionOnPageChange,
+      maxKeepItemSelectionLength
+    });
+
+    formItem && isAlive(formItem) && formItem.setSubStore(store);
+    Table.syncRows(store, this.props);
+    this.syncSelected();
   }
 
   static syncRows(
@@ -439,52 +483,6 @@ export default class Table extends React.Component<TableProps, object> {
     updateRows && store.initRows(rows, props.getEntryId);
     typeof props.selected !== 'undefined' &&
       store.updateSelected(props.selected, props.valueField);
-  }
-
-  componentWillMount() {
-    const {
-      store,
-      columns,
-      selectable,
-      columnsTogglable,
-      draggable,
-      orderBy,
-      orderDir,
-      multiple,
-      footable,
-      primaryField,
-      itemCheckableOn,
-      itemDraggableOn,
-      hideCheckToggler,
-      combineNum,
-      expandConfig,
-      formItem,
-      keepItemSelectionOnPageChange,
-      maxKeepItemSelectionLength
-    } = this.props;
-
-    store.update({
-      selectable,
-      draggable,
-      columns,
-      columnsTogglable,
-      orderBy,
-      orderDir,
-      multiple,
-      footable,
-      expandConfig,
-      primaryField,
-      itemCheckableOn,
-      itemDraggableOn,
-      hideCheckToggler,
-      combineNum,
-      keepItemSelectionOnPageChange,
-      maxKeepItemSelectionLength
-    });
-
-    formItem && isAlive(formItem) && formItem.setSubStore(store);
-    Table.syncRows(store, this.props);
-    this.syncSelected();
   }
 
   componentDidMount() {

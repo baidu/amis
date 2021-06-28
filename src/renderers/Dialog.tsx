@@ -156,10 +156,8 @@ export default class Dialog extends React.Component<DialogProps> {
     this.handleFormSaved = this.handleFormSaved.bind(this);
     this.handleFormChange = this.handleFormChange.bind(this);
     this.handleChildFinished = this.handleChildFinished.bind(this);
-  }
 
-  componentWillMount() {
-    const store = this.props.store;
+    const store = props.store;
     this.reaction = reaction(
       () => `${store.loading}${store.error}`,
       () => this.forceUpdate()
@@ -603,10 +601,11 @@ export default class Dialog extends React.Component<DialogProps> {
 export class DialogRenderer extends Dialog {
   static contextType = ScopedContext;
 
-  componentWillMount() {
-    const scoped = this.context as IScopedContext;
+  constructor(props: DialogProps, context: IScopedContext) {
+    super(props);
+
+    const scoped = context;
     scoped.registerComponent(this);
-    super.componentWillMount();
   }
 
   componentWillUnmount() {

@@ -290,6 +290,32 @@ export default class List extends React.Component<ListProps, object> {
     this.affixDetect = this.affixDetect.bind(this);
     this.bodyRef = this.bodyRef.bind(this);
     this.renderToolbar = this.renderToolbar.bind(this);
+
+    const {
+      store,
+      selectable,
+      draggable,
+      orderBy,
+      orderDir,
+      multiple,
+      hideCheckToggler,
+      itemCheckableOn,
+      itemDraggableOn
+    } = props;
+
+    store.update({
+      multiple,
+      selectable,
+      draggable,
+      orderBy,
+      orderDir,
+      hideCheckToggler,
+      itemCheckableOn,
+      itemDraggableOn
+    });
+
+    List.syncItems(store, this.props);
+    this.syncSelected();
   }
 
   static syncItems(store: IListStore, props: ListProps, prevProps?: ListProps) {
@@ -314,34 +340,6 @@ export default class List extends React.Component<ListProps, object> {
     updateItems && store.initItems(items);
     Array.isArray(props.selected) &&
       store.updateSelected(props.selected, props.valueField);
-  }
-
-  componentWillMount() {
-    const {
-      store,
-      selectable,
-      draggable,
-      orderBy,
-      orderDir,
-      multiple,
-      hideCheckToggler,
-      itemCheckableOn,
-      itemDraggableOn
-    } = this.props;
-
-    store.update({
-      multiple,
-      selectable,
-      draggable,
-      orderBy,
-      orderDir,
-      hideCheckToggler,
-      itemCheckableOn,
-      itemDraggableOn
-    });
-
-    List.syncItems(store, this.props);
-    this.syncSelected();
   }
 
   componentDidMount() {
