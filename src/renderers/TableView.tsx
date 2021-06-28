@@ -59,23 +59,41 @@ export type TdObject = {
    * 跨几列
    */
   rowspan?: number;
+
+  /**
+   * 自定义样式
+   */
+  style?: object;
 };
 
+/**
+ * 行设置
+ */
 export type TrObject = {
   /**
    * 行背景色
    */
-  background: string;
+  background?: string;
 
   /**
    * 行高度
    */
-  height: number;
+  height?: number;
 
   /**
    * 单元格配置
    */
   tds: TdObject[];
+
+  style?: object;
+};
+
+/**
+ * 列设置
+ */
+export type ColObject = {
+  span?: number;
+  style?: Object;
 };
 
 /**
@@ -109,9 +127,24 @@ export interface TableViewSchema extends BaseSchema {
   borderColor?: string;
 
   /**
+   * 标题设置
+   */
+  caption?: string;
+
+  /**
+   * 标题位置
+   */
+  captionSide?: 'top' | 'bottom';
+
+  /**
    * 行设置
    */
   trs: TrObject[];
+
+  /**
+   * 列设置
+   */
+  cols: ColObject[];
 }
 
 export interface TableViewProps
@@ -140,7 +173,7 @@ export default class TableView extends React.Component<TableViewProps, object> {
   }
 
   renderTd(td: TdObject, colIndex: number, rowIndex: number) {
-    const {border, borderColor, render} = this.props;
+    const {border, borderColor, render, style} = this.props;
     const key = `td-${colIndex}`;
     let styleBorder;
     if (border) {
@@ -156,7 +189,8 @@ export default class TableView extends React.Component<TableViewProps, object> {
           padding: td.padding || defaultPadding,
           width: td.width || 'auto',
           textAlign: td.align || 'left',
-          verticalAlign: td.valign || 'center'
+          verticalAlign: td.valign || 'center',
+          ...style
         }}
         align={td.align}
         valign={td.valign}
@@ -176,7 +210,10 @@ export default class TableView extends React.Component<TableViewProps, object> {
   renderTr(tr: TrObject, rowIndex: number) {
     const key = `tr-${rowIndex}`;
     return (
-      <tr style={{height: tr.height, background: tr.background}} key={key}>
+      <tr
+        style={{height: tr.height, background: tr.background, ...tr.style}}
+        key={key}
+      >
         {this.renderTds(tr.tds, rowIndex)}
       </tr>
     );
@@ -185,6 +222,32 @@ export default class TableView extends React.Component<TableViewProps, object> {
   renderTrs(trs: TrObject[]) {
     const tr = trs.map((tr, rowIndex) => this.renderTr(tr, rowIndex));
     return tr;
+  }
+
+  renderCols() {
+    const {cols} = this.props;
+    if (cols) {
+      const colsElement = cols.map(col => {
+        return <col span={col.span} style={col.style}></col>;
+      });
+      return <colgroup>{colsElement}</colgroup>;
+    }
+    return null;
+  }
+
+  renderCaption() {
+    if (this.props.caption) {
+      return (
+        <caption
+          style={{
+            captionSide: this.props.captionSide === 'bottom' ? 'bottom' : 'top'
+          }}
+        >
+          {this.props.caption}
+        </caption>
+      );
+    }
+    return null;
   }
 
   render() {
@@ -205,6 +268,8 @@ export default class TableView extends React.Component<TableViewProps, object> {
         className={cx('TableView', className)}
         style={{width: width, border: styleBorder, borderCollapse: 'collapse'}}
       >
+        {this.renderCaption()}
+        {this.renderCols()}
         <tbody>{this.renderTrs(trs)}</tbody>
       </table>
     );
