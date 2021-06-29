@@ -4,7 +4,7 @@
 import React from 'react';
 import {BaseSchema} from '../Schema';
 import {Renderer, RendererProps} from '../factory';
-import {getPropValue} from '../utils/helper';
+import {detectPropValueChanged, getPropValue} from '../utils/helper';
 import {isPureVariable, resolveVariableAndFilter} from '../utils/tpl-builtin';
 
 /**
@@ -83,6 +83,18 @@ export default class Code extends React.Component<CodeProps> {
 
   componentDidMount() {
     import('monaco-editor').then(monaco => this.handleMonaco(monaco));
+  }
+
+  componentDidUpdate(preProps: CodeProps) {
+    const props = this.props;
+
+    detectPropValueChanged(props, preProps, () => {
+      const dom = this.codeRef.current;
+      this.editor.colorizeElement(dom, {
+        tabSize: this.props.tabSize,
+        theme: this.props.editorTheme
+      });
+    });
   }
 
   handleMonaco(monaco: any) {
