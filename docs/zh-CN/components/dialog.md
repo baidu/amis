@@ -748,6 +748,17 @@ feedback 反馈弹框是指，在 ajax 请求后，可以显示一个弹框，�
       "title": "弹框标题",
       "body": [
         {
+        "type": "input-text",
+        "label": "更复杂的标签提示",
+        "labelRemark": {
+          "trigger": ["click"],
+          "type": "remark",
+          "title": "提示",
+          "content": "<pre>first \nsecond\n${text1}</pre>"
+        },
+        "name": "text3"
+      },
+        {
           "label": "点击弹框2",
           "type": "button",
           "actionType": "dialog",
