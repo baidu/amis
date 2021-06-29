@@ -312,7 +312,8 @@ export type SchemaType =
   // 原生 input 类型
   | 'native-date'
   | 'native-time'
-  | 'native-number';
+  | 'native-number'
+  | 'code';
 
 export type SchemaObject =
   | PageSchema
