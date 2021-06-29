@@ -62,6 +62,10 @@ export default function (schema, showCode, envOverrides) {
                 : window.open(to);
               return;
             }
+            if (action && to && action.target) {
+              window.open(to, action.target);
+              return;
+            }
             if (/^https?:\/\//.test(to)) {
               window.location.replace(to);
             } else {

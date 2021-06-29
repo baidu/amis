@@ -226,6 +226,12 @@ export function embed(
         return;
       }
 
+      // 主要是支持 nav 中的跳转
+      if (action && to && action.target) {
+        window.open(to, action.target);
+        return;
+      }
+
       if (/^https?:\/\//.test(to)) {
         window.location.replace(to);
       } else {
