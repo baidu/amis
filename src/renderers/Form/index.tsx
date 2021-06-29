@@ -400,7 +400,8 @@ export default class Form extends React.Component<FormProps, object> {
     'lazyLoad',
     'formInited',
     'simpleMode',
-    'inputOnly'
+    'inputOnly',
+    'value'
   ];
 
   hooks: {
@@ -829,7 +830,11 @@ export default class Form extends React.Component<FormProps, object> {
 
     store.changeValue(name, value, changePristine);
 
-    (formLazyChange === false ? this.emitChange : this.lazyEmitChange)(submit);
+    if (!changePristine) {
+      (formLazyChange === false ? this.emitChange : this.lazyEmitChange)(
+        submit
+      );
+    }
   }
 
   emitChange(submit: boolean) {
@@ -840,7 +845,7 @@ export default class Form extends React.Component<FormProps, object> {
 
     store.clearRestError();
 
-    (submit || submitOnChange) &&
+    (submit || (submitOnChange && store.inited)) &&
       this.handleAction(
         undefined,
         {
