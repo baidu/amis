@@ -136,6 +136,7 @@ export default class Drawer extends React.Component<DrawerProps> {
     'title',
     'size',
     'closeOnEsc',
+    'closeOnOutside',
     'children',
     'bodyClassName',
     'confirm',
@@ -157,6 +158,7 @@ export default class Drawer extends React.Component<DrawerProps> {
     resizable: false,
     overlay: true,
     closeOnEsc: false,
+    closeOnOutside: false,
     showErrorMsg: true
   };
 

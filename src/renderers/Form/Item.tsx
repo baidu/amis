@@ -556,10 +556,11 @@ export class FormItemWrap extends React.Component<FormItemProps> {
                     icon: labelRemark.icon || 'warning-mark',
                     tooltip: labelRemark,
                     className: cx(`Form-labelRemark`),
-                    container:
-                      env && env.getModalContainer
-                        ? env.getModalContainer
-                        : undefined
+                    container: this.props.popOverContainer
+                      ? this.props.popOverContainer
+                      : env && env.getModalContainer
+                      ? env.getModalContainer
+                      : undefined
                   })
                 : null}
             </span>
@@ -587,10 +588,11 @@ export class FormItemWrap extends React.Component<FormItemProps> {
                 icon: remark.icon || 'warning-mark',
                 tooltip: remark,
                 className: cx(`Form-remark`),
-                container:
-                  env && env.getModalContainer
-                    ? env.getModalContainer
-                    : undefined
+                container: this.props.popOverContainer
+                  ? this.props.popOverContainer
+                  : env && env.getModalContainer
+                  ? env.getModalContainer
+                  : undefined
               })
             : null}
 
@@ -669,10 +671,11 @@ export class FormItemWrap extends React.Component<FormItemProps> {
                     icon: labelRemark.icon || 'warning-mark',
                     tooltip: labelRemark,
                     className: cx(`Form-lableRemark`),
-                    container:
-                      env && env.getModalContainer
-                        ? env.getModalContainer
-                        : undefined
+                    container: this.props.popOverContainer
+                      ? this.props.popOverContainer
+                      : env && env.getModalContainer
+                      ? env.getModalContainer
+                      : undefined
                   })
                 : null}
             </span>
@@ -771,10 +774,11 @@ export class FormItemWrap extends React.Component<FormItemProps> {
                     icon: labelRemark.icon || 'warning-mark',
                     tooltip: labelRemark,
                     className: cx(`Form-lableRemark`),
-                    container:
-                      env && env.getModalContainer
-                        ? env.getModalContainer
-                        : undefined
+                    container: this.props.popOverContainer
+                      ? this.props.popOverContainer
+                      : env && env.getModalContainer
+                      ? env.getModalContainer
+                      : undefined
                   })
                 : null}
             </span>
@@ -796,10 +800,11 @@ export class FormItemWrap extends React.Component<FormItemProps> {
                 icon: remark.icon || 'warning-mark',
                 className: cx(`Form-remark`),
                 tooltip: remark,
-                container:
-                  env && env.getModalContainer
-                    ? env.getModalContainer
-                    : undefined
+                container: this.props.popOverContainer
+                  ? this.props.popOverContainer
+                  : env && env.getModalContainer
+                  ? env.getModalContainer
+                  : undefined
               })
             : null}
 
@@ -879,10 +884,11 @@ export class FormItemWrap extends React.Component<FormItemProps> {
                       icon: labelRemark.icon || 'warning-mark',
                       tooltip: labelRemark,
                       className: cx(`Form-lableRemark`),
-                      container:
-                        env && env.getModalContainer
-                          ? env.getModalContainer
-                          : undefined
+                      container: this.props.popOverContainer
+                        ? this.props.popOverContainer
+                        : env && env.getModalContainer
+                        ? env.getModalContainer
+                        : undefined
                     })
                   : null}
               </span>

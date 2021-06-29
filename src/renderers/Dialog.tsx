@@ -54,6 +54,11 @@ export interface DialogSchema extends BaseSchema {
    */
   closeOnEsc?: boolean;
 
+  /**
+   * 是否支持点其它区域关闭 Dialog
+   */
+  closeOnOutside?: boolean;
+
   name?: SchemaName;
 
   /**
@@ -112,6 +117,7 @@ export default class Dialog extends React.Component<DialogProps> {
     'title',
     'size',
     'closeOnEsc',
+    'closeOnOutside',
     'children',
     'bodyClassName',
     'headerClassName',
@@ -134,6 +140,7 @@ export default class Dialog extends React.Component<DialogProps> {
     showCloseButton: true,
     wrapperComponent: Modal,
     closeOnEsc: false,
+    closeOnOutside: false,
     showErrorMsg: true
   };
 
@@ -446,6 +453,7 @@ export default class Dialog extends React.Component<DialogProps> {
       className,
       size,
       closeOnEsc,
+      closeOnOutside,
       title,
       render,
       header,
@@ -467,7 +475,6 @@ export default class Dialog extends React.Component<DialogProps> {
     } as any;
 
     const Wrapper = wrapperComponent || Modal;
-
     return (
       <Wrapper
         classPrefix={classPrefix}
@@ -477,6 +484,7 @@ export default class Dialog extends React.Component<DialogProps> {
         onHide={this.handleSelfClose}
         keyboard={closeOnEsc && !store.loading}
         closeOnEsc={closeOnEsc}
+        closeOnOutside={!store.dialogOpen && closeOnOutside}
         show={show}
         onEntered={this.handleEntered}
         onExited={this.handleExited}
