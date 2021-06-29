@@ -80,3 +80,4 @@ language 支持从上下文获取数据
 | value     | `string` |        | 显示的颜色值                       |
 | name      | `string` |        | 在其他组件中，时，用作变量映射     |
 | language  | `string` |        | 所使用的高亮语言，默认是 plaintext |
+| tabSize   | `number` | 4      | 默认 tab 大小                      |

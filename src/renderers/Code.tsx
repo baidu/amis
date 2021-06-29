@@ -59,6 +59,8 @@ export interface CodeSchema extends BaseSchema {
     | 'yaml';
 
   editorTheme?: string;
+
+  tabSize?: number;
 }
 
 export interface CodeProps
@@ -69,13 +71,7 @@ export default class Code extends React.Component<CodeProps> {
   static defaultProps: Partial<CodeProps> = {
     language: 'plaintext',
     editorTheme: 'vs',
-    options: {
-      automaticLayout: true,
-      folding: true,
-      minimap: {
-        enabled: false
-      }
-    }
+    tabSize: 4
   };
 
   editor: any;
@@ -97,7 +93,10 @@ export default class Code extends React.Component<CodeProps> {
     this.editor = monaco.editor;
     if (this.codeRef.current) {
       const dom = this.codeRef.current;
-      monaco.editor.colorizeElement(dom);
+      monaco.editor.colorizeElement(dom, {
+        tabSize: this.props.tabSize,
+        theme: this.props.editorTheme
+      });
     }
   }
 
