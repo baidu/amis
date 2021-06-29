@@ -733,6 +733,36 @@ feedback 反馈弹框是指，在 ajax 请求后，可以显示一个弹框，�
 }
 ```
 
+## 配置 Esc 键和点击外部关闭弹框
+
+可以通过配置 `closeOnEsc` 和 `closeOnOutside` 支持用 esc 键和点击其它区域关闭弹框。
+
+```schema: scope="body"
+{
+    "label": "点击弹框",
+    "type": "button",
+    "actionType": "dialog",
+    "dialog": {
+      "closeOnEsc": true,
+      "closeOnOutside": true,
+      "title": "弹框标题",
+      "body": [
+        {
+          "label": "点击弹框2",
+          "type": "button",
+          "actionType": "dialog",
+          "dialog": {
+            "closeOnEsc": true,
+            "closeOnOutside": true,
+            "title": "弹框标题2",
+            "body": "内容"
+          }
+        }
+      ]
+    }
+}
+```
+
 ## 属性表
 
 | 属性名          | 类型                                      | 默认值             | 说明                                                                                             |
