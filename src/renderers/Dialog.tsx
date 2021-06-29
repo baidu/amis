@@ -729,7 +729,11 @@ export class DialogRenderer extends Dialog {
       store.setCurrentAction(action);
       this.handleSelfClose();
       action.close && this.closeTarget(action.close);
-    } else if (action.actionType === 'confirm') {
+    } else if (
+      action.type === 'submit' ||
+      action.actionType === 'submit' ||
+      action.actionType === 'confirm'
+    ) {
       store.setCurrentAction(action);
       this.tryChildrenToHandle(
         {
@@ -741,19 +745,7 @@ export class DialogRenderer extends Dialog {
       ) || this.handleSelfClose();
     } else if (action.actionType === 'next' || action.actionType === 'prev') {
       store.setCurrentAction(action);
-      if (action.type === 'submit') {
-        this.tryChildrenToHandle(
-          {
-            ...action,
-            actionType: 'submit',
-            close: true
-          },
-          data,
-          action
-        ) || this.handleSelfClose();
-      } else {
-        onConfirm([data], action, data, []);
-      }
+      onConfirm([data], action, data, []);
     } else if (action.actionType === 'dialog') {
       store.setCurrentAction(action);
       store.openDialog(data);
