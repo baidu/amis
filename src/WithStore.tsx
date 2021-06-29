@@ -12,6 +12,7 @@ import {
   isObjectShallowModified,
   syncDataFromSuper
 } from './utils/helper';
+import {dataMapping} from './utils/tpl-builtin';
 import {RootStoreContext} from './WithRootStore';
 
 export function HocStoreFactory(renderer: {
@@ -69,7 +70,9 @@ export function HocStoreFactory(renderer: {
                 ? (this.props.data as any).__super
                 : null,
               {
-                ...this.formatData(this.props.defaultData),
+                ...this.formatData(
+                  dataMapping(this.props.defaultData, this.props.data)
+                ),
                 ...this.formatData(this.props.data)
               }
             )
@@ -81,7 +84,9 @@ export function HocStoreFactory(renderer: {
           if (this.props.store && this.props.data === this.props.store.data) {
             store.initData(
               createObject(this.props.store.data, {
-                ...this.formatData(this.props.defaultData)
+                ...this.formatData(
+                  dataMapping(this.props.defaultData, this.props.data)
+                )
               })
             );
           } else {
@@ -89,7 +94,9 @@ export function HocStoreFactory(renderer: {
               createObject(
                 (this.props.data as any).__super || this.props.scope,
                 {
-                  ...this.formatData(this.props.defaultData),
+                  ...this.formatData(
+                    dataMapping(this.props.defaultData, this.props.data)
+                  ),
                   ...this.formatData(this.props.data)
                 }
               )
@@ -97,7 +104,9 @@ export function HocStoreFactory(renderer: {
           }
         } else {
           store.initData({
-            ...this.formatData(this.props.defaultData),
+            ...this.formatData(
+              dataMapping(this.props.defaultData, this.props.data)
+            ),
             ...this.formatData(this.props.data)
           });
         }

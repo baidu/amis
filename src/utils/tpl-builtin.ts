@@ -841,7 +841,7 @@ export function resolveMapping(
 
 export function dataMapping(
   to: any,
-  from: PlainObject,
+  from: PlainObject = {},
   ignoreFunction: boolean | ((key: string, value: any) => boolean) = false
 ): any {
   if (Array.isArray(to)) {

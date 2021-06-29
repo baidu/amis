@@ -107,7 +107,7 @@ export class TableRow extends React.Component<TableRowProps> {
     submit?: boolean,
     changePristine?: boolean
   ) {
-    if (!name) {
+    if (!name || typeof name !== 'string') {
       return;
     }
 
