@@ -198,9 +198,14 @@ export default class TableView extends React.Component<TableViewProps, object> {
         colSpan={td.colspan}
         key={key}
       >
-        {render('td', td.body || '')}
+        {this.renderTdBody(td.body)}
       </td>
     );
+  }
+
+  renderTdBody(body?: SchemaObject) {
+    const {render} = this.props;
+    return render('td', body || '');
   }
 
   renderTds(tds: TdObject[], rowIndex: number) {
