@@ -160,6 +160,7 @@ import './renderers/AnchorNav';
 import './renderers/Steps';
 import './renderers/Markdown';
 import './renderers/TableView';
+import './renderers/Code';
 
 import Scoped, {ScopedContext} from './Scoped';
 

@@ -811,6 +811,16 @@ export const components = [
       },
 
       {
+        label: 'Code 代码高亮',
+        path: '/zh-CN/components/code',
+        getComponent: () =>
+          // @ts-ignore
+          import('../../docs/zh-CN/components/code.md').then(
+            makeMarkdownRenderer
+          )
+      },
+
+      {
         label: 'Color 颜色',
         path: '/zh-CN/components/color',
         getComponent: () =>
