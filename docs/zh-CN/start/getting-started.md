@@ -277,6 +277,7 @@ html 中引入：
 
 ```html
 <link href="./node_modules/amis/lib/themes/default.css" />
+<link href="./node_modules/amis/lib/helper.css" />
 <!-- 或 <link href="./node_modules/amis/lib/themes/cxd.css" /> -->
 <!-- 或 <link href="./node_modules/amis/lib/themes/dark.css" /> -->
 ```
@@ -285,6 +286,7 @@ js 中引入：
 
 ```js
 import './node_modules/amis/lib/themes/default.css';
+import './node_modules/amis/lib/helper.css';
 // 或 import './node_modules/amis/lib/themes/cxd.css';
 // 或 import './node_modules/amis/lib/themes/dark.css';
 ```
