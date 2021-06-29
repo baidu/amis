@@ -64,6 +64,7 @@ language 支持从上下文获取数据
   },
   "body": {
     "type": "code",
+    "language": "html",
     "name": "sourcecode"
   }
 }

@@ -2,12 +2,9 @@
  * @file 代码高亮
  */
 import React from 'react';
-import {BaseSchema, SchemaTpl} from '../Schema';
+import {BaseSchema} from '../Schema';
 import {Renderer, RendererProps} from '../factory';
-import LazyComponent from '../components/LazyComponent';
-import debouce from 'lodash/debounce';
-import Editor from '../components/Editor';
-import {autobind, getPropValue} from '../utils/helper';
+import {getPropValue} from '../utils/helper';
 import {isPureVariable, resolveVariableAndFilter} from '../utils/tpl-builtin';
 
 /**
@@ -123,48 +120,6 @@ export default class Code extends React.Component<CodeProps> {
     );
   }
 }
-
-export const availableLanguages = [
-  'bat',
-  'c',
-  'coffeescript',
-  'cpp',
-  'csharp',
-  'css',
-  'dockerfile',
-  'fsharp',
-  'go',
-  'handlebars',
-  'html',
-  'ini',
-  'java',
-  'javascript',
-  'json',
-  'less',
-  'lua',
-  'markdown',
-  'msdax',
-  'objective-c',
-  'php',
-  'plaintext',
-  'postiats',
-  'powershell',
-  'pug',
-  'python',
-  'r',
-  'razor',
-  'ruby',
-  'sb',
-  'scss',
-  'sol',
-  'shell',
-  'sql',
-  'swift',
-  'typescript',
-  'vb',
-  'xml',
-  'yaml'
-];
 
 @Renderer({
   type: 'code'
