@@ -85,10 +85,6 @@ export default class Code extends React.Component<CodeProps> {
     import('monaco-editor').then(monaco => this.handleMonaco(monaco));
   }
 
-  componentWillUnmount() {
-    this.editor?.dispose();
-  }
-
   handleMonaco(monaco: any) {
     this.editor = monaco.editor;
     if (this.codeRef.current) {

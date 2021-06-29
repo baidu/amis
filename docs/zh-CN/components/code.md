@@ -72,12 +72,27 @@ language 支持从上下文获取数据
 
 因此它还能放在表单、crud 中实现代码的展现。
 
+## 主题及 tab 大小
+
+```schema
+{
+  "body": {
+    "type": "code",
+    "language": "javascript",
+    "tagSize": 4,
+    "editorTheme": "vs-dark",
+    "value": "function amis() {\n\tconsole.log('amis');\n}"
+  }
+}
+```
+
 ## 属性表
 
-| 属性名    | 类型     | 默认值 | 说明                               |
-| --------- | -------- | ------ | ---------------------------------- |
-| className | `string` |        | 外层 CSS 类名                      |
-| value     | `string` |        | 显示的颜色值                       |
-| name      | `string` |        | 在其他组件中，时，用作变量映射     |
-| language  | `string` |        | 所使用的高亮语言，默认是 plaintext |
-| tabSize   | `number` | 4      | 默认 tab 大小                      |
+| 属性名      | 类型     | 默认值 | 说明                               |
+| ----------- | -------- | ------ | ---------------------------------- |
+| className   | `string` |        | 外层 CSS 类名                      |
+| value       | `string` |        | 显示的颜色值                       |
+| name        | `string` |        | 在其他组件中，时，用作变量映射     |
+| language    | `string` |        | 所使用的高亮语言，默认是 plaintext |
+| tabSize     | `number` | 4      | 默认 tab 大小                      |
+| editorTheme | `string` | 'vs'   | 主题，还有 'vs-dark'               |
