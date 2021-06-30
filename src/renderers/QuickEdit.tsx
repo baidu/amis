@@ -509,10 +509,11 @@ export const HocQuickEdit = (config: Partial<QuickEditConfig> = {}) => (
         classnames: cx,
         render,
         noHoc,
-        canAccessSuperData
+        canAccessSuperData,
+        disabled
       } = this.props;
 
-      if (!quickEdit || !onQuickChange || quickEditEnabled === false || noHoc) {
+      if (!quickEdit || !onQuickChange || quickEditEnabled === false || noHoc || disabled) {
         return <Component {...this.props} />;
       }
 
