@@ -231,7 +231,11 @@ export class SchemaRenderer extends React.Component<SchemaRendererProps, any> {
 
     const renderer = this.renderer as RendererConfig;
     schema = filterSchema(schema, renderer, rest);
-    const {data: defaultData, ...restSchema} = schema;
+    const {
+      data: defaultData,
+      activeKey: defaultActiveKey,
+      ...restSchema
+    } = schema;
     const Component = renderer.component;
 
     return (
@@ -240,6 +244,7 @@ export class SchemaRenderer extends React.Component<SchemaRendererProps, any> {
         {...restSchema}
         {...chainEvents(rest, restSchema)}
         defaultData={defaultData}
+        defaultActiveKey={defaultActiveKey}
         $path={$path}
         ref={this.refFn}
         render={this.renderChild}
