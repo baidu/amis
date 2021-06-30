@@ -752,7 +752,7 @@ export class DialogRenderer extends Dialog {
     } else if (action.actionType === 'reload') {
       store.setCurrentAction(action);
       action.target && scoped.reload(action.target, data);
-      if (action.close) {
+      if (action.close || action.type === 'submit') {
         this.handleSelfClose();
         this.closeTarget(action.close);
       }
