@@ -127,7 +127,7 @@ module.exports = function (ret, pack, settings, opt) {
     try {
         throw new Error()
     } catch (e) {
-        d = (/((?:https?|file)\:.*)\\n?$/.test(e.stack) ? RegExp.$1 : '').replace(/\\/[^\\/]*$/, '');
+        d = (/((?:https?|file):.*?)\\n/.test(e.stack) && RegExp.$1).replace(/\\/[^\\/]*$/, '');
     }
     amis.host = d;
     ${contents.replace(
