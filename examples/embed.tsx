@@ -323,11 +323,11 @@ export function embed(
           position={(env && env.toastPosition) || 'top-right'}
           closeButton={false}
           timeout={5000}
-          locale={props.locale}
+          locale={props?.locale}
           theme={env?.theme}
         />
         <AlertComponent
-          locale={props.locale}
+          locale={props?.locale}
           theme={env?.theme}
           container={() => env?.getModalContainer?.() || container}
         />
