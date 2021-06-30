@@ -31,6 +31,11 @@ order: 58
         {
             "label": "Nav 3",
             "to": "/docs/renderers"
+        },
+        {
+            "label": "外部地址",
+            "to": "http://www.baidu.com/",
+            "target": "_blank"
         }
     ]
 }
@@ -115,20 +120,21 @@ order: 58
 
 ## 属性表
 
-| 属性名            | 类型                                     | 默认值  | 说明                                                             |
-| ----------------- | ---------------------------------------- | ------- | ---------------------------------------------------------------- |
-| type              | `string`                                 | `"nav"` | 指定为 Nav 渲染器                                                |
-| className         | `string`                                 |         | 外层 Dom 的类名                                                  |
-| stacked           | `boolean`                                | `true`  | 设置成 false 可以以 tabs 的形式展示                              |
-| source            | `string` 或 [API](../../docs/types/api)  |         | 可以通过变量或 API 接口动态创建导航                              |
-| deferApi          | [API](../../docs/types/api)              |         | 用来延时加载选项详情的接口，可以不配置，不配置公用 source 接口。 |
-| links             | `Array`                                  |         | 链接集合                                                         |
-| links[x].label    | `string`                                 |         | 名称                                                             |
-| links[x].to       | [模板](../../docs/concepts/template)     |         | 链接地址                                                         |
-| links[x].icon     | `string`                                 |         | 图标                                                             |
-| links[x].children | `Array<link>`                            |         | 子链接                                                           |
-| links[x].unfolded | `boolean`                                |         | 初始是否展开                                                     |
-| links[x].active   | `boolean`                                |         | 是否高亮                                                         |
-| links[x].activeOn | [表达式](../../docs/concepts/expression) |         | 是否高亮的条件，留空将自动分析链接地址                           |
-| links[x].defer    | `boolean`                                |         | 标记是否为懒加载项                                               |
-| links[x].deferApi | [API](../../docs/types/api)              |         | 可以不配置，如果配置优先级更高                                   |
+| 属性名            | 类型                                     | 默认值   | 说明                                                             |
+| ----------------- | ---------------------------------------- | -------- | ---------------------------------------------------------------- |
+| type              | `string`                                 | `"nav"`  | 指定为 Nav 渲染器                                                |
+| className         | `string`                                 |          | 外层 Dom 的类名                                                  |
+| stacked           | `boolean`                                | `true`   | 设置成 false 可以以 tabs 的形式展示                              |
+| source            | `string` 或 [API](../../docs/types/api)  |          | 可以通过变量或 API 接口动态创建导航                              |
+| deferApi          | [API](../../docs/types/api)              |          | 用来延时加载选项详情的接口，可以不配置，不配置公用 source 接口。 |
+| links             | `Array`                                  |          | 链接集合                                                         |
+| links[x].label    | `string`                                 |          | 名称                                                             |
+| links[x].to       | [模板](../../docs/concepts/template)     |          | 链接地址                                                         |
+| links[x].target   | `string`                                 | 链接关系 |                                                                  |
+| links[x].icon     | `string`                                 |          | 图标                                                             |
+| links[x].children | `Array<link>`                            |          | 子链接                                                           |
+| links[x].unfolded | `boolean`                                |          | 初始是否展开                                                     |
+| links[x].active   | `boolean`                                |          | 是否高亮                                                         |
+| links[x].activeOn | [表达式](../../docs/concepts/expression) |          | 是否高亮的条件，留空将自动分析链接地址                           |
+| links[x].defer    | `boolean`                                |          | 标记是否为懒加载项                                               |
+| links[x].deferApi | [API](../../docs/types/api)              |          | 可以不配置，如果配置优先级更高                                   |

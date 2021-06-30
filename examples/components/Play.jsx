@@ -131,6 +131,11 @@ export default class PlayGround extends React.Component {
           return;
         }
 
+        if (action && to && action.target) {
+          window.open(to, action.target);
+          return;
+        }
+
         if (/^https?:\/\//.test(to)) {
           window.location.replace(to);
         } else {
