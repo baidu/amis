@@ -465,9 +465,11 @@ export const CRUDStore = ServiceStore.named('CRUDStore')
         '| raw'
       );
 
-      if (!Array.isArray(rowsData)) {
+      if (!Array.isArray(rowsData) && !self.items.length) {
         return;
       }
+
+      rowsData = Array.isArray(rowsData) ? rowsData : [];
 
       const data = {
         ...self.pristine,

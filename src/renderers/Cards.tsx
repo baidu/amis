@@ -11,7 +11,11 @@ import {
   difference,
   ucFirst
 } from '../utils/helper';
-import {resolveVariable} from '../utils/tpl-builtin';
+import {
+  isPureVariable,
+  resolveVariable,
+  resolveVariableAndFilter
+} from '../utils/tpl-builtin';
 import Sortable from 'sortablejs';
 import {filter} from '../utils/tpl';
 import {Icon} from '../components/icons';
@@ -258,8 +262,10 @@ export default class Cards extends React.Component<GridProps, object> {
     if (Array.isArray(value)) {
       items = value;
     } else if (typeof source === 'string') {
-      const resolved = resolveVariable(source, props.data);
-      const prev = prevProps ? resolveVariable(source, prevProps.data) : null;
+      const resolved = resolveVariableAndFilter(source, props.data);
+      const prev = prevProps
+        ? resolveVariableAndFilter(source, prevProps.data)
+        : null;
 
       if (prev && prev === resolved) {
         updateItems = false;
@@ -321,7 +327,8 @@ export default class Cards extends React.Component<GridProps, object> {
 
     if (
       anyChanged(['source', 'value', 'items'], prevProps, props) ||
-      (!props.value && !props.items && props.data !== prevProps.data)
+      (!props.value && !props.items && props.data !== prevProps.data) ||
+      (typeof props.source === 'string' && isPureVariable(props.source))
     ) {
       Cards.syncItems(store, props, prevProps);
       this.syncSelected();
