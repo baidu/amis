@@ -257,7 +257,7 @@ export default class Page extends React.Component<PageProps> {
     ctx: object,
     throwErrors: boolean = false,
     delegate?: IScopedContext
-  ) {
+  ): any {
     const {env, store, messages, onAction} = this.props;
 
     if (action.actionType === 'dialog') {
@@ -268,7 +268,7 @@ export default class Page extends React.Component<PageProps> {
       store.openDrawer(ctx);
     } else if (action.actionType === 'ajax') {
       store.setCurrentAction(action);
-      store
+      return store
         .saveRemote(action.api as string, ctx, {
           successMessage:
             (action.messages && action.messages.success) ||
@@ -289,7 +289,7 @@ export default class Page extends React.Component<PageProps> {
         })
         .catch(() => {});
     } else {
-      onAction(e, action, ctx, throwErrors, delegate || this.context);
+      return onAction(e, action, ctx, throwErrors, delegate || this.context);
     }
   }
 

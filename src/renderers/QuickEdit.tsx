@@ -312,6 +312,8 @@ export const HocQuickEdit = (config: Partial<QuickEditConfig> = {}) => (
         false,
         (quickEdit as QuickEditConfig).resetOnFailed
       );
+
+      return false;
     }
 
     handleInit(values: object) {
@@ -516,7 +518,13 @@ export const HocQuickEdit = (config: Partial<QuickEditConfig> = {}) => (
         disabled
       } = this.props;
 
-      if (!quickEdit || !onQuickChange || quickEditEnabled === false || noHoc || disabled) {
+      if (
+        !quickEdit ||
+        !onQuickChange ||
+        quickEditEnabled === false ||
+        noHoc ||
+        disabled
+      ) {
         return <Component {...this.props} />;
       }
 
