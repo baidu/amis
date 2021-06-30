@@ -18,7 +18,11 @@ import {
   getVariable,
   removeHTMLTag
 } from '../../utils/helper';
-import {resolveVariable} from '../../utils/tpl-builtin';
+import {
+  isPureVariable,
+  resolveVariable,
+  resolveVariableAndFilter
+} from '../../utils/tpl-builtin';
 import debounce from 'lodash/debounce';
 import Sortable from 'sortablejs';
 import {resizeSensor} from '../../utils/resize-sensor';
@@ -471,8 +475,10 @@ export default class Table extends React.Component<TableProps, object> {
     if (Array.isArray(value)) {
       rows = value;
     } else if (typeof source === 'string') {
-      const resolved = resolveVariable(source, props.data);
-      const prev = prevProps ? resolveVariable(source, prevProps.data) : null;
+      const resolved = resolveVariableAndFilter(source, props.data);
+      const prev = prevProps
+        ? resolveVariableAndFilter(source, prevProps.data)
+        : null;
 
       if (prev && prev === resolved) {
         updateRows = false;
@@ -558,7 +564,8 @@ export default class Table extends React.Component<TableProps, object> {
 
     if (
       anyChanged(['source', 'value', 'items'], prevProps, props) ||
-      (!props.value && !props.items && props.data !== prevProps.data)
+      (!props.value && !props.items && props.data !== prevProps.data) ||
+      (typeof props.source === 'string' && isPureVariable(props.source))
     ) {
       Table.syncRows(store, props, prevProps);
       this.syncSelected();
@@ -566,6 +573,7 @@ export default class Table extends React.Component<TableProps, object> {
       store.updateSelected(props.selected || [], props.valueField);
       this.syncSelected();
     }
+
     this.updateTableInfoLazy();
   }
 

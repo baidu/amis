@@ -16,7 +16,11 @@ import {
   isDisabled,
   noop
 } from '../utils/helper';
-import {resolveVariable} from '../utils/tpl-builtin';
+import {
+  isPureVariable,
+  resolveVariable,
+  resolveVariableAndFilter
+} from '../utils/tpl-builtin';
 import QuickEdit, {SchemaQuickEdit} from './QuickEdit';
 import PopOver, {SchemaPopOver} from './PopOver';
 import Sortable from 'sortablejs';
@@ -327,8 +331,10 @@ export default class List extends React.Component<ListProps, object> {
     if (Array.isArray(value)) {
       items = value;
     } else if (typeof source === 'string') {
-      const resolved = resolveVariable(source, props.data);
-      const prev = prevProps ? resolveVariable(source, prevProps.data) : null;
+      const resolved = resolveVariableAndFilter(source, props.data);
+      const prev = prevProps
+        ? resolveVariableAndFilter(source, prevProps.data)
+        : null;
 
       if (prev && prev === resolved) {
         updateItems = false;
@@ -390,7 +396,8 @@ export default class List extends React.Component<ListProps, object> {
 
     if (
       anyChanged(['source', 'value', 'items'], prevProps, props) ||
-      (!props.value && !props.items && props.data !== prevProps.data)
+      (!props.value && !props.items && props.data !== prevProps.data) ||
+      (typeof props.source === 'string' && isPureVariable(props.source))
     ) {
       List.syncItems(store, props, prevProps);
       this.syncSelected();

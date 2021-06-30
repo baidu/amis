@@ -262,7 +262,12 @@ export class SchemaRenderer extends React.Component<SchemaRendererProps, any> {
 
     const renderer = this.renderer as RendererConfig;
     schema = filterSchema(schema, renderer, rest);
-    const {data: defaultData, value: defaultValue, ...restSchema} = schema;
+    const {
+      data: defaultData,
+      value: defaultValue,
+      activeKey: defaultActiveKey,
+      ...restSchema
+    } = schema;
     const Component = renderer.component;
 
     // 原来表单项的 visible: false 和 hidden: true 表单项的值和验证是有效的
@@ -287,6 +292,7 @@ export class SchemaRenderer extends React.Component<SchemaRendererProps, any> {
         {...exprProps}
         defaultData={defaultData}
         defaultValue={defaultValue}
+        defaultActiveKey={defaultActiveKey}
         $path={$path}
         $schema={schema}
         ref={this.refFn}

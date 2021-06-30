@@ -119,6 +119,7 @@ module.exports = function (ret, pack, settings, opt) {
         if (file) {
           file.skiped = true;
           let contents = file.getContent();
+          
 
           if (/_map\.js$/.test(file.subpath)) {
             contents = `(function() {

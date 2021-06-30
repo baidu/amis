@@ -59,6 +59,7 @@ import {ActionSchema} from './Action';
 import {CardsSchema} from './Cards';
 import {ListSchema} from './List';
 import {TableSchema} from './Table';
+import {isPureVariable, resolveVariableAndFilter} from '../utils/tpl-builtin';
 
 export type CRUDBultinToolbarType =
   | 'columns-toggler'
@@ -529,6 +530,17 @@ export default class CRUD extends React.Component<CRUDProps, any> {
       )
     ) {
       dataInvalid = true;
+    } else if (!props.api && isPureVariable(props.source)) {
+      const prev = resolveVariableAndFilter(
+        prevProps.source,
+        prevProps.data,
+        '!raw'
+      );
+      const next = resolveVariableAndFilter(props.source, props.data, '!raw');
+
+      if (prev !== next) {
+        store.initFromScope(props.data, props.source);
+      }
     }
 
     if (dataInvalid) {

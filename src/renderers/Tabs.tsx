@@ -153,14 +153,18 @@ export default class Tabs extends React.Component<TabsProps, TabsState> {
     let activeKey: any = 0;
 
     if (typeof props.activeKey !== 'undefined') {
-      activeKey =
-        typeof props.activeKey === 'string'
-          ? tokenize(props.activeKey, props.data)
-          : props.activeKey;
+      activeKey = props.activeKey;
     } else if (location && Array.isArray(tabs)) {
       const hash = location.hash.substring(1);
       const tab: TabSchema = find(tabs, tab => tab.hash === hash) as TabSchema;
-      activeKey = tab && tab.hash ? tab.hash : (tabs[0] && tabs[0].hash) || 0;
+
+      if (tab) {
+        activeKey = tab.hash;
+      } else if (props.defaultActiveKey) {
+        activeKey = tokenize(props.defaultActiveKey, props.data);
+      }
+
+      activeKey = activeKey || (tabs[0] && tabs[0].hash) || 0;
     }
 
     this.state = {
