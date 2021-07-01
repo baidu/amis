@@ -656,13 +656,16 @@ export class DialogRenderer extends Dialog {
         components,
         component => component.props.type === 'form'
       );
-      form && targets.push(form);
 
-      const crud = findLast(
-        components,
-        component => component.props.type === 'crud'
-      );
-      crud && targets.push(crud);
+      if (form) {
+        targets.push(form);
+      } else {
+        const crud = findLast(
+          components,
+          component => component.props.type === 'crud'
+        );
+        crud && targets.push(crud);
+      }
     }
 
     if (targets.length) {
