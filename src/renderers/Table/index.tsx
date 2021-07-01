@@ -470,9 +470,13 @@ export default class Table extends React.Component<TableProps, object> {
     const source = props.source;
     const value = props.value || props.items;
     let rows: Array<object> = [];
-    let updateRows = true;
+    let updateRows = false;
 
-    if (Array.isArray(value)) {
+    if (
+      Array.isArray(value) &&
+      (!prevProps || (prevProps.value || prevProps.items) !== value)
+    ) {
+      updateRows = true;
       rows = value;
     } else if (typeof source === 'string') {
       const resolved = resolveVariableAndFilter(source, props.data);
@@ -483,6 +487,7 @@ export default class Table extends React.Component<TableProps, object> {
       if (prev && prev === resolved) {
         updateRows = false;
       } else if (Array.isArray(resolved)) {
+        updateRows = true;
         rows = resolved;
       }
     }
