@@ -363,6 +363,8 @@ function wrapControl(item: any) {
     className,
     inputClassName,
     columnClassName,
+    visibleOn,
+    visible,
     ...rest
   } = item;
 
@@ -394,6 +396,8 @@ function wrapControl(item: any) {
     horizontal,
     className,
     columnClassName,
+    visibleOn,
+    visible,
     body: rest
   };
 }

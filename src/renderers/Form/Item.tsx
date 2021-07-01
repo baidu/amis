@@ -643,7 +643,6 @@ export class FormItemWrap extends React.Component<FormItemProps> {
       renderLabel,
       renderDescription,
       hint,
-      formMode,
       data,
       showErrorMsg
     } = this.props;
@@ -855,7 +854,6 @@ export class FormItemWrap extends React.Component<FormItemProps> {
       renderLabel,
       renderDescription,
       hint,
-      formMode,
       data,
       showErrorMsg
     } = this.props;
@@ -865,7 +863,7 @@ export class FormItemWrap extends React.Component<FormItemProps> {
     return (
       <div
         data-role="form-item"
-        className={cx(`Form-item Form-item--${formMode}`, className, {
+        className={cx(`Form-item Form-item--row`, className, {
           'is-error': model && !model.valid,
           [`is-required`]: required
         })}
@@ -945,6 +943,7 @@ export class FormItemWrap extends React.Component<FormItemProps> {
 
   render() {
     const {formMode, inputOnly, wrap, render, formItem: model} = this.props;
+    const mode = this.props.mode || formMode;
 
     if (wrap === false || inputOnly) {
       return this.renderControl();
@@ -952,11 +951,11 @@ export class FormItemWrap extends React.Component<FormItemProps> {
 
     return (
       <>
-        {formMode === 'inline'
+        {mode === 'inline'
           ? this.renderInline()
-          : formMode === 'horizontal'
+          : mode === 'horizontal'
           ? this.renderHorizontal()
-          : formMode === 'row'
+          : mode === 'row'
           ? this.renderRow()
           : this.renderNormal()}
         {model
