@@ -6,6 +6,7 @@ import QuickEdit, {SchemaQuickEdit} from '../QuickEdit';
 import {Renderer} from '../../factory';
 import Copyable, {SchemaCopyable} from '../Copyable';
 import {extendObject} from '../../utils/helper';
+import omit = require('lodash/omit');
 import {SchemaObject, SchemaTpl, SchemaType} from '../../Schema';
 
 /**
@@ -172,7 +173,7 @@ export class StaticFieldRenderer extends TableCell {
     let body = children
       ? children
       : render('field', schema, {
-          ...rest,
+          ...omit(rest, Object.keys(schema)),
           value,
           data
         });

@@ -8,6 +8,7 @@ import Button from '../components/Button';
 import Checkbox from '../components/Checkbox';
 import {ListStore, IListStore, IItem} from '../store/list';
 import {observer} from 'mobx-react';
+import omit = require('lodash/omit');
 import {
   anyChanged,
   getScrollParent,
@@ -1350,7 +1351,7 @@ export class ListItemFieldRenderer extends TableCell {
     let body = children
       ? children
       : render('field', schema, {
-          ...rest,
+          ...omit(rest, Object.keys(schema)),
           value,
           data
         });
