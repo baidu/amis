@@ -224,6 +224,11 @@ export interface TableSchema extends BaseSchema {
   combineNum?: number;
 
   /**
+   * 合并单元格配置，配置从第几列开始合并。
+   */
+  combineFromIndex?: number;
+
+  /**
    * 顶部总结行
    */
   prefixRow?: Array<SchemaObject>;
@@ -259,6 +264,7 @@ export interface TableProps extends RendererProps {
   affixHeader?: boolean;
   affixColumns?: boolean;
   combineNum?: number;
+  combineFromIndex?: number;
   footable?:
     | boolean
     | {
@@ -338,6 +344,7 @@ export default class Table extends React.Component<TableProps, object> {
     'hideCheckToggler',
     'itemActions',
     'combineNum',
+    'combineFromIndex',
     'items',
     'columns',
     'valueField',
@@ -432,6 +439,7 @@ export default class Table extends React.Component<TableProps, object> {
       itemDraggableOn,
       hideCheckToggler,
       combineNum,
+      combineFromIndex,
       expandConfig,
       formItem,
       keepItemSelectionOnPageChange,
@@ -453,6 +461,7 @@ export default class Table extends React.Component<TableProps, object> {
       itemDraggableOn,
       hideCheckToggler,
       combineNum,
+      combineFromIndex,
       keepItemSelectionOnPageChange,
       maxKeepItemSelectionLength
     });
@@ -475,9 +484,9 @@ export default class Table extends React.Component<TableProps, object> {
     if (Array.isArray(value)) {
       rows = value;
     } else if (typeof source === 'string') {
-      const resolved = resolveVariableAndFilter(source, props.data);
+      const resolved = resolveVariableAndFilter(source, props.data, '| raw');
       const prev = prevProps
-        ? resolveVariableAndFilter(source, prevProps.data)
+        ? resolveVariableAndFilter(source, prevProps.data, '| raw')
         : null;
 
       if (prev && prev === resolved) {
@@ -533,6 +542,7 @@ export default class Table extends React.Component<TableProps, object> {
           'itemDraggableOn',
           'hideCheckToggler',
           'combineNum',
+          'combineFromIndex',
           'expandConfig'
         ],
         prevProps,
@@ -552,6 +562,7 @@ export default class Table extends React.Component<TableProps, object> {
         itemDraggableOn: props.itemDraggableOn,
         hideCheckToggler: props.hideCheckToggler,
         combineNum: props.combineNum,
+        combineFromIndex: props.combineFromIndex,
         expandConfig: props.expandConfig
       });
     }
