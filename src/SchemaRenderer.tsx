@@ -41,7 +41,8 @@ const defaultOmitList = [
   'defaultData',
   'required',
   'requiredOn',
-  'syncSuperStore'
+  'syncSuperStore',
+  'mode'
 ];
 
 export class SchemaRenderer extends React.Component<SchemaRendererProps, any> {
