@@ -262,9 +262,9 @@ export default class Cards extends React.Component<GridProps, object> {
     if (Array.isArray(value)) {
       items = value;
     } else if (typeof source === 'string') {
-      const resolved = resolveVariableAndFilter(source, props.data);
+      const resolved = resolveVariableAndFilter(source, props.data, '| raw');
       const prev = prevProps
-        ? resolveVariableAndFilter(source, prevProps.data)
+        ? resolveVariableAndFilter(source, prevProps.data, '| raw')
         : null;
 
       if (prev && prev === resolved) {
