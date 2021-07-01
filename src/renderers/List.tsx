@@ -327,10 +327,14 @@ export default class List extends React.Component<ListProps, object> {
     const source = props.source;
     const value = props.value || props.items;
     let items: Array<object> = [];
-    let updateItems = true;
+    let updateItems = false;
 
-    if (Array.isArray(value)) {
+    if (
+      Array.isArray(value) &&
+      (!prevProps || (prevProps.value || prevProps.items) !== value)
+    ) {
       items = value;
+      updateItems = true;
     } else if (typeof source === 'string') {
       const resolved = resolveVariableAndFilter(source, props.data, '| raw');
       const prev = prevProps
@@ -341,6 +345,7 @@ export default class List extends React.Component<ListProps, object> {
         updateItems = false;
       } else if (Array.isArray(resolved)) {
         items = resolved;
+        updateItems = true;
       }
     }
 
