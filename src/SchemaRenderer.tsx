@@ -164,7 +164,7 @@ export class SchemaRenderer extends React.Component<SchemaRendererProps, any> {
       return null;
     }
 
-    let {path: $path, schema} = this.resolveRenderer(this.props, true);
+    let {path: $path, schema} = this.resolveRenderer(this.props);
     const theme = this.props.env.theme;
 
     if (Array.isArray(schema)) {
