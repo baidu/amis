@@ -319,8 +319,7 @@ export default class List extends React.Component<ListProps, object> {
       itemDraggableOn
     });
 
-    List.syncItems(store, this.props);
-    this.syncSelected();
+    List.syncItems(store, this.props) && this.syncSelected();
   }
 
   static syncItems(store: IListStore, props: ListProps, prevProps?: ListProps) {
@@ -352,6 +351,7 @@ export default class List extends React.Component<ListProps, object> {
     updateItems && store.initItems(items);
     Array.isArray(props.selected) &&
       store.updateSelected(props.selected, props.valueField);
+    return updateItems;
   }
 
   componentDidMount() {
@@ -402,11 +402,12 @@ export default class List extends React.Component<ListProps, object> {
 
     if (
       anyChanged(['source', 'value', 'items'], prevProps, props) ||
-      (!props.value && !props.items && props.data !== prevProps.data) ||
-      (typeof props.source === 'string' && isPureVariable(props.source))
+      (!props.value &&
+        !props.items &&
+        (props.data !== prevProps.data ||
+          (typeof props.source === 'string' && isPureVariable(props.source))))
     ) {
-      List.syncItems(store, props, prevProps);
-      this.syncSelected();
+      List.syncItems(store, props, prevProps) && this.syncSelected();
     } else if (prevProps.selected !== props.selected) {
       store.updateSelected(props.selected || [], props.valueField);
     }
