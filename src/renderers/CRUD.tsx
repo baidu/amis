@@ -2118,7 +2118,8 @@ export default class CRUD extends React.Component<CRUDProps, any> {
 
 @Renderer({
   type: 'crud',
-  storeType: CRUDStore.name
+  storeType: CRUDStore.name,
+  isolateScope: true
 })
 export class CRUDRenderer extends CRUD {
   static contextType = ScopedContext;
