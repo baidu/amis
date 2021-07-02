@@ -48,8 +48,10 @@ const defaultOmitList = [
 export class SchemaRenderer extends React.Component<SchemaRendererProps, any> {
   static displayName: string = 'Renderer';
 
+  rendererKey = '';
   renderer: RendererConfig | null;
   ref: any;
+
   schema: any;
   path: string;
 
@@ -59,19 +61,6 @@ export class SchemaRenderer extends React.Component<SchemaRendererProps, any> {
     this.renderChild = this.renderChild.bind(this);
     this.reRender = this.reRender.bind(this);
     this.resolveRenderer(this.props);
-  }
-
-  componentDidUpdate(prevProps: SchemaRendererProps) {
-    const props = this.props;
-
-    if (
-      prevProps.schema &&
-      props.schema &&
-      (prevProps.schema.type !== props.schema.type ||
-        prevProps.schema.$$id !== props.schema.$$id)
-    ) {
-      this.resolveRenderer(props);
-    }
   }
 
   // 限制：只有 schema 除外的 props 变化，或者 schema 里面的某个成员值发生变化才更新。
@@ -102,7 +91,7 @@ export class SchemaRenderer extends React.Component<SchemaRendererProps, any> {
     return false;
   }
 
-  resolveRenderer(props: SchemaRendererProps, skipResolve = false): any {
+  resolveRenderer(props: SchemaRendererProps, force = false): any {
     let schema = props.schema;
     let path = props.$path;
 
@@ -115,9 +104,14 @@ export class SchemaRenderer extends React.Component<SchemaRendererProps, any> {
       path = path.replace(/(?!.*\/).*/, schema.type);
     }
 
-    if (!skipResolve) {
+    if (
+      force ||
+      !this.renderer ||
+      this.rendererKey !== `${schema.type}-${schema.$$id}`
+    ) {
       const rendererResolver = props.env.rendererResolver || resolveRenderer;
       this.renderer = rendererResolver(path, schema, props);
+      this.rendererKey = `${schema.type}-${schema.$$id}`;
     }
 
     return {path, schema};
@@ -139,13 +133,8 @@ export class SchemaRenderer extends React.Component<SchemaRendererProps, any> {
       [propName: string]: any;
     } = {}
   ) {
-    let {schema, $path, env, ...rest} = this.props;
-
-    if (schema && schema.$ref) {
-      const result = this.resolveRenderer(this.props, true);
-      schema = result.schema;
-      $path = result.path;
-    }
+    let {schema: _, $path: __, env, ...rest} = this.props;
+    let {$path} = this.resolveRenderer(this.props);
 
     const omitList = defaultOmitList.concat();
     if (this.renderer) {
@@ -163,23 +152,18 @@ export class SchemaRenderer extends React.Component<SchemaRendererProps, any> {
   }
 
   reRender() {
-    this.resolveRenderer(this.props);
+    this.resolveRenderer(this.props, true);
     this.forceUpdate();
   }
 
   render(): JSX.Element | null {
-    let {$path, schema, ...rest} = this.props;
+    let {$path: _, schema: __, ...rest} = this.props;
 
-    if (schema === null) {
+    if (__ == null) {
       return null;
     }
 
-    if (schema.$ref) {
-      const result = this.resolveRenderer(this.props, true);
-      schema = result.schema;
-      $path = result.path;
-    }
-
+    let {$path, schema} = this.resolveRenderer(this.props, true);
     const theme = this.props.env.theme;
 
     if (Array.isArray(schema)) {
