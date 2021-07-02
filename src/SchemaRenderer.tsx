@@ -105,9 +105,10 @@ export class SchemaRenderer extends React.Component<SchemaRendererProps, any> {
     }
 
     if (
-      force ||
-      !this.renderer ||
-      this.rendererKey !== `${schema.type}-${schema.$$id}`
+      schema?.type &&
+      (force ||
+        !this.renderer ||
+        this.rendererKey !== `${schema.type}-${schema.$$id}`)
     ) {
       const rendererResolver = props.env.rendererResolver || resolveRenderer;
       this.renderer = rendererResolver(path, schema, props);
@@ -134,7 +135,7 @@ export class SchemaRenderer extends React.Component<SchemaRendererProps, any> {
     } = {}
   ) {
     let {schema: _, $path: __, env, ...rest} = this.props;
-    let {$path} = this.resolveRenderer(this.props);
+    let {path: $path} = this.resolveRenderer(this.props);
 
     const omitList = defaultOmitList.concat();
     if (this.renderer) {
@@ -163,7 +164,7 @@ export class SchemaRenderer extends React.Component<SchemaRendererProps, any> {
       return null;
     }
 
-    let {$path, schema} = this.resolveRenderer(this.props, true);
+    let {path: $path, schema} = this.resolveRenderer(this.props, true);
     const theme = this.props.env.theme;
 
     if (Array.isArray(schema)) {
