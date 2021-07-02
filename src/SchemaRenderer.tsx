@@ -115,7 +115,7 @@ export class SchemaRenderer extends React.Component<SchemaRendererProps, any> {
       path = path.replace(/(?!.*\/).*/, schema.type);
     }
 
-    if (!skipResolve) {
+    if (!skipResolve && schema && schema.type) {
       const rendererResolver = props.env.rendererResolver || resolveRenderer;
       this.renderer = rendererResolver(path, schema, props);
     }
