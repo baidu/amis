@@ -500,6 +500,7 @@ export default class Table extends React.Component<TableProps, object> {
       }
     }
 
+    console.log(updateRows, rows);
     updateRows && store.initRows(rows, props.getEntryId);
     typeof props.selected !== 'undefined' &&
       store.updateSelected(props.selected, props.valueField);
@@ -2286,6 +2287,10 @@ export default class Table extends React.Component<TableProps, object> {
       affixRow,
       translate
     } = this.props;
+
+    // 理论上来说 store.rows 应该也行啊
+    // 不过目前看来只有这样写它才会重新更新视图
+    store.rows.length;
 
     return (
       <TableContent
