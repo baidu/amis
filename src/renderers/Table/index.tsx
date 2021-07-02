@@ -467,8 +467,7 @@ export default class Table extends React.Component<TableProps, object> {
     });
 
     formItem && isAlive(formItem) && formItem.setSubStore(store);
-    Table.syncRows(store, this.props);
-    this.syncSelected();
+    Table.syncRows(store, this.props) && this.syncSelected();
   }
 
   static syncRows(
@@ -504,6 +503,7 @@ export default class Table extends React.Component<TableProps, object> {
     updateRows && store.initRows(rows, props.getEntryId);
     typeof props.selected !== 'undefined' &&
       store.updateSelected(props.selected, props.valueField);
+    return updateRows;
   }
 
   componentDidMount() {
@@ -580,11 +580,12 @@ export default class Table extends React.Component<TableProps, object> {
 
     if (
       anyChanged(['source', 'value', 'items'], prevProps, props) ||
-      (!props.value && !props.items && props.data !== prevProps.data) ||
-      (typeof props.source === 'string' && isPureVariable(props.source))
+      (!props.value &&
+        !props.items &&
+        (props.data !== prevProps.data ||
+          (typeof props.source === 'string' && isPureVariable(props.source))))
     ) {
-      Table.syncRows(store, props, prevProps);
-      this.syncSelected();
+      Table.syncRows(store, props, prevProps) && this.syncSelected();
     } else if (isArrayChildrenModified(prevProps.selected!, props.selected!)) {
       store.updateSelected(props.selected || [], props.valueField);
       this.syncSelected();
