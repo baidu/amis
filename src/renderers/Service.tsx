@@ -432,7 +432,8 @@ export default class Service extends React.Component<ServiceProps> {
 
 @Renderer({
   type: 'service',
-  storeType: ServiceStore.name
+  storeType: ServiceStore.name,
+  isolateScope: true
 })
 export class ServiceRenderer extends Service {
   static contextType = ScopedContext;
