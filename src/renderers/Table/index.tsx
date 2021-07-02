@@ -500,7 +500,6 @@ export default class Table extends React.Component<TableProps, object> {
       }
     }
 
-    console.log(updateRows, rows);
     updateRows && store.initRows(rows, props.getEntryId);
     typeof props.selected !== 'undefined' &&
       store.updateSelected(props.selected, props.valueField);
