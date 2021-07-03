@@ -452,12 +452,13 @@ addSchemaFilter(function (schema: Schema, renderer: any, props: any) {
       )
     };
     delete schema.controls;
-  } else if (schema?.quickEdit?.type) {
-    schema = {
-      ...schema,
-      quickEdit: controlToNormalRenderer(schema.quickEdit)
-    };
-  } else if (Array.isArray(schema?.quickEdit?.controls)) {
+  } else if (
+    Array.isArray(schema?.quickEdit?.controls) &&
+    (!schema.quickEdit.type ||
+      !~['combo', 'group', 'panel', 'fieldSet', 'fieldset'].indexOf(
+        schema.quickEdit.type
+      ))
+  ) {
     schema = {
       ...schema,
       quickEdit: {
@@ -466,6 +467,11 @@ addSchemaFilter(function (schema: Schema, renderer: any, props: any) {
       }
     };
     delete schema.quickEdit.controls;
+  } else if (schema?.quickEdit?.type) {
+    schema = {
+      ...schema,
+      quickEdit: controlToNormalRenderer(schema.quickEdit)
+    };
   } else if (schema?.type === 'tabs' && Array.isArray(schema.tabs)) {
     schema = {
       ...schema,
