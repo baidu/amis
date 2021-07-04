@@ -9,7 +9,7 @@ import Scoped, {ScopedContext, IScopedContext} from '../Scoped';
 import {observer} from 'mobx-react';
 import {isApiOutdated, isEffectiveApi} from '../utils/api';
 import {Spinner} from '../components';
-import {autobind, isVisible} from '../utils/helper';
+import {autobind, isVisible, qsstringify} from '../utils/helper';
 import {
   BaseSchema,
   SchemaApi,
@@ -443,6 +443,27 @@ export class ServiceRenderer extends Service {
 
     const scoped = context;
     scoped.registerComponent(this);
+  }
+
+  reload(subpath?: string, query?: any, ctx?: any) {
+    const scoped = this.context as IScopedContext;
+    if (subpath) {
+      return scoped.reload(
+        query ? `${subpath}?${qsstringify(query)}` : subpath,
+        ctx
+      );
+    }
+
+    return super.reload(subpath, query);
+  }
+
+  receive(values: any, subPath?: string) {
+    const scoped = this.context as IScopedContext;
+    if (subPath) {
+      return scoped.send(subPath, values);
+    }
+
+    return super.receive(values);
   }
 
   componentWillUnmount() {
