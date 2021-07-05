@@ -177,10 +177,13 @@ export class Chart extends React.Component<ChartProps> {
     this.refFn = this.refFn.bind(this);
     this.reload = this.reload.bind(this);
     this.handleClick = this.handleClick.bind(this);
-
-    const {config, api, data, initFetch, source} = props;
-
     this.mounted = true;
+
+    props.config && this.renderChart(props.config);
+  }
+
+  componentDidMount() {
+    const {api, data, initFetch, source} = this.props;
 
     if (source && isPureVariable(source)) {
       const ret = resolveVariableAndFilter(source, data, '| raw');
@@ -188,8 +191,6 @@ export class Chart extends React.Component<ChartProps> {
     } else if (api && initFetch !== false) {
       this.reload();
     }
-
-    config && this.renderChart(config);
   }
 
   componentDidUpdate(prevProps: ChartProps) {
