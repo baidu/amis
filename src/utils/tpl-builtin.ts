@@ -448,9 +448,12 @@ export const filters: {
       fn = value => reg.test(String(value));
     }
 
+    // 判断keys是否为*
+    const isAsterisk = /\s*\*\s*/.test(keys);
     keys = keys.split(/\s*,\s*/);
     return input.filter((item: any) =>
-      keys.some((key: string) => fn(resolveVariable(key, item), key, item))
+      // 当keys为*时从item中获取key
+      (isAsterisk ? Object.keys(item) : keys).some((key: string) => fn(resolveVariable(key, item), key, item))
     );
   },
   base64Encode(str) {
