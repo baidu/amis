@@ -448,7 +448,6 @@ export default class Form extends React.Component<FormProps, object> {
 
     store.setCanAccessSuperData(canAccessSuperData !== false);
     store.setPersistData(persistData);
-    persistData && store.getLocalPersistData();
 
     if (simpleMode) {
       store.setInited(true);
@@ -622,7 +621,7 @@ export default class Form extends React.Component<FormProps, object> {
   }
 
   async onInit() {
-    const {onInit, store, submitOnInit} = this.props;
+    const {onInit, store, persistData, submitOnInit} = this.props;
     if (!isAlive(store)) {
       return;
     }
@@ -651,6 +650,8 @@ export default class Form extends React.Component<FormProps, object> {
         ...store.data
       };
     }
+
+    persistData && store.getLocalPersistData();
 
     onInit && onInit(data, this.props);
 
@@ -834,6 +835,10 @@ export default class Form extends React.Component<FormProps, object> {
       (formLazyChange === false ? this.emitChange : this.lazyEmitChange)(
         submit
       );
+    }
+
+    if (store.persistData) {
+      store.setLocalPersistData();
     }
   }
 
