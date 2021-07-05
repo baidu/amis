@@ -218,7 +218,6 @@ export function HocStoreFactory(renderer: {
           // nextProps.data.__super !== props.data.__super) &&
         } else if (
           props.scope &&
-          isObjectShallowModified(props.scope, prevProps.scope, false) &&
           props.data === props.store!.data &&
           (shouldSync === true || prevProps.data !== props.data)
         ) {
