@@ -109,9 +109,7 @@ export default class MatrixCheckbox extends React.Component<
   componentDidMount() {
     const {formInited, addHook} = this.props;
 
-    formInited || !addHook
-      ? this.reload()
-      : addHook?.(this.initOptions, 'init');
+    formInited || !addHook ? this.reload() : addHook(this.initOptions, 'init');
   }
 
   componentDidUpdate(prevProps: MatrixProps) {
@@ -146,7 +144,7 @@ export default class MatrixCheckbox extends React.Component<
   componentWillUnmount() {
     this.mounted = false;
     const {removeHook} = this.props;
-    removeHook(this.initOptions, 'init');
+    removeHook?.(this.initOptions, 'init');
   }
 
   async initOptions(data: any) {
