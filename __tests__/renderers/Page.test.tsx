@@ -821,6 +821,7 @@ test('Renderer:Page handleAction actionType=drawer mergeData', async () => {
   );
 
   fireEvent.click(getByText(/OpenDrawer/));
+  await wait(600);
   expect(container).toMatchSnapshot();
 
   fireEvent.click(getByText(/确认/));
@@ -1196,7 +1197,7 @@ test('Renderer:Page initApi reload by Drawer action', async () => {
   expect(container).toMatchSnapshot();
 
   fireEvent.click(getByText(/OpenDialog/));
-  await wait(400);
+  await wait(500);
 
   expect(container).toMatchSnapshot();
   fireEvent.click(getByText(/确认/));

@@ -599,9 +599,15 @@ export default class Drawer extends React.Component<DrawerProps> {
             : null}
         </div>
 
-        <div className={cx('Drawer-body', bodyClassName)}>
-          {body ? this.renderBody(body, 'body') : null}
-        </div>
+        {!store.entered ? (
+          <div className={cx('Drawer-body', bodyClassName)}>
+            <Spinner overlay show size="lg" />
+          </div>
+        ) : body ? (
+          <div className={cx('Drawer-body', bodyClassName)}>
+            {this.renderBody(body, 'body')}
+          </div>
+        ) : null}
 
         {this.renderFooter()}
 
@@ -657,8 +663,7 @@ export default class Drawer extends React.Component<DrawerProps> {
   shouldSyncSuperStore: (store: IServiceStore, props: any, prevProps: any) =>
     (store.drawerOpen || props.show) &&
     (props.show !== prevProps.show ||
-      isObjectShallowModified(prevProps.data, props.data) ||
-      isObjectShallowModified(prevProps.data.__super, props.data.__super))
+      isObjectShallowModified(prevProps.data, props.data))
 })
 export class DrawerRenderer extends Drawer {
   static contextType = ScopedContext;
