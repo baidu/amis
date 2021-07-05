@@ -206,10 +206,6 @@ export const FormStore = ServiceStore.named('FormStore')
 
       self.data = data;
 
-      if (self.persistData) {
-        setLocalPersistData();
-      }
-
       // 同步 options
       syncOptions();
     }
