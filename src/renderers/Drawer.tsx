@@ -656,7 +656,9 @@ export default class Drawer extends React.Component<DrawerProps> {
   isolateScope: true,
   shouldSyncSuperStore: (store: IServiceStore, props: any, prevProps: any) =>
     (store.drawerOpen || props.show) &&
-    isObjectShallowModified(prevProps.data, props.data)
+    (props.show !== prevProps.show ||
+      isObjectShallowModified(prevProps.data, props.data) ||
+      isObjectShallowModified(prevProps.data.__super, props.data.__super))
 })
 export class DrawerRenderer extends Drawer {
   static contextType = ScopedContext;
