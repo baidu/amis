@@ -747,7 +747,6 @@ export class DrawerRenderer extends Drawer {
               action.actionType === 'confirm') &&
             action.close !== false
           ) {
-            debugger;
             onConfirm && onConfirm(values, rawAction || action, ctx, targets);
           } else if (action.close) {
             action.close === true
