@@ -325,6 +325,8 @@ export default class Page extends React.Component<PageProps> {
   handleDrawerConfirm(values: object[], action: Action, ...args: Array<any>) {
     const {store} = this.props;
 
+    console.log('here');
+
     if (action.mergeData && values.length === 1 && values[0]) {
       store.updateData(values[0]);
     }

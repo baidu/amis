@@ -663,8 +663,7 @@ export default class Drawer extends React.Component<DrawerProps> {
   shouldSyncSuperStore: (store: IServiceStore, props: any, prevProps: any) =>
     (store.drawerOpen || props.show) &&
     (props.show !== prevProps.show ||
-      isObjectShallowModified(prevProps.data, props.data) ||
-      isObjectShallowModified(prevProps.data.__super, props.data.__super))
+      isObjectShallowModified(prevProps.data, props.data))
 })
 export class DrawerRenderer extends Drawer {
   static contextType = ScopedContext;
@@ -748,6 +747,7 @@ export class DrawerRenderer extends Drawer {
               action.actionType === 'confirm') &&
             action.close !== false
           ) {
+            debugger;
             onConfirm && onConfirm(values, rawAction || action, ctx, targets);
           } else if (action.close) {
             action.close === true
