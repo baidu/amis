@@ -599,9 +599,15 @@ export default class Drawer extends React.Component<DrawerProps> {
             : null}
         </div>
 
-        <div className={cx('Drawer-body', bodyClassName)}>
-          {body ? this.renderBody(body, 'body') : null}
-        </div>
+        {!store.entered ? (
+          <div className={cx('Drawer-body', bodyClassName)}>
+            <Spinner overlay show size="lg" />
+          </div>
+        ) : body ? (
+          <div className={cx('Drawer-body', bodyClassName)}>
+            {this.renderBody(body, 'body')}
+          </div>
+        ) : null}
 
         {this.renderFooter()}
 
