@@ -40,7 +40,7 @@ export interface RendererBasicConfig {
     props: any,
     prevProps: any
   ) => boolean | undefined;
-  storeExtendsData?: boolean; // 是否需要继承上层数据。
+  storeExtendsData?: boolean | ((props: any) => boolean); // 是否需要继承上层数据。
   weight?: number; // 权重，值越低越优先命中。
   isolateScope?: boolean;
   isFormItem?: boolean;

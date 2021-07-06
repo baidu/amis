@@ -17,7 +17,7 @@ import {RootStoreContext} from './WithRootStore';
 
 export function HocStoreFactory(renderer: {
   storeType: string;
-  extendsData?: boolean;
+  extendsData?: boolean | ((props: any) => boolean);
   shouldSyncSuperStore?: (
     store: any,
     props: any,
@@ -63,7 +63,12 @@ export function HocStoreFactory(renderer: {
         }) as IIRendererStore;
         this.store = store;
 
-        if (renderer.extendsData === false) {
+        const extendsData =
+          typeof renderer.extendsData === 'function'
+            ? renderer.extendsData(props)
+            : renderer.extendsData;
+
+        if (extendsData === false) {
           store.initData(
             createObject(
               (this.props.data as any)
@@ -143,7 +148,11 @@ export function HocStoreFactory(renderer: {
           return;
         }
 
-        if (renderer.extendsData === false) {
+        const extendsData =
+          typeof renderer.extendsData === 'function'
+            ? renderer.extendsData(props)
+            : renderer.extendsData;
+        if (extendsData === false) {
           if (
             shouldSync === true ||
             prevProps.defaultData !== props.defaultData ||
