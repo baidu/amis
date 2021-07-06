@@ -102,12 +102,7 @@ export function syncDataFromSuper(
         .map(item => `${item.name}`.replace(/\..*$/, ''))
         .concat(Object.keys(obj))
     );
-  } else if (
-    force ||
-    (store &&
-      store.storeType === 'ServiceStore' &&
-      store.parentStore.storeType === 'FormStore')
-  ) {
+  } else if (force) {
     keys = Object.keys(obj);
   }
 

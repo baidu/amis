@@ -216,13 +216,13 @@ export default class Service extends React.Component<ServiceProps> {
     }
   }
 
-  afterDataFetch(schema: any) {
+  afterDataFetch(response: any) {
     const {onBulkChange, formMode} = this.props;
-    if (formMode && schema?.data && onBulkChange) {
-      onBulkChange(schema?.data);
+    if (formMode && response?.data && onBulkChange) {
+      onBulkChange(response?.data);
     }
 
-    this.initInterval(schema);
+    this.initInterval(response);
   }
 
   afterSchemaFetch(schema: any) {
@@ -433,7 +433,8 @@ export default class Service extends React.Component<ServiceProps> {
 @Renderer({
   type: 'service',
   storeType: ServiceStore.name,
-  isolateScope: true
+  isolateScope: true,
+  storeExtendsData: (props: any) => (props.formStore ? false : true)
 })
 export class ServiceRenderer extends Service {
   static contextType = ScopedContext;
