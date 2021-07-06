@@ -233,6 +233,7 @@ export interface DateProps extends FormControlProps {
   inputFormat?: string;
   timeFormat?: string;
   format?: string;
+  valueFormat?: string;
   timeConstraints?: {
     hours?: {
       min: number;
@@ -341,6 +342,7 @@ export default class DateControl extends React.PureComponent<
       type,
       format,
       timeFormat,
+      valueFormat,
       ...rest
     } = this.props;
 
@@ -353,7 +355,7 @@ export default class DateControl extends React.PureComponent<
         <DatePicker
           {...rest}
           timeFormat={timeFormat}
-          format={format}
+          format={valueFormat || format}
           {...this.state}
           classnames={cx}
         />
