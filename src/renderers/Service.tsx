@@ -9,7 +9,7 @@ import Scoped, {ScopedContext, IScopedContext} from '../Scoped';
 import {observer} from 'mobx-react';
 import {isApiOutdated, isEffectiveApi} from '../utils/api';
 import {Spinner} from '../components';
-import {autobind, isVisible, qsstringify} from '../utils/helper';
+import {autobind, isEmpty, isVisible, qsstringify} from '../utils/helper';
 import {
   BaseSchema,
   SchemaApi,
@@ -216,18 +216,22 @@ export default class Service extends React.Component<ServiceProps> {
     }
   }
 
-  afterDataFetch(response: any) {
-    const {onBulkChange, formMode} = this.props;
-    if (formMode && response?.data && onBulkChange) {
-      onBulkChange(response?.data);
+  afterDataFetch(result: any) {
+    // todo 应该统一这块
+    // 初始化接口返回的是整个 response，
+    // 保存 ajax 请求的时候返回时数据部分。
+    const data = result?.ok ? result.data : result;
+    const {onBulkChange, formStore} = this.props;
+    if (formStore && !isEmpty(data) && onBulkChange) {
+      onBulkChange(data);
     }
 
-    this.initInterval(response);
+    this.initInterval(data);
   }
 
   afterSchemaFetch(schema: any) {
-    const {onBulkChange, formMode} = this.props;
-    if (formMode && schema?.data && onBulkChange) {
+    const {onBulkChange, formStore} = this.props;
+    if (formStore && schema?.data && onBulkChange) {
       onBulkChange(schema.data);
     }
 
