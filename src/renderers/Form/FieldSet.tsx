@@ -110,7 +110,7 @@ export default class FieldSetControl extends React.Component<
           formClassName
         )}
       >
-        {body ? render('fieldSet', body, props) : null}
+        {body ? render('body', body, props) : null}
       </div>
     );
   }

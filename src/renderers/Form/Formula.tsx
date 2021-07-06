@@ -55,7 +55,34 @@ export default class FormulaControl extends React.Component<
   FormControlProps,
   any
 > {
+  inited = false;
+
   componentDidMount() {
+    const {formInited} = this.props;
+
+    // 如果在表单中，还是等初始化数据过来才算
+    if (formInited === false) {
+      return;
+    }
+
+    this.inited = true;
+    this.initSet();
+  }
+
+  componentDidUpdate(prevProps: FormControlProps) {
+    const props = this.props;
+
+    if (this.inited) {
+      this.autoSet(prevProps);
+    } else if (
+      props.formInited === true ||
+      typeof props.formInited === 'undefined'
+    ) {
+      this.initSet();
+    }
+  }
+
+  initSet() {
     const {formula, data, setPrinstineValue, initSet, condition} = this.props;
 
     if (!formula || initSet === false) {
@@ -73,7 +100,7 @@ export default class FormulaControl extends React.Component<
     result !== null && setPrinstineValue(result);
   }
 
-  componentDidUpdate(prevProps: FormControlProps) {
+  autoSet(prevProps: FormControlProps) {
     const props = this.props;
     const {formula, data, onChange, autoSet, value, condition} = prevProps;
 
