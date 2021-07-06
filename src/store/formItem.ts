@@ -673,7 +673,10 @@ export const FormItemStore = StoreNode.named('FormItemStore')
       let expressionsInOptions = false;
       let filteredOptions = self.options
         .filter((item: any) => {
-          if (!expressionsInOptions && (item.visibleOn || item.hiddenOn)) {
+          if (
+            !expressionsInOptions &&
+            (item.visibleOn || item.hiddenOn || item.disabledOn)
+          ) {
             expressionsInOptions = true;
           }
 
