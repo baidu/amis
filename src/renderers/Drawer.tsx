@@ -571,7 +571,7 @@ export default class Drawer extends React.Component<DrawerProps> {
         position={position}
         overlay={overlay}
         onEntered={this.handleEntered}
-        onExisted={this.handleExited}
+        onExited={this.handleExited}
         closeOnEsc={closeOnEsc}
         closeOnOutside={
           !store.drawerOpen && !store.dialogOpen && closeOnOutside
