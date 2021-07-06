@@ -137,7 +137,7 @@ export class ImagesField extends React.Component<ImagesProps> {
               : (item && item.image) || item,
             originalSrc: originalSrc
               ? filter(originalSrc, item, '| raw')
-              : (item && item.src) || item,
+              : filter(src, item, '| raw') || item?.src || item?.image || item,
             title: item && (item.enlargeTitle || item.title),
             caption:
               item && (item.enlargeCaption || item.description || item.caption)
