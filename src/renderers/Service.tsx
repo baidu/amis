@@ -220,7 +220,7 @@ export default class Service extends React.Component<ServiceProps> {
     // todo 应该统一这块
     // 初始化接口返回的是整个 response，
     // 保存 ajax 请求的时候返回时数据部分。
-    const data = result.ok ? result.data : result;
+    const data = result?.ok ? result.data : result;
     const {onBulkChange, formStore} = this.props;
     if (formStore && !isEmpty(data) && onBulkChange) {
       onBulkChange(data);
