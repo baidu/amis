@@ -1015,7 +1015,7 @@ export default class ImageControl extends React.Component<
       .catch(error => cb(error.message || __('File.errorRetry'), file));
   }
 
-  _send(
+  async _send(
     file: Blob,
     receiver: string,
     params: object,
@@ -1058,8 +1058,8 @@ export default class ImageControl extends React.Component<
       throw new Error('fetcher is required');
     }
 
-    return env
-      .fetcher(api, fd, {
+    try {
+      return await env.fetcher(api, fd, {
         method: 'post',
         cancelExecutor: (cancelExecutor: () => void) => {
           // 记录取消器，取消的时候要调用
@@ -1070,10 +1070,10 @@ export default class ImageControl extends React.Component<
         },
         onUploadProgress: (event: {loaded: number; total: number}) =>
           onProgress(event.loaded / event.total)
-      })
-      .finally(() => {
-        this.removeFileCanelExecutor(file);
       });
+    } finally {
+      this.removeFileCanelExecutor(file);
+    }
   }
 
   removeFileCanelExecutor(file: any, execute = false) {

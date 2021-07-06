@@ -870,7 +870,7 @@ export default class FileControl extends React.Component<FileProps, FileState> {
     }
   }
 
-  uploadFile(
+  async uploadFile(
     file: FileX,
     receiver: string,
     params: object,
@@ -892,9 +892,11 @@ export default class FileControl extends React.Component<FileProps, FileState> {
     // Note: File类型字段放在后面，可以支持第三方云存储鉴权
     fd.append(config.fieldName || 'file', file);
 
-    return this._send(file, api, fd, {}, onProgress).finally(() => {
+    try {
+      return await this._send(file, api, fd, {}, onProgress);
+    } finally {
       this.removeFileCanelExecutor(file);
-    });
+    }
   }
 
   uploadBigFile(
@@ -986,7 +988,7 @@ export default class FileControl extends React.Component<FileProps, FileState> {
         );
       }
 
-      function finishChunk(
+      async function finishChunk(
         partList: Array<any> | undefined,
         state: ObjectState
       ) {
@@ -1007,13 +1009,14 @@ export default class FileControl extends React.Component<FileProps, FileState> {
           }
         );
 
-        self
-          ._send(file, endApi)
-          .finally(() => {
-            self.removeFileCanelExecutor(file);
-          })
-          .then(resolve)
-          .catch(reject);
+        try {
+          const ret = await self._send(file, endApi);
+          resolve(ret);
+        } catch (err) {
+          reject(err);
+        } finally {
+          self.removeFileCanelExecutor(file);
+        }
       }
 
       function uploadPartFile(state: ObjectState, conf: Partial<FileProps>) {

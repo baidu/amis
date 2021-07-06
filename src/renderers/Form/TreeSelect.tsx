@@ -307,7 +307,7 @@ export default class TreeSelectControl extends React.Component<
     });
   }
 
-  loadRemote(input: string) {
+  async loadRemote(input: string) {
     const {autoComplete, env, data, setOptions, setLoading} = this.props;
 
     if (!isEffectiveApi(autoComplete, data)) {
@@ -327,23 +327,25 @@ export default class TreeSelectControl extends React.Component<
     }
 
     setLoading(true);
-    return env
-      .fetcher(autoComplete, {
+
+    try {
+      const ret: any = env.fetcher(autoComplete, {
         ...data,
         term: input,
         value: input
-      })
-      .then(ret => {
-        let options = (ret.data && (ret.data as any).options) || ret.data || [];
-        this.cache[input] = options;
-        let combinedOptions = this.mergeOptions(options);
-        setOptions(combinedOptions);
+      });
 
-        return Promise.resolve({
-          options: combinedOptions
-        });
-      })
-      .finally(() => setLoading(false));
+      let options = (ret.data && (ret.data as any).options) || ret.data || [];
+      this.cache[input] = options;
+      let combinedOptions = this.mergeOptions(options);
+      setOptions(combinedOptions);
+
+      return {
+        options: combinedOptions
+      };
+    } finally {
+      setLoading(false);
+    }
   }
 
   mergeOptions(options: Array<object>) {
