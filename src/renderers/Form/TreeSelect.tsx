@@ -329,7 +329,7 @@ export default class TreeSelectControl extends React.Component<
     setLoading(true);
 
     try {
-      const ret: any = env.fetcher(autoComplete, {
+      const ret: any = await env.fetcher(autoComplete, {
         ...data,
         term: input,
         value: input
