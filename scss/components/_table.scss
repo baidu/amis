@@ -1,7 +1,6 @@
 .#{$ns}Table {
   position: relative;
-  background: var(--Table-bg);
-  border: var(--Table-borderWidth) solid var(--Table-borderColor);
+
   border-radius: var(--Table-borderRadius);
   margin-bottom: var(--gap-md);
 
@@ -69,6 +68,14 @@
     opacity: 0;
     box-shadow: var(--Table-fixedTop-boxShadow);
 
+    // box-sizing: content-box;
+    // padding: var(--gap-base) var(--gap-base) 0 var(--gap-base);
+    // margin: calc(var(--gap-base) * -1) calc(var(--gap-base) * -1) 0
+    //   calc(var(--gap-base) * -1);
+    // > * {
+    //   box-sizing: border-box;
+    // }
+
     &.in {
       position: fixed;
       opacity: 1;
@@ -87,14 +94,6 @@
       }
     }
 
-    > .#{$ns}Table-heading {
-      border-bottom: none;
-    }
-
-    > .#{$ns}Table-wrapper {
-      border-top: var(--Table-borderWidth) solid var(--Table-borderColor);
-    }
-
     &.is-fakeHide {
       > .#{$ns}Table-fixedLeft,
       > .#{$ns}Table-fixedRight,
@@ -107,14 +106,13 @@
 
   &-heading {
     background: var(--Table-heading-bg);
-    border-bottom: var(--Table-borderWidth) solid var(--Table-borderColor);
     padding: calc(
         (
             var(--Table-heading-height) - var(--Table-fontSize) *
               var(--lineHeightBase)
           ) / 2
       )
-      var(--Table-toolbar-paddingX);
+      var(--gap-sm);
   }
 
   &--unsaved &-heading {
@@ -144,7 +142,7 @@
   }
 
   &-header {
-    padding: var(--Table-toolbar-paddingY) var(--Table-toolbar-paddingX);
+    padding: var(--Table-toolbar-marginY) var(--Table-toolbar-marginX);
 
     > * + .#{$ns}Button,
     > * + .#{$ns}ButtonGroup,
@@ -156,7 +154,7 @@
   &-toolbar {
     @include clearfix();
     display: flex;
-    padding: var(--Table-toolbar-paddingY) var(--Table-toolbar-paddingX);
+    margin: var(--Table-toolbar-marginY) var(--Table-toolbar-marginX);
     flex-wrap: wrap;
 
     .#{$ns}DropDown {
@@ -177,15 +175,6 @@
 
   &-contentWrap {
     position: relative;
-  }
-
-  &-header + &-contentWrap,
-  &-toolbar + &-contentWrap {
-    border-top: var(--Table-borderWidth) solid var(--Table-borderColor);
-  }
-
-  &-footToolbar {
-    border-top: var(--Table-borderWidth) solid var(--Table-borderColor);
   }
 
   &-actions {
@@ -211,6 +200,7 @@
     background: var(--Table-bg);
     border-spacing: 0;
     border-collapse: collapse;
+    border: var(--Table-borderWidth) solid var(--Table-borderColor);
 
     &--withCombine {
       > thead > tr > th,

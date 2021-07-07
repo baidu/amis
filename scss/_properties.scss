@@ -407,8 +407,8 @@
   --Cards--unsaved-heading-color: #4285f4;
   --Cards-fixedTop-boxShadow: var(--boxShadow);
   --Cards-placeholder-height: #{px2rem(100px)};
-  --Cards-toolbar-paddingX: 0;
-  --Cards-toolbar-paddingY: 0;
+  --Cards-toolbar-marginX: 0;
+  --Cards-toolbar-marginY: var(--gap-base);
 
   --Carousel--dark-control: black;
   --Carousel--light-control: white;
@@ -830,8 +830,8 @@
   --List-borderWidth: var(--borderWidth);
   --List-fixedTop-boxShadow: var(--boxShadow);
   --List-placeholder-height: #{px2rem(30px)};
-  --List-toolbar-paddingX: var(--gap-sm);
-  --List-toolbar-paddingY: var(--gap-sm);
+  --List-toolbar-marginX: 0;
+  --List-toolbar-marginY: var(--gap-base);
 
   --ListControl-fontSize: var(--Form-fontSize);
   --ListControl-gutterWidth: #{px2rem(10px)};
@@ -1150,8 +1150,8 @@
   --Table-thead-color: var(--text--loud-color);
   --Table-thead-fontSize: var(--fontSizeBase);
   --Table-thead-iconColor: var(--icon-color);
-  --Table-toolbar-paddingX: var(--gap-sm);
-  --Table-toolbar-paddingY: var(--gap-sm);
+  --Table-toolbar-marginX: 0;
+  --Table-toolbar-marginY: var(--gap-base);
   --Table-tree-borderColor: var(--Table-borderColor);
 
   --TableCell--edge-paddingX: var(--gap-md);

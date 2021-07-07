@@ -903,12 +903,12 @@ export default class Cards extends React.Component<GridProps, object> {
       >
         {affixHeader ? (
           <div className={cx('Cards-fixedTop')}>
-            {heading}
             {header}
+            {heading}
           </div>
         ) : null}
-        {heading}
         {header}
+        {heading}
         {store.items.length ? (
           <div
             ref={this.itemsRef}

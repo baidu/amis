@@ -1,15 +1,18 @@
 .#{$ns}List {
-  border: var(--List-borderWidth) solid var(--List-borderColor);
-  border-radius: var(--List-borderRadius);
-  background: var(--List-bg);
   margin-bottom: var(--gap-md);
   position: relative;
+
+  &-items {
+    border-radius: var(--List-borderRadius);
+    border: var(--List-borderWidth) solid var(--List-borderColor);
+    background: var(--List-bg);
+  }
 
   &-toolbar {
     @include clearfix();
     display: flex;
     flex-wrap: wrap;
-    padding: var(--List-toolbar-paddingY) var(--List-toolbar-paddingX);
+    margin: var(--List-toolbar-marginY) var(--List-toolbar-marginX);
   }
 
   &-actions {
@@ -21,7 +24,7 @@
   }
 
   &-header {
-    padding: var(--List-toolbar-paddingY) var(--List-toolbar-paddingX);
+    padding: var(--List-toolbar-marginY) var(--List-toolbar-marginX);
 
     > * + .#{$ns}Button,
     > * + .#{$ns}ButtonGroup,
