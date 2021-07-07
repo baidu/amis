@@ -135,7 +135,7 @@ export default class SelectControl extends React.Component<SelectProps, any> {
     onChange(newValue);
   }
 
-  loadRemote(input: string) {
+  async loadRemote(input: string) {
     const {
       autoComplete,
       env,
@@ -167,18 +167,19 @@ export default class SelectControl extends React.Component<SelectProps, any> {
     }
 
     setLoading(true);
-    return env
-      .fetcher(autoComplete, ctx)
-      .then(ret => {
-        let options = (ret.data && (ret.data as any).options) || ret.data || [];
-        let combinedOptions = this.mergeOptions(options);
-        setOptions(combinedOptions);
+    try {
+      const ret = await env.fetcher(autoComplete, ctx);
 
-        return {
-          options: combinedOptions
-        };
-      })
-      .finally(() => setLoading(false));
+      let options = (ret.data && (ret.data as any).options) || ret.data || [];
+      let combinedOptions = this.mergeOptions(options);
+      setOptions(combinedOptions);
+
+      return {
+        options: combinedOptions
+      };
+    } finally {
+      setLoading(false);
+    }
   }
 
   mergeOptions(options: Array<object>) {
