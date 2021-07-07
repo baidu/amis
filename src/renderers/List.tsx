@@ -939,13 +939,13 @@ export default class List extends React.Component<ListProps, object> {
       >
         {affixHeader && heading && header ? (
           <div className={cx('List-fixedTop')}>
-            {heading}
             {header}
+            {heading}
           </div>
         ) : null}
-        {heading}
-        {header}
 
+        {header}
+        {heading}
         {store.items.length ? (
           <div className={cx('List-items')}>
             {store.items.map((item, index) =>

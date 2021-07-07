@@ -1577,8 +1577,8 @@ export default class Table extends React.Component<TableProps, object> {
           'is-fakeHide': hideHeader
         })}
       >
-        {this.renderHeading()}
         {this.renderHeader(false)}
+        {this.renderHeading()}
         <div className={cx('Table-fixedLeft')}>
           {store.leftFixedColumns.length
             ? this.renderFixedColumns(
@@ -2345,8 +2345,8 @@ export default class Table extends React.Component<TableProps, object> {
           'Table--unsaved': !!store.modified || !!store.moved
         })}
       >
-        {heading}
         {header}
+        {heading}
         <div
           className={cx('Table-contentWrap')}
           onMouseLeave={this.handleMouseLeave}
