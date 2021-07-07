@@ -226,7 +226,12 @@ export default class Tabs extends React.Component<TabsProps, TabsState> {
           prevKey: this.state.activeKey
         });
       }
-    } else if (preProps.tabs !== props.tabs) {
+    } else if (
+      Array.isArray(props.tabs) &&
+      Array.isArray(preProps.tabs) &&
+      JSON.stringify(props.tabs.map(item => item.hash)) !==
+        JSON.stringify(preProps.tabs.map(item => item.hash))
+    ) {
       let activeKey: any = this.state.activeKey;
       const location = props.location;
       let tab: TabSchema | null = null;
@@ -515,7 +520,6 @@ export default class Tabs extends React.Component<TabsProps, TabsState> {
     return this.renderTabs();
   }
 }
-
 @Renderer({
   type: 'tabs'
 })

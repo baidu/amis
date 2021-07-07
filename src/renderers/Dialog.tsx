@@ -603,9 +603,11 @@ export default class Dialog extends React.Component<DialogProps> {
   storeExtendsData: false,
   isolateScope: true,
   shouldSyncSuperStore: (store: IServiceStore, props: any, prevProps: any) =>
-    (store.dialogOpen || props.show) &&
-    (props.show !== prevProps.show ||
-      isObjectShallowModified(prevProps.data, props.data))
+    !!(
+      (store.dialogOpen || props.show) &&
+      (props.show !== prevProps.show ||
+        isObjectShallowModified(prevProps.data, props.data))
+    )
 })
 export class DialogRenderer extends Dialog {
   static contextType = ScopedContext;
