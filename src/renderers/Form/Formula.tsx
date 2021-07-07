@@ -74,7 +74,7 @@ export default class FormulaControl extends React.Component<
     if (this.inited) {
       autoSet === false || this.autoSet(prevProps);
     } else if (formInited === true || typeof formInited === 'undefined') {
-      initSet === false || this.initSet();
+      initSet === false || this.autoSet(prevProps);
     }
   }
 
