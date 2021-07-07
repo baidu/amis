@@ -1,11 +1,11 @@
 .#{$ns}List {
-  margin-bottom: var(--gap-md);
   position: relative;
 
   &-items {
     border-radius: var(--List-borderRadius);
     border: var(--List-borderWidth) solid var(--List-borderColor);
     background: var(--List-bg);
+    margin-bottom: var(--gap-sm);
   }
 
   &-toolbar {

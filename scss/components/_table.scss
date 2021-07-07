@@ -87,11 +87,6 @@
       z-index: $zindex-affix + 10;
       // box-shadow: none;
       background: transparent;
-      border-top: var(--Table-borderWidth) solid var(--Table-borderColor);
-
-      > table {
-        margin-bottom: var(--gap-xs);
-      }
     }
 
     &.is-fakeHide {
@@ -175,6 +170,7 @@
 
   &-contentWrap {
     position: relative;
+    margin-bottom: var(--Table-toolbar-marginY);
   }
 
   &-actions {
@@ -471,6 +467,7 @@
       border-right: 0;
       width: px2rem(1px);
       padding-right: var(--TableCell-paddingX);
+      white-space: nowrap;
 
       .#{$ns}Checkbox {
         margin: 0;
