@@ -12,7 +12,7 @@
     @include clearfix();
     display: flex;
     flex-wrap: wrap;
-    margin: var(--List-toolbar-marginY) var(--List-toolbar-marginX);
+    margin: 0 var(--List-toolbar-marginX) var(--List-toolbar-marginY);
   }
 
   &-actions {
