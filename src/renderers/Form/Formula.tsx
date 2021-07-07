@@ -66,6 +66,7 @@ export default class FormulaControl extends React.Component<
     }
 
     initSet === false || this.initSet();
+    this.inited = true;
   }
 
   componentDidUpdate(prevProps: FormControlProps) {
@@ -74,12 +75,12 @@ export default class FormulaControl extends React.Component<
     if (this.inited) {
       autoSet === false || this.autoSet(prevProps);
     } else if (formInited === true || typeof formInited === 'undefined') {
+      this.inited = true;
       initSet === false || this.autoSet(prevProps);
     }
   }
 
   initSet() {
-    this.inited = true;
     const {formula, data, setPrinstineValue, initSet, condition} = this.props;
 
     if (!formula) {
