@@ -134,6 +134,7 @@ export class SchemaRenderer extends React.Component<SchemaRendererProps, any> {
 
       if (
         schema.component &&
+        !schema.component.wrapAsFormItem &&
         (schema.asFormItem ||
           (props.formStore && (schema.name || schema.hasOwnProperty('label'))))
       ) {
@@ -147,6 +148,7 @@ export class SchemaRenderer extends React.Component<SchemaRendererProps, any> {
             ...schema.asFormItem
           })(schema.component);
           componentCache.set(schema.component, cache);
+          cache.wrapAsFormItem = true;
           schema.component = cache;
         }
       }
