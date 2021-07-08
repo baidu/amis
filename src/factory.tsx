@@ -4,7 +4,7 @@ import {RendererStore, IRendererStore, IIRendererStore} from './store/index';
 import {getEnv, destroy} from 'mobx-state-tree';
 import {wrapFetcher} from './utils/api';
 import {normalizeLink} from './utils/normalizeLink';
-import {findIndex, promisify} from './utils/helper';
+import {findIndex, promisify, string2regExp} from './utils/helper';
 import {Api, fetcherResult, Payload, SchemaNode, Schema, Action} from './types';
 import {observer} from 'mobx-react';
 import Scoped from './Scoped';
@@ -157,7 +157,12 @@ export function registerRenderer(config: RendererConfig): RendererConfig {
     throw new TypeError('config.component is required');
   }
 
-  config.test = config.test || new RegExp(`(^|\/)${config.type}$`, 'i');
+  if (typeof config.type === 'string' && config.type) {
+    config.type = config.type.toLowerCase();
+    config.test =
+      config.test || new RegExp(`(^|\/)${string2regExp(config.type)}$`, 'i');
+  }
+
   config.weight = config.weight || 0;
   config.Renderer = config.component;
   config.name = config.name || config.type || `anonymous-${anonymousIndex++}`;
@@ -423,8 +428,10 @@ export function resolveRenderer(
   path: string,
   schema?: Schema
 ): null | RendererConfig {
-  if (schema?.type && cache[schema.type]) {
-    return cache[schema.type];
+  const type = typeof schema?.type == 'string' ? schema.type.toLowerCase() : '';
+
+  if (type && cache[type]) {
+    return cache[type];
   } else if (cache[path]) {
     return cache[path];
   } else if (path && path.length > 1024) {
@@ -437,12 +444,12 @@ export function resolveRenderer(
     let matched = false;
 
     // 直接匹配类型，后续注册渲染都应该用这个方式而不是之前的判断路径。
-    if (item.type && schema?.type) {
-      matched = item.type === schema.type;
+    if (item.type && type) {
+      matched = item.type === type;
 
       // 如果是type来命中的，那么cache的key直接用 type 即可。
       if (matched) {
-        cache[schema.type] = item;
+        cache[type] = item;
       }
     } else if (typeof item.test === 'function') {
       // 不应该搞得这么复杂的，让每个渲染器唯一 id，自己不晕别人用起来也不晕。
