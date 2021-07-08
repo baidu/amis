@@ -74,6 +74,8 @@ export class ControlGroupRenderer extends React.Component<InputGroupProps> {
       render,
       disabled,
       data,
+      mode,
+      horizontal,
       formMode,
       formHorizontal,
       subFormMode,
@@ -88,8 +90,8 @@ export class ControlGroupRenderer extends React.Component<InputGroupProps> {
 
     return render(`${index}`, subSchema, {
       disabled,
-      formMode: subFormMode || formMode,
-      formHorizontal: subFormHorizontal || formHorizontal,
+      formMode: subFormMode || mode || formMode,
+      formHorizontal: subFormHorizontal || horizontal || formHorizontal,
       ...otherProps
     });
   }
