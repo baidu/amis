@@ -254,8 +254,8 @@ export class SchemaRenderer extends React.Component<SchemaRendererProps, any> {
         ? null
         : React.createElement(schema.component as any, {
             ...rest,
-            ...exprProps,
             ...restSchema,
+            ...exprProps,
             defaultData,
             defaultValue,
             defaultActiveKey,
