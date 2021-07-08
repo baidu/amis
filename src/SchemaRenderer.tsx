@@ -134,6 +134,7 @@ export class SchemaRenderer extends React.Component<SchemaRendererProps, any> {
 
       if (
         schema.component &&
+        !schema.component.wrapAsFormItem &&
         (schema.asFormItem ||
           (props.formStore && (schema.name || schema.hasOwnProperty('label'))))
       ) {
@@ -147,6 +148,7 @@ export class SchemaRenderer extends React.Component<SchemaRendererProps, any> {
             ...schema.asFormItem
           })(schema.component);
           componentCache.set(schema.component, cache);
+          cache.wrapAsFormItem = true;
           schema.component = cache;
         }
       }
@@ -242,12 +244,21 @@ export class SchemaRenderer extends React.Component<SchemaRendererProps, any> {
           });
     } else if (typeof schema.component === 'function') {
       const isSFC = !(schema.component.prototype instanceof React.Component);
+      const {
+        data: defaultData,
+        value: defaultValue,
+        activeKey: defaultActiveKey,
+        ...restSchema
+      } = schema;
       return rest.invisible
         ? null
         : React.createElement(schema.component as any, {
             ...rest,
+            ...restSchema,
             ...exprProps,
-            ...schema,
+            defaultData,
+            defaultValue,
+            defaultActiveKey,
             $path: $path,
             $schema: schema,
             ref: isSFC ? undefined : this.refFn,
