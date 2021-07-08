@@ -10,6 +10,7 @@ import cx from 'classnames';
 import {FormBaseControl, FormItemWrap} from './Item';
 import getExprProperties from '../../utils/filter-schema';
 import {SchemaClassName, SchemaObject} from '../../Schema';
+import {FormSchemaHorizontal} from '.';
 
 export type GroupSubControl = SchemaObject & {
   /**
@@ -36,11 +37,6 @@ export interface GroupControlSchema extends FormBaseControl {
   body: Array<GroupSubControl>;
 
   /**
-   * 子表单项默认的展示模式
-   */
-  formMode?: 'normal' | 'horizontal' | 'inline';
-
-  /**
    * 间隔
    */
   gap?: 'xs' | 'sm' | 'normal';
@@ -49,6 +45,15 @@ export interface GroupControlSchema extends FormBaseControl {
    * 配置时垂直摆放还是左右摆放。
    */
   direction?: 'horizontal' | 'vertical';
+
+  /**
+   * 配置子表单项默认的展示方式。
+   */
+  subFormMode?: 'normal' | 'inline' | 'horizontal';
+  /**
+   * 如果是水平排版，这个属性可以细化水平排版的左右宽度占比。
+   */
+  subFormHorizontal?: FormSchemaHorizontal;
 }
 
 export interface InputGroupProps
@@ -65,7 +70,15 @@ export class ControlGroupRenderer extends React.Component<InputGroupProps> {
   }
 
   renderControl(control: any, index: any, otherProps?: any) {
-    const {render, disabled, data} = this.props;
+    const {
+      render,
+      disabled,
+      data,
+      formMode,
+      formHorizontal,
+      subFormMode,
+      subFormHorizontal
+    } = this.props;
 
     if (!control) {
       return null;
@@ -74,8 +87,10 @@ export class ControlGroupRenderer extends React.Component<InputGroupProps> {
     const subSchema: any = control;
 
     return render(`${index}`, subSchema, {
-      ...otherProps,
-      disabled
+      disabled,
+      formMode: subFormMode || formMode,
+      formHorizontal: subFormHorizontal || formHorizontal,
+      ...otherProps
     });
   }
 
@@ -99,11 +114,8 @@ export class ControlGroupRenderer extends React.Component<InputGroupProps> {
             return null;
           }
 
-          const controlMode = (control as FormBaseControl)?.mode || formMode;
-
           return this.renderControl(control, index, {
-            key: index,
-            formMode: controlMode
+            key: index
           });
         })}
       </div>
@@ -120,6 +132,8 @@ export class ControlGroupRenderer extends React.Component<InputGroupProps> {
       horizontal,
       formMode,
       formHorizontal,
+      subFormMode,
+      subFormHorizontal,
       data,
       gap
     } = props;
@@ -128,9 +142,10 @@ export class ControlGroupRenderer extends React.Component<InputGroupProps> {
       return null;
     }
 
-    formMode = mode || formMode;
+    formMode = subFormMode || mode || formMode;
 
     let horizontalDeeper =
+      subFormHorizontal ||
       horizontal ||
       makeHorizontalDeeper(
         formHorizontal,
@@ -160,7 +175,6 @@ export class ControlGroupRenderer extends React.Component<InputGroupProps> {
             (control && (control as any).type === 'formula')
           ) {
             return this.renderControl(control, index, {
-              formMode: 'inline',
               key: index,
               className: cx(control.className, control.columnClassName)
             });
