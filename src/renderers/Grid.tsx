@@ -8,6 +8,7 @@ import {
   SchemaCollection,
   SchemaObject
 } from '../Schema';
+import {FormSchemaHorizontal} from './Form/index';
 
 export const ColProps = ['lg', 'md', 'sm', 'xs'];
 
@@ -108,8 +109,14 @@ export type GridColumnObject = {
    */
   lgPush?: number;
 
-  mode?: string;
-  horizontal?: any;
+  /**
+   * 配置子表单项默认的展示方式。
+   */
+  subFormMode?: 'normal' | 'inline' | 'horizontal';
+  /**
+   * 如果是水平排版，这个属性可以细化水平排版的左右宽度占比。
+   */
+  subFormHorizontal?: FormSchemaHorizontal;
 
   body?: SchemaCollection;
 
