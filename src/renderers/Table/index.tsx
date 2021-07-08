@@ -837,17 +837,22 @@ export default class Table extends React.Component<TableProps, object> {
     } = (this.heights = {});
 
     heights.header ||
-      (heights.header = table.querySelector('thead')!.offsetHeight);
+      (heights.header = table
+        .querySelector('thead')!
+        .getBoundingClientRect().height);
 
     forEach(
       table.querySelectorAll('thead>tr:last-child>th'),
       (item: HTMLElement) => {
-        widths[item.getAttribute('data-index') as string] = item.offsetWidth;
+        widths[
+          item.getAttribute('data-index') as string
+        ] = item.getBoundingClientRect().width;
       }
     );
     forEach(
       table.querySelectorAll('tbody>tr>*:last-child'),
-      (item: HTMLElement, index: number) => (heights[index] = item.offsetHeight)
+      (item: HTMLElement, index: number) =>
+        (heights[index] = item.getBoundingClientRect().height)
     );
 
     // 让 react 去更新非常慢，还是手动更新吧。
