@@ -10,10 +10,12 @@ import {
   RendererProps,
   resolveRenderer
 } from './factory';
+import {asFormItem} from './renderers/Form/Item';
 import {renderChild, renderChildren} from './Root';
 import {Schema, SchemaNode} from './types';
 import getExprProperties from './utils/filter-schema';
 import {anyChanged, chainEvents} from './utils/helper';
+import {SimpleMap} from './utils/SimpleMap';
 
 interface SchemaRendererProps extends Partial<RendererProps> {
   schema: Schema;
@@ -45,6 +47,8 @@ const defaultOmitList = [
   'mode',
   'body'
 ];
+
+const componentCache: SimpleMap = new SimpleMap();
 
 export class SchemaRenderer extends React.Component<SchemaRendererProps, any> {
   static displayName: string = 'Renderer';
@@ -114,6 +118,38 @@ export class SchemaRenderer extends React.Component<SchemaRendererProps, any> {
       const rendererResolver = props.env.rendererResolver || resolveRenderer;
       this.renderer = rendererResolver(path, schema, props);
       this.rendererKey = `${schema.type}-${schema.$$id}`;
+    } else {
+      // 自定义组件如果在节点设置了 label name 什么的，就用 formItem 包一层
+      // 至少自动支持了 valdiations, label, description 等逻辑。
+      if (
+        schema.children &&
+        !schema.component &&
+        (schema.asFormItem ||
+          (props.formStore && (schema.name || schema.hasOwnProperty('label'))))
+      ) {
+        schema.component = PlaceholderComponent;
+        schema.renderChildren = schema.children;
+        delete schema.children;
+      }
+
+      if (
+        schema.component &&
+        (schema.asFormItem ||
+          (props.formStore && (schema.name || schema.hasOwnProperty('label'))))
+      ) {
+        const cache = componentCache.get(schema.component);
+
+        if (cache) {
+          schema.component = cache;
+        } else {
+          const cache = asFormItem({
+            strictMode: false,
+            ...schema.asFormItem
+          })(schema.component);
+          componentCache.set(schema.component, cache);
+          schema.component = cache;
+        }
+      }
     }
 
     return {path, schema};
@@ -286,5 +322,17 @@ export class SchemaRenderer extends React.Component<SchemaRendererProps, any> {
         render={this.renderChild}
       />
     );
+  }
+}
+
+class PlaceholderComponent extends React.Component {
+  render() {
+    const {renderChildren, ...rest} = this.props as any;
+
+    if (typeof renderChildren === 'function') {
+      return renderChildren(rest);
+    }
+
+    return null;
   }
 }

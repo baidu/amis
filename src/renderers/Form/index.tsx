@@ -332,18 +332,6 @@ export interface FormProps
   lazyChange?: boolean; // 表单项的
   formLazyChange?: boolean; // 表单的
 }
-
-class PlaceholderComponent extends React.Component {
-  render() {
-    const {renderChildren, ...rest} = this.props as any;
-
-    if (typeof renderChildren === 'function') {
-      return renderChildren(rest);
-    }
-
-    return null;
-  }
-}
 export default class Form extends React.Component<FormProps, object> {
   static defaultProps = {
     title: 'Form.title',
@@ -417,7 +405,6 @@ export default class Form extends React.Component<FormProps, object> {
     trailing: true,
     leading: false
   });
-  componentCache: SimpleMap = new SimpleMap();
   unBlockRouting?: () => void;
   constructor(props: FormProps) {
     super(props);
@@ -597,7 +584,6 @@ export default class Form extends React.Component<FormProps, object> {
     this.asyncCancel && this.asyncCancel();
     this.disposeOnValidate && this.disposeOnValidate();
     this.disposeRulesValidate && this.disposeRulesValidate();
-    this.componentCache.dispose();
     window.removeEventListener('beforeunload', this.beforePageUnload);
     this.unBlockRouting?.();
   }
@@ -1412,40 +1398,6 @@ export default class Form extends React.Component<FormProps, object> {
         ...resolveDefinitions(subSchema.$ref),
         ...subSchema
       };
-    }
-
-    // 自定义组件如果在节点设置了 label name 什么的，就用 formItem 包一层
-    // 至少自动支持了 valdiations, label, description 等逻辑。
-    if (
-      subSchema.children &&
-      !subSchema.component &&
-      (subSchema.formItemConfig ||
-        subSchema.name ||
-        subSchema.hasOwnProperty('label'))
-    ) {
-      subSchema.component = PlaceholderComponent;
-      subSchema.renderChildren = subSchema.children;
-      delete subSchema.children;
-    }
-
-    if (
-      subSchema.component &&
-      (subSchema.formItemConfig ||
-        subSchema.name ||
-        subSchema.hasOwnProperty('label'))
-    ) {
-      const cache = this.componentCache.get(subSchema.component);
-
-      if (cache) {
-        subSchema.component = cache;
-      } else {
-        const cache = asFormItem({
-          strictMode: false,
-          ...subSchema.formItemConfig
-        })(subSchema.component);
-        this.componentCache.set(subSchema.component, cache);
-        subSchema.component = cache;
-      }
     }
 
     lazyChange === false && (subSchema.changeImmediately = true);
