@@ -76,6 +76,7 @@ export type SColumn = SnapshotIn<typeof Column>;
 
 export const Row = types
   .model('Row', {
+    storeType: 'Row',
     id: types.identifier,
     parentId: '',
     key: types.string,
@@ -158,9 +159,13 @@ export const Row = types
         children = self.children.map(item => item.locals);
       }
 
+      const parent = getParent(self, 2) as ITableStore;
+
       return createObject(
         extendObject((getParent(self, self.depth * 2) as ITableStore).data, {
-          index: self.index
+          index: self.index,
+          // todo 以后再支持多层，目前先一层
+          parent: parent.storeType === Row.name ? parent.data : undefined
         }),
         children
           ? {
