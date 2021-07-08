@@ -22,7 +22,7 @@ import {
 import {ActionSchema} from './Action';
 import {filter} from '../utils/tpl';
 import {resolveVariable, tokenize} from '../utils/tpl-builtin';
-import {FormSchemaHorizontal} from './Form';
+import {FormSchemaHorizontal} from './Form/index';
 
 export interface TabSchema extends Omit<BaseSchema, 'type'> {
   /**

@@ -1,5 +1,5 @@
 import React from 'react';
-import {FormSchemaHorizontal} from '.';
+import {FormSchemaHorizontal} from './index';
 import {Renderer, RendererProps} from '../../factory';
 import {SchemaCollection, SchemaTpl} from '../../Schema';
 import Collapse, {CollapseSchema} from '../Collapse';

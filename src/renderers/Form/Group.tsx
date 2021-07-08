@@ -10,7 +10,7 @@ import cx from 'classnames';
 import {FormBaseControl, FormItemWrap} from './Item';
 import getExprProperties from '../../utils/filter-schema';
 import {SchemaClassName, SchemaObject} from '../../Schema';
-import {FormSchemaHorizontal} from '.';
+import {FormSchemaHorizontal} from './index';
 
 export type GroupSubControl = SchemaObject & {
   /**

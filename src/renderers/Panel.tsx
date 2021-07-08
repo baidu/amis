@@ -11,7 +11,7 @@ import {
   SchemaTpl
 } from '../Schema';
 import {ActionSchema} from './Action';
-import {FormSchemaHorizontal} from './Form';
+import {FormSchemaHorizontal} from './Form/index';
 
 /**
  * Panel渲染器。

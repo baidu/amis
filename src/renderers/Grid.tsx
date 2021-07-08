@@ -8,7 +8,7 @@ import {
   SchemaCollection,
   SchemaObject
 } from '../Schema';
-import {FormSchemaHorizontal} from './Form';
+import {FormSchemaHorizontal} from './Form/index';
 
 export const ColProps = ['lg', 'md', 'sm', 'xs'];
 
