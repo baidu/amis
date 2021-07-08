@@ -136,7 +136,7 @@ export class TableCellRenderer extends TableCell {
 }
 
 @Renderer({
-  test: /(^|\/)field$/,
+  type: 'field',
   name: 'field'
 })
 @PopOverable()

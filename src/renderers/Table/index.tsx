@@ -2393,8 +2393,7 @@ export default class Table extends React.Component<TableProps, object> {
 }
 
 @Renderer({
-  test: (path: string) =>
-    /(^|\/)table$/.test(path) /* && !/(^|\/)table$/.test(path)*/,
+  type: 'table',
   storeType: TableStore.name,
   name: 'table'
 })
