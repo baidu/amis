@@ -88,6 +88,11 @@ Action 行为按钮，是触发页面行为的主要方法之一
     },
     {
       "type": "button",
+      "label": "信息",
+      "level": "info"
+    },
+    {
+      "type": "button",
       "label": "成功",
       "level": "success"
     },
