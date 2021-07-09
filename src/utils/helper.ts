@@ -296,7 +296,8 @@ export function isObjectShallowModified(
   prev: any,
   next: any,
   strictMode: boolean = true,
-  ignoreUndefined: boolean = false
+  ignoreUndefined: boolean = false,
+  statck: Array<any> = []
 ): boolean {
   if (Array.isArray(prev) && Array.isArray(next)) {
     return prev.length !== next.length
@@ -306,7 +307,8 @@ export function isObjectShallowModified(
             prev,
             next[index],
             strictMode,
-            ignoreUndefined
+            ignoreUndefined,
+            statck
           )
         );
   } else if (isNaN(prev) && isNaN(next)) {
@@ -333,10 +335,23 @@ export function isObjectShallowModified(
   ) {
     return true;
   }
+
+  // 避免循环引用死循环。
+  if (~statck.indexOf(prev)) {
+    return false;
+  }
+  statck.push(prev);
+
   for (let i: number = keys.length - 1; i >= 0; i--) {
     let key = keys[i];
     if (
-      isObjectShallowModified(next[key], prev[key], strictMode, ignoreUndefined)
+      isObjectShallowModified(
+        prev[key],
+        next[key],
+        strictMode,
+        ignoreUndefined,
+        statck
+      )
     ) {
       return true;
     }
