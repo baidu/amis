@@ -89,6 +89,8 @@ export default class StaticControl extends React.Component<StaticProps, any> {
       classnames: cx,
       name,
       disabled,
+      $schema,
+      defaultValue,
       ...rest
     } = this.props;
 
@@ -99,7 +101,7 @@ export default class StaticControl extends React.Component<StaticProps, any> {
     const field = {
       label,
       name,
-      ...rest,
+      ...$schema,
       type: subType
     };
 
@@ -111,7 +113,7 @@ export default class StaticControl extends React.Component<StaticProps, any> {
             name,
             render,
             field,
-            value,
+            value: value === defaultValue ? undefined : value,
             className,
             onQuickChange: this.handleQuickChange,
             data,
