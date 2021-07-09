@@ -389,7 +389,8 @@ export default class Form extends React.Component<FormProps, object> {
     'formInited',
     'simpleMode',
     'inputOnly',
-    'value'
+    'value',
+    'actions'
   ];
 
   hooks: {

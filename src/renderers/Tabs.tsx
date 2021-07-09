@@ -484,7 +484,7 @@ export default class Tabs extends React.Component<TabsProps, TabsState> {
               >
                 {render(
                   `item/${index}/${tabIndex}`,
-                  tab.tab || tab.body || '',
+                  (tab as any)?.type ? (tab as any) : tab.tab || tab.body,
                   {
                     data: ctx,
                     formMode: tab.mode || subFormMode || formMode,
@@ -519,11 +519,15 @@ export default class Tabs extends React.Component<TabsProps, TabsState> {
               ? this.renderTab(tab, this.props, index)
               : tabRender
               ? tabRender(tab, this.props, index)
-              : render(`tab/${index}`, tab.tab || tab.body || '', {
-                  formMode: tab.mode || subFormMode || formMode,
-                  formHorizontal:
-                    tab.horizontal || subFormHorizontal || formHorizontal
-                })}
+              : render(
+                  `tab/${index}`,
+                  (tab as any)?.type ? (tab as any) : tab.tab || tab.body,
+                  {
+                    formMode: tab.mode || subFormMode || formMode,
+                    formHorizontal:
+                      tab.horizontal || subFormHorizontal || formHorizontal
+                  }
+                )}
           </Tab>
         ) : null
       );
