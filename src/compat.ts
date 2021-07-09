@@ -411,7 +411,8 @@ const maybeStatic = [
   'video',
   'qrcode',
   'plain',
-  'each'
+  'each',
+  'link'
 ];
 
 function wrapStatic(item: any) {
