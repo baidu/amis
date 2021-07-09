@@ -305,6 +305,8 @@
   --Button-lineHeight: var(--Form-input-lineHeight);
   --Button-mimWidth: auto;
   --Button-onActive-boxShadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
+  --Button-onActive-color: var(--primary);
+  --Button-onActive-border: var(--primary);
   --Button-onDisabled-borderColor: #dee2e6;
   --Button-onDisabled-opacity: 0.65;
   --Button-onFocus-boxShadow: none;
