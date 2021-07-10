@@ -1251,7 +1251,7 @@ export default class Form extends React.Component<FormProps, object> {
 
     // 旧用法，让 wrapper 走走 compat 逻辑兼容旧用法
     // 后续可以删除。
-    if (!body && schema.controls) {
+    if (!body.length && schema.controls) {
       console.warn('请用 body 代替 controls');
       body = [
         {
