@@ -22,6 +22,8 @@ export interface WrapperSchema extends BaseSchema {
 
   size?: 'xs' | 'sm' | 'md' | 'lg' | 'none';
 
+  wrap?: boolean;
+
   /**
    * 自定义样式
    */
@@ -56,7 +58,13 @@ export default class Wrapper extends React.Component<WrapperProps, object> {
   }
 
   render() {
-    const {className, size, classnames: cx, style, data} = this.props;
+    const {className, size, classnames: cx, style, data, wrap} = this.props;
+
+    // 期望不要使用，给 form controls 用法自动转换时使用的。
+    if (wrap === false) {
+      return this.renderBody();
+    }
+
     let styleVar =
       typeof style === 'string'
         ? resolveVariable(style, data) || {}

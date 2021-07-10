@@ -1257,6 +1257,7 @@ export default class Form extends React.Component<FormProps, object> {
         {
           size: 'none',
           type: 'wrapper',
+          wrap: false,
           controls: schema.controls
         }
       ];
