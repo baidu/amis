@@ -259,7 +259,7 @@ export interface TableProps extends RendererProps {
   selected?: Array<any>;
   maxKeepItemSelectionLength?: number;
   valueField?: string;
-  draggable?: boolean;
+  draggable?: boolean | string;
   columnsTogglable?: boolean | 'auto';
   affixHeader?: boolean;
   affixColumns?: boolean;
@@ -2048,14 +2048,7 @@ export default class Table extends React.Component<TableProps, object> {
   }
 
   renderActions(region: string) {
-    let {
-      actions,
-      render,
-      store,
-      classnames: cx,
-      data,
-      itemDraggableOn
-    } = this.props;
+    let {actions, render, store, classnames: cx, data} = this.props;
 
     actions = Array.isArray(actions) ? actions.concat() : [];
 
@@ -2076,7 +2069,8 @@ export default class Table extends React.Component<TableProps, object> {
       region === 'header' &&
       store.rows.length > 1 &&
       !~this.renderedToolbars.indexOf('drag-toggler') &&
-      (!itemDraggableOn || evalExpression(itemDraggableOn, data))
+      (typeof store.draggable !== 'string' ||
+        evalExpression(store.draggable, data))
     ) {
       actions.push({
         type: 'button',

@@ -2016,7 +2016,7 @@ CRUD 中不限制有多少个单条操作、添加一个操作对应的添加一
 | stopAutoRefreshWhen                   | `string`                    | `""`                            | 通过[表达式](../../docs/concepts/expression)来配置停止刷新的条件                                                      |
 | stopAutoRefreshWhenModalIsOpen        | `boolean`                   | `false`                         | 当有弹框时关闭自动刷新，关闭弹框又恢复                                                                                |
 | syncLocation                          | `boolean`                   | `true`                          | 是否将过滤条件的参数同步到地址栏                                                                                      |
-| draggable                             | `boolean`                   | `false`                         | 是否可通过拖拽排序                                                                                                    |
+| draggable                             | `boolean` 或 `string`       | `false`                         | 是否可通过拖拽排序，string 类型的时候可以使用[表达式](../../docs/concepts/expression)                                 |
 | itemDraggableOn                       | `boolean`                   |                                 | 用[表达式](../../docs/concepts/expression)来配置是否可拖拽排序                                                        |
 | [saveOrderApi](#saveOrderApi)         | [API](../../docs/types/api) |                                 | 保存排序的 api。                                                                                                      |
 | [quickSaveApi](#quickSaveApi)         | [API](../../docs/types/api) |                                 | 快速编辑后用来批量保存的 API。                                                                                        |

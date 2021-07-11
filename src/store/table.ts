@@ -272,7 +272,7 @@ export const TableStore = iRendererStore
       types.union(types.literal('asc'), types.literal('desc')),
       'asc'
     ),
-    draggable: false,
+    draggable: types.optional(types.union(types.boolean, types.string), false),
     dragging: false,
     selectable: false,
     multiple: true,
