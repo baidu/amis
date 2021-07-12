@@ -88,79 +88,75 @@ exports[`Renderer:service 1`] = `
             class="a-Service-body"
           >
             <div
-              class="a-Wrapper a-Wrapper--md"
+              class="a-Form-item a-Form-item--normal is-required"
+              data-role="form-item"
             >
-              <div
-                class="a-Form-item a-Form-item--normal is-required"
-                data-role="form-item"
+              <label
+                class="a-Form-label"
               >
-                <label
-                  class="a-Form-label"
-                >
-                  <span>
-                    <span
-                      class="a-TplField"
-                    >
-                      <span>
-                        动态字段1
-                      </span>
-                    </span>
-                    <span
-                      class="a-Form-star"
-                    >
-                      *
+                <span>
+                  <span
+                    class="a-TplField"
+                  >
+                    <span>
+                      动态字段1
                     </span>
                   </span>
-                </label>
-                <div
-                  class="a-Form-control a-TextControl"
-                >
-                  <div
-                    class="a-TextControl-input"
+                  <span
+                    class="a-Form-star"
                   >
-                    <input
-                      autocomplete="off"
-                      name="dy_1"
-                      placeholder=""
-                      size="10"
-                      type="text"
-                      value=""
-                    />
-                  </div>
+                    *
+                  </span>
+                </span>
+              </label>
+              <div
+                class="a-Form-control a-TextControl"
+              >
+                <div
+                  class="a-TextControl-input"
+                >
+                  <input
+                    autocomplete="off"
+                    name="dy_1"
+                    placeholder=""
+                    size="10"
+                    type="text"
+                    value=""
+                  />
                 </div>
               </div>
-              <div
-                class="a-Form-item a-Form-item--normal"
-                data-role="form-item"
+            </div>
+            <div
+              class="a-Form-item a-Form-item--normal"
+              data-role="form-item"
+            >
+              <label
+                class="a-Form-label"
               >
-                <label
-                  class="a-Form-label"
-                >
-                  <span>
-                    <span
-                      class="a-TplField"
-                    >
-                      <span>
-                        动态字段2
-                      </span>
+                <span>
+                  <span
+                    class="a-TplField"
+                  >
+                    <span>
+                      动态字段2
                     </span>
                   </span>
-                </label>
+                </span>
+              </label>
+              <div
+                class="a-Form-control a-TextControl"
+              >
                 <div
-                  class="a-Form-control a-TextControl"
+                  class="a-TextControl-input"
                 >
-                  <div
-                    class="a-TextControl-input"
-                  >
-                    <input
-                      autocomplete="off"
-                      name="dy_2"
-                      placeholder=""
-                      size="10"
-                      type="text"
-                      value=""
-                    />
-                  </div>
+                  <input
+                    autocomplete="off"
+                    name="dy_2"
+                    placeholder=""
+                    size="10"
+                    type="text"
+                    value=""
+                  />
                 </div>
               </div>
             </div>
@@ -296,48 +292,44 @@ exports[`form:service:remoteSchmea+data 1`] = `
         class="a-Service-body"
       >
         <div
-          class="a-Wrapper a-Wrapper--md"
+          class="a-Form-item a-Form-item--normal"
+          data-role="form-item"
         >
           <div
-            class="a-Form-item a-Form-item--normal"
-            data-role="form-item"
+            class="a-Form-control a-TextControl"
           >
             <div
-              class="a-Form-control a-TextControl"
+              class="a-TextControl-input"
             >
-              <div
-                class="a-TextControl-input"
-              >
-                <input
-                  autocomplete="off"
-                  name="child-a"
-                  placeholder=""
-                  size="10"
-                  type="text"
-                  value="123"
-                />
-              </div>
+              <input
+                autocomplete="off"
+                name="child-a"
+                placeholder=""
+                size="10"
+                type="text"
+                value="123"
+              />
             </div>
           </div>
+        </div>
+        <div
+          class="a-Form-item a-Form-item--normal"
+          data-role="form-item"
+        >
           <div
-            class="a-Form-item a-Form-item--normal"
-            data-role="form-item"
+            class="a-Form-control a-TextControl"
           >
             <div
-              class="a-Form-control a-TextControl"
+              class="a-TextControl-input"
             >
-              <div
-                class="a-TextControl-input"
-              >
-                <input
-                  autocomplete="off"
-                  name="child-b"
-                  placeholder=""
-                  size="10"
-                  type="text"
-                  value="344"
-                />
-              </div>
+              <input
+                autocomplete="off"
+                name="child-b"
+                placeholder=""
+                size="10"
+                type="text"
+                value="344"
+              />
             </div>
           </div>
         </div>
