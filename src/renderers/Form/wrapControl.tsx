@@ -490,7 +490,7 @@ export function wrapControl<
               return;
             }
             const value = this.model.tmpValue;
-            const oldValue = getVariable(data, this.model.name);
+            const oldValue = getVariable(data, this.model.name, false);
 
             if (oldValue === value) {
               return;
