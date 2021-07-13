@@ -46,7 +46,7 @@ function lodashCompile(str: string, data: object) {
         variable: 'data',
 
         // 如果不传这个，默认模板语法也存在 ${xxx} 语法，这个跟内置语法规则冲突。
-        // 为何不带来困惑，禁用掉这种用法。
+        // 为了不带来困惑，禁用掉这种用法。
         interpolate: /<%=([\s\S]+?)%>/g
       }));
 
