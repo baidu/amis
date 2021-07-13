@@ -453,7 +453,9 @@ export const filters: {
     keys = keys.split(/\s*,\s*/);
     return input.filter((item: any) =>
       // 当keys为*时从item中获取key
-      (isAsterisk ? Object.keys(item) : keys).some((key: string) => fn(resolveVariable(key, item), key, item))
+      (isAsterisk ? Object.keys(item) : keys).some((key: string) =>
+        fn(resolveVariable(key, item), key, item)
+      )
     );
   },
   base64Encode(str) {
@@ -960,7 +962,7 @@ export function dataMapping(
 export function register(): Enginer & {name: string} {
   return {
     name: 'builtin',
-    test: (str: string) => !!~str.indexOf('$'),
+    test: (str: string) => typeof str === 'string' && /(?<!\\)\$\S/.test(str),
     compile: (str: string, data: object, defaultFilter = '| html') =>
       tokenize(str, data, defaultFilter)
   };
