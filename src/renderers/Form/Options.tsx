@@ -291,7 +291,7 @@ export function registerOptionsControl(config: OptionsConfig) {
       } = props;
 
       if (formItem) {
-        formItem.setOptions(normalizeOptions(options), onChange);
+        formItem.setOptions(normalizeOptions(options), this.changeOptionValue);
 
         this.reaction = reaction(
           () => JSON.stringify([formItem.loading, formItem.filteredOptions]),
@@ -353,7 +353,7 @@ export function registerOptionsControl(config: OptionsConfig) {
       if (prevProps.options !== props.options && formItem) {
         formItem.setOptions(
           normalizeOptions(props.options || []),
-          props.onChange
+          this.changeOptionValue
         );
         this.normalizeValue();
       } else if (
@@ -378,7 +378,7 @@ export function registerOptionsControl(config: OptionsConfig) {
           if (prevOptions !== options) {
             formItem.setOptions(
               normalizeOptions(options || []),
-              props.onChange
+              this.changeOptionValue
             );
             this.normalizeValue();
           }
@@ -397,7 +397,7 @@ export function registerOptionsControl(config: OptionsConfig) {
               props.data,
               undefined,
               true,
-              props.onChange
+              this.changeOptionValue
             )
             .then(() => this.normalizeValue());
         }
@@ -654,7 +654,7 @@ export function registerOptionsControl(config: OptionsConfig) {
             normalizeOptions(
               resolveVariableAndFilter(source as string, data, '| raw') || []
             ),
-            onChange
+            this.changeOptionValue
           );
         return;
       } else if (!formItem || !isEffectiveApi(source, data)) {
@@ -705,12 +705,28 @@ export function registerOptionsControl(config: OptionsConfig) {
     }
 
     @autobind
+    changeOptionValue(value: any) {
+      const {
+        onChange,
+        formInited,
+        setPrinstineValue,
+        value: originValue
+      } = this.props;
+
+      if (formInited === false) {
+        originValue === undefined && setPrinstineValue?.(value);
+      } else {
+        onChange?.(value);
+      }
+    }
+
+    @autobind
     setOptions(options: Array<any>, skipNormalize = false) {
       const formItem = this.props.formItem as IFormItemStore;
       formItem &&
         formItem.setOptions(
           skipNormalize ? options : normalizeOptions(options || []),
-          this.props.onChange
+          this.changeOptionValue
         );
     }
 
@@ -843,7 +859,7 @@ export function registerOptionsControl(config: OptionsConfig) {
             ? options.splice(idx, 0, {...result})
             : options.push({...result});
         }
-        model.setOptions(options, this.props.onChange);
+        model.setOptions(options, this.changeOptionValue);
       }
     }
 
@@ -939,7 +955,7 @@ export function registerOptionsControl(config: OptionsConfig) {
               ...origin,
               ...result
             }),
-            this.props.onChange
+            this.changeOptionValue
           );
         }
       }
@@ -997,7 +1013,7 @@ export function registerOptionsControl(config: OptionsConfig) {
           if (indexes) {
             model.setOptions(
               spliceTree(options, indexes, 1),
-              this.props.onChange
+              this.changeOptionValue
             );
           }
         }
