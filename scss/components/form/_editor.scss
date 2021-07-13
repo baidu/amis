@@ -12,6 +12,7 @@
   border: var(--Form-input-borderWidth) solid var(--Form-input-borderColor);
   max-width: 100%;
   box-sizing: content-box;
+  position: relative;
 
   &.is-error {
     border-color: var(--Form-input-onError-borderColor);
@@ -19,6 +20,46 @@
 
   &.is-focused {
     border-color: var(--Form-input-onFocused-borderColor);
+  }
+
+  &:hover {
+    .#{$ns}EditorControl-ToolBar {
+      opacity: 1;
+      height: px2rem(20px);
+    }
+  }
+
+  &-ToolBar {
+    position: absolute;
+    right: -1px;
+    bottom: calc(100% + 1px);
+    height: 0;
+    width: px2rem(20px);
+    padding: 0;
+    border: 1px solid var(--borderColor);
+    border-bottom: none;
+    text-align: center;
+    z-index: 10;
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: center;
+    align-items: flex-end;
+    background: var(--Modal-header-bg);
+    box-sizing: border-box;
+    opacity: 0;
+    transition: height ease-in 0.3s, opacity ease-in 0.3s;
+  }
+
+  &-Modal-content {
+    @extend .#{$ns}EditorControl;
+    min-height: 60vh;
+    max-height: none;
+    height: 100%;
+
+    > .#{$ns}MonacoEditor,
+    > .#{$ns}MonacoEditor > .monaco-diff-editor {
+      min-height: 60vh;
+    }
   }
 
   &--sm {

@@ -2,12 +2,16 @@ import React from 'react';
 import {FormItem, FormControlProps, FormBaseControl} from './Item';
 import LazyComponent from '../../components/LazyComponent';
 import debouce from 'lodash/debounce';
+import Modal from '../../components/Modal';
 import Editor from '../../components/Editor';
+import Button from '../../components/Button';
 import {autobind} from '../../utils/helper';
 import {
   isPureVariable,
   resolveVariableAndFilter
 } from '../../utils/tpl-builtin';
+
+import {Icon} from '../../components/icons';
 
 /**
  * Editor 代码编辑器
@@ -103,6 +107,16 @@ export interface EditorControlSchema extends Omit<FormBaseControl, 'size'> {
    * 编辑器大小
    */
   size?: 'sm' | 'md' | 'lg' | 'xl' | 'xxl';
+
+  /**
+   * 是否展示工具栏
+   */
+  showToolbar?: boolean;
+
+  /**
+   * 放大后弹窗尺寸
+   */
+  modalSize: 'xs' | 'sm' | 'md' | 'lg' | 'xl' | 'full';
 }
 
 export interface EditorProps extends FormControlProps {
@@ -113,6 +127,8 @@ export default class EditorControl extends React.Component<EditorProps, any> {
   static defaultProps: Partial<EditorProps> = {
     language: 'javascript',
     editorTheme: 'vs',
+    modalSize: 'full',
+    showToolbar: false,
     options: {
       automaticLayout: true,
       selectOnLineNumbers: true,
@@ -125,7 +141,8 @@ export default class EditorControl extends React.Component<EditorProps, any> {
   };
 
   state = {
-    focused: false
+    focused: false,
+    show: false
   };
   editor: any;
   toDispose: Array<Function> = [];
@@ -136,6 +153,7 @@ export default class EditorControl extends React.Component<EditorProps, any> {
     this.handleFocus = this.handleFocus.bind(this);
     this.handleBlur = this.handleBlur.bind(this);
     this.handleEditorMounted = this.handleEditorMounted.bind(this);
+    this.modalRef = this.modalRef.bind(this);
   }
 
   componentWillUnmount() {
@@ -185,6 +203,20 @@ export default class EditorControl extends React.Component<EditorProps, any> {
     }
   }
 
+  modalRef(ref: any) {
+    this._modal = ref;
+  }
+
+  @autobind
+  onOpenModal(e: React.MouseEvent<any>) {
+    this.setState({show: true});
+  }
+
+  @autobind
+  handleCancel(e: React.MouseEvent<any>) {
+    this.setState({show: false});
+  }
+
   render() {
     const {
       className,
@@ -196,7 +228,8 @@ export default class EditorControl extends React.Component<EditorProps, any> {
       options,
       editorTheme,
       size,
-      data
+      data,
+      translate: __
     } = this.props;
 
     let language = this.props.language;
@@ -211,6 +244,25 @@ export default class EditorControl extends React.Component<EditorProps, any> {
       language = resolveVariableAndFilter(language, data);
     }
 
+    const editorComponent = (
+      <LazyComponent
+        classPrefix={ns}
+        component={Editor}
+        value={finnalValue}
+        onChange={onChange}
+        disabled={disabled}
+        onFocus={this.handleFocus}
+        onBlur={this.handleBlur}
+        language={language}
+        editorTheme={editorTheme}
+        editorDidMount={this.handleEditorMounted}
+        options={{
+          ...options,
+          readOnly: disabled
+        }}
+      />
+    );
+
     return (
       <div
         ref={this.divRef}
@@ -223,22 +275,48 @@ export default class EditorControl extends React.Component<EditorProps, any> {
           className
         )}
       >
-        <LazyComponent
-          classPrefix={ns}
-          component={Editor}
-          value={finnalValue}
-          onChange={onChange}
-          disabled={disabled}
-          onFocus={this.handleFocus}
-          onBlur={this.handleBlur}
-          language={language}
-          editorTheme={editorTheme}
-          editorDidMount={this.handleEditorMounted}
-          options={{
-            ...options,
-            readOnly: disabled
-          }}
-        />
+        {this.props.showToolbar ? (
+          <React.Fragment>
+            <div className={cx(`EditorControl-ToolBar`)}>
+              <a
+                data-tooltip={__('Editor.expand')}
+                data-position="top"
+                onClick={this.onOpenModal}
+                className={cx('Modal-close')}
+              >
+                <Icon icon="expand-alt" className="icon" />
+              </a>
+            </div>
+
+            <Modal
+              size={this.props.modalSize}
+              show={this.state.show}
+              onHide={this.handleCancel}
+              ref={this.modalRef}
+              closeOnEsc
+            >
+              <Modal.Header onClose={this.handleCancel}>
+                <Modal.Title>
+                  {__('Options.editLabel', {
+                    label: this.props?.label ?? __('Options.label')
+                  })}
+                </Modal.Title>
+              </Modal.Header>
+              <Modal.Body>
+                <div className={cx('EditorControl-Modal-content')}>
+                  {editorComponent}
+                </div>
+              </Modal.Body>
+              <Modal.Footer>
+                <Button onClick={this.handleCancel} level="primary">
+                  {__('Dialog.close')}
+                </Button>
+              </Modal.Footer>
+            </Modal>
+          </React.Fragment>
+        ) : null}
+
+        {editorComponent}
       </div>
     );
   }

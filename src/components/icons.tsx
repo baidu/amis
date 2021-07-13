@@ -143,6 +143,9 @@ import PlusCicleIcon from '../icons/plus-cicle.svg';
 // @ts-ignore
 import EllipsisVIcon from '../icons/ellipsis-v.svg';
 
+// @ts-ignore
+import ExpandAltIcon from '../icons/expand-alt.svg';
+
 // 兼容原来的用法，后续不直接试用。
 // @ts-ignore
 export const closeIcon = <CloseIcon />;
@@ -237,6 +240,7 @@ registerIcon('sort-desc', SortDescIcon);
 registerIcon('setting', SettingIcon);
 registerIcon('plus-cicle', PlusCicleIcon);
 registerIcon('ellipsis-v', EllipsisVIcon);
+registerIcon('expand-alt', ExpandAltIcon);
 
 export function Icon({
   icon,
