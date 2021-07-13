@@ -120,6 +120,7 @@ export default class NumberControl extends React.Component<NumberProps, any> {
 })
 export class NumberControlRenderer extends NumberControl {
   static defaultProps: Partial<FormControlProps> = {
-    validations: 'isNumeric'
+    validations: 'isNumeric',
+    ...NumberControl.defaultProps
   };
 }
