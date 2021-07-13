@@ -219,7 +219,7 @@ export default class TableView extends React.Component<TableViewProps, object> {
         style={{height: tr.height, background: tr.background, ...tr.style}}
         key={key}
       >
-        {this.renderTds(tr.tds, rowIndex)}
+        {this.renderTds(tr.tds || [], rowIndex)}
       </tr>
     );
   }
