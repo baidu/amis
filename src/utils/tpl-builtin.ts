@@ -963,6 +963,8 @@ export function register(): Enginer & {name: string} {
   return {
     name: 'builtin',
     test: (str: string) => typeof str === 'string' && /(?<!\\)\$\S/.test(str),
+    removeEscapeToken: (str: string) =>
+      typeof str === 'string' ? str.replace(/\\\$/g, '$') : str,
     compile: (str: string, data: object, defaultFilter = '| html') =>
       tokenize(str, data, defaultFilter)
   };
