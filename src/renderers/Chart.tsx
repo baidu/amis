@@ -148,7 +148,7 @@ export interface ChartProps
   extends RendererProps,
     Omit<ChartSchema, 'type' | 'className'> {
   chartRef?: (echart: any) => void;
-  onDataFilter?: (config: any, echarts: any) => any;
+  onDataFilter?: (config: any, echarts: any, data?: any) => any;
   onChartWillMount?: (echarts: any) => void | Promise<void>;
   onChartMount?: (chart: any, echarts: any) => void;
   onChartUnMount?: (chart: any, echarts: any) => void;
@@ -404,8 +404,8 @@ export class Chart extends React.Component<ChartProps> {
     }
     try {
       onDataFilter &&
-        ((config = onDataFilter(config, (window as any).echarts) || config),
-        data);
+        (config =
+          onDataFilter(config, (window as any).echarts, data) || config);
     } catch (e) {
       console.warn(e);
     }
