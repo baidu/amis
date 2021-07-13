@@ -388,7 +388,12 @@ export class Chart extends React.Component<ChartProps> {
     const dataFilter = this.props.dataFilter;
 
     if (!onDataFilter && typeof dataFilter === 'string') {
-      onDataFilter = new Function('config', 'echarts', dataFilter) as any;
+      onDataFilter = new Function(
+        'config',
+        'echarts',
+        'data',
+        dataFilter
+      ) as any;
     }
 
     config = config || this.pending;
@@ -399,7 +404,8 @@ export class Chart extends React.Component<ChartProps> {
     }
     try {
       onDataFilter &&
-        (config = onDataFilter(config, (window as any).echarts) || config);
+        ((config = onDataFilter(config, (window as any).echarts) || config),
+        data);
     } catch (e) {
       console.warn(e);
     }
