@@ -965,10 +965,15 @@ function matchSynatax(str: string) {
     const idx = str.indexOf('$', from);
     if (~idx) {
       const nextToken = str[idx + 1];
-      if (!nextToken) {
-        return false;
+
+      // 如果没有下一个字符，或者下一个字符是引号或者空格
+      // 这个一般不是取值用法
+      if (!nextToken || ~['"', "'", ' '].indexOf(nextToken)) {
+        from = idx + 1;
+        continue;
       }
 
+      // 如果上个字符是转义也不是取值用法
       const prevToken = str[idx - 1];
       if (prevToken && prevToken === '\\') {
         from = idx + 1;
