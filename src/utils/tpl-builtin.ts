@@ -959,10 +959,34 @@ export function dataMapping(
   return ret;
 }
 
+function matchSynatax(str: string) {
+  let from = 0;
+  while (true) {
+    const idx = str.indexOf('$', from);
+    if (~idx) {
+      const nextToken = str[idx + 1];
+      if (!nextToken) {
+        return false;
+      }
+
+      const prevToken = str[idx - 1];
+      if (prevToken && prevToken === '\\') {
+        from = idx + 1;
+        continue;
+      }
+
+      return true;
+    } else {
+      break;
+    }
+  }
+  return false;
+}
+
 export function register(): Enginer & {name: string} {
   return {
     name: 'builtin',
-    test: (str: string) => typeof str === 'string' && /(?<!\\)\$\S/.test(str),
+    test: (str: string) => typeof str === 'string' && matchSynatax(str),
     removeEscapeToken: (str: string) =>
       typeof str === 'string' ? str.replace(/\\\$/g, '$') : str,
     compile: (str: string, data: object, defaultFilter = '| html') =>
