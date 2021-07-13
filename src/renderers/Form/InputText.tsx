@@ -476,7 +476,7 @@ export default class TextControl extends React.PureComponent<
 
     return (
       <Downshift
-        isOpen={this.state.isOpen}
+        isOpen={this.state.isOpen && !disabled}
         inputValue={this.state.inputValue}
         onChange={this.handleChange}
         onStateChange={this.handleStateChange}
