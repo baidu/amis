@@ -4,6 +4,7 @@ import {register as registerLodash} from './tpl-lodash';
 
 export interface Enginer {
   test: (tpl: string) => boolean;
+  removeEscapeToken?: (tpl: string) => string;
   compile: (tpl: string, data: object, ...rest: Array<any>) => string;
 }
 
@@ -29,6 +30,8 @@ export function filter(
     let enginer = enginers[keys[i]];
     if (enginer.test(tpl)) {
       return enginer.compile(tpl, data, ...rest);
+    } else if (enginer.removeEscapeToken) {
+      tpl = enginer.removeEscapeToken(tpl);
     }
   }
 
@@ -117,6 +120,7 @@ export function evalJS(js: string, data: object): any {
 
   registerTplEnginer(info.name, {
     test: info.test,
-    compile: info.compile
+    compile: info.compile,
+    removeEscapeToken: info.removeEscapeToken
   });
 });
