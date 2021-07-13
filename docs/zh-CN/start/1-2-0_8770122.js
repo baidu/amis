@@ -1,0 +1,20 @@
+amis.define('docs/zh-CN/start/1-2-0.md', function(require, exports, module, define) {
+
+  module.exports = {
+    "html": "<div class=\"markdown-body\"><h1><a class=\"anchor\" name=\"1-2-0-%E7%89%88%E6%9C%AC%E5%8F%98%E6%9B%B4\" href=\"#1-2-0-%E7%89%88%E6%9C%AC%E5%8F%98%E6%9B%B4\" aria-hidden=\"true\"><svg aria-hidden=\"true\" class=\"octicon octicon-link\" height=\"16\" version=\"1.1\" viewBox=\"0 0 16 16\" width=\"16\"><path d=\"M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z\"></path></svg></a>1.2.0 版本变更</h1><p>在 1.2.0 之前的版本中，表单项和非表单项在配置上不一致，名称重名也带来了很多困惑，系统实现也得分两份带来了维护成本，因此 1.2.0 对配置项做了调整，使得配置写法统一，表单项和非表单项也能混用了。</p>\n<p>1.2.0 版本向下兼容之前的配置，但推荐使用新的配置方式。</p>\n<p>具体改动如下：</p>\n<ul>\n<li>Form 下新增 body 容器，controls 容器可用但是不推荐继续使用。</li>\n<li>部分表单项改名，改名后不限制只能放在 form 下，比如表格中可以直接放 input-text。具体改动如下：<ul>\n<li><code>text</code> =&gt; <code>input-text</code></li>\n<li><code>url</code> =&gt; <code>input-url</code></li>\n<li><code>email</code> =&gt; <code>input-email</code></li>\n<li><code>number</code> =&gt; <code>input-number</code></li>\n<li><code>array</code> =&gt; <code>input-array</code></li>\n<li><code>button-group</code> =&gt; <code>button-group-select</code></li>\n<li><code>city</code> =&gt; <code>input-city</code></li>\n<li><code>color</code> =&gt; <code>input-color</code></li>\n<li><code>date</code> =&gt; <code>input-date</code></li>\n<li><code>datetime</code> =&gt; <code>input-datetime</code></li>\n<li><code>time</code> =&gt; <code>input-time</code></li>\n<li><code>quarter</code> =&gt; <code>input-quarter</code></li>\n<li><code>month</code> =&gt; <code>input-month</code></li>\n<li><code>year</code> =&gt; <code>input-year</code></li>\n<li><code>date-range</code> =&gt; <code>input-date-range</code></li>\n<li><code>datetime-range</code> =&gt; <code>input-datetime-range</code></li>\n<li><code>diff</code> =&gt; <code>diff-editor</code></li>\n<li><code>image</code> =&gt; <code>input-image</code></li>\n<li><code>file</code> =&gt; <code>input-file</code></li>\n<li><code>list</code> =&gt; <code>list-select</code></li>\n<li><code>location</code> =&gt; <code>location-picker</code></li>\n<li><code>matrix</code> =&gt; <code>matrix-checkboxes</code></li>\n<li><code>month-range</code> =&gt; <code>input-month-range</code></li>\n<li><code>range</code> =&gt; <code>input-range</code></li>\n<li><code>rating</code> =&gt; <code>input-rating</code></li>\n<li><code>repeat</code> =&gt; <code>input-repeat</code></li>\n<li><code>rich-text</code> =&gt; <code>input-rich-text</code></li>\n<li><code>form</code> =&gt; <code>input-sub-form</code></li>\n<li><code>table</code> =&gt; <code>input-table</code></li>\n<li><code>tag</code> =&gt; <code>input-tag</code></li>\n<li><code>password</code> =&gt; <code>input-password</code></li>\n<li><code>tree</code> =&gt; <code>input-tree</code></li>\n</ul>\n</li>\n<li>改名后不存在渲染器重名冲突问题，所以表单项容器组件不再区分 body 还是 controls 了，原来的设定是如果是要放表当项就放在 controls 里面，否则放 body 下，这次改动后，直接放 body 下即可，而且可以表单项和非表单项组合使用。</li>\n<li>注册渲染器可直接通过 type 来，而不是需要写个正则来命中路径。</li>\n<li>combo 原有 controls 改名叫 items，也不限制只能放表单项了，可以表单项和非表单项组合使用。原有 controls 用法保持功能不变。</li>\n<li>combo 多条件分支中的 controls 也改名成了 items</li>\n<li>表单项容器组件全部删除：Container，Grid, Hbox, Panel, Service, Tabs，保持一份代码。</li>\n</ul>\n<p>下载方法：</p>\n<ol>\n<li>npm，使用 <code>npm i amis@1.2.0-beta.1</code></li>\n<li>sdk，通过 <a href=\"https://github.com/baidu/amis/blob/gh-pages/sdk.tar.gz\">https://github.com/baidu/amis/blob/gh-pages/sdk.tar.gz</a> 下载最新版本</li>\n</ol>\n</div>",
+    "toc": {
+      "label": "目录",
+      "type": "toc",
+      "children": [
+        {
+          "label": "1.2.0 版本变更",
+          "fragment": "1-2-0-%E7%89%88%E6%9C%AC%E5%8F%98%E6%9B%B4",
+          "fullPath": "#1-2-0-%E7%89%88%E6%9C%AC%E5%8F%98%E6%9B%B4",
+          "level": 1
+        }
+      ],
+      "level": 0
+    }
+  };
+
+});

@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="zh">
+  <head>
+    <meta charset="UTF-8" />
+    <title>MobileView</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <link type="image/x-icon" rel="shortcut icon" href="/amis/static/favicon_b3b0647.png" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, maximum-scale=1"
+    />
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />          
+    <link rel="stylesheet" href="/amis/pkg/npm_7181530.css" />
+    <link rel="stylesheet" title="default" href="/amis/scss/themes/default_132ce19.css" />
+    <link
+      rel="stylesheet"
+      title="cxd"
+      disabled href="/amis/scss/themes/cxd_d3b35bc.css" />
+    <link
+      rel="stylesheet"
+      title="dark"
+      disabled href="/amis/scss/themes/dark_bb5dc45.css" />
+    <link
+      rel="stylesheet"
+      title="antd"
+      disabled href="/amis/scss/themes/antd_32b2968.css" />
+    <link rel="stylesheet" href="/amis/scss/helper_fde714c.css" />
+    <style>
+      .app-wrapper {
+        position: relative;
+        width: 100%;
+        height: 100%;
+      }
+    </style>
+</head>
+
+  <body>
+    <div id="root" class="app-wrapper"></div>  
+<script src="/amis/pkg/npm_bcdc3cb.js"></script>
+<script type="text/javascript" src="/amis/pkg/examples/mobile.html_map_33a778f.js"></script>
+<script type="text/javascript">
+      const themes = [
+        {
+          label: '默认主题',
+          value: 'default'
+        },
+        {
+          label: '百度云舍',
+          value: 'cxd'
+        },
+        {
+          label: 'Dark',
+          value: 'dark'
+        },
+        {
+          label: 'antd',
+          value: 'antd'
+        }
+      ];
+      const theme = themes[localStorage.getItem('themeIndex') || 0];
+      // mobile 下先禁掉所有外链避免影响
+      document.querySelectorAll('link[title]').forEach(item => {
+        item.disabled = true;
+      });
+      document.querySelector(`link[title=${theme.value}]`).disabled = false;
+      if (theme.value === 'dark') {
+        document.querySelector('body').classList.add('dark');
+      }
+
+      amis.require(['e7fadaf'], function (app) {
+        app.bootstrap(document.getElementById('root'), {});
+      });
+    </script>
+</body>
+</html>
