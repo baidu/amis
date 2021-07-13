@@ -1043,6 +1043,7 @@ export default class ImageControl extends React.Component<
     if (api.data) {
       qsstringify(api.data)
         .split('&')
+        .filter(item => item !== '')
         .forEach(item => {
           let parts = item.split('=');
           fd.append(parts[0], decodeURIComponent(parts[1]));
