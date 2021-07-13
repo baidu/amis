@@ -451,10 +451,10 @@ export class Chart extends React.Component<ChartProps> {
     height && (style.height = height);
 
     return (
-      <LazyComponent
-        unMountOnHidden={unMountOnHidden}
-        placeholder={
-          <div className={cx(`${ns}Chart`, className)} style={style}>
+      <div className={cx(`${ns}Chart`, className)} style={style}>
+        <LazyComponent
+          unMountOnHidden={unMountOnHidden}
+          placeholder={
             <div className={`${ns}Chart-placeholder`}>
               <Spinner
                 show
@@ -462,16 +462,12 @@ export class Chart extends React.Component<ChartProps> {
                 spinnerClassName={cx('Chart-spinner')}
               />
             </div>
-          </div>
-        }
-        component={() => (
-          <div
-            className={cx(`${ns}Chart`, className)}
-            style={style}
-            ref={this.refFn}
-          />
-        )}
-      />
+          }
+          component={() => (
+            <div className={`${ns}Chart-content`} ref={this.refFn}></div>
+          )}
+        />
+      </div>
     );
   }
 }
