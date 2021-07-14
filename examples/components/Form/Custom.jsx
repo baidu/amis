@@ -87,6 +87,7 @@ export default {
 
         {
           name: 'a',
+          asFormItem: true,
           children: ({value, onChange}) => (
             <div>
               <p>这是使用 children 的方式，也无需注册。</p>
@@ -129,6 +130,7 @@ export default {
         },
         {
           label: '',
+          asFormItem: true,
           children: ({render}) => (
             <div>
               <p>组合现有组件</p>
@@ -158,6 +160,7 @@ export default {
         {
           name: 'c',
           label: '',
+          asFormItem: true,
           component: ({render, value, onChange, name}) => {
             function handleXChange(x) {
               value = {
