@@ -129,7 +129,7 @@ export class SchemaRenderer extends React.Component<SchemaRendererProps, any> {
 
       if (
         schema.component &&
-        !schema.component.wrapAsFormItem &&
+        !schema.component.wrapedAsFormItem &&
         schema.asFormItem
       ) {
         const cache = componentCache.get(schema.component);
@@ -142,7 +142,7 @@ export class SchemaRenderer extends React.Component<SchemaRendererProps, any> {
             ...schema.asFormItem
           })(schema.component);
           componentCache.set(schema.component, cache);
-          cache.wrapAsFormItem = true;
+          cache.wrapedAsFormItem = true;
           schema.component = cache;
         }
       }
