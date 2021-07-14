@@ -121,12 +121,7 @@ export class SchemaRenderer extends React.Component<SchemaRendererProps, any> {
     } else {
       // 自定义组件如果在节点设置了 label name 什么的，就用 formItem 包一层
       // 至少自动支持了 valdiations, label, description 等逻辑。
-      if (
-        schema.children &&
-        !schema.component &&
-        (schema.asFormItem ||
-          (props.formStore && (schema.name || schema.hasOwnProperty('label'))))
-      ) {
+      if (schema.children && !schema.component && schema.asFormItem) {
         schema.component = PlaceholderComponent;
         schema.renderChildren = schema.children;
         delete schema.children;
@@ -135,8 +130,7 @@ export class SchemaRenderer extends React.Component<SchemaRendererProps, any> {
       if (
         schema.component &&
         !schema.component.wrapAsFormItem &&
-        (schema.asFormItem ||
-          (props.formStore && (schema.name || schema.hasOwnProperty('label'))))
+        schema.asFormItem
       ) {
         const cache = componentCache.get(schema.component);
 
