@@ -291,7 +291,9 @@ export function registerOptionsControl(config: OptionsConfig) {
       } = props;
 
       if (formItem) {
-        formItem.setOptions(normalizeOptions(options), this.changeOptionValue);
+        // 当传入source和options同时存在时，source优先
+        const originOptions = source ? [] : options;
+        formItem.setOptions(normalizeOptions(originOptions), this.changeOptionValue);
 
         this.reaction = reaction(
           () => JSON.stringify([formItem.loading, formItem.filteredOptions]),
