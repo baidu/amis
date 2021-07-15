@@ -10,7 +10,7 @@ import {withStore} from './WithStore';
 
 import {EnvContext, RendererEnv} from '../env';
 
-import {flow, Instance, types} from 'mobx-state-tree';
+import {flow, Instance, isAlive, types} from 'mobx-state-tree';
 import {buildApi, isEffectiveApi, normalizeApi} from '../utils/api';
 import {
   isPureVariable,
@@ -40,6 +40,9 @@ export const Store = types
       try {
         self.fetching = true;
         const ret: Payload = yield env.fetcher(api, ctx);
+        if (!isAlive(self)) {
+          return;
+        }
 
         if (ret.ok) {
           const data = ret.data || {};
@@ -55,7 +58,7 @@ export const Store = types
       } catch (e) {
         self.errorMsg = e.message;
       } finally {
-        self.fetching = false;
+        isAlive(self) && (self.fetching = false);
       }
     });
 
