@@ -390,42 +390,38 @@ export class Select extends React.Component<SelectProps, SelectState> {
   componentDidUpdate(prevProps: SelectProps) {
     const props = this.props;
     let fn: () => void = noop;
-
-    if (
-      JSON.stringify(props.value) !== JSON.stringify(prevProps.value) ||
-      JSON.stringify(props.options) !== JSON.stringify(prevProps.options)
-    ) {
-      let selection: Array<Option>;
-      if (
-        (!prevProps.options || !prevProps.options.length) &&
-        props.options.length
-      ) {
-        const {selection: stateSelection} = this.state;
-        const {
-          multiple,
-          defaultCheckAll,
-          options,
-          onChange,
-          simpleValue
-        } = props;
-        if (multiple && defaultCheckAll && options.length) {
-          selection = union(options, stateSelection);
-          fn = () =>
-            onChange(
-              simpleValue ? selection.map(item => item.value) : selection
-            );
-        } else {
-          selection = value2array(props.value, props);
-        }
+    let selection: Array<Option>;
+    // 列表变化
+    if (JSON.stringify(props.options) !== JSON.stringify(prevProps.options)) {
+      const {
+        multiple,
+        defaultCheckAll,
+        options,
+        onChange,
+        simpleValue
+      } = props;
+      // 默认全选
+      if (multiple && defaultCheckAll && options.length) {
+        selection = union(options, []);
+        fn = () =>
+          onChange(
+            simpleValue ? selection.map(item => item.value) : selection
+          );
       } else {
-        selection = value2array(props.value, props);
+        selection = [];
       }
-
       this.setState(
         {
           selection: selection
         },
         fn
+      );
+    } else if (JSON.stringify(props.value) !== JSON.stringify(prevProps.value)) { // 值变化
+      selection = value2array(props.value, props);
+      this.setState(
+        {
+          selection: selection
+        }
       );
     }
   }
