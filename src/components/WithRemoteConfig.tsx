@@ -56,7 +56,7 @@ export const Store = types
           throw new Error(ret.msg || 'fetch error');
         }
       } catch (e) {
-        self.errorMsg = e.message;
+        isAlive(self) && (self.errorMsg = e.message);
       } finally {
         isAlive(self) && (self.fetching = false);
       }
