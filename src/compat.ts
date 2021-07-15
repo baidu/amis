@@ -427,8 +427,10 @@ function wrapStatic(item: any) {
 }
 
 addSchemaFilter(function (schema: Schema, renderer: any, props: any) {
+  const type = schema?.type.toLowerCase();
+
   // controls 转成 body
-  if (schema?.type === 'combo' && Array.isArray(schema.conditions)) {
+  if (type === 'combo' && Array.isArray(schema.conditions)) {
     schema = {
       ...schema,
       conditions: schema.conditions.map(condition => {
@@ -479,7 +481,7 @@ addSchemaFilter(function (schema: Schema, renderer: any, props: any) {
       ...schema,
       quickEdit: controlToNormalRenderer(schema.quickEdit)
     };
-  } else if (schema?.type === 'tabs' && Array.isArray(schema.tabs)) {
+  } else if (type === 'tabs' && Array.isArray(schema.tabs)) {
     schema = {
       ...schema,
       tabs: schema.tabs.map(tab => {
@@ -494,7 +496,7 @@ addSchemaFilter(function (schema: Schema, renderer: any, props: any) {
         return tab;
       })
     };
-  } else if (schema?.type === 'anchor-nav' && Array.isArray(schema.links)) {
+  } else if (type === 'anchor-nav' && Array.isArray(schema.links)) {
     schema = {
       ...schema,
       links: schema.links.map(link => {
@@ -510,7 +512,7 @@ addSchemaFilter(function (schema: Schema, renderer: any, props: any) {
         return link;
       })
     };
-  } else if (schema?.type === 'input-array' && schema.items) {
+  } else if (type === 'input-array' && schema.items) {
     schema = {
       ...schema,
       items: Array.isArray(schema.items)
@@ -518,7 +520,7 @@ addSchemaFilter(function (schema: Schema, renderer: any, props: any) {
         : controlToNormalRenderer(schema.items)
     };
   } else if (
-    (schema?.type === 'grid' || schema?.type === 'hbox') &&
+    (type === 'grid' || type === 'hbox') &&
     Array.isArray(schema.columns)
   ) {
     schema = {
@@ -542,7 +544,7 @@ addSchemaFilter(function (schema: Schema, renderer: any, props: any) {
         return column;
       })
     };
-  } else if (schema?.type === 'service' && schema?.body?.controls) {
+  } else if (type === 'service' && schema?.body?.controls) {
     schema = {
       ...schema,
       body: (Array.isArray(schema.body.controls)
