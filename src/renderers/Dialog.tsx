@@ -632,7 +632,6 @@ export class DialogRenderer extends Dialog {
       return false;
     }
 
-    let components = scoped.getComponents();
     const targets: Array<any> = [];
     const {onConfirm, store} = this.props;
 
@@ -646,9 +645,9 @@ export class DialogRenderer extends Dialog {
     }
 
     if (!targets.length) {
-      components = components.filter(
-        item => !~['drawer', 'dialog'].indexOf(item.props.type)
-      );
+      let components = scoped
+        .getComponents()
+        .filter(item => !~['drawer', 'dialog'].indexOf(item.props.type));
 
       // 如果是纯容器组件，则进到里面去找。
       while (
