@@ -70,21 +70,6 @@ export default class CheckboxesControl extends React.Component<
     createBtnLabel: 'Select.createLabel'
   };
 
-  componentDidMount() {
-    const {defaultCheckAll, onToggleAll} = this.props;
-
-    defaultCheckAll && onToggleAll();
-  }
-
-  componentDidUpdate(prevProps: OptionsControlProps) {
-    let {options: currOptions, onToggleAll, defaultCheckAll} = this.props;
-    let {options: prevOptions} = prevProps;
-
-    if (defaultCheckAll && prevOptions != currOptions) {
-      onToggleAll();
-    }
-  }
-
   reload() {
     const reload = this.props.reloadOptions;
     reload && reload();
