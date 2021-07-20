@@ -271,7 +271,7 @@ export const components = [
           )
       },
       {
-        label: 'Button-Group-Select 按钮集点选',
+        label: 'Button-Group-Select 按钮点选',
         path: '/zh-CN/components/form/button-group-select',
         getComponent: () =>
           // @ts-ignore
