@@ -1076,6 +1076,7 @@ export class WizardRenderer extends Wizard {
     scoped.reload(target, data);
   }
 
+  @autobind
   handleDialogConfirm(values: object[], action: Action, targets: Array<any>) {
     super.handleDialogConfirm(values, action, targets);
 
