@@ -216,7 +216,7 @@ export class ControlGroupRenderer extends React.Component<InputGroupProps> {
   render() {
     const {label, ...rest} = this.props;
 
-    if (label) {
+    if (typeof label !== 'undefined') {
       return (
         <FormItemWrap
           {...(rest as any)}

@@ -194,7 +194,17 @@ export function HocStoreFactory(renderer: {
               )
             );
           } else if (props.data && (props.data as any).__super) {
-            store.initData(extendObject(props.data));
+            store.initData(
+              extendObject(
+                props.data,
+                store.hasRemoteData
+                  ? {
+                      ...store.data,
+                      ...props.data
+                    }
+                  : undefined
+              )
+            );
           } else {
             store.initData(createObject(props.scope, props.data));
           }

@@ -248,3 +248,103 @@ table view 的设置项有三层，可以分别对表格级别、行级别、单
   ]
 }
 ```
+
+## 作为布局方法
+
+table-view 除了可以用来展现表格类型的数据，还能用来实现复杂布局效果，只需要将 `border` 隐藏就行，除了拆分单元格还能通过嵌套的方式实现布局，比如：
+
+```schema: scope="body"
+{
+  "type": "table-view",
+  "border": false,
+  "trs": [
+    {
+      "background": "#feceea",
+      "tds": [
+        {
+          "colspan": 2,
+          "align": "center",
+          "body": {
+            "type": "tpl",
+            "tpl": "头部"
+          }
+        }
+      ]
+    },
+    {
+      "tds": [
+        {
+          "rowspan": 2,
+          "background": "#fef1d2",
+          "width": 200,
+          "body": {
+            "type": "tpl",
+            "tpl": "侧边"
+          }
+        },
+        {
+          "align": "center",
+          "background": "#a9fdd8",
+          "body": {
+            "type": "tpl",
+            "tpl": "右上"
+          }
+        }
+      ]
+    },
+    {
+      "height": 200,
+      "tds": [
+        {
+          "align": "center",
+          "background": "#d7f8ff",
+          "body": {
+            "type": "table-view",
+            "border": false,
+            "trs": [
+              {
+                "tds": [
+                  {
+                    "align": "center",
+                    "body": {
+                      "type": "tpl",
+                      "tpl": "栏目 1"
+                    }
+                  },
+                  {
+                    "align": "center",
+                    "body": {
+                      "type": "tpl",
+                      "tpl": "栏目 2"
+                    }
+                  },
+                  {
+                    "align": "center",
+                    "body": {
+                      "type": "tpl",
+                      "tpl": "栏目 3"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "tds": [
+        {
+          "colspan": 2,
+          "align": "center",
+          "background": "#cec5fa",
+          "body": {
+            "type": "tpl",
+            "tpl": "底部"
+          }
+        }
+      ]
+    }
+  ]
+}
+```
