@@ -427,7 +427,8 @@ function wrapStatic(item: any) {
 }
 
 addSchemaFilter(function (schema: Schema, renderer: any, props: any) {
-  const type = schema?.type.toLowerCase();
+  const type =
+    typeof schema?.type === 'string' ? schema.type.toLowerCase() : '';
 
   // controls 转成 body
   if (type === 'combo' && Array.isArray(schema.conditions)) {
