@@ -549,7 +549,7 @@ export default class FormTable extends React.Component<TableProps, TableState> {
               }
             };
       });
-    } else if (props.editable) {
+    } else if (props.addable || props.editable) {
       columns = columns.map(column => {
         const quickEdit =
           !isCreateMode && column.hasOwnProperty('quickEditOnUpdate')

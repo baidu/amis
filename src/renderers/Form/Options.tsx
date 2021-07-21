@@ -287,16 +287,20 @@ export function registerOptionsControl(config: OptionsConfig) {
         valueField,
         options,
         value,
-        onChange
+        defaultCheckAll,
       } = props;
 
       if (formItem) {
-        formItem.setOptions(normalizeOptions(options), onChange);
+        formItem.setOptions(normalizeOptions(options), this.changeOptionValue);
 
         this.reaction = reaction(
           () => JSON.stringify([formItem.loading, formItem.filteredOptions]),
           () => this.forceUpdate()
         );
+        // 默认全选。这里会和默认值\回填值逻辑冲突，所以如果有配置source则不执行默认全选
+        if (multiple && defaultCheckAll && options.length && !source) {
+          this.defaultCheckAll();
+        }
       }
 
       let loadOptions: boolean = initFetch !== false;
@@ -353,7 +357,7 @@ export function registerOptionsControl(config: OptionsConfig) {
       if (prevProps.options !== props.options && formItem) {
         formItem.setOptions(
           normalizeOptions(props.options || []),
-          props.onChange
+          this.changeOptionValue
         );
         this.normalizeValue();
       } else if (
@@ -378,7 +382,7 @@ export function registerOptionsControl(config: OptionsConfig) {
           if (prevOptions !== options) {
             formItem.setOptions(
               normalizeOptions(options || []),
-              props.onChange
+              this.changeOptionValue
             );
             this.normalizeValue();
           }
@@ -397,7 +401,7 @@ export function registerOptionsControl(config: OptionsConfig) {
               props.data,
               undefined,
               true,
-              props.onChange
+              this.changeOptionValue
             )
             .then(() => this.normalizeValue());
         }
@@ -524,32 +528,39 @@ export function registerOptionsControl(config: OptionsConfig) {
       onChange && onChange(newValue, submitOnChange, changeImmediately);
     }
 
-    @autobind
-    handleToggleAll() {
+    /**
+     * 初始化时处理默认全选逻辑
+     */
+    defaultCheckAll() {
       const {
         value,
-        onChange,
+        formItem,
+        setPrinstineValue
+      } = this.props;
+      // 如果有默认值\回填值直接返回
+      if (!formItem || formItem.getSelectedOptions(value).length) {
+        return;
+      }
+      let valueArray = formItem.filteredOptions.concat();
+      const newValue = this.formatValueArray(valueArray);
+      setPrinstineValue?.(newValue);
+    }
+
+    /**
+     * 选中的值经过joinValues和delimiter等规则处理输出规定格式的值
+     * @param valueArray 选中值的数组
+     * @returns 通过joinValues和delimiter等规则输出规定格式的值
+     */
+    formatValueArray(valueArray: Array<Option>) {
+      const {
         joinValues,
         extractValue,
         valueField,
         delimiter,
         resetValue,
-        multiple,
-        formItem
+        multiple
       } = this.props;
-
-      if (!formItem) {
-        return;
-      }
-
-      const selectedOptions = formItem.getSelectedOptions(value);
-      let valueArray =
-        selectedOptions.length === formItem.filteredOptions.length
-          ? []
-          : formItem.filteredOptions.concat();
-
       let newValue: string | Array<Option> | Option = '';
-
       if (multiple) {
         newValue = valueArray;
 
@@ -569,7 +580,26 @@ export function registerOptionsControl(config: OptionsConfig) {
           newValue = (newValue as any)[valueField || 'value'];
         }
       }
+      return newValue;
+    }
 
+    @autobind
+    handleToggleAll() {
+      const {
+        value,
+        onChange,
+        formItem
+      } = this.props;
+
+      if (!formItem) {
+        return;
+      }
+      const selectedOptions = formItem.getSelectedOptions(value);
+      let valueArray =
+        selectedOptions.length === formItem.filteredOptions.length
+          ? []
+          : formItem.filteredOptions.concat();
+      const newValue = this.formatValueArray(valueArray);
       onChange && onChange(newValue);
     }
 
@@ -654,7 +684,7 @@ export function registerOptionsControl(config: OptionsConfig) {
             normalizeOptions(
               resolveVariableAndFilter(source as string, data, '| raw') || []
             ),
-            onChange
+            this.changeOptionValue
           );
         return;
       } else if (!formItem || !isEffectiveApi(source, data)) {
@@ -691,12 +721,17 @@ export function registerOptionsControl(config: OptionsConfig) {
     @autobind
     async initOptions(data: any) {
       await this.reloadOptions(false, true);
-      const {formItem, name} = this.props;
+      const {formItem, name, multiple, defaultCheckAll, options} = this.props;
       if (!formItem) {
         return;
       }
       if (isAlive(formItem) && formItem.value) {
         setVariable(data, name!, formItem.value);
+      }
+
+      // 默认全选
+      if (multiple && defaultCheckAll && options.length) {
+        this.defaultCheckAll();
       }
     }
 
@@ -705,12 +740,28 @@ export function registerOptionsControl(config: OptionsConfig) {
     }
 
     @autobind
+    changeOptionValue(value: any) {
+      const {
+        onChange,
+        formInited,
+        setPrinstineValue,
+        value: originValue
+      } = this.props;
+
+      if (formInited === false) {
+        originValue === undefined && setPrinstineValue?.(value);
+      } else {
+        onChange?.(value);
+      }
+    }
+
+    @autobind
     setOptions(options: Array<any>, skipNormalize = false) {
       const formItem = this.props.formItem as IFormItemStore;
       formItem &&
         formItem.setOptions(
           skipNormalize ? options : normalizeOptions(options || []),
-          this.props.onChange
+          this.changeOptionValue
         );
     }
 
@@ -843,7 +894,7 @@ export function registerOptionsControl(config: OptionsConfig) {
             ? options.splice(idx, 0, {...result})
             : options.push({...result});
         }
-        model.setOptions(options, this.props.onChange);
+        model.setOptions(options, this.changeOptionValue);
       }
     }
 
@@ -939,7 +990,7 @@ export function registerOptionsControl(config: OptionsConfig) {
               ...origin,
               ...result
             }),
-            this.props.onChange
+            this.changeOptionValue
           );
         }
       }
@@ -997,7 +1048,7 @@ export function registerOptionsControl(config: OptionsConfig) {
           if (indexes) {
             model.setOptions(
               spliceTree(options, indexes, 1),
-              this.props.onChange
+              this.changeOptionValue
             );
           }
         }

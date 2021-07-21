@@ -522,7 +522,13 @@ export default class CRUD extends React.Component<CRUDProps, any> {
         props.pageField,
         props.perPageField
       );
-      dataInvalid = isObjectShallowModified(store.query, this.lastQuery, false);
+      dataInvalid = !!(
+        props.api && isObjectShallowModified(store.query, this.lastQuery, false)
+      );
+    }
+
+    if (dataInvalid) {
+      // 要同步数据
     } else if (
       prevProps.api &&
       props.api &&
@@ -544,9 +550,9 @@ export default class CRUD extends React.Component<CRUDProps, any> {
       const prev = resolveVariableAndFilter(
         prevProps.source,
         prevProps.data,
-        '!raw'
+        '| raw'
       );
-      const next = resolveVariableAndFilter(props.source, props.data, '!raw');
+      const next = resolveVariableAndFilter(props.source, props.data, '| raw');
 
       if (prev !== next) {
         store.initFromScope(props.data, props.source);

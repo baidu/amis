@@ -124,7 +124,6 @@ export const components = [
       }
     ]
   },
-
   {
     label: '功能',
     children: [
@@ -272,7 +271,7 @@ export const components = [
           )
       },
       {
-        label: 'Button-Group-Select 按钮集点选',
+        label: 'Button-Group-Select 按钮点选',
         path: '/zh-CN/components/form/button-group-select',
         getComponent: () =>
           // @ts-ignore
@@ -663,7 +662,7 @@ export const components = [
         path: '/zh-CN/components/form/input-tag',
         getComponent: () =>
           // @ts-ignore
-          import('../../docs/zh-CN/components/form/tag.md').then(
+          import('../../docs/zh-CN/components/form/input-tag.md').then(
             makeMarkdownRenderer
           )
       },

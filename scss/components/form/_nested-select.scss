@@ -17,7 +17,19 @@
   }
 
   &-noResult {
+    width: px2rem(160px);
     padding: 0 var(--gap-xs);
+    color: var(--Form-select-placeholderColor);
+    line-height: var(--Form-input-lineHeight);
+    font-size: var(--Form-select-input-fontSize);
+    user-select: none;
+    padding: calc(
+        (
+            var(--Form-select-menu-height) - var(--Form-input-lineHeight) *
+              var(--Form-input-fontSize)
+          ) / 2
+      )
+      var(--Form-select-paddingX);
   }
 
   &-menu {

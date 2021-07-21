@@ -12,11 +12,21 @@ import {
 import {findDOMNode} from 'react-dom';
 import React from 'react';
 import {calculatePosition, getContainer, ownerDocument} from '../utils/dom';
-import {autobind, noop} from '../utils/helper';
+import {autobind, getScrollParent, noop} from '../utils/helper';
 import {resizeSensor, getComputedStyle} from '../utils/resize-sensor';
 
 // @ts-ignore
 BasePosition.propTypes.placement = () => null;
+
+function onScroll(elem: HTMLElement, callback: () => void) {
+  const handler = () => {
+    requestAnimationFrame(callback);
+  };
+  elem.addEventListener('scroll', handler);
+  return function () {
+    elem.removeEventListener('scroll', handler);
+  };
+}
 
 // @ts-ignore
 class Position extends BasePosition {
@@ -57,6 +67,15 @@ class Position extends BasePosition {
           : noop,
         resizeSensor(overlay, () => this.updatePosition(target))
       ];
+
+      const scrollParent = getScrollParent(target);
+      if (scrollParent && container.contains(scrollParent)) {
+        this.resizeDispose.push(
+          onScroll(scrollParent, () => {
+            this.updatePosition(target);
+          })
+        );
+      }
     }
 
     this.setState(

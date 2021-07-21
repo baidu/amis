@@ -76,11 +76,11 @@ export interface TabSchema extends Omit<BaseSchema, 'type'> {
   /**
    * 配置子表单项默认的展示方式。
    */
-  subFormMode?: 'normal' | 'inline' | 'horizontal';
+  mode?: 'normal' | 'inline' | 'horizontal';
   /**
    * 如果是水平排版，这个属性可以细化水平排版的左右宽度占比。
    */
-  subFormHorizontal?: FormSchemaHorizontal;
+  horizontal?: FormSchemaHorizontal;
 }
 
 /**
@@ -484,14 +484,12 @@ export default class Tabs extends React.Component<TabsProps, TabsState> {
               >
                 {render(
                   `item/${index}/${tabIndex}`,
-                  tab.tab || tab.body || '',
+                  (tab as any)?.type ? (tab as any) : tab.tab || tab.body,
                   {
                     data: ctx,
-                    formMode: tab.subFormMode || subFormMode || formMode,
+                    formMode: tab.mode || subFormMode || formMode,
                     formHorizontal:
-                      tab.subFormHorizontal ||
-                      subFormHorizontal ||
-                      formHorizontal
+                      tab.horizontal || subFormHorizontal || formHorizontal
                   }
                 )}
               </Tab>
@@ -521,11 +519,15 @@ export default class Tabs extends React.Component<TabsProps, TabsState> {
               ? this.renderTab(tab, this.props, index)
               : tabRender
               ? tabRender(tab, this.props, index)
-              : render(`tab/${index}`, tab.tab || tab.body || '', {
-                  formMode: tab.subFormMode || subFormMode || formMode,
-                  formHorizontal:
-                    tab.subFormHorizontal || subFormHorizontal || formHorizontal
-                })}
+              : render(
+                  `tab/${index}`,
+                  (tab as any)?.type ? (tab as any) : tab.tab || tab.body,
+                  {
+                    formMode: tab.mode || subFormMode || formMode,
+                    formHorizontal:
+                      tab.horizontal || subFormHorizontal || formHorizontal
+                  }
+                )}
           </Tab>
         ) : null
       );

@@ -4,6 +4,7 @@ import {Api, SchemaNode, Schema, Action} from '../types';
 import cx from 'classnames';
 import {isVisible} from '../utils/helper';
 import {BaseSchema, SchemaObject} from '../Schema';
+import {FormSchemaHorizontal} from './Form/index';
 
 export type HBoxColumnObject = {
   /**
@@ -27,6 +28,15 @@ export type HBoxColumnObject = {
   style?: {
     [propName: string]: any;
   };
+
+  /**
+   * 配置子表单项默认的展示方式。
+   */
+  mode?: 'normal' | 'inline' | 'horizontal';
+  /**
+   * 如果是水平排版，这个属性可以细化水平排版的左右宽度占比。
+   */
+  horizontal?: FormSchemaHorizontal;
 };
 
 export type HBoxColumn = HBoxColumnObject & SchemaObject; // 不能用 SchemaObject 呢，会报错
@@ -41,6 +51,15 @@ export interface HBoxSchema extends BaseSchema {
    */
   type: 'hbox';
   columns: Array<HBoxColumn>;
+
+  /**
+   * 配置子表单项默认的展示方式。
+   */
+  subFormMode?: 'normal' | 'inline' | 'horizontal';
+  /**
+   * 如果是水平排版，这个属性可以细化水平排版的左右宽度占比。
+   */
+  subFormHorizontal?: FormSchemaHorizontal;
 }
 
 export interface HBoxProps extends RendererProps, HBoxSchema {
@@ -60,14 +79,22 @@ export default class HBox extends React.Component<HBoxProps, object> {
     gap: 'xs'
   };
 
-  renderChild(region: string, node: Schema) {
+  renderChild(region: string, node: Schema, props: any = {}) {
     const {render} = this.props;
 
-    return render(region, node);
+    return render(region, node, props);
   }
 
   renderColumn(column: HBoxColumn, key: number, length: number) {
-    const {itemRender, data, classPrefix: ns} = this.props;
+    const {
+      itemRender,
+      data,
+      classPrefix: ns,
+      subFormMode,
+      subFormHorizontal,
+      formMode,
+      formHorizontal
+    } = this.props;
 
     if (!isVisible(column, data)) {
       return null;
@@ -89,7 +116,12 @@ export default class HBox extends React.Component<HBoxProps, object> {
           ? itemRender(column, key, length, this.props)
           : this.renderChild(
               `column/${key}`,
-              column.type ? column : (column as any).body
+              column.type ? column : (column as any).body,
+              {
+                formMode: column.mode || subFormMode || formMode,
+                formHorizontal:
+                  column.horizontal || subFormHorizontal || formHorizontal
+              }
             )}
       </div>
     );

@@ -136,7 +136,6 @@ export class ConditionGroup extends React.Component<ConditionGroupProps> {
                 className="m-r-xs"
                 size="xs"
                 active={value?.not}
-                level={value?.not ? 'info' : 'default'}
                 disabled={disabled}
               >
                 非
@@ -147,7 +146,6 @@ export class ConditionGroup extends React.Component<ConditionGroupProps> {
                 size="xs"
                 onClick={this.handleConjunctionClick}
                 active={value?.conjunction !== 'or'}
-                level={value?.conjunction !== 'or' ? 'info' : 'default'}
                 disabled={disabled}
               >
                 并且
@@ -156,7 +154,6 @@ export class ConditionGroup extends React.Component<ConditionGroupProps> {
                 size="xs"
                 onClick={this.handleConjunctionClick}
                 active={value?.conjunction === 'or'}
-                level={value?.conjunction === 'or' ? 'info' : 'default'}
                 disabled={disabled}
               >
                 或者

@@ -527,6 +527,7 @@ export default class Wizard extends React.Component<WizardProps, WizardState> {
     } else if (action.type === 'reset') {
       this.form.reset();
     } else if (action.actionType === 'dialog') {
+      store.setCurrentAction(action);
       store.openDialog(data);
     } else if (action.actionType === 'ajax') {
       if (!action.api) {
@@ -593,6 +594,9 @@ export default class Wizard extends React.Component<WizardProps, WizardState> {
   handleInit(values: any) {
     const step = this.state.currentStep;
     this.initalValues[step] = this.initalValues[step] || values;
+    const store = this.props.store;
+
+    store.updateData(values);
   }
 
   @autobind
@@ -1075,6 +1079,7 @@ export class WizardRenderer extends Wizard {
     scoped.reload(target, data);
   }
 
+  @autobind
   handleDialogConfirm(values: object[], action: Action, targets: Array<any>) {
     super.handleDialogConfirm(values, action, targets);
 

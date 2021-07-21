@@ -690,7 +690,6 @@ export class DrawerRenderer extends Drawer {
       return false;
     }
 
-    const components = scoped.getComponents();
     const targets: Array<any> = [];
     const {onConfirm, store} = this.props;
 
@@ -704,22 +703,27 @@ export class DrawerRenderer extends Drawer {
     }
 
     if (!targets.length) {
-      const page = findLast(
-        components,
-        component => component.props.type === 'page'
-      );
+      let components = scoped
+        .getComponents()
+        .filter(item => !~['drawer', 'dialog'].indexOf(item.props.type));
 
-      if (page) {
-        components.push(...page.context.getComponents());
+      // 如果是纯容器组件，则进到里面去找。
+      while (
+        components.length === 1 &&
+        ~['page', 'service'].indexOf(components[0].props.type)
+      ) {
+        components = components[0].context
+          .getComponents()
+          .filter(
+            (item: any) => !~['drawer', 'dialog'].indexOf(item.props.type)
+          );
       }
 
+      // 优先最下面的，找到一个功能组件，就交给这个功能组件。
       for (let i = components.length - 1; i >= 0; i--) {
         const component = components[i];
 
-        if (component.props.type === 'form') {
-          targets.push(component);
-          break;
-        } else if (component.props.type === 'crud') {
+        if (~['crud', 'form', 'wizard'].indexOf(component.props.type)) {
           targets.push(component);
           break;
         }
