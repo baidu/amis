@@ -512,7 +512,7 @@ export default class NestedSelectControl extends React.Component<
     let noResultsText: any = this.props.noResultsText;
 
     if (noResultsText) {
-      noResultsText = render('noResultText', noResultsText);
+      noResultsText = render('noResultText', __(noResultsText));
     }
 
     let body = (
@@ -525,7 +525,7 @@ export default class NestedSelectControl extends React.Component<
             this.renderOptions()
           ) : (
             <div className={cx('NestedSelect-noResult')}>
-              {__(noResultsText)}
+              {noResultsText}
             </div>
           )}
         </div>
