@@ -408,6 +408,7 @@ export default class ImageControl extends React.Component<
     this.handleCrop = this.handleCrop.bind(this);
     this.handleDropRejected = this.handleDropRejected.bind(this);
     this.cancelCrop = this.cancelCrop.bind(this);
+    this.rotatableCrop = this.rotatableCrop.bind(this);
     this.handleImageLoaded = this.handleImageLoaded.bind(this);
     this.handleFrameImageLoaded = this.handleFrameImageLoaded.bind(this);
     this.startUpload = this.startUpload.bind(this);
@@ -875,6 +876,10 @@ export default class ImageControl extends React.Component<
     );
   }
 
+  rotatableCrop() {
+    this.cropper.current!.rotate(90);
+  }
+
   addFiles(files: Array<FileX>) {
     if (!files.length) {
       return;
@@ -1208,6 +1213,17 @@ export default class ImageControl extends React.Component<
               <Cropper {...crop} ref={this.cropper} src={cropFile.preview} />
             </Suspense>
             <div className={cx('ImageControl-croperToolbar')}>
+              {
+                crop.rotatable &&
+                <a
+                  className={cx('ImageControl-cropRotatable')}
+                  onClick={this.rotatableCrop}
+                  data-tooltip={__('rotate')}
+                  data-position="left"
+                >
+                  <Icon icon="retry" className="icon" />
+                </a>
+              }
               <a
                 className={cx('ImageControl-cropCancel')}
                 onClick={this.cancelCrop}

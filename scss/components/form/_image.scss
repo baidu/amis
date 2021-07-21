@@ -200,6 +200,17 @@
       padding: 2px 5px;
       cursor: pointer;
       font-size: 20px;
+
+      .icon-retry {
+
+        polygon {
+          fill: #fff;
+        }
+
+        path {
+          stroke: #fff;
+        }
+      }
     }
   }
 
