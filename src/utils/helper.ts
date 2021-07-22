@@ -575,7 +575,7 @@ export function promisify<T extends Function>(
       }
       return Promise.resolve(ret);
     } catch (e) {
-      Promise.reject(e);
+      return Promise.reject(e);
     }
   };
   (promisified as any).raw = fn;
