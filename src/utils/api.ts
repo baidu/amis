@@ -91,7 +91,7 @@ export function buildApi(
   }
 
   if (api.data) {
-    api.body = api.data = dataMapping(api.data, data);
+    api.body = api.data = dataMapping(api.data, data, false, api.dataType==="json");
   } else if (api.method === 'post' || api.method === 'put') {
     api.body = api.data = cloneObject(data);
   }

@@ -847,7 +847,8 @@ export function resolveMapping(
 export function dataMapping(
   to: any,
   from: PlainObject = {},
-  ignoreFunction: boolean | ((key: string, value: any) => boolean) = false
+  ignoreFunction: boolean | ((key: string, value: any) => boolean) = false,
+  isJson: boolean=false, //如果是json数据, 则不应将key转换为路径, 改变json结构
 ): any {
   if (Array.isArray(to)) {
     return to.map(item => dataMapping(item, from, ignoreFunction));
@@ -861,6 +862,10 @@ export function dataMapping(
   Object.keys(to).forEach(key => {
     const value = to[key];
     let keys: Array<string>;
+    
+    if(isJson && key!=='&'){ //为json时，不应该换转路径, 将值设置进后setVarible函数会直接赋值
+      (ret as PlainObject)[key]=null;
+    }
 
     if (typeof ignoreFunction === 'function' && ignoreFunction(key, value)) {
       // 如果被ignore，不做数据映射处理。
