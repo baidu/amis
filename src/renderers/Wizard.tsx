@@ -14,6 +14,7 @@ import {
 import {isApiOutdated, isEffectiveApi} from '../utils/api';
 import {IFormStore} from '../store/form';
 import {Spinner} from '../components';
+import {Icon} from '../components/icons';
 import {findDOMNode} from 'react-dom';
 import {resizeSensor} from '../utils/resize-sensor';
 import {
@@ -172,6 +173,7 @@ export interface WizardProps
 
 export interface WizardState {
   currentStep: number;
+  completeStep: number;
 }
 
 export default class Wizard extends React.Component<WizardProps, WizardState> {
@@ -214,7 +216,8 @@ export default class Wizard extends React.Component<WizardProps, WizardState> {
   } = {};
 
   state = {
-    currentStep: -1 // init 完后会设置成 1
+    currentStep: -1, // init 完后会设置成 1
+    completeStep: -1
   };
 
   componentDidMount() {
@@ -366,7 +369,8 @@ export default class Wizard extends React.Component<WizardProps, WizardState> {
 
     if (index != this.state.currentStep) {
       this.setState({
-        currentStep: index
+        currentStep: index,
+        completeStep: Math.max(this.state.completeStep, index - 1)
       });
     }
   }
@@ -680,6 +684,7 @@ export default class Wizard extends React.Component<WizardProps, WizardState> {
       // 最后一步
       if (target) {
         this.submitToTarget(target, store.data);
+        this.setState({completeStep: steps.length});
       } else if (action.api || step.api || api) {
         let finnalAsyncApi = action.asyncApi || step.asyncApi || asyncApi;
 
@@ -711,6 +716,7 @@ export default class Wizard extends React.Component<WizardProps, WizardState> {
             }
           })
           .then(value => {
+            this.setState({completeStep: steps.length});
             store.updateData({
               ...store.data,
               ...value
@@ -745,6 +751,7 @@ export default class Wizard extends React.Component<WizardProps, WizardState> {
           });
       } else {
         onFinished && onFinished(store.data, action);
+        this.setState({completeStep: steps.length});
       }
     }
 
@@ -775,7 +782,7 @@ export default class Wizard extends React.Component<WizardProps, WizardState> {
 
   renderSteps() {
     const {steps, store, mode, classPrefix: ns, classnames: cx} = this.props;
-    const currentStep = this.state.currentStep;
+    const {currentStep, completeStep} = this.state;
 
     return (
       <div className={`${ns}Wizard-steps`} id="form-wizard">
@@ -783,25 +790,26 @@ export default class Wizard extends React.Component<WizardProps, WizardState> {
           <ul>
             {steps.map((step, key) => {
               const canJump = isJumpable(step, key, currentStep, store.data);
+              const isComplete = canJump || key < completeStep;
+              const isActive = currentStep === key + 1;
 
               return (
                 <li
                   key={key}
                   className={cx({
-                    'is-complete': canJump,
-                    'is-active': currentStep === key + 1
+                    'is-complete': isComplete,
+                    'is-active': isActive
                   })}
                   onClick={() => (canJump ? this.gotoStep(key + 1) : null)}
                 >
                   <span
                     className={cx('Badge', {
                       // 'Badge--success': canJump && currentStep != key + 1,
-                      'is-active':
-                        currentStep === key + 1 ||
-                        (canJump && currentStep != key + 1)
+                      'is-complete': isComplete,
+                      'is-active': isActive || (canJump && currentStep != key + 1)
                     })}
                   >
-                    {key + 1}
+                    {isComplete && !isActive ? (<Icon icon="check" className="icon" />) : key + 1}
                   </span>
                   {step.title || step.label || `第 ${key + 1} 步`}
                 </li>
