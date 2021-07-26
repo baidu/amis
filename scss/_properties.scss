@@ -1321,6 +1321,7 @@
   --Wizard-badge-fontSize: var(--fontSizeSm);
   --Wizard-badge-marginRight: #{px2rem(4px)};
   --Wizard-badge-onActive-backgroundColor: var(--info);
+  --Wizard-badge-onComplete-backgroundColor: var(--info);
   --Wizard-badge-size: var(--gap-md);
   --Wizard-steps-bg--isComplete: #f1f5f9;
   --Wizard-steps-bg: #{$gray100};
