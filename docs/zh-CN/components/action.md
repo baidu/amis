@@ -209,7 +209,7 @@ icon 也可以是 url 地址，比如
     "type": "button",
     "actionType": "ajax",
     "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
-    "redirect": "./getting-started"
+    "redirect": "../docs/start/getting-started"
 }
 ```
 

@@ -7,7 +7,9 @@
 import React from 'react';
 import cx from 'classnames';
 import {ClassNamesFn, themeable} from '../theme';
-import {__uri} from '../utils/helper';
+import {__uri, autobind} from '../utils/helper';
+import {Icon} from './icons';
+import {LocaleProps, localeable} from '../locale';
 
 // 用于发布 sdk 版本的时候替换，因为不确定 sdk 版本怎么部署，而 worker 地址路径不可知。
 // 所以会被 fis3 替换成取相对的代码。
@@ -64,7 +66,7 @@ export function monacoFactory(
   });
 }
 
-export interface EditorProps {
+export interface EditorProps extends LocaleProps {
   value?: string;
   defaultValue?: string;
   width?: number | string;
@@ -72,6 +74,7 @@ export interface EditorProps {
   onChange?: (value: string, event: any) => void;
   language?: string;
   editorTheme?: string;
+  allowFullscreen?: boolean;
   options: {
     [propName: string]: any;
   };
@@ -94,9 +97,15 @@ export class Editor extends React.Component<EditorProps, any> {
     editorTheme: 'vs',
     width: '100%',
     height: '100%',
+    allowFullscreen: false,
     options: {}
   };
 
+  state = {
+    isFullscreen: false,
+    innerWidth: 'auto',
+    innerHeight: 'auto'
+  };
   editor: any;
   container: any;
   currentValue: any;
@@ -232,6 +241,7 @@ export class Editor extends React.Component<EditorProps, any> {
     const {editorWillMount} = this.props;
     editorWillMount && editorWillMount(monaco);
   }
+
   editorDidMount(editor: any, monaco: any) {
     const {editorDidMount, onChange, onFocus, onBlur} = this.props;
     editorDidMount && editorDidMount(editor, monaco);
@@ -254,22 +264,72 @@ export class Editor extends React.Component<EditorProps, any> {
     onBlur &&
       editor.onDidBlurEditorWidget &&
       this.disposes.push(editor.onDidBlurEditorWidget(onBlur));
+
+    const {width = 'auto', height = 'auto'} =
+      this?.editor?._configuration?._elementSizeObserver ?? {};
+
+    this.setState({innerHeight: height, innerWidth: width});
+  }
+
+  @autobind
+  handleFullscreenModeChange() {
+    this.setState(
+      {isFullscreen: !this.state.isFullscreen},
+      () =>
+        // 退出全屏模式后需要resize一下editor的宽高，避免溢出父元素
+        !this.state.isFullscreen &&
+        this.editor.layout({
+          width: this.state.innerWidth,
+          height: this.state.innerHeight
+        })
+    );
   }
 
   render() {
-    const {className, classPrefix: ns, width, height} = this.props;
+    const {
+      className,
+      classPrefix: ns,
+      width,
+      height,
+      translate: __
+    } = this.props;
     let style = this.props.style || {};
+
     style.width = width;
     style.height = height;
 
     return (
       <div
-        className={cx(`${ns}MonacoEditor`, className)}
+        className={cx(
+          `${ns}MonacoEditor`,
+          {'is-fullscreen': this.state.isFullscreen},
+          className
+        )}
         style={style}
         ref={this.wrapperRef}
-      />
+      >
+        {this.editor && this.props.allowFullscreen ? (
+          <div className={cx(`${ns}MonacoEditor-header`)}>
+            <a
+              className={cx('Modal-close', `${ns}MonacoEditor-fullscreen`)}
+              data-tooltip={
+                this.state.isFullscreen
+                  ? __('Editor.exitFullscreen')
+                  : __('Editor.fullscreen')
+              }
+              data-position="left"
+              onClick={this.handleFullscreenModeChange}
+            >
+              <Icon
+                icon={this.state.isFullscreen ? 'compress-alt' : 'expand-alt'}
+                className="icon"
+              />
+            </a>
+          </div>
+        ) : null}
+      </div>
     );
   }
 }
 
-export default themeable(Editor);
+export default themeable(localeable(Editor));
