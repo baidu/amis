@@ -912,9 +912,11 @@ export function dataMapping(
       isPlainObject(value) &&
       (keys = Object.keys(value)) &&
       keys.length === 1 &&
-      from[keys[0].substring(1)] &&
-      Array.isArray(from[keys[0].substring(1)])
+      keys[0][0] === '$' &&
+      isPlainObject(value[keys[0]])
     ) {
+      // from[keys[0].substring(1)] &&
+      // Array.isArray(from[keys[0].substring(1)])
       // 支持只取数组中的部分值这个需求
       // 如:
       // data: {
@@ -925,7 +927,9 @@ export function dataMapping(
       //      }
       //   }
       // }
-      const arr = from[keys[0].substring(1)];
+      const arr = Array.isArray(from[keys[0].substring(1)])
+        ? from[keys[0].substring(1)]
+        : [];
       const mapping = value[keys[0]];
 
       (ret as PlainObject)[key] = arr.map((raw: object) =>
