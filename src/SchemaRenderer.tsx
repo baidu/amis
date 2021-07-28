@@ -322,7 +322,7 @@ export class SchemaRenderer extends React.Component<SchemaRendererProps, any> {
         defaultValue={defaultValue}
         defaultActiveKey={defaultActiveKey}
         $path={$path}
-        $schema={schema}
+        $schema={{...schema, ...exprProps}}
         ref={this.refFn}
         render={this.renderChild}
       />
