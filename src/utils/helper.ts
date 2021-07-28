@@ -13,6 +13,7 @@ import {
   resolveVariable,
   resolveVariableAndFilter
 } from './tpl-builtin';
+import {isObservable} from 'mobx';
 
 // 方便取值的时候能够把上层的取到，但是获取的时候不会全部把所有的数据获取到。
 export function createObject(
@@ -317,7 +318,9 @@ export function isObjectShallowModified(
     null == prev ||
     null == next ||
     !isObject(prev) ||
-    !isObject(next)
+    !isObject(next) ||
+    isObservable(prev) ||
+    isObservable(next)
   ) {
     return strictMode ? prev !== next : prev != next;
   }
