@@ -72,3 +72,4 @@ order: 48
 | deleteApi       | [API](../../docs/types/api)                                                       |              | [配置删除选项接口](./options#%E9%85%8D%E7%BD%AE%E5%88%A0%E9%99%A4%E6%8E%A5%E5%8F%A3-deleteapi)                      |
 | autoFill        | `object`                                                                          |              | [自动填充](./options#%E8%87%AA%E5%8A%A8%E5%A1%AB%E5%85%85-autofill)                                                 |
 | menuTpl         | `string`                                                                          |              | 支持配置自定义菜单                                                                                                  |
+| clearable       | `boolean`                                                                         |              | 单选模式下是否支持清空                                                                                              |
