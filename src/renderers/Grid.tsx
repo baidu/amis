@@ -162,7 +162,6 @@ export default class Grid<T> extends React.Component<GridProps & T, object> {
   }
 
   renderColumns(columns: ColumnArray) {
-    console.log(columns);
     return Array.isArray(columns)
       ? columns.map((column, key) =>
           this.renderColumn(column, key, columns.length)
