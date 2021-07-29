@@ -63,4 +63,4 @@ order: 38
 | delimiter  | `string`  | `,`     | 分隔符                                                                                                                      |
 | unit       | `string`  |         | 单位                                                                                                                        |
 | clearable  | `boolean` |         | 是否可清除                                                                                                                  |
-| showInput  | `string`  |         | 是否显示输入框                                                                                                              |
+| showInput  | `boolean`  |         | 是否显示输入框                                                                                                              |
