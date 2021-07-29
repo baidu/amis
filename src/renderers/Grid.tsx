@@ -135,7 +135,8 @@ export default class Grid<T> extends React.Component<GridProps & T, object> {
       formMode,
       subFormMode,
       subFormHorizontal,
-      formHorizontal
+      formHorizontal,
+      translate: __
     } = this.props;
 
     return (
@@ -148,7 +149,7 @@ export default class Grid<T> extends React.Component<GridProps & T, object> {
       >
         {this.renderChild(
           `column/${key}`,
-          (column as any).type ? column : (column as any).body!,
+          (column as any).body || '',
           key,
           length,
           {

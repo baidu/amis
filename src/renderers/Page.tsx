@@ -493,7 +493,7 @@ export default class Page extends React.Component<PageProps> {
     if (Array.isArray(regions) ? ~regions.indexOf('toolbar') : toolbar) {
       right = (
         <div className={cx(`Page-toolbar`, toolbarClassName)}>
-          {render('toolbar', toolbar || __('region.toolbar'), subProps)}
+          {render('toolbar', toolbar || '', subProps)}
         </div>
       );
     }
@@ -579,7 +579,7 @@ export default class Page extends React.Component<PageProps> {
 
         {hasAside ? (
           <div className={cx(`Page-aside`, asideClassName)}>
-            {render('aside', aside || __('region.aside'), {
+            {render('aside', aside || '', {
               ...subProps,
               ...(typeof aside === 'string'
                 ? {
@@ -608,7 +608,7 @@ export default class Page extends React.Component<PageProps> {
               ) : null}
 
               {(Array.isArray(regions) ? ~regions.indexOf('body') : body)
-                ? render('body', body || __('region.body'), subProps)
+                ? render('body', body || '', subProps)
                 : null}
             </div>
           </div>
