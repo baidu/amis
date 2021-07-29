@@ -204,5 +204,8 @@ register('en-US', {
   'Year.placeholder': 'Select a Year',
   'rotate': 'Rotate',
   'Editor.fullscreen': 'full screen',
-  'Editor.exitFullscreen': 'exit fullscreen mode'
+  'Editor.exitFullscreen': 'exit fullscreen mode',
+  'region.body': 'body region',
+  'region.toolbar': 'toolbar region',
+  'region.aside': 'aside region'
 });

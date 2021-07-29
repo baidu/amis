@@ -204,5 +204,8 @@ register('de-DE', {
   'Year.placeholder': 'Wählen Sie ein Jahr',
   'rotate': 'Drehen',
   'Editor.fullscreen': 'Schirmfüllend Modus',
-  'Editor.exitFullscreen': 'Zurücktreten Schirmfüllend Modus'
+  'Editor.exitFullscreen': 'Zurücktreten Schirmfüllend Modus',
+  'region.body': 'body region',
+  'region.toolbar': 'toolbar region',
+  'region.aside': 'aside region'
 });
