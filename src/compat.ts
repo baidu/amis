@@ -15,6 +15,7 @@ import {FileControlRenderer} from './renderers/Form/InputFile';
 import {ImageControlRenderer} from './renderers/Form/InputImage';
 import {RichTextControlRenderer} from './renderers/Form/InputRichText';
 import isPlainObject from 'lodash/isPlainObject';
+import {GridRenderer} from './renderers/Grid';
 
 // 兼容老的用法，老用法 label 用在 checkbox 的右侧内容，新用法用 option 来代替。
 addSchemaFilter(function CheckboxPropsFilter(schema: Schema, renderer) {
@@ -282,6 +283,49 @@ addSchemaFilter(function (scheam: Schema, renderer) {
       videoReceiver: scheam.reciever
     };
     delete scheam.reciever;
+  }
+
+  return scheam;
+});
+
+// Grid 一些旧格式的兼容
+addSchemaFilter(function (scheam: Schema, renderer) {
+  if (renderer.component !== GridRenderer) {
+    return scheam;
+  }
+
+  if (
+    Array.isArray(scheam.columns) &&
+    scheam.columns.some(item => Array.isArray(item) || item.type)
+  ) {
+    scheam = {
+      ...scheam,
+      columns: scheam.columns.map(item => {
+        if (Array.isArray(item)) {
+          return {
+            body: [
+              {
+                type: 'grid',
+                columns: item
+              }
+            ]
+          };
+        } else if (item.type) {
+          let {xs, sm, md, lg, body, ...rest} = item;
+          body = Array.isArray(body) ? body.concat() : body ? [body] : [];
+          body.push(rest);
+          item = {
+            xs,
+            sm,
+            md,
+            lg,
+            body
+          };
+        }
+
+        return item;
+      })
+    };
   }
 
   return scheam;
