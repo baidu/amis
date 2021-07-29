@@ -208,5 +208,8 @@ register('zh-CN', {
   'Year.placeholder': '请选择年',
   'rotate': '旋转',
   'Editor.fullscreen': '全屏',
-  'Editor.exitFullscreen': '退出全屏'
+  'Editor.exitFullscreen': '退出全屏',
+  'region.body': '内容区',
+  'region.toolbar': '工具栏',
+  'region.aside': '边栏'
 });
