@@ -9,6 +9,7 @@ import {
   SchemaObject
 } from '../Schema';
 import {FormSchemaHorizontal} from './Form/index';
+import {ucFirst} from '../utils/helper';
 
 export const ColProps = ['lg', 'md', 'sm', 'xs'];
 
@@ -16,22 +17,22 @@ export type GridColumnObject = {
   /**
    * 极小屏（<768px）时宽度占比
    */
-  xs?: number;
+  xs?: number | 'auto';
 
   /**
    * 小屏时（>=768px）宽度占比
    */
-  sm?: number;
+  sm?: number | 'auto';
 
   /**
    * 中屏时(>=992px)宽度占比
    */
-  md?: number;
+  md?: number | 'auto';
 
   /**
    * 大屏时(>=1200px)宽度占比
    */
-  lg?: number;
+  lg?: number | 'auto';
 
   /**
    * 配置子表单项默认的展示方式。
@@ -70,12 +71,7 @@ export interface GridSchema extends BaseSchema {
 export interface GridProps
   extends RendererProps,
     Omit<GridSchema, 'type' | 'className' | 'columnClassName'> {
-  itemRender?: (
-    item: any,
-    key: number,
-    length: number,
-    props: any
-  ) => JSX.Element;
+  itemRender?: (item: any, length: number, props: any) => JSX.Element;
 }
 
 function fromBsClass(cn: string) {
@@ -97,7 +93,7 @@ function copProps2Class(props: any): string {
     modifier =>
       props &&
       props[modifier] &&
-      cns.push(`Grid-col--${modifier}${props[modifier]}`)
+      cns.push(`Grid-col--${modifier}${ucFirst(props[modifier])}`)
   );
   cns.length || cns.push('Grid-col--md');
   return cns.join(' ');
@@ -110,14 +106,13 @@ export default class Grid<T> extends React.Component<GridProps & T, object> {
   renderChild(
     region: string,
     node: SchemaCollection,
-    key: number,
     length: number,
     props: any = {}
   ) {
     const {render, itemRender} = this.props;
 
     return itemRender
-      ? itemRender(node, key, length, this.props)
+      ? itemRender(node, length, this.props)
       : render(region, node, props);
   }
 
@@ -147,17 +142,11 @@ export default class Grid<T> extends React.Component<GridProps & T, object> {
           fromBsClass((column as any).columnClassName!)
         )}
       >
-        {this.renderChild(
-          `column/${key}`,
-          (column as any).body || '',
-          key,
-          length,
-          {
-            formMode: column.mode || subFormMode || formMode,
-            formHorizontal:
-              column.horizontal || subFormHorizontal || formHorizontal
-          }
-        )}
+        {this.renderChild(`column/${key}`, (column as any).body || '', length, {
+          formMode: column.mode || subFormMode || formMode,
+          formHorizontal:
+            column.horizontal || subFormHorizontal || formHorizontal
+        })}
       </div>
     );
   }

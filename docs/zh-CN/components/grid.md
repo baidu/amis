@@ -17,28 +17,25 @@ order: 46
         "className": "b-a bg-dark lter",
         "columns": [
             {
-                "type": "plain",
-                "text": "md: 3",
-                "md": 3,
-                "className": "b-r"
+
+                "md": 0,
+                "body": [
+                    {
+                        "type": "plain",
+                        "text": "md: 3",
+                        "className": "b-r"
+                    }
+                ]
             },
 
             {
-                "type": "plain",
-                "text": "md: 9",
-                "md": 9
-            }
-        ]
-    },
-
-    {
-        "type": "grid",
-        "className": "b-a m-t bg-dark lter",
-        "columns": [
-            {
-                "type": "plain",
-                "text": "mdOffset: 3",
-                "mdOffset": 3
+                "md": 9,
+                "body": [
+                    {
+                        "type": "plain",
+                        "text": "md: 9"
+                    }
+                ]
             }
         ]
     }
@@ -53,10 +50,10 @@ order: 46
 | className                  | `string`                                  |          | 外层 Dom 的类名      |
 | columns                    | `Array`                                   |          | 列集合               |
 | columns[x]                 | [SchemaNode](../../docs/types/schemanode) |          | 成员可以是其他渲染器 |
-| columns[x].xs              | `int`                                     |          | 宽度占比： 1 - 12    |
+| columns[x].xs              | `int` or "auto"                           |          | 宽度占比： 1 - 12    |
 | columns[x].columnClassName |                                           |          | 列类名               |
-| columns[x].sm              | `int`                                     |          | 宽度占比： 1 - 12    |
-| columns[x].md              | `int`                                     |          | 宽度占比： 1 - 12    |
-| columns[x].lg              | `int`                                     |          | 宽度占比： 1 - 12    |
+| columns[x].sm              | `int` or "auto"                           |          | 宽度占比： 1 - 12    |
+| columns[x].md              | `int` or "auto"                           |          | 宽度占比： 1 - 12    |
+| columns[x].lg              | `int` or "auto"                           |          | 宽度占比： 1 - 12    |
 
 更多使用说明，请参看 [Grid Props](https://react-bootstrap.github.io/layout/grid/#col-props)

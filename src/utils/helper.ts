@@ -1200,7 +1200,9 @@ export function getTreeParent<T extends TreeItem>(tree: Array<T>, value: T) {
 }
 
 export function ucFirst(str?: string) {
-  return str ? str.substring(0, 1).toUpperCase() + str.substring(1) : '';
+  return typeof str === 'string'
+    ? str.substring(0, 1).toUpperCase() + str.substring(1)
+    : str;
 }
 
 export function lcFirst(str?: string) {
