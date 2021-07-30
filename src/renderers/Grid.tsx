@@ -52,7 +52,7 @@ export type GridColumnObject = {
   columnClassName?: SchemaClassName;
 };
 
-export type GridColumn = GridColumnObject & SchemaObject;
+export type GridColumn = GridColumnObject;
 export type ColumnNode = GridColumn;
 export interface ColumnArray extends Array<ColumnNode> {}
 
