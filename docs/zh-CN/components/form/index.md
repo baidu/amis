@@ -96,7 +96,7 @@ order: 24
 "horizontal": {
     "left": 2,
     "right": 10,
-    "offset": 2
+    "leftFixed": 2
 }
 ```
 
@@ -108,7 +108,7 @@ order: 24
     "horizontal": {
       "left": 2,
       "right": 10,
-      "offset": 2
+      "leftFixed": 2
     },
     "body": [
       {
