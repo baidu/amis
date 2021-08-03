@@ -16,6 +16,7 @@ import {ImageControlRenderer} from './renderers/Form/InputImage';
 import {RichTextControlRenderer} from './renderers/Form/InputRichText';
 import isPlainObject from 'lodash/isPlainObject';
 import {GridRenderer} from './renderers/Grid';
+import {HBoxRenderer} from './renderers/HBox';
 
 // 兼容老的用法，老用法 label 用在 checkbox 的右侧内容，新用法用 option 来代替。
 addSchemaFilter(function CheckboxPropsFilter(schema: Schema, renderer) {
@@ -311,7 +312,17 @@ addSchemaFilter(function (scheam: Schema, renderer) {
             ]
           };
         } else if (item.type) {
-          let {xs, sm, md, lg, body, ...rest} = item;
+          let {
+            xs,
+            sm,
+            md,
+            lg,
+            body,
+            columnClassName,
+            mode,
+            horizontal,
+            ...rest
+          } = item;
           body = Array.isArray(body) ? body.concat() : body ? [body] : [];
           body.push(rest);
           item = {
@@ -319,6 +330,55 @@ addSchemaFilter(function (scheam: Schema, renderer) {
             sm,
             md,
             lg,
+            columnClassName,
+            mode,
+            horizontal,
+            body
+          };
+        }
+
+        return item;
+      })
+    };
+  }
+
+  return scheam;
+});
+
+// Hbox 一些旧格式的兼容
+addSchemaFilter(function (scheam: Schema, renderer) {
+  if (renderer.component !== HBoxRenderer) {
+    return scheam;
+  }
+
+  if (Array.isArray(scheam.columns) && scheam.columns.some(item => item.type)) {
+    scheam = {
+      ...scheam,
+      columns: scheam.columns.map(item => {
+        let {
+          width,
+          height,
+          style,
+          columnClassName,
+          mode,
+          horizontal,
+          visible,
+          visibleOn,
+          body,
+          ...rest
+        } = item;
+        if (item.type) {
+          body = Array.isArray(body) ? body.concat() : body ? [body] : [];
+          body.push(rest);
+          item = {
+            width,
+            height,
+            style,
+            columnClassName,
+            mode,
+            horizontal,
+            visible,
+            visibleOn,
             body
           };
         }

@@ -3,7 +3,12 @@ import {Renderer, RendererProps} from '../factory';
 import {Api, SchemaNode, Schema, Action} from '../types';
 import cx from 'classnames';
 import {isVisible} from '../utils/helper';
-import {BaseSchema, SchemaObject} from '../Schema';
+import {
+  BaseSchema,
+  SchemaCollection,
+  SchemaExpression,
+  SchemaObject
+} from '../Schema';
 import {FormSchemaHorizontal} from './Form/index';
 
 export type HBoxColumnObject = {
@@ -37,9 +42,25 @@ export type HBoxColumnObject = {
    * 如果是水平排版，这个属性可以细化水平排版的左右宽度占比。
    */
   horizontal?: FormSchemaHorizontal;
+
+  /**
+   * 内容区
+   */
+  body?: SchemaCollection;
+
+  /**
+   * 是否显示
+   */
+
+  visible?: boolean;
+
+  /**
+   * 是否显示表达式
+   */
+  visibleOn?: SchemaExpression;
 };
 
-export type HBoxColumn = HBoxColumnObject & SchemaObject; // 不能用 SchemaObject 呢，会报错
+export type HBoxColumn = HBoxColumnObject;
 
 /**
  * Hbox 水平布局渲染器。
@@ -96,7 +117,7 @@ export default class HBox extends React.Component<HBoxProps, object> {
       formHorizontal
     } = this.props;
 
-    if (!isVisible(column, data)) {
+    if (!isVisible(column, data) || !column) {
       return null;
     }
 
@@ -114,15 +135,11 @@ export default class HBox extends React.Component<HBoxProps, object> {
       >
         {itemRender
           ? itemRender(column, key, length, this.props)
-          : this.renderChild(
-              `column/${key}`,
-              column.type ? column : (column as any).body,
-              {
-                formMode: column.mode || subFormMode || formMode,
-                formHorizontal:
-                  column.horizontal || subFormHorizontal || formHorizontal
-              }
-            )}
+          : this.renderChild(`column/${key}`, (column as any).body, {
+              formMode: column.mode || subFormMode || formMode,
+              formHorizontal:
+                column.horizontal || subFormHorizontal || formHorizontal
+            })}
       </div>
     );
   }
