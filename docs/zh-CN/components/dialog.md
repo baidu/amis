@@ -268,13 +268,13 @@ Dialog 弹框 主要由 [Action](./action) 触发，主要展示一个对话框�
         "title": "弹框",
         "body": [
           {
-            "type": "action",
+            "type": "button",
             "label": "默认的 ajax 请求",
             "actionType": "ajax",
             "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm?waitSeconds=1"
           },
           {
-            "type": "action",
+            "type": "button",
             "label": "ajax 请求成功后关闭弹框",
             "actionType": "ajax",
             "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm?waitSeconds=1",
