@@ -694,6 +694,15 @@ export const components = [
           )
       },
       {
+        label: 'InputTimeRange 时间',
+        path: '/zh-CN/components/form/input-time-range',
+        getComponent: () =>
+          // @ts-ignore
+          import('../../docs/zh-CN/components/form/input-time-range.md').then(
+            makeMarkdownRenderer
+          )
+      },
+      {
         label: 'Transfer 穿梭器',
         path: '/zh-CN/components/form/transfer',
         getComponent: () =>
