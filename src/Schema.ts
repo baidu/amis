@@ -218,6 +218,7 @@ export type SchemaType =
   | 'input-year'
   | 'input-month'
   | 'input-date-range'
+  | 'input-time-range'
   | 'input-datetime-range'
   | 'diff-editor'
 
