@@ -88,7 +88,7 @@
   .#{$ns}Form-groupColumn {
     flex-basis: 0;
     flex-grow: 1;
-    width: 0;
+    width: 100%;
     max-width: 100%;
     margin-bottom: 0;
   }
@@ -99,5 +99,12 @@
       max-width: percentage($i / $Form--horizontal-columns);
       min-height: 1px;
     }
+  }
+
+  .#{$ns}Form-groupColumn--auto {
+    flex: 0 0 auto;
+    width: auto;
+    max-width: 100%;
+    min-height: 1px;
   }
 }

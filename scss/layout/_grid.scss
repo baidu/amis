@@ -14,7 +14,7 @@
     flex-grow: 1;
     min-height: 1px;
     max-width: 100%;
-    width: 0; // 很重要，没有的话会被撑开。
+    width: 100%;
     padding-left: ($Grid-gutterWidth / 2);
     padding-right: ($Grid-gutterWidth / 2);
   }

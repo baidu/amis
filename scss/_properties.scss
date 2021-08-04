@@ -631,7 +631,7 @@
   --Form-input-onHover-iconColor: #{darken($gray600, 20%)};
   --Form-input-onHover-bg: #{rgba($white, 0.6)};
   --Form-input-onHover-borderColor: var(--Form-input-onFocused-borderColor);
-  --Form-input-paddingX: #{px2rem(12px)};
+  --Form-input-paddingX: #{px2rem(8px)};
   --Form-input-paddingY: calc(
     (
         var(--Form-input-height) - var(--Form-input-lineHeight) *
