@@ -186,6 +186,7 @@ export default class SubFormControl extends React.PureComponent<
       'name',
       'size',
       'closeOnEsc',
+      'closeOnOutside',
       'showCloseButton',
       'bodyClassName',
       'type'

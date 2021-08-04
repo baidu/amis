@@ -226,6 +226,12 @@ export function embed(
         return;
       }
 
+      // 主要是支持 nav 中的跳转
+      if (action && to && action.target) {
+        window.open(to, action.target);
+        return;
+      }
+
       if (/^https?:\/\//.test(to)) {
         window.location.replace(to);
       } else {
@@ -323,9 +329,11 @@ export function embed(
           position={(env && env.toastPosition) || 'top-right'}
           closeButton={false}
           timeout={5000}
+          locale={props?.locale}
           theme={env?.theme}
         />
         <AlertComponent
+          locale={props?.locale}
           theme={env?.theme}
           container={() => env?.getModalContainer?.() || container}
         />

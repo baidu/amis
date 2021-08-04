@@ -68,20 +68,14 @@ export default class ChainedSelectControl extends React.Component<
       : this.props.addHook?.(this.loadMore, 'init');
   }
 
-  componentWillReceiveProps(nextProps: ChainedSelectProps) {
-    const props = this.props;
-
-    if (props.options !== nextProps.options) {
-      this.setState({
-        stack: []
-      });
-    }
-  }
-
   componentDidUpdate(prevProps: ChainedSelectProps) {
     const props = this.props;
 
-    if (props.formInited && props.value !== prevProps.value) {
+    if (prevProps.options !== props.options) {
+      this.setState({
+        stack: []
+      });
+    } else if (props.formInited && props.value !== prevProps.value) {
       this.loadMore();
     }
   }

@@ -1,5 +1,6 @@
 import isPlainObject from 'lodash/isPlainObject';
 import isEqual from 'lodash/isEqual';
+import isNaN from 'lodash/isNaN';
 import uniq from 'lodash/uniq';
 import {Schema, PlainObject, FunctionPropertyNames} from '../types';
 import {evalExpression} from './tpl';
@@ -12,6 +13,7 @@ import {
   resolveVariable,
   resolveVariableAndFilter
 } from './tpl-builtin';
+import {isObservable} from 'mobx';
 
 // 方便取值的时候能够把上层的取到，但是获取的时候不会全部把所有的数据获取到。
 export function createObject(
@@ -295,7 +297,8 @@ export function isObjectShallowModified(
   prev: any,
   next: any,
   strictMode: boolean = true,
-  ignoreUndefined: boolean = false
+  ignoreUndefined: boolean = false,
+  statck: Array<any> = []
 ): boolean {
   if (Array.isArray(prev) && Array.isArray(next)) {
     return prev.length !== next.length
@@ -305,14 +308,19 @@ export function isObjectShallowModified(
             prev,
             next[index],
             strictMode,
-            ignoreUndefined
+            ignoreUndefined,
+            statck
           )
         );
+  } else if (isNaN(prev) && isNaN(next)) {
+    return false;
   } else if (
     null == prev ||
     null == next ||
     !isObject(prev) ||
-    !isObject(next)
+    !isObject(next) ||
+    isObservable(prev) ||
+    isObservable(next)
   ) {
     return strictMode ? prev !== next : prev != next;
   }
@@ -330,12 +338,23 @@ export function isObjectShallowModified(
   ) {
     return true;
   }
+
+  // 避免循环引用死循环。
+  if (~statck.indexOf(prev)) {
+    return false;
+  }
+  statck.push(prev);
+
   for (let i: number = keys.length - 1; i >= 0; i--) {
     let key = keys[i];
     if (
-      strictMode
-        ? next[key] !== prev[key]
-        : isObjectShallowModified(next[key], prev[key], false, ignoreUndefined)
+      isObjectShallowModified(
+        prev[key],
+        next[key],
+        strictMode,
+        ignoreUndefined,
+        statck
+      )
     ) {
       return true;
     }
@@ -559,7 +578,7 @@ export function promisify<T extends Function>(
       }
       return Promise.resolve(ret);
     } catch (e) {
-      Promise.reject(e);
+      return Promise.reject(e);
     }
   };
   (promisified as any).raw = fn;
@@ -1181,7 +1200,9 @@ export function getTreeParent<T extends TreeItem>(tree: Array<T>, value: T) {
 }
 
 export function ucFirst(str?: string) {
-  return str ? str.substring(0, 1).toUpperCase() + str.substring(1) : '';
+  return typeof str === 'string'
+    ? str.substring(0, 1).toUpperCase() + str.substring(1)
+    : str;
 }
 
 export function lcFirst(str?: string) {

@@ -12,11 +12,12 @@ import {
   isObjectShallowModified,
   syncDataFromSuper
 } from './utils/helper';
+import {dataMapping} from './utils/tpl-builtin';
 import {RootStoreContext} from './WithRootStore';
 
 export function HocStoreFactory(renderer: {
   storeType: string;
-  extendsData?: boolean;
+  extendsData?: boolean | ((props: any) => boolean);
   shouldSyncSuperStore?: (
     store: any,
     props: any,
@@ -44,6 +45,78 @@ export function HocStoreFactory(renderer: {
       context!: React.ContextType<typeof RootStoreContext>;
       ref: any;
 
+      constructor(
+        props: Props,
+        context: React.ContextType<typeof RootStoreContext>
+      ) {
+        super(props);
+
+        const rootStore = context;
+        this.renderChild = this.renderChild.bind(this);
+        this.refFn = this.refFn.bind(this);
+
+        const store = rootStore.addStore({
+          id: guid(),
+          path: this.props.$path,
+          storeType: renderer.storeType,
+          parentId: this.props.store ? this.props.store.id : ''
+        }) as IIRendererStore;
+        this.store = store;
+
+        const extendsData =
+          typeof renderer.extendsData === 'function'
+            ? renderer.extendsData(props)
+            : renderer.extendsData;
+
+        if (extendsData === false) {
+          store.initData(
+            createObject(
+              (this.props.data as any)
+                ? (this.props.data as any).__super
+                : null,
+              {
+                ...this.formatData(
+                  dataMapping(this.props.defaultData, this.props.data)
+                ),
+                ...this.formatData(this.props.data)
+              }
+            )
+          );
+        } else if (
+          this.props.scope ||
+          (this.props.data && (this.props.data as any).__super)
+        ) {
+          if (this.props.store && this.props.data === this.props.store.data) {
+            store.initData(
+              createObject(this.props.store.data, {
+                ...this.formatData(
+                  dataMapping(this.props.defaultData, this.props.data)
+                )
+              })
+            );
+          } else {
+            store.initData(
+              createObject(
+                (this.props.data as any).__super || this.props.scope,
+                {
+                  ...this.formatData(
+                    dataMapping(this.props.defaultData, this.props.data)
+                  ),
+                  ...this.formatData(this.props.data)
+                }
+              )
+            );
+          }
+        } else {
+          store.initData({
+            ...this.formatData(
+              dataMapping(this.props.defaultData, this.props.data)
+            ),
+            ...this.formatData(this.props.data)
+          });
+        }
+      }
+
       getWrappedInstance() {
         return this.ref;
       }
@@ -62,60 +135,6 @@ export function HocStoreFactory(renderer: {
         return data as object;
       }
 
-      componentWillMount() {
-        const rootStore = this.context;
-        this.renderChild = this.renderChild.bind(this);
-        this.refFn = this.refFn.bind(this);
-
-        const store = rootStore.addStore({
-          id: guid(),
-          path: this.props.$path,
-          storeType: renderer.storeType,
-          parentId: this.props.store ? this.props.store.id : ''
-        }) as IIRendererStore;
-        this.store = store;
-
-        if (renderer.extendsData === false) {
-          store.initData(
-            createObject(
-              (this.props.data as any)
-                ? (this.props.data as any).__super
-                : null,
-              {
-                ...this.formatData(this.props.defaultData),
-                ...this.formatData(this.props.data)
-              }
-            )
-          );
-        } else if (
-          this.props.scope ||
-          (this.props.data && (this.props.data as any).__super)
-        ) {
-          if (this.props.store && this.props.data === this.props.store.data) {
-            store.initData(
-              createObject(this.props.store.data, {
-                ...this.formatData(this.props.defaultData)
-              })
-            );
-          } else {
-            store.initData(
-              createObject(
-                (this.props.data as any).__super || this.props.scope,
-                {
-                  ...this.formatData(this.props.defaultData),
-                  ...this.formatData(this.props.data)
-                }
-              )
-            );
-          }
-        } else {
-          store.initData({
-            ...this.formatData(this.props.defaultData),
-            ...this.formatData(this.props.data)
-          });
-        }
-      }
-
       componentDidUpdate(prevProps: RendererProps) {
         const props = this.props;
         const store = this.store;
@@ -129,7 +148,11 @@ export function HocStoreFactory(renderer: {
           return;
         }
 
-        if (renderer.extendsData === false) {
+        const extendsData =
+          typeof renderer.extendsData === 'function'
+            ? renderer.extendsData(props)
+            : renderer.extendsData;
+        if (extendsData === false) {
           if (
             shouldSync === true ||
             prevProps.defaultData !== props.defaultData ||
@@ -171,7 +194,17 @@ export function HocStoreFactory(renderer: {
               )
             );
           } else if (props.data && (props.data as any).__super) {
-            store.initData(extendObject(props.data));
+            store.initData(
+              extendObject(
+                props.data,
+                store.hasRemoteData
+                  ? {
+                      ...store.data,
+                      ...props.data
+                    }
+                  : undefined
+              )
+            );
           } else {
             store.initData(createObject(props.scope, props.data));
           }
@@ -207,6 +240,8 @@ export function HocStoreFactory(renderer: {
           props.data === props.store!.data &&
           (shouldSync === true || prevProps.data !== props.data)
         ) {
+          // 只有父级数据变动的时候才应该进来，
+          // 目前看来这个 case 很少有情况下能进来
           store.initData(
             createObject(props.scope, {
               // ...nextProps.data,

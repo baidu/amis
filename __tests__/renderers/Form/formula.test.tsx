@@ -2,7 +2,7 @@ import React = require('react');
 import {render, fireEvent} from '@testing-library/react';
 import '../../../src/themes/default';
 import {render as amisRender} from '../../../src/index';
-import {makeEnv} from '../../helper';
+import {makeEnv, wait} from '../../helper';
 
 test('Renderer:formula', async () => {
   const {container} = render(
@@ -76,6 +76,7 @@ test('Renderer:formula', async () => {
       value: 2
     }
   });
+  await wait(100);
   expect(inputs[2].value).toBe('3');
   expect(inputs[3].value).toBe('4');
   expect(inputs[4].value).toBe('5');

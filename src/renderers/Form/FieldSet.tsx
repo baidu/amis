@@ -1,4 +1,5 @@
 import React from 'react';
+import {FormSchemaHorizontal} from './index';
 import {Renderer, RendererProps} from '../../factory';
 import {SchemaCollection, SchemaTpl} from '../../Schema';
 import Collapse, {CollapseSchema} from '../Collapse';
@@ -55,6 +56,15 @@ export interface FieldSetControlSchema
    * 卡片隐藏就销毁内容。
    */
   unmountOnExit?: boolean;
+
+  /**
+   * 配置子表单项默认的展示方式。
+   */
+  subFormMode?: 'normal' | 'inline' | 'horizontal';
+  /**
+   * 如果是水平排版，这个属性可以细化水平排版的左右宽度占比。
+   */
+  subFormHorizontal?: FormSchemaHorizontal;
 }
 
 export interface FieldSetProps
@@ -90,14 +100,20 @@ export default class FieldSetControl extends React.Component<
       classnames: cx,
       store,
       formClassName,
-      disabled
+      disabled,
+
+      formHorizontal,
+      subFormMode,
+      subFormHorizontal
     } = this.props;
 
     let props: any = {
       store,
       data: store!.data,
       render,
-      disabled
+      disabled,
+      formMode: subFormMode || formMode,
+      formHorizontal: subFormHorizontal || formHorizontal
     };
     mode && (props.mode = mode);
     typeof collapsable !== 'undefined' && (props.collapsable = collapsable);
@@ -110,7 +126,7 @@ export default class FieldSetControl extends React.Component<
           formClassName
         )}
       >
-        {body ? render('fieldSet', body, props) : null}
+        {body ? render('body', body, props) : null}
       </div>
     );
   }
@@ -132,7 +148,7 @@ export default class FieldSetControl extends React.Component<
 }
 
 @Renderer({
-  test: /(^|\/)fieldSet$/i,
+  type: 'fieldset',
   weight: -100,
   name: 'fieldset'
 })

@@ -549,7 +549,7 @@ export default class FormTable extends React.Component<TableProps, TableState> {
               }
             };
       });
-    } else if (props.editable) {
+    } else if (props.addable || props.editable) {
       columns = columns.map(column => {
         const quickEdit =
           !isCreateMode && column.hasOwnProperty('quickEditOnUpdate')
@@ -789,6 +789,7 @@ export default class FormTable extends React.Component<TableProps, TableState> {
       addable,
       columnsTogglable,
       combineNum,
+      combineFromIndex,
       translate: __,
       canAccessSuperData,
       expandConfig,
@@ -828,6 +829,7 @@ export default class FormTable extends React.Component<TableProps, TableState> {
             quickEditFormRef: this.subFormRef,
             columnsTogglable: columnsTogglable,
             combineNum: combineNum,
+            combineFromIndex: combineFromIndex,
             expandConfig,
             canAccessSuperData
           }

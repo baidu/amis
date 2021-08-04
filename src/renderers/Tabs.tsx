@@ -22,6 +22,7 @@ import {
 import {ActionSchema} from './Action';
 import {filter} from '../utils/tpl';
 import {resolveVariable, tokenize} from '../utils/tpl-builtin';
+import {FormSchemaHorizontal} from './Form/index';
 
 export interface TabSchema extends Omit<BaseSchema, 'type'> {
   /**
@@ -71,6 +72,15 @@ export interface TabSchema extends Omit<BaseSchema, 'type'> {
    * 卡片隐藏就销毁卡片节点。
    */
   unmountOnExit?: boolean;
+
+  /**
+   * 配置子表单项默认的展示方式。
+   */
+  mode?: 'normal' | 'inline' | 'horizontal';
+  /**
+   * 如果是水平排版，这个属性可以细化水平排版的左右宽度占比。
+   */
+  horizontal?: FormSchemaHorizontal;
 }
 
 /**
@@ -106,6 +116,11 @@ export interface TabsSchema extends BaseSchema {
   contentClassName?: SchemaClassName;
 
   /**
+   * 链接外层类名
+   */
+  linksClassName?: SchemaClassName;
+
+  /**
    * 卡片是否只有在点开的时候加载？
    */
   mountOnEnter?: boolean;
@@ -119,6 +134,15 @@ export interface TabsSchema extends BaseSchema {
    * 可以在右侧配置点其他功能按钮。
    */
   toolbar?: ActionSchema;
+
+  /**
+   * 配置子表单项默认的展示方式。
+   */
+  subFormMode?: 'normal' | 'inline' | 'horizontal';
+  /**
+   * 如果是水平排版，这个属性可以细化水平排版的左右宽度占比。
+   */
+  subFormHorizontal?: FormSchemaHorizontal;
 }
 
 export interface TabsProps
@@ -153,14 +177,18 @@ export default class Tabs extends React.Component<TabsProps, TabsState> {
     let activeKey: any = 0;
 
     if (typeof props.activeKey !== 'undefined') {
-      activeKey =
-        typeof props.activeKey === 'string'
-          ? tokenize(props.activeKey, props.data)
-          : props.activeKey;
+      activeKey = props.activeKey;
     } else if (location && Array.isArray(tabs)) {
       const hash = location.hash.substring(1);
       const tab: TabSchema = find(tabs, tab => tab.hash === hash) as TabSchema;
-      activeKey = tab && tab.hash ? tab.hash : (tabs[0] && tabs[0].hash) || 0;
+
+      if (tab) {
+        activeKey = tab.hash;
+      } else if (props.defaultActiveKey) {
+        activeKey = tokenize(props.defaultActiveKey, props.data);
+      }
+
+      activeKey = activeKey || (tabs[0] && tabs[0].hash) || 0;
     }
 
     this.state = {
@@ -217,7 +245,12 @@ export default class Tabs extends React.Component<TabsProps, TabsState> {
           prevKey: this.state.activeKey
         });
       }
-    } else if (preProps.tabs !== props.tabs) {
+    } else if (
+      Array.isArray(props.tabs) &&
+      Array.isArray(preProps.tabs) &&
+      JSON.stringify(props.tabs.map(item => item.hash)) !==
+        JSON.stringify(preProps.tabs.map(item => item.hash))
+    ) {
       let activeKey: any = this.state.activeKey;
       const location = props.location;
       let tab: TabSchema | null = null;
@@ -390,6 +423,7 @@ export default class Tabs extends React.Component<TabsProps, TabsState> {
       classnames: cx,
       classPrefix: ns,
       contentClassName,
+      linksClassName,
       tabRender,
       className,
       render,
@@ -398,7 +432,11 @@ export default class Tabs extends React.Component<TabsProps, TabsState> {
       tabsMode,
       unmountOnExit,
       source,
-      formStore
+      formStore,
+      formMode,
+      formHorizontal,
+      subFormMode,
+      subFormHorizontal
     } = this.props;
 
     const mode = tabsMode || dMode;
@@ -446,9 +484,12 @@ export default class Tabs extends React.Component<TabsProps, TabsState> {
               >
                 {render(
                   `item/${index}/${tabIndex}`,
-                  tab.tab || tab.body || '',
+                  (tab as any)?.type ? (tab as any) : tab.tab || tab.body,
                   {
-                    data: ctx
+                    data: ctx,
+                    formMode: tab.mode || subFormMode || formMode,
+                    formHorizontal:
+                      tab.horizontal || subFormHorizontal || formHorizontal
                   }
                 )}
               </Tab>
@@ -478,7 +519,15 @@ export default class Tabs extends React.Component<TabsProps, TabsState> {
               ? this.renderTab(tab, this.props, index)
               : tabRender
               ? tabRender(tab, this.props, index)
-              : render(`tab/${index}`, tab.tab || tab.body || '')}
+              : render(
+                  `tab/${index}`,
+                  (tab as any)?.type ? (tab as any) : tab.tab || tab.body,
+                  {
+                    formMode: tab.mode || subFormMode || formMode,
+                    formHorizontal:
+                      tab.horizontal || subFormHorizontal || formHorizontal
+                  }
+                )}
           </Tab>
         ) : null
       );
@@ -491,6 +540,7 @@ export default class Tabs extends React.Component<TabsProps, TabsState> {
         mode={mode}
         className={className}
         contentClassName={contentClassName}
+        linksClassName={linksClassName}
         onSelect={this.handleSelect}
         activeKey={this.state.activeKey}
         toolbar={this.renderToolbar()}
@@ -504,7 +554,6 @@ export default class Tabs extends React.Component<TabsProps, TabsState> {
     return this.renderTabs();
   }
 }
-
 @Renderer({
   type: 'tabs'
 })

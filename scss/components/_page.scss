@@ -22,9 +22,11 @@
 
   &-main > &-header {
     border-bottom: var(--borderWidth) solid var(--borderColor);
+    background: var(--Page-header-bg);
   }
 
   &-headerRow {
+    background: var(--Page-header-bg);
     border-bottom: var(--borderWidth) solid var(--borderColor);
 
     display: flex;

@@ -59,6 +59,7 @@ import {ActionSchema} from './Action';
 import {CardsSchema} from './Cards';
 import {ListSchema} from './List';
 import {TableSchema} from './Table';
+import {isPureVariable, resolveVariableAndFilter} from '../utils/tpl-builtin';
 
 export type CRUDBultinToolbarType =
   | 'columns-toggler'
@@ -394,7 +395,6 @@ export default class CRUD extends React.Component<CRUDProps, any> {
 
   control: any;
   lastQuery: any;
-  dataInvalid: boolean = false;
   timer: ReturnType<typeof setTimeout>;
   mounted: boolean;
   constructor(props: CRUDProps) {
@@ -421,9 +421,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
     this.renderHeaderToolbar = this.renderHeaderToolbar.bind(this);
     this.renderFooterToolbar = this.renderFooterToolbar.bind(this);
     this.clearSelection = this.clearSelection.bind(this);
-  }
 
-  componentWillMount() {
     const {
       location,
       store,
@@ -431,7 +429,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
       perPageField,
       syncLocation,
       loadDataOnce
-    } = this.props;
+    } = props;
 
     this.mounted = true;
 
@@ -455,6 +453,16 @@ export default class CRUD extends React.Component<CRUDProps, any> {
       !!this.props.filterTogglable,
       this.props.filterDefaultVisible
     );
+
+    // 如果有 api，data 里面先写个 空数组，面得继承外层的 items
+    // 比如 crud 打开一个弹框，里面也是个 crud，默认一开始其实显示
+    // 的是外层 crud 的数据，等接口回来后就会变成新的。
+    // 加上这个就是为了解决这种情况
+    if (this.props.api) {
+      this.props.store.updateData({
+        items: []
+      });
+    }
   }
 
   componentDidMount() {
@@ -473,15 +481,15 @@ export default class CRUD extends React.Component<CRUDProps, any> {
     }
   }
 
-  componentWillReceiveProps(nextProps: CRUDProps) {
+  componentDidUpdate(prevProps: CRUDProps) {
     const props = this.props;
-    const store = props.store;
+    const store = prevProps.store;
 
     if (
       anyChanged(
         ['toolbar', 'headerToolbar', 'footerToolbar', 'bulkActions'],
-        props,
-        nextProps
+        prevProps,
+        props
       )
     ) {
       // 来点参数变化。
@@ -489,57 +497,69 @@ export default class CRUD extends React.Component<CRUDProps, any> {
       this.renderFooterToolbar = this.renderFooterToolbar.bind(this);
     }
 
-    if (this.props.pickerMode && this.props.value !== nextProps.value) {
-      store.setSelectedItems(nextProps.value);
+    if (this.props.pickerMode && this.props.value !== props.value) {
+      store.setSelectedItems(props.value);
     }
 
-    if (this.props.filterTogglable !== nextProps.filterTogglable) {
+    if (this.props.filterTogglable !== props.filterTogglable) {
       store.setFilterTogglable(
-        !!nextProps.filterTogglable,
-        nextProps.filterDefaultVisible
+        !!props.filterTogglable,
+        props.filterDefaultVisible
       );
     }
 
+    let dataInvalid = false;
+
     if (
-      props.syncLocation &&
-      props.location &&
-      props.location.search !== nextProps.location.search
+      prevProps.syncLocation &&
+      prevProps.location &&
+      prevProps.location.search !== props.location.search
     ) {
       // 同步地址栏，那么直接检测 query 是否变了，变了就重新拉数据
       store.updateQuery(
-        qs.parse(nextProps.location.search.substring(1)),
+        qs.parse(props.location.search.substring(1)),
         undefined,
-        nextProps.pageField,
-        nextProps.perPageField
+        props.pageField,
+        props.perPageField
       );
-      this.dataInvalid = isObjectShallowModified(
-        store.query,
-        this.lastQuery,
-        false
+      dataInvalid = !!(
+        props.api && isObjectShallowModified(store.query, this.lastQuery, false)
       );
+    }
+
+    if (dataInvalid) {
+      // 要同步数据
     } else if (
+      prevProps.api &&
       props.api &&
-      nextProps.api &&
       isApiOutdated(
+        prevProps.api,
         props.api,
-        nextProps.api,
+        store.fetchCtxOf(prevProps.data, {
+          pageField: prevProps.pageField,
+          perPageField: prevProps.perPageField
+        }),
         store.fetchCtxOf(props.data, {
           pageField: props.pageField,
           perPageField: props.perPageField
-        }),
-        store.fetchCtxOf(nextProps.data, {
-          pageField: nextProps.pageField,
-          perPageField: nextProps.perPageField
         })
       )
     ) {
-      this.dataInvalid = true;
-    }
-  }
+      dataInvalid = true;
+    } else if (!props.api && isPureVariable(props.source)) {
+      const prev = resolveVariableAndFilter(
+        prevProps.source,
+        prevProps.data,
+        '| raw'
+      );
+      const next = resolveVariableAndFilter(props.source, props.data, '| raw');
 
-  componentDidUpdate() {
-    if (this.dataInvalid) {
-      this.dataInvalid = false;
+      if (prev !== next) {
+        store.initFromScope(props.data, props.source);
+      }
+    }
+
+    if (dataInvalid) {
       this.search();
     }
   }
@@ -2029,6 +2049,10 @@ export default class CRUD extends React.Component<CRUDProps, any> {
               },
               {
                 key: 'filter',
+                panelClassName: cx(
+                  'Crud-filter',
+                  filter.panelClassName || 'Panel--default'
+                ),
                 data: store.filterData,
                 onReset: this.handleFilterReset,
                 onSubmit: this.handleFilterSubmit,
@@ -2114,15 +2138,16 @@ export default class CRUD extends React.Component<CRUDProps, any> {
 
 @Renderer({
   type: 'crud',
-  storeType: CRUDStore.name
+  storeType: CRUDStore.name,
+  isolateScope: true
 })
 export class CRUDRenderer extends CRUD {
   static contextType = ScopedContext;
 
-  componentWillMount() {
-    super.componentWillMount();
+  constructor(props: CRUDProps, context: IScopedContext) {
+    super(props);
 
-    const scoped = this.context as IScopedContext;
+    const scoped = context;
     scoped.registerComponent(this);
   }
 
@@ -2130,6 +2155,27 @@ export class CRUDRenderer extends CRUD {
     super.componentWillUnmount();
     const scoped = this.context as IScopedContext;
     scoped.unRegisterComponent(this);
+  }
+
+  reload(subpath?: string, query?: any, ctx?: any) {
+    const scoped = this.context as IScopedContext;
+    if (subpath) {
+      return scoped.reload(
+        query ? `${subpath}?${qsstringify(query)}` : subpath,
+        ctx
+      );
+    }
+
+    return super.reload(subpath, query);
+  }
+
+  receive(values: any, subPath?: string) {
+    const scoped = this.context as IScopedContext;
+    if (subPath) {
+      return scoped.send(subPath, values);
+    }
+
+    return super.receive(values);
   }
 
   reloadTarget(target: string, data: any) {

@@ -123,20 +123,16 @@ export default class PickerControl extends React.PureComponent<
     this.fetchOptions();
   }
 
-  componentWillReceiveProps(nextProps: PickerProps) {
-    const props = this.props;
-
-    if (anyChanged(['pickerSchema', 'multiple', 'source'], props, nextProps)) {
-      this.setState({
-        schema: this.buildSchema(nextProps)
-      });
-    }
-  }
-
   componentDidUpdate(prevProps: PickerProps) {
     const props = this.props;
 
-    if (JSON.stringify(props.value) !== JSON.stringify(prevProps.value)) {
+    if (anyChanged(['pickerSchema', 'multiple', 'source'], prevProps, props)) {
+      this.setState({
+        schema: this.buildSchema(props)
+      });
+    } else if (
+      JSON.stringify(props.value) !== JSON.stringify(prevProps.value)
+    ) {
       this.fetchOptions();
     } else if (
       isApiOutdated(prevProps.source, props.source, prevProps.data, props.data)

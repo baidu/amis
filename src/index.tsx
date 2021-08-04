@@ -160,10 +160,11 @@ import './renderers/AnchorNav';
 import './renderers/Steps';
 import './renderers/Markdown';
 import './renderers/TableView';
+import './renderers/Code';
 
 import Scoped, {ScopedContext} from './Scoped';
 
-import {FormItem, registerFormItem} from './renderers/Form/Item';
+import {FormItem, FormItemWrap, registerFormItem} from './renderers/Form/Item';
 
 // 兼容旧版本用法
 import './compat';
@@ -208,6 +209,7 @@ export {
   Renderer as Renderer,
   RegisterStore,
   FormItem,
+  FormItemWrap,
   OptionsControl,
   wrapFetcher,
   buildApi,

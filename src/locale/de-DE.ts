@@ -201,5 +201,8 @@ register('de-DE', {
   'Wizard.prev': 'Zurück',
   'Wizard.saveAndNext': 'Speichern & Weiter',
   'year-to-year': '{{from}} - {{to}}',
-  'Year.placeholder': 'Wählen Sie ein Jahr'
+  'Year.placeholder': 'Wählen Sie ein Jahr',
+  'rotate': 'Drehen',
+  'Editor.fullscreen': 'Schirmfüllend Modus',
+  'Editor.exitFullscreen': 'Zurücktreten Schirmfüllend Modus'
 });

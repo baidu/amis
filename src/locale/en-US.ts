@@ -201,5 +201,8 @@ register('en-US', {
   'Wizard.prev': 'Prev',
   'Wizard.saveAndNext': 'Save & Next',
   'year-to-year': '{{from}} - {{to}}',
-  'Year.placeholder': 'Select a Year'
+  'Year.placeholder': 'Select a Year',
+  'rotate': 'Rotate',
+  'Editor.fullscreen': 'full screen',
+  'Editor.exitFullscreen': 'exit fullscreen mode'
 });

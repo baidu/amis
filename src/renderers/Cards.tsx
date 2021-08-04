@@ -11,7 +11,11 @@ import {
   difference,
   ucFirst
 } from '../utils/helper';
-import {resolveVariable} from '../utils/tpl-builtin';
+import {
+  isPureVariable,
+  resolveVariable,
+  resolveVariableAndFilter
+} from '../utils/tpl-builtin';
 import Sortable from 'sortablejs';
 import {filter} from '../utils/tpl';
 import {Icon} from '../components/icons';
@@ -221,33 +225,7 @@ export default class Cards extends React.Component<GridProps, object> {
     //     trailing: true,
     //     leading: false
     // })
-  }
 
-  static syncItems(store: IListStore, props: GridProps, prevProps?: GridProps) {
-    const source = props.source;
-    const value = props.value || props.items;
-    let items: Array<object> = [];
-    let updateItems = true;
-
-    if (Array.isArray(value)) {
-      items = value;
-    } else if (typeof source === 'string') {
-      const resolved = resolveVariable(source, props.data);
-      const prev = prevProps ? resolveVariable(source, prevProps.data) : null;
-
-      if (prev && prev === resolved) {
-        updateItems = false;
-      } else if (Array.isArray(resolved)) {
-        items = resolved;
-      }
-    }
-
-    updateItems && store.initItems(items);
-    typeof props.selected !== 'undefined' &&
-      store.updateSelected(props.selected, props.valueField);
-  }
-
-  componentWillMount() {
     const {
       store,
       selectable,
@@ -258,7 +236,7 @@ export default class Cards extends React.Component<GridProps, object> {
       hideCheckToggler,
       itemCheckableOn,
       itemDraggableOn
-    } = this.props;
+    } = props;
 
     store.update({
       selectable,
@@ -271,8 +249,39 @@ export default class Cards extends React.Component<GridProps, object> {
       itemDraggableOn
     });
 
-    Cards.syncItems(store, this.props);
-    this.syncSelected();
+    Cards.syncItems(store, this.props) && this.syncSelected();
+  }
+
+  static syncItems(store: IListStore, props: GridProps, prevProps?: GridProps) {
+    const source = props.source;
+    const value = props.value || props.items;
+    let items: Array<object> = [];
+    let updateItems = false;
+
+    if (
+      Array.isArray(value) &&
+      (!prevProps || (prevProps.value || prevProps.items) !== value)
+    ) {
+      items = value;
+      updateItems = true;
+    } else if (typeof source === 'string') {
+      const resolved = resolveVariableAndFilter(source, props.data, '| raw');
+      const prev = prevProps
+        ? resolveVariableAndFilter(source, prevProps.data, '| raw')
+        : null;
+
+      if (prev && prev === resolved) {
+        updateItems = false;
+      } else if (Array.isArray(resolved)) {
+        items = resolved;
+        updateItems = true;
+      }
+    }
+
+    updateItems && store.initItems(items);
+    typeof props.selected !== 'undefined' &&
+      store.updateSelected(props.selected, props.valueField);
+    return updateItems;
   }
 
   componentDidMount() {
@@ -289,9 +298,9 @@ export default class Cards extends React.Component<GridProps, object> {
     window.addEventListener('resize', this.affixDetect);
   }
 
-  componentWillReceiveProps(nextProps: GridProps) {
+  componentDidUpdate(prevProps: GridProps) {
     const props = this.props;
-    const store = nextProps.store;
+    const store = props.store;
 
     if (
       anyChanged(
@@ -305,30 +314,32 @@ export default class Cards extends React.Component<GridProps, object> {
           'itemCheckableOn',
           'itemDraggableOn'
         ],
-        props,
-        nextProps
+        prevProps,
+        props
       )
     ) {
       store.update({
-        selectable: nextProps.selectable,
-        draggable: nextProps.draggable,
-        orderBy: nextProps.orderBy,
-        orderDir: nextProps.orderDir,
-        multiple: nextProps.multiple,
-        hideCheckToggler: nextProps.hideCheckToggler,
-        itemCheckableOn: nextProps.itemCheckableOn,
-        itemDraggableOn: nextProps.itemDraggableOn
+        selectable: props.selectable,
+        draggable: props.draggable,
+        orderBy: props.orderBy,
+        orderDir: props.orderDir,
+        multiple: props.multiple,
+        hideCheckToggler: props.hideCheckToggler,
+        itemCheckableOn: props.itemCheckableOn,
+        itemDraggableOn: props.itemDraggableOn
       });
     }
 
     if (
-      anyChanged(['source', 'value', 'items'], props, nextProps) ||
-      (!nextProps.value && !nextProps.items && nextProps.data !== props.data)
+      anyChanged(['source', 'value', 'items'], prevProps, props) ||
+      (!props.value &&
+        !props.items &&
+        (props.data !== prevProps.data ||
+          (typeof props.source === 'string' && isPureVariable(props.source))))
     ) {
-      Cards.syncItems(store, nextProps, props);
-      this.syncSelected();
-    } else if (props.selected !== nextProps.selected) {
-      store.updateSelected(nextProps.selected || [], nextProps.valueField);
+      Cards.syncItems(store, props, prevProps) && this.syncSelected();
+    } else if (prevProps.selected !== props.selected) {
+      store.updateSelected(props.selected || [], props.valueField);
     }
   }
 
@@ -892,12 +903,12 @@ export default class Cards extends React.Component<GridProps, object> {
       >
         {affixHeader ? (
           <div className={cx('Cards-fixedTop')}>
-            {heading}
             {header}
+            {heading}
           </div>
         ) : null}
-        {heading}
         {header}
+        {heading}
         {store.items.length ? (
           <div
             ref={this.itemsRef}

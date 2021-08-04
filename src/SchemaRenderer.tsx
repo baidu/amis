@@ -10,10 +10,12 @@ import {
   RendererProps,
   resolveRenderer
 } from './factory';
+import {asFormItem} from './renderers/Form/Item';
 import {renderChild, renderChildren} from './Root';
 import {Schema, SchemaNode} from './types';
 import getExprProperties from './utils/filter-schema';
 import {anyChanged, chainEvents} from './utils/helper';
+import {SimpleMap} from './utils/SimpleMap';
 
 interface SchemaRendererProps extends Partial<RendererProps> {
   schema: Schema;
@@ -41,14 +43,20 @@ const defaultOmitList = [
   'defaultData',
   'required',
   'requiredOn',
-  'syncSuperStore'
+  'syncSuperStore',
+  'mode',
+  'body'
 ];
+
+const componentCache: SimpleMap = new SimpleMap();
 
 export class SchemaRenderer extends React.Component<SchemaRendererProps, any> {
   static displayName: string = 'Renderer';
 
+  rendererKey = '';
   renderer: RendererConfig | null;
   ref: any;
+
   schema: any;
   path: string;
 
@@ -57,23 +65,7 @@ export class SchemaRenderer extends React.Component<SchemaRendererProps, any> {
     this.refFn = this.refFn.bind(this);
     this.renderChild = this.renderChild.bind(this);
     this.reRender = this.reRender.bind(this);
-  }
-
-  componentWillMount() {
     this.resolveRenderer(this.props);
-  }
-
-  componentDidUpdate(prevProps: SchemaRendererProps) {
-    const props = this.props;
-
-    if (
-      prevProps.schema &&
-      props.schema &&
-      (prevProps.schema.type !== props.schema.type ||
-        prevProps.schema.$$id !== props.schema.$$id)
-    ) {
-      this.resolveRenderer(props);
-    }
   }
 
   // 限制：只有 schema 除外的 props 变化，或者 schema 里面的某个成员值发生变化才更新。
@@ -104,7 +96,7 @@ export class SchemaRenderer extends React.Component<SchemaRendererProps, any> {
     return false;
   }
 
-  resolveRenderer(props: SchemaRendererProps, skipResolve = false): any {
+  resolveRenderer(props: SchemaRendererProps, force = false): any {
     let schema = props.schema;
     let path = props.$path;
 
@@ -117,9 +109,43 @@ export class SchemaRenderer extends React.Component<SchemaRendererProps, any> {
       path = path.replace(/(?!.*\/).*/, schema.type);
     }
 
-    if (!skipResolve) {
+    if (
+      schema?.type &&
+      (force ||
+        !this.renderer ||
+        this.rendererKey !== `${schema.type}-${schema.$$id}`)
+    ) {
       const rendererResolver = props.env.rendererResolver || resolveRenderer;
       this.renderer = rendererResolver(path, schema, props);
+      this.rendererKey = `${schema.type}-${schema.$$id}`;
+    } else {
+      // 自定义组件如果在节点设置了 label name 什么的，就用 formItem 包一层
+      // 至少自动支持了 valdiations, label, description 等逻辑。
+      if (schema.children && !schema.component && schema.asFormItem) {
+        schema.component = PlaceholderComponent;
+        schema.renderChildren = schema.children;
+        delete schema.children;
+      }
+
+      if (
+        schema.component &&
+        !schema.component.wrapedAsFormItem &&
+        schema.asFormItem
+      ) {
+        const cache = componentCache.get(schema.component);
+
+        if (cache) {
+          schema.component = cache;
+        } else {
+          const cache = asFormItem({
+            strictMode: false,
+            ...schema.asFormItem
+          })(schema.component);
+          componentCache.set(schema.component, cache);
+          cache.wrapedAsFormItem = true;
+          schema.component = cache;
+        }
+      }
     }
 
     return {path, schema};
@@ -141,13 +167,8 @@ export class SchemaRenderer extends React.Component<SchemaRendererProps, any> {
       [propName: string]: any;
     } = {}
   ) {
-    let {schema, $path, env, ...rest} = this.props;
-
-    if (schema && schema.$ref) {
-      const result = this.resolveRenderer(this.props, true);
-      schema = result.schema;
-      $path = result.path;
-    }
+    let {schema: _, $path: __, env, ...rest} = this.props;
+    let {path: $path} = this.resolveRenderer(this.props);
 
     const omitList = defaultOmitList.concat();
     if (this.renderer) {
@@ -165,23 +186,18 @@ export class SchemaRenderer extends React.Component<SchemaRendererProps, any> {
   }
 
   reRender() {
-    this.resolveRenderer(this.props);
+    this.resolveRenderer(this.props, true);
     this.forceUpdate();
   }
 
   render(): JSX.Element | null {
-    let {$path, schema, ...rest} = this.props;
+    let {$path: _, schema: __, ...rest} = this.props;
 
-    if (schema === null) {
+    if (__ == null) {
       return null;
     }
 
-    if (schema.$ref) {
-      const result = this.resolveRenderer(this.props, true);
-      schema = result.schema;
-      $path = result.path;
-    }
-
+    let {path: $path, schema} = this.resolveRenderer(this.props);
     const theme = this.props.env.theme;
 
     if (Array.isArray(schema)) {
@@ -222,12 +238,21 @@ export class SchemaRenderer extends React.Component<SchemaRendererProps, any> {
           });
     } else if (typeof schema.component === 'function') {
       const isSFC = !(schema.component.prototype instanceof React.Component);
+      const {
+        data: defaultData,
+        value: defaultValue,
+        activeKey: defaultActiveKey,
+        ...restSchema
+      } = schema;
       return rest.invisible
         ? null
         : React.createElement(schema.component as any, {
             ...rest,
+            ...restSchema,
             ...exprProps,
-            ...schema,
+            defaultData,
+            defaultValue,
+            defaultActiveKey,
             $path: $path,
             $schema: schema,
             ref: isSFC ? undefined : this.refFn,
@@ -265,7 +290,12 @@ export class SchemaRenderer extends React.Component<SchemaRendererProps, any> {
 
     const renderer = this.renderer as RendererConfig;
     schema = filterSchema(schema, renderer, rest);
-    const {data: defaultData, value: defaultValue, ...restSchema} = schema;
+    const {
+      data: defaultData,
+      value: defaultValue,
+      activeKey: defaultActiveKey,
+      ...restSchema
+    } = schema;
     const Component = renderer.component;
 
     // 原来表单项的 visible: false 和 hidden: true 表单项的值和验证是有效的
@@ -290,11 +320,24 @@ export class SchemaRenderer extends React.Component<SchemaRendererProps, any> {
         {...exprProps}
         defaultData={defaultData}
         defaultValue={defaultValue}
+        defaultActiveKey={defaultActiveKey}
         $path={$path}
-        $schema={schema}
+        $schema={{...schema, ...exprProps}}
         ref={this.refFn}
         render={this.renderChild}
       />
     );
+  }
+}
+
+class PlaceholderComponent extends React.Component {
+  render() {
+    const {renderChildren, ...rest} = this.props as any;
+
+    if (typeof renderChildren === 'function') {
+      return renderChildren(rest);
+    }
+
+    return null;
   }
 }

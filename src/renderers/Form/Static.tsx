@@ -6,6 +6,7 @@ import QuickEdit, {SchemaQuickEdit} from '../QuickEdit';
 import {Renderer} from '../../factory';
 import Copyable, {SchemaCopyable} from '../Copyable';
 import {extendObject} from '../../utils/helper';
+import omit = require('lodash/omit');
 import {SchemaObject, SchemaTpl, SchemaType} from '../../Schema';
 
 /**
@@ -58,20 +59,22 @@ export default class StaticControl extends React.Component<StaticProps, any> {
     this.handleQuickChange = this.handleQuickChange.bind(this);
   }
 
-  handleQuickChange(values: any, saveImmediately: boolean | any) {
+  async handleQuickChange(values: any, saveImmediately: boolean | any) {
     const {onBulkChange, onAction, data} = this.props;
 
-    onBulkChange(values, saveImmediately === true);
     if (saveImmediately && saveImmediately.api) {
-      onAction(
+      await onAction(
         null,
         {
           actionType: 'ajax',
           api: saveImmediately.api
         },
-        extendObject(data, values)
+        extendObject(data, values),
+        true
       );
     }
+
+    onBulkChange(values, saveImmediately === true);
   }
 
   render() {
@@ -85,6 +88,9 @@ export default class StaticControl extends React.Component<StaticProps, any> {
       data,
       classnames: cx,
       name,
+      disabled,
+      $schema,
+      defaultValue,
       ...rest
     } = this.props;
 
@@ -95,7 +101,7 @@ export default class StaticControl extends React.Component<StaticProps, any> {
     const field = {
       label,
       name,
-      ...rest,
+      ...$schema,
       type: subType
     };
 
@@ -107,10 +113,11 @@ export default class StaticControl extends React.Component<StaticProps, any> {
             name,
             render,
             field,
-            value,
+            value: value === defaultValue ? undefined : value,
             className,
             onQuickChange: this.handleQuickChange,
             data,
+            disabled,
             classnames: cx
           }}
         />
@@ -168,7 +175,7 @@ export class StaticFieldRenderer extends TableCell {
     let body = children
       ? children
       : render('field', schema, {
-          ...rest,
+          ...omit(rest, Object.keys(schema)),
           value,
           data
         });

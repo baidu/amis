@@ -89,7 +89,6 @@ export default class MatrixCheckbox extends React.Component<
   };
 
   state: MatrixState;
-  sourceInvalid: boolean = false;
   mounted: boolean = false;
 
   constructor(props: MatrixProps) {
@@ -104,59 +103,48 @@ export default class MatrixCheckbox extends React.Component<
     this.toggleItem = this.toggleItem.bind(this);
     this.reload = this.reload.bind(this);
     this.initOptions = this.initOptions.bind(this);
-  }
-
-  componentWillMount() {
     this.mounted = true;
   }
 
   componentDidMount() {
     const {formInited, addHook} = this.props;
 
-    formInited || !addHook
-      ? this.reload()
-      : addHook?.(this.initOptions, 'init');
+    formInited || !addHook ? this.reload() : addHook(this.initOptions, 'init');
   }
 
-  componentWillReceiveProps(nextProps: MatrixProps) {
+  componentDidUpdate(prevProps: MatrixProps) {
     const props = this.props;
 
-    if (props.columns !== nextProps.columns || props.rows !== nextProps.rows) {
+    if (prevProps.columns !== props.columns || prevProps.rows !== props.rows) {
       this.setState({
-        columns: nextProps.columns || [],
-        rows: nextProps.rows || []
+        columns: props.columns || [],
+        rows: props.rows || []
       });
     } else if (
-      nextProps.formInited &&
-      (nextProps.source !== props.source || props.data !== nextProps.data)
+      props.formInited &&
+      (props.source !== prevProps.source || prevProps.data !== props.data)
     ) {
-      let prevApi = buildApi(props.source as string, props.data as object, {
+      let prevApi = buildApi(
+        prevProps.source as string,
+        prevProps.data as object,
+        {
+          ignoreData: true
+        }
+      );
+      let nextApi = buildApi(props.source as string, props.data as object, {
         ignoreData: true
       });
-      let nextApi = buildApi(
-        nextProps.source as string,
-        nextProps.data as object,
-        {ignoreData: true}
-      );
 
       if (prevApi.url !== nextApi.url && isValidApi(nextApi.url)) {
-        this.sourceInvalid = true;
+        this.reload();
       }
-    }
-  }
-
-  componentDidUpdate() {
-    if (this.sourceInvalid) {
-      this.sourceInvalid = false;
-
-      this.reload();
     }
   }
 
   componentWillUnmount() {
     this.mounted = false;
     const {removeHook} = this.props;
-    removeHook(this.initOptions, 'init');
+    removeHook?.(this.initOptions, 'init');
   }
 
   async initOptions(data: any) {

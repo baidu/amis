@@ -10,6 +10,7 @@ import Transition, {ENTERED, ENTERING} from 'react-transition-group/Transition';
 import {themeable, ThemeProps} from '../theme';
 import {uncontrollable} from 'uncontrollable';
 import {generateIcon} from '../utils/icon';
+import {SchemaClassName} from '../Schema';
 
 const transitionStyles: {
   [propName: string]: string;
@@ -88,6 +89,7 @@ export interface TabsProps extends ThemeProps {
   onSelect?: (key: string | number) => void;
   activeKey?: string | number;
   contentClassName: string;
+  linksClassName?: SchemaClassName;
   className?: string;
   tabs?: Array<TabProps>;
   tabRender?: (tab: TabProps, props?: TabsProps) => JSX.Element;
@@ -219,7 +221,8 @@ export class Tabs extends React.Component<TabsProps> {
       tabsMode,
       children,
       additionBtns,
-      toolbar
+      toolbar,
+      linksClassName
     } = this.props;
 
     if (!Array.isArray(children)) {
@@ -238,7 +241,7 @@ export class Tabs extends React.Component<TabsProps> {
           className
         )}
       >
-        <ul className={cx('Tabs-links')} role="tablist">
+        <ul className={cx('Tabs-links', linksClassName)} role="tablist">
           {children.map((tab, index) => this.renderNav(tab, index))}
           {additionBtns}
           {toolbar}

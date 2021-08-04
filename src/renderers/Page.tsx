@@ -144,6 +144,12 @@ export interface PageSchema extends BaseSchema {
    * css 变量
    */
   cssVars?: any;
+
+  /**
+   * 默认不设置自动感觉内容来决定要不要展示这些区域
+   * 如果配置了，以配置为主。
+   */
+  regions?: Array<'aside' | 'body' | 'toolbar' | 'header'> | void;
 }
 
 export interface PageProps
@@ -186,8 +192,8 @@ export default class Page extends React.Component<PageProps> {
     'showErrorMsg'
   ];
 
-  componentWillMount() {
-    const {store, location} = this.props;
+  constructor(props: PageProps) {
+    super(props);
 
     // autobind 会让继承里面的 super 指向有问题，所以先这样！
     bulkBindFunctions<Page /*为毛 this 的类型自动识别不出来？*/>(this, [
@@ -258,7 +264,7 @@ export default class Page extends React.Component<PageProps> {
     ctx: object,
     throwErrors: boolean = false,
     delegate?: IScopedContext
-  ) {
+  ): any {
     const {env, store, messages, onAction} = this.props;
 
     if (action.actionType === 'dialog') {
@@ -269,7 +275,7 @@ export default class Page extends React.Component<PageProps> {
       store.openDrawer(ctx);
     } else if (action.actionType === 'ajax') {
       store.setCurrentAction(action);
-      store
+      return store
         .saveRemote(action.api as string, ctx, {
           successMessage:
             (action.messages && action.messages.success) ||
@@ -290,7 +296,7 @@ export default class Page extends React.Component<PageProps> {
         })
         .catch(() => {});
     } else {
-      onAction(e, action, ctx, throwErrors, delegate || this.context);
+      return onAction(e, action, ctx, throwErrors, delegate || this.context);
     }
   }
 
@@ -443,7 +449,9 @@ export default class Page extends React.Component<PageProps> {
       store,
       initApi,
       env,
-      classnames: cx
+      classnames: cx,
+      regions,
+      translate: __
     } = this.props;
 
     const subProps = {
@@ -452,7 +460,9 @@ export default class Page extends React.Component<PageProps> {
     };
     let header, right;
 
-    if (title || subTitle) {
+    if (
+      Array.isArray(regions) ? ~regions.indexOf('header') : title || subTitle
+    ) {
       header = (
         <div className={cx(`Page-header`, headerClassName)}>
           {title ? (
@@ -480,10 +490,10 @@ export default class Page extends React.Component<PageProps> {
       );
     }
 
-    if (toolbar) {
+    if (Array.isArray(regions) ? ~regions.indexOf('toolbar') : toolbar) {
       right = (
         <div className={cx(`Page-toolbar`, toolbarClassName)}>
-          {render('toolbar', toolbar, subProps)}
+          {render('toolbar', toolbar || '', subProps)}
         </div>
       );
     }
@@ -513,7 +523,9 @@ export default class Page extends React.Component<PageProps> {
       classnames: cx,
       header,
       showErrorMsg,
-      initApi
+      initApi,
+      regions,
+      translate: __
     } = this.props;
 
     const subProps = {
@@ -523,7 +535,9 @@ export default class Page extends React.Component<PageProps> {
       loading: store.loading
     };
 
-    const hasAside = aside && (!Array.isArray(aside) || aside.length);
+    const hasAside = Array.isArray(regions)
+      ? ~regions.indexOf('aside')
+      : aside && (!Array.isArray(aside) || aside.length);
 
     let cssVarsContent = '';
     if (cssVars) {
@@ -565,7 +579,7 @@ export default class Page extends React.Component<PageProps> {
 
         {hasAside ? (
           <div className={cx(`Page-aside`, asideClassName)}>
-            {render('aside', aside as any, {
+            {render('aside', aside || '', {
               ...subProps,
               ...(typeof aside === 'string'
                 ? {
@@ -578,7 +592,6 @@ export default class Page extends React.Component<PageProps> {
         ) : null}
 
         <div className={cx('Page-content')}>
-          {header ? render('header', header, subProps) : null}
           <div className={cx('Page-main')}>
             {this.renderHeader()}
             <div className={cx(`Page-body`, bodyClassName)}>
@@ -594,7 +607,9 @@ export default class Page extends React.Component<PageProps> {
                 </Alert>
               ) : null}
 
-              {body ? render('body', body, subProps) : null}
+              {(Array.isArray(regions) ? ~regions.indexOf('body') : body)
+                ? render('body', body || '', subProps)
+                : null}
             </div>
           </div>
         </div>
@@ -647,10 +662,10 @@ export default class Page extends React.Component<PageProps> {
 export class PageRenderer extends Page {
   static contextType = ScopedContext;
 
-  componentWillMount() {
-    super.componentWillMount();
+  constructor(props: PageProps, context: IScopedContext) {
+    super(props);
 
-    const scoped = this.context as IScopedContext;
+    const scoped = context;
     scoped.registerComponent(this);
   }
 

@@ -71,7 +71,10 @@ export class ContextMenu extends React.Component<
 
   menuRef: React.RefObject<HTMLDivElement> = React.createRef();
   originInstance: this | null;
-  componentWillMount() {
+
+  constructor(props: ContextMenuProps) {
+    super(props);
+
     this.originInstance = ContextMenu.instance;
     ContextMenu.instance = this;
   }

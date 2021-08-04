@@ -160,9 +160,13 @@ export default class RangeControl extends React.PureComponent<
     this.handleMaxInputChange = this.handleMaxInputChange.bind(this);
   }
 
-  componentWillReceiveProps(nextProps: RangeProps) {
-    const {value} = this.props;
-    const {value: nextPropsValue, multiple, delimiter, min, max} = nextProps;
+  componentDidMount() {
+    this.updateStyle();
+  }
+
+  componentDidUpdate(prevProps: RangeProps) {
+    const {value} = prevProps;
+    const {value: nextPropsValue, multiple, delimiter, min, max} = this.props;
     if (value !== nextPropsValue) {
       const value = formatValue(nextPropsValue, {
         multiple,
@@ -177,13 +181,7 @@ export default class RangeControl extends React.PureComponent<
         maxValue: isObject(value) ? value.max : max
       });
     }
-  }
 
-  componentDidMount() {
-    this.updateStyle();
-  }
-
-  componentDidUpdate(prevProps: RangeProps) {
     if (prevProps.showInput !== this.props.showInput) {
       this.updateStyle();
     }

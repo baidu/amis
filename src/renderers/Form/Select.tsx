@@ -6,7 +6,7 @@ import {
   Option,
   FormOptionsControl
 } from './Options';
-import Select from '../../components/Select';
+import Select, {normalizeOptions} from '../../components/Select';
 import find from 'lodash/find';
 import debouce from 'lodash/debounce';
 import {Api} from '../../types';
@@ -135,7 +135,7 @@ export default class SelectControl extends React.Component<SelectProps, any> {
     onChange(newValue);
   }
 
-  loadRemote(input: string) {
+  async loadRemote(input: string) {
     const {
       autoComplete,
       env,
@@ -167,23 +167,24 @@ export default class SelectControl extends React.Component<SelectProps, any> {
     }
 
     setLoading(true);
-    return env
-      .fetcher(autoComplete, ctx)
-      .then(ret => {
-        let options = (ret.data && (ret.data as any).options) || ret.data || [];
-        let combinedOptions = this.mergeOptions(options);
-        setOptions(combinedOptions);
+    try {
+      const ret = await env.fetcher(autoComplete, ctx);
 
-        return {
-          options: combinedOptions
-        };
-      })
-      .finally(() => setLoading(false));
+      let options = (ret.data && (ret.data as any).options) || ret.data || [];
+      let combinedOptions = this.mergeOptions(options);
+      setOptions(combinedOptions);
+
+      return {
+        options: combinedOptions
+      };
+    } finally {
+      setLoading(false);
+    }
   }
 
   mergeOptions(options: Array<object>) {
     const {selectedOptions} = this.props;
-    let combinedOptions = options.concat();
+    let combinedOptions = normalizeOptions(options).concat();
 
     if (Array.isArray(selectedOptions) && selectedOptions.length) {
       selectedOptions.forEach(option => {

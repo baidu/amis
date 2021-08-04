@@ -153,28 +153,25 @@ export function wrapControl<
             this.model = model;
             // @issue 打算干掉这个
             formItem?.addSubFormItem(model);
-            model.config(
-              {
-                id,
-                type,
-                required,
-                unique,
-                value,
-                rules: validations,
-                messages: validationErrors,
-                multiple,
-                delimiter,
-                valueField,
-                labelField,
-                joinValues,
-                extractValue,
-                selectFirst,
-                autoFill,
-                clearValueOnHidden,
-                validateApi
-              },
-              onChange
-            );
+            model.config({
+              id,
+              type,
+              required,
+              unique,
+              value,
+              rules: validations,
+              messages: validationErrors,
+              multiple,
+              delimiter,
+              valueField,
+              labelField,
+              joinValues,
+              extractValue,
+              selectFirst,
+              autoFill,
+              clearValueOnHidden,
+              validateApi
+            });
 
             // issue 这个逻辑应该在 combo 里面自己实现。
             if (
@@ -263,27 +260,24 @@ export function wrapControl<
                 props.$schema
               )
             ) {
-              model.config(
-                {
-                  required: props.$schema.required,
-                  id: props.$schema.id,
-                  unique: props.$schema.unique,
-                  value: props.$schema.value,
-                  rules: props.$schema.validations,
-                  multiple: props.$schema.multiple,
-                  delimiter: props.$schema.delimiter,
-                  valueField: props.$schema.valueField,
-                  labelField: props.$schema.labelField,
-                  joinValues: props.$schema.joinValues,
-                  extractValue: props.$schema.extractValue,
-                  messages: props.$schema.validationErrors,
-                  selectFirst: props.$schema.selectFirst,
-                  autoFill: props.$schema.autoFill,
-                  clearValueOnHidden: props.$schema.clearValueOnHidden,
-                  validateApi: props.$schema.validateApi
-                },
-                props.onChange
-              );
+              model.config({
+                required: props.$schema.required,
+                id: props.$schema.id,
+                unique: props.$schema.unique,
+                value: props.$schema.value,
+                rules: props.$schema.validations,
+                multiple: props.$schema.multiple,
+                delimiter: props.$schema.delimiter,
+                valueField: props.$schema.valueField,
+                labelField: props.$schema.labelField,
+                joinValues: props.$schema.joinValues,
+                extractValue: props.$schema.extractValue,
+                messages: props.$schema.validationErrors,
+                selectFirst: props.$schema.selectFirst,
+                autoFill: props.$schema.autoFill,
+                clearValueOnHidden: props.$schema.clearValueOnHidden,
+                validateApi: props.$schema.validateApi
+              });
             }
 
             if (model && typeof props.value !== 'undefined') {
@@ -349,6 +343,7 @@ export function wrapControl<
 
               rootStore.removeStore(this.model);
             }
+            delete this.model;
           }
 
           controlRef(control: any) {
@@ -489,7 +484,7 @@ export function wrapControl<
               return;
             }
             const value = this.model.tmpValue;
-            const oldValue = getVariable(data, this.model.name);
+            const oldValue = getVariable(data, this.model.name, false);
 
             if (oldValue === value) {
               return;
@@ -501,16 +496,16 @@ export function wrapControl<
             ) {
               return;
             }
+            const validated = this.model.validated;
             onChange?.(value, name!, submitOnChange === true);
 
             if (
               validateOnChange === true ||
-              (validateOnChange !== false &&
-                (formSubmited || this.model.validated))
+              (validateOnChange !== false && (formSubmited || validated))
             ) {
               this.validate();
             } else if (validateOnChange === false) {
-              this.model.reset();
+              this.model?.reset();
             }
           }
 

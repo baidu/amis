@@ -205,5 +205,8 @@ register('zh-CN', {
   'Wizard.prev': '上一步',
   'Wizard.saveAndNext': '保存并下一步',
   'year-to-year': '{{from}} 年 - {{to}} 年',
-  'Year.placeholder': '请选择年'
+  'Year.placeholder': '请选择年',
+  'rotate': '旋转',
+  'Editor.fullscreen': '全屏',
+  'Editor.exitFullscreen': '退出全屏'
 });

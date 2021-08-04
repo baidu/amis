@@ -13,6 +13,7 @@ import PopOver, {SchemaPopOver} from './PopOver';
 import {TableCell} from './Table';
 import Copyable, {SchemaCopyable} from './Copyable';
 import {Icon} from '../components/icons';
+import omit = require('lodash/omit');
 import {
   BaseSchema,
   SchemaClassName,
@@ -607,7 +608,7 @@ export class CardItemFieldRenderer extends TableCell {
     let body = children
       ? children
       : render('field', schema, {
-          ...rest,
+          ...omit(rest, Object.keys(schema)),
           value,
           data
         });

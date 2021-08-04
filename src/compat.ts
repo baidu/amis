@@ -15,6 +15,7 @@ import {FileControlRenderer} from './renderers/Form/InputFile';
 import {ImageControlRenderer} from './renderers/Form/InputImage';
 import {RichTextControlRenderer} from './renderers/Form/InputRichText';
 import isPlainObject from 'lodash/isPlainObject';
+import {GridRenderer} from './renderers/Grid';
 
 // 兼容老的用法，老用法 label 用在 checkbox 的右侧内容，新用法用 option 来代替。
 addSchemaFilter(function CheckboxPropsFilter(schema: Schema, renderer) {
@@ -287,6 +288,49 @@ addSchemaFilter(function (scheam: Schema, renderer) {
   return scheam;
 });
 
+// Grid 一些旧格式的兼容
+addSchemaFilter(function (scheam: Schema, renderer) {
+  if (renderer.component !== GridRenderer) {
+    return scheam;
+  }
+
+  if (
+    Array.isArray(scheam.columns) &&
+    scheam.columns.some(item => Array.isArray(item) || item.type)
+  ) {
+    scheam = {
+      ...scheam,
+      columns: scheam.columns.map(item => {
+        if (Array.isArray(item)) {
+          return {
+            body: [
+              {
+                type: 'grid',
+                columns: item
+              }
+            ]
+          };
+        } else if (item.type) {
+          let {xs, sm, md, lg, body, ...rest} = item;
+          body = Array.isArray(body) ? body.concat() : body ? [body] : [];
+          body.push(rest);
+          item = {
+            xs,
+            sm,
+            md,
+            lg,
+            body
+          };
+        }
+
+        return item;
+      })
+    };
+  }
+
+  return scheam;
+});
+
 const controlMapping: any = {
   'array': 'input-array',
   'button-group': 'button-group-select',
@@ -363,6 +407,8 @@ function wrapControl(item: any) {
     className,
     inputClassName,
     columnClassName,
+    visibleOn,
+    visible,
     ...rest
   } = item;
 
@@ -394,6 +440,8 @@ function wrapControl(item: any) {
     horizontal,
     className,
     columnClassName,
+    visibleOn,
+    visible,
     body: rest
   };
 }
@@ -406,7 +454,9 @@ const maybeStatic = [
   'json',
   'video',
   'qrcode',
-  'plain'
+  'plain',
+  'each',
+  'link'
 ];
 
 function wrapStatic(item: any) {
@@ -421,8 +471,11 @@ function wrapStatic(item: any) {
 }
 
 addSchemaFilter(function (schema: Schema, renderer: any, props: any) {
+  const type =
+    typeof schema?.type === 'string' ? schema.type.toLowerCase() : '';
+
   // controls 转成 body
-  if (schema?.type === 'combo' && Array.isArray(schema.conditions)) {
+  if (type === 'combo' && Array.isArray(schema.conditions)) {
     schema = {
       ...schema,
       conditions: schema.conditions.map(condition => {
@@ -439,29 +492,41 @@ addSchemaFilter(function (schema: Schema, renderer: any, props: any) {
     };
   }
 
-  if (Array.isArray(schema?.controls) && schema.type !== 'audio') {
+  if (schema?.controls && schema.type !== 'audio') {
     schema = {
       ...schema,
-      [schema.type === 'combo' ? `items` : 'body']: schema?.controls.map(
-        controlToNormalRenderer
+      [schema.type === 'combo' ? `items` : 'body']: (Array.isArray(
+        schema.controls
       )
+        ? schema.controls
+        : [schema.controls]
+      ).map(controlToNormalRenderer)
     };
     delete schema.controls;
+  } else if (
+    schema?.quickEdit?.controls &&
+    (!schema.quickEdit.type ||
+      !~['combo', 'group', 'panel', 'fieldSet', 'fieldset'].indexOf(
+        schema.quickEdit.type
+      ))
+  ) {
+    schema = {
+      ...schema,
+      quickEdit: {
+        ...schema.quickEdit,
+        body: (Array.isArray(schema.quickEdit.controls)
+          ? schema.quickEdit.controls
+          : [schema.quickEdit.controls]
+        ).map(controlToNormalRenderer)
+      }
+    };
+    delete schema.quickEdit.controls;
   } else if (schema?.quickEdit?.type) {
     schema = {
       ...schema,
       quickEdit: controlToNormalRenderer(schema.quickEdit)
     };
-  } else if (Array.isArray(schema?.quickEdit?.controls)) {
-    schema = {
-      ...schema,
-      quickEdit: {
-        ...schema.quickEdit,
-        body: schema.quickEdit.controls.map(controlToNormalRenderer)
-      }
-    };
-    delete schema.quickEdit.controls;
-  } else if (schema?.type === 'tabs' && Array.isArray(schema.tabs)) {
+  } else if (type === 'tabs' && Array.isArray(schema.tabs)) {
     schema = {
       ...schema,
       tabs: schema.tabs.map(tab => {
@@ -476,7 +541,7 @@ addSchemaFilter(function (schema: Schema, renderer: any, props: any) {
         return tab;
       })
     };
-  } else if (schema?.type === 'anchor-nav' && Array.isArray(schema.links)) {
+  } else if (type === 'anchor-nav' && Array.isArray(schema.links)) {
     schema = {
       ...schema,
       links: schema.links.map(link => {
@@ -492,7 +557,7 @@ addSchemaFilter(function (schema: Schema, renderer: any, props: any) {
         return link;
       })
     };
-  } else if (schema?.type === 'input-array' && schema.items) {
+  } else if (type === 'input-array' && schema.items) {
     schema = {
       ...schema,
       items: Array.isArray(schema.items)
@@ -500,7 +565,7 @@ addSchemaFilter(function (schema: Schema, renderer: any, props: any) {
         : controlToNormalRenderer(schema.items)
     };
   } else if (
-    (schema?.type === 'grid' || schema?.type === 'hbox') &&
+    (type === 'grid' || type === 'hbox') &&
     Array.isArray(schema.columns)
   ) {
     schema = {
@@ -524,13 +589,13 @@ addSchemaFilter(function (schema: Schema, renderer: any, props: any) {
         return column;
       })
     };
-  } else if (
-    schema?.type === 'service' &&
-    Array.isArray(schema?.body?.controls)
-  ) {
+  } else if (type === 'service' && schema?.body?.controls) {
     schema = {
       ...schema,
-      body: schema.body.controls.map(controlToNormalRenderer)
+      body: (Array.isArray(schema.body.controls)
+        ? schema.body.controls
+        : [schema.body.controls]
+      ).map(controlToNormalRenderer)
     };
   }
 

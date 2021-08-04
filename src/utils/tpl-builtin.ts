@@ -448,9 +448,14 @@ export const filters: {
       fn = value => reg.test(String(value));
     }
 
+    // 判断keys是否为*
+    const isAsterisk = /\s*\*\s*/.test(keys);
     keys = keys.split(/\s*,\s*/);
     return input.filter((item: any) =>
-      keys.some((key: string) => fn(resolveVariable(key, item), key, item))
+      // 当keys为*时从item中获取key
+      (isAsterisk ? Object.keys(item) : keys).some((key: string) =>
+        fn(resolveVariable(key, item), key, item)
+      )
     );
   },
   base64Encode(str) {
@@ -841,7 +846,7 @@ export function resolveMapping(
 
 export function dataMapping(
   to: any,
-  from: PlainObject,
+  from: PlainObject = {},
   ignoreFunction: boolean | ((key: string, value: any) => boolean) = false
 ): any {
   if (Array.isArray(to)) {
@@ -907,9 +912,11 @@ export function dataMapping(
       isPlainObject(value) &&
       (keys = Object.keys(value)) &&
       keys.length === 1 &&
-      from[keys[0].substring(1)] &&
-      Array.isArray(from[keys[0].substring(1)])
+      keys[0][0] === '$' &&
+      isPlainObject(value[keys[0]])
     ) {
+      // from[keys[0].substring(1)] &&
+      // Array.isArray(from[keys[0].substring(1)])
       // 支持只取数组中的部分值这个需求
       // 如:
       // data: {
@@ -920,7 +927,9 @@ export function dataMapping(
       //      }
       //   }
       // }
-      const arr = from[keys[0].substring(1)];
+      const arr = Array.isArray(from[keys[0].substring(1)])
+        ? from[keys[0].substring(1)]
+        : [];
       const mapping = value[keys[0]];
 
       (ret as PlainObject)[key] = arr.map((raw: object) =>
@@ -954,10 +963,41 @@ export function dataMapping(
   return ret;
 }
 
+function matchSynatax(str: string) {
+  let from = 0;
+  while (true) {
+    const idx = str.indexOf('$', from);
+    if (~idx) {
+      const nextToken = str[idx + 1];
+
+      // 如果没有下一个字符，或者下一个字符是引号或者空格
+      // 这个一般不是取值用法
+      if (!nextToken || ~['"', "'", ' '].indexOf(nextToken)) {
+        from = idx + 1;
+        continue;
+      }
+
+      // 如果上个字符是转义也不是取值用法
+      const prevToken = str[idx - 1];
+      if (prevToken && prevToken === '\\') {
+        from = idx + 1;
+        continue;
+      }
+
+      return true;
+    } else {
+      break;
+    }
+  }
+  return false;
+}
+
 export function register(): Enginer & {name: string} {
   return {
     name: 'builtin',
-    test: (str: string) => !!~str.indexOf('$'),
+    test: (str: string) => typeof str === 'string' && matchSynatax(str),
+    removeEscapeToken: (str: string) =>
+      typeof str === 'string' ? str.replace(/\\\$/g, '$') : str,
     compile: (str: string, data: object, defaultFilter = '| html') =>
       tokenize(str, data, defaultFilter)
   };

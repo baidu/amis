@@ -408,6 +408,7 @@ export default class ImageControl extends React.Component<
     this.handleCrop = this.handleCrop.bind(this);
     this.handleDropRejected = this.handleDropRejected.bind(this);
     this.cancelCrop = this.cancelCrop.bind(this);
+    this.rotatableCrop = this.rotatableCrop.bind(this);
     this.handleImageLoaded = this.handleImageLoaded.bind(this);
     this.handleFrameImageLoaded = this.handleFrameImageLoaded.bind(this);
     this.startUpload = this.startUpload.bind(this);
@@ -875,6 +876,10 @@ export default class ImageControl extends React.Component<
     );
   }
 
+  rotatableCrop() {
+    this.cropper.current!.rotate(90);
+  }
+
   addFiles(files: Array<FileX>) {
     if (!files.length) {
       return;
@@ -1015,7 +1020,7 @@ export default class ImageControl extends React.Component<
       .catch(error => cb(error.message || __('File.errorRetry'), file));
   }
 
-  _send(
+  async _send(
     file: Blob,
     receiver: string,
     params: object,
@@ -1043,6 +1048,7 @@ export default class ImageControl extends React.Component<
     if (api.data) {
       qsstringify(api.data)
         .split('&')
+        .filter(item => item !== '')
         .forEach(item => {
           let parts = item.split('=');
           fd.append(parts[0], decodeURIComponent(parts[1]));
@@ -1058,8 +1064,8 @@ export default class ImageControl extends React.Component<
       throw new Error('fetcher is required');
     }
 
-    return env
-      .fetcher(api, fd, {
+    try {
+      return await env.fetcher(api, fd, {
         method: 'post',
         cancelExecutor: (cancelExecutor: () => void) => {
           // 记录取消器，取消的时候要调用
@@ -1070,10 +1076,10 @@ export default class ImageControl extends React.Component<
         },
         onUploadProgress: (event: {loaded: number; total: number}) =>
           onProgress(event.loaded / event.total)
-      })
-      .finally(() => {
-        this.removeFileCanelExecutor(file);
       });
+    } finally {
+      this.removeFileCanelExecutor(file);
+    }
   }
 
   removeFileCanelExecutor(file: any, execute = false) {
@@ -1207,6 +1213,17 @@ export default class ImageControl extends React.Component<
               <Cropper {...crop} ref={this.cropper} src={cropFile.preview} />
             </Suspense>
             <div className={cx('ImageControl-croperToolbar')}>
+              {
+                crop.rotatable &&
+                <a
+                  className={cx('ImageControl-cropRotatable')}
+                  onClick={this.rotatableCrop}
+                  data-tooltip={__('rotate')}
+                  data-position="left"
+                >
+                  <Icon icon="retry" className="icon" />
+                </a>
+              }
               <a
                 className={cx('ImageControl-cropCancel')}
                 onClick={this.cancelCrop}

@@ -206,10 +206,6 @@ export const FormStore = ServiceStore.named('FormStore')
 
       self.data = data;
 
-      if (self.persistData) {
-        setLocalPersistData();
-      }
-
       // 同步 options
       syncOptions();
     }
@@ -557,7 +553,7 @@ export const FormStore = ServiceStore.named('FormStore')
       const toClear: any = {};
       self.items.forEach(item => {
         if (item.name && item.type !== 'hidden') {
-          toClear[item.name] = item.resetValue;
+          setVariable(toClear, item.name, item.resetValue);
         }
       });
       setValues(toClear);

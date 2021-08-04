@@ -36,6 +36,8 @@ export type NavItemSchema = {
 
   to?: SchemaUrlPath;
 
+  target?: string;
+
   unfolded?: boolean;
   active?: boolean;
 
@@ -85,6 +87,7 @@ export interface Link {
   className?: string;
   label?: string;
   to?: string;
+  target?: string;
   icon?: string;
   active?: boolean;
   activeOn?: string;
@@ -399,8 +402,10 @@ export class NavigationRenderer extends React.Component<RendererProps> {
     this.remoteRef = ref;
   }
 
-  componentWillMount() {
-    const scoped = this.context as IScopedContext;
+  constructor(props: RendererProps, context: IScopedContext) {
+    super(props);
+
+    const scoped = context;
     scoped.registerComponent(this);
   }
 

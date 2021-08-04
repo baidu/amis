@@ -88,6 +88,11 @@ Action 行为按钮，是触发页面行为的主要方法之一
     },
     {
       "type": "button",
+      "label": "信息",
+      "level": "info"
+    },
+    {
+      "type": "button",
       "label": "成功",
       "level": "success"
     },
@@ -204,7 +209,7 @@ icon 也可以是 url 地址，比如
     "type": "button",
     "actionType": "ajax",
     "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
-    "redirect": "./getting-started"
+    "redirect": "../docs/start/getting-started"
 }
 ```
 

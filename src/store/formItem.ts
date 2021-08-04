@@ -200,51 +200,43 @@ export const FormItemStore = StoreNode.named('FormItemStore')
     const form = self.form as IFormStore;
     const dialogCallbacks = new SimpleMap<(result?: any) => void>();
 
-    function config(
-      {
-        required,
-        unique,
-        value,
-        rules,
-        messages,
-        delimiter,
-        multiple,
-        valueField,
-        labelField,
-        joinValues,
-        extractValue,
-        type,
-        id,
-        selectFirst,
-        autoFill,
-        clearValueOnHidden,
-        validateApi
-      }: {
-        required?: boolean;
-        unique?: boolean;
-        value?: any;
-        rules?: string | {[propName: string]: any};
-        messages?: {[propName: string]: string};
-        multiple?: boolean;
-        delimiter?: string;
-        valueField?: string;
-        labelField?: string;
-        joinValues?: boolean;
-        extractValue?: boolean;
-        type?: string;
-        id?: string;
-        selectFirst?: boolean;
-        autoFill?: any;
-        clearValueOnHidden?: boolean;
-        validateApi?: boolean;
-      },
-      onChange?: (
-        value: any,
-        name: string,
-        submit?: boolean,
-        changePristine?: boolean
-      ) => void
-    ) {
+    function config({
+      required,
+      unique,
+      value,
+      rules,
+      messages,
+      delimiter,
+      multiple,
+      valueField,
+      labelField,
+      joinValues,
+      extractValue,
+      type,
+      id,
+      selectFirst,
+      autoFill,
+      clearValueOnHidden,
+      validateApi
+    }: {
+      required?: boolean;
+      unique?: boolean;
+      value?: any;
+      rules?: string | {[propName: string]: any};
+      messages?: {[propName: string]: string};
+      multiple?: boolean;
+      delimiter?: string;
+      valueField?: string;
+      labelField?: string;
+      joinValues?: boolean;
+      extractValue?: boolean;
+      type?: string;
+      id?: string;
+      selectFirst?: boolean;
+      autoFill?: any;
+      clearValueOnHidden?: boolean;
+      validateApi?: boolean;
+    }) {
       if (typeof rules === 'string') {
         rules = str2rules(rules);
       }
@@ -280,10 +272,6 @@ export const FormItemStore = StoreNode.named('FormItemStore')
         self.rules = rules;
         clearError('builtin');
         self.validated = false;
-      }
-
-      if (value !== void 0 && self.value === void 0) {
-        onChange?.(value, self.name, false, true);
       }
     }
 
@@ -442,10 +430,7 @@ export const FormItemStore = StoreNode.named('FormItemStore')
             ? list
             : list[0];
 
-        // @issue 这个判断不太准确
-        if (form.inited && onChange) {
-          onChange(value);
-        }
+        onChange?.(value);
       }
     }
 
@@ -673,7 +658,10 @@ export const FormItemStore = StoreNode.named('FormItemStore')
       let expressionsInOptions = false;
       let filteredOptions = self.options
         .filter((item: any) => {
-          if (!expressionsInOptions && (item.visibleOn || item.hiddenOn)) {
+          if (
+            !expressionsInOptions &&
+            (item.visibleOn || item.hiddenOn || item.disabledOn)
+          ) {
             expressionsInOptions = true;
           }
 

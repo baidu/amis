@@ -1,7 +1,6 @@
 .#{$ns}Table {
   position: relative;
-  background: var(--Table-bg);
-  border: var(--Table-borderWidth) solid var(--Table-borderColor);
+
   border-radius: var(--Table-borderRadius);
   margin-bottom: var(--gap-md);
 
@@ -21,7 +20,7 @@
   &-fixedLeft {
     // 还是改成默认不显示，footable 展示的时候，配置 固定列还没修复
     left: 0;
-    top: -99999px;
+    top: -999999px;
 
     &.in {
       box-shadow: var(--Table-fixedLeft-boxShadow);
@@ -43,7 +42,7 @@
   &-fixedRight {
     // 还是改成默认不显示，footable 展示的时候，配置 固定列还没修复
     right: 0;
-    top: -99999px;
+    top: -999999px;
 
     &.in {
       box-shadow: var(--Table-fixedRight-boxShadow);
@@ -69,6 +68,14 @@
     opacity: 0;
     box-shadow: var(--Table-fixedTop-boxShadow);
 
+    // box-sizing: content-box;
+    // padding: var(--gap-base) var(--gap-base) 0 var(--gap-base);
+    // margin: calc(var(--gap-base) * -1) calc(var(--gap-base) * -1) 0
+    //   calc(var(--gap-base) * -1);
+    // > * {
+    //   box-sizing: border-box;
+    // }
+
     &.in {
       position: fixed;
       opacity: 1;
@@ -80,19 +87,6 @@
       z-index: $zindex-affix + 10;
       // box-shadow: none;
       background: transparent;
-      border-top: var(--Table-borderWidth) solid var(--Table-borderColor);
-
-      > table {
-        margin-bottom: var(--gap-xs);
-      }
-    }
-
-    > .#{$ns}Table-heading {
-      border-bottom: none;
-    }
-
-    > .#{$ns}Table-wrapper {
-      border-top: var(--Table-borderWidth) solid var(--Table-borderColor);
     }
 
     &.is-fakeHide {
@@ -107,14 +101,13 @@
 
   &-heading {
     background: var(--Table-heading-bg);
-    border-bottom: var(--Table-borderWidth) solid var(--Table-borderColor);
     padding: calc(
         (
             var(--Table-heading-height) - var(--Table-fontSize) *
               var(--lineHeightBase)
           ) / 2
       )
-      var(--Table-toolbar-paddingX);
+      var(--gap-sm);
   }
 
   &--unsaved &-heading {
@@ -144,7 +137,7 @@
   }
 
   &-header {
-    padding: var(--Table-toolbar-paddingY) var(--Table-toolbar-paddingX);
+    padding: var(--Table-toolbar-marginY) var(--Table-toolbar-marginX);
 
     > * + .#{$ns}Button,
     > * + .#{$ns}ButtonGroup,
@@ -156,7 +149,7 @@
   &-toolbar {
     @include clearfix();
     display: flex;
-    padding: var(--Table-toolbar-paddingY) var(--Table-toolbar-paddingX);
+    margin: 0 var(--Table-toolbar-marginX) var(--Table-toolbar-marginY);
     flex-wrap: wrap;
 
     .#{$ns}DropDown {
@@ -177,15 +170,7 @@
 
   &-contentWrap {
     position: relative;
-  }
-
-  &-header + &-contentWrap,
-  &-toolbar + &-contentWrap {
-    border-top: var(--Table-borderWidth) solid var(--Table-borderColor);
-  }
-
-  &-footToolbar {
-    border-top: var(--Table-borderWidth) solid var(--Table-borderColor);
+    margin-bottom: var(--Table-toolbar-marginY);
   }
 
   &-actions {
@@ -211,6 +196,7 @@
     background: var(--Table-bg);
     border-spacing: 0;
     border-collapse: collapse;
+    border: var(--Table-borderWidth) solid var(--Table-borderColor);
 
     &--withCombine {
       > thead > tr > th,
@@ -481,6 +467,7 @@
       border-right: 0;
       width: px2rem(1px);
       padding-right: var(--TableCell-paddingX);
+      white-space: nowrap;
 
       .#{$ns}Checkbox {
         margin: 0;
@@ -577,7 +564,7 @@
     &--down > svg,
     &--default > svg {
       color: inherit;
-      width: 12x;
+      width: 12px;
       height: 12px;
     }
 

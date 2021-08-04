@@ -9,7 +9,7 @@ import Scoped, {ScopedContext, IScopedContext} from '../Scoped';
 import {observer} from 'mobx-react';
 import {isApiOutdated, isEffectiveApi} from '../utils/api';
 import {Spinner} from '../components';
-import {autobind, isVisible} from '../utils/helper';
+import {autobind, isEmpty, isVisible, qsstringify} from '../utils/helper';
 import {
   BaseSchema,
   SchemaApi,
@@ -216,18 +216,22 @@ export default class Service extends React.Component<ServiceProps> {
     }
   }
 
-  afterDataFetch(schema: any) {
-    const {onBulkChange, formMode} = this.props;
-    if (formMode && schema?.data && onBulkChange) {
-      onBulkChange(schema?.data);
+  afterDataFetch(result: any) {
+    // todo 应该统一这块
+    // 初始化接口返回的是整个 response，
+    // 保存 ajax 请求的时候返回时数据部分。
+    const data = result?.hasOwnProperty('ok') ? result.data : result;
+    const {onBulkChange, formStore} = this.props;
+    if (formStore && !isEmpty(data) && onBulkChange) {
+      onBulkChange(data);
     }
 
-    this.initInterval(schema);
+    this.initInterval(data);
   }
 
   afterSchemaFetch(schema: any) {
-    const {onBulkChange, formMode} = this.props;
-    if (formMode && schema?.data && onBulkChange) {
+    const {onBulkChange, formStore} = this.props;
+    if (formStore && schema?.data && onBulkChange) {
       onBulkChange(schema.data);
     }
 
@@ -432,15 +436,39 @@ export default class Service extends React.Component<ServiceProps> {
 
 @Renderer({
   type: 'service',
-  storeType: ServiceStore.name
+  storeType: ServiceStore.name,
+  isolateScope: true,
+  storeExtendsData: (props: any) => (props.formStore ? false : true)
 })
 export class ServiceRenderer extends Service {
   static contextType = ScopedContext;
 
-  componentWillMount() {
-    // super.componentWillMount();
-    const scoped = this.context as IScopedContext;
+  constructor(props: ServiceProps, context: IScopedContext) {
+    super(props);
+
+    const scoped = context;
     scoped.registerComponent(this);
+  }
+
+  reload(subpath?: string, query?: any, ctx?: any) {
+    const scoped = this.context as IScopedContext;
+    if (subpath) {
+      return scoped.reload(
+        query ? `${subpath}?${qsstringify(query)}` : subpath,
+        ctx
+      );
+    }
+
+    return super.reload(subpath, query);
+  }
+
+  receive(values: any, subPath?: string) {
+    const scoped = this.context as IScopedContext;
+    if (subPath) {
+      return scoped.send(subPath, values);
+    }
+
+    return super.receive(values);
   }
 
   componentWillUnmount() {

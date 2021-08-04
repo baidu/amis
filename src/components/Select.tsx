@@ -362,28 +362,7 @@ export class Select extends React.Component<SelectProps, SelectState> {
   }
 
   componentDidMount() {
-    const {
-      loadOptions,
-      options,
-      multiple,
-      defaultCheckAll,
-      onChange,
-      simpleValue
-    } = this.props;
-    let {selection} = this.state;
-
-    if (multiple && defaultCheckAll && options.length) {
-      selection = union(options, selection);
-      this.setState({
-        selection: selection
-      });
-
-      // 因为等 State 设置完后再 onChange，会让 form 再 didMount 中的
-      // onInit 出去的数据没有包含这部分，所以从 state 回调中拿出来了
-      // 存在风险
-      onChange(simpleValue ? selection.map(item => item.value) : selection);
-    }
-
+    const {loadOptions} = this.props;
     loadOptions && loadOptions('');
   }
 
@@ -392,35 +371,10 @@ export class Select extends React.Component<SelectProps, SelectState> {
     let fn: () => void = noop;
 
     if (
-      props.value !== prevProps.value ||
+      JSON.stringify(props.value) !== JSON.stringify(prevProps.value) ||
       JSON.stringify(props.options) !== JSON.stringify(prevProps.options)
     ) {
-      let selection: Array<Option>;
-      if (
-        (!prevProps.options || !prevProps.options.length) &&
-        props.options.length
-      ) {
-        const {selection: stateSelection} = this.state;
-        const {
-          multiple,
-          defaultCheckAll,
-          options,
-          onChange,
-          simpleValue
-        } = props;
-        if (multiple && defaultCheckAll && options.length) {
-          selection = union(options, stateSelection);
-          fn = () =>
-            onChange(
-              simpleValue ? selection.map(item => item.value) : selection
-            );
-        } else {
-          selection = value2array(props.value, props);
-        }
-      } else {
-        selection = value2array(props.value, props);
-      }
-
+      const selection:  Array<Option> = value2array(props.value, props);
       this.setState(
         {
           selection: selection

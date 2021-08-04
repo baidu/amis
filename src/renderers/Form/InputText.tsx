@@ -121,17 +121,6 @@ export default class TextControl extends React.PureComponent<
     trimContents: true
   };
 
-  componentWillReceiveProps(nextProps: TextProps) {
-    const props = this.props;
-
-    if (props.value !== nextProps.value) {
-      const value = nextProps.value;
-      this.setState({
-        inputValue: ''
-      });
-    }
-  }
-
   componentDidMount() {
     const {
       formItem,
@@ -164,6 +153,16 @@ export default class TextControl extends React.PureComponent<
           }
         }, 'init');
       }
+    }
+  }
+
+  componentDidUpdate(prevProps: TextProps) {
+    const props = this.props;
+
+    if (prevProps.value !== props.value) {
+      this.setState({
+        inputValue: ''
+      });
     }
   }
 
@@ -477,7 +476,7 @@ export default class TextControl extends React.PureComponent<
 
     return (
       <Downshift
-        isOpen={this.state.isOpen}
+        isOpen={this.state.isOpen && !disabled}
         inputValue={this.state.inputValue}
         onChange={this.handleChange}
         onStateChange={this.handleStateChange}

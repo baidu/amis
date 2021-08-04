@@ -15,7 +15,7 @@ export interface DateRangeControlSchema extends FormBaseControl {
   /**
    * 指定为日期范围控件
    */
-  type: 'input-date-range' | 'input-datetime-range';
+  type: 'input-date-range' | 'input-datetime-range' | 'input-time-range';
 
   /**
    * 分割符, 因为有两个值，开始时间和结束时间，所以要有连接符。默认为英文逗号。
@@ -87,7 +87,9 @@ export default class DateRangeControl extends React.Component<DateRangeProps> {
     delimiter: ','
   };
 
-  componentWillMount() {
+  constructor(props: DateRangeProps) {
+    super(props);
+
     const {
       defaultValue,
       setPrinstineValue,
@@ -97,7 +99,7 @@ export default class DateRangeControl extends React.Component<DateRangeProps> {
       value,
       joinValues,
       utc
-    } = this.props;
+    } = props;
 
     if (defaultValue && value === defaultValue) {
       let arr =
@@ -204,5 +206,20 @@ export class DateTimeRangeControlRenderer extends DateRangeControl {
     ...DateRangeControl.defaultProps,
     timeFormat: 'HH:mm',
     inputFormat: 'YYYY-MM-DD HH:mm'
+  };
+}
+
+@FormItem({
+  type: 'input-time-range',
+  sizeMutable: false
+})
+export class TimeRangeControlRenderer extends DateRangeControl {
+  static defaultProps = {
+    ...DateRangeControl.defaultProps,
+    format: 'HH:mm',
+    timeFormat: 'HH:mm',
+    inputFormat: 'HH:mm',
+    viewMode: 'time',
+    ranges: ''
   };
 }

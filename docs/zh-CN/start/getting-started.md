@@ -121,6 +121,26 @@ amisScoped.updateProps({
 
 暗黑主题同理，改成引用 'dark.css' 同时主题设置成 `dark`。
 
+### 初始值
+
+可以通过 props 里的 data 属性来赋予 amis 顶层数据域的值，类似下面的例子。
+
+```js
+let amis = amisRequire('amis/embed');
+let amisJSON = {
+  type: 'page',
+  body: {
+    type: 'tpl',
+    tpl: "${myData}"
+  }
+};
+let amisScoped = amis.embed('#root', amisJSON, {
+  data: {
+    myData: 'amis'
+  }
+});
+```
+
 ### 控制 amis 的行为
 
 `amis.embed` 函数还支持以下配置项来控制 amis 的行为，比如在 fetcher 的时候加入自己的处理逻辑，这些函数参数的说明在后面 React 中也有介绍。
@@ -277,6 +297,7 @@ html 中引入：
 
 ```html
 <link href="./node_modules/amis/lib/themes/default.css" />
+<link href="./node_modules/amis/lib/helper.css" />
 <!-- 或 <link href="./node_modules/amis/lib/themes/cxd.css" /> -->
 <!-- 或 <link href="./node_modules/amis/lib/themes/dark.css" /> -->
 ```
@@ -285,6 +306,7 @@ js 中引入：
 
 ```js
 import './node_modules/amis/lib/themes/default.css';
+import './node_modules/amis/lib/helper.css';
 // 或 import './node_modules/amis/lib/themes/cxd.css';
 // 或 import './node_modules/amis/lib/themes/dark.css';
 ```

@@ -6,7 +6,7 @@ import {tokenize} from '../../utils/tpl-builtin';
 
 /**
  * RichText
- * 文档：https://baidu.gitee.io/amis/docs/components/form/rich-text
+ * 文档：https://baidu.gitee.io/amis/docs/components/form/input-rich-text
  */
 export interface RichTextControlSchema extends FormBaseControl {
   type: 'input-rich-text';

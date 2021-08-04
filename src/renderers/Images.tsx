@@ -137,7 +137,7 @@ export class ImagesField extends React.Component<ImagesProps> {
               : (item && item.image) || item,
             originalSrc: originalSrc
               ? filter(originalSrc, item, '| raw')
-              : (item && item.src) || item,
+              : item?.src || filter(src, item, '| raw') || item?.image || item,
             title: item && (item.enlargeTitle || item.title),
             caption:
               item && (item.enlargeCaption || item.description || item.caption)
@@ -171,7 +171,10 @@ export class ImagesField extends React.Component<ImagesProps> {
 
     if (typeof source === 'string' && isPureVariable(source)) {
       list = resolveVariableAndFilter(source, data, '| raw') || undefined;
-    } else if (Array.isArray((value = getPropValue(this.props)))) {
+    } else if (
+      Array.isArray((value = getPropValue(this.props))) ||
+      typeof value === 'string'
+    ) {
       list = value;
     } else if (Array.isArray(options)) {
       list = options;
