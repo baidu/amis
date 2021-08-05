@@ -81,6 +81,11 @@ export interface HBoxSchema extends BaseSchema {
    * 如果是水平排版，这个属性可以细化水平排版的左右宽度占比。
    */
   subFormHorizontal?: FormSchemaHorizontal;
+
+  /**
+   * 水平间距
+   */
+  gap?: 'xs' | 'sm' | 'base' | 'md' | 'lg';
 }
 
 export interface HBoxProps extends RendererProps, HBoxSchema {
@@ -110,7 +115,7 @@ export default class HBox extends React.Component<HBoxProps, object> {
     const {
       itemRender,
       data,
-      classPrefix: ns,
+      classnames: cx,
       subFormMode,
       subFormHorizontal,
       formMode,
@@ -130,7 +135,11 @@ export default class HBox extends React.Component<HBoxProps, object> {
     return (
       <div
         key={key}
-        className={cx(`${ns}Hbox-col`, (column as HBoxColumn).columnClassName)}
+        className={cx(
+          `Hbox-col`,
+          style.width ? 'Hbox-col--customWidth' : '',
+          (column as HBoxColumn).columnClassName
+        )}
         style={style}
       >
         {itemRender
