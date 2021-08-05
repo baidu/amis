@@ -137,7 +137,11 @@ export default class HBox extends React.Component<HBoxProps, object> {
         key={key}
         className={cx(
           `Hbox-col`,
-          style.width ? 'Hbox-col--customWidth' : '',
+          style.width === 'auto'
+            ? 'Hbox-col--auto'
+            : style.width
+            ? 'Hbox-col--customWidth'
+            : '',
           (column as HBoxColumn).columnClassName
         )}
         style={style}
