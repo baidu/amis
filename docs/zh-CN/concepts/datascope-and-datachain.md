@@ -376,3 +376,14 @@ page
 这时 amis 将会把`data`数据与当前`form`组件的数据域进行**merge**，`form`组件中的`static-tpl`组件会根据更新后的数据域，显示`id`为`1`。
 
 > 具有类似特征的组件还有`Formula`等
+
+## URL 参数
+
+url 中的参数会进入顶层数据域，比如下面的例子，可以点击[这里](./datascope-and-datachain?word=myquery#url-参数)看效果。
+
+```schema
+{
+  "type": "page",
+  "body": "${word}"
+}
+```
