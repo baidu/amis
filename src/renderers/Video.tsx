@@ -143,7 +143,7 @@ export interface FlvSourceProps {
 // let currentPlaying: any = null;
 
 export class FlvSource extends React.Component<FlvSourceProps, any> {
-  flvPlayer: any;
+  mpegtsPlayer: any;
   loaded = false;
   timer: any;
   unsubscribe: any;
@@ -187,7 +187,7 @@ export class FlvSource extends React.Component<FlvSourceProps, any> {
 
     if (src !== prevProps.src) {
       setError('');
-      this.flvPlayer?.destroy();
+      this.mpegtsPlayer?.destroy();
       this.unsubscribe?.();
       this.loaded = false;
       this.initFlv({
@@ -204,8 +204,8 @@ export class FlvSource extends React.Component<FlvSourceProps, any> {
   }
 
   componentWillUnmount() {
-    if (this.flvPlayer) {
-      this.flvPlayer.destroy();
+    if (this.mpegtsPlayer) {
+      this.mpegtsPlayer.destroy();
       this.props.setError?.('');
     }
   }
@@ -220,10 +220,10 @@ export class FlvSource extends React.Component<FlvSourceProps, any> {
     setError,
     autoPlay
   }: any) {
-    import('flv.js').then((flvjs: any) => {
+    import('mpegts.js').then((mpegts: any) => {
       video = video || (manager.video && manager.video.video);
 
-      let flvPlayer = flvjs.createPlayer(
+      let mpegtsPlayer = mpegts.createPlayer(
         {
           type: 'flv',
           url: src,
@@ -231,8 +231,8 @@ export class FlvSource extends React.Component<FlvSourceProps, any> {
         },
         config
       );
-      flvPlayer.attachMediaElement(video);
-      this.flvPlayer = flvPlayer;
+      mpegtsPlayer.attachMediaElement(video);
+      this.mpegtsPlayer = mpegtsPlayer;
 
       this.unsubscribe = manager.subscribeToOperationStateChange(
         (operation: any) => {
@@ -242,17 +242,17 @@ export class FlvSource extends React.Component<FlvSourceProps, any> {
             clearTimeout(this.timer);
             if (!this.loaded) {
               this.loaded = true;
-              flvPlayer.load();
+              mpegtsPlayer.load();
             }
 
-            flvPlayer.play();
+            mpegtsPlayer.play();
           } else if (type === 'pause') {
-            flvPlayer.pause();
+            mpegtsPlayer.pause();
 
             if (isLive) {
               this.timer = setTimeout(() => {
                 actions.seek(0);
-                flvPlayer.unload();
+                mpegtsPlayer.unload();
                 this.loaded = false;
               }, 30000);
             }
@@ -260,12 +260,12 @@ export class FlvSource extends React.Component<FlvSourceProps, any> {
         }
       );
 
-      flvPlayer.on(flvjs.Events.RECOVERED_EARLY_EOF, () => {
+      mpegtsPlayer.on(mpegts.Events.RECOVERED_EARLY_EOF, () => {
         setError('直播已经结束');
       });
-      flvPlayer.on(flvjs.Events.ERROR, () => {
+      mpegtsPlayer.on(mpegts.Events.ERROR, () => {
         setError('视频加载失败');
-        flvPlayer.unload();
+        mpegtsPlayer.unload();
       });
 
       if (autoPlay) {
@@ -314,7 +314,7 @@ export class HlsSource extends React.Component<HlsSourceProps, any> {
     }
   }
 
-  componentDidUpdate(prevProps: FlvSourceProps) {
+  componentDidUpdate(prevProps: HlsSourceProps) {
     const props = this.props;
     let {autoPlay, actions, src, isLive, config, video, manager} = props;
 
