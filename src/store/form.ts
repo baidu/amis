@@ -461,11 +461,12 @@ export const FormStore = ServiceStore.named('FormStore')
         ) {
           let msg = failedMessage ?? self.__('Form.validateFailed');
           // 同时也列出所有表单项报错，方便在很长的表单中知道是哪个字段的问题
-          self.items.forEach(item => {
-            item.errorData.forEach(errorData => {
-              msg = `${msg}\n${item.name}: ${errorData.msg}`;
+          failedMessage ??
+            self.items.forEach(item => {
+              item.errorData.forEach(errorData => {
+                msg = `${msg}\n${item.name}: ${errorData.msg}`;
+              });
             });
-          });
 
           msg && getEnv(self).notify('error', msg);
 
