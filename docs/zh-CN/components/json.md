@@ -124,9 +124,12 @@ List 的内容、Card 卡片的内容配置同上
     },
     "body": [
         {
-            "type": "static-json",
+            "type": "control",
             "name": "json",
-            "label": "颜色"
+            "label": "Json",
+            "body": {
+                "type": "json"
+            }
         }
     ]
 }
@@ -186,6 +189,29 @@ List 的内容、Card 卡片的内容配置同上
 
 如上，`levelExpand`配置为`0`，则默认不展开。
 
+## 开启 json 修改
+
+> since 1.2.3
+
+可配置`mutable` 为 true，展示 json 的同时支持修改。记得配置 name 属性。
+
+```schema: scope="body"
+[
+{
+    "type": "json",
+    "name": "json",
+    "mutable": true,
+    "value": {
+        "a": "a",
+        "b": "b",
+        "c": {
+            "d": "d"
+        }
+    }
+}
+]
+```
+
 ## 属性表
 
 | 属性名      | 类型              | 默认值     | 说明                                                                                 |
@@ -196,5 +222,5 @@ List 的内容、Card 卡片的内容配置同上
 | source      | `string`          | `''`       | 通过数据映射获取数据链中的值                                                         |
 | placeholder | `string`          | `-`        | 占位文本                                                                             |
 | levelExpand | `number`          | `1`        | 默认展开的层级                                                                       |
-| hideRoot    | `boolean`         | `false`    | 是否隐藏根节点                                                                       |
 | jsonTheme   | `string`          | `twilight` | 主题，可选`twilight`和`eighties`                                                     |
+| mutable     | `boolean`         | `false`    | 是否可修改                                                                           |
