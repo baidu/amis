@@ -18,6 +18,13 @@ order: 71
 }
 ```
 
+## flv 和 hls 直播
+
+需要设置 `isLive: true`，目前 flv 和 hls 是通过文件后缀来判断的，还可以通过设置 videoType 来指定，它有两个值：
+
+- `video/x-flv`，使用 [mpegts.js](https://github.com/xqq/mpegts.js) 播放 flv
+- `application/x-mpegURL`，使用 [hls.js](https://github.com/video-dev/hls.js/) 播放 hls 格式
+
 ## 属性表
 
 | 属性名    | 类型      | 默认值    | 说明                                                     |
@@ -26,6 +33,7 @@ order: 71
 | className | `string`  |           | 外层 Dom 的类名                                          |
 | src       | `string`  |           | 视频地址                                                 |
 | isLive    | `boolean` | false     | 是否为直播，视频为直播时需要添加上，支持`flv`和`hls`格式 |
+| videoType | `string`  |           | 指定直播视频格式                                         |
 | poster    | `string`  |           | 视频封面地址                                             |
 | muted     | `boolean` |           | 是否静音                                                 |
 | autoPlay  | `boolean` |           | 是否自动播放                                             |
