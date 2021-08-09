@@ -36,7 +36,7 @@ order: 33
   "type": "page",
   "body": {
     "type": "service",
-    "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/options/carousel",
+    "api": "/api/mock2/options/carousel",
     "body": {
       "type": "carousel",
       "name": "imageList"

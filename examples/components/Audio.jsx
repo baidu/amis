@@ -5,8 +5,7 @@ export default {
       type: 'audio',
       autoPlay: false,
       rates: [1.0, 1.5, 2.0],
-      src:
-        'https://amis.bj.bcebos.com/amis/2019-7/1562137295708/chicane-poppiholla-original-radio-edit%20(1).mp3'
+      src: __uri('../static/audio/chicane-poppiholla-original-radio-edit.mp3')
     },
     {
       type: 'form',
@@ -22,15 +21,17 @@ export default {
             subTitle: '专辑名称',
             description: 'description',
             avatarClassName: 'pull-left thumb-md avatar m-r no-border',
-            avatar:
-              'http://hiphotos.baidu.com/fex/%70%69%63/item/c9fcc3cec3fdfc03ccabb38edd3f8794a4c22630.jpg'
+            avatar: __uri(
+              '../static/photo/bd3eb13533fa828b13b24500f31f4134960a5a44.jpg'
+            )
           }
         },
         {
           type: 'audio',
           className: 'v-middle no-border',
-          src:
-            'https://amis.bj.bcebos.com/amis/2019-7/1562137295708/chicane-poppiholla-original-radio-edit%20(1).mp3',
+          src: __uri(
+            '../static/audio/chicane-poppiholla-original-radio-edit.mp3'
+          ),
           controls: ['play']
         }
       ]

@@ -56,6 +56,10 @@ fis.set('project.files', [
   '/examples/static/*.svg',
   '/examples/static/*.jpg',
   '/examples/static/*.jpeg',
+  '/examples/static/photo/*.jpeg',
+  '/examples/static/photo/*.png',
+  '/examples/static/audio/*.mp3',
+  '/examples/static/video/*.mp4',
   '/src/**.html',
   'mock/**'
 ]);

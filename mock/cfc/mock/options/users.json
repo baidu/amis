@@ -1,0 +1,30 @@
+{
+    "status": 0,
+    "msg": "ok",
+    "data": [
+        {
+            "label": "liaoxuezhi",
+            "value": "1"
+        },
+
+        {
+            "label": "zhangjun08",
+            "value": "2"
+        },
+
+        {
+            "label": "zhangtao07",
+            "value": "3"
+        },
+
+        {
+            "label": "wuduoyi",
+            "value": "4"
+        },
+
+        {
+            "label": "liuyiming04",
+            "value": "5"
+        }
+    ]
+}

@@ -19,7 +19,7 @@ amis 中部分组件，作为展示组件，自身没有**使用接口初始化�
 ```schema: scope="body"
 {
     "type": "service",
-    "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/page/initData",
+    "api": "/api/mock2/page/initData",
     "body": {
         "type": "panel",
         "title": "$title",
@@ -50,7 +50,7 @@ amis 中部分组件，作为展示组件，自身没有**使用接口初始化�
 ```schema: scope="body"
 {
     "type": "service",
-    "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/crud/table?perPage=5",
+    "api": "/api/mock2/crud/table?perPage=5",
     "body": [
         {
             "type": "table",
@@ -188,7 +188,7 @@ amis 中部分组件，作为展示组件，自身没有**使用接口初始化�
 ```schema: scope="body"
 {
   "type": "service",
-  "schemaApi": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/service/schema?type=tabs"
+  "schemaApi": "/api/mock2/service/schema?type=tabs"
 }
 ```
 
@@ -242,7 +242,7 @@ amis 中部分组件，作为展示组件，自身没有**使用接口初始化�
 ```schema: scope="form-item2"
 {
   "type": "service",
-  "schemaApi": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/service/schema?type=controls"
+  "schemaApi": "/api/mock2/service/schema?type=controls"
 }
 ```
 
@@ -279,7 +279,7 @@ amis 中部分组件，作为展示组件，自身没有**使用接口初始化�
 {
     "title": "",
     "type": "form",
-    "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock/saveForm?waitSeconds=1",
+    "api": "/api/mock/saveForm?waitSeconds=1",
     "mode": "horizontal",
     "body": [
         {
@@ -306,7 +306,7 @@ amis 中部分组件，作为展示组件，自身没有**使用接口初始化�
         },
         {
         "type": "service",
-        "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/initData?tpl=${tpl}",
+        "api": "/api/mock2/form/initData?tpl=${tpl}",
         "body": [
             {
             "label": "名称",
@@ -345,7 +345,7 @@ Service 支持通过 WebSocket 获取数据，只需要设置 ws（由于无示�
 ```json
 {
   "type": "service",
-  "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/page/initData",
+  "api": "/api/mock2/page/initData",
   "ws": "ws://localhost:8777",
   "body": {
     "type": "panel",

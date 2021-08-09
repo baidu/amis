@@ -68,7 +68,7 @@ icon:
               "label": "动态选项",
               "type": "select",
               "name": "select2",
-              "source": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/getOptions?waitSeconds=1"
+              "source": "/api/mock2/form/getOptions?waitSeconds=1"
             },
             {
               "label": "日期",
@@ -347,7 +347,7 @@ type Value = ValueGroup;
               "label": "A",
               "type": "select",
               "name": "a",
-              "source": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/getOptions?waitSeconds=1",
+              "source": "/api/mock2/form/getOptions?waitSeconds=1",
               "searchable": true
             }
           ]
@@ -370,7 +370,7 @@ type Value = ValueGroup;
         "label": "条件组件",
         "name": "conditions",
         "description": "适合让用户自己拼查询条件，然后后端根据数据生成 query where",
-        "source": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/condition-fields?a=${a}&waitSeconds=2"
+        "source": "/api/condition-fields?a=${a}&waitSeconds=2"
       }
     ]
 }

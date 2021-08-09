@@ -19,7 +19,7 @@ CRUD，即增删改查组件，主要用来展现数据列表，并支持各类�
 ```schema: scope="body"
 {
     "type": "crud",
-    "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/sample",
+    "api": "/api/sample",
     "syncLocation": false,
     "columns": [
         {
@@ -282,7 +282,7 @@ Table 模式支持 [Table](./table) 中的所有功能。
 ```schema: scope="body"
 {
     "type": "crud",
-    "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/sample",
+    "api": "/api/sample",
     "syncLocation": false,
     "columns": [
         {
@@ -318,7 +318,7 @@ List 模式支持 [List](./list) 中的所有功能。
 ```schema: scope="body"
 {
 "type": "crud",
-"api": "raw:https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/crud/permissions",
+"api": "raw:/api/mock2/crud/permissions",
 "mode": "list",
 "placeholder": "当前组内, 还没有配置任何权限.",
 "syncLocation": false,
@@ -364,7 +364,7 @@ List 模式支持 [List](./list) 中的所有功能。
       "icon": "fa fa-times",
       "confirmText": "您确定要移除该权限?",
       "actionType": "ajax",
-      "api": "delete:https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/notFound"
+      "api": "delete:/api/mock2/notFound"
     }
   ]
 }
@@ -378,7 +378,7 @@ Cards 模式支持 [Cards](./cards) 中的所有功能。
 ```schema: scope="body"
 {
   "type": "crud",
-  "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/crud/users",
+  "api": "/api/mock2/crud/users",
   "syncLocation": false,
   "mode": "cards",
   "defaultParams": {
@@ -458,7 +458,7 @@ Cards 模式支持 [Cards](./cards) 中的所有功能。
         "label": "移除",
         "confirmText": "您确定要移除该用户?",
         "actionType": "ajax",
-        "api": "delete:https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/notFound"
+        "api": "delete:/api/mock2/notFound"
       }
     ]
   }
@@ -475,7 +475,7 @@ Cards 模式支持 [Cards](./cards) 中的所有功能。
 {
     "type": "crud",
     "syncLocation": false,
-    "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/sample",
+    "api": "/api/sample",
      "filter": {
         "title": "条件搜索",
         "body": [
@@ -527,7 +527,7 @@ Cards 模式支持 [Cards](./cards) 中的所有功能。
 {
     "type": "crud",
     "syncLocation": false,
-    "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/sample",
+    "api": "/api/sample",
     "defaultParams": {
         "perPage": 50
     },
@@ -570,7 +570,7 @@ Cards 模式支持 [Cards](./cards) 中的所有功能。
 {
     "type": "crud",
     "syncLocation": false,
-    "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/sample",
+    "api": "/api/sample",
     "interval": 3000,
     "columns": [
         {
@@ -615,7 +615,7 @@ Cards 模式支持 [Cards](./cards) 中的所有功能。
 {
     "type": "crud",
     "syncLocation": false,
-    "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/sample",
+    "api": "/api/sample",
     "columns": [
         {
             "name": "id",
@@ -649,7 +649,7 @@ amis 只负责生成排序组件，并将排序参数传递给接口，而不会
 {
     "type": "crud",
     "syncLocation": false,
-    "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/sample",
+    "api": "/api/sample",
     "columns": [
         {
             "name": "id",
@@ -682,7 +682,7 @@ amis 只负责生成搜索组件，并将搜索参数传递给接口，而不会
 {
     "type": "crud",
     "syncLocation": false,
-    "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/sample",
+    "api": "/api/sample",
     "columns": [
         {
             "name": "id",
@@ -725,8 +725,8 @@ amis 只负责生成下拉选择器组件，并将搜索参数传递给接口，
 {
     "type": "crud",
     "syncLocation": false,
-    "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/sample",
-    "quickSaveApi": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/sample/bulkUpdate",
+    "api": "/api/sample",
+    "quickSaveApi": "/api/sample/bulkUpdate",
     "columns": [
         {
             "name": "id",
@@ -749,8 +749,8 @@ amis 只负责生成下拉选择器组件，并将搜索参数传递给接口，
 {
     "type": "crud",
     "syncLocation": false,
-    "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/sample",
-    "quickSaveApi": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/sample/bulkUpdate",
+    "api": "/api/sample",
+    "quickSaveApi": "/api/sample/bulkUpdate",
     "columns": [
         {
             "name": "id",
@@ -780,8 +780,8 @@ amis 只负责生成下拉选择器组件，并将搜索参数传递给接口，
 {
     "type": "crud",
     "syncLocation": false,
-    "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/sample",
-    "quickSaveApi": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/sample/bulkUpdate",
+    "api": "/api/sample",
+    "quickSaveApi": "/api/sample/bulkUpdate",
     "columns": [
         {
             "name": "id",
@@ -824,8 +824,8 @@ amis 只负责生成下拉选择器组件，并将搜索参数传递给接口，
 {
     "type": "crud",
     "syncLocation": false,
-    "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/sample",
-    "quickSaveApi": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/sample/bulkUpdate",
+    "api": "/api/sample",
+    "quickSaveApi": "/api/sample/bulkUpdate",
     "columns": [
         {
             "name": "id",
@@ -859,8 +859,8 @@ amis 只负责生成下拉选择器组件，并将搜索参数传递给接口，
 {
     "type": "crud",
     "syncLocation": false,
-    "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/sample",
-    "quickSaveItemApi": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/sample/$id",
+    "api": "/api/sample",
+    "quickSaveItemApi": "/api/sample/$id",
     "columns": [
         {
             "name": "id",
@@ -893,7 +893,7 @@ amis 只负责生成下拉选择器组件，并将搜索参数传递给接口，
 {
     "type": "crud",
     "syncLocation": false,
-    "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/sample",
+    "api": "/api/sample",
     "columns": [
         {
             "name": "id",
@@ -914,7 +914,7 @@ amis 只负责生成下拉选择器组件，并将搜索参数传递给接口，
                     "X"
                 ],
                 "saveImmediately": {
-                    "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/sample/$id"
+                    "api": "/api/sample/$id"
                 }
             }
         }
@@ -930,8 +930,8 @@ amis 只负责生成下拉选择器组件，并将搜索参数传递给接口，
 {
     "type": "crud",
     "syncLocation": false,
-    "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/sample",
-    "quickSaveApi": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/sample/bulkUpdate",
+    "api": "/api/sample",
+    "quickSaveApi": "/api/sample/bulkUpdate",
     "columns": [
         {
             "name": "id",
@@ -955,7 +955,7 @@ crud 组件支持通过配置`headerToolbar`和`footerToolbar`属性，实现在
 {
     "type": "crud",
     "syncLocation": false,
-    "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/sample",
+    "api": "/api/sample",
     "headerToolbar": [
         {
             "type": "tpl",
@@ -1043,7 +1043,7 @@ crud 组件支持通过配置`headerToolbar`和`footerToolbar`属性，实现在
     "type": "crud",
     "name": "myCRUD",
     "syncLocation": false,
-    "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/sample",
+    "api": "/api/sample",
     "headerToolbar": [
         {
             "label": "点击弹框",
@@ -1087,7 +1087,7 @@ crud 组件支持通过配置`headerToolbar`和`footerToolbar`属性，实现在
 {
     "type": "crud",
     "syncLocation": false,
-    "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/sample",
+    "api": "/api/sample",
     "headerToolbar": [],
     "footerToolbar": ["switch-per-page", "pagination"],
     "columns": [
@@ -1110,7 +1110,7 @@ crud 组件支持通过配置`headerToolbar`和`footerToolbar`属性，实现在
                     "X"
                 ],
                 "saveImmediately": {
-                    "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/sample/$id"
+                    "api": "/api/sample/$id"
                 }
             }
         }
@@ -1226,7 +1226,7 @@ crud 组件支持通过配置`headerToolbar`和`footerToolbar`属性，实现在
 {
     "type": "crud",
     "syncLocation": false,
-    "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/sample",
+    "api": "/api/sample",
     "headerToolbar": [
         "bulkActions"
     ],
@@ -1234,7 +1234,7 @@ crud 组件支持通过配置`headerToolbar`和`footerToolbar`属性，实现在
         {
             "label": "批量删除",
             "actionType": "ajax",
-            "api": "delete:https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/sample/${ids|raw}",
+            "api": "delete:/api/sample/${ids|raw}",
             "confirmText": "确定要批量删除?"
         },
         {
@@ -1244,7 +1244,7 @@ crud 组件支持通过配置`headerToolbar`和`footerToolbar`属性，实现在
                 "title": "批量编辑",
                 "body": {
                     "type": "form",
-                    "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/sample/bulkUpdate2",
+                    "api": "/api/sample/bulkUpdate2",
                     "body": [
                         {
                             "type": "hidden",
@@ -1318,7 +1318,7 @@ crud 组件支持通过配置`headerToolbar`和`footerToolbar`属性，实现在
 {
     "type": "crud",
     "syncLocation": false,
-    "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/sample",
+    "api": "/api/sample",
     "headerToolbar": [
         "bulkActions"
     ],
@@ -1328,7 +1328,7 @@ crud 组件支持通过配置`headerToolbar`和`footerToolbar`属性，实现在
         {
             "label": "批量删除",
             "actionType": "ajax",
-            "api": "delete:https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/sample/${ids|raw}",
+            "api": "delete:/api/sample/${ids|raw}",
             "confirmText": "确定要批量删除?"
         },
         {
@@ -1338,7 +1338,7 @@ crud 组件支持通过配置`headerToolbar`和`footerToolbar`属性，实现在
                 "title": "批量编辑",
                 "body": {
                     "type": "form",
-                    "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/sample/bulkUpdate2",
+                    "api": "/api/sample/bulkUpdate2",
                     "body": [
                         {
                             "type": "hidden",
@@ -1391,7 +1391,7 @@ crud 组件支持通过配置`headerToolbar`和`footerToolbar`属性，实现在
 {
     "type": "crud",
     "syncLocation": false,
-    "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/sample",
+    "api": "/api/sample",
     "headerToolbar": ["statistics"],
     "columns": [
         {
@@ -1430,7 +1430,7 @@ crud 组件支持通过配置`headerToolbar`和`footerToolbar`属性，实现在
 {
     "type": "crud",
     "syncLocation": false,
-    "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/sample",
+    "api": "/api/sample",
     "headerToolbar": ["load-more"],
     "columns": [
         {
@@ -1512,7 +1512,7 @@ crud 组件支持通过配置`headerToolbar`和`footerToolbar`属性，实现在
 {
     "type": "crud",
     "syncLocation": false,
-    "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/sample",
+    "api": "/api/sample",
     "headerToolbar": ["export-excel"],
     "columns": [
         {
@@ -1556,7 +1556,7 @@ crud 组件支持通过配置`headerToolbar`和`footerToolbar`属性，实现在
     "headerToolbar": [{
         "type": "export-excel",
         "label": "全量导出 Excel",
-        "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/sample"
+        "api": "/api/sample"
     }],
     "columns": [
         {
@@ -1601,7 +1601,7 @@ crud 组件支持通过配置`headerToolbar`和`footerToolbar`属性，实现在
         "type": "export-excel",
         "label": "自定义导出 Excel",
         "filename": "自定义文件名${test}",
-        "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/sample"
+        "api": "/api/sample"
     }],
     "columns": [
         {
@@ -1640,7 +1640,7 @@ crud 组件支持通过配置`headerToolbar`和`footerToolbar`属性，实现在
 {
     "type": "crud",
     "syncLocation": false,
-    "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/sample",
+    "api": "/api/sample",
      "filter": {
         "title": "条件搜索",
         "body": [
@@ -1696,7 +1696,7 @@ crud 组件支持通过配置`headerToolbar`和`footerToolbar`属性，实现在
 {
   "type": "crud",
   "syncLocation": false,
-  "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/sample",
+  "api": "/api/sample",
   "draggable": true,
   "columns": [
     {
@@ -1767,7 +1767,7 @@ crud 组件支持通过配置`headerToolbar`和`footerToolbar`属性，实现在
 {
     "type": "crud",
     "syncLocation": false,
-    "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/sample",
+    "api": "/api/sample",
     "draggable": true,
     "columns": [
         {
@@ -1898,7 +1898,7 @@ CRUD 中不限制有多少个单条操作、添加一个操作对应的添加一
 {
     "type": "crud",
     "syncLocation": false,
-    "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/sample",
+    "api": "/api/sample",
     "loadDataOnce": true,
     "columns": [
         {
@@ -1936,7 +1936,7 @@ CRUD 中不限制有多少个单条操作、添加一个操作对应的添加一
 {
     "type": "crud",
     "syncLocation": false,
-    "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/sample",
+    "api": "/api/sample",
     "loadDataOnce": true,
     "source": "${rows | filter:engine:match:keywords}",
     "filter":{
@@ -1991,7 +1991,7 @@ CRUD 中不限制有多少个单条操作、添加一个操作对应的添加一
 ```schema: scope="body"
 {
     "type": "crud",
-    "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/crud/dynamic?waitSeconds=1"
+    "api": "/api/crud/dynamic?waitSeconds=1"
 }
 ```
 

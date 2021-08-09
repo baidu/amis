@@ -15,7 +15,7 @@ order: 34
 ```schema: scope="body"
 {
     "type": "chart",
-    "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/chart/chart",
+    "api": "/api/mock2/chart/chart",
     "interval": 5000
 }
 ```
@@ -124,7 +124,7 @@ api 返回支持两种格式，一种是直接返回完整 echarts 配置，数�
                 },
                 {
                     "type": "chart",
-                    "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/chart/chart1"
+                    "api": "/api/mock2/chart/chart1"
                 }
             ]
         }
@@ -139,7 +139,7 @@ api 返回支持两种格式，一种是直接返回完整 echarts 配置，数�
 ```schema: scope="body"
 {
     "type": "chart",
-    "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/chart/chartData",
+    "api": "/api/mock2/chart/chartData",
     "config": {
         "xAxis": {
             "type": "category",
@@ -177,7 +177,7 @@ api 返回支持两种格式，一种是直接返回完整 echarts 配置，数�
 ```schema: scope="body"
 {
     "type": "service",
-    "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/chart/chartData",
+    "api": "/api/mock2/chart/chartData",
     "interval": 3000,
     "body": [
         {
@@ -308,7 +308,7 @@ api 返回支持两种格式，一种是直接返回完整 echarts 配置，数�
                 },
                 {
                     "type": "chart",
-                    "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/chart/chart1"
+                    "api": "/api/mock2/chart/chart1"
                 }
             ]
         }
@@ -323,7 +323,7 @@ api 返回支持两种格式，一种是直接返回完整 echarts 配置，数�
 ```schema: scope="body"
 {
     "type": "chart",
-    "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/chart/chart1"
+    "api": "/api/mock2/chart/chart1"
 }
 ```
 
@@ -378,13 +378,13 @@ api 返回支持两种格式，一种是直接返回完整 echarts 配置，数�
                 "type": "chart",
                 "name": "chart1",
                 "initFetch": false,
-                "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/chart/chart?name=$name&starttime=${starttime}&endtime=${endtime}"
+                "api": "/api/mock2/chart/chart?name=$name&starttime=${starttime}&endtime=${endtime}"
             },
             {
                 "type": "chart",
                 "name": "chart2",
                 "initFetch": false,
-                "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/chart/chart2?name=$name"
+                "api": "/api/mock2/chart/chart2?name=$name"
             }
         ]
     }

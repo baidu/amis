@@ -143,7 +143,7 @@ API 还支持配置对象类型
     "type": "form",
     "api": {
         "method": "post",
-        "url": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
+        "url": "/api/mock2/form/saveForm",
         "data": {
             "myName": "${name}",
             "myEmail": "${email}"
@@ -196,7 +196,7 @@ API 还支持配置对象类型
     "title": "默认JSON格式",
     "api": {
         "method": "post",
-        "url": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
+        "url": "/api/mock2/form/saveForm",
         "data":{
             "&": "$$$$" // 获取表单数据域中的所有值
         }
@@ -225,7 +225,7 @@ API 还支持配置对象类型
     "type": "form",
     "api": {
         "method": "post",
-        "url": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
+        "url": "/api/mock2/form/saveForm",
         "dataType": "form"
     },
     "body": [
@@ -252,7 +252,7 @@ API 还支持配置对象类型
     "type": "form",
     "api": {
         "method": "post",
-        "url": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
+        "url": "/api/mock2/form/saveForm",
         "dataType": "form-data"
     },
     "body": [
@@ -277,7 +277,7 @@ API 还支持配置对象类型
     "type": "form",
     "api": {
         "method": "post",
-        "url": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm"
+        "url": "/api/mock2/form/saveForm"
     },
     "body": [
       {
@@ -306,7 +306,7 @@ API 还支持配置对象类型
     "type": "form",
     "api": {
         "method": "post",
-        "url": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
+        "url": "/api/mock2/form/saveForm",
         "headers": {
             "my-header": "aaa"
         }
@@ -363,7 +363,7 @@ API 还支持配置对象类型
         "name": "b",
         "source": {
             "method": "get",
-            "url": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/options/level2?a=${a}",
+            "url": "/api/mock2/options/level2?a=${a}",
             "sendOn": "this.a === 2"
         },
         "description": "只有<code>选项1</code>选择<code>B</code>的时候，才触发<code>选项2</code>的<code>source</code>接口重新拉取"
@@ -382,7 +382,7 @@ API 还支持配置对象类型
 ```schema: scope="body"
 {
     "type": "crud",
-    "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/sample?waitSeconds=1",
+    "api": "/api/sample?waitSeconds=1",
     "columns": [
         {
             "name": "id",
@@ -391,7 +391,7 @@ API 还支持配置对象类型
         {
             "type": "service",
             "label": "数据",
-            "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/page/initData",
+            "api": "/api/mock2/page/initData",
             "body": {
                 "type": "tpl",
                 "tpl": "当前日期是：${date}"
@@ -408,7 +408,7 @@ API 还支持配置对象类型
 ```schema: scope="body"
 {
     "type": "crud",
-    "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/sample?waitSeconds=1",
+    "api": "/api/sample?waitSeconds=1",
     "columns": [
         {
             "name": "id",
@@ -419,7 +419,7 @@ API 还支持配置对象类型
             "label": "数据",
             "api": {
                 "method": "get",
-                "url": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/page/initData",
+                "url": "/api/mock2/page/initData",
                 "cache": 2000
             },
             "body": {
@@ -539,7 +539,7 @@ function (api) {
     "type": "form",
     "api": {
         "method": "post",
-        "url": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
+        "url": "/api/mock2/form/saveForm",
         "requestAdaptor": "return {\n    ...api,\n    data: {\n        ...api.data,    // 获取暴露的 api 中的 data 变量\n        foo: 'bar'      // 新添加数据\n    }\n}"
     },
     "body": [
@@ -581,8 +581,7 @@ const schema = {
   type: 'form',
   api: {
     method: 'post',
-    url:
-      'https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm',
+    url: '/api/mock2/form/saveForm',
     requestAdaptor: function (api) {
       return {
         ...api,
@@ -646,7 +645,7 @@ function (payload, response) {
   "type": "form",
   "api": {
     "method": "post",
-    "url": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
+    "url": "/api/mock2/form/saveForm",
     "adaptor": "return {\n    ...payload,\n    status: payload.code === 200 ? 0 : payload.code\n}"
   },
   "body": [
@@ -686,8 +685,7 @@ const schema = {
   type: 'form',
   api: {
     method: 'post',
-    url:
-      'https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm',
+    url: '/api/mock2/form/saveForm',
     adaptor: function (payload, response) {
       return {
         ...payload,
@@ -853,7 +851,7 @@ Content-Disposition: attachment; filename="download.pdf"
         "name": "b",
         "source": {
           "method": "get",
-          "url": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/options/level2",
+          "url": "/api/mock2/options/level2",
           "trackExpression": "${a}"
         },
         "description": "切换<code>选项1</code>的值，会触发<code>选项2</code>的<code>source</code> 接口重新拉取"

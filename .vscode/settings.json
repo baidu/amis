@@ -5,6 +5,7 @@
   "typescript.tsdk": "node_modules/typescript/lib",
   "gitHistory.showEditorTitleMenuBarIcons": false,
   "search.exclude": {
-    "examples/docs.json": true
+    "examples/docs.json": true,
+    "examples/components/EChartsEditor/option-parts/**/*": true
   }
 }

@@ -28,7 +28,7 @@ Page 组件是 amis 页面 JSON 配置中顶级容器组件，是整个页面配
 ```schema: scope="body"
 {
     "type": "form",
-    "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
+    "api": "/api/mock2/form/saveForm",
     "body": [
       {
         "type": "input-text",
@@ -76,7 +76,7 @@ Page 默认将页面分为几个区域，分别是**内容区（`body`）**、**
 ```schema
 {
   "type": "page",
-  "initApi": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/page/initData",
+  "initApi": "/api/mock2/page/initData",
   "body": [
     {
       "type": "tpl",
@@ -98,7 +98,7 @@ Page 默认将页面分为几个区域，分别是**内容区（`body`）**、**
 ```schema
 {
   "type": "page",
-  "initApi": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/page/initData",
+  "initApi": "/api/mock2/page/initData",
   "interval": 3000,
   "body": [
     {
@@ -114,7 +114,7 @@ Page 默认将页面分为几个区域，分别是**内容区（`body`）**、**
 ```schema
 {
   "type": "page",
-  "initApi": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/page/initData",
+  "initApi": "/api/mock2/page/initData",
   "stopAutoRefreshWhen": "this.time % 5", // 当时间戳能被5整除时，停止轮询
   "interval": 3000,
   "body": [

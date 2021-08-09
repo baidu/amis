@@ -1,0 +1,46 @@
+{
+    "status": 0,
+    "msg": "",
+    "data": {
+        "test1": "xxxx@xxx.com",
+        "test2": "",
+        "test3": "bla bla",
+        "test4": "http://hiphotos.baidu.com/fex/pic/item/8326cffc1e178a8206b7700fff03738da877e892.jpg",
+        "test5": [
+            {
+                "a": "http://hiphotos.baidu.com/fex/pic/item/8326cffc1e178a8206b7700fff03738da877e892.jpg",
+                "b": "xxxx",
+                "c": "xxxx@xxx.com"
+            }
+        ],
+        "test6": {
+            "a": "http://hiphotos.baidu.com/fex/pic/item/8326cffc1e178a8206b7700fff03738da877e892.jpg",
+            "b": "xxxx",
+            "c": "xxxx@xxx.com"
+        },
+        "localOptions": [
+            {
+                "label": "选项1",
+                "value": "1"
+            },
+            {
+                "label": "选项2",
+                "value": "2",
+                "children": [
+                    {
+                        "label": "选项a",
+                        "value": "a"
+                    },
+                    {
+                        "label": "选项b",
+                        "value": "b"
+                    }
+                ]
+            },
+            {
+                "label": "选项3",
+                "value": "3"
+            }
+        ]
+    }
+}

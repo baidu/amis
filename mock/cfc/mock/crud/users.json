@@ -1,0 +1,39 @@
+{
+    "status": 0,
+    "msg": "ok",
+    "data": {
+        "count": 18,
+        "rows": [
+            {
+                "id": 1,
+                "name": "buzhihuowu",
+                "email": "buzhihuowu@xxx.com",
+                "avatar": "http://hiphotos.baidu.com/fex/%70%69%63/item/0d338744ebf81a4cff2f4cd6de2a6059252da694.jpg",
+                "realName": "不知火舞",
+                "isOwner": 0,
+                "roles": [
+                    {
+                        "id": 814,
+                        "name": "dsdsdsfsf",
+                        "description": "fdsfsdfsdf"
+                    }
+                ]
+            },
+            {
+                "id": 6,
+                "name": "shangguanwaner",
+                "email": "shangguanwaner@xxx.com",
+                "avatar": "http://hiphotos.baidu.com/fex/%70%69%63/item/0d338744ebf81a4cff2f4cd6de2a6059252da694.jpg",
+                "realName": "上官婉儿",
+                "isOwner": 0,
+                "roles": [
+                    {
+                        "id": 814,
+                        "name": "dsdsdsfsf",
+                        "description": "fdsfsdfsdf"
+                    }
+                ]
+            }
+        ]
+    }
+}
