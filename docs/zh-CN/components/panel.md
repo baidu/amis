@@ -97,7 +97,7 @@ order: 59
 | footerClassName  | `string`                                  | `"panel-footer bg-light lter wrapper"` | footer 区域的类名   |
 | actionsClassName | `string`                                  | `"panel-footer"`                       | actions 区域的类名  |
 | bodyClassName    | `string`                                  | `"panel-body"`                         | body 区域的类名     |
-| title            | [SchemaNode](../../docs/types/schemanode) |                                        | 标题                |
+| title            | `string`                                  |                                        | 标题                |
 | header           | [SchemaNode](../../docs/types/schemanode) |                                        | 头部容器            |
 | body             | [SchemaNode](../../docs/types/schemanode) |                                        | 内容容器            |
 | footer           | [SchemaNode](../../docs/types/schemanode) |                                        | 底部容器            |
