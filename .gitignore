@@ -24,3 +24,4 @@ node_modules
 /package-lock.json
 /schema.json
 /npm
+/mock/cfc/cfc.zip

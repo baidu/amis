@@ -1,8 +1,0 @@
-{
-    "status": 404,
-    "msg": "测试返回错误",
-    "data": {
-        "title": "Test Page Component",
-        "date": "2017-10-13"
-    }
-}

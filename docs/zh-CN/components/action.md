@@ -182,7 +182,7 @@ icon 也可以是 url 地址，比如
     "type": "button",
     "actionType": "ajax",
     "confirmText": "确认要发出这个请求？",
-    "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm"
+    "api": "/api/mock2/form/saveForm"
 }
 ```
 
@@ -195,7 +195,7 @@ icon 也可以是 url 地址，比如
     "label": "ajax请求",
     "type": "button",
     "actionType": "ajax",
-    "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm"
+    "api": "/api/mock2/form/saveForm"
 }
 ```
 
@@ -208,7 +208,7 @@ icon 也可以是 url 地址，比如
     "label": "ajax请求",
     "type": "button",
     "actionType": "ajax",
-    "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
+    "api": "/api/mock2/form/saveForm",
     "redirect": "../docs/start/getting-started"
 }
 ```
@@ -220,7 +220,7 @@ icon 也可以是 url 地址，比如
     "label": "ajax请求",
     "type": "button",
     "actionType": "ajax",
-    "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
+    "api": "/api/mock2/form/saveForm",
     "redirect": "https://www.baidu.com/"
 }
 ```
@@ -232,7 +232,7 @@ icon 也可以是 url 地址，比如
     "type": "button",
     "label": "ajax 反馈弹框",
     "actionType": "ajax",
-    "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
+    "api": "/api/mock2/form/saveForm",
     "feedback": {
         "title": "操作成功",
         "body": "xxx 已操作成功"
@@ -255,7 +255,7 @@ icon 也可以是 url 地址，比如
       "type": "button",
       "label": "ajax 请求",
       "actionType": "ajax",
-      "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
+      "api": "/api/mock2/form/saveForm",
       "reload": "crud"
     },
     {
@@ -264,7 +264,7 @@ icon 也可以是 url 地址，比如
     {
       "type": "crud",
       "name": "crud",
-      "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/sample?waitSeconds=1",
+      "api": "/api/sample?waitSeconds=1",
       "columns": [
         {
             "name": "id",
@@ -307,7 +307,7 @@ icon 也可以是 url 地址，比如
     "type": "button",
     "label": "ajax 请求",
     "actionType": "ajax",
-    "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
+    "api": "/api/mock2/form/saveForm",
     "messages": {
         "success": "成功了！欧耶",
         "failed": "失败了呢。。"
@@ -343,7 +343,7 @@ icon 也可以是 url 地址，比如
         "countDown": 60,
         "countDownTpl": "${timeLeft} 秒后重发",
         "actionType": "ajax",
-        "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm?phone=${phone}"
+        "api": "/api/mock2/form/saveForm?phone=${phone}"
       }
     }
   ]
@@ -413,7 +413,7 @@ icon 也可以是 url 地址，比如
 ```schema: scope="body"
 {
   "type": "page",
-  "initApi": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/mail/mailInfo",
+  "initApi": "/api/mock2/mail/mailInfo",
   "body": {
     "label": "发送邮件",
     "type": "button",
@@ -449,7 +449,7 @@ icon 也可以是 url 地址，比如
     "title": "表单设置",
     "body": {
       "type": "form",
-      "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
+      "api": "/api/mock2/form/saveForm",
       "body": [
         {
           "type": "input-text",
@@ -469,14 +469,14 @@ icon 也可以是 url 地址，比如
 ```schema: scope="body"
 {
     "type": "form",
-    "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
+    "api": "/api/mock2/form/saveForm",
     "name": "myForm",
     "body": [
         {
           "type": "select",
           "name": "group",
           "label": "分组",
-          "source": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/getOptions"
+          "source": "/api/mock2/form/getOptions"
         },
         {
           "label": "新增分组",
@@ -488,7 +488,7 @@ icon 也可以是 url 地址，比如
             "title": "新增分组",
             "body": {
               "type": "form",
-              "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
+              "api": "/api/mock2/form/saveForm",
               "body": [
                 {
                   "type": "input-text",
@@ -524,7 +524,7 @@ icon 也可以是 url 地址，比如
     "title": "表单设置",
     "body": {
       "type": "form",
-      "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm?waitSeconds=1",
+      "api": "/api/mock2/form/saveForm?waitSeconds=1",
       "body": [
         {
           "type": "input-text",
@@ -584,7 +584,7 @@ icon 也可以是 url 地址，比如
 ```schema: scope="body"
 {
     "type": "form",
-    "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
+    "api": "/api/mock2/form/saveForm",
     "body": [
         {
             "type": "input-text",
@@ -625,7 +625,7 @@ icon 也可以是 url 地址，比如
 ```schema: scope="body"
 {
     "type": "form",
-    "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
+    "api": "/api/mock2/form/saveForm",
     "body": [
         {
             "type": "input-text",

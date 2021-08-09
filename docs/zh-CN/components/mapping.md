@@ -180,7 +180,7 @@ List 的内容、Card 卡片的内容配置同上
             "type": "mapping",
             "name": "type",
             "label": "映射",
-            "source": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mapping"
+            "source": "/api/mapping"
         }
     ]
 }
@@ -198,7 +198,7 @@ List 的内容、Card 卡片的内容配置同上
 {
     "type": "form",
     "initApi": {
-        "url": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mapping",
+        "url": "/api/mapping",
         "method": "get",
         "responseData": {
             "zidian": "$$$$",

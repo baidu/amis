@@ -70,7 +70,7 @@ order: 12
 ```schema: scope="body"
 {
     "type": "form",
-    "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
+    "api": "/api/mock2/form/saveForm",
     "body": [
       {
         "type": "input-text",
@@ -111,7 +111,7 @@ order: 12
     "type": "form",
     "api": {
         "method": "post",
-        "url": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
+        "url": "/api/mock2/form/saveForm",
         "data": {
             "userName": "${name}",
             "userEmail": "${email}"
@@ -162,7 +162,7 @@ order: 12
     }
   },
   "api": {
-    "url": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
+    "url": "/api/mock2/form/saveForm",
     "method": "post",
     "data": {
       "name": "${name}",
@@ -214,7 +214,7 @@ order: 12
     }
   },
   "api": {
-    "url": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
+    "url": "/api/mock2/form/saveForm",
     "method": "post",
     "data": {
       "name": "${name}",
@@ -266,7 +266,7 @@ order: 12
     "type": "form",
     "api": {
         "method": "post",
-        "url": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
+        "url": "/api/mock2/form/saveForm",
         "data": {
             "items": {
               "$table": {
@@ -1598,7 +1598,7 @@ ${xxx | map[:filterName][:...args]}
     "mode": "horizontal",
     "api": {
       "method": "post",
-      "url": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
+      "url": "/api/mock2/form/saveForm",
       "data": {
         "test": "${combo2|pick:text|map:toInt|map:date:LLL:x}"
       }

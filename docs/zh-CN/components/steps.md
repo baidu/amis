@@ -101,7 +101,7 @@ order: 68
 ```schema
 {
   "type": "page",
-  "initApi": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/steps/get",
+  "initApi": "/api/mock2/steps/get",
   "body": [
     {
       "type": "steps",
@@ -132,7 +132,7 @@ order: 68
   "type": "page",
   "body": {
     "type": "form",
-    "initApi": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/steps/steps",
+    "initApi": "/api/mock2/steps/steps",
     "body": [
       {
         "type": "steps",
@@ -157,7 +157,7 @@ order: 68
       {
         "type": "steps",
         "name": "steps",
-        "source": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/steps/steps"
+        "source": "/api/mock2/steps/steps"
       }
     ]
   }

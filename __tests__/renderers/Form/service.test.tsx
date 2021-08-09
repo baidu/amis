@@ -58,8 +58,7 @@ test('Renderer:service', async () => {
             type: 'service',
             className: 'm-t',
             initFetchSchemaOn: 'data.tpl',
-            schemaApi:
-              'https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/service/form?tpl=$tpl'
+            schemaApi: '/api/mock2/service/form?tpl=$tpl'
           }
         ],
         submitText: null,
