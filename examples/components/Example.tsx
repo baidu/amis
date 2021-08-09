@@ -85,6 +85,7 @@ import Tab3Schema from './Tabs/Tab3';
 import TestComponent from './Test';
 import APP from './APP/index';
 import {normalizeLink} from '../../src/utils/normalizeLink';
+import './WebComponent';
 
 export const examples = [
   {

@@ -1143,6 +1143,15 @@ export const components = [
           import('../../docs/zh-CN/components/wizard.md').then(
             makeMarkdownRenderer
           )
+      },
+      {
+        label: 'Web Component',
+        path: '/zh-CN/components/web-component',
+        getComponent: () =>
+          // @ts-ignore
+          import('../../docs/zh-CN/components/web-component.md').then(
+            makeMarkdownRenderer
+          )
       }
     ]
   }
