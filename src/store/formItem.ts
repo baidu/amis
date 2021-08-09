@@ -9,7 +9,7 @@ import {
   getEnv,
   Instance
 } from 'mobx-state-tree';
-import {IFormStore} from './form';
+import {FormStore, IFormStore} from './form';
 import {str2rules, validate as doValidate} from '../utils/validations';
 import {Api, Payload, fetchOptions} from '../types';
 import {ComboStore, IComboStore, IUniqueGroup} from './combo';
@@ -91,7 +91,8 @@ export const FormItemStore = StoreNode.named('FormItemStore')
   })
   .views(self => {
     function getForm(): any {
-      return self.parentStore;
+      const form = self.parentStore;
+      return form?.storeType === FormStore.name ? form : undefined;
     }
 
     function getValue(): any {
