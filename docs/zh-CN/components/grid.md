@@ -49,8 +49,8 @@ order: 46
 | type                       | `string`                                           | `"grid"` | 指定为 Grid 渲染器   |
 | className                  | `string`                                           |          | 外层 Dom 的类名      |
 | gap                        | `'xs' \| 'sm' \| 'base' \| 'none' \| 'md' \| 'lg'` |          | 水平间距             |
-| vAlign                     | `'top' \| 'middle' \| 'bottom' \| 'between'`       |          | 垂直对齐方式         |
-| hAlign                     | `'left' \| 'right' \| 'between' \| 'center'`       |          | 水平对齐方式         |
+| valign                     | `'top' \| 'middle' \| 'bottom' \| 'between'`       |          | 垂直对齐方式         |
+| align                      | `'left' \| 'right' \| 'between' \| 'center'`       |          | 水平对齐方式         |
 | columns                    | `Array`                                            |          | 列集合               |
 | columns[x]                 | [SchemaNode](../../docs/types/schemanode)          |          | 成员可以是其他渲染器 |
 | columns[x].xs              | `int` or "auto"                                    |          | 宽度占比： 1 - 12    |
@@ -58,5 +58,6 @@ order: 46
 | columns[x].sm              | `int` or "auto"                                    |          | 宽度占比： 1 - 12    |
 | columns[x].md              | `int` or "auto"                                    |          | 宽度占比： 1 - 12    |
 | columns[x].lg              | `int` or "auto"                                    |          | 宽度占比： 1 - 12    |
+| columns[x].valign          | `'top' \| 'middle' \| 'bottom' \| 'between'`       |          | 当前列内容的垂直对齐 |
 
 更多使用说明，请参看 [Grid Props](https://react-bootstrap.github.io/layout/grid/#col-props)

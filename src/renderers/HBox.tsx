@@ -18,6 +18,11 @@ export type HBoxColumnObject = {
   columnClassName?: string;
 
   /**
+   * 垂直对齐方式
+   */
+  valign?: 'top' | 'middle' | 'bottom' | 'between';
+
+  /**
    * 宽度
    */
   width?: number | string;
@@ -90,12 +95,12 @@ export interface HBoxSchema extends BaseSchema {
   /**
    * 垂直对齐方式
    */
-  vAlign?: 'top' | 'middle' | 'bottom';
+  valign?: 'top' | 'middle' | 'bottom' | 'between';
 
   /**
    * 水平对齐方式
    */
-  hAlign?: 'left' | 'right' | 'between' | 'center';
+  align?: 'left' | 'right' | 'between' | 'center';
 }
 
 export interface HBoxProps extends RendererProps, HBoxSchema {
@@ -152,6 +157,9 @@ export default class HBox extends React.Component<HBoxProps, object> {
             : style.width
             ? 'Hbox-col--customWidth'
             : '',
+          {
+            [`Hbox-col--v${ucFirst(column.valign)}`]: column.valign
+          },
           (column as HBoxColumn).columnClassName
         )}
         style={style}
@@ -176,7 +184,13 @@ export default class HBox extends React.Component<HBoxProps, object> {
   }
 
   render() {
-    const {className, classnames: cx, gap, vAlign, hAlign} = this.props;
+    const {
+      className,
+      classnames: cx,
+      gap,
+      valign: vAlign,
+      align: hAlign
+    } = this.props;
     return (
       <div
         className={cx(`Hbox`, className, {
