@@ -245,7 +245,7 @@ export const FormStore = ServiceStore.named('FormStore')
     }
 
     const syncOptions = debounce(
-      () => self.items.forEach(item => item.syncOptions()),
+      () => self.items.forEach(item => item.syncOptions(undefined, self.data)),
       250,
       {
         trailing: true,

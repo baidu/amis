@@ -394,7 +394,8 @@ export const FormItemStore = StoreNode.named('FormItemStore')
 
     function setOptions(
       options: Array<object>,
-      onChange?: (value: any) => void
+      onChange?: (value: any) => void,
+      data?: Object
     ) {
       if (!Array.isArray(options)) {
         return;
@@ -402,10 +403,11 @@ export const FormItemStore = StoreNode.named('FormItemStore')
       options = filterTree(options, item => item);
       const originOptions = self.options.concat();
       self.options = options;
-      syncOptions(originOptions);
+      syncOptions(originOptions, data);
       let selectedOptions;
 
       if (
+        onChange &&
         self.selectFirst &&
         self.filteredOptions.length &&
         (selectedOptions = self.getSelectedOptions(self.value)) &&
@@ -431,7 +433,7 @@ export const FormItemStore = StoreNode.named('FormItemStore')
             ? list
             : list[0];
 
-        onChange?.(value);
+        onChange(value);
       }
     }
 
@@ -542,7 +544,7 @@ export const FormItemStore = StoreNode.named('FormItemStore')
         [];
 
       options = normalizeOptions(options as any);
-      setOptions(options, onChange);
+      setOptions(options, onChange, data);
 
       if (json.data && typeof (json.data as any).value !== 'undefined') {
         onChange && onChange((json.data as any).value, false, true);
@@ -575,7 +577,9 @@ export const FormItemStore = StoreNode.named('FormItemStore')
         spliceTree(self.options, indexes, 1, {
           ...option,
           loading: true
-        })
+        }),
+        undefined,
+        data
       );
 
       let json = yield fetchOptions(
@@ -593,7 +597,9 @@ export const FormItemStore = StoreNode.named('FormItemStore')
             ...option,
             loading: false,
             error: true
-          })
+          }),
+          undefined,
+          data
         );
         return;
       }
@@ -611,27 +617,23 @@ export const FormItemStore = StoreNode.named('FormItemStore')
           loading: false,
           loaded: true,
           children: options
-        })
+        }),
+        undefined,
+        data
       );
 
       return json;
     });
 
     // @issue 强依赖form，需要改造暂且放过。
-    function syncOptions(originOptions?: Array<any>) {
+    function syncOptions(originOptions?: Array<any>, data?: Object) {
       if (!self.options.length && typeof self.value === 'undefined') {
         self.selectedOptions = [];
         self.filteredOptions = [];
         return;
       }
 
-      const form = self.form;
-      const value = self.value;
-
-      // 有可能销毁了
-      if (!form) {
-        return;
-      }
+      const value = self.tmpValue;
 
       const selected = Array.isArray(value)
         ? value.map(item =>
@@ -667,13 +669,13 @@ export const FormItemStore = StoreNode.named('FormItemStore')
           }
 
           return item.visibleOn
-            ? evalExpression(item.visibleOn, form.data) !== false
+            ? evalExpression(item.visibleOn, data) !== false
             : item.hiddenOn
-            ? evalExpression(item.hiddenOn, form.data) !== true
+            ? evalExpression(item.hiddenOn, data) !== true
             : item.visible !== false || item.hidden !== true;
         })
         .map((item: any, index) => {
-          const disabled = evalExpression(item.disabledOn, form.data);
+          const disabled = evalExpression(item.disabledOn, data);
           const newItem = item.disabledOn
             ? self.filteredOptions.length > index &&
               self.filteredOptions[index].disabled === disabled
@@ -735,8 +737,10 @@ export const FormItemStore = StoreNode.named('FormItemStore')
         }
       });
 
-      let parentStore = form.parentStore;
-      if (parentStore && parentStore.storeType === ComboStore.name) {
+      const form = self.form;
+
+      let parentStore = form?.parentStore;
+      if (parentStore?.storeType === ComboStore.name) {
         let combo = parentStore as IComboStore;
         let group = combo.uniques.get(self.name) as IUniqueGroup;
         let options: Array<any> = [];
