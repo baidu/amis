@@ -37,6 +37,36 @@ order: 6
 }
 ```
 
+## 平铺模式
+
+配置 `"tiled": true` 实现平铺模式
+
+```schema: scope="body"
+{
+  "type": "form",
+  "api": "/api/mock2/form/saveForm",
+  "debug": true,
+  "body": [
+    {
+      "type": "button-group-select",
+      "label": "选项",
+      "name": "type",
+      "tiled": true,
+      "options": [
+        {
+          "label": "Option A",
+          "value": "a"
+        },
+        {
+          "label": "Option B",
+          "value": "b"
+        }
+      ]
+    }
+  ]
+}
+```
+
 ## 属性表
 
 当做选择器表单项使用时，除了支持 [普通表单项属性表](./formitem#%E5%B1%9E%E6%80%A7%E8%A1%A8) 中的配置以外，还支持下面一些配置
