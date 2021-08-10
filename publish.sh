@@ -8,8 +8,6 @@ cp -rf lib npm
 cp package.json npm
 cp schema.json npm
 cp -rf scss npm
-cp -rf docs npm
-cp -rf examples npm
 cp -rf sdk npm
 cp .npmignore npm
 
