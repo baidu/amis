@@ -188,16 +188,14 @@ export default class RangeControl extends React.PureComponent<
   }
 
   updateStyle() {
-    const {showInput, classPrefix: ns} = this.props;
+    const {showInput, classPrefix: ns, max, min} = this.props;
 
     let offsetWidth = (this.midLabel as HTMLSpanElement).offsetWidth;
-    let left = `calc(50% - ${offsetWidth / 2}px)`;
-    (document.querySelector(
-      `.${ns}InputRange-label--value`
-    ) as HTMLSpanElement).style.left = left;
-    if (showInput) {
-      left = `calc(50% - ${offsetWidth / 2 + 60}px)`;
-    }
+    const midValue = parseFloat(
+      ((max! + min! - 0.000001) / 2).toFixed(this.getStepPrecision())
+    );
+
+    let left = `${100 * ((midValue - min!) / (max! - min!))}%`;
     (this.midLabel as HTMLSpanElement).style.left = left;
   }
 
@@ -404,6 +402,9 @@ export default class RangeControl extends React.PureComponent<
       classnames: cx,
       classPrefix: ns
     } = this.props as PropsWithDefaults;
+    const midValue = ((max + min - 0.000001) / 2).toFixed(
+      this.getStepPrecision()
+    );
 
     return (
       <div
@@ -435,7 +436,8 @@ export default class RangeControl extends React.PureComponent<
           ref={this.midLabelRef}
         >
           <span className={cx('InputRange-labelContainer')}>
-            {((max + min) / 2).toFixed(this.getStepPrecision()) + unit}
+            {midValue}
+            {unit}
           </span>
         </span>
 
