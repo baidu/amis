@@ -21,6 +21,59 @@
       max-width: 100%;
     }
   }
+
+  &--hRight {
+    justify-content: flex-end;
+  }
+
+  &--hCenter {
+    justify-content: center;
+  }
+  &--hBetween {
+    justify-content: space-between;
+  }
+
+  &--vMiddle > &-col {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  &--vBottom > &-col {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+  }
+
+  &--vBetween > &-col {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+
+  & > &-col--vTop {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+  }
+
+  & > &-col--vMiddle {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  & > &-col--vBottom {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+  }
+
+  & > &-col--vBetween {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
 }
 
 .#{$ns}Hbox--xs {

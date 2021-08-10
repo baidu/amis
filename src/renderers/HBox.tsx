@@ -2,7 +2,7 @@ import React from 'react';
 import {Renderer, RendererProps} from '../factory';
 import {Api, SchemaNode, Schema, Action} from '../types';
 import cx from 'classnames';
-import {isVisible} from '../utils/helper';
+import {isVisible, ucFirst} from '../utils/helper';
 import {
   BaseSchema,
   SchemaCollection,
@@ -16,6 +16,11 @@ export type HBoxColumnObject = {
    * 列上 CSS 类名
    */
   columnClassName?: string;
+
+  /**
+   * 垂直对齐方式
+   */
+  valign?: 'top' | 'middle' | 'bottom' | 'between';
 
   /**
    * 宽度
@@ -85,7 +90,17 @@ export interface HBoxSchema extends BaseSchema {
   /**
    * 水平间距
    */
-  gap?: 'xs' | 'sm' | 'base' | 'md' | 'lg';
+  gap?: 'xs' | 'sm' | 'base' | 'none' | 'md' | 'lg';
+
+  /**
+   * 垂直对齐方式
+   */
+  valign?: 'top' | 'middle' | 'bottom' | 'between';
+
+  /**
+   * 水平对齐方式
+   */
+  align?: 'left' | 'right' | 'between' | 'center';
 }
 
 export interface HBoxProps extends RendererProps, HBoxSchema {
@@ -142,6 +157,9 @@ export default class HBox extends React.Component<HBoxProps, object> {
             : style.width
             ? 'Hbox-col--customWidth'
             : '',
+          {
+            [`Hbox-col--v${ucFirst(column.valign)}`]: column.valign
+          },
           (column as HBoxColumn).columnClassName
         )}
         style={style}
@@ -166,9 +184,21 @@ export default class HBox extends React.Component<HBoxProps, object> {
   }
 
   render() {
-    const {className, classnames: cx, gap} = this.props;
+    const {
+      className,
+      classnames: cx,
+      gap,
+      valign: vAlign,
+      align: hAlign
+    } = this.props;
     return (
-      <div className={cx(`Hbox`, className, gap ? `Hbox--${gap}` : '')}>
+      <div
+        className={cx(`Hbox`, className, {
+          [`Hbox--${gap}`]: gap,
+          [`Hbox--v${ucFirst(vAlign)}`]: vAlign,
+          [`Hbox--h${ucFirst(hAlign)}`]: hAlign
+        })}
+      >
         {this.renderColumns()}
       </div>
     );
