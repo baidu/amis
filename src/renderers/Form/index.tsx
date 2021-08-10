@@ -448,8 +448,10 @@ export default class Form extends React.Component<FormProps, object> {
     ) {
       const combo = store.parentStore as IComboStore;
       combo.addForm(store);
-      combo.forms.forEach(item =>
-        item.items.forEach(item => item.unique && item.syncOptions())
+      combo.forms.forEach(form =>
+        form.items.forEach(
+          item => item.unique && item.syncOptions(undefined, form.data)
+        )
       );
     }
   }
