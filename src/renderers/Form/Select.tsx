@@ -37,6 +37,11 @@ export interface SelectControlSchema extends FormOptionsControl {
    * 可以自定义菜单展示。
    */
   menuTpl?: string;
+
+  /**
+   * 边框模式，全边框，还是半边框，或者没边框。
+   */
+  borderMode?: 'full' | 'half' | 'none';
 }
 
 export interface SelectProps extends OptionsControlProps {
@@ -235,6 +240,7 @@ export default class SelectControl extends React.Component<SelectProps, any> {
       noResultsText,
       render,
       menuTpl,
+      borderMode,
       ...rest
     } = this.props;
 
@@ -246,6 +252,7 @@ export default class SelectControl extends React.Component<SelectProps, any> {
       <div className={cx(`${classPrefix}SelectControl`, className)}>
         <Select
           {...rest}
+          borderMode={borderMode}
           placeholder={placeholder}
           multiple={multiple || multi}
           ref={this.inputRef}

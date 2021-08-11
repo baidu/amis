@@ -38,6 +38,8 @@
     box-shadow: var(--Form-select-onFocus-boxShadow);
   }
 
+  @include input-border();
+
   &-valueWrap {
     user-select: none;
     position: relative;

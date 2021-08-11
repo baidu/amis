@@ -5,8 +5,9 @@ import ResultBox from '../ResultBox';
 import {ClassNamesFn, ThemeProps, themeable} from '../../theme';
 import {Icon} from '../icons';
 import {findTree, noop} from '../../utils/helper';
+import {localeable, LocaleProps} from '../../locale';
 
-export interface ConditionFieldProps extends ThemeProps {
+export interface ConditionFieldProps extends ThemeProps, LocaleProps {
   options: Array<any>;
   value: any;
   onChange: (value: any) => void;
@@ -22,7 +23,8 @@ export function ConditionField({
   value,
   classnames: cx,
   fieldClassName,
-  disabled
+  disabled,
+  translate: __
 }: ConditionFieldProps) {
   return (
     <PopOverContainer
@@ -52,7 +54,7 @@ export function ConditionField({
             }
             onResultChange={noop}
             onResultClick={onClick}
-            placeholder="请选择字段"
+            placeholder={__('Condition.field_placeholder')}
             disabled={disabled}
           >
             <span className={cx('CBGroup-fieldCaret')}>
@@ -65,4 +67,4 @@ export function ConditionField({
   );
 }
 
-export default themeable(ConditionField);
+export default themeable(localeable(ConditionField));

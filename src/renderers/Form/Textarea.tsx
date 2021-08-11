@@ -3,7 +3,7 @@ import {FormItem, FormControlProps, FormBaseControl} from './Item';
 import cx from 'classnames';
 import Textarea from '../../components/Textarea';
 import {findDOMNode} from 'react-dom';
-import {autobind} from '../../utils/helper';
+import {autobind, ucFirst} from '../../utils/helper';
 /**
  * TextArea 多行文本输入框。
  * 文档：https://baidu.gitee.io/amis/docs/components/form/textarea
@@ -28,6 +28,11 @@ export interface TextareaControlSchema extends FormBaseControl {
    * 是否只读
    */
   readOnly?: boolean;
+
+  /**
+   * 边框模式，全边框，还是半边框，或者没边框。
+   */
+  borderMode?: 'full' | 'half' | 'none';
 }
 
 export interface TextAreaProps extends FormControlProps {
@@ -99,7 +104,9 @@ export default class TextAreaControl extends React.Component<
       minRows,
       maxRows,
       readOnly,
-      name
+      name,
+      borderMode,
+      classnames: cx
     } = this.props;
     return (
       <Textarea
@@ -108,7 +115,13 @@ export default class TextAreaControl extends React.Component<
         name={name}
         disabled={disabled}
         type={type}
-        className={cx(`${ns}TextareaControl`, className)}
+        className={cx(
+          `TextareaControl`,
+          {
+            [`TextareaControl--border${ucFirst(borderMode)}`]: borderMode
+          },
+          className
+        )}
         value={
           typeof value === 'undefined' || value === null
             ? ''
