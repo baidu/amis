@@ -191,9 +191,9 @@ export const CRUDStore = ServiceStore.named('CRUDStore')
         options.silent || self.markFetching(true);
         const ctx: any = createObject(self.data, {
           ...self.query,
+          ...data,
           [options.pageField || 'page']: self.page,
-          [options.perPageField || 'perPage']: self.perPage,
-          ...data
+          [options.perPageField || 'perPage']: self.perPage
         });
 
         // 一次性加载不要发送 perPage 属性
