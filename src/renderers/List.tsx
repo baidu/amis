@@ -1216,7 +1216,7 @@ export class ListItem extends React.Component<ListItemProps> {
               rowIndex: itemIndex,
               colIndex: key,
               className: cx('ListItem-fieldValue', field.className),
-              value: field.name ? resolveVariable(field.name, data) : `-`,
+              value: field.name ? resolveVariable(field.name, data) : undefined,
               onAction: this.handleAction,
               onQuickChange: this.handleQuickChange
             }
