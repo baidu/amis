@@ -328,6 +328,18 @@
   }
 }
 
+@mixin input-border {
+  &--borderHalf {
+    border-left-color: transparent !important;
+    border-right-color: transparent !important;
+    border-top-color: transparent !important;
+  }
+
+  &--borderNone {
+    border-color: transparent !important;
+  }
+}
+
 @mixin input-text {
   position: relative;
   max-width: 100%;
@@ -339,6 +351,7 @@
 
   &-input {
     @include input-input();
+    @include input-border();
   }
 
   &.is-error > &-input {
