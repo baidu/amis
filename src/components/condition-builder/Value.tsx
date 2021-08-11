@@ -82,7 +82,7 @@ export class Value extends React.Component<ValueProps> {
     } else if (field.type === 'datetime') {
       input = (
         <DatePicker
-          placeholder={field.placeholder || '请选择日期时间'}
+          placeholder={field.placeholder || 'Time.placeholder'}
           format={field.format || ''}
           inputFormat={field.inputFormat || 'YYYY-MM-DD HH:mm'}
           value={value ?? field.defaultValue}
