@@ -241,7 +241,8 @@ export const detectProps = itemDetectProps.concat([
   'showRadio',
   'btnDisabled',
   'joinValues',
-  'extractValue'
+  'extractValue',
+  'borderMode'
 ]);
 
 export function registerOptionsControl(config: OptionsConfig) {
