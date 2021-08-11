@@ -14,7 +14,7 @@ import {filter} from '../../utils/tpl';
 import find from 'lodash/find';
 import {Icon} from '../../components/icons';
 import Input from '../../components/Input';
-import {autobind, createObject, setVariable} from '../../utils/helper';
+import {autobind, createObject, setVariable, ucFirst} from '../../utils/helper';
 import {isEffectiveApi} from '../../utils/api';
 import Spinner from '../../components/Spinner';
 import {FormBaseControl} from './Item';
@@ -55,6 +55,11 @@ export interface TextControlSchema extends FormOptionsControl {
    * 接口可以返回匹配到的选项，帮助用户输入。
    */
   autoComplete?: SchemaApi;
+
+  /**
+   * 边框模式，全边框，还是半边框，或者没边框。
+   */
+  borderMode?: 'full' | 'half' | 'none';
 }
 
 export interface TextProps extends OptionsControlProps {
@@ -470,6 +475,7 @@ export default class TextControl extends React.PureComponent<
       valueField,
       multiple,
       creatable,
+      borderMode,
       translate: __
     } = this.props;
     let type = this.props.type?.replace(/^(?:native|input)\-/, '');
@@ -523,7 +529,10 @@ export default class TextControl extends React.PureComponent<
                 inputOnly ? className : '',
                 {
                   'is-opened': isOpen,
-                  'TextControl-input--multiple': multiple
+                  'TextControl-input--multiple': multiple,
+                  [`TextControl-input--border${ucFirst(
+                    borderMode
+                  )}`]: borderMode
                 }
               )}
               onClick={this.handleClick}
@@ -645,13 +654,22 @@ export default class TextControl extends React.PureComponent<
       min,
       step,
       clearable,
-      name
+      name,
+      borderMode
     } = this.props;
 
     const type = this.props.type?.replace(/^(?:native|input)\-/, '');
 
     return (
-      <div className={cx('TextControl-input', inputOnly ? className : '')}>
+      <div
+        className={cx(
+          'TextControl-input',
+          {
+            [`TextControl-input--border${ucFirst(borderMode)}`]: borderMode
+          },
+          inputOnly ? className : ''
+        )}
+      >
         <input
           name={name}
           placeholder={placeholder}
