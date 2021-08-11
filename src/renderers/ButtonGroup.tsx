@@ -45,6 +45,11 @@ export interface ButtonGroupSchema extends BaseSchema {
   vertical?: boolean;
 
   /**
+   * 平铺展示？
+   */
+  tiled?: boolean;
+
+  /**
    * 是否为禁用状态。
    */
   disabled?: boolean;

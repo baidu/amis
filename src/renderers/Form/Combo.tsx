@@ -585,9 +585,11 @@ export default class ComboControl extends React.Component<ComboProps> {
     this.props.onChange(value, submitOnChange, true);
 
     store.forms.forEach(
-      item =>
-        isAlive(item) &&
-        item.items.forEach(item => item.unique && item.syncOptions())
+      form =>
+        isAlive(form) &&
+        form.items.forEach(
+          item => item.unique && item.syncOptions(undefined, form.data)
+        )
     );
   }
 

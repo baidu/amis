@@ -74,7 +74,6 @@ exports[`Renderer:number 1`] = `
                 >
                   <span
                     class="a-InputRange-label a-InputRange-label--value"
-                    style="left: calc(50% - 0px);"
                   >
                     <span
                       class="a-InputRange-labelContainer"
@@ -105,12 +104,13 @@ exports[`Renderer:number 1`] = `
             </div>
             <span
               class="a-InputRange-label a-InputRange-label--mid"
-              style="left: calc(50% - 60px);"
+              style="left: 50%;"
             >
               <span
                 class="a-InputRange-labelContainer"
               >
                 10
+                
               </span>
             </span>
             <div
@@ -256,7 +256,6 @@ exports[`Renderer:range:multiple 1`] = `
                 >
                   <span
                     class="a-InputRange-label a-InputRange-label--value"
-                    style="left: calc(50% - 0px);"
                   >
                     <span
                       class="a-InputRange-labelContainer"
@@ -310,12 +309,13 @@ exports[`Renderer:range:multiple 1`] = `
             </div>
             <span
               class="a-InputRange-label a-InputRange-label--mid"
-              style="left: calc(50% - 60px);"
+              style="left: 50%;"
             >
               <span
                 class="a-InputRange-labelContainer"
               >
                 10
+                
               </span>
             </span>
             <div

@@ -161,6 +161,7 @@ import './renderers/Steps';
 import './renderers/Markdown';
 import './renderers/TableView';
 import './renderers/Code';
+import './renderers/WebComponent';
 
 import Scoped, {ScopedContext} from './Scoped';
 

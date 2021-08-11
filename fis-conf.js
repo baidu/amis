@@ -56,6 +56,10 @@ fis.set('project.files', [
   '/examples/static/*.svg',
   '/examples/static/*.jpg',
   '/examples/static/*.jpeg',
+  '/examples/static/photo/*.jpeg',
+  '/examples/static/photo/*.png',
+  '/examples/static/audio/*.mp3',
+  '/examples/static/video/*.mp4',
   '/src/**.html',
   'mock/**'
 ]);
@@ -113,7 +117,7 @@ fis.match('tinymce/plugins/*/index.js', {
   ignoreDependencies: false
 });
 
-fis.match(/(?:flv\.js)/, {
+fis.match(/(?:mpegts\.js)/, {
   ignoreDependencies: true
 });
 
@@ -478,7 +482,7 @@ if (fis.project.currentMedia() === 'publish') {
         'examples/embed.tsx',
         'examples/embed.tsx:deps',
         'examples/loadMonacoEditor.ts',
-        '!flv.js/**',
+        '!mpegts.js/**',
         '!hls.js/**',
         '!froala-editor/**',
         '!tinymce/**',
@@ -550,7 +554,7 @@ if (fis.project.currentMedia() === 'publish') {
       'rest.js': [
         '*.js',
         '!monaco-editor/**',
-        '!flv.js/**',
+        '!mpegts.js/**',
         '!hls.js/**',
         '!froala-editor/**',
         '!src/components/RichText.tsx',
@@ -765,7 +769,7 @@ if (fis.project.currentMedia() === 'publish') {
         '/examples/mod.js',
         'node_modules/**.js',
         '!monaco-editor/**',
-        '!flv.js/**',
+        '!mpegts.js/**',
         '!hls.js/**',
         '!froala-editor/**',
         '!tinymce/**',
@@ -800,7 +804,7 @@ if (fis.project.currentMedia() === 'publish') {
         '**.{js,jsx,ts,tsx}',
         '!static/mod.js',
         '!monaco-editor/**',
-        '!flv.js/**',
+        '!mpegts.js/**',
         '!hls.js/**',
         '!froala-editor/**',
         '!jquery/**',

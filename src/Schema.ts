@@ -193,6 +193,7 @@ export type SchemaType =
   | 'video'
   | 'wizard'
   | 'wrapper'
+  | 'web-component'
   | 'anchor-nav'
   | 'steps'
   | 'control'

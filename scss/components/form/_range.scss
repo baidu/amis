@@ -138,6 +138,7 @@
   &-label--mid {
     left: 50%;
     bottom: calc(var(--gap-xs) * -1);
+    transform: translateX(-50%);
   }
 
   &-label--max {

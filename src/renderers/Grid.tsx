@@ -35,6 +35,11 @@ export type GridColumnObject = {
   lg?: number | 'auto';
 
   /**
+   * 垂直对齐方式
+   */
+  valign?: 'top' | 'middle' | 'bottom' | 'between';
+
+  /**
    * 配置子表单项默认的展示方式。
    */
   mode?: 'normal' | 'inline' | 'horizontal';
@@ -65,7 +70,26 @@ export interface GridSchema extends BaseSchema {
    * 指定为 Grid 格子布局渲染器。
    */
   type: 'grid';
+
+  /**
+   * 列集合
+   */
   columns: Array<GridColumn>;
+
+  /**
+   * 水平间距
+   */
+  gap?: 'xs' | 'sm' | 'base' | 'none' | 'md' | 'lg';
+
+  /**
+   * 垂直对齐方式
+   */
+  valign?: 'top' | 'middle' | 'bottom' | 'between';
+
+  /**
+   * 水平对齐方式
+   */
+  align?: 'left' | 'right' | 'between' | 'center';
 }
 
 export interface GridProps
@@ -139,7 +163,10 @@ export default class Grid<T> extends React.Component<GridProps & T, object> {
         key={key}
         className={cx(
           copProps2Class(colProps),
-          fromBsClass((column as any).columnClassName!)
+          fromBsClass((column as any).columnClassName!),
+          {
+            [`Grid-col--v${ucFirst(column.valign)}`]: column.valign
+          }
         )}
       >
         {this.renderChild(`column/${key}`, (column as any).body || '', length, {
@@ -160,9 +187,25 @@ export default class Grid<T> extends React.Component<GridProps & T, object> {
   }
 
   render() {
-    const {className, classnames: cx} = this.props;
+    const {
+      className,
+      classnames: cx,
+      gap,
+      valign: vAlign,
+      align: hAlign
+    } = this.props;
     return (
-      <div className={cx('Grid', className)}>
+      <div
+        className={cx(
+          'Grid',
+          {
+            [`Grid--${gap}`]: gap,
+            [`Grid--v${ucFirst(vAlign)}`]: vAlign,
+            [`Grid--h${ucFirst(hAlign)}`]: hAlign
+          },
+          className
+        )}
+      >
         {this.renderColumns(this.props.columns)}
       </div>
     );

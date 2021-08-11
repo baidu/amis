@@ -15,7 +15,7 @@ order: 73
 ```schema: scope="body"
 {
     "type": "wizard",
-    "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm?waitSeconds=2",
+    "api": "/api/mock2/form/saveForm?waitSeconds=2",
     "mode": "vertical",
     "steps": [
         {

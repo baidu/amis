@@ -21,7 +21,7 @@ export type GroupSubControl = SchemaObject & {
   /**
    * 宽度占用比率。在某些容器里面有用比如 group
    */
-  columnRatio?: number;
+  columnRatio?: number | 'auto';
 };
 
 /**

@@ -29,7 +29,7 @@ amis 是一个低代码前端框架，它使用 JSON 配置来生成页面，可
     "type": "crud",
     "draggable": true,
     "syncLocation": false,
-    "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/sample",
+    "api": "/api/sample",
     "keepItemSelectionOnPageChange": true,
     "filter": {
       "title": "筛选",
@@ -51,7 +51,7 @@ amis 是一个低代码前端框架，它使用 JSON 配置来生成页面，可
         "type": "button",
         "label": "批量删除",
         "actionType": "ajax",
-        "api": "delete:https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/sample/${ids|raw}",
+        "api": "delete:/api/sample/${ids|raw}",
         "confirmText": "确定要批量删除?"
       },
       {
@@ -63,7 +63,7 @@ amis 是一个低代码前端框架，它使用 JSON 配置来生成页面，可
           "name": "sample-bulk-edit",
           "body": {
             "type": "form",
-            "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/sample/bulkUpdate2",
+            "api": "/api/sample/bulkUpdate2",
             "body": [
               {
                 "type": "hidden",
@@ -79,8 +79,8 @@ amis 是一个低代码前端框架，它使用 JSON 配置来生成页面，可
         }
       }
     ],
-    "quickSaveApi": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/sample/bulkUpdate",
-    "quickSaveItemApi": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/sample/$id",
+    "quickSaveApi": "/api/sample/bulkUpdate",
+    "quickSaveItemApi": "/api/sample/$id",
     "filterTogglable": true,
     "headerToolbar": [
       "filter-toggler",
@@ -90,7 +90,7 @@ amis 是一个低代码前端框架，它使用 JSON 配置来生成页面，可
         "label": "重置测试数据",
         "actionType": "ajax",
         "size": "sm",
-        "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/sample/reset"
+        "api": "/api/sample/reset"
       },
       "export-excel",
       {
@@ -157,7 +157,7 @@ amis 是一个低代码前端框架，它使用 JSON 配置来生成页面，可
             "actionType": "ajax",
             "label": "删除",
             "confirmText": "您确认要删除?",
-            "api": "delete:https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/sample/$id"
+            "api": "delete:/api/sample/$id"
           }
         ]
       }

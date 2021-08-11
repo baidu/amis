@@ -631,7 +631,7 @@
   --Form-input-onHover-iconColor: #{darken($gray600, 20%)};
   --Form-input-onHover-bg: #{rgba($white, 0.6)};
   --Form-input-onHover-borderColor: var(--Form-input-onFocused-borderColor);
-  --Form-input-paddingX: #{px2rem(12px)};
+  --Form-input-paddingX: #{px2rem(8px)};
   --Form-input-paddingY: calc(
     (
         var(--Form-input-height) - var(--Form-input-lineHeight) *
@@ -751,7 +751,7 @@
 
   --InputRange-label--value-display: block;
   --InputRange-label--value-positionTop: #{px2rem(-36px)};
-  --InputRange-label--value-positionLeft: #{px2rem(-3px)};
+  --InputRange-label--value-positionLeft: #{px2rem(-6px)};
   --InputRange-label-color: var(--InputRange-neutralColor);
   --InputRange-label-fontSize: 0.8rem;
   --InputRange-label-positionBottom: -1.4rem;

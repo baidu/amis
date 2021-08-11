@@ -94,6 +94,10 @@
 .#{$ns}Form-item {
   margin-bottom: var(--Form-item-gap);
 
+  &:last-child {
+    margin-bottom: 0;
+  }
+
   .#{$ns}Grid-form > &:last-child {
     margin-bottom: 0;
   }
@@ -234,7 +238,7 @@
         flex-basis: 0;
         flex-grow: 1;
         max-width: 100%;
-        width: 0;
+        width: 100%;
       }
 
       .#{$ns}Form-itemColumn--xs,
