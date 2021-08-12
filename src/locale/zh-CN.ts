@@ -12,7 +12,7 @@ register('zh-CN', {
   'ColorPicker.placeholder': '请选择颜色',
   'Combo.add': '新增',
   'Combo.dragDropSort': '拖拽排序',
-  'Combo.invalidData': '数据非法，或者数据已失效，请移除',
+  'Combo.invalidData': '数值格式不正确',
   'Combo.maxLength': '组合表单超出{{maxLength}}个，请删除',
   'Combo.minLength': '组合表单数量不足{{minLength}}个，请添加更多',
   'Combo.type': '类型',
