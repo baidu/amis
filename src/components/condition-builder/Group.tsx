@@ -16,6 +16,7 @@ export interface ConditionGroupProps extends ThemeProps, LocaleProps {
   showNot?: boolean;
   data?: any;
   disabled?: boolean;
+  searchable?: boolean;
   onChange: (value: ConditionGroupValue) => void;
   removeable?: boolean;
   onRemove?: (e: React.MouseEvent) => void;
@@ -125,6 +126,7 @@ export class ConditionGroup extends React.Component<ConditionGroupProps> {
       onDragStart,
       showNot,
       disabled,
+      searchable,
       translate: __
     } = this.props;
 
@@ -202,6 +204,7 @@ export class ConditionGroup extends React.Component<ConditionGroupProps> {
                 onRemove={this.handleItemRemove}
                 data={data}
                 disabled={disabled}
+                searchable={searchable}
               />
             ))
           ) : (

@@ -25,6 +25,7 @@ export interface ConditionBuilderProps extends ThemeProps, LocaleProps {
   onChange: (value: ConditionGroupValue) => void;
   config?: Config;
   disabled?: boolean;
+  searchable?: boolean;
   fieldClassName?: string;
 }
 
@@ -201,7 +202,8 @@ export class QueryBuilder extends React.Component<ConditionBuilderProps> {
       value,
       showNot,
       data,
-      disabled
+      disabled,
+      searchable
     } = this.props;
 
     const normalizedValue = Array.isArray(value?.children)
@@ -234,6 +236,7 @@ export class QueryBuilder extends React.Component<ConditionBuilderProps> {
         showNot={showNot}
         data={data}
         disabled={disabled}
+        searchable={searchable}
       />
     );
   }
