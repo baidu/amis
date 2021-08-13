@@ -532,11 +532,11 @@ export const components = [
           )
       },
       {
-        label: 'Password 密码输入框',
-        path: '/zh-CN/components/form/password',
+        label: 'InputPassword 密码输入框',
+        path: '/zh-CN/components/form/input-password',
         getComponent: () =>
           // @ts-ignore
-          import('../../docs/zh-CN/components/form/password.md').then(
+          import('../../docs/zh-CN/components/form/input-password.md').then(
             makeMarkdownRenderer
           )
       },
