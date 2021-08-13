@@ -655,7 +655,10 @@ export default class TextControl extends React.PureComponent<
       step,
       clearable,
       name,
-      borderMode
+      borderMode,
+      prefix,
+      suffix,
+      data
     } = this.props;
 
     const type = this.props.type?.replace(/^(?:native|input)\-/, '');
@@ -670,6 +673,9 @@ export default class TextControl extends React.PureComponent<
           inputOnly ? className : ''
         )}
       >
+        {prefix ? (
+          <span className={cx('TextControl-inputPrefix')}>{filter(prefix, data)}</span>
+        ) : null}
         <input
           name={name}
           placeholder={placeholder}
@@ -697,6 +703,9 @@ export default class TextControl extends React.PureComponent<
           <a onClick={this.clearValue} className={`${ns}TextControl-clear`}>
             <Icon icon="close" className="icon" />
           </a>
+        ) : null}
+        {suffix ? (
+          <span className={cx('TextControl-inputSuffix')}>{filter(suffix, data)}</span>
         ) : null}
       </div>
     );
