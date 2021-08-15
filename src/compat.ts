@@ -317,14 +317,11 @@ addSchemaFilter(function (scheam: Schema, renderer) {
             sm,
             md,
             lg,
-            body,
             columnClassName,
             mode,
             horizontal,
             ...rest
           } = item;
-          body = Array.isArray(body) ? body.concat() : body ? [body] : [];
-          body.push(rest);
           item = {
             xs,
             sm,
@@ -333,7 +330,7 @@ addSchemaFilter(function (scheam: Schema, renderer) {
             columnClassName,
             mode,
             horizontal,
-            body
+            body: [rest]
           };
         }
 
@@ -364,12 +361,9 @@ addSchemaFilter(function (scheam: Schema, renderer) {
           horizontal,
           visible,
           visibleOn,
-          body,
           ...rest
         } = item;
         if (item.type) {
-          body = Array.isArray(body) ? body.concat() : body ? [body] : [];
-          body.push(rest);
           item = {
             width,
             height,
@@ -379,7 +373,7 @@ addSchemaFilter(function (scheam: Schema, renderer) {
             horizontal,
             visible,
             visibleOn,
-            body
+            body: [rest]
           };
         }
 

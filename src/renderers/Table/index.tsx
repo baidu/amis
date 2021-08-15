@@ -284,6 +284,7 @@ export interface TableProps extends RendererProps {
     selectedItems: Array<object>,
     unSelectedItems: Array<object>
   ) => void;
+  onPristineChange?: (data: object, rowIndexe: string) => void;
   onSave?: (
     items: Array<object> | object,
     diff: Array<object> | object,
@@ -646,6 +647,7 @@ export default class Table extends React.Component<TableProps, object> {
 
     const {
       onSave,
+      onPristineChange,
       saveImmediately: propsSaveImmediately,
       primaryField
     } = this.props;
@@ -655,7 +657,10 @@ export default class Table extends React.Component<TableProps, object> {
     // 值发生变化了，需要通过 onSelect 通知到外面，否则会出现数据不同步的问题
     item.modified && this.syncSelected();
 
-    if ((!saveImmediately && !propsSaveImmediately) || savePristine) {
+    if (savePristine) {
+      onPristineChange?.(item.data, item.path);
+      return;
+    } else if (!saveImmediately && !propsSaveImmediately) {
       return;
     }
 

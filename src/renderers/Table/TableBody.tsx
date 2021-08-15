@@ -44,46 +44,6 @@ export interface TableBodyProps extends LocaleProps {
 }
 
 export class TableBody extends React.Component<TableBodyProps> {
-  reaction?: () => void;
-  constructor(props: TableBodyProps) {
-    super(props);
-
-    const rows = props.rows;
-
-    this.reaction = reaction(
-      () =>
-        `${flattenTree(rows)
-          .map(item => `${item.id}`)
-          .join(',')}${rows
-          .filter(item => item.checked)
-          .map(item => item.id)
-          .join(',')}`,
-      () => this.forceUpdate(),
-      {
-        onError: () => this.reaction!()
-      }
-    );
-  }
-
-  shouldComponentUpdate(nextProps: TableBodyProps) {
-    const props = this.props;
-
-    if (
-      props.columns !== nextProps.columns ||
-      props.buildItemProps !== nextProps.buildItemProps ||
-      props.prefixRow ||
-      props.affixRow
-    ) {
-      return true;
-    }
-
-    return false;
-  }
-
-  componentWillUnmount() {
-    this.reaction?.();
-  }
-
   renderRows(
     rows: Array<any>,
     columns = this.props.columns,

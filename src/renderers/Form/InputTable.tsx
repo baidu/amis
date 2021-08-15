@@ -203,6 +203,7 @@ export default class FormTable extends React.Component<TableProps, TableState> {
     this.confirmEdit = this.confirmEdit.bind(this);
     this.cancelEdit = this.cancelEdit.bind(this);
     this.handleSaveTableOrder = this.handleSaveTableOrder.bind(this);
+    this.handlePristineChange = this.handlePristineChange.bind(this);
     this.handleTableSave = this.handleTableSave.bind(this);
     this.getEntryId = this.getEntryId.bind(this);
     this.subFormRef = this.subFormRef.bind(this);
@@ -700,6 +701,24 @@ export default class FormTable extends React.Component<TableProps, TableState> {
     return columns;
   }
 
+  handlePristineChange(pristine: object, rowIndexe: string) {
+    const {setPrinstineValue, value} = this.props;
+    let newValue = Array.isArray(value) ? value.concat() : [];
+
+    const indexes = (rowIndexe as string)
+      .split('.')
+      .map(item => parseInt(item, 10));
+    const origin = getTree(newValue, indexes);
+    const data = {
+      ...origin,
+      ...pristine
+    };
+
+    newValue = spliceTree(newValue, indexes, 1, data);
+    this.entries.set(data, this.entries.get(origin) || this.entityId++);
+    setPrinstineValue(newValue);
+  }
+
   handleTableSave(
     rows: Array<object> | object,
     diff: Array<object> | object,
@@ -794,8 +813,13 @@ export default class FormTable extends React.Component<TableProps, TableState> {
       canAccessSuperData,
       expandConfig,
       affixRow,
-      prefixRow
+      prefixRow,
+      formInited
     } = this.props;
+
+    if (formInited === false) {
+      return null;
+    }
 
     return (
       <div className={cx('form-control-table', className)}>
@@ -824,6 +848,7 @@ export default class FormTable extends React.Component<TableProps, TableState> {
             ),
             getEntryId: this.getEntryId,
             onSave: this.handleTableSave,
+            onPristineChange: this.handlePristineChange,
             onSaveOrder: this.handleSaveTableOrder,
             buildItemProps: this.state.buildItemProps,
             quickEditFormRef: this.subFormRef,

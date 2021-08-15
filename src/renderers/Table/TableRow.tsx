@@ -25,47 +25,15 @@ interface TableRowProps extends Pick<RendererProps, 'render'> {
   [propName: string]: any;
 }
 
+@observer
 export class TableRow extends React.Component<TableRowProps> {
-  reaction?: () => void;
+  // reaction?: () => void;
   constructor(props: TableRowProps) {
     super(props);
     this.handleAction = this.handleAction.bind(this);
     this.handleQuickChange = this.handleQuickChange.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.handleClick = this.handleClick.bind(this);
-
-    const item = props.item;
-    const parent = props.parent;
-    const columns = props.columns;
-    this.reaction = reaction(
-      () =>
-        `${item.isHover}${item.checked}${item.checkdisable}${JSON.stringify({
-          data: item.data,
-          rowSpans: item.rowSpans
-        })}${item.moved}${item.modified}${item.expanded}${parent?.expanded}${
-          columns.length
-        }`,
-      () => this.forceUpdate(),
-      {
-        onError: () => this.reaction!()
-      }
-    );
-  }
-
-  shouldComponentUpdate(nextProps: TableRowProps) {
-    const props = this.props;
-    if (props.columns !== nextProps.columns) {
-      return true;
-    } else if (nextProps.columns.some(column => column.pristine.tpl)) {
-      return true;
-    }
-
-    // 不需要更新，因为子节点已经 observer 了
-    return false;
-  }
-
-  componentWillUnmount() {
-    this.reaction?.();
   }
 
   handleClick(e: React.MouseEvent<HTMLTableRowElement>) {
