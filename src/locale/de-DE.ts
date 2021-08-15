@@ -154,6 +154,7 @@ register('de-DE', {
   'Table.playload': 'Nutzlast muss vorhanden sein',
   'Table.startSort': 'Klicken, um Sortierung zu starten',
   'Table.valueField': 'valueField muss vorhanden sein',
+  'Table.index': 'Index',
   'Tag.placeholder': 'Noch kein Tag',
   'Tag.tip': 'Kürzlich verwendetes Tag',
   'Text.add': 'Neu {{label}}',

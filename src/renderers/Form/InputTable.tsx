@@ -139,6 +139,16 @@ export interface TableControlSchema
    * 是否可以访问父级数据，正常 combo 已经关联到数组成员，是不能访问父级数据的。
    */
   canAccessSuperData?: boolean;
+
+  /**
+   * 是否显示序号
+   */
+  showIndex?: boolean;
+
+  /**
+   * 分页个数，默认不分页
+   */
+  perPage?: number;
 }
 
 export interface TableProps
@@ -154,6 +164,7 @@ export interface TableState {
   buildItemProps: (props: any) => any;
   editting?: any;
   isCreateMode?: boolean;
+  page?: number;
 }
 
 export default class FormTable extends React.Component<TableProps, TableState> {
@@ -207,6 +218,7 @@ export default class FormTable extends React.Component<TableProps, TableState> {
     this.handleTableSave = this.handleTableSave.bind(this);
     this.getEntryId = this.getEntryId.bind(this);
     this.subFormRef = this.subFormRef.bind(this);
+    this.handlePageChange = this.handlePageChange.bind(this);
   }
 
   componentDidUpdate(nextProps: TableProps) {
@@ -508,6 +520,7 @@ export default class FormTable extends React.Component<TableProps, TableState> {
     const ns = this.props.classPrefix;
     const __ = this.props.translate;
     const needConfirm = this.props.needConfirm;
+    const showIndex = this.props.showIndex;
 
     let btns = [];
     if (props.addable && props.showAddBtn !== false) {
@@ -698,6 +711,14 @@ export default class FormTable extends React.Component<TableProps, TableState> {
       });
     }
 
+    if (showIndex) {
+      columns.unshift({
+        label: __('Table.index'),
+        type: 'tpl',
+        tpl: '${index|plus}'
+      });
+    }
+
     return columns;
   }
 
@@ -713,6 +734,7 @@ export default class FormTable extends React.Component<TableProps, TableState> {
       ...origin,
       ...pristine
     };
+    delete data.__isPlaceholder;
 
     newValue = spliceTree(newValue, indexes, 1, data);
     this.entries.set(data, this.entries.get(origin) || this.entityId++);
@@ -771,6 +793,10 @@ export default class FormTable extends React.Component<TableProps, TableState> {
     onChange(rows.map((item: object) => ({...item})));
   }
 
+  handlePageChange(page: number) {
+    this.setState({page});
+  }
+
   removeEntry(entry: any) {
     if (this.entries.has(entry)) {
       this.entries.delete(entry);
@@ -814,11 +840,30 @@ export default class FormTable extends React.Component<TableProps, TableState> {
       expandConfig,
       affixRow,
       prefixRow,
-      formInited
+      formInited,
+      perPage
     } = this.props;
 
     if (formInited === false) {
       return null;
+    }
+
+    let items = this.buildItems(
+      Array.isArray(value) && value.length
+        ? value
+        : addable && showAddBtn !== false
+        ? [{__isPlaceholder: true}]
+        : [],
+      this.state.editIndex
+    );
+
+    let showPager = false;
+    const page = this.state.page || 1;
+    let lastPage = 1;
+    if (typeof perPage === 'number' && perPage && items.length > perPage) {
+      lastPage = Math.ceil(items.length / perPage);
+      items = items.slice((page - 1) * perPage, page * perPage);
+      showPager = true;
     }
 
     return (
@@ -838,14 +883,7 @@ export default class FormTable extends React.Component<TableProps, TableState> {
             saveImmediately: true,
             disabled,
             draggable: draggable && !~this.state.editIndex,
-            items: this.buildItems(
-              Array.isArray(value) && value.length
-                ? value
-                : addable && showAddBtn !== false
-                ? [{__isPlaceholder: true}]
-                : [],
-              this.state.editIndex
-            ),
+            items: items,
             getEntryId: this.getEntryId,
             onSave: this.handleTableSave,
             onPristineChange: this.handlePristineChange,
@@ -859,6 +897,20 @@ export default class FormTable extends React.Component<TableProps, TableState> {
             canAccessSuperData
           }
         )}
+        {showPager
+          ? render(
+              'pager',
+              {
+                type: 'pagination'
+              },
+              {
+                activePage: page,
+                lastPage: lastPage,
+                onPageChange: this.handlePageChange,
+                className: 'Tables-pager'
+              }
+            )
+          : null}
       </div>
     );
   }
