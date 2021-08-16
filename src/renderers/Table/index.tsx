@@ -303,6 +303,7 @@ export interface TableProps extends RendererProps {
   rowClassNameExpr?: string;
   popOverContainer?: any;
   canAccessSuperData?: boolean;
+  reUseRow?: boolean;
 }
 
 /**
@@ -468,7 +469,7 @@ export default class Table extends React.Component<TableProps, object> {
     });
 
     formItem && isAlive(formItem) && formItem.setSubStore(store);
-    Table.syncRows(store, this.props) && this.syncSelected();
+    Table.syncRows(store, this.props, undefined) && this.syncSelected();
   }
 
   static syncRows(
@@ -501,7 +502,7 @@ export default class Table extends React.Component<TableProps, object> {
       }
     }
 
-    updateRows && store.initRows(rows, props.getEntryId);
+    updateRows && store.initRows(rows, props.getEntryId, props.reUseRow);
     typeof props.selected !== 'undefined' &&
       store.updateSelected(props.selected, props.valueField);
     return updateRows;

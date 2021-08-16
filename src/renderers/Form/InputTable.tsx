@@ -149,6 +149,11 @@ export interface TableControlSchema
    * 分页个数，默认不分页
    */
   perPage?: number;
+
+  /**
+   * 是否同步初始默认值
+   */
+  syncDefaultValue?: boolean;
 }
 
 export interface TableProps
@@ -159,6 +164,7 @@ export interface TableProps
     > {}
 
 export interface TableState {
+  items: Array<any>;
   columns: Array<any>;
   editIndex: number;
   buildItemProps: (props: any) => any;
@@ -199,6 +205,7 @@ export default class FormTable extends React.Component<TableProps, TableState> {
   entries: SimpleMap<any, number>;
   entityId: number = 1;
   subForms: any = {};
+  rowPrinstine: Array<any> = [];
   editting: any = {};
   constructor(props: TableProps) {
     super(props);
@@ -206,7 +213,8 @@ export default class FormTable extends React.Component<TableProps, TableState> {
     this.state = {
       columns: this.buildColumns(props),
       editIndex: -1,
-      buildItemProps: this.buildItemProps.bind(this)
+      buildItemProps: this.buildItemProps.bind(this),
+      items: this.syncValue(props)
     };
 
     this.entries = new SimpleMap();
@@ -214,7 +222,6 @@ export default class FormTable extends React.Component<TableProps, TableState> {
     this.confirmEdit = this.confirmEdit.bind(this);
     this.cancelEdit = this.cancelEdit.bind(this);
     this.handleSaveTableOrder = this.handleSaveTableOrder.bind(this);
-    this.handlePristineChange = this.handlePristineChange.bind(this);
     this.handleTableSave = this.handleTableSave.bind(this);
     this.getEntryId = this.getEntryId.bind(this);
     this.subFormRef = this.subFormRef.bind(this);
@@ -227,6 +234,12 @@ export default class FormTable extends React.Component<TableProps, TableState> {
     if (props.columns !== nextProps.columns) {
       this.setState({
         columns: this.buildColumns(props)
+      });
+    }
+
+    if (props.value !== nextProps.value) {
+      this.setState({
+        items: this.syncValue(props, this.state.editIndex, this.editting)
       });
     }
   }
@@ -269,6 +282,19 @@ export default class FormTable extends React.Component<TableProps, TableState> {
         );
       }
     }
+  }
+
+  syncValue(props: TableProps, editIndex = -1, editing?: any) {
+    const {value, addable, showAddBtn} = props;
+
+    return (Array.isArray(value) && value.length
+      ? value
+      : addable && showAddBtn !== false
+      ? [{__isPlaceholder: true}]
+      : []
+    ).map((item, index) => {
+      return index === editIndex ? editing ?? this.state.editting : item;
+    });
   }
 
   async doAction(action: Action, ctx: RendererData, ...rest: Array<any>) {
@@ -358,7 +384,8 @@ export default class FormTable extends React.Component<TableProps, TableState> {
   }
 
   addItem(index: number, payload: any = this.props.scaffold) {
-    const {value, onChange, needConfirm} = this.props;
+    const {value, onChange, needConfirm, perPage} = this.props;
+
     let newValue = Array.isArray(value) ? value.concat() : [];
     newValue.splice(index + 1, 0, {
       ...payload
@@ -374,13 +401,14 @@ export default class FormTable extends React.Component<TableProps, TableState> {
   }
 
   startEdit(index: number, editting?: any, isCreate: boolean = false) {
-    const value = this.props.value;
-    const scaffold = this.props.scaffold;
+    const {value, scaffold} = this.props;
+
     this.setState({
       editIndex: index,
       buildItemProps: this.buildItemProps.bind(this),
       editting: (this.editting =
         editting || (value && value[index]) || scaffold || {}),
+      items: this.syncValue(this.props, index, this.editting),
       isCreateMode: isCreate,
       columns:
         this.state.isCreateMode === isCreate
@@ -439,6 +467,7 @@ export default class FormTable extends React.Component<TableProps, TableState> {
 
     this.setState({
       editIndex: -1,
+      items: this.syncValue(this.props),
       columns: this.state.columns.concat(),
       buildItemProps: this.buildItemProps.bind(this),
       editting: null
@@ -458,6 +487,7 @@ export default class FormTable extends React.Component<TableProps, TableState> {
     this.setState({
       editIndex: -1,
       columns: this.state.columns.concat(),
+      items: this.syncValue(this.props),
       buildItemProps: this.buildItemProps.bind(this)
     });
   }
@@ -472,6 +502,7 @@ export default class FormTable extends React.Component<TableProps, TableState> {
       data,
       translate: __
     } = this.props;
+
     let newValue = Array.isArray(value) ? value.concat() : [];
     const item = newValue[index];
 
@@ -525,7 +556,15 @@ export default class FormTable extends React.Component<TableProps, TableState> {
     let btns = [];
     if (props.addable && props.showAddBtn !== false) {
       btns.push({
-        children: ({key, rowIndex}: {key: any; rowIndex: number}) =>
+        children: ({
+          key,
+          rowIndex,
+          offset
+        }: {
+          key: any;
+          rowIndex: number;
+          offset: number;
+        }) =>
           ~this.state.editIndex && needConfirm !== false ? null : (
             <Button
               classPrefix={ns}
@@ -536,7 +575,7 @@ export default class FormTable extends React.Component<TableProps, TableState> {
               tooltipContainer={
                 env && env.getModalContainer ? env.getModalContainer : undefined
               }
-              onClick={this.addItem.bind(this, rowIndex, undefined)}
+              onClick={this.addItem.bind(this, rowIndex + offset, undefined)}
             >
               {props.addBtnLabel ? <span>{props.addBtnLabel}</span> : null}
               {props.addBtnIcon ? (
@@ -587,11 +626,13 @@ export default class FormTable extends React.Component<TableProps, TableState> {
         children: ({
           key,
           rowIndex,
-          data
+          data,
+          offset
         }: {
           key: any;
           rowIndex: number;
           data: any;
+          offset: number;
         }) =>
           ~this.state.editIndex || (data && data.__isPlaceholder) ? null : (
             <Button
@@ -603,7 +644,7 @@ export default class FormTable extends React.Component<TableProps, TableState> {
               tooltipContainer={
                 env && env.getModalContainer ? env.getModalContainer : undefined
               }
-              onClick={() => this.startEdit(rowIndex)}
+              onClick={() => this.startEdit(rowIndex + offset)}
             >
               {props.updateBtnLabel ? (
                 <span>{props.updateBtnLabel}</span>
@@ -669,11 +710,13 @@ export default class FormTable extends React.Component<TableProps, TableState> {
         children: ({
           key,
           rowIndex,
-          data
+          data,
+          offset
         }: {
           key: any;
           rowIndex: number;
           data: any;
+          offset: number;
         }) =>
           (~this.state.editIndex || (data && data.__isPlaceholder)) &&
           needConfirm !== false ? null : (
@@ -686,7 +729,7 @@ export default class FormTable extends React.Component<TableProps, TableState> {
               tooltipContainer={
                 env && env.getModalContainer ? env.getModalContainer : undefined
               }
-              onClick={this.removeItem.bind(this, rowIndex)}
+              onClick={this.removeItem.bind(this, rowIndex + offset)}
             >
               {props.deleteBtnLabel ? (
                 <span>{props.deleteBtnLabel}</span>
@@ -714,31 +757,13 @@ export default class FormTable extends React.Component<TableProps, TableState> {
     if (showIndex) {
       columns.unshift({
         label: __('Table.index'),
-        type: 'tpl',
-        tpl: '${index|plus}'
+        children: (props: any) => {
+          return <td>{this.state.items.indexOf(props.data.raw) + 1}</td>;
+        }
       });
     }
 
     return columns;
-  }
-
-  handlePristineChange(pristine: object, rowIndexe: string) {
-    const {setPrinstineValue, value} = this.props;
-    let newValue = Array.isArray(value) ? value.concat() : [];
-
-    const indexes = (rowIndexe as string)
-      .split('.')
-      .map(item => parseInt(item, 10));
-    const origin = getTree(newValue, indexes);
-    const data = {
-      ...origin,
-      ...pristine
-    };
-    delete data.__isPlaceholder;
-
-    newValue = spliceTree(newValue, indexes, 1, data);
-    this.entries.set(data, this.entries.get(origin) || this.entityId++);
-    setPrinstineValue(newValue);
   }
 
   handleTableSave(
@@ -746,7 +771,7 @@ export default class FormTable extends React.Component<TableProps, TableState> {
     diff: Array<object> | object,
     rowIndexes: Array<string> | string
   ) {
-    const {onChange, value, needConfirm} = this.props;
+    const {onChange, value, needConfirm, perPage} = this.props;
 
     let newValue = Array.isArray(value) ? value.concat() : [];
 
@@ -754,12 +779,21 @@ export default class FormTable extends React.Component<TableProps, TableState> {
       this.setState({
         editting: (this.editting = {
           ...rows
-        })
+        }),
+        items: this.syncValue(this.props, this.state.editIndex, this.editting)
       });
       return;
-    } else if (Array.isArray(rows)) {
+    }
+
+    const page = this.state.page;
+
+    if (Array.isArray(rows)) {
       (rowIndexes as Array<string>).forEach((rowIndex, index) => {
         const indexes = rowIndex.split('.').map(item => parseInt(item, 10));
+
+        if (page && page > 1 && typeof perPage === 'number') {
+          indexes[0] += (page - 1) * perPage;
+        }
         const origin = getTree(newValue, indexes);
 
         const data = {
@@ -773,6 +807,11 @@ export default class FormTable extends React.Component<TableProps, TableState> {
       const indexes = (rowIndexes as string)
         .split('.')
         .map(item => parseInt(item, 10));
+
+      if (page && page > 1 && typeof perPage === 'number') {
+        indexes[0] += (page - 1) * perPage;
+      }
+
       const origin = getTree(newValue, indexes);
       const data = {
         ...origin,
@@ -848,22 +887,17 @@ export default class FormTable extends React.Component<TableProps, TableState> {
       return null;
     }
 
-    let items = this.buildItems(
-      Array.isArray(value) && value.length
-        ? value
-        : addable && showAddBtn !== false
-        ? [{__isPlaceholder: true}]
-        : [],
-      this.state.editIndex
-    );
+    let items = this.state.items;
 
     let showPager = false;
     const page = this.state.page || 1;
+    let offset = 0;
     let lastPage = 1;
     if (typeof perPage === 'number' && perPage && items.length > perPage) {
       lastPage = Math.ceil(items.length / perPage);
       items = items.slice((page - 1) * perPage, page * perPage);
       showPager = true;
+      offset = (page - 1) * perPage;
     }
 
     return (
@@ -886,7 +920,6 @@ export default class FormTable extends React.Component<TableProps, TableState> {
             items: items,
             getEntryId: this.getEntryId,
             onSave: this.handleTableSave,
-            onPristineChange: this.handlePristineChange,
             onSaveOrder: this.handleSaveTableOrder,
             buildItemProps: this.state.buildItemProps,
             quickEditFormRef: this.subFormRef,
@@ -894,7 +927,9 @@ export default class FormTable extends React.Component<TableProps, TableState> {
             combineNum: combineNum,
             combineFromIndex: combineFromIndex,
             expandConfig,
-            canAccessSuperData
+            canAccessSuperData,
+            reUseRow: false,
+            offset
           }
         )}
         {showPager
