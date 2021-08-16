@@ -274,8 +274,8 @@ export const components = [
         label: 'Button-Group-Select 按钮点选',
         path: '/zh-CN/components/form/button-group-select',
         getComponent: () =>
-          // @ts-ignore
           import(
+            // @ts-ignore
             '../../docs/zh-CN/components/form/button-group-select.md'
           ).then(makeMarkdownRenderer)
       },
@@ -382,8 +382,8 @@ export const components = [
         label: 'InputDatetimeRange 日期时间范围',
         path: '/zh-CN/components/form/input-datetime-range',
         getComponent: () =>
-          // @ts-ignore
           import(
+            // @ts-ignore
             '../../docs/zh-CN/components/form/input-datetime-range.md'
           ).then(makeMarkdownRenderer)
       },
@@ -562,8 +562,8 @@ export const components = [
         label: 'InputQuarterRange 季度范围',
         path: '/zh-CN/components/form/input-quarter-range',
         getComponent: () =>
-          // @ts-ignore
           import(
+            // @ts-ignore
             '../../docs/zh-CN/components/form/input-quarter-range.md'
           ).then(makeMarkdownRenderer)
       },
@@ -744,6 +744,15 @@ export const components = [
         getComponent: () =>
           // @ts-ignore
           import('../../docs/zh-CN/components/form/input-year.md').then(
+            makeMarkdownRenderer
+          )
+      },
+      {
+        label: 'InputYearRange 年份范围',
+        path: '/zh-CN/components/form/input-year-range',
+        getComponent: () =>
+          // @ts-ignore
+          import('../../docs/zh-CN/components/form/input-year-range.md').then(
             makeMarkdownRenderer
           )
       }
