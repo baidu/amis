@@ -1,9 +1,9 @@
 ---
-title: Password 密码输框
+title: InputPassword 密码输框
 description:
 type: 0
 group: null
-menuName: Password
+menuName: InputPassword
 icon:
 order: 35
 ---
