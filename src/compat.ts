@@ -312,24 +312,13 @@ addSchemaFilter(function (scheam: Schema, renderer) {
             ]
           };
         } else if (item.type) {
-          let {
-            xs,
-            sm,
-            md,
-            lg,
-            columnClassName,
-            mode,
-            horizontal,
-            ...rest
-          } = item;
+          let {xs, sm, md, lg, columnClassName, ...rest} = item;
           item = {
             xs,
             sm,
             md,
             lg,
             columnClassName,
-            mode,
-            horizontal,
             body: [rest]
           };
         }
@@ -357,8 +346,6 @@ addSchemaFilter(function (scheam: Schema, renderer) {
           height,
           style,
           columnClassName,
-          mode,
-          horizontal,
           visible,
           visibleOn,
           ...rest
@@ -369,8 +356,6 @@ addSchemaFilter(function (scheam: Schema, renderer) {
             height,
             style,
             columnClassName,
-            mode,
-            horizontal,
             visible,
             visibleOn,
             body: [rest]
