@@ -1222,7 +1222,9 @@ export default class Form extends React.Component<FormProps, object> {
           item =>
             item &&
             !!~['submit', 'button', 'button-group', 'reset'].indexOf(
-              (item as any)?.control?.type || (item as SchemaObject).type
+              (item as any)?.body?.[0]?.type ||
+                (item as any)?.body?.type ||
+                (item as SchemaObject).type
             )
         ))
     ) {
