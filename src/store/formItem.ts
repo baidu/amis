@@ -340,7 +340,7 @@ export const FormItemStore = StoreNode.named('FormItemStore')
             group.items.some(
               item =>
                 item !== self &&
-                self.tmpValue !== '' &&
+                self.tmpValue !== undefined &&
                 item.value === self.tmpValue
             )
           ) {
