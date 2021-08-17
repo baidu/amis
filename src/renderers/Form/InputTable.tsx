@@ -1,20 +1,13 @@
 import React from 'react';
 import {FormItem, FormControlProps, FormBaseControl} from './Item';
-import cx from 'classnames';
 import Button from '../../components/Button';
-import {
-  createObject,
-  getTree,
-  isObjectShallowModified,
-  spliceTree
-} from '../../utils/helper';
+import {createObject, getTree, spliceTree} from '../../utils/helper';
 import {RendererData, Action, Api, Payload, ApiObject} from '../../types';
 import {isEffectiveApi} from '../../utils/api';
 import {filter} from '../../utils/tpl';
 import omit from 'lodash/omit';
 import {dataMapping} from '../../utils/tpl-builtin';
 import findIndex from 'lodash/findIndex';
-import memoize from 'lodash/memoize';
 import {SimpleMap} from '../../utils/SimpleMap';
 import {Icon} from '../../components/icons';
 import {TableSchema} from '../Table';
@@ -910,7 +903,8 @@ export default class FormTable extends React.Component<TableProps, TableState> {
       affixRow,
       prefixRow,
       formInited,
-      perPage
+      perPage,
+      classnames: cx
     } = this.props;
 
     if (formInited === false) {
@@ -962,18 +956,19 @@ export default class FormTable extends React.Component<TableProps, TableState> {
             offset
           }
         )}
-        {addable || showPager ? (
+        {(addable && showAddBtn !== false) || showPager ? (
           <div className={cx('InputTable-toolbar')}>
-            {addable ? (
+            {addable && showAddBtn !== false ? (
               <Button
                 disabled={disabled}
                 size="sm"
-                onClick={() => this.addItem(offset + items.length)}
+                onClick={() => this.addItem(this.state.items.length)}
               >
                 <Icon icon="plus" className="icon" />
                 <span>{__('Combo.add')}</span>
               </Button>
             ) : null}
+
             {showPager
               ? render(
                   'pager',

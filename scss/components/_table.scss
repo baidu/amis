@@ -828,6 +828,13 @@
   }
 }
 
+.#{$ns}InputTable-toolbar {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
 .#{$ns}OperationField {
   margin: px2rem(-3px);
 
