@@ -174,6 +174,26 @@ export const availableRanges: {[propName: string]: any} = {
     endDate: (now: moment.Moment) => {
       return now.startOf('quarter').add(-1, 'day').endOf('day');
     }
+  },
+
+  'thisyear': {
+    label: 'DateRange.thisYear',
+    startDate: (now: moment.Moment) => {
+      return now.startOf('year');
+    },
+    endDate: (now: moment.Moment) => {
+      return now.endOf('year');
+    }
+  },
+
+  'lastYear': {
+    label: 'DateRange.lastYear',
+    startDate: (now: moment.Moment) => {
+      return now.startOf('year').add(-1, 'year');
+    },
+    endDate: (now: moment.Moment) => {
+      return now.endOf('year').add(-1, 'year').endOf('day');
+    }
   }
 };
 

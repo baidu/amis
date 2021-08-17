@@ -94,6 +94,10 @@
 .#{$ns}Form-item {
   margin-bottom: var(--Form-item-gap);
 
+  &:last-child {
+    margin-bottom: 0;
+  }
+
   .#{$ns}Grid-form > &:last-child {
     margin-bottom: 0;
   }

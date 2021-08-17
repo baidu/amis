@@ -729,6 +729,13 @@ if (fis.project.currentMedia() === 'publish') {
     release: '/$1'
   });
 
+  // 在爱速搭中不用 cfc，而是放 amis 目录下的路由接管
+  let cfcAddress =
+    'https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock';
+  if (process.env.IS_AISUDA) {
+    cfcAddress = '/amis/api';
+  }
+
   ghPages.match('/{examples,docs}/**', {
     preprocessor: function (contents, file) {
       if (!file.isText() || typeof contents !== 'string') {
@@ -739,21 +746,13 @@ if (fis.project.currentMedia() === 'publish') {
         .replace(
           /(\\?(?:'|"))((?:get|post|delete|put)\:)?\/api\/mock2?/gi,
           function (_, qutoa, method) {
-            return (
-              qutoa +
-              (method || '') +
-              'https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2'
-            );
+            return qutoa + (method || '') + `${cfcAddress}/mock2`;
           }
         )
         .replace(
           /(\\?(?:'|"))((?:get|post|delete|put)\:)?\/api\/sample/gi,
           function (_, qutoa, method) {
-            return (
-              qutoa +
-              (method || '') +
-              'https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/sample'
-            );
+            return qutoa + (method || '') + `${cfcAddress}/sample`;
           }
         );
     }

@@ -14,6 +14,8 @@
   display: block;
   width: 100%;
 
+  @include input-border();
+
   &.is-error {
     border-color: var(--Form-input-onError-borderColor);
   }

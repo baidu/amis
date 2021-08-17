@@ -67,6 +67,8 @@ register('de-DE', {
   'DateRange.thisWeek': 'Diese Woche',
   'DateRange.thisMonth': 'Diesen Monat',
   'DateRange.thisQuarter': 'Dieses Quartal',
+  'DateRange.thisYear': 'Dieses Jahr',
+  'DateRange.lastYear': 'letztes Jahr',
   'DateRange.valueConcat': ' bis ',
   'DateTime.placeholder': 'Datum auswählen',
   'delete': 'Löschen',

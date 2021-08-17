@@ -18,7 +18,7 @@ class RandomNumber extends HTMLElement {
 
 class WebContainer extends HTMLElement {
   connectedCallback() {
-    const shadow = this.attachShadow();
+    const shadow = this.attachShadow({mode: 'open'});
     shadow.innerHTML = 'web-container';
   }
 }

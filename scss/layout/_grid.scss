@@ -42,6 +42,59 @@
   .#{$ns}Grid {
     @include make-row;
     flex: 1;
+
+    &--hRight {
+      justify-content: flex-end;
+    }
+
+    &--hCenter {
+      justify-content: center;
+    }
+    &--hBetween {
+      justify-content: space-between;
+    }
+
+    &--vMiddle > div {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    &--vBottom > div {
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+    }
+
+    &--vBetween > div {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    & > &-col--vTop {
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+    }
+
+    & > &-col--vMiddle {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    & > &-col--vBottom {
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+    }
+
+    & > &-col--vBetween {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
   }
 
   @include make-grid(sm);
@@ -53,4 +106,64 @@
 
 @include media-breakpoint-up(lg) {
   @include make-grid(lg);
+}
+
+.#{$ns}Grid--none {
+  margin-left: 0;
+  margin-right: 0;
+
+  > div {
+    padding-left: 0;
+    padding-right: 0;
+  }
+}
+
+.#{$ns}Grid--xs {
+  margin-left: calc(var(--gap-xs) * -0.5);
+  margin-right: calc(var(--gap-xs) * -0.5);
+
+  > div {
+    padding-left: calc(var(--gap-xs) * 0.5);
+    padding-right: calc(var(--gap-xs) * 0.5);
+  }
+}
+
+.#{$ns}Grid--sm {
+  margin-left: calc(var(--gap-sm) * -0.5);
+  margin-right: calc(var(--gap-sm) * -0.5);
+
+  > div {
+    padding-left: calc(var(--gap-sm) * 0.5);
+    padding-right: calc(var(--gap-sm) * 0.5);
+  }
+}
+
+.#{$ns}Grid--base {
+  margin-left: calc(var(--gap-base) * -0.5);
+  margin-right: calc(var(--gap-base) * -0.5);
+
+  > div {
+    padding-left: calc(var(--gap-base) * 0.5);
+    padding-right: calc(var(--gap-base) * 0.5);
+  }
+}
+
+.#{$ns}Grid--md {
+  margin-left: calc(var(--gap-md) * -0.5);
+  margin-right: calc(var(--gap-md) * -0.5);
+
+  > div {
+    padding-left: calc(var(--gap-md) * 0.5);
+    padding-right: calc(var(--gap-md) * 0.5);
+  }
+}
+
+.#{$ns}Grid--lg {
+  margin-left: calc(var(--gap-lg) * -0.5);
+  margin-right: calc(var(--gap-lg) * -0.5);
+
+  > div {
+    padding-left: calc(var(--gap-lg) * 0.5);
+    padding-right: calc(var(--gap-lg) * 0.5);
+  }
 }
