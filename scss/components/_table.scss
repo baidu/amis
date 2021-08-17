@@ -835,6 +835,10 @@
   justify-content: space-between;
 }
 
+.#{$ns}InputTable-pager {
+  margin-left: auto;
+}
+
 .#{$ns}OperationField {
   margin: px2rem(-3px);
 

@@ -775,6 +775,7 @@ export default class FormTable extends React.Component<TableProps, TableState> {
     if (showIndex) {
       columns.unshift({
         label: __('Table.index'),
+        width: '1%',
         children: (props: any) => {
           const idx = this.state.items.indexOf(props.data.raw);
           return <td>{~idx ? idx + 1 : ''}</td>;
@@ -979,7 +980,7 @@ export default class FormTable extends React.Component<TableProps, TableState> {
                     activePage: page,
                     lastPage: lastPage,
                     onPageChange: this.handlePageChange,
-                    className: 'Tables-pager'
+                    className: 'InputTable-pager'
                   }
                 )
               : null}
