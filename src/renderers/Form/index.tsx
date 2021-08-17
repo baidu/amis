@@ -1555,11 +1555,14 @@ export default class Form extends React.Component<FormProps, object> {
   shouldSyncSuperStore: (store, props, prevProps) => {
     // 如果是 QuickEdit，让 store 同步 __super 数据。
     if (
-      props.canAccessSuperData &&
       props.quickEditFormRef &&
       props.onQuickChange &&
       (isObjectShallowModified(prevProps.data, props.data) ||
-        isObjectShallowModified(prevProps.data.__super, props.data.__super))
+        isObjectShallowModified(prevProps.data.__super, props.data.__super) ||
+        isObjectShallowModified(
+          prevProps.data.__super?.__super,
+          props.data.__super?.__super
+        ))
     ) {
       return true;
     }

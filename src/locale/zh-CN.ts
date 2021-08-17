@@ -161,6 +161,7 @@ register('zh-CN', {
   'Table.playload': 'action 上请配置 payload, 否则不清楚要删除哪个',
   'Table.startSort': '点击开始排序',
   'Table.valueField': '请配置 valueField',
+  'Table.index': '序号',
   'Tag.placeholder': '暂无标签',
   'Tag.tip': '最近使用的标签',
   'Text.add': '新增：{{label}}',

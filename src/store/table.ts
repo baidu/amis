@@ -160,10 +160,10 @@ export const Row = types
       }
 
       const parent = getParent(self, 2) as ITableStore;
-
       return createObject(
         extendObject((getParent(self, self.depth * 2) as ITableStore).data, {
           index: self.index,
+          raw: self.data,
           // todo 以后再支持多层，目前先一层
           parent: parent.storeType === Row.name ? parent.data : undefined
         }),
@@ -839,7 +839,8 @@ export const TableStore = iRendererStore
 
     function initRows(
       rows: Array<any>,
-      getEntryId?: (entry: any, index: number) => string
+      getEntryId?: (entry: any, index: number) => string,
+      reUseRow?: boolean
     ) {
       self.selectedRows.clear();
       // self.expandedRows.clear();
@@ -877,7 +878,7 @@ export const TableStore = iRendererStore
         );
       }
 
-      replaceRow(arr);
+      replaceRow(arr, reUseRow);
       self.isNested = self.rows.some(item => item.children.length);
 
       const expand = self.footable && self.footable.expand;
@@ -899,7 +900,12 @@ export const TableStore = iRendererStore
     }
 
     // 尽可能的复用 row
-    function replaceRow(arr: Array<SRow>) {
+    function replaceRow(arr: Array<SRow>, reUseRow?: boolean) {
+      if (reUseRow === false) {
+        self.rows.replace(arr.map(item => Row.create(item)));
+        return;
+      }
+
       const pool = arr.concat();
 
       // 把多的删了先

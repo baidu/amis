@@ -157,6 +157,7 @@ register('en-US', {
   'Table.playload': 'Must have playload',
   'Table.startSort': 'Click to start sorting',
   'Table.valueField': 'Must have valueField',
+  'Table.index': 'Index',
   'Tag.placeholder': 'No tag yet',
   'Tag.tip': 'Recently used tag',
   'Text.add': 'New {{label}}',

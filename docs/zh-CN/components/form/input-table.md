@@ -54,6 +54,48 @@ order: 54
 
 我们为表单数据域设置了`table`变量，配置`table`表单项可以展示该数据
 
+## 显示序号
+
+```schema: scope="body"
+{
+  "type": "form",
+  "data": {
+    "table": [
+        {
+            "a": "a1",
+            "b": "b1"
+        },
+        {
+            "a": "a2",
+            "b": "b2"
+        },
+        {
+            "a": "a3",
+            "b": "b3"
+        }
+    ]
+  },
+  "api": "/api/mock2/form/saveForm",
+  "body": [
+    {
+      "showIndex": true,
+      "type":"input-table",
+      "name":"table",
+      "columns":[
+          {
+            "name": "a",
+            "label": "A"
+          },
+          {
+            "name": "b",
+            "label": "B"
+          }
+      ]
+    }
+  ]
+}
+```
+
 ## 可新增行
 
 可以配置`addable`和`editable`指定可以新增且编辑行数据
@@ -83,7 +125,7 @@ order: 54
 }
 ```
 
-### 按钮触发新增行
+## 按钮触发新增行
 
 按钮上配置`"actionType": "add"`和`target`指定表格`name`，可以实现点击按钮添加一行的效果。
 
@@ -135,7 +177,7 @@ order: 54
 
 当表格上配置了`addApi`时，会请求该 `api`，并将返回数据添加到目标表格。
 
-### 编辑行配置
+## 编辑行配置
 
 还可以在列上配置`quickEdit`实现编辑配置，更多配置参考 [快速编辑](../crud#%E5%BF%AB%E9%80%9F%E7%BC%96%E8%BE%91)
 
@@ -175,6 +217,60 @@ order: 54
           "name": "b",
           "quickEdit": true
         }
+      ]
+    }
+  ]
+}
+```
+
+## 显示分页
+
+```schema: scope="body"
+{
+  "type": "form",
+  "data": {
+    "table": [
+        {
+            "a": "a1",
+            "b": "b1"
+        },
+        {
+            "a": "a2",
+            "b": "b2"
+        },
+        {
+            "a": "a3",
+            "b": "b3"
+        },
+        {
+            "a": "a4",
+            "b": "b4"
+        },
+        {
+            "a": "a5",
+            "b": "b5"
+        },
+        {
+            "a": "a6",
+            "b": "b6"
+        }
+    ]
+  },
+  "body": [
+    {
+      "showIndex": true,
+      "type":"input-table",
+      "perPage": 5,
+      "name":"table",
+      "columns":[
+          {
+            "name": "a",
+            "label": "A"
+          },
+          {
+            "name": "b",
+            "label": "B"
+          }
       ]
     }
   ]
