@@ -548,8 +548,15 @@ export default class FormTable extends React.Component<TableProps, TableState> {
       return null;
     }
 
+    const perPage = this.props.perPage;
+    const page = this.state.page || 1;
+    let offset = 0;
+    if (typeof perPage === 'number' && perPage) {
+      offset = (page - 1) * perPage;
+    }
+
     return {
-      quickEditEnabled: this.state.editIndex === index
+      quickEditEnabled: this.state.editIndex === index + offset
     };
   }
 
@@ -670,8 +677,16 @@ export default class FormTable extends React.Component<TableProps, TableState> {
         });
 
       btns.push({
-        children: ({key, rowIndex}: {key: any; rowIndex: number}) =>
-          this.state.editIndex === rowIndex ? (
+        children: ({
+          key,
+          rowIndex,
+          offset
+        }: {
+          key: any;
+          rowIndex: number;
+          offset: number;
+        }) =>
+          this.state.editIndex === rowIndex + offset ? (
             <Button
               classPrefix={ns}
               size="sm"
@@ -694,8 +709,16 @@ export default class FormTable extends React.Component<TableProps, TableState> {
       });
 
       btns.push({
-        children: ({key, rowIndex}: {key: any; rowIndex: number}) =>
-          this.state.editIndex === rowIndex ? (
+        children: ({
+          key,
+          rowIndex,
+          offset
+        }: {
+          key: any;
+          rowIndex: number;
+          offset: number;
+        }) =>
+          this.state.editIndex === rowIndex + offset ? (
             <Button
               classPrefix={ns}
               size="sm"
@@ -772,8 +795,7 @@ export default class FormTable extends React.Component<TableProps, TableState> {
         label: __('Table.index'),
         width: '1%',
         children: (props: any) => {
-          const idx = this.state.items.indexOf(props.data.raw);
-          return <td>{~idx ? idx + 1 : ''}</td>;
+          return <td>{props.offset + props.data.index + 1}</td>;
         }
       });
     }

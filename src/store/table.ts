@@ -163,7 +163,6 @@ export const Row = types
       return createObject(
         extendObject((getParent(self, self.depth * 2) as ITableStore).data, {
           index: self.index,
-          raw: self.data,
           // todo 以后再支持多层，目前先一层
           parent: parent.storeType === Row.name ? parent.data : undefined
         }),
