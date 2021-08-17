@@ -143,11 +143,6 @@ export interface TableControlSchema
    * 分页个数，默认不分页
    */
   perPage?: number;
-
-  /**
-   * 是否同步初始默认值
-   */
-  syncDefaultValue?: boolean;
 }
 
 export interface TableProps
