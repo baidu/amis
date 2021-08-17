@@ -73,3 +73,4 @@ order: 48
 | autoFill        | `object`                                                                          |              | [自动填充](./options#%E8%87%AA%E5%8A%A8%E5%A1%AB%E5%85%85-autofill)                                                 |
 | menuTpl         | `string`                                                                          |              | 支持配置自定义菜单                                                                                                  |
 | clearable       | `boolean`                                                                         |              | 单选模式下是否支持清空                                                                                              |
+| hideSelected    | `boolean`                                                                   | `false`      | 隐藏已选选项

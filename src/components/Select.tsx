@@ -295,6 +295,10 @@ interface SelectProps extends OptionProps, ThemeProps, LocaleProps {
    * 边框模式，全边框，还是半边框，或者没边框。
    */
   borderMode?: 'full' | 'half' | 'none';
+  /**
+   * 是否隐藏已选项
+   */
+  hideSelected?: boolean;
 }
 
 interface SelectState {
@@ -692,6 +696,7 @@ export class Select extends React.Component<SelectProps, SelectState> {
       removable,
       overlayPlacement,
       translate: __,
+      hideSelected,
       renderMenu
     } = this.props;
     const {selection} = this.state;
@@ -724,6 +729,9 @@ export class Select extends React.Component<SelectProps, SelectState> {
       const item = filtedOptions[index];
       const checked =
         selectedItem === item || !!~selectionValues.indexOf(item[valueField]);
+      if (hideSelected && checked) {
+        return null;
+      }
       return (
         <div
           {...getItemProps({
