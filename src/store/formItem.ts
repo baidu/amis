@@ -339,7 +339,9 @@ export const FormItemStore = StoreNode.named('FormItemStore')
           if (
             group.items.some(
               item =>
-                item !== self && self.tmpValue && item.value === self.tmpValue
+                item !== self &&
+                self.tmpValue !== undefined &&
+                item.value === self.tmpValue
             )
           ) {
             addError(self.__('`当前值不唯一`'));
