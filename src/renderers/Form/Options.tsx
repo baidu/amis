@@ -242,7 +242,8 @@ export const detectProps = itemDetectProps.concat([
   'btnDisabled',
   'joinValues',
   'extractValue',
-  'borderMode'
+  'borderMode',
+  'hideSelected'
 ]);
 
 export function registerOptionsControl(config: OptionsConfig) {
