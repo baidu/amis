@@ -3,6 +3,7 @@ import {FormItem, FormControlProps, FormBaseControl} from './Item';
 import cx from 'classnames';
 import LazyComponent from '../../components/LazyComponent';
 import {tokenize} from '../../utils/tpl-builtin';
+import {normalizeApi} from '../../utils/api';
 
 /**
  * RichText
@@ -189,7 +190,16 @@ export default class RichTextControl extends React.Component<
           const formData = new FormData();
           formData.append('file', blobInfo.blob(), blobInfo.filename());
           try {
-            const response = await fetcher(props.receiver, formData, {
+            const receiver = {
+              adaptor: (payload: object) => {
+                return {
+                  ...payload,
+                  data: payload
+                };
+              },
+              ...normalizeApi(props.receiver)
+            };
+            const response = await fetcher(receiver, formData, {
               method: 'post'
             });
             if (response.ok) {
