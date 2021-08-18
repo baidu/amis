@@ -177,9 +177,11 @@ order: 54
 
 当表格上配置了`addApi`时，会请求该 `api`，并将返回数据添加到目标表格。
 
-## 编辑行配置
+## 可编辑内容
 
-还可以在列上配置`quickEdit`实现编辑配置，更多配置参考 [快速编辑](../crud#%E5%BF%AB%E9%80%9F%E7%BC%96%E8%BE%91)
+> 这是 1.2.3 新增的合并写法，1.2.2 之前请用后面提到的 quickEdit
+
+每一列的都可以通过 type 来将其改造成可编辑的列，比如下面的例子
 
 ```schema: scope="body"
 {
@@ -210,7 +212,57 @@ order: 54
         {
           "label": "A",
           "name": "a",
-          "quickEdit": true
+          "type": "input-text"
+        },
+        {
+          "label": "B",
+          "name": "b",
+          "type": "select",
+          "options": [
+            "b1", "b2", "b3"
+          ]
+        }
+      ]
+    }
+  ]
+}
+```
+
+除了上面的例子，还可以在列上配置`quickEdit`实现编辑配置，实现展现和编辑分离，更多配置参考 [快速编辑](../crud#%E5%BF%AB%E9%80%9F%E7%BC%96%E8%BE%91)
+
+```schema: scope="body"
+{
+  "type": "form",
+  "data": {
+    "table": [
+      {
+        "a": "a1",
+        "b": "b1"
+      },
+      {
+        "a": "a2",
+        "b": "b2"
+      },
+      {
+        "a": "a3",
+        "b": "b3"
+      }
+    ]
+  },
+  "api": "/api/mock2/form/saveForm",
+  "body": [
+    {
+      "type": "input-table",
+      "name": "table",
+      "label": "Table",
+      "columns": [
+        {
+          "label": "A",
+          "name": "a",
+          "quickEdit": {
+            "type": "select",
+            "options": ["a1", "a2", "a3"]
+          }
         },
         {
           "label": "B",
