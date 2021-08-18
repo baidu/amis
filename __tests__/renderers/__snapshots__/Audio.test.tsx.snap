@@ -3,10 +3,10 @@
 exports[`Renderer:audio 1`] = `
 <div>
   <div
-    class="a-Audio a-Audio--inline"
+    class="cxd-Audio cxd-Audio--inline"
   >
     <audio
-      class="a-Audio-original"
+      class="cxd-Audio-original"
       controls=""
     >
       <source
@@ -14,10 +14,10 @@ exports[`Renderer:audio 1`] = `
       />
     </audio>
     <div
-      class="a-Audio-controls"
+      class="cxd-Audio-controls"
     >
       <div
-        class="a-Audio-play"
+        class="cxd-Audio-play"
       >
         <icon-mock
           classname="icon icon-play"
@@ -25,14 +25,14 @@ exports[`Renderer:audio 1`] = `
         />
       </div>
       <div
-        class="a-Audio-times"
+        class="cxd-Audio-times"
       >
         0:00
          / 
         0:00
       </div>
       <div
-        class="a-Audio-process"
+        class="cxd-Audio-process"
       >
         <input
           max="1"
@@ -43,7 +43,7 @@ exports[`Renderer:audio 1`] = `
         />
       </div>
       <div
-        class="a-Audio-volume"
+        class="cxd-Audio-volume"
       >
         <icon-mock
           classname="icon icon-volume"

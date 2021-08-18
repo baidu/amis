@@ -3,7 +3,7 @@
 exports[`Renderer:date 1`] = `
 <div>
   <span
-    class="a-DateField show"
+    class="cxd-DateField show"
   >
     2019-06-07
   </span>

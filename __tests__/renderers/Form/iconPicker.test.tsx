@@ -40,7 +40,7 @@ test('Renderer:icon-picker', async () => {
     )
   );
 
-  const faIcon = container.querySelector('.a-IconPickerControl-value');
+  const faIcon = container.querySelector('.cxd-IconPickerControl-value');
   expect(faIcon?.innerHTML.replace(/<\s*i[^>]*><\s*\/\s*i>/g, '')).toEqual(
     'address-card'
   );

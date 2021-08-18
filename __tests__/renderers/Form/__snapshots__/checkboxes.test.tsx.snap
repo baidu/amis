@@ -3,17 +3,17 @@
 exports[`Renderer:checkboxes 1`] = `
 <div>
   <div
-    class="a-Panel a-Panel--default a-Panel--form"
+    class="cxd-Panel cxd-Panel--default cxd-Panel--form"
     style="position: relative;"
   >
     <div
-      class="a-Panel-heading"
+      class="cxd-Panel-heading"
     >
       <h3
-        class="a-Panel-title"
+        class="cxd-Panel-title"
       >
         <span
-          class="a-TplField"
+          class="cxd-TplField"
         >
           <span>
             The form
@@ -22,22 +22,22 @@ exports[`Renderer:checkboxes 1`] = `
       </h3>
     </div>
     <div
-      class="a-Panel-body"
+      class="cxd-Panel-body"
     >
       <form
-        class="a-Form a-Form--normal"
+        class="cxd-Form cxd-Form--normal"
         novalidate=""
       >
         <div
-          class="a-Form-item a-Form-item--normal"
+          class="cxd-Form-item cxd-Form-item--normal"
           data-role="form-item"
         >
           <label
-            class="a-Form-label"
+            class="cxd-Form-label"
           >
             <span>
               <span
-                class="a-TplField"
+                class="cxd-TplField"
               >
                 <span>
                   Checkboxes
@@ -46,10 +46,10 @@ exports[`Renderer:checkboxes 1`] = `
             </span>
           </label>
           <div
-            class="a-CheckboxesControl a-Form-control is-inline"
+            class="cxd-CheckboxesControl cxd-Form-control is-inline"
           >
             <label
-              class="a-Checkbox a-Checkbox--checkbox a-Checkbox--full"
+              class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full"
             >
               <input
                 type="checkbox"
@@ -62,7 +62,7 @@ exports[`Renderer:checkboxes 1`] = `
               </span>
             </label>
             <label
-              class="a-Checkbox a-Checkbox--checkbox a-Checkbox--full"
+              class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full"
             >
               <input
                 type="checkbox"
@@ -75,7 +75,7 @@ exports[`Renderer:checkboxes 1`] = `
               </span>
             </label>
             <label
-              class="a-Checkbox a-Checkbox--checkbox a-Checkbox--full"
+              class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full"
             >
               <input
                 type="checkbox"
@@ -88,7 +88,7 @@ exports[`Renderer:checkboxes 1`] = `
               </span>
             </label>
             <label
-              class="a-Checkbox a-Checkbox--checkbox a-Checkbox--full"
+              class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full"
             >
               <input
                 type="checkbox"
@@ -103,15 +103,15 @@ exports[`Renderer:checkboxes 1`] = `
           </div>
         </div>
         <div
-          class="a-Form-item a-Form-item--normal"
+          class="cxd-Form-item cxd-Form-item--normal"
           data-role="form-item"
         >
           <label
-            class="a-Form-label"
+            class="cxd-Form-label"
           >
             <span>
               <span
-                class="a-TplField"
+                class="cxd-TplField"
               >
                 <span>
                   当前值
@@ -120,13 +120,13 @@ exports[`Renderer:checkboxes 1`] = `
             </span>
           </label>
           <div
-            class="a-Form-static"
+            class="cxd-Form-static"
           >
             <div
-              class="a-Form-control"
+              class="cxd-Form-control"
             >
               <span
-                class="a-PlainField"
+                class="cxd-PlainField"
               >
                 <span
                   class="text-muted"
@@ -189,17 +189,17 @@ exports[`Renderer:checkboxes 1`] = `
 exports[`Renderer:checkboxes 2`] = `
 <div>
   <div
-    class="a-Panel a-Panel--default a-Panel--form"
+    class="cxd-Panel cxd-Panel--default cxd-Panel--form"
     style="position: relative;"
   >
     <div
-      class="a-Panel-heading"
+      class="cxd-Panel-heading"
     >
       <h3
-        class="a-Panel-title"
+        class="cxd-Panel-title"
       >
         <span
-          class="a-TplField"
+          class="cxd-TplField"
         >
           <span>
             The form
@@ -208,22 +208,22 @@ exports[`Renderer:checkboxes 2`] = `
       </h3>
     </div>
     <div
-      class="a-Panel-body"
+      class="cxd-Panel-body"
     >
       <form
-        class="a-Form a-Form--normal"
+        class="cxd-Form cxd-Form--normal"
         novalidate=""
       >
         <div
-          class="a-Form-item a-Form-item--normal"
+          class="cxd-Form-item cxd-Form-item--normal"
           data-role="form-item"
         >
           <label
-            class="a-Form-label"
+            class="cxd-Form-label"
           >
             <span>
               <span
-                class="a-TplField"
+                class="cxd-TplField"
               >
                 <span>
                   Checkboxes
@@ -232,10 +232,10 @@ exports[`Renderer:checkboxes 2`] = `
             </span>
           </label>
           <div
-            class="a-CheckboxesControl a-Form-control is-inline"
+            class="cxd-CheckboxesControl cxd-Form-control is-inline"
           >
             <label
-              class="a-Checkbox a-Checkbox--checkbox a-Checkbox--full"
+              class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full"
             >
               <input
                 type="checkbox"
@@ -248,7 +248,7 @@ exports[`Renderer:checkboxes 2`] = `
               </span>
             </label>
             <label
-              class="a-Checkbox a-Checkbox--checkbox a-Checkbox--full"
+              class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full"
             >
               <input
                 type="checkbox"
@@ -261,7 +261,7 @@ exports[`Renderer:checkboxes 2`] = `
               </span>
             </label>
             <label
-              class="a-Checkbox a-Checkbox--checkbox a-Checkbox--full"
+              class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full"
             >
               <input
                 type="checkbox"
@@ -274,7 +274,7 @@ exports[`Renderer:checkboxes 2`] = `
               </span>
             </label>
             <label
-              class="a-Checkbox a-Checkbox--checkbox a-Checkbox--full"
+              class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full"
             >
               <input
                 type="checkbox"
@@ -289,15 +289,15 @@ exports[`Renderer:checkboxes 2`] = `
           </div>
         </div>
         <div
-          class="a-Form-item a-Form-item--normal"
+          class="cxd-Form-item cxd-Form-item--normal"
           data-role="form-item"
         >
           <label
-            class="a-Form-label"
+            class="cxd-Form-label"
           >
             <span>
               <span
-                class="a-TplField"
+                class="cxd-TplField"
               >
                 <span>
                   当前值
@@ -306,13 +306,13 @@ exports[`Renderer:checkboxes 2`] = `
             </span>
           </label>
           <div
-            class="a-Form-static"
+            class="cxd-Form-static"
           >
             <div
-              class="a-Form-control"
+              class="cxd-Form-control"
             >
               <span
-                class="a-PlainField"
+                class="cxd-PlainField"
               >
                 <span
                   class="text-muted"

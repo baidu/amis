@@ -3,10 +3,10 @@
 exports[`Renderer:alert 1`] = `
 <div>
   <div
-    class="a-Video"
+    class="cxd-Video"
   >
     <div
-      class="a-Video-player"
+      class="cxd-Video-player"
     >
       <div
         class="video-react-controls-enabled video-react-paused video-react-fluid video-react-user-active video-react-workinghover video-react"

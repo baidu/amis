@@ -3,7 +3,7 @@
 exports[`Renderer:link 1`] = `
 <div>
   <a
-    class="a-Link show"
+    class="cxd-Link show"
     href="https://www.baidu.com"
     target="_blank"
   >

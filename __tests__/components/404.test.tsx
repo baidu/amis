@@ -1,6 +1,7 @@
 import React = require('react');
 import NotFound from '../../src/components/404';
 import * as renderer from 'react-test-renderer';
+import '../../src/themes/default';
 import {render, fireEvent, cleanup} from '@testing-library/react';
 
 afterEach(cleanup);

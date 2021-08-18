@@ -42,7 +42,7 @@ test('Renderer:dropdown-button', async () => {
     )
   );
 
-  const dropdowmButton = document.querySelector('button.a-Button');
+  const dropdowmButton = document.querySelector('button.cxd-Button');
   fireEvent.click(dropdowmButton as HTMLDivElement);
   expect(container).toMatchSnapshot();
   fireEvent.click(dropdowmButton as HTMLDivElement);

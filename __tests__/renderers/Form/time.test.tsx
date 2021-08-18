@@ -30,7 +30,7 @@ test('Renderer:time', async () => {
   //   );
   //   await wait(200);
   // todo 这个用例有问题，先注释
-  //   const input = container.querySelector('.a-DatePicker-value');
+  //   const input = container.querySelector('.cxd-DatePicker-value');
   //   expect(input?.innerHTML).toEqual('01:01');
   //   expect(container).toMatchSnapshot();
 });
