@@ -3,18 +3,18 @@
 exports[`Form:initData 1`] = `
 <div>
   <form
-    class="a-Form a-Form--normal"
+    class="cxd-Form cxd-Form--normal"
     novalidate=""
   >
     <div
-      class="a-Form-item a-Form-item--normal"
+      class="cxd-Form-item cxd-Form-item--normal"
       data-role="form-item"
     >
       <div
-        class="a-Form-control a-TextControl"
+        class="cxd-Form-control cxd-TextControl"
       >
         <div
-          class="a-TextControl-input"
+          class="cxd-TextControl-input"
         >
           <input
             autocomplete="off"
@@ -28,14 +28,14 @@ exports[`Form:initData 1`] = `
       </div>
     </div>
     <div
-      class="a-Form-item a-Form-item--normal"
+      class="cxd-Form-item cxd-Form-item--normal"
       data-role="form-item"
     >
       <div
-        class="a-Form-control a-TextControl"
+        class="cxd-Form-control cxd-TextControl"
       >
         <div
-          class="a-TextControl-input"
+          class="cxd-TextControl-input"
         >
           <input
             autocomplete="off"
@@ -49,7 +49,7 @@ exports[`Form:initData 1`] = `
       </div>
     </div>
     <button
-      class="a-Button a-Button--default"
+      class="cxd-Button cxd-Button--default"
       type="submit"
     >
       <span>
@@ -74,17 +74,17 @@ Object {
 exports[`Form:initData:remote 1`] = `
 <div>
   <div
-    class="a-Panel a-Panel--default a-Panel--form"
+    class="cxd-Panel cxd-Panel--default cxd-Panel--form"
     style="position: relative;"
   >
     <div
-      class="a-Panel-heading"
+      class="cxd-Panel-heading"
     >
       <h3
-        class="a-Panel-title"
+        class="cxd-Panel-title"
       >
         <span
-          class="a-TplField"
+          class="cxd-TplField"
         >
           <span>
             The form
@@ -93,28 +93,28 @@ exports[`Form:initData:remote 1`] = `
       </h3>
     </div>
     <div
-      class="a-Panel-body"
+      class="cxd-Panel-body"
     >
       <form
-        class="a-Form a-Form--normal"
+        class="cxd-Form cxd-Form--normal"
         novalidate=""
       >
         <div
-          class="a-Spinner-overlay in"
+          class="cxd-Spinner-overlay in"
         />
         <div
-          class="a-Spinner in a-Spinner--overlay"
+          class="cxd-Spinner in cxd-Spinner--overlay"
         />
         <div
-          class="a-Form-item a-Form-item--normal"
+          class="cxd-Form-item cxd-Form-item--normal"
           data-role="form-item"
         >
           <label
-            class="a-Form-label"
+            class="cxd-Form-label"
           >
             <span>
               <span
-                class="a-TplField"
+                class="cxd-TplField"
               >
                 <span>
                   Label
@@ -123,10 +123,10 @@ exports[`Form:initData:remote 1`] = `
             </span>
           </label>
           <div
-            class="a-Form-control a-TextControl is-disabled"
+            class="cxd-Form-control cxd-TextControl is-disabled"
           >
             <div
-              class="a-TextControl-input"
+              class="cxd-TextControl-input"
             >
               <input
                 autocomplete="off"
@@ -147,13 +147,13 @@ exports[`Form:initData:remote 1`] = `
       </form>
     </div>
     <div
-      class="a-Panel-footerWrap"
+      class="cxd-Panel-footerWrap"
     >
       <div
-        class="a-Panel-btnToolbar a-Panel-footer"
+        class="cxd-Panel-btnToolbar cxd-Panel-footer"
       >
         <div
-          class="a-Button a-Button--default is-disabled"
+          class="cxd-Button cxd-Button--default is-disabled"
           disabled=""
         >
           <span>
@@ -224,17 +224,17 @@ Object {
 exports[`Form:initData:remote 3`] = `
 <div>
   <div
-    class="a-Panel a-Panel--default a-Panel--form"
+    class="cxd-Panel cxd-Panel--default cxd-Panel--form"
     style="position: relative;"
   >
     <div
-      class="a-Panel-heading"
+      class="cxd-Panel-heading"
     >
       <h3
-        class="a-Panel-title"
+        class="cxd-Panel-title"
       >
         <span
-          class="a-TplField"
+          class="cxd-TplField"
         >
           <span>
             The form
@@ -243,28 +243,28 @@ exports[`Form:initData:remote 3`] = `
       </h3>
     </div>
     <div
-      class="a-Panel-body"
+      class="cxd-Panel-body"
     >
       <form
-        class="a-Form a-Form--normal"
+        class="cxd-Form cxd-Form--normal"
         novalidate=""
       >
         <div
-          class="a-Spinner-overlay"
+          class="cxd-Spinner-overlay"
         />
         <div
-          class="a-Spinner a-Spinner--overlay"
+          class="cxd-Spinner cxd-Spinner--overlay"
         />
         <div
-          class="a-Form-item a-Form-item--normal"
+          class="cxd-Form-item cxd-Form-item--normal"
           data-role="form-item"
         >
           <label
-            class="a-Form-label"
+            class="cxd-Form-label"
           >
             <span>
               <span
-                class="a-TplField"
+                class="cxd-TplField"
               >
                 <span>
                   Label
@@ -273,10 +273,10 @@ exports[`Form:initData:remote 3`] = `
             </span>
           </label>
           <div
-            class="a-Form-control a-TextControl"
+            class="cxd-Form-control cxd-TextControl"
           >
             <div
-              class="a-TextControl-input"
+              class="cxd-TextControl-input"
             >
               <input
                 autocomplete="off"
@@ -296,13 +296,13 @@ exports[`Form:initData:remote 3`] = `
       </form>
     </div>
     <div
-      class="a-Panel-footerWrap"
+      class="cxd-Panel-footerWrap"
     >
       <div
-        class="a-Panel-btnToolbar a-Panel-footer"
+        class="cxd-Panel-btnToolbar cxd-Panel-footer"
       >
         <button
-          class="a-Button a-Button--default"
+          class="cxd-Button cxd-Button--default"
           type="submit"
         >
           <span>
@@ -364,30 +364,30 @@ Object {
 exports[`Form:initData:super 1`] = `
 <div>
   <div
-    class="a-Page"
+    class="cxd-Page"
   >
     <div
-      class="a-Page-content"
+      class="cxd-Page-content"
     >
       <div
-        class="a-Page-main"
+        class="cxd-Page-main"
       >
         <div
-          class="a-Page-body"
+          class="cxd-Page-body"
         >
           <form
-            class="a-Form a-Form--normal"
+            class="cxd-Form cxd-Form--normal"
             novalidate=""
           >
             <div
-              class="a-Form-item a-Form-item--normal"
+              class="cxd-Form-item cxd-Form-item--normal"
               data-role="form-item"
             >
               <div
-                class="a-Form-control a-TextControl"
+                class="cxd-Form-control cxd-TextControl"
               >
                 <div
-                  class="a-TextControl-input"
+                  class="cxd-TextControl-input"
                 >
                   <input
                     autocomplete="off"
@@ -401,14 +401,14 @@ exports[`Form:initData:super 1`] = `
               </div>
             </div>
             <div
-              class="a-Form-item a-Form-item--normal"
+              class="cxd-Form-item cxd-Form-item--normal"
               data-role="form-item"
             >
               <div
-                class="a-Form-control a-TextControl"
+                class="cxd-Form-control cxd-TextControl"
               >
                 <div
-                  class="a-TextControl-input"
+                  class="cxd-TextControl-input"
                 >
                   <input
                     autocomplete="off"
@@ -422,7 +422,7 @@ exports[`Form:initData:super 1`] = `
               </div>
             </div>
             <button
-              class="a-Button a-Button--default"
+              class="cxd-Button cxd-Button--default"
               type="submit"
             >
               <span>
@@ -444,30 +444,30 @@ exports[`Form:initData:super 1`] = `
 exports[`Form:initData:without-super 1`] = `
 <div>
   <div
-    class="a-Page"
+    class="cxd-Page"
   >
     <div
-      class="a-Page-content"
+      class="cxd-Page-content"
     >
       <div
-        class="a-Page-main"
+        class="cxd-Page-main"
       >
         <div
-          class="a-Page-body"
+          class="cxd-Page-body"
         >
           <form
-            class="a-Form a-Form--normal"
+            class="cxd-Form cxd-Form--normal"
             novalidate=""
           >
             <div
-              class="a-Form-item a-Form-item--normal"
+              class="cxd-Form-item cxd-Form-item--normal"
               data-role="form-item"
             >
               <div
-                class="a-Form-control a-TextControl"
+                class="cxd-Form-control cxd-TextControl"
               >
                 <div
-                  class="a-TextControl-input"
+                  class="cxd-TextControl-input"
                 >
                   <input
                     autocomplete="off"
@@ -481,14 +481,14 @@ exports[`Form:initData:without-super 1`] = `
               </div>
             </div>
             <div
-              class="a-Form-item a-Form-item--normal"
+              class="cxd-Form-item cxd-Form-item--normal"
               data-role="form-item"
             >
               <div
-                class="a-Form-control a-TextControl"
+                class="cxd-Form-control cxd-TextControl"
               >
                 <div
-                  class="a-TextControl-input"
+                  class="cxd-TextControl-input"
                 >
                   <input
                     autocomplete="off"
@@ -502,7 +502,7 @@ exports[`Form:initData:without-super 1`] = `
               </div>
             </div>
             <button
-              class="a-Button a-Button--default"
+              class="cxd-Button cxd-Button--default"
               type="submit"
             >
               <span>

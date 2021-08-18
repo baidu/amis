@@ -3,17 +3,17 @@
 exports[`Renderer:FormItem:validateApi:failed 1`] = `
 <div>
   <div
-    class="a-Panel a-Panel--default a-Panel--form"
+    class="cxd-Panel cxd-Panel--default cxd-Panel--form"
     style="position: relative;"
   >
     <div
-      class="a-Panel-heading"
+      class="cxd-Panel-heading"
     >
       <h3
-        class="a-Panel-title"
+        class="cxd-Panel-title"
       >
         <span
-          class="a-TplField"
+          class="cxd-TplField"
         >
           <span>
             The form
@@ -22,39 +22,39 @@ exports[`Renderer:FormItem:validateApi:failed 1`] = `
       </h3>
     </div>
     <div
-      class="a-Panel-body"
+      class="cxd-Panel-body"
     >
       <form
-        class="a-Form a-Form--normal"
+        class="cxd-Form cxd-Form--normal"
         novalidate=""
       >
         <div
-          class="a-Form-item a-Form-item--normal is-error is-required"
+          class="cxd-Form-item cxd-Form-item--normal is-error is-required"
           data-role="form-item"
         >
           <label
-            class="a-Form-label"
+            class="cxd-Form-label"
           >
             <span>
               <span
-                class="a-TplField"
+                class="cxd-TplField"
               >
                 <span>
                   Label
                 </span>
               </span>
               <span
-                class="a-Form-star"
+                class="cxd-Form-star"
               >
                 *
               </span>
             </span>
           </label>
           <div
-            class="a-Form-control is-error a-TextControl"
+            class="cxd-Form-control is-error cxd-TextControl"
           >
             <div
-              class="a-TextControl-input"
+              class="cxd-TextControl-input"
             >
               <input
                 autocomplete="off"
@@ -67,7 +67,7 @@ exports[`Renderer:FormItem:validateApi:failed 1`] = `
             </div>
           </div>
           <ul
-            class="a-Form-feedback"
+            class="cxd-Form-feedback"
           >
             <li>
               这是必填项
@@ -81,13 +81,13 @@ exports[`Renderer:FormItem:validateApi:failed 1`] = `
       </form>
     </div>
     <div
-      class="a-Panel-footerWrap"
+      class="cxd-Panel-footerWrap"
     >
       <div
-        class="a-Panel-btnToolbar a-Panel-footer"
+        class="cxd-Panel-btnToolbar cxd-Panel-footer"
       >
         <button
-          class="a-Button a-Button--default"
+          class="cxd-Button cxd-Button--default"
           type="submit"
         >
           <span>
@@ -142,17 +142,17 @@ exports[`Renderer:FormItem:validateApi:failed 1`] = `
 exports[`Renderer:FormItem:validateApi:failed 2`] = `
 <div>
   <div
-    class="a-Panel a-Panel--default a-Panel--form"
+    class="cxd-Panel cxd-Panel--default cxd-Panel--form"
     style="position: relative;"
   >
     <div
-      class="a-Panel-heading"
+      class="cxd-Panel-heading"
     >
       <h3
-        class="a-Panel-title"
+        class="cxd-Panel-title"
       >
         <span
-          class="a-TplField"
+          class="cxd-TplField"
         >
           <span>
             The form
@@ -161,39 +161,39 @@ exports[`Renderer:FormItem:validateApi:failed 2`] = `
       </h3>
     </div>
     <div
-      class="a-Panel-body"
+      class="cxd-Panel-body"
     >
       <form
-        class="a-Form a-Form--normal"
+        class="cxd-Form cxd-Form--normal"
         novalidate=""
       >
         <div
-          class="a-Form-item a-Form-item--normal is-error is-required"
+          class="cxd-Form-item cxd-Form-item--normal is-error is-required"
           data-role="form-item"
         >
           <label
-            class="a-Form-label"
+            class="cxd-Form-label"
           >
             <span>
               <span
-                class="a-TplField"
+                class="cxd-TplField"
               >
                 <span>
                   Label
                 </span>
               </span>
               <span
-                class="a-Form-star"
+                class="cxd-Form-star"
               >
                 *
               </span>
             </span>
           </label>
           <div
-            class="a-Form-control is-error a-TextControl"
+            class="cxd-Form-control is-error cxd-TextControl"
           >
             <div
-              class="a-TextControl-input"
+              class="cxd-TextControl-input"
             >
               <input
                 autocomplete="off"
@@ -206,7 +206,7 @@ exports[`Renderer:FormItem:validateApi:failed 2`] = `
             </div>
           </div>
           <ul
-            class="a-Form-feedback"
+            class="cxd-Form-feedback"
           >
             <li>
               用户名已存在
@@ -220,13 +220,13 @@ exports[`Renderer:FormItem:validateApi:failed 2`] = `
       </form>
     </div>
     <div
-      class="a-Panel-footerWrap"
+      class="cxd-Panel-footerWrap"
     >
       <div
-        class="a-Panel-btnToolbar a-Panel-footer"
+        class="cxd-Panel-btnToolbar cxd-Panel-footer"
       >
         <button
-          class="a-Button a-Button--default"
+          class="cxd-Button cxd-Button--default"
           type="submit"
         >
           <span>
@@ -281,17 +281,17 @@ exports[`Renderer:FormItem:validateApi:failed 2`] = `
 exports[`Renderer:FormItem:validateApi:success 1`] = `
 <div>
   <div
-    class="a-Panel a-Panel--default a-Panel--form"
+    class="cxd-Panel cxd-Panel--default cxd-Panel--form"
     style="position: relative;"
   >
     <div
-      class="a-Panel-heading"
+      class="cxd-Panel-heading"
     >
       <h3
-        class="a-Panel-title"
+        class="cxd-Panel-title"
       >
         <span
-          class="a-TplField"
+          class="cxd-TplField"
         >
           <span>
             The form
@@ -300,39 +300,39 @@ exports[`Renderer:FormItem:validateApi:success 1`] = `
       </h3>
     </div>
     <div
-      class="a-Panel-body"
+      class="cxd-Panel-body"
     >
       <form
-        class="a-Form a-Form--normal"
+        class="cxd-Form cxd-Form--normal"
         novalidate=""
       >
         <div
-          class="a-Form-item a-Form-item--normal is-error is-required"
+          class="cxd-Form-item cxd-Form-item--normal is-error is-required"
           data-role="form-item"
         >
           <label
-            class="a-Form-label"
+            class="cxd-Form-label"
           >
             <span>
               <span
-                class="a-TplField"
+                class="cxd-TplField"
               >
                 <span>
                   Label
                 </span>
               </span>
               <span
-                class="a-Form-star"
+                class="cxd-Form-star"
               >
                 *
               </span>
             </span>
           </label>
           <div
-            class="a-Form-control is-error a-TextControl"
+            class="cxd-Form-control is-error cxd-TextControl"
           >
             <div
-              class="a-TextControl-input"
+              class="cxd-TextControl-input"
             >
               <input
                 autocomplete="off"
@@ -345,7 +345,7 @@ exports[`Renderer:FormItem:validateApi:success 1`] = `
             </div>
           </div>
           <ul
-            class="a-Form-feedback"
+            class="cxd-Form-feedback"
           >
             <li>
               这是必填项
@@ -359,13 +359,13 @@ exports[`Renderer:FormItem:validateApi:success 1`] = `
       </form>
     </div>
     <div
-      class="a-Panel-footerWrap"
+      class="cxd-Panel-footerWrap"
     >
       <div
-        class="a-Panel-btnToolbar a-Panel-footer"
+        class="cxd-Panel-btnToolbar cxd-Panel-footer"
       >
         <button
-          class="a-Button a-Button--default"
+          class="cxd-Button cxd-Button--default"
           type="submit"
         >
           <span>

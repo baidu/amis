@@ -3,19 +3,19 @@
 exports[`options:linkage 1`] = `
 <div>
   <form
-    class="a-Form a-Form--normal"
+    class="cxd-Form cxd-Form--normal"
     novalidate=""
   >
     <div
-      class="a-Form-item a-Form-item--normal"
+      class="cxd-Form-item cxd-Form-item--normal"
       data-role="form-item"
     >
       <label
-        class="a-Form-label text-muted"
+        class="cxd-Form-label text-muted"
       >
         <span>
           <span
-            class="a-TplField"
+            class="cxd-TplField"
           >
             <span>
               选项x
@@ -24,34 +24,34 @@ exports[`options:linkage 1`] = `
         </span>
       </label>
       <div
-        class="a-ListControl a-Form-control is-inline"
+        class="cxd-ListControl cxd-Form-control is-inline"
       >
         <div
-          class="a-ListControl-items"
+          class="cxd-ListControl-items"
         >
           <div
-            class="a-ListControl-item"
+            class="cxd-ListControl-item"
           >
             <div
-              class="a-ListControl-itemLabel"
+              class="cxd-ListControl-itemLabel"
             >
               选项1
             </div>
           </div>
           <div
-            class="a-ListControl-item"
+            class="cxd-ListControl-item"
           >
             <div
-              class="a-ListControl-itemLabel"
+              class="cxd-ListControl-itemLabel"
             >
               选项2
             </div>
           </div>
           <div
-            class="a-ListControl-item"
+            class="cxd-ListControl-item"
           >
             <div
-              class="a-ListControl-itemLabel"
+              class="cxd-ListControl-itemLabel"
             >
               选项3
             </div>
@@ -60,15 +60,15 @@ exports[`options:linkage 1`] = `
       </div>
     </div>
     <div
-      class="a-Form-item a-Form-item--normal"
+      class="cxd-Form-item cxd-Form-item--normal"
       data-role="form-item"
     >
       <label
-        class="a-Form-label text-muted"
+        class="cxd-Form-label text-muted"
       >
         <span>
           <span
-            class="a-TplField"
+            class="cxd-TplField"
           >
             <span>
               选项y
@@ -77,10 +77,10 @@ exports[`options:linkage 1`] = `
         </span>
       </label>
       <div
-        class="a-RadiosControl a-Form-control is-inline"
+        class="cxd-RadiosControl cxd-Form-control is-inline"
       >
         <label
-          class="a-Checkbox a-Checkbox--radio a-Checkbox--full"
+          class="cxd-Checkbox cxd-Checkbox--radio cxd-Checkbox--full"
         >
           <input
             type="radio"
@@ -93,7 +93,7 @@ exports[`options:linkage 1`] = `
           </span>
         </label>
         <label
-          class="a-Checkbox a-Checkbox--radio a-Checkbox--full"
+          class="cxd-Checkbox cxd-Checkbox--radio cxd-Checkbox--full"
         >
           <input
             type="radio"
@@ -118,19 +118,19 @@ exports[`options:linkage 1`] = `
 exports[`options:linkage 2`] = `
 <div>
   <form
-    class="a-Form a-Form--normal"
+    class="cxd-Form cxd-Form--normal"
     novalidate=""
   >
     <div
-      class="a-Form-item a-Form-item--normal"
+      class="cxd-Form-item cxd-Form-item--normal"
       data-role="form-item"
     >
       <label
-        class="a-Form-label text-muted"
+        class="cxd-Form-label text-muted"
       >
         <span>
           <span
-            class="a-TplField"
+            class="cxd-TplField"
           >
             <span>
               选项x
@@ -139,34 +139,34 @@ exports[`options:linkage 2`] = `
         </span>
       </label>
       <div
-        class="a-ListControl a-Form-control is-inline"
+        class="cxd-ListControl cxd-Form-control is-inline"
       >
         <div
-          class="a-ListControl-items"
+          class="cxd-ListControl-items"
         >
           <div
-            class="a-ListControl-item is-active"
+            class="cxd-ListControl-item is-active"
           >
             <div
-              class="a-ListControl-itemLabel"
+              class="cxd-ListControl-itemLabel"
             >
               选项1
             </div>
           </div>
           <div
-            class="a-ListControl-item"
+            class="cxd-ListControl-item"
           >
             <div
-              class="a-ListControl-itemLabel"
+              class="cxd-ListControl-itemLabel"
             >
               选项2
             </div>
           </div>
           <div
-            class="a-ListControl-item"
+            class="cxd-ListControl-item"
           >
             <div
-              class="a-ListControl-itemLabel"
+              class="cxd-ListControl-itemLabel"
             >
               选项3
             </div>
@@ -175,15 +175,15 @@ exports[`options:linkage 2`] = `
       </div>
     </div>
     <div
-      class="a-Form-item a-Form-item--normal"
+      class="cxd-Form-item cxd-Form-item--normal"
       data-role="form-item"
     >
       <label
-        class="a-Form-label text-muted"
+        class="cxd-Form-label text-muted"
       >
         <span>
           <span
-            class="a-TplField"
+            class="cxd-TplField"
           >
             <span>
               选项y
@@ -192,10 +192,10 @@ exports[`options:linkage 2`] = `
         </span>
       </label>
       <div
-        class="a-RadiosControl a-Form-control is-inline"
+        class="cxd-RadiosControl cxd-Form-control is-inline"
       >
         <label
-          class="a-Checkbox a-Checkbox--radio a-Checkbox--full"
+          class="cxd-Checkbox cxd-Checkbox--radio cxd-Checkbox--full"
         >
           <input
             disabled=""
@@ -209,7 +209,7 @@ exports[`options:linkage 2`] = `
           </span>
         </label>
         <label
-          class="a-Checkbox a-Checkbox--radio a-Checkbox--full"
+          class="cxd-Checkbox cxd-Checkbox--radio cxd-Checkbox--full"
         >
           <input
             type="radio"
@@ -234,19 +234,19 @@ exports[`options:linkage 2`] = `
 exports[`options:linkage 3`] = `
 <div>
   <form
-    class="a-Form a-Form--normal"
+    class="cxd-Form cxd-Form--normal"
     novalidate=""
   >
     <div
-      class="a-Form-item a-Form-item--normal"
+      class="cxd-Form-item cxd-Form-item--normal"
       data-role="form-item"
     >
       <label
-        class="a-Form-label text-muted"
+        class="cxd-Form-label text-muted"
       >
         <span>
           <span
-            class="a-TplField"
+            class="cxd-TplField"
           >
             <span>
               选项x
@@ -255,34 +255,34 @@ exports[`options:linkage 3`] = `
         </span>
       </label>
       <div
-        class="a-ListControl a-Form-control is-inline"
+        class="cxd-ListControl cxd-Form-control is-inline"
       >
         <div
-          class="a-ListControl-items"
+          class="cxd-ListControl-items"
         >
           <div
-            class="a-ListControl-item"
+            class="cxd-ListControl-item"
           >
             <div
-              class="a-ListControl-itemLabel"
+              class="cxd-ListControl-itemLabel"
             >
               选项1
             </div>
           </div>
           <div
-            class="a-ListControl-item is-active"
+            class="cxd-ListControl-item is-active"
           >
             <div
-              class="a-ListControl-itemLabel"
+              class="cxd-ListControl-itemLabel"
             >
               选项2
             </div>
           </div>
           <div
-            class="a-ListControl-item"
+            class="cxd-ListControl-item"
           >
             <div
-              class="a-ListControl-itemLabel"
+              class="cxd-ListControl-itemLabel"
             >
               选项3
             </div>
@@ -291,15 +291,15 @@ exports[`options:linkage 3`] = `
       </div>
     </div>
     <div
-      class="a-Form-item a-Form-item--normal"
+      class="cxd-Form-item cxd-Form-item--normal"
       data-role="form-item"
     >
       <label
-        class="a-Form-label text-muted"
+        class="cxd-Form-label text-muted"
       >
         <span>
           <span
-            class="a-TplField"
+            class="cxd-TplField"
           >
             <span>
               选项y
@@ -308,10 +308,10 @@ exports[`options:linkage 3`] = `
         </span>
       </label>
       <div
-        class="a-RadiosControl a-Form-control is-inline"
+        class="cxd-RadiosControl cxd-Form-control is-inline"
       >
         <label
-          class="a-Checkbox a-Checkbox--radio a-Checkbox--full"
+          class="cxd-Checkbox cxd-Checkbox--radio cxd-Checkbox--full"
         >
           <input
             type="radio"
@@ -336,19 +336,19 @@ exports[`options:linkage 3`] = `
 exports[`options:linkage 4`] = `
 <div>
   <form
-    class="a-Form a-Form--normal"
+    class="cxd-Form cxd-Form--normal"
     novalidate=""
   >
     <div
-      class="a-Form-item a-Form-item--normal"
+      class="cxd-Form-item cxd-Form-item--normal"
       data-role="form-item"
     >
       <label
-        class="a-Form-label text-muted"
+        class="cxd-Form-label text-muted"
       >
         <span>
           <span
-            class="a-TplField"
+            class="cxd-TplField"
           >
             <span>
               选项x
@@ -357,34 +357,34 @@ exports[`options:linkage 4`] = `
         </span>
       </label>
       <div
-        class="a-ListControl a-Form-control is-inline"
+        class="cxd-ListControl cxd-Form-control is-inline"
       >
         <div
-          class="a-ListControl-items"
+          class="cxd-ListControl-items"
         >
           <div
-            class="a-ListControl-item"
+            class="cxd-ListControl-item"
           >
             <div
-              class="a-ListControl-itemLabel"
+              class="cxd-ListControl-itemLabel"
             >
               选项1
             </div>
           </div>
           <div
-            class="a-ListControl-item"
+            class="cxd-ListControl-item"
           >
             <div
-              class="a-ListControl-itemLabel"
+              class="cxd-ListControl-itemLabel"
             >
               选项2
             </div>
           </div>
           <div
-            class="a-ListControl-item is-active"
+            class="cxd-ListControl-item is-active"
           >
             <div
-              class="a-ListControl-itemLabel"
+              class="cxd-ListControl-itemLabel"
             >
               选项3
             </div>
@@ -393,15 +393,15 @@ exports[`options:linkage 4`] = `
       </div>
     </div>
     <div
-      class="a-Form-item a-Form-item--normal"
+      class="cxd-Form-item cxd-Form-item--normal"
       data-role="form-item"
     >
       <label
-        class="a-Form-label text-muted"
+        class="cxd-Form-label text-muted"
       >
         <span>
           <span
-            class="a-TplField"
+            class="cxd-TplField"
           >
             <span>
               选项y
@@ -410,10 +410,10 @@ exports[`options:linkage 4`] = `
         </span>
       </label>
       <div
-        class="a-RadiosControl a-Form-control is-inline"
+        class="cxd-RadiosControl cxd-Form-control is-inline"
       >
         <label
-          class="a-Checkbox a-Checkbox--radio a-Checkbox--full"
+          class="cxd-Checkbox cxd-Checkbox--radio cxd-Checkbox--full"
         >
           <input
             type="radio"
@@ -426,7 +426,7 @@ exports[`options:linkage 4`] = `
           </span>
         </label>
         <label
-          class="a-Checkbox a-Checkbox--radio a-Checkbox--full"
+          class="cxd-Checkbox cxd-Checkbox--radio cxd-Checkbox--full"
         >
           <input
             type="radio"
@@ -439,7 +439,7 @@ exports[`options:linkage 4`] = `
           </span>
         </label>
         <label
-          class="a-Checkbox a-Checkbox--radio a-Checkbox--full"
+          class="cxd-Checkbox cxd-Checkbox--radio cxd-Checkbox--full"
         >
           <input
             type="radio"

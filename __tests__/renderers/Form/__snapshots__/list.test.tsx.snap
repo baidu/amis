@@ -3,17 +3,17 @@
 exports[`Renderer:list 1`] = `
 <div>
   <div
-    class="a-Panel a-Panel--default a-Panel--form"
+    class="cxd-Panel cxd-Panel--default cxd-Panel--form"
     style="position: relative;"
   >
     <div
-      class="a-Panel-heading"
+      class="cxd-Panel-heading"
     >
       <h3
-        class="a-Panel-title"
+        class="cxd-Panel-title"
       >
         <span
-          class="a-TplField"
+          class="cxd-TplField"
         >
           <span>
             The form
@@ -22,22 +22,22 @@ exports[`Renderer:list 1`] = `
       </h3>
     </div>
     <div
-      class="a-Panel-body"
+      class="cxd-Panel-body"
     >
       <form
-        class="a-Form a-Form--normal"
+        class="cxd-Form cxd-Form--normal"
         novalidate=""
       >
         <div
-          class="a-Form-item a-Form-item--normal"
+          class="cxd-Form-item cxd-Form-item--normal"
           data-role="form-item"
         >
           <label
-            class="a-Form-label"
+            class="cxd-Form-label"
           >
             <span>
               <span
-                class="a-TplField"
+                class="cxd-TplField"
               >
                 <span>
                   单选
@@ -46,34 +46,34 @@ exports[`Renderer:list 1`] = `
             </span>
           </label>
           <div
-            class="a-ListControl a-Form-control"
+            class="cxd-ListControl cxd-Form-control"
           >
             <div
-              class="a-ListControl-items"
+              class="cxd-ListControl-items"
             >
               <div
-                class="a-ListControl-item"
+                class="cxd-ListControl-item"
               >
                 <div
-                  class="a-ListControl-itemLabel"
+                  class="cxd-ListControl-itemLabel"
                 >
                   Option A
                 </div>
               </div>
               <div
-                class="a-ListControl-item"
+                class="cxd-ListControl-item"
               >
                 <div
-                  class="a-ListControl-itemLabel"
+                  class="cxd-ListControl-itemLabel"
                 >
                   Option B
                 </div>
               </div>
               <div
-                class="a-ListControl-item"
+                class="cxd-ListControl-item"
               >
                 <div
-                  class="a-ListControl-itemImage"
+                  class="cxd-ListControl-itemImage"
                 >
                   <img
                     alt="OptionC"
@@ -81,7 +81,7 @@ exports[`Renderer:list 1`] = `
                   />
                 </div>
                 <div
-                  class="a-ListControl-itemLabel"
+                  class="cxd-ListControl-itemLabel"
                 >
                   OptionC
                 </div>
@@ -141,17 +141,17 @@ exports[`Renderer:list 1`] = `
 exports[`Renderer:list:multiple clearable 1`] = `
 <div>
   <div
-    class="a-Panel a-Panel--default a-Panel--form"
+    class="cxd-Panel cxd-Panel--default cxd-Panel--form"
     style="position: relative;"
   >
     <div
-      class="a-Panel-heading"
+      class="cxd-Panel-heading"
     >
       <h3
-        class="a-Panel-title"
+        class="cxd-Panel-title"
       >
         <span
-          class="a-TplField"
+          class="cxd-TplField"
         >
           <span>
             The form
@@ -160,22 +160,22 @@ exports[`Renderer:list:multiple clearable 1`] = `
       </h3>
     </div>
     <div
-      class="a-Panel-body"
+      class="cxd-Panel-body"
     >
       <form
-        class="a-Form a-Form--normal"
+        class="cxd-Form cxd-Form--normal"
         novalidate=""
       >
         <div
-          class="a-Form-item a-Form-item--normal"
+          class="cxd-Form-item cxd-Form-item--normal"
           data-role="form-item"
         >
           <label
-            class="a-Form-label"
+            class="cxd-Form-label"
           >
             <span>
               <span
-                class="a-TplField"
+                class="cxd-TplField"
               >
                 <span>
                   多选
@@ -184,25 +184,25 @@ exports[`Renderer:list:multiple clearable 1`] = `
             </span>
           </label>
           <div
-            class="a-ListControl a-Form-control"
+            class="cxd-ListControl cxd-Form-control"
           >
             <div
-              class="a-ListControl-items"
+              class="cxd-ListControl-items"
             >
               <div
-                class="a-ListControl-item is-active"
+                class="cxd-ListControl-item is-active"
               >
                 <div
-                  class="a-ListControl-itemLabel"
+                  class="cxd-ListControl-itemLabel"
                 >
                   Option A
                 </div>
               </div>
               <div
-                class="a-ListControl-item is-active"
+                class="cxd-ListControl-item is-active"
               >
                 <div
-                  class="a-ListControl-itemLabel"
+                  class="cxd-ListControl-itemLabel"
                 >
                   Option B
                 </div>
@@ -211,15 +211,15 @@ exports[`Renderer:list:multiple clearable 1`] = `
           </div>
         </div>
         <div
-          class="a-Form-item a-Form-item--normal"
+          class="cxd-Form-item cxd-Form-item--normal"
           data-role="form-item"
         >
           <label
-            class="a-Form-label"
+            class="cxd-Form-label"
           >
             <span>
               <span
-                class="a-TplField"
+                class="cxd-TplField"
               >
                 <span>
                   当前值
@@ -228,13 +228,13 @@ exports[`Renderer:list:multiple clearable 1`] = `
             </span>
           </label>
           <div
-            class="a-Form-static"
+            class="cxd-Form-static"
           >
             <div
-              class="a-Form-control"
+              class="cxd-Form-control"
             >
               <span
-                class="a-PlainField"
+                class="cxd-PlainField"
               >
                 <span
                   class="text-muted"
@@ -297,17 +297,17 @@ exports[`Renderer:list:multiple clearable 1`] = `
 exports[`Renderer:list:multiple clearable 2`] = `
 <div>
   <div
-    class="a-Panel a-Panel--default a-Panel--form"
+    class="cxd-Panel cxd-Panel--default cxd-Panel--form"
     style="position: relative;"
   >
     <div
-      class="a-Panel-heading"
+      class="cxd-Panel-heading"
     >
       <h3
-        class="a-Panel-title"
+        class="cxd-Panel-title"
       >
         <span
-          class="a-TplField"
+          class="cxd-TplField"
         >
           <span>
             The form
@@ -316,22 +316,22 @@ exports[`Renderer:list:multiple clearable 2`] = `
       </h3>
     </div>
     <div
-      class="a-Panel-body"
+      class="cxd-Panel-body"
     >
       <form
-        class="a-Form a-Form--normal"
+        class="cxd-Form cxd-Form--normal"
         novalidate=""
       >
         <div
-          class="a-Form-item a-Form-item--normal"
+          class="cxd-Form-item cxd-Form-item--normal"
           data-role="form-item"
         >
           <label
-            class="a-Form-label"
+            class="cxd-Form-label"
           >
             <span>
               <span
-                class="a-TplField"
+                class="cxd-TplField"
               >
                 <span>
                   多选
@@ -340,25 +340,25 @@ exports[`Renderer:list:multiple clearable 2`] = `
             </span>
           </label>
           <div
-            class="a-ListControl a-Form-control"
+            class="cxd-ListControl cxd-Form-control"
           >
             <div
-              class="a-ListControl-items"
+              class="cxd-ListControl-items"
             >
               <div
-                class="a-ListControl-item is-active"
+                class="cxd-ListControl-item is-active"
               >
                 <div
-                  class="a-ListControl-itemLabel"
+                  class="cxd-ListControl-itemLabel"
                 >
                   Option A
                 </div>
               </div>
               <div
-                class="a-ListControl-item"
+                class="cxd-ListControl-item"
               >
                 <div
-                  class="a-ListControl-itemLabel"
+                  class="cxd-ListControl-itemLabel"
                 >
                   Option B
                 </div>
@@ -367,15 +367,15 @@ exports[`Renderer:list:multiple clearable 2`] = `
           </div>
         </div>
         <div
-          class="a-Form-item a-Form-item--normal"
+          class="cxd-Form-item cxd-Form-item--normal"
           data-role="form-item"
         >
           <label
-            class="a-Form-label"
+            class="cxd-Form-label"
           >
             <span>
               <span
-                class="a-TplField"
+                class="cxd-TplField"
               >
                 <span>
                   当前值
@@ -384,13 +384,13 @@ exports[`Renderer:list:multiple clearable 2`] = `
             </span>
           </label>
           <div
-            class="a-Form-static"
+            class="cxd-Form-static"
           >
             <div
-              class="a-Form-control"
+              class="cxd-Form-control"
             >
               <span
-                class="a-PlainField"
+                class="cxd-PlainField"
               >
                 <span
                   class="text-muted"
