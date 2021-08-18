@@ -10,6 +10,7 @@
   border: var(--Number-borderWidth) solid var(--Number-borderColor);
   border-radius: var(--Number-borderRadius);
 
+  @include input-border();
   &.no-steps > &-handler-wrap {
     display: none;
   }
@@ -179,4 +180,10 @@
 
 .#{$ns}NumberControl:not(.is-inline) > .#{$ns}Number {
   display: block;
+}
+
+.#{$ns}Number--borderHalf, .#{$ns}Number--borderNone {
+  .#{$ns}Number-handler-wrap {
+    border-left: none;
+  }
 }
