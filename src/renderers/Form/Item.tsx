@@ -1044,7 +1044,9 @@ export const detectProps = [
   'showInput',
   'unit',
   'value',
-  'diffValue'
+  'diffValue',
+  'borderMode',
+  'items'
 ];
 
 export function asFormItem(config: Omit<FormItemConfig, 'component'>) {
