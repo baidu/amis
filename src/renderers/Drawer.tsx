@@ -707,24 +707,17 @@ export class DrawerRenderer extends Drawer {
         .getComponents()
         .filter(item => !~['drawer', 'dialog'].indexOf(item.props.type));
 
-      // 如果是纯容器组件，则进到里面去找。
-      while (
-        components.length === 1 &&
-        ~['page', 'service'].indexOf(components[0].props.type)
-      ) {
-        components = components[0].context
-          .getComponents()
-          .filter(
-            (item: any) => !~['drawer', 'dialog'].indexOf(item.props.type)
-          );
-      }
+      const pool = components.concat();
 
-      // 优先最下面的，找到一个功能组件，就交给这个功能组件。
-      for (let i = components.length - 1; i >= 0; i--) {
-        const component = components[i];
+      while (pool.length) {
+        const item = pool.shift()!;
 
-        if (~['crud', 'form', 'wizard'].indexOf(component.props.type)) {
-          targets.push(component);
+        if (~['drawer', 'dialog'].indexOf(item.props.type)) {
+          continue;
+        } else if (~['page', 'service'].indexOf(item.props.type)) {
+          pool.push.apply(pool, item.context.getComponents());
+        } else if (~['crud', 'form', 'wizard'].indexOf(item.props.type)) {
+          targets.push(item);
           break;
         }
       }
