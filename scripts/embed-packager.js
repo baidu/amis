@@ -119,7 +119,6 @@ module.exports = function (ret, pack, settings, opt) {
         if (file) {
           file.skiped = true;
           let contents = file.getContent();
-          
 
           if (/_map\.js$/.test(file.subpath)) {
             contents = `(function() {
@@ -195,7 +194,7 @@ module.exports = function (ret, pack, settings, opt) {
   // cssFile.setContent(cssContents);
   // ret.pkg[cssFile.subpath] = cssFile;
 
-  const themes = ['default', 'cxd', 'dark', 'antd'];
+  const themes = ['ang', 'cxd', 'dark', 'antd'];
 
   themes.forEach(function (theme) {
     const rest = themes.filter(a => a !== theme).map(item => item + '.scss');
@@ -205,10 +204,7 @@ module.exports = function (ret, pack, settings, opt) {
       .join('\n');
 
     contents = prefixCss(contents, '.amis-scope');
-    let cssFile = fis.file(
-      root,
-      (theme === 'default' ? 'sdk' : theme) + '.css'
-    );
+    let cssFile = fis.file(root, (theme === 'cxd' ? 'sdk' : theme) + '.css');
     cssFile.setContent(contents);
     ret.pkg[cssFile.subpath] = cssFile;
   });

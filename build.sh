@@ -16,9 +16,13 @@ cp -r node_modules/monaco-editor/min/vs/base/browser sdk/thirds/monaco-editor/mi
 
 # 生成去掉变量的 css
 ./node_modules/.bin/postcss sdk/sdk.css >sdk/sdk-ie11.css
-./node_modules/.bin/postcss sdk/cxd.css >sdk/cxd-ie11.css
+./node_modules/.bin/postcss sdk/ang.css >sdk/ang-ie11.css
 ./node_modules/.bin/postcss sdk/dark.css >sdk/dark-ie11.css
 ./node_modules/.bin/postcss sdk/antd.css >sdk/antd-ie11.css
+
+# 默认变成 cxd 了，所以要拷贝一份兼容之前的引用
+cp sdk/sdk.css sdk/cxd.css
+cp sdk/sdk-ie11.css sdk/cxd-ie11.css
 
 cp ./lib/helper.css sdk/helper.css
 cp examples/static/iconfont.css sdk/

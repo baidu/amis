@@ -32,14 +32,17 @@
       }
     </style>
     <script type="text/x-jsx">
-      const theme = localStorage.getItem('theme') || 'default';
+      let theme = localStorage.getItem('theme') || 'cxd';
+      if (theme === 'default') {
+        theme = 'cxd';
+      }
 
       // 非 IE 模式
       if (window.navigator.userAgent.indexOf('Trident') === -1) {
         document.write(
-          `<link rel="stylesheet" title="default" ${
-            theme !== 'default' ? 'disabled' : ''
-          }  href="${__uri('../scss/themes/default.scss')}" />`
+          `<link rel="stylesheet" title="ang" ${
+            theme !== 'ang' ? 'disabled' : ''
+          }  href="${__uri('../scss/themes/ang.scss')}" />`
         );
         document.write(
           `<link rel="stylesheet" title="cxd" ${
