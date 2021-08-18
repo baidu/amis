@@ -37,17 +37,31 @@ export class ConditionField extends React.Component<
   }
 
   onSearch(text: string) {
+    let txt = text.toLowerCase();
+
     this.setState({
-      options: this.props.options.filter((item: any) => {
-        if (item.children) {
-          let children = item.children.filter((child: any) => {
-            return child.name.includes(text) || child.label.includes(text);
-          });
-          return children.length > 0 ? Object.assign({children}, item) : false; // 需要copy一份，防止覆盖原始数据
-        } else {
-          return item.name.includes(text) || item.label.includes(text);
-        }
-      })
+      options: this.props.options
+        .map((item: any) => {
+          if (item.children) {
+            let children = item.children.filter((child: any) => {
+              return (
+                child.name.toLowerCase().includes(txt) ||
+                child.label.toLowerCase().includes(txt)
+              );
+            });
+            return children.length > 0
+              ? Object.assign({}, item, {children}) // 需要copy一份，防止覆盖原始数据
+              : false; 
+          } else {
+            return item.name.toLowerCase().includes(txt) ||
+              item.label.toLowerCase().includes(txt)
+              ? item
+              : false;
+          }
+        })
+        .filter((item: any) => {
+          return !!item;
+        })
     });
   }
 

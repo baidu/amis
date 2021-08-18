@@ -66,6 +66,7 @@ export class CBGroupOrItem extends React.Component<CBGroupOrItemProps> {
           {value?.conjunction ? (
             <ConditionGroup
               disabled={disabled}
+              searchable={searchable}
               onDragStart={onDragStart}
               config={config}
               fields={fields}
@@ -81,9 +82,9 @@ export class CBGroupOrItem extends React.Component<CBGroupOrItemProps> {
             <>
               <ConditionItem
                 disabled={disabled}
+                searchable={searchable}
                 config={config}
                 fields={fields}
-                searchable={searchable}
                 value={value as ConditionValue}
                 onChange={this.handleItemChange}
                 fieldClassName={fieldClassName}
