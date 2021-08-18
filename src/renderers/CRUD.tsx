@@ -1552,6 +1552,14 @@ export default class CRUD extends React.Component<CRUDProps, any> {
 
     const items = childProps.items;
 
+    if (
+      !items.length ||
+      ((!bulkActions || !bulkActions.length) &&
+        (!itemActions || !itemActions.length))
+    ) {
+      return null;
+    }
+
     const selectedItems = store.selectedItems;
     const unSelectedItems = store.unSelectedItems;
 
