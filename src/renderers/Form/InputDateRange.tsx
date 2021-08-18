@@ -64,6 +64,11 @@ export interface DateRangeControlSchema extends FormBaseControl {
   value?: any;
 
   /**
+   * 边框模式，全边框，还是半边框，或者没边框。
+   */
+  borderMode?: 'full' | 'half' | 'none';
+
+  /**
    * 开启后变成非弹出模式，即内联模式。
    */
   embed?: boolean;

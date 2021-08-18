@@ -15,6 +15,7 @@ import {PlainObject} from '../types';
 import Calendar from './calendar/Calendar';
 import 'react-datetime/css/react-datetime.css';
 import {localeable, LocaleProps, TranslateFn} from '../locale';
+import {ucFirst} from '../utils/helper';
 
 const availableShortcuts: {[propName: string]: any} = {
   now: {
@@ -274,6 +275,7 @@ export interface DateProps extends LocaleProps, ThemeProps {
   };
   popOverContainer?: any;
 
+  borderMode?: 'full' | 'half' | 'none';
   // 是否为内嵌模式，如果开启就不是 picker 了，直接页面点选。
   embed?: boolean;
 
@@ -542,6 +544,7 @@ export class DatePicker extends React.Component<DateProps, DatePickerState> {
       overlayPlacement,
       locale,
       format,
+      borderMode,
       embed
     } = this.props;
 
@@ -588,7 +591,8 @@ export class DatePicker extends React.Component<DateProps, DatePickerState> {
           `DatePicker`,
           {
             'is-disabled': disabled,
-            'is-focused': this.state.isFocused
+            'is-focused': this.state.isFocused,
+            [`DatePicker--border${ucFirst(borderMode)}`]: borderMode
           },
           className
         )}

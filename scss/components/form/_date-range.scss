@@ -12,6 +12,8 @@
   color: var(--DatePicker-color);
   background: var(--DatePicker-bg);
 
+  @include input-border();
+
   &:not(.is-disabled) {
     cursor: pointer;
 
