@@ -612,7 +612,7 @@ export default class FormTable extends React.Component<TableProps, TableState> {
           : {
               ...column,
               quickEdit: {
-                type: 'input-text',
+                ...this.columnToQuickEdit(column),
                 ...quickEdit,
                 saveImmediately: true,
                 mode: 'inline'
@@ -631,7 +631,7 @@ export default class FormTable extends React.Component<TableProps, TableState> {
           : {
               ...column,
               quickEdit: {
-                type: 'input-text',
+                ...this.columnToQuickEdit(column),
                 ...quickEdit,
                 saveImmediately: true,
                 mode: 'inline'
@@ -801,6 +801,27 @@ export default class FormTable extends React.Component<TableProps, TableState> {
     }
 
     return columns;
+  }
+
+  columnToQuickEdit(column: any) {
+    const quickEdit: any = {
+      type: 'input-text'
+    };
+
+    if (
+      (column.type &&
+        /^input\-|(?:select|picker|checkbox|checkboxes|editor|transfer|radios)$/i.test(
+          column.type
+        )) ||
+      ~['textarea', 'combo', 'condition-builder', 'group'].indexOf(column.type)
+    ) {
+      return {
+        ...column,
+        label: ''
+      };
+    }
+
+    return quickEdit;
   }
 
   handleTableSave(
