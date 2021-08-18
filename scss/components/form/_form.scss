@@ -233,12 +233,11 @@
         padding-right: calc(var(--Form--horizontal-gutterWidth) / 2);
       }
 
-      > .#{$ns}Form-label,
       > .#{$ns}Form-value {
         flex-basis: 0;
         flex-grow: 1;
         max-width: 100%;
-        width: 100%;
+        width: 0;
       }
 
       .#{$ns}Form-itemColumn--xs,
