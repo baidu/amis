@@ -180,3 +180,18 @@
 .#{$ns}NumberControl:not(.is-inline) > .#{$ns}Number {
   display: block;
 }
+
+.#{$ns}Number-border-half {
+  border: none;
+  border-bottom: var(--Number-borderWidth) solid var(--Number-borderColor);
+  .#{$ns}Number-handler-wrap {
+    border-left: none;
+  }
+}
+
+.#{$ns}Number-border-none {
+  border: none;
+  .#{$ns}Number-handler-wrap {
+    border-left: none;
+  }
+}

@@ -36,6 +36,18 @@ export interface NumberControlSchema extends FormBaseControl {
    * 默认当然是
    */
   showSteps?: boolean;
+  /**
+   * 边框模式，全边框，还是半边框，或者没边框。
+   */
+  borderMode?: 'full' | 'half' | 'none';
+  /**
+   * 指定输入框展示值的格式
+   */
+  formatter?: string;
+  /**
+   * 指定从 formatter 里转换回数字的方式，和 formatter 搭配使用
+   */
+  parser?: string;
 }
 
 export interface NumberProps extends FormControlProps {
@@ -44,6 +56,18 @@ export interface NumberProps extends FormControlProps {
   min?: number | string;
   step?: number;
   precision?: number;
+  /**
+   * 边框模式，全边框，还是半边框，或者没边框。
+   */
+   borderMode?: 'full' | 'half' | 'none';
+   /**
+   * 指定输入框展示值的格式
+   */
+  formatter?: string;
+  /**
+   * 指定从 formatter 里转换回数字的方式，和 formatter 搭配使用
+   */
+  parser?: string;
 }
 
 export default class NumberControl extends React.Component<NumberProps, any> {
@@ -87,7 +111,10 @@ export default class NumberControl extends React.Component<NumberProps, any> {
       min,
       disabled,
       placeholder,
-      showSteps
+      showSteps,
+      formatter,
+      parser,
+      borderMode
     } = this.props;
 
     let precisionProps: any = {};
@@ -104,11 +131,14 @@ export default class NumberControl extends React.Component<NumberProps, any> {
           step={step}
           max={this.filterNum(max)}
           min={this.filterNum(min)}
+          formatter={formatter && eval(formatter)}
+          parser={parser && eval(parser)}
           onChange={this.handleChange}
           disabled={disabled}
           placeholder={placeholder}
           precision={finalPrecision}
           showSteps={showSteps}
+          borderMode={borderMode}
         />
       </div>
     );
