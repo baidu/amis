@@ -37,7 +37,7 @@ order: 32
             "label": "数字",
             "value": 111111,
             "prefix": "$",
-            "subfix": "%",
+            "suffix": "%",
             "kilobitSeparator": true
         }
     ]
@@ -74,5 +74,5 @@ order: 32
 | precision | `number`                                |        | 精度，即小数点后几位 |
 | showSteps | `boolean`                               |        | 是否显示上下点击按钮 |
 | prefix    | `string`                                |        | 前缀              |
-| subfix    | `string`                                |        | 后缀              |
+| suffix    | `string`                                |        | 后缀              |
 | kilobitSeparator    | `boolean`                      |        | 千分分隔              |

@@ -47,7 +47,7 @@ export interface NumberControlSchema extends FormBaseControl {
   /**
    * 后缀
    */
-  subfix?: string;
+  suffix?: string;
   /**
    * 是否千分分隔
    */
@@ -71,7 +71,7 @@ export interface NumberProps extends FormControlProps {
   /**
    * 后缀
    */
-  subfix?: string;
+  suffix?: string;
   /**
    * 是否千分分隔
    */
@@ -121,7 +121,7 @@ export default class NumberControl extends React.Component<NumberProps, any> {
       placeholder,
       showSteps,
       borderMode,
-      subfix,
+      suffix,
       prefix,
       kilobitSeparator
     } = this.props;
@@ -140,12 +140,12 @@ export default class NumberControl extends React.Component<NumberProps, any> {
       }
       return (prefix ? prefix : '')
        + value
-       + (subfix ? subfix : '');
+       + (suffix ? suffix : '');
     }
     // 将数字还原
     const parser = (value: string) => {
       prefix && (value = value.replace(prefix, ''));
-      subfix && (value = value.replace(subfix, ''));
+      suffix && (value = value.replace(suffix, ''));
       kilobitSeparator &&  (value = value.replace(/,/g, ''));
       return value;
     }
