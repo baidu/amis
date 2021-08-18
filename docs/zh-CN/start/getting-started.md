@@ -97,7 +97,7 @@ amisScoped.updateProps(
 
 ### 切换主题
 
-jssdk 版本默认使用 `sdk.css` 即默认主题，如果你想用使用云舍，请改成引用 `cxd.css`。同时 js 渲染地方第四个参数传入 `theme` 属性。如：
+jssdk 版本默认使用 `sdk.css` 即云舍主题，如果你想用使用仿 Antd，请将 css 引用改成 `.antd.css`。同时 js 渲染地方第四个参数传入 `theme` 属性。如：
 
 ```js
 amis.embed(
@@ -109,17 +109,15 @@ amis.embed(
     // 这里是初始 props
   },
   {
-    theme: 'cxd'
+    theme: 'antd'
   }
 );
 
 // 或者
 amisScoped.updateProps({
-  theme: 'cxd'
+  theme: 'antd'
 });
 ```
-
-暗黑主题同理，改成引用 'dark.css' 同时主题设置成 `dark`。
 
 ### 初始值
 
@@ -131,7 +129,7 @@ let amisJSON = {
   type: 'page',
   body: {
     type: 'tpl',
-    tpl: "${myData}"
+    tpl: '${myData}'
   }
 };
 let amisScoped = amis.embed('#root', amisJSON, {
@@ -238,7 +236,7 @@ amisScoped.unmount();
 
 ### 切换主题
 
-jssdk 版本默认使用 `sdk.css` 即默认主题，如果你想用使用云舍，请改成引用 `cxd.css`。同时 js 渲染地方第四个参数传入 `theme` 属性。如：
+jssdk 版本默认使用 `sdk.css` 即云舍主题，如果你想用使用仿 AntD 主题，请改成引用 `antd.css`。同时 js 渲染地方第四个参数传入 `theme` 属性。如：
 
 ```js
 amis.embed(
@@ -250,12 +248,12 @@ amis.embed(
     // 默认数据
   },
   {
-    theme: 'cxd'
+    theme: 'antd'
   }
 );
 ```
 
-暗黑主题同理，改成引用 'dark.css' 同时主题设置成 `dark`。
+> 如果想使用 amis 1.2.2 之前的默认主题，名字是 ang
 
 ### 多页模式
 
@@ -289,26 +287,24 @@ npm i amis
 
 ### 主题样式
 
-目前支持三种主题：`default（默认主题）`、`cxd（云舍）`和`dark（暗黑）`
+目前主要支持两个主题：`cxd（云舍）` 和 `angt（仿 Antd）`
 
 1. 引入样式文件：
 
 html 中引入：
 
 ```html
-<link href="./node_modules/amis/lib/themes/default.css" />
+<link href="./node_modules/amis/lib/themes/cxd.css" />
 <link href="./node_modules/amis/lib/helper.css" />
-<!-- 或 <link href="./node_modules/amis/lib/themes/cxd.css" /> -->
-<!-- 或 <link href="./node_modules/amis/lib/themes/dark.css" /> -->
+<!-- 或 <link href="./node_modules/amis/lib/themes/antd.css" /> -->
 ```
 
 js 中引入：
 
 ```js
-import './node_modules/amis/lib/themes/default.css';
+import './node_modules/amis/lib/themes/cxd.css';
 import './node_modules/amis/lib/helper.css';
-// 或 import './node_modules/amis/lib/themes/cxd.css';
-// 或 import './node_modules/amis/lib/themes/dark.css';
+// 或 import './node_modules/amis/lib/themes/antd.css';
 ```
 
 > 上面只是示例，请根据自己的项目结构调整引用路径
@@ -327,7 +323,7 @@ renderAmis(
   },
   {
     // env...
-    theme: 'default' // cxd 或 dark
+    theme: 'cxd' // cxd 或 antd
   }
 );
 ```
@@ -358,7 +354,7 @@ import {toast} from 'amis/lib/components/Toast';
 class MyComponent extends React.Component<any, any> {
   render() {
     let amisScoped;
-    let theme = 'default';
+    let theme = 'cxd';
     return (
       <div>
         <p>通过 amis 渲染页面</p>

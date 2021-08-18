@@ -354,7 +354,10 @@ export function render(
   (window as any).amisStore = store; // 为了方便 debug.
   const env = getEnv(store);
 
-  const theme = props.theme || options.theme || 'default';
+  let theme = props.theme || options.theme || 'cxd';
+  if (theme === 'default') {
+    theme = 'cxd';
+  }
   env.theme = getTheme(theme);
 
   if (props.locale !== undefined) {

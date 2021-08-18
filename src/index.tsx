@@ -173,7 +173,7 @@ import './compat';
 
 import './envOverwrite';
 
-import './themes/default';
+import './themes/ang';
 import './themes/cxd';
 import './themes/dark';
 import './themes/antd';
