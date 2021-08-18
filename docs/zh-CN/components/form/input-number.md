@@ -24,6 +24,26 @@ order: 32
 }
 ```
 
+## 前后缀、千分分隔
+
+```schema: scope="body"
+{
+    "type": "form",
+    "api": "/api/mock2/form/saveForm",
+    "body": [
+        {
+            "type": "input-number",
+            "name": "number",
+            "label": "数字",
+            "value": 111111,
+            "prefix": "$",
+            "subfix": "%",
+            "kilobitSeparator": true
+        }
+    ]
+}
+```
+
 ## 原生数字组件
 
 原生数字组件将直接使用浏览器的实现，最终展现效果和浏览器有关，而且只支持 `min`、`max`、`step` 这几个属性设置。
@@ -53,3 +73,6 @@ order: 32
 | step      | `number`                                |        | 步长                 |
 | precision | `number`                                |        | 精度，即小数点后几位 |
 | showSteps | `boolean`                               |        | 是否显示上下点击按钮 |
+| prefix    | `string`                                |        | 前缀              |
+| subfix    | `string`                                |        | 后缀              |
+| kilobitSeparator    | `boolean`                      |        | 千分分隔              |
