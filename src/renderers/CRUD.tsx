@@ -1552,14 +1552,6 @@ export default class CRUD extends React.Component<CRUDProps, any> {
 
     const items = childProps.items;
 
-    if (
-      !items.length ||
-      ((!bulkActions || !bulkActions.length) &&
-        (!itemActions || !itemActions.length))
-    ) {
-      return null;
-    }
-
     const selectedItems = store.selectedItems;
     const unSelectedItems = store.unSelectedItems;
 
@@ -1593,7 +1585,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
       selectedItems.length ? selectedItems[0] : {}
     );
 
-    if (itemActions && selectedItems.length === 1) {
+    if (itemActions && selectedItems.length <= 1) {
       itemBtns = itemActions
         .map(item => ({
           ...item,
@@ -1639,7 +1631,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
             {
               key: `item-${index}`,
               data: itemData,
-              disabled: btn.disabled,
+              disabled: btn.disabled || selectedItems.length !== 1,
               onAction: this.handleItemAction.bind(this, btn, itemData)
             }
           )
