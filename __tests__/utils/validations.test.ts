@@ -465,6 +465,21 @@ test('validation:isJson invalid', () => {
   ).toMatchObject(['请检查 Json 格式']);
 });
 
+test('validation:isJson invalid', () => {
+  expect(
+    validate(
+      '12345',
+      {},
+      {
+        isJson: true
+      },
+      {
+        isJson: '请检查 Json 格式'
+      }
+    )
+  ).toMatchObject(['请检查 Json 格式']);
+});
+
 test('validation:isLength valid', () => {
   expect(
     validate(

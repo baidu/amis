@@ -149,7 +149,11 @@ export const validations: {
   isJson: function (values, value, minimum) {
     if (isExisty(value) && !isEmpty(value) && typeof value === 'string') {
       try {
-        JSON.parse(value);
+        const result = JSON.parse(value);
+        if (typeof result === 'object' && result) {
+          return true;
+        }
+        return false;
       } catch (e) {
         return false;
       }
