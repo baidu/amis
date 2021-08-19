@@ -10,12 +10,26 @@
 }
 
 .#{$ns}Image {
-  display: inline-block;
   border: var(--borderWidth) solid var(--borderColor);
-  padding: var(--gap-xs);
+
+  &--thumb {
+    display: inline-block;
+    padding: var(--gap-xs);
+  }
 
   &-thumbWrap {
     position: relative;
+  }
+
+  &-image {
+    display: block;
+  }
+
+  &--original &-image {
+    max-width: 100%;
+    max-height: 100%;
+    width: auto;
+    margin: auto;
   }
 
   &-thumb {
@@ -36,7 +50,12 @@
   }
 
   &-info {
+    padding: 5px 10px;
+  }
+
+  &--thumb &-info {
     width: px2rem(110px);
+    padding: 0;
   }
 
   &-thumb--4-3 {
@@ -80,6 +99,12 @@
       left: 0;
       object-fit: contain;
     }
+
+    &-origin--contain > img {
+      width: 100% !important;
+      height: 100% !important;
+      object-fit: contain;
+    }
   }
 
   @supports (object-fit: cover) {
@@ -92,6 +117,12 @@
       left: 0;
       object-fit: cover;
     }
+
+    &-origin--cover > img {
+      width: 100% !important;
+      height: 100% !important;
+      object-fit: cover;
+    }
   }
 
   &-caption {
@@ -99,7 +130,8 @@
   }
 
   &-title {
-    font-size: var(--fontSizeSm);
+    font-size: var(--fontSizeBase);
+    color: var(--text--loud-color);
   }
 
   &-overlay {
@@ -138,7 +170,7 @@
   }
 }
 
-.#{$ns}ImageField {
+.#{$ns}ImageField--thumb {
   display: inline-block;
   position: relative;
   @include clearfix();
