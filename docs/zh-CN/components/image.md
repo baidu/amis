@@ -104,20 +104,23 @@ order: 52
             "type": "static-image",
             "name": "image",
             "label": "1比1",
-            "thumbRatio": "1:1"
+            "thumbRatio": "1:1",
+            "thumbMode": "cover"
         },
         {
             "type": "static-image",
             "name": "image",
             "label": "4比3",
-            "thumbRatio": "4:3"
+            "thumbRatio": "4:3",
+            "thumbMode": "cover"
         },
         {
             "type": "static-image",
             "name": "image",
             "label": "颜色",
             "label": "16比9",
-            "thumbRatio": "16:9"
+            "thumbRatio": "16:9",
+            "thumbMode": "cover"
         }
     ]
 }
@@ -179,7 +182,29 @@ order: 52
         "type": "image",
         "width": "200px",
         "height": "200px",
-        "src": "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395692722/4f3cb4202335.jpeg@s_0,w_216,l_1,f_jpg,q_80"
+        "src": "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395692722/4f3cb4202335.jpeg@s_0,w_400,l_1,f_jpg,q_80"
+    }
+}
+```
+
+## 原图模式
+
+> since 1.2.3
+
+默认图片为缩略图模式，可以通过配置 imageMode: "original" 修改为原图模式，原图模式为块状展示，宽度尽可能占满。
+
+```schema
+{
+    "type": "page",
+    "data": {
+        "imageUrl": "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395692722/4f3cb4202335.jpeg"
+    },
+    "body": {
+        "type": "image",
+        "imageMode": "original",
+        "name": "imageUrl",
+        "title": "这是标题",
+        "imageCaption": "这是一段说明"
     }
 }
 ```
@@ -265,3 +290,4 @@ List 的内容、Card 卡片的内容配置同上
 | enlargeCaption | `string`  |           | 放大预览的描述                                                                         |
 | thumbMode      | `string`  | `contain` | 预览图模式，可选：`'w-full'`, `'h-full'`, `'contain'`, `'cover'`                       |
 | thumbRatio     | `string`  | `1:1`     | 预览图比例，可选：`'1:1'`, `'4:3'`, `'16:9'`                                           |
+| imageMode      | `string`  | `thumb`   | 图片展示模式，可选：`'thumb'`, `'original'` 即：缩略图模式 或者 原图模式               |

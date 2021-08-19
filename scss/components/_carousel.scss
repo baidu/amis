@@ -58,16 +58,20 @@
   }
 
   &-container {
+    position: relative;
     width: 100%;
     height: 100%;
-    position: relative;
     overflow: hidden;
 
     .#{$ns}Carousel-item {
       width: 100%;
       height: 100%;
       position: absolute;
-      transition: ease-out all var(--Carousel-transitionDuration);
+      left: 0;
+      top: 0;
+      transition-duration: var(--Carousel-transitionDuration);
+      transition-timing-function: ease-out;
+      transition-property: transform, opacity;
 
       &.fade {
         opacity: 0;
@@ -125,6 +129,16 @@
     }
   }
 
+  &-image {
+    width: 100%;
+    height: 100%;
+  }
+
+  &-image .#{$ns}Image-origin {
+    height: 100%;
+    width: 100%;
+  }
+
   &-dotsControl {
     position: absolute;
     bottom: 0px;
@@ -150,7 +164,9 @@
   &-arrowsControl {
     position: absolute;
     width: 100%;
-    height: inherit;
+    height: 100%;
+    top: 0;
+    left: 0;
     z-index: 100;
     text-align: center;
 
