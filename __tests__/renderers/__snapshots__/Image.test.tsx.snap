@@ -3,10 +3,10 @@
 exports[`Renderer:image 1`] = `
 <div>
   <div
-    class="cxd-ImageField show"
+    class="cxd-ImageField cxd-ImageField--thumb show"
   >
     <div
-      class="cxd-Image"
+      class="cxd-Image cxd-Image--thumb"
     >
       <div
         class="cxd-Image-thumbWrap"
@@ -15,7 +15,7 @@ exports[`Renderer:image 1`] = `
           class="cxd-Image-thumb cxd-Image-thumb--contain cxd-Image-thumb--1-1"
         >
           <img
-            class="b"
+            class="cxd-Image-image b"
             src="https://www.baidu.com/img/bd_logo1.png"
           />
         </div>
