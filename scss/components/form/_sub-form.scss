@@ -1,53 +1,50 @@
 .#{$ns}SubForm {
   &-values {
-    display: inline-block;
-    margin-top: calc(var(--gap-xs) * -1);
-    padding: calc(
-        (
-            var(--Form-input-height) - var(--Form-input-lineHeight) *
-              var(--Form-input-fontSize) - #{px2rem(2px)}
-          ) / 2
-      )
-      0;
+    margin: 2px -3px 8px;
+
+    &:empty {
+      display: none;
+    }
   }
 
   &-value {
-    cursor: pointer;
+    background: var(--ResultBox-value-bg);
+    color: var(--ResultBox-value-color);
+    font-size: var(--Form-input-fontSize);
+    padding: 0 var(--gap-xs);
+    min-height: px2rem(24px);
+    flex-wrap: nowrap;
+    display: inline-flex;
+    align-items: center;
+    margin: 2px 3px;
     user-select: none;
-    line-height: calc(
-      var(--Form-input-lineHeight) * var(--Form-input-fontSize) - #{px2rem(2px)}
-    );
-    display: inline-block;
-    font-size: var(--Form-selectValue-fontSize);
-    color: var(--Form-selectValue-color);
-    background: var(--Form-selectValue-bg);
-    border: px2rem(1px) solid var(--Form-selectValue-borderColor);
-    border-radius: 2px;
-    margin-right: var(--gap-xs);
-    margin-top: var(--gap-xs);
+
+    > a {
+      cursor: pointer;
+      margin-left: var(--gap-xs);
+      color: var(--ResultBox-icon-color);
+      &:hover {
+        color: var(--ResultBox-icon--onHover-color);
+      }
+
+      > svg {
+        width: px2rem(10px);
+        height: px2rem(10px);
+      }
+    }
 
     &:hover {
-      background: var(--Form-selectValue-onHover-bg);
+      background: var(--ResultBox-value--onHover-bg);
     }
 
     &.is-disabled {
       pointer-events: none;
-      opacity: var(--Button-onDisabled-opacity);
+      color: var(--ResultBox-value--onDisabled-color);
+
+      > a {
+        color: var(--ResultBox-icon--onDisabled-color);
+      }
     }
-  }
-
-  &-valueIcon {
-    cursor: pointer;
-    border-right: px2rem(1px) solid var(--Form-selectValue-borderColor);
-    padding: 1px 5px;
-
-    &:hover {
-      background: var(--Form-selectValue-onHover-bg);
-    }
-  }
-
-  &-valueLabel {
-    padding: 0 var(--gap-xs);
   }
 
   &-addBtn {
@@ -79,8 +76,10 @@
       opacity: var(--Button-onDisabled-opacity);
     }
   }
-}
 
-.#{$ns}SubFormControl {
-  padding-top: calc(var(--Form-input-height) - var(--SubForm--addBtn-height));
+  &-placeholder {
+    color: var(--Form-input-placeholderColor);
+    user-select: none;
+    padding: 4px;
+  }
 }

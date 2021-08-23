@@ -100,7 +100,8 @@ export default class SubFormControl extends React.PureComponent<
     addButtonClassName: '',
     editButtonClassName: '',
     labelField: 'label',
-    btnLabel: 'SubForm.button'
+    btnLabel: 'SubForm.button',
+    placeholder: 'placeholder.empty'
   };
 
   state: SubFormState = {
@@ -128,6 +129,7 @@ export default class SubFormControl extends React.PureComponent<
 
     value.push({});
     this.props.onChange(value);
+    this.open(value.length - 1);
   }
 
   removeItem(key: number, e: React.UIEvent<any>) {
@@ -204,7 +206,6 @@ export default class SubFormControl extends React.PureComponent<
 
   renderMultipe() {
     const {
-      classPrefix: ns,
       addButtonClassName,
       editButtonClassName,
       disabled,
@@ -213,16 +214,19 @@ export default class SubFormControl extends React.PureComponent<
       btnLabel,
       render,
       data,
-      translate: __
+      translate: __,
+      classnames: cx,
+      placeholder
     } = this.props;
 
-    return [
-      <div className={`${ns}SubForm-values`} key="values">
-        {Array.isArray(value)
-          ? value.map((value: any, key) => (
+    return (
+      <>
+        {Array.isArray(value) && value.length ? (
+          <div className={cx('SubForm-values')} key="values">
+            {value.map((value: any, key) => (
               <div
                 className={cx(
-                  `${ns}SubForm-value`,
+                  `SubForm-value`,
                   {
                     'is-disabled': disabled
                   },
@@ -231,18 +235,8 @@ export default class SubFormControl extends React.PureComponent<
                 key={key}
               >
                 <span
-                  data-tooltip={__('delete')}
-                  data-position="bottom"
-                  className={`${ns}Select-valueIcon`}
-                  onClick={this.removeItem.bind(this, key)}
-                >
-                  ×
-                </span>
-                <span
+                  className={cx('SubForm-valueLabel')}
                   onClick={this.open.bind(this, key)}
-                  className={`${ns}SubForm-valueLabel`}
-                  data-tooltip={__('SubForm.editDetail')}
-                  data-position="bottom"
                 >
                   {(value &&
                     labelField &&
@@ -259,22 +253,34 @@ export default class SubFormControl extends React.PureComponent<
                       }
                     )}
                 </span>
+                {!disabled ? (
+                  <a data-index={key} onClick={this.removeItem.bind(this, key)}>
+                    <Icon icon="close" className="icon" />
+                  </a>
+                ) : null}
               </div>
-            ))
-          : null}
-      </div>,
-      <button
-        key="add"
-        type="button"
-        onClick={this.addItem}
-        className={cx(`${ns}Button ${ns}SubForm-addBtn`, addButtonClassName)}
-        disabled={disabled}
-        data-tooltip={__('Combo.add')}
-      >
-        <Icon icon="plus" className="icon" />
-        <span>{__('Combo.add')}</span>
-      </button>
-    ];
+            ))}
+          </div>
+        ) : (
+          <div className={cx('SubForm-placeholder')} key="placeholder">
+            {__(placeholder || 'placeholder.empty')}
+          </div>
+        )}
+
+        <div key="toolbar" className={cx('SubForm-toolbar')}>
+          <button
+            type="button"
+            onClick={this.addItem}
+            className={cx(`Button SubForm-addBtn`, addButtonClassName)}
+            disabled={disabled}
+            data-tooltip={__('Combo.add')}
+          >
+            <Icon icon="plus" className="icon" />
+            <span>{__('Combo.add')}</span>
+          </button>
+        </div>
+      </>
+    );
   }
 
   renderSingle() {
