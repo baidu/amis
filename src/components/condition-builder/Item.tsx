@@ -32,6 +32,7 @@ export interface ConditionItemProps extends ThemeProps, LocaleProps {
   value: ConditionRule;
   data?: any;
   disabled?: boolean;
+  searchable?: boolean;
   onChange: (value: ConditionRule, index?: number) => void;
   fieldClassName?: string;
 }
@@ -99,8 +100,15 @@ export class ConditionItem extends React.Component<ConditionItemProps> {
   }
 
   renderLeft() {
-    const {value, fields, funcs, config, disabled, fieldClassName} = this.props;
-
+    const {
+      value,
+      fields,
+      funcs,
+      config,
+      disabled,
+      fieldClassName,
+      searchable
+    } = this.props;
     return (
       <Expression
         config={config}
@@ -110,6 +118,7 @@ export class ConditionItem extends React.Component<ConditionItemProps> {
         onChange={this.handleLeftChange}
         fields={fields}
         disabled={disabled}
+        searchable={searchable}
         allowedTypes={
           ['field', 'func'].filter(
             type => type === 'field' || type === 'func'
