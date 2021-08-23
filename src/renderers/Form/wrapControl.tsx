@@ -594,7 +594,7 @@ export function wrapControl<
               formItem: this.model,
               formMode: control.mode || formMode,
               ref: this.controlRef,
-              data: store ? store.data : data,
+              data: data || store?.data,
               value,
               defaultValue: control.value,
               formItemValue: value, // 为了兼容老版本的自定义组件
