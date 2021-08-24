@@ -40,6 +40,11 @@ export interface BadgeSchema extends BaseSchema {
   visibleOn?: SchemaExpression;
 
   /**
+   * 是否显示动画
+   */
+  animation?: boolean;
+
+  /**
    * 角标的自定义样式
    */
   style?: {
@@ -78,7 +83,8 @@ export class Badge extends React.Component<BadgeProps, object> {
       style,
       position = 'top-right',
       visibleOn,
-      className
+      className,
+      animation
     } = badge;
 
     if (visibleOn) {
@@ -115,6 +121,27 @@ export class Badge extends React.Component<BadgeProps, object> {
       sizeStyle = {width: size, height: size};
     }
 
+    let animationBackground = 'var(--danger)';
+
+    if (style && style.background) {
+      animationBackground = style.background;
+    }
+
+    const animationElement = animation ? (
+      <div
+        style={{
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          width: '100%',
+          height: '100%',
+          border: `1px solid ${animationBackground}`,
+          borderRadius: '50%',
+          animation: 'badgeDotAnimation 1.2s infinite ease-in-out'
+        }}
+      ></div>
+    ) : null;
+
     return (
       <div className={cx('Badge', className)}>
         {children}
@@ -123,17 +150,19 @@ export class Badge extends React.Component<BadgeProps, object> {
             <span
               className={cx('Badge-dot', `Badge--${position}`)}
               style={{...sizeStyle, ...style}}
-            ></span>
+            >
+              {animationElement}
+            </span>
           ) : (
             <span
               className={cx('Badge-text', `Badge--${position}`)}
               style={{...sizeStyle, ...style}}
             >
               {text}
+              {animationElement}
             </span>
           )
         ) : null}
-        {}
       </div>
     );
   }

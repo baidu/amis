@@ -110,6 +110,11 @@ export interface ButtonSchema extends BaseSchema {
    * 倒计时文字自定义
    */
   countDownTpl?: string;
+
+  /**
+   * 角标
+   */
+  badge?: BadgeSchema;
 }
 
 export interface AjaxActionSchema extends ButtonSchema {
@@ -345,7 +350,7 @@ import {
 import {DialogSchema, DialogSchemaBase} from './Dialog';
 import {DrawerSchema, DrawerSchemaBase} from './Drawer';
 import {generateIcon} from '../utils/icon';
-import {withBadge} from '../components/Badge';
+import {BadgeSchema, withBadge} from '../components/Badge';
 
 export interface ActionProps
   extends Omit<ButtonSchema, 'className' | 'iconClassName'>,
@@ -556,6 +561,8 @@ export default themeable(Action);
 @Renderer({
   type: 'action'
 })
+// @ts-ignore 类型没搞定
+@withBadge
 export class ActionRenderer extends React.Component<
   RendererProps &
     Omit<ActionProps, 'onAction' | 'isCurrentUrl' | 'tooltipContainer'> & {

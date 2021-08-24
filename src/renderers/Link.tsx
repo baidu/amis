@@ -3,6 +3,7 @@ import {Renderer, RendererProps} from '../factory';
 import {BaseSchema, SchemaTpl} from '../Schema';
 import {getPropValue} from '../utils/helper';
 import {filter} from '../utils/tpl';
+import {BadgeSchema, withBadge} from '../components/Badge';
 
 /**
  * Link 链接展示控件。
@@ -23,6 +24,11 @@ export interface LinkSchema extends BaseSchema {
    * 链接内容，如果不配置将显示链接地址。
    */
   body?: SchemaTpl;
+
+  /**
+   * 角标
+   */
+  badge?: BadgeSchema;
 }
 
 export interface LinkProps
@@ -68,4 +74,6 @@ export class LinkField extends React.Component<LinkProps, object> {
 @Renderer({
   type: 'link'
 })
+// @ts-ignore 类型没搞定
+@withBadge
 export class LinkFieldRenderer extends LinkField {}
