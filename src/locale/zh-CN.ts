@@ -10,6 +10,7 @@ register('zh-CN', {
   'City.street': '请输入街道信息',
   'clear': '清空',
   'ColorPicker.placeholder': '请选择颜色',
+  'SubForm.add': '新增一项',
   'Combo.add': '新增',
   'Combo.dragDropSort': '拖拽排序',
   'Combo.invalidData': '数值格式不正确',
