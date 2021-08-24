@@ -19,7 +19,18 @@
     margin: 2px 3px;
     user-select: none;
 
-    > a {
+    &Label {
+      cursor: pointer;
+
+      > svg {
+        width: px2rem(10px);
+        height: px2rem(10px);
+        margin-right: var(--gap-xs);
+        top: 0;
+      }
+    }
+
+    &Del {
       cursor: pointer;
       margin-left: var(--gap-xs);
       color: var(--ResultBox-icon-color);
@@ -30,6 +41,7 @@
       > svg {
         width: px2rem(10px);
         height: px2rem(10px);
+        top: 0;
       }
     }
 
@@ -48,32 +60,35 @@
   }
 
   &-addBtn {
-    font-size: var(--SubForm--addBtn-fontSize);
+    width: auto;
+    min-width: auto;
+    font-weight: var(--fontWeightNormal);
+    color: var(--Button--link-color);
+    text-decoration: var(--link-decoration);
+    border: none;
+    height: auto;
+    padding: 0 4px;
+    display: inline-flex;
+    align-items: center;
 
-    @include button-size(
-      var(--SubForm--addBtn-paddingY),
-      var(--SubForm--addBtn-paddingX),
-      var(--SubForm--addBtn-fontSize),
-      var(--SubForm--addBtn-lineHeight),
-      var(--SubForm--addBtn-borderRadius),
-      var(--SubForm--addBtn-height)
-    );
+    @include hover-focus {
+      color: var(--Button--link-onHover-color);
+      text-decoration: var(--link-onHover-decoration);
+      box-shadow: none;
+    }
 
-    @include button-variant(
-      var(--SubForm--addBtn-bg),
-      var(--SubForm--addBtn-border),
-      var(--SubForm--addBtn-color),
-      var(--SubForm--addBtn-onHover-bg),
-      var(--SubForm--addBtn-onHover-border),
-      var(--SubForm--addBtn-onHover-color),
-      var(--SubForm--addBtn-onActive-bg),
-      var(--SubForm--addBtn-onActive-border),
-      var(--SubForm--addBtn-onActive-color)
-    );
+    > svg {
+      width: 12px;
+      height: 12px;
+      margin-right: 4px !important;
+      top: 0;
+    }
 
+    &:disabled,
     &.is-disabled {
+      color: var(--text--muted-color);
       pointer-events: none;
-      opacity: var(--Button-onDisabled-opacity);
+      background: transparent;
     }
   }
 

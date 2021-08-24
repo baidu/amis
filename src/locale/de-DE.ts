@@ -10,6 +10,7 @@ register('de-DE', {
   'City.street': 'Straße eingeben',
   'clear': 'Löschen',
   'ColorPicker.placeholder': 'Farbe auswählen',
+  'SubForm.add': 'Neu',
   'Combo.add': 'Neu',
   'Combo.dragDropSort': 'Zum Sortieren ziehen',
   'Combo.invalidData': 'Ungültige Daten, bitte entfernen',

@@ -63,6 +63,8 @@ export interface SubFormControlSchema extends FormBaseControl {
    * 子表单详情
    */
   form?: Omit<FormSchema, 'type'>;
+
+  scaffold?: any;
 }
 
 export interface SubFormProps extends FormControlProps {
@@ -74,8 +76,11 @@ export interface SubFormProps extends FormControlProps {
 }
 
 export interface SubFormState {
-  openedIndex: number;
-  optionIndex: number;
+  dialogData?: any;
+  dialogCtx?: {
+    mode?: 'add' | 'edit';
+    index?: number;
+  };
 }
 
 let dom: HTMLElement;
@@ -104,37 +109,31 @@ export default class SubFormControl extends React.PureComponent<
     placeholder: 'placeholder.empty'
   };
 
-  state: SubFormState = {
-    openedIndex: -1,
-    optionIndex: -1
-  };
+  state: SubFormState = {};
   constructor(props: SubFormProps) {
     super(props);
 
     this.addItem = this.addItem.bind(this);
     this.removeItem = this.removeItem.bind(this);
+    this.editSingle = this.editSingle.bind(this);
     this.open = this.open.bind(this);
     this.close = this.close.bind(this);
     this.handleDialogConfirm = this.handleDialogConfirm.bind(this);
   }
 
   addItem() {
-    let value = this.props.value;
-
-    if (!Array.isArray(value)) {
-      value = [];
-    } else {
-      value = value.concat();
-    }
-
-    value.push({});
-    this.props.onChange(value);
-    this.open(value.length - 1);
+    this.setState({
+      dialogData: createObject(this.props.data, this.props.scaffold || {}),
+      dialogCtx: {
+        mode: 'add'
+      }
+    });
   }
 
-  removeItem(key: number, e: React.UIEvent<any>) {
+  removeItem(e: React.UIEvent<any>) {
     e.stopPropagation();
     e.preventDefault();
+    const index = parseInt(e.currentTarget.getAttribute('data-index'), 10);
 
     let value = this.props.value;
 
@@ -143,31 +142,65 @@ export default class SubFormControl extends React.PureComponent<
     }
 
     value = value.concat();
-    value.splice(key, 1);
+    value.splice(index, 1);
     this.props.onChange(value);
   }
 
-  open(index: number = 0) {
+  editSingle() {
+    const {value} = this.props;
+
+    if (value) {
+      this.setState({
+        dialogData: createObject(this.props.data, this.props.value),
+        dialogCtx: {
+          mode: 'edit'
+        }
+      });
+    } else {
+      this.addItem();
+    }
+  }
+
+  open(e: React.UIEvent<any>) {
+    const index = parseInt(e.currentTarget.getAttribute('data-index'), 10);
+    const value = this.props.value;
+    if (!Array.isArray(value) || !value[index]) {
+      return;
+    }
+
     this.setState({
-      openedIndex: index
+      dialogData: createObject(this.props.data, value[index]),
+      dialogCtx: {
+        mode: 'edit',
+        index
+      }
     });
   }
 
   close() {
     this.setState({
-      openedIndex: -1
+      dialogData: undefined,
+      dialogCtx: undefined
     });
   }
 
   handleDialogConfirm(values: Array<object>) {
     const {multiple, onChange, value} = this.props;
+    const ctx = this.state.dialogCtx;
 
     if (multiple) {
       let newValue = Array.isArray(value) ? value.concat() : [];
-      newValue[this.state.openedIndex] = {
-        ...newValue[this.state.openedIndex],
-        ...values[0]
-      };
+
+      if (ctx?.mode === 'add') {
+        newValue.push({
+          ...values[0]
+        });
+      } else {
+        newValue[ctx!.index!] = {
+          ...newValue[ctx!.index!],
+          ...values[0]
+        };
+      }
       onChange(newValue);
     } else {
       onChange({
@@ -209,6 +242,7 @@ export default class SubFormControl extends React.PureComponent<
       addButtonClassName,
       editButtonClassName,
       disabled,
+      maxLength,
       labelField,
       value,
       btnLabel,
@@ -234,10 +268,13 @@ export default class SubFormControl extends React.PureComponent<
                 )}
                 key={key}
               >
-                <span
+                <a
                   className={cx('SubForm-valueLabel')}
-                  onClick={this.open.bind(this, key)}
+                  data-index={key}
+                  onClick={this.open}
                 >
+                  <Icon icon="setting" className="icon" />
+
                   {(value &&
                     labelField &&
                     value[labelField] &&
@@ -252,9 +289,13 @@ export default class SubFormControl extends React.PureComponent<
                         data: createObject(data, value)
                       }
                     )}
-                </span>
+                </a>
                 {!disabled ? (
-                  <a data-index={key} onClick={this.removeItem.bind(this, key)}>
+                  <a
+                    data-index={key}
+                    className={cx('SubForm-valueDel')}
+                    onClick={this.removeItem}
+                  >
                     <Icon icon="close" className="icon" />
                   </a>
                 ) : null}
@@ -272,11 +313,13 @@ export default class SubFormControl extends React.PureComponent<
             type="button"
             onClick={this.addItem}
             className={cx(`Button SubForm-addBtn`, addButtonClassName)}
-            disabled={disabled}
-            data-tooltip={__('Combo.add')}
+            disabled={
+              disabled ||
+              !!(maxLength && Array.isArray(value) && value.length >= maxLength)
+            }
           >
             <Icon icon="plus" className="icon" />
-            <span>{__('Combo.add')}</span>
+            <span>{__('SubForm.add')}</span>
           </button>
         </div>
       </>
@@ -306,11 +349,13 @@ export default class SubFormControl extends React.PureComponent<
             },
             btnClassName
           )}
-          onClick={this.open.bind(this, 0)}
+          onClick={this.editSingle}
           data-tooltip={__('SubForm.editDetail')}
           data-position="bottom"
         >
-          <span className={`${ns}SubForm-valueLabel`}>
+          <a className={`${ns}SubForm-valueLabel`}>
+            <Icon icon="setting" className="icon" />
+
             {(value &&
               labelField &&
               value[labelField] &&
@@ -325,35 +370,25 @@ export default class SubFormControl extends React.PureComponent<
                   data: createObject(data, value)
                 }
               )}
-          </span>
+          </a>
         </div>
       </div>
     );
   }
 
   render() {
-    const {
-      multiple,
-      classPrefix: ns,
-      className,
-      render,
-      value,
-      data
-    } = this.props;
-    const openedIndex = this.state.openedIndex;
+    const {multiple, classPrefix: ns, className, render} = this.props;
+    const dialogData = this.state.dialogData;
+    const dialogCtx = this.state.dialogCtx;
 
     return (
       <div className={cx(`${ns}SubFormControl`, className)}>
         {multiple ? this.renderMultipe() : this.renderSingle()}
-        {render(`dalog/${openedIndex}`, this.buildDialogSchema(), {
-          show: openedIndex !== -1,
+        {render(`modal`, this.buildDialogSchema(), {
+          show: !!dialogCtx,
           onClose: this.close,
           onConfirm: this.handleDialogConfirm,
-          data: createObject(
-            data,
-            (multiple ? Array.isArray(value) && value[openedIndex] : value) ||
-              {}
-          )
+          data: dialogData
         })}
       </div>
     );
