@@ -545,7 +545,8 @@ export class DatePicker extends React.Component<DateProps, DatePickerState> {
       locale,
       format,
       borderMode,
-      embed
+      embed,
+      minDate
     } = this.props;
 
     const __ = this.props.translate;
@@ -575,6 +576,7 @@ export class DatePicker extends React.Component<DateProps, DatePickerState> {
             input={false}
             onClose={this.close}
             locale={locale}
+            minDate={minDate}
             // utc={utc}
           />
         </div>
@@ -649,6 +651,7 @@ export class DatePicker extends React.Component<DateProps, DatePickerState> {
                 input={false}
                 onClose={this.close}
                 locale={locale}
+                minDate={minDate}
                 // utc={utc}
               />
             </PopOver>
