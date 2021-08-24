@@ -3,10 +3,12 @@ import {FormItem, FormControlProps, FormBaseControl} from './Item';
 import cx from 'classnames';
 import omit from 'lodash/omit';
 import pick from 'lodash/pick';
-import {createObject} from '../../utils/helper';
+import {createObject, guid} from '../../utils/helper';
 import {Icon} from '../../components/icons';
 import {SchemaClassName} from '../../Schema';
 import {FormSchema} from '.';
+import Sortable from 'sortablejs';
+import {findDOMNode} from 'react-dom';
 
 /**
  * SubForm 子表单
@@ -27,6 +29,26 @@ export interface SubFormControlSchema extends FormBaseControl {
    * 是否多选
    */
   multiple?: boolean;
+
+  /**
+   * 是否可拖拽排序
+   */
+  draggable?: boolean;
+
+  /**
+   * 拖拽提示信息
+   */
+  draggableTip?: string;
+
+  /**
+   * 是否可新增
+   */
+  addable?: boolean;
+
+  /**
+   * 是否可删除
+   */
+  removable?: boolean;
 
   /**
    * 最少个数
@@ -84,6 +106,7 @@ export interface SubFormState {
 }
 
 let dom: HTMLElement;
+
 const stripTag = (value: string) => {
   if (!value) {
     return value;
@@ -110,6 +133,9 @@ export default class SubFormControl extends React.PureComponent<
   };
 
   state: SubFormState = {};
+  dragTip?: HTMLElement;
+  sortable?: Sortable;
+  id: string = guid();
   constructor(props: SubFormProps) {
     super(props);
 
@@ -118,6 +144,7 @@ export default class SubFormControl extends React.PureComponent<
     this.editSingle = this.editSingle.bind(this);
     this.open = this.open.bind(this);
     this.close = this.close.bind(this);
+    this.dragTipRef = this.dragTipRef.bind(this);
     this.handleDialogConfirm = this.handleDialogConfirm.bind(this);
   }
 
@@ -212,6 +239,57 @@ export default class SubFormControl extends React.PureComponent<
     this.close();
   }
 
+  dragTipRef(ref: any) {
+    if (!this.dragTip && ref) {
+      this.initDragging();
+    } else if (this.dragTip && !ref) {
+      this.destroyDragging();
+    }
+
+    this.dragTip = ref;
+  }
+
+  initDragging() {
+    const ns = this.props.classPrefix;
+    const submitOnChange = this.props.submitOnChange;
+    const dom = findDOMNode(this) as HTMLElement;
+    this.sortable = new Sortable(
+      dom.querySelector(`.${ns}SubForm-values`) as HTMLElement,
+      {
+        group: `SubForm-${this.id}`,
+        animation: 150,
+        handle: `.${ns}SubForm-dragBar`,
+        ghostClass: `${ns}SubForm-value--dragging`,
+        onEnd: (e: any) => {
+          // 没有移动
+          if (e.newIndex === e.oldIndex) {
+            return;
+          }
+
+          // 换回来
+          const parent = e.to as HTMLElement;
+          if (e.oldIndex < parent.childNodes.length - 1) {
+            parent.insertBefore(e.item, parent.childNodes[e.oldIndex]);
+          } else {
+            parent.appendChild(e.item);
+          }
+
+          const value = this.props.value;
+          if (!Array.isArray(value)) {
+            return;
+          }
+          const newValue = value.concat();
+          newValue.splice(e.newIndex, 0, newValue.splice(e.oldIndex, 1)[0]);
+          this.props.onChange(newValue, submitOnChange, true);
+        }
+      }
+    );
+  }
+
+  destroyDragging() {
+    this.sortable && this.sortable.destroy();
+  }
+
   buildDialogSchema() {
     let {form} = this.props;
 
@@ -250,14 +328,19 @@ export default class SubFormControl extends React.PureComponent<
       data,
       translate: __,
       classnames: cx,
-      placeholder
+      placeholder,
+      draggable,
+      draggableTip,
+      addable,
+      removable,
+      minLength
     } = this.props;
 
     return (
       <>
         {Array.isArray(value) && value.length ? (
           <div className={cx('SubForm-values')} key="values">
-            {value.map((value: any, key) => (
+            {value.map((item: any, key) => (
               <div
                 className={cx(
                   `SubForm-value`,
@@ -273,12 +356,19 @@ export default class SubFormControl extends React.PureComponent<
                   data-index={key}
                   onClick={this.open}
                 >
-                  <Icon icon="setting" className="icon" />
+                  {draggable && value.length > 1 ? (
+                    <Icon
+                      icon="drag-bar"
+                      className={cx('icon SubForm-dragBar')}
+                    />
+                  ) : (
+                    <Icon icon="setting" className="icon" />
+                  )}
 
-                  {(value &&
+                  {(item &&
                     labelField &&
-                    value[labelField] &&
-                    stripTag(value[labelField])) ||
+                    item[labelField] &&
+                    stripTag(item[labelField])) ||
                     render(
                       'label',
                       {
@@ -286,11 +376,13 @@ export default class SubFormControl extends React.PureComponent<
                         tpl: __(btnLabel)
                       },
                       {
-                        data: createObject(data, value)
+                        data: createObject(data, item)
                       }
                     )}
                 </a>
-                {!disabled ? (
+                {!disabled &&
+                removable !== false &&
+                (!minLength || value.length > minLength) ? (
                   <a
                     data-index={key}
                     className={cx('SubForm-valueDel')}
@@ -309,18 +401,30 @@ export default class SubFormControl extends React.PureComponent<
         )}
 
         <div key="toolbar" className={cx('SubForm-toolbar')}>
-          <button
-            type="button"
-            onClick={this.addItem}
-            className={cx(`Button SubForm-addBtn`, addButtonClassName)}
-            disabled={
-              disabled ||
-              !!(maxLength && Array.isArray(value) && value.length >= maxLength)
-            }
-          >
-            <Icon icon="plus" className="icon" />
-            <span>{__('SubForm.add')}</span>
-          </button>
+          {addable !== false ? (
+            <button
+              type="button"
+              onClick={this.addItem}
+              className={cx(`Button SubForm-addBtn`, addButtonClassName)}
+              disabled={
+                disabled ||
+                !!(
+                  maxLength &&
+                  Array.isArray(value) &&
+                  value.length >= maxLength
+                )
+              }
+            >
+              <Icon icon="plus" className="icon" />
+              <span>{__('SubForm.add')}</span>
+            </button>
+          ) : null}
+
+          {draggable ? (
+            <span className={cx(`Combo-dragableTip`)} ref={this.dragTipRef}>
+              {Array.isArray(value) && value.length > 1 ? __(draggableTip) : ''}
+            </span>
+          ) : null}
         </div>
       </>
     );
