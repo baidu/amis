@@ -2755,7 +2755,7 @@ exports[`Renderer:Wizard validate 1`] = `
           novalidate=""
         >
           <div
-            class="cxd-Form-item cxd-Form-item--normal is-error is-required"
+            class="cxd-Form-item cxd-Form-item--normal is-error is-required has-error--isUrl"
             data-role="form-item"
           >
             <label
@@ -2777,7 +2777,7 @@ exports[`Renderer:Wizard validate 1`] = `
               </span>
             </label>
             <div
-              class="cxd-Form-control is-error cxd-TextControl"
+              class="cxd-Form-control is-error has-error--isUrl cxd-TextControl"
             >
               <div
                 class="cxd-TextControl-input"
@@ -2801,7 +2801,7 @@ exports[`Renderer:Wizard validate 1`] = `
             </ul>
           </div>
           <div
-            class="cxd-Form-item cxd-Form-item--normal is-error is-required"
+            class="cxd-Form-item cxd-Form-item--normal is-error is-required has-error--isRequired"
             data-role="form-item"
           >
             <label
@@ -2823,7 +2823,7 @@ exports[`Renderer:Wizard validate 1`] = `
               </span>
             </label>
             <div
-              class="cxd-Form-control is-error cxd-TextControl"
+              class="cxd-Form-control is-error has-error--isRequired cxd-TextControl"
             >
               <div
                 class="cxd-TextControl-input"
