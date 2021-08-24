@@ -49,7 +49,8 @@ interface IOption {
 
 const ErrorDetail = types.model('ErrorDetail', {
   msg: '',
-  tag: ''
+  tag: '',
+  rule: ''
 });
 
 export const FormItemStore = StoreNode.named('FormItemStore')
@@ -137,6 +138,14 @@ export const FormItemStore = StoreNode.named('FormItemStore')
         return !!(!errors || !errors.length);
       },
 
+      get errClassNames() {
+        return self.errorData
+          .map(item => item.rule)
+          .filter((item, index, arr) => item && arr.indexOf(item) === index)
+          .map(item => `has-error--${item}`)
+          .join(' ');
+      },
+
       get lastSelectValue(): string {
         return getLastOptionValue();
       },
@@ -218,7 +227,9 @@ export const FormItemStore = StoreNode.named('FormItemStore')
       selectFirst,
       autoFill,
       clearValueOnHidden,
-      validateApi
+      validateApi,
+      maxLength,
+      minLength
     }: {
       required?: boolean;
       unique?: boolean;
@@ -237,6 +248,8 @@ export const FormItemStore = StoreNode.named('FormItemStore')
       autoFill?: any;
       clearValueOnHidden?: boolean;
       validateApi?: boolean;
+      minLength?: number;
+      maxLength?: number;
     }) {
       if (typeof rules === 'string') {
         rules = str2rules(rules);
@@ -263,11 +276,18 @@ export const FormItemStore = StoreNode.named('FormItemStore')
         (self.clearValueOnHidden = !!clearValueOnHidden);
       typeof validateApi !== 'undefined' && (self.validateApi = validateApi);
 
-      rules = rules || {};
       rules = {
         ...rules,
         isRequired: self.required
       };
+
+      if (typeof minLength === 'number') {
+        rules.minLength = minLength;
+      }
+
+      if (typeof maxLength === 'number') {
+        rules.maxLength = maxLength;
+      }
 
       if (isObjectShallowModified(rules, self.rules)) {
         self.rules = rules;
@@ -358,11 +378,29 @@ export const FormItemStore = StoreNode.named('FormItemStore')
       addError(msg, tag);
     }
 
-    function addError(msg: string | Array<string>, tag: string = 'builtin') {
-      const msgs: Array<string> = Array.isArray(msg) ? msg : [msg];
+    function addError(
+      msg:
+        | string
+        | Array<
+            | string
+            | {
+                msg: string;
+                rule: string;
+              }
+          >,
+      tag: string = 'builtin'
+    ) {
+      const msgs: Array<
+        | string
+        | {
+            msg: string;
+            rule: string;
+          }
+      > = Array.isArray(msg) ? msg : [msg];
       msgs.forEach(item =>
         self.errorData.push({
-          msg: item,
+          msg: typeof item === 'string' ? item : item.msg,
+          rule: typeof item !== 'string' ? item.rule : undefined,
           tag: tag
         })
       );

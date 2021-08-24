@@ -264,8 +264,20 @@ export function validate(
   rules: {[propName: string]: any},
   messages?: {[propName: string]: string},
   __ = (str: string) => str
-): Array<string> {
-  const errors: Array<string> = [];
+): Array<
+  | string
+  | {
+      rule: string;
+      msg: string;
+    }
+> {
+  const errors: Array<
+    | string
+    | {
+        rule: string;
+        msg: string;
+      }
+  > = [];
 
   rules &&
     Object.keys(rules).forEach(ruleName => {
@@ -288,14 +300,15 @@ export function validate(
       });
 
       if (!fn(values, value, ...args)) {
-        errors.push(
-          filter(
+        errors.push({
+          rule: ruleName,
+          msg: filter(
             __((messages && messages[ruleName]) || validateMessages[ruleName]),
             {
               ...[''].concat(args)
             }
           )
-        );
+        });
       }
     });
 
