@@ -264,20 +264,14 @@ export function validate(
   rules: {[propName: string]: any},
   messages?: {[propName: string]: string},
   __ = (str: string) => str
-): Array<
-  | string
-  | {
-      rule: string;
-      msg: string;
-    }
-> {
-  const errors: Array<
-    | string
-    | {
-        rule: string;
-        msg: string;
-      }
-  > = [];
+): Array<{
+  rule: string;
+  msg: string;
+}> {
+  const errors: Array<{
+    rule: string;
+    msg: string;
+  }> = [];
 
   rules &&
     Object.keys(rules).forEach(ruleName => {
@@ -322,7 +316,10 @@ export function validateObject(
   __ = (str: string) => str
 ) {
   const ret: {
-    [propName: string]: string[];
+    [propName: string]: {
+      rule: string;
+      msg: string;
+    }[];
   } = {};
 
   Object.keys(rules).forEach(key => {
