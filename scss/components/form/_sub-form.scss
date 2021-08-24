@@ -20,18 +20,12 @@
     user-select: none;
 
     &Label {
-      cursor: pointer;
       color: inherit;
-
-      > svg {
-        width: px2rem(10px);
-        height: px2rem(10px);
-        margin-right: var(--gap-xs);
-        top: 0;
-      }
     }
 
-    &Del {
+    &Del,
+    &Edit,
+    &DragBar {
       cursor: pointer;
       margin-left: var(--gap-xs);
       color: var(--ResultBox-icon-color);
@@ -40,10 +34,14 @@
       }
 
       > svg {
-        width: px2rem(10px);
-        height: px2rem(10px);
-        top: 0;
+        width: px2rem(12px);
+        height: px2rem(12px);
       }
+    }
+
+    &DragBar {
+      margin-left: 0;
+      margin-right: var(--gap-xs);
     }
 
     &:hover {

@@ -77,9 +77,14 @@ export interface SubFormControlSchema extends FormBaseControl {
   addButtonClassName?: SchemaClassName;
 
   /**
-   * 修改按钮 CSS 类名
+   * 值元素的类名
    */
-  editButtonClassName?: SchemaClassName;
+  itemClassName?: SchemaClassName;
+
+  /**
+   * 值列表元素的类名
+   */
+  itemsClassName?: SchemaClassName;
 
   /**
    * 子表单详情
@@ -126,7 +131,7 @@ export default class SubFormControl extends React.PureComponent<
     multiple: false,
     btnClassName: '',
     addButtonClassName: '',
-    editButtonClassName: '',
+    itemClassName: '',
     labelField: 'label',
     btnLabel: 'SubForm.button',
     placeholder: 'placeholder.empty'
@@ -318,7 +323,8 @@ export default class SubFormControl extends React.PureComponent<
   renderMultipe() {
     const {
       addButtonClassName,
-      editButtonClassName,
+      itemClassName,
+      itemsClassName,
       disabled,
       maxLength,
       labelField,
@@ -339,7 +345,7 @@ export default class SubFormControl extends React.PureComponent<
     return (
       <>
         {Array.isArray(value) && value.length ? (
-          <div className={cx('SubForm-values')} key="values">
+          <div className={cx('SubForm-values', itemsClassName)} key="values">
             {value.map((item: any, key) => (
               <div
                 className={cx(
@@ -347,24 +353,17 @@ export default class SubFormControl extends React.PureComponent<
                   {
                     'is-disabled': disabled
                   },
-                  editButtonClassName
+                  itemClassName
                 )}
                 key={key}
               >
-                <a
-                  className={cx('SubForm-valueLabel')}
-                  data-index={key}
-                  onClick={this.open}
-                >
-                  {draggable && value.length > 1 ? (
-                    <Icon
-                      icon="drag-bar"
-                      className={cx('icon SubForm-dragBar')}
-                    />
-                  ) : (
-                    <Icon icon="setting" className="icon" />
-                  )}
+                {draggable && value.length > 1 ? (
+                  <a className={cx('SubForm-valueDragBar')}>
+                    <Icon icon="drag-bar" className={cx('icon')} />
+                  </a>
+                ) : null}
 
+                <span className={cx('SubForm-valueLabel')}>
                   {(item &&
                     labelField &&
                     item[labelField] &&
@@ -379,6 +378,13 @@ export default class SubFormControl extends React.PureComponent<
                         data: createObject(data, item)
                       }
                     )}
+                </span>
+                <a
+                  data-index={key}
+                  onClick={this.open}
+                  className={cx('SubForm-valueEdit')}
+                >
+                  <Icon icon="pencil" className="icon" />
                 </a>
                 {!disabled &&
                 removable !== false &&
@@ -432,8 +438,9 @@ export default class SubFormControl extends React.PureComponent<
 
   renderSingle() {
     const {
-      classPrefix: ns,
-      btnClassName,
+      classnames: cx,
+      itemsClassName,
+      itemClassName,
       disabled,
       value,
       labelField,
@@ -444,22 +451,20 @@ export default class SubFormControl extends React.PureComponent<
     } = this.props;
 
     return (
-      <div className={`${ns}SubForm-values`} key="values">
+      <div className={cx('SubForm-values', itemsClassName)} key="values">
         <div
           className={cx(
-            `${ns}SubForm-value`,
+            `SubForm-value`,
             {
               'is-disabled': disabled
             },
-            btnClassName
+            itemClassName
           )}
           onClick={this.editSingle}
           data-tooltip={__('SubForm.editDetail')}
           data-position="bottom"
         >
-          <a className={`${ns}SubForm-valueLabel`}>
-            <Icon icon="setting" className="icon" />
-
+          <span className={cx('SubForm-valueLabel')}>
             {(value &&
               labelField &&
               value[labelField] &&
@@ -474,6 +479,9 @@ export default class SubFormControl extends React.PureComponent<
                   data: createObject(data, value)
                 }
               )}
+          </span>
+          <a className={cx('SubForm-valueEdit')}>
+            <Icon icon="pencil" className="icon" />
           </a>
         </div>
       </div>
