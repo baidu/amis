@@ -497,11 +497,11 @@ export default class CRUD extends React.Component<CRUDProps, any> {
       this.renderFooterToolbar = this.renderFooterToolbar.bind(this);
     }
 
-    if (this.props.pickerMode && this.props.value !== props.value) {
+    if (this.props.pickerMode && this.props.value !== prevProps.value) {
       store.setSelectedItems(props.value);
     }
 
-    if (this.props.filterTogglable !== props.filterTogglable) {
+    if (this.props.filterTogglable !== prevProps.filterTogglable) {
       store.setFilterTogglable(
         !!props.filterTogglable,
         props.filterDefaultVisible
