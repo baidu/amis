@@ -16,6 +16,7 @@ interface BaseDatePickerProps
   requiredConfirm?: boolean;
   onClose?: () => void;
   isEndDate?: boolean;
+  minDate?: moment.Moment;
   renderDay?: (
     props: any,
     currentDate: moment.Moment,
@@ -70,6 +71,10 @@ class BaseDatePicker extends ReactDatePicker {
     return () => {
       const props = origin.call(this);
       props.setDateTimeState = this.setState.bind(this);
+
+      if (this.props.minDate) {
+        props.viewDate = this.props.minDate;
+      }
 
       [
         'inputFormat',
@@ -183,16 +188,16 @@ class BaseDatePicker extends ReactDatePicker {
     const viewProps = this.getComponentProps();
 
     if (this.props.viewMode === 'quarters') {
-      [viewProps.updateOn, viewProps.renderQuarter] = ['quarters', this.props.renderQuarter];
+      [viewProps.updateOn, viewProps.renderQuarter] = [
+        'quarters',
+        this.props.renderQuarter
+      ];
     }
 
     return (
       <div className={cx('rdt rdtStatic rdtOpen', this.props.className)}>
         <div key="dt" className="rdtPicker">
-          <Component
-            view={this.state.currentView}
-            viewProps={viewProps}
-          />
+          <Component view={this.state.currentView} viewProps={viewProps} />
         </div>
       </div>
     );
