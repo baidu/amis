@@ -426,7 +426,7 @@ export default class SubFormControl extends React.PureComponent<
             </button>
           ) : null}
 
-          {draggable ? (
+          {draggable && Array.isArray(value) && value.length > 1 ? (
             <span className={cx(`Combo-dragableTip`)} ref={this.dragTipRef}>
               {Array.isArray(value) && value.length > 1 ? __(draggableTip) : ''}
             </span>
