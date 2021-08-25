@@ -1067,7 +1067,10 @@ export const detectProps = [
   'value',
   'diffValue',
   'borderMode',
-  'items'
+  'items',
+  'showCounter',
+  'minLength',
+  'maxLength'
 ];
 
 export function asFormItem(config: Omit<FormItemConfig, 'component'>) {
