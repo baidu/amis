@@ -58,7 +58,7 @@ import * as React from 'react';
 import {Renderer} from 'amis';
 
 @Renderer({
-  test: /(^|\/)my\-renderer$/
+  type: 'my-renderer'
 })
 class CustomRenderer extends React.Component {
   render() {
@@ -72,7 +72,7 @@ class CustomRenderer extends React.Component {
 
 ```javascript
 Renderer({
-  test: /(^|\/)my\-renderer$/
+  type: 'my-renderer'
 })(CustomRenderer);
 ```
 
@@ -98,7 +98,7 @@ import * as React from 'react';
 import {Renderer} from 'amis';
 
 @Renderer({
-  test: /(^|\/)my\-renderer2$/
+  type: 'my-renderer2'
 })
 class CustomRenderer extends React.Component {
   render() {
