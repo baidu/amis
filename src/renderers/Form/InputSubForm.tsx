@@ -263,7 +263,7 @@ export default class SubFormControl extends React.PureComponent<
       {
         group: `SubForm-${this.id}`,
         animation: 150,
-        handle: `.${ns}SubForm-dragBar`,
+        handle: `.${ns}SubForm-valueDragBar`,
         ghostClass: `${ns}SubForm-value--dragging`,
         onEnd: (e: any) => {
           // 没有移动
