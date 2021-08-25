@@ -46,15 +46,10 @@ amis 的渲染过程是将 `json` 转成对应的 React 组件。先通过 `json
 }
 ```
 
-那么，amis 是如何将 JSON 转成组件的呢？直接根据节点的 type 去跟组件一一对应？这样会重名，比如在表格里面展示的类型 `text` 跟表单里面的 `text` 是完全不一样的，一个负责展示，一个却负责输入。所以说一个节点要被什么组件渲染，还需要携带上下文（context）信息。
+其实只需要把 json 节点，根据 type 信息自动转成 React Component 即可。
 
-如何携带上下文（context）信息？amis 中是用节点的路径（path）来作为上下文信息。从上面的例子来看，一共有三个节点，path 信息分别是。
-
-- `page` 页面节点
-- `page/body/form` 表单节点
-- `page/body/form/body/0/text` 文本框节点。
-
-根据 path 的信息就能很容易注册组件跟节点对应了。
+> 原来组件注册是根据节点 path 注册，可以类型相同在不同的上下文中用不同的渲染器去渲染，后来发现这样反而增加了使用成本
+> 所以新版本直接通过 type 类型来注册组件，跟节点所在上下文无关。
 
 Page 组件的示例代码
 
@@ -63,7 +58,7 @@ import * as React from 'react';
 import {Renderer} from 'amis';
 
 @Renderer({
-  test: /^page$/
+  type: 'page'
   // ... 其他信息隐藏了
 })
 export class PageRenderer extends React.Component {
@@ -87,7 +82,7 @@ export class PageRenderer extends React.Component {
 
 // 如果不支持 Decorators 语法也可以使用如下写法
 export Renderer({
-  test: /^page$/
+  type: 'page'
 })(class PageRenderer extends React.Component {
   render() {
     // ...同上
@@ -99,7 +94,7 @@ Form 组件的示例代码
 
 ```jsx
 @Renderer({
-  test: /(^|\/)form$/
+  type: 'form'
   // ... 其他信息隐藏了
 })
 export class FormRenderer extends React.Component {
@@ -127,7 +122,7 @@ Text 组件的示例代码
 
 ```jsx
 @Renderer({
-    test: /(^|\/)form(?:\/\d+)?\/control(?\/\d+)?\/text$/
+    type: 'input-text'
     // ... 其他信息隐藏了
 })
 export class FormItemTextRenderer extends React.Component {

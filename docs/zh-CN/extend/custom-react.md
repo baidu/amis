@@ -269,7 +269,7 @@ export default class CustomCheckbox extends React.Component {
 import * as React from 'react';
 import {Renderer, ScopedContext} from 'amis';
 @Renderer({
-  test: /(?:^|\/)my\-renderer$/
+  type: 'my-renderer'
 })
 export class CustomRenderer extends React.Component {
   static contextType = ScopedContext;
