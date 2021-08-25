@@ -29,7 +29,7 @@ exports[`Renderer:FormItem:validateApi:failed 1`] = `
         novalidate=""
       >
         <div
-          class="cxd-Form-item cxd-Form-item--normal is-error is-required"
+          class="cxd-Form-item cxd-Form-item--normal is-error is-required has-error--isRequired"
           data-role="form-item"
         >
           <label
@@ -51,7 +51,7 @@ exports[`Renderer:FormItem:validateApi:failed 1`] = `
             </span>
           </label>
           <div
-            class="cxd-Form-control is-error cxd-TextControl"
+            class="cxd-Form-control is-error has-error--isRequired cxd-TextControl"
           >
             <div
               class="cxd-TextControl-input"
@@ -307,7 +307,7 @@ exports[`Renderer:FormItem:validateApi:success 1`] = `
         novalidate=""
       >
         <div
-          class="cxd-Form-item cxd-Form-item--normal is-error is-required"
+          class="cxd-Form-item cxd-Form-item--normal is-error is-required has-error--isRequired"
           data-role="form-item"
         >
           <label
@@ -329,7 +329,7 @@ exports[`Renderer:FormItem:validateApi:success 1`] = `
             </span>
           </label>
           <div
-            class="cxd-Form-control is-error cxd-TextControl"
+            class="cxd-Form-control is-error has-error--isRequired cxd-TextControl"
           >
             <div
               class="cxd-TextControl-input"

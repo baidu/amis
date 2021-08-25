@@ -1002,7 +1002,7 @@ exports[`Renderer:Form:valdiate 1`] = `
         novalidate=""
       >
         <div
-          class="cxd-Form-item cxd-Form-item--normal is-error is-required"
+          class="cxd-Form-item cxd-Form-item--normal is-error is-required has-error--isRequired"
           data-role="form-item"
         >
           <label
@@ -1024,7 +1024,7 @@ exports[`Renderer:Form:valdiate 1`] = `
             </span>
           </label>
           <div
-            class="cxd-Form-control is-error cxd-TextControl"
+            class="cxd-Form-control is-error has-error--isRequired cxd-TextControl"
           >
             <div
               class="cxd-TextControl-input"

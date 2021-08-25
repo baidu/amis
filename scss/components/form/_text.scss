@@ -260,4 +260,12 @@
   &-input--multiple &-valueLabel {
     padding: 0 var(--gap-xs);
   }
+
+  &-counter {
+    color: var(--text--muted-color);
+  }
+
+  .has-error--maxLength &-counter {
+    color: var(--danger);
+  }
 }

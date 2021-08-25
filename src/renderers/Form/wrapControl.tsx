@@ -127,7 +127,9 @@ export function wrapControl<
                 selectFirst,
                 autoFill,
                 clearValueOnHidden,
-                validateApi
+                validateApi,
+                minLength,
+                maxLength
               }
             } = this.props;
 
@@ -170,7 +172,9 @@ export function wrapControl<
               selectFirst,
               autoFill,
               clearValueOnHidden,
-              validateApi
+              validateApi,
+              minLength,
+              maxLength
             });
 
             // issue 这个逻辑应该在 combo 里面自己实现。
@@ -276,7 +280,9 @@ export function wrapControl<
                 selectFirst: props.$schema.selectFirst,
                 autoFill: props.$schema.autoFill,
                 clearValueOnHidden: props.$schema.clearValueOnHidden,
-                validateApi: props.$schema.validateApi
+                validateApi: props.$schema.validateApi,
+                minLength: props.minLength,
+                maxLength: props.maxLength
               });
             }
 
@@ -474,7 +480,7 @@ export function wrapControl<
             const {
               formStore: form,
               onChange,
-              $schema: {name, onChange: onFormItemChange},
+              $schema: {name, onChange: onFormItemChange, maxLength, minLength},
               data,
               validateOnChange,
               formSubmited
@@ -500,6 +506,9 @@ export function wrapControl<
             onChange?.(value, name!, submitOnChange === true);
 
             if (
+              // 如果配置了 minLength 或者 maxLength 就切成及时验证
+              (typeof maxLength && maxLength) ||
+              (typeof minLength && minLength) ||
               validateOnChange === true ||
               (validateOnChange !== false && (formSubmited || validated))
             ) {

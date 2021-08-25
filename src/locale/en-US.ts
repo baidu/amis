@@ -10,6 +10,7 @@ register('en-US', {
   'City.street': 'Enter street info',
   'clear': 'Clear',
   'ColorPicker.placeholder': 'Select color',
+  'SubForm.add': 'New',
   'Combo.add': 'New',
   'Combo.dragDropSort': 'Drag to sort',
   'Combo.invalidData': 'invalid data, please remove',

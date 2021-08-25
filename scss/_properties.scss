@@ -1062,7 +1062,7 @@
   --ResultBox-icon--onHover-color: #666666;
   --ResultBox-icon-color: #999;
   --ResultBox-value--onDisabled-color: #cccccc;
-  --ResultBox-value--onHover-bg: #ebebeb;
+  --ResultBox-value--onHover-bg: rgba(0, 145, 255, 0.1);
   --ResultBox-value-bg: #f5f5f5;
   --ResultBox-value-color: #000;
 
@@ -1082,27 +1082,6 @@
   --Spinner-height: #{px2rem(26px)};
   --Spinner-overlay-bg: rgba(255, 255, 255, 0.4);
   --Spinner-width: #{px2rem(26px)};
-
-  --SubForm--addBtn-bg: var(--Button--info-bg);
-  --SubForm--addBtn-border: var(--Button--info-border);
-  --SubForm--addBtn-borderRadius: var(--Button-borderRadius);
-  --SubForm--addBtn-color: var(--Button--info-color);
-  --SubForm--addBtn-fontSize: var(--Button--sm-fontSize);
-  --SubForm--addBtn-height: var(--Button--sm-height);
-  --SubForm--addBtn-lineHeight: var(--Button--sm-lineHeight);
-  --SubForm--addBtn-onActive-bg: #{darken($info, 10%)};
-  --SubForm--addBtn-onActive-border: #{darken($info, 12.5%)};
-  --SubForm--addBtn-onActive-color: var(--SubForm--addBtn-color);
-  --SubForm--addBtn-onHover-bg: #{darken($info, 7.5%)};
-  --SubForm--addBtn-onHover-border: #{darken($info, 10%)};
-  --SubForm--addBtn-onHover-color: var(--SubForm--addBtn-color);
-  --SubForm--addBtn-paddingX: var(--Button--sm-paddingX);
-  --SubForm--addBtn-paddingY: calc(
-    (
-        var(--SubForm--addBtn-height) - var(--Button-borderWidth) * 2 -
-          var(--SubForm--addBtn-lineHeight) * var(--SubForm--addBtn-fontSize)
-      ) / 2
-  );
 
   --Switch-bgColor: #{$gray600};
   --Switch-borderColor: #{darken($gray600, 10%)};

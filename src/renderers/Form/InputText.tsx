@@ -60,6 +60,16 @@ export interface TextControlSchema extends FormOptionsControl {
    * 边框模式，全边框，还是半边框，或者没边框。
    */
   borderMode?: 'full' | 'half' | 'none';
+
+  /**
+   * 限制文字个数
+   */
+  maxLength?: number;
+
+  /**
+   * 是否显示计数
+   */
+  showCounter?: boolean;
 }
 
 export interface TextProps extends OptionsControlProps {
@@ -658,7 +668,9 @@ export default class TextControl extends React.PureComponent<
       borderMode,
       prefix,
       suffix,
-      data
+      data,
+      showCounter,
+      maxLength
     } = this.props;
 
     const type = this.props.type?.replace(/^(?:native|input)\-/, '');
@@ -674,7 +686,9 @@ export default class TextControl extends React.PureComponent<
         )}
       >
         {prefix ? (
-          <span className={cx('TextControl-inputPrefix')}>{filter(prefix, data)}</span>
+          <span className={cx('TextControl-inputPrefix')}>
+            {filter(prefix, data)}
+          </span>
         ) : null}
         <input
           name={name}
@@ -704,8 +718,24 @@ export default class TextControl extends React.PureComponent<
             <Icon icon="close" className="icon" />
           </a>
         ) : null}
+        {showCounter ? (
+          <span className={cx('TextControl-counter')}>
+            {`${
+              (typeof value === 'undefined' || value === null
+                ? ''
+                : typeof value === 'string'
+                ? value
+                : JSON.stringify(value)
+              ).length
+            }${
+              typeof maxLength === 'number' && maxLength ? `/${maxLength}` : ''
+            }`}
+          </span>
+        ) : null}
         {suffix ? (
-          <span className={cx('TextControl-inputSuffix')}>{filter(suffix, data)}</span>
+          <span className={cx('TextControl-inputSuffix')}>
+            {filter(suffix, data)}
+          </span>
         ) : null}
       </div>
     );
