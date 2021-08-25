@@ -72,6 +72,11 @@ export interface SubFormControlSchema extends FormBaseControl {
   btnLabel?: string;
 
   /**
+   * 新增按钮文字
+   */
+  addButtonText?: string;
+
+  /**
    * 新增按钮 CSS 类名
    */
   addButtonClassName?: SchemaClassName;
@@ -339,7 +344,8 @@ export default class SubFormControl extends React.PureComponent<
       draggableTip,
       addable,
       removable,
-      minLength
+      minLength,
+      addButtonText
     } = this.props;
 
     return (
@@ -422,7 +428,7 @@ export default class SubFormControl extends React.PureComponent<
               }
             >
               <Icon icon="plus" className="icon" />
-              <span>{__('SubForm.add')}</span>
+              <span>{__(addButtonText || 'SubForm.add')}</span>
             </button>
           ) : null}
 
