@@ -140,6 +140,7 @@ register('zh-CN', {
   'saveSuccess': '保存成功',
   'search': '搜索',
   'searchResult': '搜索结果',
+  'Checkboxes.selectAll': '全选/不选',
   'Select.checkAll': '全选',
   'Select.clear': '移除',
   'Select.clearAll': '移除所有',
