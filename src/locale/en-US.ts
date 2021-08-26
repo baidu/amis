@@ -136,6 +136,7 @@ register('en-US', {
   'saveSuccess': 'Saved successfully',
   'search': 'Search',
   'searchResult': 'Search result',
+  'Checkboxes.selectAll': 'Select/Deselect All',
   'Select.checkAll': 'Check all',
   'Select.clear': 'Clear',
   'Select.clearAll': 'Clear all',

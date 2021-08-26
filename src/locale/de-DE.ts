@@ -135,6 +135,7 @@ register('de-DE', {
   'saveSuccess': 'Erfolgreich gespeichert',
   'search': 'Suchen',
   'searchResult': 'Suchergebnis',
+  'Checkboxes.selectAll': 'Alle auswählen/abwählen',
   'Select.checkAll': 'Alle markieren',
   'Select.clear': 'Löschen',
   'Select.clearAll': 'Alle löschen',
