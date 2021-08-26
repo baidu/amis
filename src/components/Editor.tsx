@@ -83,6 +83,7 @@ export interface EditorProps extends LocaleProps {
   classnames: ClassNamesFn;
   context?: any;
   style?: any;
+  isDiffEditor?: boolean;
   onFocus?: () => void;
   onBlur?: () => void;
   editorDidMount?: (editor: any, monaco: any) => void;
@@ -119,7 +120,11 @@ export class Editor extends React.Component<EditorProps, any> {
   }
 
   componentDidUpdate(prevProps: EditorProps) {
-    if (this.props.value !== this.currentValue && this.editor) {
+    if (
+      this.props.value !== this.currentValue &&
+      this.editor &&
+      !this.props.isDiffEditor
+    ) {
       let value = String(this.props.value);
 
       if (this.props.language === 'json') {
