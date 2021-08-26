@@ -450,7 +450,7 @@ export class ServiceRenderer extends Service {
     scoped.registerComponent(this);
   }
 
-  reload(subpath?: string, query?: any, ctx?: any) {
+  reload(subpath?: string, query?: any, ctx?: any, silent?: boolean) {
     const scoped = this.context as IScopedContext;
     if (subpath) {
       return scoped.reload(
@@ -459,7 +459,7 @@ export class ServiceRenderer extends Service {
       );
     }
 
-    return super.reload(subpath, query);
+    return super.reload(subpath, query, ctx, silent);
   }
 
   receive(values: any, subPath?: string) {
