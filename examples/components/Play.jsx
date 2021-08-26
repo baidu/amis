@@ -1,10 +1,9 @@
 import React from 'react';
 import {toast} from '../../src/components/Toast';
-import {render} from '../../src/index';
+import {render, makeTranslator} from '../../src/index';
 import {normalizeLink} from '../../src/utils/normalizeLink';
 import {alert, confirm} from '../../src/components/Alert';
 import axios from 'axios';
-import Frame from 'react-frame-component';
 import stripJsonComments from 'strip-json-comments';
 import CodeEditor from '../../src/components/Editor';
 import copy from 'copy-to-clipboard';
@@ -114,6 +113,9 @@ export default class PlayGround extends React.Component {
     this.removeWindowEvents = this.removeWindowEvents.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.schemaProps = {};
+
+    const __ = makeTranslator(props.locale);
+
     this.env = {
       session: 'doc',
       updateLocation: (location, replace) => {
@@ -171,11 +173,14 @@ export default class PlayGround extends React.Component {
               throw new Error(response.data.msg);
             } else {
               throw new Error(
-                '接口报错：' + JSON.stringify(response.data, null, 2)
+                __('System.requestError') +
+                  JSON.stringify(response.data, null, 2)
               );
             }
           } else {
-            throw new Error(`接口出错，状态码是 ${response.status}`);
+            throw new Error(
+              `${__('System.requestErrorStatus')} ${response.status}`
+            );
           }
         }
         return response;
@@ -183,13 +188,16 @@ export default class PlayGround extends React.Component {
       isCancel: value => axios.isCancel(value),
       notify: (type, msg) =>
         toast[type]
-          ? toast[type](msg, type === 'error' ? '系统错误' : '系统消息')
+          ? toast[type](
+              msg,
+              type === 'error' ? __('System.error') : __('System.message')
+            )
           : console.warn('[Notify]', type, msg),
       alert,
       confirm,
       copy: content => {
         copy(content);
-        toast.success('内容已复制到粘贴板');
+        toast.success(__('System.copy'));
       }
     };
 
