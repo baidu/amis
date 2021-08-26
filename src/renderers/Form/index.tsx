@@ -834,6 +834,10 @@ export default class Form extends React.Component<FormProps, object> {
   emitChange(submit: boolean) {
     const {onChange, store, submitOnChange} = this.props;
 
+    if (!isAlive(store)) {
+      return;
+    }
+
     onChange &&
       onChange(store.data, difference(store.data, store.pristine), this.props);
 
