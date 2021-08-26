@@ -51,7 +51,11 @@ export interface NumberControlSchema extends FormBaseControl {
   /**
    * 是否千分分隔
    */
-   kilobitSeparator?: boolean;
+  kilobitSeparator?: boolean;
+  /**
+  * 只读
+  */
+  readOnly?: boolean
 }
 
 export interface NumberProps extends FormControlProps {
@@ -76,6 +80,10 @@ export interface NumberProps extends FormControlProps {
    * 是否千分分隔
    */
   kilobitSeparator?: boolean;
+  /**
+   * 只读
+   */
+  readOnly?: boolean
 }
 
 export default class NumberControl extends React.Component<NumberProps, any> {
@@ -123,7 +131,8 @@ export default class NumberControl extends React.Component<NumberProps, any> {
       borderMode,
       suffix,
       prefix,
-      kilobitSeparator
+      kilobitSeparator,
+      readOnly
     } = this.props;
 
     let precisionProps: any = {};
@@ -166,6 +175,7 @@ export default class NumberControl extends React.Component<NumberProps, any> {
           precision={finalPrecision}
           showSteps={showSteps}
           borderMode={borderMode}
+          readOnly={readOnly}
         />
       </div>
     );

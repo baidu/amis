@@ -12,6 +12,10 @@ export interface NumberProps extends ThemeProps {
   showSteps?: boolean;
   precision?: number;
   disabled?: boolean;
+  /**
+   * 只读
+   */
+  readOnly?: boolean;
   value?: number;
   onChange?: (value: number) => void;
   /**
@@ -30,7 +34,9 @@ export interface NumberProps extends ThemeProps {
 
 export class NumberInput extends React.Component<NumberProps, any> {
   static defaultProps = {
-    step: 1
+    step: 1,
+    readOnly: false,
+    borderMode: 'full'
   };
 
   @autobind
@@ -66,7 +72,8 @@ export class NumberInput extends React.Component<NumberProps, any> {
       showSteps,
       formatter,
       parser,
-      borderMode
+      borderMode,
+      readOnly
     } = this.props;
 
     let precisionProps: any = {};
@@ -81,6 +88,7 @@ export class NumberInput extends React.Component<NumberProps, any> {
           showSteps === false ? 'no-steps' : '',
           {[`Number--border${ucFirst(borderMode)}`]: borderMode}
         )}
+        readOnly={readOnly}
         prefixCls={`${ns}Number`}
         value={value}
         step={step}

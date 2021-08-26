@@ -290,7 +290,7 @@ export class TreeSelector extends React.Component<
             let child = children.shift();
             let index = value.indexOf(child);
 
-            if (child.children) {
+            if (child.children && child.children.length) {
               children.push.apply(children, child.children);
             } else if (!~index && child.value !== 'undefined') {
               value.push(child);
