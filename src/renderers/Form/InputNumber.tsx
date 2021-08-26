@@ -133,10 +133,10 @@ export default class NumberControl extends React.Component<NumberProps, any> {
       precisionProps.precision = finalPrecision;
     }
     // 数据格式化
-    const formatter = (value: string) => {
+    const formatter = (value: string | number) => {
       // 增加千分分隔
       if (kilobitSeparator && value) {
-        value = value.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+        value = (value + '').replace(/\B(?=(\d{3})+(?!\d))/g, ',');
       }
       return (prefix ? prefix : '')
        + value
@@ -144,9 +144,11 @@ export default class NumberControl extends React.Component<NumberProps, any> {
     }
     // 将数字还原
     const parser = (value: string) => {
-      prefix && (value = value.replace(prefix, ''));
-      suffix && (value = value.replace(suffix, ''));
-      kilobitSeparator &&  (value = value.replace(/,/g, ''));
+      if (value) {
+        prefix && (value = value.replace(prefix, ''));
+        suffix && (value = value.replace(suffix, ''));
+        kilobitSeparator &&  (value = value.replace(/,/g, ''));
+      }
       return value;
     }
     return (
