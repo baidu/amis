@@ -304,7 +304,7 @@ export class Chart extends React.Component<ChartProps> {
   }
 
   reload(subpath?: string, query?: any) {
-    const {api, env, store, interval} = this.props;
+    const {api, env, store, interval, translate: __} = this.props;
 
     if (query) {
       return this.receive(query);
@@ -331,7 +331,7 @@ export class Chart extends React.Component<ChartProps> {
         if (!result.ok) {
           return env.notify(
             'error',
-            result.msg || '加载失败，请重试！',
+            result.msg || __('fetchFailed'),
             result.msgTimeout !== undefined
               ? {
                   closeButton: true,

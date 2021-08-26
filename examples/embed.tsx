@@ -13,7 +13,8 @@ import {
   confirm,
   ToastComponent,
   AlertComponent,
-  render as renderAmis
+  render as renderAmis,
+  makeTranslator
 } from '../src/index';
 
 import '../src/locale/en-US';
@@ -25,11 +26,13 @@ export function embed(
   props: any,
   env: any
 ) {
+  const __ = makeTranslator(env.locale || props.locale);
+
   if (typeof container === 'string') {
     container = document.querySelector(container) as HTMLElement;
   }
   if (!container) {
-    console.error('选择器不对，页面上没有此元素');
+    console.error(__('Embed.invalidRoot'));
     return;
   } else if (container.tagName === 'BODY') {
     let div = document.createElement('div');
@@ -98,7 +101,7 @@ export function embed(
           ...response,
           data: {
             status: 0,
-            msg: '文件即将开始下载。。'
+            msg: __('Embed.downloading')
           }
         };
       }
@@ -165,7 +168,10 @@ export function embed(
       env?.getModalContainer?.() || document.querySelector('.amis-scope'),
     notify: (type: string, msg: string) =>
       toast[type]
-        ? toast[type](msg, type === 'error' ? '系统错误' : '系统消息')
+        ? toast[type](
+            msg,
+            type === 'error' ? __('System.error') : __('System.message')
+          )
         : console.warn('[Notify]', type, msg),
     alert,
     confirm,
@@ -307,7 +313,7 @@ export function embed(
     isCancel: (value: any) => (axios as any).isCancel(value),
     copy: (contents: string, options: any = {}) => {
       const ret = copy(contents, options);
-      ret && options.shutup !== true && toast.info('内容已拷贝到剪切板');
+      ret && options.shutup !== true && toast.info(__('System.copy'));
       return ret;
     },
     richTextToken: '',

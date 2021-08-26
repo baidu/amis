@@ -859,7 +859,7 @@ export function registerOptionsControl(config: OptionsConfig) {
           });
 
           if (!payload.ok) {
-            env.notify('error', payload.msg || '新增失败，请仔细检查');
+            env.notify('error', payload.msg || __('Options.createFailed'));
             result = null;
           } else {
             result = payload.data || result;
