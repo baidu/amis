@@ -847,11 +847,10 @@ export class DialogRenderer extends Dialog {
     const scoped = this.context as IScopedContext;
     const store = this.props.store;
     const dialogAction = store.action as Action;
+    const reload = action.reload ?? dialogAction.reload;
 
-    if (dialogAction.reload) {
-      scoped.reload(dialogAction.reload, store.data);
-    } else if (action.reload) {
-      scoped.reload(action.reload, store.data);
+    if (reload) {
+      scoped.reload(reload, store.data);
     } else {
       // 没有设置，则自动让页面中 crud 刷新。
       scoped
