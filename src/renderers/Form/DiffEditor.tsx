@@ -124,7 +124,6 @@ export class DiffEditor extends React.Component<DiffEditorProps, any> {
 
     if (
       this.originalEditor &&
-      diffValue &&
       (diffValue !== prevProps.diffValue || data !== prevProps.data)
     ) {
       this.originalEditor.getModel().setValue(
@@ -144,7 +143,6 @@ export class DiffEditor extends React.Component<DiffEditorProps, any> {
 
     if (
       this.modifiedEditor &&
-      value &&
       value !== prevProps.value &&
       !this.state.focused
     ) {
@@ -263,6 +261,7 @@ export class DiffEditor extends React.Component<DiffEditorProps, any> {
             ...options,
             readOnly: disabled
           }}
+          isDiffEditor
         />
       </div>
     );
