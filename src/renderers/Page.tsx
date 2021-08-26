@@ -722,9 +722,10 @@ export class PageRenderer extends Page {
     const scoped = this.context;
     const store = this.props.store;
     const dialogAction = store.action as Action;
+    const reload = action.reload ?? dialogAction.reload;
 
-    if (dialogAction.reload) {
-      scoped.reload(dialogAction.reload, store.data);
+    if (reload) {
+      scoped.reload(reload, store.data);
     } else {
       // 没有设置，则自动让页面中 crud 刷新。
       scoped
@@ -739,11 +740,12 @@ export class PageRenderer extends Page {
     const scoped = this.context as IScopedContext;
     const store = this.props.store;
     const drawerAction = store.action as Action;
+    const reload = action.reload ?? drawerAction.reload;
 
     // 稍等会，等动画结束。
     setTimeout(() => {
-      if (drawerAction.reload) {
-        scoped.reload(drawerAction.reload, store.data);
+      if (reload) {
+        scoped.reload(reload, store.data);
       } else {
         // 没有设置，则自动让页面中 crud 刷新。
         scoped
