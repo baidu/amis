@@ -135,7 +135,7 @@ export class Tabs extends React.Component<TabsProps> {
           activeKey === eventKey ? 'is-active' : '',
           disabled ? 'is-disabled' : ''
         )}
-        key={index}
+        key={eventKey ?? index}
         onClick={() => (disabled ? '' : this.handleSelect(eventKey))}
       >
         <a>
@@ -206,7 +206,7 @@ export class Tabs extends React.Component<TabsProps> {
 
     return React.cloneElement(child, {
       ...child.props,
-      key: index,
+      key: eventKey,
       classnames: classnames,
       activeKey: activeKey
     });
