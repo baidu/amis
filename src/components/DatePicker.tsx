@@ -253,8 +253,8 @@ export interface DateProps extends LocaleProps, ThemeProps {
   value?: any;
   shortcuts: string | Array<ShortCuts>;
   overlayPlacement: string;
-  minTime?: moment.Moment;
-  maxTime?: moment.Moment;
+  // minTime?: moment.Moment;
+  // maxTime?: moment.Moment;
   dateFormat?: string;
   timeConstraints?: {
     hours?: {
@@ -403,8 +403,8 @@ export class DatePicker extends React.Component<DateProps, DatePickerState> {
     const {
       onChange,
       format,
-      minTime,
-      maxTime,
+      minDate,
+      maxDate,
       dateFormat,
       timeFormat,
       closeOnSelect,
@@ -416,10 +416,10 @@ export class DatePicker extends React.Component<DateProps, DatePickerState> {
       return;
     }
 
-    if (minTime && value && value.isBefore(minTime, 'second')) {
-      value = minTime;
-    } else if (maxTime && value && value.isAfter(maxTime, 'second')) {
-      value = maxTime;
+    if (minDate && value && value.isBefore(minDate, 'second')) {
+      value = minDate;
+    } else if (maxDate && value && value.isAfter(maxDate, 'second')) {
+      value = maxDate;
     }
 
     onChange(utc ? moment.utc(value).format(format) : value.format(format));
