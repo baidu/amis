@@ -4,7 +4,7 @@ import {render, makeTranslator} from '../../src/index';
 import {normalizeLink} from '../../src/utils/normalizeLink';
 import {alert, confirm} from '../../src/components/Alert';
 import axios from 'axios';
-import stripJsonComments from 'strip-json-comments';
+import JSON5 from 'json5';
 import CodeEditor from '../../src/components/Editor';
 import copy from 'copy-to-clipboard';
 
@@ -261,14 +261,9 @@ export default class PlayGround extends React.Component {
         );
       }
 
-      schemaContent = stripJsonComments(schemaContent).replace(
-        /('|")raw:/g,
-        '$1'
-      ); // 去掉注释
+      schemaContent = schemaContent.replace(/('|")raw:/g, '$1'); // 去掉 raw
 
-      const json = {
-        ...JSON.parse(schemaContent)
-      };
+      const json = JSON5.parse(schemaContent);
 
       return json;
     } catch (e) {
@@ -324,7 +319,7 @@ export default class PlayGround extends React.Component {
       schemaCode: value
     });
     try {
-      const schema = JSON.parse(value);
+      const schema = JSON5.parse(value);
       this.setState(
         {
           schema
