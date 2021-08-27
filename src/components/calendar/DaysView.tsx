@@ -140,74 +140,78 @@ export class CustomDaysView extends DaysView {
     timeFormat.split(':').forEach((format, i) => {
       const type = /h/i.test(format)
         ? 'hours'
-        : /m/i.test(format)
+        : /m/.test(format)
         ? 'minutes'
-        : 'seconds';
-      const min = 0;
-      const max = type === 'hours' ? 23 : 59;
-      const hours = this.computedTimeOptions(24);
-      const times = this.computedTimeOptions(60);
-      const options = type === 'hours' ? hours : times;
+        : /s/.test(format)
+        ? 'seconds'
+        : '';
+      if (type) {
+        const min = 0;
+        const max = type === 'hours' ? 23 : 59;
+        const hours = this.computedTimeOptions(24);
+        const times = this.computedTimeOptions(60);
+        const options = type === 'hours' ? hours : times;
 
-      inputs.push(
-        <Downshift
-          key={i + 'input'}
-          inputValue={date.format(format)}
-        >
-          {({isOpen, getInputProps, openMenu, closeMenu}) => {
-            const inputProps = getInputProps({
-              onFocus: () => openMenu(),
-              onChange: e => this.setTime(
-                type,
-                Math.max(
-                  min,
-                  Math.min(
-                    parseInt(e.currentTarget.value.replace(/\D/g, ''), 10) || 0,
-                    max
+        inputs.push(
+          <Downshift
+            key={i + 'input'}
+            inputValue={date.format(format)}
+          >
+            {({isOpen, getInputProps, openMenu, closeMenu}) => {
+              const inputProps = getInputProps({
+                onFocus: () => openMenu(),
+                onChange: e => this.setTime(
+                  type,
+                  Math.max(
+                    min,
+                    Math.min(
+                      parseInt(e.currentTarget.value.replace(/\D/g, ''), 10) || 0,
+                      max
+                    )
                   )
                 )
+              })
+              return (
+                <div className={cx('CalendarInputWrapper')}>
+                  <input
+                    type="text"
+                    value={date.format(format)}
+                    className={cx('CalendarInput')}
+                    min={min}
+                    max={max}
+                    {...inputProps}
+                  />
+                  {
+                    isOpen ? (
+                      <div className={cx('CalendarInput-sugs')}>
+                        {options.map(option => {
+                          return (
+                            <div
+                              key={option.value}
+                              className={cx('CalendarInput-sugsItem', {
+                                'is-highlight': option.value === date.format(format)
+                              })}
+                              onClick={() => {
+                                this.setTime(
+                                  type,
+                                  parseInt(option.value, 10)
+                                );
+                                closeMenu();
+                              }}
+                            >{option.value}</div>
+                          )
+                        })}
+                      </div>
+                    ) : null
+                  }
+                </div>
               )
-            })
-            return (
-              <div className={cx('CalendarInputWrapper')}>
-                <input
-                  type="text"
-                  value={date.format(format)}
-                  className={cx('CalendarInput')}
-                  min={min}
-                  max={max}
-                  {...inputProps}
-                />
-                {
-                  isOpen ? (
-                    <div className={cx('CalendarInput-sugs')}>
-                      {options.map(option => {
-                        return (
-                          <div
-                            key={option.value}
-                            className={cx('CalendarInput-sugsItem', {
-                              'is-highlight': option.value === date.format(format)
-                            })}
-                            onClick={() => {
-                              this.setTime(
-                                type,
-                                parseInt(option.value, 10)
-                              );
-                              closeMenu();
-                            }}
-                          >{option.value}</div>
-                        )
-                      })}
-                    </div>
-                  ) : null
-                }
-              </div>
-            )
-          }}
-        </Downshift>
-      );
+            }}
+          </Downshift>
+        );
 
-      inputs.push(<span key={i + 'divider'}>:</span>);
+        inputs.push(<span key={i + 'divider'}>:</span>);
+      }
     });
 
     inputs.length && inputs.pop();
