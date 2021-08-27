@@ -20,7 +20,12 @@ module.exports = function (req, res) {
   const mockContext = {};
 
   cfcHandler(mockEvent, mockContext, (err, result) => {
-    res.set(result.headers);
-    res.status(result.statusCode).json(JSON.parse(result.body));
+    if (err) {
+      console.error(err);
+      res.status(500).json({status: 500, msg: err});
+    } else {
+      res.set(result.headers);
+      res.status(result.statusCode).json(JSON.parse(result.body));
+    }
   });
 };
