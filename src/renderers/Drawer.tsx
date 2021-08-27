@@ -710,15 +710,15 @@ export class DrawerRenderer extends Drawer {
       const pool = components.concat();
 
       while (pool.length) {
-        const item = pool.shift()!;
+        const item = pool.pop()!;
 
-        if (~['drawer', 'dialog'].indexOf(item.props.type)) {
-          continue;
-        } else if (~['page', 'service'].indexOf(item.props.type)) {
-          pool.push.apply(pool, item.context.getComponents());
-        } else if (~['crud', 'form', 'wizard'].indexOf(item.props.type)) {
+        if (~['crud', 'form', 'wizard'].indexOf(item.props.type)) {
           targets.push(item);
           break;
+        } else if (~['drawer', 'dialog'].indexOf(item.props.type)) {
+          continue;
+        } else if (~['page', 'service'].indexOf(item.props.type)) {
+          pool.unshift.apply(pool, item.context.getComponents());
         }
       }
     }
