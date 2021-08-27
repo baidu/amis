@@ -2,6 +2,8 @@
  * web component 的示例
  */
 
+import '@webcomponents/webcomponentsjs/custom-elements-es5-adapter';
+
 class RandomNumber extends HTMLElement {
   connectedCallback() {
     const prefix = this.getAttribute('prefix') || '';
