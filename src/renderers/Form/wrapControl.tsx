@@ -507,8 +507,8 @@ export function wrapControl<
 
             if (
               // 如果配置了 minLength 或者 maxLength 就切成及时验证
-              (typeof maxLength && maxLength) ||
-              (typeof minLength && minLength) ||
+              // (typeof maxLength && maxLength) ||
+              // (typeof minLength && minLength) ||
               validateOnChange === true ||
               (validateOnChange !== false && (formSubmited || validated))
             ) {

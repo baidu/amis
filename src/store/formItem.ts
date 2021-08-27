@@ -281,13 +281,13 @@ export const FormItemStore = StoreNode.named('FormItemStore')
         isRequired: self.required
       };
 
-      if (typeof minLength === 'number') {
-        rules.minLength = minLength;
-      }
+      // if (typeof minLength === 'number') {
+      //   rules.minLength = minLength;
+      // }
 
-      if (typeof maxLength === 'number') {
-        rules.maxLength = maxLength;
-      }
+      // if (typeof maxLength === 'number') {
+      //   rules.maxLength = maxLength;
+      // }
 
       if (isObjectShallowModified(rules, self.rules)) {
         self.rules = rules;
