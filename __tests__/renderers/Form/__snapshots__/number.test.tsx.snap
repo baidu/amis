@@ -49,12 +49,13 @@ exports[`Renderer:number 1`] = `
             class="cxd-NumberControl cxd-Form-control"
           >
             <div
-              class="cxd-Number"
+              class="cxd-Number cxd-Number--borderFull"
             >
               <div
                 class="cxd-Number-handler-wrap"
               >
                 <span
+                  aria-disabled="false"
                   aria-label="Increase Value"
                   class="cxd-Number-handler cxd-Number-handler-up"
                   role="button"
@@ -66,6 +67,7 @@ exports[`Renderer:number 1`] = `
                   />
                 </span>
                 <span
+                  aria-disabled="false"
                   aria-label="Decrease Value"
                   class="cxd-Number-handler cxd-Number-handler-down"
                   role="button"
