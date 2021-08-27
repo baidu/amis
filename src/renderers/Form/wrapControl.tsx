@@ -320,10 +320,6 @@ export function wrapControl<
             this.hook3 && this.props.removeHook?.(this.hook3, 'flush');
             // this.lazyEmitChange.flush();
 
-            if (this.model?.clearValueOnHidden) {
-              this.props.onChange?.(undefined, this.model.name);
-            }
-
             this.lazyEmitChange.cancel();
             this.reaction?.();
             this.disposeModel();
@@ -346,6 +342,9 @@ export function wrapControl<
               formItem &&
                 isAlive(formItem) &&
                 formItem.removeSubFormItem(this.model);
+
+              this.model.clearValueOnHidden &&
+                this.model.form?.deleteValueByName(this.model.name);
 
               rootStore.removeStore(this.model);
             }
