@@ -72,7 +72,7 @@ class BaseDatePicker extends ReactDatePicker {
       const props = origin.call(this);
       props.setDateTimeState = this.setState.bind(this);
 
-      if (this.props.minDate) {
+      if ((this.props.minDate as moment.Moment)?.isValid()) {
         props.viewDate = this.props.minDate;
       }
 
