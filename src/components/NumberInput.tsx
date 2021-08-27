@@ -22,7 +22,7 @@ export interface NumberProps extends ThemeProps {
    * 边框模式，全边框，还是半边框，或者没边框。
    */
   borderMode?: 'full' | 'half' | 'none';
-   /**
+  /**
    * 指定输入框展示值的格式
    */
   formatter?: Function;
@@ -33,7 +33,7 @@ export interface NumberProps extends ThemeProps {
 }
 
 export class NumberInput extends React.Component<NumberProps, any> {
-  static defaultProps = {
+  static defaultProps: Pick<NumberProps, 'step' | 'readOnly' | 'borderMode'> = {
     step: 1,
     readOnly: false,
     borderMode: 'full'
@@ -84,10 +84,9 @@ export class NumberInput extends React.Component<NumberProps, any> {
 
     return (
       <InputNumber
-        className={cx(className,
-          showSteps === false ? 'no-steps' : '',
-          {[`Number--border${ucFirst(borderMode)}`]: borderMode}
-        )}
+        className={cx(className, showSteps === false ? 'no-steps' : '', {
+          [`Number--border${ucFirst(borderMode)}`]: borderMode
+        })}
         readOnly={readOnly}
         prefixCls={`${ns}Number`}
         value={value}
