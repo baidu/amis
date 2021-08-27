@@ -382,10 +382,10 @@ export const components = [
         label: 'InputDatetimeRange 日期时间范围',
         path: '/zh-CN/components/form/input-datetime-range',
         getComponent: () =>
-          import(
-            // @ts-ignore
-            '../../docs/zh-CN/components/form/input-datetime-range.md'
-          ).then(makeMarkdownRenderer)
+          // @ts-ignore
+          import('../../docs/zh-CN/components/form/input-datetime-range.md').then(
+            makeMarkdownRenderer
+          )
       },
       {
         label: 'InputMonthRange 月份范围',
