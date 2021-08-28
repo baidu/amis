@@ -10,7 +10,8 @@ import {
   object2formData,
   qsstringify,
   cloneObject,
-  createObject
+  createObject,
+  qsparse
 } from './helper';
 
 const rSchema = /(?:^|raw\:)(get|post|put|delete|patch|options|head):/i;
@@ -75,7 +76,7 @@ export function buildApi(
 
   if (~idx) {
     const hashIdx = api.url.indexOf('#');
-    const params = qs.parse(
+    const params = qsparse(
       api.url.substring(idx + 1, ~hashIdx ? hashIdx : undefined)
     );
     api.url =
@@ -109,7 +110,7 @@ export function buildApi(
       const idx = api.url.indexOf('?');
       if (~idx) {
         let params = (api.query = {
-          ...qs.parse(api.url.substring(idx + 1)),
+          ...qsparse(api.url.substring(idx + 1)),
           ...data
         });
         api.url = api.url.substring(0, idx) + '?' + qsstringify(params);
@@ -123,7 +124,7 @@ export function buildApi(
       const idx = api.url.indexOf('?');
       if (~idx) {
         let params = (api.query = {
-          ...qs.parse(api.url.substring(idx + 1)),
+          ...qsparse(api.url.substring(idx + 1)),
           ...api.data
         });
         api.url = api.url.substring(0, idx) + '?' + qsstringify(params);

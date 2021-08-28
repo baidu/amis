@@ -19,7 +19,8 @@ import {
   noop,
   isVisible,
   getVariable,
-  qsstringify
+  qsstringify,
+  qsparse
 } from '../utils/helper';
 import {observer} from 'mobx-react';
 import partition from 'lodash/partition';
@@ -435,14 +436,14 @@ export default class CRUD extends React.Component<CRUDProps, any> {
 
     if (syncLocation && location && (location.query || location.search)) {
       store.updateQuery(
-        qs.parse(location.search.substring(1)),
+        qsparse(location.search.substring(1)),
         undefined,
         pageField,
         perPageField
       );
     } else if (syncLocation && !location && window.location.search) {
       store.updateQuery(
-        qs.parse(window.location.search.substring(1)) as object,
+        qsparse(window.location.search.substring(1)) as object,
         undefined,
         pageField,
         perPageField
@@ -517,7 +518,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
     ) {
       // 同步地址栏，那么直接检测 query 是否变了，变了就重新拉数据
       store.updateQuery(
-        qs.parse(props.location.search.substring(1)),
+        qsparse(props.location.search.substring(1)),
         undefined,
         props.pageField,
         props.perPageField
@@ -804,18 +805,11 @@ export default class CRUD extends React.Component<CRUDProps, any> {
       perPageField,
       loadDataOnceFetchOnFilter
     } = this.props;
+
     values = syncLocation
-      ? qs.parse(
-          qsstringify(
-            values,
-            {
-              arrayFormat: 'indices',
-              encodeValuesOnly: true
-            },
-            true
-          )
-        )
+      ? qsparse(qsstringify(values, undefined, true))
       : values;
+
     store.updateQuery(
       {
         ...values,
