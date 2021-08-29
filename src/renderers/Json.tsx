@@ -97,6 +97,13 @@ export class JSONField extends React.Component<JSONProps, object> {
       }
     }
 
+    // JsonView 只支持对象，所以不是对象格式需要转成对象格式。
+    if (data && ~['string', 'number'].indexOf(typeof data)) {
+      data = {
+        [typeof data]: data
+      };
+    }
+
     return (
       <div className={cx('JsonField', className)}>
         {typeof data === 'undefined' || data === null ? (
