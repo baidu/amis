@@ -22,7 +22,7 @@ import 'history';
 
 export function embed(
   container: string | HTMLElement,
-  schema?: any,
+  schema: any,
   props?: any,
   env?: any
 ) {
