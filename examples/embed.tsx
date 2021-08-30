@@ -23,10 +23,10 @@ import 'history';
 export function embed(
   container: string | HTMLElement,
   schema: any,
-  props: any,
-  env: any
+  props?: any,
+  env?: any
 ) {
-  const __ = makeTranslator(env.locale || props.locale);
+  const __ = makeTranslator(env?.locale || props?.locale);
 
   if (typeof container === 'string') {
     container = document.querySelector(container) as HTMLElement;
