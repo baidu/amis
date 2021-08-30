@@ -96,17 +96,106 @@ export interface TabsProps extends ThemeProps {
   toolbar?: React.ReactNode;
 }
 
-export class Tabs extends React.Component<TabsProps> {
+export class Tabs extends React.Component<TabsProps, any> {
   static defaultProps: Pick<TabsProps, 'mode' | 'contentClassName'> = {
     mode: '',
     contentClassName: ''
   };
 
   static Tab = Tab;
+  navMain = React.createRef<HTMLDivElement>();
+
+  constructor(props: TabsProps) {
+    super(props);
+    this.state = {
+      isOverflow: false
+    };
+  }
+
+  componentDidMount() {
+    this.computedWidth();
+  }
+
+  componentDidUpdate() {
+    this.computedWidth();
+  }
+
+  /**
+   * 处理内容与容器之间的位置关系
+   */
+  computedWidth() {
+    const {mode: dMode, tabsMode,} = this.props;
+    const mode = tabsMode || dMode;
+    if (mode === 'vertical') {
+      return;
+    }
+    const navMainRef = this.navMain.current;
+    const clientWidth: number = navMainRef?.clientWidth || 0;
+    const scrollWidth: number = navMainRef?.scrollWidth || 0;
+    const isOverflow = scrollWidth > clientWidth;
+    // 内容超出容器长度标记溢出
+    if (isOverflow !== this.state.isOverflow) {
+      this.setState({isOverflow});
+    }
+    if (isOverflow) {
+      this.showSelected();
+    }
+  }
+  /**
+   * 保证选中的tab始终显示在可视区域的最左边
+   */
+  showSelected(key?: string | number) {
+    const {mode: dMode, tabsMode,} = this.props;
+    const {isOverflow} = this.state;
+    const mode = tabsMode || dMode;
+    if (mode === 'vertical' && !isOverflow) {
+      return;
+    }
+    const {activeKey, children} = this.props;
+    const currentKey = key || activeKey;
+    const currentIndex = (children as any[])?.findIndex((item: any) => item.props.eventKey === currentKey);
+    const li = this.navMain.current?.children[0]?.children || [];
+    const currentLi = li[currentIndex] as HTMLElement;
+    const liOffsetLeft = currentLi?.offsetLeft - 20;
+    const liClientWidth = currentLi?.clientWidth;
+    const scrollLeft = this.navMain.current?.scrollLeft || 0;
+    const clientWidth = this.navMain.current?.clientWidth || 0;
+
+    // 左边被遮住了
+    if (scrollLeft > liOffsetLeft) {
+      this.navMain.current?.scrollTo({
+        left: liOffsetLeft,
+        behavior: 'smooth'
+      });
+    }
+    // 右边被遮住了
+    if (liOffsetLeft + liClientWidth > scrollLeft + clientWidth) {
+      this.navMain.current?.scrollTo({
+        left: liOffsetLeft + liClientWidth - clientWidth,
+        behavior: 'smooth'
+      });
+    }
+
+  }
 
   handleSelect(key: string | number) {
     const {onSelect} = this.props;
+    this.showSelected(key);
     onSelect && onSelect(key);
+  }
+
+  handleArrow(type: 'left' | 'right') {
+    if (type === 'left') {
+      this.navMain.current?.scrollTo({
+        left: 0,
+        behavior: 'smooth'
+      });
+    } else {
+      this.navMain.current?.scrollTo({
+        left: this.navMain.current?.scrollWidth,
+        behavior: 'smooth'
+      });
+    }
   }
 
   renderNav(child: any, index: number) {
@@ -212,6 +301,23 @@ export class Tabs extends React.Component<TabsProps> {
     });
   }
 
+  renderArrow(type: 'left' | 'right') {
+    const {mode: dMode, tabsMode,} = this.props;
+    const mode = tabsMode || dMode;
+    if (mode === 'vertical') {
+      return;
+    }
+    const {classnames: cx} = this.props;
+    const {isOverflow} = this.state;
+    return (isOverflow
+      ? (<div onClick={() => this.handleArrow(type)}
+          className={cx('Tabs-linksContainer-arrow', 'Tabs-linksContainer-arrow--' + type)}>
+          <i className={'iconfont icon-arrow-' + type} />
+        </div>)
+      : null
+    )
+  }
+
   render() {
     const {
       classnames: cx,
@@ -224,7 +330,7 @@ export class Tabs extends React.Component<TabsProps> {
       toolbar,
       linksClassName
     } = this.props;
-
+    const {isOverflow} = this.state;
     if (!Array.isArray(children)) {
       return null;
     }
@@ -241,12 +347,21 @@ export class Tabs extends React.Component<TabsProps> {
           className
         )}
       >
-        <ul className={cx('Tabs-links', linksClassName)} role="tablist">
-          {children.map((tab, index) => this.renderNav(tab, index))}
-          {additionBtns}
-          {toolbar}
-        </ul>
-
+        <div className={cx('Tabs-linksContainer', isOverflow && 'Tabs-linksContainer--overflow')}>
+          {this.renderArrow('left')}
+          <div
+            className={cx(
+              mode !== 'vertical' && 'Tabs-linksContainer-main--scroll'
+            )}
+            ref={this.navMain}>
+            <ul className={cx('Tabs-links', linksClassName)} role="tablist">
+              {children.map((tab, index) => this.renderNav(tab, index))}
+              {additionBtns}
+              {toolbar}
+            </ul>
+          </div>
+          {this.renderArrow('right')}
+        </div>
         <div className={cx('Tabs-content', contentClassName)}>
           {children.map((child, index) => {
             return this.renderTab(child, index);
