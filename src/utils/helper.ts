@@ -1319,6 +1319,17 @@ export function qsstringify(
   return qs.stringify(data, options);
 }
 
+export function qsparse(
+  data: string,
+  options: any = {
+    arrayFormat: 'indices',
+    encodeValuesOnly: true,
+    depth: 1000 // 默认是 5， 所以condition-builder只要来个条件组就会导致报错
+  }
+) {
+  return qs.parse(data, options);
+}
+
 export function object2formData(
   data: any,
   options: any = {
