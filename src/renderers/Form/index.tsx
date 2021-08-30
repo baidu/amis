@@ -18,7 +18,8 @@ import {
   SkipOperation,
   isEmpty,
   getVariable,
-  isObjectShallowModified
+  isObjectShallowModified,
+  qsparse
 } from '../../utils/helper';
 import debouce from 'lodash/debounce';
 import flatten from 'lodash/flatten';
@@ -1701,7 +1702,7 @@ export class FormRenderer extends Form {
     const idx2 = target ? target.indexOf('?') : -1;
     if (~idx2) {
       subQuery = dataMapping(
-        qs.parse((target as string).substring(idx2 + 1)),
+        qsparse((target as string).substring(idx2 + 1)),
         ctx
       );
       target = (target as string).substring(0, idx2);

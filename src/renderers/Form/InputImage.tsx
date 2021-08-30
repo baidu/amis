@@ -9,7 +9,13 @@ import find from 'lodash/find';
 import qs from 'qs';
 import {Payload} from '../../types';
 import {buildApi} from '../../utils/api';
-import {createObject, qsstringify, guid, isEmpty} from '../../utils/helper';
+import {
+  createObject,
+  qsstringify,
+  guid,
+  isEmpty,
+  qsparse
+} from '../../utils/helper';
 import {Icon} from '../../components/icons';
 import Button from '../../components/Button';
 import accepts from 'attr-accept';
@@ -1037,7 +1043,7 @@ export default class ImageControl extends React.Component<
 
     if (~idx && params) {
       params = {
-        ...qs.parse(api.url.substring(idx + 1)),
+        ...qsparse(api.url.substring(idx + 1)),
         ...params
       };
       api.url = api.url.substring(0, idx) + '?' + qsstringify(params);
@@ -1213,8 +1219,7 @@ export default class ImageControl extends React.Component<
               <Cropper {...crop} ref={this.cropper} src={cropFile.preview} />
             </Suspense>
             <div className={cx('ImageControl-croperToolbar')}>
-              {
-                crop.rotatable &&
+              {crop.rotatable && (
                 <a
                   className={cx('ImageControl-cropRotatable')}
                   onClick={this.rotatableCrop}
@@ -1223,7 +1228,7 @@ export default class ImageControl extends React.Component<
                 >
                   <Icon icon="retry" className="icon" />
                 </a>
-              }
+              )}
               <a
                 className={cx('ImageControl-cropCancel')}
                 onClick={this.cancelCrop}

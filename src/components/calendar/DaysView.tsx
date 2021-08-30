@@ -151,11 +151,16 @@ export class CustomDaysView extends DaysView {
         const hours = this.computedTimeOptions(24);
         const times = this.computedTimeOptions(60);
         const options = type === 'hours' ? hours : times;
+        const formatMap = {
+          hours: 'HH',
+          minutes: 'mm',
+          seconds: 'ss'
+        };
 
         inputs.push(
           <Downshift
             key={i + 'input'}
-            inputValue={date.format(format)}
+            inputValue={date.format(formatMap[type])}
           >
             {({isOpen, getInputProps, openMenu, closeMenu}) => {
               const inputProps = getInputProps({
@@ -175,7 +180,7 @@ export class CustomDaysView extends DaysView {
                 <div className={cx('CalendarInputWrapper')}>
                   <input
                     type="text"
-                    value={date.format(format)}
+                    value={date.format(formatMap[type])}
                     className={cx('CalendarInput')}
                     min={min}
                     max={max}
@@ -189,7 +194,7 @@ export class CustomDaysView extends DaysView {
                             <div
                               key={option.value}
                               className={cx('CalendarInput-sugsItem', {
-                                'is-highlight': option.value === date.format(format)
+                                'is-highlight': option.value === date.format(formatMap[type])
                               })}
                               onClick={() => {
                                 this.setTime(
