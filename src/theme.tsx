@@ -148,7 +148,7 @@ export function themeable<
         ComposedComponent.displayName || ComposedComponent.name
       })`;
       static contextType = ThemeContext;
-      static ComposedComponent = ComposedComponent;
+      static ComposedComponent = ComposedComponent as React.ComponentType<T>;
 
       render() {
         const theme: string = this.props.theme || this.context || defaultTheme;

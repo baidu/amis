@@ -1924,7 +1924,8 @@ export default class Table extends React.Component<TableProps, object> {
               rowIndex += 1;
               const sheetRow = worksheet.getRow(rowIndex);
               let columIndex = 0;
-              for (const column of columns) {
+              const cols = columns as any[]; // 为啥 ts 4.4 得这么做？
+              for (const column of cols) {
                 columIndex += 1;
                 const name = column.name!;
                 const value = getVariable(row.data, name);

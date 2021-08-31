@@ -182,7 +182,7 @@ export function withRemoteConfig<P = any>(
           static displayName = `WithRemoteConfig(${
             ComposedComponent.displayName || ComposedComponent.name
           })`;
-          static ComposedComponent = ComposedComponent;
+          static ComposedComponent = ComposedComponent as React.ComponentType<T>;
           static contextType = EnvContext;
           toDispose: Array<() => void> = [];
 
