@@ -246,7 +246,11 @@ export function wrapFetcher(
 
     api.requestAdaptor && (api = api.requestAdaptor(api) || api);
 
-    if (api.data && (hasFile(api.data) || api.dataType === 'form-data')) {
+    if (
+      api.data &&
+      !(api.data instanceof FormData) &&
+      (hasFile(api.data) || api.dataType === 'form-data')
+    ) {
       api.data = object2formData(api.data, api.qsOptions);
     } else if (
       api.data &&
