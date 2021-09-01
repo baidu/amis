@@ -1,6 +1,6 @@
 .#{$ns}NestedSelect {
   position: relative;
-
+  @include input-border();
   &-optionArrowRight {
     display: inline-block;
     padding-right: px2rem(10px);
