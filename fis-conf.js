@@ -180,14 +180,18 @@ fis.match('{*.ts,*.jsx,*.tsx,/src/**.js,/src/**.ts}', {
     }),
 
     function (content) {
-      return content
-        .replace(/\b[a-zA-Z_0-9$]+\.__uri\s*\(/g, '__uri(')
-        .replace(
-          /(return|=>)\s*(tslib_\d+)\.__importStar\(require\(('|")(.*?)\3\)\)/g,
-          function (_, r, tslib, quto, value) {
-            return `${r} new Promise(function(resolve){require(['${value}'], function(ret) {resolve(${tslib}.__importStar(ret));})})`;
-          }
-        );
+      return (
+        content
+          // ts 4.4 生成的代码是 (0, tslib_1.__importStar)，直接改成 tslib_1.__importStar
+          .replace(/\(\d+, (tslib_\d+\.__importStar)\)/g, '$1')
+          .replace(/\b[a-zA-Z_0-9$]+\.__uri\s*\(/g, '__uri(')
+          .replace(
+            /(return|=>)\s*(tslib_\d+)\.__importStar\(require\(('|")(.*?)\3\)\)/g,
+            function (_, r, tslib, quto, value) {
+              return `${r} new Promise(function(resolve){require(['${value}'], function(ret) {resolve(${tslib}.__importStar(ret));})})`;
+            }
+          )
+      );
     }
   ],
   preprocessor: fis.plugin('js-require-css'),
@@ -331,6 +335,7 @@ if (fis.project.currentMedia() === 'publish') {
               );
             }
           )
+          .replace(/\(\d+, (tslib_\d+\.__importStar)\)/g, '$1')
           .replace(
             /return\s+(tslib_\d+)\.__importStar\(require\(('|")(.*?)\2\)\);/g,
             function (_, tslib, quto, value) {
@@ -443,6 +448,7 @@ if (fis.project.currentMedia() === 'publish') {
       function (content) {
         return content
           .replace(/\b[a-zA-Z_0-9$]+\.__uri\s*\(/g, '__uri(')
+          .replace(/\(\d+, (tslib_\d+\.__importStar)\)/g, '$1')
           .replace(
             /return\s+(tslib_\d+)\.__importStar\(require\(('|")(.*?)\2\)\);/g,
             function (_, tslib, quto, value) {
@@ -932,6 +938,7 @@ if (fis.project.currentMedia() === 'publish') {
               );
             }
           )
+          .replace(/\(\d+, (tslib_\d+\.__importStar)\)/g, '$1')
           .replace(
             /return\s+(tslib_\d+)\.__importStar\(require\(('|")(.*?)\2\)\);/g,
             function (_, tslib, quto, value) {
