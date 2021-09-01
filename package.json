@@ -15,7 +15,8 @@
     "build": "sh build.sh",
     "prettier": "prettier --write '{src,examples,scss}/**/*.{tsx,ts,jsx,scss}'",
     "deploy-gh-page": "sh ./deploy-gh-pages.sh",
-    "build-schemas": "ts-node -O '{\"target\":\"es6\"}' scripts/build-schemas.ts"
+    "build-schemas": "ts-node -O '{\"target\":\"es6\"}' scripts/build-schemas.ts",
+    "prepare": "husky install"
   },
   "repository": {
     "type": "git",
@@ -45,7 +46,7 @@
     "classnames": "2.3.1",
     "dom-helpers": "^3.3.1",
     "downshift": "3.1.4",
-    "echarts": "5.1.2",
+    "echarts": "5.2.0",
     "echarts-stat": "^1.2.0",
     "exceljs": "^4.3.0",
     "file-saver": "^2.0.2",
@@ -146,20 +147,20 @@
     "fs-walk": "0.0.2",
     "glob": "^7.1.6",
     "history": "^4.7.2",
-    "husky": "^2.2.0",
+    "husky": "^7.0.0",
     "jest": "^27.0.6",
     "jest-canvas-mock": "^2.3.0",
     "js-yaml": "^3.10.0",
     "json5": "^2.2.0",
-    "lint-staged": "^8.1.6",
     "marked": "2.0.1",
     "mkdirp": "^1.0.4",
     "moment-timezone": "^0.5.33",
     "path-to-regexp": "^6.2.0",
     "postcss": "^8.2.1",
     "postcss-cli": "^8.3.1",
-    "postcss-custom-properties": "^10.0.0",
-    "prettier": "2.2.1",
+    "postcss-custom-properties": "^11.0.0",
+    "prettier": "2.3.2",
+    "pretty-quick": "^3.1.1",
     "prismjs": "^1.20.0",
     "react-router": "3.2.0",
     "react-test-renderer": "^16.8.6",
@@ -225,16 +226,5 @@
         }
       }
     }
-  },
-  "_husky": {
-    "hooks": {
-      "pre-commit": "lint-staged"
-    }
-  },
-  "lint-staged": {
-    "*.{js,ts,tsx,jsx,css,less,md}": [
-      "prettier --write",
-      "git add"
-    ]
   }
 }
