@@ -143,6 +143,10 @@ export interface TabsSchema extends BaseSchema {
    * 如果是水平排版，这个属性可以细化水平排版的左右宽度占比。
    */
   subFormHorizontal?: FormSchemaHorizontal;
+  /**
+   * 是否支持溢出滚动
+   */
+   scrollable?: boolean;
 }
 
 export interface TabsProps
@@ -436,7 +440,8 @@ export default class Tabs extends React.Component<TabsProps, TabsState> {
       formMode,
       formHorizontal,
       subFormMode,
-      subFormHorizontal
+      subFormHorizontal,
+      scrollable
     } = this.props;
 
     const mode = tabsMode || dMode;
@@ -544,6 +549,7 @@ export default class Tabs extends React.Component<TabsProps, TabsState> {
         onSelect={this.handleSelect}
         activeKey={this.state.activeKey}
         toolbar={this.renderToolbar()}
+        scrollable={scrollable}
       >
         {children}
       </CTabs>
