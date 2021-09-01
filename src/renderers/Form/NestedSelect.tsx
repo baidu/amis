@@ -10,7 +10,8 @@ import {
   filterTree,
   string2regExp,
   getTreeAncestors,
-  getTreeParent
+  getTreeParent,
+  ucFirst
 } from '../../utils/helper';
 import {
   FormOptionsControl,
@@ -29,6 +30,10 @@ import union from 'lodash/union';
  */
 export interface NestedSelectControlSchema extends FormOptionsControl {
   type: 'nested-select';
+  /**
+   * 边框模式，全边框，还是半边框，或者没边框。
+   */
+   borderMode?: 'full' | 'half' | 'none';
 }
 
 export interface NestedSelectProps extends OptionsControlProps {
@@ -556,7 +561,8 @@ export default class NestedSelectControl extends React.Component<
       autoComplete,
       selectedOptions,
       clearable,
-      loading
+      loading,
+      borderMode
     } = this.props;
 
     return (
@@ -571,7 +577,8 @@ export default class NestedSelectControl extends React.Component<
             'NestedSelect--multi': multiple,
             'NestedSelect--searchable': searchable,
             'is-opened': this.state.isOpened,
-            'is-focused': this.state.isFocused
+            'is-focused': this.state.isFocused,
+            [`NestedSelect--border${ucFirst(borderMode)}`]: borderMode,
           })}
           result={
             multiple
