@@ -1,11 +1,59 @@
 .#{$ns}Tabs {
+  &-linksContainer {
+    position: relative;
+
+    &-arrow {
+      height: 100%;
+      display: flex;
+      align-items: center;
+      top: 0;
+      cursor: pointer;
+      position: absolute;
+      .iconfont {
+        font-size: var(--Remark-icon-fontSize);
+      }
+      &:hover {
+        color: var(--icon-onHover-color);
+      }
+    }
+    &-arrow--left {
+      left: 4px;
+    }
+    &-arrow--right {
+      right: 4px;
+    }
+    &-arrow--disabled {
+      .iconfont {
+        cursor: not-allowed;
+        color: var(--Number-handler-onDisabled-color);
+      }
+      &:hover {
+        color: var(--Number-handler-onDisabled-color);
+      }
+    }
+    &-main {
+      overflow-y: auto;
+      scrollbar-width: none;
+      width: 100%;
+      &::-webkit-scrollbar {
+        display: none;
+      }
+      > .#{$ns}Tabs-links {
+        white-space: nowrap;
+        min-width: 100%;
+        display: inline-block;
+      }
+    }
+  }
+  .#{$ns}Tabs-linksContainer--overflow {
+    padding: 0 20px;
+  }
   &-links {
     margin: 0;
     padding: 0;
     border-bottom: var(--Tabs-borderWidth) solid var(--Tabs-borderColor);
     list-style: none;
     user-select: none;
-
     @include clearfix();
 
     > .#{$ns}Tabs-link {
@@ -90,7 +138,11 @@
   }
 
   &--line {
-    > .#{$ns}Tabs-links {
+    > .#{$ns}Tabs-linksContainer > .#{$ns}Tabs-linksContainer-arrow {
+      top: -4px;
+    }
+
+    > .#{$ns}Tabs-links, > .#{$ns}Tabs-linksContainer > .#{$ns}Tabs-linksContainer-main > .#{$ns}Tabs-links {
       border-bottom-color: var(--Tabs--line-borderColor);
 
       > li {
@@ -133,7 +185,10 @@
   }
 
   &--card {
-    > .#{$ns}Tabs-links {
+    > .#{$ns}Tabs-linksContainer {
+      background: var(--Tabs--card-bg);
+    }
+    > .#{$ns}Tabs-links, > .#{$ns}Tabs-linksContainer > .#{$ns}Tabs-linksContainer-main > .#{$ns}Tabs-links {
       padding: var(--Tabs--card-padding);
       background: var(--Tabs--card-bg);
       border-top: px2rem(1px) solid var(--Tabs--card-borderTopColor);
@@ -170,7 +225,10 @@
   }
 
   &--radio {
-    > .#{$ns}Tabs-links {
+    > .#{$ns}Tabs-linksContainer > .#{$ns}Tabs-linksContainer-arrow {
+      top: -4px;
+    }
+    > .#{$ns}Tabs-links, > .#{$ns}Tabs-linksContainer > .#{$ns}Tabs-linksContainer-main > .#{$ns}Tabs-links {
       border: 0;
       margin-bottom: px2rem(10px);
 
@@ -222,7 +280,7 @@
   // todo 第一个选中，有一像素的空隙待修复。
   // 不带眼镜应该看不出来。
   &--tiled {
-    > .#{$ns}Tabs-links {
+    > .#{$ns}Tabs-links, > .#{$ns}Tabs-linksContainer > .#{$ns}Tabs-linksContainer-main > .#{$ns}Tabs-links {
       width: 100%;
       display: flex;
       flex-direction: row;
@@ -318,7 +376,10 @@
   }
 
   &--chrome {
-    > .#{$ns}Tabs-links {
+    > .#{$ns}Tabs-linksContainer {
+      background: var(--Tabs--chrome-bg);
+    }
+    > .#{$ns}Tabs-links, > .#{$ns}Tabs-linksContainer > .#{$ns}Tabs-linksContainer-main > .#{$ns}Tabs-links {
       background: var(--Tabs--chrome-bg);
       border-bottom: 0;
       padding-top: px2rem(8px);
