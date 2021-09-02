@@ -1194,6 +1194,8 @@
   --Tabs--vertical-onActive-container-bg: var(--Tabs--vertical-bg);
   --Tabs--chrome-onHover-bg: #f6f7f8;
   --Tabs--chrome-bg: #e7eaed;
+  --Tabs--chrome-radius-size: #{px2rem(8px)};
+  --Tabs--chrome-right-boder-color: var(--borderColorDarken);
 
   --TagControl-sugBtn-bg: var(--Button--default-bg);
   --TagControl-sugBtn-border: var(--Button--default-border);

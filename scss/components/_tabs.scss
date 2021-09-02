@@ -376,24 +376,29 @@
   }
 
   &--chrome {
-    > .#{$ns}Tabs-linksContainer {
-      background: var(--Tabs--chrome-bg);
-    }
-    > .#{$ns}Tabs-links, > .#{$ns}Tabs-linksContainer > .#{$ns}Tabs-linksContainer-main > .#{$ns}Tabs-links {
+    > .#{$ns}Tabs-links {
       background: var(--Tabs--chrome-bg);
       border-bottom: 0;
+      padding: 0 px2rem(10px);
       padding-top: px2rem(8px);
+      display: flex;
       > li {
         position: relative;
         margin-bottom: 0;
-        margin-right: px2rem(-18px);
+        white-space: nowrap;
+        min-width: 0;
+        max-width: px2rem(250px);
+        padding: px2rem(7px) px2rem(20px) px2rem(6px);
+        cursor: pointer;
+        flex: 1;
 
         > a:first-child {
           background: none;
           border: none;
           position: relative;
           z-index: 5;
-          padding: px2rem(7px) px2rem(20px) px2rem(6px);
+          overflow: hidden;
+          padding: 0;
         }
 
         &.is-active {
@@ -403,29 +408,46 @@
             background: none;
             border: none;
           }
+          &:after {
+            display: none;
+          }
+        }
+
+        &:after {
+          content: '';
+          width: 1px;
+          height: calc(100% - var(--Tabs--chrome-radius-size) * 2);
+          position: absolute;
+          right: -2px;
+          background: var(--Tabs--chrome-right-boder-color);
+          top: var(--Tabs--chrome-radius-size)
         }
 
         &:hover {
           .chrome-tab-background {
             z-index: 3;
             display: block;
+            background-color: var(--Tabs--chrome-onHover-bg);
           }
-          .chrome-tab-background > svg .chrome-tab-geometry {
+          .chrome-tab-background > svg {
             fill: var(--Tabs--chrome-onHover-bg);
+          }
+          &:after {
+            display: none;
           }
         }
 
         &.is-active {
           .chrome-tab-background {
             display: block;
+            background-color: var(--Tabs-onActive-bg);
           }
-          .chrome-tab-background > svg .chrome-tab-geometry {
+          .chrome-tab-background > svg {
             fill: var(--Tabs-onActive-bg);
           }
         }
       }
     }
-
     .chrome-tab-background {
       display: none;
       position: absolute;
@@ -434,12 +456,20 @@
       left: 0;
       width: 100%;
       height: 100%;
-      overflow: hidden;
       pointer-events: none;
-    }
-    .chrome-tab-background > svg {
-      width: 100%;
-      height: 100%;
+      border-radius: var(--Tabs--chrome-radius-size) var(--Tabs--chrome-radius-size) 0 0;
+      > svg {
+        width: var(--Tabs--chrome-radius-size);
+        height: var(--Tabs--chrome-radius-size);
+        bottom: 0;
+        position: absolute;
+      }
+      > .chrome-tab-background--right {
+        right: calc(var(--Tabs--chrome-radius-size) * -1);
+      }
+      > .chrome-tab-background--left {
+        left: calc(var(--Tabs--chrome-radius-size) * -1);
+      }
     }
   }
 
