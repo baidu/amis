@@ -430,4 +430,4 @@ order: 68
 | tabs[x].className     | `string`                          | `"bg-white b-l b-r b-b wrapper-md"` | Tab 区域样式                                             |
 | mountOnEnter          | `boolean`                         | false                               | 只有在点中 tab 的时候才渲染                              |
 | unmountOnExit         | `boolean`                         | false                               | 切换 tab 的时候销毁                                      |
-| scrollable            | `boolean`                         | false                               | 是否导航支持内容溢出滚动                                   |
+| scrollable            | `boolean`                         | false                               | 是否导航支持内容溢出滚动，`vertical`和`chrome`模式下不支持该属性；`chrome`模式默认压缩标签                    |

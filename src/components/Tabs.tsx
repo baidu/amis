@@ -22,7 +22,7 @@ const transitionStyles: {
 };
 
 export interface TabProps extends ThemeProps {
-  title?: string; // 标题
+  title?: string | React.ReactNode; // 标题
   icon?: string;
   iconPosition?: 'left' | 'right';
   disabled?: boolean | string;
@@ -336,39 +336,13 @@ export class Tabs extends React.Component<TabsProps, any> {
           )}
           {React.isValidElement(toolbar) ? toolbar : null}
         </a>
-        {/* svg 来自 https://github.com/adamschwartz/chrome-tabs */}
         {mode === 'chrome' ? (
           <div className="chrome-tab-background">
-            <svg version="1.1" xmlns="http://www.w3.org/2000/svg">
-              <defs>
-                <symbol id="chrome-tab-geometry-left" viewBox="0 0 214 36">
-                  <path d="M17 0h197v36H0v-2c4.5 0 9-3.5 9-8V8c0-4.5 3.5-8 8-8z" />
-                </symbol>
-                <symbol id="chrome-tab-geometry-right" viewBox="0 0 214 36">
-                  <use href="#chrome-tab-geometry-left" />
-                </symbol>
-                <clipPath id="crop">
-                  <rect className="mask" width="100%" height="100%" x="0" />
-                </clipPath>
-              </defs>
-              <svg width="52%" height="100%">
-                <use
-                  href="#chrome-tab-geometry-left"
-                  width="214"
-                  height="36"
-                  className="chrome-tab-geometry"
-                />
-              </svg>
-              <g transform="scale(-1, 1)">
-                <svg width="52%" height="100%" x="-100%" y="0">
-                  <use
-                    href="#chrome-tab-geometry-right"
-                    width="214"
-                    height="36"
-                    className="chrome-tab-geometry"
-                  />
-                </svg>
-              </g>
+            <svg viewBox="0 0 124 124" className="chrome-tab-background--right">
+              <path d="M0,0 C0,68.483309 55.516691,124 124,124 L0,124 L0,-1 C0.00132103964,-0.667821298 0,-0.334064922 0,0 Z"></path>
+            </svg>
+            <svg viewBox="0 0 124 124" className="chrome-tab-background--left">
+              <path d="M124,0 L124,125 L0,125 L0,125 C68.483309,125 124,69.483309 124,1 L123.992,0 L124,0 Z"></path>
             </svg>
           </div>
         ) : null}
@@ -448,7 +422,7 @@ export class Tabs extends React.Component<TabsProps, any> {
         )}
       >
         {
-          scrollable && mode !== 'vertical' ?
+          scrollable && !['vertical', 'chrome'].includes(mode) ?
             (<div className={cx('Tabs-linksContainer', isOverflow && 'Tabs-linksContainer--overflow')}>
               {this.renderArrow('left')}
               <div
