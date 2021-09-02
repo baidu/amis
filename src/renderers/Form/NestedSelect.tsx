@@ -33,7 +33,12 @@ export interface NestedSelectControlSchema extends FormOptionsControl {
   /**
    * 边框模式，全边框，还是半边框，或者没边框。
    */
-   borderMode?: 'full' | 'half' | 'none';
+  borderMode?: 'full' | 'half' | 'none';
+
+  /**
+   * 弹框的 css 类
+   */
+  menuClassName?: string;
 }
 
 export interface NestedSelectProps extends OptionsControlProps {
@@ -147,13 +152,8 @@ export default class NestedSelectControl extends React.Component<
 
   @autobind
   handleOptionClick(option: Option) {
-    const {
-      multiple,
-      onChange,
-      joinValues,
-      extractValue,
-      valueField
-    } = this.props;
+    const {multiple, onChange, joinValues, extractValue, valueField} =
+      this.props;
 
     if (multiple) {
       return;
@@ -395,6 +395,7 @@ export default class NestedSelectControl extends React.Component<
       checkAllLabel,
       translate: __,
       labelField,
+      menuClassName,
       cascade
     } = this.props;
     const valueField = this.props.valueField || 'value';
@@ -407,7 +408,7 @@ export default class NestedSelectControl extends React.Component<
     return (
       <>
         {stack.map((options, index) => (
-          <div key={index} className={cx('NestedSelect-menu')}>
+          <div key={index} className={cx('NestedSelect-menu', menuClassName)}>
             {multiple && checkAll && index === 0 ? (
               <div className={cx('NestedSelect-option', 'checkall')}>
                 <Checkbox
@@ -529,9 +530,7 @@ export default class NestedSelectControl extends React.Component<
           {options.length ? (
             this.renderOptions()
           ) : (
-            <div className={cx('NestedSelect-noResult')}>
-              {noResultsText}
-            </div>
+            <div className={cx('NestedSelect-noResult')}>{noResultsText}</div>
           )}
         </div>
       </RootCloseWrapper>
@@ -578,7 +577,7 @@ export default class NestedSelectControl extends React.Component<
             'NestedSelect--searchable': searchable,
             'is-opened': this.state.isOpened,
             'is-focused': this.state.isFocused,
-            [`NestedSelect--border${ucFirst(borderMode)}`]: borderMode,
+            [`NestedSelect--border${ucFirst(borderMode)}`]: borderMode
           })}
           result={
             multiple
