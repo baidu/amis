@@ -82,7 +82,7 @@ export function setDefaultTheme(theme: string) {
 }
 
 export function classnames(...classes: ClassValue[]) {
-  return getTheme(defaultTheme).classnames(...classes);
+  return getTheme(defaultTheme).classnames.apply(null, classes);
 }
 
 export function getClassPrefix() {
