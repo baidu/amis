@@ -10,6 +10,7 @@ cp schema.json npm
 cp -rf scss npm
 cp -rf sdk npm
 cp .npmignore npm
+cp -rf node_modules npm
 
 cd npm
 
