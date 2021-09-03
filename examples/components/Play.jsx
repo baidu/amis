@@ -190,7 +190,7 @@ export default class PlayGround extends React.Component {
         toast[type]
           ? toast[type](
               msg,
-              type === 'error' ? __('System.error') : __('System.message')
+              type === 'error' ? __('System.error') : __('System.notify')
             )
           : console.warn('[Notify]', type, msg),
       alert,
