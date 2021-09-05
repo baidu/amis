@@ -1,6 +1,6 @@
 {
   "name": "amis",
-  "version": "1.2.4-beta.4",
+  "version": "1.2.4-beta.5",
   "description": "一种MIS页面生成工具",
   "main": "lib/index.js",
   "scripts": {
@@ -15,8 +15,7 @@
     "build": "sh build.sh",
     "prettier": "prettier --write '{src,examples,scss}/**/*.{tsx,ts,jsx,scss}'",
     "deploy-gh-page": "sh ./deploy-gh-pages.sh",
-    "build-schemas": "ts-node -O '{\"target\":\"es6\"}' scripts/build-schemas.ts",
-    "prepare": "husky install"
+    "build-schemas": "ts-node -O '{\"target\":\"es6\"}' scripts/build-schemas.ts"
   },
   "repository": {
     "type": "git",
