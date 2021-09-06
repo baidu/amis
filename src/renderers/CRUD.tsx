@@ -308,7 +308,7 @@ export type CRUDListSchema = CRUDCommonSchema & {
   mode: 'list';
 } & Omit<ListSchema, 'type'>;
 
-export type CRUDTableSchem = CRUDCommonSchema & {
+export type CRUDTableSchema = CRUDCommonSchema & {
   mode?: 'table';
 } & Omit<TableSchema, 'type'>;
 
@@ -316,7 +316,7 @@ export type CRUDTableSchem = CRUDCommonSchema & {
  * CRUD 增删改查渲染器。
  * 文档：https://baidu.gitee.io/amis/docs/components/crud
  */
-export type CRUDSchema = CRUDCardsSchema | CRUDListSchema | CRUDTableSchem;
+export type CRUDSchema = CRUDCardsSchema | CRUDListSchema | CRUDTableSchema;
 
 export interface CRUDProps
   extends RendererProps,
