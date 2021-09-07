@@ -771,6 +771,11 @@ export interface Option {
    */
   loaded?: boolean;
 
+  /**
+   * 作为tree组件的options时，表示当前节点在树中的路径位置
+   */
+  position?: string;
+
   [propName: string]: any;
 }
 export interface Options extends Array<Option> {}

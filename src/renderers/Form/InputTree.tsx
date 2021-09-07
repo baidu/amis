@@ -90,6 +90,8 @@ export default class TreeControl extends React.Component<TreeProps> {
       treeContainerClassName,
       classPrefix: ns,
       value,
+      nodePath,
+      pathSeparator,
       onChange,
       disabled,
       joinValues,
@@ -126,6 +128,7 @@ export default class TreeControl extends React.Component<TreeProps> {
       rootCreateTip,
       labelField,
       deferLoad,
+      expandTreeOptions,
       translate: __
     } = this.props;
 
@@ -160,6 +163,8 @@ export default class TreeControl extends React.Component<TreeProps> {
             cascade={cascade}
             foldedField="collapsed"
             value={value || ''}
+            nodePath={nodePath || []}
+            pathSeparator={pathSeparator || '-'}
             selfDisabledAffectChildren={false}
             onAdd={onAdd}
             creatable={creatable}
@@ -174,6 +179,7 @@ export default class TreeControl extends React.Component<TreeProps> {
             onDelete={onDelete}
             bultinCUD={!addControls && !editControls}
             onDeferLoad={deferLoad}
+            onExpandTree={expandTreeOptions}
           />
         )}
       </div>

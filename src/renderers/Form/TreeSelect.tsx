@@ -297,8 +297,9 @@ export default class TreeSelectControl extends React.Component<
 
       if (!option.visible && option.children) {
         option.children = this.filterOptions(option.children, keywords);
-        const visibleCount = option.children.filter(item => item.visible)
-          .length;
+        const visibleCount = option.children.filter(
+          item => item.visible
+        ).length;
         option.visible = !!visibleCount;
       }
 
@@ -425,6 +426,8 @@ export default class TreeSelectControl extends React.Component<
   renderOuter() {
     const {
       value,
+      nodePath,
+      pathSeparator,
       disabled,
       joinValues,
       extractValue,
@@ -451,7 +454,8 @@ export default class TreeSelectControl extends React.Component<
       minLength,
       labelField,
       translate: __,
-      deferLoad
+      deferLoad,
+      expandTreeOptions
     } = this.props;
 
     let filtedOptions =
@@ -499,9 +503,12 @@ export default class TreeSelectControl extends React.Component<
             foldedField="collapsed"
             hideRoot
             value={value || ''}
+            nodePath={nodePath || []}
+            pathSeparator={pathSeparator || '-'}
             maxLength={maxLength}
             minLength={minLength}
             onDeferLoad={deferLoad}
+            onExpandTree={expandTreeOptions}
           />
         </PopOver>
       </Overlay>

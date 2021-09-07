@@ -62,6 +62,10 @@ interface TreeSelectorProps extends ThemeProps, LocaleProps {
   hideRoot?: boolean;
   rootLabel?: string;
   rootValue?: any;
+  // 记录已选节点的路径，格式：['nodeValue-nodeValue', ...]
+  nodePath?: string[];
+  // 路径节点的分隔符
+  pathSeparator?: string;
 
   // 这个配置名字没取好，目前的含义是，如果这个配置成true，点父级的时候，子级点不会自选中。
   // 否则点击父级，子节点选中。
@@ -88,6 +92,7 @@ interface TreeSelectorProps extends ThemeProps, LocaleProps {
   removeTip?: string;
   onDelete?: (value: Option) => void;
   onDeferLoad?: (option: Option) => void;
+  onExpandTree?: (nodePathArr: any[]) => void;
 }
 
 interface TreeSelectorState {
@@ -131,7 +136,9 @@ export class TreeSelector extends React.Component<
     rootCreateTip: 'Tree.addRoot',
     createTip: 'Tree.addChild',
     editTip: 'Tree.editNode',
-    removeTip: 'Tree.removeNode'
+    removeTip: 'Tree.removeNode',
+    nodePath: [],
+    pathSeparator: '-'
   };
 
   unfolded: WeakMap<Object, boolean> = new WeakMap();
@@ -154,6 +161,14 @@ export class TreeSelector extends React.Component<
     };
 
     this.syncUnFolded(props);
+  }
+
+  componentDidMount() {
+    const {onExpandTree, nodePath = [], pathSeparator = '-'} = this.props;
+
+    if (nodePath.length !== 0) {
+      onExpandTree?.(nodePath.map(path => path.split(pathSeparator)));
+    }
   }
 
   componentDidUpdate(prevProps: TreeSelectorProps) {
@@ -367,13 +382,8 @@ export class TreeSelector extends React.Component<
         value
       },
       () => {
-        const {
-          joinValues,
-          extractValue,
-          valueField,
-          delimiter,
-          onChange
-        } = props;
+        const {joinValues, extractValue, valueField, delimiter, onChange} =
+          props;
 
         onChange(
           joinValues

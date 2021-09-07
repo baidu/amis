@@ -681,6 +681,101 @@ export const FormItemStore = StoreNode.named('FormItemStore')
       return json;
     });
 
+    /**
+     * 根据当前节点路径展开树形组件父节点
+     */
+    const expandTreeOptions: (
+      nodePathArr: any[],
+      api: Api,
+      data?: object,
+      config?: fetchOptions
+    ) => Promise<Payload | null | void> = flow(function* getInitData(
+      nodePathArr: any[],
+      api: string,
+      data: object,
+      config?: fetchOptions
+    ) {
+      // 多选模式下需要记录遍历过的Node，避免发送相同的请求
+      const traversedNode = new Map();
+
+      for (let nodePath of nodePathArr) {
+        // 根节点已经展开了，不需要加载
+        if (nodePath.length <= 1) {
+          continue;
+        }
+
+        // 最后一个节点不需要展开
+        for (let level = 0; level < nodePath.length - 1; level++) {
+          let tree = self.options.concat();
+          let nodeValue = nodePath[level];
+
+          if (traversedNode.has(nodeValue)) {
+            continue;
+          }
+          // node value认为是唯一的
+          let node = findTree(tree, (item, key, treeLevel: number) => {
+            // 统一转换成string再比较
+            return (
+              treeLevel === level + 1 &&
+              item.value.toString() === nodeValue.toString()
+            );
+          });
+          const indexes = findTreeIndex(
+            tree,
+            item => item === node
+          ) as number[];
+
+          setOptions(
+            spliceTree(tree, indexes, 1, {
+              ...node,
+              loading: true
+            }),
+            undefined,
+            node
+          );
+
+          let json = yield fetchOptions(
+            api,
+            node,
+            {...config, silent: true},
+            false
+          );
+
+          if (!json) {
+            setOptions(
+              spliceTree(tree, indexes, 1, {
+                ...node,
+                loading: false,
+                error: true
+              }),
+              undefined,
+              node
+            );
+          }
+
+          traversedNode.set(nodeValue, true);
+
+          let childrenOptions: Array<IOption> =
+            json.data?.options ||
+            json.data.items ||
+            json.data.rows ||
+            json.data ||
+            [];
+
+          setOptions(
+            spliceTree(tree, indexes, 1, {
+              ...node,
+              loading: false,
+              loaded: true,
+              children: childrenOptions
+            }),
+            undefined,
+            node
+          );
+        }
+      }
+    });
+
     // @issue 强依赖form，需要改造暂且放过。
     function syncOptions(originOptions?: Array<any>, data?: Object) {
       if (!self.options.length && typeof self.value === 'undefined') {
@@ -896,6 +991,7 @@ export const FormItemStore = StoreNode.named('FormItemStore')
       setOptions,
       loadOptions,
       deferLoadOptions,
+      expandTreeOptions,
       syncOptions,
       setLoading,
       setSubStore,

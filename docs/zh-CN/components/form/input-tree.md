@@ -655,3 +655,5 @@ order: 59
 | minLength              | `number`                                     |                  | 最少选中的节点数                                                                                                    |
 | maxLength              | `number`                                     |                  | 最多选中的节点数                                                                                                    |
 | treeContainerClassName | `string`                                     |                  | tree 最外层容器类名                                                                                                 |
+| nodePath               | `Array<string>`                              | `[]`             | 已选择节点的的路径，支持多选模式，格式：['node1Value-node2Value', 'node1Value-node3Value', ...]                     |
+| pathSeparator          | `string`                                     | `-`              | 节点路径的分隔符                                                                                                    |
