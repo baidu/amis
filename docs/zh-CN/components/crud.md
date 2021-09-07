@@ -1999,6 +1999,33 @@ CRUD 中不限制有多少个单条操作、添加一个操作对应的添加一
 }
 ```
 
+## 使用数据链中的数据
+
+可以通过 `source` 属性来自定义去返回数据的字段，或者取数据域中的数据，比如
+
+```schema
+{
+  "type": "page",
+  "data": {
+    "myItems": [
+      {
+        "id": 1
+      }
+    ]
+  },
+  "body": {
+    "type": "crud",
+    "source": "${myItems}",
+    "columns": [
+      {
+        "name": "id",
+        "label": "ID"
+      }
+    ]
+  }
+}
+```
+
 ## 属性表
 
 | 属性名                                | 类型                        | 默认值                          | 说明                                                                                                                  |
@@ -2010,7 +2037,7 @@ CRUD 中不限制有多少个单条操作、添加一个操作对应的添加一
 | api                                   | [API](../../docs/types/api) |                                 | CRUD 用来获取列表数据的 api。                                                                                         |
 | loadDataOnce                          | `boolean`                   |                                 | 是否一次性加载所有数据（前端分页）                                                                                    |
 | loadDataOnceFetchOnFilter             | `boolean`                   | `true`                          | 在开启 loadDataOnce 时，filter 时是否去重新请求 api                                                                   |
-| source                                | `string`                    |                                 | 数据映射接口返回某字段的值，不设置会默认把接口返回的`items`或者`rows`填充进`mode`区域                                 |
+| source                                | `string`                    |                                 | 数据映射接口返回某字段的值，不设置会默认使用接口返回的`${items}`或者`${rows}`，也可以设置成上层数据源的内容           |
 | filter                                | [Form](./form/index)        |                                 | 设置过滤器，当该表单提交后，会把数据带给当前 `mode` 刷新列表。                                                        |
 | filterTogglable                       | `boolean`                   | `false`                         | 是否可显隐过滤器                                                                                                      |
 | filterDefaultVisible                  | `boolean`                   | `true`                          | 设置过滤器默认是否可见。                                                                                              |
