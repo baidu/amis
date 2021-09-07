@@ -140,8 +140,14 @@ export default class TextControl extends React.PureComponent<
   };
 
   componentDidMount() {
-    const {formItem, autoComplete, addHook, formInited, data, name} =
-      this.props;
+    const {
+      formItem,
+      autoComplete,
+      addHook,
+      formInited,
+      data,
+      name
+    } = this.props;
 
     if (isEffectiveApi(autoComplete, data) && formItem) {
       if (formInited) {
@@ -299,7 +305,8 @@ export default class TextControl extends React.PureComponent<
       extractValue,
       delimiter,
       multiple,
-      valueField
+      valueField,
+      creatable
     } = this.props;
 
     if (selectedOptions.length && !this.state.inputValue && evt.keyCode === 8) {
@@ -316,7 +323,6 @@ export default class TextControl extends React.PureComponent<
           ? newValue.map(item => item[valueField || 'value'])
           : newValue
       );
-      console.log('jer');
       this.setState(
         {
           inputValue: ''
@@ -352,14 +358,16 @@ export default class TextControl extends React.PureComponent<
       } else {
         onChange(value);
       }
-      console.log('jer2');
-      this.setState(
-        {
-          inputValue: '',
-          isOpen: false
-        },
-        this.loadAutoComplete
-      );
+
+      if (creatable === false || multiple) {
+        this.setState(
+          {
+            inputValue: '',
+            isOpen: false
+          },
+          this.loadAutoComplete
+        );
+      }
     } else if (
       evt.keyCode === 13 &&
       this.state.isOpen &&
@@ -404,7 +412,6 @@ export default class TextControl extends React.PureComponent<
     }
 
     if (multiple || creatable === false) {
-      console.log('jer3');
       this.setState(
         {
           inputValue: ''
@@ -445,7 +452,6 @@ export default class TextControl extends React.PureComponent<
           this.state.isOpen &&
           changes.isOpen === false
         ) {
-          console.log('jer4');
           state.inputValue = '';
         }
 
@@ -464,15 +470,23 @@ export default class TextControl extends React.PureComponent<
   }
 
   loadAutoComplete() {
-    const {formItem, autoComplete, data, multiple, selectedOptions} =
-      this.props;
+    const {
+      formItem,
+      autoComplete,
+      data,
+      multiple,
+      selectedOptions
+    } = this.props;
 
     if (isEffectiveApi(autoComplete, data) && formItem) {
       formItem.loadOptions(
         autoComplete,
         createObject(data, {
           term: this.state.inputValue || '' // (multiple ? '' : selectedOptions[selectedOptions.length - 1]?.value)
-        })
+        }),
+        {
+          extendsOptions: true
+        }
       );
     }
   }
@@ -550,8 +564,9 @@ export default class TextControl extends React.PureComponent<
                 {
                   'is-opened': isOpen,
                   'TextControl-input--multiple': multiple,
-                  [`TextControl-input--border${ucFirst(borderMode)}`]:
+                  [`TextControl-input--border${ucFirst(
                     borderMode
+                  )}`]: borderMode
                 }
               )}
               onClick={this.handleClick}

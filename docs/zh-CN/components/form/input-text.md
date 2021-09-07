@@ -123,6 +123,46 @@ order: 56
             "label": "text",
             "options": [
                 {
+                    "label": "aa",
+                    "value": "aa"
+                },
+                {
+                    "label": "bb",
+                    "value": "bb"
+                },
+                {
+                    "label": "cc",
+                    "value": "cc"
+                },
+                {
+                    "label": "dd",
+                    "value": "dd"
+                }
+            ]
+
+        }
+    ]
+}
+```
+
+选择器模式下，支持部分选择器组件支持的配置项，具体请查看下面的属性表。如：source 和 autoComplete 都支持
+
+## 限制只能选择预设
+
+配置 options 并且配置 creatable: false
+
+```schema: scope="body"
+{
+    "type": "form",
+    "api": "/api/mock2/form/saveForm",
+    "body": [
+        {
+            "name": "text",
+            "type": "input-text",
+            "label": "text",
+            "creatable": false,
+            "options": [
+                {
                     "label": "OptionA",
                     "value": "a"
                 },
@@ -145,7 +185,43 @@ order: 56
 }
 ```
 
-选择器模式下，支持部分选择器组件支持的配置项，具体请查看下面的属性表
+## 多选模式
+
+配置 multiple: true
+
+```schema: scope="body"
+{
+    "type": "form",
+    "api": "/api/mock2/form/saveForm",
+    "body": [
+        {
+            "name": "text",
+            "type": "input-text",
+            "label": "text",
+            "multiple": true,
+            "options": [
+                {
+                    "label": "OptionA",
+                    "value": "a"
+                },
+                {
+                    "label": "OptionB",
+                    "value": "b"
+                },
+                {
+                    "label": "OptionC",
+                    "value": "c"
+                },
+                {
+                    "label": "OptionD",
+                    "value": "d"
+                }
+            ]
+
+        }
+    ]
+}
+```
 
 ## 前缀和后缀
 
@@ -227,6 +303,7 @@ order: 56
 | addOn.label  | `string`                                  |           | 文字说明                                                                                    |
 | addOn.xxx    | `string`                                  |           | 其他参数请参考按钮文档                                                                      |
 | trimContents | `boolean`                                 |           | 是否去除首尾空白文本。                                                                      |
+| creatable    | `boolean`                                 |           | 是否可以创建，默认为可以，除非设置为 false 即只能选择选项中的值                             |
 | clearable    | `boolean`                                 |           | 是否可清除                                                                                  |
 | resetValue   | `string`                                  | `""`      | 清除后设置此配置项给定的值。                                                                |
 | prefix       | `string`                                  | `""`      | 前缀                                                                                        |
