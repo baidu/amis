@@ -1142,13 +1142,7 @@ export default class Form extends React.Component<FormProps, object> {
       values[0] &&
       targets[0].props.type === 'form'
     ) {
-      store.updateData(values[0]);
-      onChange &&
-        onChange(
-          store.data,
-          difference(store.data, store.pristine),
-          this.props
-        );
+      this.handleBulkChange(values[0], false);
     }
 
     store.closeDialog(true);
