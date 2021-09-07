@@ -674,14 +674,8 @@ export function registerOptionsControl(config: OptionsConfig) {
 
     @autobind
     reloadOptions(setError?: boolean, isInit = false) {
-      const {
-        source,
-        formItem,
-        data,
-        onChange,
-        setPrinstineValue,
-        selectFirst
-      } = this.props;
+      const {source, formItem, data, onChange, setPrinstineValue, selectFirst} =
+        this.props;
 
       if (formItem && isPureVariable(source as string)) {
         isAlive(formItem) &&
@@ -1094,7 +1088,7 @@ export function registerOptionsControl(config: OptionsConfig) {
           reloadOptions={this.reload}
           deferLoad={this.deferLoad}
           creatable={
-            creatable || (creatable !== false && isEffectiveApi(addApi))
+            creatable !== false && isEffectiveApi(addApi) ? true : creatable
           }
           editable={editable || (editable !== false && isEffectiveApi(editApi))}
           removable={
@@ -1137,24 +1131,44 @@ export function highlight(
   }
 
   text = String(text);
-  const reg = new RegExp(input.replace(/[|\\{}()[\]^$+*?.]/g, '\\$&'), 'i');
+  const reg = new RegExp(input.replace(/[|\\{}()[\]^$+*?.]/g, '\\$&'), 'ig');
   if (!reg.test(text)) {
     return text;
   }
 
-  const parts = text.split(reg);
   const dom: Array<any> = [];
 
-  parts.forEach((text: string, index) => {
-    text && dom.push(<span key={index}>{text}</span>);
-    dom.push(
-      <span className={hlClassName} key={`${index}-hl`}>
-        {input}
-      </span>
-    );
-  });
+  let start = 0;
+  let match = null;
 
-  dom.pop();
+  reg.lastIndex = 0;
+  while ((match = reg.exec(text))) {
+    const prev = text.substring(start, match.index);
+    prev && dom.push(<span key={dom.length}>{prev}</span>);
+
+    match[0] &&
+      dom.push(
+        <span className={hlClassName} key={dom.length}>
+          {match[0]}
+        </span>
+      );
+    start = match.index + match[0].length;
+  }
+  const rest = text.substring(start);
+  rest && dom.push(<span key={dom.length}>{rest}</span>);
+
+  // const parts = text.split(reg);
+
+  // parts.forEach((text: string, index) => {
+  //   text && dom.push(<span key={index}>{text}</span>);
+  //   dom.push(
+  //     <span className={hlClassName} key={`${index}-hl`}>
+  //       {input}
+  //     </span>
+  //   );
+  // });
+
+  // dom.pop();
 
   return dom;
 }
