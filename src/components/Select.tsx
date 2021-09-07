@@ -12,8 +12,16 @@ import Overlay from './Overlay';
 import PopOver from './PopOver';
 import Downshift, {ControllerStateAndHelpers} from 'downshift';
 import {closeIcon, Icon} from './icons';
+// @ts-ignore
 import {matchSorter} from 'match-sorter';
-import {noop, isObject, findTree, autobind, ucFirst} from '../utils/helper';
+import {
+  noop,
+  isObject,
+  findTree,
+  autobind,
+  ucFirst,
+  normalizeNodePath
+} from '../utils/helper';
 import find from 'lodash/find';
 import isPlainObject from 'lodash/isPlainObject';
 import union from 'lodash/union';
@@ -47,6 +55,7 @@ export interface OptionProps {
   placeholder?: string;
   disabled?: boolean;
   creatable?: boolean;
+  pathSeparator?: string;
   onAdd?: (
     idx?: number | Array<number>,
     value?: any,
@@ -64,9 +73,27 @@ export function value2array(
   value: OptionValue | Array<OptionValue>,
   props: Pick<
     OptionProps,
-    'multi' | 'multiple' | 'delimiter' | 'valueField' | 'options'
-  >
+    | 'multi'
+    | 'multiple'
+    | 'delimiter'
+    | 'valueField'
+    | 'labelField'
+    | 'options'
+    | 'pathSeparator'
+  >,
+  enableNodePath: boolean = false
 ): Array<Option> {
+  if (enableNodePath) {
+    value = normalizeNodePath(
+      value,
+      enableNodePath,
+      props.labelField,
+      props.valueField,
+      props.pathSeparator,
+      props.delimiter
+    ).nodeValueArray;
+  }
+
   if (props.multi || props.multiple) {
     if (typeof value === 'string') {
       value = value.split(props.delimiter || ',');
@@ -357,8 +384,6 @@ export class Select extends React.Component<SelectProps, SelectState> {
     this.handleAddClick = this.handleAddClick.bind(this);
     this.handleEditClick = this.handleEditClick.bind(this);
     this.handleDeleteClick = this.handleDeleteClick.bind(this);
-
-    // console.log('props.value', props.value);
 
     this.state = {
       isOpen: props.defaultOpen || false,

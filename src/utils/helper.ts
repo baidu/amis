@@ -2,6 +2,7 @@ import isPlainObject from 'lodash/isPlainObject';
 import isEqual from 'lodash/isEqual';
 import isNaN from 'lodash/isNaN';
 import uniq from 'lodash/uniq';
+import last from 'lodash/last';
 import {Schema, PlainObject, FunctionPropertyNames} from '../types';
 import {evalExpression} from './tpl';
 import qs from 'qs';
@@ -270,10 +271,9 @@ export function anyChanged(
   to: {[propName: string]: any},
   strictMode: boolean = true
 ): boolean {
-  return (typeof attrs === 'string'
-    ? attrs.split(/\s*,\s*/)
-    : attrs
-  ).some(key => (strictMode ? from[key] !== to[key] : from[key] != to[key]));
+  return (typeof attrs === 'string' ? attrs.split(/\s*,\s*/) : attrs).some(
+    key => (strictMode ? from[key] !== to[key] : from[key] != to[key])
+  );
 }
 
 export function rmUndefined(obj: PlainObject) {
@@ -558,9 +558,7 @@ export function makeHorizontalDeeper(
 
 export function promisify<T extends Function>(
   fn: T
-): (
-  ...args: Array<any>
-) => Promise<any> & {
+): (...args: Array<any>) => Promise<any> & {
   raw: T;
 } {
   let promisified = function () {
@@ -1620,4 +1618,67 @@ export function detectPropValueChanged<
 // 去掉字符串中的 html 标签，不完全准确但效率比较高
 export function removeHTMLTag(str: string) {
   return str.replace(/<\/?[^>]+(>|$)/g, '');
+}
+
+/**
+ * 将路径格式的value转换成普通格式的value值
+ *
+ * @example
+ *
+ * 'a/b/c' => 'c';
+ * {label: 'A/B/C', value: 'a/b/c'} => {label: 'C', value: 'c'};
+ * 'a/b/c,a/d' => 'c,d';
+ * ['a/b/c', 'a/d'] => ['c', 'd'];
+ * [{label: 'A/B/C', value: 'a/b/c'},{label: 'A/D', value: 'a/d'}] => [{label: 'C', value: 'c'},{label: 'D', value: 'd'}]
+ */
+export function normalizeNodePath(
+  value: any,
+  enableNodePath: boolean,
+  labelField: string = 'label',
+  valueField: string = 'value',
+  pathSeparator: string = '/',
+  delimiter: string = ','
+) {
+  const nodeValueArray: any[] = [];
+  const nodePathArray: any[] = [];
+  const getLastNodeFromPath = (path: any) =>
+    last(path ? path.toString().split(pathSeparator) : []);
+
+  if (typeof value === 'undefined' || !enableNodePath) {
+    return {nodeValueArray, nodePathArray};
+  }
+
+  // 尾节点为当前options中value值
+  if (Array.isArray(value)) {
+    value.forEach(nodePath => {
+      if (nodePath && nodePath.hasOwnProperty(valueField)) {
+        nodeValueArray.push({
+          ...nodePath,
+          [labelField]: getLastNodeFromPath(nodePath[labelField]),
+          [valueField]: getLastNodeFromPath(nodePath[valueField])
+        });
+        nodePathArray.push(nodePath[valueField]);
+      } else {
+        nodeValueArray.push(getLastNodeFromPath(nodePath));
+        nodePathArray.push(nodePath);
+      }
+    });
+  } else if (typeof value === 'string') {
+    value
+      .toString()
+      .split(delimiter)
+      .forEach(path => {
+        nodeValueArray.push(getLastNodeFromPath(path));
+        nodePathArray.push(path);
+      });
+  } else {
+    nodeValueArray.push({
+      ...value,
+      [labelField]: getLastNodeFromPath(value[labelField]),
+      [valueField || 'value']: getLastNodeFromPath(value[valueField])
+    });
+    nodePathArray.push(value[valueField]);
+  }
+
+  return {nodeValueArray, nodePathArray};
 }

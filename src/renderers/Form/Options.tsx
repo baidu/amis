@@ -14,7 +14,8 @@ import {
   findTreeIndex,
   getTree,
   isEmpty,
-  getTreeAncestors
+  getTreeAncestors,
+  normalizeNodePath
 } from '../../utils/helper';
 import {reaction} from 'mobx';
 import {
@@ -203,6 +204,7 @@ export interface OptionsControlProps
   setLoading: (value: boolean) => void;
   reloadOptions: (setError?: boolean) => void;
   deferLoad: (option: Option) => void;
+  expandTreeOptions: (nodePathArr: any[]) => void;
   onAdd?: (
     idx?: number | Array<number>,
     value?: any,
@@ -478,6 +480,8 @@ export function registerOptionsControl(config: OptionsConfig) {
         multiple,
         formItem,
         valueField,
+        enableNodePath,
+        pathSeparator,
         onChange
       } = this.props;
 
@@ -704,7 +708,6 @@ export function registerOptionsControl(config: OptionsConfig) {
     @autobind
     deferLoad(option: Option) {
       const {deferApi, source, env, formItem, data} = this.props;
-
       const api = option.deferApi || deferApi || source;
 
       if (!api) {
@@ -716,6 +719,22 @@ export function registerOptionsControl(config: OptionsConfig) {
       }
 
       formItem?.deferLoadOptions(option, api, createObject(data, option));
+    }
+
+    @autobind
+    expandTreeOptions(nodePathArr: any[]) {
+      const {deferApi, source, env, formItem, data} = this.props;
+      const api = deferApi || source;
+
+      if (!api) {
+        env.notify(
+          'error',
+          '请在选项中设置 `deferApi` 或者表单项中设置 `deferApi`，用来加载子选项。'
+        );
+        return;
+      }
+
+      formItem?.expandTreeOptions(nodePathArr, api, createObject(data));
     }
 
     @autobind
@@ -1070,8 +1089,22 @@ export function registerOptionsControl(config: OptionsConfig) {
         deleteApi,
         creatable,
         editable,
-        removable
+        removable,
+        enableNodePath,
+        pathSeparator,
+        delimiter = ',',
+        labelField = 'label',
+        valueField = 'value'
       } = this.props;
+
+      const {nodePathArray, nodeValueArray} = normalizeNodePath(
+        value,
+        enableNodePath,
+        labelField,
+        valueField,
+        pathSeparator,
+        delimiter
+      );
 
       return (
         <Control
@@ -1080,13 +1113,22 @@ export function registerOptionsControl(config: OptionsConfig) {
           options={formItem ? formItem.filteredOptions : []}
           onToggle={this.handleToggle}
           onToggleAll={this.handleToggleAll}
-          selectedOptions={formItem ? formItem.getSelectedOptions(value) : []}
+          selectedOptions={
+            formItem
+              ? formItem.getSelectedOptions(
+                  value,
+                  enableNodePath ? nodeValueArray : undefined
+                )
+              : []
+          }
+          nodePath={nodePathArray}
           loading={formItem ? formItem.loading : false}
           setLoading={this.setLoading}
           setOptions={this.setOptions}
           syncOptions={this.syncOptions}
           reloadOptions={this.reload}
           deferLoad={this.deferLoad}
+          expandTreeOptions={this.expandTreeOptions}
           creatable={
             creatable !== false && isEffectiveApi(addApi) ? true : creatable
           }
