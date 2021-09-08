@@ -426,14 +426,13 @@ export default class Page extends React.Component<PageProps> {
     submit?: boolean,
     changePristine?: boolean
   ) {
-    const {store} = this.props;
+    const {store, onChange} = this.props;
 
-    // 注意 form 也有 onChange 会进来，但是传参会不一样，而且不应该处理。
-    if (typeof name !== 'string' || !name) {
-      return;
+    if (typeof name === 'string' && name) {
+      store.changeValue(name, value, changePristine);
     }
 
-    store.changeValue(name, value, changePristine);
+    onChange?.apply(null, arguments);
   }
 
   renderHeader() {
