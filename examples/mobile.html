@@ -67,13 +67,16 @@
           value: 'antd'
         }
       ];
-      const theme = themes[localStorage.getItem('themeIndex') || 0];
       // mobile 下先禁掉所有外链避免影响
       document.querySelectorAll('link[title]').forEach(item => {
         item.disabled = true;
       });
-      document.querySelector(`link[title=${theme.value}]`).disabled = false;
-      if (theme.value === 'dark') {
+      let theme = localStorage.getItem('theme') || 'cxd';
+      if (theme == 'default') {
+        theme = 'cxd';
+      }
+      document.querySelector(`link[title=${theme}]`).disabled = false;
+      if (theme === 'dark') {
         document.querySelector('body').classList.add('dark');
       }
 

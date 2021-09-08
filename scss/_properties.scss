@@ -435,9 +435,9 @@
   --Checkbox--sm-size: #{px2rem(16px)};
   --Checkbox-borderRadius: var(--borderRadius);
   --Checkbox-color: var(--Form-input-borderColor);
-  --Checkbox-gap: var(--gap-sm);
+  --Checkbox-gap: var(--gap-xs);
   --Checkbox-gb: #fff;
-  --Checkbox-size: var(--gap-lg);
+  --Checkbox-size: var(--Form-fontSize);
   --Checkbox-inner-size: calc(var(--Checkbox-size) / 2);
   --Checkbox-onHover-color: var(--info);
   --Checkbox-onDisabled-bg: #e5e7eb;
