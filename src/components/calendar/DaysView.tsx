@@ -12,6 +12,7 @@ interface CustomDaysViewProps extends LocaleProps {
   nextIcon?: string;
   viewDate: moment.Moment;
   selectedDate: moment.Moment;
+  minDate: moment.Moment;
   timeFormat: string;
   requiredConfirm?: boolean;
   isEndDate?: boolean;
@@ -97,7 +98,12 @@ export class CustomDaysView extends DaysView {
   };
 
   confirm = () => {
-    const date = (this.props.selectedDate || this.props.viewDate).clone();
+    let date = (this.props.selectedDate || this.props.viewDate).clone();
+
+    // 如果 minDate 是可用的，且比当前日期早，则用 minDate
+    if (this.props.minDate.isValid() && this.props.minDate.isBefore(date)) {
+      date = this.props.minDate.clone();
+    }
 
     this.props.setDateTimeState({
       selectedDate: date
@@ -117,7 +123,7 @@ export class CustomDaysView extends DaysView {
   computedTimeOptions(total: number) {
     const times: {label: string; value: string}[] = [];
 
-    for(let t = 0; t < total; t++) {
+    for (let t = 0; t < total; t++) {
       const label = t < 10 ? `0${t}` : `${t}`;
       times.push({label, value: label});
     }
@@ -165,17 +171,21 @@ export class CustomDaysView extends DaysView {
             {({isOpen, getInputProps, openMenu, closeMenu}) => {
               const inputProps = getInputProps({
                 onFocus: () => openMenu(),
-                onChange: e => this.setTime(
-                  type,
-                  Math.max(
-                    min,
-                    Math.min(
-                      parseInt(e.currentTarget.value.replace(/\D/g, ''), 10) || 0,
-                      max
+                onChange: e =>
+                  this.setTime(
+                    type,
+                    Math.max(
+                      min,
+                      Math.min(
+                        parseInt(
+                          e.currentTarget.value.replace(/\D/g, ''),
+                          10
+                        ) || 0,
+                        max
+                      )
                     )
                   )
-                )
-              })
+              });
               return (
                 <div className={cx('CalendarInputWrapper')}>
                   <input
@@ -186,31 +196,29 @@ export class CustomDaysView extends DaysView {
                     max={max}
                     {...inputProps}
                   />
-                  {
-                    isOpen ? (
-                      <div className={cx('CalendarInput-sugs')}>
-                        {options.map(option => {
-                          return (
-                            <div
-                              key={option.value}
-                              className={cx('CalendarInput-sugsItem', {
-                                'is-highlight': option.value === date.format(formatMap[type])
-                              })}
-                              onClick={() => {
-                                this.setTime(
-                                  type,
-                                  parseInt(option.value, 10)
-                                );
-                                closeMenu();
-                              }}
-                            >{option.value}</div>
-                          )
-                        })}
-                      </div>
-                    ) : null
-                  }
+                  {isOpen ? (
+                    <div className={cx('CalendarInput-sugs')}>
+                      {options.map(option => {
+                        return (
+                          <div
+                            key={option.value}
+                            className={cx('CalendarInput-sugsItem', {
+                              'is-highlight':
+                                option.value === date.format(formatMap[type])
+                            })}
+                            onClick={() => {
+                              this.setTime(type, parseInt(option.value, 10));
+                              closeMenu();
+                            }}
+                          >
+                            {option.value}
+                          </div>
+                        );
+                      })}
+                    </div>
+                  ) : null}
                 </div>
-              )
+              );
             }}
           </Downshift>
         );
