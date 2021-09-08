@@ -149,7 +149,7 @@ export interface PageSchema extends BaseSchema {
    * 默认不设置自动感觉内容来决定要不要展示这些区域
    * 如果配置了，以配置为主。
    */
-  regions?: Array<'aside' | 'body' | 'toolbar' | 'header'> | void;
+  regions?: Array<'aside' | 'body' | 'toolbar' | 'header'>;
 }
 
 export interface PageProps
