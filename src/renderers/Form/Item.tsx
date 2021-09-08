@@ -561,7 +561,12 @@ export class FormItemWrap extends React.Component<FormItemProps> {
               )}
             >
               <span>
-                {label ? render('label', filter(label, data)) : null}
+                {label
+                  ? render(
+                      'label',
+                      typeof label === 'string' ? filter(label, data) : label
+                    )
+                  : null}
                 {required && (label || labelRemark) ? (
                   <span className={cx(`Form-star`)}>*</span>
                 ) : null}
@@ -680,7 +685,12 @@ export class FormItemWrap extends React.Component<FormItemProps> {
           {label && renderLabel !== false ? (
             <label className={cx(`Form-label`, labelClassName)}>
               <span>
-                {label ? render('label', filter(label, data)) : null}
+                {label
+                  ? render(
+                      'label',
+                      typeof label === 'string' ? filter(label, data) : label
+                    )
+                  : null}
                 {required && (label || labelRemark) ? (
                   <span className={cx(`Form-star`)}>*</span>
                 ) : null}
@@ -790,7 +800,12 @@ export class FormItemWrap extends React.Component<FormItemProps> {
           {label && renderLabel !== false ? (
             <label className={cx(`Form-label`, labelClassName)}>
               <span>
-                {label ? render('label', filter(label, data)) : label}
+                {label
+                  ? render(
+                      'label',
+                      typeof label === 'string' ? filter(label, data) : label
+                    )
+                  : label}
                 {required && (label || labelRemark) ? (
                   <span className={cx(`Form-star`)}>*</span>
                 ) : null}
@@ -904,7 +919,10 @@ export class FormItemWrap extends React.Component<FormItemProps> {
             {label && renderLabel !== false ? (
               <label className={cx(`Form-label`, labelClassName)}>
                 <span>
-                  {render('label', filter(label, data))}
+                  {render(
+                    'label',
+                    typeof label === 'string' ? filter(label, data) : label
+                  )}
                   {required && (label || labelRemark) ? (
                     <span className={cx(`Form-star`)}>*</span>
                   ) : null}
