@@ -1055,6 +1055,120 @@ order: 67
 }
 ```
 
+> 1.3.0 版本开始 combineNum 支持使用变量，如下所示
+
+```schema: scope="body"
+{
+    "type": "service",
+    "data": {
+        "rows": [
+            {
+                "engine": "Trident",
+                "browser": "Internet Explorer 4.2",
+                "platform": "Win 95+",
+                "version": "4",
+                "grade": "A"
+            },
+            {
+                "engine": "Trident",
+                "browser": "Internet Explorer 4.2",
+                "platform": "Win 95+",
+                "version": "4",
+                "grade": "B"
+            },
+            {
+                "engine": "Trident",
+                "browser": "AOL browser (AOL desktop)",
+                "platform": "Win 95+",
+                "version": "4",
+                "grade": "C"
+            },
+            {
+                "engine": "Trident",
+                "browser": "AOL browser (AOL desktop)",
+                "platform": "Win 98",
+                "version": "3",
+                "grade": "A"
+            },
+            {
+                "engine": "Trident",
+                "browser": "AOL browser (AOL desktop)",
+                "platform": "Win 98",
+                "version": "4",
+                "grade": "A"
+            },
+            {
+                "engine": "Gecko",
+                "browser": "Firefox 1.0",
+                "platform": "Win 98+ / OSX.2+",
+                "version": "4",
+                "grade": "A"
+            },
+            {
+                "engine": "Gecko",
+                "browser": "Firefox 1.0",
+                "platform": "Win 98+ / OSX.2+",
+                "version": "5",
+                "grade": "A"
+            },
+            {
+                "engine": "Gecko",
+                "browser": "Firefox 2.0",
+                "platform": "Win 98+ / OSX.2+",
+                "version": "5",
+                "grade": "B"
+            },
+            {
+                "engine": "Gecko",
+                "browser": "Firefox 2.0",
+                "platform": "Win 98+ / OSX.2+",
+                "version": "5",
+                "grade": "C"
+            },
+            {
+                "engine": "Gecko",
+                "browser": "Firefox 2.0",
+                "platform": "Win 98+ / OSX.2+",
+                "version": "5",
+                "grade": "D"
+            }
+        ],
+        combineNum: 3
+    },
+    "body": [
+        {
+            "type": "table",
+            "source": "$rows",
+            "className": "m-b-none",
+            "combineNum": "$combineNum",
+            "columnsTogglable": false,
+            "columns": [
+                {
+                    "name": "engine",
+                    "label": "Rendering engine"
+                },
+                {
+                    "name": "browser",
+                    "label": "Browser"
+                },
+                {
+                    "name": "platform",
+                    "label": "Platform(s)"
+                },
+                {
+                    "name": "version",
+                    "label": "Engine version"
+                },
+                {
+                    "name": "grade",
+                    "label": "CSS grade"
+                }
+            ]
+        }
+    ]
+}
+```
+
 ## 超级表头
 
 超级表头意思是，表头还可以再一次进行分组。额外添加个 `groupName` 属性即可。
