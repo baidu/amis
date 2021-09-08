@@ -552,7 +552,9 @@ export const FormItemStore = StoreNode.named('FormItemStore')
     const loadOptions: (
       api: Api,
       data?: object,
-      config?: fetchOptions,
+      config?: fetchOptions & {
+        extendsOptions?: boolean;
+      },
       clearValue?: boolean,
       onChange?: (value: any) => void,
       setErrorFlag?: boolean
@@ -584,6 +586,20 @@ export const FormItemStore = StoreNode.named('FormItemStore')
         [];
 
       options = normalizeOptions(options as any);
+
+      if (config?.extendsOptions && self.selectedOptions.length > 0) {
+        self.selectedOptions.forEach((item: any) => {
+          const exited = findTree(
+            options as any,
+            optionValueCompare(item, self.valueField || 'value')
+          );
+
+          if (!exited) {
+            options.push(item);
+          }
+        });
+      }
+
       setOptions(options, onChange, data);
 
       if (json.data && typeof (json.data as any).value !== 'undefined') {
