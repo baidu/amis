@@ -69,6 +69,21 @@ order: 19
 
 使用 `disabled: true`。
 
+```schema: scope="body"
+{
+    "type": "form",
+    "api": "/api/mock2/form/saveForm",
+    "body": [
+        {
+            "type": "json-editor",
+            "name": "editor",
+            "disabled": true,
+            "label": "JSON编辑器"
+        }
+    ]
+}
+```
+
 ## 全屏模式
 
 设置`allowFullscreen`属性为`true`，显示编辑器的全屏模式开关，开关开启后编辑器进入全屏模式。
