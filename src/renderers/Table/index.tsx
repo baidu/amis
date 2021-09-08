@@ -263,7 +263,7 @@ export interface TableProps extends RendererProps {
   columnsTogglable?: boolean | 'auto';
   affixHeader?: boolean;
   affixColumns?: boolean;
-  combineNum?: number;
+  combineNum?: number | string;
   combineFromIndex?: number;
   footable?:
     | boolean
@@ -440,13 +440,20 @@ export default class Table extends React.Component<TableProps, object> {
       itemCheckableOn,
       itemDraggableOn,
       hideCheckToggler,
-      combineNum,
       combineFromIndex,
       expandConfig,
       formItem,
       keepItemSelectionOnPageChange,
       maxKeepItemSelectionLength
     } = props;
+
+    let combineNum = props.combineNum;
+    if (typeof combineNum === 'string') {
+      combineNum = parseInt(
+        resolveVariableAndFilter(combineNum, props.data, '| raw'),
+        10
+      );
+    }
 
     store.update({
       selectable,
@@ -556,6 +563,13 @@ export default class Table extends React.Component<TableProps, object> {
         props
       )
     ) {
+      let combineNum = props.combineNum;
+      if (typeof combineNum === 'string') {
+        combineNum = parseInt(
+          resolveVariableAndFilter(combineNum, props.data, '| raw'),
+          10
+        );
+      }
       store.update({
         selectable: props.selectable,
         columnsTogglable: props.columnsTogglable,
@@ -568,7 +582,7 @@ export default class Table extends React.Component<TableProps, object> {
         itemCheckableOn: props.itemCheckableOn,
         itemDraggableOn: props.itemDraggableOn,
         hideCheckToggler: props.hideCheckToggler,
-        combineNum: props.combineNum,
+        combineNum: combineNum,
         combineFromIndex: props.combineFromIndex,
         expandConfig: props.expandConfig
       });
@@ -850,9 +864,8 @@ export default class Table extends React.Component<TableProps, object> {
     forEach(
       table.querySelectorAll('thead>tr:last-child>th'),
       (item: HTMLElement) => {
-        widths[
-          item.getAttribute('data-index') as string
-        ] = item.getBoundingClientRect().width;
+        widths[item.getAttribute('data-index') as string] =
+          item.getBoundingClientRect().width;
       }
     );
     forEach(
@@ -895,9 +908,11 @@ export default class Table extends React.Component<TableProps, object> {
     );
 
     if (affixHeader) {
-      (dom.querySelector(
-        `.${ns}Table-fixedTop>.${ns}Table-wrapper`
-      ) as HTMLElement).style.cssText += `width: ${this.outterWidth}px`;
+      (
+        dom.querySelector(
+          `.${ns}Table-fixedTop>.${ns}Table-wrapper`
+        ) as HTMLElement
+      ).style.cssText += `width: ${this.outterWidth}px`;
     }
 
     this.lastScrollLeft = -1;
@@ -2040,8 +2055,7 @@ export default class Table extends React.Component<TableProps, object> {
 
             if (buffer) {
               var blob = new Blob([buffer], {
-                type:
-                  'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+                type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
               });
               saveAs(blob, filename + '.xlsx');
             }
