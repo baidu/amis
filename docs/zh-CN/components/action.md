@@ -673,6 +673,70 @@ icon 也可以是 url 地址，比如
 
 `actionType` 配置成 `"clear-and-submit"`
 
+## 自定义点击事件
+
+> 1.3.0 版本新增功能
+
+如果上面的的行为不满足需求，还可以通过字符串形式的 `onClick` 来定义点击事件，这个字符串会转成 JavaScript。
+
+```schema: scope="body"
+{
+    "label": "点击",
+    "type": "button",
+    "onClick": "alert('点击了按钮'); console.log(props);"
+}
+```
+
+amis 会传入两个参数 `event` 和 `props`，`event` 就是 React 的事件，而 `props` 可以拿到这个组件的其他属性，同时还能调用 amis 中的内部方法。
+
+```schema: scope="body"
+{
+    "label": "点击",
+    "type": "button",
+    "onClick": "props.onAction(event, {actionType:'dialog', dialog: {title: '弹框', body: '这是代码调用的弹框'}})"
+}
+```
+
+我们将前面的代码拿出来方便分析：
+
+```javascript
+// event 和 props 前面提到过，而 onAction 就是 amis 内部的方法，可以用来调用其他 action，需要传递两个参数，一个是 event，另一个就是 action 类型及所需的参数。
+props.onAction(event, {
+  actionType: 'dialog',
+  dialog: {title: '弹框', body: '这是代码调用的弹框'}
+});
+```
+
+这个函数如果返回 `false` 就会阻止 amis 其他 action 的执行，比如这个例子
+
+```schema: scope="body"
+{
+  "label": "弹框",
+  "type": "button",
+  "actionType": "dialog",
+  "onClick": "alert('点击按钮');",
+  "dialog": {
+    "title": "弹框",
+    "body": "这是个简单的弹框。"
+  }
+}
+```
+
+它的行为是先执行 alert，再执行弹框，但如果我们加上一个 `return false`，就会发现后面的 amis 弹框不执行了。
+
+```schema: scope="body"
+{
+  "label": "弹框",
+  "type": "button",
+  "actionType": "dialog",
+  "onClick": "alert('点击按钮'); return false;",
+  "dialog": {
+    "title": "弹框",
+    "body": "这是个简单的弹框。"
+  }
+}
+```
+
 ## 通用属性表
 
 所有`actionType`都支持的通用配置项

@@ -156,7 +156,7 @@ export function buildApi(
   return api;
 }
 
-function str2function(
+export function str2function(
   contents: string,
   ...args: Array<string>
 ): Function | null {

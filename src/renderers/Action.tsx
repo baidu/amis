@@ -351,6 +351,7 @@ import {DialogSchema, DialogSchemaBase} from './Dialog';
 import {DrawerSchema, DrawerSchemaBase} from './Drawer';
 import {generateIcon} from '../utils/icon';
 import {BadgeSchema, withBadge} from '../components/Badge';
+import {str2function} from '../utils/api';
 
 export interface ActionProps
   extends Omit<ButtonSchema, 'className' | 'iconClassName'>,
@@ -370,7 +371,11 @@ export interface ActionProps
     action: ActionSchema
   ) => void;
   isCurrentUrl?: (link: string) => boolean;
-  onClick?: (e: React.MouseEvent<any>, props: any) => void;
+  onClick?:
+    | ((e: React.MouseEvent<any>, props: any) => void)
+    | string
+    | Function
+    | null;
   componentClass: React.ReactType;
   tooltipContainer?: any;
   data?: any;
@@ -425,10 +430,14 @@ export class Action extends React.Component<ActionProps, ActionState> {
   }
 
   @autobind
-  handleAction(e: React.MouseEvent<any>) {
-    const {onAction, onClick, disabled, countDown} = this.props;
+  async handleAction(e: React.MouseEvent<any>) {
+    const {onAction, disabled, countDown} = this.props;
+    let onClick = this.props.onClick;
 
-    const result: any = onClick && onClick(e, this.props);
+    if (typeof onClick === 'string') {
+      onClick = str2function(onClick, 'event', 'props');
+    }
+    const result: any = onClick && (await onClick(e, this.props));
 
     if (
       disabled ||
