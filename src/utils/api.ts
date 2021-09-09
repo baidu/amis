@@ -156,12 +156,27 @@ export function buildApi(
   return api;
 }
 
-function str2function(
+export function str2function(
   contents: string,
   ...args: Array<string>
 ): Function | null {
   try {
     let fn = new Function(...args, contents);
+    return fn;
+  } catch (e) {
+    console.warn(e);
+    return null;
+  }
+}
+
+const AsyncFunction = Object.getPrototypeOf(async function () {}).constructor;
+
+export function str2AsyncFunction(
+  contents: string,
+  ...args: Array<string>
+): Function | null {
+  try {
+    let fn = new AsyncFunction(...args, contents);
     return fn;
   } catch (e) {
     console.warn(e);
