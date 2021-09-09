@@ -14,7 +14,7 @@ import {
 import {filter, evalExpression} from '../utils/tpl';
 import cx from 'classnames';
 import qs from 'qs';
-import {isVisible, autobind, bulkBindFunctions} from '../utils/helper';
+import {isVisible, autobind, bulkBindFunctions, uuid} from '../utils/helper';
 import {ScopedContext, IScopedContext} from '../Scoped';
 import Alert from '../components/Alert2';
 import {isApiOutdated, isEffectiveApi} from '../utils/api';
@@ -31,6 +31,20 @@ import {
 } from '../Schema';
 import {SchemaRemark} from './Remark';
 import {onAction} from 'mobx-state-tree';
+
+/**
+ * 样式属性名及值
+ */
+interface Declaration {
+  [property: string]: string;
+}
+
+/**
+ * css 定义
+ */
+interface CSSRule {
+  [selector: string]: Declaration; // 定义
+}
 
 /**
  * amis Page 渲染器。详情请见：https://baidu.gitee.io/amis/docs/components/page
@@ -81,6 +95,19 @@ export interface PageSchema extends BaseSchema {
    */
   className?: SchemaClassName;
 
+  /**
+   * 自定义页面级别样式表
+   */
+  css?: CSSRule;
+
+  /**
+   * 移动端下的样式表
+   */
+  mobileCSS?: CSSRule;
+
+  /**
+   * 页面级别的初始数据
+   */
   data?: SchemaDefaultData;
 
   /**
@@ -163,6 +190,8 @@ export interface PageProps
 export default class Page extends React.Component<PageProps> {
   timer: ReturnType<typeof setTimeout>;
   mounted: boolean;
+  style: HTMLStyleElement;
+  varStyle: HTMLStyleElement;
 
   static defaultProps = {
     asideClassName: '',
@@ -209,6 +238,86 @@ export default class Page extends React.Component<PageProps> {
       'silentReload',
       'initInterval'
     ]);
+
+    this.style = document.createElement('style');
+    this.style.setAttribute('data-page', '');
+    document.getElementsByTagName('head')[0].appendChild(this.style);
+    this.updateStyle();
+
+    this.varStyle = document.createElement('style');
+    this.style.setAttribute('data-vars', '');
+    document.getElementsByTagName('head')[0].appendChild(this.varStyle);
+    this.updateVarStyle();
+  }
+
+  /**
+   * 构建 css
+   */
+  updateStyle() {
+    if (this.props.css || this.props.mobileCSS) {
+      this.style.innerHTML = `
+      ${this.buildCSS(this.props.css)}
+
+      @media (max-width: 768px) {
+        ${this.buildCSS(this.props.mobileCSS)}
+      }
+      `;
+    } else {
+      this.style.innerHTML = '';
+    }
+  }
+
+  buildCSS(cssRules?: CSSRule) {
+    if (!cssRules) {
+      return '';
+    }
+    let css = '';
+
+    for (const selector in cssRules) {
+      const declaration = cssRules[selector];
+      let declarationStr = '';
+      for (const property in declaration) {
+        declarationStr += `  ${property}: ${declaration[property]};\n`;
+      }
+
+      css += `
+      ${selector} {
+        ${declarationStr}
+      }
+      `;
+    }
+    return css;
+  }
+
+  /**
+   * 构建用于 css 变量的内联样式
+   */
+  updateVarStyle() {
+    const cssVars = this.props.cssVars;
+    let cssVarsContent = '';
+    if (cssVars) {
+      for (const key in cssVars) {
+        if (key.startsWith('--')) {
+          if (key.indexOf(':') !== -1) {
+            continue;
+          }
+          const value = cssVars[key];
+          // 这是为了防止 xss，可能还有别的
+          if (
+            typeof value === 'string' &&
+            (value.indexOf('expression(') !== -1 || value.indexOf(';') !== -1)
+          ) {
+            continue;
+          }
+          cssVarsContent += `${key}: ${value}; \n`;
+        }
+      }
+      this.varStyle.innerHTML = `
+      :root {
+        ${cssVarsContent}
+      }
+      `;
+    }
   }
 
   componentDidMount() {
@@ -246,12 +355,27 @@ export default class Page extends React.Component<PageProps> {
             errorMessage: messages && messages.fetchFailed
           })
           .then(this.initInterval);
+    } else if (
+      JSON.stringify(props.css) !== JSON.stringify(prevProps.css) ||
+      JSON.stringify(props.mobileCSS) !== JSON.stringify(prevProps.mobileCSS)
+    ) {
+      this.updateStyle();
+    } else if (
+      JSON.stringify(props.cssVars) !== JSON.stringify(prevProps.cssVars)
+    ) {
+      this.updateVarStyle();
     }
   }
 
   componentWillUnmount() {
     this.mounted = false;
     clearTimeout(this.timer);
+    if (this.style) {
+      this.style.remove();
+    }
+    if (this.varStyle) {
+      this.varStyle.remove();
+    }
   }
 
   reloadTarget(target: string, data?: any) {
@@ -515,7 +639,6 @@ export default class Page extends React.Component<PageProps> {
       store,
       body,
       bodyClassName,
-      cssVars,
       render,
       aside,
       asideClassName,
@@ -538,44 +661,11 @@ export default class Page extends React.Component<PageProps> {
       ? ~regions.indexOf('aside')
       : aside && (!Array.isArray(aside) || aside.length);
 
-    let cssVarsContent = '';
-    if (cssVars) {
-      for (const key in cssVars) {
-        if (key.startsWith('--')) {
-          if (key.indexOf(':') !== -1) {
-            continue;
-          }
-          const value = cssVars[key];
-          // 这是为了防止 xss，可能还有别的
-          if (
-            typeof value === 'string' &&
-            (value.indexOf('expression(') !== -1 || value.indexOf(';') !== -1)
-          ) {
-            continue;
-          }
-          cssVarsContent += `${key}: ${value}; \n`;
-        }
-      }
-    }
-
     return (
       <div
         className={cx(`Page`, hasAside ? `Page--withSidebar` : '', className)}
         onClick={this.handleClick}
       >
-        {cssVarsContent ? (
-          <style
-            // 似乎无法用 style 属性的方式来实现，所以目前先这样做
-            dangerouslySetInnerHTML={{
-              __html: `
-          :root {
-            ${cssVarsContent}
-          }
-        `
-            }}
-          />
-        ) : null}
-
         {hasAside ? (
           <div className={cx(`Page-aside`, asideClassName)}>
             {render('aside', aside || '', {
