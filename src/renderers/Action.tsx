@@ -351,7 +351,7 @@ import {DialogSchema, DialogSchemaBase} from './Dialog';
 import {DrawerSchema, DrawerSchemaBase} from './Drawer';
 import {generateIcon} from '../utils/icon';
 import {BadgeSchema, withBadge} from '../components/Badge';
-import {str2function} from '../utils/api';
+import {str2AsyncFunction} from '../utils/api';
 
 export interface ActionProps
   extends Omit<ButtonSchema, 'className' | 'iconClassName'>,
@@ -435,7 +435,7 @@ export class Action extends React.Component<ActionProps, ActionState> {
     let onClick = this.props.onClick;
 
     if (typeof onClick === 'string') {
-      onClick = str2function(onClick, 'event', 'props');
+      onClick = str2AsyncFunction(onClick, 'event', 'props');
     }
     const result: any = onClick && (await onClick(e, this.props));
 

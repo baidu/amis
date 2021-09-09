@@ -169,6 +169,21 @@ export function str2function(
   }
 }
 
+const AsyncFunction = Object.getPrototypeOf(async function () {}).constructor;
+
+export function str2AsyncFunction(
+  contents: string,
+  ...args: Array<string>
+): Function | null {
+  try {
+    let fn = new AsyncFunction(...args, contents);
+    return fn;
+  } catch (e) {
+    console.warn(e);
+    return null;
+  }
+}
+
 export function responseAdaptor(ret: fetcherResult, api: ApiObject) {
   const data = ret.data;
   let hasStatusField = true;
