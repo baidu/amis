@@ -626,7 +626,7 @@ export const components = [
         path: '/zh-CN/components/form/input-sub-form',
         getComponent: () =>
           // @ts-ignore
-          import('../../docs/zh-CN/components/form/input-subform.md').then(
+          import('../../docs/zh-CN/components/form/input-sub-form.md').then(
             makeMarkdownRenderer
           )
       },
