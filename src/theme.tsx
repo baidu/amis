@@ -90,11 +90,7 @@ export function getClassPrefix() {
 }
 
 export function getTheme(theme: string): ThemeInstance {
-  if (!themes[theme]) {
-    throw new Error(`Theme with name "${theme}" does not exist!`);
-  }
-
-  const config = themes[theme];
+  const config = themes[theme || 'cxd'];
 
   if (!config.getRendererConfig) {
     config.getRendererConfig = (name?: string) =>

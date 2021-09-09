@@ -150,7 +150,6 @@ export class App extends React.PureComponent<{
     offScreen: false,
     folded: false,
     headerVisible: true,
-    themeIndex: 0,
     themes: themes,
     theme:
       themes.find(item => item?.value === localStorage.getItem('theme')) ||
