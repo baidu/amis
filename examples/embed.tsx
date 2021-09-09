@@ -131,9 +131,10 @@ export function embed(
   };
 
   const requestAdaptor = (config: any) => {
-    const request = (env && env.requestAdaptor)
-      ? env.requestAdaptor(config)
-      : config;
+    const fn = env && typeof env.requestAdaptor === 'function'
+      ? env.requestAdaptor.bind()
+      : ((config: any) => config);
+    const request = fn(config) || config;
 
     return request;
   }
