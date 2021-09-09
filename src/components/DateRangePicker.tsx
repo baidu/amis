@@ -417,7 +417,7 @@ export class DateRangePicker extends React.Component<
   }
 
   handleStartChange(newValue: moment.Moment) {
-    const {embed, timeFormat, minDuration, maxDuration} = this.props;
+    const {embed, timeFormat, minDuration, maxDuration, minDate} = this.props;
     const {startDate, endDate} = this.state;
 
     if (
@@ -437,9 +437,13 @@ export class DateRangePicker extends React.Component<
       );
     }
 
+    if (minDate && newValue && newValue.isBefore(minDate, 'second')) {
+      newValue = minDate
+    }
+
     this.setState(
       {
-        startDate: this.filterDate(newValue, startDate, timeFormat, 'start')
+        startDate: this.filterDate(newValue, startDate || minDate, timeFormat, 'start')
       },
       () => {
         embed && this.confirm();
@@ -448,7 +452,7 @@ export class DateRangePicker extends React.Component<
   }
 
   handleEndChange(newValue: moment.Moment) {
-    const {embed, timeFormat, minDuration, maxDuration} = this.props;
+    const {embed, timeFormat, minDuration, maxDuration, maxDate} = this.props;
     const {startDate, endDate} = this.state;
 
     if (
@@ -469,9 +473,13 @@ export class DateRangePicker extends React.Component<
       );
     }
 
+    if (maxDate && newValue && newValue.isAfter(maxDate, 'second')) {
+      newValue = maxDate;
+    }
+
     this.setState(
       {
-        endDate: this.filterDate(newValue, endDate, timeFormat, 'end')
+        endDate: this.filterDate(newValue, endDate || maxDate, timeFormat, 'end')
       },
       () => {
         embed && this.confirm();
