@@ -130,6 +130,15 @@ export function embed(
     return response;
   };
 
+  const requestAdaptor = (config: any) => {
+    const fn = env && typeof env.requestAdaptor === 'function'
+      ? env.requestAdaptor.bind()
+      : ((config: any) => config);
+    const request = fn(config) || config;
+
+    return request;
+  }
+
   const responseAdaptor = (api: any) => (value: any) => {
     let response = value.data || {}; // blob 下可能会返回内容为空？
     // 之前拼写错了，需要兼容
@@ -247,6 +256,7 @@ export function embed(
     fetcher: async (api: any) => {
       let {url, method, data, responseType, config, headers} = api;
       config = config || {};
+      config.url = url;
       config.withCredentials = true;
       responseType && (config.responseType = responseType);
 
@@ -258,6 +268,9 @@ export function embed(
 
       config.headers = headers || {};
       config.method = method;
+      config.data = data;
+
+      config = requestAdaptor(config);
 
       if (method === 'get' && data) {
         config.params = data;
@@ -278,8 +291,7 @@ export function embed(
         return true;
       };
 
-      data && (config.data = data);
-      let response = await axios(url, config);
+      let response = await axios(config);
       response = await attachmentAdpator(response);
       response = responseAdaptor(api)(response);
 
