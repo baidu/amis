@@ -432,6 +432,8 @@ export class Action extends React.Component<ActionProps, ActionState> {
   @autobind
   async handleAction(e: React.MouseEvent<any>) {
     const {onAction, disabled, countDown} = this.props;
+    // https://reactjs.org/docs/legacy-event-pooling.html
+    e.persist();
     let onClick = this.props.onClick;
 
     if (typeof onClick === 'string') {
