@@ -187,7 +187,6 @@ export default class RichTextControl extends React.Component<
       const fetcher = props.env.fetcher;
       this.config = {
         ...props.options,
-        images_upload_url: props.receiver,
         images_upload_handler: async (
           blobInfo: any,
           ok: (locaiton: string) => void,
@@ -203,18 +202,24 @@ export default class RichTextControl extends React.Component<
                   data: payload
                 };
               },
-              ...normalizeApi(props.receiver)
+              ...normalizeApi(props.receiver, 'post')
             };
             const response = await fetcher(receiver, formData, {
               method: 'post'
             });
             if (response.ok) {
-              ok(
+              const location =
                 response.data?.link ||
-                  response.data?.url ||
-                  response.data?.value ||
-                  (response as any).link
-              );
+                response.data?.url ||
+                response.data?.value ||
+                response.data?.data?.link ||
+                response.data?.data?.url ||
+                response.data?.data?.value;
+              if (location) {
+                ok(location);
+              } else {
+                console.warn('must have return value');
+              }
             }
           } catch (e) {
             fail(e);

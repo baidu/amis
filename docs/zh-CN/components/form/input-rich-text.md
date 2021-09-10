@@ -26,7 +26,33 @@ order: 47
 }
 ```
 
-### tinymce 自定义配置
+## 图片上传
+
+通过设置 `receiver` 来支持文件上传，它的返回值类似如下：
+
+```json
+{
+  "link": "https://xxx.png"
+}
+```
+
+下面是个示例，但不会真正上传，每次都返回同一张图片
+
+```schema: scope="body"
+{
+    "type": "form",
+    "body": [
+        {
+            "type": "input-rich-text",
+            "receiver": "/api/mock2/sample/mirror?json={%22value%22:%22/amis/static/logo_c812f54.png%22}",
+            "name": "rich",
+            "label": "Rich Text"
+        }
+    ]
+}
+```
+
+## tinymce 自定义配置
 
 可以设置 options 属性来自定义编辑器的展现，详细配置项请参考[官方文档](https://www.tiny.cloud/docs/general-configuration-guide/basic-setup/)。
 
