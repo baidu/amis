@@ -383,9 +383,9 @@ export const components = [
         path: '/zh-CN/components/form/input-datetime-range',
         getComponent: () =>
           // @ts-ignore
-          import('../../docs/zh-CN/components/form/input-datetime-range.md').then(
-            makeMarkdownRenderer
-          )
+          import(
+            '../../docs/zh-CN/components/form/input-datetime-range.md'
+          ).then(makeMarkdownRenderer)
       },
       {
         label: 'InputMonthRange 月份范围',
@@ -626,7 +626,7 @@ export const components = [
         path: '/zh-CN/components/form/input-sub-form',
         getComponent: () =>
           // @ts-ignore
-          import('../../docs/zh-CN/components/form/input-subform.md').then(
+          import('../../docs/zh-CN/components/form/input-sub-form.md').then(
             makeMarkdownRenderer
           )
       },
