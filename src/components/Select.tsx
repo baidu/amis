@@ -12,8 +12,7 @@ import Overlay from './Overlay';
 import PopOver from './PopOver';
 import Downshift, {ControllerStateAndHelpers} from 'downshift';
 import {closeIcon, Icon} from './icons';
-// @ts-ignore
-import matchSorter from 'match-sorter';
+import {matchSorter} from 'match-sorter';
 import {noop, isObject, findTree, autobind, ucFirst} from '../utils/helper';
 import find from 'lodash/find';
 import isPlainObject from 'lodash/isPlainObject';
@@ -703,11 +702,12 @@ export class Select extends React.Component<SelectProps, SelectState> {
 
     let checkedAll = false;
     let checkedPartial = false;
-    let filtedOptions: Array<Option> = (inputValue && isOpen && !loadOptions
-      ? matchSorter(options, inputValue, {
-          keys: [labelField || 'label', valueField || 'value']
-        })
-      : options.concat()
+    let filtedOptions: Array<Option> = (
+      inputValue && isOpen && !loadOptions
+        ? matchSorter(options, inputValue, {
+            keys: [labelField || 'label', valueField || 'value']
+          })
+        : options.concat()
     ).filter((option: Option) => !option.hidden && option.visible !== false);
 
     const selectionValues = selection.map(select => select[valueField]);

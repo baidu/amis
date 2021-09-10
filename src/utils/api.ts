@@ -1,7 +1,6 @@
 import {Api, ApiObject, fetcherResult, Payload} from '../types';
 import {fetcherConfig} from '../factory';
 import {tokenize, dataMapping} from './tpl-builtin';
-import qs from 'qs';
 import {evalExpression} from './tpl';
 import {
   isObject,

@@ -1,5 +1,4 @@
 import React from 'react';
-import qs from 'qs';
 import {RendererStore, IRendererStore, IIRendererStore} from './store/index';
 import {getEnv, destroy} from 'mobx-state-tree';
 import {wrapFetcher} from './utils/api';

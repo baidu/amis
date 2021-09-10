@@ -30,7 +30,6 @@ import Scoped, {
   ScopedComponentType
 } from '../../Scoped';
 import {IComboStore} from '../../store/combo';
-import qs from 'qs';
 import {dataMapping} from '../../utils/tpl-builtin';
 import {isApiOutdated, isEffectiveApi} from '../../utils/api';
 import Spinner from '../../components/Spinner';
