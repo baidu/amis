@@ -36,6 +36,17 @@ order: 47
 }
 ```
 
+也可以是
+
+```json
+{
+  "status": 0,
+  "data": {
+    "link": "https://xxx.png"
+  }
+}
+```
+
 下面是个示例，但不会真正上传，每次都返回同一张图片
 
 ```schema: scope="body"
