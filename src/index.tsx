@@ -103,6 +103,7 @@ import './renderers/Form/InputArray';
 import './renderers/Form/Combo';
 import './renderers/Form/ConditionBuilder';
 import './renderers/Form/InputSubForm';
+import './renderers/Form/InputExcel';
 import './renderers/Form/InputRichText';
 import './renderers/Form/Editor';
 import './renderers/Form/DiffEditor';
