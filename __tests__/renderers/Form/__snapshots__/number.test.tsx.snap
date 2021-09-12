@@ -83,13 +83,9 @@ exports[`Renderer:number 1`] = `
                 class="cxd-Number-input-wrap"
               >
                 <input
-                  aria-valuemax="9007199254740991"
-                  aria-valuemin="-9007199254740991"
                   aria-valuenow="456"
                   autocomplete="off"
                   class="cxd-Number-input"
-                  max="9007199254740991"
-                  min="-9007199254740991"
                   role="spinbutton"
                   step="1"
                   value="456"

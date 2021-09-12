@@ -83,13 +83,9 @@ exports[`Renderer:formula 1`] = `
                 class="cxd-Number-input-wrap"
               >
                 <input
-                  aria-valuemax="9007199254740991"
-                  aria-valuemin="-9007199254740991"
                   aria-valuenow="1"
                   autocomplete="off"
                   class="cxd-Number-input"
-                  max="9007199254740991"
-                  min="-9007199254740991"
                   role="spinbutton"
                   step="1"
                   value="1"
@@ -153,13 +149,9 @@ exports[`Renderer:formula 1`] = `
                 class="cxd-Number-input-wrap"
               >
                 <input
-                  aria-valuemax="9007199254740991"
-                  aria-valuemin="-9007199254740991"
                   aria-valuenow="2"
                   autocomplete="off"
                   class="cxd-Number-input"
-                  max="9007199254740991"
-                  min="-9007199254740991"
                   role="spinbutton"
                   step="1"
                   value="2"
@@ -223,13 +215,9 @@ exports[`Renderer:formula 1`] = `
                 class="cxd-Number-input-wrap"
               >
                 <input
-                  aria-valuemax="9007199254740991"
-                  aria-valuemin="-9007199254740991"
                   aria-valuenow="3"
                   autocomplete="off"
                   class="cxd-Number-input"
-                  max="9007199254740991"
-                  min="-9007199254740991"
                   role="spinbutton"
                   step="1"
                   value="3"
@@ -293,13 +281,9 @@ exports[`Renderer:formula 1`] = `
                 class="cxd-Number-input-wrap"
               >
                 <input
-                  aria-valuemax="9007199254740991"
-                  aria-valuemin="-9007199254740991"
                   aria-valuenow="4"
                   autocomplete="off"
                   class="cxd-Number-input"
-                  max="9007199254740991"
-                  min="-9007199254740991"
                   role="spinbutton"
                   step="1"
                   value="4"
@@ -363,13 +347,9 @@ exports[`Renderer:formula 1`] = `
                 class="cxd-Number-input-wrap"
               >
                 <input
-                  aria-valuemax="9007199254740991"
-                  aria-valuemin="-9007199254740991"
                   aria-valuenow="5"
                   autocomplete="off"
                   class="cxd-Number-input"
-                  max="9007199254740991"
-                  min="-9007199254740991"
                   role="spinbutton"
                   step="1"
                   value="5"
