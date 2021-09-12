@@ -124,7 +124,7 @@ export default class ExcelControl extends React.PureComponent<
       classPrefix: ns,
       value,
       disabled,
-      ...rest
+      translate: __
     } = this.props;
 
     return (
@@ -140,7 +140,7 @@ export default class ExcelControl extends React.PureComponent<
             <section className={cx('ExcelControl-container', className)}>
               <div {...getRootProps({className: cx('ExcelControl-dropzone')})}>
                 <input {...getInputProps()} />
-                <p>拖拽 Excel 到这，或点击上传</p>
+                <p>{__('Excel.placeholder')}</p>
               </div>
             </section>
           )}
