@@ -23,7 +23,7 @@ export interface ButtonSchema extends BaseSchema {
   /**
    * icon 上的css 类名
    */
-   iconClassName?: SchemaClassName;
+  iconClassName?: SchemaClassName;
 
   /**
    * 右侧按钮图标， iconfont 的类名
@@ -33,7 +33,7 @@ export interface ButtonSchema extends BaseSchema {
   /**
    * 右侧 icon 上的 css 类名
    */
-   rightIconClassName?: SchemaClassName;
+  rightIconClassName?: SchemaClassName;
 
   /**
    * 按钮文字
@@ -365,17 +365,47 @@ import {BadgeSchema, withBadge} from '../components/Badge';
 import {str2AsyncFunction} from '../utils/api';
 
 export interface ActionProps
-  extends Omit<ButtonSchema, 'className' | 'iconClassName' | 'rightIconClassName'>,
+  extends Omit<
+      ButtonSchema,
+      'className' | 'iconClassName' | 'rightIconClassName'
+    >,
     ThemeProps,
-    Omit<AjaxActionSchema, 'type' | 'className' | 'iconClassName' | 'rightIconClassName'>,
-    Omit<UrlActionSchema, 'type' | 'className' | 'iconClassName' | 'rightIconClassName'>,
-    Omit<LinkActionSchema, 'type' | 'className' | 'iconClassName' | 'rightIconClassName'>,
-    Omit<DialogActionSchema, 'type' | 'className' | 'iconClassName' | 'rightIconClassName'>,
-    Omit<DrawerActionSchema, 'type' | 'className' | 'iconClassName' | 'rightIconClassName'>,
-    Omit<CopyActionSchema, 'type' | 'className' | 'iconClassName' | 'rightIconClassName'>,
-    Omit<ReloadActionSchema, 'type' | 'className' | 'iconClassName' | 'rightIconClassName'>,
-    Omit<EmailActionSchema, 'type' | 'className' | 'iconClassName' | 'rightIconClassName'>,
-    Omit<OtherActionSchema, 'type' | 'className' | 'iconClassName' | 'rightIconClassName'> {
+    Omit<
+      AjaxActionSchema,
+      'type' | 'className' | 'iconClassName' | 'rightIconClassName'
+    >,
+    Omit<
+      UrlActionSchema,
+      'type' | 'className' | 'iconClassName' | 'rightIconClassName'
+    >,
+    Omit<
+      LinkActionSchema,
+      'type' | 'className' | 'iconClassName' | 'rightIconClassName'
+    >,
+    Omit<
+      DialogActionSchema,
+      'type' | 'className' | 'iconClassName' | 'rightIconClassName'
+    >,
+    Omit<
+      DrawerActionSchema,
+      'type' | 'className' | 'iconClassName' | 'rightIconClassName'
+    >,
+    Omit<
+      CopyActionSchema,
+      'type' | 'className' | 'iconClassName' | 'rightIconClassName'
+    >,
+    Omit<
+      ReloadActionSchema,
+      'type' | 'className' | 'iconClassName' | 'rightIconClassName'
+    >,
+    Omit<
+      EmailActionSchema,
+      'type' | 'className' | 'iconClassName' | 'rightIconClassName'
+    >,
+    Omit<
+      OtherActionSchema,
+      'type' | 'className' | 'iconClassName' | 'rightIconClassName'
+    > {
   actionType: any;
   onAction?: (
     e: React.MouseEvent<any> | void | null,
@@ -547,7 +577,12 @@ export class Action extends React.Component<ActionProps, ActionState> {
     }
 
     const iconElement = generateIcon(cx, icon, 'Button-icon', iconClassName);
-    const rightIconElement = generateIcon(cx, rightIcon, 'Button-icon', rightIconClassName);
+    const rightIconElement = generateIcon(
+      cx,
+      rightIcon,
+      'Button-icon',
+      rightIconClassName
+    );
 
     return (
       <Button

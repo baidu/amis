@@ -1,7 +1,5 @@
 import React from 'react';
 import {FormItem, FormControlProps, FormBaseControl} from './Item';
-import cx from 'classnames';
-import qs from 'qs';
 import find from 'lodash/find';
 import isPlainObject from 'lodash/isPlainObject';
 // @ts-ignore
@@ -358,11 +356,12 @@ export default class FileControl extends React.Component<FileProps, FileState> {
     if (value && value instanceof Blob) {
       files = [value as any];
     } else if (value) {
-      files = (Array.isArray(value)
-        ? value
-        : joinValues
-        ? `${(value as any)[valueField] || value}`.split(delimiter)
-        : [value as any]
+      files = (
+        Array.isArray(value)
+          ? value
+          : joinValues
+          ? `${(value as any)[valueField] || value}`.split(delimiter)
+          : [value as any]
       )
         .map(item => FileControl.valueToFile(item, props) as FileValue)
         .filter(item => item);
@@ -404,11 +403,12 @@ export default class FileControl extends React.Component<FileProps, FileState> {
       let files: Array<FileValue> = [];
 
       if (value) {
-        files = (Array.isArray(value)
-          ? value
-          : joinValues && typeof value === 'string'
-          ? value.split(delimiter)
-          : [value as any]
+        files = (
+          Array.isArray(value)
+            ? value
+            : joinValues && typeof value === 'string'
+            ? value.split(delimiter)
+            : [value as any]
         )
           .map(item => {
             let obj = FileControl.valueToFile(

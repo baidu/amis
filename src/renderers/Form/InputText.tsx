@@ -7,8 +7,7 @@ import {
 } from './Options';
 import {Action} from '../../types';
 import Downshift, {StateChangeOptions} from 'downshift';
-// @ts-ignore
-import matchSorter from 'match-sorter';
+import {matchSorter} from 'match-sorter';
 import debouce from 'lodash/debounce';
 import {filter} from '../../utils/tpl';
 import find from 'lodash/find';
@@ -140,14 +139,8 @@ export default class TextControl extends React.PureComponent<
   };
 
   componentDidMount() {
-    const {
-      formItem,
-      autoComplete,
-      addHook,
-      formInited,
-      data,
-      name
-    } = this.props;
+    const {formItem, autoComplete, addHook, formInited, data, name} =
+      this.props;
 
     if (isEffectiveApi(autoComplete, data) && formItem) {
       if (formInited) {
@@ -470,13 +463,8 @@ export default class TextControl extends React.PureComponent<
   }
 
   loadAutoComplete() {
-    const {
-      formItem,
-      autoComplete,
-      data,
-      multiple,
-      selectedOptions
-    } = this.props;
+    const {formItem, autoComplete, data, multiple, selectedOptions} =
+      this.props;
 
     if (isEffectiveApi(autoComplete, data) && formItem) {
       formItem.loadOptions(
@@ -564,9 +552,8 @@ export default class TextControl extends React.PureComponent<
                 {
                   'is-opened': isOpen,
                   'TextControl-input--multiple': multiple,
-                  [`TextControl-input--border${ucFirst(
+                  [`TextControl-input--border${ucFirst(borderMode)}`]:
                     borderMode
-                  )}`]: borderMode
                 }
               )}
               onClick={this.handleClick}

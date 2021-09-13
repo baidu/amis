@@ -29,7 +29,6 @@ import Button from '../components/Button';
 import Select from '../components/Select';
 import getExprProperties from '../utils/filter-schema';
 import pick from 'lodash/pick';
-import qs from 'qs';
 import {findDOMNode} from 'react-dom';
 import {evalExpression, filter} from '../utils/tpl';
 import {
@@ -956,12 +955,8 @@ export default class CRUD extends React.Component<CRUDProps, any> {
   }
 
   handleDialogClose() {
-    const {
-      store,
-      stopAutoRefreshWhenModalIsOpen,
-      silentPolling,
-      interval
-    } = this.props;
+    const {store, stopAutoRefreshWhenModalIsOpen, silentPolling, interval} =
+      this.props;
     store.closeDialog();
 
     if (stopAutoRefreshWhenModalIsOpen && interval) {
@@ -1194,14 +1189,8 @@ export default class CRUD extends React.Component<CRUDProps, any> {
   }
 
   handleSaveOrder(moved: Array<object>, rows: Array<object>) {
-    const {
-      store,
-      saveOrderApi,
-      orderField,
-      primaryField,
-      env,
-      reload
-    } = this.props;
+    const {store, saveOrderApi, orderField, primaryField, env, reload} =
+      this.props;
 
     if (!saveOrderApi) {
       env && env.alert('CRUD saveOrderApi is required!');
@@ -1413,11 +1402,8 @@ export default class CRUD extends React.Component<CRUDProps, any> {
   }
 
   handleChildPopOverClose(popOver: any) {
-    const {
-      stopAutoRefreshWhenModalIsOpen,
-      silentPolling,
-      interval
-    } = this.props;
+    const {stopAutoRefreshWhenModalIsOpen, silentPolling, interval} =
+      this.props;
 
     if (popOver && ~['dialog', 'drawer'].indexOf(popOver.mode)) {
       this.props.store.setInnerModalOpened(false);

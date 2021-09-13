@@ -1,5 +1,4 @@
 import isPlainObject from 'lodash/isPlainObject';
-import qs from 'qs';
 import React from 'react';
 import Alert from './components/Alert2';
 import ImageGallery from './components/ImageGallery';

@@ -12,9 +12,7 @@ import {
   FunctionPropertyNames
 } from '../types';
 import {filter, evalExpression} from '../utils/tpl';
-import cx from 'classnames';
-import qs from 'qs';
-import {isVisible, autobind, bulkBindFunctions, uuid} from '../utils/helper';
+import {isVisible, autobind, bulkBindFunctions} from '../utils/helper';
 import {ScopedContext, IScopedContext} from '../Scoped';
 import Alert from '../components/Alert2';
 import {isApiOutdated, isEffectiveApi} from '../utils/api';

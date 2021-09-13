@@ -131,10 +131,29 @@ app.listen(8080, function () {
         {
             "type": "input-image",
             "name": "image",
-            "label": "限制只能上传jpg图片",
-            "accept": ".jpg",
+            "label": "上传后裁剪",
             "receiver": "/api/upload/file",
             "crop": true
+        }
+    ]
+}
+```
+
+设置裁剪比例等配置，具体细节可以参考[这里](https://github.com/fengyuanchen/cropperjs#options)。
+
+```schema: scope="body"
+{
+    "type": "form",
+    "api": "/api/mock2/form/saveForm",
+    "body": [
+        {
+            "type": "input-image",
+            "name": "image",
+            "label": "上传后裁剪",
+            "receiver": "/api/upload/file",
+            "crop": {
+              "aspectRatio": 1.7777
+            }
         }
     ]
 }

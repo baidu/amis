@@ -5,9 +5,7 @@
 
 import React from 'react';
 import find from 'lodash/find';
-import PropTypes from 'prop-types';
 import hoistNonReactStatic from 'hoist-non-react-statics';
-import qs from 'qs';
 import {dataMapping} from './utils/tpl-builtin';
 import {RendererEnv, RendererProps} from './factory';
 import {noop, autobind, qsstringify, qsparse} from './utils/helper';
