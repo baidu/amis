@@ -383,9 +383,9 @@ export const components = [
         path: '/zh-CN/components/form/input-datetime-range',
         getComponent: () =>
           // @ts-ignore
-          import('../../docs/zh-CN/components/form/input-datetime-range.md').then(
-            makeMarkdownRenderer
-          )
+          import(
+            '../../docs/zh-CN/components/form/input-datetime-range.md'
+          ).then(makeMarkdownRenderer)
       },
       {
         label: 'InputMonthRange 月份范围',
@@ -420,6 +420,15 @@ export const components = [
         getComponent: () =>
           // @ts-ignore
           import('../../docs/zh-CN/components/form/fieldset.md').then(
+            makeMarkdownRenderer
+          )
+      },
+      {
+        label: 'InputExcel Excel 解析',
+        path: '/zh-CN/components/form/input-excel',
+        getComponent: () =>
+          // @ts-ignore
+          import('../../docs/zh-CN/components/form/input-excel.md').then(
             makeMarkdownRenderer
           )
       },
