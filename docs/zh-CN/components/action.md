@@ -677,7 +677,7 @@ icon 也可以是 url 地址，比如
 
 > 1.3.0 版本新增功能
 
-如果上面的的行为不满足需求，还可以通过字符串形式的 `onClick` 来定义点击事件，这个字符串会转成 JavaScript。
+如果上面的的行为不满足需求，还可以通过字符串形式的 `onClick` 来定义点击事件，这个字符串会转成 JavaScript 函数，并支持异步。
 
 ```schema: scope="body"
 {
@@ -734,6 +734,33 @@ props.onAction(event, {
     "title": "弹框",
     "body": "这是个简单的弹框。"
   }
+}
+```
+
+如果是在表单项中，还能通过 `props.formStore.setValues();` 来修改其它表单项值
+
+```schema: scope="body"
+{
+  "type": "form",
+  "api": "/api/mock2/form/saveForm",
+  "body": [
+    {
+      "type": "input-text",
+      "name": "name",
+      "label": "姓名："
+    },
+    {
+      "type": "input-text",
+      "name": "email",
+      "label": "邮箱："
+    },
+    {
+      "label": "修改姓名",
+      "name": "name",
+      "type": "button",
+      "onClick": "props.formStore.setValues({name: 'amis', email: 'amis@baidu.com'});"
+    }
+  ]
 }
 ```
 
