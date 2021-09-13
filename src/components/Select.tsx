@@ -286,6 +286,7 @@ interface SelectProps extends OptionProps, ThemeProps, LocaleProps {
   onBlur?: Function;
   checkAll?: boolean;
   checkAllLabel?: string;
+  checkAllBySearch?: boolean;
   defaultCheckAll?: boolean;
   simpleValue?: boolean;
   defaultOpen?: boolean;
@@ -473,15 +474,29 @@ export class Select extends React.Component<SelectProps, SelectState> {
   }
 
   toggleCheckAll() {
-    const {options, onChange, simpleValue} = this.props;
+    const {
+      options,
+      onChange,
+      simpleValue,
+      checkAllBySearch,
+      labelField,
+      valueField
+    } = this.props;
+    const inputValue = this.state.inputValue;
     let {selection} = this.state;
-    const optionsValues = options.map(option => option.value);
+    let filtedOptions: Array<Option> =
+      inputValue && checkAllBySearch
+        ? matchSorter(options, inputValue, {
+            keys: [labelField || 'label', valueField || 'value']
+          })
+        : options.concat();
+    const optionsValues = filtedOptions.map(option => option.value);
     const selectionValues = selection.map(select => select.value);
     const checkedAll = optionsValues.every(
       option => selectionValues.indexOf(option) > -1
     );
 
-    selection = checkedAll ? [] : options;
+    selection = checkedAll ? [] : filtedOptions;
     onChange(simpleValue ? selection.map(item => item.value) : selection);
   }
 
@@ -687,6 +702,7 @@ export class Select extends React.Component<SelectProps, SelectState> {
       popoverClassName,
       checkAll,
       checkAllLabel,
+      checkAllBySearch,
       searchable,
       createBtnLabel,
       disabled,
@@ -712,7 +728,9 @@ export class Select extends React.Component<SelectProps, SelectState> {
 
     const selectionValues = selection.map(select => select[valueField]);
     if (multiple && checkAll) {
-      const optionsValues = options.map(option => option[valueField]);
+      const optionsValues = (checkAllBySearch ? filtedOptions : options).map(
+        option => option[valueField]
+      );
 
       checkedAll = optionsValues.every(
         option => selectionValues.indexOf(option) > -1
