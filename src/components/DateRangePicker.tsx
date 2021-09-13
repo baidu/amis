@@ -492,10 +492,10 @@ export class DateRangePicker extends React.Component<
     const now = moment();
     this.setState(
       {
-        startDate: minDate
+        startDate: minDate && minDate.isValid()
           ? moment.max(range.startDate(now.clone()), minDate)
           : range.startDate(now.clone()),
-        endDate: maxDate
+        endDate: maxDate && maxDate.isValid()
           ? moment.min(maxDate, range.endDate(now.clone()))
           : range.endDate(now.clone())
       },
