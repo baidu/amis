@@ -5,7 +5,6 @@
  */
 
 import React from 'react';
-import css from 'dom-helpers/style/index';
 import {ClassNamesFn, themeable} from '../theme';
 import Transition, {
   EXITED,
@@ -64,10 +63,9 @@ export class Collapse extends React.Component<CollapseProps, any> {
     let offsetHeight = elem['offsetHeight'];
     const height =
       offsetHeight +
-      parseInt(css(elem, 'marginTop'), 10) +
-      parseInt(css(elem, 'marginBottom'), 10);
+      parseInt(getComputedStyle(elem).getPropertyValue('margin-top'), 10) +
+      parseInt(getComputedStyle(elem).getPropertyValue('margin-bottom'), 10);
     elem.style['height'] = `${height}px`;
-
     // trigger browser reflow
     elem.offsetHeight;
   }

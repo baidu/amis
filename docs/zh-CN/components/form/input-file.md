@@ -93,7 +93,7 @@ order: 21
 
 ## 自动填充
 
-上传成功后，可以通过配置 `autoFill` 将上传接口返回的值填充到某个表单项中：
+上传成功后，可以通过配置 `autoFill` 将上传接口返回的值填充到某个表单项中（在非表单下暂不支持）：
 
 ```schema: scope="body"
 {
@@ -111,7 +111,7 @@ order: 21
       }
     },
     {
-      "type": "text",
+      "type": "input-text",
       "name": "myUrl",
       "label": "url"
     }

@@ -6,7 +6,6 @@ import DropZone from 'react-dropzone';
 import {FileRejection} from 'react-dropzone';
 import 'blueimp-canvastoblob';
 import find from 'lodash/find';
-import qs from 'qs';
 import {Payload} from '../../types';
 import {buildApi} from '../../utils/api';
 import {
@@ -389,11 +388,12 @@ export default class ImageControl extends React.Component<
 
     if (value) {
       // files = (multiple && Array.isArray(value) ? value : joinValues ? (value as string).split(delimiter) : [value])
-      files = (Array.isArray(value)
-        ? value
-        : joinValues && typeof value === 'string' && multiple
-        ? (value as string).split(delimiter)
-        : [value]
+      files = (
+        Array.isArray(value)
+          ? value
+          : joinValues && typeof value === 'string' && multiple
+          ? (value as string).split(delimiter)
+          : [value]
       )
         .map(item => ImageControl.valueToFile(item) as FileValue)
         .filter(item => item);
@@ -444,11 +444,12 @@ export default class ImageControl extends React.Component<
       let files: Array<FileValue> = [];
 
       if (value) {
-        files = (Array.isArray(value)
-          ? value
-          : joinValues && typeof value === 'string'
-          ? (value as string).split(delimiter)
-          : [value]
+        files = (
+          Array.isArray(value)
+            ? value
+            : joinValues && typeof value === 'string'
+            ? (value as string).split(delimiter)
+            : [value]
         )
           .map(item => {
             let obj = ImageControl.valueToFile(item, props) as FileValue;
@@ -1196,14 +1197,8 @@ export default class ImageControl extends React.Component<
       fixedSizeClassName,
       translate: __
     } = this.props;
-    const {
-      files,
-      error,
-      crop,
-      uploading,
-      cropFile,
-      frameImageWidth
-    } = this.state;
+    const {files, error, crop, uploading, cropFile, frameImageWidth} =
+      this.state;
     let frameImageStyle: any = {};
     if (fixedSizeClassName && frameImageWidth && fixedSize) {
       frameImageStyle.width = frameImageWidth;

@@ -12,8 +12,7 @@ import Overlay from './Overlay';
 import PopOver from './PopOver';
 import Downshift, {ControllerStateAndHelpers} from 'downshift';
 import {closeIcon, Icon} from './icons';
-// @ts-ignore
-import matchSorter from 'match-sorter';
+import {matchSorter} from 'match-sorter';
 import {noop, isObject, findTree, autobind, ucFirst} from '../utils/helper';
 import find from 'lodash/find';
 import isPlainObject from 'lodash/isPlainObject';
