@@ -866,7 +866,7 @@ export default class FileControl extends React.Component<FileProps, FileState> {
             }
           : files[0]
       );
-      onBulkChange(toSync);
+      onBulkChange && onBulkChange(toSync);
     }
   }
 
