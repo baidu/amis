@@ -630,3 +630,7 @@ class MyComponent extends React.Component<any, any> {
 ##### richTextToken: string
 
 内置 rich-text 为 frolaEditor，想要使用，请自行购买，或者用免费的 Tinymce，不设置 token 默认就是 Tinymce。
+
+##### hideValidateFailedDetail: boolean
+
+Form 表单验证失败时在 notify 消息提示中是否隐藏详细信息，默认展示，设置为 true 时隐藏

@@ -298,7 +298,7 @@ export class Editor extends React.Component<EditorProps, any> {
       height,
       translate: __
     } = this.props;
-    let style = this.props.style || {};
+    let style = {...(this.props.style || {})};
 
     style.width = width;
     style.height = height;
