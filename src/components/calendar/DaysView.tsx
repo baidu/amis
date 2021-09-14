@@ -101,7 +101,7 @@ export class CustomDaysView extends DaysView {
     let date = (this.props.selectedDate || this.props.viewDate).clone();
 
     // 如果 minDate 是可用的，且比当前日期早，则用 minDate
-    if (this.props.minDate.isValid() && this.props.minDate.isBefore(date)) {
+    if (this.props.minDate?.isValid() && this.props.minDate?.isBefore(date)) {
       date = this.props.minDate.clone();
     }
 
