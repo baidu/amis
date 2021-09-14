@@ -1,3 +1,5 @@
+@use 'sass:math';
+
 .#{$ns}Form-groupColumn {
   margin-bottom: var(--gap-sm);
 }
@@ -95,8 +97,8 @@
 
   @for $i from (1) through $Form--horizontal-columns {
     .#{$ns}Form-groupColumn--#{$i} {
-      flex: 0 0 percentage($i / $Form--horizontal-columns);
-      max-width: percentage($i / $Form--horizontal-columns);
+      flex: 0 0 percentage(math.div($i, $Form--horizontal-columns));
+      max-width: percentage(math.div($i, $Form--horizontal-columns));
       min-height: 1px;
     }
   }

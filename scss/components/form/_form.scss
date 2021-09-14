@@ -1,3 +1,4 @@
+@use 'sass:math';
 @mixin setControlWidth() {
   width: var(--Form-control-widthBase);
 
@@ -288,8 +289,8 @@
 
       @for $i from (1) through $Form--horizontal-columns {
         .#{$ns}Form-itemColumn--#{$i} {
-          flex: 0 0 percentage($i / $Form--horizontal-columns);
-          max-width: percentage($i / $Form--horizontal-columns);
+          flex: 0 0 percentage(math.div($i, $Form--horizontal-columns));
+          max-width: percentage(math.div($i, $Form--horizontal-columns));
           min-height: 1px;
         }
       }

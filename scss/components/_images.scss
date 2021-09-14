@@ -1,3 +1,5 @@
+@use 'sass:math';
+
 .#{$ns}Images {
   display: flex;
   flex-wrap: wrap;
@@ -59,11 +61,11 @@
   }
 
   &-thumb--4-3 {
-    height: px2rem(110px * 3 / 4);
+    height: px2rem(math.div(110px * 3, 4));
   }
 
   &-thumb--16-9 {
-    height: px2rem(110px * 9 / 16);
+    height: px2rem(math.div(110px * 9, 16));
   }
 
   &-thumb--fixed-size {
