@@ -2,7 +2,7 @@ import React from 'react';
 // @ts-ignore
 import InputNumber from 'rc-input-number';
 import {ThemeProps, themeable} from '../theme';
-import {autobind} from '../utils/helper';
+import {autobind, ucFirst} from '../utils/helper';
 
 export interface NumberProps extends ThemeProps {
   placeholder?: string;
@@ -12,13 +12,31 @@ export interface NumberProps extends ThemeProps {
   showSteps?: boolean;
   precision?: number;
   disabled?: boolean;
+  /**
+   * 只读
+   */
+  readOnly?: boolean;
   value?: number;
   onChange?: (value: number) => void;
+  /**
+   * 边框模式，全边框，还是半边框，或者没边框。
+   */
+  borderMode?: 'full' | 'half' | 'none';
+  /**
+   * 指定输入框展示值的格式
+   */
+  formatter?: Function;
+  /**
+   * 指定从 formatter 里转换回数字的方式，和 formatter 搭配使用
+   */
+  parser?: Function;
 }
 
 export class NumberInput extends React.Component<NumberProps, any> {
-  static defaultProps = {
-    step: 1
+  static defaultProps: Pick<NumberProps, 'step' | 'readOnly' | 'borderMode'> = {
+    step: 1,
+    readOnly: false,
+    borderMode: 'full'
   };
 
   @autobind
@@ -51,7 +69,11 @@ export class NumberInput extends React.Component<NumberProps, any> {
       disabled,
       placeholder,
       onChange,
-      showSteps
+      showSteps,
+      formatter,
+      parser,
+      borderMode,
+      readOnly
     } = this.props;
 
     let precisionProps: any = {};
@@ -62,12 +84,17 @@ export class NumberInput extends React.Component<NumberProps, any> {
 
     return (
       <InputNumber
-        className={cx(className, showSteps === false ? 'no-steps' : '')}
+        className={cx(className, showSteps === false ? 'no-steps' : '', {
+          [`Number--border${ucFirst(borderMode)}`]: borderMode
+        })}
+        readOnly={readOnly}
         prefixCls={`${ns}Number`}
         value={value}
         step={step}
         max={max}
         min={min}
+        formatter={formatter}
+        parser={parser}
         onChange={this.handleChange}
         disabled={disabled}
         placeholder={placeholder}

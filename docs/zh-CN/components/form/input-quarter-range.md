@@ -13,7 +13,7 @@ order: 15
 ```schema: scope="body"
 {
     "type": "form",
-    "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
+    "api": "/api/mock2/form/saveForm",
     "body": [
         {
             "type": "input-quarter-range",
@@ -29,7 +29,7 @@ order: 15
 ```schema: scope="body"
 {
     "type": "form",
-    "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
+    "api": "/api/mock2/form/saveForm",
     "debug": true,
     "body": [
         {
@@ -53,8 +53,8 @@ order: 15
 | placeholder | `string`  | `"请选择季度范围"` | 占位文本                                                                     |
 | minDate     | `string`  |                    | 限制最小日期，用法同 [限制范围](./date#%E9%99%90%E5%88%B6%E8%8C%83%E5%9B%B4) |
 | maxDate     | `string`  |                    | 限制最大日期，用法同 [限制范围](./date#%E9%99%90%E5%88%B6%E8%8C%83%E5%9B%B4) |
-| minDuration | `string`  |                    | 限制最小跨度，如： 2quarter                                                     |
-| maxDuration | `string`  |                    | 限制最大跨度，如：4quarter                                                      |
+| minDuration | `string`  |                    | 限制最小跨度，如： 2quarter                                                  |
+| maxDuration | `string`  |                    | 限制最大跨度，如：4quarter                                                   |
 | utc         | `boolean` | `false`            | [保存 UTC 值](./date#utc)                                                    |
 | clearable   | `boolean` | `true`             | 是否可清除                                                                   |
 | embed       | `boolean` | `false`            | 是否内联模式                                                                 |

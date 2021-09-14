@@ -192,7 +192,7 @@ export class Modal extends React.Component<ModalProps, ModalState> {
       addModal(this);
       (ref as HTMLElement).classList.add(`${ns}Modal--${current()}th`);
     } else {
-      removeModal();
+      removeModal(this);
     }
   };
 

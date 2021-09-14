@@ -13,12 +13,32 @@ order: 32
 ```schema: scope="body"
 {
     "type": "form",
-    "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
+    "api": "/api/mock2/form/saveForm",
     "body": [
         {
             "type": "input-number",
             "name": "number",
             "label": "数字"
+        }
+    ]
+}
+```
+
+## 前后缀、千分分隔
+
+```schema: scope="body"
+{
+    "type": "form",
+    "api": "/api/mock2/form/saveForm",
+    "body": [
+        {
+            "type": "input-number",
+            "name": "number",
+            "label": "数字",
+            "value": 111111,
+            "prefix": "$",
+            "suffix": "%",
+            "kilobitSeparator": true
         }
     ]
 }
@@ -31,7 +51,7 @@ order: 32
 ```schema: scope="body"
 {
     "type": "form",
-    "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
+    "api": "/api/mock2/form/saveForm",
     "body": [
         {
             "type": "native-number",
@@ -53,3 +73,6 @@ order: 32
 | step      | `number`                                |        | 步长                 |
 | precision | `number`                                |        | 精度，即小数点后几位 |
 | showSteps | `boolean`                               |        | 是否显示上下点击按钮 |
+| prefix    | `string`                                |        | 前缀              |
+| suffix    | `string`                                |        | 后缀              |
+| kilobitSeparator    | `boolean`                      |        | 千分分隔              |

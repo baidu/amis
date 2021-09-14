@@ -3,17 +3,17 @@
 exports[`Renderer:number 1`] = `
 <div>
   <div
-    class="a-Panel a-Panel--default a-Panel--form"
+    class="cxd-Panel cxd-Panel--default cxd-Panel--form"
     style="position: relative;"
   >
     <div
-      class="a-Panel-heading"
+      class="cxd-Panel-heading"
     >
       <h3
-        class="a-Panel-title"
+        class="cxd-Panel-title"
       >
         <span
-          class="a-TplField"
+          class="cxd-TplField"
         >
           <span>
             The form
@@ -22,22 +22,22 @@ exports[`Renderer:number 1`] = `
       </h3>
     </div>
     <div
-      class="a-Panel-body"
+      class="cxd-Panel-body"
     >
       <form
-        class="a-Form a-Form--normal"
+        class="cxd-Form cxd-Form--normal"
         novalidate=""
       >
         <div
-          class="a-Form-item a-Form-item--normal"
+          class="cxd-Form-item cxd-Form-item--normal"
           data-role="form-item"
         >
           <label
-            class="a-Form-label"
+            class="cxd-Form-label"
           >
             <span>
               <span
-                class="a-TplField"
+                class="cxd-TplField"
               >
                 <span>
                   range
@@ -46,38 +46,37 @@ exports[`Renderer:number 1`] = `
             </span>
           </label>
           <div
-            class="a-RangeControl a-RangeControl--withInput a-RangeControl--clearable a-Form-control"
+            class="cxd-RangeControl cxd-RangeControl--withInput cxd-RangeControl--clearable cxd-Form-control"
           >
             <div
               aria-disabled="false"
-              class="a-InputRange"
+              class="cxd-InputRange"
             >
               <span
-                class="a-InputRange-label a-InputRange-label--min"
+                class="cxd-InputRange-label cxd-InputRange-label--min"
               >
                 <span
-                  class="a-InputRange-labelContainer"
+                  class="cxd-InputRange-labelContainer"
                 >
                   0
                 </span>
               </span>
               <div
-                class="a-InputRange-track a-InputRange-track--background"
+                class="cxd-InputRange-track cxd-InputRange-track--background"
               >
                 <div
-                  class="a-InputRange-track"
+                  class="cxd-InputRange-track"
                   style="left: 0%; width: 40%;"
                 />
                 <span
-                  class="a-InputRange-sliderContainer"
+                  class="cxd-InputRange-sliderContainer"
                   style="position: absolute; left: 40%;"
                 >
                   <span
-                    class="a-InputRange-label a-InputRange-label--value"
-                    style="left: calc(50% - 0px);"
+                    class="cxd-InputRange-label cxd-InputRange-label--value"
                   >
                     <span
-                      class="a-InputRange-labelContainer"
+                      class="cxd-InputRange-labelContainer"
                     >
                       8
                     </span>
@@ -86,7 +85,7 @@ exports[`Renderer:number 1`] = `
                     aria-valuemax="20"
                     aria-valuemin="0"
                     aria-valuenow="8"
-                    class="a-InputRange-slider"
+                    class="cxd-InputRange-slider"
                     draggable="false"
                     role="slider"
                     tabindex="0"
@@ -94,27 +93,28 @@ exports[`Renderer:number 1`] = `
                 </span>
               </div>
               <span
-                class="a-InputRange-label a-InputRange-label--max"
+                class="cxd-InputRange-label cxd-InputRange-label--max"
               >
                 <span
-                  class="a-InputRange-labelContainer"
+                  class="cxd-InputRange-labelContainer"
                 >
                   20
                 </span>
               </span>
             </div>
             <span
-              class="a-InputRange-label a-InputRange-label--mid"
-              style="left: calc(50% - 60px);"
+              class="cxd-InputRange-label cxd-InputRange-label--mid"
+              style="left: 50%;"
             >
               <span
-                class="a-InputRange-labelContainer"
+                class="cxd-InputRange-labelContainer"
               >
                 10
+                
               </span>
             </span>
             <div
-              class="a-InputRange-input"
+              class="cxd-InputRange-input"
             >
               <input
                 class="is-active"
@@ -124,7 +124,7 @@ exports[`Renderer:number 1`] = `
               />
             </div>
             <a
-              class="a-InputRange-clear is-active"
+              class="cxd-InputRange-clear is-active"
             >
               <icon-mock
                 classname="icon icon-close"
@@ -185,17 +185,17 @@ exports[`Renderer:number 1`] = `
 exports[`Renderer:range:multiple 1`] = `
 <div>
   <div
-    class="a-Panel a-Panel--default a-Panel--form"
+    class="cxd-Panel cxd-Panel--default cxd-Panel--form"
     style="position: relative;"
   >
     <div
-      class="a-Panel-heading"
+      class="cxd-Panel-heading"
     >
       <h3
-        class="a-Panel-title"
+        class="cxd-Panel-title"
       >
         <span
-          class="a-TplField"
+          class="cxd-TplField"
         >
           <span>
             The form
@@ -204,22 +204,22 @@ exports[`Renderer:range:multiple 1`] = `
       </h3>
     </div>
     <div
-      class="a-Panel-body"
+      class="cxd-Panel-body"
     >
       <form
-        class="a-Form a-Form--normal"
+        class="cxd-Form cxd-Form--normal"
         novalidate=""
       >
         <div
-          class="a-Form-item a-Form-item--normal"
+          class="cxd-Form-item cxd-Form-item--normal"
           data-role="form-item"
         >
           <label
-            class="a-Form-label"
+            class="cxd-Form-label"
           >
             <span>
               <span
-                class="a-TplField"
+                class="cxd-TplField"
               >
                 <span>
                   range
@@ -228,38 +228,37 @@ exports[`Renderer:range:multiple 1`] = `
             </span>
           </label>
           <div
-            class="a-RangeControl a-RangeControl--withInput a-RangeControl--clearable is-multiple a-Form-control"
+            class="cxd-RangeControl cxd-RangeControl--withInput cxd-RangeControl--clearable is-multiple cxd-Form-control"
           >
             <div
               aria-disabled="false"
-              class="a-InputRange"
+              class="cxd-InputRange"
             >
               <span
-                class="a-InputRange-label a-InputRange-label--min"
+                class="cxd-InputRange-label cxd-InputRange-label--min"
               >
                 <span
-                  class="a-InputRange-labelContainer"
+                  class="cxd-InputRange-labelContainer"
                 >
                   0
                 </span>
               </span>
               <div
-                class="a-InputRange-track a-InputRange-track--background"
+                class="cxd-InputRange-track cxd-InputRange-track--background"
               >
                 <div
-                  class="a-InputRange-track is-active"
+                  class="cxd-InputRange-track is-active"
                   style="left: 0%; width: 100%;"
                 />
                 <span
-                  class="a-InputRange-sliderContainer"
+                  class="cxd-InputRange-sliderContainer"
                   style="position: absolute; left: 0%;"
                 >
                   <span
-                    class="a-InputRange-label a-InputRange-label--value"
-                    style="left: calc(50% - 0px);"
+                    class="cxd-InputRange-label cxd-InputRange-label--value"
                   >
                     <span
-                      class="a-InputRange-labelContainer"
+                      class="cxd-InputRange-labelContainer"
                     >
                       0
                     </span>
@@ -268,21 +267,21 @@ exports[`Renderer:range:multiple 1`] = `
                     aria-valuemax="20"
                     aria-valuemin="0"
                     aria-valuenow="0"
-                    class="a-InputRange-slider"
+                    class="cxd-InputRange-slider"
                     draggable="false"
                     role="slider"
                     tabindex="0"
                   />
                 </span>
                 <span
-                  class="a-InputRange-sliderContainer"
+                  class="cxd-InputRange-sliderContainer"
                   style="position: absolute; left: 100%;"
                 >
                   <span
-                    class="a-InputRange-label a-InputRange-label--value"
+                    class="cxd-InputRange-label cxd-InputRange-label--value"
                   >
                     <span
-                      class="a-InputRange-labelContainer"
+                      class="cxd-InputRange-labelContainer"
                     >
                       20
                     </span>
@@ -291,7 +290,7 @@ exports[`Renderer:range:multiple 1`] = `
                     aria-valuemax="20"
                     aria-valuemin="0"
                     aria-valuenow="20"
-                    class="a-InputRange-slider"
+                    class="cxd-InputRange-slider"
                     draggable="false"
                     role="slider"
                     tabindex="0"
@@ -299,27 +298,28 @@ exports[`Renderer:range:multiple 1`] = `
                 </span>
               </div>
               <span
-                class="a-InputRange-label a-InputRange-label--max"
+                class="cxd-InputRange-label cxd-InputRange-label--max"
               >
                 <span
-                  class="a-InputRange-labelContainer"
+                  class="cxd-InputRange-labelContainer"
                 >
                   20
                 </span>
               </span>
             </div>
             <span
-              class="a-InputRange-label a-InputRange-label--mid"
-              style="left: calc(50% - 60px);"
+              class="cxd-InputRange-label cxd-InputRange-label--mid"
+              style="left: 50%;"
             >
               <span
-                class="a-InputRange-labelContainer"
+                class="cxd-InputRange-labelContainer"
               >
                 10
+                
               </span>
             </span>
             <div
-              class="a-InputRange-input is-multiple"
+              class="cxd-InputRange-input is-multiple"
             >
               <input
                 class=""
@@ -328,7 +328,7 @@ exports[`Renderer:range:multiple 1`] = `
                 value="0"
               />
               <span
-                class="a-InputRange-input-separator"
+                class="cxd-InputRange-input-separator"
               >
                  - 
               </span>
@@ -340,7 +340,7 @@ exports[`Renderer:range:multiple 1`] = `
               />
             </div>
             <a
-              class="a-InputRange-clear is-active"
+              class="cxd-InputRange-clear is-active"
             >
               <icon-mock
                 classname="icon icon-close"

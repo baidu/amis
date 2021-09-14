@@ -13,6 +13,7 @@ import {
   resolveVariable,
   resolveVariableAndFilter
 } from './tpl-builtin';
+import {isObservable} from 'mobx';
 
 // 方便取值的时候能够把上层的取到，但是获取的时候不会全部把所有的数据获取到。
 export function createObject(
@@ -317,7 +318,9 @@ export function isObjectShallowModified(
     null == prev ||
     null == next ||
     !isObject(prev) ||
-    !isObject(next)
+    !isObject(next) ||
+    isObservable(prev) ||
+    isObservable(next)
   ) {
     return strictMode ? prev !== next : prev != next;
   }
@@ -1197,7 +1200,9 @@ export function getTreeParent<T extends TreeItem>(tree: Array<T>, value: T) {
 }
 
 export function ucFirst(str?: string) {
-  return str ? str.substring(0, 1).toUpperCase() + str.substring(1) : '';
+  return typeof str === 'string'
+    ? str.substring(0, 1).toUpperCase() + str.substring(1)
+    : str;
 }
 
 export function lcFirst(str?: string) {
@@ -1312,6 +1317,17 @@ export function qsstringify(
       Array.isArray(data[key]) && !data[key].length && (data[key] = '');
     });
   return qs.stringify(data, options);
+}
+
+export function qsparse(
+  data: string,
+  options: any = {
+    arrayFormat: 'indices',
+    encodeValuesOnly: true,
+    depth: 1000 // 默认是 5， 所以condition-builder只要来个条件组就会导致报错
+  }
+) {
+  return qs.parse(data, options);
 }
 
 export function object2formData(

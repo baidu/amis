@@ -193,6 +193,7 @@ export type SchemaType =
   | 'video'
   | 'wizard'
   | 'wrapper'
+  | 'web-component'
   | 'anchor-nav'
   | 'steps'
   | 'control'
@@ -218,7 +219,9 @@ export type SchemaType =
   | 'input-year'
   | 'input-month'
   | 'input-date-range'
+  | 'input-time-range'
   | 'input-datetime-range'
+  | 'input-excel'
   | 'diff-editor'
 
   // editor 系列

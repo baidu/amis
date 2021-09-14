@@ -15,14 +15,14 @@ order: 21
 ```schema: scope="body"
 {
     "type": "form",
-    "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
+    "api": "/api/mock2/form/saveForm",
     "body": [
         {
             "type": "input-file",
             "name": "file",
             "label": "File",
             "accept": "*",
-            "receiver": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/upload/file"
+            "receiver": "/api/upload/file"
         }
     ]
 }
@@ -49,14 +49,14 @@ order: 21
 ```schema: scope="body"
 {
     "type": "form",
-    "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
+    "api": "/api/mock2/form/saveForm",
     "body": [
         {
             "type": "input-file",
             "name": "file",
             "label": "限制只能上传csv文件",
             "accept": ".csv",
-            "receiver": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/upload/file"
+            "receiver": "/api/upload/file"
         }
     ]
 }
@@ -71,7 +71,7 @@ order: 21
 ```schema: scope="body"
 {
     "type": "form",
-    "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
+    "api": "/api/mock2/form/saveForm",
     "debug": true,
     "body": [
         {
@@ -93,25 +93,25 @@ order: 21
 
 ## 自动填充
 
-上传成功后，可以通过配置 `autoFill` 将上传接口返回的值填充到某个表单项中：
+上传成功后，可以通过配置 `autoFill` 将上传接口返回的值填充到某个表单项中（在非表单下暂不支持）：
 
 ```schema: scope="body"
 {
   "type": "form",
-  "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
+  "api": "/api/mock2/form/saveForm",
   "body": [
     {
       "type": "input-file",
       "name": "file",
       "label": "File",
       "accept": "*",
-      "receiver": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/upload/file",
+      "receiver": "/api/upload/file",
       "autoFill": {
         "myUrl": "${url}"
       }
     },
     {
-      "type": "text",
+      "type": "input-text",
       "name": "myUrl",
       "label": "url"
     }
@@ -151,14 +151,14 @@ order: 21
 {
   "type": "form",
   "debug": true,
-  "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
+  "api": "/api/mock2/form/saveForm",
   "body": [
     {
       "type": "input-file",
       "name": "file",
       "label": "File",
       "multiple": true,
-      "receiver": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/upload/file",
+      "receiver": "/api/upload/file",
       "autoFill": {
         "myUrl": "${items|pick:url}",
         "lastUrl": "${items|last|pick:url}"

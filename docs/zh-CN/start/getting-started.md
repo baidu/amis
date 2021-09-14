@@ -97,7 +97,7 @@ amisScoped.updateProps(
 
 ### 切换主题
 
-jssdk 版本默认使用 `sdk.css` 即默认主题，如果你想用使用云舍，请改成引用 `cxd.css`。同时 js 渲染地方第四个参数传入 `theme` 属性。如：
+jssdk 版本默认使用 `sdk.css` 即云舍主题，如果你想用使用仿 Antd，请将 css 引用改成 `.antd.css`。同时 js 渲染地方第四个参数传入 `theme` 属性。如：
 
 ```js
 amis.embed(
@@ -109,17 +109,15 @@ amis.embed(
     // 这里是初始 props
   },
   {
-    theme: 'cxd'
+    theme: 'antd'
   }
 );
 
 // 或者
 amisScoped.updateProps({
-  theme: 'cxd'
+  theme: 'antd'
 });
 ```
-
-暗黑主题同理，改成引用 'dark.css' 同时主题设置成 `dark`。
 
 ### 初始值
 
@@ -131,7 +129,7 @@ let amisJSON = {
   type: 'page',
   body: {
     type: 'tpl',
-    tpl: "${myData}"
+    tpl: '${myData}'
   }
 };
 let amisScoped = amis.embed('#root', amisJSON, {
@@ -156,6 +154,12 @@ let amisScoped = amis.embed(
   {
     // 可以不传，用来实现 ajax 请求
     fetcher: (url, method, data, config) => {},
+
+    // 可以不传，全局 api 请求适配器
+    // 另外在 amis 配置项中的 api 也可以配置适配器，针对某个特定接口单独处理。
+    responseAdaptor(api) {
+      return api;
+    }
 
     // 可以不传，全局 api 适配器。
     // 另外在 amis 配置项中的 api 也可以配置适配器，针对某个特定接口单独处理。
@@ -238,7 +242,7 @@ amisScoped.unmount();
 
 ### 切换主题
 
-jssdk 版本默认使用 `sdk.css` 即默认主题，如果你想用使用云舍，请改成引用 `cxd.css`。同时 js 渲染地方第四个参数传入 `theme` 属性。如：
+jssdk 版本默认使用 `sdk.css` 即云舍主题，如果你想用使用仿 AntD 主题，请改成引用 `antd.css`。同时 js 渲染地方第四个参数传入 `theme` 属性。如：
 
 ```js
 amis.embed(
@@ -250,12 +254,12 @@ amis.embed(
     // 默认数据
   },
   {
-    theme: 'cxd'
+    theme: 'antd'
   }
 );
 ```
 
-暗黑主题同理，改成引用 'dark.css' 同时主题设置成 `dark`。
+> 如果想使用 amis 1.2.2 之前的默认主题，名字是 ang
 
 ### 多页模式
 
@@ -289,26 +293,24 @@ npm i amis
 
 ### 主题样式
 
-目前支持三种主题：`default（默认主题）`、`cxd（云舍）`和`dark（暗黑）`
+目前主要支持两个主题：`cxd（云舍）` 和 `angt（仿 Antd）`
 
 1. 引入样式文件：
 
 html 中引入：
 
 ```html
-<link href="./node_modules/amis/lib/themes/default.css" />
+<link href="./node_modules/amis/lib/themes/cxd.css" />
 <link href="./node_modules/amis/lib/helper.css" />
-<!-- 或 <link href="./node_modules/amis/lib/themes/cxd.css" /> -->
-<!-- 或 <link href="./node_modules/amis/lib/themes/dark.css" /> -->
+<!-- 或 <link href="./node_modules/amis/lib/themes/antd.css" /> -->
 ```
 
 js 中引入：
 
 ```js
-import './node_modules/amis/lib/themes/default.css';
+import './node_modules/amis/lib/themes/cxd.css';
 import './node_modules/amis/lib/helper.css';
-// 或 import './node_modules/amis/lib/themes/cxd.css';
-// 或 import './node_modules/amis/lib/themes/dark.css';
+// 或 import './node_modules/amis/lib/themes/antd.css';
 ```
 
 > 上面只是示例，请根据自己的项目结构调整引用路径
@@ -327,7 +329,7 @@ renderAmis(
   },
   {
     // env...
-    theme: 'default' // cxd 或 dark
+    theme: 'cxd' // cxd 或 antd
   }
 );
 ```
@@ -358,7 +360,7 @@ import {toast} from 'amis/lib/components/Toast';
 class MyComponent extends React.Component<any, any> {
   render() {
     let amisScoped;
-    let theme = 'default';
+    let theme = 'cxd';
     return (
       <div>
         <p>通过 amis 渲染页面</p>
@@ -628,3 +630,7 @@ class MyComponent extends React.Component<any, any> {
 ##### richTextToken: string
 
 内置 rich-text 为 frolaEditor，想要使用，请自行购买，或者用免费的 Tinymce，不设置 token 默认就是 Tinymce。
+
+##### hideValidateFailedDetail: boolean
+
+Form 表单验证失败时在 notify 消息提示中是否隐藏详细信息，默认展示，设置为 true 时隐藏

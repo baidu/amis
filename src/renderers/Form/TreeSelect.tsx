@@ -10,8 +10,7 @@ import {
 } from './Options';
 import {Icon} from '../../components/icons';
 import TreeSelector from '../../components/Tree';
-// @ts-ignore
-import matchSorter from 'match-sorter';
+import {matchSorter} from 'match-sorter';
 import debouce from 'lodash/debounce';
 import find from 'lodash/find';
 import {Api} from '../../types';
@@ -297,8 +296,9 @@ export default class TreeSelectControl extends React.Component<
 
       if (!option.visible && option.children) {
         option.children = this.filterOptions(option.children, keywords);
-        const visibleCount = option.children.filter(item => item.visible)
-          .length;
+        const visibleCount = option.children.filter(
+          item => item.visible
+        ).length;
         option.visible = !!visibleCount;
       }
 

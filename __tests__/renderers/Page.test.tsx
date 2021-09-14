@@ -355,7 +355,7 @@ test('Renderer:Page initApi interval 轮询调用', async () => {
 });
 
 test('Renderer:Page initApi interval 轮询调用自动停止', async () => {
-  jest.useFakeTimers();
+  // jest.useFakeTimers();
 
   let count = 1;
   const fetcher = jest.fn().mockImplementation(() => {
@@ -374,7 +374,7 @@ test('Renderer:Page initApi interval 轮询调用自动停止', async () => {
       {
         type: 'page',
         initApi: '/api/xxx',
-        interval: 3000,
+        interval: 1000,
         stopAutoRefreshWhen: 'this.a > 2',
         body: 'The variable value is ${a}'
       },
@@ -385,11 +385,14 @@ test('Renderer:Page initApi interval 轮询调用自动停止', async () => {
     )
   );
 
-  await wait(10);
-  jest.advanceTimersByTime(3000);
+  await wait(1000);
+  // jest.advanceTimersByTime(3000);
 
-  await wait(10);
-  jest.advanceTimersByTime(3000);
+  await wait(1000);
+  // jest.advanceTimersByTime(3000);
+
+  await wait(1000);
+  // jest.advanceTimersByTime(3000);
 
   expect(fetcher).toHaveBeenCalledTimes(3);
 });

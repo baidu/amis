@@ -3,32 +3,32 @@
 exports[`Renderer:container 1`] = `
 <div>
   <div
-    class="a-Page"
+    class="cxd-Page"
   >
     <div
-      class="a-Page-content"
+      class="cxd-Page-content"
     >
       <div
-        class="a-Page-main"
+        class="cxd-Page-main"
       >
         <div
-          class="a-Page-body"
+          class="cxd-Page-body"
         >
           <div
-            class="a-Container bg-white"
+            class="cxd-Container bg-white"
           >
             <div
-              class="a-Container-body"
+              class="cxd-Container-body"
             >
               <span
-                class="a-TplField"
+                class="cxd-TplField"
               >
                 <span>
                   内容1
                 </span>
               </span>
               <span
-                class="a-PlainField"
+                class="cxd-PlainField"
               >
                 内容2
               </span>

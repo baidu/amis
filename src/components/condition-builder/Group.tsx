@@ -6,8 +6,9 @@ import GroupOrItem from './GroupOrItem';
 import {autobind, guid} from '../../utils/helper';
 import {Config} from './config';
 import {Icon} from '../icons';
+import {localeable, LocaleProps} from '../../locale';
 
-export interface ConditionGroupProps extends ThemeProps {
+export interface ConditionGroupProps extends ThemeProps, LocaleProps {
   config: Config;
   value?: ConditionGroupValue;
   fields: Fields;
@@ -15,6 +16,7 @@ export interface ConditionGroupProps extends ThemeProps {
   showNot?: boolean;
   data?: any;
   disabled?: boolean;
+  searchable?: boolean;
   onChange: (value: ConditionGroupValue) => void;
   removeable?: boolean;
   onRemove?: (e: React.MouseEvent) => void;
@@ -123,7 +125,9 @@ export class ConditionGroup extends React.Component<ConditionGroupProps> {
       onRemove,
       onDragStart,
       showNot,
-      disabled
+      disabled,
+      searchable,
+      translate: __
     } = this.props;
 
     return (
@@ -138,7 +142,7 @@ export class ConditionGroup extends React.Component<ConditionGroupProps> {
                 active={value?.not}
                 disabled={disabled}
               >
-                非
+                {__('Condition.not')}
               </Button>
             ) : null}
             <div className={cx('ButtonGroup')}>
@@ -148,7 +152,7 @@ export class ConditionGroup extends React.Component<ConditionGroupProps> {
                 active={value?.conjunction !== 'or'}
                 disabled={disabled}
               >
-                并且
+                {__('Condition.and')}
               </Button>
               <Button
                 size="xs"
@@ -156,7 +160,7 @@ export class ConditionGroup extends React.Component<ConditionGroupProps> {
                 active={value?.conjunction === 'or'}
                 disabled={disabled}
               >
-                或者
+                {__('Condition.or')}
               </Button>
             </div>
           </div>
@@ -164,7 +168,7 @@ export class ConditionGroup extends React.Component<ConditionGroupProps> {
             <div className={cx('ButtonGroup')}>
               <Button onClick={this.handleAdd} size="xs" disabled={disabled}>
                 <Icon icon="plus" className="icon" />
-                添加条件
+                {__('Condition.add_cond')}
               </Button>
               <Button
                 onClick={this.handleAddGroup}
@@ -172,7 +176,7 @@ export class ConditionGroup extends React.Component<ConditionGroupProps> {
                 disabled={disabled}
               >
                 <Icon icon="plus-cicle" className="icon" />
-                添加条件组
+                {__('Condition.add_cond_group')}
               </Button>
             </div>
           </div>
@@ -200,10 +204,13 @@ export class ConditionGroup extends React.Component<ConditionGroupProps> {
                 onRemove={this.handleItemRemove}
                 data={data}
                 disabled={disabled}
+                searchable={searchable}
               />
             ))
           ) : (
-            <div className={cx('CBGroup-placeholder')}>空</div>
+            <div className={cx('CBGroup-placeholder')}>
+              {__('Condition.blank')}
+            </div>
           )}
         </div>
       </div>
@@ -211,4 +218,4 @@ export class ConditionGroup extends React.Component<ConditionGroupProps> {
   }
 }
 
-export default themeable(ConditionGroup);
+export default themeable(localeable(ConditionGroup));

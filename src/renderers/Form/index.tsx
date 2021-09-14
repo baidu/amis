@@ -18,7 +18,8 @@ import {
   SkipOperation,
   isEmpty,
   getVariable,
-  isObjectShallowModified
+  isObjectShallowModified,
+  qsparse
 } from '../../utils/helper';
 import debouce from 'lodash/debounce';
 import flatten from 'lodash/flatten';
@@ -29,7 +30,6 @@ import Scoped, {
   ScopedComponentType
 } from '../../Scoped';
 import {IComboStore} from '../../store/combo';
-import qs from 'qs';
 import {dataMapping} from '../../utils/tpl-builtin';
 import {isApiOutdated, isEffectiveApi} from '../../utils/api';
 import Spinner from '../../components/Spinner';
@@ -448,8 +448,10 @@ export default class Form extends React.Component<FormProps, object> {
     ) {
       const combo = store.parentStore as IComboStore;
       combo.addForm(store);
-      combo.forms.forEach(item =>
-        item.items.forEach(item => item.unique && item.syncOptions())
+      combo.forms.forEach(form =>
+        form.items.forEach(
+          item => item.unique && item.syncOptions(undefined, form.data)
+        )
       );
     }
   }
@@ -832,6 +834,10 @@ export default class Form extends React.Component<FormProps, object> {
   emitChange(submit: boolean) {
     const {onChange, store, submitOnChange} = this.props;
 
+    if (!isAlive(store)) {
+      return;
+    }
+
     onChange &&
       onChange(store.data, difference(store.data, store.pristine), this.props);
 
@@ -1135,13 +1141,7 @@ export default class Form extends React.Component<FormProps, object> {
       values[0] &&
       targets[0].props.type === 'form'
     ) {
-      store.updateData(values[0]);
-      onChange &&
-        onChange(
-          store.data,
-          difference(store.data, store.pristine),
-          this.props
-        );
+      this.handleBulkChange(values[0], false);
     }
 
     store.closeDialog(true);
@@ -1220,7 +1220,9 @@ export default class Form extends React.Component<FormProps, object> {
           item =>
             item &&
             !!~['submit', 'button', 'button-group', 'reset'].indexOf(
-              (item as any)?.control?.type || (item as SchemaObject).type
+              (item as any)?.body?.[0]?.type ||
+                (item as any)?.body?.type ||
+                (item as SchemaObject).type
             )
         ))
     ) {
@@ -1553,11 +1555,14 @@ export default class Form extends React.Component<FormProps, object> {
   shouldSyncSuperStore: (store, props, prevProps) => {
     // 如果是 QuickEdit，让 store 同步 __super 数据。
     if (
-      props.canAccessSuperData &&
       props.quickEditFormRef &&
       props.onQuickChange &&
       (isObjectShallowModified(prevProps.data, props.data) ||
-        isObjectShallowModified(prevProps.data.__super, props.data.__super))
+        isObjectShallowModified(prevProps.data.__super, props.data.__super) ||
+        isObjectShallowModified(
+          prevProps.data.__super?.__super,
+          props.data.__super?.__super
+        ))
     ) {
       return true;
     }
@@ -1690,7 +1695,7 @@ export class FormRenderer extends Form {
     const idx2 = target ? target.indexOf('?') : -1;
     if (~idx2) {
       subQuery = dataMapping(
-        qs.parse((target as string).substring(idx2 + 1)),
+        qsparse((target as string).substring(idx2 + 1)),
         ctx
       );
       target = (target as string).substring(0, idx2);

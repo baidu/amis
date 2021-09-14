@@ -16,6 +16,7 @@ export interface CBGroupOrItemProps extends ThemeProps {
   data?: any;
   draggable?: boolean;
   disabled?: boolean;
+  searchable?: boolean;
   onChange: (value: ConditionGroupValue, index: number) => void;
   removeable?: boolean;
   onDragStart?: (e: React.MouseEvent) => void;
@@ -45,6 +46,7 @@ export class CBGroupOrItem extends React.Component<CBGroupOrItemProps> {
       draggable,
       data,
       disabled,
+      searchable,
       onDragStart
     } = this.props;
 
@@ -64,6 +66,7 @@ export class CBGroupOrItem extends React.Component<CBGroupOrItemProps> {
           {value?.conjunction ? (
             <ConditionGroup
               disabled={disabled}
+              searchable={searchable}
               onDragStart={onDragStart}
               config={config}
               fields={fields}
@@ -79,6 +82,7 @@ export class CBGroupOrItem extends React.Component<CBGroupOrItemProps> {
             <>
               <ConditionItem
                 disabled={disabled}
+                searchable={searchable}
                 config={config}
                 fields={fields}
                 value={value as ConditionValue}

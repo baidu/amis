@@ -245,7 +245,7 @@ export const FormStore = ServiceStore.named('FormStore')
     }
 
     const syncOptions = debounce(
-      () => self.items.forEach(item => item.syncOptions()),
+      () => self.items.forEach(item => item.syncOptions(undefined, self.data)),
       250,
       {
         trailing: true,
@@ -459,9 +459,21 @@ export const FormStore = ServiceStore.named('FormStore')
             )) ||
           self.restError.length
         ) {
-          const msg = failedMessage ?? self.__('Form.validateFailed');
-          msg && getEnv(self).notify('error', msg);
-          throw new Error(self.__('Form.validateFailed'));
+          let msg = failedMessage ?? self.__('Form.validateFailed');
+          const env = getEnv(self);
+          // 同时也列出所有表单项报错，方便在很长的表单中知道是哪个字段的问题
+          // 支持在env中配hideValidateFailedDetail来隐藏所有表单项报错
+          failedMessage == null &&
+            !env.hideValidateFailedDetail &&
+            self.items.forEach(item => {
+              item.errorData.forEach(errorData => {
+                msg = `${msg}\n${item.name}: ${errorData.msg}`;
+              });
+            });
+
+          msg && env.notify('error', msg);
+
+          throw new Error(msg);
         }
 
         if (fn) {

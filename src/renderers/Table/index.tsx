@@ -263,7 +263,7 @@ export interface TableProps extends RendererProps {
   columnsTogglable?: boolean | 'auto';
   affixHeader?: boolean;
   affixColumns?: boolean;
-  combineNum?: number;
+  combineNum?: number | string;
   combineFromIndex?: number;
   footable?:
     | boolean
@@ -284,6 +284,7 @@ export interface TableProps extends RendererProps {
     selectedItems: Array<object>,
     unSelectedItems: Array<object>
   ) => void;
+  onPristineChange?: (data: object, rowIndexe: string) => void;
   onSave?: (
     items: Array<object> | object,
     diff: Array<object> | object,
@@ -302,6 +303,7 @@ export interface TableProps extends RendererProps {
   rowClassNameExpr?: string;
   popOverContainer?: any;
   canAccessSuperData?: boolean;
+  reUseRow?: boolean;
 }
 
 /**
@@ -438,13 +440,20 @@ export default class Table extends React.Component<TableProps, object> {
       itemCheckableOn,
       itemDraggableOn,
       hideCheckToggler,
-      combineNum,
       combineFromIndex,
       expandConfig,
       formItem,
       keepItemSelectionOnPageChange,
       maxKeepItemSelectionLength
     } = props;
+
+    let combineNum = props.combineNum;
+    if (typeof combineNum === 'string') {
+      combineNum = parseInt(
+        resolveVariableAndFilter(combineNum, props.data, '| raw'),
+        10
+      );
+    }
 
     store.update({
       selectable,
@@ -467,7 +476,7 @@ export default class Table extends React.Component<TableProps, object> {
     });
 
     formItem && isAlive(formItem) && formItem.setSubStore(store);
-    Table.syncRows(store, this.props) && this.syncSelected();
+    Table.syncRows(store, this.props, undefined) && this.syncSelected();
   }
 
   static syncRows(
@@ -500,7 +509,7 @@ export default class Table extends React.Component<TableProps, object> {
       }
     }
 
-    updateRows && store.initRows(rows, props.getEntryId);
+    updateRows && store.initRows(rows, props.getEntryId, props.reUseRow);
     typeof props.selected !== 'undefined' &&
       store.updateSelected(props.selected, props.valueField);
     return updateRows;
@@ -554,6 +563,13 @@ export default class Table extends React.Component<TableProps, object> {
         props
       )
     ) {
+      let combineNum = props.combineNum;
+      if (typeof combineNum === 'string') {
+        combineNum = parseInt(
+          resolveVariableAndFilter(combineNum, props.data, '| raw'),
+          10
+        );
+      }
       store.update({
         selectable: props.selectable,
         columnsTogglable: props.columnsTogglable,
@@ -566,7 +582,7 @@ export default class Table extends React.Component<TableProps, object> {
         itemCheckableOn: props.itemCheckableOn,
         itemDraggableOn: props.itemDraggableOn,
         hideCheckToggler: props.hideCheckToggler,
-        combineNum: props.combineNum,
+        combineNum: combineNum,
         combineFromIndex: props.combineFromIndex,
         expandConfig: props.expandConfig
       });
@@ -646,6 +662,7 @@ export default class Table extends React.Component<TableProps, object> {
 
     const {
       onSave,
+      onPristineChange,
       saveImmediately: propsSaveImmediately,
       primaryField
     } = this.props;
@@ -655,7 +672,10 @@ export default class Table extends React.Component<TableProps, object> {
     // 值发生变化了，需要通过 onSelect 通知到外面，否则会出现数据不同步的问题
     item.modified && this.syncSelected();
 
-    if ((!saveImmediately && !propsSaveImmediately) || savePristine) {
+    if (savePristine) {
+      onPristineChange?.(item.data, item.path);
+      return;
+    } else if (!saveImmediately && !propsSaveImmediately) {
       return;
     }
 
@@ -844,9 +864,8 @@ export default class Table extends React.Component<TableProps, object> {
     forEach(
       table.querySelectorAll('thead>tr:last-child>th'),
       (item: HTMLElement) => {
-        widths[
-          item.getAttribute('data-index') as string
-        ] = item.getBoundingClientRect().width;
+        widths[item.getAttribute('data-index') as string] =
+          item.getBoundingClientRect().width;
       }
     );
     forEach(
@@ -889,9 +908,11 @@ export default class Table extends React.Component<TableProps, object> {
     );
 
     if (affixHeader) {
-      (dom.querySelector(
-        `.${ns}Table-fixedTop>.${ns}Table-wrapper`
-      ) as HTMLElement).style.cssText += `width: ${this.outterWidth}px`;
+      (
+        dom.querySelector(
+          `.${ns}Table-fixedTop>.${ns}Table-wrapper`
+        ) as HTMLElement
+      ).style.cssText += `width: ${this.outterWidth}px`;
     }
 
     this.lastScrollLeft = -1;
@@ -1918,7 +1939,8 @@ export default class Table extends React.Component<TableProps, object> {
               rowIndex += 1;
               const sheetRow = worksheet.getRow(rowIndex);
               let columIndex = 0;
-              for (const column of columns) {
+              const cols = columns as any[]; // 为啥 ts 4.4 得这么做？
+              for (const column of cols) {
                 columIndex += 1;
                 const name = column.name!;
                 const value = getVariable(row.data, name);
@@ -2033,8 +2055,7 @@ export default class Table extends React.Component<TableProps, object> {
 
             if (buffer) {
               var blob = new Blob([buffer], {
-                type:
-                  'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+                type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
               });
               saveAs(blob, filename + '.xlsx');
             }

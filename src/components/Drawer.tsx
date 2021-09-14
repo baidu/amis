@@ -119,7 +119,7 @@ export class Drawer extends React.Component<DrawerProps, DrawerState> {
         `${this.props.classPrefix}Modal--${current()}th`
       );
     } else {
-      removeModal();
+      removeModal(this);
     }
   };
 

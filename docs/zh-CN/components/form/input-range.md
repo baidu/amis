@@ -17,7 +17,7 @@ order: 38
 ```schema: scope="body"
 {
     "type": "form",
-    "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
+    "api": "/api/mock2/form/saveForm",
     "body": [
         {
             "type": "input-range",
@@ -36,7 +36,7 @@ order: 38
 {
     "type": "form",
     "debug": true,
-    "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
+    "api": "/api/mock2/form/saveForm",
     "body": [
         {
             "type": "input-range",
@@ -63,4 +63,4 @@ order: 38
 | delimiter  | `string`  | `,`     | 分隔符                                                                                                                      |
 | unit       | `string`  |         | 单位                                                                                                                        |
 | clearable  | `boolean` |         | 是否可清除                                                                                                                  |
-| showInput  | `string`  |         | 是否显示输入框                                                                                                              |
+| showInput  | `boolean` |         | 是否显示输入框                                                                                                              |

@@ -18,7 +18,7 @@ order: 31
         "subTitle": "副标题",
         "description": "这是一段描述",
         "avatarClassName": "pull-left thumb-md avatar b-3x m-r",
-        "avatar": "raw:http://hiphotos.baidu.com/fex/%70%69%63/item/c9fcc3cec3fdfc03ccabb38edd3f8794a4c22630.jpg"
+        "avatar": "raw:http://hiphotos.baidu.com/fex/%70%69%63/item/bd3eb13533fa828b13b24500f31f4134960a5a44.jpg"
     },
     "body": "这里是内容",
     "actions": [

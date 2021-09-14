@@ -182,7 +182,7 @@ export function withRemoteConfig<P = any>(
           static displayName = `WithRemoteConfig(${
             ComposedComponent.displayName || ComposedComponent.name
           })`;
-          static ComposedComponent = ComposedComponent;
+          static ComposedComponent = ComposedComponent as React.ComponentType<T>;
           static contextType = EnvContext;
           toDispose: Array<() => void> = [];
 
@@ -220,19 +220,20 @@ export function withRemoteConfig<P = any>(
               );
             } else if (env && isEffectiveApi(source, data)) {
               this.loadConfig();
-              this.toDispose.push(
-                reaction(
-                  () => {
-                    const api = normalizeApi(source as string);
-                    return api.trackExpression
-                      ? tokenize(api.trackExpression, store.data)
-                      : buildApi(api, store.data, {
-                          ignoreData: true
-                        }).url;
-                  },
-                  () => this.loadConfig()
-                )
-              );
+              source.autoRefresh !== false &&
+                this.toDispose.push(
+                  reaction(
+                    () => {
+                      const api = normalizeApi(source as string);
+                      return api.trackExpression
+                        ? tokenize(api.trackExpression, store.data)
+                        : buildApi(api, store.data, {
+                            ignoreData: true
+                          }).url;
+                    },
+                    () => this.loadConfig()
+                  )
+                );
             }
           }
 

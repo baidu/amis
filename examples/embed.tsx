@@ -13,7 +13,8 @@ import {
   confirm,
   ToastComponent,
   AlertComponent,
-  render as renderAmis
+  render as renderAmis,
+  makeTranslator
 } from '../src/index';
 
 import '../src/locale/en-US';
@@ -22,14 +23,16 @@ import 'history';
 export function embed(
   container: string | HTMLElement,
   schema: any,
-  props: any,
-  env: any
+  props?: any,
+  env?: any
 ) {
+  const __ = makeTranslator(env?.locale || props?.locale);
+
   if (typeof container === 'string') {
     container = document.querySelector(container) as HTMLElement;
   }
   if (!container) {
-    console.error('选择器不对，页面上没有此元素');
+    console.error(__('Embed.invalidRoot'));
     return;
   } else if (container.tagName === 'BODY') {
     let div = document.createElement('div');
@@ -98,7 +101,7 @@ export function embed(
           ...response,
           data: {
             status: 0,
-            msg: '文件即将开始下载。。'
+            msg: __('Embed.downloading')
           }
         };
       }
@@ -126,6 +129,15 @@ export function embed(
 
     return response;
   };
+
+  const requestAdaptor = (config: any) => {
+    const fn = env && typeof env.requestAdaptor === 'function'
+      ? env.requestAdaptor.bind()
+      : ((config: any) => config);
+    const request = fn(config) || config;
+
+    return request;
+  }
 
   const responseAdaptor = (api: any) => (value: any) => {
     let response = value.data || {}; // blob 下可能会返回内容为空？
@@ -165,7 +177,10 @@ export function embed(
       env?.getModalContainer?.() || document.querySelector('.amis-scope'),
     notify: (type: string, msg: string) =>
       toast[type]
-        ? toast[type](msg, type === 'error' ? '系统错误' : '系统消息')
+        ? toast[type](
+            msg,
+            type === 'error' ? __('System.error') : __('System.notify')
+          )
         : console.warn('[Notify]', type, msg),
     alert,
     confirm,
@@ -241,6 +256,7 @@ export function embed(
     fetcher: async (api: any) => {
       let {url, method, data, responseType, config, headers} = api;
       config = config || {};
+      config.url = url;
       config.withCredentials = true;
       responseType && (config.responseType = responseType);
 
@@ -252,6 +268,9 @@ export function embed(
 
       config.headers = headers || {};
       config.method = method;
+      config.data = data;
+
+      config = requestAdaptor(config);
 
       if (method === 'get' && data) {
         config.params = data;
@@ -272,8 +291,7 @@ export function embed(
         return true;
       };
 
-      data && (config.data = data);
-      let response = await axios(url, config);
+      let response = await axios(config);
       response = await attachmentAdpator(response);
       response = responseAdaptor(api)(response);
 
@@ -307,7 +325,7 @@ export function embed(
     isCancel: (value: any) => (axios as any).isCancel(value),
     copy: (contents: string, options: any = {}) => {
       const ret = copy(contents, options);
-      ret && options.shutup !== true && toast.info('内容已拷贝到剪切板');
+      ret && options.shutup !== true && toast.info(__('System.copy'));
       return ret;
     },
     richTextToken: '',

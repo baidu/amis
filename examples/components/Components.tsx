@@ -274,8 +274,8 @@ export const components = [
         label: 'Button-Group-Select 按钮点选',
         path: '/zh-CN/components/form/button-group-select',
         getComponent: () =>
-          // @ts-ignore
           import(
+            // @ts-ignore
             '../../docs/zh-CN/components/form/button-group-select.md'
           ).then(makeMarkdownRenderer)
       },
@@ -424,6 +424,15 @@ export const components = [
           )
       },
       {
+        label: 'InputExcel Excel 解析',
+        path: '/zh-CN/components/form/input-excel',
+        getComponent: () =>
+          // @ts-ignore
+          import('../../docs/zh-CN/components/form/input-excel.md').then(
+            makeMarkdownRenderer
+          )
+      },
+      {
         label: 'InputFile 文件上传',
         path: '/zh-CN/components/form/input-file',
         getComponent: () =>
@@ -532,11 +541,11 @@ export const components = [
           )
       },
       {
-        label: 'Password 密码输入框',
-        path: '/zh-CN/components/form/password',
+        label: 'InputPassword 密码输入框',
+        path: '/zh-CN/components/form/input-password',
         getComponent: () =>
           // @ts-ignore
-          import('../../docs/zh-CN/components/form/password.md').then(
+          import('../../docs/zh-CN/components/form/input-password.md').then(
             makeMarkdownRenderer
           )
       },
@@ -562,8 +571,8 @@ export const components = [
         label: 'InputQuarterRange 季度范围',
         path: '/zh-CN/components/form/input-quarter-range',
         getComponent: () =>
-          // @ts-ignore
           import(
+            // @ts-ignore
             '../../docs/zh-CN/components/form/input-quarter-range.md'
           ).then(makeMarkdownRenderer)
       },
@@ -626,7 +635,7 @@ export const components = [
         path: '/zh-CN/components/form/input-sub-form',
         getComponent: () =>
           // @ts-ignore
-          import('../../docs/zh-CN/components/form/input-subform.md').then(
+          import('../../docs/zh-CN/components/form/input-sub-form.md').then(
             makeMarkdownRenderer
           )
       },
@@ -694,6 +703,15 @@ export const components = [
           )
       },
       {
+        label: 'InputTimeRange 时间',
+        path: '/zh-CN/components/form/input-time-range',
+        getComponent: () =>
+          // @ts-ignore
+          import('../../docs/zh-CN/components/form/input-time-range.md').then(
+            makeMarkdownRenderer
+          )
+      },
+      {
         label: 'Transfer 穿梭器',
         path: '/zh-CN/components/form/transfer',
         getComponent: () =>
@@ -735,6 +753,15 @@ export const components = [
         getComponent: () =>
           // @ts-ignore
           import('../../docs/zh-CN/components/form/input-year.md').then(
+            makeMarkdownRenderer
+          )
+      },
+      {
+        label: 'InputYearRange 年份范围',
+        path: '/zh-CN/components/form/input-year-range',
+        getComponent: () =>
+          // @ts-ignore
+          import('../../docs/zh-CN/components/form/input-year-range.md').then(
             makeMarkdownRenderer
           )
       }
@@ -1132,6 +1159,15 @@ export const components = [
         getComponent: () =>
           // @ts-ignore
           import('../../docs/zh-CN/components/wizard.md').then(
+            makeMarkdownRenderer
+          )
+      },
+      {
+        label: 'Web Component',
+        path: '/zh-CN/components/web-component',
+        getComponent: () =>
+          // @ts-ignore
+          import('../../docs/zh-CN/components/web-component.md').then(
             makeMarkdownRenderer
           )
       }

@@ -110,7 +110,7 @@ order: 14
         "type": "select",
         "size": "sm",
         "name": "b",
-        "source": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/options/level2?a=${a}",
+        "source": "/api/mock2/options/level2?a=${a}",
         "description": "切换<code>选项1</code>的值，会触发<code>选项2</code>的<code>source</code> 接口重新拉取"
       }
     ],
@@ -182,7 +182,7 @@ order: 14
         "name": "b",
         "source": {
             "method": "get",
-            "url": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/options/level2?a=${a}",
+            "url": "/api/mock2/options/level2?a=${a}",
             "sendOn": "this.a === 2"
         },
         "description": "只有<code>选项1</code>选择<code>B</code>的时候，才触发<code>选项2</code>的<code>source</code>接口重新拉取"
@@ -219,7 +219,7 @@ order: 14
         "label": "Select",
         "source": {
           "method": "get",
-          "url": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/getOptions?waitSeconds=1",
+          "url": "/api/mock2/form/getOptions?waitSeconds=1",
           "data": {
             "a": "${keyword}"
           }
@@ -259,7 +259,7 @@ order: 14
     },
     {
       "type": "crud",
-      "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/sample",
+      "api": "/api/sample",
       "columns": [
             {
                 "name": "id",
@@ -306,7 +306,7 @@ order: 14
     {
       "type": "crud",
       "name": "my_crud",
-      "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/sample",
+      "api": "/api/sample",
       "columns": [
             {
                 "name": "id",
@@ -336,7 +336,7 @@ order: 14
 我们进行两个调整：
 
 1. 为`crud`组件设置了`name`属性为`my_crud`
-2. 为`form`组件配置了`target`属性为`crud`的`name`：**`my_crud`**
+2. 为`form`组件配置了`target`属性为`crud`的`name`：`my_crud`
 
 更改配置后，提交表单时，如果有配置提交接口，会先请求提交，之后 amis 会寻找`target`所配置的目标组件，把`form`中所提交的数据，发送给该目标组件中，并将该数据**合并**到目标组件的数据域中，并触发目标组件的刷新操作，对于 CRUD 组件来说，刷新即重新拉取数据接口。
 

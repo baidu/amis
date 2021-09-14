@@ -2,8 +2,13 @@ import React from 'react';
 import {Renderer, RendererProps} from '../factory';
 import {Api, SchemaNode, Schema, Action} from '../types';
 import cx from 'classnames';
-import {isVisible} from '../utils/helper';
-import {BaseSchema, SchemaObject} from '../Schema';
+import {isVisible, ucFirst} from '../utils/helper';
+import {
+  BaseSchema,
+  SchemaCollection,
+  SchemaExpression,
+  SchemaObject
+} from '../Schema';
 import {FormSchemaHorizontal} from './Form/index';
 
 export type HBoxColumnObject = {
@@ -11,6 +16,11 @@ export type HBoxColumnObject = {
    * 列上 CSS 类名
    */
   columnClassName?: string;
+
+  /**
+   * 垂直对齐方式
+   */
+  valign?: 'top' | 'middle' | 'bottom' | 'between';
 
   /**
    * 宽度
@@ -37,9 +47,25 @@ export type HBoxColumnObject = {
    * 如果是水平排版，这个属性可以细化水平排版的左右宽度占比。
    */
   horizontal?: FormSchemaHorizontal;
+
+  /**
+   * 内容区
+   */
+  body?: SchemaCollection;
+
+  /**
+   * 是否显示
+   */
+
+  visible?: boolean;
+
+  /**
+   * 是否显示表达式
+   */
+  visibleOn?: SchemaExpression;
 };
 
-export type HBoxColumn = HBoxColumnObject & SchemaObject; // 不能用 SchemaObject 呢，会报错
+export type HBoxColumn = HBoxColumnObject;
 
 /**
  * Hbox 水平布局渲染器。
@@ -60,6 +86,21 @@ export interface HBoxSchema extends BaseSchema {
    * 如果是水平排版，这个属性可以细化水平排版的左右宽度占比。
    */
   subFormHorizontal?: FormSchemaHorizontal;
+
+  /**
+   * 水平间距
+   */
+  gap?: 'xs' | 'sm' | 'base' | 'none' | 'md' | 'lg';
+
+  /**
+   * 垂直对齐方式
+   */
+  valign?: 'top' | 'middle' | 'bottom' | 'between';
+
+  /**
+   * 水平对齐方式
+   */
+  align?: 'left' | 'right' | 'between' | 'center';
 }
 
 export interface HBoxProps extends RendererProps, HBoxSchema {
@@ -89,14 +130,14 @@ export default class HBox extends React.Component<HBoxProps, object> {
     const {
       itemRender,
       data,
-      classPrefix: ns,
+      classnames: cx,
       subFormMode,
       subFormHorizontal,
       formMode,
       formHorizontal
     } = this.props;
 
-    if (!isVisible(column, data)) {
+    if (!isVisible(column, data) || !column) {
       return null;
     }
 
@@ -109,20 +150,27 @@ export default class HBox extends React.Component<HBoxProps, object> {
     return (
       <div
         key={key}
-        className={cx(`${ns}Hbox-col`, (column as HBoxColumn).columnClassName)}
+        className={cx(
+          `Hbox-col`,
+          style.width === 'auto'
+            ? 'Hbox-col--auto'
+            : style.width
+            ? 'Hbox-col--customWidth'
+            : '',
+          {
+            [`Hbox-col--v${ucFirst(column.valign)}`]: column.valign
+          },
+          (column as HBoxColumn).columnClassName
+        )}
         style={style}
       >
         {itemRender
           ? itemRender(column, key, length, this.props)
-          : this.renderChild(
-              `column/${key}`,
-              column.type ? column : (column as any).body,
-              {
-                formMode: column.mode || subFormMode || formMode,
-                formHorizontal:
-                  column.horizontal || subFormHorizontal || formHorizontal
-              }
-            )}
+          : this.renderChild(`column/${key}`, (column as any).body, {
+              formMode: column.mode || subFormMode || formMode,
+              formHorizontal:
+                column.horizontal || subFormHorizontal || formHorizontal
+            })}
       </div>
     );
   }
@@ -136,9 +184,21 @@ export default class HBox extends React.Component<HBoxProps, object> {
   }
 
   render() {
-    const {className, classnames: cx, gap} = this.props;
+    const {
+      className,
+      classnames: cx,
+      gap,
+      valign: vAlign,
+      align: hAlign
+    } = this.props;
     return (
-      <div className={cx(`Hbox`, className, gap ? `Hbox--${gap}` : '')}>
+      <div
+        className={cx(`Hbox`, className, {
+          [`Hbox--${gap}`]: gap,
+          [`Hbox--v${ucFirst(vAlign)}`]: vAlign,
+          [`Hbox--h${ucFirst(hAlign)}`]: hAlign
+        })}
+      >
         {this.renderColumns()}
       </div>
     );

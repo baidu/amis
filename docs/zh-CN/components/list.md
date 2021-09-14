@@ -15,7 +15,7 @@ order: 56
 ```schema: scope="body"
 {
   "type": "service",
-  "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/sample?perPage=5",
+  "api": "/api/sample?perPage=5",
   "body": [
     {
       "type": "panel",

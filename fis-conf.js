@@ -56,6 +56,10 @@ fis.set('project.files', [
   '/examples/static/*.svg',
   '/examples/static/*.jpg',
   '/examples/static/*.jpeg',
+  '/examples/static/photo/*.jpeg',
+  '/examples/static/photo/*.png',
+  '/examples/static/audio/*.mp3',
+  '/examples/static/video/*.mp4',
   '/src/**.html',
   'mock/**'
 ]);
@@ -113,7 +117,7 @@ fis.match('tinymce/plugins/*/index.js', {
   ignoreDependencies: false
 });
 
-fis.match(/(?:flv\.js)/, {
+fis.match(/(?:mpegts\.js)/, {
   ignoreDependencies: true
 });
 
@@ -176,14 +180,18 @@ fis.match('{*.ts,*.jsx,*.tsx,/src/**.js,/src/**.ts}', {
     }),
 
     function (content) {
-      return content
-        .replace(/\b[a-zA-Z_0-9$]+\.__uri\s*\(/g, '__uri(')
-        .replace(
-          /(return|=>)\s*(tslib_\d+)\.__importStar\(require\(('|")(.*?)\3\)\)/g,
-          function (_, r, tslib, quto, value) {
-            return `${r} new Promise(function(resolve){require(['${value}'], function(ret) {resolve(${tslib}.__importStar(ret));})})`;
-          }
-        );
+      return (
+        content
+          // ts 4.4 生成的代码是 (0, tslib_1.__importStar)，直接改成 tslib_1.__importStar
+          .replace(/\(\d+, (tslib_\d+\.__importStar)\)/g, '$1')
+          .replace(/\b[a-zA-Z_0-9$]+\.__uri\s*\(/g, '__uri(')
+          .replace(
+            /(return|=>)\s*(tslib_\d+)\.__importStar\(require\(('|")(.*?)\3\)\)/g,
+            function (_, r, tslib, quto, value) {
+              return `${r} new Promise(function(resolve){require(['${value}'], function(ret) {resolve(${tslib}.__importStar(ret));})})`;
+            }
+          )
+      );
     }
   ],
   preprocessor: fis.plugin('js-require-css'),
@@ -327,6 +335,7 @@ if (fis.project.currentMedia() === 'publish') {
               );
             }
           )
+          .replace(/\(\d+, (tslib_\d+\.__importStar)\)/g, '$1')
           .replace(
             /return\s+(tslib_\d+)\.__importStar\(require\(('|")(.*?)\2\)\);/g,
             function (_, tslib, quto, value) {
@@ -439,6 +448,7 @@ if (fis.project.currentMedia() === 'publish') {
       function (content) {
         return content
           .replace(/\b[a-zA-Z_0-9$]+\.__uri\s*\(/g, '__uri(')
+          .replace(/\(\d+, (tslib_\d+\.__importStar)\)/g, '$1')
           .replace(
             /return\s+(tslib_\d+)\.__importStar\(require\(('|")(.*?)\2\)\);/g,
             function (_, tslib, quto, value) {
@@ -478,7 +488,7 @@ if (fis.project.currentMedia() === 'publish') {
         'examples/embed.tsx',
         'examples/embed.tsx:deps',
         'examples/loadMonacoEditor.ts',
-        '!flv.js/**',
+        '!mpegts.js/**',
         '!hls.js/**',
         '!froala-editor/**',
         '!tinymce/**',
@@ -550,7 +560,7 @@ if (fis.project.currentMedia() === 'publish') {
       'rest.js': [
         '*.js',
         '!monaco-editor/**',
-        '!flv.js/**',
+        '!mpegts.js/**',
         '!hls.js/**',
         '!froala-editor/**',
         '!src/components/RichText.tsx',
@@ -725,6 +735,13 @@ if (fis.project.currentMedia() === 'publish') {
     release: '/$1'
   });
 
+  // 在爱速搭中不用 cfc，而是放 amis 目录下的路由接管
+  let cfcAddress =
+    'https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock';
+  if (process.env.IS_AISUDA) {
+    cfcAddress = '/amis/api';
+  }
+
   ghPages.match('/{examples,docs}/**', {
     preprocessor: function (contents, file) {
       if (!file.isText() || typeof contents !== 'string') {
@@ -735,21 +752,13 @@ if (fis.project.currentMedia() === 'publish') {
         .replace(
           /(\\?(?:'|"))((?:get|post|delete|put)\:)?\/api\/mock2?/gi,
           function (_, qutoa, method) {
-            return (
-              qutoa +
-              (method || '') +
-              'https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2'
-            );
+            return qutoa + (method || '') + `${cfcAddress}/mock2`;
           }
         )
         .replace(
           /(\\?(?:'|"))((?:get|post|delete|put)\:)?\/api\/sample/gi,
           function (_, qutoa, method) {
-            return (
-              qutoa +
-              (method || '') +
-              'https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/sample'
-            );
+            return qutoa + (method || '') + `${cfcAddress}/sample`;
           }
         );
     }
@@ -765,7 +774,7 @@ if (fis.project.currentMedia() === 'publish') {
         '/examples/mod.js',
         'node_modules/**.js',
         '!monaco-editor/**',
-        '!flv.js/**',
+        '!mpegts.js/**',
         '!hls.js/**',
         '!froala-editor/**',
         '!tinymce/**',
@@ -800,7 +809,7 @@ if (fis.project.currentMedia() === 'publish') {
         '**.{js,jsx,ts,tsx}',
         '!static/mod.js',
         '!monaco-editor/**',
-        '!flv.js/**',
+        '!mpegts.js/**',
         '!hls.js/**',
         '!froala-editor/**',
         '!jquery/**',
@@ -929,6 +938,7 @@ if (fis.project.currentMedia() === 'publish') {
               );
             }
           )
+          .replace(/\(\d+, (tslib_\d+\.__importStar)\)/g, '$1')
           .replace(
             /return\s+(tslib_\d+)\.__importStar\(require\(('|")(.*?)\2\)\);/g,
             function (_, tslib, quto, value) {

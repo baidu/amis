@@ -437,7 +437,7 @@ order: 1
 ```schema: scope="body"
 {
   "type": "form",
-  "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
+  "api": "/api/mock2/form/saveForm",
   "body": [
     {
       "type": "input-text",
@@ -456,7 +456,7 @@ order: 1
 ```schema: scope="body"
 {
   "type": "form",
-  "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
+  "api": "/api/mock2/form/saveForm",
   "body": [
     {
       "type": "input-number",
@@ -485,7 +485,7 @@ order: 1
 ```schema: scope="body"
 {
   "type": "form",
-  "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
+  "api": "/api/mock2/form/saveForm",
   "body": [
     {
       "type": "input-text",
@@ -505,7 +505,7 @@ order: 1
 ```schema: scope="body"
 {
   "type": "form",
-  "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
+  "api": "/api/mock2/form/saveForm",
   "body": [
     {
       "type": "input-text",
@@ -528,7 +528,7 @@ order: 1
 ```schema: scope="body"
 {
   "type": "form",
-  "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
+  "api": "/api/mock2/form/saveForm",
   "body": [
     {
       "type": "input-text",
@@ -546,7 +546,7 @@ order: 1
 ```schema: scope="body"
 {
   "type": "form",
-  "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
+  "api": "/api/mock2/form/saveForm",
   "body": [
     {
       "type": "input-text",
@@ -568,7 +568,7 @@ amis 会有默认的报错信息，如果你想自定义校验信息，配置`va
 ```schema: scope="body"
 {
   "type": "form",
-  "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
+  "api": "/api/mock2/form/saveForm",
   "body": [
     {
       "type": "input-text",
@@ -591,7 +591,7 @@ amis 会有默认的报错信息，如果你想自定义校验信息，配置`va
 ```schema: scope="body"
 {
   "type": "form",
-  "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
+  "api": "/api/mock2/form/saveForm",
   "body": [
     {
       "type": "input-text",
@@ -607,6 +607,39 @@ amis 会有默认的报错信息，如果你想自定义校验信息，配置`va
       "description": "请输入数字类型文本"
     }
   ]
+}
+```
+
+默认的校验信息如下，可以直接配置文字，也可用多语言中的 key。参考：https://github.com/baidu/amis/blob/master/src/locale/zh-CN.ts#L175-L201
+
+```js
+{
+  isEmail: 'validate.isEmail',
+  isRequired: 'validate.isRequired',
+  isUrl: 'validate.isUrl',
+  isInt: 'validate.isInt',
+  isAlpha: 'validate.isAlpha',
+  isNumeric: 'validate.isNumeric',
+  isAlphanumeric: 'validate.isAlphanumeric',
+  isFloat: 'validate.isFloat',
+  isWords: 'validate.isWords',
+  isUrlPath: 'validate.isUrlPath',
+  matchRegexp: 'validate.matchRegexp',
+  minLength: 'validate.minLength',
+  maxLength: 'validate.maxLength',
+  maximum: 'validate.maximum',
+  lt: 'validate.lt',
+  minimum: 'validate.minimum',
+  gt: 'validate.gt',
+  isJson: 'validate.isJson',
+  isLength: 'validate.isLength',
+  notEmptyString: 'validate.notEmptyString',
+  equalsField: 'validate.equalsField',
+  equals: 'validate.equals',
+  isPhoneNumber: 'validate.isPhoneNumber',
+  isTelNumber: 'validate.isTelNumber',
+  isZipcode: 'validate.isZipcode',
+  isId: 'validate.isId'
 }
 ```
 
@@ -655,7 +688,7 @@ amis 会有默认的报错信息，如果你想自定义校验信息，配置`va
 ```schema: scope="body"
 {
   "type": "form",
-  "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveFormFailed?waitSeconds=1",
+  "api": "/api/mock2/form/saveFormFailed?waitSeconds=1",
   "body": [
     {
         "name": "test2",
@@ -692,7 +725,7 @@ Combo 类型的表单项，要实现服务端校验，可以使用 `路径key` �
   "type": "form",
   "debug": true,
   "mode": "horizontal",
-  "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveFormFailedCombo?waitSeconds=1",
+  "api": "/api/mock2/form/saveFormFailedCombo?waitSeconds=1",
   "body": [
     {
       "type": "combo",
@@ -772,7 +805,7 @@ Table 类型的表单项，要实现服务端校验，可以使用 `路径key` �
   "type": "form",
   "debug": true,
   "mode": "horizontal",
-  "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveFormFailedTable?waitSeconds=1",
+  "api": "/api/mock2/form/saveFormFailedTable?waitSeconds=1",
   "body": [
     {
       "label": "Table 服务端校验",

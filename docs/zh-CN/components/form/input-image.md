@@ -15,31 +15,66 @@ order: 27
 ```schema: scope="body"
 {
     "type": "form",
-    "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
+    "api": "/api/mock2/form/saveForm",
     "body": [
         {
             "type": "input-image",
             "name": "image",
             "label": "image",
-            "receiver": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/upload/file"
+            "receiver": "/api/upload/file"
         }
     ]
 }
 ```
 
-### 接口返回格式
+默认情况下，选中文件后，就会自动调用 `receiver` 配置里的接口进行上传，比如 node 版本的示例如下：
+
+```javascript
+const express = require('express');
+const multer = require('multer');
+const upload = multer({ dest: 'uploads/' });
+const app = express();
+
+app.use(express.static('public'));
+
+// 默认情况下是 file 字段名作为文件参数，也可以通过 fileField 配置来改成别的名字
+app.post('/uploader', upload.single('file'), function (req, res, next) {
+  res.json({
+    status: 0,
+    data: {
+      value: '/' + req.file.path
+    }
+  });
+});
+
+// 配合上面的返回值，将 uploads 目录可读，这样返回的文件才能正常显示
+app.get('uploads', express.static('uploads'));
+
+app.listen(8080, function () {
+});
+
+```
+
+这个接口需要返回图片地址，比如下面的格式
 
 ```json
 {
   "status": 0,
   "msg": "",
   "data": {
-    "value": "xxxx"
+    "value": "https:/xxx.yy/zz.png"
   }
 }
 ```
 
-- value：必须返回该字段用作回显，一般是文件资源地址
+点击表单提交的时候，实际提交的就是这个返回的图片地址，比如上面的例子是 `image`，则会提交
+
+```
+{
+  "image": "https:/xxx.yy/zz.png"
+}
+```
+
 
 ## 限制文件类型
 
@@ -48,14 +83,14 @@ order: 27
 ```schema: scope="body"
 {
     "type": "form",
-    "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
+    "api": "/api/mock2/form/saveForm",
     "body": [
         {
             "type": "input-image",
             "name": "image",
             "label": "限制只能上传jpg图片",
             "accept": ".jpg",
-            "receiver": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/upload/file"
+            "receiver": "/api/upload/file"
         }
     ]
 }
@@ -70,7 +105,7 @@ order: 27
 ```schema: scope="body"
 {
     "type": "form",
-    "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
+    "api": "/api/mock2/form/saveForm",
     "body": [
         {
             "type": "input-image",
@@ -80,7 +115,7 @@ order: 27
             "limit": {
               "minWidth": 1000
             },
-            "receiver": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/upload/file"
+            "receiver": "/api/upload/file"
         }
     ]
 }
@@ -91,15 +126,34 @@ order: 27
 ```schema: scope="body"
 {
     "type": "form",
-    "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
+    "api": "/api/mock2/form/saveForm",
     "body": [
         {
             "type": "input-image",
             "name": "image",
-            "label": "限制只能上传jpg图片",
-            "accept": ".jpg",
-            "receiver": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/upload/file",
+            "label": "上传后裁剪",
+            "receiver": "/api/upload/file",
             "crop": true
+        }
+    ]
+}
+```
+
+设置裁剪比例等配置，具体细节可以参考[这里](https://github.com/fengyuanchen/cropperjs#options)。
+
+```schema: scope="body"
+{
+    "type": "form",
+    "api": "/api/mock2/form/saveForm",
+    "body": [
+        {
+            "type": "input-image",
+            "name": "image",
+            "label": "上传后裁剪",
+            "receiver": "/api/upload/file",
+            "crop": {
+              "aspectRatio": 1.7777
+            }
         }
     ]
 }
@@ -112,13 +166,13 @@ order: 27
 ```schema: scope="body"
 {
   "type": "form",
-  "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
+  "api": "/api/mock2/form/saveForm",
   "body": [
     {
       "type": "input-image",
       "name": "image",
       "label": "image",
-      "receiver": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/upload/file",
+      "receiver": "/api/upload/file",
       "autoFill": {
         "myUrl": "${url}"
       }
@@ -164,14 +218,14 @@ order: 27
 {
   "type": "form",
   "debug": true,
-  "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
+  "api": "/api/mock2/form/saveForm",
   "body": [
     {
       "type": "input-image",
       "name": "image",
       "label": "image",
       "multiple": true,
-      "receiver": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/upload/file",
+      "receiver": "/api/upload/file",
       "autoFill": {
         "myUrl": "${items|pick:url}",
         "lastUrl": "${items|last|pick:url}"

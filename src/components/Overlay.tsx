@@ -131,6 +131,15 @@ export default class Overlay extends React.Component<
     };
   }
 
+  position: any = null;
+  positionRef = (position: any) => {
+    this.position = position;
+  };
+
+  updatePosition() {
+    this.position?.maybeUpdatePosition(true);
+  }
+
   componentDidUpdate(prevProps: OverlayProps) {
     const props = this.props;
     if (prevProps.show !== props.show && props.show) {
@@ -184,6 +193,7 @@ export default class Overlay extends React.Component<
           placement,
           shouldUpdatePosition
         }}
+        ref={this.positionRef}
       >
         {child}
       </Position>

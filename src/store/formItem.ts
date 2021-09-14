@@ -9,7 +9,7 @@ import {
   getEnv,
   Instance
 } from 'mobx-state-tree';
-import {IFormStore} from './form';
+import {FormStore, IFormStore} from './form';
 import {str2rules, validate as doValidate} from '../utils/validations';
 import {Api, Payload, fetchOptions} from '../types';
 import {ComboStore, IComboStore, IUniqueGroup} from './combo';
@@ -49,7 +49,8 @@ interface IOption {
 
 const ErrorDetail = types.model('ErrorDetail', {
   msg: '',
-  tag: ''
+  tag: '',
+  rule: ''
 });
 
 export const FormItemStore = StoreNode.named('FormItemStore')
@@ -91,7 +92,8 @@ export const FormItemStore = StoreNode.named('FormItemStore')
   })
   .views(self => {
     function getForm(): any {
-      return self.parentStore;
+      const form = self.parentStore;
+      return form?.storeType === FormStore.name ? form : undefined;
     }
 
     function getValue(): any {
@@ -134,6 +136,14 @@ export const FormItemStore = StoreNode.named('FormItemStore')
       get valid() {
         const errors = getErrors();
         return !!(!errors || !errors.length);
+      },
+
+      get errClassNames() {
+        return self.errorData
+          .map(item => item.rule)
+          .filter((item, index, arr) => item && arr.indexOf(item) === index)
+          .map(item => `has-error--${item}`)
+          .join(' ');
       },
 
       get lastSelectValue(): string {
@@ -217,7 +227,9 @@ export const FormItemStore = StoreNode.named('FormItemStore')
       selectFirst,
       autoFill,
       clearValueOnHidden,
-      validateApi
+      validateApi,
+      maxLength,
+      minLength
     }: {
       required?: boolean;
       unique?: boolean;
@@ -236,6 +248,8 @@ export const FormItemStore = StoreNode.named('FormItemStore')
       autoFill?: any;
       clearValueOnHidden?: boolean;
       validateApi?: boolean;
+      minLength?: number;
+      maxLength?: number;
     }) {
       if (typeof rules === 'string') {
         rules = str2rules(rules);
@@ -262,11 +276,18 @@ export const FormItemStore = StoreNode.named('FormItemStore')
         (self.clearValueOnHidden = !!clearValueOnHidden);
       typeof validateApi !== 'undefined' && (self.validateApi = validateApi);
 
-      rules = rules || {};
       rules = {
         ...rules,
         isRequired: self.required
       };
+
+      // if (typeof minLength === 'number') {
+      //   rules.minLength = minLength;
+      // }
+
+      // if (typeof maxLength === 'number') {
+      //   rules.maxLength = maxLength;
+      // }
 
       if (isObjectShallowModified(rules, self.rules)) {
         self.rules = rules;
@@ -338,7 +359,9 @@ export const FormItemStore = StoreNode.named('FormItemStore')
           if (
             group.items.some(
               item =>
-                item !== self && self.tmpValue && item.value === self.tmpValue
+                item !== self &&
+                self.tmpValue !== undefined &&
+                item.value === self.tmpValue
             )
           ) {
             addError(self.__('`当前值不唯一`'));
@@ -355,11 +378,29 @@ export const FormItemStore = StoreNode.named('FormItemStore')
       addError(msg, tag);
     }
 
-    function addError(msg: string | Array<string>, tag: string = 'builtin') {
-      const msgs: Array<string> = Array.isArray(msg) ? msg : [msg];
+    function addError(
+      msg:
+        | string
+        | Array<
+            | string
+            | {
+                msg: string;
+                rule: string;
+              }
+          >,
+      tag: string = 'builtin'
+    ) {
+      const msgs: Array<
+        | string
+        | {
+            msg: string;
+            rule: string;
+          }
+      > = Array.isArray(msg) ? msg : [msg];
       msgs.forEach(item =>
         self.errorData.push({
-          msg: item,
+          msg: typeof item === 'string' ? item : item.msg,
+          rule: typeof item !== 'string' ? item.rule : undefined,
           tag: tag
         })
       );
@@ -393,7 +434,8 @@ export const FormItemStore = StoreNode.named('FormItemStore')
 
     function setOptions(
       options: Array<object>,
-      onChange?: (value: any) => void
+      onChange?: (value: any) => void,
+      data?: Object
     ) {
       if (!Array.isArray(options)) {
         return;
@@ -401,10 +443,11 @@ export const FormItemStore = StoreNode.named('FormItemStore')
       options = filterTree(options, item => item);
       const originOptions = self.options.concat();
       self.options = options;
-      syncOptions(originOptions);
+      syncOptions(originOptions, data);
       let selectedOptions;
 
       if (
+        onChange &&
         self.selectFirst &&
         self.filteredOptions.length &&
         (selectedOptions = self.getSelectedOptions(self.value)) &&
@@ -430,7 +473,7 @@ export const FormItemStore = StoreNode.named('FormItemStore')
             ? list
             : list[0];
 
-        onChange?.(value);
+        onChange(value);
       }
     }
 
@@ -509,7 +552,9 @@ export const FormItemStore = StoreNode.named('FormItemStore')
     const loadOptions: (
       api: Api,
       data?: object,
-      config?: fetchOptions,
+      config?: fetchOptions & {
+        extendsOptions?: boolean;
+      },
       clearValue?: boolean,
       onChange?: (value: any) => void,
       setErrorFlag?: boolean
@@ -541,7 +586,21 @@ export const FormItemStore = StoreNode.named('FormItemStore')
         [];
 
       options = normalizeOptions(options as any);
-      setOptions(options, onChange);
+
+      if (config?.extendsOptions && self.selectedOptions.length > 0) {
+        self.selectedOptions.forEach((item: any) => {
+          const exited = findTree(
+            options as any,
+            optionValueCompare(item, self.valueField || 'value')
+          );
+
+          if (!exited) {
+            options.push(item);
+          }
+        });
+      }
+
+      setOptions(options, onChange, data);
 
       if (json.data && typeof (json.data as any).value !== 'undefined') {
         onChange && onChange((json.data as any).value, false, true);
@@ -574,7 +633,9 @@ export const FormItemStore = StoreNode.named('FormItemStore')
         spliceTree(self.options, indexes, 1, {
           ...option,
           loading: true
-        })
+        }),
+        undefined,
+        data
       );
 
       let json = yield fetchOptions(
@@ -592,7 +653,9 @@ export const FormItemStore = StoreNode.named('FormItemStore')
             ...option,
             loading: false,
             error: true
-          })
+          }),
+          undefined,
+          data
         );
         return;
       }
@@ -610,27 +673,23 @@ export const FormItemStore = StoreNode.named('FormItemStore')
           loading: false,
           loaded: true,
           children: options
-        })
+        }),
+        undefined,
+        data
       );
 
       return json;
     });
 
     // @issue 强依赖form，需要改造暂且放过。
-    function syncOptions(originOptions?: Array<any>) {
+    function syncOptions(originOptions?: Array<any>, data?: Object) {
       if (!self.options.length && typeof self.value === 'undefined') {
         self.selectedOptions = [];
         self.filteredOptions = [];
         return;
       }
 
-      const form = self.form;
-      const value = self.value;
-
-      // 有可能销毁了
-      if (!form) {
-        return;
-      }
+      const value = self.tmpValue;
 
       const selected = Array.isArray(value)
         ? value.map(item =>
@@ -666,13 +725,13 @@ export const FormItemStore = StoreNode.named('FormItemStore')
           }
 
           return item.visibleOn
-            ? evalExpression(item.visibleOn, form.data) !== false
+            ? evalExpression(item.visibleOn, data) !== false
             : item.hiddenOn
-            ? evalExpression(item.hiddenOn, form.data) !== true
+            ? evalExpression(item.hiddenOn, data) !== true
             : item.visible !== false || item.hidden !== true;
         })
         .map((item: any, index) => {
-          const disabled = evalExpression(item.disabledOn, form.data);
+          const disabled = evalExpression(item.disabledOn, data);
           const newItem = item.disabledOn
             ? self.filteredOptions.length > index &&
               self.filteredOptions[index].disabled === disabled
@@ -734,8 +793,10 @@ export const FormItemStore = StoreNode.named('FormItemStore')
         }
       });
 
-      let parentStore = form.parentStore;
-      if (parentStore && parentStore.storeType === ComboStore.name) {
+      const form = self.form;
+
+      let parentStore = form?.parentStore;
+      if (parentStore?.storeType === ComboStore.name) {
         let combo = parentStore as IComboStore;
         let group = combo.uniques.get(self.name) as IUniqueGroup;
         let options: Array<any> = [];

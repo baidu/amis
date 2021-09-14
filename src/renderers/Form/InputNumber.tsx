@@ -36,6 +36,26 @@ export interface NumberControlSchema extends FormBaseControl {
    * 默认当然是
    */
   showSteps?: boolean;
+  /**
+   * 边框模式，全边框，还是半边框，或者没边框。
+   */
+  borderMode?: 'full' | 'half' | 'none';
+  /**
+   * 前缀
+   */
+  prefix?: string;
+  /**
+   * 后缀
+   */
+  suffix?: string;
+  /**
+   * 是否千分分隔
+   */
+  kilobitSeparator?: boolean;
+  /**
+  * 只读
+  */
+  readOnly?: boolean
 }
 
 export interface NumberProps extends FormControlProps {
@@ -44,6 +64,26 @@ export interface NumberProps extends FormControlProps {
   min?: number | string;
   step?: number;
   precision?: number;
+  /**
+   * 边框模式，全边框，还是半边框，或者没边框。
+   */
+   borderMode?: 'full' | 'half' | 'none';
+   /**
+   * 前缀
+   */
+  prefix?: string;
+  /**
+   * 后缀
+   */
+  suffix?: string;
+  /**
+   * 是否千分分隔
+   */
+  kilobitSeparator?: boolean;
+  /**
+   * 只读
+   */
+  readOnly?: boolean
 }
 
 export default class NumberControl extends React.Component<NumberProps, any> {
@@ -87,7 +127,12 @@ export default class NumberControl extends React.Component<NumberProps, any> {
       min,
       disabled,
       placeholder,
-      showSteps
+      showSteps,
+      borderMode,
+      suffix,
+      prefix,
+      kilobitSeparator,
+      readOnly
     } = this.props;
 
     let precisionProps: any = {};
@@ -96,7 +141,25 @@ export default class NumberControl extends React.Component<NumberProps, any> {
     if (typeof finalPrecision === 'number') {
       precisionProps.precision = finalPrecision;
     }
-
+    // 数据格式化
+    const formatter = (value: string | number) => {
+      // 增加千分分隔
+      if (kilobitSeparator && value) {
+        value = (value + '').replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+      }
+      return (prefix ? prefix : '')
+       + value
+       + (suffix ? suffix : '');
+    }
+    // 将数字还原
+    const parser = (value: string) => {
+      if (value) {
+        prefix && (value = value.replace(prefix, ''));
+        suffix && (value = value.replace(suffix, ''));
+        kilobitSeparator &&  (value = value.replace(/,/g, ''));
+      }
+      return value;
+    }
     return (
       <div className={cx(`${ns}NumberControl`, className)}>
         <NumberInput
@@ -104,11 +167,15 @@ export default class NumberControl extends React.Component<NumberProps, any> {
           step={step}
           max={this.filterNum(max)}
           min={this.filterNum(min)}
+          formatter={formatter}
+          parser={parser}
           onChange={this.handleChange}
           disabled={disabled}
           placeholder={placeholder}
           precision={finalPrecision}
           showSteps={showSteps}
+          borderMode={borderMode}
+          readOnly={readOnly}
         />
       </div>
     );

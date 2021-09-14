@@ -3,28 +3,28 @@
 exports[`Renderer:image 1`] = `
 <div>
   <div
-    class="a-ImageField show"
+    class="cxd-ImageField cxd-ImageField--thumb show"
   >
     <div
-      class="a-Image"
+      class="cxd-Image cxd-Image--thumb"
     >
       <div
-        class="a-Image-thumbWrap"
+        class="cxd-Image-thumbWrap"
       >
         <div
-          class="a-Image-thumb a-Image-thumb--contain a-Image-thumb--1-1"
+          class="cxd-Image-thumb cxd-Image-thumb--contain cxd-Image-thumb--1-1"
         >
           <img
-            class="b"
+            class="cxd-Image-image b"
             src="https://www.baidu.com/img/bd_logo1.png"
           />
         </div>
       </div>
       <div
-        class="a-Image-info"
+        class="cxd-Image-info"
       >
         <div
-          class="a-Image-title"
+          class="cxd-Image-title"
           title="图片"
         >
           图片

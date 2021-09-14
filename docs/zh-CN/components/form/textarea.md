@@ -13,12 +13,37 @@ order: 57
 ```schema: scope="body"
 {
     "type": "form",
-    "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
+    "api": "/api/mock2/form/saveForm",
     "body": [
         {
             "name": "textarea",
             "type": "textarea",
             "label": "多行文本"
+        }
+    ]
+}
+```
+
+## 显示计数器
+
+```schema: scope="body"
+{
+    "type": "form",
+    "body": [
+        {
+            "name": "a",
+            "type": "textarea",
+            "label": "A",
+            "showCounter": true,
+            "placeholder": "请输入"
+        },
+        {
+            "name": "b",
+            "type": "textarea",
+            "label": "B",
+            "showCounter": true,
+            "maxLength": 100,
+            "placeholder": "请输入"
         }
     ]
 }
@@ -34,3 +59,6 @@ order: 57
 | maxRows      | `number`  |        | 最大行数             |
 | trimContents | `boolean` |        | 是否去除首尾空白文本 |
 | readOnly     | `boolean` |        | 是否只读             |
+| showCounter  | `boolean` | ``     | 是否显示计数器       |
+| minLength    | `number`  | ``     | 限制最小字数         |
+| maxLength    | `number`  | ``     | 限制最大字数         |

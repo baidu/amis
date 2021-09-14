@@ -149,7 +149,11 @@ export const validations: {
   isJson: function (values, value, minimum) {
     if (isExisty(value) && !isEmpty(value) && typeof value === 'string') {
       try {
-        JSON.parse(value);
+        const result = JSON.parse(value);
+        if (typeof result === 'object' && result) {
+          return true;
+        }
+        return false;
       } catch (e) {
         return false;
       }
@@ -260,8 +264,14 @@ export function validate(
   rules: {[propName: string]: any},
   messages?: {[propName: string]: string},
   __ = (str: string) => str
-): Array<string> {
-  const errors: Array<string> = [];
+): Array<{
+  rule: string;
+  msg: string;
+}> {
+  const errors: Array<{
+    rule: string;
+    msg: string;
+  }> = [];
 
   rules &&
     Object.keys(rules).forEach(ruleName => {
@@ -284,14 +294,15 @@ export function validate(
       });
 
       if (!fn(values, value, ...args)) {
-        errors.push(
-          filter(
+        errors.push({
+          rule: ruleName,
+          msg: filter(
             __((messages && messages[ruleName]) || validateMessages[ruleName]),
             {
               ...[''].concat(args)
             }
           )
-        );
+        });
       }
     });
 
@@ -305,7 +316,10 @@ export function validateObject(
   __ = (str: string) => str
 ) {
   const ret: {
-    [propName: string]: string[];
+    [propName: string]: {
+      rule: string;
+      msg: string;
+    }[];
   } = {};
 
   Object.keys(rules).forEach(key => {

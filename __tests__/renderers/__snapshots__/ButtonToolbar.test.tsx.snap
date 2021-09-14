@@ -3,15 +3,15 @@
 exports[`Renderer:button-toolbar 1`] = `
 <div>
   <div
-    class="a-Form-item a-Form-item--normal show"
+    class="cxd-Form-item cxd-Form-item--normal show"
     data-role="form-item"
   >
     <label
-      class="a-Form-label"
+      class="cxd-Form-label"
     >
       <span>
         <span
-          class="a-TplField"
+          class="cxd-TplField"
         >
           <span>
             button-toolbar
@@ -20,10 +20,10 @@ exports[`Renderer:button-toolbar 1`] = `
       </span>
     </label>
     <div
-      class="a-ButtonToolbar a-Form-control"
+      class="cxd-ButtonToolbar cxd-Form-control"
     >
       <button
-        class="a-Button a-Button--default"
+        class="cxd-Button cxd-Button--default"
         type="button"
       >
         <span>
@@ -31,7 +31,7 @@ exports[`Renderer:button-toolbar 1`] = `
         </span>
       </button>
       <button
-        class="a-Button a-Button--default"
+        class="cxd-Button cxd-Button--default"
         type="button"
       >
         <span>

@@ -94,6 +94,10 @@
 .#{$ns}Form-item {
   margin-bottom: var(--Form-item-gap);
 
+  &:last-child {
+    margin-bottom: 0;
+  }
+
   .#{$ns}Grid-form > &:last-child {
     margin-bottom: 0;
   }
@@ -229,12 +233,11 @@
         padding-right: calc(var(--Form--horizontal-gutterWidth) / 2);
       }
 
-      > .#{$ns}Form-label,
       > .#{$ns}Form-value {
         flex-basis: 0;
         flex-grow: 1;
         max-width: 100%;
-        width: 0;
+        min-width: 0;
       }
 
       .#{$ns}Form-itemColumn--xs,
@@ -250,6 +253,7 @@
       > .#{$ns}Form-label {
         padding-top: var(--Form-label-paddingTop);
         margin-bottom: 0;
+        flex-shrink: 0;
 
         .#{$ns}Form-star {
           position: absolute;

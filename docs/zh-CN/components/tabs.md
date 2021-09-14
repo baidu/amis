@@ -212,6 +212,68 @@ order: 68
 }
 ```
 
+## 内容溢出滚动
+```schema: scope="body"
+{
+    "type": "tabs",
+    "scrollable": true,
+    "tabs": [
+        {
+            "title": "选项卡1",
+            "body": "选项卡内容1"
+        },
+        {
+            "title": "选项卡2",
+            "body": "选项卡内容2"
+        },
+        {
+            "title": "选项卡3",
+            "body": "选项卡内容3"
+        },
+        {
+            "title": "选项卡4",
+            "body": "选项卡内容4"
+        },
+        {
+            "title": "选项卡5",
+            "body": "选项卡内容5"
+        },
+        {
+            "title": "选项卡6",
+            "body": "选项卡内容6"
+        },
+        {
+            "title": "选项卡7",
+            "body": "选项卡内容7"
+        },
+        {
+            "title": "选项卡8",
+            "body": "选项卡内容8"
+        },
+        {
+            "title": "选项卡9",
+            "body": "选项卡内容9"
+        },
+        {
+            "title": "选项卡10",
+            "body": "选项卡内容10"
+        },
+        {
+            "title": "选项卡11",
+            "body": "选项卡内容11"
+        },
+        {
+            "title": "选项卡12",
+            "body": "选项卡内容12"
+        },
+        {
+            "title": "选项卡13",
+            "body": "选项卡内容13"
+        }
+    ]
+}
+```
+
 ## 配置顶部工具栏
 
 配置`toolbar`实现顶部工具栏。
@@ -368,3 +430,4 @@ order: 68
 | tabs[x].className     | `string`                          | `"bg-white b-l b-r b-b wrapper-md"` | Tab 区域样式                                             |
 | mountOnEnter          | `boolean`                         | false                               | 只有在点中 tab 的时候才渲染                              |
 | unmountOnExit         | `boolean`                         | false                               | 切换 tab 的时候销毁                                      |
+| scrollable            | `boolean`                         | false                               | 是否导航支持内容溢出滚动，`vertical`和`chrome`模式下不支持该属性；`chrome`模式默认压缩标签                    |

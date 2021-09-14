@@ -202,7 +202,7 @@ order: 2
             "label": "选项",
             "type": "select",
             "name": "select",
-            "source": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/getOptions?waitSeconds=1"
+            "source": "/api/mock2/form/getOptions?waitSeconds=1"
         }
     ]
 }
@@ -777,7 +777,7 @@ order: 2
             "name": "select",
             "type": "select",
             "label": "选项自动补全",
-            "autoComplete": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/options/autoComplete?term=$term",
+            "autoComplete": "/api/mock2/options/autoComplete?term=$term",
             "placeholder": "请输入"
         }
     ]
@@ -1049,7 +1049,7 @@ order: 2
             "label": "选项",
             "type": "select",
             "name": "select",
-            "addApi": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
+            "addApi": "/api/mock2/form/saveForm",
             "options": [
                 {
                     "label":"A",
@@ -1196,7 +1196,7 @@ order: 2
             "label": "选项",
             "type": "select",
             "name": "select",
-            "editApi": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
+            "editApi": "/api/mock2/form/saveForm",
             "options": [
                 {
                     "label":"A",
@@ -1241,7 +1241,7 @@ order: 2
             "label": "选项",
             "type": "select",
             "name": "select",
-            "deleteApi": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
+            "deleteApi": "/api/mock2/form/saveForm",
             "options": [
                 {
                     "label":"A",
@@ -1270,7 +1270,7 @@ order: 2
 ```schema: scope="body"
 {
     "type": "form",
-    "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
+    "api": "/api/mock2/form/saveForm",
     "debug": true,
     "body": [
         {
@@ -1310,7 +1310,7 @@ order: 2
 ```schema: scope="body"
 {
     "type": "form",
-    "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
+    "api": "/api/mock2/form/saveForm",
     "debug": true,
     "body": [
         {

@@ -15,7 +15,7 @@ export interface DateRangeControlSchema extends FormBaseControl {
   /**
    * 指定为日期范围控件
    */
-  type: 'input-date-range' | 'input-datetime-range';
+  type: 'input-date-range' | 'input-datetime-range' | 'input-time-range';
 
   /**
    * 分割符, 因为有两个值，开始时间和结束时间，所以要有连接符。默认为英文逗号。
@@ -62,6 +62,11 @@ export interface DateRangeControlSchema extends FormBaseControl {
    * 这里面 value 需要特殊说明一下，因为支持相对值。* `-2mins` 2分钟前\n * `+2days` 2天后\n* `-10week` 十周前\n可用单位： `min`、`hour`、`day`、`week`、`month`、`year`。所有单位支持复数形式。
    */
   value?: any;
+
+  /**
+   * 边框模式，全边框，还是半边框，或者没边框。
+   */
+  borderMode?: 'full' | 'half' | 'none';
 
   /**
    * 开启后变成非弹出模式，即内联模式。
@@ -206,5 +211,20 @@ export class DateTimeRangeControlRenderer extends DateRangeControl {
     ...DateRangeControl.defaultProps,
     timeFormat: 'HH:mm',
     inputFormat: 'YYYY-MM-DD HH:mm'
+  };
+}
+
+@FormItem({
+  type: 'input-time-range',
+  sizeMutable: false
+})
+export class TimeRangeControlRenderer extends DateRangeControl {
+  static defaultProps = {
+    ...DateRangeControl.defaultProps,
+    format: 'HH:mm',
+    timeFormat: 'HH:mm',
+    inputFormat: 'HH:mm',
+    viewMode: 'time',
+    ranges: ''
   };
 }

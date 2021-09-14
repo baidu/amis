@@ -7,14 +7,13 @@ import {
 } from './Options';
 import {Action} from '../../types';
 import Downshift, {StateChangeOptions} from 'downshift';
-// @ts-ignore
-import matchSorter from 'match-sorter';
+import {matchSorter} from 'match-sorter';
 import debouce from 'lodash/debounce';
 import {filter} from '../../utils/tpl';
 import find from 'lodash/find';
 import {Icon} from '../../components/icons';
 import Input from '../../components/Input';
-import {autobind, createObject, setVariable} from '../../utils/helper';
+import {autobind, createObject, setVariable, ucFirst} from '../../utils/helper';
 import {isEffectiveApi} from '../../utils/api';
 import Spinner from '../../components/Spinner';
 import {FormBaseControl} from './Item';
@@ -55,6 +54,21 @@ export interface TextControlSchema extends FormOptionsControl {
    * 接口可以返回匹配到的选项，帮助用户输入。
    */
   autoComplete?: SchemaApi;
+
+  /**
+   * 边框模式，全边框，还是半边框，或者没边框。
+   */
+  borderMode?: 'full' | 'half' | 'none';
+
+  /**
+   * 限制文字个数
+   */
+  maxLength?: number;
+
+  /**
+   * 是否显示计数
+   */
+  showCounter?: boolean;
 }
 
 export interface TextProps extends OptionsControlProps {
@@ -93,7 +107,10 @@ export default class TextControl extends React.PureComponent<
     const value = props.value;
     this.state = {
       isOpen: false,
-      inputValue: '',
+      inputValue:
+        props.multiple || props.creatable === false
+          ? ''
+          : this.valueToString(value),
       isFocused: false
     };
     this.focus = this.focus.bind(this);
@@ -122,14 +139,8 @@ export default class TextControl extends React.PureComponent<
   };
 
   componentDidMount() {
-    const {
-      formItem,
-      autoComplete,
-      addHook,
-      formInited,
-      data,
-      name
-    } = this.props;
+    const {formItem, autoComplete, addHook, formInited, data, name} =
+      this.props;
 
     if (isEffectiveApi(autoComplete, data) && formItem) {
       if (formInited) {
@@ -161,7 +172,10 @@ export default class TextControl extends React.PureComponent<
 
     if (prevProps.value !== props.value) {
       this.setState({
-        inputValue: ''
+        inputValue:
+          props.multiple || props.creatable === false
+            ? ''
+            : this.valueToString(props.value)
       });
     }
   }
@@ -260,12 +274,19 @@ export default class TextControl extends React.PureComponent<
 
   handleInputChange(evt: React.ChangeEvent<HTMLInputElement>) {
     let value = evt.currentTarget.value;
+    const {creatable, multiple, onChange} = this.props;
 
     this.setState(
       {
         inputValue: value
       },
-      this.loadAutoComplete
+      () => {
+        if (creatable !== false && !multiple) {
+          onChange?.(value);
+        }
+
+        this.loadAutoComplete();
+      }
     );
   }
 
@@ -277,7 +298,8 @@ export default class TextControl extends React.PureComponent<
       extractValue,
       delimiter,
       multiple,
-      valueField
+      valueField,
+      creatable
     } = this.props;
 
     if (selectedOptions.length && !this.state.inputValue && evt.keyCode === 8) {
@@ -329,13 +351,16 @@ export default class TextControl extends React.PureComponent<
       } else {
         onChange(value);
       }
-      this.setState(
-        {
-          inputValue: '',
-          isOpen: false
-        },
-        this.loadAutoComplete
-      );
+
+      if (creatable === false || multiple) {
+        this.setState(
+          {
+            inputValue: '',
+            isOpen: false
+          },
+          this.loadAutoComplete
+        );
+      }
     } else if (
       evt.keyCode === 13 &&
       this.state.isOpen &&
@@ -355,7 +380,8 @@ export default class TextControl extends React.PureComponent<
       extractValue,
       delimiter,
       selectedOptions,
-      valueField
+      valueField,
+      creatable
     } = this.props;
 
     if (multiple) {
@@ -378,15 +404,18 @@ export default class TextControl extends React.PureComponent<
       onChange(value);
     }
 
-    this.setState(
-      {
-        inputValue: ''
-      },
-      this.loadAutoComplete
-    );
+    if (multiple || creatable === false) {
+      this.setState(
+        {
+          inputValue: ''
+        },
+        this.loadAutoComplete
+      );
+    }
   }
 
   handleStateChange(changes: StateChangeOptions<any>) {
+    const creatable = this.props.creatable;
     const multiple = this.props.multiple || this.props.multi;
     switch (changes.type) {
       case Downshift.stateChangeTypes.itemMouseEnter:
@@ -410,7 +439,12 @@ export default class TextControl extends React.PureComponent<
         }
 
         // 输入框清空
-        if (!multiple && this.state.isOpen && changes.isOpen === false) {
+        if (
+          !multiple &&
+          creatable === false &&
+          this.state.isOpen &&
+          changes.isOpen === false
+        ) {
           state.inputValue = '';
         }
 
@@ -429,20 +463,18 @@ export default class TextControl extends React.PureComponent<
   }
 
   loadAutoComplete() {
-    const {
-      formItem,
-      autoComplete,
-      data,
-      multiple,
-      selectedOptions
-    } = this.props;
+    const {formItem, autoComplete, data, multiple, selectedOptions} =
+      this.props;
 
     if (isEffectiveApi(autoComplete, data) && formItem) {
       formItem.loadOptions(
         autoComplete,
         createObject(data, {
           term: this.state.inputValue || '' // (multiple ? '' : selectedOptions[selectedOptions.length - 1]?.value)
-        })
+        }),
+        {
+          extendsOptions: true
+        }
       );
     }
   }
@@ -450,6 +482,14 @@ export default class TextControl extends React.PureComponent<
   reload() {
     const reload = this.props.reloadOptions;
     reload && reload();
+  }
+
+  valueToString(value: any) {
+    return typeof value === 'undefined' || value === null
+      ? ''
+      : typeof value === 'string'
+      ? value
+      : JSON.stringify(value);
   }
 
   renderSugestMode() {
@@ -470,6 +510,7 @@ export default class TextControl extends React.PureComponent<
       valueField,
       multiple,
       creatable,
+      borderMode,
       translate: __
     } = this.props;
     let type = this.props.type?.replace(/^(?:native|input)\-/, '');
@@ -503,19 +544,6 @@ export default class TextControl extends React.PureComponent<
             (option: any) => !~selectedItem.indexOf(option.value)
           );
 
-          if (
-            this.state.inputValue &&
-            !filtedOptions.some(
-              (option: any) => option.value === this.state.inputValue
-            )
-          ) {
-            filtedOptions.push({
-              [labelField || 'label']: this.state.inputValue,
-              [valueField || 'value']: this.state.inputValue,
-              isNew: true
-            });
-          }
-
           return (
             <div
               className={cx(
@@ -523,7 +551,9 @@ export default class TextControl extends React.PureComponent<
                 inputOnly ? className : '',
                 {
                   'is-opened': isOpen,
-                  'TextControl-input--multiple': multiple
+                  'TextControl-input--multiple': multiple,
+                  [`TextControl-input--border${ucFirst(borderMode)}`]:
+                    borderMode
                 }
               )}
               onClick={this.handleClick}
@@ -551,7 +581,7 @@ export default class TextControl extends React.PureComponent<
                         {`${item[labelField || 'label']}`}
                       </span>
                     </div>
-                  ) : inputValue && isOpen ? null : (
+                  ) : (inputValue && isOpen) || creatable !== false ? null : (
                     <div className={cx('TextControl-value')} key={index}>
                       {item.label}
                     </div>
@@ -582,6 +612,7 @@ export default class TextControl extends React.PureComponent<
                   <Icon icon="close" className="icon" />
                 </a>
               ) : null}
+
               {loading ? (
                 <Spinner
                   show
@@ -589,6 +620,7 @@ export default class TextControl extends React.PureComponent<
                   spinnerClassName={cx('TextControl-spinner')}
                 />
               ) : null}
+
               {isOpen && filtedOptions.length ? (
                 <div className={cx('TextControl-sugs')}>
                   {filtedOptions.map((option: any) => {
@@ -605,19 +637,12 @@ export default class TextControl extends React.PureComponent<
                         })}
                         key={option.value}
                       >
-                        {option.isNew ? (
-                          <span>
-                            {__('Text.add', {label: option.label})}
-                            <Icon icon="enter" className="icon" />
-                          </span>
-                        ) : (
-                          <span>
-                            {option.disabled
-                              ? option.label
-                              : highlight(option.label, inputValue as string)}
-                            {option.tip}
-                          </span>
-                        )}
+                        <span>
+                          {option.disabled
+                            ? option.label
+                            : highlight(option.label, inputValue as string)}
+                          {option.tip}
+                        </span>
                       </div>
                     );
                   })}
@@ -645,13 +670,32 @@ export default class TextControl extends React.PureComponent<
       min,
       step,
       clearable,
-      name
+      name,
+      borderMode,
+      prefix,
+      suffix,
+      data,
+      showCounter,
+      maxLength
     } = this.props;
 
     const type = this.props.type?.replace(/^(?:native|input)\-/, '');
 
     return (
-      <div className={cx('TextControl-input', inputOnly ? className : '')}>
+      <div
+        className={cx(
+          'TextControl-input',
+          {
+            [`TextControl-input--border${ucFirst(borderMode)}`]: borderMode
+          },
+          inputOnly ? className : ''
+        )}
+      >
+        {prefix ? (
+          <span className={cx('TextControl-inputPrefix')}>
+            {filter(prefix, data)}
+          </span>
+        ) : null}
         <input
           name={name}
           placeholder={placeholder}
@@ -667,18 +711,31 @@ export default class TextControl extends React.PureComponent<
           size={10}
           step={step}
           onChange={this.handleNormalInputChange}
-          value={
-            typeof value === 'undefined' || value === null
-              ? ''
-              : typeof value === 'string'
-              ? value
-              : JSON.stringify(value)
-          }
+          value={this.valueToString(value)}
         />
         {clearable && !disabled && value ? (
           <a onClick={this.clearValue} className={`${ns}TextControl-clear`}>
             <Icon icon="close" className="icon" />
           </a>
+        ) : null}
+        {showCounter ? (
+          <span className={cx('TextControl-counter')}>
+            {`${
+              (typeof value === 'undefined' || value === null
+                ? ''
+                : typeof value === 'string'
+                ? value
+                : JSON.stringify(value)
+              ).length
+            }${
+              typeof maxLength === 'number' && maxLength ? `/${maxLength}` : ''
+            }`}
+          </span>
+        ) : null}
+        {suffix ? (
+          <span className={cx('TextControl-inputSuffix')}>
+            {filter(suffix, data)}
+          </span>
         ) : null}
       </div>
     );

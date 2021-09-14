@@ -5,12 +5,10 @@
 
 import React from 'react';
 import find from 'lodash/find';
-import PropTypes from 'prop-types';
 import hoistNonReactStatic from 'hoist-non-react-statics';
-import qs from 'qs';
 import {dataMapping} from './utils/tpl-builtin';
 import {RendererEnv, RendererProps} from './factory';
-import {noop, autobind, qsstringify} from './utils/helper';
+import {noop, autobind, qsstringify, qsparse} from './utils/helper';
 import {RendererData, Action} from './types';
 
 export interface ScopedComponentType extends React.Component<RendererProps> {
@@ -112,7 +110,7 @@ function createScopedTools(
         let query = null;
 
         if (~idx2) {
-          const queryObj = qs.parse(
+          const queryObj = qsparse(
             name
               .substring(idx2 + 1)
               .replace(
@@ -158,7 +156,7 @@ function createScopedTools(
         const askIdx = name.indexOf('?');
         if (~askIdx) {
           const query = name.substring(askIdx + 1);
-          const queryObj = qs.parse(
+          const queryObj = qsparse(
             query.replace(
               /\$\{(.*?)\}/,
               (_, match) => '${' + encodeURIComponent(match) + '}'
@@ -183,7 +181,7 @@ function createScopedTools(
           component.receive(values, subPath);
         } else if (name === 'window' && env && env.updateLocation) {
           const query = {
-            ...(location.search ? qs.parse(location.search.substring(1)) : {}),
+            ...(location.search ? qsparse(location.search.substring(1)) : {}),
             ...values
           };
           const link = location.pathname + '?' + qsstringify(query);

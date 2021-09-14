@@ -1,10 +1,9 @@
 import React from 'react';
-import qs from 'qs';
 import {RendererStore, IRendererStore, IIRendererStore} from './store/index';
 import {getEnv, destroy} from 'mobx-state-tree';
 import {wrapFetcher} from './utils/api';
 import {normalizeLink} from './utils/normalizeLink';
-import {findIndex, promisify, string2regExp} from './utils/helper';
+import {findIndex, promisify, qsparse, string2regExp} from './utils/helper';
 import {Api, fetcherResult, Payload, SchemaNode, Schema, Action} from './types';
 import {observer} from 'mobx-react';
 import Scoped from './Scoped';
@@ -302,8 +301,8 @@ const defaultOptions: RenderOptions = {
       if (pathname !== location.pathname || !location.search) {
         return false;
       }
-      const query = qs.parse(search.substring(1));
-      const currentQuery = qs.parse(location.search.substring(1));
+      const query = qsparse(search.substring(1));
+      const currentQuery = qsparse(location.search.substring(1));
       return Object.keys(query).every(key => query[key] === currentQuery[key]);
     } else if (pathname === location.pathname) {
       return true;
@@ -354,7 +353,10 @@ export function render(
   (window as any).amisStore = store; // 为了方便 debug.
   const env = getEnv(store);
 
-  const theme = props.theme || options.theme || 'default';
+  let theme = props.theme || options.theme || 'cxd';
+  if (theme === 'default') {
+    theme = 'cxd';
+  }
   env.theme = getTheme(theme);
 
   if (props.locale !== undefined) {

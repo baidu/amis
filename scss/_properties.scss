@@ -435,9 +435,9 @@
   --Checkbox--sm-size: #{px2rem(16px)};
   --Checkbox-borderRadius: var(--borderRadius);
   --Checkbox-color: var(--Form-input-borderColor);
-  --Checkbox-gap: var(--gap-sm);
+  --Checkbox-gap: var(--gap-xs);
   --Checkbox-gb: #fff;
-  --Checkbox-size: var(--gap-lg);
+  --Checkbox-size: var(--Form-fontSize);
   --Checkbox-inner-size: calc(var(--Checkbox-size) / 2);
   --Checkbox-onHover-color: var(--info);
   --Checkbox-onDisabled-bg: #e5e7eb;
@@ -631,7 +631,7 @@
   --Form-input-onHover-iconColor: #{darken($gray600, 20%)};
   --Form-input-onHover-bg: #{rgba($white, 0.6)};
   --Form-input-onHover-borderColor: var(--Form-input-onFocused-borderColor);
-  --Form-input-paddingX: #{px2rem(12px)};
+  --Form-input-paddingX: #{px2rem(8px)};
   --Form-input-paddingY: calc(
     (
         var(--Form-input-height) - var(--Form-input-lineHeight) *
@@ -751,7 +751,7 @@
 
   --InputRange-label--value-display: block;
   --InputRange-label--value-positionTop: #{px2rem(-36px)};
-  --InputRange-label--value-positionLeft: #{px2rem(-3px)};
+  --InputRange-label--value-positionLeft: #{px2rem(-6px)};
   --InputRange-label-color: var(--InputRange-neutralColor);
   --InputRange-label-fontSize: 0.8rem;
   --InputRange-label-positionBottom: -1.4rem;
@@ -1062,7 +1062,7 @@
   --ResultBox-icon--onHover-color: #666666;
   --ResultBox-icon-color: #999;
   --ResultBox-value--onDisabled-color: #cccccc;
-  --ResultBox-value--onHover-bg: #ebebeb;
+  --ResultBox-value--onHover-bg: rgba(0, 145, 255, 0.1);
   --ResultBox-value-bg: #f5f5f5;
   --ResultBox-value-color: #000;
 
@@ -1082,27 +1082,6 @@
   --Spinner-height: #{px2rem(26px)};
   --Spinner-overlay-bg: rgba(255, 255, 255, 0.4);
   --Spinner-width: #{px2rem(26px)};
-
-  --SubForm--addBtn-bg: var(--Button--info-bg);
-  --SubForm--addBtn-border: var(--Button--info-border);
-  --SubForm--addBtn-borderRadius: var(--Button-borderRadius);
-  --SubForm--addBtn-color: var(--Button--info-color);
-  --SubForm--addBtn-fontSize: var(--Button--sm-fontSize);
-  --SubForm--addBtn-height: var(--Button--sm-height);
-  --SubForm--addBtn-lineHeight: var(--Button--sm-lineHeight);
-  --SubForm--addBtn-onActive-bg: #{darken($info, 10%)};
-  --SubForm--addBtn-onActive-border: #{darken($info, 12.5%)};
-  --SubForm--addBtn-onActive-color: var(--SubForm--addBtn-color);
-  --SubForm--addBtn-onHover-bg: #{darken($info, 7.5%)};
-  --SubForm--addBtn-onHover-border: #{darken($info, 10%)};
-  --SubForm--addBtn-onHover-color: var(--SubForm--addBtn-color);
-  --SubForm--addBtn-paddingX: var(--Button--sm-paddingX);
-  --SubForm--addBtn-paddingY: calc(
-    (
-        var(--SubForm--addBtn-height) - var(--Button-borderWidth) * 2 -
-          var(--SubForm--addBtn-lineHeight) * var(--SubForm--addBtn-fontSize)
-      ) / 2
-  );
 
   --Switch-bgColor: #{$gray600};
   --Switch-borderColor: #{darken($gray600, 10%)};
@@ -1215,6 +1194,8 @@
   --Tabs--vertical-onActive-container-bg: var(--Tabs--vertical-bg);
   --Tabs--chrome-onHover-bg: #f6f7f8;
   --Tabs--chrome-bg: #e7eaed;
+  --Tabs--chrome-radius-size: #{px2rem(8px)};
+  --Tabs--chrome-right-boder-color: var(--borderColorDarken);
 
   --TagControl-sugBtn-bg: var(--Button--default-bg);
   --TagControl-sugBtn-border: var(--Button--default-border);
