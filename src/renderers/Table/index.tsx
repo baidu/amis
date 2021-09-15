@@ -1967,53 +1967,57 @@ export default class Table extends React.Component<TableProps, object> {
 
                 const type = (column as BaseSchema).type || 'plain';
                 if (type === 'image') {
-                  const imageData = await toDataURL(value);
-                  const imageDimensions = await getImageDimensions(imageData);
-                  let imageWidth = imageDimensions.width;
-                  let imageHeight = imageDimensions.height;
-                  // 限制一下图片高宽
-                  const imageMaxSize = 100;
-                  if (imageWidth > imageHeight) {
-                    if (imageWidth > imageMaxSize) {
-                      imageHeight = (imageMaxSize * imageHeight) / imageWidth;
-                      imageWidth = imageMaxSize;
+                  try {
+                    const imageData = await toDataURL(value);
+                    const imageDimensions = await getImageDimensions(imageData);
+                    let imageWidth = imageDimensions.width;
+                    let imageHeight = imageDimensions.height;
+                    // 限制一下图片高宽
+                    const imageMaxSize = 100;
+                    if (imageWidth > imageHeight) {
+                      if (imageWidth > imageMaxSize) {
+                        imageHeight = (imageMaxSize * imageHeight) / imageWidth;
+                        imageWidth = imageMaxSize;
+                      }
+                    } else {
+                      if (imageHeight > imageMaxSize) {
+                        imageWidth = (imageMaxSize * imageWidth) / imageHeight;
+                        imageHeight = imageMaxSize;
+                      }
                     }
-                  } else {
-                    if (imageHeight > imageMaxSize) {
-                      imageWidth = (imageMaxSize * imageWidth) / imageHeight;
-                      imageHeight = imageMaxSize;
+                    const imageMatch = imageData.match(/data:image\/(.*);/);
+                    let imageExt = 'png';
+                    if (imageMatch) {
+                      imageExt = imageMatch[1];
                     }
-                  }
-                  const imageMatch = imageData.match(/data:image\/(.*);/);
-                  let imageExt = 'png';
-                  if (imageMatch) {
-                    imageExt = imageMatch[1];
-                  }
-                  // 目前 excel 只支持这些格式，所以其它格式直接输出 url
-                  if (
-                    imageExt != 'png' &&
-                    imageExt != 'jpeg' &&
-                    imageExt != 'gif'
-                  ) {
-                    sheetRow.getCell(columIndex).value = value;
-                    continue;
-                  }
-                  const imageId = workbook.addImage({
-                    base64: imageData,
-                    extension: imageExt
-                  });
-                  const linkURL = getAbsoluteUrl(value);
-                  worksheet.addImage(imageId, {
-                    // 这里坐标位置是从 0 开始的，所以要减一
-                    tl: {col: columIndex - 1, row: rowIndex - 1},
-                    ext: {
-                      width: imageWidth,
-                      height: imageHeight
-                    },
-                    hyperlinks: {
-                      tooltip: linkURL
+                    // 目前 excel 只支持这些格式，所以其它格式直接输出 url
+                    if (
+                      imageExt != 'png' &&
+                      imageExt != 'jpeg' &&
+                      imageExt != 'gif'
+                    ) {
+                      sheetRow.getCell(columIndex).value = value;
+                      continue;
                     }
-                  });
+                    const imageId = workbook.addImage({
+                      base64: imageData,
+                      extension: imageExt
+                    });
+                    const linkURL = getAbsoluteUrl(value);
+                    worksheet.addImage(imageId, {
+                      // 这里坐标位置是从 0 开始的，所以要减一
+                      tl: {col: columIndex - 1, row: rowIndex - 1},
+                      ext: {
+                        width: imageWidth,
+                        height: imageHeight
+                      },
+                      hyperlinks: {
+                        tooltip: linkURL
+                      }
+                    });
+                  } catch (e) {
+                    console.warn(e.stack);
+                  }
                 } else if (type == 'link') {
                   const linkURL = getAbsoluteUrl(value);
                   sheetRow.getCell(columIndex).value = {
