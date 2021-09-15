@@ -56,6 +56,7 @@
     "keycode": "^2.1.9",
     "lodash": "^4.17.15",
     "markdown-it": "^12.0.6",
+    "markdown-it-html5-media": "^0.6.0",
     "match-sorter": "^6.3.0",
     "mobx": "^4.5.0",
     "mobx-react": "^6.1.4",

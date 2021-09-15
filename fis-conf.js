@@ -518,6 +518,7 @@ if (fis.project.currentMedia() === 'publish') {
         '!mdurl/**',
         '!uc.micro/**',
         '!markdown-it/**',
+        '!markdown-it-html5-media/**',
         '!punycode/**'
       ],
 
@@ -542,6 +543,7 @@ if (fis.project.currentMedia() === 'publish') {
         'mdurl/**',
         'uc.micro/**',
         'markdown-it/**',
+        'markdown-it-html5-media/**',
         'punycode/**'
       ],
 
@@ -576,7 +578,8 @@ if (fis.project.currentMedia() === 'publish') {
         '!linkify-it/**',
         '!mdurl/**',
         '!uc.micro/**',
-        '!markdown-it/**'
+        '!markdown-it/**',
+        '!markdown-it-html5-media/**'
       ]
     }),
     postpackager: [
