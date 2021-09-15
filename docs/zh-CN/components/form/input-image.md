@@ -32,7 +32,7 @@ order: 27
 ```javascript
 const express = require('express');
 const multer = require('multer');
-const upload = multer({ dest: 'uploads/' });
+const upload = multer({dest: 'uploads/'});
 const app = express();
 
 app.use(express.static('public'));
@@ -50,9 +50,7 @@ app.post('/uploader', upload.single('file'), function (req, res, next) {
 // 配合上面的返回值，将 uploads 目录可读，这样返回的文件才能正常显示
 app.get('uploads', express.static('uploads'));
 
-app.listen(8080, function () {
-});
-
+app.listen(8080, function () {});
 ```
 
 这个接口需要返回图片地址，比如下面的格式
@@ -74,7 +72,6 @@ app.listen(8080, function () {
   "image": "https:/xxx.yy/zz.png"
 }
 ```
-
 
 ## 限制文件类型
 

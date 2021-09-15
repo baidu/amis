@@ -370,7 +370,7 @@ export default class ImageControl extends React.Component<
     file: any;
     executor: () => void;
   }> = [];
-  cropper = React.createRef<Cropper>();
+  cropper: Cropper;
   dropzone = React.createRef<any>();
   frameImageRef = React.createRef<any>();
   current: FileValue | FileX | null = null;
@@ -512,8 +512,8 @@ export default class ImageControl extends React.Component<
         guides: true,
         dragMode: 'move',
         viewMode: 1,
-        rotatable: false,
-        scalable: false,
+        rotatable: true,
+        scalable: true,
         ...crop
       };
     }
@@ -862,7 +862,7 @@ export default class ImageControl extends React.Component<
   }
 
   handleCrop() {
-    this.cropper.current!.getCroppedCanvas().toBlob((file: File) => {
+    this.cropper.getCroppedCanvas().toBlob((file: File) => {
       this.addFiles([file]);
       this.setState({
         cropFile: undefined,
@@ -884,7 +884,7 @@ export default class ImageControl extends React.Component<
   }
 
   rotatableCrop() {
-    this.cropper.current!.rotate(90);
+    this.cropper.rotate(45);
   }
 
   addFiles(files: Array<FileX>) {
@@ -1211,7 +1211,13 @@ export default class ImageControl extends React.Component<
         {cropFile ? (
           <div className={cx('ImageControl-cropperWrapper')}>
             <Suspense fallback={<div>...</div>}>
-              <Cropper {...crop} ref={this.cropper} src={cropFile.preview} />
+              <Cropper
+                {...crop}
+                onInitialized={instance => {
+                  this.cropper = instance;
+                }}
+                src={cropFile.preview}
+              />
             </Suspense>
             <div className={cx('ImageControl-croperToolbar')}>
               {crop.rotatable && (
