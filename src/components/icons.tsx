@@ -149,6 +149,9 @@ import ExpandAltIcon from '../icons/expand-alt.svg';
 // @ts-ignore
 import CompressAltIcon from '../icons/compress-alt.svg';
 
+// @ts-ignore
+import TransparentIcon from '../icons/transparent.svg';
+
 // 兼容原来的用法，后续不直接试用。
 // @ts-ignore
 export const closeIcon = <CloseIcon />;
@@ -245,6 +248,7 @@ registerIcon('plus-cicle', PlusCicleIcon);
 registerIcon('ellipsis-v', EllipsisVIcon);
 registerIcon('expand-alt', ExpandAltIcon);
 registerIcon('compress-alt', CompressAltIcon);
+registerIcon('transparent', TransparentIcon);
 
 export function Icon({
   icon,
