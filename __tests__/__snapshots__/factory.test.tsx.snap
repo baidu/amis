@@ -195,123 +195,65 @@ exports[`factory:definitions 1`] = `
                             class="cxd-Combo-itemInner"
                           >
                             <div
-                              class="cxd-Form cxd-Form--normal cxd-Combo-form"
-                              novalidate=""
+                              class="cxd-Alert cxd-Alert--danger"
                             >
-                              <input
-                                style="display: none;"
-                                type="submit"
-                              />
-                              <div
-                                class="cxd-Form-item cxd-Form-item--normal"
-                                data-role="form-item"
-                              >
-                                <label
-                                  class="cxd-Form-label"
-                                >
-                                  <span>
-                                    <span
-                                      class="cxd-TplField"
-                                    >
-                                      <span>
-                                        combo 1
-                                      </span>
-                                    </span>
-                                  </span>
-                                </label>
-                                <div
-                                  class="cxd-Form-control cxd-TextControl"
-                                >
-                                  <div
-                                    class="cxd-TextControl-input"
-                                  >
-                                    <input
-                                      autocomplete="off"
-                                      name="key"
-                                      placeholder=""
-                                      size="10"
-                                      type="text"
-                                      value=""
-                                    />
-                                  </div>
-                                </div>
-                              </div>
-                              <div
-                                class="cxd-Form-item cxd-Form-item--normal"
-                                data-role="form-item"
-                              >
-                                <label
-                                  class="cxd-Form-label"
-                                >
-                                  <span>
-                                    <span
-                                      class="cxd-TplField"
-                                    >
-                                      <span>
-                                        combo 2
-                                      </span>
-                                    </span>
-                                  </span>
-                                </label>
-                                <div
-                                  class="cxd-Form-control cxd-TextControl"
-                                >
-                                  <div
-                                    class="cxd-TextControl-input"
-                                  >
-                                    <input
-                                      autocomplete="off"
-                                      name="value"
-                                      placeholder=""
-                                      size="10"
-                                      type="text"
-                                      value="ref value"
-                                    />
-                                  </div>
-                                </div>
-                                <div
-                                  class="cxd-Remark cxd-Form-remark"
-                                >
-                                  <span
-                                    class="cxd-Remark-icon"
-                                  >
-                                    <icon-mock
-                                      classname=" icon-warning-mark"
-                                      icon="warning-mark"
-                                    />
-                                  </span>
-                                </div>
-                              </div>
-                              <div
-                                class="cxd-Form-item cxd-Form-item--normal"
-                                data-role="form-item"
-                              >
-                                <label
-                                  class="cxd-Form-label"
-                                >
-                                  <span>
-                                    <span
-                                      class="cxd-TplField"
-                                    >
-                                      <span>
-                                        children
-                                      </span>
-                                    </span>
-                                  </span>
-                                </label>
-                                <div
-                                  class="cxd-Remark cxd-Form-remark"
-                                >
-                                  <span
-                                    class="cxd-Remark-icon"
-                                  >
-                                    <icon-mock
-                                      classname=" icon-warning-mark"
-                                      icon="warning-mark"
-                                    />
-                                  </span>
-                                </div>
-                              </div>
+                              <p>
+                                Error: 不允许在表单及表单按钮组中直接嵌套表单
+                              </p>
+                              <p>
+                                Path: 
+                                page/body/0/form/1/combo/multiple/0/form
+                              </p>
+                              <pre>
+                                <code>
+                                  {
+  "type": "form",
+  "body": [
+    {
+      "label": "combo 1",
+      "type": "input-text",
+      "name": "key"
+    },
+    {
+      "type": "input-text",
+      "name": "value",
+      "value": "ref value",
+      "remark": "通过&lt;code&gt;\\\\$ref&lt;/code&gt;引入的组件",
+      "label": "combo 2"
+    },
+    {
+      "type": "combo",
+      "multiple": true,
+      "multiLine": true,
+      "remark": "&lt;code&gt;combo&lt;/code&gt;中的子项引入自身，实现嵌套的效果",
+      "controls": [
+        {
+          "label": "combo 1",
+          "type": "text",
+          "name": "key"
+        },
+        {
+          "label": "combo 2",
+          "name": "value",
+          "$ref": "aa"
+        },
+        {
+          "name": "children",
+          "label": "children",
+          "$ref": "bb"
+        }
+      ],
+      "name": "children",
+      "label": "children"
+    }
+  ],
+  "wrapperComponent": "div",
+  "wrapWithPanel": false,
+  "mode": "normal",
+  "className": "cxd-Combo-form"
+}
+                                </code>
+                              </pre>
                             </div>
                           </div>
                           <a

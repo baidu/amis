@@ -54,6 +54,7 @@ import {
 import {ActionSchema} from '../Action';
 import {ButtonGroupControlSchema} from './ButtonGroupSelect';
 import {DialogSchemaBase} from '../Dialog';
+import Alert from '../../components/Alert2';
 
 export interface FormSchemaHorizontal {
   left?: number;
@@ -1493,6 +1494,8 @@ export default class Form extends React.Component<FormProps, object> {
 
   render() {
     const {
+      $path,
+      $schema,
       wrapWithPanel,
       render,
       title,
@@ -1507,7 +1510,8 @@ export default class Form extends React.Component<FormProps, object> {
       affixFooter,
       lazyLoad,
       translate: __,
-      footer
+      footer,
+      formStore
     } = this.props;
 
     // trace(true);
@@ -1515,7 +1519,20 @@ export default class Form extends React.Component<FormProps, object> {
 
     let body: JSX.Element = this.renderBody();
 
-    if (wrapWithPanel) {
+    // 表单组件限制
+    const isFormInFormActions: boolean = /panel\/action\/form$/.test($path);
+    // props有formStore 说明是嵌套表单 || 不允许在表单的按钮组中再直接套表单
+    if (formStore || isFormInFormActions) {
+      body = (
+        <Alert level="danger">
+          <p>Error: 不允许在表单及表单按钮组中直接嵌套表单</p>
+          <p>Path: {$path}</p>
+          <pre>
+            <code>{JSON.stringify($schema, null, 2)}</code>
+          </pre>
+        </Alert>
+      );
+    } else if (wrapWithPanel) {
       body = render(
         'body',
         {
