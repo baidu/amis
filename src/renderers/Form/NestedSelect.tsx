@@ -39,12 +39,18 @@ export interface NestedSelectControlSchema extends FormOptionsControl {
    * 弹框的 css 类
    */
   menuClassName?: string;
+
+  /**
+   * 是否隐藏选择框中已选中节点的祖先节点的文本信息
+   */
+  hideNodePathLabel?: boolean;
 }
 
 export interface NestedSelectProps extends OptionsControlProps {
   cascade?: boolean;
   noResultsText?: string;
   withChildren?: boolean;
+  hideNodePathLabel?: boolean;
 }
 
 export interface NestedSelectState {
@@ -64,7 +70,8 @@ export default class NestedSelectControl extends React.Component<
     searchPromptText: 'Select.searchPromptText',
     noResultsText: 'noResult',
     checkAll: true,
-    checkAllLabel: '全选'
+    checkAllLabel: '全选',
+    hideNodePathLabel: false
   };
   target: any;
   input: HTMLInputElement;
@@ -134,7 +141,11 @@ export default class NestedSelectControl extends React.Component<
 
   @autobind
   renderValue(item: Option, key?: any) {
-    const {classnames: cx, labelField, options} = this.props;
+    const {classnames: cx, labelField, options, hideNodePathLabel} = this.props;
+
+    if (hideNodePathLabel) {
+      return item[labelField || 'label'];
+    }
     const ancestors = getTreeAncestors(options, item, true);
 
     return (
@@ -561,7 +572,8 @@ export default class NestedSelectControl extends React.Component<
       selectedOptions,
       clearable,
       loading,
-      borderMode
+      borderMode,
+      hideNodePathLabel
     } = this.props;
 
     return (
