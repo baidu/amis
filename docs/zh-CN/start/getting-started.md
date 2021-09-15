@@ -33,6 +33,7 @@ SDK 版本适合对前端或 React 不了解的开发者，它不依赖 npm 及 
     <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
     <link rel="stylesheet" href="sdk.css" />
     <link rel="stylesheet" href="helper.css" />
+    <link rel="stylesheet" href="iconfont.css" /> <!-- 这是默认主题所需的，如果是其他主题则不需要 -->
     <!-- 从 1.1.0 开始 sdk.css 将不支持 IE 11，如果要支持 IE11 请引用这个 css，并把前面那个删了 -->
     <!-- <link rel="stylesheet" href="sdk-ie11.css" /> -->
     <!-- 不过 amis 开发团队几乎没测试过 IE 11 下的效果，所以可能有细节功能用不了，如果发现请报 issue -->
@@ -302,6 +303,7 @@ html 中引入：
 ```html
 <link href="./node_modules/amis/lib/themes/cxd.css" />
 <link href="./node_modules/amis/lib/helper.css" />
+<link href="./node_modules/amis/sdk/iconfont.css" />
 <!-- 或 <link href="./node_modules/amis/lib/themes/antd.css" /> -->
 ```
 
@@ -310,6 +312,7 @@ js 中引入：
 ```js
 import './node_modules/amis/lib/themes/cxd.css';
 import './node_modules/amis/lib/helper.css';
+import './node_modules/amis/sdk/iconfont.css';
 // 或 import './node_modules/amis/lib/themes/antd.css';
 ```
 
