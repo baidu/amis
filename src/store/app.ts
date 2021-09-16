@@ -45,12 +45,8 @@ export const AppStore = ServiceStore.named('AppStore')
 
       return [
         {
-          label: '导航',
-          children: [
-            {
-              label: '暂无页面'
-            }
-          ]
+          label: self.__('App.navigation'),
+          children: []
         }
       ];
     },
@@ -148,9 +144,10 @@ export const AppStore = ServiceStore.named('AppStore')
             ...item,
             path: ''
           });
+          self.__;
           if (bcn[0].path !== '/') {
             bcn.unshift({
-              label: '首页',
+              label: self.__('App.home'),
               path: '/'
             });
           }

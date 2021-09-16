@@ -4,6 +4,8 @@ register('de-DE', {
   'Action.countDown': '${timeLeft} warten',
   'Alert.info': 'Systeminformationen',
   'asc': 'Aufsteigend',
+  'App.home': 'Startseite',
+  'App.navigation': 'Navigation',
   'cancel': 'Abbrechen',
   'Card.dragTip': 'Obere Schaltfläche zum Sortieren ziehen',
   'Card.toggleDrag': 'Zum Sortieren umschalten',

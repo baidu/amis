@@ -3,6 +3,8 @@ import {register} from '../locale';
 register('zh-CN', {
   'Action.countDown': '请等待 ${timeLeft} 秒',
   'Alert.info': '系统消息',
+  'App.home': '首页',
+  'App.navigation': '导航',
   'asc': '正序',
   'cancel': '取消',
   'Card.dragTip': '请拖动顶部的按钮进行排序',
