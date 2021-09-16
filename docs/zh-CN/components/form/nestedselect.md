@@ -296,6 +296,119 @@ order: 31
 }
 ```
 
+也可以设置`onlyChildren`，实现只包含子节点的值
+
+```schema: scope="body"
+{
+  "type": "form",
+  "debug": true,
+  "api": "/api/mock2/form/saveForm",
+  "body": [
+    {
+      "type": "nested-select",
+      "name": "nestedSelect1",
+      "label": "默认不自动带上子节点的值",
+      "multiple": true,
+      "options": [
+        {
+          "label": "A",
+          "value": "a"
+        },
+        {
+          "label": "B",
+          "value": "b",
+          "children": [
+            {
+              "label": "B-1",
+              "value": "b-1",
+              "children": [
+                {
+                  "label": "D-1",
+                  "value": "d-1"
+                },
+                {
+                  "label": "D-2",
+                  "value": "d-2"
+                },
+                {
+                  "label": "D-3",
+                  "value": "d-3"
+                }
+              ]
+            },
+            {
+              "label": "B-2",
+              "value": "b-2"
+            },
+            {
+              "label": "B-3",
+              "value": "b-3"
+            }
+          ]
+        },
+        {
+          "label": "C",
+          "value": "c"
+        }
+      ]
+    },
+    {
+        "type": "divider"
+    },
+     {
+      "type": "nested-select",
+      "name": "nestedSelect2",
+      "label": "只包含子节点的值",
+      "multiple": true,
+      "onlyChildren": true,
+      "clearable": true,
+      "options": [
+        {
+          "label": "A",
+          "value": "a"
+        },
+        {
+          "label": "B",
+          "value": "b",
+          "children": [
+            {
+              "label": "B-1",
+              "value": "b-1",
+              "children": [
+                {
+                  "label": "D-1",
+                  "value": "d-1"
+                },
+                {
+                  "label": "D-2",
+                  "value": "d-2"
+                },
+                {
+                  "label": "D-3",
+                  "value": "d-3"
+                }
+              ]
+            },
+            {
+              "label": "B-2",
+              "value": "b-2"
+            },
+            {
+              "label": "B-3",
+              "value": "b-3"
+            }
+          ]
+        },
+        {
+          "label": "C",
+          "value": "c"
+        }
+      ]
+    }
+  ]
+}
+```
+
 ## 仅展示选中节点文本信息
 
 设置`hideNodePathLabel: true`，可以隐藏选择框中已选择节点的祖先节点(ancestor)的`labelField`字段值，仅展示当前选中节点的`labelField`字段值。
@@ -400,6 +513,7 @@ order: 31
 | autoFill          | `object`                                  |                      | [自动填充](./options#%E8%87%AA%E5%8A%A8%E5%A1%AB%E5%85%85-autofill)                         |
 | cascade           | `boolean`                                 | `false`              | 设置 `true`时，当选中父节点时不自动选择子节点。                                             |
 | withChildren      | `boolean`                                 | `false`              | 设置 `true`时，选中父节点时，值里面将包含子节点的值，否则只会保留父节点的值。               |
+| onlyChildren      | `boolean`                                 | `false`              | 多选时，选中父节点时，是否只将其子节点加入到值中。                                          |
 | searchable        | `boolean`                                 | `false`              | 可否搜索                                                                                    |
 | searchPromptText  | `string`                                  | `"输入内容进行检索"` | 搜索框占位文本                                                                              |
 | noResultsText     | `string`                                  | `"未找到任何结果"`   | 无结果时的文本                                                                              |
