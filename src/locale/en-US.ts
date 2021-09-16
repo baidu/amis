@@ -3,6 +3,8 @@ import {register} from '../locale';
 register('en-US', {
   'Action.countDown': 'Wait for ${timeLeft}s',
   'Alert.info': 'System Info',
+  'App.home': 'Home',
+  'App.navigation': 'Navigation',
   'asc': 'Asc',
   'cancel': 'Cancel',
   'Card.dragTip': 'Drag top button to sort',
