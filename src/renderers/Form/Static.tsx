@@ -74,7 +74,7 @@ export default class StaticControl extends React.Component<StaticProps, any> {
       );
     }
 
-    onBulkChange(values, saveImmediately === true);
+    onBulkChange && onBulkChange(values, saveImmediately === true);
   }
 
   render() {
