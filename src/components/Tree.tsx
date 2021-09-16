@@ -12,7 +12,9 @@ import {
   findTreeIndex,
   hasAbility,
   createObject,
-  getTreeParent
+  getTreeParent,
+  getTreeAncestors,
+  cloneObject
 } from '../utils/helper';
 import {Option, Options, value2array} from './Select';
 import {ClassNamesFn, themeable, ThemeProps} from '../theme';
@@ -62,6 +64,12 @@ interface TreeSelectorProps extends ThemeProps, LocaleProps {
   hideRoot?: boolean;
   rootLabel?: string;
   rootValue?: any;
+  // 是否开启节点路径记录
+  enableNodePath?: boolean;
+  // 路径节点的分隔符
+  pathSeparator?: string;
+  // 已选择节点路径
+  nodePath: any[];
 
   // 这个配置名字没取好，目前的含义是，如果这个配置成true，点父级的时候，子级点不会自选中。
   // 否则点击父级，子节点选中。
@@ -88,11 +96,11 @@ interface TreeSelectorProps extends ThemeProps, LocaleProps {
   removeTip?: string;
   onDelete?: (value: Option) => void;
   onDeferLoad?: (option: Option) => void;
+  onExpandTree?: (nodePathArr: any[]) => void;
 }
 
 interface TreeSelectorState {
   value: Array<any>;
-
   inputValue: string;
   addingParent: Option | null;
   isAdding: boolean;
@@ -131,20 +139,30 @@ export class TreeSelector extends React.Component<
     rootCreateTip: 'Tree.addRoot',
     createTip: 'Tree.addChild',
     editTip: 'Tree.editNode',
-    removeTip: 'Tree.removeNode'
+    removeTip: 'Tree.removeNode',
+    enableNodePath: false,
+    pathSeparator: '/',
+    nodePath: []
   };
 
   unfolded: WeakMap<Object, boolean> = new WeakMap();
 
   constructor(props: TreeSelectorProps) {
     super(props);
+
     this.state = {
-      value: value2array(props.value, {
-        multiple: props.multiple,
-        delimiter: props.delimiter,
-        valueField: props.valueField,
-        options: props.options
-      }),
+      value: value2array(
+        props.value,
+        {
+          multiple: props.multiple,
+          delimiter: props.delimiter,
+          valueField: props.valueField,
+          labelField: props.labelField,
+          options: props.options,
+          pathSeparator: props.pathSeparator
+        },
+        props.enableNodePath
+      ),
 
       inputValue: '',
       addingParent: null,
@@ -154,6 +172,11 @@ export class TreeSelector extends React.Component<
     };
 
     this.syncUnFolded(props);
+  }
+
+  componentDidMount() {
+    const {enableNodePath} = this.props;
+    enableNodePath && this.expandLazyLoadNodes();
   }
 
   componentDidUpdate(prevProps: TreeSelectorProps) {
@@ -168,14 +191,29 @@ export class TreeSelector extends React.Component<
       prevProps.options !== props.options
     ) {
       this.setState({
-        value: value2array(props.value, {
-          multiple: props.multiple,
-          delimiter: props.delimiter,
-          valueField: props.valueField,
-          options: props.options
-        })
+        value: value2array(
+          props.value,
+          {
+            multiple: props.multiple,
+            delimiter: props.delimiter,
+            valueField: props.valueField,
+            options: props.options
+          },
+          props.enableNodePath
+        )
       });
     }
+  }
+
+  /**
+   * 展开懒加载节点的父节点
+   */
+  expandLazyLoadNodes() {
+    const {pathSeparator, onExpandTree, nodePath = []} = this.props;
+    const nodePathArr = nodePath.map(path =>
+      path ? path.toString().split(pathSeparator) : []
+    );
+    onExpandTree?.(nodePathArr);
   }
 
   syncUnFolded(props: TreeSelectorProps) {
@@ -246,9 +284,58 @@ export class TreeSelector extends React.Component<
     );
   }
 
+  /**
+   * enableNodePath为true时，将label和value转换成node path格式
+   */
+  transform2NodePath(value: any) {
+    const {
+      multiple,
+      options,
+      valueField,
+      labelField,
+      joinValues,
+      extractValue,
+      pathSeparator,
+      delimiter
+    } = this.props;
+
+    const nodesValuePath: string[] = [];
+    const selectedNodes = Array.isArray(value) ? value.concat() : [value];
+    const selectedNodesPath = selectedNodes.map(node => {
+      const nodePath = getTreeAncestors(options, node, true)?.reduce(
+        (acc, node) => {
+          acc[labelField as string].push(node[labelField as string]);
+          acc[valueField as string].push(node[valueField as string]);
+          return acc;
+        },
+        {[labelField as string]: [], [valueField as string]: []}
+      );
+      const nodeValuePath = nodePath[valueField as string].join(pathSeparator);
+
+      nodesValuePath.push(nodeValuePath);
+      return {
+        ...node,
+        [labelField]: nodePath[labelField as string].join(pathSeparator),
+        [valueField]: nodeValuePath
+      };
+    });
+
+    if (multiple) {
+      return joinValues
+        ? nodesValuePath.join(delimiter)
+        : extractValue
+        ? nodesValuePath
+        : selectedNodesPath;
+    } else {
+      return joinValues || extractValue
+        ? selectedNodesPath[0][valueField]
+        : selectedNodesPath[0];
+    }
+  }
+
   @autobind
   handleSelect(node: any, value?: any) {
-    const {joinValues, valueField, onChange} = this.props;
+    const {joinValues, valueField, onChange, enableNodePath} = this.props;
 
     if (node[valueField as string] === undefined) {
       if (node.defer && !node.loaded) {
@@ -263,7 +350,13 @@ export class TreeSelector extends React.Component<
         value: [node]
       },
       () => {
-        onChange(joinValues ? node[valueField as string] : node);
+        onChange(
+          enableNodePath
+            ? this.transform2NodePath(node)
+            : joinValues
+            ? node[valueField as string]
+            : node
+        );
       }
     );
   }
@@ -372,11 +465,14 @@ export class TreeSelector extends React.Component<
           extractValue,
           valueField,
           delimiter,
-          onChange
+          onChange,
+          enableNodePath
         } = props;
 
         onChange(
-          joinValues
+          enableNodePath
+            ? this.transform2NodePath(value)
+            : joinValues
             ? value.map(item => item[valueField as string]).join(delimiter)
             : extractValue
             ? value.map(item => item[valueField as string])
@@ -780,7 +876,6 @@ export class TreeSelector extends React.Component<
     } = this.props;
     let options = this.props.options;
     const {value, isAdding, addingParent, isEditing, inputValue} = this.state;
-
     let addBtn = null;
 
     if (creatable && rootCreatable !== false && hideRoot) {

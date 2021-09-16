@@ -72,12 +72,24 @@ export interface TreeSelectControlSchema extends FormOptionsControl {
    * 是否隐藏选择框中已选中节点的祖先节点的文本信息
    */
   hideNodePathLabel?: boolean;
+
+  /**
+   * 是否开启节点路径模式
+   */
+  enableNodePath?: boolean;
+
+  /**
+   * 开启节点路径模式后，节点路径的分隔符
+   */
+  pathSeparator?: string;
 }
 
 export interface TreeSelectProps extends OptionsControlProps {
   placeholder?: any;
   autoComplete?: Api;
   hideNodePathLabel?: boolean;
+  enableNodePath?: boolean;
+  pathSeparator?: string;
 }
 
 export interface TreeSelectState {
@@ -102,7 +114,9 @@ export default class TreeSelectControl extends React.Component<
     extractValue: false,
     delimiter: ',',
     resetValue: '',
-    hideNodePathLabel: false
+    hideNodePathLabel: false,
+    enableNodePath: false,
+    pathSeparator: '/'
   };
 
   container: React.RefObject<HTMLDivElement> = React.createRef();
@@ -436,6 +450,8 @@ export default class TreeSelectControl extends React.Component<
   renderOuter() {
     const {
       value,
+      enableNodePath,
+      pathSeparator = '/',
       disabled,
       joinValues,
       extractValue,
@@ -461,8 +477,10 @@ export default class TreeSelectControl extends React.Component<
       maxLength,
       minLength,
       labelField,
+      nodePath,
       translate: __,
-      deferLoad
+      deferLoad,
+      expandTreeOptions
     } = this.props;
 
     let filtedOptions =
@@ -510,9 +528,13 @@ export default class TreeSelectControl extends React.Component<
             foldedField="collapsed"
             hideRoot
             value={value || ''}
+            nodePath={nodePath}
+            enableNodePath={enableNodePath}
+            pathSeparator={pathSeparator}
             maxLength={maxLength}
             minLength={minLength}
             onDeferLoad={deferLoad}
+            onExpandTree={expandTreeOptions}
           />
         </PopOver>
       </Overlay>
