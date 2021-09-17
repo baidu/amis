@@ -232,7 +232,7 @@ export default class Service extends React.Component<ServiceProps> {
   afterSchemaFetch(schema: any) {
     const {onBulkChange, formStore} = this.props;
     if (formStore && schema?.data && onBulkChange) {
-      onBulkChange(schema.data);
+      onBulkChange && onBulkChange(schema.data);
     }
 
     this.initInterval(schema);

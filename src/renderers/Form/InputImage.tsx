@@ -793,7 +793,7 @@ export default class ImageControl extends React.Component<
             }
           : files[0]
       );
-      onBulkChange(toSync);
+      onBulkChange && onBulkChange(toSync);
     }
   }
 

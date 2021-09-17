@@ -572,9 +572,10 @@ export function wrapControl<
             if (!key || key === name) {
               this.handleChange(value);
             } else {
-              onBulkChange({
-                [key]: value
-              });
+              onBulkChange &&
+                onBulkChange({
+                  [key]: value
+                });
             }
           }
 
