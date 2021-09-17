@@ -1,24 +1,4 @@
 @use 'sass:math';
-@mixin setControlWidth() {
-  width: var(--Form-control-widthBase);
-
-  &.#{$ns}Form-control--sizeXs {
-    min-width: auto;
-    width: var(--Form-control-widthXs);
-  }
-  &.#{$ns}Form-control--sizeSm {
-    min-width: auto;
-    width: var(--Form-control-widthSm);
-  }
-  &.#{$ns}Form-control--sizeMd {
-    min-width: auto;
-    width: var(--Form-control-widthMd);
-  }
-  &.#{$ns}Form-control--sizeLg {
-    min-width: auto;
-    width: var(--Form-control-widthLg);
-  }
-}
 
 .#{$ns}Form {
   font-size: var(--Form-fontSize);
@@ -164,7 +144,7 @@
   .#{$ns}Form-control--sizeXs {
     // min-width: var(--Form-control-widthXs);
     // width: auto;
-    min-width: var(--Form-control-widthXs);
+    width: var(--Form-control-widthXs);
     max-width: 100%;
     display: inline-block;
     vertical-align: top;
@@ -180,7 +160,7 @@
   }
 
   .#{$ns}Form-control--sizeSm {
-    min-width: var(--Form-control-widthSm);
+    width: var(--Form-control-widthSm);
     max-width: 100%;
     display: inline-block;
     vertical-align: top;
@@ -196,7 +176,7 @@
   }
 
   .#{$ns}Form-control--sizeMd {
-    min-width: var(--Form-control-widthMd);
+    width: var(--Form-control-widthMd);
     max-width: 100%;
     display: inline-block;
     vertical-align: top;
@@ -207,7 +187,7 @@
   }
 
   .#{$ns}Form-control--sizeLg {
-    min-width: var(--Form-control-widthLg);
+    width: var(--Form-control-widthLg);
     max-width: 100%;
     display: inline-block;
     vertical-align: top;
@@ -299,10 +279,6 @@
     &--inline {
       display: inline-block;
       vertical-align: top;
-
-      .#{$ns}TextControl {
-        @include setControlWidth();
-      }
 
       > .#{$ns}Form-label {
         padding-top: var(--Form-label-paddingTop);
