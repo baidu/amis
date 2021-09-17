@@ -235,7 +235,7 @@ icon 也可以是 url 地址，比如
     "api": "/api/mock2/form/saveForm",
     "feedback": {
         "title": "操作成功",
-        "body": "xxx 已操作成功"
+        "body": "${id} 已操作成功"
     }
 }
 ```
