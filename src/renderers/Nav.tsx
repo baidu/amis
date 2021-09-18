@@ -14,7 +14,7 @@ import {
 import {ScopedContext, IScopedContext} from '../Scoped';
 import {themeable, ThemeProps} from '../theme';
 import {Icon} from '../components/icons';
-import {BaseSchema, SchemaApi, SchemaIcon, SchemaUrlPath} from '../Schema';
+import {BaseSchema, SchemaApi, SchemaIcon, SchemaUrlPath, SchemaCollection} from '../Schema';
 import {generateIcon} from '../utils/icon';
 import {
   RemoteOptionsProps,
@@ -27,7 +27,7 @@ export type NavItemSchema = {
   /**
    * 文字说明
    */
-  label?: string;
+  label?: string | SchemaCollection;
 
   /**
    * 图标类名，参考 fontawesome 4。
@@ -85,7 +85,7 @@ export interface NavSchema extends BaseSchema {
 
 export interface Link {
   className?: string;
-  label?: string;
+  label?: string | SchemaCollection;
   to?: string;
   target?: string;
   icon?: string;
@@ -113,6 +113,7 @@ export interface NavigationProps
   togglerClassName?: string;
   links?: Array<Link>;
   loading?: boolean;
+  render: RendererProps['render']
 }
 
 export class Navigation extends React.Component<
@@ -157,7 +158,11 @@ export class Navigation extends React.Component<
           style={{paddingLeft: depth * (parseInt(indentSize as any, 10) ?? 24)}}
         >
           {generateIcon(cx, link.icon, 'Nav-itemIcon')}
-          {link.label}
+          {
+            link.label && (typeof link.label === 'string'
+            ? link.label
+            : this.props.render('inline', link.label as SchemaCollection))
+          }
         </a>
 
         {link.loading ? (
