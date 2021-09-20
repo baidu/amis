@@ -237,6 +237,11 @@ export interface TableSchema extends BaseSchema {
    * 底部总结行
    */
   affixRow?: Array<SchemaObject>;
+
+  /**
+   * 是否可调整列宽
+   */
+  resizable?: boolean;
 }
 
 export interface TableProps extends RendererProps {
@@ -375,7 +380,8 @@ export default class Table extends React.Component<TableProps, object> {
     itemCheckableOn: '',
     itemDraggableOn: '',
     hideCheckToggler: false,
-    canAccessSuperData: false
+    canAccessSuperData: false,
+    resizable: true
   };
 
   table?: HTMLTableElement;
@@ -1222,6 +1228,44 @@ export default class Table extends React.Component<TableProps, object> {
     }
   }
 
+  // 以下变量都是用于列宽度调整拖拽
+  resizeLine: HTMLElement;
+  resizeLineLeft: number;
+  targetTh: HTMLElement;
+  targetThWidth: number;
+  lineStartX: number;
+
+  // 开始列宽度调整
+  @autobind
+  handleColResizeMouseDown(e: React.MouseEvent<HTMLElement>) {
+    this.lineStartX = e.clientX;
+    const currentTarget = e.currentTarget;
+    this.resizeLine = currentTarget;
+    this.resizeLineLeft = parseInt(
+      getComputedStyle(this.resizeLine).getPropertyValue('left'),
+      10
+    );
+    this.targetTh = this.resizeLine.parentElement! as HTMLElement;
+    this.targetThWidth = this.targetTh.getBoundingClientRect().width;
+    document.addEventListener('mousemove', this.handleColResizeMouseMove);
+    document.addEventListener('mouseup', this.handleColResizeMouseUp);
+  }
+
+  // 垂直线拖拽移动
+  @autobind
+  handleColResizeMouseMove(e: MouseEvent) {
+    const moveX = e.clientX - this.lineStartX;
+    this.resizeLine.style.left = this.resizeLineLeft + moveX + 'px';
+    this.targetTh.style.width = this.targetThWidth + moveX + 'px';
+  }
+
+  // 垂直线拖拽结束
+  @autobind
+  handleColResizeMouseUp(e: MouseEvent) {
+    document.removeEventListener('mousemove', this.handleColResizeMouseMove);
+    document.removeEventListener('mouseup', this.handleColResizeMouseUp);
+  }
+
   renderHeading() {
     let {
       title,
@@ -1306,6 +1350,7 @@ export default class Table extends React.Component<TableProps, object> {
       env,
       render,
       classPrefix: ns,
+      resizable,
       classnames: cx
     } = this.props;
 
@@ -1441,6 +1486,14 @@ export default class Table extends React.Component<TableProps, object> {
       props.style.width = column.pristine.width;
     }
 
+    const resizeLine = (
+      <div
+        className={cx('Table-content-colDragLine')}
+        key={`resize-${column.index}`}
+        onMouseDown={this.handleColResizeMouseDown}
+      ></div>
+    );
+
     return (
       <th
         {...props}
@@ -1471,6 +1524,7 @@ export default class Table extends React.Component<TableProps, object> {
         </div>
 
         {affix}
+        {resizable === false ? null : resizeLine}
       </th>
     );
   }
