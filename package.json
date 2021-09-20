@@ -51,6 +51,7 @@
     "froala-editor": "2.9.6",
     "hls.js": "1.0.10",
     "hoist-non-react-statics": "^3.3.2",
+    "hotkeys-js": "^3.8.7",
     "immutability-helper": "^3.1.1",
     "jquery": "^3.2.1",
     "keycode": "^2.1.9",

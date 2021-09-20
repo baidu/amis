@@ -764,6 +764,27 @@ props.onAction(event, {
 }
 ```
 
+## 键盘快捷键触发
+
+> 1.3.0 版本新增功能
+
+可以通过 `hotKey` 属性来配置键盘快捷键触发，比如下面的例子
+
+```schema: scope="body"
+{
+  "label": "使用 ⌘+o 或 ctrl+o 来弹框",
+  "type": "button",
+  "hotKey": "command+o,ctrl+o",
+  "actionType": "dialog",
+  "dialog": {
+    "title": "弹框",
+    "body": "这是个简单的弹框。"
+  }
+}
+```
+
+除了 ctrl 和 command 还支持 shift、alt。
+
 ## 通用属性表
 
 所有`actionType`都支持的通用配置项
