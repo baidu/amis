@@ -1,4 +1,5 @@
 import React from 'react';
+import hotkeys from 'hotkeys-js';
 import {Renderer, RendererProps} from '../factory';
 import {filter} from '../utils/tpl';
 import Button from '../components/Button';
@@ -125,6 +126,11 @@ export interface ButtonSchema extends BaseSchema {
    * 角标
    */
   badge?: BadgeSchema;
+
+  /**
+   * 键盘快捷键
+   */
+  hotKey?: string;
 }
 
 export interface AjaxActionSchema extends ButtonSchema {
@@ -364,6 +370,40 @@ import {generateIcon} from '../utils/icon';
 import {BadgeSchema, withBadge} from '../components/Badge';
 import {str2AsyncFunction} from '../utils/api';
 
+// 构造一个假的 React 事件避免可能的报错，主要用于快捷键功能
+// 来自 https://stackoverflow.com/questions/27062455/reactjs-can-i-create-my-own-syntheticevent
+export const createSyntheticEvent = <T extends Element, E extends Event>(
+  event: E
+): React.SyntheticEvent<T, E> => {
+  let isDefaultPrevented = false;
+  let isPropagationStopped = false;
+  const preventDefault = () => {
+    isDefaultPrevented = true;
+    event.preventDefault();
+  };
+  const stopPropagation = () => {
+    isPropagationStopped = true;
+    event.stopPropagation();
+  };
+  return {
+    nativeEvent: event,
+    currentTarget: event.currentTarget as EventTarget & T,
+    target: event.target as EventTarget & T,
+    bubbles: event.bubbles,
+    cancelable: event.cancelable,
+    defaultPrevented: event.defaultPrevented,
+    eventPhase: event.eventPhase,
+    isTrusted: event.isTrusted,
+    preventDefault,
+    isDefaultPrevented: () => isDefaultPrevented,
+    stopPropagation,
+    isPropagationStopped: () => isPropagationStopped,
+    persist: () => {},
+    timeStamp: event.timeStamp,
+    type: event.type
+  };
+};
+
 export interface ActionProps
   extends Omit<
       ButtonSchema,
@@ -528,6 +568,29 @@ export class Action extends React.Component<ActionProps, ActionState> {
       setTimeout(() => {
         this.handleCountDown();
       }, 1000);
+    }
+  }
+
+  @autobind
+  componentDidMount() {
+    const {hotKey} = this.props;
+    if (hotKey) {
+      hotkeys(hotKey, event => {
+        event.preventDefault();
+        const click = new MouseEvent('click', {
+          bubbles: true,
+          cancelable: true
+        });
+        this.handleAction(createSyntheticEvent(click) as any);
+      });
+    }
+  }
+
+  @autobind
+  componentWillUnmount() {
+    const {hotKey} = this.props;
+    if (hotKey) {
+      hotkeys.unbind(hotKey);
     }
   }
 
