@@ -80,7 +80,7 @@ export interface TransferControlSchema extends FormOptionsControl {
   /**
    * 左侧的标题文字
    */
-   selectTitle?: string;
+  selectTitle?: string;
 
   /**
    * 右侧结果的标题文字
@@ -97,7 +97,10 @@ export interface BaseTransferProps
       | 'className'
       | 'descriptionClassName'
       | 'inputClassName'
-    > {}
+    > {
+  optionItemRender?: (option: Option) => JSX.Element;
+  resultItemRender?: (option: Option) => JSX.Element;
+}
 
 export class BaseTransferRenderer<
   T extends OptionsControlProps = BaseTransferProps
@@ -255,7 +258,9 @@ export class BaseTransferRenderer<
       rightMode,
       disabled,
       selectTitle,
-      resultTitle
+      resultTitle,
+      optionItemRender,
+      resultItemRender
     } = this.props;
 
     return (
@@ -279,6 +284,8 @@ export class BaseTransferRenderer<
           cellRender={this.renderCell}
           selectTitle={selectTitle}
           resultTitle={resultTitle}
+          optionItemRender={optionItemRender}
+          resultItemRender={resultItemRender}
         />
 
         <Spinner overlay key="info" show={loading} />
