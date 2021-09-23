@@ -811,6 +811,9 @@
         top ease-in-out var(--animation-duration);
       position: relative;
       transform-origin: 50% 50%;
+      width: px2rem(10px);
+      height: px2rem(10px);
+      top: 0;
     }
 
     &.is-active > svg {
