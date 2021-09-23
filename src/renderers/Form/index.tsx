@@ -1432,6 +1432,9 @@ export default class Form extends React.Component<FormProps, object> {
         onSubmit={this.handleFormSubmit}
         noValidate
       >
+        {/* 实现回车自动提交 */}
+        <input type="submit" style={{display: 'none'}} />
+
         {debug ? (
           <pre>
             <code>{JSON.stringify(store.data, null, 2)}</code>
@@ -1484,8 +1487,6 @@ export default class Form extends React.Component<FormProps, object> {
             show: store.drawerOpen
           }
         )}
-        {/* 实现回车自动提交 */}
-        <input type="submit" style={{display: 'none'}} />
       </WrapperComponent>
     );
   }
