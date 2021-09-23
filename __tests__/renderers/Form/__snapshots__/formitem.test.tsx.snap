@@ -28,6 +28,10 @@ exports[`Renderer:FormItem:validateApi:failed 1`] = `
         class="cxd-Form cxd-Form--normal"
         novalidate=""
       >
+        <input
+          style="display: none;"
+          type="submit"
+        />
         <div
           class="cxd-Form-item cxd-Form-item--normal is-error is-required has-error--isRequired"
           data-role="form-item"
@@ -74,10 +78,6 @@ exports[`Renderer:FormItem:validateApi:failed 1`] = `
             </li>
           </ul>
         </div>
-        <input
-          style="display: none;"
-          type="submit"
-        />
       </form>
     </div>
     <div
@@ -167,6 +167,10 @@ exports[`Renderer:FormItem:validateApi:failed 2`] = `
         class="cxd-Form cxd-Form--normal"
         novalidate=""
       >
+        <input
+          style="display: none;"
+          type="submit"
+        />
         <div
           class="cxd-Form-item cxd-Form-item--normal is-error is-required"
           data-role="form-item"
@@ -213,10 +217,6 @@ exports[`Renderer:FormItem:validateApi:failed 2`] = `
             </li>
           </ul>
         </div>
-        <input
-          style="display: none;"
-          type="submit"
-        />
       </form>
     </div>
     <div
@@ -306,6 +306,10 @@ exports[`Renderer:FormItem:validateApi:success 1`] = `
         class="cxd-Form cxd-Form--normal"
         novalidate=""
       >
+        <input
+          style="display: none;"
+          type="submit"
+        />
         <div
           class="cxd-Form-item cxd-Form-item--normal is-error is-required has-error--isRequired"
           data-role="form-item"
@@ -352,10 +356,6 @@ exports[`Renderer:FormItem:validateApi:success 1`] = `
             </li>
           </ul>
         </div>
-        <input
-          style="display: none;"
-          type="submit"
-        />
       </form>
     </div>
     <div

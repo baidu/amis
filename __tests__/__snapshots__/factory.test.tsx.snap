@@ -112,6 +112,10 @@ exports[`factory:definitions 1`] = `
                 class="cxd-Form cxd-Form--normal"
                 novalidate=""
               >
+                <input
+                  style="display: none;"
+                  type="submit"
+                />
                 <div
                   class="cxd-Form-item cxd-Form-item--normal"
                   data-role="form-item"
@@ -194,6 +198,10 @@ exports[`factory:definitions 1`] = `
                               class="cxd-Form cxd-Form--normal cxd-Combo-form"
                               novalidate=""
                             >
+                              <input
+                                style="display: none;"
+                                type="submit"
+                              />
                               <div
                                 class="cxd-Form-item cxd-Form-item--normal"
                                 data-role="form-item"
@@ -304,10 +312,6 @@ exports[`factory:definitions 1`] = `
                                   </span>
                                 </div>
                               </div>
-                              <input
-                                style="display: none;"
-                                type="submit"
-                              />
                             </div>
                           </div>
                           <a
@@ -354,10 +358,6 @@ exports[`factory:definitions 1`] = `
                     </span>
                   </div>
                 </div>
-                <input
-                  style="display: none;"
-                  type="submit"
-                />
               </form>
             </div>
             <div
@@ -462,6 +462,10 @@ exports[`factory:definitions override 1`] = `
                 class="cxd-Form cxd-Form--normal"
                 novalidate=""
               >
+                <input
+                  style="display: none;"
+                  type="submit"
+                />
                 <div
                   class="cxd-Form-item cxd-Form-item--normal"
                   data-role="form-item"
@@ -569,10 +573,6 @@ exports[`factory:definitions override 1`] = `
                     </span>
                   </div>
                 </div>
-                <input
-                  style="display: none;"
-                  type="submit"
-                />
               </form>
             </div>
             <div

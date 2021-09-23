@@ -56,6 +56,14 @@ exports[`Renderer:Wizard 1`] = `
         noValidate={true}
         onSubmit={[Function]}
       >
+        <input
+          style={
+            Object {
+              "display": "none",
+            }
+          }
+          type="submit"
+        />
         <div
           className="cxd-Form-item cxd-Form-item--normal is-required"
           data-role="form-item"
@@ -140,14 +148,6 @@ exports[`Renderer:Wizard 1`] = `
             </div>
           </div>
         </div>
-        <input
-          style={
-            Object {
-              "display": "none",
-            }
-          }
-          type="submit"
-        />
       </form>
     </div>
     <div
@@ -224,6 +224,10 @@ exports[`Renderer:Wizard actionPrevLabel actionNextLabel actionFinishLabel class
           class="cxd-Form cxd-Form--normal"
           novalidate=""
         >
+          <input
+            style="display: none;"
+            type="submit"
+          />
           <span
             class="cxd-TplField"
           >
@@ -231,10 +235,6 @@ exports[`Renderer:Wizard actionPrevLabel actionNextLabel actionFinishLabel class
               这是最后一步了
             </span>
           </span>
-          <input
-            style="display: none;"
-            type="submit"
-          />
         </form>
       </div>
       <div
@@ -349,6 +349,10 @@ exports[`Renderer:Wizard actionPrevLabel actionNextLabel actionFinishLabel class
           class="cxd-Form cxd-Form--normal"
           novalidate=""
         >
+          <input
+            style="display: none;"
+            type="submit"
+          />
           <div
             class="cxd-Form-item cxd-Form-item--normal"
             data-role="form-item"
@@ -417,10 +421,6 @@ exports[`Renderer:Wizard actionPrevLabel actionNextLabel actionFinishLabel class
               </div>
             </div>
           </div>
-          <input
-            style="display: none;"
-            type="submit"
-          />
         </form>
       </div>
       <div
@@ -544,6 +544,10 @@ exports[`Renderer:Wizard dialog 1`] = `
                   class="cxd-Form cxd-Form--normal"
                   novalidate=""
                 >
+                  <input
+                    style="display: none;"
+                    type="submit"
+                  />
                   <div
                     class="cxd-Form-item cxd-Form-item--normal"
                     data-role="form-item"
@@ -625,10 +629,6 @@ exports[`Renderer:Wizard dialog 1`] = `
                       </span>
                     </button>
                   </div>
-                  <input
-                    style="display: none;"
-                    type="submit"
-                  />
                 </form>
               </div>
               <div
@@ -733,6 +733,10 @@ exports[`Renderer:Wizard dialog 1`] = `
           class="cxd-Form cxd-Form--horizontal"
           novalidate=""
         >
+          <input
+            style="display: none;"
+            type="submit"
+          />
           <div
             class="cxd-Form-item cxd-Form-item--horizontal"
             data-role="form-item"
@@ -771,10 +775,6 @@ exports[`Renderer:Wizard dialog 1`] = `
               </div>
             </div>
           </div>
-          <input
-            style="display: none;"
-            type="submit"
-          />
         </div>
       </div>
       <div
@@ -858,6 +858,10 @@ exports[`Renderer:Wizard dialog 2`] = `
                   class="cxd-Form cxd-Form--normal"
                   novalidate=""
                 >
+                  <input
+                    style="display: none;"
+                    type="submit"
+                  />
                   <div
                     class="cxd-Form-item cxd-Form-item--normal"
                     data-role="form-item"
@@ -939,10 +943,6 @@ exports[`Renderer:Wizard dialog 2`] = `
                       </span>
                     </button>
                   </div>
-                  <input
-                    style="display: none;"
-                    type="submit"
-                  />
                 </form>
               </div>
               <div
@@ -1070,6 +1070,14 @@ exports[`Renderer:Wizard initApi 1`] = `
         noValidate={true}
         onSubmit={[Function]}
       >
+        <input
+          style={
+            Object {
+              "display": "none",
+            }
+          }
+          type="submit"
+        />
         <div
           className="cxd-Form-item cxd-Form-item--normal is-required"
           data-role="form-item"
@@ -1154,14 +1162,6 @@ exports[`Renderer:Wizard initApi 1`] = `
             </div>
           </div>
         </div>
-        <input
-          style={
-            Object {
-              "display": "none",
-            }
-          }
-          type="submit"
-        />
       </form>
     </div>
     <div
@@ -1247,6 +1247,10 @@ exports[`Renderer:Wizard initApi reload 1`] = `
                   class="cxd-Form cxd-Form--normal"
                   novalidate=""
                 >
+                  <input
+                    style="display: none;"
+                    type="submit"
+                  />
                   <div
                     class="cxd-Form-item cxd-Form-item--normal"
                     data-role="form-item"
@@ -1315,10 +1319,6 @@ exports[`Renderer:Wizard initApi reload 1`] = `
                       </div>
                     </div>
                   </div>
-                  <input
-                    style="display: none;"
-                    type="submit"
-                  />
                 </form>
               </div>
               <div
@@ -1449,6 +1449,10 @@ exports[`Renderer:Wizard initApi reload 2`] = `
                   class="cxd-Form cxd-Form--normal"
                   novalidate=""
                 >
+                  <input
+                    style="display: none;"
+                    type="submit"
+                  />
                   <span
                     class="cxd-TplField"
                   >
@@ -1456,10 +1460,6 @@ exports[`Renderer:Wizard initApi reload 2`] = `
                       这是最后一步了
                     </span>
                   </span>
-                  <input
-                    style="display: none;"
-                    type="submit"
-                  />
                 </form>
               </div>
               <div
@@ -1590,6 +1590,10 @@ exports[`Renderer:Wizard initApi reload 3`] = `
                   class="cxd-Form cxd-Form--normal"
                   novalidate=""
                 >
+                  <input
+                    style="display: none;"
+                    type="submit"
+                  />
                   <span
                     class="cxd-TplField"
                   >
@@ -1597,10 +1601,6 @@ exports[`Renderer:Wizard initApi reload 3`] = `
                       这是最后一步了
                     </span>
                   </span>
-                  <input
-                    style="display: none;"
-                    type="submit"
-                  />
                 </form>
               </div>
               <div
@@ -1791,6 +1791,14 @@ exports[`Renderer:Wizard initApi show loading 2`] = `
         noValidate={true}
         onSubmit={[Function]}
       >
+        <input
+          style={
+            Object {
+              "display": "none",
+            }
+          }
+          type="submit"
+        />
         <div
           className="cxd-Form-item cxd-Form-item--normal is-required"
           data-role="form-item"
@@ -1875,14 +1883,6 @@ exports[`Renderer:Wizard initApi show loading 2`] = `
             </div>
           </div>
         </div>
-        <input
-          style={
-            Object {
-              "display": "none",
-            }
-          }
-          type="submit"
-        />
       </form>
     </div>
     <div
@@ -1974,6 +1974,14 @@ exports[`Renderer:Wizard readOnly 1`] = `
         noValidate={true}
         onSubmit={[Function]}
       >
+        <input
+          style={
+            Object {
+              "display": "none",
+            }
+          }
+          type="submit"
+        />
         <div
           className="cxd-Form-item cxd-Form-item--normal"
           data-role="form-item"
@@ -2049,14 +2057,6 @@ exports[`Renderer:Wizard readOnly 1`] = `
             </div>
           </div>
         </div>
-        <input
-          style={
-            Object {
-              "display": "none",
-            }
-          }
-          type="submit"
-        />
       </form>
     </div>
     <div
@@ -2133,6 +2133,10 @@ exports[`Renderer:Wizard send data 1`] = `
           class="cxd-Form cxd-Form--normal"
           novalidate=""
         >
+          <input
+            style="display: none;"
+            type="submit"
+          />
           <span
             class="cxd-TplField"
           >
@@ -2140,10 +2144,6 @@ exports[`Renderer:Wizard send data 1`] = `
               这是最后一步了
             </span>
           </span>
-          <input
-            style="display: none;"
-            type="submit"
-          />
         </form>
       </div>
       <div
@@ -2268,6 +2268,10 @@ exports[`Renderer:Wizard step initApi 1`] = `
           class="cxd-Form cxd-Form--normal"
           novalidate=""
         >
+          <input
+            style="display: none;"
+            type="submit"
+          />
           <div
             class="cxd-Form-item cxd-Form-item--normal is-required"
             data-role="form-item"
@@ -2307,10 +2311,6 @@ exports[`Renderer:Wizard step initApi 1`] = `
               </div>
             </div>
           </div>
-          <input
-            style="display: none;"
-            type="submit"
-          />
         </form>
       </div>
       <div
@@ -2462,6 +2462,10 @@ exports[`Renderer:Wizard target 1`] = `
                   class="cxd-Form cxd-Form--normal"
                   novalidate=""
                 >
+                  <input
+                    style="display: none;"
+                    type="submit"
+                  />
                   <span
                     class="cxd-TplField"
                   >
@@ -2469,10 +2473,6 @@ exports[`Renderer:Wizard target 1`] = `
                       这是最后一步了
                     </span>
                   </span>
-                  <input
-                    style="display: none;"
-                    type="submit"
-                  />
                 </form>
               </div>
               <div
@@ -2563,6 +2563,10 @@ exports[`Renderer:Wizard target 1`] = `
                 class="cxd-Form cxd-Form--normal"
                 novalidate=""
               >
+                <input
+                  style="display: none;"
+                  type="submit"
+                />
                 <div
                   class="cxd-Form-item cxd-Form-item--normal"
                   data-role="form-item"
@@ -2631,10 +2635,6 @@ exports[`Renderer:Wizard target 1`] = `
                     </div>
                   </div>
                 </div>
-                <input
-                  style="display: none;"
-                  type="submit"
-                />
               </form>
             </div>
             <div
@@ -2754,6 +2754,10 @@ exports[`Renderer:Wizard validate 1`] = `
           class="cxd-Form cxd-Form--normal"
           novalidate=""
         >
+          <input
+            style="display: none;"
+            type="submit"
+          />
           <div
             class="cxd-Form-item cxd-Form-item--normal is-error is-required has-error--isUrl"
             data-role="form-item"
@@ -2846,10 +2850,6 @@ exports[`Renderer:Wizard validate 1`] = `
               </li>
             </ul>
           </div>
-          <input
-            style="display: none;"
-            type="submit"
-          />
         </form>
       </div>
       <div

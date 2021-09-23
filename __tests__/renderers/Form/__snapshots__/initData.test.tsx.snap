@@ -6,6 +6,10 @@ exports[`Form:initData 1`] = `
     class="cxd-Form cxd-Form--normal"
     novalidate=""
   >
+    <input
+      style="display: none;"
+      type="submit"
+    />
     <div
       class="cxd-Form-item cxd-Form-item--normal"
       data-role="form-item"
@@ -56,10 +60,6 @@ exports[`Form:initData 1`] = `
         Submit
       </span>
     </button>
-    <input
-      style="display: none;"
-      type="submit"
-    />
   </form>
 </div>
 `;
@@ -99,6 +99,10 @@ exports[`Form:initData:remote 1`] = `
         class="cxd-Form cxd-Form--normal"
         novalidate=""
       >
+        <input
+          style="display: none;"
+          type="submit"
+        />
         <div
           class="cxd-Spinner-overlay in"
         />
@@ -140,10 +144,6 @@ exports[`Form:initData:remote 1`] = `
             </div>
           </div>
         </div>
-        <input
-          style="display: none;"
-          type="submit"
-        />
       </form>
     </div>
     <div
@@ -249,6 +249,10 @@ exports[`Form:initData:remote 3`] = `
         class="cxd-Form cxd-Form--normal"
         novalidate=""
       >
+        <input
+          style="display: none;"
+          type="submit"
+        />
         <div
           class="cxd-Spinner-overlay"
         />
@@ -289,10 +293,6 @@ exports[`Form:initData:remote 3`] = `
             </div>
           </div>
         </div>
-        <input
-          style="display: none;"
-          type="submit"
-        />
       </form>
     </div>
     <div
@@ -379,6 +379,10 @@ exports[`Form:initData:super 1`] = `
             class="cxd-Form cxd-Form--normal"
             novalidate=""
           >
+            <input
+              style="display: none;"
+              type="submit"
+            />
             <div
               class="cxd-Form-item cxd-Form-item--normal"
               data-role="form-item"
@@ -429,10 +433,6 @@ exports[`Form:initData:super 1`] = `
                 Submit
               </span>
             </button>
-            <input
-              style="display: none;"
-              type="submit"
-            />
           </form>
         </div>
       </div>
@@ -459,6 +459,10 @@ exports[`Form:initData:without-super 1`] = `
             class="cxd-Form cxd-Form--normal"
             novalidate=""
           >
+            <input
+              style="display: none;"
+              type="submit"
+            />
             <div
               class="cxd-Form-item cxd-Form-item--normal"
               data-role="form-item"
@@ -509,10 +513,6 @@ exports[`Form:initData:without-super 1`] = `
                 Submit
               </span>
             </button>
-            <input
-              style="display: none;"
-              type="submit"
-            />
           </form>
         </div>
       </div>

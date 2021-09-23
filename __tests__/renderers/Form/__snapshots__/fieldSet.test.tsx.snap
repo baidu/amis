@@ -28,6 +28,10 @@ exports[`Renderer:fieldSet 1`] = `
         class="cxd-Form cxd-Form--normal"
         novalidate=""
       >
+        <input
+          style="display: none;"
+          type="submit"
+        />
         <fieldset
           class="cxd-Collapse cxd-Collapse--collapsable no-border"
         >
@@ -70,10 +74,6 @@ exports[`Renderer:fieldSet 1`] = `
             </div>
           </div>
         </fieldset>
-        <input
-          style="display: none;"
-          type="submit"
-        />
       </form>
     </div>
     <div

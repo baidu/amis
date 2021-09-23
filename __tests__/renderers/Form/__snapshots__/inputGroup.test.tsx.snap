@@ -28,6 +28,10 @@ exports[`Renderer:fieldSet 1`] = `
         class="cxd-Form cxd-Form--normal"
         novalidate=""
       >
+        <input
+          style="display: none;"
+          type="submit"
+        />
         <div
           class="cxd-Form-item cxd-Form-item--horizontal no-border"
           data-role="form-item"
@@ -66,10 +70,6 @@ exports[`Renderer:fieldSet 1`] = `
             </div>
           </div>
         </div>
-        <input
-          style="display: none;"
-          type="submit"
-        />
       </form>
     </div>
     <div
