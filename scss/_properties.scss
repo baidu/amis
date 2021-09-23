@@ -127,8 +127,8 @@
   --Alert-boxShadow: none;
   --Alert-fontSize: var(--fontSizeBase);
   --Alert-marginBottom: var(--gap-md);
-  --Alert-paddingX: var(--gap-base);
-  --Alert-paddingY: var(--gap-base);
+  --Alert-paddingX: var(--gap-sm);
+  --Alert-paddingY: var(--gap-sm);
 
   --Audio-border: #{px2rem(1px)} solid #dee2e6;
   --Audio-height: #{px2rem(50px)};
@@ -1244,8 +1244,8 @@
   --Toast-icon-width: #{px2rem(30px)};
   --Toast-opacity: 0.8;
   --Toast-paddingL: #{px2rem(40px)};
-  --Toast-paddingX: var(--gap-base);
-  --Toast-paddingY: var(--gap-base);
+  --Toast-paddingX: var(--gap-sm);
+  --Toast-paddingY: var(--gap-xs);
   --Toast-title-display: block;
   --Toast-width: #{px2rem(300px)};
 

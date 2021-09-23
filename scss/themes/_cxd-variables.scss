@@ -405,8 +405,6 @@ $Wizard-steps-liAfterBorder: none !important;
   // Toast size
   --Toast-width: #{px2rem(300px)};
   --Toast-borderRadius: 0;
-  --Toast-paddingY: var(--gap-xs);
-  --Toast-paddingX: var(--gap-md);
   --Toast-paddingL: #{px2rem(26px)};
   --Toast--info-paddingL: 0;
   --Toast-border-width: #{px2rem(1px)};

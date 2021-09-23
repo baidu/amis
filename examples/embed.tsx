@@ -131,13 +131,14 @@ export function embed(
   };
 
   const requestAdaptor = (config: any) => {
-    const fn = env && typeof env.requestAdaptor === 'function'
-      ? env.requestAdaptor.bind()
-      : ((config: any) => config);
+    const fn =
+      env && typeof env.requestAdaptor === 'function'
+        ? env.requestAdaptor.bind()
+        : (config: any) => config;
     const request = fn(config) || config;
 
     return request;
-  }
+  };
 
   const responseAdaptor = (api: any) => (value: any) => {
     let response = value.data || {}; // blob 下可能会返回内容为空？
@@ -176,12 +177,7 @@ export function embed(
     getModalContainer: () =>
       env?.getModalContainer?.() || document.querySelector('.amis-scope'),
     notify: (type: string, msg: string) =>
-      toast[type]
-        ? toast[type](
-            msg,
-            type === 'error' ? __('System.error') : __('System.notify')
-          )
-        : console.warn('[Notify]', type, msg),
+      toast[type] ? toast[type](msg) : console.warn('[Notify]', type, msg),
     alert,
     confirm,
     updateLocation: (to: any, replace: boolean) => {
