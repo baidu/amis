@@ -28,6 +28,10 @@ exports[`Renderer:service 1`] = `
         class="cxd-Form cxd-Form--normal"
         novalidate=""
       >
+        <input
+          style="display: none;"
+          type="submit"
+        />
         <div
           class="cxd-Form-item cxd-Form-item--normal is-required"
           data-role="form-item"
@@ -168,10 +172,6 @@ exports[`Renderer:service 1`] = `
             class="cxd-Spinner cxd-Spinner--overlay cxd-Spinner--lg"
           />
         </div>
-        <input
-          style="display: none;"
-          type="submit"
-        />
       </form>
     </div>
     <div
@@ -223,6 +223,10 @@ exports[`form:service:remoteData 1`] = `
     class="cxd-Form cxd-Form--normal"
     novalidate=""
   >
+    <input
+      style="display: none;"
+      type="submit"
+    />
     <div
       class="cxd-Service"
     >
@@ -271,10 +275,6 @@ exports[`form:service:remoteData 1`] = `
         </span>
       </button>
     </div>
-    <input
-      style="display: none;"
-      type="submit"
-    />
   </form>
 </div>
 `;
@@ -285,6 +285,10 @@ exports[`form:service:remoteSchmea+data 1`] = `
     class="cxd-Form cxd-Form--normal"
     novalidate=""
   >
+    <input
+      style="display: none;"
+      type="submit"
+    />
     <div
       class="cxd-Service"
     >
@@ -354,10 +358,6 @@ exports[`form:service:remoteSchmea+data 1`] = `
         </span>
       </button>
     </div>
-    <input
-      style="display: none;"
-      type="submit"
-    />
   </form>
 </div>
 `;
@@ -368,6 +368,10 @@ exports[`form:service:super-remoteData 1`] = `
     class="cxd-Form cxd-Form--normal"
     novalidate=""
   >
+    <input
+      style="display: none;"
+      type="submit"
+    />
     <div
       class="cxd-Spinner-overlay"
     />
@@ -416,10 +420,6 @@ exports[`form:service:super-remoteData 1`] = `
         </span>
       </button>
     </div>
-    <input
-      style="display: none;"
-      type="submit"
-    />
   </form>
 </div>
 `;

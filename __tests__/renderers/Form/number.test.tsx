@@ -26,7 +26,7 @@ test('Renderer:number', async () => {
     )
   );
 
-  const input = container.querySelector('input');
+  const input = container.querySelector('input[step="1"]') as any;
   expect(input?.value).toEqual('123');
   fireEvent.change(input!, {
     target: {

@@ -572,6 +572,10 @@ exports[`Renderer:Page handleAction actionType=dialog mergeData 1`] = `
           class="cxd-Form cxd-Form--horizontal"
           novalidate=""
         >
+          <input
+            style="display: none;"
+            type="submit"
+          />
           <div
             class="cxd-Form-item cxd-Form-item--horizontal"
             data-role="form-item"
@@ -610,10 +614,6 @@ exports[`Renderer:Page handleAction actionType=dialog mergeData 1`] = `
               </div>
             </div>
           </div>
-          <input
-            style="display: none;"
-            type="submit"
-          />
         </form>
       </div>
       <div
@@ -706,6 +706,10 @@ exports[`Renderer:Page handleAction actionType=dialog mergeData 2`] = `
           class="cxd-Form cxd-Form--horizontal"
           novalidate=""
         >
+          <input
+            style="display: none;"
+            type="submit"
+          />
           <div
             class="cxd-Form-item cxd-Form-item--horizontal"
             data-role="form-item"
@@ -744,10 +748,6 @@ exports[`Renderer:Page handleAction actionType=dialog mergeData 2`] = `
               </div>
             </div>
           </div>
-          <input
-            style="display: none;"
-            type="submit"
-          />
         </form>
       </div>
       <div
@@ -1164,6 +1164,10 @@ exports[`Renderer:Page initApi reload by Dialog action 2`] = `
           class="cxd-Form cxd-Form--horizontal"
           novalidate=""
         >
+          <input
+            style="display: none;"
+            type="submit"
+          />
           <div
             class="cxd-Form-item cxd-Form-item--horizontal"
             data-role="form-item"
@@ -1194,10 +1198,6 @@ exports[`Renderer:Page initApi reload by Dialog action 2`] = `
               </div>
             </div>
           </div>
-          <input
-            style="display: none;"
-            type="submit"
-          />
         </form>
       </div>
       <div
@@ -1298,6 +1298,10 @@ exports[`Renderer:Page initApi reload by Dialog action 3`] = `
           class="cxd-Form cxd-Form--horizontal"
           novalidate=""
         >
+          <input
+            style="display: none;"
+            type="submit"
+          />
           <div
             class="cxd-Form-item cxd-Form-item--horizontal"
             data-role="form-item"
@@ -1328,10 +1332,6 @@ exports[`Renderer:Page initApi reload by Dialog action 3`] = `
               </div>
             </div>
           </div>
-          <input
-            style="display: none;"
-            type="submit"
-          />
         </form>
       </div>
       <div
@@ -1531,6 +1531,10 @@ exports[`Renderer:Page initApi reload by Form submit 1`] = `
                 class="cxd-Form cxd-Form--normal"
                 novalidate=""
               >
+                <input
+                  style="display: none;"
+                  type="submit"
+                />
                 <div
                   class="cxd-Form-item cxd-Form-item--normal"
                   data-role="form-item"
@@ -1552,10 +1556,6 @@ exports[`Renderer:Page initApi reload by Form submit 1`] = `
                     </div>
                   </div>
                 </div>
-                <input
-                  style="display: none;"
-                  type="submit"
-                />
               </form>
             </div>
             <div
@@ -1678,6 +1678,10 @@ exports[`Renderer:Page initApi reload by Form submit 2`] = `
                 class="cxd-Form cxd-Form--normal"
                 novalidate=""
               >
+                <input
+                  style="display: none;"
+                  type="submit"
+                />
                 <div
                   class="cxd-Form-item cxd-Form-item--normal"
                   data-role="form-item"
@@ -1699,10 +1703,6 @@ exports[`Renderer:Page initApi reload by Form submit 2`] = `
                     </div>
                   </div>
                 </div>
-                <input
-                  style="display: none;"
-                  type="submit"
-                />
               </form>
             </div>
             <div
