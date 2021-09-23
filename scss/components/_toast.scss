@@ -54,6 +54,9 @@
 }
 
 .#{$ns}Toast {
+  display: flex;
+  align-items: center;
+
   &-wrap {
     pointer-events: none;
     position: fixed;
@@ -99,9 +102,6 @@
   }
 
   &-close {
-    position: absolute;
-    top: var(--gap-xs);
-    right: var(--gap-sm);
     color: var(--Toast-close-color);
     line-height: 1;
     opacity: 0.8;
@@ -112,17 +112,11 @@
     }
   }
 
-  &-title {
-    display: var(--Toast-title-display);
-    margin-right: var(--gap-base);
-    font-size: var(--fontSizeMd);
-    vertical-align: middle;
-  }
-
   &-body {
-    display: var(--Toast-title-display);
+    display: inline-block;
     vertical-align: middle;
     white-space: pre-wrap;
+    flex-grow: 1;
   }
 
   &-icon {
