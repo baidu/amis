@@ -30,7 +30,6 @@ import 'tinymce/plugins/help';
 import 'tinymce/plugins/wordcount';
 import 'tinymce/plugins/hr';
 import 'tinymce/plugins/pagebreak';
-import 'tinymce/plugins/spellchecker';
 import 'tinymce/plugins/visualchars';
 import 'tinymce/plugins/template';
 import 'tinymce/plugins/nonbreaking';
@@ -69,7 +68,7 @@ export default class TinymceEditor extends React.Component<TinymceEditorProps> {
       height: 400,
       language: !locale || locale === 'zh-CN' ? 'zh_CN' : 'en',
       plugins: [
-        'advlist autolink link image lists charmap print preview hr anchor pagebreak spellchecker',
+        'advlist autolink link image lists charmap print preview hr anchor pagebreak',
         'searchreplace wordcount visualblocks visualchars code fullscreen insertdatetime media nonbreaking',
         'table emoticons template paste help'
       ],
@@ -89,7 +88,7 @@ export default class TinymceEditor extends React.Component<TinymceEditorProps> {
         view: {
           title: 'View',
           items:
-            'code | visualaid visualchars visualblocks | spellchecker | preview fullscreen'
+            'code | visualaid visualchars visualblocks | preview fullscreen'
         },
         insert: {
           title: 'Insert',
@@ -103,7 +102,7 @@ export default class TinymceEditor extends React.Component<TinymceEditorProps> {
         },
         tools: {
           title: 'Tools',
-          items: 'spellchecker spellcheckerlanguage | code wordcount'
+          items: 'code wordcount'
         },
         table: {
           title: 'Table',
