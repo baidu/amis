@@ -784,19 +784,72 @@ if (fis.project.currentMedia() === 'publish') {
         '!jquery/**',
         '!zrender/**',
         '!echarts/**',
+        '!echarts-stat/**',
         '!papaparse/**',
-        '!exceljs/**'
+        '!exceljs/**',
+        '!docsearch.js/**',
+        '!monaco-editor/**.css',
+        '!src/components/RichText.tsx',
+        '!src/components/Tinymce.tsx',
+        '!src/components/ColorPicker.tsx',
+        '!react-color/**',
+        '!material-colors/**',
+        '!reactcss/**',
+        '!tinycolor2/**',
+        '!cropperjs/**',
+        '!react-cropper/**',
+        '!src/lib/renderers/Form/CityDB.js',
+        '!src/components/Markdown.tsx',
+        '!src/utils/markdown.ts',
+        '!highlight.js/**',
+        '!entities/**',
+        '!linkify-it/**',
+        '!mdurl/**',
+        '!uc.micro/**',
+        '!markdown-it/**',
+        '!markdown-it-html5-media/**',
+        '!punycode/**'
       ],
+
       'pkg/rich-text.js': [
         'src/components/RichText.js',
         'froala-editor/**',
         'jquery/**'
       ],
+
       'pkg/tinymce.js': ['src/components/Tinymce.tsx', 'tinymce/**'],
-      'pkg/charts.js': ['zrender/**', 'echarts/**'],
+
       'pkg/papaparse.js': ['papaparse/**'],
+
       'pkg/exceljs.js': ['exceljs/**'],
+
+      'pkg/markdown.js': [
+        'src/components/Markdown.tsx',
+        'src/utils/markdown.ts',
+        'highlight.js/**',
+        'entities/**',
+        'linkify-it/**',
+        'mdurl/**',
+        'uc.micro/**',
+        'markdown-it/**',
+        'markdown-it-html5-media/**',
+        'punycode/**'
+      ],
+
+      'pkg/color-picker.js': [
+        'src/components/ColorPicker.tsx',
+        'react-color/**',
+        'material-colors/**',
+        'reactcss/**',
+        'tinycolor2/**'
+      ],
+
+      'pkg/cropperjs.js': ['cropperjs/**', 'react-cropper/**'],
+
+      'pkg/charts.js': ['zrender/**', 'echarts/**', 'echarts-stat/**'],
+
       'pkg/api-mock.js': ['mock/*.ts'],
+
       'pkg/app.js': [
         '/examples/components/App.tsx',
         '/examples/components/App.tsx:deps'
@@ -810,17 +863,25 @@ if (fis.project.currentMedia() === 'publish') {
 
       'pkg/rest.js': [
         '**.{js,jsx,ts,tsx}',
-        '!static/mod.js',
         '!monaco-editor/**',
         '!mpegts.js/**',
         '!hls.js/**',
         '!froala-editor/**',
+        '!src/components/RichText.tsx',
         '!jquery/**',
-        '!src/components/RichText.js',
         '!zrender/**',
         '!echarts/**',
         '!papaparse/**',
-        '!exceljs/**'
+        '!exceljs/**',
+        '!src/utils/markdown.ts',
+        '!highlight.js/**',
+        '!argparse/**',
+        '!entities/**',
+        '!linkify-it/**',
+        '!mdurl/**',
+        '!uc.micro/**',
+        '!markdown-it/**',
+        '!markdown-it-html5-media/**'
       ],
 
       'pkg/npm.css': ['node_modules/*/**.css', '!monaco-editor/**'],
