@@ -44,7 +44,7 @@ export class QuarterView extends React.Component<QuarterViewProps> {
               className="rdtPrev"
               onClick={this.props.subtractTime(1, 'years')}
             >
-              «
+              &laquo;
             </th>
             {canClick ? (
               <th className="rdtSwitch" onClick={this.props.showView('years')}>
@@ -57,7 +57,7 @@ export class QuarterView extends React.Component<QuarterViewProps> {
             )}
 
             <th className="rdtNext" onClick={this.props.addTime(1, 'years')}>
-              »
+              &raquo;
             </th>
           </tr>
         </thead>
@@ -83,7 +83,8 @@ export class QuarterView extends React.Component<QuarterViewProps> {
 
       if (isDisabled) classes += ' rdtDisabled';
 
-      if (date && i === date.quarter() && year === date.year()) classes += ' rdtActive';
+      if (date && i === date.quarter() && year === date.year())
+        classes += ' rdtActive';
 
       props = {
         'key': i,
@@ -102,7 +103,11 @@ export class QuarterView extends React.Component<QuarterViewProps> {
 
       if (quarters.length === 2) {
         rows.push(
-          React.createElement('tr', {key: quarter + '_' + rows.length}, quarters)
+          React.createElement(
+            'tr',
+            {key: quarter + '_' + rows.length},
+            quarters
+          )
         );
         quarters = [];
       }

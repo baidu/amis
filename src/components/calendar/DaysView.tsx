@@ -281,13 +281,13 @@ export class CustomDaysView extends DaysView {
                 className="rdtPrev"
                 onClick={this.props.subtractTime(1, 'years')}
               >
-                «
+                &laquo;
               </a>
               <a
                 className="rdtPrev"
                 onClick={this.props.subtractTime(1, 'months')}
               >
-                ‹
+                &lsaquo;
               </a>
 
               <div className="rdtCenter">
@@ -303,10 +303,10 @@ export class CustomDaysView extends DaysView {
               </div>
 
               <a className="rdtNext" onClick={this.props.addTime(1, 'months')}>
-                ›
+                &rsaquo;
               </a>
               <a className="rdtNext" onClick={this.props.addTime(1, 'years')}>
-                »
+                &raquo;
               </a>
             </div>
           </th>
@@ -334,5 +334,5 @@ export class CustomDaysView extends DaysView {
 }
 
 export default localeable(
-  (CustomDaysView as any) as React.ComponentClass<CustomDaysViewProps>
+  CustomDaysView as any as React.ComponentClass<CustomDaysViewProps>
 );

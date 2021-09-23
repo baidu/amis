@@ -55,7 +55,7 @@ export class CustomMonthsView extends MonthsView {
                   className="rdtPrev"
                   onClick={this.props.subtractTime(1, 'years')}
                 >
-                  «
+                  &laquo;
                 </th>
                 {canClick ? (
                   <th
@@ -74,7 +74,7 @@ export class CustomMonthsView extends MonthsView {
                   className="rdtNext"
                   onClick={this.props.addTime(1, 'years')}
                 >
-                  »
+                  &raquo;
                 </th>
               </tr>
             </thead>
