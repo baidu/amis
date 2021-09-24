@@ -153,7 +153,7 @@
     "path-to-regexp": "^6.2.0",
     "postcss": "^8.3.7",
     "postcss-cli": "^8.3.1",
-    "postcss-custom-properties": "^12.0.0",
+    "postcss-custom-properties": "^11.0.0",
     "prettier": "^2.4.1",
     "pretty-quick": "^3.1.1",
     "prismjs": "^1.25.0",
