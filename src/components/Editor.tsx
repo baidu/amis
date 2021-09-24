@@ -50,18 +50,19 @@ export function monacoFactory(
   options: any
 ) {
   return monaco.editor.create(containerElement, {
-    autoIndent: true,
-    formatOnType: true,
-    formatOnPaste: true,
-    selectOnLineNumbers: true,
-    scrollBeyondLastLine: false,
-    folding: true,
-    minimap: {
+    'autoIndent': true,
+    'formatOnType': true,
+    'formatOnPaste': true,
+    'selectOnLineNumbers': true,
+    'scrollBeyondLastLine': false,
+    'folding': true,
+    'minimap': {
       enabled: false
     },
-    scrollbar: {
+    'scrollbar': {
       alwaysConsumeMouseWheel: false
     },
+    'bracketPairColorization.enabled': true,
     ...options
   });
 }
