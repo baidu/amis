@@ -70,13 +70,14 @@ List 的内容、Card 卡片的内容配置同上
 {
     "type": "form",
     "data": {
-        "color": "#108cee"
+        "now": "1591322307"
     },
     "body": [
         {
-            "type": "static-color",
-            "name": "color",
-            "label": "颜色"
+            "type": "static-date",
+            "name": "now",
+            "label": "日期",
+            "format": "YYYY年MM月DD日 HH时mm分ss秒"
         }
     ]
 }
