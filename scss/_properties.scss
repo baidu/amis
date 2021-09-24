@@ -1240,8 +1240,9 @@
   --Toast-close-color: var(--white);
   --Toast-color: var(--white);
 
+  --Toast-icon-width: #{px2rem(16px)};
   --Toast-icon-height: var(--Toast-icon-width);
-  --Toast-icon-width: #{px2rem(30px)};
+
   --Toast-opacity: 0.8;
   --Toast-paddingL: #{px2rem(40px)};
   --Toast-paddingX: var(--gap-sm);

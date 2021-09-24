@@ -19,7 +19,6 @@ $danger-bg: #fff5f5;
 
 $text-color: #666;
 
-$Toast-icon-fillHeight: false;
 $Number-handler-mode: 'horizontal';
 // css 变量似乎没法用 !important，所以这里用 sass 变量
 $Wizard-steps-liAfterBorder: none !important;
@@ -408,8 +407,6 @@ $Wizard-steps-liAfterBorder: none !important;
   --Toast-paddingL: #{px2rem(26px)};
   --Toast--info-paddingL: 0;
   --Toast-border-width: #{px2rem(1px)};
-  --Toast-icon-width: #{px2rem(16px)};
-  --Toast-icon-height: #{px2rem(16px)};
   --Toast-opacity: 1;
   --Toast-title-display: inline;
 

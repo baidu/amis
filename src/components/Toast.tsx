@@ -80,7 +80,7 @@ export class ToastComponent extends React.Component<
     ToastComponentProps,
     'position' | 'closeButton' | 'timeout'
   > = {
-    position: 'top-right',
+    position: 'top-center',
     closeButton: false,
     timeout: 5000
   };
@@ -228,7 +228,7 @@ export class ToastMessage extends React.Component<
   static defaultProps = {
     timeout: 5000,
     classPrefix: '',
-    position: 'top-right',
+    position: 'top-center',
     allowHtml: true,
     level: 'info'
   };
