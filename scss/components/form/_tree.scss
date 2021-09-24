@@ -82,9 +82,22 @@
   &-itemLabel {
     display: flex;
     align-items: center;
+    position: relative;
 
-    &:hover {
+    & > * {
+      position: relative;
+      z-index: 2;
+    }
+
+    &:hover:after {
+      position: absolute;
+      content: '';
+      z-index: 1;
       background: var(--Tree-item-onHover-bg);
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: -99999px;
     }
   }
 
