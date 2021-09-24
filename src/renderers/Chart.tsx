@@ -269,7 +269,7 @@ export class Chart extends React.Component<ChartProps> {
           await env.loadChartExtends();
         }
 
-        this.echarts = echarts.init(ref, theme);
+        this.echarts = (echarts as any).init(ref, theme);
 
         if (typeof onChartMount === 'string') {
           onChartMount = new Function('chart', 'echarts') as any;
