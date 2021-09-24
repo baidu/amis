@@ -26,3 +26,6 @@ jobs:
         run: |
           npm i
           npm test
+          npm run build-schemas
+          ./node_modules/.bin/tsc --allowJs --declaration
+          
