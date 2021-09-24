@@ -21,7 +21,7 @@
     "typeRoots": ["./node_modules/@types", "./types"],
     "skipLibCheck": true
   },
-  "include": ["src/**/*"],
+  "include": ["src/**/*", "src/custom.d.ts", "examples/**/*"],
   "exclude": ["node_modules", "acceptance-tests", "webpack", "jest"],
   "types": ["node", "typePatches"]
 }
