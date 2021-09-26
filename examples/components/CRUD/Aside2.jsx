@@ -4,7 +4,7 @@ export default {
     type: 'nav',
     name: 'nav',
     stacked: true,
-    source: '/api/options/nav?parentId=${value}&waitSeconds=2'
+    source: '/api/mock2/options/nav?parentId=${value}&waitSeconds=2'
   },
   toolbar: [
     {
@@ -180,8 +180,7 @@ export default {
                   },
                   {
                     type: 'html',
-                    html:
-                      '<p>添加其他 <span>Html 片段</span> 需要支持变量替换（todo）.</p>'
+                    html: '<p>添加其他 <span>Html 片段</span> 需要支持变量替换（todo）.</p>'
                   }
                 ]
               }
