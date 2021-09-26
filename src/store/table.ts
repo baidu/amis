@@ -434,60 +434,69 @@ export const TableStore = iRendererStore
       return self.columns.findIndex(column => !column.toggled) !== -1;
     }
 
-    function getColumnGroup(): Array<{
-      label: string;
-      index: number;
-      colSpan: number;
-      has: Array<any>;
-    }> {
-      const columsn = getFilteredColumns();
-      const len = columsn.length;
+    function getColumnGroup() {
+      const columns = getFilteredColumns();
+      const len = columns.length;
 
       if (!len) {
         return [];
       }
 
-      const result: Array<{
+      const groups: Array<{
         label: string;
         index: number;
         colSpan: number;
+        rowSpan: number;
         has: Array<any>;
       }> = [
         {
-          label: columsn[0].groupName,
+          label: columns[0].groupName,
           colSpan: 1,
-          index: columsn[0].index,
-          has: [columsn[0]]
+          rowSpan: 1,
+          index: columns[0].index,
+          has: [columns[0]]
         }
       ];
 
       //  如果是勾选栏，让它和下一列合并。
-      if (columsn[0].type === '__checkme' && columsn[1]) {
-        result[0].label = columsn[1].groupName;
+      if (columns[0].type === '__checkme' && columns[1]) {
+        groups[0].label = columns[1].groupName;
       }
 
       for (let i = 1; i < len; i++) {
-        let prev = result[result.length - 1];
-        const current = columsn[i];
+        let prev = groups[groups.length - 1];
+        const current = columns[i];
 
         if (current.groupName === prev.label) {
           prev.colSpan++;
           prev.has.push(current);
         } else {
-          result.push({
+          groups.push({
             label: current.groupName,
             colSpan: 1,
+            rowSpan: 1,
             index: current.index,
             has: [current]
           });
         }
       }
 
-      if (result.length === 1 && !result[0].label) {
-        result.pop();
+      if (groups.length === 1 && !groups[0].label) {
+        groups.pop();
       }
 
-      return result;
+      return groups.map(item => {
+        const rowSpan =
+          !item.label ||
+          (item.has.length === 1 && item.label === item.has[0].label)
+            ? 2
+            : 1;
+        return {
+          ...item,
+          rowSpan,
+          label: rowSpan === 2 ? item.label || item.has[0].label : item.label
+        };
+      });
     }
 
     return {

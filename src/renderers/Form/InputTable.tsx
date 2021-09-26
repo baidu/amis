@@ -779,15 +779,25 @@ export default class FormTable extends React.Component<TableProps, TableState> {
     }
 
     if (btns.length) {
-      columns.push({
-        type: 'operation',
-        buttons: btns,
-        label: __('Table.operation'),
-        className: 'v-middle nowrap',
-        fixed: 'right',
-        width: '1%',
-        innerClassName: 'm-n'
-      });
+      let operation = columns.find(item => item.type === 'operation');
+
+      if (!operation) {
+        operation = {
+          type: 'operation',
+          buttons: [],
+          label: __('Table.operation'),
+          className: 'v-middle nowrap',
+          fixed: 'right',
+          width: '1%',
+          innerClassName: 'm-n'
+        };
+        columns.push(operation);
+      }
+
+      operation.buttons = Array.isArray(operation.buttons)
+        ? operation.buttons.concat()
+        : [];
+      operation.buttons.unshift.apply(operation.buttons, btns);
     }
 
     if (showIndex) {

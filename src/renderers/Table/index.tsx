@@ -399,6 +399,9 @@ export default class Table extends React.Component<TableProps, object> {
   widths: {
     [propName: string]: number;
   } = {};
+  widths2: {
+    [propName: string]: number;
+  } = {};
   heights: {
     [propName: string]: number;
   } = {};
@@ -858,6 +861,9 @@ export default class Table extends React.Component<TableProps, object> {
     let widths: {
       [propName: string]: number;
     } = (this.widths = {});
+    let widths2: {
+      [propName: string]: number;
+    } = (this.widths2 = {});
     let heights: {
       [propName: string]: number;
     } = (this.heights = {});
@@ -874,6 +880,15 @@ export default class Table extends React.Component<TableProps, object> {
           item.getBoundingClientRect().width;
       }
     );
+
+    forEach(
+      table.querySelectorAll('thead>tr:first-child>th'),
+      (item: HTMLElement) => {
+        widths2[item.getAttribute('data-index') as string] =
+          item.getBoundingClientRect().width;
+      }
+    );
+
     forEach(
       table.querySelectorAll('tbody>tr>*:last-child'),
       (item: HTMLElement, index: number) =>
@@ -890,6 +905,7 @@ export default class Table extends React.Component<TableProps, object> {
       ),
       (table: HTMLTableElement) => {
         let totalWidth = 0;
+        let totalWidth2 = 0;
         forEach(
           table.querySelectorAll('thead>tr:last-child>th'),
           (item: HTMLElement) => {
@@ -898,10 +914,20 @@ export default class Table extends React.Component<TableProps, object> {
             totalWidth += width;
           }
         );
+        forEach(
+          table.querySelectorAll('thead>tr:first-child>th'),
+          (item: HTMLElement) => {
+            const width = widths2[item.getAttribute('data-index') as string];
+            item.style.cssText += `width: ${width}px; height: ${heights.header}px`;
+            totalWidth2 += width;
+          }
+        );
+
         forEach(table.querySelectorAll('colgroup>col'), (item: HTMLElement) => {
           const width = widths[item.getAttribute('data-index') as string];
           item.setAttribute('width', `${width}`);
         });
+
         forEach(
           table.querySelectorAll('tbody>tr'),
           (item: HTMLElement, index) => {
@@ -909,7 +935,9 @@ export default class Table extends React.Component<TableProps, object> {
           }
         );
 
-        table.style.cssText += `width: ${totalWidth}px;table-layout: fixed;`;
+        table.style.cssText += `width: ${
+          totalWidth || totalWidth2
+        }px;table-layout: fixed;`;
       }
     );
 
@@ -1650,6 +1678,7 @@ export default class Table extends React.Component<TableProps, object> {
   renderAffixHeader(tableClassName: string) {
     const {store, affixHeader, render, classnames: cx} = this.props;
     const hideHeader = store.filteredColumns.every(column => !column.label);
+    const columnsGroup = store.columnGroup;
 
     return affixHeader ? (
       <div
@@ -1687,13 +1716,14 @@ export default class Table extends React.Component<TableProps, object> {
               ))}
             </colgroup>
             <thead>
-              {store.columnGroup.length ? (
+              {columnsGroup.length ? (
                 <tr>
-                  {store.columnGroup.map((item, index) => (
+                  {columnsGroup.map((item, index) => (
                     <th
                       key={index}
                       data-index={item.index}
                       colSpan={item.colSpan}
+                      rowSpan={item.rowSpan}
                     >
                       {item.label ? render('tpl', item.label) : null}
                     </th>
@@ -1702,10 +1732,13 @@ export default class Table extends React.Component<TableProps, object> {
               ) : null}
               <tr>
                 {store.filteredColumns.map(column =>
-                  this.renderHeadCell(column, {
-                    'key': column.index,
-                    'data-index': column.index
-                  })
+                  columnsGroup.find(group => ~group.has.indexOf(column))
+                    ?.rowSpan === 2
+                    ? null
+                    : this.renderHeadCell(column, {
+                        'key': column.index,
+                        'data-index': column.index
+                      })
                 )}
               </tr>
             </thead>
@@ -1735,6 +1768,7 @@ export default class Table extends React.Component<TableProps, object> {
       rowClassName
     } = this.props;
     const hideHeader = store.filteredColumns.every(column => !column.label);
+    const columnsGroup = store.columnGroup;
     return (
       <table
         className={cx(
@@ -1744,9 +1778,9 @@ export default class Table extends React.Component<TableProps, object> {
         )}
       >
         <thead>
-          {store.columnGroup.length ? (
+          {columnsGroup.length ? (
             <tr>
-              {store.columnGroup.map((item, index) => {
+              {columnsGroup.map((item, index) => {
                 const renderColumns = columns.filter(a => ~item.has.indexOf(a));
 
                 return renderColumns.length ? (
@@ -1754,8 +1788,9 @@ export default class Table extends React.Component<TableProps, object> {
                     key={index}
                     data-index={item.index}
                     colSpan={renderColumns.length}
+                    rowSpan={item.rowSpan}
                   >
-                    {'\u00A0'}
+                    {item.label}
                   </th>
                 ) : null;
               })}
@@ -1763,10 +1798,13 @@ export default class Table extends React.Component<TableProps, object> {
           ) : null}
           <tr className={hideHeader ? 'fake-hide' : ''}>
             {columns.map(column =>
-              this.renderHeadCell(column, {
-                'key': column.index,
-                'data-index': column.index
-              })
+              columnsGroup.find(group => ~group.has.indexOf(column))
+                ?.rowSpan === 2
+                ? null
+                : this.renderHeadCell(column, {
+                    'key': column.index,
+                    'data-index': column.index
+                  })
             )}
           </tr>
         </thead>

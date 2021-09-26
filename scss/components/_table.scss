@@ -217,6 +217,23 @@
     border-collapse: collapse;
     border: var(--Table-borderWidth) solid var(--Table-borderColor);
 
+    & th,
+    & td {
+      text-align: left;
+    }
+
+    & th.text-center,
+    & td.text-center,
+    & th[colspan],
+    & td[colspan] {
+      text-align: center;
+    }
+
+    & th.text-right,
+    & td.text-right {
+      text-align: right;
+    }
+
     &--withCombine {
       > thead > tr > th,
       > tbody > tr > td {
@@ -254,12 +271,6 @@
     > thead > tr {
       > th {
         background: var(--Table-thead-bg);
-
-        text-align: left;
-        &[colspan] {
-          text-align: center;
-        }
-
         padding: var(--TableCell-paddingY) var(--TableCell-paddingX);
 
         &:first-child {
@@ -310,7 +321,6 @@
       }
 
       > th {
-        text-align: left;
         background: var(--Table-thead-bg);
         // font-size: var(--Table-thead-fontSize);
         color: var(--Table-thead-color);
