@@ -27,5 +27,4 @@ jobs:
           npm i
           npm test
           npm run build-schemas
-          ./node_modules/.bin/tsc --allowJs --declaration
-          
+          ./node_modules/.bin/tsc --declaration --emitDeclarationOnly --outDir ./lib --project ./tsconfig-for-declaration.json
