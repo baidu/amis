@@ -940,7 +940,7 @@ export default class Table extends React.Component<TableProps, object> {
         table.style.cssText += `width: ${Math.max(
           totalWidth,
           totalWidth2
-        )}px;table-layout: fixed;`;
+        )}px;table-layout: auto;`;
       }
     );
 
