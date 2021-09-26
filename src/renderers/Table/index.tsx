@@ -868,10 +868,12 @@ export default class Table extends React.Component<TableProps, object> {
       [propName: string]: number;
     } = (this.heights = {});
 
-    heights.header ||
-      (heights.header = table
-        .querySelector('thead')!
-        .getBoundingClientRect().height);
+    heights.header = table
+      .querySelector('thead>tr:last-child')!
+      .getBoundingClientRect().height;
+    heights.header2 = table
+      .querySelector('thead>tr:first-child')!
+      .getBoundingClientRect().height;
 
     forEach(
       table.querySelectorAll('thead>tr:last-child>th'),
@@ -918,7 +920,7 @@ export default class Table extends React.Component<TableProps, object> {
           table.querySelectorAll('thead>tr:first-child>th'),
           (item: HTMLElement) => {
             const width = widths2[item.getAttribute('data-index') as string];
-            item.style.cssText += `width: ${width}px; height: ${heights.header}px`;
+            item.style.cssText += `width: ${width}px; height: ${heights.header2}px`;
             totalWidth2 += width;
           }
         );
@@ -935,9 +937,10 @@ export default class Table extends React.Component<TableProps, object> {
           }
         );
 
-        table.style.cssText += `width: ${
-          totalWidth || totalWidth2
-        }px;table-layout: fixed;`;
+        table.style.cssText += `width: ${Math.max(
+          totalWidth,
+          totalWidth2
+        )}px;table-layout: fixed;`;
       }
     );
 
