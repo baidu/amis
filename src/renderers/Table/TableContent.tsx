@@ -14,6 +14,7 @@ export interface TableContentProps extends LocaleProps {
     label: string;
     index: number;
     colSpan: number;
+    rowSpan: number;
     has: Array<any>;
   }>;
   rows: Array<IRow>;
@@ -97,6 +98,7 @@ export class TableContent extends React.Component<TableContentProps> {
                     key={index}
                     data-index={item.index}
                     colSpan={item.colSpan}
+                    rowSpan={item.rowSpan}
                   >
                     {item.label ? render('tpl', item.label) : null}
                   </th>
@@ -105,10 +107,13 @@ export class TableContent extends React.Component<TableContentProps> {
             ) : null}
             <tr className={hideHeader ? 'fake-hide' : ''}>
               {columns.map(column =>
-                renderHeadCell(column, {
-                  'data-index': column.index,
-                  'key': column.index
-                })
+                columnsGroup.find(group => ~group.has.indexOf(column))
+                  ?.rowSpan === 2
+                  ? null
+                  : renderHeadCell(column, {
+                      'data-index': column.index,
+                      'key': column.index
+                    })
               )}
             </tr>
           </thead>
