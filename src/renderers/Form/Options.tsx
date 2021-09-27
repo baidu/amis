@@ -434,7 +434,7 @@ export function registerOptionsControl(config: OptionsConfig) {
     }
 
     syncAutoFill(value: any) {
-      const {autoFill, multiple, onBulkChange} = this.props;
+      const {autoFill, multiple, onBulkChange, data} = this.props;
       const formItem = this.props.formItem as IFormItemStore;
 
       if (autoFill && !isEmpty(autoFill) && formItem.filteredOptions.length) {
@@ -446,6 +446,7 @@ export function registerOptionsControl(config: OptionsConfig) {
                 items: selectedOptions.map(item =>
                   createObject(
                     {
+                      ...data,
                       ancestors: getTreeAncestors(
                         formItem.filteredOptions,
                         item,
@@ -458,6 +459,7 @@ export function registerOptionsControl(config: OptionsConfig) {
               }
             : createObject(
                 {
+                  ...data,
                   ancestors: getTreeAncestors(
                     formItem.filteredOptions,
                     selectedOptions[0],
