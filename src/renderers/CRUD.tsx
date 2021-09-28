@@ -18,6 +18,7 @@ import {
   isObjectShallowModified,
   noop,
   isVisible,
+  getPropValue,
   getVariable,
   qsstringify,
   qsparse
@@ -476,8 +477,9 @@ export default class CRUD extends React.Component<CRUDProps, any> {
       this.handleFilterInit({});
     }
 
-    if (this.props.pickerMode && this.props.value) {
-      store.setSelectedItems(this.props.value);
+    const val = getPropValue(this.props);
+    if (this.props.pickerMode && val) {
+      store.setSelectedItems(val);
     }
   }
 
@@ -497,8 +499,9 @@ export default class CRUD extends React.Component<CRUDProps, any> {
       this.renderFooterToolbar = this.renderFooterToolbar.bind(this);
     }
 
-    if (this.props.pickerMode && this.props.value !== prevProps.value) {
-      store.setSelectedItems(props.value);
+    const val = getPropValue(this.props);
+    if (this.props.pickerMode && val !== getPropValue(prevProps)) {
+      store.setSelectedItems(val);
     }
 
     if (this.props.filterTogglable !== prevProps.filterTogglable) {
