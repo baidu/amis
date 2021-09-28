@@ -1110,7 +1110,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
     if (autoJumpToTopOnPagerChange && this.control) {
       (findDOMNode(this.control) as HTMLElement).scrollIntoView();
       const scrolledY = window.scrollY;
-      const offsetTop = affixOffsetTop ?? env?.affixOffsetTop ?? 50;
+      const offsetTop = affixOffsetTop ?? env?.affixOffsetTop ?? 0;
       scrolledY && window.scroll(0, scrolledY - offsetTop);
     }
   }
