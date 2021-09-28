@@ -224,7 +224,7 @@ export function loadRenderer(schema: Schema, path: string) {
 
 const defaultOptions: RenderOptions = {
   session: 'global',
-  affixOffsetTop: 50,
+  affixOffsetTop: 0,
   affixOffsetBottom: 0,
   richTextToken: '',
   loadRenderer,

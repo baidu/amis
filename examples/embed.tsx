@@ -326,7 +326,6 @@ export function embed(
     },
     richTextToken: '',
     affixOffsetBottom: 0,
-    affixOffsetTop: 0,
     ...env
   };
 
