@@ -1,6 +1,7 @@
 import React from 'react';
 import {render} from '../../src/index';
 import axios from 'axios';
+import Portal from 'react-overlays/Portal';
 import {toast} from '../../src/components/Toast';
 import {normalizeLink} from '../../src/utils/normalizeLink';
 import Button from '../../src/components/Button';
