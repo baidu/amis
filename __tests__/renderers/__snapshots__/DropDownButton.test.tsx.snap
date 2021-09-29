@@ -3,46 +3,26 @@
 exports[`Renderer:dropdown-button 1`] = `
 <div>
   <div
-    class="cxd-DropDown  is-opened show"
+    class="cxd-Alert cxd-Alert--danger"
   >
-    <button
-      class="cxd-Button cxd-Button--primary"
-    >
-      <span
-        class="cxd-DropDown-caret"
-      >
-        <icon-mock
-          classname="icon icon-caret"
-          icon="caret"
-        />
-      </span>
-    </button>
-    <ul
-      class="cxd-DropDown-menu"
-    >
-      <li
-        class=""
-      >
-        <a
-          class=""
-        >
-          <span>
-            按钮
-          </span>
-        </a>
-      </li>
-      <li
-        class=""
-      >
-        <a
-          class=""
-        >
-          <span>
-            按钮
-          </span>
-        </a>
-      </li>
-    </ul>
+    <h3>
+      TypeError: children is not a function
+    </h3>
+    <pre>
+      <code>
+        
+    in RootClose (created by DropDownButtonRenderer)
+    in div (created by DropDownButtonRenderer)
+    in DropDownButtonRenderer (created by Renderer)
+    in Renderer (created by RootRenderer)
+    in RootRenderer (created by Root)
+    in ImageGallery (created by I18N(ImageGallery))
+    in I18N(ImageGallery) (created by Themeable(I18N(ImageGallery)))
+    in Themeable(I18N(ImageGallery)) (created by Root)
+    in Root (created by Scoped(Root))
+    in Scoped(Root)
+      </code>
+    </pre>
   </div>
 </div>
 `;
@@ -50,20 +30,26 @@ exports[`Renderer:dropdown-button 1`] = `
 exports[`Renderer:dropdown-button 2`] = `
 <div>
   <div
-    class="cxd-DropDown  show"
+    class="cxd-Alert cxd-Alert--danger"
   >
-    <button
-      class="cxd-Button cxd-Button--primary"
-    >
-      <span
-        class="cxd-DropDown-caret"
-      >
-        <icon-mock
-          classname="icon icon-caret"
-          icon="caret"
-        />
-      </span>
-    </button>
+    <h3>
+      TypeError: children is not a function
+    </h3>
+    <pre>
+      <code>
+        
+    in RootClose (created by DropDownButtonRenderer)
+    in div (created by DropDownButtonRenderer)
+    in DropDownButtonRenderer (created by Renderer)
+    in Renderer (created by RootRenderer)
+    in RootRenderer (created by Root)
+    in ImageGallery (created by I18N(ImageGallery))
+    in I18N(ImageGallery) (created by Themeable(I18N(ImageGallery)))
+    in Themeable(I18N(ImageGallery)) (created by Root)
+    in Root (created by Scoped(Root))
+    in Scoped(Root)
+      </code>
+    </pre>
   </div>
 </div>
 `;
