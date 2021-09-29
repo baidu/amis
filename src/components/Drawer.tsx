@@ -10,7 +10,7 @@ import Transition, {
   ENTERING,
   EXITING
 } from 'react-transition-group/Transition';
-import {Portal} from 'react-overlays';
+import Portal from 'react-overlays/Portal';
 import {Icon} from './icons';
 import cx from 'classnames';
 import {current, addModal, removeModal} from './ModalManager';

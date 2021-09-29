@@ -2,7 +2,6 @@ import React from 'react';
 import Overlay from '../../components/Overlay';
 import Checkbox from '../../components/Checkbox';
 import PopOver from '../../components/PopOver';
-import {RootCloseWrapper} from 'react-overlays';
 import {Icon} from '../../components/icons';
 import {
   autobind,
@@ -24,6 +23,7 @@ import {ResultBox, Spinner} from '../../components';
 import xor from 'lodash/xor';
 import union from 'lodash/union';
 import compact from 'lodash/compact';
+import {RootClose} from '../../utils/RootClose';
 
 /**
  * Nested Select
@@ -582,10 +582,7 @@ export default class NestedSelectControl extends React.Component<
     }
 
     let body = (
-      <RootCloseWrapper
-        disabled={!this.state.isOpened}
-        onRootClose={this.close}
-      >
+      <RootClose disabled={!this.state.isOpened} onRootClose={this.close}>
         <div className={cx('NestedSelect-menuOuter')}>
           {options.length ? (
             this.renderOptions()
@@ -593,7 +590,7 @@ export default class NestedSelectControl extends React.Component<
             <div className={cx('NestedSelect-noResult')}>{noResultsText}</div>
           )}
         </div>
-      </RootCloseWrapper>
+      </RootClose>
     );
 
     return (

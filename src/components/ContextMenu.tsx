@@ -7,7 +7,6 @@ import Transition, {
   ENTERING,
   EXITING
 } from 'react-transition-group/Transition';
-import {Portal} from 'react-overlays';
 import {calculatePosition} from '../utils/dom';
 const fadeStyles: {
   [propName: string]: string;
