@@ -1,5 +1,4 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
-
 exports[`Renderer:Page 1`] = `
 <div
   className="cxd-Page"
@@ -83,7 +82,6 @@ exports[`Renderer:Page 1`] = `
   </div>
 </div>
 `;
-
 exports[`Renderer:Page classNames 1`] = `
 <div
   className="cxd-Page cxd-Page--withSidebar"
@@ -178,7 +176,6 @@ exports[`Renderer:Page classNames 1`] = `
   </div>
 </div>
 `;
-
 exports[`Renderer:Page handleAction actionType=ajax & feedback 1`] = `
 <div>
   <div
@@ -286,7 +283,6 @@ exports[`Renderer:Page handleAction actionType=ajax & feedback 1`] = `
   </div>
 </div>
 `;
-
 exports[`Renderer:Page handleAction actionType=ajax & feedback 2`] = `
 <div>
   <div
@@ -326,7 +322,6 @@ exports[`Renderer:Page handleAction actionType=ajax & feedback 2`] = `
   </div>
 </div>
 `;
-
 exports[`Renderer:Page handleAction actionType=ajax 1`] = `
 <div>
   <div
@@ -372,7 +367,6 @@ exports[`Renderer:Page handleAction actionType=ajax 1`] = `
   </div>
 </div>
 `;
-
 exports[`Renderer:Page handleAction actionType=dialog 1`] = `
 <div>
   <div
@@ -466,7 +460,6 @@ exports[`Renderer:Page handleAction actionType=dialog 1`] = `
   </div>
 </div>
 `;
-
 exports[`Renderer:Page handleAction actionType=dialog 2`] = `
 <div>
   <div
@@ -498,7 +491,6 @@ exports[`Renderer:Page handleAction actionType=dialog 2`] = `
   </div>
 </div>
 `;
-
 exports[`Renderer:Page handleAction actionType=dialog mergeData 1`] = `
 <div>
   <div
@@ -529,7 +521,7 @@ exports[`Renderer:Page handleAction actionType=dialog mergeData 1`] = `
             class="cxd-TplField"
           >
             <span>
-              The variable a is 
+              The variable a is
             </span>
           </span>
         </div>
@@ -632,7 +624,6 @@ exports[`Renderer:Page handleAction actionType=dialog mergeData 1`] = `
   </div>
 </div>
 `;
-
 exports[`Renderer:Page handleAction actionType=dialog mergeData 2`] = `
 <div>
   <div
@@ -766,7 +757,6 @@ exports[`Renderer:Page handleAction actionType=dialog mergeData 2`] = `
   </div>
 </div>
 `;
-
 exports[`Renderer:Page handleAction actionType=drawer 1`] = `
 <div>
   <div
@@ -830,7 +820,6 @@ exports[`Renderer:Page handleAction actionType=drawer 2`] = `
   </div>
 </div>
 `;
-
 exports[`Renderer:Page handleAction actionType=drawer mergeData 1`] = `
 <div>
   <div
@@ -861,7 +850,7 @@ exports[`Renderer:Page handleAction actionType=drawer mergeData 1`] = `
             class="cxd-TplField"
           >
             <span>
-              The variable a is 
+              The variable a is
             </span>
           </span>
         </div>
@@ -943,7 +932,6 @@ exports[`Renderer:Page initApi 1`] = `
   </div>
 </div>
 `;
-
 exports[`Renderer:Page initApi error show Message 1`] = `
 <div
   className="cxd-Page"
@@ -984,7 +972,6 @@ exports[`Renderer:Page initApi error show Message 1`] = `
   </div>
 </div>
 `;
-
 exports[`Renderer:Page initApi reFetch when condition changes 1`] = `
 <div
   className="cxd-Page"
@@ -1017,7 +1004,6 @@ exports[`Renderer:Page initApi reFetch when condition changes 1`] = `
   </div>
 </div>
 `;
-
 exports[`Renderer:Page initApi reFetch when condition changes 2`] = `
 <div
   className="cxd-Page"
@@ -1044,7 +1030,6 @@ exports[`Renderer:Page initApi reFetch when condition changes 2`] = `
   </div>
 </div>
 `;
-
 exports[`Renderer:Page initApi reload by Dialog action 1`] = `
 <div>
   <div
@@ -1090,7 +1075,6 @@ exports[`Renderer:Page initApi reload by Dialog action 1`] = `
   </div>
 </div>
 `;
-
 exports[`Renderer:Page initApi reload by Dialog action 2`] = `
 <div>
   <div
@@ -1224,7 +1208,6 @@ exports[`Renderer:Page initApi reload by Dialog action 2`] = `
   </div>
 </div>
 `;
-
 exports[`Renderer:Page initApi reload by Dialog action 3`] = `
 <div>
   <div
@@ -1358,7 +1341,6 @@ exports[`Renderer:Page initApi reload by Dialog action 3`] = `
   </div>
 </div>
 `;
-
 exports[`Renderer:Page initApi reload by Drawer action 1`] = `
 <div>
   <div
@@ -1404,7 +1386,6 @@ exports[`Renderer:Page initApi reload by Drawer action 1`] = `
   </div>
 </div>
 `;
-
 exports[`Renderer:Page initApi reload by Drawer action 2`] = `
 <div>
   <div
@@ -1490,7 +1471,6 @@ exports[`Renderer:Page initApi reload by Drawer action 3`] = `
   </div>
 </div>
 `;
-
 exports[`Renderer:Page initApi reload by Form submit 1`] = `
 <div>
   <div
@@ -1578,36 +1558,36 @@ exports[`Renderer:Page initApi reload by Form submit 1`] = `
               class="resize-sensor"
               style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
             >
-              
-  
+
+
               <div
                 class="resize-sensor-expand"
                 style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
               >
-                
-    
+
+
                 <div
                   style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
                 />
-                
-  
+
+
               </div>
-              
-  
+
+
               <div
                 class="resize-sensor-shrink"
                 style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
               >
-                
-    
+
+
                 <div
                   style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
                 />
-                
-  
+
+
               </div>
-              
-  
+
+
               <div
                 class="resize-sensor-appear"
                 style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
@@ -1637,7 +1617,6 @@ exports[`Renderer:Page initApi reload by Form submit 1`] = `
   </div>
 </div>
 `;
-
 exports[`Renderer:Page initApi reload by Form submit 2`] = `
 <div>
   <div
@@ -1725,36 +1704,36 @@ exports[`Renderer:Page initApi reload by Form submit 2`] = `
               class="resize-sensor"
               style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
             >
-              
-  
+
+
               <div
                 class="resize-sensor-expand"
                 style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
               >
-                
-    
+
+
                 <div
                   style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
                 />
-                
-  
+
+
               </div>
-              
-  
+
+
               <div
                 class="resize-sensor-shrink"
                 style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
               >
-                
-    
+
+
                 <div
                   style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
                 />
-                
-  
+
+
               </div>
-              
-  
+
+
               <div
                 class="resize-sensor-appear"
                 style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
@@ -1784,7 +1763,6 @@ exports[`Renderer:Page initApi reload by Form submit 2`] = `
   </div>
 </div>
 `;
-
 exports[`Renderer:Page initApi reload by action 1`] = `
 <div>
   <div
@@ -1830,7 +1808,6 @@ exports[`Renderer:Page initApi reload by action 1`] = `
   </div>
 </div>
 `;
-
 exports[`Renderer:Page initApi reload by action 2`] = `
 <div>
   <div
@@ -1876,7 +1853,6 @@ exports[`Renderer:Page initApi reload by action 2`] = `
   </div>
 </div>
 `;
-
 exports[`Renderer:Page initApi show loading 1`] = `
 <div
   className="cxd-Page"
@@ -1901,7 +1877,7 @@ exports[`Renderer:Page initApi show loading 1`] = `
           className="cxd-TplField"
         >
           <span>
-            The variable value is 
+            The variable value is
           </span>
         </span>
       </div>
@@ -1909,7 +1885,6 @@ exports[`Renderer:Page initApi show loading 1`] = `
   </div>
 </div>
 `;
-
 exports[`Renderer:Page initApi show loading 2`] = `
 <div
   className="cxd-Page"
@@ -1942,7 +1917,6 @@ exports[`Renderer:Page initApi show loading 2`] = `
   </div>
 </div>
 `;
-
 exports[`Renderer:Page initApi silentPolling 1`] = `
 <div
   className="cxd-Page"
@@ -1967,7 +1941,7 @@ exports[`Renderer:Page initApi silentPolling 1`] = `
           className="cxd-TplField"
         >
           <span>
-            The variable value is 
+            The variable value is
           </span>
         </span>
       </div>
@@ -1975,7 +1949,6 @@ exports[`Renderer:Page initApi silentPolling 1`] = `
   </div>
 </div>
 `;
-
 exports[`Renderer:Page initApi silentPolling 2`] = `
 <div
   className="cxd-Page"
@@ -2008,7 +1981,6 @@ exports[`Renderer:Page initApi silentPolling 2`] = `
   </div>
 </div>
 `;
-
 exports[`Renderer:Page initApi silentPolling 3`] = `
 <div
   className="cxd-Page"
@@ -2035,7 +2007,6 @@ exports[`Renderer:Page initApi silentPolling 3`] = `
   </div>
 </div>
 `;
-
 exports[`Renderer:Page initApi silentPolling 4`] = `
 <div
   className="cxd-Page"
@@ -2062,7 +2033,6 @@ exports[`Renderer:Page initApi silentPolling 4`] = `
   </div>
 </div>
 `;
-
 exports[`Renderer:Page initData 1`] = `
 <div
   className="cxd-Page"
@@ -2089,7 +2059,6 @@ exports[`Renderer:Page initData 1`] = `
   </div>
 </div>
 `;
-
 exports[`Renderer:Page initFetchOn trigger initApi fetch when condition becomes ture 1`] = `
 <div
   className="cxd-Page"
@@ -2122,7 +2091,6 @@ exports[`Renderer:Page initFetchOn trigger initApi fetch when condition becomes 
   </div>
 </div>
 `;
-
 exports[`Renderer:Page location query 1`] = `
 <div
   className="cxd-Page"
@@ -2149,7 +2117,6 @@ exports[`Renderer:Page location query 1`] = `
   </div>
 </div>
 `;
-
 exports[`Renderer:Page location query 2`] = `
 <div
   className="cxd-Page"

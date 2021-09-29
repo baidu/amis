@@ -1511,7 +1511,8 @@ export default class Form extends React.Component<FormProps, object> {
       lazyLoad,
       translate: __,
       footer,
-      formStore
+      formStore,
+      quickEditFormRef
     } = this.props;
 
     // trace(true);
@@ -1522,10 +1523,10 @@ export default class Form extends React.Component<FormProps, object> {
     // 表单组件限制
     const isFormInFormActions: boolean = /panel\/action\/form$/.test($path);
     // props有formStore 说明是嵌套表单 || 不允许在表单的按钮组中再直接套表单
-    if (formStore || isFormInFormActions) {
+    if ((formStore && !quickEditFormRef) || isFormInFormActions) {
       body = (
         <Alert level="danger">
-          <p>Error: 不允许在表单及表单按钮组中直接嵌套表单</p>
+          <p>Error: 不允许嵌套使用表单</p>
           <p>Path: {$path}</p>
           <pre>
             <code>{JSON.stringify($schema, null, 2)}</code>

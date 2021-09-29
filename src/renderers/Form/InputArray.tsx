@@ -36,6 +36,7 @@ export interface InputArrayProps
 }
 
 export default class InputArrayControl extends React.Component<InputArrayProps> {
+  static propsList: Array<string> = ['formStore'];
   comboInstance: any;
   constructor(props: InputArrayProps) {
     super(props);

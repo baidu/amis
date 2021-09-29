@@ -27,7 +27,7 @@ exports[`factory custom not found! 1`] = `
 exports[`factory load Renderer on need 1`] = `
 <div>
   <div>
-    This is Custom Renderer2, a is 
+    This is Custom Renderer2, a is
     23
   </div>
 </div>
@@ -42,7 +42,7 @@ exports[`factory unregistered Renderer 1`] = `
       Error: 找不到对应的渲染器
     </p>
     <p>
-      Path: 
+      Path:
       my-renderer
     </p>
     <pre>
@@ -201,7 +201,7 @@ exports[`factory:definitions 1`] = `
                                 Error: 不允许在表单及表单按钮组中直接嵌套表单
                               </p>
                               <p>
-                                Path: 
+                                Path:
                                 page/body/0/form/1/combo/multiple/0/form
                               </p>
                               <pre>
@@ -306,36 +306,36 @@ exports[`factory:definitions 1`] = `
               class="resize-sensor"
               style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
             >
-              
-  
+
+
               <div
                 class="resize-sensor-expand"
                 style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
               >
-                
-    
+
+
                 <div
                   style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
                 />
-                
-  
+
+
               </div>
-              
-  
+
+
               <div
                 class="resize-sensor-shrink"
                 style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
               >
-                
-    
+
+
                 <div
                   style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
                 />
-                
-  
+
+
               </div>
-              
-  
+
+
               <div
                 class="resize-sensor-appear"
                 style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
@@ -521,36 +521,36 @@ exports[`factory:definitions override 1`] = `
               class="resize-sensor"
               style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
             >
-              
-  
+
+
               <div
                 class="resize-sensor-expand"
                 style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
               >
-                
-    
+
+
                 <div
                   style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
                 />
-                
-  
+
+
               </div>
-              
-  
+
+
               <div
                 class="resize-sensor-shrink"
                 style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
               >
-                
-    
+
+
                 <div
                   style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
                 />
-                
-  
+
+
               </div>
-              
-  
+
+
               <div
                 class="resize-sensor-appear"
                 style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
@@ -567,7 +567,7 @@ exports[`factory:definitions override 1`] = `
 exports[`factory:registerRenderer 1`] = `
 <div>
   <div>
-    This is Custom Renderer, a is 
+    This is Custom Renderer, a is
     23
   </div>
 </div>
