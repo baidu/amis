@@ -1,6 +1,5 @@
 import React from 'react';
 import {Renderer, RendererProps} from '../factory';
-import {RootCloseWrapper} from 'react-overlays';
 import Overlay from '../components/Overlay';
 import PopOver from '../components/PopOver';
 import TooltipWrapper from '../components/TooltipWrapper';
@@ -11,6 +10,7 @@ import {Icon} from '../components/icons';
 import {BaseSchema, SchemaClassName} from '../Schema';
 import {ActionSchema} from './Action';
 import {DividerSchema} from './Divider';
+import {RootClose} from '../utils/RootClose';
 
 /**
  * 下拉按钮渲染器。
@@ -174,7 +174,7 @@ export default class DropDownButton extends React.Component<
     } = this.props;
 
     let body = (
-      <RootCloseWrapper
+      <RootClose
         disabled={!this.state.isOpened}
         onRootClose={closeOnOutside !== false ? this.close : noop}
       >
@@ -207,7 +207,7 @@ export default class DropDownButton extends React.Component<
               })
             : null}
         </ul>
-      </RootCloseWrapper>
+      </RootClose>
     );
 
     if (popOverContainer) {

@@ -5,7 +5,6 @@
  */
 
 import React from 'react';
-// @ts-ignore
 import VisibilitySensor from 'react-visibility-sensor';
 import Spinner from './Spinner';
 

@@ -171,7 +171,7 @@ export class CustomDaysView extends DaysView {
             {({isOpen, getInputProps, openMenu, closeMenu}) => {
               const inputProps = getInputProps({
                 onFocus: () => openMenu(),
-                onChange: e =>
+                onChange: (e: any) =>
                   this.setTime(
                     type,
                     Math.max(

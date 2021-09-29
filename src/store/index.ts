@@ -6,7 +6,6 @@ import {
   isAlive,
   Instance
 } from 'mobx-state-tree';
-import 'setimmediate';
 import {iRendererStore, IIRendererStore, SIRendererStore} from './iRenderer';
 import {ServiceStore} from './service';
 import {ComboStore} from './combo';

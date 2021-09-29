@@ -454,15 +454,7 @@ export class Chart extends React.Component<ChartProps> {
       <div className={cx(`${ns}Chart`, className)} style={style}>
         <LazyComponent
           unMountOnHidden={unMountOnHidden}
-          placeholder={
-            <div className={`${ns}Chart-placeholder`}>
-              <Spinner
-                show
-                icon="reload"
-                spinnerClassName={cx('Chart-spinner')}
-              />
-            </div>
-          }
+          placeholder="..." // 之前那个 spinner 会导致 sensor 失效
           component={() => (
             <div className={`${ns}Chart-content`} ref={this.refFn}></div>
           )}
