@@ -196,7 +196,7 @@ order: 60
   },
   "body": {
     "type": "property",
-    "source": "items"
+    "source": "${items}"
   }
 }
 ```
