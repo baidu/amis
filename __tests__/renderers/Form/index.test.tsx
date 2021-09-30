@@ -108,7 +108,7 @@ test('Renderer:Form:valdiate', async () => {
   await wait(100);
   expect(notify).toHaveBeenCalledWith(
     'error',
-    '依赖的部分字段没有通过验证\na: 这是必填项'
+    '依赖的部分字段没有通过验证\n这是必填项'
   );
 
   const input = container.querySelector('input[name=a]');
@@ -233,7 +233,7 @@ test('Renderer:Form:onValidate', async () => {
   await wait(100);
   expect(notify).toHaveBeenCalledWith(
     'error',
-    '依赖的部分字段没有通过验证\na: a is wrong\nb: b is wrong\nb: b is wrong 2'
+    '依赖的部分字段没有通过验证\na is wrong\nb is wrong\nb is wrong 2'
   );
 
   fireEvent.click(getByText('Submit'));
