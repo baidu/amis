@@ -29,6 +29,10 @@ cp ./lib/helper.css.map sdk/helper.css.map
 cp examples/static/iconfont.css sdk/
 cp examples/static/iconfont.eot sdk/
 
+mkdir sdk/locale
+
+node scripts/generate-sdk-locale.js src/locale/de-DE.ts > sdk/locale/de-DE.js
+
 # 生成 .d.ts 文件
 ./node_modules/.bin/tsc --declaration --emitDeclarationOnly --outDir ./lib --project ./tsconfig-for-declaration.json
 
