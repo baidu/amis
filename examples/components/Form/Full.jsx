@@ -985,14 +985,17 @@ export default {
           type: 'input-tree',
           name: 'tree',
           label: '树',
+          iconField: 'icon',
           options: [
             {
               label: 'Folder A',
               value: 1,
+              icon: 'fa fa-bookmark',
               children: [
                 {
                   label: 'file A',
-                  value: 2
+                  value: 2,
+                  icon: 'fa fa-star'
                 },
                 {
                   label: 'file B',
