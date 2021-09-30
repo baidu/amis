@@ -2076,3 +2076,10 @@ CRUD 中不限制有多少个单条操作、添加一个操作对应的添加一
 | footerToolbar                         | Array                       | `['statistics', 'pagination']`  | 底部工具栏配置                                                                                                        |
 | alwaysShowPagination                  | `boolean`                   | `false`                         | 是否总是显示分页                                                                                                      |
 | affixHeader                           | `boolean`                   | `true`                          | 是否固定表头(table 下)                                                                                                |
+
+
+注意除了上面这些属性，CRUD 在不同模式下的属性需要参考各自的文档，比如
+
+* 默认 [Table](./table) 模式里的列配置。
+* [Cards](./cards) 模式。
+* [List](./list) 模式。
