@@ -105,6 +105,7 @@ register('zh-CN', {
   'Form.title': '表单',
   'Form.unique': '当前值不唯一',
   'Form.validateFailed': '依赖的部分字段没有通过验证',
+  'Form.nestedError': '表单不要直接嵌套在表单下面',
   'Image.configError': '图片多选配置和裁剪配置只能设置一个',
   'Image.crop': '裁剪图片',
   'Image.dragDrop': '将图片拖拽到此处',

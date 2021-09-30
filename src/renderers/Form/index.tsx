@@ -1519,20 +1519,19 @@ export default class Form extends React.Component<FormProps, object> {
 
     let body: JSX.Element = this.renderBody();
 
-    // 表单组件限制
-    const isFormInFormActions: boolean = /panel\/action\/form$/.test($path);
     // props有formStore 说明是嵌套表单 || 不允许在表单的按钮组中再直接套表单
-    if (formStore || isFormInFormActions) {
+    if (formStore) {
       body = (
-        <Alert level="danger">
-          <p>Error: 不允许在表单及表单按钮组中直接嵌套表单</p>
-          <p>Path: {$path}</p>
-          <pre>
-            <code>{JSON.stringify($schema, null, 2)}</code>
-          </pre>
-        </Alert>
+        <>
+          <Alert level="warning" showCloseButton>
+            <p>{__('Form.nestedError')}</p>
+          </Alert>
+          {body}
+        </>
       );
-    } else if (wrapWithPanel) {
+    }
+
+    if (wrapWithPanel) {
       body = render(
         'body',
         {
@@ -1541,6 +1540,7 @@ export default class Form extends React.Component<FormProps, object> {
         },
         {
           className: cx(panelClassName, 'Panel--form'),
+          formStore: this.props.store,
           children: body,
           actions: this.buildActions(),
           onAction: this.handleAction,

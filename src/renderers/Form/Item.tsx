@@ -1019,7 +1019,8 @@ export class FormItemWrap extends React.Component<FormItemProps> {
                 show: model.dialogOpen,
                 onClose: this.handleDialogClose,
                 onConfirm: this.handleDialogConfirm,
-                data: model.dialogData
+                data: model.dialogData,
+                formStore: undefined
               }
             )
           : null}

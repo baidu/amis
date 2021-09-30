@@ -103,6 +103,7 @@ register('en-US', {
   'Form.title': 'Form',
   'Form.unique': 'Current value is not unique',
   'Form.validateFailed': 'Form input validation failed',
+  'Form.nestedError': 'Form cannot appear as a descendant of form',
   'Image.configError': 'Can only set one of crop or multiple',
   'Image.crop': 'Crop image',
   'Image.dragDrop': `Drag 'n' drop some photos here`,
