@@ -187,7 +187,8 @@ export default class FormTable extends React.Component<TableProps, TableState> {
     'updateApi',
     'deleteApi',
     'needConfirm',
-    'canAccessSuperData'
+    'canAccessSuperData',
+    'formStore'
   ];
 
   entries: SimpleMap<any, number>;

@@ -102,6 +102,7 @@ register('de-DE', {
   'Form.title': 'Formular',
   'Form.unique': 'Aktueller Wert ist nicht eindeutig',
   'Form.validateFailed': 'Fehler bei der Überprüfung der Formulareingabe',
+  'Form.nestedError': 'Form kann nicht als Nachkomme von Form erscheinen',
   'Image.configError': 'Es können nur eine Beschneidung oder mehrere festgelegt werden',
   'Image.crop': 'Bild beschneiden',
   'Image.dragDrop': 'Bilder per Drag & Drop hier ablegen',

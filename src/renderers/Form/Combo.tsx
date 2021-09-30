@@ -334,7 +334,8 @@ export default class ComboControl extends React.Component<ComboProps> {
     'strictMode',
     'items',
     'conditions',
-    'messages'
+    'messages',
+    'formStore'
   ];
 
   subForms: Array<any> = [];
@@ -367,15 +368,8 @@ export default class ComboControl extends React.Component<ComboProps> {
       ...props.scaffold
     };
 
-    const {
-      store,
-      value,
-      multiple,
-      minLength,
-      maxLength,
-      formItem,
-      addHook
-    } = props;
+    const {store, value, multiple, minLength, maxLength, formItem, addHook} =
+      props;
 
     store.config({
       multiple,
@@ -451,14 +445,8 @@ export default class ComboControl extends React.Component<ComboProps> {
   }
 
   addItemWith(condition: ComboCondition) {
-    const {
-      flat,
-      joinValues,
-      delimiter,
-      scaffold,
-      disabled,
-      submitOnChange
-    } = this.props;
+    const {flat, joinValues, delimiter, scaffold, disabled, submitOnChange} =
+      this.props;
 
     if (disabled) {
       return;
@@ -483,14 +471,8 @@ export default class ComboControl extends React.Component<ComboProps> {
   }
 
   addItem() {
-    const {
-      flat,
-      joinValues,
-      delimiter,
-      scaffold,
-      disabled,
-      submitOnChange
-    } = this.props;
+    const {flat, joinValues, delimiter, scaffold, disabled, submitOnChange} =
+      this.props;
 
     if (disabled) {
       return;
@@ -562,14 +544,8 @@ export default class ComboControl extends React.Component<ComboProps> {
   }
 
   handleChange(values: any, diff: any, {index}: any) {
-    const {
-      flat,
-      store,
-      joinValues,
-      delimiter,
-      disabled,
-      submitOnChange
-    } = this.props;
+    const {flat, store, joinValues, delimiter, disabled, submitOnChange} =
+      this.props;
 
     if (disabled) {
       return;
@@ -781,8 +757,8 @@ export default class ComboControl extends React.Component<ComboProps> {
     [propName: number]: any;
   } = {};
 
-  makeFormRef = memoize((index: number) => (ref: any) =>
-    this.formRef(ref, index)
+  makeFormRef = memoize(
+    (index: number) => (ref: any) => this.formRef(ref, index)
   );
 
   formRef(ref: any, index: number = 0) {
