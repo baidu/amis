@@ -508,7 +508,8 @@ export default class SubFormControl extends React.PureComponent<
           show: !!dialogCtx,
           onClose: this.close,
           onConfirm: this.handleDialogConfirm,
-          data: dialogData
+          data: dialogData,
+          formStore: undefined
         })}
       </div>
     );

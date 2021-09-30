@@ -806,10 +806,15 @@ export default class Wizard extends React.Component<WizardProps, WizardState> {
                     className={cx('Badge', {
                       // 'Badge--success': canJump && currentStep != key + 1,
                       'is-complete': isComplete,
-                      'is-active': isActive || (canJump && currentStep != key + 1)
+                      'is-active':
+                        isActive || (canJump && currentStep != key + 1)
                     })}
                   >
-                    {isComplete && !isActive ? (<Icon icon="check" className="icon" />) : key + 1}
+                    {isComplete && !isActive ? (
+                      <Icon icon="check" className="icon" />
+                    ) : (
+                      key + 1
+                    )}
                   </span>
                   {step.title || step.label || `第 ${key + 1} 步`}
                 </li>
@@ -996,7 +1001,8 @@ export default class Wizard extends React.Component<WizardProps, WizardState> {
                   disabled: store.loading,
                   popOverContainer:
                     popOverContainer || this.getPopOverContainer,
-                  onChange: this.handleChange
+                  onChange: this.handleChange,
+                  formStore: undefined
                 }
               )
             ) : currentStep === -1 ? (
