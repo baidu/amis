@@ -117,25 +117,22 @@ froala 可以通过设置 buttons 参数来控制显示哪些按钮，默认是�
 
 ```json
 [
+  "undo",
+  "redo",
   "paragraphFormat",
-  "quote",
-  "color",
-  "|",
+  "textColor",
+  "backgroundColor",
   "bold",
-  "italic",
   "underline",
   "strikeThrough",
-  "|",
   "formatOL",
   "formatUL",
   "align",
-  "|",
+  "quote",
   "insertLink",
   "insertImage",
+  "insertEmotion",
   "insertTable",
-  "|",
-  "undo",
-  "redo",
   "html"
 ]
 ```

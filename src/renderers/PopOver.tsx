@@ -270,21 +270,26 @@ export const HocPopOver =
             disabled={!this.state.isOpened}
             onRootClose={this.closePopOver}
           >
-            <div
-              className={cx(`PopOverAble--fixed PopOverAble--${position}`)}
-              onMouseLeave={
-                (popOver as SchemaPopOverObject)?.trigger === 'hover'
-                  ? this.closePopOver
-                  : undefined
-              }
-              onMouseEnter={
-                (popOver as SchemaPopOverObject)?.trigger === 'hover'
-                  ? this.clearCloseTimer
-                  : undefined
-              }
-            >
-              {content}
-            </div>
+            {(ref: any) => {
+              return (
+                <div
+                  className={cx(`PopOverAble--fixed PopOverAble--${position}`)}
+                  onMouseLeave={
+                    (popOver as SchemaPopOverObject)?.trigger === 'hover'
+                      ? this.closePopOver
+                      : undefined
+                  }
+                  onMouseEnter={
+                    (popOver as SchemaPopOverObject)?.trigger === 'hover'
+                      ? this.clearCloseTimer
+                      : undefined
+                  }
+                  ref={ref}
+                >
+                  {content}
+                </div>
+              );
+            }}
           </RootClose>
         ) : (
           <Overlay

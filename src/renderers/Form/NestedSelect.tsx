@@ -583,13 +583,19 @@ export default class NestedSelectControl extends React.Component<
 
     let body = (
       <RootClose disabled={!this.state.isOpened} onRootClose={this.close}>
-        <div className={cx('NestedSelect-menuOuter')}>
-          {options.length ? (
-            this.renderOptions()
-          ) : (
-            <div className={cx('NestedSelect-noResult')}>{noResultsText}</div>
-          )}
-        </div>
+        {(ref: any) => {
+          return (
+            <div className={cx('NestedSelect-menuOuter')} ref={ref}>
+              {options.length ? (
+                this.renderOptions()
+              ) : (
+                <div className={cx('NestedSelect-noResult')}>
+                  {noResultsText}
+                </div>
+              )}
+            </div>
+          );
+        }}
       </RootClose>
     );
 
