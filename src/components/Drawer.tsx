@@ -67,6 +67,20 @@ export class Drawer extends React.Component<DrawerProps, DrawerState> {
     document.body.addEventListener('click', this.handleRootClick);
   }
 
+  componentDidUpdate(prevProps: DrawerProps) {
+    // jest 里面没有触发 entered 导致后续的逻辑错误，
+    // 所以直接 300 ms 后触发
+    if (
+      typeof jest !== 'undefined' &&
+      prevProps.show !== this.props.show &&
+      this.props.show
+    ) {
+      setTimeout(() => {
+        this.handleEntered();
+      }, 300);
+    }
+  }
+
   componentWillUnmount() {
     if (this.props.show) {
       this.handleExited();

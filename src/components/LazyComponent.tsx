@@ -46,6 +46,13 @@ export default class LazyComponent extends React.Component<
     };
   }
 
+  componentDidMount() {
+    // jest 里面有点异常，先手动让它总是可见
+    if (typeof jest !== 'undefined') {
+      this.handleVisibleChange(true);
+    }
+  }
+
   componentWillUnmount() {
     this.mounted = false;
   }

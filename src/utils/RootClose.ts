@@ -8,5 +8,5 @@ import useRootClose from 'react-overlays/useRootClose';
 export const RootClose = ({children, onRootClose, ...props}: any) => {
   const [rootElement, attachRef] = useState(null);
   useRootClose(rootElement, onRootClose, props);
-  return children(attachRef);
+  return typeof children === 'function' ? children(attachRef) : children;
 };
