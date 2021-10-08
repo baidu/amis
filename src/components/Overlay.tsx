@@ -290,7 +290,13 @@ export default class Overlay extends React.Component<
 
     // This goes after everything else because it adds a wrapping div.
     if (rootClose) {
-      child = <RootClose onRootClose={props.onHide}>{child}</RootClose>;
+      child = (
+        <RootClose onRootClose={props.onHide}>
+          {(ref: any) => {
+            return <div ref={ref}>{child}</div>;
+          }}
+        </RootClose>
+      );
     }
 
     // @ts-ignore

@@ -547,7 +547,7 @@ export const components = [
           )
       },
       {
-        label: 'InpuRichText 富文本编辑器',
+        label: 'InputRichText 富文本编辑器',
         path: '/zh-CN/components/form/input-rich-text',
         getComponent: () =>
           import('../../docs/zh-CN/components/form/input-rich-text.md').then(

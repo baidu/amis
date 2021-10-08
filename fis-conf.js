@@ -491,8 +491,8 @@ if (fis.project.currentMedia() === 'publish') {
         '!mpegts.js/**',
         '!hls.js/**',
         '!froala-editor/**',
+        '!react-froala-wysiwyg/**',
         '!tinymce/**',
-        '!jquery/**',
         '!zrender/**',
         '!echarts/**',
         '!echarts-stat/**',
@@ -525,7 +525,7 @@ if (fis.project.currentMedia() === 'publish') {
       'rich-text.js': [
         'src/components/RichText.tsx',
         'froala-editor/**',
-        'jquery/**'
+        'react-froala-wysiwyg/**'
       ],
 
       'tinymce.js': ['src/components/Tinymce.tsx', 'tinymce/**'],
@@ -565,8 +565,8 @@ if (fis.project.currentMedia() === 'publish') {
         '!mpegts.js/**',
         '!hls.js/**',
         '!froala-editor/**',
+        '!react-froala-wysiwyg/**',
         '!src/components/RichText.tsx',
-        '!jquery/**',
         '!zrender/**',
         '!echarts/**',
         '!papaparse/**',
@@ -786,8 +786,8 @@ if (fis.project.currentMedia() === 'publish') {
         '!mpegts.js/**',
         '!hls.js/**',
         '!froala-editor/**',
+        '!react-froala-wysiwyg/**',
         '!tinymce/**',
-        '!jquery/**',
         '!zrender/**',
         '!echarts/**',
         '!echarts-stat/**',
@@ -820,7 +820,7 @@ if (fis.project.currentMedia() === 'publish') {
       'pkg/rich-text.js': [
         'src/components/RichText.js',
         'froala-editor/**',
-        'jquery/**'
+        'react-froala-wysiwyg/**'
       ],
 
       'pkg/tinymce.js': ['src/components/Tinymce.tsx', 'tinymce/**'],
@@ -873,8 +873,8 @@ if (fis.project.currentMedia() === 'publish') {
         '!mpegts.js/**',
         '!hls.js/**',
         '!froala-editor/**',
+        '!react-froala-wysiwyg/**',
         '!src/components/RichText.tsx',
-        '!jquery/**',
         '!zrender/**',
         '!echarts/**',
         '!papaparse/**',

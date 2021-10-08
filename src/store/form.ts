@@ -467,7 +467,7 @@ export const FormStore = ServiceStore.named('FormStore')
             !env.hideValidateFailedDetail &&
             self.items.forEach(item => {
               item.errorData.forEach(errorData => {
-                msg = `${msg}\n${item.name}: ${errorData.msg}`;
+                msg = `${msg}\n${errorData.msg}`;
               });
             });
 

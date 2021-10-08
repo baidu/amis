@@ -5,7 +5,6 @@
   const mapping: {
     [propName: string]: any;
   } = {
-    'jquery': __moduleId('jquery'),
     'react': __moduleId('react'),
     'react-dom': __moduleId('react-dom'),
     'immutability-helper': __moduleId('immutability-helper'),

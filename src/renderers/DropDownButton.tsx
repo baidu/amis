@@ -178,35 +178,50 @@ export default class DropDownButton extends React.Component<
         disabled={!this.state.isOpened}
         onRootClose={closeOnOutside !== false ? this.close : noop}
       >
-        <ul
-          className={cx('DropDown-menu')}
-          onClick={closeOnClick ? this.close : noop}
-        >
-          {children
-            ? children
-            : Array.isArray(buttons)
-            ? buttons.map((button, index) => {
-                if (typeof button !== 'string' && !isVisible(button, data)) {
-                  return null;
-                } else if (button === 'divider' || button.type === 'divider') {
-                  return <li key={index} className={cx('DropDown-divider')} />;
-                }
+        {(ref: any) => {
+          return (
+            <ul
+              className={cx('DropDown-menu')}
+              onClick={closeOnClick ? this.close : noop}
+              ref={ref}
+            >
+              {children
+                ? children
+                : Array.isArray(buttons)
+                ? buttons.map((button, index) => {
+                    if (
+                      typeof button !== 'string' &&
+                      !isVisible(button, data)
+                    ) {
+                      return null;
+                    } else if (
+                      button === 'divider' ||
+                      button.type === 'divider'
+                    ) {
+                      return (
+                        <li key={index} className={cx('DropDown-divider')} />
+                      );
+                    }
 
-                return (
-                  <li
-                    key={index}
-                    className={isDisabled(button, data) ? 'is-disabled' : ''}
-                  >
-                    {render(`button/${index}`, {
-                      type: 'button',
-                      ...(button as any),
-                      isMenuItem: true
-                    })}
-                  </li>
-                );
-              })
-            : null}
-        </ul>
+                    return (
+                      <li
+                        key={index}
+                        className={
+                          isDisabled(button, data) ? 'is-disabled' : ''
+                        }
+                      >
+                        {render(`button/${index}`, {
+                          type: 'button',
+                          ...(button as any),
+                          isMenuItem: true
+                        })}
+                      </li>
+                    );
+                  })
+                : null}
+            </ul>
+          );
+        }}
       </RootClose>
     );
 
