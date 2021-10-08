@@ -68,6 +68,11 @@ export interface TransferControlSchema extends FormOptionsControl {
   columns?: Array<any>;
 
   /**
+   * 当 searchResultMode 为 table 时定义表格列信息。
+   */
+  searchResultColumns?: Array<any>;
+
+  /**
    * 可搜索？
    */
   searchable?: boolean;
@@ -252,6 +257,7 @@ export class BaseTransferRenderer<
       loading,
       searchable,
       searchResultMode,
+      searchResultColumns,
       deferLoad,
       leftOptions,
       leftMode,
@@ -275,6 +281,7 @@ export class BaseTransferRenderer<
           showArrow={showArrow}
           selectMode={selectMode}
           searchResultMode={searchResultMode}
+          searchResultColumns={searchResultColumns}
           columns={columns}
           onSearch={searchable ? this.handleSearch : undefined}
           onDeferLoad={deferLoad}
