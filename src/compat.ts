@@ -531,7 +531,11 @@ addSchemaFilter(function (schema: Schema, renderer: any, props: any) {
     };
   }
 
-  if (schema?.controls && schema.type !== 'audio') {
+  if (
+    schema?.controls &&
+    schema.type !== 'audio' &&
+    schema.type !== 'carousel'
+  ) {
     schema = {
       ...schema,
       [schema.type === 'combo' ? `items` : 'body']: (Array.isArray(

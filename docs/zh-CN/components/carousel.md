@@ -66,6 +66,30 @@ order: 33
 
 其中的 `imageList` 要和配置的 `name` 值对应。
 
+## 点击图片打开外部链接
+
+> 1.3.3 及以上版本
+
+需要放回的字段中除了前面的 image，还有 href 属性
+
+```schema: scope="body"
+{
+  "type": "page",
+  "data": {
+    "imageList": [
+      {
+        "image": "https://internal-amis-res.cdn.bcebos.com/images/2019-12/1577157239810/da6376bf988c.png",
+        "href": "https://github.com/baidu/amis"
+      }
+    ]
+  },
+  "body": {
+    "type": "carousel",
+    "name": "imageList"
+  }
+}
+```
+
 ## 自定义轮播图的展现
 
 通过配置 `itemSchema` 可以自定义轮播图的展现，比如图片默认背景配置是 contain，可以改成 cover：
@@ -85,6 +109,7 @@ itemSchema: {
 | className                    | `string`  | `"panel-default"`      | 外层 Dom 的类名                                         |
 | options                      | `array`   | `[]`                   | 轮播面板数据                                            |
 | options.image                | `string`  |                        | 图片链接                                                |
+| options.href                 | `string`  |                        | 图片打开网址的链接                                      |
 | options.imageClassName       | `string`  |                        | 图片类名                                                |
 | options.title                | `string`  |                        | 图片标题                                                |
 | options.titleClassName       | `string`  |                        | 图片标题类名                                            |
