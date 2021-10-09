@@ -276,6 +276,7 @@ export class Transfer extends React.Component<TransferProps, TransferState> {
       selectMode,
       noResultsText,
       searchResultColumns,
+      columns,
       classnames: cx,
       value,
       disabled,
@@ -286,12 +287,13 @@ export class Transfer extends React.Component<TransferProps, TransferState> {
     } = this.props;
     const options = this.state.searchResult || [];
     const mode = searchResultMode || selectMode;
+    const resultColumns = searchResultColumns || columns;
 
     return mode === 'table' ? (
       <TableCheckboxes
         placeholder={noResultsText}
         className={cx('Transfer-checkboxes')}
-        columns={searchResultColumns!}
+        columns={resultColumns!}
         options={options}
         value={value}
         disabled={disabled}
