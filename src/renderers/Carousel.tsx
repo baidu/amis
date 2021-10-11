@@ -120,6 +120,9 @@ const defaultSchema = {
           <Image
             src={data.image}
             title={data.title}
+            href={data.href}
+            blank={data.blank}
+            htmlTarget={data.htmlTarget}
             imageCaption={data.description}
             thumbMode={data.thumbMode ?? thumbMode ?? 'contain'}
             imageMode="original"
@@ -413,7 +416,16 @@ export class Carousel extends React.Component<CarouselProps, CarouselState> {
         {body ? body : placeholder}
 
         {dots ? this.renderDots() : null}
-        {arrows ? this.renderArrows() : null}
+        {arrows ? (
+          <div className={cx('Carousel-leftArrow')} onClick={this.prev}>
+            <Icon icon="left-arrow" className="icon" />
+          </div>
+        ) : null}
+        {arrows ? (
+          <div className={cx('Carousel-rightArrow')} onClick={this.next}>
+            <Icon icon="right-arrow" className="icon" />
+          </div>
+        ) : null}
       </div>
     );
   }

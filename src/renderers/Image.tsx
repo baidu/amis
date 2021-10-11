@@ -104,6 +104,21 @@ export interface ImageSchema extends BaseSchema {
    * 预览图比率
    */
   thumbRatio?: '1:1' | '4:3' | '16:9';
+
+  /**
+   * 链接地址
+   */
+  href?: SchemaTpl;
+
+  /**
+   * 是否新窗口打开
+   */
+  blank?: boolean;
+
+  /**
+   * 链接的 target
+   */
+  htmlTarget?: string;
 }
 
 export interface ImageThumbProps
@@ -137,6 +152,9 @@ export class ImageThumb extends React.Component<ImageThumbProps> {
       alt,
       title,
       caption,
+      href,
+      blank = true,
+      htmlTarget,
       onLoad,
       enlargeAble,
       translate: __,
@@ -144,7 +162,7 @@ export class ImageThumb extends React.Component<ImageThumbProps> {
       imageMode
     } = this.props;
 
-    return (
+    let image = (
       <div
         className={cx(
           'Image',
@@ -221,6 +239,21 @@ export class ImageThumb extends React.Component<ImageThumbProps> {
         ) : null}
       </div>
     );
+
+    if (href) {
+      image = (
+        <a
+          href={href}
+          target={htmlTarget || (blank ? '_blank' : '_self')}
+          className={cx('Link', className)}
+          title={title}
+        >
+          {image}
+        </a>
+      );
+    }
+
+    return image;
   }
 }
 const ThemedImageThumb = themeable(localeable(ImageThumb));
@@ -302,6 +335,7 @@ export class ImageField extends React.Component<ImageFieldProps, object> {
       width,
       classnames: cx,
       src,
+      href,
       thumbMode,
       thumbRatio,
       placeholder,
@@ -313,6 +347,8 @@ export class ImageField extends React.Component<ImageFieldProps, object> {
     const finnalSrc = src ? filter(src, data, '| raw') : '';
     let value =
       finnalSrc || getPropValue(this.props) || defaultImage || imagePlaceholder;
+
+    const finnalHref = href ? filter(href, data, '| raw') : '';
 
     return (
       <div
@@ -331,6 +367,7 @@ export class ImageField extends React.Component<ImageFieldProps, object> {
             height={height}
             width={width}
             src={value}
+            href={finnalHref}
             title={filter(title, data)}
             caption={filter(imageCaption, data)}
             thumbMode={thumbMode}

@@ -273,3 +273,27 @@ order: 52
 ```
 
 其他配置项参考 [快速编辑](../crud#快速编辑)
+
+## 弹出框（popOver）
+
+可以通过 `popOver` 属性配置弹出框
+
+```schema: scope="body"
+{
+    "type": "form",
+    "body": [
+        {
+            "name": "static",
+            "type": "static",
+            "label": "静态展示",
+            "value": "aaa",
+             "popOver": {
+                "body": {
+                    "type": "tpl",
+                    "tpl": "弹出内容"
+                }
+            }
+        }
+    ]
+}
+```
