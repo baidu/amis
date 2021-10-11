@@ -785,6 +785,47 @@ props.onAction(event, {
 
 除了 ctrl 和 command 还支持 shift、alt。
 
+## switch 样式
+
+> 1.3.5 及以上版本
+
+主要用在 crud 中作为一种操作，支持前面的所有动作，但缺少尺寸、图标等设置，并且能通过 name 来关联数据。
+
+> 需要注意由于下面的例子不会实际存储，每次点击后都会请求一次数据，因此每次点击后的效果都是随机的
+
+```schema: scope="body"
+{
+    "type": "crud",
+    "api": "/api/sample",
+    "syncLocation": false,
+    "columns": [
+        {
+            "name": "id",
+            "label": "ID"
+        },
+        {
+            "name": "engine",
+            "label": "Rendering engine"
+        },
+        {
+            "name": "browser",
+            "label": "Browser"
+        },
+        {
+            "name": "status",
+            "label": "Status",
+            "type": "action",
+            "level": "switch",
+            "actionType": "ajax",
+            "onText": "启用",
+            "offText": "关闭",
+            "disabledOn": "data.browser === 'Internet Explorer 5.0'",
+            "api": "/api/mock2/form/saveForm"
+        }
+    ]
+}
+```
+
 ## 通用属性表
 
 所有`actionType`都支持的通用配置项
@@ -794,7 +835,7 @@ props.onAction(event, {
 | type               | `string`                             | `action`    | 指定为 Page 渲染器。                                                                                                                                                        |
 | actionType         | `string`                             | -           | 【必填】这是 action 最核心的配置，来指定该 action 的作用类型，支持：`ajax`、`link`、`url`、`drawer`、`dialog`、`confirm`、`cancel`、`prev`、`next`、`copy`、`close`。       |
 | label              | `string`                             | -           | 按钮文本。可用 `${xxx}` 取值。                                                                                                                                              |
-| level              | `string`                             | `default`   | 按钮样式，支持：`link`、`primary`、`secondary`、`info`、`success`、`warning`、`danger`、`light`、`dark`、`default`。                                                        |
+| level              | `string`                             | `default`   | 按钮样式，支持：`link`、`primary`、`secondary`、`info`、`success`、`warning`、`danger`、`light`、`dark`、`default`、`switch`。                                              |
 | size               | `string`                             | -           | 按钮大小，支持：`xs`、`sm`、`md`、`lg`。                                                                                                                                    |
 | icon               | `string`                             | -           | 设置图标，例如`fa fa-plus`。                                                                                                                                                |
 | iconClassName      | `string`                             | -           | 给图标上添加类名。                                                                                                                                                          |

@@ -52,7 +52,8 @@ export interface ButtonSchema extends BaseSchema {
     | 'link'
     | 'primary'
     | 'dark'
-    | 'light';
+    | 'light'
+    | 'switch';
 
   /**
    * @deprecated 通过 level 来配置
@@ -131,6 +132,36 @@ export interface ButtonSchema extends BaseSchema {
    * 键盘快捷键
    */
   hotKey?: string;
+
+  /**
+   * 勾选值
+   */
+  trueValue?: any;
+
+  /**
+   * 未勾选值
+   */
+  falseValue?: any;
+
+  /**
+   * 选项说明
+   */
+  option?: string;
+
+  /**
+   * switch 开启时显示的文本
+   */
+  onText?: string;
+
+  /**
+   * switch 关闭时显示的文本
+   */
+  offText?: string;
+
+  /**
+   * 禁用表达式
+   */
+  disabledOn?: boolean;
 }
 
 export interface AjaxActionSchema extends ButtonSchema {
@@ -352,7 +383,7 @@ const ActionProps = [
 ];
 import {filterContents} from './Remark';
 import {ClassNamesFn, themeable, ThemeProps} from '../theme';
-import {autobind} from '../utils/helper';
+import {autobind, getPropValue} from '../utils/helper';
 import {
   BaseSchema,
   FeedbackDialog,
@@ -369,6 +400,7 @@ import {DrawerSchema, DrawerSchemaBase} from './Drawer';
 import {generateIcon} from '../utils/icon';
 import {BadgeSchema, withBadge} from '../components/Badge';
 import {str2AsyncFunction} from '../utils/api';
+import {Switch} from '..';
 
 // 构造一个假的 React 事件避免可能的报错，主要用于快捷键功能
 // 来自 https://stackoverflow.com/questions/27062455/reactjs-can-i-create-my-own-syntheticevent
@@ -467,9 +499,10 @@ export interface ActionProps
 const allowedType = ['button', 'submit', 'reset'];
 
 interface ActionState {
-  inCountDown: boolean; // 是否在倒计时
-  countDownEnd: number; // 倒计时结束的精确时间
-  timeLeft: number; // 倒计时剩余时间
+  inCountDown?: boolean; // 是否在倒计时
+  countDownEnd?: number; // 倒计时结束的精确时间
+  timeLeft?: number; // 倒计时剩余时间
+  switchValue?: boolean; //
 }
 
 export class Action extends React.Component<ActionProps, ActionState> {
@@ -479,13 +512,16 @@ export class Action extends React.Component<ActionProps, ActionState> {
     tooltipPlacement: 'bottom' as 'bottom',
     activeClassName: 'is-active',
     countDownTpl: 'Action.countDown',
-    countDown: 0
+    countDown: 0,
+    trueValue: true,
+    falseValue: false
   };
 
   state: ActionState = {
     inCountDown: false,
     countDownEnd: 0,
-    timeLeft: 0
+    timeLeft: 0,
+    switchValue: false
   };
 
   localStorageKey: string;
@@ -507,6 +543,11 @@ export class Action extends React.Component<ActionProps, ActionState> {
         };
         this.handleCountDown();
       }
+    }
+    if (this.props.level === 'switch') {
+      this.state = {
+        switchValue: getPropValue(this.props)
+      };
     }
   }
 
@@ -555,7 +596,7 @@ export class Action extends React.Component<ActionProps, ActionState> {
   @autobind
   handleCountDown() {
     // setTimeout 一般会晚于 1s，经过几十次后就不准了，所以使用真实时间进行 diff
-    const timeLeft = Math.floor((this.state.countDownEnd - Date.now()) / 1000);
+    const timeLeft = Math.floor((this.state.countDownEnd! - Date.now()) / 1000);
     if (timeLeft <= 0) {
       this.setState({
         inCountDown: false,
@@ -594,6 +635,29 @@ export class Action extends React.Component<ActionProps, ActionState> {
     }
   }
 
+  componentDidUpdate(prevProps: ActionProps) {
+    if (this.props.name) {
+      const value = getPropValue(this.props);
+      if (value !== this.state.switchValue) {
+        this.setState({
+          switchValue: value
+        });
+      }
+    }
+  }
+
+  @autobind
+  switchChange(checked: boolean) {
+    const click = new MouseEvent('click', {
+      bubbles: true,
+      cancelable: true
+    });
+    this.handleAction(createSyntheticEvent(click) as any);
+    this.setState({
+      switchValue: checked
+    });
+  }
+
   render() {
     const {
       type,
@@ -621,11 +685,43 @@ export class Action extends React.Component<ActionProps, ActionState> {
       active,
       activeLevel,
       tooltipContainer,
-      classnames: cx
+      classnames: cx,
+      classPrefix: ns,
+      trueValue,
+      falseValue,
+      onText,
+      offText,
+      option,
+      optionAtLeft
     } = this.props;
 
-    let label = this.props.label;
     let disabled = this.props.disabled;
+
+    if (level === 'switch') {
+      return (
+        <div className={cx(`SwitchControl`, className)}>
+          {optionAtLeft ? (
+            <span className={cx('Switch-option')}>{option}</span>
+          ) : null}
+          <Switch
+            classPrefix={ns}
+            value={this.state.switchValue}
+            trueValue={trueValue}
+            falseValue={falseValue}
+            onText={onText}
+            offText={offText}
+            disabled={disabled}
+            onChange={this.switchChange}
+          />
+          {optionAtLeft ? null : (
+            <span className={cx('Switch-option')}>{option}</span>
+          )}
+        </div>
+      );
+    }
+
+    let label = this.props.label;
+
     let isActive = !!active;
 
     if (actionType === 'link' && !isActive && link && isCurrentUrl) {

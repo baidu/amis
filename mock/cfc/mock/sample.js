@@ -39,6 +39,7 @@ function index(req, res) {
   items = items.map(item => {
     return {
       ...item,
+      status: Math.random() < 0.5,
       engine: item.engine + ' - ' + Math.random().toString(36).substring(7)
     };
   });
