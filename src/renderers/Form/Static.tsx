@@ -5,7 +5,7 @@ import PopOver, {SchemaPopOver} from '../PopOver';
 import QuickEdit, {SchemaQuickEdit} from '../QuickEdit';
 import {Renderer} from '../../factory';
 import Copyable, {SchemaCopyable} from '../Copyable';
-import {extendObject} from '../../utils/helper';
+import {extendObject, ucFirst} from '../../utils/helper';
 import omit = require('lodash/omit');
 import {SchemaObject, SchemaTpl, SchemaType} from '../../Schema';
 
@@ -40,6 +40,11 @@ export interface StaticExactControlSchema extends FormBaseControl {
    * 配置点击复制功能
    */
   copyable?: SchemaCopyable;
+
+  /**
+   * 边框模式，默认是无边框的
+   */
+  borderMode?: 'full' | 'half' | 'none';
 }
 
 export interface StaticProps extends FormControlProps {
@@ -91,6 +96,7 @@ export default class StaticControl extends React.Component<StaticProps, any> {
       disabled,
       $schema,
       defaultValue,
+      borderMode,
       ...rest
     } = this.props;
 
@@ -106,7 +112,11 @@ export default class StaticControl extends React.Component<StaticProps, any> {
     };
 
     return (
-      <div className={cx('Form-static')}>
+      <div
+        className={cx('Form-static', {
+          [`Form-static--border${ucFirst(borderMode)}`]: borderMode
+        })}
+      >
         <StaticFieldRenderer
           {...{
             ...(rest as any),

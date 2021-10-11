@@ -33,6 +33,19 @@
     display: inline-block;
     vertical-align: top;
   }
+
+  &--borderFull {
+    border: var(--Form-input-borderWidth) solid var(--Form-input-borderColor);
+    border-radius: var(--Form-input-borderRadius);
+    padding: var(--Form-input-paddingY) var(--Form-input-paddingX);
+  }
+
+  &--borderHalf {
+    border-bottom: var(--Form-input-borderWidth) solid
+      var(--Form-input-borderColor);
+    border-radius: var(--Form-input-borderRadius);
+    padding: var(--Form-input-paddingY) var(--Form-input-paddingX);
+  }
 }
 
 .#{$ns}Form-label {
