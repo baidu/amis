@@ -447,7 +447,7 @@ export default class ImageControl extends React.Component<
         files = (
           Array.isArray(value)
             ? value
-            : joinValues && typeof value === 'string'
+            : joinValues && typeof value === 'string' && multiple
             ? (value as string).split(delimiter)
             : [value]
         )
