@@ -352,11 +352,7 @@ export const FormItemStore = StoreNode.named('FormItemStore')
 
         self.validated = true;
 
-        if (
-          self.unique &&
-          self.form.parentStore &&
-          self.form.parentStore.storeType === 'ComboStore'
-        ) {
+        if (self.unique && self.form?.parentStore?.storeType === 'ComboStore') {
           const combo = self.form.parentStore as IComboStore;
           const group = combo.uniques.get(self.name) as IUniqueGroup;
 
@@ -368,7 +364,7 @@ export const FormItemStore = StoreNode.named('FormItemStore')
                 item.value === self.tmpValue
             )
           ) {
-            addError(self.__('`当前值不唯一`'));
+            addError(self.__('Form.unique'));
           }
         }
 

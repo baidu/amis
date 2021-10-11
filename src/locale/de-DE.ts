@@ -248,5 +248,6 @@ register('de-DE', {
   'Condition.placeholder': 'Text einfügen',
   'Condition.cond_placeholder': 'Bedingung auswählen',
   'Condition.field_placeholder': 'Feld auswählen',
-  'Condition.blank': 'leer'
+  'Condition.blank': 'leer',
+  'InputTable.uniqueError': 'Column `{{label}}` unique validate failed'
 });
