@@ -1,7 +1,12 @@
 import React from 'react';
 import {FormItem, FormControlProps, FormBaseControl} from './Item';
 import Button from '../../components/Button';
-import {createObject, getTree, spliceTree} from '../../utils/helper';
+import {
+  createObject,
+  getTree,
+  setVariable,
+  spliceTree
+} from '../../utils/helper';
 import {RendererData, Action, Api, Payload, ApiObject} from '../../types';
 import {isEffectiveApi} from '../../utils/api';
 import {filter} from '../../utils/tpl';
@@ -390,11 +395,26 @@ export default class FormTable extends React.Component<TableProps, TableState> {
   }
 
   addItem(index: number) {
-    const {needConfirm, payload} = this.props;
+    const {needConfirm, scaffold, columns} = this.props;
     const items = this.state.items.concat();
-    const value = {
-      ...payload,
+    let value: any = {
       __isPlaceholder: true
+    };
+
+    if (Array.isArray(columns)) {
+      columns.forEach(column => {
+        if (
+          typeof column.value !== 'undefined' &&
+          typeof column.name === 'string'
+        ) {
+          setVariable(value, column.name, column.value);
+        }
+      });
+    }
+
+    value = {
+      ...value,
+      ...scaffold
     };
 
     if (needConfirm === false) {

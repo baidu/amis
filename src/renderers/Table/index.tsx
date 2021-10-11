@@ -129,6 +129,11 @@ export type TableColumnObject = {
    * 提示信息
    */
   remark?: SchemaRemark;
+
+  /**
+   * 默认值
+   */
+  value?: any;
 };
 
 export type TableColumnWithType = SchemaObject & TableColumnObject;
