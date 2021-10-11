@@ -131,9 +131,14 @@ export type TableColumnObject = {
   remark?: SchemaRemark;
 
   /**
-   * 默认值
+   * 默认值, 只有在 inputTable 里面才有用
    */
   value?: any;
+
+  /**
+   * 是否唯一, 只有在 inputTable 里面才有用
+   */
+  unique?: boolean;
 };
 
 export type TableColumnWithType = SchemaObject & TableColumnObject;

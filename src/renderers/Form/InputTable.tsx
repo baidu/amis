@@ -4,6 +4,7 @@ import Button from '../../components/Button';
 import {
   createObject,
   getTree,
+  getVariable,
   setVariable,
   spliceTree
 } from '../../utils/helper';
@@ -253,8 +254,8 @@ export default class FormTable extends React.Component<TableProps, TableState> {
     this.subForms[`${x}-${y}`] = form;
   }
 
-  validate(): any {
-    const {value, minLength, maxLength, translate: __} = this.props;
+  async validate(): Promise<string | void> {
+    const {value, minLength, maxLength, translate: __, columns} = this.props;
 
     // todo: 如果当前正在编辑中，表单提交了，应该先让正在编辑的东西提交然后再做验证。
     if (~this.state.editIndex) {
@@ -271,15 +272,43 @@ export default class FormTable extends React.Component<TableProps, TableState> {
         key => this.subForms[key] && subForms.push(this.subForms[key])
       );
       if (subForms.length) {
-        return Promise.all(subForms.map(item => item.validate())).then(
-          values => {
-            if (~values.indexOf(false)) {
-              return __('Form.validateFailed');
+        const results = await Promise.all(
+          subForms.map(item => item.validate())
+        );
+
+        let msg = ~results.indexOf(false) ? __('Form.validateFailed') : '';
+        let uniqueColumn = '';
+
+        if (
+          !msg &&
+          Array.isArray(columns) &&
+          Array.isArray(value) &&
+          columns.some(item => {
+            if (item.unique && item.name) {
+              let exists: Array<any> = [];
+
+              return value.some((obj: any) => {
+                const value = getVariable(obj, item.name);
+
+                if (~exists.indexOf(value)) {
+                  uniqueColumn = `${item.label || item.name}`;
+                  return true;
+                }
+
+                exists.push(value);
+                return false;
+              });
             }
 
-            return;
-          }
-        );
+            return false;
+          })
+        ) {
+          msg = __('InputTable.uniqueError', {
+            label: uniqueColumn
+          });
+        }
+
+        return msg;
       }
     }
   }

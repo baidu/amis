@@ -249,5 +249,6 @@ register('en-US', {
   'Condition.placeholder': 'Please enter text',
   'Condition.cond_placeholder': 'select condition',
   'Condition.field_placeholder': 'select field',
-  'Condition.blank': 'blank'
+  'Condition.blank': 'blank',
+  'InputTable.uniqueError': 'Column `{{label}}` unique validate failed'
 });
