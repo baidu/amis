@@ -44,12 +44,52 @@ order: 31
 }
 ```
 
+## 打开链接
+
+通过 `href` 属性可以设置点击卡片打开外部链接
+
+```schema: scope="body"
+{
+    "type": "card",
+    "href": "https://github.com/baidu/amis",
+    "header": {
+        "title": "标题",
+        "subTitle": "副标题",
+        "description": "这是一段描述",
+        "avatarClassName": "pull-left thumb-md avatar b-3x m-r",
+        "avatar": "raw:http://hiphotos.baidu.com/fex/%70%69%63/item/bd3eb13533fa828b13b24500f31f4134960a5a44.jpg"
+    },
+    "body": "这里是内容",
+    "actions": [
+        {
+            "type": "button",
+            "label": "编辑",
+            "actionType": "dialog",
+            "dialog": {
+              "title": "编辑",
+              "body": "你正在编辑该卡片"
+            }
+        },
+        {
+          "type": "button",
+          "label": "删除",
+          "actionType": "dialog",
+          "dialog": {
+            "title": "提示",
+            "body": "你删掉了该卡片"
+          }
+        }
+    ]
+}
+```
+
 ## 属性表
 
 | 属性名                 | 类型                                 | 默认值                              | 说明                                   |
 | ---------------------- | ------------------------------------ | ----------------------------------- | -------------------------------------- |
 | type                   | `string`                             | `"card"`                            | 指定为 Card 渲染器                     |
 | className              | `string`                             | `"panel-default"`                   | 外层 Dom 的类名                        |
+| href                   | [模板](../../docs/concepts/template) |                                     | 外部链接                               |
 | header                 | `Object`                             |                                     | Card 头部内容设置                      |
 | header.className       | `string`                             |                                     | 头部类名                               |
 | header.title           | [模板](../../docs/concepts/template) |                                     | 标题                                   |

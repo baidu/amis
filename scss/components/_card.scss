@@ -8,6 +8,10 @@
   flex-direction: column;
   width: 100%;
 
+  &--link {
+    cursor: pointer;
+  }
+
   &-title {
     color: var(--text--loud-color);
     font-size: var(--fontSizeMd);
