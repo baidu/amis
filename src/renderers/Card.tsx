@@ -139,6 +139,16 @@ export interface CardSchema extends BaseSchema {
      */
     highlight?: SchemaExpression;
     highlightClassName?: SchemaClassName;
+
+    /**
+     * 链接地址
+     */
+    href?: SchemaTpl;
+
+    /**
+     * 是否新窗口打开
+     */
+    blank?: boolean;
   };
 
   /**
@@ -172,7 +182,8 @@ export class Card extends React.Component<CardProps> {
     titleClassName: '',
     highlightClassName: '',
     subTitleClassName: '',
-    descClassName: ''
+    descClassName: '',
+    blank: true
   };
 
   static propsList: Array<string> = [
@@ -210,8 +221,16 @@ export class Card extends React.Component<CardProps> {
     ) {
       return;
     }
+    const {item, href, data, env, blank} = this.props;
+    if (href) {
+      env.jumpTo(filter(href, data), {
+        type: 'button',
+        actionType: 'url',
+        blank
+      });
+      return;
+    }
 
-    const item = this.props.item;
     this.props.onCheck && this.props.onCheck(item);
   }
 
@@ -427,7 +446,8 @@ export class Card extends React.Component<CardProps> {
       classnames: cx,
       classPrefix: ns,
       imageClassName,
-      avatarTextClassName
+      avatarTextClassName,
+      href
     } = this.props;
 
     let heading = null;
@@ -537,8 +557,12 @@ export class Card extends React.Component<CardProps> {
 
     return (
       <div
-        onClick={checkOnItemClick && checkable ? this.handleClick : undefined}
-        className={cx('Card', className)}
+        onClick={
+          (checkOnItemClick && checkable) || href ? this.handleClick : undefined
+        }
+        className={cx('Card', className, {
+          'Card--link': href
+        })}
       >
         {this.renderToolbar()}
         {heading}
