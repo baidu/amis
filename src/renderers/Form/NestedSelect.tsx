@@ -602,7 +602,7 @@ export default class NestedSelectControl extends React.Component<
     return (
       <Overlay
         target={this.getTarget}
-        container={popOverContainer || findDOMNode(this)?.parentElement}
+        container={popOverContainer || (() => findDOMNode(this))}
         placement={'auto'}
         show
       >
