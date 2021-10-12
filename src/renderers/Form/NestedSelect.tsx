@@ -93,6 +93,7 @@ export default class NestedSelectControl extends React.Component<
   };
   target: any;
   input: HTMLInputElement;
+  parentElement: Element;
   state: NestedSelectState = {
     isOpened: false,
     isFocused: false,
@@ -103,6 +104,10 @@ export default class NestedSelectControl extends React.Component<
   @autobind
   domRef(ref: any) {
     this.target = ref;
+  }
+
+  componentDidMount() {
+    this.parentElement = findDOMNode(this)?.parentElement?.parentElement!;
   }
 
   componentDidUpdate(prevProps: NestedSelectProps) {
@@ -602,7 +607,7 @@ export default class NestedSelectControl extends React.Component<
     return (
       <Overlay
         target={this.getTarget}
-        container={popOverContainer || findDOMNode(this)?.parentElement}
+        container={popOverContainer || this.parentElement}
         placement={'auto'}
         show
       >
