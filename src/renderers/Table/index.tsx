@@ -1316,12 +1316,16 @@ export default class Table extends React.Component<TableProps, object> {
       classnames: cx,
       saveImmediately,
       headingClassName,
+      quickSaveApi,
       translate: __
     } = this.props;
 
     if (
       title ||
-      (!saveImmediately && store.modified && !hideQuickSaveBtn) ||
+      (quickSaveApi &&
+        !saveImmediately &&
+        store.modified &&
+        !hideQuickSaveBtn) ||
       store.moved
     ) {
       return (

@@ -846,6 +846,16 @@ amis 只负责生成下拉选择器组件，并将搜索参数传递给接口，
                     "X"
                 ]
             }
+        },
+        {
+            "name": "switch",
+            "label": "switch",
+            "quickEdit": {
+                "mode": "inline",
+                "type": "switch",
+                "onText": "开启",
+                "offText": "关闭"
+            }
         }
     ]
 }
@@ -853,7 +863,7 @@ amis 只负责生成下拉选择器组件，并将搜索参数传递给接口，
 
 #### 即时保存
 
-如果想编辑完表单项之后，不想点击顶部确认按钮来进行保存，而是即时保存当前标记的数据，则需要配置`quickEdit`中`"saveImmediately": true`，然后配置接口`quickSaveItemApi`。可以直接将编辑表单项渲染至表格内，可以直接操作编辑。
+如果想编辑完表单项之后，不想点击顶部确认按钮来进行保存，而是即时保存当前标记的数据，则需要配置 `quickEdit` 中的 `"saveImmediately": true`，然后配置接口`quickSaveItemApi`，可以直接将编辑表单项渲染至表格内操作。
 
 ```schema: scope="body"
 {
@@ -880,6 +890,17 @@ amis 只负责生成下拉选择器组件，并将搜索参数传递给接口，
                     "D",
                     "X"
                 ],
+                "saveImmediately": true
+            }
+        },
+        {
+            "name": "switch",
+            "label": "switch",
+            "quickEdit": {
+                "mode": "inline",
+                "type": "switch",
+                "onText": "开启",
+                "offText": "关闭",
                 "saveImmediately": true
             }
         }
@@ -916,6 +937,17 @@ amis 只负责生成下拉选择器组件，并将搜索参数传递给接口，
                 "saveImmediately": {
                     "api": "/api/sample/$id"
                 }
+            }
+        },
+        {
+            "name": "grade",
+            "label": "CSS grade",
+            "quickEdit": {
+                "mode": "inline",
+                "type": "switch",
+                "onText": "开启",
+                "offText": "关闭",
+                "saveImmediately": true
             }
         }
     ]
@@ -2077,9 +2109,8 @@ CRUD 中不限制有多少个单条操作、添加一个操作对应的添加一
 | alwaysShowPagination                  | `boolean`                   | `false`                         | 是否总是显示分页                                                                                                      |
 | affixHeader                           | `boolean`                   | `true`                          | 是否固定表头(table 下)                                                                                                |
 
-
 注意除了上面这些属性，CRUD 在不同模式下的属性需要参考各自的文档，比如
 
-* 默认 [Table](./table) 模式里的列配置。
-* [Cards](./cards) 模式。
-* [List](./list) 模式。
+- 默认 [Table](./table) 模式里的列配置。
+- [Cards](./cards) 模式。
+- [List](./list) 模式。
