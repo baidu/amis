@@ -16,6 +16,9 @@ const versionHash = fis.util.md5(package.version);
 Resource.extend({
   buildResourceMap: function () {
     const resourceMap = this.__super();
+    if (resourceMap === '') {
+      return '';
+    }
 
     const map = JSON.parse(resourceMap.substring(20, resourceMap.length - 2));
 
