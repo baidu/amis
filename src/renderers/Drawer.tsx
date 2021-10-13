@@ -394,7 +394,8 @@ export default class Drawer extends React.Component<DrawerProps> {
       popOverContainer: this.getPopOverContainer,
       onChange: this.handleFormChange,
       onInit: this.handleFormInit,
-      onSaved: this.handleFormSaved
+      onSaved: this.handleFormSaved,
+      syncLocation: false
     };
 
     if (schema.type === 'form') {
