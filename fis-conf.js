@@ -131,6 +131,7 @@ fis.match('monaco-editor/min/**.js', {
 
 fis.match('/docs/**.md', {
   rExt: 'js',
+  ignoreDependencies: true,
   parser: [
     parserMarkdown,
     function (contents, file) {
