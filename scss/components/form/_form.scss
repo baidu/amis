@@ -166,10 +166,6 @@
     &.#{$ns}NumberControl {
       width: var(--Form-control-widthXs);
     }
-
-    &.#{$ns}TextareaControl {
-      width: auto;
-    }
   }
 
   .#{$ns}Form-control--sizeSm {
@@ -182,10 +178,6 @@
     &.#{$ns}NumberControl {
       width: var(--Form-control-widthSm);
     }
-
-    &.#{$ns}TextareaControl {
-      width: auto;
-    }
   }
 
   .#{$ns}Form-control--sizeMd {
@@ -193,10 +185,6 @@
     max-width: 100%;
     display: inline-block;
     vertical-align: top;
-
-    &.#{$ns}TextareaControl {
-      width: auto;
-    }
   }
 
   .#{$ns}Form-control--sizeLg {
@@ -208,10 +196,6 @@
     // 非常难受，number 类型的 input 不能设置size
     &.#{$ns}NumberControl {
       width: var(--Form-control-widthLg);
-    }
-
-    &.#{$ns}TextareaControl {
-      width: auto;
     }
   }
 
