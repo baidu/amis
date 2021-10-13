@@ -41,7 +41,7 @@ export interface RendererEnv {
     schema: Schema,
     props: any
   ) => null | RendererConfig;
-  copy?: (contents: string) => void;
+  copy?: (contents: string, format?: any) => void;
   getModalContainer?: () => HTMLElement;
   theme: ThemeInstance;
   affixOffsetTop: number;

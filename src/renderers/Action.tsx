@@ -347,6 +347,7 @@ const ActionProps = [
   'mergeData',
   'index',
   'copy',
+  'copyFormat',
   'payload',
   'requireSelected'
 ];

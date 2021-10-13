@@ -176,7 +176,7 @@ export function embed(
   const amisEnv = {
     getModalContainer: () =>
       env?.getModalContainer?.() || document.querySelector('.amis-scope'),
-    notify: (type: string, msg: string) =>
+    notify: (type: 'success' | 'error' | 'warning' | 'info', msg: string) =>
       toast[type] ? toast[type](msg) : console.warn('[Notify]', type, msg),
     alert,
     confirm,
@@ -283,7 +283,7 @@ export function embed(
       }
 
       // 支持返回各种报错信息
-      config.validateStatus = function (status) {
+      config.validateStatus = function () {
         return true;
       };
 
@@ -320,8 +320,8 @@ export function embed(
     },
     isCancel: (value: any) => (axios as any).isCancel(value),
     copy: (contents: string, options: any = {}) => {
-      const ret = copy(contents, options);
-      ret && options.shutup !== true && toast.info(__('System.copy'));
+      const ret = copy(contents);
+      ret && options.silent !== true && toast.info(__('System.copy'));
       return ret;
     },
     richTextToken: '',

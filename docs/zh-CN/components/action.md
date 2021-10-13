@@ -555,6 +555,18 @@ icon 也可以是 url 地址，比如
 }
 ```
 
+可以通过 `copyFormat` 设置复制的格式，默认是文本
+
+```schema: scope="body"
+{
+    "label": "复制一段富文本",
+    "type": "button",
+    "actionType": "copy",
+    "copyFormat": "text/html",
+    "content": "<a href='http://www.baidu.com'>link</a> <b>bold</b>"
+}
+```
+
 **属性表**
 
 | 属性名     | 类型                                 | 默认值 | 说明                                 |

@@ -190,8 +190,8 @@ export default class PlayGround extends React.Component {
         toast[type] ? toast[type](msg) : console.warn('[Notify]', type, msg),
       alert,
       confirm,
-      copy: content => {
-        copy(content);
+      copy: (content, options) => {
+        copy(content, options);
         toast.success(__('System.copy'));
       }
     };

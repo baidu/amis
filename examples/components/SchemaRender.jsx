@@ -116,8 +116,8 @@ export default function (schema, showCode, envOverrides) {
             return axios[method](url, data, config);
           },
           isCancel: value => axios.isCancel(value),
-          copy: content => {
-            copy(content);
+          copy: (content, options) => {
+            copy(content, options);
             toast.success('内容已复制到粘贴板');
           },
           blockRouting: fn => {
