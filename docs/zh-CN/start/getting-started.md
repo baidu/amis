@@ -664,10 +664,10 @@ class MyComponent extends React.Component<any, any> {
 ##### copy
 
 ```ts
-(contents: string, options?: {shutup: boolean})
+(contents: string, options?: {silent: boolean, format?: string})
 ```
 
-用来实现内容复制。
+用来实现内容复制，其中 `format` 可以为 text/html，或 text/plain
 
 ##### session
 

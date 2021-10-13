@@ -99,7 +99,7 @@ export interface RenderOptions {
     schema: Schema,
     props: any
   ) => null | RendererConfig;
-  copy?: (contents: string) => void;
+  copy?: (contents: string, options?: any) => void;
   getModalContainer?: () => HTMLElement;
   loadRenderer?: (
     schema: Schema,
