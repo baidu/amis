@@ -301,7 +301,7 @@ order: 67
 
 ### 列宽
 
-可以给列配置`width`属性，控制列宽，共有两种方式：
+可以给列配置 `width` 属性，控制列宽，共有两种方式：
 
 #### 固定像素
 
@@ -343,6 +343,97 @@ order: 67
             "label": "Rendering engine",
             "width": "50%"
         }
+    ]
+}
+```
+
+### 列对齐方式
+
+> 1.3.5 及以上版本
+
+通过 align 可以控制列文本对齐方式，比如
+
+```schema: scope="body"
+{
+    "type": "service",
+    "api": "/api/sample?perPage=5",
+    "body": [
+      {
+        "type": "table",
+        "title": "表格1",
+        "source": "$rows",
+        "columns": [
+          {
+            "name": "engine",
+            "label": "Engine"
+          },
+          {
+            "label": "Version",
+            "type": "tpl",
+            "tpl": "${version | number}",
+            "align": "right"
+          }
+        ]
+      }
+    ]
+}
+```
+
+### 列样式
+
+> 1.3.5 及以上版本
+
+除了前面的宽度和对齐方式，还有更灵活的控制方法是通过样式表
+
+```schema: scope="body"
+{
+    "type": "service",
+    "api": "/api/sample?perPage=5",
+    "body": [
+      {
+        "type": "table",
+        "title": "表格1",
+        "source": "$rows",
+        "columns": [
+          {
+            "name": "engine",
+            "label": "Engine"
+          },
+          {
+            "name": "version",
+            "label": "Version",
+            "className": "text-primary"
+          }
+        ]
+      }
+    ]
+}
+```
+
+如果要单独设置标题的样式，可以使用 `labelClassName` 属性
+
+```schema: scope="body"
+{
+    "type": "service",
+    "api": "/api/sample?perPage=5",
+    "body": [
+      {
+        "type": "table",
+        "title": "表格1",
+        "source": "$rows",
+        "columns": [
+          {
+            "name": "engine",
+            "label": "Engine"
+          },
+          {
+            "name": "version",
+            "label": "Version",
+            "className": "text-primary",
+            "labelClassName": "font-bold"
+          }
+        ]
+      }
     ]
 }
 ```
@@ -1412,26 +1503,41 @@ order: 67
 
 ## 属性表
 
-| 属性名           | 类型                                          | 默认值                    | 说明                                                                      |
-| ---------------- | --------------------------------------------- | ------------------------- | ------------------------------------------------------------------------- |
-| type             | `string`                                      |                           | `"type"` 指定为 table 渲染器                                              |
-| title            | `string`                                      |                           | 标题                                                                      |
-| source           | `string`                                      | `${items}`                | 数据源, 绑定当前环境变量                                                  |
-| affixHeader      | `boolean`                                     | `true`                    | 是否固定表头                                                              |
-| columnsTogglable | `auto` 或者 `boolean`                         | `auto`                    | 展示列显示开关, 自动即：列数量大于或等于 5 个时自动开启                   |
-| placeholder      | string                                        | `暂无数据`                | 当没数据的时候的文字提示                                                  |
-| className        | `string`                                      | `panel-default`           | 外层 CSS 类名                                                             |
-| tableClassName   | `string`                                      | `table-db table-striped`  | 表格 CSS 类名                                                             |
-| headerClassName  | `string`                                      | `Action.md-table-header`  | 顶部外层 CSS 类名                                                         |
-| footerClassName  | `string`                                      | `Action.md-table-footer`  | 底部外层 CSS 类名                                                         |
-| toolbarClassName | `string`                                      | `Action.md-table-toolbar` | 工具栏 CSS 类名                                                           |
-| columns          | Array<[Column](#%E5%88%97%E9%85%8D%E7%BD%AE)> |                           | 用来设置列信息                                                            |
-| combineNum       | `number`                                      |                           | 自动合并单元格                                                            |
-| itemActions      | Array<[Action](./action-button)>              |                           | 悬浮行操作按钮组                                                          |
-| itemCheckableOn  | [表达式](../../docs/concepts/expression)      |                           | 配置当前行是否可勾选的条件，要用 [表达式](../../docs/concepts/expression) |
-| itemDraggableOn  | [表达式](../../docs/concepts/expression)      |                           | 配置当前行是否可拖拽的条件，要用 [表达式](../../docs/concepts/expression) |
-| checkOnItemClick | `boolean`                                     | `false`                   | 点击数据行是否可以勾选当前行                                              |
-| rowClassName     | `string`                                      |                           | 给行添加 CSS 类名                                                         |
-| rowClassNameExpr | [模板](../../docs/concepts/template)          |                           | 通过模板给行添加 CSS 类名                                                 |
-| prefixRow        | `Array`                                       |                           | 顶部总结行                                                                |
-| affixRow         | `Array`                                       |                           | 底部总结行                                                                |
+| 属性名           | 类型                                     | 默认值                    | 说明                                                                      |
+| ---------------- | ---------------------------------------- | ------------------------- | ------------------------------------------------------------------------- |
+| type             | `string`                                 |                           | `"type"` 指定为 table 渲染器                                              |
+| title            | `string`                                 |                           | 标题                                                                      |
+| source           | `string`                                 | `${items}`                | 数据源, 绑定当前环境变量                                                  |
+| affixHeader      | `boolean`                                | `true`                    | 是否固定表头                                                              |
+| columnsTogglable | `auto` 或者 `boolean`                    | `auto`                    | 展示列显示开关, 自动即：列数量大于或等于 5 个时自动开启                   |
+| placeholder      | string                                   | `暂无数据`                | 当没数据的时候的文字提示                                                  |
+| className        | `string`                                 | `panel-default`           | 外层 CSS 类名                                                             |
+| tableClassName   | `string`                                 | `table-db table-striped`  | 表格 CSS 类名                                                             |
+| headerClassName  | `string`                                 | `Action.md-table-header`  | 顶部外层 CSS 类名                                                         |
+| footerClassName  | `string`                                 | `Action.md-table-footer`  | 底部外层 CSS 类名                                                         |
+| toolbarClassName | `string`                                 | `Action.md-table-toolbar` | 工具栏 CSS 类名                                                           |
+| columns          | `Array<Column>`                          |                           | 用来设置列信息                                                            |
+| combineNum       | `number`                                 |                           | 自动合并单元格                                                            |
+| itemActions      | Array<[Action](./action-button)>         |                           | 悬浮行操作按钮组                                                          |
+| itemCheckableOn  | [表达式](../../docs/concepts/expression) |                           | 配置当前行是否可勾选的条件，要用 [表达式](../../docs/concepts/expression) |
+| itemDraggableOn  | [表达式](../../docs/concepts/expression) |                           | 配置当前行是否可拖拽的条件，要用 [表达式](../../docs/concepts/expression) |
+| checkOnItemClick | `boolean`                                | `false`                   | 点击数据行是否可以勾选当前行                                              |
+| rowClassName     | `string`                                 |                           | 给行添加 CSS 类名                                                         |
+| rowClassNameExpr | [模板](../../docs/concepts/template)     |                           | 通过模板给行添加 CSS 类名                                                 |
+| prefixRow        | `Array`                                  |                           | 顶部总结行                                                                |
+| affixRow         | `Array`                                  |                           | 底部总结行                                                                |
+
+## 列配置属性表
+
+| 属性名     | 类型                                          | 默认值  | 说明             |
+| ---------- | --------------------------------------------- | ------- | ---------------- |
+| label      | [模板](../../docs/concepts/template)          |         | 表头文本内容     |
+| name       | `string`                                      |         | 通过名称关联数据 |
+| fixed      | `left`/`right`/`none`                         |         | 是否固定当前列   |
+| popOver    |                                               |         | 弹出框           |
+| quickEdit  |                                               |         | 快速编辑         |
+| copyable   | `boolean` 或 `{icon: string, content:string}` |         | 是否可复制       |
+| sortable   | `boolean`                                     | `false` | 是否可排序       |
+| searchable | `boolean`                                     | `false` | 是否可快速搜索   |
+| width      | `number`/`string`                             | 列宽    |
+| remark     |                                               |         | 提示信息         |

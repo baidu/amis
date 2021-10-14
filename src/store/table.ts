@@ -53,7 +53,8 @@ export const Column = types
     breakpoint: types.optional(types.frozen(), undefined),
     pristine: types.optional(types.frozen(), undefined),
     remark: types.optional(types.frozen(), undefined),
-    className: ''
+    className: '',
+    headerClassName: ''
   })
   .actions(self => ({
     toggleToggle() {
