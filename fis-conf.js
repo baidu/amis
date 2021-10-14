@@ -755,31 +755,12 @@ if (fis.project.currentMedia() === 'publish') {
         return contents;
       }
 
-      return contents
-        .replace(
-          /(\\?(?:'|"))((?:get|post|delete|put)\:)?\/api\/mock2?/gi,
-          function (_, qutoa, method) {
-            return qutoa + (method || '') + `${cfcAddress}/mock2`;
-          }
-        )
-        .replace(
-          /(\\?(?:'|"))((?:get|post|delete|put)\:)?\/api\/sample/gi,
-          function (_, qutoa, method) {
-            return qutoa + (method || '') + `${cfcAddress}/sample`;
-          }
-        )
-        .replace(
-          /(\\?(?:'|"))((?:get|post|delete|put)\:)?\/api\/options/gi,
-          function (_, qutoa, method) {
-            return qutoa + (method || '') + `${cfcAddress}/options`;
-          }
-        )
-        .replace(
-          /(\\?(?:'|"))((?:get|post|delete|put)\:)?\/api\/crud/gi,
-          function (_, qutoa, method) {
-            return qutoa + (method || '') + `${cfcAddress}/crud`;
-          }
-        );
+      return contents.replace(
+        /(\\?(?:'|"))((?:get|post|delete|put)\:)?\/api\/(\w+)/gi,
+        function (_, qutoa, method, path) {
+          return qutoa + (method || '') + `${cfcAddress}/` + path;
+        }
+      );
     }
   });
 
