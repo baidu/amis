@@ -395,7 +395,8 @@ export default class Dialog extends React.Component<DialogProps> {
       affixOffsetTop: 0,
       onChange: this.handleFormChange,
       onInit: this.handleFormInit,
-      onSaved: this.handleFormSaved
+      onSaved: this.handleFormSaved,
+      syncLocation: false // 弹框中的 crud 一般不需要同步地址栏
     };
 
     if (!(body as Schema).type) {
