@@ -438,6 +438,43 @@ order: 67
 }
 ```
 
+### 单元格样式
+
+> 1.3.5 及以上版本
+
+`classNameExpr` 可以根据数据动态添加 CSS 类，支持 [模板](../../docs/concepts/template) 语法。
+
+例如下例，`"<%= data.version > 5 ? "text-danger" : "" %>"` 表示当行数据的 `version` 数据大于 5 的时候添加 `text-danger` CSS 类名，使得文字颜色变红
+
+```schema: scope="body"
+{
+    "type": "service",
+    "api": "/api/sample?perPage=5",
+    "body": [
+        {
+            "type": "table",
+            "source": "$rows",
+
+            "columns": [
+                {
+                    "name": "engine",
+                    "label": "Engine"
+                },
+                {
+                    "name": "version",
+                    "label": "Version",
+                    "classNameExpr": "<%= data.version > 5 ? 'text-danger' : '' %>",
+                },
+                {
+                    "name": "grade",
+                    "label": "Grade"
+                }
+            ]
+        }
+    ]
+}
+```
+
 ### 默认是否显示
 
 默认 `columnsTogglable` 配置为 `auto`，当列超过 5 列后，就会在工具栏多渲染出来一个列展示与否的开关。你可以设置成 `true` 或者 `false` 来强制开或者关。在列配置中可以通过配置 `toggled` 为 `false` 默认不展示这列，比如下面这个例子中 ID 这一栏。
