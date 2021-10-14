@@ -773,6 +773,12 @@ if (fis.project.currentMedia() === 'publish') {
           function (_, qutoa, method) {
             return qutoa + (method || '') + `${cfcAddress}/options`;
           }
+        )
+        .replace(
+          /(\\?(?:'|"))((?:get|post|delete|put)\:)?\/api\/crud/gi,
+          function (_, qutoa, method) {
+            return qutoa + (method || '') + `${cfcAddress}/crud`;
+          }
         );
     }
   });
