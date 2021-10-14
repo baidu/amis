@@ -120,6 +120,11 @@ export type TableColumnObject = {
   className?: string;
 
   /**
+   * 单元格样式表达式
+   */
+  classNameExpr?: string;
+
+  /**
    * 列头样式表
    */
   labelClassName?: string;
@@ -267,6 +272,11 @@ export interface TableSchema extends BaseSchema {
    * 是否可调整列宽
    */
   resizable?: boolean;
+
+  /**
+   * 行样式表表达式
+   */
+  rowClassNameExpr?: string;
 }
 
 export interface TableProps extends RendererProps {

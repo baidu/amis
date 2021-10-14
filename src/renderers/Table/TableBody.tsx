@@ -136,7 +136,11 @@ export class TableBody extends React.Component<TableBodyProps> {
     });
   }
 
-  renderSummaryRow(items?: Array<any>) {
+  renderSummaryRow(
+    position: 'prefix' | 'affix',
+    items?: Array<any>,
+    rowIndex?: number
+  ) {
     const {columns, render, data, classnames: cx, rows} = this.props;
 
     if (!(Array.isArray(items) && items.length)) {
@@ -177,7 +181,10 @@ export class TableBody extends React.Component<TableBodyProps> {
     });
 
     return (
-      <tr className={cx('Table-tr', 'is-summary')}>
+      <tr
+        className={cx('Table-tr', 'is-summary')}
+        key={`summary-${position}-${rowIndex || 0}`}
+      >
         {result.map((item, index) => {
           const Com = item.isHead ? 'th' : 'td';
           return (
@@ -196,11 +203,17 @@ export class TableBody extends React.Component<TableBodyProps> {
     );
   }
 
-  renderSummary(items?: Array<any>) {
+  renderSummary(position: 'prefix' | 'affix', items?: Array<any>) {
     return Array.isArray(items)
       ? items.some(i => Array.isArray(i))
-        ? items.map(i => this.renderSummaryRow(Array.isArray(i) ? i : [i]))
-        : this.renderSummaryRow(items)
+        ? items.map((i, rowIndex) =>
+            this.renderSummaryRow(
+              position,
+              Array.isArray(i) ? i : [i],
+              rowIndex
+            )
+          )
+        : this.renderSummaryRow(position, items)
       : null;
   }
 
@@ -221,9 +234,9 @@ export class TableBody extends React.Component<TableBodyProps> {
       <tbody className={className}>
         {rows.length ? (
           <>
-            {this.renderSummary(prefixRow)}
+            {this.renderSummary('prefix', prefixRow)}
             {this.renderRows(rows, columns, rowsProps)}
-            {this.renderSummary(affixRow)}
+            {this.renderSummary('affix', affixRow)}
           </>
         ) : null}
       </tbody>
