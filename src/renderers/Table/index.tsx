@@ -1751,11 +1751,7 @@ export default class Table extends React.Component<TableProps, object> {
           <table ref={this.affixedTableRef} className={tableClassName}>
             <colgroup>
               {store.filteredColumns.map(column => (
-                <col
-                  key={column.index}
-                  data-index={column.index}
-                  className={column.className}
-                />
+                <col key={column.index} data-index={column.index} />
               ))}
             </colgroup>
             <thead>
