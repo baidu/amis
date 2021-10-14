@@ -110,6 +110,21 @@ export type TableColumnObject = {
   width?: number | string;
 
   /**
+   * 列对齐方式
+   */
+  align?: 'left' | 'right' | 'center' | 'justify';
+
+  /**
+   * 列样式表
+   */
+  className?: string;
+
+  /**
+   * 列头样式表
+   */
+  labelClassName?: string;
+
+  /**
    * todo
    */
   filterable?:
@@ -1531,6 +1546,11 @@ export default class Table extends React.Component<TableProps, object> {
       props.style.width = column.pristine.width;
     }
 
+    if (column.pristine.align) {
+      props.style = props.style || {};
+      props.style.textAlign = column.pristine.align;
+    }
+
     const resizeLine = (
       <div
         className={cx('Table-content-colDragLine')}
@@ -1542,18 +1562,20 @@ export default class Table extends React.Component<TableProps, object> {
     return (
       <th
         {...props}
-        className={cx(
-          props ? (props as any).className : '',
-          column.pristine.className,
-          {
-            'TableCell--sortable': column.sortable,
-            'TableCell--searchable': column.searchable,
-            'TableCell--filterable': column.filterable,
-            'Table-operationCell': column.type === 'operation'
-          }
-        )}
+        className={cx(props ? (props as any).className : '', {
+          'TableCell--sortable': column.sortable,
+          'TableCell--searchable': column.searchable,
+          'TableCell--filterable': column.filterable,
+          'Table-operationCell': column.type === 'operation'
+        })}
       >
-        <div className={cx(`${ns}TableCell--title`)}>
+        <div
+          className={cx(
+            `${ns}TableCell--title`,
+            column.pristine.className,
+            column.pristine.labelClassName
+          )}
+        >
           {column.label ? render('tpl', column.label) : null}
 
           {column.remark

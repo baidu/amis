@@ -36,6 +36,7 @@ export class TableCell extends React.Component<RendererProps> {
       data,
       children,
       width,
+      align,
       innerClassName,
       label,
       tabIndex,
@@ -88,6 +89,13 @@ export class TableCell extends React.Component<RendererProps> {
         affix = null;
         // delete style.width;
       }
+    }
+
+    if (align) {
+      style = {
+        ...style,
+        textAlign: align
+      };
     }
 
     if (!Component) {
