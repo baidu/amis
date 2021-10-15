@@ -283,7 +283,9 @@
         margin-right: calc(var(--Form-item-gap) / 2);
 
         .#{$ns}Form-star {
-          position: static;
+          position: absolute;
+          left: px2rem(-6px);
+          top: px2rem(3px);
         }
       }
 
