@@ -1514,22 +1514,7 @@ export default class Form extends React.Component<FormProps, object> {
       formStore
     } = this.props;
 
-    // trace(true);
-    // console.log('Form');
-
     let body: JSX.Element = this.renderBody();
-
-    // props有formStore 说明是嵌套表单 || 不允许在表单的按钮组中再直接套表单
-    if (formStore) {
-      body = (
-        <>
-          <Alert level="warning" showCloseButton>
-            <p>{__('Form.nestedError')}</p>
-          </Alert>
-          {body}
-        </>
-      );
-    }
 
     if (wrapWithPanel) {
       body = render(
