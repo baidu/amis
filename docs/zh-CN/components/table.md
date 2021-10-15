@@ -1538,6 +1538,46 @@ order: 67
 }
 ```
 
+### 行操作按钮
+
+通过 itemActions 可以设置鼠标移动到行上出现操作按钮
+
+```schema: scope="body"
+{
+  "type": "service",
+  "api": "/api/sample?perPage=10",
+  "body": [{
+    "type": "table",
+    "source": "$rows",
+    "itemActions": [{
+      "label": "编辑",
+      "type": "button",
+      "actionType": "dialog",
+      "dialog": {
+        "title": "编辑",
+        "body": "这是个简单的编辑弹框"
+      }
+    }, {
+      "label": "删除",
+      "type": "button",
+      "actionType": "ajax",
+      "confirmText": "确认要删除？",
+      "api": "/api/mock2/form/saveForm"
+    }],
+    "columns": [{
+        "name": "browser",
+        "label": "Browser"
+      },
+
+      {
+        "name": "version",
+        "label": "Version"
+      }
+    ]
+  }]
+}
+```
+
 ## 属性表
 
 | 属性名           | 类型                                     | 默认值                    | 说明                                                                      |
