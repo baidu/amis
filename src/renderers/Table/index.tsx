@@ -2107,7 +2107,7 @@ export default class Table extends React.Component<TableProps, object> {
                 }
 
                 const type = (column as BaseSchema).type || 'plain';
-                if (type === 'image') {
+                if (type === 'image' && value) {
                   try {
                     const imageData = await toDataURL(value);
                     const imageDimensions = await getImageDimensions(imageData);
