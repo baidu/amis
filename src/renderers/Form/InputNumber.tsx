@@ -96,6 +96,7 @@ export interface NumberProps extends FormControlProps {
 interface NumberState {
   // 数字单位，将会影响输出
   unit?: string;
+  unitOptions?: Option[];
 }
 
 export default class NumberControl extends React.Component<
@@ -112,9 +113,8 @@ export default class NumberControl extends React.Component<
     this.handleChange = this.handleChange.bind(this);
     this.handleChangeUnit = this.handleChangeUnit.bind(this);
     const unit = this.getUnit();
-    if (unit) {
-      this.state = {unit};
-    }
+    const unitOptions = normalizeOptions(props.unitOptions);
+    this.state = {unit, unitOptions};
   }
 
   // 解析出单位
@@ -141,7 +141,7 @@ export default class NumberControl extends React.Component<
         return optionValues[0];
       }
     }
-    return null;
+    return undefined;
   }
 
   handleChange(inputValue: any) {
@@ -182,6 +182,9 @@ export default class NumberControl extends React.Component<
     if (this.props.value !== prevProps.value) {
       const unit = this.getUnit();
       this.setState({unit: unit});
+    }
+    if (this.props.unitOptions !== prevProps.unitOptions) {
+      this.setState({unitOptions: normalizeOptions(this.props.unitOptions)});
     }
   }
 
@@ -236,8 +239,6 @@ export default class NumberControl extends React.Component<
         ? value.replace(unit, '')
         : value;
 
-    const options = normalizeOptions(unitOptions);
-
     return (
       <div
         className={cx(
@@ -267,7 +268,7 @@ export default class NumberControl extends React.Component<
           <Select
             value={unit}
             clearable={false}
-            options={options}
+            options={this.state.unitOptions || []}
             onChange={this.handleChangeUnit}
           />
         ) : null}
