@@ -285,13 +285,17 @@ export const FormItemStore = StoreNode.named('FormItemStore')
         isRequired: self.required
       };
 
-      // if (typeof minLength === 'number') {
-      //   rules.minLength = minLength;
-      // }
+      // todo 这个弄个配置由渲染器自己来决定
+      // 暂时先这样
+      if (~['input-text', 'textarea'].indexOf(self.type)) {
+        if (typeof minLength === 'number') {
+          rules.minLength = minLength;
+        }
 
-      // if (typeof maxLength === 'number') {
-      //   rules.maxLength = maxLength;
-      // }
+        if (typeof maxLength === 'number') {
+          rules.maxLength = maxLength;
+        }
+      }
 
       if (isObjectShallowModified(rules, self.rules)) {
         self.rules = rules;
