@@ -4,7 +4,8 @@ import cx from 'classnames';
 import {filter} from '../../utils/tpl';
 import NumberInput from '../../components/NumberInput';
 import {FormOptionsControl} from './Options';
-
+import Select, {normalizeOptions, Option} from '../../components/Select';
+import {PlainObject} from '../../types';
 /**
  * 数字输入框
  * 文档：https://baidu.gitee.io/amis/docs/components/form/number
@@ -48,14 +49,20 @@ export interface NumberControlSchema extends FormBaseControl {
    * 后缀
    */
   suffix?: string;
+
+  /**
+   * 单位列表
+   */
+  unitOptions?: string | Array<Option> | string[] | PlainObject;
+
   /**
    * 是否千分分隔
    */
   kilobitSeparator?: boolean;
   /**
-  * 只读
-  */
-  readOnly?: boolean
+   * 只读
+   */
+  readOnly?: boolean;
 }
 
 export interface NumberProps extends FormControlProps {
@@ -67,8 +74,8 @@ export interface NumberProps extends FormControlProps {
   /**
    * 边框模式，全边框，还是半边框，或者没边框。
    */
-   borderMode?: 'full' | 'half' | 'none';
-   /**
+  borderMode?: 'full' | 'half' | 'none';
+  /**
    * 前缀
    */
   prefix?: string;
@@ -83,10 +90,17 @@ export interface NumberProps extends FormControlProps {
   /**
    * 只读
    */
-  readOnly?: boolean
+  readOnly?: boolean;
 }
 
-export default class NumberControl extends React.Component<NumberProps, any> {
+interface NumberState {
+  unitValue?: string;
+}
+
+export default class NumberControl extends React.Component<
+  NumberProps,
+  NumberState
+> {
   static defaultProps: Partial<NumberProps> = {
     step: 1,
     resetValue: ''
@@ -94,15 +108,42 @@ export default class NumberControl extends React.Component<NumberProps, any> {
 
   constructor(props: NumberProps) {
     super(props);
-
     this.handleChange = this.handleChange.bind(this);
+    this.handleChangeUnit = this.handleChangeUnit.bind(this);
+    if (props.unitOptions && props.unitOptions.length) {
+      const optionValues = normalizeOptions(props.unitOptions).map(
+        option => option.value
+      );
+      // 如果有值就解析出来作为单位
+      if (props.value && typeof props.value === 'string') {
+        let unit = optionValues[0];
+        // 先找长的字符，这样如果有 ab 和 b 两种后缀相同的也能识别
+        optionValues.sort((a, b) => b.length - a.length);
+        for (const optionValue of optionValues) {
+          if (props.value.endsWith(optionValue)) {
+            unit = optionValue;
+            break;
+          }
+        }
+        this.state = {unitValue: unit};
+      } else {
+        // 没有值就使用第一个单位
+        this.state = {
+          unitValue: optionValues[0]
+        };
+      }
+    }
   }
 
   handleChange(inputValue: any) {
-    const {classPrefix: ns, onChange, resetValue} = this.props;
+    const {classPrefix: ns, onChange, resetValue, unitOptions} = this.props;
 
     if (inputValue && typeof inputValue !== 'number') {
       return;
+    }
+
+    if (inputValue !== null && unitOptions && this.state.unitValue) {
+      inputValue = inputValue + this.state.unitValue;
     }
 
     onChange(inputValue === null ? resetValue ?? null : inputValue);
@@ -114,6 +155,18 @@ export default class NumberControl extends React.Component<NumberProps, any> {
       value = /^[-]?\d+/.test(value) ? +value : undefined;
     }
     return value;
+  }
+
+  // 单位选项的变更
+  handleChangeUnit(option: Option) {
+    let value = this.props.value;
+    const prevUnitValue = this.state.unitValue;
+    this.setState({unitValue: option.value}, () => {
+      if (value) {
+        value = value.replace(prevUnitValue, '');
+        this.props.onChange(value + this.state.unitValue);
+      }
+    });
   }
 
   render(): JSX.Element {
@@ -132,6 +185,7 @@ export default class NumberControl extends React.Component<NumberProps, any> {
       suffix,
       prefix,
       kilobitSeparator,
+      unitOptions,
       readOnly
     } = this.props;
 
@@ -141,29 +195,45 @@ export default class NumberControl extends React.Component<NumberProps, any> {
     if (typeof finalPrecision === 'number') {
       precisionProps.precision = finalPrecision;
     }
+
+    const unitValue = this.state?.unitValue;
     // 数据格式化
     const formatter = (value: string | number) => {
       // 增加千分分隔
       if (kilobitSeparator && value) {
         value = (value + '').replace(/\B(?=(\d{3})+(?!\d))/g, ',');
       }
-      return (prefix ? prefix : '')
-       + value
-       + (suffix ? suffix : '');
-    }
+      return (prefix ? prefix : '') + value + (suffix ? suffix : '');
+    };
     // 将数字还原
     const parser = (value: string) => {
       if (value) {
         prefix && (value = value.replace(prefix, ''));
         suffix && (value = value.replace(suffix, ''));
-        kilobitSeparator &&  (value = value.replace(/,/g, ''));
+        kilobitSeparator && (value = value.replace(/,/g, ''));
       }
       return value;
-    }
+    };
+
+    const finalValue =
+      unitValue && value && typeof value === 'string'
+        ? value.replace(unitValue, '')
+        : value;
+
+    const options = normalizeOptions(unitOptions);
+
     return (
-      <div className={cx(`${ns}NumberControl`, className)}>
+      <div
+        className={cx(
+          `${ns}NumberControl`,
+          {
+            [`${ns}NumberControl--withUnit`]: unitOptions
+          },
+          className
+        )}
+      >
         <NumberInput
-          value={value}
+          value={finalValue}
           step={step}
           max={this.filterNum(max)}
           min={this.filterNum(min)}
@@ -177,6 +247,14 @@ export default class NumberControl extends React.Component<NumberProps, any> {
           borderMode={borderMode}
           readOnly={readOnly}
         />
+        {unitOptions ? (
+          <Select
+            value={unitValue}
+            clearable={false}
+            options={options}
+            onChange={this.handleChangeUnit}
+          />
+        ) : null}
       </div>
     );
   }
