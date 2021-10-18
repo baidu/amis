@@ -111,6 +111,11 @@ export default class NumberControl extends React.Component<
     super(props);
     this.handleChange = this.handleChange.bind(this);
     this.handleChangeUnit = this.handleChangeUnit.bind(this);
+    this.updateUnit();
+  }
+
+  updateUnit() {
+    const props = this.props;
     if (props.unitOptions && props.unitOptions.length) {
       const optionValues = normalizeOptions(props.unitOptions).map(
         option => option.value
@@ -126,12 +131,10 @@ export default class NumberControl extends React.Component<
             break;
           }
         }
-        this.state = {unit};
+        this.setState({unit});
       } else {
         // 没有值就使用第一个单位
-        this.state = {
-          unit: optionValues[0]
-        };
+        this.setState({unit: optionValues[0]});
       }
     }
   }
@@ -168,6 +171,12 @@ export default class NumberControl extends React.Component<
         this.props.onChange(value + this.state.unit);
       }
     });
+  }
+
+  componentDidUpdate(prevProps: NumberProps) {
+    if (this.props.value !== prevProps.value) {
+      this.updateUnit();
+    }
   }
 
   render(): JSX.Element {
