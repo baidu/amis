@@ -94,7 +94,8 @@ export interface NumberProps extends FormControlProps {
 }
 
 interface NumberState {
-  unitValue?: string;
+  // 数字单位，将会影响输出
+  unit?: string;
 }
 
 export default class NumberControl extends React.Component<
@@ -125,11 +126,11 @@ export default class NumberControl extends React.Component<
             break;
           }
         }
-        this.state = {unitValue: unit};
+        this.state = {unit};
       } else {
         // 没有值就使用第一个单位
         this.state = {
-          unitValue: optionValues[0]
+          unit: optionValues[0]
         };
       }
     }
@@ -142,8 +143,8 @@ export default class NumberControl extends React.Component<
       return;
     }
 
-    if (inputValue !== null && unitOptions && this.state.unitValue) {
-      inputValue = inputValue + this.state.unitValue;
+    if (inputValue !== null && unitOptions && this.state.unit) {
+      inputValue = inputValue + this.state.unit;
     }
 
     onChange(inputValue === null ? resetValue ?? null : inputValue);
@@ -160,11 +161,11 @@ export default class NumberControl extends React.Component<
   // 单位选项的变更
   handleChangeUnit(option: Option) {
     let value = this.props.value;
-    const prevUnitValue = this.state.unitValue;
-    this.setState({unitValue: option.value}, () => {
+    const prevUnitValue = this.state.unit;
+    this.setState({unit: option.value}, () => {
       if (value) {
         value = value.replace(prevUnitValue, '');
-        this.props.onChange(value + this.state.unitValue);
+        this.props.onChange(value + this.state.unit);
       }
     });
   }
@@ -196,7 +197,7 @@ export default class NumberControl extends React.Component<
       precisionProps.precision = finalPrecision;
     }
 
-    const unitValue = this.state?.unitValue;
+    const unit = this.state?.unit;
     // 数据格式化
     const formatter = (value: string | number) => {
       // 增加千分分隔
@@ -216,8 +217,8 @@ export default class NumberControl extends React.Component<
     };
 
     const finalValue =
-      unitValue && value && typeof value === 'string'
-        ? value.replace(unitValue, '')
+      unit && value && typeof value === 'string'
+        ? value.replace(unit, '')
         : value;
 
     const options = normalizeOptions(unitOptions);
@@ -249,7 +250,7 @@ export default class NumberControl extends React.Component<
         />
         {unitOptions ? (
           <Select
-            value={unitValue}
+            value={unit}
             clearable={false}
             options={options}
             onChange={this.handleChangeUnit}
