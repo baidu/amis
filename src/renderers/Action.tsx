@@ -151,6 +151,14 @@ export interface AjaxActionSchema extends ButtonSchema {
   ignoreConfirm?: boolean;
 }
 
+export interface DownloadActionSchema
+  extends Omit<AjaxActionSchema, 'actionType'> {
+  /**
+   * 指定为下载行为
+   */
+  actionType: 'download';
+}
+
 export interface UrlActionSchema extends ButtonSchema {
   /**
    * 指定为打开链接
@@ -369,7 +377,7 @@ import {DialogSchema, DialogSchemaBase} from './Dialog';
 import {DrawerSchema, DrawerSchemaBase} from './Drawer';
 import {generateIcon} from '../utils/icon';
 import {BadgeSchema, withBadge} from '../components/Badge';
-import {str2AsyncFunction} from '../utils/api';
+import {normalizeApi, str2AsyncFunction} from '../utils/api';
 
 // 构造一个假的 React 事件避免可能的报错，主要用于快捷键功能
 // 来自 https://stackoverflow.com/questions/27062455/reactjs-can-i-create-my-own-syntheticevent
@@ -535,6 +543,15 @@ export class Action extends React.Component<ActionProps, ActionState> {
 
     e.preventDefault();
     const action = pick(this.props, ActionProps) as ActionSchema;
+
+    // download 是一种 ajax 的简写
+    if (action.actionType === 'download') {
+      action.actionType = 'ajax';
+      const api = normalizeApi((action as AjaxActionSchema).api);
+      api.responseType = 'blob';
+      (action as AjaxActionSchema).api = api;
+    }
+
     onAction(e, action);
 
     if (countDown) {
