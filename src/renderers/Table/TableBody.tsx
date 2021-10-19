@@ -41,6 +41,7 @@ export interface TableBodyProps extends LocaleProps {
   data?: any;
   prefixRow?: Array<any>;
   affixRow?: Array<any>;
+  itemAction?: Action;
 }
 
 export class TableBody extends React.Component<TableBodyProps> {
@@ -62,7 +63,8 @@ export class TableBody extends React.Component<TableBodyProps> {
       onQuickChange,
       footable,
       ignoreFootableContent,
-      footableColumns
+      footableColumns,
+      itemAction
     } = this.props;
 
     return rows.map((item: IRow, rowIndex: number) => {
@@ -71,6 +73,7 @@ export class TableBody extends React.Component<TableBodyProps> {
       const doms = [
         <TableRow
           {...itemProps}
+          itemAction={itemAction}
           classnames={cx}
           checkOnItemClick={checkOnItemClick}
           key={item.id}
@@ -100,6 +103,7 @@ export class TableBody extends React.Component<TableBodyProps> {
           doms.push(
             <TableRow
               {...itemProps}
+              itemAction={itemAction}
               classnames={cx}
               checkOnItemClick={checkOnItemClick}
               key={`foot-${item.id}`}

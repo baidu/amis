@@ -356,6 +356,10 @@
         }
       }
 
+      &.#{$ns}Table-tr--hasItemAction:hover {
+        cursor: pointer;
+      }
+
       &:hover,
       &.is-hovered {
         background: var(--Table-onHover-bg);

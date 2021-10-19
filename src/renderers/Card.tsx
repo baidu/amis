@@ -6,7 +6,13 @@ import {filter, evalExpression} from '../utils/tpl';
 import cx from 'classnames';
 import Checkbox from '../components/Checkbox';
 import {IItem} from '../store/list';
-import {padArr, isVisible, isDisabled, noop} from '../utils/helper';
+import {
+  padArr,
+  isVisible,
+  isDisabled,
+  noop,
+  isClickOnInput
+} from '../utils/helper';
 import {resolveVariable} from '../utils/tpl-builtin';
 import QuickEdit, {SchemaQuickEdit} from './QuickEdit';
 import PopOver, {SchemaPopOver} from './PopOver';
@@ -209,25 +215,22 @@ export class Card extends React.Component<CardProps> {
   }
 
   handleClick(e: React.MouseEvent<HTMLDivElement>) {
-    const target: HTMLElement = e.target as HTMLElement;
-    const ns = this.props.classPrefix;
-    let formItem;
-
-    if (
-      !e.currentTarget.contains(target) ||
-      ~['INPUT', 'TEXTAREA'].indexOf(target.tagName) ||
-      ((formItem = target.closest(`button, a, .${ns}Form-item`)) &&
-        e.currentTarget.contains(formItem))
-    ) {
+    if (isClickOnInput(e)) {
       return;
     }
-    const {item, href, data, env, blank} = this.props;
+
+    const {item, href, data, env, blank, itemAction, onAction} = this.props;
     if (href) {
       env.jumpTo(filter(href, data), {
         type: 'button',
         actionType: 'url',
         blank
       });
+      return;
+    }
+
+    if (itemAction) {
+      onAction && onAction(e, itemAction, item?.data || data);
       return;
     }
 
@@ -447,7 +450,8 @@ export class Card extends React.Component<CardProps> {
       classPrefix: ns,
       imageClassName,
       avatarTextClassName,
-      href
+      href,
+      itemAction
     } = this.props;
 
     let heading = null;
@@ -558,10 +562,12 @@ export class Card extends React.Component<CardProps> {
     return (
       <div
         onClick={
-          (checkOnItemClick && checkable) || href ? this.handleClick : undefined
+          (checkOnItemClick && checkable) || href || itemAction
+            ? this.handleClick
+            : undefined
         }
         className={cx('Card', className, {
-          'Card--link': href
+          'Card--link': href || itemAction
         })}
       >
         {this.renderToolbar()}

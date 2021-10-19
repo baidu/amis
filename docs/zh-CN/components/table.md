@@ -1538,7 +1538,7 @@ order: 67
 }
 ```
 
-### 行操作按钮
+## 行操作按钮
 
 通过 itemActions 可以设置鼠标移动到行上出现操作按钮
 
@@ -1577,6 +1577,42 @@ order: 67
   }]
 }
 ```
+
+## 单行点击操作
+
+> 1.3.5 及以上版本
+
+处理前面的 itemActions，还可以配置 itemAction 来实现点击某一行后进行操作，支持 [action](./action) 里的所有配置，比如弹框、刷新其它组件等。
+
+```schema: scope="body"
+{
+  "type": "service",
+  "api": "/api/sample?perPage=10",
+  "body": [{
+    "type": "table",
+    "source": "$rows",
+    "itemAction": {
+      "type": "button",
+      "actionType": "dialog",
+      "dialog": {
+        "title": "详情",
+        "body": "当前行的数据 browser: ${browser}, version: ${version}"
+      }
+    },
+    "columns": [{
+        "name": "browser",
+        "label": "Browser"
+      },
+      {
+        "name": "version",
+        "label": "Version"
+      }
+    ]
+  }]
+}
+```
+
+注意这个属性和 `checkOnItemClick` 冲突，因为都是定义行的点击行为，开启 `itemAction` 后 `checkOnItemClick` 将会失效。
 
 ## 属性表
 

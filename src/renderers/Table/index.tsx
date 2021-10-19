@@ -384,6 +384,7 @@ export default class Table extends React.Component<TableProps, object> {
     'itemDraggableOn',
     'checkOnItemClick',
     'hideCheckToggler',
+    'itemAction',
     'itemActions',
     'combineNum',
     'combineFromIndex',
@@ -1814,7 +1815,8 @@ export default class Table extends React.Component<TableProps, object> {
       checkOnItemClick,
       buildItemProps,
       rowClassNameExpr,
-      rowClassName
+      rowClassName,
+      itemAction
     } = this.props;
     const hideHeader = store.filteredColumns.every(column => !column.label);
     const columnsGroup = store.columnGroup;
@@ -1875,6 +1877,7 @@ export default class Table extends React.Component<TableProps, object> {
               store.combineNum > 0 ? 'Table-table--withCombine' : '',
               tableClassName
             )}
+            itemAction={itemAction}
             classnames={cx}
             render={render}
             renderCell={this.renderCell}
@@ -2455,7 +2458,8 @@ export default class Table extends React.Component<TableProps, object> {
       prefixRow,
       locale,
       affixRow,
-      translate
+      translate,
+      itemAction
     } = this.props;
 
     // 理论上来说 store.rows 应该也行啊
@@ -2468,6 +2472,7 @@ export default class Table extends React.Component<TableProps, object> {
           store.combineNum > 0 ? 'Table-table--withCombine' : '',
           tableClassName
         )}
+        itemAction={itemAction}
         classnames={cx}
         columns={store.filteredColumns}
         columnsGroup={store.columnGroup}
