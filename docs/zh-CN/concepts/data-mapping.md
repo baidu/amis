@@ -624,6 +624,22 @@ ${xxx | dateModify:subtract:-7:day}
 }
 ```
 
+### fromNow
+
+> 1.3.5 及以上版本
+
+显示日期和现在的相对时间
+
+```schema
+{
+  "type": "page",
+  "data": {
+    "oldDate": "2021-10-01"
+  },
+  "body": "${oldDate|fromNow}"
+}
+```
+
 ### number
 
 自动给数字加千分位。
