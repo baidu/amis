@@ -55,6 +55,41 @@ order: 14
 ]
 ```
 
+可以配合 `input-table` 来实现上传后二次编辑
+
+```schema: scope="body"
+{
+    "type": "form",
+    "api": "/api/mock2/form/saveForm",
+    "body": [
+        {
+          "type": "input-excel",
+          "name": "excel",
+          "label": "上传 Excel"
+        },
+        {
+          "type": "input-table",
+          "name": "excel",
+          "visibleOn": "data.excel",
+          "columns": [
+            {
+              "name": "名称",
+              "label": "名称",
+              "type": "input-text"
+            },
+            {
+              "name": "网址",
+              "label": "网址",
+              "type": "input-text"
+            }
+          ]
+        }
+    ]
+}
+```
+
+需要保证 `input-table` 的 `name` 和 `input-excel` 一致，同时 `columns` 中的 `name` 也需要和 Excel 的列名一致。
+
 ## 二维数组模式
 
 除了默认配置的对象数组格式，还可以使用二维数组方式，方法是设置 `"parseMode": "array"`
@@ -124,3 +159,11 @@ order: 14
   }
 ]
 ```
+
+## 属性表
+
+| 属性名       | 类型                    | 默认值   | 说明               |
+| ------------ | ----------------------- | -------- | ------------------ |
+| allSheets    | `boolean`               | false    | 是否解析所有 sheet |
+| parseMode    | `'array'` 或 `'object'` | 'object' | 解析模式           |
+| includeEmpty | `boolean`               | true     | 是否包含空值       |
