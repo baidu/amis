@@ -220,6 +220,8 @@ export const filters: {
     data.add();
     return data.isValid() ? data.toDate() : undefined;
   },
+  fromNow: (input: any, inputFormat = '') =>
+    moment(input, inputFormat).fromNow(),
   dateModify: (
     input: any,
     modifier: 'add' | 'subtract' | 'endOf' | 'startOf' = 'add',
