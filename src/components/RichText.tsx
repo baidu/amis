@@ -46,8 +46,6 @@ import 'froala-editor/css/froala_style.min.css';
 import 'froala-editor/css/froala_editor.pkgd.min.css';
 
 export default class FroalaEditor extends React.Component<any, any> {
-  oldModel: any = null;
-
   constructor(props: any) {
     super(props);
     Froala.VIDEO_PROVIDERS = [
@@ -58,29 +56,6 @@ export default class FroalaEditor extends React.Component<any, any> {
         html: '<span class="fr-video fr-dvb fr-draggable" contenteditable="false" draggable="true"><video class="fr-draggable" controls="" data-msg="ok" data-status="0" src="{url}" style="width: 600px;"></video></span>'
       }
     ];
-
-    this.state = {
-      model: this.props.model
-    };
-    this.handleModelChange = this.handleModelChange.bind(this);
-  }
-
-  componentDidUpdate() {
-    if (JSON.stringify(this.oldModel) == JSON.stringify(this.props.model)) {
-      return;
-    }
-    this.handleModelChange(this.props.model);
-  }
-
-  handleModelChange(model: string) {
-    if (!this.props.onModelChange) {
-      return;
-    }
-    this.oldModel = model;
-    this.props.onModelChange(model);
-    this.setState({
-      model: model
-    });
   }
 
   render() {
@@ -88,8 +63,8 @@ export default class FroalaEditor extends React.Component<any, any> {
       <FroalaEditorComponent
         tag="textarea"
         config={this.props.config}
-        model={this.state.model}
-        onModelChange={this.handleModelChange}
+        model={this.props.model}
+        onModelChange={this.props.onModelChange}
       />
     );
   }
