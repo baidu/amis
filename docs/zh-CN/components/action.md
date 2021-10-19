@@ -307,13 +307,15 @@ icon 也可以是 url 地址，比如
     "type": "button",
     "label": "ajax 请求",
     "actionType": "ajax",
-    "api": "/api/mock2/form/saveForm",
+    "api": "/api/mapping",
     "messages": {
         "success": "成功了！欧耶",
         "failed": "失败了呢。。"
     }
 }
 ```
+
+需要注意如果 api 结果返回了 `msg` 字段，会优先使用 api 的返回。
 
 **属性表**
 
