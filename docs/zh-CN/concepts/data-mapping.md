@@ -640,6 +640,18 @@ ${xxx | dateModify:subtract:-7:day}
 }
 ```
 
+可以设置日期数据的格式，比如 X 是秒，其它格式细节参考 [moment](https://momentjs.com/docs/)。
+
+```schema
+{
+  "type": "page",
+  "data": {
+    "oldDate": 1586865590
+  },
+  "body": "${oldDate|fromNow:X}"
+}
+```
+
 ### number
 
 自动给数字加千分位。
