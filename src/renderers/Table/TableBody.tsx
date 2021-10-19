@@ -8,6 +8,7 @@ import {observer} from 'mobx-react';
 import {trace, reaction} from 'mobx';
 import {createObject, flattenTree} from '../../utils/helper';
 import {LocaleProps} from '../../locale';
+import {ActionSchema} from '../Action';
 
 export interface TableBodyProps extends LocaleProps {
   className?: string;
@@ -41,7 +42,7 @@ export interface TableBodyProps extends LocaleProps {
   data?: any;
   prefixRow?: Array<any>;
   affixRow?: Array<any>;
-  itemAction?: Action;
+  itemAction?: ActionSchema;
 }
 
 export class TableBody extends React.Component<TableBodyProps> {

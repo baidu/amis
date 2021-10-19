@@ -220,7 +220,7 @@ export interface ListSchema extends BaseSchema {
   /**
    * 点击列表项的行为
    */
-  itemAction?: Action;
+  itemAction?: ActionSchema;
 }
 
 export interface Column {
@@ -1026,7 +1026,7 @@ export interface ListItemProps
   itemIndex?: number;
   checkable?: boolean;
   checkOnItemClick?: boolean;
-  itemAction?: Action;
+  itemAction?: ActionSchema;
 }
 export class ListItem extends React.Component<ListItemProps> {
   static defaultProps: Partial<ListItemProps> = {
