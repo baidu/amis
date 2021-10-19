@@ -272,6 +272,7 @@ export function registerOptionsControl(config: OptionsConfig) {
 
     reaction?: () => void;
     input: any;
+    mounted = false;
 
     constructor(props: OptionsProps) {
       super(props);
@@ -303,7 +304,7 @@ export function registerOptionsControl(config: OptionsConfig) {
 
         this.reaction = reaction(
           () => JSON.stringify([formItem.loading, formItem.filteredOptions]),
-          () => this.forceUpdate()
+          () => this.mounted && this.forceUpdate()
         );
         // 默认全选。这里会和默认值\回填值逻辑冲突，所以如果有配置source则不执行默认全选
         if (
@@ -340,6 +341,7 @@ export function registerOptionsControl(config: OptionsConfig) {
     }
 
     componentDidMount() {
+      this.mounted = true;
       this.normalizeValue();
 
       if (this.props.value) {
