@@ -115,7 +115,8 @@ const timeUnitMap: {
   millisecond: 'ms'
 };
 
-export const relativeValueRe = /^(.+)?(\+|-)(\d+)(minute|min|hour|day|week|month|year|weekday|second|millisecond)s?$/i;
+export const relativeValueRe =
+  /^(.+)?(\+|-)(\d+)(minute|min|hour|day|week|month|year|weekday|second|millisecond)s?$/i;
 export const filterDate = (
   value: string,
   data: object = {},
@@ -164,9 +165,10 @@ export const filterDate = (
 };
 
 export function parseDuration(str: string): moment.Duration | undefined {
-  const matches = /^((?:\-|\+)?(?:\d*\.)?\d+)(minute|min|hour|day|week|month|quarter|year|weekday|second|millisecond)s?$/.exec(
-    str
-  );
+  const matches =
+    /^((?:\-|\+)?(?:\d*\.)?\d+)(minute|min|hour|day|week|month|quarter|year|weekday|second|millisecond)s?$/.exec(
+      str
+    );
 
   if (matches) {
     const duration = moment.duration(parseFloat(matches[1]), matches[2] as any);
@@ -177,6 +179,15 @@ export function parseDuration(str: string): moment.Duration | undefined {
   }
 
   return;
+}
+
+// 主要用于解决 0.1+0.2 结果的精度问题导致太长
+export function stripNumber(number: number) {
+  if (typeof number === 'number') {
+    return parseFloat(number.toPrecision(12));
+  } else {
+    return number;
+  }
 }
 
 export const filters: {
@@ -370,18 +381,23 @@ export const filters: {
   first: input => input && input[0],
   nth: (input, nth = 0) => input && input[nth],
   last: input => input && (input.length ? input[input.length - 1] : null),
-  minus: (input, step = 1) => (parseInt(input, 10) || 0) - parseInt(step, 10),
-  plus: (input, step = 1) => (parseInt(input, 10) || 0) + parseInt(step, 10),
+  minus: (input, step = 1) =>
+    stripNumber((parseInt(input, 10) || 0) - parseInt(step, 10)),
+  plus: (input, step = 1) =>
+    stripNumber((parseInt(input, 10) || 0) + parseInt(step, 10)),
   count: (input: any) =>
     Array.isArray(input) || typeof input === 'string' ? input.length : 0,
-  sum: (input, field) =>
-    Array.isArray(input)
-      ? input.reduce(
-          (sum, item) =>
-            sum + (parseFloat(field ? pickValues(field, item) : item) || 0),
-          0
-        )
-      : input,
+  sum: (input, field) => {
+    if (!Array.isArray(input)) {
+      return input;
+    }
+    const restult = input.reduce(
+      (sum, item) =>
+        sum + (parseFloat(field ? pickValues(field, item) : item) || 0),
+      0
+    );
+    return stripNumber(restult);
+  },
   abs: (input: any) => (typeof input === 'number' ? Math.abs(input) : input),
   pick: (input, path = '&') =>
     Array.isArray(input) && !/^\d+$/.test(path)
@@ -721,9 +737,10 @@ export const resolveVariableAndFilter = (
     return undefined;
   }
 
-  const m = /^(\\)?\$(?:((?:\w+\:)?[a-z0-9_.][a-z0-9_.\[\]]*)|{([\s\S]+)})$/i.exec(
-    path
-  );
+  const m =
+    /^(\\)?\$(?:((?:\w+\:)?[a-z0-9_.][a-z0-9_.\[\]]*)|{([\s\S]+)})$/i.exec(
+      path
+    );
 
   if (!m) {
     return undefined;

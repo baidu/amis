@@ -182,8 +182,19 @@
   display: block;
 }
 
-.#{$ns}Number--borderHalf, .#{$ns}Number--borderNone {
+.#{$ns}Number--borderHalf,
+.#{$ns}Number--borderNone {
   .#{$ns}Number-handler-wrap {
     border-left: none;
+  }
+}
+
+.#{$ns}NumberControl--withUnit {
+  display: flex;
+  .#{$ns}Number {
+    flex-grow: 1;
+  }
+  .#{$ns}Select {
+    border-left: 0;
   }
 }
