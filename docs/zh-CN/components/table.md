@@ -60,7 +60,6 @@ order: 67
 
 ```schema
 {
-    "$schema": "https://houtai.baidu.com/v2/schemas/table.json#",
     "type": "table",
     "data": {
         "items": [
