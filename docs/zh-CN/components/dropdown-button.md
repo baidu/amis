@@ -50,4 +50,4 @@ order: 44
 | iconOnly        | `boolean`       |                   | 只显示 icon                               |
 | defaultIsOpened | `boolean`       |                   | 默认是否打开                              |
 | closeOnOutside  | `boolean`       |                   | 点击外侧区域是否收起                      |
-| hideCaret       | `boolean`       | false             | 隐藏下拉按钮                             |
+| hideCaret       | `boolean`       | false             | 隐藏下拉图标                             |

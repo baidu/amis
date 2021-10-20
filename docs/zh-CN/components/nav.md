@@ -158,24 +158,30 @@ order: 58
     "type": "nav",
     "stacked": true,
     "className": "w-md",
-    "itemActions": {
-        "remark": {
+    "itemActions": [
+        {
             "type": "icon",
             "icon": "cloud",
             "visibleOn": "this.to === '/docs/renderers'"
         },
-        "buttons": [
-            {
-                "type": "button",
-                "label": "编辑",
+        {
+            "type": "dropdown-button",
+            "level": "link",
+            "icon": "fa fa-ellipsis-h",
+            "hideCaret": true,
+            "buttons": [
+                {
+                    "type": "button",
+                    "label": "编辑",
 
-            },
-            {
-                "type": "button",
-                "label": "删除"
-            }
-        ]
-    },
+                },
+                {
+                    "type": "button",
+                    "label": "删除"
+                }
+            ]
+        }
+    ],
     "links": [
         {
             "label": "Nav 1",
@@ -219,9 +225,7 @@ order: 58
 | stacked           | `boolean`                                | `true`   | 设置成 false 可以以 tabs 的形式展示                              |
 | source            | `string` 或 [API](../../docs/types/api)  |          | 可以通过变量或 API 接口动态创建导航                              |
 | deferApi          | [API](../../docs/types/api)              |          | 用来延时加载选项详情的接口，可以不配置，不配置公用 source 接口。 |
-| itemActions        |  `{remark, buttons}`                                   |          | 操作相关配置                                                    |
-| itemActions.remark | [SchemaNode](../../docs/types/schemanode) |        | 扩展内容配置                                                     |
-| itemActions.buttons| `Array<action>`                         |          | 更多操作菜单列表                                             |
+| itemActions        |  [SchemaNode](../../docs/types/schemanode) |          | 更多操作相关配置                                |
 | links             | `Array`                                  |          | 链接集合                                                         |
 | links[x].label    | `string`                                 |          | 名称                                                             |
 | links[x].badgeText | `string`                                 |          | 角标文案                                                        |

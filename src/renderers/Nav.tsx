@@ -92,10 +92,7 @@ export interface NavSchema extends BaseSchema {
   /**
    * 更多操作菜单列表
    */
-   itemActions?: {
-    buttons?: Array<ActionSchema | DividerSchema | 'divider'>
-    remark?: SchemaCollection
-  };
+   itemActions?: SchemaCollection;
 }
 
 export interface Link {
@@ -199,22 +196,7 @@ export class Navigation extends React.Component<
           itemActions
           ? <div className={cx('Nav-item-atcions')}>
             {
-              itemActions.remark
-              ? render('inline', itemActions.remark, {data: link})
-              : null
-            }
-            {
-              itemActions.buttons
-              ? render('inline', {
-                  type: 'dropdown-button',
-                  className: cx('Nav-dropdown'),
-                  icon: 'fa fa-ellipsis-h',
-                  hideCaret: true,
-                  buttons: itemActions.buttons
-                }, {
-                  data: link
-                })
-              : null
+              render('inline', itemActions, {data: link})
             }
           </div> : null
         }

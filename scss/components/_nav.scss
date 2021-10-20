@@ -90,17 +90,6 @@
       > .#{$ns}Nav-item-atcions {
         display: flex;
         align-items: center;
-        .#{$ns}Nav-dropdown {
-          margin-left: auto;
-
-          .#{$ns}Button--default {
-            border: none;
-            box-shadow: none;
-            text-shadow: none;
-            background: none !important;
-            color: var(--secondary);
-          }
-        }
       }
 
       > a {
