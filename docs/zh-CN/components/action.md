@@ -326,7 +326,29 @@ icon 也可以是 url 地址，比如
 | feedback | `DialogObject`                                                                           | -      | 如果 ajax 类型的，当 ajax 返回正常后，还能接着弹出一个 dialog 做其他交互。返回的数据可用于这个 dialog 中。格式可参考[Dialog](./Dialog.md) |
 | messages | `object`                                                                                 | -      | `success`：ajax 操作成功后提示，可以不指定，不指定时以 api 返回为准。`failed`：ajax 操作失败提示。                                        |
 
-### 倒计时
+## 下载请求
+
+> 1.3.5 及以上版本
+
+通过配置 `"actionType":"download"` 和 `api`，可以实现下载请求，它其实是 `ajax` 的一种特例，自动给 api 加上了 `"responseType": "blob"`。
+
+```schema: scope="body"
+{
+    "label": "下载",
+    "type": "action",
+    "actionType": "download",
+    "api": "/api/download"
+}
+```
+
+上面的例子由于环境原因没法测试，需要在返回的 header 中配置 `content-type` 和 `Content-Disposition`，比如
+
+```
+Content-Type: application/pdf
+Content-Disposition: attachment; filename="download.pdf"
+```
+
+## 倒计时
 
 主要用于发验证码的场景，通过设置倒计时 `countDown`（单位是秒），让点击按钮后禁用一段时间：
 
