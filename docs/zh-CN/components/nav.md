@@ -150,6 +150,58 @@ order: 58
 }
 ```
 
+## 更多操作
+
+```schema: scope="body"
+{
+    "type": "nav",
+    "stacked": true,
+    "className": "w-md",
+    "itemActions": [
+        {
+            "type": "button",
+            "label": "编辑",
+
+        },
+        {
+            "type": "button",
+            "label": "删除"
+        }
+    ],
+    "links": [
+        {
+            "label": "Nav 1",
+            "to": "/docs/index",
+            "icon": "fa fa-user",
+            "active": true
+        },
+        {
+            "label": "Nav 2",
+            "unfolded": true,
+            "children": [
+                {
+                    "label": "Nav 2-1",
+                    "children": [
+                        {
+                            "label": "Nav 2-1-1",
+                            "to": "/docs/api-2-1-1"
+                        }
+                    ]
+                },
+                {
+                    "label": "Nav 2-2",
+                    "to": "/docs/api-2-2"
+                }
+            ]
+        },
+        {
+            "label": "Nav 3",
+            "to": "/docs/renderers"
+        }
+    ]
+}
+```
+
 ## 属性表
 
 | 属性名            | 类型                                     | 默认值   | 说明                                                             |
@@ -159,6 +211,7 @@ order: 58
 | stacked           | `boolean`                                | `true`   | 设置成 false 可以以 tabs 的形式展示                              |
 | source            | `string` 或 [API](../../docs/types/api)  |          | 可以通过变量或 API 接口动态创建导航                              |
 | deferApi          | [API](../../docs/types/api)              |          | 用来延时加载选项详情的接口，可以不配置，不配置公用 source 接口。 |
+| itemActions        | `Array<action>`                          |          | 更多操作菜单列表                                        |
 | links             | `Array`                                  |          | 链接集合                                                         |
 | links[x].label    | `string`                                 |          | 名称                                                             |
 | links[x].to       | [模板](../../docs/concepts/template)     |          | 链接地址                                                         |

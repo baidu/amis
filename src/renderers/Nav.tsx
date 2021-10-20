@@ -22,6 +22,8 @@ import {
 } from '../components/WithRemoteConfig';
 import {Payload} from '../types';
 import Spinner from '../components/Spinner';
+import {ActionSchema} from './Action';
+import {DividerSchema} from './Divider';
 
 export type NavItemSchema = {
   /**
@@ -81,6 +83,11 @@ export interface NavSchema extends BaseSchema {
    * true 为垂直排列，false 为水平排列类似如 tabs。
    */
   stacked?: boolean;
+
+  /**
+   * 更多操作菜单列表
+   */
+   itemActions?: Array<ActionSchema | DividerSchema | 'divider'>;
 }
 
 export interface Link {
@@ -139,7 +146,7 @@ export class Navigation extends React.Component<
       return null;
     }
     const isActive: boolean = !!link.active;
-    const {disabled, togglerClassName, classnames: cx, indentSize} = this.props;
+    const {disabled, togglerClassName, classnames: cx, indentSize, render, itemActions} = this.props;
     const hasSub =
       (link.defer && !link.loaded) || (link.children && link.children.length);
 
@@ -157,30 +164,38 @@ export class Navigation extends React.Component<
           onClick={this.handleClick.bind(this, link)}
           style={{paddingLeft: depth * (parseInt(indentSize as any, 10) ?? 24)}}
         >
+          {link.loading ? (
+            <Spinner
+              size="sm"
+              show
+              icon="reload"
+              spinnerClassName={cx('Nav-spinner')}
+            />
+          ) : hasSub ? (
+            <span
+              onClick={() => this.toggleLink(link)}
+              className={cx('Nav-itemToggler', togglerClassName)}
+            >
+              <Icon icon="caret" className="icon" />
+            </span>
+          ) : null}
           {generateIcon(cx, link.icon, 'Nav-itemIcon')}
           {
             link.label && (typeof link.label === 'string'
             ? link.label
-            : this.props.render('inline', link.label as SchemaCollection))
+            : render('inline', link.label as SchemaCollection))
           }
         </a>
-
-        {link.loading ? (
-          <Spinner
-            size="sm"
-            show
-            icon="reload"
-            spinnerClassName={cx('Nav-spinner')}
-          />
-        ) : hasSub ? (
-          <span
-            onClick={() => this.toggleLink(link)}
-            className={cx('Nav-itemToggler', togglerClassName)}
-          >
-            <Icon icon="caret" className="icon" />
-          </span>
-        ) : null}
-
+        {
+          // 更多操作
+          itemActions ?
+            render('inline', {
+              type: 'dropdown-button',
+              className: cx('Nav-dropdown'),
+              label: <Icon icon="ellipsis-v" className={cx('Nav-dropdown-icon')}/>,
+              buttons: itemActions
+            }) : null
+        }
         {Array.isArray(link.children) && link.children.length ? (
           <ul className={cx('Nav-subItems')}>
             {link.children.map((link, index) =>

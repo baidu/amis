@@ -9,6 +9,26 @@
     margin-right: var(--gap-sm);
   }
 
+  .#{$ns}Nav-dropdown {
+    position: absolute;
+    right: 0;
+    top: px2rem(7px);
+
+    .#{$ns}Button--default {
+      border: none;
+      box-shadow: none;
+      text-shadow: none;
+      background: none !important;
+    }
+    &-icon {
+      width: px2rem(3px);
+      transform: rotate(90deg);
+    }
+    .#{$ns}DropDown-caret {
+      display: none;
+    }
+  }
+
   img.#{$ns}Nav-itemIcon {
     height: var(--Tabs-linkFontSize);
     vertical-align: middle;
@@ -20,6 +40,7 @@
     .#{$ns}Nav-item {
       margin-bottom: calc(var(--Tabs-borderWidth) * -1);
       display: inline-block;
+      position: relative;
 
       > a {
         font-size: var(--Tabs-linkFontSize);
@@ -31,7 +52,7 @@
         color: var(--Tabs-color);
         text-decoration: none;
         margin-right: px2rem(2px);
-        padding: var(--gap-sm) var(--gap-base);
+        padding: var(--gap-sm) var(--gap-xl);
         cursor: pointer;
       }
 
@@ -66,11 +87,13 @@
       position: relative;
 
       > a {
-        display: block;
+        display: flex;
+        align-items: center;
+        width: 100%;
         outline: none;
         color: var(--Nav-item-color);
         text-decoration: none;
-        padding: var(--gap-sm) var(--gap-base);
+        padding: var(--gap-sm) var(--gap-xl);
         cursor: pointer;
         background: var(--Nav-item-bg);
         border-radius: var(--Nav-item-borderRadius);
@@ -121,7 +144,7 @@
       }
 
       &.is-unfolded > {
-        .#{$ns}Nav-itemToggler {
+        a .#{$ns}Nav-itemToggler {
           transform: rotate(180deg) scale(0.8);
         }
 
@@ -138,13 +161,14 @@
       }
 
       .#{$ns}Nav-itemToggler {
-        position: absolute;
-        right: 0;
-        top: px2rem(3px);
-        width: px2rem(30px);
-        height: px2rem(30px);
+        // position: absolute;
+        // left: 0;
+        // top: px2rem(3px);
+        float: left;
+        width: px2rem(24px);
+        height: px2rem(24px);
         text-align: center;
-        line-height: px2rem(30px);
+        line-height: px2rem(24px);
         vertical-align: middle;
         cursor: pointer;
         transform: scale(0.8);
