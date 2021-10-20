@@ -872,6 +872,8 @@
   --ListItem-onModified-fieldLabel-color: #{lighten(#4285f4, 20%)};
   --ListItem-paddingX: var(--gap-base);
   --ListItem-paddingY: var(--gap-sm);
+  --ListItem--onHover-bg: rgba(0, 126, 255, 0.08);
+  --ListItem--onHover-color: var(--info);
 
   --listMenu--onActive-borderColor: var(--info);
   --ListMenu-borderRadius: #{px2rem(2px)};

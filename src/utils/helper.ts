@@ -1682,3 +1682,18 @@ export function normalizeNodePath(
 
   return {nodeValueArray, nodePathArray};
 }
+
+// 主要用于排除点击输入框和链接等情况
+export function isClickOnInput(e: React.MouseEvent<HTMLElement>) {
+  const target: HTMLElement = e.target as HTMLElement;
+  let formItem;
+  if (
+    !e.currentTarget.contains(target) ||
+    ~['INPUT', 'TEXTAREA'].indexOf(target.tagName) ||
+    ((formItem = target.closest(`button, a, [data-role="form-item"]`)) &&
+      e.currentTarget.contains(formItem))
+  ) {
+    return true;
+  }
+  return false;
+}
