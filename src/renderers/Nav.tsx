@@ -47,6 +47,11 @@ export type NavItemSchema = {
   deferApi?: SchemaApi;
 
   children?: Array<NavItemSchema>;
+
+  /**
+   * 角标
+   */
+  badgeText?: string
 } & Omit<BaseSchema, 'type'>;
 
 /**
@@ -87,7 +92,10 @@ export interface NavSchema extends BaseSchema {
   /**
    * 更多操作菜单列表
    */
-   itemActions?: Array<ActionSchema | DividerSchema | 'divider'>;
+   itemActions?: {
+    buttons?: Array<ActionSchema | DividerSchema | 'divider'>
+    remark?: SchemaCollection
+  };
 }
 
 export interface Link {
@@ -188,14 +196,33 @@ export class Navigation extends React.Component<
         </a>
         {
           // 更多操作
-          itemActions ?
-            render('inline', {
-              type: 'dropdown-button',
-              className: cx('Nav-dropdown'),
-              label: <Icon icon="ellipsis-v" className={cx('Nav-dropdown-icon')}/>,
-              buttons: itemActions
-            }) : null
+          itemActions
+          ? <div className={cx('Nav-item-atcions')}>
+            {
+              itemActions.remark
+              ? render('inline', itemActions.remark, {data: link})
+              : null
+            }
+            {
+              itemActions.buttons
+              ? render('inline', {
+                  type: 'dropdown-button',
+                  className: cx('Nav-dropdown'),
+                  icon: 'fa fa-ellipsis-h',
+                  hideCaret: true,
+                  buttons: itemActions.buttons
+                }, {
+                  data: link
+                })
+              : null
+            }
+          </div> : null
         }
+        {link.badgeText ? (
+          <div className={cx('Nav-item-badgeText')}>
+            <span>{link.badgeText}</span>
+          </div>
+        ) : null}
         {Array.isArray(link.children) && link.children.length ? (
           <ul className={cx('Nav-subItems')}>
             {link.children.map((link, index) =>
