@@ -355,6 +355,14 @@ export const components = [
           )
       },
       {
+        label: 'InputKV 键值对',
+        path: '/zh-CN/components/form/input-kv',
+        getComponent: () =>
+          import('../../docs/zh-CN/components/form/input-kv.md').then(
+            makeMarkdownRenderer
+          )
+      },
+      {
         label: 'DiffEditor 对比编辑器',
         path: '/zh-CN/components/form/diff-editor',
         getComponent: () =>

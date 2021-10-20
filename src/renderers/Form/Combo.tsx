@@ -1452,3 +1452,10 @@ export default class ComboControl extends React.Component<ComboProps> {
   extendsData: false
 })
 export class ComboControlRenderer extends ComboControl {}
+
+@FormItem({
+  type: 'input-kv',
+  storeType: ComboStore.name,
+  extendsData: false
+})
+export class KVControlRenderer extends ComboControl {}
