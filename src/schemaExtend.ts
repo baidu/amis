@@ -15,14 +15,15 @@ addSchemaFilter(function (schema: Schema, renderer, props?: any) {
         if (!isObject(value)) {
           return [];
         }
-
-        let arr: Array<any> = [];
-
+        const arr: Array<any> = [];
         Object.keys(value).forEach(key => {
+          const valueType = typeof value[key];
           arr.push({
             key: key || '',
             value:
-              typeof value[key] === 'string'
+              valueType === 'string' ||
+              valueType === 'number' ||
+              valueType === 'boolean'
                 ? value[key]
                 : JSON.stringify(value[key])
           });
@@ -33,15 +34,13 @@ addSchemaFilter(function (schema: Schema, renderer, props?: any) {
         if (!Array.isArray(value)) {
           return value;
         }
-        let obj: any = {};
-
+        const obj: any = {};
         value.forEach((item: any) => {
-          let key: string = item.key || '';
+          const key: string = item.key || '';
           let value: any = item.value;
           try {
             value = JSON.parse(value);
           } catch (e) {}
-
           obj[key] = value;
         });
         return obj;
