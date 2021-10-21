@@ -1776,15 +1776,16 @@ export default class CRUD extends React.Component<CRUDProps, any> {
     );
   }
 
-  renderExportCSV() {
+  renderExportCSV(toolbar: Schema) {
     const {
       store,
       classPrefix: ns,
       classnames: cx,
       translate: __,
-      loadDataOnce,
-      api
+      loadDataOnce
     } = this.props;
+
+    const api = (toolbar as Schema).api;
 
     return (
       <Button
@@ -1797,7 +1798,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
         }
         size="sm"
       >
-        {__('CRUD.exportCSV')}
+        {toolbar.label || __('CRUD.exportCSV')}
       </Button>
     );
   }
@@ -1827,7 +1828,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
     } else if (type === 'filter-toggler') {
       return this.renderFilterToggler();
     } else if (type === 'export-csv') {
-      return this.renderExportCSV();
+      return this.renderExportCSV(toolbar as Schema);
     } else if (Array.isArray(toolbar)) {
       const children: Array<any> = toolbar
         .map((toolbar, index) => ({

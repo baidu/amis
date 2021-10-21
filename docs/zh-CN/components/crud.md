@@ -1501,8 +1501,53 @@ crud 组件支持通过配置`headerToolbar`和`footerToolbar`属性，实现在
 {
     "type": "crud",
     "syncLocation": false,
-    "api": "https://houtai.baidu.com/api/sample",
+    "api": "/api/sample",
     "headerToolbar": ["export-csv"],
+    "columns": [
+        {
+            "name": "id",
+            "label": "ID"
+        },
+        {
+            "name": "engine",
+            "label": "Rendering engine"
+        },
+        {
+            "name": "browser",
+            "label": "Browser"
+        },
+        {
+            "name": "platform",
+            "label": "Platform(s)"
+        },
+        {
+            "name": "version",
+            "label": "Engine version"
+        },
+        {
+            "name": "grade",
+            "label": "CSS grade"
+        }
+    ]
+}
+```
+
+### 通过 api 导出 CSV
+
+> 1.3.5 及以上版本
+
+`export-csv` 可以单独配置 `api` 实现导出全量功能，这个 api 的返回结果和 CRUD 类似
+
+```schema: scope="body"
+{
+    "type": "crud",
+    "syncLocation": false,
+    "api": "/api/sample",
+    "headerToolbar": [{
+        "type": "export-csv",
+        "label": "全量导出 CSV",
+        "api": "/api/sample"
+    }],
     "columns": [
         {
             "name": "id",
