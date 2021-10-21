@@ -318,7 +318,7 @@ List 模式支持 [List](./list) 中的所有功能。
 ```schema: scope="body"
 {
 "type": "crud",
-"api": "raw:/api/mock2/crud/permissions",
+"api": "/api/mock2/crud/permissions",
 "mode": "list",
 "placeholder": "当前组内, 还没有配置任何权限.",
 "syncLocation": false,
@@ -2057,6 +2057,56 @@ CRUD 中不限制有多少个单条操作、添加一个操作对应的添加一
   }
 }
 ```
+
+## 自定义点击行的行为
+
+> 1.3.5 及以上版本
+
+配置 `itemAction` 可以实现点击某一行后进行自定义操作，支持 [action](./action) 里的所有配置，比如弹框、刷新其它组件等。
+
+```schema: scope="body"
+{
+    "type": "crud",
+    "api": "/api/sample",
+    "syncLocation": false,
+    "itemAction": {
+      "type": "button",
+      "actionType": "dialog",
+      "dialog": {
+        "title": "详情",
+        "body": "当前行的数据 browser: ${browser}, version: ${version}"
+      }
+    },
+    "columns": [
+        {
+            "name": "id",
+            "label": "ID"
+        },
+        {
+            "name": "engine",
+            "label": "Rendering engine"
+        },
+        {
+            "name": "browser",
+            "label": "Browser"
+        },
+        {
+            "name": "platform",
+            "label": "Platform(s)"
+        },
+        {
+            "name": "version",
+            "label": "Engine version"
+        },
+        {
+            "name": "grade",
+            "label": "CSS grade"
+        }
+    ]
+}
+```
+
+注意这个属性和 `checkOnItemClick` 冲突，因为都是定义行的点击行为，开启 `itemAction` 后 `checkOnItemClick` 将会失效。
 
 ## 属性表
 

@@ -5,6 +5,7 @@ import {SchemaNode, Action} from '../../types';
 import {TableBody} from './TableBody';
 import {LocaleProps} from '../../locale';
 import {observer} from 'mobx-react';
+import {ActionSchema} from '../Action';
 
 export interface TableContentProps extends LocaleProps {
   className?: string;
@@ -48,6 +49,7 @@ export interface TableContentProps extends LocaleProps {
   data?: any;
   prefixRow?: Array<any>;
   affixRow?: Array<any>;
+  itemAction?: ActionSchema;
 }
 
 @observer
@@ -79,6 +81,7 @@ export class TableContent extends React.Component<TableContentProps> {
       prefixRow,
       locale,
       translate,
+      itemAction,
       affixRow
     } = this.props;
 
@@ -132,6 +135,7 @@ export class TableContent extends React.Component<TableContentProps> {
             </tbody>
           ) : (
             <TableBody
+              itemAction={itemAction}
               classnames={cx}
               render={render}
               renderCell={renderCell}

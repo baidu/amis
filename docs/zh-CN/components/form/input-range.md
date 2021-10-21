@@ -48,6 +48,27 @@ order: 38
 }
 ```
 
+## 控制调整的粒度
+
+使用 `step` 可以控制调整粒度，默认是 1。
+
+```schema: scope="body"
+{
+    "type": "form",
+    "api": "/api/mock2/form/saveForm",
+    "body": [
+        {
+            "type": "input-range",
+            "name": "range",
+            "min": 0,
+            "max": 1,
+            "step": 0.01,
+            "label": "range"
+        }
+    ]
+}
+```
+
 ## 属性表
 
 当做选择器表单项使用时，除了支持 [普通表单项属性表](./formitem#%E5%B1%9E%E6%80%A7%E8%A1%A8) 中的配置以外，还支持下面一些配置

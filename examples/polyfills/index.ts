@@ -3,6 +3,7 @@ import 'core-js/es/array/from';
 import 'core-js/es/array/includes';
 import 'core-js/es/array/find-index';
 import 'core-js/es/string/starts-with';
+import 'core-js/es/string/ends-with';
 import 'core-js/es/string/includes';
 import 'core-js/es/number/is-nan';
 import 'core-js/es/promise';

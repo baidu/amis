@@ -238,4 +238,12 @@
   &.is-dragging {
     opacity: var(--ListItem-onDragging-opacity);
   }
+
+  &--hasItemAction {
+    cursor: pointer;
+  }
+  &--hasItemAction:hover {
+    color: var(--ListMenu-item--onHover-color);
+    background: var(--ListMenu-item--onHover-bg);
+  }
 }
