@@ -108,6 +108,9 @@ export default class ButtonGroupControl extends React.Component<
             className: cx(option.className, btnClassName),
             disabled: option.disabled || disabled,
             onClick: (e: React.UIEvent<any>) => {
+              if (disabled) {
+                return;
+              }
               this.handleToggle(option);
               e.preventDefault(); // 禁止 onAction 触发
             }

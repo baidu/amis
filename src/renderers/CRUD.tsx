@@ -1057,7 +1057,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
               (!stopAutoRefreshWhen ||
                 !(
                   (stopAutoRefreshWhenModalIsOpen && store.hasModalOpened) ||
-                  evalExpression(stopAutoRefreshWhen, data)
+                  evalExpression(stopAutoRefreshWhen, createObject(store.data, store.query))
                 )) &&
               (this.timer = setTimeout(
                 silentPolling
