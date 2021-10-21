@@ -45,6 +45,7 @@ export interface TableBodyProps extends LocaleProps {
   itemAction?: ActionSchema;
 }
 
+@observer
 export class TableBody extends React.Component<TableBodyProps> {
   renderRows(
     rows: Array<any>,
@@ -128,7 +129,7 @@ export class TableBody extends React.Component<TableBodyProps> {
             />
           );
         }
-      } else if (item.children.length) {
+      } else if (item.children.length && item.expanded) {
         // 嵌套表格
         doms.push(
           ...this.renderRows(item.children, columns, {

@@ -12,9 +12,7 @@ amis 的渲染过程是将 `json` 转成对应的 React 组件。先通过 `json
 
 ```jsx
 <Page title="页面标题" subTitle="副标题">
-  <Form
-    title="用户登录"
-  >
+  <Form title="用户登录">
     <InputText name="username" label="用户名" />
   </Form>
 </Page>

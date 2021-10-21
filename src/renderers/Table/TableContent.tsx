@@ -4,6 +4,7 @@ import {IColumn, IRow} from '../../store/table';
 import {SchemaNode, Action} from '../../types';
 import {TableBody} from './TableBody';
 import {LocaleProps} from '../../locale';
+import {observer} from 'mobx-react';
 import {ActionSchema} from '../Action';
 
 export interface TableContentProps extends LocaleProps {
@@ -51,6 +52,7 @@ export interface TableContentProps extends LocaleProps {
   itemAction?: ActionSchema;
 }
 
+@observer
 export class TableContent extends React.Component<TableContentProps> {
   render() {
     const {
