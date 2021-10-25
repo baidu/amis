@@ -1,3 +1,6 @@
+.#{$ns}Nav-drager-save {
+  margin: 0 px2rem(10px);
+}
 .#{$ns}Nav {
   list-style: none;
   user-select: none;
@@ -68,6 +71,26 @@
       flex-wrap: wrap;
       align-items: stretch;
 
+      .#{$ns}Nav-itemDrager {
+        cursor: move;
+        display: flex;
+        align-items: center;
+        float: left;
+
+        > a {
+          color: var(--icon-color);
+
+          &:hover {
+            color: var(--icon-onHover-color);
+          }
+        }
+
+        svg {
+          width: px2rem(16px);
+          height: px2rem(16px);
+        }
+      }
+
       > .#{$ns}Nav-item-badgeText {
         position: absolute;
         top: 0;
@@ -105,18 +128,18 @@
         text-overflow: ellipsis;
         flex: 1;
 
-        &::after {
-          border-left: var(--Nav-item-onActive-borderLeft);
-          position: absolute;
-          left: 0;
-          top: 0;
-          content: '';
-          width: 1px;
-          height: 100%;
-          transform: scaleY(0.0001);
-          transition: transform 0.15s cubic-bezier(0.215, 0.61, 0.355, 1),
-            opacity 0.15s cubic-bezier(0.215, 0.61, 0.355, 1);
-        }
+        // &::after {
+        //   border-left: var(--Nav-item-onActive-borderLeft);
+        //   position: absolute;
+        //   left: 0;
+        //   top: 0;
+        //   content: '';
+        //   width: 1px;
+        //   height: 100%;
+        //   transform: scaleY(0.0001);
+        //   transition: transform 0.15s cubic-bezier(0.215, 0.61, 0.355, 1),
+        //     opacity 0.15s cubic-bezier(0.215, 0.61, 0.355, 1);
+        // }
       }
 
       &.has-sub > a {
@@ -126,7 +149,7 @@
       > a:hover,
       > a:focus,
       > a:hover + .#{$ns}Nav-item-atcions,
-      > a:focus + .#{$ns}Nav-item-atcions{
+      > a:focus + .#{$ns}Nav-item-atcions {
         border-color: var(--Nav-item-onHover-color);
         text-decoration: none;
         background: var(--Nav-item-onHover-bg);
@@ -141,6 +164,7 @@
 
       &.active > a,
       &.is-active > .#{$ns}Nav-item-atcions,
+      &.is-active > .#{$ns}Nav-itemDrager,
       &.is-active > a {
         color: var(--Nav-item-onActive-color);
         background: var(--Nav-item-onActive-bg) !important;

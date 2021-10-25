@@ -1,8 +1,11 @@
 import React from 'react';
+import Sortable from 'sortablejs';
+import {findDOMNode, render as ReactDOMRender} from 'react-dom';
 import {Renderer, RendererEnv, RendererProps} from '../factory';
 import getExprProperties from '../utils/filter-schema';
 import {filter, evalExpression} from '../utils/tpl';
 import {
+  guid,
   autobind,
   createObject,
   findTree,
@@ -24,6 +27,9 @@ import {Payload} from '../types';
 import Spinner from '../components/Spinner';
 import {ActionSchema} from './Action';
 import {DividerSchema} from './Divider';
+import cloneDeep from 'lodash/cloneDeep';
+import Button from '../components/Button';
+import {isEffectiveApi} from '../utils/api';
 
 export type NavItemSchema = {
   /**
@@ -93,6 +99,16 @@ export interface NavSchema extends BaseSchema {
    * 更多操作菜单列表
    */
    itemActions?: SchemaCollection;
+
+  /**
+   * 可拖拽
+   */
+   draggable?: boolean;
+
+   /**
+    * 更新api
+    */
+  updateApi?: SchemaApi;
 }
 
 export interface Link {
@@ -113,8 +129,9 @@ export interface Link {
 export interface Links extends Array<Link> {}
 
 export interface NavigationState {
-  links: Links;
+  links?: Links;
   error?: string;
+  sortDisabled: boolean
 }
 
 export interface NavigationProps
@@ -125,7 +142,8 @@ export interface NavigationProps
   togglerClassName?: string;
   links?: Array<Link>;
   loading?: boolean;
-  render: RendererProps['render']
+  render: RendererProps['render'],
+  env: RendererEnv
 }
 
 export class Navigation extends React.Component<
@@ -135,6 +153,19 @@ export class Navigation extends React.Component<
   static defaultProps = {
     indentSize: 24
   };
+  sortable: Sortable[] = [];
+  id: string;
+  dragRef?: HTMLElement;
+  links: Link[] = [];
+  currentSortItem: any;
+
+  constructor(props: NavigationProps) {
+    super(props);
+    this.state = {
+      sortDisabled: false
+    }
+    this.links = cloneDeep(this.props.links) as Link[];
+  }
 
   @autobind
   handleClick(link: Link) {
@@ -146,15 +177,124 @@ export class Navigation extends React.Component<
     this.props.onToggle?.(target);
   }
 
+  @autobind
+  dragRefFn(ref: any) {
+    const {draggable} = this.props;
+    if (ref && draggable) {
+      this.id = guid();
+      this.initDragging(ref);
+    }
+  }
+
+  @autobind
+  cancelSort() {
+    // 换回来
+    const parent = this.currentSortItem.to as HTMLElement;
+    if (
+      this.currentSortItem.newIndex < this.currentSortItem.oldIndex &&
+      this.currentSortItem.oldIndex < parent.childNodes.length - 1
+    ) {
+      parent.insertBefore(this.currentSortItem.item, parent.childNodes[this.currentSortItem.oldIndex + 1]);
+    } else if (this.currentSortItem.oldIndex < parent.childNodes.length - 1) {
+      parent.insertBefore(this.currentSortItem.item, parent.childNodes[this.currentSortItem.oldIndex]);
+    } else {
+      parent.appendChild(this.currentSortItem.item);
+    }
+    const dom = findDOMNode(this) as HTMLElement;
+    dom.removeChild(dom.firstElementChild as Element);
+    this.setState({
+      sortDisabled: false
+    });
+  }
+
+  @autobind
+  async saveSort() {
+    const links = this.links;
+    const {updateApi, env} = this.props;
+    if (updateApi && isEffectiveApi(updateApi)) {
+      await env.fetcher(updateApi as SchemaApi, {data: links}, {method: 'post'});
+      const dom = findDOMNode(this) as HTMLElement;
+      dom.removeChild(dom.firstElementChild as Element);
+    } else {
+      console.warn('请配置updateApi');
+    }
+    this.setState({
+      sortDisabled: false
+    });
+  }
+
+  initDragging(ref: HTMLElement) {
+    const ns = this.props.classPrefix;
+    this.sortable.push(new Sortable(
+      ref,
+      {
+        group: `nav-${this.id}`,
+        animation: 150,
+        handle: `.${ns}Nav-itemDrager`,
+        ghostClass: `${ns}Nav-item--dragging`,
+        onEnd: (e: any) => {
+          console.log(e)
+          // 没有移动
+          if (e.newIndex === e.oldIndex) {
+            return;
+          }
+          const id = e.item.getAttribute('data-id');
+          let parent = this.links || [];
+
+          const findItem = (nodes: Link[]) => {
+            for (let node of nodes) {
+              if (node.id === id) {
+                parent = nodes;
+                return;
+              }
+              if (node && node.children && node.children.length > 0) {
+                findItem(node.children as Link[]);
+              }
+            }
+          }
+          findItem(parent);
+          parent.splice(e.newIndex, 0, parent.splice(e.oldIndex, 1)[0]);
+          this.currentSortItem = e;
+          this.renderSortTip()
+        }
+      }
+    ));
+  }
+
+  renderSortTip() {
+    this.setState({
+      sortDisabled: true
+    });
+    const {classnames: cx} = this.props;
+    const dom = findDOMNode(this) as HTMLElement;
+    const li = document.createElement('div');
+    const tip = (<div>
+      数据待更新，是否保存
+      <Button
+        onClick={this.saveSort}
+        size="xs"
+        level="success"
+        className={cx('Nav-drager-save')}
+      >确定</Button>
+      <Button onClick={this.cancelSort} size="xs" level="danger">取消</Button>
+    </div>);
+    ReactDOMRender(
+      tip,
+      dom.insertBefore(li, dom.firstElementChild)
+   );
+  }
+
   renderItem(link: Link, index: number, depth = 1) {
     if (link.hidden === true || link.visible === false) {
       return null;
     }
     const isActive: boolean = !!link.active;
-    const {disabled, togglerClassName, classnames: cx, indentSize, render, itemActions} = this.props;
+    const {disabled, togglerClassName, classnames: cx, indentSize, render, itemActions, draggable, links} = this.props;
+    const {sortDisabled} = this.state;
     const hasSub =
       (link.defer && !link.loaded) || (link.children && link.children.length);
-
+    const id = guid();
+    link.id = id;
     return (
       <li
         key={index}
@@ -164,7 +304,18 @@ export class Navigation extends React.Component<
           'is-unfolded': link.unfolded,
           'has-sub': hasSub
         })}
+        data-id={id}
       >
+        {!disabled && draggable && links && links.length > 1 && !sortDisabled ? (
+          <div className={cx('Nav-itemDrager')} >
+            <a
+              key="drag"
+              data-position="bottom"
+            >
+              <Icon icon="drag-bar" className="icon" />
+            </a>
+          </div>
+        ) : null}
         <a
           onClick={this.handleClick.bind(this, link)}
           style={{paddingLeft: depth * (parseInt(indentSize as any, 10) ?? 24)}}
@@ -206,7 +357,7 @@ export class Navigation extends React.Component<
           </div>
         ) : null}
         {Array.isArray(link.children) && link.children.length ? (
-          <ul className={cx('Nav-subItems')}>
+          <ul className={cx('Nav-subItems')} ref={this.dragRefFn}>
             {link.children.map((link, index) =>
               this.renderItem(link, index, depth + 1)
             )}
@@ -220,15 +371,18 @@ export class Navigation extends React.Component<
     const {className, stacked, classnames: cx, links, loading} = this.props;
 
     return (
-      <ul
-        className={cx('Nav', className, stacked ? 'Nav--stacked' : 'Nav--tabs')}
-      >
-        {Array.isArray(links)
-          ? links.map((item, index) => this.renderItem(item, index))
-          : null}
+      <div>
+        <ul
+          className={cx('Nav', className, stacked ? 'Nav--stacked' : 'Nav--tabs')}
+          ref={this.dragRefFn}
+        >
+          {Array.isArray(links)
+            ? links.map((item, index) => this.renderItem(item, index))
+            : null}
 
-        <Spinner show={!!loading} overlay icon="reload" />
-      </ul>
+          <Spinner show={!!loading} overlay icon="reload" />
+        </ul>
+      </div>
     );
   }
 }
