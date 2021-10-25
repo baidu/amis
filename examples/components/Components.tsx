@@ -251,7 +251,7 @@ export const components = [
           ).then(makeMarkdownRenderer)
       },
       {
-        label: 'Chain-Select 链式下拉框',
+        label: 'Chained-Select 链式下拉框',
         path: '/zh-CN/components/form/chain-select',
         getComponent: () =>
           import('../../docs/zh-CN/components/form/chain-select.md').then(
