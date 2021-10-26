@@ -14,12 +14,12 @@ export type StepSchema = {
   /**
    * 标题
    */
-  title: string;
+  title?: string | JSX.Element;
 
   /**
    * 子标题
    */
-  subTitle?: string;
+  subTitle?: string | JSX.Element;
 
   /**
    * 图标
@@ -31,7 +31,7 @@ export type StepSchema = {
   /**
    * 描述
    */
-  description?: string;
+  description?: string | JSX.Element;
 
   status?: StepStatus;
 } & Omit<BaseSchema, 'type'>;
