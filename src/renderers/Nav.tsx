@@ -106,9 +106,9 @@ export interface NavSchema extends BaseSchema {
    draggable?: boolean;
 
    /**
-    * 更新api
+    * 保存排序的 api
     */
-  updateApi?: SchemaApi;
+  saveOrderApi?: SchemaApi;
 }
 
 export interface Link {
@@ -131,7 +131,7 @@ export interface Links extends Array<Link> {}
 export interface NavigationState {
   links?: Links;
   error?: string;
-  sortDisabled: boolean
+  sortDisabled: boolean;
 }
 
 export interface NavigationProps
@@ -142,8 +142,8 @@ export interface NavigationProps
   togglerClassName?: string;
   links?: Array<Link>;
   loading?: boolean;
-  render: RendererProps['render'],
-  env: RendererEnv
+  render: RendererProps['render'];
+  env: RendererEnv;
 }
 
 export class Navigation extends React.Component<
@@ -163,7 +163,7 @@ export class Navigation extends React.Component<
     super(props);
     this.state = {
       sortDisabled: false
-    }
+    };
     this.links = cloneDeep(this.props.links) as Link[];
   }
 
@@ -210,13 +210,13 @@ export class Navigation extends React.Component<
   @autobind
   async saveSort() {
     const links = this.links;
-    const {updateApi, env} = this.props;
-    if (updateApi && isEffectiveApi(updateApi)) {
-      await env.fetcher(updateApi as SchemaApi, {data: links}, {method: 'post'});
+    const {saveOrderApi, env} = this.props;
+    if (saveOrderApi && isEffectiveApi(saveOrderApi)) {
+      await env.fetcher(saveOrderApi as SchemaApi, {data: links}, {method: 'post'});
       const dom = findDOMNode(this) as HTMLElement;
       dom.removeChild(dom.firstElementChild as Element);
     } else {
-      console.warn('请配置updateApi');
+      console.warn('请配置saveOrderApi');
     }
     this.setState({
       sortDisabled: false
@@ -233,7 +233,6 @@ export class Navigation extends React.Component<
         handle: `.${ns}Nav-itemDrager`,
         ghostClass: `${ns}Nav-item--dragging`,
         onEnd: (e: any) => {
-          console.log(e)
           // 没有移动
           if (e.newIndex === e.oldIndex) {
             return;
@@ -255,7 +254,7 @@ export class Navigation extends React.Component<
           findItem(parent);
           parent.splice(e.newIndex, 0, parent.splice(e.oldIndex, 1)[0]);
           this.currentSortItem = e;
-          this.renderSortTip()
+          this.renderSortTip();
         }
       }
     ));
