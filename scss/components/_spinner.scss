@@ -62,8 +62,8 @@
   &--icon {
     background: transparent;
     animation: spin 2s linear infinite;
-    width: auto;
-    height: auto;
+    width: var(--Spinner--sm-width);
+    height: var(--Spinner--sm-height);
   }
 }
 
