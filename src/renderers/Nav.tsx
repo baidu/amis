@@ -22,6 +22,7 @@ import {
 } from '../components/WithRemoteConfig';
 import {Payload} from '../types';
 import Spinner from '../components/Spinner';
+import {BadgeSchema, withBadge} from '../components/Badge';
 
 export type NavItemSchema = {
   /**
@@ -81,6 +82,11 @@ export interface NavSchema extends BaseSchema {
    * true 为垂直排列，false 为水平排列类似如 tabs。
    */
   stacked?: boolean;
+
+  /**
+   * 角标
+   */
+   badge?: BadgeSchema;
 }
 
 export interface Link {
@@ -392,6 +398,8 @@ export default ThemedNavigation;
   test: /(^|\/)(?:nav|navigation)$/,
   name: 'nav'
 })
+// @ts-ignore 类型没搞定
+@withBadge
 export class NavigationRenderer extends React.Component<RendererProps> {
   static contextType = ScopedContext;
 

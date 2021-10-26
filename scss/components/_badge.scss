@@ -56,6 +56,80 @@
     border-radius: 50%;
   }
 
+  // 显示缎带
+  &-ribbon {
+    position:relative;
+    overflow:hidden;
+    .wrap {
+      position:absolute;
+      color: #fff;
+      text-align:center;
+      font-size: 11px;
+      // 默认背景颜色
+      background:var(--success);
+    }
+  }
+
+  &-ribbon--top-left {
+    .wrap {
+      width:60px;
+      height:19px;
+      line-height: 19px;
+      top:2px;
+      left:-18px;
+      transform:rotate(-45deg) scale(0.8);
+      -ms-transform:rotate(-45deg) scale(0.8);
+      -moz-transform:rotate(-45deg);
+      -webkit-transform:rotate(-45deg) scale(0.8);
+      -o-transform:rotate(-45deg);
+    }
+  }
+
+  &-ribbon--top-right {
+    .wrap {
+      width:60px;
+      height:19px;
+      line-height: 19px;
+      top:2px;
+      right:-18px;
+      transform:rotate(45deg) scale(0.8);
+      -ms-transform:rotate(45deg) scale(0.8);
+      -moz-transform:rotate(45deg);
+      -webkit-transform:rotate(45deg) scale(0.8);
+      -o-transform:rotate(45deg);
+    }
+  }
+
+  &-ribbon--bottom-left {
+    .wrap {
+      width:60px;
+      height:19px;
+      line-height: 19px;
+      bottom:2px;
+      left:-18px;
+      transform:rotate(45deg) scale(0.8);
+      -ms-transform:rotate(45deg) scale(0.8);
+      -moz-transform:rotate(45deg);
+      -webkit-transform:rotate(45deg) scale(0.8);
+      -o-transform:rotate(45deg);
+    }
+  }
+
+  &-ribbon--bottom-right {
+    .wrap {
+      width:60px;
+      height:19px;
+      line-height: 19px;
+      bottom:2px;
+      right:-18px;
+      transform:rotate(-45deg) scale(0.8);
+      -ms-transform:rotate(-45deg) scale(0.8);
+      -moz-transform:rotate(-45deg);
+      -webkit-transform:rotate(-45deg) scale(0.8);
+      -o-transform:rotate(-45deg);
+    }
+  }
+
   // 小红点的动画
   @keyframes badgeDotAnimation {
     0% {
