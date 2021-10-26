@@ -1,9 +1,9 @@
 ---
-title: Chain-Select 链式下拉框
+title: Chained-Select 链式下拉框
 description:
 type: 0
 group: null
-menuName: Chain-Select
+menuName: Chained-Select
 icon:
 order: 7
 ---
