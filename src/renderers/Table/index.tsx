@@ -2069,7 +2069,7 @@ export default class Table extends React.Component<TableProps, object> {
             });
             worksheet.views = [{state: 'frozen', xSplit: 0, ySplit: 1}];
 
-            const filterColumns = toolbar.columns
+            const filteredColumns = toolbar.columns
               ? columns.filter(column => {
                   const filterColumnsNames = toolbar.columns!;
                   if (filterColumnsNames.indexOf(column.name) !== -1) {
@@ -2079,7 +2079,7 @@ export default class Table extends React.Component<TableProps, object> {
                 })
               : columns;
 
-            const firstRowLabels = filterColumns.map(column => {
+            const firstRowLabels = filteredColumns.map(column => {
               return column.label;
             });
             const firstRow = worksheet.getRow(1);
@@ -2100,8 +2100,7 @@ export default class Table extends React.Component<TableProps, object> {
               rowIndex += 1;
               const sheetRow = worksheet.getRow(rowIndex);
               let columIndex = 0;
-              const cols = filterColumns as any[]; // 为啥 ts 4.4 得这么做？
-              for (const column of cols) {
+              for (const column of filteredColumns) {
                 columIndex += 1;
                 const name = column.name!;
                 const value = getVariable(row.data, name);
