@@ -254,6 +254,9 @@ export default class Service extends React.Component<ServiceProps> {
 
   // 外部函数回调更新数据
   funcSetData(data: any) {
+    if (!this.mounted) {
+      return;
+    }
     const {store} = this.props;
     store.updateData(data, undefined, false);
     store.setHasRemoteData();
