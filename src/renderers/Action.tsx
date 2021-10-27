@@ -26,6 +26,11 @@ export interface ButtonSchema extends BaseSchema {
   iconClassName?: SchemaClassName;
 
   /**
+   * loading 上的css 类名
+   */
+  loadingClassName?: SchemaClassName;
+
+  /**
    * 按钮文字
    */
   label?: string;
@@ -115,6 +120,10 @@ export interface ButtonSchema extends BaseSchema {
    * 角标
    */
   badge?: BadgeSchema;
+  /**
+   * 是否显示loading效果
+   */
+  loadingOn?: string;
 }
 
 export interface AjaxActionSchema extends ButtonSchema {
@@ -335,7 +344,7 @@ const ActionProps = [
 ];
 import {filterContents} from './Remark';
 import {ClassNamesFn, themeable, ThemeProps} from '../theme';
-import {autobind} from '../utils/helper';
+import {autobind, isLoading} from '../utils/helper';
 import {
   BaseSchema,
   FeedbackDialog,
@@ -353,17 +362,17 @@ import {generateIcon} from '../utils/icon';
 import {BadgeSchema, withBadge} from '../components/Badge';
 
 export interface ActionProps
-  extends Omit<ButtonSchema, 'className' | 'iconClassName'>,
+  extends Omit<ButtonSchema, 'className' | 'iconClassName' | 'loadingClassName'>,
     ThemeProps,
-    Omit<AjaxActionSchema, 'type' | 'className' | 'iconClassName'>,
-    Omit<UrlActionSchema, 'type' | 'className' | 'iconClassName'>,
-    Omit<LinkActionSchema, 'type' | 'className' | 'iconClassName'>,
-    Omit<DialogActionSchema, 'type' | 'className' | 'iconClassName'>,
-    Omit<DrawerActionSchema, 'type' | 'className' | 'iconClassName'>,
-    Omit<CopyActionSchema, 'type' | 'className' | 'iconClassName'>,
-    Omit<ReloadActionSchema, 'type' | 'className' | 'iconClassName'>,
-    Omit<EmailActionSchema, 'type' | 'className' | 'iconClassName'>,
-    Omit<OtherActionSchema, 'type' | 'className' | 'iconClassName'> {
+    Omit<AjaxActionSchema, 'type' | 'className' | 'iconClassName' | 'loadingClassName'>,
+    Omit<UrlActionSchema, 'type' | 'className' | 'iconClassName' | 'loadingClassName'>,
+    Omit<LinkActionSchema, 'type' | 'className' | 'iconClassName' | 'loadingClassName'>,
+    Omit<DialogActionSchema, 'type' | 'className' | 'iconClassName' | 'loadingClassName'>,
+    Omit<DrawerActionSchema, 'type' | 'className' | 'iconClassName' | 'loadingClassName'>,
+    Omit<CopyActionSchema, 'type' | 'className' | 'iconClassName' | 'loadingClassName'>,
+    Omit<ReloadActionSchema, 'type' | 'className' | 'iconClassName' | 'loadingClassName'>,
+    Omit<EmailActionSchema, 'type' | 'className' | 'iconClassName' | 'loadingClassName'>,
+    Omit<OtherActionSchema, 'type' | 'className' | 'iconClassName' | 'loadingClassName'> {
   actionType: any;
   onAction?: (
     e: React.MouseEvent<any> | void | null,
@@ -484,6 +493,7 @@ export class Action extends React.Component<ActionProps, ActionState> {
       type,
       icon,
       iconClassName,
+      loadingClassName,
       primary,
       size,
       level,
@@ -503,7 +513,10 @@ export class Action extends React.Component<ActionProps, ActionState> {
       isMenuItem,
       active,
       activeLevel,
+      tooltipTrigger,
       tooltipContainer,
+      tooltipRootClose,
+      loading,
       classnames: cx
     } = this.props;
 
@@ -537,6 +550,8 @@ export class Action extends React.Component<ActionProps, ActionState> {
             ? activeLevel
             : level || (primary ? 'primary' : undefined)
         }
+        loadingClassName={loadingClassName}
+        loading={loading}
         onClick={this.handleAction}
         type={type && ~allowedType.indexOf(type) ? type : 'button'}
         disabled={disabled}
@@ -544,12 +559,14 @@ export class Action extends React.Component<ActionProps, ActionState> {
         overrideClassName={isMenuItem}
         tooltip={filterContents(tooltip, data)}
         disabledTip={filterContents(disabledTip, data)}
-        placement={tooltipPlacement}
+        tooltipPlacement={tooltipPlacement}
         tooltipContainer={tooltipContainer}
+        tooltipTrigger={tooltipTrigger}
+        tooltipRootClose={tooltipRootClose}
         block={block}
         iconOnly={!!(icon && !label && level !== 'link')}
       >
-        {iconElement}
+        {!loading ? iconElement : ''}
         {label ? <span>{filter(String(label), data)}</span> : null}
       </Button>
     );
@@ -594,13 +611,15 @@ export class ActionRenderer extends React.Component<
   }
 
   render() {
-    const {env, disabled, btnDisabled, ...rest} = this.props;
+    const {env, disabled, btnDisabled, data, ...rest} = this.props;
 
+    let loading = isLoading(this.props.$schema, data);
     return (
       <Action
         {...(rest as any)}
         disabled={disabled || btnDisabled}
         onAction={this.handleAction}
+        loading={loading}
         isCurrentUrl={this.isCurrentAction}
         tooltipContainer={
           env.getModalContainer ? env.getModalContainer : undefined
