@@ -35,6 +35,10 @@ export interface ButtonSchema extends BaseSchema {
    * 右侧 icon 上的 css 类名
    */
   rightIconClassName?: SchemaClassName;
+  /**
+   * loading 上的css 类名
+   */
+  loadingClassName?: SchemaClassName;
 
   /**
    * 按钮文字
@@ -131,6 +135,10 @@ export interface ButtonSchema extends BaseSchema {
    * 键盘快捷键
    */
   hotKey?: string;
+  /**
+   * 是否显示loading效果
+   */
+  loadingOn?: string;
 }
 
 export interface AjaxActionSchema extends ButtonSchema {
@@ -416,44 +424,44 @@ export const createSyntheticEvent = <T extends Element, E extends Event>(
 export interface ActionProps
   extends Omit<
       ButtonSchema,
-      'className' | 'iconClassName' | 'rightIconClassName'
+      'className' | 'iconClassName' | 'rightIconClassName' | 'loadingClassName'
     >,
     ThemeProps,
     Omit<
       AjaxActionSchema,
-      'type' | 'className' | 'iconClassName' | 'rightIconClassName'
+      'type' | 'className' | 'iconClassName' | 'rightIconClassName' | 'loadingClassName'
     >,
     Omit<
       UrlActionSchema,
-      'type' | 'className' | 'iconClassName' | 'rightIconClassName'
+      'type' | 'className' | 'iconClassName' | 'rightIconClassName' | 'loadingClassName'
     >,
     Omit<
       LinkActionSchema,
-      'type' | 'className' | 'iconClassName' | 'rightIconClassName'
+      'type' | 'className' | 'iconClassName' | 'rightIconClassName' | 'loadingClassName'
     >,
     Omit<
       DialogActionSchema,
-      'type' | 'className' | 'iconClassName' | 'rightIconClassName'
+      'type' | 'className' | 'iconClassName' | 'rightIconClassName' | 'loadingClassName'
     >,
     Omit<
       DrawerActionSchema,
-      'type' | 'className' | 'iconClassName' | 'rightIconClassName'
+      'type' | 'className' | 'iconClassName' | 'rightIconClassName' | 'loadingClassName'
     >,
     Omit<
       CopyActionSchema,
-      'type' | 'className' | 'iconClassName' | 'rightIconClassName'
+      'type' | 'className' | 'iconClassName' | 'rightIconClassName' | 'loadingClassName'
     >,
     Omit<
       ReloadActionSchema,
-      'type' | 'className' | 'iconClassName' | 'rightIconClassName'
+      'type' | 'className' | 'iconClassName' | 'rightIconClassName' | 'loadingClassName'
     >,
     Omit<
       EmailActionSchema,
-      'type' | 'className' | 'iconClassName' | 'rightIconClassName'
+      'type' | 'className' | 'iconClassName' | 'rightIconClassName' | 'loadingClassName'
     >,
     Omit<
       OtherActionSchema,
-      'type' | 'className' | 'iconClassName' | 'rightIconClassName'
+      'type' | 'className' | 'iconClassName' | 'rightIconClassName' | 'loadingClassName'
     > {
   actionType: any;
   onAction?: (
@@ -619,6 +627,7 @@ export class Action extends React.Component<ActionProps, ActionState> {
       iconClassName,
       rightIcon,
       rightIconClassName,
+      loadingClassName,
       primary,
       size,
       level,
@@ -638,7 +647,10 @@ export class Action extends React.Component<ActionProps, ActionState> {
       isMenuItem,
       active,
       activeLevel,
+      tooltipTrigger,
       tooltipContainer,
+      tooltipRootClose,
+      loading,
       classnames: cx
     } = this.props;
 
@@ -678,6 +690,8 @@ export class Action extends React.Component<ActionProps, ActionState> {
             ? activeLevel
             : level || (primary ? 'primary' : undefined)
         }
+        loadingClassName={loadingClassName}
+        loading={loading}
         onClick={this.handleAction}
         type={type && ~allowedType.indexOf(type) ? type : 'button'}
         disabled={disabled}
@@ -685,12 +699,14 @@ export class Action extends React.Component<ActionProps, ActionState> {
         overrideClassName={isMenuItem}
         tooltip={filterContents(tooltip, data)}
         disabledTip={filterContents(disabledTip, data)}
-        placement={tooltipPlacement}
+        tooltipPlacement={tooltipPlacement}
         tooltipContainer={tooltipContainer}
+        tooltipTrigger={tooltipTrigger}
+        tooltipRootClose={tooltipRootClose}
         block={block}
         iconOnly={!!(icon && !label && level !== 'link')}
       >
-        {iconElement}
+        {!loading ? iconElement : ''}
         {label ? <span>{filter(String(label), data)}</span> : null}
         {rightIconElement}
       </Button>
@@ -736,13 +752,14 @@ export class ActionRenderer extends React.Component<
   }
 
   render() {
-    const {env, disabled, btnDisabled, ...rest} = this.props;
+    const {env, disabled, btnDisabled, data, loading, ...rest} = this.props;
 
     return (
       <Action
         {...(rest as any)}
         disabled={disabled || btnDisabled}
         onAction={this.handleAction}
+        loading={loading}
         isCurrentUrl={this.isCurrentAction}
         tooltipContainer={
           env.getModalContainer ? env.getModalContainer : undefined

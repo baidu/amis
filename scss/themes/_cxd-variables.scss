@@ -4,8 +4,8 @@ $remFactor: 16px;
 
 $ns: 'cxd-';
 
-$info: #108cee;
-$primary: #108cee;
+$info: #2468f2;
+$primary: #2468F2;
 $success: #5fb333;
 $warning: #f39000;
 $danger: #ea2e2e;
@@ -17,7 +17,7 @@ $success-bg: #f1fdeb;
 $warning-bg: #fcf7f1;
 $danger-bg: #fff5f5;
 
-$text-color: #666;
+$text-color: #151A26;
 
 $Number-handler-mode: 'horizontal';
 // css 变量似乎没法用 !important，所以这里用 sass 变量
@@ -29,9 +29,9 @@ $Wizard-steps-liAfterBorder: none !important;
 :root {
   --borderColor: #eceff8;
   --body-bg: #ffffff;
-  --text-color: #666;
+  --text-color: #151A26;
 
-  --text--muted-color: #999;
+  --text--muted-color: #B4B6BA;
   --text--loud-color: #333;
   --link-onHover-decoration: none;
 
@@ -188,7 +188,7 @@ $Wizard-steps-liAfterBorder: none !important;
   --Button-borderWidth: #{px2rem(1px)};
   --Button-boxShadow: none;
   --Button-onActive-boxShadow: none;
-  --Button-borderRadius: 0;
+  // --Button-borderRadius: 0;
   --Button--lg-borderRadius: 0;
   --Button--sm-borderRadius: 0;
 
@@ -199,21 +199,21 @@ $Wizard-steps-liAfterBorder: none !important;
 
   --Button--default-bg: var(--white);
   --Button--default-border: #cccccc;
-  --Button--default-color: #000;
-  --Button--default-onHover-bg: var(--white);
-  --Button--default-onHover-border: var(--primary);
-  --Button--default-onHover-color: var(--primary);
-  --Button--default-onActive-bg: #f6fbff;
-  --Button--default-onActive-border: var(--primary);
-  --Button--default-onActive-color: var(--primary);
+  // --Button--default-color: #000;
+  // --Button--default-onHover-bg: var(--white);
+  // --Button--default-onHover-border: var(--primary);
+  // --Button--default-onHover-color: var(--primary);
+  // --Button--default-onActive-bg: var(--white);
+  // --Button--default-onActive-border: var(--primary);
+  // --Button--default-onActive-color: var(--primary);
 
   --Button--primary-bg: var(--primary);
   --Button--primary-border: var(--primary);
-  --Button--primary-onHover-bg: #209bfd;
-  --Button--primary-onHover-border: var(--primary);
+  // --Button--primary-onHover-bg: #4F86F4;
+  // --Button--primary-onHover-border: #4F86F4;
   --Button--primary-onHover-color: var(--white);
-  --Button--primary-onActive-bg: #047bdb;
-  --Button--primary-onActive-border: var(--primary);
+  // --Button--primary-onActive-bg: #1C53C1;
+  // --Button--primary-onActive-border: #1C53C1;
   --Button--primary-onActive-color: var(--white);
 
   --Button--danger-bg: #ea2e2e;
