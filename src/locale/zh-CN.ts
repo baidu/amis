@@ -177,6 +177,8 @@ register('zh-CN', {
   'Table.startSort': '点击开始排序',
   'Table.valueField': '请配置 valueField',
   'Table.index': '序号',
+  'Table.toggleColumn': '显示列',
+  'Table.searchFields': '设置查询字段',
   'Tag.placeholder': '暂无标签',
   'Tag.tip': '最近使用的标签',
   'Text.add': '新增：{{label}}',

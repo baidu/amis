@@ -5,6 +5,7 @@ import {SchemaNode, Action, Schema} from '../../types';
 import forEach from 'lodash/forEach';
 import {filter} from '../../utils/tpl';
 import DropDownButton from '../DropDownButton';
+import './ColumnToggler';
 import Checkbox from '../../components/Checkbox';
 import Button from '../../components/Button';
 import {TableStore, ITableStore, IColumn, IRow} from '../../store/table';
@@ -17,7 +18,8 @@ import {
   isArrayChildrenModified,
   getVariable,
   removeHTMLTag,
-  eachTree
+  eachTree,
+  isObject
 } from '../../utils/helper';
 import {
   isPureVariable,
@@ -52,6 +54,8 @@ import {TplSchema} from '../Tpl';
 import {MappingSchema} from '../Mapping';
 import {isAlive, getSnapshot} from 'mobx-state-tree';
 import ItemActionsWrapper from './ItemActionsWrapper';
+import ColumnToggler from './ColumnToggler';
+import {BadgeSchema} from '../../components/Badge';
 
 /**
  * 表格列，不指定类型时默认为文本类型。
@@ -100,7 +104,7 @@ export type TableColumnObject = {
   /**
    * 是否可快速搜索
    */
-  searchable?: boolean;
+  searchable?: boolean | SchemaObject;
 
   /**
    * 配置是否默认展示
@@ -280,6 +284,16 @@ export interface TableSchema extends BaseSchema {
    * 行样式表表达式
    */
   rowClassNameExpr?: string;
+
+  /**
+   * 行角标
+   */
+  itemBadge?: BadgeSchema;
+
+  /**
+   * 开启查询区域，会根据列元素的searchable属性值，自动生成查询条件表单
+   */
+  autoGenerateFilter?: boolean;
 }
 
 export interface TableProps extends RendererProps {
@@ -347,6 +361,7 @@ export interface TableProps extends RendererProps {
   popOverContainer?: any;
   canAccessSuperData?: boolean;
   reUseRow?: boolean;
+  itemBadge?: BadgeSchema;
 }
 
 type ExportExcelToolbar = SchemaNode & {
@@ -406,7 +421,8 @@ export default class Table extends React.Component<TableProps, object> {
     'popOverContainer',
     'headerToolbarClassName',
     'toolbarClassName',
-    'footerToolbarClassName'
+    'footerToolbarClassName',
+    'itemBadge'
   ];
   static defaultProps: Partial<TableProps> = {
     className: '',
@@ -479,6 +495,8 @@ export default class Table extends React.Component<TableProps, object> {
     this.handleMouseMove = this.handleMouseMove.bind(this);
     this.handleMouseLeave = this.handleMouseLeave.bind(this);
     this.subFormRef = this.subFormRef.bind(this);
+    this.handleColumnToggle = this.handleColumnToggle.bind(this);
+    this.renderAutoFilterForm = this.renderAutoFilterForm.bind(this);
 
     const {
       store,
@@ -1348,6 +1366,111 @@ export default class Table extends React.Component<TableProps, object> {
     document.removeEventListener('mouseup', this.handleColResizeMouseUp);
   }
 
+  handleColumnToggle(columns: Array<IColumn>) {
+    const {store} = this.props;
+
+    store.update({columns});
+  }
+
+  renderAutoFilterForm(): React.ReactNode {
+    const {
+      render,
+      store,
+      onSearchableFromReset,
+      onSearchableFromSubmit,
+      onSearchableFromInit,
+      classnames: cx,
+      translate: __
+    } = this.props;
+    const searchableColumns = store.searchableColumns;
+    const activedSearchableColumns = store.activedSearchableColumns;
+
+    if (!searchableColumns.length) {
+      return null;
+    }
+
+    const groupedSearchableColumns: Array<Record<string, any>> = [
+      {body: [], md: 4},
+      {body: [], md: 4},
+      {body: [], md: 4}
+    ];
+
+    activedSearchableColumns.forEach((column, index) => {
+      groupedSearchableColumns[index % 3].body.push({
+        ...column.searchable,
+        name: column.searchable?.name ?? column.name,
+        label: column.searchable?.label ?? column.label,
+        mode: 'horizontal'
+      });
+    });
+
+    return render(
+      'searchable-form',
+      {
+        type: 'form',
+        api: null,
+        title: '',
+        mode: 'normal',
+        submitText: __('search'),
+        body: [
+          {
+            type: 'grid',
+            columns: groupedSearchableColumns
+          }
+        ],
+        actions: [
+          {
+            type: 'dropdown-button',
+            label: __('Table.searchFields'),
+            className: cx('Table-searchableForm-dropdown', 'mr-2'),
+            level: 'link',
+            trigger: 'click',
+            size: 'sm',
+            align: 'right',
+            buttons: searchableColumns.map(column => {
+              return {
+                type: 'checkbox',
+                className: cx('Table-searchableForm-checkbox'),
+                name: `__search_${column.searchable?.name ?? column.name}`,
+                option: column.searchable?.label ?? column.label,
+                value: column.enableSearch,
+                badge: {
+                  offset: [-10, 5],
+                  visibleOn: `${
+                    column.toggable && !column.toggled && column.enableSearch
+                  }`
+                },
+                onChange: (value: boolean) => {
+                  column.setEnableSearch(value);
+                }
+              };
+            })
+          },
+          {
+            type: 'submit',
+            label: __('search'),
+            level: 'primary',
+            className: 'w-18'
+          },
+          {
+            type: 'reset',
+            label: __('reset'),
+            className: 'w-18'
+          }
+        ]
+      },
+      {
+        key: 'searchable-form',
+        panelClassName: cx('Table-searchableForm'),
+        actionsClassName: cx('Table-searchableForm-footer'),
+        onReset: onSearchableFromReset,
+        onSubmit: onSearchableFromSubmit,
+        onInit: onSearchableFromInit,
+        formStore: undefined
+      }
+    );
+  }
+
   renderHeading() {
     let {
       title,
@@ -1437,7 +1560,8 @@ export default class Table extends React.Component<TableProps, object> {
       render,
       classPrefix: ns,
       resizable,
-      classnames: cx
+      classnames: cx,
+      autoGenerateFilter
     } = this.props;
 
     if (column.type === '__checkme') {
@@ -1484,7 +1608,7 @@ export default class Table extends React.Component<TableProps, object> {
 
     let affix = null;
 
-    if (column.searchable && column.name) {
+    if (column.searchable && column.name && !autoGenerateFilter) {
       affix = (
         <HeadCellSearchDropDown
           {...this.props}
@@ -1637,7 +1761,8 @@ export default class Table extends React.Component<TableProps, object> {
       classnames: cx,
       checkOnItemClick,
       popOverContainer,
-      canAccessSuperData
+      canAccessSuperData,
+      itemBadge
     } = this.props;
 
     if (column.name && item.rowSpans[column.name] === 0) {
@@ -1725,7 +1850,13 @@ export default class Table extends React.Component<TableProps, object> {
       quickEditFormRef: this.subFormRef,
       prefix,
       onImageEnlarge: this.handleImageEnlarge,
-      canAccessSuperData
+      canAccessSuperData,
+      row: item,
+      itemBadge,
+      showBadge:
+        !props.isHead &&
+        itemBadge &&
+        store.firstToggledColumnIndex === props.colIndex
     };
     delete subProps.label;
 
@@ -1960,23 +2091,29 @@ export default class Table extends React.Component<TableProps, object> {
     }
 
     return (
-      <DropDownButton
+      <ColumnToggler
         {...rest}
-        tooltip={__('Table.columnsVisibility')}
+        {...(isObject(config) ? config : {})}
+        tooltip={config?.tooltip || __('Table.columnsVisibility')}
         tooltipContainer={
           env && env.getModalContainer ? env.getModalContainer : undefined
         }
-        align={config ? config.align : 'left'}
+        align={config?.align ?? 'left'}
         isActived={store.hasColumnHidden()}
         classnames={cx}
         classPrefix={ns}
         key="columns-toggable"
-        size="sm"
-        label={<Icon icon="columns" className="icon m-r-none" />}
+        size={config?.size || 'sm'}
+        label={
+          config?.label || <Icon icon="columns" className="icon m-r-none" />
+        }
+        draggable={config?.draggable}
+        columns={store.columnsData}
+        onColumnToggle={this.handleColumnToggle}
       >
         {store.toggableColumns.map(column => (
           <li
-            className={cx('DropDown-menuItem')}
+            className={cx('ColumnToggler-menuItem')}
             key={column.index}
             onClick={column.toggleToggle}
           >
@@ -1985,7 +2122,7 @@ export default class Table extends React.Component<TableProps, object> {
             </Checkbox>
           </li>
         ))}
-      </DropDownButton>
+      </ColumnToggler>
     );
   }
 
@@ -2535,7 +2672,13 @@ export default class Table extends React.Component<TableProps, object> {
   }
 
   render() {
-    const {className, store, classnames: cx, affixColumns} = this.props;
+    const {
+      className,
+      store,
+      classnames: cx,
+      affixColumns,
+      autoGenerateFilter
+    } = this.props;
 
     this.renderedToolbars = []; // 用来记录哪些 toolbar 已经渲染了，已经渲染了就不重复渲染了。
     const heading = this.renderHeading();
@@ -2553,6 +2696,7 @@ export default class Table extends React.Component<TableProps, object> {
           'Table--unsaved': !!store.modified || !!store.moved
         })}
       >
+        {autoGenerateFilter ? this.renderAutoFilterForm() : null}
         {header}
         {heading}
         <div

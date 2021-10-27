@@ -251,7 +251,6 @@ export interface ComboControlSchema extends FormBaseControl {
     /**
      * 最大值验证错误提示
      */
-
     maxLengthValidateFailed?: string;
   };
 }
