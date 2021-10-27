@@ -125,6 +125,38 @@ order: 54
 }
 ```
 
+## 可复制新增行
+
+> 1.4.0 及以上版本
+
+还能通过 `copyable` 来增加一个复制按钮来复制当前行
+
+```schema: scope="body"
+{
+  "type": "form",
+  "api": "/api/mock2/form/saveForm",
+  "body": [
+    {
+    "type":"input-table",
+    "name":"table",
+    "addable": true,
+    "copyable": true,
+    "editable": true,
+    "columns":[
+        {
+          "name": "a",
+          "label": "A"
+        },
+        {
+          "name": "b",
+          "label": "B"
+        }
+    ]
+  }
+  ]
+}
+```
+
 ## 按钮触发新增行
 
 按钮上配置`"actionType": "add"`和`target`指定表格`name`，可以实现点击按钮添加一行的效果。

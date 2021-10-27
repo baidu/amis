@@ -158,6 +158,7 @@ register('de-DE', {
   'System.requestError': 'Anfragefehler: ',
   'System.requestErrorStatus': 'Anfragefehler, Statuscode:',
   'Table.addRow': 'Zeile hinzufügen',
+  'Table.copyRow': 'Zeile kopieren',
   'Table.columnsVisibility': 'Klicken, um die Sichtbarkeit der Spalten zu steuern',
   'Table.deleteRow': 'Aktuele Zeile löschen',
   'Table.discard': 'Verwerfen',

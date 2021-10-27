@@ -31,6 +31,11 @@ export interface TableControlSchema
   addable?: boolean;
 
   /**
+   * 可复制新增
+   */
+  copyable?: boolean;
+
+  /**
    * 是否可以拖拽排序
    */
   draggable?: boolean;
@@ -172,6 +177,7 @@ export default class FormTable extends React.Component<TableProps, TableState> {
     placeholder: '空',
     scaffold: {},
     addBtnIcon: 'plus',
+    copyBtnIcon: 'copy',
     updateBtnIcon: 'pencil',
     deleteBtnIcon: 'minus',
     confirmBtnIcon: 'check',
@@ -188,6 +194,7 @@ export default class FormTable extends React.Component<TableProps, TableState> {
     'showAddBtn',
     'addable',
     'removable',
+    'copyable',
     'editable',
     'addApi',
     'updateApi',
@@ -423,6 +430,26 @@ export default class FormTable extends React.Component<TableProps, TableState> {
     return onAction && onAction(action, ctx, ...rest);
   }
 
+  copyItem(index: number) {
+    const {needConfirm} = this.props;
+    const items = this.state.items.concat();
+
+    items.splice(index + 1, 0, items[index]);
+    index = Math.min(index + 1, items.length - 1);
+    this.setState(
+      {
+        items
+      },
+      () => {
+        if (needConfirm === false) {
+          this.emitValue();
+        } else {
+          this.startEdit(index, true);
+        }
+      }
+    );
+  }
+
   addItem(index: number) {
     const {needConfirm, scaffold, columns} = this.props;
     const items = this.state.items.concat();
@@ -647,6 +674,38 @@ export default class FormTable extends React.Component<TableProps, TableState> {
               {props.addBtnLabel ? <span>{props.addBtnLabel}</span> : null}
               {props.addBtnIcon ? (
                 <Icon icon={props.addBtnIcon} className="icon" />
+              ) : null}
+            </Button>
+          )
+      });
+    }
+
+    if (props.copyable && props.showCopyBtn !== false) {
+      btns.push({
+        children: ({
+          key,
+          rowIndex,
+          offset
+        }: {
+          key: any;
+          rowIndex: number;
+          offset: number;
+        }) =>
+          ~this.state.editIndex && needConfirm !== false ? null : (
+            <Button
+              classPrefix={ns}
+              size="sm"
+              key={key}
+              level="link"
+              tooltip={__('Table.copyRow')}
+              tooltipContainer={
+                env && env.getModalContainer ? env.getModalContainer : undefined
+              }
+              onClick={this.copyItem.bind(this, rowIndex + offset, undefined)}
+            >
+              {props.copyBtnLabel ? <span>{props.copyBtnLabel}</span> : null}
+              {props.copyBtnIcon ? (
+                <Icon icon={props.copyBtnIcon} className="icon" />
               ) : null}
             </Button>
           )

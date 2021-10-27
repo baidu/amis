@@ -163,6 +163,7 @@ register('zh-CN', {
   'System.requestError': '接口报错：',
   'System.requestErrorStatus': '接口出错，状态码是：',
   'Table.addRow': '新增一行',
+  'Table.copyRow': '复制一行',
   'Table.columnsVisibility': '点击选择显示列',
   'Table.deleteRow': '删除当前行',
   'Table.discard': '放弃',
