@@ -2094,6 +2094,8 @@ export default class Table extends React.Component<TableProps, object> {
                 column: firstRowLabels.length
               }
             };
+            // 用于 mapping source 的情况
+            const remoteMappingCache: any = {};
             // 数据从第二行开始
             let rowIndex = 1;
             for (const row of rows) {
@@ -2186,7 +2188,30 @@ export default class Table extends React.Component<TableProps, object> {
                   };
                 } else if (type === 'mapping') {
                   // 拷贝自 Mapping.tsx
-                  const map = (column as MappingSchema).map;
+                  let map = (column as MappingSchema).map;
+                  const source = (column as MappingSchema).source;
+                  if (source) {
+                    let sourceValue = source;
+                    if (isPureVariable(source)) {
+                      sourceValue = resolveVariableAndFilter(
+                        source as string,
+                        data,
+                        '| raw'
+                      );
+                    }
+
+                    const mapKey = JSON.stringify(source);
+                    if (mapKey in remoteMappingCache) {
+                      map = remoteMappingCache[mapKey];
+                    } else {
+                      const res = await env.fetcher(sourceValue, data);
+                      if (res.data) {
+                        remoteMappingCache[mapKey] = res.data;
+                        map = res.data;
+                      }
+                    }
+                  }
+
                   if (
                     typeof value !== 'undefined' &&
                     map &&
@@ -2199,9 +2224,10 @@ export default class Table extends React.Component<TableProps, object> {
                         : value === false && map['0']
                         ? map['0']
                         : map['*']); // 兼容平台旧用法：即 value 为 true 时映射 1 ，为 false 时映射 0
-                    sheetRow.getCell(columIndex).value = viewValue;
+                    sheetRow.getCell(columIndex).value =
+                      removeHTMLTag(viewValue);
                   } else {
-                    sheetRow.getCell(columIndex).value = value;
+                    sheetRow.getCell(columIndex).value = removeHTMLTag(value);
                   }
                 } else {
                   if ((column as TplSchema).tpl) {
