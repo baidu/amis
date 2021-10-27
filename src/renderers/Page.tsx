@@ -371,6 +371,8 @@ export default class Page extends React.Component<PageProps> {
       JSON.stringify(props.cssVars) !== JSON.stringify(prevProps.cssVars)
     ) {
       this.updateVarStyle();
+    } else if (props.defaultData !== prevProps.defaultData) {
+      store.reInitData(props.defaultData);
     }
   }
 
