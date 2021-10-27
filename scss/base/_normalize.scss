@@ -341,8 +341,8 @@ template {
 }
 
 svg.icon {
-  width: 1em;
-  height: 1em;
+  width: var(--fontSizeLg);
+  height: var(--fontSizeLg);
   fill: currentColor;
 }
 
