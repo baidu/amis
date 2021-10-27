@@ -170,6 +170,10 @@ export default class Service extends React.Component<ServiceProps> {
       }
       this.socket = store.fetchWSData(props.ws, this.afterDataFetch);
     }
+
+    if (props.defaultData !== prevProps.defaultData) {
+      store.reInitData(props.defaultData);
+    }
   }
 
   componentWillUnmount() {
