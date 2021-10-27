@@ -16,6 +16,14 @@ import {
 } from './tpl-builtin';
 import {isObservable} from 'mobx';
 
+export function isMobile() {
+  return (window as any).matchMedia?.('(max-width: 768px)').matches;
+}
+
+export function range(num: number, min: number, max: number): number {
+  return Math.min(Math.max(num, min), max);
+}
+
 // 方便取值的时候能够把上层的取到，但是获取的时候不会全部把所有的数据获取到。
 export function createObject(
   superProps?: {[propName: string]: any},

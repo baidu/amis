@@ -726,6 +726,11 @@ export interface BaseSchema {
    * 是否显示表达式
    */
   visibleOn?: SchemaExpression;
+
+  /**
+   * 是否使用移动端交互
+   */
+  useMobileUI?: boolean;
 }
 
 export interface Option {
