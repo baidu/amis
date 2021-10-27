@@ -236,6 +236,7 @@ export default class Service extends React.Component<ServiceProps> {
     }
   }
 
+  // 使用外部函数获取数据
   async fetchFunc() {
     const {func, store} = this.props;
     let funcImplementation = func;
@@ -258,7 +259,7 @@ export default class Service extends React.Component<ServiceProps> {
     store.setHasRemoteData();
   }
 
-  // 因为有异步所以放这里而不是 store 实现
+  // 使用 websocket 获取使用，因为有异步所以放这里而不是 store 实现
   fetchWSData(ws: string | Api, data: any) {
     const {env, store} = this.props;
     const wsApi = buildApi(ws, data);
