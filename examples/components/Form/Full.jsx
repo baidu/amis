@@ -833,6 +833,22 @@ export default {
           type: 'divider'
         },
         {
+          type: 'input-excel',
+          label: 'Excel 解析',
+          name: 'excel'
+        },
+        {
+          type: 'divider'
+        },
+        {
+          type: 'input-kv',
+          label: 'kv 输入',
+          name: 'kv'
+        },
+        {
+          type: 'divider'
+        },
+        {
           type: 'input-image',
           name: 'image',
           label: '图片'
