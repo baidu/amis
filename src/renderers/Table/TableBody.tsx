@@ -24,7 +24,7 @@ export interface TableBodyProps extends LocaleProps {
     item: IRow,
     props: any
   ) => React.ReactNode;
-  onCheck: (item: IRow) => void;
+  onCheck: (item: IRow, value: boolean, shift?: boolean) => void;
   onQuickChange?: (
     item: IRow,
     values: object,

@@ -682,8 +682,14 @@ export default class Table extends React.Component<TableProps, object> {
     onAction(e, action, ctx);
   }
 
-  handleCheck(item: IRow) {
-    item.toggle();
+  handleCheck(item: IRow, value: boolean, shift?: boolean) {
+    const {store} = this.props;
+    if (shift) {
+      store.toggleShift(item);
+    } else {
+      item.toggle();
+    }
+
     this.syncSelected();
   }
 
