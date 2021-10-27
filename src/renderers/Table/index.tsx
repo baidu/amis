@@ -35,6 +35,7 @@ import {HeadCellSearchDropDown} from './HeadCellSearchDropdown';
 import {TableContent} from './TableContent';
 import {
   BaseSchema,
+  SchemaApi,
   SchemaClassName,
   SchemaObject,
   SchemaTokenizeableString,
@@ -345,6 +346,12 @@ export interface TableProps extends RendererProps {
   canAccessSuperData?: boolean;
   reUseRow?: boolean;
 }
+
+type ExportExcelToolbar = SchemaNode & {
+  api?: SchemaApi;
+  columns?: string[];
+  filename?: string;
+};
 
 /**
  * 将 url 转成绝对地址
@@ -2004,7 +2011,7 @@ export default class Table extends React.Component<TableProps, object> {
     );
   }
 
-  renderExportExcel(toolbar: SchemaNode) {
+  renderExportExcel(toolbar: ExportExcelToolbar) {
     const {
       store,
       env,
@@ -2028,8 +2035,8 @@ export default class Table extends React.Component<TableProps, object> {
             let tmpStore;
             let filename = 'data';
             // 支持配置 api 远程获取
-            if (typeof toolbar === 'object' && (toolbar as Schema).api) {
-              const res = await env.fetcher((toolbar as Schema).api, data);
+            if (typeof toolbar === 'object' && toolbar.api) {
+              const res = await env.fetcher(toolbar.api, data);
               if (!res.data) {
                 env.notify('warning', __('placeholder.noData'));
                 return;
@@ -2047,8 +2054,8 @@ export default class Table extends React.Component<TableProps, object> {
               rows = store.rows;
             }
 
-            if (typeof toolbar === 'object' && (toolbar as Schema).filename) {
-              filename = filter((toolbar as Schema).filename, data, '| raw');
+            if (typeof toolbar === 'object' && toolbar.filename) {
+              filename = filter(toolbar.filename, data, '| raw');
             }
 
             if (rows.length === 0) {
@@ -2062,7 +2069,17 @@ export default class Table extends React.Component<TableProps, object> {
             });
             worksheet.views = [{state: 'frozen', xSplit: 0, ySplit: 1}];
 
-            const firstRowLabels = columns.map(column => {
+            const filterColumns = toolbar.columns
+              ? columns.filter(column => {
+                  const filterColumnsNames = toolbar.columns!;
+                  if (filterColumnsNames.indexOf(column.name) !== -1) {
+                    return true;
+                  }
+                  return false;
+                })
+              : columns;
+
+            const firstRowLabels = filterColumns.map(column => {
               return column.label;
             });
             const firstRow = worksheet.getRow(1);
@@ -2083,7 +2100,7 @@ export default class Table extends React.Component<TableProps, object> {
               rowIndex += 1;
               const sheetRow = worksheet.getRow(rowIndex);
               let columIndex = 0;
-              const cols = columns as any[]; // 为啥 ts 4.4 得这么做？
+              const cols = filterColumns as any[]; // 为啥 ts 4.4 得这么做？
               for (const column of cols) {
                 columIndex += 1;
                 const name = column.name!;
