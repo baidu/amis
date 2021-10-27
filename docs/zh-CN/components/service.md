@@ -345,12 +345,35 @@ Service 支持通过 WebSocket 获取数据，只需要设置 ws（由于无示�
 ```json
 {
   "type": "service",
-  "api": "/api/mock2/page/initData",
   "ws": "ws://localhost:8777",
   "body": {
     "type": "panel",
     "title": "$title",
     "body": "随机数：${random}"
+  }
+}
+```
+
+> 1.3.5 及以上版本
+
+或者是对象的方式支持配置初始 `data`，这个 data 会在建立连接时发送初始数据
+
+```json
+{
+  "type": "service",
+  "ws": {
+    "url": "ws://localhost:8777?name=${name}",
+    "data": {
+      "name": "${name}"
+    }
+  },
+  "body": {
+    {
+      "label": "名称",
+      "type": "input-text",
+      "value": "name",
+      "name": "amis"
+    }
   }
 }
 ```
@@ -379,11 +402,18 @@ ws.on('connection', function connection(ws) {
 
 WebSocket 客户端的默认实现是使用标准 WebSocket，如果后端使用定制的 WebSocket，比如 socket.io，可以通过覆盖 `env.wsFetcher` 来自己实现数据获取方法，默认实现是：
 
+> 1.3.5 及以上版本修改了 ws 类型，将之前的字符串改成了对象的方式，会有两个参数 url 和 body
+
 ```javascript
 wsFetcher(ws, onMessage, onError) {
   if (ws) {
-    const socket = new WebSocket(ws);
-    socket.onmessage = (event: any) => {
+    const socket = new WebSocket(ws.url);
+    socket.onopen = event => {
+      if (ws.body) {
+        socket.send(JSON.stringify(ws.body));
+      }
+    };
+    socket.onmessage = event => {
       if (event.data) {
         onMessage(JSON.parse(event.data));
       }
