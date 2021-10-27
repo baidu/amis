@@ -160,6 +160,61 @@ order: 14
 ]
 ```
 
+## 富文本模式
+
+默认情况下 Excel 内容将会解析为纯文本，如果要使用富文本格式，可以通过 `plainText` 属性控制
+
+```schema: scope="body"
+{
+    "type": "form",
+    "api": "/api/mock2/form/saveForm",
+    "debug": true,
+    "body": [
+        {
+            "type": "input-excel",
+            "name": "excel",
+            "plainText": false,
+            "label": "上传 Excel"
+        }
+    ]
+}
+```
+
+开启这个模式后，对于富文本的内容会解析成对象的形式，有以下几种
+
+- 富文本，内容放在 richText 属性下
+
+  ```
+  {
+    "richText": [
+      {text: 'This is '},
+      {font: {italic: true}, text: 'italic'}
+    ]
+  }
+  ```
+
+- 出错
+
+  ```
+  { error: '#N/A' }
+  ```
+
+- 公式
+
+  ```
+  { formula: 'A1+A2', result: 7 };
+  ```
+
+- 超链接
+
+  ```
+  {
+    text: 'www.mylink.com',
+    hyperlink: 'http://www.mylink.com',
+    tooltip: 'www.mylink.com'
+  }
+  ```
+
 ## 属性表
 
 | 属性名       | 类型                    | 默认值   | 说明               |
@@ -167,3 +222,4 @@ order: 14
 | allSheets    | `boolean`               | false    | 是否解析所有 sheet |
 | parseMode    | `'array'` 或 `'object'` | 'object' | 解析模式           |
 | includeEmpty | `boolean`               | true     | 是否包含空值       |
+| plainText    | `boolean`               | true     | 是否解析为纯文本   |
