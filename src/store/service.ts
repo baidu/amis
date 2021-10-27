@@ -140,24 +140,6 @@ export const ServiceStore = iRendererStore
       }
     });
 
-    const fetchWSData = (ws: string, afterDataFetch: (data: any) => any) => {
-      const env = getEnv(self);
-
-      env.wsFetcher(
-        ws,
-        (data: any) => {
-          self.updateData(data, undefined, false);
-          setHasRemoteData();
-          // 因为 WebSocket 只会获取纯数据，所以没有 msg 之类的
-          afterDataFetch({ok: true, data: data});
-        },
-        (error: any) => {
-          updateMessage(error, true);
-          env.notify('error', error);
-        }
-      );
-    };
-
     const setHasRemoteData = () => {
       self.hasRemoteData = true;
     };
@@ -505,7 +487,6 @@ export const ServiceStore = iRendererStore
       markBusying,
       fetchInitData,
       fetchData,
-      fetchWSData,
       reInitData,
       updateMessage,
       clearMessage,

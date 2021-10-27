@@ -7,7 +7,7 @@ import {filter, evalExpression} from '../utils/tpl';
 import cx from 'classnames';
 import Scoped, {ScopedContext, IScopedContext} from '../Scoped';
 import {observer} from 'mobx-react';
-import {isApiOutdated, isEffectiveApi} from '../utils/api';
+import {buildApi, isApiOutdated, isEffectiveApi} from '../utils/api';
 import {Spinner} from '../components';
 import {autobind, isEmpty, isVisible, qsstringify} from '../utils/helper';
 import {
@@ -168,7 +168,7 @@ export default class Service extends React.Component<ServiceProps> {
       if (this.socket) {
         this.socket.close();
       }
-      this.socket = store.fetchWSData(props.ws, this.afterDataFetch);
+      this.socket = this.fetchWSData(props.ws, store.data);
     }
 
     if (props.defaultData !== prevProps.defaultData) {
@@ -216,8 +216,37 @@ export default class Service extends React.Component<ServiceProps> {
     }
 
     if (ws) {
-      this.socket = store.fetchWSData(ws, this.afterDataFetch);
+      this.socket = this.fetchWSData(ws, store.data);
     }
+  }
+
+  // 因为有异步，这里
+  fetchWSData(ws: string | Api, data: any) {
+    const {env, store} = this.props;
+    const wsApi = buildApi(ws, data);
+
+    env.wsFetcher(
+      wsApi,
+      (data: any) => {
+        let returndata = data;
+        if ('status' in data && 'data' in data) {
+          returndata = data.data;
+          if (data.status !== 0) {
+            store.updateMessage(data.msg, true);
+            env.notify('error', data.msg);
+            return;
+          }
+        }
+        store.updateData(returndata, undefined, false);
+        store.setHasRemoteData();
+        // 因为 WebSocket 只会获取纯数据，所以没有 msg 之类的
+        this.afterDataFetch({ok: true, data: returndata});
+      },
+      (error: any) => {
+        store.updateMessage(error, true);
+        env.notify('error', error);
+      }
+    );
   }
 
   afterDataFetch(result: any) {

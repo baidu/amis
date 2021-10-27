@@ -74,11 +74,16 @@ export interface RenderSchemaFilter {
   (schema: Schema, renderer: RendererConfig, props?: any): Schema;
 }
 
+export interface wsObject {
+  url: string;
+  body?: any;
+}
+
 export interface RenderOptions {
   session?: string;
   fetcher?: (config: fetcherConfig) => Promise<fetcherResult>;
   wsFetcher?: (
-    ws: string,
+    ws: wsObject,
     onMessage: (data: any) => void,
     onError: (error: any) => void
   ) => void;
@@ -234,8 +239,13 @@ const defaultOptions: RenderOptions = {
   // 使用 WebSocket 来实时获取数据
   wsFetcher(ws, onMessage, onError) {
     if (ws) {
-      const socket = new WebSocket(ws);
-      socket.onmessage = (event: any) => {
+      const socket = new WebSocket(ws.url);
+      socket.onopen = event => {
+        if (ws.body) {
+          socket.send(JSON.stringify(ws.body));
+        }
+      };
+      socket.onmessage = event => {
         if (event.data) {
           onMessage(JSON.parse(event.data));
         }
