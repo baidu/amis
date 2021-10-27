@@ -7,7 +7,12 @@ import {filter, evalExpression} from '../utils/tpl';
 import cx from 'classnames';
 import Scoped, {ScopedContext, IScopedContext} from '../Scoped';
 import {observer} from 'mobx-react';
-import {buildApi, isApiOutdated, isEffectiveApi} from '../utils/api';
+import {
+  buildApi,
+  isApiOutdated,
+  isEffectiveApi,
+  str2AsyncFunction
+} from '../utils/api';
 import {Spinner} from '../components';
 import {autobind, isEmpty, isVisible, qsstringify} from '../utils/helper';
 import {
@@ -130,6 +135,8 @@ export default class Service extends React.Component<ServiceProps> {
     this.initInterval = this.initInterval.bind(this);
     this.afterDataFetch = this.afterDataFetch.bind(this);
     this.afterSchemaFetch = this.afterSchemaFetch.bind(this);
+    this.fetchFunc = this.fetchFunc.bind(this);
+    this.funcSetData = this.funcSetData.bind(this);
   }
 
   componentDidMount() {
@@ -174,6 +181,10 @@ export default class Service extends React.Component<ServiceProps> {
     if (props.defaultData !== prevProps.defaultData) {
       store.reInitData(props.defaultData);
     }
+
+    if (props.func !== prevProps.func) {
+      this.fetchFunc();
+    }
   }
 
   componentWillUnmount() {
@@ -193,6 +204,7 @@ export default class Service extends React.Component<ServiceProps> {
       ws,
       initFetch,
       initFetchOn,
+      func,
       store,
       messages: {fetchSuccess, fetchFailed}
     } = this.props;
@@ -218,9 +230,35 @@ export default class Service extends React.Component<ServiceProps> {
     if (ws) {
       this.socket = this.fetchWSData(ws, store.data);
     }
+
+    if (func) {
+      this.fetchFunc();
+    }
   }
 
-  // 因为有异步，这里
+  async fetchFunc() {
+    const {func, store} = this.props;
+    let funcImplementation = func;
+    if (typeof func === 'string') {
+      funcImplementation = str2AsyncFunction(func, 'data', 'setData');
+    }
+    if (funcImplementation) {
+      const funcData = await funcImplementation(store.data, this.funcSetData);
+      if (funcData) {
+        store.updateData(funcData, undefined, false);
+        store.setHasRemoteData();
+      }
+    }
+  }
+
+  // 外部函数回调更新数据
+  funcSetData(data: any) {
+    const {store} = this.props;
+    store.updateData(data, undefined, false);
+    store.setHasRemoteData();
+  }
+
+  // 因为有异步所以放这里而不是 store 实现
   fetchWSData(ws: string | Api, data: any) {
     const {env, store} = this.props;
     const wsApi = buildApi(ws, data);

@@ -328,7 +328,7 @@ icon 也可以是 url 地址，比如
 
 ## 下载请求
 
-> 1.3.5 及以上版本
+> 1.4.0 及以上版本
 
 通过配置 `"actionType":"download"` 和 `api`，可以实现下载请求，它其实是 `ajax` 的一种特例，自动给 api 加上了 `"responseType": "blob"`。
 
