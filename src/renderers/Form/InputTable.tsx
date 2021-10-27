@@ -36,6 +36,21 @@ export interface TableControlSchema
   copyable?: boolean;
 
   /**
+   * 复制按钮文字
+   */
+  copyBtnLabel?: string;
+
+  /**
+   * 复制按钮图标
+   */
+  copyBtnIcon?: string;
+
+  /**
+   * 是否显示复制按钮
+   */
+  copyAddBtn?: boolean;
+
+  /**
    * 是否可以拖拽排序
    */
   draggable?: boolean;
@@ -46,12 +61,12 @@ export interface TableControlSchema
   addApi?: SchemaApi;
 
   /**
-   * 新增按钮
+   * 新增按钮文字
    */
   addBtnLabel?: string;
 
   /**
-   * 新增图标
+   * 新增按钮图标
    */
   addBtnIcon?: string;
 
@@ -78,12 +93,12 @@ export interface TableControlSchema
   /**
    * 更新按钮名称
    */
-  updateBtnLabel?: string;
+  editBtnLabel?: string;
 
   /**
    * 更新按钮图标
    */
-  updateBtnIcon?: string;
+  editBtnIcon?: string;
 
   /**
    * 确认按钮文字
@@ -178,7 +193,7 @@ export default class FormTable extends React.Component<TableProps, TableState> {
     scaffold: {},
     addBtnIcon: 'plus',
     copyBtnIcon: 'copy',
-    updateBtnIcon: 'pencil',
+    editBtnIcon: 'pencil',
     deleteBtnIcon: 'minus',
     confirmBtnIcon: 'check',
     cancelBtnIcon: 'close',
@@ -775,11 +790,16 @@ export default class FormTable extends React.Component<TableProps, TableState> {
                 }
                 onClick={() => this.startEdit(rowIndex + offset)}
               >
-                {props.updateBtnLabel ? (
-                  <span>{props.updateBtnLabel}</span>
+                {props.updateBtnLabel || props.editBtnLabel ? (
+                  <span>{props.updateBtnLabel || props.editBtnLabel}</span>
                 ) : null}
-                {props.updateBtnIcon ? (
-                  <Icon icon={props.updateBtnIcon} className="icon" />
+                {/* 兼容之前的写法 */}
+                {typeof props.updateBtnIcon !== 'undefined' ? (
+                  props.updateBtnIcon ? (
+                    <Icon icon={props.updateBtnIcon} className="icon" />
+                  ) : null
+                ) : props.editBtnIcon ? (
+                  <Icon icon={props.editBtnIcon} className="icon" />
                 ) : null}
               </Button>
             )
