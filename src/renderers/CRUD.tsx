@@ -1057,7 +1057,10 @@ export default class CRUD extends React.Component<CRUDProps, any> {
               (!stopAutoRefreshWhen ||
                 !(
                   (stopAutoRefreshWhenModalIsOpen && store.hasModalOpened) ||
-                  evalExpression(stopAutoRefreshWhen, createObject(store.data, store.query))
+                  evalExpression(
+                    stopAutoRefreshWhen,
+                    createObject(store.data, store.query)
+                  )
                 )) &&
               (this.timer = setTimeout(
                 silentPolling
@@ -1595,7 +1598,6 @@ export default class CRUD extends React.Component<CRUDProps, any> {
           render(
             `bulk-action/${index}`,
             {
-              size: 'sm',
               ...omit(btn, ['visibleOn', 'hiddenOn', 'disabledOn']),
               type: 'button',
               ignoreConfirm: true
@@ -1619,7 +1621,6 @@ export default class CRUD extends React.Component<CRUDProps, any> {
           render(
             `bulk-action/${index}`,
             {
-              size: 'sm',
               ...omit(btn, ['visibleOn', 'hiddenOn', 'disabledOn']),
               type: 'button'
             },
