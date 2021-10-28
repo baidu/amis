@@ -8,6 +8,10 @@
   .#{$ns}Form-group {
     margin-bottom: var(--Form-item-gap);
 
+    &:last-child {
+      margin-bottom: 0;
+    }
+
     .#{$ns}Form-value > & {
       margin-bottom: var(--Form-input-marginBottom);
     }
