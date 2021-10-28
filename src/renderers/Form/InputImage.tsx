@@ -111,6 +111,16 @@ export interface ImageControlSchema extends FormBaseControl {
       };
 
   /**
+   * 裁剪后的图片类型
+   */
+  cropFormat?: string;
+
+  /**
+   * 裁剪后的质量
+   */
+  cropQuality?: number;
+
+  /**
    * 是否允许二次裁剪。
    */
   reCropable?: boolean;
@@ -862,14 +872,19 @@ export default class ImageControl extends React.Component<
   }
 
   handleCrop() {
-    this.cropper.getCroppedCanvas().toBlob((file: File) => {
-      this.addFiles([file]);
-      this.setState({
-        cropFile: undefined,
-        locked: false,
-        lockedReason: ''
-      });
-    });
+    const {cropFormat, cropQuality} = this.props;
+    this.cropper.getCroppedCanvas().toBlob(
+      (file: File) => {
+        this.addFiles([file]);
+        this.setState({
+          cropFile: undefined,
+          locked: false,
+          lockedReason: ''
+        });
+      },
+      cropFormat || 'image/png',
+      cropQuality || 1
+    );
   }
 
   cancelCrop() {
