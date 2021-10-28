@@ -76,6 +76,11 @@ export interface DropdownButtonSchema extends BaseSchema {
    * 是否只显示图标。
    */
   iconOnly?: boolean;
+
+  /**
+   * 触发条件，默认是 click
+   */
+  trigger?: 'click' | 'hover';
 }
 
 export interface DropDownButtonProps
@@ -266,6 +271,7 @@ export default class DropDownButton extends React.Component<
       iconOnly,
       icon,
       isActived,
+      trigger,
       data
     } = this.props;
 
@@ -281,6 +287,8 @@ export default class DropDownButton extends React.Component<
           },
           className
         )}
+        onMouseEnter={trigger === 'hover' ? this.open : () => {}}
+        onMouseLeave={trigger === 'hover' ? this.close : () => {}}
         ref={this.domRef}
       >
         <TooltipWrapper
