@@ -1620,7 +1620,52 @@ crud 组件支持通过配置`headerToolbar`和`footerToolbar`属性，实现在
 }
 ```
 
-### 通过 api 导出 Excel
+#### 只导出部分列
+
+> 1.4.0 及以上版本
+
+通过配置 `columns` 来支持只导出部分列，其中是需要导出的列 `name` 数组
+
+```schema: scope="body"
+{
+    "type": "crud",
+    "syncLocation": false,
+    "api": "/api/sample",
+    "headerToolbar": [{
+        "type": "export-excel",
+        "label": "只导出 engine 和  browser 列",
+        "columns": ["engine", "browser"]
+    }],
+    "columns": [
+        {
+            "name": "id",
+            "label": "ID"
+        },
+        {
+            "name": "engine",
+            "label": "Rendering engine"
+        },
+        {
+            "name": "browser",
+            "label": "Browser"
+        },
+        {
+            "name": "platform",
+            "label": "Platform(s)"
+        },
+        {
+            "name": "version",
+            "label": "Engine version"
+        },
+        {
+            "name": "grade",
+            "label": "CSS grade"
+        }
+    ]
+}
+```
+
+#### 通过 api 导出 Excel
 
 > 1.1.6 以上版本支持
 
@@ -1664,7 +1709,7 @@ crud 组件支持通过配置`headerToolbar`和`footerToolbar`属性，实现在
 }
 ```
 
-### 自定义导出 Excel 的文件名
+#### 自定义导出 Excel 的文件名
 
 > 1.1.7 以上版本支持
 

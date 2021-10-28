@@ -35,6 +35,7 @@ import {HeadCellSearchDropDown} from './HeadCellSearchDropdown';
 import {TableContent} from './TableContent';
 import {
   BaseSchema,
+  SchemaApi,
   SchemaClassName,
   SchemaObject,
   SchemaTokenizeableString,
@@ -345,6 +346,12 @@ export interface TableProps extends RendererProps {
   canAccessSuperData?: boolean;
   reUseRow?: boolean;
 }
+
+type ExportExcelToolbar = SchemaNode & {
+  api?: SchemaApi;
+  columns?: string[];
+  filename?: string;
+};
 
 /**
  * 将 url 转成绝对地址
@@ -2010,7 +2017,7 @@ export default class Table extends React.Component<TableProps, object> {
     );
   }
 
-  renderExportExcel(toolbar: SchemaNode) {
+  renderExportExcel(toolbar: ExportExcelToolbar) {
     const {
       store,
       env,
@@ -2034,8 +2041,8 @@ export default class Table extends React.Component<TableProps, object> {
             let tmpStore;
             let filename = 'data';
             // 支持配置 api 远程获取
-            if (typeof toolbar === 'object' && (toolbar as Schema).api) {
-              const res = await env.fetcher((toolbar as Schema).api, data);
+            if (typeof toolbar === 'object' && toolbar.api) {
+              const res = await env.fetcher(toolbar.api, data);
               if (!res.data) {
                 env.notify('warning', __('placeholder.noData'));
                 return;
@@ -2053,8 +2060,8 @@ export default class Table extends React.Component<TableProps, object> {
               rows = store.rows;
             }
 
-            if (typeof toolbar === 'object' && (toolbar as Schema).filename) {
-              filename = filter((toolbar as Schema).filename, data, '| raw');
+            if (typeof toolbar === 'object' && toolbar.filename) {
+              filename = filter(toolbar.filename, data, '| raw');
             }
 
             if (rows.length === 0) {
@@ -2068,7 +2075,17 @@ export default class Table extends React.Component<TableProps, object> {
             });
             worksheet.views = [{state: 'frozen', xSplit: 0, ySplit: 1}];
 
-            const firstRowLabels = columns.map(column => {
+            const filteredColumns = toolbar.columns
+              ? columns.filter(column => {
+                  const filterColumnsNames = toolbar.columns!;
+                  if (filterColumnsNames.indexOf(column.name) !== -1) {
+                    return true;
+                  }
+                  return false;
+                })
+              : columns;
+
+            const firstRowLabels = filteredColumns.map(column => {
               return column.label;
             });
             const firstRow = worksheet.getRow(1);
@@ -2083,14 +2100,15 @@ export default class Table extends React.Component<TableProps, object> {
                 column: firstRowLabels.length
               }
             };
+            // 用于 mapping source 的情况
+            const remoteMappingCache: any = {};
             // 数据从第二行开始
             let rowIndex = 1;
             for (const row of rows) {
               rowIndex += 1;
               const sheetRow = worksheet.getRow(rowIndex);
               let columIndex = 0;
-              const cols = columns as any[]; // 为啥 ts 4.4 得这么做？
-              for (const column of cols) {
+              for (const column of filteredColumns) {
                 columIndex += 1;
                 const name = column.name!;
                 const value = getVariable(row.data, name);
@@ -2176,7 +2194,30 @@ export default class Table extends React.Component<TableProps, object> {
                   };
                 } else if (type === 'mapping') {
                   // 拷贝自 Mapping.tsx
-                  const map = (column as MappingSchema).map;
+                  let map = (column as MappingSchema).map;
+                  const source = (column as MappingSchema).source;
+                  if (source) {
+                    let sourceValue = source;
+                    if (isPureVariable(source)) {
+                      sourceValue = resolveVariableAndFilter(
+                        source as string,
+                        data,
+                        '| raw'
+                      );
+                    }
+
+                    const mapKey = JSON.stringify(source);
+                    if (mapKey in remoteMappingCache) {
+                      map = remoteMappingCache[mapKey];
+                    } else {
+                      const res = await env.fetcher(sourceValue, data);
+                      if (res.data) {
+                        remoteMappingCache[mapKey] = res.data;
+                        map = res.data;
+                      }
+                    }
+                  }
+
                   if (
                     typeof value !== 'undefined' &&
                     map &&
@@ -2189,9 +2230,10 @@ export default class Table extends React.Component<TableProps, object> {
                         : value === false && map['0']
                         ? map['0']
                         : map['*']); // 兼容平台旧用法：即 value 为 true 时映射 1 ，为 false 时映射 0
-                    sheetRow.getCell(columIndex).value = viewValue;
+                    sheetRow.getCell(columIndex).value =
+                      removeHTMLTag(viewValue);
                   } else {
-                    sheetRow.getCell(columIndex).value = value;
+                    sheetRow.getCell(columIndex).value = removeHTMLTag(value);
                   }
                 } else {
                   if ((column as TplSchema).tpl) {
