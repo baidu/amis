@@ -28,6 +28,11 @@ export interface InputExcelControlSchema extends FormBaseControl {
    * 是否包含空内容，主要用于二维数组模式
    */
   includeEmpty: boolean;
+
+  /**
+   * 纯文本模式
+   */
+  plainText: boolean;
 }
 
 export interface ExcelProps
@@ -48,11 +53,14 @@ export default class ExcelControl extends React.PureComponent<
   static defaultProps: Partial<ExcelProps> = {
     allSheets: false,
     parseMode: 'object',
-    includeEmpty: true
+    includeEmpty: true,
+    plainText: true
   };
   state: ExcelControlState = {
     open: false
   };
+
+  ExcelJS: any;
 
   @autobind
   handleDrop(files: File[]) {
@@ -63,6 +71,7 @@ export default class ExcelControl extends React.PureComponent<
     reader.onload = async () => {
       if (reader.result) {
         import('exceljs').then(async (ExcelJS: any) => {
+          this.ExcelJS = ExcelJS;
           const workbook = new ExcelJS.Workbook();
           await workbook.xlsx.load(reader.result);
           if (allSheets) {
@@ -88,7 +97,7 @@ export default class ExcelControl extends React.PureComponent<
    */
   readWorksheet(worksheet: any) {
     const result: any[] = [];
-    const {parseMode} = this.props;
+    const {parseMode, plainText} = this.props;
 
     if (parseMode === 'array') {
       worksheet.eachRow((row: any, rowNumber: number) => {
@@ -107,7 +116,23 @@ export default class ExcelControl extends React.PureComponent<
           const data: any = {};
           row.eachCell((cell: any, colNumber: any) => {
             if (firstRowValues[colNumber]) {
-              data[firstRowValues[colNumber]] = cell.value;
+              let value = cell.value;
+              if (plainText) {
+                const ExcelValueType = this.ExcelJS.ValueType;
+                if (cell.type === ExcelValueType.Hyperlink) {
+                  value = cell.value.hyperlink;
+                } else if (cell.type === ExcelValueType.Formula) {
+                  value = cell.value.result;
+                } else if (cell.type === ExcelValueType.RichText) {
+                  value = cell.value.richText
+                    .map((item: any) => item.text)
+                    .join('');
+                } else if (cell.type === ExcelValueType.Error) {
+                  value = '';
+                }
+              }
+
+              data[firstRowValues[colNumber]] = value;
             }
           });
           result.push(data);
