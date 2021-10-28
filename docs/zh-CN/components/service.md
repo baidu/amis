@@ -436,12 +436,12 @@ wsFetcher(ws, onMessage, onError) {
 
 > 1.4.0 及以上版本
 
-对于更复杂的数据获取情况，可以使用 `func` 属性来实现外部函数获取数据，它支持字符串和函数两种形式
+对于更复杂的数据获取情况，可以使用 `dataProvider` 属性来实现外部函数获取数据，它支持字符串和函数两种形式
 
 ```schema: scope="body"
 {
     "type": "service",
-    "func": "return { now: new Date().toString() }",
+    "dataProvider": "setData({ now: new Date().toString() })",
     "body": {
         "type": "tpl",
         "tpl": "现在是：${now}"
@@ -454,7 +454,7 @@ wsFetcher(ws, onMessage, onError) {
 ```schema: scope="body"
 {
     "type": "service",
-    "func": "setInterval(() => { setData({date: new Date().toString()}) }, 1000)",
+    "dataProvider": "const timer = setInterval(() => { setData({date: new Date().toString()}) }, 1000); return () => { clearInterval(timer) }",
     "body": {
         "type": "tpl",
         "tpl": "现在是：${date}"
@@ -462,15 +462,18 @@ wsFetcher(ws, onMessage, onError) {
 }
 ```
 
+上面这个例子还返回了一个函数，这个函数会在组件销毁的时候执行，可以用来清理资源。
+
 下面是使用函数类型的示例，注意这个示例不能放在 JSON 中，只能在 jssdk 或 react 项目里使用。
 
 ```javascript
 {
     "type": "service",
     "func": async (data, setData) => {
-      return {
-        now: new Date().toString()
-      }
+      const timer = setInterval(() => {
+        setData({date: new Date().toString()})
+      }, 1000);
+      return () => { clearInterval(timer) }
     },
     "body": {
         "type": "tpl",
@@ -490,6 +493,7 @@ wsFetcher(ws, onMessage, onError) {
 | body                  | [SchemaNode](../../docs/types/schemanode) |                | 内容容器                                                                      |
 | api                   | [api](../../docs/types/api)               |                | 初始化数据域接口地址                                                          |
 | ws                    | `string`                                  |                | WebScocket 地址                                                               |
+| dataProvider          | `string`                                  |                | 数据获取函数                                                                  |
 | initFetch             | `boolean`                                 |                | 是否默认拉取                                                                  |
 | schemaApi             | [api](../../docs/types/api)               |                | 用来获取远程 Schema 接口地址                                                  |
 | initFetchSchema       | `boolean`                                 |                | 是否默认拉取 Schema                                                           |

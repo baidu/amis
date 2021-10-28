@@ -46,6 +46,11 @@ export interface ServiceSchema extends BaseSchema {
   ws?: string;
 
   /**
+   * 通过调用外部函数来获取数据
+   */
+  dataProvider?: string | Function;
+
+  /**
    * 内容区域
    */
   body?: SchemaCollection;
@@ -116,6 +121,8 @@ export default class Service extends React.Component<ServiceProps> {
   // 主要是用于关闭 socket
   socket: any;
 
+  dataProviderUnsubscribe?: Function;
+
   static defaultProps: Partial<ServiceProps> = {
     messages: {
       fetchFailed: 'fetchFailed'
@@ -135,8 +142,8 @@ export default class Service extends React.Component<ServiceProps> {
     this.initInterval = this.initInterval.bind(this);
     this.afterDataFetch = this.afterDataFetch.bind(this);
     this.afterSchemaFetch = this.afterSchemaFetch.bind(this);
-    this.fetchFunc = this.fetchFunc.bind(this);
-    this.funcSetData = this.funcSetData.bind(this);
+    this.runDataProvider = this.runDataProvider.bind(this);
+    this.dataProviderSetData = this.dataProviderSetData.bind(this);
   }
 
   componentDidMount() {
@@ -182,13 +189,14 @@ export default class Service extends React.Component<ServiceProps> {
       store.reInitData(props.defaultData);
     }
 
-    if (props.func !== prevProps.func) {
-      this.fetchFunc();
+    if (props.dataProvider !== prevProps.dataProvider) {
+      this.runDataProvider();
     }
   }
 
   componentWillUnmount() {
     this.mounted = false;
+    this.runDataProviderUnsubscribe();
     clearTimeout(this.timer);
     if (this.socket && this.socket.close) {
       this.socket.close();
@@ -204,7 +212,7 @@ export default class Service extends React.Component<ServiceProps> {
       ws,
       initFetch,
       initFetchOn,
-      func,
+      dataProvider,
       store,
       messages: {fetchSuccess, fetchFailed}
     } = this.props;
@@ -231,29 +239,44 @@ export default class Service extends React.Component<ServiceProps> {
       this.socket = this.fetchWSData(ws, store.data);
     }
 
-    if (func) {
-      this.fetchFunc();
+    if (dataProvider) {
+      this.runDataProvider();
     }
   }
 
   // 使用外部函数获取数据
-  async fetchFunc() {
-    const {func, store} = this.props;
-    let funcImplementation = func;
-    if (typeof func === 'string') {
-      funcImplementation = str2AsyncFunction(func, 'data', 'setData');
+  async runDataProvider() {
+    this.runDataProviderUnsubscribe();
+    const {dataProvider, store} = this.props;
+    let dataProviderFunc = dataProvider;
+
+    if (typeof dataProvider === 'string' && dataProvider) {
+      dataProviderFunc = str2AsyncFunction(dataProvider, 'data', 'setData')!;
     }
-    if (funcImplementation) {
-      const funcData = await funcImplementation(store.data, this.funcSetData);
-      if (funcData) {
-        store.updateData(funcData, undefined, false);
-        store.setHasRemoteData();
+    if (typeof dataProviderFunc === 'function') {
+      const unsubscribe = await dataProviderFunc(
+        store.data,
+        this.dataProviderSetData
+      );
+      if (typeof unsubscribe === 'function') {
+        this.dataProviderUnsubscribe = unsubscribe;
+      }
+    }
+  }
+
+  // 运行销毁外部函数的方法
+  runDataProviderUnsubscribe() {
+    if (typeof this.dataProviderUnsubscribe === 'function') {
+      try {
+        this.dataProviderUnsubscribe();
+      } catch (error) {
+        console.error(error);
       }
     }
   }
 
   // 外部函数回调更新数据
-  funcSetData(data: any) {
+  dataProviderSetData(data: any) {
     if (!this.mounted) {
       return;
     }
