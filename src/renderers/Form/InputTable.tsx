@@ -31,6 +31,26 @@ export interface TableControlSchema
   addable?: boolean;
 
   /**
+   * 可复制新增
+   */
+  copyable?: boolean;
+
+  /**
+   * 复制按钮文字
+   */
+  copyBtnLabel?: string;
+
+  /**
+   * 复制按钮图标
+   */
+  copyBtnIcon?: string;
+
+  /**
+   * 是否显示复制按钮
+   */
+  copyAddBtn?: boolean;
+
+  /**
    * 是否可以拖拽排序
    */
   draggable?: boolean;
@@ -41,12 +61,12 @@ export interface TableControlSchema
   addApi?: SchemaApi;
 
   /**
-   * 新增按钮
+   * 新增按钮文字
    */
   addBtnLabel?: string;
 
   /**
-   * 新增图标
+   * 新增按钮图标
    */
   addBtnIcon?: string;
 
@@ -73,12 +93,12 @@ export interface TableControlSchema
   /**
    * 更新按钮名称
    */
-  updateBtnLabel?: string;
+  editBtnLabel?: string;
 
   /**
    * 更新按钮图标
    */
-  updateBtnIcon?: string;
+  editBtnIcon?: string;
 
   /**
    * 确认按钮文字
@@ -172,7 +192,8 @@ export default class FormTable extends React.Component<TableProps, TableState> {
     placeholder: '空',
     scaffold: {},
     addBtnIcon: 'plus',
-    updateBtnIcon: 'pencil',
+    copyBtnIcon: 'copy',
+    editBtnIcon: 'pencil',
     deleteBtnIcon: 'minus',
     confirmBtnIcon: 'check',
     cancelBtnIcon: 'close',
@@ -188,6 +209,7 @@ export default class FormTable extends React.Component<TableProps, TableState> {
     'showAddBtn',
     'addable',
     'removable',
+    'copyable',
     'editable',
     'addApi',
     'updateApi',
@@ -423,6 +445,26 @@ export default class FormTable extends React.Component<TableProps, TableState> {
     return onAction && onAction(action, ctx, ...rest);
   }
 
+  copyItem(index: number) {
+    const {needConfirm} = this.props;
+    const items = this.state.items.concat();
+
+    items.splice(index + 1, 0, items[index]);
+    index = Math.min(index + 1, items.length - 1);
+    this.setState(
+      {
+        items
+      },
+      () => {
+        if (needConfirm === false) {
+          this.emitValue();
+        } else {
+          this.startEdit(index, true);
+        }
+      }
+    );
+  }
+
   addItem(index: number) {
     const {needConfirm, scaffold, columns} = this.props;
     const items = this.state.items.concat();
@@ -653,6 +695,38 @@ export default class FormTable extends React.Component<TableProps, TableState> {
       });
     }
 
+    if (props.copyable && props.showCopyBtn !== false) {
+      btns.push({
+        children: ({
+          key,
+          rowIndex,
+          offset
+        }: {
+          key: any;
+          rowIndex: number;
+          offset: number;
+        }) =>
+          ~this.state.editIndex && needConfirm !== false ? null : (
+            <Button
+              classPrefix={ns}
+              size="sm"
+              key={key}
+              level="link"
+              tooltip={__('Table.copyRow')}
+              tooltipContainer={
+                env && env.getModalContainer ? env.getModalContainer : undefined
+              }
+              onClick={this.copyItem.bind(this, rowIndex + offset, undefined)}
+            >
+              {props.copyBtnLabel ? <span>{props.copyBtnLabel}</span> : null}
+              {props.copyBtnIcon ? (
+                <Icon icon={props.copyBtnIcon} className="icon" />
+              ) : null}
+            </Button>
+          )
+      });
+    }
+
     if (props.needConfirm === false) {
       columns = columns.map(column => {
         const quickEdit = column.quickEdit;
@@ -716,11 +790,16 @@ export default class FormTable extends React.Component<TableProps, TableState> {
                 }
                 onClick={() => this.startEdit(rowIndex + offset)}
               >
-                {props.updateBtnLabel ? (
-                  <span>{props.updateBtnLabel}</span>
+                {props.updateBtnLabel || props.editBtnLabel ? (
+                  <span>{props.updateBtnLabel || props.editBtnLabel}</span>
                 ) : null}
-                {props.updateBtnIcon ? (
-                  <Icon icon={props.updateBtnIcon} className="icon" />
+                {/* 兼容之前的写法 */}
+                {typeof props.updateBtnIcon !== 'undefined' ? (
+                  props.updateBtnIcon ? (
+                    <Icon icon={props.updateBtnIcon} className="icon" />
+                  ) : null
+                ) : props.editBtnIcon ? (
+                  <Icon icon={props.editBtnIcon} className="icon" />
                 ) : null}
               </Button>
             )
