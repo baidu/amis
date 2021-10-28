@@ -8,7 +8,8 @@ import React from 'react';
 import Transition, {
   ENTERED,
   ENTERING,
-  EXITING
+  EXITING,
+  EXITED
 } from 'react-transition-group/Transition';
 import Portal from 'react-overlays/Portal';
 import {Icon} from './icons';
@@ -230,7 +231,7 @@ export class Drawer extends React.Component<DrawerProps, DrawerState> {
                   >
                     <Icon icon="close" className="icon" />
                   </a>
-                  {children}
+                  {status === EXITED ? null : children}
                 </div>
               </div>
             );

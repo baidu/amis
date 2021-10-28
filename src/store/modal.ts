@@ -24,6 +24,10 @@ export const ModalStore = ServiceStore.named('ModalStore')
       setFormData(obj: any) {
         self.form = obj;
       },
+      reset() {
+        self.form = {};
+        self.reInitData({}, true);
+      },
 
       setResizeCoord(value: number) {
         self.resizeCoord = value;
