@@ -85,49 +85,6 @@ const scopes = {
   }`
 };
 
-const requestAdaptor = config => {
-  const fn =
-    env && typeof env.requestAdaptor === 'function'
-      ? env.requestAdaptor.bind()
-      : config => config;
-  const request = fn(config) || config;
-
-  return request;
-};
-
-const responseAdaptor = api => value => {
-  let response = value.data || {}; // blob 下可能会返回内容为空？
-  // 之前拼写错了，需要兼容
-  if (env && env.responseAdpater) {
-    env.responseAdaptor = env.responseAdpater;
-  }
-  if (env && env.responseAdaptor) {
-    const url = api.url;
-    const idx = api.url.indexOf('?');
-    const query = ~idx ? qs.parse(api.url.substring(idx)) : {};
-    const request = {
-      ...api,
-      query: query,
-      body: api.data
-    };
-    response = env.responseAdaptor(api, response, query, request);
-  } else {
-    if (response.hasOwnProperty('errno')) {
-      response.status = response.errno;
-      response.msg = response.errmsg;
-    } else if (response.hasOwnProperty('no')) {
-      response.status = response.no;
-      response.msg = response.error;
-    }
-  }
-
-  const result = {
-    ...value,
-    data: response
-  };
-  return result;
-};
-
 export default class PlayGround extends React.Component {
   state = null;
   startX = 0;
