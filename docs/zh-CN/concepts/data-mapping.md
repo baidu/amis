@@ -626,7 +626,7 @@ ${xxx | dateModify:subtract:-7:day}
 
 ### fromNow
 
-> 1.3.5 及以上版本
+> 1.4.0 及以上版本
 
 显示日期和现在的相对时间
 

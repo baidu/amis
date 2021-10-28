@@ -354,7 +354,7 @@ Service 支持通过 WebSocket 获取数据，只需要设置 ws（由于无示�
 }
 ```
 
-> 1.3.5 及以上版本
+> 1.4.0 及以上版本
 
 或者是对象的方式支持配置初始 `data`，这个 data 会在建立连接时发送初始数据
 
@@ -402,7 +402,7 @@ ws.on('connection', function connection(ws) {
 
 WebSocket 客户端的默认实现是使用标准 WebSocket，如果后端使用定制的 WebSocket，比如 socket.io，可以通过覆盖 `env.wsFetcher` 来自己实现数据获取方法，默认实现是：
 
-> 1.3.5 及以上版本修改了 ws 类型，将之前的字符串改成了对象的方式，会有两个参数 url 和 body
+> 1.4.0 及以上版本修改了 ws 类型，将之前的字符串改成了对象的方式，会有两个参数 url 和 body
 
 ```javascript
 wsFetcher(ws, onMessage, onError) {
@@ -432,6 +432,58 @@ wsFetcher(ws, onMessage, onError) {
 
 通过 onMessage 来通知 amis 数据修改了，并返回 close 函数来关闭连接。
 
+## 调用外部函数获取数据
+
+> 1.4.0 及以上版本
+
+对于更复杂的数据获取情况，可以使用 `dataProvider` 属性来实现外部函数获取数据，它支持字符串和函数两种形式
+
+```schema: scope="body"
+{
+    "type": "service",
+    "dataProvider": "setData({ now: new Date().toString() })",
+    "body": {
+        "type": "tpl",
+        "tpl": "现在是：${now}"
+    }
+}
+```
+
+函数将会传递两个参数：`data` 和 `setData`，其中 `data` 可以拿到上下文数据，而 `setData` 函数可以用来更新数据，比如下面的例子
+
+```schema: scope="body"
+{
+    "type": "service",
+    "dataProvider": "const timer = setInterval(() => { setData({date: new Date().toString()}) }, 1000); return () => { clearInterval(timer) }",
+    "body": {
+        "type": "tpl",
+        "tpl": "现在是：${date}"
+    }
+}
+```
+
+上面这个例子还返回了一个函数，这个函数会在组件销毁的时候执行，可以用来清理资源。
+
+下面是使用函数类型的示例，注意这个示例不能放在 JSON 中，只能在 jssdk 或 react 项目里使用。
+
+```javascript
+{
+    "type": "service",
+    "func": async (data, setData) => {
+      const timer = setInterval(() => {
+        setData({date: new Date().toString()})
+      }, 1000);
+      return () => { clearInterval(timer) }
+    },
+    "body": {
+        "type": "tpl",
+        "tpl": "现在是：${now}"
+    }
+}
+```
+
+函数里可以使用 `await` 调用异步方法
+
 ## 属性表
 
 | 属性名                | 类型                                      | 默认值         | 说明                                                                          |
@@ -441,6 +493,7 @@ wsFetcher(ws, onMessage, onError) {
 | body                  | [SchemaNode](../../docs/types/schemanode) |                | 内容容器                                                                      |
 | api                   | [api](../../docs/types/api)               |                | 初始化数据域接口地址                                                          |
 | ws                    | `string`                                  |                | WebScocket 地址                                                               |
+| dataProvider          | `string`                                  |                | 数据获取函数                                                                  |
 | initFetch             | `boolean`                                 |                | 是否默认拉取                                                                  |
 | schemaApi             | [api](../../docs/types/api)               |                | 用来获取远程 Schema 接口地址                                                  |
 | initFetchSchema       | `boolean`                                 |                | 是否默认拉取 Schema                                                           |
