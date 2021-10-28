@@ -7,6 +7,7 @@ import {
   SchemaCollection,
   SchemaTpl
 } from '../Schema';
+import {isClickOnInput} from '../utils/helper';
 
 /**
  * Collapse 折叠渲染器，格式说明。
@@ -134,7 +135,10 @@ export default class Collapse extends React.Component<
     }
   }
 
-  toggleCollapsed() {
+  toggleCollapsed(e: React.MouseEvent<HTMLElement>) {
+    if (isClickOnInput(e)) {
+      return;
+    }
     this.props.collapsable !== false &&
       this.setState({
         collapsed: !this.state.collapsed
