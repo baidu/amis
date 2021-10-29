@@ -172,6 +172,12 @@
         pointer-events: none;
       }
 
+      &.active,
+      &.is-active {
+        background: var(--Nav-item-onActive-bg) !important;
+      }
+
+
       &.active > a,
       &.is-active > .#{$ns}Nav-item-atcions,
       &.is-active > a,
@@ -179,7 +185,6 @@
       &.is-active > .#{$ns}Badge > .#{$ns}Nav-item-atcions,
       &.is-active > .#{$ns}Badge > a {
         color: var(--Nav-item-onActive-color);
-        background: var(--Nav-item-onActive-bg) !important;
         position: relative;
 
         &::after {

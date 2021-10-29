@@ -106,6 +106,11 @@ export interface NavSchema extends BaseSchema {
     * 保存排序的 api
     */
   saveOrderApi?: SchemaApi;
+
+  /**
+   * 角标
+   */
+   badge?: BadgeSchema;
 }
 
 export interface Link {
@@ -228,11 +233,22 @@ export class Navigation extends React.Component<
       return null;
     }
     const isActive: boolean = !!link.active;
-    const {disabled, togglerClassName, classnames: cx, indentSize, render, itemActions, draggable, links} = this.props;
+    const {
+      disabled,
+      togglerClassName,
+      classnames: cx,
+      indentSize,
+      render,
+      itemActions,
+      draggable,
+      links,
+      badge: defaultBadge
+    } = this.props;
     const hasSub =
       (link.defer && !link.loaded) || (link.children && link.children.length);
     const id = guid();
     link.id = id;
+    const badge = defaultBadge ? Object.assign(defaultBadge, link.badge) : link.badge;
     return (
       <li
         key={index}
@@ -244,7 +260,7 @@ export class Navigation extends React.Component<
         })}
         data-id={id}
       >
-        <Badge classnames={cx} badge={link.badge} data={{}}>
+        <Badge classnames={cx} badge={badge} data={link}>
           <a
             onClick={this.handleClick.bind(this, link)}
             style={{paddingLeft: depth * (parseInt(indentSize as any, 10) ?? 24)}}
