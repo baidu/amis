@@ -22,9 +22,7 @@ interface ApiCacheConfig extends ApiObject {
 
 const apiCaches: Array<ApiCacheConfig> = [];
 
-const isIE = () => {
-  return !!(window as any).ActiveXObject || 'ActiveXObject' in window;
-};
+const isIE = !!(document as any).documentMode;
 
 export function normalizeApi(
   api: Api,
@@ -298,7 +296,7 @@ export function wrapFetcher(
       );
     }
     // IE 下 get 请求会被缓存，所以自动加个时间戳
-    if (isIE() && api && api.method?.toLocaleLowerCase() === 'get') {
+    if (isIE && api && api.method?.toLocaleLowerCase() === 'get') {
       const timeStamp = `_t=${Date.now()}`;
       if (api.url.indexOf('?') === -1) {
         api.url = api.url + `?${timeStamp}`;
