@@ -27,13 +27,13 @@ export interface BadgeSchema extends BaseSchema {
   /**
    * 角标类型
    */
-  mode?: 'text' | 'dot';
+  mode?: 'text' | 'dot' | 'ribbon';
 
   /**
    * 角标位置，优先级大于position
    */
   offset?: [number | string, number | string];
-  
+
   /**
    * 角标位置
    */
@@ -80,6 +80,62 @@ export class Badge extends React.Component<BadgeProps, object> {
     super(props);
   }
 
+  renderBadge(
+    text: any,
+    size: number,
+    position: any,
+    offsetStyle: any,
+    sizeStyle: any,
+    animationElement: any
+  ) {
+    const {classnames: cx, badge} = this.props;
+    const {
+      mode = 'dot',
+      level = 'danger',
+      style
+    } = badge as BadgeSchema;
+    switch(mode) {
+      case 'dot':
+        return (
+          <span
+            className={cx('Badge-dot', `Badge--${position}`, `Badge--${level}`)}
+            style={{...offsetStyle, ...sizeStyle, ...style}}
+          >
+            {animationElement}
+          </span>
+        );
+      case 'text':
+        return (
+          <span
+            className={cx('Badge-text', `Badge--${position}`, `Badge--${level}`)}
+            style={{...offsetStyle, ...sizeStyle, ...style}}
+          >
+            {text}
+            {animationElement}
+          </span>
+        );
+      case 'ribbon':
+        const outWidth = size * Math.sqrt(2) + 5;
+        return (
+          <div
+            className={cx('Badge-ribbon-out', `Badge-ribbon-out--${position}`)}
+            style={{width: outWidth}}
+          >
+            <span
+              className={cx('Badge-ribbon', `Badge-ribbon--${position}`, `Badge--${level}`)}
+              style={{...sizeStyle, ...style}}
+            >
+              {text}
+              {animationElement}
+            </span>
+          </div>
+
+        );
+      default:
+        return null;
+    }
+  }
+
   render() {
     const badge = this.props.badge;
     if (!badge) {
@@ -101,8 +157,7 @@ export class Badge extends React.Component<BadgeProps, object> {
       overflowCount = 99,
       visibleOn,
       className,
-      animation,
-      level = 'danger'
+      animation
     } = badge;
 
     if (visibleOn) {
@@ -117,6 +172,8 @@ export class Badge extends React.Component<BadgeProps, object> {
     if (typeof size === 'undefined') {
       if (mode === 'dot') {
         size = 6;
+      } else if (mode === 'ribbon'){
+        size = 12;
       } else {
         size = 16;
       }
@@ -143,6 +200,14 @@ export class Badge extends React.Component<BadgeProps, object> {
 
     if (mode === 'dot') {
       sizeStyle = {width: size, height: size};
+    }
+
+    if (mode === 'ribbon') {
+      sizeStyle = {
+        height: size,
+        lineHeight: size + 'px',
+        fontSize: size
+      };
     }
 
     let offsetStyle = {};
@@ -180,24 +245,15 @@ export class Badge extends React.Component<BadgeProps, object> {
     return (
       <div className={cx('Badge', className)}>
         {children}
-        {isDisplay ? (
-          mode === 'dot' ? (
-            <span
-              className={cx('Badge-dot', `Badge--${position}`, `Badge--${level}`)}
-              style={{...offsetStyle, ...sizeStyle, ...style}}
-            >
-              {animationElement}
-            </span>
-          ) : (
-            <span
-              className={cx('Badge-text', `Badge--${position}`, `Badge--${level}`)}
-              style={{...offsetStyle, ...sizeStyle, ...style}}
-            >
-              {text}
-              {animationElement}
-            </span>
-          )
-        ) : null}
+        {isDisplay ?
+          this.renderBadge(
+            text,
+            size,
+            position,
+            offsetStyle,
+            sizeStyle,
+            animationElement
+          ) : null}
       </div>
     );
   }

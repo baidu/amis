@@ -26,6 +26,7 @@ import {Payload} from '../types';
 import Spinner from '../components/Spinner';
 import cloneDeep from 'lodash/cloneDeep';
 import {isEffectiveApi} from '../utils/api';
+import {Badge, BadgeSchema} from '../components/Badge';
 
 export type NavItemSchema = {
   /**
@@ -53,12 +54,7 @@ export type NavItemSchema = {
   /**
    * 角标
    */
-  badge?: string | {
-    text: string,
-    style?: {
-      [propName: string]: any;
-    }
-  }
+  badge?: BadgeSchema
 } & Omit<BaseSchema, 'type'>;
 
 /**
@@ -126,6 +122,7 @@ export interface Link {
   loading?: boolean;
   loaded?: boolean;
   [propName: string]: any;
+  badge?: BadgeSchema
 }
 export interface Links extends Array<Link> {}
 
@@ -247,67 +244,60 @@ export class Navigation extends React.Component<
         })}
         data-id={id}
       >
-        <a
-          onClick={this.handleClick.bind(this, link)}
-          style={{paddingLeft: depth * (parseInt(indentSize as any, 10) ?? 24)}}
-        >
-          {!disabled && draggable && links && links.length > 1 ? (
-          <div className={cx('Nav-itemDrager')} >
-            <a
-              key="drag"
-              data-position="bottom"
-            >
-              <Icon icon="drag-bar" className="icon" />
-            </a>
-          </div>
-        ) : null}
-          {link.loading ? (
-            <Spinner
-              size="sm"
-              show
-              icon="reload"
-              spinnerClassName={cx('Nav-spinner')}
-            />
-          ) : hasSub ? (
-            <span
-              onClick={() => this.toggleLink(link)}
-              className={cx('Nav-itemToggler', togglerClassName)}
-            >
-              <Icon icon="caret" className="icon" />
-            </span>
+        <Badge classnames={cx} badge={link.badge} data={{}}>
+          <a
+            onClick={this.handleClick.bind(this, link)}
+            style={{paddingLeft: depth * (parseInt(indentSize as any, 10) ?? 24)}}
+          >
+            {!disabled && draggable && links && links.length > 1 ? (
+            <div className={cx('Nav-itemDrager')} >
+              <a
+                key="drag"
+                data-position="bottom"
+              >
+                <Icon icon="drag-bar" className="icon" />
+              </a>
+            </div>
           ) : null}
-          {generateIcon(cx, link.icon, 'Nav-itemIcon')}
-          {
-            link.label && (typeof link.label === 'string'
-            ? link.label
-            : render('inline', link.label as SchemaCollection))
-          }
-        </a>
-        {
-          // 更多操作
-          itemActions
-          ? <div className={cx('Nav-item-atcions')}>
+            {link.loading ? (
+              <Spinner
+                size="sm"
+                show
+                icon="reload"
+                spinnerClassName={cx('Nav-spinner')}
+              />
+            ) : hasSub ? (
+              <span
+                onClick={() => this.toggleLink(link)}
+                className={cx('Nav-itemToggler', togglerClassName)}
+              >
+                <Icon icon="caret" className="icon" />
+              </span>
+            ) : null}
+            {generateIcon(cx, link.icon, 'Nav-itemIcon')}
             {
-              render('inline', itemActions, {data: link})
+              link.label && (typeof link.label === 'string'
+              ? link.label
+              : render('inline', link.label as SchemaCollection))
             }
-          </div> : null
-        }
-        {link.badge ? (
-          <div className={cx('Nav-item-badgeText')}>
-            <span style={link.badge.style}>{
-              typeof link.badge === 'string'
-                ? link.badge
-                : link.badge.text
-            }</span>
-          </div>
-        ) : null}
-        {Array.isArray(link.children) && link.children.length ? (
-          <ul className={cx('Nav-subItems')} ref={this.dragRefFn}>
-            {link.children.map((link, index) =>
-              this.renderItem(link, index, depth + 1)
-            )}
-          </ul>
-        ) : null}
+          </a>
+          {
+            // 更多操作
+            itemActions
+            ? <div className={cx('Nav-item-atcions')}>
+              {
+                render('inline', itemActions, {data: link})
+              }
+            </div> : null
+          }
+          {Array.isArray(link.children) && link.children.length ? (
+            <ul className={cx('Nav-subItems')} ref={this.dragRefFn}>
+              {link.children.map((link, index) =>
+                this.renderItem(link, index, depth + 1)
+              )}
+            </ul>
+          ) : null}
+        </Badge>
       </li>
     );
   }

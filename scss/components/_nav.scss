@@ -62,11 +62,12 @@
   &--stacked {
     min-height: px2rem(50px);
 
-    .#{$ns}Nav-item {
+    .#{$ns}Nav-item, .#{$ns}Badge {
       position: relative;
       display: flex;
       flex-wrap: wrap;
       align-items: stretch;
+      width: 100%;
 
       .#{$ns}Nav-itemDrager {
         cursor: move;
@@ -74,7 +75,7 @@
         left: 0;
         top: px2rem(11px);
         display: none;
-        > a {
+        > a, > .#{$ns}Badge > a {
           color: var(--icon-color);
 
           &:hover {
@@ -112,7 +113,8 @@
         align-items: center;
       }
 
-      > a {
+      > a,
+      > .#{$ns}Badge > a {
         display: flex;
         align-items: center;
         outline: none;
@@ -139,26 +141,32 @@
         // }
       }
 
-      &.has-sub > a {
-        // padding-right: calc(var(--gap-base) + var(--gap-sm));
-      }
-
       > a:hover,
       > a:focus,
       > a:hover + .#{$ns}Nav-item-atcions,
-      > a:focus + .#{$ns}Nav-item-atcions {
+      > a:focus + .#{$ns}Nav-item-atcions,
+      > .#{$ns}Badge > a:hover,
+      > .#{$ns}Badge > a:focus,
+      > .#{$ns}Badge > a:hover + .#{$ns}Nav-item-atcions,
+      > .#{$ns}Badge > a:focus + .#{$ns}Nav-item-atcions
+       {
         border-color: var(--Nav-item-onHover-color);
         text-decoration: none;
         background: var(--Nav-item-onHover-bg);
+        z-index: 9999;
       }
 
       > a:hover > .#{$ns}Nav-itemDrager,
-      > a:focus > .#{$ns}Nav-itemDrager {
+      > a:focus > .#{$ns}Nav-itemDrager,
+      > .#{$ns}Badge > a:hover > .#{$ns}Nav-itemDrager,
+      > .#{$ns}Badge > a:focus > .#{$ns}Nav-itemDrager {
         display: block;
       }
 
       &.disabled > a,
-      &.is-disabled > a {
+      &.is-disabled > a,
+      &.disabled > .#{$ns}Badge > a,
+      &.is-disabled > .#{$ns}Badge > a {
         color: var(--Nav-item-onDisabled-color);
         background: transparent;
         pointer-events: none;
@@ -166,7 +174,10 @@
 
       &.active > a,
       &.is-active > .#{$ns}Nav-item-atcions,
-      &.is-active > a {
+      &.is-active > a,
+      &.active > .#{$ns}Badge > a,
+      &.is-active > .#{$ns}Badge > .#{$ns}Nav-item-atcions,
+      &.is-active > .#{$ns}Badge > a {
         color: var(--Nav-item-onActive-color);
         background: var(--Nav-item-onActive-bg) !important;
         position: relative;
@@ -176,7 +187,7 @@
         }
       }
 
-      &.is-unfolded > {
+      &.is-unfolded > , &.is-unfolded > .#{$ns}Badge > {
         a .#{$ns}Nav-itemToggler {
           transform: rotate(180deg) scale(0.8);
         }

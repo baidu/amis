@@ -28,10 +28,9 @@ order: 58
             "label": "Nav 2",
             "to": "/docs/api",
             "badge": {
-                "text": "test",
-                "style": {
-                    "background": "red"
-                }
+                "mode": "ribbon",
+                "text": "HOT",
+                "position": "top-left"
             }
         },
         {
@@ -207,9 +206,7 @@ order: 58
 | saveOrderApi         |  `string` 或 [API](../../docs/types/api) |          |保存排序的 api                                  |
 | links             | `Array`                                  |          | 链接集合                                                         |
 | links[x].label    | `string`                                 |          | 名称                                                            |
-| links[x].badge     | `string` | `Object`                            |          | 角标                                               |
-| links[x].badge.text | `string`                            |          | 角标文案                                                       |
-| links[x].badge.style | `object`                            |          | 角标自定义样式                                                   |
+| links[x].badge     | `BadgeSchema`                      |          | 角标                                               |
 | links[x].to       | [模板](../../docs/concepts/template)     |          | 链接地址                                                         |
 | links[x].target   | `string`                                 | 链接关系 |                                                                  |
 | links[x].icon     | `string`                                 |          | 图标                                                             |
