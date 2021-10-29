@@ -677,6 +677,34 @@ amis 会有默认的报错信息，如果你想自定义校验信息，配置`va
 - `matchRegexp3:/foo/` 必须命中某个正则。
 - `matchRegexp4:/foo/` 必须命中某个正则。
 
+#### 验证只允许 http 协议的 url 地址
+
+> 1.4.0 及以上版本
+
+isUrl 可以配置如下参数
+
+- schemes 协议，默认是为： `['http', 'https', 'ftp', 'sftp']`
+- allowLocal 是否允许填写本地地址
+- allowDataUrl 是否允许 dataUrl
+
+```schema: scope="body"
+{
+  "type": "form",
+  "body": [
+    {
+        "name": "url",
+        "type": "input-text",
+        "label": "只允许 https 打头的 url",
+        "validations": {
+          "isUrl": {
+            "schemes": ["https"]
+          }
+        }
+    }
+  ]
+}
+```
+
 ### 自定义校验函数
 
 可以自己写代码扩展表单验证，请参考 [这里](../../docs/extend/addon#扩展表单验证)
