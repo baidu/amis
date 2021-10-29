@@ -61,6 +61,7 @@ import EllipsisVIcon from '../icons/ellipsis-v.svg';
 import ExpandAltIcon from '../icons/expand-alt.svg';
 import CompressAltIcon from '../icons/compress-alt.svg';
 import TransparentIcon from '../icons/transparent.svg';
+import LoadingOutline from '../icons/loading-outline.svg';
 
 // 兼容原来的用法，后续不直接试用。
 
@@ -149,6 +150,7 @@ registerIcon('ellipsis-v', EllipsisVIcon);
 registerIcon('expand-alt', ExpandAltIcon);
 registerIcon('compress-alt', CompressAltIcon);
 registerIcon('transparent', TransparentIcon);
+registerIcon('loading-outline', LoadingOutline);
 
 export function Icon({
   icon,

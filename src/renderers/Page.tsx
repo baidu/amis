@@ -665,7 +665,7 @@ export default class Page extends React.Component<PageProps> {
       onAction: this.handleAction,
       onQuery: initApi ? this.handleQuery : undefined,
       onChange: this.handleChange,
-      loading: store.loading
+      pageLoading: store.loading
     };
 
     const hasAside = Array.isArray(regions)

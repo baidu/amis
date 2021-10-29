@@ -5,8 +5,8 @@
   --white: #{$white};
   // 因为运行不支持颜色计算，所以用 css 变量的方式需要多定义几个变量
   --primary: #{$primary};
-  --primary-onHover: #{darken($primary, 7.5%)};
-  --primary-onActive: #{darken($primary, 10%)};
+  --primary-onHover: #4F86F4;
+  --primary-onActive:#1C53C1;
   --secondary: #{$secondary};
   --secondary-onHover: #{darken($secondary, 7.5%)};
   --secondary-onActive: #{darken($secondary, 10%)};
@@ -192,12 +192,12 @@
   --Button--default-bg: var(--white);
   --Button--default-border: var(--borderColor);
   --Button--default-color: var(--text-color);
-  --Button--default-onActive-bg: #{darken($white, 10%)};
-  --Button--default-onActive-border: #{darken($borderColor, 12.5%)};
-  --Button--default-onActive-color: var(--Button--default-color);
-  --Button--default-onHover-bg: #{darken($white, 7.5%)};
-  --Button--default-onHover-border: #{darken($borderColor, 10%)};
-  --Button--default-onHover-color: var(--Button--default-color);
+  --Button--default-onActive-bg: var(--white);
+  --Button--default-onActive-border: var(--primary-onActive);
+  --Button--default-onActive-color: var(--primary-onActive);
+  --Button--default-onHover-bg: var(--white);
+  --Button--default-onHover-border: var(--primary);
+  --Button--default-onHover-color: var(--primary);
   --Button--iconOnly-minWidthRate: 4 / 3;
   --Button--info-bg: var(--info);
   --Button--info-border: var(--Button--info-bg);
@@ -230,7 +230,8 @@
   --Button--light-onHover-color: var(--Button--light-color);
   --Button--link-color: var(--primary);
   --Button--link-onDisabled-color: #{$gray600};
-  --Button--link-onHover-color: var(--text--loud-color);
+  --Button--link-onHover-color: var(--primary-onHover);
+  --Button--link-onActive-color: var(--primary-onActive);
   --Button--md-fontSize: var(--Button-fontSize);
   --Button--md-height: var(--Button-height);
   --Button--md-lineHeight: var(--Button-lineHeight);
@@ -245,10 +246,10 @@
   --Button--primary-border: var(--Button--primary-bg);
   --Button--primary-color: var(--button-color);
   --Button--primary-onActive-bg: var(--primary-onActive);
-  --Button--primary-onActive-border: #{darken($primary, 12.5%)};
+  --Button--primary-onActive-border: var(--primary-onActive);
   --Button--primary-onActive-color: var(--Button--primary-color);
   --Button--primary-onHover-bg: var(--primary-onHover);
-  --Button--primary-onHover-border: var(--primary-onActive);
+  --Button--primary-onHover-border: var(--primary-onHover);
   --Button--primary-onHover-color: var(--Button--primary-color);
   --Button--secondary-bg: var(--secondary);
   --Button--secondary-border: var(--Button--secondary-bg);
@@ -279,6 +280,14 @@
   --Button--success-onHover-bg: var(--success-onHover);
   --Button--success-onHover-border: var(--success-onActive);
   --Button--success-onHover-color: var(--Button--success-color);
+  --Button--enhance-border: var(--primary);
+  --Button--enhance-color: var(--primary);
+  --Button--enhance-onActive-bg: var(--white);
+  --Button--enhance-onActive-border: var(--primary-onActive);
+  --Button--enhance-onActive-color: var(--primary-onActive);
+  --Button--enhance-onHover-bg: var(--white);
+  --Button--enhance-onHover-border: var(--primary-onHover);
+  --Button--enhance-onHover-color: var(--primary-onHover);
   --Button--warning-bg: var(--warning);
   --Button--warning-border: var(--Button--warning-bg);
   --Button--warning-color: var(--button-color);
@@ -309,12 +318,15 @@
   --Button-lineHeight: var(--Form-input-lineHeight);
   --Button-mimWidth: auto;
   --Button-onActive-boxShadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
+  --Button-transition: all 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
+  --Button-animation-spin: spin 1s infinite linear;
   --Button-onActive-color: var(--primary);
   --Button-onActive-border: var(--primary);
   --Button-onDisabled-borderColor: #dee2e6;
   --Button-onDisabled-opacity: 0.65;
   --Button-onFocus-boxShadow: none;
   --Button-paddingX: #{px2rem(12px)};
+  --Button-paddingX-right: #{px2rem(10px)};
   --Button-paddingY: calc(
     (
         var(--Button-height) - var(--Button-borderWidth) * 2 -
