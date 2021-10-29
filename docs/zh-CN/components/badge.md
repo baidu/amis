@@ -133,6 +133,19 @@ order: 30
 ]
 ```
 
+通过 `offset` 来控制角标显示位置，offset优先级大于position。当设置了offset后，以postion为top-right为基准进行定位。offset在mode=ribbon下设置无效。
+
+```schema: scope="body"
+[
+  {
+    "type": "avatar",
+    "badge": {
+      "offset": [10, 10]
+    }
+  }
+]
+```
+
 ## 动态数字
 
 `text` 可以取上下文变量。
@@ -150,6 +163,26 @@ order: 30
         "mode": "text",
         "visibleOn": "this.myData > 1",
         "text": "${myData}"
+      }
+    }
+  ]
+}
+```
+
+## 设置封顶值
+
+通过 `overflowCount` 可以设置封顶值。超过 overflowCount 的会显示为 ${overflowCount}+，默认的 overflowCount 为 99
+
+```schema
+{
+  "type": "page",
+  "body": [
+    {
+      "type": "avatar",
+      "badge": {
+        "mode": "text",
+        "text": 10,
+        "overflowCount": 9
       }
     }
   ]
@@ -246,6 +279,24 @@ order: 30
 ]
 ```
 
+## 设置背景颜色
+
+通过 `color` 来控制背景颜色
+
+```schema: scope="body"
+[
+  {
+    "type": "avatar",
+    "badge": {
+      "mode": "text",
+      "text": 10,
+      "size": 20,
+      "color": "green"
+    }
+  },
+]
+```
+
 ## 是否显示动画
 
 在默认点状态下，可以通过设置 `animation` 属性来控制是否显示动画
@@ -290,14 +341,18 @@ order: 30
   }
 ]
 ```
-
 ## 属性表
 
-| 属性名    | 类型      | 默认值 | 说明                      |
-| --------- | --------- | ------ | ------------------------- |
-| className | `string`  |        | 外层 dom 的类名           |
-| text      | `text`    |        | 数字                      |
-| mode      | `string`  |        | 角标类型，可以是 dot/text |
-| className | `string`  |        | 外层 dom 的类名           |
-| animation | `boolean` |        | 角标是否显示动画          |
-| style     | `object`  |        | 角标的自定义样式          |
+| 属性名         | 类型                 | 默认值      | 说明                                                         |
+| ------------- | ------------------- | ---------- | -----------------------------------------------------------  |
+| mode          | `string`            |  dot       | 角标类型，可以是 dot/text                                       |
+| text          | `text`、`number`    |            | 角标文案，支持字符串和数字，在mode='dot'下设置无效                  |
+| size          | `number`            |            | 角标大小                               |
+| color         | `string`            |            | 角标背景颜色                                                   |
+| overflowCount | `number`            |   99       | 设置封顶的数字值                                                |
+| position      | `string`            | top-right  | 角标位置， 可以是top-right/top-left/bottom-right/bottom-left    |
+| offset        | `number[top, left]` |            | 角标位置，优先级大于position，当设置了offset后，以postion为top-right为基准进行定位 
+| className     | `string`            |            | 外层 dom 的类名                                                |
+| animation     | `boolean`           |            | 角标是否显示动画                                                |
+| style         | `object`            |            | 角标的自定义样式                                                |
+| visibleOn     | [表达式](../../../docs/concepts/expression) |     | 控制角标的显示隐藏                              |
