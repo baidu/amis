@@ -12,7 +12,6 @@
     transform-origin: 100% 0;
     z-index: auto;
     border-radius: calc(var(--Badge-size) / 2);
-    box-shadow: 0 0 0 1px #fff;
   }
 
   &--top-left {
@@ -38,6 +37,21 @@
     transform: translate(50%, 50%);
   }
 
+  &--danger {
+    background: var(--Badge--danger-bg);
+  }
+
+  &--info {
+    background: var(--Badge--info-bg);
+  }
+
+  &--success {
+    background: var(--Badge--success-bg);
+  }
+
+  &--warning {
+    background: var(--Badge--warning-bg);
+  }
   // 显示文字
   &-text {
     color: var(--Badge-color);
