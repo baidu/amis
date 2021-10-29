@@ -166,6 +166,10 @@
 
   --Badge-size: var(--gap-md);
   --Badge-color: var(--white);
+  --Badge--success-bg: var(--success);
+  --Badge--info-bg: var(--info);
+  --Badge--warning-bg: var(--warning);
+  --Badge--danger-bg: var(--danger);
 
   --Button--danger-bg: var(--danger);
   --Button--danger-border: var(--Button--danger-bg);
