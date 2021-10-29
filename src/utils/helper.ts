@@ -507,18 +507,6 @@ export function isDisabled(
   );
 }
 
-export function isLoading(
-  schema: {
-    loadingOn?: string;
-    loading?: boolean;
-  },
-  data?: object
-) {
-  return (
-    schema.loading ||
-    (schema.loadingOn && evalExpression(schema.loadingOn, data))
-  );
-}
 
 export function hasAbility(
   schema: any,

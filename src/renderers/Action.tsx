@@ -344,7 +344,7 @@ const ActionProps = [
 ];
 import {filterContents} from './Remark';
 import {ClassNamesFn, themeable, ThemeProps} from '../theme';
-import {autobind, isLoading} from '../utils/helper';
+import {autobind} from '../utils/helper';
 import {
   BaseSchema,
   FeedbackDialog,
@@ -611,9 +611,8 @@ export class ActionRenderer extends React.Component<
   }
 
   render() {
-    const {env, disabled, btnDisabled, data, ...rest} = this.props;
+    const {env, disabled, btnDisabled, data, loading, ...rest} = this.props;
 
-    let loading = isLoading(this.props.$schema, data);
     return (
       <Action
         {...(rest as any)}
