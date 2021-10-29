@@ -1500,15 +1500,11 @@ export default class CRUD extends React.Component<CRUDProps, any> {
   hasBulkActions() {
     const {bulkActions, itemActions, store} = this.props;
 
-    if (
-      (!bulkActions || !bulkActions.length) &&
-      (!itemActions || !itemActions.length)
-    ) {
+    if (!bulkActions || !bulkActions.length) {
       return false;
     }
 
     let bulkBtns: Array<ActionSchema> = [];
-    let itemBtns: Array<ActionSchema> = [];
     const ctx = store.mergedData;
 
     if (bulkActions && bulkActions.length) {
@@ -1520,21 +1516,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
         .filter(item => !item.hidden && item.visible !== false);
     }
 
-    const itemData = createObject(
-      store.data,
-      store.selectedItems.length ? store.selectedItems[0] : {}
-    );
-
-    if (itemActions && itemActions.length) {
-      itemBtns = itemActions
-        .map(item => ({
-          ...item,
-          ...getExprProperties(item as Schema, itemData)
-        }))
-        .filter(item => !item.hidden && item.visible !== false);
-    }
-
-    return bulkBtns.length || itemBtns.length;
+    return bulkBtns.length;
   }
 
   renderBulkActions(childProps: any) {
@@ -1542,11 +1524,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
 
     const items = childProps.items;
 
-    if (
-      !items.length ||
-      ((!bulkActions || !bulkActions.length) &&
-        (!itemActions || !itemActions.length))
-    ) {
+    if (!items.length || !bulkActions || !bulkActions.length) {
       return null;
     }
 
