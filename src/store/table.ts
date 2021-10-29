@@ -1030,8 +1030,12 @@ export const TableStore = iRendererStore
         const idx = self.selectedRows.indexOf(rowItem);
         if (idx === -1) {
           // 如果上一个是选中状态，则将之间的所有 check 都变成可选
-          if (lastCheckedRow.checked && self.selectedRows.length < maxLength) {
-            self.selectedRows.push(rowItem);
+          if (lastCheckedRow.checked) {
+            if (maxLength && self.selectedRows.length < maxLength) {
+              self.selectedRows.push(rowItem);
+            } else {
+              self.selectedRows.push(rowItem);
+            }
           }
         } else {
           if (!lastCheckedRow.checked) {
