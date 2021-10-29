@@ -83,3 +83,4 @@ order: 44
 | defaultIsOpened | `boolean`          |                   | 默认是否打开                              |
 | closeOnOutside  | `boolean`          |                   | 点击外侧区域是否收起                      |
 | trigger         | `click` 或 `hover` | `click`           | 触发方式                                  |
+| hideCaret       | `boolean`          | false             | 隐藏下拉图标                             |
