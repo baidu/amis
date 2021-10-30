@@ -102,15 +102,15 @@ export class Button extends React.Component<ButtonProps> {
         {loading && !disabled ? (
           <span
             className={cx(
-              overrideClassName ? '' : {[`Button--loading Button--loading--${level}`]: level},
+              overrideClassName
+                ? ''
+                : {[`Button--loading Button--loading--${level}`]: level},
               loadingClassName
             )}
           >
             <Icon icon="loading-outline" className="icon" />
           </span>
-        ) : (
-          ''
-        )}
+        ) : null}
         {children}
       </Comp>
     );
