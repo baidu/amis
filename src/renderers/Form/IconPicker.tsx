@@ -1,7 +1,6 @@
 import React from 'react';
 import cx from 'classnames';
-// @ts-ignore
-import matchSorter from 'match-sorter';
+import {matchSorter} from 'match-sorter';
 import keycode from 'keycode';
 import Downshift, {StateChangeOptions} from 'downshift';
 import {autobind} from '../../utils/helper';

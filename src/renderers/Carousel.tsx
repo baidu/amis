@@ -15,6 +15,8 @@ import {
 } from '../utils/helper';
 import {Icon} from '../components/icons';
 import {BaseSchema, SchemaCollection, SchemaName, SchemaTpl} from '../Schema';
+import Html from '../components/Html';
+import Image from '../renderers/Image';
 
 /**
  * Carousel 轮播图渲染器。
@@ -76,6 +78,11 @@ export interface CarouselSchema extends BaseSchema {
   name?: SchemaName;
 
   /**
+   * 预览图模式
+   */
+  thumbMode?: 'contain' | 'cover';
+
+  /**
    * 配置固定值
    */
   options?: Array<any>;
@@ -102,24 +109,35 @@ export interface CarouselState {
 }
 
 const defaultSchema = {
-  type: 'tpl',
-  tpl: `
-    <% if (data.hasOwnProperty('image')) { %>
-        <div style="background-image: url('<%= data.image %>'); background-size: contain; background-repeat: no-repeat; background-position: center center;" class="image <%= data.imageClassName %>"></div>
-        <% if (data.hasOwnProperty('title')) { %>
-            <div class="title <%= data.titleClassName %>"><%= data.title %></div>
-        <% } %>
-        <% if (data.hasOwnProperty('description')) { %>
-            <div class="description <%= data.descriptionClassName %>"><%= data.description %></div>
-        <% } %>
-    <% } else if (data.hasOwnProperty('html')) { %>
-        <%= data.html %>
-    <% } else if (data.hasOwnProperty('item')) { %>
-        <%= data.item %>
-    <% } else { %>
-        <%= '未找到渲染数据' %>
-    <% } %>
-    `
+  component: (props: any) => {
+    const data = props.data || {};
+    const thumbMode = props.thumbMode;
+    const cx = props.classnames;
+
+    return (
+      <>
+        {data.hasOwnProperty('image') ? (
+          <Image
+            src={data.image}
+            title={data.title}
+            href={data.href}
+            blank={data.blank}
+            htmlTarget={data.htmlTarget}
+            imageCaption={data.description}
+            thumbMode={data.thumbMode ?? thumbMode ?? 'contain'}
+            imageMode="original"
+            className={cx('Carousel-image')}
+          />
+        ) : data.hasOwnProperty('html') ? (
+          <Html html={data.html} />
+        ) : data.hasOwnProperty('item') ? (
+          <span>{data.item}</span>
+        ) : (
+          <p></p>
+        )}
+      </>
+    );
+  }
 };
 
 export class Carousel extends React.Component<CarouselProps, CarouselState> {
@@ -370,8 +388,9 @@ export class Carousel extends React.Component<CarouselProps, CarouselState> {
                   >
                     {render(
                       `${current}/body`,
-                      itemSchema ? itemSchema : defaultSchema,
+                      itemSchema ? itemSchema : (defaultSchema as any),
                       {
+                        thumbMode: this.props.thumbMode,
                         data: createObject(
                           data,
                           isObject(option)
@@ -385,8 +404,6 @@ export class Carousel extends React.Component<CarouselProps, CarouselState> {
               }}
             </Transition>
           ))}
-          {dots ? this.renderDots() : null}
-          {arrows ? this.renderArrows() : null}
         </div>
       );
     }
@@ -397,6 +414,18 @@ export class Carousel extends React.Component<CarouselProps, CarouselState> {
         style={carouselStyles}
       >
         {body ? body : placeholder}
+
+        {dots ? this.renderDots() : null}
+        {arrows ? (
+          <div className={cx('Carousel-leftArrow')} onClick={this.prev}>
+            <Icon icon="left-arrow" className="icon" />
+          </div>
+        ) : null}
+        {arrows ? (
+          <div className={cx('Carousel-rightArrow')} onClick={this.next}>
+            <Icon icon="right-arrow" className="icon" />
+          </div>
+        ) : null}
       </div>
     );
   }

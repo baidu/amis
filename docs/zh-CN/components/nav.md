@@ -106,6 +106,38 @@ order: 58
 }
 ```
 
+## 动态导航
+
+通过配置 source 来实现动态生成导航，source 可以是 api 地址或者变量，比如
+
+```schema
+{
+    "type": "page",
+    "data": {
+        "nav": [
+            {
+                "label": "Nav 1",
+                "to": "/docs/index",
+                "icon": "fa fa-user"
+            },
+            {
+                "label": "Nav 2",
+                "to": "/docs/api"
+            },
+            {
+                "label": "Nav 3",
+                "to": "/docs/renderers"
+            }
+        ]
+    },
+    "body": {
+        "type": "nav",
+        "stacked": true,
+        "source": "${nav}"
+    }
+}
+```
+
 ## 懒加载
 
 可以一次只加载部分层级，更深层次的选项可以标记为 `defer` 为 true，这样只有点开的时才会加载。

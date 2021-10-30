@@ -12,8 +12,6 @@ import {
   FunctionPropertyNames
 } from '../types';
 import {filter, evalExpression} from '../utils/tpl';
-import cx from 'classnames';
-import qs from 'qs';
 import {isVisible, autobind, bulkBindFunctions} from '../utils/helper';
 import {ScopedContext, IScopedContext} from '../Scoped';
 import Alert from '../components/Alert2';
@@ -31,6 +29,22 @@ import {
 } from '../Schema';
 import {SchemaRemark} from './Remark';
 import {onAction} from 'mobx-state-tree';
+import mapValues from 'lodash/mapValues';
+import {resolveVariable} from '../utils/tpl-builtin';
+
+/**
+ * 样式属性名及值
+ */
+interface Declaration {
+  [property: string]: string;
+}
+
+/**
+ * css 定义
+ */
+interface CSSRule {
+  [selector: string]: Declaration; // 定义
+}
 
 /**
  * amis Page 渲染器。详情请见：https://baidu.gitee.io/amis/docs/components/page
@@ -81,6 +95,19 @@ export interface PageSchema extends BaseSchema {
    */
   className?: SchemaClassName;
 
+  /**
+   * 自定义页面级别样式表
+   */
+  css?: CSSRule;
+
+  /**
+   * 移动端下的样式表
+   */
+  mobileCSS?: CSSRule;
+
+  /**
+   * 页面级别的初始数据
+   */
   data?: SchemaDefaultData;
 
   /**
@@ -149,7 +176,14 @@ export interface PageSchema extends BaseSchema {
    * 默认不设置自动感觉内容来决定要不要展示这些区域
    * 如果配置了，以配置为主。
    */
-  regions?: Array<'aside' | 'body' | 'toolbar' | 'header'> | void;
+  regions?: Array<'aside' | 'body' | 'toolbar' | 'header'>;
+
+  /**
+   * 自定义样式
+   */
+  style?: {
+    [propName: string]: any;
+  };
 }
 
 export interface PageProps
@@ -163,6 +197,8 @@ export interface PageProps
 export default class Page extends React.Component<PageProps> {
   timer: ReturnType<typeof setTimeout>;
   mounted: boolean;
+  style: HTMLStyleElement;
+  varStyle: HTMLStyleElement;
 
   static defaultProps = {
     asideClassName: '',
@@ -209,6 +245,86 @@ export default class Page extends React.Component<PageProps> {
       'silentReload',
       'initInterval'
     ]);
+
+    this.style = document.createElement('style');
+    this.style.setAttribute('data-page', '');
+    document.getElementsByTagName('head')[0].appendChild(this.style);
+    this.updateStyle();
+
+    this.varStyle = document.createElement('style');
+    this.style.setAttribute('data-vars', '');
+    document.getElementsByTagName('head')[0].appendChild(this.varStyle);
+    this.updateVarStyle();
+  }
+
+  /**
+   * 构建 css
+   */
+  updateStyle() {
+    if (this.props.css || this.props.mobileCSS) {
+      this.style.innerHTML = `
+      ${this.buildCSS(this.props.css)}
+
+      @media (max-width: 768px) {
+        ${this.buildCSS(this.props.mobileCSS)}
+      }
+      `;
+    } else {
+      this.style.innerHTML = '';
+    }
+  }
+
+  buildCSS(cssRules?: CSSRule) {
+    if (!cssRules) {
+      return '';
+    }
+    let css = '';
+
+    for (const selector in cssRules) {
+      const declaration = cssRules[selector];
+      let declarationStr = '';
+      for (const property in declaration) {
+        declarationStr += `  ${property}: ${declaration[property]};\n`;
+      }
+
+      css += `
+      ${selector} {
+        ${declarationStr}
+      }
+      `;
+    }
+    return css;
+  }
+
+  /**
+   * 构建用于 css 变量的内联样式
+   */
+  updateVarStyle() {
+    const cssVars = this.props.cssVars;
+    let cssVarsContent = '';
+    if (cssVars) {
+      for (const key in cssVars) {
+        if (key.startsWith('--')) {
+          if (key.indexOf(':') !== -1) {
+            continue;
+          }
+          const value = cssVars[key];
+          // 这是为了防止 xss，可能还有别的
+          if (
+            typeof value === 'string' &&
+            (value.indexOf('expression(') !== -1 || value.indexOf(';') !== -1)
+          ) {
+            continue;
+          }
+          cssVarsContent += `${key}: ${value}; \n`;
+        }
+      }
+      this.varStyle.innerHTML = `
+      :root {
+        ${cssVarsContent}
+      }
+      `;
+    }
   }
 
   componentDidMount() {
@@ -246,12 +362,29 @@ export default class Page extends React.Component<PageProps> {
             errorMessage: messages && messages.fetchFailed
           })
           .then(this.initInterval);
+    } else if (
+      JSON.stringify(props.css) !== JSON.stringify(prevProps.css) ||
+      JSON.stringify(props.mobileCSS) !== JSON.stringify(prevProps.mobileCSS)
+    ) {
+      this.updateStyle();
+    } else if (
+      JSON.stringify(props.cssVars) !== JSON.stringify(prevProps.cssVars)
+    ) {
+      this.updateVarStyle();
+    } else if (props.defaultData !== prevProps.defaultData) {
+      store.reInitData(props.defaultData);
     }
   }
 
   componentWillUnmount() {
     this.mounted = false;
     clearTimeout(this.timer);
+    if (this.style) {
+      this.style.remove();
+    }
+    if (this.varStyle) {
+      this.varStyle.remove();
+    }
   }
 
   reloadTarget(target: string, data?: any) {
@@ -426,14 +559,13 @@ export default class Page extends React.Component<PageProps> {
     submit?: boolean,
     changePristine?: boolean
   ) {
-    const {store} = this.props;
+    const {store, onChange} = this.props;
 
-    // 注意 form 也有 onChange 会进来，但是传参会不一样，而且不应该处理。
-    if (typeof name !== 'string' || !name) {
-      return;
+    if (typeof name === 'string' && name) {
+      store.changeValue(name, value, changePristine);
     }
 
-    store.changeValue(name, value, changePristine);
+    onChange?.apply(null, arguments);
   }
 
   renderHeader() {
@@ -516,7 +648,6 @@ export default class Page extends React.Component<PageProps> {
       store,
       body,
       bodyClassName,
-      cssVars,
       render,
       aside,
       asideClassName,
@@ -525,6 +656,8 @@ export default class Page extends React.Component<PageProps> {
       showErrorMsg,
       initApi,
       regions,
+      style,
+      data,
       translate: __
     } = this.props;
 
@@ -532,51 +665,24 @@ export default class Page extends React.Component<PageProps> {
       onAction: this.handleAction,
       onQuery: initApi ? this.handleQuery : undefined,
       onChange: this.handleChange,
-      loading: store.loading
+      pageLoading: store.loading
     };
 
     const hasAside = Array.isArray(regions)
       ? ~regions.indexOf('aside')
       : aside && (!Array.isArray(aside) || aside.length);
 
-    let cssVarsContent = '';
-    if (cssVars) {
-      for (const key in cssVars) {
-        if (key.startsWith('--')) {
-          if (key.indexOf(':') !== -1) {
-            continue;
-          }
-          const value = cssVars[key];
-          // 这是为了防止 xss，可能还有别的
-          if (
-            typeof value === 'string' &&
-            (value.indexOf('expression(') !== -1 || value.indexOf(';') !== -1)
-          ) {
-            continue;
-          }
-          cssVarsContent += `${key}: ${value}; \n`;
-        }
-      }
-    }
+    let styleVar =
+      typeof style === 'string'
+        ? resolveVariable(style, data) || {}
+        : mapValues(style, s => resolveVariable(s, data) || s);
 
     return (
       <div
         className={cx(`Page`, hasAside ? `Page--withSidebar` : '', className)}
         onClick={this.handleClick}
+        style={styleVar}
       >
-        {cssVarsContent ? (
-          <style
-            // 似乎无法用 style 属性的方式来实现，所以目前先这样做
-            dangerouslySetInnerHTML={{
-              __html: `
-          :root {
-            ${cssVarsContent}
-          }
-        `
-            }}
-          />
-        ) : null}
-
         {hasAside ? (
           <div className={cx(`Page-aside`, asideClassName)}>
             {render('aside', aside || '', {
@@ -722,9 +828,10 @@ export class PageRenderer extends Page {
     const scoped = this.context;
     const store = this.props.store;
     const dialogAction = store.action as Action;
+    const reload = action.reload ?? dialogAction.reload;
 
-    if (dialogAction.reload) {
-      scoped.reload(dialogAction.reload, store.data);
+    if (reload) {
+      scoped.reload(reload, store.data);
     } else {
       // 没有设置，则自动让页面中 crud 刷新。
       scoped
@@ -739,11 +846,12 @@ export class PageRenderer extends Page {
     const scoped = this.context as IScopedContext;
     const store = this.props.store;
     const drawerAction = store.action as Action;
+    const reload = action.reload ?? drawerAction.reload;
 
     // 稍等会，等动画结束。
     setTimeout(() => {
-      if (drawerAction.reload) {
-        scoped.reload(drawerAction.reload, store.data);
+      if (reload) {
+        scoped.reload(reload, store.data);
       } else {
         // 没有设置，则自动让页面中 crud 刷新。
         scoped

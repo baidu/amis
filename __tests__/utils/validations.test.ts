@@ -27,7 +27,12 @@ test('validation:isRequired invalid', () => {
         isRequired: 'This is required!'
       }
     )
-  ).toMatchObject(['This is required!']);
+  ).toMatchObject([
+    {
+      msg: 'This is required!',
+      rule: 'isRequired'
+    }
+  ]);
 });
 
 test('validation:isEmail valid', () => {
@@ -57,7 +62,12 @@ test('validation:isEmail invalid', () => {
         isEmail: 'Email 格式不正确'
       }
     )
-  ).toMatchObject(['Email 格式不正确']);
+  ).toMatchObject([
+    {
+      msg: 'Email 格式不正确',
+      rule: 'isEmail'
+    }
+  ]);
 });
 
 test('validation:isUrl valid', () => {
@@ -87,7 +97,12 @@ test('validation:isUrl invalid', () => {
         isUrl: 'Url 格式不正确'
       }
     )
-  ).toMatchObject(['Url 格式不正确']);
+  ).toMatchObject([
+    {
+      msg: 'Url 格式不正确',
+      rule: 'isUrl'
+    }
+  ]);
 });
 
 test('validation:isInt valid', () => {
@@ -117,7 +132,12 @@ test('validation:isInt invalid', () => {
         isInt: '请输入整型数字'
       }
     )
-  ).toMatchObject(['请输入整型数字']);
+  ).toMatchObject([
+    {
+      rule: 'isInt',
+      msg: '请输入整型数字'
+    }
+  ]);
 });
 
 test('validation:isAlpha valid', () => {
@@ -147,7 +167,12 @@ test('validation:isAlpha invalid', () => {
         isAlpha: '请输入字母'
       }
     )
-  ).toMatchObject(['请输入字母']);
+  ).toMatchObject([
+    {
+      rule: 'isAlpha',
+      msg: '请输入字母'
+    }
+  ]);
 });
 
 test('validation:isNumeric valid', () => {
@@ -177,7 +202,12 @@ test('validation:isNumeric invalid', () => {
         isNumeric: '请输入数字'
       }
     )
-  ).toMatchObject(['请输入数字']);
+  ).toMatchObject([
+    {
+      rule: 'isNumeric',
+      msg: '请输入数字'
+    }
+  ]);
 });
 
 test('validation:isAlphanumeric Alpha valid', () => {
@@ -222,7 +252,12 @@ test('validation:isAlphanumeric invalid', () => {
         isAlphanumeric: '请输入字母或者数字'
       }
     )
-  ).toMatchObject(['请输入字母或者数字']);
+  ).toMatchObject([
+    {
+      rule: 'isAlphanumeric',
+      msg: '请输入字母或者数字'
+    }
+  ]);
 });
 
 test('validation:isFloat valid', () => {
@@ -252,7 +287,12 @@ test('validation:isFloat invalid', () => {
         isFloat: '请输入浮点型数值'
       }
     )
-  ).toMatchObject(['请输入浮点型数值']);
+  ).toMatchObject([
+    {
+      rule: 'isFloat',
+      msg: '请输入浮点型数值'
+    }
+  ]);
 });
 
 test('validation:isWords valid', () => {
@@ -282,7 +322,12 @@ test('validation:isWords invalid', () => {
         isWords: '请输入字母'
       }
     )
-  ).toMatchObject(['请输入字母']);
+  ).toMatchObject([
+    {
+      rule: 'isWords',
+      msg: '请输入字母'
+    }
+  ]);
 });
 
 test('validation:isUrlPath valid', () => {
@@ -312,7 +357,12 @@ test('validation:isUrlPath invalid', () => {
         isUrlPath: '只能输入字母、数字、`-` 和 `_`'
       }
     )
-  ).toMatchObject(['只能输入字母、数字、`-` 和 `_`']);
+  ).toMatchObject([
+    {
+      rule: 'isUrlPath',
+      msg: '只能输入字母、数字、`-` 和 `_`'
+    }
+  ]);
 });
 
 test('validation:minLength valid', () => {
@@ -342,7 +392,12 @@ test('validation:minLength invalid', () => {
         minLength: '至少输入 5 个字符。'
       }
     )
-  ).toMatchObject(['至少输入 5 个字符。']);
+  ).toMatchObject([
+    {
+      rule: 'minLength',
+      msg: '至少输入 5 个字符。'
+    }
+  ]);
 });
 
 test('validation:maxLength valid', () => {
@@ -372,7 +427,12 @@ test('validation:maxLength invalid', () => {
         maxLength: '请不要输入 5 个字符以上'
       }
     )
-  ).toMatchObject(['请不要输入 5 个字符以上']);
+  ).toMatchObject([
+    {
+      rule: 'maxLength',
+      msg: '请不要输入 5 个字符以上'
+    }
+  ]);
 });
 
 test('validation:minimum valid', () => {
@@ -402,7 +462,12 @@ test('validation:minimum invalid', () => {
         minimum: '当前输入值低于最小值 5，请检查'
       }
     )
-  ).toMatchObject(['当前输入值低于最小值 5，请检查']);
+  ).toMatchObject([
+    {
+      rule: 'minimum',
+      msg: '当前输入值低于最小值 5，请检查'
+    }
+  ]);
 });
 
 test('validation:maximum valid', () => {
@@ -432,7 +497,12 @@ test('validation:maximum invalid', () => {
         maximum: '当前输入值超出最大值 5，请检查'
       }
     )
-  ).toMatchObject(['当前输入值超出最大值 5，请检查']);
+  ).toMatchObject([
+    {
+      rule: 'maximum',
+      msg: '当前输入值超出最大值 5，请检查'
+    }
+  ]);
 });
 
 test('validation:isJson valid', () => {
@@ -462,7 +532,32 @@ test('validation:isJson invalid', () => {
         isJson: '请检查 Json 格式'
       }
     )
-  ).toMatchObject(['请检查 Json 格式']);
+  ).toMatchObject([
+    {
+      rule: 'isJson',
+      msg: '请检查 Json 格式'
+    }
+  ]);
+});
+
+test('validation:isJson invalid', () => {
+  expect(
+    validate(
+      '12345',
+      {},
+      {
+        isJson: true
+      },
+      {
+        isJson: '请检查 Json 格式'
+      }
+    )
+  ).toMatchObject([
+    {
+      rule: 'isJson',
+      msg: '请检查 Json 格式'
+    }
+  ]);
 });
 
 test('validation:isLength valid', () => {
@@ -492,7 +587,12 @@ test('validation:isLength invalid', () => {
         isLength: '请输入长度为 5 的内容'
       }
     )
-  ).toMatchObject(['请输入长度为 5 的内容']);
+  ).toMatchObject([
+    {
+      rule: 'isLength',
+      msg: '请输入长度为 5 的内容'
+    }
+  ]);
 });
 
 test('validation:notEmptyString valid', () => {
@@ -522,7 +622,12 @@ test('validation:notEmptyString invalid', () => {
         notEmptyString: '请不要全输入空白字符'
       }
     )
-  ).toMatchObject(['请不要全输入空白字符']);
+  ).toMatchObject([
+    {
+      rule: 'notEmptyString',
+      msg: '请不要全输入空白字符'
+    }
+  ]);
 });
 
 test('validation:equalsField valid', () => {
@@ -556,7 +661,12 @@ test('validation:equalsField invalid', () => {
         equalsField: '输入的数据与 a 值不一致'
       }
     )
-  ).toMatchObject(['输入的数据与 a 值不一致']);
+  ).toMatchObject([
+    {
+      rule: 'equalsField',
+      msg: '输入的数据与 a 值不一致'
+    }
+  ]);
 });
 
 test('validation:equals valid', () => {
@@ -586,7 +696,12 @@ test('validation:equals invalid', () => {
         equals: '输入的数据与 a 不一致'
       }
     )
-  ).toMatchObject(['输入的数据与 a 不一致']);
+  ).toMatchObject([
+    {
+      rule: 'equals',
+      msg: '输入的数据与 a 不一致'
+    }
+  ]);
 });
 
 test('validation:multipleRules invalid', () => {
@@ -599,7 +714,16 @@ test('validation:multipleRules invalid', () => {
         isInt: true
       }
     )
-  ).toMatchObject(['validate.isUrl', 'validate.isInt']);
+  ).toMatchObject([
+    {
+      rule: 'isUrl',
+      msg: 'validate.isUrl'
+    },
+    {
+      rule: 'isInt',
+      msg: 'validate.isInt'
+    }
+  ]);
 });
 
 test('validation:matchRegexp valid', () => {
@@ -629,7 +753,12 @@ test('validation:matchRegexp invalid', () => {
         matchRegexp: '请输入abc开头的好么'
       }
     )
-  ).toMatchObject(['请输入abc开头的好么']);
+  ).toMatchObject([
+    {
+      rule: 'matchRegexp',
+      msg: '请输入abc开头的好么'
+    }
+  ]);
 });
 
 test('validation:matchRegexp:noSlash valid', () => {
@@ -659,7 +788,12 @@ test('validation:matchRegexp:noSlash invalid', () => {
         matchRegexp: '请输入abc开头的好么'
       }
     )
-  ).toMatchObject(['请输入abc开头的好么']);
+  ).toMatchObject([
+    {
+      rule: 'matchRegexp',
+      msg: '请输入abc开头的好么'
+    }
+  ]);
 });
 
 test('validation:multipleMatchRegexp valid', () => {
@@ -693,7 +827,16 @@ test('validation:multipleMatchRegexp invalid', () => {
         matchRegexp2: '请输入123结尾的好么'
       }
     )
-  ).toMatchObject(['请输入abc开头的好么', '请输入123结尾的好么']);
+  ).toMatchObject([
+    {
+      rule: 'matchRegexp1',
+      msg: '请输入abc开头的好么'
+    },
+    {
+      rule: 'matchRegexp2',
+      msg: '请输入123结尾的好么'
+    }
+  ]);
 });
 
 test('validation:multipleMatchRegexp:noSlash valid', () => {
@@ -727,7 +870,16 @@ test('validation:multipleMatchRegexp:noSlash invalid', () => {
         matchRegexp2: '请输入123结尾的好么'
       }
     )
-  ).toMatchObject(['请输入abc开头的好么', '请输入123结尾的好么']);
+  ).toMatchObject([
+    {
+      rule: 'matchRegexp1',
+      msg: '请输入abc开头的好么'
+    },
+    {
+      rule: 'matchRegexp2',
+      msg: '请输入123结尾的好么'
+    }
+  ]);
 });
 
 test('validation:str2rules', () => {

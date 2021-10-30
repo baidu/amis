@@ -41,6 +41,7 @@ export interface ExpressionProps extends ThemeProps {
   op?: OperatorType;
   config: Config;
   disabled?: boolean;
+  searchable?: boolean;
   fieldClassName?: string;
 }
 
@@ -130,7 +131,8 @@ export class Expression extends React.Component<ExpressionProps> {
       fieldClassName,
       config,
       data,
-      disabled
+      disabled,
+      searchable
     } = this.props;
     const inputType =
       ((value as any)?.type === 'field'
@@ -170,6 +172,7 @@ export class Expression extends React.Component<ExpressionProps> {
             onChange={this.handleFieldChange}
             fieldClassName={fieldClassName}
             disabled={disabled}
+            searchable={searchable}
             options={
               valueField
                 ? filterTree(

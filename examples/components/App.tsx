@@ -44,25 +44,24 @@ export function getContextPath() {
 
 const themes = [
   {
-    label: '默认主题',
-    ns: 'a-',
-    value: 'default'
-  },
-
-  {
-    label: '百度云舍',
+    label: '云舍',
     ns: 'cxd-',
     value: 'cxd'
-  },
-  {
-    label: 'Dark',
-    ns: 'dark-',
-    value: 'dark'
   },
   {
     label: '仿 AntD',
     ns: 'antd-',
     value: 'antd'
+  },
+  {
+    label: 'ang',
+    ns: 'a-',
+    value: 'ang'
+  },
+  {
+    label: 'Dark',
+    ns: 'dark-',
+    value: 'dark'
   }
 ];
 
@@ -151,7 +150,6 @@ export class App extends React.PureComponent<{
     offScreen: false,
     folded: false,
     headerVisible: true,
-    themeIndex: 0,
     themes: themes,
     theme:
       themes.find(item => item?.value === localStorage.getItem('theme')) ||

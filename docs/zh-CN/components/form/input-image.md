@@ -27,19 +27,51 @@ order: 27
 }
 ```
 
-### 接口返回格式
+默认情况下，选中文件后，就会自动调用 `receiver` 配置里的接口进行上传，比如 node 版本的示例如下：
+
+```javascript
+const express = require('express');
+const multer = require('multer');
+const upload = multer({dest: 'uploads/'});
+const app = express();
+
+app.use(express.static('public'));
+
+// 默认情况下是 file 字段名作为文件参数，也可以通过 fileField 配置来改成别的名字
+app.post('/uploader', upload.single('file'), function (req, res, next) {
+  res.json({
+    status: 0,
+    data: {
+      value: '/' + req.file.path
+    }
+  });
+});
+
+// 配合上面的返回值，将 uploads 目录可读，这样返回的文件才能正常显示
+app.get('uploads', express.static('uploads'));
+
+app.listen(8080, function () {});
+```
+
+这个接口需要返回图片地址，比如下面的格式
 
 ```json
 {
   "status": 0,
   "msg": "",
   "data": {
-    "value": "xxxx"
+    "value": "https:/xxx.yy/zz.png"
   }
 }
 ```
 
-- value：必须返回该字段用作回显，一般是文件资源地址
+点击表单提交的时候，实际提交的就是这个返回的图片地址，比如上面的例子是 `image`，则会提交
+
+```
+{
+  "image": "https:/xxx.yy/zz.png"
+}
+```
 
 ## 限制文件类型
 
@@ -96,14 +128,57 @@ order: 27
         {
             "type": "input-image",
             "name": "image",
-            "label": "限制只能上传jpg图片",
-            "accept": ".jpg",
+            "label": "上传后裁剪",
             "receiver": "/api/upload/file",
             "crop": true
         }
     ]
 }
 ```
+
+设置裁剪比例等配置，具体细节可以参考[这里](https://github.com/fengyuanchen/cropperjs#options)。
+
+```schema: scope="body"
+{
+    "type": "form",
+    "api": "/api/mock2/form/saveForm",
+    "body": [
+        {
+            "type": "input-image",
+            "name": "image",
+            "label": "上传后裁剪",
+            "receiver": "/api/upload/file",
+            "crop": {
+              "aspectRatio": 1.7777
+            }
+        }
+    ]
+}
+```
+
+默认情况下裁剪结果是 `png` 格式，如果要支持其它格式，请设置 `cropFormat`，比如下面设置为 `jpeg` 格式，同时设置质量为 `0.9`
+
+> 1.4.0 及以上版本
+
+```schema: scope="body"
+{
+    "type": "form",
+    "api": "/api/mock2/form/saveForm",
+    "body": [
+        {
+            "type": "input-image",
+            "name": "image",
+            "label": "上传后裁剪",
+            "receiver": "/api/upload/file",
+            "crop": true,
+            "cropFormat": "image/jpeg",
+            "cropQuality": 0.9
+        }
+    ]
+}
+```
+
+如果浏览器支持，还能设置为 `image/webp`
 
 ## 自动填充
 
@@ -203,6 +278,8 @@ order: 27
 | crop.rotatable     | `boolean`                       | `false`                | 裁剪时是否可旋转                                                                                                                                 |
 | crop.scalable      | `boolean`                       | `false`                | 裁剪时是否可缩放                                                                                                                                 |
 | crop.viewMode      | `number`                        | `1`                    | 裁剪时的查看模式，0 是无限制                                                                                                                     |
+| cropFormat         | `string`                        | `image/png`            | 裁剪文件格式                                                                                                                                     |
+| cropQuality        | `number`                        | `1`                    | 裁剪文件格式的质量，用于 jpeg/webp，取值在 0 和 1 之间                                                                                           |
 | limit              | Limit                           |                        | 限制图片大小，超出不让上传。                                                                                                                     |
 | frameImage         | `string`                        |                        | 默认占位图地址                                                                                                                                   |
 | fixedSize          | `boolean`                       |                        | 是否开启固定尺寸,若开启，需同时设置 fixedSizeClassName                                                                                           |

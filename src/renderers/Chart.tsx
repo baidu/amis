@@ -269,7 +269,7 @@ export class Chart extends React.Component<ChartProps> {
           await env.loadChartExtends();
         }
 
-        this.echarts = echarts.init(ref, theme);
+        this.echarts = (echarts as any).init(ref, theme);
 
         if (typeof onChartMount === 'string') {
           onChartMount = new Function('chart', 'echarts') as any;
@@ -304,7 +304,7 @@ export class Chart extends React.Component<ChartProps> {
   }
 
   reload(subpath?: string, query?: any) {
-    const {api, env, store, interval} = this.props;
+    const {api, env, store, interval, translate: __} = this.props;
 
     if (query) {
       return this.receive(query);
@@ -331,7 +331,7 @@ export class Chart extends React.Component<ChartProps> {
         if (!result.ok) {
           return env.notify(
             'error',
-            result.msg || '加载失败，请重试！',
+            result.msg || __('fetchFailed'),
             result.msgTimeout !== undefined
               ? {
                   closeButton: true,
@@ -454,15 +454,7 @@ export class Chart extends React.Component<ChartProps> {
       <div className={cx(`${ns}Chart`, className)} style={style}>
         <LazyComponent
           unMountOnHidden={unMountOnHidden}
-          placeholder={
-            <div className={`${ns}Chart-placeholder`}>
-              <Spinner
-                show
-                icon="reload"
-                spinnerClassName={cx('Chart-spinner')}
-              />
-            </div>
-          }
+          placeholder="..." // 之前那个 spinner 会导致 sensor 失效
           component={() => (
             <div className={`${ns}Chart-content`} ref={this.refFn}></div>
           )}

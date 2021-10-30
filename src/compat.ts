@@ -312,28 +312,14 @@ addSchemaFilter(function (scheam: Schema, renderer) {
             ]
           };
         } else if (item.type) {
-          let {
-            xs,
-            sm,
-            md,
-            lg,
-            body,
-            columnClassName,
-            mode,
-            horizontal,
-            ...rest
-          } = item;
-          body = Array.isArray(body) ? body.concat() : body ? [body] : [];
-          body.push(rest);
+          let {xs, sm, md, lg, columnClassName, ...rest} = item;
           item = {
             xs,
             sm,
             md,
             lg,
             columnClassName,
-            mode,
-            horizontal,
-            body
+            body: [rest]
           };
         }
 
@@ -360,26 +346,19 @@ addSchemaFilter(function (scheam: Schema, renderer) {
           height,
           style,
           columnClassName,
-          mode,
-          horizontal,
           visible,
           visibleOn,
-          body,
           ...rest
         } = item;
         if (item.type) {
-          body = Array.isArray(body) ? body.concat() : body ? [body] : [];
-          body.push(rest);
           item = {
             width,
             height,
             style,
             columnClassName,
-            mode,
-            horizontal,
             visible,
             visibleOn,
-            body
+            body: [rest]
           };
         }
 
@@ -552,7 +531,11 @@ addSchemaFilter(function (schema: Schema, renderer: any, props: any) {
     };
   }
 
-  if (schema?.controls && schema.type !== 'audio') {
+  if (
+    schema?.controls &&
+    schema.type !== 'audio' &&
+    schema.type !== 'carousel'
+  ) {
     schema = {
       ...schema,
       [schema.type === 'combo' ? `items` : 'body']: (Array.isArray(

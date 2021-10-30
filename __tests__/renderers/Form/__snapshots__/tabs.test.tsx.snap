@@ -3,17 +3,17 @@
 exports[`Renderer:tabs 1`] = `
 <div>
   <div
-    class="a-Panel a-Panel--default a-Panel--form"
+    class="cxd-Panel cxd-Panel--default cxd-Panel--form"
     style="position: relative;"
   >
     <div
-      class="a-Panel-heading"
+      class="cxd-Panel-heading"
     >
       <h3
-        class="a-Panel-title"
+        class="cxd-Panel-title"
       >
         <span
-          class="a-TplField"
+          class="cxd-TplField"
         >
           <span>
             The form
@@ -22,28 +22,32 @@ exports[`Renderer:tabs 1`] = `
       </h3>
     </div>
     <div
-      class="a-Panel-body"
+      class="cxd-Panel-body"
     >
       <form
-        class="a-Form a-Form--normal"
+        class="cxd-Form cxd-Form--normal"
         novalidate=""
       >
+        <input
+          style="display: none;"
+          type="submit"
+        />
         <div
-          class="a-Tabs"
+          class="cxd-Tabs cxd-Tabs--line"
         >
           <ul
-            class="a-Tabs-links"
+            class="cxd-Tabs-links"
             role="tablist"
           >
             <li
-              class="a-Tabs-link is-active"
+              class="cxd-Tabs-link is-active"
             >
               <a>
                 基本配置
               </a>
             </li>
             <li
-              class="a-Tabs-link"
+              class="cxd-Tabs-link"
             >
               <a>
                 其他配置
@@ -51,13 +55,13 @@ exports[`Renderer:tabs 1`] = `
             </li>
           </ul>
           <div
-            class="a-Tabs-content"
+            class="cxd-Tabs-content"
           >
             <div
-              class="in is-active a-Tabs-pane"
+              class="in is-active cxd-Tabs-pane"
             >
               <span
-                class="a-TplField"
+                class="cxd-TplField"
               >
                 <span>
                   <p>
@@ -67,18 +71,18 @@ exports[`Renderer:tabs 1`] = `
               </span>
             </div>
             <div
-              class="a-Tabs-pane"
+              class="cxd-Tabs-pane"
             >
               <div
-                class="a-Form-item a-Form-item--normal"
+                class="cxd-Form-item cxd-Form-item--normal"
                 data-role="form-item"
               >
                 <label
-                  class="a-Form-label"
+                  class="cxd-Form-label"
                 >
                   <span>
                     <span
-                      class="a-TplField"
+                      class="cxd-TplField"
                     >
                       <span>
                         文本3
@@ -87,10 +91,10 @@ exports[`Renderer:tabs 1`] = `
                   </span>
                 </label>
                 <div
-                  class="a-Form-control a-TextControl"
+                  class="cxd-Form-control cxd-TextControl"
                 >
                   <div
-                    class="a-TextControl-input"
+                    class="cxd-TextControl-input"
                   >
                     <input
                       autocomplete="off"
@@ -104,15 +108,15 @@ exports[`Renderer:tabs 1`] = `
                 </div>
               </div>
               <div
-                class="a-Form-item a-Form-item--normal"
+                class="cxd-Form-item cxd-Form-item--normal"
                 data-role="form-item"
               >
                 <label
-                  class="a-Form-label"
+                  class="cxd-Form-label"
                 >
                   <span>
                     <span
-                      class="a-TplField"
+                      class="cxd-TplField"
                     >
                       <span>
                         文本4
@@ -121,10 +125,10 @@ exports[`Renderer:tabs 1`] = `
                   </span>
                 </label>
                 <div
-                  class="a-Form-control a-TextControl"
+                  class="cxd-Form-control cxd-TextControl"
                 >
                   <div
-                    class="a-TextControl-input"
+                    class="cxd-TextControl-input"
                   >
                     <input
                       autocomplete="off"
@@ -140,10 +144,6 @@ exports[`Renderer:tabs 1`] = `
             </div>
           </div>
         </div>
-        <input
-          style="display: none;"
-          type="submit"
-        />
       </form>
     </div>
     <div

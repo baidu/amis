@@ -50,18 +50,19 @@ export function monacoFactory(
   options: any
 ) {
   return monaco.editor.create(containerElement, {
-    autoIndent: true,
-    formatOnType: true,
-    formatOnPaste: true,
-    selectOnLineNumbers: true,
-    scrollBeyondLastLine: false,
-    folding: true,
-    minimap: {
+    'autoIndent': true,
+    'formatOnType': true,
+    'formatOnPaste': true,
+    'selectOnLineNumbers': true,
+    'scrollBeyondLastLine': false,
+    'folding': true,
+    'minimap': {
       enabled: false
     },
-    scrollbar: {
+    'scrollbar': {
       alwaysConsumeMouseWheel: false
     },
+    'bracketPairColorization.enabled': true,
     ...options
   });
 }
@@ -83,6 +84,7 @@ export interface EditorProps extends LocaleProps {
   classnames: ClassNamesFn;
   context?: any;
   style?: any;
+  isDiffEditor?: boolean;
   onFocus?: () => void;
   onBlur?: () => void;
   editorDidMount?: (editor: any, monaco: any) => void;
@@ -119,7 +121,11 @@ export class Editor extends React.Component<EditorProps, any> {
   }
 
   componentDidUpdate(prevProps: EditorProps) {
-    if (this.props.value !== this.currentValue && this.editor) {
+    if (
+      this.props.value !== this.currentValue &&
+      this.editor &&
+      !this.props.isDiffEditor
+    ) {
       let value = String(this.props.value);
 
       if (this.props.language === 'json') {
@@ -293,7 +299,7 @@ export class Editor extends React.Component<EditorProps, any> {
       height,
       translate: __
     } = this.props;
-    let style = this.props.style || {};
+    let style = {...(this.props.style || {})};
 
     style.width = width;
     style.height = height;

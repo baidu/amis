@@ -45,7 +45,7 @@
   &--withAddOn > &-input {
     flex-basis: 1;
     flex-grow: 1;
-    width: 0;
+    min-width: 0;
 
     border-radius: 0;
 
@@ -156,7 +156,7 @@
 
     input {
       width: auto;
-      color: var(--Form-input-placeholderColor);
+      // color: var(--Form-input-placeholderColor);
     }
   }
 
@@ -259,5 +259,13 @@
 
   &-input--multiple &-valueLabel {
     padding: 0 var(--gap-xs);
+  }
+
+  &-counter {
+    color: var(--text--muted-color);
+  }
+
+  .has-error--maxLength &-counter {
+    color: var(--danger);
   }
 }

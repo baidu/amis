@@ -35,6 +35,7 @@ import {HeadCellSearchDropDown} from './HeadCellSearchDropdown';
 import {TableContent} from './TableContent';
 import {
   BaseSchema,
+  SchemaApi,
   SchemaClassName,
   SchemaObject,
   SchemaTokenizeableString,
@@ -110,6 +111,26 @@ export type TableColumnObject = {
   width?: number | string;
 
   /**
+   * 列对齐方式
+   */
+  align?: 'left' | 'right' | 'center' | 'justify';
+
+  /**
+   * 列样式表
+   */
+  className?: string;
+
+  /**
+   * 单元格样式表达式
+   */
+  classNameExpr?: string;
+
+  /**
+   * 列头样式表
+   */
+  labelClassName?: string;
+
+  /**
    * todo
    */
   filterable?:
@@ -129,6 +150,16 @@ export type TableColumnObject = {
    * 提示信息
    */
   remark?: SchemaRemark;
+
+  /**
+   * 默认值, 只有在 inputTable 里面才有用
+   */
+  value?: any;
+
+  /**
+   * 是否唯一, 只有在 inputTable 里面才有用
+   */
+  unique?: boolean;
 };
 
 export type TableColumnWithType = SchemaObject & TableColumnObject;
@@ -237,6 +268,16 @@ export interface TableSchema extends BaseSchema {
    * 底部总结行
    */
   affixRow?: Array<SchemaObject>;
+
+  /**
+   * 是否可调整列宽
+   */
+  resizable?: boolean;
+
+  /**
+   * 行样式表表达式
+   */
+  rowClassNameExpr?: string;
 }
 
 export interface TableProps extends RendererProps {
@@ -263,7 +304,7 @@ export interface TableProps extends RendererProps {
   columnsTogglable?: boolean | 'auto';
   affixHeader?: boolean;
   affixColumns?: boolean;
-  combineNum?: number;
+  combineNum?: number | string;
   combineFromIndex?: number;
   footable?:
     | boolean
@@ -284,6 +325,7 @@ export interface TableProps extends RendererProps {
     selectedItems: Array<object>,
     unSelectedItems: Array<object>
   ) => void;
+  onPristineChange?: (data: object, rowIndexe: string) => void;
   onSave?: (
     items: Array<object> | object,
     diff: Array<object> | object,
@@ -302,7 +344,14 @@ export interface TableProps extends RendererProps {
   rowClassNameExpr?: string;
   popOverContainer?: any;
   canAccessSuperData?: boolean;
+  reUseRow?: boolean;
 }
+
+type ExportExcelToolbar = SchemaNode & {
+  api?: SchemaApi;
+  columns?: string[];
+  filename?: string;
+};
 
 /**
  * 将 url 转成绝对地址
@@ -342,6 +391,7 @@ export default class Table extends React.Component<TableProps, object> {
     'itemDraggableOn',
     'checkOnItemClick',
     'hideCheckToggler',
+    'itemAction',
     'itemActions',
     'combineNum',
     'combineFromIndex',
@@ -373,7 +423,8 @@ export default class Table extends React.Component<TableProps, object> {
     itemCheckableOn: '',
     itemDraggableOn: '',
     hideCheckToggler: false,
-    canAccessSuperData: false
+    canAccessSuperData: false,
+    resizable: true
   };
 
   table?: HTMLTableElement;
@@ -389,6 +440,9 @@ export default class Table extends React.Component<TableProps, object> {
   unSensor?: Function;
   updateTableInfoLazy: () => void;
   widths: {
+    [propName: string]: number;
+  } = {};
+  widths2: {
     [propName: string]: number;
   } = {};
   heights: {
@@ -438,13 +492,20 @@ export default class Table extends React.Component<TableProps, object> {
       itemCheckableOn,
       itemDraggableOn,
       hideCheckToggler,
-      combineNum,
       combineFromIndex,
       expandConfig,
       formItem,
       keepItemSelectionOnPageChange,
       maxKeepItemSelectionLength
     } = props;
+
+    let combineNum = props.combineNum;
+    if (typeof combineNum === 'string') {
+      combineNum = parseInt(
+        resolveVariableAndFilter(combineNum, props.data, '| raw'),
+        10
+      );
+    }
 
     store.update({
       selectable,
@@ -467,7 +528,7 @@ export default class Table extends React.Component<TableProps, object> {
     });
 
     formItem && isAlive(formItem) && formItem.setSubStore(store);
-    Table.syncRows(store, this.props) && this.syncSelected();
+    Table.syncRows(store, this.props, undefined) && this.syncSelected();
   }
 
   static syncRows(
@@ -500,7 +561,7 @@ export default class Table extends React.Component<TableProps, object> {
       }
     }
 
-    updateRows && store.initRows(rows, props.getEntryId);
+    updateRows && store.initRows(rows, props.getEntryId, props.reUseRow);
     typeof props.selected !== 'undefined' &&
       store.updateSelected(props.selected, props.valueField);
     return updateRows;
@@ -554,6 +615,13 @@ export default class Table extends React.Component<TableProps, object> {
         props
       )
     ) {
+      let combineNum = props.combineNum;
+      if (typeof combineNum === 'string') {
+        combineNum = parseInt(
+          resolveVariableAndFilter(combineNum, props.data, '| raw'),
+          10
+        );
+      }
       store.update({
         selectable: props.selectable,
         columnsTogglable: props.columnsTogglable,
@@ -566,7 +634,7 @@ export default class Table extends React.Component<TableProps, object> {
         itemCheckableOn: props.itemCheckableOn,
         itemDraggableOn: props.itemDraggableOn,
         hideCheckToggler: props.hideCheckToggler,
-        combineNum: props.combineNum,
+        combineNum: combineNum,
         combineFromIndex: props.combineFromIndex,
         expandConfig: props.expandConfig
       });
@@ -621,8 +689,14 @@ export default class Table extends React.Component<TableProps, object> {
     onAction(e, action, ctx);
   }
 
-  handleCheck(item: IRow) {
-    item.toggle();
+  handleCheck(item: IRow, value: boolean, shift?: boolean) {
+    const {store} = this.props;
+    if (shift) {
+      store.toggleShift(item);
+    } else {
+      item.toggle();
+    }
+
     this.syncSelected();
   }
 
@@ -646,6 +720,7 @@ export default class Table extends React.Component<TableProps, object> {
 
     const {
       onSave,
+      onPristineChange,
       saveImmediately: propsSaveImmediately,
       primaryField
     } = this.props;
@@ -655,7 +730,10 @@ export default class Table extends React.Component<TableProps, object> {
     // 值发生变化了，需要通过 onSelect 通知到外面，否则会出现数据不同步的问题
     item.modified && this.syncSelected();
 
-    if ((!saveImmediately && !propsSaveImmediately) || savePristine) {
+    if (savePristine) {
+      onPristineChange?.(item.data, item.path);
+      return;
+    } else if (!saveImmediately && !propsSaveImmediately) {
       return;
     }
 
@@ -832,23 +910,36 @@ export default class Table extends React.Component<TableProps, object> {
     let widths: {
       [propName: string]: number;
     } = (this.widths = {});
+    let widths2: {
+      [propName: string]: number;
+    } = (this.widths2 = {});
     let heights: {
       [propName: string]: number;
     } = (this.heights = {});
 
-    heights.header ||
-      (heights.header = table
-        .querySelector('thead')!
-        .getBoundingClientRect().height);
+    heights.header = table
+      .querySelector('thead>tr:last-child')!
+      .getBoundingClientRect().height;
+    heights.header2 = table
+      .querySelector('thead>tr:first-child')!
+      .getBoundingClientRect().height;
 
     forEach(
       table.querySelectorAll('thead>tr:last-child>th'),
       (item: HTMLElement) => {
-        widths[
-          item.getAttribute('data-index') as string
-        ] = item.getBoundingClientRect().width;
+        widths[item.getAttribute('data-index') as string] =
+          item.getBoundingClientRect().width;
       }
     );
+
+    forEach(
+      table.querySelectorAll('thead>tr:first-child>th'),
+      (item: HTMLElement) => {
+        widths2[item.getAttribute('data-index') as string] =
+          item.getBoundingClientRect().width;
+      }
+    );
+
     forEach(
       table.querySelectorAll('tbody>tr>*:last-child'),
       (item: HTMLElement, index: number) =>
@@ -865,6 +956,7 @@ export default class Table extends React.Component<TableProps, object> {
       ),
       (table: HTMLTableElement) => {
         let totalWidth = 0;
+        let totalWidth2 = 0;
         forEach(
           table.querySelectorAll('thead>tr:last-child>th'),
           (item: HTMLElement) => {
@@ -873,10 +965,20 @@ export default class Table extends React.Component<TableProps, object> {
             totalWidth += width;
           }
         );
+        forEach(
+          table.querySelectorAll('thead>tr:first-child>th'),
+          (item: HTMLElement) => {
+            const width = widths2[item.getAttribute('data-index') as string];
+            item.style.cssText += `width: ${width}px; height: ${heights.header2}px`;
+            totalWidth2 += width;
+          }
+        );
+
         forEach(table.querySelectorAll('colgroup>col'), (item: HTMLElement) => {
           const width = widths[item.getAttribute('data-index') as string];
           item.setAttribute('width', `${width}`);
         });
+
         forEach(
           table.querySelectorAll('tbody>tr'),
           (item: HTMLElement, index) => {
@@ -884,14 +986,19 @@ export default class Table extends React.Component<TableProps, object> {
           }
         );
 
-        table.style.cssText += `width: ${totalWidth}px;table-layout: fixed;`;
+        table.style.cssText += `width: ${Math.max(
+          totalWidth,
+          totalWidth2
+        )}px;table-layout: auto;`;
       }
     );
 
     if (affixHeader) {
-      (dom.querySelector(
-        `.${ns}Table-fixedTop>.${ns}Table-wrapper`
-      ) as HTMLElement).style.cssText += `width: ${this.outterWidth}px`;
+      (
+        dom.querySelector(
+          `.${ns}Table-fixedTop>.${ns}Table-wrapper`
+        ) as HTMLElement
+      ).style.cssText += `width: ${this.outterWidth}px`;
     }
 
     this.lastScrollLeft = -1;
@@ -1201,6 +1308,44 @@ export default class Table extends React.Component<TableProps, object> {
     }
   }
 
+  // 以下变量都是用于列宽度调整拖拽
+  resizeLine: HTMLElement;
+  resizeLineLeft: number;
+  targetTh: HTMLElement;
+  targetThWidth: number;
+  lineStartX: number;
+
+  // 开始列宽度调整
+  @autobind
+  handleColResizeMouseDown(e: React.MouseEvent<HTMLElement>) {
+    this.lineStartX = e.clientX;
+    const currentTarget = e.currentTarget;
+    this.resizeLine = currentTarget;
+    this.resizeLineLeft = parseInt(
+      getComputedStyle(this.resizeLine).getPropertyValue('left'),
+      10
+    );
+    this.targetTh = this.resizeLine.parentElement! as HTMLElement;
+    this.targetThWidth = this.targetTh.getBoundingClientRect().width;
+    document.addEventListener('mousemove', this.handleColResizeMouseMove);
+    document.addEventListener('mouseup', this.handleColResizeMouseUp);
+  }
+
+  // 垂直线拖拽移动
+  @autobind
+  handleColResizeMouseMove(e: MouseEvent) {
+    const moveX = e.clientX - this.lineStartX;
+    this.resizeLine.style.left = this.resizeLineLeft + moveX + 'px';
+    this.targetTh.style.width = this.targetThWidth + moveX + 'px';
+  }
+
+  // 垂直线拖拽结束
+  @autobind
+  handleColResizeMouseUp(e: MouseEvent) {
+    document.removeEventListener('mousemove', this.handleColResizeMouseMove);
+    document.removeEventListener('mouseup', this.handleColResizeMouseUp);
+  }
+
   renderHeading() {
     let {
       title,
@@ -1210,12 +1355,16 @@ export default class Table extends React.Component<TableProps, object> {
       classnames: cx,
       saveImmediately,
       headingClassName,
+      quickSaveApi,
       translate: __
     } = this.props;
 
     if (
       title ||
-      (!saveImmediately && store.modified && !hideQuickSaveBtn) ||
+      (quickSaveApi &&
+        !saveImmediately &&
+        store.modified &&
+        !hideQuickSaveBtn) ||
       store.moved
     ) {
       return (
@@ -1285,6 +1434,7 @@ export default class Table extends React.Component<TableProps, object> {
       env,
       render,
       classPrefix: ns,
+      resizable,
       classnames: cx
     } = this.props;
 
@@ -1420,21 +1570,36 @@ export default class Table extends React.Component<TableProps, object> {
       props.style.width = column.pristine.width;
     }
 
+    if (column.pristine.align) {
+      props.style = props.style || {};
+      props.style.textAlign = column.pristine.align;
+    }
+
+    const resizeLine = (
+      <div
+        className={cx('Table-content-colDragLine')}
+        key={`resize-${column.index}`}
+        onMouseDown={this.handleColResizeMouseDown}
+      ></div>
+    );
+
     return (
       <th
         {...props}
-        className={cx(
-          props ? (props as any).className : '',
-          column.pristine.className,
-          {
-            'TableCell--sortable': column.sortable,
-            'TableCell--searchable': column.searchable,
-            'TableCell--filterable': column.filterable,
-            'Table-operationCell': column.type === 'operation'
-          }
-        )}
+        className={cx(props ? (props as any).className : '', {
+          'TableCell--sortable': column.sortable,
+          'TableCell--searchable': column.searchable,
+          'TableCell--filterable': column.filterable,
+          'Table-operationCell': column.type === 'operation'
+        })}
       >
-        <div className={cx(`${ns}TableCell--title`)}>
+        <div
+          className={cx(
+            `${ns}TableCell--title`,
+            column.pristine.className,
+            column.pristine.labelClassName
+          )}
+        >
           {column.label ? render('tpl', column.label) : null}
 
           {column.remark
@@ -1450,6 +1615,7 @@ export default class Table extends React.Component<TableProps, object> {
         </div>
 
         {affix}
+        {resizable === false ? null : resizeLine}
       </th>
     );
   }
@@ -1575,6 +1741,7 @@ export default class Table extends React.Component<TableProps, object> {
   renderAffixHeader(tableClassName: string) {
     const {store, affixHeader, render, classnames: cx} = this.props;
     const hideHeader = store.filteredColumns.every(column => !column.label);
+    const columnsGroup = store.columnGroup;
 
     return affixHeader ? (
       <div
@@ -1612,13 +1779,14 @@ export default class Table extends React.Component<TableProps, object> {
               ))}
             </colgroup>
             <thead>
-              {store.columnGroup.length ? (
+              {columnsGroup.length ? (
                 <tr>
-                  {store.columnGroup.map((item, index) => (
+                  {columnsGroup.map((item, index) => (
                     <th
                       key={index}
                       data-index={item.index}
                       colSpan={item.colSpan}
+                      rowSpan={item.rowSpan}
                     >
                       {item.label ? render('tpl', item.label) : null}
                     </th>
@@ -1627,10 +1795,13 @@ export default class Table extends React.Component<TableProps, object> {
               ) : null}
               <tr>
                 {store.filteredColumns.map(column =>
-                  this.renderHeadCell(column, {
-                    'key': column.index,
-                    'data-index': column.index
-                  })
+                  columnsGroup.find(group => ~group.has.indexOf(column))
+                    ?.rowSpan === 2
+                    ? null
+                    : this.renderHeadCell(column, {
+                        'key': column.index,
+                        'data-index': column.index
+                      })
                 )}
               </tr>
             </thead>
@@ -1657,9 +1828,11 @@ export default class Table extends React.Component<TableProps, object> {
       checkOnItemClick,
       buildItemProps,
       rowClassNameExpr,
-      rowClassName
+      rowClassName,
+      itemAction
     } = this.props;
     const hideHeader = store.filteredColumns.every(column => !column.label);
+    const columnsGroup = store.columnGroup;
     return (
       <table
         className={cx(
@@ -1669,9 +1842,9 @@ export default class Table extends React.Component<TableProps, object> {
         )}
       >
         <thead>
-          {store.columnGroup.length ? (
+          {columnsGroup.length ? (
             <tr>
-              {store.columnGroup.map((item, index) => {
+              {columnsGroup.map((item, index) => {
                 const renderColumns = columns.filter(a => ~item.has.indexOf(a));
 
                 return renderColumns.length ? (
@@ -1679,8 +1852,9 @@ export default class Table extends React.Component<TableProps, object> {
                     key={index}
                     data-index={item.index}
                     colSpan={renderColumns.length}
+                    rowSpan={item.rowSpan}
                   >
-                    {'\u00A0'}
+                    {item.label}
                   </th>
                 ) : null;
               })}
@@ -1688,10 +1862,13 @@ export default class Table extends React.Component<TableProps, object> {
           ) : null}
           <tr className={hideHeader ? 'fake-hide' : ''}>
             {columns.map(column =>
-              this.renderHeadCell(column, {
-                'key': column.index,
-                'data-index': column.index
-              })
+              columnsGroup.find(group => ~group.has.indexOf(column))
+                ?.rowSpan === 2
+                ? null
+                : this.renderHeadCell(column, {
+                    'key': column.index,
+                    'data-index': column.index
+                  })
             )}
           </tr>
         </thead>
@@ -1713,6 +1890,7 @@ export default class Table extends React.Component<TableProps, object> {
               store.combineNum > 0 ? 'Table-table--withCombine' : '',
               tableClassName
             )}
+            itemAction={itemAction}
             classnames={cx}
             render={render}
             renderCell={this.renderCell}
@@ -1839,7 +2017,7 @@ export default class Table extends React.Component<TableProps, object> {
     );
   }
 
-  renderExportExcel(toolbar: SchemaNode) {
+  renderExportExcel(toolbar: ExportExcelToolbar) {
     const {
       store,
       env,
@@ -1863,8 +2041,8 @@ export default class Table extends React.Component<TableProps, object> {
             let tmpStore;
             let filename = 'data';
             // 支持配置 api 远程获取
-            if (typeof toolbar === 'object' && (toolbar as Schema).api) {
-              const res = await env.fetcher((toolbar as Schema).api, data);
+            if (typeof toolbar === 'object' && toolbar.api) {
+              const res = await env.fetcher(toolbar.api, data);
               if (!res.data) {
                 env.notify('warning', __('placeholder.noData'));
                 return;
@@ -1882,8 +2060,8 @@ export default class Table extends React.Component<TableProps, object> {
               rows = store.rows;
             }
 
-            if (typeof toolbar === 'object' && (toolbar as Schema).filename) {
-              filename = filter((toolbar as Schema).filename, data, '| raw');
+            if (typeof toolbar === 'object' && toolbar.filename) {
+              filename = filter(toolbar.filename, data, '| raw');
             }
 
             if (rows.length === 0) {
@@ -1897,7 +2075,17 @@ export default class Table extends React.Component<TableProps, object> {
             });
             worksheet.views = [{state: 'frozen', xSplit: 0, ySplit: 1}];
 
-            const firstRowLabels = columns.map(column => {
+            const filteredColumns = toolbar.columns
+              ? columns.filter(column => {
+                  const filterColumnsNames = toolbar.columns!;
+                  if (filterColumnsNames.indexOf(column.name) !== -1) {
+                    return true;
+                  }
+                  return false;
+                })
+              : columns;
+
+            const firstRowLabels = filteredColumns.map(column => {
               return column.label;
             });
             const firstRow = worksheet.getRow(1);
@@ -1912,13 +2100,15 @@ export default class Table extends React.Component<TableProps, object> {
                 column: firstRowLabels.length
               }
             };
+            // 用于 mapping source 的情况
+            const remoteMappingCache: any = {};
             // 数据从第二行开始
             let rowIndex = 1;
             for (const row of rows) {
               rowIndex += 1;
               const sheetRow = worksheet.getRow(rowIndex);
               let columIndex = 0;
-              for (const column of columns) {
+              for (const column of filteredColumns) {
                 columIndex += 1;
                 const name = column.name!;
                 const value = getVariable(row.data, name);
@@ -1944,54 +2134,58 @@ export default class Table extends React.Component<TableProps, object> {
                 }
 
                 const type = (column as BaseSchema).type || 'plain';
-                if (type === 'image') {
-                  const imageData = await toDataURL(value);
-                  const imageDimensions = await getImageDimensions(imageData);
-                  let imageWidth = imageDimensions.width;
-                  let imageHeight = imageDimensions.height;
-                  // 限制一下图片高宽
-                  const imageMaxSize = 100;
-                  if (imageWidth > imageHeight) {
-                    if (imageWidth > imageMaxSize) {
-                      imageHeight = (imageMaxSize * imageHeight) / imageWidth;
-                      imageWidth = imageMaxSize;
+                if (type === 'image' && value) {
+                  try {
+                    const imageData = await toDataURL(value);
+                    const imageDimensions = await getImageDimensions(imageData);
+                    let imageWidth = imageDimensions.width;
+                    let imageHeight = imageDimensions.height;
+                    // 限制一下图片高宽
+                    const imageMaxSize = 100;
+                    if (imageWidth > imageHeight) {
+                      if (imageWidth > imageMaxSize) {
+                        imageHeight = (imageMaxSize * imageHeight) / imageWidth;
+                        imageWidth = imageMaxSize;
+                      }
+                    } else {
+                      if (imageHeight > imageMaxSize) {
+                        imageWidth = (imageMaxSize * imageWidth) / imageHeight;
+                        imageHeight = imageMaxSize;
+                      }
                     }
-                  } else {
-                    if (imageHeight > imageMaxSize) {
-                      imageWidth = (imageMaxSize * imageWidth) / imageHeight;
-                      imageHeight = imageMaxSize;
+                    const imageMatch = imageData.match(/data:image\/(.*);/);
+                    let imageExt = 'png';
+                    if (imageMatch) {
+                      imageExt = imageMatch[1];
                     }
-                  }
-                  const imageMatch = imageData.match(/data:image\/(.*);/);
-                  let imageExt = 'png';
-                  if (imageMatch) {
-                    imageExt = imageMatch[1];
-                  }
-                  // 目前 excel 只支持这些格式，所以其它格式直接输出 url
-                  if (
-                    imageExt != 'png' &&
-                    imageExt != 'jpeg' &&
-                    imageExt != 'gif'
-                  ) {
-                    sheetRow.getCell(columIndex).value = value;
-                    continue;
-                  }
-                  const imageId = workbook.addImage({
-                    base64: imageData,
-                    extension: imageExt
-                  });
-                  const linkURL = getAbsoluteUrl(value);
-                  worksheet.addImage(imageId, {
-                    // 这里坐标位置是从 0 开始的，所以要减一
-                    tl: {col: columIndex - 1, row: rowIndex - 1},
-                    ext: {
-                      width: imageWidth,
-                      height: imageHeight
-                    },
-                    hyperlinks: {
-                      tooltip: linkURL
+                    // 目前 excel 只支持这些格式，所以其它格式直接输出 url
+                    if (
+                      imageExt != 'png' &&
+                      imageExt != 'jpeg' &&
+                      imageExt != 'gif'
+                    ) {
+                      sheetRow.getCell(columIndex).value = value;
+                      continue;
                     }
-                  });
+                    const imageId = workbook.addImage({
+                      base64: imageData,
+                      extension: imageExt
+                    });
+                    const linkURL = getAbsoluteUrl(value);
+                    worksheet.addImage(imageId, {
+                      // 这里坐标位置是从 0 开始的，所以要减一
+                      tl: {col: columIndex - 1, row: rowIndex - 1},
+                      ext: {
+                        width: imageWidth,
+                        height: imageHeight
+                      },
+                      hyperlinks: {
+                        tooltip: linkURL
+                      }
+                    });
+                  } catch (e) {
+                    console.warn(e.stack);
+                  }
                 } else if (type == 'link') {
                   const linkURL = getAbsoluteUrl(value);
                   sheetRow.getCell(columIndex).value = {
@@ -2000,7 +2194,30 @@ export default class Table extends React.Component<TableProps, object> {
                   };
                 } else if (type === 'mapping') {
                   // 拷贝自 Mapping.tsx
-                  const map = (column as MappingSchema).map;
+                  let map = (column as MappingSchema).map;
+                  const source = (column as MappingSchema).source;
+                  if (source) {
+                    let sourceValue = source;
+                    if (isPureVariable(source)) {
+                      sourceValue = resolveVariableAndFilter(
+                        source as string,
+                        data,
+                        '| raw'
+                      );
+                    }
+
+                    const mapKey = JSON.stringify(source);
+                    if (mapKey in remoteMappingCache) {
+                      map = remoteMappingCache[mapKey];
+                    } else {
+                      const res = await env.fetcher(sourceValue, data);
+                      if (res.data) {
+                        remoteMappingCache[mapKey] = res.data;
+                        map = res.data;
+                      }
+                    }
+                  }
+
                   if (
                     typeof value !== 'undefined' &&
                     map &&
@@ -2013,9 +2230,10 @@ export default class Table extends React.Component<TableProps, object> {
                         : value === false && map['0']
                         ? map['0']
                         : map['*']); // 兼容平台旧用法：即 value 为 true 时映射 1 ，为 false 时映射 0
-                    sheetRow.getCell(columIndex).value = viewValue;
+                    sheetRow.getCell(columIndex).value =
+                      removeHTMLTag(viewValue);
                   } else {
-                    sheetRow.getCell(columIndex).value = value;
+                    sheetRow.getCell(columIndex).value = removeHTMLTag(value);
                   }
                 } else {
                   if ((column as TplSchema).tpl) {
@@ -2033,8 +2251,7 @@ export default class Table extends React.Component<TableProps, object> {
 
             if (buffer) {
               var blob = new Blob([buffer], {
-                type:
-                  'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+                type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
               });
               saveAs(blob, filename + '.xlsx');
             }
@@ -2289,7 +2506,8 @@ export default class Table extends React.Component<TableProps, object> {
       prefixRow,
       locale,
       affixRow,
-      translate
+      translate,
+      itemAction
     } = this.props;
 
     // 理论上来说 store.rows 应该也行啊
@@ -2302,6 +2520,7 @@ export default class Table extends React.Component<TableProps, object> {
           store.combineNum > 0 ? 'Table-table--withCombine' : '',
           tableClassName
         )}
+        itemAction={itemAction}
         classnames={cx}
         columns={store.filteredColumns}
         columnsGroup={store.columnGroup}

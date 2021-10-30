@@ -482,6 +482,39 @@ export const CRUDStore = ServiceStore.named('CRUDStore')
       self.reInitData(data);
     };
 
+    const exportAsCSV = async (
+      options: {loadDataOnce?: boolean; api?: Api; data?: any} = {}
+    ) => {
+      let items = options.loadDataOnce ? self.data.itemsRaw : self.data.items;
+
+      if (options.api) {
+        const env = getEnv(self);
+        const res = await env.fetcher(options.api, options.data);
+        if (!res.data) {
+          return;
+        }
+        if (Array.isArray(res.data)) {
+          items = res.data;
+        } else {
+          items = res.data.rows || res.data.items;
+        }
+      }
+
+      import('papaparse').then((papaparse: any) => {
+        const csvText = papaparse.unparse(items);
+        if (csvText) {
+          const blob = new Blob(
+            // 加上 BOM 这样 Excel 打开的时候就不会乱码
+            [new Uint8Array([0xef, 0xbb, 0xbf]), csvText],
+            {
+              type: 'text/plain;charset=utf-8'
+            }
+          );
+          saveAs(blob, 'data.csv');
+        }
+      });
+    };
+
     return {
       setPristineQuery,
       updateQuery,
@@ -495,44 +528,7 @@ export const CRUDStore = ServiceStore.named('CRUDStore')
       setUnSelectedItems,
       setInnerModalOpened,
       initFromScope,
-      async exportAsCSV(options: {loadDataOnce?: boolean; api?: Api} = {}) {
-        let items = options.loadDataOnce ? self.data.itemsRaw : self.data.items;
-
-        if (!options.loadDataOnce && options.api) {
-          const json = await self.fetchData(
-            options.api,
-            {
-              ...self.query,
-              page: undefined,
-              perPage: undefined,
-              op: 'export-csv'
-            },
-            {
-              autoAppend: true
-            }
-          );
-          if (
-            json.ok &&
-            (Array.isArray(json.data.items) || Array.isArray(json.data.rows))
-          ) {
-            items = json.data.items || json.data.rows;
-          }
-        }
-
-        import('papaparse').then((papaparse: any) => {
-          const csvText = papaparse.unparse(items);
-          if (csvText) {
-            const blob = new Blob(
-              // 加上 BOM 这样 Excel 打开的时候就不会乱码
-              [new Uint8Array([0xef, 0xbb, 0xbf]), csvText],
-              {
-                type: 'text/plain;charset=utf-8'
-              }
-            );
-            saveAs(blob, 'data.csv');
-          }
-        });
-      }
+      exportAsCSV
     };
   });
 

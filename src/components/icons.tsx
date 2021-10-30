@@ -5,172 +5,76 @@
  */
 import React from 'react';
 
-// @ts-ignore
 import CloseIcon from '../icons/close.svg';
-// @ts-ignore
 import UnDoIcon from '../icons/undo.svg';
-// @ts-ignore
 import ReDoIcon from '../icons/redo.svg';
-// @ts-ignore
 import EnterIcon from '../icons/enter.svg';
-// @ts-ignore
 import VolumeIcon from '../icons/volume.svg';
-// @ts-ignore
 import MuteIcon from '../icons/mute.svg';
-// @ts-ignore
 import PlayIcon from '../icons/play.svg';
-// @ts-ignore
 import PauseIcon from '../icons/pause.svg';
-// @ts-ignore
 import LeftArrowIcon from '../icons/left-arrow.svg';
-// @ts-ignore
 import RightArrowIcon from '../icons/right-arrow.svg';
-// @ts-ignore
 import CheckIcon from '../icons/check.svg';
-// @ts-ignore
 import PlusIcon from '../icons/plus.svg';
-// @ts-ignore
 import MinusIcon from '../icons/minus.svg';
-// @ts-ignore
 import PencilIcon from '../icons/pencil.svg';
-// @ts-ignore
 import ViewIcon from '../icons/view.svg';
-// @ts-ignore
 import RemoveIcon from '../icons/remove.svg';
-// @ts-ignore
 import RetryIcon from '../icons/retry.svg';
-// @ts-ignore
 import UploadIcon from '../icons/upload.svg';
-// @ts-ignore
 import FileIcon from '../icons/file.svg';
-// @ts-ignore
 import SuccessIcon from '../icons/success.svg';
-// @ts-ignore
 import FailIcon from '../icons/fail.svg';
-
-// @ts-ignore
 import SearchIcon from '../icons/search.svg';
-
-// @ts-ignore
 import BackIcon from '../icons/back.svg';
-
-// @ts-ignore
 import MoveIcon from '../icons/move.svg';
-
-// @ts-ignore
 import InfoIcon from '../icons/info.svg';
-
-// @ts-ignore
 import LocationIcon from '../icons/location.svg';
-
-// @ts-ignore
 import DragBarIcon from '../icons/drag-bar.svg';
-
-// @ts-ignore
 import ReloadIcon from '../icons/reload.svg';
-
-// @ts-ignore
 import ExchangeIcon from '../icons/exchange.svg';
-
-// @ts-ignore
 import ColmunsIcon from '../icons/columns.svg';
-
-// @ts-ignore
 import CalendarIcon from '../icons/calendar.svg';
-
-// @ts-ignore
 import CopyIcon from '../icons/copy.svg';
-
-// @ts-ignore
 import FilterIcon from '../icons/filter.svg';
-
-// @ts-ignore
 import CaretIcon from '../icons/caret.svg';
-
-// @ts-ignore
 import RightArrowBoldIcon from '../icons/right-arrow-bold.svg';
-
-// @ts-ignore
 import ColumnFilterIcon from '../icons/column-filter.svg';
-
-// @ts-ignore
 import ZoomInIcon from '../icons/zoom-in.svg';
-// @ts-ignore
 import ZoomOutIcon from '../icons/zoom-out.svg';
-
-// @ts-ignore
 import QuestionIcon from '../icons/question.svg';
-
-// @ts-ignore
 import QuestionMarkIcon from '../icons/question-mark.svg';
-
-// @ts-ignore
 import WindowRestoreIcon from '../icons/window-restore.svg';
-
-// @ts-ignore
 import InfoCircleIcon from '../icons/info-circle.svg';
-
-// @ts-ignore
 import WarningIcon from '../icons/warning.svg';
-
-// @ts-ignore
 import WarningMarkIcon from '../icons/warning-mark.svg';
-
-// @ts-ignore
 import ScheduleIcon from '../icons/schedule.svg';
-
-// @ts-ignore
 import HomeIcon from '../icons/home.svg';
-
-// @ts-ignore
 import FolderIcon from '../icons/folder.svg';
-
-// @ts-ignore
 import SortDefaultIcon from '../icons/sort-default.svg';
-
-// @ts-ignore
 import SortAscIcon from '../icons/sort-asc.svg';
-
-// @ts-ignore
 import SortDescIcon from '../icons/sort-desc.svg';
-
-// @ts-ignore
 import SettingIcon from '../icons/setting.svg';
-
-// @ts-ignore
 import PlusCicleIcon from '../icons/plus-cicle.svg';
-
-// @ts-ignore
 import EllipsisVIcon from '../icons/ellipsis-v.svg';
-
-// @ts-ignore
 import ExpandAltIcon from '../icons/expand-alt.svg';
-
-// @ts-ignore
 import CompressAltIcon from '../icons/compress-alt.svg';
+import TransparentIcon from '../icons/transparent.svg';
+import LoadingOutline from '../icons/loading-outline.svg';
 
 // 兼容原来的用法，后续不直接试用。
-// @ts-ignore
-export const closeIcon = <CloseIcon />;
-// @ts-ignore
-export const unDoIcon = <UnDoIcon />;
-// @ts-ignore
-export const reDoIcon = <ReDoIcon />;
-// @ts-ignore
-export const enterIcon = <EnterIcon />;
-// @ts-ignore
-export const volumeIcon = <VolumeIcon />;
-// @ts-ignore
-export const muteIcon = <MuteIcon />;
-// @ts-ignore
-export const playIcon = <PlayIcon />;
-// @ts-ignore
-export const pauseIcon = <PauseIcon />;
-// @ts-ignore
-export const leftArrowIcon = <LeftArrowIcon />;
-// @ts-ignore
-export const rightArrowIcon = <RightArrowIcon />;
 
+export const closeIcon = <CloseIcon />;
+export const unDoIcon = <UnDoIcon />;
+export const reDoIcon = <ReDoIcon />;
+export const enterIcon = <EnterIcon />;
+export const volumeIcon = <VolumeIcon />;
+export const muteIcon = <MuteIcon />;
+export const playIcon = <PlayIcon />;
+export const pauseIcon = <PauseIcon />;
+export const leftArrowIcon = <LeftArrowIcon />;
+export const rightArrowIcon = <RightArrowIcon />;
 const iconFactory: {
   [propName: string]: React.ReactType<{}>;
 } = {};
@@ -245,6 +149,8 @@ registerIcon('plus-cicle', PlusCicleIcon);
 registerIcon('ellipsis-v', EllipsisVIcon);
 registerIcon('expand-alt', ExpandAltIcon);
 registerIcon('compress-alt', CompressAltIcon);
+registerIcon('transparent', TransparentIcon);
+registerIcon('loading-outline', LoadingOutline);
 
 export function Icon({
   icon,

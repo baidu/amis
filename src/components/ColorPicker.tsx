@@ -6,7 +6,7 @@
 
 import React from 'react';
 import {findDOMNode} from 'react-dom';
-import {SketchPicker, GithubPicker, ColorState} from 'react-color';
+import {SketchPicker, GithubPicker, ColorResult} from 'react-color';
 import {Icon} from './icons';
 import Overlay from './Overlay';
 import {uncontrollable} from 'uncontrollable';
@@ -176,7 +176,7 @@ export class ColorControl extends React.PureComponent<
     return image.style.color !== 'rgb(255, 255, 255)';
   }
 
-  handleChange(color: ColorState) {
+  handleChange(color: ColorResult) {
     const {
       onChange,
       format

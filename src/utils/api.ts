@@ -1,7 +1,6 @@
 import {Api, ApiObject, fetcherResult, Payload} from '../types';
 import {fetcherConfig} from '../factory';
 import {tokenize, dataMapping} from './tpl-builtin';
-import qs from 'qs';
 import {evalExpression} from './tpl';
 import {
   isObject,
@@ -10,7 +9,8 @@ import {
   object2formData,
   qsstringify,
   cloneObject,
-  createObject
+  createObject,
+  qsparse
 } from './helper';
 
 const rSchema = /(?:^|raw\:)(get|post|put|delete|patch|options|head):/i;
@@ -21,6 +21,8 @@ interface ApiCacheConfig extends ApiObject {
 }
 
 const apiCaches: Array<ApiCacheConfig> = [];
+
+const isIE = !!(document as any).documentMode;
 
 export function normalizeApi(
   api: Api,
@@ -75,7 +77,7 @@ export function buildApi(
 
   if (~idx) {
     const hashIdx = api.url.indexOf('#');
-    const params = qs.parse(
+    const params = qsparse(
       api.url.substring(idx + 1, ~hashIdx ? hashIdx : undefined)
     );
     api.url =
@@ -109,7 +111,7 @@ export function buildApi(
       const idx = api.url.indexOf('?');
       if (~idx) {
         let params = (api.query = {
-          ...qs.parse(api.url.substring(idx + 1)),
+          ...qsparse(api.url.substring(idx + 1)),
           ...data
         });
         api.url = api.url.substring(0, idx) + '?' + qsstringify(params);
@@ -123,7 +125,7 @@ export function buildApi(
       const idx = api.url.indexOf('?');
       if (~idx) {
         let params = (api.query = {
-          ...qs.parse(api.url.substring(idx + 1)),
+          ...qsparse(api.url.substring(idx + 1)),
           ...api.data
         });
         api.url = api.url.substring(0, idx) + '?' + qsstringify(params);
@@ -155,12 +157,27 @@ export function buildApi(
   return api;
 }
 
-function str2function(
+export function str2function(
   contents: string,
   ...args: Array<string>
 ): Function | null {
   try {
     let fn = new Function(...args, contents);
+    return fn;
+  } catch (e) {
+    console.warn(e);
+    return null;
+  }
+}
+
+const AsyncFunction = Object.getPrototypeOf(async function () {}).constructor;
+
+export function str2AsyncFunction(
+  contents: string,
+  ...args: Array<string>
+): Function | null {
+  try {
+    let fn = new AsyncFunction(...args, contents);
     return fn;
   } catch (e) {
     console.warn(e);
@@ -247,7 +264,10 @@ export function wrapFetcher(
     api.requestAdaptor && (api = api.requestAdaptor(api) || api);
 
     if (api.data && (hasFile(api.data) || api.dataType === 'form-data')) {
-      api.data = object2formData(api.data, api.qsOptions);
+      api.data =
+        api.data instanceof FormData
+          ? api.data
+          : object2formData(api.data, api.qsOptions);
     } else if (
       api.data &&
       typeof api.data !== 'string' &&
@@ -274,6 +294,15 @@ export function wrapFetcher(
           : setApiCache(api, fn(api)),
         api
       );
+    }
+    // IE 下 get 请求会被缓存，所以自动加个时间戳
+    if (isIE && api && api.method?.toLocaleLowerCase() === 'get') {
+      const timeStamp = `_t=${Date.now()}`;
+      if (api.url.indexOf('?') === -1) {
+        api.url = api.url + `?${timeStamp}`;
+      } else {
+        api.url = api.url + `&${timeStamp}`;
+      }
     }
     return wrapAdaptor(fn(api), api);
   };

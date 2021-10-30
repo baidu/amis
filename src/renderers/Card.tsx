@@ -6,7 +6,13 @@ import {filter, evalExpression} from '../utils/tpl';
 import cx from 'classnames';
 import Checkbox from '../components/Checkbox';
 import {IItem} from '../store/list';
-import {padArr, isVisible, isDisabled, noop} from '../utils/helper';
+import {
+  padArr,
+  isVisible,
+  isDisabled,
+  noop,
+  isClickOnInput
+} from '../utils/helper';
 import {resolveVariable} from '../utils/tpl-builtin';
 import QuickEdit, {SchemaQuickEdit} from './QuickEdit';
 import PopOver, {SchemaPopOver} from './PopOver';
@@ -139,6 +145,16 @@ export interface CardSchema extends BaseSchema {
      */
     highlight?: SchemaExpression;
     highlightClassName?: SchemaClassName;
+
+    /**
+     * 链接地址
+     */
+    href?: SchemaTpl;
+
+    /**
+     * 是否新窗口打开
+     */
+    blank?: boolean;
   };
 
   /**
@@ -172,7 +188,8 @@ export class Card extends React.Component<CardProps> {
     titleClassName: '',
     highlightClassName: '',
     subTitleClassName: '',
-    descClassName: ''
+    descClassName: '',
+    blank: true
   };
 
   static propsList: Array<string> = [
@@ -198,20 +215,25 @@ export class Card extends React.Component<CardProps> {
   }
 
   handleClick(e: React.MouseEvent<HTMLDivElement>) {
-    const target: HTMLElement = e.target as HTMLElement;
-    const ns = this.props.classPrefix;
-    let formItem;
-
-    if (
-      !e.currentTarget.contains(target) ||
-      ~['INPUT', 'TEXTAREA'].indexOf(target.tagName) ||
-      ((formItem = target.closest(`button, a, .${ns}Form-item`)) &&
-        e.currentTarget.contains(formItem))
-    ) {
+    if (isClickOnInput(e)) {
       return;
     }
 
-    const item = this.props.item;
+    const {item, href, data, env, blank, itemAction, onAction} = this.props;
+    if (href) {
+      env.jumpTo(filter(href, data), {
+        type: 'button',
+        actionType: 'url',
+        blank
+      });
+      return;
+    }
+
+    if (itemAction) {
+      onAction && onAction(e, itemAction, item?.data || data);
+      return;
+    }
+
     this.props.onCheck && this.props.onCheck(item);
   }
 
@@ -427,7 +449,9 @@ export class Card extends React.Component<CardProps> {
       classnames: cx,
       classPrefix: ns,
       imageClassName,
-      avatarTextClassName
+      avatarTextClassName,
+      href,
+      itemAction
     } = this.props;
 
     let heading = null;
@@ -537,8 +561,14 @@ export class Card extends React.Component<CardProps> {
 
     return (
       <div
-        onClick={checkOnItemClick && checkable ? this.handleClick : undefined}
-        className={cx('Card', className)}
+        onClick={
+          (checkOnItemClick && checkable) || href || itemAction
+            ? this.handleClick
+            : undefined
+        }
+        className={cx('Card', className, {
+          'Card--link': href || itemAction
+        })}
       >
         {this.renderToolbar()}
         {heading}

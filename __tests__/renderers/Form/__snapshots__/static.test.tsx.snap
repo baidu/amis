@@ -3,17 +3,17 @@
 exports[`Renderer:static 1`] = `
 <div>
   <div
-    class="a-Panel a-Panel--default a-Panel--form"
+    class="cxd-Panel cxd-Panel--default cxd-Panel--form"
     style="position: relative;"
   >
     <div
-      class="a-Panel-heading"
+      class="cxd-Panel-heading"
     >
       <h3
-        class="a-Panel-title"
+        class="cxd-Panel-title"
       >
         <span
-          class="a-TplField"
+          class="cxd-TplField"
         >
           <span>
             The form
@@ -22,22 +22,26 @@ exports[`Renderer:static 1`] = `
       </h3>
     </div>
     <div
-      class="a-Panel-body"
+      class="cxd-Panel-body"
     >
       <form
-        class="a-Form a-Form--normal"
+        class="cxd-Form cxd-Form--normal"
         novalidate=""
       >
+        <input
+          style="display: none;"
+          type="submit"
+        />
         <div
-          class="a-Form-item a-Form-item--normal bg-white"
+          class="cxd-Form-item cxd-Form-item--normal bg-white"
           data-role="form-item"
         >
           <label
-            class="a-Form-label"
+            class="cxd-Form-label"
           >
             <span>
               <span
-                class="a-TplField"
+                class="cxd-TplField"
               >
                 <span>
                   label
@@ -46,20 +50,20 @@ exports[`Renderer:static 1`] = `
             </span>
           </label>
           <div
-            class="a-Form-static"
+            class="cxd-Form-static"
           >
             <div
-              class="a-Form-control is-inline"
+              class="cxd-Form-control is-inline"
             >
               <span
-                class="a-PlainField"
+                class="cxd-PlainField"
               >
                 static
               </span>
             </div>
           </div>
           <span
-            class="a-TplField a-Form-description"
+            class="cxd-TplField cxd-Form-description"
           >
             <span>
               static description
@@ -67,17 +71,17 @@ exports[`Renderer:static 1`] = `
           </span>
         </div>
         <div
-          class="a-Form-item a-Form-item--normal"
+          class="cxd-Form-item cxd-Form-item--normal"
           data-role="form-item"
         >
           <div
-            class="a-Form-static"
+            class="cxd-Form-static"
           >
             <div
-              class="a-Form-control"
+              class="cxd-Form-control"
             >
               <span
-                class="a-PlainField"
+                class="cxd-PlainField"
               >
                 <span
                   class="text-muted"
@@ -89,17 +93,17 @@ exports[`Renderer:static 1`] = `
           </div>
         </div>
         <div
-          class="a-Form-item a-Form-item--normal"
+          class="cxd-Form-item cxd-Form-item--normal"
           data-role="form-item"
         >
           <div
-            class="a-Form-static"
+            class="cxd-Form-static"
           >
             <div
-              class="a-Form-control"
+              class="cxd-Form-control"
             >
               <span
-                class="a-PlainField"
+                class="cxd-PlainField"
               >
                 <span
                   class="text-muted"
@@ -110,10 +114,6 @@ exports[`Renderer:static 1`] = `
             </div>
           </div>
         </div>
-        <input
-          style="display: none;"
-          type="submit"
-        />
       </form>
     </div>
     <div

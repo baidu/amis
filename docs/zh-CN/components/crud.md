@@ -318,7 +318,7 @@ List 模式支持 [List](./list) 中的所有功能。
 ```schema: scope="body"
 {
 "type": "crud",
-"api": "raw:/api/mock2/crud/permissions",
+"api": "/api/mock2/crud/permissions",
 "mode": "list",
 "placeholder": "当前组内, 还没有配置任何权限.",
 "syncLocation": false,
@@ -846,6 +846,16 @@ amis 只负责生成下拉选择器组件，并将搜索参数传递给接口，
                     "X"
                 ]
             }
+        },
+        {
+            "name": "switch",
+            "label": "switch",
+            "quickEdit": {
+                "mode": "inline",
+                "type": "switch",
+                "onText": "开启",
+                "offText": "关闭"
+            }
         }
     ]
 }
@@ -853,7 +863,7 @@ amis 只负责生成下拉选择器组件，并将搜索参数传递给接口，
 
 #### 即时保存
 
-如果想编辑完表单项之后，不想点击顶部确认按钮来进行保存，而是即时保存当前标记的数据，则需要配置`quickEdit`中`"saveImmediately": true`，然后配置接口`quickSaveItemApi`。可以直接将编辑表单项渲染至表格内，可以直接操作编辑。
+如果想编辑完表单项之后，不想点击顶部确认按钮来进行保存，而是即时保存当前标记的数据，则需要配置 `quickEdit` 中的 `"saveImmediately": true`，然后配置接口`quickSaveItemApi`，可以直接将编辑表单项渲染至表格内操作。
 
 ```schema: scope="body"
 {
@@ -880,6 +890,17 @@ amis 只负责生成下拉选择器组件，并将搜索参数传递给接口，
                     "D",
                     "X"
                 ],
+                "saveImmediately": true
+            }
+        },
+        {
+            "name": "switch",
+            "label": "switch",
+            "quickEdit": {
+                "mode": "inline",
+                "type": "switch",
+                "onText": "开启",
+                "offText": "关闭",
                 "saveImmediately": true
             }
         }
@@ -916,6 +937,17 @@ amis 只负责生成下拉选择器组件，并将搜索参数传递给接口，
                 "saveImmediately": {
                     "api": "/api/sample/$id"
                 }
+            }
+        },
+        {
+            "name": "grade",
+            "label": "CSS grade",
+            "quickEdit": {
+                "mode": "inline",
+                "type": "switch",
+                "onText": "开启",
+                "offText": "关闭",
+                "saveImmediately": true
             }
         }
     ]
@@ -1469,8 +1501,53 @@ crud 组件支持通过配置`headerToolbar`和`footerToolbar`属性，实现在
 {
     "type": "crud",
     "syncLocation": false,
-    "api": "https://houtai.baidu.com/api/sample",
+    "api": "/api/sample",
     "headerToolbar": ["export-csv"],
+    "columns": [
+        {
+            "name": "id",
+            "label": "ID"
+        },
+        {
+            "name": "engine",
+            "label": "Rendering engine"
+        },
+        {
+            "name": "browser",
+            "label": "Browser"
+        },
+        {
+            "name": "platform",
+            "label": "Platform(s)"
+        },
+        {
+            "name": "version",
+            "label": "Engine version"
+        },
+        {
+            "name": "grade",
+            "label": "CSS grade"
+        }
+    ]
+}
+```
+
+### 通过 api 导出 CSV
+
+> 1.4.0 及以上版本
+
+`export-csv` 可以单独配置 `api` 实现导出全量功能，这个 api 的返回结果和 CRUD 类似
+
+```schema: scope="body"
+{
+    "type": "crud",
+    "syncLocation": false,
+    "api": "/api/sample",
+    "headerToolbar": [{
+        "type": "export-csv",
+        "label": "全量导出 CSV",
+        "api": "/api/sample"
+    }],
     "columns": [
         {
             "name": "id",
@@ -1543,7 +1620,52 @@ crud 组件支持通过配置`headerToolbar`和`footerToolbar`属性，实现在
 }
 ```
 
-### 通过 api 导出 Excel
+#### 只导出部分列
+
+> 1.4.0 及以上版本
+
+通过配置 `columns` 来支持只导出部分列，其中是需要导出的列 `name` 数组
+
+```schema: scope="body"
+{
+    "type": "crud",
+    "syncLocation": false,
+    "api": "/api/sample",
+    "headerToolbar": [{
+        "type": "export-excel",
+        "label": "只导出 engine 和  browser 列",
+        "columns": ["engine", "browser"]
+    }],
+    "columns": [
+        {
+            "name": "id",
+            "label": "ID"
+        },
+        {
+            "name": "engine",
+            "label": "Rendering engine"
+        },
+        {
+            "name": "browser",
+            "label": "Browser"
+        },
+        {
+            "name": "platform",
+            "label": "Platform(s)"
+        },
+        {
+            "name": "version",
+            "label": "Engine version"
+        },
+        {
+            "name": "grade",
+            "label": "CSS grade"
+        }
+    ]
+}
+```
+
+#### 通过 api 导出 Excel
 
 > 1.1.6 以上版本支持
 
@@ -1587,7 +1709,7 @@ crud 组件支持通过配置`headerToolbar`和`footerToolbar`属性，实现在
 }
 ```
 
-### 自定义导出 Excel 的文件名
+#### 自定义导出 Excel 的文件名
 
 > 1.1.7 以上版本支持
 
@@ -1683,6 +1805,10 @@ crud 组件支持通过配置`headerToolbar`和`footerToolbar`属性，实现在
     ]
 }
 ```
+
+## 总结行
+
+如果是默认的表格模式，还支持增加总结行，具体请参考 [table](./table#总结行) 的文档。
 
 ## 弹框与数据链
 
@@ -1995,6 +2121,83 @@ CRUD 中不限制有多少个单条操作、添加一个操作对应的添加一
 }
 ```
 
+## 使用数据链中的数据
+
+可以通过 `source` 属性来自定义去返回数据的字段，或者取数据域中的数据，比如
+
+```schema
+{
+  "type": "page",
+  "data": {
+    "myItems": [
+      {
+        "id": 1
+      }
+    ]
+  },
+  "body": {
+    "type": "crud",
+    "source": "${myItems}",
+    "columns": [
+      {
+        "name": "id",
+        "label": "ID"
+      }
+    ]
+  }
+}
+```
+
+## 自定义点击行的行为
+
+> 1.4.0 及以上版本
+
+配置 `itemAction` 可以实现点击某一行后进行自定义操作，支持 [action](./action) 里的所有配置，比如弹框、刷新其它组件等。
+
+```schema: scope="body"
+{
+    "type": "crud",
+    "api": "/api/sample",
+    "syncLocation": false,
+    "itemAction": {
+      "type": "button",
+      "actionType": "dialog",
+      "dialog": {
+        "title": "详情",
+        "body": "当前行的数据 browser: ${browser}, version: ${version}"
+      }
+    },
+    "columns": [
+        {
+            "name": "id",
+            "label": "ID"
+        },
+        {
+            "name": "engine",
+            "label": "Rendering engine"
+        },
+        {
+            "name": "browser",
+            "label": "Browser"
+        },
+        {
+            "name": "platform",
+            "label": "Platform(s)"
+        },
+        {
+            "name": "version",
+            "label": "Engine version"
+        },
+        {
+            "name": "grade",
+            "label": "CSS grade"
+        }
+    ]
+}
+```
+
+注意这个属性和 `checkOnItemClick` 冲突，因为都是定义行的点击行为，开启 `itemAction` 后 `checkOnItemClick` 将会失效。
+
 ## 属性表
 
 | 属性名                                | 类型                        | 默认值                          | 说明                                                                                                                  |
@@ -2006,7 +2209,7 @@ CRUD 中不限制有多少个单条操作、添加一个操作对应的添加一
 | api                                   | [API](../../docs/types/api) |                                 | CRUD 用来获取列表数据的 api。                                                                                         |
 | loadDataOnce                          | `boolean`                   |                                 | 是否一次性加载所有数据（前端分页）                                                                                    |
 | loadDataOnceFetchOnFilter             | `boolean`                   | `true`                          | 在开启 loadDataOnce 时，filter 时是否去重新请求 api                                                                   |
-| source                                | `string`                    |                                 | 数据映射接口返回某字段的值，不设置会默认把接口返回的`items`或者`rows`填充进`mode`区域                                 |
+| source                                | `string`                    |                                 | 数据映射接口返回某字段的值，不设置会默认使用接口返回的`${items}`或者`${rows}`，也可以设置成上层数据源的内容           |
 | filter                                | [Form](./form/index)        |                                 | 设置过滤器，当该表单提交后，会把数据带给当前 `mode` 刷新列表。                                                        |
 | filterTogglable                       | `boolean`                   | `false`                         | 是否可显隐过滤器                                                                                                      |
 | filterDefaultVisible                  | `boolean`                   | `true`                          | 设置过滤器默认是否可见。                                                                                              |
@@ -2045,3 +2248,9 @@ CRUD 中不限制有多少个单条操作、添加一个操作对应的添加一
 | footerToolbar                         | Array                       | `['statistics', 'pagination']`  | 底部工具栏配置                                                                                                        |
 | alwaysShowPagination                  | `boolean`                   | `false`                         | 是否总是显示分页                                                                                                      |
 | affixHeader                           | `boolean`                   | `true`                          | 是否固定表头(table 下)                                                                                                |
+
+注意除了上面这些属性，CRUD 在不同模式下的属性需要参考各自的文档，比如
+
+- 默认 [Table](./table) 模式里的列配置。
+- [Cards](./cards) 模式。
+- [List](./list) 模式。

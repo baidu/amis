@@ -33,6 +33,16 @@ export interface TextareaControlSchema extends FormBaseControl {
    * 边框模式，全边框，还是半边框，或者没边框。
    */
   borderMode?: 'full' | 'half' | 'none';
+
+  /**
+   * 限制文字个数
+   */
+  maxLength?: number;
+
+  /**
+   * 是否显示计数
+   */
+  showCounter?: boolean;
 }
 
 export interface TextAreaProps extends FormControlProps {
@@ -43,12 +53,16 @@ export interface TextAreaProps extends FormControlProps {
 
 export default class TextAreaControl extends React.Component<
   TextAreaProps,
-  any
+  {focused: boolean}
 > {
   static defaultProps: Partial<TextAreaProps> = {
     minRows: 3,
     maxRows: 20,
     trimContents: true
+  };
+
+  state = {
+    focused: false
   };
 
   input?: HTMLInputElement;
@@ -59,15 +73,26 @@ export default class TextAreaControl extends React.Component<
       return;
     }
 
-    this.input.focus();
+    this.setState(
+      {
+        focused: true
+      },
+      () => {
+        if (!this.input) {
+          return;
+        }
 
-    // 光标放到最后
-    const len = this.input.value.length;
-    len && this.input.setSelectionRange(len, len);
+        this.input.focus();
+
+        // 光标放到最后
+        const len = this.input.value.length;
+        len && this.input.setSelectionRange(len, len);
+      }
+    );
   }
 
   @autobind
-  handleChange(e: React.ChangeEvent<HTMLInputElement>) {
+  handleChange(e: React.ChangeEvent<any>) {
     const {onChange} = this.props;
 
     let value = e.currentTarget.value;
@@ -79,18 +104,32 @@ export default class TextAreaControl extends React.Component<
   handleFocus(e: React.FocusEvent<HTMLTextAreaElement>) {
     const {onFocus} = this.props;
 
-    onFocus && onFocus(e);
+    this.setState(
+      {
+        focused: true
+      },
+      () => {
+        onFocus && onFocus(e);
+      }
+    );
   }
 
   @autobind
   handleBlur(e: React.FocusEvent<HTMLTextAreaElement>) {
     const {onBlur, trimContents, value, onChange} = this.props;
 
-    if (trimContents && value && typeof value === 'string') {
-      onChange(value.trim());
-    }
+    this.setState(
+      {
+        focused: false
+      },
+      () => {
+        if (trimContents && value && typeof value === 'string') {
+          onChange(value.trim());
+        }
 
-    onBlur && onBlur(e);
+        onBlur && onBlur(e);
+      }
+    );
   }
 
   render() {
@@ -106,39 +145,67 @@ export default class TextAreaControl extends React.Component<
       readOnly,
       name,
       borderMode,
-      classnames: cx
+      classnames: cx,
+      maxLength,
+      showCounter
     } = this.props;
+
+    let counter = showCounter
+      ? (typeof value === 'undefined' || value === null
+          ? ''
+          : typeof value === 'string'
+          ? value
+          : JSON.stringify(value)
+        ).length
+      : 0;
+
     return (
-      <Textarea
-        autoComplete="off"
-        ref={this.inputRef}
-        name={name}
-        disabled={disabled}
-        type={type}
+      <div
         className={cx(
           `TextareaControl`,
           {
-            [`TextareaControl--border${ucFirst(borderMode)}`]: borderMode
+            [`TextareaControl--border${ucFirst(borderMode)}`]: borderMode,
+            'is-focused': this.state.focused
           },
           className
         )}
-        value={
-          typeof value === 'undefined' || value === null
-            ? ''
-            : typeof value === 'string'
-            ? value
-            : JSON.stringify(value)
-        }
-        placeholder={placeholder}
-        autoCorrect="off"
-        spellCheck="false"
-        readOnly={readOnly}
-        minRows={minRows || undefined}
-        maxRows={maxRows || undefined}
-        onChange={this.handleChange}
-        onFocus={this.handleFocus}
-        onBlur={this.handleBlur}
-      />
+      >
+        <Textarea
+          autoComplete="off"
+          ref={this.inputRef}
+          name={name}
+          disabled={disabled}
+          value={
+            typeof value === 'undefined' || value === null
+              ? ''
+              : typeof value === 'string'
+              ? value
+              : JSON.stringify(value)
+          }
+          placeholder={placeholder}
+          autoCorrect="off"
+          spellCheck="false"
+          readOnly={readOnly}
+          minRows={minRows || undefined}
+          maxRows={maxRows || undefined}
+          onChange={this.handleChange}
+          onFocus={this.handleFocus}
+          onBlur={this.handleBlur}
+        />
+
+        {showCounter ? (
+          <span
+            className={cx(
+              'TextareaControl-counter',
+              counter === 0 ? 'is-empty' : ''
+            )}
+          >
+            {`${counter}${
+              typeof maxLength === 'number' && maxLength ? `/${maxLength}` : ''
+            }`}
+          </span>
+        ) : null}
+      </div>
     );
   }
 }

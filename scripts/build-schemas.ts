@@ -79,6 +79,8 @@ function fixSchema(schema: Schema) {
 
   copyAnyOf(schema, list);
 
+  convertAnyOfItemToConditionalItem(schema, ['SchemaObject', 'ActionSchema']);
+
   schema.definitions!['UnkownSchema'] = {
     type: 'object',
     description: '不能识别渲染器类型，无法提供提示信息。'
@@ -215,6 +217,66 @@ function replaceNodeParser(
   if (~idx) {
     nodeParsers.splice(idx, 1, replaceWith);
   }
+}
+
+function convertAnyOfItemToConditionalItem(schema: any, list: Array<string>) {
+  list.forEach(key => {
+    if (!Array.isArray(schema.definitions[key]?.anyOf)) {
+      return;
+    }
+
+    const list: Array<any> = schema.definitions[key].anyOf.concat();
+    const allOf: Array<any> = [];
+
+    while (list.length) {
+      const item: any = list.shift()!;
+      if (item.$ref) {
+        const src = schema.definitions[item.$ref.replace('#/definitions/', '')];
+
+        if (!src) {
+          console.log(`${item.$ref} not found`);
+          return;
+        }
+
+        if (Array.isArray(src.anyOf)) {
+          list.unshift.apply(list, src.anyOf);
+          continue;
+        }
+
+        allOf.push({
+          if: {
+            properties: pickConstProperties(src)
+          },
+          then: item
+        });
+      } else {
+        allOf.push({
+          if: {
+            properties: pickConstProperties(item)
+          },
+          then: item
+        });
+      }
+    }
+
+    schema.definitions[key] = {
+      allOf
+    };
+  });
+}
+
+function pickConstProperties(schema: any) {
+  const keys = Object.keys(schema.properties);
+  const filtedProperties: any = {};
+  keys.forEach((key: string) => {
+    if (
+      schema.properties[key]?.const ||
+      (schema.properties[key]?.enum && /type|mode/i.test(key))
+    ) {
+      filtedProperties[key] = schema.properties[key];
+    }
+  });
+  return filtedProperties;
 }
 
 main().catch(e => {

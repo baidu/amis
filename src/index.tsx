@@ -97,11 +97,13 @@ import './renderers/Form/UUID';
 import './renderers/Form/MatrixCheckboxes';
 import './renderers/Form/InputMonthRange';
 import './renderers/Form/InputQuarterRange';
+import './renderers/Form/InputYearRange';
 import './renderers/Form/InputRange';
 import './renderers/Form/InputArray';
 import './renderers/Form/Combo';
 import './renderers/Form/ConditionBuilder';
 import './renderers/Form/InputSubForm';
+import './renderers/Form/InputExcel';
 import './renderers/Form/InputRichText';
 import './renderers/Form/Editor';
 import './renderers/Form/DiffEditor';
@@ -172,7 +174,9 @@ import './compat';
 
 import './envOverwrite';
 
-import './themes/default';
+import './schemaExtend';
+
+import './themes/ang';
 import './themes/cxd';
 import './themes/dark';
 import './themes/antd';

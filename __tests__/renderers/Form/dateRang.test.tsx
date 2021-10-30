@@ -31,7 +31,7 @@ test('Renderer:dateRange', async () => {
     )
   );
 
-  const input = container.querySelector('.a-DateRangePicker-value');
+  const input = container.querySelector('.cxd-DateRangePicker-value');
   expect(input?.innerHTML).toEqual(
     `${moment(1559750400, 'X').format('YYYY-MM-DD')} 至 ${moment(
       1561564799,

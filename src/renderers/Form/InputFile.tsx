@@ -1,7 +1,5 @@
 import React from 'react';
 import {FormItem, FormControlProps, FormBaseControl} from './Item';
-import cx from 'classnames';
-import qs from 'qs';
 import find from 'lodash/find';
 import isPlainObject from 'lodash/isPlainObject';
 // @ts-ignore
@@ -866,7 +864,7 @@ export default class FileControl extends React.Component<FileProps, FileState> {
             }
           : files[0]
       );
-      onBulkChange(toSync);
+      onBulkChange && onBulkChange(toSync);
     }
   }
 
@@ -884,6 +882,7 @@ export default class FileControl extends React.Component<FileProps, FileState> {
 
     qsstringify({...api.data, ...params})
       .split('&')
+      .filter(i => !!i)
       .forEach(item => {
         const parts = item.split('=');
         fd.append(parts[0], decodeURIComponent(parts[1]));

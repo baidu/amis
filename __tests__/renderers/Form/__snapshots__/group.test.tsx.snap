@@ -3,17 +3,17 @@
 exports[`Renderer:group 1`] = `
 <div>
   <div
-    class="a-Panel a-Panel--default a-Panel--form"
+    class="cxd-Panel cxd-Panel--default cxd-Panel--form"
     style="position: relative;"
   >
     <div
-      class="a-Panel-heading"
+      class="cxd-Panel-heading"
     >
       <h3
-        class="a-Panel-title"
+        class="cxd-Panel-title"
       >
         <span
-          class="a-TplField"
+          class="cxd-TplField"
         >
           <span>
             The form
@@ -22,28 +22,32 @@ exports[`Renderer:group 1`] = `
       </h3>
     </div>
     <div
-      class="a-Panel-body"
+      class="cxd-Panel-body"
     >
       <form
-        class="a-Form a-Form--normal"
+        class="cxd-Form cxd-Form--normal"
         novalidate=""
       >
+        <input
+          style="display: none;"
+          type="submit"
+        />
         <div
-          class="a-Form-group a-Form-group--hor a-Form-group--horizontal bg-white"
+          class="cxd-Form-group cxd-Form-group--hor cxd-Form-group--horizontal bg-white"
         >
           <div
-            class="a-Form-groupColumn"
+            class="cxd-Form-groupColumn"
           >
             <div
-              class="a-Form-item a-Form-item--horizontal"
+              class="cxd-Form-item cxd-Form-item--horizontal"
               data-role="form-item"
             >
               <label
-                class="a-Form-label a-Form-itemColumn--0"
+                class="cxd-Form-label cxd-Form-itemColumn--0"
               >
                 <span>
                   <span
-                    class="a-TplField"
+                    class="cxd-TplField"
                   >
                     <span>
                       Label
@@ -52,13 +56,13 @@ exports[`Renderer:group 1`] = `
                 </span>
               </label>
               <div
-                class="a-Form-value a-Form-itemColumn--10"
+                class="cxd-Form-value cxd-Form-itemColumn--10"
               >
                 <div
-                  class="a-Form-control a-TextControl"
+                  class="cxd-Form-control cxd-TextControl"
                 >
                   <div
-                    class="a-TextControl-input"
+                    class="cxd-TextControl-input"
                   >
                     <input
                       autocomplete="off"
@@ -74,18 +78,18 @@ exports[`Renderer:group 1`] = `
             </div>
           </div>
           <div
-            class="a-Form-groupColumn"
+            class="cxd-Form-groupColumn"
           >
             <div
-              class="a-Form-item a-Form-item--horizontal"
+              class="cxd-Form-item cxd-Form-item--horizontal"
               data-role="form-item"
             >
               <label
-                class="a-Form-label a-Form-itemColumn--0"
+                class="cxd-Form-label cxd-Form-itemColumn--0"
               >
                 <span>
                   <span
-                    class="a-TplField"
+                    class="cxd-TplField"
                   >
                     <span>
                       Label
@@ -94,13 +98,13 @@ exports[`Renderer:group 1`] = `
                 </span>
               </label>
               <div
-                class="a-Form-value a-Form-itemColumn--10"
+                class="cxd-Form-value cxd-Form-itemColumn--10"
               >
                 <div
-                  class="a-Form-control a-TextControl"
+                  class="cxd-Form-control cxd-TextControl"
                 >
                   <div
-                    class="a-TextControl-input"
+                    class="cxd-TextControl-input"
                   >
                     <input
                       autocomplete="off"
@@ -117,18 +121,18 @@ exports[`Renderer:group 1`] = `
           </div>
         </div>
         <div
-          class="a-Form-group a-Form-group--hor a-Form-group--inline bg-white"
+          class="cxd-Form-group cxd-Form-group--hor cxd-Form-group--inline bg-white"
         >
           <div
-            class="a-Form-item a-Form-item--inline"
+            class="cxd-Form-item cxd-Form-item--inline"
             data-role="form-item"
           >
             <label
-              class="a-Form-label"
+              class="cxd-Form-label"
             >
               <span>
                 <span
-                  class="a-TplField"
+                  class="cxd-TplField"
                 >
                   <span>
                     Label
@@ -137,13 +141,13 @@ exports[`Renderer:group 1`] = `
               </span>
             </label>
             <div
-              class="a-Form-value"
+              class="cxd-Form-value"
             >
               <div
-                class="a-Form-control a-TextControl"
+                class="cxd-Form-control cxd-TextControl"
               >
                 <div
-                  class="a-TextControl-input"
+                  class="cxd-TextControl-input"
                 >
                   <input
                     autocomplete="off"
@@ -158,15 +162,15 @@ exports[`Renderer:group 1`] = `
             </div>
           </div>
           <div
-            class="a-Form-item a-Form-item--inline"
+            class="cxd-Form-item cxd-Form-item--inline"
             data-role="form-item"
           >
             <label
-              class="a-Form-label"
+              class="cxd-Form-label"
             >
               <span>
                 <span
-                  class="a-TplField"
+                  class="cxd-TplField"
                 >
                   <span>
                     Label
@@ -175,13 +179,13 @@ exports[`Renderer:group 1`] = `
               </span>
             </label>
             <div
-              class="a-Form-value"
+              class="cxd-Form-value"
             >
               <div
-                class="a-Form-control a-TextControl"
+                class="cxd-Form-control cxd-TextControl"
               >
                 <div
-                  class="a-TextControl-input"
+                  class="cxd-TextControl-input"
                 >
                   <input
                     autocomplete="off"
@@ -197,18 +201,18 @@ exports[`Renderer:group 1`] = `
           </div>
         </div>
         <div
-          class="a-Form-group a-Form-group--ver a-Form-group--normal"
+          class="cxd-Form-group cxd-Form-group--ver cxd-Form-group--normal"
         >
           <div
-            class="a-Form-item a-Form-item--normal"
+            class="cxd-Form-item cxd-Form-item--normal"
             data-role="form-item"
           >
             <label
-              class="a-Form-label"
+              class="cxd-Form-label"
             >
               <span>
                 <span
-                  class="a-TplField"
+                  class="cxd-TplField"
                 >
                   <span>
                     Label
@@ -217,10 +221,10 @@ exports[`Renderer:group 1`] = `
               </span>
             </label>
             <div
-              class="a-Form-control a-TextControl"
+              class="cxd-Form-control cxd-TextControl"
             >
               <div
-                class="a-TextControl-input"
+                class="cxd-TextControl-input"
               >
                 <input
                   autocomplete="off"
@@ -234,15 +238,15 @@ exports[`Renderer:group 1`] = `
             </div>
           </div>
           <div
-            class="a-Form-item a-Form-item--normal"
+            class="cxd-Form-item cxd-Form-item--normal"
             data-role="form-item"
           >
             <label
-              class="a-Form-label"
+              class="cxd-Form-label"
             >
               <span>
                 <span
-                  class="a-TplField"
+                  class="cxd-TplField"
                 >
                   <span>
                     Label
@@ -251,10 +255,10 @@ exports[`Renderer:group 1`] = `
               </span>
             </label>
             <div
-              class="a-Form-control a-TextControl"
+              class="cxd-Form-control cxd-TextControl"
             >
               <div
-                class="a-TextControl-input"
+                class="cxd-TextControl-input"
               >
                 <input
                   autocomplete="off"
@@ -268,10 +272,6 @@ exports[`Renderer:group 1`] = `
             </div>
           </div>
         </div>
-        <input
-          style="display: none;"
-          type="submit"
-        />
       </form>
     </div>
     <div

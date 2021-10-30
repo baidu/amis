@@ -8,7 +8,6 @@ import LazyComponent from '../../src/components/LazyComponent';
 import Overlay from '../../src/components/Overlay';
 import PopOver from '../../src/components/PopOver';
 import NestedLinks from '../../src/components/AsideNav';
-import {Portal} from 'react-overlays';
 import classnames from 'classnames';
 import {Link} from 'react-router';
 import Play from './Play';

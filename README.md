@@ -7,14 +7,15 @@
 [文档（国外）](https://baidu.github.io/amis/) |
 [可视化编辑器](https://aisuda.github.io/amis-editor-demo/) |
 [amis-admin](https://github.com/aisuda/amis-admin) |
-[爱速搭](https://suda.baidu.com/)
+[爱速搭](https://baidu.gitee.io/aisuda-docs/)
 
 </div>
 
 <div align="center">
   QQ 群: 1147750223（已满） |
   QQ 群2: 651547026 |
-  如流群：3395342
+  如流群：3395342（已满）|
+  如流群2：5384106|
 </div>
 
 <div align="center">
@@ -82,4 +83,4 @@ npm run update-snapshot
 
 ## 低代码平台
 
-amis 只能实现前端低代码，如果需要完整的低代码平台推荐使用[爱速搭](https://suda.baidu.com/)。
+amis 只能实现前端低代码，如果需要完整的低代码平台推荐使用[爱速搭](https://baidu.gitee.io/aisuda-docs/)。

@@ -89,7 +89,7 @@ test('Renderer:range:multiple', async () => {
     }
   });
   fireEvent.blur(inputs[1]);
-  const close = container.querySelector('a.a-InputRange-clear');
+  const close = container.querySelector('a.cxd-InputRange-clear');
   fireEvent.click(close!);
 
   expect(container).toMatchSnapshot();

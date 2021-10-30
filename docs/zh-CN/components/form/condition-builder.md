@@ -331,6 +331,7 @@ type Value = ValueGroup;
 - `options` 选项列表，`Array<{label: string, value: any}>`
 - `source` 动态选项，请配置 api。
 - `searchable` 是否可以搜索
+- `autoComplete` 自动提示补全，每次输入新内容后，将调用接口，根据接口返回更新选项。
 
 ```schema: scope="body"
 {
@@ -349,6 +350,32 @@ type Value = ValueGroup;
               "name": "a",
               "source": "/api/mock2/form/getOptions?waitSeconds=1",
               "searchable": true
+            }
+          ]
+        }
+    ]
+}
+```
+
+配置`autoComplete`属性后，每次输入新内容后会自动调用接口加载新的选项，用数据映射，获取变量 term，为当前输入的关键字。
+
+```schema: scope="body"
+{
+    "type": "form",
+    "debug": true,
+    "body": [
+        {
+          "type": "condition-builder",
+          "label": "条件组件",
+          "name": "conditions",
+          "description": "适合让用户自己拼查询条件，然后后端根据数据生成 query where",
+          "fields": [
+            {
+              "label": "选项自动补全",
+              "type": "select",
+              "name": "select",
+              "searchable": true,
+              "autoComplete": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/options/autoComplete?term=$term",
             }
           ]
         }

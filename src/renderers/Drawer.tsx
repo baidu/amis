@@ -394,7 +394,8 @@ export default class Drawer extends React.Component<DrawerProps> {
       popOverContainer: this.getPopOverContainer,
       onChange: this.handleFormChange,
       onInit: this.handleFormInit,
-      onSaved: this.handleFormSaved
+      onSaved: this.handleFormSaved,
+      syncLocation: false
     };
 
     if (schema.type === 'form') {
@@ -707,25 +708,18 @@ export class DrawerRenderer extends Drawer {
         .getComponents()
         .filter(item => !~['drawer', 'dialog'].indexOf(item.props.type));
 
-      // 如果是纯容器组件，则进到里面去找。
-      while (
-        components.length === 1 &&
-        ~['page', 'service'].indexOf(components[0].props.type)
-      ) {
-        components = components[0].context
-          .getComponents()
-          .filter(
-            (item: any) => !~['drawer', 'dialog'].indexOf(item.props.type)
-          );
-      }
+      const pool = components.concat();
 
-      // 优先最下面的，找到一个功能组件，就交给这个功能组件。
-      for (let i = components.length - 1; i >= 0; i--) {
-        const component = components[i];
+      while (pool.length) {
+        const item = pool.pop()!;
 
-        if (~['crud', 'form', 'wizard'].indexOf(component.props.type)) {
-          targets.push(component);
+        if (~['crud', 'form', 'wizard'].indexOf(item.props.type)) {
+          targets.push(item);
           break;
+        } else if (~['drawer', 'dialog'].indexOf(item.props.type)) {
+          continue;
+        } else if (~['page', 'service'].indexOf(item.props.type)) {
+          pool.unshift.apply(pool, item.context.getComponents());
         }
       }
     }
@@ -873,11 +867,10 @@ export class DrawerRenderer extends Drawer {
     const scoped = this.context as IScopedContext;
     const store = this.props.store;
     const dialogAction = store.action as Action;
+    const reload = action.reload ?? dialogAction.reload;
 
-    if (dialogAction.reload) {
-      scoped.reload(dialogAction.reload, store.data);
-    } else if (action.reload) {
-      scoped.reload(action.reload, store.data);
+    if (reload) {
+      scoped.reload(reload, store.data);
     } else {
       // 没有设置，则自动让页面中 crud 刷新。
       scoped

@@ -15,6 +15,7 @@ import {PlainObject} from '../types';
 import Calendar from './calendar/Calendar';
 import 'react-datetime/css/react-datetime.css';
 import {localeable, LocaleProps, TranslateFn} from '../locale';
+import {ucFirst} from '../utils/helper';
 
 const availableShortcuts: {[propName: string]: any} = {
   now: {
@@ -252,8 +253,8 @@ export interface DateProps extends LocaleProps, ThemeProps {
   value?: any;
   shortcuts: string | Array<ShortCuts>;
   overlayPlacement: string;
-  minTime?: moment.Moment;
-  maxTime?: moment.Moment;
+  // minTime?: moment.Moment;
+  // maxTime?: moment.Moment;
   dateFormat?: string;
   timeConstraints?: {
     hours?: {
@@ -274,6 +275,7 @@ export interface DateProps extends LocaleProps, ThemeProps {
   };
   popOverContainer?: any;
 
+  borderMode?: 'full' | 'half' | 'none';
   // 是否为内嵌模式，如果开启就不是 picker 了，直接页面点选。
   embed?: boolean;
 
@@ -401,8 +403,8 @@ export class DatePicker extends React.Component<DateProps, DatePickerState> {
     const {
       onChange,
       format,
-      minTime,
-      maxTime,
+      minDate,
+      maxDate,
       dateFormat,
       timeFormat,
       closeOnSelect,
@@ -414,10 +416,10 @@ export class DatePicker extends React.Component<DateProps, DatePickerState> {
       return;
     }
 
-    if (minTime && value && value.isBefore(minTime, 'second')) {
-      value = minTime;
-    } else if (maxTime && value && value.isAfter(maxTime, 'second')) {
-      value = maxTime;
+    if (minDate && value && value.isBefore(minDate, 'second')) {
+      value = minDate;
+    } else if (maxDate && value && value.isAfter(maxDate, 'second')) {
+      value = maxDate;
     }
 
     onChange(utc ? moment.utc(value).format(format) : value.format(format));
@@ -542,7 +544,9 @@ export class DatePicker extends React.Component<DateProps, DatePickerState> {
       overlayPlacement,
       locale,
       format,
-      embed
+      borderMode,
+      embed,
+      minDate
     } = this.props;
 
     const __ = this.props.translate;
@@ -572,6 +576,7 @@ export class DatePicker extends React.Component<DateProps, DatePickerState> {
             input={false}
             onClose={this.close}
             locale={locale}
+            minDate={minDate}
             // utc={utc}
           />
         </div>
@@ -588,7 +593,8 @@ export class DatePicker extends React.Component<DateProps, DatePickerState> {
           `DatePicker`,
           {
             'is-disabled': disabled,
-            'is-focused': this.state.isFocused
+            'is-focused': this.state.isFocused,
+            [`DatePicker--border${ucFirst(borderMode)}`]: borderMode
           },
           className
         )}
@@ -645,6 +651,7 @@ export class DatePicker extends React.Component<DateProps, DatePickerState> {
                 input={false}
                 onClose={this.close}
                 locale={locale}
+                minDate={minDate}
                 // utc={utc}
               />
             </PopOver>

@@ -480,6 +480,7 @@ export class FormItemWrap extends React.Component<FormItemProps> {
               !!controlSize &&
               controlSize !== 'full'
           },
+          model?.errClassNames,
           inputClassName
         )
       });
@@ -534,10 +535,15 @@ export class FormItemWrap extends React.Component<FormItemProps> {
       return (
         <div
           data-role="form-item"
-          className={cx(`Form-item Form-item--horizontal`, className, {
-            [`is-error`]: model && !model.valid,
-            [`is-required`]: required
-          })}
+          className={cx(
+            `Form-item Form-item--horizontal`,
+            className,
+            {
+              [`is-error`]: model && !model.valid,
+              [`is-required`]: required
+            },
+            model?.errClassNames
+          )}
         >
           {label !== false ? (
             <label
@@ -555,7 +561,12 @@ export class FormItemWrap extends React.Component<FormItemProps> {
               )}
             >
               <span>
-                {label ? render('label', filter(label, data)) : null}
+                {label
+                  ? render(
+                      'label',
+                      typeof label === 'string' ? filter(label, data) : label
+                    )
+                  : null}
                 {required && (label || labelRemark) ? (
                   <span className={cx(`Form-star`)}>*</span>
                 ) : null}
@@ -661,15 +672,25 @@ export class FormItemWrap extends React.Component<FormItemProps> {
       return (
         <div
           data-role="form-item"
-          className={cx(`Form-item Form-item--normal`, className, {
-            'is-error': model && !model.valid,
-            [`is-required`]: required
-          })}
+          className={cx(
+            `Form-item Form-item--normal`,
+            className,
+            {
+              'is-error': model && !model.valid,
+              [`is-required`]: required
+            },
+            model?.errClassNames
+          )}
         >
           {label && renderLabel !== false ? (
             <label className={cx(`Form-label`, labelClassName)}>
               <span>
-                {label ? render('label', filter(label, data)) : null}
+                {label
+                  ? render(
+                      'label',
+                      typeof label === 'string' ? filter(label, data) : label
+                    )
+                  : null}
                 {required && (label || labelRemark) ? (
                   <span className={cx(`Form-star`)}>*</span>
                 ) : null}
@@ -766,15 +787,25 @@ export class FormItemWrap extends React.Component<FormItemProps> {
       return (
         <div
           data-role="form-item"
-          className={cx(`Form-item Form-item--inline`, className, {
-            'is-error': model && !model.valid,
-            [`is-required`]: required
-          })}
+          className={cx(
+            `Form-item Form-item--inline`,
+            className,
+            {
+              'is-error': model && !model.valid,
+              [`is-required`]: required
+            },
+            model?.errClassNames
+          )}
         >
           {label && renderLabel !== false ? (
             <label className={cx(`Form-label`, labelClassName)}>
               <span>
-                {label ? render('label', filter(label, data)) : label}
+                {label
+                  ? render(
+                      'label',
+                      typeof label === 'string' ? filter(label, data) : label
+                    )
+                  : label}
                 {required && (label || labelRemark) ? (
                   <span className={cx(`Form-star`)}>*</span>
                 ) : null}
@@ -874,16 +905,24 @@ export class FormItemWrap extends React.Component<FormItemProps> {
       return (
         <div
           data-role="form-item"
-          className={cx(`Form-item Form-item--row`, className, {
-            'is-error': model && !model.valid,
-            [`is-required`]: required
-          })}
+          className={cx(
+            `Form-item Form-item--row`,
+            className,
+            {
+              'is-error': model && !model.valid,
+              [`is-required`]: required
+            },
+            model?.errClassNames
+          )}
         >
           <div className={cx('Form-rowInner')}>
             {label && renderLabel !== false ? (
               <label className={cx(`Form-label`, labelClassName)}>
                 <span>
-                  {render('label', filter(label, data))}
+                  {render(
+                    'label',
+                    typeof label === 'string' ? filter(label, data) : label
+                  )}
                   {required && (label || labelRemark) ? (
                     <span className={cx(`Form-star`)}>*</span>
                   ) : null}
@@ -980,7 +1019,8 @@ export class FormItemWrap extends React.Component<FormItemProps> {
                 show: model.dialogOpen,
                 onClose: this.handleDialogClose,
                 onConfirm: this.handleDialogConfirm,
-                data: model.dialogData
+                data: model.dialogData,
+                formStore: undefined
               }
             )
           : null}
@@ -1044,7 +1084,12 @@ export const detectProps = [
   'showInput',
   'unit',
   'value',
-  'diffValue'
+  'diffValue',
+  'borderMode',
+  'items',
+  'showCounter',
+  'minLength',
+  'maxLength'
 ];
 
 export function asFormItem(config: Omit<FormItemConfig, 'component'>) {
@@ -1178,6 +1223,7 @@ export function asFormItem(config: Omit<FormItemConfig, 'component'>) {
                       !!controlSize &&
                       controlSize !== 'full'
                   },
+                  model?.errClassNames,
                   inputClassName
                 )}
               />

@@ -1,4 +1,5 @@
 import React from 'react';
+import hotkeys from 'hotkeys-js';
 import {Renderer, RendererProps} from '../factory';
 import {filter} from '../utils/tpl';
 import Button from '../components/Button';
@@ -24,6 +25,20 @@ export interface ButtonSchema extends BaseSchema {
    * icon 上的css 类名
    */
   iconClassName?: SchemaClassName;
+
+  /**
+   * 右侧按钮图标， iconfont 的类名
+   */
+  rightIcon?: SchemaIcon;
+
+  /**
+   * 右侧 icon 上的 css 类名
+   */
+  rightIconClassName?: SchemaClassName;
+  /**
+   * loading 上的css 类名
+   */
+  loadingClassName?: SchemaClassName;
 
   /**
    * 按钮文字
@@ -110,6 +125,20 @@ export interface ButtonSchema extends BaseSchema {
    * 倒计时文字自定义
    */
   countDownTpl?: string;
+
+  /**
+   * 角标
+   */
+  badge?: BadgeSchema;
+
+  /**
+   * 键盘快捷键
+   */
+  hotKey?: string;
+  /**
+   * 是否显示loading效果
+   */
+  loadingOn?: string;
 }
 
 export interface AjaxActionSchema extends ButtonSchema {
@@ -128,6 +157,14 @@ export interface AjaxActionSchema extends ButtonSchema {
   reload?: SchemaReload;
   redirect?: string;
   ignoreConfirm?: boolean;
+}
+
+export interface DownloadActionSchema
+  extends Omit<AjaxActionSchema, 'actionType'> {
+  /**
+   * 指定为下载行为
+   */
+  actionType: 'download';
 }
 
 export interface UrlActionSchema extends ButtonSchema {
@@ -318,6 +355,7 @@ const ActionProps = [
   'actionType',
   'label',
   'icon',
+  'rightIcon',
   'reload',
   'target',
   'close',
@@ -325,6 +363,7 @@ const ActionProps = [
   'mergeData',
   'index',
   'copy',
+  'copyFormat',
   'payload',
   'requireSelected'
 ];
@@ -345,27 +384,96 @@ import {
 import {DialogSchema, DialogSchemaBase} from './Dialog';
 import {DrawerSchema, DrawerSchemaBase} from './Drawer';
 import {generateIcon} from '../utils/icon';
-import {withBadge} from '../components/Badge';
+import {BadgeSchema, withBadge} from '../components/Badge';
+import {normalizeApi, str2AsyncFunction} from '../utils/api';
+
+// 构造一个假的 React 事件避免可能的报错，主要用于快捷键功能
+// 来自 https://stackoverflow.com/questions/27062455/reactjs-can-i-create-my-own-syntheticevent
+export const createSyntheticEvent = <T extends Element, E extends Event>(
+  event: E
+): React.SyntheticEvent<T, E> => {
+  let isDefaultPrevented = false;
+  let isPropagationStopped = false;
+  const preventDefault = () => {
+    isDefaultPrevented = true;
+    event.preventDefault();
+  };
+  const stopPropagation = () => {
+    isPropagationStopped = true;
+    event.stopPropagation();
+  };
+  return {
+    nativeEvent: event,
+    currentTarget: event.currentTarget as EventTarget & T,
+    target: event.target as EventTarget & T,
+    bubbles: event.bubbles,
+    cancelable: event.cancelable,
+    defaultPrevented: event.defaultPrevented,
+    eventPhase: event.eventPhase,
+    isTrusted: event.isTrusted,
+    preventDefault,
+    isDefaultPrevented: () => isDefaultPrevented,
+    stopPropagation,
+    isPropagationStopped: () => isPropagationStopped,
+    persist: () => {},
+    timeStamp: event.timeStamp,
+    type: event.type
+  };
+};
 
 export interface ActionProps
-  extends Omit<ButtonSchema, 'className' | 'iconClassName'>,
+  extends Omit<
+      ButtonSchema,
+      'className' | 'iconClassName' | 'rightIconClassName' | 'loadingClassName'
+    >,
     ThemeProps,
-    Omit<AjaxActionSchema, 'type' | 'className' | 'iconClassName'>,
-    Omit<UrlActionSchema, 'type' | 'className' | 'iconClassName'>,
-    Omit<LinkActionSchema, 'type' | 'className' | 'iconClassName'>,
-    Omit<DialogActionSchema, 'type' | 'className' | 'iconClassName'>,
-    Omit<DrawerActionSchema, 'type' | 'className' | 'iconClassName'>,
-    Omit<CopyActionSchema, 'type' | 'className' | 'iconClassName'>,
-    Omit<ReloadActionSchema, 'type' | 'className' | 'iconClassName'>,
-    Omit<EmailActionSchema, 'type' | 'className' | 'iconClassName'>,
-    Omit<OtherActionSchema, 'type' | 'className' | 'iconClassName'> {
+    Omit<
+      AjaxActionSchema,
+      'type' | 'className' | 'iconClassName' | 'rightIconClassName' | 'loadingClassName'
+    >,
+    Omit<
+      UrlActionSchema,
+      'type' | 'className' | 'iconClassName' | 'rightIconClassName' | 'loadingClassName'
+    >,
+    Omit<
+      LinkActionSchema,
+      'type' | 'className' | 'iconClassName' | 'rightIconClassName' | 'loadingClassName'
+    >,
+    Omit<
+      DialogActionSchema,
+      'type' | 'className' | 'iconClassName' | 'rightIconClassName' | 'loadingClassName'
+    >,
+    Omit<
+      DrawerActionSchema,
+      'type' | 'className' | 'iconClassName' | 'rightIconClassName' | 'loadingClassName'
+    >,
+    Omit<
+      CopyActionSchema,
+      'type' | 'className' | 'iconClassName' | 'rightIconClassName' | 'loadingClassName'
+    >,
+    Omit<
+      ReloadActionSchema,
+      'type' | 'className' | 'iconClassName' | 'rightIconClassName' | 'loadingClassName'
+    >,
+    Omit<
+      EmailActionSchema,
+      'type' | 'className' | 'iconClassName' | 'rightIconClassName' | 'loadingClassName'
+    >,
+    Omit<
+      OtherActionSchema,
+      'type' | 'className' | 'iconClassName' | 'rightIconClassName' | 'loadingClassName'
+    > {
   actionType: any;
   onAction?: (
     e: React.MouseEvent<any> | void | null,
     action: ActionSchema
   ) => void;
   isCurrentUrl?: (link: string) => boolean;
-  onClick?: (e: React.MouseEvent<any>, props: any) => void;
+  onClick?:
+    | ((e: React.MouseEvent<any>, props: any) => void)
+    | string
+    | Function
+    | null;
   componentClass: React.ReactType;
   tooltipContainer?: any;
   data?: any;
@@ -420,10 +528,16 @@ export class Action extends React.Component<ActionProps, ActionState> {
   }
 
   @autobind
-  handleAction(e: React.MouseEvent<any>) {
-    const {onAction, onClick, disabled, countDown} = this.props;
+  async handleAction(e: React.MouseEvent<any>) {
+    const {onAction, disabled, countDown} = this.props;
+    // https://reactjs.org/docs/legacy-event-pooling.html
+    e.persist();
+    let onClick = this.props.onClick;
 
-    const result: any = onClick && onClick(e, this.props);
+    if (typeof onClick === 'string') {
+      onClick = str2AsyncFunction(onClick, 'event', 'props');
+    }
+    const result: any = onClick && (await onClick(e, this.props));
 
     if (
       disabled ||
@@ -437,6 +551,15 @@ export class Action extends React.Component<ActionProps, ActionState> {
 
     e.preventDefault();
     const action = pick(this.props, ActionProps) as ActionSchema;
+
+    // download 是一种 ajax 的简写
+    if (action.actionType === 'download') {
+      action.actionType = 'ajax';
+      const api = normalizeApi((action as AjaxActionSchema).api);
+      api.responseType = 'blob';
+      (action as AjaxActionSchema).api = api;
+    }
+
     onAction(e, action);
 
     if (countDown) {
@@ -474,11 +597,37 @@ export class Action extends React.Component<ActionProps, ActionState> {
     }
   }
 
+  @autobind
+  componentDidMount() {
+    const {hotKey} = this.props;
+    if (hotKey) {
+      hotkeys(hotKey, event => {
+        event.preventDefault();
+        const click = new MouseEvent('click', {
+          bubbles: true,
+          cancelable: true
+        });
+        this.handleAction(createSyntheticEvent(click) as any);
+      });
+    }
+  }
+
+  @autobind
+  componentWillUnmount() {
+    const {hotKey} = this.props;
+    if (hotKey) {
+      hotkeys.unbind(hotKey);
+    }
+  }
+
   render() {
     const {
       type,
       icon,
       iconClassName,
+      rightIcon,
+      rightIconClassName,
+      loadingClassName,
       primary,
       size,
       level,
@@ -498,7 +647,10 @@ export class Action extends React.Component<ActionProps, ActionState> {
       isMenuItem,
       active,
       activeLevel,
+      tooltipTrigger,
       tooltipContainer,
+      tooltipRootClose,
+      loading,
       classnames: cx
     } = this.props;
 
@@ -520,6 +672,12 @@ export class Action extends React.Component<ActionProps, ActionState> {
     }
 
     const iconElement = generateIcon(cx, icon, 'Button-icon', iconClassName);
+    const rightIconElement = generateIcon(
+      cx,
+      rightIcon,
+      'Button-icon',
+      rightIconClassName
+    );
 
     return (
       <Button
@@ -532,6 +690,8 @@ export class Action extends React.Component<ActionProps, ActionState> {
             ? activeLevel
             : level || (primary ? 'primary' : undefined)
         }
+        loadingClassName={loadingClassName}
+        loading={loading}
         onClick={this.handleAction}
         type={type && ~allowedType.indexOf(type) ? type : 'button'}
         disabled={disabled}
@@ -539,13 +699,16 @@ export class Action extends React.Component<ActionProps, ActionState> {
         overrideClassName={isMenuItem}
         tooltip={filterContents(tooltip, data)}
         disabledTip={filterContents(disabledTip, data)}
-        placement={tooltipPlacement}
+        tooltipPlacement={tooltipPlacement}
         tooltipContainer={tooltipContainer}
+        tooltipTrigger={tooltipTrigger}
+        tooltipRootClose={tooltipRootClose}
         block={block}
         iconOnly={!!(icon && !label && level !== 'link')}
       >
-        {iconElement}
+        {!loading ? iconElement : ''}
         {label ? <span>{filter(String(label), data)}</span> : null}
+        {rightIconElement}
       </Button>
     );
   }
@@ -556,6 +719,8 @@ export default themeable(Action);
 @Renderer({
   type: 'action'
 })
+// @ts-ignore 类型没搞定
+@withBadge
 export class ActionRenderer extends React.Component<
   RendererProps &
     Omit<ActionProps, 'onAction' | 'isCurrentUrl' | 'tooltipContainer'> & {
@@ -587,13 +752,14 @@ export class ActionRenderer extends React.Component<
   }
 
   render() {
-    const {env, disabled, btnDisabled, ...rest} = this.props;
+    const {env, disabled, btnDisabled, data, loading, ...rest} = this.props;
 
     return (
       <Action
         {...(rest as any)}
         disabled={disabled || btnDisabled}
         onAction={this.handleAction}
+        loading={loading}
         isCurrentUrl={this.isCurrentAction}
         tooltipContainer={
           env.getModalContainer ? env.getModalContainer : undefined

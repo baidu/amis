@@ -3,17 +3,17 @@
 exports[`Renderer:date 1`] = `
 <div>
   <div
-    class="a-Panel a-Panel--default a-Panel--form"
+    class="cxd-Panel cxd-Panel--default cxd-Panel--form"
     style="position: relative;"
   >
     <div
-      class="a-Panel-heading"
+      class="cxd-Panel-heading"
     >
       <h3
-        class="a-Panel-title"
+        class="cxd-Panel-title"
       >
         <span
-          class="a-TplField"
+          class="cxd-TplField"
         >
           <span>
             The form
@@ -22,22 +22,26 @@ exports[`Renderer:date 1`] = `
       </h3>
     </div>
     <div
-      class="a-Panel-body"
+      class="cxd-Panel-body"
     >
       <form
-        class="a-Form a-Form--normal"
+        class="cxd-Form cxd-Form--normal"
         novalidate=""
       >
+        <input
+          style="display: none;"
+          type="submit"
+        />
         <div
-          class="a-Form-item a-Form-item--normal"
+          class="cxd-Form-item cxd-Form-item--normal"
           data-role="form-item"
         >
           <label
-            class="a-Form-label"
+            class="cxd-Form-label"
           >
             <span>
               <span
-                class="a-TplField"
+                class="cxd-TplField"
               >
                 <span>
                   date
@@ -46,19 +50,19 @@ exports[`Renderer:date 1`] = `
             </span>
           </label>
           <div
-            class="a-DateControl a-Form-control"
+            class="cxd-DateControl cxd-Form-control"
           >
             <div
-              class="a-DatePicker"
+              class="cxd-DatePicker"
               tabindex="0"
             >
               <span
-                class="a-DatePicker-value"
+                class="cxd-DatePicker-value"
               >
                 2019-06-06 21:11:00
               </span>
               <a
-                class="a-DatePicker-clear"
+                class="cxd-DatePicker-clear"
               >
                 <icon-mock
                   classname="icon icon-close"
@@ -66,7 +70,7 @@ exports[`Renderer:date 1`] = `
                 />
               </a>
               <a
-                class="a-DatePicker-toggler"
+                class="cxd-DatePicker-toggler"
               >
                 <icon-mock
                   classname="icon icon-calendar"
@@ -76,10 +80,6 @@ exports[`Renderer:date 1`] = `
             </div>
           </div>
         </div>
-        <input
-          style="display: none;"
-          type="submit"
-        />
       </form>
     </div>
     <div

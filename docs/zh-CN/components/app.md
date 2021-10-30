@@ -12,7 +12,7 @@ order: 99
 
 ## 基本用法
 
-类型定义为 `app`，通过 pages 定义页面，支持层级，支持内嵌 schema，或者 通过 schemaApi 远程拉取页面。
+类型定义为 `app`，通过 pages 定义页面，支持层级，支持内嵌 schema，或者 通过 schemaApi 远程拉取页面，完整用法请参考 [amis-admin](https://github.com/aisuda/amis-admin) 项目
 
 ```json
 {
@@ -43,8 +43,6 @@ order: 99
   ...
 }
 ```
-
-> 请点击顶部菜单示例最底下的 JSSDK 页面查看效果。
 
 ## 属性说明
 

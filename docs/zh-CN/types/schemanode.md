@@ -131,11 +131,11 @@ SchemaNode 是指每一个 amis 配置节点的类型，支持`模板`、`Schema
   "body": [
       {
         "type":"tpl",
-        "tpl": "my name is ${name}" // 输出 Hello World!
+        "tpl": "my name is ${name}" // 输出 my name is amis
       },
       {
         "type":"tpl",
-        "tpl": "I am ${age} years old!" // 输出 I am 1 years old!
+        "tpl": "I am ${age} years old" // 输出 I am 1 years old
       }
   ]
 }

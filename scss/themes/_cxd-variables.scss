@@ -4,8 +4,8 @@ $remFactor: 16px;
 
 $ns: 'cxd-';
 
-$info: #108cee;
-$primary: #108cee;
+$info: #2468f2;
+$primary: #2468F2;
 $success: #5fb333;
 $warning: #f39000;
 $danger: #ea2e2e;
@@ -17,9 +17,8 @@ $success-bg: #f1fdeb;
 $warning-bg: #fcf7f1;
 $danger-bg: #fff5f5;
 
-$text-color: #666;
+$text-color: #151A26;
 
-$Toast-icon-fillHeight: false;
 $Number-handler-mode: 'horizontal';
 // css 变量似乎没法用 !important，所以这里用 sass 变量
 $Wizard-steps-liAfterBorder: none !important;
@@ -30,9 +29,9 @@ $Wizard-steps-liAfterBorder: none !important;
 :root {
   --borderColor: #eceff8;
   --body-bg: #ffffff;
-  --text-color: #666;
+  --text-color: #151A26;
 
-  --text--muted-color: #999;
+  --text--muted-color: #B4B6BA;
   --text--loud-color: #333;
   --link-onHover-decoration: none;
 
@@ -189,7 +188,7 @@ $Wizard-steps-liAfterBorder: none !important;
   --Button-borderWidth: #{px2rem(1px)};
   --Button-boxShadow: none;
   --Button-onActive-boxShadow: none;
-  --Button-borderRadius: 0;
+  // --Button-borderRadius: 0;
   --Button--lg-borderRadius: 0;
   --Button--sm-borderRadius: 0;
 
@@ -200,21 +199,21 @@ $Wizard-steps-liAfterBorder: none !important;
 
   --Button--default-bg: var(--white);
   --Button--default-border: #cccccc;
-  --Button--default-color: #000;
-  --Button--default-onHover-bg: var(--white);
-  --Button--default-onHover-border: var(--primary);
-  --Button--default-onHover-color: var(--primary);
-  --Button--default-onActive-bg: #f6fbff;
-  --Button--default-onActive-border: var(--primary);
-  --Button--default-onActive-color: var(--primary);
+  // --Button--default-color: #000;
+  // --Button--default-onHover-bg: var(--white);
+  // --Button--default-onHover-border: var(--primary);
+  // --Button--default-onHover-color: var(--primary);
+  // --Button--default-onActive-bg: var(--white);
+  // --Button--default-onActive-border: var(--primary);
+  // --Button--default-onActive-color: var(--primary);
 
   --Button--primary-bg: var(--primary);
   --Button--primary-border: var(--primary);
-  --Button--primary-onHover-bg: #209bfd;
-  --Button--primary-onHover-border: var(--primary);
+  // --Button--primary-onHover-bg: #4F86F4;
+  // --Button--primary-onHover-border: #4F86F4;
   --Button--primary-onHover-color: var(--white);
-  --Button--primary-onActive-bg: #047bdb;
-  --Button--primary-onActive-border: var(--primary);
+  // --Button--primary-onActive-bg: #1C53C1;
+  // --Button--primary-onActive-border: #1C53C1;
   --Button--primary-onActive-color: var(--white);
 
   --Button--danger-bg: #ea2e2e;
@@ -245,13 +244,13 @@ $Wizard-steps-liAfterBorder: none !important;
   --Table-thead-borderColor: #fff;
   --Table-thead-iconColor: #999;
   --Table-strip-bg: transparent;
-  --Table-onHover-bg: #f5fbff;
+  --Table-onHover-bg: #f5f5f5;
   --Table-onHover-bg-rgb: 245, 251, 255;
   --Table-onHover-borderColor: #eceff8;
   --Table-onChecked-bg: transparent;
   --Table-onChecked-borderColor: #eceff8;
   --Table-onChecked-color: #333;
-  --Table-onChecked-onHover-bg: #f5fbff;
+  --Table-onChecked-onHover-bg: #f5f5f5;
   --Table-onChecked-onHover-borderColor: #eceff8;
   --Table-onChecked-onHover-color: #666;
   --TableCell-paddingX: #{px2rem(10px)};
@@ -364,6 +363,7 @@ $Wizard-steps-liAfterBorder: none !important;
   // Panel
   --Panel-borderRadius: 0;
   --Panel-fixedBottom-boxShadow: 0 -2px 10px 0 rgba(0, 0, 0, 0.05);
+  --Panel--default-bg: #f5f5f5;
 
   // Nav
   --Nav-item-fontSize: #{px2rem(16px)};
@@ -404,13 +404,9 @@ $Wizard-steps-liAfterBorder: none !important;
   // Toast size
   --Toast-width: #{px2rem(300px)};
   --Toast-borderRadius: 0;
-  --Toast-paddingY: var(--gap-xs);
-  --Toast-paddingX: var(--gap-md);
   --Toast-paddingL: #{px2rem(26px)};
   --Toast--info-paddingL: 0;
   --Toast-border-width: #{px2rem(1px)};
-  --Toast-icon-width: #{px2rem(16px)};
-  --Toast-icon-height: #{px2rem(16px)};
   --Toast-opacity: 1;
   --Toast-title-display: inline;
 
@@ -464,6 +460,11 @@ $Wizard-steps-liAfterBorder: none !important;
   --ListMenu-item-color: #333;
   --ListMenu-item--onHover-color: #000;
   --ListMenu-item--onHover-bg: #eaf6fe;
+  --ListItem--strip-bg: #f6f6f6;
+  --ListItem-onChecked-color: #0052cc;
+  --ListItem-onChecked-bg: #f0f6ff;
+  --ListItem-onChecked-borderColor: #0052cc;
+  --ListItem-onChecked-fieldLabel-color: #0052cc;
 
   --Transfer-title-bg: var(--Table-thead-bg);
 

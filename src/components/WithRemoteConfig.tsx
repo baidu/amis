@@ -4,6 +4,7 @@
  */
 import React from 'react';
 import hoistNonReactStatic from 'hoist-non-react-statics';
+import debounce from 'lodash/debounce';
 import {Api, Payload} from '../types';
 import {SchemaApi, SchemaTokenizeableString} from '../Schema';
 import {withStore} from './WithStore';
@@ -97,6 +98,7 @@ export interface OutterProps {
   env?: RendererEnv;
   data: any;
   source?: SchemaApi | SchemaTokenizeableString;
+  autoComplete?: SchemaApi | SchemaTokenizeableString;
   deferApi?: SchemaApi;
   remoteConfigRef?: (
     instance:
@@ -182,9 +184,15 @@ export function withRemoteConfig<P = any>(
           static displayName = `WithRemoteConfig(${
             ComposedComponent.displayName || ComposedComponent.name
           })`;
-          static ComposedComponent = ComposedComponent;
+          static ComposedComponent =
+            ComposedComponent as React.ComponentType<T>;
           static contextType = EnvContext;
           toDispose: Array<() => void> = [];
+
+          loadOptions = debounce(this.loadAutoComplete.bind(this), 250, {
+            trailing: true,
+            leading: false
+          });
 
           constructor(
             props: FinalOutterProps & {
@@ -220,19 +228,20 @@ export function withRemoteConfig<P = any>(
               );
             } else if (env && isEffectiveApi(source, data)) {
               this.loadConfig();
-              this.toDispose.push(
-                reaction(
-                  () => {
-                    const api = normalizeApi(source as string);
-                    return api.trackExpression
-                      ? tokenize(api.trackExpression, store.data)
-                      : buildApi(api, store.data, {
-                          ignoreData: true
-                        }).url;
-                  },
-                  () => this.loadConfig()
-                )
-              );
+              source.autoRefresh !== false &&
+                this.toDispose.push(
+                  reaction(
+                    () => {
+                      const api = normalizeApi(source as string);
+                      return api.trackExpression
+                        ? tokenize(api.trackExpression, store.data)
+                        : buildApi(api, store.data, {
+                            ignoreData: true
+                          }).url;
+                    },
+                    () => this.loadConfig()
+                  )
+                );
             }
           }
 
@@ -249,6 +258,7 @@ export function withRemoteConfig<P = any>(
             this.toDispose = [];
 
             this.props.remoteConfigRef?.(undefined);
+            this.loadOptions.cancel();
           }
 
           async loadConfig(ctx = this.props.data) {
@@ -258,6 +268,28 @@ export function withRemoteConfig<P = any>(
             if (env && isEffectiveApi(source, ctx)) {
               await store.load(env, source, ctx, config);
             }
+          }
+
+          loadAutoComplete(input: string) {
+            const env: RendererEnv = this.props.env || this.context;
+            const {autoComplete, data, store} = this.props;
+
+            if (!env || !env.fetcher) {
+              throw new Error('fetcher is required');
+            }
+
+            const ctx = createObject(data, {
+              term: input,
+              value: input
+            });
+
+            if (!isEffectiveApi(autoComplete, ctx)) {
+              return Promise.resolve({
+                options: []
+              });
+            }
+
+            return store.load(env, autoComplete, ctx, config);
           }
 
           setConfig(value: any, ctx?: any) {
@@ -320,13 +352,14 @@ export function withRemoteConfig<P = any>(
 
           render() {
             const store = this.props.store;
+            const env: RendererEnv = this.props.env || this.context;
             const injectedProps: RemoteOptionsProps<P> = {
               config: store.config,
               loading: store.fetching,
               deferLoad: this.deferLoadConfig,
               updateConfig: this.setConfig
             };
-            const {remoteConfigRef, ...rest} = this.props;
+            const {remoteConfigRef, autoComplete, ...rest} = this.props;
 
             return (
               <ComposedComponent
@@ -334,6 +367,9 @@ export function withRemoteConfig<P = any>(
                   T,
                   React.ComponentProps<T>
                 >)}
+                {...(env && isEffectiveApi(autoComplete) && this.loadOptions
+                  ? {loadOptions: this.loadOptions}
+                  : {})}
                 {...injectedProps}
               />
             );

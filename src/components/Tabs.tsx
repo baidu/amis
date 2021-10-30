@@ -11,6 +11,8 @@ import {themeable, ThemeProps} from '../theme';
 import {uncontrollable} from 'uncontrollable';
 import {generateIcon} from '../utils/icon';
 import {SchemaClassName} from '../Schema';
+import {autobind} from '../utils/helper';
+import debounce from 'lodash/debounce';
 
 const transitionStyles: {
   [propName: string]: string;
@@ -20,7 +22,7 @@ const transitionStyles: {
 };
 
 export interface TabProps extends ThemeProps {
-  title?: string; // 标题
+  title?: string | React.ReactNode; // 标题
   icon?: string;
   iconPosition?: 'left' | 'right';
   disabled?: boolean | string;
@@ -94,19 +96,197 @@ export interface TabsProps extends ThemeProps {
   tabs?: Array<TabProps>;
   tabRender?: (tab: TabProps, props?: TabsProps) => JSX.Element;
   toolbar?: React.ReactNode;
+  scrollable?: boolean // 是否支持溢出滚动
 }
 
-export class Tabs extends React.Component<TabsProps> {
+export class Tabs extends React.Component<TabsProps, any> {
   static defaultProps: Pick<TabsProps, 'mode' | 'contentClassName'> = {
     mode: '',
     contentClassName: ''
   };
 
   static Tab = Tab;
+  navMain = React.createRef<HTMLDivElement>();
+  scroll:boolean = false;
+
+  checkArrowStatus = debounce(
+    () => {
+      const {scrollLeft, scrollWidth, clientWidth} = this.navMain.current
+        || {
+          scrollLeft: 0,
+          scrollWidth: 0,
+          clientWidth: 0
+        }
+      const {arrowRightDisabled, arrowLeftDisabled} = this.state;
+      if (scrollLeft === 0 && !arrowLeftDisabled) {
+        this.setState({
+          arrowRightDisabled: false,
+          arrowLeftDisabled: true
+        });
+      } else if (scrollWidth === scrollLeft + clientWidth && !arrowRightDisabled) {
+        this.setState({
+          arrowRightDisabled: true,
+          arrowLeftDisabled: false
+        });
+      } else if (scrollLeft !== 0 && arrowLeftDisabled) {
+        this.setState({
+          arrowLeftDisabled: false
+        });
+      } else if (scrollWidth !== scrollLeft + clientWidth && arrowRightDisabled) {
+        this.setState({
+          arrowRightDisabled: false
+        });
+      }
+    },
+    100,
+    {
+      trailing: true,
+      leading: false
+    }
+  )
+
+  constructor(props: TabsProps) {
+    super(props);
+    this.state = {
+      isOverflow: false,
+      arrowLeftDisabled: false,
+      arrowRightDisabled: false,
+    };
+  }
+
+  componentDidMount() {
+    this.computedWidth();
+    if (this.navMain) {
+      this.navMain.current?.addEventListener('wheel', this.handleWheel, {passive: false});
+      this.checkArrowStatus();
+    }
+  }
+
+  componentDidUpdate() {
+    // 判断是否是由滚动触发的数据更新，如果是则不需要再次判断容器与内容的关系
+    if (!this.scroll) {
+      this.computedWidth();
+    }
+    this.scroll = false;
+  }
+
+  componentWillUnmount() {
+    this.checkArrowStatus.cancel();
+  }
+
+  /**
+   * 处理内容与容器之间的位置关系
+   */
+  computedWidth() {
+    const {mode: dMode, tabsMode, scrollable} = this.props;
+    const mode = tabsMode || dMode;
+    if (!scrollable || mode === 'vertical') {
+      return;
+    }
+    const navMainRef = this.navMain.current;
+    const clientWidth: number = navMainRef?.clientWidth || 0;
+    const scrollWidth: number = navMainRef?.scrollWidth || 0;
+    const isOverflow = scrollWidth > clientWidth;
+    // 内容超出容器长度标记溢出
+    if (isOverflow !== this.state.isOverflow) {
+      this.setState({isOverflow});
+    }
+    if (isOverflow) {
+      this.showSelected();
+    }
+  }
+  /**
+   * 保证选中的tab始终显示在可视区域
+   */
+  showSelected(key?: string | number) {
+    const {mode: dMode, tabsMode, scrollable} = this.props;
+    const {isOverflow} = this.state;
+    const mode = tabsMode || dMode;
+    if (!scrollable || mode === 'vertical' || !isOverflow) {
+      return;
+    }
+    const {activeKey, children} = this.props;
+    const currentKey = key !== undefined ? key : activeKey;
+    const currentIndex = (children as any[])?.findIndex((item: any) => item.props.eventKey === currentKey);
+    const li = this.navMain.current?.children[0]?.children || [];
+    const currentLi = li[currentIndex] as HTMLElement;
+    const liOffsetLeft = currentLi?.offsetLeft - 20;
+    const liClientWidth = currentLi?.clientWidth;
+    const scrollLeft = this.navMain.current?.scrollLeft || 0;
+    const clientWidth = this.navMain.current?.clientWidth || 0;
+
+    // 左边被遮住了
+    if (scrollLeft > liOffsetLeft) {
+      this.navMain.current?.scrollTo({
+        left: liOffsetLeft,
+        behavior: 'smooth'
+      });
+    }
+    // 右边被遮住了
+    if (liOffsetLeft + liClientWidth > scrollLeft + clientWidth) {
+      this.navMain.current?.scrollTo({
+        left: liOffsetLeft + liClientWidth - clientWidth,
+        behavior: 'smooth'
+      });
+    }
+  }
 
   handleSelect(key: string | number) {
     const {onSelect} = this.props;
+    this.showSelected(key);
+    setTimeout(() => {
+      this.checkArrowStatus();
+    }, 500);
     onSelect && onSelect(key);
+  }
+
+  handleArrow(type: 'left' | 'right') {
+    const {scrollLeft, scrollWidth, clientWidth} = this.navMain.current
+      || {
+        scrollLeft: 0,
+        scrollWidth: 0,
+        clientWidth: 0
+      }
+    if (type === 'left' && scrollLeft > 0) {
+      this.navMain.current?.scrollTo({
+        left: 0,
+        behavior: 'smooth'
+      });
+      this.setState({
+        arrowRightDisabled: false,
+        arrowLeftDisabled: true
+      });
+    } else if (type === 'right' && scrollWidth > scrollLeft + clientWidth) {
+      this.navMain.current?.scrollTo({
+        left: this.navMain.current?.scrollWidth,
+        behavior: 'smooth'
+      });
+      this.setState({
+        arrowRightDisabled: true,
+        arrowLeftDisabled: false
+      });
+    }
+    this.scroll = true;
+  }
+
+  /**
+   * 监听导航上的滚动事件
+   */
+  @autobind
+  handleWheel(e: WheelEvent) {
+    const {deltaY, deltaX} = e;
+    const absX = Math.abs(deltaX);
+    const absY = Math.abs(deltaY);
+
+    // 当鼠标上下滚动时转换为左右滚动
+    if (absY > absX) {
+      this.navMain.current?.scrollTo({
+        left: this.navMain.current?.scrollLeft + deltaY
+      });
+      e.preventDefault();
+    }
+    this.checkArrowStatus();
+    this.scroll = true;
   }
 
   renderNav(child: any, index: number) {
@@ -121,7 +301,8 @@ export class Tabs extends React.Component<TabsProps> {
       icon,
       iconPosition,
       title,
-      toolbar
+      toolbar,
+      tabClassName
     } = child.props;
     const activeKey =
       activeKeyProp === undefined && index === 0 ? eventKey : activeKeyProp;
@@ -133,9 +314,10 @@ export class Tabs extends React.Component<TabsProps> {
         className={cx(
           'Tabs-link',
           activeKey === eventKey ? 'is-active' : '',
-          disabled ? 'is-disabled' : ''
+          disabled ? 'is-disabled' : '',
+          tabClassName
         )}
-        key={index}
+        key={eventKey ?? index}
         onClick={() => (disabled ? '' : this.handleSelect(eventKey))}
       >
         <a>
@@ -154,39 +336,13 @@ export class Tabs extends React.Component<TabsProps> {
           )}
           {React.isValidElement(toolbar) ? toolbar : null}
         </a>
-        {/* svg 来自 https://github.com/adamschwartz/chrome-tabs */}
         {mode === 'chrome' ? (
           <div className="chrome-tab-background">
-            <svg version="1.1" xmlns="http://www.w3.org/2000/svg">
-              <defs>
-                <symbol id="chrome-tab-geometry-left" viewBox="0 0 214 36">
-                  <path d="M17 0h197v36H0v-2c4.5 0 9-3.5 9-8V8c0-4.5 3.5-8 8-8z" />
-                </symbol>
-                <symbol id="chrome-tab-geometry-right" viewBox="0 0 214 36">
-                  <use href="#chrome-tab-geometry-left" />
-                </symbol>
-                <clipPath id="crop">
-                  <rect className="mask" width="100%" height="100%" x="0" />
-                </clipPath>
-              </defs>
-              <svg width="52%" height="100%">
-                <use
-                  href="#chrome-tab-geometry-left"
-                  width="214"
-                  height="36"
-                  className="chrome-tab-geometry"
-                />
-              </svg>
-              <g transform="scale(-1, 1)">
-                <svg width="52%" height="100%" x="-100%" y="0">
-                  <use
-                    href="#chrome-tab-geometry-right"
-                    width="214"
-                    height="36"
-                    className="chrome-tab-geometry"
-                  />
-                </svg>
-              </g>
+            <svg viewBox="0 0 124 124" className="chrome-tab-background--right">
+              <path d="M0,0 C0,68.483309 55.516691,124 124,124 L0,124 L0,-1 C0.00132103964,-0.667821298 0,-0.334064922 0,0 Z"></path>
+            </svg>
+            <svg viewBox="0 0 124 124" className="chrome-tab-background--left">
+              <path d="M124,0 L124,125 L0,125 L0,125 C68.483309,125 124,69.483309 124,1 L123.992,0 L124,0 Z"></path>
             </svg>
           </div>
         ) : null}
@@ -206,10 +362,32 @@ export class Tabs extends React.Component<TabsProps> {
 
     return React.cloneElement(child, {
       ...child.props,
-      key: index,
+      key: eventKey,
       classnames: classnames,
       activeKey: activeKey
     });
+  }
+
+  renderArrow(type: 'left' | 'right') {
+    const {mode: dMode, tabsMode,} = this.props;
+    const mode = tabsMode || dMode;
+    if (mode === 'vertical') {
+      return;
+    }
+    const {classnames: cx} = this.props;
+    const {isOverflow, arrowLeftDisabled, arrowRightDisabled} = this.state;
+    const disabled = type === 'left' ? arrowLeftDisabled : arrowRightDisabled;
+    return (isOverflow
+      ? (<div onClick={() => this.handleArrow(type)}
+          className={cx(
+            'Tabs-linksContainer-arrow',
+            'Tabs-linksContainer-arrow--' + type,
+            disabled && 'Tabs-linksContainer-arrow--disabled'
+          )}>
+          <i className={'iconfont icon-arrow-' + type} />
+        </div>)
+      : null
+    )
   }
 
   render() {
@@ -222,9 +400,11 @@ export class Tabs extends React.Component<TabsProps> {
       children,
       additionBtns,
       toolbar,
-      linksClassName
+      linksClassName,
+      scrollable
     } = this.props;
 
+    const {isOverflow} = this.state;
     if (!Array.isArray(children)) {
       return null;
     }
@@ -241,11 +421,28 @@ export class Tabs extends React.Component<TabsProps> {
           className
         )}
       >
-        <ul className={cx('Tabs-links', linksClassName)} role="tablist">
-          {children.map((tab, index) => this.renderNav(tab, index))}
-          {additionBtns}
-          {toolbar}
-        </ul>
+        {
+          scrollable && !['vertical', 'chrome'].includes(mode) ?
+            (<div className={cx('Tabs-linksContainer', isOverflow && 'Tabs-linksContainer--overflow')}>
+              {this.renderArrow('left')}
+              <div
+                className={cx('Tabs-linksContainer-main')}
+                ref={this.navMain}
+              >
+                <ul className={cx('Tabs-links', linksClassName)} role="tablist">
+                  {children.map((tab, index) => this.renderNav(tab, index))}
+                  {additionBtns}
+                  {toolbar}
+                </ul>
+              </div>
+              {this.renderArrow('right')}
+            </div>)
+          : (<ul className={cx('Tabs-links', linksClassName)} role="tablist">
+              {children.map((tab, index) => this.renderNav(tab, index))}
+              {additionBtns}
+              {toolbar}
+            </ul>)
+        }
 
         <div className={cx('Tabs-content', contentClassName)}>
           {children.map((child, index) => {

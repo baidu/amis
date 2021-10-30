@@ -13,8 +13,15 @@ import PopOver from './PopOver';
 import Downshift, {ControllerStateAndHelpers} from 'downshift';
 import {closeIcon, Icon} from './icons';
 // @ts-ignore
-import matchSorter from 'match-sorter';
-import {noop, isObject, findTree, autobind, ucFirst} from '../utils/helper';
+import {matchSorter} from 'match-sorter';
+import {
+  noop,
+  isObject,
+  findTree,
+  autobind,
+  ucFirst,
+  normalizeNodePath
+} from '../utils/helper';
 import find from 'lodash/find';
 import isPlainObject from 'lodash/isPlainObject';
 import union from 'lodash/union';
@@ -48,6 +55,7 @@ export interface OptionProps {
   placeholder?: string;
   disabled?: boolean;
   creatable?: boolean;
+  pathSeparator?: string;
   onAdd?: (
     idx?: number | Array<number>,
     value?: any,
@@ -65,9 +73,27 @@ export function value2array(
   value: OptionValue | Array<OptionValue>,
   props: Pick<
     OptionProps,
-    'multi' | 'multiple' | 'delimiter' | 'valueField' | 'options'
-  >
+    | 'multi'
+    | 'multiple'
+    | 'delimiter'
+    | 'valueField'
+    | 'labelField'
+    | 'options'
+    | 'pathSeparator'
+  >,
+  enableNodePath: boolean = false
 ): Array<Option> {
+  if (enableNodePath) {
+    value = normalizeNodePath(
+      value,
+      enableNodePath,
+      props.labelField,
+      props.valueField,
+      props.pathSeparator,
+      props.delimiter
+    ).nodeValueArray;
+  }
+
   if (props.multi || props.multiple) {
     if (typeof value === 'string') {
       value = value.split(props.delimiter || ',');
@@ -287,6 +313,7 @@ interface SelectProps extends OptionProps, ThemeProps, LocaleProps {
   onBlur?: Function;
   checkAll?: boolean;
   checkAllLabel?: string;
+  checkAllBySearch?: boolean;
   defaultCheckAll?: boolean;
   simpleValue?: boolean;
   defaultOpen?: boolean;
@@ -295,6 +322,10 @@ interface SelectProps extends OptionProps, ThemeProps, LocaleProps {
    * 边框模式，全边框，还是半边框，或者没边框。
    */
   borderMode?: 'full' | 'half' | 'none';
+  /**
+   * 是否隐藏已选项
+   */
+  hideSelected?: boolean;
 }
 
 interface SelectState {
@@ -353,8 +384,6 @@ export class Select extends React.Component<SelectProps, SelectState> {
     this.handleAddClick = this.handleAddClick.bind(this);
     this.handleEditClick = this.handleEditClick.bind(this);
     this.handleDeleteClick = this.handleDeleteClick.bind(this);
-
-    // console.log('props.value', props.value);
 
     this.state = {
       isOpen: props.defaultOpen || false,
@@ -470,15 +499,29 @@ export class Select extends React.Component<SelectProps, SelectState> {
   }
 
   toggleCheckAll() {
-    const {options, onChange, simpleValue} = this.props;
+    const {
+      options,
+      onChange,
+      simpleValue,
+      checkAllBySearch,
+      labelField,
+      valueField
+    } = this.props;
+    const inputValue = this.state.inputValue;
     let {selection} = this.state;
-    const optionsValues = options.map(option => option.value);
+    let filtedOptions: Array<Option> =
+      inputValue && checkAllBySearch
+        ? matchSorter(options, inputValue, {
+            keys: [labelField || 'label', valueField || 'value']
+          })
+        : options.concat();
+    const optionsValues = filtedOptions.map(option => option.value);
     const selectionValues = selection.map(select => select.value);
     const checkedAll = optionsValues.every(
       option => selectionValues.indexOf(option) > -1
     );
 
-    selection = checkedAll ? [] : options;
+    selection = checkedAll ? [] : filtedOptions;
     onChange(simpleValue ? selection.map(item => item.value) : selection);
   }
 
@@ -684,6 +727,7 @@ export class Select extends React.Component<SelectProps, SelectState> {
       popoverClassName,
       checkAll,
       checkAllLabel,
+      checkAllBySearch,
       searchable,
       createBtnLabel,
       disabled,
@@ -692,22 +736,26 @@ export class Select extends React.Component<SelectProps, SelectState> {
       removable,
       overlayPlacement,
       translate: __,
+      hideSelected,
       renderMenu
     } = this.props;
     const {selection} = this.state;
 
     let checkedAll = false;
     let checkedPartial = false;
-    let filtedOptions: Array<Option> = (inputValue && isOpen && !loadOptions
-      ? matchSorter(options, inputValue, {
-          keys: [labelField || 'label', valueField || 'value']
-        })
-      : options.concat()
+    let filtedOptions: Array<Option> = (
+      inputValue && isOpen && !loadOptions
+        ? matchSorter(options, inputValue, {
+            keys: [labelField || 'label', valueField || 'value']
+          })
+        : options.concat()
     ).filter((option: Option) => !option.hidden && option.visible !== false);
 
     const selectionValues = selection.map(select => select[valueField]);
     if (multiple && checkAll) {
-      const optionsValues = options.map(option => option[valueField]);
+      const optionsValues = (checkAllBySearch ? filtedOptions : options).map(
+        option => option[valueField]
+      );
 
       checkedAll = optionsValues.every(
         option => selectionValues.indexOf(option) > -1
@@ -724,6 +772,9 @@ export class Select extends React.Component<SelectProps, SelectState> {
       const item = filtedOptions[index];
       const checked =
         selectedItem === item || !!~selectionValues.indexOf(item[valueField]);
+      if (hideSelected && checked) {
+        return null;
+      }
       return (
         <div
           {...getItemProps({
@@ -1056,6 +1107,7 @@ export const SelectWithRemoteOptions = withRemoteConfig<Array<Options>>({
   > {
     render() {
       const {loading, config, deferLoad, updateConfig, ...rest} = this.props;
+
       return (
         <EnhancedSelect
           {...rest}

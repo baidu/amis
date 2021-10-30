@@ -58,6 +58,7 @@ order: 48
 | extractValue    | `boolean`                                                                         | `false`      | [提取值](./options#%E6%8F%90%E5%8F%96%E5%A4%9A%E9%80%89%E5%80%BC-extractvalue)                                      |
 | checkAll        | `boolean`                                                                         | `false`      | 是否支持全选                                                                                                        |
 | checkAllLabel   | `string`                                                                          | `全选`       | 全选的文字                                                                                                          |
+| checkAllBySearch | `boolean`                                                                         | `false`      | 有检索时只全选检索命中的项                                                                                          |
 | defaultCheckAll | `boolean`                                                                         | `false`      | 默认是否全选                                                                                                        |
 | creatable       | `boolean`                                                                         | `false`      | [新增选项](./options#%E5%89%8D%E7%AB%AF%E6%96%B0%E5%A2%9E-creatable)                                                |
 | multiple        | `boolean`                                                                         | `false`      | [多选](./options#多选-multiple)                                                                                     |
@@ -73,3 +74,4 @@ order: 48
 | autoFill        | `object`                                                                          |              | [自动填充](./options#%E8%87%AA%E5%8A%A8%E5%A1%AB%E5%85%85-autofill)                                                 |
 | menuTpl         | `string`                                                                          |              | 支持配置自定义菜单                                                                                                  |
 | clearable       | `boolean`                                                                         |              | 单选模式下是否支持清空                                                                                              |
+| hideSelected    | `boolean`                                                                   | `false`      | 隐藏已选选项

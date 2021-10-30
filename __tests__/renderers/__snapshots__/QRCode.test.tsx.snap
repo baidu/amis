@@ -3,19 +3,19 @@
 exports[`Renderer:qr-code 1`] = `
 <div>
   <div
-    class="a-Page"
+    class="cxd-Page"
   >
     <div
-      class="a-Page-content"
+      class="cxd-Page-content"
     >
       <div
-        class="a-Page-main"
+        class="cxd-Page-main"
       >
         <div
-          class="a-Page-body"
+          class="cxd-Page-body"
         >
           <div
-            class="a-QrCode"
+            class="cxd-QrCode"
           >
             <svg
               class=""

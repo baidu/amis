@@ -18,8 +18,10 @@ import {
   isObjectShallowModified,
   noop,
   isVisible,
+  getPropValue,
   getVariable,
-  qsstringify
+  qsstringify,
+  qsparse
 } from '../utils/helper';
 import {observer} from 'mobx-react';
 import partition from 'lodash/partition';
@@ -28,7 +30,6 @@ import Button from '../components/Button';
 import Select from '../components/Select';
 import getExprProperties from '../utils/filter-schema';
 import pick from 'lodash/pick';
-import qs from 'qs';
 import {findDOMNode} from 'react-dom';
 import {evalExpression, filter} from '../utils/tpl';
 import {
@@ -307,7 +308,7 @@ export type CRUDListSchema = CRUDCommonSchema & {
   mode: 'list';
 } & Omit<ListSchema, 'type'>;
 
-export type CRUDTableSchem = CRUDCommonSchema & {
+export type CRUDTableSchema = CRUDCommonSchema & {
   mode?: 'table';
 } & Omit<TableSchema, 'type'>;
 
@@ -315,7 +316,7 @@ export type CRUDTableSchem = CRUDCommonSchema & {
  * CRUD 增删改查渲染器。
  * 文档：https://baidu.gitee.io/amis/docs/components/crud
  */
-export type CRUDSchema = CRUDCardsSchema | CRUDListSchema | CRUDTableSchem;
+export type CRUDSchema = CRUDCardsSchema | CRUDListSchema | CRUDTableSchema;
 
 export interface CRUDProps
   extends RendererProps,
@@ -374,7 +375,8 @@ export default class CRUD extends React.Component<CRUDProps, any> {
     'onChange',
     'onInit',
     'onSaved',
-    'onQuery'
+    'onQuery',
+    'formStore'
   ];
   static defaultProps = {
     toolbarInline: true,
@@ -435,14 +437,14 @@ export default class CRUD extends React.Component<CRUDProps, any> {
 
     if (syncLocation && location && (location.query || location.search)) {
       store.updateQuery(
-        qs.parse(location.search.substring(1)),
+        qsparse(location.search.substring(1)),
         undefined,
         pageField,
         perPageField
       );
     } else if (syncLocation && !location && window.location.search) {
       store.updateQuery(
-        qs.parse(window.location.search.substring(1)) as object,
+        qsparse(window.location.search.substring(1)) as object,
         undefined,
         pageField,
         perPageField
@@ -476,8 +478,9 @@ export default class CRUD extends React.Component<CRUDProps, any> {
       this.handleFilterInit({});
     }
 
-    if (this.props.pickerMode && this.props.value) {
-      store.setSelectedItems(this.props.value);
+    const val = getPropValue(this.props);
+    if (this.props.pickerMode && val) {
+      store.setSelectedItems(val);
     }
   }
 
@@ -497,11 +500,12 @@ export default class CRUD extends React.Component<CRUDProps, any> {
       this.renderFooterToolbar = this.renderFooterToolbar.bind(this);
     }
 
-    if (this.props.pickerMode && this.props.value !== props.value) {
-      store.setSelectedItems(props.value);
+    const val = getPropValue(this.props);
+    if (this.props.pickerMode && val !== getPropValue(prevProps)) {
+      store.setSelectedItems(val);
     }
 
-    if (this.props.filterTogglable !== props.filterTogglable) {
+    if (this.props.filterTogglable !== prevProps.filterTogglable) {
       store.setFilterTogglable(
         !!props.filterTogglable,
         props.filterDefaultVisible
@@ -517,7 +521,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
     ) {
       // 同步地址栏，那么直接检测 query 是否变了，变了就重新拉数据
       store.updateQuery(
-        qs.parse(props.location.search.substring(1)),
+        qsparse(props.location.search.substring(1)),
         undefined,
         props.pageField,
         props.perPageField
@@ -804,18 +808,11 @@ export default class CRUD extends React.Component<CRUDProps, any> {
       perPageField,
       loadDataOnceFetchOnFilter
     } = this.props;
+
     values = syncLocation
-      ? qs.parse(
-          qsstringify(
-            values,
-            {
-              arrayFormat: 'indices',
-              encodeValuesOnly: true
-            },
-            true
-          )
-        )
+      ? qsparse(qsstringify(values, undefined, true))
       : values;
+
     store.updateQuery(
       {
         ...values,
@@ -931,8 +928,9 @@ export default class CRUD extends React.Component<CRUDProps, any> {
       if (component && component.props.type === 'form') {
         // 数据保存了，说明列表数据已经无效了，重新刷新。
         if (value && (value as any).__saved) {
+          const reload = action.reload ?? dialogAction.reload;
           // 配置了 reload 则跳过自动更新。
-          dialogAction.reload ||
+          reload ||
             this.search(
               dialogAction.__from ? {[pageField || 'page']: 1} : undefined,
               undefined,
@@ -950,21 +948,19 @@ export default class CRUD extends React.Component<CRUDProps, any> {
       }
     }
 
-    if (dialogAction.reload) {
-      this.reloadTarget(dialogAction.reload, ctx);
+    const reload = action.reload ?? dialogAction.reload;
+    if (reload) {
+      this.reloadTarget(reload, ctx);
     }
 
-    const redirect = dialogAction.redirect && filter(action.redirect, ctx);
+    let redirect = action.redirect ?? dialogAction.redirect;
+    redirect = redirect && filter(redirect, ctx);
     redirect && env.jumpTo(redirect, dialogAction);
   }
 
   handleDialogClose() {
-    const {
-      store,
-      stopAutoRefreshWhenModalIsOpen,
-      silentPolling,
-      interval
-    } = this.props;
+    const {store, stopAutoRefreshWhenModalIsOpen, silentPolling, interval} =
+      this.props;
     store.closeDialog();
 
     if (stopAutoRefreshWhenModalIsOpen && interval) {
@@ -1061,7 +1057,10 @@ export default class CRUD extends React.Component<CRUDProps, any> {
               (!stopAutoRefreshWhen ||
                 !(
                   (stopAutoRefreshWhenModalIsOpen && store.hasModalOpened) ||
-                  evalExpression(stopAutoRefreshWhen, data)
+                  evalExpression(
+                    stopAutoRefreshWhen,
+                    createObject(store.data, store.query)
+                  )
                 )) &&
               (this.timer = setTimeout(
                 silentPolling
@@ -1115,7 +1114,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
     if (autoJumpToTopOnPagerChange && this.control) {
       (findDOMNode(this.control) as HTMLElement).scrollIntoView();
       const scrolledY = window.scrollY;
-      const offsetTop = affixOffsetTop ?? env?.affixOffsetTop ?? 50;
+      const offsetTop = affixOffsetTop ?? env?.affixOffsetTop ?? 0;
       scrolledY && window.scroll(0, scrolledY - offsetTop);
     }
   }
@@ -1197,14 +1196,8 @@ export default class CRUD extends React.Component<CRUDProps, any> {
   }
 
   handleSaveOrder(moved: Array<object>, rows: Array<object>) {
-    const {
-      store,
-      saveOrderApi,
-      orderField,
-      primaryField,
-      env,
-      reload
-    } = this.props;
+    const {store, saveOrderApi, orderField, primaryField, env, reload} =
+      this.props;
 
     if (!saveOrderApi) {
       env && env.alert('CRUD saveOrderApi is required!');
@@ -1416,11 +1409,8 @@ export default class CRUD extends React.Component<CRUDProps, any> {
   }
 
   handleChildPopOverClose(popOver: any) {
-    const {
-      stopAutoRefreshWhenModalIsOpen,
-      silentPolling,
-      interval
-    } = this.props;
+    const {stopAutoRefreshWhenModalIsOpen, silentPolling, interval} =
+      this.props;
 
     if (popOver && ~['dialog', 'drawer'].indexOf(popOver.mode)) {
       this.props.store.setInnerModalOpened(false);
@@ -1510,15 +1500,11 @@ export default class CRUD extends React.Component<CRUDProps, any> {
   hasBulkActions() {
     const {bulkActions, itemActions, store} = this.props;
 
-    if (
-      (!bulkActions || !bulkActions.length) &&
-      (!itemActions || !itemActions.length)
-    ) {
+    if (!bulkActions || !bulkActions.length) {
       return false;
     }
 
     let bulkBtns: Array<ActionSchema> = [];
-    let itemBtns: Array<ActionSchema> = [];
     const ctx = store.mergedData;
 
     if (bulkActions && bulkActions.length) {
@@ -1530,21 +1516,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
         .filter(item => !item.hidden && item.visible !== false);
     }
 
-    const itemData = createObject(
-      store.data,
-      store.selectedItems.length ? store.selectedItems[0] : {}
-    );
-
-    if (itemActions && itemActions.length) {
-      itemBtns = itemActions
-        .map(item => ({
-          ...item,
-          ...getExprProperties(item as Schema, itemData)
-        }))
-        .filter(item => !item.hidden && item.visible !== false);
-    }
-
-    return bulkBtns.length || itemBtns.length;
+    return bulkBtns.length;
   }
 
   renderBulkActions(childProps: any) {
@@ -1552,11 +1524,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
 
     const items = childProps.items;
 
-    if (
-      !items.length ||
-      ((!bulkActions || !bulkActions.length) &&
-        (!itemActions || !itemActions.length))
-    ) {
+    if (!items.length || !bulkActions || !bulkActions.length) {
       return null;
     }
 
@@ -1593,7 +1561,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
       selectedItems.length ? selectedItems[0] : {}
     );
 
-    if (itemActions && selectedItems.length === 1) {
+    if (itemActions && selectedItems.length <= 1) {
       itemBtns = itemActions
         .map(item => ({
           ...item,
@@ -1608,7 +1576,6 @@ export default class CRUD extends React.Component<CRUDProps, any> {
           render(
             `bulk-action/${index}`,
             {
-              size: 'sm',
               ...omit(btn, ['visibleOn', 'hiddenOn', 'disabledOn']),
               type: 'button',
               ignoreConfirm: true
@@ -1632,14 +1599,13 @@ export default class CRUD extends React.Component<CRUDProps, any> {
           render(
             `bulk-action/${index}`,
             {
-              size: 'sm',
               ...omit(btn, ['visibleOn', 'hiddenOn', 'disabledOn']),
               type: 'button'
             },
             {
               key: `item-${index}`,
               data: itemData,
-              disabled: btn.disabled,
+              disabled: btn.disabled || selectedItems.length !== 1,
               onAction: this.handleItemAction.bind(this, btn, itemData)
             }
           )
@@ -1789,15 +1755,16 @@ export default class CRUD extends React.Component<CRUDProps, any> {
     );
   }
 
-  renderExportCSV() {
+  renderExportCSV(toolbar: Schema) {
     const {
       store,
       classPrefix: ns,
       classnames: cx,
       translate: __,
-      loadDataOnce,
-      api
+      loadDataOnce
     } = this.props;
+
+    const api = (toolbar as Schema).api;
 
     return (
       <Button
@@ -1810,7 +1777,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
         }
         size="sm"
       >
-        {__('CRUD.exportCSV')}
+        {toolbar.label || __('CRUD.exportCSV')}
       </Button>
     );
   }
@@ -1840,7 +1807,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
     } else if (type === 'filter-toggler') {
       return this.renderFilterToggler();
     } else if (type === 'export-csv') {
-      return this.renderExportCSV();
+      return this.renderExportCSV(toolbar as Schema);
     } else if (Array.isArray(toolbar)) {
       const children: Array<any> = toolbar
         .map((toolbar, index) => ({
@@ -2056,7 +2023,8 @@ export default class CRUD extends React.Component<CRUDProps, any> {
                 data: store.filterData,
                 onReset: this.handleFilterReset,
                 onSubmit: this.handleFilterSubmit,
-                onInit: this.handleFilterInit
+                onInit: this.handleFilterInit,
+                formStore: undefined
               }
             )
           : null}

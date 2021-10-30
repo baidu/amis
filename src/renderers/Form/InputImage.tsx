@@ -6,10 +6,15 @@ import DropZone from 'react-dropzone';
 import {FileRejection} from 'react-dropzone';
 import 'blueimp-canvastoblob';
 import find from 'lodash/find';
-import qs from 'qs';
 import {Payload} from '../../types';
 import {buildApi} from '../../utils/api';
-import {createObject, qsstringify, guid, isEmpty} from '../../utils/helper';
+import {
+  createObject,
+  qsstringify,
+  guid,
+  isEmpty,
+  qsparse
+} from '../../utils/helper';
 import {Icon} from '../../components/icons';
 import Button from '../../components/Button';
 import accepts from 'attr-accept';
@@ -104,6 +109,16 @@ export interface ImageControlSchema extends FormBaseControl {
         rotatable?: boolean;
         scalable?: boolean;
       };
+
+  /**
+   * 裁剪后的图片类型
+   */
+  cropFormat?: string;
+
+  /**
+   * 裁剪后的质量
+   */
+  cropQuality?: number;
 
   /**
    * 是否允许二次裁剪。
@@ -365,7 +380,7 @@ export default class ImageControl extends React.Component<
     file: any;
     executor: () => void;
   }> = [];
-  cropper = React.createRef<Cropper>();
+  cropper: Cropper;
   dropzone = React.createRef<any>();
   frameImageRef = React.createRef<any>();
   current: FileValue | FileX | null = null;
@@ -383,11 +398,12 @@ export default class ImageControl extends React.Component<
 
     if (value) {
       // files = (multiple && Array.isArray(value) ? value : joinValues ? (value as string).split(delimiter) : [value])
-      files = (Array.isArray(value)
-        ? value
-        : joinValues && typeof value === 'string' && multiple
-        ? (value as string).split(delimiter)
-        : [value]
+      files = (
+        Array.isArray(value)
+          ? value
+          : joinValues && typeof value === 'string' && multiple
+          ? (value as string).split(delimiter)
+          : [value]
       )
         .map(item => ImageControl.valueToFile(item) as FileValue)
         .filter(item => item);
@@ -438,11 +454,12 @@ export default class ImageControl extends React.Component<
       let files: Array<FileValue> = [];
 
       if (value) {
-        files = (Array.isArray(value)
-          ? value
-          : joinValues && typeof value === 'string'
-          ? (value as string).split(delimiter)
-          : [value]
+        files = (
+          Array.isArray(value)
+            ? value
+            : joinValues && typeof value === 'string' && multiple
+            ? (value as string).split(delimiter)
+            : [value]
         )
           .map(item => {
             let obj = ImageControl.valueToFile(item, props) as FileValue;
@@ -505,8 +522,8 @@ export default class ImageControl extends React.Component<
         guides: true,
         dragMode: 'move',
         viewMode: 1,
-        rotatable: false,
-        scalable: false,
+        rotatable: true,
+        scalable: true,
         ...crop
       };
     }
@@ -786,7 +803,7 @@ export default class ImageControl extends React.Component<
             }
           : files[0]
       );
-      onBulkChange(toSync);
+      onBulkChange && onBulkChange(toSync);
     }
   }
 
@@ -855,14 +872,19 @@ export default class ImageControl extends React.Component<
   }
 
   handleCrop() {
-    this.cropper.current!.getCroppedCanvas().toBlob((file: File) => {
-      this.addFiles([file]);
-      this.setState({
-        cropFile: undefined,
-        locked: false,
-        lockedReason: ''
-      });
-    });
+    const {cropFormat, cropQuality} = this.props;
+    this.cropper.getCroppedCanvas().toBlob(
+      (file: File) => {
+        this.addFiles([file]);
+        this.setState({
+          cropFile: undefined,
+          locked: false,
+          lockedReason: ''
+        });
+      },
+      cropFormat || 'image/png',
+      cropQuality || 1
+    );
   }
 
   cancelCrop() {
@@ -877,7 +899,7 @@ export default class ImageControl extends React.Component<
   }
 
   rotatableCrop() {
-    this.cropper.current!.rotate(90);
+    this.cropper.rotate(45);
   }
 
   addFiles(files: Array<FileX>) {
@@ -1037,7 +1059,7 @@ export default class ImageControl extends React.Component<
 
     if (~idx && params) {
       params = {
-        ...qs.parse(api.url.substring(idx + 1)),
+        ...qsparse(api.url.substring(idx + 1)),
         ...params
       };
       api.url = api.url.substring(0, idx) + '?' + qsstringify(params);
@@ -1190,14 +1212,8 @@ export default class ImageControl extends React.Component<
       fixedSizeClassName,
       translate: __
     } = this.props;
-    const {
-      files,
-      error,
-      crop,
-      uploading,
-      cropFile,
-      frameImageWidth
-    } = this.state;
+    const {files, error, crop, uploading, cropFile, frameImageWidth} =
+      this.state;
     let frameImageStyle: any = {};
     if (fixedSizeClassName && frameImageWidth && fixedSize) {
       frameImageStyle.width = frameImageWidth;
@@ -1210,11 +1226,16 @@ export default class ImageControl extends React.Component<
         {cropFile ? (
           <div className={cx('ImageControl-cropperWrapper')}>
             <Suspense fallback={<div>...</div>}>
-              <Cropper {...crop} ref={this.cropper} src={cropFile.preview} />
+              <Cropper
+                {...crop}
+                onInitialized={instance => {
+                  this.cropper = instance;
+                }}
+                src={cropFile.preview}
+              />
             </Suspense>
             <div className={cx('ImageControl-croperToolbar')}>
-              {
-                crop.rotatable &&
+              {crop.rotatable && (
                 <a
                   className={cx('ImageControl-cropRotatable')}
                   onClick={this.rotatableCrop}
@@ -1223,7 +1244,7 @@ export default class ImageControl extends React.Component<
                 >
                   <Icon icon="retry" className="icon" />
                 </a>
-              }
+              )}
               <a
                 className={cx('ImageControl-cropCancel')}
                 onClick={this.cancelCrop}
