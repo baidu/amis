@@ -115,11 +115,11 @@ export class Badge extends React.Component<BadgeProps, object> {
           </span>
         );
       case 'ribbon':
-        const outWidth = size * Math.sqrt(2) + 5;
+        const outSize = size * Math.sqrt(2) + 5;
         return (
           <div
             className={cx('Badge-ribbon-out', `Badge-ribbon-out--${position}`)}
-            style={{width: outWidth}}
+            style={{width: outSize, height: outSize}}
           >
             <span
               className={cx('Badge-ribbon', `Badge-ribbon--${position}`, `Badge--${level}`)}
