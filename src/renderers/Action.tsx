@@ -429,39 +429,75 @@ export interface ActionProps
     ThemeProps,
     Omit<
       AjaxActionSchema,
-      'type' | 'className' | 'iconClassName' | 'rightIconClassName' | 'loadingClassName'
+      | 'type'
+      | 'className'
+      | 'iconClassName'
+      | 'rightIconClassName'
+      | 'loadingClassName'
     >,
     Omit<
       UrlActionSchema,
-      'type' | 'className' | 'iconClassName' | 'rightIconClassName' | 'loadingClassName'
+      | 'type'
+      | 'className'
+      | 'iconClassName'
+      | 'rightIconClassName'
+      | 'loadingClassName'
     >,
     Omit<
       LinkActionSchema,
-      'type' | 'className' | 'iconClassName' | 'rightIconClassName' | 'loadingClassName'
+      | 'type'
+      | 'className'
+      | 'iconClassName'
+      | 'rightIconClassName'
+      | 'loadingClassName'
     >,
     Omit<
       DialogActionSchema,
-      'type' | 'className' | 'iconClassName' | 'rightIconClassName' | 'loadingClassName'
+      | 'type'
+      | 'className'
+      | 'iconClassName'
+      | 'rightIconClassName'
+      | 'loadingClassName'
     >,
     Omit<
       DrawerActionSchema,
-      'type' | 'className' | 'iconClassName' | 'rightIconClassName' | 'loadingClassName'
+      | 'type'
+      | 'className'
+      | 'iconClassName'
+      | 'rightIconClassName'
+      | 'loadingClassName'
     >,
     Omit<
       CopyActionSchema,
-      'type' | 'className' | 'iconClassName' | 'rightIconClassName' | 'loadingClassName'
+      | 'type'
+      | 'className'
+      | 'iconClassName'
+      | 'rightIconClassName'
+      | 'loadingClassName'
     >,
     Omit<
       ReloadActionSchema,
-      'type' | 'className' | 'iconClassName' | 'rightIconClassName' | 'loadingClassName'
+      | 'type'
+      | 'className'
+      | 'iconClassName'
+      | 'rightIconClassName'
+      | 'loadingClassName'
     >,
     Omit<
       EmailActionSchema,
-      'type' | 'className' | 'iconClassName' | 'rightIconClassName' | 'loadingClassName'
+      | 'type'
+      | 'className'
+      | 'iconClassName'
+      | 'rightIconClassName'
+      | 'loadingClassName'
     >,
     Omit<
       OtherActionSchema,
-      'type' | 'className' | 'iconClassName' | 'rightIconClassName' | 'loadingClassName'
+      | 'type'
+      | 'className'
+      | 'iconClassName'
+      | 'rightIconClassName'
+      | 'loadingClassName'
     > {
   actionType: any;
   onAction?: (
@@ -752,7 +788,7 @@ export class ActionRenderer extends React.Component<
   }
 
   render() {
-    const {env, disabled, btnDisabled, data, loading, ...rest} = this.props;
+    const {env, disabled, btnDisabled, loading, ...rest} = this.props;
 
     return (
       <Action
