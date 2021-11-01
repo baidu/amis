@@ -60,6 +60,28 @@ order: 1
       "label": "内联",
       "name": "text2",
       "mode": "inline"
+    },
+    {
+      "type": "input-text",
+      "label": "内联2",
+      "name": "text2",
+      "mode": "inline"
+    },
+    {
+      "type": "group",
+      "mode": "inline",
+      "body": [
+        {
+          "type": "input-text",
+          "label": "内联3",
+          "name": "text2"
+        },
+        {
+          "type": "input-text",
+          "label": "内联4",
+          "name": "text2"
+        }
+      ]
     }
   ]
 }
