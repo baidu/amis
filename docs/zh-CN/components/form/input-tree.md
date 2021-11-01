@@ -569,6 +569,55 @@ order: 59
 }
 ```
 
+## 控制添加/编辑的表单
+
+配置 `addControls` 可以控制添加时需要填写哪些信息，同样还有 `editControls` 来配置编辑节点的表单
+
+```schema: scope="body"
+{
+  "type": "form",
+  "api": "/api/mock2/form/saveForm",
+  "body": [
+    {
+      "type": "input-tree",
+      "name": "tree",
+      "label": "Tree",
+      "creatable": true,
+      "addControls": [
+        {
+          "label": "节点名称",
+          "type": "input-text"
+        }
+      ],
+      "options": [
+        {
+          "label": "Folder A",
+          "value": 1,
+          "children": [
+            {
+              "label": "file A",
+              "value": 2
+            },
+            {
+              "label": "file B",
+              "value": 3
+            }
+          ]
+        },
+        {
+          "label": "file C",
+          "value": 4
+        },
+        {
+          "label": "file D",
+          "value": 5
+        }
+      ]
+    }
+  ]
+}
+```
+
 ## 懒加载
 
 > since 1.1.6
