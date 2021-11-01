@@ -23,6 +23,7 @@ import {ActionSchema} from './Action';
 import {filter} from '../utils/tpl';
 import {resolveVariable, tokenize} from '../utils/tpl-builtin';
 import {FormSchemaHorizontal} from './Form/index';
+import {str2AsyncFunction} from '../utils/api';
 
 export interface TabSchema extends Omit<BaseSchema, 'type'> {
   /**
@@ -146,7 +147,7 @@ export interface TabsSchema extends BaseSchema {
   /**
    * 是否支持溢出滚动
    */
-   scrollable?: boolean;
+  scrollable?: boolean;
 }
 
 export interface TabsProps
@@ -373,7 +374,7 @@ export default class Tabs extends React.Component<TabsProps, TabsState> {
 
   @autobind
   handleSelect(key: any) {
-    const {env} = this.props;
+    const {env, onSelect} = this.props;
 
     // 是 hash，需要更新到地址栏
     if (typeof key === 'string' && env) {
@@ -386,6 +387,13 @@ export default class Tabs extends React.Component<TabsProps, TabsState> {
       activeKey: (this.activeKey = key),
       prevKey: this.state.activeKey
     });
+
+    if (typeof onSelect === 'string') {
+      const selectFunc = str2AsyncFunction(onSelect, 'key', 'props');
+      selectFunc && selectFunc(key, this.props);
+    } else if (typeof onSelect === 'function') {
+      onSelect(key, this.props);
+    }
   }
 
   @autobind

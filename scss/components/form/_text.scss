@@ -45,7 +45,7 @@
   &--withAddOn > &-input {
     flex-basis: 1;
     flex-grow: 1;
-    width: 0;
+    min-width: 0;
 
     border-radius: 0;
 

@@ -1,8 +1,10 @@
 import React from 'react';
+import Sortable from 'sortablejs';
 import {Renderer, RendererEnv, RendererProps} from '../factory';
 import getExprProperties from '../utils/filter-schema';
 import {filter, evalExpression} from '../utils/tpl';
 import {
+  guid,
   autobind,
   createObject,
   findTree,
@@ -14,7 +16,7 @@ import {
 import {ScopedContext, IScopedContext} from '../Scoped';
 import {themeable, ThemeProps} from '../theme';
 import {Icon} from '../components/icons';
-import {BaseSchema, SchemaApi, SchemaIcon, SchemaUrlPath} from '../Schema';
+import {BaseSchema, SchemaApi, SchemaIcon, SchemaUrlPath, SchemaCollection} from '../Schema';
 import {generateIcon} from '../utils/icon';
 import {
   RemoteOptionsProps,
@@ -22,12 +24,15 @@ import {
 } from '../components/WithRemoteConfig';
 import {Payload} from '../types';
 import Spinner from '../components/Spinner';
+import cloneDeep from 'lodash/cloneDeep';
+import {isEffectiveApi} from '../utils/api';
+import {Badge, BadgeSchema} from '../components/Badge';
 
 export type NavItemSchema = {
   /**
    * 文字说明
    */
-  label?: string;
+  label?: string | SchemaCollection;
 
   /**
    * 图标类名，参考 fontawesome 4。
@@ -45,6 +50,11 @@ export type NavItemSchema = {
   deferApi?: SchemaApi;
 
   children?: Array<NavItemSchema>;
+
+  /**
+   * 角标
+   */
+  badge?: BadgeSchema
 } & Omit<BaseSchema, 'type'>;
 
 /**
@@ -81,11 +91,31 @@ export interface NavSchema extends BaseSchema {
    * true 为垂直排列，false 为水平排列类似如 tabs。
    */
   stacked?: boolean;
+
+  /**
+   * 更多操作菜单列表
+   */
+   itemActions?: SchemaCollection;
+
+  /**
+   * 可拖拽
+   */
+   draggable?: boolean;
+
+   /**
+    * 保存排序的 api
+    */
+  saveOrderApi?: SchemaApi;
+
+  /**
+   * 角标
+   */
+   badge?: BadgeSchema;
 }
 
 export interface Link {
   className?: string;
-  label?: string;
+  label?: string | SchemaCollection;
   to?: string;
   target?: string;
   icon?: string;
@@ -97,6 +127,7 @@ export interface Link {
   loading?: boolean;
   loaded?: boolean;
   [propName: string]: any;
+  badge?: BadgeSchema
 }
 export interface Links extends Array<Link> {}
 
@@ -113,6 +144,9 @@ export interface NavigationProps
   togglerClassName?: string;
   links?: Array<Link>;
   loading?: boolean;
+  render: RendererProps['render'];
+  env: RendererEnv;
+  reload?: any;
 }
 
 export class Navigation extends React.Component<
@@ -122,6 +156,9 @@ export class Navigation extends React.Component<
   static defaultProps = {
     indentSize: 24
   };
+  sortable: Sortable[] = [];
+  id: string;
+  dragRef?: HTMLElement;
 
   @autobind
   handleClick(link: Link) {
@@ -133,15 +170,85 @@ export class Navigation extends React.Component<
     this.props.onToggle?.(target);
   }
 
+  @autobind
+  dragRefFn(ref: any) {
+    const {draggable} = this.props;
+    if (ref && draggable) {
+      this.id = guid();
+      this.initDragging(ref);
+    }
+  }
+
+  initDragging(ref: HTMLElement) {
+    const ns = this.props.classPrefix;
+    this.sortable.push(new Sortable(
+      ref,
+      {
+        group: `nav-${this.id}`,
+        animation: 150,
+        handle: `.${ns}Nav-itemDrager`,
+        ghostClass: `${ns}Nav-item--dragging`,
+        onEnd: async (e: any) => {
+          // 没有移动
+          if (e.newIndex === e.oldIndex) {
+            return;
+          }
+          const id = e.item.getAttribute('data-id');
+          const parentNode = e.to
+          if (
+            e.newIndex < e.oldIndex &&
+            e.oldIndex < parentNode.childNodes.length - 1
+          ) {
+            parentNode.insertBefore(e.item, parentNode.childNodes[e.oldIndex + 1]);
+          } else if (e.oldIndex < parentNode.childNodes.length - 1) {
+            parentNode.insertBefore(e.item, parentNode.childNodes[e.oldIndex]);
+          } else {
+            parentNode.appendChild(e.item);
+          }
+          const links = cloneDeep(this.props.links) as Link[];
+          let parent = links;
+          someTree(links, (item: Link, key, level, paths: Link[]) => {
+            if (item.id === id) {
+              const len = paths.length - 1;
+              parent = (~len ? paths[len].children : links) as Link[];
+              return true;
+            }
+            return false;
+          });
+          parent.splice(e.newIndex, 0, parent.splice(e.oldIndex, 1)[0]);
+          const {saveOrderApi, env} = this.props;
+          if (saveOrderApi && isEffectiveApi(saveOrderApi)) {
+            await env.fetcher(saveOrderApi as SchemaApi, {data: links}, {method: 'post'});
+            this.props.reload();
+          } else {
+            console.warn('请配置saveOrderApi');
+          }
+        }
+      }
+    ));
+  }
+
   renderItem(link: Link, index: number, depth = 1) {
     if (link.hidden === true || link.visible === false) {
       return null;
     }
     const isActive: boolean = !!link.active;
-    const {disabled, togglerClassName, classnames: cx, indentSize} = this.props;
+    const {
+      disabled,
+      togglerClassName,
+      classnames: cx,
+      indentSize,
+      render,
+      itemActions,
+      draggable,
+      links,
+      badge: defaultBadge
+    } = this.props;
     const hasSub =
       (link.defer && !link.loaded) || (link.children && link.children.length);
-
+    const id = guid();
+    link.id = id;
+    const badge = defaultBadge ? Object.assign(defaultBadge, link.badge) : link.badge;
     return (
       <li
         key={index}
@@ -151,38 +258,62 @@ export class Navigation extends React.Component<
           'is-unfolded': link.unfolded,
           'has-sub': hasSub
         })}
+        data-id={id}
       >
-        <a
-          onClick={this.handleClick.bind(this, link)}
-          style={{paddingLeft: depth * (parseInt(indentSize as any, 10) ?? 24)}}
-        >
-          {generateIcon(cx, link.icon, 'Nav-itemIcon')}
-          {link.label}
-        </a>
-
-        {link.loading ? (
-          <Spinner
-            size="sm"
-            show
-            icon="reload"
-            spinnerClassName={cx('Nav-spinner')}
-          />
-        ) : hasSub ? (
-          <span
-            onClick={() => this.toggleLink(link)}
-            className={cx('Nav-itemToggler', togglerClassName)}
+        <Badge classnames={cx} badge={badge} data={link}>
+          <a
+            onClick={this.handleClick.bind(this, link)}
+            style={{paddingLeft: depth * (parseInt(indentSize as any, 10) ?? 24)}}
           >
-            <Icon icon="caret" className="icon" />
-          </span>
-        ) : null}
-
-        {Array.isArray(link.children) && link.children.length ? (
-          <ul className={cx('Nav-subItems')}>
-            {link.children.map((link, index) =>
-              this.renderItem(link, index, depth + 1)
-            )}
-          </ul>
-        ) : null}
+            {!disabled && draggable && links && links.length > 1 ? (
+            <div className={cx('Nav-itemDrager')} >
+              <a
+                key="drag"
+                data-position="bottom"
+              >
+                <Icon icon="drag-bar" className="icon" />
+              </a>
+            </div>
+          ) : null}
+            {link.loading ? (
+              <Spinner
+                size="sm"
+                show
+                icon="reload"
+                spinnerClassName={cx('Nav-spinner')}
+              />
+            ) : hasSub ? (
+              <span
+                onClick={() => this.toggleLink(link)}
+                className={cx('Nav-itemToggler', togglerClassName)}
+              >
+                <Icon icon="caret" className="icon" />
+              </span>
+            ) : null}
+            {generateIcon(cx, link.icon, 'Nav-itemIcon')}
+            {
+              link.label && (typeof link.label === 'string'
+              ? link.label
+              : render('inline', link.label as SchemaCollection))
+            }
+          </a>
+          {
+            // 更多操作
+            itemActions
+            ? <div className={cx('Nav-item-atcions')}>
+              {
+                render('inline', itemActions, {data: link})
+              }
+            </div> : null
+          }
+          {Array.isArray(link.children) && link.children.length ? (
+            <ul className={cx('Nav-subItems')} ref={this.dragRefFn}>
+              {link.children.map((link, index) =>
+                this.renderItem(link, index, depth + 1)
+              )}
+            </ul>
+          ) : null}
+        </Badge>
       </li>
     );
   }
@@ -193,6 +324,7 @@ export class Navigation extends React.Component<
     return (
       <ul
         className={cx('Nav', className, stacked ? 'Nav--stacked' : 'Nav--tabs')}
+        ref={this.dragRefFn}
       >
         {Array.isArray(links)
           ? links.map((item, index) => this.renderItem(item, index))
@@ -305,6 +437,7 @@ const ConditionBuilderWithRemoteOptions = withRemoteConfig({
         data?: any;
         unfoldedField?: string;
         foldedField?: string;
+        reload?: any;
       }
   > {
     constructor(props: any) {
@@ -437,6 +570,7 @@ export class NavigationRenderer extends React.Component<RendererProps> {
     return (
       <ConditionBuilderWithRemoteOptions
         {...rest}
+        reload={this.reload}
         remoteConfigRef={this.remoteConfigRef}
       />
     );

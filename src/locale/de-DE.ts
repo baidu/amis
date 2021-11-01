@@ -4,6 +4,8 @@ register('de-DE', {
   'Action.countDown': '${timeLeft} warten',
   'Alert.info': 'Systeminformationen',
   'asc': 'Aufsteigend',
+  'App.home': 'Startseite',
+  'App.navigation': 'Navigation',
   'cancel': 'Abbrechen',
   'Card.dragTip': 'Obere Schaltfläche zum Sortieren ziehen',
   'Card.toggleDrag': 'Zum Sortieren umschalten',
@@ -100,6 +102,7 @@ register('de-DE', {
   'Form.title': 'Formular',
   'Form.unique': 'Aktueller Wert ist nicht eindeutig',
   'Form.validateFailed': 'Fehler bei der Überprüfung der Formulareingabe',
+  'Form.nestedError': 'Form kann nicht als Nachkomme von Form erscheinen',
   'Image.configError': 'Es können nur eine Beschneidung oder mehrere festgelegt werden',
   'Image.crop': 'Bild beschneiden',
   'Image.dragDrop': 'Bilder per Drag & Drop hier ablegen',
@@ -155,6 +158,7 @@ register('de-DE', {
   'System.requestError': 'Anfragefehler: ',
   'System.requestErrorStatus': 'Anfragefehler, Statuscode:',
   'Table.addRow': 'Zeile hinzufügen',
+  'Table.copyRow': 'Zeile kopieren',
   'Table.columnsVisibility': 'Klicken, um die Sichtbarkeit der Spalten zu steuern',
   'Table.deleteRow': 'Aktuele Zeile löschen',
   'Table.discard': 'Verwerfen',
@@ -245,5 +249,6 @@ register('de-DE', {
   'Condition.placeholder': 'Text einfügen',
   'Condition.cond_placeholder': 'Bedingung auswählen',
   'Condition.field_placeholder': 'Feld auswählen',
-  'Condition.blank': 'leer'
+  'Condition.blank': 'leer',
+  'InputTable.uniqueError': 'Column `{{label}}` unique validate failed'
 });

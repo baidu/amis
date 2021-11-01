@@ -2,6 +2,7 @@ import React from 'react';
 import {toast} from '../../src/components/Toast';
 import {render, makeTranslator} from '../../src/index';
 import {normalizeLink} from '../../src/utils/normalizeLink';
+import attachmentAdpator from '../../src/utils/attachmentAdpator';
 import {alert, confirm} from '../../src/components/Alert';
 import axios from 'axios';
 import JSON5 from 'json5';
@@ -144,32 +145,57 @@ export default class PlayGround extends React.Component {
           router.push(to);
         }
       },
-      fetcher: async config => {
-        config = {
-          dataType: 'json',
-          ...config
-        };
+      fetcher: async api => {
+        let {url, method, data, responseType, config, headers} = api;
+        config = config || {};
+        config.url = url;
+        config.withCredentials = true;
+        responseType && (config.responseType = responseType);
 
-        if (config.dataType === 'json' && config.data) {
-          config.data = JSON.stringify(config.data);
-          config.headers = config.headers || {};
+        if (config.cancelExecutor) {
+          config.cancelToken = new axios.CancelToken(config.cancelExecutor);
+        }
+
+        config.headers = headers || {};
+        config.method = method;
+        config.data = data;
+
+        if (method === 'get' && data) {
+          config.params = data;
+        } else if (data && data instanceof FormData) {
+          // config.headers['Content-Type'] = 'multipart/form-data';
+        } else if (
+          data &&
+          typeof data !== 'string' &&
+          !(data instanceof Blob) &&
+          !(data instanceof ArrayBuffer)
+        ) {
+          data = JSON.stringify(data);
           config.headers['Content-Type'] = 'application/json';
         }
 
         // 支持返回各种报错信息
-        config.validateStatus = function (status) {
+        config.validateStatus = function () {
           return true;
         };
 
-        const response = await axios[config.method](
-          config.url,
-          config.data,
-          config
-        );
+        let response = await axios(config);
+        response = await attachmentAdpator(response, __);
 
         if (response.status >= 400) {
           if (response.data) {
-            if (response.data.msg) {
+            // 主要用于 raw: 模式下，后端自己校验登录，
+            if (
+              response.status === 401 &&
+              response.data.location &&
+              response.data.location.startsWith('http')
+            ) {
+              location.href = response.data.location.replace(
+                '{{redirect}}',
+                encodeURIComponent(location.href)
+              );
+              return new Promise(() => {});
+            } else if (response.data.msg) {
               throw new Error(response.data.msg);
             } else {
               throw new Error(
@@ -183,20 +209,16 @@ export default class PlayGround extends React.Component {
             );
           }
         }
+
         return response;
       },
       isCancel: value => axios.isCancel(value),
       notify: (type, msg) =>
-        toast[type]
-          ? toast[type](
-              msg,
-              type === 'error' ? __('System.error') : __('System.notify')
-            )
-          : console.warn('[Notify]', type, msg),
+        toast[type] ? toast[type](msg) : console.warn('[Notify]', type, msg),
       alert,
       confirm,
-      copy: content => {
-        copy(content);
+      copy: (content, options) => {
+        copy(content, options);
         toast.success(__('System.copy'));
       }
     };

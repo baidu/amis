@@ -4,6 +4,8 @@ import {IColumn, IRow} from '../../store/table';
 import {SchemaNode, Action} from '../../types';
 import {TableBody} from './TableBody';
 import {LocaleProps} from '../../locale';
+import {observer} from 'mobx-react';
+import {ActionSchema} from '../Action';
 
 export interface TableContentProps extends LocaleProps {
   className?: string;
@@ -14,6 +16,7 @@ export interface TableContentProps extends LocaleProps {
     label: string;
     index: number;
     colSpan: number;
+    rowSpan: number;
     has: Array<any>;
   }>;
   rows: Array<IRow>;
@@ -29,7 +32,7 @@ export interface TableContentProps extends LocaleProps {
     item: IRow,
     props: any
   ) => React.ReactNode;
-  onCheck: (item: IRow) => void;
+  onCheck: (item: IRow, value: boolean, shift?: boolean) => void;
   onQuickChange?: (
     item: IRow,
     values: object,
@@ -46,8 +49,10 @@ export interface TableContentProps extends LocaleProps {
   data?: any;
   prefixRow?: Array<any>;
   affixRow?: Array<any>;
+  itemAction?: ActionSchema;
 }
 
+@observer
 export class TableContent extends React.Component<TableContentProps> {
   render() {
     const {
@@ -76,6 +81,7 @@ export class TableContent extends React.Component<TableContentProps> {
       prefixRow,
       locale,
       translate,
+      itemAction,
       affixRow
     } = this.props;
 
@@ -97,6 +103,7 @@ export class TableContent extends React.Component<TableContentProps> {
                     key={index}
                     data-index={item.index}
                     colSpan={item.colSpan}
+                    rowSpan={item.rowSpan}
                   >
                     {item.label ? render('tpl', item.label) : null}
                   </th>
@@ -105,10 +112,13 @@ export class TableContent extends React.Component<TableContentProps> {
             ) : null}
             <tr className={hideHeader ? 'fake-hide' : ''}>
               {columns.map(column =>
-                renderHeadCell(column, {
-                  'data-index': column.index,
-                  'key': column.index
-                })
+                columnsGroup.find(group => ~group.has.indexOf(column))
+                  ?.rowSpan === 2
+                  ? null
+                  : renderHeadCell(column, {
+                      'data-index': column.index,
+                      'key': column.index
+                    })
               )}
             </tr>
           </thead>
@@ -125,6 +135,7 @@ export class TableContent extends React.Component<TableContentProps> {
             </tbody>
           ) : (
             <TableBody
+              itemAction={itemAction}
               classnames={cx}
               render={render}
               renderCell={renderCell}

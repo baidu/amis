@@ -41,13 +41,13 @@ export class CustomYearsView extends YearsView {
                 className="rdtPrev"
                 onClick={this.props.subtractTime(10, 'years')}
               >
-                «
+                &laquo;
               </th>
               <th className="rdtSwitch">
                 {__('year-to-year', {from: year, to: year + 9})}
               </th>
               <th className="rdtNext" onClick={this.props.addTime(10, 'years')}>
-                »
+                &raquo;
               </th>
             </tr>
           </thead>

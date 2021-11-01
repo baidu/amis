@@ -32,7 +32,7 @@ order: 27
 ```javascript
 const express = require('express');
 const multer = require('multer');
-const upload = multer({ dest: 'uploads/' });
+const upload = multer({dest: 'uploads/'});
 const app = express();
 
 app.use(express.static('public'));
@@ -50,9 +50,7 @@ app.post('/uploader', upload.single('file'), function (req, res, next) {
 // 配合上面的返回值，将 uploads 目录可读，这样返回的文件才能正常显示
 app.get('uploads', express.static('uploads'));
 
-app.listen(8080, function () {
-});
-
+app.listen(8080, function () {});
 ```
 
 这个接口需要返回图片地址，比如下面的格式
@@ -74,7 +72,6 @@ app.listen(8080, function () {
   "image": "https:/xxx.yy/zz.png"
 }
 ```
-
 
 ## 限制文件类型
 
@@ -158,6 +155,30 @@ app.listen(8080, function () {
     ]
 }
 ```
+
+默认情况下裁剪结果是 `png` 格式，如果要支持其它格式，请设置 `cropFormat`，比如下面设置为 `jpeg` 格式，同时设置质量为 `0.9`
+
+> 1.4.0 及以上版本
+
+```schema: scope="body"
+{
+    "type": "form",
+    "api": "/api/mock2/form/saveForm",
+    "body": [
+        {
+            "type": "input-image",
+            "name": "image",
+            "label": "上传后裁剪",
+            "receiver": "/api/upload/file",
+            "crop": true,
+            "cropFormat": "image/jpeg",
+            "cropQuality": 0.9
+        }
+    ]
+}
+```
+
+如果浏览器支持，还能设置为 `image/webp`
 
 ## 自动填充
 
@@ -257,6 +278,8 @@ app.listen(8080, function () {
 | crop.rotatable     | `boolean`                       | `false`                | 裁剪时是否可旋转                                                                                                                                 |
 | crop.scalable      | `boolean`                       | `false`                | 裁剪时是否可缩放                                                                                                                                 |
 | crop.viewMode      | `number`                        | `1`                    | 裁剪时的查看模式，0 是无限制                                                                                                                     |
+| cropFormat         | `string`                        | `image/png`            | 裁剪文件格式                                                                                                                                     |
+| cropQuality        | `number`                        | `1`                    | 裁剪文件格式的质量，用于 jpeg/webp，取值在 0 和 1 之间                                                                                           |
 | limit              | Limit                           |                        | 限制图片大小，超出不让上传。                                                                                                                     |
 | frameImage         | `string`                        |                        | 默认占位图地址                                                                                                                                   |
 | fixedSize          | `boolean`                       |                        | 是否开启固定尺寸,若开启，需同时设置 fixedSizeClassName                                                                                           |

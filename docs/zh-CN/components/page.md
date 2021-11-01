@@ -17,6 +17,7 @@ Page 组件是 amis 页面 JSON 配置中顶级容器组件，是整个页面配
 ```schema
 {
   "type": "page",
+  "title": "标题",
   "body": "Hello World!"
 }
 ```

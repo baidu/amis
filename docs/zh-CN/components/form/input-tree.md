@@ -569,6 +569,55 @@ order: 59
 }
 ```
 
+## 控制添加/编辑的表单
+
+配置 `addControls` 可以控制添加时需要填写哪些信息，同样还有 `editControls` 来配置编辑节点的表单
+
+```schema: scope="body"
+{
+  "type": "form",
+  "api": "/api/mock2/form/saveForm",
+  "body": [
+    {
+      "type": "input-tree",
+      "name": "tree",
+      "label": "Tree",
+      "creatable": true,
+      "addControls": [
+        {
+          "label": "节点名称",
+          "type": "input-text"
+        }
+      ],
+      "options": [
+        {
+          "label": "Folder A",
+          "value": 1,
+          "children": [
+            {
+              "label": "file A",
+              "value": 2
+            },
+            {
+              "label": "file B",
+              "value": 3
+            }
+          ]
+        },
+        {
+          "label": "file C",
+          "value": 4
+        },
+        {
+          "label": "file D",
+          "value": 5
+        }
+      ]
+    }
+  ]
+}
+```
+
 ## 懒加载
 
 > since 1.1.6
@@ -586,6 +635,73 @@ order: 59
       "name": "tree",
       "label": "Tree",
       "deferApi": "/api/mock2/form/deferOptions?label=${label}&waitSeconds=2",
+      "options": [
+        {
+          "label": "Folder A",
+          "value": 1,
+          "collapsed": true,
+          "children": [
+            {
+              "label": "file A",
+              "value": 2
+            },
+            {
+              "label": "file B",
+              "value": 3
+            }
+          ]
+        },
+        {
+          "label": "这下面是懒加载的",
+          "value": 4,
+          "defer": true
+        },
+        {
+          "label": "file D",
+          "value": 5
+        }
+      ]
+    }
+  ]
+}
+```
+
+## 节点路径模式
+
+> since 1.2.4
+
+配置`enableNodePath: true`后, 可以将`value`格式转换成节点路径模式，`pathSeparator`设置路径分隔符，建议将该属性的值和拼接符`delimeter`区分开。节点路径模式下，`value`中所有节点的父节点都会自动加载数据并回显。不同配置属性的节点路径模式`value`如下:
+
+```
+    a
+   / \
+  b   d
+ /
+c
+----------------------------------------------
+multiple  joinValues  extractValue  value
+----------------------------------------------
+false       true           -        'a/b/c'
+false       false        false      {label: 'A/B/C', value: 'a/b/c'}
+true        true           -        'a/b/c,a/d'
+true        false        true       ['a/b/c', 'a/d']
+true        false        true       [{label: 'A/B/C', value: 'a/b/c'},{label: 'A/D', value: 'a/d'}]
+```
+
+```schema: scope="body"
+{
+  "type": "form",
+  "api": "/api/mock2/form/saveForm",
+  "body": [
+    {
+      "type": "input-tree",
+      "name": "tree",
+      "label": "Tree",
+      "deferApi": "/api/mock2/form/deferOptions?label=${label}&waitSeconds=2",
+      "value": "1/2,4/lazy-1/lazy-1-3,4/lazy-1/lazy-1-5",
+      "enableNodePath": true,
+      "pathSeparator": '/',
+      "multiple": true,
       "options": [
         {
           "label": "Folder A",
@@ -655,3 +771,5 @@ order: 59
 | minLength              | `number`                                     |                  | 最少选中的节点数                                                                                                    |
 | maxLength              | `number`                                     |                  | 最多选中的节点数                                                                                                    |
 | treeContainerClassName | `string`                                     |                  | tree 最外层容器类名                                                                                                 |
+| enableNodePath         | `boolean`                                    | `false`          | 是否开启节点路径模式                                                                                                |
+| pathSeparator          | `string`                                     | `/`              | 节点路径的分隔符，`enableNodePath`为`true`时生效                                                                    |

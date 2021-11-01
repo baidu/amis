@@ -29,6 +29,8 @@ import {
 } from '../Schema';
 import {SchemaRemark} from './Remark';
 import {onAction} from 'mobx-state-tree';
+import mapValues from 'lodash/mapValues';
+import {resolveVariable} from '../utils/tpl-builtin';
 
 /**
  * 样式属性名及值
@@ -175,6 +177,13 @@ export interface PageSchema extends BaseSchema {
    * 如果配置了，以配置为主。
    */
   regions?: Array<'aside' | 'body' | 'toolbar' | 'header'>;
+
+  /**
+   * 自定义样式
+   */
+  style?: {
+    [propName: string]: any;
+  };
 }
 
 export interface PageProps
@@ -362,6 +371,8 @@ export default class Page extends React.Component<PageProps> {
       JSON.stringify(props.cssVars) !== JSON.stringify(prevProps.cssVars)
     ) {
       this.updateVarStyle();
+    } else if (props.defaultData !== prevProps.defaultData) {
+      store.reInitData(props.defaultData);
     }
   }
 
@@ -645,6 +656,8 @@ export default class Page extends React.Component<PageProps> {
       showErrorMsg,
       initApi,
       regions,
+      style,
+      data,
       translate: __
     } = this.props;
 
@@ -652,17 +665,23 @@ export default class Page extends React.Component<PageProps> {
       onAction: this.handleAction,
       onQuery: initApi ? this.handleQuery : undefined,
       onChange: this.handleChange,
-      loading: store.loading
+      pageLoading: store.loading
     };
 
     const hasAside = Array.isArray(regions)
       ? ~regions.indexOf('aside')
       : aside && (!Array.isArray(aside) || aside.length);
 
+    let styleVar =
+      typeof style === 'string'
+        ? resolveVariable(style, data) || {}
+        : mapValues(style, s => resolveVariable(s, data) || s);
+
     return (
       <div
         className={cx(`Page`, hasAside ? `Page--withSidebar` : '', className)}
         onClick={this.handleClick}
+        style={styleVar}
       >
         {hasAside ? (
           <div className={cx(`Page-aside`, asideClassName)}>

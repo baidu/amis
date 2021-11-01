@@ -185,6 +185,25 @@
     min-height: 0.01%;
     overflow-x: auto;
     transform: translateZ(0);
+
+    th {
+      position: relative;
+    }
+  }
+
+  &-content-colDragLine {
+    position: absolute;
+    width: 7px;
+    top: 0;
+    bottom: 0;
+    right: -4px;
+    cursor: col-resize;
+    user-select: none;
+    opacity: 0.5;
+    z-index: $zindex-top;
+    &:hover {
+      background: var(--primary);
+    }
   }
 
   &-table {
@@ -197,6 +216,23 @@
     border-spacing: 0;
     border-collapse: collapse;
     border: var(--Table-borderWidth) solid var(--Table-borderColor);
+
+    & th,
+    & td {
+      text-align: left;
+    }
+
+    & th.text-center,
+    & td.text-center,
+    & th[colspan],
+    & td[colspan] {
+      text-align: center;
+    }
+
+    & th.text-right,
+    & td.text-right {
+      text-align: right;
+    }
 
     &--withCombine {
       > thead > tr > th,
@@ -235,12 +271,6 @@
     > thead > tr {
       > th {
         background: var(--Table-thead-bg);
-
-        text-align: left;
-        &[colspan] {
-          text-align: center;
-        }
-
         padding: var(--TableCell-paddingY) var(--TableCell-paddingX);
 
         &:first-child {
@@ -249,6 +279,11 @@
 
         &:last-child {
           padding-right: var(--TableCell--edge-paddingX);
+          .#{$ns}Table-content-colDragLine {
+            // 避免出现横向滚动条
+            width: 4px;
+            right: 0;
+          }
         }
 
         &:not(:last-child) {
@@ -291,7 +326,6 @@
       }
 
       > th {
-        text-align: left;
         background: var(--Table-thead-bg);
         // font-size: var(--Table-thead-fontSize);
         color: var(--Table-thead-color);
@@ -320,6 +354,10 @@
         &.#{$ns}Table-tr--odd {
           background: var(--Table-strip-bg);
         }
+      }
+
+      &.#{$ns}Table-tr--hasItemAction:hover {
+        cursor: pointer;
       }
 
       &:hover,
@@ -792,6 +830,9 @@
         top ease-in-out var(--animation-duration);
       position: relative;
       transform-origin: 50% 50%;
+      width: px2rem(10px);
+      height: px2rem(10px);
+      top: 0;
     }
 
     &.is-active > svg {

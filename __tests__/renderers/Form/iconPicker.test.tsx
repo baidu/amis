@@ -45,7 +45,7 @@ test('Renderer:icon-picker', async () => {
     'address-card'
   );
 
-  const input = container.querySelector('input');
+  const input = container.querySelector('input[name="a"]') as any;
   input?.focus();
   fireEvent.click(getByText(/Glyphicons/));
 

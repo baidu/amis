@@ -67,11 +67,29 @@ export interface TreeSelectControlSchema extends FormOptionsControl {
    * 顶级节点是否可以创建子节点
    */
   rootCreatable?: boolean;
+
+  /**
+   * 是否隐藏选择框中已选中节点的祖先节点的文本信息
+   */
+  hideNodePathLabel?: boolean;
+
+  /**
+   * 是否开启节点路径模式
+   */
+  enableNodePath?: boolean;
+
+  /**
+   * 开启节点路径模式后，节点路径的分隔符
+   */
+  pathSeparator?: string;
 }
 
 export interface TreeSelectProps extends OptionsControlProps {
   placeholder?: any;
   autoComplete?: Api;
+  hideNodePathLabel?: boolean;
+  enableNodePath?: boolean;
+  pathSeparator?: string;
 }
 
 export interface TreeSelectState {
@@ -95,7 +113,10 @@ export default class TreeSelectControl extends React.Component<
     joinValues: true,
     extractValue: false,
     delimiter: ',',
-    resetValue: ''
+    resetValue: '',
+    hideNodePathLabel: false,
+    enableNodePath: false,
+    pathSeparator: '/'
   };
 
   container: React.RefObject<HTMLDivElement> = React.createRef();
@@ -411,7 +432,11 @@ export default class TreeSelectControl extends React.Component<
 
   @autobind
   renderItem(item: Option) {
-    const {labelField, options} = this.props;
+    const {labelField, options, hideNodePathLabel} = this.props;
+
+    if (hideNodePathLabel) {
+      return item[labelField || 'label'];
+    }
 
     // 将所有祖先节点也展现出来
     const ancestors = getTreeAncestors(options, item, true);
@@ -425,6 +450,8 @@ export default class TreeSelectControl extends React.Component<
   renderOuter() {
     const {
       value,
+      enableNodePath,
+      pathSeparator = '/',
       disabled,
       joinValues,
       extractValue,
@@ -450,8 +477,10 @@ export default class TreeSelectControl extends React.Component<
       maxLength,
       minLength,
       labelField,
+      nodePath,
       translate: __,
-      deferLoad
+      deferLoad,
+      expandTreeOptions
     } = this.props;
 
     let filtedOptions =
@@ -499,9 +528,13 @@ export default class TreeSelectControl extends React.Component<
             foldedField="collapsed"
             hideRoot
             value={value || ''}
+            nodePath={nodePath}
+            enableNodePath={enableNodePath}
+            pathSeparator={pathSeparator}
             maxLength={maxLength}
             minLength={minLength}
             onDeferLoad={deferLoad}
+            onExpandTree={expandTreeOptions}
           />
         </PopOver>
       </Overlay>

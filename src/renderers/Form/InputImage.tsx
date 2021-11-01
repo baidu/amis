@@ -111,6 +111,16 @@ export interface ImageControlSchema extends FormBaseControl {
       };
 
   /**
+   * 裁剪后的图片类型
+   */
+  cropFormat?: string;
+
+  /**
+   * 裁剪后的质量
+   */
+  cropQuality?: number;
+
+  /**
    * 是否允许二次裁剪。
    */
   reCropable?: boolean;
@@ -370,7 +380,7 @@ export default class ImageControl extends React.Component<
     file: any;
     executor: () => void;
   }> = [];
-  cropper = React.createRef<Cropper>();
+  cropper: Cropper;
   dropzone = React.createRef<any>();
   frameImageRef = React.createRef<any>();
   current: FileValue | FileX | null = null;
@@ -447,7 +457,7 @@ export default class ImageControl extends React.Component<
         files = (
           Array.isArray(value)
             ? value
-            : joinValues && typeof value === 'string'
+            : joinValues && typeof value === 'string' && multiple
             ? (value as string).split(delimiter)
             : [value]
         )
@@ -512,8 +522,8 @@ export default class ImageControl extends React.Component<
         guides: true,
         dragMode: 'move',
         viewMode: 1,
-        rotatable: false,
-        scalable: false,
+        rotatable: true,
+        scalable: true,
         ...crop
       };
     }
@@ -793,7 +803,7 @@ export default class ImageControl extends React.Component<
             }
           : files[0]
       );
-      onBulkChange(toSync);
+      onBulkChange && onBulkChange(toSync);
     }
   }
 
@@ -862,14 +872,19 @@ export default class ImageControl extends React.Component<
   }
 
   handleCrop() {
-    this.cropper.current!.getCroppedCanvas().toBlob((file: File) => {
-      this.addFiles([file]);
-      this.setState({
-        cropFile: undefined,
-        locked: false,
-        lockedReason: ''
-      });
-    });
+    const {cropFormat, cropQuality} = this.props;
+    this.cropper.getCroppedCanvas().toBlob(
+      (file: File) => {
+        this.addFiles([file]);
+        this.setState({
+          cropFile: undefined,
+          locked: false,
+          lockedReason: ''
+        });
+      },
+      cropFormat || 'image/png',
+      cropQuality || 1
+    );
   }
 
   cancelCrop() {
@@ -884,7 +899,7 @@ export default class ImageControl extends React.Component<
   }
 
   rotatableCrop() {
-    this.cropper.current!.rotate(90);
+    this.cropper.rotate(45);
   }
 
   addFiles(files: Array<FileX>) {
@@ -1211,7 +1226,13 @@ export default class ImageControl extends React.Component<
         {cropFile ? (
           <div className={cx('ImageControl-cropperWrapper')}>
             <Suspense fallback={<div>...</div>}>
-              <Cropper {...crop} ref={this.cropper} src={cropFile.preview} />
+              <Cropper
+                {...crop}
+                onInitialized={instance => {
+                  this.cropper = instance;
+                }}
+                src={cropFile.preview}
+              />
             </Suspense>
             <div className={cx('ImageControl-croperToolbar')}>
               {crop.rotatable && (

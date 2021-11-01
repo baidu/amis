@@ -62,7 +62,7 @@ test('Renderer:FormItem:validateApi:success', async () => {
   await wait(100);
   expect(notify).toHaveBeenCalledWith(
     'error',
-    '依赖的部分字段没有通过验证\na: 这是必填项'
+    '依赖的部分字段没有通过验证\n这是必填项'
   );
 
   const input = container.querySelector('input[name=a]');
@@ -134,7 +134,7 @@ test('Renderer:FormItem:validateApi:failed', async () => {
   await wait(100);
   expect(notify).toHaveBeenCalledWith(
     'error',
-    '依赖的部分字段没有通过验证\na: 这是必填项'
+    '依赖的部分字段没有通过验证\n这是必填项'
   );
 
   const input = container.querySelector('input[name=a]');

@@ -54,6 +54,7 @@ import {
 import {ActionSchema} from '../Action';
 import {ButtonGroupControlSchema} from './ButtonGroupSelect';
 import {DialogSchemaBase} from '../Dialog';
+import Alert from '../../components/Alert2';
 
 export interface FormSchemaHorizontal {
   left?: number;
@@ -1432,6 +1433,9 @@ export default class Form extends React.Component<FormProps, object> {
         onSubmit={this.handleFormSubmit}
         noValidate
       >
+        {/* 实现回车自动提交 */}
+        <input type="submit" style={{display: 'none'}} />
+
         {debug ? (
           <pre>
             <code>{JSON.stringify(store.data, null, 2)}</code>
@@ -1484,14 +1488,14 @@ export default class Form extends React.Component<FormProps, object> {
             show: store.drawerOpen
           }
         )}
-        {/* 实现回车自动提交 */}
-        <input type="submit" style={{display: 'none'}} />
       </WrapperComponent>
     );
   }
 
   render() {
     const {
+      $path,
+      $schema,
       wrapWithPanel,
       render,
       title,
@@ -1506,11 +1510,9 @@ export default class Form extends React.Component<FormProps, object> {
       affixFooter,
       lazyLoad,
       translate: __,
-      footer
+      footer,
+      formStore
     } = this.props;
-
-    // trace(true);
-    // console.log('Form');
 
     let body: JSX.Element = this.renderBody();
 
@@ -1523,6 +1525,7 @@ export default class Form extends React.Component<FormProps, object> {
         },
         {
           className: cx(panelClassName, 'Panel--form'),
+          formStore: this.props.store,
           children: body,
           actions: this.buildActions(),
           onAction: this.handleAction,

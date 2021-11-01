@@ -118,7 +118,7 @@ export default class EditorControl extends React.Component<EditorProps, any> {
   static defaultProps: Partial<EditorProps> = {
     language: 'javascript',
     editorTheme: 'vs',
-    allowFullscreen: false,
+    allowFullscreen: true,
     options: {
       automaticLayout: true,
       selectOnLineNumbers: true,
@@ -294,26 +294,25 @@ export const availableLanguages = [
   'yaml'
 ];
 
-export const EditorControls: Array<
-  typeof EditorControl
-> = availableLanguages.map((lang: string) => {
-  @FormItem({
-    type: `${lang}-editor`,
-    sizeMutable: false
-  })
-  class EditorControlRenderer extends EditorControl {
-    static lang = lang;
-    static displayName = `${lang[0].toUpperCase()}${lang.substring(
-      1
-    )}EditorControlRenderer`;
-    static defaultProps = {
-      ...EditorControl.defaultProps,
-      language: lang
-    };
-  }
+export const EditorControls: Array<typeof EditorControl> =
+  availableLanguages.map((lang: string) => {
+    @FormItem({
+      type: `${lang}-editor`,
+      sizeMutable: false
+    })
+    class EditorControlRenderer extends EditorControl {
+      static lang = lang;
+      static displayName = `${lang[0].toUpperCase()}${lang.substring(
+        1
+      )}EditorControlRenderer`;
+      static defaultProps = {
+        ...EditorControl.defaultProps,
+        language: lang
+      };
+    }
 
-  return EditorControlRenderer;
-});
+    return EditorControlRenderer;
+  });
 
 @FormItem({
   type: 'js-editor',

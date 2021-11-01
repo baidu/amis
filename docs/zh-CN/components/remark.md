@@ -37,6 +37,30 @@ order: 62
 }
 ```
 
+## 支持变量
+
+```schema
+{
+    "type": "page",
+    "data": {
+        "github": "https://github.com/"
+    },
+    "body": [
+        {
+            "type": "remark",
+            "content": "${github}"
+        },
+        {
+            "type": "remark",
+            "content": {
+                "title": "${github|raw}",
+                "body": "${github}"
+            }
+        }
+    ]
+}
+```
+
 ## 弹出位置
 
 ```schema: scope="body"

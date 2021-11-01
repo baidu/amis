@@ -100,8 +100,8 @@ export class CustomDaysView extends DaysView {
   confirm = () => {
     let date = (this.props.selectedDate || this.props.viewDate).clone();
 
-    // 如果 minDate 是可用的，且比当前日期早，则用 minDate
-    if (this.props.minDate?.isValid() && this.props.minDate?.isBefore(date)) {
+    // 如果 minDate 是可用的，且比当前日期晚，则用 minDate
+    if (this.props.minDate?.isValid() && this.props.minDate?.isAfter(date)) {
       date = this.props.minDate.clone();
     }
 
@@ -171,7 +171,7 @@ export class CustomDaysView extends DaysView {
             {({isOpen, getInputProps, openMenu, closeMenu}) => {
               const inputProps = getInputProps({
                 onFocus: () => openMenu(),
-                onChange: e =>
+                onChange: (e: any) =>
                   this.setTime(
                     type,
                     Math.max(
@@ -281,13 +281,13 @@ export class CustomDaysView extends DaysView {
                 className="rdtPrev"
                 onClick={this.props.subtractTime(1, 'years')}
               >
-                «
+                &laquo;
               </a>
               <a
                 className="rdtPrev"
                 onClick={this.props.subtractTime(1, 'months')}
               >
-                ‹
+                &lsaquo;
               </a>
 
               <div className="rdtCenter">
@@ -303,10 +303,10 @@ export class CustomDaysView extends DaysView {
               </div>
 
               <a className="rdtNext" onClick={this.props.addTime(1, 'months')}>
-                ›
+                &rsaquo;
               </a>
               <a className="rdtNext" onClick={this.props.addTime(1, 'years')}>
-                »
+                &raquo;
               </a>
             </div>
           </th>
@@ -334,5 +334,5 @@ export class CustomDaysView extends DaysView {
 }
 
 export default localeable(
-  (CustomDaysView as any) as React.ComponentClass<CustomDaysViewProps>
+  CustomDaysView as any as React.ComponentClass<CustomDaysViewProps>
 );

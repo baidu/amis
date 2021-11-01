@@ -19,6 +19,7 @@ import {
 
 import '../src/locale/en-US';
 import 'history';
+import attachmentAdpator from '../src/utils/attachmentAdpator';
 
 export function embed(
   container: string | HTMLElement,
@@ -42,102 +43,15 @@ export function embed(
   container.classList.add('amis-scope');
   let scoped: any;
 
-  const attachmentAdpator = (response: any) => {
-    if (
-      response &&
-      response.headers &&
-      response.headers['content-disposition']
-    ) {
-      const disposition = response.headers['content-disposition'];
-      let filename = '';
-
-      if (disposition && disposition.indexOf('attachment') !== -1) {
-        // disposition 有可能是 attachment; filename="??.xlsx"; filename*=UTF-8''%E4%B8%AD%E6%96%87.xlsx
-        // 这种情况下最后一个才是正确的文件名
-        let filenameRegex = /filename[^;=\n]*=((['"]).*?\2|[^;\n]*)$/;
-
-        let matches = disposition.match(filenameRegex);
-        if (matches && matches.length) {
-          filename = matches[1].replace(`UTF-8''`, '').replace(/['"]/g, '');
-        }
-
-        // 很可能是中文被 url-encode 了
-        if (filename && filename.replace(/[^%]/g, '').length > 2) {
-          filename = decodeURIComponent(filename);
-        }
-
-        let type = response.headers['content-type'];
-        let blob =
-          response.data.toString() === '[object Blob]'
-            ? response.data
-            : new Blob([response.data], {type: type});
-        if (typeof window.navigator.msSaveBlob !== 'undefined') {
-          // IE workaround for "HTML7007: One or more blob URLs were revoked by closing the blob for which they were created. These URLs will no longer resolve as the data backing the URL has been freed."
-          window.navigator.msSaveBlob(blob, filename);
-        } else {
-          let URL = window.URL || (window as any).webkitURL;
-          let downloadUrl = URL.createObjectURL(blob);
-          if (filename) {
-            // use HTML5 a[download] attribute to specify filename
-            let a = document.createElement('a');
-            // safari doesn't support this yet
-            if (typeof a.download === 'undefined') {
-              (window as any).location = downloadUrl;
-            } else {
-              a.href = downloadUrl;
-              a.download = filename;
-              document.body.appendChild(a);
-              a.click();
-            }
-          } else {
-            (window as any).location = downloadUrl;
-          }
-          setTimeout(function () {
-            URL.revokeObjectURL(downloadUrl);
-          }, 100); // cleanup
-        }
-
-        return {
-          ...response,
-          data: {
-            status: 0,
-            msg: __('Embed.downloading')
-          }
-        };
-      }
-    } else if (response.data.toString() === '[object Blob]') {
-      return new Promise((resolve, reject) => {
-        let reader = new FileReader();
-        reader.addEventListener('loadend', e => {
-          const text = reader.result as string;
-
-          try {
-            resolve({
-              ...response,
-              data: {
-                ...JSON.parse(text)
-              }
-            });
-          } catch (e) {
-            reject(e);
-          }
-        });
-
-        reader.readAsText(response.data);
-      });
-    }
-
-    return response;
-  };
-
   const requestAdaptor = (config: any) => {
-    const fn = env && typeof env.requestAdaptor === 'function'
-      ? env.requestAdaptor.bind()
-      : ((config: any) => config);
+    const fn =
+      env && typeof env.requestAdaptor === 'function'
+        ? env.requestAdaptor.bind()
+        : (config: any) => config;
     const request = fn(config) || config;
 
     return request;
-  }
+  };
 
   const responseAdaptor = (api: any) => (value: any) => {
     let response = value.data || {}; // blob 下可能会返回内容为空？
@@ -175,13 +89,8 @@ export function embed(
   const amisEnv = {
     getModalContainer: () =>
       env?.getModalContainer?.() || document.querySelector('.amis-scope'),
-    notify: (type: string, msg: string) =>
-      toast[type]
-        ? toast[type](
-            msg,
-            type === 'error' ? __('System.error') : __('System.notify')
-          )
-        : console.warn('[Notify]', type, msg),
+    notify: (type: 'success' | 'error' | 'warning' | 'info', msg: string) =>
+      toast[type] ? toast[type](msg) : console.warn('[Notify]', type, msg),
     alert,
     confirm,
     updateLocation: (to: any, replace: boolean) => {
@@ -287,12 +196,12 @@ export function embed(
       }
 
       // 支持返回各种报错信息
-      config.validateStatus = function (status) {
+      config.validateStatus = function () {
         return true;
       };
 
       let response = await axios(config);
-      response = await attachmentAdpator(response);
+      response = await attachmentAdpator(response, __);
       response = responseAdaptor(api)(response);
 
       if (response.status >= 400) {
@@ -312,11 +221,13 @@ export function embed(
             throw new Error(response.data.msg);
           } else {
             throw new Error(
-              '接口报错：' + JSON.stringify(response.data, null, 2)
+              __('System.requestError') + JSON.stringify(response.data, null, 2)
             );
           }
         } else {
-          throw new Error(`接口出错，状态码是 ${response.status}`);
+          throw new Error(
+            `${__('System.requestErrorStatus')} ${response.status}`
+          );
         }
       }
 
@@ -324,8 +235,8 @@ export function embed(
     },
     isCancel: (value: any) => (axios as any).isCancel(value),
     copy: (contents: string, options: any = {}) => {
-      const ret = copy(contents, options);
-      ret && options.shutup !== true && toast.info(__('System.copy'));
+      const ret = copy(contents);
+      ret && options.silent !== true && toast.info(__('System.copy'));
       return ret;
     },
     richTextToken: '',

@@ -3,6 +3,8 @@ import {register} from '../locale';
 register('en-US', {
   'Action.countDown': 'Wait for ${timeLeft}s',
   'Alert.info': 'System Info',
+  'App.home': 'Home',
+  'App.navigation': 'Navigation',
   'asc': 'Asc',
   'cancel': 'Cancel',
   'Card.dragTip': 'Drag top button to sort',
@@ -101,6 +103,7 @@ register('en-US', {
   'Form.title': 'Form',
   'Form.unique': 'Current value is not unique',
   'Form.validateFailed': 'Form input validation failed',
+  'Form.nestedError': 'Form cannot appear as a descendant of form',
   'Image.configError': 'Can only set one of crop or multiple',
   'Image.crop': 'Crop image',
   'Image.dragDrop': `Drag 'n' drop some photos here`,
@@ -155,7 +158,8 @@ register('en-US', {
   'System.copy': 'Content copied',
   'System.requestError': 'Request error: ',
   'System.requestErrorStatus': 'Request error, status code: ',
-  'Table.addRow': 'Add a row',
+  'Table.addRow': 'Add row',
+  'Table.copyRow': 'Copy row',
   'Table.columnsVisibility': 'Click to control columns visibility',
   'Table.deleteRow': 'Delete current row',
   'Table.discard': 'Discard',
@@ -246,5 +250,6 @@ register('en-US', {
   'Condition.placeholder': 'Please enter text',
   'Condition.cond_placeholder': 'select condition',
   'Condition.field_placeholder': 'select field',
-  'Condition.blank': 'blank'
+  'Condition.blank': 'blank',
+  'InputTable.uniqueError': 'Column `{{label}}` unique validate failed'
 });

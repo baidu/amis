@@ -18,6 +18,7 @@ import {
   isObjectShallowModified,
   noop,
   isVisible,
+  getPropValue,
   getVariable,
   qsstringify,
   qsparse
@@ -374,7 +375,8 @@ export default class CRUD extends React.Component<CRUDProps, any> {
     'onChange',
     'onInit',
     'onSaved',
-    'onQuery'
+    'onQuery',
+    'formStore'
   ];
   static defaultProps = {
     toolbarInline: true,
@@ -476,8 +478,9 @@ export default class CRUD extends React.Component<CRUDProps, any> {
       this.handleFilterInit({});
     }
 
-    if (this.props.pickerMode && this.props.value) {
-      store.setSelectedItems(this.props.value);
+    const val = getPropValue(this.props);
+    if (this.props.pickerMode && val) {
+      store.setSelectedItems(val);
     }
   }
 
@@ -497,8 +500,9 @@ export default class CRUD extends React.Component<CRUDProps, any> {
       this.renderFooterToolbar = this.renderFooterToolbar.bind(this);
     }
 
-    if (this.props.pickerMode && this.props.value !== prevProps.value) {
-      store.setSelectedItems(props.value);
+    const val = getPropValue(this.props);
+    if (this.props.pickerMode && val !== getPropValue(prevProps)) {
+      store.setSelectedItems(val);
     }
 
     if (this.props.filterTogglable !== prevProps.filterTogglable) {
@@ -1053,7 +1057,10 @@ export default class CRUD extends React.Component<CRUDProps, any> {
               (!stopAutoRefreshWhen ||
                 !(
                   (stopAutoRefreshWhenModalIsOpen && store.hasModalOpened) ||
-                  evalExpression(stopAutoRefreshWhen, data)
+                  evalExpression(
+                    stopAutoRefreshWhen,
+                    createObject(store.data, store.query)
+                  )
                 )) &&
               (this.timer = setTimeout(
                 silentPolling
@@ -1107,7 +1114,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
     if (autoJumpToTopOnPagerChange && this.control) {
       (findDOMNode(this.control) as HTMLElement).scrollIntoView();
       const scrolledY = window.scrollY;
-      const offsetTop = affixOffsetTop ?? env?.affixOffsetTop ?? 50;
+      const offsetTop = affixOffsetTop ?? env?.affixOffsetTop ?? 0;
       scrolledY && window.scroll(0, scrolledY - offsetTop);
     }
   }
@@ -1493,15 +1500,11 @@ export default class CRUD extends React.Component<CRUDProps, any> {
   hasBulkActions() {
     const {bulkActions, itemActions, store} = this.props;
 
-    if (
-      (!bulkActions || !bulkActions.length) &&
-      (!itemActions || !itemActions.length)
-    ) {
+    if (!bulkActions || !bulkActions.length) {
       return false;
     }
 
     let bulkBtns: Array<ActionSchema> = [];
-    let itemBtns: Array<ActionSchema> = [];
     const ctx = store.mergedData;
 
     if (bulkActions && bulkActions.length) {
@@ -1513,21 +1516,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
         .filter(item => !item.hidden && item.visible !== false);
     }
 
-    const itemData = createObject(
-      store.data,
-      store.selectedItems.length ? store.selectedItems[0] : {}
-    );
-
-    if (itemActions && itemActions.length) {
-      itemBtns = itemActions
-        .map(item => ({
-          ...item,
-          ...getExprProperties(item as Schema, itemData)
-        }))
-        .filter(item => !item.hidden && item.visible !== false);
-    }
-
-    return bulkBtns.length || itemBtns.length;
+    return bulkBtns.length;
   }
 
   renderBulkActions(childProps: any) {
@@ -1535,11 +1524,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
 
     const items = childProps.items;
 
-    if (
-      !items.length ||
-      ((!bulkActions || !bulkActions.length) &&
-        (!itemActions || !itemActions.length))
-    ) {
+    if (!items.length || !bulkActions || !bulkActions.length) {
       return null;
     }
 
@@ -1591,7 +1576,6 @@ export default class CRUD extends React.Component<CRUDProps, any> {
           render(
             `bulk-action/${index}`,
             {
-              size: 'sm',
               ...omit(btn, ['visibleOn', 'hiddenOn', 'disabledOn']),
               type: 'button',
               ignoreConfirm: true
@@ -1615,7 +1599,6 @@ export default class CRUD extends React.Component<CRUDProps, any> {
           render(
             `bulk-action/${index}`,
             {
-              size: 'sm',
               ...omit(btn, ['visibleOn', 'hiddenOn', 'disabledOn']),
               type: 'button'
             },
@@ -1772,15 +1755,16 @@ export default class CRUD extends React.Component<CRUDProps, any> {
     );
   }
 
-  renderExportCSV() {
+  renderExportCSV(toolbar: Schema) {
     const {
       store,
       classPrefix: ns,
       classnames: cx,
       translate: __,
-      loadDataOnce,
-      api
+      loadDataOnce
     } = this.props;
+
+    const api = (toolbar as Schema).api;
 
     return (
       <Button
@@ -1793,7 +1777,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
         }
         size="sm"
       >
-        {__('CRUD.exportCSV')}
+        {toolbar.label || __('CRUD.exportCSV')}
       </Button>
     );
   }
@@ -1823,7 +1807,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
     } else if (type === 'filter-toggler') {
       return this.renderFilterToggler();
     } else if (type === 'export-csv') {
-      return this.renderExportCSV();
+      return this.renderExportCSV(toolbar as Schema);
     } else if (Array.isArray(toolbar)) {
       const children: Array<any> = toolbar
         .map((toolbar, index) => ({
@@ -2039,7 +2023,8 @@ export default class CRUD extends React.Component<CRUDProps, any> {
                 data: store.filterData,
                 onReset: this.handleFilterReset,
                 onSubmit: this.handleFilterSubmit,
-                onInit: this.handleFilterInit
+                onInit: this.handleFilterInit,
+                formStore: undefined
               }
             )
           : null}

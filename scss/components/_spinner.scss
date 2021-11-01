@@ -62,8 +62,12 @@
   &--icon {
     background: transparent;
     animation: spin 2s linear infinite;
-    width: auto;
-    height: auto;
+    width: var(--fontSizeLg);
+    height: var(--fontSizeLg);
+    svg.icon {
+      width: var(--fontSizeLg);
+      height: var(--fontSizeLg);
+    }
   }
 }
 

@@ -174,6 +174,8 @@ import './compat';
 
 import './envOverwrite';
 
+import './schemaExtend';
+
 import './themes/ang';
 import './themes/cxd';
 import './themes/dark';

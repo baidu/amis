@@ -16,6 +16,9 @@ const versionHash = fis.util.md5(package.version);
 Resource.extend({
   buildResourceMap: function () {
     const resourceMap = this.__super();
+    if (resourceMap === '') {
+      return '';
+    }
 
     const map = JSON.parse(resourceMap.substring(20, resourceMap.length - 2));
 
@@ -128,6 +131,7 @@ fis.match('monaco-editor/min/**.js', {
 
 fis.match('/docs/**.md', {
   rExt: 'js',
+  ignoreDependencies: true,
   parser: [
     parserMarkdown,
     function (contents, file) {
@@ -491,8 +495,8 @@ if (fis.project.currentMedia() === 'publish') {
         '!mpegts.js/**',
         '!hls.js/**',
         '!froala-editor/**',
+
         '!tinymce/**',
-        '!jquery/**',
         '!zrender/**',
         '!echarts/**',
         '!echarts-stat/**',
@@ -518,14 +522,11 @@ if (fis.project.currentMedia() === 'publish') {
         '!mdurl/**',
         '!uc.micro/**',
         '!markdown-it/**',
+        '!markdown-it-html5-media/**',
         '!punycode/**'
       ],
 
-      'rich-text.js': [
-        'src/components/RichText.tsx',
-        'froala-editor/**',
-        'jquery/**'
-      ],
+      'rich-text.js': ['src/components/RichText.tsx', 'froala-editor/**'],
 
       'tinymce.js': ['src/components/Tinymce.tsx', 'tinymce/**'],
 
@@ -542,6 +543,7 @@ if (fis.project.currentMedia() === 'publish') {
         'mdurl/**',
         'uc.micro/**',
         'markdown-it/**',
+        'markdown-it-html5-media/**',
         'punycode/**'
       ],
 
@@ -563,8 +565,8 @@ if (fis.project.currentMedia() === 'publish') {
         '!mpegts.js/**',
         '!hls.js/**',
         '!froala-editor/**',
+
         '!src/components/RichText.tsx',
-        '!jquery/**',
         '!zrender/**',
         '!echarts/**',
         '!papaparse/**',
@@ -576,7 +578,8 @@ if (fis.project.currentMedia() === 'publish') {
         '!linkify-it/**',
         '!mdurl/**',
         '!uc.micro/**',
-        '!markdown-it/**'
+        '!markdown-it/**',
+        '!markdown-it-html5-media/**'
       ]
     }),
     postpackager: [
@@ -748,19 +751,12 @@ if (fis.project.currentMedia() === 'publish') {
         return contents;
       }
 
-      return contents
-        .replace(
-          /(\\?(?:'|"))((?:get|post|delete|put)\:)?\/api\/mock2?/gi,
-          function (_, qutoa, method) {
-            return qutoa + (method || '') + `${cfcAddress}/mock2`;
-          }
-        )
-        .replace(
-          /(\\?(?:'|"))((?:get|post|delete|put)\:)?\/api\/sample/gi,
-          function (_, qutoa, method) {
-            return qutoa + (method || '') + `${cfcAddress}/sample`;
-          }
-        );
+      return contents.replace(
+        /(\\?(?:'|"))((?:get|post|delete|put)\:)?\/api\/(\w+)/gi,
+        function (_, qutoa, method, path) {
+          return qutoa + (method || '') + `${cfcAddress}/` + path;
+        }
+      );
     }
   });
 
@@ -777,23 +773,72 @@ if (fis.project.currentMedia() === 'publish') {
         '!mpegts.js/**',
         '!hls.js/**',
         '!froala-editor/**',
+
         '!tinymce/**',
-        '!jquery/**',
         '!zrender/**',
         '!echarts/**',
+        '!echarts-stat/**',
         '!papaparse/**',
-        '!exceljs/**'
+        '!exceljs/**',
+        '!docsearch.js/**',
+        '!monaco-editor/**.css',
+        '!src/components/RichText.tsx',
+        '!src/components/Tinymce.tsx',
+        '!src/components/ColorPicker.tsx',
+        '!react-color/**',
+        '!material-colors/**',
+        '!reactcss/**',
+        '!tinycolor2/**',
+        '!cropperjs/**',
+        '!react-cropper/**',
+        '!src/lib/renderers/Form/CityDB.js',
+        '!src/components/Markdown.tsx',
+        '!src/utils/markdown.ts',
+        '!highlight.js/**',
+        '!entities/**',
+        '!linkify-it/**',
+        '!mdurl/**',
+        '!uc.micro/**',
+        '!markdown-it/**',
+        '!markdown-it-html5-media/**',
+        '!punycode/**'
       ],
-      'pkg/rich-text.js': [
-        'src/components/RichText.js',
-        'froala-editor/**',
-        'jquery/**'
-      ],
+
+      'pkg/rich-text.js': ['src/components/RichText.js', 'froala-editor/**'],
+
       'pkg/tinymce.js': ['src/components/Tinymce.tsx', 'tinymce/**'],
-      'pkg/charts.js': ['zrender/**', 'echarts/**'],
+
       'pkg/papaparse.js': ['papaparse/**'],
+
       'pkg/exceljs.js': ['exceljs/**'],
+
+      'pkg/markdown.js': [
+        'src/components/Markdown.tsx',
+        'src/utils/markdown.ts',
+        'highlight.js/**',
+        'entities/**',
+        'linkify-it/**',
+        'mdurl/**',
+        'uc.micro/**',
+        'markdown-it/**',
+        'markdown-it-html5-media/**',
+        'punycode/**'
+      ],
+
+      'pkg/color-picker.js': [
+        'src/components/ColorPicker.tsx',
+        'react-color/**',
+        'material-colors/**',
+        'reactcss/**',
+        'tinycolor2/**'
+      ],
+
+      'pkg/cropperjs.js': ['cropperjs/**', 'react-cropper/**'],
+
+      'pkg/charts.js': ['zrender/**', 'echarts/**', 'echarts-stat/**'],
+
       'pkg/api-mock.js': ['mock/*.ts'],
+
       'pkg/app.js': [
         '/examples/components/App.tsx',
         '/examples/components/App.tsx:deps'
@@ -807,17 +852,25 @@ if (fis.project.currentMedia() === 'publish') {
 
       'pkg/rest.js': [
         '**.{js,jsx,ts,tsx}',
-        '!static/mod.js',
         '!monaco-editor/**',
         '!mpegts.js/**',
         '!hls.js/**',
         '!froala-editor/**',
-        '!jquery/**',
-        '!src/components/RichText.js',
+
+        '!src/components/RichText.tsx',
         '!zrender/**',
         '!echarts/**',
         '!papaparse/**',
-        '!exceljs/**'
+        '!exceljs/**',
+        '!src/utils/markdown.ts',
+        '!highlight.js/**',
+        '!argparse/**',
+        '!entities/**',
+        '!linkify-it/**',
+        '!mdurl/**',
+        '!uc.micro/**',
+        '!markdown-it/**',
+        '!markdown-it-html5-media/**'
       ],
 
       'pkg/npm.css': ['node_modules/*/**.css', '!monaco-editor/**'],

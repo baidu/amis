@@ -235,7 +235,7 @@ icon 也可以是 url 地址，比如
     "api": "/api/mock2/form/saveForm",
     "feedback": {
         "title": "操作成功",
-        "body": "xxx 已操作成功"
+        "body": "${id} 已操作成功"
     }
 }
 ```
@@ -307,13 +307,15 @@ icon 也可以是 url 地址，比如
     "type": "button",
     "label": "ajax 请求",
     "actionType": "ajax",
-    "api": "/api/mock2/form/saveForm",
+    "api": "/api/mapping",
     "messages": {
         "success": "成功了！欧耶",
         "failed": "失败了呢。。"
     }
 }
 ```
+
+需要注意如果 api 结果返回了 `msg` 字段，会优先使用 api 的返回。
 
 **属性表**
 
@@ -324,7 +326,29 @@ icon 也可以是 url 地址，比如
 | feedback | `DialogObject`                                                                           | -      | 如果 ajax 类型的，当 ajax 返回正常后，还能接着弹出一个 dialog 做其他交互。返回的数据可用于这个 dialog 中。格式可参考[Dialog](./Dialog.md) |
 | messages | `object`                                                                                 | -      | `success`：ajax 操作成功后提示，可以不指定，不指定时以 api 返回为准。`failed`：ajax 操作失败提示。                                        |
 
-### 倒计时
+## 下载请求
+
+> 1.4.0 及以上版本
+
+通过配置 `"actionType":"download"` 和 `api`，可以实现下载请求，它其实是 `ajax` 的一种特例，自动给 api 加上了 `"responseType": "blob"`。
+
+```schema: scope="body"
+{
+    "label": "下载",
+    "type": "action",
+    "actionType": "download",
+    "api": "/api/download"
+}
+```
+
+上面的例子由于环境原因没法测试，需要在返回的 header 中配置 `content-type` 和 `Content-Disposition`，比如
+
+```
+Content-Type: application/pdf
+Content-Disposition: attachment; filename="download.pdf"
+```
+
+## 倒计时
 
 主要用于发验证码的场景，通过设置倒计时 `countDown`（单位是秒），让点击按钮后禁用一段时间：
 
@@ -555,6 +579,18 @@ icon 也可以是 url 地址，比如
 }
 ```
 
+可以通过 `copyFormat` 设置复制的格式，默认是文本
+
+```schema: scope="body"
+{
+    "label": "复制一段富文本",
+    "type": "button",
+    "actionType": "copy",
+    "copyFormat": "text/html",
+    "content": "<a href='http://www.baidu.com'>link</a> <b>bold</b>"
+}
+```
+
 **属性表**
 
 | 属性名     | 类型                                 | 默认值 | 说明                                 |
@@ -763,6 +799,27 @@ props.onAction(event, {
   ]
 }
 ```
+
+## 键盘快捷键触发
+
+> 1.3.0 版本新增功能
+
+可以通过 `hotKey` 属性来配置键盘快捷键触发，比如下面的例子
+
+```schema: scope="body"
+{
+  "label": "使用 ⌘+o 或 ctrl+o 来弹框",
+  "type": "button",
+  "hotKey": "command+o,ctrl+o",
+  "actionType": "dialog",
+  "dialog": {
+    "title": "弹框",
+    "body": "这是个简单的弹框。"
+  }
+}
+```
+
+除了 ctrl 和 command 还支持 shift、alt。
 
 ## 通用属性表
 

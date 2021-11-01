@@ -69,6 +69,8 @@ export interface TransferProps
   ) => JSX.Element;
 
   resultTitle?: string;
+  optionItemRender?: (option: Option) => JSX.Element;
+  resultItemRender?: (option: Option) => JSX.Element;
   sortable?: boolean;
 }
 
@@ -274,27 +276,31 @@ export class Transfer extends React.Component<TransferProps, TransferState> {
       selectMode,
       noResultsText,
       searchResultColumns,
+      columns,
       classnames: cx,
       value,
       disabled,
       onChange,
       option2value,
+      optionItemRender,
       cellRender
     } = this.props;
     const options = this.state.searchResult || [];
     const mode = searchResultMode || selectMode;
+    const resultColumns = searchResultColumns || columns;
 
     return mode === 'table' ? (
       <TableCheckboxes
         placeholder={noResultsText}
         className={cx('Transfer-checkboxes')}
-        columns={searchResultColumns!}
+        columns={resultColumns!}
         options={options}
         value={value}
         disabled={disabled}
         onChange={onChange}
         option2value={option2value}
         cellRender={cellRender}
+        itemRender={optionItemRender}
       />
     ) : mode === 'tree' ? (
       <TreeCheckboxes
@@ -305,6 +311,7 @@ export class Transfer extends React.Component<TransferProps, TransferState> {
         disabled={disabled}
         onChange={onChange}
         option2value={option2value}
+        itemRender={optionItemRender}
       />
     ) : mode === 'chained' ? (
       <ChainedCheckboxes
@@ -315,6 +322,7 @@ export class Transfer extends React.Component<TransferProps, TransferState> {
         disabled={disabled}
         onChange={onChange}
         option2value={option2value}
+        itemRender={optionItemRender}
       />
     ) : (
       <ListCheckboxes
@@ -325,6 +333,7 @@ export class Transfer extends React.Component<TransferProps, TransferState> {
         disabled={disabled}
         onChange={onChange}
         option2value={option2value}
+        itemRender={optionItemRender}
       />
     );
   }
@@ -344,7 +353,8 @@ export class Transfer extends React.Component<TransferProps, TransferState> {
       leftMode,
       rightMode,
       cellRender,
-      leftDefaultValue
+      leftDefaultValue,
+      optionItemRender
     } = this.props;
 
     return selectMode === 'table' ? (
@@ -358,6 +368,7 @@ export class Transfer extends React.Component<TransferProps, TransferState> {
         option2value={option2value}
         onDeferLoad={onDeferLoad}
         cellRender={cellRender}
+        itemRender={optionItemRender}
       />
     ) : selectMode === 'tree' ? (
       <TreeCheckboxes
@@ -368,6 +379,7 @@ export class Transfer extends React.Component<TransferProps, TransferState> {
         onChange={onChange}
         option2value={option2value}
         onDeferLoad={onDeferLoad}
+        itemRender={optionItemRender}
       />
     ) : selectMode === 'chained' ? (
       <ChainedCheckboxes
@@ -378,6 +390,7 @@ export class Transfer extends React.Component<TransferProps, TransferState> {
         onChange={onChange}
         option2value={option2value}
         onDeferLoad={onDeferLoad}
+        itemRender={optionItemRender}
       />
     ) : selectMode === 'associated' ? (
       <AssociatedCheckboxes
@@ -393,6 +406,7 @@ export class Transfer extends React.Component<TransferProps, TransferState> {
         leftMode={leftMode}
         rightMode={rightMode}
         leftDefaultValue={leftDefaultValue}
+        itemRender={optionItemRender}
       />
     ) : (
       <ListCheckboxes
@@ -403,6 +417,7 @@ export class Transfer extends React.Component<TransferProps, TransferState> {
         onChange={onChange}
         option2value={option2value}
         onDeferLoad={onDeferLoad}
+        itemRender={optionItemRender}
       />
     );
   }
@@ -421,6 +436,7 @@ export class Transfer extends React.Component<TransferProps, TransferState> {
       disabled,
       statistics,
       showArrow,
+      resultItemRender,
       translate: __
     } = this.props;
 
@@ -471,6 +487,7 @@ export class Transfer extends React.Component<TransferProps, TransferState> {
             value={value}
             onChange={onChange}
             placeholder={__('Transfer.selectFromLeft')}
+            itemRender={resultItemRender}
           />
         </div>
       </div>

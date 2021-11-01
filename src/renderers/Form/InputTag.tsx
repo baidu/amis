@@ -177,13 +177,8 @@ export default class TagControl extends React.PureComponent<
 
   @autobind
   handleChange(value: Array<Option>) {
-    const {
-      joinValues,
-      extractValue,
-      delimiter,
-      valueField,
-      onChange
-    } = this.props;
+    const {joinValues, extractValue, delimiter, valueField, onChange} =
+      this.props;
 
     let newValue: any = Array.isArray(value) ? value.concat() : [];
 
@@ -320,6 +315,7 @@ export default class TagControl extends React.PureComponent<
         {({isOpen, highlightedIndex, getItemProps, getInputProps}) => {
           return (
             <div className={cx(className, `TagControl`)}>
+              {/* @ts-ignore 怪了为啥类型不对，后续看 */}
               <ResultBox
                 {...getInputProps({
                   name,

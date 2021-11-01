@@ -120,9 +120,10 @@ export default class Property extends React.Component<PropertyProps, object> {
   prepareRows() {
     const {column = 3, items, source, data} = this.props;
 
-    const propertyItems = items
-      ? items
-      : (resolveVariable(source, data) as Array<PropertyItem>);
+    const propertyItems =
+      (items
+        ? items
+        : (resolveVariable(source, data) as Array<PropertyItem>)) || [];
 
     const rows: PropertyContent[][] = [];
 

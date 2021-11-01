@@ -3,6 +3,8 @@ import {register} from '../locale';
 register('zh-CN', {
   'Action.countDown': '请等待 ${timeLeft} 秒',
   'Alert.info': '系统消息',
+  'App.home': '首页',
+  'App.navigation': '导航',
   'asc': '正序',
   'cancel': '取消',
   'Card.dragTip': '请拖动顶部的按钮进行排序',
@@ -81,7 +83,7 @@ register('zh-CN', {
   'desc': '降序',
   'Dialog.close': '关闭',
   'Embed.invalidRoot': '选择器不对，页面上没有此元素',
-  'Embed.downloading': '文件即将开始下载。。',
+  'Embed.downloading': '文件即将开始下载',
   'Excel.placeholder': '拖拽 Excel 到这，或点击上传',
   'fetchFailed': '初始化失败',
   'File.continueAdd': '继续添加',
@@ -103,6 +105,7 @@ register('zh-CN', {
   'Form.title': '表单',
   'Form.unique': '当前值不唯一',
   'Form.validateFailed': '依赖的部分字段没有通过验证',
+  'Form.nestedError': '表单不要直接嵌套在表单下面',
   'Image.configError': '图片多选配置和裁剪配置只能设置一个',
   'Image.crop': '裁剪图片',
   'Image.dragDrop': '将图片拖拽到此处',
@@ -160,6 +163,7 @@ register('zh-CN', {
   'System.requestError': '接口报错：',
   'System.requestErrorStatus': '接口出错，状态码是：',
   'Table.addRow': '新增一行',
+  'Table.copyRow': '复制一行',
   'Table.columnsVisibility': '点击选择显示列',
   'Table.deleteRow': '删除当前行',
   'Table.discard': '放弃',
@@ -250,5 +254,6 @@ register('zh-CN', {
   'Condition.placeholder': '请输入文本',
   'Condition.cond_placeholder': '请选择操作',
   'Condition.field_placeholder': '请选择字段',
-  'Condition.blank': '空'
+  'Condition.blank': '空',
+  'InputTable.uniqueError': '列`{{label}}`没有通过唯一验证'
 });

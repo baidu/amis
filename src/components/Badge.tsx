@@ -17,7 +17,7 @@ export interface BadgeSchema extends BaseSchema {
   /**
    * 文本内容
    */
-  text?: string;
+  text?: string | number;
 
   /**
    * 大小
@@ -27,12 +27,22 @@ export interface BadgeSchema extends BaseSchema {
   /**
    * 角标类型
    */
-  mode?: 'text' | 'dot';
+  mode?: 'text' | 'dot' | 'ribbon';
+
+  /**
+   * 角标位置，优先级大于position
+   */
+  offset?: [number | string, number | string];
 
   /**
    * 角标位置
    */
   position?: 'top-right' | 'top-left' | 'bottom-right' | 'bottom-left';
+
+  /**
+   * 封顶的数字值
+   */
+  overflowCount?: number;
 
   /**
    * 动态控制是否显示
@@ -50,6 +60,11 @@ export interface BadgeSchema extends BaseSchema {
   style?: {
     [propName: string]: any;
   };
+
+  /**
+   * 提示类型
+   */
+  level?: 'info' | 'warning' | 'success' | 'danger';
 }
 
 export interface BadgeProps {
@@ -63,6 +78,62 @@ export class Badge extends React.Component<BadgeProps, object> {
 
   constructor(props: BadgeProps) {
     super(props);
+  }
+
+  renderBadge(
+    text: any,
+    size: number,
+    position: any,
+    offsetStyle: any,
+    sizeStyle: any,
+    animationElement: any
+  ) {
+    const {classnames: cx, badge} = this.props;
+    const {
+      mode = 'dot',
+      level = 'danger',
+      style
+    } = badge as BadgeSchema;
+    switch(mode) {
+      case 'dot':
+        return (
+          <span
+            className={cx('Badge-dot', `Badge--${position}`, `Badge--${level}`)}
+            style={{...offsetStyle, ...sizeStyle, ...style}}
+          >
+            {animationElement}
+          </span>
+        );
+      case 'text':
+        return (
+          <span
+            className={cx('Badge-text', `Badge--${position}`, `Badge--${level}`)}
+            style={{...offsetStyle, ...sizeStyle, ...style}}
+          >
+            {text}
+            {animationElement}
+          </span>
+        );
+      case 'ribbon':
+        const outSize = size * Math.sqrt(2) + 5;
+        return (
+          <div
+            className={cx('Badge-ribbon-out', `Badge-ribbon-out--${position}`)}
+            style={{width: outSize, height: outSize}}
+          >
+            <span
+              className={cx('Badge-ribbon', `Badge-ribbon--${position}`, `Badge--${level}`)}
+              style={{...sizeStyle, ...style}}
+            >
+              {text}
+              {animationElement}
+            </span>
+          </div>
+
+        );
+      default:
+        return null;
+    }
   }
 
   render() {
@@ -81,7 +152,9 @@ export class Badge extends React.Component<BadgeProps, object> {
       text,
       size,
       style,
+      offset,
       position = 'top-right',
+      overflowCount = 99,
       visibleOn,
       className,
       animation
@@ -99,6 +172,8 @@ export class Badge extends React.Component<BadgeProps, object> {
     if (typeof size === 'undefined') {
       if (mode === 'dot') {
         size = 6;
+      } else if (mode === 'ribbon'){
+        size = 12;
       } else {
         size = 16;
       }
@@ -111,6 +186,12 @@ export class Badge extends React.Component<BadgeProps, object> {
         height: size,
         lineHeight: size + 'px'
       };
+      // 当text、overflowCount都为number类型时，进行封顶值处理
+      if (typeof text === 'number' && typeof overflowCount === 'number') {
+        text = (
+          (text as number) > (overflowCount as number) ? `${overflowCount}+` : text
+        ) as string | number;
+      }
 
       if (!text) {
         isDisplay = false;
@@ -119,6 +200,25 @@ export class Badge extends React.Component<BadgeProps, object> {
 
     if (mode === 'dot') {
       sizeStyle = {width: size, height: size};
+    }
+
+    if (mode === 'ribbon') {
+      sizeStyle = {
+        height: size,
+        lineHeight: size + 'px',
+        fontSize: size
+      };
+    }
+
+    let offsetStyle = {};
+    // 如果设置了offset属性，offset在position为'top-right'的基础上进行translate定位
+    if (offset && offset.length) {
+      position = 'top-right';
+      const left = `calc(50% + ${parseInt(offset[0] as string, 10)}px)`;
+      const right = `calc(-50% + ${parseInt(offset[1] as string, 10)}px)`;
+      offsetStyle = {
+        transform: `translate(${left}, ${right})`,
+      };
     }
 
     let animationBackground = 'var(--danger)';
@@ -145,24 +245,15 @@ export class Badge extends React.Component<BadgeProps, object> {
     return (
       <div className={cx('Badge', className)}>
         {children}
-        {isDisplay ? (
-          mode === 'dot' ? (
-            <span
-              className={cx('Badge-dot', `Badge--${position}`)}
-              style={{...sizeStyle, ...style}}
-            >
-              {animationElement}
-            </span>
-          ) : (
-            <span
-              className={cx('Badge-text', `Badge--${position}`)}
-              style={{...sizeStyle, ...style}}
-            >
-              {text}
-              {animationElement}
-            </span>
-          )
-        ) : null}
+        {isDisplay ?
+          this.renderBadge(
+            text,
+            size,
+            position,
+            offsetStyle,
+            sizeStyle,
+            animationElement
+          ) : null}
       </div>
     );
   }

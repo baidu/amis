@@ -7,6 +7,7 @@ import {FormItem, FormControlProps, FormBaseControl} from './Item';
 import InputRange from '../../components/Range';
 import {Icon} from '../../components/icons';
 import {FormOptionsControl} from './Options';
+import {stripNumber} from '../../utils/tpl-builtin';
 
 /**
  * Range
@@ -205,7 +206,7 @@ export default class RangeControl extends React.PureComponent<
 
   handleChange(value: any) {
     this.setState({
-      value: value,
+      value: stripNumber(value),
       minValue: value.min,
       maxValue: value.max
     });
@@ -253,6 +254,8 @@ export default class RangeControl extends React.PureComponent<
             min: value.min,
             max: value.max
           };
+    } else {
+      endValue = stripNumber(value);
     }
     const {onChange} = this.props;
     this.setState(
@@ -268,7 +271,7 @@ export default class RangeControl extends React.PureComponent<
 
     return typeof step !== 'number' || step >= 1 || step < 0
       ? 0
-      : step.toString().split('.')[1].length;
+      : step.toString().split('.')[1]?.length;
   }
 
   getValue(value: any, type?: string) {

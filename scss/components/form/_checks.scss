@@ -491,13 +491,25 @@
     cursor: pointer;
     user-select: none;
 
-    &.is-active {
-      color: var(--Form-select-menu-onActive-color);
-      background: var(--Form-select-menu-onActive-bg);
+    position: relative;
+    & > * {
+      position: relative;
+      z-index: 2;
     }
 
-    &:hover {
+    &:hover:after {
+      position: absolute;
+      content: '';
+      z-index: 1;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: -99999px;
       background: var(--Tree-item-onHover-bg);
+    }
+
+    &.is-active {
+      color: var(--Form-select-menu-onActive-color);
     }
 
     &.is-disabled {

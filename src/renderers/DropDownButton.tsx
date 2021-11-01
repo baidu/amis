@@ -1,6 +1,5 @@
 import React from 'react';
 import {Renderer, RendererProps} from '../factory';
-import {RootCloseWrapper} from 'react-overlays';
 import Overlay from '../components/Overlay';
 import PopOver from '../components/PopOver';
 import TooltipWrapper from '../components/TooltipWrapper';
@@ -11,6 +10,7 @@ import {Icon} from '../components/icons';
 import {BaseSchema, SchemaClassName} from '../Schema';
 import {ActionSchema} from './Action';
 import {DividerSchema} from './Divider';
+import {RootClose} from '../utils/RootClose';
 
 /**
  * 下拉按钮渲染器。
@@ -76,6 +76,15 @@ export interface DropdownButtonSchema extends BaseSchema {
    * 是否只显示图标。
    */
   iconOnly?: boolean;
+
+  /**
+   * 触发条件，默认是 click
+   */
+  trigger?: 'click' | 'hover';
+  /**
+   * 是否显示下拉按钮
+   */
+  hideCaret?: boolean;
 }
 
 export interface DropDownButtonProps
@@ -174,40 +183,55 @@ export default class DropDownButton extends React.Component<
     } = this.props;
 
     let body = (
-      <RootCloseWrapper
+      <RootClose
         disabled={!this.state.isOpened}
         onRootClose={closeOnOutside !== false ? this.close : noop}
       >
-        <ul
-          className={cx('DropDown-menu')}
-          onClick={closeOnClick ? this.close : noop}
-        >
-          {children
-            ? children
-            : Array.isArray(buttons)
-            ? buttons.map((button, index) => {
-                if (typeof button !== 'string' && !isVisible(button, data)) {
-                  return null;
-                } else if (button === 'divider' || button.type === 'divider') {
-                  return <li key={index} className={cx('DropDown-divider')} />;
-                }
+        {(ref: any) => {
+          return (
+            <ul
+              className={cx('DropDown-menu')}
+              onClick={closeOnClick ? this.close : noop}
+              ref={ref}
+            >
+              {children
+                ? children
+                : Array.isArray(buttons)
+                ? buttons.map((button, index) => {
+                    if (
+                      typeof button !== 'string' &&
+                      !isVisible(button, data)
+                    ) {
+                      return null;
+                    } else if (
+                      button === 'divider' ||
+                      button.type === 'divider'
+                    ) {
+                      return (
+                        <li key={index} className={cx('DropDown-divider')} />
+                      );
+                    }
 
-                return (
-                  <li
-                    key={index}
-                    className={isDisabled(button, data) ? 'is-disabled' : ''}
-                  >
-                    {render(`button/${index}`, {
-                      type: 'button',
-                      ...(button as any),
-                      isMenuItem: true
-                    })}
-                  </li>
-                );
-              })
-            : null}
-        </ul>
-      </RootCloseWrapper>
+                    return (
+                      <li
+                        key={index}
+                        className={
+                          isDisabled(button, data) ? 'is-disabled' : ''
+                        }
+                      >
+                        {render(`button/${index}`, {
+                          type: 'button',
+                          ...(button as any),
+                          isMenuItem: true
+                        })}
+                      </li>
+                    );
+                  })
+                : null}
+            </ul>
+          );
+        }}
+      </RootClose>
     );
 
     if (popOverContainer) {
@@ -251,7 +275,9 @@ export default class DropDownButton extends React.Component<
       iconOnly,
       icon,
       isActived,
-      data
+      trigger,
+      data,
+      hideCaret
     } = this.props;
 
     return (
@@ -266,6 +292,8 @@ export default class DropDownButton extends React.Component<
           },
           className
         )}
+        onMouseEnter={trigger === 'hover' ? this.open : () => {}}
+        onMouseLeave={trigger === 'hover' ? this.close : () => {}}
         ref={this.domRef}
       >
         <TooltipWrapper
@@ -302,9 +330,13 @@ export default class DropDownButton extends React.Component<
               )
             ) : null}
             {typeof label === 'string' ? filter(label, data) : label}
-            <span className={cx('DropDown-caret')}>
-              <Icon icon="caret" className="icon" />
-            </span>
+            {
+              !hideCaret
+              ? <span className={cx('DropDown-caret')} >
+                <Icon icon="caret" className="icon" />
+              </span>
+              : null
+            }
           </button>
         </TooltipWrapper>
         {this.state.isOpened ? this.renderOuter() : null}

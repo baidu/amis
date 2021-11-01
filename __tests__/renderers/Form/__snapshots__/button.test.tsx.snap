@@ -28,6 +28,10 @@ exports[`Renderer:button 1`] = `
         class="cxd-Form cxd-Form--normal"
         novalidate=""
       >
+        <input
+          style="display: none;"
+          type="submit"
+        />
         <div
           class="cxd-Form-item cxd-Form-item--normal"
           data-role="form-item"
@@ -83,10 +87,6 @@ exports[`Renderer:button 1`] = `
             </span>
           </button>
         </div>
-        <input
-          style="display: none;"
-          type="submit"
-        />
       </form>
     </div>
     <div
@@ -160,6 +160,10 @@ exports[`Renderer:button 2`] = `
         class="cxd-Form cxd-Form--normal"
         novalidate=""
       >
+        <input
+          style="display: none;"
+          type="submit"
+        />
         <div
           class="cxd-Form-item cxd-Form-item--normal"
           data-role="form-item"
@@ -215,10 +219,6 @@ exports[`Renderer:button 2`] = `
             </span>
           </button>
         </div>
-        <input
-          style="display: none;"
-          type="submit"
-        />
       </form>
     </div>
     <div
