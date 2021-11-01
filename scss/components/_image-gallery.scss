@@ -196,7 +196,7 @@
     }
 
     &.is-active {
-      border: 1px solid #108cee;
+      border: 1px solid var(--primary);
       &:after {
         display: none;
       }

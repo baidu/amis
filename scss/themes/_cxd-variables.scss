@@ -5,7 +5,7 @@ $remFactor: 16px;
 $ns: 'cxd-';
 
 $info: #2468f2;
-$primary: #2468F2;
+$primary: #2468f2;
 $success: #5fb333;
 $warning: #f39000;
 $danger: #ea2e2e;
@@ -17,7 +17,7 @@ $success-bg: #f1fdeb;
 $warning-bg: #fcf7f1;
 $danger-bg: #fff5f5;
 
-$text-color: #151A26;
+$text-color: #151a26;
 
 $Number-handler-mode: 'horizontal';
 // css 变量似乎没法用 !important，所以这里用 sass 变量
@@ -29,9 +29,9 @@ $Wizard-steps-liAfterBorder: none !important;
 :root {
   --borderColor: #eceff8;
   --body-bg: #ffffff;
-  --text-color: #151A26;
+  --text-color: #151a26;
 
-  --text--muted-color: #B4B6BA;
+  --text--muted-color: #b4b6ba;
   --text--loud-color: #333;
   --link-onHover-decoration: none;
 
@@ -47,10 +47,10 @@ $Wizard-steps-liAfterBorder: none !important;
   --Layout-brand-color: #fff;
   --Layout-asideLink-iconColor: rgba(255, 255, 255, 0.6);
   --Layout-asideLink-color: #fff;
-  --Layout-asideLink-onHover-color: #108cee;
-  --Layout-asideLink-onActive-color: #108cee;
+  --Layout-asideLink-onHover-color: var(--primary);
+  --Layout-asideLink-onActive-color: var(--primary);
   --Layout-asideLink-onHover-iconSize: #{px2rem(16px)};
-  --Layout-asideLink-onHover-iconColor: #108cee;
+  --Layout-asideLink-onHover-iconColor: var(--primary);
   --Layout-asideLink-fontSize: #{px2rem(12px)};
   --Layout-asideLink-arrowFontSize: #{px2rem(12px)};
   --Layout-asideLink-arrowColor: #8d99b0;
