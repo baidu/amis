@@ -188,6 +188,7 @@ class FroalaEditorComponent extends React.Component<FroalaEditorComponentProps> 
       if (this.editorInitialized) {
         this.setNormalTagContent(firstTime);
       } else {
+        if (!this._initEvents) this._initEvents = [];
         this._initEvents.push(() => this.setNormalTagContent());
       }
     }
