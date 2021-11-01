@@ -81,6 +81,10 @@ export interface DropdownButtonSchema extends BaseSchema {
    * 触发条件，默认是 click
    */
   trigger?: 'click' | 'hover';
+  /**
+   * 是否显示下拉按钮
+   */
+  hideCaret?: boolean;
 }
 
 export interface DropDownButtonProps
@@ -272,7 +276,8 @@ export default class DropDownButton extends React.Component<
       icon,
       isActived,
       trigger,
-      data
+      data,
+      hideCaret
     } = this.props;
 
     return (
@@ -325,9 +330,13 @@ export default class DropDownButton extends React.Component<
               )
             ) : null}
             {typeof label === 'string' ? filter(label, data) : label}
-            <span className={cx('DropDown-caret')}>
-              <Icon icon="caret" className="icon" />
-            </span>
+            {
+              !hideCaret
+              ? <span className={cx('DropDown-caret')} >
+                <Icon icon="caret" className="icon" />
+              </span>
+              : null
+            }
           </button>
         </TooltipWrapper>
         {this.state.isOpened ? this.renderOuter() : null}

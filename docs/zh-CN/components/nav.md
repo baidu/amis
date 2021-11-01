@@ -26,7 +26,12 @@ order: 58
         },
         {
             "label": "Nav 2",
-            "to": "/docs/api"
+            "to": "/docs/api",
+            "badge": {
+                "mode": "ribbon",
+                "text": "HOT",
+                "position": "top-left"
+            }
         },
         {
             "label": "Nav 3",
@@ -150,6 +155,43 @@ order: 58
 }
 ```
 
+## 更多操作
+
+```schema: scope="body"
+{
+    "type": "nav",
+    "stacked": true,
+    "className": "w-md",
+    "draggable": true,
+    "saveOrderApi": "/api/options/nav",
+    "source": "/api/options/nav?parentId=${value}",
+    "itemActions": [
+        {
+            "type": "icon",
+            "icon": "cloud",
+            "visibleOn": "this.to === '?cat=1'"
+        },
+        {
+            "type": "dropdown-button",
+            "level": "link",
+            "icon": "fa fa-ellipsis-h",
+            "hideCaret": true,
+            "buttons": [
+                {
+                    "type": "button",
+                    "label": "编辑",
+
+                },
+                {
+                    "type": "button",
+                    "label": "删除"
+                }
+            ]
+        }
+    ]
+}
+```
+
 ## 属性表
 
 | 属性名            | 类型                                     | 默认值   | 说明                                                             |
@@ -159,8 +201,13 @@ order: 58
 | stacked           | `boolean`                                | `true`   | 设置成 false 可以以 tabs 的形式展示                              |
 | source            | `string` 或 [API](../../docs/types/api)  |          | 可以通过变量或 API 接口动态创建导航                              |
 | deferApi          | [API](../../docs/types/api)              |          | 用来延时加载选项详情的接口，可以不配置，不配置公用 source 接口。 |
+| itemActions       |  [SchemaNode](../../docs/types/schemanode) |          | 更多操作相关配置                                |
+| draggable         | `boolean`                                |          | 是否支持拖拽排序                                                 |
+| saveOrderApi      |  `string` 或 [API](../../docs/types/api) |           |保存排序的 api                                                 |
+| badge             | [BadgeSchema](../../components/badge)|          | 角标                                                       |
 | links             | `Array`                                  |          | 链接集合                                                         |
-| links[x].label    | `string`                                 |          | 名称                                                             |
+| links[x].label    | `string`                                 |          | 名称                                                            |
+| links[x].badge     | [BadgeSchema](../../components/badge)|          | 角标，会覆盖全局角标配置                                          |
 | links[x].to       | [模板](../../docs/concepts/template)     |          | 链接地址                                                         |
 | links[x].target   | `string`                                 | 链接关系 |                                                                  |
 | links[x].icon     | `string`                                 |          | 图标                                                             |

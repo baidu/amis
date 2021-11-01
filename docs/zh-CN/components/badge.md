@@ -68,7 +68,18 @@ order: 30
     "badge": {
       "position": "top-left"
     }
-  }
+  },
+  {
+    "type": "divider"
+  },
+  {
+    "type": "action",
+    "label": "按钮",
+    "badge": {
+      "mode": "ribbon",
+      "text": "HOT"
+    }
+  },
 ]
 ```
 
@@ -345,13 +356,13 @@ order: 30
 
 | 属性名         | 类型                 | 默认值      | 说明                                                            |
 | ------------- | ------------------- | ---------- | ----------------------------------------------------------------|
-| mode          | `string`            |  dot       | 角标类型，可以是 dot/text                                          |
+| mode          | `string`            |  dot       | 角标类型，可以是 dot/text/ribbon                                   |
 | text          | `text`、`number`    |            | 角标文案，支持字符串和数字，在mode='dot'下设置无效                      |
 | size          | `number`            |            | 角标大小                                                          |
 | level         | `string`            |            | 角标级别, 可以是info/success/warning/danger, 设置之后角标背景颜色不同   |
 | overflowCount | `number`            |   99       | 设置封顶的数字值                                                    |
 | position      | `string`            | top-right  | 角标位置， 可以是top-right/top-left/bottom-right/bottom-left        |
-| offset        | `number[top, left]` |            | 角标位置，优先级大于position，当设置了offset后，以postion为top-right为基准进行定位 
+| offset        | `number[top, left]` |            | 角标位置，优先级大于position，当设置了offset后，以postion为top-right为基准进行定位
 | className     | `string`            |            | 外层 dom 的类名                                                    |
 | animation     | `boolean`           |            | 角标是否显示动画                                                    |
 | style         | `object`            |            | 角标的自定义样式                                                    |
