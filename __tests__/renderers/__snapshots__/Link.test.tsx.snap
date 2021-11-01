@@ -5,9 +5,16 @@ exports[`Renderer:link 1`] = `
   <a
     class="cxd-Link show"
     href="https://www.baidu.com"
-    target="_blank"
+    style="color: rgb(16, 140, 238); cursor: pointer;"
+    target="_self"
   >
+    <i
+      style="display: inline-block;"
+    />
     https://www.baidu.com
+    <i
+      style="display: none;"
+    />
   </a>
 </div>
 `;
