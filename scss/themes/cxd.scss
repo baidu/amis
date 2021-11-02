@@ -43,3 +43,70 @@
     }
   }
 }
+
+// input选择器模式
+.#{$ns}TextControl-sugs {
+  border-radius: px2rem(3px);
+  top: calc(var(--Form-input-height) + #{px2rem(4px)});
+  box-shadow: #{px2rem(2px)} #{px2rem(4px)} #{px2rem(8px)} rgba(0, 0, 0, 0.2);
+  border: none;
+}
+
+.#{$ns}Select {
+  .#{$ns}PopOver {
+    top: calc(var(--Form-input-height) + #{px2rem(4px)}) !important;
+    .#{$ns}Select-menu {
+      border-radius: #{$R3};
+      .#{$ns}Select-option {
+        height: var(--Form-input-height);
+        padding: px2rem(5px) px2rem(12px);
+      }
+    }
+  }
+}
+
+.#{$ns}NestedSelectControl {
+  .#{$ns}PopOver {
+    top: calc(var(--Form-input-height) + #{px2rem(4px)}) !important;
+    .#{$ns}NestedSelect-menuOuter {
+      .#{$ns}NestedSelect-menu {
+        border-radius: #{$R3};
+        .#{$ns}NestedSelect-option {
+          height: var(--Form-input-height);
+          padding: 0 px2rem(12px);
+          .#{$ns}NestedSelect-optionArrowRight {
+            padding-right: 0;
+          }
+        }
+
+        &:not(:first-child) {
+          margin-left: 2px;
+        }
+      }
+    }
+  }
+}
+
+.#{$ns}TreeSelectControl {
+  .#{$ns}PopOver {
+    top: calc(var(--Form-input-height) + #{px2rem(4px)}) !important;
+    box-shadow: var(--boxShadow);
+    .#{$ns}Tree {
+      border-radius: #{$R3};
+      border: none;
+    }
+  }
+}
+
+.#{$ns}DropDown {
+  .#{$ns}DropDown-menu {
+    top: calc(var(--Form-input-height) + #{px2rem(4px)}) !important;
+    border: none;
+    > li {
+      color: #{$G2};
+    }
+    > li.is-disabled {
+      color: #{$G6};
+    }
+  }
+}
