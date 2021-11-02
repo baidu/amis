@@ -1,44 +1,27 @@
 import React from 'react';
 
-import PropTypes from 'prop-types';
 import {Renderer, RendererProps} from '../factory';
-import {
-  SchemaNode,
-  Schema,
-  Action,
-  Api,
-  ApiObject,
-  PlainObject
-} from '../types';
+import {SchemaNode, Schema, Action, PlainObject} from '../types';
 import {CRUDStore, ICRUDStore} from '../store/crud';
 import {
   createObject,
   extendObject,
   anyChanged,
   isObjectShallowModified,
-  noop,
   isVisible,
   getPropValue,
   getVariable,
   qsstringify,
   qsparse
 } from '../utils/helper';
-import {observer} from 'mobx-react';
-import partition from 'lodash/partition';
-import Scoped, {ScopedContext, IScopedContext} from '../Scoped';
+import {ScopedContext, IScopedContext} from '../Scoped';
 import Button from '../components/Button';
 import Select from '../components/Select';
 import getExprProperties from '../utils/filter-schema';
 import pick from 'lodash/pick';
 import {findDOMNode} from 'react-dom';
 import {evalExpression, filter} from '../utils/tpl';
-import {
-  isValidApi,
-  buildApi,
-  isEffectiveApi,
-  isApiOutdated,
-  str2AsyncFunction
-} from '../utils/api';
+import {isEffectiveApi, isApiOutdated, str2function} from '../utils/api';
 import omit from 'lodash/omit';
 import find from 'lodash/find';
 import findIndex from 'lodash/findIndex';
@@ -49,7 +32,6 @@ import {
   BaseSchema,
   SchemaApi,
   SchemaClassName,
-  SchemaCollection,
   SchemaExpression,
   SchemaMessage,
   SchemaName,
@@ -659,7 +641,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
       store.setCurrentAction(action);
       let onClick = action.onClick;
       if (typeof onClick === 'string') {
-        onClick = str2AsyncFunction(onClick, 'event', 'props', 'data');
+        onClick = str2function(onClick, 'event', 'props', 'data');
       }
       onClick && onClick(e, this.props, ctx);
     } else {
