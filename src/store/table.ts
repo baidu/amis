@@ -414,8 +414,8 @@ export const TableStore = iRendererStore
       return getMovedRows().length;
     }
 
-    function getHoverIndex(): number {
-      return self.rows.findIndex(item => item.isHover);
+    function getHovedRow(): IRow | undefined {
+      return flattenTree<IRow>(self.rows).find((item: IRow) => item.isHover);
     }
 
     function getUnSelectedRows() {
@@ -583,8 +583,8 @@ export const TableStore = iRendererStore
         return getMovedRows();
       },
 
-      get hoverIndex() {
-        return getHoverIndex();
+      get hoverRow() {
+        return getHovedRow();
       },
 
       get disabledHeadCheckbox() {
