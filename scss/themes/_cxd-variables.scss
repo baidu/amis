@@ -1,11 +1,12 @@
 @import '../functions';
+@import './cxd-colors';
 
 $remFactor: 16px;
 
 $ns: 'cxd-';
 
-$info: #2468f2;
-$primary: #2468f2;
+$info: $B6;
+$primary: $B6;
 $success: #5fb333;
 $warning: #f39000;
 $danger: #ea2e2e;
@@ -31,7 +32,7 @@ $Wizard-steps-liAfterBorder: none !important;
   --body-bg: #ffffff;
   --text-color: #151a26;
 
-  --text--muted-color: #b4b6ba;
+  --text--muted-color: #{$G6};
   --text--loud-color: #333;
   --link-onHover-decoration: none;
 
@@ -70,16 +71,22 @@ $Wizard-steps-liAfterBorder: none !important;
   --Page-header-paddingY: #{px2rem(10px)};
 
   --Form-item-gap: var(--gap-base);
-  --Form-input-onFocused-bg: var(--white);
-  --Form-input-borderRadius: 0;
-  --Form-input-borderColor: #ccc;
-  --Form-input-onFocused-borderColor: var(--primary);
-  --Form-input-onError-borderColor: #d0021b;
+  --Form-input-bg: #{$G11};
+  --Form-input-color: #{$G2};
+  --Form-input-height: #{px2rem(32px)};
+  --Form-input-lineHeight: #{px2rem(32px)};
+  --Form-input-borderColor: #{$G8};
+  --Form-input-borderRadius: #{px2rem(3px)};
+  --Form-input-onHover-borderColor: #{$B6};
+  --Form-input-onFocused-bg: #{$G11};
+  --Form-input-onFocused-borderColor: #{$B7};
+  --Form-input-onError-borderColor: #{$E6};
+  --Form-input-onError-bg: #{$G11};
+  --Form-input-onDisabled-bg: #{$G10};
+  --Form-input-onDisabled-borderColor: #{$G8};
+  --Form-input-onDisabled-color: #{$G5};
   --Form-input-paddingX: #{px2rem(10px)};
   --Form-description-color: #999;
-  --Form-input-onError-bg: #fffbfb;
-  --Form-input-onDisabled-bg: #f5f5f5;
-  --Form-input-onDisabled-borderColor: #ebebeb;
   --Form--horizontal-label-whiteSpace: normal;
   --Form--horizontal-label-widthXs: #{px2rem(50px)};
   --Form--horizontal-label-widthSm: #{px2rem(70px)};
@@ -92,8 +99,8 @@ $Wizard-steps-liAfterBorder: none !important;
   --Form-input-addOnDividerBorderWidth: 0;
 
   --Form-select-borderWidth: #{px2rem(1px)};
-  --Form-select-borderRadius: 0;
-  --Form-select-borderColor: #ccc;
+  --Form-select-borderRadius: #{px2rem(3px)};
+  --Form-select-borderColor: #{$G8};
   --Form-select-bg: var(--white);
   --Form-select-onHover-bg: var(--white);
   --Form-select-onHover-borderColor: var(--primary);
@@ -151,12 +158,18 @@ $Wizard-steps-liAfterBorder: none !important;
   --Radio-size: #{px2rem(16px)};
   --Radio-inner-size: #{px2rem(10px)};
 
-  --Switch-bgColor: #ccc;
-  --Switch-borderColor: #f0f0f0;
-  --Switch-onActive-bgColor: var(--primary);
-  --Switch-onDisabled-bgColor: #f5f5f5;
-  --Switch-onDisabled-color: #ccc;
-  --Switch-onDisabled-circle-BackgroundColor: #ccc;
+  --Switch-height: #{px2rem(20px)};
+  --Switch-width: #{px2rem(44px)};
+  --Switch-valueColor: #{$G11};
+  --Switch-bgColor: #{$G7};
+  --Switch-onActive-bgColor: #{$G6};
+  --Switch-onHover-bgColor: #{$G6};
+  --Switch-checked-bgColor: var(--primary);
+  --Switch-checked-onHover-bgColor: #{$B7};
+  --Switch-checked-onActive-bgColor: #{$B7};
+  --Switch-onDisabled-bgColor: #{$B2};
+  --Switch-onDisabled-color: #{$G11};
+  // --Switch-onDisabled-circle-BackgroundColor: #fff;
 
   --ColorPicker-borderWidth: #{px2rem(1px)};
   --ColorPicker-borderRadius: 0;
@@ -188,9 +201,10 @@ $Wizard-steps-liAfterBorder: none !important;
   --Button-borderWidth: #{px2rem(1px)};
   --Button-boxShadow: none;
   --Button-onActive-boxShadow: none;
-  // --Button-borderRadius: 0;
-  --Button--lg-borderRadius: 0;
-  --Button--sm-borderRadius: 0;
+
+  --Button-borderRadius: #{px2rem(3px)};
+  --Button--lg-borderRadius: #{px2rem(3px)};
+  --Button--sm-borderRadius: #{px2rem(3px)};
 
   --Button-paddingX: #{px2rem(10px)};
 
@@ -198,23 +212,36 @@ $Wizard-steps-liAfterBorder: none !important;
   --Button--lg-fontSize: #{px2rem(14px)};
 
   --Button--default-bg: var(--white);
-  --Button--default-border: #cccccc;
-  // --Button--default-color: #000;
-  // --Button--default-onHover-bg: var(--white);
-  // --Button--default-onHover-border: var(--primary);
-  // --Button--default-onHover-color: var(--primary);
-  // --Button--default-onActive-bg: var(--white);
-  // --Button--default-onActive-border: var(--primary);
-  // --Button--default-onActive-color: var(--primary);
+  --Button--default-border: #{$G8};
+  --Button--default-color: #{$G2};
+  --Button--default-onHover-bg: var(--white);
+  --Button--default-onHover-border: var(--primary);
+  --Button--default-onHover-color: var(--primary);
+  --Button--default-onActive-bg: var(--white);
+  --Button--default-onActive-border: #{$B7};
+  --Button--default-onActive-color: #{$B7};
+
+  --Button--emphasize-bg: var(--white);
+  --Button--emphasize-color: var(--primary);
+  --Button--emphasize-onHover-bg: var(--white);
+  --Button--emphasize-onHover-border: var(--primary);
+  --Button--emphasize-onHover-color: #{$B5};
+  --Button--emphasize-onActive-bg: var(--white);
+  --Button--emphasize-onActive-border: #{$B7};
+  --Button--emphasize-onActive-color: #{$B7};
 
   --Button--primary-bg: var(--primary);
   --Button--primary-border: var(--primary);
-  // --Button--primary-onHover-bg: #4F86F4;
-  // --Button--primary-onHover-border: #4F86F4;
+  --Button--primary-onHover-bg: #{$B5};
+  --Button--primary-onHover-border: #{$B5};
   --Button--primary-onHover-color: var(--white);
-  // --Button--primary-onActive-bg: #1C53C1;
-  // --Button--primary-onActive-border: #1C53C1;
+  --Button--primary-onActive-bg: #{$B7};
+  --Button--primary-onActive-border: #{$B7};
   --Button--primary-onActive-color: var(--white);
+
+  --Button-onDisabled-borderColor: #{$G9};
+  --Button-onDisabled-opacity: 0.65;
+  --Button-onDisabled-bg: #{$G9};
 
   --Button--danger-bg: #ea2e2e;
   --Button--danger-onHover-bg: #f64545;
