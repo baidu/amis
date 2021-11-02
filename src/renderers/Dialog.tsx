@@ -629,10 +629,6 @@ export class DialogRenderer extends Dialog {
   tryChildrenToHandle(action: Action, ctx: object, rawAction?: Action) {
     const scoped = this.context as IScopedContext;
 
-    if (action.fromDialog) {
-      return false;
-    }
-
     const targets: Array<any> = [];
     const {onConfirm, store} = this.props;
 
