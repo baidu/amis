@@ -7,11 +7,12 @@ $ns: 'cxd-';
 
 $info: $B6;
 $primary: $B6;
-$success: #5fb333;
-$warning: #f39000;
-$danger: #ea2e2e;
-$light: #eaf6fe;
+$success: $S6;
+$warning: $W6;
+$danger: $E6;
+$light: #1ac5ff;
 $white: #fff;
+$secondary: $G6;
 
 $info-bg: #eaf6fe;
 $success-bg: #f1fdeb;
@@ -27,8 +28,54 @@ $Wizard-steps-liAfterBorder: none !important;
 @import '../variables';
 @import '../properties';
 
+// yunshe4.0 font-size
+$T1: 10px;
+$T2: 12px;
+$T3: 14px;
+$T4: 16px;
+$T5: 18px;
+$T6: 20px;
+$T7: 22px;
+$T8: 24px;
+$T9: 28px;
+$T10: 30px;
+$T11: 32px;
+$T12: 34px;
+$T13: 36px;
+$T14: 40px;
+
+// yunshe4.0 font-weight
+$W1: 200;
+$W2: 400;
+$W3: 500;
+$W4: 600;
+
+// yunshe4.0 间距
+$H1: 4px;
+$H2: 8px;
+$H3: 16px;
+$H5: 24px;
+$H6: 32px;
+$H5: 40px;
+$H6: 48px;
+$H5: 56px;
+$H6: 80px;
+
+// yunshe4.0 border-radius
+$R1: 0;
+$R2: px2rem(2px);
+$R3: px2rem(4px);
+$R4: px2rem(6px);
+$R5: px2rem(8px);
+$R6: px2rem(10px);
+$R7: px2rem(16px);
+$R8: 50%;
+
+// yunshe4.0 box-shadow
+
 :root {
   --borderColor: #eceff8;
+  --borderRadius: #{$R3};
   --body-bg: #ffffff;
   --text-color: #151a26;
 
@@ -74,9 +121,9 @@ $Wizard-steps-liAfterBorder: none !important;
   --Form-input-bg: #{$G11};
   --Form-input-color: #{$G2};
   --Form-input-height: #{px2rem(32px)};
-  --Form-input-lineHeight: #{px2rem(32px)};
+  // --Form-input-lineHeight: #{px2rem(32px)};
   --Form-input-borderColor: #{$G8};
-  --Form-input-borderRadius: #{px2rem(3px)};
+  --Form-input-borderRadius: #{$R3};
   --Form-input-onHover-borderColor: #{$B6};
   --Form-input-onFocused-bg: #{$G11};
   --Form-input-onFocused-borderColor: #{$B7};
@@ -99,24 +146,25 @@ $Wizard-steps-liAfterBorder: none !important;
   --Form-input-addOnDividerBorderWidth: 0;
 
   --Form-select-borderWidth: #{px2rem(1px)};
-  --Form-select-borderRadius: #{px2rem(3px)};
+  --Form-select-borderRadius: #{$R3};
   --Form-select-borderColor: #{$G8};
   --Form-select-bg: var(--white);
   --Form-select-onHover-bg: var(--white);
   --Form-select-onHover-borderColor: var(--primary);
   --Form-select-placeholderColor: #999;
   --Form-select-color: #000;
-  --Form-select-caret-iconColor: #999;
-  --Form-select-caret-onHover-iconColor: var(--primary);
+  --Form-select-caret-iconColor: #{$G5};
+  --Form-select-caret-onHover-iconColor: #{$G5};
   --Form-select-caret-fontSize: #{px2rem(12px)};
   --Form-select-outer-borderWidth: 0;
   --Form-select-outer-top: #{px2rem(32px)};
   --Form-select-outer-boxShadow: #{px2rem(2px)} #{px2rem(4px)} #{px2rem(8px)} rgba(0, 0, 0, 0.2);
-  --Form-select-menu-color: #333;
-  --Form-select-menu-onHover-color: #000;
-  --Form-select-menu-onHover-bg: #eaf6fe;
+  --Form-select-menu-color: #{$G2};
+  --Form-select-menu-onHover-color: #{$G2};
+  --Form-select-menu-onHover-bg: #{$B1};
+  --Form-select-menu-onActive-color: #{$B6};
   --Form-select-menu-height: #{px2rem(24px)};
-  --Form-select-popoverGap: #{px2rem(3px)};
+  --Form-select-popoverGap: #{$R3};
   --Form-select-search-height: #{px2rem(30px)};
   --Form-selectValue-color: var(--primary);
 
@@ -202,31 +250,31 @@ $Wizard-steps-liAfterBorder: none !important;
   --Button-boxShadow: none;
   --Button-onActive-boxShadow: none;
 
-  --Button-borderRadius: #{px2rem(3px)};
-  --Button--lg-borderRadius: #{px2rem(3px)};
-  --Button--sm-borderRadius: #{px2rem(3px)};
+  --Button-borderRadius: #{$R3};
 
-  --Button-paddingX: #{px2rem(10px)};
+  --Button-paddingX: #{px2rem(12px)};
 
   --Button--lg-height: #{px2rem(40px)};
   --Button--lg-fontSize: #{px2rem(14px)};
+  --Button--lg-lineHeight: 30 / 20;
+  --Button--lg-paddingX: #{px2rem(16px)};
 
-  --Button--default-bg: var(--white);
+  --Button--default-bg: #{$G11};
   --Button--default-border: #{$G8};
   --Button--default-color: #{$G2};
-  --Button--default-onHover-bg: var(--white);
+  --Button--default-onHover-bg: #{$G11};
   --Button--default-onHover-border: var(--primary);
   --Button--default-onHover-color: var(--primary);
-  --Button--default-onActive-bg: var(--white);
+  --Button--default-onActive-bg: #{$G11};
   --Button--default-onActive-border: #{$B7};
   --Button--default-onActive-color: #{$B7};
 
-  --Button--emphasize-bg: var(--white);
+  --Button--emphasize-bg: #{$G11};
   --Button--emphasize-color: var(--primary);
-  --Button--emphasize-onHover-bg: var(--white);
+  --Button--emphasize-onHover-bg: #{$G11};
   --Button--emphasize-onHover-border: var(--primary);
   --Button--emphasize-onHover-color: #{$B5};
-  --Button--emphasize-onActive-bg: var(--white);
+  --Button--emphasize-onActive-bg: #{$G11};
   --Button--emphasize-onActive-border: #{$B7};
   --Button--emphasize-onActive-color: #{$B7};
 
@@ -234,23 +282,32 @@ $Wizard-steps-liAfterBorder: none !important;
   --Button--primary-border: var(--primary);
   --Button--primary-onHover-bg: #{$B5};
   --Button--primary-onHover-border: #{$B5};
-  --Button--primary-onHover-color: var(--white);
+  --Button--primary-onHover-color: #{$G11};
   --Button--primary-onActive-bg: #{$B7};
   --Button--primary-onActive-border: #{$B7};
-  --Button--primary-onActive-color: var(--white);
+  --Button--primary-onActive-color: #{$G11};
 
   --Button-onDisabled-borderColor: #{$G9};
   --Button-onDisabled-opacity: 0.65;
   --Button-onDisabled-bg: #{$G9};
 
+  // 这个颜色太奇怪了，先不用
+  // --Button--danger-bg: #{$E6};
+  // --Button--danger-onHover-bg: #{$E5};
+  // --Button--danger-onHover-border: #{$E5};
+  // --Button--danger-onActive-bg: #{$E7};
+  // --Button--danger-onActive-border: #{$E7};
+
   --Button--danger-bg: #ea2e2e;
   --Button--danger-onHover-bg: #f64545;
+  --Button--danger-onHover-border: #f64545;
   --Button--danger-onActive-bg: #d72b2b;
+  --Button--danger-onActive-border: #d72b2b;
 
   --ButtonGroup-divider-width: #{px2rem(1px)};
   --ButtonGroup-divider-color: #fff;
   --ButtonGroup--primary-isActive-color: var(--primary);
-  --ButtonGroup--primary-isActive-bg: var(--white);
+  --ButtonGroup--primary-isActive-bg: #{$G11};
 
   --Button--link-color: var(--primary);
   --Button--link-onHover-color: #209bfd;
@@ -290,6 +347,7 @@ $Wizard-steps-liAfterBorder: none !important;
   // listControl
   --ListControl-item-borderWidth: #{px2rem(1px)};
   --ListControl-item-borderColor: #ccc;
+  --ListControl-item-borderRadius: #{$R3};
   --ListControl-item-paddingX: #{px2rem(10px)};
   --ListControl-item-bg: var(--Button--default-bg);
   --ListControl-item-color: var(--Button--default-color);
@@ -298,17 +356,17 @@ $Wizard-steps-liAfterBorder: none !important;
   --ListControl-item-onHover-bg: var(--Button--default-onHover-bg);
   --ListControl-item-onHover-borderColor: var(--primary);
 
-  --ListControl-item-onActive-bg: var(--white);
-  --ListControl-item-onActive-onHover-bg: var(--white);
-  --ListControl-item-onActive-color: var(--primary);
-  --ListControl-item-onActive-borderColor: var(--primary);
-  --ListControl-item-onActive-before-bg: var(--primary);
-  --ListControl-item-onActive-after-borderColor: var(--white);
+  --ListControl-item-onActive-bg: #{$G11};
+  --ListControl-item-onActive-onHover-bg: #{$G11};
+  --ListControl-item-onActive-color: #{$B7};
+  --ListControl-item-onActive-borderColor: #{$B7};
+  --ListControl-item-onActive-before-bg: #{$B7};
+  --ListControl-item-onActive-after-borderColor: #{$G11};
 
   --ListControl-item-onDisabled-opacity: 1;
-  --ListControl-item-onDisabled-bg: #f5f5f5;
-  --ListControl-item-onDisabled-color: #999;
-  --ListControl-item-onDisabled-borderColor: #ebebeb;
+  --ListControl-item-onDisabled-bg: #{$G9};
+  --ListControl-item-onDisabled-color: #{$G6};
+  --ListControl-item-onDisabled-borderColor: #{$G9};
 
   // 图片上传
   --ImageControl-addBtn-bg: #fff;
@@ -496,4 +554,6 @@ $Wizard-steps-liAfterBorder: none !important;
   --Transfer-title-bg: var(--Table-thead-bg);
 
   --Satus-icon-width: #{px2rem(14px)};
+
+  --Tree-itemHeight: #{px2rem(32px)};
 }
