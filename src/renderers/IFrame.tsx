@@ -149,7 +149,7 @@ export default class IFrame extends React.Component<IFrameProps, object> {
 
   render() {
     const {width, height} = this.state;
-    let {className, src, frameBorder, data, style} = this.props;
+    let {className, src, name, frameBorder, data, style} = this.props;
 
     let tempStyle: any = {};
 
@@ -177,6 +177,7 @@ export default class IFrame extends React.Component<IFrameProps, object> {
 
     return (
       <iframe
+        name={name}
         className={className}
         frameBorder={frameBorder}
         style={style}
