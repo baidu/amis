@@ -61,7 +61,6 @@ class FroalaEditorComponent extends React.Component<FroalaEditorComponentProps> 
   config: any;
   editorInitialized: any;
   INNER_HTML_ATTR: any;
-  hasSpecialTag: any;
   oldModel: any;
   el: any;
   _initEvents: any;
@@ -166,7 +165,7 @@ class FroalaEditorComponent extends React.Component<FroalaEditorComponentProps> 
       this.element.innerHTML = this.props.model;
     }
 
-    this.setContent(true);
+    this.setContent();
 
     // Default initialized.
     this.registerEvent(
@@ -176,17 +175,20 @@ class FroalaEditorComponent extends React.Component<FroalaEditorComponentProps> 
 
     // Check if events are set.
     if (!this.config.events) this.config.events = {};
-    this.config.events.initialized = () => this.initListeners();
+    this.config.events.initialized = () => {
+      this.editorInitialized = true;
+      this.initListeners();
+    };
 
     this.editor = new FroalaEditor(this.element, this.config);
   }
 
-  setContent(firstTime?: boolean) {
+  setContent() {
     if (this.props.model || this.props.model == '') {
       this.oldModel = this.props.model;
 
       if (this.editorInitialized) {
-        this.setNormalTagContent(firstTime);
+        this.setNormalTagContent();
       } else {
         if (!this._initEvents) this._initEvents = [];
         this._initEvents.push(() => this.setNormalTagContent());
@@ -194,35 +196,14 @@ class FroalaEditorComponent extends React.Component<FroalaEditorComponentProps> 
     }
   }
 
-  setNormalTagContent(firstTime?: boolean) {
+  setNormalTagContent() {
     let self = this;
 
-    function htmlSet() {
-      self.editor.html && self.editor.html.set(self.props.model || '');
-      if (self.editorInitialized && self.editor.undo) {
-        //This will reset the undo stack everytime the model changes externally. Can we fix this?
-        self.editor.undo.reset();
-        self.editor.undo.saveStep();
-      }
-    }
-
-    if (firstTime) {
-      if (this.config.initOnClick) {
-        this.registerEvent('initializationDelayed', () => {
-          htmlSet();
-        });
-
-        this.registerEvent('initialized', () => {
-          this.editorInitialized = true;
-        });
-      } else {
-        this.registerEvent('initialized', () => {
-          this.editorInitialized = true;
-          htmlSet();
-        });
-      }
-    } else {
-      htmlSet();
+    self.editor.html && self.editor.html.set(self.props.model || '');
+    if (self.editorInitialized && self.editor.undo) {
+      //This will reset the undo stack everytime the model changes externally. Can we fix this?
+      self.editor.undo.reset();
+      self.editor.undo.saveStep();
     }
   }
 
@@ -232,6 +213,7 @@ class FroalaEditorComponent extends React.Component<FroalaEditorComponentProps> 
       this.listeningEvents.length = 0;
       this.element = null;
       this.editorInitialized = false;
+      this._initEvents = [];
     }
   }
 
@@ -250,31 +232,9 @@ class FroalaEditorComponent extends React.Component<FroalaEditorComponentProps> 
 
     let modelContent = '';
 
-    if (this.hasSpecialTag) {
-      let attributeNodes = this.element.attributes;
-      let attrs: any = {};
-
-      for (let i = 0; i < attributeNodes.length; i++) {
-        let attrName = attributeNodes[i].name;
-        if (
-          this.config.reactIgnoreAttrs &&
-          this.config.reactIgnoreAttrs.indexOf(attrName) != -1
-        ) {
-          continue;
-        }
-        attrs[attrName] = attributeNodes[i].value;
-      }
-
-      if (this.element.innerHTML) {
-        attrs[this.INNER_HTML_ATTR] = this.element.innerHTML;
-      }
-
-      modelContent = attrs;
-    } else {
-      let returnedHtml = this.editor.html.get();
-      if (typeof returnedHtml === 'string') {
-        modelContent = returnedHtml;
-      }
+    let returnedHtml = this.editor.html.get();
+    if (typeof returnedHtml === 'string') {
+      modelContent = returnedHtml;
     }
 
     this.oldModel = modelContent;
