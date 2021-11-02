@@ -1031,8 +1031,10 @@ export const TableStore = iRendererStore
         if (idx === -1) {
           // 如果上一个是选中状态，则将之间的所有 check 都变成可选
           if (lastCheckedRow.checked) {
-            if (maxLength && self.selectedRows.length < maxLength) {
-              self.selectedRows.push(rowItem);
+            if (maxLength) {
+              if (self.selectedRows.length < maxLength) {
+                self.selectedRows.push(rowItem);
+              }
             } else {
               self.selectedRows.push(rowItem);
             }
