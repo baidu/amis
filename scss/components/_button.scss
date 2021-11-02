@@ -50,7 +50,7 @@
     color: var(--text--muted-color);
     pointer-events: auto;
     border: none;
-    background: #F2F3F3;
+    background: var(--Button-onDisabled-bg);
   }
 
   &:not(:disabled):not(.is-disabled) {
@@ -133,8 +133,6 @@ fieldset:disabled a.#{$ns}Button {
     var(--Button--enhance-onActive-color)
   );
 }
-
-
 
 .#{$ns}Button--info {
   @include button-variant(
@@ -336,7 +334,7 @@ fieldset:disabled a.#{$ns}Button {
   &.is-disabled {
     color: var(--text--muted-color);
     pointer-events: none;
-    background: #F2F3F3;
+    background: var(--Button-onDisabled-bg);
   }
 }
 

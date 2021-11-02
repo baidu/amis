@@ -18,12 +18,22 @@
     &::placeholder {
       color: var(--Form-input-placeholderColor);
     }
+
+    // yunshe4.0
+    &:hover {
+      border-color: var(--Form-input-onHover-borderColor);
+    }
   }
 
   & > textarea:focus,
   &.is-focused > textarea {
     border-color: var(--Form-input-onFocused-borderColor);
     box-shadow: var(--Form-input-boxShadow);
+
+    // yunshe4.0
+    &:hover {
+      border-color: var(--Form-input-onFocused-borderColor);
+    }
   }
 
   &.is-disabled > textarea,

@@ -3,3 +3,43 @@
 @import './cxd-variables';
 
 @import './common';
+
+.#{$ns}Switch {
+  .text {
+    margin: 0 px2rem(8px) 0 px2rem(25px);
+    vertical-align: super;
+  }
+  .slider {
+    &:before {
+      width: calc(var(--Switch-height) - #{px2rem(4px)});
+      top: px2rem(2px);
+      bottom: px2rem(2px);
+    }
+  }
+  &:active {
+    .slider::before {
+      width: calc(var(--Switch-height) + #{px2rem(2px)});
+      border-radius: 10px;
+    }
+  }
+  &:hover {
+    background: var(--Switch-onHover-bgColor);
+  }
+  &.is-checked {
+    background: var(--Switch-checked-bgColor);
+
+    .slider::before {
+      right: px2rem(2px);
+    }
+
+    .text {
+      margin: 0 px2rem(25px) 0 px2rem(8px);
+    }
+    &:hover {
+      background: var(--Switch-checked-onHover-bgColor);
+    }
+    &:active {
+      background: var(--Switch-checked-onActive-bgColor);
+    }
+  }
+}

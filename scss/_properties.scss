@@ -5,8 +5,8 @@
   --white: #{$white};
   // 因为运行不支持颜色计算，所以用 css 变量的方式需要多定义几个变量
   --primary: #{$primary};
-  --primary-onHover: #4F86F4;
-  --primary-onActive:#1C53C1;
+  --primary-onHover: #4f86f4;
+  --primary-onActive: #1c53c1;
   --secondary: #{$secondary};
   --secondary-onHover: #{darken($secondary, 7.5%)};
   --secondary-onActive: #{darken($secondary, 10%)};
@@ -324,6 +324,7 @@
   --Button-onActive-border: var(--primary);
   --Button-onDisabled-borderColor: #dee2e6;
   --Button-onDisabled-opacity: 0.65;
+  --Button-onDisabled-bg: #f2f3f3;
   --Button-onFocus-boxShadow: none;
   --Button-paddingX: #{px2rem(12px)};
   --Button-paddingX-right: #{px2rem(10px)};
@@ -655,6 +656,7 @@
       ) / 2
   );
   --Form-input-placeholderColor: var(--text--muted-color);
+  --Form-input-onDisabled-color: var(--text--muted-color);
 
   --Form-item-gap: var(--gap-base);
 
