@@ -36,7 +36,8 @@ import {
   isValidApi,
   buildApi,
   isEffectiveApi,
-  isApiOutdated
+  isApiOutdated,
+  str2AsyncFunction
 } from '../utils/api';
 import omit from 'lodash/omit';
 import find from 'lodash/find';
@@ -654,6 +655,13 @@ export default class CRUD extends React.Component<CRUDProps, any> {
       return Promise.resolve({
         items: store.selectedItems.concat()
       });
+    } else if (action.onClick) {
+      store.setCurrentAction(action);
+      let onClick = action.onClick;
+      if (typeof onClick === 'string') {
+        onClick = str2AsyncFunction(onClick, 'event', 'props', 'data');
+      }
+      onClick && onClick(e, this.props, ctx);
     } else {
       onAction(e, action, ctx, throwErrors, delegate || this.context);
     }
