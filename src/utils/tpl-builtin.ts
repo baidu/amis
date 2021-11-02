@@ -383,11 +383,26 @@ export const filters: {
   first: input => input && input[0],
   nth: (input, nth = 0) => input && input[nth],
   last: input => input && (input.length ? input[input.length - 1] : null),
-  minus: (input, step = 1) => stripNumber((Number(input) || 0) - Number(step)),
-  plus: (input, step = 1) => stripNumber((Number(input) || 0) + Number(step)),
-  times: (input, step = 1) => stripNumber((Number(input) || 0) * Number(step)),
-  division: (input, step = 1) =>
-    stripNumber((Number(input) || 0) / Number(step)),
+  minus(input, step = 1) {
+    return stripNumber(
+      (Number(input) || 0) - Number(getStrOrVariable(step, this))
+    );
+  },
+  plus(input, step = 1) {
+    return stripNumber(
+      (Number(input) || 0) + Number(getStrOrVariable(step, this))
+    );
+  },
+  times(input, step = 1) {
+    return stripNumber(
+      (Number(input) || 0) * Number(getStrOrVariable(step, this))
+    );
+  },
+  division(input, step = 1) {
+    return stripNumber(
+      (Number(input) || 0) / Number(getStrOrVariable(step, this))
+    );
+  },
   count: (input: any) =>
     Array.isArray(input) || typeof input === 'string' ? input.length : 0,
   sum: (input, field) => {

@@ -1148,12 +1148,50 @@ ${xxx | objectToArray[:key][:value]}
 ${xxx|plus:2}
 ```
 
+还可以是另一个变量，比如
+
+```
+${xxx|plus:yyy}
+```
+
+```schema
+{
+  "type": "page",
+  "data": {
+    "xxx": 10,
+    "yyy": 2
+  },
+  "body": {
+    "type": "tpl",
+    "tpl": "${xxx|plus:yyy}"
+  }
+}
+```
+
+下面的减法乘法和除法也都支持变量
+
 ### minus
 
 减法运算比如减 2
 
 ```
 ${xxx|minus:2}
+```
+
+### times
+
+乘法运算
+
+```
+${xxx|division:2}
+```
+
+### division
+
+除法运算
+
+```
+${xxx|division:2}
 ```
 
 ### sum
