@@ -311,13 +311,13 @@ export class ToastMessage extends React.Component<
               {showIcon === false ? null : (
                 <div className={cx('Toast-icon')}>
                   {level === 'success' ? (
-                    <Icon icon="success" className="icon" />
+                    <Icon icon="status-success" className="icon" />
                   ) : level == 'error' ? (
-                    <Icon icon="fail" className="icon" />
+                    <Icon icon="status-fail" className="icon" />
                   ) : level == 'info' ? (
-                    <Icon icon="info-circle" className="icon" />
+                    <Icon icon="status-info" className="icon" />
                   ) : level == 'warning' ? (
-                    <Icon icon="warning" className="icon" />
+                    <Icon icon="status-warning" className="icon" />
                   ) : null}
                 </div>
               )}
@@ -327,7 +327,7 @@ export class ToastMessage extends React.Component<
 
               {closeButton ? (
                 <a onClick={this.close} className={cx(`Toast-close`)}>
-                  <Icon icon="close" className="icon" />
+                  <Icon icon="status-close" className="icon" />
                 </a>
               ) : null}
             </div>
