@@ -176,8 +176,8 @@ export default class Collapse extends React.Component<
           onClick={this.toggleCollapsed}
           className={cx(`Collapse-header`, headingClassName)}
         >
-          {render('heading', finalTitle)}
           {collapsable && <span className={cx('Collapse-arrow')} />}
+          {render('heading', finalTitle)}
         </HeadingComponent>
       ) : null,
 

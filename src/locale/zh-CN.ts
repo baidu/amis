@@ -99,7 +99,7 @@ register('zh-CN', {
   'File.start': '开始上传',
   'File.upload': '上传文件',
   'File.uploadFailed': '接口返回错误，请仔细检查',
-  'File.uploading': '文件上传中',
+  'File.uploading': '上传中...',
   'Form.loadOptionsFailed': '加载选项失败，原因：{{reason}}',
   'Form.submit': '提交',
   'Form.title': '表单',
