@@ -1010,7 +1010,7 @@ export default class ComboControl extends React.Component<ComboProps> {
                 {deleteIcon ? (
                   <i className={deleteIcon} />
                 ) : (
-                  <Icon icon="close" className="icon" />
+                  <Icon icon="status-close" className="icon" />
                 )}
               </div>
             );
@@ -1189,7 +1189,7 @@ export default class ComboControl extends React.Component<ComboProps> {
                     {deleteIcon ? (
                       <i className={deleteIcon} />
                     ) : (
-                      <Icon icon="close" className="icon" />
+                      <Icon icon="status-close" className="icon" />
                     )}
                   </a>
                 );

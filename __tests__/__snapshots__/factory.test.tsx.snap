@@ -320,8 +320,8 @@ exports[`factory:definitions 1`] = `
                             data-tooltip="删除"
                           >
                             <icon-mock
-                              classname="icon icon-close"
-                              icon="close"
+                              classname="icon icon-status-close"
+                              icon="status-close"
                             />
                           </a>
                         </div>
