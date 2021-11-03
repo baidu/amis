@@ -41,6 +41,8 @@ import ReloadIcon from '../icons/reload.svg';
 import ExchangeIcon from '../icons/exchange.svg';
 import ColmunsIcon from '../icons/columns.svg';
 import CalendarIcon from '../icons/calendar.svg';
+import ClockIcon from '../icons/clock.svg';
+
 import CopyIcon from '../icons/copy.svg';
 import FilterIcon from '../icons/filter.svg';
 import CaretIcon from '../icons/caret.svg';
@@ -138,6 +140,7 @@ registerIcon('reload', ReloadIcon);
 registerIcon('exchange', ExchangeIcon);
 registerIcon('columns', ColmunsIcon);
 registerIcon('calendar', CalendarIcon);
+registerIcon('clock', ClockIcon);
 registerIcon('copy', CopyIcon);
 registerIcon('filter', FilterIcon);
 registerIcon('column-filter', ColumnFilterIcon);

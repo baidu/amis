@@ -56,10 +56,10 @@ $H2: 8px;
 $H3: 16px;
 $H5: 24px;
 $H6: 32px;
-$H5: 40px;
-$H6: 48px;
-$H5: 56px;
-$H6: 80px;
+$H7: 40px;
+$H8: 48px;
+$H9: 56px;
+$H10: 80px;
 
 // yunshe4.0 border-radius
 $R1: 0;
@@ -383,21 +383,30 @@ $R8: 50%;
   --ImageControl-addBtn-onDisabled-color: #ccc;
 
   // Modal
+  --Modal-title-fontSize: #{$T3};
+  --Modal-title-color: #{$W3};
+  --Modal-title-fontWeight: #{$G2};
   --Modal-overlay-bg: rgba(0, 0, 0, 0.7);
   --Modal-content-borderWidth: 0;
   --Modal-content-borderRadius: 0;
   --Modal-content-minHeight: #{px2rem(193px)};
-  --Modal-header-bg: #f6f7fb;
+  --Modal-header-bg: #fff;
+  --Modal-header-paddingY: 0;
+  --Modal-header-paddingX: 0;
   --Modal-title-color: #333;
   --Modal-body-paddingY: var(--gap-md);
   --Modal-body-paddingX: var(--gap-md);
   --Modal-body-borderTop: none;
-  --Modal-body-borderBottom: #{px2rem(1px)} solid #eceff8;
-  --Modal-footer-marginX: var(--gap-md);
-  --Modal-footer-padding: var(--gap-base) 0;
+  --Modal-body-borderBottom: none;
+  --Modal-footer-marginX: 0;
+  --Modal-footer-marginY: 0;
+  --Modal-footer-padding: 0;
 
   // Drawer
+  --Drawer-header-padding: #{px2rem(16px)} #{px2rem(24px)};
   --Drawer-widthBase: #{px2rem(400px)};
+  --Drawer-header-bg: #fff;
+  --Drawer-body-padding: #{px2rem(24px)};
 
   // Remark
   --Remark-icon-fontSize: #{px2rem(12px)};

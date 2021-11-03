@@ -129,6 +129,10 @@
   }
 }
 
+.#{$ns}Button--iconOnly {
+  min-width: var(--Button-height);
+}
+
 .#{$ns}Alert {
   font-weight: #{$W2};
   .#{$ns}Alert-close {
@@ -181,6 +185,151 @@
     .#{$ns}ListCheckboxes-item {
       padding-left: #{px2rem(16px)};
       padding-right: #{px2rem(16px)};
+    }
+  }
+}
+
+.#{$ns}Modal {
+  box-shadow: var(--boxShadow);
+  &-content {
+    padding: #{px2rem(24px)};
+    border-radius: #{$R4};
+  }
+
+  &-body {
+    padding: #{px2rem(16px)} 0 #{px2rem(24px)} 0;
+    font-size: #{$T2};
+    font-weight: #{$W2};
+  }
+
+  &-footer {
+    .#{$ns}Button {
+      margin-left: #{px2rem(16px)};
+    }
+  }
+}
+
+.#{$ns}Drawer {
+  &-content {
+    border-radius: #{$R4};
+  }
+  &-header {
+    border-radius: #{$R4} 0 0 0;
+  }
+  &-title {
+    font-size: #{$T3};
+    font-weight: #{$W3};
+  }
+
+  &-body {
+    font-size: #{$T3};
+    font-weight: #{$W2};
+  }
+}
+
+.#{$ns}Drawer--right {
+  .#{$ns}Drawer-footer {
+    justify-content: flex-end;
+    .#{$ns}Button {
+      margin-left: #{px2rem(16px)};
+    }
+  }
+}
+
+.#{$ns}Drawer--left {
+  .#{$ns}Drawer-footer {
+    .#{$ns}Button {
+      margin-left: #{px2rem(16px)};
+    }
+  }
+}
+
+.#{$ns}Drawer--top,
+.#{$ns}Drawer--bottom {
+  .#{$ns}Drawer-footer {
+    .#{$ns}Button {
+      margin-left: #{px2rem(16px)};
+    }
+  }
+}
+
+.#{$ns}Steps {
+  .#{$ns}StepsItem {
+    &-container {
+      &Icon {
+        padding-right: #{px2rem(8px)};
+        .#{$ns}StepsItem-icon {
+          width: #{px2rem(24px)};
+          height: #{px2rem(24px)};
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          svg {
+            width: #{px2rem(12px)};
+            height: #{px2rem(12px)};
+          }
+        }
+
+        &Wrapper {
+          .#{$ns}StepsItem-body {
+            .#{$ns}StepsItem-title {
+              &:after {
+                padding-right: #{px2rem(8px)};
+              }
+            }
+            .#{$ns}StepsItem-subTitle {
+              padding-left: #{px2rem(8px)};
+            }
+          }
+        }
+      }
+    }
+  }
+  &--vertical {
+    .#{$ns}StepsItem {
+      &-container {
+        &Icon > .#{$ns}StepsItem-icon {
+          &:after {
+            top: px2rem(28px);
+            left: px2rem(10px);
+            transform: translate(px2rem(1px));
+          }
+        }
+      }
+    }
+  }
+  .#{$ns}StepsItem.is-finish {
+    .#{$ns}StepsItem-icon {
+      color: var(--Steps-status-success);
+      background-color: var(--white);
+    }
+  }
+
+  .#{$ns}StepsItem.is-error {
+    .#{$ns}StepsItem-icon {
+      color: var(--Steps-status-error);
+      background-color: var(--white);
+      border: 1px solid var(--Steps-status-error);
+    }
+  }
+}
+
+.#{$ns}Form-feedback {
+  list-style-type: none;
+  padding-left: 0;
+}
+
+.#{$ns}Form-label {
+  font-size: #{$T3};
+  color: #{$G4};
+}
+
+.#{$ns}Form-item {
+  &--inline {
+    .#{$ns}Form-label {
+      margin-right: #{px2rem(16px)};
+      font-size: #{$T3};
+      color: #{$G4};
     }
   }
 }
