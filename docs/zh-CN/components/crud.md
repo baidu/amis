@@ -2198,6 +2198,48 @@ CRUD 中不限制有多少个单条操作、添加一个操作对应的添加一
 
 注意这个属性和 `checkOnItemClick` 冲突，因为都是定义行的点击行为，开启 `itemAction` 后 `checkOnItemClick` 将会失效。
 
+> 1.4.2 及以上版本
+
+itemAction 里的 onClick 还能通过 `data` 参数拿到当前行的数据，方便进行下一步操作
+
+```schema: scope="body"
+{
+    "type": "crud",
+    "api": "/api/sample",
+    "syncLocation": false,
+    "itemAction": {
+      "type": "button",
+      "onClick": "console.log(data); alert(data.engine)"
+    },
+    "columns": [
+        {
+            "name": "id",
+            "label": "ID"
+        },
+        {
+            "name": "engine",
+            "label": "Rendering engine"
+        },
+        {
+            "name": "browser",
+            "label": "Browser"
+        },
+        {
+            "name": "platform",
+            "label": "Platform(s)"
+        },
+        {
+            "name": "version",
+            "label": "Engine version"
+        },
+        {
+            "name": "grade",
+            "label": "CSS grade"
+        }
+    ]
+}
+```
+
 ## 属性表
 
 | 属性名                                | 类型                        | 默认值                          | 说明                                                                                                                  |
