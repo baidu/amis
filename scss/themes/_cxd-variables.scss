@@ -229,6 +229,19 @@ $R8: 50%;
   --ColorPicker-onDisabled-bg: #f5f5f5;
   --ColorPicker-onDisabled-color: #999;
 
+  --Collapse-border: #{px2rem(1px)} solid #{$G8};
+  --Collapse-border-color: #{$G8};
+  --Collapse-header-fontSize: #{$T3};
+  --Collapse-header-fontWeight: #{$W3};
+  --Collapse-header-padding: #{px2rem(16px)};
+  --Collapse-header-bg: #{$G10};
+  --Collapse-header-onHover-bg: #{$G9};
+  --Collapse-header-collapsed-borderBottom: none;
+  --Collapse-content-padding: #{px2rem(16px)};
+  --Collapse-content-color: #{$G4};
+  --Collapse-content-fontSize: #{$T2};
+  --Collapse-content-fontWeight: #{$W2};
+
   --DatePicker-borderWidth: #{px2rem(1px)};
   --DatePicker-borderRadius: #{$R3};
   --DatePicker-bg: var(--white);
@@ -241,6 +254,9 @@ $R8: 50%;
   --DatePicker-onHover-iconColor: var(--primary);
   --DatePicker-onHover-borderColor: var(--primary);
 
+  --LocationPicker-borderRadius: #{$R3};
+
+  --Calendar-input-borderRadius: 0;
   --Calendar-input-borderRadius: #{$R3};
   --Calendar-shortcuts-bg: #f5f5f5;
   --Calendar-shortcuts-height: #{px2rem(30px)};
@@ -371,6 +387,7 @@ $R8: 50%;
   // 图片上传
   --ImageControl-addBtn-bg: #fff;
   --ImageControl-addBtn-border: #dbdbdb;
+  --ImageControl-addBtn-borderRadius: #{$R3};
   --ImageControl-addBtn-color: #666;
   --ImageControl-addBtn-onHover-bg: var(--ImageControl-addBtn-bg);
   --ImageControl-addBtn-onHover-border: var(--primary);
@@ -381,6 +398,10 @@ $R8: 50%;
   --ImageControl-addBtn-onDisabled-bg: #f5f5f5;
   --ImageControl-addBtn-onDisabled-border: #ebebeb;
   --ImageControl-addBtn-onDisabled-color: #ccc;
+  --ImageControl-progress-borderRadius: #{$R2};
+
+  // 文件上传
+  --FileControl-progress-borderRadius: #{$R2};
 
   // Modal
   --Modal-overlay-bg: rgba(0, 0, 0, 0.7);
