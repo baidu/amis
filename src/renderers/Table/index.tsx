@@ -16,7 +16,8 @@ import {
   autobind,
   isArrayChildrenModified,
   getVariable,
-  removeHTMLTag
+  removeHTMLTag,
+  eachTree
 } from '../../utils/helper';
 import {
   isPureVariable,
@@ -50,6 +51,7 @@ import {TableBody} from './TableBody';
 import {TplSchema} from '../Tpl';
 import {MappingSchema} from '../Mapping';
 import {isAlive, getSnapshot} from 'mobx-state-tree';
+import ItemActionsWrapper from './ItemActionsWrapper';
 
 /**
  * 表格列，不指定类型时默认为文本类型。
@@ -1111,7 +1113,7 @@ export default class Table extends React.Component<TableProps, object> {
 
   handleMouseMove(e: React.MouseEvent<any>) {
     const tr: HTMLElement = (e.target as HTMLElement).closest(
-      'tr[data-index]'
+      'tr[data-id]'
     ) as HTMLElement;
 
     if (!tr) {
@@ -1129,20 +1131,20 @@ export default class Table extends React.Component<TableProps, object> {
       return;
     }
 
-    const index = parseInt(tr.getAttribute('data-index') as string, 10);
+    const id = tr.getAttribute('data-id') as string;
+    const row = store.hoverRow;
 
-    if (store.hoverIndex === index) {
+    if (row?.id === id) {
       return;
     }
-    store.rows.forEach((item, key) => item.setIsHover(index === key));
+    eachTree<IRow>(store.rows, (item: IRow) => item.setIsHover(item.id === id));
   }
 
   handleMouseLeave() {
     const store = this.props.store;
+    const row = store.hoverRow;
 
-    if (~store.hoverIndex) {
-      store.rows[store.hoverIndex].setIsHover(false);
-    }
+    row?.setIsHover(false);
   }
 
   draggingTr: HTMLTableRowElement;
@@ -2450,27 +2452,9 @@ export default class Table extends React.Component<TableProps, object> {
     if (!finalActions.length) {
       return null;
     }
-    const rowIndex = store.hoverIndex;
-    const heights = this.heights;
-    let height = 40;
-    let top = 0;
-
-    if (heights && heights[rowIndex]) {
-      height = heights[rowIndex];
-      top += heights.header;
-      for (let i = rowIndex - 1; i >= 0; i--) {
-        top += heights[i];
-      }
-    }
 
     return (
-      <div
-        className={cx('Table-itemActions-wrap')}
-        style={{
-          top,
-          height
-        }}
-      >
+      <ItemActionsWrapper store={store} classnames={cx}>
         <div className={cx('Table-itemActions')}>
           {finalActions.map((action, index) =>
             render(
@@ -2481,14 +2465,14 @@ export default class Table extends React.Component<TableProps, object> {
               },
               {
                 key: index,
-                item: store.rows[rowIndex],
-                data: store.rows[rowIndex].locals,
-                rowIndex
+                item: store.hoverRow,
+                data: store.hoverRow!.locals,
+                rowIndex: store.hoverRow!.index
               }
             )
           )}
         </div>
-      </div>
+      </ItemActionsWrapper>
     );
   }
 
@@ -2602,7 +2586,7 @@ export default class Table extends React.Component<TableProps, object> {
               : null}
           </div>
           {this.renderTableContent()}
-          {~store.hoverIndex ? this.renderItemActions() : null}
+          {store.hoverRow ? this.renderItemActions() : null}
         </div>
         {this.renderAffixHeader(tableClassName)}
         {footer}

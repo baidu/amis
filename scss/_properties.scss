@@ -221,7 +221,7 @@
   );
   --Button--light-bg: var(--light);
   --Button--light-border: var(--borderColor);
-  --Button--light-color: var(--text-color);
+  --Button--light-color: var(--button-color);
   --Button--light-onActive-bg: #{darken($light, 10%)};
   --Button--light-onActive-border: #{darken($light, 12.5%)};
   --Button--light-onActive-color: var(--Button--light-color);
@@ -858,6 +858,7 @@
   --ListControl-item-bg: var(--white);
   --ListControl-item-borderColor: var(--borderColor);
   --ListControl-item-borderWidth: var(--borderWidth);
+  --ListControl-item-borderRadius: #{px2rem(3px)};
   --ListControl-item-color: var(--text-color);
   --ListControl-item-onActive-after-borderColor: var(--primary);
   --ListControl-item-onActive-before-bg: var(--white);

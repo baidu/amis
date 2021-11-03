@@ -414,8 +414,8 @@ export const TableStore = iRendererStore
       return getMovedRows().length;
     }
 
-    function getHoverIndex(): number {
-      return self.rows.findIndex(item => item.isHover);
+    function getHovedRow(): IRow | undefined {
+      return flattenTree<IRow>(self.rows).find((item: IRow) => item.isHover);
     }
 
     function getUnSelectedRows() {
@@ -583,8 +583,8 @@ export const TableStore = iRendererStore
         return getMovedRows();
       },
 
-      get hoverIndex() {
-        return getHoverIndex();
+      get hoverRow() {
+        return getHovedRow();
       },
 
       get disabledHeadCheckbox() {
@@ -1031,8 +1031,10 @@ export const TableStore = iRendererStore
         if (idx === -1) {
           // 如果上一个是选中状态，则将之间的所有 check 都变成可选
           if (lastCheckedRow.checked) {
-            if (maxLength && self.selectedRows.length < maxLength) {
-              self.selectedRows.push(rowItem);
+            if (maxLength) {
+              if (self.selectedRows.length < maxLength) {
+                self.selectedRows.push(rowItem);
+              }
             } else {
               self.selectedRows.push(rowItem);
             }
