@@ -203,8 +203,9 @@ order: 58
 | deferApi          | [API](../../docs/types/api)              |          | 用来延时加载选项详情的接口，可以不配置，不配置公用 source 接口。 |
 | itemActions       |  [SchemaNode](../../docs/types/schemanode) |          | 更多操作相关配置                                |
 | draggable         | `boolean`                                |          | 是否支持拖拽排序                                                 |
+| dragOnSameLevel   | `boolean`                                |          | 仅允许同层级内拖拽                                              |
 | saveOrderApi      |  `string` 或 [API](../../docs/types/api) |           |保存排序的 api                                                 |
-| badge             | [BadgeSchema](../../components/badge)|          | 角标                                                       |
+| badge             | [BadgeSchema](../../components/badge)    |          | 角标                                                       |
 | links             | `Array`                                  |          | 链接集合                                                         |
 | links[x].label    | `string`                                 |          | 名称                                                            |
 | links[x].badge     | [BadgeSchema](../../components/badge)|          | 角标，会覆盖全局角标配置                                          |

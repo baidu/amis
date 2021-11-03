@@ -1,5 +1,5 @@
 import React from 'react';
-import Sortable from 'sortablejs';
+import {findDOMNode} from 'react-dom';
 import {Renderer, RendererEnv, RendererProps} from '../factory';
 import getExprProperties from '../utils/filter-schema';
 import {filter, evalExpression} from '../utils/tpl';
@@ -11,7 +11,8 @@ import {
   isUnfolded,
   mapTree,
   someTree,
-  spliceTree
+  spliceTree,
+  findTreeIndex
 } from '../utils/helper';
 import {ScopedContext, IScopedContext} from '../Scoped';
 import {themeable, ThemeProps} from '../theme';
@@ -111,6 +112,11 @@ export interface NavSchema extends BaseSchema {
    * 角标
    */
    badge?: BadgeSchema;
+
+  /**
+   * 仅允许同层级拖拽
+   */
+   dragOnSameLevel?: boolean;
 }
 
 export interface Link {
@@ -127,26 +133,44 @@ export interface Link {
   loading?: boolean;
   loaded?: boolean;
   [propName: string]: any;
-  badge?: BadgeSchema
+  badge?: BadgeSchema;
 }
 export interface Links extends Array<Link> {}
 
 export interface NavigationState {
-  links: Links;
+  links?: Links;
   error?: string;
+  canDraggable: boolean;
+  dropIndicator?: {
+    top: number;
+    left: number;
+    width: number;
+    height?: number;
+    opacity?: number;
+  };
 }
 
 export interface NavigationProps
   extends ThemeProps,
     Omit<NavSchema, 'type' | 'className'> {
   onSelect?: (item: Link) => void | false;
-  onToggle?: (item: Link) => void;
+  onToggle?: (item: Link, forceFold?: boolean) => void;
+  onDragUpdate?: (dropInfo: IDropInfo) => void;
   togglerClassName?: string;
   links?: Array<Link>;
   loading?: boolean;
   render: RendererProps['render'];
   env: RendererEnv;
+  data: Object;
   reload?: any;
+}
+
+export interface IDropInfo {
+  dragNode: Link | null;
+  node: Link;
+  position: string;
+  rect: DOMRect;
+  height: number;
 }
 
 export class Navigation extends React.Component<
@@ -156,9 +180,23 @@ export class Navigation extends React.Component<
   static defaultProps = {
     indentSize: 24
   };
-  sortable: Sortable[] = [];
-  id: string;
-  dragRef?: HTMLElement;
+
+  dragNode: Link | null;
+  dropInfo: IDropInfo | null;
+  startPoint: {
+    y: number;
+    x: number;
+  } = {
+    y: 0,
+    x: 0
+  };
+
+  constructor(props:NavigationProps) {
+    super(props);
+    this.state = {
+      canDraggable: false
+    };
+  }
 
   @autobind
   handleClick(link: Link) {
@@ -166,66 +204,136 @@ export class Navigation extends React.Component<
   }
 
   @autobind
-  toggleLink(target: Link) {
-    this.props.onToggle?.(target);
+  toggleLink(target: Link, forceFold?: boolean) {
+    this.props.onToggle?.(target, forceFold);
   }
 
   @autobind
-  dragRefFn(ref: any) {
-    const {draggable} = this.props;
-    if (ref && draggable) {
-      this.id = guid();
-      this.initDragging(ref);
-    }
+  handleMouseEnter() {
+    this.setState({
+      canDraggable: true
+    });
   }
 
-  initDragging(ref: HTMLElement) {
-    const ns = this.props.classPrefix;
-    this.sortable.push(new Sortable(
-      ref,
-      {
-        group: `nav-${this.id}`,
-        animation: 150,
-        handle: `.${ns}Nav-itemDrager`,
-        ghostClass: `${ns}Nav-item--dragging`,
-        onEnd: async (e: any) => {
-          // 没有移动
-          if (e.newIndex === e.oldIndex) {
-            return;
-          }
-          const id = e.item.getAttribute('data-id');
-          const parentNode = e.to
-          if (
-            e.newIndex < e.oldIndex &&
-            e.oldIndex < parentNode.childNodes.length - 1
-          ) {
-            parentNode.insertBefore(e.item, parentNode.childNodes[e.oldIndex + 1]);
-          } else if (e.oldIndex < parentNode.childNodes.length - 1) {
-            parentNode.insertBefore(e.item, parentNode.childNodes[e.oldIndex]);
-          } else {
-            parentNode.appendChild(e.item);
-          }
-          const links = cloneDeep(this.props.links) as Link[];
-          let parent = links;
-          someTree(links, (item: Link, key, level, paths: Link[]) => {
-            if (item.id === id) {
-              const len = paths.length - 1;
-              parent = (~len ? paths[len].children : links) as Link[];
-              return true;
-            }
-            return false;
-          });
-          parent.splice(e.newIndex, 0, parent.splice(e.oldIndex, 1)[0]);
-          const {saveOrderApi, env} = this.props;
-          if (saveOrderApi && isEffectiveApi(saveOrderApi)) {
-            await env.fetcher(saveOrderApi as SchemaApi, {data: links}, {method: 'post'});
-            this.props.reload();
-          } else {
-            console.warn('请配置saveOrderApi');
-          }
+  @autobind
+  handleMouseLeave() {
+    this.setState({
+      canDraggable: false
+    });
+  }
+
+  @autobind
+  getDropInfo(e: DragEvent, node: Link): IDropInfo {
+    const {dragOnSameLevel} = this.props;
+    let rect = (e.target as HTMLElement).getBoundingClientRect();
+    const dragNode = this.dragNode;
+    const {top, height} = rect;
+    let {clientY, clientX} = e;
+    const deltaX = Math.min(24, rect.width * 0.2);
+    let position;
+    if (clientY >= top + height / 2 ) {
+      position = 'bottom';
+    } else {
+      position = 'top';
+    }
+    if (!dragOnSameLevel && position === 'bottom' && clientX >= this.startPoint.x + deltaX) {
+      position = 'self';
+    }
+    return {
+      node,
+      dragNode,
+      position,
+      rect,
+      height
+    };
+  }
+  @autobind
+  updateDropIndicator(e: DragEvent, node: Link) {
+    const {dragOnSameLevel} = this.props;
+    if (dragOnSameLevel && this.dragNode?.__level__ !== node.__level__) {
+      this.setState({dropIndicator: undefined});
+      this.dropInfo = null;
+      return;
+    }
+    this.dropInfo = this.getDropInfo(e, node);
+    let {position, rect, dragNode, height} = this.dropInfo;
+    const {indentSize} = this.props;
+    if (node === dragNode) {
+      this.setState({dropIndicator: undefined});
+      this.dropInfo = null;
+      return;
+    }
+    const ul = (findDOMNode(this) as HTMLElement).firstChild as HTMLElement;
+    const left = node.__level__ * (parseInt(indentSize as any, 10) ?? 24);
+    if (position === 'self') {
+      this.setState({
+        dropIndicator: {
+          top: rect.top - ul.getBoundingClientRect().top,
+          left,
+          width: ul.getBoundingClientRect().width - left,
+          height,
+          opacity: .2
         }
+      });
+    } else {
+      this.setState({
+        dropIndicator: {
+          top: (position === 'bottom' ? rect.top + rect.height : rect.top) - ul.getBoundingClientRect().top,
+          left,
+          width: ul.getBoundingClientRect().width - left
+        }
+      });
+    }
+
+  }
+
+  @autobind
+  handleDragStart(node: Link) {
+    return (e: React.DragEvent) => {
+      e.stopPropagation();
+      e.dataTransfer.effectAllowed = 'copyMove';
+      this.dragNode = node;
+      this.dropInfo = null;
+      this.startPoint = {
+        x: e.clientX,
+        y: e.clientY
+      };
+      document.body.addEventListener('dragover', this.handleDragOver);
+    };
+  }
+
+  @autobind
+  handleDragOver(e: DragEvent) {
+    e.preventDefault();
+    e.stopPropagation();
+    if (!this.dragNode) {
+      return;
+    }
+    const id = (e.target as HTMLElement).getAttribute('data-id');
+    if (!id) {
+      return;
+    }
+    const node = findTree(this.props.links as Links, (link) => link.__id__ === id) as Link;
+    this.updateDropIndicator(e, node);
+  }
+
+  @autobind
+  handleDragEnd(dragNode: Link) {
+    return (e: React.DragEvent) => {
+      e.preventDefault();
+      e.stopPropagation();
+      this.setState({
+        dropIndicator: undefined
+      });
+      let node = this.dropInfo?.node;
+      if (!this.dropInfo || !node || dragNode === node) {
+        return;
       }
-    ));
+      document.body.removeEventListener('dragover', this.handleDragOver);
+      this.props.onDragUpdate?.(this.dropInfo);
+      this.dragNode = null;
+      this.dropInfo = null;
+    };
   }
 
   renderItem(link: Link, index: number, depth = 1) {
@@ -242,13 +350,13 @@ export class Navigation extends React.Component<
       itemActions,
       draggable,
       links,
-      badge: defaultBadge
+      badge: defaultBadge,
+      data: defaultData
     } = this.props;
     const hasSub =
       (link.defer && !link.loaded) || (link.children && link.children.length);
-    const id = guid();
-    link.id = id;
     const badge = defaultBadge ? Object.assign(defaultBadge, link.badge) : link.badge;
+    const {canDraggable} = this.state;
     return (
       <li
         key={index}
@@ -258,21 +366,23 @@ export class Navigation extends React.Component<
           'is-unfolded': link.unfolded,
           'has-sub': hasSub
         })}
-        data-id={id}
+        draggable={canDraggable}
+        onDragStart={this.handleDragStart(link)}
+        onDragEnd={this.handleDragEnd(link)}
       >
-        <Badge classnames={cx} badge={badge} data={link}>
+        <Badge classnames={cx} badge={badge} data={createObject(defaultData, link)}>
           <a
+            data-id={link.__id__}
             onClick={this.handleClick.bind(this, link)}
             style={{paddingLeft: depth * (parseInt(indentSize as any, 10) ?? 24)}}
           >
             {!disabled && draggable && links && links.length > 1 ? (
-            <div className={cx('Nav-itemDrager')} >
-              <a
-                key="drag"
-                data-position="bottom"
-              >
-                <Icon icon="drag-bar" className="icon" />
-              </a>
+            <div className={cx('Nav-itemDrager')}
+              onMouseEnter={this.handleMouseEnter}
+              onMouseLeave={this.handleMouseLeave}
+              onMouseDown={e => {this.toggleLink(link, true); e.stopPropagation()}}
+            >
+              <Icon icon="drag-bar" className="icon" />
             </div>
           ) : null}
             {link.loading ? (
@@ -302,12 +412,12 @@ export class Navigation extends React.Component<
             itemActions
             ? <div className={cx('Nav-item-atcions')}>
               {
-                render('inline', itemActions, {data: link})
+                render('inline', itemActions, {data: createObject(defaultData, link)})
               }
             </div> : null
           }
           {Array.isArray(link.children) && link.children.length ? (
-            <ul className={cx('Nav-subItems')} ref={this.dragRefFn}>
+            <ul className={cx('Nav-subItems')}>
               {link.children.map((link, index) =>
                 this.renderItem(link, index, depth + 1)
               )}
@@ -320,18 +430,21 @@ export class Navigation extends React.Component<
 
   render(): JSX.Element {
     const {className, stacked, classnames: cx, links, loading} = this.props;
-
+    const {dropIndicator} = this.state;
     return (
-      <ul
-        className={cx('Nav', className, stacked ? 'Nav--stacked' : 'Nav--tabs')}
-        ref={this.dragRefFn}
-      >
-        {Array.isArray(links)
-          ? links.map((item, index) => this.renderItem(item, index))
-          : null}
+      <div className={cx('Nav')}>
+        <ul className={cx('Nav-list', className, stacked ? 'Nav-list--stacked' : 'Nav-list--tabs')}>
+          {Array.isArray(links)
+            ? links.map((item, index) => this.renderItem(item, index))
+            : null}
 
-        <Spinner show={!!loading} overlay icon="reload" />
-      </ul>
+          <Spinner show={!!loading} overlay icon="reload" />
+        </ul>
+        {(dropIndicator
+          ? <div className={cx('Nav-dropIndicator')} style={dropIndicator} />
+          : null
+        )}
+      </div>
     );
   }
 }
@@ -444,6 +557,7 @@ const ConditionBuilderWithRemoteOptions = withRemoteConfig({
       super(props);
       this.toggleLink = this.toggleLink.bind(this);
       this.handleSelect = this.handleSelect.bind(this);
+      this.dragUpdate = this.dragUpdate.bind(this);
     }
 
     componentDidMount() {
@@ -460,7 +574,20 @@ const ConditionBuilderWithRemoteOptions = withRemoteConfig({
       }
     }
 
-    toggleLink(target: Link) {
+    updateNodeInfo(links: Links) {
+      if (!links) {
+        return undefined;
+      }
+      return mapTree(links, (link, key, level, paths) => {
+        link.__index__ = key;
+        link.__level__ = level;
+        link.__id__ = guid();
+        link.__ids__ = paths.map(item => item.__index__).concat(key);
+        return link;
+      });
+    }
+
+    toggleLink(target: Link, forceFold?: boolean) {
       const {config, updateConfig, deferLoad} = this.props;
 
       if (target.defer && !target.loaded) {
@@ -471,12 +598,68 @@ const ConditionBuilderWithRemoteOptions = withRemoteConfig({
             target === link
               ? {
                   ...link,
-                  unfolded: !link.unfolded
+                  unfolded: forceFold ? false : !link.unfolded
                 }
               : link
           ),
           'toggle'
         );
+      }
+    }
+
+    async dragUpdate(dropInfo: IDropInfo) {
+      let links = this.props.config;
+      const {node, dragNode, position} = dropInfo;
+      if (dragNode) {
+        // 删除原节点
+        links = spliceTree(links, dragNode.__ids__, 1);
+
+        if (position === 'self') {
+          // 插入到对应节点的children中
+          mapTree(links, (link) => {
+            if (link.__id__ === node.__id__) {
+              if (!link.children) {
+                link.children = [];
+              }
+              link.children.push(dragNode);
+            }
+            return link;
+          })
+        } else {
+          // 找到需要插入的节点
+          const ids = findTreeIndex(links, link => link.__id__ === node.__id__) as number[];
+          // 插入节点之后
+          if (position === 'bottom') {
+            ids.push(ids.pop() as number + 1);
+          }
+          links = spliceTree(links, ids, 0, dragNode);
+        }
+      }
+      this.props.updateConfig(this.updateNodeInfo(links), 'update');
+      await this.saveOrder(mapTree(links, (link: Link) => {
+        // 清除内部加的字段
+        for (let key in link) {
+          if (/^__.*__$/.test(key)) {
+            delete link[key];
+          }
+          if (key === 'unfolded') {
+            delete link[key];
+          }
+        }
+        return link;
+      }));
+    }
+
+    async saveOrder(links: Links) {
+      const {saveOrderApi, env, data, reload} = this.props;
+      if (saveOrderApi && isEffectiveApi(saveOrderApi)) {
+        await env.fetcher(saveOrderApi as SchemaApi,
+          createObject(data, {data: links}),
+          {method: 'post'}
+        );
+        reload();
+      } else {
+        env.alert('NAV saveOrderApi is required!');
       }
     }
 
@@ -500,15 +683,16 @@ const ConditionBuilderWithRemoteOptions = withRemoteConfig({
 
     render() {
       const {loading, config, deferLoad, updateConfig, ...rest} = this.props;
-
+      const links = this.updateNodeInfo(config || rest.links || []);
       return (
         <ThemedNavigation
           {...rest}
           loading={loading}
-          links={config || rest.links || []}
+          links={links}
           disabled={loading}
           onSelect={this.handleSelect}
           onToggle={this.toggleLink}
+          onDragUpdate={this.dragUpdate}
         />
       );
     }
