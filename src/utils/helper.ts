@@ -507,7 +507,6 @@ export function isDisabled(
   );
 }
 
-
 export function hasAbility(
   schema: any,
   ability: string,
@@ -1618,7 +1617,7 @@ export function detectPropValueChanged<
 
 // 去掉字符串中的 html 标签，不完全准确但效率比较高
 export function removeHTMLTag(str: string) {
-  return str.replace(/<\/?[^>]+(>|$)/g, '');
+  return typeof str === 'string' ? str.replace(/<\/?[^>]+(>|$)/g, '') : str;
 }
 
 /**
