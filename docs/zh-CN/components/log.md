@@ -82,6 +82,41 @@ public class StreamingResponseBodyController {
 
 通过 `autoScroll` 可以关闭此功能
 
+## source 支持变量
+
+> 1.4.2 及以上版本
+
+可以初始设置为空，这样初始不会加载，而等这个变量有值的时候再加载
+
+```json
+{
+  "type": "form",
+  "body": [
+    {
+      "label": "数据源",
+      "type": "select",
+      "name": "source",
+      "options": [
+        {
+          "label": "A",
+          "value": "http://localhost:3000/"
+        },
+        {
+          "label": "B",
+          "value": "http://localhost:4000/"
+        }
+      ]
+    },
+    {
+      "type": "log",
+      "height": 300,
+      "placeholder": "请点击上面的数据源",
+      "source": "${source | raw}"
+    }
+  ]
+}
+```
+
 ## 属性表
 
 | 属性名      | 类型      | 默认值 | 说明               |
