@@ -24,6 +24,7 @@
       )
       var(--gap-sm);
     flex-direction: row;
+    border-radius: var(--borderRadius) var(--borderRadius) 0 0;
 
     &--light {
       background: transparent;
@@ -43,6 +44,7 @@
     border: var(--Form-input-borderWidth) solid var(--Form-input-borderColor);
     display: flex;
     flex-direction: column;
+    border-radius: var(--borderRadius);
   }
 
   &-select > &-checkboxes,
