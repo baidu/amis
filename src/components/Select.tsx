@@ -770,6 +770,9 @@ export class Select extends React.Component<SelectProps, SelectState> {
     // 渲染单个选项
     const renderItem = ({index, style}: {index: number; style?: object}) => {
       const item = filtedOptions[index];
+      if (!item) {
+        return null;
+      }
       const checked =
         selectedItem === item || !!~selectionValues.indexOf(item[valueField]);
       if (hideSelected && checked) {
