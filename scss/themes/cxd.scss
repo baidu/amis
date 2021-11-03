@@ -127,6 +127,11 @@
   .#{$ns}InputGroup-btn .#{$ns}Button {
     border-radius: px2rem(3px);
   }
+  
+  .#{$ns}InputGroup-btn:last-child .#{$ns}Button {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+  }
 }
 
 .#{$ns}Alert {
