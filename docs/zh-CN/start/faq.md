@@ -87,3 +87,15 @@ let amisScoped = amis.embed('#root', amisJSON, {
 ```
 
 这样只需要修改 HOST 变量的值就能控制这个 URL 地址。
+
+## 如何更新全局 data？
+
+使用下面的方式 
+
+```
+amisScoped.updateProps({
+  data: {
+    xxx: 'yyy'
+  }
+})
+```
