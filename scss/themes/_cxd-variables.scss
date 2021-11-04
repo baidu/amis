@@ -303,6 +303,9 @@ $R8: 50%;
   --Button--primary-onActive-border: #{$B7};
   --Button--primary-onActive-color: #{$G11};
 
+  --Button--light-border: var(--light);
+  --Button--light-color: var(--button-color);
+
   --Button-onDisabled-borderColor: #{$G9};
   --Button-onDisabled-opacity: 0.65;
   --Button-onDisabled-bg: #{$G9};

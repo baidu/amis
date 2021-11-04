@@ -221,7 +221,7 @@
   );
   --Button--light-bg: var(--light);
   --Button--light-border: var(--borderColor);
-  --Button--light-color: var(--button-color);
+  --Button--light-color: var(--text-color);
   --Button--light-onActive-bg: #{darken($light, 10%)};
   --Button--light-onActive-border: #{darken($light, 12.5%)};
   --Button--light-onActive-color: var(--Button--light-color);
