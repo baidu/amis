@@ -1782,6 +1782,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
       return null;
     }
 
+    const {render, store} = this.props;
     const type = (toolbar as Schema).type || toolbar;
 
     if (type === 'bulkActions' || type === 'bulk-actions') {
@@ -1800,6 +1801,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
       return this.renderExportCSV(toolbar as Schema);
     } else if (Array.isArray(toolbar)) {
       const children: Array<any> = toolbar
+        .filter((toolbar: any) => isVisible(toolbar, store.filterData))
         .map((toolbar, index) => ({
           dom: this.renderToolbar(toolbar, index, childProps, toolbarRenderer),
           toolbar
@@ -1841,7 +1843,6 @@ export default class CRUD extends React.Component<CRUDProps, any> {
       return result;
     }
 
-    const {render, store} = this.props;
     const $$editable = childProps.$$editable;
 
     return render(`toolbar/${index}`, toolbar, {
