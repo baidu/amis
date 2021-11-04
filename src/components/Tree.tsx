@@ -19,7 +19,7 @@ import {
 import {Option, Options, value2array} from './Select';
 import {ClassNamesFn, themeable, ThemeProps} from '../theme';
 import {highlight} from '../renderers/Form/Options';
-import {Icon} from './icons';
+import {Icon, getIcon} from './icons';
 import Checkbox from './Checkbox';
 import {LocaleProps, localeable} from '../locale';
 import Spinner from './Spinner';
@@ -710,6 +710,8 @@ export class TreeSelector extends React.Component<
       const isLeaf =
         (!item.children || !item.children.length) && !item.placeholder;
 
+      const iconValue = item[iconField] || (childrenItems ? 'folder' : 'file');
+
       return (
         <li
           key={key}
@@ -764,10 +766,9 @@ export class TreeSelector extends React.Component<
                       : this.handleSelect(item))
                   }
                 >
-                  <Icon
-                    icon={item[iconField] || (childrenItems ? 'folder' : 'file')}
-                    className="icon"
-                  />
+                  {getIcon(iconValue)
+                    ? <Icon icon={iconValue} className="icon"/>
+                    : <i className={iconValue}></i>}
                 </i>
               ) : null}
 
