@@ -51,11 +51,6 @@ export type NavItemSchema = {
   deferApi?: SchemaApi;
 
   children?: Array<NavItemSchema>;
-
-  /**
-   * 角标
-   */
-  badge?: BadgeSchema
 } & Omit<BaseSchema, 'type'>;
 
 /**
@@ -111,7 +106,7 @@ export interface NavSchema extends BaseSchema {
   /**
    * 角标
    */
-   badge?: BadgeSchema;
+   itemBadge?: BadgeSchema;
 
   /**
    * 仅允许同层级拖拽
@@ -133,14 +128,13 @@ export interface Link {
   loading?: boolean;
   loaded?: boolean;
   [propName: string]: any;
-  badge?: BadgeSchema;
+  itemBadge?: BadgeSchema;
 }
 export interface Links extends Array<Link> {}
 
 export interface NavigationState {
   links?: Links;
   error?: string;
-  canDraggable: boolean;
   dropIndicator?: {
     top: number;
     left: number;
@@ -171,6 +165,7 @@ export interface IDropInfo {
   position: string;
   rect: DOMRect;
   height: number;
+  left: number;
 }
 
 export class Navigation extends React.Component<
@@ -190,13 +185,7 @@ export class Navigation extends React.Component<
     y: 0,
     x: 0
   };
-
-  constructor(props:NavigationProps) {
-    super(props);
-    this.state = {
-      canDraggable: false
-    };
-  }
+  state = {};
 
   @autobind
   handleClick(link: Link) {
@@ -209,27 +198,14 @@ export class Navigation extends React.Component<
   }
 
   @autobind
-  handleMouseEnter() {
-    this.setState({
-      canDraggable: true
-    });
-  }
-
-  @autobind
-  handleMouseLeave() {
-    this.setState({
-      canDraggable: false
-    });
-  }
-
-  @autobind
   getDropInfo(e: DragEvent, node: Link): IDropInfo {
-    const {dragOnSameLevel} = this.props;
+    const {dragOnSameLevel, indentSize} = this.props;
     let rect = (e.target as HTMLElement).getBoundingClientRect();
     const dragNode = this.dragNode;
-    const {top, height} = rect;
+    const {top, height, width} = rect;
     let {clientY, clientX} = e;
-    const deltaX = Math.min(24, rect.width * 0.2);
+    const left = node.__level__ * (parseInt(indentSize as any, 10) ?? 24);
+    const deltaX = left + width * .2;
     let position;
     if (clientY >= top + height / 2 ) {
       position = 'bottom';
@@ -244,7 +220,8 @@ export class Navigation extends React.Component<
       dragNode,
       position,
       rect,
-      height
+      height,
+      left
     };
   }
   @autobind
@@ -256,15 +233,13 @@ export class Navigation extends React.Component<
       return;
     }
     this.dropInfo = this.getDropInfo(e, node);
-    let {position, rect, dragNode, height} = this.dropInfo;
-    const {indentSize} = this.props;
+    let {position, rect, dragNode, height, left} = this.dropInfo;
     if (node === dragNode) {
       this.setState({dropIndicator: undefined});
       this.dropInfo = null;
       return;
     }
     const ul = (findDOMNode(this) as HTMLElement).firstChild as HTMLElement;
-    const left = node.__level__ * (parseInt(indentSize as any, 10) ?? 24);
     if (position === 'self') {
       this.setState({
         dropIndicator: {
@@ -292,6 +267,7 @@ export class Navigation extends React.Component<
     return (e: React.DragEvent) => {
       e.stopPropagation();
       e.dataTransfer.effectAllowed = 'copyMove';
+      e.dataTransfer.setDragImage(e.currentTarget as HTMLElement, 0, 0);
       this.dragNode = node;
       this.dropInfo = null;
       this.startPoint = {
@@ -350,13 +326,11 @@ export class Navigation extends React.Component<
       itemActions,
       draggable,
       links,
-      badge: defaultBadge,
+      itemBadge,
       data: defaultData
     } = this.props;
     const hasSub =
       (link.defer && !link.loaded) || (link.children && link.children.length);
-    const badge = defaultBadge ? Object.assign(defaultBadge, link.badge) : link.badge;
-    const {canDraggable} = this.state;
     return (
       <li
         key={index}
@@ -366,11 +340,10 @@ export class Navigation extends React.Component<
           'is-unfolded': link.unfolded,
           'has-sub': hasSub
         })}
-        draggable={canDraggable}
         onDragStart={this.handleDragStart(link)}
         onDragEnd={this.handleDragEnd(link)}
       >
-        <Badge classnames={cx} badge={badge} data={createObject(defaultData, link)}>
+        <Badge classnames={cx} badge={itemBadge} data={createObject(defaultData, link)}>
           <a
             data-id={link.__id__}
             onClick={this.handleClick.bind(this, link)}
@@ -378,8 +351,7 @@ export class Navigation extends React.Component<
           >
             {!disabled && draggable && links && links.length > 1 ? (
             <div className={cx('Nav-itemDrager')}
-              onMouseEnter={this.handleMouseEnter}
-              onMouseLeave={this.handleMouseLeave}
+              draggable
               onMouseDown={e => {this.toggleLink(link, true); e.stopPropagation()}}
             >
               <Icon icon="drag-bar" className="icon" />
