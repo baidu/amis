@@ -754,7 +754,6 @@ export class TreeSelector extends React.Component<
                 <i
                   className={cx(
                     `Tree-itemIcon ${
-                      item[iconField] ||
                       (childrenItems ? 'Tree-folderIcon' : 'Tree-leafIcon')
                     }`
                   )}
