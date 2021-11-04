@@ -565,7 +565,8 @@ export class Action extends React.Component<ActionProps, ActionState> {
 
   @autobind
   async handleAction(e: React.MouseEvent<any>) {
-    const {onAction, disabled, countDown} = this.props;
+    const {onAction, disabled, countDown, env} = this.props;
+
     // https://reactjs.org/docs/legacy-event-pooling.html
     e.persist();
     let onClick = this.props.onClick;
@@ -587,6 +588,8 @@ export class Action extends React.Component<ActionProps, ActionState> {
 
     e.preventDefault();
     const action = pick(this.props, ActionProps) as ActionSchema;
+
+    env.tracker(action);
 
     // download 是一种 ajax 的简写
     if (action.actionType === 'download') {
@@ -793,6 +796,7 @@ export class ActionRenderer extends React.Component<
     return (
       <Action
         {...(rest as any)}
+        env={env}
         disabled={disabled || btnDisabled}
         onAction={this.handleAction}
         loading={loading}

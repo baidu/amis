@@ -320,6 +320,8 @@ const defaultOptions: RenderOptions = {
   copy(contents: string) {
     console.error('copy contents', contents);
   },
+  // 用于监控点击操作，目前主要是 action
+  tracker(action: Action) {},
   rendererResolver: resolveRenderer
 };
 let stores: {
