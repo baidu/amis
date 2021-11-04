@@ -21,7 +21,8 @@ order: 58
       "mode": "ribbon",
       "text": "${customText}",
       "position": "top-left",
-      "visibleOn": "this.customText"
+      "visibleOn": "this.customText",
+      "level": "${customLevel}"
     },
     "links": [
         {
@@ -33,11 +34,14 @@ order: 58
         {
             "label": "Nav 2",
             "to": "/docs/api",
-            "customText": "HOT"
+            "customText": "HOT",
+            "customLevel": "danger"
         },
         {
             "label": "Nav 3",
-            "to": "/docs/renderers"
+            "to": "/docs/renderers",
+            "customText": "SUC",
+            "customLevel": "success"
         },
         {
             "label": "外部地址",
