@@ -39,6 +39,10 @@
     }
   }
 
+  &-TplField {
+    display: inline-block;
+  }
+
   &.is-collapsed &-arrow:before {
     transform: rotate(45deg);
     transform-origin: 0% 50%;
