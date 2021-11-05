@@ -88,12 +88,17 @@ export class Badge extends React.Component<BadgeProps, object> {
     sizeStyle: any,
     animationElement: any
   ) {
-    const {classnames: cx, badge} = this.props;
-    const {
+    const {classnames: cx, badge, data} = this.props;
+    let {
       mode = 'dot',
       level = 'danger',
       style
     } = badge as BadgeSchema;
+
+    if (typeof level === 'string' && level[0] === '$') {
+      level = resolveVariable(level, data);
+    }
+
     switch(mode) {
       case 'dot':
         return (
