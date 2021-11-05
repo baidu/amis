@@ -25,7 +25,6 @@ import {
 } from '../components/WithRemoteConfig';
 import {Payload} from '../types';
 import Spinner from '../components/Spinner';
-import cloneDeep from 'lodash/cloneDeep';
 import {isEffectiveApi} from '../utils/api';
 import {Badge, BadgeSchema} from '../components/Badge';
 
@@ -160,8 +159,8 @@ export interface NavigationProps
 }
 
 export interface IDropInfo {
-  dragNode: Link | null;
-  node: Link;
+  dragLink: Link | null;
+  nodeId: string;
   position: string;
   rect: DOMRect;
   height: number;
@@ -176,7 +175,10 @@ export class Navigation extends React.Component<
     indentSize: 24
   };
 
-  dragNode: Link | null;
+  dragNode: {
+    node: HTMLElement;
+    link: Link | null;
+  } | null;
   dropInfo: IDropInfo | null;
   startPoint: {
     y: number;
@@ -185,7 +187,7 @@ export class Navigation extends React.Component<
     y: 0,
     x: 0
   };
-  state = {};
+  state: NavigationState = {};
 
   @autobind
   handleClick(link: Link) {
@@ -198,13 +200,13 @@ export class Navigation extends React.Component<
   }
 
   @autobind
-  getDropInfo(e: DragEvent, node: Link): IDropInfo {
+  getDropInfo(e: DragEvent, id: string, depth: number): IDropInfo {
     const {dragOnSameLevel, indentSize} = this.props;
     let rect = (e.target as HTMLElement).getBoundingClientRect();
-    const dragNode = this.dragNode;
+    const dragLink = this.dragNode?.link as Link;
     const {top, height, width} = rect;
     let {clientY, clientX} = e;
-    const left = node.__level__ * (parseInt(indentSize as any, 10) ?? 24);
+    const left = depth * (parseInt(indentSize as any, 10) ?? 24);
     const deltaX = left + width * .2;
     let position;
     if (clientY >= top + height / 2 ) {
@@ -216,8 +218,8 @@ export class Navigation extends React.Component<
       position = 'self';
     }
     return {
-      node,
-      dragNode,
+      nodeId: id,
+      dragLink,
       position,
       rect,
       height,
@@ -225,16 +227,21 @@ export class Navigation extends React.Component<
     };
   }
   @autobind
-  updateDropIndicator(e: DragEvent, node: Link) {
+  updateDropIndicator(e: DragEvent) {
     const {dragOnSameLevel} = this.props;
-    if (dragOnSameLevel && this.dragNode?.__level__ !== node.__level__) {
+    const target = e.target as HTMLElement; // a标签
+    const targetId = target.getAttribute('data-id') as string;
+    const targetDepth = Number(target.getAttribute('data-depth'));
+    if (dragOnSameLevel
+      && this.dragNode?.node.parentElement !== target.parentElement?.parentElement
+    ) {
       this.setState({dropIndicator: undefined});
       this.dropInfo = null;
       return;
     }
-    this.dropInfo = this.getDropInfo(e, node);
-    let {position, rect, dragNode, height, left} = this.dropInfo;
-    if (node === dragNode) {
+    this.dropInfo = this.getDropInfo(e, targetId, targetDepth);
+    let {position, rect, dragLink, height, left} = this.dropInfo;
+    if (targetId === dragLink?.__id) {
       this.setState({dropIndicator: undefined});
       this.dropInfo = null;
       return;
@@ -259,21 +266,25 @@ export class Navigation extends React.Component<
         }
       });
     }
-
   }
 
   @autobind
-  handleDragStart(node: Link) {
+  handleDragStart(link: Link) {
     return (e: React.DragEvent) => {
       e.stopPropagation();
+      const currentTarget = e.currentTarget as HTMLElement;
       e.dataTransfer.effectAllowed = 'copyMove';
-      e.dataTransfer.setDragImage(e.currentTarget as HTMLElement, 0, 0);
-      this.dragNode = node;
+      e.dataTransfer.setDragImage(currentTarget, 0, 0);
+      this.dragNode = {
+        node: currentTarget,
+        link: link
+      };
       this.dropInfo = null;
       this.startPoint = {
         x: e.clientX,
         y: e.clientY
       };
+      currentTarget.addEventListener('dragend', this.handleDragEnd);
       document.body.addEventListener('dragover', this.handleDragOver);
     };
   }
@@ -285,31 +296,33 @@ export class Navigation extends React.Component<
     if (!this.dragNode) {
       return;
     }
-    const id = (e.target as HTMLElement).getAttribute('data-id');
+    const target = e.target as HTMLElement;
+    const id = target.getAttribute('data-id');
     if (!id) {
       return;
     }
-    const node = findTree(this.props.links as Links, (link) => link.__id__ === id) as Link;
-    this.updateDropIndicator(e, node);
+    this.updateDropIndicator(e);
   }
 
   @autobind
-  handleDragEnd(dragNode: Link) {
-    return (e: React.DragEvent) => {
-      e.preventDefault();
-      e.stopPropagation();
-      this.setState({
-        dropIndicator: undefined
-      });
-      let node = this.dropInfo?.node;
-      if (!this.dropInfo || !node || dragNode === node) {
-        return;
-      }
-      document.body.removeEventListener('dragover', this.handleDragOver);
-      this.props.onDragUpdate?.(this.dropInfo);
-      this.dragNode = null;
-      this.dropInfo = null;
-    };
+  handleDragEnd(e: DragEvent) {
+    e.preventDefault();
+    e.stopPropagation();
+    this.setState({
+      dropIndicator: undefined
+    });
+    const currentTarget = e.currentTarget as HTMLElement;
+    const id = currentTarget.getAttribute('data-id');
+    let nodeId = this.dropInfo?.nodeId;
+    if (!this.dropInfo || !nodeId || id === nodeId) {
+      return;
+    }
+    currentTarget.removeEventListener('dragend', this.handleDragEnd);
+    document.body.removeEventListener('dragover', this.handleDragOver);
+
+    this.props.onDragUpdate?.(this.dropInfo);
+    this.dragNode = null;
+    this.dropInfo = null;
   }
 
   renderItem(link: Link, index: number, depth = 1) {
@@ -333,7 +346,8 @@ export class Navigation extends React.Component<
       (link.defer && !link.loaded) || (link.children && link.children.length);
     return (
       <li
-        key={index}
+        key={link.__id}
+        data-id={link.__id}
         className={cx('Nav-item', link.className, {
           'is-disabled': disabled || link.disabled || link.loading,
           'is-active': isActive,
@@ -341,11 +355,11 @@ export class Navigation extends React.Component<
           'has-sub': hasSub
         })}
         onDragStart={this.handleDragStart(link)}
-        onDragEnd={this.handleDragEnd(link)}
       >
         <Badge classnames={cx} badge={itemBadge} data={createObject(defaultData, link)}>
           <a
-            data-id={link.__id__}
+            data-id={link.__id}
+            data-depth={depth}
             onClick={this.handleClick.bind(this, link)}
             style={{paddingLeft: depth * (parseInt(indentSize as any, 10) ?? 24)}}
           >
@@ -465,7 +479,8 @@ const ConditionBuilderWithRemoteOptions = withRemoteConfig({
                     link.hasOwnProperty('to') &&
                     env &&
                     env.isCurrentUrl(filter(link.to as string, data))
-                  ))
+                  )),
+            __id: guid()
           };
 
           item.unfolded =
@@ -540,23 +555,10 @@ const ConditionBuilderWithRemoteOptions = withRemoteConfig({
 
     componentDidUpdate(prevProps: any) {
       if (this.props.location !== prevProps.location) {
-        this.props.updateConfig(this.props.config, 'location-change');
+        this.props.updateConfig(this.props.links, 'location-change');
       } else if (this.props.links !== prevProps.links) {
         this.props.updateConfig(this.props.links, 'update');
       }
-    }
-
-    updateNodeInfo(links: Links) {
-      if (!links) {
-        return undefined;
-      }
-      return mapTree(links, (link, key, level, paths) => {
-        link.__index__ = key;
-        link.__level__ = level;
-        link.__id__ = guid();
-        link.__ids__ = paths.map(item => item.__index__).concat(key);
-        return link;
-      });
     }
 
     toggleLink(target: Link, forceFold?: boolean) {
@@ -581,40 +583,38 @@ const ConditionBuilderWithRemoteOptions = withRemoteConfig({
 
     async dragUpdate(dropInfo: IDropInfo) {
       let links = this.props.config;
-      const {node, dragNode, position} = dropInfo;
-      if (dragNode) {
+      const {nodeId, dragLink, position} = dropInfo;
+      if (dragLink) {
         // 删除原节点
-        links = spliceTree(links, dragNode.__ids__, 1);
+        const sourceIdx = findTreeIndex(links, link => link.__id === dragLink.__id) as number[];
+        links = spliceTree(links, sourceIdx, 1);
 
         if (position === 'self') {
           // 插入到对应节点的children中
           mapTree(links, (link) => {
-            if (link.__id__ === node.__id__) {
+            if (link.__id === nodeId) {
               if (!link.children) {
                 link.children = [];
               }
-              link.children.push(dragNode);
+              link.children.push(dragLink);
             }
             return link;
           })
         } else {
           // 找到需要插入的节点
-          const ids = findTreeIndex(links, link => link.__id__ === node.__id__) as number[];
+          const idx = findTreeIndex(links, link => link.__id === nodeId) as number[];
           // 插入节点之后
           if (position === 'bottom') {
-            ids.push(ids.pop() as number + 1);
+            idx.push(idx.pop() as number + 1);
           }
-          links = spliceTree(links, ids, 0, dragNode);
+          links = spliceTree(links, idx, 0, dragLink);
         }
       }
-      this.props.updateConfig(this.updateNodeInfo(links), 'update');
+      this.props.updateConfig(links, 'update');
       await this.saveOrder(mapTree(links, (link: Link) => {
         // 清除内部加的字段
         for (let key in link) {
-          if (/^__.*__$/.test(key)) {
-            delete link[key];
-          }
-          if (key === 'unfolded') {
+          if (/^__.*$/.test(key)) {
             delete link[key];
           }
         }
@@ -655,12 +655,11 @@ const ConditionBuilderWithRemoteOptions = withRemoteConfig({
 
     render() {
       const {loading, config, deferLoad, updateConfig, ...rest} = this.props;
-      const links = this.updateNodeInfo(config || rest.links || []);
       return (
         <ThemedNavigation
           {...rest}
           loading={loading}
-          links={links}
+          links={config || rest.links || []}
           disabled={loading}
           onSelect={this.handleSelect}
           onToggle={this.toggleLink}
