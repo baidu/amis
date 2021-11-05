@@ -73,8 +73,8 @@ exports[`Renderer:date 1`] = `
                 class="cxd-DatePicker-toggler"
               >
                 <icon-mock
-                  classname="icon icon-calendar"
-                  icon="calendar"
+                  classname="icon icon-clock"
+                  icon="clock"
                 />
               </a>
             </div>

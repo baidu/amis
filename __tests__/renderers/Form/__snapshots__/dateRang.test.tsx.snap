@@ -73,8 +73,8 @@ exports[`Renderer:dateRange 1`] = `
                 class="cxd-DateRangePicker-toggler"
               >
                 <icon-mock
-                  classname="icon icon-calendar"
-                  icon="calendar"
+                  classname="icon icon-clock"
+                  icon="clock"
                 />
               </a>
             </div>

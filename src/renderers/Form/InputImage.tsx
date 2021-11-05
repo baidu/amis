@@ -1377,7 +1377,6 @@ export default class ImageControl extends React.Component<
                                     fixedSize ? fixedSizeClassName : ''
                                   )}
                                 >
-                                  <p>{__('File.uploading')}</p>
                                   <div className={cx('ImageControl-progress')}>
                                     <span
                                       style={{
@@ -1390,6 +1389,7 @@ export default class ImageControl extends React.Component<
                                       )}
                                     />
                                   </div>
+                                  <p>{__('File.uploading')}</p>
                                 </div>
                               </>
                             ) : (
@@ -1524,7 +1524,10 @@ export default class ImageControl extends React.Component<
                             thumbRatio={thumbRatio}
                           />
                         ) : (
-                          <Icon icon="plus" className="icon" />
+                          <>
+                            <Icon icon="plus" className="icon" />
+                            <span>{__('File.upload')}</span>
+                          </>
                         )}
 
                         {isFocused ? (

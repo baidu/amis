@@ -100,15 +100,20 @@ export class Collapse extends React.Component<CollapseProps, any> {
           if (status === ENTERING) {
             this.contentDom.offsetWidth;
           }
-          return React.cloneElement(children as any, {
-            ...(children as React.ReactElement).props,
-            ref: this.contentRef,
-            className: cx(
-              'Collapse-content',
-              (children as React.ReactElement).props.className,
-              collapseStyles[status]
-            )
-          });
+          return (
+            <div
+              className={cx('Collapse-contentWrapper', collapseStyles[status])}
+              ref={this.contentRef}
+            >
+              {React.cloneElement(children as any, {
+                ...(children as React.ReactElement).props,
+                className: cx(
+                  'Collapse-content',
+                  (children as React.ReactElement).props.className
+                )
+              })}
+            </div>
+          );
         }}
       </Transition>
     );

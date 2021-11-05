@@ -221,7 +221,7 @@
   );
   --Button--light-bg: var(--light);
   --Button--light-border: var(--borderColor);
-  --Button--light-color: var(--button-color);
+  --Button--light-color: var(--text-color);
   --Button--light-onActive-bg: #{darken($light, 10%)};
   --Button--light-onActive-border: #{darken($light, 12.5%)};
   --Button--light-onActive-color: var(--Button--light-color);
@@ -523,6 +523,20 @@
   --Copyable-iconColor: var(--icon-color);
   --Copyable-onHover-iconColor: var(--icon-onHover-color);
 
+  --Collapse-border: none;
+  --Collapse-border-color: var(--borderColorLight);
+  --Collapse-header-fontSize: var(--fontSizeMd);
+  --Collapse-header-fontWeight: var(--fontWeightNormal);
+  --Collapse-header-padding: #{px2rem(18px)} 0 var(--gap-xs) 0;
+  --Collapse-header-bg: transparent;
+  --Collapse-header-onHover-bg: transparent;
+  --Collapse-header-collapsed-borderBottom: var(--borderWidth) solid
+    var(--Collapse-border-color);
+  --Collapse-content-padding: #{px2rem(18px)} 0;
+  --Collapse-content-color: var(--body-color);
+  --Collapse-content-fontSize: var(--body-size);
+  --Collapse-content-fontWeight: var(--body-weight);
+
   --Crud-toolbar-gap: var(--gap-xs);
   --Crud-toolbar-height: #{px2rem(30px)};
   --Crud-toolbar-lineHeight: var(--lineHeightBase);
@@ -549,6 +563,8 @@
       ) / 2 - var(--DatePicker-borderWidth)
   );
   --DatePicker-placeholderColor: var(--Form-input-placeholderColor);
+
+  --LocationPicker-borderRadius: var(--Form-input-borderWidth);
 
   --Divider-borderStyle: dashed;
 
@@ -585,8 +601,9 @@
   --DropDown-menu-paddingX: 0;
   --DropDown-menu-paddingY: var(--gap-xs);
   --DropDown-menuItem-onHover-bg: var(--ListMenu-item--onHover-bg);
-  --DropDown-menuItem-onHover-color: inherit;
-  --DropDown-menuItem-onActive-color: var(--info);
+  --DropDown-menuItem-color: var(--text-color);
+  --DropDown-menuItem-onHover-color: var(--primary);
+  --DropDown-menuItem-onActive-color: var(--primary);
   --DropDown-menuItem-onDisabled-color: var(--text--muted-color);
   --DropDown-menuItem-paddingX: var(--gap-sm);
   --DropDown-menuItem-paddingY: calc(
@@ -726,6 +743,7 @@
 
   --ImageControl-addBtn-bg: var(--Button--default-bg);
   --ImageControl-addBtn-border: var(--Button--default-border);
+  --ImageControl-addBtn-borderRadius: 0;
   --ImageControl-addBtn-color: var(--Button--default-color);
   --ImageControl-addBtn-onActive-bg: #{darken($white, 10%)};
   --ImageControl-addBtn-onActive-border: #{darken($borderColor, 12.5%)};
@@ -738,6 +756,9 @@
   --ImageControl-addBtn-onHover-bg: #{darken($white, 7.5%)};
   --ImageControl-addBtn-onHover-border: #{darken($borderColor, 10%)};
   --ImageControl-addBtn-onHover-color: var(--Button--default-color);
+  --ImageControl-progress-borderRadius: 0;
+
+  --FileControl-progress-borderRadius: 0;
 
   --InputGroup-addOn-bg: var(--Form-input-addOnBg);
   --InputGroup-addOn-borderColor: var(--Form-input-borderColor);
@@ -1355,4 +1376,6 @@
   --Steps-sub-title-color: var(--text-color);
   --Steps-line-bg: var(--Steps-bg);
   --Steps-line-success-bg: var(--Steps-status-success);
+
+  --Progress-borderRadius: var(--borderRadius);
 }

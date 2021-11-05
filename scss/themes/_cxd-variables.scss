@@ -14,10 +14,10 @@ $light: #1ac5ff;
 $white: #fff;
 $secondary: $G6;
 
-$info-bg: #eaf6fe;
-$success-bg: #f1fdeb;
-$warning-bg: #fcf7f1;
-$danger-bg: #fff5f5;
+$info-bg: $B1;
+$success-bg: $S1;
+$warning-bg: $W1;
+$danger-bg: $E1;
 
 $text-color: #151a26;
 
@@ -56,10 +56,10 @@ $H2: 8px;
 $H3: 16px;
 $H5: 24px;
 $H6: 32px;
-$H5: 40px;
-$H6: 48px;
-$H5: 56px;
-$H6: 80px;
+$H7: 40px;
+$H8: 48px;
+$H9: 56px;
+$H10: 80px;
 
 // yunshe4.0 border-radius
 $R1: 0;
@@ -220,7 +220,7 @@ $R8: 50%;
   // --Switch-onDisabled-circle-BackgroundColor: #fff;
 
   --ColorPicker-borderWidth: #{px2rem(1px)};
-  --ColorPicker-borderRadius: 0;
+  --ColorPicker-borderRadius: #{$R3};
   --ColorPicker-bg: var(--white);
   --ColorPicker-onHover-bg: var(--white);
   --ColorPicker-onHover-borderColor: var(--primary);
@@ -229,8 +229,21 @@ $R8: 50%;
   --ColorPicker-onDisabled-bg: #f5f5f5;
   --ColorPicker-onDisabled-color: #999;
 
+  --Collapse-border: #{px2rem(1px)} solid #{$G8};
+  --Collapse-border-color: #{$G8};
+  --Collapse-header-fontSize: #{$T3};
+  --Collapse-header-fontWeight: #{$W3};
+  --Collapse-header-padding: #{px2rem(16px)};
+  --Collapse-header-bg: #{$G10};
+  --Collapse-header-onHover-bg: #{$G9};
+  --Collapse-header-collapsed-borderBottom: none;
+  --Collapse-content-padding: #{px2rem(16px)};
+  --Collapse-content-color: #{$G4};
+  --Collapse-content-fontSize: #{$T2};
+  --Collapse-content-fontWeight: #{$W2};
+
   --DatePicker-borderWidth: #{px2rem(1px)};
-  --DatePicker-borderRadius: 0;
+  --DatePicker-borderRadius: #{$R3};
   --DatePicker-bg: var(--white);
   --DatePicker-onHover-bg: var(--white);
   --DatePicker-color: #000;
@@ -241,7 +254,10 @@ $R8: 50%;
   --DatePicker-onHover-iconColor: var(--primary);
   --DatePicker-onHover-borderColor: var(--primary);
 
+  --LocationPicker-borderRadius: #{$R3};
+
   --Calendar-input-borderRadius: 0;
+  --Calendar-input-borderRadius: #{$R3};
   --Calendar-shortcuts-bg: #f5f5f5;
   --Calendar-shortcuts-height: #{px2rem(30px)};
 
@@ -286,6 +302,9 @@ $R8: 50%;
   --Button--primary-onActive-bg: #{$B7};
   --Button--primary-onActive-border: #{$B7};
   --Button--primary-onActive-color: #{$G11};
+
+  --Button--light-border: var(--light);
+  --Button--light-color: var(--button-color);
 
   --Button-onDisabled-borderColor: #{$G9};
   --Button-onDisabled-opacity: 0.65;
@@ -371,6 +390,7 @@ $R8: 50%;
   // 图片上传
   --ImageControl-addBtn-bg: #fff;
   --ImageControl-addBtn-border: #dbdbdb;
+  --ImageControl-addBtn-borderRadius: #{$R3};
   --ImageControl-addBtn-color: #666;
   --ImageControl-addBtn-onHover-bg: var(--ImageControl-addBtn-bg);
   --ImageControl-addBtn-onHover-border: var(--primary);
@@ -381,23 +401,36 @@ $R8: 50%;
   --ImageControl-addBtn-onDisabled-bg: #f5f5f5;
   --ImageControl-addBtn-onDisabled-border: #ebebeb;
   --ImageControl-addBtn-onDisabled-color: #ccc;
+  --ImageControl-progress-borderRadius: #{$R2};
+
+  // 文件上传
+  --FileControl-progress-borderRadius: #{$R2};
 
   // Modal
+  --Modal-title-fontSize: #{$T3};
+  --Modal-title-color: #{$W3};
+  --Modal-title-fontWeight: #{$G2};
   --Modal-overlay-bg: rgba(0, 0, 0, 0.7);
   --Modal-content-borderWidth: 0;
   --Modal-content-borderRadius: 0;
   --Modal-content-minHeight: #{px2rem(193px)};
-  --Modal-header-bg: #f6f7fb;
+  --Modal-header-bg: #fff;
+  --Modal-header-paddingY: 0;
+  --Modal-header-paddingX: 0;
   --Modal-title-color: #333;
   --Modal-body-paddingY: var(--gap-md);
   --Modal-body-paddingX: var(--gap-md);
   --Modal-body-borderTop: none;
-  --Modal-body-borderBottom: #{px2rem(1px)} solid #eceff8;
-  --Modal-footer-marginX: var(--gap-md);
-  --Modal-footer-padding: var(--gap-base) 0;
+  --Modal-body-borderBottom: none;
+  --Modal-footer-marginX: 0;
+  --Modal-footer-marginY: 0;
+  --Modal-footer-padding: 0;
 
   // Drawer
+  --Drawer-header-padding: #{px2rem(16px)} #{px2rem(24px)};
   --Drawer-widthBase: #{px2rem(400px)};
+  --Drawer-header-bg: #fff;
+  --Drawer-body-padding: #{px2rem(24px)};
 
   // Remark
   --Remark-icon-fontSize: #{px2rem(12px)};
@@ -446,7 +479,7 @@ $R8: 50%;
   --Pagination-onActive-border: #{px2rem(1px)} solid var(--primary);
 
   // Panel
-  --Panel-borderRadius: 0;
+  --Panel-borderRadius: #{$R3};
   --Panel-fixedBottom-boxShadow: 0 -2px 10px 0 rgba(0, 0, 0, 0.05);
   --Panel--default-bg: #f5f5f5;
 
@@ -465,24 +498,25 @@ $R8: 50%;
   --TransferSelect-heading-borderBottom: 0;
 
   // Alert
-  --Alert-height: #{px2rem(30px)};
-  --Alert-fontSize: #{px2rem(12px)};
-  --Alert-borderRadius: 0;
+  --Alert-height: #{px2rem(40px)};
+  --Alert-paddingX: #{px2rem(16px)};
+  --Alert-fontSize: #{$T2};
+  --Alert-borderRadius: #{$R3};
   --Alert-marginBottom: var(--Alert-md);
 
-  --Alert--danger-color: #333;
+  --Alert--danger-color: #{$G4};
   --Alert--danger-bg: #{$danger-bg};
   --Alert--danger-borderColor: transparent;
 
-  --Alert--info-color: #333;
+  --Alert--info-color: #{$G4};
   --Alert--info-bg: #{$info-bg};
   --Alert--info-borderColor: transparent;
 
-  --Alert--success-color: #333;
+  --Alert--success-color: #{$G4};
   --Alert--success-bg: #{$success-bg};
   --Alert--success-borderColor: transparent;
 
-  --Alert--warning-color: #333;
+  --Alert--warning-color: #{$G4};
   --Alert--warning-bg: #{$warning-bg};
   --Alert--warning-borderColor: transparent;
 
@@ -497,22 +531,24 @@ $R8: 50%;
 
   // Toast color
   --Toast-color: var(--white);
+  --Toast-borderRadius: #{$R3};
+  --Toast-paddingX: #{px2rem(16px)};
 
-  --Toast--danger-color: var(--danger);
-  --Toast--danger-bgColor: #{$danger-bg};
-  --Toast--danger-borderColor: var(--danger);
+  --Toast--danger-color: #{$G2};
+  --Toast--danger-bgColor: #{$G11};
+  --Toast--danger-borderColor: #{$G11};
 
-  --Toast--info-color: var(--info);
-  --Toast--info-bgColor: #{$info-bg};
-  --Toast--info-borderColor: var(--info);
+  --Toast--info-color: #{$G2};
+  --Toast--info-bgColor: #{$G11};
+  --Toast--info-borderColor: #{$G11};
 
-  --Toast--success-color: var(--success);
-  --Toast--success-bgColor: #{$success-bg};
-  --Toast--success-borderColor: var(--success);
+  --Toast--success-color: #{$G2};
+  --Toast--success-bgColor: #{$G11};
+  --Toast--success-borderColor: #{$G11};
 
-  --Toast--warning-color: var(--warning);
-  --Toast--warning-bgColor: #{$warning-bg};
-  --Toast--warning-borderColor: var(--warning);
+  --Toast--warning-color: #{$G2};
+  --Toast--warning-bgColor: #{$G11};
+  --Toast--warning-borderColor: #{$G11};
 
   --Toast-close-color: var(--icon-color);
   --Toast-close--onHover-color: var(--icon-onHover-color);
@@ -556,4 +592,6 @@ $R8: 50%;
   --Satus-icon-width: #{px2rem(14px)};
 
   --Tree-itemHeight: #{px2rem(32px)};
+
+  --Progress-borderRadius: #{$R7};
 }

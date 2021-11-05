@@ -1223,13 +1223,14 @@ export default class FileControl extends React.Component<FileProps, FileState> {
                       onClick={this.handleSelect}
                     >
                       <Icon icon="upload" className="icon" />
-                      {!multiple && files.length
+                      <span>{!multiple && files.length
                         ? __('File.repick')
                         : multiple && files.length
                         ? __('File.continueAdd')
                         : btnLabel
                         ? btnLabel
                         : __('File.upload')}
+                      </span>
                     </Button>
                   ) : null}
 

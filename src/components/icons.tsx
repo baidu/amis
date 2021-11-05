@@ -6,6 +6,7 @@
 import React from 'react';
 
 import CloseIcon from '../icons/close.svg';
+import StatusCloseIcon from '../icons/status-close.svg';
 import UnDoIcon from '../icons/undo.svg';
 import ReDoIcon from '../icons/redo.svg';
 import EnterIcon from '../icons/enter.svg';
@@ -24,6 +25,10 @@ import RemoveIcon from '../icons/remove.svg';
 import RetryIcon from '../icons/retry.svg';
 import UploadIcon from '../icons/upload.svg';
 import FileIcon from '../icons/file.svg';
+import StatusSuccessIcon from '../icons/status-success.svg';
+import StatusFailIcon from '../icons/status-fail.svg';
+import StatusInfoIcon from '../icons/status-info.svg';
+import StatusWarningIcon from '../icons/status-warning.svg';
 import SuccessIcon from '../icons/success.svg';
 import FailIcon from '../icons/fail.svg';
 import SearchIcon from '../icons/search.svg';
@@ -36,6 +41,8 @@ import ReloadIcon from '../icons/reload.svg';
 import ExchangeIcon from '../icons/exchange.svg';
 import ColmunsIcon from '../icons/columns.svg';
 import CalendarIcon from '../icons/calendar.svg';
+import ClockIcon from '../icons/clock.svg';
+
 import CopyIcon from '../icons/copy.svg';
 import FilterIcon from '../icons/filter.svg';
 import CaretIcon from '../icons/caret.svg';
@@ -92,6 +99,7 @@ export function registerIcon(key: string, component: React.ReactType<{}>) {
 }
 
 registerIcon('close', CloseIcon);
+registerIcon('status-close', StatusCloseIcon);
 registerIcon('undo', UnDoIcon);
 registerIcon('redo', ReDoIcon);
 registerIcon('enter', EnterIcon);
@@ -113,6 +121,10 @@ registerIcon('remove', RemoveIcon);
 registerIcon('retry', RetryIcon);
 registerIcon('upload', UploadIcon);
 registerIcon('file', FileIcon);
+registerIcon('status-success', StatusSuccessIcon);
+registerIcon('status-fail', StatusFailIcon);
+registerIcon('status-info', StatusInfoIcon);
+registerIcon('status-warning', StatusWarningIcon);
 registerIcon('success', SuccessIcon);
 registerIcon('fail', FailIcon);
 registerIcon('warning', WarningIcon);
@@ -128,6 +140,7 @@ registerIcon('reload', ReloadIcon);
 registerIcon('exchange', ExchangeIcon);
 registerIcon('columns', ColmunsIcon);
 registerIcon('calendar', CalendarIcon);
+registerIcon('clock', ClockIcon);
 registerIcon('copy', CopyIcon);
 registerIcon('filter', FilterIcon);
 registerIcon('column-filter', ColumnFilterIcon);
