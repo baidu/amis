@@ -675,8 +675,12 @@ export default class Table extends React.Component<TableProps, object> {
     ) {
       Table.syncRows(store, props, prevProps) && this.syncSelected();
     } else if (isArrayChildrenModified(prevProps.selected!, props.selected!)) {
+      const prevSelectedRows = store.selectedRows
+        .map(item => item.id)
+        .join(',');
       store.updateSelected(props.selected || [], props.valueField);
-      this.syncSelected();
+      const selectedRows = store.selectedRows.map(item => item.id).join(',');
+      prevSelectedRows !== selectedRows && this.syncSelected();
     }
 
     this.updateTableInfoLazy();
