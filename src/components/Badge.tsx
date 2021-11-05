@@ -13,7 +13,7 @@ import {ClassNamesFn} from '../theme';
  * Badge 角标。
  * 文档：https://baidu.gitee.io/amis/docs/components/badge
  */
-export interface BadgeSchema extends BaseSchema {
+export interface BadgeSchema extends Omit<BaseSchema, 'type'> {
   /**
    * 文本内容
    */
@@ -64,7 +64,7 @@ export interface BadgeSchema extends BaseSchema {
   /**
    * 提示类型
    */
-  level?: 'info' | 'warning' | 'success' | 'danger';
+  level?: 'info' | 'warning' | 'success' | 'danger' | SchemaExpression;
 }
 
 export interface BadgeProps {
@@ -89,17 +89,13 @@ export class Badge extends React.Component<BadgeProps, object> {
     animationElement: any
   ) {
     const {classnames: cx, badge, data} = this.props;
-    let {
-      mode = 'dot',
-      level = 'danger',
-      style
-    } = badge as BadgeSchema;
+    let {mode = 'dot', level = 'danger', style} = badge as BadgeSchema;
 
     if (typeof level === 'string' && level[0] === '$') {
       level = resolveVariable(level, data);
     }
 
-    switch(mode) {
+    switch (mode) {
       case 'dot':
         return (
           <span
@@ -112,7 +108,11 @@ export class Badge extends React.Component<BadgeProps, object> {
       case 'text':
         return (
           <span
-            className={cx('Badge-text', `Badge--${position}`, `Badge--${level}`)}
+            className={cx(
+              'Badge-text',
+              `Badge--${position}`,
+              `Badge--${level}`
+            )}
             style={{...offsetStyle, ...sizeStyle, ...style}}
           >
             {text}
@@ -127,14 +127,17 @@ export class Badge extends React.Component<BadgeProps, object> {
             style={{width: outSize, height: outSize}}
           >
             <span
-              className={cx('Badge-ribbon', `Badge-ribbon--${position}`, `Badge--${level}`)}
+              className={cx(
+                'Badge-ribbon',
+                `Badge-ribbon--${position}`,
+                `Badge--${level}`
+              )}
               style={{...sizeStyle, ...style}}
             >
               {text}
               {animationElement}
             </span>
           </div>
-
         );
       default:
         return null;
@@ -155,6 +158,7 @@ export class Badge extends React.Component<BadgeProps, object> {
     let {
       mode = 'dot',
       text,
+      level,
       size,
       style,
       offset,
@@ -177,7 +181,7 @@ export class Badge extends React.Component<BadgeProps, object> {
     if (typeof size === 'undefined') {
       if (mode === 'dot') {
         size = 6;
-      } else if (mode === 'ribbon'){
+      } else if (mode === 'ribbon') {
         size = 12;
       } else {
         size = 16;
@@ -194,7 +198,9 @@ export class Badge extends React.Component<BadgeProps, object> {
       // 当text、overflowCount都为number类型时，进行封顶值处理
       if (typeof text === 'number' && typeof overflowCount === 'number') {
         text = (
-          (text as number) > (overflowCount as number) ? `${overflowCount}+` : text
+          (text as number) > (overflowCount as number)
+            ? `${overflowCount}+`
+            : text
         ) as string | number;
       }
 
@@ -222,7 +228,7 @@ export class Badge extends React.Component<BadgeProps, object> {
       const left = `calc(50% + ${parseInt(offset[0] as string, 10)}px)`;
       const right = `calc(-50% + ${parseInt(offset[1] as string, 10)}px)`;
       offsetStyle = {
-        transform: `translate(${left}, ${right})`,
+        transform: `translate(${left}, ${right})`
       };
     }
 
@@ -250,15 +256,16 @@ export class Badge extends React.Component<BadgeProps, object> {
     return (
       <div className={cx('Badge', className)}>
         {children}
-        {isDisplay ?
-          this.renderBadge(
-            text,
-            size,
-            position,
-            offsetStyle,
-            sizeStyle,
-            animationElement
-          ) : null}
+        {isDisplay
+          ? this.renderBadge(
+              text,
+              size,
+              position,
+              offsetStyle,
+              sizeStyle,
+              animationElement
+            )
+          : null}
       </div>
     );
   }

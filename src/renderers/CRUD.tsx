@@ -345,6 +345,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
     'footerToolbar',
     'filterTogglable',
     'filterDefaultVisible',
+    'autoGenerateFilter',
     'syncResponse2Query',
     'keepItemSelectionOnPageChange',
     'labelTpl',
@@ -1985,6 +1986,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
       popOverContainer,
       translate: __,
       onQuery,
+      autoGenerateFilter,
       ...rest
     } = this.props;
 
@@ -2035,6 +2037,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
             key: 'body',
             className: cx('Crud-body', bodyClassName),
             ref: this.controlRef,
+            autoGenerateFilter: !filter && autoGenerateFilter,
             selectable: !!(
               (this.hasBulkActionsToolbar() && this.hasBulkActions()) ||
               pickerMode
@@ -2067,6 +2070,9 @@ export default class CRUD extends React.Component<CRUDProps, any> {
             onSelect: this.handleSelect,
             onPopOverOpened: this.handleChildPopOverOpen,
             onPopOverClosed: this.handleChildPopOverClose,
+            onSearchableFromReset: this.handleFilterReset,
+            onSearchableFromSubmit: this.handleFilterSubmit,
+            onSearchableFromInit: this.handleFilterInit,
             headerToolbarRender: this.renderHeaderToolbar,
             footerToolbarRender: this.renderFooterToolbar,
             data: store.mergedData

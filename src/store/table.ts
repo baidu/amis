@@ -45,6 +45,7 @@ export const Column = types
     checkdisable: false,
     isPrimary: false,
     searchable: types.maybe(types.frozen()),
+    enableSearch: true,
     sortable: false,
     filterable: types.optional(types.frozen(), undefined),
     fixed: '',
@@ -66,8 +67,13 @@ export const Column = types
 
       table.persistSaveToggledColumns();
     },
+
     setToggled(value: boolean) {
       self.toggled = value;
+    },
+
+    setEnableSearch(value: boolean) {
+      self.enableSearch = value;
     }
   }));
 
@@ -292,6 +298,10 @@ export const TableStore = iRendererStore
     keepItemSelectionOnPageChange: false
   })
   .views(self => {
+    function getColumnsExceptBuiltinTypes() {
+      return self.columns.filter(item => !/^__/.test(item.type));
+    }
+
     function getForms() {
       return self.formsRef.map(item => ({
         store: getStoreById(item.id) as IFormStore,
@@ -499,9 +509,44 @@ export const TableStore = iRendererStore
       });
     }
 
+    function getFirstToggledColumnIndex() {
+      const column = self.columns.find(
+        column => !/^__/.test(column.type) && column.toggled
+      );
+
+      return column == null ? null : column.index;
+    }
+
+    function getSearchableColumns() {
+      return self.columns.filter(
+        column => column.searchable && isObject(column.searchable)
+      );
+    }
+
+    function getActivedSearchableColumns() {
+      return self.columns.filter(
+        column =>
+          column.searchable &&
+          isObject(column.searchable) &&
+          column.enableSearch
+      );
+    }
+
     return {
+      get columnsData() {
+        return getColumnsExceptBuiltinTypes();
+      },
+
       get forms() {
         return getForms();
+      },
+
+      get searchableColumns() {
+        return getSearchableColumns();
+      },
+
+      get activedSearchableColumns() {
+        return getSearchableColumns().filter(column => column.enableSearch);
       },
 
       get filteredColumns() {
@@ -596,6 +641,10 @@ export const TableStore = iRendererStore
         }
 
         return maxLength === selectedLength;
+      },
+
+      get firstToggledColumnIndex() {
+        return getFirstToggledColumnIndex();
       },
 
       getData,
