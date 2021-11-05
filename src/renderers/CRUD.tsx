@@ -12,7 +12,8 @@ import {
   getPropValue,
   getVariable,
   qsstringify,
-  qsparse
+  qsparse,
+  isArrayChildrenModified
 } from '../utils/helper';
 import {ScopedContext, IScopedContext} from '../Scoped';
 import Button from '../components/Button';
@@ -462,8 +463,8 @@ export default class CRUD extends React.Component<CRUDProps, any> {
       this.handleFilterInit({});
     }
 
-    const val = getPropValue(this.props);
-    if (this.props.pickerMode && val) {
+    let val: any;
+    if (this.props.pickerMode && (val = getPropValue(this.props))) {
       store.setSelectedItems(val);
     }
   }
@@ -484,8 +485,14 @@ export default class CRUD extends React.Component<CRUDProps, any> {
       this.renderFooterToolbar = this.renderFooterToolbar.bind(this);
     }
 
-    const val = getPropValue(this.props);
-    if (this.props.pickerMode && val !== getPropValue(prevProps)) {
+    let val: any;
+    if (
+      this.props.pickerMode &&
+      isArrayChildrenModified(
+        (val = getPropValue(this.props)),
+        getPropValue(prevProps)
+      )
+    ) {
       store.setSelectedItems(val);
     }
 
@@ -1987,6 +1994,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
       translate: __,
       onQuery,
       autoGenerateFilter,
+      onSelect,
       ...rest
     } = this.props;
 
