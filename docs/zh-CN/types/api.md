@@ -180,6 +180,61 @@ API 还支持配置对象类型
 
 这样 `undefined` 的值不会发送了。
 
+### 不处理 key 中的路径
+
+> since 1.5.0
+
+默认请求数据体中配置 key，如果带路径会自动转成对象如：
+
+```
+"api": {
+    "method": "post",
+    "url": "/api/mock2/form/saveForm",
+    "data": {
+        "a.b": "${name}",
+        "c[d]": "${name}"
+    }
+
+}
+```
+
+最终发送出去的数据格式为
+
+```
+{
+  a: {
+    b: "xxx"
+  },
+  c: {
+    d: "xxx"
+  }
+}
+```
+
+如果数据映射中的 key 不想被处理路径则需要配置 `convertKeyToPath` 为 false 如：
+
+```
+"api": {
+    "method": "post",
+    "url": "/api/mock2/form/saveForm",
+    "convertKeyToPath": false,
+    "data": {
+        "a.b": "${name}",
+        "c[d]": "${name}"
+    }
+
+}
+```
+
+这样发送的数据格式为
+
+```
+{
+  "a.b": "xxx",
+  "c[d]": "xxx"
+}
+```
+
 ### 配置请求数据格式
 
 可以配置`dataType`，来指定请求的数据体格式，默认为`json`
