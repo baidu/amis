@@ -172,6 +172,8 @@ register('de-DE', {
   'Table.startSort': 'Klicken, um Sortierung zu starten',
   'Table.valueField': 'valueField muss vorhanden sein',
   'Table.index': 'Index',
+  'Table.toggleColumn': 'Spalten anzeigen',
+  'Table.searchFields': 'Abfragefelder setzen',
   'Tag.placeholder': 'Noch kein Tag',
   'Tag.tip': 'Kürzlich verwendetes Tag',
   'Text.add': 'Neu {{label}}',

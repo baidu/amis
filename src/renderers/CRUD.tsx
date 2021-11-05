@@ -12,7 +12,8 @@ import {
   getPropValue,
   getVariable,
   qsstringify,
-  qsparse
+  qsparse,
+  isArrayChildrenModified
 } from '../utils/helper';
 import {ScopedContext, IScopedContext} from '../Scoped';
 import Button from '../components/Button';
@@ -345,6 +346,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
     'footerToolbar',
     'filterTogglable',
     'filterDefaultVisible',
+    'autoGenerateFilter',
     'syncResponse2Query',
     'keepItemSelectionOnPageChange',
     'labelTpl',
@@ -461,8 +463,8 @@ export default class CRUD extends React.Component<CRUDProps, any> {
       this.handleFilterInit({});
     }
 
-    const val = getPropValue(this.props);
-    if (this.props.pickerMode && val) {
+    let val: any;
+    if (this.props.pickerMode && (val = getPropValue(this.props))) {
       store.setSelectedItems(val);
     }
   }
@@ -483,8 +485,14 @@ export default class CRUD extends React.Component<CRUDProps, any> {
       this.renderFooterToolbar = this.renderFooterToolbar.bind(this);
     }
 
-    const val = getPropValue(this.props);
-    if (this.props.pickerMode && val !== getPropValue(prevProps)) {
+    let val: any;
+    if (
+      this.props.pickerMode &&
+      isArrayChildrenModified(
+        (val = getPropValue(this.props)),
+        getPropValue(prevProps)
+      )
+    ) {
       store.setSelectedItems(val);
     }
 
@@ -1985,6 +1993,8 @@ export default class CRUD extends React.Component<CRUDProps, any> {
       popOverContainer,
       translate: __,
       onQuery,
+      autoGenerateFilter,
+      onSelect,
       ...rest
     } = this.props;
 
@@ -2035,6 +2045,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
             key: 'body',
             className: cx('Crud-body', bodyClassName),
             ref: this.controlRef,
+            autoGenerateFilter: !filter && autoGenerateFilter,
             selectable: !!(
               (this.hasBulkActionsToolbar() && this.hasBulkActions()) ||
               pickerMode
@@ -2067,6 +2078,9 @@ export default class CRUD extends React.Component<CRUDProps, any> {
             onSelect: this.handleSelect,
             onPopOverOpened: this.handleChildPopOverOpen,
             onPopOverClosed: this.handleChildPopOverClose,
+            onSearchableFromReset: this.handleFilterReset,
+            onSearchableFromSubmit: this.handleFilterSubmit,
+            onSearchableFromInit: this.handleFilterInit,
             headerToolbarRender: this.renderHeaderToolbar,
             footerToolbarRender: this.renderFooterToolbar,
             data: store.mergedData

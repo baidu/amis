@@ -136,6 +136,22 @@
     }
   }
 
+  &-searchableForm {
+    background: var(--Table-searchableForm-backgroundColor);
+    border-radius: var(--Table-searchableForm-borderRadius);
+
+    &-footer {
+      padding: var(--Panel-footerPadding);
+      clear: both;
+    }
+
+    &-checkbox {
+      & > div > .#{$ns}CheckboxControl {
+        padding-top: 0;
+      }
+    }
+  }
+
   &-header {
     padding: var(--Table-toolbar-marginY) var(--Table-toolbar-marginX);
 
@@ -317,6 +333,8 @@
     }
 
     > tbody > tr {
+      position: relative;
+
       & + tr {
         border-top: var(--Table-borderWidth) solid var(--Table-borderColor);
         > th {
@@ -866,6 +884,12 @@
   .fake-hide {
     visibility: hidden;
     position: absolute;
+  }
+
+  &-badge {
+    position: absolute;
+    top: 0;
+    left: 0;
   }
 }
 
