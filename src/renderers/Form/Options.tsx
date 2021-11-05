@@ -270,7 +270,8 @@ export function registerOptionsControl(config: OptionsConfig) {
       : [];
     static ComposedComponent = Control;
 
-    reaction?: () => void;
+    toDispose: Array<() => void> = [];
+
     input: any;
     mounted = false;
 
@@ -302,9 +303,18 @@ export function registerOptionsControl(config: OptionsConfig) {
           data
         );
 
-        this.reaction = reaction(
-          () => JSON.stringify([formItem.loading, formItem.filteredOptions]),
-          () => this.mounted && this.forceUpdate()
+        this.toDispose.push(
+          reaction(
+            () => JSON.stringify([formItem.loading, formItem.filteredOptions]),
+            () => this.mounted && this.forceUpdate()
+          )
+        );
+
+        this.toDispose.push(
+          reaction(
+            () => JSON.stringify(formItem.options),
+            () => this.mounted && this.syncAutoFill(formItem.tmpValue)
+          )
         );
         // 默认全选。这里会和默认值\回填值逻辑冲突，所以如果有配置source则不执行默认全选
         if (
@@ -432,7 +442,8 @@ export function registerOptionsControl(config: OptionsConfig) {
 
     componentWillUnmount() {
       this.props.removeHook?.(this.reload, 'init');
-      this.reaction?.();
+      this.toDispose.forEach(fn => fn());
+      this.toDispose = [];
     }
 
     syncAutoFill(value: any) {
