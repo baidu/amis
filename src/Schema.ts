@@ -493,6 +493,24 @@ export interface SchemaApiObject {
   };
 
   /**
+   * 默认数据映射中的key如果带点，或者带大括号，会转成对象比如：
+   *
+   * {
+   *   'a.b': '123'
+   * }
+   *
+   * 经过数据映射后变成
+   * {
+   *  a: {
+   *   b: '123
+   *  }
+   * }
+   *
+   * 如果想要关闭此功能，请设置 convertKeyToPath 为 false
+   */
+  convertKeyToPath?: boolean;
+
+  /**
    * 用来做接口返回的数据映射。
    */
   responseData?: {

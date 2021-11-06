@@ -598,6 +598,16 @@ ${xxx | date[:format][:inputFormat]}
 ${_|now}
 ```
 
+### toDate
+
+将日期字符串转成日期对象, 第二个参数为字符串的日期格式类型。
+
+用法：
+
+```
+${xxx | toDate:YYYY-MM-DD}
+```
+
 ### dateModify
 
 日期修改，将输入的日期对象修改后返回新的日期对象，支持四种操作符。
