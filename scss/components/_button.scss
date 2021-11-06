@@ -49,7 +49,7 @@
     cursor: not-allowed;
     color: var(--text--muted-color);
     pointer-events: auto;
-    border: var(--Button-borderWidth) solid var(--Button-onDisabled-bg);
+    border: var(--Button-borderWidth) solid var(--Button-onDisabled-borderColor);
     background: var(--Button-onDisabled-bg);
   }
 
@@ -59,6 +59,7 @@
 
   &.cxd-Button--link.is-disabled {
     background: transparent;
+    border: none;
   }
 
   > .pull-left,
