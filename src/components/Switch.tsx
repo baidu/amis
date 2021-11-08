@@ -28,15 +28,15 @@ interface SwitchProps {
   className?: string;
   classPrefix: string;
   classnames: ClassNamesFn;
-  onChange?: (checked: boolean) => void;
-  value?: any;
+  onChange?: (checked: boolean | string | number | undefined) => void;
+  value?: boolean | string | number;
   inline?: boolean;
-  trueValue?: any;
-  falseValue?: any;
+  trueValue?: boolean | string | number;
+  falseValue?: boolean | string | number;
   disabled?: boolean;
   readOnly?: boolean;
-  onText?: string;
-  offText?: string;
+  onText?: React.ReactNode;
+  offText?: React.ReactNode;
   checked?: boolean;
 }
 
