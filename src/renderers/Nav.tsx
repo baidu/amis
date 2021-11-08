@@ -555,7 +555,7 @@ const ConditionBuilderWithRemoteOptions = withRemoteConfig({
 
     componentDidUpdate(prevProps: any) {
       if (this.props.location !== prevProps.location) {
-        this.props.updateConfig(this.props.links, 'location-change');
+        this.props.updateConfig(this.props.config, 'location-change');
       } else if (this.props.links !== prevProps.links) {
         this.props.updateConfig(this.props.links, 'update');
       }
