@@ -7,6 +7,7 @@ import {Icon} from '../components/icons';
 import {LocaleProps, localeable} from '../locale';
 import {BaseSchema, SchemaClassName, SchemaTpl, SchemaUrlPath} from '../Schema';
 import {resolveVariable} from '../utils/tpl-builtin';
+import handleAction from '../utils/handleAction';
 
 /**
  * 图片展示控件。
@@ -322,6 +323,14 @@ export class ImageField extends React.Component<ImageFieldProps, object> {
       );
   }
 
+  @autobind
+  handleClick(e: React.MouseEvent<HTMLElement>) {
+    const clickAction = this.props.clickAction;
+    if (clickAction) {
+      handleAction(e, clickAction, this.props);
+    }
+  }
+
   render() {
     const {
       className,
@@ -359,6 +368,7 @@ export class ImageField extends React.Component<ImageFieldProps, object> {
             : 'ImageField--thumb',
           className
         )}
+        onClick={this.handleClick}
       >
         {value ? (
           <ThemedImageThumb
