@@ -28,7 +28,7 @@ interface SwitchProps {
   className?: string;
   classPrefix: string;
   classnames: ClassNamesFn;
-  onChange?: (checked: boolean | string | number | undefined) => void;
+  onChange?: (checked: boolean | string | number) => void;
   value?: boolean | string | number;
   inline?: boolean;
   trueValue?: boolean | string | number;
@@ -53,7 +53,7 @@ export class Switch extends React.PureComponent<SwitchProps, any> {
   }
 
   hanldeCheck(e: React.ChangeEvent<HTMLInputElement>) {
-    const {trueValue, falseValue, onChange} = this.props;
+    const {trueValue = Switch.defaultProps.trueValue, falseValue = Switch.defaultProps.falseValue, onChange} = this.props;
 
     if (!onChange) {
       return;
