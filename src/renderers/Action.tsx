@@ -589,7 +589,13 @@ export class Action extends React.Component<ActionProps, ActionState> {
     e.preventDefault();
     const action = pick(this.props, ActionProps) as ActionSchema;
 
-    env.tracker(action);
+    if (action.actionType !== 'ajax') {
+      env.tracker({
+        eventType: 'action',
+        eventData: action,
+        props: this.props
+      });
+    }
 
     // download 是一种 ajax 的简写
     if (action.actionType === 'download') {

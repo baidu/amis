@@ -4,7 +4,15 @@ import {getEnv, destroy} from 'mobx-state-tree';
 import {wrapFetcher} from './utils/api';
 import {normalizeLink} from './utils/normalizeLink';
 import {findIndex, promisify, qsparse, string2regExp} from './utils/helper';
-import {Api, fetcherResult, Payload, SchemaNode, Schema, Action} from './types';
+import {
+  Api,
+  fetcherResult,
+  Payload,
+  SchemaNode,
+  Schema,
+  Action,
+  EventTrack
+} from './types';
 import {observer} from 'mobx-react';
 import Scoped from './Scoped';
 import {getTheme, ThemeInstance, ThemeProps} from './theme';
@@ -320,8 +328,8 @@ const defaultOptions: RenderOptions = {
   copy(contents: string) {
     console.error('copy contents', contents);
   },
-  // 用于监控点击操作，目前主要是 action
-  tracker(action: Action) {},
+  // 用于跟踪用户在界面中的各种操作
+  tracker(eventTrack: EventTrack) {},
   rendererResolver: resolveRenderer
 };
 let stores: {

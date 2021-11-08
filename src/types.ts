@@ -1,3 +1,4 @@
+import type {ActionSchema} from './renderers/Action';
 import {SchemaApiObject} from './Schema';
 
 export interface ApiObject extends SchemaApiObject {
@@ -157,3 +158,37 @@ export interface JSONSchema {
 // export type ExtractProps<
 //   TComponentOrTProps
 // > = TComponentOrTProps extends React.ComponentType<infer P> ? P : never;
+
+/**
+ * 事件跟踪的定义
+ */
+export interface EventTrack {
+  /**
+   * 事件类型，目前有以下几种
+   * action: 就是 action，但这里去掉了 ajax、download、link、url，合并到了其它类型里
+   * api: 所有 fetcher 前调用
+   * url: 打开 url
+   * link: 打开链接
+   * formItemChange: 表单项内容变化
+   * tabChange: tab 切换
+   * error: 比如网络报错
+   */
+  eventType:
+    | 'action'
+    | 'api'
+    | 'url'
+    | 'link'
+    | 'formItemChange'
+    | 'tabChange'
+    | 'error';
+
+  /**
+   * 事件数据
+   */
+  eventData: ActionSchema;
+
+  /**
+   * 触发事件的组件属性，可以用来存放自定义属性
+   */
+  props: PlainObject;
+}
