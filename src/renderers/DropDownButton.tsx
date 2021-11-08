@@ -7,10 +7,11 @@ import type {TooltipObject, Trigger} from '../components/TooltipWrapper';
 import {isDisabled, isVisible, noop} from '../utils/helper';
 import {filter} from '../utils/tpl';
 import {Icon} from '../components/icons';
-import {BaseSchema, SchemaClassName} from '../Schema';
+import {BaseSchema, SchemaClassName, SchemaIcon} from '../Schema';
 import {ActionSchema} from './Action';
 import {DividerSchema} from './Divider';
 import {RootClose} from '../utils/RootClose';
+import {generateIcon} from '../utils/icon';
 
 /**
  * 下拉按钮渲染器。
@@ -78,9 +79,15 @@ export interface DropdownButtonSchema extends BaseSchema {
   iconOnly?: boolean;
 
   /**
+   * 右侧图标
+   */
+  rightIcon?: SchemaIcon;
+
+  /**
    * 触发条件，默认是 click
    */
   trigger?: 'click' | 'hover';
+
   /**
    * 是否显示下拉按钮
    */
@@ -274,11 +281,16 @@ export default class DropDownButton extends React.Component<
       align,
       iconOnly,
       icon,
+      rightIcon,
       isActived,
       trigger,
       data,
       hideCaret
     } = this.props;
+
+    const iconElement = generateIcon(cx, icon, 'm-r-xs');
+
+    const rightIconElement = generateIcon(cx, rightIcon, 'm-l-xs');
 
     return (
       <div
@@ -322,21 +334,14 @@ export default class DropDownButton extends React.Component<
               size ? `Button--${size}` : ''
             )}
           >
-            {icon ? (
-              typeof icon === 'string' ? (
-                <i className={cx(icon, 'm-r-xs')} />
-              ) : (
-                icon
-              )
-            ) : null}
+            {iconElement}
             {typeof label === 'string' ? filter(label, data) : label}
-            {
-              !hideCaret
-              ? <span className={cx('DropDown-caret')} >
-                <Icon icon="caret" className="icon" />
+            {rightIconElement}
+            {!hideCaret ? (
+              <span className={cx('DropDown-caret')}>
+                <Icon icon="ellipsis-v" className="icon" />
               </span>
-              : null
-            }
+            ) : null}
           </button>
         </TooltipWrapper>
         {this.state.isOpened ? this.renderOuter() : null}
