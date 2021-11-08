@@ -53,13 +53,13 @@ export class Switch extends React.PureComponent<SwitchProps, any> {
   }
 
   hanldeCheck(e: React.ChangeEvent<HTMLInputElement>) {
-    const {trueValue = Switch.defaultProps.trueValue, falseValue = Switch.defaultProps.falseValue, onChange} = this.props;
+    const {trueValue, falseValue, onChange} = this.props;
 
     if (!onChange) {
       return;
     }
 
-    onChange(e.currentTarget.checked ? trueValue : falseValue);
+    onChange(e.currentTarget.checked ? trueValue! : falseValue!);
   }
 
   render() {
