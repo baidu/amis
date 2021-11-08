@@ -201,6 +201,12 @@ export interface FileControlSchema extends FormBaseControl {
     uploaded: string;
     ready: string;
   };
+
+  /**
+   * 将上传的文件以文本的方式进行读取
+   * 需要设置 asBlob 为 true 时才可使用
+   */
+  onReadAsText?: Function;
 }
 
 export interface FileProps
@@ -356,11 +362,12 @@ export default class FileControl extends React.Component<FileProps, FileState> {
     if (value && value instanceof Blob) {
       files = [value as any];
     } else if (value) {
-      files = (Array.isArray(value)
-        ? value
-        : joinValues
-        ? `${(value as any)[valueField] || value}`.split(delimiter)
-        : [value as any]
+      files = (
+        Array.isArray(value)
+          ? value
+          : joinValues
+          ? `${(value as any)[valueField] || value}`.split(delimiter)
+          : [value as any]
       )
         .map(item => FileControl.valueToFile(item, props) as FileValue)
         .filter(item => item);
@@ -402,11 +409,12 @@ export default class FileControl extends React.Component<FileProps, FileState> {
       let files: Array<FileValue> = [];
 
       if (value) {
-        files = (Array.isArray(value)
-          ? value
-          : joinValues && typeof value === 'string'
-          ? value.split(delimiter)
-          : [value as any]
+        files = (
+          Array.isArray(value)
+            ? value
+            : joinValues && typeof value === 'string'
+            ? value.split(delimiter)
+            : [value as any]
         )
           .map(item => {
             let obj = FileControl.valueToFile(
@@ -711,6 +719,7 @@ export default class FileControl extends React.Component<FileProps, FileState> {
       asBase64,
       asBlob,
       data,
+      onReadAsText,
       translate: __
     } = this.props;
     const nameField = this.props.nameField || 'name';
@@ -732,6 +741,16 @@ export default class FileControl extends React.Component<FileProps, FileState> {
       return;
     } else if (asBlob) {
       file.state = 'ready';
+
+      if (onReadAsText) {
+        const reader = new FileReader();
+        reader.readAsText(file);
+        reader.onload = function () {
+          const fileData = this.result || '';
+          onReadAsText(fileData);
+        };
+      }
+
       setTimeout(
         () =>
           cb(null, file, {
@@ -1223,13 +1242,14 @@ export default class FileControl extends React.Component<FileProps, FileState> {
                       onClick={this.handleSelect}
                     >
                       <Icon icon="upload" className="icon" />
-                      <span>{!multiple && files.length
-                        ? __('File.repick')
-                        : multiple && files.length
-                        ? __('File.continueAdd')
-                        : btnLabel
-                        ? btnLabel
-                        : __('File.upload')}
+                      <span>
+                        {!multiple && files.length
+                          ? __('File.repick')
+                          : multiple && files.length
+                          ? __('File.continueAdd')
+                          : btnLabel
+                          ? btnLabel
+                          : __('File.upload')}
                       </span>
                     </Button>
                   ) : null}
