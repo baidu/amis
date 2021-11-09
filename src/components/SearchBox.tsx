@@ -11,7 +11,7 @@ export interface SearchBoxProps extends ThemeProps, LocaleProps {
   disabled?: boolean;
   mini?: boolean;
   searchImediately?: boolean;
-  onChange?: (text: string, name?: string) => void;
+  onChange?: (text: string) => void;
   placeholder?: string;
   defaultValue?: string;
   value?: string;
@@ -22,11 +22,7 @@ export interface SearchBoxProps extends ThemeProps, LocaleProps {
   onCancel?: () => void;
 }
 
-export interface SearchBoxState {
-  value: string;
-}
-
-export class SearchBox extends React.Component<SearchBoxProps, SearchBoxState> {
+export class SearchBox extends React.Component<SearchBoxProps> {
   inputRef: React.RefObject<HTMLInputElement> = React.createRef();
   static defaultProps = {
     mini: true,
@@ -44,13 +40,6 @@ export class SearchBox extends React.Component<SearchBoxProps, SearchBoxState> {
       trailing: true
     }
   );
-
-  constructor(props: SearchBoxProps) {
-    super(props);
-    this.state = {
-      value: props.value || ''
-    };
-  }
 
   componentWillUnmount() {
     this.lazyEmitSearch.cancel();
@@ -73,15 +62,15 @@ export class SearchBox extends React.Component<SearchBoxProps, SearchBoxState> {
 
   @autobind
   handleChange(e: React.ChangeEvent<HTMLInputElement>) {
-    const {searchImediately} = this.props;
-    this.setState({value: e.currentTarget.value});
+    const {searchImediately, onChange} = this.props;
+    onChange?.(e.currentTarget.value);
     searchImediately && this.lazyEmitSearch();
   }
 
   @autobind
   handleSearch() {
-    const {onSearch} = this.props;
-    onSearch?.(this.state.value || '');
+    const {onSearch, value} = this.props;
+    onSearch?.(value || '');
   }
 
   @autobind
@@ -101,6 +90,7 @@ export class SearchBox extends React.Component<SearchBoxProps, SearchBoxState> {
       disabled,
       placeholder,
       mini,
+      value,
       translate: __
     } = this.props;
 
@@ -117,7 +107,7 @@ export class SearchBox extends React.Component<SearchBoxProps, SearchBoxState> {
           name={name}
           disabled={disabled}
           onChange={this.handleChange}
-          value={this.state.value}
+          value={value || ''}
           placeholder={__(placeholder || 'placeholder.enter')}
           ref={this.inputRef}
           autoComplete="off"
