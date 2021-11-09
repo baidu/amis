@@ -31,21 +31,7 @@ amis 是一个低代码前端框架，它使用 JSON 配置来生成页面，可
     "syncLocation": false,
     "api": "/api/sample",
     "keepItemSelectionOnPageChange": true,
-    "filter": {
-      "title": "筛选",
-      "submitText": "",
-      "body": [
-        {
-          "type": "input-text",
-          "name": "keywords",
-          "placeholder": "关键字",
-          "addOn": {
-            "label": "搜索",
-            "type": "submit"
-          }
-        }
-      ]
-    },
+    "autoGenerateFilter": true,
     "bulkActions": [
       {
         "type": "button",
@@ -81,9 +67,7 @@ amis 是一个低代码前端框架，它使用 JSON 配置来生成页面，可
     ],
     "quickSaveApi": "/api/sample/bulkUpdate",
     "quickSaveItemApi": "/api/sample/$id",
-    "filterTogglable": true,
     "headerToolbar": [
-      "filter-toggler",
       "bulkActions",
       {
         "type": "button",
@@ -100,14 +84,11 @@ amis 是一个低代码前端框架，它使用 JSON 配置来生成页面，可
       },
       {
         "type": "columns-toggler",
-        "align": "right"
+        "align": "right",
+        "draggable": true
       },
       {
         "type": "drag-toggler",
-        "align": "right"
-      },
-      {
-        "type": "pagination",
         "align": "right"
       }
     ],
@@ -118,15 +99,37 @@ amis 是一个低代码前端框架，它使用 JSON 配置来生成页面，可
         "label": "ID",
         "width": 20,
         "sortable": true,
-        "type": "text"
+        "type": "text",
+        "searchable": {
+          "type": "input-text",
+          "name": "id",
+          "label": "主键",
+          "placeholder": "输入id"
+        }
       },
       {
-        "name": "engine",
-        "label": "渲染引擎",
-        "sortable": true,
-        "searchable": true,
-        "type": "text",
-        "remark": "Trident 就是 IE，Gecko 就是 Firefox"
+        "name": "browser",
+        "label": "Browser",
+        "searchable": {
+          "type": "select",
+          "name": "browser",
+          "label": "浏览器",
+          "placeholder": "选择浏览器",
+          "options": [
+            {
+              "label": "Internet Explorer ",
+              "value": "ie"
+            },
+            {
+              "label": "AOL browser",
+              "value": "aol"
+            },
+            {
+              "label": "Firefox",
+              "value": "firefox"
+            }
+          ]
+        }
       },
       {
         "name": "platform",
@@ -172,9 +175,11 @@ amis 是一个低代码前端框架，它使用 JSON 配置来生成页面，可
 - 有按钮可以刷新数据
 - 编辑单行数据
 - 批量修改和删除
-- 查询某列
 - 按某列排序
-- 隐藏某列
+- 可以隐藏某些列
+- 可以调整列顺序
+- 自动生成顶部查询区域
+- 可调整列宽度
 - 开启整页内容拖拽排序
 - 表格有分页（页数还能同步到地址栏，不过这个例子中关了）
 - 有数据汇总
