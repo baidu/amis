@@ -54,10 +54,10 @@ export class SearchBox extends React.Component<SearchBoxProps> {
 
   @autobind
   handleCancel() {
-    const {onActiveChange, onCancel} = this.props;
+    const {onActiveChange, onCancel, onChange} = this.props;
     onActiveChange?.(false);
     onCancel?.();
-    this.setState({value: ''});
+    onChange?.('');
   }
 
   @autobind
