@@ -363,7 +363,7 @@ export class Navigation extends React.Component<
             onClick={this.handleClick.bind(this, link)}
             style={{paddingLeft: depth * (parseInt(indentSize as any, 10) ?? 24)}}
           >
-            {!disabled && draggable && links && links.length > 1 ? (
+            {!disabled && draggable ? (
             <div className={cx('Nav-itemDrager')}
               draggable
               onMouseDown={e => {this.toggleLink(link, true); e.stopPropagation()}}
@@ -480,7 +480,7 @@ const ConditionBuilderWithRemoteOptions = withRemoteConfig({
                     env &&
                     env.isCurrentUrl(filter(link.to as string, data))
                   )),
-            __id: guid()
+            __id: link.__id || guid()
           };
 
           item.unfolded =
@@ -659,7 +659,7 @@ const ConditionBuilderWithRemoteOptions = withRemoteConfig({
         <ThemedNavigation
           {...rest}
           loading={loading}
-          links={config || rest.links || []}
+          links={config || []}
           disabled={loading}
           onSelect={this.handleSelect}
           onToggle={this.toggleLink}
@@ -721,7 +721,6 @@ export class NavigationRenderer extends React.Component<RendererProps> {
 
   render() {
     const {...rest} = this.props;
-
     return (
       <ConditionBuilderWithRemoteOptions
         {...rest}
