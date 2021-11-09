@@ -440,8 +440,16 @@ export function wrapControl<
                 changeImmediately: conrolChangeImmediately
               },
               formInited,
-              data
+              data,
+              env
             } = this.props;
+            env.tracker({
+              eventType: 'formItemChange',
+              eventData: {
+                value
+              },
+              props: this.props
+            });
 
             if (
               !this.model ||

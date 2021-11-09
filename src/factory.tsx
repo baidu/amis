@@ -355,7 +355,7 @@ export function render(
       ...defaultOptions,
       ...options,
       fetcher: options.fetcher
-        ? wrapFetcher(options.fetcher)
+        ? wrapFetcher(options.fetcher, options.tracker)
         : defaultOptions.fetcher,
       confirm: promisify(
         options.confirm || defaultOptions.confirm || window.confirm
@@ -426,7 +426,7 @@ export function updateEnv(options: Partial<RenderOptions>, session = 'global') {
   };
 
   if (options.fetcher) {
-    options.fetcher = wrapFetcher(options.fetcher) as any;
+    options.fetcher = wrapFetcher(options.fetcher, options.tracker) as any;
   }
 
   if (options.confirm) {

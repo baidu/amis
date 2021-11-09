@@ -593,17 +593,22 @@ export class Action extends React.Component<ActionProps, ActionState> {
 
     e.preventDefault();
     const action = pick(this.props, ActionProps) as ActionSchema;
+    const actionType = action.actionType;
 
-    if (action.actionType !== 'ajax') {
+    // ajax 会在 wrapFetcher 里记录，这里再处理就重复了，因此去掉
+    if (actionType !== 'ajax' && actionType !== 'download') {
       env.tracker({
-        eventType: 'action',
-        eventData: action,
+        eventType: actionType,
+        eventData: {
+          ...action,
+          isAction: true // 用于区分比如 link 到底是 action 还是普通 link 组件
+        },
         props: this.props
       });
     }
 
     // download 是一种 ajax 的简写
-    if (action.actionType === 'download') {
+    if (actionType === 'download') {
       action.actionType = 'ajax';
       const api = normalizeApi((action as AjaxActionSchema).api);
       api.responseType = 'blob';

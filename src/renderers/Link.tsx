@@ -1,7 +1,7 @@
 import React from 'react';
 import {Renderer, RendererProps} from '../factory';
 import {BaseSchema, SchemaTpl} from '../Schema';
-import {getPropValue} from '../utils/helper';
+import {autobind, getPropValue} from '../utils/helper';
 import {filter} from '../utils/tpl';
 import {BadgeSchema, withBadge} from '../components/Badge';
 import Link from '../components/Link';
@@ -58,6 +58,17 @@ export class LinkCmpt extends React.Component<LinkProps, object> {
     htmlTarget: '_self'
   };
 
+  handleMouseDown(href: string) {
+    const {env} = this.props;
+    env.tracker({
+      eventType: 'url',
+      // 需要和 action 里命名一致方便后续分析
+      eventData: {url: href}
+    });
+  }
+
+  getHref() {}
+
   render() {
     const {
       className,
@@ -83,11 +94,13 @@ export class LinkCmpt extends React.Component<LinkProps, object> {
 
     return (
       <Link
-        className={className}
-        href={finnalHref}
         body={text}
         blank={blank}
         disabled={disabled}
+        onMouseDown={() => this.handleMouseDown(finnalHref || value)}
+        href={finnalHref || value}
+        target={htmlTarget || (blank ? '_blank' : '_self')}
+        className={cx('Link', className)}
         title={title}
         htmlTarget={htmlTarget}
         icon={icon}
