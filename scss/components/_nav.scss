@@ -155,7 +155,7 @@
           border-color: var(--Nav-item-onHover-color);
           text-decoration: none;
           background: var(--Nav-item-onHover-bg);
-          z-index: 9999;
+          z-index: 1;
         }
 
         > a:hover > .#{$ns}Nav-itemDrager,
