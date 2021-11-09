@@ -22,7 +22,11 @@ export interface SearchBoxProps extends ThemeProps, LocaleProps {
   onCancel?: () => void;
 }
 
-export class SearchBox extends React.Component<SearchBoxProps> {
+export interface SearchBoxState {
+  value: string;
+}
+
+export class SearchBox extends React.Component<SearchBoxProps, SearchBoxState> {
   inputRef: React.RefObject<HTMLInputElement> = React.createRef();
   static defaultProps = {
     mini: true,
@@ -41,6 +45,13 @@ export class SearchBox extends React.Component<SearchBoxProps> {
     }
   );
 
+  constructor(props: SearchBoxProps) {
+    super(props);
+    this.state = {
+      value: props.value || ''
+    };
+  }
+
   componentWillUnmount() {
     this.lazyEmitSearch.cancel();
   }
@@ -54,23 +65,23 @@ export class SearchBox extends React.Component<SearchBoxProps> {
 
   @autobind
   handleCancel() {
-    const {onActiveChange, onChange, onCancel} = this.props;
+    const {onActiveChange, onCancel} = this.props;
     onActiveChange?.(false);
     onCancel?.();
-    onChange?.('');
+    this.setState({value: ''});
   }
 
   @autobind
   handleChange(e: React.ChangeEvent<HTMLInputElement>) {
-    const {onChange, onSearch, searchImediately, name} = this.props;
-    onChange?.(e.currentTarget.value, name);
+    const {searchImediately} = this.props;
+    this.setState({value: e.currentTarget.value});
     searchImediately && this.lazyEmitSearch();
   }
 
   @autobind
   handleSearch() {
-    const {value, onSearch} = this.props;
-    onSearch?.(value || '');
+    const {onSearch} = this.props;
+    onSearch?.(this.state.value || '');
   }
 
   @autobind
@@ -84,11 +95,9 @@ export class SearchBox extends React.Component<SearchBoxProps> {
   render() {
     const {
       classnames: cx,
-      value,
       active,
       name,
       className,
-      onChange,
       disabled,
       placeholder,
       mini,
@@ -108,7 +117,7 @@ export class SearchBox extends React.Component<SearchBoxProps> {
           name={name}
           disabled={disabled}
           onChange={this.handleChange}
-          value={value || ''}
+          value={this.state.value}
           placeholder={__(placeholder || 'placeholder.enter')}
           ref={this.inputRef}
           autoComplete="off"

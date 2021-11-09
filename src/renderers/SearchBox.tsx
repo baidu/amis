@@ -109,13 +109,12 @@ export class SearchBoxRenderer extends React.Component<SearchBoxProps> {
         disabled={!onQuery}
         defaultActive={!!value}
         defaultValue={onChange ? undefined : value}
-        value={onChange ? value : undefined}
+        value={value}
         mini={mini}
         searchImediately={searchImediately}
         onSearch={this.handleSearch}
         onCancel={this.handleCancel}
         placeholder={placeholder}
-        onChange={onChange}
       />
     );
   }
