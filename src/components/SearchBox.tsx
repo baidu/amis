@@ -11,7 +11,7 @@ export interface SearchBoxProps extends ThemeProps, LocaleProps {
   disabled?: boolean;
   mini?: boolean;
   searchImediately?: boolean;
-  onChange?: (text: string) => void;
+  onChange?: (text: string, name?: string) => void;
   placeholder?: string;
   defaultValue?: string;
   value?: string;
@@ -62,8 +62,8 @@ export class SearchBox extends React.Component<SearchBoxProps> {
 
   @autobind
   handleChange(e: React.ChangeEvent<HTMLInputElement>) {
-    const {onChange, onSearch, searchImediately} = this.props;
-    onChange?.(e.currentTarget.value);
+    const {onChange, onSearch, searchImediately, name} = this.props;
+    onChange?.(e.currentTarget.value, name);
     searchImediately && this.lazyEmitSearch();
   }
 
