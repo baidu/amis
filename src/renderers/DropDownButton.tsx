@@ -339,7 +339,7 @@ export default class DropDownButton extends React.Component<
             {rightIconElement}
             {!hideCaret ? (
               <span className={cx('DropDown-caret')}>
-                <Icon icon="ellipsis-v" className="icon" />
+                <Icon icon="caret" className="icon" />
               </span>
             ) : null}
           </button>

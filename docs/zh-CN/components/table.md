@@ -1615,7 +1615,7 @@ order: 67
 
 ## 行角标
 
-> 1.4.0 及以上版本
+> 1.5.0 及以上版本
 
 通过属性`itemBadge`，可以为表格行配置[角标](./badge)，可以使用[数据映射](../../../docs/concepts/data-mapping)为每一行添加特定的 Badge 属性。[`visibleOn`](../../../docs/concepts/expression)属性控制显示的条件，表达式中`this`可以取到行所在上下文的数据，比如行数据中有`badgeText`字段才显示角标，可以设置`"visibleOn": "this.badgeText"`
 

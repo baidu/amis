@@ -77,12 +77,14 @@ export class LinkCmpt extends React.Component<LinkProps, object> {
 
     let value = getPropValue(this.props);
     const finnalHref = href ? filter(href, data, '| raw') : '';
-    const text = body ? render('body', body) : finnalHref || value || __('link');
+    const text = body
+      ? render('body', body)
+      : finnalHref || value || __('link');
 
     return (
       <Link
         className={className}
-        href={href}
+        href={finnalHref}
         body={text}
         blank={blank}
         disabled={disabled}
@@ -90,8 +92,7 @@ export class LinkCmpt extends React.Component<LinkProps, object> {
         htmlTarget={htmlTarget}
         icon={icon}
         position={position}
-      >
-      </Link>
+      ></Link>
     );
   }
 }
