@@ -282,6 +282,11 @@ export interface CRUDCommonSchema extends BaseSchema {
    * 默认只有当分页数大于 1 是才显示，如果总是想显示请配置。
    */
   alwaysShowPagination?: boolean;
+
+  /**
+   * 开启查询区域，会根据列元素的searchable属性值，自动生成查询条件表单
+   */
+  autoGenerateFilter?: boolean;
 }
 
 export type CRUDCardsSchema = CRUDCommonSchema & {
