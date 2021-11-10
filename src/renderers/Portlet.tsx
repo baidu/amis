@@ -73,7 +73,7 @@ export interface PortletTabSchema extends Omit<BaseSchema, 'type'> {
   unmountOnExit?: boolean;
 }
 
-export interface PortletSchema extends Omit<BaseSchema, 'type'> {
+export interface PortletSchema extends BaseSchema {
   /**
    * 指定为 portlet 类型
    */
