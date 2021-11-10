@@ -20,7 +20,7 @@ order: 60
     },
     "body": {
         "type": "portlet",
-        "desc": "${text}",
+        "description": "${text}",
         "tabs": [
             {
                 "title": "标题",
@@ -167,7 +167,7 @@ order: 60
 
 ```schema: scope="body"
 {
-    "type": "tabs",
+    "type": "portlet",
     "tabs": [
         {
             "title": "Tab 1",
@@ -195,7 +195,7 @@ order: 60
 
 ```schema: scope="body"
 {
-    "type": "tabs",
+    "type": "portlet",
     "activeKey": 1,
     "onSelect": "alert(key)",
     "tabs": [
@@ -225,7 +225,7 @@ order: 60
 | source                | `Object`                          |                                     | tabs 关联数据，关联后可以重复生成选项卡                                                    |
 | toolbar               | [SchemaNode](../types/schemanode) |                                     | tabs 中的工具栏，不随tab切换而变化                                                                            |
 | style                 | `string \| Object`                |                                     | 自定义样式|
-| desc                  | [模板](../../docs/concepts/template)|                                    | 标题右侧信息                                                                           |
+| description           | [模板](../../docs/concepts/template)|                                    | 标题右侧信息                                                                           |
 | hideHeader                | `boolean`                     |       false                          | 影藏头部                                                   |
 | divider                | `boolean`                        |        false                         | 去掉分隔线                                                    |
 | tabs[x].title         | `string`                          |                                     | Tab 标题                                                                                   |

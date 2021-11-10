@@ -10,14 +10,12 @@ import {
     autobind,
     isDisabled,
     isObject,
-    createObject,
-    getVariable
+    createObject
 } from '../utils/helper';
 
 import {filter} from '../utils/tpl';
 import {SchemaTpl, SchemaClassName, BaseSchema, SchemaCollection, SchemaIcon} from '../Schema';
 
-import DropDownButton from './DropDownButton';
 import {ActionSchema} from './Action';
 
 /**
@@ -130,7 +128,7 @@ export interface PortletSchema {
     /**
      * 标题右侧的描述
      */
-    desc?: SchemaTpl;
+    description?: SchemaTpl;
 
     /**
      * 影藏头部
@@ -247,7 +245,7 @@ export class Portlet extends React.Component<PortletProps, PortletState> {
     }
 
     renderDesc() {
-        const {desc: descTpl, render, classnames: cx, classPrefix: ns, data} = this.props;
+        const {description : descTpl, render, classnames: cx, classPrefix: ns, data} = this.props;
         const desc = filter(descTpl, data);
         return desc
             ? <span className={cx(`${ns}Portlet-header-desc`)}>{desc}</span>
