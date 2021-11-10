@@ -197,7 +197,7 @@ export function responseAdaptor(ret: fetcherResult, api: ApiObject) {
   let hasStatusField = true;
 
   if (!data) {
-    throw new Error('Response is empty!');
+    throw new Error('Response is empty');
   }
 
   // 兼容几种常见写法

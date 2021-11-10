@@ -282,6 +282,11 @@ export interface CRUDCommonSchema extends BaseSchema {
    * 默认只有当分页数大于 1 是才显示，如果总是想显示请配置。
    */
   alwaysShowPagination?: boolean;
+
+  /**
+   * 内容区域占满屏幕剩余空间
+   */
+  autoFillHeight?: boolean;
 }
 
 export type CRUDCardsSchema = CRUDCommonSchema & {
@@ -361,7 +366,8 @@ export default class CRUD extends React.Component<CRUDProps, any> {
     'onInit',
     'onSaved',
     'onQuery',
-    'formStore'
+    'formStore',
+    'autoFillHeight'
   ];
   static defaultProps = {
     toolbarInline: true,
@@ -377,7 +383,8 @@ export default class CRUD extends React.Component<CRUDProps, any> {
     filterTogglable: false,
     filterDefaultVisible: true,
     loadDataOnce: false,
-    loadDataOnceFetchOnFilter: true
+    loadDataOnceFetchOnFilter: true,
+    autoFillHeight: false
   };
 
   control: any;
@@ -1995,6 +2002,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
       onQuery,
       autoGenerateFilter,
       onSelect,
+      autoFillHeight,
       ...rest
     } = this.props;
 
@@ -2046,6 +2054,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
             className: cx('Crud-body', bodyClassName),
             ref: this.controlRef,
             autoGenerateFilter: !filter && autoGenerateFilter,
+            autoFillHeight: autoFillHeight,
             selectable: !!(
               (this.hasBulkActionsToolbar() && this.hasBulkActions()) ||
               pickerMode

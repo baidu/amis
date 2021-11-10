@@ -891,6 +891,21 @@
     top: 0;
     left: 0;
   }
+
+  &--autoFillHeight {
+    > .#{$ns}Table-contentWrap {
+      overflow-y: scroll;
+
+      > .#{$ns}Table-content table {
+        border-top: none; // 不然会导致拖动时顶部露出内容
+      }
+      > .#{$ns}Table-content table thead {
+        position: sticky; // 简单实现表头吸顶效果，不考虑 IE 11 不然太麻烦
+        top: 0;
+        z-index: 1; // 由于 badge 导致 tbody 里 tr 的 position: relative 了
+      }
+    }
+  }
 }
 
 .#{$ns}InputTable-toolbar {
