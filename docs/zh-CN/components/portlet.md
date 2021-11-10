@@ -34,7 +34,6 @@ order: 60
     }
 }
 ```
-
 ## 配置工具栏
 
 ```schema: scope="body"

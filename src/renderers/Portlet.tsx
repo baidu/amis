@@ -29,6 +29,7 @@ import {ActionSchema} from './Action';
  * 文档：https://baidu.gitee.io/amis/docs/components/portlet
  */
 export interface PortletTabSchema extends Omit<BaseSchema, 'type'> {
+<<<<<<< HEAD
   /**
    * Tab 标题
    */
@@ -71,6 +72,50 @@ export interface PortletTabSchema extends Omit<BaseSchema, 'type'> {
    * 卡片隐藏就销毁卡片节点。
    */
   unmountOnExit?: boolean;
+=======
+    /**
+     * Tab 标题
+     */
+    title?: string;
+  
+    /**
+     * 内容
+     * @deprecated 用 body 属性
+     */
+    tab?: SchemaCollection;
+
+    /**
+     * 可以在右侧配置点其他功能按钮，随着tab切换而切换
+     */
+    toolbar?: Array<ActionSchema>;
+  
+    /**
+     * 内容
+     */
+    body?: SchemaCollection;
+  
+    /**
+     * 按钮图标
+     */
+    icon?: SchemaIcon;
+  
+    iconPosition?: 'left' | 'right';
+  
+    /**
+     * 设置以后内容每次都会重新渲染
+     */
+    reload?: boolean;
+  
+    /**
+     * 点开时才加载卡片内容
+     */
+    mountOnEnter?: boolean;
+  
+    /**
+     * 卡片隐藏就销毁卡片节点。
+     */
+    unmountOnExit?: boolean;
+>>>>>>> [ADD] Portlet component
 }
 
 export interface PortletSchema extends BaseSchema {
@@ -152,6 +197,7 @@ export interface PortletSchema extends BaseSchema {
 }
 
 export interface PortletProps
+<<<<<<< HEAD
   extends RendererProps,
     Omit<PortletSchema, 'className' | 'contentClassName'> {
   activeKey?: number;
@@ -160,6 +206,12 @@ export interface PortletProps
     props: PortletProps,
     index: number
   ) => JSX.Element;
+=======
+    extends RendererProps,
+        Omit<PortletSchema, 'className' | 'contentClassName'>{   
+    activeKey?: number;
+    tabRender?: (tab: PortletTabSchema, props: PortletProps, index: number) => JSX.Element;
+>>>>>>> [ADD] Portlet component
 }
 
 export interface PortletState {
@@ -167,6 +219,7 @@ export interface PortletState {
 }
 
 export class Portlet extends React.Component<PortletProps, PortletState> {
+<<<<<<< HEAD
   static defaultProps: Partial<PortletProps> = {
     className: '',
     mode: 'line',
@@ -184,6 +237,12 @@ export class Portlet extends React.Component<PortletProps, PortletState> {
 
     this.state = {
       activeKey
+=======
+    static defaultProps: Partial<PortletProps> = {
+        className: '',
+        mode: 'line',
+        divider: true
+>>>>>>> [ADD] Portlet component
     };
   }
 
@@ -196,6 +255,7 @@ export class Portlet extends React.Component<PortletProps, PortletState> {
       });
     }
 
+<<<<<<< HEAD
     if (typeof onSelect === 'string') {
       const selectFunc = str2AsyncFunction(onSelect, 'key', 'props');
       selectFunc && selectFunc(key, this.props);
@@ -224,10 +284,35 @@ export class Portlet extends React.Component<PortletProps, PortletState> {
           )
         )
       );
+=======
+    renderToolbarItem(toolbar: Array<ActionSchema>) {
+        const {render} = this.props;
+        let actions: Array<JSX.Element> = []
+        if (Array.isArray(toolbar)) {
+            toolbar.forEach((action, index) =>
+                actions.push(
+                    render(
+                        `toolbar/${index}`,
+                        {
+                          type: 'button',
+                          level: 'link',
+                          size: 'sm',
+                          ...(action as any)
+                        },
+                        {
+                          key: index
+                        }
+                    )
+                )
+            );
+        }
+        return actions;
+>>>>>>> [ADD] Portlet component
     }
     return actions;
   }
 
+<<<<<<< HEAD
   renderToolbar() {
     const {toolbar, classnames: cx, classPrefix: ns, tabs} = this.props;
     const activeKey = this.state.activeKey;
@@ -248,6 +333,38 @@ export class Portlet extends React.Component<PortletProps, PortletState> {
           {this.renderToolbarItem(tabToolbar)}
         </div>
       ) : null;
+=======
+    renderToolbar() {
+        const {toolbar, classnames: cx, classPrefix: ns, tabs} = this.props;
+        const activeKey = this.state.activeKey;
+        let tabToolbar = null;
+        let tabToolbarTpl = null;
+        // tabs里的toolbar
+        const toolbarTpl = toolbar ? (
+            <div className={cx(`${ns}toolbar`)}>
+              {this.renderToolbarItem(toolbar)}
+            </div>
+        ) : null;
+
+        // tab里的toolbar
+        if (typeof activeKey !== 'undefined') {
+            tabToolbar = tabs[activeKey]!.toolbar;
+            tabToolbarTpl = tabToolbar ? (
+              <div className={cx(`${ns}tab-toolbar`)}>
+                {this.renderToolbarItem(tabToolbar)}
+              </div>
+          ) : null;
+        }
+
+        return (
+            toolbarTpl || tabToolbarTpl 
+            ? (<div className={cx(`${ns}Portlet-toolbar`)}>
+                {toolbarTpl}
+                {tabToolbarTpl}
+            </div>)
+            : null
+        );
+>>>>>>> [ADD] Portlet component
     }
 
     return toolbarTpl || tabToolbarTpl ? (
