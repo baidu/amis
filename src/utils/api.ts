@@ -12,6 +12,7 @@ import {
   createObject,
   qsparse
 } from './helper';
+import isPlainObject from 'lodash/isPlainObject';
 
 const rSchema = /(?:^|raw\:)(get|post|put|delete|patch|options|head):/i;
 
@@ -467,6 +468,18 @@ export function setApiCache(
 
 export function clearApiCache() {
   apiCaches.splice(0, apiCaches.length);
+}
+
+export function normalizeApiResponseData(data: any) {
+  if (typeof data === 'undefined') {
+    data = {};
+  } else if (!isPlainObject(data)) {
+    data = {
+      [Array.isArray(data) ? 'items' : 'result']: data
+    };
+  }
+
+  return data;
 }
 
 // window.apiCaches = apiCaches;

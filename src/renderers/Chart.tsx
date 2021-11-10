@@ -12,7 +12,11 @@ import {
   isPureVariable,
   dataMapping
 } from '../utils/tpl-builtin';
-import {isApiOutdated, isEffectiveApi} from '../utils/api';
+import {
+  isApiOutdated,
+  isEffectiveApi,
+  normalizeApiResponseData
+} from '../utils/api';
 import {ScopedContext, IScopedContext} from '../Scoped';
 import {createObject, findObjectsWithKey} from '../utils/helper';
 import Spinner from '../components/Spinner';
@@ -342,7 +346,7 @@ export class Chart extends React.Component<ChartProps> {
         }
         delete this.reloadCancel;
 
-        const data = result.data || {};
+        const data = normalizeApiResponseData(result.data);
         // 说明返回的是数据接口。
         if (!data.series && this.props.config) {
           const ctx = createObject(this.props.data, data);
