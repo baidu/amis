@@ -1,7 +1,6 @@
 import React from 'react';
 import mapValues from 'lodash/mapValues';
 
-import type {Trigger} from '../components/TooltipWrapper';
 import {Tabs as CTabs, Tab} from '../components/Tabs';
 import {Renderer, RendererProps} from '../factory';
 import {resolveVariable} from '../utils/tpl-builtin';
@@ -41,11 +40,6 @@ export interface PortletTabSchema extends Omit<BaseSchema, 'type'> {
      * 可以在右侧配置点其他功能按钮，随着tab切换而切换
      */
     toolbar?: Array<ActionSchema>;
-
-    /**
-     * 是否收起tab里的toolbar
-     */
-    shrinkToolbar?: boolean;
   
     /**
      * 内容
@@ -155,8 +149,6 @@ export interface PortletProps
     extends RendererProps,
         Omit<PortletSchema, 'className' | 'contentClassName'>{   
     activeKey?: number;
-    shrinkToolbarPlacement?: 'top' | 'right' | 'bottom' | 'left';
-    shrinkToolbarTrigger?: Trigger | Array<Trigger>;
     tabRender?: (tab: PortletTabSchema, props: PortletProps, index: number) => JSX.Element;
 }
 
@@ -168,10 +160,7 @@ export class Portlet extends React.Component<PortletProps, PortletState> {
     static defaultProps: Partial<PortletProps> = {
         className: '',
         mode: 'line',
-        divider: true,
-        shrinkToolbar: false,
-        shrinkToolbarPlacement: 'top',
-        shrinkToolbarTrigger: ['hover', 'focus']
+        divider: true
     };
     renderTab?: (tab: PortletTabSchema, props: PortletProps, index: number) => JSX.Element;
     constructor(props: PortletProps) {
@@ -201,79 +190,52 @@ export class Portlet extends React.Component<PortletProps, PortletState> {
         }
     }
 
-    renderShrinkToolbarPopover(tabToolbar: Array<ActionSchema>) {
-        const {render, classnames:cx} =  this.props;
-        return (
-            <ul
-                className={cx('DropDown-menu')}
-            >
-                {
-                    tabToolbar.map((toolbar, index) => {
-                        return (
-                            <li
-                            key={index}
-                            className={`toolbar-${index}`}
-                            >
-                            {render(`button/${index}`, {
-                                type: 'button',
-                                ...(toolbar as any),
-                                isMenuItem: true
-                            })}
-                            </li>
-                        )
-                    })
-                }
-            </ul>
-        );
-    }
-
-    renderShrinkToolbar(tabToolbar: Array<ActionSchema>) {
-        const {shrinkToolbarPlacement, shrinkToolbarTrigger, classPrefix:ns, classnames:cx, ...rest} = this.props;
-        return (
-            <DropDownButton
-                {...rest}
-                classPrefix={ns}
-                classnames={cx}
-                className={cx(`${ns}Portlet-toolbar-dropdown`)}
-                label="..."
-                level="link"
-                buttons={tabToolbar}
-                placement={shrinkToolbarPlacement}
-                tooltipTrigger={shrinkToolbarTrigger}
-            />
-        )
+    renderToolbarItem(toolbar: Array<ActionSchema>) {
+        const {render} = this.props;
+        let actions: Array<JSX.Element> = []
+        if (Array.isArray(toolbar)) {
+            toolbar.forEach((action, index) =>
+                actions.push(
+                    render(
+                        `toolbar/${index}`,
+                        {
+                          type: 'button',
+                          level: 'link',
+                          size: 'sm',
+                          ...(action as any)
+                        },
+                        {
+                          key: index
+                        }
+                    )
+                )
+            );
+        }
+        return actions;
     }
 
     renderToolbar() {
-        const {toolbar, render, classnames: cx, classPrefix: ns, tabs, shrinkToolbar} = this.props;
+        const {toolbar, classnames: cx, classPrefix: ns, tabs} = this.props;
         const activeKey = this.state.activeKey;
         let tabToolbar = null;
-        let tabShrinkToolbar: boolean | undefined = false;
         let tabToolbarTpl = null;
         // tabs里的toolbar
         const toolbarTpl = toolbar ? (
             <div className={cx(`${ns}toolbar`)}>
-              {render('toolbar', toolbar)}
+              {this.renderToolbarItem(toolbar)}
             </div>
         ) : null;
 
         // tab里的toolbar
         if (typeof activeKey !== 'undefined') {
             tabToolbar = tabs[activeKey]!.toolbar;
-            tabShrinkToolbar = tabs[activeKey]!.shrinkToolbar;
+            tabToolbarTpl = tabToolbar ? (
+              <div className={cx(`${ns}tab-toolbar`)}>
+                {this.renderToolbarItem(tabToolbar)}
+              </div>
+          ) : null;
         }
 
-        if (tabShrinkToolbar && tabToolbar) {
-            tabToolbarTpl = this.renderShrinkToolbar(tabToolbar);
-        }
-        else {
-            tabToolbarTpl = tabToolbar ? (
-                <div className={cx(`${ns}tab-toolbar`)}>
-                  {render('toolbar', tabToolbar)}
-                </div>
-            ) : null;
-        }
-        
         return (
             toolbarTpl || tabToolbarTpl 
             ? (<div className={cx(`${ns}Portlet-toolbar`)}>

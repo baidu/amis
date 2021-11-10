@@ -21,72 +21,36 @@ order: 60
     "body": {
         "type": "portlet",
         "desc": "${text}",
-        shrinkToolbar: true,
-        "toolbar": [
-                {
-                        "label": "固定操作",
-                        "type": "button",
-                        "actionType": "ajax",
-                        "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm"
-                }
-        ],
         "tabs": [
             {
                 "title": "标题",
-                "tab": "Content 1",
-                "toolbar": [
-                    {
-                        "label": "ajax请求1",
-                        "level": "link",
-                        "type": "button",
-                        "actionType": "ajax",
-                        "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm"
-                    },
-                    {
-                        "type": "button",
-                        "level": "link",
-                        "url": "https://www.baidu.com",
-                        "actionType": "url",
-                        "label": "跳转1"
-                    }
-                ]
+                "tab": "Content 1"
             },
             {
                 "title": "标题2",
-                "tab": "Content 2",
-                "toolbar": [
-                    {
-                        "label": "ajax请求2",
-                        "type": "button",
-                        "level": "link",
-                        "actionType": "ajax",
-                        "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm"
-                    },
-                    {
-                        "type": "button",
-                        "level": "link",
-                        "url": "https://www.baidu.com",
-                        "actionType": "url",
-                        "label": "跳转2"
-                    }
-                ]
+                "tab": "Content 2"
             }
         ]
     }
 }
 ```
-## shrink toolbar
-
-将tab里配置的toolbar以下拉的形式收起展示
+## 配置工具栏
 
 ```schema: scope="body"
 {
     "type": "portlet",
+    "toolbar": [
+        {
+            "label": "固定操作",
+            "type": "button",
+            "actionType": "ajax",
+            "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm"
+        }
+    ],
     "tabs": [
         {
             "title": "Tab 1",
             "tab": "Content 1",
-            "shrinkToolbar": true,
             "toolbar": [
                 {
                     "label": "ajax请求",
@@ -95,14 +59,30 @@ order: 60
                     "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm"
                 },
                 {
-                    "type": "button",
-                    "hotKey": "command+o,ctrl+o",
-                    "label": "弹框",
-                    "actionType": "dialog",
-                    "dialog": {
-                        "title": "弹框",
-                        "body": "这是个简单的弹框。"
+                    "type": "dropdown-button",
+                    "level": "link",
+                    "icon": "fa fa-ellipsis-h",
+                    "hideCaret": true,
+                    "buttons": [
+                        {
+                            "type": "button",
+                            "label": "编辑",
+                            "actionType": "dialog",
+                            "dialog": {
+                            "title": "编辑",
+                            "body": "你正在编辑该卡片"
+                            }
+                        },
+                        {
+                            "type": "button",
+                            "label": "删除",
+                            "actionType": "dialog",
+                            "dialog": {
+                            "title": "提示",
+                            "body": "你删掉了该卡片"
+                            }
                         }
+                    ]
                 }
             ]
         },
@@ -111,9 +91,12 @@ order: 60
             "tab": "Content 2",
             "toolbar": [
                 {
-                    "type": "link",
-                    "href": "https://www.baidu.com",
-                    "body": "跳转"
+                    "type": "button",
+                    "level": "link",
+                    "url": "https://www.baidu.com",
+                    "actionType": "url",
+                    "size": "sm",
+                    "label": "跳转2"
                 }
             ]
         }
@@ -165,10 +148,9 @@ order: 60
 {
     "type": "portlet",
     "divider": false,
-    "activeSelect": false,
     "tabs": [
         {
-            "title": "Tab 1",
+            "title": "标题",
             "tab": "Content 1"
         }
     ]

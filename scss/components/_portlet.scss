@@ -22,6 +22,10 @@
         }
     }
 
+    .#{$ns}Tabs-pane {
+        padding: unset;
+    }
+
     &-toolbar {
         display: inline-flex;
         float: right;
@@ -29,14 +33,6 @@
 
         .#{$ns}Button {
             margin-left: calc(var(--gap-xs));
-        }
-    }
-
-    
-
-    &-toolbar-dropdown {
-        .#{$ns}-DropDown-menu {
-            min-width: none;
         }
     }
 
