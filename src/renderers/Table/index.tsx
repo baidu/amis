@@ -637,8 +637,8 @@ export default class Table extends React.Component<TableProps, object> {
       return;
     }
 
-    // crud 底部 margin
-    const crudMarginBottom = getStyleNumber(table, 'margin-bottom');
+    // table 底部 margin
+    const tableMarginBottom = getStyleNumber(table, 'margin-bottom');
     // 计算 table-content 在 dom 中的位置
     const tableContentTop = offset(tableContent).top;
     const viewportHeight = window.innerHeight;
@@ -675,12 +675,12 @@ export default class Table extends React.Component<TableProps, object> {
     tableContent.style.height = `${
       viewportHeight -
       tableContentTop -
-      footToolbarHeight -
       tableContentWrapMarginButtom -
+      footToolbarHeight -
       Math.max(
         footToolbarMarginBottom,
         allParentPaddingButtom,
-        crudMarginBottom
+        tableMarginBottom
       )
     }px`;
   }
