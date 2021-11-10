@@ -39,6 +39,7 @@ import {QRCodeSchema} from './renderers/QRCode';
 import {ServiceSchema} from './renderers/Service';
 import {StatusSchema} from './renderers/Status';
 import {TabsSchema} from './renderers/Tabs';
+import {PortletSchema} from './renderers/Portlet';
 import {TasksSchema} from './renderers/Tasks';
 import {VBoxSchema} from './renderers/VBox';
 import {VideoSchema} from './renderers/Video';
@@ -375,6 +376,7 @@ export type SchemaObject =
   | FormSchema
   | AnchorNavSchema
   | StepsSchema
+  | PortletSchema
 
   // 表单项
   | FormControlSchema
