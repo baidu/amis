@@ -3,6 +3,7 @@ import {iRendererStore} from './iRenderer';
 import {Api, ApiObject, Payload, fetchOptions} from '../types';
 import {extendObject, isEmpty, isObject} from '../utils/helper';
 import {ServerError} from '../utils/errors';
+import {normalizeApiResponseData} from '../utils/api';
 
 export const ServiceStore = iRendererStore
   .named('ServiceStore')
@@ -96,7 +97,7 @@ export const ServiceStore = iRendererStore
           let replace = !!(api as ApiObject).replaceData;
           let data = {
             ...(replace ? {} : self.data),
-            ...json.data
+            ...normalizeApiResponseData(json.data)
           };
           reInitData(data, replace);
           self.hasRemoteData = true;
@@ -176,7 +177,7 @@ export const ServiceStore = iRendererStore
 
           json.data &&
             self.updateData(
-              json.data,
+              normalizeApiResponseData(json.data),
               undefined,
               !!(api as ApiObject).replaceData
             );
@@ -264,7 +265,7 @@ export const ServiceStore = iRendererStore
 
           json.data &&
             self.updateData(
-              json.data,
+              normalizeApiResponseData(json.data),
               undefined,
               !!(api as ApiObject).replaceData
             );
@@ -406,7 +407,7 @@ export const ServiceStore = iRendererStore
               : {
                   type: 'wrapper',
                   wrap: false,
-                  ...json.data
+                  ...normalizeApiResponseData(json.data)
                 };
             self.schemaKey = '' + Date.now();
             isObject(json.data.data) &&
