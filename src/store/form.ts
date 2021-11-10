@@ -29,6 +29,7 @@ import isEqual from 'lodash/isEqual';
 import flatten from 'lodash/flatten';
 import {getStoreById, removeStore} from './manager';
 import {filter} from '../utils/tpl';
+import {normalizeApiResponseData} from '../utils/api';
 
 export const FormStore = ServiceStore.named('FormStore')
   .props({
@@ -305,7 +306,7 @@ export const FormStore = ServiceStore.named('FormStore')
           self.updatedAt = Date.now();
 
           setValues(
-            json.data,
+            normalizeApiResponseData(json.data),
             json.ok
               ? {
                   __saved: Date.now()

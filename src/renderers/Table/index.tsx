@@ -676,7 +676,7 @@ export default class Table extends React.Component<TableProps, object> {
       viewportHeight -
       tableContentTop -
       footToolbarHeight -
-      footToolbarMarginBottom -
+      tableContentWrapMarginButtom -
       Math.max(
         footToolbarMarginBottom,
         allParentPaddingButtom,

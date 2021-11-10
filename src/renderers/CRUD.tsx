@@ -284,6 +284,11 @@ export interface CRUDCommonSchema extends BaseSchema {
   alwaysShowPagination?: boolean;
 
   /**
+   * 开启查询区域，会根据列元素的searchable属性值，自动生成查询条件表单
+   */
+  autoGenerateFilter?: boolean;
+
+  /**
    * 内容区域占满屏幕剩余空间
    */
   autoFillHeight?: boolean;
