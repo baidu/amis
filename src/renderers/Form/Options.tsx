@@ -48,6 +48,8 @@ import {
   SchemaObject,
   SchemaTokenizeableString
 } from '../../Schema';
+import isPlainObject from 'lodash/isPlainObject';
+import merge from 'lodash/merge';
 
 export {Option};
 
@@ -450,7 +452,12 @@ export function registerOptionsControl(config: OptionsConfig) {
       const {autoFill, multiple, onBulkChange, data} = this.props;
       const formItem = this.props.formItem as IFormItemStore;
 
-      if (autoFill && !isEmpty(autoFill) && formItem.filteredOptions.length) {
+      if (
+        onBulkChange &&
+        autoFill &&
+        !isEmpty(autoFill) &&
+        formItem.filteredOptions.length
+      ) {
         const selectedOptions = formItem.getSelectedOptions(value);
         const toSync = dataMapping(
           autoFill,
@@ -482,7 +489,14 @@ export function registerOptionsControl(config: OptionsConfig) {
                 selectedOptions[0]
               )
         );
-        onBulkChange?.(toSync);
+
+        Object.keys(toSync).forEach(key => {
+          if (isPlainObject(toSync[key]) && isPlainObject(data[key])) {
+            toSync[key] = merge({}, data[key], toSync[key]);
+          }
+        });
+
+        onBulkChange(toSync);
       }
     }
 
