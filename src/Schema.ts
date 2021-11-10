@@ -312,6 +312,7 @@ export type SchemaType =
   | 'input-tree'
   | 'tree-select'
   | 'table-view'
+  | 'portlet'
 
   // 原生 input 类型
   | 'native-date'
