@@ -6,11 +6,19 @@ import {Renderer, RendererProps} from '../factory';
 import {resolveVariable} from '../utils/tpl-builtin';
 import {str2AsyncFunction} from '../utils/api';
 import {
+<<<<<<< HEAD
   isVisible,
   autobind,
   isDisabled,
   isObject,
   createObject
+=======
+    isVisible,
+    autobind,
+    isDisabled,
+    isObject,
+    createObject
+>>>>>>> 添加Portlet渲染器
 } from '../utils/helper';
 
 import {filter} from '../utils/tpl';
@@ -126,10 +134,17 @@ export interface PortletSchema extends BaseSchema {
 
   tabs: Array<PortletTabSchema>;
 
+<<<<<<< HEAD
   /**
    * 关联已有数据，选项卡直接根据目标数据重复。
    */
   source?: string;
+=======
+    /**
+     * 标题右侧的描述
+     */
+    description?: SchemaTpl;
+>>>>>>> 添加Portlet渲染器
 
   /**
    * 类名
@@ -367,6 +382,7 @@ export class Portlet extends React.Component<PortletProps, PortletState> {
 >>>>>>> [ADD] Portlet component
     }
 
+<<<<<<< HEAD
     return toolbarTpl || tabToolbarTpl ? (
       <div className={cx(`${ns}Portlet-toolbar`)}>
         {toolbarTpl}
@@ -413,6 +429,14 @@ export class Portlet extends React.Component<PortletProps, PortletState> {
     let tabs = this.props.tabs;
     if (!tabs) {
       return null;
+=======
+    renderDesc() {
+        const {description : descTpl, render, classnames: cx, classPrefix: ns, data} = this.props;
+        const desc = filter(descTpl, data);
+        return desc
+            ? <span className={cx(`${ns}Portlet-header-desc`)}>{desc}</span>
+            : null;
+>>>>>>> 添加Portlet渲染器
     }
 
     tabs = Array.isArray(tabs) ? tabs : [tabs];
