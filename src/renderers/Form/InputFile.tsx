@@ -20,6 +20,7 @@ import {
   SchemaClassName,
   SchemaTokenizeableString
 } from '../../Schema';
+import merge from 'lodash/merge';
 
 /**
  * File 文件上传控件
@@ -356,11 +357,12 @@ export default class FileControl extends React.Component<FileProps, FileState> {
     if (value && value instanceof Blob) {
       files = [value as any];
     } else if (value) {
-      files = (Array.isArray(value)
-        ? value
-        : joinValues
-        ? `${(value as any)[valueField] || value}`.split(delimiter)
-        : [value as any]
+      files = (
+        Array.isArray(value)
+          ? value
+          : joinValues
+          ? `${(value as any)[valueField] || value}`.split(delimiter)
+          : [value as any]
       )
         .map(item => FileControl.valueToFile(item, props) as FileValue)
         .filter(item => item);
@@ -402,11 +404,12 @@ export default class FileControl extends React.Component<FileProps, FileState> {
       let files: Array<FileValue> = [];
 
       if (value) {
-        files = (Array.isArray(value)
-          ? value
-          : joinValues && typeof value === 'string'
-          ? value.split(delimiter)
-          : [value as any]
+        files = (
+          Array.isArray(value)
+            ? value
+            : joinValues && typeof value === 'string'
+            ? value.split(delimiter)
+            : [value as any]
         )
           .map(item => {
             let obj = FileControl.valueToFile(
@@ -851,8 +854,8 @@ export default class FileControl extends React.Component<FileProps, FileState> {
   }
 
   syncAutoFill() {
-    const {autoFill, multiple, onBulkChange} = this.props;
-    if (!isEmpty(autoFill)) {
+    const {autoFill, multiple, onBulkChange, data} = this.props;
+    if (!isEmpty(autoFill) && onBulkChange) {
       const files = this.state.files.filter(
         file => ~['uploaded', 'init', 'ready'].indexOf(file.state as string)
       );
@@ -864,7 +867,12 @@ export default class FileControl extends React.Component<FileProps, FileState> {
             }
           : files[0]
       );
-      onBulkChange && onBulkChange(toSync);
+      Object.keys(toSync).forEach(key => {
+        if (isPlainObject(toSync[key]) && isPlainObject(data[key])) {
+          toSync[key] = merge({}, data[key], toSync[key]);
+        }
+      });
+      onBulkChange(toSync);
     }
   }
 
@@ -1223,13 +1231,14 @@ export default class FileControl extends React.Component<FileProps, FileState> {
                       onClick={this.handleSelect}
                     >
                       <Icon icon="upload" className="icon" />
-                      <span>{!multiple && files.length
-                        ? __('File.repick')
-                        : multiple && files.length
-                        ? __('File.continueAdd')
-                        : btnLabel
-                        ? btnLabel
-                        : __('File.upload')}
+                      <span>
+                        {!multiple && files.length
+                          ? __('File.repick')
+                          : multiple && files.length
+                          ? __('File.continueAdd')
+                          : btnLabel
+                          ? btnLabel
+                          : __('File.upload')}
                       </span>
                     </Button>
                   ) : null}
