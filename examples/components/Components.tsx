@@ -108,6 +108,14 @@ export const components = [
           import('../../docs/zh-CN/components/wrapper.md').then(
             makeMarkdownRenderer
           )
+      },
+      {
+        label: 'Portlet 门户栏目',
+        path: '/zh-CN/components/portlet',
+        getComponent: () =>
+          import('../../docs/zh-CN/components/portlet.md').then(
+            makeMarkdownRenderer
+          )
       }
     ]
   },
