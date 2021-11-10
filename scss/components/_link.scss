@@ -1,0 +1,6 @@
+.#{$ns}Link {
+  &.is-disabled {
+    cursor: not-allowed;
+    color: var(--text--muted-color);
+  }
+}

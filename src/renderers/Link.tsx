@@ -4,6 +4,7 @@ import {BaseSchema, SchemaTpl} from '../Schema';
 import {getPropValue} from '../utils/helper';
 import {filter} from '../utils/tpl';
 import {BadgeSchema, withBadge} from '../components/Badge';
+import Link from '../components/Link';
 
 /**
  * Link 链接展示控件。
@@ -29,16 +30,32 @@ export interface LinkSchema extends BaseSchema {
    * 角标
    */
   badge?: BadgeSchema;
+
+  /**
+   * a标签原生target属性
+   */
+  htmlTarget?: string;
+
+  /**
+   * 图标
+   */
+  icon?: string;
+
+  /**
+   * 图标位置
+   */
+  position?: string;
 }
 
 export interface LinkProps
   extends RendererProps,
     Omit<LinkSchema, 'type' | 'className'> {}
 
-export class LinkField extends React.Component<LinkProps, object> {
+export class LinkCmpt extends React.Component<LinkProps, object> {
   static defaultProps = {
-    className: '',
-    blank: false
+    blank: true,
+    disabled: false,
+    htmlTarget: '_self'
   };
 
   render() {
@@ -48,25 +65,34 @@ export class LinkField extends React.Component<LinkProps, object> {
       href,
       classnames: cx,
       blank,
+      disabled,
       htmlTarget,
       data,
       render,
       translate: __,
-      title
+      title,
+      icon,
+      position
     } = this.props;
 
     let value = getPropValue(this.props);
     const finnalHref = href ? filter(href, data, '| raw') : '';
+    const text = body
+      ? render('body', body)
+      : finnalHref || value || __('link');
 
     return (
-      <a
-        href={finnalHref || value}
-        target={htmlTarget || (blank ? '_blank' : '_self')}
-        className={cx('Link', className)}
+      <Link
+        className={className}
+        href={finnalHref}
+        body={text}
+        blank={blank}
+        disabled={disabled}
         title={title}
-      >
-        {body ? render('body', body) : finnalHref || value || __('link')}
-      </a>
+        htmlTarget={htmlTarget}
+        icon={icon}
+        position={position}
+      ></Link>
     );
   }
 }
@@ -76,4 +102,4 @@ export class LinkField extends React.Component<LinkProps, object> {
 })
 // @ts-ignore 类型没搞定
 @withBadge
-export class LinkFieldRenderer extends LinkField {}
+export class LinkFieldRenderer extends LinkCmpt {}

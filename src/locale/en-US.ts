@@ -173,6 +173,8 @@ register('en-US', {
   'Table.startSort': 'Click to start sorting',
   'Table.valueField': 'Must have valueField',
   'Table.index': 'Index',
+  'Table.toggleColumn': 'Display columns',
+  'Table.searchFields': 'Set query fields',
   'Tag.placeholder': 'No tag yet',
   'Tag.tip': 'Recently used tag',
   'Text.add': 'New {{label}}',

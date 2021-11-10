@@ -12,6 +12,7 @@ import {
   createObject,
   qsparse
 } from './helper';
+import isPlainObject from 'lodash/isPlainObject';
 
 const rSchema = /(?:^|raw\:)(get|post|put|delete|patch|options|head):/i;
 
@@ -82,7 +83,9 @@ export function buildApi(
     );
     api.url =
       tokenize(api.url.substring(0, idx + 1), data, '| url_encode') +
-      qsstringify((api.query = dataMapping(params, data))) +
+      qsstringify(
+        (api.query = dataMapping(params, data, undefined, api.convertKeyToPath))
+      ) +
       (~hashIdx ? api.url.substring(hashIdx) : '');
   } else {
     api.url = tokenize(api.url, data, '| url_encode');
@@ -93,7 +96,12 @@ export function buildApi(
   }
 
   if (api.data) {
-    api.body = api.data = dataMapping(api.data, data);
+    api.body = api.data = dataMapping(
+      api.data,
+      data,
+      undefined,
+      api.convertKeyToPath
+    );
   } else if (api.method === 'post' || api.method === 'put') {
     api.body = api.data = cloneObject(data);
   }
@@ -138,7 +146,7 @@ export function buildApi(
   }
 
   if (api.headers) {
-    api.headers = dataMapping(api.headers, data);
+    api.headers = dataMapping(api.headers, data, undefined, false);
   }
 
   if (api.requestAdaptor && typeof api.requestAdaptor === 'string') {
@@ -248,7 +256,9 @@ export function responseAdaptor(ret: fetcherResult, api: ApiObject) {
               items: payload.data
             }
           : payload.data) || {}
-      )
+      ),
+      undefined,
+      api.convertKeyToPath
     );
   }
 
@@ -458,6 +468,18 @@ export function setApiCache(
 
 export function clearApiCache() {
   apiCaches.splice(0, apiCaches.length);
+}
+
+export function normalizeApiResponseData(data: any) {
+  if (typeof data === 'undefined') {
+    data = {};
+  } else if (!isPlainObject(data)) {
+    data = {
+      [Array.isArray(data) ? 'items' : 'result']: data
+    };
+  }
+
+  return data;
 }
 
 // window.apiCaches = apiCaches;

@@ -139,6 +139,11 @@ export interface ButtonSchema extends BaseSchema {
    * 是否显示loading效果
    */
   loadingOn?: string;
+
+  /**
+   * 自定义事件处理函数
+   */
+  onClick?: string | any;
 }
 
 export interface AjaxActionSchema extends ButtonSchema {

@@ -882,10 +882,13 @@ export function resolveMapping(
 export function dataMapping(
   to: any,
   from: PlainObject = {},
-  ignoreFunction: boolean | ((key: string, value: any) => boolean) = false
+  ignoreFunction: boolean | ((key: string, value: any) => boolean) = false,
+  convertKeyToPath?: boolean
 ): any {
   if (Array.isArray(to)) {
-    return to.map(item => dataMapping(item, from, ignoreFunction));
+    return to.map(item =>
+      dataMapping(item, from, ignoreFunction, convertKeyToPath)
+    );
   } else if (typeof to === 'string') {
     return resolveMapping(to, from);
   } else if (!isPlainObject(to)) {
@@ -899,7 +902,7 @@ export function dataMapping(
 
     if (typeof ignoreFunction === 'function' && ignoreFunction(key, value)) {
       // 如果被ignore，不做数据映射处理。
-      setVariable(ret, key, value);
+      setVariable(ret, key, value, convertKeyToPath);
     } else if (key === '&' && value === '$$') {
       ret = {
         ...ret,
@@ -916,7 +919,8 @@ export function dataMapping(
               dataMapping(
                 value[keys[0]],
                 createObject(from, raw),
-                ignoreFunction
+                ignoreFunction,
+                convertKeyToPath
               )
             )
           : resolveMapping(value, from);
@@ -935,10 +939,10 @@ export function dataMapping(
         };
       }
     } else if (value === '$$') {
-      setVariable(ret, key, from);
+      setVariable(ret, key, from, convertKeyToPath);
     } else if (value && value[0] === '$') {
       const v = resolveMapping(value, from);
-      setVariable(ret, key, v);
+      setVariable(ret, key, v, convertKeyToPath);
 
       if (v === '__undefined') {
         deleteVariable(ret, key);
@@ -968,26 +972,37 @@ export function dataMapping(
       const mapping = value[keys[0]];
 
       (ret as PlainObject)[key] = arr.map((raw: object) =>
-        dataMapping(mapping, createObject(from, raw), ignoreFunction)
+        dataMapping(
+          mapping,
+          createObject(from, raw),
+          ignoreFunction,
+          convertKeyToPath
+        )
       );
     } else if (isPlainObject(value)) {
-      setVariable(ret, key, dataMapping(value, from, ignoreFunction));
+      setVariable(
+        ret,
+        key,
+        dataMapping(value, from, ignoreFunction, convertKeyToPath),
+        convertKeyToPath
+      );
     } else if (Array.isArray(value)) {
       setVariable(
         ret,
         key,
         value.map((value: any) =>
           isPlainObject(value)
-            ? dataMapping(value, from, ignoreFunction)
+            ? dataMapping(value, from, ignoreFunction, convertKeyToPath)
             : resolveMapping(value, from)
-        )
+        ),
+        convertKeyToPath
       );
     } else if (typeof value == 'string' && ~value.indexOf('$')) {
-      setVariable(ret, key, resolveMapping(value, from));
+      setVariable(ret, key, resolveMapping(value, from), convertKeyToPath);
     } else if (typeof value === 'function' && ignoreFunction !== true) {
-      setVariable(ret, key, value(from));
+      setVariable(ret, key, value(from), convertKeyToPath);
     } else {
-      setVariable(ret, key, value);
+      setVariable(ret, key, value, convertKeyToPath);
 
       if (value === '__undefined') {
         deleteVariable(ret, key);

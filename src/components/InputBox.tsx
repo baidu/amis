@@ -37,7 +37,7 @@ export class InputBox extends React.Component<InputBoxProps, InputBoxState> {
   clearValue(e: any) {
     e.preventDefault();
 
-    const onClear = this.props.onChange;
+    const onClear = this.props.onClear;
     const onChange = this.props.onChange;
     onClear?.(e);
     onChange?.('');

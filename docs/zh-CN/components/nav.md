@@ -17,6 +17,13 @@ order: 58
     "type": "nav",
     "stacked": true,
     "className": "w-md",
+    "itemBadge": {
+      "mode": "ribbon",
+      "text": "${customText}",
+      "position": "top-left",
+      "visibleOn": "this.customText",
+      "level": "${customLevel}"
+    },
     "links": [
         {
             "label": "Nav 1",
@@ -27,15 +34,14 @@ order: 58
         {
             "label": "Nav 2",
             "to": "/docs/api",
-            "badge": {
-                "mode": "ribbon",
-                "text": "HOT",
-                "position": "top-left"
-            }
+            "customText": "HOT",
+            "customLevel": "danger"
         },
         {
             "label": "Nav 3",
-            "to": "/docs/renderers"
+            "to": "/docs/renderers",
+            "customText": "SUC",
+            "customLevel": "success"
         },
         {
             "label": "外部地址",
@@ -203,11 +209,11 @@ order: 58
 | deferApi          | [API](../../docs/types/api)              |          | 用来延时加载选项详情的接口，可以不配置，不配置公用 source 接口。 |
 | itemActions       |  [SchemaNode](../../docs/types/schemanode) |          | 更多操作相关配置                                |
 | draggable         | `boolean`                                |          | 是否支持拖拽排序                                                 |
+| dragOnSameLevel   | `boolean`                                |          | 仅允许同层级内拖拽                                              |
 | saveOrderApi      |  `string` 或 [API](../../docs/types/api) |           |保存排序的 api                                                 |
-| badge             | [BadgeSchema](../../components/badge)|          | 角标                                                       |
+| itemBadge             | [BadgeSchema](../../components/badge)    |          | 角标                                                       |
 | links             | `Array`                                  |          | 链接集合                                                         |
 | links[x].label    | `string`                                 |          | 名称                                                            |
-| links[x].badge     | [BadgeSchema](../../components/badge)|          | 角标，会覆盖全局角标配置                                          |
 | links[x].to       | [模板](../../docs/concepts/template)     |          | 链接地址                                                         |
 | links[x].target   | `string`                                 | 链接关系 |                                                                  |
 | links[x].icon     | `string`                                 |          | 图标                                                             |

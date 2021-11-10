@@ -160,6 +160,17 @@
   }
 }
 
+.#{$ns}IconPickerControl {
+  .#{$ns}IconPickerControl-input--withAC {
+    .#{$ns}IconPickerControl-sugsPanel {
+      border: none;
+      top: calc(var(--Form-input-height) + #{px2rem(4px)}) !important;
+      box-shadow: var(--boxShadow);
+      border-radius: px2rem(3px);
+    }
+  }
+}
+
 .#{$ns}Combo {
   .#{$ns}Combo-items {
     .#{$ns}Combo-item {

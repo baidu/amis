@@ -1613,6 +1613,140 @@ order: 67
 
 注意这个属性和 `checkOnItemClick` 冲突，因为都是定义行的点击行为，开启 `itemAction` 后 `checkOnItemClick` 将会失效。
 
+## 行角标
+
+> 1.5.0 及以上版本
+
+通过属性`itemBadge`，可以为表格行配置[角标](./badge)，可以使用[数据映射](../../../docs/concepts/data-mapping)为每一行添加特定的 Badge 属性。[`visibleOn`](../../../docs/concepts/expression)属性控制显示的条件，表达式中`this`可以取到行所在上下文的数据，比如行数据中有`badgeText`字段才显示角标，可以设置`"visibleOn": "this.badgeText"`
+
+```schema: scope="body"
+{
+  "type": "service",
+  "body": {
+    "type": "table",
+    "source": "${table}",
+    "syncLocation": false,
+    "itemBadge": {
+      "text": "${badgeText}",
+      "mode": "ribbon",
+      "position": "top-left",
+      "level": "${badgeLevel}",
+      "visibleOn": "this.badgeText"
+    },
+    "columns": [
+        {
+            "name": "id",
+            "label": "ID",
+            "searchable": {
+              "type": "input-text",
+              "name": "id",
+              "label": "主键",
+              "placeholder": "输入id",
+              "size": "sm",
+            }
+        },
+        {
+            "name": "engine",
+            "label": "Rendering engine"
+        },
+        {
+            "name": "browser",
+            "label": "Browser",
+            "searchable": {
+              "type": "select",
+              "name": "browser",
+              "label": "浏览器",
+              "placeholder": "选择浏览器",
+              "size": "sm",
+              "options": [
+                {
+                  "label": "Internet Explorer ",
+                  "value": "ie"
+                },
+                {
+                  "label": "AOL browser",
+                  "value": "aol"
+                },
+                {
+                  "label": "Firefox",
+                  "value": "firefox"
+                }
+              ]
+            }
+        },
+        {
+            "name": "platform",
+            "label": "Platform(s)"
+        },
+        {
+            "name": "version",
+            "label": "Engine version",
+            "searchable": {
+              "type": "input-number",
+              "name": "version",
+              "label": "版本号",
+              "placeholder": "输入版本号",
+              "size": "sm",
+              "mode": "horizontal"
+            }
+        },
+        {
+            "name": "grade",
+            "label": "CSS grade"
+        }
+    ]
+  },
+  data: {
+    table: [
+      {
+        "id": 1,
+        "engine": "Trident",
+        "browser": "Internet Explorer 4.0",
+        "platform": "Win 95+",
+        "version": "4",
+        "grade": "X",
+        "badgeText": "默认",
+        "badgeLevel": "info"
+      },
+      {
+        "id": 2,
+        "engine": "Trident",
+        "browser": "Internet Explorer 5.0",
+        "platform": "Win 95+",
+        "version": "5",
+        "grade": "C",
+        "badgeText": "危险",
+        "badgeLevel": "danger"
+      },
+      {
+        "id": 3,
+        "engine": "Trident",
+        "browser": "Internet Explorer 5.5",
+        "platform": "Win 95+",
+        "version": "5.5",
+        "grade": "A"
+      },
+      {
+        "id": 4,
+        "engine": "Trident",
+        "browser": "Internet Explorer 6",
+        "platform": "Win 98+",
+        "version": "6",
+        "grade": "A"
+      },
+      {
+        "id": 5,
+        "engine": "Trident",
+        "browser": "Internet Explorer 7",
+        "platform": "Win XP SP2+",
+        "version": "7",
+        "grade": "A"
+      }
+    ]
+  }
+}
+```
+
 ## 属性表
 
 | 属性名           | 类型                                     | 默认值                    | 说明                                                                      |
@@ -1638,6 +1772,7 @@ order: 67
 | rowClassNameExpr | [模板](../../docs/concepts/template)     |                           | 通过模板给行添加 CSS 类名                                                 |
 | prefixRow        | `Array`                                  |                           | 顶部总结行                                                                |
 | affixRow         | `Array`                                  |                           | 底部总结行                                                                |
+| itemBadge        | [`BadgeSchema`](./badge)                 |                           | 行角标配置                                                                |
 
 ## 列配置属性表
 
@@ -1645,11 +1780,11 @@ order: 67
 | ---------- | --------------------------------------------- | ------- | ---------------- |
 | label      | [模板](../../docs/concepts/template)          |         | 表头文本内容     |
 | name       | `string`                                      |         | 通过名称关联数据 |
-| fixed      | `left`/`right`/`none`                         |         | 是否固定当前列   |
+| fixed      | `left` \| `right` \| `none`                   |         | 是否固定当前列   |
 | popOver    |                                               |         | 弹出框           |
 | quickEdit  |                                               |         | 快速编辑         |
 | copyable   | `boolean` 或 `{icon: string, content:string}` |         | 是否可复制       |
 | sortable   | `boolean`                                     | `false` | 是否可排序       |
-| searchable | `boolean`                                     | `false` | 是否可快速搜索   |
-| width      | `number`/`string`                             | 列宽    |
+| searchable | `boolean` \| `Schema`                         | `false` | 是否可快速搜索   |
+| width      | `number` \| `string`                          | 列宽    |
 | remark     |                                               |         | 提示信息         |

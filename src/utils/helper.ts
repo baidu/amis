@@ -181,7 +181,8 @@ export function getVariable(
 export function setVariable(
   data: {[propName: string]: any},
   key: string,
-  value: any
+  value: any,
+  convertKeyToPath?: boolean
 ) {
   data = data || {};
 
@@ -190,7 +191,7 @@ export function setVariable(
     return;
   }
 
-  const parts = keyToPath(key);
+  const parts = convertKeyToPath !== false ? keyToPath(key) : [key];
   const last = parts.pop() as string;
 
   while (parts.length) {

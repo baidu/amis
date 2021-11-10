@@ -1178,6 +1178,8 @@
   --Table-toolbar-marginX: 0;
   --Table-toolbar-marginY: var(--gap-base);
   --Table-tree-borderColor: var(--Table-borderColor);
+  --Table-searchableForm-backgroundColor: #f6f7f8;
+  --Table-searchableForm-borderRadius: #{px2rem(4px)};
 
   --TableCell--edge-paddingX: var(--gap-md);
   --TableCell-filterBtn--onActive-color: var(--primary);
@@ -1378,4 +1380,11 @@
   --Steps-line-success-bg: var(--Steps-status-success);
 
   --Progress-borderRadius: var(--borderRadius);
+  --ColumnToggler-backgroundColor: var(--white);
+  --ColumnToggler-borderRadius: #{px2rem(4px)};
+  --ColumnToggler-lineHeight: #{px2rem(24px)};
+  --ColumnToggler-title-fontColor: #080e1a;
+  --ColumnToggler-fontColor: #151a26;
+  --ColumnToggler-item-backgroundColor: #f6f7f8;
+  --ColumnToggler-item-backgroundColor-onHover: rgba(36, 104, 242, 0.1);
 }
