@@ -161,6 +161,8 @@ export default function (doc) {
   return class extends React.Component {
     popoverDom = null;
 
+    originTitle = document.title;
+
     state = {
       headingPopover: false
     };
@@ -212,6 +214,16 @@ export default function (doc) {
           </PopOver>
         </Overlay>
       ) : null;
+    }
+
+    componentDidMount() {
+      if (doc.title) {
+        document.title = doc.title;
+      }
+    }
+
+    componentWillUnmount() {
+      document.title = this.originTitle;
     }
 
     render() {
