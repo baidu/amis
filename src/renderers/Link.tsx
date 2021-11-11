@@ -75,16 +75,15 @@ export class LinkCmpt extends React.Component<LinkProps, object> {
       position
     } = this.props;
 
-    let value = getPropValue(this.props);
-    const finnalHref = href ? filter(href, data, '| raw') : '';
-    const text = body
-      ? render('body', body)
-      : finnalHref || value || __('link');
+    let value = getPropValue(this.props, () =>
+      typeof href === 'string' && href ? filter(href, data, '| raw') : undefined
+    );
+    const text = body ? render('body', body) : value || __('link');
 
     return (
       <Link
         className={className}
-        href={finnalHref}
+        href={value}
         body={text}
         blank={blank}
         disabled={disabled}
