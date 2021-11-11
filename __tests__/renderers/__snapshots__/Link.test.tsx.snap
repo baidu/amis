@@ -5,7 +5,7 @@ exports[`Renderer:link 1`] = `
   <a
     class="cxd-Link show"
     href="https://www.baidu.com"
-    target="_self"
+    target="_blank"
   >
     <i
       style="display: inline-block;"
