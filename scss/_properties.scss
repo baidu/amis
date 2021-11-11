@@ -1075,6 +1075,11 @@
   --Property-title-bg: #f2f2f2;
   --Property-label-bg: #f7f7f7;
 
+  --Portlet-borderColor: var(--borderColor);
+  --Portlet-borderStyle: solid;
+  --Portlet-borderWidth: var(--borderWidth);
+  --Portlet-borderRadius: var(--borderRadius);
+
   --QuickEdit-iconColor: inherit;
   --QuickEdit-onFocus-borderColor: var(--info);
   --QuickEdit-onFocus-borderWidth: var(--borderWidth);
