@@ -1189,7 +1189,7 @@ export class ListItem extends React.Component<ListItemProps> {
   }
 
   renderFeild(region: string, field: any, key: any, props: any) {
-    const render = props.render || this.props.render;
+    const render = props?.render || this.props.render;
     const data = this.props.data;
     const cx = this.props.classnames;
     const itemIndex = this.props.itemIndex;
