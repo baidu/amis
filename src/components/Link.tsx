@@ -54,6 +54,8 @@ export class Link extends React.Component<LinkProps, object> {
       icon,
       iconPosition,
       children,
+      classPrefix,
+      theme,
       ...rest
     } = this.props;
 
