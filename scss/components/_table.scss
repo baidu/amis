@@ -894,8 +894,6 @@
 
   &--autoFillHeight {
     > .#{$ns}Table-contentWrap {
-      overflow-y: scroll;
-
       > .#{$ns}Table-content table {
         border-top: none; // 不然会导致拖动时顶部露出内容
       }
