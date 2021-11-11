@@ -1747,6 +1747,16 @@ order: 67
 }
 ```
 
+## 表格内容高度自适应
+
+> 1.5.0 及以上版本
+
+通过 `autoFillHeight` 可以让表格内容区自适应高度，具体效果请看这个[示例](../../../examples/crud/auto-fill)。
+
+它的展现效果是整个内容区域高度自适应，表格内容较多时在内容区域内出滚动条，这样顶部筛选和底部翻页的位置都是固定的。
+
+开启这个配置后会自动关闭 `affixHeader` 功能避免冲突。
+
 ## 属性表
 
 | 属性名           | 类型                                     | 默认值                    | 说明                                                                      |
@@ -1773,6 +1783,7 @@ order: 67
 | prefixRow        | `Array`                                  |                           | 顶部总结行                                                                |
 | affixRow         | `Array`                                  |                           | 底部总结行                                                                |
 | itemBadge        | [`BadgeSchema`](./badge)                 |                           | 行角标配置                                                                |
+| autoFillHeight   | `boolean`                                |                           | 内容区域自适应高度                                                        |
 
 ## 列配置属性表
 

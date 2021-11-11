@@ -98,6 +98,38 @@ order: 44
 }
 ```
 
+## 只显示图标
+
+可以设置 `level` 及 `hideCaret` 来只显示图标，并配合 `tooltip` 来显示提示文字
+
+```schema
+{
+    "type": "page",
+    "body": {
+        "type": "dropdown-button",
+        "level": "link",
+        "icon": "fa fa-ellipsis-h",
+        "hideCaret": true,
+        "tooltip": "提示",
+        "buttons": [
+            {
+                "type": "button",
+                "label": "按钮1",
+                "disabled": true
+            },
+            {
+                "type": "button",
+                "label": "按钮2"
+            },
+            {
+                "type": "button",
+                "label": "按钮3"
+            }
+        ]
+    }
+}
+```
+
 ## 设置右侧图标
 
 > 1.5.0 及以上版本

@@ -115,6 +115,109 @@ order: 31
 
 注意它和前面的 `href` 配置冲突，如果设置了 `href` 这个将不会生效
 
+## 配置工具栏
+
+> 1.5.0 及以上版本
+
+```schema: scope="body"
+{
+    "type": "card",
+    "header": {
+        "title": "标题",
+        "subTitle": "副标题",
+        "description": "这是一段描述",
+        "avatarClassName": "pull-left thumb-md avatar b-3x m-r",
+        "avatar": "data:image/svg+xml,%3C%3Fxml version='1.0' standalone='no'%3F%3E%3C!DOCTYPE svg PUBLIC '-//W3C//DTD SVG 1.1//EN' 'http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd'%3E%3Csvg t='1631083237695' class='icon' viewBox='0 0 1024 1024' version='1.1' xmlns='http://www.w3.org/2000/svg' p-id='2420' xmlns:xlink='http://www.w3.org/1999/xlink' width='1024' height='1024'%3E%3Cdefs%3E%3Cstyle type='text/css'%3E%3C/style%3E%3C/defs%3E%3Cpath d='M959.872 128c0.032 0.032 0.096 0.064 0.128 0.128v767.776c-0.032 0.032-0.064 0.096-0.128 0.128H64.096c-0.032-0.032-0.096-0.064-0.128-0.128V128.128c0.032-0.032 0.064-0.096 0.128-0.128h895.776zM960 64H64C28.8 64 0 92.8 0 128v768c0 35.2 28.8 64 64 64h896c35.2 0 64-28.8 64-64V128c0-35.2-28.8-64-64-64z' p-id='2421' fill='%23bfbfbf'%3E%3C/path%3E%3Cpath d='M832 288c0 53.024-42.976 96-96 96s-96-42.976-96-96 42.976-96 96-96 96 42.976 96 96zM896 832H128V704l224-384 256 320h64l224-192z' p-id='2422' fill='%23bfbfbf'%3E%3C/path%3E%3C/svg%3E"
+    },
+    "body": "这里是内容",
+    "toolbar": [
+      {
+        "type": "button",
+        "icon": "fa fa-eye",
+        "actionType": "dialog",
+        "dialog": {
+          "title": "查看",
+          "body": {
+            "type": "form",
+            "body": [
+              {
+                "type": "static",
+                "name": "engine",
+                "label": "Engine"
+              },
+              {
+                "type": "divider"
+              },
+              {
+                "type": "static",
+                "name": "browser",
+                "label": "Browser"
+              },
+              {
+                "type": "divider"
+              },
+              {
+                "type": "static",
+                "name": "platform",
+                "label": "Platform(s)"
+              },
+              {
+                "type": "divider"
+              },
+              {
+                "type": "static",
+                "name": "version",
+                "label": "Engine version"
+              },
+              {
+                "type": "divider"
+              },
+              {
+                "type": "static",
+                "name": "grade",
+                "label": "CSS grade"
+              },
+              {
+                "type": "divider"
+              },
+              {
+                "type": "html",
+                "html": "<p>添加其他 <span>Html 片段</span> 需要支持变量替换（todo）.</p>"
+              }
+            ]
+          }
+        }
+      },
+      {
+        "type": "dropdown-button",
+        "level": "link",
+        "icon": "fa fa-ellipsis-h",
+        "hideCaret": true,
+        "buttons": [
+          {
+              "type": "button",
+              "label": "编辑",
+              "actionType": "dialog",
+              "dialog": {
+                "title": "编辑",
+                "body": "你正在编辑该卡片"
+              }
+          },
+          {
+            "type": "button",
+            "label": "删除",
+            "actionType": "dialog",
+            "dialog": {
+              "title": "提示",
+              "body": "你删掉了该卡片"
+            }
+          }
+        ]
+      }
+    ]
+}
+```
+
 ## 属性表
 
 | 属性名                 | 类型                                 | 默认值                              | 说明                                   |

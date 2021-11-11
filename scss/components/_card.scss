@@ -36,18 +36,6 @@
     margin-top: var(--gap-xs);
   }
 
-  &-checkBtn {
-    position: absolute;
-    top: 0;
-    right: 0;
-    margin: var(--gap-sm);
-    z-index: 1;
-
-    .#{$ns}Checkbox {
-      margin-right: 0;
-    }
-  }
-
   &-dragBtn {
     cursor: pointer;
     float: right;
@@ -55,7 +43,8 @@
   }
 
   &-heading {
-    overflow: hidden;
+    display: flex;
+    flex-direction: row;
     padding: var(--gap-sm) var(--gap-base);
     flex: 1 0 auto;
   }
@@ -87,10 +76,15 @@
 
   &-meta {
     display: block;
+    flex-grow: 1;
     height: 100%;
-    overflow: hidden;
     position: relative;
     margin-right: var(--gap-md);
+  }
+
+  &-toolbar {
+    margin-right: calc(-1 * var(--gap-base));
+    text-align: right;
   }
 
   &-highlight {
