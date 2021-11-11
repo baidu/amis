@@ -43,12 +43,13 @@ export class Link extends React.Component<LinkProps, object> {
   }
 
   @autobind
-  aClick(e: React.MouseEvent<any>) {
-    const {disabled} = this.props;
+  handleClick(e: React.MouseEvent<any>) {
+    const {disabled, onClick} = this.props;
     if (disabled) {
       e.preventDefault();
       e.stopPropagation();
     }
+    onClick?.(e);
   }
 
   render() {
@@ -81,11 +82,17 @@ export class Link extends React.Component<LinkProps, object> {
           className
         )}
         title={title}
-        onClick={this.aClick}
+        onClick={this.handleClick}
       >
-        <i className={icon} style={{display: position !== 'right' ? 'inline-block' : 'none' }} />
+        <i
+          className={icon}
+          style={{display: position !== 'right' ? 'inline-block' : 'none'}}
+        />
         {body}
-        <i className={icon} style={{display: position !== 'right' ? 'none' : 'inline-block' }} />
+        <i
+          className={icon}
+          style={{display: position !== 'right' ? 'none' : 'inline-block'}}
+        />
       </a>
     );
   }
