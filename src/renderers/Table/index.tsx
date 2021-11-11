@@ -53,9 +53,10 @@ import {TableBody} from './TableBody';
 import {TplSchema} from '../Tpl';
 import {MappingSchema} from '../Mapping';
 import {isAlive, getSnapshot} from 'mobx-state-tree';
-import ItemActionsWrapper from './ItemActionsWrapper';
 import ColumnToggler from './ColumnToggler';
 import {BadgeSchema} from '../../components/Badge';
+import offset from '../../utils/offset';
+import {getStyleNumber} from '../../utils/dom';
 
 /**
  * 表格列，不指定类型时默认为文本类型。
@@ -422,7 +423,8 @@ export default class Table extends React.Component<TableProps, object> {
     'headerToolbarClassName',
     'toolbarClassName',
     'footerToolbarClassName',
-    'itemBadge'
+    'itemBadge',
+    'autoFillHeight'
   ];
   static defaultProps: Partial<TableProps> = {
     className: '',
@@ -497,6 +499,7 @@ export default class Table extends React.Component<TableProps, object> {
     this.subFormRef = this.subFormRef.bind(this);
     this.handleColumnToggle = this.handleColumnToggle.bind(this);
     this.renderAutoFilterForm = this.renderAutoFilterForm.bind(this);
+    this.updateAutoFillHeight = this.updateAutoFillHeight.bind(this);
 
     const {
       store,
@@ -607,6 +610,79 @@ export default class Table extends React.Component<TableProps, object> {
     this.affixDetect();
     parent.addEventListener('scroll', this.affixDetect);
     window.addEventListener('resize', this.affixDetect);
+    this.updateAutoFillHeight();
+    window.addEventListener('resize', this.updateAutoFillHeight);
+  }
+
+  /**
+   * 自动设置表格高度占满界面剩余区域
+   * 用 css 实现有点麻烦，要改很多结构，所以先用 dom hack 了，避免对之前的功能有影响
+   */
+  updateAutoFillHeight() {
+    const {autoFillHeight, footerToolbar, classPrefix: ns} = this.props;
+    if (!autoFillHeight) {
+      return;
+    }
+    const table = findDOMNode(this) as HTMLElement;
+    const tableContent = table.querySelector(
+      `.${ns}Table-content`
+    ) as HTMLElement;
+    const tableContentWrap = table.querySelector(
+      `.${ns}Table-contentWrap`
+    ) as HTMLElement;
+    const footToolbar = table.querySelector(
+      `.${ns}Table-footToolbar`
+    ) as HTMLElement;
+    if (!tableContent) {
+      return;
+    }
+
+    // table 底部 margin
+    const tableMarginBottom = getStyleNumber(table, 'margin-bottom');
+    // 计算 table-content 在 dom 中的位置
+    const tableContentTop = offset(tableContent).top;
+    const viewportHeight = window.innerHeight;
+    // 有时候会拿不到 footToolbar？
+    const footToolbarHeight = footToolbar ? offset(footToolbar).height : 0;
+    // 有时候会拿不到 footToolbar，等一下在执行
+    if (!footToolbarHeight && footerToolbar && footerToolbar.length) {
+      setTimeout(() => {
+        this.updateAutoFillHeight();
+      }, 100);
+      return;
+    }
+    const footToolbarMarginBottom = getStyleNumber(
+      footToolbar,
+      'margin-bottom'
+    );
+
+    const tableContentWrapMarginButtom = getStyleNumber(
+      tableContentWrap,
+      'margin-bottom'
+    );
+
+    // 循环计算父级节点的 pddding，这里不考虑父级节点还可能会有其它兄弟节点的情况了
+    let allParentPaddingButtom = 0;
+    let parentNode = tableContent.parentElement;
+    while (parentNode) {
+      const paddingButtom = getStyleNumber(parentNode, 'padding-bottom');
+      const borderBottom = getStyleNumber(parentNode, 'border-bottom-width');
+      allParentPaddingButtom =
+        allParentPaddingButtom + paddingButtom + borderBottom;
+      parentNode = parentNode.parentElement;
+    }
+
+    tableContent.style.height = `${
+      viewportHeight -
+      tableContentTop -
+      tableContentWrapMarginButtom -
+      footToolbarHeight -
+      Math.max(
+        footToolbarMarginBottom,
+        allParentPaddingButtom,
+        tableMarginBottom
+      )
+    }px`;
   }
 
   componentDidUpdate(prevProps: TableProps) {
@@ -692,6 +768,7 @@ export default class Table extends React.Component<TableProps, object> {
     const parent = this.parentNode;
     parent && parent.removeEventListener('scroll', this.affixDetect);
     window.removeEventListener('resize', this.affixDetect);
+    window.removeEventListener('resize', this.updateAutoFillHeight);
     (this.updateTableInfoLazy as any).cancel();
     this.unSensor && this.unSensor();
 
@@ -881,7 +958,7 @@ export default class Table extends React.Component<TableProps, object> {
   }
 
   affixDetect() {
-    if (!this.props.affixHeader || !this.table) {
+    if (!this.props.affixHeader || !this.table || this.props.autoFillHeight) {
       return;
     }
 
@@ -2584,39 +2661,6 @@ export default class Table extends React.Component<TableProps, object> {
       : footerNode || toolbarNode || null;
   }
 
-  renderItemActions() {
-    const {itemActions, render, store, classnames: cx} = this.props;
-    const finalActions = Array.isArray(itemActions)
-      ? itemActions.filter(action => !action.hiddenOnHover)
-      : [];
-
-    if (!finalActions.length) {
-      return null;
-    }
-
-    return (
-      <ItemActionsWrapper store={store} classnames={cx}>
-        <div className={cx('Table-itemActions')}>
-          {finalActions.map((action, index) =>
-            render(
-              `itemAction/${index}`,
-              {
-                ...(action as any),
-                isMenuItem: true
-              },
-              {
-                key: index,
-                item: store.hoverRow,
-                data: store.hoverRow!.locals,
-                rowIndex: store.hoverRow!.index
-              }
-            )
-          )}
-        </div>
-      </ItemActionsWrapper>
-    );
-  }
-
   renderTableContent() {
     const {
       classnames: cx,
@@ -2631,8 +2675,11 @@ export default class Table extends React.Component<TableProps, object> {
       prefixRow,
       locale,
       affixRow,
+      tableContentClassName,
       translate,
-      itemAction
+      itemAction,
+      autoFillHeight,
+      itemActions
     } = this.props;
 
     // 理论上来说 store.rows 应该也行啊
@@ -2645,7 +2692,10 @@ export default class Table extends React.Component<TableProps, object> {
           store.combineNum > 0 ? 'Table-table--withCombine' : '',
           tableClassName
         )}
+        className={tableContentClassName}
+        itemActions={itemActions}
         itemAction={itemAction}
+        store={store}
         classnames={cx}
         columns={store.filteredColumns}
         columnsGroup={store.columnGroup}
@@ -2681,6 +2731,7 @@ export default class Table extends React.Component<TableProps, object> {
       store,
       classnames: cx,
       affixColumns,
+      autoFillHeight,
       autoGenerateFilter
     } = this.props;
 
@@ -2697,7 +2748,8 @@ export default class Table extends React.Component<TableProps, object> {
     return (
       <div
         className={cx('Table', className, {
-          'Table--unsaved': !!store.modified || !!store.moved
+          'Table--unsaved': !!store.modified || !!store.moved,
+          'Table--autoFillHeight': autoFillHeight
         })}
       >
         {autoGenerateFilter ? this.renderAutoFilterForm() : null}
@@ -2734,7 +2786,6 @@ export default class Table extends React.Component<TableProps, object> {
               : null}
           </div>
           {this.renderTableContent()}
-          {store.hoverRow ? this.renderItemActions() : null}
         </div>
         {this.renderAffixHeader(tableClassName)}
         {footer}

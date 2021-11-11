@@ -287,6 +287,11 @@ export interface CRUDCommonSchema extends BaseSchema {
    * 开启查询区域，会根据列元素的searchable属性值，自动生成查询条件表单
    */
   autoGenerateFilter?: boolean;
+
+  /**
+   * 内容区域占满屏幕剩余空间
+   */
+  autoFillHeight?: boolean;
 }
 
 export type CRUDCardsSchema = CRUDCommonSchema & {
@@ -366,7 +371,8 @@ export default class CRUD extends React.Component<CRUDProps, any> {
     'onInit',
     'onSaved',
     'onQuery',
-    'formStore'
+    'formStore',
+    'autoFillHeight'
   ];
   static defaultProps = {
     toolbarInline: true,
@@ -382,7 +388,8 @@ export default class CRUD extends React.Component<CRUDProps, any> {
     filterTogglable: false,
     filterDefaultVisible: true,
     loadDataOnce: false,
-    loadDataOnceFetchOnFilter: true
+    loadDataOnceFetchOnFilter: true,
+    autoFillHeight: false
   };
 
   control: any;
@@ -2000,6 +2007,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
       onQuery,
       autoGenerateFilter,
       onSelect,
+      autoFillHeight,
       ...rest
     } = this.props;
 
@@ -2051,6 +2059,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
             className: cx('Crud-body', bodyClassName),
             ref: this.controlRef,
             autoGenerateFilter: !filter && autoGenerateFilter,
+            autoFillHeight: autoFillHeight,
             selectable: !!(
               (this.hasBulkActionsToolbar() && this.hasBulkActions()) ||
               pickerMode
