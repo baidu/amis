@@ -58,7 +58,7 @@ export class LinkCmpt extends React.Component<LinkProps, object> {
     htmlTarget: '_self'
   };
 
-  handleMouseDown(href: string) {
+  handleClick(href: string) {
     const {env} = this.props;
     env.tracker({
       eventType: 'url',
@@ -86,25 +86,23 @@ export class LinkCmpt extends React.Component<LinkProps, object> {
       position
     } = this.props;
 
-    let value = getPropValue(this.props);
-    const finnalHref = href ? filter(href, data, '| raw') : '';
-    const text = body
-      ? render('body', body)
-      : finnalHref || value || __('link');
+    let value = getPropValue(this.props, () =>
+      typeof href === 'string' && href ? filter(href, data, '| raw') : undefined
+    );
+    const text = body ? render('body', body) : value || __('link');
 
     return (
       <Link
+        className={className}
+        href={value}
         body={text}
         blank={blank}
         disabled={disabled}
-        onMouseDown={() => this.handleMouseDown(finnalHref || value)}
-        href={finnalHref || value}
-        target={htmlTarget || (blank ? '_blank' : '_self')}
-        className={cx('Link', className)}
         title={title}
         htmlTarget={htmlTarget}
         icon={icon}
         position={position}
+        onClick={() => this.handleClick(value)}
       ></Link>
     );
   }
