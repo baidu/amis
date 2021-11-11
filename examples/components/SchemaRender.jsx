@@ -32,6 +32,7 @@ export default function (schema, showCode, envOverrides) {
       static displayName = 'SchemaRenderer';
       iframeRef;
       state = {open: false, schema: {}};
+      originalTitle = document.title;
       toggleCode = () =>
         this.setState({
           open: !this.state.open
@@ -197,6 +198,13 @@ export default function (schema, showCode, envOverrides) {
       componentWillUnmount() {
         this.props.setAsideFolded && this.props.setAsideFolded(false);
         window.removeEventListener('message', this.watchIframeReady, false);
+        document.title = this.originalTitle;
+      }
+
+      componentDidMount() {
+        if (schema.title) {
+          document.title = schema.title;
+        }
       }
 
       renderSchema() {
