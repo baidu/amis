@@ -703,6 +703,7 @@
   --Form-select-menu-onDisabled-color: var(--text--muted-color);
   --Form-select-menu-onHover-bg: rgba(0, 126, 255, 0.08);
   --Form-select-menu-onHover-color: var(--info);
+  --Form-select-onParent-color: #83868c;
   --Form-select-onError-borderColor: var(--Form-input-onError-borderColor);
   --Form-select-onFocused-borderColor: var(--Form-input-onFocused-borderColor);
   --Form-select-onFocused-color: var(--Form-select-color);
@@ -714,8 +715,11 @@
   --Form-select-placeholderColor: var(--Form-input-placeholderColor);
   --Form-select-popoverGap: 0;
   --Form-select-search-height: var(--Form-select-menu-height);
+  --Form-select-valueIcon-color: #5e6269;
+  --Form-select-valueIcon-onHover-color: black;
   --Form-selectOption-height: var(--Form-input-height);
   --Form-selectValue-bg: #{saturate(lighten($info, 40%), 2.5%)};
+  --Form-selectValue-onHover-bgColor: #dadbdd;
   --Form-selectValue-borderColor: #{saturate(lighten($info, 30%), 2.5%)};
   --Form-selectValue-color: var(--info);
   --Form-selectValue-fontSize: var(--fontSizeSm);
@@ -727,6 +731,8 @@
       saturate(lighten($info, 40%), 2.5%),
       5%
     )};
+  --Form-selectValue-onDisabled-color: #86868c;
+  --Form-valueLabel-maxWidth: #{px2rem(120px)};
   --Form-select-onFocus-boxShadow: none;
 
   --IconPicker-content-maxHeight: #{px2rem(350px)};

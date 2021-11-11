@@ -6,6 +6,7 @@
 import React from 'react';
 
 import CloseIcon from '../icons/close.svg';
+import CloseSmallIcon from '../icons/close-small.svg';
 import StatusCloseIcon from '../icons/status-close.svg';
 import UnDoIcon from '../icons/undo.svg';
 import ReDoIcon from '../icons/redo.svg';
@@ -99,6 +100,7 @@ export function registerIcon(key: string, component: React.ReactType<{}>) {
 }
 
 registerIcon('close', CloseIcon);
+registerIcon('close-small', CloseSmallIcon);
 registerIcon('status-close', StatusCloseIcon);
 registerIcon('undo', UnDoIcon);
 registerIcon('redo', ReDoIcon);

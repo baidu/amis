@@ -10,6 +10,7 @@ import React from 'react';
 import VirtualList from './virtual-list';
 import Overlay from './Overlay';
 import PopOver from './PopOver';
+import TooltipWrapper from './TooltipWrapper';
 import Downshift, {ControllerStateAndHelpers} from 'downshift';
 import {closeIcon, Icon} from './icons';
 // @ts-ignore
@@ -120,6 +121,56 @@ export function value2array(
     props.valueField
   );
   return expandedValue ? [expandedValue] : [];
+}
+
+// 分组项打平
+export function groupFlat(options: Options): Array<Option> {
+  let tempArr: Options = [];
+  let groupIndex = -1;
+  options.concat().forEach(item => {
+    if (!item.children) {
+      return;
+    }
+    let itemArr: Array<Option> = [];
+    itemArr.push({
+      ...item,
+      isParent: true,
+      disabled: true
+    });
+    itemArr = itemArr.concat(item.children);
+    tempArr.push(...itemArr);
+  });
+  tempArr.forEach(item => {
+    if (!item.isParent) {
+      item.groupIndex = ++groupIndex;
+    }
+  });
+  return tempArr as Options;
+}
+
+export function groupMatch(
+  options: Options,
+  inputValue: string,
+  labelField: string
+): Array<Option> {
+  let tempArr: Options = [];
+  let itemArr: Options = [];
+  options.forEach(item => {
+    if (item.isParent) {
+      if (itemArr.length !== 1) {
+        tempArr = tempArr.concat(itemArr);
+      }
+      itemArr = [item];
+    } else {
+      if (item[labelField].indexOf(inputValue) > -1) {
+        itemArr.push(item);
+      }
+    }
+  });
+  if (itemArr.length !== 1) {
+    tempArr = tempArr.concat(itemArr);
+  }
+  return tempArr as Options;
 }
 
 export function expandValue(
@@ -335,6 +386,7 @@ interface SelectState {
   inputValue: string;
   highlightedIndex: number;
   selection: Array<Option>;
+  isGroup?: boolean
 }
 
 export class Select extends React.Component<SelectProps, SelectState> {
@@ -396,8 +448,13 @@ export class Select extends React.Component<SelectProps, SelectState> {
   }
 
   componentDidMount() {
-    const {loadOptions} = this.props;
+    const {loadOptions, options} = this.props;
     loadOptions && loadOptions('');
+    if (options.every(item => item.children && item.children.length)) {
+        this.setState({
+          isGroup: true
+        });
+      }
   }
 
   componentDidUpdate(prevProps: SelectProps) {
@@ -572,6 +629,7 @@ export class Select extends React.Component<SelectProps, SelectState> {
 
   handleStateChange(changes: any) {
     const {multiple, checkAll} = this.props;
+    const isGroup = this.state;
     let update: any = {};
 
     switch (changes.type) {
@@ -586,7 +644,7 @@ export class Select extends React.Component<SelectProps, SelectState> {
       case DownshiftChangeTypes.controlledPropUpdatedSelectedItem:
         break;
       case DownshiftChangeTypes.changeInput:
-        update.highlightedIndex = 0;
+        update.highlightedIndex = isGroup ? 1 : 0;
         break;
       case DownshiftChangeTypes.keyDownArrowDown:
       case DownshiftChangeTypes.keyDownArrowUp:
@@ -653,6 +711,7 @@ export class Select extends React.Component<SelectProps, SelectState> {
 
   renderValue({inputValue, isOpen}: ControllerStateAndHelpers<any>) {
     const {
+      classnames: cx,
       multiple,
       valuesNoWrap,
       placeholder,
@@ -676,7 +735,7 @@ export class Select extends React.Component<SelectProps, SelectState> {
     return selection.map((item, index) => {
       if (!multiple) {
         return (
-          <div className={`${ns}Select-value`} key={index}>
+          <div className={cx(`${ns}Select-value`, {'is-disabled': disabled})} key={index}>
             {`${item[labelField || 'label']}`}
           </div>
         );
@@ -687,19 +746,25 @@ export class Select extends React.Component<SelectProps, SelectState> {
           index === selection.length - 1 ? '' : ' + '
         }`
       ) : (
-        <div className={`${ns}Select-value`} key={index}>
-          <span
-            className={`${ns}Select-valueIcon ${
-              disabled || item.disabled ? 'is-disabled' : ''
-            }`}
-            onClick={this.removeItem.bind(this, index)}
-          >
-            ×
-          </span>
-          <span className={`${ns}Select-valueLabel`}>
-            {`${item[labelField || 'label']}`}
-          </span>
-        </div>
+        <TooltipWrapper
+          placement={'top'}
+          tooltip={item[labelField || 'label']}
+          trigger={'hover'}
+        >
+          <div className={`${ns}Select-value`} key={index}>
+            <span className={`${ns}Select-valueLabel`}>
+              {`${item[labelField || 'label']}`}
+            </span>
+            <span
+              className={`${ns}Select-valueIcon ${
+                disabled || item.disabled ? 'is-disabled' : ''
+              }`}
+              onClick={this.removeItem.bind(this, index)}
+            >
+              ×
+            </span>
+          </div>
+        </TooltipWrapper>
       );
     });
   }
@@ -740,7 +805,6 @@ export class Select extends React.Component<SelectProps, SelectState> {
       renderMenu
     } = this.props;
     const {selection} = this.state;
-
     let checkedAll = false;
     let checkedPartial = false;
     let filtedOptions: Array<Option> = (
@@ -750,6 +814,12 @@ export class Select extends React.Component<SelectProps, SelectState> {
           })
         : options.concat()
     ).filter((option: Option) => !option.hidden && option.visible !== false);
+
+    if (this.state.isGroup) {
+      let tempOptions: Array<Option> = this.state.isGroup ? groupFlat(options) : [];
+      filtedOptions = inputValue && isOpen && !loadOptions
+        ? groupMatch(tempOptions, inputValue, labelField) : tempOptions;
+    }
 
     const selectionValues = selection.map(select => select[valueField]);
     if (multiple && checkAll) {
@@ -777,6 +847,40 @@ export class Select extends React.Component<SelectProps, SelectState> {
         selectedItem === item || !!~selectionValues.indexOf(item[valueField]);
       if (hideSelected && checked) {
         return null;
+      }
+      if (this.state.isGroup) {
+        return (
+          <div
+          {...getItemProps({
+            key:
+              typeof item.value === 'string'
+                ? `${item.label}-${item.value}`
+                : index,
+            index,
+            item,
+            disabled: item.disabled
+          })}
+          style={style}
+          className={cx(`Select-option`, {
+            'is-disabled': item.disabled,
+            'is-highlight': highlightedIndex === index,
+            'is-active': checked,
+            'is-parent': item.isParent,
+            'is-child': !item.isParent
+          })}
+        >
+          <span>
+            {item.disabled || item.isParent
+              ? item[labelField]
+              : highlight(
+                  item[labelField],
+                  inputValue as string,
+                  cx('Select-option-hl')
+                )}
+            {item.tip}
+          </span>
+        </div>
+        )
       }
       return (
         <div
@@ -966,6 +1070,10 @@ export class Select extends React.Component<SelectProps, SelectState> {
         ) : (
           <div className={cx('Select-noResult')}>{__(noResultsText)}</div>
         )}
+        <slot
+          name="option"
+        >
+        </slot>
       </div>
     );
 
@@ -1060,7 +1168,7 @@ export class Select extends React.Component<SelectProps, SelectState> {
               !disabled &&
               (Array.isArray(value) ? value.length : value !== resetValue) ? (
                 <a onClick={this.clearValue} className={cx('Select-clear')}>
-                  <Icon icon="close" className="icon" />
+                  <Icon icon="close-small" className="icon" />
                 </a>
               ) : null}
               {loading ? (
