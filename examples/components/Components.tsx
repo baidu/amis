@@ -33,7 +33,8 @@ export const components = [
         label: 'Collapse 折叠器',
         path: '/zh-CN/components/collapse',
         getComponent: () =>
-          import('../../docs/zh-CN/components/collapse.md').then(
+          // @ts-ignore
+          import('../../docs/zh-CN/components/collapse2.md').then(
             makeMarkdownRenderer
           )
       },

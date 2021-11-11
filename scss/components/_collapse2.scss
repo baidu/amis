@@ -1,0 +1,12 @@
+.#{$ns}Collapse2 {
+
+  &.icon-position-right {
+    color: #000;
+    .cxd-CollapsePanel-header {
+      .cxd-CollapsePanel-arrow {
+        float: right;
+      }
+    }
+  }
+  
+}
