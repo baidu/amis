@@ -483,6 +483,7 @@ export function wrapControl<
                 name,
                 id,
                 label,
+                type,
                 onChange: onFormItemChange,
                 maxLength,
                 minLength
@@ -503,19 +504,21 @@ export function wrapControl<
               return;
             }
 
-            env.tracker(
-              {
-                eventType: 'formItemChange',
-                eventData: {
-                  id,
-                  name,
-                  label,
-                  type: this.props.type,
-                  value
-                }
-              },
-              this.props
-            );
+            if (type !== 'input-password') {
+              env.tracker(
+                {
+                  eventType: 'formItemChange',
+                  eventData: {
+                    id,
+                    name,
+                    label,
+                    type,
+                    value
+                  }
+                },
+                this.props
+              );
+            }
 
             this.model.changeEmitedValue(value);
             if (

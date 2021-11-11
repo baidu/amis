@@ -268,7 +268,7 @@ export function responseAdaptor(ret: fetcherResult, api: ApiObject) {
 
 export function wrapFetcher(
   fn: (config: fetcherConfig) => Promise<fetcherResult>,
-  tracker?: (eventTrack: EventTrack) => void
+  tracker?: (eventTrack: EventTrack, data: any) => void
 ): (api: Api, data: object, options?: object) => Promise<Payload | void> {
   return function (api, data, options) {
     api = buildApi(api, data, options) as ApiObject;
@@ -298,7 +298,10 @@ export function wrapFetcher(
       api.headers['Content-Type'] = 'application/json';
     }
 
-    tracker?.({eventType: 'api', eventData: omit(api, 'config')});
+    tracker?.(
+      {eventType: 'api', eventData: omit(api, ['config', 'data', 'body'])},
+      api.data
+    );
 
     if (typeof api.cache === 'number' && api.cache > 0) {
       const apiCache = getApiCache(api);
