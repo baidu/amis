@@ -30,5 +30,39 @@ amis.embed(
 eventTrack 的类型定义是
 
 ```typescript
+interface EventTrack {
+  // 后面会详细介绍
+  eventType:
+    | 'api'
+    | 'url'
+    | 'link'
+    | 'dialog'
+    | 'drawer'
+    | 'copy'
+    | 'reload'
+    | 'email'
+    | 'prev'
+    | 'next'
+    | 'cancel'
+    | 'close'
+    | 'submit'
+    | 'confirm'
+    | 'add'
+    | 'reset'
+    | 'reset-and-submit'
+    | 'formItemChange'
+    | 'formSubmit'
+    | 'tabChange'
+    | 'error';
 
+  /**
+   * 事件数据
+   */
+  eventData: ActionSchema | Api;
+
+  /**
+   * 触发事件的组件属性，可以用来存放自定义属性
+   */
+  props?: PlainObject;
+}
 ```
