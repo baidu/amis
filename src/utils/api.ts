@@ -1,3 +1,4 @@
+import omit from 'lodash/omit';
 import {Api, ApiObject, EventTrack, fetcherResult, Payload} from '../types';
 import {fetcherConfig} from '../factory';
 import {tokenize, dataMapping} from './tpl-builtin';
@@ -297,7 +298,7 @@ export function wrapFetcher(
       api.headers['Content-Type'] = 'application/json';
     }
 
-    tracker?.({eventType: 'api', eventData: api});
+    tracker?.({eventType: 'api', eventData: omit(api, 'config')});
 
     if (typeof api.cache === 'number' && api.cache > 0) {
       const apiCache = getApiCache(api);

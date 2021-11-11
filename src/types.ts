@@ -204,21 +204,13 @@ export interface EventTrack {
     | 'close'
     | 'submit'
     | 'confirm'
-    | 'add'
     | 'reset'
     | 'reset-and-submit'
     | 'formItemChange'
-    | 'formSubmit'
-    | 'tabChange'
-    | 'error';
+    | 'tabChange';
 
   /**
    * 事件数据
    */
   eventData: ActionSchema | Api;
-
-  /**
-   * 触发事件的组件属性，可以用来存放自定义属性
-   */
-  props?: PlainObject;
 }

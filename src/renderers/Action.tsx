@@ -4,8 +4,14 @@ import {Renderer, RendererProps} from '../factory';
 import {filter} from '../utils/tpl';
 import Button from '../components/Button';
 import pick from 'lodash/pick';
+import omit from 'lodash/omit';
 
 export interface ButtonSchema extends BaseSchema {
+  /**
+   * 主要用于用户行为跟踪里区分是哪个按钮
+   */
+  id?: string;
+
   /**
    * 是否为块状展示，默认为内联。
    */
@@ -332,6 +338,7 @@ export type ActionSchema =
   | VanillaAction;
 
 const ActionProps = [
+  'id',
   'dialog',
   'drawer',
   'url',
@@ -596,15 +603,19 @@ export class Action extends React.Component<ActionProps, ActionState> {
     const actionType = action.actionType;
 
     // ajax 会在 wrapFetcher 里记录，这里再处理就重复了，因此去掉
-    if (actionType !== 'ajax' && actionType !== 'download') {
-      env.tracker({
-        eventType: actionType,
-        eventData: {
-          ...action,
-          isAction: true // 用于区分比如 link 到底是 action 还是普通 link 组件
+    // add 一般是 input-table 之类的，会触发 formItemChange，为了避免重复也去掉
+    if (
+      actionType !== 'ajax' &&
+      actionType !== 'download' &&
+      actionType !== 'add'
+    ) {
+      env.tracker(
+        {
+          eventType: actionType || this.props.type || 'click',
+          eventData: omit(action, ['type', 'actionType', 'tooltipPlacement'])
         },
-        props: this.props
-      });
+        this.props
+      );
     }
 
     // download 是一种 ajax 的简写

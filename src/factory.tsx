@@ -11,7 +11,8 @@ import {
   SchemaNode,
   Schema,
   Action,
-  EventTrack
+  EventTrack,
+  PlainObject
 } from './types';
 import {observer} from 'mobx-react';
 import Scoped from './Scoped';
@@ -329,7 +330,7 @@ const defaultOptions: RenderOptions = {
     console.error('copy contents', contents);
   },
   // 用于跟踪用户在界面中的各种操作
-  tracker(eventTrack: EventTrack) {},
+  tracker(eventTrack: EventTrack, props: PlainObject) {},
   rendererResolver: resolveRenderer
 };
 let stores: {

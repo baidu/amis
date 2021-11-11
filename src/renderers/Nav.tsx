@@ -17,7 +17,13 @@ import {
 import {ScopedContext, IScopedContext} from '../Scoped';
 import {themeable, ThemeProps} from '../theme';
 import {Icon} from '../components/icons';
-import {BaseSchema, SchemaApi, SchemaIcon, SchemaUrlPath, SchemaCollection} from '../Schema';
+import {
+  BaseSchema,
+  SchemaApi,
+  SchemaIcon,
+  SchemaUrlPath,
+  SchemaCollection
+} from '../Schema';
 import {generateIcon} from '../utils/icon';
 import {
   RemoteOptionsProps,
@@ -90,27 +96,27 @@ export interface NavSchema extends BaseSchema {
   /**
    * 更多操作菜单列表
    */
-   itemActions?: SchemaCollection;
+  itemActions?: SchemaCollection;
 
   /**
    * 可拖拽
    */
-   draggable?: boolean;
+  draggable?: boolean;
 
-   /**
-    * 保存排序的 api
-    */
+  /**
+   * 保存排序的 api
+   */
   saveOrderApi?: SchemaApi;
 
   /**
    * 角标
    */
-   itemBadge?: BadgeSchema;
+  itemBadge?: BadgeSchema;
 
   /**
    * 仅允许同层级拖拽
    */
-   dragOnSameLevel?: boolean;
+  dragOnSameLevel?: boolean;
 }
 
 export interface Link {
@@ -191,7 +197,19 @@ export class Navigation extends React.Component<
 
   @autobind
   handleClick(link: Link) {
-    this.props.onSelect?.(link);
+    const {env, onSelect} = this.props;
+    // 和 action 里命名一致方便分析
+    if (link && link.to) {
+      env.tracker({
+        eventType: 'link',
+        eventData: {
+          label: link.label,
+          link: link.to
+        }
+      });
+    }
+
+    onSelect?.(link);
   }
 
   @autobind
@@ -207,14 +225,18 @@ export class Navigation extends React.Component<
     const {top, height, width} = rect;
     let {clientY, clientX} = e;
     const left = depth * (parseInt(indentSize as any, 10) ?? 24);
-    const deltaX = left + width * .2;
+    const deltaX = left + width * 0.2;
     let position;
-    if (clientY >= top + height / 2 ) {
+    if (clientY >= top + height / 2) {
       position = 'bottom';
     } else {
       position = 'top';
     }
-    if (!dragOnSameLevel && position === 'bottom' && clientX >= this.startPoint.x + deltaX) {
+    if (
+      !dragOnSameLevel &&
+      position === 'bottom' &&
+      clientX >= this.startPoint.x + deltaX
+    ) {
       position = 'self';
     }
     return {
@@ -232,8 +254,9 @@ export class Navigation extends React.Component<
     const target = e.target as HTMLElement; // a标签
     const targetId = target.getAttribute('data-id') as string;
     const targetDepth = Number(target.getAttribute('data-depth'));
-    if (dragOnSameLevel
-      && this.dragNode?.node.parentElement !== target.parentElement?.parentElement
+    if (
+      dragOnSameLevel &&
+      this.dragNode?.node.parentElement !== target.parentElement?.parentElement
     ) {
       this.setState({dropIndicator: undefined});
       this.dropInfo = null;
@@ -254,13 +277,15 @@ export class Navigation extends React.Component<
           left,
           width: ul.getBoundingClientRect().width - left,
           height,
-          opacity: .2
+          opacity: 0.2
         }
       });
     } else {
       this.setState({
         dropIndicator: {
-          top: (position === 'bottom' ? rect.top + rect.height : rect.top) - ul.getBoundingClientRect().top,
+          top:
+            (position === 'bottom' ? rect.top + rect.height : rect.top) -
+            ul.getBoundingClientRect().top,
           left,
           width: ul.getBoundingClientRect().width - left
         }
@@ -356,21 +381,31 @@ export class Navigation extends React.Component<
         })}
         onDragStart={this.handleDragStart(link)}
       >
-        <Badge classnames={cx} badge={itemBadge} data={createObject(defaultData, link)}>
+        <Badge
+          classnames={cx}
+          badge={itemBadge}
+          data={createObject(defaultData, link)}
+        >
           <a
             data-id={link.__id}
             data-depth={depth}
             onClick={this.handleClick.bind(this, link)}
-            style={{paddingLeft: depth * (parseInt(indentSize as any, 10) ?? 24)}}
+            style={{
+              paddingLeft: depth * (parseInt(indentSize as any, 10) ?? 24)
+            }}
           >
             {!disabled && draggable ? (
-            <div className={cx('Nav-itemDrager')}
-              draggable
-              onMouseDown={e => {this.toggleLink(link, true); e.stopPropagation()}}
-            >
-              <Icon icon="drag-bar" className="icon" />
-            </div>
-          ) : null}
+              <div
+                className={cx('Nav-itemDrager')}
+                draggable
+                onMouseDown={e => {
+                  this.toggleLink(link, true);
+                  e.stopPropagation();
+                }}
+              >
+                <Icon icon="drag-bar" className="icon" />
+              </div>
+            ) : null}
             {link.loading ? (
               <Spinner
                 size="sm"
@@ -387,20 +422,20 @@ export class Navigation extends React.Component<
               </span>
             ) : null}
             {generateIcon(cx, link.icon, 'Nav-itemIcon')}
-            {
-              link.label && (typeof link.label === 'string'
-              ? link.label
-              : render('inline', link.label as SchemaCollection))
-            }
+            {link.label &&
+              (typeof link.label === 'string'
+                ? link.label
+                : render('inline', link.label as SchemaCollection))}
           </a>
           {
             // 更多操作
-            itemActions
-            ? <div className={cx('Nav-item-atcions')}>
-              {
-                render('inline', itemActions, {data: createObject(defaultData, link)})
-              }
-            </div> : null
+            itemActions ? (
+              <div className={cx('Nav-item-atcions')}>
+                {render('inline', itemActions, {
+                  data: createObject(defaultData, link)
+                })}
+              </div>
+            ) : null
           }
           {Array.isArray(link.children) && link.children.length ? (
             <ul className={cx('Nav-subItems')}>
@@ -419,17 +454,22 @@ export class Navigation extends React.Component<
     const {dropIndicator} = this.state;
     return (
       <div className={cx('Nav')}>
-        <ul className={cx('Nav-list', className, stacked ? 'Nav-list--stacked' : 'Nav-list--tabs')}>
+        <ul
+          className={cx(
+            'Nav-list',
+            className,
+            stacked ? 'Nav-list--stacked' : 'Nav-list--tabs'
+          )}
+        >
           {Array.isArray(links)
             ? links.map((item, index) => this.renderItem(item, index))
             : null}
 
           <Spinner show={!!loading} overlay icon="reload" />
         </ul>
-        {(dropIndicator
-          ? <div className={cx('Nav-dropIndicator')} style={dropIndicator} />
-          : null
-        )}
+        {dropIndicator ? (
+          <div className={cx('Nav-dropIndicator')} style={dropIndicator} />
+        ) : null}
       </div>
     );
   }
@@ -444,7 +484,7 @@ const ConditionBuilderWithRemoteOptions = withRemoteConfig({
       : config.links || config.options || config.items || config.rows;
 
     if (!Array.isArray(links)) {
-      throw new Error('payload.data.options is not array.');
+      throw new Error('payload.data.options is not array.');
     }
 
     return links;
@@ -586,12 +626,15 @@ const ConditionBuilderWithRemoteOptions = withRemoteConfig({
       const {nodeId, dragLink, position} = dropInfo;
       if (dragLink) {
         // 删除原节点
-        const sourceIdx = findTreeIndex(links, link => link.__id === dragLink.__id) as number[];
+        const sourceIdx = findTreeIndex(
+          links,
+          link => link.__id === dragLink.__id
+        ) as number[];
         links = spliceTree(links, sourceIdx, 1);
 
         if (position === 'self') {
           // 插入到对应节点的children中
-          mapTree(links, (link) => {
+          mapTree(links, link => {
             if (link.__id === nodeId) {
               if (!link.children) {
                 link.children = [];
@@ -599,33 +642,39 @@ const ConditionBuilderWithRemoteOptions = withRemoteConfig({
               link.children.push(dragLink);
             }
             return link;
-          })
+          });
         } else {
           // 找到需要插入的节点
-          const idx = findTreeIndex(links, link => link.__id === nodeId) as number[];
+          const idx = findTreeIndex(
+            links,
+            link => link.__id === nodeId
+          ) as number[];
           // 插入节点之后
           if (position === 'bottom') {
-            idx.push(idx.pop() as number + 1);
+            idx.push((idx.pop() as number) + 1);
           }
           links = spliceTree(links, idx, 0, dragLink);
         }
       }
       this.props.updateConfig(links, 'update');
-      await this.saveOrder(mapTree(links, (link: Link) => {
-        // 清除内部加的字段
-        for (let key in link) {
-          if (/^__.*$/.test(key)) {
-            delete link[key];
+      await this.saveOrder(
+        mapTree(links, (link: Link) => {
+          // 清除内部加的字段
+          for (let key in link) {
+            if (/^__.*$/.test(key)) {
+              delete link[key];
+            }
           }
-        }
-        return link;
-      }));
+          return link;
+        })
+      );
     }
 
     async saveOrder(links: Links) {
       const {saveOrderApi, env, data, reload} = this.props;
       if (saveOrderApi && isEffectiveApi(saveOrderApi)) {
-        await env.fetcher(saveOrderApi as SchemaApi,
+        await env.fetcher(
+          saveOrderApi as SchemaApi,
           createObject(data, {data: links}),
           {method: 'post'}
         );

@@ -440,16 +440,8 @@ export function wrapControl<
                 changeImmediately: conrolChangeImmediately
               },
               formInited,
-              data,
-              env
+              data
             } = this.props;
-            env.tracker({
-              eventType: 'formItemChange',
-              eventData: {
-                value
-              },
-              props: this.props
-            });
 
             if (
               !this.model ||
@@ -487,8 +479,16 @@ export function wrapControl<
             const {
               formStore: form,
               onChange,
-              $schema: {name, onChange: onFormItemChange, maxLength, minLength},
+              $schema: {
+                name,
+                id,
+                label,
+                onChange: onFormItemChange,
+                maxLength,
+                minLength
+              },
               data,
+              env,
               validateOnChange,
               formSubmited
             } = this.props;
@@ -502,6 +502,20 @@ export function wrapControl<
             if (oldValue === value) {
               return;
             }
+
+            env.tracker(
+              {
+                eventType: 'formItemChange',
+                eventData: {
+                  id,
+                  name,
+                  label,
+                  type: this.props.type,
+                  value
+                }
+              },
+              this.props
+            );
 
             this.model.changeEmitedValue(value);
             if (

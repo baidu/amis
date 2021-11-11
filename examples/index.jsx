@@ -19,6 +19,6 @@ export function bootstrap(mountTo, initalState) {
           anchor.scrollIntoView();
         }
       }
-    }, 3000);
+    }, 2000);
   });
 }

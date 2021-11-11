@@ -54,17 +54,19 @@ export interface LinkProps
 export class LinkCmpt extends React.Component<LinkProps, object> {
   static defaultProps = {
     blank: true,
-    disabled: false,
-    htmlTarget: '_self'
+    disabled: false
   };
 
   handleClick(href: string) {
-    const {env} = this.props;
-    env.tracker({
-      eventType: 'url',
-      // 需要和 action 里命名一致方便后续分析
-      eventData: {url: href}
-    });
+    const {env, blank, body} = this.props;
+    env.tracker(
+      {
+        eventType: 'url',
+        // 需要和 action 里命名一致方便后续分析
+        eventData: {url: href, blank, label: body}
+      },
+      this.props
+    );
   }
 
   getHref() {}
