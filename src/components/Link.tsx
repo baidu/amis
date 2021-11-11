@@ -1,22 +1,11 @@
 import React from 'react';
-import {RendererProps} from '../factory';
-import {BaseSchema, SchemaTpl} from '../Schema';
-import {getPropValue} from '../utils/helper';
-import {filter} from '../utils/tpl';
-import {themeable} from '../theme';
+import {themeable, ThemeProps} from '../theme';
 import {autobind} from '../utils/helper';
+import {generateIcon} from '../utils/icon';
 
-export interface LinkSchema extends BaseSchema {
-  /**
-   * 是否新窗口打开。
-   */
-  blank?: boolean;
-
-  /**
-   * 链接内容，如果不配置将显示链接地址。
-   */
-  body?: SchemaTpl;
-
+export interface LinkProps
+  extends ThemeProps,
+    React.DOMAttributes<HTMLAnchorElement> {
   /**
    * 禁用
    */
@@ -30,12 +19,13 @@ export interface LinkSchema extends BaseSchema {
   /**
    * 图标位置
    */
-  position?: string;
-}
+  iconPosition?: 'left' | 'right';
 
-export interface LinkProps
-  extends RendererProps,
-    Omit<LinkSchema, 'type' | 'className'> {}
+  href?: string;
+  htmlTarget?: string;
+  title?: string;
+  children?: JSX.Element;
+}
 
 export class Link extends React.Component<LinkProps, object> {
   constructor(props: LinkProps) {
@@ -44,35 +34,34 @@ export class Link extends React.Component<LinkProps, object> {
 
   @autobind
   aClick(e: React.MouseEvent<any>) {
-    const {disabled} = this.props;
+    const {disabled, onClick} = this.props;
     if (disabled) {
       e.preventDefault();
       e.stopPropagation();
+      return;
     }
+    onClick?.(e);
   }
 
   render() {
     const {
       className,
-      body,
       href,
       classnames: cx,
-      blank,
       disabled,
       htmlTarget,
-      data,
       title,
       icon,
-      position
+      iconPosition,
+      children,
+      ...rest
     } = this.props;
-
-    let value = getPropValue(this.props);
-    const finnalHref = href ? filter(href, data, '| raw') : '';
 
     return (
       <a
-        href={finnalHref || value}
-        target={htmlTarget || (blank ? '_blank' : '_self')}
+        {...rest}
+        href={href}
+        target={htmlTarget}
         className={cx(
           `Link`,
           {
@@ -83,9 +72,13 @@ export class Link extends React.Component<LinkProps, object> {
         title={title}
         onClick={this.aClick}
       >
-        <i className={icon} style={{display: position !== 'right' ? 'inline-block' : 'none' }} />
-        {body}
-        <i className={icon} style={{display: position !== 'right' ? 'none' : 'inline-block' }} />
+        {icon && iconPosition !== 'right'
+          ? generateIcon(cx, icon, 'Link-icon')
+          : null}
+        {children}
+        {icon && iconPosition === 'right'
+          ? generateIcon(cx, icon, 'Link-icon')
+          : null}
       </a>
     );
   }
