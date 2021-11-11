@@ -893,6 +893,7 @@
   }
 
   &--autoFillHeight {
+    margin-bottom: 0;
     > .#{$ns}Table-contentWrap {
       > .#{$ns}Table-content table {
         border-top: none; // 不然会导致拖动时顶部露出内容
@@ -902,6 +903,12 @@
         top: 0;
         z-index: 1; // 由于 badge 导致 tbody 里 tr 的 position: relative 了
       }
+    }
+    > .#{$ns}Table-fixedTop {
+      display: none;
+    }
+    > .#{$ns}Table-footToolbar {
+      margin-bottom: 0;
     }
   }
 }
