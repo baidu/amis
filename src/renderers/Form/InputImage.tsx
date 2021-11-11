@@ -29,6 +29,8 @@ import {
   SchemaUrlPath
 } from '../../Schema';
 import {filter} from '../../utils/tpl';
+import isPlainObject from 'lodash/isPlainObject';
+import merge from 'lodash/merge';
 
 /**
  * Image 图片上传控件
@@ -790,8 +792,8 @@ export default class ImageControl extends React.Component<
   }
 
   syncAutoFill() {
-    const {autoFill, multiple, onBulkChange} = this.props;
-    if (!isEmpty(autoFill)) {
+    const {autoFill, multiple, onBulkChange, data} = this.props;
+    if (!isEmpty(autoFill) && onBulkChange) {
       const files = this.state.files.filter(
         file => ~['uploaded', 'init', 'ready'].indexOf(file.state as string)
       );
@@ -803,7 +805,13 @@ export default class ImageControl extends React.Component<
             }
           : files[0]
       );
-      onBulkChange && onBulkChange(toSync);
+
+      Object.keys(toSync).forEach(key => {
+        if (isPlainObject(toSync[key]) && isPlainObject(data[key])) {
+          toSync[key] = merge({}, data[key], toSync[key]);
+        }
+      });
+      onBulkChange(toSync);
     }
   }
 
