@@ -17,9 +17,9 @@ export interface LinkProps
   icon?: string;
 
   /**
-   * 图标位置
+   * 右侧图标
    */
-  iconPosition?: 'left' | 'right';
+  rightIcon?: string;
 
   href?: string;
   htmlTarget?: string;
@@ -52,7 +52,7 @@ export class Link extends React.Component<LinkProps, object> {
       htmlTarget,
       title,
       icon,
-      iconPosition,
+      rightIcon,
       children,
       classPrefix,
       theme,
@@ -74,13 +74,9 @@ export class Link extends React.Component<LinkProps, object> {
         title={title}
         onClick={this.aClick}
       >
-        {icon && iconPosition !== 'right'
-          ? generateIcon(cx, icon, 'Link-icon')
-          : null}
+        {icon ? generateIcon(cx, icon, 'Link-icon') : null}
         {children}
-        {icon && iconPosition === 'right'
-          ? generateIcon(cx, icon, 'Link-icon')
-          : null}
+        {rightIcon ? generateIcon(cx, rightIcon, 'Link-icon') : null}
       </a>
     );
   }

@@ -42,9 +42,9 @@ export interface LinkSchema extends BaseSchema {
   icon?: string;
 
   /**
-   * 图标位置
+   * 右侧图标
    */
-  iconPosition?: string;
+  rightIcon?: string;
 }
 
 export interface LinkProps
@@ -72,7 +72,7 @@ export class LinkCmpt extends React.Component<LinkProps, object> {
       translate: __,
       title,
       icon,
-      iconPosition
+      rightIcon
     } = this.props;
 
     let value = getPropValue(this.props, () =>
@@ -87,7 +87,7 @@ export class LinkCmpt extends React.Component<LinkProps, object> {
         title={title}
         htmlTarget={htmlTarget || (blank ? '_blank' : '_self')}
         icon={icon}
-        iconPosition={iconPosition as 'left'}
+        rightIcon={rightIcon}
       >
         {body ? render('body', body) : value || __('link')}
       </Link>

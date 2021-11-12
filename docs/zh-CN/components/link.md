@@ -73,8 +73,8 @@ order: 55
 | body       | `string`  |        | 标签内文本                                                                           |
 | href       | `string`  |        | 链接地址                                                                             |
 | blank      | `boolean` |        | 是否在新标签页打开                                                                   |
-| htmlTarget | `string`  |        | a 标签的 target，优先于blank属性                                                                      |
-| title | `string`  |        | a 标签的title                                                                      |
-| disabled | `boolean`  |        | 禁用超链接                                                                     |
-| icon | `string`  |        | 超链接图标，以加强显示                                                                   |
-| position | `string`  |        | 图标位置，支持left和right                                                                      |
+| htmlTarget | `string`  |        | a 标签的 target，优先于 blank 属性                                                   |
+| title      | `string`  |        | a 标签的 title                                                                       |
+| disabled   | `boolean` |        | 禁用超链接                                                                           |
+| icon       | `string`  |        | 超链接图标，以加强显示                                                               |
+| rightIcon  | `string`  |        | 右侧图标                                                                             |
