@@ -200,7 +200,7 @@ export class Navigation extends React.Component<
     const {env, onSelect} = this.props;
     // 和 action 里命名一致方便分析
     if (link && link.to) {
-      env.tracker({
+      env?.tracker({
         eventType: 'link',
         eventData: {
           label: link.label,

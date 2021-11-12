@@ -60,7 +60,7 @@ export class LinkCmpt extends React.Component<LinkProps, object> {
 
   handleClick(href: string) {
     const {env, blank, body} = this.props;
-    env.tracker(
+    env?.tracker(
       {
         eventType: 'url',
         // 需要和 action 里命名一致方便后续分析

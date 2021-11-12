@@ -505,7 +505,7 @@ export function wrapControl<
             }
 
             if (type !== 'input-password') {
-              env.tracker(
+              env?.tracker(
                 {
                   eventType: 'formItemChange',
                   eventData: {

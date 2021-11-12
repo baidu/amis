@@ -609,7 +609,7 @@ export class Action extends React.Component<ActionProps, ActionState> {
       actionType !== 'download' &&
       actionType !== 'add'
     ) {
-      env.tracker(
+      env?.tracker(
         {
           eventType: actionType || this.props.type || 'click',
           eventData: omit(action, ['type', 'actionType', 'tooltipPlacement'])
