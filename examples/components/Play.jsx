@@ -438,6 +438,9 @@ export default class PlayGround extends React.Component {
       <CodeEditor
         value={this.state.schemaCode}
         onChange={this.handleChange}
+        options={{
+          lineNumbers: 'off'
+        }}
         // editorFactory={this.editorFactory}
         editorDidMount={this.editorDidMount}
         language="json"
