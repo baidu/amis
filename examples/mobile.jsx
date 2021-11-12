@@ -81,6 +81,9 @@ class AMISComponent extends React.Component {
           copy: (content, optinos) => {
             copy(content, optinos);
             toast.success('内容已复制到粘贴板');
+          },
+          tracker(eventTrack) {
+            console.debug('eventTrack', eventTrack);
           }
         })}
       </div>

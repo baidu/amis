@@ -374,7 +374,15 @@ export default class Tabs extends React.Component<TabsProps, TabsState> {
 
   @autobind
   handleSelect(key: any) {
-    const {env, onSelect} = this.props;
+    const {env, onSelect, id} = this.props;
+
+    env.tracker?.({
+      eventType: 'tabChange',
+      eventData: {
+        id,
+        key
+      }
+    });
 
     // 是 hash，需要更新到地址栏
     if (typeof key === 'string' && env) {

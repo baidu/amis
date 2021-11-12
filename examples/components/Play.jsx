@@ -220,6 +220,9 @@ export default class PlayGround extends React.Component {
       copy: (content, options) => {
         copy(content, options);
         toast.success(__('System.copy'));
+      },
+      tracker(eventTrack) {
+        console.debug('eventTrack', eventTrack);
       }
     };
 

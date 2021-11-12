@@ -126,6 +126,9 @@ export default function (schema, showCode, envOverrides) {
               return fn(nextLocation);
             });
           },
+          tracker(eventTrack) {
+            console.debug('eventTrack', eventTrack);
+          },
           ...envOverrides
         };
 

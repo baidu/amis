@@ -33,7 +33,7 @@ export class Link extends React.Component<LinkProps, object> {
   }
 
   @autobind
-  aClick(e: React.MouseEvent<any>) {
+  handleClick(e: React.MouseEvent<any>) {
     const {disabled, onClick} = this.props;
     if (disabled) {
       e.preventDefault();
@@ -72,7 +72,7 @@ export class Link extends React.Component<LinkProps, object> {
           className
         )}
         title={title}
-        onClick={this.aClick}
+        onClick={this.handleClick}
       >
         {icon ? generateIcon(cx, icon, 'Link-icon') : null}
         {children}

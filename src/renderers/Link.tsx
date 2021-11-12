@@ -1,7 +1,7 @@
 import React from 'react';
 import {Renderer, RendererProps} from '../factory';
 import {BaseSchema, SchemaTpl} from '../Schema';
-import {getPropValue} from '../utils/helper';
+import {autobind, getPropValue} from '../utils/helper';
 import {filter} from '../utils/tpl';
 import {BadgeSchema, withBadge} from '../components/Badge';
 import Link from '../components/Link';
@@ -57,6 +57,20 @@ export class LinkCmpt extends React.Component<LinkProps, object> {
     disabled: false,
     htmlTarget: ''
   };
+
+  handleClick(href: string) {
+    const {env, blank, body} = this.props;
+    env?.tracker(
+      {
+        eventType: 'url',
+        // 需要和 action 里命名一致方便后续分析
+        eventData: {url: href, blank, label: body}
+      },
+      this.props
+    );
+  }
+
+  getHref() {}
 
   render() {
     const {
