@@ -147,18 +147,29 @@ api 的来源有两方面，一个是各种组件的 api 及 source 配置，另
 }
 ```
 
-如果是 post 则类似
+如果是 post 则类似下面的数据
 
 ```json
 {
   "eventType": "api",
   "eventData": {
     "method": "post",
-    "url": "/api/mock2/form/saveForm",
-    "data": {
-      "name": "amis"
-    }
+    "url": "/api/mock2/form/saveForm"
   }
+}
+```
+
+为了避免信息泄露在 eventData 里没有包含提交数据，要获取提交数据详情需要通过第二个参数，参考下面的例子
+
+```javascript
+{
+  tracker: (eventTrack, data) => {
+    console.log('提交数据详情', data);
+    const blob = new Blob([JSON.stringify(eventTrack)], {
+      type: 'application/json'
+    });
+    navigator.sendBeacon('/tracker', blob);
+  };
 }
 ```
 
@@ -409,6 +420,9 @@ action 中的事件，主要用于关闭弹框
 ### formItemChange
 
 表单项数据变化时，也就是用户在表单里输入和修改任何数据时触发，比如
+
+> 有一个特例是 input-password 类型的字段不会触发这个事件，避免隐私风险
+> 但在 api 中还是有可能包含隐私信息，因此建议前面 api 类的事件不记录数据提交内容
 
 ```json
 {
