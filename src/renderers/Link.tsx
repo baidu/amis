@@ -42,9 +42,9 @@ export interface LinkSchema extends BaseSchema {
   icon?: string;
 
   /**
-   * 图标位置
+   * 右侧图标
    */
-  position?: string;
+  rightIcon?: string;
 }
 
 export interface LinkProps
@@ -54,7 +54,8 @@ export interface LinkProps
 export class LinkCmpt extends React.Component<LinkProps, object> {
   static defaultProps = {
     blank: true,
-    disabled: false
+    disabled: false,
+    htmlTarget: ''
   };
 
   handleClick(href: string) {
@@ -85,27 +86,25 @@ export class LinkCmpt extends React.Component<LinkProps, object> {
       translate: __,
       title,
       icon,
-      position
+      rightIcon
     } = this.props;
 
     let value = getPropValue(this.props, () =>
       typeof href === 'string' && href ? filter(href, data, '| raw') : undefined
     );
-    const text = body ? render('body', body) : value || __('link');
 
     return (
       <Link
         className={className}
         href={value}
-        body={text}
-        blank={blank}
         disabled={disabled}
         title={title}
-        htmlTarget={htmlTarget}
+        htmlTarget={htmlTarget || (blank ? '_blank' : '_self')}
         icon={icon}
-        position={position}
-        onClick={() => this.handleClick(value)}
-      ></Link>
+        rightIcon={rightIcon}
+      >
+        {body ? render('body', body) : value || __('link')}
+      </Link>
     );
   }
 }
