@@ -207,8 +207,9 @@ export class BaseTransferRenderer<
         (option: Option) => {
           return !!(
             (Array.isArray(option.children) && option.children.length) ||
-            regexp.test(option[(labelField as string) || 'label']) ||
-            regexp.test(option[(valueField as string) || 'value'])
+            (option[(valueField as string) || 'value'] &&
+              (regexp.test(option[(labelField as string) || 'label']) ||
+                regexp.test(option[(valueField as string) || 'value'])))
           );
         },
         0,

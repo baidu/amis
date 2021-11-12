@@ -223,7 +223,7 @@ export class Transfer extends React.Component<TransferProps, TransferState> {
           )}
         >
           <span>
-            {__(selectTitle || 'Select.placeholder')}
+            {__(selectTitle || 'Transfer.available')}
             {statistics !== false ? (
               <span>
                 （{this.valueArray.length}/{this.availableOptions.length}）
@@ -238,7 +238,7 @@ export class Transfer extends React.Component<TransferProps, TransferState> {
                 disabled || !options.length ? 'is-disabled' : ''
               )}
             >
-              {__('Select.placeholder')}
+              {__('Transfer.available')}
             </a>
           ) : null}
         </div>
