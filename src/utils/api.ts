@@ -63,6 +63,23 @@ export function buildApi(
   };
   api.method = (api.method || (options as any).method || 'get').toLowerCase();
 
+  if (api.headers) {
+    api.headers = dataMapping(api.headers, data, undefined, false);
+  }
+
+  if (api.requestAdaptor && typeof api.requestAdaptor === 'string') {
+    api.requestAdaptor = str2function(api.requestAdaptor, 'api') as any;
+  }
+
+  if (api.adaptor && typeof api.adaptor === 'string') {
+    api.adaptor = str2function(
+      api.adaptor,
+      'payload',
+      'response',
+      'api'
+    ) as any;
+  }
+
   if (!data) {
     return api;
   } else if (
@@ -144,23 +161,6 @@ export function buildApi(
       }
       delete api.data;
     }
-  }
-
-  if (api.headers) {
-    api.headers = dataMapping(api.headers, data, undefined, false);
-  }
-
-  if (api.requestAdaptor && typeof api.requestAdaptor === 'string') {
-    api.requestAdaptor = str2function(api.requestAdaptor, 'api') as any;
-  }
-
-  if (api.adaptor && typeof api.adaptor === 'string') {
-    api.adaptor = str2function(
-      api.adaptor,
-      'payload',
-      'response',
-      'api'
-    ) as any;
   }
 
   return api;
