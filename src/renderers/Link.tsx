@@ -89,9 +89,10 @@ export class LinkCmpt extends React.Component<LinkProps, object> {
       rightIcon
     } = this.props;
 
-    let value = getPropValue(this.props, () =>
-      typeof href === 'string' && href ? filter(href, data, '| raw') : undefined
-    );
+    let value =
+      (typeof href === 'string' && href
+        ? filter(href, data, '| raw')
+        : undefined) || getPropValue(this.props);
 
     return (
       <Link
