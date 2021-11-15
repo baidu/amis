@@ -8,8 +8,6 @@ import React from 'react';
 import cx from 'classnames';
 import {ClassNamesFn, themeable} from '../theme';
 
-type textPositionType = 'left' | 'right';
-
 interface RatingProps {
   id?: string;
   key?: string | number;
@@ -32,7 +30,7 @@ interface RatingProps {
   voidColor?: string;
   colors?: string | {[propName: number]: string};
   texts?: string | {[propName: number]: string};
-  textPosition: textPositionType;
+  textPosition: string;
   showScore?: boolean;
   classnames: ClassNamesFn;
 }
@@ -52,7 +50,7 @@ export class Rating extends React.Component<RatingProps, any> {
       5: '#ffa900'
     },
     showScore: false,
-    textPosition: 'right' as textPositionType
+    textPosition: 'right'
   };
 
   starsNode: Record<string, any>
