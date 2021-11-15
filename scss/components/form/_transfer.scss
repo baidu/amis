@@ -189,3 +189,22 @@
     display: inline-block;
   }
 }
+
+.#{$ns}TransferPicker,
+.#{$ns}TransferDropDown {
+  &-icon {
+    transition: transform var(--animation-duration) ease-out;
+    margin: 5px 5px 5px auto;
+    display: flex;
+    color: var(--Form-select-caret-iconColor);
+    &:hover {
+      color: var(--Form-select-caret-onHover-iconColor);
+    }
+
+    > svg {
+      width: px2rem(12px);
+      height: px2rem(12px);
+      top: 0;
+    }
+  }
+}

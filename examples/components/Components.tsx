@@ -667,6 +667,14 @@ export const components = [
           )
       },
       {
+        label: 'TransferPicker 穿梭选择器',
+        path: '/zh-CN/components/form/transfer-picker',
+        getComponent: () =>
+          import('../../docs/zh-CN/components/form/transfer-picker.md').then(
+            makeMarkdownRenderer
+          )
+      },
+      {
         label: 'InputTree 树形选择框',
         path: '/zh-CN/components/form/input-tree',
         getComponent: () =>
