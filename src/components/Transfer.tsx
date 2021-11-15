@@ -238,7 +238,7 @@ export class Transfer extends React.Component<TransferProps, TransferState> {
                 disabled || !options.length ? 'is-disabled' : ''
               )}
             >
-              {__('Transfer.available')}
+              {__('Select.checkAll')}
             </a>
           ) : null}
         </div>
