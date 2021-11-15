@@ -242,6 +242,12 @@ $R8: 50%;
   --Collapse-content-fontSize: #{$T2};
   --Collapse-content-fontWeight: #{$W2};
 
+  --Collapse2-border-color: #{px2rem(1px)} solid #EBEDF5;
+  --Collapse2-header-padding: #{px2rem(14px)};
+  --Collapse2-header-bg-color: #F6F7FA;
+  --Collapse2-header-bg-hover-color: #F3F9FE;
+  --Collapse2-header-bg-disabled-color: #F6F7FA;
+
   --DatePicker-borderWidth: #{px2rem(1px)};
   --DatePicker-borderRadius: #{$R3};
   --DatePicker-bg: var(--white);
