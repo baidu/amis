@@ -827,7 +827,7 @@ export default class Form extends React.Component<FormProps, object> {
       );
     }
 
-    if (store.persistData) {
+    if (store.persistData && store.inited) {
       store.setLocalPersistData();
     }
   }
