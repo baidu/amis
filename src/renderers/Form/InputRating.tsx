@@ -1,7 +1,8 @@
 import React from 'react';
 import {FormItem, FormControlProps, FormBaseControl} from './Item';
 import Rating from '../../components/Rating';
-import {Icon} from '../../components/icons';
+import { string } from 'prop-types';
+import { boolean } from 'mobx-state-tree/dist/internal';
 
 /**
  * Rating
@@ -24,6 +25,55 @@ export interface RatingControlSchema extends FormBaseControl {
    * 是否允许再次点击后清除
    */
   allowClear?: boolean;
+
+  /**
+   * 是否只读
+   */
+  readonly?: boolean;
+
+  /**
+   * 星星被选中的颜色
+   */
+  colors?: {
+    [propName: string | number]: string;
+  };
+
+  /**
+   * 未被选中的星星的颜色
+   */
+  voidColor?: string;
+
+  /**
+   * 星星被选中时的提示文字
+   */
+  texts?: {
+    [propName: string | number]: string;
+  };
+
+  /**
+   * 文字的位置
+   */
+  textPosition?: string;
+
+  /**
+   * 是否显示分数
+   */
+  showScore?: boolean;
+
+  /**
+   * 自定义字符
+   */
+  char?: string | React.ReactNode;
+
+  /**
+   * 自定义字符类名
+   */
+  charClassName?: string;
+
+  /**
+   * 自定义文字类名
+   */
+  textClassName?: string;
 }
 
 export interface RatingProps extends FormControlProps {
