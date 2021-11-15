@@ -598,7 +598,8 @@
   &-right {
     flex-grow: 1;
     width: 0;
-    height: px2rem(175px);
+    min-height: px2rem(200px);
+    max-height: px2rem(400px);
     overflow: auto;
   }
 

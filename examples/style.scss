@@ -1028,6 +1028,7 @@ body.dark {
 .Playgroud {
   border: 1px solid #ddd;
   background: var(--body-bg);
+  display: flex;
 
   body.dark & {
     background: #191c22;
@@ -1035,11 +1036,11 @@ body.dark {
   }
 
   &-preview {
-    border-bottom: 1px solid #ddd;
     position: relative;
     display: flex;
     align-items: stretch;
     flex-direction: column;
+    flex-grow: 1;
 
     > div {
       flex: 1;
@@ -1047,7 +1048,7 @@ body.dark {
   }
 
   &-code {
-    flex-shrink: 0;
-    height: 200px;
+    border-left: 1px solid #ddd;
+    width: 350px;
   }
 }

@@ -12,6 +12,15 @@
     border-bottom: var(--borderWidth) solid var(--Collapse-border-color);
     background: var(--Collapse-header-bg);
 
+    &-wrapper {
+      display: inline-flex;
+      flex-direction: var(--Collapse-header-wrapper-direction);
+    }
+
+    &-tpl {
+      margin-right: px2rem(8px);
+    }
+
     &:hover {
       background: var(--Collapse-header-onHover-bg);
     }
@@ -48,7 +57,7 @@
     transform-origin: 0% 50%;
   }
   &.is-collapsed &-header {
-    border-bottom: var(--Collapse-header-collapsed-borderBottom);
+    border-bottom: var(--Collapse-header-collapsed-border);
   }
 
   &--collapsable &-header {
@@ -62,6 +71,12 @@
     color: var(--link-color);
     border-left: none;
     font-size: var(--fontSizeBase);
+    border-top: var(--Collapse-header-collapsed-borderTop);
+    border-bottom: var(--Collapse-header-collapsed-borderBottom);
+  }
+
+  &--title-bottom.is-collapsed &-header {
+    border-top: none;
   }
 
   &--title-bottom &-arrow:before {

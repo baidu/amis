@@ -121,7 +121,7 @@ export class TabsTransfer extends React.Component<TabsTransferProps> {
     return (
       <Tabs
         mode="card"
-        className={cx('Transfer-tabs')}
+        className={cx('TabsTransfer-tabs')}
         activeKey={searchResult !== null ? 0 : undefined}
         toolbar={
           searchable ? (
@@ -134,7 +134,12 @@ export class TabsTransfer extends React.Component<TabsTransferProps> {
       >
         {searchResult !== null
           ? [
-              <Tab title={__('searchResult')} key={0} eventKey={0}>
+              <Tab
+                className="TabsTransfer-tab"
+                title={__('searchResult')}
+                key={0}
+                eventKey={0}
+              >
                 {this.renderSearchResult(searchResult)}
               </Tab>
             ]
@@ -143,6 +148,7 @@ export class TabsTransfer extends React.Component<TabsTransferProps> {
                 eventKey={index}
                 key={index}
                 title={option.label || option.title}
+                className="TabsTransfer-tab"
               >
                 {option.selectMode === 'table' ? (
                   <TableCheckboxes

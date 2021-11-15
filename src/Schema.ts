@@ -39,6 +39,7 @@ import {QRCodeSchema} from './renderers/QRCode';
 import {ServiceSchema} from './renderers/Service';
 import {StatusSchema} from './renderers/Status';
 import {TabsSchema} from './renderers/Tabs';
+import {PortletSchema} from './renderers/Portlet';
 import {TasksSchema} from './renderers/Tasks';
 import {VBoxSchema} from './renderers/VBox';
 import {VideoSchema} from './renderers/Video';
@@ -311,6 +312,7 @@ export type SchemaType =
   | 'input-tree'
   | 'tree-select'
   | 'table-view'
+  | 'portlet'
 
   // 原生 input 类型
   | 'native-date'
@@ -375,6 +377,7 @@ export type SchemaObject =
   | FormSchema
   | AnchorNavSchema
   | StepsSchema
+  | PortletSchema
 
   // 表单项
   | FormControlSchema
@@ -723,6 +726,11 @@ export interface BaseSchema {
    * 是否显示表达式
    */
   visibleOn?: SchemaExpression;
+
+  /**
+   * 是否使用移动端交互
+   */
+  useMobileUI?: boolean;
 }
 
 export interface Option {

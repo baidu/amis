@@ -479,8 +479,17 @@ export function wrapControl<
             const {
               formStore: form,
               onChange,
-              $schema: {name, onChange: onFormItemChange, maxLength, minLength},
+              $schema: {
+                name,
+                id,
+                label,
+                type,
+                onChange: onFormItemChange,
+                maxLength,
+                minLength
+              },
               data,
+              env,
               validateOnChange,
               formSubmited
             } = this.props;
@@ -493,6 +502,22 @@ export function wrapControl<
 
             if (oldValue === value) {
               return;
+            }
+
+            if (type !== 'input-password') {
+              env?.tracker(
+                {
+                  eventType: 'formItemChange',
+                  eventData: {
+                    id,
+                    name,
+                    label,
+                    type,
+                    value
+                  }
+                },
+                this.props
+              );
             }
 
             this.model.changeEmitedValue(value);

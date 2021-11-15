@@ -4,7 +4,16 @@ import {getEnv, destroy} from 'mobx-state-tree';
 import {wrapFetcher} from './utils/api';
 import {normalizeLink} from './utils/normalizeLink';
 import {findIndex, promisify, qsparse, string2regExp} from './utils/helper';
-import {Api, fetcherResult, Payload, SchemaNode, Schema, Action} from './types';
+import {
+  Api,
+  fetcherResult,
+  Payload,
+  SchemaNode,
+  Schema,
+  Action,
+  EventTrack,
+  PlainObject
+} from './types';
 import {observer} from 'mobx-react';
 import Scoped from './Scoped';
 import {getTheme, ThemeInstance, ThemeProps} from './theme';
@@ -58,6 +67,10 @@ export interface RendererProps extends ThemeProps, LocaleProps {
   };
   defaultData?: object;
   className?: any;
+  /**
+   * 是否使用移动端交互
+   */
+  useMobileUI?: boolean;
   [propName: string]: any;
 }
 
@@ -320,6 +333,8 @@ const defaultOptions: RenderOptions = {
   copy(contents: string) {
     console.error('copy contents', contents);
   },
+  // 用于跟踪用户在界面中的各种操作
+  tracker(eventTrack: EventTrack, props: PlainObject) {},
   rendererResolver: resolveRenderer
 };
 let stores: {
@@ -345,7 +360,7 @@ export function render(
       ...defaultOptions,
       ...options,
       fetcher: options.fetcher
-        ? wrapFetcher(options.fetcher)
+        ? wrapFetcher(options.fetcher, options.tracker)
         : defaultOptions.fetcher,
       confirm: promisify(
         options.confirm || defaultOptions.confirm || window.confirm
@@ -416,7 +431,7 @@ export function updateEnv(options: Partial<RenderOptions>, session = 'global') {
   };
 
   if (options.fetcher) {
-    options.fetcher = wrapFetcher(options.fetcher) as any;
+    options.fetcher = wrapFetcher(options.fetcher, options.tracker) as any;
   }
 
   if (options.confirm) {

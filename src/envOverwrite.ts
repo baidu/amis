@@ -4,7 +4,6 @@
 
 import {SchemaNode, Schema} from './types';
 import {RendererProps, RendererConfig, addSchemaFilter} from './factory';
-
 const isMobile = (window as any).matchMedia?.('(max-width: 768px)').matches
   ? true
   : false;

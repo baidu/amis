@@ -182,6 +182,7 @@ register('en-US', {
   'Transfer.configError': 'Config error',
   'Transfer.refreshIcon': 'Click to refresh',
   'Transfer.searchKeyword': 'Enter keywords',
+  'Transfer.available': 'Available',
   'Transfer.selectd': 'Selected',
   'Transfer.selectFromLeft': 'Select from the left',
   'Tree.addChild': 'Add child',

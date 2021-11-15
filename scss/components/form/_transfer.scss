@@ -105,6 +105,24 @@
       color: var(--text--muted-color);
     }
   }
+}
+
+.#{$ns}TabsTransfer {
+  .#{$ns}Transfer-title {
+    height: 40px;
+  }
+
+  // .#{$ns}Transfer-result {
+  //   flex-grow: unset;
+  // }
+
+  &-placeholder {
+    @include checkboxes-placeholder();
+  }
+
+  &-tab {
+    padding: 0;
+  }
 
   &-tabs {
     display: flex;
@@ -141,12 +159,13 @@
 
     > .#{$ns}Tabs-content {
       flex-grow: 1;
+      min-height: 0;
       position: relative;
       padding: 5px 0 0;
 
       > .#{$ns}Tabs-pane {
         position: relative;
-        min-height: 100%;
+        height: 100%;
 
         &.is-active {
           display: flex;
@@ -160,20 +179,6 @@
         }
       }
     }
-  }
-}
-
-.#{$ns}TabsTransfer {
-  .#{$ns}Transfer-title {
-    height: 40px;
-  }
-
-  // .#{$ns}Transfer-result {
-  //   flex-grow: unset;
-  // }
-
-  &-placeholder {
-    @include checkboxes-placeholder();
   }
 }
 

@@ -181,6 +181,7 @@ register('de-DE', {
   'Transfer.configError': 'Konfigurationsfehler',
   'Transfer.refreshIcon': 'Zum Aktualisieren klicken',
   'Transfer.searchKeyword': 'Stichwörter eingeben',
+  'Transfer.available': 'Verfügbar',
   'Transfer.selectd': 'Ausgewählt',
   'Transfer.selectFromLeft': 'Von links auswählen',
   'Tree.addChild': 'Untergeordnetes Element hinzufügen',
