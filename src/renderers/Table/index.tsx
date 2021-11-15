@@ -19,7 +19,8 @@ import {
   getVariable,
   removeHTMLTag,
   eachTree,
-  isObject
+  isObject,
+  createObject
 } from '../../utils/helper';
 import {
   isPureVariable,
@@ -2447,7 +2448,10 @@ export default class Table extends React.Component<TableProps, object> {
                 } else {
                   if ((column as TplSchema).tpl) {
                     sheetRow.getCell(columIndex).value = removeHTMLTag(
-                      filter((column as TplSchema).tpl, row.data)
+                      filter(
+                        (column as TplSchema).tpl,
+                        createObject(data, row.data)
+                      )
                     );
                   } else {
                     sheetRow.getCell(columIndex).value = value;
