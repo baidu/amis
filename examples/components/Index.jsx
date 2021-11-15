@@ -3,8 +3,7 @@ export default {
   title: '标题',
   remark: {
     title: '标题',
-    body:
-      '这是一段描述问题，注意到了没，还可以设置标题。而且只有点击了才弹出来。',
+    body: '这是一段描述问题，注意到了没，还可以设置标题。而且只有点击了才弹出来。',
     icon: 'question-mark',
     placement: 'right',
     trigger: 'click',
