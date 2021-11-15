@@ -1108,7 +1108,13 @@
   --ResultBox-value-bg: #f5f5f5;
   --ResultBox-value-color: #000;
 
-  --Rating-onActive-color: var(--info);
+  --Rating-void-color: #e7e7e8;
+  --Rating-low-color: #abadb1;
+  --Rating-medium-color: #787b81;
+  --Rating-high-color: #ffa900;
+  --Rating-text-margin: #{px2rem(15px)};
+  --Rating-star-margin: #{px2rem(8px)};
+  --Rating-star-size: #{px2rem(24px)};
 
   --Satus-icon-width: var(--gap-lg);
   --Satus-icon-height: var(--Satus-icon-width);

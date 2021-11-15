@@ -1,31 +1,62 @@
 .#{$ns}Rating {
-  position: relative;
-  overflow: hidden;
-  display: block;
-  float: left;
-  font-size: px2rem(24px);
-  color: var(--dark);
-  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  flex-direction: row;
+  flex-wrap: wrap;
 
-  &.is-active {
-    color: var(--Rating-onActive-color);
+  & > ul {
+    display: flex;
+    padding: unset;
+    margin: unset;
+    align-items: center;
+    justify-content: flex-start;
+    flex-direction: row;
+    flex-wrap: wrap;
   }
 
-  &.is-disabled {
-    cursor: not-allowed;
-    pointer-events: none;
-  }
-
-  &-half:before {
-    position: absolute;
+  &-star {
+    position: relative;
+    margin-right: var(--Rating-star-margin);
     overflow: hidden;
     display: block;
-    z-index: 1;
-    top: 0;
-    left: 0;
-    width: 50%;
-    content: attr(data-forhalf);
-    color: var(--Rating-onActive-color);
+    font-size: var(--Rating-star-size);
+    line-height: 1;
+    cursor: pointer;
+    user-select: none;
+    color: var(--Rating-void-color);
+  
+    &:last-of-type {
+      margin-right: unset;
+    }
+
+    &.is-disabled {
+      cursor: not-allowed;
+      pointer-events: none;
+    }
+
+    &-half {
+      position: absolute;
+      overflow: hidden;
+      display: block;
+      z-index: 1;
+      top: 0;
+      left: 0;
+      width: 50%;
+    }
+  }
+
+  &-text {
+    font-size: var(--fontSizeBase);
+    color: var(--text-color);
+
+    &--left {
+      margin-right: var(--Rating-text-margin);
+    }
+
+    &--right {
+      margin-left: var(--Rating-text-margin);
+    }
   }
 }
 

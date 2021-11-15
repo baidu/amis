@@ -8,22 +8,32 @@ import React from 'react';
 import cx from 'classnames';
 import {ClassNamesFn, themeable} from '../theme';
 
+type textPositionType = 'left' | 'right';
+
 interface RatingProps {
   id?: string;
   key?: string | number;
   style?: React.CSSProperties;
   count: number;
   half: boolean;
-  char: string;
-  size: number;
+  char?: string | React.ReactNode;
+  size?: number;
   className?: string;
-  onChange?: (value: any) => void;
+  charClassName?: string;
+  textClassName?: string;
+  onChange?: (value: number) => void;
+  onHoverChange?: (value: number) => void;
   value: number;
   containerClass: string;
   readOnly: boolean;
   classPrefix: string;
   disabled?: boolean;
   allowClear?: boolean;
+  voidColor?: string;
+  colors?: string | {[propName: number]: string};
+  texts?: string | {[propName: number]: string};
+  textPosition: textPositionType;
+  showScore?: boolean;
   classnames: ClassNamesFn;
 }
 
@@ -36,11 +46,21 @@ export class Rating extends React.Component<RatingProps, any> {
     value: 0,
     count: 5,
     char: '★',
-    size: 24
+    colors: {
+      2: '#abadb1',
+      3: '#787b81',
+      5: '#ffa900'
+    },
+    showScore: false,
+    textPosition: 'right' as textPositionType
   };
+
+  starsNode: Record<string, any>
 
   constructor(props: RatingProps) {
     super(props);
+
+    this.starsNode = {};
 
     this.state = {
       value: props.value || 0,
@@ -49,7 +69,10 @@ export class Rating extends React.Component<RatingProps, any> {
       halfStar: {
         at: Math.floor(props.value),
         hidden: props.half && props.value % 1 < 0.5
-      }
+      },
+      showColor: '',
+      showText: null,
+      hoverValue: null
     };
 
     this.getRate = this.getRate.bind(this);
@@ -58,6 +81,8 @@ export class Rating extends React.Component<RatingProps, any> {
     this.mouseOver = this.mouseOver.bind(this);
     this.mouseLeave = this.mouseLeave.bind(this);
     this.handleClick = this.handleClick.bind(this);
+    this.saveRef = this.saveRef.bind(this);
+    this.handleStarMouseLeave = this.handleStarMouseLeave.bind(this);
   }
 
   componentDidMount() {
@@ -65,6 +90,8 @@ export class Rating extends React.Component<RatingProps, any> {
     this.setState({
       stars: this.getStars(value)
     });
+
+    this.getShowColorAndText(value);
   }
 
   componentDidUpdate(prevProps: RatingProps) {
@@ -78,6 +105,46 @@ export class Rating extends React.Component<RatingProps, any> {
           at: Math.floor(props.value),
           hidden: props.half && props.value % 1 < 0.5
         }
+      });
+    }
+  }
+
+  getShowColorAndText(value: number) {
+    const {colors, texts, half, showScore} = this.props;
+
+    if (!value) return this.setState({
+      showText: null
+    });
+
+    // 对 value 取整
+    if (half) {
+      value = Math.floor(Number(value) * 2) / 2;
+    }
+    else {
+      value = Math.floor(value);
+    }
+
+    if (colors && Object.prototype.toString.call(colors).slice(8, -1) === 'Object') {
+      const keys = Object.keys(colors).sort((a: number | string, b: number | string) => Number(a) - Number(b));
+      const showKey = keys.filter(item => Number(item) < value).length;
+
+      const showColor = (keys[showKey] !== undefined) && colors[keys[showKey] as any];
+      showColor && this.setState({
+        showColor
+      });
+    }
+    else if(colors && typeof colors === 'string') {
+      this.setState({
+        showColor: colors
+      });
+    }
+
+    if (!showScore && texts && Object.prototype.toString.call(texts).slice(8, -1) === 'Object') {
+      const keys = Object.keys(texts).sort((a: number | string, b: number | string) => Number(a) - Number(b));
+      const showKey = keys.filter(item => Number(item) < value).length;
+      const showText = (keys[showKey] !== undefined) && texts[keys[showKey] as any];
+      showText && this.setState({
+        showText
       });
     }
   }
@@ -108,14 +175,32 @@ export class Rating extends React.Component<RatingProps, any> {
     return stars;
   }
 
-  mouseOver(event: React.ChangeEvent<any>) {
+  saveRef(index: number) {
+    return (node: React.ReactNode) => {
+      this.starsNode[String(index)] = node;
+    }
+  };
+
+  mouseOver(event: React.ChangeEvent<any>, index: number) {
     const {isClear} = this.state;
     if (isClear) return;
-    let {readOnly, size, half} = this.props;
+
+    const {readOnly, half} = this.props;
+
     if (readOnly) return;
-    let index = Number(event.target.getAttribute('data-index'));
+
     if (half) {
-      const isAtHalf = this.moreThanHalf(event, size);
+      const isAtHalf = this.moreThanHalf(event, index);
+
+      const tmpValue = isAtHalf ? index + 1 : index + 0.5;
+
+      // 值不变，则返回
+      if (tmpValue === this.state.hoverValue) {
+        return;
+      }
+      this.getShowColorAndText(tmpValue);
+      this.onHoverChange(tmpValue);
+
       if (isAtHalf) index = index + 1;
       this.setState({
         halfStar: {
@@ -125,24 +210,46 @@ export class Rating extends React.Component<RatingProps, any> {
       });
     } else {
       index = index + 1;
+      // 值不变，则返回
+      if (index === this.state.hoverValue) {
+        return;
+      }
+      this.onHoverChange(index);
+      this.getShowColorAndText(index);
     }
     this.setState({
       stars: this.getStars(index)
     });
   }
 
-  moreThanHalf(event: any, size: number) {
-    let {target} = event;
-    let mouseAt = event.clientX - target.getBoundingClientRect().left;
-    mouseAt = Math.round(Math.abs(mouseAt));
-    return mouseAt > size / 2;
+  onHoverChange(value: number) {
+    const {onHoverChange} = this.props;
+    const {hoverValue} = this.state;
+
+    if (!hoverValue || (hoverValue && hoverValue !== value)) {
+      this.setState({
+        hoverValue: value
+      });
+      onHoverChange && onHoverChange(value);
+    }
+  }
+
+  moreThanHalf(event: any, index: number) {
+    const star = this.starsNode[index];
+    const leftPos = star.getBoundingClientRect().left;
+
+    return (event.clientX - leftPos) > star.clientWidth / 2;
   }
 
   mouseLeave() {
     const {value, isClear} = this.state;
     const {half, readOnly} = this.props;
     if (readOnly) return;
-    if (isClear) return this.setState({isClear: false});
+    if (isClear) return this.setState({
+      isClear: false,
+      hoverValue: null
+    });
+
     if (half) {
       this.setState({
         halfStar: {
@@ -152,18 +259,39 @@ export class Rating extends React.Component<RatingProps, any> {
       });
     }
     this.setState({
-      stars: this.getStars()
+      stars: this.getStars(),
+      hoverValue: null
     });
+    this.getShowColorAndText(value);
   }
 
-  handleClick(event: React.ChangeEvent<any>) {
-    const {half, readOnly, onChange, size, allowClear} = this.props;
+  handleStarMouseLeave(event: any, index: number) {
+    const star = this.starsNode[index];
+    const leftSideX = star.getBoundingClientRect().left;
+    const {isClear} = this.state;
+
+    if (isClear) return this.setState({isClear: false});
+
+    // leave star from left side
+    if (event.clientX <= leftSideX) {
+      this.getShowColorAndText(index);
+      this.setState({
+        stars: this.getStars(index),
+        halfStar: {
+          at: index,
+          hidden: true
+        }
+      });
+    }
+  }
+
+  handleClick(event: React.ChangeEvent<any>, index: number) {
+    const {half, readOnly, onChange, allowClear} = this.props;
     if (readOnly) return;
-    let index = Number(event.target.getAttribute('data-index'));
 
     let value;
     if (half) {
-      const isAtHalf = this.moreThanHalf(event, size);
+      const isAtHalf = this.moreThanHalf(event, index);
       if (isAtHalf) index = index + 1;
       value = isAtHalf ? index : index + 0.5;
       this.setState({
@@ -183,41 +311,103 @@ export class Rating extends React.Component<RatingProps, any> {
       stars: this.getStars(index),
       isClear
     });
+
+    this.getShowColorAndText(value);
+
     onChange && onChange(value);
   }
 
   renderStars() {
-    const {halfStar, stars} = this.state;
-    const {char, half, disabled, readOnly, classnames: cx} = this.props;
-    return stars.map((star: any, i: number) => {
-      let className = cx('Rating', {
-        'Rating-half': half && !halfStar.hidden && halfStar.at === i,
+    const {halfStar, stars, showColor} = this.state;
+    const {voidColor, char, half, disabled, readOnly, charClassName, classnames: cx} = this.props;
+
+    const starMap = stars.map((star: any, i: number) => {
+      const isThisHalf = half && !halfStar.hidden && halfStar.at === i;
+
+      let className = cx('Rating-star', {
+        'is-half': isThisHalf,
         'is-active': star.active,
-        'is-disabled': readOnly || disabled
+        'is-disabled': readOnly || disabled,
+        [`${charClassName}`]: charClassName
       });
 
       return (
-        <span
+        <li
+          ref={this.saveRef(i)}
           className={className}
           key={i}
-          data-index={i}
-          data-forhalf={char}
-          onMouseOver={this.mouseOver}
-          onMouseMove={this.mouseOver}
-          onMouseLeave={this.mouseLeave}
-          onClick={this.handleClick}
+          style={{
+            color: star.active ? showColor : voidColor
+          }}
+          onMouseOver={e => this.mouseOver(e, i)}
+          onMouseMove={e => this.mouseOver(e, i)}
+          onClick={e => this.handleClick(e, i)}
+          onMouseLeave={e => this.handleStarMouseLeave(e, i)}
         >
+          {isThisHalf && (
+            <div
+              className={cx('Rating-star-half')}
+              style={{
+                color: showColor
+              }}
+            >
+              {char}
+            </div>
+          )}
           {char}
-        </span>
+        </li>
       );
     });
+
+    return (
+      <ul onMouseLeave={this.mouseLeave}>
+        {starMap}
+      </ul>
+    )
+  }
+
+  renderText() {
+    const {showText, value, hoverValue, isClear} = this.state;
+    const {textClassName, textPosition, showScore, classnames: cx} = this.props;
+
+    if (!showText && !showScore) return null;
+
+    function showScoreText () {
+      return hoverValue && !isClear ? hoverValue : value;
+    }
+
+    return (
+      <span
+        className={cx('Rating-text', {
+          [`Rating-text--${textPosition === 'left' ? 'left' : 'right'}`]: textPosition,
+          [`${textClassName}`]: textClassName
+        })}
+      >
+        {showScore ? showScoreText() : showText}
+      </span>
+    );
   }
 
   render() {
-    let {className} = this.props;
+    const {className, textPosition, classnames: cx} = this.props;
 
     return (
-      <div className={cx(className ? className : '')}>{this.renderStars()}</div>
+      <div className={cx('Rating', className ? className : '')}>
+        {
+          textPosition === 'left'
+          ? (
+            <>
+              {this.renderText()}
+              {this.renderStars()}
+            </>
+          ) : (
+            <>
+              {this.renderStars()}
+              {this.renderText()}
+            </>
+          )
+        }
+      </div>
     );
   }
 }

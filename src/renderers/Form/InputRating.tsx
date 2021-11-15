@@ -1,6 +1,7 @@
 import React from 'react';
 import {FormItem, FormControlProps, FormBaseControl} from './Item';
 import Rating from '../../components/Rating';
+import {Icon} from '../../components/icons';
 
 /**
  * Rating
@@ -49,8 +50,17 @@ export default class RatingControl extends React.Component<RatingProps, any> {
       readOnly,
       disabled,
       onChange,
+      onHoverChange,
       size,
       allowClear,
+      char,
+      voidColor,
+      colors,
+      texts,
+      charClassName,
+      textClassName,
+      textPosition,
+      showScore,
       classnames: cx
     } = this.props;
 
@@ -64,7 +74,20 @@ export default class RatingControl extends React.Component<RatingProps, any> {
           half={half}
           allowClear={allowClear}
           readOnly={readOnly}
-          onChange={(value: any) => onChange(value)}
+          char={char}
+          voidColor={voidColor}
+          colors={colors}
+          texts={texts}
+          charClassName={charClassName}
+          textClassName={textClassName}
+          textPosition={textPosition}
+          showScore={showScore}
+          onChange={(value: number) => {
+            onChange && onChange(value);
+          }}
+          onHoverChange={(value: number) => {
+            onHoverChange && onHoverChange(value);
+          }}
         />
       </div>
     );
