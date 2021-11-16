@@ -1948,6 +1948,94 @@ crud 组件支持通过配置`headerToolbar`和`footerToolbar`属性，实现在
 }
 ```
 
+### 刷新按钮
+
+> 1.5.0 及以上版本
+
+可以通过 `reload` 来展现刷新按钮
+
+```schema: scope="body"
+{
+    "type": "crud",
+    "syncLocation": false,
+    "api": "/api/sample",
+    "headerToolbar": [
+        "reload"
+    ],
+    "columns": [
+        {
+            "name": "id",
+            "label": "ID"
+        },
+        {
+            "name": "engine",
+            "label": "Rendering engine"
+        },
+        {
+            "name": "browser",
+            "label": "Browser"
+        },
+        {
+            "name": "platform",
+            "label": "Platform(s)"
+        },
+        {
+            "name": "version",
+            "label": "Engine version"
+        },
+        {
+            "name": "grade",
+            "label": "CSS grade"
+        }
+    ]
+}
+```
+
+它其实是个简化的 `button` 组件，可以参考 `button` 组件的文档做调整，比如
+
+```schema: scope="body"
+{
+    "type": "crud",
+    "syncLocation": false,
+    "api": "/api/sample",
+    "headerToolbar": [
+        {
+            "type": "reload",
+            "icon": "iconfont icon-refresh",
+            "label": "刷新",
+            "tooltip": "",
+            "level": "success"
+        }
+    ],
+    "columns": [
+        {
+            "name": "id",
+            "label": "ID"
+        },
+        {
+            "name": "engine",
+            "label": "Rendering engine"
+        },
+        {
+            "name": "browser",
+            "label": "Browser"
+        },
+        {
+            "name": "platform",
+            "label": "Platform(s)"
+        },
+        {
+            "name": "version",
+            "label": "Engine version"
+        },
+        {
+            "name": "grade",
+            "label": "CSS grade"
+        }
+    ]
+}
+```
+
 ## 总结行
 
 如果是默认的表格模式，还支持增加总结行，具体请参考 [table](./table#总结行) 的文档。
