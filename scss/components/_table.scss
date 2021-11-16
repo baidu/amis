@@ -284,6 +284,12 @@
       }
     }
 
+    &--checkOnItemClick {
+      > tbody > tr {
+        cursor: pointer;
+      }
+    }
+
     > thead > tr {
       > th {
         background: var(--Table-thead-bg);

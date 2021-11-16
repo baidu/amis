@@ -2683,6 +2683,7 @@ export default class Table extends React.Component<TableProps, object> {
       <TableContent
         tableClassName={cx(
           store.combineNum > 0 ? 'Table-table--withCombine' : '',
+          {'Table-table--checkOnItemClick': checkOnItemClick},
           tableClassName
         )}
         className={tableContentClassName}
