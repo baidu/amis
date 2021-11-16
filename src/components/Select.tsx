@@ -19,6 +19,7 @@ import {
   noop,
   isObject,
   findTree,
+  flattenTree,
   autobind,
   ucFirst,
   normalizeNodePath,
@@ -125,30 +126,12 @@ export function value2array(
   return expandedValue ? [expandedValue] : [];
 }
 
-// 分组项打平
-export function groupFlat(options: Options): Options {
-  let flatArr: Options = [];
-  options.concat().forEach(item => {
-    if (!item.children) {
-      return;
-    }
-    item.children.forEach(ele => {
-      ele.isGroupItem = true;
-    });
-    flatArr.push({
-      ...item,
-      isGroup: true,
-      disabled: true
-    }, ...item.children);
-  });
-  return flatArr as Options;
-}
-
 // 分组匹配，需携带匹配子项的分组名
 export function groupMatch(
   options: Options,
   inputValue: string,
-  labelField: string
+  labelField: string,
+  valueField: string
 ): Array<Option> {
   let tempArr: Options = [];
   let itemArr: Options = [];
@@ -157,7 +140,7 @@ export function groupMatch(
       tempArr = itemArr.length !== 1 ? tempArr.concat(itemArr) : tempArr;
       itemArr = [item];
     } else {
-      if (item[labelField].indexOf(inputValue) > -1) {
+      if (item[labelField].indexOf(inputValue) > -1 || item[valueField].indexOf(inputValue) > -1) {
         itemArr.push(item);
       }
     }
@@ -442,10 +425,6 @@ export class Select extends React.Component<SelectProps, SelectState> {
       JSON.stringify(props.options) !== JSON.stringify(prevProps.options)
     ) {
       let selection: Array<Option> = value2array(props.value, props);
-      // 分组名设为禁用会被选择，需去除
-      if (props.value[0]?.children || props.value[0]?.isGroup || props.value[0]?.isGroupItem) {
-        selection = selection.filter(option => option.isGroupItem);
-      }
       this.setState(
         {
           selection: selection
@@ -563,6 +542,7 @@ export class Select extends React.Component<SelectProps, SelectState> {
       valueField
     } = this.props;
     const inputValue = this.state.inputValue;
+    const supportGroup = !options.some(option => !option.children?.length);
     let {selection} = this.state;
     let filtedOptions: Array<Option> =
       inputValue && checkAllBySearch
@@ -570,11 +550,14 @@ export class Select extends React.Component<SelectProps, SelectState> {
             keys: [labelField || 'label', valueField || 'value']
           })
         : options.concat();
-    if (options[0]?.children?.length) {
-      let flatOptions: Options = groupFlat(options);
+    if (supportGroup) {
+      let flatOptions: Options = flattenTree(options, item => ({
+        ...item,
+        isGroup: !!item.children?.length
+      }));
       filtedOptions = (inputValue && checkAllBySearch
-        ? groupMatch(flatOptions, inputValue, labelField) : flatOptions).filter(option => !option.isGroup);
-      selection = selection.filter(item => item.isGroupItem);
+        ? groupMatch(flatOptions, inputValue, labelField || 'label', valueField || 'value')
+        : flatOptions).filter(option => !option.isGroup);
     }
     const optionsValues = filtedOptions.map(option => option.value);
     const selectionValues = selection.map(select => select.value);
@@ -647,7 +630,7 @@ export class Select extends React.Component<SelectProps, SelectState> {
   @autobind
   handleStateChange(changes: any) {
     const {multiple, checkAll, options} = this.props;
-    const supportGroup = options[0]?.children?.length;
+    const supportGroup = !options.some(option => !option.children?.length);
     let update: any = {};
 
     switch (changes.type) {
@@ -833,7 +816,7 @@ export class Select extends React.Component<SelectProps, SelectState> {
       useMobileUI = true
     } = this.props;
     const {selection} = this.state;
-    const supportGroup = options[0]?.children?.length;
+    const supportGroup = !options.some(option => !option.children?.length);
     let checkedAll = false;
     let checkedPartial = false;
     let flatOptions: Array<Option> = [];
@@ -846,9 +829,14 @@ export class Select extends React.Component<SelectProps, SelectState> {
     ).filter((option: Option) => !option.hidden && option.visible !== false);
 
     if (supportGroup) {
-      flatOptions = groupFlat(options);
+      flatOptions = flattenTree(options, item => ({
+        ...item,
+        isGroup: !!item.children?.length,
+        isGroupItem: !item.children?.length,
+        disabled: item.children ? true : !!item.disabled
+      }));
       filtedOptions = inputValue && isOpen && !loadOptions
-        ? groupMatch(flatOptions, inputValue, labelField) : flatOptions;
+        ? groupMatch(flatOptions, inputValue, labelField || 'label', valueField || 'value') : flatOptions;
     }
 
     const selectionValues = selection.map(select => select[valueField]);

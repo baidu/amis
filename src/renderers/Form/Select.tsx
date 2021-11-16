@@ -11,6 +11,7 @@ import find from 'lodash/find';
 import debouce from 'lodash/debounce';
 import {Api} from '../../types';
 import {isEffectiveApi} from '../../utils/api';
+import {flattenTree} from '../../utils/helper';
 import {isEmpty, createObject, autobind} from '../../utils/helper';
 import {dataMapping} from '../../utils/tpl-builtin';
 import {SchemaApi} from '../../Schema';
@@ -96,13 +97,15 @@ export default class SelectControl extends React.Component<SelectProps, any> {
       options
     } = this.props;
 
+    const supportGroup = !options.some(option => !option.children?.length);
     let newValue: string | Option | Array<Option> | void = value;
     let additonalOptions: Array<any> = [];
 
+    const tempOptions = supportGroup ? flattenTree(options) : options;
     (Array.isArray(value) ? value : value ? [value] : []).forEach(
       (option: any) => {
         let resolved = find(
-          options,
+          tempOptions,
           (item: any) =>
             item[valueField || 'value'] == option[valueField || 'value']
         );
@@ -134,6 +137,7 @@ export default class SelectControl extends React.Component<SelectProps, any> {
       }
     }
 
+    console.log(additonalOptions, 'add')
     // 不设置没法回显
     additonalOptions.length && setOptions(options.concat(additonalOptions));
 
