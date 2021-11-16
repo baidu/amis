@@ -48,7 +48,7 @@ order: 48
 
 | 属性名           | 类型                                                                              | 默认值       | 说明                                                                                                                |
 | ---------------- | --------------------------------------------------------------------------------- | ------------ | ------------------------------------------------------------------------------------------------------------------- |
-| options          | `Array<object>`或`Array<string>`                                                  |              | [选项组](./options#%E9%9D%99%E6%80%81%E9%80%89%E9%A1%B9%E7%BB%84-options)                                           |
+| options          | `Array<object>`或`Array<string>`                                                  |              | [选项组](./options#%E9%9D%99%E6%80%81%E9%80%89%E9%A1%B9%E7%BB%84-options)，存在children时开启分组选择                  |
 | source           | [API](../../../docs/types/api) 或 [数据映射](../../../docs/concepts/data-mapping) |              | [动态选项组](./options#%E5%8A%A8%E6%80%81%E9%80%89%E9%A1%B9%E7%BB%84-source)                                        |
 | autoComplete     | [API](../../../docs/types/api)                                                    |              | [自动提示补全](./options#%E8%87%AA%E5%8A%A8%E8%A1%A5%E5%85%A8-autocomplete)                                         |
 | delimeter        | `string`                                                                          | `false`      | [拼接符](./options#%E6%8B%BC%E6%8E%A5%E7%AC%A6-delimiter)                                                           |

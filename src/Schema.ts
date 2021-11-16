@@ -762,6 +762,16 @@ export interface Option {
   children?: Options;
 
   /**
+   * 支持分组时，标识分组名
+   */
+  isGroup?: boolean;
+
+  /**
+   * 支持分组时，标识分组项
+  */
+  isGroupItem?: boolean;
+
+  /**
    * 是否可见
    */
   visible?: boolean;
