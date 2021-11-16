@@ -56,6 +56,21 @@ export interface TreeControlSchema extends FormOptionsControl {
    */
   rootCreatable?: boolean;
 
+  /**
+   * 是否开启节点路径模式
+   */
+  enableNodePath?: boolean;
+
+  /**
+   * 开启节点路径模式后，节点路径的分隔符
+   */
+  pathSeparator?: string;
+
+  /**
+   * 是否显示展开线
+   */
+  showOutline?: boolean;
+
   deferApi?: SchemaApi;
 }
 
@@ -68,7 +83,10 @@ export interface TreeProps
       | 'className'
       | 'inputClassName'
       | 'descriptionClassName'
-    > {}
+    > {
+  enableNodePath?: boolean;
+  pathSeparator?: string;
+}
 
 export default class TreeControl extends React.Component<TreeProps> {
   static defaultProps: Partial<TreeProps> = {
@@ -76,7 +94,9 @@ export default class TreeControl extends React.Component<TreeProps> {
     multiple: false,
     rootLabel: '顶级',
     rootValue: '',
-    showIcon: true
+    showIcon: true,
+    enableNodePath: false,
+    pathSeparator: '/'
   };
 
   reload() {
@@ -90,6 +110,8 @@ export default class TreeControl extends React.Component<TreeProps> {
       treeContainerClassName,
       classPrefix: ns,
       value,
+      enableNodePath,
+      pathSeparator = '/',
       onChange,
       disabled,
       joinValues,
@@ -125,7 +147,10 @@ export default class TreeControl extends React.Component<TreeProps> {
       rootCreatable,
       rootCreateTip,
       labelField,
+      iconField,
+      nodePath,
       deferLoad,
+      expandTreeOptions,
       translate: __
     } = this.props;
 
@@ -139,6 +164,7 @@ export default class TreeControl extends React.Component<TreeProps> {
             classPrefix={ns}
             labelField={labelField}
             valueField={valueField}
+            iconField={iconField}
             disabled={disabled}
             onChange={onChange}
             joinValues={joinValues}
@@ -160,6 +186,9 @@ export default class TreeControl extends React.Component<TreeProps> {
             cascade={cascade}
             foldedField="collapsed"
             value={value || ''}
+            nodePath={nodePath}
+            enableNodePath={enableNodePath}
+            pathSeparator={pathSeparator}
             selfDisabledAffectChildren={false}
             onAdd={onAdd}
             creatable={creatable}
@@ -174,6 +203,7 @@ export default class TreeControl extends React.Component<TreeProps> {
             onDelete={onDelete}
             bultinCUD={!addControls && !editControls}
             onDeferLoad={deferLoad}
+            onExpandTree={expandTreeOptions}
           />
         )}
       </div>

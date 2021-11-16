@@ -42,6 +42,10 @@
 
   &-singleValue {
     padding: 0 calc(var(--Form-input-paddingX) - #{px2rem(3px)});
+    display: inline-block;
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 
   &-clear {

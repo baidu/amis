@@ -36,14 +36,14 @@ export class Value extends React.Component<ValueProps> {
         <InputBox
           value={value ?? field.defaultValue}
           onChange={onChange}
-          placeholder={field.placeholder}
+          placeholder={__(field.placeholder)}
           disabled={disabled}
         />
       );
     } else if (field.type === 'number') {
       input = (
         <NumberInput
-          placeholder={field.placeholder || __('NumberInput.placeholder')}
+          placeholder={__(field.placeholder) || __('NumberInput.placeholder')}
           step={field.step}
           min={field.minimum}
           max={field.maximum}
@@ -56,7 +56,7 @@ export class Value extends React.Component<ValueProps> {
     } else if (field.type === 'date') {
       input = (
         <DatePicker
-          placeholder={field.placeholder || __('Date.placeholder')}
+          placeholder={__(field.placeholder) || __('Date.placeholder')}
           format={field.format || 'YYYY-MM-DD'}
           inputFormat={field.inputFormat || 'YYYY-MM-DD'}
           value={value ?? field.defaultValue}
@@ -69,7 +69,7 @@ export class Value extends React.Component<ValueProps> {
       input = (
         <DatePicker
           viewMode="time"
-          placeholder={field.placeholder || 'Time.placeholder'}
+          placeholder={__(field.placeholder) || 'Time.placeholder'}
           format={field.format || 'HH:mm'}
           inputFormat={field.inputFormat || 'HH:mm'}
           value={value ?? field.defaultValue}
@@ -82,7 +82,7 @@ export class Value extends React.Component<ValueProps> {
     } else if (field.type === 'datetime') {
       input = (
         <DatePicker
-          placeholder={field.placeholder || '请选择日期时间'}
+          placeholder={__(field.placeholder) || 'Time.placeholder'}
           format={field.format || ''}
           inputFormat={field.inputFormat || 'YYYY-MM-DD HH:mm'}
           value={value ?? field.defaultValue}
@@ -92,11 +92,14 @@ export class Value extends React.Component<ValueProps> {
         />
       );
     } else if (field.type === 'select') {
+      const autoComplete = field.autoComplete;
+
       input = (
         <Select
           simpleValue
           options={field.options!}
           source={field.source}
+          autoComplete={autoComplete}
           searchable={field.searchable}
           value={value ?? field.defaultValue ?? ''}
           data={data}

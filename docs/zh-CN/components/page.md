@@ -17,6 +17,7 @@ Page 组件是 amis 页面 JSON 配置中顶级容器组件，是整个页面配
 ```schema
 {
   "type": "page",
+  "title": "标题",
   "body": "Hello World!"
 }
 ```
@@ -28,7 +29,7 @@ Page 组件是 amis 页面 JSON 配置中顶级容器组件，是整个页面配
 ```schema: scope="body"
 {
     "type": "form",
-    "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
+    "api": "/api/mock2/form/saveForm",
     "body": [
       {
         "type": "input-text",
@@ -76,7 +77,7 @@ Page 默认将页面分为几个区域，分别是**内容区（`body`）**、**
 ```schema
 {
   "type": "page",
-  "initApi": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/page/initData",
+  "initApi": "/api/mock2/page/initData",
   "body": [
     {
       "type": "tpl",
@@ -98,7 +99,7 @@ Page 默认将页面分为几个区域，分别是**内容区（`body`）**、**
 ```schema
 {
   "type": "page",
-  "initApi": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/page/initData",
+  "initApi": "/api/mock2/page/initData",
   "interval": 3000,
   "body": [
     {
@@ -114,7 +115,7 @@ Page 默认将页面分为几个区域，分别是**内容区（`body`）**、**
 ```schema
 {
   "type": "page",
-  "initApi": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/page/initData",
+  "initApi": "/api/mock2/page/initData",
   "stopAutoRefreshWhen": "this.time % 5", // 当时间戳能被5整除时，停止轮询
   "interval": 3000,
   "body": [
@@ -148,6 +149,38 @@ Page 默认将页面分为几个区域，分别是**内容区（`body`）**、**
   }
 }
 ```
+
+## 自定义 CSS
+
+> 1.3.0 及以上版本
+
+虽然 amis 提供了很多内置样式，但想要更精细控制样式，最好的方式依然是编写自定义 CSS，在之前的版本中需要外部页面配合，从 1.3.0 开始 amis 可以直接在配置中支持自定义 CSS
+
+```schema
+{
+  "type": "page",
+  "css": {
+    ".myClass": {
+      "color": "blue"
+    }
+  },
+  "body": {
+    "type": "tpl",
+    "tpl": "文本",
+    "className": "myClass"
+  }
+}
+```
+
+上面的配置会自动创建一个 `<style>` 标签，其中内容就是：
+
+```css
+.myClass {
+  color: blue;
+}
+```
+
+配置写法和编写普通 css 的体验是一致的，可以使用任意 css 选择符及属性。
 
 ## 属性表
 

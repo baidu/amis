@@ -21,6 +21,7 @@ node_modules
 /toolkit/amis-renderer
 /toolkit/output
 /coverage
-/package-lock.json
+package-lock.json
 /schema.json
 /npm
+/mock/cfc/cfc.zip

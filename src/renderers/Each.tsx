@@ -1,7 +1,7 @@
 import React from 'react';
 import {Renderer, RendererProps} from '../factory';
 import {Schema} from '../types';
-import {resolveVariable} from '../utils/tpl-builtin';
+import {resolveVariable, resolveVariableAndFilter} from '../utils/tpl-builtin';
 import {createObject, getPropValue, isObject} from '../utils/helper';
 import {BaseSchema, SchemaCollection} from '../Schema';
 
@@ -19,6 +19,11 @@ export interface EachSchema extends BaseSchema {
    * 关联字段名
    */
   name?: string;
+
+  /**
+   * 关联字段名 支持数据映射
+   */
+  source?: string;
 
   items?: SchemaCollection;
 
@@ -43,14 +48,17 @@ export default class Each extends React.Component<EachProps> {
       name,
       className,
       render,
-      defaultValue,
       items,
       placeholder,
       classnames: cx,
       translate: __
     } = this.props;
 
-    const value = getPropValue(this.props);
+    const value = getPropValue(
+      this.props,
+      props => props.source && !props.name
+        ? resolveVariableAndFilter(props.source, props.data, '| raw') : undefined
+    );
 
     const arr = isObject(value)
       ? Object.keys(value).map(key => ({

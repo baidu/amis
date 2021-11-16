@@ -101,14 +101,12 @@
   }
 }
 
-.#{$ns}ButtonGroupControl {
-  display: inline-block;
+.#{$ns}ButtonGroup--tiled {
+  display: flex;
 
-  > .#{$ns}ButtonGroup--sm {
-    margin-top: calc((var(--Form-input-height) - var(--Button--sm-height)) / 2);
-  }
-
-  > .#{$ns}ButtonGroup--xs {
-    margin-top: calc((var(--Form-input-height) - var(--Button--xs-height)) / 2);
+  .#{$ns}Button,
+  .#{$ns}ButtonGroup {
+    flex-grow: 1;
+    text-align: center;
   }
 }

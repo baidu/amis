@@ -65,7 +65,7 @@ test('Renderer:formula', async () => {
     )
   );
 
-  const inputs = document.querySelectorAll('input');
+  const inputs = document.querySelectorAll('input[role="spinbutton"]') as any;
   fireEvent.change(inputs[0], {
     target: {
       value: 1

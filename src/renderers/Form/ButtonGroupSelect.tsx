@@ -77,6 +77,7 @@ export default class ButtonGroupControl extends React.Component<
       size,
       block,
       vertical,
+      tiled,
       translate: __
     } = props;
 
@@ -107,6 +108,9 @@ export default class ButtonGroupControl extends React.Component<
             className: cx(option.className, btnClassName),
             disabled: option.disabled || disabled,
             onClick: (e: React.UIEvent<any>) => {
+              if (disabled) {
+                return;
+              }
               this.handleToggle(option);
               e.preventDefault(); // 禁止 onAction 触发
             }
@@ -138,6 +142,7 @@ export default class ButtonGroupControl extends React.Component<
           {
             'ButtonGroup--block': block,
             'ButtonGroup--vertical': vertical,
+            'ButtonGroup--tiled': tiled,
             [`ButtonGroup--${size}`]: size
           },
           className
@@ -160,15 +165,4 @@ export default class ButtonGroupControl extends React.Component<
   sizeMutable: false,
   strictMode: false
 })
-export class ButtonGroupControlRenderer extends ButtonGroupControl {
-  render() {
-    const {className, classnames: cx, ...rest} = this.props;
-
-    const body = super.render({
-      ...rest,
-      classnames: cx
-    });
-
-    return <div className={cx('ButtonGroupControl', className)}>{body}</div>;
-  }
-}
+export class ButtonGroupControlRenderer extends ButtonGroupControl {}

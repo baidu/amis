@@ -22,6 +22,7 @@
     color: var(--ListControl-item-color);
     transition: var(--ListControl-item-transition);
     max-width: calc(#{px2rem(200px)} + 2 * var(--ListControl-item-paddingX));
+    border-radius: var(--ListControl-item-borderRadius);
 
     &:not(.is-disabled) {
       cursor: pointer;

@@ -63,7 +63,7 @@
     height: var(--DropDown-menu-height);
     vertical-align: middle;
     user-select: none;
-    color: var(--link-color);
+    color: var(--DropDown-menuItem-color);
     text-decoration: var(--link-decoration);
 
     &:hover {
@@ -72,6 +72,7 @@
     }
 
     &.is-active {
+      background: var(--DropDown-menuItem-onHover-bg);
       color: var(--DropDown-menuItem-onActive-color);
     }
 

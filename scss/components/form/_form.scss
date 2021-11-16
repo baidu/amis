@@ -1,23 +1,4 @@
-@mixin setControlWidth() {
-  width: var(--Form-control-widthBase);
-
-  &.#{$ns}Form-control--sizeXs {
-    min-width: auto;
-    width: var(--Form-control-widthXs);
-  }
-  &.#{$ns}Form-control--sizeSm {
-    min-width: auto;
-    width: var(--Form-control-widthSm);
-  }
-  &.#{$ns}Form-control--sizeMd {
-    min-width: auto;
-    width: var(--Form-control-widthMd);
-  }
-  &.#{$ns}Form-control--sizeLg {
-    min-width: auto;
-    width: var(--Form-control-widthLg);
-  }
-}
+@use 'sass:math';
 
 .#{$ns}Form {
   font-size: var(--Form-fontSize);
@@ -51,6 +32,19 @@
   .#{$ns}Form-item--inline > .#{$ns}Form-value > & {
     display: inline-block;
     vertical-align: top;
+  }
+
+  &--borderFull {
+    border: var(--Form-input-borderWidth) solid var(--Form-input-borderColor);
+    border-radius: var(--Form-input-borderRadius);
+    padding: var(--Form-input-paddingY) var(--Form-input-paddingX);
+  }
+
+  &--borderHalf {
+    border-bottom: var(--Form-input-borderWidth) solid
+      var(--Form-input-borderColor);
+    border-radius: var(--Form-input-borderRadius);
+    padding: var(--Form-input-paddingY) var(--Form-input-paddingX);
   }
 }
 
@@ -93,6 +87,10 @@
 
 .#{$ns}Form-item {
   margin-bottom: var(--Form-item-gap);
+
+  &:last-child {
+    margin-bottom: 0;
+  }
 
   .#{$ns}Grid-form > &:last-child {
     margin-bottom: 0;
@@ -159,7 +157,7 @@
   .#{$ns}Form-control--sizeXs {
     // min-width: var(--Form-control-widthXs);
     // width: auto;
-    min-width: var(--Form-control-widthXs);
+    width: var(--Form-control-widthXs);
     max-width: 100%;
     display: inline-block;
     vertical-align: top;
@@ -168,14 +166,10 @@
     &.#{$ns}NumberControl {
       width: var(--Form-control-widthXs);
     }
-
-    &.#{$ns}TextareaControl {
-      width: auto;
-    }
   }
 
   .#{$ns}Form-control--sizeSm {
-    min-width: var(--Form-control-widthSm);
+    width: var(--Form-control-widthSm);
     max-width: 100%;
     display: inline-block;
     vertical-align: top;
@@ -184,25 +178,17 @@
     &.#{$ns}NumberControl {
       width: var(--Form-control-widthSm);
     }
-
-    &.#{$ns}TextareaControl {
-      width: auto;
-    }
   }
 
   .#{$ns}Form-control--sizeMd {
-    min-width: var(--Form-control-widthMd);
+    width: var(--Form-control-widthMd);
     max-width: 100%;
     display: inline-block;
     vertical-align: top;
-
-    &.#{$ns}TextareaControl {
-      width: auto;
-    }
   }
 
   .#{$ns}Form-control--sizeLg {
-    min-width: var(--Form-control-widthLg);
+    width: var(--Form-control-widthLg);
     max-width: 100%;
     display: inline-block;
     vertical-align: top;
@@ -210,10 +196,6 @@
     // 非常难受，number 类型的 input 不能设置size
     &.#{$ns}NumberControl {
       width: var(--Form-control-widthLg);
-    }
-
-    &.#{$ns}TextareaControl {
-      width: auto;
     }
   }
 
@@ -229,12 +211,11 @@
         padding-right: calc(var(--Form--horizontal-gutterWidth) / 2);
       }
 
-      > .#{$ns}Form-label,
       > .#{$ns}Form-value {
         flex-basis: 0;
         flex-grow: 1;
         max-width: 100%;
-        width: 0;
+        min-width: 0;
       }
 
       .#{$ns}Form-itemColumn--xs,
@@ -250,6 +231,7 @@
       > .#{$ns}Form-label {
         padding-top: var(--Form-label-paddingTop);
         margin-bottom: 0;
+        flex-shrink: 0;
 
         .#{$ns}Form-star {
           position: absolute;
@@ -284,8 +266,8 @@
 
       @for $i from (1) through $Form--horizontal-columns {
         .#{$ns}Form-itemColumn--#{$i} {
-          flex: 0 0 percentage($i / $Form--horizontal-columns);
-          max-width: percentage($i / $Form--horizontal-columns);
+          flex: 0 0 percentage(math.div($i, $Form--horizontal-columns));
+          max-width: percentage(math.div($i, $Form--horizontal-columns));
           min-height: 1px;
         }
       }
@@ -295,17 +277,15 @@
       display: inline-block;
       vertical-align: top;
 
-      .#{$ns}TextControl {
-        @include setControlWidth();
-      }
-
       > .#{$ns}Form-label {
         padding-top: var(--Form-label-paddingTop);
         margin-bottom: 0;
         margin-right: calc(var(--Form-item-gap) / 2);
 
         .#{$ns}Form-star {
-          position: static;
+          position: absolute;
+          left: px2rem(-6px);
+          top: px2rem(3px);
         }
       }
 

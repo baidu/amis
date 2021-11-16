@@ -20,7 +20,7 @@ order: 12
 {
   "type": "form",
   "debug": true,
-  "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
+  "api": "/api/mock2/form/saveForm",
   "body": [
     {
       "type": "combo",
@@ -52,7 +52,7 @@ order: 12
 {
   "type": "form",
   "mode": "horizontal",
-  "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
+  "api": "/api/mock2/form/saveForm",
   "body": [
     {
       "type": "combo",
@@ -108,7 +108,7 @@ order: 12
 {
   "type": "form",
   "mode": "horizontal",
-  "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
+  "api": "/api/mock2/form/saveForm",
   "debug": true,
   "body": [
     {
@@ -163,7 +163,7 @@ order: 12
 {
   "type": "form",
   "mode": "horizontal",
-  "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
+  "api": "/api/mock2/form/saveForm",
   "body": [
     {
       "type": "combo",
@@ -221,7 +221,7 @@ order: 12
   "type": "form",
   "debug": true,
   "mode": "horizontal",
-  "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
+  "api": "/api/mock2/form/saveForm",
   "body": [
     {
       "type": "combo",
@@ -276,7 +276,7 @@ order: 12
   "type": "form",
   "debug": true,
   "mode": "horizontal",
-  "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
+  "api": "/api/mock2/form/saveForm",
   "body": [
     {
         "type": "combo",
@@ -359,7 +359,7 @@ combo 还有一个作用是增加层级，比如返回的数据是一个深层�
   "type": "form",
   "debug": true,
   "mode": "horizontal",
-  "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
+  "api": "/api/mock2/form/saveForm",
   "body": [
     {
         "type": "combo",
@@ -402,7 +402,7 @@ combo 还有一个作用是增加层级，比如返回的数据是一个深层�
   "type": "form",
   "debug": true,
   "mode": "horizontal",
-  "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
+  "api": "/api/mock2/form/saveForm",
   "body": [
     {
         "type": "combo",
@@ -584,7 +584,7 @@ combo 还有一个作用是增加层级，比如返回的数据是一个深层�
   "type": "form",
   "debug": true,
   "mode": "horizontal",
-  "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
+  "api": "/api/mock2/form/saveForm",
   "body": [
     {
         "type": "input-text",
@@ -615,7 +615,7 @@ combo 还有一个作用是增加层级，比如返回的数据是一个深层�
   "type": "form",
   "debug": true,
   "mode": "horizontal",
-  "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
+  "api": "/api/mock2/form/saveForm",
   "body": [
     {
         "type": "input-text",
@@ -651,7 +651,7 @@ combo 还有一个作用是增加层级，比如返回的数据是一个深层�
   "type": "form",
   "debug": true,
   "mode": "horizontal",
-  "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
+  "api": "/api/mock2/form/saveForm",
   "body": [
     {
         "type": "input-text",
@@ -688,7 +688,7 @@ combo 还有一个作用是增加层级，比如返回的数据是一个深层�
   "type": "form",
   "debug": true,
   "mode": "horizontal",
-  "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
+  "api": "/api/mock2/form/saveForm",
   "body": [
     {
         "type": "input-text",
@@ -724,7 +724,7 @@ combo 还有一个作用是增加层级，比如返回的数据是一个深层�
   "type": "form",
   "debug": true,
   "mode": "horizontal",
-  "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
+  "api": "/api/mock2/form/saveForm",
   "body": [
     {
         "type": "combo",

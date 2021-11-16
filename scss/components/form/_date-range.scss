@@ -12,6 +12,8 @@
   color: var(--DatePicker-color);
   background: var(--DatePicker-bg);
 
+  @include input-border();
+
   &:not(.is-disabled) {
     cursor: pointer;
 
@@ -55,6 +57,8 @@
   &-toggler {
     cursor: pointer;
     color: var(--DatePicker-iconColor);
+    display: inline-flex;
+    align-items: center;
 
     &:hover {
       color: var(--DatePicker-onHover-iconColor);

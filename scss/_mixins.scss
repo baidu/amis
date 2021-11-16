@@ -228,11 +228,33 @@
     margin-left: $padding-x;
   }
 
+  .#{$ns}Button--loading:first-child:not(:last-child):not(.pull-right),
+  > svg.icon:not(:last-child):not(.pull-right),
+  > .pull-left {
+    margin-right: $padding-x;
+  }
+
+  .#{$ns}Button--loading:last-child:not(:first-child):not(.pull-left),
+  > .pull-right {
+    margin-left: $padding-x;
+  }
+
   // img 需要加一下高度限制
   img.#{$ns}Button-icon {
     height: var(--Button-fontSize);
     vertical-align: middle;
   }
+}
+
+@mixin button-loading-icon() {
+  transition: --Button-transition;
+  svg {
+    @include animation-svg(var(--Button-animation-spin));
+  }
+}
+
+@mixin animation-svg($animation) {
+  animation: $animation;
 }
 
 @mixin button-variant(
@@ -257,6 +279,11 @@
       color: $hover-color;
       background: $hover-background;
       border-color: $hover-border;
+    }
+    @include hover-active {
+      color: $active-color;
+      background: $active-background;
+      border-color: $active-border;
     }
   }
 
@@ -328,6 +355,18 @@
   }
 }
 
+@mixin input-border {
+  &--borderHalf {
+    border-left-color: transparent !important;
+    border-right-color: transparent !important;
+    border-top-color: transparent !important;
+  }
+
+  &--borderNone {
+    border-color: transparent !important;
+  }
+}
+
 @mixin input-text {
   position: relative;
   max-width: 100%;
@@ -339,6 +378,7 @@
 
   &-input {
     @include input-input();
+    @include input-border();
   }
 
   &.is-error > &-input {

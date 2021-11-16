@@ -1,11 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import hoistNonReactStatic from 'hoist-non-react-statics';
-import domOwnerDocument from 'dom-helpers/ownerDocument';
-import css from 'dom-helpers/style/index';
-import getOffset from 'dom-helpers/query/offset';
-import getPosition from 'dom-helpers/query/position';
-import getScrollTop from 'dom-helpers/query/scrollTop';
+import getOffset from './offset';
+import getPosition from './position';
 
 const bsMapping: {
   [propName: string]: string;
@@ -56,7 +53,10 @@ export function getContainer(container: any, defaultContainer: any) {
 }
 
 export function ownerDocument(componentOrElement: any) {
-  return domOwnerDocument(ReactDOM.findDOMNode(componentOrElement) as Element);
+  return (
+    (ReactDOM.findDOMNode(componentOrElement) as Element)?.ownerDocument ||
+    document
+  );
 }
 
 function getContainerDimensions(containerNode: any) {
@@ -67,11 +67,11 @@ function getContainerDimensions(containerNode: any) {
     height = window.innerHeight;
 
     scroll =
-      getScrollTop(ownerDocument(containerNode).documentElement) ||
-      getScrollTop(containerNode);
+      ownerDocument(containerNode).documentElement.scrollTop ||
+      containerNode?.scrollTop;
   } else {
     ({width, height} = getOffset(containerNode) as any);
-    scroll = getScrollTop(containerNode);
+    scroll = containerNode.scrollTop;
   }
 
   return {width, height, scroll};
@@ -119,23 +119,6 @@ function getLeftDelta(
 
   return 0;
 }
-
-// function position(node: HTMLElement, offsetParent: HTMLElement) {
-//   const rect = offsetParent.getBoundingClientRect();
-//   const rect2 = node.getBoundingClientRect();
-//   return {
-//     width:
-//       rect2.width -
-//         (parseInt(css(node, 'borderLeftWidth') || '', 10) || 0) -
-//         parseInt(css(node, 'borderRightWidth') || '', 10) || 0,
-//     height:
-//       rect2.height -
-//         (parseInt(css(node, 'borderTopWidth') || '', 10) || 0) -
-//         parseInt(css(node, 'borderBottomWidth') || '', 10) || 0,
-//     top: rect2.top - rect.top,
-//     left: rect2.left - rect.left
-//   };
-// }
 
 export function calculatePosition(
   placement: any,
@@ -283,4 +266,16 @@ export function calculatePosition(
     arrowOffsetTop: arrowOffsetTop / scaleY,
     activePlacement
   };
+}
+
+/**
+ * 专门用来获取样式的像素值，默认返回 0
+ */
+export function getStyleNumber(element: HTMLElement, styleName: string) {
+  if (!element) {
+    return 0;
+  }
+  return (
+    parseInt(getComputedStyle(element).getPropertyValue(styleName), 10) || 0
+  );
 }

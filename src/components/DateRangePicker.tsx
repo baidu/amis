@@ -15,7 +15,7 @@ import Calendar from './calendar/Calendar';
 import PopOver from './PopOver';
 import {ClassNamesFn, themeable, ThemeProps} from '../theme';
 import {PlainObject} from '../types';
-import {noop} from '../utils/helper';
+import {noop, ucFirst} from '../utils/helper';
 import {LocaleProps, localeable} from '../locale';
 
 export interface DateRangePickerProps extends ThemeProps, LocaleProps {
@@ -46,6 +46,7 @@ export interface DateRangePickerProps extends ThemeProps, LocaleProps {
   dateFormat?: string;
   embed?: boolean;
   viewMode?: 'days' | 'months' | 'years' | 'time' | 'quarters';
+  borderMode?: 'full' | 'half' | 'none';
 }
 
 export interface DateRangePickerState {
@@ -173,6 +174,26 @@ export const availableRanges: {[propName: string]: any} = {
     },
     endDate: (now: moment.Moment) => {
       return now.startOf('quarter').add(-1, 'day').endOf('day');
+    }
+  },
+
+  'thisyear': {
+    label: 'DateRange.thisYear',
+    startDate: (now: moment.Moment) => {
+      return now.startOf('year');
+    },
+    endDate: (now: moment.Moment) => {
+      return now.endOf('year');
+    }
+  },
+
+  'lastYear': {
+    label: 'DateRange.lastYear',
+    startDate: (now: moment.Moment) => {
+      return now.startOf('year').add(-1, 'year');
+    },
+    endDate: (now: moment.Moment) => {
+      return now.endOf('year').add(-1, 'year').endOf('day');
     }
   }
 };
@@ -396,7 +417,7 @@ export class DateRangePicker extends React.Component<
   }
 
   handleStartChange(newValue: moment.Moment) {
-    const {embed, timeFormat, minDuration, maxDuration} = this.props;
+    const {embed, timeFormat, minDuration, maxDuration, minDate} = this.props;
     const {startDate, endDate} = this.state;
 
     if (
@@ -416,9 +437,18 @@ export class DateRangePicker extends React.Component<
       );
     }
 
+    if (minDate && newValue && newValue.isBefore(minDate, 'second')) {
+      newValue = minDate;
+    }
+
     this.setState(
       {
-        startDate: this.filterDate(newValue, startDate, timeFormat, 'start')
+        startDate: this.filterDate(
+          newValue,
+          startDate || minDate,
+          timeFormat,
+          'start'
+        )
       },
       () => {
         embed && this.confirm();
@@ -427,7 +457,7 @@ export class DateRangePicker extends React.Component<
   }
 
   handleEndChange(newValue: moment.Moment) {
-    const {embed, timeFormat, minDuration, maxDuration} = this.props;
+    const {embed, timeFormat, minDuration, maxDuration, maxDate} = this.props;
     const {startDate, endDate} = this.state;
 
     if (
@@ -448,9 +478,18 @@ export class DateRangePicker extends React.Component<
       );
     }
 
+    if (maxDate && newValue && newValue.isAfter(maxDate, 'second')) {
+      newValue = maxDate;
+    }
+
     this.setState(
       {
-        endDate: this.filterDate(newValue, endDate, timeFormat, 'end')
+        endDate: this.filterDate(
+          newValue,
+          endDate || maxDate,
+          timeFormat,
+          'end'
+        )
       },
       () => {
         embed && this.confirm();
@@ -463,12 +502,14 @@ export class DateRangePicker extends React.Component<
     const now = moment();
     this.setState(
       {
-        startDate: minDate
-          ? moment.max(range.startDate(now.clone()), minDate)
-          : range.startDate(now.clone()),
-        endDate: maxDate
-          ? moment.min(maxDate, range.endDate(now.clone()))
-          : range.endDate(now.clone())
+        startDate:
+          minDate && minDate.isValid()
+            ? moment.max(range.startDate(now.clone()), minDate)
+            : range.startDate(now.clone()),
+        endDate:
+          maxDate && maxDate.isValid()
+            ? moment.min(maxDate, range.endDate(now.clone()))
+            : range.endDate(now.clone())
       },
       closeOnSelect ? this.confirm : noop
     );
@@ -718,7 +759,8 @@ export class DateRangePicker extends React.Component<
       clearable,
       disabled,
       embed,
-      overlayPlacement
+      overlayPlacement,
+      borderMode
     } = this.props;
 
     const {isOpened, isFocused} = this.state;
@@ -766,7 +808,8 @@ export class DateRangePicker extends React.Component<
           `${ns}DateRangePicker`,
           {
             'is-disabled': disabled,
-            'is-focused': isFocused
+            'is-focused': isFocused,
+            [`${ns}DateRangePicker--border${ucFirst(borderMode)}`]: borderMode
           },
           className
         )}
@@ -790,7 +833,7 @@ export class DateRangePicker extends React.Component<
         ) : null}
 
         <a className={`${ns}DateRangePicker-toggler`}>
-          <Icon icon="calendar" className="icon" />
+          <Icon icon="clock" className="icon" />
         </a>
 
         {isOpened ? (

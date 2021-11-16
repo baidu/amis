@@ -216,7 +216,7 @@ export default class CheckboxesControl extends React.Component<
           inline={inline}
           labelClassName={labelClassName}
         >
-          全选/不选
+        {__('Checkboxes.selectAll')}
         </Checkbox>
       );
     }

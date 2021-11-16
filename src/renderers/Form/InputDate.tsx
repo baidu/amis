@@ -42,6 +42,11 @@ export interface InputDateBaseControlSchema extends FormBaseControl {
    * 是否为内联模式？
    */
   emebed?: boolean;
+
+  /**
+   * 边框模式，全边框，还是半边框，或者没边框。
+   */
+  borderMode?: 'full' | 'half' | 'none';
 }
 
 /**

@@ -1,3 +1,5 @@
+@use 'sass:math';
+
 .#{$ns}Form-groupColumn {
   margin-bottom: var(--gap-sm);
 }
@@ -5,6 +7,10 @@
 @include media-breakpoint-up(md) {
   .#{$ns}Form-group {
     margin-bottom: var(--Form-item-gap);
+
+    &:last-child {
+      margin-bottom: 0;
+    }
 
     .#{$ns}Form-value > & {
       margin-bottom: var(--Form-input-marginBottom);
@@ -88,16 +94,23 @@
   .#{$ns}Form-groupColumn {
     flex-basis: 0;
     flex-grow: 1;
-    width: 0;
+    width: 100%;
     max-width: 100%;
     margin-bottom: 0;
   }
 
   @for $i from (1) through $Form--horizontal-columns {
     .#{$ns}Form-groupColumn--#{$i} {
-      flex: 0 0 percentage($i / $Form--horizontal-columns);
-      max-width: percentage($i / $Form--horizontal-columns);
+      flex: 0 0 percentage(math.div($i, $Form--horizontal-columns));
+      max-width: percentage(math.div($i, $Form--horizontal-columns));
       min-height: 1px;
     }
+  }
+
+  .#{$ns}Form-groupColumn--auto {
+    flex: 0 0 auto;
+    width: auto;
+    max-width: 100%;
+    min-height: 1px;
   }
 }

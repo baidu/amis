@@ -127,7 +127,9 @@ export function wrapControl<
                 selectFirst,
                 autoFill,
                 clearValueOnHidden,
-                validateApi
+                validateApi,
+                minLength,
+                maxLength
               }
             } = this.props;
 
@@ -170,7 +172,9 @@ export function wrapControl<
               selectFirst,
               autoFill,
               clearValueOnHidden,
-              validateApi
+              validateApi,
+              minLength,
+              maxLength
             });
 
             // issue 这个逻辑应该在 combo 里面自己实现。
@@ -214,7 +218,7 @@ export function wrapControl<
             const formItem = this.model as IFormItemStore;
             if (formItem && validate) {
               let finalValidate = promisify(validate.bind(formItem));
-              this.hook2 = function () {
+              this.hook2 = () => {
                 formItem.clearError('control:valdiate');
                 return finalValidate(
                   this.props.data,
@@ -276,7 +280,9 @@ export function wrapControl<
                 selectFirst: props.$schema.selectFirst,
                 autoFill: props.$schema.autoFill,
                 clearValueOnHidden: props.$schema.clearValueOnHidden,
-                validateApi: props.$schema.validateApi
+                validateApi: props.$schema.validateApi,
+                minLength: props.minLength,
+                maxLength: props.maxLength
               });
             }
 
@@ -314,10 +320,6 @@ export function wrapControl<
             this.hook3 && this.props.removeHook?.(this.hook3, 'flush');
             // this.lazyEmitChange.flush();
 
-            if (this.model?.clearValueOnHidden) {
-              this.props.onChange?.(undefined, this.model.name);
-            }
-
             this.lazyEmitChange.cancel();
             this.reaction?.();
             this.disposeModel();
@@ -340,6 +342,9 @@ export function wrapControl<
               formItem &&
                 isAlive(formItem) &&
                 formItem.removeSubFormItem(this.model);
+
+              this.model.clearValueOnHidden &&
+                this.model.form?.deleteValueByName(this.model.name);
 
               rootStore.removeStore(this.model);
             }
@@ -474,8 +479,17 @@ export function wrapControl<
             const {
               formStore: form,
               onChange,
-              $schema: {name, onChange: onFormItemChange},
+              $schema: {
+                name,
+                id,
+                label,
+                type,
+                onChange: onFormItemChange,
+                maxLength,
+                minLength
+              },
               data,
+              env,
               validateOnChange,
               formSubmited
             } = this.props;
@@ -490,6 +504,22 @@ export function wrapControl<
               return;
             }
 
+            if (type !== 'input-password') {
+              env?.tracker(
+                {
+                  eventType: 'formItemChange',
+                  eventData: {
+                    id,
+                    name,
+                    label,
+                    type,
+                    value
+                  }
+                },
+                this.props
+              );
+            }
+
             this.model.changeEmitedValue(value);
             if (
               onFormItemChange?.(value, oldValue, this.model, form) === false
@@ -500,6 +530,9 @@ export function wrapControl<
             onChange?.(value, name!, submitOnChange === true);
 
             if (
+              // 如果配置了 minLength 或者 maxLength 就切成及时验证
+              this.model.rules.minLength ||
+              this.model.rules.maxLength ||
               validateOnChange === true ||
               (validateOnChange !== false && (formSubmited || validated))
             ) {
@@ -564,9 +597,10 @@ export function wrapControl<
             if (!key || key === name) {
               this.handleChange(value);
             } else {
-              onBulkChange({
-                [key]: value
-              });
+              onBulkChange &&
+                onBulkChange({
+                  [key]: value
+                });
             }
           }
 
@@ -594,7 +628,7 @@ export function wrapControl<
               formItem: this.model,
               formMode: control.mode || formMode,
               ref: this.controlRef,
-              data: store ? store.data : data,
+              data: data || store?.data,
               value,
               defaultValue: control.value,
               formItemValue: value, // 为了兼容老版本的自定义组件

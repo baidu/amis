@@ -68,6 +68,11 @@ export interface TransferControlSchema extends FormOptionsControl {
   columns?: Array<any>;
 
   /**
+   * 当 searchResultMode 为 table 时定义表格列信息。
+   */
+  searchResultColumns?: Array<any>;
+
+  /**
    * 可搜索？
    */
   searchable?: boolean;
@@ -80,7 +85,7 @@ export interface TransferControlSchema extends FormOptionsControl {
   /**
    * 左侧的标题文字
    */
-   selectTitle?: string;
+  selectTitle?: string;
 
   /**
    * 右侧结果的标题文字
@@ -97,7 +102,10 @@ export interface BaseTransferProps
       | 'className'
       | 'descriptionClassName'
       | 'inputClassName'
-    > {}
+    > {
+  optionItemRender?: (option: Option) => JSX.Element;
+  resultItemRender?: (option: Option) => JSX.Element;
+}
 
 export class BaseTransferRenderer<
   T extends OptionsControlProps = BaseTransferProps
@@ -199,8 +207,9 @@ export class BaseTransferRenderer<
         (option: Option) => {
           return !!(
             (Array.isArray(option.children) && option.children.length) ||
-            regexp.test(option[(labelField as string) || 'label']) ||
-            regexp.test(option[(valueField as string) || 'value'])
+            (option[(valueField as string) || 'value'] &&
+              (regexp.test(option[(labelField as string) || 'label']) ||
+                regexp.test(option[(valueField as string) || 'value'])))
           );
         },
         0,
@@ -249,13 +258,16 @@ export class BaseTransferRenderer<
       loading,
       searchable,
       searchResultMode,
+      searchResultColumns,
       deferLoad,
       leftOptions,
       leftMode,
       rightMode,
       disabled,
       selectTitle,
-      resultTitle
+      resultTitle,
+      optionItemRender,
+      resultItemRender
     } = this.props;
 
     return (
@@ -270,6 +282,7 @@ export class BaseTransferRenderer<
           showArrow={showArrow}
           selectMode={selectMode}
           searchResultMode={searchResultMode}
+          searchResultColumns={searchResultColumns}
           columns={columns}
           onSearch={searchable ? this.handleSearch : undefined}
           onDeferLoad={deferLoad}
@@ -279,6 +292,8 @@ export class BaseTransferRenderer<
           cellRender={this.renderCell}
           selectTitle={selectTitle}
           resultTitle={resultTitle}
+          optionItemRender={optionItemRender}
+          resultItemRender={resultItemRender}
         />
 
         <Spinner overlay key="info" show={loading} />

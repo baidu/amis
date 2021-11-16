@@ -62,6 +62,19 @@ export class BaseCheckboxes<
     });
   }
 
+  // 获取两个数组的交集
+  intersectArray(arr1: undefined | Array<Option>, arr2: undefined | Array<Option>): Array<Option> {
+    if (!Array.isArray(arr1) || !Array.isArray(arr2)) {
+      return [];
+    }
+    const len1 = arr1.length;
+    const len2 = arr2.length;
+    if (len1 < len2) {
+      return this.intersectArray(arr2, arr1);
+    }
+    return Array.from(new Set(arr1.filter(item => arr2.includes(item))));
+  }
+
   toggleOption(option: Option) {
     const {value, onChange, option2value, options, disabled} = this.props;
 
@@ -90,8 +103,15 @@ export class BaseCheckboxes<
     const {value, onChange, option2value, options} = this.props;
     let valueArray: Array<Option> = [];
 
-    if (!Array.isArray(value) || !value.length) {
-      valueArray = options.filter(option => !option.disabled);
+    const availableOptions = options.filter(option => !option.disabled);
+    const intersectOptions = this.intersectArray(value, availableOptions);
+
+    if (!Array.isArray(value)) {
+      valueArray = availableOptions;
+    } else if (intersectOptions.length < availableOptions.length) {
+      valueArray = Array.from(new Set([...value, ...availableOptions]));
+    } else {
+      valueArray = value.filter(item => !availableOptions.includes(item));
     }
 
     let newValue: string | Array<Option> = option2value

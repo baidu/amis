@@ -3,6 +3,7 @@ import React from 'react';
 import {RendererProps, Renderer} from '../../factory';
 import {SchemaCollection} from '../../Schema';
 import {autobind} from '../../utils/helper';
+import {resolveVariable} from '../../utils/tpl-builtin';
 import {FormBaseControl, FormItemWrap} from './Item';
 
 /**
@@ -24,8 +25,10 @@ export interface FormControlSchema extends FormBaseControl {
 export class ControlRenderer extends React.Component<RendererProps> {
   @autobind
   renderInput() {
-    const {render, body} = this.props;
-    return render('inner', body);
+    const {render, body, name, data} = this.props;
+    return render('inner', body, {
+      value: typeof name === 'string' ? resolveVariable(name, data) : undefined
+    });
   }
 
   render() {

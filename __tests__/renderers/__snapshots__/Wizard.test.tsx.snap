@@ -2,13 +2,13 @@
 
 exports[`Renderer:Wizard 1`] = `
 <div
-  className="a-Panel a-Panel--default a-Wizard a-Wizard--horizontal"
+  className="cxd-Panel cxd-Panel--default cxd-Wizard cxd-Wizard--horizontal"
 >
   <div
-    className="a-Wizard-step"
+    className="cxd-Wizard-step"
   >
     <div
-      className="a-Wizard-steps"
+      className="cxd-Wizard-steps"
       id="form-wizard"
     >
       <ul>
@@ -17,7 +17,7 @@ exports[`Renderer:Wizard 1`] = `
           onClick={[Function]}
         >
           <span
-            className="a-Badge is-active"
+            className="cxd-Badge is-active"
           >
             1
           </span>
@@ -28,7 +28,7 @@ exports[`Renderer:Wizard 1`] = `
           onClick={[Function]}
         >
           <span
-            className="a-Badge"
+            className="cxd-Badge"
           >
             2
           </span>
@@ -39,7 +39,7 @@ exports[`Renderer:Wizard 1`] = `
           onClick={[Function]}
         >
           <span
-            className="a-Badge"
+            className="cxd-Badge"
           >
             3
           </span>
@@ -48,41 +48,49 @@ exports[`Renderer:Wizard 1`] = `
       </ul>
     </div>
     <div
-      className="a-Wizard-stepContent clearfix"
+      className="cxd-Wizard-stepContent clearfix"
       role="wizard-body"
     >
       <form
-        className="a-Form a-Form--normal"
+        className="cxd-Form cxd-Form--normal"
         noValidate={true}
         onSubmit={[Function]}
       >
+        <input
+          style={
+            Object {
+              "display": "none",
+            }
+          }
+          type="submit"
+        />
         <div
-          className="a-Form-item a-Form-item--normal is-required"
+          className="cxd-Form-item cxd-Form-item--normal is-required"
           data-role="form-item"
         >
           <label
-            className="a-Form-label"
+            className="cxd-Form-label"
           >
             <span>
               <span
-                className="a-TplField"
+                className="cxd-TplField"
               >
                 <span>
                   网址
                 </span>
               </span>
               <span
-                className="a-Form-star"
+                className="cxd-Form-star"
               >
                 *
               </span>
             </span>
           </label>
           <div
-            className="a-Form-control a-TextControl"
+            className="cxd-Form-control cxd-TextControl"
           >
             <div
-              className="a-TextControl-input"
+              className="cxd-TextControl-input"
             >
               <input
                 autoComplete="off"
@@ -99,32 +107,32 @@ exports[`Renderer:Wizard 1`] = `
           </div>
         </div>
         <div
-          className="a-Form-item a-Form-item--normal is-required"
+          className="cxd-Form-item cxd-Form-item--normal is-required"
           data-role="form-item"
         >
           <label
-            className="a-Form-label"
+            className="cxd-Form-label"
           >
             <span>
               <span
-                className="a-TplField"
+                className="cxd-TplField"
               >
                 <span>
                   名称
                 </span>
               </span>
               <span
-                className="a-Form-star"
+                className="cxd-Form-star"
               >
                 *
               </span>
             </span>
           </label>
           <div
-            className="a-Form-control a-TextControl"
+            className="cxd-Form-control cxd-TextControl"
           >
             <div
-              className="a-TextControl-input"
+              className="cxd-TextControl-input"
             >
               <input
                 autoComplete="off"
@@ -140,22 +148,14 @@ exports[`Renderer:Wizard 1`] = `
             </div>
           </div>
         </div>
-        <input
-          style={
-            Object {
-              "display": "none",
-            }
-          }
-          type="submit"
-        />
       </form>
     </div>
     <div
-      className="a-Panel-footer a-Wizard-footer"
+      className="cxd-Panel-footer cxd-Wizard-footer"
       role="wizard-footer"
     >
       <div
-        className="a-Button a-Button--default is-disabled"
+        className="cxd-Button cxd-Button--default is-disabled"
         disabled={true}
         onClick={[Function]}
       >
@@ -164,7 +164,7 @@ exports[`Renderer:Wizard 1`] = `
         </span>
       </div>
       <button
-        className="a-Button a-Button--default"
+        className="cxd-Button cxd-Button--default"
         onClick={[Function]}
         type="button"
       >
@@ -180,14 +180,14 @@ exports[`Renderer:Wizard 1`] = `
 exports[`Renderer:Wizard actionPrevLabel actionNextLabel actionFinishLabel className actionClassName 1`] = `
 <div>
   <div
-    class="a-Panel a-Panel--default a-Wizard a-Wizard--horizontal wizard-class-name"
+    class="cxd-Panel cxd-Panel--default cxd-Wizard cxd-Wizard--horizontal wizard-class-name"
     style="position: relative;"
   >
     <div
-      class="a-Wizard-step"
+      class="cxd-Wizard-step"
     >
       <div
-        class="a-Wizard-steps"
+        class="cxd-Wizard-steps"
         id="form-wizard"
       >
         <ul>
@@ -195,17 +195,20 @@ exports[`Renderer:Wizard actionPrevLabel actionNextLabel actionFinishLabel class
             class="is-complete"
           >
             <span
-              class="a-Badge is-active"
+              class="cxd-Badge is-complete is-active"
             >
-              1
+              <icon-mock
+                classname="icon icon-check"
+                icon="check"
+              />
             </span>
             Step 1
           </li>
           <li
-            class="is-active"
+            class="is-complete is-active"
           >
             <span
-              class="a-Badge is-active"
+              class="cxd-Badge is-complete is-active"
             >
               2
             </span>
@@ -214,32 +217,32 @@ exports[`Renderer:Wizard actionPrevLabel actionNextLabel actionFinishLabel class
         </ul>
       </div>
       <div
-        class="a-Wizard-stepContent clearfix"
+        class="cxd-Wizard-stepContent clearfix"
         role="wizard-body"
       >
         <form
-          class="a-Form a-Form--normal"
+          class="cxd-Form cxd-Form--normal"
           novalidate=""
         >
+          <input
+            style="display: none;"
+            type="submit"
+          />
           <span
-            class="a-TplField"
+            class="cxd-TplField"
           >
             <span>
               这是最后一步了
             </span>
           </span>
-          <input
-            style="display: none;"
-            type="submit"
-          />
         </form>
       </div>
       <div
-        class="a-Panel-footer a-Wizard-footer"
+        class="cxd-Panel-footer cxd-Wizard-footer"
         role="wizard-footer"
       >
         <button
-          class="a-Button a-Button--default btn-lg btn-primary"
+          class="cxd-Button cxd-Button--default btn-lg btn-primary"
           type="button"
         >
           <span>
@@ -247,7 +250,7 @@ exports[`Renderer:Wizard actionPrevLabel actionNextLabel actionFinishLabel class
           </span>
         </button>
         <button
-          class="a-Button a-Button--primary btn-lg btn-primary"
+          class="cxd-Button cxd-Button--primary btn-lg btn-primary"
           type="button"
         >
           <span>
@@ -302,57 +305,64 @@ exports[`Renderer:Wizard actionPrevLabel actionNextLabel actionFinishLabel class
 exports[`Renderer:Wizard actionPrevLabel actionNextLabel actionFinishLabel className actionClassName 2`] = `
 <div>
   <div
-    class="a-Panel a-Panel--default a-Wizard a-Wizard--horizontal wizard-class-name"
+    class="cxd-Panel cxd-Panel--default cxd-Wizard cxd-Wizard--horizontal wizard-class-name"
     style="position: relative;"
   >
     <div
-      class="a-Wizard-step"
+      class="cxd-Wizard-step"
     >
       <div
-        class="a-Wizard-steps"
+        class="cxd-Wizard-steps"
         id="form-wizard"
       >
         <ul>
           <li
-            class="is-active"
+            class="is-complete is-active"
           >
             <span
-              class="a-Badge is-active"
+              class="cxd-Badge is-complete is-active"
             >
               1
             </span>
             Step 1
           </li>
           <li
-            class=""
+            class="is-complete"
           >
             <span
-              class="a-Badge"
+              class="cxd-Badge is-complete"
             >
-              2
+              <icon-mock
+                classname="icon icon-check"
+                icon="check"
+              />
             </span>
             Step 2
           </li>
         </ul>
       </div>
       <div
-        class="a-Wizard-stepContent clearfix"
+        class="cxd-Wizard-stepContent clearfix"
         role="wizard-body"
       >
         <form
-          class="a-Form a-Form--normal"
+          class="cxd-Form cxd-Form--normal"
           novalidate=""
         >
+          <input
+            style="display: none;"
+            type="submit"
+          />
           <div
-            class="a-Form-item a-Form-item--normal"
+            class="cxd-Form-item cxd-Form-item--normal"
             data-role="form-item"
           >
             <label
-              class="a-Form-label"
+              class="cxd-Form-label"
             >
               <span>
                 <span
-                  class="a-TplField"
+                  class="cxd-TplField"
                 >
                   <span>
                     网址
@@ -361,10 +371,10 @@ exports[`Renderer:Wizard actionPrevLabel actionNextLabel actionFinishLabel class
               </span>
             </label>
             <div
-              class="a-Form-control a-TextControl"
+              class="cxd-Form-control cxd-TextControl"
             >
               <div
-                class="a-TextControl-input"
+                class="cxd-TextControl-input"
               >
                 <input
                   autocomplete="off"
@@ -378,15 +388,15 @@ exports[`Renderer:Wizard actionPrevLabel actionNextLabel actionFinishLabel class
             </div>
           </div>
           <div
-            class="a-Form-item a-Form-item--normal"
+            class="cxd-Form-item cxd-Form-item--normal"
             data-role="form-item"
           >
             <label
-              class="a-Form-label"
+              class="cxd-Form-label"
             >
               <span>
                 <span
-                  class="a-TplField"
+                  class="cxd-TplField"
                 >
                   <span>
                     名称
@@ -395,10 +405,10 @@ exports[`Renderer:Wizard actionPrevLabel actionNextLabel actionFinishLabel class
               </span>
             </label>
             <div
-              class="a-Form-control a-TextControl"
+              class="cxd-Form-control cxd-TextControl"
             >
               <div
-                class="a-TextControl-input"
+                class="cxd-TextControl-input"
               >
                 <input
                   autocomplete="off"
@@ -411,18 +421,14 @@ exports[`Renderer:Wizard actionPrevLabel actionNextLabel actionFinishLabel class
               </div>
             </div>
           </div>
-          <input
-            style="display: none;"
-            type="submit"
-          />
         </form>
       </div>
       <div
-        class="a-Panel-footer a-Wizard-footer"
+        class="cxd-Panel-footer cxd-Wizard-footer"
         role="wizard-footer"
       >
         <div
-          class="a-Button a-Button--default is-disabled btn-lg btn-primary"
+          class="cxd-Button cxd-Button--default is-disabled btn-lg btn-primary"
           disabled=""
         >
           <span>
@@ -430,7 +436,7 @@ exports[`Renderer:Wizard actionPrevLabel actionNextLabel actionFinishLabel class
           </span>
         </div>
         <button
-          class="a-Button a-Button--default btn-lg btn-primary"
+          class="cxd-Button cxd-Button--default btn-lg btn-primary"
           type="button"
         >
           <span>
@@ -485,26 +491,26 @@ exports[`Renderer:Wizard actionPrevLabel actionNextLabel actionFinishLabel class
 exports[`Renderer:Wizard dialog 1`] = `
 <div>
   <div
-    class="a-Page"
+    class="cxd-Page"
   >
     <div
-      class="a-Page-content"
+      class="cxd-Page-content"
     >
       <div
-        class="a-Page-main"
+        class="cxd-Page-main"
       >
         <div
-          class="a-Page-body"
+          class="cxd-Page-body"
         >
           <div
-            class="a-Panel a-Panel--default a-Wizard a-Wizard--horizontal"
+            class="cxd-Panel cxd-Panel--default cxd-Wizard cxd-Wizard--horizontal"
             style="position: relative;"
           >
             <div
-              class="a-Wizard-step"
+              class="cxd-Wizard-step"
             >
               <div
-                class="a-Wizard-steps"
+                class="cxd-Wizard-steps"
                 id="form-wizard"
               >
                 <ul>
@@ -512,7 +518,7 @@ exports[`Renderer:Wizard dialog 1`] = `
                     class="is-active"
                   >
                     <span
-                      class="a-Badge is-active"
+                      class="cxd-Badge is-active"
                     >
                       1
                     </span>
@@ -522,7 +528,7 @@ exports[`Renderer:Wizard dialog 1`] = `
                     class=""
                   >
                     <span
-                      class="a-Badge"
+                      class="cxd-Badge"
                     >
                       2
                     </span>
@@ -531,23 +537,27 @@ exports[`Renderer:Wizard dialog 1`] = `
                 </ul>
               </div>
               <div
-                class="a-Wizard-stepContent clearfix"
+                class="cxd-Wizard-stepContent clearfix"
                 role="wizard-body"
               >
                 <form
-                  class="a-Form a-Form--normal"
+                  class="cxd-Form cxd-Form--normal"
                   novalidate=""
                 >
+                  <input
+                    style="display: none;"
+                    type="submit"
+                  />
                   <div
-                    class="a-Form-item a-Form-item--normal"
+                    class="cxd-Form-item cxd-Form-item--normal"
                     data-role="form-item"
                   >
                     <label
-                      class="a-Form-label"
+                      class="cxd-Form-label"
                     >
                       <span>
                         <span
-                          class="a-TplField"
+                          class="cxd-TplField"
                         >
                           <span>
                             网址
@@ -556,10 +566,10 @@ exports[`Renderer:Wizard dialog 1`] = `
                       </span>
                     </label>
                     <div
-                      class="a-Form-control a-TextControl"
+                      class="cxd-Form-control cxd-TextControl"
                     >
                       <div
-                        class="a-TextControl-input"
+                        class="cxd-TextControl-input"
                       >
                         <input
                           autocomplete="off"
@@ -573,15 +583,15 @@ exports[`Renderer:Wizard dialog 1`] = `
                     </div>
                   </div>
                   <div
-                    class="a-Form-item a-Form-item--normal"
+                    class="cxd-Form-item cxd-Form-item--normal"
                     data-role="form-item"
                   >
                     <label
-                      class="a-Form-label"
+                      class="cxd-Form-label"
                     >
                       <span>
                         <span
-                          class="a-TplField"
+                          class="cxd-TplField"
                         >
                           <span>
                             名称
@@ -590,10 +600,10 @@ exports[`Renderer:Wizard dialog 1`] = `
                       </span>
                     </label>
                     <div
-                      class="a-Form-control a-TextControl"
+                      class="cxd-Form-control cxd-TextControl"
                     >
                       <div
-                        class="a-TextControl-input"
+                        class="cxd-TextControl-input"
                       >
                         <input
                           autocomplete="off"
@@ -607,11 +617,11 @@ exports[`Renderer:Wizard dialog 1`] = `
                     </div>
                   </div>
                   <div
-                    class="a-Form-item a-Form-item--normal"
+                    class="cxd-Form-item cxd-Form-item--normal"
                     data-role="form-item"
                   >
                     <button
-                      class="a-Button a-Button--default"
+                      class="cxd-Button cxd-Button--default"
                       type="button"
                     >
                       <span>
@@ -619,18 +629,14 @@ exports[`Renderer:Wizard dialog 1`] = `
                       </span>
                     </button>
                   </div>
-                  <input
-                    style="display: none;"
-                    type="submit"
-                  />
                 </form>
               </div>
               <div
-                class="a-Panel-footer a-Wizard-footer"
+                class="cxd-Panel-footer cxd-Wizard-footer"
                 role="wizard-footer"
               >
                 <div
-                  class="a-Button a-Button--default is-disabled"
+                  class="cxd-Button cxd-Button--default is-disabled"
                   disabled=""
                 >
                   <span>
@@ -638,7 +644,7 @@ exports[`Renderer:Wizard dialog 1`] = `
                   </span>
                 </div>
                 <button
-                  class="a-Button a-Button--default"
+                  class="cxd-Button cxd-Button--default"
                   type="button"
                 >
                   <span>
@@ -692,20 +698,20 @@ exports[`Renderer:Wizard dialog 1`] = `
     </div>
   </div>
   <div
-    class="amis-dialog-widget a-Modal a-Modal--1th"
+    class="amis-dialog-widget cxd-Modal cxd-Modal--1th"
     role="dialog"
   >
     <div
-      class="a-Modal-overlay in"
+      class="cxd-Modal-overlay in"
     />
     <div
-      class="a-Modal-content in"
+      class="cxd-Modal-content in"
     >
       <div
-        class="a-Modal-header"
+        class="cxd-Modal-header"
       >
         <a
-          class="a-Modal-close"
+          class="cxd-Modal-close"
           data-position="left"
           data-tooltip="关闭"
         >
@@ -715,28 +721,32 @@ exports[`Renderer:Wizard dialog 1`] = `
           />
         </a>
         <div
-          class="a-Modal-title"
+          class="cxd-Modal-title"
         >
           添加
         </div>
       </div>
       <div
-        class="a-Modal-body"
+        class="cxd-Modal-body"
       >
         <div
-          class="a-Form a-Form--horizontal"
+          class="cxd-Form cxd-Form--horizontal"
           novalidate=""
         >
+          <input
+            style="display: none;"
+            type="submit"
+          />
           <div
-            class="a-Form-item a-Form-item--horizontal"
+            class="cxd-Form-item cxd-Form-item--horizontal"
             data-role="form-item"
           >
             <label
-              class="a-Form-label a-Form-itemColumn--2"
+              class="cxd-Form-label cxd-Form-itemColumn--normal"
             >
               <span>
                 <span
-                  class="a-TplField"
+                  class="cxd-TplField"
                 >
                   <span>
                     Name
@@ -745,13 +755,13 @@ exports[`Renderer:Wizard dialog 1`] = `
               </span>
             </label>
             <div
-              class="a-Form-value"
+              class="cxd-Form-value"
             >
               <div
-                class="a-Form-control a-TextControl"
+                class="cxd-Form-control cxd-TextControl"
               >
                 <div
-                  class="a-TextControl-input"
+                  class="cxd-TextControl-input"
                 >
                   <input
                     autocomplete="off"
@@ -765,17 +775,13 @@ exports[`Renderer:Wizard dialog 1`] = `
               </div>
             </div>
           </div>
-          <input
-            style="display: none;"
-            type="submit"
-          />
         </div>
       </div>
       <div
-        class="a-Modal-footer"
+        class="cxd-Modal-footer"
       >
         <button
-          class="a-Button a-Button--default"
+          class="cxd-Button cxd-Button--default"
           type="button"
         >
           <span>
@@ -783,7 +789,7 @@ exports[`Renderer:Wizard dialog 1`] = `
           </span>
         </button>
         <button
-          class="a-Button a-Button--primary"
+          class="cxd-Button cxd-Button--primary"
           type="button"
         >
           <span>
@@ -799,26 +805,26 @@ exports[`Renderer:Wizard dialog 1`] = `
 exports[`Renderer:Wizard dialog 2`] = `
 <div>
   <div
-    class="a-Page"
+    class="cxd-Page"
   >
     <div
-      class="a-Page-content"
+      class="cxd-Page-content"
     >
       <div
-        class="a-Page-main"
+        class="cxd-Page-main"
       >
         <div
-          class="a-Page-body"
+          class="cxd-Page-body"
         >
           <div
-            class="a-Panel a-Panel--default a-Wizard a-Wizard--horizontal"
+            class="cxd-Panel cxd-Panel--default cxd-Wizard cxd-Wizard--horizontal"
             style="position: relative;"
           >
             <div
-              class="a-Wizard-step"
+              class="cxd-Wizard-step"
             >
               <div
-                class="a-Wizard-steps"
+                class="cxd-Wizard-steps"
                 id="form-wizard"
               >
                 <ul>
@@ -826,7 +832,7 @@ exports[`Renderer:Wizard dialog 2`] = `
                     class="is-active"
                   >
                     <span
-                      class="a-Badge is-active"
+                      class="cxd-Badge is-active"
                     >
                       1
                     </span>
@@ -836,7 +842,7 @@ exports[`Renderer:Wizard dialog 2`] = `
                     class=""
                   >
                     <span
-                      class="a-Badge"
+                      class="cxd-Badge"
                     >
                       2
                     </span>
@@ -845,23 +851,27 @@ exports[`Renderer:Wizard dialog 2`] = `
                 </ul>
               </div>
               <div
-                class="a-Wizard-stepContent clearfix"
+                class="cxd-Wizard-stepContent clearfix"
                 role="wizard-body"
               >
                 <form
-                  class="a-Form a-Form--normal"
+                  class="cxd-Form cxd-Form--normal"
                   novalidate=""
                 >
+                  <input
+                    style="display: none;"
+                    type="submit"
+                  />
                   <div
-                    class="a-Form-item a-Form-item--normal"
+                    class="cxd-Form-item cxd-Form-item--normal"
                     data-role="form-item"
                   >
                     <label
-                      class="a-Form-label"
+                      class="cxd-Form-label"
                     >
                       <span>
                         <span
-                          class="a-TplField"
+                          class="cxd-TplField"
                         >
                           <span>
                             网址
@@ -870,10 +880,10 @@ exports[`Renderer:Wizard dialog 2`] = `
                       </span>
                     </label>
                     <div
-                      class="a-Form-control a-TextControl"
+                      class="cxd-Form-control cxd-TextControl"
                     >
                       <div
-                        class="a-TextControl-input"
+                        class="cxd-TextControl-input"
                       >
                         <input
                           autocomplete="off"
@@ -887,15 +897,15 @@ exports[`Renderer:Wizard dialog 2`] = `
                     </div>
                   </div>
                   <div
-                    class="a-Form-item a-Form-item--normal"
+                    class="cxd-Form-item cxd-Form-item--normal"
                     data-role="form-item"
                   >
                     <label
-                      class="a-Form-label"
+                      class="cxd-Form-label"
                     >
                       <span>
                         <span
-                          class="a-TplField"
+                          class="cxd-TplField"
                         >
                           <span>
                             名称
@@ -904,10 +914,10 @@ exports[`Renderer:Wizard dialog 2`] = `
                       </span>
                     </label>
                     <div
-                      class="a-Form-control a-TextControl"
+                      class="cxd-Form-control cxd-TextControl"
                     >
                       <div
-                        class="a-TextControl-input"
+                        class="cxd-TextControl-input"
                       >
                         <input
                           autocomplete="off"
@@ -921,11 +931,11 @@ exports[`Renderer:Wizard dialog 2`] = `
                     </div>
                   </div>
                   <div
-                    class="a-Form-item a-Form-item--normal"
+                    class="cxd-Form-item cxd-Form-item--normal"
                     data-role="form-item"
                   >
                     <button
-                      class="a-Button a-Button--default"
+                      class="cxd-Button cxd-Button--default"
                       type="button"
                     >
                       <span>
@@ -933,18 +943,14 @@ exports[`Renderer:Wizard dialog 2`] = `
                       </span>
                     </button>
                   </div>
-                  <input
-                    style="display: none;"
-                    type="submit"
-                  />
                 </form>
               </div>
               <div
-                class="a-Panel-footer a-Wizard-footer"
+                class="cxd-Panel-footer cxd-Wizard-footer"
                 role="wizard-footer"
               >
                 <div
-                  class="a-Button a-Button--default is-disabled"
+                  class="cxd-Button cxd-Button--default is-disabled"
                   disabled=""
                 >
                   <span>
@@ -952,7 +958,7 @@ exports[`Renderer:Wizard dialog 2`] = `
                   </span>
                 </div>
                 <button
-                  class="a-Button a-Button--default"
+                  class="cxd-Button cxd-Button--default"
                   type="button"
                 >
                   <span>
@@ -1010,13 +1016,13 @@ exports[`Renderer:Wizard dialog 2`] = `
 
 exports[`Renderer:Wizard initApi 1`] = `
 <div
-  className="a-Panel a-Panel--default a-Wizard a-Wizard--horizontal"
+  className="cxd-Panel cxd-Panel--default cxd-Wizard cxd-Wizard--horizontal"
 >
   <div
-    className="a-Wizard-step"
+    className="cxd-Wizard-step"
   >
     <div
-      className="a-Wizard-steps"
+      className="cxd-Wizard-steps"
       id="form-wizard"
     >
       <ul>
@@ -1025,7 +1031,7 @@ exports[`Renderer:Wizard initApi 1`] = `
           onClick={[Function]}
         >
           <span
-            className="a-Badge is-active"
+            className="cxd-Badge is-active"
           >
             1
           </span>
@@ -1036,7 +1042,7 @@ exports[`Renderer:Wizard initApi 1`] = `
           onClick={[Function]}
         >
           <span
-            className="a-Badge"
+            className="cxd-Badge"
           >
             2
           </span>
@@ -1047,7 +1053,7 @@ exports[`Renderer:Wizard initApi 1`] = `
           onClick={[Function]}
         >
           <span
-            className="a-Badge"
+            className="cxd-Badge"
           >
             3
           </span>
@@ -1056,41 +1062,49 @@ exports[`Renderer:Wizard initApi 1`] = `
       </ul>
     </div>
     <div
-      className="a-Wizard-stepContent clearfix"
+      className="cxd-Wizard-stepContent clearfix"
       role="wizard-body"
     >
       <form
-        className="a-Form a-Form--normal"
+        className="cxd-Form cxd-Form--normal"
         noValidate={true}
         onSubmit={[Function]}
       >
+        <input
+          style={
+            Object {
+              "display": "none",
+            }
+          }
+          type="submit"
+        />
         <div
-          className="a-Form-item a-Form-item--normal is-required"
+          className="cxd-Form-item cxd-Form-item--normal is-required"
           data-role="form-item"
         >
           <label
-            className="a-Form-label"
+            className="cxd-Form-label"
           >
             <span>
               <span
-                className="a-TplField"
+                className="cxd-TplField"
               >
                 <span>
                   网址
                 </span>
               </span>
               <span
-                className="a-Form-star"
+                className="cxd-Form-star"
               >
                 *
               </span>
             </span>
           </label>
           <div
-            className="a-Form-control a-TextControl"
+            className="cxd-Form-control cxd-TextControl"
           >
             <div
-              className="a-TextControl-input"
+              className="cxd-TextControl-input"
             >
               <input
                 autoComplete="off"
@@ -1107,32 +1121,32 @@ exports[`Renderer:Wizard initApi 1`] = `
           </div>
         </div>
         <div
-          className="a-Form-item a-Form-item--normal is-required"
+          className="cxd-Form-item cxd-Form-item--normal is-required"
           data-role="form-item"
         >
           <label
-            className="a-Form-label"
+            className="cxd-Form-label"
           >
             <span>
               <span
-                className="a-TplField"
+                className="cxd-TplField"
               >
                 <span>
                   名称
                 </span>
               </span>
               <span
-                className="a-Form-star"
+                className="cxd-Form-star"
               >
                 *
               </span>
             </span>
           </label>
           <div
-            className="a-Form-control a-TextControl"
+            className="cxd-Form-control cxd-TextControl"
           >
             <div
-              className="a-TextControl-input"
+              className="cxd-TextControl-input"
             >
               <input
                 autoComplete="off"
@@ -1148,22 +1162,14 @@ exports[`Renderer:Wizard initApi 1`] = `
             </div>
           </div>
         </div>
-        <input
-          style={
-            Object {
-              "display": "none",
-            }
-          }
-          type="submit"
-        />
       </form>
     </div>
     <div
-      className="a-Panel-footer a-Wizard-footer"
+      className="cxd-Panel-footer cxd-Wizard-footer"
       role="wizard-footer"
     >
       <div
-        className="a-Button a-Button--default is-disabled"
+        className="cxd-Button cxd-Button--default is-disabled"
         disabled={true}
         onClick={[Function]}
       >
@@ -1172,7 +1178,7 @@ exports[`Renderer:Wizard initApi 1`] = `
         </span>
       </div>
       <button
-        className="a-Button a-Button--default"
+        className="cxd-Button cxd-Button--default"
         onClick={[Function]}
         type="button"
       >
@@ -1188,26 +1194,26 @@ exports[`Renderer:Wizard initApi 1`] = `
 exports[`Renderer:Wizard initApi reload 1`] = `
 <div>
   <div
-    class="a-Page"
+    class="cxd-Page"
   >
     <div
-      class="a-Page-content"
+      class="cxd-Page-content"
     >
       <div
-        class="a-Page-main"
+        class="cxd-Page-main"
       >
         <div
-          class="a-Page-body"
+          class="cxd-Page-body"
         >
           <div
-            class="a-Panel a-Panel--default a-Wizard a-Wizard--horizontal"
+            class="cxd-Panel cxd-Panel--default cxd-Wizard cxd-Wizard--horizontal"
             style="position: relative;"
           >
             <div
-              class="a-Wizard-step"
+              class="cxd-Wizard-step"
             >
               <div
-                class="a-Wizard-steps"
+                class="cxd-Wizard-steps"
                 id="form-wizard"
               >
                 <ul>
@@ -1215,7 +1221,7 @@ exports[`Renderer:Wizard initApi reload 1`] = `
                     class="is-active"
                   >
                     <span
-                      class="a-Badge is-active"
+                      class="cxd-Badge is-active"
                     >
                       1
                     </span>
@@ -1225,7 +1231,7 @@ exports[`Renderer:Wizard initApi reload 1`] = `
                     class=""
                   >
                     <span
-                      class="a-Badge"
+                      class="cxd-Badge"
                     >
                       2
                     </span>
@@ -1234,23 +1240,27 @@ exports[`Renderer:Wizard initApi reload 1`] = `
                 </ul>
               </div>
               <div
-                class="a-Wizard-stepContent clearfix"
+                class="cxd-Wizard-stepContent clearfix"
                 role="wizard-body"
               >
                 <form
-                  class="a-Form a-Form--normal"
+                  class="cxd-Form cxd-Form--normal"
                   novalidate=""
                 >
+                  <input
+                    style="display: none;"
+                    type="submit"
+                  />
                   <div
-                    class="a-Form-item a-Form-item--normal"
+                    class="cxd-Form-item cxd-Form-item--normal"
                     data-role="form-item"
                   >
                     <label
-                      class="a-Form-label"
+                      class="cxd-Form-label"
                     >
                       <span>
                         <span
-                          class="a-TplField"
+                          class="cxd-TplField"
                         >
                           <span>
                             网址
@@ -1259,10 +1269,10 @@ exports[`Renderer:Wizard initApi reload 1`] = `
                       </span>
                     </label>
                     <div
-                      class="a-Form-control a-TextControl"
+                      class="cxd-Form-control cxd-TextControl"
                     >
                       <div
-                        class="a-TextControl-input"
+                        class="cxd-TextControl-input"
                       >
                         <input
                           autocomplete="off"
@@ -1276,15 +1286,15 @@ exports[`Renderer:Wizard initApi reload 1`] = `
                     </div>
                   </div>
                   <div
-                    class="a-Form-item a-Form-item--normal"
+                    class="cxd-Form-item cxd-Form-item--normal"
                     data-role="form-item"
                   >
                     <label
-                      class="a-Form-label"
+                      class="cxd-Form-label"
                     >
                       <span>
                         <span
-                          class="a-TplField"
+                          class="cxd-TplField"
                         >
                           <span>
                             名称
@@ -1293,10 +1303,10 @@ exports[`Renderer:Wizard initApi reload 1`] = `
                       </span>
                     </label>
                     <div
-                      class="a-Form-control a-TextControl"
+                      class="cxd-Form-control cxd-TextControl"
                     >
                       <div
-                        class="a-TextControl-input"
+                        class="cxd-TextControl-input"
                       >
                         <input
                           autocomplete="off"
@@ -1309,18 +1319,14 @@ exports[`Renderer:Wizard initApi reload 1`] = `
                       </div>
                     </div>
                   </div>
-                  <input
-                    style="display: none;"
-                    type="submit"
-                  />
                 </form>
               </div>
               <div
-                class="a-Panel-footer a-Wizard-footer"
+                class="cxd-Panel-footer cxd-Wizard-footer"
                 role="wizard-footer"
               >
                 <div
-                  class="a-Button a-Button--default is-disabled"
+                  class="cxd-Button cxd-Button--default is-disabled"
                   disabled=""
                 >
                   <span>
@@ -1328,7 +1334,7 @@ exports[`Renderer:Wizard initApi reload 1`] = `
                   </span>
                 </div>
                 <button
-                  class="a-Button a-Button--default"
+                  class="cxd-Button cxd-Button--default"
                   type="button"
                 >
                   <span>
@@ -1387,26 +1393,26 @@ exports[`Renderer:Wizard initApi reload 1`] = `
 exports[`Renderer:Wizard initApi reload 2`] = `
 <div>
   <div
-    class="a-Page"
+    class="cxd-Page"
   >
     <div
-      class="a-Page-content"
+      class="cxd-Page-content"
     >
       <div
-        class="a-Page-main"
+        class="cxd-Page-main"
       >
         <div
-          class="a-Page-body"
+          class="cxd-Page-body"
         >
           <div
-            class="a-Panel a-Panel--default a-Wizard a-Wizard--horizontal"
+            class="cxd-Panel cxd-Panel--default cxd-Wizard cxd-Wizard--horizontal"
             style="position: relative;"
           >
             <div
-              class="a-Wizard-step"
+              class="cxd-Wizard-step"
             >
               <div
-                class="a-Wizard-steps"
+                class="cxd-Wizard-steps"
                 id="form-wizard"
               >
                 <ul>
@@ -1414,9 +1420,12 @@ exports[`Renderer:Wizard initApi reload 2`] = `
                     class="is-complete"
                   >
                     <span
-                      class="a-Badge is-active"
+                      class="cxd-Badge is-complete is-active"
                     >
-                      1
+                      <icon-mock
+                        classname="icon icon-check"
+                        icon="check"
+                      />
                     </span>
                     Step 1
                   </li>
@@ -1424,7 +1433,7 @@ exports[`Renderer:Wizard initApi reload 2`] = `
                     class="is-active"
                   >
                     <span
-                      class="a-Badge is-active"
+                      class="cxd-Badge is-active"
                     >
                       2
                     </span>
@@ -1433,32 +1442,32 @@ exports[`Renderer:Wizard initApi reload 2`] = `
                 </ul>
               </div>
               <div
-                class="a-Wizard-stepContent clearfix"
+                class="cxd-Wizard-stepContent clearfix"
                 role="wizard-body"
               >
                 <form
-                  class="a-Form a-Form--normal"
+                  class="cxd-Form cxd-Form--normal"
                   novalidate=""
                 >
+                  <input
+                    style="display: none;"
+                    type="submit"
+                  />
                   <span
-                    class="a-TplField"
+                    class="cxd-TplField"
                   >
                     <span>
                       这是最后一步了
                     </span>
                   </span>
-                  <input
-                    style="display: none;"
-                    type="submit"
-                  />
                 </form>
               </div>
               <div
-                class="a-Panel-footer a-Wizard-footer"
+                class="cxd-Panel-footer cxd-Wizard-footer"
                 role="wizard-footer"
               >
                 <button
-                  class="a-Button a-Button--default"
+                  class="cxd-Button cxd-Button--default"
                   type="button"
                 >
                   <span>
@@ -1466,7 +1475,7 @@ exports[`Renderer:Wizard initApi reload 2`] = `
                   </span>
                 </button>
                 <button
-                  class="a-Button a-Button--primary"
+                  class="cxd-Button cxd-Button--primary"
                   type="button"
                 >
                   <span>
@@ -1525,26 +1534,26 @@ exports[`Renderer:Wizard initApi reload 2`] = `
 exports[`Renderer:Wizard initApi reload 3`] = `
 <div>
   <div
-    class="a-Page"
+    class="cxd-Page"
   >
     <div
-      class="a-Page-content"
+      class="cxd-Page-content"
     >
       <div
-        class="a-Page-main"
+        class="cxd-Page-main"
       >
         <div
-          class="a-Page-body"
+          class="cxd-Page-body"
         >
           <div
-            class="a-Panel a-Panel--default a-Wizard a-Wizard--horizontal"
+            class="cxd-Panel cxd-Panel--default cxd-Wizard cxd-Wizard--horizontal"
             style="position: relative;"
           >
             <div
-              class="a-Wizard-step"
+              class="cxd-Wizard-step"
             >
               <div
-                class="a-Wizard-steps"
+                class="cxd-Wizard-steps"
                 id="form-wizard"
               >
                 <ul>
@@ -1552,17 +1561,20 @@ exports[`Renderer:Wizard initApi reload 3`] = `
                     class="is-complete"
                   >
                     <span
-                      class="a-Badge is-active"
+                      class="cxd-Badge is-complete is-active"
                     >
-                      1
+                      <icon-mock
+                        classname="icon icon-check"
+                        icon="check"
+                      />
                     </span>
                     Step 1
                   </li>
                   <li
-                    class="is-active"
+                    class="is-complete is-active"
                   >
                     <span
-                      class="a-Badge is-active"
+                      class="cxd-Badge is-complete is-active"
                     >
                       2
                     </span>
@@ -1571,32 +1583,32 @@ exports[`Renderer:Wizard initApi reload 3`] = `
                 </ul>
               </div>
               <div
-                class="a-Wizard-stepContent clearfix"
+                class="cxd-Wizard-stepContent clearfix"
                 role="wizard-body"
               >
                 <form
-                  class="a-Form a-Form--normal"
+                  class="cxd-Form cxd-Form--normal"
                   novalidate=""
                 >
+                  <input
+                    style="display: none;"
+                    type="submit"
+                  />
                   <span
-                    class="a-TplField"
+                    class="cxd-TplField"
                   >
                     <span>
                       这是最后一步了
                     </span>
                   </span>
-                  <input
-                    style="display: none;"
-                    type="submit"
-                  />
                 </form>
               </div>
               <div
-                class="a-Panel-footer a-Wizard-footer"
+                class="cxd-Panel-footer cxd-Wizard-footer"
                 role="wizard-footer"
               >
                 <button
-                  class="a-Button a-Button--default"
+                  class="cxd-Button cxd-Button--default"
                   type="button"
                 >
                   <span>
@@ -1604,7 +1616,7 @@ exports[`Renderer:Wizard initApi reload 3`] = `
                   </span>
                 </button>
                 <button
-                  class="a-Button a-Button--primary"
+                  class="cxd-Button cxd-Button--primary"
                   type="button"
                 >
                   <span>
@@ -1662,13 +1674,13 @@ exports[`Renderer:Wizard initApi reload 3`] = `
 
 exports[`Renderer:Wizard initApi show loading 1`] = `
 <div
-  className="a-Panel a-Panel--default a-Wizard a-Wizard--horizontal"
+  className="cxd-Panel cxd-Panel--default cxd-Wizard cxd-Wizard--horizontal"
 >
   <div
-    className="a-Wizard-step"
+    className="cxd-Wizard-step"
   >
     <div
-      className="a-Wizard-steps"
+      className="cxd-Wizard-steps"
       id="form-wizard"
     >
       <ul>
@@ -1677,7 +1689,7 @@ exports[`Renderer:Wizard initApi show loading 1`] = `
           onClick={[Function]}
         >
           <span
-            className="a-Badge"
+            className="cxd-Badge"
           >
             1
           </span>
@@ -1688,7 +1700,7 @@ exports[`Renderer:Wizard initApi show loading 1`] = `
           onClick={[Function]}
         >
           <span
-            className="a-Badge"
+            className="cxd-Badge"
           >
             2
           </span>
@@ -1699,7 +1711,7 @@ exports[`Renderer:Wizard initApi show loading 1`] = `
           onClick={[Function]}
         >
           <span
-            className="a-Badge"
+            className="cxd-Badge"
           >
             3
           </span>
@@ -1708,30 +1720,30 @@ exports[`Renderer:Wizard initApi show loading 1`] = `
       </ul>
     </div>
     <div
-      className="a-Wizard-stepContent clearfix"
+      className="cxd-Wizard-stepContent clearfix"
       role="wizard-body"
     >
       加载中
     </div>
   </div>
   <div
-    className="a-Spinner-overlay in"
+    className="cxd-Spinner-overlay in"
   />
   <div
-    className="a-Spinner in a-Spinner--overlay a-Spinner--lg"
+    className="cxd-Spinner in cxd-Spinner--overlay cxd-Spinner--lg"
   />
 </div>
 `;
 
 exports[`Renderer:Wizard initApi show loading 2`] = `
 <div
-  className="a-Panel a-Panel--default a-Wizard a-Wizard--horizontal"
+  className="cxd-Panel cxd-Panel--default cxd-Wizard cxd-Wizard--horizontal"
 >
   <div
-    className="a-Wizard-step"
+    className="cxd-Wizard-step"
   >
     <div
-      className="a-Wizard-steps"
+      className="cxd-Wizard-steps"
       id="form-wizard"
     >
       <ul>
@@ -1740,7 +1752,7 @@ exports[`Renderer:Wizard initApi show loading 2`] = `
           onClick={[Function]}
         >
           <span
-            className="a-Badge is-active"
+            className="cxd-Badge is-active"
           >
             1
           </span>
@@ -1751,7 +1763,7 @@ exports[`Renderer:Wizard initApi show loading 2`] = `
           onClick={[Function]}
         >
           <span
-            className="a-Badge"
+            className="cxd-Badge"
           >
             2
           </span>
@@ -1762,7 +1774,7 @@ exports[`Renderer:Wizard initApi show loading 2`] = `
           onClick={[Function]}
         >
           <span
-            className="a-Badge"
+            className="cxd-Badge"
           >
             3
           </span>
@@ -1771,41 +1783,49 @@ exports[`Renderer:Wizard initApi show loading 2`] = `
       </ul>
     </div>
     <div
-      className="a-Wizard-stepContent clearfix"
+      className="cxd-Wizard-stepContent clearfix"
       role="wizard-body"
     >
       <form
-        className="a-Form a-Form--normal"
+        className="cxd-Form cxd-Form--normal"
         noValidate={true}
         onSubmit={[Function]}
       >
+        <input
+          style={
+            Object {
+              "display": "none",
+            }
+          }
+          type="submit"
+        />
         <div
-          className="a-Form-item a-Form-item--normal is-required"
+          className="cxd-Form-item cxd-Form-item--normal is-required"
           data-role="form-item"
         >
           <label
-            className="a-Form-label"
+            className="cxd-Form-label"
           >
             <span>
               <span
-                className="a-TplField"
+                className="cxd-TplField"
               >
                 <span>
                   网址
                 </span>
               </span>
               <span
-                className="a-Form-star"
+                className="cxd-Form-star"
               >
                 *
               </span>
             </span>
           </label>
           <div
-            className="a-Form-control a-TextControl"
+            className="cxd-Form-control cxd-TextControl"
           >
             <div
-              className="a-TextControl-input"
+              className="cxd-TextControl-input"
             >
               <input
                 autoComplete="off"
@@ -1822,32 +1842,32 @@ exports[`Renderer:Wizard initApi show loading 2`] = `
           </div>
         </div>
         <div
-          className="a-Form-item a-Form-item--normal is-required"
+          className="cxd-Form-item cxd-Form-item--normal is-required"
           data-role="form-item"
         >
           <label
-            className="a-Form-label"
+            className="cxd-Form-label"
           >
             <span>
               <span
-                className="a-TplField"
+                className="cxd-TplField"
               >
                 <span>
                   名称
                 </span>
               </span>
               <span
-                className="a-Form-star"
+                className="cxd-Form-star"
               >
                 *
               </span>
             </span>
           </label>
           <div
-            className="a-Form-control a-TextControl"
+            className="cxd-Form-control cxd-TextControl"
           >
             <div
-              className="a-TextControl-input"
+              className="cxd-TextControl-input"
             >
               <input
                 autoComplete="off"
@@ -1863,22 +1883,14 @@ exports[`Renderer:Wizard initApi show loading 2`] = `
             </div>
           </div>
         </div>
-        <input
-          style={
-            Object {
-              "display": "none",
-            }
-          }
-          type="submit"
-        />
       </form>
     </div>
     <div
-      className="a-Panel-footer a-Wizard-footer"
+      className="cxd-Panel-footer cxd-Wizard-footer"
       role="wizard-footer"
     >
       <div
-        className="a-Button a-Button--default is-disabled"
+        className="cxd-Button cxd-Button--default is-disabled"
         disabled={true}
         onClick={[Function]}
       >
@@ -1887,7 +1899,7 @@ exports[`Renderer:Wizard initApi show loading 2`] = `
         </span>
       </div>
       <button
-        className="a-Button a-Button--default"
+        className="cxd-Button cxd-Button--default"
         onClick={[Function]}
         type="button"
       >
@@ -1898,23 +1910,23 @@ exports[`Renderer:Wizard initApi show loading 2`] = `
     </div>
   </div>
   <div
-    className="a-Spinner-overlay"
+    className="cxd-Spinner-overlay"
   />
   <div
-    className="a-Spinner a-Spinner--overlay a-Spinner--lg"
+    className="cxd-Spinner cxd-Spinner--overlay cxd-Spinner--lg"
   />
 </div>
 `;
 
 exports[`Renderer:Wizard readOnly 1`] = `
 <div
-  className="a-Panel a-Panel--default a-Wizard a-Wizard--horizontal"
+  className="cxd-Panel cxd-Panel--default cxd-Wizard cxd-Wizard--horizontal"
 >
   <div
-    className="a-Wizard-step"
+    className="cxd-Wizard-step"
   >
     <div
-      className="a-Wizard-steps"
+      className="cxd-Wizard-steps"
       id="form-wizard"
     >
       <ul>
@@ -1923,7 +1935,7 @@ exports[`Renderer:Wizard readOnly 1`] = `
           onClick={[Function]}
         >
           <span
-            className="a-Badge is-active"
+            className="cxd-Badge is-active"
           >
             1
           </span>
@@ -1934,7 +1946,7 @@ exports[`Renderer:Wizard readOnly 1`] = `
           onClick={[Function]}
         >
           <span
-            className="a-Badge"
+            className="cxd-Badge"
           >
             2
           </span>
@@ -1945,7 +1957,7 @@ exports[`Renderer:Wizard readOnly 1`] = `
           onClick={[Function]}
         >
           <span
-            className="a-Badge"
+            className="cxd-Badge"
           >
             3
           </span>
@@ -1954,24 +1966,32 @@ exports[`Renderer:Wizard readOnly 1`] = `
       </ul>
     </div>
     <div
-      className="a-Wizard-stepContent clearfix"
+      className="cxd-Wizard-stepContent clearfix"
       role="wizard-body"
     >
       <form
-        className="a-Form a-Form--normal"
+        className="cxd-Form cxd-Form--normal"
         noValidate={true}
         onSubmit={[Function]}
       >
+        <input
+          style={
+            Object {
+              "display": "none",
+            }
+          }
+          type="submit"
+        />
         <div
-          className="a-Form-item a-Form-item--normal"
+          className="cxd-Form-item cxd-Form-item--normal"
           data-role="form-item"
         >
           <label
-            className="a-Form-label"
+            className="cxd-Form-label"
           >
             <span>
               <span
-                className="a-TplField"
+                className="cxd-TplField"
               >
                 <span>
                   网址
@@ -1980,10 +2000,10 @@ exports[`Renderer:Wizard readOnly 1`] = `
             </span>
           </label>
           <div
-            className="a-Form-control a-TextControl"
+            className="cxd-Form-control cxd-TextControl"
           >
             <div
-              className="a-TextControl-input"
+              className="cxd-TextControl-input"
             >
               <input
                 autoComplete="off"
@@ -2001,15 +2021,15 @@ exports[`Renderer:Wizard readOnly 1`] = `
           </div>
         </div>
         <div
-          className="a-Form-item a-Form-item--normal"
+          className="cxd-Form-item cxd-Form-item--normal"
           data-role="form-item"
         >
           <label
-            className="a-Form-label"
+            className="cxd-Form-label"
           >
             <span>
               <span
-                className="a-TplField"
+                className="cxd-TplField"
               >
                 <span>
                   名称
@@ -2018,10 +2038,10 @@ exports[`Renderer:Wizard readOnly 1`] = `
             </span>
           </label>
           <div
-            className="a-Form-control a-TextControl"
+            className="cxd-Form-control cxd-TextControl"
           >
             <div
-              className="a-TextControl-input"
+              className="cxd-TextControl-input"
             >
               <input
                 autoComplete="off"
@@ -2037,22 +2057,14 @@ exports[`Renderer:Wizard readOnly 1`] = `
             </div>
           </div>
         </div>
-        <input
-          style={
-            Object {
-              "display": "none",
-            }
-          }
-          type="submit"
-        />
       </form>
     </div>
     <div
-      className="a-Panel-footer a-Wizard-footer"
+      className="cxd-Panel-footer cxd-Wizard-footer"
       role="wizard-footer"
     >
       <div
-        className="a-Button a-Button--default is-disabled"
+        className="cxd-Button cxd-Button--default is-disabled"
         disabled={true}
         onClick={[Function]}
       >
@@ -2061,7 +2073,7 @@ exports[`Renderer:Wizard readOnly 1`] = `
         </span>
       </div>
       <button
-        className="a-Button a-Button--default"
+        className="cxd-Button cxd-Button--default"
         onClick={[Function]}
         type="button"
       >
@@ -2077,14 +2089,14 @@ exports[`Renderer:Wizard readOnly 1`] = `
 exports[`Renderer:Wizard send data 1`] = `
 <div>
   <div
-    class="a-Panel a-Panel--default a-Wizard a-Wizard--horizontal"
+    class="cxd-Panel cxd-Panel--default cxd-Wizard cxd-Wizard--horizontal"
     style="position: relative;"
   >
     <div
-      class="a-Wizard-step"
+      class="cxd-Wizard-step"
     >
       <div
-        class="a-Wizard-steps"
+        class="cxd-Wizard-steps"
         id="form-wizard"
       >
         <ul>
@@ -2092,17 +2104,20 @@ exports[`Renderer:Wizard send data 1`] = `
             class="is-complete"
           >
             <span
-              class="a-Badge is-active"
+              class="cxd-Badge is-complete is-active"
             >
-              1
+              <icon-mock
+                classname="icon icon-check"
+                icon="check"
+              />
             </span>
             Step 1
           </li>
           <li
-            class="is-active"
+            class="is-complete is-active"
           >
             <span
-              class="a-Badge is-active"
+              class="cxd-Badge is-complete is-active"
             >
               2
             </span>
@@ -2111,32 +2126,32 @@ exports[`Renderer:Wizard send data 1`] = `
         </ul>
       </div>
       <div
-        class="a-Wizard-stepContent clearfix"
+        class="cxd-Wizard-stepContent clearfix"
         role="wizard-body"
       >
         <form
-          class="a-Form a-Form--normal"
+          class="cxd-Form cxd-Form--normal"
           novalidate=""
         >
+          <input
+            style="display: none;"
+            type="submit"
+          />
           <span
-            class="a-TplField"
+            class="cxd-TplField"
           >
             <span>
               这是最后一步了
             </span>
           </span>
-          <input
-            style="display: none;"
-            type="submit"
-          />
         </form>
       </div>
       <div
-        class="a-Panel-footer a-Wizard-footer"
+        class="cxd-Panel-footer cxd-Wizard-footer"
         role="wizard-footer"
       >
         <button
-          class="a-Button a-Button--default"
+          class="cxd-Button cxd-Button--default"
           type="button"
         >
           <span>
@@ -2144,7 +2159,7 @@ exports[`Renderer:Wizard send data 1`] = `
           </span>
         </button>
         <button
-          class="a-Button a-Button--primary"
+          class="cxd-Button cxd-Button--primary"
           type="button"
         >
           <span>
@@ -2199,14 +2214,14 @@ exports[`Renderer:Wizard send data 1`] = `
 exports[`Renderer:Wizard step initApi 1`] = `
 <div>
   <div
-    class="a-Panel a-Panel--default a-Wizard a-Wizard--horizontal"
+    class="cxd-Panel cxd-Panel--default cxd-Wizard cxd-Wizard--horizontal"
     style="position: relative;"
   >
     <div
-      class="a-Wizard-step"
+      class="cxd-Wizard-step"
     >
       <div
-        class="a-Wizard-steps"
+        class="cxd-Wizard-steps"
         id="form-wizard"
       >
         <ul>
@@ -2214,9 +2229,12 @@ exports[`Renderer:Wizard step initApi 1`] = `
             class="is-complete"
           >
             <span
-              class="a-Badge is-active"
+              class="cxd-Badge is-complete is-active"
             >
-              1
+              <icon-mock
+                classname="icon icon-check"
+                icon="check"
+              />
             </span>
             Step 1
           </li>
@@ -2224,7 +2242,7 @@ exports[`Renderer:Wizard step initApi 1`] = `
             class="is-active"
           >
             <span
-              class="a-Badge is-active"
+              class="cxd-Badge is-active"
             >
               2
             </span>
@@ -2234,7 +2252,7 @@ exports[`Renderer:Wizard step initApi 1`] = `
             class=""
           >
             <span
-              class="a-Badge"
+              class="cxd-Badge"
             >
               3
             </span>
@@ -2243,40 +2261,44 @@ exports[`Renderer:Wizard step initApi 1`] = `
         </ul>
       </div>
       <div
-        class="a-Wizard-stepContent clearfix"
+        class="cxd-Wizard-stepContent clearfix"
         role="wizard-body"
       >
         <form
-          class="a-Form a-Form--normal"
+          class="cxd-Form cxd-Form--normal"
           novalidate=""
         >
+          <input
+            style="display: none;"
+            type="submit"
+          />
           <div
-            class="a-Form-item a-Form-item--normal is-required"
+            class="cxd-Form-item cxd-Form-item--normal is-required"
             data-role="form-item"
           >
             <label
-              class="a-Form-label"
+              class="cxd-Form-label"
             >
               <span>
                 <span
-                  class="a-TplField"
+                  class="cxd-TplField"
                 >
                   <span>
                     邮箱
                   </span>
                 </span>
                 <span
-                  class="a-Form-star"
+                  class="cxd-Form-star"
                 >
                   *
                 </span>
               </span>
             </label>
             <div
-              class="a-Form-control a-TextControl"
+              class="cxd-Form-control cxd-TextControl"
             >
               <div
-                class="a-TextControl-input"
+                class="cxd-TextControl-input"
               >
                 <input
                   autocomplete="off"
@@ -2289,18 +2311,14 @@ exports[`Renderer:Wizard step initApi 1`] = `
               </div>
             </div>
           </div>
-          <input
-            style="display: none;"
-            type="submit"
-          />
         </form>
       </div>
       <div
-        class="a-Panel-footer a-Wizard-footer"
+        class="cxd-Panel-footer cxd-Wizard-footer"
         role="wizard-footer"
       >
         <button
-          class="a-Button a-Button--default"
+          class="cxd-Button cxd-Button--default"
           type="button"
         >
           <span>
@@ -2308,7 +2326,7 @@ exports[`Renderer:Wizard step initApi 1`] = `
           </span>
         </button>
         <button
-          class="a-Button a-Button--default"
+          class="cxd-Button cxd-Button--default"
           type="button"
         >
           <span>
@@ -2362,17 +2380,17 @@ exports[`Renderer:Wizard step initApi 1`] = `
 
 exports[`Renderer:Wizard steps not array 1`] = `
 <div
-  className="a-Panel a-Panel--default a-Wizard a-Wizard--horizontal"
+  className="cxd-Panel cxd-Panel--default cxd-Wizard cxd-Wizard--horizontal"
 >
   <div
-    className="a-Wizard-step"
+    className="cxd-Wizard-step"
   >
     <div
-      className="a-Wizard-steps"
+      className="cxd-Wizard-steps"
       id="form-wizard"
     />
     <div
-      className="a-Wizard-stepContent clearfix"
+      className="cxd-Wizard-stepContent clearfix"
       role="wizard-body"
     >
       <p
@@ -2388,26 +2406,26 @@ exports[`Renderer:Wizard steps not array 1`] = `
 exports[`Renderer:Wizard target 1`] = `
 <div>
   <div
-    class="a-Page"
+    class="cxd-Page"
   >
     <div
-      class="a-Page-content"
+      class="cxd-Page-content"
     >
       <div
-        class="a-Page-main"
+        class="cxd-Page-main"
       >
         <div
-          class="a-Page-body"
+          class="cxd-Page-body"
         >
           <div
-            class="a-Panel a-Panel--default a-Wizard a-Wizard--horizontal"
+            class="cxd-Panel cxd-Panel--default cxd-Wizard cxd-Wizard--horizontal"
             style="position: relative;"
           >
             <div
-              class="a-Wizard-step"
+              class="cxd-Wizard-step"
             >
               <div
-                class="a-Wizard-steps"
+                class="cxd-Wizard-steps"
                 id="form-wizard"
               >
                 <ul>
@@ -2415,17 +2433,20 @@ exports[`Renderer:Wizard target 1`] = `
                     class="is-complete"
                   >
                     <span
-                      class="a-Badge is-active"
+                      class="cxd-Badge is-complete is-active"
                     >
-                      1
+                      <icon-mock
+                        classname="icon icon-check"
+                        icon="check"
+                      />
                     </span>
                     Step 1
                   </li>
                   <li
-                    class="is-active"
+                    class="is-complete is-active"
                   >
                     <span
-                      class="a-Badge is-active"
+                      class="cxd-Badge is-complete is-active"
                     >
                       2
                     </span>
@@ -2434,32 +2455,32 @@ exports[`Renderer:Wizard target 1`] = `
                 </ul>
               </div>
               <div
-                class="a-Wizard-stepContent clearfix"
+                class="cxd-Wizard-stepContent clearfix"
                 role="wizard-body"
               >
                 <form
-                  class="a-Form a-Form--normal"
+                  class="cxd-Form cxd-Form--normal"
                   novalidate=""
                 >
+                  <input
+                    style="display: none;"
+                    type="submit"
+                  />
                   <span
-                    class="a-TplField"
+                    class="cxd-TplField"
                   >
                     <span>
                       这是最后一步了
                     </span>
                   </span>
-                  <input
-                    style="display: none;"
-                    type="submit"
-                  />
                 </form>
               </div>
               <div
-                class="a-Panel-footer a-Wizard-footer"
+                class="cxd-Panel-footer cxd-Wizard-footer"
                 role="wizard-footer"
               >
                 <button
-                  class="a-Button a-Button--default"
+                  class="cxd-Button cxd-Button--default"
                   type="button"
                 >
                   <span>
@@ -2467,7 +2488,7 @@ exports[`Renderer:Wizard target 1`] = `
                   </span>
                 </button>
                 <button
-                  class="a-Button a-Button--primary"
+                  class="cxd-Button cxd-Button--primary"
                   type="button"
                 >
                   <span>
@@ -2517,17 +2538,17 @@ exports[`Renderer:Wizard target 1`] = `
             </div>
           </div>
           <div
-            class="a-Panel a-Panel--default a-Panel--form"
+            class="cxd-Panel cxd-Panel--default cxd-Panel--form"
             style="position: relative;"
           >
             <div
-              class="a-Panel-heading"
+              class="cxd-Panel-heading"
             >
               <h3
-                class="a-Panel-title"
+                class="cxd-Panel-title"
               >
                 <span
-                  class="a-TplField"
+                  class="cxd-TplField"
                 >
                   <span>
                     表单
@@ -2536,22 +2557,26 @@ exports[`Renderer:Wizard target 1`] = `
               </h3>
             </div>
             <div
-              class="a-Panel-body"
+              class="cxd-Panel-body"
             >
               <form
-                class="a-Form a-Form--normal"
+                class="cxd-Form cxd-Form--normal"
                 novalidate=""
               >
+                <input
+                  style="display: none;"
+                  type="submit"
+                />
                 <div
-                  class="a-Form-item a-Form-item--normal"
+                  class="cxd-Form-item cxd-Form-item--normal"
                   data-role="form-item"
                 >
                   <label
-                    class="a-Form-label"
+                    class="cxd-Form-label"
                   >
                     <span>
                       <span
-                        class="a-TplField"
+                        class="cxd-TplField"
                       >
                         <span>
                           Website
@@ -2560,10 +2585,10 @@ exports[`Renderer:Wizard target 1`] = `
                     </span>
                   </label>
                   <div
-                    class="a-Form-control a-TextControl"
+                    class="cxd-Form-control cxd-TextControl"
                   >
                     <div
-                      class="a-TextControl-input"
+                      class="cxd-TextControl-input"
                     >
                       <input
                         autocomplete="off"
@@ -2577,15 +2602,15 @@ exports[`Renderer:Wizard target 1`] = `
                   </div>
                 </div>
                 <div
-                  class="a-Form-item a-Form-item--normal"
+                  class="cxd-Form-item cxd-Form-item--normal"
                   data-role="form-item"
                 >
                   <label
-                    class="a-Form-label"
+                    class="cxd-Form-label"
                   >
                     <span>
                       <span
-                        class="a-TplField"
+                        class="cxd-TplField"
                       >
                         <span>
                           Name
@@ -2594,10 +2619,10 @@ exports[`Renderer:Wizard target 1`] = `
                     </span>
                   </label>
                   <div
-                    class="a-Form-control a-TextControl"
+                    class="cxd-Form-control cxd-TextControl"
                   >
                     <div
-                      class="a-TextControl-input"
+                      class="cxd-TextControl-input"
                     >
                       <input
                         autocomplete="off"
@@ -2610,20 +2635,16 @@ exports[`Renderer:Wizard target 1`] = `
                     </div>
                   </div>
                 </div>
-                <input
-                  style="display: none;"
-                  type="submit"
-                />
               </form>
             </div>
             <div
-              class="a-Panel-footerWrap"
+              class="cxd-Panel-footerWrap"
             >
               <div
-                class="a-Panel-btnToolbar a-Panel-footer"
+                class="cxd-Panel-btnToolbar cxd-Panel-footer"
               >
                 <button
-                  class="a-Button a-Button--primary"
+                  class="cxd-Button cxd-Button--primary"
                   type="submit"
                 >
                   <span>
@@ -2682,14 +2703,14 @@ exports[`Renderer:Wizard target 1`] = `
 exports[`Renderer:Wizard validate 1`] = `
 <div>
   <div
-    class="a-Panel a-Panel--default a-Wizard a-Wizard--horizontal"
+    class="cxd-Panel cxd-Panel--default cxd-Wizard cxd-Wizard--horizontal"
     style="position: relative;"
   >
     <div
-      class="a-Wizard-step"
+      class="cxd-Wizard-step"
     >
       <div
-        class="a-Wizard-steps"
+        class="cxd-Wizard-steps"
         id="form-wizard"
       >
         <ul>
@@ -2697,7 +2718,7 @@ exports[`Renderer:Wizard validate 1`] = `
             class="is-active"
           >
             <span
-              class="a-Badge is-active"
+              class="cxd-Badge is-active"
             >
               1
             </span>
@@ -2707,7 +2728,7 @@ exports[`Renderer:Wizard validate 1`] = `
             class=""
           >
             <span
-              class="a-Badge"
+              class="cxd-Badge"
             >
               2
             </span>
@@ -2717,7 +2738,7 @@ exports[`Renderer:Wizard validate 1`] = `
             class=""
           >
             <span
-              class="a-Badge"
+              class="cxd-Badge"
             >
               3
             </span>
@@ -2726,40 +2747,44 @@ exports[`Renderer:Wizard validate 1`] = `
         </ul>
       </div>
       <div
-        class="a-Wizard-stepContent clearfix"
+        class="cxd-Wizard-stepContent clearfix"
         role="wizard-body"
       >
         <form
-          class="a-Form a-Form--normal"
+          class="cxd-Form cxd-Form--normal"
           novalidate=""
         >
+          <input
+            style="display: none;"
+            type="submit"
+          />
           <div
-            class="a-Form-item a-Form-item--normal is-error is-required"
+            class="cxd-Form-item cxd-Form-item--normal is-error is-required has-error--isUrl"
             data-role="form-item"
           >
             <label
-              class="a-Form-label"
+              class="cxd-Form-label"
             >
               <span>
                 <span
-                  class="a-TplField"
+                  class="cxd-TplField"
                 >
                   <span>
                     网址
                   </span>
                 </span>
                 <span
-                  class="a-Form-star"
+                  class="cxd-Form-star"
                 >
                   *
                 </span>
               </span>
             </label>
             <div
-              class="a-Form-control is-error a-TextControl"
+              class="cxd-Form-control is-error has-error--isUrl cxd-TextControl"
             >
               <div
-                class="a-TextControl-input"
+                class="cxd-TextControl-input"
               >
                 <input
                   autocomplete="off"
@@ -2772,7 +2797,7 @@ exports[`Renderer:Wizard validate 1`] = `
               </div>
             </div>
             <ul
-              class="a-Form-feedback"
+              class="cxd-Form-feedback"
             >
               <li>
                 URL 格式不正确
@@ -2780,32 +2805,32 @@ exports[`Renderer:Wizard validate 1`] = `
             </ul>
           </div>
           <div
-            class="a-Form-item a-Form-item--normal is-error is-required"
+            class="cxd-Form-item cxd-Form-item--normal is-error is-required has-error--isRequired"
             data-role="form-item"
           >
             <label
-              class="a-Form-label"
+              class="cxd-Form-label"
             >
               <span>
                 <span
-                  class="a-TplField"
+                  class="cxd-TplField"
                 >
                   <span>
                     名称
                   </span>
                 </span>
                 <span
-                  class="a-Form-star"
+                  class="cxd-Form-star"
                 >
                   *
                 </span>
               </span>
             </label>
             <div
-              class="a-Form-control is-error a-TextControl"
+              class="cxd-Form-control is-error has-error--isRequired cxd-TextControl"
             >
               <div
-                class="a-TextControl-input"
+                class="cxd-TextControl-input"
               >
                 <input
                   autocomplete="off"
@@ -2818,25 +2843,21 @@ exports[`Renderer:Wizard validate 1`] = `
               </div>
             </div>
             <ul
-              class="a-Form-feedback"
+              class="cxd-Form-feedback"
             >
               <li>
                 这是必填项
               </li>
             </ul>
           </div>
-          <input
-            style="display: none;"
-            type="submit"
-          />
         </form>
       </div>
       <div
-        class="a-Panel-footer a-Wizard-footer"
+        class="cxd-Panel-footer cxd-Wizard-footer"
         role="wizard-footer"
       >
         <div
-          class="a-Button a-Button--default is-disabled"
+          class="cxd-Button cxd-Button--default is-disabled"
           disabled=""
         >
           <span>
@@ -2844,7 +2865,7 @@ exports[`Renderer:Wizard validate 1`] = `
           </span>
         </div>
         <button
-          class="a-Button a-Button--default"
+          class="cxd-Button cxd-Button--default"
           type="button"
         >
           <span>

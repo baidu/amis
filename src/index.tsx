@@ -97,11 +97,13 @@ import './renderers/Form/UUID';
 import './renderers/Form/MatrixCheckboxes';
 import './renderers/Form/InputMonthRange';
 import './renderers/Form/InputQuarterRange';
+import './renderers/Form/InputYearRange';
 import './renderers/Form/InputRange';
 import './renderers/Form/InputArray';
 import './renderers/Form/Combo';
 import './renderers/Form/ConditionBuilder';
 import './renderers/Form/InputSubForm';
+import './renderers/Form/InputExcel';
 import './renderers/Form/InputRichText';
 import './renderers/Form/Editor';
 import './renderers/Form/DiffEditor';
@@ -109,6 +111,7 @@ import './renderers/Form/InputColor';
 import './renderers/Form/ChainedSelect';
 import './renderers/Form/NestedSelect';
 import './renderers/Form/Transfer';
+import './renderers/Form/TransferPicker';
 import './renderers/Form/InputTable';
 import './renderers/Form/Picker';
 import './renderers/Form/IconPicker';
@@ -131,6 +134,7 @@ import './renderers/PaginationWrapper';
 import './renderers/Panel';
 import './renderers/Plain';
 import './renderers/Property';
+import './renderers/Portlet';
 import './renderers/Spinner';
 import './renderers/Table/index';
 import './renderers/Tabs';
@@ -161,17 +165,20 @@ import './renderers/Steps';
 import './renderers/Markdown';
 import './renderers/TableView';
 import './renderers/Code';
+import './renderers/WebComponent';
 
 import Scoped, {ScopedContext} from './Scoped';
 
-import {FormItem, registerFormItem} from './renderers/Form/Item';
+import {FormItem, FormItemWrap, registerFormItem} from './renderers/Form/Item';
 
 // 兼容旧版本用法
 import './compat';
 
 import './envOverwrite';
 
-import './themes/default';
+import './schemaExtend';
+
+import './themes/ang';
 import './themes/cxd';
 import './themes/dark';
 import './themes/antd';
@@ -209,6 +216,7 @@ export {
   Renderer as Renderer,
   RegisterStore,
   FormItem,
+  FormItemWrap,
   OptionsControl,
   wrapFetcher,
   buildApi,

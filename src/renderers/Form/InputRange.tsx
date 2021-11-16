@@ -7,6 +7,7 @@ import {FormItem, FormControlProps, FormBaseControl} from './Item';
 import InputRange from '../../components/Range';
 import {Icon} from '../../components/icons';
 import {FormOptionsControl} from './Options';
+import {stripNumber} from '../../utils/tpl-builtin';
 
 /**
  * Range
@@ -188,16 +189,14 @@ export default class RangeControl extends React.PureComponent<
   }
 
   updateStyle() {
-    const {showInput, classPrefix: ns} = this.props;
+    const {showInput, classPrefix: ns, max, min} = this.props;
 
     let offsetWidth = (this.midLabel as HTMLSpanElement).offsetWidth;
-    let left = `calc(50% - ${offsetWidth / 2}px)`;
-    (document.querySelector(
-      `.${ns}InputRange-label--value`
-    ) as HTMLSpanElement).style.left = left;
-    if (showInput) {
-      left = `calc(50% - ${offsetWidth / 2 + 60}px)`;
-    }
+    const midValue = parseFloat(
+      ((max! + min! - 0.000001) / 2).toFixed(this.getStepPrecision())
+    );
+
+    let left = `${100 * ((midValue - min!) / (max! - min!))}%`;
     (this.midLabel as HTMLSpanElement).style.left = left;
   }
 
@@ -207,7 +206,7 @@ export default class RangeControl extends React.PureComponent<
 
   handleChange(value: any) {
     this.setState({
-      value: value,
+      value: stripNumber(value),
       minValue: value.min,
       maxValue: value.max
     });
@@ -255,6 +254,8 @@ export default class RangeControl extends React.PureComponent<
             min: value.min,
             max: value.max
           };
+    } else {
+      endValue = stripNumber(value);
     }
     const {onChange} = this.props;
     this.setState(
@@ -270,7 +271,7 @@ export default class RangeControl extends React.PureComponent<
 
     return typeof step !== 'number' || step >= 1 || step < 0
       ? 0
-      : step.toString().split('.')[1].length;
+      : step.toString().split('.')[1]?.length;
   }
 
   getValue(value: any, type?: string) {
@@ -404,6 +405,9 @@ export default class RangeControl extends React.PureComponent<
       classnames: cx,
       classPrefix: ns
     } = this.props as PropsWithDefaults;
+    const midValue = ((max + min - 0.000001) / 2).toFixed(
+      this.getStepPrecision()
+    );
 
     return (
       <div
@@ -435,7 +439,8 @@ export default class RangeControl extends React.PureComponent<
           ref={this.midLabelRef}
         >
           <span className={cx('InputRange-labelContainer')}>
-            {((max + min) / 2).toFixed(this.getStepPrecision()) + unit}
+            {midValue}
+            {unit}
           </span>
         </span>
 

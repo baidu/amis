@@ -242,21 +242,18 @@ export default {
           type: 'input-email',
           name: 'email',
           placeholder: 'Enter Email',
-          label: '邮箱',
-          size: 'auto'
+          label: '邮箱'
         },
         {
           type: 'input-password',
           name: 'password',
           placeholder: '密码',
-          size: 'auto',
           remark: 'Bla bla bla'
         },
         {
           type: 'checkbox',
           name: 'rememberMe',
-          label: '记住登录',
-          size: 'auto'
+          label: '记住登录'
         },
         {
           type: 'submit',

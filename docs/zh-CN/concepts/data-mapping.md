@@ -70,7 +70,7 @@ order: 12
 ```schema: scope="body"
 {
     "type": "form",
-    "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
+    "api": "/api/mock2/form/saveForm",
     "body": [
       {
         "type": "input-text",
@@ -111,7 +111,7 @@ order: 12
     "type": "form",
     "api": {
         "method": "post",
-        "url": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
+        "url": "/api/mock2/form/saveForm",
         "data": {
             "userName": "${name}",
             "userEmail": "${email}"
@@ -162,7 +162,7 @@ order: 12
     }
   },
   "api": {
-    "url": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
+    "url": "/api/mock2/form/saveForm",
     "method": "post",
     "data": {
       "name": "${name}",
@@ -214,7 +214,7 @@ order: 12
     }
   },
   "api": {
-    "url": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
+    "url": "/api/mock2/form/saveForm",
     "method": "post",
     "data": {
       "name": "${name}",
@@ -266,7 +266,7 @@ order: 12
     "type": "form",
     "api": {
         "method": "post",
-        "url": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
+        "url": "/api/mock2/form/saveForm",
         "data": {
             "items": {
               "$table": {
@@ -598,6 +598,16 @@ ${xxx | date[:format][:inputFormat]}
 ${_|now}
 ```
 
+### toDate
+
+将日期字符串转成日期对象, 第二个参数为字符串的日期格式类型。
+
+用法：
+
+```
+${xxx | toDate:YYYY-MM-DD}
+```
+
 ### dateModify
 
 日期修改，将输入的日期对象修改后返回新的日期对象，支持四种操作符。
@@ -621,6 +631,34 @@ ${xxx | dateModify:subtract:-7:day}
 {
   "type": "page",
   "body": "上个月第一天是：${_|now|dateModify:subtract:1:month|dateModify:startOf:month|date:YYYY-MM-DD HH\\:mm\\:ss}"
+}
+```
+
+### fromNow
+
+> 1.4.0 及以上版本
+
+显示日期和现在的相对时间
+
+```schema
+{
+  "type": "page",
+  "data": {
+    "oldDate": "2021-10-01"
+  },
+  "body": "${oldDate|fromNow}"
+}
+```
+
+可以设置日期数据的格式，比如 X 是秒，其它格式细节参考 [moment](https://momentjs.com/docs/)。
+
+```schema
+{
+  "type": "page",
+  "data": {
+    "oldDate": 1586865590
+  },
+  "body": "${oldDate|fromNow:X}"
 }
 ```
 
@@ -1120,12 +1158,50 @@ ${xxx | objectToArray[:key][:value]}
 ${xxx|plus:2}
 ```
 
+还可以是另一个变量，比如
+
+```
+${xxx|plus:yyy}
+```
+
+```schema
+{
+  "type": "page",
+  "data": {
+    "xxx": 10,
+    "yyy": 2
+  },
+  "body": {
+    "type": "tpl",
+    "tpl": "${xxx|plus:yyy}"
+  }
+}
+```
+
+下面的减法乘法和除法也都支持变量
+
 ### minus
 
 减法运算比如减 2
 
 ```
 ${xxx|minus:2}
+```
+
+### times
+
+乘法运算
+
+```
+${xxx|division:2}
+```
+
+### division
+
+除法运算
+
+```
+${xxx|division:2}
 ```
 
 ### sum
@@ -1598,7 +1674,7 @@ ${xxx | map[:filterName][:...args]}
     "mode": "horizontal",
     "api": {
       "method": "post",
-      "url": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
+      "url": "/api/mock2/form/saveForm",
       "data": {
         "test": "${combo2|pick:text|map:toInt|map:date:LLL:x}"
       }

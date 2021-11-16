@@ -29,6 +29,7 @@ import isEqual from 'lodash/isEqual';
 import flatten from 'lodash/flatten';
 import {getStoreById, removeStore} from './manager';
 import {filter} from '../utils/tpl';
+import {normalizeApiResponseData} from '../utils/api';
 
 export const FormStore = ServiceStore.named('FormStore')
   .props({
@@ -245,7 +246,7 @@ export const FormStore = ServiceStore.named('FormStore')
     }
 
     const syncOptions = debounce(
-      () => self.items.forEach(item => item.syncOptions()),
+      () => self.items.forEach(item => item.syncOptions(undefined, self.data)),
       250,
       {
         trailing: true,
@@ -305,7 +306,7 @@ export const FormStore = ServiceStore.named('FormStore')
           self.updatedAt = Date.now();
 
           setValues(
-            json.data,
+            normalizeApiResponseData(json.data),
             json.ok
               ? {
                   __saved: Date.now()
@@ -459,9 +460,21 @@ export const FormStore = ServiceStore.named('FormStore')
             )) ||
           self.restError.length
         ) {
-          const msg = failedMessage ?? self.__('Form.validateFailed');
-          msg && getEnv(self).notify('error', msg);
-          throw new Error(self.__('Form.validateFailed'));
+          let msg = failedMessage ?? self.__('Form.validateFailed');
+          const env = getEnv(self);
+          // 同时也列出所有表单项报错，方便在很长的表单中知道是哪个字段的问题
+          // 支持在env中配hideValidateFailedDetail来隐藏所有表单项报错
+          failedMessage == null &&
+            !env.hideValidateFailedDetail &&
+            self.items.forEach(item => {
+              item.errorData.forEach(errorData => {
+                msg = `${msg}\n${errorData.msg}`;
+              });
+            });
+
+          msg && env.notify('error', msg);
+
+          throw new Error(msg);
         }
 
         if (fn) {
@@ -575,14 +588,9 @@ export const FormStore = ServiceStore.named('FormStore')
       self.persistData = value;
     }
 
-    const setLocalPersistData = debounce(
-      () => localStorage.setItem(self.persistKey, JSON.stringify(self.data)),
-      250,
-      {
-        trailing: true,
-        leading: false
-      }
-    );
+    const setLocalPersistData = () => {
+      localStorage.setItem(self.persistKey, JSON.stringify(self.data));
+    };
 
     function getLocalPersistData() {
       let data = localStorage.getItem(self.persistKey);
@@ -626,7 +634,6 @@ export const FormStore = ServiceStore.named('FormStore')
       clearRestError,
       beforeDestroy() {
         syncOptions.cancel();
-        setLocalPersistData.cancel();
       }
     };
   });

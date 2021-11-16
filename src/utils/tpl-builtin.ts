@@ -115,7 +115,8 @@ const timeUnitMap: {
   millisecond: 'ms'
 };
 
-export const relativeValueRe = /^(.+)?(\+|-)(\d+)(minute|min|hour|day|week|month|year|weekday|second|millisecond)s?$/i;
+export const relativeValueRe =
+  /^(.+)?(\+|-)(\d+)(minute|min|hour|day|week|month|year|weekday|second|millisecond)s?$/i;
 export const filterDate = (
   value: string,
   data: object = {},
@@ -164,9 +165,10 @@ export const filterDate = (
 };
 
 export function parseDuration(str: string): moment.Duration | undefined {
-  const matches = /^((?:\-|\+)?(?:\d*\.)?\d+)(minute|min|hour|day|week|month|quarter|year|weekday|second|millisecond)s?$/.exec(
-    str
-  );
+  const matches =
+    /^((?:\-|\+)?(?:\d*\.)?\d+)(minute|min|hour|day|week|month|quarter|year|weekday|second|millisecond)s?$/.exec(
+      str
+    );
 
   if (matches) {
     const duration = moment.duration(parseFloat(matches[1]), matches[2] as any);
@@ -177,6 +179,15 @@ export function parseDuration(str: string): moment.Duration | undefined {
   }
 
   return;
+}
+
+// 主要用于解决 0.1+0.2 结果的精度问题导致太长
+export function stripNumber(number: number) {
+  if (typeof number === 'number') {
+    return parseFloat(number.toPrecision(12));
+  } else {
+    return number;
+  }
 }
 
 export const filters: {
@@ -209,6 +220,8 @@ export const filters: {
     data.add();
     return data.isValid() ? data.toDate() : undefined;
   },
+  fromNow: (input: any, inputFormat = '') =>
+    moment(input, inputFormat).fromNow(),
   dateModify: (
     input: any,
     modifier: 'add' | 'subtract' | 'endOf' | 'startOf' = 'add',
@@ -370,18 +383,39 @@ export const filters: {
   first: input => input && input[0],
   nth: (input, nth = 0) => input && input[nth],
   last: input => input && (input.length ? input[input.length - 1] : null),
-  minus: (input, step = 1) => (parseInt(input, 10) || 0) - parseInt(step, 10),
-  plus: (input, step = 1) => (parseInt(input, 10) || 0) + parseInt(step, 10),
+  minus(input, step = 1) {
+    return stripNumber(
+      (Number(input) || 0) - Number(getStrOrVariable(step, this))
+    );
+  },
+  plus(input, step = 1) {
+    return stripNumber(
+      (Number(input) || 0) + Number(getStrOrVariable(step, this))
+    );
+  },
+  times(input, step = 1) {
+    return stripNumber(
+      (Number(input) || 0) * Number(getStrOrVariable(step, this))
+    );
+  },
+  division(input, step = 1) {
+    return stripNumber(
+      (Number(input) || 0) / Number(getStrOrVariable(step, this))
+    );
+  },
   count: (input: any) =>
     Array.isArray(input) || typeof input === 'string' ? input.length : 0,
-  sum: (input, field) =>
-    Array.isArray(input)
-      ? input.reduce(
-          (sum, item) =>
-            sum + (parseFloat(field ? pickValues(field, item) : item) || 0),
-          0
-        )
-      : input,
+  sum: (input, field) => {
+    if (!Array.isArray(input)) {
+      return input;
+    }
+    const restult = input.reduce(
+      (sum, item) =>
+        sum + (parseFloat(field ? pickValues(field, item) : item) || 0),
+      0
+    );
+    return stripNumber(restult);
+  },
   abs: (input: any) => (typeof input === 'number' ? Math.abs(input) : input),
   pick: (input, path = '&') =>
     Array.isArray(input) && !/^\d+$/.test(path)
@@ -721,9 +755,10 @@ export const resolveVariableAndFilter = (
     return undefined;
   }
 
-  const m = /^(\\)?\$(?:((?:\w+\:)?[a-z0-9_.][a-z0-9_.\[\]]*)|{([\s\S]+)})$/i.exec(
-    path
-  );
+  const m =
+    /^(\\)?\$(?:((?:\w+\:)?[a-z0-9_.][a-z0-9_.\[\]]*)|{([\s\S]+)})$/i.exec(
+      path
+    );
 
   if (!m) {
     return undefined;
@@ -847,10 +882,13 @@ export function resolveMapping(
 export function dataMapping(
   to: any,
   from: PlainObject = {},
-  ignoreFunction: boolean | ((key: string, value: any) => boolean) = false
+  ignoreFunction: boolean | ((key: string, value: any) => boolean) = false,
+  convertKeyToPath?: boolean
 ): any {
   if (Array.isArray(to)) {
-    return to.map(item => dataMapping(item, from, ignoreFunction));
+    return to.map(item =>
+      dataMapping(item, from, ignoreFunction, convertKeyToPath)
+    );
   } else if (typeof to === 'string') {
     return resolveMapping(to, from);
   } else if (!isPlainObject(to)) {
@@ -864,7 +902,7 @@ export function dataMapping(
 
     if (typeof ignoreFunction === 'function' && ignoreFunction(key, value)) {
       // 如果被ignore，不做数据映射处理。
-      setVariable(ret, key, value);
+      setVariable(ret, key, value, convertKeyToPath);
     } else if (key === '&' && value === '$$') {
       ret = {
         ...ret,
@@ -881,7 +919,8 @@ export function dataMapping(
               dataMapping(
                 value[keys[0]],
                 createObject(from, raw),
-                ignoreFunction
+                ignoreFunction,
+                convertKeyToPath
               )
             )
           : resolveMapping(value, from);
@@ -900,10 +939,10 @@ export function dataMapping(
         };
       }
     } else if (value === '$$') {
-      setVariable(ret, key, from);
+      setVariable(ret, key, from, convertKeyToPath);
     } else if (value && value[0] === '$') {
       const v = resolveMapping(value, from);
-      setVariable(ret, key, v);
+      setVariable(ret, key, v, convertKeyToPath);
 
       if (v === '__undefined') {
         deleteVariable(ret, key);
@@ -912,9 +951,11 @@ export function dataMapping(
       isPlainObject(value) &&
       (keys = Object.keys(value)) &&
       keys.length === 1 &&
-      from[keys[0].substring(1)] &&
-      Array.isArray(from[keys[0].substring(1)])
+      keys[0][0] === '$' &&
+      isPlainObject(value[keys[0]])
     ) {
+      // from[keys[0].substring(1)] &&
+      // Array.isArray(from[keys[0].substring(1)])
       // 支持只取数组中的部分值这个需求
       // 如:
       // data: {
@@ -925,30 +966,43 @@ export function dataMapping(
       //      }
       //   }
       // }
-      const arr = from[keys[0].substring(1)];
+      const arr = Array.isArray(from[keys[0].substring(1)])
+        ? from[keys[0].substring(1)]
+        : [];
       const mapping = value[keys[0]];
 
       (ret as PlainObject)[key] = arr.map((raw: object) =>
-        dataMapping(mapping, createObject(from, raw), ignoreFunction)
+        dataMapping(
+          mapping,
+          createObject(from, raw),
+          ignoreFunction,
+          convertKeyToPath
+        )
       );
     } else if (isPlainObject(value)) {
-      setVariable(ret, key, dataMapping(value, from, ignoreFunction));
+      setVariable(
+        ret,
+        key,
+        dataMapping(value, from, ignoreFunction, convertKeyToPath),
+        convertKeyToPath
+      );
     } else if (Array.isArray(value)) {
       setVariable(
         ret,
         key,
         value.map((value: any) =>
           isPlainObject(value)
-            ? dataMapping(value, from, ignoreFunction)
+            ? dataMapping(value, from, ignoreFunction, convertKeyToPath)
             : resolveMapping(value, from)
-        )
+        ),
+        convertKeyToPath
       );
     } else if (typeof value == 'string' && ~value.indexOf('$')) {
-      setVariable(ret, key, resolveMapping(value, from));
+      setVariable(ret, key, resolveMapping(value, from), convertKeyToPath);
     } else if (typeof value === 'function' && ignoreFunction !== true) {
-      setVariable(ret, key, value(from));
+      setVariable(ret, key, value(from), convertKeyToPath);
     } else {
-      setVariable(ret, key, value);
+      setVariable(ret, key, value, convertKeyToPath);
 
       if (value === '__undefined') {
         deleteVariable(ret, key);

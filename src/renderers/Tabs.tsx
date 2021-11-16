@@ -23,6 +23,7 @@ import {ActionSchema} from './Action';
 import {filter} from '../utils/tpl';
 import {resolveVariable, tokenize} from '../utils/tpl-builtin';
 import {FormSchemaHorizontal} from './Form/index';
+import {str2AsyncFunction} from '../utils/api';
 
 export interface TabSchema extends Omit<BaseSchema, 'type'> {
   /**
@@ -143,6 +144,10 @@ export interface TabsSchema extends BaseSchema {
    * 如果是水平排版，这个属性可以细化水平排版的左右宽度占比。
    */
   subFormHorizontal?: FormSchemaHorizontal;
+  /**
+   * 是否支持溢出滚动
+   */
+  scrollable?: boolean;
 }
 
 export interface TabsProps
@@ -369,7 +374,15 @@ export default class Tabs extends React.Component<TabsProps, TabsState> {
 
   @autobind
   handleSelect(key: any) {
-    const {env} = this.props;
+    const {env, onSelect, id} = this.props;
+
+    env.tracker?.({
+      eventType: 'tabChange',
+      eventData: {
+        id,
+        key
+      }
+    });
 
     // 是 hash，需要更新到地址栏
     if (typeof key === 'string' && env) {
@@ -382,6 +395,13 @@ export default class Tabs extends React.Component<TabsProps, TabsState> {
       activeKey: (this.activeKey = key),
       prevKey: this.state.activeKey
     });
+
+    if (typeof onSelect === 'string') {
+      const selectFunc = str2AsyncFunction(onSelect, 'key', 'props');
+      selectFunc && selectFunc(key, this.props);
+    } else if (typeof onSelect === 'function') {
+      onSelect(key, this.props);
+    }
   }
 
   @autobind
@@ -436,7 +456,8 @@ export default class Tabs extends React.Component<TabsProps, TabsState> {
       formMode,
       formHorizontal,
       subFormMode,
-      subFormHorizontal
+      subFormHorizontal,
+      scrollable
     } = this.props;
 
     const mode = tabsMode || dMode;
@@ -544,6 +565,7 @@ export default class Tabs extends React.Component<TabsProps, TabsState> {
         onSelect={this.handleSelect}
         activeKey={this.state.activeKey}
         toolbar={this.renderToolbar()}
+        scrollable={scrollable}
       >
         {children}
       </CTabs>

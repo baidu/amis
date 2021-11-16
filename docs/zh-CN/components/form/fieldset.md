@@ -17,7 +17,7 @@ FieldSet 是用于分组展示表单项的一种容器型组件，可以折叠�
 ```schema: scope="body"
 {
   "type": "form",
-  "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
+  "api": "/api/mock2/form/saveForm",
   "body": [
     {
       "type": "fieldSet",
@@ -87,7 +87,7 @@ FieldSet 是用于分组展示表单项的一种容器型组件，可以折叠�
 ```schema: scope="body"
 {
   "type": "form",
-  "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
+  "api": "/api/mock2/form/saveForm",
   "body": [
     {
       "type": "fieldSet",
@@ -118,7 +118,7 @@ FieldSet 是用于分组展示表单项的一种容器型组件，可以折叠�
 ```schema: scope="body"
 {
   "type": "form",
-  "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
+  "api": "/api/mock2/form/saveForm",
   "body": [
     {
       "type": "fieldSet",
@@ -152,7 +152,7 @@ fieldSet 的另一种标题展现样式，不同的是展开的时候收起文�
 ```schema: scope="body"
 {
   "type": "form",
-  "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
+  "api": "/api/mock2/form/saveForm",
   "body": [
     {
       "type": "fieldSet",

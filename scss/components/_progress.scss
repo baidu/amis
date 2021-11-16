@@ -2,6 +2,7 @@
   height: 10px;
   background: #ebebeb;
   overflow: hidden;
+  border-radius: var(--Progress-borderRadius);
 
   &-bar {
     float: left;
@@ -13,6 +14,7 @@
     text-align: center;
     background: var(--primary);
     transition: width var(--animation-duration) ease;
+    border-radius: var(--Progress-borderRadius);
 
     &--stripe {
       background-image: linear-gradient(

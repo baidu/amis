@@ -60,6 +60,28 @@ order: 1
       "label": "内联",
       "name": "text2",
       "mode": "inline"
+    },
+    {
+      "type": "input-text",
+      "label": "内联2",
+      "name": "text2",
+      "mode": "inline"
+    },
+    {
+      "type": "group",
+      "mode": "inline",
+      "body": [
+        {
+          "type": "input-text",
+          "label": "内联3",
+          "name": "text2"
+        },
+        {
+          "type": "input-text",
+          "label": "内联4",
+          "name": "text2"
+        }
+      ]
     }
   ]
 }
@@ -173,6 +195,8 @@ order: 1
   ]
 }
 ```
+
+其它配置请参考 [Remark](../remark)。
 
 ### 配置禁用
 
@@ -437,7 +461,7 @@ order: 1
 ```schema: scope="body"
 {
   "type": "form",
-  "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
+  "api": "/api/mock2/form/saveForm",
   "body": [
     {
       "type": "input-text",
@@ -456,7 +480,7 @@ order: 1
 ```schema: scope="body"
 {
   "type": "form",
-  "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
+  "api": "/api/mock2/form/saveForm",
   "body": [
     {
       "type": "input-number",
@@ -485,7 +509,7 @@ order: 1
 ```schema: scope="body"
 {
   "type": "form",
-  "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
+  "api": "/api/mock2/form/saveForm",
   "body": [
     {
       "type": "input-text",
@@ -505,7 +529,7 @@ order: 1
 ```schema: scope="body"
 {
   "type": "form",
-  "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
+  "api": "/api/mock2/form/saveForm",
   "body": [
     {
       "type": "input-text",
@@ -528,7 +552,7 @@ order: 1
 ```schema: scope="body"
 {
   "type": "form",
-  "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
+  "api": "/api/mock2/form/saveForm",
   "body": [
     {
       "type": "input-text",
@@ -546,7 +570,7 @@ order: 1
 ```schema: scope="body"
 {
   "type": "form",
-  "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
+  "api": "/api/mock2/form/saveForm",
   "body": [
     {
       "type": "input-text",
@@ -568,7 +592,7 @@ amis 会有默认的报错信息，如果你想自定义校验信息，配置`va
 ```schema: scope="body"
 {
   "type": "form",
-  "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
+  "api": "/api/mock2/form/saveForm",
   "body": [
     {
       "type": "input-text",
@@ -591,7 +615,7 @@ amis 会有默认的报错信息，如果你想自定义校验信息，配置`va
 ```schema: scope="body"
 {
   "type": "form",
-  "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
+  "api": "/api/mock2/form/saveForm",
   "body": [
     {
       "type": "input-text",
@@ -607,6 +631,39 @@ amis 会有默认的报错信息，如果你想自定义校验信息，配置`va
       "description": "请输入数字类型文本"
     }
   ]
+}
+```
+
+默认的校验信息如下，可以直接配置文字，也可用多语言中的 key。参考：https://github.com/baidu/amis/blob/master/src/locale/zh-CN.ts#L175-L201
+
+```js
+{
+  isEmail: 'validate.isEmail',
+  isRequired: 'validate.isRequired',
+  isUrl: 'validate.isUrl',
+  isInt: 'validate.isInt',
+  isAlpha: 'validate.isAlpha',
+  isNumeric: 'validate.isNumeric',
+  isAlphanumeric: 'validate.isAlphanumeric',
+  isFloat: 'validate.isFloat',
+  isWords: 'validate.isWords',
+  isUrlPath: 'validate.isUrlPath',
+  matchRegexp: 'validate.matchRegexp',
+  minLength: 'validate.minLength',
+  maxLength: 'validate.maxLength',
+  maximum: 'validate.maximum',
+  lt: 'validate.lt',
+  minimum: 'validate.minimum',
+  gt: 'validate.gt',
+  isJson: 'validate.isJson',
+  isLength: 'validate.isLength',
+  notEmptyString: 'validate.notEmptyString',
+  equalsField: 'validate.equalsField',
+  equals: 'validate.equals',
+  isPhoneNumber: 'validate.isPhoneNumber',
+  isTelNumber: 'validate.isTelNumber',
+  isZipcode: 'validate.isZipcode',
+  isId: 'validate.isId'
 }
 ```
 
@@ -642,6 +699,34 @@ amis 会有默认的报错信息，如果你想自定义校验信息，配置`va
 - `matchRegexp3:/foo/` 必须命中某个正则。
 - `matchRegexp4:/foo/` 必须命中某个正则。
 
+#### 验证只允许 http 协议的 url 地址
+
+> 1.4.0 及以上版本
+
+isUrl 可以配置如下参数
+
+- schemes 协议，默认是为： `['http', 'https', 'ftp', 'sftp']`
+- allowLocal 是否允许填写本地地址
+- allowDataUrl 是否允许 dataUrl
+
+```schema: scope="body"
+{
+  "type": "form",
+  "body": [
+    {
+        "name": "url",
+        "type": "input-text",
+        "label": "只允许 https 打头的 url",
+        "validations": {
+          "isUrl": {
+            "schemes": ["https"]
+          }
+        }
+    }
+  ]
+}
+```
+
 ### 自定义校验函数
 
 可以自己写代码扩展表单验证，请参考 [这里](../../docs/extend/addon#扩展表单验证)
@@ -655,7 +740,7 @@ amis 会有默认的报错信息，如果你想自定义校验信息，配置`va
 ```schema: scope="body"
 {
   "type": "form",
-  "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveFormFailed?waitSeconds=1",
+  "api": "/api/mock2/form/saveFormFailed?waitSeconds=1",
   "body": [
     {
         "name": "test2",
@@ -692,7 +777,7 @@ Combo 类型的表单项，要实现服务端校验，可以使用 `路径key` �
   "type": "form",
   "debug": true,
   "mode": "horizontal",
-  "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveFormFailedCombo?waitSeconds=1",
+  "api": "/api/mock2/form/saveFormFailedCombo?waitSeconds=1",
   "body": [
     {
       "type": "combo",
@@ -772,7 +857,7 @@ Table 类型的表单项，要实现服务端校验，可以使用 `路径key` �
   "type": "form",
   "debug": true,
   "mode": "horizontal",
-  "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveFormFailedTable?waitSeconds=1",
+  "api": "/api/mock2/form/saveFormFailedTable?waitSeconds=1",
   "body": [
     {
       "label": "Table 服务端校验",

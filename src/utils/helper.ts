@@ -2,6 +2,7 @@ import isPlainObject from 'lodash/isPlainObject';
 import isEqual from 'lodash/isEqual';
 import isNaN from 'lodash/isNaN';
 import uniq from 'lodash/uniq';
+import last from 'lodash/last';
 import {Schema, PlainObject, FunctionPropertyNames} from '../types';
 import {evalExpression} from './tpl';
 import qs from 'qs';
@@ -13,6 +14,15 @@ import {
   resolveVariable,
   resolveVariableAndFilter
 } from './tpl-builtin';
+import {isObservable} from 'mobx';
+
+export function isMobile() {
+  return (window as any).matchMedia?.('(max-width: 768px)').matches;
+}
+
+export function range(num: number, min: number, max: number): number {
+  return Math.min(Math.max(num, min), max);
+}
 
 // 方便取值的时候能够把上层的取到，但是获取的时候不会全部把所有的数据获取到。
 export function createObject(
@@ -179,7 +189,8 @@ export function getVariable(
 export function setVariable(
   data: {[propName: string]: any},
   key: string,
-  value: any
+  value: any,
+  convertKeyToPath?: boolean
 ) {
   data = data || {};
 
@@ -188,7 +199,7 @@ export function setVariable(
     return;
   }
 
-  const parts = keyToPath(key);
+  const parts = convertKeyToPath !== false ? keyToPath(key) : [key];
   const last = parts.pop() as string;
 
   while (parts.length) {
@@ -269,10 +280,9 @@ export function anyChanged(
   to: {[propName: string]: any},
   strictMode: boolean = true
 ): boolean {
-  return (typeof attrs === 'string'
-    ? attrs.split(/\s*,\s*/)
-    : attrs
-  ).some(key => (strictMode ? from[key] !== to[key] : from[key] != to[key]));
+  return (typeof attrs === 'string' ? attrs.split(/\s*,\s*/) : attrs).some(
+    key => (strictMode ? from[key] !== to[key] : from[key] != to[key])
+  );
 }
 
 export function rmUndefined(obj: PlainObject) {
@@ -317,7 +327,9 @@ export function isObjectShallowModified(
     null == prev ||
     null == next ||
     !isObject(prev) ||
-    !isObject(next)
+    !isObject(next) ||
+    isObservable(prev) ||
+    isObservable(next)
   ) {
     return strictMode ? prev !== next : prev != next;
   }
@@ -555,9 +567,7 @@ export function makeHorizontalDeeper(
 
 export function promisify<T extends Function>(
   fn: T
-): (
-  ...args: Array<any>
-) => Promise<any> & {
+): (...args: Array<any>) => Promise<any> & {
   raw: T;
 } {
   let promisified = function () {
@@ -575,7 +585,7 @@ export function promisify<T extends Function>(
       }
       return Promise.resolve(ret);
     } catch (e) {
-      Promise.reject(e);
+      return Promise.reject(e);
     }
   };
   (promisified as any).raw = fn;
@@ -1197,7 +1207,9 @@ export function getTreeParent<T extends TreeItem>(tree: Array<T>, value: T) {
 }
 
 export function ucFirst(str?: string) {
-  return str ? str.substring(0, 1).toUpperCase() + str.substring(1) : '';
+  return typeof str === 'string'
+    ? str.substring(0, 1).toUpperCase() + str.substring(1)
+    : str;
 }
 
 export function lcFirst(str?: string) {
@@ -1312,6 +1324,17 @@ export function qsstringify(
       Array.isArray(data[key]) && !data[key].length && (data[key] = '');
     });
   return qs.stringify(data, options);
+}
+
+export function qsparse(
+  data: string,
+  options: any = {
+    arrayFormat: 'indices',
+    encodeValuesOnly: true,
+    depth: 1000 // 默认是 5， 所以condition-builder只要来个条件组就会导致报错
+  }
+) {
+  return qs.parse(data, options);
 }
 
 export function object2formData(
@@ -1603,5 +1626,83 @@ export function detectPropValueChanged<
 
 // 去掉字符串中的 html 标签，不完全准确但效率比较高
 export function removeHTMLTag(str: string) {
-  return str.replace(/<\/?[^>]+(>|$)/g, '');
+  return typeof str === 'string' ? str.replace(/<\/?[^>]+(>|$)/g, '') : str;
+}
+
+/**
+ * 将路径格式的value转换成普通格式的value值
+ *
+ * @example
+ *
+ * 'a/b/c' => 'c';
+ * {label: 'A/B/C', value: 'a/b/c'} => {label: 'C', value: 'c'};
+ * 'a/b/c,a/d' => 'c,d';
+ * ['a/b/c', 'a/d'] => ['c', 'd'];
+ * [{label: 'A/B/C', value: 'a/b/c'},{label: 'A/D', value: 'a/d'}] => [{label: 'C', value: 'c'},{label: 'D', value: 'd'}]
+ */
+export function normalizeNodePath(
+  value: any,
+  enableNodePath: boolean,
+  labelField: string = 'label',
+  valueField: string = 'value',
+  pathSeparator: string = '/',
+  delimiter: string = ','
+) {
+  const nodeValueArray: any[] = [];
+  const nodePathArray: any[] = [];
+  const getLastNodeFromPath = (path: any) =>
+    last(path ? path.toString().split(pathSeparator) : []);
+
+  if (typeof value === 'undefined' || !enableNodePath) {
+    return {nodeValueArray, nodePathArray};
+  }
+
+  // 尾节点为当前options中value值
+  if (Array.isArray(value)) {
+    value.forEach(nodePath => {
+      if (nodePath && nodePath.hasOwnProperty(valueField)) {
+        nodeValueArray.push({
+          ...nodePath,
+          [labelField]: getLastNodeFromPath(nodePath[labelField]),
+          [valueField]: getLastNodeFromPath(nodePath[valueField])
+        });
+        nodePathArray.push(nodePath[valueField]);
+      } else {
+        nodeValueArray.push(getLastNodeFromPath(nodePath));
+        nodePathArray.push(nodePath);
+      }
+    });
+  } else if (typeof value === 'string') {
+    value
+      .toString()
+      .split(delimiter)
+      .forEach(path => {
+        nodeValueArray.push(getLastNodeFromPath(path));
+        nodePathArray.push(path);
+      });
+  } else {
+    nodeValueArray.push({
+      ...value,
+      [labelField]: getLastNodeFromPath(value[labelField]),
+      [valueField || 'value']: getLastNodeFromPath(value[valueField])
+    });
+    nodePathArray.push(value[valueField]);
+  }
+
+  return {nodeValueArray, nodePathArray};
+}
+
+// 主要用于排除点击输入框和链接等情况
+export function isClickOnInput(e: React.MouseEvent<HTMLElement>) {
+  const target: HTMLElement = e.target as HTMLElement;
+  let formItem;
+  if (
+    !e.currentTarget.contains(target) ||
+    ~['INPUT', 'TEXTAREA'].indexOf(target.tagName) ||
+    ((formItem = target.closest(`button, a, [data-role="form-item"]`)) &&
+      e.currentTarget.contains(formItem))
+  ) {
+    return true;
+  }
+  return false;
 }

@@ -113,7 +113,9 @@ export class Alert extends React.Component<AlertProps, AlertState> {
 
     this.setState(
       {
-        show: false
+        show: false,
+        prompt: false,
+        confirm: false
       },
       isConfirm ? () => this._resolve(confirmed) /*this._reject()*/ : undefined
     );
@@ -197,9 +199,12 @@ export class Alert extends React.Component<AlertProps, AlertState> {
       title,
       confirmBtnLevel,
       alertBtnLevel,
-      classnames: cx,
-      theme
+      classnames: cx
     } = this.props;
+    let theme = this.props.theme || 'cxd';
+    if (theme === 'default') {
+      theme = 'cxd';
+    }
     const __ = this.props.translate;
     const finalTitle = __(this.state.title ?? title);
     const finalConfirmText = __(this.state.confirmText ?? confirmText);

@@ -1,5 +1,4 @@
 import isPlainObject from 'lodash/isPlainObject';
-import qs from 'qs';
 import React from 'react';
 import Alert from './components/Alert2';
 import ImageGallery from './components/ImageGallery';
@@ -57,10 +56,14 @@ export class Root extends React.Component<RootProps> {
     } = this.props;
 
     const theme = env.theme;
+    let themeName = this.props.theme || 'cxd';
+    if (themeName === 'default') {
+      themeName = 'cxd';
+    }
 
     return (
       <RootStoreContext.Provider value={rootStore}>
-        <ThemeContext.Provider value={this.props.theme || 'default'}>
+        <ThemeContext.Provider value={themeName}>
           <LocaleContext.Provider value={this.props.locale!}>
             <ImageGallery modalContainer={env.getModalContainer}>
               <RootRenderer

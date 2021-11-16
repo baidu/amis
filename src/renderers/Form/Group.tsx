@@ -10,7 +10,7 @@ import cx from 'classnames';
 import {FormBaseControl, FormItemWrap} from './Item';
 import getExprProperties from '../../utils/filter-schema';
 import {SchemaClassName, SchemaObject} from '../../Schema';
-import {FormSchemaHorizontal} from './index';
+import Form, {FormSchemaHorizontal} from './index';
 
 export type GroupSubControl = SchemaObject & {
   /**
@@ -21,7 +21,7 @@ export type GroupSubControl = SchemaObject & {
   /**
    * 宽度占用比率。在某些容器里面有用比如 group
    */
-  columnRatio?: number;
+  columnRatio?: number | 'auto';
 };
 
 /**
@@ -149,14 +149,16 @@ export class ControlGroupRenderer extends React.Component<InputGroupProps> {
     let horizontalDeeper =
       subFormHorizontal ||
       horizontal ||
-      makeHorizontalDeeper(
-        formHorizontal,
-        body.filter(
-          item =>
-            (item as FormBaseControl)?.mode !== 'inline' &&
-            isVisible(item, data)
-        ).length
-      );
+      (formHorizontal
+        ? makeHorizontalDeeper(
+            formHorizontal,
+            body.filter(
+              item =>
+                (item as FormBaseControl)?.mode !== 'inline' &&
+                isVisible(item, data)
+            ).length
+          )
+        : undefined);
 
     return (
       <div

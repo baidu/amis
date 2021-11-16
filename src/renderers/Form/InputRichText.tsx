@@ -3,10 +3,12 @@ import {FormItem, FormControlProps, FormBaseControl} from './Item';
 import cx from 'classnames';
 import LazyComponent from '../../components/LazyComponent';
 import {tokenize} from '../../utils/tpl-builtin';
+import {normalizeApi} from '../../utils/api';
+import {ucFirst} from '../../utils/helper';
 
 /**
  * RichText
- * 文档：https://baidu.gitee.io/amis/docs/components/form/rich-text
+ * 文档：https://baidu.gitee.io/amis/docs/components/form/input-rich-text
  */
 export interface RichTextControlSchema extends FormBaseControl {
   type: 'input-rich-text';
@@ -15,6 +17,11 @@ export interface RichTextControlSchema extends FormBaseControl {
 
   receiver?: string;
   videoReceiver?: string;
+
+  /**
+   * 边框模式，全边框，还是半边框，或者没边框。
+   */
+  borderMode?: 'full' | 'half' | 'none';
 
   options?: any;
 }
@@ -43,73 +50,23 @@ export default class RichTextControl extends React.Component<
     videoReceiver: '/api/upload/video',
     placeholder: 'placeholder.enter',
     options: {
-      toolbarButtonsSM: [
-        'paragraphFormat',
-        'quote',
-        'color',
-        '|',
-        'bold',
-        'italic',
-        'underline',
-        'strikeThrough',
-        '|',
-        'formatOL',
-        'formatUL',
-        'align',
-        '|',
-        'insertLink',
-        'insertImage',
-        'insertEmotion',
-        'insertTable',
-        '|',
-        'undo',
-        'redo',
-        'html'
-      ],
-      toolbarButtonsMD: [
-        'paragraphFormat',
-        'quote',
-        'color',
-        '|',
-        'bold',
-        'italic',
-        'underline',
-        'strikeThrough',
-        '|',
-        'formatOL',
-        'formatUL',
-        'align',
-        '|',
-        'insertLink',
-        'insertImage',
-        'insertEmotion',
-        'insertTable',
-        '|',
-        'undo',
-        'redo',
-        'html'
-      ],
       toolbarButtons: [
+        'undo',
+        'redo',
         'paragraphFormat',
-        'quote',
-        'color',
-        '|',
+        'textColor',
+        'backgroundColor',
         'bold',
-        'italic',
         'underline',
         'strikeThrough',
-        '|',
         'formatOL',
         'formatUL',
         'align',
-        '|',
+        'quote',
         'insertLink',
         'insertImage',
         'insertEmotion',
         'insertTable',
-        '|',
-        'undo',
-        'redo',
         'html'
       ]
     }
@@ -150,6 +107,7 @@ export default class RichTextControl extends React.Component<
             ]
           : [],
         key: props.env.richTextToken,
+        attribution: false,
         ...props.options,
         editorClass: props.editorClass,
         placeholderText: props.translate(props.placeholder),
@@ -163,24 +121,20 @@ export default class RichTextControl extends React.Component<
         },
         events: {
           ...(props.options && props.options.events),
-          'froalaEditor.focus': this.handleFocus,
-          'froalaEditor.blur': this.handleBlur
+          focus: this.handleFocus,
+          blur: this.handleBlur
         },
         language:
           !this.props.locale || this.props.locale === 'zh-CN' ? 'zh_cn' : ''
       };
 
       if (props.buttons) {
-        this.config.toolbarButtonsSM = props.buttons;
-        this.config.toolbarButtonsMD = props.buttons;
-        this.config.toolbarButtonsXS = props.buttons;
         this.config.toolbarButtons = props.buttons;
       }
     } else {
       const fetcher = props.env.fetcher;
       this.config = {
         ...props.options,
-        images_upload_url: props.receiver,
         images_upload_handler: async (
           blobInfo: any,
           ok: (locaiton: string) => void,
@@ -189,16 +143,31 @@ export default class RichTextControl extends React.Component<
           const formData = new FormData();
           formData.append('file', blobInfo.blob(), blobInfo.filename());
           try {
-            const response = await fetcher(props.receiver, formData, {
+            const receiver = {
+              adaptor: (payload: object) => {
+                return {
+                  ...payload,
+                  data: payload
+                };
+              },
+              ...normalizeApi(props.receiver, 'post')
+            };
+            const response = await fetcher(receiver, formData, {
               method: 'post'
             });
             if (response.ok) {
-              ok(
+              const location =
                 response.data?.link ||
-                  response.data?.url ||
-                  response.data?.value ||
-                  (response as any).link
-              );
+                response.data?.url ||
+                response.data?.value ||
+                response.data?.data?.link ||
+                response.data?.data?.url ||
+                response.data?.data?.value;
+              if (location) {
+                ok(location);
+              } else {
+                console.warn('must have return value');
+              }
             }
           } catch (e) {
             fail(e);
@@ -245,7 +214,8 @@ export default class RichTextControl extends React.Component<
       vendor,
       env,
       locale,
-      translate
+      translate,
+      borderMode
     } = this.props;
 
     const finnalVendor = vendor || (env.richTextToken ? 'froala' : 'tinymce');
@@ -254,7 +224,8 @@ export default class RichTextControl extends React.Component<
       <div
         className={cx(`${ns}RichTextControl`, className, {
           'is-focused': this.state.focused,
-          'is-disabled': disabled
+          'is-disabled': disabled,
+          [`${ns}RichTextControl--border${ucFirst(borderMode)}`]: borderMode
         })}
       >
         <LazyComponent

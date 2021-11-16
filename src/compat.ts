@@ -15,6 +15,8 @@ import {FileControlRenderer} from './renderers/Form/InputFile';
 import {ImageControlRenderer} from './renderers/Form/InputImage';
 import {RichTextControlRenderer} from './renderers/Form/InputRichText';
 import isPlainObject from 'lodash/isPlainObject';
+import {GridRenderer} from './renderers/Grid';
+import {HBoxRenderer} from './renderers/HBox';
 
 // 兼容老的用法，老用法 label 用在 checkbox 的右侧内容，新用法用 option 来代替。
 addSchemaFilter(function CheckboxPropsFilter(schema: Schema, renderer) {
@@ -287,6 +289,87 @@ addSchemaFilter(function (scheam: Schema, renderer) {
   return scheam;
 });
 
+// Grid 一些旧格式的兼容
+addSchemaFilter(function (scheam: Schema, renderer) {
+  if (renderer.component !== GridRenderer) {
+    return scheam;
+  }
+
+  if (
+    Array.isArray(scheam.columns) &&
+    scheam.columns.some(item => Array.isArray(item) || item.type)
+  ) {
+    scheam = {
+      ...scheam,
+      columns: scheam.columns.map(item => {
+        if (Array.isArray(item)) {
+          return {
+            body: [
+              {
+                type: 'grid',
+                columns: item
+              }
+            ]
+          };
+        } else if (item.type) {
+          let {xs, sm, md, lg, columnClassName, ...rest} = item;
+          item = {
+            xs,
+            sm,
+            md,
+            lg,
+            columnClassName,
+            body: [rest]
+          };
+        }
+
+        return item;
+      })
+    };
+  }
+
+  return scheam;
+});
+
+// Hbox 一些旧格式的兼容
+addSchemaFilter(function (scheam: Schema, renderer) {
+  if (renderer.component !== HBoxRenderer) {
+    return scheam;
+  }
+
+  if (Array.isArray(scheam.columns) && scheam.columns.some(item => item.type)) {
+    scheam = {
+      ...scheam,
+      columns: scheam.columns.map(item => {
+        let {
+          width,
+          height,
+          style,
+          columnClassName,
+          visible,
+          visibleOn,
+          ...rest
+        } = item;
+        if (item.type) {
+          item = {
+            width,
+            height,
+            style,
+            columnClassName,
+            visible,
+            visibleOn,
+            body: [rest]
+          };
+        }
+
+        return item;
+      })
+    };
+  }
+
+  return scheam;
+});
+
 const controlMapping: any = {
   'array': 'input-array',
   'button-group': 'button-group-select',
@@ -448,7 +531,11 @@ addSchemaFilter(function (schema: Schema, renderer: any, props: any) {
     };
   }
 
-  if (schema?.controls && schema.type !== 'audio') {
+  if (
+    schema?.controls &&
+    schema.type !== 'audio' &&
+    schema.type !== 'carousel'
+  ) {
     schema = {
       ...schema,
       [schema.type === 'combo' ? `items` : 'body']: (Array.isArray(

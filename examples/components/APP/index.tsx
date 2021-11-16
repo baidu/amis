@@ -25,7 +25,11 @@ export default {
         {
           label: '页面A',
           url: 'pageA',
-          schemaApi: 'http://127.0.0.1:8084/aisuda/pages/04VojKwzG2.json',
+          schema: {
+            type: 'page',
+            title: '页面A',
+            body: '页面A'
+          },
 
           children: [
             {
@@ -82,15 +86,13 @@ export default {
           label: '表单',
           url: '/form',
           icon: 'fa fa-plus',
-          schemaApi:
-            'https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/service/schema?type=form'
+          schemaApi: '/api/mock2/service/schema?type=form'
         },
         {
           label: '列表',
           url: '/crud/list',
           icon: 'fa fa-list',
-          schemaApi:
-            'https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/service/schema?type=crud'
+          schemaApi: '/api/mock2/service/schema?type=crud'
         }
       ]
     },

@@ -3,17 +3,17 @@
 exports[`Renderer:switch 1`] = `
 <div>
   <div
-    class="a-Panel a-Panel--default a-Panel--form"
+    class="cxd-Panel cxd-Panel--default cxd-Panel--form"
     style="position: relative;"
   >
     <div
-      class="a-Panel-heading"
+      class="cxd-Panel-heading"
     >
       <h3
-        class="a-Panel-title"
+        class="cxd-Panel-title"
       >
         <span
-          class="a-TplField"
+          class="cxd-TplField"
         >
           <span>
             The form
@@ -22,22 +22,26 @@ exports[`Renderer:switch 1`] = `
       </h3>
     </div>
     <div
-      class="a-Panel-body"
+      class="cxd-Panel-body"
     >
       <form
-        class="a-Form a-Form--normal"
+        class="cxd-Form cxd-Form--normal"
         novalidate=""
       >
+        <input
+          style="display: none;"
+          type="submit"
+        />
         <div
-          class="a-Form-item a-Form-item--normal block"
+          class="cxd-Form-item cxd-Form-item--normal block"
           data-role="form-item"
         >
           <label
-            class="a-Form-label"
+            class="cxd-Form-label"
           >
             <span>
               <span
-                class="a-TplField"
+                class="cxd-TplField"
               >
                 <span>
                   开关
@@ -46,14 +50,14 @@ exports[`Renderer:switch 1`] = `
             </span>
           </label>
           <div
-            class="a-SwitchControl a-Form-control"
+            class="cxd-SwitchControl cxd-Form-control"
           >
             <label
-              class="a-Switch is-checked"
+              class="cxd-Switch is-checked"
             >
               <input
                 checked=""
-                theme="default"
+                theme="cxd"
                 type="checkbox"
               />
               <span
@@ -64,16 +68,12 @@ exports[`Renderer:switch 1`] = `
               />
             </label>
             <span
-              class="a-Switch-option"
+              class="cxd-Switch-option"
             >
               switch
             </span>
           </div>
         </div>
-        <input
-          style="display: none;"
-          type="submit"
-        />
       </form>
     </div>
     <div

@@ -17,6 +17,7 @@
 @import '../components/tooltip';
 @import '../components/tpl';
 @import '../components/popover';
+@import '../components/picker-columns';
 @import '../components/toast';
 @import '../components/alert';
 @import '../components/app';
@@ -42,6 +43,7 @@
 @import '../components/wizard';
 @import '../components/crud';
 @import '../components/table';
+@import '../components/column-toggler';
 @import '../components/list';
 @import '../components/cards';
 @import '../components/card';
@@ -65,6 +67,7 @@
 @import '../components/json';
 @import '../components/icon';
 @import '../components/steps';
+@import '../components/portlet';
 
 @import '../components/form/fieldset';
 @import '../components/form/group';
@@ -86,6 +89,7 @@
 @import '../components/form/image';
 
 @import '../components/form/file';
+@import '../components/form/excel';
 @import '../components/form/editor';
 @import '../components/form/rich-text';
 @import '../components/form/tinymce';
@@ -105,5 +109,8 @@
 @import '../components/form/icon-picker';
 @import '../components/form/form';
 @import '../components/anchor-nav';
+@import '../components/markdown';
+@import '../components/link';
+@import '../components/mapping';
 
 @import '../utilities';

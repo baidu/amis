@@ -466,20 +466,17 @@ export default {
           desc: '支持放张图片',
           options: [
             {
-              image:
-                'https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=3893101144,2877209892&fm=23&gp=0.jpg',
+              image: __uri('../../static/photo/3893101144.jpg'),
               value: 1,
               label: '图片1'
             },
             {
-              image:
-                'https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=3893101144,2877209892&fm=23&gp=0.jpg',
+              image: __uri('../../static/photo/3893101144.jpg'),
               value: 2,
               label: '图片2'
             },
             {
-              image:
-                'https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=3893101144,2877209892&fm=23&gp=0.jpg',
+              image: __uri('../../static/photo/3893101144.jpg'),
               value: 3,
               label: '图片3'
             }
@@ -836,6 +833,22 @@ export default {
           type: 'divider'
         },
         {
+          type: 'input-excel',
+          label: 'Excel 解析',
+          name: 'excel'
+        },
+        {
+          type: 'divider'
+        },
+        {
+          type: 'input-kv',
+          label: 'kv 输入',
+          name: 'kv'
+        },
+        {
+          type: 'divider'
+        },
+        {
           type: 'input-image',
           name: 'image',
           label: '图片'
@@ -847,8 +860,7 @@ export default {
           type: 'input-image',
           name: 'image',
           label: '图片有默认占位图',
-          frameImage:
-            'https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=3893101144,2877209892&fm=23&gp=0.jpg',
+          frameImage: __uri('../../static/photo/3893101144.jpg'),
           fixedSize: true,
           fixedSizeClassName: 'h-32'
         },
@@ -989,14 +1001,17 @@ export default {
           type: 'input-tree',
           name: 'tree',
           label: '树',
+          iconField: 'icon',
           options: [
             {
               label: 'Folder A',
               value: 1,
+              icon: 'fa fa-bookmark',
               children: [
                 {
                   label: 'file A',
-                  value: 2
+                  value: 2,
+                  icon: 'fa fa-star'
                 },
                 {
                   label: 'file B',

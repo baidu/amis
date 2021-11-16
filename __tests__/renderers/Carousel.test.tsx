@@ -37,11 +37,11 @@ test('Renderer:carousel', async () => {
     )
   );
 
-  const image = document.querySelector('div.a-Carousel-item');
+  const image = document.querySelector('div.cxd-Carousel-item');
   fireEvent.mouseEnter(image as HTMLDivElement);
-  const leftArrow = document.querySelector('div.a-Carousel-leftArrow');
+  const leftArrow = document.querySelector('div.cxd-Carousel-leftArrow');
   fireEvent.click(leftArrow as HTMLDivElement);
-  const rightArrow = document.querySelector('div.a-Carousel-rightArrow');
+  const rightArrow = document.querySelector('div.cxd-Carousel-rightArrow');
   fireEvent.click(rightArrow as HTMLDivElement);
 
   expect(container).toMatchSnapshot();

@@ -14,7 +14,8 @@ import {
   findTreeIndex,
   getTree,
   isEmpty,
-  getTreeAncestors
+  getTreeAncestors,
+  normalizeNodePath
 } from '../../utils/helper';
 import {reaction} from 'mobx';
 import {
@@ -47,6 +48,8 @@ import {
   SchemaObject,
   SchemaTokenizeableString
 } from '../../Schema';
+import isPlainObject from 'lodash/isPlainObject';
+import merge from 'lodash/merge';
 
 export {Option};
 
@@ -203,6 +206,7 @@ export interface OptionsControlProps
   setLoading: (value: boolean) => void;
   reloadOptions: (setError?: boolean) => void;
   deferLoad: (option: Option) => void;
+  expandTreeOptions: (nodePathArr: any[]) => void;
   onAdd?: (
     idx?: number | Array<number>,
     value?: any,
@@ -241,7 +245,9 @@ export const detectProps = itemDetectProps.concat([
   'showRadio',
   'btnDisabled',
   'joinValues',
-  'extractValue'
+  'extractValue',
+  'borderMode',
+  'hideSelected'
 ]);
 
 export function registerOptionsControl(config: OptionsConfig) {
@@ -266,8 +272,10 @@ export function registerOptionsControl(config: OptionsConfig) {
       : [];
     static ComposedComponent = Control;
 
-    reaction?: () => void;
+    toDispose: Array<() => void> = [];
+
     input: any;
+    mounted = false;
 
     constructor(props: OptionsProps) {
       super(props);
@@ -287,18 +295,36 @@ export function registerOptionsControl(config: OptionsConfig) {
         valueField,
         options,
         value,
-        defaultCheckAll,
+        defaultCheckAll
       } = props;
 
       if (formItem) {
-        formItem.setOptions(normalizeOptions(options), this.changeOptionValue);
+        formItem.setOptions(
+          normalizeOptions(options),
+          this.changeOptionValue,
+          data
+        );
 
-        this.reaction = reaction(
-          () => JSON.stringify([formItem.loading, formItem.filteredOptions]),
-          () => this.forceUpdate()
+        this.toDispose.push(
+          reaction(
+            () => JSON.stringify([formItem.loading, formItem.filteredOptions]),
+            () => this.mounted && this.forceUpdate()
+          )
+        );
+
+        this.toDispose.push(
+          reaction(
+            () => JSON.stringify(formItem.options),
+            () => this.mounted && this.syncAutoFill(formItem.tmpValue)
+          )
         );
         // 默认全选。这里会和默认值\回填值逻辑冲突，所以如果有配置source则不执行默认全选
-        if (multiple && defaultCheckAll && options.length && !source) {
+        if (
+          multiple &&
+          defaultCheckAll &&
+          formItem.filteredOptions?.length &&
+          !source
+        ) {
           this.defaultCheckAll();
         }
       }
@@ -327,6 +353,7 @@ export function registerOptionsControl(config: OptionsConfig) {
     }
 
     componentDidMount() {
+      this.mounted = true;
       this.normalizeValue();
 
       if (this.props.value) {
@@ -357,7 +384,8 @@ export function registerOptionsControl(config: OptionsConfig) {
       if (prevProps.options !== props.options && formItem) {
         formItem.setOptions(
           normalizeOptions(props.options || []),
-          this.changeOptionValue
+          this.changeOptionValue,
+          props.data
         );
         this.normalizeValue();
       } else if (
@@ -382,7 +410,8 @@ export function registerOptionsControl(config: OptionsConfig) {
           if (prevOptions !== options) {
             formItem.setOptions(
               normalizeOptions(options || []),
-              this.changeOptionValue
+              this.changeOptionValue,
+              props.data
             );
             this.normalizeValue();
           }
@@ -408,21 +437,27 @@ export function registerOptionsControl(config: OptionsConfig) {
       }
 
       if (prevProps.value !== props.value || formItem?.expressionsInOptions) {
-        formItem.syncOptions();
+        formItem.syncOptions(undefined, props.data);
         this.syncAutoFill(props.value);
       }
     }
 
     componentWillUnmount() {
       this.props.removeHook?.(this.reload, 'init');
-      this.reaction?.();
+      this.toDispose.forEach(fn => fn());
+      this.toDispose = [];
     }
 
     syncAutoFill(value: any) {
-      const {autoFill, multiple, onBulkChange} = this.props;
+      const {autoFill, multiple, onBulkChange, data} = this.props;
       const formItem = this.props.formItem as IFormItemStore;
 
-      if (autoFill && !isEmpty(autoFill) && formItem.filteredOptions.length) {
+      if (
+        onBulkChange &&
+        autoFill &&
+        !isEmpty(autoFill) &&
+        formItem.filteredOptions.length
+      ) {
         const selectedOptions = formItem.getSelectedOptions(value);
         const toSync = dataMapping(
           autoFill,
@@ -431,6 +466,7 @@ export function registerOptionsControl(config: OptionsConfig) {
                 items: selectedOptions.map(item =>
                   createObject(
                     {
+                      ...data,
                       ancestors: getTreeAncestors(
                         formItem.filteredOptions,
                         item,
@@ -443,6 +479,7 @@ export function registerOptionsControl(config: OptionsConfig) {
               }
             : createObject(
                 {
+                  ...data,
                   ancestors: getTreeAncestors(
                     formItem.filteredOptions,
                     selectedOptions[0],
@@ -452,7 +489,14 @@ export function registerOptionsControl(config: OptionsConfig) {
                 selectedOptions[0]
               )
         );
-        onBulkChange?.(toSync);
+
+        Object.keys(toSync).forEach(key => {
+          if (isPlainObject(toSync[key]) && isPlainObject(data[key])) {
+            toSync[key] = merge({}, data[key], toSync[key]);
+          }
+        });
+
+        onBulkChange(toSync);
       }
     }
 
@@ -465,6 +509,8 @@ export function registerOptionsControl(config: OptionsConfig) {
         multiple,
         formItem,
         valueField,
+        enableNodePath,
+        pathSeparator,
         onChange
       } = this.props;
 
@@ -532,11 +578,7 @@ export function registerOptionsControl(config: OptionsConfig) {
      * 初始化时处理默认全选逻辑
      */
     defaultCheckAll() {
-      const {
-        value,
-        formItem,
-        setPrinstineValue
-      } = this.props;
+      const {value, formItem, setPrinstineValue} = this.props;
       // 如果有默认值\回填值直接返回
       if (!formItem || formItem.getSelectedOptions(value).length) {
         return;
@@ -585,11 +627,7 @@ export function registerOptionsControl(config: OptionsConfig) {
 
     @autobind
     handleToggleAll() {
-      const {
-        value,
-        onChange,
-        formItem
-      } = this.props;
+      const {value, onChange, formItem} = this.props;
 
       if (!formItem) {
         return;
@@ -669,14 +707,8 @@ export function registerOptionsControl(config: OptionsConfig) {
 
     @autobind
     reloadOptions(setError?: boolean, isInit = false) {
-      const {
-        source,
-        formItem,
-        data,
-        onChange,
-        setPrinstineValue,
-        selectFirst
-      } = this.props;
+      const {source, formItem, data, onChange, setPrinstineValue, selectFirst} =
+        this.props;
 
       if (formItem && isPureVariable(source as string)) {
         isAlive(formItem) &&
@@ -684,7 +716,8 @@ export function registerOptionsControl(config: OptionsConfig) {
             normalizeOptions(
               resolveVariableAndFilter(source as string, data, '| raw') || []
             ),
-            this.changeOptionValue
+            this.changeOptionValue,
+            data
           );
         return;
       } else if (!formItem || !isEffectiveApi(source, data)) {
@@ -704,7 +737,6 @@ export function registerOptionsControl(config: OptionsConfig) {
     @autobind
     deferLoad(option: Option) {
       const {deferApi, source, env, formItem, data} = this.props;
-
       const api = option.deferApi || deferApi || source;
 
       if (!api) {
@@ -719,9 +751,25 @@ export function registerOptionsControl(config: OptionsConfig) {
     }
 
     @autobind
+    expandTreeOptions(nodePathArr: any[]) {
+      const {deferApi, source, env, formItem, data} = this.props;
+      const api = deferApi || source;
+
+      if (!api) {
+        env.notify(
+          'error',
+          '请在选项中设置 `deferApi` 或者表单项中设置 `deferApi`，用来加载子选项。'
+        );
+        return;
+      }
+
+      formItem?.expandTreeOptions(nodePathArr, api, createObject(data));
+    }
+
+    @autobind
     async initOptions(data: any) {
       await this.reloadOptions(false, true);
-      const {formItem, name, multiple, defaultCheckAll, options} = this.props;
+      const {formItem, name, multiple, defaultCheckAll} = this.props;
       if (!formItem) {
         return;
       }
@@ -730,7 +778,7 @@ export function registerOptionsControl(config: OptionsConfig) {
       }
 
       // 默认全选
-      if (multiple && defaultCheckAll && options.length) {
+      if (multiple && defaultCheckAll && formItem.filteredOptions?.length) {
         this.defaultCheckAll();
       }
     }
@@ -761,14 +809,15 @@ export function registerOptionsControl(config: OptionsConfig) {
       formItem &&
         formItem.setOptions(
           skipNormalize ? options : normalizeOptions(options || []),
-          this.changeOptionValue
+          this.changeOptionValue,
+          this.props.data
         );
     }
 
     @autobind
     syncOptions() {
       const formItem = this.props.formItem as IFormItemStore;
-      formItem && formItem.syncOptions();
+      formItem && formItem.syncOptions(undefined, this.props.data);
     }
 
     @autobind
@@ -852,7 +901,7 @@ export function registerOptionsControl(config: OptionsConfig) {
           });
 
           if (!payload.ok) {
-            env.notify('error', payload.msg || '新增失败，请仔细检查');
+            env.notify('error', payload.msg || __('Options.createFailed'));
             result = null;
           } else {
             result = payload.data || result;
@@ -894,7 +943,7 @@ export function registerOptionsControl(config: OptionsConfig) {
             ? options.splice(idx, 0, {...result})
             : options.push({...result});
         }
-        model.setOptions(options, this.changeOptionValue);
+        model.setOptions(options, this.changeOptionValue, data);
       }
     }
 
@@ -990,7 +1039,8 @@ export function registerOptionsControl(config: OptionsConfig) {
               ...origin,
               ...result
             }),
-            this.changeOptionValue
+            this.changeOptionValue,
+            data
           );
         }
       }
@@ -1048,7 +1098,8 @@ export function registerOptionsControl(config: OptionsConfig) {
           if (indexes) {
             model.setOptions(
               spliceTree(options, indexes, 1),
-              this.changeOptionValue
+              this.changeOptionValue,
+              data
             );
           }
         }
@@ -1067,8 +1118,22 @@ export function registerOptionsControl(config: OptionsConfig) {
         deleteApi,
         creatable,
         editable,
-        removable
+        removable,
+        enableNodePath,
+        pathSeparator,
+        delimiter = ',',
+        labelField = 'label',
+        valueField = 'value'
       } = this.props;
+
+      const {nodePathArray, nodeValueArray} = normalizeNodePath(
+        value,
+        enableNodePath,
+        labelField,
+        valueField,
+        pathSeparator,
+        delimiter
+      );
 
       return (
         <Control
@@ -1077,15 +1142,24 @@ export function registerOptionsControl(config: OptionsConfig) {
           options={formItem ? formItem.filteredOptions : []}
           onToggle={this.handleToggle}
           onToggleAll={this.handleToggleAll}
-          selectedOptions={formItem ? formItem.getSelectedOptions(value) : []}
+          selectedOptions={
+            formItem
+              ? formItem.getSelectedOptions(
+                  value,
+                  enableNodePath ? nodeValueArray : undefined
+                )
+              : []
+          }
+          nodePath={nodePathArray}
           loading={formItem ? formItem.loading : false}
           setLoading={this.setLoading}
           setOptions={this.setOptions}
           syncOptions={this.syncOptions}
           reloadOptions={this.reload}
           deferLoad={this.deferLoad}
+          expandTreeOptions={this.expandTreeOptions}
           creatable={
-            creatable || (creatable !== false && isEffectiveApi(addApi))
+            creatable !== false && isEffectiveApi(addApi) ? true : creatable
           }
           editable={editable || (editable !== false && isEffectiveApi(editApi))}
           removable={
@@ -1128,24 +1202,44 @@ export function highlight(
   }
 
   text = String(text);
-  const reg = new RegExp(input.replace(/[|\\{}()[\]^$+*?.]/g, '\\$&'), 'i');
+  const reg = new RegExp(input.replace(/[|\\{}()[\]^$+*?.]/g, '\\$&'), 'ig');
   if (!reg.test(text)) {
     return text;
   }
 
-  const parts = text.split(reg);
   const dom: Array<any> = [];
 
-  parts.forEach((text: string, index) => {
-    text && dom.push(<span key={index}>{text}</span>);
-    dom.push(
-      <span className={hlClassName} key={`${index}-hl`}>
-        {input}
-      </span>
-    );
-  });
+  let start = 0;
+  let match = null;
 
-  dom.pop();
+  reg.lastIndex = 0;
+  while ((match = reg.exec(text))) {
+    const prev = text.substring(start, match.index);
+    prev && dom.push(<span key={dom.length}>{prev}</span>);
+
+    match[0] &&
+      dom.push(
+        <span className={hlClassName} key={dom.length}>
+          {match[0]}
+        </span>
+      );
+    start = match.index + match[0].length;
+  }
+  const rest = text.substring(start);
+  rest && dom.push(<span key={dom.length}>{rest}</span>);
+
+  // const parts = text.split(reg);
+
+  // parts.forEach((text: string, index) => {
+  //   text && dom.push(<span key={index}>{text}</span>);
+  //   dom.push(
+  //     <span className={hlClassName} key={`${index}-hl`}>
+  //       {input}
+  //     </span>
+  //   );
+  // });
+
+  // dom.pop();
 
   return dom;
 }

@@ -318,11 +318,11 @@ export class SchemaRenderer extends React.Component<SchemaRendererProps, any> {
         {...restSchema}
         {...chainEvents(rest, restSchema)}
         {...exprProps}
-        defaultData={defaultData}
-        defaultValue={defaultValue}
+        defaultData={restSchema.defaultData ?? defaultData}
+        defaultValue={restSchema.defaultValue ?? defaultValue}
         defaultActiveKey={defaultActiveKey}
         $path={$path}
-        $schema={schema}
+        $schema={{...schema, ...exprProps}}
         ref={this.refFn}
         render={this.renderChild}
       />

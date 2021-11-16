@@ -5,6 +5,7 @@ import cx from 'classnames';
 import {anyChanged, getPropValue} from '../utils/helper';
 import {escapeHtml} from '../utils/tpl-builtin';
 import {BaseSchema, SchemaTpl} from '../Schema';
+import {BadgeSchema, withBadge} from '../components/Badge';
 
 /**
  * tpl 渲染器
@@ -33,6 +34,11 @@ export interface TplSchema extends BaseSchema {
   style?: {
     [propName: string]: any;
   };
+
+  /**
+   * 角标
+   */
+  badge?: BadgeSchema;
 }
 
 export interface TplProps extends RendererProps, TplSchema {
@@ -127,4 +133,6 @@ export class Tpl extends React.Component<TplProps, object> {
   test: /(^|\/)(?:tpl|html)$/,
   name: 'tpl'
 })
+// @ts-ignore 类型没搞定
+@withBadge
 export class TplRenderer extends Tpl {}

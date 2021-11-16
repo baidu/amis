@@ -126,7 +126,10 @@ export class InputGroup extends React.Component<
     });
 
     let horizontalDeeper =
-      horizontal || makeHorizontalDeeper(formHorizontal as any, inputs.length);
+      horizontal ||
+      (formHorizontal
+        ? makeHorizontalDeeper(formHorizontal as any, inputs.length)
+        : undefined);
     return (
       <div
         className={cx(`InputGroup`, className, {

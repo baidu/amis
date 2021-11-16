@@ -1,7 +1,7 @@
-import {Api, ApiObject, fetcherResult, Payload} from '../types';
+import omit from 'lodash/omit';
+import {Api, ApiObject, EventTrack, fetcherResult, Payload} from '../types';
 import {fetcherConfig} from '../factory';
 import {tokenize, dataMapping} from './tpl-builtin';
-import qs from 'qs';
 import {evalExpression} from './tpl';
 import {
   isObject,
@@ -10,8 +10,10 @@ import {
   object2formData,
   qsstringify,
   cloneObject,
-  createObject
+  createObject,
+  qsparse
 } from './helper';
+import isPlainObject from 'lodash/isPlainObject';
 
 const rSchema = /(?:^|raw\:)(get|post|put|delete|patch|options|head):/i;
 
@@ -21,6 +23,8 @@ interface ApiCacheConfig extends ApiObject {
 }
 
 const apiCaches: Array<ApiCacheConfig> = [];
+
+const isIE = !!(document as any).documentMode;
 
 export function normalizeApi(
   api: Api,
@@ -59,6 +63,23 @@ export function buildApi(
   };
   api.method = (api.method || (options as any).method || 'get').toLowerCase();
 
+  if (api.headers) {
+    api.headers = dataMapping(api.headers, data, undefined, false);
+  }
+
+  if (api.requestAdaptor && typeof api.requestAdaptor === 'string') {
+    api.requestAdaptor = str2function(api.requestAdaptor, 'api') as any;
+  }
+
+  if (api.adaptor && typeof api.adaptor === 'string') {
+    api.adaptor = str2function(
+      api.adaptor,
+      'payload',
+      'response',
+      'api'
+    ) as any;
+  }
+
   if (!data) {
     return api;
   } else if (
@@ -75,12 +96,14 @@ export function buildApi(
 
   if (~idx) {
     const hashIdx = api.url.indexOf('#');
-    const params = qs.parse(
+    const params = qsparse(
       api.url.substring(idx + 1, ~hashIdx ? hashIdx : undefined)
     );
     api.url =
       tokenize(api.url.substring(0, idx + 1), data, '| url_encode') +
-      qsstringify((api.query = dataMapping(params, data))) +
+      qsstringify(
+        (api.query = dataMapping(params, data, undefined, api.convertKeyToPath))
+      ) +
       (~hashIdx ? api.url.substring(hashIdx) : '');
   } else {
     api.url = tokenize(api.url, data, '| url_encode');
@@ -91,7 +114,12 @@ export function buildApi(
   }
 
   if (api.data) {
-    api.body = api.data = dataMapping(api.data, data);
+    api.body = api.data = dataMapping(
+      api.data,
+      data,
+      undefined,
+      api.convertKeyToPath
+    );
   } else if (api.method === 'post' || api.method === 'put') {
     api.body = api.data = cloneObject(data);
   }
@@ -109,7 +137,7 @@ export function buildApi(
       const idx = api.url.indexOf('?');
       if (~idx) {
         let params = (api.query = {
-          ...qs.parse(api.url.substring(idx + 1)),
+          ...qsparse(api.url.substring(idx + 1)),
           ...data
         });
         api.url = api.url.substring(0, idx) + '?' + qsstringify(params);
@@ -123,7 +151,7 @@ export function buildApi(
       const idx = api.url.indexOf('?');
       if (~idx) {
         let params = (api.query = {
-          ...qs.parse(api.url.substring(idx + 1)),
+          ...qsparse(api.url.substring(idx + 1)),
           ...api.data
         });
         api.url = api.url.substring(0, idx) + '?' + qsstringify(params);
@@ -135,27 +163,10 @@ export function buildApi(
     }
   }
 
-  if (api.headers) {
-    api.headers = dataMapping(api.headers, data);
-  }
-
-  if (api.requestAdaptor && typeof api.requestAdaptor === 'string') {
-    api.requestAdaptor = str2function(api.requestAdaptor, 'api') as any;
-  }
-
-  if (api.adaptor && typeof api.adaptor === 'string') {
-    api.adaptor = str2function(
-      api.adaptor,
-      'payload',
-      'response',
-      'api'
-    ) as any;
-  }
-
   return api;
 }
 
-function str2function(
+export function str2function(
   contents: string,
   ...args: Array<string>
 ): Function | null {
@@ -168,12 +179,27 @@ function str2function(
   }
 }
 
+const AsyncFunction = Object.getPrototypeOf(async function () {}).constructor;
+
+export function str2AsyncFunction(
+  contents: string,
+  ...args: Array<string>
+): Function | null {
+  try {
+    let fn = new AsyncFunction(...args, contents);
+    return fn;
+  } catch (e) {
+    console.warn(e);
+    return null;
+  }
+}
+
 export function responseAdaptor(ret: fetcherResult, api: ApiObject) {
   const data = ret.data;
   let hasStatusField = true;
 
   if (!data) {
-    throw new Error('Response is empty!');
+    throw new Error('Response is empty');
   }
 
   // 兼容几种常见写法
@@ -231,7 +257,9 @@ export function responseAdaptor(ret: fetcherResult, api: ApiObject) {
               items: payload.data
             }
           : payload.data) || {}
-      )
+      ),
+      undefined,
+      api.convertKeyToPath
     );
   }
 
@@ -239,7 +267,8 @@ export function responseAdaptor(ret: fetcherResult, api: ApiObject) {
 }
 
 export function wrapFetcher(
-  fn: (config: fetcherConfig) => Promise<fetcherResult>
+  fn: (config: fetcherConfig) => Promise<fetcherResult>,
+  tracker?: (eventTrack: EventTrack, data: any) => void
 ): (api: Api, data: object, options?: object) => Promise<Payload | void> {
   return function (api, data, options) {
     api = buildApi(api, data, options) as ApiObject;
@@ -247,7 +276,10 @@ export function wrapFetcher(
     api.requestAdaptor && (api = api.requestAdaptor(api) || api);
 
     if (api.data && (hasFile(api.data) || api.dataType === 'form-data')) {
-      api.data = object2formData(api.data, api.qsOptions);
+      api.data =
+        api.data instanceof FormData
+          ? api.data
+          : object2formData(api.data, api.qsOptions);
     } else if (
       api.data &&
       typeof api.data !== 'string' &&
@@ -266,6 +298,11 @@ export function wrapFetcher(
       api.headers['Content-Type'] = 'application/json';
     }
 
+    tracker?.(
+      {eventType: 'api', eventData: omit(api, ['config', 'data', 'body'])},
+      api.data
+    );
+
     if (typeof api.cache === 'number' && api.cache > 0) {
       const apiCache = getApiCache(api);
       return wrapAdaptor(
@@ -274,6 +311,15 @@ export function wrapFetcher(
           : setApiCache(api, fn(api)),
         api
       );
+    }
+    // IE 下 get 请求会被缓存，所以自动加个时间戳
+    if (isIE && api && api.method?.toLocaleLowerCase() === 'get') {
+      const timeStamp = `_t=${Date.now()}`;
+      if (api.url.indexOf('?') === -1) {
+        api.url = api.url + `?${timeStamp}`;
+      } else {
+        api.url = api.url + `&${timeStamp}`;
+      }
     }
     return wrapAdaptor(fn(api), api);
   };
@@ -429,6 +475,18 @@ export function setApiCache(
 
 export function clearApiCache() {
   apiCaches.splice(0, apiCaches.length);
+}
+
+export function normalizeApiResponseData(data: any) {
+  if (typeof data === 'undefined') {
+    data = {};
+  } else if (!isPlainObject(data)) {
+    data = {
+      [Array.isArray(data) ? 'items' : 'result']: data
+    };
+  }
+
+  return data;
 }
 
 // window.apiCaches = apiCaches;

@@ -13,12 +13,54 @@ order: 32
 ```schema: scope="body"
 {
     "type": "form",
-    "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
+    "api": "/api/mock2/form/saveForm",
     "body": [
         {
             "type": "input-number",
             "name": "number",
             "label": "数字"
+        }
+    ]
+}
+```
+
+## 前后缀、千分分隔
+
+```schema: scope="body"
+{
+    "type": "form",
+    "api": "/api/mock2/form/saveForm",
+    "body": [
+        {
+            "type": "input-number",
+            "name": "number",
+            "label": "数字",
+            "value": 111111,
+            "prefix": "$",
+            "suffix": "%",
+            "kilobitSeparator": true
+        }
+    ]
+}
+```
+
+## 带单位数字
+
+> 1.4.0 及以上版本
+
+可以通过 `unitOptions` 设置数字的单位选项，和前面的前后缀不同，它的输出结果也将会是字符串，包含单位，默认取选项的第一个。
+
+```schema: scope="body"
+{
+    "type": "form",
+    "api": "/api/mock2/form/saveForm",
+    "debug": true,
+    "body": [
+        {
+            "type": "input-number",
+            "name": "number",
+            "label": "数字",
+            "unitOptions": ["px", "%", "em"]
         }
     ]
 }
@@ -31,7 +73,7 @@ order: 32
 ```schema: scope="body"
 {
     "type": "form",
-    "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
+    "api": "/api/mock2/form/saveForm",
     "body": [
         {
             "type": "native-number",
@@ -46,10 +88,13 @@ order: 32
 
 当做选择器表单项使用时，除了支持 [普通表单项属性表](./formitem#%E5%B1%9E%E6%80%A7%E8%A1%A8) 中的配置以外，还支持下面一些配置
 
-| 属性名    | 类型                                    | 默认值 | 说明                 |
-| --------- | --------------------------------------- | ------ | -------------------- |
-| min       | [模板](../../../docs/concepts/template) |        | 最小值               |
-| max       | [模板](../../../docs/concepts/template) |        | 最大值               |
-| step      | `number`                                |        | 步长                 |
-| precision | `number`                                |        | 精度，即小数点后几位 |
-| showSteps | `boolean`                               |        | 是否显示上下点击按钮 |
+| 属性名           | 类型                                    | 默认值 | 说明                 |
+| ---------------- | --------------------------------------- | ------ | -------------------- |
+| min              | [模板](../../../docs/concepts/template) |        | 最小值               |
+| max              | [模板](../../../docs/concepts/template) |        | 最大值               |
+| step             | `number`                                |        | 步长                 |
+| precision        | `number`                                |        | 精度，即小数点后几位 |
+| showSteps        | `boolean`                               |        | 是否显示上下点击按钮 |
+| prefix           | `string`                                |        | 前缀                 |
+| suffix           | `string`                                |        | 后缀                 |
+| kilobitSeparator | `boolean`                               |        | 千分分隔             |

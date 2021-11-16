@@ -1,7 +1,11 @@
 import React from 'react';
 import {FormItem, FormControlProps, FormBaseControl} from './Item';
 import {evalJS, filter} from '../../utils/tpl';
-import {isObjectShallowModified} from '../../utils/helper';
+import {
+  autobind,
+  isObjectShallowModified,
+  setVariable
+} from '../../utils/helper';
 
 /**
  * 公式功能控件。
@@ -56,9 +60,15 @@ export default class FormulaControl extends React.Component<
   any
 > {
   inited = false;
+  unHook?: () => void;
 
   componentDidMount() {
-    const {formInited, initSet} = this.props;
+    const {formInited, initSet, addHook} = this.props;
+
+    this.unHook =
+      initSet !== false && addHook
+        ? addHook(this.handleFormInit, 'init')
+        : undefined;
 
     // 如果在表单中，还是等初始化数据过来才算
     if (formInited === false) {
@@ -74,9 +84,24 @@ export default class FormulaControl extends React.Component<
 
     if (this.inited) {
       autoSet === false || this.autoSet(prevProps);
-    } else if (formInited === true || typeof formInited === 'undefined') {
+    } else if (typeof formInited === 'undefined') {
       this.inited = true;
       initSet === false || this.initSet();
+    }
+  }
+
+  componentWillUnmount() {
+    this.unHook?.();
+  }
+
+  @autobind
+  handleFormInit(data: any) {
+    this.inited = true;
+    const {name} = this.props;
+    const result = this.initSet();
+
+    if (typeof name === 'string' && typeof result !== 'undefined') {
+      setVariable(data, name, result);
     }
   }
 
@@ -95,7 +120,8 @@ export default class FormulaControl extends React.Component<
     }
 
     const result: any = evalJS(formula, data as object);
-    result !== null && setPrinstineValue(result);
+    result !== null && setPrinstineValue?.(result);
+    return result;
   }
 
   autoSet(prevProps: FormControlProps) {

@@ -18,6 +18,11 @@ export interface RatingControlSchema extends FormBaseControl {
    * 允许半颗星
    */
   half?: boolean;
+
+  /**
+   * 是否允许再次点击后清除
+   */
+  allowClear?: boolean;
 }
 
 export interface RatingProps extends FormControlProps {
@@ -45,6 +50,7 @@ export default class RatingControl extends React.Component<RatingProps, any> {
       disabled,
       onChange,
       size,
+      allowClear,
       classnames: cx
     } = this.props;
 
@@ -56,6 +62,7 @@ export default class RatingControl extends React.Component<RatingProps, any> {
           disabled={disabled}
           count={count}
           half={half}
+          allowClear={allowClear}
           readOnly={readOnly}
           onChange={(value: any) => onChange(value)}
         />

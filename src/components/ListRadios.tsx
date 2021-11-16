@@ -48,7 +48,7 @@ export class BaseRadios<
 
     let newValue: Option | null = option;
 
-    if (clearable) {
+    if (clearable && value) {
       const prevSelected = BaseRadios.resolveSelected(
         value,
         options,

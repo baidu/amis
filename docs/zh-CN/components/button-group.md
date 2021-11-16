@@ -68,6 +68,33 @@ order: 30
 ]
 ```
 
+## 平铺模式
+
+配置 `"tiled": true` 实现平铺模式
+
+```schema: scope="body"
+[
+  {
+    "type": "button-group",
+    "tiled": true,
+    "buttons": [
+      {
+        "type": "button",
+        "label": "按钮1"
+      },
+      {
+        "type": "button",
+        "label": "按钮2"
+      },
+      {
+        "type": "button",
+        "label": "按钮3"
+      }
+    ]
+  }
+]
+```
+
 ## 属性表
 
 | 属性名    | 类型                      | 默认值           | 说明                       |
