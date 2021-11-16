@@ -237,8 +237,7 @@ $R8: 50%;
   --Collapse-header-bg: #{$G10};
   --Collapse-header-onHover-bg: #{$G9};
   --Collapse-header-collapsed-border: none;
-  --Collapse-header-collapsed-borderTop: var(--borderWidth) solid
-    var(--Collapse-border-color);
+  --Collapse-header-collapsed-borderTop: none;
   --Collapse-header-collapsed-borderBottom: none;
   --Collapse-header-wrapper-direction: row-reverse;
   --Collapse-content-padding: #{px2rem(16px)};
