@@ -1487,6 +1487,76 @@ crud 组件支持通过配置`headerToolbar`和`footerToolbar`属性，实现在
 }
 ```
 
+还可以设置 `"checkOnItemClick": true` 属性来支持点击一行的触发选中状态切换
+
+```schema: scope="body"
+{
+    "type": "crud",
+    "syncLocation": false,
+    "api": "/api/sample",
+    "checkOnItemClick": true,
+    "headerToolbar": [
+        "bulkActions"
+    ],
+    "bulkActions": [
+        {
+            "label": "批量删除",
+            "actionType": "ajax",
+            "api": "delete:/api/sample/${ids|raw}",
+            "confirmText": "确定要批量删除?"
+        },
+        {
+            "label": "批量修改",
+            "actionType": "dialog",
+            "dialog": {
+                "title": "批量编辑",
+                "body": {
+                    "type": "form",
+                    "api": "/api/sample/bulkUpdate2",
+                    "body": [
+                        {
+                            "type": "hidden",
+                            "name": "ids"
+                        },
+                        {
+                            "type": "input-text",
+                            "name": "engine",
+                            "label": "Engine"
+                        }
+                    ]
+                }
+            }
+        }
+    ],
+    "columns": [
+        {
+            "name": "id",
+            "label": "ID"
+        },
+        {
+            "name": "engine",
+            "label": "Rendering engine"
+        },
+        {
+            "name": "browser",
+            "label": "Browser"
+        },
+        {
+            "name": "platform",
+            "label": "Platform(s)"
+        },
+        {
+            "name": "version",
+            "label": "Engine version"
+        },
+        {
+            "name": "grade",
+            "label": "CSS grade"
+        }
+    ]
+}
+```
+
 ### 数据统计
 
 在`headerToolbar`或者`footerToolbar`数组中添加`statistics`字符串，可以实现简单的数据统计功能
@@ -2407,7 +2477,7 @@ itemAction 里的 onClick 还能通过 `data` 参数拿到当前行的数据，�
 | footerToolbar                         | Array                       | `['statistics', 'pagination']`  | 底部工具栏配置                                                                                                        |
 | alwaysShowPagination                  | `boolean`                   | `false`                         | 是否总是显示分页                                                                                                      |
 | affixHeader                           | `boolean`                   | `true`                          | 是否固定表头(table 下)                                                                                                |
-| autoGenerateFilter                   | `boolean`                   | `false`                         | 是否开启查询区域，开启后会根据列元素的 `searchable` 属性值，自动生成查询条件表单                                      |
+| autoGenerateFilter                    | `boolean`                   | `false`                         | 是否开启查询区域，开启后会根据列元素的 `searchable` 属性值，自动生成查询条件表单                                      |
 
 注意除了上面这些属性，CRUD 在不同模式下的属性需要参考各自的文档，比如
 
