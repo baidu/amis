@@ -113,10 +113,12 @@ export class PopOver extends React.PureComponent<PopOverPorps, PopOverState> {
     } = this.props;
 
     const {xOffset, yOffset} = this.state;
+    const pTop = positionTop as number;
+    const gap = pTop > 0 ? 4 : -4;
     const outerStyle = {
       display: 'block',
       ...style,
-      top: (positionTop as number) + yOffset,
+      top: pTop + gap + yOffset,
       left: (positionLeft as number) + xOffset
     };
 
