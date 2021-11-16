@@ -2001,6 +2001,7 @@ crud 组件支持通过配置`headerToolbar`和`footerToolbar`属性，实现在
     "headerToolbar": [
         {
             "type": "reload",
+            "align": "right",
             "icon": "iconfont icon-refresh",
             "label": "刷新",
             "tooltip": "",
