@@ -471,12 +471,15 @@
 }
 
 .markdown-body table:not(.table) tr {
-  background-color: #fff;
   border-top: 1px solid #ccc;
 }
 
 .markdown-body table:not(.table) tr:nth-child(2n) {
   background-color: #f8f8f8;
+}
+
+body.dark .markdown-body table:not(.table) tr:nth-child(2n) {
+  background: none;
 }
 
 /* modified by zhangjun08
