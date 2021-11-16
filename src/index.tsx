@@ -111,6 +111,7 @@ import './renderers/Form/InputColor';
 import './renderers/Form/ChainedSelect';
 import './renderers/Form/NestedSelect';
 import './renderers/Form/Transfer';
+import './renderers/Form/TransferPicker';
 import './renderers/Form/InputTable';
 import './renderers/Form/Picker';
 import './renderers/Form/IconPicker';
