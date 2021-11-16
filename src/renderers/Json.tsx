@@ -123,7 +123,6 @@ export class JSONField extends React.Component<JSONProps, object> {
             theme={(jsonThemeValue as any) ?? 'rjv-default'}
             shouldCollapse={this.shouldExpandNode}
             enableClipboard={false}
-            indentWidth={2}
             displayDataTypes={displayDataTypes}
             iconStyle="square"
             onEdit={name && mutable ? this.emitChange : false}
