@@ -29,6 +29,11 @@ export interface JsonSchema extends BaseSchema {
    * 是否可修改
    */
   mutable?: boolean;
+
+  /**
+   * 是否显示数据类型
+   */
+  displayDataTypes?: boolean;
 }
 
 export interface JSONProps extends RendererProps, JsonSchema {
@@ -44,7 +49,8 @@ export class JSONField extends React.Component<JSONProps, object> {
   static defaultProps: Partial<JSONProps> = {
     placeholder: '-',
     levelExpand: 1,
-    source: ''
+    source: '',
+    displayDataTypes: false
   };
 
   @autobind
@@ -79,6 +85,7 @@ export class JSONField extends React.Component<JSONProps, object> {
       source,
       levelExpand,
       mutable,
+      displayDataTypes,
       name
     } = this.props;
 
@@ -87,14 +94,6 @@ export class JSONField extends React.Component<JSONProps, object> {
     let data = value;
     if (source !== undefined && isPureVariable(source)) {
       data = resolveVariableAndFilter(source, this.props.data, '| raw');
-    } else if (typeof value === 'string') {
-      try {
-        data = JSON.parse(value);
-      } catch (e) {
-        data = {
-          error: e.message
-        };
-      }
     }
 
     let jsonThemeValue = jsonTheme;
@@ -124,6 +123,8 @@ export class JSONField extends React.Component<JSONProps, object> {
             theme={(jsonThemeValue as any) ?? 'rjv-default'}
             shouldCollapse={this.shouldExpandNode}
             enableClipboard={false}
+            indentWidth={2}
+            displayDataTypes={displayDataTypes}
             iconStyle="square"
             onEdit={name && mutable ? this.emitChange : false}
             onDelete={name && mutable ? this.emitChange : false}
