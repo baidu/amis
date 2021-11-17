@@ -10,13 +10,14 @@ import {BaseTransferRenderer} from './Transfer';
 import TabsTransfer from '../../components/TabsTransfer';
 import {SchemaApi} from '../../Schema';
 import TransferPicker from '../../components/TransferPicker';
+import TabsTransferPicker from '../../components/TabsTransferPicker';
 
 /**
- * TransferPicker 穿梭器的弹框形态
- * 文档：https://baidu.gitee.io/amis/docs/components/form/transfer-picker
+ * TabsTransferPicker 穿梭器的弹框形态
+ * 文档：https://baidu.gitee.io/amis/docs/components/form/tabs-transfer-picker
  */
-export interface TransferPickerControlSchema extends FormOptionsControl {
-  type: 'transfer-picker';
+export interface TabsTransferPickerControlSchema extends FormOptionsControl {
+  type: 'tabs-transfer-picker';
 
   /**
    * 是否显示剪头
@@ -62,7 +63,7 @@ export interface TransferPickerControlSchema extends FormOptionsControl {
 export interface TabsTransferProps
   extends OptionsControlProps,
     Omit<
-      TransferPickerControlSchema,
+      TabsTransferPickerControlSchema,
       | 'type'
       | 'options'
       | 'inputClassName'
@@ -71,9 +72,9 @@ export interface TabsTransferProps
     > {}
 
 @OptionsControl({
-  type: 'transfer-picker'
+  type: 'tabs-transfer-picker'
 })
-export class TransferPickerRenderer extends BaseTransferRenderer<TabsTransferProps> {
+export class TabsTransferPickerRenderer extends BaseTransferRenderer<TabsTransferProps> {
   render() {
     const {
       className,
@@ -97,7 +98,7 @@ export class TransferPickerRenderer extends BaseTransferRenderer<TabsTransferPro
 
     return (
       <div className={cx('TabsTransferControl', className)}>
-        <TransferPicker
+        <TabsTransferPicker
           value={selectedOptions}
           disabled={disabled}
           options={options}
@@ -111,7 +112,6 @@ export class TransferPickerRenderer extends BaseTransferRenderer<TabsTransferPro
           selectTitle={selectTitle}
           resultTitle={resultTitle}
           size={pickerSize}
-          columns={columns}
           leftMode={leftMode}
           leftOptions={leftOptions}
         />
