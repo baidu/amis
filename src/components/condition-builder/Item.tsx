@@ -18,7 +18,7 @@ import {autobind, findTree, noop} from '../../utils/helper';
 import Expression from './Expression';
 import {Config, OperationMap} from './config';
 import PopOverContainer from '../PopOverContainer';
-import ListRadios from '../ListRadios';
+import GroupedSelection from '../GroupedSelection';
 import ResultBox from '../ResultBox';
 import {localeable, LocaleProps} from '../../locale';
 
@@ -100,15 +100,8 @@ export class ConditionItem extends React.Component<ConditionItemProps> {
   }
 
   renderLeft() {
-    const {
-      value,
-      fields,
-      funcs,
-      config,
-      disabled,
-      fieldClassName,
-      searchable
-    } = this.props;
+    const {value, fields, funcs, config, disabled, fieldClassName, searchable} =
+      this.props;
     return (
       <Expression
         config={config}
@@ -158,7 +151,7 @@ export class ConditionItem extends React.Component<ConditionItemProps> {
       return (
         <PopOverContainer
           popOverRender={({onClose}) => (
-            <ListRadios
+            <GroupedSelection
               onClick={onClose}
               option2value={option2value}
               onChange={this.handleOperatorChange}
@@ -167,7 +160,7 @@ export class ConditionItem extends React.Component<ConditionItemProps> {
                 value: operator
               }))}
               value={value.op}
-              showRadio={false}
+              multiple={false}
             />
           )}
         >

@@ -195,10 +195,10 @@ export class App extends React.PureComponent<{
     }
   }
 
-  setNavigations(items) {
+  setNavigations(items: any, resetFilter = true) {
     this.setState({
       navigations: items,
-      filter: ''
+      filter: resetFilter ? '' : this.state.filter
     });
   }
 

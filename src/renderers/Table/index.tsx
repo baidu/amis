@@ -9,6 +9,7 @@ import './ColumnToggler';
 import Checkbox from '../../components/Checkbox';
 import Button from '../../components/Button';
 import {TableStore, ITableStore, IColumn, IRow} from '../../store/table';
+import {saveAs} from 'file-saver';
 import {
   anyChanged,
   getScrollParent,

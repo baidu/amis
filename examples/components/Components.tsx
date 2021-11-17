@@ -1087,8 +1087,10 @@ export default class Components extends React.PureComponent<any> {
     this.props.setNavigations(components);
   }
 
-  componentDidUpdate() {
-    this.props.setNavigations(components);
+  componentDidUpdate(preProps: any) {
+    if (this.props.location.pathname !== preProps.location.pathname) {
+      this.props.setNavigations(components, false);
+    }
   }
 
   render() {
