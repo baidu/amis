@@ -1802,7 +1802,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
       return null;
     }
 
-    const {render, store} = this.props;
+    const {render, store, translate: __} = this.props;
     const type = (toolbar as Schema).type || toolbar;
 
     if (type === 'bulkActions' || type === 'bulk-actions') {
@@ -1819,6 +1819,22 @@ export default class CRUD extends React.Component<CRUDProps, any> {
       return this.renderFilterToggler();
     } else if (type === 'export-csv') {
       return this.renderExportCSV(toolbar as Schema);
+    } else if (type === 'reload') {
+      let reloadButton = {
+        label: '',
+        icon: 'fa fa-sync',
+        tooltip: __('reload'),
+        tooltipPlacement: 'top',
+        type: 'button'
+      };
+      if (typeof toolbar === 'object') {
+        reloadButton = {...reloadButton, ...omit(toolbar, ['type', 'align'])};
+      }
+      return render(`toolbar/${index}`, reloadButton, {
+        onAction: () => {
+          this.reload();
+        }
+      });
     } else if (Array.isArray(toolbar)) {
       const children: Array<any> = toolbar
         .filter((toolbar: any) => isVisible(toolbar, store.filterData))
