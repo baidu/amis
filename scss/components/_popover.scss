@@ -46,10 +46,10 @@
   }
 
   &--leftBottomLeftTop {
-    transform: translateY(px2rem(4px));
+    margin-top: px2rem(4px);
   }
   &--leftTopLeftBottom {
-    transform: translateY(px2rem(-4px));
+    margin-top: px2rem(-4px);
   }
 }
 
