@@ -10,7 +10,11 @@ import {
   SchemaUrlPath
 } from '../Schema';
 import {BadgeSchema, withBadge} from '../components/Badge';
-import {isPureVariable, resolveVariable, resolveVariableAndFilter} from '../utils/tpl-builtin';
+import {
+  isPureVariable,
+  resolveVariable,
+  resolveVariableAndFilter
+} from '../utils/tpl-builtin';
 
 /**
  * Avatar 用户头像显示
@@ -102,15 +106,15 @@ export class AvatarField extends React.Component<AvatarProps, object> {
     };
 
     if (isPureVariable(text)) {
-      text = resolveVariable(text, data);
+      text = resolveVariableAndFilter(text, data);
     }
 
     if (isPureVariable(src)) {
-      src = resolveVariable(src, data);
+      src = resolveVariableAndFilter(src, data, '| raw');
     }
 
     if (isPureVariable(icon)) {
-      icon = resolveVariable(icon, data);
+      icon = resolveVariableAndFilter(icon, data);
     }
 
     let avatar = <i className={icon} />;
