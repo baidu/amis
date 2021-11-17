@@ -104,7 +104,7 @@ order: 60
 }
 ```
 
-## 影藏头部
+## 隐藏头部
 
 去掉头部，默认只展示内容tab第一项的内容
 
@@ -226,7 +226,7 @@ order: 60
 | toolbar               | [SchemaNode](../types/schemanode) |                                     | tabs 中的工具栏，不随tab切换而变化                                                                            |
 | style                 | `string \| Object`                |                                     | 自定义样式|
 | description           | [模板](../../docs/concepts/template)|                                    | 标题右侧信息                                                                           |
-| hideHeader                | `boolean`                     |       false                          | 影藏头部                                                   |
+| hideHeader                | `boolean`                     |       false                          | 隐藏头部                                                   |
 | divider                | `boolean`                        |        false                         | 去掉分隔线                                                    |
 | tabs[x].title         | `string`                          |                                     | Tab 标题                                                                                   |
 | tabs[x].icon          | `icon`                            |                                     | Tab 的图标                                                                                 |
