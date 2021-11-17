@@ -103,7 +103,7 @@
       display: inline-block;
       vertical-align: middle;
       font-size: var(--Form-selectValue-fontSize);
-      background: var(--Form-input-bg);
+      background: var(--Form-select-value-bgColor);
       border: px2rem(1px) solid var(--Form-select-value-borderColor);
       border-radius: px2rem(2px);
       margin-right: var(--gap-xs);

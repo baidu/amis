@@ -126,29 +126,6 @@ export function value2array(
   return expandedValue ? [expandedValue] : [];
 }
 
-// 分组匹配，需携带匹配子项的分组名
-export function groupMatch(
-  options: Options,
-  inputValue: string,
-  labelField: string,
-  valueField: string
-): Array<Option> {
-  let tempArr: Options = [];
-  let itemArr: Options = [];
-  options.forEach(item => {
-    if (item.isGroup) {
-      tempArr = itemArr.length !== 1 ? tempArr.concat(itemArr) : tempArr;
-      itemArr = [item];
-    } else {
-      if (item[labelField].indexOf(inputValue) > -1 || item[valueField].indexOf(inputValue) > -1) {
-        itemArr.push(item);
-      }
-    }
-  });
-  tempArr = itemArr.length !== 1 ? tempArr.concat(itemArr) : tempArr;
-  return tempArr as Options;
-}
-
 export function expandValue(
   value: OptionValue,
   options: Options,
@@ -556,8 +533,15 @@ export class Select extends React.Component<SelectProps, SelectState> {
         isGroup: !!item.children?.length
       }));
       filtedOptions = (inputValue && checkAllBySearch
-        ? groupMatch(flatOptions, inputValue, labelField || 'label', valueField || 'value')
-        : flatOptions).filter(option => !option.isGroup);
+        ? matchSorter(flatOptions, inputValue, {
+          keys: [
+            labelField && `children.*.${labelField}` || 'children.*.label',
+            valueField && `children.*.${valueField}` || 'children.*.value',
+            labelField || 'label',
+            valueField || 'value'
+          ],
+          sorter: rankedOption => rankedOption
+        }) : flatOptions).filter(option => !option.isGroup);
     }
     const optionsValues = filtedOptions.map(option => option.value);
     const selectionValues = selection.map(select => select.value);
@@ -836,7 +820,15 @@ export class Select extends React.Component<SelectProps, SelectState> {
         disabled: item.children ? true : !!item.disabled
       }));
       filtedOptions = inputValue && isOpen && !loadOptions
-        ? groupMatch(flatOptions, inputValue, labelField || 'label', valueField || 'value') : flatOptions;
+        ? matchSorter(flatOptions, inputValue, {
+          keys: [
+            labelField && `children.*.${labelField}` || 'children.*.label',
+            valueField && `children.*.${valueField}` || 'children.*.value',
+            labelField || 'label',
+            valueField || 'value'
+          ],
+          sorter: rankedOption => rankedOption
+        }) : flatOptions;
     }
 
     const selectionValues = selection.map(select => select[valueField]);

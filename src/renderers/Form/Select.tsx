@@ -137,7 +137,6 @@ export default class SelectControl extends React.Component<SelectProps, any> {
       }
     }
 
-    console.log(additonalOptions, 'add')
     // 不设置没法回显
     additonalOptions.length && setOptions(options.concat(additonalOptions));
 
