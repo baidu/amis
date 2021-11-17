@@ -203,6 +203,11 @@ export interface FormSchema extends BaseSchema {
   mode?: 'normal' | 'inline' | 'horizontal';
 
   /**
+   * 表单项显示为几列
+   */
+  columnCount?: number;
+
+  /**
    * 如果是水平排版，这个属性可以细化水平排版的左右宽度占比。
    */
   horizontal?: FormSchemaHorizontal;
@@ -347,6 +352,7 @@ export default class Form extends React.Component<FormProps, object> {
       right: 10,
       offset: 2
     },
+    columnCount: 0,
     panelClassName: 'Panel--default',
     messages: {
       fetchFailed: 'fetchFailed',
@@ -367,6 +373,7 @@ export default class Form extends React.Component<FormProps, object> {
     'initFetch',
     'wrapWithPanel',
     'mode',
+    'columnCount',
     'collapsable',
     'horizontal',
     'panelClassName',
@@ -1418,6 +1425,7 @@ export default class Form extends React.Component<FormProps, object> {
       debug,
       $path,
       store,
+      columnCount,
       render
     } = this.props;
 
@@ -1429,7 +1437,13 @@ export default class Form extends React.Component<FormProps, object> {
 
     return (
       <WrapperComponent
-        className={cx(`Form`, `Form--${mode || 'normal'}`, className)}
+        className={cx(
+          `Form`,
+          `Form--${mode || 'normal'}`,
+          {'Form-column': columnCount},
+          `Form-column-${columnCount}`,
+          className
+        )}
         onSubmit={this.handleFormSubmit}
         noValidate
       >
