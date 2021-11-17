@@ -97,15 +97,13 @@ export default class SelectControl extends React.Component<SelectProps, any> {
       options
     } = this.props;
 
-    const supportGroup = !options.some(option => !option.children?.length);
     let newValue: string | Option | Array<Option> | void = value;
     let additonalOptions: Array<any> = [];
 
-    const tempOptions = supportGroup ? flattenTree(options) : options;
     (Array.isArray(value) ? value : value ? [value] : []).forEach(
       (option: any) => {
         let resolved = find(
-          tempOptions,
+          flattenTree(options),
           (item: any) =>
             item[valueField || 'value'] == option[valueField || 'value']
         );
