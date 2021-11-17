@@ -248,7 +248,7 @@
       color: var(--Form-select-onGroup-color);
     }
 
-    &.is-child {
+    &.is-group-item {
       & > span {
         padding-left: px2rem(12px);
       }

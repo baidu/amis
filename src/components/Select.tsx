@@ -522,7 +522,7 @@ export class Select extends React.Component<SelectProps, SelectState> {
     let {selection} = this.state;
     const flatOptions: Options = flattenTree(options, item => ({
       ...item,
-      isGroup: !!item.children?.length
+      isGroup: !!item.children
     }));
     let filtedOptions: Array<Option> =
       (inputValue && checkAllBySearch
@@ -796,14 +796,12 @@ export class Select extends React.Component<SelectProps, SelectState> {
     let checkedPartial = false;
     const flatOptions: Array<Option> = flattenTree(options, item => ({
       ...item,
-      isGroup: !!item.children?.length,
-      isGroupItem: !item.children?.length,
-      disabled: item.children ? true : !!item.disabled
+      isGroup: !!item.children,
+      disabled: !!item.children || item.disabled
     }));
-    let toFilterOptions = supportGroup ? flatOptions : options.concat();
     let filtedOptions: Array<Option> = (
       inputValue && isOpen && !loadOptions
-        ? matchSorter(toFilterOptions, inputValue, {
+        ? matchSorter(flatOptions, inputValue, {
           keys: [
             `children.*.${labelField || 'label'}`,
             `children.*.${valueField || 'value'}`,
@@ -812,15 +810,13 @@ export class Select extends React.Component<SelectProps, SelectState> {
           ],
           sorter: rankedOption => rankedOption
           })
-        : toFilterOptions
+        : flatOptions
     ).filter((option: Option) => !option.hidden && option.visible !== false);
 
     const selectionValues = selection.map(select => select[valueField]);
     if (multiple && checkAll) {
       const optionsValues = (
-        supportGroup
-        ? (checkAllBySearch ? filtedOptions : flatOptions).filter(option => option.isGroupItem)
-        : (checkAllBySearch ? filtedOptions : options)
+        (checkAllBySearch ? filtedOptions : flatOptions).filter(option => !option.isGroup)
       ).map(
         option => option[valueField]
       );
@@ -863,7 +859,7 @@ export class Select extends React.Component<SelectProps, SelectState> {
             'is-highlight': highlightedIndex === index,
             'is-active': checked,
             'is-group': item.isGroup,
-            'is-child': item.isGroupItem
+            'is-group-item': supportGroup && !item.isGroup
           })}
         >
           {removable ? (
