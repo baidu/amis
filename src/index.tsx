@@ -118,6 +118,7 @@ import './renderers/Form/IconPicker';
 import './renderers/Form/Formula';
 import './renderers/Form/FieldSet';
 import './renderers/Form/TabsTransfer';
+import './renderers/Form/TabsTransferPicker';
 import './renderers/Form/Group';
 import './renderers/Form/InputGroup';
 import './renderers/Grid';

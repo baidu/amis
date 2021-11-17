@@ -111,6 +111,7 @@ import {TreeSelectControlSchema} from './renderers/Form/TreeSelect';
 import {UUIDControlSchema} from './renderers/Form/UUID';
 import {FormControlSchema} from './renderers/Form/Control';
 import {TransferPickerControlSchema} from './renderers/Form/TransferPicker';
+import {TabsTransferPickerControlSchema} from './renderers/Form/TabsTransferPicker';
 
 // 每加个类型，这补充一下。
 export type SchemaType =
@@ -311,6 +312,7 @@ export type SchemaType =
   | 'textarea'
   | 'transfer'
   | 'transfer-picker'
+  | 'tabs-transfer-picker'
   | 'input-tree'
   | 'tree-select'
   | 'table-view'
@@ -435,6 +437,7 @@ export type SchemaObject =
   | TextareaControlSchema
   | TransferControlSchema
   | TransferPickerControlSchema
+  | TabsTransferPickerControlSchema
   | TreeControlSchema
   | TreeSelectControlSchema;
 
