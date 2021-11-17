@@ -205,8 +205,6 @@ import {
   theme,
   getTheme
 } from './theme';
-import Selection from './components/Selection';
-import GroupedSelection from './components/GroupedSelection';
 const classPrefix = getClassPrefix();
 
 export * from './components/index';
@@ -265,11 +263,5 @@ export {
   setDefaultLocale,
   registerLocale,
   makeTranslator,
-  animation,
-  Selection,
-  GroupedSelection,
-  ChainedSelection,
-  TableSelection,
-  TreeSelection,
-  AssociatedSelection
+  animation
 };

@@ -41,10 +41,6 @@ import Tree from './Tree';
 import Alert2 from './Alert2';
 import Transfer from './Transfer';
 import TabsTransfer from './TabsTransfer';
-import ListCheckboxes from './GroupedSelection';
-import TableCheckboxes from './TableSelection';
-import TreeCheckboxes from './TreeSelection';
-import ChainedCheckboxes from './ChainedSelection';
 import ResultBox from './ResultBox';
 import InputBox from './InputBox';
 import ListGroup from './ListGroup';
@@ -52,6 +48,12 @@ import NumberInput from './NumberInput';
 import ArrayInput from './ArrayInput';
 import SearchBox from './SearchBox';
 import AnchorNav from './AnchorNav';
+import Selection from './Selection';
+import GroupedSelection from './GroupedSelection';
+import ChainedSelection from './ChainedSelection';
+import TableSelection from './TableSelection';
+import TreeSelection from './TreeSelection';
+import AssociatedSelection from './AssociatedSelection';
 
 export {
   NotFound,
@@ -97,10 +99,12 @@ export {
   Tree,
   Transfer,
   TabsTransfer,
-  ListCheckboxes,
-  TableCheckboxes,
-  TreeCheckboxes,
-  ChainedCheckboxes,
+  Selection,
+  GroupedSelection,
+  ChainedSelection,
+  TableSelection,
+  TreeSelection,
+  AssociatedSelection,
   ResultBox,
   InputBox,
   SearchBox,
