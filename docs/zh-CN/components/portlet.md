@@ -34,6 +34,7 @@ order: 60
     }
 }
 ```
+
 ## 配置工具栏
 
 ```schema: scope="body"
@@ -106,7 +107,7 @@ order: 60
 
 ## 隐藏头部
 
-去掉头部，默认只展示内容tab第一项的内容
+去掉头部，默认只展示内容 tab 第一项的内容
 
 ```schema: scope="body"
 {
@@ -121,9 +122,9 @@ order: 60
 }
 ```
 
-## 设置style
+## 设置 style
 
-默认tabs只有一项的时候没有选中状态
+默认 tabs 只有一项的时候没有选中状态
 
 ```schema: scope="body"
 {
@@ -140,8 +141,6 @@ order: 60
 }
 ```
 
-
-
 ## 去掉分隔线
 
 ```schema: scope="body"
@@ -157,9 +156,9 @@ order: 60
 }
 ```
 
-## source动态数据
+## source 动态数据
 
-配置 source 属性,根据某个数据来动态生成。具体使用参考Tabs选项卡组件
+配置 source 属性,根据某个数据来动态生成。具体使用参考 Tabs 选项卡组件
 
 ## 图标
 
@@ -215,26 +214,26 @@ order: 60
 
 ## 属性表
 
-| 属性名                | 类型                              | 默认值                              | 说明                                                                                       |
-| --------------------- | --------------------------------- | ----------------------------------- | ------------------------------------------------------------------------------------------ |
-| type                  | `string`                          | `"portlet"`                            | 指定为 Portlet 渲染器                                                                         |
-| className             | `string`                          |                                     | 外层 Dom 的类名                                                                            |
-| tabsClassName         | `string`                          |                                     | Tabs Dom 的类名                                                                            |
-| contentClassName      | `string`                          |                                     | Tabs content Dom 的类名                                                                            |
-| tabs                  | `Array`                           |                                     | tabs 内容                                                                                  |
-| source                | `Object`                          |                                     | tabs 关联数据，关联后可以重复生成选项卡                                                    |
-| toolbar               | [SchemaNode](../types/schemanode) |                                     | tabs 中的工具栏，不随tab切换而变化                                                                            |
-| style                 | `string \| Object`                |                                     | 自定义样式|
-| description           | [模板](../../docs/concepts/template)|                                    | 标题右侧信息                                                                           |
-| hideHeader                | `boolean`                     |       false                          | 隐藏头部                                                   |
-| divider                | `boolean`                        |        false                         | 去掉分隔线                                                    |
-| tabs[x].title         | `string`                          |                                     | Tab 标题                                                                                   |
-| tabs[x].icon          | `icon`                            |                                     | Tab 的图标                                                                                 |
-| tabs[x].tab           | [SchemaNode](../types/schemanode) |                                     | 内容区                                                                                     |
-| tabs[x].toolbar       | [SchemaNode](../types/schemanode) |                                     | tabs 中的工具栏，随tab切换而变化  
-| tabs[x].reload        | `boolean`                         |                                     | 设置以后内容每次都会重新渲染，对于 crud 的重新拉取很有用                                   |
-| tabs[x].unmountOnExit | `boolean`                         |                                     | 每次退出都会销毁当前 tab 栏内容                                                            |
-| tabs[x].className     | `string`                          | `"bg-white b-l b-r b-b wrapper-md"` | Tab 区域样式                                                                               |
-| mountOnEnter          | `boolean`                         | false                               | 只有在点中 tab 的时候才渲染                                                                |
-| unmountOnExit         | `boolean`                         | false                               | 切换 tab 的时候销毁                                                                        |
-| scrollable            | `boolean`                         | false                               | 是否导航支持内容溢出滚动，`vertical`和`chrome`模式下不支持该属性；`chrome`模式默认压缩标签 |
+| 属性名                | 类型                                 | 默认值                              | 说明                                                                                       |
+| --------------------- | ------------------------------------ | ----------------------------------- | ------------------------------------------------------------------------------------------ |
+| type                  | `string`                             | `"portlet"`                         | 指定为 Portlet 渲染器                                                                      |
+| className             | `string`                             |                                     | 外层 Dom 的类名                                                                            |
+| tabsClassName         | `string`                             |                                     | Tabs Dom 的类名                                                                            |
+| contentClassName      | `string`                             |                                     | Tabs content Dom 的类名                                                                    |
+| tabs                  | `Array`                              |                                     | tabs 内容                                                                                  |
+| source                | `Object`                             |                                     | tabs 关联数据，关联后可以重复生成选项卡                                                    |
+| toolbar               | [SchemaNode](../types/schemanode)    |                                     | tabs 中的工具栏，不随 tab 切换而变化                                                       |
+| style                 | `string \| Object`                   |                                     | 自定义样式                                                                                 |
+| description           | [模板](../../docs/concepts/template) |                                     | 标题右侧信息                                                                               |
+| hideHeader            | `boolean`                            | false                               | 隐藏头部                                                                                   |
+| divider               | `boolean`                            | false                               | 去掉分隔线                                                                                 |
+| tabs[x].title         | `string`                             |                                     | Tab 标题                                                                                   |
+| tabs[x].icon          | `icon`                               |                                     | Tab 的图标                                                                                 |
+| tabs[x].tab           | [SchemaNode](../types/schemanode)    |                                     | 内容区                                                                                     |
+| tabs[x].toolbar       | [SchemaNode](../types/schemanode)    |                                     | tabs 中的工具栏，随 tab 切换而变化                                                         |
+| tabs[x].reload        | `boolean`                            |                                     | 设置以后内容每次都会重新渲染，对于 crud 的重新拉取很有用                                   |
+| tabs[x].unmountOnExit | `boolean`                            |                                     | 每次退出都会销毁当前 tab 栏内容                                                            |
+| tabs[x].className     | `string`                             | `"bg-white b-l b-r b-b wrapper-md"` | Tab 区域样式                                                                               |
+| mountOnEnter          | `boolean`                            | false                               | 只有在点中 tab 的时候才渲染                                                                |
+| unmountOnExit         | `boolean`                            | false                               | 切换 tab 的时候销毁                                                                        |
+| scrollable            | `boolean`                            | false                               | 是否导航支持内容溢出滚动，`vertical`和`chrome`模式下不支持该属性；`chrome`模式默认压缩标签 |

@@ -659,6 +659,14 @@ export const components = [
           )
       },
       {
+        label: 'TransferPicker 穿梭选择器',
+        path: '/zh-CN/components/form/transfer-picker',
+        getComponent: () =>
+          import('../../docs/zh-CN/components/form/transfer-picker.md').then(
+            makeMarkdownRenderer
+          )
+      },
+      {
         label: 'TabsTransfer 组合穿梭器',
         path: '/zh-CN/components/form/tabs-transfer',
         getComponent: () =>
@@ -667,12 +675,12 @@ export const components = [
           )
       },
       {
-        label: 'TransferPicker 穿梭选择器',
-        path: '/zh-CN/components/form/transfer-picker',
+        label: 'TabsTransferPicker 组合穿梭选择器',
+        path: '/zh-CN/components/form/tabs-transfer-picker',
         getComponent: () =>
-          import('../../docs/zh-CN/components/form/transfer-picker.md').then(
-            makeMarkdownRenderer
-          )
+          import(
+            '../../docs/zh-CN/components/form/tabs-transfer-picker.md'
+          ).then(makeMarkdownRenderer)
       },
       {
         label: 'InputTree 树形选择框',

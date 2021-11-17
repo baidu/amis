@@ -788,7 +788,7 @@ export class Select extends React.Component<SelectProps, SelectState> {
       hideSelected,
       renderMenu,
       mobileClassName,
-      useMobileUI = true
+      useMobileUI = false
     } = this.props;
     const {selection} = this.state;
     const supportGroup = options.every(option => option.children?.length);

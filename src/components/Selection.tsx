@@ -42,7 +42,7 @@ export class BaseSelection<
     placeholder: 'placeholder.noOption',
     itemRender: (option: Option) => <span>{option.label}</span>,
     multiple: true,
-    clearable: true
+    clearable: false
   };
 
   static value2array(

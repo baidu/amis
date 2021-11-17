@@ -1,19 +1,20 @@
 import {localeable} from '../locale';
 import {themeable} from '../theme';
-import Transfer, {TransferProps} from './Transfer';
 import {uncontrollable} from 'uncontrollable';
 import React from 'react';
 import ResultBox from './ResultBox';
 import {Icon} from './icons';
 import PickerContainer from './PickerContainer';
 import {autobind} from '../utils/helper';
+import TabsTransfer, {TabsTransferProps} from './TabsTransfer';
 
-export interface TransferPickerProps extends Omit<TransferProps, 'itemRender'> {
+export interface TabsTransferPickerProps
+  extends Omit<TabsTransferProps, 'itemRender'> {
   // 新的属性？
   size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl' | 'full';
 }
 
-export class TransferPicker extends React.Component<TransferPickerProps> {
+export class TransferPicker extends React.Component<TabsTransferPickerProps> {
   @autobind
   handleClose() {
     this.setState({
@@ -44,7 +45,7 @@ export class TransferPicker extends React.Component<TransferPickerProps> {
       <PickerContainer
         title={__('Select.placeholder')}
         popOverRender={({onClose, value, onChange}) => {
-          return <Transfer {...rest} value={value} onChange={onChange} />;
+          return <TabsTransfer {...rest} value={value} onChange={onChange} />;
         }}
         value={value}
         onConfirm={this.handleConfirm}
