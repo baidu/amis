@@ -221,7 +221,8 @@ export class TreeSelection extends BaseSelection<
           className={cx(
             'TreeSelection-itemInner',
             itemClassName,
-            option.className
+            option.className,
+            checked ? 'is-active' : ''
           )}
           onClick={() => this.toggleOption(option)}
         >

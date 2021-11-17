@@ -107,7 +107,8 @@ export class TableSelection extends BaseSelection<TableSelectionProps> {
       disabled,
       multiple,
       option2value,
-      translate: __
+      translate: __,
+      itemClassName
     } = this.props;
     const columns = this.getColumns();
     let valueArray = BaseSelection.value2array(value, options, option2value);
@@ -122,6 +123,12 @@ export class TableSelection extends BaseSelection<TableSelectionProps> {
               <tr
                 key={rowIndex}
                 onClick={e => e.defaultPrevented || this.toggleOption(option)}
+                className={cx(
+                  itemClassName,
+                  option.className,
+                  disabled || option.disabled ? 'is-disabled' : '',
+                  !!~valueArray.indexOf(option) ? 'is-active' : ''
+                )}
               >
                 {multiple ? (
                   <td className={cx('Table-checkCell')} key="checkbox">

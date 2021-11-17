@@ -134,6 +134,11 @@
   .#{$ns}Table-table > tbody > tr {
     cursor: pointer;
   }
+
+  .#{$ns}Table-table > tbody > tr.is-active {
+    color: var(--Form-select-menu-onActive-color);
+    background: var(--Form-select-menu-onActive-bg);
+  }
 }
 
 .#{$ns}TreeSelection {

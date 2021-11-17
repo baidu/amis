@@ -46,7 +46,8 @@ export class GroupedSelection extends BaseSelection {
           'GroupedSelection-item',
           itemClassName,
           option.className,
-          disabled || option.disabled ? 'is-disabled' : ''
+          disabled || option.disabled ? 'is-disabled' : '',
+          !!~valueArray.indexOf(option) ? 'is-active' : ''
         )}
         onClick={() => this.toggleOption(option)}
       >
