@@ -1,4 +1,4 @@
-import {BaseCheckboxes} from './Checkboxes';
+import {BaseSelection} from './Selection';
 import {themeable, ThemeProps} from '../theme';
 import React from 'react';
 import {uncontrollable} from 'uncontrollable';
@@ -21,6 +21,7 @@ export interface BaseRadiosProps extends ThemeProps, LocaleProps {
   disabled?: boolean;
   clearable?: boolean;
   showRadio?: boolean;
+  labelClassName?: string;
   onClick?: (e: React.MouseEvent) => void;
 }
 
@@ -39,6 +40,7 @@ export class BaseRadios<
     options: Options,
     option2value: (option: Option) => any = (option: Option) => option
   ) {
+    value = Array.isArray(value) ? value[0] : value;
     return findTree(options, option => isEqual(option2value(option), value));
   }
 

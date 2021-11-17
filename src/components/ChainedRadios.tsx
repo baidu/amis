@@ -1,7 +1,6 @@
 /**
- * 级联多选框，支持无限极。从左侧到右侧一层层点选。
+ * 级联单选框，支持无限极。从左侧到右侧一层层点选。
  */
-import {BaseCheckboxes, BaseCheckboxesProps} from './Checkboxes';
 import {themeable} from '../theme';
 import React from 'react';
 import {uncontrollable} from 'uncontrollable';
@@ -11,21 +10,22 @@ import {getTreeDepth} from '../utils/helper';
 import times from 'lodash/times';
 import Spinner from './Spinner';
 import {localeable} from '../locale';
+import {BaseRadios, BaseRadiosProps} from './ListRadios';
 
-export interface ChainedCheckboxesProps extends BaseCheckboxesProps {
+export interface ChainedRadiosProps extends BaseRadiosProps {
   defaultSelectedIndex?: string;
 }
 
-export interface ChainedCheckboxesState {
+export interface ChainedRadiosState {
   selected: Array<string>;
 }
 
-export class ChainedCheckboxes extends BaseCheckboxes<
-  ChainedCheckboxesProps,
-  ChainedCheckboxesState
+export class ChainedRadios extends BaseRadios<
+  ChainedRadiosProps,
+  ChainedRadiosState
 > {
   valueArray: Array<Option>;
-  state: ChainedCheckboxesState = {
+  state: ChainedRadiosState = {
     selected: []
   };
 
@@ -54,22 +54,55 @@ export class ChainedCheckboxes extends BaseCheckboxes<
     );
   }
 
-  renderOption(option: Option, index: number, depth: number, id: string) {
+  renderItem(option: Option, index: number, depth: number, id: string) {
     const {
       labelClassName,
       disabled,
       classnames: cx,
       itemClassName,
-      itemRender
+      itemRender,
+      showRadio
     } = this.props;
-    const valueArray = this.valueArray;
+    const selected = this.selected;
+
+    return (
+      <div
+        key={index}
+        className={cx(
+          'ChainedRadios-item',
+          itemClassName,
+          option.className,
+          disabled || option.disabled ? 'is-disabled' : ''
+        )}
+        onClick={() => this.toggleOption(option)}
+      >
+        <div className={cx('ChainedRadios-itemLabel')}>
+          {itemRender(option)}
+        </div>
+
+        {showRadio !== false ? (
+          <Checkbox
+            type="radio"
+            size="sm"
+            checked={selected === option}
+            disabled={disabled || option.disabled}
+            labelClassName={labelClassName}
+            description={option.description}
+          />
+        ) : null}
+      </div>
+    );
+  }
+
+  renderOption2(option: Option, index: number, depth: number, id: string) {
+    const {disabled, classnames: cx, itemClassName, itemRender} = this.props;
 
     if (Array.isArray(option.children) || option.defer) {
       return (
         <div
           key={index}
           className={cx(
-            'ChainedCheckboxes-item',
+            'ChainedRadios-item',
             itemClassName,
             option.className,
             disabled || option.disabled ? 'is-disabled' : '',
@@ -77,7 +110,7 @@ export class ChainedCheckboxes extends BaseCheckboxes<
           )}
           onClick={() => this.selectOption(option, depth, id)}
         >
-          <div className={cx('ChainedCheckboxes-itemLabel')}>
+          <div className={cx('ChainedRadios-itemLabel')}>
             {itemRender(option)}
           </div>
 
@@ -86,30 +119,7 @@ export class ChainedCheckboxes extends BaseCheckboxes<
       );
     }
 
-    return (
-      <div
-        key={index}
-        className={cx(
-          'ChainedCheckboxes-item',
-          itemClassName,
-          option.className,
-          disabled || option.disabled ? 'is-disabled' : ''
-        )}
-        onClick={() => this.toggleOption(option)}
-      >
-        <div className={cx('ChainedCheckboxes-itemLabel')}>
-          {itemRender(option)}
-        </div>
-
-        <Checkbox
-          size="sm"
-          checked={!!~valueArray.indexOf(option)}
-          disabled={disabled || option.disabled}
-          labelClassName={labelClassName}
-          description={option.description}
-        />
-      </div>
-    );
+    return this.renderItem(option, index, depth, id);
   }
 
   render() {
@@ -124,7 +134,7 @@ export class ChainedCheckboxes extends BaseCheckboxes<
       translate: __
     } = this.props;
 
-    this.valueArray = BaseCheckboxes.value2array(value, options, option2value);
+    this.selected = BaseRadios.resolveSelected(value, options, option2value);
     let body: Array<React.ReactNode> = [];
 
     if (Array.isArray(options) && options.length) {
@@ -156,11 +166,9 @@ export class ChainedCheckboxes extends BaseCheckboxes<
           let nextIndexes = indexes;
 
           body.push(
-            <div key={depth} className={cx('ChainedCheckboxes-col')}>
+            <div key={depth} className={cx('ChainedRadios-col')}>
               {subTitle ? (
-                <div className={cx('ChainedCheckboxes-subTitle')}>
-                  {subTitle}
-                </div>
+                <div className={cx('ChainedRadios-subTitle')}>{subTitle}</div>
               ) : null}
               {Array.isArray(options) && options.length ? (
                 options.map((option, index) => {
@@ -173,10 +181,10 @@ export class ChainedCheckboxes extends BaseCheckboxes<
                     nextPlaceholder = option.placeholder;
                   }
 
-                  return this.renderOption(option, index, depth, id);
+                  return this.renderOption2(option, index, depth, id);
                 })
               ) : (
-                <div className={cx('ChainedCheckboxes-placeholder')}>
+                <div className={cx('ChainedRadios-placeholder')}>
                   {__(placeholder)}
                 </div>
               )}
@@ -201,11 +209,11 @@ export class ChainedCheckboxes extends BaseCheckboxes<
     }
 
     return (
-      <div className={cx('ChainedCheckboxes', className)}>
+      <div className={cx('ChainedRadios', className)}>
         {body && body.length ? (
           body
         ) : (
-          <div className={cx('ChainedCheckboxes-placeholder')}>
+          <div className={cx('ChainedRadios-placeholder')}>
             {__(placeholder)}
           </div>
         )}
@@ -216,8 +224,8 @@ export class ChainedCheckboxes extends BaseCheckboxes<
 
 export default themeable(
   localeable(
-    uncontrollable(ChainedCheckboxes, {
+    uncontrollable(ChainedRadios, {
       value: 'onChange'
     })
-  )
+  ) as any
 );

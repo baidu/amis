@@ -16,29 +16,33 @@ import isEqual from 'lodash/isEqual';
 import {LocaleProps, localeable} from '../locale';
 // import isPlainObject from 'lodash/isPlainObject';
 
-export interface BaseCheckboxesProps extends ThemeProps, LocaleProps {
+export interface BaseSelectionProps extends ThemeProps, LocaleProps {
   options: Options;
   className?: string;
   placeholder?: string;
-  value?: Array<any>;
-  onChange?: (value: Array<Option>) => void;
+  value?: any | Array<any>;
+  multiple?: boolean;
+  clearable?: boolean;
+  onChange?: (value: Array<Option> | Option) => void;
   onDeferLoad?: (option: Option) => void;
   inline?: boolean;
   labelClassName?: string;
   option2value?: (option: Option) => any;
   itemClassName?: string;
   itemRender: (option: Option) => JSX.Element;
-
   disabled?: boolean;
+  onClick?: (e: React.MouseEvent) => void;
 }
 
-export class BaseCheckboxes<
-  T extends BaseCheckboxesProps = BaseCheckboxesProps,
+export class BaseSelection<
+  T extends BaseSelectionProps = BaseSelectionProps,
   S = any
 > extends React.Component<T, S> {
   static defaultProps = {
     placeholder: 'placeholder.noOption',
-    itemRender: (option: Option) => <span>{option.label}</span>
+    itemRender: (option: Option) => <span>{option.label}</span>,
+    multiple: true,
+    clearable: true
   };
 
   static value2array(
@@ -62,8 +66,20 @@ export class BaseCheckboxes<
     });
   }
 
+  static resolveSelected(
+    value: any,
+    options: Options,
+    option2value: (option: Option) => any = (option: Option) => option
+  ) {
+    value = Array.isArray(value) ? value[0] : value;
+    return findTree(options, option => isEqual(option2value(option), value));
+  }
+
   // 获取两个数组的交集
-  intersectArray(arr1: undefined | Array<Option>, arr2: undefined | Array<Option>): Array<Option> {
+  intersectArray(
+    arr1: undefined | Array<Option>,
+    arr2: undefined | Array<Option>
+  ): Array<Option> {
     if (!Array.isArray(arr1) || !Array.isArray(arr2)) {
       return [];
     }
@@ -76,31 +92,45 @@ export class BaseCheckboxes<
   }
 
   toggleOption(option: Option) {
-    const {value, onChange, option2value, options, disabled} = this.props;
+    const {
+      value,
+      onChange,
+      option2value,
+      options,
+      disabled,
+      multiple,
+      clearable
+    } = this.props;
 
     if (disabled || option.disabled) {
       return;
     }
 
-    let valueArray = BaseCheckboxes.value2array(value, options, option2value);
+    let valueArray = BaseSelection.value2array(value, options, option2value);
     let idx = valueArray.indexOf(option);
 
-    if (~idx) {
+    if (~idx && (multiple || clearable)) {
       valueArray.splice(idx, 1);
-    } else {
+    } else if (multiple) {
       valueArray.push(option);
+    } else {
+      valueArray = [option];
     }
 
     let newValue: string | Array<Option> = option2value
       ? valueArray.map(item => option2value(item))
       : valueArray;
 
-    onChange && onChange(newValue);
+    onChange && onChange(multiple ? newValue : newValue[0]);
   }
 
   @autobind
   toggleAll() {
-    const {value, onChange, option2value, options} = this.props;
+    const {value, onChange, option2value, options, multiple} = this.props;
+    if (multiple) {
+      return;
+    }
+
     let valueArray: Array<Option> = [];
 
     const availableOptions = options.filter(option => !option.disabled);
@@ -133,17 +163,20 @@ export class BaseCheckboxes<
       classnames: cx,
       option2value,
       itemClassName,
-      itemRender
+      itemRender,
+      multiple,
+      onClick
     } = this.props;
 
     const __ = this.props.translate;
 
-    let valueArray = BaseCheckboxes.value2array(value, options, option2value);
+    let valueArray = BaseSelection.value2array(value, options, option2value);
     let body: Array<React.ReactNode> = [];
 
     if (Array.isArray(options) && options.length) {
       body = options.map((option, key) => (
         <Checkbox
+          type={multiple ? 'checkbox' : 'radio'}
           className={cx(itemClassName, option.className)}
           key={key}
           onChange={() => this.toggleOption(option)}
@@ -160,10 +193,11 @@ export class BaseCheckboxes<
     return (
       <div
         className={cx(
-          'Checkboxes',
+          'Selection',
           className,
-          inline ? 'Checkboxes--inline' : ''
+          inline ? 'Selection--inline' : ''
         )}
+        onClick={onClick}
       >
         {body && body.length ? body : <div>{__(placeholder)}</div>}
       </div>
@@ -171,11 +205,11 @@ export class BaseCheckboxes<
   }
 }
 
-export class Checkboxes extends BaseCheckboxes {}
+export class Selection extends BaseSelection {}
 
 export default themeable(
   localeable(
-    uncontrollable(Checkboxes, {
+    uncontrollable(Selection, {
       value: 'onChange'
     })
   )

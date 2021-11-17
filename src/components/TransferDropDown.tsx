@@ -10,6 +10,7 @@ import PopOverContainer from './PopOverContainer';
 
 export interface TransferDropDownProps extends TransferProps {
   // 新的属性？
+  multiple?: boolean;
 }
 
 export class TransferDropDown extends Transfer<TransferDropDownProps> {
@@ -21,7 +22,8 @@ export class TransferDropDown extends Transfer<TransferDropDownProps> {
       disabled,
       className,
       onChange,
-      onSearch
+      onSearch,
+      multiple
     } = this.props;
     const {inputValue, searchResult} = this.state;
 
@@ -29,7 +31,7 @@ export class TransferDropDown extends Transfer<TransferDropDownProps> {
       <PopOverContainer
         popOverClassName={cx('TransferDropDown-popover')}
         popOverRender={() => (
-          <div>
+          <div className={cx('TransferDropDown-content')}>
             {onSearch ? (
               <div className={cx('Transfer-search')}>
                 <InputBox
@@ -53,12 +55,14 @@ export class TransferDropDown extends Transfer<TransferDropDownProps> {
               ? this.renderSearchResult({
                   ...this.props,
                   value,
-                  onChange
+                  onChange,
+                  multiple
                 })
               : this.renderOptions({
                   ...this.props,
                   value,
-                  onChange
+                  onChange,
+                  multiple
                 })}
           </div>
         )}
@@ -71,7 +75,13 @@ export class TransferDropDown extends Transfer<TransferDropDownProps> {
               isOpened ? 'is-active' : ''
             )}
             allowInput={false}
-            result={value}
+            result={
+              multiple
+                ? value
+                : value?.[0]
+                ? this.props.itemRender(value[0])
+                : null
+            }
             onResultChange={onChange}
             onResultClick={onClick}
             placeholder={__('Select.placeholder')}

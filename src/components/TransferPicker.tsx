@@ -7,7 +7,7 @@ import ResultBox from './ResultBox';
 import {Icon} from './icons';
 import PickerContainer from './PickerContainer';
 import InputBox from './InputBox';
-import {BaseCheckboxes} from './Checkboxes';
+import {BaseSelection} from './Selection';
 import {autobind, flattenTree} from '../utils/helper';
 import ResultList from './ResultList';
 import {Options} from './Select';
@@ -20,7 +20,7 @@ export interface TransferPickerProps extends TransferProps {
 export class TransferPicker extends Transfer<TransferPickerProps> {
   handlePickerToggleAll(value: any, onChange: (value: any) => void) {
     const {options, option2value} = this.props;
-    let valueArray = BaseCheckboxes.value2array(value, options, option2value);
+    let valueArray = BaseSelection.value2array(value, options, option2value);
     const availableOptions = flattenTree(options).filter(
       (option, index, list) =>
         !option.disabled &&
@@ -79,7 +79,7 @@ export class TransferPicker extends Transfer<TransferPickerProps> {
       <PickerContainer
         title={__('Select.placeholder')}
         popOverRender={({onClose, value, onChange}) => {
-          this.valueArray = BaseCheckboxes.value2array(
+          this.valueArray = BaseSelection.value2array(
             value,
             options,
             option2value

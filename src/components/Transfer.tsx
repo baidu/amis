@@ -1,27 +1,30 @@
 import React from 'react';
 import {ThemeProps, themeable} from '../theme';
-import {BaseCheckboxesProps, BaseCheckboxes} from './Checkboxes';
+import {BaseSelectionProps, BaseSelection} from './Selection';
 import {Options, Option} from './Select';
 import {uncontrollable} from 'uncontrollable';
 import ResultList from './ResultList';
-import TableCheckboxes from './TableCheckboxes';
-import ListCheckboxes from './ListCheckboxes';
-import TreeCheckboxes from './TreeCheckboxes';
+import TableCheckboxes from './TableSelection';
+import ListCheckboxes from './GroupedSelection';
+import TreeCheckboxes from './TreeSelection';
 import {autobind, flattenTree} from '../utils/helper';
 import InputBox from './InputBox';
 import {Icon} from './icons';
 import debounce from 'lodash/debounce';
-import ChainedCheckboxes from './ChainedCheckboxes';
-import AssociatedCheckboxes from './AssociatedCheckboxes';
+import ChainedCheckboxes from './ChainedSelection';
+import AssociatedCheckboxes from './AssociatedSelection';
 import {LocaleProps, localeable} from '../locale';
+import ListRadios from './ListRadios';
+import ChainedRadios from './ChainedRadios';
 
 export interface TransferProps
   extends ThemeProps,
     LocaleProps,
-    BaseCheckboxesProps {
+    BaseSelectionProps {
   inline?: boolean;
   statistics?: boolean;
   showArrow?: boolean;
+  multiple?: boolean;
 
   selectTitle?: string;
   selectMode?: 'table' | 'list' | 'tree' | 'chained' | 'associated';
@@ -82,7 +85,8 @@ export interface TransferState {
 export class Transfer<
   T extends TransferProps = TransferProps
 > extends React.Component<T, TransferState> {
-  static defaultProps: Pick<TransferProps, 'itemRender'> = {
+  static defaultProps: Pick<TransferProps, 'itemRender' | 'multiple'> = {
+    multiple: true,
     itemRender: (option: Option) => <span>{option.label}</span>
   };
 
@@ -104,7 +108,7 @@ export class Transfer<
   @autobind
   toggleAll() {
     const {options, option2value, onChange, value} = this.props;
-    let valueArray = BaseCheckboxes.value2array(value, options, option2value);
+    let valueArray = BaseSelection.value2array(value, options, option2value);
     const availableOptions = flattenTree(options).filter(
       (option, index, list) =>
         !option.disabled &&
@@ -360,46 +364,122 @@ export class Transfer<
       rightMode,
       cellRender,
       leftDefaultValue,
-      optionItemRender
+      optionItemRender,
+      multiple
     } = props;
 
     return selectMode === 'table' ? (
-      <TableCheckboxes
-        className={cx('Transfer-checkboxes')}
-        columns={columns!}
-        options={options || []}
-        value={value}
-        disabled={disabled}
-        onChange={onChange}
-        option2value={option2value}
-        onDeferLoad={onDeferLoad}
-        cellRender={cellRender}
-        itemRender={optionItemRender}
-      />
+      multiple ? (
+        <TableCheckboxes
+          className={cx('Transfer-checkboxes')}
+          columns={columns!}
+          options={options || []}
+          value={value}
+          disabled={disabled}
+          onChange={onChange}
+          option2value={option2value}
+          onDeferLoad={onDeferLoad}
+          cellRender={cellRender}
+          itemRender={optionItemRender}
+        />
+      ) : (
+        <TableCheckboxes
+          className={cx('Transfer-checkboxes')}
+          columns={columns!}
+          options={options || []}
+          value={value}
+          disabled={disabled}
+          onChange={onChange}
+          option2value={option2value}
+          onDeferLoad={onDeferLoad}
+          cellRender={cellRender}
+          itemRender={optionItemRender}
+        />
+      )
     ) : selectMode === 'tree' ? (
-      <TreeCheckboxes
-        className={cx('Transfer-checkboxes')}
-        options={options || []}
-        value={value}
-        disabled={disabled}
-        onChange={onChange}
-        option2value={option2value}
-        onDeferLoad={onDeferLoad}
-        itemRender={optionItemRender}
-      />
+      multiple ? (
+        <TreeCheckboxes
+          className={cx('Transfer-checkboxes')}
+          options={options || []}
+          value={value}
+          disabled={disabled}
+          onChange={onChange}
+          option2value={option2value}
+          onDeferLoad={onDeferLoad}
+          itemRender={optionItemRender}
+        />
+      ) : (
+        <TreeCheckboxes
+          className={cx('Transfer-checkboxes')}
+          options={options || []}
+          value={value}
+          disabled={disabled}
+          onChange={onChange}
+          option2value={option2value}
+          onDeferLoad={onDeferLoad}
+          itemRender={optionItemRender}
+        />
+      )
     ) : selectMode === 'chained' ? (
-      <ChainedCheckboxes
-        className={cx('Transfer-checkboxes')}
-        options={options || []}
-        value={value}
-        disabled={disabled}
-        onChange={onChange}
-        option2value={option2value}
-        onDeferLoad={onDeferLoad}
-        itemRender={optionItemRender}
-      />
+      multiple ? (
+        <ChainedCheckboxes
+          className={cx('Transfer-checkboxes')}
+          options={options || []}
+          value={value}
+          disabled={disabled}
+          onChange={onChange}
+          option2value={option2value}
+          onDeferLoad={onDeferLoad}
+          itemRender={optionItemRender}
+        />
+      ) : (
+        <ChainedRadios
+          className={cx('Transfer-checkboxes')}
+          options={options || []}
+          value={value}
+          disabled={disabled}
+          onChange={onChange}
+          option2value={option2value}
+          onDeferLoad={onDeferLoad}
+          itemRender={optionItemRender}
+        />
+      )
     ) : selectMode === 'associated' ? (
-      <AssociatedCheckboxes
+      multiple ? (
+        <AssociatedCheckboxes
+          className={cx('Transfer-checkboxes')}
+          options={options || []}
+          value={value}
+          disabled={disabled}
+          onChange={onChange}
+          option2value={option2value}
+          onDeferLoad={onDeferLoad}
+          columns={columns}
+          leftOptions={leftOptions || []}
+          leftMode={leftMode}
+          rightMode={rightMode}
+          leftDefaultValue={leftDefaultValue}
+          itemRender={optionItemRender}
+        />
+      ) : (
+        <AssociatedCheckboxes
+          className={cx('Transfer-checkboxes')}
+          options={options || []}
+          value={value}
+          disabled={disabled}
+          onChange={onChange}
+          option2value={option2value}
+          onDeferLoad={onDeferLoad}
+          columns={columns}
+          leftOptions={leftOptions || []}
+          leftMode={leftMode}
+          rightMode={rightMode}
+          leftDefaultValue={leftDefaultValue}
+          itemRender={optionItemRender}
+        />
+      )
+    ) : multiple ? (
+      <ListCheckboxes
         className={cx('Transfer-checkboxes')}
         options={options || []}
         value={value}
@@ -407,16 +487,11 @@ export class Transfer<
         onChange={onChange}
         option2value={option2value}
         onDeferLoad={onDeferLoad}
-        columns={columns}
-        leftOptions={leftOptions || []}
-        leftMode={leftMode}
-        rightMode={rightMode}
-        leftDefaultValue={leftDefaultValue}
         itemRender={optionItemRender}
       />
     ) : (
-      <ListCheckboxes
-        className={cx('Transfer-checkboxes')}
+      <ListRadios
+        className={cx('Transfer-radios')}
         options={options || []}
         value={value}
         disabled={disabled}
@@ -446,7 +521,7 @@ export class Transfer<
       translate: __
     } = this.props;
 
-    this.valueArray = BaseCheckboxes.value2array(value, options, option2value);
+    this.valueArray = BaseSelection.value2array(value, options, option2value);
     this.availableOptions = flattenTree(options).filter(
       (option, index, list) =>
         !option.disabled &&
