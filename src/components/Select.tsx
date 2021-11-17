@@ -519,30 +519,17 @@ export class Select extends React.Component<SelectProps, SelectState> {
       valueField
     } = this.props;
     const inputValue = this.state.inputValue;
-    const supportGroup = !options.some(option => !option.children?.length);
     let {selection} = this.state;
+    let flatOptions: Options = flattenTree(options, item => ({
+      ...item,
+      isGroup: !!item.children?.length
+    }));
     let filtedOptions: Array<Option> =
-      inputValue && checkAllBySearch
-        ? matchSorter(options, inputValue, {
+      (inputValue && checkAllBySearch
+        ? matchSorter(flatOptions, inputValue, {
             keys: [labelField || 'label', valueField || 'value']
           })
-        : options.concat();
-    if (supportGroup) {
-      let flatOptions: Options = flattenTree(options, item => ({
-        ...item,
-        isGroup: !!item.children?.length
-      }));
-      filtedOptions = (inputValue && checkAllBySearch
-        ? matchSorter(flatOptions, inputValue, {
-          keys: [
-            `children.*.${labelField || 'label'}`,
-            `children.*.${valueField || 'value'}`,
-            labelField || 'label',
-            valueField || 'value'
-          ],
-          sorter: rankedOption => rankedOption
-        }) : flatOptions).filter(option => !option.isGroup);
-    }
+        : flatOptions).filter(option => !option.isGroup);;
     const optionsValues = filtedOptions.map(option => option.value);
     const selectionValues = selection.map(select => select.value);
     const checkedAll = optionsValues.every(
