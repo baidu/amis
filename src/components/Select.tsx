@@ -520,7 +520,7 @@ export class Select extends React.Component<SelectProps, SelectState> {
     } = this.props;
     const inputValue = this.state.inputValue;
     let {selection} = this.state;
-    let flatOptions: Options = flattenTree(options, item => ({
+    const flatOptions: Options = flattenTree(options, item => ({
       ...item,
       isGroup: !!item.children?.length
     }));
@@ -713,8 +713,12 @@ export class Select extends React.Component<SelectProps, SelectState> {
     return selection.map((item, index) => {
       if (!multiple) {
         return (
-          <div className={cx(`${ns}Select-value`, {'is-disabled': disabled})} key={index}>
-            {`${item[labelField || 'label']}`}
+          <div className={cx('Select-value', {
+            'is-disabled': disabled
+            })}
+            key={index}
+          >
+            {item[labelField || 'label']}
           </div>
         );
       }
@@ -732,12 +736,12 @@ export class Select extends React.Component<SelectProps, SelectState> {
         >
           <div className={`${ns}Select-value`}>
             <span className={`${ns}Select-valueLabel`}>
-              {`${item[labelField || 'label']}`}
+              {item[labelField || 'label']}
             </span>
             <span
-              className={`${ns}Select-valueIcon ${
-                disabled || item.disabled ? 'is-disabled' : ''
-              }`}
+              className={cx('Select-valueIcon', {
+                'is-disabled': disabled || item.disabled
+              })}
               onClick={this.removeItem.bind(this, index)}
             >
               ×
@@ -790,24 +794,16 @@ export class Select extends React.Component<SelectProps, SelectState> {
     const supportGroup = !options.some(option => !option.children?.length);
     let checkedAll = false;
     let checkedPartial = false;
-    let flatOptions: Array<Option> = [];
+    const flatOptions: Array<Option> = flattenTree(options, item => ({
+      ...item,
+      isGroup: !!item.children?.length,
+      isGroupItem: !item.children?.length,
+      disabled: item.children ? true : !!item.disabled
+    }));
+    let toFilterOptions = supportGroup ? flatOptions : options.concat();
     let filtedOptions: Array<Option> = (
       inputValue && isOpen && !loadOptions
-        ? matchSorter(options, inputValue, {
-            keys: [labelField || 'label', valueField || 'value']
-          })
-        : options.concat()
-    ).filter((option: Option) => !option.hidden && option.visible !== false);
-
-    if (supportGroup) {
-      flatOptions = flattenTree(options, item => ({
-        ...item,
-        isGroup: !!item.children?.length,
-        isGroupItem: !item.children?.length,
-        disabled: item.children ? true : !!item.disabled
-      }));
-      filtedOptions = inputValue && isOpen && !loadOptions
-        ? matchSorter(flatOptions, inputValue, {
+        ? matchSorter(toFilterOptions, inputValue, {
           keys: [
             `children.*.${labelField || 'label'}`,
             `children.*.${valueField || 'value'}`,
@@ -815,8 +811,9 @@ export class Select extends React.Component<SelectProps, SelectState> {
             valueField || 'value'
           ],
           sorter: rankedOption => rankedOption
-        }) : flatOptions;
-    }
+          })
+        : toFilterOptions
+    ).filter((option: Option) => !option.hidden && option.visible !== false);
 
     const selectionValues = selection.map(select => select[valueField]);
     if (multiple && checkAll) {
