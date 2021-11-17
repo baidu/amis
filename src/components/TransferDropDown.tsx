@@ -30,7 +30,7 @@ export class TransferDropDown extends Transfer<TransferDropDownProps> {
     return (
       <PopOverContainer
         popOverClassName={cx('TransferDropDown-popover')}
-        popOverRender={() => (
+        popOverRender={({onClose}) => (
           <div className={cx('TransferDropDown-content')}>
             {onSearch ? (
               <div className={cx('Transfer-search')}>
@@ -55,13 +55,23 @@ export class TransferDropDown extends Transfer<TransferDropDownProps> {
               ? this.renderSearchResult({
                   ...this.props,
                   value,
-                  onChange,
+                  onChange: multiple
+                    ? onChange
+                    : (value: any) => {
+                        onClose();
+                        onChange?.(value);
+                      },
                   multiple
                 })
               : this.renderOptions({
                   ...this.props,
                   value,
-                  onChange,
+                  onChange: multiple
+                    ? onChange
+                    : (value: any) => {
+                        onClose();
+                        onChange?.(value);
+                      },
                   multiple
                 })}
           </div>

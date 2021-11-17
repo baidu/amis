@@ -21,8 +21,8 @@ import {localeable} from '../locale';
 export interface AssociatedSelectionProps extends BaseSelectionProps {
   leftOptions: Options;
   leftDefaultValue?: any;
-  leftMode?: 'tree' | 'list';
-  rightMode?: 'table' | 'list' | 'tree' | 'chained';
+  leftMode?: 'tree' | 'list' | 'group';
+  rightMode?: 'table' | 'list' | 'group' | 'tree' | 'chained';
   columns?: Array<any>;
   cellRender?: (
     column: {
@@ -104,7 +104,8 @@ export class AssociatedSelection extends BaseSelection<
       value,
       disabled,
       leftMode,
-      cellRender
+      cellRender,
+      multiple
     } = this.props;
 
     const selectdOption = BaseSelection.resolveSelected(
@@ -173,6 +174,7 @@ export class AssociatedSelection extends BaseSelection<
                   onChange={onChange}
                   option2value={option2value}
                   cellRender={cellRender}
+                  multiple={multiple}
                 />
               ) : rightMode === 'tree' ? (
                 <TreeSelection
@@ -181,6 +183,7 @@ export class AssociatedSelection extends BaseSelection<
                   options={selectdOption.children || []}
                   onChange={onChange}
                   option2value={option2value}
+                  multiple={multiple}
                 />
               ) : rightMode === 'chained' ? (
                 <ChainedSelection
@@ -189,6 +192,7 @@ export class AssociatedSelection extends BaseSelection<
                   options={selectdOption.children || []}
                   onChange={onChange}
                   option2value={option2value}
+                  multiple={multiple}
                 />
               ) : (
                 <GroupedSelection
@@ -197,6 +201,7 @@ export class AssociatedSelection extends BaseSelection<
                   options={selectdOption.children || []}
                   onChange={onChange}
                   option2value={option2value}
+                  multiple={multiple}
                 />
               )
             ) : (

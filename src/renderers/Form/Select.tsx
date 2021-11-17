@@ -362,7 +362,10 @@ class TransferDropdownRenderer extends BaseTransferRenderer<TransferDropDownProp
       disabled,
       selectTitle,
       selectMode,
-      multiple
+      multiple,
+      leftMode,
+      leftOptions,
+      columns
     } = this.props;
 
     return (
@@ -382,6 +385,9 @@ class TransferDropdownRenderer extends BaseTransferRenderer<TransferDropDownProp
           onDeferLoad={deferLoad}
           selectTitle={selectTitle}
           multiple={multiple}
+          columns={columns}
+          leftMode={leftMode}
+          leftOptions={leftOptions}
         />
 
         <Spinner overlay key="info" show={loading} />

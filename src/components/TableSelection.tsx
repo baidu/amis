@@ -80,6 +80,7 @@ export class TableSelection extends BaseSelection<TableSelectionProps> {
           {multiple && Array.isArray(options) && options.length ? (
             <th className={cx('Table-checkCell')}>
               <Checkbox
+                key="checkbox"
                 size="sm"
                 disabled={disabled}
                 onChange={this.toggleAll}
@@ -123,7 +124,7 @@ export class TableSelection extends BaseSelection<TableSelectionProps> {
                 onClick={e => e.defaultPrevented || this.toggleOption(option)}
               >
                 {multiple ? (
-                  <td className={cx('Table-checkCell')}>
+                  <td className={cx('Table-checkCell')} key="checkbox">
                     <Checkbox size="sm" checked={checked} disabled={disabled} />
                   </td>
                 ) : null}
