@@ -535,8 +535,8 @@ export class Select extends React.Component<SelectProps, SelectState> {
       filtedOptions = (inputValue && checkAllBySearch
         ? matchSorter(flatOptions, inputValue, {
           keys: [
-            labelField && `children.*.${labelField}` || 'children.*.label',
-            valueField && `children.*.${valueField}` || 'children.*.value',
+            `children.*.${labelField || 'label'}`,
+            `children.*.${valueField || 'value'}`,
             labelField || 'label',
             valueField || 'value'
           ],
@@ -822,8 +822,8 @@ export class Select extends React.Component<SelectProps, SelectState> {
       filtedOptions = inputValue && isOpen && !loadOptions
         ? matchSorter(flatOptions, inputValue, {
           keys: [
-            labelField && `children.*.${labelField}` || 'children.*.label',
-            valueField && `children.*.${valueField}` || 'children.*.value',
+            `children.*.${labelField || 'label'}`,
+            `children.*.${valueField || 'value'}`,
             labelField || 'label',
             valueField || 'value'
           ],
