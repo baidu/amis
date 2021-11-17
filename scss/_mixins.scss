@@ -249,9 +249,7 @@
 @mixin button-loading-icon() {
   transition: --Button-transition;
   svg {
-    @include animation-svg(
-      var(--Button-animation-spin)
-    );
+    @include animation-svg(var(--Button-animation-spin));
   }
 }
 

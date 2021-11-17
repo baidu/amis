@@ -27,7 +27,7 @@ export interface PortletTabSchema extends Omit<BaseSchema, 'type'> {
      * Tab 标题
      */
     title?: string;
-  
+
     /**
      * 内容
      * @deprecated 用 body 属性
@@ -38,29 +38,29 @@ export interface PortletTabSchema extends Omit<BaseSchema, 'type'> {
      * 可以在右侧配置点其他功能按钮，随着tab切换而切换
      */
     toolbar?: Array<ActionSchema>;
-  
+
     /**
      * 内容
      */
     body?: SchemaCollection;
-  
+
     /**
      * 按钮图标
      */
     icon?: SchemaIcon;
-  
+
     iconPosition?: 'left' | 'right';
-  
+
     /**
      * 设置以后内容每次都会重新渲染
      */
     reload?: boolean;
-  
+
     /**
      * 点开时才加载卡片内容
      */
     mountOnEnter?: boolean;
-  
+
     /**
      * 卡片隐藏就销毁卡片节点。
      */
@@ -74,52 +74,52 @@ export interface PortletSchema extends Omit<BaseSchema, 'type'> {
     type: 'portlet';
 
     tabs: Array<PortletTabSchema>;
-  
+
     /**
      * 关联已有数据，选项卡直接根据目标数据重复。
      */
     source?: string;
-  
+
     /**
      * 类名
      */
     tabsClassName?: SchemaClassName;
-  
+
     /**
      * 展示形式
      */
     tabsMode?: '' | 'line' | 'card' | 'radio' | 'vertical' | 'tiled';
-  
+
     /**
      * 内容类名
      */
     contentClassName?: SchemaClassName;
-  
+
     /**
      * 链接外层类名
      */
     linksClassName?: SchemaClassName;
-  
+
     /**
      * 卡片是否只有在点开的时候加载？
      */
     mountOnEnter?: boolean;
-  
+
     /**
      * 卡片隐藏的时候是否销毁卡片内容
      */
     unmountOnExit?: boolean;
-  
+
     /**
      * 可以在右侧配置点其他功能按钮。不会随着tab切换
      */
     toolbar?: Array<ActionSchema>;
-  
+
     /**
      * 是否支持溢出滚动
      */
     scrollable?: boolean;
-    
+
     /**
      * header和内容是否展示分割线
      */
@@ -131,7 +131,7 @@ export interface PortletSchema extends Omit<BaseSchema, 'type'> {
     description?: SchemaTpl;
 
     /**
-     * 影藏头部
+     * 隐藏头部
      */
     hideHeader?: boolean;
 
@@ -145,7 +145,7 @@ export interface PortletSchema extends Omit<BaseSchema, 'type'> {
 
 export interface PortletProps
     extends RendererProps,
-        Omit<PortletSchema, 'className' | 'contentClassName'>{   
+        Omit<PortletSchema, 'className' | 'contentClassName'>{
     activeKey?: number;
     tabRender?: (tab: PortletTabSchema, props: PortletProps, index: number) => JSX.Element;
 }
@@ -165,7 +165,7 @@ export class Portlet extends React.Component<PortletProps, PortletState> {
         super(props);
 
         const activeKey = props.activeKey || 0;
-        
+
         this.state = {
             activeKey
         };
@@ -179,7 +179,7 @@ export class Portlet extends React.Component<PortletProps, PortletState> {
                 activeKey: key
             });
         }
-        
+
         if (typeof onSelect === 'string') {
             const selectFunc = str2AsyncFunction(onSelect, 'key', 'props');
             selectFunc && selectFunc(key, this.props);
@@ -235,7 +235,7 @@ export class Portlet extends React.Component<PortletProps, PortletState> {
         }
 
         return (
-            toolbarTpl || tabToolbarTpl 
+            toolbarTpl || tabToolbarTpl
             ? (<div className={cx(`${ns}Portlet-toolbar`)}>
                 {toolbarTpl}
                 {tabToolbarTpl}
@@ -251,7 +251,7 @@ export class Portlet extends React.Component<PortletProps, PortletState> {
             ? <span className={cx(`${ns}Portlet-header-desc`)}>{desc}</span>
             : null;
     }
-    
+
     renderTabs() {
         const {
             classnames: cx,
@@ -272,18 +272,18 @@ export class Portlet extends React.Component<PortletProps, PortletState> {
         } = this.props;
         const mode = tabsMode || dMode;
         const arr = resolveVariable(source, data);
-    
+
         let tabs = this.props.tabs;
         if (!tabs) {
           return null;
         }
-    
+
         tabs = Array.isArray(tabs) ? tabs : [tabs];
         let children: Array<JSX.Element | null> = [];
-        
+
         const tabClassname = cx(`${ns}Portlet-tab`, tabsClassName, {
           ['unactive-select']: tabs.length <=1,
-          ['no-divider']: !divider 
+          ['no-divider']: !divider
         });
         if (Array.isArray(arr)) {
           arr.forEach((value, index) => {
@@ -291,7 +291,7 @@ export class Portlet extends React.Component<PortletProps, PortletState> {
               data,
               isObject(value) ? {index, ...value} : {item: value, index}
             );
-    
+
             children.push(
               ...tabs.map((tab, tabIndex) =>
                 isVisible(tab, ctx) ? (
@@ -352,7 +352,7 @@ export class Portlet extends React.Component<PortletProps, PortletState> {
             ) : null
           );
         }
-    
+
         return (
           <CTabs
             classPrefix={ns}
@@ -371,7 +371,7 @@ export class Portlet extends React.Component<PortletProps, PortletState> {
           </CTabs>
         );
     }
-    
+
     render() {
         const {
             className,
@@ -382,20 +382,20 @@ export class Portlet extends React.Component<PortletProps, PortletState> {
             hideHeader
         } = this.props;
         const portletClassname = cx(`${ns}Portlet`, className, {
-            ['no-header']: hideHeader 
+            ['no-header']: hideHeader
         });
         const styleVar =
                 typeof style === 'string'
                     ? resolveVariable(style, data) || {}
                     : mapValues(style, s => resolveVariable(s, data) || s);
-        
+
         return (
             <div className={portletClassname} style={styleVar}>
                 {this.renderTabs()}
             </div>
         )
     }
-    
+
 }
 
 @Renderer({

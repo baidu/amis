@@ -667,6 +667,14 @@ export const components = [
           )
       },
       {
+        label: 'TransferPicker 穿梭选择器',
+        path: '/zh-CN/components/form/transfer-picker',
+        getComponent: () =>
+          import('../../docs/zh-CN/components/form/transfer-picker.md').then(
+            makeMarkdownRenderer
+          )
+      },
+      {
         label: 'InputTree 树形选择框',
         path: '/zh-CN/components/form/input-tree',
         getComponent: () =>
@@ -1071,8 +1079,10 @@ export default class Components extends React.PureComponent<any> {
     this.props.setNavigations(components);
   }
 
-  componentDidUpdate() {
-    this.props.setNavigations(components);
+  componentDidUpdate(preProps: any) {
+    if (this.props.location.pathname !== preProps.location.pathname) {
+      this.props.setNavigations(components, false);
+    }
   }
 
   render() {

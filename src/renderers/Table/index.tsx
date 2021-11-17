@@ -9,6 +9,7 @@ import './ColumnToggler';
 import Checkbox from '../../components/Checkbox';
 import Button from '../../components/Button';
 import {TableStore, ITableStore, IColumn, IRow} from '../../store/table';
+import {saveAs} from 'file-saver';
 import {
   anyChanged,
   getScrollParent,
@@ -2683,6 +2684,7 @@ export default class Table extends React.Component<TableProps, object> {
       <TableContent
         tableClassName={cx(
           store.combineNum > 0 ? 'Table-table--withCombine' : '',
+          {'Table-table--checkOnItemClick': checkOnItemClick},
           tableClassName
         )}
         className={tableContentClassName}

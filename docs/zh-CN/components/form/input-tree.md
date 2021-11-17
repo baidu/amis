@@ -569,6 +569,59 @@ order: 59
 }
 ```
 
+## 控制哪些项可编辑
+
+配置 `creatable`、`removable` 和 `editable` 可以实现树可编辑，同时如果需要关闭部分节点的编辑权限，可以在节点上配置`creatable`、`removable` 和 `editable`。
+
+`rootCreatable` 可以用来关闭顶层是否可以创建。如果想要控制顶层可编辑，请配置 `hideRoot`，用节点来控制。
+
+```schema: scope="body"
+{
+  "type": "form",
+  "api": "/api/mock2/form/saveForm",
+  "body": [
+    {
+      "type": "input-tree",
+      "name": "tree",
+      "label": "Tree",
+      "creatable": true,
+      "removable": true,
+      "editable": true,
+      "rootCreatable": false,
+      "options": [
+        {
+          "label": "Folder A",
+          "value": 1,
+          "creatable": false,
+          "removable": false,
+          "editable": false,
+          "children": [
+            {
+              "label": "file A",
+              "value": 2
+            },
+            {
+              "label": "file B",
+              "value": 3
+            }
+          ]
+        },
+        {
+          "label": "file C",
+          "value": 4,
+          "removable": false
+        },
+        {
+          "label": "file D",
+          "value": 5,
+          "editable": false
+        }
+      ]
+    }
+  ]
+}
+```
+
 ## 控制添加/编辑的表单
 
 配置 `addControls` 可以控制添加时需要填写哪些信息，同样还有 `editControls` 来配置编辑节点的表单

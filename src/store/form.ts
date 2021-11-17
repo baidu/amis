@@ -588,14 +588,9 @@ export const FormStore = ServiceStore.named('FormStore')
       self.persistData = value;
     }
 
-    const setLocalPersistData = debounce(
-      () => localStorage.setItem(self.persistKey, JSON.stringify(self.data)),
-      250,
-      {
-        trailing: true,
-        leading: false
-      }
-    );
+    const setLocalPersistData = () => {
+      localStorage.setItem(self.persistKey, JSON.stringify(self.data));
+    };
 
     function getLocalPersistData() {
       let data = localStorage.getItem(self.persistKey);
@@ -639,7 +634,6 @@ export const FormStore = ServiceStore.named('FormStore')
       clearRestError,
       beforeDestroy() {
         syncOptions.cancel();
-        setLocalPersistData.cancel();
       }
     };
   });
