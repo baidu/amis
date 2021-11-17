@@ -601,7 +601,7 @@ export class Select extends React.Component<SelectProps, SelectState> {
   @autobind
   handleStateChange(changes: any) {
     const {multiple, checkAll, options} = this.props;
-    const supportGroup = !options.some(option => !option.children?.length);
+    const supportGroup = options.every(option => option.children?.length);
     let update: any = {};
 
     switch (changes.type) {
@@ -791,7 +791,7 @@ export class Select extends React.Component<SelectProps, SelectState> {
       useMobileUI = true
     } = this.props;
     const {selection} = this.state;
-    const supportGroup = !options.some(option => !option.children?.length);
+    const supportGroup = options.every(option => option.children?.length);
     let checkedAll = false;
     let checkedPartial = false;
     const flatOptions: Array<Option> = flattenTree(options, item => ({
@@ -922,7 +922,6 @@ export class Select extends React.Component<SelectProps, SelectState> {
                       inputValue as string,
                       cx('Select-option-hl')
                     )}
-
                 {item.tip}
               </span>
             ) : (
@@ -942,7 +941,6 @@ export class Select extends React.Component<SelectProps, SelectState> {
                       inputValue as string,
                       cx('Select-option-hl')
                     )}
-
                 {item.tip}
               </Checkbox>
             )
