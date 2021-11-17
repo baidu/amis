@@ -44,6 +44,7 @@ import TabsTransfer from './TabsTransfer';
 import ResultBox from './ResultBox';
 import InputBox from './InputBox';
 import ListGroup from './ListGroup';
+import DynamicList from './DynamicList';
 import NumberInput from './NumberInput';
 import ArrayInput from './ArrayInput';
 import SearchBox from './SearchBox';
@@ -109,6 +110,7 @@ export {
   InputBox,
   SearchBox,
   ListGroup,
+  DynamicList,
   NumberInput,
   ArrayInput,
   AnchorNav

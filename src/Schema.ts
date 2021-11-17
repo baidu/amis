@@ -40,6 +40,7 @@ import {ServiceSchema} from './renderers/Service';
 import {StatusSchema} from './renderers/Status';
 import {TabsSchema} from './renderers/Tabs';
 import {PortletSchema} from './renderers/Portlet';
+import {DynamicListSchema} from './renderers/DynamicList';
 import {TasksSchema} from './renderers/Tasks';
 import {VBoxSchema} from './renderers/VBox';
 import {VideoSchema} from './renderers/Video';
@@ -317,6 +318,7 @@ export type SchemaType =
   | 'tree-select'
   | 'table-view'
   | 'portlet'
+  | 'dynamic-list'
 
   // 原生 input 类型
   | 'native-date'
@@ -382,6 +384,7 @@ export type SchemaObject =
   | AnchorNavSchema
   | StepsSchema
   | PortletSchema
+  | DynamicListSchema
 
   // 表单项
   | FormControlSchema

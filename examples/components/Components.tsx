@@ -983,6 +983,14 @@ export const components = [
           import('../../docs/zh-CN/components/video.md').then(
             makeMarkdownRenderer
           )
+      },
+      {
+        label: 'DynamicList 图文列表',
+        path: '/zh-CN/components/dynamic-list',
+        getComponent: () =>
+          import('../../docs/zh-CN/components/dynamic-list.md').then(
+            makeMarkdownRenderer
+          )
       }
     ]
   },

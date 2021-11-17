@@ -1,0 +1,78 @@
+.#{$ns}DynamicList {
+    padding: var(--gap-base);
+
+    .list-item {
+        padding: var(--gap-base);
+        display: flex;
+        flex: 1;
+
+        .img-wrap {
+            width: px2rem(100px);
+            height: px2rem(100px);
+        }
+
+        &.img-left {
+            flex-direction: row;
+
+            .list-content-wrap {
+                padding: 0 var(--gap-base);
+            }
+        }
+
+        &.img-right {
+            flex-direction: row-reverse;
+
+            .list-content-wrap {
+                padding: 0 var(--gap-base);
+            }
+        }
+
+        &.img-top {
+            flex-direction: column;
+
+            .list-content-wrap {
+                padding: var(--gap-base) 0;
+            }
+        }
+
+        &.img-bottom {
+            flex-direction: column-reverse;
+
+            .list-content-wrap {
+                padding: var(--gap-base) 0;
+            }
+        }
+
+        .inline-flex {
+            display: inline-flex;
+        }
+
+        .img-wrap {
+            background-position: center center;
+            background-size: cover;
+            background-repeat: no-repeat;
+        }
+
+        .list-content-wrap {
+            flex: 1;
+        }
+
+        .list-title {
+            height: px2rem(24px);
+            font-weight: bold;
+            overflow: hidden;
+        }
+
+        .list-content {
+            height: px2rem(42px);
+            margin: var(--gap-xs) 0;
+            overflow: hidden;
+        }
+
+        .list-footer {
+            height: px2rem(18px);
+        }
+    }
+
+    
+}
