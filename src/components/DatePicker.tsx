@@ -278,6 +278,15 @@ export interface DateProps extends LocaleProps, ThemeProps {
   borderMode?: 'full' | 'half' | 'none';
   // 是否为内嵌模式，如果开启就不是 picker 了，直接页面点选。
   embed?: boolean;
+  schedules?: {
+    startTime: Date;
+    endTime: Date;
+    content: string | React.ReactElement;
+    color?: string;
+  }[];
+  scheduleColors?: string[];
+  scheduleAction?: React.ReactElement;
+  largeMode?: boolean;
 
   // 下面那个千万不要写，写了就会导致 keyof DateProps 得到的结果是 string | number;
   // [propName: string]: any;
@@ -287,6 +296,12 @@ export interface DatePickerState {
   isOpened: boolean;
   isFocused: boolean;
   value: moment.Moment | undefined;
+  schedules?: {
+    startTime: Date;
+    endTime: Date;
+    content: string | React.ReactElement;
+    color?: string;
+  }[];
 }
 
 function normalizeValue(value: any, format?: string) {
@@ -302,7 +317,8 @@ export class DatePicker extends React.Component<DateProps, DatePickerState> {
     viewMode: 'days' as 'years' | 'months' | 'days' | 'time',
     shortcuts: '',
     closeOnSelect: true,
-    overlayPlacement: 'auto'
+    overlayPlacement: 'auto',
+    scheduleColors: ['#0bc286', '#ffb200', '#ea2e2e', '#343a40']
   };
   state: DatePickerState = {
     isOpened: false,
@@ -326,6 +342,25 @@ export class DatePicker extends React.Component<DateProps, DatePickerState> {
     this.getTarget = this.getTarget.bind(this);
     this.handlePopOverClick = this.handlePopOverClick.bind(this);
     this.renderShortCuts = this.renderShortCuts.bind(this);
+
+    if (props.schedules) {
+      // 设置日程颜色
+      let index = 0;
+      this.state.schedules = props.schedules.map((schedule: any) => {
+        let color = schedule.color;
+        if (!color && props.scheduleColors) {
+          color = props.scheduleColors[index];
+          index++;
+          if (index >= props.scheduleColors.length) {
+            index = 0;
+          }
+        }
+        return {
+          ...schedule,
+          color
+        };
+      });
+    }
   }
 
   dom: HTMLDivElement;
@@ -546,7 +581,10 @@ export class DatePicker extends React.Component<DateProps, DatePickerState> {
       format,
       borderMode,
       embed,
-      minDate
+      minDate,
+      schedules,
+      scheduleAction,
+      largeMode
     } = this.props;
 
     const __ = this.props.translate;
@@ -559,7 +597,9 @@ export class DatePicker extends React.Component<DateProps, DatePickerState> {
           className={cx(
             `DateCalendar`,
             {
-              'is-disabled': disabled
+              'is-disabled': disabled,
+              'ScheduleCalendar': schedules,
+              'ScheduleCalendar-large': largeMode
             },
             className
           )}
@@ -578,6 +618,9 @@ export class DatePicker extends React.Component<DateProps, DatePickerState> {
             locale={locale}
             minDate={minDate}
             // utc={utc}
+            schedules={this.state.schedules}
+            scheduleAction={scheduleAction}
+            largeMode={largeMode}
           />
         </div>
       );

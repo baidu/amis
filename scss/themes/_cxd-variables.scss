@@ -219,6 +219,15 @@ $R8: 50%;
   --Switch-onDisabled-color: #{$G11};
   // --Switch-onDisabled-circle-BackgroundColor: #fff;
 
+  --Calendar-icon-bottom: #{px2rem(-4px)};
+  --Calendar-icon-width: #{px2rem(10px)};
+  --Calendar-icon-height: #{px2rem(10px)};
+  --Calendar-borderWidth: #{px2rem(1px)};
+  --Calendar-rdt-day: #{px2rem(100px)};
+  --Calendar-schedule-content-padding: 0 #{px2rem(4px)};
+  --Calendar-schedule-content-height: #{px2rem(20px)};
+  --Calendar-schedule-content-color: #{$white};
+
   --ColorPicker-borderWidth: #{px2rem(1px)};
   --ColorPicker-borderRadius: #{$R3};
   --ColorPicker-bg: var(--white);

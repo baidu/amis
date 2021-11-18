@@ -312,6 +312,159 @@ order: 13
 }
 ```
 
+## 日历日程
+
+```schema: scope="body"
+{
+    "type": "input-date",
+    "embed": true,
+    "schedules": [
+      {
+        "startTime": "2021-11-13 05:14:00",
+        "endTime": "2021-11-13 06:14:00",
+        "content": "这是一个日程1"
+      },
+      {
+        "startTime": "2021-11-23 05:14:00",
+        "endTime": "2021-11-24 05:14:00",
+        "content": "这是一个日程2"
+      }
+    ]
+}
+```
+
+## 日历日程-自定义颜色
+
+```schema: scope="body"
+{
+    "type": "input-date",
+    "embed": true,
+    "schedules": [
+      {
+        "startTime": "2021-11-13 05:14:00",
+        "endTime": "2021-11-13 06:14:00",
+        "content": "这是一个日程1",
+        "color": "blue"
+      },
+      {
+        "startTime": "2021-11-23 05:14:00",
+        "endTime": "2021-11-24 05:14:00",
+        "content": "这是一个日程2",
+        "color": "red"
+      }
+    ]
+}
+```
+
+```schema: scope="body"
+{
+    "type": "input-date",
+    "embed": true,
+    "scheduleColors": ["blue", "red"],
+    "schedules": [
+      {
+        "startTime": "2021-11-13 05:14:00",
+        "endTime": "2021-11-13 06:14:00",
+        "content": "这是一个日程1"
+      },
+      {
+        "startTime": "2021-11-23 05:14:00",
+        "endTime": "2021-11-24 05:14:00",
+        "content": "这是一个日程2"
+      }
+    ]
+}
+```
+
+## 日历日程-自定义日程展示
+```schema: scope="body"
+{
+    "type": "input-date",
+    "embed": true,
+    "schedules": [
+      {
+        "startTime": "2021-11-13 05:14:00",
+        "endTime": "2021-11-13 06:14:00",
+        "content": "这是一个日程1"
+      },
+      {
+        "startTime": "2021-11-23 05:14:00",
+        "endTime": "2021-11-24 05:14:00",
+        "content": "这是一个日程2"
+      }
+    ],
+    "scheduleAction": {
+      "type": "button",
+      "label": "${currentDate}",
+      "actionType": "drawer",
+      "drawer": {
+        "title": "日程",
+        "body": {
+          "type": "table",
+          "columns": [
+            {
+              "name": "time",
+              "label": "时间"
+            },
+            {
+              "name": "content",
+              "label": "内容"
+            }
+          ],
+          "data": "${scheduleData}"
+        }
+      }
+    }
+}
+```
+
+## 放大模式
+
+```schema: scope="body"
+{
+    "type": "input-date",
+    "embed": true,
+    "largeMode": true,
+    "schedules": [
+      {
+        "startTime": "2021-11-13 05:14:00",
+        "endTime": "2021-11-13 06:14:00",
+        "content": "这是一个日程1"
+      },
+      {
+        "startTime": "2021-11-14 02:14:00",
+        "endTime": "2021-11-15 05:14:00",
+        "content": "这是一个日程2"
+      },
+      {
+        "startTime": "2021-11-22 05:14:00",
+        "endTime": "2021-11-23 05:14:00",
+        "content": "这是一个日程3"
+      },
+      {
+        "startTime": "2021-11-23 05:14:00",
+        "endTime": "2021-11-24 05:14:00",
+        "content": "这是一个日程4"
+      },
+      {
+        "startTime": "2021-11-24 02:14:00",
+        "endTime": "2021-11-25 05:14:00",
+        "content": "这是一个日程5"
+      },
+      {
+        "startTime": "2021-11-24 02:14:00",
+        "endTime": "2021-11-24 05:14:00",
+        "content": "这是一个日程6"
+      },
+      {
+        "startTime": "2021-11-24 02:14:00",
+        "endTime": "2021-11-24 05:14:00",
+        "content": "这是一个日程7"
+      }
+    ]
+}
+```
+
 ## 原生日期组件
 
 原生数字日期将直接使用浏览器的实现，最终展现效果和浏览器有关，而且只支持 `min`、`max`、`step` 这几个属性设置。
@@ -348,3 +501,7 @@ order: 13
 | clearable       | `boolean` | `true`         | 是否可清除                                                                                                  |
 | embed           | `boolean` | `false`        | 是否内联模式                                                                                                |
 | timeConstraints | `object`  | `true`         | 请参考： [react-datetime](https://github.com/YouCanBookMe/react-datetime)                                   |
+| schedules       | `object`  |                | 日历中展示日程                    |
+| scheduleColors  | `Array<string>`  | `['#0bc286', '#ffb200', '#ea2e2e', '#343a40']`   | 日历中展示日程的颜色   |
+| scheduleAction  | `object`  |                | 自定义日程展示                    |
+| largeMode       | `boolean` | `false`        | 放大模式                         |

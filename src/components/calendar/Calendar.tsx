@@ -28,6 +28,9 @@ interface BaseDatePickerProps
     year?: number,
     date?: moment.Moment
   ) => JSX.Element;
+  schedules?: any;
+  scheduleAction?: any;
+  largeMode?: boolean;
 }
 
 class BaseDatePicker extends ReactDatePicker {
@@ -82,7 +85,10 @@ class BaseDatePicker extends ReactDatePicker {
         'nextIcon',
         'isEndDate',
         'classnames',
-        'minDate'
+        'minDate',
+        'schedules',
+        'scheduleAction',
+        'largeMode'
       ].forEach(key => (props[key] = (this.props as any)[key]));
 
       return props;

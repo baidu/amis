@@ -5,6 +5,7 @@ import {filterDate} from '../../utils/tpl-builtin';
 import moment from 'moment';
 import 'moment/locale/zh-cn';
 import DatePicker from '../../components/DatePicker';
+import {SchemaObject} from '../../Schema';
 
 export interface InputDateBaseControlSchema extends FormBaseControl {
   /**
@@ -85,6 +86,24 @@ export interface DateControlSchema extends InputDateBaseControlSchema {
    * 限制最大日期
    */
   maxDate?: string;
+
+  /**
+   * 日程
+   */
+  schedules?: {
+    startTime: Date;
+    endTime: Date;
+    content: string | React.ReactElement;
+    color?: string;
+  }[];
+  /**
+   * 日程显示颜色自定义
+   */
+  scheduleColors?: string[];
+  /**
+   * 日程点击展示
+   */
+  scheduleAction?: SchemaObject;
 }
 
 /**
@@ -348,6 +367,10 @@ export default class DateControl extends React.PureComponent<
       format,
       timeFormat,
       valueFormat,
+      schedules,
+      scheduleAction,
+      largeMode,
+      render,
       ...rest
     } = this.props;
 
@@ -363,6 +386,9 @@ export default class DateControl extends React.PureComponent<
           format={valueFormat || format}
           {...this.state}
           classnames={cx}
+          schedules={schedules}
+          scheduleAction={render('scheduleAction', scheduleAction, {className: cx('ScheduleCalendar-action')})}
+          largeMode={largeMode}
         />
       </div>
     );
@@ -379,7 +405,30 @@ export class DateControlRenderer extends DateControl {
     placeholder: 'Date.placeholder',
     dateFormat: 'YYYY-MM-DD',
     timeFormat: '',
-    strictMode: false
+    strictMode: false,
+    scheduleAction: {
+      type: 'button',
+      actionType: 'dialog',
+      label: '${currentDate}',
+      dialog: {
+        title: '日程',
+        actions: [],
+        body: {
+          type: 'table',
+          columns: [
+            {
+              name: 'time',
+              label: '时间'
+            },
+            {
+              name: 'content',
+              label: '内容'
+            }
+          ],
+          data: '${scheduleData}'
+        }
+      }
+    }
   };
 }
 
