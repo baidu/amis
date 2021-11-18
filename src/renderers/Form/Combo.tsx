@@ -251,7 +251,6 @@ export interface ComboControlSchema extends FormBaseControl {
     /**
      * 最大值验证错误提示
      */
-
     maxLengthValidateFailed?: string;
   };
 }
@@ -1010,7 +1009,7 @@ export default class ComboControl extends React.Component<ComboProps> {
                 {deleteIcon ? (
                   <i className={deleteIcon} />
                 ) : (
-                  <Icon icon="close" className="icon" />
+                  <Icon icon="status-close" className="icon" />
                 )}
               </div>
             );
@@ -1189,7 +1188,7 @@ export default class ComboControl extends React.Component<ComboProps> {
                     {deleteIcon ? (
                       <i className={deleteIcon} />
                     ) : (
-                      <Icon icon="close" className="icon" />
+                      <Icon icon="status-close" className="icon" />
                     )}
                   </a>
                 );

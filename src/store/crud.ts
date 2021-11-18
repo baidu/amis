@@ -21,6 +21,7 @@ import {
 import {Api, Payload, fetchOptions, Action, ApiObject} from '../types';
 import pick from 'lodash/pick';
 import {resolveVariableAndFilter} from '../utils/tpl-builtin';
+import {normalizeApiResponseData} from '../utils/api';
 
 class ServerError extends Error {
   type = 'ServerError';
@@ -228,13 +229,7 @@ export const CRUDStore = ServiceStore.named('CRUDStore')
           }
 
           self.updatedAt = Date.now();
-          let result = json.data;
-
-          if (Array.isArray(result)) {
-            result = {
-              items: result
-            };
-          }
+          let result = normalizeApiResponseData(json.data);
 
           const {
             total,
@@ -384,7 +379,7 @@ export const CRUDStore = ServiceStore.named('CRUDStore')
 
         if (!isEmpty(json.data) || json.ok) {
           self.updateData(
-            json.data,
+            normalizeApiResponseData(json.data),
             {
               __saved: Date.now()
             },

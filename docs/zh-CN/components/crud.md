@@ -519,6 +519,78 @@ Cards 模式支持 [Cards](./cards) 中的所有功能。
 
 如果想前端实现过滤功能，请看[前端一次性加载](#前端一次性加载)部分。
 
+### 自动生成查询区域
+
+通过设置`"autoGenerateFilter": true`开启查询区域，会根据列元素的 `searchable` 属性值，自动生成查询条件表单，只有 `searchable` 属性值为合法的组件 Schema 时才会生成查询条件。注意这个属性和 `filter` 冲突，开启 `filter` 后 `autoGenerateFilter` 将会失效。
+
+```schema: scope="body"
+{
+    "type": "crud",
+    "api": "/api/sample",
+    "syncLocation": false,
+    "autoGenerateFilter": true,
+    "columns": [
+        {
+            "name": "id",
+            "label": "ID",
+            "searchable": {
+              "type": "input-text",
+              "name": "id",
+              "label": "主键",
+              "placeholder": "输入id"
+            }
+        },
+        {
+            "name": "engine",
+            "label": "Rendering engine"
+        },
+        {
+            "name": "browser",
+            "label": "Browser",
+            "searchable": {
+              "type": "select",
+              "name": "browser",
+              "label": "浏览器",
+              "placeholder": "选择浏览器",
+              "options": [
+                {
+                  "label": "Internet Explorer ",
+                  "value": "ie"
+                },
+                {
+                  "label": "AOL browser",
+                  "value": "aol"
+                },
+                {
+                  "label": "Firefox",
+                  "value": "firefox"
+                }
+              ]
+            }
+        },
+        {
+            "name": "platform",
+            "label": "Platform(s)"
+        },
+        {
+            "name": "version",
+            "label": "Engine version",
+            "searchable": {
+              "type": "input-number",
+              "name": "version",
+              "label": "版本号",
+              "placeholder": "输入版本号",
+              "mode": "horizontal"
+            }
+        },
+        {
+            "name": "grade",
+            "label": "CSS grade"
+        }
+    ]
+}
+```
+
 ## 配置默认请求参数
 
 可以配置`defaultParams`，来指定拉取接口时的默认参数：
@@ -1415,6 +1487,76 @@ crud 组件支持通过配置`headerToolbar`和`footerToolbar`属性，实现在
 }
 ```
 
+还可以设置 `"checkOnItemClick": true` 属性来支持点击一行的触发选中状态切换
+
+```schema: scope="body"
+{
+    "type": "crud",
+    "syncLocation": false,
+    "api": "/api/sample",
+    "checkOnItemClick": true,
+    "headerToolbar": [
+        "bulkActions"
+    ],
+    "bulkActions": [
+        {
+            "label": "批量删除",
+            "actionType": "ajax",
+            "api": "delete:/api/sample/${ids|raw}",
+            "confirmText": "确定要批量删除?"
+        },
+        {
+            "label": "批量修改",
+            "actionType": "dialog",
+            "dialog": {
+                "title": "批量编辑",
+                "body": {
+                    "type": "form",
+                    "api": "/api/sample/bulkUpdate2",
+                    "body": [
+                        {
+                            "type": "hidden",
+                            "name": "ids"
+                        },
+                        {
+                            "type": "input-text",
+                            "name": "engine",
+                            "label": "Engine"
+                        }
+                    ]
+                }
+            }
+        }
+    ],
+    "columns": [
+        {
+            "name": "id",
+            "label": "ID"
+        },
+        {
+            "name": "engine",
+            "label": "Rendering engine"
+        },
+        {
+            "name": "browser",
+            "label": "Browser"
+        },
+        {
+            "name": "platform",
+            "label": "Platform(s)"
+        },
+        {
+            "name": "version",
+            "label": "Engine version"
+        },
+        {
+            "name": "grade",
+            "label": "CSS grade"
+        }
+    ]
+}
+```
+
 ### 数据统计
 
 在`headerToolbar`或者`footerToolbar`数组中添加`statistics`字符串，可以实现简单的数据统计功能
@@ -1806,6 +1948,95 @@ crud 组件支持通过配置`headerToolbar`和`footerToolbar`属性，实现在
 }
 ```
 
+### 刷新按钮
+
+> 1.5.0 及以上版本
+
+可以通过 `reload` 来展现刷新按钮
+
+```schema: scope="body"
+{
+    "type": "crud",
+    "syncLocation": false,
+    "api": "/api/sample",
+    "headerToolbar": [
+        "reload"
+    ],
+    "columns": [
+        {
+            "name": "id",
+            "label": "ID"
+        },
+        {
+            "name": "engine",
+            "label": "Rendering engine"
+        },
+        {
+            "name": "browser",
+            "label": "Browser"
+        },
+        {
+            "name": "platform",
+            "label": "Platform(s)"
+        },
+        {
+            "name": "version",
+            "label": "Engine version"
+        },
+        {
+            "name": "grade",
+            "label": "CSS grade"
+        }
+    ]
+}
+```
+
+它其实是个简化的 `button` 组件，可以参考 `button` 组件的文档做调整，比如
+
+```schema: scope="body"
+{
+    "type": "crud",
+    "syncLocation": false,
+    "api": "/api/sample",
+    "headerToolbar": [
+        {
+            "type": "reload",
+            "align": "right",
+            "icon": "iconfont icon-refresh",
+            "label": "刷新",
+            "tooltip": "",
+            "level": "success"
+        }
+    ],
+    "columns": [
+        {
+            "name": "id",
+            "label": "ID"
+        },
+        {
+            "name": "engine",
+            "label": "Rendering engine"
+        },
+        {
+            "name": "browser",
+            "label": "Browser"
+        },
+        {
+            "name": "platform",
+            "label": "Platform(s)"
+        },
+        {
+            "name": "version",
+            "label": "Engine version"
+        },
+        {
+            "name": "grade",
+            "label": "CSS grade"
+        }
+    ]
+}
+```
+
 ## 总结行
 
 如果是默认的表格模式，还支持增加总结行，具体请参考 [table](./table#总结行) 的文档。
@@ -1959,6 +2190,51 @@ crud 组件支持通过配置`headerToolbar`和`footerToolbar`属性，实现在
 ```
 
 这样就只会发送 ids 了。
+
+### 列排序
+
+通过配置`headerToolbar` 中 `columns-toggler` 的 `"draggable": true`可以实现设置显示列和列排序功能。
+
+```schema: scope="body"
+{
+    "type": "crud",
+    "api": "/api/sample",
+    "syncLocation": false,
+    "headerToolbar": [
+        {
+            "type": "columns-toggler",
+            "align": "right",
+            "draggable": true
+        }
+    ],
+    "columns": [
+        {
+            "name": "id",
+            "label": "ID"
+        },
+        {
+            "name": "engine",
+            "label": "Rendering engine"
+        },
+        {
+            "name": "browser",
+            "label": "Browser"
+        },
+        {
+            "name": "platform",
+            "label": "Platform(s)"
+        },
+        {
+            "name": "version",
+            "label": "Engine version"
+        },
+        {
+            "name": "grade",
+            "label": "CSS grade"
+        }
+    ]
+}
+```
 
 ## 单条操作
 
@@ -2198,6 +2474,48 @@ CRUD 中不限制有多少个单条操作、添加一个操作对应的添加一
 
 注意这个属性和 `checkOnItemClick` 冲突，因为都是定义行的点击行为，开启 `itemAction` 后 `checkOnItemClick` 将会失效。
 
+> 1.4.2 及以上版本
+
+itemAction 里的 onClick 还能通过 `data` 参数拿到当前行的数据，方便进行下一步操作
+
+```schema: scope="body"
+{
+    "type": "crud",
+    "api": "/api/sample",
+    "syncLocation": false,
+    "itemAction": {
+      "type": "button",
+      "onClick": "console.log(data); alert(data.engine)"
+    },
+    "columns": [
+        {
+            "name": "id",
+            "label": "ID"
+        },
+        {
+            "name": "engine",
+            "label": "Rendering engine"
+        },
+        {
+            "name": "browser",
+            "label": "Browser"
+        },
+        {
+            "name": "platform",
+            "label": "Platform(s)"
+        },
+        {
+            "name": "version",
+            "label": "Engine version"
+        },
+        {
+            "name": "grade",
+            "label": "CSS grade"
+        }
+    ]
+}
+```
+
 ## 属性表
 
 | 属性名                                | 类型                        | 默认值                          | 说明                                                                                                                  |
@@ -2248,6 +2566,7 @@ CRUD 中不限制有多少个单条操作、添加一个操作对应的添加一
 | footerToolbar                         | Array                       | `['statistics', 'pagination']`  | 底部工具栏配置                                                                                                        |
 | alwaysShowPagination                  | `boolean`                   | `false`                         | 是否总是显示分页                                                                                                      |
 | affixHeader                           | `boolean`                   | `true`                          | 是否固定表头(table 下)                                                                                                |
+| autoGenerateFilter                    | `boolean`                   | `false`                         | 是否开启查询区域，开启后会根据列元素的 `searchable` 属性值，自动生成查询条件表单                                      |
 
 注意除了上面这些属性，CRUD 在不同模式下的属性需要参考各自的文档，比如
 

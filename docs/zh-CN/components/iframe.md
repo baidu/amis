@@ -28,11 +28,11 @@ order: 51
 {
   "type": "page",
   "data": {
-    "iframeSrc": "https://gitee.com/baidu/amis"
+    "iframeSrc": "baidu/amis"
   },
   "body": {
     "type": "iframe",
-    "src": "${iframeSrc}",
+    "src": "https://gitee.com/${iframeSrc}",
     "height": 300
   }
 }

@@ -8,6 +8,7 @@
   padding: var(--ColorPicker-paddingY) var(--ColorPicker-paddingX);
   background: var(--ColorPicker-bg);
   color: var(--ColorPicker-color);
+  border-radius: var(--borderRadius);
 
   &:not(.is-disabled) {
     cursor: pointer;

@@ -6,11 +6,13 @@ import PopOverable from '../PopOver';
 import {observer} from 'mobx-react';
 import omit = require('lodash/omit');
 import {filter} from '../../utils/tpl';
+import {Badge} from '../../components/Badge';
 
 export interface TableCellProps extends RendererProps {
   wrapperComponent?: React.ReactType;
   column: object;
 }
+
 export class TableCell extends React.Component<RendererProps> {
   static defaultProps = {
     wrapperComponent: 'td'
@@ -51,9 +53,12 @@ export class TableCell extends React.Component<RendererProps> {
       prefix,
       affix,
       isHead,
+      colIndex,
+      row,
+      showBadge,
+      itemBadge,
       ...rest
     } = this.props;
-
     const schema = {
       ...column,
       className: innerClassName,
@@ -120,6 +125,16 @@ export class TableCell extends React.Component<RendererProps> {
         tabIndex={tabIndex}
         onKeyUp={onKeyUp}
       >
+        {showBadge ? (
+          <Badge
+            classnames={cx}
+            badge={{
+              ...itemBadge,
+              className: cx(`Table-badge`, itemBadge?.className)
+            }}
+            data={row.data}
+          />
+        ) : null}
         {prefix}
         {body}
         {affix}

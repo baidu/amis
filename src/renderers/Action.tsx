@@ -4,8 +4,14 @@ import {Renderer, RendererProps} from '../factory';
 import {filter} from '../utils/tpl';
 import Button from '../components/Button';
 import pick from 'lodash/pick';
+import omit from 'lodash/omit';
 
 export interface ButtonSchema extends BaseSchema {
+  /**
+   * 主要用于用户行为跟踪里区分是哪个按钮
+   */
+  id?: string;
+
   /**
    * 是否为块状展示，默认为内联。
    */
@@ -139,6 +145,11 @@ export interface ButtonSchema extends BaseSchema {
    * 是否显示loading效果
    */
   loadingOn?: string;
+
+  /**
+   * 自定义事件处理函数
+   */
+  onClick?: string | any;
 }
 
 export interface AjaxActionSchema extends ButtonSchema {
@@ -327,6 +338,7 @@ export type ActionSchema =
   | VanillaAction;
 
 const ActionProps = [
+  'id',
   'dialog',
   'drawer',
   'url',
@@ -429,39 +441,75 @@ export interface ActionProps
     ThemeProps,
     Omit<
       AjaxActionSchema,
-      'type' | 'className' | 'iconClassName' | 'rightIconClassName' | 'loadingClassName'
+      | 'type'
+      | 'className'
+      | 'iconClassName'
+      | 'rightIconClassName'
+      | 'loadingClassName'
     >,
     Omit<
       UrlActionSchema,
-      'type' | 'className' | 'iconClassName' | 'rightIconClassName' | 'loadingClassName'
+      | 'type'
+      | 'className'
+      | 'iconClassName'
+      | 'rightIconClassName'
+      | 'loadingClassName'
     >,
     Omit<
       LinkActionSchema,
-      'type' | 'className' | 'iconClassName' | 'rightIconClassName' | 'loadingClassName'
+      | 'type'
+      | 'className'
+      | 'iconClassName'
+      | 'rightIconClassName'
+      | 'loadingClassName'
     >,
     Omit<
       DialogActionSchema,
-      'type' | 'className' | 'iconClassName' | 'rightIconClassName' | 'loadingClassName'
+      | 'type'
+      | 'className'
+      | 'iconClassName'
+      | 'rightIconClassName'
+      | 'loadingClassName'
     >,
     Omit<
       DrawerActionSchema,
-      'type' | 'className' | 'iconClassName' | 'rightIconClassName' | 'loadingClassName'
+      | 'type'
+      | 'className'
+      | 'iconClassName'
+      | 'rightIconClassName'
+      | 'loadingClassName'
     >,
     Omit<
       CopyActionSchema,
-      'type' | 'className' | 'iconClassName' | 'rightIconClassName' | 'loadingClassName'
+      | 'type'
+      | 'className'
+      | 'iconClassName'
+      | 'rightIconClassName'
+      | 'loadingClassName'
     >,
     Omit<
       ReloadActionSchema,
-      'type' | 'className' | 'iconClassName' | 'rightIconClassName' | 'loadingClassName'
+      | 'type'
+      | 'className'
+      | 'iconClassName'
+      | 'rightIconClassName'
+      | 'loadingClassName'
     >,
     Omit<
       EmailActionSchema,
-      'type' | 'className' | 'iconClassName' | 'rightIconClassName' | 'loadingClassName'
+      | 'type'
+      | 'className'
+      | 'iconClassName'
+      | 'rightIconClassName'
+      | 'loadingClassName'
     >,
     Omit<
       OtherActionSchema,
-      'type' | 'className' | 'iconClassName' | 'rightIconClassName' | 'loadingClassName'
+      | 'type'
+      | 'className'
+      | 'iconClassName'
+      | 'rightIconClassName'
+      | 'loadingClassName'
     > {
   actionType: any;
   onAction?: (
@@ -529,7 +577,8 @@ export class Action extends React.Component<ActionProps, ActionState> {
 
   @autobind
   async handleAction(e: React.MouseEvent<any>) {
-    const {onAction, disabled, countDown} = this.props;
+    const {onAction, disabled, countDown, env} = this.props;
+
     // https://reactjs.org/docs/legacy-event-pooling.html
     e.persist();
     let onClick = this.props.onClick;
@@ -551,9 +600,26 @@ export class Action extends React.Component<ActionProps, ActionState> {
 
     e.preventDefault();
     const action = pick(this.props, ActionProps) as ActionSchema;
+    const actionType = action.actionType;
+
+    // ajax 会在 wrapFetcher 里记录，这里再处理就重复了，因此去掉
+    // add 一般是 input-table 之类的，会触发 formItemChange，为了避免重复也去掉
+    if (
+      actionType !== 'ajax' &&
+      actionType !== 'download' &&
+      actionType !== 'add'
+    ) {
+      env?.tracker(
+        {
+          eventType: actionType || this.props.type || 'click',
+          eventData: omit(action, ['type', 'actionType', 'tooltipPlacement'])
+        },
+        this.props
+      );
+    }
 
     // download 是一种 ajax 的简写
-    if (action.actionType === 'download') {
+    if (actionType === 'download') {
       action.actionType = 'ajax';
       const api = normalizeApi((action as AjaxActionSchema).api);
       api.responseType = 'blob';
@@ -752,11 +818,12 @@ export class ActionRenderer extends React.Component<
   }
 
   render() {
-    const {env, disabled, btnDisabled, data, loading, ...rest} = this.props;
+    const {env, disabled, btnDisabled, loading, ...rest} = this.props;
 
     return (
       <Action
         {...(rest as any)}
+        env={env}
         disabled={disabled || btnDisabled}
         onAction={this.handleAction}
         loading={loading}

@@ -1,9 +1,10 @@
 import React from 'react';
 import {Renderer, RendererProps} from '../factory';
 import {BaseSchema, SchemaTpl} from '../Schema';
-import {getPropValue} from '../utils/helper';
+import {autobind, getPropValue} from '../utils/helper';
 import {filter} from '../utils/tpl';
 import {BadgeSchema, withBadge} from '../components/Badge';
+import Link from '../components/Link';
 
 /**
  * Link 链接展示控件。
@@ -29,17 +30,47 @@ export interface LinkSchema extends BaseSchema {
    * 角标
    */
   badge?: BadgeSchema;
+
+  /**
+   * a标签原生target属性
+   */
+  htmlTarget?: string;
+
+  /**
+   * 图标
+   */
+  icon?: string;
+
+  /**
+   * 右侧图标
+   */
+  rightIcon?: string;
 }
 
 export interface LinkProps
   extends RendererProps,
     Omit<LinkSchema, 'type' | 'className'> {}
 
-export class LinkField extends React.Component<LinkProps, object> {
+export class LinkCmpt extends React.Component<LinkProps, object> {
   static defaultProps = {
-    className: '',
-    blank: false
+    blank: true,
+    disabled: false,
+    htmlTarget: ''
   };
+
+  handleClick(href: string) {
+    const {env, blank, body} = this.props;
+    env?.tracker(
+      {
+        eventType: 'url',
+        // 需要和 action 里命名一致方便后续分析
+        eventData: {url: href, blank, label: body}
+      },
+      this.props
+    );
+  }
+
+  getHref() {}
 
   render() {
     const {
@@ -48,25 +79,33 @@ export class LinkField extends React.Component<LinkProps, object> {
       href,
       classnames: cx,
       blank,
+      disabled,
       htmlTarget,
       data,
       render,
       translate: __,
-      title
+      title,
+      icon,
+      rightIcon
     } = this.props;
 
-    let value = getPropValue(this.props);
-    const finnalHref = href ? filter(href, data, '| raw') : '';
+    let value =
+      (typeof href === 'string' && href
+        ? filter(href, data, '| raw')
+        : undefined) || getPropValue(this.props);
 
     return (
-      <a
-        href={finnalHref || value}
-        target={htmlTarget || (blank ? '_blank' : '_self')}
-        className={cx('Link', className)}
+      <Link
+        className={className}
+        href={value}
+        disabled={disabled}
         title={title}
+        htmlTarget={htmlTarget || (blank ? '_blank' : '_self')}
+        icon={icon}
+        rightIcon={rightIcon}
       >
-        {body ? render('body', body) : finnalHref || value || __('link')}
-      </a>
+        {body ? render('body', body) : value || __('link')}
+      </Link>
     );
   }
 }
@@ -76,4 +115,4 @@ export class LinkField extends React.Component<LinkProps, object> {
 })
 // @ts-ignore 类型没搞定
 @withBadge
-export class LinkFieldRenderer extends LinkField {}
+export class LinkFieldRenderer extends LinkCmpt {}

@@ -268,4 +268,17 @@
   .has-error--maxLength &-counter {
     color: var(--danger);
   }
+
+  // yunshe4.0
+  &-input {
+    &:hover {
+      border-color: var(--Form-input-onHover-borderColor);
+    }
+  }
+}
+
+.#{$ns}TextControl.is-disabled {
+  &-input input {
+    color: var(--Form-input-onDisabled-color);
+  }
 }

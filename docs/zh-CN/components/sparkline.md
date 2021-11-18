@@ -47,3 +47,29 @@ order: 63
     }
 }
 ```
+
+## 空数据显示
+
+> 1.4.2 及以上版本
+
+通过 `placeholder` 可以设置空数据时显示的内容
+
+```schema
+{
+    "type": "page",
+    "body": {
+        "type": "sparkline",
+        "value": [],
+        "placeholder": "无数据"
+    }
+}
+```
+
+## 属性表
+
+| 属性名      | 类型     | 默认值 | 说明                 |
+| ----------- | -------- | ------ | -------------------- |
+| name        | `string` |        | 关联的变量           |
+| width       | `number` |        | 宽度                 |
+| height      | `number` |        | 高度                 |
+| placeholder | `string` |        | 数据为空时显示的内容 |

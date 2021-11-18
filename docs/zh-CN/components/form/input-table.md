@@ -261,7 +261,7 @@ order: 54
 
 > 这是 1.2.3 新增的合并写法，1.2.2 之前请用后面提到的 quickEdit
 
-每一列的都可以通过 type 来将其改造成可编辑的列，比如下面的例子
+每一列的都可以通过 type 来将其改造成可编辑的列，比如下面的例子（建议配合 `"needConfirm": false` 来改成非确认模式）
 
 ```schema: scope="body"
 {
@@ -288,6 +288,8 @@ order: 54
       "type": "input-table",
       "name": "table",
       "label": "Table",
+      "addable": true,
+      "needConfirm": false,
       "columns": [
         {
           "label": "A",

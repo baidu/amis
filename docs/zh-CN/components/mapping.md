@@ -45,6 +45,29 @@ order: 57
 }
 ```
 
+## 支持数组
+
+> 1.5.0 及以上版本
+
+如果返回值是数组会显示为多个
+
+```schema
+{
+    "type": "page",
+    "body": {
+        "type": "mapping",
+        "value": ["1", "2", "3", "4", "5"],
+        "map": {
+            "1": "<span class='label label-info'>漂亮</span>",
+            "2": "<span class='label label-success'>开心</span>",
+            "3": "<span class='label label-danger'>惊吓</span>",
+            "4": "<span class='label label-warning'>紧张</span>",
+            "*": "<span class='label label-default'>其他</span>"
+        }
+    }
+}
+```
+
 ## 用作 Field 时
 
 当用在 Table 的列配置 Column、List 的内容、Card 卡片的内容和表单的 Static-XXX 中时，可以设置`name`属性，映射同名变量
@@ -213,6 +236,26 @@ List 的内容、Card 卡片的内容配置同上
             "source": "$${zidian}"
         }
     ]
+}
+```
+
+## 占位文本
+
+通过 `placeholder` 可以控制数据不存在时的展现
+
+```schema
+{
+    "type": "page",
+    "body": {
+        "type": "mapping",
+        "placeholder": "数据不存在",
+        "map": {
+            "1": "第一",
+            "2": "第二",
+            "3": "第三",
+            "*": "其他"
+        }
+    }
 }
 ```
 

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="16px" height="16px" viewBox="0 0 16 16" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>关闭</title>
+    <g id="关闭" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="图标-关闭">
+            <rect id="矩形" stroke="#979797" fill="#D8D8D8" opacity="0" x="0.5" y="0.5" width="15" height="15"></rect>
+            <path d="M12.549,2.65 L13.256,3.357 L8.659,7.952 L13.2563,12.549 L12.5493,13.257 L7.953,8.659 L3.357,13.257 L2.65,12.549 L7.246,7.952 L2.6503,3.357 L3.3573,2.65 L7.953,7.245 L12.549,2.65 Z" id="图标-填色" fill="#080E1A" opacity="0.5"></path>
+        </g>
+    </g>
+</svg>

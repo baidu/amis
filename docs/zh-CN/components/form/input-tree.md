@@ -569,6 +569,116 @@ order: 59
 }
 ```
 
+## 控制哪些项可编辑
+
+配置 `creatable`、`removable` 和 `editable` 可以实现树可编辑，同时如果需要关闭部分节点的编辑权限，可以在节点上配置`creatable`、`removable` 和 `editable`。
+
+`rootCreatable` 可以用来关闭顶层是否可以创建。如果想要控制顶层可编辑，请配置 `hideRoot`，用节点来控制。
+
+```schema: scope="body"
+{
+  "type": "form",
+  "api": "/api/mock2/form/saveForm",
+  "body": [
+    {
+      "type": "input-tree",
+      "name": "tree",
+      "label": "Tree",
+      "creatable": true,
+      "removable": true,
+      "editable": true,
+      "rootCreatable": false,
+      "options": [
+        {
+          "label": "Folder A",
+          "value": 1,
+          "creatable": false,
+          "removable": false,
+          "editable": false,
+          "children": [
+            {
+              "label": "file A",
+              "value": 2
+            },
+            {
+              "label": "file B",
+              "value": 3
+            }
+          ]
+        },
+        {
+          "label": "file C",
+          "value": 4,
+          "removable": false
+        },
+        {
+          "label": "file D",
+          "value": 5,
+          "editable": false
+        }
+      ]
+    }
+  ]
+}
+```
+
+## 控制添加/编辑的表单
+
+配置 `addControls` 可以控制添加时需要填写哪些信息，同样还有 `editControls` 来配置编辑节点的表单
+
+```schema: scope="body"
+{
+  "type": "form",
+  "api": "/api/mock2/form/saveForm",
+  "body": [
+    {
+      "type": "input-tree",
+      "name": "tree",
+      "label": "Tree",
+      "creatable": true,
+      "addControls": [
+        {
+          "label": "节点名称",
+          "type": "input-text",
+          "required": true,
+          "name": "label"
+        },
+        {
+          "label": "节点值",
+          "type": "input-text",
+          "required": true,
+          "name": "value"
+        }
+      ],
+      "options": [
+        {
+          "label": "Folder A",
+          "value": 1,
+          "children": [
+            {
+              "label": "file A",
+              "value": 2
+            },
+            {
+              "label": "file B",
+              "value": 3
+            }
+          ]
+        },
+        {
+          "label": "file C",
+          "value": 4
+        },
+        {
+          "label": "file D",
+          "value": 5
+        }
+      ]
+    }
+  ]
+}
+```
+
 ## 懒加载
 
 > since 1.1.6
@@ -697,6 +807,7 @@ true        false        true       [{label: 'A/B/C', value: 'a/b/c'},{label: 'A
 | delimeter              | `string`                                     | `false`          | [拼接符](./options#%E6%8B%BC%E6%8E%A5%E7%AC%A6-delimiter)                                                           |
 | labelField             | `string`                                     | `"label"`        | [选项标签字段](./options#%E9%80%89%E9%A1%B9%E6%A0%87%E7%AD%BE%E5%AD%97%E6%AE%B5-labelfield)                         |
 | valueField             | `string`                                     | `"value"`        | [选项值字段](./options#%E9%80%89%E9%A1%B9%E5%80%BC%E5%AD%97%E6%AE%B5-valuefield)                                    |
+| iconField              | `string`                                     | `"icon"`         | 图标值字段                                                                                                          |
 | joinValues             | `boolean`                                    | `true`           | [拼接值](./options#%E6%8B%BC%E6%8E%A5%E5%80%BC-joinvalues)                                                          |
 | extractValue           | `boolean`                                    | `false`          | [提取值](./options#%E6%8F%90%E5%8F%96%E5%A4%9A%E9%80%89%E5%80%BC-extractvalue)                                      |
 | creatable              | `boolean`                                    | `false`          | [新增选项](./options#%E5%89%8D%E7%AB%AF%E6%96%B0%E5%A2%9E-creatable)                                                |

@@ -1,21 +1,36 @@
 .#{$ns}Collapse {
-  border: none;
+  border: var(--Collapse-border);
   padding: 0;
   margin-bottom: var(--Form-item-gap);
 
   &-header {
-    font-size: var(--fontSizeMd);
-    font-weight: var(--fontWeightNormal);
+    font-size: var(--Collapse-header-fontSize);
+    font-weight: var(--Collapse-header-fontWeight);
     color: var(--text--loud-color);
-    padding: var(--gap-xs) 0;
-    border-bottom: var(--borderWidth) solid var(--borderColorLight);
+    padding: var(--Collapse-header-padding);
+    margin: 0;
+    border-bottom: var(--borderWidth) solid var(--Collapse-border-color);
+    background: var(--Collapse-header-bg);
+
+    &-wrapper {
+      display: inline-flex;
+      flex-direction: var(--Collapse-header-wrapper-direction);
+    }
+
+    &-tpl {
+      margin-right: px2rem(8px);
+    }
+
+    &:hover {
+      background: var(--Collapse-header-onHover-bg);
+    }
   }
 
   &-arrow {
     display: inline-block;
     width: px2rem(16px);
     text-align: center;
-    margin-left: var(--gap-xs);
+    margin-right: px2rem(8px);
     cursor: pointer;
 
     &:before {
@@ -33,9 +48,16 @@
     }
   }
 
+  &-TplField {
+    display: inline-block;
+  }
+
   &.is-collapsed &-arrow:before {
     transform: rotate(45deg);
     transform-origin: 0% 50%;
+  }
+  &.is-collapsed &-header {
+    border-bottom: var(--Collapse-header-collapsed-border);
   }
 
   &--collapsable &-header {
@@ -49,6 +71,12 @@
     color: var(--link-color);
     border-left: none;
     font-size: var(--fontSizeBase);
+    border-top: var(--Collapse-header-collapsed-borderTop);
+    border-bottom: var(--Collapse-header-collapsed-borderBottom);
+  }
+
+  &--title-bottom.is-collapsed &-header {
+    border-top: none;
   }
 
   &--title-bottom &-arrow:before {
@@ -63,13 +91,18 @@
     transform-origin: 0% 50%;
   }
 
-  &-content {
+  &-contentWrapper {
     transition: height var(--animation-duration) ease;
-
     &.in,
     &.out {
       height: 0;
       overflow: hidden;
     }
+  }
+  &-content {
+    padding: var(--Collapse-content-padding);
+    color: var(--body-color);
+    font-size: var(--Collapse-content-fontSize);
+    font-weight: var(--Collapse-content-fontWeight);
   }
 }

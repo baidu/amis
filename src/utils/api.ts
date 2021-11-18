@@ -1,4 +1,5 @@
-import {Api, ApiObject, fetcherResult, Payload} from '../types';
+import omit from 'lodash/omit';
+import {Api, ApiObject, EventTrack, fetcherResult, Payload} from '../types';
 import {fetcherConfig} from '../factory';
 import {tokenize, dataMapping} from './tpl-builtin';
 import {evalExpression} from './tpl';
@@ -12,6 +13,7 @@ import {
   createObject,
   qsparse
 } from './helper';
+import isPlainObject from 'lodash/isPlainObject';
 
 const rSchema = /(?:^|raw\:)(get|post|put|delete|patch|options|head):/i;
 
@@ -61,6 +63,23 @@ export function buildApi(
   };
   api.method = (api.method || (options as any).method || 'get').toLowerCase();
 
+  if (api.headers) {
+    api.headers = dataMapping(api.headers, data, undefined, false);
+  }
+
+  if (api.requestAdaptor && typeof api.requestAdaptor === 'string') {
+    api.requestAdaptor = str2function(api.requestAdaptor, 'api') as any;
+  }
+
+  if (api.adaptor && typeof api.adaptor === 'string') {
+    api.adaptor = str2function(
+      api.adaptor,
+      'payload',
+      'response',
+      'api'
+    ) as any;
+  }
+
   if (!data) {
     return api;
   } else if (
@@ -82,7 +101,9 @@ export function buildApi(
     );
     api.url =
       tokenize(api.url.substring(0, idx + 1), data, '| url_encode') +
-      qsstringify((api.query = dataMapping(params, data))) +
+      qsstringify(
+        (api.query = dataMapping(params, data, undefined, api.convertKeyToPath))
+      ) +
       (~hashIdx ? api.url.substring(hashIdx) : '');
   } else {
     api.url = tokenize(api.url, data, '| url_encode');
@@ -93,7 +114,12 @@ export function buildApi(
   }
 
   if (api.data) {
-    api.body = api.data = dataMapping(api.data, data);
+    api.body = api.data = dataMapping(
+      api.data,
+      data,
+      undefined,
+      api.convertKeyToPath
+    );
   } else if (api.method === 'post' || api.method === 'put') {
     api.body = api.data = cloneObject(data);
   }
@@ -137,23 +163,6 @@ export function buildApi(
     }
   }
 
-  if (api.headers) {
-    api.headers = dataMapping(api.headers, data);
-  }
-
-  if (api.requestAdaptor && typeof api.requestAdaptor === 'string') {
-    api.requestAdaptor = str2function(api.requestAdaptor, 'api') as any;
-  }
-
-  if (api.adaptor && typeof api.adaptor === 'string') {
-    api.adaptor = str2function(
-      api.adaptor,
-      'payload',
-      'response',
-      'api'
-    ) as any;
-  }
-
   return api;
 }
 
@@ -190,7 +199,7 @@ export function responseAdaptor(ret: fetcherResult, api: ApiObject) {
   let hasStatusField = true;
 
   if (!data) {
-    throw new Error('Response is empty!');
+    throw new Error('Response is empty');
   }
 
   // 兼容几种常见写法
@@ -248,7 +257,9 @@ export function responseAdaptor(ret: fetcherResult, api: ApiObject) {
               items: payload.data
             }
           : payload.data) || {}
-      )
+      ),
+      undefined,
+      api.convertKeyToPath
     );
   }
 
@@ -256,7 +267,8 @@ export function responseAdaptor(ret: fetcherResult, api: ApiObject) {
 }
 
 export function wrapFetcher(
-  fn: (config: fetcherConfig) => Promise<fetcherResult>
+  fn: (config: fetcherConfig) => Promise<fetcherResult>,
+  tracker?: (eventTrack: EventTrack, data: any) => void
 ): (api: Api, data: object, options?: object) => Promise<Payload | void> {
   return function (api, data, options) {
     api = buildApi(api, data, options) as ApiObject;
@@ -285,6 +297,11 @@ export function wrapFetcher(
       api.headers = api.headers || (api.headers = {});
       api.headers['Content-Type'] = 'application/json';
     }
+
+    tracker?.(
+      {eventType: 'api', eventData: omit(api, ['config', 'data', 'body'])},
+      api.data
+    );
 
     if (typeof api.cache === 'number' && api.cache > 0) {
       const apiCache = getApiCache(api);
@@ -458,6 +475,18 @@ export function setApiCache(
 
 export function clearApiCache() {
   apiCaches.splice(0, apiCaches.length);
+}
+
+export function normalizeApiResponseData(data: any) {
+  if (typeof data === 'undefined') {
+    data = {};
+  } else if (!isPlainObject(data)) {
+    data = {
+      [Array.isArray(data) ? 'items' : 'result']: data
+    };
+  }
+
+  return data;
 }
 
 // window.apiCaches = apiCaches;

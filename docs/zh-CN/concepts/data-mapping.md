@@ -598,6 +598,16 @@ ${xxx | date[:format][:inputFormat]}
 ${_|now}
 ```
 
+### toDate
+
+将日期字符串转成日期对象, 第二个参数为字符串的日期格式类型。
+
+用法：
+
+```
+${xxx | toDate:YYYY-MM-DD}
+```
+
 ### dateModify
 
 日期修改，将输入的日期对象修改后返回新的日期对象，支持四种操作符。
@@ -1148,12 +1158,50 @@ ${xxx | objectToArray[:key][:value]}
 ${xxx|plus:2}
 ```
 
+还可以是另一个变量，比如
+
+```
+${xxx|plus:yyy}
+```
+
+```schema
+{
+  "type": "page",
+  "data": {
+    "xxx": 10,
+    "yyy": 2
+  },
+  "body": {
+    "type": "tpl",
+    "tpl": "${xxx|plus:yyy}"
+  }
+}
+```
+
+下面的减法乘法和除法也都支持变量
+
 ### minus
 
 减法运算比如减 2
 
 ```
 ${xxx|minus:2}
+```
+
+### times
+
+乘法运算
+
+```
+${xxx|division:2}
+```
+
+### division
+
+除法运算
+
+```
+${xxx|division:2}
 ```
 
 ### sum

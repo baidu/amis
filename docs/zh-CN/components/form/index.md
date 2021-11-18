@@ -204,7 +204,30 @@ order: 24
 
 ### 实现一行展示多个表单项
 
-使用 group 实现一行显示多个表单项
+有两种方法，一个是通过 `columnCount` 来控制表单显示几列
+
+```schema: scope="body"
+ {
+    "type": "form",
+    "title": "内联模式",
+    "columnCount": 2,
+    "body": [
+      {
+        "type": "input-email",
+        "name": "email",
+        "label": "邮箱",
+        "required": true
+      },
+      {
+        "type": "input-password",
+        "name": "password",
+        "label": "密码"
+      }
+    ]
+  }
+```
+
+另一个方法是使用 group，它能实现每行显示不同列数，可以实现更灵活的控制
 
 ```schema: scope="body"
  [
@@ -216,14 +239,37 @@ order: 24
           "type": "group",
           "body": [
             {
-              "type": "input-email",
-              "name": "email",
-              "label": "邮箱"
+              "type": "input-text",
+              "name": "text1",
+              "label": "文本1"
             },
             {
-              "type": "input-password",
-              "name": "password",
-              "label": "密码"
+              "type": "input-text",
+              "name": "text2",
+              "label": "文本2"
+            }
+          ]
+        },
+        {
+          "type": "divider"
+        },
+        {
+          "type": "group",
+          "body": [
+            {
+              "type": "input-text",
+              "name": "text3",
+              "label": "文本3"
+            },
+            {
+              "type": "input-text",
+              "name": "text4",
+              "label": "文本4"
+            },
+            {
+              "type": "input-text",
+              "name": "text5",
+              "label": "文本5"
             }
           ]
         }
@@ -990,3 +1036,4 @@ Form 支持轮询初始化接口，步骤如下：
 | preventEnterSubmit          | `boolean`                                                                 | `false`                                                                | 禁用回车提交表单                                                                                                                                                                                                                                                                                                                                             |
 | trimValues                  | `boolean`                                                                 | `false`                                                                | trim 当前表单项的每一个值                                                                                                                                                                                                                                                                                                                                    |
 | promptPageLeave             | `boolean`                                                                 | `false`                                                                | form 还没保存，即将离开页面前是否弹框确认。                                                                                                                                                                                                                                                                                                                  |
+| columnCount                 | `number`                                                                  | 0                                                                      | 表单项显示为几列                                                                                                                                                                                                                                                                                                                                             |

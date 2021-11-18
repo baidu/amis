@@ -1,43 +1,28 @@
 import React from 'react';
 
-import PropTypes from 'prop-types';
 import {Renderer, RendererProps} from '../factory';
-import {
-  SchemaNode,
-  Schema,
-  Action,
-  Api,
-  ApiObject,
-  PlainObject
-} from '../types';
+import {SchemaNode, Schema, Action, PlainObject} from '../types';
 import {CRUDStore, ICRUDStore} from '../store/crud';
 import {
   createObject,
   extendObject,
   anyChanged,
   isObjectShallowModified,
-  noop,
   isVisible,
   getPropValue,
   getVariable,
   qsstringify,
-  qsparse
+  qsparse,
+  isArrayChildrenModified
 } from '../utils/helper';
-import {observer} from 'mobx-react';
-import partition from 'lodash/partition';
-import Scoped, {ScopedContext, IScopedContext} from '../Scoped';
+import {ScopedContext, IScopedContext} from '../Scoped';
 import Button from '../components/Button';
 import Select from '../components/Select';
 import getExprProperties from '../utils/filter-schema';
 import pick from 'lodash/pick';
 import {findDOMNode} from 'react-dom';
 import {evalExpression, filter} from '../utils/tpl';
-import {
-  isValidApi,
-  buildApi,
-  isEffectiveApi,
-  isApiOutdated
-} from '../utils/api';
+import {isEffectiveApi, isApiOutdated, str2function} from '../utils/api';
 import omit from 'lodash/omit';
 import find from 'lodash/find';
 import findIndex from 'lodash/findIndex';
@@ -48,7 +33,6 @@ import {
   BaseSchema,
   SchemaApi,
   SchemaClassName,
-  SchemaCollection,
   SchemaExpression,
   SchemaMessage,
   SchemaName,
@@ -298,6 +282,16 @@ export interface CRUDCommonSchema extends BaseSchema {
    * 默认只有当分页数大于 1 是才显示，如果总是想显示请配置。
    */
   alwaysShowPagination?: boolean;
+
+  /**
+   * 开启查询区域，会根据列元素的searchable属性值，自动生成查询条件表单
+   */
+  autoGenerateFilter?: boolean;
+
+  /**
+   * 内容区域占满屏幕剩余空间
+   */
+  autoFillHeight?: boolean;
 }
 
 export type CRUDCardsSchema = CRUDCommonSchema & {
@@ -362,6 +356,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
     'footerToolbar',
     'filterTogglable',
     'filterDefaultVisible',
+    'autoGenerateFilter',
     'syncResponse2Query',
     'keepItemSelectionOnPageChange',
     'labelTpl',
@@ -376,7 +371,8 @@ export default class CRUD extends React.Component<CRUDProps, any> {
     'onInit',
     'onSaved',
     'onQuery',
-    'formStore'
+    'formStore',
+    'autoFillHeight'
   ];
   static defaultProps = {
     toolbarInline: true,
@@ -392,7 +388,8 @@ export default class CRUD extends React.Component<CRUDProps, any> {
     filterTogglable: false,
     filterDefaultVisible: true,
     loadDataOnce: false,
-    loadDataOnceFetchOnFilter: true
+    loadDataOnceFetchOnFilter: true,
+    autoFillHeight: false
   };
 
   control: any;
@@ -478,8 +475,8 @@ export default class CRUD extends React.Component<CRUDProps, any> {
       this.handleFilterInit({});
     }
 
-    const val = getPropValue(this.props);
-    if (this.props.pickerMode && val) {
+    let val: any;
+    if (this.props.pickerMode && (val = getPropValue(this.props))) {
       store.setSelectedItems(val);
     }
   }
@@ -500,8 +497,14 @@ export default class CRUD extends React.Component<CRUDProps, any> {
       this.renderFooterToolbar = this.renderFooterToolbar.bind(this);
     }
 
-    const val = getPropValue(this.props);
-    if (this.props.pickerMode && val !== getPropValue(prevProps)) {
+    let val: any;
+    if (
+      this.props.pickerMode &&
+      isArrayChildrenModified(
+        (val = getPropValue(this.props)),
+        getPropValue(prevProps)
+      )
+    ) {
       store.setSelectedItems(val);
     }
 
@@ -654,6 +657,13 @@ export default class CRUD extends React.Component<CRUDProps, any> {
       return Promise.resolve({
         items: store.selectedItems.concat()
       });
+    } else if (action.onClick) {
+      store.setCurrentAction(action);
+      let onClick = action.onClick;
+      if (typeof onClick === 'string') {
+        onClick = str2function(onClick, 'event', 'props', 'data');
+      }
+      onClick && onClick(e, this.props, ctx);
     } else {
       onAction(e, action, ctx, throwErrors, delegate || this.context);
     }
@@ -1792,6 +1802,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
       return null;
     }
 
+    const {render, store, translate: __} = this.props;
     const type = (toolbar as Schema).type || toolbar;
 
     if (type === 'bulkActions' || type === 'bulk-actions') {
@@ -1808,8 +1819,25 @@ export default class CRUD extends React.Component<CRUDProps, any> {
       return this.renderFilterToggler();
     } else if (type === 'export-csv') {
       return this.renderExportCSV(toolbar as Schema);
+    } else if (type === 'reload') {
+      let reloadButton = {
+        label: '',
+        icon: 'fa fa-sync',
+        tooltip: __('reload'),
+        tooltipPlacement: 'top',
+        type: 'button'
+      };
+      if (typeof toolbar === 'object') {
+        reloadButton = {...reloadButton, ...omit(toolbar, ['type', 'align'])};
+      }
+      return render(`toolbar/${index}`, reloadButton, {
+        onAction: () => {
+          this.reload();
+        }
+      });
     } else if (Array.isArray(toolbar)) {
       const children: Array<any> = toolbar
+        .filter((toolbar: any) => isVisible(toolbar, store.filterData))
         .map((toolbar, index) => ({
           dom: this.renderToolbar(toolbar, index, childProps, toolbarRenderer),
           toolbar
@@ -1851,7 +1879,6 @@ export default class CRUD extends React.Component<CRUDProps, any> {
       return result;
     }
 
-    const {render, store} = this.props;
     const $$editable = childProps.$$editable;
 
     return render(`toolbar/${index}`, toolbar, {
@@ -1994,6 +2021,9 @@ export default class CRUD extends React.Component<CRUDProps, any> {
       popOverContainer,
       translate: __,
       onQuery,
+      autoGenerateFilter,
+      onSelect,
+      autoFillHeight,
       ...rest
     } = this.props;
 
@@ -2044,6 +2074,8 @@ export default class CRUD extends React.Component<CRUDProps, any> {
             key: 'body',
             className: cx('Crud-body', bodyClassName),
             ref: this.controlRef,
+            autoGenerateFilter: !filter && autoGenerateFilter,
+            autoFillHeight: autoFillHeight,
             selectable: !!(
               (this.hasBulkActionsToolbar() && this.hasBulkActions()) ||
               pickerMode
@@ -2076,6 +2108,9 @@ export default class CRUD extends React.Component<CRUDProps, any> {
             onSelect: this.handleSelect,
             onPopOverOpened: this.handleChildPopOverOpen,
             onPopOverClosed: this.handleChildPopOverClose,
+            onSearchableFromReset: this.handleFilterReset,
+            onSearchableFromSubmit: this.handleFilterSubmit,
+            onSearchableFromInit: this.handleFilterInit,
             headerToolbarRender: this.renderHeaderToolbar,
             footerToolbarRender: this.renderFooterToolbar,
             data: store.mergedData

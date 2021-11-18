@@ -5,8 +5,8 @@
   --white: #{$white};
   // 因为运行不支持颜色计算，所以用 css 变量的方式需要多定义几个变量
   --primary: #{$primary};
-  --primary-onHover: #4F86F4;
-  --primary-onActive:#1C53C1;
+  --primary-onHover: #4f86f4;
+  --primary-onActive: #1c53c1;
   --secondary: #{$secondary};
   --secondary-onHover: #{darken($secondary, 7.5%)};
   --secondary-onActive: #{darken($secondary, 10%)};
@@ -324,6 +324,7 @@
   --Button-onActive-border: var(--primary);
   --Button-onDisabled-borderColor: #dee2e6;
   --Button-onDisabled-opacity: 0.65;
+  --Button-onDisabled-bg: #f2f3f3;
   --Button-onFocus-boxShadow: none;
   --Button-paddingX: #{px2rem(12px)};
   --Button-paddingX-right: #{px2rem(10px)};
@@ -522,6 +523,25 @@
   --Copyable-iconColor: var(--icon-color);
   --Copyable-onHover-iconColor: var(--icon-onHover-color);
 
+  --Collapse-border: none;
+  --Collapse-border-color: var(--borderColorLight);
+  --Collapse-header-fontSize: var(--fontSizeMd);
+  --Collapse-header-fontWeight: var(--fontWeightNormal);
+  --Collapse-header-padding: #{px2rem(18px)} 0 var(--gap-xs) 0;
+  --Collapse-header-bg: transparent;
+  --Collapse-header-onHover-bg: transparent;
+  --Collapse-header-collapsed-border: var(--borderWidth) solid
+    var(--Collapse-border-color);
+  --Collapse-header-collapsed-borderTop: none;
+  --Collapse-header-collapsed-borderBottom: var(
+    --Collapse-header-collapsed-border
+  );
+  --Collapse-header-wrapper-direction: row;
+  --Collapse-content-padding: #{px2rem(18px)} 0;
+  --Collapse-content-color: var(--body-color);
+  --Collapse-content-fontSize: var(--body-size);
+  --Collapse-content-fontWeight: var(--body-weight);
+
   --Crud-toolbar-gap: var(--gap-xs);
   --Crud-toolbar-height: #{px2rem(30px)};
   --Crud-toolbar-lineHeight: var(--lineHeightBase);
@@ -548,6 +568,8 @@
       ) / 2 - var(--DatePicker-borderWidth)
   );
   --DatePicker-placeholderColor: var(--Form-input-placeholderColor);
+
+  --LocationPicker-borderRadius: var(--Form-input-borderWidth);
 
   --Divider-borderStyle: dashed;
 
@@ -584,8 +606,9 @@
   --DropDown-menu-paddingX: 0;
   --DropDown-menu-paddingY: var(--gap-xs);
   --DropDown-menuItem-onHover-bg: var(--ListMenu-item--onHover-bg);
-  --DropDown-menuItem-onHover-color: inherit;
-  --DropDown-menuItem-onActive-color: var(--info);
+  --DropDown-menuItem-color: var(--text-color);
+  --DropDown-menuItem-onHover-color: var(--primary);
+  --DropDown-menuItem-onActive-color: var(--primary);
   --DropDown-menuItem-onDisabled-color: var(--text--muted-color);
   --DropDown-menuItem-paddingX: var(--gap-sm);
   --DropDown-menuItem-paddingY: calc(
@@ -655,6 +678,7 @@
       ) / 2
   );
   --Form-input-placeholderColor: var(--text--muted-color);
+  --Form-input-onDisabled-color: var(--text--muted-color);
 
   --Form-item-gap: var(--gap-base);
 
@@ -724,6 +748,7 @@
 
   --ImageControl-addBtn-bg: var(--Button--default-bg);
   --ImageControl-addBtn-border: var(--Button--default-border);
+  --ImageControl-addBtn-borderRadius: 0;
   --ImageControl-addBtn-color: var(--Button--default-color);
   --ImageControl-addBtn-onActive-bg: #{darken($white, 10%)};
   --ImageControl-addBtn-onActive-border: #{darken($borderColor, 12.5%)};
@@ -736,6 +761,9 @@
   --ImageControl-addBtn-onHover-bg: #{darken($white, 7.5%)};
   --ImageControl-addBtn-onHover-border: #{darken($borderColor, 10%)};
   --ImageControl-addBtn-onHover-color: var(--Button--default-color);
+  --ImageControl-progress-borderRadius: 0;
+
+  --FileControl-progress-borderRadius: 0;
 
   --InputGroup-addOn-bg: var(--Form-input-addOnBg);
   --InputGroup-addOn-borderColor: var(--Form-input-borderColor);
@@ -856,6 +884,7 @@
   --ListControl-item-bg: var(--white);
   --ListControl-item-borderColor: var(--borderColor);
   --ListControl-item-borderWidth: var(--borderWidth);
+  --ListControl-item-borderRadius: #{px2rem(3px)};
   --ListControl-item-color: var(--text-color);
   --ListControl-item-onActive-after-borderColor: var(--primary);
   --ListControl-item-onActive-before-bg: var(--white);
@@ -1044,12 +1073,31 @@
   --Picker-iconColor: var(--icon-color);
   --Picker-onHover-iconColor: var(--icon-onHover-color);
 
+  --PickerColumns-bg: white;
+  --PickerColumns-toolbar-height: #{px2rem(50px)};
+  --PickerColumns-title-fontSize: var(--fontSizeLg);
+  --PickerColumns-title-lineHeight: 1.5;
+  --PickerColumns-action-padding: 0 var(--gap-sm);
+  --PickerColumns-action-fontSize: var(--fontSizeMd);
+  --PickerColumns-confirmAction-color: var(--Button--info-bg);
+  --PickerColumns-cancelAction-color: var(--Button--light-bg);
+  --PickerColumns-option-fontSize: var(--fontSizeLg);
+  --PickerColumns-optionText-color: var(--text-color);
+  --PickerColumns-optionDisabled-opacity: 0.3;
+  --PickerColumns-loadingIcon-color: var(--icon-color);
+  --PickerColumns-loadingMask-Color: rgba(255, 255, 255, 0.9);
+
   --PopOver-bg: white;
   --PopOverAble-iconColor: inherit;
   --PopOverAble-onHover-iconColor: inherit;
 
   --Property-title-bg: #f2f2f2;
   --Property-label-bg: #f7f7f7;
+
+  --Portlet-borderColor: var(--borderColor);
+  --Portlet-borderStyle: solid;
+  --Portlet-borderWidth: var(--borderWidth);
+  --Portlet-borderRadius: var(--borderRadius);
 
   --QuickEdit-iconColor: inherit;
   --QuickEdit-onFocus-borderColor: var(--info);
@@ -1154,6 +1202,8 @@
   --Table-toolbar-marginX: 0;
   --Table-toolbar-marginY: var(--gap-base);
   --Table-tree-borderColor: var(--Table-borderColor);
+  --Table-searchableForm-backgroundColor: #f6f7f8;
+  --Table-searchableForm-borderRadius: #{px2rem(4px)};
 
   --TableCell--edge-paddingX: var(--gap-md);
   --TableCell-filterBtn--onActive-color: var(--primary);
@@ -1352,4 +1402,13 @@
   --Steps-sub-title-color: var(--text-color);
   --Steps-line-bg: var(--Steps-bg);
   --Steps-line-success-bg: var(--Steps-status-success);
+
+  --Progress-borderRadius: var(--borderRadius);
+  --ColumnToggler-backgroundColor: var(--white);
+  --ColumnToggler-borderRadius: #{px2rem(4px)};
+  --ColumnToggler-lineHeight: #{px2rem(24px)};
+  --ColumnToggler-title-fontColor: #080e1a;
+  --ColumnToggler-fontColor: #151a26;
+  --ColumnToggler-item-backgroundColor: #f6f7f8;
+  --ColumnToggler-item-backgroundColor-onHover: rgba(36, 104, 242, 0.1);
 }

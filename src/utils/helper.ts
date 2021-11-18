@@ -16,6 +16,14 @@ import {
 } from './tpl-builtin';
 import {isObservable} from 'mobx';
 
+export function isMobile() {
+  return (window as any).matchMedia?.('(max-width: 768px)').matches;
+}
+
+export function range(num: number, min: number, max: number): number {
+  return Math.min(Math.max(num, min), max);
+}
+
 // 方便取值的时候能够把上层的取到，但是获取的时候不会全部把所有的数据获取到。
 export function createObject(
   superProps?: {[propName: string]: any},
@@ -181,7 +189,8 @@ export function getVariable(
 export function setVariable(
   data: {[propName: string]: any},
   key: string,
-  value: any
+  value: any,
+  convertKeyToPath?: boolean
 ) {
   data = data || {};
 
@@ -190,7 +199,7 @@ export function setVariable(
     return;
   }
 
-  const parts = keyToPath(key);
+  const parts = convertKeyToPath !== false ? keyToPath(key) : [key];
   const last = parts.pop() as string;
 
   while (parts.length) {
@@ -506,7 +515,6 @@ export function isDisabled(
     (schema.disabledOn && evalExpression(schema.disabledOn, data))
   );
 }
-
 
 export function hasAbility(
   schema: any,
@@ -1618,7 +1626,7 @@ export function detectPropValueChanged<
 
 // 去掉字符串中的 html 标签，不完全准确但效率比较高
 export function removeHTMLTag(str: string) {
-  return str.replace(/<\/?[^>]+(>|$)/g, '');
+  return typeof str === 'string' ? str.replace(/<\/?[^>]+(>|$)/g, '') : str;
 }
 
 /**

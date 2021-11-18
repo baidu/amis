@@ -108,6 +108,14 @@ export const components = [
           import('../../docs/zh-CN/components/wrapper.md').then(
             makeMarkdownRenderer
           )
+      },
+      {
+        label: 'Portlet 门户栏目',
+        path: '/zh-CN/components/portlet',
+        getComponent: () =>
+          import('../../docs/zh-CN/components/portlet.md').then(
+            makeMarkdownRenderer
+          )
       }
     ]
   },
@@ -651,12 +659,28 @@ export const components = [
           )
       },
       {
+        label: 'TransferPicker 穿梭选择器',
+        path: '/zh-CN/components/form/transfer-picker',
+        getComponent: () =>
+          import('../../docs/zh-CN/components/form/transfer-picker.md').then(
+            makeMarkdownRenderer
+          )
+      },
+      {
         label: 'TabsTransfer 组合穿梭器',
         path: '/zh-CN/components/form/tabs-transfer',
         getComponent: () =>
           import('../../docs/zh-CN/components/form/tabs-transfer.md').then(
             makeMarkdownRenderer
           )
+      },
+      {
+        label: 'TabsTransferPicker 组合穿梭选择器',
+        path: '/zh-CN/components/form/tabs-transfer-picker',
+        getComponent: () =>
+          import(
+            '../../docs/zh-CN/components/form/tabs-transfer-picker.md'
+          ).then(makeMarkdownRenderer)
       },
       {
         label: 'InputTree 树形选择框',
@@ -1063,8 +1087,10 @@ export default class Components extends React.PureComponent<any> {
     this.props.setNavigations(components);
   }
 
-  componentDidUpdate() {
-    this.props.setNavigations(components);
+  componentDidUpdate(preProps: any) {
+    if (this.props.location.pathname !== preProps.location.pathname) {
+      this.props.setNavigations(components, false);
+    }
   }
 
   render() {

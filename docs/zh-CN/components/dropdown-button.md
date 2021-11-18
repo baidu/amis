@@ -67,6 +67,103 @@ order: 44
 }
 ```
 
+## 设置图标
+
+通过 `icon` 可以设置左侧图标
+
+```schema
+{
+    "type": "page",
+    "body": {
+        "type": "dropdown-button",
+        "label": "下拉菜单",
+        "trigger": "hover",
+        "icon": "fa fa-home",
+        "buttons": [
+            {
+                "type": "button",
+                "label": "按钮1",
+                "disabled": true
+            },
+            {
+                "type": "button",
+                "label": "按钮2"
+            },
+            {
+                "type": "button",
+                "label": "按钮3"
+            }
+        ]
+    }
+}
+```
+
+## 只显示图标
+
+可以设置 `level` 及 `hideCaret` 来只显示图标，并配合 `tooltip` 来显示提示文字
+
+```schema
+{
+    "type": "page",
+    "body": {
+        "type": "dropdown-button",
+        "level": "link",
+        "icon": "fa fa-ellipsis-h",
+        "hideCaret": true,
+        "tooltip": "提示",
+        "buttons": [
+            {
+                "type": "button",
+                "label": "按钮1",
+                "disabled": true
+            },
+            {
+                "type": "button",
+                "label": "按钮2"
+            },
+            {
+                "type": "button",
+                "label": "按钮3"
+            }
+        ]
+    }
+}
+```
+
+## 设置右侧图标
+
+> 1.5.0 及以上版本
+
+通过 `rightIcon` 设置右侧图标，同时通过 `hideCaret` 隐藏右侧下拉图标
+
+```schema
+{
+    "type": "page",
+    "body": {
+        "type": "dropdown-button",
+        "label": "下拉菜单",
+        "trigger": "hover",
+        "rightIcon": "fa fa-ellipsis-v",
+        "hideCaret": true,
+        "buttons": [
+            {
+                "type": "button",
+                "label": "按钮1",
+                "disabled": true
+            },
+            {
+                "type": "button",
+                "label": "按钮2"
+            },
+            {
+                "type": "button",
+                "label": "按钮3"
+            }
+        ]
+    }
+}
+```
+
 ## 属性表
 
 | 属性名          | 类型               | 默认值            | 说明                                      |
@@ -78,8 +175,8 @@ order: 44
 | size            | `string`           |                   | 尺寸，支持`'xs'`、`'sm'`、`'md'` 、`'lg'` |
 | align           | `string`           |                   | 位置，可选`'left'`或`'right'`             |
 | buttons         | `Array<action>`    |                   | 配置下拉按钮                              |
-| caretIcon       | `string`           |                   | caretIcon                                 |
 | iconOnly        | `boolean`          |                   | 只显示 icon                               |
 | defaultIsOpened | `boolean`          |                   | 默认是否打开                              |
 | closeOnOutside  | `boolean`          |                   | 点击外侧区域是否收起                      |
 | trigger         | `click` 或 `hover` | `click`           | 触发方式                                  |
+| hideCaret       | `boolean`          | false             | 隐藏下拉图标                              |
