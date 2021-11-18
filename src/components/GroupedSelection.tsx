@@ -1,4 +1,4 @@
-import {BaseCheckboxes} from './Checkboxes';
+import {BaseSelection} from './Selection';
 import {themeable} from '../theme';
 import React from 'react';
 import {uncontrollable} from 'uncontrollable';
@@ -6,7 +6,7 @@ import Checkbox from './Checkbox';
 import {Option} from './Select';
 import {localeable} from '../locale';
 
-export class ListCheckboxes extends BaseCheckboxes {
+export class GroupedSelection extends BaseSelection {
   valueArray: Array<Option>;
 
   renderOption(option: Option, index: number) {
@@ -15,7 +15,8 @@ export class ListCheckboxes extends BaseCheckboxes {
       disabled,
       classnames: cx,
       itemClassName,
-      itemRender
+      itemRender,
+      multiple
     } = this.props;
     const valueArray = this.valueArray;
 
@@ -23,13 +24,13 @@ export class ListCheckboxes extends BaseCheckboxes {
       return (
         <div
           key={index}
-          className={cx('ListCheckboxes-group', option.className)}
+          className={cx('GroupedSelection-group', option.className)}
         >
-          <div className={cx('ListCheckboxes-itemLabel')}>
+          <div className={cx('GroupedSelection-itemLabel')}>
             {itemRender(option)}
           </div>
 
-          <div className={cx('ListCheckboxes-items', option.className)}>
+          <div className={cx('GroupedSelection-items', option.className)}>
             {option.children.map((child, index) =>
               this.renderOption(child, index)
             )}
@@ -42,24 +43,27 @@ export class ListCheckboxes extends BaseCheckboxes {
       <div
         key={index}
         className={cx(
-          'ListCheckboxes-item',
+          'GroupedSelection-item',
           itemClassName,
           option.className,
-          disabled || option.disabled ? 'is-disabled' : ''
+          disabled || option.disabled ? 'is-disabled' : '',
+          !!~valueArray.indexOf(option) ? 'is-active' : ''
         )}
         onClick={() => this.toggleOption(option)}
       >
-        <div className={cx('ListCheckboxes-itemLabel')}>
+        <div className={cx('GroupedSelection-itemLabel')}>
           {itemRender(option)}
         </div>
 
-        <Checkbox
-          size="sm"
-          checked={!!~valueArray.indexOf(option)}
-          disabled={disabled || option.disabled}
-          labelClassName={labelClassName}
-          description={option.description}
-        />
+        {multiple ? (
+          <Checkbox
+            size="sm"
+            checked={!!~valueArray.indexOf(option)}
+            disabled={disabled || option.disabled}
+            labelClassName={labelClassName}
+            description={option.description}
+          />
+        ) : null}
       </div>
     );
   }
@@ -71,11 +75,12 @@ export class ListCheckboxes extends BaseCheckboxes {
       className,
       placeholder,
       classnames: cx,
-      option2value
+      option2value,
+      onClick
     } = this.props;
     const __ = this.props.translate;
 
-    this.valueArray = BaseCheckboxes.value2array(value, options, option2value);
+    this.valueArray = BaseSelection.value2array(value, options, option2value);
     let body: Array<React.ReactNode> = [];
 
     if (Array.isArray(options) && options.length) {
@@ -83,11 +88,11 @@ export class ListCheckboxes extends BaseCheckboxes {
     }
 
     return (
-      <div className={cx('ListCheckboxes', className)}>
+      <div className={cx('GroupedSelection', className)} onClick={onClick}>
         {body && body.length ? (
           body
         ) : (
-          <div className={cx('ListCheckboxes-placeholder')}>
+          <div className={cx('GroupedSelection-placeholder')}>
             {__(placeholder)}
           </div>
         )}
@@ -98,7 +103,7 @@ export class ListCheckboxes extends BaseCheckboxes {
 
 export default themeable(
   localeable(
-    uncontrollable(ListCheckboxes, {
+    uncontrollable(GroupedSelection, {
       value: 'onChange'
     })
   )

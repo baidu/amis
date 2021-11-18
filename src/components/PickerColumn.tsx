@@ -20,7 +20,7 @@ import {range} from '../utils/helper';
 import {themeable, ThemeProps} from '../theme';
 import {localeable, LocaleProps} from '../locale';
 import useTouch from '../hooks/use-touch';
-import {Button} from '.';
+import Button from './Button';
 
 export interface PickerColumnProps extends ThemeProps, LocaleProps {
   mobileClassName?: string;

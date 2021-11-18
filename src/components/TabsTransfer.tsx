@@ -2,14 +2,14 @@ import React from 'react';
 import {autobind} from '../utils/helper';
 import Tabs, {Tab} from './Tabs';
 import SearchBox from './SearchBox';
-import TableCheckboxes from './TableCheckboxes';
-import TreeCheckboxes from './TreeCheckboxes';
-import ChainedCheckboxes from './ChainedCheckboxes';
-import ListCheckboxes from './ListCheckboxes';
+import TableCheckboxes from './TableSelection';
+import TreeCheckboxes from './TreeSelection';
+import ChainedCheckboxes from './ChainedSelection';
+import ListCheckboxes from './GroupedSelection';
 import {Options, Option} from './Select';
 import Transfer, {TransferProps} from './Transfer';
 import {themeable} from '../theme';
-import AssociatedCheckboxes from './AssociatedCheckboxes';
+import AssociatedCheckboxes from './AssociatedSelection';
 import {localeable} from '../locale';
 
 export interface TabsTransferProps

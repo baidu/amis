@@ -10,13 +10,14 @@ import {BaseTransferRenderer} from './Transfer';
 import TabsTransfer from '../../components/TabsTransfer';
 import {SchemaApi} from '../../Schema';
 import TransferPicker from '../../components/TransferPicker';
+import TabsTransferPicker from '../../components/TabsTransferPicker';
 
 /**
- * TransferPicker 穿梭器的弹框形态
- * 文档：https://baidu.gitee.io/amis/docs/components/form/transfer-picker
+ * TabsTransferPicker 穿梭器的弹框形态
+ * 文档：https://baidu.gitee.io/amis/docs/components/form/tabs-transfer-picker
  */
-export interface TransferPickerControlSchema extends FormOptionsControl {
-  type: 'transfer-picker';
+export interface TabsTransferPickerControlSchema extends FormOptionsControl {
+  type: 'tabs-transfer-picker';
 
   /**
    * 是否显示剪头
@@ -62,7 +63,7 @@ export interface TransferPickerControlSchema extends FormOptionsControl {
 export interface TabsTransferProps
   extends OptionsControlProps,
     Omit<
-      TransferPickerControlSchema,
+      TabsTransferPickerControlSchema,
       | 'type'
       | 'options'
       | 'inputClassName'
@@ -71,13 +72,14 @@ export interface TabsTransferProps
     > {}
 
 @OptionsControl({
-  type: 'transfer-picker'
+  type: 'tabs-transfer-picker'
 })
-export class TransferPickerRenderer extends BaseTransferRenderer<TabsTransferProps> {
+export class TabsTransferPickerRenderer extends BaseTransferRenderer<TabsTransferProps> {
   render() {
     const {
       className,
       classnames: cx,
+      options,
       selectedOptions,
       sortable,
       loading,
@@ -91,29 +93,12 @@ export class TransferPickerRenderer extends BaseTransferRenderer<TabsTransferPro
       pickerSize,
       columns,
       leftMode,
-      selectMode
+      leftOptions
     } = this.props;
 
-    // 目前 LeftOptions 没有接口可以动态加载
-    // 为了方便可以快速实现动态化，让选项的第一个成员携带
-    // LeftOptions 信息
-    let {options, leftOptions, leftDefaultValue} = this.props;
-    if (
-      selectMode === 'associated' &&
-      options &&
-      options.length === 1 &&
-      options[0].leftOptions &&
-      Array.isArray(options[0].children)
-    ) {
-      leftOptions = options[0].leftOptions;
-      leftDefaultValue = options[0].leftDefaultValue ?? leftDefaultValue;
-      options = options[0].children;
-    }
-
     return (
-      <div className={cx('TransferControl', className)}>
-        <TransferPicker
-          selectMode={selectMode}
+      <div className={cx('TabsTransferControl', className)}>
+        <TabsTransferPicker
           value={selectedOptions}
           disabled={disabled}
           options={options}
@@ -127,7 +112,6 @@ export class TransferPickerRenderer extends BaseTransferRenderer<TabsTransferPro
           selectTitle={selectTitle}
           resultTitle={resultTitle}
           size={pickerSize}
-          columns={columns}
           leftMode={leftMode}
           leftOptions={leftOptions}
         />
