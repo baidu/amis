@@ -18,7 +18,8 @@ import {dataMapping} from '../../utils/tpl-builtin';
 import {
   SchemaApi,
   SchemaClassName,
-  SchemaTokenizeableString
+  SchemaTokenizeableString,
+  SchemaUrlPath
 } from '../../Schema';
 import merge from 'lodash/merge';
 
@@ -88,6 +89,11 @@ export interface FileControlSchema extends FormBaseControl {
    * 1.1.6 版本开始将支持变量 ${xxx} 来自己拼凑个下载地址，并且支持配置成 post.
    */
   downloadUrl?: SchemaApi;
+
+  /**
+   * 模板下载地址
+   */
+  templateUrl?: SchemaApi;
 
   /**
    * 默认 `file`, 如果你不想自己存储，则可以忽略此属性。
@@ -276,6 +282,7 @@ export default class FileControl extends React.Component<FileProps, FileState> {
     extractValue: false,
     delimiter: ',',
     downloadUrl: '', // '/api/file/'
+    templateUrl: '',
     useChunk: 'auto',
     chunkSize: 5 * 1024 * 1024, // 文件大于5M， 自动分块上传
     startChunkApi: '/api/upload/startChunk',
@@ -388,6 +395,7 @@ export default class FileControl extends React.Component<FileProps, FileState> {
     this.uploadBigFile = this.uploadBigFile.bind(this);
     this.handleSelect = this.handleSelect.bind(this);
     this.syncAutoFill = this.syncAutoFill.bind(this);
+    this.downloadTpl = this.downloadTpl.bind(this);
   }
 
   componentDidMount() {
@@ -535,7 +543,7 @@ export default class FileControl extends React.Component<FileProps, FileState> {
     e.preventDefault();
     e.stopPropagation();
 
-    const {data, env, downloadUrl} = this.props;
+    const {downloadUrl} = this.props;
     const urlField = this.props.urlField || 'url';
     const valueField = this.props.valueField || 'value';
 
@@ -550,10 +558,23 @@ export default class FileControl extends React.Component<FileProps, FileState> {
         ? downloadUrl
         : `${fileUrl}`;
 
+    this.handleApi(api, file);
+  }
+
+  downloadTpl(e: React.MouseEvent) {
+    e.preventDefault();
+    e.stopPropagation();
+
+    this.handleApi(this.props.templateUrl || '');
+  }
+
+  handleApi(api: SchemaApi, payload?: object) {
+    const {data, env} = this.props;
     if (api) {
       const ctx = createObject(data, {
-        ...file
+        ...payload
       });
+
       const apiObject = normalizeApi(api);
 
       if (apiObject.method?.toLowerCase() === 'get' && !apiObject.data) {
@@ -1171,7 +1192,8 @@ export default class FileControl extends React.Component<FileProps, FileState> {
       classnames: cx,
       translate: __,
       render,
-      downloadUrl
+      downloadUrl,
+      templateUrl
     } = this.props;
     let {files, uploading, error} = this.state;
     const nameField = this.props.nameField || 'name';
@@ -1194,6 +1216,16 @@ export default class FileControl extends React.Component<FileProps, FileState> {
 
     return (
       <div className={cx('FileControl', className)}>
+        {templateUrl ? (
+          <a
+            className={cx('FileControl-templateInfo')}
+            onClick={this.downloadTpl.bind(this)}
+          >
+            <Icon icon="download" className="icon" />
+            <span>{__('File.downloadTpl')}</span>
+          </a>
+          ) : null}
+
         <DropZone
           disabled={disabled}
           key="drop-zone"
