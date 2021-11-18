@@ -1441,7 +1441,7 @@ export default class Form extends React.Component<FormProps, object> {
           `Form`,
           `Form--${mode || 'normal'}`,
           {'Form--column': columnCount},
-          `Form--column-${columnCount}`,
+          columnCount ? `Form--column-${columnCount}` : null,
           className
         )}
         onSubmit={this.handleFormSubmit}
