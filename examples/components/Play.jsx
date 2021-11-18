@@ -223,6 +223,9 @@ export default class PlayGround extends React.Component {
       },
       tracker(eventTrack) {
         console.debug('eventTrack', eventTrack);
+      },
+      replaceText: {
+        AMIS_HOST: 'https://baidu.gitee.io/amis'
       }
     };
 

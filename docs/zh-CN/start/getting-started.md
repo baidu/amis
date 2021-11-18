@@ -714,3 +714,37 @@ render 有三个参数，后面会详细说明这三个参数内的属性
 #### hideValidateFailedDetail: boolean
 
 Form 表单验证失败时在 notify 消息提示中是否隐藏详细信息，默认展示，设置为 true 时隐藏
+
+#### replaceText
+
+> 1.5.0 及以上版本
+
+可以用来实现变量替换及多语言功能，比如下面的例子
+
+```javascript
+let amisScoped = amis.embed(
+  '#root',
+  {
+    type: 'page',
+    body: {
+      type: 'service',
+      api: 'service/api'
+    }
+  },
+  {},
+  {
+    replaceText: {
+      service: 'http://localhost'
+    },
+    replaceTextKeys: ['api']
+  }
+);
+```
+
+它会替换 `api` 里的 `service` 字符串
+
+#### replaceTextKeys
+
+> 1.5.0 及以上版本
+
+和前面的 `replaceText` 配合使用，指定只有某些字段才进行替换

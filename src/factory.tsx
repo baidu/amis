@@ -3,7 +3,14 @@ import {RendererStore, IRendererStore, IIRendererStore} from './store/index';
 import {getEnv, destroy} from 'mobx-state-tree';
 import {wrapFetcher} from './utils/api';
 import {normalizeLink} from './utils/normalizeLink';
-import {findIndex, promisify, qsparse, string2regExp} from './utils/helper';
+import {
+  findIndex,
+  isObject,
+  JSONTraverse,
+  promisify,
+  qsparse,
+  string2regExp
+} from './utils/helper';
 import {
   Api,
   fetcherResult,
@@ -25,6 +32,7 @@ import {getDefaultLocale, makeTranslator, LocaleProps} from './locale';
 import ScopedRootRenderer, {RootRenderProps} from './Root';
 import {HocStoreFactory} from './WithStore';
 import {EnvContext, RendererEnv} from './env';
+import {envOverwrite} from './envOverwrite';
 
 export interface TestFunc {
   (
@@ -127,6 +135,10 @@ export interface RenderOptions {
   affixOffsetTop?: number;
   affixOffsetBottom?: number;
   richTextToken?: string;
+  /**
+   * 替换文本，用于实现 URL 替换、语言替换等
+   */
+  replaceText?: {[propName: string]: any};
   [propName: string]: any;
 }
 
@@ -355,6 +367,9 @@ export function render(
   const translate = props.translate || makeTranslator(locale);
   let store = stores[options.session || 'global'];
 
+  // 根据环境覆盖 schema，这个要在最前面做，不然就无法覆盖 validations
+  envOverwrite(schema, locale);
+
   if (!store) {
     options = {
       ...defaultOptions,
@@ -385,6 +400,26 @@ export function render(
   if (props.locale !== undefined) {
     env.translate = translate;
     env.locale = locale;
+  }
+
+  // 进行文本替换
+  if (env.replaceText && isObject(env.replaceText)) {
+    const replaceKeys = env.replaceTextKeys || [];
+    JSONTraverse(schema, (value: any, key: string, object: any) => {
+      if (
+        typeof value === 'string' &&
+        (replaceKeys.length ? replaceKeys.includes(key) : true)
+      ) {
+        for (const replaceKey in env.replaceText) {
+          if (~value.indexOf(replaceKey)) {
+            object[key] = value.replace(
+              replaceKey,
+              env.replaceText[replaceKey]
+            );
+          }
+        }
+      }
+    });
   }
 
   return (

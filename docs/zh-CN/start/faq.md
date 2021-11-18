@@ -63,12 +63,9 @@ title: 常见问题
 
 ## 如何支持配置中的 URL 地址替换？
 
-有个常用场景是在开发时使用 `localhost` 地址，而线上使用 `xxx.com`，这时有两个办法：
+> 1.5.0 及以上版本
 
-1. 自己做 JSON 替换，这样可以实现更灵活的替换
-2. 通过外部 data 传入
-
-这里介绍第二个方法，在渲染 amis 的时候，有第三个参数，可以传递 data，这时就能增加一个域名变量，比如
+有个常用场景是在开发时使用 `localhost` 地址，而线上使用 `xxx.com`，这时可以使用 `replaceText` 属性，它是第四个参数，也就是 env 参数
 
 ```javascript
 let amis = amisRequire('amis/embed');
@@ -76,21 +73,71 @@ let amisJSON = {
   type: 'page',
   body: {
     type: 'service',
-    api: '${HOST|raw}/api'
+    api: 'HOST/api'
   }
 };
-let amisScoped = amis.embed('#root', amisJSON, {
-  data: {
-    HOST: 'http://localhost:3000'
+let amisScoped = amis.embed(
+  '#root',
+  amisJSON,
+  {},
+  {
+    replaceText: {
+      HOST: 'http://localhost'
+    }
   }
-});
+);
 ```
 
-这样只需要修改 HOST 变量的值就能控制这个 URL 地址。
+注意这个是文本替换，而且会对任意字符串进行替换，默认会覆盖所有字段，比如下面的做法会将 `type: 'service'` 也替换了
+
+```javascript
+let amis = amisRequire('amis/embed');
+let amisJSON = {
+  type: 'page',
+  body: {
+    type: 'service',
+    api: 'service/api'
+  }
+};
+let amisScoped = amis.embed(
+  '#root',
+  amisJSON,
+  {},
+  {
+    replaceText: {
+      service: 'http://localhost'
+    }
+  }
+);
+```
+
+可以通过配置 `replaceText` 限制只替换 `api` 字段
+
+```javascript
+let amis = amisRequire('amis/embed');
+let amisJSON = {
+  type: 'page',
+  body: {
+    type: 'service',
+    api: 'service/api'
+  }
+};
+let amisScoped = amis.embed(
+  '#root',
+  amisJSON,
+  {},
+  {
+    replaceText: {
+      service: 'http://localhost'
+    },
+    replaceTextKeys: ['api']
+  }
+);
+```
 
 ## 如何更新全局 data？
 
-使用下面的方式 
+使用下面的方式
 
 ```
 amisScoped.updateProps({
