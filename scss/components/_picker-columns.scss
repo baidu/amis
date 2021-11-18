@@ -49,6 +49,7 @@
   }
 
   &-columns {
+    touch-action: none;
     position: relative;
     display: flex;
     cursor: grab;

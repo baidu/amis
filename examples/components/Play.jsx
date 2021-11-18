@@ -319,7 +319,8 @@ export default class PlayGround extends React.Component {
       theme: this.props.theme,
       locale: this.props.locale,
       affixHeader: false,
-      affixFooter: false
+      affixFooter: false,
+      useMobileUI: true
     };
 
     if (this.props.viewMode === 'mobile') {

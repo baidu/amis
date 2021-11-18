@@ -1440,8 +1440,7 @@ export default class Form extends React.Component<FormProps, object> {
         className={cx(
           `Form`,
           `Form--${mode || 'normal'}`,
-          {'Form--column': columnCount},
-          `Form--column-${columnCount}`,
+          columnCount ? `Form--column Form--column-${columnCount}` : null,
           className
         )}
         onSubmit={this.handleFormSubmit}
