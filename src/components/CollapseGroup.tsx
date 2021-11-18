@@ -1,18 +1,17 @@
 /**
- * @file Collapse2
- * @description 折叠面板2
+ * @file CollapseGroup
+ * @description 折叠面板group
  * @author hongyang03
  */
 
 import React from 'react';
-import {RendererProps} from '../factory';
-import {CollapsePanelProps} from './CollapsePanel';
-import {CollapsePanelSchema} from '../renderers/CollapsePanel';
+import {CollapseProps} from '../renderers/Collapse';
 import {SchemaCollection} from '../Schema';
 import {SchemaNode} from '../types';
-import remove from 'lodash/remove';
+import {ClassNamesFn, themeable} from '../theme';
+import cx from 'classnames';
 
-export interface Collapse2Props extends RendererProps {
+export interface CollapseGroupProps {
   activeKey?: Array<string | number | never> | string | number;
   defaultActiveKey?: Array<string | number | never> | string | number;
   accordion?: boolean;
@@ -21,15 +20,17 @@ export interface Collapse2Props extends RendererProps {
   body?: SchemaCollection;
   className?: string;
   wrapperComponent?: any;
+  classnames: ClassNamesFn;
+  classPrefix: string;
 }
 
-export interface Collapse2State {
+export interface CollapseGroupState {
   activeKey: Array<string | number | never>;
 }
 
-class Collapse2 extends React.Component<
-  Collapse2Props,
-  Collapse2State
+class CollapseGroup extends React.Component<
+  CollapseGroupProps,
+  CollapseGroupState
 > {
   static propsList: Array<string> = [
     'wrapperComponent',
@@ -40,17 +41,18 @@ class Collapse2 extends React.Component<
     'activeKey'
   ];
 
-  static defaultProps: Partial<Collapse2Props> = {
+  static defaultProps: Partial<CollapseGroupProps> = {
     wrapperComponent: 'div',
     className: '',
     accordion: false,
     expandIconPosition: 'left'
   };
 
-  constructor(props: Collapse2Props) {
+  constructor(props: CollapseGroupProps) {
     super(props);
 
-    let activeKey = props.$schema.defaultActiveKey || props.$schema.activeKey;
+    // 传入的activeKey会被自动转换为defaultActiveKey
+    let activeKey = props.defaultActiveKey;
     if (!Array.isArray(activeKey)) {
       activeKey = activeKey ? [activeKey] : [];
     }
@@ -64,14 +66,19 @@ class Collapse2 extends React.Component<
     };
   }
 
-  collapseChange(item: CollapsePanelProps, collapsed: boolean) {
+  collapseChange(item: CollapseProps, collapsed: boolean) {
     let activeKey = this.state.activeKey;
     if (collapsed) {
       if (this.props.accordion) {
         activeKey = [];
       }
       else {
-        remove(activeKey, item.id);
+        for(let i = 0; i < activeKey.length; i++) {
+          if (activeKey[i] === item.id) {
+            activeKey.splice(i, 1);
+            break;
+          }
+        }
       }
     }
     else {
@@ -83,29 +90,29 @@ class Collapse2 extends React.Component<
       }
     }
     this.setState({
-      activeKey: activeKey
+      activeKey
     });
   }
 
-  getItems = (children: SchemaCollection | undefined) => {
+  getItems = (children: React.ReactNode) => {
     children = children || [];
 
     if (!Array.isArray(children)) {
-      return this.props.render('body', children);
+      return children;
     }
-    return children.map((child: CollapsePanelSchema, index: number) => {
-      const id = child.key || String(index);
+    
+    return children.map((child: React.ReactElement, index: number) => {
+      let props = child.props;
+      const id = props.schema.key || String(index);
       const collapsed = this.state.activeKey.indexOf(id) === -1;
-      Object.assign(child, {
+
+      return React.cloneElement(child as any, {
+        ...props,
+        key: id,
         id,
         collapsed,
         expandIcon: this.props.expandIcon,
-        onChange: (item: CollapsePanelProps, collapsed: boolean) => this.collapseChange(item, collapsed)
-      });
-
-      return this.props.render('panel-' + id, child, {
-        key: id,
-        collapsed
+        onChange: (item: CollapseProps, collapsed: boolean) => this.collapseChange(item, collapsed)
       });
     });
   };
@@ -116,24 +123,23 @@ class Collapse2 extends React.Component<
       wrapperComponent: WrapperComponent,
       className,
       expandIconPosition,
-      body,
-      translate: __,
+      children
     } = this.props;
 
     return (
       <WrapperComponent
         className={cx(
-          `Collapse2`,
+          `CollapseGroup`,
           {
             'icon-position-right': expandIconPosition === 'right',
           },
           className
         )}
       >
-        {this.getItems(body)}
+        {this.getItems(children)}
       </WrapperComponent>
     );
   }
 }
 
-export default Collapse2;
+export default themeable(CollapseGroup);

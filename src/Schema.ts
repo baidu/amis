@@ -12,8 +12,7 @@ import {FormSchema} from './renderers/Form';
 import {CarouselSchema} from './renderers/Carousel';
 import {ChartSchema} from './renderers/Chart';
 import {CollapseSchema} from './renderers/Collapse';
-import {Collapse2Schema} from './renderers/Collapse2';
-import {CollapsePanelSchema} from './renderers/CollapsePanel';
+import {CollapseGroupSchema} from './renderers/CollapseGroup';
 import {ColorSchema} from './renderers/Color';
 import {ContainerSchema} from './renderers/Container';
 import {CRUDSchema} from './renderers/CRUD';
@@ -131,8 +130,7 @@ export type SchemaType =
   | 'carousel'
   | 'chart'
   | 'collapse'
-  | 'collapse-panel'
-  | 'collapse2'
+  | 'collapse-group'
   | 'color'
   | 'container'
   | 'crud'
@@ -339,8 +337,7 @@ export type SchemaObject =
   | CarouselSchema
   | ChartSchema
   | CollapseSchema
-  | Collapse2Schema
-  | CollapsePanelSchema
+  | CollapseGroupSchema
   | ColorSchema
   | ContainerSchema
   | CRUDSchema

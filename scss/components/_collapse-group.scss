@@ -1,0 +1,11 @@
+.#{$ns}CollapseGroup {
+
+  &.icon-position-right {
+    .#{$ns}Collapse-header {
+      .#{$ns}Collapse-arrow {
+        float: right;
+      }
+    }
+  }
+  
+}

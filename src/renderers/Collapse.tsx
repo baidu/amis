@@ -20,9 +20,19 @@ export interface CollapseSchema extends BaseSchema {
   type: 'collapse';
 
   /**
+   * 标识
+   */
+  key?: string;
+
+  /**
    * 标题展示位置
    */
-  titlePosition: 'top' | 'bottom';
+  titlePosition?: 'top' | 'bottom';
+
+  /**
+   * 标题
+   */
+  header?: string | SchemaCollection;
 
   /**
    * 内容区域
@@ -35,6 +45,11 @@ export interface CollapseSchema extends BaseSchema {
   bodyClassName?: SchemaClassName;
 
   /**
+   * 是否禁用
+   */
+  disabled?: boolean;
+
+  /**
    * 是否可折叠
    */
   collapsable?: boolean;
@@ -43,6 +58,16 @@ export interface CollapseSchema extends BaseSchema {
    * 默认是否折叠
    */
   collapsed?: boolean;
+
+  /**
+   * 图标是否展示
+   */
+  showArrow?: boolean;
+
+   /**
+    * 自定义切换图标
+    */
+  expandIcon?: SchemaCollection;
 
   /**
    * 标题 CSS 类名
@@ -73,6 +98,11 @@ export interface CollapseSchema extends BaseSchema {
    * 卡片隐藏就销毁内容。
    */
   unmountOnExit?: boolean;
+
+  /**
+   * 变更事件
+   */
+  onChange?: (item: CollapseProps, collapsed: boolean) => void;
 }
 
 export interface CollapseProps
@@ -100,6 +130,7 @@ export default class Collapse extends React.Component<
     'collapsed',
     'headingClassName',
     'title',
+    'header',
     'mountOnEnter',
     'unmountOnExit'
   ];
@@ -107,11 +138,13 @@ export default class Collapse extends React.Component<
   static defaultProps: Partial<CollapseProps> = {
     titlePosition: 'top',
     wrapperComponent: 'div',
-    headingComponent: 'h4',
+    headingComponent: 'div',
     className: '',
     headingClassName: '',
     bodyClassName: '',
-    collapsable: true
+    collapsable: true,
+    disabled: false,
+    showArrow: true
   };
 
   state = {
@@ -125,24 +158,27 @@ export default class Collapse extends React.Component<
     this.state.collapsed = !!props.collapsed;
   }
 
-  componentDidUpdate(prevProps: CollapseProps) {
-    const props = this.props;
-
-    if (prevProps.collapsed !== props.collapsed) {
-      this.setState({
-        collapsed: !!props.collapsed
-      });
+  static getDerivedStateFromProps(nextProps: CollapseProps, preState: CollapseState) {
+    if (nextProps.collapsed !== preState.collapsed) {
+      return {
+        collapsed: !!nextProps.collapsed
+      };
     }
+    return null;
   }
 
   toggleCollapsed(e: React.MouseEvent<HTMLElement>) {
     if (isClickOnInput(e)) {
       return;
     }
-    this.props.collapsable !== false &&
-      this.setState({
-        collapsed: !this.state.collapsed
-      });
+    const props = this.props;
+    if (props.disabled || props.collapsable === false) {
+      return;
+    }
+    props.onChange && props.onChange(props, !this.state.collapsed);
+    this.setState({
+      collapsed: !this.state.collapsed
+    });
   }
 
   render() {
@@ -158,16 +194,20 @@ export default class Collapse extends React.Component<
       titlePosition,
       title,
       collapseTitle,
+      header,
       body,
       bodyClassName,
       render,
       collapsable,
       translate: __,
       mountOnEnter,
-      unmountOnExit
+      unmountOnExit,
+      showArrow,
+      expandIcon,
+      disabled
     } = this.props;
     // 默认给个 title，不然没法点
-    const finalTitle = this.state.collapsed ? title : collapseTitle || title;
+    const finalTitle = this.state.collapsed ? (title || header) : collapseTitle || (title || header);
 
     let dom = [
       finalTitle ? (
@@ -176,13 +216,17 @@ export default class Collapse extends React.Component<
           onClick={this.toggleCollapsed}
           className={cx(`Collapse-header`, headingClassName)}
         >
-          {collapsable && <span className={cx('Collapse-arrow')} />}
+          {showArrow && collapsable
+            ? expandIcon
+              ? render('arrow-icon', expandIcon, {className: cx('Collapse-icon-tranform')})
+              : <span className={cx('Collapse-arrow')} />
+              : ''}
           {render('heading', finalTitle)}
         </HeadingComponent>
       ) : null,
 
       <BasicCollapse
-        show={collapsable ? !this.state.collapsed : true}
+        show={!this.state.collapsed}
         classnames={cx}
         classPrefix={ns}
         key="body"
@@ -210,9 +254,9 @@ export default class Collapse extends React.Component<
         className={cx(
           `Collapse`,
           {
-            'is-collapsed': this.state.collapsed,
+            'is-active': !this.state.collapsed,
             [`Collapse--${size}`]: size,
-            'Collapse--collapsable': collapsable,
+            'Collapse--disabled': disabled || collapsable === false,
             'Collapse--title-bottom': titlePosition === 'bottom'
           },
           className
