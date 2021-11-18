@@ -11,6 +11,7 @@ import PopOverContainer from './PopOverContainer';
 export interface TransferDropDownProps extends TransferProps {
   // 新的属性？
   multiple?: boolean;
+  borderMode?: 'full' | 'half' | 'none';
 }
 
 export class TransferDropDown extends Transfer<TransferDropDownProps> {
@@ -23,7 +24,8 @@ export class TransferDropDown extends Transfer<TransferDropDownProps> {
       className,
       onChange,
       onSearch,
-      multiple
+      multiple,
+      borderMode
     } = this.props;
     const {inputValue, searchResult} = this.state;
 
@@ -84,6 +86,7 @@ export class TransferDropDown extends Transfer<TransferDropDownProps> {
               className,
               isOpened ? 'is-active' : ''
             )}
+            borderMode={borderMode}
             allowInput={false}
             result={
               multiple
