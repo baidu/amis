@@ -30,8 +30,7 @@ cp sdk/sdk-ie11.css sdk/cxd-ie11.css
 
 cp ./lib/helper.css sdk/helper.css
 cp ./lib/helper.css.map sdk/helper.css.map
-cp examples/static/iconfont.css sdk/
-cp examples/static/iconfont.eot sdk/
+cp examples/static/iconfont.* sdk/
 
 mkdir sdk/locale
 

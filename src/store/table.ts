@@ -523,15 +523,6 @@ export const TableStore = iRendererStore
       );
     }
 
-    function getActivedSearchableColumns() {
-      return self.columns.filter(
-        column =>
-          column.searchable &&
-          isObject(column.searchable) &&
-          column.enableSearch
-      );
-    }
-
     return {
       get columnsData() {
         return getColumnsExceptBuiltinTypes();
@@ -756,6 +747,51 @@ export const TableStore = iRendererStore
           rawIndex: index - 3,
           type: item.type || 'plain',
           pristine: item,
+          toggled: item.toggled !== false,
+          breakpoint: item.breakpoint,
+          isPrimary: index === 3
+        }));
+
+        self.columns.replace(columns as any);
+      }
+    }
+
+    function updateColumns(columns: Array<SColumn>) {
+      if (columns && Array.isArray(columns)) {
+        columns = columns.filter(column => column).concat();
+
+        if (!columns.length) {
+          columns.push({
+            type: 'text',
+            label: '空'
+          });
+        }
+
+        columns.unshift({
+          type: '__expandme',
+          toggable: false,
+          className: 'Table-expandCell'
+        });
+
+        columns.unshift({
+          type: '__checkme',
+          fixed: 'left',
+          toggable: false,
+          className: 'Table-checkCell'
+        });
+
+        columns.unshift({
+          type: '__dragme',
+          toggable: false,
+          className: 'Table-dragCell'
+        });
+
+        columns = columns.map((item, index) => ({
+          ...item,
+          index,
+          rawIndex: index - 3,
+          type: item.type || 'plain',
+          pristine: item.pristine || item,
           toggled: item.toggled !== false,
           breakpoint: item.breakpoint,
           isPrimary: index === 3
@@ -1228,6 +1264,7 @@ export const TableStore = iRendererStore
 
     return {
       update,
+      updateColumns,
       initRows,
       updateSelected,
       toggleAll,
