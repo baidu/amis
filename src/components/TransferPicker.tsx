@@ -11,6 +11,11 @@ import {autobind} from '../utils/helper';
 export interface TransferPickerProps extends Omit<TransferProps, 'itemRender'> {
   // 新的属性？
   size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl' | 'full';
+
+  /**
+   * 边框模式，全边框，还是半边框，或者没边框。
+   */
+  borderMode?: 'full' | 'half' | 'none';
 }
 
 export class TransferPicker extends React.Component<TransferPickerProps> {
@@ -37,6 +42,7 @@ export class TransferPicker extends React.Component<TransferPickerProps> {
       className,
       onChange,
       size,
+      borderMode,
       ...rest
     } = this.props;
 
@@ -64,6 +70,7 @@ export class TransferPicker extends React.Component<TransferPickerProps> {
             onResultClick={onClick}
             placeholder={__('Select.placeholder')}
             disabled={disabled}
+            borderMode={borderMode}
           >
             <span className={cx('TransferPicker-icon')}>
               <Icon icon="pencil" className="icon" />
