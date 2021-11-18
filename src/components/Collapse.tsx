@@ -6,12 +6,15 @@
 
 import React from 'react';
 import {ClassNamesFn, themeable} from '../theme';
+import {SchemaClassName} from '../Schema';
 import Transition, {
   EXITED,
   ENTERING,
   EXITING
 } from 'react-transition-group/Transition';
 import {autobind} from '../utils/helper';
+import {isClickOnInput} from '../utils/helper';
+import {TranslateFn} from '../locale';
 
 const collapseStyles: {
   [propName: string]: string;
@@ -22,23 +25,95 @@ const collapseStyles: {
 };
 
 export interface CollapseProps {
-  show?: boolean;
+  key?: string;
+  id?: string;
   mountOnEnter?: boolean;
   unmountOnExit?: boolean;
   className?: string;
   classPrefix: string;
   classnames: ClassNamesFn;
+  titlePosition?: 'top' | 'bottom';
+  header?: React.ReactElement;
+  body: any;
+  bodyClassName?: SchemaClassName;
+  disabled?: boolean;
+  collapsable?: boolean;
+  collapsed?: boolean;
+  showArrow?: boolean;
+  expandIcon?: React.ReactElement | null;
+  headingClassName?: string;
+  collapseTitle?: React.ReactElement | null;
+  size?: 'xs' | 'sm' | 'md' | 'lg' | 'base';
+  onChange?: (item: any, collapsed: boolean) => void;
+  wrapperComponent?: any;
+  headingComponent?: any;
+  translate?: TranslateFn;
 }
 
-export class Collapse extends React.Component<CollapseProps, any> {
-  static defaultProps: Pick<
-    CollapseProps,
-    'show' | 'mountOnEnter' | 'unmountOnExit'
-  > = {
-    show: false,
+export interface CollapseState {
+  collapsed: boolean;
+}
+
+export class Collapse extends React.Component<CollapseProps, CollapseState> {
+
+  static propsList: Array<string> = [
+    'wrapperComponent',
+    'headingComponent',
+    'bodyClassName',
+    'collapsed',
+    'headingClassName',
+    'header',
+    'mountOnEnter',
+    'unmountOnExit'
+  ];
+
+  static defaultProps: Partial<CollapseProps> = {
     mountOnEnter: false,
-    unmountOnExit: false
+    unmountOnExit: false,
+    titlePosition: 'top',
+    wrapperComponent: 'div',
+    headingComponent: 'div',
+    className: '',
+    headingClassName: '',
+    bodyClassName: '',
+    collapsable: true,
+    disabled: false,
+    showArrow: true
   };
+
+  state = {
+    collapsed: false
+  };
+
+  constructor(props: CollapseProps) {
+    super(props);
+
+    this.toggleCollapsed = this.toggleCollapsed.bind(this);
+    this.state.collapsed = !!props.collapsed;
+  }
+
+  static getDerivedStateFromProps(nextProps: CollapseProps, preState: CollapseState) {
+    if (nextProps.collapsed !== preState.collapsed) {
+      return {
+        collapsed: !!nextProps.collapsed
+      };
+    }
+    return null;
+  }
+
+  toggleCollapsed(e: React.MouseEvent<HTMLElement>) {
+    if (isClickOnInput(e)) {
+      return;
+    }
+    const props = this.props;
+    if (props.disabled || props.collapsable === false) {
+      return;
+    }
+    props.onChange && props.onChange(props, !this.state.collapsed);
+    this.setState({
+      collapsed: !this.state.collapsed
+    });
+  }
 
   contentDom: any;
   contentRef = (ref: any) => (this.contentDom = ref);
@@ -77,18 +152,53 @@ export class Collapse extends React.Component<CollapseProps, any> {
 
   render() {
     const {
-      show,
-      children,
       classnames: cx,
       mountOnEnter,
-      unmountOnExit
+      unmountOnExit,
+      classPrefix: ns,
+      size,
+      wrapperComponent: WrapperComponent,
+      headingComponent: HeadingComponent,
+      className,
+      headingClassName,
+      titlePosition,
+      collapseTitle,
+      header,
+      body,
+      bodyClassName,
+      collapsable,
+      translate: __,
+      showArrow,
+      expandIcon,
+      disabled
     } = this.props;
 
-    return (
+    const finalTitle = this.state.collapsed ? header : collapseTitle || header;
+
+    let dom = [
+      finalTitle ? (
+        <HeadingComponent
+          key="title"
+          onClick={this.toggleCollapsed}
+          className={cx(`Collapse-header`, headingClassName)}
+        >
+          {showArrow && collapsable
+            ? expandIcon
+              ? React.cloneElement(expandIcon, {
+                  ...expandIcon.props,
+                  className: cx('Collapse-icon-tranform')
+                })
+              : <span className={cx('Collapse-arrow')} />
+              : ''}
+          {finalTitle}
+        </HeadingComponent>
+      ) : null,
+
       <Transition
+        key="body"
         mountOnEnter={mountOnEnter}
         unmountOnExit={unmountOnExit}
-        in={show}
+        in={!this.state.collapsed}
         timeout={300}
         onEnter={this.handleEnter}
         onEntering={this.handleEntering}
@@ -105,17 +215,41 @@ export class Collapse extends React.Component<CollapseProps, any> {
               className={cx('Collapse-contentWrapper', collapseStyles[status])}
               ref={this.contentRef}
             >
-              {React.cloneElement(children as any, {
-                ...(children as React.ReactElement).props,
-                className: cx(
-                  'Collapse-content',
-                  (children as React.ReactElement).props.className
-                )
-              })}
+              <div className={cx('Collapse-body', bodyClassName)}>
+                {React.cloneElement(body as any, {
+                  ...(body as React.ReactElement).props,
+                  className: cx(
+                    'Collapse-content',
+                    (body as React.ReactElement).props.className
+                  )
+                })}
+              </div>
             </div>
           );
         }}
       </Transition>
+      
+    ];
+
+    if (titlePosition === 'bottom') {
+      dom.reverse();
+    }
+
+    return (
+      <WrapperComponent
+        className={cx(
+          `Collapse`,
+          {
+            'is-active': !this.state.collapsed,
+            [`Collapse--${size}`]: size,
+            'Collapse--disabled': disabled || collapsable === false,
+            'Collapse--title-bottom': titlePosition === 'bottom'
+          },
+          className
+        )}
+      >
+        {dom}
+      </WrapperComponent>
     );
   }
 }

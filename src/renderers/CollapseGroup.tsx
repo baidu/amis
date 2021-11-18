@@ -1,7 +1,6 @@
 import React from 'react';
 import {Renderer, RendererProps} from '../factory';
-import {BaseSchema, SchemaCollection} from '../Schema';
-import {SchemaNode} from '../types';
+import {BaseSchema, SchemaCollection, SchemaObject} from '../Schema';
 import CollapseGroup from '../components/CollapseGroup';
 
 /**
@@ -32,7 +31,7 @@ export interface CollapseGroupSchema extends BaseSchema {
   /**
    * 自定义切换图标
    */
-  expandIcon?: SchemaNode;
+  expandIcon?: SchemaObject;
 
   /**
    * 设置图标位置
@@ -64,7 +63,6 @@ export class CollapseGroupRender extends React.Component<CollapseGroupProps, {}>
       expandIconPosition,
       body,
       className,
-      WrapperComponent,
       render
     } = this.props;
     return (
@@ -75,7 +73,6 @@ export class CollapseGroupRender extends React.Component<CollapseGroupProps, {}>
           expandIcon={expandIcon}
           expandIconPosition={expandIconPosition}
           className={className}
-          wrapperComponent={WrapperComponent}
         >
           {render('body', body || '')}
         </CollapseGroup>

@@ -46,7 +46,7 @@
     margin-right: var(--gap-xs);
   }
 
-  &-TplField {
+  .#{$ns}TplField {
     display: inline-block;
   }
 

@@ -19,7 +19,6 @@ export interface CollapseGroupProps {
   expandIconPosition?: 'left' | 'right';
   body?: SchemaCollection;
   className?: string;
-  wrapperComponent?: any;
   classnames: ClassNamesFn;
   classPrefix: string;
 }
@@ -33,7 +32,6 @@ class CollapseGroup extends React.Component<
   CollapseGroupState
 > {
   static propsList: Array<string> = [
-    'wrapperComponent',
     'className',
     'accordion',
     'expandIconPosition',
@@ -42,7 +40,6 @@ class CollapseGroup extends React.Component<
   ];
 
   static defaultProps: Partial<CollapseGroupProps> = {
-    wrapperComponent: 'div',
     className: '',
     accordion: false,
     expandIconPosition: 'left'
@@ -118,14 +115,13 @@ class CollapseGroup extends React.Component<
   render() {
     const {
       classnames: cx,
-      wrapperComponent: WrapperComponent,
       className,
       expandIconPosition,
       children
     } = this.props;
 
     return (
-      <WrapperComponent
+      <div
         className={cx(
           `CollapseGroup`,
           {
@@ -135,7 +131,7 @@ class CollapseGroup extends React.Component<
         )}
       >
         {this.getItems(children)}
-      </WrapperComponent>
+      </div>
     );
   }
 }

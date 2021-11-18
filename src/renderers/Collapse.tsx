@@ -5,9 +5,9 @@ import {
   BaseSchema,
   SchemaClassName,
   SchemaCollection,
-  SchemaTpl
+  SchemaTpl,
+  SchemaObject
 } from '../Schema';
-import {isClickOnInput} from '../utils/helper';
 
 /**
  * Collapse 折叠渲染器，格式说明。
@@ -67,7 +67,7 @@ export interface CollapseSchema extends BaseSchema {
    /**
     * 自定义切换图标
     */
-  expandIcon?: SchemaCollection;
+  expandIcon?: SchemaObject;
 
   /**
    * 标题 CSS 类名
@@ -115,79 +115,20 @@ export interface CollapseProps
   children?: JSX.Element | ((props?: any) => JSX.Element);
 }
 
-export interface CollapseState {
-  collapsed: boolean;
-}
-
 export default class Collapse extends React.Component<
   CollapseProps,
-  CollapseState
+  {}
 > {
-  static propsList: Array<string> = [
-    'wrapperComponent',
-    'headingComponent',
-    'bodyClassName',
-    'collapsed',
-    'headingClassName',
-    'title',
-    'header',
-    'mountOnEnter',
-    'unmountOnExit'
-  ];
-
-  static defaultProps: Partial<CollapseProps> = {
-    titlePosition: 'top',
-    wrapperComponent: 'div',
-    headingComponent: 'div',
-    className: '',
-    headingClassName: '',
-    bodyClassName: '',
-    collapsable: true,
-    disabled: false,
-    showArrow: true
-  };
-
-  state = {
-    collapsed: false
-  };
-
-  constructor(props: CollapseProps) {
-    super(props);
-
-    this.toggleCollapsed = this.toggleCollapsed.bind(this);
-    this.state.collapsed = !!props.collapsed;
-  }
-
-  static getDerivedStateFromProps(nextProps: CollapseProps, preState: CollapseState) {
-    if (nextProps.collapsed !== preState.collapsed) {
-      return {
-        collapsed: !!nextProps.collapsed
-      };
-    }
-    return null;
-  }
-
-  toggleCollapsed(e: React.MouseEvent<HTMLElement>) {
-    if (isClickOnInput(e)) {
-      return;
-    }
-    const props = this.props;
-    if (props.disabled || props.collapsable === false) {
-      return;
-    }
-    props.onChange && props.onChange(props, !this.state.collapsed);
-    this.setState({
-      collapsed: !this.state.collapsed
-    });
-  }
 
   render() {
     const {
+      key,
+      id,
       classPrefix: ns,
       classnames: cx,
       size,
-      wrapperComponent: WrapperComponent,
-      headingComponent: HeadingComponent,
+      wrapperComponent,
+      headingComponent,
       className,
       headingClassName,
       children,
@@ -204,66 +145,43 @@ export default class Collapse extends React.Component<
       unmountOnExit,
       showArrow,
       expandIcon,
-      disabled
+      disabled,
+      collapsed,
+      onChange
     } = this.props;
-    // 默认给个 title，不然没法点
-    const finalTitle = this.state.collapsed ? (title || header) : collapseTitle || (title || header);
-
-    let dom = [
-      finalTitle ? (
-        <HeadingComponent
-          key="title"
-          onClick={this.toggleCollapsed}
-          className={cx(`Collapse-header`, headingClassName)}
-        >
-          {showArrow && collapsable
-            ? expandIcon
-              ? render('arrow-icon', expandIcon, {className: cx('Collapse-icon-tranform')})
-              : <span className={cx('Collapse-arrow')} />
-              : ''}
-          {render('heading', finalTitle)}
-        </HeadingComponent>
-      ) : null,
-
-      <BasicCollapse
-        show={!this.state.collapsed}
-        classnames={cx}
-        classPrefix={ns}
-        key="body"
-        mountOnEnter={mountOnEnter}
-        unmountOnExit={unmountOnExit}
-      >
-        <div className={cx(`Collapse-body`, bodyClassName)}>
-          {children
-            ? typeof children === 'function'
-              ? children(this.props)
-              : children
-            : body
-            ? render('body', body)
-            : null}
-        </div>
-      </BasicCollapse>
-    ];
-
-    if (titlePosition === 'bottom') {
-      dom.reverse();
-    }
 
     return (
-      <WrapperComponent
-        className={cx(
-          `Collapse`,
-          {
-            'is-active': !this.state.collapsed,
-            [`Collapse--${size}`]: size,
-            'Collapse--disabled': disabled || collapsable === false,
-            'Collapse--title-bottom': titlePosition === 'bottom'
-          },
-          className
-        )}
+      <BasicCollapse
+        key={key}
+        id={id}
+        classnames={cx}
+        classPrefix={ns}
+        mountOnEnter={mountOnEnter}
+        unmountOnExit={unmountOnExit}
+        size={size}
+        wrapperComponent={wrapperComponent}
+        headingComponent={headingComponent}
+        className={className}
+        headingClassName={headingClassName}
+        bodyClassName={bodyClassName}
+        titlePosition={titlePosition}
+        collapsable={collapsable}
+        collapsed={collapsed}
+        showArrow={showArrow}
+        disabled={disabled}
+        expandIcon={expandIcon ? render('arrow-icon', expandIcon || '', {className: cx('Collapse-icon-tranform')}) : null}
+        collapseTitle={collapseTitle ? render('heading', collapseTitle) : null}
+        header={render('heading', title || header || '')}
+        body={children
+          ? typeof children === 'function'
+            ? children(this.props)
+            : children
+          : body
+          ? render('body', body)
+          : null}
+        onChange={onChange}
       >
-        {dom}
-      </WrapperComponent>
+      </BasicCollapse>
     );
   }
 }
