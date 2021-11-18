@@ -87,6 +87,7 @@ register('zh-CN', {
   'Excel.placeholder': '拖拽 Excel 到这，或点击上传',
   'fetchFailed': '初始化失败',
   'File.continueAdd': '继续添加',
+  'File.downloadTpl': '下载模板',
   'File.dragDrop': '将文件拖拽到此处',
   'File.errorRetry': '文件上传失败请重试',
   'File.failed': '失败文件',
