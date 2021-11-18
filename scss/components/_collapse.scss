@@ -9,6 +9,7 @@
     color: var(--text--loud-color);
     padding: var(--Collapse-header-padding);
     margin: 0;
+    border-bottom: var(--borderWidth) solid var(--Collapse-border-color);
     cursor: pointer;
     background: var(--Collapse-header-bg);
 

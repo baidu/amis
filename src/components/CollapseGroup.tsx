@@ -95,12 +95,10 @@ class CollapseGroup extends React.Component<
   }
 
   getItems = (children: React.ReactNode) => {
-    children = children || [];
-
     if (!Array.isArray(children)) {
       return children;
     }
-    
+
     return children.map((child: React.ReactElement, index: number) => {
       let props = child.props;
       const id = props.schema.key || String(index);
