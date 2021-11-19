@@ -1089,7 +1089,8 @@ export const detectProps = [
   'items',
   'showCounter',
   'minLength',
-  'maxLength'
+  'maxLength',
+  'embed'
 ];
 
 export function asFormItem(config: Omit<FormItemConfig, 'component'>) {
