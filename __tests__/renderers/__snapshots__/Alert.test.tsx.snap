@@ -17,13 +17,21 @@ exports[`Renderer:alert 1`] = `
           <div
             class="cxd-Alert cxd-Alert--success"
           >
-            <span
-              class="cxd-TplField"
+            <div
+              class="cxd-Alert-content"
             >
-              <span>
-                提示内容
-              </span>
-            </span>
+              <div
+                class="cxd-Alert-desc"
+              >
+                <span
+                  class="cxd-TplField"
+                >
+                  <span>
+                    提示内容
+                  </span>
+                </span>
+              </div>
+            </div>
           </div>
         </div>
       </div>
