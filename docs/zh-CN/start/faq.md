@@ -88,53 +88,6 @@ let amisScoped = amis.embed(
 );
 ```
 
-注意这个是文本替换，而且会对任意字符串进行替换，默认会覆盖所有字段，比如下面的做法会将 `type: 'service'` 也替换了
-
-```javascript
-let amis = amisRequire('amis/embed');
-let amisJSON = {
-  type: 'page',
-  body: {
-    type: 'service',
-    api: 'service/api'
-  }
-};
-let amisScoped = amis.embed(
-  '#root',
-  amisJSON,
-  {},
-  {
-    replaceText: {
-      service: 'http://localhost'
-    }
-  }
-);
-```
-
-可以通过配置 `replaceText` 限制只替换 `api` 字段
-
-```javascript
-let amis = amisRequire('amis/embed');
-let amisJSON = {
-  type: 'page',
-  body: {
-    type: 'service',
-    api: 'service/api'
-  }
-};
-let amisScoped = amis.embed(
-  '#root',
-  amisJSON,
-  {},
-  {
-    replaceText: {
-      service: 'http://localhost'
-    },
-    replaceTextKeys: ['api']
-  }
-);
-```
-
 ## 如何更新全局 data？
 
 使用下面的方式

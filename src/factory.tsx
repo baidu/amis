@@ -139,6 +139,10 @@ export interface RenderOptions {
    * 替换文本，用于实现 URL 替换、语言替换等
    */
   replaceText?: {[propName: string]: any};
+  /**
+   * 文本替换的黑名单，因为属性太多了所以改成黑名单的 fangs
+   */
+  replaceTextIgnoreKeys?: String[];
   [propName: string]: any;
 }
 
@@ -347,7 +351,15 @@ const defaultOptions: RenderOptions = {
   },
   // 用于跟踪用户在界面中的各种操作
   tracker(eventTrack: EventTrack, props: PlainObject) {},
-  rendererResolver: resolveRenderer
+  rendererResolver: resolveRenderer,
+  replaceTextIgnoreKeys: [
+    'type',
+    'name',
+    'mode',
+    'target',
+    'reload',
+    'persistData'
+  ]
 };
 let stores: {
   [propName: string]: IRendererStore;
@@ -404,15 +416,14 @@ export function render(
 
   // 进行文本替换
   if (env.replaceText && isObject(env.replaceText)) {
-    const replaceKeys = env.replaceTextKeys || [];
+    const replaceKeys = Object.keys(env.replaceText);
+    replaceKeys.sort().reverse(); // 避免用户将短的放前面
+    const replaceTextIgnoreKeys = new Set(env.replaceTextIgnoreKeys || []);
     JSONTraverse(schema, (value: any, key: string, object: any) => {
-      if (
-        typeof value === 'string' &&
-        (replaceKeys.length ? replaceKeys.includes(key) : true)
-      ) {
-        for (const replaceKey in env.replaceText) {
+      if (typeof value === 'string' && !replaceTextIgnoreKeys.has(key)) {
+        for (const replaceKey of replaceKeys) {
           if (~value.indexOf(replaceKey)) {
-            object[key] = value.replace(
+            object[key] = value.replaceAll(
               replaceKey,
               env.replaceText[replaceKey]
             );

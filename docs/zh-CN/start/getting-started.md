@@ -743,8 +743,14 @@ let amisScoped = amis.embed(
 
 它会替换 `api` 里的 `service` 字符串
 
-#### replaceTextKeys
+#### replaceTextIgnoreKeys
 
 > 1.5.0 及以上版本
 
-和前面的 `replaceText` 配合使用，指定只有某些字段才进行替换
+和前面的 `replaceText` 配合使用，某些字段会禁用文本替换，默认有以下：
+
+```
+type, name, mode, target, reload
+```
+
+如果发现有字段被意外替换了，可以通过设置这个属性来避免
