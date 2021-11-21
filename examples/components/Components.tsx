@@ -919,6 +919,14 @@ export const components = [
           )
       },
       {
+        label: 'Timeline 时间轴',
+        path: '/zh-CN/components/timeline',
+        getComponent: () =>
+          import('../../docs/zh-CN/components/timeline.md').then(
+            makeMarkdownRenderer
+          )
+      },
+      {
         label: 'Property 属性表',
         path: '/zh-CN/components/property',
         getComponent: () =>
