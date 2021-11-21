@@ -56,6 +56,7 @@ import {PaginationSchema} from './renderers/Pagination';
 import {AnchorNavSchema} from './renderers/AnchorNav';
 import {AvatarSchema} from './renderers/Avatar';
 import {StepsSchema} from './renderers/Steps';
+import {TimelineSchema} from './renderers/Timeline';
 import {ArrayControlSchema} from './renderers/Form/InputArray';
 import {ButtonGroupControlSchema} from './renderers/Form/ButtonGroupSelect';
 import {ChainedSelectControlSchema} from './renderers/Form/ChainedSelect';
@@ -228,6 +229,7 @@ export type SchemaType =
   | 'input-datetime-range'
   | 'input-excel'
   | 'diff-editor'
+  | 'timeline'
 
   // editor 系列
   | 'editor'
@@ -386,6 +388,7 @@ export type SchemaObject =
   | AnchorNavSchema
   | StepsSchema
   | PortletSchema
+  | TimelineSchema
 
   // 表单项
   | FormControlSchema

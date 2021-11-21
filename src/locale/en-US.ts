@@ -256,5 +256,7 @@ register('en-US', {
   'Condition.cond_placeholder': 'select condition',
   'Condition.field_placeholder': 'select field',
   'Condition.blank': 'blank',
-  'InputTable.uniqueError': 'Column `{{label}}` unique validate failed'
+  'InputTable.uniqueError': 'Column `{{label}}` unique validate failed',
+  'Timeline.collapseText': 'Unfold',
+  'Timeline.expandText': 'Fold',
 });

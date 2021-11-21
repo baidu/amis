@@ -161,7 +161,6 @@ fis.on('compile:optimizer', function (file) {
       contents.substring(0, 7) === 'define('
     ) {
       contents = 'amis.' + contents;
-
       contents = contents.replace(
         'function(require, exports, module)',
         'function(require, exports, module, define)'

@@ -85,7 +85,6 @@ export function StepsCmpt(props: StepsProps) {
     config,
     render
   } = props;
-  
   const stepsRow =
     (resolveVariable(source, data) as Array<StepSchema>) ||
     config ||

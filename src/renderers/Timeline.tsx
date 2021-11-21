@@ -1,0 +1,158 @@
+import React, { ReactNode, useMemo } from 'react';
+import {Renderer, RendererProps} from '../factory';
+import {BaseSchema, SchemaApi, SchemaCollection, SchemaTokenizeableString} from '../Schema';
+import {resolveVariable} from '../utils/tpl-builtin';
+import Timeline from '../components/Timeline';
+import {filter} from '../utils/tpl';
+import { RemoteOptionsProps, withRemoteConfig } from '../components/WithRemoteConfig';
+import { isEffectiveApi } from '../utils/api';
+
+
+export interface TimelineItemSchema extends Omit<BaseSchema, 'type'> {
+  /**
+   * 时间点
+   */
+  time: string;
+
+  /**
+   * 时间节点标题
+   */
+  title?: SchemaCollection;
+
+  /**
+    * 详细内容
+    */
+  detail?: string;
+
+  /**
+   * detail折叠时文案
+   */
+  detailCollapsedText?: string;
+
+  /**
+   * detail展开时文案
+   */
+  detailExpandedText?: string;
+
+  /**
+   * 时间点圆圈颜色
+   */
+  color?: string;
+
+  /**
+   * 图标
+   */
+  icon?: SchemaCollection;
+}
+
+export interface TimelineSchema extends BaseSchema {
+  /**
+   * 指定为 Timeline 时间轴渲染器
+   */
+  type: 'timeline';
+
+  /**
+   * 节点数据
+   */
+  items?: Array<TimelineItemSchema>;
+
+  /**
+   * API 或 数据映射
+   */
+  source?: SchemaApi  | SchemaTokenizeableString;
+
+  /**
+   * 文字相对于时间轴展示方向
+   */
+  mode?: 'left' | 'right' | 'alternate';
+
+  /**
+   * 展示方向
+   */
+  direction?: 'horizontal' | 'vertical'
+
+  /**
+   * 节点倒序
+   */
+  reverse?: boolean,
+}
+
+export interface TimelineProps
+  extends RendererProps,
+    Omit<TimelineSchema, 'className'> {}
+
+export function TimelineCmpt(props: TimelineProps) {
+  const {
+    items,
+    mode,
+    direction,
+    reverse,
+    data,
+    config,
+    source,
+    render
+  } = props;
+
+  // 获取源数据
+  let timelineItemsRow: Array<TimelineItemSchema> = [];
+  if (!source || typeof source === 'string') {
+      timelineItemsRow = (resolveVariable(source, data) as Array<TimelineItemSchema>)
+                    || config
+                    || items
+                    || [];
+    }
+    else {
+      // if(isEffectiveApi(source, data)) {
+        const url = source.url;
+        timelineItemsRow = (resolveVariable(url, data) as Array<TimelineItemSchema>)
+                    || config
+                    || items
+                    || [];
+      // }
+    }
+
+  // 渲染内容
+  const resolveRender = (val?: SchemaCollection) => typeof val === 'string'
+                    ? filter(val, data)
+                    : (val && render('inner', val));
+
+  // 处理源数据
+  const resolveTimelineItems =
+     timelineItemsRow?.map((timelineItem: TimelineItemSchema) => {
+      return {
+        ...timelineItem,
+        icon: resolveRender(timelineItem.icon),
+        title: resolveRender(timelineItem.title),
+      }
+    });
+
+
+  return (<Timeline
+            timelineItems = {resolveTimelineItems}
+            direction = {direction}
+            reverse = {reverse}
+            mode = {mode}
+          />)
+}
+
+const TimelineWithRemoteConfig = withRemoteConfig({
+  adaptor: data => data.items || data
+})(
+  class extends React.Component<
+    RemoteOptionsProps & React.ComponentProps<typeof TimelineCmpt>
+  > {
+    render() {
+      const {config, deferLoad, loading, updateConfig, ...rest} = this.props;
+      return <TimelineCmpt config={config} {...rest} />;
+    }
+  }
+);
+
+@Renderer({
+  type: 'timeline'
+})
+export class TimelineRenderer extends React.Component<TimelineProps> {
+  render() {
+    return  <TimelineWithRemoteConfig {...this.props} />;
+  }
+}
