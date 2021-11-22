@@ -68,6 +68,7 @@
 
   --fontWeightNormal: 400;
   --fontWeightBase: var(--fontWeightNormal);
+  --fontWeightMd: 500;
   --fontWeightBold: 700;
 
   --background: var(--white);
@@ -411,6 +412,7 @@
   --Card-borderColor: var(--borderColor);
   --Card-borderRadius: var(--borderRadius);
   --Card-borderWidth: var(--borderWidth);
+  --Card-secondary-color: #83868c;
   --Card-onChecked-bg: #d9f3fb;
   --Card-onChecked-borderColor: #{darken(#d9f3fb, 10%)};
   --Card-onChecked-color: #{darken(#d9f3fb, 40%)};
