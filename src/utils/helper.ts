@@ -1706,3 +1706,10 @@ export function isClickOnInput(e: React.MouseEvent<HTMLElement>) {
   }
   return false;
 }
+
+export function hashCode(s: string): number {
+  return s.split('').reduce((a, b) => {
+    a = (a << 5) - a + b.charCodeAt(0);
+    return a & a;
+  }, 0);
+}
