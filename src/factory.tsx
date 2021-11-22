@@ -287,7 +287,7 @@ const defaultOptions: RenderOptions = {
   alert,
   confirm,
   notify: (type, msg, conf) =>
-    toast[type] ? toast[type](msg) : console.warn('[Notify]', type, msg),
+    toast[type] ? toast[type](msg, conf) : console.warn('[Notify]', type, msg),
 
   jumpTo: (to: string, action?: any) => {
     if (to === 'goBack') {
