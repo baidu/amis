@@ -2,7 +2,7 @@ import React from 'react';
 import {Func, ExpressionFunc, Field, Funcs} from './types';
 import {ThemeProps, themeable} from '../../theme';
 import PopOverContainer from '../PopOverContainer';
-import ListRadios from '../ListRadios';
+import GroupedSelection from '../GroupedSelection';
 import {autobind, findTree, noop} from '../../utils/helper';
 import ResultBox from '../ResultBox';
 import {Icon} from '../icons';
@@ -77,13 +77,13 @@ export class ConditionFunc extends React.Component<ConditionFuncProps> {
       <div className={cx('CBFunc')}>
         <PopOverContainer
           popOverRender={({onClose}) => (
-            <ListRadios
+            <GroupedSelection
               onClick={onClose}
-              showRadio={false}
               options={funcs!}
               value={(func as Func)?.type}
               option2value={option2value}
               onChange={this.handleFuncChange}
+              multiple={false}
             />
           )}
         >

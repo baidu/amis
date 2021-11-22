@@ -102,6 +102,19 @@ API 类型用于配置请求接口的格式，涉及请求方式、请求地址�
 
 但这种方式无法显示错误信息，只能通过返回 http 状态码来标识错误。
 
+### 配置弹框时间
+
+可以通过 `msgTimeout` 控制弹框时间，它的时间是毫秒
+
+```json
+{
+  "status": 2,
+  "msg": "error",
+  "msgTimeout": 10000,
+  "data": {}
+}
+```
+
 ## 复杂配置
 
 API 还支持配置对象类型
@@ -680,6 +693,7 @@ const schema = {
 
 - **payload**：当前请求的响应 payload，即 response.data
 - **response**：当前请求的原始响应
+- **api**：api 上的配置项，还可以通过 `api.data` 获得数据域里的内容
 
 ##### 字符串形式
 
@@ -688,7 +702,7 @@ const schema = {
 字符串形式实际上可以认为是外层包裹了一层函数，你需要补充内部的函数实现，并将修改好的 `payload` 对象 `return` 出去：
 
 ```js
-function (payload, response) {
+function (payload, response, api) {
   // 你的适配器代码
 }
 ```

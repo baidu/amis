@@ -530,8 +530,13 @@
   --Collapse-header-padding: #{px2rem(18px)} 0 var(--gap-xs) 0;
   --Collapse-header-bg: transparent;
   --Collapse-header-onHover-bg: transparent;
-  --Collapse-header-collapsed-borderBottom: var(--borderWidth) solid
+  --Collapse-header-collapsed-border: var(--borderWidth) solid
     var(--Collapse-border-color);
+  --Collapse-header-collapsed-borderTop: none;
+  --Collapse-header-collapsed-borderBottom: var(
+    --Collapse-header-collapsed-border
+  );
+  --Collapse-header-wrapper-direction: row;
   --Collapse-content-padding: #{px2rem(18px)} 0;
   --Collapse-content-color: var(--body-color);
   --Collapse-content-fontSize: var(--body-size);
@@ -1067,6 +1072,20 @@
 
   --Picker-iconColor: var(--icon-color);
   --Picker-onHover-iconColor: var(--icon-onHover-color);
+
+  --PickerColumns-bg: white;
+  --PickerColumns-toolbar-height: #{px2rem(50px)};
+  --PickerColumns-title-fontSize: var(--fontSizeLg);
+  --PickerColumns-title-lineHeight: 1.5;
+  --PickerColumns-action-padding: 0 var(--gap-sm);
+  --PickerColumns-action-fontSize: var(--fontSizeMd);
+  --PickerColumns-confirmAction-color: var(--Button--info-bg);
+  --PickerColumns-cancelAction-color: var(--Button--light-bg);
+  --PickerColumns-option-fontSize: var(--fontSizeLg);
+  --PickerColumns-optionText-color: var(--text-color);
+  --PickerColumns-optionDisabled-opacity: 0.3;
+  --PickerColumns-loadingIcon-color: var(--icon-color);
+  --PickerColumns-loadingMask-Color: rgba(255, 255, 255, 0.9);
 
   --PopOver-bg: white;
   --PopOverAble-iconColor: inherit;

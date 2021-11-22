@@ -10,7 +10,7 @@ import {default as ContextMenu, openContextMenus} from './ContextMenu';
 import AsideNav from './AsideNav';
 import Button from './Button';
 import Checkbox from './Checkbox';
-import Checkboxes from './Checkboxes';
+import Checkboxes from './Selection';
 import Collapse from './Collapse';
 import DatePicker from './DatePicker';
 import DateRangePicker from './DateRangePicker';
@@ -41,19 +41,19 @@ import Tree from './Tree';
 import Alert2 from './Alert2';
 import Transfer from './Transfer';
 import TabsTransfer from './TabsTransfer';
-import ListCheckboxes from './ListCheckboxes';
-import TableCheckboxes from './TableCheckboxes';
-import TreeCheckboxes from './TreeCheckboxes';
-import ChainedCheckboxes from './ChainedCheckboxes';
 import ResultBox from './ResultBox';
 import InputBox from './InputBox';
-import ListRadios from './ListRadios';
-import TreeRadios from './TreeRadios';
 import ListGroup from './ListGroup';
 import NumberInput from './NumberInput';
 import ArrayInput from './ArrayInput';
 import SearchBox from './SearchBox';
 import AnchorNav from './AnchorNav';
+import Selection from './Selection';
+import GroupedSelection from './GroupedSelection';
+import ChainedSelection from './ChainedSelection';
+import TableSelection from './TableSelection';
+import TreeSelection from './TreeSelection';
+import AssociatedSelection from './AssociatedSelection';
 
 export {
   NotFound,
@@ -99,15 +99,15 @@ export {
   Tree,
   Transfer,
   TabsTransfer,
-  ListCheckboxes,
-  TableCheckboxes,
-  TreeCheckboxes,
-  ChainedCheckboxes,
+  Selection,
+  GroupedSelection,
+  ChainedSelection,
+  TableSelection,
+  TreeSelection,
+  AssociatedSelection,
   ResultBox,
   InputBox,
-  ListRadios,
   SearchBox,
-  TreeRadios,
   ListGroup,
   NumberInput,
   ArrayInput,

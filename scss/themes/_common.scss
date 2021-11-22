@@ -2,6 +2,7 @@
 @import '../base/reset';
 @import '../base/normalize';
 @import '../base/typography';
+@import '../base/common';
 
 @import '../layout/layout';
 @import '../layout/grid';
@@ -17,6 +18,7 @@
 @import '../components/tooltip';
 @import '../components/tpl';
 @import '../components/popover';
+@import '../components/picker-columns';
 @import '../components/toast';
 @import '../components/alert';
 @import '../components/app';
@@ -75,6 +77,7 @@
 @import '../components/form/text';
 @import '../components/form/textarea';
 @import '../components/form/checks';
+@import '../components/form/selection';
 @import '../components/form/city';
 @import '../components/form/switch';
 @import '../components/form/number';

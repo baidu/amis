@@ -13,6 +13,15 @@
     cursor: pointer;
     background: var(--Collapse-header-bg);
 
+    &-wrapper {
+      display: inline-flex;
+      flex-direction: var(--Collapse-header-wrapper-direction);
+    }
+
+    &-tpl {
+      margin-right: px2rem(8px);
+    }
+
     &:hover {
       background: var(--Collapse-header-onHover-bg);
     }
@@ -75,6 +84,12 @@
   &--title-bottom &-header {
     text-align: center;
     font-size: var(--fontSizeBase);
+    border-top: var(--Collapse-header-collapsed-borderTop);
+    border-bottom: var(--Collapse-header-collapsed-borderBottom);
+  }
+
+  &--title-bottom.is-collapsed &-header {
+    border-top: none;
   }
 
   &--title-bottom &-arrow:before {

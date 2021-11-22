@@ -54,7 +54,6 @@
 
 .#{$ns}Select {
   .#{$ns}PopOver {
-    top: calc(var(--Form-input-height) + #{px2rem(4px)}) !important;
     .#{$ns}Select-menu {
       border-radius: #{$R3};
       .#{$ns}Select-option {
@@ -67,7 +66,6 @@
 
 .#{$ns}NestedSelectControl {
   .#{$ns}PopOver {
-    top: calc(var(--Form-input-height) + #{px2rem(4px)}) !important;
     .#{$ns}NestedSelect-menuOuter {
       .#{$ns}NestedSelect-menu {
         border-radius: #{$R3};
@@ -89,7 +87,6 @@
 
 .#{$ns}TreeSelectControl {
   .#{$ns}PopOver {
-    top: calc(var(--Form-input-height) + #{px2rem(4px)}) !important;
     box-shadow: var(--boxShadow);
     .#{$ns}Tree {
       border-radius: #{$R3};
@@ -100,7 +97,6 @@
 
 .#{$ns}DropDown {
   .#{$ns}DropDown-menu {
-    top: calc(var(--Form-input-height) + #{px2rem(4px)}) !important;
     border: none;
     > li {
       color: #{$G2};
@@ -155,7 +151,6 @@
 .#{$ns}ColorPicker {
   .#{$ns}PopOver {
     border: none;
-    top: calc(var(--Form-input-height) + #{px2rem(4px)}) !important;
     box-shadow: var(--boxShadow);
   }
 }
@@ -164,7 +159,6 @@
   .#{$ns}IconPickerControl-input--withAC {
     .#{$ns}IconPickerControl-sugsPanel {
       border: none;
-      top: calc(var(--Form-input-height) + #{px2rem(4px)}) !important;
       box-shadow: var(--boxShadow);
       border-radius: px2rem(3px);
     }
@@ -186,7 +180,6 @@
 .#{$ns}LocationControl {
   .#{$ns}PopOver {
     border: none;
-    top: calc(var(--Form-input-height) + #{px2rem(4px)}) !important;
     box-shadow: var(--boxShadow);
   }
 }
@@ -244,6 +237,9 @@
 }
 
 .#{$ns}Drawer--right {
+  .#{$ns}Drawer-header {
+    border-radius: #{$R4} 0 0 0;
+  }
   .#{$ns}Drawer-footer {
     justify-content: flex-end;
     .#{$ns}Button {
@@ -253,6 +249,9 @@
 }
 
 .#{$ns}Drawer--left {
+  .#{$ns}Drawer-header {
+    border-radius: 0 #{$R4} 0 0;
+  }
   .#{$ns}Drawer-footer {
     .#{$ns}Button {
       margin-left: #{px2rem(16px)};
@@ -260,8 +259,17 @@
   }
 }
 
-.#{$ns}Drawer--top,
+.#{$ns}Drawer--top {
+  .#{$ns}Drawer-footer {
+    .#{$ns}Button {
+      margin-left: #{px2rem(16px)};
+    }
+  }
+}
 .#{$ns}Drawer--bottom {
+  .#{$ns}Drawer-header {
+    border-radius: #{$R4} #{$R4} 0 0;
+  }
   .#{$ns}Drawer-footer {
     .#{$ns}Button {
       margin-left: #{px2rem(16px)};
@@ -283,6 +291,7 @@
           svg {
             width: #{px2rem(12px)};
             height: #{px2rem(12px)};
+            top: 0;
           }
         }
 
@@ -354,10 +363,6 @@
 .#{$ns}Form {
   .#{$ns}Collapse {
     border: none;
-
-    &-arrow {
-      margin-left: px2rem(8px);
-    }
     &-header {
       background-color: var(--white);
       display: inline-flex;

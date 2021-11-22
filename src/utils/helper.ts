@@ -16,6 +16,14 @@ import {
 } from './tpl-builtin';
 import {isObservable} from 'mobx';
 
+export function isMobile() {
+  return (window as any).matchMedia?.('(max-width: 768px)').matches;
+}
+
+export function range(num: number, min: number, max: number): number {
+  return Math.min(Math.max(num, min), max);
+}
+
 // 方便取值的时候能够把上层的取到，但是获取的时候不会全部把所有的数据获取到。
 export function createObject(
   superProps?: {[propName: string]: any},
@@ -1697,4 +1705,23 @@ export function isClickOnInput(e: React.MouseEvent<HTMLElement>) {
     return true;
   }
   return false;
+}
+
+/**
+ * 遍历 schema
+ * @param json
+ * @param mapper
+ */
+export function JSONTraverse(
+  json: any,
+  mapper: (value: any, key: string | number, host: Object) => any
+) {
+  Object.keys(json).forEach(key => {
+    const value: any = json[key];
+    if (isPlainObject(value) || Array.isArray(value)) {
+      JSONTraverse(value, mapper);
+    } else {
+      mapper(value, key, json);
+    }
+  });
 }

@@ -206,6 +206,15 @@ export default [
           import('../../docs/zh-CN/extend/addon.md').then(makeMarkdownRenderer)
       },
       {
+        label: '页面交互行为跟踪',
+        path: '/zh-CN/docs/extend/tracker',
+        getComponent: () =>
+          // @ts-ignore
+          import('../../docs/zh-CN/extend/tracker.md').then(
+            makeMarkdownRenderer
+          )
+      },
+      {
         label: '移动端定制',
         path: '/zh-CN/docs/extend/mobile',
         getComponent: () =>

@@ -10,7 +10,7 @@ $primary: $B6;
 $success: $S6;
 $warning: $W6;
 $danger: $E6;
-$light: #1ac5ff;
+$light: #eaf6fe;
 $white: #fff;
 $secondary: $G6;
 
@@ -238,6 +238,7 @@ $R8: 50%;
   --Collapse-header-onHover-bg: #F3F9FE;
   --Collapse-header-bg-disabled-color: #F6F7FA;
   --Collapse-header-collapsed-borderBottom: none;
+  --Collapse-header-wrapper-direction: row-reverse;
   --Collapse-content-padding: #{px2rem(16px)};
   --Collapse-content-color: #{$G4};
   --Collapse-content-fontSize: #{$T2};
