@@ -1707,9 +1707,29 @@ export function isClickOnInput(e: React.MouseEvent<HTMLElement>) {
   return false;
 }
 
+// 计算字符串 hash
 export function hashCode(s: string): number {
   return s.split('').reduce((a, b) => {
     a = (a << 5) - a + b.charCodeAt(0);
     return a & a;
   }, 0);
+}
+
+/**
+ * 遍历 schema
+ * @param json
+ * @param mapper
+ */
+export function JSONTraverse(
+  json: any,
+  mapper: (value: any, key: string | number, host: Object) => any
+) {
+  Object.keys(json).forEach(key => {
+    const value: any = json[key];
+    if (isPlainObject(value) || Array.isArray(value)) {
+      JSONTraverse(value, mapper);
+    } else {
+      mapper(value, key, json);
+    }
+  });
 }

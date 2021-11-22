@@ -334,7 +334,7 @@ List 的内容、Card 卡片的内容配置同上
 | title          | `string`                             |           | 标题                                                                                   |
 | imageCaption   | `string`                             |           | 描述                                                                                   |
 | placeholder    | `string`                             |           | 占位文本                                                                               |
-| defaultImage   | `string`                             |           | 默认显示的图片地址                                                                     |
+| defaultImage   | `string`                             |           | 无数据时显示的图片                                                                     |
 | src            | `string`                             |           | 缩略图地址                                                                             |
 | href           | [模板](../../docs/concepts/template) |           | 外部链接地址                                                                           |
 | originalSrc    | `string`                             |           | 原图地址                                                                               |
