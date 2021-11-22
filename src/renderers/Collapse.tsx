@@ -164,13 +164,13 @@ export default class Collapse extends React.Component<
         className={className}
         headingClassName={headingClassName}
         bodyClassName={bodyClassName}
-        titlePosition={titlePosition}
+        headerPosition={titlePosition}
         collapsable={collapsable}
         collapsed={collapsed}
         showArrow={showArrow}
         disabled={disabled}
         expandIcon={expandIcon ? render('arrow-icon', expandIcon || '', {className: cx('Collapse-icon-tranform')}) : null}
-        collapseTitle={collapseTitle ? render('heading', collapseTitle) : null}
+        collapseHeader={collapseTitle ? render('heading', collapseTitle) : null}
         header={render('heading', title || header || '')}
         body={children
           ? typeof children === 'function'

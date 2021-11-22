@@ -32,7 +32,7 @@ export interface CollapseProps {
   className?: string;
   classPrefix: string;
   classnames: ClassNamesFn;
-  titlePosition?: 'top' | 'bottom';
+  headerPosition?: 'top' | 'bottom';
   header?: React.ReactElement;
   body: any;
   bodyClassName?: SchemaClassName;
@@ -42,7 +42,7 @@ export interface CollapseProps {
   showArrow?: boolean;
   expandIcon?: React.ReactElement | null;
   headingClassName?: string;
-  collapseTitle?: React.ReactElement | null;
+  collapseHeader?: React.ReactElement | null;
   size?: 'xs' | 'sm' | 'md' | 'lg' | 'base';
   onChange?: (item: any, collapsed: boolean) => void;
   wrapperComponent?: any;
@@ -70,7 +70,7 @@ export class Collapse extends React.Component<CollapseProps, CollapseState> {
   static defaultProps: Partial<CollapseProps> = {
     mountOnEnter: false,
     unmountOnExit: false,
-    titlePosition: 'top',
+    headerPosition: 'top',
     wrapperComponent: 'div',
     headingComponent: 'div',
     className: '',
@@ -161,8 +161,8 @@ export class Collapse extends React.Component<CollapseProps, CollapseState> {
       headingComponent: HeadingComponent,
       className,
       headingClassName,
-      titlePosition,
-      collapseTitle,
+      headerPosition,
+      collapseHeader,
       header,
       body,
       bodyClassName,
@@ -173,12 +173,12 @@ export class Collapse extends React.Component<CollapseProps, CollapseState> {
       disabled
     } = this.props;
 
-    const finalTitle = this.state.collapsed ? header : collapseTitle || header;
+    const finalHeader = this.state.collapsed ? header : collapseHeader || header;
 
     let dom = [
-      finalTitle ? (
+      finalHeader ? (
         <HeadingComponent
-          key="title"
+          key="header"
           onClick={this.toggleCollapsed}
           className={cx(`Collapse-header`, headingClassName)}
         >
@@ -190,7 +190,7 @@ export class Collapse extends React.Component<CollapseProps, CollapseState> {
                 })
               : <span className={cx('Collapse-arrow')} />
               : ''}
-          {finalTitle}
+          {finalHeader}
         </HeadingComponent>
       ) : null,
 
@@ -231,7 +231,7 @@ export class Collapse extends React.Component<CollapseProps, CollapseState> {
       
     ];
 
-    if (titlePosition === 'bottom') {
+    if (headerPosition === 'bottom') {
       dom.reverse();
     }
 
@@ -243,7 +243,7 @@ export class Collapse extends React.Component<CollapseProps, CollapseState> {
             'is-active': !this.state.collapsed,
             [`Collapse--${size}`]: size,
             'Collapse--disabled': disabled || collapsable === false,
-            'Collapse--title-bottom': titlePosition === 'bottom'
+            'Collapse--title-bottom': headerPosition === 'bottom'
           },
           className
         )}
