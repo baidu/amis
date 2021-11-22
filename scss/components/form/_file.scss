@@ -1,4 +1,15 @@
 .#{$ns}FileControl {
+  &-templateInfo {
+    display: block;
+    margin-bottom: var(--gap-base);
+    padding: var(--Button-paddingY) var(--Button-paddingX);
+    cursor: pointer;
+
+    > svg {
+      margin-right: var(--gap-xs);
+    }
+  }
+
   &-dropzone {
     outline: none;
   }

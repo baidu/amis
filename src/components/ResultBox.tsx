@@ -4,7 +4,7 @@ import {InputBoxProps} from './InputBox';
 import {uncontrollable} from 'uncontrollable';
 import {Icon} from './icons';
 import Input from './Input';
-import {autobind} from '../utils/helper';
+import {autobind, ucFirst} from '../utils/helper';
 import {LocaleProps, localeable} from '../locale';
 
 export interface ResultBoxProps
@@ -113,20 +113,20 @@ export class ResultBox extends React.Component<ResultBoxProps> {
       onKeyPress,
       onFocus,
       onBlur,
+      borderMode,
       ...rest
     } = this.props;
     const isFocused = this.state.isFocused;
 
     return (
       <div
-        className={cx(
-          'ResultBox',
-          className,
-          isFocused ? 'is-focused' : '',
-          disabled ? 'is-disabled' : '',
-          hasError ? 'is-error' : '',
-          onResultClick ? 'is-clickable' : ''
-        )}
+        className={cx('ResultBox', className, {
+          'is-focused': isFocused,
+          'is-disabled': disabled,
+          'is-error': hasError,
+          'is-clickable': onResultClick,
+          [`ResultBox--border${ucFirst(borderMode)}`]: borderMode
+        })}
         onClick={onResultClick}
         tabIndex={!allowInput && !disabled && onFocus ? 0 : -1}
         onKeyPress={allowInput ? undefined : onKeyPress}

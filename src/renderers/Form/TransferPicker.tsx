@@ -17,6 +17,10 @@ import TransferPicker from '../../components/TransferPicker';
  */
 export interface TransferPickerControlSchema extends FormOptionsControl {
   type: 'transfer-picker';
+  /**
+   * 边框模式，全边框，还是半边框，或者没边框。
+   */
+  borderMode?: 'full' | 'half' | 'none';
 
   /**
    * 是否显示剪头
@@ -91,7 +95,8 @@ export class TransferPickerRenderer extends BaseTransferRenderer<TabsTransferPro
       pickerSize,
       columns,
       leftMode,
-      selectMode
+      selectMode,
+      borderMode
     } = this.props;
 
     // 目前 LeftOptions 没有接口可以动态加载
@@ -113,6 +118,7 @@ export class TransferPickerRenderer extends BaseTransferRenderer<TabsTransferPro
     return (
       <div className={cx('TransferControl', className)}>
         <TransferPicker
+          borderMode={borderMode}
           selectMode={selectMode}
           value={selectedOptions}
           disabled={disabled}
