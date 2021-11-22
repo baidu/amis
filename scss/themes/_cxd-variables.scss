@@ -72,6 +72,8 @@ $R7: px2rem(16px);
 $R8: 50%;
 
 // yunshe4.0 box-shadow
+$L1: 0px 4px 6px 0px rgba(8, 14, 26, 0.06),
+  0px 1px 10px 0px rgba(8, 14, 26, 0.05), 0px 2px 4px -1px rgba(8, 14, 26, 0.04);
 
 :root {
   --borderColor: #eceff8;
@@ -228,6 +230,7 @@ $R8: 50%;
   --ColorPicker-placeholderColor: #999;
   --ColorPicker-onDisabled-bg: #f5f5f5;
   --ColorPicker-onDisabled-color: #999;
+  --ColorPicker-boxShadow: #{$L1};
 
   --Collapse-border: #{px2rem(1px)} solid #{$G8};
   --Collapse-border-color: #{$G8};

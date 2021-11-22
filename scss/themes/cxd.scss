@@ -148,13 +148,6 @@
   }
 }
 
-.#{$ns}ColorPicker {
-  .#{$ns}PopOver {
-    border: none;
-    box-shadow: var(--boxShadow);
-  }
-}
-
 .#{$ns}IconPickerControl {
   .#{$ns}IconPickerControl-input--withAC {
     .#{$ns}IconPickerControl-sugsPanel {
