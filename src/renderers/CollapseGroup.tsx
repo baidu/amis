@@ -19,11 +19,6 @@ export interface CollapseGroupSchema extends BaseSchema {
   activeKey?: Array<string | number | never> | string | number;
 
   /**
-   * 初始化展开
-   */
-  defaultActiveKey?: Array<string | number | never> | string | number;
-
-  /**
    * 手风琴模式
    */
   accordion?: boolean;
@@ -56,7 +51,6 @@ export class CollapseGroupRender extends React.Component<CollapseGroupProps, {}>
   }
   render() {
     const {
-      activeKey,
       defaultActiveKey,
       accordion,
       expandIcon,
@@ -67,7 +61,6 @@ export class CollapseGroupRender extends React.Component<CollapseGroupProps, {}>
     } = this.props;
     return (
       <CollapseGroup
-          activeKey={activeKey}
           defaultActiveKey={defaultActiveKey}
           accordion={accordion}
           expandIcon={expandIcon}
