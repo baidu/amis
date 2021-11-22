@@ -182,10 +182,7 @@ export class ToastComponent extends React.Component<
           {toasts.map(item => {
             const level = item.level || 'info';
             const toastTimeout =
-              item.timeout ??
-              (level === 'error' || level === 'warning'
-                ? errorTimeout
-                : timeout);
+              item.timeout ?? (level === 'error' ? errorTimeout : timeout);
             return (
               <ToastMessage
                 classnames={cx}
