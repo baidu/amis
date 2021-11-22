@@ -51,6 +51,7 @@ interface ToastComponentProps extends ThemeProps, LocaleProps {
   closeButton: boolean;
   showIcon?: boolean;
   timeout: number;
+  errorTimeout: number;
   className?: string;
 }
 
@@ -78,11 +79,12 @@ export class ToastComponent extends React.Component<
 > {
   static defaultProps: Pick<
     ToastComponentProps,
-    'position' | 'closeButton' | 'timeout'
+    'position' | 'closeButton' | 'timeout' | 'errorTimeout'
   > = {
     position: 'top-center',
     closeButton: false,
-    timeout: 5000
+    timeout: 5000,
+    errorTimeout: 10000 // 错误的时候 time 调长
   };
   static themeKey = 'toast';
 
@@ -155,6 +157,7 @@ export class ToastComponent extends React.Component<
       classnames: cx,
       className,
       timeout,
+      errorTimeout,
       position,
       showIcon,
       translate,
@@ -166,7 +169,6 @@ export class ToastComponent extends React.Component<
 
     return Object.keys(groupedItems).map(position => {
       const toasts = groupedItems[position];
-
       return (
         <div
           key={position}
@@ -177,19 +179,27 @@ export class ToastComponent extends React.Component<
             className
           )}
         >
-          {toasts.map(item => (
-            <ToastMessage
-              classnames={cx}
-              key={item.id}
-              body={item.body}
-              level={item.level || 'info'}
-              timeout={item.timeout ?? timeout}
-              closeButton={item.closeButton ?? closeButton}
-              onDismiss={this.handleDismissed.bind(this, items.indexOf(item))}
-              translate={translate}
-              showIcon={showIcon}
-            />
-          ))}
+          {toasts.map(item => {
+            const level = item.level || 'info';
+            const toastTimeout =
+              item.timeout ??
+              (level === 'error' || level === 'warning'
+                ? errorTimeout
+                : timeout);
+            return (
+              <ToastMessage
+                classnames={cx}
+                key={item.id}
+                body={item.body}
+                level={level}
+                timeout={toastTimeout}
+                closeButton={item.closeButton ?? closeButton}
+                onDismiss={this.handleDismissed.bind(this, items.indexOf(item))}
+                translate={translate}
+                showIcon={showIcon}
+              />
+            );
+          })}
         </div>
       );
     });

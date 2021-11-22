@@ -1,7 +1,7 @@
 import omit from 'lodash/omit';
 import {Api, ApiObject, EventTrack, fetcherResult, Payload} from '../types';
 import {fetcherConfig} from '../factory';
-import {tokenize, dataMapping} from './tpl-builtin';
+import {tokenize, dataMapping, escapeHtml} from './tpl-builtin';
 import {evalExpression} from './tpl';
 import {
   isObject,
@@ -195,11 +195,26 @@ export function str2AsyncFunction(
 }
 
 export function responseAdaptor(ret: fetcherResult, api: ApiObject) {
-  const data = ret.data;
+  let data = ret.data;
   let hasStatusField = true;
 
   if (!data) {
     throw new Error('Response is empty');
+  }
+
+  if (typeof data === 'string') {
+    try {
+      data = JSON.parse(data);
+      if (typeof data === 'undefined') {
+        throw new Error('Response should be JSON');
+      }
+    } catch (e) {
+      const responseBrief =
+        typeof data === 'string'
+          ? escapeHtml((data as string).substring(0, 100))
+          : '';
+      throw new Error(`Response should be JSON\n ${responseBrief}`);
+    }
   }
 
   // 兼容几种常见写法
@@ -247,7 +262,7 @@ export function responseAdaptor(ret: fetcherResult, api: ApiObject) {
   }
 
   if (payload.ok && api.responseData) {
-    payload.data = dataMapping(
+    const responseData = dataMapping(
       api.responseData,
 
       createObject(
@@ -261,6 +276,8 @@ export function responseAdaptor(ret: fetcherResult, api: ApiObject) {
       undefined,
       api.convertKeyToPath
     );
+    console.debug('responseData', responseData);
+    payload.data = responseData;
   }
 
   return payload;
