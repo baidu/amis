@@ -27,7 +27,7 @@ export interface CollapseSchema extends BaseSchema {
   /**
    * 标题展示位置
    */
-  titlePosition?: 'top' | 'bottom';
+  headerPosition?: 'top' | 'bottom';
 
   /**
    * 标题
@@ -75,14 +75,9 @@ export interface CollapseSchema extends BaseSchema {
   headingClassName?: string;
 
   /**
-   * 标题
-   */
-  title?: SchemaTpl;
-
-  /**
    * 收起的标题
    */
-  collapseTitle?: SchemaTpl;
+  collapseHeader?: SchemaTpl;
 
   /**
    * 控件大小
@@ -133,8 +128,10 @@ export default class Collapse extends React.Component<
       headingClassName,
       children,
       titlePosition,
+      headerPosition,
       title,
       collapseTitle,
+      collapseHeader,
       header,
       body,
       bodyClassName,
@@ -164,13 +161,13 @@ export default class Collapse extends React.Component<
         className={className}
         headingClassName={headingClassName}
         bodyClassName={bodyClassName}
-        headerPosition={titlePosition}
+        headerPosition={titlePosition || headerPosition}
         collapsable={collapsable}
         collapsed={collapsed}
         showArrow={showArrow}
         disabled={disabled}
         expandIcon={expandIcon ? render('arrow-icon', expandIcon || '', {className: cx('Collapse-icon-tranform')}) : null}
-        collapseHeader={collapseTitle ? render('heading', collapseTitle) : null}
+        collapseHeader={collapseTitle || collapseHeader ? render('heading', collapseTitle || collapseHeader) : null}
         header={render('heading', title || header || '')}
         body={children
           ? typeof children === 'function'
