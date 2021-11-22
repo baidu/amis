@@ -6,18 +6,15 @@
 
 import React from 'react';
 import {CollapseProps} from '../renderers/Collapse';
-import {SchemaCollection} from '../Schema';
 import {SchemaNode} from '../types';
 import {ClassNamesFn, themeable} from '../theme';
-import cx from 'classnames';
 
 export interface CollapseGroupProps {
-  activeKey?: Array<string | number | never> | string | number;
   defaultActiveKey?: Array<string | number | never> | string | number;
   accordion?: boolean;
   expandIcon?: SchemaNode;
   expandIconPosition?: 'left' | 'right';
-  body?: SchemaCollection;
+  body?: Array<React.ReactElement>;
   className?: string;
   classnames: ClassNamesFn;
   classPrefix: string;
@@ -31,13 +28,6 @@ class CollapseGroup extends React.Component<
   CollapseGroupProps,
   CollapseGroupState
 > {
-  static propsList: Array<string> = [
-    'className',
-    'accordion',
-    'expandIconPosition',
-    'defaultActiveKey',
-    'activeKey'
-  ];
 
   static defaultProps: Partial<CollapseGroupProps> = {
     className: '',
@@ -107,7 +97,8 @@ class CollapseGroup extends React.Component<
         id,
         collapsed,
         expandIcon: this.props.expandIcon,
-        onChange: (item: CollapseProps, collapsed: boolean) => this.collapseChange(item, collapsed)
+        propsUpdate: true,
+        onCollapse: (item: CollapseProps, collapsed: boolean) => this.collapseChange(item, collapsed)
       });
     });
   };

@@ -3,7 +3,6 @@ import {Renderer, RendererProps} from '../factory';
 import {Collapse as BasicCollapse} from '../components/Collapse';
 import {
   BaseSchema,
-  SchemaClassName,
   SchemaCollection,
   SchemaTpl,
   SchemaObject
@@ -42,7 +41,7 @@ export interface CollapseSchema extends BaseSchema {
   /**
    * 配置 Body 容器 className
    */
-  bodyClassName?: SchemaClassName;
+  bodyClassName?: string;
 
   /**
    * 是否禁用
@@ -97,7 +96,7 @@ export interface CollapseSchema extends BaseSchema {
   /**
    * 变更事件
    */
-  onChange?: (item: CollapseProps, collapsed: boolean) => void;
+  onCollapse?: (item: CollapseProps, collapsed: boolean) => void;
 }
 
 export interface CollapseProps
@@ -144,7 +143,8 @@ export default class Collapse extends React.Component<
       expandIcon,
       disabled,
       collapsed,
-      onChange
+      propsUpdate,
+      onCollapse
     } = this.props;
 
     return (
@@ -166,6 +166,7 @@ export default class Collapse extends React.Component<
         collapsed={collapsed}
         showArrow={showArrow}
         disabled={disabled}
+        propsUpdate={propsUpdate}
         expandIcon={expandIcon ? render('arrow-icon', expandIcon || '', {className: cx('Collapse-icon-tranform')}) : null}
         collapseHeader={collapseTitle || collapseHeader ? render('heading', collapseTitle || collapseHeader) : null}
         header={render('heading', title || header || '')}
@@ -176,7 +177,7 @@ export default class Collapse extends React.Component<
           : body
           ? render('body', body)
           : null}
-        onChange={onChange}
+        onCollapse={onCollapse}
       >
       </BasicCollapse>
     );

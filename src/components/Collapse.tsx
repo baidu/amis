@@ -6,7 +6,6 @@
 
 import React from 'react';
 import {ClassNamesFn, themeable} from '../theme';
-import {SchemaClassName} from '../Schema';
 import Transition, {
   EXITED,
   ENTERING,
@@ -35,7 +34,7 @@ export interface CollapseProps {
   headerPosition?: 'top' | 'bottom';
   header?: React.ReactElement;
   body: any;
-  bodyClassName?: SchemaClassName;
+  bodyClassName?: string;
   disabled?: boolean;
   collapsable?: boolean;
   collapsed?: boolean;
@@ -44,10 +43,11 @@ export interface CollapseProps {
   headingClassName?: string;
   collapseHeader?: React.ReactElement | null;
   size?: 'xs' | 'sm' | 'md' | 'lg' | 'base';
-  onChange?: (item: any, collapsed: boolean) => void;
+  onCollapse?: (item: any, collapsed: boolean) => void;
   wrapperComponent?: any;
   headingComponent?: any;
   translate?: TranslateFn;
+  propsUpdate?: boolean;
 }
 
 export interface CollapseState {
@@ -55,17 +55,6 @@ export interface CollapseState {
 }
 
 export class Collapse extends React.Component<CollapseProps, CollapseState> {
-
-  static propsList: Array<string> = [
-    'wrapperComponent',
-    'headingComponent',
-    'bodyClassName',
-    'collapsed',
-    'headingClassName',
-    'header',
-    'mountOnEnter',
-    'unmountOnExit'
-  ];
 
   static defaultProps: Partial<CollapseProps> = {
     mountOnEnter: false,
@@ -78,10 +67,11 @@ export class Collapse extends React.Component<CollapseProps, CollapseState> {
     bodyClassName: '',
     collapsable: true,
     disabled: false,
-    showArrow: true
+    showArrow: true,
+    propsUpdate: false
   };
 
-  state = {
+  state: CollapseState = {
     collapsed: false
   };
 
@@ -93,7 +83,7 @@ export class Collapse extends React.Component<CollapseProps, CollapseState> {
   }
 
   static getDerivedStateFromProps(nextProps: CollapseProps, preState: CollapseState) {
-    if (nextProps.collapsed !== preState.collapsed) {
+    if (nextProps.propsUpdate && nextProps.collapsed !== preState.collapsed) {
       return {
         collapsed: !!nextProps.collapsed
       };
@@ -109,7 +99,7 @@ export class Collapse extends React.Component<CollapseProps, CollapseState> {
     if (props.disabled || props.collapsable === false) {
       return;
     }
-    props.onChange && props.onChange(props, !this.state.collapsed);
+    props.onCollapse && props.onCollapse(props, !this.state.collapsed);
     this.setState({
       collapsed: !this.state.collapsed
     });
