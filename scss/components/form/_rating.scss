@@ -1,9 +1,9 @@
 .#{$ns}Rating {
   display: flex;
+  position: relative;
   align-items: center;
   justify-content: flex-start;
-  flex-direction: row;
-  flex-wrap: wrap;
+  flex-flow: row wrap;
 
   & > ul {
     display: flex;
@@ -11,8 +11,7 @@
     margin: unset;
     align-items: center;
     justify-content: flex-start;
-    flex-direction: row;
-    flex-wrap: wrap;
+    flex-flow: row wrap;
   }
 
   &-star {
@@ -24,10 +23,18 @@
     line-height: 1;
     cursor: pointer;
     user-select: none;
-    color: var(--Rating-void-color);
+    color: var(--Rating-inactive-color);
+
+    &-half > svg.icon,
+    & > svg.icon {
+      display: block;
+      width: px2rem(24px);
+      height: px2rem(24px);
+      top: 0;
+    }
   
     &:last-of-type {
-      margin-right: unset;
+      margin-right: 0;
     }
 
     &.is-disabled {
@@ -47,15 +54,16 @@
   }
 
   &-text {
-    font-size: var(--fontSizeBase);
+    font-size: var(--fontSizeSm);
     color: var(--text-color);
+    font-weight: var(--fontWeightNormal);
 
     &--left {
-      margin-right: var(--Rating-text-margin);
+      margin-right: var(--Rating-star-margin);
     }
 
     &--right {
-      margin-left: var(--Rating-text-margin);
+      margin-left: var(--Rating-star-margin);
     }
   }
 }

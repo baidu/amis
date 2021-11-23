@@ -69,6 +69,7 @@ import ExpandAltIcon from '../icons/expand-alt.svg';
 import CompressAltIcon from '../icons/compress-alt.svg';
 import TransparentIcon from '../icons/transparent.svg';
 import LoadingOutline from '../icons/loading-outline.svg';
+import Star from '../icons/star.svg';
 
 // 兼容原来的用法，后续不直接试用。
 
@@ -164,6 +165,7 @@ registerIcon('expand-alt', ExpandAltIcon);
 registerIcon('compress-alt', CompressAltIcon);
 registerIcon('transparent', TransparentIcon);
 registerIcon('loading-outline', LoadingOutline);
+registerIcon('star', Star);
 
 export function Icon({
   icon,

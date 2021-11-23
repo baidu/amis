@@ -8,13 +8,19 @@ import React from 'react';
 import cx from 'classnames';
 import {ClassNamesFn, themeable} from '../theme';
 
+import {isObject} from '../utils/helper';
+import {Icon} from './icons';
+
+
+export type textPositionType = 'left' | 'right';
+
 interface RatingProps {
   id?: string;
   key?: string | number;
   style?: React.CSSProperties;
   count: number;
   half: boolean;
-  char?: string | React.ReactNode;
+  char: string | React.ReactNode;
   size?: number;
   className?: string;
   charClassName?: string;
@@ -22,16 +28,15 @@ interface RatingProps {
   onChange?: (value: number) => void;
   onHoverChange?: (value: number) => void;
   value: number;
-  containerClass: string;
+  containerClass?: string;
   readOnly: boolean;
   classPrefix: string;
   disabled?: boolean;
   allowClear?: boolean;
-  voidColor?: string;
+  inactiveColor?: string;
   colors?: string | {[propName: number]: string};
-  texts?: string | {[propName: number]: string};
-  textPosition: string;
-  showScore?: boolean;
+  texts?: {[propName: number]: string};
+  textPosition?: textPositionType;
   classnames: ClassNamesFn;
 }
 
@@ -43,14 +48,13 @@ export class Rating extends React.Component<RatingProps, any> {
     allowClear: true,
     value: 0,
     count: 5,
-    char: '★',
+    char: <Icon icon="star" className="icon" />,
     colors: {
       2: '#abadb1',
       3: '#787b81',
       5: '#ffa900'
     },
-    showScore: false,
-    textPosition: 'right'
+    textPosition: 'right' as textPositionType
   };
 
   starsNode: Record<string, any>
@@ -107,8 +111,12 @@ export class Rating extends React.Component<RatingProps, any> {
     }
   }
 
+  sortKeys(map: {[propName: number]: string}) {
+    return Object.keys(map).sort((a: number | string, b: number | string) => Number(a) - Number(b));
+  }
+
   getShowColorAndText(value: number) {
-    const {colors, texts, half, showScore} = this.props;
+    const {colors, texts, half} = this.props;
 
     if (!value) return this.setState({
       showText: null
@@ -122,8 +130,8 @@ export class Rating extends React.Component<RatingProps, any> {
       value = Math.floor(value);
     }
 
-    if (colors && Object.prototype.toString.call(colors).slice(8, -1) === 'Object') {
-      const keys = Object.keys(colors).sort((a: number | string, b: number | string) => Number(a) - Number(b));
+    if (colors && isObject(colors)) {
+      const keys = this.sortKeys(colors);
       const showKey = keys.filter(item => Number(item) < value).length;
 
       const showColor = (keys[showKey] !== undefined) && colors[keys[showKey] as any];
@@ -137,8 +145,8 @@ export class Rating extends React.Component<RatingProps, any> {
       });
     }
 
-    if (!showScore && texts && Object.prototype.toString.call(texts).slice(8, -1) === 'Object') {
-      const keys = Object.keys(texts).sort((a: number | string, b: number | string) => Number(a) - Number(b));
+    if (texts && isObject(texts)) {
+      const keys = this.sortKeys(texts);
       const showKey = keys.filter(item => Number(item) < value).length;
       const showText = (keys[showKey] !== undefined) && texts[keys[showKey] as any];
       showText && this.setState({
@@ -192,10 +200,6 @@ export class Rating extends React.Component<RatingProps, any> {
 
       const tmpValue = isAtHalf ? index + 1 : index + 0.5;
 
-      // 值不变，则返回
-      if (tmpValue === this.state.hoverValue) {
-        return;
-      }
       this.getShowColorAndText(tmpValue);
       this.onHoverChange(tmpValue);
 
@@ -208,10 +212,6 @@ export class Rating extends React.Component<RatingProps, any> {
       });
     } else {
       index = index + 1;
-      // 值不变，则返回
-      if (index === this.state.hoverValue) {
-        return;
-      }
       this.onHoverChange(index);
       this.getShowColorAndText(index);
     }
@@ -317,7 +317,7 @@ export class Rating extends React.Component<RatingProps, any> {
 
   renderStars() {
     const {halfStar, stars, showColor} = this.state;
-    const {voidColor, char, half, disabled, readOnly, charClassName, classnames: cx} = this.props;
+    const {inactiveColor, char, half, disabled, readOnly, charClassName, classnames: cx} = this.props;
 
     const starMap = stars.map((star: any, i: number) => {
       const isThisHalf = half && !halfStar.hidden && halfStar.at === i;
@@ -335,7 +335,7 @@ export class Rating extends React.Component<RatingProps, any> {
           className={className}
           key={i}
           style={{
-            color: star.active ? showColor : voidColor
+            color: star.active ? showColor : inactiveColor
           }}
           onMouseOver={e => this.mouseOver(e, i)}
           onMouseMove={e => this.mouseOver(e, i)}
@@ -365,23 +365,18 @@ export class Rating extends React.Component<RatingProps, any> {
   }
 
   renderText() {
-    const {showText, value, hoverValue, isClear} = this.state;
-    const {textClassName, textPosition, showScore, classnames: cx} = this.props;
+    const {showText} = this.state;
+    const {textClassName, textPosition, classnames: cx} = this.props;
 
-    if (!showText && !showScore) return null;
-
-    function showScoreText () {
-      return hoverValue && !isClear ? hoverValue : value;
-    }
+    if (!showText) return null;
 
     return (
       <span
-        className={cx('Rating-text', {
-          [`Rating-text--${textPosition === 'left' ? 'left' : 'right'}`]: textPosition,
-          [`${textClassName}`]: textClassName
+        className={cx('Rating-text', textClassName, {
+          [`Rating-text--${textPosition === 'left' ? 'left' : 'right'}`]: textPosition
         })}
       >
-        {showScore ? showScoreText() : showText}
+        {showText}
       </span>
     );
   }
@@ -390,7 +385,7 @@ export class Rating extends React.Component<RatingProps, any> {
     const {className, textPosition, classnames: cx} = this.props;
 
     return (
-      <div className={cx('Rating', className ? className : '')}>
+      <div className={cx('Rating', className)}>
         {
           textPosition === 'left'
           ? (

@@ -1,8 +1,6 @@
 import React from 'react';
 import {FormItem, FormControlProps, FormBaseControl} from './Item';
-import Rating from '../../components/Rating';
-import { string } from 'prop-types';
-import { boolean } from 'mobx-state-tree/dist/internal';
+import Rating, {textPositionType} from '../../components/Rating';
 
 /**
  * Rating
@@ -41,7 +39,7 @@ export interface RatingControlSchema extends FormBaseControl {
   /**
    * 未被选中的星星的颜色
    */
-  voidColor?: string;
+  inactiveColor?: string;
 
   /**
    * 星星被选中时的提示文字
@@ -54,11 +52,6 @@ export interface RatingControlSchema extends FormBaseControl {
    * 文字的位置
    */
   textPosition?: string;
-
-  /**
-   * 是否显示分数
-   */
-  showScore?: boolean;
 
   /**
    * 自定义字符
@@ -101,16 +94,14 @@ export default class RatingControl extends React.Component<RatingProps, any> {
       disabled,
       onChange,
       onHoverChange,
-      size,
       allowClear,
       char,
-      voidColor,
+      inactiveColor,
       colors,
       texts,
       charClassName,
       textClassName,
       textPosition,
-      showScore,
       classnames: cx
     } = this.props;
 
@@ -125,13 +116,12 @@ export default class RatingControl extends React.Component<RatingProps, any> {
           allowClear={allowClear}
           readOnly={readOnly}
           char={char}
-          voidColor={voidColor}
+          inactiveColor={inactiveColor}
           colors={colors}
           texts={texts}
           charClassName={charClassName}
           textClassName={textClassName}
           textPosition={textPosition}
-          showScore={showScore}
           onChange={(value: number) => {
             onChange && onChange(value);
           }}
