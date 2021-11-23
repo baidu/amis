@@ -227,7 +227,7 @@ order: 24
   }
 ```
 
-另一个方法是使用 group，它能实现每行显示不同列数，可以实现更灵活的控制
+另一个方法是使用 group，它能实现每行显示不同列数，以及不同列的宽度分配情况，可以实现更灵活的控制
 
 ```schema: scope="body"
  [
@@ -259,12 +259,14 @@ order: 24
             {
               "type": "input-text",
               "name": "text3",
-              "label": "文本3"
+              "label": "文本3",
+              "columnRatio": 4
             },
             {
               "type": "input-text",
               "name": "text4",
-              "label": "文本4"
+              "label": "文本4",
+              "columnRatio": 6
             },
             {
               "type": "input-text",
