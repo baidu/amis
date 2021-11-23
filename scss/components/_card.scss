@@ -261,6 +261,9 @@
     height: 1.25rem;
     text-align: center;
     cursor: pointer;
+    .icon-ellipsis-v {
+      transform: rotate(90deg);
+    }
   }
   &-secondary {
     color: var(--Card-secondary-color);
@@ -289,7 +292,7 @@
   &-multiMedia--left, &-multiMedia--right {
     .#{$ns}Card-action-ellipsis {
       .icon-ellipsis-v {
-        transform: rotate(90deg);
+        transform: rotate(0);
       }
     }
   }

@@ -76,7 +76,7 @@ export class Card extends React.Component<CardProps, CardState> {
 
   stopPropagation(e: React.MouseEvent<any>) {
     e && e.stopPropagation();
-    // e && e.preventDefault();
+    e && e.preventDefault();
   }
 
   handleEllipsisClick(e: React.MouseEvent<any>) {
