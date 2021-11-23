@@ -11,21 +11,54 @@ import {
   noop
 } from '../utils/helper';
 import {resolveVariable} from '../utils/tpl-builtin';
-import QuickEdit from './QuickEdit';
-import PopOver from './PopOver';
+import QuickEdit, { SchemaQuickEdit } from './QuickEdit';
+import PopOver, { SchemaPopOver } from './PopOver';
 import {TableCell} from './Table';
-import Copyable from './Copyable';
+import Copyable, { SchemaCopyable } from './Copyable';
 import omit = require('lodash/omit');
 import {
   BaseSchema,
   SchemaClassName,
   SchemaExpression,
+  SchemaObject,
   SchemaTpl,
   SchemaUrlPath
 } from '../Schema';
 import {ActionSchema} from './Action';
-import {Card, CardBodyField, CardProps} from '../components/Card';
+import {Card} from '../components/Card';
 import {findDOMNode} from 'react-dom';
+
+export type CardBodyField = SchemaObject & {
+  /**
+   * 列标题
+   */
+  label: string;
+
+  /**
+   * label 类名
+   */
+  labelClassName?: SchemaClassName;
+
+  /**
+   * 绑定字段名
+   */
+  name?: string;
+
+  /**
+   * 配置查看详情功能
+   */
+  popOver?: SchemaPopOver;
+
+  /**
+   * 配置快速编辑功能
+   */
+  quickEdit?: SchemaQuickEdit;
+
+  /**
+   * 配置点击复制功能
+   */
+  copyable?: SchemaCopyable;
+};
 
 /**
  * Card 卡片渲染器。
@@ -140,8 +173,13 @@ export interface CardSchema extends BaseSchema {
 @Renderer({
   type: 'card'
 })
-export class CardRenderer extends React.Component<CardProps & RendererProps>  {
-  constructor(props: CardProps & RendererProps) {
+export class CardRenderer extends React.Component<RendererProps>  {
+  static defaultProps = {
+    actionsCount: 4,
+    blank: true
+  };
+
+  constructor(props: RendererProps) {
     super(props);
     this.handleClick = this.handleClick.bind(this);
     this.handleAction = this.handleAction.bind(this);
@@ -149,10 +187,12 @@ export class CardRenderer extends React.Component<CardProps & RendererProps>  {
     this.getPopOverContainer = this.getPopOverContainer.bind(this);
     this.handleQuickChange = this.handleQuickChange.bind(this);
   }
+
   isHaveLink() {
     const {href, itemAction, onCheck , checkOnItemClick, checkable} = this.props;
     return href || itemAction || onCheck || (checkOnItemClick && checkable);
   }
+
   handleClick(e: React.MouseEvent<HTMLDivElement>) {
     const {item, href, data, env, blank, itemAction, onAction} = this.props;
     if (href) {
@@ -516,7 +556,7 @@ export class CardRenderer extends React.Component<CardProps & RendererProps>  {
   }
 
   render() {
-    const {render, header, className, bodyClassName, ...rest} = this.props;
+    const {header, className, bodyClassName, ...rest} = this.props;
     const titleClassName = header ? header.titleClassName : undefined;
     const subTitleClassName = header ? header.subTitleClassName : undefined;
     const descriptionClassName = header ? header.descriptionClassName : undefined;

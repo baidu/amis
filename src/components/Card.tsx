@@ -1,45 +1,9 @@
 import React from 'react';
-import {IItem}  from '../store/list';
 import {isClickOnInput} from '../utils/helper';
 import {Icon} from './icons';
 import {RootClose} from '../utils/RootClose';
-import {ActionSchema} from '../renderers/Action';
 import {ClassNamesFn} from '../theme';
-
-export type CardBodyField = {
-  /**
-   * 列标题
-   */
-  label: React.ReactNode;
-
-  /**
-   * label 类名
-   */
-  labelClassName?: string;
-
-  /**
-   * 绑定字段名
-   */
-  name?: string;
-
-  /**
-   * 配置查看详情功能
-   */
-  popOver?: React.ReactNode;
-
-  /**
-   * 配置快速编辑功能
-   */
-  quickEdit?: React.ReactNode;
-
-  /**
-   * 配置点击复制功能
-   */
-  copyable?: React.ReactNode;
-};
-
 export interface CardProps {
-  onCheck: (item: IItem) => void;
   isamis?: boolean;
   className?: string;
   titleClassName?: string;
@@ -50,15 +14,13 @@ export interface CardProps {
   avatarClassName?: string;
   imageClassName?: string;
   highlightClassName?: string;
-  actionsCount?: number;
   bodyClassName?: string;
-  item: IItem;
   media?: React.ReactNode;
   mediaPosition?: 'top' | 'left' | 'right' | 'bottom';
   toolbar?: React.ReactNode;
   children?: React.ReactNode;
   extra?: React.ReactNode;
-  actions?: Array<React.ReactNode> | Array<ActionSchema>;
+  actions?: Array<React.ReactNode>;
   actionsLimit?: number;
   title?: string | JSX.Element;
   subTitle?: string | JSX.Element;
@@ -74,7 +36,7 @@ export interface CardProps {
   classnames: ClassNamesFn;
 }
 
-interface CardState {
+export interface CardState {
   isOpen: boolean;
 }
 
@@ -82,35 +44,26 @@ export class Card extends React.Component<CardProps, CardState> {
   static defaultProps: Partial<CardProps> = {
     className: '',
     avatarClassName: '',
+    avatarTextClassName: '',
     bodyClassName: '',
-    actionsCount: 4,
     titleClassName: '',
     highlightClassName: '',
     subTitleClassName: '',
     descClassName: '',
+    descriptionClassName: '',
+    imageClassName: '',
     mediaPosition: 'left'
   };
-
-  static propsList: Array<string> = [
-    'avatarClassName',
-    'bodyClassName',
-    'actionsCount',
-    'titleClassName',
-    'highlightClassName',
-    'subTitleClassName',
-    'descClassName'
-  ];
-
+  state: CardState = {
+    isOpen: false
+  };
   constructor(props: CardProps) {
     super(props);
-    this.stopPropagation = this.stopPropagation.bind(this);
+
     this.handleClick = this.handleClick.bind(this);
+    this.stopPropagation = this.stopPropagation.bind(this);
     this.handleEllipsisClick = this.handleEllipsisClick.bind(this);
     this.close = this.close.bind(this);
-
-    this.state = {
-      isOpen: false
-    };
   }
 
   handleClick(e: React.MouseEvent<HTMLDivElement>) {
