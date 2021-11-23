@@ -104,6 +104,7 @@
     border: none;
     flex-grow: 1;
     overflow: auto;
+    scroll-behavior: smooth;
     background: var(--Tabs-content-bg);
 
     > .#{$ns}AnchorNav-section {

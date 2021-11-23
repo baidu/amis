@@ -284,7 +284,7 @@ order: 35
       "labelField": "engine",
       "label": "Picker",
       "embed": true,
-      "source": "/api/sample",
+      "source": "/api/mock2/crud/tree?waitSeconds=1",
       "size": "lg",
       "value": "4,5",
       "multiple": true,

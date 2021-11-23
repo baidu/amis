@@ -344,7 +344,9 @@ export interface TransferDropDownProps
       | 'inputClassName'
       | 'className'
       | 'descriptionClassName'
-    > {}
+    > {
+  borderMode?: 'full' | 'half' | 'none';
+}
 
 class TransferDropdownRenderer extends BaseTransferRenderer<TransferDropDownProps> {
   render() {
@@ -363,7 +365,8 @@ class TransferDropdownRenderer extends BaseTransferRenderer<TransferDropDownProp
       selectMode,
       multiple,
       columns,
-      leftMode
+      leftMode,
+      borderMode
     } = this.props;
 
     // 目前 LeftOptions 没有接口可以动态加载
@@ -402,6 +405,7 @@ class TransferDropdownRenderer extends BaseTransferRenderer<TransferDropDownProp
           columns={columns}
           leftMode={leftMode}
           leftOptions={leftOptions}
+          borderMode={borderMode}
         />
 
         <Spinner overlay key="info" show={loading} />

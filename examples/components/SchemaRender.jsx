@@ -18,7 +18,7 @@ function loadEditor() {
   );
 }
 
-const viewMode = localStorage.getItem('viewMode') || 'pc';
+const viewMode = localStorage.getItem('amis-viewMode') || 'pc';
 
 export default function (schema, showCode, envOverrides) {
   if (!schema['$schema']) {
