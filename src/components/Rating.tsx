@@ -21,7 +21,6 @@ interface RatingProps {
   count: number;
   half: boolean;
   char: string | React.ReactNode;
-  size?: number;
   className?: string;
   charClassName?: string;
   textClassName?: string;
