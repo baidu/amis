@@ -879,6 +879,9 @@
       text-decoration: none;
       color: var(--icon-onHover-color);
     }
+    > svg {
+      vertical-align: -2px;
+    }
   }
 
   &-table > tbody > tr:hover .#{$ns}Table-dragBtn,
