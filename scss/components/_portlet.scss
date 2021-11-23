@@ -1,0 +1,51 @@
+.#{$ns}Portlet {
+    border: var(--Portlet-borderWidth) var(--Portlet-borderStyle) var(--Portlet-borderColor);
+    border-radius: var(--Portlet-borderRadius);
+
+    padding: var(--gap-base);
+
+    &-tab.unactive-select {
+        .is-active {
+            a:first-child,
+            &:hover > a:first-child,
+            > a:first-child:focus {
+                border: none !important;
+                color: inherit !important;
+                cursor: auto !important;
+            }
+        }
+    }
+
+    &-tab.no-divider {
+        .#{$ns}Tabs-links {
+            border-bottom: none;
+        }
+    }
+
+    .#{$ns}Tabs-pane {
+        padding: unset;
+    }
+
+    &-toolbar {
+        display: inline-flex;
+        float: right;
+        justify-content: flex-end;
+
+        .#{$ns}Button {
+            margin-left: calc(var(--gap-xs));
+        }
+    }
+
+    &-header-desc {
+        height: 100%;
+        overflow: hidden;
+        position: relative;
+        margin-left: var(--gap-base);
+    }
+}
+
+.#{$ns}Portlet.no-header {
+    .#{$ns}Portlet-tab .#{$ns}Tabs-links {
+        display: none;
+    }
+}

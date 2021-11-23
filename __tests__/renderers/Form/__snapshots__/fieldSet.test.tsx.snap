@@ -33,16 +33,32 @@ exports[`Renderer:fieldSet 1`] = `
           type="submit"
         />
         <fieldset
-          class="cxd-Collapse cxd-Collapse--collapsable no-border"
+          class="cxd-Collapse is-active no-border"
         >
+          <legend
+            class="cxd-Collapse-header bg-dark"
+          >
+            <span
+              class="cxd-Collapse-arrow"
+            />
+            <span
+              class="cxd-TplField"
+            >
+              <span>
+                <span
+                  class="text-muted"
+                />
+              </span>
+            </span>
+          </legend>
           <div
             class="cxd-Collapse-contentWrapper"
           >
             <div
-              class="cxd-Collapse-content cxd-Collapse-body bg-white"
+              class="cxd-Collapse-body bg-white"
             >
               <div
-                class="cxd-Form--horizontal"
+                class="cxd-Collapse-content cxd-Form--horizontal"
               >
                 <div
                   class="cxd-Form-item cxd-Form-item--horizontal"

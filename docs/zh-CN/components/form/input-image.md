@@ -229,7 +229,13 @@ app.listen(8080, function () {});
 }
 ```
 
-这样上传成功后，会把接口中的 `url` 变量，赋值给 `myUrl` 变量
+这样上传成功后，会把接口中的 `url` 变量，赋值给 `myUrl` 变量，这个里支持表达式，比如在前面加上域名
+
+```json
+"autoFill": {
+    "myUrl": "https://cdn.com/${filename}"
+}
+```
 
 **多选模式**
 

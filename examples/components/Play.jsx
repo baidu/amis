@@ -220,6 +220,12 @@ export default class PlayGround extends React.Component {
       copy: (content, options) => {
         copy(content, options);
         toast.success(__('System.copy'));
+      },
+      tracker(eventTrack) {
+        console.debug('eventTrack', eventTrack);
+      },
+      replaceText: {
+        AMIS_HOST: 'https://baidu.gitee.io/amis'
       }
     };
 
@@ -316,7 +322,8 @@ export default class PlayGround extends React.Component {
       theme: this.props.theme,
       locale: this.props.locale,
       affixHeader: false,
-      affixFooter: false
+      affixFooter: false,
+      useMobileUI: true
     };
 
     if (this.props.viewMode === 'mobile') {
@@ -438,6 +445,9 @@ export default class PlayGround extends React.Component {
       <CodeEditor
         value={this.state.schemaCode}
         onChange={this.handleChange}
+        options={{
+          lineNumbers: 'off'
+        }}
         // editorFactory={this.editorFactory}
         editorDidMount={this.editorDidMount}
         language="json"

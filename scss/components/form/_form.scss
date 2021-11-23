@@ -358,3 +358,51 @@
 .#{$ns}Form--quickEdit {
   min-width: var(--Form-control-widthSm);
 }
+
+.#{$ns}Form--column {
+  display: flex;
+  flex-wrap: wrap;
+  margin-left: calc(var(--Form-group-gutterWidth) / -2);
+  margin-right: calc(var(--Form-group-gutterWidth) / -2);
+  > .#{$ns}Form-item {
+    flex-grow: 1;
+    padding-left: calc(var(--Form-group-gutterWidth) / 2);
+    padding-right: calc(var(--Form-group-gutterWidth) / 2);
+  }
+}
+
+.#{$ns}Form--column-2 > .#{$ns}Form-item {
+  width: 50%;
+}
+
+.#{$ns}Form--column-3 > .#{$ns}Form-item {
+  width: 33%;
+}
+
+.#{$ns}Form--column-4 > .#{$ns}Form-item {
+  width: 25%;
+}
+
+.#{$ns}Form--column-5 > .#{$ns}Form-item {
+  width: 20%;
+}
+
+.#{$ns}Form--column-6 > .#{$ns}Form-item {
+  width: 16.6%;
+}
+
+.#{$ns}Form--column-7 > .#{$ns}Form-item {
+  width: 14.2%;
+}
+
+.#{$ns}Form--column-8 > .#{$ns}Form-item {
+  width: 12.5%;
+}
+
+.#{$ns}Form-column-9 > .#{$ns}Form-item {
+  width: 11.1%;
+}
+
+.#{$ns}Form-column-10 > .#{$ns}Form-item {
+  width: 10%;
+}

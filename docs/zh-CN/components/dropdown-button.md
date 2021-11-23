@@ -35,6 +35,37 @@ order: 44
 }
 ```
 
+## 关闭下拉菜单
+
+配置`"closeOnClick": true`可以实现点击按钮后自动关闭下拉菜单。
+
+```schema
+{
+    "type": "page",
+    "body": {
+        "type": "dropdown-button",
+        "label": "下拉菜单",
+        "closeOnClick": true,
+        "closeOnOutside": true,
+        "buttons": [
+            {
+                "type": "button",
+                "label": "按钮1",
+                "disabled": true
+            },
+            {
+                "type": "button",
+                "label": "按钮2"
+            },
+            {
+                "type": "button",
+                "label": "按钮3"
+            }
+        ]
+    }
+}
+```
+
 ## 触发方式
 
 > 1.4.0 及以上版本
@@ -79,6 +110,38 @@ order: 44
         "label": "下拉菜单",
         "trigger": "hover",
         "icon": "fa fa-home",
+        "buttons": [
+            {
+                "type": "button",
+                "label": "按钮1",
+                "disabled": true
+            },
+            {
+                "type": "button",
+                "label": "按钮2"
+            },
+            {
+                "type": "button",
+                "label": "按钮3"
+            }
+        ]
+    }
+}
+```
+
+## 只显示图标
+
+可以设置 `level` 及 `hideCaret` 来只显示图标，并配合 `tooltip` 来显示提示文字
+
+```schema
+{
+    "type": "page",
+    "body": {
+        "type": "dropdown-button",
+        "level": "link",
+        "icon": "fa fa-ellipsis-h",
+        "hideCaret": true,
+        "tooltip": "提示",
         "buttons": [
             {
                 "type": "button",
@@ -145,6 +208,7 @@ order: 44
 | buttons         | `Array<action>`    |                   | 配置下拉按钮                              |
 | iconOnly        | `boolean`          |                   | 只显示 icon                               |
 | defaultIsOpened | `boolean`          |                   | 默认是否打开                              |
-| closeOnOutside  | `boolean`          |                   | 点击外侧区域是否收起                      |
+| closeOnOutside  | `boolean`          | `true`            | 点击外侧区域是否收起                      |
+| closeOnClick    | `boolean`          | `false`           | 点击按钮后自动关闭下拉菜单                |
 | trigger         | `click` 或 `hover` | `click`           | 触发方式                                  |
 | hideCaret       | `boolean`          | false             | 隐藏下拉图标                              |

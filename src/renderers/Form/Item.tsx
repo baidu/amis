@@ -314,7 +314,7 @@ export interface FormItemProps extends RendererProps {
     submitOnChange?: boolean,
     changeImmediately?: boolean
   ) => void;
-  onBulkChange: (
+  onBulkChange?: (
     values: {[propName: string]: any},
     submitOnChange?: boolean
   ) => void;
@@ -1089,7 +1089,8 @@ export const detectProps = [
   'items',
   'showCounter',
   'minLength',
-  'maxLength'
+  'maxLength',
+  'embed'
 ];
 
 export function asFormItem(config: Omit<FormItemConfig, 'component'>) {

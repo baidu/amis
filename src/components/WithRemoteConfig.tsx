@@ -12,7 +12,12 @@ import {withStore} from './WithStore';
 import {EnvContext, RendererEnv} from '../env';
 
 import {flow, Instance, isAlive, types} from 'mobx-state-tree';
-import {buildApi, isEffectiveApi, normalizeApi} from '../utils/api';
+import {
+  buildApi,
+  isEffectiveApi,
+  normalizeApi,
+  normalizeApiResponseData
+} from '../utils/api';
 import {
   isPureVariable,
   resolveVariableAndFilter,
@@ -46,7 +51,7 @@ export const Store = types
         }
 
         if (ret.ok) {
-          const data = ret.data || {};
+          const data = normalizeApiResponseData(ret.data);
           let options = config.adaptor
             ? config.adaptor(data, component.props)
             : data;

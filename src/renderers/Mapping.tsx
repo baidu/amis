@@ -20,7 +20,8 @@ import {
   buildApi,
   isApiOutdated,
   isEffectiveApi,
-  normalizeApi
+  normalizeApi,
+  normalizeApiResponseData
 } from '../utils/api';
 
 /**
@@ -72,7 +73,7 @@ export const Store = StoreNode.named('MappingStore')
           const ret: Payload = yield env.fetcher(api, data);
 
           if (ret.ok) {
-            const data = ret.data || {};
+            const data = normalizeApiResponseData(ret.data);
             (self as any).setMap(data);
           } else {
             throw new Error(ret.msg || 'fetch error');

@@ -287,6 +287,11 @@ export interface CRUDCommonSchema extends BaseSchema {
    * 开启查询区域，会根据列元素的searchable属性值，自动生成查询条件表单
    */
   autoGenerateFilter?: boolean;
+
+  /**
+   * 内容区域占满屏幕剩余空间
+   */
+  autoFillHeight?: boolean;
 }
 
 export type CRUDCardsSchema = CRUDCommonSchema & {
@@ -366,7 +371,8 @@ export default class CRUD extends React.Component<CRUDProps, any> {
     'onInit',
     'onSaved',
     'onQuery',
-    'formStore'
+    'formStore',
+    'autoFillHeight'
   ];
   static defaultProps = {
     toolbarInline: true,
@@ -382,7 +388,8 @@ export default class CRUD extends React.Component<CRUDProps, any> {
     filterTogglable: false,
     filterDefaultVisible: true,
     loadDataOnce: false,
-    loadDataOnceFetchOnFilter: true
+    loadDataOnceFetchOnFilter: true,
+    autoFillHeight: false
   };
 
   control: any;
@@ -1795,7 +1802,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
       return null;
     }
 
-    const {render, store} = this.props;
+    const {render, store, translate: __} = this.props;
     const type = (toolbar as Schema).type || toolbar;
 
     if (type === 'bulkActions' || type === 'bulk-actions') {
@@ -1812,6 +1819,22 @@ export default class CRUD extends React.Component<CRUDProps, any> {
       return this.renderFilterToggler();
     } else if (type === 'export-csv') {
       return this.renderExportCSV(toolbar as Schema);
+    } else if (type === 'reload') {
+      let reloadButton = {
+        label: '',
+        icon: 'fa fa-sync',
+        tooltip: __('reload'),
+        tooltipPlacement: 'top',
+        type: 'button'
+      };
+      if (typeof toolbar === 'object') {
+        reloadButton = {...reloadButton, ...omit(toolbar, ['type', 'align'])};
+      }
+      return render(`toolbar/${index}`, reloadButton, {
+        onAction: () => {
+          this.reload();
+        }
+      });
     } else if (Array.isArray(toolbar)) {
       const children: Array<any> = toolbar
         .filter((toolbar: any) => isVisible(toolbar, store.filterData))
@@ -2000,6 +2023,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
       onQuery,
       autoGenerateFilter,
       onSelect,
+      autoFillHeight,
       ...rest
     } = this.props;
 
@@ -2051,6 +2075,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
             className: cx('Crud-body', bodyClassName),
             ref: this.controlRef,
             autoGenerateFilter: !filter && autoGenerateFilter,
+            autoFillHeight: autoFillHeight,
             selectable: !!(
               (this.hasBulkActionsToolbar() && this.hasBulkActions()) ||
               pickerMode

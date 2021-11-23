@@ -1,4 +1,4 @@
-import {BaseCheckboxes, BaseCheckboxesProps} from './Checkboxes';
+import {BaseSelection, BaseSelectionProps} from './Selection';
 import {themeable} from '../theme';
 import React from 'react';
 import {uncontrollable} from 'uncontrollable';
@@ -7,7 +7,7 @@ import {Option} from './Select';
 import {resolveVariable} from '../utils/tpl-builtin';
 import {localeable} from '../locale';
 
-export interface TableCheckboxesProps extends BaseCheckboxesProps {
+export interface TableSelectionProps extends BaseSelectionProps {
   columns: Array<{
     name: string;
     label: string;
@@ -25,9 +25,9 @@ export interface TableCheckboxesProps extends BaseCheckboxesProps {
   ) => JSX.Element;
 }
 
-export class TableCheckboxes extends BaseCheckboxes<TableCheckboxesProps> {
+export class TableSelection extends BaseSelection<TableSelectionProps> {
   static defaultProps = {
-    ...BaseCheckboxes.defaultProps,
+    ...BaseSelection.defaultProps,
     cellRender: (
       column: {
         name: string;
@@ -50,9 +50,16 @@ export class TableCheckboxes extends BaseCheckboxes<TableCheckboxesProps> {
   }
 
   renderTHead() {
-    const {options, classnames: cx, value, disabled, option2value} = this.props;
+    const {
+      options,
+      classnames: cx,
+      value,
+      disabled,
+      option2value,
+      multiple
+    } = this.props;
     let columns = this.getColumns();
-    let valueArray = BaseCheckboxes.value2array(value, options, option2value);
+    let valueArray = BaseSelection.value2array(value, options, option2value);
     const availableOptions = options.filter(option => !option.disabled);
     let partialChecked = false;
     let allChecked = !!availableOptions.length;
@@ -70,9 +77,10 @@ export class TableCheckboxes extends BaseCheckboxes<TableCheckboxesProps> {
     return (
       <thead>
         <tr>
-          {Array.isArray(options) && options.length ? (
+          {multiple && Array.isArray(options) && options.length ? (
             <th className={cx('Table-checkCell')}>
               <Checkbox
+                key="checkbox"
                 size="sm"
                 disabled={disabled}
                 onChange={this.toggleAll}
@@ -97,11 +105,13 @@ export class TableCheckboxes extends BaseCheckboxes<TableCheckboxesProps> {
       cellRender,
       value,
       disabled,
+      multiple,
       option2value,
-      translate: __
+      translate: __,
+      itemClassName
     } = this.props;
     const columns = this.getColumns();
-    let valueArray = BaseCheckboxes.value2array(value, options, option2value);
+    let valueArray = BaseSelection.value2array(value, options, option2value);
 
     return (
       <tbody>
@@ -113,10 +123,18 @@ export class TableCheckboxes extends BaseCheckboxes<TableCheckboxesProps> {
               <tr
                 key={rowIndex}
                 onClick={e => e.defaultPrevented || this.toggleOption(option)}
+                className={cx(
+                  itemClassName,
+                  option.className,
+                  disabled || option.disabled ? 'is-disabled' : '',
+                  !!~valueArray.indexOf(option) ? 'is-active' : ''
+                )}
               >
-                <td className={cx('Table-checkCell')}>
-                  <Checkbox size="sm" checked={checked} disabled={disabled} />
-                </td>
+                {multiple ? (
+                  <td className={cx('Table-checkCell')} key="checkbox">
+                    <Checkbox size="sm" checked={checked} disabled={disabled} />
+                  </td>
+                ) : null}
                 {columns.map((column, colIndex) => (
                   <td key={colIndex}>
                     {cellRender(column, option, colIndex, rowIndex)}
@@ -144,10 +162,11 @@ export class TableCheckboxes extends BaseCheckboxes<TableCheckboxesProps> {
       classnames: cx,
       option2value,
       itemClassName,
-      itemRender
+      itemRender,
+      multiple
     } = this.props;
 
-    let valueArray = BaseCheckboxes.value2array(value, options, option2value);
+    let valueArray = BaseSelection.value2array(value, options, option2value);
     let body: Array<React.ReactNode> = [];
 
     if (Array.isArray(options) && options.length) {
@@ -155,30 +174,32 @@ export class TableCheckboxes extends BaseCheckboxes<TableCheckboxesProps> {
         <div
           key={key}
           className={cx(
-            'TableCheckboxes-item',
+            'TableSelection-item',
             itemClassName,
             option.className,
             disabled || option.disabled ? 'is-disabled' : ''
           )}
           onClick={() => this.toggleOption(option)}
         >
-          <div className={cx('TableCheckboxes-itemLabel')}>
+          <div className={cx('TableSelection-itemLabel')}>
             {itemRender(option)}
           </div>
 
-          <Checkbox
-            size="sm"
-            checked={!!~valueArray.indexOf(option)}
-            disabled={disabled || option.disabled}
-            labelClassName={labelClassName}
-            description={option.description}
-          />
+          {multiple ? (
+            <Checkbox
+              size="sm"
+              checked={!!~valueArray.indexOf(option)}
+              disabled={disabled || option.disabled}
+              labelClassName={labelClassName}
+              description={option.description}
+            />
+          ) : null}
         </div>
       ));
     }
 
     return (
-      <div className={cx('TableCheckboxes', className)}>
+      <div className={cx('TableSelection', className)}>
         <div className={cx('Table-content')}>
           <table className={cx('Table-table')}>
             {this.renderTHead()}
@@ -192,7 +213,7 @@ export class TableCheckboxes extends BaseCheckboxes<TableCheckboxesProps> {
 
 export default themeable(
   localeable(
-    uncontrollable(TableCheckboxes, {
+    uncontrollable(TableSelection, {
       value: 'onChange'
     })
   )

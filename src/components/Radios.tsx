@@ -11,6 +11,7 @@
  *      disabled: false
  *   }
  * ]
+ *
  */
 
 import React from 'react';
@@ -48,14 +49,8 @@ export class Radios extends React.Component<RadioProps, any> {
   };
 
   toggleOption(option: Option) {
-    const {
-      value,
-      onChange,
-      valueField,
-      clearable,
-      delimiter,
-      options
-    } = this.props;
+    const {value, onChange, valueField, clearable, delimiter, options} =
+      this.props;
 
     let valueArray = value2array(value, {
       multiple: false,

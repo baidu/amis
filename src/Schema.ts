@@ -12,6 +12,7 @@ import {FormSchema} from './renderers/Form';
 import {CarouselSchema} from './renderers/Carousel';
 import {ChartSchema} from './renderers/Chart';
 import {CollapseSchema} from './renderers/Collapse';
+import {CollapseGroupSchema} from './renderers/CollapseGroup';
 import {ColorSchema} from './renderers/Color';
 import {ContainerSchema} from './renderers/Container';
 import {CRUDSchema} from './renderers/CRUD';
@@ -39,6 +40,7 @@ import {QRCodeSchema} from './renderers/QRCode';
 import {ServiceSchema} from './renderers/Service';
 import {StatusSchema} from './renderers/Status';
 import {TabsSchema} from './renderers/Tabs';
+import {PortletSchema} from './renderers/Portlet';
 import {TasksSchema} from './renderers/Tasks';
 import {VBoxSchema} from './renderers/VBox';
 import {VideoSchema} from './renderers/Video';
@@ -109,6 +111,8 @@ import {TransferControlSchema} from './renderers/Form/Transfer';
 import {TreeSelectControlSchema} from './renderers/Form/TreeSelect';
 import {UUIDControlSchema} from './renderers/Form/UUID';
 import {FormControlSchema} from './renderers/Form/Control';
+import {TransferPickerControlSchema} from './renderers/Form/TransferPicker';
+import {TabsTransferPickerControlSchema} from './renderers/Form/TabsTransferPicker';
 
 // 每加个类型，这补充一下。
 export type SchemaType =
@@ -128,6 +132,7 @@ export type SchemaType =
   | 'carousel'
   | 'chart'
   | 'collapse'
+  | 'collapse-group'
   | 'color'
   | 'container'
   | 'crud'
@@ -308,9 +313,12 @@ export type SchemaType =
   | 'multi-select'
   | 'textarea'
   | 'transfer'
+  | 'transfer-picker'
+  | 'tabs-transfer-picker'
   | 'input-tree'
   | 'tree-select'
   | 'table-view'
+  | 'portlet'
 
   // 原生 input 类型
   | 'native-date'
@@ -333,6 +341,7 @@ export type SchemaObject =
   | CarouselSchema
   | ChartSchema
   | CollapseSchema
+  | CollapseGroupSchema
   | ColorSchema
   | ContainerSchema
   | CRUDSchema
@@ -375,6 +384,7 @@ export type SchemaObject =
   | FormSchema
   | AnchorNavSchema
   | StepsSchema
+  | PortletSchema
 
   // 表单项
   | FormControlSchema
@@ -429,6 +439,8 @@ export type SchemaObject =
   | TextControlSchema
   | TextareaControlSchema
   | TransferControlSchema
+  | TransferPickerControlSchema
+  | TabsTransferPickerControlSchema
   | TreeControlSchema
   | TreeSelectControlSchema;
 
@@ -723,6 +735,11 @@ export interface BaseSchema {
    * 是否显示表达式
    */
   visibleOn?: SchemaExpression;
+
+  /**
+   * 是否使用移动端交互
+   */
+  useMobileUI?: boolean;
 }
 
 export interface Option {
