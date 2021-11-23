@@ -75,8 +75,8 @@
           cursor: move;
           position: absolute;
           left: 0;
-          top: px2rem(11px);
           display: none;
+          line-height: 0;
           > .icon, > .#{$ns}Badge > .icon {
             color: var(--icon-color);
 
