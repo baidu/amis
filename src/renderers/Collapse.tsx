@@ -92,11 +92,6 @@ export interface CollapseSchema extends BaseSchema {
    * 卡片隐藏就销毁内容。
    */
   unmountOnExit?: boolean;
-
-  /**
-   * 变更事件
-   */
-  onCollapse?: (item: CollapseProps, collapsed: boolean) => void;
 }
 
 export interface CollapseProps
