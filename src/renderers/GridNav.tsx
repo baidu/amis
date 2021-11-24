@@ -20,6 +20,11 @@ export interface ListItemSchema extends Omit<BaseSchema, 'type'> {
   clickAction?: ActionSchema;
 
   /**
+   * 跳转地址
+   */
+  link?: string;
+
+  /**
    * 图片地址
    */
   icon?: SchemaUrlPath;
@@ -111,7 +116,7 @@ export interface Column {
 export interface ListProps
   extends RendererProps,
     Omit<ListSchema, 'type' | 'className'> {
-  handleClick: (clickAction?: ActionSchema) => void;
+  handleClick: (item?: ListItemSchema) => void;
 }
 
 @Renderer({
@@ -119,9 +124,17 @@ export interface ListProps
 })
 export default class List extends React.Component<ListProps, object> {
   @autobind
-  handleClick(clickAction: ActionSchema) {
+  handleClick(item: ListItemSchema) {
     return (e: React.MouseEvent) => {
-      handleAction(e, clickAction, this.props);
+      let action = item.link
+        ? ({
+            type: 'button',
+            actionType: 'link',
+            link: item.link
+          } as ActionSchema)
+        : item.clickAction!;
+
+      handleAction(e, action, this.props);
     };
   }
 
@@ -152,7 +165,9 @@ export default class List extends React.Component<ListProps, object> {
         {list.map((item: ListItemSchema, index: number) => (
           <GridNavItem
             key={index}
-            onClick={item.clickAction && this.handleClick(item.clickAction)}
+            onClick={
+              item.clickAction || item.link ? this.handleClick(item) : undefined
+            }
             className={itemClassName}
             text={item.text}
             icon={item.icon}

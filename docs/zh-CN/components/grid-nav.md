@@ -310,7 +310,7 @@ order: 54
         "items": [
             {
                 "icon": "https://internal-amis-res.cdn.bcebos.com/images/icon-1.png",
-                "text": "跳转",
+                "text": "外部跳转",
                 "clickAction": {
                     "actionType": "url",
                     "blank": true,
@@ -330,7 +330,8 @@ order: 54
             },
             {
                 "icon": "https://internal-amis-res.cdn.bcebos.com/images/icon-1.png",
-                "text": "导航3",
+                "text": "内部跳转",
+                "link": "/docs/index"
             },
             {
                 "icon": "https://internal-amis-res.cdn.bcebos.com/images/icon-1.png",
@@ -366,6 +367,7 @@ order: 54
 | options.icon        | `string`        |            | 列表项图标                                               |
 | options.text        | `string`        |            | 列表项文案                                               |
 | options.badge       | `BadgeSchema`   |            | 列表项角标，详见 [Badge](./badge)                        |
+| options.link        | `string`        |            | 内部跳转页面地址                                         |
 | options.clickAction | `ActionSchema`  |            | 列表项点击交互 详见 [Action](./action)                   |
 
 ```
