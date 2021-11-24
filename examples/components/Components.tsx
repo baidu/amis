@@ -855,6 +855,14 @@ export const components = [
           )
       },
       {
+        label: 'GridNav 宫格导航',
+        path: '/zh-CN/components/grid-nav',
+        getComponent: () =>
+          import('../../docs/zh-CN/components/grid-nav.md').then(
+            makeMarkdownRenderer
+          )
+      },
+      {
         label: 'Json',
         path: '/zh-CN/components/json',
         getComponent: () =>

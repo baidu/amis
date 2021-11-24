@@ -319,6 +319,7 @@ export type SchemaType =
   | 'tree-select'
   | 'table-view'
   | 'portlet'
+  | 'grid-nav'
 
   // 原生 input 类型
   | 'native-date'
