@@ -16,6 +16,12 @@ import {
 } from './tpl-builtin';
 import {isObservable} from 'mobx';
 
+export function preventDefault(event: TouchEvent | Event): void {
+  if (typeof event.cancelable !== 'boolean' || event.cancelable) {
+    event.preventDefault();
+  }
+}
+
 export function isMobile() {
   return (window as any).matchMedia?.('(max-width: 768px)').matches;
 }
