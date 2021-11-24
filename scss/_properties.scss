@@ -481,6 +481,7 @@
       ) / 2 - var(--ColorPicker-borderWidth)
   );
   --ColorPicker-placeholderColor: var(--Form-input-placeholderColor);
+  --ColorPicker-boxShadow: var(--boxShadow);
 
   --Combo--horizontal-dragger-top: var(--Form-label-paddingTop);
   --Combo--horizontal-item-gap: var(--gap-xs);
