@@ -215,7 +215,7 @@ fis.match('*.html:jsx', {
 
 // 这些用了 esm
 fis.match(
-  '{echarts/extension/**.js,zrender/**.js,ansi-to-react/lib/index.js}',
+  '{echarts/extension/**.js,zrender/**.js,ansi-to-react/lib/index.js,markdown-it-html5-media/**.js}',
   {
     parser: fis.plugin('typescript', {
       sourceMap: false,

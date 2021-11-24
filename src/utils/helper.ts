@@ -16,6 +16,12 @@ import {
 } from './tpl-builtin';
 import {isObservable} from 'mobx';
 
+export function preventDefault(event: TouchEvent | Event): void {
+  if (typeof event.cancelable !== 'boolean' || event.cancelable) {
+    event.preventDefault();
+  }
+}
+
 export function isMobile() {
   return (window as any).matchMedia?.('(max-width: 768px)').matches;
 }
@@ -1705,6 +1711,14 @@ export function isClickOnInput(e: React.MouseEvent<HTMLElement>) {
     return true;
   }
   return false;
+}
+
+// 计算字符串 hash
+export function hashCode(s: string): number {
+  return s.split('').reduce((a, b) => {
+    a = (a << 5) - a + b.charCodeAt(0);
+    return a & a;
+  }, 0);
 }
 
 /**

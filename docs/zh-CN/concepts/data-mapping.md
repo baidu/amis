@@ -1371,6 +1371,33 @@ ${xxx | upperCase}
 }
 ```
 
+### substring
+
+> 1.5.0 及以上版本
+
+取字符串的一部分，第一个参数是起始，第二个参数的结束
+
+##### 基本用法
+
+下面写法将会取前两个字符
+
+```
+${xxx | substring:0:2}
+```
+
+```schema
+{
+  "type": "page",
+  "data": {
+    "text": "World"
+  },
+  "body": {
+    "type": "tpl",
+    "tpl": "Hello ${text|substring:0:2}"
+  }
+}
+```
+
 ### base64Encode
 
 base64 加密

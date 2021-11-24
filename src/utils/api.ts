@@ -11,11 +11,12 @@ import {
   qsstringify,
   cloneObject,
   createObject,
-  qsparse
+  qsparse,
+  uuid
 } from './helper';
 import isPlainObject from 'lodash/isPlainObject';
 
-const rSchema = /(?:^|raw\:)(get|post|put|delete|patch|options|head):/i;
+const rSchema = /(?:^|raw\:)(get|post|put|delete|patch|options|head|jsonp):/i;
 
 interface ApiCacheConfig extends ApiObject {
   cachedPromise: Promise<any>;
@@ -125,7 +126,7 @@ export function buildApi(
   }
 
   // get 类请求，把 data 附带到 url 上。
-  if (api.method === 'get') {
+  if (api.method === 'get' || api.method === 'jsonp') {
     if (!~raw.indexOf('$') && !api.data && autoAppend) {
       api.query = api.data = data;
     } else if (
@@ -320,6 +321,10 @@ export function wrapFetcher(
       api.data
     );
 
+    if (api.method?.toLocaleLowerCase() === 'jsonp') {
+      return wrapAdaptor(jsonpFetcher(api), api);
+    }
+
     if (typeof api.cache === 'number' && api.cache > 0) {
       const apiCache = getApiCache(api);
       return wrapAdaptor(
@@ -360,6 +365,71 @@ export function wrapAdaptor(promise: Promise<fetcherResult>, api: ApiObject) {
         })
         .then(ret => responseAdaptor(ret, api))
     : promise.then(ret => responseAdaptor(ret, api));
+}
+
+export function jsonpFetcher(api: ApiObject): Promise<fetcherResult> {
+  return new Promise((resolve, reject) => {
+    let script: HTMLScriptElement | null = document.createElement('script');
+    let src = api.url;
+
+    script.async = true;
+
+    function remove() {
+      if (script) {
+        // @ts-ignore
+        script.onload = script.onreadystatechange = script.onerror = null;
+
+        if (script.parentNode) {
+          script.parentNode.removeChild(script);
+        }
+
+        script = null;
+      }
+    }
+
+    const jsonp = api.query?.callback || 'axiosJsonpCallback' + uuid();
+    const old = (window as any)[jsonp];
+
+    (window as any)[jsonp] = function (responseData: any) {
+      (window as any)[jsonp] = old;
+
+      const response = {
+        data: responseData,
+        status: 200,
+        headers: {}
+      };
+
+      resolve(response);
+    };
+
+    const additionalParams: any = {
+      _: new Date().getTime(),
+      _callback: jsonp
+    };
+
+    src += (src.indexOf('?') >= 0 ? '&' : '?') + qsstringify(additionalParams);
+
+    // @ts-ignore IE 为script.onreadystatechange
+    script.onload = script.onreadystatechange = function () {
+      // @ts-ignore
+      if (!script.readyState || /loaded|complete/.test(script.readyState)) {
+        remove();
+      }
+    };
+
+    script.onerror = function () {
+      remove();
+      const errResponse = {
+        status: 0,
+        headers: {}
+      };
+
+      reject(errResponse);
+    };
+
+    script.src = src;
+    document.head.appendChild(script);
+  });
 }
 
 export function isApiOutdated(

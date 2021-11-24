@@ -159,6 +159,8 @@
 
     .#{$ns}Combo-itemDrager {
       padding: var(--Combo--horizontal-dragger-top) px2rem(6px) 0 0;
+      display: flex;
+      align-items: center;
     }
   }
 
@@ -224,6 +226,8 @@
       position: absolute;
       top: var(--Combo--horizontal-dragger-top);
       left: px2rem(-30px);
+      display: flex;
+      align-items: center;
     }
 
     &.is-draggable {
