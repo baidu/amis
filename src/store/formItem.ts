@@ -670,7 +670,7 @@ export const FormItemStore = StoreNode.named('FormItemStore')
           [
             {
               ...self.options[0],
-              leftOptions: spliceTree(self.options, indexes, 1, {
+              leftOptions: spliceTree(leftOptions, indexes, 1, {
                 ...option,
                 loading: false,
                 error: true
@@ -694,7 +694,7 @@ export const FormItemStore = StoreNode.named('FormItemStore')
         [
           {
             ...self.options[0],
-            leftOptions: spliceTree(self.options, indexes, 1, {
+            leftOptions: spliceTree(leftOptions, indexes, 1, {
               ...option,
               loading: false,
               loaded: true,
