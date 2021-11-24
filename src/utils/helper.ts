@@ -1707,6 +1707,14 @@ export function isClickOnInput(e: React.MouseEvent<HTMLElement>) {
   return false;
 }
 
+// 计算字符串 hash
+export function hashCode(s: string): number {
+  return s.split('').reduce((a, b) => {
+    a = (a << 5) - a + b.charCodeAt(0);
+    return a & a;
+  }, 0);
+}
+
 /**
  * 遍历 schema
  * @param json
