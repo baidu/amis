@@ -62,11 +62,12 @@
   &--icon {
     background: transparent;
     animation: spin 2s linear infinite;
-    width: var(--fontSizeLg);
-    height: var(--fontSizeLg);
+    width: 16px; // reload 那个 icon 必须用这个高宽
+    height: 16px;
     svg.icon {
-      width: var(--fontSizeLg);
-      height: var(--fontSizeLg);
+      width: 16px;
+      height: 16px;
+      top: 0;
     }
   }
 }
