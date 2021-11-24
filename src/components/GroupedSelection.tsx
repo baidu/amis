@@ -52,18 +52,17 @@ export class GroupedSelection extends BaseSelection {
         onClick={() => this.toggleOption(option)}
       >
         <div className={cx('GroupedSelection-itemLabel')}>
+          {multiple ? (
+            <Checkbox
+              size="sm"
+              checked={!!~valueArray.indexOf(option)}
+              disabled={disabled || option.disabled}
+              labelClassName={labelClassName}
+              description={option.description}
+            />
+          ) : null}
           {itemRender(option)}
         </div>
-
-        {multiple ? (
-          <Checkbox
-            size="sm"
-            checked={!!~valueArray.indexOf(option)}
-            disabled={disabled || option.disabled}
-            labelClassName={labelClassName}
-            description={option.description}
-          />
-        ) : null}
       </div>
     );
   }

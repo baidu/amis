@@ -21,6 +21,7 @@ export class TransferDropDown extends Transfer<TransferDropDownProps> {
       value,
       translate: __,
       disabled,
+      clearable,
       className,
       onChange,
       onSearch,
@@ -99,6 +100,7 @@ export class TransferDropDown extends Transfer<TransferDropDownProps> {
             onResultClick={onClick}
             placeholder={__('Select.placeholder')}
             disabled={disabled}
+            clearable={clearable}
             ref={ref}
           >
             <span className={cx('TransferDropDown-icon')}>

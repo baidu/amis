@@ -238,12 +238,6 @@ export class TreeSelection extends BaseSelection<
             </a>
           ) : null}
 
-          <div className={cx('TreeSelection-itemLabel')}>
-            {itemRender(option)}
-          </div>
-
-          {option.defer && option.loading ? <Spinner show size="sm" /> : null}
-
           {multiple && (!option.defer || option.loaded) ? (
             <Checkbox
               size="sm"
@@ -254,6 +248,12 @@ export class TreeSelection extends BaseSelection<
               description={option.description}
             />
           ) : null}
+
+          <div className={cx('TreeSelection-itemLabel')}>
+            {itemRender(option)}
+          </div>
+
+          {option.defer && option.loading ? <Spinner show size="sm" /> : null}
         </div>
         {hasChildren ? (
           <div className={cx('TreeSelection-sublist')}>

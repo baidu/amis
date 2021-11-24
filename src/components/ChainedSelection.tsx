@@ -77,10 +77,6 @@ export class ChainedSelection extends BaseSelection<
         )}
         onClick={() => this.toggleOption(option)}
       >
-        <div className={cx('ChainedSelection-itemLabel')}>
-          {itemRender(option)}
-        </div>
-
         {multiple ? (
           <Checkbox
             size="sm"
@@ -90,6 +86,10 @@ export class ChainedSelection extends BaseSelection<
             description={option.description}
           />
         ) : null}
+
+        <div className={cx('ChainedSelection-itemLabel')}>
+          {itemRender(option)}
+        </div>
       </div>
     );
   }

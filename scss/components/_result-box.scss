@@ -53,8 +53,8 @@
     @include input-clear();
     width: px2rem(26px);
     height: px2rem(26px);
-    margin: 0 px2rem(-2px);
-    margin-left: auto;
+    margin: 0;
+    margin-left: px2rem(-2px);
 
     &:hover {
       background: var(--ResultBox-value-bg);
@@ -125,5 +125,17 @@
   > input {
     padding-left: 8px;
     min-height: 24px;
+  }
+
+  &.#{$ns}TransferDropDown {
+    padding: 0;
+
+    > .#{$ns}ResultBox-value {
+      background: var(--Form-select-value-bgColor);
+
+      &:hover {
+        background: var(--Form-selectValue-onHover-bgColor);
+      }
+    }
   }
 }
