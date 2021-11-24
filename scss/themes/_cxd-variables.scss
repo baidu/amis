@@ -500,6 +500,9 @@ $R8: 50%;
   --TransferSelect-heading-borderBottom: 0;
 
   // Alert
+  --Alert-fontColor: #{$G4};
+  --Alert-title-fontColor: #{$G2};
+
   --Alert-height: #{px2rem(40px)};
   --Alert-paddingX: #{px2rem(16px)};
   --Alert-fontSize: #{$T2};
