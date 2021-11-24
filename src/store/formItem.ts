@@ -617,12 +617,104 @@ export const FormItemStore = StoreNode.named('FormItemStore')
       return json;
     });
 
+    const tryDeferLoadLeftOptions: (
+      option: any,
+      api: Api,
+      data?: object,
+      config?: fetchOptions
+    ) => Promise<Payload | null> = flow(function* (
+      option: any,
+      api: string,
+      data: object,
+      config?: fetchOptions
+    ) {
+      if (
+        self.options.length != 1 ||
+        !Array.isArray(self.options[0].leftOptions)
+      ) {
+        return;
+      }
+
+      let leftOptions = self.options[0].leftOptions as any;
+
+      const indexes = findTreeIndex(leftOptions, item => item === option);
+      if (!indexes) {
+        return;
+      }
+
+      setOptions(
+        [
+          {
+            ...self.options[0],
+            leftOptions: spliceTree(leftOptions, indexes, 1, {
+              ...option,
+              loading: true
+            })
+          }
+        ],
+        undefined,
+        data
+      );
+
+      let json = yield fetchOptions(
+        api,
+        data,
+        {
+          ...config,
+          silent: true
+        },
+        false
+      );
+      if (!json) {
+        setOptions(
+          [
+            {
+              ...self.options[0],
+              leftOptions: spliceTree(self.options, indexes, 1, {
+                ...option,
+                loading: false,
+                error: true
+              })
+            }
+          ],
+          undefined,
+          data
+        );
+        return;
+      }
+
+      let options: Array<IOption> =
+        json.data?.options ||
+        json.data.items ||
+        json.data.rows ||
+        json.data ||
+        [];
+
+      setOptions(
+        [
+          {
+            ...self.options[0],
+            leftOptions: spliceTree(self.options, indexes, 1, {
+              ...option,
+              loading: false,
+              loaded: true,
+              children: options
+            })
+          }
+        ],
+        undefined,
+        data
+      );
+
+      return json;
+    });
+
     const deferLoadOptions: (
       option: any,
       api: Api,
       data?: object,
       config?: fetchOptions
-    ) => Promise<Payload | null> = flow(function* getInitData(
+    ) => Promise<Payload | null> = flow(function* (
       option: any,
       api: string,
       data: object,
@@ -630,7 +722,7 @@ export const FormItemStore = StoreNode.named('FormItemStore')
     ) {
       const indexes = findTreeIndex(self.options, item => item === option);
       if (!indexes) {
-        return;
+        return yield tryDeferLoadLeftOptions(option, api, data, config);
       }
 
       setOptions(
