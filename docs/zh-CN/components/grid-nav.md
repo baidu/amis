@@ -311,11 +311,8 @@ order: 54
             {
                 "icon": "https://internal-amis-res.cdn.bcebos.com/images/icon-1.png",
                 "text": "外部跳转",
-                "clickAction": {
-                    "actionType": "url",
-                    "blank": true,
-                    "url": "https://www.baidu.com"
-                }
+                "link": "https://www.baidu.com",
+                "blank": true
             },
             {
                 "icon": "https://internal-amis-res.cdn.bcebos.com/images/icon-1.png",
@@ -367,7 +364,8 @@ order: 54
 | options.icon        | `string`        |            | 列表项图标                                               |
 | options.text        | `string`        |            | 列表项文案                                               |
 | options.badge       | `BadgeSchema`   |            | 列表项角标，详见 [Badge](./badge)                        |
-| options.link        | `string`        |            | 内部跳转页面地址                                         |
+| options.link        | `string`        |            | 内部页面路径或外部跳转 URL 地址，优先级高于 clickAction  |
+| options.blank       | `boolean`       |            | 是否新页面打开，link 为 url 时有效                       |
 | options.clickAction | `ActionSchema`  |            | 列表项点击交互 详见 [Action](./action)                   |
 
 ```

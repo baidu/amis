@@ -12,6 +12,7 @@ import {ActionSchema} from './Action';
 import GridNav, {GridNavDirection, GridNavItem} from '../components/GridNav';
 import {BadgeSchema} from '../components/Badge';
 import handleAction from '../utils/handleAction';
+import {validations} from '../utils/validations';
 
 export interface ListItemSchema extends Omit<BaseSchema, 'type'> {
   /**
@@ -23,6 +24,11 @@ export interface ListItemSchema extends Omit<BaseSchema, 'type'> {
    * 跳转地址
    */
   link?: string;
+
+  /**
+   * 打开方式
+   */
+  blank?: string;
 
   /**
    * 图片地址
@@ -126,15 +132,24 @@ export default class List extends React.Component<ListProps, object> {
   @autobind
   handleClick(item: ListItemSchema) {
     return (e: React.MouseEvent) => {
-      let action = item.link
-        ? ({
-            type: 'button',
-            actionType: 'link',
-            link: item.link
-          } as ActionSchema)
-        : item.clickAction!;
-
-      handleAction(e, action, this.props);
+      let action;
+      if (item.link) {
+        action = validations.isUrl({}, item.link)
+          ? {
+              type: 'button',
+              actionType: 'url',
+              url: item.link,
+              blank: item.blank
+            }
+          : {
+              type: 'button',
+              actionType: 'link',
+              link: item.link
+            };
+      } else {
+        action = item.clickAction!;
+      }
+      handleAction(e, action as ActionSchema, this.props);
     };
   }
 
