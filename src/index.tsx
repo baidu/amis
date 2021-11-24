@@ -168,6 +168,7 @@ import './renderers/Markdown';
 import './renderers/TableView';
 import './renderers/Code';
 import './renderers/WebComponent';
+import './renderers/GridNav';
 
 import Scoped, {ScopedContext} from './Scoped';
 
