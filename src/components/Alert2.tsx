@@ -6,7 +6,7 @@
 import React from 'react';
 import {ClassNamesFn, themeable} from '../theme';
 import {Icon} from './icons';
-
+import {Card} from './Card';
 export interface AlertProps {
   level: 'danger' | 'info' | 'success' | 'warning';
   className: string;
@@ -63,6 +63,7 @@ export class Alert extends React.Component<AlertProps, AlertState> {
       showCloseButton
     } = this.props;
 
+
     return this.state.show ? (
       <div className={cx('Alert', level ? `Alert--${level}` : '', className)}>
         {showCloseButton ? (
@@ -75,6 +76,17 @@ export class Alert extends React.Component<AlertProps, AlertState> {
           </button>
         ) : null}
         {children}
+        <Card
+          theme={'cxd'}
+          // classnames={cx}
+          title={'title'}
+          subTitle={'subtitle'}
+          description={'description'}
+          children={'body'}
+          // actions={['123','123']}
+          avatarText={'avatar'}
+          extra={'extra'}
+        ></Card>
       </div>
     ) : null;
   }

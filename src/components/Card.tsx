@@ -2,14 +2,13 @@ import React from 'react';
 import {isClickOnInput} from '../utils/helper';
 import {Icon} from './icons';
 import {RootClose} from '../utils/RootClose';
-import {ClassNamesFn} from '../theme';
-export interface CardProps {
-  isamis?: boolean;
+import {ClassNamesFn, themeable, ThemeProps} from '../theme';
+export interface CardProps extends ThemeProps {
   className?: string;
+  headerClassName?: string;
   titleClassName?: string;
   subTitleClassName?: string;
   descriptionClassName?: string;
-  descClassName?: string;
   avatarTextClassName?: string;
   avatarClassName?: string;
   imageClassName?: string;
@@ -20,8 +19,8 @@ export interface CardProps {
   toolbar?: React.ReactNode;
   children?: React.ReactNode;
   extra?: React.ReactNode;
-  actions?: Array<React.ReactNode>;
-  actionsLimit?: number;
+  actions?: React.ReactNode;
+  actionsEllipsis?: React.ReactNode;
   title?: string | JSX.Element;
   subTitle?: string | JSX.Element;
   subTitlePlaceholder?: string | JSX.Element;
@@ -29,11 +28,11 @@ export interface CardProps {
   descriptionPlaceholder?: string | JSX.Element;
   avatar?: string;
   avatarText?: string | JSX.Element;
-  highlight?: boolean;
   secondary?: string;
   dragging?: boolean;
   onClick?: (e: React.MouseEvent<HTMLDivElement>) => void;
   classnames: ClassNamesFn;
+  classPrefix: string;
 }
 
 export interface CardState {
@@ -44,12 +43,12 @@ export class Card extends React.Component<CardProps, CardState> {
   static defaultProps: Partial<CardProps> = {
     className: '',
     avatarClassName: '',
+    headerClassName: '',
     avatarTextClassName: '',
     bodyClassName: '',
     titleClassName: '',
     highlightClassName: '',
     subTitleClassName: '',
-    descClassName: '',
     descriptionClassName: '',
     imageClassName: '',
     mediaPosition: 'left'
@@ -94,12 +93,13 @@ export class Card extends React.Component<CardProps, CardState> {
 
   render() {
     const {
+      classPrefix: ns,
+      classnames: cx,
       className,
+      headerClassName,
       bodyClassName,
-      highlightClassName,
       titleClassName,
       subTitleClassName,
-      descClassName,
       descriptionClassName,
       avatarClassName,
       imageClassName,
@@ -108,7 +108,7 @@ export class Card extends React.Component<CardProps, CardState> {
       media,
       mediaPosition,
       actions,
-      actionsLimit,
+      actionsEllipsis,
       children,
       onClick,
       toolbar,
@@ -119,128 +119,104 @@ export class Card extends React.Component<CardProps, CardState> {
       descriptionPlaceholder,
       extra,
       secondary,
-      isamis,
       avatar,
-      avatarText,
-      highlight,
-      classnames: cx
+      avatarText
     } = this.props;
-
 
     const { isOpen } = this.state;
     let heading = null;
-    heading = (
-      <div className={cx('Card-heading', className)}>
-        {avatar ? (
-          <span
-            className={cx(
-              'Card-avtar',
-              avatarClassName
-            )}
-          >
-            <img
+    const isShowHeading = avatar || avatarText || extra || title || subTitle || subTitlePlaceholder || description || descriptionPlaceholder || toolbar;
+    if (isShowHeading) {
+      heading = (
+        <div className={cx('Card-heading', headerClassName)}>
+          {avatar ? (
+            <span
               className={cx(
-                'Card-img',
-                imageClassName
-              )}
-              src={avatar}
-            />
-          </span>
-        ) : avatarText ? (
-          <span
-            className={cx(
-              'Card-avtarText',
-              avatarTextClassName
-            )}
-          >
-            {avatarText}
-          </span>
-        ) : null}
-        <div className={cx('Card-meta')}>
-          {extra ? <div className={cx('Card-extra')}>{extra}</div> : null}
-          {highlight ? (
-            <i
-              className={cx(
-                'Card-highlight',
-                highlightClassName
-              )}
-            />
-          ) : null}
-          {title ? (
-            <div
-              className={cx(
-                'Card-title',
-                titleClassName
+                'Card-avtar',
+                avatarClassName
               )}
             >
-              {title}
-            </div>
-          ) : null}
-          {subTitle || subTitlePlaceholder ? (
-            <div
+              <img
+                className={cx(
+                  'Card-img',
+                  imageClassName
+                )}
+                src={avatar}
+              />
+            </span>
+          ) : avatarText ? (
+            <span
               className={cx(
-                'Card-subTitle',
-                subTitleClassName
+                'Card-avtarText',
+                avatarTextClassName
               )}
             >
-              {subTitle ? subTitle : subTitlePlaceholder ? subTitlePlaceholder : null}
-            </div>
+              {avatarText}
+            </span>
           ) : null}
-          {description || descriptionPlaceholder ? (
-            <div
-              className={cx(
-                'Card-desc',
-                descriptionClassName || descClassName
-              )}
-            >
-              {description ? description : descriptionPlaceholder ? descriptionPlaceholder : null}
-            </div>
-          ) : null}
+          <div className={cx('Card-meta')}>
+            {extra ? <div className={cx('Card-extra')}>{extra}</div> : null}
+            {title ? (
+              <div
+                className={cx(
+                  'Card-title',
+                  titleClassName
+                )}
+              >
+                {title}
+              </div>
+            ) : null}
+            {subTitle || subTitlePlaceholder ? (
+              <div
+                className={cx(
+                  'Card-subTitle',
+                  subTitleClassName
+                )}
+              >
+                {subTitle ? subTitle : subTitlePlaceholder ? subTitlePlaceholder : null}
+              </div>
+            ) : null}
+            {description || descriptionPlaceholder ? (
+              <div className={cx('Card-desc', descriptionClassName)}>
+                {description ? description : descriptionPlaceholder ? descriptionPlaceholder : null}
+              </div>
+            ) : null}
+          </div>
+          {toolbar}
         </div>
-        {toolbar}
-      </div>
-    );
+      );
+    }
+
     const body = children;
 
-    const avtionWraps = actions ? actions.map((option: React.ReactNode, index: Number) => {
-      if (actionsLimit && index >= actionsLimit) {
-        return <div className={cx('Card-action-menu-wrapper')} key={'action' + index}>{option}</div>;
-      } else {
-        return <div className={cx('Card-action-wrapper')} key={'action' + index}>{option}</div>;
-      }
-    }) : null;
-
-    const actionsArr = avtionWraps ? (actionsLimit ?
-      <div className={cx('Card-actions-wrapper')}>
-        {avtionWraps.filter((option: React.ReactNode, index: Number) => {
-          return index < actionsLimit;
-        })}
-        <div onClick={(e) => this.stopPropagation(e)} className={cx('Card-action-wrapper')}>
-          <div className={cx('Card-action-ellipsis')} onClick={(e: React.MouseEvent<any>) => this.handleEllipsisClick(e)}>
-            <Icon icon="ellipsis-v" className="icon" />
-          </div>
-          {isOpen ? <RootClose
-              disabled={!isOpen}
-              onRootClose={this.close}
-            >
-              {(ref: any) => {
-                return (
-                  <div ref={ref} className={cx('Card-actions-menu')}>
-                    {avtionWraps.filter((option: React.ReactNode, index: Number) => {
-                      return index >= actionsLimit;
-                    })}
-                  </div>
-                );
-              }}
-            </RootClose> : null}
+    const ellipsis = actionsEllipsis ?
+      <div className={cx('Card-action-wrapper')} onClick={(e) => this.stopPropagation(e)}>
+        <div className={cx('Card-action-ellipsis')} onClick={(e: React.MouseEvent<any>) => this.handleEllipsisClick(e)}>
+          <Icon icon="ellipsis-v" className="icon" />
         </div>
-      </div> : <div className={cx('Card-actions-wrapper')}>{avtionWraps}</div>) : null;
+        {isOpen ?
+          <RootClose
+            disabled={!isOpen}
+            onRootClose={this.close}
+          >
+            {(ref: any) => {
+              return <div ref={ref} className={cx('Card-actions-menu')}>
+                {actionsEllipsis}
+              </div>
+            }}
+          </RootClose> : null}
+      </div>
+    : null;
 
+    const actionsArr = actions || ellipsis ? (
+      <div className={cx('Card-actions-array')}>
+        {actions ? <div className={cx('Card-actions-wrapper')}>{actions}</div> : null}
+        {ellipsis}
+      </div>
+    ) : null;
     return (
       <div
-        onClick={
-          onClick ? this.handleClick : undefined
-        }
+        onClick={this.handleClick}
         className={cx('Card', className, {
           'Card--link': onClick
         })}
@@ -256,14 +232,16 @@ export class Card extends React.Component<CardProps, CardState> {
               ) : null}
               {heading}
               {body ? (
-                <div className={cx('Card-body', bodyClassName, isamis ? '' : 'Card-body-cmpt')}>{body}</div>
+                <div className={cx('Card-body', bodyClassName)}>{body}</div>
               ) : null}
-              <div className={cx('Card-footer-wrapper')}>
-                {secondary ? (
-                  <div className={cx('Card-secondary')}>{secondary}</div>
-                ) : null}
-                {isamis ? actions : (actionsArr ? actionsArr : null)}
-              </div>
+              {secondary || actionsArr ?
+                <div className={cx('Card-footer-wrapper')}>
+                  {secondary ? (
+                    <div className={cx('Card-secondary')}>{secondary}</div>
+                  ) : null}
+                  {actionsArr}
+                </div>
+              : null}
             </div>
           </div> :
           <div>
@@ -274,14 +252,16 @@ export class Card extends React.Component<CardProps, CardState> {
             ) : null}
             {heading}
             {body ? (
-              <div className={cx('Card-body', bodyClassName, isamis ? '' : 'Card-body-cmpt')}>{body}</div>
+              <div className={cx('Card-body', bodyClassName)}>{body}</div>
             ) : null}
-            {isamis ? actions :
+            {secondary || actionsArr ?
               <div className={cx('Card-footer-wrapper')}>
-                {secondary ? <div className={cx('Card-secondary')}>{secondary}</div> : null}
-                {actionsArr ? actionsArr : null}
+                {secondary ? (
+                  <div className={cx('Card-secondary')}>{secondary}</div>
+                ) : null}
+                {actionsArr}
               </div>
-            }
+            : null}
           </div>
         }
       </div>
@@ -289,4 +269,4 @@ export class Card extends React.Component<CardProps, CardState> {
   }
 }
 
-export default Card;
+export default themeable(Card);

@@ -27,6 +27,8 @@ import {
 import {ActionSchema} from './Action';
 import {Card} from '../components/Card';
 import {findDOMNode} from 'react-dom';
+import { IItem } from '../store/list';
+import { Button } from '..';
 
 export type CardBodyField = SchemaObject & {
   /**
@@ -80,7 +82,7 @@ export interface CardSchema extends BaseSchema {
      * 标题
      */
     title?: SchemaTpl;
-    titleClassName?: string;
+    titleClassName?: SchemaClassName;
 
     /**
      * 副标题
@@ -170,17 +172,43 @@ export interface CardSchema extends BaseSchema {
   toolbar?: Array<ActionSchema>;
 }
 
+
+export interface CardProps
+  extends RendererProps,
+   Omit<CardSchema, 'className'>{
+  onCheck: (item: IItem) => void;
+  actionsCount: number;
+  itemIndex?: number;
+  multiple?: boolean;
+  blank?: boolean;
+  highlightClassName?: string;
+  hideCheckToggler?: boolean;
+  item: IItem;
+  checkOnItemClick?: boolean;
+}
 @Renderer({
   type: 'card'
 })
-export class CardRenderer extends React.Component<RendererProps>  {
+export class CardRenderer extends React.Component<CardProps>  {
   static defaultProps = {
+    className: '',
+    avatarClassName: '',
+    headerClassName: '',
+    avatarTextClassName: '',
+    bodyClassName: '',
     actionsCount: 4,
+    titleClassName: '',
+    highlightClassName: '',
+    subTitleClassName: '',
+    descClassName: '',
+    descriptionClassName: '',
+    imageClassName: '',
     blank: true
   };
 
-  constructor(props: RendererProps) {
+  constructor(props: CardProps) {
     super(props);
+
     this.handleClick = this.handleClick.bind(this);
     this.handleAction = this.handleAction.bind(this);
     this.handleCheck = this.handleCheck.bind(this);
@@ -195,6 +223,7 @@ export class CardRenderer extends React.Component<RendererProps>  {
 
   handleClick(e: React.MouseEvent<HTMLDivElement>) {
     const {item, href, data, env, blank, itemAction, onAction} = this.props;
+
     if (href) {
       env.jumpTo(filter(href, data), {
         type: 'button',
@@ -543,32 +572,52 @@ export class CardRenderer extends React.Component<RendererProps>  {
   renderHighlight() {
     const {
       data,
-      header
+      header,
+      classnames: cx
     } = this.props;
     if (header) {
       const {
+        highlightClassName,
         highlight: highlightTpl
       } = header || {};
       const highlight = !!evalExpression(highlightTpl!, data as object);
-      return highlight;
+      return highlight ? <i
+        className={cx(
+          'Card-highlight',
+          highlightClassName
+        )}
+      /> : null;
     }
     return;
   }
 
   render() {
-    const {header, className, bodyClassName, ...rest} = this.props;
-    const titleClassName = header ? header.titleClassName : undefined;
-    const subTitleClassName = header ? header.subTitleClassName : undefined;
-    const descriptionClassName = header ? header.descriptionClassName : undefined;
-    const descClassName = header ? header.descClassName : undefined;
-    const avatarTextClassName = header ? header.avatarTextClassName : undefined;
-    const avatarClassName = header ? header.avatarClassName : undefined;
-    const imageClassName = header ? header.imageClassName : undefined;
-    const highlightClassName = header ? header.highlightClassName : undefined;
+    const {
+      header,
+      className,
+      avatarClassName,
+      avatarTextClassName,
+      descClassName,
+      descriptionClassName,
+      titleClassName,
+      subTitleClassName,
+      bodyClassName,
+      imageClassName,
+      headerClassName,
+      ...rest
+    } = this.props;
+
+    const headerCn = header?.className || headerClassName;
+    const titleCn = header?.titleClassName || titleClassName;
+    const subTitleCn = header?.subTitleClassName || subTitleClassName;
+    const descCn = header?.descClassName || descClassName;
+    const descriptionCn = header?.descriptionClassName || descriptionClassName || descCn;
+    const avatarTextCn = header?.avatarTextClassName || avatarTextClassName;
+    const avatarCn = header?.avatarClassName || avatarClassName;
+    const imageCn = header?.imageClassName || imageClassName;
 
     return <Card
       {...rest}
-      isamis={true}
       title={this.rederTitle()}
       subTitle={this.renderSubTitle()}
       subTitlePlaceholder={this.renderSubTitlePlaceholder()}
@@ -579,16 +628,15 @@ export class CardRenderer extends React.Component<RendererProps>  {
       actions={this.renderActions()}
       avatar={this.renderAvatar()}
       avatarText={this.renderAvatarText()}
-      highlight={this.renderHighlight()}
-      avatarClassName={avatarClassName}
+      extra={this.renderHighlight()}
+      avatarClassName={avatarCn}
+      avatarTextClassName={avatarTextCn}
       className={className}
-      titleClassName={titleClassName}
-      subTitleClassName={subTitleClassName}
-      descriptionClassName={descriptionClassName}
-      descClassName={descClassName}
-      avatarTextClassName={avatarTextClassName}
-      imageClassName={imageClassName}
-      highlightClassName={highlightClassName}
+      titleClassName={titleCn}
+      subTitleClassName={subTitleCn}
+      descriptionClassName={descriptionCn}
+      imageClassName={imageCn}
+      headerClassName={headerCn}
       onClick={this.isHaveLink() ? this.handleClick : undefined}
     ></Card>;
   }
