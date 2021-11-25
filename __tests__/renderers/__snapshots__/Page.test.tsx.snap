@@ -1110,6 +1110,15 @@ exports[`Renderer:Page initApi error show Message 1`] = `
         <div
           className="cxd-Alert cxd-Alert--danger"
         >
+          <div
+            className="cxd-Alert-content"
+          >
+            <div
+              className="cxd-Alert-desc"
+            >
+              Internal Error
+            </div>
+          </div>
           <button
             className="cxd-Alert-close"
             onClick={[Function]}
@@ -1120,7 +1129,6 @@ exports[`Renderer:Page initApi error show Message 1`] = `
               icon="close"
             />
           </button>
-          Internal Error
         </div>
       </div>
     </div>

@@ -105,7 +105,8 @@ export class AssociatedSelection extends BaseSelection<
       disabled,
       leftMode,
       cellRender,
-      multiple
+      multiple,
+      onDeferLoad
     } = this.props;
 
     const selectdOption = BaseSelection.resolveSelected(
@@ -127,6 +128,7 @@ export class AssociatedSelection extends BaseSelection<
               onChange={this.handleLeftSelect}
               multiple={false}
               clearable={false}
+              onDeferLoad={onDeferLoad}
             />
           ) : (
             <GroupedSelecton

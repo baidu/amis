@@ -56,6 +56,7 @@ import './renderers/Form/ButtonToolbar';
 import './renderers/Breadcrumb';
 import './renderers/DropDownButton';
 import './renderers/Collapse';
+import './renderers/CollapseGroup';
 import './renderers/Color';
 import './renderers/CRUD';
 import './renderers/Pagination';
@@ -167,6 +168,7 @@ import './renderers/Markdown';
 import './renderers/TableView';
 import './renderers/Code';
 import './renderers/WebComponent';
+import './renderers/GridNav';
 
 import Scoped, {ScopedContext} from './Scoped';
 

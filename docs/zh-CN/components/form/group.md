@@ -166,6 +166,60 @@ order: 24
 }
 ```
 
+## 宽度占比
+
+在表单项内部可以通过 `columnRatio` 来控制宽度，整体是 12 等分
+
+```schema: scope="body"
+{
+  "type": "form",
+  "body": [
+    {
+      "type": "group",
+      "body": [
+        {
+          "type": "input-text",
+          "name": "text1",
+          "label": "text1",
+          "columnRatio": 8
+        },
+        {
+          "type": "input-text",
+          "name": "text2",
+          "label": "text2",
+          "columnRatio": 4
+        }
+      ]
+    },
+    {
+        "type": "divider"
+    },
+    {
+      "type": "group",
+      "body": [
+        {
+          "type": "input-text",
+          "name": "text1",
+          "label": "text1",
+          "columnRatio": 6
+        },
+        {
+          "type": "input-text",
+          "name": "text2",
+          "label": "text2",
+          "columnRatio": 4
+        },
+        {
+          "type": "input-text",
+          "name": "text3",
+          "label": "text3"
+        }
+      ]
+    }
+  ]
+}
+```
+
 ## 属性表
 
 | 属性名    | 类型                        | 默认值         | 说明                                                                       |

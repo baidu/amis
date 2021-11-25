@@ -85,6 +85,74 @@ order: 31
 }
 ```
 
+## 设置头像文本
+
+如果没有 avatar，还可以通过 `avatarText` 设置头像文本
+
+```schema: scope="body"
+{
+    "type": "card",
+    "href": "https://github.com/baidu/amis",
+    "header": {
+        "title": "标题",
+        "subTitle": "副标题",
+        "description": "这是一段描述",
+        "avatarText": "AMIS"
+    },
+    "body": "这里是内容"
+}
+```
+
+> 1.5.0 及以上版本
+
+可以设置文本背景色，它会根据数据分配一个颜色，主要配合 `cards` 使用
+
+```schema
+{
+  "type": "page",
+  "data": {
+    "items": [
+      {
+        "engine": "Trident",
+        "browser": "Internet Explorer 4.0"
+      },
+      {
+        "engine": "Chrome",
+        "browser": "Chrome 44"
+      },
+      {
+        "engine": "Gecko",
+        "browser": "Firefox 1.0"
+      },
+      {
+        "engine": "Presto",
+        "browser": "Opera 10"
+      },
+      {
+        "engine": "Webkie",
+        "browser": "Safari 12"
+      }
+    ]
+  },
+  "body": {
+    "type": "cards",
+    "source": "$items",
+    "card": {
+      "header": {
+        "avatarText": "${engine|substring:0:2|upperCase}",
+        "avatarTextBackground": ["#FFB900", "#D83B01", "#B50E0E", "#E81123", "#B4009E", "#5C2D91", "#0078D7", "#00B4FF", "#008272"]
+      },
+      "body": [
+        {
+          "label": "Browser",
+          "name": "browser"
+        }
+      ]
+    }
+  }
+}
+```
+
 ## 点击卡片的行为
 
 > 1.4.0 及以上版本

@@ -1,18 +1,20 @@
 import React from 'react';
 import {isClickOnInput} from '../utils/helper';
-import {Icon} from './icons';
-import {RootClose} from '../utils/RootClose';
 import {ClassNamesFn, themeable, ThemeProps} from '../theme';
+import { PlainObject } from '../types';
 export interface CardProps extends ThemeProps {
   className?: string;
   headerClassName?: string;
   titleClassName?: string;
   subTitleClassName?: string;
   descriptionClassName?: string;
+  avatarTextStyle?: PlainObject;
   avatarTextClassName?: string;
   avatarClassName?: string;
+  secondaryClassName?: string;
   imageClassName?: string;
   bodyClassName?: string;
+  footerClassName?: string;
   media?: React.ReactNode;
   mediaPosition?: 'top' | 'left' | 'right' | 'bottom';
   toolbar?: React.ReactNode;
@@ -25,10 +27,9 @@ export interface CardProps extends ThemeProps {
   descriptionPlaceholder?: string | JSX.Element;
   avatar?: string;
   avatarText?: string | JSX.Element;
-  secondary?: string;
+  secondary?: string | JSX.Element;
   onClick?: (e: React.MouseEvent<HTMLDivElement>) => void;
   classnames: ClassNamesFn;
-  classPrefix: string;
 }
 
 export class Card extends React.Component<CardProps> {
@@ -60,7 +61,6 @@ export class Card extends React.Component<CardProps> {
 
   render() {
     const {
-      classPrefix: ns,
       classnames: cx,
       className,
       headerClassName,
@@ -69,8 +69,11 @@ export class Card extends React.Component<CardProps> {
       subTitleClassName,
       descriptionClassName,
       avatarClassName,
+      avatarTextStyle,
       imageClassName,
       avatarTextClassName,
+      secondaryClassName,
+      footerClassName,
       media,
       mediaPosition,
       actions,
@@ -113,6 +116,7 @@ export class Card extends React.Component<CardProps> {
                 'Card-avtarText',
                 avatarTextClassName
               )}
+              style={avatarTextStyle}
             >
               {avatarText}
             </span>
@@ -167,9 +171,9 @@ export class Card extends React.Component<CardProps> {
                 <div className={cx('Card-body', bodyClassName)}>{body}</div>
               ) : null}
               {secondary || actions ?
-                <div className={cx('Card-footer-wrapper')}>
+                <div className={cx('Card-footer-wrapper', footerClassName)}>
                   {secondary ? (
-                    <div className={cx('Card-secondary')}>{secondary}</div>
+                    <div className={cx('Card-secondary', secondaryClassName)}>{secondary}</div>
                   ) : null}
                   {actions ? (
                     <div className={cx('Card-actions-wrapper')}>{actions}</div>
@@ -184,9 +188,9 @@ export class Card extends React.Component<CardProps> {
               <div className={cx('Card-body', bodyClassName)}>{body}</div>
             ) : null}
             {secondary || actions ?
-              <div className={cx('Card-footer-wrapper')}>
+              <div className={cx('Card-footer-wrapper', footerClassName)}>
                 {secondary ? (
-                  <div className={cx('Card-secondary')}>{secondary}</div>
+                  <div className={cx('Card-secondary', secondaryClassName)}>{secondary}</div>
                 ) : null}
                 {actions ? (
                   <div className={cx('Card-actions-wrapper')}>{actions}</div>

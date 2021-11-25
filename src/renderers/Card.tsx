@@ -1,14 +1,14 @@
 import React from 'react';
-import {Action} from '../types';
 import {Renderer, RendererProps} from '../factory';
-import {SchemaNode, Schema} from '../types';
+import {SchemaNode, Schema, Action, PlainObject} from '../types';
 import {filter, evalExpression} from '../utils/tpl';
 import Checkbox from '../components/Checkbox';
 import {
   padArr,
   isVisible,
   isDisabled,
-  noop
+  noop,
+  hashCode
 } from '../utils/helper';
 import {resolveVariable} from '../utils/tpl-builtin';
 import QuickEdit, { SchemaQuickEdit } from './QuickEdit';
@@ -127,6 +127,7 @@ export interface CardSchema extends BaseSchema {
     avatar?: SchemaUrlPath;
 
     avatarText?: SchemaTpl;
+    avatarTextBackground?: String[];
     avatarTextClassName?: SchemaClassName;
 
     /**
@@ -194,6 +195,8 @@ export class CardRenderer extends React.Component<CardProps>  {
     className: '',
     avatarClassName: '',
     headerClassName: '',
+    footerClassName: '',
+    secondaryClassName: '',
     avatarTextClassName: '',
     bodyClassName: '',
     actionsCount: 4,
@@ -208,7 +211,6 @@ export class CardRenderer extends React.Component<CardProps>  {
 
   static propsList: Array<string> = [
     'avatarClassName',
-    'headerClassName',
     'avatarTextClassName',
     'bodyClassName',
     'actionsCount',
@@ -609,6 +611,40 @@ export class CardRenderer extends React.Component<CardProps>  {
     return;
   }
 
+  renderSecondary() {
+    const {
+      render,
+      data,
+      secondary: secondaryTextTpl
+    } = this.props;
+
+    const secondary = filter(secondaryTextTpl, data);
+    return secondary ? render('secondary', secondary) : undefined;
+  }
+
+  renderavatarTextStyle () {
+    const {
+      header,
+      data
+    } = this.props;
+    if (header) {
+      const {
+        avatarText: avatarTextTpl,
+        avatarTextBackground
+      } = header;
+      const avatarText = filter(avatarTextTpl, data);
+      const avatarTextStyle: PlainObject = {};
+      if (avatarText && avatarTextBackground && avatarTextBackground.length) {
+        avatarTextStyle['background'] =
+          avatarTextBackground[
+            Math.abs(hashCode(avatarText)) % avatarTextBackground.length
+          ];
+      }
+      return avatarTextStyle;
+    }
+    return;
+  }
+
   render() {
     const {
       header,
@@ -622,6 +658,8 @@ export class CardRenderer extends React.Component<CardProps>  {
       bodyClassName,
       imageClassName,
       headerClassName,
+      secondaryClassName,
+      footerClassName,
       ...rest
     } = this.props;
 
@@ -645,8 +683,10 @@ export class CardRenderer extends React.Component<CardProps>  {
       actions={this.renderActions()}
       avatar={this.renderAvatar()}
       avatarText={this.renderAvatarText()}
+      secondary={this.renderSecondary()}
       toolbar={this.renderToolbar()}
       avatarClassName={avatarCn}
+      avatarTextStyle={this.renderavatarTextStyle()}
       avatarTextClassName={avatarTextCn}
       className={className}
       titleClassName={titleCn}
@@ -654,6 +694,8 @@ export class CardRenderer extends React.Component<CardProps>  {
       descriptionClassName={descriptionCn}
       imageClassName={imageCn}
       headerClassName={headerCn}
+      footerClassName={footerClassName}
+      secondaryClassName={secondaryClassName}
       onClick={this.isHaveLink() ? this.handleClick : undefined}
     ></Card>;
   }

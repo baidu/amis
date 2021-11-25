@@ -12,6 +12,7 @@ import {FormSchema} from './renderers/Form';
 import {CarouselSchema} from './renderers/Carousel';
 import {ChartSchema} from './renderers/Chart';
 import {CollapseSchema} from './renderers/Collapse';
+import {CollapseGroupSchema} from './renderers/CollapseGroup';
 import {ColorSchema} from './renderers/Color';
 import {ContainerSchema} from './renderers/Container';
 import {CRUDSchema} from './renderers/CRUD';
@@ -131,6 +132,7 @@ export type SchemaType =
   | 'carousel'
   | 'chart'
   | 'collapse'
+  | 'collapse-group'
   | 'color'
   | 'container'
   | 'crud'
@@ -317,6 +319,7 @@ export type SchemaType =
   | 'tree-select'
   | 'table-view'
   | 'portlet'
+  | 'grid-nav'
 
   // 原生 input 类型
   | 'native-date'
@@ -339,6 +342,7 @@ export type SchemaObject =
   | CarouselSchema
   | ChartSchema
   | CollapseSchema
+  | CollapseGroupSchema
   | ColorSchema
   | ContainerSchema
   | CRUDSchema
@@ -487,7 +491,7 @@ export interface SchemaApiObject {
   /**
    * API 发送类型
    */
-  method?: 'get' | 'post' | 'put' | 'delete' | 'patch';
+  method?: 'get' | 'post' | 'put' | 'delete' | 'patch' | 'jsonp';
 
   /**
    * API 发送目标地址

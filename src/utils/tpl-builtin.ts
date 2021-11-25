@@ -514,6 +514,12 @@ export const filters: {
     );
   },
 
+  substring: (input, start, end) => {
+    return input && typeof input === 'string'
+      ? input.substring(start, end)
+      : input;
+  },
+
   lowerCase: input =>
     input && typeof input === 'string' ? input.toLowerCase() : input,
   upperCase: input =>
