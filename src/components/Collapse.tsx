@@ -160,7 +160,8 @@ export class Collapse extends React.Component<CollapseProps, CollapseState> {
       translate: __,
       showArrow,
       expandIcon,
-      disabled
+      disabled,
+      children
     } = this.props;
 
     const finalHeader = this.state.collapsed ? header : collapseHeader || header;
@@ -206,13 +207,7 @@ export class Collapse extends React.Component<CollapseProps, CollapseState> {
               ref={this.contentRef}
             >
               <div className={cx('Collapse-body', bodyClassName)}>
-                {React.cloneElement(body as any, {
-                  ...(body as React.ReactElement).props,
-                  className: cx(
-                    'Collapse-content',
-                    (body as React.ReactElement).props.className
-                  )
-                })}
+                <div className={cx('Collapse-content')}>{body || children}</div>
               </div>
             </div>
           );
