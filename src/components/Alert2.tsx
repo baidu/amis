@@ -6,6 +6,7 @@
 import React from 'react';
 import {ClassNamesFn, themeable} from '../theme';
 import {Icon} from './icons';
+
 export interface AlertProps {
   level: 'danger' | 'info' | 'success' | 'warning';
   className: string;
@@ -61,7 +62,6 @@ export class Alert extends React.Component<AlertProps, AlertState> {
       children,
       showCloseButton
     } = this.props;
-
 
     return this.state.show ? (
       <div className={cx('Alert', level ? `Alert--${level}` : '', className)}>
