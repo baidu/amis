@@ -38,9 +38,9 @@
   }
 
   &-dragBtn {
+    display: inline-block;
     cursor: pointer;
-    float: right;
-    margin: var(--gap-sm);
+    padding: 0 var(--gap-sm);
   }
 
   &-heading {
@@ -87,16 +87,13 @@
     margin-right: calc(-1 * var(--gap-base));
     text-align: right;
   }
-
   &-highlight {
     background: var(--success);
     width: px2rem(8px);
     height: px2rem(8px);
     border-radius: 100%;
     display: inline-block;
-    position: absolute;
-    top: var(--gap-xs);
-    right: px2rem(2px);
+    margin: 0 var(--gap-sm);
   }
 
   &-body {
@@ -231,44 +228,8 @@
     justify-content: flex-end;
     flex-wrap: wrap;
   }
-  &-actions-menu {
-    position: absolute;
-    z-index: 1000;
-    top: 100%;
-    left: 0;
-    margin: 0;
-    background: var(--DropDown-menu-bg);
-    list-style: none;
-    padding: var(--DropDown-menu-paddingY) var(--DropDown-menu-paddingX);
-    border: var(--DropDown-menu-borderWidth) solid var(--DropDown-menu-borderColor);
-    border-radius: var(--DropDown-menu-borderRadius);
-    box-shadow: var(--DropDown-menu-boxShadow);
-    cursor: auto;
-  }
-  &-action-wrapper {
-    position: relative;
-    display: flex;
-    align-items: center;
-    margin: var(--gap-md);
-  }
-  &-action-menu-wrapper {
-    margin: var(--gap-md);
-  }
-  &-actions-array {
-    flex: 1;
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
-  }
-  &-action-ellipsis {
-    width: 1.5rem;
-    height: 1.5rem;
-    line-height: 1.5rem;
-    text-align: center;
-    cursor: pointer;
-    .icon-ellipsis-v {
-      transform: rotate(90deg);
-    }
+  &-checkbox {
+    margin: 0 var(--gap-sm) !important;
   }
   &-secondary {
     color: var(--Card-secondary-color);
@@ -286,17 +247,9 @@
     display: flex;
     flex-direction: column-reverse;
   }
-
   &-multiMedia--top, &-multiMedia--bottom {
     .#{$ns}Card-body {
       padding-bottom: var(--gap-md);
-    }
-  }
-  &-multiMedia--left, &-multiMedia--right {
-    .#{$ns}Card-action-ellipsis {
-      .icon-ellipsis-v {
-        transform: rotate(0);
-      }
     }
   }
   &-multiMedia--left {
@@ -320,10 +273,5 @@
   }
   &-multiMedia-flex {
     flex: 1;
-  }
-  &-extra {
-    position: absolute;
-    top: 0;
-    right: 0;
   }
 }

@@ -28,7 +28,7 @@ import {ActionSchema} from './Action';
 import {Card} from '../components/Card';
 import {findDOMNode} from 'react-dom';
 import { IItem } from '../store/list';
-import { Button } from '..';
+import { Icon } from '../components/icons';
 
 export type CardBodyField = SchemaObject & {
   /**
@@ -104,7 +104,7 @@ export interface CardSchema extends BaseSchema {
     /**
      * 描述占位类名
      */
-    descriptionClassName?: string;
+    descriptionClassName?: SchemaClassName;
 
     /**
      * @deprecated 建议用 description
@@ -171,17 +171,17 @@ export interface CardSchema extends BaseSchema {
    */
   toolbar?: Array<ActionSchema>;
 }
-
-
 export interface CardProps
   extends RendererProps,
    Omit<CardSchema, 'className'>{
   onCheck: (item: IItem) => void;
   actionsCount: number;
   itemIndex?: number;
+  dragging?: boolean;
+  selectable?: boolean;
+  selected?: boolean;
+  checkable?: boolean;
   multiple?: boolean;
-  blank?: boolean;
-  highlightClassName?: string;
   hideCheckToggler?: boolean;
   item: IItem;
   checkOnItemClick?: boolean;
@@ -292,9 +292,26 @@ export class CardRenderer extends React.Component<CardProps>  {
       hideCheckToggler,
       classnames: cx,
       toolbar,
-      render
+      render,
+      dragging,
+      data,
+      header
     } = this.props;
+
     const toolbars: Array<JSX.Element> = [];
+
+    if (header) {
+      const {
+        highlightClassName,
+        highlight: highlightTpl
+      } = header;
+      const highlight = !!evalExpression(highlightTpl!, data as object);
+      if (highlight) {
+        toolbars.push(
+          <i className={cx('Card-highlight', highlightClassName)}/>
+        );
+      }
+    }
 
     if (selectable && !hideCheckToggler) {
       toolbars.push(
@@ -325,6 +342,14 @@ export class CardRenderer extends React.Component<CardProps>  {
             }
           )
         )
+      );
+    }
+
+    if (dragging) {
+      toolbars.push(
+        <div className={cx('Card-dragBtn')}>
+          <Icon icon="drag-bar" className="icon" />
+        </div>
       );
     }
 
@@ -584,28 +609,6 @@ export class CardRenderer extends React.Component<CardProps>  {
     return;
   }
 
-  renderHighlight() {
-    const {
-      data,
-      header,
-      classnames: cx
-    } = this.props;
-    if (header) {
-      const {
-        highlightClassName,
-        highlight: highlightTpl
-      } = header || {};
-      const highlight = !!evalExpression(highlightTpl!, data as object);
-      return highlight ? <i
-        className={cx(
-          'Card-highlight',
-          highlightClassName
-        )}
-      /> : null;
-    }
-    return;
-  }
-
   render() {
     const {
       header,
@@ -638,12 +641,11 @@ export class CardRenderer extends React.Component<CardProps>  {
       subTitlePlaceholder={this.renderSubTitlePlaceholder()}
       description={this.renderDesc()}
       descriptionPlaceholder={this.renderDescPlaceholder()}
-      toolbar={this.renderToolbar()}
       children={this.renderBody()}
       actions={this.renderActions()}
       avatar={this.renderAvatar()}
       avatarText={this.renderAvatarText()}
-      extra={this.renderHighlight()}
+      toolbar={this.renderToolbar()}
       avatarClassName={avatarCn}
       avatarTextClassName={avatarTextCn}
       className={className}

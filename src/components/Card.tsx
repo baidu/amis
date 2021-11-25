@@ -12,15 +12,12 @@ export interface CardProps extends ThemeProps {
   avatarTextClassName?: string;
   avatarClassName?: string;
   imageClassName?: string;
-  highlightClassName?: string;
   bodyClassName?: string;
   media?: React.ReactNode;
   mediaPosition?: 'top' | 'left' | 'right' | 'bottom';
   toolbar?: React.ReactNode;
   children?: React.ReactNode;
-  extra?: React.ReactNode;
   actions?: React.ReactNode;
-  actionsEllipsis?: React.ReactNode;
   title?: string | JSX.Element;
   subTitle?: string | JSX.Element;
   subTitlePlaceholder?: string | JSX.Element;
@@ -29,17 +26,12 @@ export interface CardProps extends ThemeProps {
   avatar?: string;
   avatarText?: string | JSX.Element;
   secondary?: string;
-  dragging?: boolean;
   onClick?: (e: React.MouseEvent<HTMLDivElement>) => void;
   classnames: ClassNamesFn;
   classPrefix: string;
 }
 
-export interface CardState {
-  isOpen: boolean;
-}
-
-export class Card extends React.Component<CardProps, CardState> {
+export class Card extends React.Component<CardProps> {
   static defaultProps: Partial<CardProps> = {
     className: '',
     avatarClassName: '',
@@ -47,22 +39,15 @@ export class Card extends React.Component<CardProps, CardState> {
     avatarTextClassName: '',
     bodyClassName: '',
     titleClassName: '',
-    highlightClassName: '',
     subTitleClassName: '',
     descriptionClassName: '',
     imageClassName: '',
     mediaPosition: 'left'
   };
-  state: CardState = {
-    isOpen: false
-  };
+
   constructor(props: CardProps) {
     super(props);
-
     this.handleClick = this.handleClick.bind(this);
-    this.stopPropagation = this.stopPropagation.bind(this);
-    this.handleEllipsisClick = this.handleEllipsisClick.bind(this);
-    this.close = this.close.bind(this);
   }
 
   handleClick(e: React.MouseEvent<HTMLDivElement>) {
@@ -71,24 +56,6 @@ export class Card extends React.Component<CardProps, CardState> {
     }
 
     this.props.onClick && this.props.onClick(e);
-  }
-
-  stopPropagation(e: React.MouseEvent<any>) {
-    e && e.stopPropagation();
-    e && e.preventDefault();
-  }
-
-  handleEllipsisClick(e: React.MouseEvent<any>) {
-    this.stopPropagation(e);
-    this.setState({
-      isOpen: !this.state.isOpen
-    });
-  }
-
-  close() {
-    this.setState({
-      isOpen: false
-    });
   }
 
   render() {
@@ -104,11 +71,9 @@ export class Card extends React.Component<CardProps, CardState> {
       avatarClassName,
       imageClassName,
       avatarTextClassName,
-      dragging,
       media,
       mediaPosition,
       actions,
-      actionsEllipsis,
       children,
       onClick,
       toolbar,
@@ -117,15 +82,13 @@ export class Card extends React.Component<CardProps, CardState> {
       subTitlePlaceholder,
       description,
       descriptionPlaceholder,
-      extra,
       secondary,
       avatar,
       avatarText
     } = this.props;
 
-    const { isOpen } = this.state;
     let heading = null;
-    const isShowHeading = avatar || avatarText || extra || title || subTitle || subTitlePlaceholder || description || descriptionPlaceholder || toolbar;
+    const isShowHeading = avatar || avatarText || title || subTitle || subTitlePlaceholder || description || descriptionPlaceholder || toolbar;
     if (isShowHeading) {
       heading = (
         <div className={cx('Card-heading', headerClassName)}>
@@ -155,7 +118,6 @@ export class Card extends React.Component<CardProps, CardState> {
             </span>
           ) : null}
           <div className={cx('Card-meta')}>
-            {extra ? <div className={cx('Card-extra')}>{extra}</div> : null}
             {title ? (
               <div
                 className={cx(
@@ -189,31 +151,6 @@ export class Card extends React.Component<CardProps, CardState> {
 
     const body = children;
 
-    const ellipsis = actionsEllipsis ?
-      <div className={cx('Card-action-wrapper')} onClick={(e) => this.stopPropagation(e)}>
-        <div className={cx('Card-action-ellipsis')} onClick={(e: React.MouseEvent<any>) => this.handleEllipsisClick(e)}>
-          <Icon icon="ellipsis-v" className="icon" />
-        </div>
-        {isOpen ?
-          <RootClose
-            disabled={!isOpen}
-            onRootClose={this.close}
-          >
-            {(ref: any) => {
-              return <div ref={ref} className={cx('Card-actions-menu')}>
-                {actionsEllipsis}
-              </div>
-            }}
-          </RootClose> : null}
-      </div>
-    : null;
-
-    const actionsArr = actions || ellipsis ? (
-      <div className={cx('Card-actions-array')}>
-        {actions ? <div className={cx('Card-actions-wrapper')}>{actions}</div> : null}
-        {ellipsis}
-      </div>
-    ) : null;
     return (
       <div
         onClick={this.handleClick}
@@ -225,41 +162,35 @@ export class Card extends React.Component<CardProps, CardState> {
           <div className={cx(`Card-multiMedia--${mediaPosition}`)}>
             <div className={cx('Card-multiMedia')}>{media}</div>
             <div className={cx('Card-multiMedia-flex')}>
-              {dragging ? (
-                <div className={cx('Card-dragBtn')}>
-                  <Icon icon="drag-bar" className="icon" />
-                </div>
-              ) : null}
               {heading}
               {body ? (
                 <div className={cx('Card-body', bodyClassName)}>{body}</div>
               ) : null}
-              {secondary || actionsArr ?
+              {secondary || actions ?
                 <div className={cx('Card-footer-wrapper')}>
                   {secondary ? (
                     <div className={cx('Card-secondary')}>{secondary}</div>
                   ) : null}
-                  {actionsArr}
+                  {actions ? (
+                    <div className={cx('Card-actions-wrapper')}>{actions}</div>
+                  ) : null}
                 </div>
               : null}
             </div>
           </div> :
           <div>
-            {dragging ? (
-              <div className={cx('Card-dragBtn')}>
-                <Icon icon="drag-bar" className="icon" />
-              </div>
-            ) : null}
             {heading}
             {body ? (
               <div className={cx('Card-body', bodyClassName)}>{body}</div>
             ) : null}
-            {secondary || actionsArr ?
+            {secondary || actions ?
               <div className={cx('Card-footer-wrapper')}>
                 {secondary ? (
                   <div className={cx('Card-secondary')}>{secondary}</div>
                 ) : null}
-                {actionsArr}
+                {actions ? (
+                  <div className={cx('Card-actions-wrapper')}>{actions}</div>
+                ) : null}
               </div>
             : null}
           </div>
