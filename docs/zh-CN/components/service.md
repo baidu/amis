@@ -216,6 +216,32 @@ amis 中部分组件，作为展示组件，自身没有**使用接口初始化�
 
 它将`data`返回的对象作为 amis 页面配置，进行了解析渲染，实现动态渲染页面的功能。
 
+`schemaApi` 同样支持 `jsonp` 请求，完整用法请参考 amis-admin 项目。
+
+```schema: scope="body"
+{
+  "type": "service",
+  "schemaApi": "jsonp:/api/mock2/service/jsonp"
+}
+```
+
+`schemaApi接口` 返回的内容其实是一段立即执行的 js 代码。我们可以通过 `callback` 参数执行函数名，或者通过 `request._callback` 获取
+
+```js
+(function () {
+  window.axiosJsonpCallbackxxxx &&
+    window.axiosJsonpCallbackxxxx({
+      status: 0,
+      msg: '',
+      data: {
+        type: 'page',
+        title: 'jsonp 示例',
+        body: 'this is tpl from jsonp'
+      }
+    });
+})();
+```
+
 ## 动态渲染表单项
 
 默认 Service 可以通过配置`schemaApi` [动态渲染页面内容](../service#%E5%8A%A8%E6%80%81%E6%B8%B2%E6%9F%93%E9%A1%B5%E9%9D%A2)，但是如果想渲染表单项，请返回下面这种格式：
