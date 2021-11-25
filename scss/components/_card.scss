@@ -71,7 +71,7 @@
     float: left;
     margin-right: var(--gap-base);
     font-size: var(--fontSizeXl);
-    text-transform: uppercase;
+    text-transform: uppercase();
   }
 
   &-meta {
@@ -232,6 +232,7 @@
     margin: 0 var(--gap-sm) !important;
   }
   &-secondary {
+    max-width: 12.5rem;
     color: var(--Card-secondary-color);
     padding: 0 var(--gap-md);
     font-size: var(--fontSizeMd);
@@ -240,12 +241,18 @@
     overflow: hidden;
     text-overflow: ellipsis;
   }
+  &-secondary + &-actions-wrapper {
+    border-left: var(--Card-borderWidth) solid var(--Card-actions-borderColor);
+  }
   &-multiMedia--top {
     display: block;
   }
   &-multiMedia--bottom {
     display: flex;
     flex-direction: column-reverse;
+    .#{$ns}Card-actions {
+      border-bottom: var(--Card-borderWidth) solid var(--Card-actions-borderColor);
+    }
   }
   &-multiMedia--top, &-multiMedia--bottom {
     .#{$ns}Card-body {
@@ -257,8 +264,8 @@
     align-items: center;
     justify-content: space-between;
 
-    .#{$ns}Card-multiMedia {
-      padding: var(--gap-md) 0 var(--gap-md) var(--gap-md);
+    .#{$ns}Card-actions {
+      border-right: var(--Card-borderWidth) solid var(--Card-actions-borderColor);
     }
   }
   &-multiMedia--right {
@@ -267,8 +274,8 @@
     justify-content: space-between;
     flex-direction: row-reverse;
 
-    .#{$ns}Card-multiMedia {
-      padding: var(--gap-md) var(--gap-md) var(--gap-md) 0;
+    .#{$ns}Card-actions {
+      border-right: var(--Card-borderWidth) solid var(--Card-actions-borderColor);
     }
   }
   &-multiMedia-flex {
