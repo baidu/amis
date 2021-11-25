@@ -206,6 +206,21 @@ export class CardRenderer extends React.Component<CardProps>  {
     blank: true
   };
 
+  static propsList: Array<string> = [
+    'avatarClassName',
+    'headerClassName',
+    'avatarTextClassName',
+    'bodyClassName',
+    'actionsCount',
+    'titleClassName',
+    'highlightClassName',
+    'subTitleClassName',
+    'descClassName',
+    'descriptionClassName',
+    'imageClassName',
+    'hideCheckToggler'
+  ];
+
   constructor(props: CardProps) {
     super(props);
 
