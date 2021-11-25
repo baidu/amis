@@ -24,6 +24,7 @@ import ViewIcon from '../icons/view.svg';
 import RemoveIcon from '../icons/remove.svg';
 import RetryIcon from '../icons/retry.svg';
 import UploadIcon from '../icons/upload.svg';
+import DownloadIcon from '../icons/download.svg';
 import FileIcon from '../icons/file.svg';
 import StatusSuccessIcon from '../icons/status-success.svg';
 import StatusFailIcon from '../icons/status-fail.svg';
@@ -69,6 +70,10 @@ import ExpandAltIcon from '../icons/expand-alt.svg';
 import CompressAltIcon from '../icons/compress-alt.svg';
 import TransparentIcon from '../icons/transparent.svg';
 import LoadingOutline from '../icons/loading-outline.svg';
+import AlertSuccess from '../icons/alert-success.svg';
+import AlertInfo from '../icons/alert-info.svg';
+import AlertWarning from '../icons/alert-warning.svg';
+import AlertDanger from '../icons/alert-danger.svg';
 
 // 兼容原来的用法，后续不直接试用。
 
@@ -120,6 +125,7 @@ registerIcon('view', ViewIcon);
 registerIcon('remove', RemoveIcon);
 registerIcon('retry', RetryIcon);
 registerIcon('upload', UploadIcon);
+registerIcon('download', DownloadIcon);
 registerIcon('file', FileIcon);
 registerIcon('status-success', StatusSuccessIcon);
 registerIcon('status-fail', StatusFailIcon);
@@ -164,6 +170,10 @@ registerIcon('expand-alt', ExpandAltIcon);
 registerIcon('compress-alt', CompressAltIcon);
 registerIcon('transparent', TransparentIcon);
 registerIcon('loading-outline', LoadingOutline);
+registerIcon('alert-success', AlertSuccess);
+registerIcon('alert-info', AlertInfo);
+registerIcon('alert-warning', AlertWarning);
+registerIcon('alert-danger', AlertDanger);
 
 export function Icon({
   icon,

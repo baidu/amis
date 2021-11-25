@@ -91,7 +91,7 @@ const viewModes = [
 
 const docVersions = [
   {
-    label: '1.2.x',
+    label: '主干版本',
     value: '',
     url: '/zh-CN/docs/start/1-2-0'
   },
@@ -146,16 +146,16 @@ export class App extends React.PureComponent<{
   location: Location;
 }> {
   state = {
-    viewMode: localStorage.getItem('viewMode') || 'pc',
+    viewMode: localStorage.getItem('amis-viewMode') || 'pc',
     offScreen: false,
     folded: false,
     headerVisible: true,
     themes: themes,
     theme:
-      themes.find(item => item?.value === localStorage.getItem('theme')) ||
+      themes.find(item => item?.value === localStorage.getItem('amis-theme')) ||
       themes[0],
-    locale: localStorage.getItem('locale')
-      ? localStorage.getItem('locale').replace('zh-cn', 'zh-CN')
+    locale: localStorage.getItem('amis-locale')
+      ? localStorage.getItem('amis-locale').replace('zh-cn', 'zh-CN')
       : '',
     navigations: [],
     filter: '' // 导航过滤，方便找组件
@@ -195,10 +195,10 @@ export class App extends React.PureComponent<{
     }
   }
 
-  setNavigations(items) {
+  setNavigations(items: any, resetFilter = true) {
     this.setState({
       navigations: items,
-      filter: ''
+      filter: resetFilter ? '' : this.state.filter
     });
   }
 
@@ -308,7 +308,7 @@ export class App extends React.PureComponent<{
               options={locales}
               onChange={locale => {
                 this.setState({locale: locale.value});
-                localStorage.setItem('locale', locale.value);
+                localStorage.setItem('amis-locale', locale.value);
                 window.location.reload();
               }}
             />
@@ -323,7 +323,7 @@ export class App extends React.PureComponent<{
               options={this.state.themes}
               onChange={theme => {
                 this.setState({theme});
-                localStorage.setItem('theme', `${theme.value}`);
+                localStorage.setItem('amis-theme', `${theme.value}`);
                 document
                   .querySelector('body')
                   .classList[theme.value === 'dark' ? 'add' : 'remove']('dark');
@@ -340,7 +340,7 @@ export class App extends React.PureComponent<{
               options={viewModes}
               onChange={viewMode => {
                 this.setState({viewMode: viewMode.value});
-                localStorage.setItem('viewMode', viewMode.value);
+                localStorage.setItem('amis-viewMode', viewMode.value);
                 window.location.reload();
               }}
             />

@@ -138,7 +138,7 @@ order: 13
 
 - `today`: 当前日期
 - `day`或`days`: 天
-- `week`或`weeks`: 日
+- `week`或`weeks`: 周
 - `month`或`months`: 月
 - `year`或`years`: 年
 

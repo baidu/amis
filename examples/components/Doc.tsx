@@ -31,7 +31,7 @@ export default class Doc extends React.PureComponent {
 
   componentDidUpdate(preProps) {
     if (this.props.location.pathname !== preProps.location.pathname) {
-      this.props.setNavigations(DocNavCN);
+      this.props.setNavigations(DocNavCN, false);
       this.setDocFooter();
     }
   }

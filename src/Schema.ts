@@ -12,6 +12,7 @@ import {FormSchema} from './renderers/Form';
 import {CarouselSchema} from './renderers/Carousel';
 import {ChartSchema} from './renderers/Chart';
 import {CollapseSchema} from './renderers/Collapse';
+import {CollapseGroupSchema} from './renderers/CollapseGroup';
 import {ColorSchema} from './renderers/Color';
 import {ContainerSchema} from './renderers/Container';
 import {CRUDSchema} from './renderers/CRUD';
@@ -110,6 +111,8 @@ import {TransferControlSchema} from './renderers/Form/Transfer';
 import {TreeSelectControlSchema} from './renderers/Form/TreeSelect';
 import {UUIDControlSchema} from './renderers/Form/UUID';
 import {FormControlSchema} from './renderers/Form/Control';
+import {TransferPickerControlSchema} from './renderers/Form/TransferPicker';
+import {TabsTransferPickerControlSchema} from './renderers/Form/TabsTransferPicker';
 
 // 每加个类型，这补充一下。
 export type SchemaType =
@@ -129,6 +132,7 @@ export type SchemaType =
   | 'carousel'
   | 'chart'
   | 'collapse'
+  | 'collapse-group'
   | 'color'
   | 'container'
   | 'crud'
@@ -309,10 +313,13 @@ export type SchemaType =
   | 'multi-select'
   | 'textarea'
   | 'transfer'
+  | 'transfer-picker'
+  | 'tabs-transfer-picker'
   | 'input-tree'
   | 'tree-select'
   | 'table-view'
   | 'portlet'
+  | 'grid-nav'
 
   // 原生 input 类型
   | 'native-date'
@@ -335,6 +342,7 @@ export type SchemaObject =
   | CarouselSchema
   | ChartSchema
   | CollapseSchema
+  | CollapseGroupSchema
   | ColorSchema
   | ContainerSchema
   | CRUDSchema
@@ -432,6 +440,8 @@ export type SchemaObject =
   | TextControlSchema
   | TextareaControlSchema
   | TransferControlSchema
+  | TransferPickerControlSchema
+  | TabsTransferPickerControlSchema
   | TreeControlSchema
   | TreeSelectControlSchema;
 
@@ -481,7 +491,7 @@ export interface SchemaApiObject {
   /**
    * API 发送类型
    */
-  method?: 'get' | 'post' | 'put' | 'delete' | 'patch';
+  method?: 'get' | 'post' | 'put' | 'delete' | 'patch' | 'jsonp';
 
   /**
    * API 发送目标地址
@@ -726,6 +736,11 @@ export interface BaseSchema {
    * 是否显示表达式
    */
   visibleOn?: SchemaExpression;
+
+  /**
+   * 是否使用移动端交互
+   */
+  useMobileUI?: boolean;
 }
 
 export interface Option {

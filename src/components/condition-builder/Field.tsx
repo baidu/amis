@@ -1,6 +1,6 @@
 import React from 'react';
 import PopOverContainer from '../PopOverContainer';
-import ListRadios from '../ListRadios';
+import ListSelection from '../GroupedSelection';
 import ResultBox from '../ResultBox';
 import {ClassNamesFn, ThemeProps, themeable} from '../../theme';
 import {Icon} from '../icons';
@@ -90,13 +90,15 @@ export class ConditionField extends React.Component<
             {searchable ? (
               <SearchBox mini={false} onSearch={this.onSearch} />
             ) : null}
-            <ListRadios
+            <ListSelection
+              multiple={false}
               onClick={e => this.onPopClose(e, onClose)}
-              showRadio={false}
               options={this.state.options}
-              value={value}
+              value={[value]}
               option2value={option2value}
-              onChange={onChange}
+              onChange={(value: any) =>
+                onChange(Array.isArray(value) ? value[0] : value)
+              }
             />
           </>
         )}

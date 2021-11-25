@@ -18,7 +18,7 @@ function loadEditor() {
   );
 }
 
-const viewMode = localStorage.getItem('viewMode') || 'pc';
+const viewMode = localStorage.getItem('amis-viewMode') || 'pc';
 
 export default function (schema, showCode, envOverrides) {
   if (!schema['$schema']) {
@@ -125,6 +125,9 @@ export default function (schema, showCode, envOverrides) {
             return router.setRouteLeaveHook(route, nextLocation => {
               return fn(nextLocation);
             });
+          },
+          tracker(eventTrack) {
+            console.debug('eventTrack', eventTrack);
           },
           ...envOverrides
         };

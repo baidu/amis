@@ -154,43 +154,48 @@ let amisScoped = amis.embed(
     // locale: 'en-US' // props 中可以设置语言，默认是中文
   },
   {
-    // 可以不传，用来实现 ajax 请求
-    fetcher: (url, method, data, config) => {},
-
-    // 可以不传，全局 api 请求适配器
+    // 下面是一些可选的外部控制函数
+    // 在 skd 中可以不传，用来实现 ajax 请求，但在 npm 中这是必须提供的
+    // fetcher: (url, method, data, config) => {},
+    // 全局 api 请求适配器
     // 另外在 amis 配置项中的 api 也可以配置适配器，针对某个特定接口单独处理。
-    responseAdaptor(api) {
-      return api;
-    }
-
-    // 可以不传，全局 api 适配器。
+    //
+    // responseAdaptor(api) {
+    //   return api;
+    // }
+    //
+    // 全局 api 适配器。
     // 另外在 amis 配置项中的 api 也可以配置适配器，针对某个特定接口单独处理。
-    responseAdaptor(api, response, query, request) {
-      return response;
-    }
-
-    // 可以不传，用来接管页面跳转，比如用 location.href 或 window.open，或者自己实现 amis 配置更新
+    // responseAdaptor(api, response, query, request) {
+    //   return response;
+    // }
+    //
+    // 用来接管页面跳转，比如用 location.href 或 window.open，或者自己实现 amis 配置更新
     // jumpTo: to => { location.href = to; },
-
-    // 可以不传，用来实现地址栏更新
+    //
+    // 用来实现地址栏更新
     // updateLocation: (to, replace) => {},
-
-    // 可以不传，用来判断是否目标地址当前地址。
+    //
+    // 用来判断是否目标地址当前地址。
     // isCurrentUrl: url => {},
-
-    // 可以不传，用来实现复制到剪切板
+    //
+    // 用来实现复制到剪切板
     // copy: content => {},
-
-    // 可以不传，用来实现通知
+    //
+    // 用来实现通知
     // notify: (type, msg) => {},
-
-    // 可以不传，用来实现提示
+    //
+    // 用来实现提示
     // alert: content => {},
-
-    // 可以不传，用来实现确认框。
+    //
+    // 用来实现确认框。
     // confirm: content => {},
-
-    // theme: 'cxd' // 主题，默认是 default，还可以设置成 cxd 或 dark，但记得引用它们的 css，比如 sdk 目录下的 cxd.css
+    //
+    // 主题，默认是 default，还可以设置成 cxd 或 dark，但记得引用它们的 css，比如 sdk 目录下的 cxd.css
+    // theme: 'cxd'
+    //
+    // 用来实现用户行为跟踪，详细请查看左侧高级中的说明
+    // tracker: (eventTracker) => {},
   }
 );
 ```
@@ -532,6 +537,7 @@ class MyComponent extends React.Component<any, any> {
             // },
             // alert,
             // confirm,
+            // tracker: (eventTracke) => {}
           }
         )}
       </div>
@@ -540,17 +546,17 @@ class MyComponent extends React.Component<any, any> {
 }
 ```
 
-### render 函数介绍
+render 有三个参数，后面会详细说明这三个参数内的属性
 
 ```js
 (schema, props, env) => JSX.Element;
 ```
 
-#### schema
+### schema
 
 即页面配置，请前往 [配置与组件](../concepts/schema) 了解
 
-#### props
+### props
 
 一般都用不上，如果你想传递一些数据给渲染器内部使用，可以传递 data 数据进去。如：
 
@@ -580,11 +586,11 @@ class MyComponent extends React.Component<any, any> {
   );
 ```
 
-#### env
+### env
 
 环境变量，可以理解为这个渲染器工具的配置项，需要使用 amis 用户实现部分接口。他有下面若干参数：
 
-##### fetcher（必须实现）
+#### fetcher（必须实现）
 
 接口请求器，实现该函数才可以实现 ajax 发送，函数签名如下：
 
@@ -601,7 +607,7 @@ class MyComponent extends React.Component<any, any> {
 
 > 你可以使用任何你喜欢的 ajax 请求库来实现这个接口
 
-##### notify
+#### notify
 
 ```ts
 (type: string, msg: string) => void
@@ -609,7 +615,7 @@ class MyComponent extends React.Component<any, any> {
 
 用来实现消息提示。
 
-##### alert
+#### alert
 
 ```ts
 (msg: string) => void
@@ -617,7 +623,7 @@ class MyComponent extends React.Component<any, any> {
 
 用来实现警告提示。
 
-##### confirm
+#### confirm
 
 ```ts
 (msg: string) => boolean | Promise<boolean>
@@ -625,7 +631,7 @@ class MyComponent extends React.Component<any, any> {
 
 用来实现确认框。返回 boolean 值
 
-##### jumpTo
+#### jumpTo
 
 ```ts
 (to: string, action?: Action, ctx?: object) => void
@@ -633,7 +639,7 @@ class MyComponent extends React.Component<any, any> {
 
 用来实现页面跳转，因为不清楚所在环境中是否使用了 spa 模式，所以用户自己实现吧。
 
-##### updateLocation
+#### updateLocation
 
 ```ts
 (location: any, replace?: boolean) => void
@@ -641,7 +647,7 @@ class MyComponent extends React.Component<any, any> {
 
 地址替换，跟 jumpTo 类似。
 
-##### blockRouting
+#### blockRouting
 
 设置阻止路由跳转的钩子函数，用来实现 form 未保存提前离开时出现确认框。
 
@@ -649,11 +655,11 @@ class MyComponent extends React.Component<any, any> {
 (fn: (nextLocation:any) => void | string) => () => void;
 ```
 
-##### theme: string
+#### theme: string
 
 目前支持是三种主题：`default`、`cxd` 和 `dark`
 
-##### isCurrentUrl
+#### isCurrentUrl
 
 ```ts
 (link: string) => boolean;
@@ -661,7 +667,7 @@ class MyComponent extends React.Component<any, any> {
 
 判断目标地址是否为当前页面。
 
-##### copy
+#### copy
 
 ```ts
 (contents: string, options?: {silent: boolean, format?: string})
@@ -669,11 +675,15 @@ class MyComponent extends React.Component<any, any> {
 
 用来实现内容复制，其中 `format` 可以为 text/html，或 text/plain
 
-##### session
+#### tracker
+
+用户行为跟踪，请参考[这里](../extend/tracker)
+
+#### session
 
 默认为 'global'，决定 store 是否为全局共用的，如果想单占一个 store，请设置不同的值。
 
-##### getModalContainer
+#### getModalContainer
 
 ```ts
 () => HTMLElement;
@@ -681,7 +691,7 @@ class MyComponent extends React.Component<any, any> {
 
 用来决定弹框容器。
 
-##### loadRenderer
+#### loadRenderer
 
 ```ts
 (schema: any, path: string) => Promise<Function>
@@ -689,18 +699,58 @@ class MyComponent extends React.Component<any, any> {
 
 可以通过它懒加载自定义组件，比如： https://github.com/baidu/amis/blob/master/__tests__/factory.test.tsx#L64-L91。
 
-##### affixOffsetTop: number
+#### affixOffsetTop: number
 
 固顶间距，当你的有其他固顶元素时，需要设置一定的偏移量，否则会重叠。
 
-##### affixOffsetBottom: number
+#### affixOffsetBottom: number
 
 固底间距，当你的有其他固底元素时，需要设置一定的偏移量，否则会重叠。
 
-##### richTextToken: string
+#### richTextToken: string
 
 内置 rich-text 为 frolaEditor，想要使用，请自行购买，或者用免费的 Tinymce，不设置 token 默认就是 Tinymce。
 
-##### hideValidateFailedDetail: boolean
+#### hideValidateFailedDetail: boolean
 
 Form 表单验证失败时在 notify 消息提示中是否隐藏详细信息，默认展示，设置为 true 时隐藏
+
+#### replaceText
+
+> 1.5.0 及以上版本
+
+可以用来实现变量替换及多语言功能，比如下面的例子
+
+```javascript
+let amisScoped = amis.embed(
+  '#root',
+  {
+    type: 'page',
+    body: {
+      type: 'service',
+      api: 'service/api'
+    }
+  },
+  {},
+  {
+    replaceText: {
+      service: 'http://localhost'
+    },
+    replaceTextKeys: ['api']
+  }
+);
+```
+
+它会替换 `api` 里的 `service` 字符串
+
+#### replaceTextIgnoreKeys
+
+> 1.5.0 及以上版本
+
+和前面的 `replaceText` 配合使用，某些字段会禁用文本替换，默认有以下：
+
+```
+type, name, mode, target, reload
+```
+
+如果发现有字段被意外替换了，可以通过设置这个属性来避免

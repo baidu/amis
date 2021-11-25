@@ -38,21 +38,29 @@ exports[`factory unregistered Renderer 1`] = `
   <div
     class="cxd-Alert cxd-Alert--danger"
   >
-    <p>
-      Error: 找不到对应的渲染器
-    </p>
-    <p>
-      Path: 
-      my-renderer
-    </p>
-    <pre>
-      <code>
-        {
+    <div
+      class="cxd-Alert-content"
+    >
+      <div
+        class="cxd-Alert-desc"
+      >
+        <p>
+          Error: 找不到对应的渲染器
+        </p>
+        <p>
+          Path: 
+          my-renderer
+        </p>
+        <pre>
+          <code>
+            {
   "type": "my-renderer",
   "a": 23
 }
-      </code>
-    </pre>
+          </code>
+        </pre>
+      </div>
+    </div>
   </div>
 </div>
 `;

@@ -213,13 +213,21 @@ export default class PlayGround extends React.Component {
         return response;
       },
       isCancel: value => axios.isCancel(value),
-      notify: (type, msg) =>
-        toast[type] ? toast[type](msg) : console.warn('[Notify]', type, msg),
+      notify: (type, msg, conf) =>
+        toast[type]
+          ? toast[type](msg, conf)
+          : console.warn('[Notify]', type, msg),
       alert,
       confirm,
       copy: (content, options) => {
         copy(content, options);
         toast.success(__('System.copy'));
+      },
+      tracker(eventTrack) {
+        console.debug('eventTrack', eventTrack);
+      },
+      replaceText: {
+        AMIS_HOST: 'https://baidu.gitee.io/amis'
       }
     };
 
@@ -316,7 +324,8 @@ export default class PlayGround extends React.Component {
       theme: this.props.theme,
       locale: this.props.locale,
       affixHeader: false,
-      affixFooter: false
+      affixFooter: false,
+      useMobileUI: true
     };
 
     if (this.props.viewMode === 'mobile') {
@@ -438,6 +447,9 @@ export default class PlayGround extends React.Component {
       <CodeEditor
         value={this.state.schemaCode}
         onChange={this.handleChange}
+        options={{
+          lineNumbers: 'off'
+        }}
         // editorFactory={this.editorFactory}
         editorDidMount={this.editorDidMount}
         language="json"

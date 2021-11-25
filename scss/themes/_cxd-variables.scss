@@ -10,7 +10,7 @@ $primary: $B6;
 $success: $S6;
 $warning: $W6;
 $danger: $E6;
-$light: #1ac5ff;
+$light: #eaf6fe;
 $white: #fff;
 $secondary: $G6;
 
@@ -72,6 +72,8 @@ $R7: px2rem(16px);
 $R8: 50%;
 
 // yunshe4.0 box-shadow
+$L1: 0px 4px 6px 0px rgba(8, 14, 26, 0.06),
+  0px 1px 10px 0px rgba(8, 14, 26, 0.05), 0px 2px 4px -1px rgba(8, 14, 26, 0.04);
 
 :root {
   --borderColor: #eceff8;
@@ -237,15 +239,18 @@ $R8: 50%;
   --ColorPicker-placeholderColor: #999;
   --ColorPicker-onDisabled-bg: #f5f5f5;
   --ColorPicker-onDisabled-color: #999;
+  --ColorPicker-boxShadow: #{$L1};
 
-  --Collapse-border: #{px2rem(1px)} solid #{$G8};
-  --Collapse-border-color: #{$G8};
+  --Collapse-border: #{px2rem(1px)} solid #EBEDF5;
+  --Collapse-border-color: #EBEDF5;
   --Collapse-header-fontSize: #{$T3};
   --Collapse-header-fontWeight: #{$W3};
-  --Collapse-header-padding: #{px2rem(16px)};
-  --Collapse-header-bg: #{$G10};
-  --Collapse-header-onHover-bg: #{$G9};
+  --Collapse-header-padding: #{px2rem(14px)};
+  --Collapse-header-bg: #F6F7FA;
+  --Collapse-header-onHover-bg: #F3F9FE;
+  --Collapse-header-bg-disabled-color: #F6F7FA;
   --Collapse-header-collapsed-borderBottom: none;
+  --Collapse-header-wrapper-direction: row-reverse;
   --Collapse-content-padding: #{px2rem(16px)};
   --Collapse-content-color: #{$G4};
   --Collapse-content-fontSize: #{$T2};
@@ -507,6 +512,9 @@ $R8: 50%;
   --TransferSelect-heading-borderBottom: 0;
 
   // Alert
+  --Alert-fontColor: #{$G4};
+  --Alert-title-fontColor: #{$G2};
+
   --Alert-height: #{px2rem(40px)};
   --Alert-paddingX: #{px2rem(16px)};
   --Alert-fontSize: #{$T2};

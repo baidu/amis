@@ -51,6 +51,11 @@
     pointer-events: auto;
     border: var(--Button-borderWidth) solid var(--Button-onDisabled-borderColor);
     background: var(--Button-onDisabled-bg);
+
+    & > svg,
+    & > svg path {
+      fill: currentColor;
+    }
   }
 
   &:not(:disabled):not(.is-disabled) {

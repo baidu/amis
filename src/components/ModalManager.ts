@@ -43,7 +43,7 @@ function handleWindowKeyDown(e: Event) {
     return;
   }
   const {disabled, closeOnEsc} = modal.props;
-  if (closeOnEsc && !disabled) {
+  if (closeOnEsc && !disabled && !e.defaultPrevented) {
     modal.props.onHide(e);
   }
 }

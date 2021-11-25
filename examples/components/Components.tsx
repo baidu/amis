@@ -659,12 +659,28 @@ export const components = [
           )
       },
       {
+        label: 'TransferPicker 穿梭选择器',
+        path: '/zh-CN/components/form/transfer-picker',
+        getComponent: () =>
+          import('../../docs/zh-CN/components/form/transfer-picker.md').then(
+            makeMarkdownRenderer
+          )
+      },
+      {
         label: 'TabsTransfer 组合穿梭器',
         path: '/zh-CN/components/form/tabs-transfer',
         getComponent: () =>
           import('../../docs/zh-CN/components/form/tabs-transfer.md').then(
             makeMarkdownRenderer
           )
+      },
+      {
+        label: 'TabsTransferPicker 组合穿梭选择器',
+        path: '/zh-CN/components/form/tabs-transfer-picker',
+        getComponent: () =>
+          import(
+            '../../docs/zh-CN/components/form/tabs-transfer-picker.md'
+          ).then(makeMarkdownRenderer)
       },
       {
         label: 'InputTree 树形选择框',
@@ -835,6 +851,14 @@ export const components = [
         path: '/zh-CN/components/images',
         getComponent: () =>
           import('../../docs/zh-CN/components/images.md').then(
+            makeMarkdownRenderer
+          )
+      },
+      {
+        label: 'GridNav 宫格导航',
+        path: '/zh-CN/components/grid-nav',
+        getComponent: () =>
+          import('../../docs/zh-CN/components/grid-nav.md').then(
             makeMarkdownRenderer
           )
       },
@@ -1071,8 +1095,10 @@ export default class Components extends React.PureComponent<any> {
     this.props.setNavigations(components);
   }
 
-  componentDidUpdate() {
-    this.props.setNavigations(components);
+  componentDidUpdate(preProps: any) {
+    if (this.props.location.pathname !== preProps.location.pathname) {
+      this.props.setNavigations(components, false);
+    }
   }
 
   render() {
