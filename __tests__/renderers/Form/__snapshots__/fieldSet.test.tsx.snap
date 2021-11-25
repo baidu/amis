@@ -58,34 +58,38 @@ exports[`Renderer:fieldSet 1`] = `
               class="cxd-Collapse-body bg-white"
             >
               <div
-                class="cxd-Collapse-content cxd-Form--horizontal"
+                class="cxd-Collapse-content"
               >
                 <div
-                  class="cxd-Form-item cxd-Form-item--horizontal"
-                  data-role="form-item"
+                  class="cxd-Form--horizontal"
                 >
-                  <label
-                    class="cxd-Form-label cxd-Form-itemColumn--normal"
-                  >
-                    <span />
-                  </label>
                   <div
-                    class="cxd-Form-value"
+                    class="cxd-Form-item cxd-Form-item--horizontal"
+                    data-role="form-item"
                   >
+                    <label
+                      class="cxd-Form-label cxd-Form-itemColumn--normal"
+                    >
+                      <span />
+                    </label>
                     <div
-                      class="cxd-Form-control cxd-TextControl"
+                      class="cxd-Form-value"
                     >
                       <div
-                        class="cxd-TextControl-input"
+                        class="cxd-Form-control cxd-TextControl"
                       >
-                        <input
-                          autocomplete="off"
-                          name="text"
-                          placeholder=""
-                          size="10"
-                          type="text"
-                          value=""
-                        />
+                        <div
+                          class="cxd-TextControl-input"
+                        >
+                          <input
+                            autocomplete="off"
+                            name="text"
+                            placeholder=""
+                            size="10"
+                            type="text"
+                            value=""
+                          />
+                        </div>
                       </div>
                     </div>
                   </div>

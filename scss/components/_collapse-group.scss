@@ -1,5 +1,9 @@
 .#{$ns}CollapseGroup {
 
+  .#{$ns}Collapse:not(:last-child) {
+    border-bottom: none;
+  }
+
   &.icon-position-right {
     .#{$ns}Collapse-header {
       .#{$ns}Collapse-arrow {
