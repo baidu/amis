@@ -15,7 +15,8 @@ import {
   resolveVariable,
   isPureVariable,
   resolveVariableAndFilter,
-  tokenize
+  tokenize,
+  stripNumber
 } from 'amis-formula';
 
 export {
@@ -31,7 +32,8 @@ export {
   resolveVariable,
   isPureVariable,
   resolveVariableAndFilter,
-  tokenize
+  tokenize,
+  stripNumber
 };
 
 export function resolveMapping(
