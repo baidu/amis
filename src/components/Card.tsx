@@ -15,6 +15,7 @@ export interface CardProps extends ThemeProps {
   imageClassName?: string;
   bodyClassName?: string;
   footerClassName?: string;
+  mediaClassName?: string;
   media?: React.ReactNode;
   mediaPosition?: 'top' | 'left' | 'right' | 'bottom';
   toolbar?: React.ReactNode;
@@ -37,6 +38,9 @@ export class Card extends React.Component<CardProps> {
     className: '',
     avatarClassName: '',
     headerClassName: '',
+    footerClassName: '',
+    mediaClassName: '',
+    secondaryClassName: '',
     avatarTextClassName: '',
     bodyClassName: '',
     titleClassName: '',
@@ -74,6 +78,7 @@ export class Card extends React.Component<CardProps> {
       avatarTextClassName,
       secondaryClassName,
       footerClassName,
+      mediaClassName,
       media,
       mediaPosition,
       actions,
@@ -164,7 +169,7 @@ export class Card extends React.Component<CardProps> {
       >
         {media ?
           <div className={cx(`Card-multiMedia--${mediaPosition}`)}>
-            <div className={cx('Card-multiMedia')}>{media}</div>
+            <div className={cx('Card-multiMedia', mediaClassName)}>{media}</div>
             <div className={cx('Card-multiMedia-flex')}>
               {heading}
               {body ? (

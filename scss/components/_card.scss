@@ -265,7 +265,7 @@
     justify-content: space-between;
 
     .#{$ns}Card-actions {
-      border-right: var(--Card-borderWidth) solid var(--Card-actions-borderColor);
+      border-left: var(--Card-borderWidth) solid var(--Card-actions-borderColor);
     }
   }
   &-multiMedia--right {
