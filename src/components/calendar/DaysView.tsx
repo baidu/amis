@@ -5,7 +5,6 @@ import React from 'react';
 import Downshift from 'downshift';
 import {LocaleProps, localeable} from '../../locale';
 import {ClassNamesFn} from '../../theme';
-import Item from '../condition-builder/Item';
 import find from 'lodash/find';
 
 interface CustomDaysViewProps extends LocaleProps {
@@ -41,8 +40,13 @@ interface CustomDaysViewProps extends LocaleProps {
   updateSelectedDate: (event: React.MouseEvent<any>, close?: boolean) => void;
   handleClickOutside: () => void;
   classnames: ClassNamesFn;
-  schedules?: any;
-  scheduleAction?: any;
+  schedules?: Array<{
+    startTime: Date,
+    endTime: Date,
+    content: string,
+    color?: string
+  }>;
+  scheduleAction?: React.ReactElement;
   largeMode?: boolean;
 }
 
@@ -130,7 +134,7 @@ export class CustomDaysView extends DaysView {
           schedule.push(item);
         }
       });
-      if (schedule.length > 0) {
+      if (schedule.length > 0 && this.props.scheduleAction) {
         const cx = this.props.classnames;
         // 正常模式
         ScheduleIcon = <span className={cx('ScheduleCalendar-icon')} style={{backgroundColor: schedule[0].color}}></span>;

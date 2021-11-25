@@ -28,8 +28,13 @@ interface BaseDatePickerProps
     year?: number,
     date?: moment.Moment
   ) => JSX.Element;
-  schedules?: any;
-  scheduleAction?: any;
+  schedules?: Array<{
+    startTime: Date;
+    endTime: Date;
+    content: string | React.ReactElement;
+    color?: string;
+  }>;
+  scheduleAction?: React.ReactElement;
   largeMode?: boolean;
 }
 

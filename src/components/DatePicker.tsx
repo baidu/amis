@@ -278,13 +278,13 @@ export interface DateProps extends LocaleProps, ThemeProps {
   borderMode?: 'full' | 'half' | 'none';
   // 是否为内嵌模式，如果开启就不是 picker 了，直接页面点选。
   embed?: boolean;
-  schedules?: {
-    startTime: Date;
-    endTime: Date;
-    content: string | React.ReactElement;
-    color?: string;
-  }[];
-  scheduleColors?: string[];
+  schedules?: Array<{
+    startTime: Date,
+    endTime: Date,
+    content: string,
+    color?: string
+  }>;
+  scheduleColors?: Array<string>;
   scheduleAction?: React.ReactElement;
   largeMode?: boolean;
 
@@ -296,12 +296,12 @@ export interface DatePickerState {
   isOpened: boolean;
   isFocused: boolean;
   value: moment.Moment | undefined;
-  schedules?: {
+  schedules?: Array<{
     startTime: Date;
     endTime: Date;
     content: string | React.ReactElement;
     color?: string;
-  }[];
+  }>;
 }
 
 function normalizeValue(value: any, format?: string) {
