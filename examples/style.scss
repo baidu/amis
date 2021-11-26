@@ -839,6 +839,8 @@ body {
       width: 200px;
       top: 100px;
       bottom: 0;
+      overflow-y: auto;
+      overflow-x: hidden;
       border-right: 1px solid #e8ebee;
     }
   }
