@@ -43,6 +43,7 @@ import ExchangeIcon from '../icons/exchange.svg';
 import ColmunsIcon from '../icons/columns.svg';
 import CalendarIcon from '../icons/calendar.svg';
 import ClockIcon from '../icons/clock.svg';
+import TreeDownIcon from '../icons/tree-down.svg';
 
 import CopyIcon from '../icons/copy.svg';
 import FilterIcon from '../icons/filter.svg';
@@ -176,6 +177,7 @@ registerIcon('alert-success', AlertSuccess);
 registerIcon('alert-info', AlertInfo);
 registerIcon('alert-warning', AlertWarning);
 registerIcon('alert-danger', AlertDanger);
+registerIcon('tree-down', TreeDownIcon);
 
 export function Icon({
   icon,

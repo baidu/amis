@@ -999,7 +999,15 @@ export const components = [
           import('../../docs/zh-CN/components/video.md').then(
             makeMarkdownRenderer
           )
-      }
+      },
+      {
+        label: 'Timeline 时间轴',
+        path: '/zh-CN/components/timeline',
+        getComponent: () =>
+          import('../../docs/zh-CN/components/timeline.md').then(
+            makeMarkdownRenderer
+          )
+      },
     ]
   },
 
