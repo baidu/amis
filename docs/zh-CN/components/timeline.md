@@ -344,8 +344,6 @@ order: 73
 }
 ```
 
-"source": "/api/mock2/timeline/timelineItems",
-
 远程拉取接口时，返回的数据结构除了需要满足 amis 接口要求的基本数据结构 以外，必须用"items"作为时间轴数据的 key 值，如下：
 
 ```json

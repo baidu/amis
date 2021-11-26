@@ -1,4 +1,4 @@
-import React, { ReactNode, useMemo } from 'react';
+import React, { ReactNode } from 'react';
 import {Renderer, RendererProps} from '../factory';
 import {BaseSchema, SchemaApi, SchemaCollection, SchemaTokenizeableString} from '../Schema';
 import {resolveVariable} from '../utils/tpl-builtin';

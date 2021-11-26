@@ -1,7 +1,6 @@
 import React, { ReactNode, useState } from 'react';
 import { SchemaExpression } from '../Schema';
 import {themeable, ThemeProps} from '../theme';
-import {Icon} from './icons';
 import TimelineItem from './TimelineItem';
 
 export interface TimelineItemProps {
