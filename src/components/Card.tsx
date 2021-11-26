@@ -1,14 +1,13 @@
-import React from 'react';
+import React, { CSSProperties } from 'react';
 import {isClickOnInput} from '../utils/helper';
 import {ClassNamesFn, themeable, ThemeProps} from '../theme';
-import { PlainObject } from '../types';
 export interface CardProps extends ThemeProps {
   className?: string;
   headerClassName?: string;
   titleClassName?: string;
   subTitleClassName?: string;
   descriptionClassName?: string;
-  avatarTextStyle?: PlainObject;
+  avatarTextStyle?: object;
   avatarTextClassName?: string;
   avatarClassName?: string;
   secondaryClassName?: string;
