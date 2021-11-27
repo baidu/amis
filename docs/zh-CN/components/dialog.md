@@ -90,7 +90,7 @@ Dialog 弹框 主要由 [Action](./action) 触发，主要展示一个对话框�
 ```schema: scope="body"
 {
   "type": "crud",
-  "api": "/api/sample",
+  "api": "/api/mock2/sample",
   "draggable": true,
   "columns": [
     {
@@ -126,7 +126,7 @@ Dialog 弹框 主要由 [Action](./action) 触发，主要展示一个对话框�
         "body": [
           {
             "type": "form",
-            "api": "/api/sample/$id",
+            "api": "/api/mock2/sample/$id",
             "body": [
               {
                 "type": "input-text",
@@ -147,7 +147,7 @@ Dialog 弹框 主要由 [Action](./action) 触发，主要展示一个对话框�
 ```schema: scope="body"
 {
   "type": "crud",
-  "api": "/api/sample",
+  "api": "/api/mock2/sample",
   "draggable": true,
   "columns": [
     {
@@ -186,7 +186,7 @@ Dialog 弹框 主要由 [Action](./action) 触发，主要展示一个对话框�
         "body": [
           {
             "type": "form",
-            "api": "/api/sample/$id",
+            "api": "/api/mock2/sample/$id",
             "body": [
               {
                 "type": "input-text",
