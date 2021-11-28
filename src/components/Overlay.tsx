@@ -295,6 +295,12 @@ export default class Overlay extends React.Component<
         <Portal container={container}>
           <RootClose onRootClose={props.onHide}>
             {(ref: any) => {
+              if (React.isValidElement(child)) {
+                return React.cloneElement(child, {
+                  ref: ref
+                });
+              }
+
               return <div ref={ref}>{child}</div>;
             }}
           </RootClose>

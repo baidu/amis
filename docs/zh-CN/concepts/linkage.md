@@ -259,7 +259,7 @@ order: 14
     },
     {
       "type": "crud",
-      "api": "/api/sample",
+      "api": "/api/mock2/sample",
       "columns": [
             {
                 "name": "id",
@@ -306,7 +306,7 @@ order: 14
     {
       "type": "crud",
       "name": "my_crud",
-      "api": "/api/sample",
+      "api": "/api/mock2/sample",
       "columns": [
             {
                 "name": "id",

@@ -264,7 +264,7 @@ icon 也可以是 url 地址，比如
     {
       "type": "crud",
       "name": "crud",
-      "api": "/api/sample?waitSeconds=1",
+      "api": "/api/mock2/sample?waitSeconds=1",
       "columns": [
         {
             "name": "id",
