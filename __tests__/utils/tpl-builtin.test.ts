@@ -401,7 +401,7 @@ const filters = [
         }
       ]
     },
-    path: '${value| pick_if_exist:$value}',
+    path: '${value| pick_if_exist:value}',
     filter: '',
     expectValue: ['a', 'b', 'c']
   },

@@ -53,6 +53,12 @@ order: 11
 }
 ```
 
+### 表达式
+
+> 1.5.0 及以上版本
+
+支持简单的表达式运算以及公式调用，具体请查看[新表达式语法](./expression#新表达式语法)
+
 ## JavaScript 模板引擎
 
 amis 还支持用 JavaScript 模板引擎进行组织输出，内部采用 [lodash template](https://lodash.com/docs/4.17.15#template) 进行实现。
