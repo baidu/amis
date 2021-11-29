@@ -821,6 +821,29 @@ props.onAction(event, {
 
 除了 ctrl 和 command 还支持 shift、alt。
 
+## Action 作为容器组件
+
+> 1.5.0 及以上版本
+
+action 还可以使用 `body` 来渲染其他组件，让那些不支持行为的组件支持点击事件，比如下面的例子
+
+```schema: scope="body"
+{
+  "type": "action",
+  "body": [{
+    "type": "color",
+    "value": "#108cee"
+  }],
+  "actionType": "dialog",
+  "dialog": {
+    "title": "弹框",
+    "body": "这是个简单的弹框。"
+  }
+}
+```
+
+需要注意在这种模式下不支持按钮的各种配置项，比如 `label`、`size`、`icon` 等，因为它只作为容器组件，不再有展现。
+
 ## 通用属性表
 
 所有`actionType`都支持的通用配置项

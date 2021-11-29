@@ -370,3 +370,9 @@ input[type='button'] {
     margin-top: var(--gap-xs);
   }
 }
+
+.#{$ns}Action {
+  &:hover {
+    cursor: pointer;
+  }
+}
