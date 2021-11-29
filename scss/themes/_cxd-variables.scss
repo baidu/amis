@@ -530,8 +530,9 @@ $L1: 0px 4px 6px 0px rgba(8, 14, 26, 0.06),
 
   // Toast size
   --Toast-width: #{px2rem(300px)};
-  --Toast-borderRadius: 0;
+  --Toast-borderRadius: #{$R3};
   --Toast-paddingL: #{px2rem(26px)};
+  --Toast-paddingX: #{px2rem(16px)};
   --Toast--info-paddingL: 0;
   --Toast-border-width: #{px2rem(1px)};
   --Toast-opacity: 1;
@@ -539,8 +540,6 @@ $L1: 0px 4px 6px 0px rgba(8, 14, 26, 0.06),
 
   // Toast color
   --Toast-color: var(--white);
-  --Toast-borderRadius: #{$R3};
-  --Toast-paddingX: #{px2rem(16px)};
 
   --Toast--danger-color: #{$G2};
   --Toast--danger-bgColor: #{$G11};
