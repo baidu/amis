@@ -38,6 +38,7 @@
     }
   ],
   "dependencies": {
+    "amis-formula": "^1.1.4",
     "ansi-to-react": "^6.1.6",
     "async": "2.6.0",
     "attr-accept": "2.2.2",
@@ -194,7 +195,8 @@
           "lib": [
             "es6",
             "dom",
-            "ES2015"
+            "ES2015",
+            "ES2021"
           ],
           "sourceMap": true,
           "jsx": "react",
