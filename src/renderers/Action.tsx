@@ -150,6 +150,11 @@ export interface ButtonSchema extends BaseSchema {
    * 自定义事件处理函数
    */
   onClick?: string | any;
+
+  /**
+   * 子内容
+   */
+  body?: SchemaCollection;
 }
 
 export interface AjaxActionSchema extends ButtonSchema {
@@ -387,6 +392,7 @@ import {
   FeedbackDialog,
   SchemaApi,
   SchemaClassName,
+  SchemaCollection,
   SchemaExpression,
   SchemaIcon,
   SchemaReload,
@@ -502,6 +508,7 @@ export interface ActionProps
       | 'iconClassName'
       | 'rightIconClassName'
       | 'loadingClassName'
+      | 'body'
     >,
     Omit<
       OtherActionSchema,
@@ -722,7 +729,7 @@ export class Action extends React.Component<ActionProps, ActionState> {
       classnames: cx
     } = this.props;
 
-    if (body) {
+    if (actionType !== 'email' && body) {
       return (
         <div className={cx('Action', className)} onClick={this.handleAction}>
           {render('body', body) as JSX.Element}
