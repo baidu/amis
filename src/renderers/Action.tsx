@@ -717,8 +717,18 @@ export class Action extends React.Component<ActionProps, ActionState> {
       tooltipContainer,
       tooltipRootClose,
       loading,
+      body,
+      render,
       classnames: cx
     } = this.props;
+
+    if (body) {
+      return (
+        <div className={cx('Action', className)} onClick={this.handleAction}>
+          {render('body', body) as JSX.Element}
+        </div>
+      );
+    }
 
     let label = this.props.label;
     let disabled = this.props.disabled;
