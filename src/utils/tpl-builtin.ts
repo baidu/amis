@@ -217,7 +217,12 @@ export function register(): Enginer & {name: string} {
     test: (str: string) => typeof str === 'string' && matchSynatax(str),
     removeEscapeToken: (str: string) =>
       typeof str === 'string' ? str.replace(/\\\$/g, '$') : str,
-    compile: (str: string, data: object, defaultFilter = '| html') =>
-      tokenize(str, data, defaultFilter)
+    compile: (str: string, data: object, defaultFilter = '| html') => {
+      try {
+        return tokenize(str, data, defaultFilter);
+      } catch (e) {
+        return `error: ${e.message}`;
+      }
+    }
   };
 }

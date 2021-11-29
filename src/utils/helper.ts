@@ -10,11 +10,6 @@ import {IIRendererStore} from '../store';
 import {IFormStore} from '../store/form';
 import {autobindMethod} from './autobind';
 import {
-  isPureVariable,
-  resolveVariable,
-  resolveVariableAndFilter
-} from './tpl-builtin';
-import {
   createObject,
   cloneObject,
   isObject,
@@ -22,7 +17,10 @@ import {
   getVariable,
   setVariable,
   deleteVariable,
-  keyToPath
+  keyToPath,
+  isPureVariable,
+  resolveVariable,
+  resolveVariableAndFilter
 } from 'amis-formula';
 import {isObservable} from 'mobx';
 
