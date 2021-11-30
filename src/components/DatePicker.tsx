@@ -281,7 +281,7 @@ export interface DateProps extends LocaleProps, ThemeProps {
   schedules?: Array<{
     startTime: Date,
     endTime: Date,
-    content: string | React.ReactNode,
+    content: any,
     color?: string
   }>;
   scheduleColors?: Array<string>;

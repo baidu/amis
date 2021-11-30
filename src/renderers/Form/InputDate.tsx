@@ -93,7 +93,7 @@ export interface DateControlSchema extends InputDateBaseControlSchema {
   schedules?: Array<{
     startTime: Date,
     endTime: Date,
-    content: string | React.ReactNode,
+    content: any,
     color?: string
   }>;
   /**
