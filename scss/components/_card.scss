@@ -60,6 +60,7 @@
   }
 
   &-avtarText {
+    flex-shrink: 0;
     background: var(--primary);
     color: var(--white);
     width: 50px;
