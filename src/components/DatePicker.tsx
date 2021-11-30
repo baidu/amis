@@ -299,7 +299,7 @@ export interface DatePickerState {
   schedules?: Array<{
     startTime: Date;
     endTime: Date;
-    content: string | React.ReactElement;
+    content: any;
     color?: string;
   }>;
 }

@@ -126,9 +126,8 @@ export class CustomDaysView extends DaysView {
   };
 
   renderDay = (props: any, currentDate: moment.Moment) => {
-    let schedule: any[] = [];
-    let ScheduleIcon = null;
     if (this.props.schedules) {
+      let schedule: any[] = [];
       this.props.schedules.forEach((item: any) => {
         if (currentDate.isSameOrAfter(moment(item.startTime).subtract(1, 'days')) && currentDate.isSameOrBefore(item.endTime)) {
           schedule.push(item);
@@ -136,8 +135,6 @@ export class CustomDaysView extends DaysView {
       });
       if (schedule.length > 0 && this.props.scheduleAction) {
         const cx = this.props.classnames;
-        // 正常模式
-        ScheduleIcon = <span className={cx('ScheduleCalendar-icon')} style={{backgroundColor: schedule[0].color}}></span>;
         const actionRender = this.props.scheduleAction;
 
         // 放大模式
@@ -202,6 +199,8 @@ export class CustomDaysView extends DaysView {
           </td>
         }
 
+        // 正常模式
+        const ScheduleIcon = <span className={cx('ScheduleCalendar-icon')} style={{backgroundColor: schedule[0].color}}></span>;
         return <td {...props}>
           {React.cloneElement(actionRender, {
             ...actionRender.props,
