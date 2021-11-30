@@ -1406,6 +1406,9 @@
   --Steps-line-success-bg: var(--Steps-status-success);
 
   --Progress-borderRadius: var(--borderRadius);
+  --Progress-animate-backgroundColor: #fff;
+  --Progress-bar-backgroundColor: #d3d9e6;
+
   --ColumnToggler-backgroundColor: var(--white);
   --ColumnToggler-borderRadius: #{px2rem(4px)};
   --ColumnToggler-lineHeight: #{px2rem(24px)};
