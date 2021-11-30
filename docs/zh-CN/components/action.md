@@ -828,7 +828,7 @@ props.onAction(event, {
 action 还可以使用 `body` 来渲染其他组件，让那些不支持行为的组件支持点击事件，比如下面的例子
 
 ```schema: scope="body"
-{
+[{
   "type": "action",
   "body": [{
     "type": "color",
@@ -839,10 +839,22 @@ action 还可以使用 `body` 来渲染其他组件，让那些不支持行为�
     "title": "弹框",
     "body": "这是个简单的弹框。"
   }
-}
+},{
+  "type": "action",
+  "body": {
+    "type": "image",
+    "src": "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395692722/4f3cb4202335.jpeg@s_0,w_216,l_1,f_jpg,q_80"
+  },
+  "tooltip": "点击会有弹框",
+  "actionType": "dialog",
+  "dialog": {
+    "title": "弹框",
+    "body": "这是个简单的弹框。"
+  }
+}]
 ```
 
-需要注意在这种模式下不支持按钮的各种配置项，比如 `label`、`size`、`icon` 等，因为它只作为容器组件，不再有展现。
+在这种模式下不支持按钮的各种配置项，比如 `label`、`size`、`icon` 等，因为它只作为容器组件，没有展现。
 
 ## 通用属性表
 

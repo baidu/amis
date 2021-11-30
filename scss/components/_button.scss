@@ -372,6 +372,7 @@ input[type='button'] {
 }
 
 .#{$ns}Action {
+  display: inline-block;
   &:hover {
     cursor: pointer;
   }
