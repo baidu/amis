@@ -49,14 +49,14 @@ order: 14
             "name": "text1",
             "label": false,
             "placeholder": "选中 类型1 时可见",
-            "visibleOn": "this.foo == 1"
+            "visibleOn": "${foo == 1}"
         },
         {
             "type": "input-text",
             "name": "text2",
             "label": false,
             "placeholder": "选中 类型2 时不可点",
-            "disabledOn": "this.foo == 2"
+            "disabledOn": "${foo == 2}"
         }
     ]
 }
