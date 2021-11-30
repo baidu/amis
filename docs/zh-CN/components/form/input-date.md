@@ -501,7 +501,7 @@ order: 13
 | clearable       | `boolean` | `true`         | 是否可清除                                                                                                  |
 | embed           | `boolean` | `false`        | 是否内联模式                                                                                                |
 | timeConstraints | `object`  | `true`         | 请参考： [react-datetime](https://github.com/YouCanBookMe/react-datetime)                                   |
-| schedules       | `object`  |                | 日历中展示日程                    |
+| schedules       | `Array<{startTime: Date, endTime: Date, content: string | React.ReactNode, color?: string}>`  |   | 日历中展示日程   |
 | scheduleColors  | `Array<string>`  | `['#0bc286', '#ffb200', '#ea2e2e', '#343a40']`   | 日历中展示日程的颜色   |
-| scheduleAction  | `object`  |                | 自定义日程展示                    |
+| scheduleAction  | `SchemaNode`  |            | 自定义日程展示                    |
 | largeMode       | `boolean` | `false`        | 放大模式                         |

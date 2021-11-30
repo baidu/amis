@@ -43,7 +43,7 @@ interface CustomDaysViewProps extends LocaleProps {
   schedules?: Array<{
     startTime: Date,
     endTime: Date,
-    content: string,
+    content: string | React.ReactNode,
     color?: string
   }>;
   scheduleAction?: React.ReactElement;
