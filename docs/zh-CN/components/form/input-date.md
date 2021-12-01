@@ -501,7 +501,7 @@ order: 13
 | clearable       | `boolean` | `true`         | 是否可清除                                                                                                  |
 | embed           | `boolean` | `false`        | 是否内联模式                                                                                                |
 | timeConstraints | `object`  | `true`         | 请参考： [react-datetime](https://github.com/YouCanBookMe/react-datetime)                                   |
-| schedules       | `Array<{startTime: Date, endTime: Date, content: any, className?: string}> \| string`  |   | 日历中展示日程，className参考[背景色](https://baidu.gitee.io/amis/zh-CN/style/background/background-color)   |
+| schedules       | `Array<{startTime: Date, endTime: Date, content: any, className?: string}> \| string`  |   | 日历中展示日程，可设置静态数据或从上下文中取数据，className参考[背景色](https://baidu.gitee.io/amis/zh-CN/style/background/background-color)   |
 | scheduleClassNames  | `Array<string>`  | `['bg-secondary', 'bg-success', 'bg-info', 'bg-warning', 'bg-danger', 'bg-dark']`   | 日历中展示日程的颜色，参考[背景色](https://baidu.gitee.io/amis/zh-CN/style/background/background-color)   |
 | scheduleAction  | `SchemaNode`  |            | 自定义日程展示                    |
 | largeMode       | `boolean` | `false`        | 放大模式                         |
