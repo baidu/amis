@@ -3,6 +3,7 @@ import {filter} from './tpl';
 import {isPureVariable, resolveVariableAndFilter} from './tpl-builtin';
 const isExisty = (value: any) => value !== null && value !== undefined;
 const isEmpty = (value: any) => value === '';
+const getValue = (values: any, value: any) => typeof value !== 'string' ? value : value.startsWith("${")&&value.endsWith("}")?values[value.substring(2, value.length - 1)]:value
 const makeRegexp = (reg: string | RegExp) => {
   if (reg instanceof RegExp) {
     return reg;
@@ -169,6 +170,7 @@ export const validations: {
     return !isExisty(value) || isEmpty(value) || value.length === length;
   },
   equals: function (values, value, eql) {
+    eql = getValue(values, eql)
     return !isExisty(value) || isEmpty(value) || value == eql;
   },
   equalsField: function (values, value, field) {
@@ -188,6 +190,7 @@ export const validations: {
     return !isExisty(value) || isEmpty(value) || /^[a-z0-9_\\-]+$/i.test(value);
   },
   maximum: function (values, value, maximum) {
+    maximum = getValue(values, maximum)
     return (
       !isExisty(value) ||
       isEmpty(value) ||
@@ -195,6 +198,7 @@ export const validations: {
     );
   },
   lt: function (values, value, maximum) {
+    maximum = getValue(values, maximum)
     return (
       !isExisty(value) ||
       isEmpty(value) ||
@@ -202,6 +206,7 @@ export const validations: {
     );
   },
   minimum: function (values, value, minimum) {
+    minimum = getValue(values, minimum)
     return (
       !isExisty(value) ||
       isEmpty(value) ||
@@ -209,6 +214,7 @@ export const validations: {
     );
   },
   gt: function (values, value, minimum) {
+    minimum = getValue(values, minimum)
     return (
       !isExisty(value) ||
       isEmpty(value) ||
