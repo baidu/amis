@@ -38,7 +38,7 @@
     }
   ],
   "dependencies": {
-    "amis-formula": "^1.1.7",
+    "amis-formula": "^1.1.8",
     "ansi-to-react": "^6.1.6",
     "async": "2.6.0",
     "attr-accept": "2.2.2",

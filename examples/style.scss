@@ -1051,6 +1051,7 @@ body.dark {
   &-code {
     border-left: 1px solid #ddd;
     width: 350px;
+    flex-shrink: 0;
   }
 }
 
