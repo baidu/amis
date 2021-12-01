@@ -556,7 +556,7 @@ export class Card extends React.Component<CardProps> {
                   header?.titleClassName || titleClassName
                 )}
               >
-                {render('title', title)}
+                {render('title', titleTpl!)}
               </div>
             ) : null}
 
@@ -567,7 +567,7 @@ export class Card extends React.Component<CardProps> {
                   header?.subTitleClassName || subTitleClassName
                 )}
               >
-                {render('sub-title', subTitle || subTitlePlaceholder!, {
+                {render('sub-title', subTitleTpl || subTitlePlaceholder!, {
                   className: cx(!subTitle ? 'Card-placeholder' : undefined)
                 })}
               </div>
@@ -582,7 +582,7 @@ export class Card extends React.Component<CardProps> {
                     descClassName
                 )}
               >
-                {render('desc', desc || descPlaceholder!, {
+                {render('desc', header?.description || descTpl!, {
                   className: !desc ? 'text-muted' : undefined
                 })}
               </div>
