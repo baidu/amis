@@ -297,6 +297,7 @@ export default class SelectControl extends React.Component<SelectProps, any> {
       menuTpl,
       borderMode,
       selectMode,
+      env,
       ...rest
     } = this.props;
 
@@ -313,6 +314,7 @@ export default class SelectControl extends React.Component<SelectProps, any> {
         ) : (
           <Select
             {...rest}
+            useMobileUI={env.useMobileUI}
             borderMode={borderMode}
             placeholder={placeholder}
             multiple={multiple || multi}
