@@ -906,6 +906,66 @@ Form 支持轮询初始化接口，步骤如下：
 
 上面示例是一种[组件间联动](../../docs/concepts/linkage#%E7%BB%84%E4%BB%B6%E9%97%B4%E8%81%94%E5%8A%A8)
 
+### 显示提交的返回结果
+
+默认情况下表单提交返回结果会写入当前表单的数据域，如果要显示在当前表单，可以直接使用 `static` 类型，比如下面的例子
+
+```schema: scope="body"
+{
+  "type": "form",
+  "api": "/api/mock2/form/saveForm",
+  "title": "用户信息",
+  "body": [
+    {
+      "type": "input-text",
+      "name": "name",
+      "label": "姓名"
+    },
+    {
+      "type": "static",
+      "name": "id",
+      "visibleOn": "typeof data.id !== 'undefined'",
+      "label": "返回 ID"
+    }
+  ]
+}
+```
+
+### 将提交返回内容发送到其它组件
+
+还可以将返回结果发送到其它组件，首先设置另一个表单的 `name`，然后通过 `reload` 配置参数来提交
+
+```schema: scope="body"
+[
+  {
+    "type": "form",
+    "api": "/api/mock2/form/saveForm",
+    "title": "用户信息",
+    "reload": "otherForm?id=${id}",
+    "body": [
+      {
+        "type": "input-text",
+        "name": "name",
+        "label": "姓名"
+      }
+    ]
+  },
+  {
+    "type": "form",
+    "name": "otherForm",
+    "title": "返回结果",
+    "actions": [],
+    "body": [
+      {
+        "type": "static",
+        "name": "id",
+        "label": "返回 ID"
+      }
+    ]
+  }
+]
+```
+
 ### 将数据域发送给目标组件
 
 配置`target`属性为目标组件`name`值，可以在触发提交行为后，将当前表单的数据域发送给目标组件。

@@ -360,7 +360,7 @@ export default class ColumnToggler extends React.Component<
                     tooltipClassName={cx('ColumnToggler-tooltip')}
                     placement="top"
                     tooltip={column.label || ''}
-                    trigger={enableSorting ? 'click' : 'hover'}
+                    trigger={enableSorting ? [] : 'hover'}
                     key={column.index}
                   >
                     <li

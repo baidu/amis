@@ -167,6 +167,7 @@
     }
   }
 
+  &-origin:hover &-overlay,
   &-thumbWrap:hover &-overlay {
     display: flex;
   }

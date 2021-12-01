@@ -31,6 +31,7 @@
 }
 
 fieldset.#{$ns}Collapse {
+  margin-bottom: var(--Form-item-gap);
   > legend {
     font-weight: var(--fontWeightNormal);
     padding: var(--gap-xs) 0;

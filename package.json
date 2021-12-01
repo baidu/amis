@@ -1,6 +1,6 @@
 {
   "name": "amis",
-  "version": "1.4.2-beta.1",
+  "version": "1.5.0",
   "description": "一种MIS页面生成工具",
   "main": "lib/index.js",
   "scripts": {
@@ -38,6 +38,7 @@
     }
   ],
   "dependencies": {
+    "amis-formula": "^1.1.4",
     "ansi-to-react": "^6.1.6",
     "async": "2.6.0",
     "attr-accept": "2.2.2",
@@ -70,6 +71,7 @@
     "qrcode.react": "^1.0.1",
     "qs": "6.5.1",
     "rc-input-number": "^7.3.3",
+    "rc-progress": "^3.1.4",
     "react": "^16.8.6",
     "react-color": "^2.19.3",
     "react-cropper": "^2.1.8",
@@ -194,7 +196,8 @@
           "lib": [
             "es6",
             "dom",
-            "ES2015"
+            "ES2015",
+            "ES2021"
           ],
           "sourceMap": true,
           "jsx": "react",

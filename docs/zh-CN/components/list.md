@@ -15,7 +15,7 @@ order: 56
 ```schema: scope="body"
 {
   "type": "service",
-  "api": "/api/sample?perPage=5",
+  "api": "/api/mock2/sample?perPage=5",
   "body": [
     {
       "type": "panel",
@@ -84,7 +84,7 @@ order: 56
 ```schema: scope="body"
 {
   "type": "service",
-  "api": "/api/sample?perPage=5",
+  "api": "/api/mock2/sample?perPage=5",
   "body": [
     {
       "type": "panel",

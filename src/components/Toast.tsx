@@ -84,8 +84,8 @@ export class ToastComponent extends React.Component<
   > = {
     position: 'top-center',
     closeButton: false,
-    timeout: 5000,
-    errorTimeout: 10000 // 错误的时候 time 调长
+    timeout: 4000,
+    errorTimeout: 6000 // 错误的时候 time 调长
   };
   static themeKey = 'toast';
 

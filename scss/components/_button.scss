@@ -370,3 +370,10 @@ input[type='button'] {
     margin-top: var(--gap-xs);
   }
 }
+
+.#{$ns}Action {
+  display: inline-block;
+  &:hover {
+    cursor: pointer;
+  }
+}
