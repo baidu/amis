@@ -1,4 +1,4 @@
-import React, { CSSProperties } from 'react';
+import React from 'react';
 import {isClickOnInput} from '../utils/helper';
 import {ClassNamesFn, themeable, ThemeProps} from '../theme';
 export interface CardProps extends ThemeProps {
@@ -14,7 +14,6 @@ export interface CardProps extends ThemeProps {
   imageClassName?: string;
   bodyClassName?: string;
   footerClassName?: string;
-  mediaClassName?: string;
   media?: React.ReactNode;
   mediaPosition?: 'top' | 'left' | 'right' | 'bottom';
   toolbar?: React.ReactNode;
@@ -38,7 +37,6 @@ export class Card extends React.Component<CardProps> {
     avatarClassName: '',
     headerClassName: '',
     footerClassName: '',
-    mediaClassName: '',
     secondaryClassName: '',
     avatarTextClassName: '',
     bodyClassName: '',
@@ -77,7 +75,6 @@ export class Card extends React.Component<CardProps> {
       avatarTextClassName,
       secondaryClassName,
       footerClassName,
-      mediaClassName,
       media,
       mediaPosition,
       actions,
@@ -168,7 +165,7 @@ export class Card extends React.Component<CardProps> {
       >
         {media ?
           <div className={cx(`Card-multiMedia--${mediaPosition}`)}>
-            <div className={cx('Card-multiMedia', mediaClassName)}>{media}</div>
+            {media}
             <div className={cx('Card-multiMedia-flex')}>
               {heading}
               {body ? (

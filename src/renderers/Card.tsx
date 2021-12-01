@@ -163,6 +163,28 @@ export interface CardSchema extends BaseSchema {
   body?: Array<CardBodyField>;
 
   /**
+   * 多媒体区域
+   */
+  media?: {
+    className?: SchemaClassName;
+
+    /**
+     * 多媒体类型
+     */
+    type?: 'image' | 'video';
+
+    /**
+     * 多媒体链接地址
+     */
+    url?: SchemaUrlPath;
+
+    /**
+     * 多媒体区域位置
+     */
+    position?: 'top' | 'left' | 'right' | 'bottom';
+  };
+
+  /**
    * 底部按钮集合。
    */
   actions?: Array<ActionSchema>;
@@ -171,10 +193,15 @@ export interface CardSchema extends BaseSchema {
    * 工具栏按钮
    */
   toolbar?: Array<ActionSchema>;
+
+  /**
+   * 次要说明
+   */
+  secondary?: SchemaTpl;
 }
 export interface CardProps
   extends RendererProps,
-   Omit<CardSchema, 'className'>{
+    Omit<CardSchema, 'className'> {
   onCheck: (item: IItem) => void;
   actionsCount: number;
   itemIndex?: number;
@@ -187,10 +214,15 @@ export interface CardProps
   item: IItem;
   checkOnItemClick?: boolean;
 }
+interface CardState {
+  isPlay: boolean;
+  videoTime: string;
+}
 @Renderer({
   type: 'card'
 })
-export class CardRenderer extends React.Component<CardProps>  {
+
+export class CardRenderer extends React.Component<CardProps, CardState>  {
   static defaultProps = {
     className: '',
     avatarClassName: '',
@@ -206,7 +238,13 @@ export class CardRenderer extends React.Component<CardProps>  {
     descClassName: '',
     descriptionClassName: '',
     imageClassName: '',
-    blank: true
+    highlight: false,
+    blank: true,
+    dragging: false,
+    selectable: false,
+    checkable: true,
+    selected: false,
+    hideCheckToggler: false
   };
 
   static propsList: Array<string> = [
@@ -226,13 +264,70 @@ export class CardRenderer extends React.Component<CardProps>  {
   constructor(props: CardProps) {
     super(props);
 
+    this.timeFormdate = this.timeFormdate.bind(this);
+    this.handelVideoPlay = this.handelVideoPlay.bind(this);
     this.handleClick = this.handleClick.bind(this);
     this.handleAction = this.handleAction.bind(this);
     this.handleCheck = this.handleCheck.bind(this);
     this.getPopOverContainer = this.getPopOverContainer.bind(this);
     this.handleQuickChange = this.handleQuickChange.bind(this);
+    this.state = {
+      isPlay: false,
+      videoTime: ''
+    };
   }
-
+  componentDidMount() {
+    const el = document.getElementById('Card-video') as HTMLVideoElement;
+    const { media } = this.props;
+    if (media && el) {
+      el.onloadedmetadata = () => {
+        this.setState({
+          videoTime: this.timeFormdate(el.duration),
+          isPlay: false
+        });
+      };
+      el.addEventListener('ended', () => {
+        this.setState({
+          isPlay: false
+        })
+      }, false);
+    }
+  };
+  componentWillUnmount() {
+    const el = document.getElementById('Card-video') as HTMLVideoElement;
+    const { media } = this.props;
+    if (media && el) {
+      el.removeEventListener('ended', () => {
+        this.setState({
+          isPlay: false
+        })
+      }, false);
+    }
+  };
+  timeFormdate(time: number) {
+    let t: string;
+    time = Math.floor(time);
+    if (time > -1) {
+      let hour = Math.floor(time / 3600);
+      let min = Math.floor(time / 60) % 60;
+      let sec = time % 60;
+      if (hour < 10) {
+        t = '0' + hour + ':';
+      } else {
+        t = hour + ':';
+      }
+      if (min < 10) {
+        t += '0';
+      }
+      t += min + ':';
+      if (sec < 10) {
+        t += '0';
+      }
+      t += sec;
+      return t;
+    }
+    return '';
+  };
   isHaveLink() {
     const {href, itemAction, onCheck , checkOnItemClick, checkable} = this.props;
     return href || itemAction || onCheck || (checkOnItemClick && checkable);
@@ -271,6 +366,21 @@ export class CardRenderer extends React.Component<CardProps>  {
 
   getPopOverContainer() {
     return findDOMNode(this);
+  }
+  handelVideoPlay() {
+    const el = document.getElementById('Card-video') as HTMLVideoElement;
+    const { media } = this.props;
+    if (media && el && el.paused) {
+      el.play();
+      this.setState({
+        isPlay: true
+      });
+    } else if (media && el && !el.paused) {
+      el.pause();
+      this.setState({
+        isPlay: false
+      });
+    }
   }
 
   handleQuickChange(
@@ -622,7 +732,7 @@ export class CardRenderer extends React.Component<CardProps>  {
     return secondary ? render('secondary', secondary) : undefined;
   }
 
-  renderavatarTextStyle () {
+  renderAvatarTextStyle() {
     const {
       header,
       data
@@ -645,6 +755,38 @@ export class CardRenderer extends React.Component<CardProps>  {
     return;
   }
 
+  renderMedia() {
+    const {
+      media,
+      classnames: cx
+    } = this.props;
+    if (media) {
+      const { isPlay, videoTime } = this.state;
+      const { type, url, className } = media;
+      const playBtn = <div className={cx('Card-video-play')} onClick={this.handelVideoPlay}>
+        <div className={cx('Card-video-icon')}>
+          <Icon icon="play" className="icon" />
+        </div>
+      </div>;
+
+      if (type === 'image' && url) {
+        return <img className={cx('Card-multiMedia-img', className)} src={url}/>
+      } else if (type === 'video' && url) {
+        return <div className={cx('Card-multiMedia-video', className)}>
+          <video
+            id={'Card-video'}
+            className={cx('Card-video', className)}
+            src={url}
+            controls={false}
+            onClick={this.handelVideoPlay}
+          ></video>
+          {isPlay ? null : playBtn}
+          {isPlay ? null : <div className={cx('Card-video-time')}>{videoTime}</div>}
+        </div>
+      }
+    }
+    return;
+  }
   render() {
     const {
       header,
@@ -660,6 +802,8 @@ export class CardRenderer extends React.Component<CardProps>  {
       headerClassName,
       secondaryClassName,
       footerClassName,
+      mediaClassName,
+      media,
       ...rest
     } = this.props;
 
@@ -671,6 +815,7 @@ export class CardRenderer extends React.Component<CardProps>  {
     const avatarTextCn = header?.avatarTextClassName || avatarTextClassName;
     const avatarCn = header?.avatarClassName || avatarClassName;
     const imageCn = header?.imageClassName || imageClassName;
+    const mediaPosition = media?.position;
 
     return <Card
       {...rest}
@@ -686,16 +831,19 @@ export class CardRenderer extends React.Component<CardProps>  {
       secondary={this.renderSecondary()}
       toolbar={this.renderToolbar()}
       avatarClassName={avatarCn}
-      avatarTextStyle={this.renderavatarTextStyle()}
+      avatarTextStyle={this.renderAvatarTextStyle()}
       avatarTextClassName={avatarTextCn}
       className={className}
       titleClassName={titleCn}
+      media={this.renderMedia()}
       subTitleClassName={subTitleCn}
+      mediaPosition={mediaPosition}
       descriptionClassName={descriptionCn}
       imageClassName={imageCn}
       headerClassName={headerCn}
       footerClassName={footerClassName}
       secondaryClassName={secondaryClassName}
+      bodyClassName={bodyClassName}
       onClick={this.isHaveLink() ? this.handleClick : undefined}
     ></Card>;
   }
