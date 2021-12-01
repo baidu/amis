@@ -320,13 +320,13 @@ order: 13
     "embed": true,
     "schedules": [
       {
-        "startTime": "2021-11-13 05:14:00",
-        "endTime": "2021-11-13 06:14:00",
+        "startTime": "2021-12-11 05:14:00",
+        "endTime": "2021-12-11 06:14:00",
         "content": "这是一个日程1"
       },
       {
-        "startTime": "2021-11-23 05:14:00",
-        "endTime": "2021-11-24 05:14:00",
+        "startTime": "2021-12-21 05:14:00",
+        "endTime": "2021-12-22 05:14:00",
         "content": "这是一个日程2"
       }
     ]
@@ -341,16 +341,16 @@ order: 13
     "embed": true,
     "schedules": [
       {
-        "startTime": "2021-11-13 05:14:00",
-        "endTime": "2021-11-13 06:14:00",
+        "startTime": "2021-12-11 05:14:00",
+        "endTime": "2021-12-11 06:14:00",
         "content": "这是一个日程1",
-        "color": "blue"
+        "className": "bg-warning"
       },
       {
-        "startTime": "2021-11-23 05:14:00",
-        "endTime": "2021-11-24 05:14:00",
+        "startTime": "2021-12-21 05:14:00",
+        "endTime": "2021-12-22 05:14:00",
         "content": "这是一个日程2",
-        "color": "red"
+        "className": "bg-danger"
       }
     ]
 }
@@ -360,16 +360,16 @@ order: 13
 {
     "type": "input-date",
     "embed": true,
-    "scheduleColors": ["blue", "red"],
+    "scheduleClassNames": ["bg-warning", "bg-danger"],
     "schedules": [
       {
-        "startTime": "2021-11-13 05:14:00",
-        "endTime": "2021-11-13 06:14:00",
+        "startTime": "2021-12-11 05:14:00",
+        "endTime": "2021-12-11 06:14:00",
         "content": "这是一个日程1"
       },
       {
-        "startTime": "2021-11-23 05:14:00",
-        "endTime": "2021-11-24 05:14:00",
+        "startTime": "2021-12-21 05:14:00",
+        "endTime": "2021-12-22 05:14:00",
         "content": "这是一个日程2"
       }
     ]
@@ -383,13 +383,13 @@ order: 13
     "embed": true,
     "schedules": [
       {
-        "startTime": "2021-11-13 05:14:00",
-        "endTime": "2021-11-13 06:14:00",
+        "startTime": "2021-12-11 05:14:00",
+        "endTime": "2021-12-11 06:14:00",
         "content": "这是一个日程1"
       },
       {
-        "startTime": "2021-11-23 05:14:00",
-        "endTime": "2021-11-24 05:14:00",
+        "startTime": "2021-12-21 05:14:00",
+        "endTime": "2021-12-22 05:14:00",
         "content": "这是一个日程2"
       }
     ],
@@ -427,38 +427,38 @@ order: 13
     "largeMode": true,
     "schedules": [
       {
-        "startTime": "2021-11-13 05:14:00",
-        "endTime": "2021-11-13 06:14:00",
+        "startTime": "2021-12-11 05:14:00",
+        "endTime": "2021-12-11 06:14:00",
         "content": "这是一个日程1"
       },
       {
-        "startTime": "2021-11-14 02:14:00",
-        "endTime": "2021-11-15 05:14:00",
+        "startTime": "2021-12-12 02:14:00",
+        "endTime": "2021-12-13 05:14:00",
         "content": "这是一个日程2"
       },
       {
-        "startTime": "2021-11-22 05:14:00",
-        "endTime": "2021-11-23 05:14:00",
+        "startTime": "2021-12-20 05:14:00",
+        "endTime": "2021-12-21 05:14:00",
         "content": "这是一个日程3"
       },
       {
-        "startTime": "2021-11-23 05:14:00",
-        "endTime": "2021-11-24 05:14:00",
+        "startTime": "2021-12-21 05:14:00",
+        "endTime": "2021-12-22 05:14:00",
         "content": "这是一个日程4"
       },
       {
-        "startTime": "2021-11-24 02:14:00",
-        "endTime": "2021-11-25 05:14:00",
+        "startTime": "2021-12-22 02:14:00",
+        "endTime": "2021-12-23 05:14:00",
         "content": "这是一个日程5"
       },
       {
-        "startTime": "2021-11-24 02:14:00",
-        "endTime": "2021-11-24 05:14:00",
+        "startTime": "2021-12-22 02:14:00",
+        "endTime": "2021-12-22 05:14:00",
         "content": "这是一个日程6"
       },
       {
-        "startTime": "2021-11-24 02:14:00",
-        "endTime": "2021-11-24 05:14:00",
+        "startTime": "2021-12-22 02:14:00",
+        "endTime": "2021-12-22 05:14:00",
         "content": "这是一个日程7"
       }
     ]
@@ -501,7 +501,7 @@ order: 13
 | clearable       | `boolean` | `true`         | 是否可清除                                                                                                  |
 | embed           | `boolean` | `false`        | 是否内联模式                                                                                                |
 | timeConstraints | `object`  | `true`         | 请参考： [react-datetime](https://github.com/YouCanBookMe/react-datetime)                                   |
-| schedules       | `Array<{startTime: Date, endTime: Date, content: any, color?: string}>`  |   | 日历中展示日程   |
-| scheduleColors  | `Array<string>`  | `['#0bc286', '#ffb200', '#ea2e2e', '#343a40']`   | 日历中展示日程的颜色   |
+| schedules       | `Array<{startTime: Date, endTime: Date, content: any, className?: string}> \| string`  |   | 日历中展示日程，className参考[背景色](https://baidu.gitee.io/amis/zh-CN/style/background/background-color)   |
+| scheduleClassNames  | `Array<string>`  | `['bg-secondary', 'bg-success', 'bg-info', 'bg-warning', 'bg-danger', 'bg-dark']`   | 日历中展示日程的颜色，参考[背景色](https://baidu.gitee.io/amis/zh-CN/style/background/background-color)   |
 | scheduleAction  | `SchemaNode`  |            | 自定义日程展示                    |
 | largeMode       | `boolean` | `false`        | 放大模式                         |

@@ -282,9 +282,9 @@ export interface DateProps extends LocaleProps, ThemeProps {
     startTime: Date,
     endTime: Date,
     content: any,
-    color?: string
+    className?: string
   }>;
-  scheduleColors?: Array<string>;
+  scheduleClassNames?: Array<string>;
   scheduleAction?: React.ReactElement;
   largeMode?: boolean;
 
@@ -300,7 +300,7 @@ export interface DatePickerState {
     startTime: Date;
     endTime: Date;
     content: any;
-    color?: string;
+    className?: string;
   }>;
 }
 
@@ -318,7 +318,7 @@ export class DatePicker extends React.Component<DateProps, DatePickerState> {
     shortcuts: '',
     closeOnSelect: true,
     overlayPlacement: 'auto',
-    scheduleColors: ['#0bc286', '#ffb200', '#ea2e2e', '#343a40']
+    scheduleClassNames: ['bg-secondary', 'bg-success', 'bg-info', 'bg-warning', 'bg-danger', 'bg-dark']
   };
   state: DatePickerState = {
     isOpened: false,
@@ -347,17 +347,17 @@ export class DatePicker extends React.Component<DateProps, DatePickerState> {
       // 设置日程颜色
       let index = 0;
       this.state.schedules = props.schedules.map((schedule: any) => {
-        let color = schedule.color;
-        if (!color && props.scheduleColors) {
-          color = props.scheduleColors[index];
+        let className = schedule.className;
+        if (!className && props.scheduleClassNames) {
+          className = props.scheduleClassNames[index];
           index++;
-          if (index >= props.scheduleColors.length) {
+          if (index >= props.scheduleClassNames.length) {
             index = 0;
           }
         }
         return {
           ...schedule,
-          color
+          className
         };
       });
     }

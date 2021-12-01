@@ -44,7 +44,7 @@ interface CustomDaysViewProps extends LocaleProps {
     startTime: Date,
     endTime: Date,
     content: any,
-    color?: string
+    className?: string
   }>;
   scheduleAction?: React.ReactElement;
   largeMode?: boolean;
@@ -161,7 +161,7 @@ export class CustomDaysView extends DaysView {
               // 生成一个空白格占位
               showSchedule.splice(i, 0, {
                 width: 1,
-                color: 'transparent',
+                className: 'bg-transparent',
                 content: ''
               });
             }
@@ -174,8 +174,8 @@ export class CustomDaysView extends DaysView {
           const scheduleDiv = showSchedule.map((item: any, index: number) => {
             const width = item.width || Math.min(moment(item.endTime).diff(moment(item.startTime), 'days') + 1, 7 - moment(item.startTime).weekday());
             return <div key={props.key + 'content' + index}
-              className={cx('ScheduleCalendar-large-schedule-content')}
-              style={{backgroundColor: item.color, width: width + '00%'}}>
+              className={cx('ScheduleCalendar-large-schedule-content', item.className)}
+              style={{width: width + '00%'}}>
                 <div className={cx('ScheduleCalendar-text-overflow')}>{item.content}</div>
             </div>;
           });
@@ -200,7 +200,7 @@ export class CustomDaysView extends DaysView {
         }
 
         // 正常模式
-        const ScheduleIcon = <span className={cx('ScheduleCalendar-icon')} style={{backgroundColor: schedule[0].color}}></span>;
+        const ScheduleIcon = <span className={cx('ScheduleCalendar-icon', schedule[0].className)}></span>;
         return <td {...props}>
           {React.cloneElement(actionRender, {
             ...actionRender.props,

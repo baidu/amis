@@ -48,13 +48,13 @@
       border-spacing: 0;
       td {
         border: var(--Calendar-borderWidth) solid var(--borderColor);
-        vertical-align: top;
       }
     }
   }
 
   .rdtDay {
     height: var(--Calendar-rdt-day);
+    vertical-align: top;
   }
 
   .#{$ns}ScheduleCalendar-large-day-wrap {

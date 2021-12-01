@@ -94,12 +94,12 @@ export interface DateControlSchema extends InputDateBaseControlSchema {
     startTime: Date,
     endTime: Date,
     content: any,
-    color?: string
-  }>;
+    className?: string
+  }> | string;
   /**
    * 日程显示颜色自定义
    */
-  scheduleColors?: Array<string>;
+  scheduleClassNames?: Array<string>;
   /**
    * 日程点击展示
    */
