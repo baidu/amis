@@ -72,6 +72,30 @@ export function extendObject(
   return obj;
 }
 
+export function isSuperDataModified(
+  data: any,
+  prevData: any,
+  store: IIRendererStore
+) {
+  let keys: Array<string> = [];
+
+  if (store && store.storeType === 'FormStore') {
+    keys = uniq(
+      (store as IFormStore).items
+        .map(item => `${item.name}`.replace(/\..*$/, ''))
+        .concat(Object.keys(store.data))
+    );
+  } else {
+    keys = Object.keys(store.data);
+  }
+
+  if (Array.isArray(keys) && keys.length) {
+    return keys.some(key => data[key] !== prevData[key]);
+  }
+
+  return false;
+}
+
 export function syncDataFromSuper(
   data: any,
   superObject: any,

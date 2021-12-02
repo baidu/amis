@@ -12,13 +12,11 @@ order: 38
 
 ## 基本用法
 
-```schema
+```schema: scope="body"
 {
-  "body": {
-    "type": "code",
-    "language": "html",
-    "value": "<div>html</div>"
-  }
+  "type": "code",
+  "language": "html",
+  "value": "<div>html</div>"
 }
 ```
 
@@ -42,6 +40,7 @@ language 支持从上下文获取数据
 
 ```schema
 {
+  "type": "page",
   "data": {
     "lang": "javascript"
   },
@@ -59,6 +58,7 @@ language 支持从上下文获取数据
 
 ```schema
 {
+  "type": "page",
   "data": {
     "sourcecode": "<div>html</div>"
   },
@@ -74,15 +74,31 @@ language 支持从上下文获取数据
 
 ## 主题及 tab 大小
 
-```schema
+通过 `editorTheme` 设置主题，`tagSize` 设置 tab 宽度
+
+```schema: scope="body"
 {
-  "body": {
-    "type": "code",
-    "language": "javascript",
-    "tagSize": 4,
-    "editorTheme": "vs-dark",
-    "value": "function amis() {\n\tconsole.log('amis');\n}"
-  }
+  "type": "code",
+  "language": "javascript",
+  "tagSize": 4,
+  "value": "function amis() {\n\tconsole.log('amis');\n}"
+}
+
+```
+
+## 超出换行
+
+> 1.5.1 及以上版本
+
+通过 `wordWrap` 设置是否折行，默认是折行
+
+```schema: scope="body"
+{
+  "type": "code",
+  "language": "typescript",
+  "tagSize": 4,
+  "wordWrap": false,
+  "value": "function amis() {\n\tconsole.log('amis')\tconsole.log('amis')\tconsole.log('amis')\tconsole.log('amis')\tconsole.log('amis')\tconsole.log('amis');\n}"
 }
 ```
 
@@ -90,38 +106,36 @@ language 支持从上下文获取数据
 
 还可以通过 `customLang` 参数来自定义高亮，比如下面这个示例
 
-```schema
+```schema: scope="body"
 {
-  "body": {
-    "type": "code",
-    "customLang": {
-      "name": "myLog",
-      "tokens": [
-        {
-          "name": "custom-error",
-          "regex": "\\[error.*",
-          "color": "#ff0000",
-          "fontStyle": "bold"
-        },
-        {
-          "name": "custom-notice",
-          "regex": "\\[notice.*",
-          "color": "#FFA500"
-        },
-        {
-          "name": "custom-info",
-          "regex": "\\[info.*",
-          "color": "#808080"
-        },
-        {
-          "name": "custom-date",
-          "regex": "\\[[a-zA-Z 0-9:]+\\]",
-          "color": "#008800"
-        }
-      ]
-    },
-    "value": "[Sun Mar 7 16:02:00 2021] [notice] Apache/1.3.29 (Unix) configured -- resuming normal operations\n[Sun Mar 7 16:02:00 2021] [info] Server built: Feb 27 2021 13:56:37\n[Sun Mar 7 16:02:00 2021] [notice] Accept mutex: sysvsem (Default: sysvsem)\n[Sun Mar 7 17:21:44 2021] [info] [client xx.xx.xx.xx] (104)Connection reset by peer: client stopped connection\n[Sun Mar 7 17:23:53 2021] statistics: Use of uninitialized value in concatenation (.) or string at /home/httpd line 528.\n[Sun Mar 7 17:23:53 2021] statistics: Can't create file /home/httpd/twiki/data/Main/WebStatistics.txt - Permission denied\n[Sun Mar 7 17:27:37 2021] [info] [client xx.xx.xx.xx] (104)Connection reset by peer: client stopped connection\n[Sun Mar 7 17:31:39 2021] [info] [client xx.xx.xx.xx] (104)Connection reset by peer: client stopped connection\n[Sun Mar 7 21:16:17 2021] [error] [client xx.xx.xx.xx] File does not exist: /home/httpd/twiki/view/Main/WebHome"
-  }
+  "type": "code",
+  "customLang": {
+    "name": "myLog",
+    "tokens": [
+      {
+        "name": "custom-error",
+        "regex": "\\[error.*",
+        "color": "#ff0000",
+        "fontStyle": "bold"
+      },
+      {
+        "name": "custom-notice",
+        "regex": "\\[notice.*",
+        "color": "#FFA500"
+      },
+      {
+        "name": "custom-info",
+        "regex": "\\[info.*",
+        "color": "#808080"
+      },
+      {
+        "name": "custom-date",
+        "regex": "\\[[a-zA-Z 0-9:]+\\]",
+        "color": "#008800"
+      }
+    ]
+  },
+  "value": "[Sun Mar 7 16:02:00 2021] [notice] Apache/1.3.29 (Unix) configured -- resuming normal operations\n[Sun Mar 7 16:02:00 2021] [info] Server built: Feb 27 2021 13:56:37\n[Sun Mar 7 16:02:00 2021] [notice] Accept mutex: sysvsem (Default: sysvsem)\n[Sun Mar 7 17:21:44 2021] [info] [client xx.xx.xx.xx] (104)Connection reset by peer: client stopped connection\n[Sun Mar 7 17:23:53 2021] statistics: Use of uninitialized value in concatenation (.) or string at /home/httpd line 528.\n[Sun Mar 7 17:23:53 2021] statistics: Can't create file /home/httpd/twiki/data/Main/WebStatistics.txt - Permission denied\n[Sun Mar 7 17:27:37 2021] [info] [client xx.xx.xx.xx] (104)Connection reset by peer: client stopped connection\n[Sun Mar 7 17:31:39 2021] [info] [client xx.xx.xx.xx] (104)Connection reset by peer: client stopped connection\n[Sun Mar 7 21:16:17 2021] [error] [client xx.xx.xx.xx] File does not exist: /home/httpd/twiki/view/Main/WebHome"
 }
 ```
 
@@ -143,3 +157,4 @@ language 支持从上下文获取数据
 | language    | `string` |        | 所使用的高亮语言，默认是 plaintext |
 | tabSize     | `number` | 4      | 默认 tab 大小                      |
 | editorTheme | `string` | 'vs'   | 主题，还有 'vs-dark'               |
+| wordWrap    | `string` | `true` | 是否折行                           |
