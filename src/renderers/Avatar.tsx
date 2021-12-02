@@ -3,63 +3,13 @@
  */
 import React from 'react';
 import {Renderer, RendererProps} from '../factory';
-import {
-  BaseSchema,
-  SchemaClassName,
-  SchemaIcon,
-  SchemaUrlPath
-} from '../Schema';
+import Avatar from '../components/avatar';
 import {BadgeSchema, withBadge} from '../components/Badge';
-import {
-  isPureVariable,
-  resolveVariable,
-  resolveVariableAndFilter
-} from '../utils/tpl-builtin';
-
-/**
- * Avatar 用户头像显示
- * 文档：https://baidu.gitee.io/amis/docs/components/avatar
- */
+import {BaseSchema, SchemaClassName} from '../Schema';
+import {isPureVariable, resolveVariableAndFilter} from '../utils/tpl-builtin';
 export interface AvatarSchema extends BaseSchema {
-  /**
-   *  指定为用户头像控件
-   */
+  // 指定类型
   type: 'avatar';
-
-  /**
-   * 大小
-   */
-  size?: number;
-
-  /**
-   * 形状
-   */
-  shape?: 'circle' | 'square';
-
-  /**
-   * 图标
-   */
-  icon?: string;
-
-  /**
-   * 文本
-   */
-  text?: string;
-
-  /**
-   * 图片地址
-   */
-  src?: string;
-
-  /**
-   * 图片相对于容器的缩放方式
-   */
-  fit?: 'fill' | 'contain' | 'cover' | 'none' | 'scale-down';
-
-  /**
-   * 图片无法显示时的替换文字地址
-   */
-  alt?: string;
 
   /**
    * 类名
@@ -77,67 +27,122 @@ export interface AvatarSchema extends BaseSchema {
    * 角标
    */
   badge?: BadgeSchema;
+
+  /**
+   * 图片地址
+   */
+  src?: string | React.ReactNode;
+
+  /**
+   * 图标
+   */
+  icon?: string | React.ReactNode;
+
+  /**
+   * 图片相对于容器的缩放方式
+   */
+  fit?: 'fill' | 'contain' | 'cover' | 'none' | 'scale-down';
+
+  /**
+   * 形状
+   */
+  shape?: 'circle' | 'square' | 'rounded';
+
+  /**
+   * 大小
+   */
+  size?: number | 'small' | 'default' | 'large';
+
+  /**
+   * 文本
+   */
+  text?: string;
+
+  /**
+   * 字符类型距离左右两侧边界单位像素
+   */
+  gap?: number;
+
+  /**
+   * 图片无法显示时的替换文字地址
+   */
+  alt?: string;
+
+  /**
+   * 图片是否允许拖动
+   */
+  draggable?: boolean;
+
+  /**
+   * 图片CORS属性
+   */
+  crossOrigin: 'anonymous' | 'use-credentials' | '';
+
+  /**
+   * 图片加载失败的事件，返回 false 会关闭组件默认的
+   */
+  onError?: () => boolean;
 }
 
-export interface AvatarProps
-  extends RendererProps,
-    Omit<AvatarSchema, 'type' | 'className'> {}
+export interface AvatarProps extends RendererProps, Omit<AvatarSchema, 'type' | 'className'> {
+  children?: JSX.Element | ((props?: any) => JSX.Element);
+}
 
-export class AvatarField extends React.Component<AvatarProps, object> {
+export class AvatarField extends React.Component<AvatarProps, {}> {
+  constructor(props: AvatarProps) {
+    super(props);
+  }
+
   render() {
     let {
+      style = {},
       className,
-      icon = 'fa fa-user',
-      text,
+      classnames,
       src,
-      fit = 'cover',
-      data,
-      shape = 'circle',
-      size = 40,
-      style,
-      classnames: cx,
-      props
+      icon,
+      fit,
+      shape,
+      size,
+      text,
+      gap,
+      alt,
+      draggable,
+      crossOrigin,
+      children,
+      onError,
+      data
     } = this.props;
-
-    let sizeStyle = {
-      height: size,
-      width: size,
-      lineHeight: size + 'px'
-    };
-
-    if (isPureVariable(text)) {
-      text = resolveVariableAndFilter(text, data);
-    }
 
     if (isPureVariable(src)) {
       src = resolveVariableAndFilter(src, data, '| raw');
+    }
+
+    if (isPureVariable(text)) {
+      text = resolveVariableAndFilter(text, data);
     }
 
     if (isPureVariable(icon)) {
       icon = resolveVariableAndFilter(icon, data);
     }
 
-    let avatar = <i className={icon} />;
-
-    if (text) {
-      if (text.length > 2) {
-        text = text.substring(0, 2).toUpperCase();
-      }
-      avatar = <span>{text}</span>;
-    }
-
-    if (src) {
-      avatar = <img src={src} style={{objectFit: fit}} />;
-    }
-
     return (
-      <div
-        className={cx('Avatar', className, `Avatar--${shape}`)}
-        style={{...sizeStyle, ...style}}
-        {...props}
-      >
-        {avatar}
-      </div>
+      <Avatar
+        style={style}
+        className={className}
+        classnames={classnames}
+        src={src}
+        icon={icon}
+        fit={fit}
+        shape={shape}
+        size={size}
+        text={text}
+        gap={gap}
+        alt={alt}
+        draggable={draggable}
+        crossOrigin={crossOrigin}
+        onError={onError}>
+        {children}
+      </Avatar>
     );
   }
 }
