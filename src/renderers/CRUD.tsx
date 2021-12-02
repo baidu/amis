@@ -2050,7 +2050,6 @@ export default class CRUD extends React.Component<CRUDProps, any> {
                   'Crud-filter',
                   filter.panelClassName || 'Panel--default'
                 ),
-                api: undefined,
                 data: store.filterData,
                 onReset: this.handleFilterReset,
                 onSubmit: this.handleFilterSubmit,
