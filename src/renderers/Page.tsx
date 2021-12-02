@@ -86,6 +86,21 @@ export interface PageSchema extends BaseSchema {
   aside?: SchemaCollection;
 
   /**
+   * 边栏是否允许拖动
+   */
+  asideResizor?: boolean;
+
+  /**
+   * 边栏最小宽度
+   */
+  asideMinWidth?: number;
+
+   /**
+   * 边栏最小宽度
+   */
+  asideMaxWidth?: number;
+
+  /**
    * 边栏区 css 类名
    */
   asideClassName?: SchemaClassName;
@@ -199,6 +214,9 @@ export default class Page extends React.Component<PageProps> {
   mounted: boolean;
   style: HTMLStyleElement;
   varStyle: HTMLStyleElement;
+  startX: number;
+  startWidth: number;
+  codeWrap: HTMLElement;
 
   static defaultProps = {
     asideClassName: '',
@@ -499,6 +517,37 @@ export default class Page extends React.Component<PageProps> {
     }
   }
 
+  @autobind
+  handleResizeMouseDown(e: React.MouseEvent) {
+    // todo 可能 ie 不正确
+    let isRightMB = e.nativeEvent.which == 3;
+
+    if (isRightMB) {
+      return;
+    }
+
+    this.codeWrap = e.currentTarget.parentElement as HTMLElement;
+    document.addEventListener('mousemove', this.handleResizeMouseMove);
+    document.addEventListener('mouseup', this.handleResizeMouseUp);
+    this.startX = e.clientX;
+    this.startWidth = this.codeWrap.offsetWidth;
+  }
+
+  @autobind
+  handleResizeMouseMove(e: MouseEvent) {
+    const {asideMinWidth = 160, asideMaxWidth = 350} = this.props;
+    const dx = e.clientX - this.startX;
+    const mx = this.startWidth + dx;
+    const width = Math.min(Math.max(mx, asideMinWidth), asideMaxWidth);
+    this.codeWrap.style.cssText += `width: ${width}px`;
+  }
+
+  @autobind
+  handleResizeMouseUp() {
+    document.removeEventListener('mousemove', this.handleResizeMouseMove);
+    document.removeEventListener('mouseup', this.handleResizeMouseUp);
+  }
+
   openFeedback(dialog: any, ctx: any) {
     return new Promise(resolve => {
       const {store} = this.props;
@@ -658,6 +707,7 @@ export default class Page extends React.Component<PageProps> {
       regions,
       style,
       data,
+      asideResizor,
       translate: __
     } = this.props;
 
@@ -684,7 +734,11 @@ export default class Page extends React.Component<PageProps> {
         style={styleVar}
       >
         {hasAside ? (
-          <div className={cx(`Page-aside`, asideClassName)}>
+          <div className={cx(
+            `Page-aside`,
+            asideResizor ? 'relative' : 'Page-aside--withWidth',
+            asideClassName
+          )}>
             {render('aside', aside || '', {
               ...subProps,
               ...(typeof aside === 'string'
@@ -694,6 +748,13 @@ export default class Page extends React.Component<PageProps> {
                   }
                 : null)
             })}
+            {asideResizor ? (
+              <div
+                onMouseDown={this.handleResizeMouseDown}
+                className={cx(`Page-asideResizor`)}
+              ></div>
+            ) : null}
+            
           </div>
         ) : null}
 

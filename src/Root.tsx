@@ -140,8 +140,9 @@ export function renderChild(
   const transform = props.propsTransform;
 
   if (transform) {
-    // @ts-ignore
+    props = {...props};
     delete props.propsTransform;
+
     props = transform(props);
   }
 

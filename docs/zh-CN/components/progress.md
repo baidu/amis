@@ -42,6 +42,24 @@ order: 60
             "type": "progress",
             "value": 60,
             "map": ["bg-danger", "bg-success"]
+        },
+        {
+            "type": "divider"
+        },
+        {
+            "type": "progress",
+            "value": 60,
+            "map": ["bg-danger", "bg-success"],
+            "mode": "circle"
+        },
+        {
+            "type": "divider"
+        },
+        {
+            "type": "progress",
+            "value": 10,
+            "map": ["bg-danger", "bg-success"],
+            "mode": "circle"
         }
     ]
 }
@@ -122,31 +140,106 @@ List 的内容、Card 卡片的内容配置同上
 
 ## 显示动画
 
-需要同时开启显示背景间隔才能看出来
+需要条形进度条才生效
+
+```schema
+{
+    "type": "page",
+    "body": [
+      {
+          "type": "progress",
+          "animate": true,
+          "value": 60
+      },
+      {
+          "type": "divider"
+      },
+      {
+          "type": "progress",
+          "animate": true,
+          "value": 60,
+          "stripe": true
+      }
+    ]
+}
+```
+
+## 圆形进度条
 
 ```schema
 {
     "type": "page",
     "body": {
         "type": "progress",
-        "stripe": true,
-        "animate": true,
-        "value": 60
+        "value": 60,
+        "mode": "circle"
+    }
+}
+```
+
+## 仪表盘进度条
+
+可设置缺口位置和缺口角度
+
+```schema
+{
+    "type": "page",
+    "body": {
+        "type": "progress",
+        "value": 60,
+        "mode": "dashboard",
+        "gapDegree": 22,
+        "gapPosition": "bottom"
+    }
+}
+```
+
+## 圆形进度条设置线条宽度
+
+可设置 strokeWidth 调整线条宽度
+
+```schema
+{
+    "type": "page",
+    "body": {
+        "type": "progress",
+        "value": 60,
+        "mode": "dashboard",
+        "strokeWidth": 3
+    }
+}
+```
+
+## 自定义格式输出内容
+
+```schema
+{
+    "type": "page",
+    "body": {
+        "type": "progress",
+        "mode": "circle",
+        "value": 60,
+        "valueTpl": "${value}个"
     }
 }
 ```
 
 ## 属性表
 
-| 属性名               | 类型            | 默认值                                                               | 说明                                                                                   |
-| -------------------- | --------------- | -------------------------------------------------------------------- | -------------------------------------------------------------------------------------- |
-| type                 | `string`        |                                                                      | 如果在 Table、Card 和 List 中，为`"color"`；在 Form 中用作静态展示，为`"static-color"` |
-| className            | `string`        |                                                                      | 外层 CSS 类名                                                                          |
-| progressClassName    | `string`        | `progress-xs progress-striped active m-b-none`                       | 进度调 CSS 类名                                                                        |
-| progressBarClassName | `string`        |                                                                      | 完成进度条 CSS 类名                                                                    |
-| value                | `string`        |                                                                      | 进度值                                                                                 |
-| placeholder          | `string`        | `-`                                                                  | 占位文本                                                                               |
-| showLabel            | `boolean`       | `true`                                                               | 是否展示进度文本                                                                       |
-| strip                | `boolean`       | ` false`                                                             | 背景是否显示条纹                                                                       |
-| animate              | `boolean`       | `false`                                                              | 背景条纹是否有动画                                                                     |
-| map                  | `Array<string>` | `['bg-danger', 'bg-warning', 'bg-info', 'bg-success', 'bg-success']` | 进度颜色映射                                                                           |
+| 属性名               | 类型            | 默认值                                                               | 说明                                              |
+| -------------------- | --------------- | -------------------------------------------------------------------- | ------------------------------------------------- |
+| type                 | `string`        |                                                                      | 如果在 Form 中用作静态展示，为`"static-progress"` |
+| mode                 | `string`        | `line`                                                               | 进度「条」的类型，可选`line circle dashboard`     |
+| className            | `string`        |                                                                      | 外层 CSS 类名                                     |
+| progressClassName    | `string`        | `progress-xs progress-striped active m-b-none`                       | 进度条 CSS 类名                                   |
+| progressBarClassName | `string`        |                                                                      | 完成进度条 CSS 类名                               |
+| value                | `string`        |                                                                      | 进度值                                            |
+| placeholder          | `string`        | `-`                                                                  | 占位文本                                          |
+| showLabel            | `boolean`       | `true`                                                               | 是否展示进度文本                                  |
+| stripe               | `boolean`       | `false`                                                              | 背景是否显示条纹                                  |
+| animate              | `boolean`       | `false`                                                              | type 为 line，可支持动画                          |
+| map                  | `Array<string>` | `['bg-danger', 'bg-warning', 'bg-info', 'bg-success', 'bg-success']` | 进度颜色映射                                      |
+| valueTpl             | `string`        | `${value}%`                                                          | 自定义格式化内容                                  |
+| strokeWidth          | `number`        | `6`                                                                  | 圆形进度条线宽度                                  |
+| gapDegree            | `number`        | `75`                                                                 | 仪表盘缺角角度，可取值 0 ~ 295                    |
+| gapPosition          | `string`        | `bottom`                                                             | 仪表盘进度条缺口位置，可选`top bottom left right` |

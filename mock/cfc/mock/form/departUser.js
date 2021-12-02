@@ -135,7 +135,20 @@ module.exports = function (req, res) {
       status: 0,
       msg: '',
       data: {
-        options: resolved ? resolved.children : []
+        options: resolved
+          ? resolved.children.map(item => {
+              item = {
+                ...item
+              };
+
+              if (item.children) {
+                item.defer = true;
+                delete item.children;
+              }
+
+              return item;
+            })
+          : []
       }
     });
     return;

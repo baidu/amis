@@ -51,6 +51,11 @@
     pointer-events: auto;
     border: var(--Button-borderWidth) solid var(--Button-onDisabled-borderColor);
     background: var(--Button-onDisabled-bg);
+
+    & > svg,
+    & > svg path {
+      fill: currentColor;
+    }
   }
 
   &:not(:disabled):not(.is-disabled) {
@@ -363,5 +368,12 @@ input[type='button'] {
   > .#{$ns}Button {
     margin-left: var(--gap-xs);
     margin-top: var(--gap-xs);
+  }
+}
+
+.#{$ns}Action {
+  display: inline-block;
+  &:hover {
+    cursor: pointer;
   }
 }

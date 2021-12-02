@@ -138,7 +138,7 @@ api 的来源有两方面，一个是各种组件的 api 及 source 配置，另
   "eventType": "api",
   "eventData": {
     "method": "get",
-    "url": "/api/sample?page=1&perPage=10",
+    "url": "/api/mock2/sample?page=1&perPage=10",
     "query": {
       "page": 1,
       "perPage": 10

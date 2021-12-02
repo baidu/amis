@@ -1,7 +1,7 @@
 import React from 'react';
 import {findDOMNode} from 'react-dom';
 import {Renderer, RendererProps} from '../factory';
-import {SchemaNode, Schema, Action} from '../types';
+import {SchemaNode, Schema, Action, PlainObject} from '../types';
 import {filter, evalExpression} from '../utils/tpl';
 import cx from 'classnames';
 import Checkbox from '../components/Checkbox';
@@ -11,7 +11,8 @@ import {
   isVisible,
   isDisabled,
   noop,
-  isClickOnInput
+  isClickOnInput,
+  hashCode
 } from '../utils/helper';
 import {resolveVariable} from '../utils/tpl-builtin';
 import QuickEdit, {SchemaQuickEdit} from './QuickEdit';
@@ -128,6 +129,7 @@ export interface CardSchema extends BaseSchema {
     avatar?: SchemaUrlPath;
 
     avatarText?: SchemaTpl;
+    avatarTextBackground?: String[];
     avatarTextClassName?: SchemaClassName;
 
     /**
@@ -485,6 +487,7 @@ export class Card extends React.Component<CardProps> {
         highlight: highlightTpl,
         avatar: avatarTpl,
         avatarText: avatarTextTpl,
+        avatarTextBackground,
         title: titleTpl,
         subTitle: subTitleTpl,
         subTitlePlaceholder,
@@ -500,6 +503,13 @@ export class Card extends React.Component<CardProps> {
       const title = filter(titleTpl, data);
       const subTitle = filter(subTitleTpl, data);
       const desc = filter(header?.description || descTpl, data);
+      const avatarTextStyle: PlainObject = {};
+      if (avatarText && avatarTextBackground && avatarTextBackground.length) {
+        avatarTextStyle['background'] =
+          avatarTextBackground[
+            Math.abs(hashCode(avatarText)) % avatarTextBackground.length
+          ];
+      }
 
       heading = (
         <div className={cx('Card-heading', header?.className)}>
@@ -524,6 +534,7 @@ export class Card extends React.Component<CardProps> {
                 'Card-avtarText',
                 header?.avatarTextClassName || avatarTextClassName
               )}
+              style={avatarTextStyle}
             >
               {avatarText}
             </span>
@@ -545,7 +556,7 @@ export class Card extends React.Component<CardProps> {
                   header?.titleClassName || titleClassName
                 )}
               >
-                {render('title', title)}
+                {render('title', titleTpl!)}
               </div>
             ) : null}
 
@@ -556,7 +567,7 @@ export class Card extends React.Component<CardProps> {
                   header?.subTitleClassName || subTitleClassName
                 )}
               >
-                {render('sub-title', subTitle || subTitlePlaceholder!, {
+                {render('sub-title', subTitleTpl || subTitlePlaceholder!, {
                   className: cx(!subTitle ? 'Card-placeholder' : undefined)
                 })}
               </div>
@@ -571,7 +582,7 @@ export class Card extends React.Component<CardProps> {
                     descClassName
                 )}
               >
-                {render('desc', desc || descPlaceholder!, {
+                {render('desc', header?.description || descTpl!, {
                   className: !desc ? 'text-muted' : undefined
                 })}
               </div>

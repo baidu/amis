@@ -481,6 +481,7 @@
       ) / 2 - var(--ColorPicker-borderWidth)
   );
   --ColorPicker-placeholderColor: var(--Form-input-placeholderColor);
+  --ColorPicker-boxShadow: var(--boxShadow);
 
   --Combo--horizontal-dragger-top: var(--Form-label-paddingTop);
   --Combo--horizontal-item-gap: var(--gap-xs);
@@ -1290,31 +1291,32 @@
   );
   --TagControl-sugTip-color: var(--info);
 
-  --Toast--danger-bgColor: var(--danger);
-  --Toast--danger-borderColor: var(--danger);
+  --Toast-color: var(--text-color);
+  --Toast--danger-bgColor: var(--background);
+  --Toast--danger-borderColor: transparent;
   --Toast--danger-color: var(--Toast-color);
-  --Toast--info-bgColor: var(--info);
-  --Toast--info-borderColor: var(--info);
+  --Toast--info-bgColor: var(--background);
+  --Toast--info-borderColor: transparent;
   --Toast--info-color: var(--Toast-color);
-  --Toast--success-bgColor: var(--success);
-  --Toast--success-borderColor: var(--success);
+  --Toast--success-bgColor: var(--background);
+  --Toast--success-borderColor: transparent;
   --Toast--success-color: var(--Toast-color);
-  --Toast--warning-bgColor: var(--warning);
-  --Toast--warning-borderColor: var(--warning);
+  --Toast--warning-bgColor: var(--background);
+  --Toast--warning-borderColor: transparent;
   --Toast--warning-color: var(--Toast-color);
+
   --Toast-border-width: 0;
-  --Toast-borderRadius: var(--borderRadiusLg);
+  --Toast-borderRadius: #{px2rem(2px)};
   --Toast-box-shadow: var(--boxShadow);
+  --Toast-close-color: var(--icon-color);
   --Toast-close--onHover-color: var(--Toast-close-color);
-  --Toast-close-color: var(--white);
-  --Toast-color: var(--white);
 
   --Toast-icon-width: #{px2rem(16px)};
   --Toast-icon-height: var(--Toast-icon-width);
 
   --Toast-opacity: 0.8;
   --Toast-paddingL: #{px2rem(40px)};
-  --Toast-paddingX: var(--gap-sm);
+  --Toast-paddingX: var(--gap-md);
   --Toast-paddingY: var(--gap-xs);
   --Toast-title-display: block;
   --Toast-width: #{px2rem(300px)};
@@ -1404,6 +1406,9 @@
   --Steps-line-success-bg: var(--Steps-status-success);
 
   --Progress-borderRadius: var(--borderRadius);
+  --Progress-animate-backgroundColor: #fff;
+  --Progress-bar-backgroundColor: #d3d9e6;
+
   --ColumnToggler-backgroundColor: var(--white);
   --ColumnToggler-borderRadius: #{px2rem(4px)};
   --ColumnToggler-lineHeight: #{px2rem(24px)};

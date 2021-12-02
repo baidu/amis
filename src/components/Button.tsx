@@ -82,6 +82,7 @@ export class Button extends React.Component<ButtonProps> {
       <Comp
         type={Comp === 'input' || Comp === 'button' ? type : undefined}
         {...pickEventsProps(rest)}
+        onClick={rest.onClick && disabled ? () => {} : rest.onClick}
         href={href}
         className={cx(
           overrideClassName
