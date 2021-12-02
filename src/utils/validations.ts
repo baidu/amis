@@ -3,7 +3,7 @@ import {filter} from './tpl';
 import {isPureVariable, resolveVariableAndFilter} from './tpl-builtin';
 const isExisty = (value: any) => value !== null && value !== undefined;
 const isEmpty = (value: any) => value === '';
-const getValue = (values: any, value: any) => typeof value !== 'string' ? value : value.startsWith("${")&&value.endsWith("}")?values[value.substring(2, value.length - 1)]:value
+const getValue = (values: any, value: any) => typeof value !== 'string' ? value : values[value] ? values[value] : value
 const makeRegexp = (reg: string | RegExp) => {
   if (reg instanceof RegExp) {
     return reg;
