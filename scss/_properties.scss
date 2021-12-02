@@ -162,7 +162,9 @@
   --Audio-volume-width: var(--gap-md);
   --Audio-volumeControl-width: #{px2rem(110px)};
   --Avatar-bg: #{$gray300};
-  --Avatar-width: #{px2rem(40px)};
+  --Avatar-size-large: #{px2rem(48px)};
+  --Avatar-size-default: #{px2rem(40px)};
+  --Avatar-size-small: #{px2rem(32px)};
 
   --Badge-size: var(--gap-md);
   --Badge-color: var(--white);
