@@ -348,6 +348,7 @@ export default class DateControl extends React.PureComponent<
       format,
       timeFormat,
       valueFormat,
+      env,
       ...rest
     } = this.props;
 
@@ -363,6 +364,7 @@ export default class DateControl extends React.PureComponent<
           format={valueFormat || format}
           {...this.state}
           classnames={cx}
+          useMobileUI={env.useMobileUI}
         />
       </div>
     );
