@@ -7,7 +7,6 @@
   display: flex;
   flex-direction: column;
   width: 100%;
-  overflow: hidden;
 
   &--link {
     cursor: pointer;
@@ -86,7 +85,7 @@
     margin-left: var(--gap-md);
   }
   &-toolbar {
-    margin-right: calc(-1 * var(--gap-base));
+    line-height: normal;
     text-align: right;
   }
   &-highlight {
@@ -247,9 +246,25 @@
     .#{$ns}Card-actions {
       margin-left: unset;
       border: none;
+      width: unset;
     }
     .#{$ns}Card-actions > a {
       border: none;
+    }
+  }
+  &-multiMedia--top,
+  &-multiMedia--bottom,
+  &-multiMedia--left,
+  &-multiMedia--right {
+    .#{$ns}Card-actions-wrapper {
+      .#{$ns}Card-actions {
+        margin-left: unset;
+        border: none;
+        width: unset;
+      }
+      .#{$ns}Card-actions > a {
+        border: none;
+      }
     }
   }
   &-multiMedia--top {

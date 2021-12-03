@@ -662,9 +662,10 @@ export class CardRenderer extends React.Component<CardProps, CardState>  {
 
     if (header) {
       const {
-        desc: descTpl
+        desc: descTpl,
+        description: descriptionTpl
       } = header || {};
-      const desc = filter(header.description || descTpl, data);
+      const desc = filter(descriptionTpl! || descTpl!, data);
       return desc ? render('desc', desc, {
         className: !desc ? 'text-muted' : null
       }) : undefined;
@@ -750,6 +751,7 @@ export class CardRenderer extends React.Component<CardProps, CardState>  {
             Math.abs(hashCode(avatarText)) % avatarTextBackground.length
           ];
       }
+      console.log(avatarTextStyle);
       return avatarTextStyle;
     }
     return;
@@ -787,6 +789,7 @@ export class CardRenderer extends React.Component<CardProps, CardState>  {
     }
     return;
   }
+
   render() {
     const {
       header,
