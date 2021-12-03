@@ -3,7 +3,7 @@
  */
 import React from 'react';
 import {Renderer, RendererProps} from '../factory';
-import Avatar from '../components/avatar';
+import Avatar from '../components/Avatar';
 import {BadgeSchema, withBadge} from '../components/Badge';
 import {BaseSchema, SchemaClassName} from '../Schema';
 import {isPureVariable, resolveVariableAndFilter} from '../utils/tpl-builtin';
