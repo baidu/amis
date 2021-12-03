@@ -285,8 +285,8 @@ export interface DateProps extends LocaleProps, ThemeProps {
     className?: string
   }>;
   scheduleClassNames?: Array<string>;
-  scheduleAction?: React.ReactElement;
   largeMode?: boolean;
+  onScheduleClick?: (scheduleData: any) => void;
 
   // 下面那个千万不要写，写了就会导致 keyof DateProps 得到的结果是 string | number;
   // [propName: string]: any;
@@ -296,12 +296,6 @@ export interface DatePickerState {
   isOpened: boolean;
   isFocused: boolean;
   value: moment.Moment | undefined;
-  schedules?: Array<{
-    startTime: Date;
-    endTime: Date;
-    content: any;
-    className?: string;
-  }>;
 }
 
 function normalizeValue(value: any, format?: string) {
@@ -318,7 +312,7 @@ export class DatePicker extends React.Component<DateProps, DatePickerState> {
     shortcuts: '',
     closeOnSelect: true,
     overlayPlacement: 'auto',
-    scheduleClassNames: ['bg-secondary', 'bg-success', 'bg-info', 'bg-warning', 'bg-danger', 'bg-dark']
+    scheduleClassNames: ['bg-warning', 'bg-danger', 'bg-success', 'bg-info', 'bg-secondary']
   };
   state: DatePickerState = {
     isOpened: false,
@@ -342,25 +336,6 @@ export class DatePicker extends React.Component<DateProps, DatePickerState> {
     this.getTarget = this.getTarget.bind(this);
     this.handlePopOverClick = this.handlePopOverClick.bind(this);
     this.renderShortCuts = this.renderShortCuts.bind(this);
-
-    if (props.schedules) {
-      // 设置日程颜色
-      let index = 0;
-      this.state.schedules = props.schedules.map((schedule: any) => {
-        let className = schedule.className;
-        if (!className && props.scheduleClassNames) {
-          className = props.scheduleClassNames[index];
-          index++;
-          if (index >= props.scheduleClassNames.length) {
-            index = 0;
-          }
-        }
-        return {
-          ...schedule,
-          className
-        };
-      });
-    }
   }
 
   dom: HTMLDivElement;
@@ -583,8 +558,9 @@ export class DatePicker extends React.Component<DateProps, DatePickerState> {
       embed,
       minDate,
       schedules,
-      scheduleAction,
-      largeMode
+      largeMode,
+      scheduleClassNames,
+      onScheduleClick
     } = this.props;
 
     const __ = this.props.translate;
@@ -592,13 +568,32 @@ export class DatePicker extends React.Component<DateProps, DatePickerState> {
     let date: moment.Moment | undefined = this.state.value;
 
     if (embed) {
+      let schedulesData: DateProps['schedules'] = undefined;
+      if (schedules && Array.isArray(schedules)) {
+        // 设置日程颜色
+        let index = 0;
+        schedulesData = schedules.map((schedule: any) => {
+          let className = schedule.className;
+          if (!className && scheduleClassNames) {
+            className = scheduleClassNames[index];
+            index++;
+            if (index >= scheduleClassNames.length) {
+              index = 0;
+            }
+          }
+          return {
+            ...schedule,
+            className
+          };
+        });
+      }
       return (
         <div
           className={cx(
             `DateCalendar`,
             {
               'is-disabled': disabled,
-              'ScheduleCalendar': schedules,
+              'ScheduleCalendar': schedulesData,
               'ScheduleCalendar-large': largeMode
             },
             className
@@ -618,9 +613,9 @@ export class DatePicker extends React.Component<DateProps, DatePickerState> {
             locale={locale}
             minDate={minDate}
             // utc={utc}
-            schedules={this.state.schedules}
-            scheduleAction={scheduleAction}
+            schedules={schedulesData}
             largeMode={largeMode}
+            onScheduleClick={onScheduleClick}
           />
         </div>
       );

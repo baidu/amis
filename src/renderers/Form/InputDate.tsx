@@ -1,11 +1,12 @@
 import React from 'react';
 import {FormItem, FormControlProps, FormBaseControl} from './Item';
 import cx from 'classnames';
-import {filterDate} from '../../utils/tpl-builtin';
+import {filterDate, isPureVariable, resolveVariableAndFilter} from '../../utils/tpl-builtin';
 import moment from 'moment';
 import 'moment/locale/zh-cn';
 import DatePicker from '../../components/DatePicker';
 import {SchemaObject} from '../../Schema';
+import {createObject, anyChanged} from '../../utils/helper';
 
 export interface InputDateBaseControlSchema extends FormBaseControl {
   /**
@@ -286,6 +287,12 @@ export interface DateProps extends FormControlProps {
 interface DateControlState {
   minDate?: moment.Moment;
   maxDate?: moment.Moment;
+  schedules?: Array<{
+    startTime: Date,
+    endTime: Date,
+    content: any,
+    className?: string
+  }>;
 }
 
 export default class DateControl extends React.PureComponent<
@@ -323,9 +330,18 @@ export default class DateControl extends React.PureComponent<
       setPrinstineValue((utc ? moment.utc(date) : date).format(format));
     }
 
+    let schedulesData = props.schedules;
+    if (typeof schedulesData === 'string') {
+      const resolved = resolveVariableAndFilter(schedulesData, data, '| raw');
+      if (Array.isArray(resolved)) {
+        schedulesData = resolved;
+      }
+    }
+
     this.state = {
       minDate: minDate ? filterDate(minDate, data, format) : undefined,
-      maxDate: maxDate ? filterDate(maxDate, data, format) : undefined
+      maxDate: maxDate ? filterDate(maxDate, data, format) : undefined,
+      schedules: schedulesData
     };
   }
 
@@ -353,6 +369,29 @@ export default class DateControl extends React.PureComponent<
           : undefined
       });
     }
+
+    if (anyChanged(['schedules'], prevProps, props) ||
+      (!Array.isArray(this.state.schedules) &&
+        (props.data !== prevProps.data ||
+          (typeof props.schedules === 'string' && isPureVariable(props.schedules))))
+    ) {
+      let schedulesData = resolveVariableAndFilter(props.schedules, props.data, '| raw');
+      if (Array.isArray(schedulesData)) {
+        this.setState({
+          schedules: schedulesData
+        })
+      }
+    }
+  }
+
+  // 日程点击事件
+  onScheduleClick(scheduleData: any) {
+    const {scheduleAction, onAction, data} = this.props;
+
+    scheduleAction
+      && onAction
+      && onAction(null, scheduleAction, createObject(data, scheduleData));
+
   }
 
   render() {
@@ -367,7 +406,6 @@ export default class DateControl extends React.PureComponent<
       format,
       timeFormat,
       valueFormat,
-      schedules,
       scheduleAction,
       largeMode,
       render,
@@ -386,9 +424,9 @@ export default class DateControl extends React.PureComponent<
           format={valueFormat || format}
           {...this.state}
           classnames={cx}
-          schedules={schedules}
-          scheduleAction={render('scheduleAction', scheduleAction, {className: cx('ScheduleCalendar-action')})}
+          schedules={this.state.schedules}
           largeMode={largeMode}
+          onScheduleClick={this.onScheduleClick.bind(this)}
         />
       </div>
     );
@@ -407,9 +445,7 @@ export class DateControlRenderer extends DateControl {
     timeFormat: '',
     strictMode: false,
     scheduleAction: {
-      type: 'button',
       actionType: 'dialog',
-      label: '${currentDate}',
       dialog: {
         title: '日程',
         actions: [],

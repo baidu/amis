@@ -34,8 +34,8 @@ interface BaseDatePickerProps
     content: string | React.ReactElement;
     color?: string;
   }>;
-  scheduleAction?: React.ReactElement;
   largeMode?: boolean;
+  onScheduleClick?: (scheduleData: any) => void;
 }
 
 class BaseDatePicker extends ReactDatePicker {
@@ -92,8 +92,8 @@ class BaseDatePicker extends ReactDatePicker {
         'classnames',
         'minDate',
         'schedules',
-        'scheduleAction',
-        'largeMode'
+        'largeMode',
+        'onScheduleClick'
       ].forEach(key => (props[key] = (this.props as any)[key]));
 
       return props;

@@ -46,8 +46,8 @@ interface CustomDaysViewProps extends LocaleProps {
     content: any,
     className?: string
   }>;
-  scheduleAction?: React.ReactElement;
   largeMode?: boolean;
+  onScheduleClick?: (scheduleData: any) => void;
 }
 
 export class CustomDaysView extends DaysView {
@@ -133,9 +133,19 @@ export class CustomDaysView extends DaysView {
           schedule.push(item);
         }
       });
-      if (schedule.length > 0 && this.props.scheduleAction) {
+      if (schedule.length > 0) {
         const cx = this.props.classnames;
-        const actionRender = this.props.scheduleAction;
+        const __ = this.props.translate;
+        // 日程数据
+        const scheduleData = {
+          scheduleData: schedule.map((item: any) => {
+            return {
+              ...item,
+              time: moment(item.startTime).format('YYYY-MM-DD HH:mm:ss') + ' - ' + moment(item.endTime).format('YYYY-MM-DD HH:mm:ss'),
+            }
+          }),
+          currentDate
+        };
 
         // 放大模式
         if (this.props.largeMode) {
@@ -144,7 +154,7 @@ export class CustomDaysView extends DaysView {
             if (showSchedule.length > 3) {
               break;
             }
-            if (moment(schedule[i].startTime).date() === currentDate.date()) {
+            if (moment(schedule[i].startTime).isSame(currentDate, 'day')) {
               showSchedule.push(schedule[i]);
             }
             else if (currentDate.weekday() === 0) {
@@ -179,41 +189,19 @@ export class CustomDaysView extends DaysView {
                 <div className={cx('ScheduleCalendar-text-overflow')}>{item.content}</div>
             </div>;
           });
-          return <td {...props}>
+          return <td {...props} onClick={() => this.props.onScheduleClick && this.props.onScheduleClick(scheduleData)}>
               <div className={cx('ScheduleCalendar-large-day-wrap')}>
                 <div className={cx('ScheduleCalendar-large-schedule-header')}>{currentDate.date()}</div>
                 {scheduleDiv}
-                {schedule.length > 3 && <div className={cx('ScheduleCalendar-large-schedule-footer')}>{schedule.length - 3} more</div>}
+                {schedule.length > 3 && <div className={cx('ScheduleCalendar-large-schedule-footer')}>{schedule.length - 3} {__('more')}</div>}
               </div>
-              {React.cloneElement(actionRender, {
-              ...actionRender.props,
-              data: {
-                scheduleData: schedule.map((item: any) => {
-                  return {
-                    ...item,
-                    time: moment(item.startTime).format('YYYY-MM-DD HH:mm:ss') + ' - ' + moment(item.endTime).format('YYYY-MM-DD HH:mm:ss'),
-                  }
-                })
-              }
-            })}
           </td>
         }
 
         // 正常模式
         const ScheduleIcon = <span className={cx('ScheduleCalendar-icon', schedule[0].className)}></span>;
-        return <td {...props}>
-          {React.cloneElement(actionRender, {
-            ...actionRender.props,
-            data: {
-              scheduleData: schedule.map((item: any) => {
-                return {
-                  ...item,
-                  time: moment(item.startTime).format('YYYY-MM-DD HH:mm:ss') + ' - ' + moment(item.endTime).format('YYYY-MM-DD HH:mm:ss'),
-                }
-              }),
-              currentDate: currentDate.date()
-            }
-          })}
+        return <td {...props} onClick={() => this.props.onScheduleClick && this.props.onScheduleClick(scheduleData)}>
+          {currentDate.date()}
           {ScheduleIcon}
         </td>;
       }
