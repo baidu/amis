@@ -370,13 +370,12 @@ export default class DateControl extends React.PureComponent<
       });
     }
 
-    if (anyChanged(['schedules'], prevProps, props) ||
-      (!Array.isArray(this.state.schedules) &&
-        (props.data !== prevProps.data ||
-          (typeof props.schedules === 'string' && isPureVariable(props.schedules))))
+    if (anyChanged(['schedules', 'data'], prevProps, props)
+      && (typeof props.schedules === 'string' && isPureVariable(props.schedules))
     ) {
-      let schedulesData = resolveVariableAndFilter(props.schedules, props.data, '| raw');
-      if (Array.isArray(schedulesData)) {
+      const schedulesData = resolveVariableAndFilter(props.schedules, props.data, '| raw');
+      const preSchedulesData = resolveVariableAndFilter(prevProps.schedules, prevProps.data, '| raw');
+      if (Array.isArray(schedulesData) && preSchedulesData !== schedulesData) {
         this.setState({
           schedules: schedulesData
         })
@@ -386,11 +385,30 @@ export default class DateControl extends React.PureComponent<
 
   // 日程点击事件
   onScheduleClick(scheduleData: any) {
-    const {scheduleAction, onAction, data} = this.props;
+    const {scheduleAction, onAction, data, translate: __} = this.props;
+    const defaultscheduleAction = {
+      actionType: 'dialog',
+      dialog: {
+        title: __('Schedule'),
+        actions: [],
+        body: {
+          type: 'table',
+          columns: [
+            {
+              name: 'time',
+              label: __('Time')
+            },
+            {
+              name: 'content',
+              label: __('Content')
+            }
+          ],
+          data: '${scheduleData}'
+        }
+      }
+    };
 
-    scheduleAction
-      && onAction
-      && onAction(null, scheduleAction, createObject(data, scheduleData));
+    onAction && onAction(null, scheduleAction || defaultscheduleAction, createObject(data, scheduleData));
 
   }
 
@@ -406,7 +424,6 @@ export default class DateControl extends React.PureComponent<
       format,
       timeFormat,
       valueFormat,
-      scheduleAction,
       largeMode,
       render,
       ...rest
@@ -443,28 +460,7 @@ export class DateControlRenderer extends DateControl {
     placeholder: 'Date.placeholder',
     dateFormat: 'YYYY-MM-DD',
     timeFormat: '',
-    strictMode: false,
-    scheduleAction: {
-      actionType: 'dialog',
-      dialog: {
-        title: '日程',
-        actions: [],
-        body: {
-          type: 'table',
-          columns: [
-            {
-              name: 'time',
-              label: '时间'
-            },
-            {
-              name: 'content',
-              label: '内容'
-            }
-          ],
-          data: '${scheduleData}'
-        }
-      }
-    }
+    strictMode: false
   };
 }
 
