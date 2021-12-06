@@ -70,7 +70,6 @@ interface AvatarCmptProps extends ThemeProps {
 const prefix = 'Avatar--';
 const childPrefix = prefix + 'text';
 
-
 export interface AvatarState {
   scale: number;
   hasImg: boolean;
