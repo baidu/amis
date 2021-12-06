@@ -8,6 +8,7 @@ import NotFound from './404';
 import {default as Alert, alert, confirm, prompt} from './Alert';
 import {default as ContextMenu, openContextMenus} from './ContextMenu';
 import AsideNav from './AsideNav';
+import Avatar from './Avatar';
 import Button from './Button';
 import Checkbox from './Checkbox';
 import Checkboxes from './Selection';
@@ -59,6 +60,7 @@ export {
   NotFound,
   Alert as AlertComponent,
   alert,
+  Avatar,
   confirm,
   prompt,
   ContextMenu,
