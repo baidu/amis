@@ -227,7 +227,7 @@ export class Collapse extends React.Component<CollapseProps, CollapseState> {
           {
             'is-active': !this.state.collapsed,
             [`Collapse--${size}`]: size,
-            'Collapse--disabled': disabled || collapsable === false,
+            'Collapse--disabled': disabled,
             'Collapse--title-bottom': headerPosition === 'bottom'
           },
           className
