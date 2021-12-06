@@ -44,4 +44,11 @@
       background: rgba(0, 0, 0, 0.3);
     }
   }
+
+  &--leftBottomLeftTop {
+    margin-top: px2rem(4px);
+  }
+  &--leftTopLeftBottom {
+    margin-top: px2rem(-4px);
+  }
 }

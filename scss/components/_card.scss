@@ -60,6 +60,7 @@
   }
 
   &-avtarText {
+    flex-shrink: 0;
     background: var(--primary);
     color: var(--white);
     width: 50px;
@@ -71,7 +72,7 @@
     float: left;
     margin-right: var(--gap-base);
     font-size: var(--fontSizeXl);
-    text-transform: uppercase();
+    text-transform: uppercase;
   }
 
   &-meta {

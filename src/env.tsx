@@ -53,6 +53,7 @@ export interface RendererEnv {
     reRender: Function
   ) => Promise<React.ReactType> | React.ReactType | JSX.Element | void;
   loadChartExtends?: () => void | Promise<void>;
+  useMobileUI?: boolean;
   [propName: string]: any;
 }
 

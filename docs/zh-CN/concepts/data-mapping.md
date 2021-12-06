@@ -376,6 +376,8 @@ order: 12
 
 ## 过滤器
 
+1.5.0 开始，更推荐用函数调用的语法来写，如 `${xxx | html}` 改用 `${html(xxx)}`。具体请查看[新表达式语法](./expression#新表达式语法)
+
 过滤器是对数据映射的一种增强，它的作用是对获取数据做一些处理，基本用法如下：
 
 ```
@@ -1367,6 +1369,33 @@ ${xxx | upperCase}
   "body": {
     "type": "tpl",
     "tpl": "Hello ${text|upperCase}" // 输出: Hello WORLD
+  }
+}
+```
+
+### substring
+
+> 1.5.0 及以上版本
+
+取字符串的一部分，第一个参数是起始，第二个参数的结束
+
+##### 基本用法
+
+下面写法将会取前两个字符
+
+```
+${xxx | substring:0:2}
+```
+
+```schema
+{
+  "type": "page",
+  "data": {
+    "text": "World"
+  },
+  "body": {
+    "type": "tpl",
+    "tpl": "Hello ${text|substring:0:2}"
   }
 }
 ```

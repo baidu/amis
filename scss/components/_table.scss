@@ -284,6 +284,12 @@
       }
     }
 
+    &--checkOnItemClick {
+      > tbody > tr {
+        cursor: pointer;
+      }
+    }
+
     > thead > tr {
       > th {
         background: var(--Table-thead-bg);
@@ -543,6 +549,9 @@
       width: px2rem(1px);
       padding-right: 0;
       cursor: move;
+      > svg {
+        vertical-align: middle;
+      }
     }
 
     > tbody > tr > td.#{$ns}Table-expandCell {
@@ -872,6 +881,9 @@
     &:hover {
       text-decoration: none;
       color: var(--icon-onHover-color);
+    }
+    > svg {
+      vertical-align: -2px;
     }
   }
 

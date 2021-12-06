@@ -47,19 +47,19 @@
     border-radius: var(--borderRadius);
   }
 
-  &-select > &-checkboxes,
-  &-result > &-selections {
+  &-select > &-selection,
+  &-result > &-value {
     flex-grow: 1;
     max-height: 100%;
     overflow: auto;
     position: relative; // 貌似不加 relative 会有 bug。
   }
 
-  &-search + &-checkboxes {
+  &-search + &-selection {
     border-top: 1px solid var(--borderColor);
   }
 
-  &-checkboxes .#{$ns}ListCheckboxes-placeholder {
+  &-selection .#{$ns}ListSelection-placeholder {
     height: 100%;
     display: flex;
     align-items: center;
@@ -122,6 +122,7 @@
 
   &-tab {
     padding: 0;
+    overflow: auto;
   }
 
   &-tabs {
@@ -171,7 +172,7 @@
           display: flex;
           flex-direction: column;
 
-          > .#{$ns}Transfer-checkboxes {
+          > .#{$ns}Transfer-selection {
             flex-grow: 1;
             max-height: 100%;
             overflow: auto;
@@ -187,5 +188,57 @@
 
   &.is-inline {
     display: inline-block;
+  }
+}
+
+.#{$ns}TransferPicker {
+  &-icon {
+    transition: transform var(--animation-duration) ease-out;
+    margin: 5px 5px 5px auto;
+    display: flex;
+    color: var(--Form-select-caret-iconColor);
+    &:hover {
+      color: var(--Form-select-caret-onHover-iconColor);
+    }
+
+    > svg {
+      width: px2rem(12px);
+      height: px2rem(12px);
+      top: 0;
+    }
+  }
+}
+
+.#{$ns}TransferDropDown {
+  &-icon {
+    transition: transform var(--animation-duration) ease-out;
+    margin: 5px 5px 5px auto;
+    display: flex;
+    color: var(--Form-select-caret-iconColor);
+    &:hover {
+      color: var(--Form-select-caret-onHover-iconColor);
+    }
+
+    > svg {
+      width: px2rem(10px);
+      height: px2rem(10px);
+      top: 0;
+    }
+  }
+
+  &.is-active &-icon {
+    transform: rotate(180deg);
+  }
+}
+.#{$ns}TransferDropDown-content {
+  min-height: px2rem(200px);
+  display: flex;
+  flex-direction: column;
+
+  & > .#{$ns}Transfer-selection {
+    flex-grow: 1;
+    max-height: 100%;
+    overflow: auto;
+    position: relative; // 貌似不加 relative 会有 bug。
   }
 }

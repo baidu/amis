@@ -887,7 +887,19 @@ export function registerOptionsControl(config: OptionsConfig) {
               body: {
                 type: 'form',
                 api: addApi,
-                controls: addControls
+                controls: [
+                  {
+                    type: 'hidden',
+                    name: 'idx',
+                    value: idx
+                  },
+                  {
+                    type: 'hidden',
+                    name: 'parent',
+                    value: parent
+                  },
+                  ...(addControls || [])
+                ]
               }
             },
             ctx

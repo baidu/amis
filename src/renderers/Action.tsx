@@ -150,6 +150,11 @@ export interface ButtonSchema extends BaseSchema {
    * 自定义事件处理函数
    */
   onClick?: string | any;
+
+  /**
+   * 子内容
+   */
+  body?: SchemaCollection;
 }
 
 export interface AjaxActionSchema extends ButtonSchema {
@@ -387,6 +392,7 @@ import {
   FeedbackDialog,
   SchemaApi,
   SchemaClassName,
+  SchemaCollection,
   SchemaExpression,
   SchemaIcon,
   SchemaReload,
@@ -398,6 +404,7 @@ import {DrawerSchema, DrawerSchemaBase} from './Drawer';
 import {generateIcon} from '../utils/icon';
 import {BadgeSchema, withBadge} from '../components/Badge';
 import {normalizeApi, str2AsyncFunction} from '../utils/api';
+import {TooltipWrapper} from '../components/TooltipWrapper';
 
 // 构造一个假的 React 事件避免可能的报错，主要用于快捷键功能
 // 来自 https://stackoverflow.com/questions/27062455/reactjs-can-i-create-my-own-syntheticevent
@@ -502,6 +509,7 @@ export interface ActionProps
       | 'iconClassName'
       | 'rightIconClassName'
       | 'loadingClassName'
+      | 'body'
     >,
     Omit<
       OtherActionSchema,
@@ -717,8 +725,29 @@ export class Action extends React.Component<ActionProps, ActionState> {
       tooltipContainer,
       tooltipRootClose,
       loading,
-      classnames: cx
+      body,
+      render,
+      classnames: cx,
+      classPrefix: ns
     } = this.props;
+
+    if (actionType !== 'email' && body) {
+      return (
+        <TooltipWrapper
+          classPrefix={ns}
+          classnames={cx}
+          placement={tooltipPlacement}
+          tooltip={tooltip}
+          container={tooltipContainer}
+          trigger={tooltipTrigger}
+          rootClose={tooltipRootClose}
+        >
+          <div className={cx('Action', className)} onClick={this.handleAction}>
+            {render('body', body) as JSX.Element}
+          </div>
+        </TooltipWrapper>
+      );
+    }
 
     let label = this.props.label;
     let disabled = this.props.disabled;

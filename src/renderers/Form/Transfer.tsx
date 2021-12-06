@@ -249,7 +249,6 @@ export class BaseTransferRenderer<
     const {
       className,
       classnames: cx,
-      options,
       selectedOptions,
       showArrow,
       sortable,
@@ -260,7 +259,6 @@ export class BaseTransferRenderer<
       searchResultMode,
       searchResultColumns,
       deferLoad,
-      leftOptions,
       leftMode,
       rightMode,
       disabled,
@@ -269,6 +267,22 @@ export class BaseTransferRenderer<
       optionItemRender,
       resultItemRender
     } = this.props;
+
+    // 目前 LeftOptions 没有接口可以动态加载
+    // 为了方便可以快速实现动态化，让选项的第一个成员携带
+    // LeftOptions 信息
+    let {options, leftOptions, leftDefaultValue} = this.props;
+    if (
+      selectMode === 'associated' &&
+      options &&
+      options.length === 1 &&
+      options[0].leftOptions &&
+      Array.isArray(options[0].children)
+    ) {
+      leftOptions = options[0].leftOptions;
+      leftDefaultValue = options[0].leftDefaultValue ?? leftDefaultValue;
+      options = options[0].children;
+    }
 
     return (
       <div className={cx('TransferControl', className)}>

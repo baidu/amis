@@ -9,6 +9,7 @@ import './ColumnToggler';
 import Checkbox from '../../components/Checkbox';
 import Button from '../../components/Button';
 import {TableStore, ITableStore, IColumn, IRow} from '../../store/table';
+import {saveAs} from 'file-saver';
 import {
   anyChanged,
   getScrollParent,
@@ -1440,7 +1441,7 @@ export default class Table extends React.Component<TableProps, object> {
   handleColumnToggle(columns: Array<IColumn>) {
     const {store} = this.props;
 
-    store.update({columns});
+    store.updateColumns(columns);
   }
 
   renderAutoFilterForm(): React.ReactNode {
@@ -2154,7 +2155,6 @@ export default class Table extends React.Component<TableProps, object> {
     } = this.props;
     const __ = rest.translate;
     const env = rest.env;
-
     const render = this.props.render;
 
     if (!store.columnsTogglable) {
@@ -2683,6 +2683,7 @@ export default class Table extends React.Component<TableProps, object> {
       <TableContent
         tableClassName={cx(
           store.combineNum > 0 ? 'Table-table--withCombine' : '',
+          {'Table-table--checkOnItemClick': checkOnItemClick},
           tableClassName
         )}
         className={tableContentClassName}

@@ -6,7 +6,7 @@ import React from 'react';
 import hoistNonReactStatic from 'hoist-non-react-statics';
 import {BaseSchema, SchemaExpression} from '../Schema';
 import {evalExpression} from '../utils/tpl';
-import {resolveVariable} from '../utils/tpl-builtin';
+import {resolveVariable, resolveVariableAndFilter} from '../utils/tpl-builtin';
 import {ClassNamesFn} from '../theme';
 
 /**
@@ -92,7 +92,7 @@ export class Badge extends React.Component<BadgeProps, object> {
     let {mode = 'dot', level = 'danger', style} = badge as BadgeSchema;
 
     if (typeof level === 'string' && level[0] === '$') {
-      level = resolveVariable(level, data);
+      level = resolveVariableAndFilter(level, data);
     }
 
     switch (mode) {
@@ -174,7 +174,7 @@ export class Badge extends React.Component<BadgeProps, object> {
     }
 
     if (typeof text === 'string' && text[0] === '$') {
-      text = resolveVariable(text, data);
+      text = resolveVariableAndFilter(text, data);
     }
 
     // 设置默认值

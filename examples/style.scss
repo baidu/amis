@@ -840,6 +840,7 @@ body {
       top: 100px;
       bottom: 0;
       overflow-y: auto;
+      overflow-x: hidden;
       border-right: 1px solid #e8ebee;
     }
   }
@@ -1050,5 +1051,18 @@ body.dark {
   &-code {
     border-left: 1px solid #ddd;
     width: 350px;
+    flex-shrink: 0;
+  }
+}
+
+@media screen and (max-width: 767px) {
+  .Playgroud {
+    flex-direction: column;
+
+    &-code {
+      border-left: none;
+      width: auto;
+      height: 200px;
+    }
   }
 }

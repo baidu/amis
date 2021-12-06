@@ -243,7 +243,7 @@ Page
   }, {
     "type": "crud",
     "className": "m-t-sm",
-    "api": "/api/sample",
+    "api": "/api/mock2/sample",
     "columns": [{
       "name": "id",
       "label": "ID"

@@ -223,6 +223,7 @@ register('de-DE', {
   'Wizard.saveAndNext': 'Speichern & Weiter',
   'year-to-year': '{{from}} - {{to}}',
   'Year.placeholder': 'Wählen Sie ein Jahr',
+  'reload': 'Neu laden',
   'rotate': 'Drehen',
   'Editor.fullscreen': 'Schirmfüllend Modus',
   'Editor.exitFullscreen': 'Zurücktreten Schirmfüllend Modus',

@@ -3,7 +3,7 @@
     "outDir": "output/",
     "module": "commonjs",
     "target": "es5",
-    "lib": ["es6", "dom", "ES2015"],
+    "lib": ["ES6", "DOM", "ES2015", "ES2021"],
     "sourceMap": true,
     "jsx": "react",
     "moduleResolution": "node",
