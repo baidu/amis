@@ -159,7 +159,7 @@ src、text 都支持变量，可以从上下文中动态获取图片或文字，
 
 ## 图片拉伸方式
 
-通过 `fit` 可以控制图片拉伸方式，默认是 `cover`，具体细节可以参考 MDN [文档](https://developer.mozilla.org/zh-CN/docs/Web/CSS/object-fit)
+通过 `fit` 可以控制图片拉伸方式，默认是 `'cover'`
 
 ```schema: scope="body"
 [
@@ -223,7 +223,7 @@ src、text 都支持变量，可以从上下文中动态获取图片或文字，
   "text": "AM",
   "style": {
     "background": "#DB3E35",
-    "color": "#FFFFFF",
+    "color": "#FFFFFF"
   }
 }
 ```
@@ -231,17 +231,17 @@ src、text 都支持变量，可以从上下文中动态获取图片或文字，
 ## 属性表
 
 | 属性名    | 类型     | 默认值 | 说明                  |
-| --------- | -------- | ------ | --------------------- |
-| className | `string` |        | 外层 dom 的类名       |
-| style     | `object` |        | 外层 dom 的样式       |
-| fit       | `string` | cover  | 图片缩放类型          |
-| src       | `string` |        | 图片地址              |
-| text      | `string` |        | 文字                  |
-| icon      | `string` |        | 图标                  |
-| shape     | `string` | circle | 形状，有三种 `circle` （圆形）、`square`（正方形）、`rounded`（圆角） |
-| size      | `number` | 'default' | `'default' \| 'normal' \| 'small'` 三种字符串类型，也可以直接数字表示 |
-| gap       | `number` |   4    | 控制字符类型距离左右两侧边界单位像素 |
-| alt       | `number` |        | 图像无法显示时的替代文本 |
-| draggable | `boolean`|        | 图片是否允许拖动 |
-| crossOrigin | `string`|       | 有下面这三个枚举值：`'anonymous' \| 'use-credentials' \| ''`，图片的 `CORS` 属性设置 |
-| onError   | `() => boolean`|        | 图片加载失败的事件，返回 false 会关闭组件默认的 fallback 行为，不会进行使用 `text` 或者 `icon` 的置换操作。目前只针对src为字符串，并且非$引用变量形式 |
+| --------- | ----------- | ------ | --------------------- |
+| className | `string`    |        | 外层 dom 的类名       |
+| style     | `object`    |        | 外层 dom 的样式       |
+| fit       |`'contain'` \| `'cover'` \| `'fill'` \| `'none'` \| `'scale-down'`    | `'cover'`  | 具体细节可以参考 MDN [文档](https://developer.mozilla.org/zh-CN/docs/Web/CSS/object-fit)          |
+| src       | `string`    |        | 图片地址              |
+| text      | `string`    |        | 文字                  |
+| icon      | `string`    |        | 图标                  |
+| shape     | `'circle'` \| `'square'` \| `'rounded'` | `'circle'` | 形状，有三种 `'circle'` （圆形）、`'square'`（正方形）、`'rounded'`（圆角） |
+| size      | `number` \| `'default'` \| `'normal'` \| `'small'` | `'default'` | `'default' \| 'normal' \| 'small'`三种字符串类型代表不同大小（分别是48、40、32），也可以直接数字表示 |
+| gap       | `number`    |   4    | 控制字符类型距离左右两侧边界单位像素 |
+| alt       | `number`    |        | 图像无法显示时的替代文本 |
+| draggable | `boolean`   |        | 图片是否允许拖动 |
+| crossOrigin | `'anonymous'` \| `'use-credentials'` \| `''`   |    | 图片的 `CORS` 属性设置 |
+| onError   | `() => boolean`  |        | 图片加载失败的事件，返回 false 会关闭组件默认的 fallback 行为，不会进行使用 `text` 或者 `icon` 的置换操作。目前只针对src为字符串，并且非$引用变量形式 |
