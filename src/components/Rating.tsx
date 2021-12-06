@@ -318,47 +318,44 @@ export class Rating extends React.Component<RatingProps, any> {
     const {halfStar, stars, showColor} = this.state;
     const {inactiveColor, char, half, disabled, readOnly, charClassName, classnames: cx} = this.props;
 
-    const starMap = stars.map((star: any, i: number) => {
-      const isThisHalf = half && !halfStar.hidden && halfStar.at === i;
-
-      let className = cx('Rating-star', {
-        'is-half': isThisHalf,
-        'is-active': star.active,
-        'is-disabled': readOnly || disabled,
-        [`${charClassName}`]: charClassName
-      });
-
-      return (
-        <li
-          ref={this.saveRef(i)}
-          className={className}
-          key={i}
-          style={{
-            color: star.active ? showColor : inactiveColor
-          }}
-          onMouseOver={e => this.mouseOver(e, i)}
-          onMouseMove={e => this.mouseOver(e, i)}
-          onClick={e => this.handleClick(e, i)}
-          onMouseLeave={e => this.handleStarMouseLeave(e, i)}
-        >
-          {isThisHalf && (
-            <div
-              className={cx('Rating-star-half')}
-              style={{
-                color: showColor
-              }}
-            >
-              {char}
-            </div>
-          )}
-          {char}
-        </li>
-      );
-    });
-
     return (
       <ul onMouseLeave={this.mouseLeave}>
-        {starMap}
+        {
+          stars.map((star: any, i: number) => {
+            const isThisHalf = half && !halfStar.hidden && halfStar.at === i;
+
+            return (
+              <li
+                ref={this.saveRef(i)}
+                className={cx('Rating-star', charClassName, {
+                  'is-half': isThisHalf,
+                  'is-active': star.active,
+                  'is-disabled': readOnly || disabled
+                })}
+                key={i}
+                style={{
+                  color: star.active ? showColor : inactiveColor
+                }}
+                onMouseOver={e => this.mouseOver(e, i)}
+                onMouseMove={e => this.mouseOver(e, i)}
+                onClick={e => this.handleClick(e, i)}
+                onMouseLeave={e => this.handleStarMouseLeave(e, i)}
+              >
+                {isThisHalf && (
+                  <div
+                    className={cx('Rating-star-half')}
+                    style={{
+                      color: showColor
+                    }}
+                  >
+                    {char}
+                  </div>
+                )}
+                {char}
+              </li>
+            );
+          })
+        }
       </ul>
     )
   }

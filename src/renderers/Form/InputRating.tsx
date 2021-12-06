@@ -51,7 +51,7 @@ export interface RatingControlSchema extends FormBaseControl {
   /**
    * 文字的位置
    */
-  textPosition?: string;
+  textPosition?: textPositionType;
 
   /**
    * 自定义字符
