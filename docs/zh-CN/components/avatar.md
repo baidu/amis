@@ -208,9 +208,8 @@ src、text 都支持变量，可以从上下文中动态获取图片或文字，
     "fit": "cover",
     "src": "https://suda.cdn.bcebos.com/images/amis/plumeria.jpeg",
     "draggable": true
-  },
+  }
 ]
-
 ```
 
 ## 样式

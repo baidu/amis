@@ -119,11 +119,9 @@ export class Avatar extends React.Component<AvatarCmptProps, AvatarState> {
 
   handleImageLoadError() {
     const {onError} = this.props;
-    if (onError && !!onError()) {
-      this.setState({
-        hasImg: true
-      });
-    }
+    this.setState({
+      hasImg: onError ? !onError() : false
+    });
   }
 
   setScaleByGap() {
@@ -147,8 +145,8 @@ export class Avatar extends React.Component<AvatarCmptProps, AvatarState> {
     let {
       style = {},
       className,
-      shape = 'circle',
-      size = 'default',
+      shape,
+      size,
       src,
       icon,
       alt,
