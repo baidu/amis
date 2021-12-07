@@ -92,31 +92,25 @@ export class Card extends React.Component<CardProps> {
     } = this.props;
 
     let heading = null;
-    const isShowHeading = avatar || avatarText || title || subTitle || subTitlePlaceholder || description || descriptionPlaceholder || toolbar;
+    const isShowHeading =
+      avatar ||
+      avatarText ||
+      title ||
+      subTitle ||
+      subTitlePlaceholder ||
+      description ||
+      descriptionPlaceholder ||
+      toolbar;
     if (isShowHeading) {
       heading = (
         <div className={cx('Card-heading', headerClassName)}>
           {avatar ? (
-            <span
-              className={cx(
-                'Card-avtar',
-                avatarClassName
-              )}
-            >
-              <img
-                className={cx(
-                  'Card-img',
-                  imageClassName
-                )}
-                src={avatar}
-              />
+            <span className={cx('Card-avtar', avatarClassName)}>
+              <img className={cx('Card-img', imageClassName)} src={avatar} />
             </span>
           ) : avatarText ? (
             <span
-              className={cx(
-                'Card-avtarText',
-                avatarTextClassName
-              )}
+              className={cx('Card-avtarText', avatarTextClassName)}
               style={avatarTextStyle}
             >
               {avatarText}
@@ -124,28 +118,24 @@ export class Card extends React.Component<CardProps> {
           ) : null}
           <div className={cx('Card-meta')}>
             {title ? (
-              <div
-                className={cx(
-                  'Card-title',
-                  titleClassName
-                )}
-              >
-                {title}
-              </div>
+              <div className={cx('Card-title', titleClassName)}>{title}</div>
             ) : null}
             {subTitle || subTitlePlaceholder ? (
-              <div
-                className={cx(
-                  'Card-subTitle',
-                  subTitleClassName
-                )}
-              >
-                {subTitle ? subTitle : subTitlePlaceholder ? subTitlePlaceholder : null}
+              <div className={cx('Card-subTitle', subTitleClassName)}>
+                {subTitle
+                  ? subTitle
+                  : subTitlePlaceholder
+                  ? subTitlePlaceholder
+                  : null}
               </div>
             ) : null}
             {description || descriptionPlaceholder ? (
               <div className={cx('Card-desc', descriptionClassName)}>
-                {description ? description : descriptionPlaceholder ? descriptionPlaceholder : null}
+                {description
+                  ? description
+                  : descriptionPlaceholder
+                  ? descriptionPlaceholder
+                  : null}
               </div>
             ) : null}
           </div>
@@ -163,7 +153,7 @@ export class Card extends React.Component<CardProps> {
           'Card--link': onClick
         })}
       >
-        {media ?
+        {media ? (
           <div className={cx(`Card-multiMedia--${mediaPosition}`)}>
             {media}
             <div className={cx('Card-multiMedia-flex')}>
@@ -171,35 +161,40 @@ export class Card extends React.Component<CardProps> {
               {body ? (
                 <div className={cx('Card-body', bodyClassName)}>{body}</div>
               ) : null}
-              {secondary || actions ?
+              {secondary || actions ? (
                 <div className={cx('Card-footer-wrapper', footerClassName)}>
                   {secondary ? (
-                    <div className={cx('Card-secondary', secondaryClassName)}>{secondary}</div>
+                    <div className={cx('Card-secondary', secondaryClassName)}>
+                      {secondary}
+                    </div>
                   ) : null}
                   {actions ? (
                     <div className={cx('Card-actions-wrapper')}>{actions}</div>
                   ) : null}
                 </div>
-              : null}
+              ) : null}
             </div>
-          </div> :
+          </div>
+        ) : (
           <div>
             {heading}
             {body ? (
               <div className={cx('Card-body', bodyClassName)}>{body}</div>
             ) : null}
-            {secondary || actions ?
+            {secondary || actions ? (
               <div className={cx('Card-footer-wrapper', footerClassName)}>
                 {secondary ? (
-                  <div className={cx('Card-secondary', secondaryClassName)}>{secondary}</div>
+                  <div className={cx('Card-secondary', secondaryClassName)}>
+                    {secondary}
+                  </div>
                 ) : null}
                 {actions ? (
                   <div className={cx('Card-actions-wrapper')}>{actions}</div>
                 ) : null}
               </div>
-            : null}
+            ) : null}
           </div>
-        }
+        )}
       </div>
     );
   }

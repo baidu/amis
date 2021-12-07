@@ -216,7 +216,6 @@
     opacity: var(--Card-onDragging-opacity);
   }
 
-
   &-footer-wrapper {
     display: flex;
     align-items: center;
@@ -279,14 +278,16 @@
     display: flex;
     flex-direction: column-reverse;
     .#{$ns}Card-actions {
-      border-bottom: var(--Card-borderWidth) solid var(--Card-actions-borderColor);
+      border-bottom: var(--Card-borderWidth) solid
+        var(--Card-actions-borderColor);
     }
     .#{$ns}Card-multiMedia-img {
       border-top-left-radius: unset;
       border-top-right-radius: unset;
     }
   }
-  &-multiMedia--top, &-multiMedia--bottom {
+  &-multiMedia--top,
+  &-multiMedia--bottom {
     .#{$ns}Card-body {
       padding-bottom: var(--gap-md);
     }
@@ -300,7 +301,8 @@
       border-left: var(--Card-borderWidth) solid var(--Card-actions-borderColor);
     }
 
-    .#{$ns}Card-multiMedia-img, .#{$ns}Card-multiMedia-video {
+    .#{$ns}Card-multiMedia-img,
+    .#{$ns}Card-multiMedia-video {
       margin: var(--gap-md) 0 var(--gap-md) var(--gap-md);
     }
   }
@@ -312,10 +314,12 @@
 
     .#{$ns}Card-actions {
       margin-right: var(--gap-md);
-      border-right: var(--Card-borderWidth) solid var(--Card-actions-borderColor);
+      border-right: var(--Card-borderWidth) solid
+        var(--Card-actions-borderColor);
     }
 
-    .#{$ns}Card-multiMedia-img, .#{$ns}Card-multiMedia-video {
+    .#{$ns}Card-multiMedia-img,
+    .#{$ns}Card-multiMedia-video {
       margin: var(--gap-md) var(--gap-md) var(--gap-md) 0;
     }
   }
@@ -333,42 +337,21 @@
     border-radius: var(--Card-borderRadius);
   }
   &-multiMedia-video {
-    position: relative;
-    .#{$ns}Card-video-play {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      cursor: pointer;
-    }
-    .#{$ns}Card-video-icon {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      width: px2rem(32px);
-      height: px2rem(32px);
-      border-radius: 50%;
-      background-color: rgba($color: #000000, $alpha: 0.5);
-      color: #fff;
-      .icon {
-        top: 0;
-        left: px2rem(1px);
+    width: px2rem(180px);
+    height: px2rem(120px);
+    .#{$ns}Video {
+      width: 100%;
+      height: 100%;
+      min-width: unset;
+      .#{$ns}Video-player {
+        width: 100%;
+        height: 100%;
+        .video-react {
+          width: 100%;
+          height: 100%;
+          padding-top: unset !important;
+        }
       }
     }
-  }
-  &-video {
-    display: block;
-    width: 100%;
-    height: auto;
-    object-fit: cover;
-    border-radius: var(--Card-borderRadius);
-  }
-  &-video-time {
-    position: absolute;
-    font-size: var(--fontSizeSm);
-    right: px2rem(8px);
-    bottom: px2rem(4px);
-    color: #fff;
-    line-height: normal;
   }
 }

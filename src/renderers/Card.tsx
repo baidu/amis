@@ -3,18 +3,12 @@ import {Renderer, RendererProps} from '../factory';
 import {SchemaNode, Schema, Action, PlainObject} from '../types';
 import {filter, evalExpression} from '../utils/tpl';
 import Checkbox from '../components/Checkbox';
-import {
-  padArr,
-  isVisible,
-  isDisabled,
-  noop,
-  hashCode
-} from '../utils/helper';
+import {padArr, isVisible, isDisabled, noop, hashCode} from '../utils/helper';
 import {resolveVariable} from '../utils/tpl-builtin';
-import QuickEdit, { SchemaQuickEdit } from './QuickEdit';
-import PopOver, { SchemaPopOver } from './PopOver';
+import QuickEdit, {SchemaQuickEdit} from './QuickEdit';
+import PopOver, {SchemaPopOver} from './PopOver';
 import {TableCell} from './Table';
-import Copyable, { SchemaCopyable } from './Copyable';
+import Copyable, {SchemaCopyable} from './Copyable';
 import omit = require('lodash/omit');
 import {
   BaseSchema,
@@ -27,8 +21,8 @@ import {
 import {ActionSchema} from './Action';
 import {Card} from '../components/Card';
 import {findDOMNode} from 'react-dom';
-import { IItem } from '../store/list';
-import { Icon } from '../components/icons';
+import {IItem} from '../store/list';
+import {Icon} from '../components/icons';
 
 export type CardBodyField = SchemaObject & {
   /**
@@ -182,6 +176,21 @@ export interface CardSchema extends BaseSchema {
      * 多媒体区域位置
      */
     position?: 'top' | 'left' | 'right' | 'bottom';
+
+    /**
+     * 类型为video时是否自动播放
+     */
+    autoPlay?: boolean;
+
+    /**
+     * 类型为video时是否是直播
+     */
+    isLive?: boolean;
+
+    /**
+     * 类型为video时视频封面
+     */
+    poster?: SchemaUrlPath;
   };
 
   /**
@@ -214,15 +223,11 @@ export interface CardProps
   item: IItem;
   checkOnItemClick?: boolean;
 }
-interface CardState {
-  isPlay: boolean;
-  videoTime: string;
-}
+
 @Renderer({
   type: 'card'
 })
-
-export class CardRenderer extends React.Component<CardProps, CardState>  {
+export class CardRenderer extends React.Component<CardProps> {
   static defaultProps = {
     className: '',
     avatarClassName: '',
@@ -264,72 +269,15 @@ export class CardRenderer extends React.Component<CardProps, CardState>  {
   constructor(props: CardProps) {
     super(props);
 
-    this.timeFormdate = this.timeFormdate.bind(this);
-    this.handelVideoPlay = this.handelVideoPlay.bind(this);
     this.handleClick = this.handleClick.bind(this);
     this.handleAction = this.handleAction.bind(this);
     this.handleCheck = this.handleCheck.bind(this);
     this.getPopOverContainer = this.getPopOverContainer.bind(this);
     this.handleQuickChange = this.handleQuickChange.bind(this);
-    this.state = {
-      isPlay: false,
-      videoTime: ''
-    };
   }
-  componentDidMount() {
-    const el = document.getElementById('Card-video') as HTMLVideoElement;
-    const { media } = this.props;
-    if (media && el) {
-      el.onloadedmetadata = () => {
-        this.setState({
-          videoTime: this.timeFormdate(el.duration),
-          isPlay: false
-        });
-      };
-      el.addEventListener('ended', () => {
-        this.setState({
-          isPlay: false
-        })
-      }, false);
-    }
-  };
-  componentWillUnmount() {
-    const el = document.getElementById('Card-video') as HTMLVideoElement;
-    const { media } = this.props;
-    if (media && el) {
-      el.removeEventListener('ended', () => {
-        this.setState({
-          isPlay: false
-        })
-      }, false);
-    }
-  };
-  timeFormdate(time: number) {
-    let t: string;
-    time = Math.floor(time);
-    if (time > -1) {
-      let hour = Math.floor(time / 3600);
-      let min = Math.floor(time / 60) % 60;
-      let sec = time % 60;
-      if (hour < 10) {
-        t = '0' + hour + ':';
-      } else {
-        t = hour + ':';
-      }
-      if (min < 10) {
-        t += '0';
-      }
-      t += min + ':';
-      if (sec < 10) {
-        t += '0';
-      }
-      t += sec;
-      return t;
-    }
-    return '';
-  };
+
   isHaveLink() {
-    const {href, itemAction, onCheck , checkOnItemClick, checkable} = this.props;
+    const {href, itemAction, onCheck, checkOnItemClick, checkable} = this.props;
     return href || itemAction || onCheck || (checkOnItemClick && checkable);
   }
 
@@ -367,21 +315,6 @@ export class CardRenderer extends React.Component<CardProps, CardState>  {
   getPopOverContainer() {
     return findDOMNode(this);
   }
-  handelVideoPlay() {
-    const el = document.getElementById('Card-video') as HTMLVideoElement;
-    const { media } = this.props;
-    if (media && el && el.paused) {
-      el.play();
-      this.setState({
-        isPlay: true
-      });
-    } else if (media && el && !el.paused) {
-      el.pause();
-      this.setState({
-        isPlay: false
-      });
-    }
-  }
 
   handleQuickChange(
     values: object,
@@ -413,14 +346,11 @@ export class CardRenderer extends React.Component<CardProps, CardState>  {
     const toolbars: Array<JSX.Element> = [];
 
     if (header) {
-      const {
-        highlightClassName,
-        highlight: highlightTpl
-      } = header;
+      const {highlightClassName, highlight: highlightTpl} = header;
       const highlight = !!evalExpression(highlightTpl!, data as object);
       if (highlight) {
         toolbars.push(
-          <i className={cx('Card-highlight', highlightClassName)}/>
+          <i className={cx('Card-highlight', highlightClassName)} />
         );
       }
     }
@@ -603,15 +533,9 @@ export class CardRenderer extends React.Component<CardProps, CardState>  {
   }
 
   rederTitle() {
-    const {
-      render,
-      data,
-      header
-    } = this.props;
+    const {render, data, header} = this.props;
     if (header) {
-      const {
-        title: titleTpl
-      } = header || {};
+      const {title: titleTpl} = header || {};
       const title = filter(titleTpl, data);
       return title ? render('title', title) : undefined;
     }
@@ -619,15 +543,9 @@ export class CardRenderer extends React.Component<CardProps, CardState>  {
   }
 
   renderSubTitle() {
-    const {
-      render,
-      data,
-      header
-    } = this.props;
+    const {render, data, header} = this.props;
     if (header) {
-      const {
-        subTitle: subTitleTpl
-      } = header || {};
+      const {subTitle: subTitleTpl} = header || {};
 
       const subTitle = filter(subTitleTpl, data);
       return subTitle ? render('sub-title', subTitle) : undefined;
@@ -636,68 +554,53 @@ export class CardRenderer extends React.Component<CardProps, CardState>  {
   }
 
   renderSubTitlePlaceholder() {
-    const {
-      render,
-      header,
-      classnames: cx
-    } = this.props;
+    const {render, header, classnames: cx} = this.props;
     if (header) {
-      const {
-        subTitlePlaceholder
-      } = header || {};
+      const {subTitlePlaceholder} = header || {};
 
-      return subTitlePlaceholder ? render('sub-title', subTitlePlaceholder, {
-        className: cx('Card-placeholder')
-      }) : undefined;
+      return subTitlePlaceholder
+        ? render('sub-title', subTitlePlaceholder, {
+            className: cx('Card-placeholder')
+          })
+        : undefined;
     }
     return;
   }
 
   renderDesc() {
-    const {
-      render,
-      data,
-      header
-    } = this.props;
+    const {render, data, header} = this.props;
 
     if (header) {
-      const {
-        desc: descTpl,
-        description: descriptionTpl
-      } = header || {};
+      const {desc: descTpl, description: descriptionTpl} = header || {};
       const desc = filter(descriptionTpl! || descTpl!, data);
-      return desc ? render('desc', desc, {
-        className: !desc ? 'text-muted' : null
-      }) : undefined;
+      return desc
+        ? render('desc', desc, {
+            className: !desc ? 'text-muted' : null
+          })
+        : undefined;
     }
     return;
   }
 
   renderDescPlaceholder() {
-    const {
-      render,
-      header
-    } = this.props;
+    const {render, header} = this.props;
 
     if (header) {
       const descPlaceholder =
-          header.descriptionPlaceholder || header.descPlaceholder;
-      return descPlaceholder ? render('desc', descPlaceholder, {
-        className: !descPlaceholder ? 'text-muted' : null
-      }) : undefined;
+        header.descriptionPlaceholder || header.descPlaceholder;
+      return descPlaceholder
+        ? render('desc', descPlaceholder, {
+            className: !descPlaceholder ? 'text-muted' : null
+          })
+        : undefined;
     }
     return;
   }
 
   renderAvatar() {
-    const {
-      data,
-      header
-    } = this.props;
+    const {data, header} = this.props;
     if (header) {
-      const {
-        avatar: avatarTpl
-      } = header || {};
+      const {avatar: avatarTpl} = header || {};
       const avatar = filter(avatarTpl, data, '| raw');
       return avatar ? avatar : undefined;
     }
@@ -705,15 +608,9 @@ export class CardRenderer extends React.Component<CardProps, CardState>  {
   }
 
   renderAvatarText() {
-    const {
-      render,
-      data,
-      header
-    } = this.props;
+    const {render, data, header} = this.props;
     if (header) {
-      const {
-        avatarText: avatarTextTpl
-      } = header || {};
+      const {avatarText: avatarTextTpl} = header || {};
 
       const avatarText = filter(avatarTextTpl, data);
 
@@ -723,26 +620,16 @@ export class CardRenderer extends React.Component<CardProps, CardState>  {
   }
 
   renderSecondary() {
-    const {
-      render,
-      data,
-      secondary: secondaryTextTpl
-    } = this.props;
+    const {render, data, secondary: secondaryTextTpl} = this.props;
 
     const secondary = filter(secondaryTextTpl, data);
     return secondary ? render('secondary', secondary) : undefined;
   }
 
   renderAvatarTextStyle() {
-    const {
-      header,
-      data
-    } = this.props;
+    const {header, data} = this.props;
     if (header) {
-      const {
-        avatarText: avatarTextTpl,
-        avatarTextBackground
-      } = header;
+      const {avatarText: avatarTextTpl, avatarTextBackground} = header;
       const avatarText = filter(avatarTextTpl, data);
       const avatarTextStyle: PlainObject = {};
       if (avatarText && avatarTextBackground && avatarTextBackground.length) {
@@ -757,33 +644,28 @@ export class CardRenderer extends React.Component<CardProps, CardState>  {
   }
 
   renderMedia() {
-    const {
-      media,
-      classnames: cx
-    } = this.props;
+    const {media, classnames: cx, render, region} = this.props;
     if (media) {
-      const { isPlay, videoTime } = this.state;
-      const { type, url, className } = media;
-      const playBtn = <div className={cx('Card-video-play')} onClick={this.handelVideoPlay}>
-        <div className={cx('Card-video-icon')}>
-          <Icon icon="play" className="icon" />
-        </div>
-      </div>;
+      const {type, url, className, autoPlay, isLive, poster} = media;
 
       if (type === 'image' && url) {
-        return <img className={cx('Card-multiMedia-img', className)} src={url}/>
+        return (
+          <img className={cx('Card-multiMedia-img', className)} src={url} />
+        );
       } else if (type === 'video' && url) {
-        return <div className={cx('Card-multiMedia-video', className)}>
-          <video
-            id={'Card-video'}
-            className={cx('Card-video', className)}
-            src={url}
-            controls={false}
-            onClick={this.handelVideoPlay}
-          ></video>
-          {isPlay ? null : playBtn}
-          {isPlay ? null : <div className={cx('Card-video-time')}>{videoTime}</div>}
-        </div>
+        return (
+          <div className={cx('Card-multiMedia-video', className)}>
+            {
+              render(region, {
+                type: type,
+                autoPlay: autoPlay,
+                poster: poster,
+                src: url,
+                isLive: isLive
+              }) as JSX.Element
+            }
+          </div>
+        );
       }
     }
     return;
@@ -813,41 +695,44 @@ export class CardRenderer extends React.Component<CardProps, CardState>  {
     const titleCn = header?.titleClassName || titleClassName;
     const subTitleCn = header?.subTitleClassName || subTitleClassName;
     const descCn = header?.descClassName || descClassName;
-    const descriptionCn = header?.descriptionClassName || descriptionClassName || descCn;
+    const descriptionCn =
+      header?.descriptionClassName || descriptionClassName || descCn;
     const avatarTextCn = header?.avatarTextClassName || avatarTextClassName;
     const avatarCn = header?.avatarClassName || avatarClassName;
     const imageCn = header?.imageClassName || imageClassName;
     const mediaPosition = media?.position;
 
-    return <Card
-      {...rest}
-      title={this.rederTitle()}
-      subTitle={this.renderSubTitle()}
-      subTitlePlaceholder={this.renderSubTitlePlaceholder()}
-      description={this.renderDesc()}
-      descriptionPlaceholder={this.renderDescPlaceholder()}
-      children={this.renderBody()}
-      actions={this.renderActions()}
-      avatar={this.renderAvatar()}
-      avatarText={this.renderAvatarText()}
-      secondary={this.renderSecondary()}
-      toolbar={this.renderToolbar()}
-      avatarClassName={avatarCn}
-      avatarTextStyle={this.renderAvatarTextStyle()}
-      avatarTextClassName={avatarTextCn}
-      className={className}
-      titleClassName={titleCn}
-      media={this.renderMedia()}
-      subTitleClassName={subTitleCn}
-      mediaPosition={mediaPosition}
-      descriptionClassName={descriptionCn}
-      imageClassName={imageCn}
-      headerClassName={headerCn}
-      footerClassName={footerClassName}
-      secondaryClassName={secondaryClassName}
-      bodyClassName={bodyClassName}
-      onClick={this.isHaveLink() ? this.handleClick : undefined}
-    ></Card>;
+    return (
+      <Card
+        {...rest}
+        title={this.rederTitle()}
+        subTitle={this.renderSubTitle()}
+        subTitlePlaceholder={this.renderSubTitlePlaceholder()}
+        description={this.renderDesc()}
+        descriptionPlaceholder={this.renderDescPlaceholder()}
+        children={this.renderBody()}
+        actions={this.renderActions()}
+        avatar={this.renderAvatar()}
+        avatarText={this.renderAvatarText()}
+        secondary={this.renderSecondary()}
+        toolbar={this.renderToolbar()}
+        avatarClassName={avatarCn}
+        avatarTextStyle={this.renderAvatarTextStyle()}
+        avatarTextClassName={avatarTextCn}
+        className={className}
+        titleClassName={titleCn}
+        media={this.renderMedia()}
+        subTitleClassName={subTitleCn}
+        mediaPosition={mediaPosition}
+        descriptionClassName={descriptionCn}
+        imageClassName={imageCn}
+        headerClassName={headerCn}
+        footerClassName={footerClassName}
+        secondaryClassName={secondaryClassName}
+        bodyClassName={bodyClassName}
+        onClick={this.isHaveLink() ? this.handleClick : undefined}
+      ></Card>
+    );
   }
 }
 
