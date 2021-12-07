@@ -559,7 +559,7 @@ export class DatePicker extends React.Component<DateProps, DatePickerState> {
       borderMode,
       embed,
       minDate,
-      useMobileUI
+      useMobileUI,
       schedules,
       largeMode,
       scheduleClassNames,
