@@ -138,6 +138,9 @@
       white-space: pre-wrap;
       flex-grow: 1;
       line-height: var(--gap-xl);
+      .#{$ns}Html {
+        word-break: break-word;
+      }
     }
   }
 
