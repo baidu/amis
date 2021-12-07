@@ -537,7 +537,7 @@ export class CardRenderer extends React.Component<CardProps> {
     if (header) {
       const {title: titleTpl} = header || {};
       const title = filter(titleTpl, data);
-      return title ? render('title', title) : undefined;
+      return title ? render('title', titleTpl!) : undefined;
     }
     return;
   }
@@ -548,7 +548,7 @@ export class CardRenderer extends React.Component<CardProps> {
       const {subTitle: subTitleTpl} = header || {};
 
       const subTitle = filter(subTitleTpl, data);
-      return subTitle ? render('sub-title', subTitle) : undefined;
+      return subTitle ? render('sub-title', subTitleTpl!) : undefined;
     }
     return;
   }
@@ -574,7 +574,7 @@ export class CardRenderer extends React.Component<CardProps> {
       const {desc: descTpl, description: descriptionTpl} = header || {};
       const desc = filter(descriptionTpl! || descTpl!, data);
       return desc
-        ? render('desc', desc, {
+        ? render('desc', descriptionTpl! || descTpl!, {
             className: !desc ? 'text-muted' : null
           })
         : undefined;
@@ -614,7 +614,7 @@ export class CardRenderer extends React.Component<CardProps> {
 
       const avatarText = filter(avatarTextTpl, data);
 
-      return avatarText ? render('avatarText', avatarText) : undefined;
+      return avatarText ? render('avatarText', avatarTextTpl!) : undefined;
     }
     return;
   }
@@ -623,7 +623,7 @@ export class CardRenderer extends React.Component<CardProps> {
     const {render, data, secondary: secondaryTextTpl} = this.props;
 
     const secondary = filter(secondaryTextTpl, data);
-    return secondary ? render('secondary', secondary) : undefined;
+    return secondary ? render('secondary', secondaryTextTpl!) : undefined;
   }
 
   renderAvatarTextStyle() {
