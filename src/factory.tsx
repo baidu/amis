@@ -75,10 +75,6 @@ export interface RendererProps extends ThemeProps, LocaleProps {
   };
   defaultData?: object;
   className?: any;
-  /**
-   * 是否使用移动端交互
-   */
-  useMobileUI?: boolean;
   [propName: string]: any;
 }
 

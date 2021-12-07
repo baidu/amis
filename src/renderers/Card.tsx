@@ -751,7 +751,6 @@ export class CardRenderer extends React.Component<CardProps, CardState>  {
             Math.abs(hashCode(avatarText)) % avatarTextBackground.length
           ];
       }
-      console.log(avatarTextStyle);
       return avatarTextStyle;
     }
     return;

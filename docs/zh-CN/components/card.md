@@ -197,7 +197,7 @@ order: 31
     },
     "media": {
       "type": "image",
-      "className": "w-44 h-28",
+      "className": "w-36 h-24",
       "url": "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395692722/4f3cb4202335.jpeg@s_0,w_216,l_1,f_jpg,q_80",
       "position": "left"
     },
@@ -206,21 +206,21 @@ order: 31
     "actions": [
       {
         "type": "button",
-        "label": "操作一",
+        "label": "操作",
         "actionType": "dialog",
         "className": "mr-4",
         "dialog": {
-          "title": "操作一",
+          "title": "操作",
           "body": "你正在编辑该卡片"
         }
       },
       {
         "type": "button",
-        "label": "操作二",
+        "label": "操作",
         "actionType": "dialog",
         "className": "mr-2.5",
         "dialog": {
-          "title": "操作二",
+          "title": "操作",
           "body": "你正在编辑该卡片"
         }
       },

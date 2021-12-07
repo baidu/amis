@@ -132,6 +132,7 @@
     flex-direction: row;
     width: 100%;
     table-layout: fixed;
+    white-space: nowrap;
 
     > a {
       background: transparent;
