@@ -243,4 +243,4 @@ src、text 都支持变量，可以从上下文中动态获取图片或文字，
 | alt       | `number`    |        | 图像无法显示时的替代文本 |
 | draggable | `boolean`   |        | 图片是否允许拖动 |
 | crossOrigin | `'anonymous'` \| `'use-credentials'` \| `''`   |    | 图片的 `CORS` 属性设置 |
-| onError   | `() => boolean`  |        | 图片加载失败的事件，返回 false 会关闭组件默认的 fallback 行为，不会进行使用 `text` 或者 `icon` 的置换操作。目前只针对src为字符串，并且非$引用变量形式 |
+| defaultReplace   | `boolean`  |   `true`    | 图片加载失败的默认行为，设置 `false` 会关闭组件默认的置换：不会进行使用 `text` 或者 `icon` 的置换操作。目前defaultReplace还不支持通过从`true` -> `false` 或者 `false` -> `true` 的方式来取消图片加载失败后组件的置换行为 |

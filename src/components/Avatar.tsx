@@ -104,15 +104,16 @@ export class Avatar extends React.Component<AvatarCmptProps, AvatarState> {
     this.setScaleByGap();
   }
 
-  componentDidUpdate(prevProps: AvatarCmptProps) {
+  componentDidUpdate(prevProps: AvatarCmptProps, prevState: AvatarState) {
     const {src, gap} = this.props;
+    const {hasImg} = this.state;
     if (prevProps.src !== src) {
       this.setState({
         hasImg: true,
         scale: 1
       });
     }
-    if (prevProps.gap !== gap) {
+    if ((prevState.hasImg && !hasImg) || prevProps.gap !== gap) {
       this.setScaleByGap();
     }
   }

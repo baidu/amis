@@ -31,12 +31,12 @@ export interface AvatarSchema extends BaseSchema {
   /**
    * 图片地址
    */
-  src?: string | React.ReactNode;
+  src?: string;
 
   /**
    * 图标
    */
-  icon?: string | React.ReactNode;
+  icon?: string;
 
   /**
    * 图片相对于容器的缩放方式
@@ -79,16 +79,17 @@ export interface AvatarSchema extends BaseSchema {
   crossOrigin: 'anonymous' | 'use-credentials' | '';
 
   /**
-   * 图片加载失败的事件，返回 false 会关闭组件默认的
+   * 图片加载失败的是否默认处理，进行text、icon的置换
    */
-  onError?: () => boolean;
+  defaultReplace?: boolean
 }
 
 export interface AvatarProps extends RendererProps, Omit<AvatarSchema, 'type' | 'className'> {
   children?: JSX.Element | ((props?: any) => JSX.Element);
 }
 
-export class AvatarField extends React.Component<AvatarProps, {}> {
+export class AvatarField extends React.Component<AvatarProps> {
+
   constructor(props: AvatarProps) {
     super(props);
   }
@@ -108,13 +109,19 @@ export class AvatarField extends React.Component<AvatarProps, {}> {
       alt,
       draggable,
       crossOrigin,
+      defaultReplace = true,
       children,
-      onError,
       data
     } = this.props;
 
+    const onError = () => defaultReplace;
+
     if (isPureVariable(src)) {
       src = resolveVariableAndFilter(src, data, '| raw');
+      if (!src) {
+        // 找不到，默认空字符串
+        src = '';
+      }
     }
 
     if (isPureVariable(text)) {
