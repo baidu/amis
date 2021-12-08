@@ -107,17 +107,17 @@ src、text 都支持变量，可以从上下文中动态获取图片或文字，
   {
     "type": "avatar",
     "size": 'large',
-    "src": "https://suda.cdn.bcebos.com/images/amis/ai-fake-face.jpg"
+    "icon": "fa fa-user"
   },
   {
     "type": "avatar",
     "size": 'default',
-    "src": "https://suda.cdn.bcebos.com/images/amis/ai-fake-face.jpg"
+    "icon": "fa fa-user"
   },
   {
     "type": "avatar",
     "size": 'small',
-    "src": "https://suda.cdn.bcebos.com/images/amis/ai-fake-face.jpg"
+    "icon": "fa fa-user"
   },
   {
     "type": "avatar",

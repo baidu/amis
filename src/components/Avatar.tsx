@@ -210,7 +210,8 @@ export class Avatar extends React.Component<AvatarCmptProps, AvatarState> {
         <span
           className={cx(childPrefix)}
           ref={this.avatarChildrenRef}
-          style={scaleStyle}>{text}
+          style={scaleStyle}>
+          {text}
         </span>
       );
     }
@@ -225,7 +226,8 @@ export class Avatar extends React.Component<AvatarCmptProps, AvatarState> {
         <span
           className={cx(childPrefix)}
           ref={this.avatarChildrenRef}
-          style={scaleStyle}>{children}
+          style={scaleStyle}>
+          {children}
         </span>
       );
     }

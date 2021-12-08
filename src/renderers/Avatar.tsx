@@ -90,10 +90,6 @@ export interface AvatarProps extends RendererProps, Omit<AvatarSchema, 'type' | 
 
 export class AvatarField extends React.Component<AvatarProps> {
 
-  constructor(props: AvatarProps) {
-    super(props);
-  }
-
   render() {
     let {
       style = {},

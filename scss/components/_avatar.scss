@@ -2,13 +2,15 @@
   width: $size;
   height: $size;
   line-height: $size;
+
+  i {
+    font-size: $fontSize;
+  }
 }
 
 .#{$ns}Avatar {
   background: var(--Avatar-bg);
-  width: var(--Avatar-size-default);
-  height: var(--Avatar-size-default);
-  line-height: var(--Avatar-size-default);
+  @include avatar-size(var(--Avatar-size-default), var(--Avatar-icon-size-default));
   position: relative;
   display: inline-block;
   overflow: hidden;
@@ -17,11 +19,11 @@
   text-align: center;
 
   &--lg {
-    @include avatar-size(var(--Avatar-size-large), var(--Avatar-size-large));
+    @include avatar-size(var(--Avatar-size-large), var(--Avatar-icon-size-large));
   }
 
   &--sm {
-    @include avatar-size(var(--Avatar-size-small), var(--Avatar-size-small));
+    @include avatar-size(var(--Avatar-size-small), var(--Avatar-icon-size-small));
   }
 
   &--text {
@@ -36,10 +38,6 @@
 
   &--rounded {
     border-radius: 10%;
-  }
-
-  i {
-    font-size: var(--fontSizeLg);
   }
 
   img {
