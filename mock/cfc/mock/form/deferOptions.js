@@ -1,15 +1,19 @@
 module.exports = function (req, res) {
-  let repeat = 2 + Math.round(Math.random() * 5);
+  const prevLabel = req.query.label ? req.query.label : '';
+  let labelPrefix = 'lazy-option-';
+  let valuePrefix = 'lazy-';
   const options = [];
 
-  while (repeat--) {
-    const value = Math.round(Math.random() * 1000000);
-    const label = value + '';
+  if (prevLabel && /^lazy-option-(.*)$/.test(prevLabel)) {
+    labelPrefix = `lazy-option-${RegExp.$1}-`;
+    valuePrefix = `lazy-${RegExp.$1}-`;
+  }
 
+  for (let i = 1, len = 5; i <= len; i++) {
     options.push({
-      label: label,
-      value: value,
-      defer: Math.random() > 0.7
+      label: labelPrefix + i,
+      value: valuePrefix + i,
+      defer: i < 3
     });
   }
 

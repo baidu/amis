@@ -12,16 +12,9 @@ amis 的渲染过程是将 `json` 转成对应的 React 组件。先通过 `json
 
 ```jsx
 <Page title="页面标题" subTitle="副标题">
-  <Form
-    title="用户登录"
-    body={[
-      {
-        type: 'input-text',
-        name: 'username',
-        label: '用户名'
-      }
-    ]}
-  />
+  <Form title="用户登录">
+    <InputText name="username" label="用户名" />
+  </Form>
 </Page>
 ```
 
@@ -143,4 +136,4 @@ export class FormItemTextRenderer extends React.Component {
 }
 ```
 
-那么渲染过程就是根据节点 path 信息，跟组件池中的组件 `test` (检测) 信息做匹配，如果命中，则把当前节点转给对应组件渲染，节点中其他属性将作为目标组件的 props。需要注意的是，如果是容器组件，比如以上例子中的 `page` 组件，从 props 中拿到的 `body` 是一个子节点，由于节点类型是不固定，由使用者决定，所以不能直接完成渲染，所以交给属性中下发的 `render` 方法去完成渲染，`{render('body', body)}`，他的工作就是拿子节点的 path 信息去组件池里面找到对应的渲染器，然后交给对应组件去完成渲染。
+那么渲染过程就是根据节点 type 信息，跟组件池中的找到对应的组件实现，如果命中，则把当前节点转给对应组件渲染，节点中其他属性将作为目标组件的 props。需要注意的是，如果是容器组件，比如以上例子中的 `page` 组件，从 props 中拿到的 `body` 是一个子节点，由于节点类型是不固定，由使用者决定，所以不能直接完成渲染，所以交给属性中下发的 `render` 方法去完成渲染，`{render('body', body)}`，他的工作就是拿子节点的 path 信息去组件池里面找到对应的渲染器，然后交给对应组件去完成渲染。

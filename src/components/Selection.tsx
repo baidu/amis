@@ -16,29 +16,33 @@ import isEqual from 'lodash/isEqual';
 import {LocaleProps, localeable} from '../locale';
 // import isPlainObject from 'lodash/isPlainObject';
 
-export interface BaseCheckboxesProps extends ThemeProps, LocaleProps {
+export interface BaseSelectionProps extends ThemeProps, LocaleProps {
   options: Options;
   className?: string;
   placeholder?: string;
-  value?: Array<any>;
-  onChange?: (value: Array<Option>) => void;
+  value?: any | Array<any>;
+  multiple?: boolean;
+  clearable?: boolean;
+  onChange?: (value: Array<any> | any) => void;
   onDeferLoad?: (option: Option) => void;
   inline?: boolean;
   labelClassName?: string;
   option2value?: (option: Option) => any;
   itemClassName?: string;
   itemRender: (option: Option) => JSX.Element;
-
   disabled?: boolean;
+  onClick?: (e: React.MouseEvent) => void;
 }
 
-export class BaseCheckboxes<
-  T extends BaseCheckboxesProps = BaseCheckboxesProps,
+export class BaseSelection<
+  T extends BaseSelectionProps = BaseSelectionProps,
   S = any
 > extends React.Component<T, S> {
   static defaultProps = {
     placeholder: 'placeholder.noOption',
-    itemRender: (option: Option) => <span>{option.label}</span>
+    itemRender: (option: Option) => <span>{option.label}</span>,
+    multiple: true,
+    clearable: false
   };
 
   static value2array(
@@ -62,36 +66,79 @@ export class BaseCheckboxes<
     });
   }
 
+  static resolveSelected(
+    value: any,
+    options: Options,
+    option2value: (option: Option) => any = (option: Option) => option
+  ) {
+    value = Array.isArray(value) ? value[0] : value;
+    return findTree(options, option => isEqual(option2value(option), value));
+  }
+
+  // 获取两个数组的交集
+  intersectArray(
+    arr1: undefined | Array<Option>,
+    arr2: undefined | Array<Option>
+  ): Array<Option> {
+    if (!Array.isArray(arr1) || !Array.isArray(arr2)) {
+      return [];
+    }
+    const len1 = arr1.length;
+    const len2 = arr2.length;
+    if (len1 < len2) {
+      return this.intersectArray(arr2, arr1);
+    }
+    return Array.from(new Set(arr1.filter(item => arr2.includes(item))));
+  }
+
   toggleOption(option: Option) {
-    const {value, onChange, option2value, options, disabled} = this.props;
+    const {
+      value,
+      onChange,
+      option2value,
+      options,
+      disabled,
+      multiple,
+      clearable
+    } = this.props;
 
     if (disabled || option.disabled) {
       return;
     }
 
-    let valueArray = BaseCheckboxes.value2array(value, options, option2value);
+    let valueArray = BaseSelection.value2array(value, options, option2value);
     let idx = valueArray.indexOf(option);
 
-    if (~idx) {
+    if (~idx && (multiple || clearable)) {
       valueArray.splice(idx, 1);
-    } else {
+    } else if (multiple) {
       valueArray.push(option);
+    } else {
+      valueArray = [option];
     }
 
     let newValue: string | Array<Option> = option2value
       ? valueArray.map(item => option2value(item))
       : valueArray;
 
-    onChange && onChange(newValue);
+    onChange && onChange(multiple ? newValue : newValue[0]);
   }
 
   @autobind
   toggleAll() {
     const {value, onChange, option2value, options} = this.props;
+
     let valueArray: Array<Option> = [];
 
-    if (!Array.isArray(value) || !value.length) {
-      valueArray = options.filter(option => !option.disabled);
+    const availableOptions = options.filter(option => !option.disabled);
+    const intersectOptions = this.intersectArray(value, availableOptions);
+
+    if (!Array.isArray(value)) {
+      valueArray = availableOptions;
+    } else if (intersectOptions.length < availableOptions.length) {
+      valueArray = Array.from(new Set([...value, ...availableOptions]));
+    } else {
+      valueArray = value.filter(item => !availableOptions.includes(item));
     }
 
     let newValue: string | Array<Option> = option2value
@@ -113,17 +160,20 @@ export class BaseCheckboxes<
       classnames: cx,
       option2value,
       itemClassName,
-      itemRender
+      itemRender,
+      multiple,
+      onClick
     } = this.props;
 
     const __ = this.props.translate;
 
-    let valueArray = BaseCheckboxes.value2array(value, options, option2value);
+    let valueArray = BaseSelection.value2array(value, options, option2value);
     let body: Array<React.ReactNode> = [];
 
     if (Array.isArray(options) && options.length) {
       body = options.map((option, key) => (
         <Checkbox
+          type={multiple ? 'checkbox' : 'radio'}
           className={cx(itemClassName, option.className)}
           key={key}
           onChange={() => this.toggleOption(option)}
@@ -140,10 +190,11 @@ export class BaseCheckboxes<
     return (
       <div
         className={cx(
-          'Checkboxes',
+          'Selection',
           className,
-          inline ? 'Checkboxes--inline' : ''
+          inline ? 'Selection--inline' : ''
         )}
+        onClick={onClick}
       >
         {body && body.length ? body : <div>{__(placeholder)}</div>}
       </div>
@@ -151,11 +202,11 @@ export class BaseCheckboxes<
   }
 }
 
-export class Checkboxes extends BaseCheckboxes {}
+export class Selection extends BaseSelection {}
 
 export default themeable(
   localeable(
-    uncontrollable(Checkboxes, {
+    uncontrollable(Selection, {
       value: 'onChange'
     })
   )

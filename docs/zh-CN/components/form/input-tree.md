@@ -569,6 +569,116 @@ order: 59
 }
 ```
 
+## 控制哪些项可编辑
+
+配置 `creatable`、`removable` 和 `editable` 可以实现树可编辑，同时如果需要关闭部分节点的编辑权限，可以在节点上配置`creatable`、`removable` 和 `editable`。
+
+`rootCreatable` 可以用来关闭顶层是否可以创建。如果想要控制顶层可编辑，请配置 `hideRoot`，用节点来控制。
+
+```schema: scope="body"
+{
+  "type": "form",
+  "api": "/api/mock2/form/saveForm",
+  "body": [
+    {
+      "type": "input-tree",
+      "name": "tree",
+      "label": "Tree",
+      "creatable": true,
+      "removable": true,
+      "editable": true,
+      "rootCreatable": false,
+      "options": [
+        {
+          "label": "Folder A",
+          "value": 1,
+          "creatable": false,
+          "removable": false,
+          "editable": false,
+          "children": [
+            {
+              "label": "file A",
+              "value": 2
+            },
+            {
+              "label": "file B",
+              "value": 3
+            }
+          ]
+        },
+        {
+          "label": "file C",
+          "value": 4,
+          "removable": false
+        },
+        {
+          "label": "file D",
+          "value": 5,
+          "editable": false
+        }
+      ]
+    }
+  ]
+}
+```
+
+## 控制添加/编辑的表单
+
+配置 `addControls` 可以控制添加时需要填写哪些信息，同样还有 `editControls` 来配置编辑节点的表单
+
+```schema: scope="body"
+{
+  "type": "form",
+  "api": "/api/mock2/form/saveForm",
+  "body": [
+    {
+      "type": "input-tree",
+      "name": "tree",
+      "label": "Tree",
+      "creatable": true,
+      "addControls": [
+        {
+          "label": "节点名称",
+          "type": "input-text",
+          "required": true,
+          "name": "label"
+        },
+        {
+          "label": "节点值",
+          "type": "input-text",
+          "required": true,
+          "name": "value"
+        }
+      ],
+      "options": [
+        {
+          "label": "Folder A",
+          "value": 1,
+          "children": [
+            {
+              "label": "file A",
+              "value": 2
+            },
+            {
+              "label": "file B",
+              "value": 3
+            }
+          ]
+        },
+        {
+          "label": "file C",
+          "value": 4
+        },
+        {
+          "label": "file D",
+          "value": 5
+        }
+      ]
+    }
+  ]
+}
+```
+
 ## 懒加载
 
 > since 1.1.6
@@ -617,6 +727,73 @@ order: 59
 }
 ```
 
+## 节点路径模式
+
+> since 1.2.4
+
+配置`enableNodePath: true`后, 可以将`value`格式转换成节点路径模式，`pathSeparator`设置路径分隔符，建议将该属性的值和拼接符`delimeter`区分开。节点路径模式下，`value`中所有节点的父节点都会自动加载数据并回显。不同配置属性的节点路径模式`value`如下:
+
+```
+    a
+   / \
+  b   d
+ /
+c
+----------------------------------------------
+multiple  joinValues  extractValue  value
+----------------------------------------------
+false       true           -        'a/b/c'
+false       false        false      {label: 'A/B/C', value: 'a/b/c'}
+true        true           -        'a/b/c,a/d'
+true        false        true       ['a/b/c', 'a/d']
+true        false        true       [{label: 'A/B/C', value: 'a/b/c'},{label: 'A/D', value: 'a/d'}]
+```
+
+```schema: scope="body"
+{
+  "type": "form",
+  "api": "/api/mock2/form/saveForm",
+  "body": [
+    {
+      "type": "input-tree",
+      "name": "tree",
+      "label": "Tree",
+      "deferApi": "/api/mock2/form/deferOptions?label=${label}&waitSeconds=2",
+      "value": "1/2,4/lazy-1/lazy-1-3,4/lazy-1/lazy-1-5",
+      "enableNodePath": true,
+      "pathSeparator": '/',
+      "multiple": true,
+      "options": [
+        {
+          "label": "Folder A",
+          "value": 1,
+          "collapsed": true,
+          "children": [
+            {
+              "label": "file A",
+              "value": 2
+            },
+            {
+              "label": "file B",
+              "value": 3
+            }
+          ]
+        },
+        {
+          "label": "这下面是懒加载的",
+          "value": 4,
+          "defer": true
+        },
+        {
+          "label": "file D",
+          "value": 5
+        }
+      ]
+    }
+  ]
+}
+```
+
 ## 属性表
 
 当做选择器表单项使用时，除了支持 [普通表单项属性表](./formitem#%E5%B1%9E%E6%80%A7%E8%A1%A8) 中的配置以外，还支持下面一些配置
@@ -630,6 +807,7 @@ order: 59
 | delimeter              | `string`                                     | `false`          | [拼接符](./options#%E6%8B%BC%E6%8E%A5%E7%AC%A6-delimiter)                                                           |
 | labelField             | `string`                                     | `"label"`        | [选项标签字段](./options#%E9%80%89%E9%A1%B9%E6%A0%87%E7%AD%BE%E5%AD%97%E6%AE%B5-labelfield)                         |
 | valueField             | `string`                                     | `"value"`        | [选项值字段](./options#%E9%80%89%E9%A1%B9%E5%80%BC%E5%AD%97%E6%AE%B5-valuefield)                                    |
+| iconField              | `string`                                     | `"icon"`         | 图标值字段                                                                                                          |
 | joinValues             | `boolean`                                    | `true`           | [拼接值](./options#%E6%8B%BC%E6%8E%A5%E5%80%BC-joinvalues)                                                          |
 | extractValue           | `boolean`                                    | `false`          | [提取值](./options#%E6%8F%90%E5%8F%96%E5%A4%9A%E9%80%89%E5%80%BC-extractvalue)                                      |
 | creatable              | `boolean`                                    | `false`          | [新增选项](./options#%E5%89%8D%E7%AB%AF%E6%96%B0%E5%A2%9E-creatable)                                                |
@@ -655,3 +833,5 @@ order: 59
 | minLength              | `number`                                     |                  | 最少选中的节点数                                                                                                    |
 | maxLength              | `number`                                     |                  | 最多选中的节点数                                                                                                    |
 | treeContainerClassName | `string`                                     |                  | tree 最外层容器类名                                                                                                 |
+| enableNodePath         | `boolean`                                    | `false`          | 是否开启节点路径模式                                                                                                |
+| pathSeparator          | `string`                                     | `/`              | 节点路径的分隔符，`enableNodePath`为`true`时生效                                                                    |

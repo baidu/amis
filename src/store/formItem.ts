@@ -150,17 +150,21 @@ export const FormItemStore = StoreNode.named('FormItemStore')
         return getLastOptionValue();
       },
 
-      getSelectedOptions: (value: any = self.tmpValue) => {
+      getSelectedOptions: (
+        value: any = self.tmpValue,
+        nodeValueArray?: any[] | undefined
+      ) => {
         if (typeof value === 'undefined') {
           return [];
         }
 
-        const valueArray = Array.isArray(value)
+        const valueArray = nodeValueArray
+          ? nodeValueArray
+          : Array.isArray(value)
           ? value
           : typeof value === 'string'
           ? value.split(self.delimiter || ',')
           : [value];
-
         const selected = valueArray.map(item =>
           item && item.hasOwnProperty(self.valueField || 'value')
             ? item[self.valueField || 'value']
@@ -281,13 +285,17 @@ export const FormItemStore = StoreNode.named('FormItemStore')
         isRequired: self.required
       };
 
-      // if (typeof minLength === 'number') {
-      //   rules.minLength = minLength;
-      // }
+      // todo 这个弄个配置由渲染器自己来决定
+      // 暂时先这样
+      if (~['input-text', 'textarea'].indexOf(self.type)) {
+        if (typeof minLength === 'number') {
+          rules.minLength = minLength;
+        }
 
-      // if (typeof maxLength === 'number') {
-      //   rules.maxLength = maxLength;
-      // }
+        if (typeof maxLength === 'number') {
+          rules.maxLength = maxLength;
+        }
+      }
 
       if (isObjectShallowModified(rules, self.rules)) {
         self.rules = rules;
@@ -348,11 +356,7 @@ export const FormItemStore = StoreNode.named('FormItemStore')
 
         self.validated = true;
 
-        if (
-          self.unique &&
-          self.form.parentStore &&
-          self.form.parentStore.storeType === 'ComboStore'
-        ) {
+        if (self.unique && self.form?.parentStore?.storeType === 'ComboStore') {
           const combo = self.form.parentStore as IComboStore;
           const group = combo.uniques.get(self.name) as IUniqueGroup;
 
@@ -364,7 +368,7 @@ export const FormItemStore = StoreNode.named('FormItemStore')
                 item.value === self.tmpValue
             )
           ) {
-            addError(self.__('`当前值不唯一`'));
+            addError(self.__('Form.unique'));
           }
         }
 
@@ -613,12 +617,104 @@ export const FormItemStore = StoreNode.named('FormItemStore')
       return json;
     });
 
+    const tryDeferLoadLeftOptions: (
+      option: any,
+      api: Api,
+      data?: object,
+      config?: fetchOptions
+    ) => Promise<Payload | null> = flow(function* (
+      option: any,
+      api: string,
+      data: object,
+      config?: fetchOptions
+    ) {
+      if (
+        self.options.length != 1 ||
+        !Array.isArray(self.options[0].leftOptions)
+      ) {
+        return;
+      }
+
+      let leftOptions = self.options[0].leftOptions as any;
+
+      const indexes = findTreeIndex(leftOptions, item => item === option);
+      if (!indexes) {
+        return;
+      }
+
+      setOptions(
+        [
+          {
+            ...self.options[0],
+            leftOptions: spliceTree(leftOptions, indexes, 1, {
+              ...option,
+              loading: true
+            })
+          }
+        ],
+        undefined,
+        data
+      );
+
+      let json = yield fetchOptions(
+        api,
+        data,
+        {
+          ...config,
+          silent: true
+        },
+        false
+      );
+      if (!json) {
+        setOptions(
+          [
+            {
+              ...self.options[0],
+              leftOptions: spliceTree(leftOptions, indexes, 1, {
+                ...option,
+                loading: false,
+                error: true
+              })
+            }
+          ],
+          undefined,
+          data
+        );
+        return;
+      }
+
+      let options: Array<IOption> =
+        json.data?.options ||
+        json.data.items ||
+        json.data.rows ||
+        json.data ||
+        [];
+
+      setOptions(
+        [
+          {
+            ...self.options[0],
+            leftOptions: spliceTree(leftOptions, indexes, 1, {
+              ...option,
+              loading: false,
+              loaded: true,
+              children: options
+            })
+          }
+        ],
+        undefined,
+        data
+      );
+
+      return json;
+    });
+
     const deferLoadOptions: (
       option: any,
       api: Api,
       data?: object,
       config?: fetchOptions
-    ) => Promise<Payload | null> = flow(function* getInitData(
+    ) => Promise<Payload | null> = flow(function* (
       option: any,
       api: string,
       data: object,
@@ -626,7 +722,7 @@ export const FormItemStore = StoreNode.named('FormItemStore')
     ) {
       const indexes = findTreeIndex(self.options, item => item === option);
       if (!indexes) {
-        return;
+        return yield tryDeferLoadLeftOptions(option, api, data, config);
       }
 
       setOptions(
@@ -679,6 +775,105 @@ export const FormItemStore = StoreNode.named('FormItemStore')
       );
 
       return json;
+    });
+
+    /**
+     * 根据当前节点路径展开树形组件父节点
+     */
+    const expandTreeOptions: (
+      nodePathArr: any[],
+      api: Api,
+      data?: object,
+      config?: fetchOptions
+    ) => Promise<Payload | null | void> = flow(function* getInitData(
+      nodePathArr: any[],
+      api: string,
+      data: object,
+      config?: fetchOptions
+    ) {
+      // 多选模式下需要记录遍历过的Node，避免发送相同的请求
+      const traversedNode = new Map();
+
+      for (let nodePath of nodePathArr) {
+        // 根节点已经展开了，不需要加载
+        if (nodePath.length <= 1) {
+          continue;
+        }
+
+        // 叶节点不需要展开
+        for (let level = 0; level < nodePath.length - 1; level++) {
+          let tree = self.options.concat();
+          let nodeValue = nodePath[level];
+
+          if (traversedNode.has(nodeValue)) {
+            continue;
+          }
+          // 节点value认为是唯一的
+          let node = findTree(tree, (item, key, treeLevel: number) => {
+            return (
+              treeLevel === level + 1 &&
+              optionValueCompare(nodeValue, self.valueField || 'value')(item)
+            );
+          });
+
+          // 只处理懒加载节点
+          if (!node || !node.defer) {
+            continue;
+          }
+          const indexes = findTreeIndex(
+            tree,
+            item => item === node
+          ) as number[];
+
+          setOptions(
+            spliceTree(tree, indexes, 1, {
+              ...node,
+              loading: true
+            }),
+            undefined,
+            node
+          );
+
+          let json = yield fetchOptions(
+            api,
+            node,
+            {...config, silent: true},
+            false
+          );
+
+          if (!json) {
+            setOptions(
+              spliceTree(tree, indexes, 1, {
+                ...node,
+                loading: false,
+                error: true
+              }),
+              undefined,
+              node
+            );
+          }
+
+          traversedNode.set(nodeValue, true);
+
+          let childrenOptions: Array<IOption> =
+            json.data?.options ||
+            json.data.items ||
+            json.data.rows ||
+            json.data ||
+            [];
+
+          setOptions(
+            spliceTree(tree, indexes, 1, {
+              ...node,
+              loading: false,
+              loaded: true,
+              children: childrenOptions
+            }),
+            undefined,
+            node
+          );
+        }
+      }
     });
 
     // @issue 强依赖form，需要改造暂且放过。
@@ -896,6 +1091,7 @@ export const FormItemStore = StoreNode.named('FormItemStore')
       setOptions,
       loadOptions,
       deferLoadOptions,
+      expandTreeOptions,
       syncOptions,
       setLoading,
       setSubStore,

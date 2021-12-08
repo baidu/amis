@@ -57,6 +57,8 @@
   &-toggler {
     cursor: pointer;
     color: var(--DatePicker-iconColor);
+    display: inline-flex;
+    align-items: center;
 
     &:hover {
       color: var(--DatePicker-onHover-iconColor);

@@ -15,7 +15,8 @@ import {
   difference,
   isVisible,
   isDisabled,
-  noop
+  noop,
+  isClickOnInput
 } from '../utils/helper';
 import {
   isPureVariable,
@@ -215,6 +216,11 @@ export interface ListSchema extends BaseSchema {
    * 大小
    */
   size?: 'sm' | 'base';
+
+  /**
+   * 点击列表项的行为
+   */
+  itemAction?: ActionSchema;
 }
 
 export interface Column {
@@ -919,6 +925,7 @@ export default class List extends React.Component<ListProps, object> {
       onAction,
       hideCheckToggler,
       checkOnItemClick,
+      itemAction,
       affixHeader,
       classnames: cx,
       size,
@@ -969,6 +976,7 @@ export default class List extends React.Component<ListProps, object> {
                   itemIndex: item.index,
                   hideCheckToggler,
                   checkOnItemClick,
+                  itemAction,
                   selected: item.checked,
                   onCheck: this.handleCheck,
                   dragging: store.dragging,
@@ -1018,6 +1026,7 @@ export interface ListItemProps
   itemIndex?: number;
   checkable?: boolean;
   checkOnItemClick?: boolean;
+  itemAction?: ActionSchema;
 }
 export class ListItem extends React.Component<ListItemProps> {
   static defaultProps: Partial<ListItemProps> = {
@@ -1025,7 +1034,11 @@ export class ListItem extends React.Component<ListItemProps> {
     titleClassName: 'h5'
   };
 
-  static propsList: Array<string> = ['avatarClassName', 'titleClassName'];
+  static propsList: Array<string> = [
+    'avatarClassName',
+    'titleClassName',
+    'itemAction'
+  ];
 
   constructor(props: ListItemProps) {
     super(props);
@@ -1037,20 +1050,15 @@ export class ListItem extends React.Component<ListItemProps> {
   }
 
   handleClick(e: React.MouseEvent<HTMLDivElement>) {
-    const target: HTMLElement = e.target as HTMLElement;
-    const ns = this.props.classPrefix;
-    let formItem;
-
-    if (
-      !e.currentTarget.contains(target) ||
-      ~['INPUT', 'TEXTAREA'].indexOf(target.tagName) ||
-      ((formItem = target.closest(`button, a, .${ns}Form-item`)) &&
-        e.currentTarget.contains(formItem))
-    ) {
+    if (isClickOnInput(e)) {
+      return;
+    }
+    const {itemAction, onAction, item} = this.props;
+    if (itemAction) {
+      onAction && onAction(e, itemAction, item?.data);
       return;
     }
 
-    const item = this.props.item;
     this.props.onCheck && this.props.onCheck(item);
   }
 
@@ -1160,10 +1168,7 @@ export class ListItem extends React.Component<ListItemProps> {
                     ))}
                 </div>
             );
-        } else */ if (
-      typeof node === 'string' ||
-      typeof node === 'number'
-    ) {
+        } else */ if (typeof node === 'string' || typeof node === 'number') {
       return render(region, node, {key}) as JSX.Element;
     }
 
@@ -1184,7 +1189,7 @@ export class ListItem extends React.Component<ListItemProps> {
   }
 
   renderFeild(region: string, field: any, key: any, props: any) {
-    const render = props.render || this.props.render;
+    const render = props?.render || this.props.render;
     const data = this.props.data;
     const cx = this.props.classnames;
     const itemIndex = this.props.itemIndex;
@@ -1261,7 +1266,8 @@ export class ListItem extends React.Component<ListItemProps> {
       render,
       checkable,
       classnames: cx,
-      actionsPosition
+      actionsPosition,
+      itemAction
     } = this.props;
 
     const avatar = filter(avatarTpl, data);
@@ -1271,9 +1277,16 @@ export class ListItem extends React.Component<ListItemProps> {
 
     return (
       <div
-        onClick={checkOnItemClick && checkable ? this.handleClick : undefined}
+        onClick={
+          (checkOnItemClick && checkable) || itemAction
+            ? this.handleClick
+            : undefined
+        }
         className={cx(
           `ListItem ListItem--actions-at-${actionsPosition || 'right'}`,
+          {
+            'ListItem--hasItemAction': itemAction
+          },
           className
         )}
       >

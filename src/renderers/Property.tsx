@@ -5,8 +5,7 @@
 import React from 'react';
 import {Renderer, RendererProps} from '../factory';
 import {BaseSchema, SchemaExpression, SchemaObject, SchemaTpl} from '../Schema';
-import PopOver from './PopOver';
-import {resolveVariable} from '../utils/tpl-builtin';
+import {resolveVariableAndFilter} from '../utils/tpl-builtin';
 import {visibilityFilter} from '../utils/helper';
 
 export type PropertyItemProps = {
@@ -119,10 +118,14 @@ export default class Property extends React.Component<PropertyProps, object> {
    */
   prepareRows() {
     const {column = 3, items, source, data} = this.props;
-
-    const propertyItems = items
-      ? items
-      : (resolveVariable(source, data) as Array<PropertyItem>);
+    const propertyItems =
+      (items
+        ? items
+        : (resolveVariableAndFilter(
+            source,
+            data,
+            '| raw'
+          ) as Array<PropertyItem>)) || [];
 
     const rows: PropertyContent[][] = [];
 

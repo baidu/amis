@@ -54,6 +54,7 @@ import {
 import {ActionSchema} from '../Action';
 import {ButtonGroupControlSchema} from './ButtonGroupSelect';
 import {DialogSchemaBase} from '../Dialog';
+import Alert from '../../components/Alert2';
 
 export interface FormSchemaHorizontal {
   left?: number;
@@ -202,6 +203,11 @@ export interface FormSchema extends BaseSchema {
   mode?: 'normal' | 'inline' | 'horizontal';
 
   /**
+   * 表单项显示为几列
+   */
+  columnCount?: number;
+
+  /**
    * 如果是水平排版，这个属性可以细化水平排版的左右宽度占比。
    */
   horizontal?: FormSchemaHorizontal;
@@ -346,6 +352,7 @@ export default class Form extends React.Component<FormProps, object> {
       right: 10,
       offset: 2
     },
+    columnCount: 0,
     panelClassName: 'Panel--default',
     messages: {
       fetchFailed: 'fetchFailed',
@@ -366,6 +373,7 @@ export default class Form extends React.Component<FormProps, object> {
     'initFetch',
     'wrapWithPanel',
     'mode',
+    'columnCount',
     'collapsable',
     'horizontal',
     'panelClassName',
@@ -826,7 +834,7 @@ export default class Form extends React.Component<FormProps, object> {
       );
     }
 
-    if (store.persistData) {
+    if (store.persistData && store.inited) {
       store.setLocalPersistData();
     }
   }
@@ -1417,6 +1425,7 @@ export default class Form extends React.Component<FormProps, object> {
       debug,
       $path,
       store,
+      columnCount,
       render
     } = this.props;
 
@@ -1428,10 +1437,18 @@ export default class Form extends React.Component<FormProps, object> {
 
     return (
       <WrapperComponent
-        className={cx(`Form`, `Form--${mode || 'normal'}`, className)}
+        className={cx(
+          `Form`,
+          `Form--${mode || 'normal'}`,
+          columnCount ? `Form--column Form--column-${columnCount}` : null,
+          className
+        )}
         onSubmit={this.handleFormSubmit}
         noValidate
       >
+        {/* 实现回车自动提交 */}
+        <input type="submit" style={{display: 'none'}} />
+
         {debug ? (
           <pre>
             <code>{JSON.stringify(store.data, null, 2)}</code>
@@ -1484,14 +1501,14 @@ export default class Form extends React.Component<FormProps, object> {
             show: store.drawerOpen
           }
         )}
-        {/* 实现回车自动提交 */}
-        <input type="submit" style={{display: 'none'}} />
       </WrapperComponent>
     );
   }
 
   render() {
     const {
+      $path,
+      $schema,
       wrapWithPanel,
       render,
       title,
@@ -1506,11 +1523,9 @@ export default class Form extends React.Component<FormProps, object> {
       affixFooter,
       lazyLoad,
       translate: __,
-      footer
+      footer,
+      formStore
     } = this.props;
-
-    // trace(true);
-    // console.log('Form');
 
     let body: JSX.Element = this.renderBody();
 
@@ -1523,6 +1538,7 @@ export default class Form extends React.Component<FormProps, object> {
         },
         {
           className: cx(panelClassName, 'Panel--form'),
+          formStore: this.props.store,
           children: body,
           actions: this.buildActions(),
           onAction: this.handleAction,

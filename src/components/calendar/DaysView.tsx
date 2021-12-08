@@ -5,6 +5,7 @@ import React from 'react';
 import Downshift from 'downshift';
 import {LocaleProps, localeable} from '../../locale';
 import {ClassNamesFn} from '../../theme';
+import find from 'lodash/find';
 
 interface CustomDaysViewProps extends LocaleProps {
   classPrefix?: string;
@@ -39,6 +40,14 @@ interface CustomDaysViewProps extends LocaleProps {
   updateSelectedDate: (event: React.MouseEvent<any>, close?: boolean) => void;
   handleClickOutside: () => void;
   classnames: ClassNamesFn;
+  schedules?: Array<{
+    startTime: Date,
+    endTime: Date,
+    content: any,
+    className?: string
+  }>;
+  largeMode?: boolean;
+  onScheduleClick?: (scheduleData: any) => void;
 }
 
 export class CustomDaysView extends DaysView {
@@ -100,8 +109,8 @@ export class CustomDaysView extends DaysView {
   confirm = () => {
     let date = (this.props.selectedDate || this.props.viewDate).clone();
 
-    // 如果 minDate 是可用的，且比当前日期早，则用 minDate
-    if (this.props.minDate?.isValid() && this.props.minDate?.isBefore(date)) {
+    // 如果 minDate 是可用的，且比当前日期晚，则用 minDate
+    if (this.props.minDate?.isValid() && this.props.minDate?.isAfter(date)) {
       date = this.props.minDate.clone();
     }
 
@@ -117,6 +126,86 @@ export class CustomDaysView extends DaysView {
   };
 
   renderDay = (props: any, currentDate: moment.Moment) => {
+    if (this.props.schedules) {
+      let schedule: any[] = [];
+      this.props.schedules.forEach((item: any) => {
+        if (currentDate.isSameOrAfter(moment(item.startTime).subtract(1, 'days')) && currentDate.isSameOrBefore(item.endTime)) {
+          schedule.push(item);
+        }
+      });
+      if (schedule.length > 0) {
+        const cx = this.props.classnames;
+        const __ = this.props.translate;
+        // 日程数据
+        const scheduleData = {
+          scheduleData: schedule.map((item: any) => {
+            return {
+              ...item,
+              time: moment(item.startTime).format('YYYY-MM-DD HH:mm:ss') + ' - ' + moment(item.endTime).format('YYYY-MM-DD HH:mm:ss'),
+            }
+          }),
+          currentDate
+        };
+
+        // 放大模式
+        if (this.props.largeMode) {
+          let showSchedule: any[] = [];
+          for (let i = 0; i < schedule.length; i++) {
+            if (showSchedule.length > 3) {
+              break;
+            }
+            if (moment(schedule[i].startTime).isSame(currentDate, 'day')) {
+              showSchedule.push(schedule[i]);
+            }
+            else if (currentDate.weekday() === 0) {
+              // 周一重新设置日程
+              showSchedule.push({
+                ...schedule[i],
+                width: moment(schedule[i].endTime).date() - currentDate.date()
+              });
+            }
+          }
+          [0, 1, 2].forEach((i: number) => {
+            const findSchedule = find(schedule, (item: any) => item.height === i);
+            if (findSchedule && findSchedule !== showSchedule[i] && currentDate.weekday() !== 0) {
+              // 生成一个空白格占位
+              showSchedule.splice(i, 0, {
+                width: 1,
+                className: 'bg-transparent',
+                content: ''
+              });
+            }
+            else {
+              showSchedule[i] && (showSchedule[i].height = i);
+            }
+          });
+          // 最多展示3个
+          showSchedule = showSchedule.slice(0, 3);
+          const scheduleDiv = showSchedule.map((item: any, index: number) => {
+            const width = item.width || Math.min(moment(item.endTime).diff(moment(item.startTime), 'days') + 1, 7 - moment(item.startTime).weekday());
+            return <div key={props.key + 'content' + index}
+              className={cx('ScheduleCalendar-large-schedule-content', item.className)}
+              style={{width: width + '00%'}}>
+                <div className={cx('ScheduleCalendar-text-overflow')}>{item.content}</div>
+            </div>;
+          });
+          return <td {...props} onClick={() => this.props.onScheduleClick && this.props.onScheduleClick(scheduleData)}>
+              <div className={cx('ScheduleCalendar-large-day-wrap')}>
+                <div className={cx('ScheduleCalendar-large-schedule-header')}>{currentDate.date()}</div>
+                {scheduleDiv}
+                {schedule.length > 3 && <div className={cx('ScheduleCalendar-large-schedule-footer')}>{schedule.length - 3} {__('more')}</div>}
+              </div>
+          </td>
+        }
+
+        // 正常模式
+        const ScheduleIcon = <span className={cx('ScheduleCalendar-icon', schedule[0].className)}></span>;
+        return <td {...props} onClick={() => this.props.onScheduleClick && this.props.onScheduleClick(scheduleData)}>
+          {currentDate.date()}
+          {ScheduleIcon}
+        </td>;
+      }
+    }
     return <td {...props}>{currentDate.date()}</td>;
   };
 
@@ -171,7 +260,7 @@ export class CustomDaysView extends DaysView {
             {({isOpen, getInputProps, openMenu, closeMenu}) => {
               const inputProps = getInputProps({
                 onFocus: () => openMenu(),
-                onChange: e =>
+                onChange: (e: any) =>
                   this.setTime(
                     type,
                     Math.max(
@@ -281,13 +370,13 @@ export class CustomDaysView extends DaysView {
                 className="rdtPrev"
                 onClick={this.props.subtractTime(1, 'years')}
               >
-                «
+                &laquo;
               </a>
               <a
                 className="rdtPrev"
                 onClick={this.props.subtractTime(1, 'months')}
               >
-                ‹
+                &lsaquo;
               </a>
 
               <div className="rdtCenter">
@@ -303,10 +392,10 @@ export class CustomDaysView extends DaysView {
               </div>
 
               <a className="rdtNext" onClick={this.props.addTime(1, 'months')}>
-                ›
+                &rsaquo;
               </a>
               <a className="rdtNext" onClick={this.props.addTime(1, 'years')}>
-                »
+                &raquo;
               </a>
             </div>
           </th>
@@ -334,5 +423,5 @@ export class CustomDaysView extends DaysView {
 }
 
 export default localeable(
-  (CustomDaysView as any) as React.ComponentClass<CustomDaysViewProps>
+  CustomDaysView as any as React.ComponentClass<CustomDaysViewProps>
 );

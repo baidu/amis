@@ -29,6 +29,11 @@ export interface JsonSchema extends BaseSchema {
    * 是否可修改
    */
   mutable?: boolean;
+
+  /**
+   * 是否显示数据类型
+   */
+  displayDataTypes?: boolean;
 }
 
 export interface JSONProps extends RendererProps, JsonSchema {
@@ -44,7 +49,8 @@ export class JSONField extends React.Component<JSONProps, object> {
   static defaultProps: Partial<JSONProps> = {
     placeholder: '-',
     levelExpand: 1,
-    source: ''
+    source: '',
+    displayDataTypes: false
   };
 
   @autobind
@@ -79,6 +85,7 @@ export class JSONField extends React.Component<JSONProps, object> {
       source,
       levelExpand,
       mutable,
+      displayDataTypes,
       name
     } = this.props;
 
@@ -87,14 +94,15 @@ export class JSONField extends React.Component<JSONProps, object> {
     let data = value;
     if (source !== undefined && isPureVariable(source)) {
       data = resolveVariableAndFilter(source, this.props.data, '| raw');
-    } else if (typeof value === 'string') {
-      try {
-        data = JSON.parse(value);
-      } catch (e) {
-        data = {
-          error: e.message
-        };
-      }
+    }
+
+    let jsonThemeValue = jsonTheme;
+    if (isPureVariable(jsonTheme)) {
+      jsonThemeValue = resolveVariableAndFilter(
+        jsonTheme,
+        this.props.data,
+        '| raw'
+      );
     }
 
     // JsonView 只支持对象，所以不是对象格式需要转成对象格式。
@@ -112,9 +120,10 @@ export class JSONField extends React.Component<JSONProps, object> {
           <JsonView
             name={false}
             src={data}
-            theme={(jsonTheme as any) ?? 'rjv-default'}
+            theme={(jsonThemeValue as any) ?? 'rjv-default'}
             shouldCollapse={this.shouldExpandNode}
             enableClipboard={false}
+            displayDataTypes={displayDataTypes}
             iconStyle="square"
             onEdit={name && mutable ? this.emitChange : false}
             onDelete={name && mutable ? this.emitChange : false}

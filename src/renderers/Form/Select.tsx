@@ -14,6 +14,9 @@ import {isEffectiveApi} from '../../utils/api';
 import {isEmpty, createObject, autobind} from '../../utils/helper';
 import {dataMapping} from '../../utils/tpl-builtin';
 import {SchemaApi} from '../../Schema';
+import Spinner from '../../components/Spinner';
+import {BaseTransferRenderer, TransferControlSchema} from './Transfer';
+import TransferDropDown from '../../components/TransferDropDown';
 
 /**
  * Select 下拉选择框。
@@ -29,11 +32,6 @@ export interface SelectControlSchema extends FormOptionsControl {
   autoComplete?: SchemaApi;
 
   /**
-   * 是否可以搜索值
-   */
-  searchable?: boolean;
-
-  /**
    * 可以自定义菜单展示。
    */
   menuTpl?: string;
@@ -42,6 +40,51 @@ export interface SelectControlSchema extends FormOptionsControl {
    * 边框模式，全边框，还是半边框，或者没边框。
    */
   borderMode?: 'full' | 'half' | 'none';
+
+  /**
+   * 勾选展示模式
+   */
+  selectMode?: 'table' | 'group' | 'tree' | 'chained' | 'associated';
+
+  /**
+   * 当 selectMode 为 associated 时用来定义左侧的选项
+   */
+  leftOptions?: Array<Option>;
+
+  /**
+   * 当 selectMode 为 associated 时用来定义左侧的选择模式
+   */
+  leftMode?: 'tree' | 'list';
+
+  /**
+   * 当 selectMode 为 associated 时用来定义右侧的选择模式
+   */
+  rightMode?: 'table' | 'list' | 'tree' | 'chained';
+
+  /**
+   * 搜索结果展示模式
+   */
+  searchResultMode?: 'table' | 'list' | 'tree' | 'chained';
+
+  /**
+   * 当 selectMode 为 table 时定义表格列信息。
+   */
+  columns?: Array<any>;
+
+  /**
+   * 当 searchResultMode 为 table 时定义表格列信息。
+   */
+  searchResultColumns?: Array<any>;
+
+  /**
+   * 可搜索？
+   */
+  searchable?: boolean;
+
+  /**
+   * 搜索 API
+   */
+  searchApi?: SchemaApi;
 }
 
 export interface SelectProps extends OptionsControlProps {
@@ -220,6 +263,18 @@ export default class SelectControl extends React.Component<SelectProps, any> {
     reload && reload();
   }
 
+  option2value() {}
+
+  renderOtherMode() {
+    const {selectMode, ...rest} = this.props;
+    return (
+      <TransferDropdownRenderer
+        {...rest}
+        selectMode={selectMode === 'group' ? 'list' : selectMode}
+      />
+    );
+  }
+
   render() {
     let {
       autoComplete,
@@ -241,6 +296,8 @@ export default class SelectControl extends React.Component<SelectProps, any> {
       render,
       menuTpl,
       borderMode,
+      selectMode,
+      env,
       ...rest
     } = this.props;
 
@@ -250,25 +307,111 @@ export default class SelectControl extends React.Component<SelectProps, any> {
 
     return (
       <div className={cx(`${classPrefix}SelectControl`, className)}>
-        <Select
-          {...rest}
-          borderMode={borderMode}
-          placeholder={placeholder}
-          multiple={multiple || multi}
-          ref={this.inputRef}
-          value={selectedOptions}
-          options={options}
-          loadOptions={
-            isEffectiveApi(autoComplete) ? this.lazyloadRemote : undefined
-          }
-          creatable={creatable}
-          searchable={searchable || !!autoComplete}
-          onChange={this.changeValue}
-          loading={loading}
-          noResultsText={noResultsText}
-          renderMenu={menuTpl ? this.renderMenu : undefined}
-        />
+        {['table', 'list', 'group', 'tree', 'chained', 'associated'].includes(
+          selectMode
+        ) ? (
+          this.renderOtherMode()
+        ) : (
+          <Select
+            {...rest}
+            useMobileUI={env.useMobileUI}
+            borderMode={borderMode}
+            placeholder={placeholder}
+            multiple={multiple || multi}
+            ref={this.inputRef}
+            value={selectedOptions}
+            options={options}
+            loadOptions={
+              isEffectiveApi(autoComplete) ? this.lazyloadRemote : undefined
+            }
+            creatable={creatable}
+            searchable={searchable || !!autoComplete}
+            onChange={this.changeValue}
+            loading={loading}
+            noResultsText={noResultsText}
+            renderMenu={menuTpl ? this.renderMenu : undefined}
+          />
+        )}
       </div>
+    );
+  }
+}
+
+export interface TransferDropDownProps
+  extends OptionsControlProps,
+    Omit<
+      TransferControlSchema,
+      | 'type'
+      | 'options'
+      | 'inputClassName'
+      | 'className'
+      | 'descriptionClassName'
+    > {
+  borderMode?: 'full' | 'half' | 'none';
+}
+
+class TransferDropdownRenderer extends BaseTransferRenderer<TransferDropDownProps> {
+  render() {
+    const {
+      className,
+      classnames: cx,
+      selectedOptions,
+      sortable,
+      loading,
+      searchable,
+      searchResultMode,
+      showArrow,
+      deferLoad,
+      disabled,
+      selectTitle,
+      selectMode,
+      multiple,
+      columns,
+      leftMode,
+      borderMode
+    } = this.props;
+
+    // 目前 LeftOptions 没有接口可以动态加载
+    // 为了方便可以快速实现动态化，让选项的第一个成员携带
+    // LeftOptions 信息
+    let {options, leftOptions, leftDefaultValue} = this.props;
+    if (
+      selectMode === 'associated' &&
+      options &&
+      options.length === 1 &&
+      options[0].leftOptions &&
+      Array.isArray(options[0].children)
+    ) {
+      leftOptions = options[0].leftOptions;
+      leftDefaultValue = options[0].leftDefaultValue ?? leftDefaultValue;
+      options = options[0].children;
+    }
+
+    return (
+      <>
+        <TransferDropDown
+          selectMode={selectMode}
+          className={className}
+          value={selectedOptions}
+          disabled={disabled}
+          options={options}
+          onChange={this.handleChange}
+          option2value={this.option2value}
+          sortable={sortable}
+          searchResultMode={searchResultMode}
+          onSearch={searchable ? this.handleSearch : undefined}
+          showArrow={showArrow}
+          onDeferLoad={deferLoad}
+          selectTitle={selectTitle}
+          multiple={multiple}
+          columns={columns}
+          leftMode={leftMode}
+          leftOptions={leftOptions}
+          borderMode={borderMode}
+        />
+
+        <Spinner overlay key="info" show={loading} />
+      </>
     );
   }
 }

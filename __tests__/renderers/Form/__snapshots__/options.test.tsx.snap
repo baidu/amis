@@ -6,6 +6,10 @@ exports[`options:linkage 1`] = `
     class="cxd-Form cxd-Form--normal"
     novalidate=""
   >
+    <input
+      style="display: none;"
+      type="submit"
+    />
     <div
       class="cxd-Form-item cxd-Form-item--normal"
       data-role="form-item"
@@ -107,10 +111,6 @@ exports[`options:linkage 1`] = `
         </label>
       </div>
     </div>
-    <input
-      style="display: none;"
-      type="submit"
-    />
   </form>
 </div>
 `;
@@ -121,6 +121,10 @@ exports[`options:linkage 2`] = `
     class="cxd-Form cxd-Form--normal"
     novalidate=""
   >
+    <input
+      style="display: none;"
+      type="submit"
+    />
     <div
       class="cxd-Form-item cxd-Form-item--normal"
       data-role="form-item"
@@ -223,10 +227,6 @@ exports[`options:linkage 2`] = `
         </label>
       </div>
     </div>
-    <input
-      style="display: none;"
-      type="submit"
-    />
   </form>
 </div>
 `;
@@ -237,6 +237,10 @@ exports[`options:linkage 3`] = `
     class="cxd-Form cxd-Form--normal"
     novalidate=""
   >
+    <input
+      style="display: none;"
+      type="submit"
+    />
     <div
       class="cxd-Form-item cxd-Form-item--normal"
       data-role="form-item"
@@ -325,10 +329,6 @@ exports[`options:linkage 3`] = `
         </label>
       </div>
     </div>
-    <input
-      style="display: none;"
-      type="submit"
-    />
   </form>
 </div>
 `;
@@ -339,6 +339,10 @@ exports[`options:linkage 4`] = `
     class="cxd-Form cxd-Form--normal"
     novalidate=""
   >
+    <input
+      style="display: none;"
+      type="submit"
+    />
     <div
       class="cxd-Form-item cxd-Form-item--normal"
       data-role="form-item"
@@ -453,10 +457,6 @@ exports[`options:linkage 4`] = `
         </label>
       </div>
     </div>
-    <input
-      style="display: none;"
-      type="submit"
-    />
   </form>
 </div>
 `;

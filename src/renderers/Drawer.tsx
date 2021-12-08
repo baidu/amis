@@ -394,7 +394,8 @@ export default class Drawer extends React.Component<DrawerProps> {
       popOverContainer: this.getPopOverContainer,
       onChange: this.handleFormChange,
       onInit: this.handleFormInit,
-      onSaved: this.handleFormSaved
+      onSaved: this.handleFormSaved,
+      syncLocation: false
     };
 
     if (schema.type === 'form') {
@@ -685,10 +686,6 @@ export class DrawerRenderer extends Drawer {
 
   tryChildrenToHandle(action: Action, ctx: object, rawAction?: Action) {
     const scoped = this.context as IScopedContext;
-
-    if (action.fromDialog) {
-      return false;
-    }
 
     const targets: Array<any> = [];
     const {onConfirm, store} = this.props;

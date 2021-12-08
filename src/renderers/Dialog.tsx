@@ -318,7 +318,7 @@ export default class Dialog extends React.Component<DialogProps> {
   handleExited() {
     const {lazySchema, store} = this.props;
     if (isAlive(store)) {
-      store.setFormData({});
+      store.reset();
       store.setEntered(false);
       if (typeof lazySchema === 'function') {
         store.setSchema('');
@@ -395,7 +395,8 @@ export default class Dialog extends React.Component<DialogProps> {
       affixOffsetTop: 0,
       onChange: this.handleFormChange,
       onInit: this.handleFormInit,
-      onSaved: this.handleFormSaved
+      onSaved: this.handleFormSaved,
+      syncLocation: false // 弹框中的 crud 一般不需要同步地址栏
     };
 
     if (!(body as Schema).type) {
@@ -627,10 +628,6 @@ export class DialogRenderer extends Dialog {
 
   tryChildrenToHandle(action: Action, ctx: object, rawAction?: Action) {
     const scoped = this.context as IScopedContext;
-
-    if (action.fromDialog) {
-      return false;
-    }
 
     const targets: Array<any> = [];
     const {onConfirm, store} = this.props;

@@ -15,7 +15,7 @@ interface CheckboxProps {
   label?: string;
   labelClassName?: string;
   className?: string;
-  onChange?: (value: any) => void;
+  onChange?: (value: any, shift?: boolean) => void;
   value?: any;
   inline?: boolean;
   trueValue?: any;
@@ -48,7 +48,10 @@ export class Checkbox extends React.Component<CheckboxProps, any> {
       return;
     }
 
-    onChange(e.currentTarget.checked ? trueValue : falseValue);
+    onChange(
+      e.currentTarget.checked ? trueValue : falseValue,
+      (e.nativeEvent as MouseEvent).shiftKey
+    );
   }
 
   render() {

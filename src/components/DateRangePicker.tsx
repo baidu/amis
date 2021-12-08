@@ -438,12 +438,17 @@ export class DateRangePicker extends React.Component<
     }
 
     if (minDate && newValue && newValue.isBefore(minDate, 'second')) {
-      newValue = minDate
+      newValue = minDate;
     }
 
     this.setState(
       {
-        startDate: this.filterDate(newValue, startDate || minDate, timeFormat, 'start')
+        startDate: this.filterDate(
+          newValue,
+          startDate || minDate,
+          timeFormat,
+          'start'
+        )
       },
       () => {
         embed && this.confirm();
@@ -479,7 +484,12 @@ export class DateRangePicker extends React.Component<
 
     this.setState(
       {
-        endDate: this.filterDate(newValue, endDate || maxDate, timeFormat, 'end')
+        endDate: this.filterDate(
+          newValue,
+          endDate || maxDate,
+          timeFormat,
+          'end'
+        )
       },
       () => {
         embed && this.confirm();
@@ -492,12 +502,14 @@ export class DateRangePicker extends React.Component<
     const now = moment();
     this.setState(
       {
-        startDate: minDate && minDate.isValid()
-          ? moment.max(range.startDate(now.clone()), minDate)
-          : range.startDate(now.clone()),
-        endDate: maxDate && maxDate.isValid()
-          ? moment.min(maxDate, range.endDate(now.clone()))
-          : range.endDate(now.clone())
+        startDate:
+          minDate && minDate.isValid()
+            ? moment.max(range.startDate(now.clone()), minDate)
+            : range.startDate(now.clone()),
+        endDate:
+          maxDate && maxDate.isValid()
+            ? moment.min(maxDate, range.endDate(now.clone()))
+            : range.endDate(now.clone())
       },
       closeOnSelect ? this.confirm : noop
     );
@@ -797,7 +809,7 @@ export class DateRangePicker extends React.Component<
           {
             'is-disabled': disabled,
             'is-focused': isFocused,
-            [`${ns}DateRangePicker--border${ucFirst(borderMode)}`]: borderMode,
+            [`${ns}DateRangePicker--border${ucFirst(borderMode)}`]: borderMode
           },
           className
         )}
@@ -821,7 +833,7 @@ export class DateRangePicker extends React.Component<
         ) : null}
 
         <a className={`${ns}DateRangePicker-toggler`}>
-          <Icon icon="calendar" className="icon" />
+          <Icon icon="clock" className="icon" />
         </a>
 
         {isOpened ? (

@@ -376,6 +376,8 @@ order: 12
 
 ## 过滤器
 
+1.5.0 开始，更推荐用函数调用的语法来写，如 `${xxx | html}` 改用 `${html(xxx)}`。具体请查看[新表达式语法](./expression#新表达式语法)
+
 过滤器是对数据映射的一种增强，它的作用是对获取数据做一些处理，基本用法如下：
 
 ```
@@ -598,6 +600,16 @@ ${xxx | date[:format][:inputFormat]}
 ${_|now}
 ```
 
+### toDate
+
+将日期字符串转成日期对象, 第二个参数为字符串的日期格式类型。
+
+用法：
+
+```
+${xxx | toDate:YYYY-MM-DD}
+```
+
 ### dateModify
 
 日期修改，将输入的日期对象修改后返回新的日期对象，支持四种操作符。
@@ -621,6 +633,34 @@ ${xxx | dateModify:subtract:-7:day}
 {
   "type": "page",
   "body": "上个月第一天是：${_|now|dateModify:subtract:1:month|dateModify:startOf:month|date:YYYY-MM-DD HH\\:mm\\:ss}"
+}
+```
+
+### fromNow
+
+> 1.4.0 及以上版本
+
+显示日期和现在的相对时间
+
+```schema
+{
+  "type": "page",
+  "data": {
+    "oldDate": "2021-10-01"
+  },
+  "body": "${oldDate|fromNow}"
+}
+```
+
+可以设置日期数据的格式，比如 X 是秒，其它格式细节参考 [moment](https://momentjs.com/docs/)。
+
+```schema
+{
+  "type": "page",
+  "data": {
+    "oldDate": 1586865590
+  },
+  "body": "${oldDate|fromNow:X}"
 }
 ```
 
@@ -1120,12 +1160,50 @@ ${xxx | objectToArray[:key][:value]}
 ${xxx|plus:2}
 ```
 
+还可以是另一个变量，比如
+
+```
+${xxx|plus:yyy}
+```
+
+```schema
+{
+  "type": "page",
+  "data": {
+    "xxx": 10,
+    "yyy": 2
+  },
+  "body": {
+    "type": "tpl",
+    "tpl": "${xxx|plus:yyy}"
+  }
+}
+```
+
+下面的减法乘法和除法也都支持变量
+
 ### minus
 
 减法运算比如减 2
 
 ```
 ${xxx|minus:2}
+```
+
+### times
+
+乘法运算
+
+```
+${xxx|division:2}
+```
+
+### division
+
+除法运算
+
+```
+${xxx|division:2}
 ```
 
 ### sum
@@ -1291,6 +1369,33 @@ ${xxx | upperCase}
   "body": {
     "type": "tpl",
     "tpl": "Hello ${text|upperCase}" // 输出: Hello WORLD
+  }
+}
+```
+
+### substring
+
+> 1.5.0 及以上版本
+
+取字符串的一部分，第一个参数是起始，第二个参数的结束
+
+##### 基本用法
+
+下面写法将会取前两个字符
+
+```
+${xxx | substring:0:2}
+```
+
+```schema
+{
+  "type": "page",
+  "data": {
+    "text": "World"
+  },
+  "body": {
+    "type": "tpl",
+    "tpl": "Hello ${text|substring:0:2}"
   }
 }
 ```

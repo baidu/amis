@@ -8,9 +8,10 @@ import React from 'react';
 import Transition, {
   ENTERED,
   ENTERING,
-  EXITING
+  EXITING,
+  EXITED
 } from 'react-transition-group/Transition';
-import {Portal} from 'react-overlays';
+import Portal from 'react-overlays/Portal';
 import {current, addModal, removeModal} from './ModalManager';
 import {ClassNamesFn, themeable, ThemeProps} from '../theme';
 import {Icon} from './icons';
@@ -264,7 +265,7 @@ export class Modal extends React.Component<ModalProps, ModalState> {
                   fadeStyles[status]
                 )}
               >
-                {children}
+                {status === EXITED ? null : children}
               </div>
             </div>
           </Portal>

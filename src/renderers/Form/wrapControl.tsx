@@ -479,8 +479,17 @@ export function wrapControl<
             const {
               formStore: form,
               onChange,
-              $schema: {name, onChange: onFormItemChange, maxLength, minLength},
+              $schema: {
+                name,
+                id,
+                label,
+                type,
+                onChange: onFormItemChange,
+                maxLength,
+                minLength
+              },
               data,
+              env,
               validateOnChange,
               formSubmited
             } = this.props;
@@ -495,6 +504,22 @@ export function wrapControl<
               return;
             }
 
+            if (type !== 'input-password') {
+              env?.tracker(
+                {
+                  eventType: 'formItemChange',
+                  eventData: {
+                    id,
+                    name,
+                    label,
+                    type,
+                    value
+                  }
+                },
+                this.props
+              );
+            }
+
             this.model.changeEmitedValue(value);
             if (
               onFormItemChange?.(value, oldValue, this.model, form) === false
@@ -506,8 +531,8 @@ export function wrapControl<
 
             if (
               // 如果配置了 minLength 或者 maxLength 就切成及时验证
-              // (typeof maxLength && maxLength) ||
-              // (typeof minLength && minLength) ||
+              this.model.rules.minLength ||
+              this.model.rules.maxLength ||
               validateOnChange === true ||
               (validateOnChange !== false && (formSubmited || validated))
             ) {
@@ -572,9 +597,10 @@ export function wrapControl<
             if (!key || key === name) {
               this.handleChange(value);
             } else {
-              onBulkChange({
-                [key]: value
-              });
+              onBulkChange &&
+                onBulkChange({
+                  [key]: value
+                });
             }
           }
 

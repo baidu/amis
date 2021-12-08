@@ -113,7 +113,9 @@ export class Alert extends React.Component<AlertProps, AlertState> {
 
     this.setState(
       {
-        show: false
+        show: false,
+        prompt: false,
+        confirm: false
       },
       isConfirm ? () => this._resolve(confirmed) /*this._reject()*/ : undefined
     );

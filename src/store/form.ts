@@ -29,6 +29,7 @@ import isEqual from 'lodash/isEqual';
 import flatten from 'lodash/flatten';
 import {getStoreById, removeStore} from './manager';
 import {filter} from '../utils/tpl';
+import {normalizeApiResponseData} from '../utils/api';
 
 export const FormStore = ServiceStore.named('FormStore')
   .props({
@@ -305,7 +306,7 @@ export const FormStore = ServiceStore.named('FormStore')
           self.updatedAt = Date.now();
 
           setValues(
-            json.data,
+            normalizeApiResponseData(json.data),
             json.ok
               ? {
                   __saved: Date.now()
@@ -467,7 +468,7 @@ export const FormStore = ServiceStore.named('FormStore')
             !env.hideValidateFailedDetail &&
             self.items.forEach(item => {
               item.errorData.forEach(errorData => {
-                msg = `${msg}\n${item.name}: ${errorData.msg}`;
+                msg = `${msg}\n${errorData.msg}`;
               });
             });
 
@@ -587,14 +588,9 @@ export const FormStore = ServiceStore.named('FormStore')
       self.persistData = value;
     }
 
-    const setLocalPersistData = debounce(
-      () => localStorage.setItem(self.persistKey, JSON.stringify(self.data)),
-      250,
-      {
-        trailing: true,
-        leading: false
-      }
-    );
+    const setLocalPersistData = () => {
+      localStorage.setItem(self.persistKey, JSON.stringify(self.data));
+    };
 
     function getLocalPersistData() {
       let data = localStorage.getItem(self.persistKey);
@@ -638,7 +634,6 @@ export const FormStore = ServiceStore.named('FormStore')
       clearRestError,
       beforeDestroy() {
         syncOptions.cancel();
-        setLocalPersistData.cancel();
       }
     };
   });

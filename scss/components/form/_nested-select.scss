@@ -1,3 +1,7 @@
+.#{$ns}NestedSelectControl {
+  position: relative;
+}
+
 .#{$ns}NestedSelect {
   position: relative;
   @include input-border();

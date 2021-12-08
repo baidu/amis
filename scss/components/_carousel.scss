@@ -3,6 +3,8 @@
   min-width: var(--Carousel-arrowControl-width);
   height: 100%;
   cursor: pointer;
+  top: 0;
+  bottom: 0;
   position: absolute;
   transition-duration: var(--Carousel-transitionDuration);
   svg {
@@ -161,6 +163,27 @@
     }
   }
 
+  .#{$ns}Carousel-leftArrow {
+    @include arrow-control;
+    display: none;
+    left: 0;
+  }
+
+  .#{$ns}Carousel-rightArrow {
+    @include arrow-control;
+    display: none;
+    right: 0;
+  }
+
+  &:hover {
+    .#{$ns}Carousel-leftArrow {
+      display: block;
+    }
+    .#{$ns}Carousel-rightArrow {
+      display: block;
+    }
+  }
+
   &-arrowsControl {
     position: absolute;
     width: 100%;
@@ -169,26 +192,5 @@
     left: 0;
     z-index: 100;
     text-align: center;
-
-    .#{$ns}Carousel-leftArrow {
-      @include arrow-control;
-      display: none;
-      left: 0;
-    }
-
-    .#{$ns}Carousel-rightArrow {
-      @include arrow-control;
-      display: none;
-      right: 0;
-    }
-
-    &:hover {
-      .#{$ns}Carousel-leftArrow {
-        display: block;
-      }
-      .#{$ns}Carousel-rightArrow {
-        display: block;
-      }
-    }
   }
 }

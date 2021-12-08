@@ -33,16 +33,11 @@ const fadeStyles: {
 };
 
 let toastRef: any = null;
-const show = (
-  content: string,
-  title: string = '',
-  conf: any = {},
-  method: string
-) => {
+const show = (content: string, conf: any = {}, method: string) => {
   if (!toastRef || !toastRef[method]) {
     return;
   }
-  toastRef[method](content, title || '', {...conf});
+  toastRef[method](content, {...conf});
 };
 
 interface ToastComponentProps extends ThemeProps, LocaleProps {
@@ -56,12 +51,13 @@ interface ToastComponentProps extends ThemeProps, LocaleProps {
   closeButton: boolean;
   showIcon?: boolean;
   timeout: number;
+  errorTimeout: number;
   className?: string;
 }
 
 interface Item extends Config {
-  title?: string;
-  body: string;
+  title?: string | React.ReactNode;
+  body: string | React.ReactNode;
   level: 'info' | 'success' | 'error' | 'warning';
   id: string;
   onDissmiss?: () => void;
@@ -84,11 +80,12 @@ export class ToastComponent extends React.Component<
 > {
   static defaultProps: Pick<
     ToastComponentProps,
-    'position' | 'closeButton' | 'timeout'
+    'position' | 'closeButton' | 'timeout' | 'errorTimeout'
   > = {
-    position: 'top-right',
+    position: 'top-center',
     closeButton: false,
-    timeout: 5000
+    timeout: 4000,
+    errorTimeout: 6000 // 错误的时候 time 调长
   };
   static themeKey = 'toast';
 
@@ -109,10 +106,9 @@ export class ToastComponent extends React.Component<
     }
   }
 
-  notifiy(level: string, content: string, title?: string, config?: any) {
+  notifiy(level: string, content: string, config?: any) {
     const items = this.state.items.concat();
     items.push({
-      title: title,
       body: content,
       level,
       ...config,
@@ -124,23 +120,23 @@ export class ToastComponent extends React.Component<
   }
 
   @autobind
-  success(content: string, title?: string, config?: any) {
-    this.notifiy('success', content, title, config);
+  success(content: string, config?: any) {
+    this.notifiy('success', content, config);
   }
 
   @autobind
-  error(content: string, title?: string, config?: any) {
-    this.notifiy('error', content, title, config);
+  error(content: string, config?: any) {
+    this.notifiy('error', content, config);
   }
 
   @autobind
-  info(content: string, title?: string, config?: any) {
-    this.notifiy('info', content, title, config);
+  info(content: string, config?: any) {
+    this.notifiy('info', content, config);
   }
 
   @autobind
-  warning(content: string, title?: string, config?: any) {
-    this.notifiy('warning', content, title, config);
+  warning(content: string, config?: any) {
+    this.notifiy('warning', content, config);
   }
 
   handleDismissed(index: number) {
@@ -162,18 +158,17 @@ export class ToastComponent extends React.Component<
       classnames: cx,
       className,
       timeout,
+      errorTimeout,
       position,
       showIcon,
       translate,
       closeButton
     } = this.props;
     const items = this.state.items;
-
     const groupedItems = groupBy(items, item => item.position || position);
 
     return Object.keys(groupedItems).map(position => {
       const toasts = groupedItems[position];
-
       return (
         <div
           key={position}
@@ -184,20 +179,25 @@ export class ToastComponent extends React.Component<
             className
           )}
         >
-          {toasts.map(item => (
-            <ToastMessage
-              classnames={cx}
-              key={item.id}
-              title={item.title}
-              body={item.body}
-              level={item.level || 'info'}
-              timeout={item.timeout ?? timeout}
-              closeButton={item.closeButton ?? closeButton}
-              onDismiss={this.handleDismissed.bind(this, items.indexOf(item))}
-              translate={translate}
-              showIcon={showIcon}
-            />
-          ))}
+          {toasts.map(item => {
+            const level = item.level || 'info';
+            const toastTimeout =
+              item.timeout ?? (level === 'error' ? errorTimeout : timeout);
+            return (
+              <ToastMessage
+                classnames={cx}
+                key={item.id}
+                title={item.title}
+                body={item.body}
+                level={level}
+                timeout={toastTimeout}
+                closeButton={item.closeButton ?? closeButton}
+                onDismiss={this.handleDismissed.bind(this, items.indexOf(item))}
+                translate={translate}
+                showIcon={showIcon}
+              />
+            );
+          })}
         </div>
       );
     });
@@ -207,8 +207,8 @@ export class ToastComponent extends React.Component<
 export default themeable(localeable(ToastComponent));
 
 interface ToastMessageProps {
-  title?: string;
-  body: string;
+  title?: string | React.ReactNode;
+  body: string | React.ReactNode;
   level: 'info' | 'success' | 'error' | 'warning';
   timeout: number;
   closeButton?: boolean;
@@ -237,7 +237,7 @@ export class ToastMessage extends React.Component<
   static defaultProps = {
     timeout: 5000,
     classPrefix: '',
-    position: 'top-right',
+    position: 'top-center',
     allowHtml: true,
     level: 'info'
   };
@@ -318,32 +318,45 @@ export class ToastMessage extends React.Component<
               onMouseLeave={this.handleMouseLeave}
               onClick={closeButton ? noop : this.close}
             >
-              {closeButton ? (
-                <a onClick={this.close} className={cx(`Toast-close`)}>
-                  <Icon icon="close" className="icon" />
-                </a>
-              ) : null}
-
               {showIcon === false ? null : (
                 <div className={cx('Toast-icon')}>
                   {level === 'success' ? (
-                    <Icon icon="success" className="icon" />
+                    <Icon icon="status-success" className="icon" />
                   ) : level == 'error' ? (
-                    <Icon icon="fail" className="icon" />
+                    <Icon icon="status-fail" className="icon" />
                   ) : level == 'info' ? (
-                    <Icon icon="info-circle" className="icon" />
+                    <Icon icon="status-info" className="icon" />
                   ) : level == 'warning' ? (
-                    <Icon icon="warning" className="icon" />
+                    <Icon icon="status-warning" className="icon" />
                   ) : null}
                 </div>
               )}
 
-              {title ? (
-                <div className={cx('Toast-title')}>{__(title)}</div>
-              ) : null}
-              <div className={cx('Toast-body')}>
-                {allowHtml ? <Html html={body} /> : body}
+              <div className={cx('Toast-content')}>
+                {typeof title === 'string' ? (
+                  <span className={cx(`Toast-title`)}>{title}</span>
+                ) : React.isValidElement(title) ? (
+                  React.cloneElement(title, {
+                    className: cx(`Toast-title`, title?.props?.className ?? '')
+                  })
+                ) : null}
+
+                {typeof body === 'string' ? (
+                  <div className={cx('Toast-body')}>
+                    {allowHtml ? <Html html={body} /> : body}
+                  </div>
+                ) : React.isValidElement(body) ? (
+                  React.cloneElement(body, {
+                    className: cx(`Toast-body`, body?.props?.className ?? '')
+                  })
+                ) : null}
               </div>
+
+              {closeButton ? (
+                <a onClick={this.close} className={cx(`Toast-close`)}>
+                  <Icon icon="status-close" className="icon" />
+                </a>
+              ) : null}
             </div>
           );
         }}
@@ -354,12 +367,8 @@ export class ToastMessage extends React.Component<
 
 export const toast = {
   container: toastRef,
-  success: (content: string, title?: string, conf?: any) =>
-    show(content, title, conf, 'success'),
-  error: (content: string, title?: string, conf?: any) =>
-    show(content, title, conf, 'error'),
-  info: (content: string, title?: string, conf?: any) =>
-    show(content, title, conf, 'info'),
-  warning: (content: string, title?: string, conf?: any) =>
-    show(content, title, conf, 'warning')
+  success: (content: string, conf?: any) => show(content, conf, 'success'),
+  error: (content: string, conf?: any) => show(content, conf, 'error'),
+  info: (content: string, conf?: any) => show(content, conf, 'info'),
+  warning: (content: string, conf?: any) => show(content, conf, 'warning')
 };

@@ -8,7 +8,6 @@ import LazyComponent from '../../src/components/LazyComponent';
 import Overlay from '../../src/components/Overlay';
 import PopOver from '../../src/components/PopOver';
 import NestedLinks from '../../src/components/AsideNav';
-import {Portal} from 'react-overlays';
 import classnames from 'classnames';
 import {Link} from 'react-router';
 import Play from './Play';
@@ -162,6 +161,8 @@ export default function (doc) {
   return class extends React.Component {
     popoverDom = null;
 
+    originTitle = document.title;
+
     state = {
       headingPopover: false
     };
@@ -213,6 +214,16 @@ export default function (doc) {
           </PopOver>
         </Overlay>
       ) : null;
+    }
+
+    componentDidMount() {
+      if (doc.title) {
+        document.title = doc.title;
+      }
+    }
+
+    componentWillUnmount() {
+      document.title = this.originTitle;
     }
 
     render() {

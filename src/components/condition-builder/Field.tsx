@@ -1,6 +1,6 @@
 import React from 'react';
 import PopOverContainer from '../PopOverContainer';
-import ListRadios from '../ListRadios';
+import ListSelection from '../GroupedSelection';
 import ResultBox from '../ResultBox';
 import {ClassNamesFn, ThemeProps, themeable} from '../../theme';
 import {Icon} from '../icons';
@@ -33,7 +33,6 @@ export class ConditionField extends React.Component<
       options: props.options
     };
     this.onSearch = this.onSearch.bind(this);
-    this.onSearch = this.onSearch.bind(this);
   }
 
   onSearch(text: string) {
@@ -51,7 +50,7 @@ export class ConditionField extends React.Component<
             });
             return children.length > 0
               ? Object.assign({}, item, {children}) // 需要copy一份，防止覆盖原始数据
-              : false; 
+              : false;
           } else {
             return item.name.toLowerCase().includes(txt) ||
               item.label.toLowerCase().includes(txt)
@@ -91,13 +90,15 @@ export class ConditionField extends React.Component<
             {searchable ? (
               <SearchBox mini={false} onSearch={this.onSearch} />
             ) : null}
-            <ListRadios
+            <ListSelection
+              multiple={false}
               onClick={e => this.onPopClose(e, onClose)}
-              showRadio={false}
               options={this.state.options}
-              value={value}
+              value={[value]}
               option2value={option2value}
-              onChange={onChange}
+              onChange={(value: any) =>
+                onChange(Array.isArray(value) ? value[0] : value)
+              }
             />
           </>
         )}

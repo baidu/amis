@@ -28,7 +28,10 @@ export function getComputedStyle(element: HTMLElement, prop: string) {
   }
 }
 
-function attachResizeEvent(element: HTMLElement, resized: Function) {
+function attachResizeEvent(element: HTMLElement, resized: () => void) {
+  if (!element) {
+    return;
+  }
   if (!(element as any).resizedAttached) {
     (element as any).resizedAttached = new EventQueue();
     (element as any).resizedAttached.add(resized);
@@ -37,9 +40,8 @@ function attachResizeEvent(element: HTMLElement, resized: Function) {
     return;
   }
 
-  const resizeSensor = ((element as any).resizeSensor = document.createElement(
-    'div'
-  ));
+  const resizeSensor = ((element as any).resizeSensor =
+    document.createElement('div'));
   resizeSensor.className = 'resize-sensor';
   let style =
     'position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;';
@@ -84,6 +86,16 @@ function attachResizeEvent(element: HTMLElement, resized: Function) {
     lastHeight = element.offsetHeight;
   };
 
+  const appeared = function () {
+    reset();
+
+    // 如果初始是隐藏状态，首次显示也触发resize事件。
+    if (isHidden) {
+      changed();
+      isHidden = false;
+    }
+  };
+
   reset();
 
   let changed = function () {
@@ -100,6 +112,14 @@ function attachResizeEvent(element: HTMLElement, resized: Function) {
     }
   };
 
+  let removeEvent = function (el: HTMLElement, name: string, cb: Function) {
+    if ((el as any).detachEvent) {
+      (el as any).detachEvent('on' + name, cb);
+    } else {
+      el.removeEventListener(name, cb as any);
+    }
+  };
+
   let onScroll = function (e: Event) {
     if (
       element.offsetWidth != lastWidth ||
@@ -112,7 +132,14 @@ function attachResizeEvent(element: HTMLElement, resized: Function) {
 
   addEvent(expand, 'scroll', onScroll);
   addEvent(shrink, 'scroll', onScroll);
-  addEvent(appear, 'animationstart', reset);
+  addEvent(appear, 'animationstart', appeared);
+  let isHidden = !expand.offsetWidth;
+
+  return () => {
+    removeEvent(expand, 'scroll', onScroll);
+    removeEvent(shrink, 'scroll', onScroll);
+    removeEvent(appear, 'animationstart', appeared);
+  };
 }
 
 function detach(element: HTMLElement) {
@@ -134,27 +161,35 @@ function detach(element: HTMLElement) {
 
 export function resizeSensor(
   element: HTMLElement,
-  callback: Function
+  callback: () => void
 ): () => void;
 export function resizeSensor(
   element: HTMLElement,
-  callback: Function,
+  callback: () => void,
   once: boolean = false
 ) {
+  if (!element) {
+    return () => {};
+  }
+
+  let disposeEvent: (() => void) | undefined = undefined;
+
   if (once) {
-    attachResizeEvent(element, function (this: any) {
+    disposeEvent = attachResizeEvent(element, function (this: any) {
       callback.apply(this, arguments);
+      disposeEvent?.();
       detach(element);
     });
     return;
   }
 
-  attachResizeEvent(element, callback);
+  disposeEvent = attachResizeEvent(element, callback);
   let detached = false;
 
   return function () {
     if (detached) return;
     detached = true;
+    disposeEvent?.();
     detach(element);
   };
 }

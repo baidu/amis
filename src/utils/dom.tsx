@@ -267,3 +267,15 @@ export function calculatePosition(
     activePlacement
   };
 }
+
+/**
+ * 专门用来获取样式的像素值，默认返回 0
+ */
+export function getStyleNumber(element: HTMLElement, styleName: string) {
+  if (!element) {
+    return 0;
+  }
+  return (
+    parseInt(getComputedStyle(element).getPropertyValue(styleName), 10) || 0
+  );
+}

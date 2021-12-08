@@ -7,7 +7,12 @@ import {filter, evalExpression} from '../utils/tpl';
 import cx from 'classnames';
 import Scoped, {ScopedContext, IScopedContext} from '../Scoped';
 import {observer} from 'mobx-react';
-import {isApiOutdated, isEffectiveApi} from '../utils/api';
+import {
+  buildApi,
+  isApiOutdated,
+  isEffectiveApi,
+  str2AsyncFunction
+} from '../utils/api';
 import {Spinner} from '../components';
 import {autobind, isEmpty, isVisible, qsstringify} from '../utils/helper';
 import {
@@ -39,6 +44,11 @@ export interface ServiceSchema extends BaseSchema {
    * WebScocket 地址，用于实时获取数据
    */
   ws?: string;
+
+  /**
+   * 通过调用外部函数来获取数据
+   */
+  dataProvider?: string | Function;
 
   /**
    * 内容区域
@@ -111,6 +121,8 @@ export default class Service extends React.Component<ServiceProps> {
   // 主要是用于关闭 socket
   socket: any;
 
+  dataProviderUnsubscribe?: Function;
+
   static defaultProps: Partial<ServiceProps> = {
     messages: {
       fetchFailed: 'fetchFailed'
@@ -130,6 +142,8 @@ export default class Service extends React.Component<ServiceProps> {
     this.initInterval = this.initInterval.bind(this);
     this.afterDataFetch = this.afterDataFetch.bind(this);
     this.afterSchemaFetch = this.afterSchemaFetch.bind(this);
+    this.runDataProvider = this.runDataProvider.bind(this);
+    this.dataProviderSetData = this.dataProviderSetData.bind(this);
   }
 
   componentDidMount() {
@@ -168,12 +182,21 @@ export default class Service extends React.Component<ServiceProps> {
       if (this.socket) {
         this.socket.close();
       }
-      this.socket = store.fetchWSData(props.ws, this.afterDataFetch);
+      this.socket = this.fetchWSData(props.ws, store.data);
+    }
+
+    if (props.defaultData !== prevProps.defaultData) {
+      store.reInitData(props.defaultData);
+    }
+
+    if (props.dataProvider !== prevProps.dataProvider) {
+      this.runDataProvider();
     }
   }
 
   componentWillUnmount() {
     this.mounted = false;
+    this.runDataProviderUnsubscribe();
     clearTimeout(this.timer);
     if (this.socket && this.socket.close) {
       this.socket.close();
@@ -189,6 +212,7 @@ export default class Service extends React.Component<ServiceProps> {
       ws,
       initFetch,
       initFetchOn,
+      dataProvider,
       store,
       messages: {fetchSuccess, fetchFailed}
     } = this.props;
@@ -212,8 +236,82 @@ export default class Service extends React.Component<ServiceProps> {
     }
 
     if (ws) {
-      this.socket = store.fetchWSData(ws, this.afterDataFetch);
+      this.socket = this.fetchWSData(ws, store.data);
     }
+
+    if (dataProvider) {
+      this.runDataProvider();
+    }
+  }
+
+  // 使用外部函数获取数据
+  async runDataProvider() {
+    this.runDataProviderUnsubscribe();
+    const {dataProvider, store} = this.props;
+    let dataProviderFunc = dataProvider;
+
+    if (typeof dataProvider === 'string' && dataProvider) {
+      dataProviderFunc = str2AsyncFunction(dataProvider, 'data', 'setData')!;
+    }
+    if (typeof dataProviderFunc === 'function') {
+      const unsubscribe = await dataProviderFunc(
+        store.data,
+        this.dataProviderSetData
+      );
+      if (typeof unsubscribe === 'function') {
+        this.dataProviderUnsubscribe = unsubscribe;
+      }
+    }
+  }
+
+  // 运行销毁外部函数的方法
+  runDataProviderUnsubscribe() {
+    if (typeof this.dataProviderUnsubscribe === 'function') {
+      try {
+        this.dataProviderUnsubscribe();
+      } catch (error) {
+        console.error(error);
+      }
+    }
+  }
+
+  // 外部函数回调更新数据
+  dataProviderSetData(data: any) {
+    if (!this.mounted) {
+      return;
+    }
+    const {store} = this.props;
+    store.updateData(data, undefined, false);
+    store.setHasRemoteData();
+  }
+
+  // 使用 websocket 获取使用，因为有异步所以放这里而不是 store 实现
+  fetchWSData(ws: string | Api, data: any) {
+    const {env, store} = this.props;
+    const wsApi = buildApi(ws, data);
+
+    env.wsFetcher(
+      wsApi,
+      (data: any) => {
+        let returndata = data;
+        if ('status' in data && 'data' in data) {
+          returndata = data.data;
+          if (data.status !== 0) {
+            store.updateMessage(data.msg, true);
+            env.notify('error', data.msg);
+            return;
+          }
+        }
+        store.updateData(returndata, undefined, false);
+        store.setHasRemoteData();
+        // 因为 WebSocket 只会获取纯数据，所以没有 msg 之类的
+        this.afterDataFetch({ok: true, data: returndata});
+      },
+      (error: any) => {
+        store.updateMessage(error, true);
+        env.notify('error', error);
+      }
+    );
   }
 
   afterDataFetch(result: any) {
@@ -232,7 +330,7 @@ export default class Service extends React.Component<ServiceProps> {
   afterSchemaFetch(schema: any) {
     const {onBulkChange, formStore} = this.props;
     if (formStore && schema?.data && onBulkChange) {
-      onBulkChange(schema.data);
+      onBulkChange && onBulkChange(schema.data);
     }
 
     this.initInterval(schema);

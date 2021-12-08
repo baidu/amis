@@ -28,6 +28,14 @@ interface BaseDatePickerProps
     year?: number,
     date?: moment.Moment
   ) => JSX.Element;
+  schedules?: Array<{
+    startTime: Date;
+    endTime: Date;
+    content: string | React.ReactElement;
+    color?: string;
+  }>;
+  largeMode?: boolean;
+  onScheduleClick?: (scheduleData: any) => void;
 }
 
 class BaseDatePicker extends ReactDatePicker {
@@ -82,7 +90,10 @@ class BaseDatePicker extends ReactDatePicker {
         'nextIcon',
         'isEndDate',
         'classnames',
-        'minDate'
+        'minDate',
+        'schedules',
+        'largeMode',
+        'onScheduleClick'
       ].forEach(key => (props[key] = (this.props as any)[key]));
 
       return props;

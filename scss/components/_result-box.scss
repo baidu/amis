@@ -1,5 +1,6 @@
 .#{$ns}ResultBox {
   @include input-input();
+  @include input-border();
   flex-wrap: wrap;
   padding: 0 px2rem(3px);
   min-height: var(--Form-input-height);
@@ -42,6 +43,10 @@
 
   &-singleValue {
     padding: 0 calc(var(--Form-input-paddingX) - #{px2rem(3px)});
+    display: inline-block;
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 
   &-clear {

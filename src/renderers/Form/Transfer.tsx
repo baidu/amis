@@ -68,6 +68,11 @@ export interface TransferControlSchema extends FormOptionsControl {
   columns?: Array<any>;
 
   /**
+   * 当 searchResultMode 为 table 时定义表格列信息。
+   */
+  searchResultColumns?: Array<any>;
+
+  /**
    * 可搜索？
    */
   searchable?: boolean;
@@ -80,7 +85,7 @@ export interface TransferControlSchema extends FormOptionsControl {
   /**
    * 左侧的标题文字
    */
-   selectTitle?: string;
+  selectTitle?: string;
 
   /**
    * 右侧结果的标题文字
@@ -97,7 +102,10 @@ export interface BaseTransferProps
       | 'className'
       | 'descriptionClassName'
       | 'inputClassName'
-    > {}
+    > {
+  optionItemRender?: (option: Option) => JSX.Element;
+  resultItemRender?: (option: Option) => JSX.Element;
+}
 
 export class BaseTransferRenderer<
   T extends OptionsControlProps = BaseTransferProps
@@ -199,8 +207,9 @@ export class BaseTransferRenderer<
         (option: Option) => {
           return !!(
             (Array.isArray(option.children) && option.children.length) ||
-            regexp.test(option[(labelField as string) || 'label']) ||
-            regexp.test(option[(valueField as string) || 'value'])
+            (option[(valueField as string) || 'value'] &&
+              (regexp.test(option[(labelField as string) || 'label']) ||
+                regexp.test(option[(valueField as string) || 'value'])))
           );
         },
         0,
@@ -240,7 +249,6 @@ export class BaseTransferRenderer<
     const {
       className,
       classnames: cx,
-      options,
       selectedOptions,
       showArrow,
       sortable,
@@ -249,14 +257,32 @@ export class BaseTransferRenderer<
       loading,
       searchable,
       searchResultMode,
+      searchResultColumns,
       deferLoad,
-      leftOptions,
       leftMode,
       rightMode,
       disabled,
       selectTitle,
-      resultTitle
+      resultTitle,
+      optionItemRender,
+      resultItemRender
     } = this.props;
+
+    // 目前 LeftOptions 没有接口可以动态加载
+    // 为了方便可以快速实现动态化，让选项的第一个成员携带
+    // LeftOptions 信息
+    let {options, leftOptions, leftDefaultValue} = this.props;
+    if (
+      selectMode === 'associated' &&
+      options &&
+      options.length === 1 &&
+      options[0].leftOptions &&
+      Array.isArray(options[0].children)
+    ) {
+      leftOptions = options[0].leftOptions;
+      leftDefaultValue = options[0].leftDefaultValue ?? leftDefaultValue;
+      options = options[0].children;
+    }
 
     return (
       <div className={cx('TransferControl', className)}>
@@ -270,6 +296,7 @@ export class BaseTransferRenderer<
           showArrow={showArrow}
           selectMode={selectMode}
           searchResultMode={searchResultMode}
+          searchResultColumns={searchResultColumns}
           columns={columns}
           onSearch={searchable ? this.handleSearch : undefined}
           onDeferLoad={deferLoad}
@@ -279,6 +306,8 @@ export class BaseTransferRenderer<
           cellRender={this.renderCell}
           selectTitle={selectTitle}
           resultTitle={resultTitle}
+          optionItemRender={optionItemRender}
+          resultItemRender={resultItemRender}
         />
 
         <Spinner overlay key="info" show={loading} />

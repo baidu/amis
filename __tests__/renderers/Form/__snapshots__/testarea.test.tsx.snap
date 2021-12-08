@@ -28,6 +28,10 @@ exports[`Renderer:textarea 1`] = `
         class="cxd-Form cxd-Form--normal"
         novalidate=""
       >
+        <input
+          style="display: none;"
+          type="submit"
+        />
         <div
           class="cxd-Form-item cxd-Form-item--normal"
           data-role="form-item"
@@ -58,10 +62,6 @@ exports[`Renderer:textarea 1`] = `
             </textarea>
           </div>
         </div>
-        <input
-          style="display: none;"
-          type="submit"
-        />
       </form>
     </div>
     <div

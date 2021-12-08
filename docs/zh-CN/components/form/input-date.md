@@ -138,7 +138,7 @@ order: 13
 
 - `today`: 当前日期
 - `day`或`days`: 天
-- `week`或`weeks`: 日
+- `week`或`weeks`: 周
 - `month`或`months`: 月
 - `year`或`years`: 年
 
@@ -197,7 +197,7 @@ order: 13
 
 也支持通过[模板](./template)，设置自定义值。
 
-来一个常见例子，配置两个选择`开始时间`和`结束时间`的时间选择器，需要满足：`开始时间`不能小于`结束时间`，`结束时间`也不能大于`开始时间`，。
+来一个常见例子，配置两个选择`开始时间`和`结束时间`的时间选择器，需要满足：`开始时间`不能小于`结束时间`，`结束时间`也不能大于`开始时间`。
 
 ```schema: scope="body"
 {
@@ -312,6 +312,185 @@ order: 13
 }
 ```
 
+## 日历日程
+
+```schema: scope="body"
+{
+    "type": "input-date",
+    "embed": true,
+    "schedules": [
+      {
+        "startTime": "2021-12-11 05:14:00",
+        "endTime": "2021-12-11 06:14:00",
+        "content": "这是一个日程1"
+      },
+      {
+        "startTime": "2021-12-21 05:14:00",
+        "endTime": "2021-12-22 05:14:00",
+        "content": "这是一个日程2"
+      }
+    ]
+}
+```
+
+## 日历日程-自定义颜色
+
+```schema: scope="body"
+{
+    "type": "input-date",
+    "embed": true,
+    "schedules": [
+      {
+        "startTime": "2021-12-11 05:14:00",
+        "endTime": "2021-12-11 06:14:00",
+        "content": "这是一个日程1",
+        "className": "bg-success"
+      },
+      {
+        "startTime": "2021-12-21 05:14:00",
+        "endTime": "2021-12-22 05:14:00",
+        "content": "这是一个日程2",
+        "className": "bg-info"
+      }
+    ]
+}
+```
+
+```schema: scope="body"
+{
+    "type": "input-date",
+    "embed": true,
+    "scheduleClassNames": ["bg-success", "bg-info"],
+    "schedules": [
+      {
+        "startTime": "2021-12-11 05:14:00",
+        "endTime": "2021-12-11 06:14:00",
+        "content": "这是一个日程1"
+      },
+      {
+        "startTime": "2021-12-21 05:14:00",
+        "endTime": "2021-12-22 05:14:00",
+        "content": "这是一个日程2"
+      }
+    ]
+}
+```
+
+## 日历日程-自定义日程展示
+```schema: scope="body"
+{
+    "type": "input-date",
+    "embed": true,
+    "schedules": [
+      {
+        "startTime": "2021-12-11 05:14:00",
+        "endTime": "2021-12-11 06:14:00",
+        "content": "这是一个日程1"
+      },
+      {
+        "startTime": "2021-12-21 05:14:00",
+        "endTime": "2021-12-22 05:14:00",
+        "content": "这是一个日程2"
+      }
+    ],
+    "scheduleAction": {
+      "actionType": "drawer",
+      "drawer": {
+        "title": "日程",
+        "body": {
+          "type": "table",
+          "columns": [
+            {
+              "name": "time",
+              "label": "时间"
+            },
+            {
+              "name": "content",
+              "label": "内容"
+            }
+          ],
+          "data": "${scheduleData}"
+        }
+      }
+    }
+}
+```
+
+## 日历日程-支持从数据源中获取日程
+```schema
+{
+    "type": "page",
+    "data": {
+      "schedules": [
+        {
+          "startTime": "2021-12-11 05:14:00",
+          "endTime": "2021-12-11 06:14:00",
+          "content": "这是一个日程1"
+        },
+        {
+          "startTime": "2021-12-21 05:14:00",
+          "endTime": "2021-12-22 05:14:00",
+          "content": "这是一个日程2"
+        }
+      ]
+    },
+    "body": [
+      {
+        "type": "input-date",
+        "embed": true,
+        "schedules": "${schedules}"
+      }
+    ]
+}
+```
+
+## 放大模式
+
+```schema: scope="body"
+{
+    "type": "input-date",
+    "embed": true,
+    "largeMode": true,
+    "schedules": [
+      {
+        "startTime": "2021-12-11 05:14:00",
+        "endTime": "2021-12-11 06:14:00",
+        "content": "这是一个日程1"
+      },
+      {
+        "startTime": "2021-12-12 02:14:00",
+        "endTime": "2021-12-13 05:14:00",
+        "content": "这是一个日程2"
+      },
+      {
+        "startTime": "2021-12-20 05:14:00",
+        "endTime": "2021-12-21 05:14:00",
+        "content": "这是一个日程3"
+      },
+      {
+        "startTime": "2021-12-21 05:14:00",
+        "endTime": "2021-12-22 05:14:00",
+        "content": "这是一个日程4"
+      },
+      {
+        "startTime": "2021-12-22 02:14:00",
+        "endTime": "2021-12-23 05:14:00",
+        "content": "这是一个日程5"
+      },
+      {
+        "startTime": "2021-12-22 02:14:00",
+        "endTime": "2021-12-22 05:14:00",
+        "content": "这是一个日程6"
+      },
+      {
+        "startTime": "2021-12-22 02:14:00",
+        "endTime": "2021-12-22 05:14:00",
+        "content": "这是一个日程7"
+      }
+    ]
+}
+```
+
 ## 原生日期组件
 
 原生数字日期将直接使用浏览器的实现，最终展现效果和浏览器有关，而且只支持 `min`、`max`、`step` 这几个属性设置。
@@ -348,3 +527,7 @@ order: 13
 | clearable       | `boolean` | `true`         | 是否可清除                                                                                                  |
 | embed           | `boolean` | `false`        | 是否内联模式                                                                                                |
 | timeConstraints | `object`  | `true`         | 请参考： [react-datetime](https://github.com/YouCanBookMe/react-datetime)                                   |
+| schedules       | `Array<{startTime: Date, endTime: Date, content: any, className?: string}> \| string`  |   | 日历中展示日程，可设置静态数据或从上下文中取数据，className参考[背景色](https://baidu.gitee.io/amis/zh-CN/style/background/background-color)   |
+| scheduleClassNames  | `Array<string>`  | `['bg-warning', 'bg-danger', 'bg-success', 'bg-info', 'bg-secondary']`   | 日历中展示日程的颜色，参考[背景色](https://baidu.gitee.io/amis/zh-CN/style/background/background-color)   |
+| scheduleAction  | `SchemaNode`  |            | 自定义日程展示                    |
+| largeMode       | `boolean` | `false`        | 放大模式                         |

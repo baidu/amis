@@ -56,6 +56,7 @@ import './renderers/Form/ButtonToolbar';
 import './renderers/Breadcrumb';
 import './renderers/DropDownButton';
 import './renderers/Collapse';
+import './renderers/CollapseGroup';
 import './renderers/Color';
 import './renderers/CRUD';
 import './renderers/Pagination';
@@ -111,12 +112,14 @@ import './renderers/Form/InputColor';
 import './renderers/Form/ChainedSelect';
 import './renderers/Form/NestedSelect';
 import './renderers/Form/Transfer';
+import './renderers/Form/TransferPicker';
 import './renderers/Form/InputTable';
 import './renderers/Form/Picker';
 import './renderers/Form/IconPicker';
 import './renderers/Form/Formula';
 import './renderers/Form/FieldSet';
 import './renderers/Form/TabsTransfer';
+import './renderers/Form/TabsTransferPicker';
 import './renderers/Form/Group';
 import './renderers/Form/InputGroup';
 import './renderers/Grid';
@@ -133,6 +136,7 @@ import './renderers/PaginationWrapper';
 import './renderers/Panel';
 import './renderers/Plain';
 import './renderers/Property';
+import './renderers/Portlet';
 import './renderers/Spinner';
 import './renderers/Table/index';
 import './renderers/Tabs';
@@ -164,6 +168,7 @@ import './renderers/Markdown';
 import './renderers/TableView';
 import './renderers/Code';
 import './renderers/WebComponent';
+import './renderers/GridNav';
 
 import Scoped, {ScopedContext} from './Scoped';
 
@@ -173,6 +178,8 @@ import {FormItem, FormItemWrap, registerFormItem} from './renderers/Form/Item';
 import './compat';
 
 import './envOverwrite';
+
+import './schemaExtend';
 
 import './themes/ang';
 import './themes/cxd';

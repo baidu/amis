@@ -32,6 +32,7 @@ import Definitions from './Form/Definitions';
 import AnchorNav from './Form/AnchorNav';
 
 import TableCrudSchema from './CRUD/Table';
+import TableAutoFillSchema from './CRUD/TableAutoFill';
 import ItemActionsSchema from './CRUD/ItemActions';
 import GridCrudSchema from './CRUD/Grid';
 import ListCrudSchema from './CRUD/List';
@@ -85,7 +86,6 @@ import Tab3Schema from './Tabs/Tab3';
 import TestComponent from './Test';
 import APP from './APP/index';
 import {normalizeLink} from '../../src/utils/normalizeLink';
-import './WebComponent';
 
 export const examples = [
   {
@@ -285,6 +285,11 @@ export const examples = [
             label: '表格模式',
             path: '/examples/crud/table',
             component: makeSchemaRenderer(TableCrudSchema)
+          },
+          {
+            label: '表格高度自适应',
+            path: '/examples/crud/auto-fill',
+            component: makeSchemaRenderer(TableAutoFillSchema)
           },
           {
             label: '卡片模式',

@@ -60,6 +60,28 @@ order: 1
       "label": "内联",
       "name": "text2",
       "mode": "inline"
+    },
+    {
+      "type": "input-text",
+      "label": "内联2",
+      "name": "text2",
+      "mode": "inline"
+    },
+    {
+      "type": "group",
+      "mode": "inline",
+      "body": [
+        {
+          "type": "input-text",
+          "label": "内联3",
+          "name": "text2"
+        },
+        {
+          "type": "input-text",
+          "label": "内联4",
+          "name": "text2"
+        }
+      ]
     }
   ]
 }
@@ -173,6 +195,8 @@ order: 1
   ]
 }
 ```
+
+其它配置请参考 [Remark](../remark)。
 
 ### 配置禁用
 
@@ -675,6 +699,34 @@ amis 会有默认的报错信息，如果你想自定义校验信息，配置`va
 - `matchRegexp3:/foo/` 必须命中某个正则。
 - `matchRegexp4:/foo/` 必须命中某个正则。
 
+#### 验证只允许 http 协议的 url 地址
+
+> 1.4.0 及以上版本
+
+isUrl 可以配置如下参数
+
+- schemes 协议，默认是为： `['http', 'https', 'ftp', 'sftp']`
+- allowLocal 是否允许填写本地地址
+- allowDataUrl 是否允许 dataUrl
+
+```schema: scope="body"
+{
+  "type": "form",
+  "body": [
+    {
+        "name": "url",
+        "type": "input-text",
+        "label": "只允许 https 打头的 url",
+        "validations": {
+          "isUrl": {
+            "schemes": ["https"]
+          }
+        }
+    }
+  ]
+}
+```
+
 ### 自定义校验函数
 
 可以自己写代码扩展表单验证，请参考 [这里](../../docs/extend/addon#扩展表单验证)
@@ -958,6 +1010,7 @@ Table 类型的表单项，要实现服务端校验，可以使用 `路径key` �
 | inputClassName | `string`                                           |        | 表单控制器类名                                             |
 | labelClassName | `string`                                           |        | label 的类名                                               |
 | name           | `string`                                           |        | 字段名，指定该表单项提交时的 key                           |
+| value          | `string`                                           |        | 表单默认值                                                 |
 | label          | [模板](../../../docs/concepts/template) 或 `false` |        | 表单项标签                                                 |
 | labelRemark    | [Remark](../remark)                                |        | 表单项标签描述                                             |
 | description    | [模板](../../../docs/concepts/template)            |        | 表单项描述                                                 |

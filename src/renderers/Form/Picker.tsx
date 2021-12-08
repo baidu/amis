@@ -397,14 +397,15 @@ export default class PickerControl extends React.PureComponent<
       options,
       multiple,
       valueField,
-      embed
+      embed,
+      source
     } = this.props;
 
     return render('modal-body', this.state.schema, {
       value: selectedOptions,
       valueField,
       primaryField: valueField,
-      options: options,
+      options: source ? [] : options,
       multiple,
       onSelect: embed ? this.handleChange : undefined,
       ref: this.crudRef,

@@ -12,7 +12,11 @@ import {
   isPureVariable,
   dataMapping
 } from '../utils/tpl-builtin';
-import {isApiOutdated, isEffectiveApi} from '../utils/api';
+import {
+  isApiOutdated,
+  isEffectiveApi,
+  normalizeApiResponseData
+} from '../utils/api';
 import {ScopedContext, IScopedContext} from '../Scoped';
 import {createObject, findObjectsWithKey} from '../utils/helper';
 import Spinner from '../components/Spinner';
@@ -269,7 +273,7 @@ export class Chart extends React.Component<ChartProps> {
           await env.loadChartExtends();
         }
 
-        this.echarts = echarts.init(ref, theme);
+        this.echarts = (echarts as any).init(ref, theme);
 
         if (typeof onChartMount === 'string') {
           onChartMount = new Function('chart', 'echarts') as any;
@@ -342,7 +346,7 @@ export class Chart extends React.Component<ChartProps> {
         }
         delete this.reloadCancel;
 
-        const data = result.data || {};
+        const data = normalizeApiResponseData(result.data);
         // 说明返回的是数据接口。
         if (!data.series && this.props.config) {
           const ctx = createObject(this.props.data, data);
@@ -454,15 +458,7 @@ export class Chart extends React.Component<ChartProps> {
       <div className={cx(`${ns}Chart`, className)} style={style}>
         <LazyComponent
           unMountOnHidden={unMountOnHidden}
-          placeholder={
-            <div className={`${ns}Chart-placeholder`}>
-              <Spinner
-                show
-                icon="reload"
-                spinnerClassName={cx('Chart-spinner')}
-              />
-            </div>
-          }
+          placeholder="..." // 之前那个 spinner 会导致 sensor 失效
           component={() => (
             <div className={`${ns}Chart-content`} ref={this.refFn}></div>
           )}

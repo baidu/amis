@@ -12,8 +12,17 @@ import Overlay from './Overlay';
 import PopOver from './PopOver';
 import Downshift, {ControllerStateAndHelpers} from 'downshift';
 import {closeIcon, Icon} from './icons';
+// @ts-ignore
 import {matchSorter} from 'match-sorter';
-import {noop, isObject, findTree, autobind, ucFirst} from '../utils/helper';
+import {
+  noop,
+  isObject,
+  findTree,
+  autobind,
+  ucFirst,
+  normalizeNodePath,
+  isMobile
+} from '../utils/helper';
 import find from 'lodash/find';
 import isPlainObject from 'lodash/isPlainObject';
 import union from 'lodash/union';
@@ -27,6 +36,7 @@ import {LocaleProps, localeable} from '../locale';
 import Spinner from './Spinner';
 import {Option, Options} from '../Schema';
 import {RemoteOptionsProps, withRemoteConfig} from './WithRemoteConfig';
+import PickerColumn from './PickerColumn';
 
 export {Option, Options};
 
@@ -47,6 +57,7 @@ export interface OptionProps {
   placeholder?: string;
   disabled?: boolean;
   creatable?: boolean;
+  pathSeparator?: string;
   onAdd?: (
     idx?: number | Array<number>,
     value?: any,
@@ -64,9 +75,27 @@ export function value2array(
   value: OptionValue | Array<OptionValue>,
   props: Pick<
     OptionProps,
-    'multi' | 'multiple' | 'delimiter' | 'valueField' | 'options'
-  >
+    | 'multi'
+    | 'multiple'
+    | 'delimiter'
+    | 'valueField'
+    | 'labelField'
+    | 'options'
+    | 'pathSeparator'
+  >,
+  enableNodePath: boolean = false
 ): Array<Option> {
+  if (enableNodePath) {
+    value = normalizeNodePath(
+      value,
+      enableNodePath,
+      props.labelField,
+      props.valueField,
+      props.pathSeparator,
+      props.delimiter
+    ).nodeValueArray;
+  }
+
   if (props.multi || props.multiple) {
     if (typeof value === 'string') {
       value = value.split(props.delimiter || ',');
@@ -290,6 +319,7 @@ interface SelectProps extends OptionProps, ThemeProps, LocaleProps {
   defaultCheckAll?: boolean;
   simpleValue?: boolean;
   defaultOpen?: boolean;
+  useMobileUI?: boolean;
 
   /**
    * 边框模式，全边框，还是半边框，或者没边框。
@@ -299,6 +329,11 @@ interface SelectProps extends OptionProps, ThemeProps, LocaleProps {
    * 是否隐藏已选项
    */
   hideSelected?: boolean;
+
+  /**
+   * 移动端样式类名
+   */
+  mobileClassName?: string;
 }
 
 interface SelectState {
@@ -308,6 +343,7 @@ interface SelectState {
   inputValue: string;
   highlightedIndex: number;
   selection: Array<Option>;
+  pickerSelectItem: any;
 }
 
 export class Select extends React.Component<SelectProps, SelectState> {
@@ -341,6 +377,8 @@ export class Select extends React.Component<SelectProps, SelectState> {
 
     this.open = this.open.bind(this);
     this.close = this.close.bind(this);
+    this.confirm = this.confirm.bind(this);
+    this.handlePickerChange = this.handlePickerChange.bind(this);
     this.toggle = this.toggle.bind(this);
     this.onBlur = this.onBlur.bind(this);
     this.onFocus = this.onFocus.bind(this);
@@ -358,15 +396,14 @@ export class Select extends React.Component<SelectProps, SelectState> {
     this.handleEditClick = this.handleEditClick.bind(this);
     this.handleDeleteClick = this.handleDeleteClick.bind(this);
 
-    // console.log('props.value', props.value);
-
     this.state = {
       isOpen: props.defaultOpen || false,
       isFocused: false,
       inputValue: '',
       highlightedIndex: -1,
       selection: value2array(props.value, props),
-      itemHeight: 35
+      itemHeight: 35,
+      pickerSelectItem: ''
     };
   }
 
@@ -405,6 +442,14 @@ export class Select extends React.Component<SelectProps, SelectState> {
   }
 
   close() {
+    this.setState({
+      isOpen: false
+    });
+  }
+
+  confirm() {
+    // @ts-ignore
+    this.handleChange(this.state.pickerSelectItem);
     this.setState({
       isOpen: false
     });
@@ -522,6 +567,16 @@ export class Select extends React.Component<SelectProps, SelectState> {
       },
       () => loadOptions && loadOptions(this.state.inputValue)
     );
+  }
+
+  handlePickerChange(selectItem: any, index: number, confirm: boolean) {
+    this.setState({
+      pickerSelectItem: selectItem
+    });
+    // 直接选中选项
+    if (confirm) {
+      this.handleChange(selectItem);
+    }
   }
 
   handleChange(selectItem: any) {
@@ -691,6 +746,7 @@ export class Select extends React.Component<SelectProps, SelectState> {
     const {
       popOverContainer,
       options,
+      value,
       valueField,
       labelField,
       noResultsText,
@@ -712,7 +768,9 @@ export class Select extends React.Component<SelectProps, SelectState> {
       overlayPlacement,
       translate: __,
       hideSelected,
-      renderMenu
+      renderMenu,
+      mobileClassName,
+      useMobileUI = false
     } = this.props;
     const {selection} = this.state;
 
@@ -745,6 +803,9 @@ export class Select extends React.Component<SelectProps, SelectState> {
     // 渲染单个选项
     const renderItem = ({index, style}: {index: number; style?: object}) => {
       const item = filtedOptions[index];
+      if (!item) {
+        return null;
+      }
       const checked =
         selectedItem === item || !!~selectionValues.indexOf(item[valueField]);
       if (hideSelected && checked) {
@@ -854,7 +915,22 @@ export class Select extends React.Component<SelectProps, SelectState> {
       );
     };
 
-    const menu = (
+    const mobileUI = isMobile() && useMobileUI;
+    const menu = mobileUI ? (
+      <PickerColumn
+        mobileClassName={mobileClassName}
+        labelField={'label'}
+        readonly={false}
+        className={'PickerColumns-column'}
+        value={value && value[0]}
+        swipeDuration={1000}
+        visibleItemCount={5}
+        options={filtedOptions}
+        onChange={checkAll ? noop : this.handlePickerChange}
+        onClose={this.close}
+        onConfirm={this.confirm}
+      ></PickerColumn>
+    ) : (
       <div
         ref={this.menu}
         className={cx('Select-menu', {
@@ -950,7 +1026,11 @@ export class Select extends React.Component<SelectProps, SelectState> {
       >
         <PopOver
           overlay
-          className={cx('Select-popover', popoverClassName)}
+          className={cx(
+            'Select-popover',
+            popoverClassName,
+            mobileUI ? 'PopOver-isMobile' : ''
+          )}
           style={{
             minWidth: this.target ? this.target.offsetWidth : 'auto'
           }}
@@ -1082,6 +1162,7 @@ export const SelectWithRemoteOptions = withRemoteConfig<Array<Options>>({
   > {
     render() {
       const {loading, config, deferLoad, updateConfig, ...rest} = this.props;
+
       return (
         <EnhancedSelect
           {...rest}

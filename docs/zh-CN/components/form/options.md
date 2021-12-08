@@ -786,7 +786,7 @@ order: 2
 
 可以在`autoComplete`配置中，用数据映射，获取变量`term`，为当前输入的关键字。
 
-支持该配置项的组件有：Text、Select、Chained-Select、TreeSelect。
+支持该配置项的组件有：Text、Select、Chained-Select、TreeSelect、Condition-Builder。
 
 ## 选项标签字段 labelField
 

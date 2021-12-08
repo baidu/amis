@@ -1,24 +1,4 @@
 @use 'sass:math';
-@mixin setControlWidth() {
-  width: var(--Form-control-widthBase);
-
-  &.#{$ns}Form-control--sizeXs {
-    min-width: auto;
-    width: var(--Form-control-widthXs);
-  }
-  &.#{$ns}Form-control--sizeSm {
-    min-width: auto;
-    width: var(--Form-control-widthSm);
-  }
-  &.#{$ns}Form-control--sizeMd {
-    min-width: auto;
-    width: var(--Form-control-widthMd);
-  }
-  &.#{$ns}Form-control--sizeLg {
-    min-width: auto;
-    width: var(--Form-control-widthLg);
-  }
-}
 
 .#{$ns}Form {
   font-size: var(--Form-fontSize);
@@ -52,6 +32,19 @@
   .#{$ns}Form-item--inline > .#{$ns}Form-value > & {
     display: inline-block;
     vertical-align: top;
+  }
+
+  &--borderFull {
+    border: var(--Form-input-borderWidth) solid var(--Form-input-borderColor);
+    border-radius: var(--Form-input-borderRadius);
+    padding: var(--Form-input-paddingY) var(--Form-input-paddingX);
+  }
+
+  &--borderHalf {
+    border-bottom: var(--Form-input-borderWidth) solid
+      var(--Form-input-borderColor);
+    border-radius: var(--Form-input-borderRadius);
+    padding: var(--Form-input-paddingY) var(--Form-input-paddingX);
   }
 }
 
@@ -164,7 +157,7 @@
   .#{$ns}Form-control--sizeXs {
     // min-width: var(--Form-control-widthXs);
     // width: auto;
-    min-width: var(--Form-control-widthXs);
+    width: var(--Form-control-widthXs);
     max-width: 100%;
     display: inline-block;
     vertical-align: top;
@@ -173,14 +166,10 @@
     &.#{$ns}NumberControl {
       width: var(--Form-control-widthXs);
     }
-
-    &.#{$ns}TextareaControl {
-      width: auto;
-    }
   }
 
   .#{$ns}Form-control--sizeSm {
-    min-width: var(--Form-control-widthSm);
+    width: var(--Form-control-widthSm);
     max-width: 100%;
     display: inline-block;
     vertical-align: top;
@@ -189,25 +178,17 @@
     &.#{$ns}NumberControl {
       width: var(--Form-control-widthSm);
     }
-
-    &.#{$ns}TextareaControl {
-      width: auto;
-    }
   }
 
   .#{$ns}Form-control--sizeMd {
-    min-width: var(--Form-control-widthMd);
+    width: var(--Form-control-widthMd);
     max-width: 100%;
     display: inline-block;
     vertical-align: top;
-
-    &.#{$ns}TextareaControl {
-      width: auto;
-    }
   }
 
   .#{$ns}Form-control--sizeLg {
-    min-width: var(--Form-control-widthLg);
+    width: var(--Form-control-widthLg);
     max-width: 100%;
     display: inline-block;
     vertical-align: top;
@@ -215,10 +196,6 @@
     // 非常难受，number 类型的 input 不能设置size
     &.#{$ns}NumberControl {
       width: var(--Form-control-widthLg);
-    }
-
-    &.#{$ns}TextareaControl {
-      width: auto;
     }
   }
 
@@ -300,17 +277,15 @@
       display: inline-block;
       vertical-align: top;
 
-      .#{$ns}TextControl {
-        @include setControlWidth();
-      }
-
       > .#{$ns}Form-label {
         padding-top: var(--Form-label-paddingTop);
         margin-bottom: 0;
         margin-right: calc(var(--Form-item-gap) / 2);
 
         .#{$ns}Form-star {
-          position: static;
+          position: absolute;
+          left: px2rem(-6px);
+          top: px2rem(3px);
         }
       }
 
@@ -382,4 +357,52 @@
 
 .#{$ns}Form--quickEdit {
   min-width: var(--Form-control-widthSm);
+}
+
+.#{$ns}Form--column {
+  display: flex;
+  flex-wrap: wrap;
+  margin-left: calc(var(--Form-group-gutterWidth) / -2);
+  margin-right: calc(var(--Form-group-gutterWidth) / -2);
+  > .#{$ns}Form-item {
+    flex-grow: 1;
+    padding-left: calc(var(--Form-group-gutterWidth) / 2);
+    padding-right: calc(var(--Form-group-gutterWidth) / 2);
+  }
+}
+
+.#{$ns}Form--column-2 > .#{$ns}Form-item {
+  width: 50%;
+}
+
+.#{$ns}Form--column-3 > .#{$ns}Form-item {
+  width: 33%;
+}
+
+.#{$ns}Form--column-4 > .#{$ns}Form-item {
+  width: 25%;
+}
+
+.#{$ns}Form--column-5 > .#{$ns}Form-item {
+  width: 20%;
+}
+
+.#{$ns}Form--column-6 > .#{$ns}Form-item {
+  width: 16.6%;
+}
+
+.#{$ns}Form--column-7 > .#{$ns}Form-item {
+  width: 14.2%;
+}
+
+.#{$ns}Form--column-8 > .#{$ns}Form-item {
+  width: 12.5%;
+}
+
+.#{$ns}Form-column-9 > .#{$ns}Form-item {
+  width: 11.1%;
+}
+
+.#{$ns}Form-column-10 > .#{$ns}Form-item {
+  width: 10%;
 }

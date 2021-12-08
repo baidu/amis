@@ -1,10 +1,17 @@
 import React from 'react';
+import hotkeys from 'hotkeys-js';
 import {Renderer, RendererProps} from '../factory';
 import {filter} from '../utils/tpl';
 import Button from '../components/Button';
 import pick from 'lodash/pick';
+import omit from 'lodash/omit';
 
 export interface ButtonSchema extends BaseSchema {
+  /**
+   * 主要用于用户行为跟踪里区分是哪个按钮
+   */
+  id?: string;
+
   /**
    * 是否为块状展示，默认为内联。
    */
@@ -34,6 +41,10 @@ export interface ButtonSchema extends BaseSchema {
    * 右侧 icon 上的 css 类名
    */
   rightIconClassName?: SchemaClassName;
+  /**
+   * loading 上的css 类名
+   */
+  loadingClassName?: SchemaClassName;
 
   /**
    * 按钮文字
@@ -125,6 +136,25 @@ export interface ButtonSchema extends BaseSchema {
    * 角标
    */
   badge?: BadgeSchema;
+
+  /**
+   * 键盘快捷键
+   */
+  hotKey?: string;
+  /**
+   * 是否显示loading效果
+   */
+  loadingOn?: string;
+
+  /**
+   * 自定义事件处理函数
+   */
+  onClick?: string | any;
+
+  /**
+   * 子内容
+   */
+  body?: SchemaCollection;
 }
 
 export interface AjaxActionSchema extends ButtonSchema {
@@ -143,6 +173,14 @@ export interface AjaxActionSchema extends ButtonSchema {
   reload?: SchemaReload;
   redirect?: string;
   ignoreConfirm?: boolean;
+}
+
+export interface DownloadActionSchema
+  extends Omit<AjaxActionSchema, 'actionType'> {
+  /**
+   * 指定为下载行为
+   */
+  actionType: 'download';
 }
 
 export interface UrlActionSchema extends ButtonSchema {
@@ -305,6 +343,7 @@ export type ActionSchema =
   | VanillaAction;
 
 const ActionProps = [
+  'id',
   'dialog',
   'drawer',
   'url',
@@ -341,6 +380,7 @@ const ActionProps = [
   'mergeData',
   'index',
   'copy',
+  'copyFormat',
   'payload',
   'requireSelected'
 ];
@@ -352,6 +392,7 @@ import {
   FeedbackDialog,
   SchemaApi,
   SchemaClassName,
+  SchemaCollection,
   SchemaExpression,
   SchemaIcon,
   SchemaReload,
@@ -362,49 +403,121 @@ import {DialogSchema, DialogSchemaBase} from './Dialog';
 import {DrawerSchema, DrawerSchemaBase} from './Drawer';
 import {generateIcon} from '../utils/icon';
 import {BadgeSchema, withBadge} from '../components/Badge';
-import {str2AsyncFunction} from '../utils/api';
+import {normalizeApi, str2AsyncFunction} from '../utils/api';
+import {TooltipWrapper} from '../components/TooltipWrapper';
+
+// 构造一个假的 React 事件避免可能的报错，主要用于快捷键功能
+// 来自 https://stackoverflow.com/questions/27062455/reactjs-can-i-create-my-own-syntheticevent
+export const createSyntheticEvent = <T extends Element, E extends Event>(
+  event: E
+): React.SyntheticEvent<T, E> => {
+  let isDefaultPrevented = false;
+  let isPropagationStopped = false;
+  const preventDefault = () => {
+    isDefaultPrevented = true;
+    event.preventDefault();
+  };
+  const stopPropagation = () => {
+    isPropagationStopped = true;
+    event.stopPropagation();
+  };
+  return {
+    nativeEvent: event,
+    currentTarget: event.currentTarget as EventTarget & T,
+    target: event.target as EventTarget & T,
+    bubbles: event.bubbles,
+    cancelable: event.cancelable,
+    defaultPrevented: event.defaultPrevented,
+    eventPhase: event.eventPhase,
+    isTrusted: event.isTrusted,
+    preventDefault,
+    isDefaultPrevented: () => isDefaultPrevented,
+    stopPropagation,
+    isPropagationStopped: () => isPropagationStopped,
+    persist: () => {},
+    timeStamp: event.timeStamp,
+    type: event.type
+  };
+};
 
 export interface ActionProps
   extends Omit<
       ButtonSchema,
-      'className' | 'iconClassName' | 'rightIconClassName'
+      'className' | 'iconClassName' | 'rightIconClassName' | 'loadingClassName'
     >,
     ThemeProps,
     Omit<
       AjaxActionSchema,
-      'type' | 'className' | 'iconClassName' | 'rightIconClassName'
+      | 'type'
+      | 'className'
+      | 'iconClassName'
+      | 'rightIconClassName'
+      | 'loadingClassName'
     >,
     Omit<
       UrlActionSchema,
-      'type' | 'className' | 'iconClassName' | 'rightIconClassName'
+      | 'type'
+      | 'className'
+      | 'iconClassName'
+      | 'rightIconClassName'
+      | 'loadingClassName'
     >,
     Omit<
       LinkActionSchema,
-      'type' | 'className' | 'iconClassName' | 'rightIconClassName'
+      | 'type'
+      | 'className'
+      | 'iconClassName'
+      | 'rightIconClassName'
+      | 'loadingClassName'
     >,
     Omit<
       DialogActionSchema,
-      'type' | 'className' | 'iconClassName' | 'rightIconClassName'
+      | 'type'
+      | 'className'
+      | 'iconClassName'
+      | 'rightIconClassName'
+      | 'loadingClassName'
     >,
     Omit<
       DrawerActionSchema,
-      'type' | 'className' | 'iconClassName' | 'rightIconClassName'
+      | 'type'
+      | 'className'
+      | 'iconClassName'
+      | 'rightIconClassName'
+      | 'loadingClassName'
     >,
     Omit<
       CopyActionSchema,
-      'type' | 'className' | 'iconClassName' | 'rightIconClassName'
+      | 'type'
+      | 'className'
+      | 'iconClassName'
+      | 'rightIconClassName'
+      | 'loadingClassName'
     >,
     Omit<
       ReloadActionSchema,
-      'type' | 'className' | 'iconClassName' | 'rightIconClassName'
+      | 'type'
+      | 'className'
+      | 'iconClassName'
+      | 'rightIconClassName'
+      | 'loadingClassName'
     >,
     Omit<
       EmailActionSchema,
-      'type' | 'className' | 'iconClassName' | 'rightIconClassName'
+      | 'type'
+      | 'className'
+      | 'iconClassName'
+      | 'rightIconClassName'
+      | 'loadingClassName'
+      | 'body'
     >,
     Omit<
       OtherActionSchema,
-      'type' | 'className' | 'iconClassName' | 'rightIconClassName'
+      | 'type'
+      | 'className'
+      | 'iconClassName'
+      | 'rightIconClassName'
+      | 'loadingClassName'
     > {
   actionType: any;
   onAction?: (
@@ -472,7 +585,8 @@ export class Action extends React.Component<ActionProps, ActionState> {
 
   @autobind
   async handleAction(e: React.MouseEvent<any>) {
-    const {onAction, disabled, countDown} = this.props;
+    const {onAction, disabled, countDown, env} = this.props;
+
     // https://reactjs.org/docs/legacy-event-pooling.html
     e.persist();
     let onClick = this.props.onClick;
@@ -494,6 +608,32 @@ export class Action extends React.Component<ActionProps, ActionState> {
 
     e.preventDefault();
     const action = pick(this.props, ActionProps) as ActionSchema;
+    const actionType = action.actionType;
+
+    // ajax 会在 wrapFetcher 里记录，这里再处理就重复了，因此去掉
+    // add 一般是 input-table 之类的，会触发 formItemChange，为了避免重复也去掉
+    if (
+      actionType !== 'ajax' &&
+      actionType !== 'download' &&
+      actionType !== 'add'
+    ) {
+      env?.tracker(
+        {
+          eventType: actionType || this.props.type || 'click',
+          eventData: omit(action, ['type', 'actionType', 'tooltipPlacement'])
+        },
+        this.props
+      );
+    }
+
+    // download 是一种 ajax 的简写
+    if (actionType === 'download') {
+      action.actionType = 'ajax';
+      const api = normalizeApi((action as AjaxActionSchema).api);
+      api.responseType = 'blob';
+      (action as AjaxActionSchema).api = api;
+    }
+
     onAction(e, action);
 
     if (countDown) {
@@ -531,6 +671,29 @@ export class Action extends React.Component<ActionProps, ActionState> {
     }
   }
 
+  @autobind
+  componentDidMount() {
+    const {hotKey} = this.props;
+    if (hotKey) {
+      hotkeys(hotKey, event => {
+        event.preventDefault();
+        const click = new MouseEvent('click', {
+          bubbles: true,
+          cancelable: true
+        });
+        this.handleAction(createSyntheticEvent(click) as any);
+      });
+    }
+  }
+
+  @autobind
+  componentWillUnmount() {
+    const {hotKey} = this.props;
+    if (hotKey) {
+      hotkeys.unbind(hotKey);
+    }
+  }
+
   render() {
     const {
       type,
@@ -538,6 +701,7 @@ export class Action extends React.Component<ActionProps, ActionState> {
       iconClassName,
       rightIcon,
       rightIconClassName,
+      loadingClassName,
       primary,
       size,
       level,
@@ -557,9 +721,33 @@ export class Action extends React.Component<ActionProps, ActionState> {
       isMenuItem,
       active,
       activeLevel,
+      tooltipTrigger,
       tooltipContainer,
-      classnames: cx
+      tooltipRootClose,
+      loading,
+      body,
+      render,
+      classnames: cx,
+      classPrefix: ns
     } = this.props;
+
+    if (actionType !== 'email' && body) {
+      return (
+        <TooltipWrapper
+          classPrefix={ns}
+          classnames={cx}
+          placement={tooltipPlacement}
+          tooltip={tooltip}
+          container={tooltipContainer}
+          trigger={tooltipTrigger}
+          rootClose={tooltipRootClose}
+        >
+          <div className={cx('Action', className)} onClick={this.handleAction}>
+            {render('body', body) as JSX.Element}
+          </div>
+        </TooltipWrapper>
+      );
+    }
 
     let label = this.props.label;
     let disabled = this.props.disabled;
@@ -597,6 +785,8 @@ export class Action extends React.Component<ActionProps, ActionState> {
             ? activeLevel
             : level || (primary ? 'primary' : undefined)
         }
+        loadingClassName={loadingClassName}
+        loading={loading}
         onClick={this.handleAction}
         type={type && ~allowedType.indexOf(type) ? type : 'button'}
         disabled={disabled}
@@ -604,12 +794,14 @@ export class Action extends React.Component<ActionProps, ActionState> {
         overrideClassName={isMenuItem}
         tooltip={filterContents(tooltip, data)}
         disabledTip={filterContents(disabledTip, data)}
-        placement={tooltipPlacement}
+        tooltipPlacement={tooltipPlacement}
         tooltipContainer={tooltipContainer}
+        tooltipTrigger={tooltipTrigger}
+        tooltipRootClose={tooltipRootClose}
         block={block}
         iconOnly={!!(icon && !label && level !== 'link')}
       >
-        {iconElement}
+        {!loading ? iconElement : ''}
         {label ? <span>{filter(String(label), data)}</span> : null}
         {rightIconElement}
       </Button>
@@ -655,13 +847,15 @@ export class ActionRenderer extends React.Component<
   }
 
   render() {
-    const {env, disabled, btnDisabled, ...rest} = this.props;
+    const {env, disabled, btnDisabled, loading, ...rest} = this.props;
 
     return (
       <Action
         {...(rest as any)}
+        env={env}
         disabled={disabled || btnDisabled}
         onAction={this.handleAction}
+        loading={loading}
         isCurrentUrl={this.isCurrentAction}
         tooltipContainer={
           env.getModalContainer ? env.getModalContainer : undefined

@@ -71,7 +71,7 @@
       document.querySelectorAll('link[title]').forEach(item => {
         item.disabled = true;
       });
-      let theme = localStorage.getItem('theme') || 'cxd';
+      let theme = localStorage.getItem('amis-theme') || 'cxd';
       if (theme == 'default') {
         theme = 'cxd';
       }
@@ -80,7 +80,7 @@
         document.querySelector('body').classList.add('dark');
       }
 
-      amis.require(['./mobile.tsx'], function (app) {
+      amis.require(['./mobile.jsx'], function (app) {
         app.bootstrap(document.getElementById('root'), {});
       });
     </script>

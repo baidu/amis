@@ -41,7 +41,7 @@ export interface RendererEnv {
     schema: Schema,
     props: any
   ) => null | RendererConfig;
-  copy?: (contents: string) => void;
+  copy?: (contents: string, format?: any) => void;
   getModalContainer?: () => HTMLElement;
   theme: ThemeInstance;
   affixOffsetTop: number;
@@ -53,6 +53,7 @@ export interface RendererEnv {
     reRender: Function
   ) => Promise<React.ReactType> | React.ReactType | JSX.Element | void;
   loadChartExtends?: () => void | Promise<void>;
+  useMobileUI?: boolean;
   [propName: string]: any;
 }
 

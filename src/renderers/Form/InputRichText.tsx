@@ -50,73 +50,23 @@ export default class RichTextControl extends React.Component<
     videoReceiver: '/api/upload/video',
     placeholder: 'placeholder.enter',
     options: {
-      toolbarButtonsSM: [
-        'paragraphFormat',
-        'quote',
-        'color',
-        '|',
-        'bold',
-        'italic',
-        'underline',
-        'strikeThrough',
-        '|',
-        'formatOL',
-        'formatUL',
-        'align',
-        '|',
-        'insertLink',
-        'insertImage',
-        'insertEmotion',
-        'insertTable',
-        '|',
-        'undo',
-        'redo',
-        'html'
-      ],
-      toolbarButtonsMD: [
-        'paragraphFormat',
-        'quote',
-        'color',
-        '|',
-        'bold',
-        'italic',
-        'underline',
-        'strikeThrough',
-        '|',
-        'formatOL',
-        'formatUL',
-        'align',
-        '|',
-        'insertLink',
-        'insertImage',
-        'insertEmotion',
-        'insertTable',
-        '|',
-        'undo',
-        'redo',
-        'html'
-      ],
       toolbarButtons: [
+        'undo',
+        'redo',
         'paragraphFormat',
-        'quote',
-        'color',
-        '|',
+        'textColor',
+        'backgroundColor',
         'bold',
-        'italic',
         'underline',
         'strikeThrough',
-        '|',
         'formatOL',
         'formatUL',
         'align',
-        '|',
+        'quote',
         'insertLink',
         'insertImage',
         'insertEmotion',
         'insertTable',
-        '|',
-        'undo',
-        'redo',
         'html'
       ]
     }
@@ -157,6 +107,7 @@ export default class RichTextControl extends React.Component<
             ]
           : [],
         key: props.env.richTextToken,
+        attribution: false,
         ...props.options,
         editorClass: props.editorClass,
         placeholderText: props.translate(props.placeholder),
@@ -170,17 +121,14 @@ export default class RichTextControl extends React.Component<
         },
         events: {
           ...(props.options && props.options.events),
-          'froalaEditor.focus': this.handleFocus,
-          'froalaEditor.blur': this.handleBlur
+          focus: this.handleFocus,
+          blur: this.handleBlur
         },
         language:
           !this.props.locale || this.props.locale === 'zh-CN' ? 'zh_cn' : ''
       };
 
       if (props.buttons) {
-        this.config.toolbarButtonsSM = props.buttons;
-        this.config.toolbarButtonsMD = props.buttons;
-        this.config.toolbarButtonsXS = props.buttons;
         this.config.toolbarButtons = props.buttons;
       }
     } else {
