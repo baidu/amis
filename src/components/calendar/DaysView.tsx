@@ -185,11 +185,12 @@ export class CustomDaysView extends DaysView {
             const width = item.width || Math.min(moment(item.endTime).diff(moment(item.startTime), 'days') + 1, 7 - moment(item.startTime).weekday());
             return <div key={props.key + 'content' + index}
               className={cx('ScheduleCalendar-large-schedule-content', item.className)}
-              style={{width: width + '00%'}}>
+              style={{width: width + '00%'}}
+              onClick={() => this.props.onScheduleClick && this.props.onScheduleClick(scheduleData)}>
                 <div className={cx('ScheduleCalendar-text-overflow')}>{item.content}</div>
             </div>;
           });
-          return <td {...props} onClick={() => this.props.onScheduleClick && this.props.onScheduleClick(scheduleData)}>
+          return <td {...props}>
               <div className={cx('ScheduleCalendar-large-day-wrap')}>
                 <div className={cx('ScheduleCalendar-large-schedule-header')}>{currentDate.date()}</div>
                 {scheduleDiv}
@@ -199,8 +200,9 @@ export class CustomDaysView extends DaysView {
         }
 
         // 正常模式
-        const ScheduleIcon = <span className={cx('ScheduleCalendar-icon', schedule[0].className)}></span>;
-        return <td {...props} onClick={() => this.props.onScheduleClick && this.props.onScheduleClick(scheduleData)}>
+        const ScheduleIcon = <span className={cx('ScheduleCalendar-icon', schedule[0].className)}
+           onClick={() => this.props.onScheduleClick && this.props.onScheduleClick(scheduleData)}></span>;
+        return <td {...props}>
           {currentDate.date()}
           {ScheduleIcon}
         </td>;
