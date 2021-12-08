@@ -1398,7 +1398,7 @@ crud 组件支持通过配置`headerToolbar`和`footerToolbar`属性，实现在
 - `items` `Array<object>` 选中的行数据。
 - `rows` items 的别名，推荐用 items。
 - `selectedItems` `Array<object>` 选中的行数据，建议直接用 items。
-- `unselectedItems` `Array<object>` 没选中的行数据也可获取。
+- `unSelectedItems` `Array<object>` 没选中的行数据也可获取。
 - `ids` `string` 多个 id 值用英文逗号隔开，前提是行数据中有 id 字段，或者有指定的 `primaryField` 字段。
 - `第一行所有行数据` 还有第一行的所有行数据也会包含进去。
 
