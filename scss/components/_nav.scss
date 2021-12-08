@@ -182,7 +182,7 @@
         &.is-active > .#{$ns}Badge > a {
           color: var(--Nav-item-onActive-color);
           position: relative;
-          background: var(--Nav-item-onActive-bg);
+          background: var(--Nav-item-onActive-bg) !important;
 
           &::after {
             transform: scaleY(1);
