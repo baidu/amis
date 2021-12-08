@@ -85,6 +85,7 @@ register('en-US', {
   'Excel.placeholder': `Drag 'n' drop excel here, or click to select`,
   'fetchFailed': 'Fetch api failed',
   'File.continueAdd': 'Continue add',
+  'File.downloadTpl': 'Download template',
   'File.dragDrop': `Drag 'n' drop some files here`,
   'File.errorRetry': 'File upload failed, please try again',
   'File.failed': 'Failed files.',

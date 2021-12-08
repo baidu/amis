@@ -57,7 +57,8 @@
     .#{$ns}Select-menu {
       border-radius: #{$R3};
       .#{$ns}Select-option {
-        height: var(--Form-input-height);
+        // height: var(--Form-input-height);
+        line-height: 1.1;
         padding: px2rem(5px) px2rem(12px);
       }
     }
@@ -145,13 +146,6 @@
     &:active {
       color: #{$G3};
     }
-  }
-}
-
-.#{$ns}ColorPicker {
-  .#{$ns}PopOver {
-    border: none;
-    box-shadow: var(--boxShadow);
   }
 }
 
@@ -291,6 +285,7 @@
           svg {
             width: #{px2rem(12px)};
             height: #{px2rem(12px)};
+            top: 0;
           }
         }
 

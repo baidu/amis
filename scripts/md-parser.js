@@ -140,51 +140,62 @@ module.exports = function (content, file) {
   const placeholder = {};
   let index = 1;
 
-  content = content.replace(
-    /```(schema|html)(?::(.*?))?\n([\s\S]*?)```/g,
-    function (_, lang, attr, code) {
-      const setting = {};
-      attr &&
-        attr.split(/\s+/).forEach(function (item) {
-          var parts = item.split('=');
+  content = content
+    .replace(/\!\!\!include\s*\(([^\)]+?)\)\!\!\!/g, (_, val) => {
+      const result = fis.project.lookup(val, file);
 
-          if (parts[1] && /^('|").*\1/.test(parts[1])) {
-            parts[1] = parts[1].substring(1, parts[1].length - 1);
-          }
-
-          setting[parts[0]] = parts[1] ? decodeURIComponent(parts[1]) : '';
-
-          if (parts[0] === 'height') {
-            setting.height = parseInt(setting.height, 10) /*编辑器的高度*/;
-            attr = attr.replace(item, `height="${setting.height}"`);
-          }
-        });
-
-      // placeholder[index] = `<iframe class="doc-iframe" width="100%" height="${setting.height || 200}px" frameBorder="0" src="/play?code=${encodeURIComponent(code)}&scope=${encodeURIComponent(setting.scope)}"></iframe>`;
-      if (lang === 'html') {
-        if (~code.indexOf('<html') || ~code.indexOf('<link')) {
-          return _;
-        }
-
-        placeholder[
-          index
-        ] = `<!--amis-preview-start--><div class="amis-doc"><div class="preview">${code}</div><pre><code class="lang-html">${prism.highlight(
-          code
-            .replace(/"data:(\w+\/\w+);.*?"/g, '"data:$1; ..."')
-            .replace(/<svg([^>]*)>[\s\S]*?<\/svg>/g, '<svg$1>...</svg>')
-            .replace(/class="([^"]*?)\.\.\.([^"]*?)"/g, 'class="$1..."'),
-          prism.languages[lang],
-          lang
-        )}</code></pre></div><!--amis-preview-end-->`;
-      } else {
-        placeholder[
-          index
-        ] = `<!--amis-preview-start--><div class="amis-preview" style="min-height: ${setting.height}px"><script type="text/schema" ${attr}>${code}</script></div><!--amis-preview-end-->`;
+      if (result) {
+        // 暂时不支持嵌套 include
+        return result.file.getContent();
       }
 
-      return `[[${index++}]]`;
-    }
-  );
+      return _;
+    })
+    .replace(
+      /```(schema|html)(?::(.*?))?\n([\s\S]*?)```/g,
+      function (_, lang, attr, code) {
+        const setting = {};
+        attr &&
+          attr.split(/\s+/).forEach(function (item) {
+            var parts = item.split('=');
+
+            if (parts[1] && /^('|").*\1/.test(parts[1])) {
+              parts[1] = parts[1].substring(1, parts[1].length - 1);
+            }
+
+            setting[parts[0]] = parts[1] ? decodeURIComponent(parts[1]) : '';
+
+            if (parts[0] === 'height') {
+              setting.height = parseInt(setting.height, 10) /*编辑器的高度*/;
+              attr = attr.replace(item, `height="${setting.height}"`);
+            }
+          });
+
+        // placeholder[index] = `<iframe class="doc-iframe" width="100%" height="${setting.height || 200}px" frameBorder="0" src="/play?code=${encodeURIComponent(code)}&scope=${encodeURIComponent(setting.scope)}"></iframe>`;
+        if (lang === 'html') {
+          if (~code.indexOf('<html') || ~code.indexOf('<link')) {
+            return _;
+          }
+
+          placeholder[
+            index
+          ] = `<!--amis-preview-start--><div class="amis-doc"><div class="preview">${code}</div><pre><code class="lang-html">${prism.highlight(
+            code
+              .replace(/"data:(\w+\/\w+);.*?"/g, '"data:$1; ..."')
+              .replace(/<svg([^>]*)>[\s\S]*?<\/svg>/g, '<svg$1>...</svg>')
+              .replace(/class="([^"]*?)\.\.\.([^"]*?)"/g, 'class="$1..."'),
+            prism.languages[lang],
+            lang
+          )}</code></pre></div><!--amis-preview-end-->`;
+        } else {
+          placeholder[
+            index
+          ] = `<!--amis-preview-start--><div class="amis-preview" style="min-height: ${setting.height}px"><script type="text/schema" ${attr}>${code}</script></div><!--amis-preview-end-->`;
+        }
+
+        return `[[${index++}]]`;
+      }
+    );
 
   content = marked(content).replace(/<p>\[\[(\d+)\]\]<\/p>/g, function (_, id) {
     return placeholder[id] || '';
