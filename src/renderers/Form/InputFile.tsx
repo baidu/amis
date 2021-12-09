@@ -1224,7 +1224,7 @@ export default class FileControl extends React.Component<FileProps, FileState> {
             <Icon icon="download" className="icon" />
             <span>{__('File.downloadTpl')}</span>
           </a>
-          ) : null}
+        ) : null}
 
         <DropZone
           disabled={disabled}
