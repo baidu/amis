@@ -84,9 +84,7 @@ export interface AvatarSchema extends BaseSchema {
   defaultReplace?: boolean
 }
 
-export interface AvatarProps extends RendererProps, Omit<AvatarSchema, 'type' | 'className'> {
-  children?: JSX.Element | ((props?: any) => JSX.Element);
-}
+export interface AvatarProps extends RendererProps, Omit<AvatarSchema, 'type' | 'className'> {}
 
 export class AvatarField extends React.Component<AvatarProps> {
 
@@ -94,9 +92,9 @@ export class AvatarField extends React.Component<AvatarProps> {
     let {
       style = {},
       className,
-      classnames,
+      classnames: cx,
       src,
-      icon,
+      icon = 'fa fa-user',
       fit,
       shape,
       size,
@@ -106,18 +104,13 @@ export class AvatarField extends React.Component<AvatarProps> {
       draggable,
       crossOrigin,
       defaultReplace = true,
-      children,
       data
     } = this.props;
 
     const onError = () => defaultReplace;
 
     if (isPureVariable(src)) {
-      src = resolveVariableAndFilter(src, data, '| raw');
-      if (!src) {
-        // 找不到，默认空字符串
-        src = '';
-      }
+      src = resolveVariableAndFilter(src, data, '| raw') || '';
     }
 
     if (isPureVariable(text)) {
@@ -132,7 +125,7 @@ export class AvatarField extends React.Component<AvatarProps> {
       <Avatar
         style={style}
         className={className}
-        classnames={classnames}
+        classnames={cx}
         src={src}
         icon={icon}
         fit={fit}
@@ -143,9 +136,8 @@ export class AvatarField extends React.Component<AvatarProps> {
         alt={alt}
         draggable={draggable}
         crossOrigin={crossOrigin}
-        onError={onError}>
-        {children}
-      </Avatar>
+        onError={onError}
+      />
     );
   }
 }

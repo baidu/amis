@@ -236,7 +236,7 @@ src、text 都支持变量，可以从上下文中动态获取图片或文字，
 | fit       |`'contain'` \| `'cover'` \| `'fill'` \| `'none'` \| `'scale-down'`    | `'cover'`  | 具体细节可以参考 MDN [文档](https://developer.mozilla.org/zh-CN/docs/Web/CSS/object-fit)          |
 | src       | `string`    |        | 图片地址              |
 | text      | `string`    |        | 文字                  |
-| icon      | `string`    |        | 图标                  |
+| icon      | `string`    | `'fa fa-user'` | 图标                  |
 | shape     | `'circle'` \| `'square'` \| `'rounded'` | `'circle'` | 形状，有三种 `'circle'` （圆形）、`'square'`（正方形）、`'rounded'`（圆角） |
 | size      | `number` \| `'default'` \| `'normal'` \| `'small'` | `'default'` | `'default' \| 'normal' \| 'small'`三种字符串类型代表不同大小（分别是48、40、32），也可以直接数字表示 |
 | gap       | `number`    |   4    | 控制字符类型距离左右两侧边界单位像素 |
