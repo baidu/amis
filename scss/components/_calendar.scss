@@ -1,0 +1,81 @@
+
+.#{$ns}ScheduleCalendar {
+  &-icon {
+    position: absolute;
+    bottom: var(--Calendar-icon-bottom);
+    left: 50%;
+    transform: translateX(-50%);
+    display: block;
+    width: var(--Calendar-icon-width);
+    height: var(--Calendar-icon-height);
+    border-radius: 50%;
+    z-index: 10;
+  }
+  &-action {
+    display: block;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    border: none;
+    background: transparent;
+    color: inherit;
+    &:not(:disabled):not(.is-disabled):hover {
+      color: inherit;
+      background: transparent;
+      border-color: transparent;
+    }
+  }
+  .rdtDay {
+    position: relative;
+  }
+
+  &-text-overflow {
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
+    position: absolute;
+    width: 100%;
+  }
+}
+
+.#{$ns}ScheduleCalendar-large {
+  width: 100%;
+
+  .rdtPicker {
+    width: 100%;
+    table {
+      border-collapse: collapse;
+      border-spacing: 0;
+      td {
+        border: var(--Calendar-borderWidth) solid var(--borderColor);
+      }
+    }
+  }
+
+  .rdtDay {
+    height: var(--Calendar-rdt-day);
+    vertical-align: top;
+  }
+
+  .#{$ns}ScheduleCalendar-large-day-wrap {
+    position: absolute;
+    top: 0;
+    left: 0;
+    min-width: 100%;
+    height: 100%;
+    .#{$ns}ScheduleCalendar-large-schedule-content {
+      position: relative;
+      z-index: 10;
+      border-radius: var(--borderRadius);
+      text-align: left;
+      padding: var(--Calendar-schedule-content-padding);
+      height: var(--Calendar-schedule-content-height);
+      color: var(--Calendar-schedule-content-color);
+    }
+  }
+
+  .#{$ns}ScheduleCalendar-action {
+    z-index: 20;
+    position: relative;
+  }
+}

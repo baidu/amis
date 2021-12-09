@@ -1,6 +1,7 @@
 import {createObject} from './helper';
 import {register as registerBulitin, getFilters} from './tpl-builtin';
 import {register as registerLodash} from './tpl-lodash';
+import {parse, evaluate} from 'amis-formula';
 
 export interface Enginer {
   test: (tpl: string) => boolean;
@@ -61,6 +62,15 @@ export function evalExpression(expression: string, data?: object): boolean {
 
   /* jshint evil:true */
   try {
+    if (
+      typeof expression === 'string' &&
+      expression.substring(0, 2) === '${' &&
+      expression[expression.length - 1] === '}'
+    ) {
+      // 启用新版本的公式表达式
+      return evalFormula(expression, data);
+    }
+
     let debug = false;
     const idx = expression.indexOf('debugger');
     if (~idx) {
@@ -88,6 +98,20 @@ export function evalExpression(expression: string, data?: object): boolean {
   }
 }
 
+const AST_CACHE: {[key: string]: any} = {};
+function evalFormula(expression: string, data: any) {
+  const ast =
+    AST_CACHE[expression] ||
+    parse(expression, {
+      evalMode: false
+    });
+  AST_CACHE[expression] = ast;
+
+  return evaluate(ast, data, {
+    defaultFilter: 'raw'
+  });
+}
+
 let customEvalJsFn: (expression: string, data?: any) => any;
 export function setCustomEvalJs(fn: (expression: string, data?: any) => any) {
   customEvalJsFn = fn;
@@ -102,6 +126,15 @@ export function evalJS(js: string, data: object): any {
 
   /* jshint evil:true */
   try {
+    if (
+      typeof js === 'string' &&
+      js.substring(0, 2) === '${' &&
+      js[js.length - 1] === '}'
+    ) {
+      // 启用新版本的公式表达式
+      return evalFormula(js, data);
+    }
+
     const fn = new Function(
       'data',
       'utils',

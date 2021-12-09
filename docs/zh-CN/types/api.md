@@ -450,7 +450,7 @@ API 还支持配置对象类型
 ```schema: scope="body"
 {
     "type": "crud",
-    "api": "/api/sample?waitSeconds=1",
+    "api": "/api/mock2/sample?waitSeconds=1",
     "columns": [
         {
             "name": "id",
@@ -476,7 +476,7 @@ API 还支持配置对象类型
 ```schema: scope="body"
 {
     "type": "crud",
-    "api": "/api/sample?waitSeconds=1",
+    "api": "/api/mock2/sample?waitSeconds=1",
     "columns": [
         {
             "name": "id",

@@ -88,7 +88,8 @@ export const FormItemStore = StoreNode.named('FormItemStore')
     dialogSchema: types.frozen(),
     dialogOpen: false,
     dialogData: types.frozen(),
-    resetValue: types.optional(types.frozen(), '')
+    resetValue: types.optional(types.frozen(), ''),
+    validateOnChange: false
   })
   .views(self => {
     function getForm(): any {
@@ -233,7 +234,8 @@ export const FormItemStore = StoreNode.named('FormItemStore')
       clearValueOnHidden,
       validateApi,
       maxLength,
-      minLength
+      minLength,
+      validateOnChange
     }: {
       required?: boolean;
       unique?: boolean;
@@ -254,6 +256,7 @@ export const FormItemStore = StoreNode.named('FormItemStore')
       validateApi?: boolean;
       minLength?: number;
       maxLength?: number;
+      validateOnChange?: boolean;
     }) {
       if (typeof rules === 'string') {
         rules = str2rules(rules);
@@ -279,6 +282,8 @@ export const FormItemStore = StoreNode.named('FormItemStore')
       typeof clearValueOnHidden !== 'undefined' &&
         (self.clearValueOnHidden = !!clearValueOnHidden);
       typeof validateApi !== 'undefined' && (self.validateApi = validateApi);
+      typeof validateOnChange !== 'undefined' &&
+        (self.validateOnChange = !!validateOnChange);
 
       rules = {
         ...rules,
@@ -1029,7 +1034,7 @@ export const FormItemStore = StoreNode.named('FormItemStore')
       subStore = store;
     }
 
-    function reset() {
+    function reset(keepErrors: boolean = false) {
       self.validated = false;
 
       if (subStore && subStore.storeType === 'ComboStore') {
@@ -1037,7 +1042,7 @@ export const FormItemStore = StoreNode.named('FormItemStore')
         combo.forms.forEach(form => form.reset());
       }
 
-      clearError();
+      !keepErrors && clearError();
     }
 
     function openDialog(
