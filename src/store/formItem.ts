@@ -14,6 +14,7 @@ import {str2rules, validate as doValidate} from '../utils/validations';
 import {Api, Payload, fetchOptions} from '../types';
 import {ComboStore, IComboStore, IUniqueGroup} from './combo';
 import {evalExpression} from '../utils/tpl';
+import {isEffectiveApi} from '../utils/api';
 import findIndex from 'lodash/findIndex';
 import {
   isArrayChildrenModified,
@@ -320,7 +321,7 @@ export const FormItemStore = StoreNode.named('FormItemStore')
     let validateCancel: Function | null = null;
     const validate: (data: Object, hook?: any) => Promise<boolean> = flow(
       function* validate(data: Object, hook?: any) {
-        if (self.validating && !self.validateApi) {
+        if (self.validating && !isEffectiveApi(self.validateApi, data)) {
           return self.valid;
         }
 
@@ -334,7 +335,7 @@ export const FormItemStore = StoreNode.named('FormItemStore')
           doValidate(self.tmpValue, data, self.rules, self.messages, self.__)
         );
 
-        if (!self.errors.length && self.validateApi) {
+        if (!self.errors.length && isEffectiveApi(self.validateApi, data)) {
           if (validateCancel) {
             validateCancel();
             validateCancel = null;
