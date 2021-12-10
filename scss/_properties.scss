@@ -1091,8 +1091,8 @@
   --PickerColumns-title-lineHeight: 1.5;
   --PickerColumns-action-padding: 0 var(--gap-sm);
   --PickerColumns-action-fontSize: var(--fontSizeMd);
-  --PickerColumns-confirmAction-color: var(--Button--info-bg);
-  --PickerColumns-cancelAction-color: var(--Button--light-bg);
+  --PickerColumns-confirmAction-color: #{lighten($text-color, 25%)};
+  --PickerColumns-cancelAction-color: #{lighten($text-color, 50%)};
   --PickerColumns-option-fontSize: var(--fontSizeLg);
   --PickerColumns-optionText-color: var(--text-color);
   --PickerColumns-optionDisabled-opacity: 0.3;
