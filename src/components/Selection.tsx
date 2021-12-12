@@ -126,10 +126,7 @@ export class BaseSelection<
 
   @autobind
   toggleAll() {
-    const {value, onChange, option2value, options, multiple} = this.props;
-    if (multiple) {
-      return;
-    }
+    const {value, onChange, option2value, options} = this.props;
 
     let valueArray: Array<Option> = [];
 

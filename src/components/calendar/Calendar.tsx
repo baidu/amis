@@ -7,6 +7,7 @@ import CustomCalendarContainer from './CalendarContainer';
 import cx from 'classnames';
 import moment from 'moment';
 import {themeable, ThemeOutterProps, ThemeProps} from '../../theme';
+import {convertDateArrayToDate} from "../../utils/helper";
 
 interface BaseDatePickerProps
   extends Omit<ReactDatePicker.DatetimepickerProps, 'viewMode'> {
@@ -28,6 +29,14 @@ interface BaseDatePickerProps
     year?: number,
     date?: moment.Moment
   ) => JSX.Element;
+  schedules?: Array<{
+    startTime: Date;
+    endTime: Date;
+    content: string | React.ReactElement;
+    color?: string;
+  }>;
+  largeMode?: boolean;
+  onScheduleClick?: (scheduleData: any) => void;
 }
 
 class BaseDatePicker extends ReactDatePicker {
@@ -82,7 +91,10 @@ class BaseDatePicker extends ReactDatePicker {
         'nextIcon',
         'isEndDate',
         'classnames',
-        'minDate'
+        'minDate',
+        'schedules',
+        'largeMode',
+        'onScheduleClick'
       ].forEach(key => (props[key] = (this.props as any)[key]));
 
       return props;
@@ -180,6 +192,22 @@ class BaseDatePicker extends ReactDatePicker {
     that.props.onChange(date);
   };
 
+  onConfirm = (value: number[], types: string[]) => {
+    const currentDate = (this.state.selectedDate || this.state.viewDate || moment()).clone();
+    
+    const date = convertDateArrayToDate(value, types, currentDate);
+
+    if (!this.props.value) {
+      this.setState({
+        selectedDate: date,
+        inputValue: date!.format(this.state.inputFormat)
+      });
+    }
+    this.props.onChange && this.props.onChange(date);
+    this.props.onClose && this.props.onClose();
+  }
+
+  
   render() {
     const Component = CustomCalendarContainer as any;
     const viewProps = this.getComponentProps();
@@ -191,6 +219,7 @@ class BaseDatePicker extends ReactDatePicker {
       ];
     }
 
+    viewProps.onConfirm = this.onConfirm;
     return (
       <div className={cx('rdt rdtStatic rdtOpen', this.props.className)}>
         <div key="dt" className="rdtPicker">
