@@ -790,7 +790,7 @@ export default class FileControl extends React.Component<FileProps, FileState> {
       onProgress
     )
       .then(ret => {
-        if (ret.status || !ret.data) {
+        if ((ret.status && (ret as any).status !== '0') || !ret.data) {
           throw new Error(ret.msg || __('File.errorRetry'));
         }
 
