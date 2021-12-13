@@ -81,6 +81,23 @@ export function buildApi(
     ) as any;
   }
 
+  if (api.headers) {
+    api.headers = dataMapping(api.headers, data);
+  }
+
+  if (api.requestAdaptor && typeof api.requestAdaptor === 'string') {
+    api.requestAdaptor = str2function(api.requestAdaptor, 'api') as any;
+  }
+
+  if (api.adaptor && typeof api.adaptor === 'string') {
+    api.adaptor = str2function(
+      api.adaptor,
+      'payload',
+      'response',
+      'api'
+    ) as any;
+  }
+  // return之前需要处理相关适配器
   if (!data) {
     return api;
   } else if (
