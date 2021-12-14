@@ -64,7 +64,7 @@ interface AvatarCmptProps extends ThemeProps {
   /**
    * 图片加载失败的事件，返回 false 会关闭组件默认的
    */
-  onError?: () => boolean;
+  onError?: (event: Event) => boolean;
 
   /**
    * 
@@ -114,8 +114,7 @@ export class Avatar extends React.Component<AvatarCmptProps, AvatarState> {
     const {hasImg} = this.state;
     if (prevProps.src !== src) {
       this.setState({
-        hasImg: true,
-        scale: 1
+        hasImg: !!src
       });
     }
     if ((prevState.hasImg && !hasImg)
@@ -126,10 +125,10 @@ export class Avatar extends React.Component<AvatarCmptProps, AvatarState> {
     }
   }
 
-  handleImageLoadError() {
+  handleImageLoadError(event: React.SyntheticEvent) {
     const {onError} = this.props;
     this.setState({
-      hasImg: onError ? !onError() : false
+      hasImg: onError ? !onError(event.nativeEvent) : false
     });
   }
 

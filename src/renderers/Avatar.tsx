@@ -7,6 +7,7 @@ import Avatar from '../components/Avatar';
 import {BadgeSchema, withBadge} from '../components/Badge';
 import {BaseSchema, SchemaClassName} from '../Schema';
 import {isPureVariable, resolveVariableAndFilter} from '../utils/tpl-builtin';
+
 export interface AvatarSchema extends BaseSchema {
   // 指定类型
   type: 'avatar';
@@ -79,9 +80,9 @@ export interface AvatarSchema extends BaseSchema {
   crossOrigin: 'anonymous' | 'use-credentials' | '';
 
   /**
-   * 图片加载失败的是否默认处理，进行text、icon的置换
+   * 图片加载失败的是否默认处理，字符串函数
    */
-  defaultReplace?: boolean
+  onError?: string
 }
 
 export interface AvatarProps extends RendererProps, Omit<AvatarSchema, 'type' | 'className'> {}
@@ -103,14 +104,22 @@ export class AvatarField extends React.Component<AvatarProps> {
       alt,
       draggable,
       crossOrigin,
-      defaultReplace = true,
+      onError,
       data
     } = this.props;
 
-    const onError = () => defaultReplace;
+    let errHandler = () => false;
+
+    if (typeof onError === 'string' && onError.trim().startsWith('function')) {
+      try {
+        errHandler = eval('(' + onError + ')');
+      } catch (e) {
+        console.warn(onError, e);
+      }
+    }
 
     if (isPureVariable(src)) {
-      src = resolveVariableAndFilter(src, data, '| raw') || '';
+      src = resolveVariableAndFilter(src, data, '| raw');
     }
 
     if (isPureVariable(text)) {
@@ -136,7 +145,7 @@ export class AvatarField extends React.Component<AvatarProps> {
         alt={alt}
         draggable={draggable}
         crossOrigin={crossOrigin}
-        onError={onError}
+        onError={errHandler}
       />
     );
   }

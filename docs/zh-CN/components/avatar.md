@@ -212,6 +212,18 @@ src、text 都支持变量，可以从上下文中动态获取图片或文字，
 ]
 ```
 
+## 图片加载失败后，通过 onError 控制是否进行 text、icon 置换
+> 如果同时存在 text 和 icon，会优先用 text、接着 icon
+
+```schema: scope="body"
+{
+  "type": "avatar",
+  "src": "empty",
+  "text": "avatar",
+  "onError": "function (event) { return true; }"
+},
+```
+
 ## 样式
 
 可以通过 style 来控制背景及文字颜色
@@ -243,4 +255,4 @@ src、text 都支持变量，可以从上下文中动态获取图片或文字，
 | alt       | `number`    |        | 图像无法显示时的替代文本 |
 | draggable | `boolean`   |        | 图片是否允许拖动 |
 | crossOrigin | `'anonymous'` \| `'use-credentials'` \| `''`   |    | 图片的 `CORS` 属性设置 |
-| defaultReplace   | `boolean`  |   `true`    | 图片加载失败的默认行为，设置 `false` 会关闭组件默认的置换：不会进行使用 `text` 或者 `icon` 的置换操作。目前defaultReplace还不支持通过从`true` -> `false` 或者 `false` -> `true` 的方式来取消图片加载失败后组件的置换行为 |
+| onError   | `string`  |       | 图片加载失败的字符串函数，字符串函数需要返回boolean值。设置 `"function(event) { return ture; }"` 会在图片加载失败后，使用 `text` 或者 `icon` 代表的信息来进行替换。目前图片加载失败默认是不进行置换。注意：图片加载失败，不包括$获取数据为空情况 |
