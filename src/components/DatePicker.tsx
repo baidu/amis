@@ -290,8 +290,6 @@ export interface DateProps extends LocaleProps, ThemeProps {
   onScheduleClick?: (scheduleData: any) => void;
 
   useMobileUI?: boolean;
-
-  useMobileUI?: boolean;
   // 下面那个千万不要写，写了就会导致 keyof DateProps 得到的结果是 string | number;
   // [propName: string]: any;
 }
