@@ -41,6 +41,10 @@
 }
 
 .#{$ns}GroupedSelection {
+  max-height: px2rem(300px);
+  overflow: auto;
+  user-select: none;
+
   &-group:not(:first-child) > &-itemLabel {
     border-top: px2rem(1px) solid var(--ListMenu-divider-color);
   }

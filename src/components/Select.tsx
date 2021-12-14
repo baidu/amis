@@ -36,7 +36,7 @@ import {LocaleProps, localeable} from '../locale';
 import Spinner from './Spinner';
 import {Option, Options} from '../Schema';
 import {RemoteOptionsProps, withRemoteConfig} from './WithRemoteConfig';
-import PickerColumn from './PickerColumn';
+import Picker from './Picker';
 
 export {Option, Options};
 
@@ -569,7 +569,10 @@ export class Select extends React.Component<SelectProps, SelectState> {
     );
   }
 
-  handlePickerChange(selectItem: any, index: number, confirm: boolean) {
+  handlePickerChange(selectItem: any, index: number, confirm?: boolean) {
+    if (!this.props.multiple) {
+      selectItem = selectItem[0];
+    }
     this.setState({
       pickerSelectItem: selectItem
     });
@@ -916,20 +919,22 @@ export class Select extends React.Component<SelectProps, SelectState> {
     };
 
     const mobileUI = isMobile() && useMobileUI;
+    const column = {
+      labelField: 'label',
+      options: filtedOptions
+    };
     const menu = mobileUI ? (
-      <PickerColumn
-        mobileClassName={mobileClassName}
-        labelField={'label'}
-        readonly={false}
-        className={'PickerColumns-column'}
-        value={value && value[0]}
-        swipeDuration={1000}
-        visibleItemCount={5}
-        options={filtedOptions}
+      <Picker
+        className={cx('PickerColumns-column', mobileClassName)}
+        labelField='label'
+        value={value[0]}
+        translate={this.props.translate}
+        locale={this.props.locale}
+        columns={[column]}
         onChange={checkAll ? noop : this.handlePickerChange}
         onClose={this.close}
         onConfirm={this.confirm}
-      ></PickerColumn>
+      />
     ) : (
       <div
         ref={this.menu}
