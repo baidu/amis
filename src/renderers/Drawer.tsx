@@ -317,7 +317,11 @@ export default class Drawer extends React.Component<DrawerProps> {
       return;
     }
 
-    store.closeDialog(args[1]);
+    if (args.length) {
+      store.closeDialog(args[1]);
+    } else {
+      store.closeDialog();
+    }
   }
 
   handleChildFinished(value: any, action: Action) {
