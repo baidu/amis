@@ -549,7 +549,7 @@ export default class Wizard extends React.Component<WizardProps, WizardState> {
 
           const feedback = action.feedback;
           if (feedback && isVisible(feedback, store.data)) {
-            await this.openFeedback(feedback, store.data);
+            const confirmed = await this.openFeedback(feedback, store.data);
 
             // 如果 feedback 配置了，取消就跳过原有逻辑。
             if (feedback.skipRestOnCancel && !confirmed) {
