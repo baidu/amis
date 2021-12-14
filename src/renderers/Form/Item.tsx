@@ -436,12 +436,12 @@ export class FormItemWrap extends React.Component<FormItemProps> {
   }
 
   @autobind
-  handleDialogClose() {
+  handleDialogClose(confirmed = false) {
     const {formItem: model} = this.props;
     if (!model) {
       return;
     }
-    model.closeDialog();
+    model.closeDialog(confirmed);
   }
 
   renderControl(): JSX.Element | null {

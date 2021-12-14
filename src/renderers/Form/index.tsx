@@ -1167,9 +1167,9 @@ export default class Form extends React.Component<FormProps, object> {
     store.closeDialog(true);
   }
 
-  handleDialogClose() {
+  handleDialogClose(confirmed = false) {
     const {store} = this.props;
-    store.closeDialog(false);
+    store.closeDialog(confirmed);
   }
 
   handleDrawerConfirm(
