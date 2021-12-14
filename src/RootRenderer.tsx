@@ -184,12 +184,12 @@ export class RootRenderer extends React.Component<RootRendererProps> {
       return;
     }
 
-    store.closeDialog();
+    store.closeDialog(true);
   }
 
-  handleDialogClose() {
+  handleDialogClose(confirmed = false) {
     const store = this.store;
-    store.closeDialog();
+    store.closeDialog(confirmed);
   }
 
   handleDrawerConfirm(values: object[], action: Action, ...args: Array<any>) {
