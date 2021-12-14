@@ -1185,6 +1185,7 @@ export default class FileControl extends React.Component<FileProps, FileState> {
       multiple,
       autoUpload,
       description,
+      descriptionClassName,
       hideUploadButton,
       className,
       btnClassName,
@@ -1277,7 +1278,10 @@ export default class FileControl extends React.Component<FileProps, FileState> {
 
                   {description
                     ? render('desc', description!, {
-                        className: cx('FileControl-description')
+                        className: cx(
+                          'FileControl-description',
+                          descriptionClassName
+                        )
                       })
                     : null}
 
