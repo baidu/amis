@@ -118,7 +118,7 @@ export class Progress extends React.Component<ProgressProps, Object> {
       };
 
       viewValue = [
-        <div className={cx(prefixCls)}>
+        <div className={cx(prefixCls)} key="circle">
           <Circle
             percent={value}
             strokeColor=""
