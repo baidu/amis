@@ -67,33 +67,50 @@
     }
   }
 
-  &-inner{
+  &-inner {
     position: relative;
     overflow: hidden;
     height: 100%;
     box-sizing: border-box;
     background: $white;
-    padding-top: px2rem(36px);
+    display: flex;
+    flex-direction: column;
   }
 
-  &-closeWrap{
-    width: 100%;
-    position: absolute !important;
-    left: 0;
-    top: 0;
+  &-closeWrap {
+    flex: none;
   }
 
-  &-close{
+  &-close {
     width: px2rem(34px) !important;
     height: px2rem(34px) !important;
     padding: px2rem(12px);
     cursor: pointer;
   }
 
+  &-toolbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: px2rem(60px);
+  }
+  &-title {
+    font-size: var(--fontSizeMd);
+  }
+
+  &-cancel {
+    margin-left: var(--gap-sm);
+  }
+
+  &-confirm {
+    margin-right: var(--gap-sm);
+  }
+
   &-content{
     overflow-y: auto;
     height: 100%;
     display: flex;
+    flex: 1;
   }
 
   & > * {

@@ -1,0 +1,29 @@
+.#{$ns}CityArea{
+  &-popup{
+    height: 60vh;
+  }
+  &-Input{
+    margin-top: var(--gap-xs);
+     outline: none;
+    vertical-align: top;
+    // margin-left: var(--gap-xs);
+    border: var(--Form-input-borderWidth) solid var(--Form-input-borderColor);
+    border-radius: var(--Form-input-borderRadius);
+    // height: var(--Form-input-height);
+    line-height: var(--Form-input-lineHeight);
+    padding: var(--Form-input-paddingY) var(--Form-input-paddingX);
+    font-size: var(--Form-input-fontSize);
+    display: inline-flex !important;
+
+    &::placeholder {
+      color: var(--Form-input-placeholderColor);
+      user-select: none;
+    }
+
+    &:focus {
+      border-color: var(--Form-input-onFocused-borderColor);
+      box-shadow: var(--Form-input-boxShadow);
+      background: var(--Form-input-onFocused-bg);
+    }
+  }
+}

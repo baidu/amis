@@ -5,7 +5,8 @@
  */
 
 import React from 'react';
-import {ClassNamesFn, themeable} from '../theme';
+import {themeable, ThemeProps} from '../theme';
+import {localeable, LocaleProps} from '../locale';
 import Transition, {
   ENTERED,
   EXITING,
@@ -14,21 +15,23 @@ import Transition, {
 } from 'react-transition-group/Transition';
 import Portal from 'react-overlays/Portal';
 import { Icon } from './icons';
+import Button from './Button';
 
 
-export interface PopUpPorps {
+
+export interface PopUpPorps extends ThemeProps, LocaleProps {
+  title?: string;
   className?: string;
   style?: {
     [styleName: string]: string;
   };
   overlay?: boolean;
   onHide?: () => void;
-  classPrefix: string;
-  classnames: ClassNamesFn;
-  [propName: string]: any;
   isShow?: boolean;
   container?: any;
-  hideClose?: boolean;
+  showConfirm?: boolean;
+  onConfirm?: (value: any) => void;
+  showClose?: boolean;
   placement?: 'left' | 'center' | 'right';
 }
 
@@ -40,13 +43,13 @@ const fadeStyles: {
   [EXITED]: '',
   [ENTERING]: 'in'
 };
-export class PopUp extends React.PureComponent<PopUpPorps> {
+export class PopUp extends React.PureComponent<PopUpPorps, {}> {
   static defaultProps = {
     className: '',
     overlay: true,
     isShow: false,
     container: document.body,
-    hideClose: false,
+    showClose: true
   };
 
   componentDidMount() {
@@ -59,6 +62,7 @@ export class PopUp extends React.PureComponent<PopUpPorps> {
   render() {
     const {
       style,
+      title,
       children,
       overlay,
       onHide,
@@ -67,8 +71,10 @@ export class PopUp extends React.PureComponent<PopUpPorps> {
       className,
       isShow,
       container,
-      hideClose,
-      placement='center',
+      placement = 'center',
+      showConfirm,
+      translate: __,
+      showClose,
       ...rest
     } = this.props;
 
@@ -105,7 +111,7 @@ export class PopUp extends React.PureComponent<PopUpPorps> {
                   )}
                   >
                     {
-                      !hideClose && (
+                      !showConfirm && showClose && (
                         <div className={cx(`${ns}PopUp-closeWrap`, 'text-right')}>
                           <Icon
                             icon="close"
@@ -115,10 +121,27 @@ export class PopUp extends React.PureComponent<PopUpPorps> {
                         </div>
                       )
                     }
+                    {
+                      showConfirm && (
+                        <div className={cx(`${ns}PopUp-toolbar`)}>
+                          <Button className={cx(`${ns}PopUp-cancel`)} level="default" onClick={onHide}>
+                            {__('cancel')}
+                          </Button>
+                          {
+                            title && (
+                               <span className={cx(`${ns}PopUp-title`)}>{ title}</span>
+                            )
+                          }
+                          <Button className={cx(`${ns}PopUp-confirm`)} level="primary" onClick={this.props?.onConfirm}>
+                            {__('confirm')}
+                          </Button>
+                        </div>
+                      )
+                    }
                     <div
                       className={cx(`${ns}PopUp-content`, `justify-${placement}`)}
                     >
-                      {children}
+                      {isShow ? children : null}
                     </div>
                   </div>
                 </div>
@@ -130,4 +153,4 @@ export class PopUp extends React.PureComponent<PopUpPorps> {
   }
 }
 
-export default themeable(PopUp);
+export default themeable(localeable(PopUp));

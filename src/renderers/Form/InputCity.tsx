@@ -3,7 +3,8 @@ import {FormItem, FormControlProps, FormBaseControl} from './Item';
 import {ClassNamesFn, themeable, ThemeProps} from '../../theme';
 import Spinner from '../../components/Spinner';
 import Select from '../../components/Select';
-import {autobind} from '../../utils/helper';
+import CityArea from '../../components/CityArea';
+import {autobind, isMobile} from '../../utils/helper';
 import {Option} from './Options';
 import {localeable, LocaleProps} from '../../locale';
 
@@ -428,9 +429,11 @@ export class LocationControl extends React.Component<LocationControlProps> {
       joinValues,
       allowStreet,
       disabled,
-      searchable
+      searchable,
+      env
     } = this.props;
-    return (
+    const { useMobileUI } = env;
+    return !(useMobileUI && isMobile()) ? (
       <ThemedCity
         searchable={searchable}
         value={value}
@@ -442,7 +445,18 @@ export class LocationControl extends React.Component<LocationControlProps> {
         allowStreet={allowStreet}
         disabled={disabled}
       />
-    );
+    ) : (
+        <CityArea
+          value={value}
+          onChange={onChange}
+          allowCity={allowCity}
+          allowDistrict={allowDistrict}
+          extractValue={extractValue}
+          joinValues={joinValues}
+          allowStreet={allowStreet}
+          disabled={disabled}
+        />
+    )
   }
 }
 

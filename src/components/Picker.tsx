@@ -5,7 +5,8 @@
 import React, {
   memo,
   ReactNode,
-  useState
+  useState,
+  useEffect
 } from 'react';
 import {uncontrollable} from 'uncontrollable';
 
@@ -99,12 +100,18 @@ const Picker = memo<PickerProps>((props) => {
         itemHeight={itemHeight}
         swipeDuration={swipeDuration}
         visibleItemCount={visibleItemCount}
+        key={index}
         value={innerValue[index]}
         onChange={(val: string | number, i, confirm) => {
           onChange(val, index, confirm);
         }}
     />)
   };
+
+  useEffect(() => {
+    if (props.value === innerValue) return;
+    setInnerValue(props.value as PickerValue[] || []);
+  }, [props.value]);
 
   const wrapHeight = itemHeight * +visibleItemCount;
   const frameStyle = {height: `${itemHeight}px`};

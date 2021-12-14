@@ -64,7 +64,7 @@ function getElementTranslateY(element: HTMLElement | null) {
 function isOptionDisabled(option: PickerOption) {
   return isObject(option) && option.disabled;
 }
-  
+
 const PickerColumn = forwardRef<{}, PickerColumnProps>((props, ref) => {
   const {
     visibleItemCount = 5,
@@ -88,8 +88,17 @@ const PickerColumn = forwardRef<{}, PickerColumnProps>((props, ref) => {
 
   const touch = useTouch();
   const count = options.length;
-  const defaultIndex = options.findIndex(item => item === value);
-
+  const defaultIndex = options.findIndex((item: PickerOption) => {
+    if (typeof item === 'object') {
+      if (typeof value === 'object') {
+        return item === value || item.value === value.value;
+      }
+      else {
+        return item.value === value;
+      }
+    }
+    return item === value;
+  });
   const baseOffset = useMemo(() => {
     // 默认转入第一个选项的位置
     return (itemHeight * (+visibleItemCount - 1)) / 2;
@@ -301,7 +310,7 @@ const PickerColumn = forwardRef<{}, PickerColumnProps>((props, ref) => {
           onClickItem(index);
         }
       };
-      
+
       const childData = {
         className: 'text-ellipsis',
         children: text
@@ -320,9 +329,12 @@ const PickerColumn = forwardRef<{}, PickerColumnProps>((props, ref) => {
   };
 
   const setValue = (value: string) => {
-    const {options} = state;
+    const { options } = state;
     for (let i = 0; i < options.length; i += 1) {
-      if (options[i] === value) {
+      if (typeof options[i] !== 'object' &&  options[i] === value) {
+        return setIndex(i);
+      }
+      if (typeof options[i] === 'object' && (options[i] as PickerObjectOption).value === value) {
         return setIndex(i);
       }
     }
