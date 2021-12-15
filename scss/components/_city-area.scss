@@ -1,6 +1,6 @@
 .#{$ns}CityArea{
   &-popup{
-    height: 60vh;
+    height: px2rem(280px);
   }
   &-Input{
     margin-top: var(--gap-xs);
