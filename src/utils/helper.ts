@@ -891,11 +891,7 @@ export function filterTree<T extends TreeItem>(
           ? filterTree(item.children, iterator, level + 1, depthFirst)
           : undefined;
 
-        if (
-          Array.isArray(children) &&
-          Array.isArray(item.children) &&
-          children.length !== item.children.length
-        ) {
+        if (Array.isArray(children) && Array.isArray(item.children)) {
           item = {...item, children: children};
         }
 
