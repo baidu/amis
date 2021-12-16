@@ -885,7 +885,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
       env
     } = this.props;
 
-    store.closeDialog();
+    store.closeDialog(true);
     const dialogAction = store.action as Action;
 
     if (stopAutoRefreshWhenModalIsOpen && interval) {
@@ -968,10 +968,10 @@ export default class CRUD extends React.Component<CRUDProps, any> {
     redirect && env.jumpTo(redirect, dialogAction);
   }
 
-  handleDialogClose() {
+  handleDialogClose(confirmed = false) {
     const {store, stopAutoRefreshWhenModalIsOpen, silentPolling, interval} =
       this.props;
-    store.closeDialog();
+    store.closeDialog(confirmed);
 
     if (stopAutoRefreshWhenModalIsOpen && interval) {
       this.timer = setTimeout(

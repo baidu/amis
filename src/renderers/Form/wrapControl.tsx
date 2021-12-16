@@ -129,7 +129,8 @@ export function wrapControl<
                 clearValueOnHidden,
                 validateApi,
                 minLength,
-                maxLength
+                maxLength,
+                validateOnChange
               }
             } = this.props;
 
@@ -174,7 +175,8 @@ export function wrapControl<
               clearValueOnHidden,
               validateApi,
               minLength,
-              maxLength
+              maxLength,
+              validateOnChange
             });
 
             // issue 这个逻辑应该在 combo 里面自己实现。
@@ -465,6 +467,7 @@ export function wrapControl<
             }
 
             this.model.changeTmpValue(value);
+
             if (changeImmediately || conrolChangeImmediately || !formInited) {
               this.emitChange(submitOnChange);
             } else {

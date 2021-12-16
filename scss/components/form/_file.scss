@@ -15,8 +15,9 @@
   }
 
   &-selectBtn {
-    display: flex;
+    display: inline-flex;
     align-items: center;
+    margin-right: 10px;
 
     > svg {
       width: px2rem(14px);
@@ -40,7 +41,6 @@
   // }
 
   &-description {
-    margin-left: 10px;
     color: #999;
     font-size: 12px;
   }

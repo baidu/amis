@@ -436,6 +436,8 @@ class MyComponent extends React.Component<any, any> {
   render() {
     let amisScoped;
     let theme = 'cxd';
+    
+    // 请勿使用 React.StrictMode，目前还不支持
     return (
       <div>
         <p>通过 amis 渲染页面</p>
