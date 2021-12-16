@@ -102,7 +102,6 @@ export interface CollapseProps
 export default class Collapse extends React.Component<CollapseProps, {}> {
   render() {
     const {
-      propKey,
       id,
       classPrefix: ns,
       classnames: cx,
@@ -135,7 +134,6 @@ export default class Collapse extends React.Component<CollapseProps, {}> {
 
     return (
       <BasicCollapse
-        propKey={propKey}
         id={id}
         classnames={cx}
         classPrefix={ns}
