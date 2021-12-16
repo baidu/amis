@@ -32,9 +32,11 @@ export interface RatingControlSchema extends FormBaseControl {
   /**
    * 星星被选中的颜色
    */
-  colors?: {
-    [propName: string | number]: string;
-  };
+  // colors?: string | {
+  //   [propName: string | number]: string;
+  // };
+
+  colors?: string | {[propName: string]: string};
 
   /**
    * 未被选中的星星的颜色
@@ -44,9 +46,7 @@ export interface RatingControlSchema extends FormBaseControl {
   /**
    * 星星被选中时的提示文字
    */
-  texts?: {
-    [propName: string | number]: string;
-  };
+  texts?: {[propName: string]: string};
 
   /**
    * 文字的位置
