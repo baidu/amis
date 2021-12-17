@@ -712,6 +712,21 @@ export const FormItemStore = StoreNode.named('FormItemStore')
         data
       );
 
+      // 插入新的子节点，用于之后BaseSelection.resolveSelected查找
+      if (Array.isArray(self.options[0].children)) {
+        const children = self.options[0].children.concat();
+
+        flattenTree(self.options[0].leftOptions).forEach(item => {
+          if (
+            !findTree(self.options[0].children, node => node.ref === item.value)
+          ) {
+            children.push({ref: item.value, defer: true});
+          }
+        });
+
+        setOptions([{...self.options[0], children}], undefined, data);
+      }
+
       return json;
     });
 
