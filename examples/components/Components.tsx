@@ -371,6 +371,14 @@ export const components = [
           )
       },
       {
+        label: 'InputFormula 公式编辑器',
+        path: '/zh-CN/components/form/input-formula',
+        getComponent: () =>
+          import('../../docs/zh-CN/components/form/input-formula.md').then(
+            makeMarkdownRenderer
+          )
+      },
+      {
         label: 'DiffEditor 对比编辑器',
         path: '/zh-CN/components/form/diff-editor',
         getComponent: () =>

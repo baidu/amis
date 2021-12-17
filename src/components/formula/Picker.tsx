@@ -1,32 +1,30 @@
-import {localeable} from '../locale';
-import {themeable} from '../theme';
 import {uncontrollable} from 'uncontrollable';
 import React from 'react';
-import ResultBox from './ResultBox';
-import {Icon} from './icons';
-import PickerContainer from './PickerContainer';
-import {autobind} from '../utils/helper';
-import TabsTransfer, {TabsTransferProps} from './TabsTransfer';
+import {FormulaEditor, FormulaEditorProps} from './Editor';
+import {autobind} from '../../utils/helper';
+import PickerContainer from '../PickerContainer';
+import Editor from './Editor';
+import ResultBox from '../ResultBox';
+import {Icon} from '../icons';
+import {themeable} from '../../theme';
+import {localeable} from '../../locale';
 
-export interface TabsTransferPickerProps
-  extends Omit<TabsTransferProps, 'itemRender'> {
+export interface FormulaPickerProps extends FormulaEditorProps {
   // 新的属性？
   size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl' | 'full';
+
+  /**
+   * 边框模式，全边框，还是半边框，或者没边框。
+   */
+  borderMode?: 'full' | 'half' | 'none';
+
+  disabled?: boolean;
 }
 
-export class TransferPicker extends React.Component<TabsTransferPickerProps> {
-  @autobind
-  handleClose() {
-    this.setState({
-      inputValue: '',
-      searchResult: null
-    });
-  }
-
+export class FormulaPicker extends React.Component<FormulaPickerProps> {
   @autobind
   handleConfirm(value: any) {
     this.props.onChange?.(value);
-    this.handleClose();
   }
 
   render() {
@@ -38,35 +36,37 @@ export class TransferPicker extends React.Component<TabsTransferPickerProps> {
       className,
       onChange,
       size,
+      borderMode,
       ...rest
     } = this.props;
 
     return (
       <PickerContainer
-        title={__('Select.placeholder')}
         bodyRender={({onClose, value, onChange}) => {
-          return <TabsTransfer {...rest} value={value} onChange={onChange} />;
+          return <Editor {...rest} value={value} onChange={onChange} />;
         }}
         value={value}
         onConfirm={this.handleConfirm}
-        onCancel={this.handleClose}
-        size={size}
+        size={'md'}
       >
         {({onClick, isOpened}) => (
           <ResultBox
             className={cx(
-              'TransferPicker',
+              'FormulaPicker',
               className,
               isOpened ? 'is-active' : ''
             )}
             allowInput={false}
-            result={value}
-            onResultChange={onChange}
+            result={FormulaEditor.highlightValue(
+              value,
+              rest.variables,
+              rest.functions
+            )}
             onResultClick={onClick}
-            placeholder={__('Select.placeholder')}
             disabled={disabled}
+            borderMode={borderMode}
           >
-            <span className={cx('TransferPicker-icon')}>
+            <span className={cx('FormulaPicker-icon')}>
               <Icon icon="pencil" className="icon" />
             </span>
           </ResultBox>
@@ -78,7 +78,7 @@ export class TransferPicker extends React.Component<TabsTransferPickerProps> {
 
 export default themeable(
   localeable(
-    uncontrollable(TransferPicker, {
+    uncontrollable(FormulaPicker, {
       value: 'onChange'
     })
   )

@@ -227,6 +227,7 @@ export type SchemaType =
   | 'input-time-range'
   | 'input-datetime-range'
   | 'input-excel'
+  | 'input-formula'
   | 'diff-editor'
 
   // editor 系列

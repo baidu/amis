@@ -88,9 +88,11 @@
     "tinymce": "^5.10.2",
     "tslib": "^2.3.1",
     "uncontrollable": "7.2.1",
-    "video-react": "0.14.1"
+    "video-react": "0.14.1",
+    "codemirror": "^5.63.0"
   },
   "devDependencies": {
+    "@types/codemirror": "^5.60.3",
     "@fortawesome/fontawesome-free": "^5.15.4",
     "@testing-library/react": "^12.0.0",
     "@types/async": "^2.0.45",
