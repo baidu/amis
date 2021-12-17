@@ -132,7 +132,6 @@ export function Steps(props: StepsProps) {
             key={i}
             className={cx('StepsItem', `is-${stepStatus}`, step.className)}
           >
-            <div className={cx('StepsItem-container')}>
               <div className={cx('StepsItem-containerIcon')}>
                 <span className={cx('StepsItem-icon')}>
                   {icon ? <Icon icon={icon} className="icon" /> : i + 1}
@@ -151,12 +150,16 @@ export function Steps(props: StepsProps) {
                       {step.subTitle}
                     </span>
                   </div>
-                  <div className={cx('StepsItem-description')}>
+                <div className={cx('StepsItem-description')}>
                     {step.description}
                   </div>
                 </div>
-              </div>
             </div>
+            {
+              i !== stepsRow.length - 1 && (
+                <div className={cx('StepsItem-line')}></div>
+              )
+            }
           </li>
         );
       })}
