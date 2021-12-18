@@ -80,6 +80,11 @@ npm run update-snapshot
 - [RickCole21](https://github.com/RickCole21)
 - [catchonme](https://github.com/catchonme)
 - [nwind](https://github.com/nwind)
+- [zhangtao07](https://github.com/zhangtao07)
+- [hsm-lv](https://github.com/hsm-lv)
+- [RUNZE LU](https://github.com/lurunze1226)
+- [ucasliyuan](https://github.com/ucasliyuan)
+- [yangwei9012](https://github.com/yangwei9012)
 
 ## 低代码平台
 

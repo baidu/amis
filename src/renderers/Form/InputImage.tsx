@@ -1035,7 +1035,7 @@ export default class ImageControl extends React.Component<
     const __ = this.props.translate;
     this._send(file, this.props.receiver as string, {}, onProgress)
       .then((ret: Payload) => {
-        if (ret.status) {
+        if (ret.status && (ret as any).status !== '0') {
           throw new Error(ret.msg || __('File.errorRetry'));
         }
 

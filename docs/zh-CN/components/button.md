@@ -29,7 +29,7 @@ order: 29
 | 属性名           | 类型                                                                                                                             | 默认值  | 说明                                                  |
 | ---------------- | -------------------------------------------------------------------------------------------------------------------------------- | ------- | ----------------------------------------------------- |
 | className        | `string`                                                                                                                         |         | 指定添加 button 类名                                  |
-| href             | `string`                                                                                                                         |         | 点击跳转的地址，指定此属性 button 的行为和 a 链接一致 |
+| url              | `string`                                                                                                                         |         | 点击跳转的地址，指定此属性 button 的行为和 a 链接一致 |
 | size             | `'xs' \| 'sm' \| 'md' \| 'lg' `                                                                                                  |         | 设置按钮大小                                          |
 | actionType       | `'button' \| 'reset' \| 'submit'\| 'clear'\| 'url'`                                                                              | button  | 设置按钮类型                                          |
 | level            | `'link' \| 'primary' \| 'enhance' \| 'secondary' \| 'info'\|'success' \| 'warning' \| 'danger' \| 'light'\| 'dark' \| 'default'` | default | 设置按钮样式                                          |

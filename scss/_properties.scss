@@ -402,6 +402,15 @@
   --Calendar-shortcuts-height: #{px2rem(30px)};
   --Calendar-wLabel-color: #999;
 
+  --Calendar-icon-bottom: #{px2rem(-4px)};
+  --Calendar-icon-width: #{px2rem(10px)};
+  --Calendar-icon-height: #{px2rem(10px)};
+  --Calendar-borderWidth: #{px2rem(1px)};
+  --Calendar-rdt-day: #{px2rem(100px)};
+  --Calendar-schedule-content-padding: 0 #{px2rem(4px)};
+  --Calendar-schedule-content-height: #{px2rem(20px)};
+  --Calendar-schedule-content-color: #{$white};
+
   --Card-actions-borderColor: #{lighten($borderColor, 5%)};
   --Card-actions-fontSize: var(--fontSizeBase);
   --Card-actions-onChecked-onHover-bg: #{darken(#d9f3fb, 5%)};
@@ -1082,8 +1091,8 @@
   --PickerColumns-title-lineHeight: 1.5;
   --PickerColumns-action-padding: 0 var(--gap-sm);
   --PickerColumns-action-fontSize: var(--fontSizeMd);
-  --PickerColumns-confirmAction-color: var(--Button--info-bg);
-  --PickerColumns-cancelAction-color: var(--Button--light-bg);
+  --PickerColumns-confirmAction-color: #{lighten($text-color, 25%)};
+  --PickerColumns-cancelAction-color: #{lighten($text-color, 50%)};
   --PickerColumns-option-fontSize: var(--fontSizeLg);
   --PickerColumns-optionText-color: var(--text-color);
   --PickerColumns-optionDisabled-opacity: 0.3;

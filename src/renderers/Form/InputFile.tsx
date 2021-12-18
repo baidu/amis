@@ -790,7 +790,7 @@ export default class FileControl extends React.Component<FileProps, FileState> {
       onProgress
     )
       .then(ret => {
-        if (ret.status || !ret.data) {
+        if ((ret.status && (ret as any).status !== '0') || !ret.data) {
           throw new Error(ret.msg || __('File.errorRetry'));
         }
 
@@ -1185,6 +1185,7 @@ export default class FileControl extends React.Component<FileProps, FileState> {
       multiple,
       autoUpload,
       description,
+      descriptionClassName,
       hideUploadButton,
       className,
       btnClassName,
@@ -1224,7 +1225,7 @@ export default class FileControl extends React.Component<FileProps, FileState> {
             <Icon icon="download" className="icon" />
             <span>{__('File.downloadTpl')}</span>
           </a>
-          ) : null}
+        ) : null}
 
         <DropZone
           disabled={disabled}
@@ -1277,7 +1278,10 @@ export default class FileControl extends React.Component<FileProps, FileState> {
 
                   {description
                     ? render('desc', description!, {
-                        className: cx('FileControl-description')
+                        className: cx(
+                          'FileControl-description',
+                          descriptionClassName
+                        )
                       })
                     : null}
 

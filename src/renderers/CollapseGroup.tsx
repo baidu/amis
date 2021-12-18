@@ -41,11 +41,13 @@ export interface CollapseGroupSchema extends BaseSchema {
 export interface CollapseGroupProps
   extends RendererProps,
     Omit<CollapseGroupSchema, 'type' | 'className'> {
-
   children?: JSX.Element | ((props?: any) => JSX.Element);
 }
 
-export class CollapseGroupRender extends React.Component<CollapseGroupProps, {}> {
+export class CollapseGroupRender extends React.Component<
+  CollapseGroupProps,
+  {}
+> {
   constructor(props: CollapseGroupProps) {
     super(props);
   }
@@ -61,18 +63,17 @@ export class CollapseGroupRender extends React.Component<CollapseGroupProps, {}>
     } = this.props;
     return (
       <CollapseGroup
-          defaultActiveKey={defaultActiveKey}
-          accordion={accordion}
-          expandIcon={expandIcon}
-          expandIconPosition={expandIconPosition}
-          className={className}
-        >
-          {render('body', body || '')}
-        </CollapseGroup>
-    )
+        defaultActiveKey={defaultActiveKey}
+        accordion={accordion}
+        expandIcon={expandIcon}
+        expandIconPosition={expandIconPosition}
+        className={className}
+      >
+        {render('body', body || '')}
+      </CollapseGroup>
+    );
   }
 }
-
 
 @Renderer({
   type: 'collapse-group'

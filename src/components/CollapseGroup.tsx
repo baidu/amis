@@ -28,7 +28,6 @@ class CollapseGroup extends React.Component<
   CollapseGroupProps,
   CollapseGroupState
 > {
-
   static defaultProps: Partial<CollapseGroupProps> = {
     className: '',
     accordion: false,
@@ -58,21 +57,18 @@ class CollapseGroup extends React.Component<
     if (collapsed) {
       if (this.props.accordion) {
         activeKey = [];
-      }
-      else {
-        for(let i = 0; i < activeKey.length; i++) {
+      } else {
+        for (let i = 0; i < activeKey.length; i++) {
           if (activeKey[i] === item.id) {
             activeKey.splice(i, 1);
             break;
           }
         }
       }
-    }
-    else {
+    } else {
       if (this.props.accordion) {
         activeKey = [item.id];
-      }
-      else {
+      } else {
         activeKey.push(item.id);
       }
     }
@@ -88,7 +84,8 @@ class CollapseGroup extends React.Component<
 
     return children.map((child: React.ReactElement, index: number) => {
       let props = child.props;
-      const id = props.schema.key || String(index);
+
+      const id = props.propKey || String(index);
       const collapsed = this.state.activeKey.indexOf(id) === -1;
 
       return React.cloneElement(child as any, {
@@ -98,7 +95,8 @@ class CollapseGroup extends React.Component<
         collapsed,
         expandIcon: this.props.expandIcon,
         propsUpdate: true,
-        onCollapse: (item: CollapseProps, collapsed: boolean) => this.collapseChange(item, collapsed)
+        onCollapse: (item: CollapseProps, collapsed: boolean) =>
+          this.collapseChange(item, collapsed)
       });
     });
   };
@@ -116,7 +114,7 @@ class CollapseGroup extends React.Component<
         className={cx(
           `CollapseGroup`,
           {
-            'icon-position-right': expandIconPosition === 'right',
+            'icon-position-right': expandIconPosition === 'right'
           },
           className
         )}

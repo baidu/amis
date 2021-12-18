@@ -891,11 +891,7 @@ export function filterTree<T extends TreeItem>(
           ? filterTree(item.children, iterator, level + 1, depthFirst)
           : undefined;
 
-        if (
-          Array.isArray(children) &&
-          Array.isArray(item.children) &&
-          children.length !== item.children.length
-        ) {
+        if (Array.isArray(children) && Array.isArray(item.children)) {
           item = {...item, children: children};
         }
 
@@ -915,11 +911,7 @@ export function filterTree<T extends TreeItem>(
           depthFirst
         );
 
-        if (
-          Array.isArray(children) &&
-          Array.isArray(item.children) &&
-          children.length !== item.children.length
-        ) {
+        if (Array.isArray(children) && Array.isArray(item.children)) {
           item = {...item, children: children};
         }
       }
@@ -1591,4 +1583,37 @@ export function JSONTraverse(
       mapper(value, key, json);
     }
   });
+}
+
+export function convertDateArrayToDate(
+  value: number[],
+  types: string[],
+  date: moment.Moment
+): moment.Moment | null {
+  if (value.length === 0) return date;
+  for (let i = 0; i < types.length; i++) {
+    const type = types[i];
+    // @ts-ignore
+    date[type](value[i]);
+  }
+  return date;
+}
+
+export function convertDateToObject(value: moment.Moment) {
+  if (value) {
+    return {
+      year: value.year(),
+      month: parseInt(value.format('MM'), 10),
+      day: parseInt(value.format('DD'), 10)
+    };
+  }
+  return null;
+}
+
+export function getRange(min: number, max: number, step: number = 1) {
+  const arr = [];
+  for (let i = min; i <= max; i += step) {
+    arr.push(i);
+  }
+  return arr;
 }

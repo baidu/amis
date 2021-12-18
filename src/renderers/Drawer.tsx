@@ -304,7 +304,7 @@ export default class Drawer extends React.Component<DrawerProps> {
       return;
     }
 
-    store.closeDialog();
+    store.closeDialog(true);
   }
 
   handleDialogClose(...args: Array<any>) {
@@ -317,7 +317,7 @@ export default class Drawer extends React.Component<DrawerProps> {
       return;
     }
 
-    store.closeDialog();
+    store.closeDialog(args[1]);
   }
 
   handleChildFinished(value: any, action: Action) {

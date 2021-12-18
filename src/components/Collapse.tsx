@@ -55,7 +55,6 @@ export interface CollapseState {
 }
 
 export class Collapse extends React.Component<CollapseProps, CollapseState> {
-
   static defaultProps: Partial<CollapseProps> = {
     mountOnEnter: false,
     unmountOnExit: false,
@@ -82,7 +81,10 @@ export class Collapse extends React.Component<CollapseProps, CollapseState> {
     this.state.collapsed = !!props.collapsed;
   }
 
-  static getDerivedStateFromProps(nextProps: CollapseProps, preState: CollapseState) {
+  static getDerivedStateFromProps(
+    nextProps: CollapseProps,
+    preState: CollapseState
+  ) {
     if (nextProps.propsUpdate && nextProps.collapsed !== preState.collapsed) {
       return {
         collapsed: !!nextProps.collapsed
@@ -164,7 +166,9 @@ export class Collapse extends React.Component<CollapseProps, CollapseState> {
       children
     } = this.props;
 
-    const finalHeader = this.state.collapsed ? header : collapseHeader || header;
+    const finalHeader = this.state.collapsed
+      ? header
+      : collapseHeader || header;
 
     let dom = [
       finalHeader ? (
@@ -173,14 +177,18 @@ export class Collapse extends React.Component<CollapseProps, CollapseState> {
           onClick={this.toggleCollapsed}
           className={cx(`Collapse-header`, headingClassName)}
         >
-          {showArrow && collapsable
-            ? expandIcon
-              ? React.cloneElement(expandIcon, {
-                  ...expandIcon.props,
-                  className: cx('Collapse-icon-tranform')
-                })
-              : <span className={cx('Collapse-arrow')} />
-              : ''}
+          {showArrow && collapsable ? (
+            expandIcon ? (
+              React.cloneElement(expandIcon, {
+                ...expandIcon.props,
+                className: cx('Collapse-icon-tranform')
+              })
+            ) : (
+              <span className={cx('Collapse-arrow')} />
+            )
+          ) : (
+            ''
+          )}
           {finalHeader}
         </HeadingComponent>
       ) : null,
@@ -213,7 +221,6 @@ export class Collapse extends React.Component<CollapseProps, CollapseState> {
           );
         }}
       </Transition>
-      
     ];
 
     if (headerPosition === 'bottom') {
