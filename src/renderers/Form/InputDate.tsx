@@ -424,6 +424,7 @@ export default class DateControl extends React.PureComponent<
       format,
       timeFormat,
       valueFormat,
+      env,
       largeMode,
       render,
       ...rest
@@ -441,6 +442,7 @@ export default class DateControl extends React.PureComponent<
           format={valueFormat || format}
           {...this.state}
           classnames={cx}
+          useMobileUI={env.useMobileUI}
           schedules={this.state.schedules}
           largeMode={largeMode}
           onScheduleClick={this.onScheduleClick.bind(this)}
