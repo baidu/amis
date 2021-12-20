@@ -30,6 +30,12 @@ export class CodeMirrorEditor extends React.Component<CodeMirrorEditorProps> {
   unmounted = false;
   async componentDidMount() {
     const cm = (await import('codemirror')).default;
+    // @ts-ignore
+    await import('codemirror/mode/javascript/javascript');
+    // @ts-ignore
+    await import('codemirror/mode/htmlmixed/htmlmixed');
+    await import('codemirror/addon/mode/simple');
+    await import('codemirror/addon/mode/multiplex');
     if (this.unmounted) {
       return;
     }

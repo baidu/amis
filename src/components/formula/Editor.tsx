@@ -194,6 +194,11 @@ export class FormulaEditor extends React.Component<
     onChange?.(value);
   }
 
+  @autobind
+  editorFactory(dom: HTMLElement, cm: any) {
+    return editorFactory(dom, cm, this.props);
+  }
+
   render() {
     const {
       variables,
@@ -217,7 +222,7 @@ export class FormulaEditor extends React.Component<
           className={cx('FormulaEditor-editor')}
           value={value}
           onChange={this.handleOnChange}
-          editorFactory={editorFactory}
+          editorFactory={this.editorFactory}
           editorDidMount={this.handleEditorMounted}
           onFocus={this.handleFocus}
           onBlur={this.handleBlur}
