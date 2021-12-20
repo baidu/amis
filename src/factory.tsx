@@ -9,7 +9,8 @@ import {
   JSONTraverse,
   promisify,
   qsparse,
-  string2regExp
+  string2regExp,
+  flattenTree
 } from './utils/helper';
 import {
   Api,
@@ -33,6 +34,21 @@ import ScopedRootRenderer, {RootRenderProps} from './Root';
 import {HocStoreFactory} from './WithStore';
 import {EnvContext, RendererEnv} from './env';
 import {envOverwrite} from './envOverwrite';
+import {
+  EventListeners,
+  listenerAction,
+  BroadcastProps,
+  createBroadcast,
+  BroadcastEvent,
+  BroadcastListener,
+  BroadcastHandler
+} from './utils/broadcast';
+import {evalExpression} from './utils/tpl';
+
+// 记录广播事件ID
+let broadcast_uuid = 1;
+// 记录广播事件动作执行
+let broadcastListeners: BroadcastListener[] = [];
 
 export interface TestFunc {
   (
@@ -63,7 +79,7 @@ export interface RendererBasicConfig {
   // [propName:string]:any;
 }
 
-export interface RendererProps extends ThemeProps, LocaleProps {
+export interface RendererProps extends ThemeProps, LocaleProps, BroadcastProps {
   render: (region: string, node: SchemaNode, props?: any) => JSX.Element;
   env: RendererEnv;
   $path: string; // 当前组件所在的层级信息
@@ -252,6 +268,39 @@ export function loadRenderer(schema: Schema, path: string) {
   );
 }
 
+// 执行动作，与原有动作处理打通
+async function execAction(
+  action: listenerAction,
+  context: any,
+  broadcast: BroadcastEvent<any>
+): Promise<any> {
+  const mergeData = {
+    ...context.props.defaultData,
+    ...context.props.data,
+    ...broadcast.context.data
+  };
+
+  if (action.execOn ? evalExpression(action.execOn, mergeData) : true) {
+    // 执行自定义编排脚本
+    let scriptFunc = action.script;
+
+    if (typeof scriptFunc === 'string') {
+      scriptFunc = new Function(scriptFunc) as any;
+    }
+
+    (scriptFunc as any)?.call(context);
+
+    // 执行专有动作
+    const renderer = context.getRendererInstance();
+
+    return await renderer.doAction?.(action, {
+      ...broadcast.context.data,
+      ...action.args // TODO:还要处理映射&表达式
+    });
+  }
+  return Promise.resolve();
+}
+
 const defaultOptions: RenderOptions = {
   session: 'global',
   affixOffsetTop: 0,
@@ -347,6 +396,107 @@ const defaultOptions: RenderOptions = {
   },
   // 用于跟踪用户在界面中的各种操作
   tracker(eventTrack: EventTrack, props: PlainObject) {},
+  // 返回解绑函数
+  bindBroadcast(context: any) {
+    console.log(context.props.$schema);
+    const listeners: EventListeners = context.props.$schema.eventListeners;
+    if (listeners) {
+      for (let key in listeners) {
+        // 打平动作tree
+        const actions = flattenTree(listeners[key].actions);
+
+        // 包装动作
+        const handlers = actions.map(action => ({
+          handler: execAction.bind(null, action, context),
+          preventDefault: !!action.preventDefault,
+          stopPropagation: !!action.stopPropagation
+        }));
+
+        // 暂存
+        broadcastListeners.push({
+          context,
+          type: key,
+          weight: listeners[key].weight || 0,
+          handlers
+        });
+      }
+
+      return () => {
+        for (let key in listeners) {
+          const idx = findIndex(
+            broadcastListeners,
+            item => item.type === key && item.context === context
+          );
+
+          if (~idx) {
+            broadcastListeners.splice(idx, 1);
+          }
+        }
+      };
+    }
+
+    return undefined;
+  },
+  async triggerBroadcast(
+    e: string | React.MouseEvent<any>,
+    context: React.Component<RendererProps>,
+    data: any
+  ) {
+    const actionName = typeof e === 'string' ? e : e.type;
+    const trigger = context.props.triggerEvents?.[actionName];
+
+    if (trigger) {
+      // 没有可处理的监听
+      if (!broadcastListeners.length) {
+        return Promise.resolve();
+      }
+
+      const broadcast = createBroadcast(
+        trigger.eventName || `broadcast_${broadcast_uuid++}`,
+        {
+          nativeEvent: e,
+          data: {
+            ...data,
+            ...trigger.context
+          }
+        }
+      );
+
+      // 过滤&排序
+      const listeners = broadcastListeners
+        .filter(item => item.type === broadcast.type)
+        .sort((prev, next) => next.weight - prev.weight)
+        .reduce(
+          (res: BroadcastHandler[], item: BroadcastListener) =>
+            res.concat(item.handlers),
+          []
+        );
+
+      for (let listener of listeners) {
+        await listener.handler.call(null, broadcast);
+
+        // 阻止原有动作执行
+        listener.preventDefault && broadcast.preventDefault();
+
+        // 阻止后续动作执行
+        if (listener.stopPropagation) {
+          broadcast.stopPropagation();
+          break;
+        }
+      }
+
+      if (!broadcast.stoped) {
+        broadcast.stopPropagation();
+      }
+
+      return broadcast;
+    }
+
+    console.warn(`Unknown broadcast: ${actionName}`);
+
+    // 没命中也没关系
+    return Promise.resolve(undefined);
+  },
   rendererResolver: resolveRenderer,
   replaceTextIgnoreKeys: [
     'type',

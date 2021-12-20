@@ -5,6 +5,7 @@ import LazyComponent from './components/LazyComponent';
 import {
   filterSchema,
   loadRenderer,
+  RendererComponent,
   RendererConfig,
   RendererEnv,
   RendererProps,
@@ -49,6 +50,32 @@ const defaultOmitList = [
 ];
 
 const componentCache: SimpleMap = new SimpleMap();
+
+class BroadcastCmpt extends React.Component<
+  RendererProps & {
+    component: RendererComponent;
+  }
+> {
+  rendererRef: React.RefObject<any> = React.createRef();
+  unbindBroadcast: (() => void) | undefined = undefined;
+
+  componentDidMount() {
+    const {env} = this.props;
+    this.unbindBroadcast = env.bindBroadcast(this);
+  }
+
+  componentWillUnmount() {
+    this.unbindBroadcast?.();
+  }
+
+  getRendererInstance() {
+    return this.rendererRef?.current?.ref;
+  }
+
+  render() {
+    return <this.props.component ref={this.rendererRef} {...this.props} />;
+  }
+}
 
 export class SchemaRenderer extends React.Component<SchemaRendererProps, any> {
   static displayName: string = 'Renderer';
@@ -300,7 +327,6 @@ export class SchemaRenderer extends React.Component<SchemaRendererProps, any> {
       ...restSchema
     } = schema;
     const Component = renderer.component;
-
     // 原来表单项的 visible: false 和 hidden: true 表单项的值和验证是有效的
     // 而 visibleOn 和 hiddenOn 是无效的，
     // 这个本来就是个bug，但是已经被广泛使用了
@@ -316,7 +342,7 @@ export class SchemaRenderer extends React.Component<SchemaRendererProps, any> {
     }
 
     return (
-      <Component
+      <BroadcastCmpt
         {...theme.getRendererConfig(renderer.name)}
         {...restSchema}
         {...chainEvents(rest, restSchema)}
@@ -329,6 +355,7 @@ export class SchemaRenderer extends React.Component<SchemaRendererProps, any> {
         $schema={{...schema, ...exprProps}}
         ref={this.refFn}
         render={this.renderChild}
+        component={Component}
       />
     );
   }

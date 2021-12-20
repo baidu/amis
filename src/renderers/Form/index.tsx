@@ -1132,6 +1132,12 @@ export default class Form extends React.Component<FormProps, object> {
         });
     } else if (action.actionType === 'reload') {
       store.setCurrentAction(action);
+      if (action.target) {
+        this.reloadTarget(action.target, data);
+      } else {
+        // 刷自己
+        this.receive(data);
+      }
       action.target && this.reloadTarget(action.target, data);
     } else if (onAction) {
       // 不识别的丢给上层去处理。
