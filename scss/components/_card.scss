@@ -216,6 +216,13 @@
     opacity: var(--Card-onDragging-opacity);
   }
 
+  &-wrapper {
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: space-between;
+    height: 100%;
+  }
+
   &-footer-wrapper {
     display: flex;
     align-items: center;

@@ -104,6 +104,36 @@ order: 32
               ]
             }
           }
+        },
+        {
+          "type": "button",
+          "level": "link",
+          "icon": "fa fa-edit",
+          "actionType": "dialog",
+          "dialog": {
+            "title": "编辑",
+            "body": {
+              "type": "form",
+              "body": [
+                {
+                  "label": "Engine",
+                  "name": "engine",
+                  "type": "input-text"
+                },
+
+                {
+                  "name": "browser",
+                  "label": "Browser",
+                  "type": "input-text"
+                },
+                {
+                  "name": "version",
+                  "label": "Version",
+                  "type": "input-text"
+                }
+              ]
+            }
+          }
         }
       ]
     }

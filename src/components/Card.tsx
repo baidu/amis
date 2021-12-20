@@ -176,7 +176,7 @@ export class Card extends React.Component<CardProps> {
             </div>
           </div>
         ) : (
-          <div>
+          <div className={cx('Card-wrapper')}>
             {heading}
             {body ? (
               <div className={cx('Card-body', bodyClassName)}>{body}</div>
