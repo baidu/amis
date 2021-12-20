@@ -89,6 +89,7 @@ import './renderers/Form/Select';
 import './renderers/Form/Static';
 import './renderers/Form/InputDate';
 import './renderers/Form/InputDateRange';
+import './renderers/Form/InputFormula';
 import './renderers/Form/InputRepeat';
 import './renderers/Form/InputTree';
 import './renderers/Form/TreeSelect';
