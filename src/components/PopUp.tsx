@@ -49,7 +49,8 @@ export class PopUp extends React.PureComponent<PopUpPorps, {}> {
     overlay: true,
     isShow: false,
     container: document.body,
-    showClose: true
+    showClose: true,
+    onConfirm: () => {}
   };
 
   componentDidMount() {
@@ -75,6 +76,7 @@ export class PopUp extends React.PureComponent<PopUpPorps, {}> {
       showConfirm,
       translate: __,
       showClose,
+      onConfirm,
       ...rest
     } = this.props;
 
@@ -132,7 +134,7 @@ export class PopUp extends React.PureComponent<PopUpPorps, {}> {
                                <span className={cx(`${ns}PopUp-title`)}>{ title}</span>
                             )
                           }
-                          <Button className={cx(`${ns}PopUp-confirm`)} level="primary" onClick={this.props?.onConfirm}>
+                          <Button className={cx(`${ns}PopUp-confirm`)} level="primary" onClick={onConfirm}>
                             {__('confirm')}
                           </Button>
                         </div>
