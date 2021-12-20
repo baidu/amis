@@ -26,13 +26,14 @@ const collapseStyles: {
 export interface CollapseProps {
   key?: string;
   id?: string;
+  propKey?: string;
   mountOnEnter?: boolean;
   unmountOnExit?: boolean;
   className?: string;
   classPrefix: string;
   classnames: ClassNamesFn;
   headerPosition?: 'top' | 'bottom';
-  header?: React.ReactElement;
+  header?: React.ReactNode;
   body: any;
   bodyClassName?: string;
   disabled?: boolean;
