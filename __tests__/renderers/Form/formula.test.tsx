@@ -37,6 +37,11 @@ test('Renderer:formula', async () => {
             label: 'sum3'
           },
           {
+            type: 'number',
+            name: 'sum4',
+            label: 'sum4'
+          },
+          {
             type: 'formula',
             name: 'sum1',
             value: 0,
@@ -55,6 +60,13 @@ test('Renderer:formula', async () => {
             condition: 'data.b',
             value: 0,
             formula: 'a + b + 2'
+          },
+          {
+            type: 'formula',
+            name: 'sum4',
+            condition: 'data.b',
+            value: 0,
+            formula: '${a + b + 2}'
           }
         ],
         title: 'The form',
@@ -80,6 +92,7 @@ test('Renderer:formula', async () => {
   expect(inputs[2].value).toBe('3');
   expect(inputs[3].value).toBe('4');
   expect(inputs[4].value).toBe('5');
+  expect(inputs[5].value).toBe('5');
 
   expect(container).toMatchSnapshot();
 });
