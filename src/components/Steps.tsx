@@ -2,6 +2,7 @@ import React from 'react';
 import {themeable, ThemeProps} from '../theme';
 import {Icon} from './icons';
 import {BaseSchema} from '../Schema';
+import { isMobile } from '../utils/helper';
 
 export enum StepStatus {
   wait = 'wait',
@@ -78,6 +79,7 @@ export interface StepsProps extends ThemeProps {
     [propName: string]: StepStatus;
   };
   mode?: 'horizontal' | 'vertical';
+  useMobileUI?: boolean;
 }
 
 export function Steps(props: StepsProps) {
@@ -87,7 +89,8 @@ export function Steps(props: StepsProps) {
     className,
     current,
     status,
-    mode = 'horizontal'
+    mode = 'horizontal',
+    useMobileUI
   } = props;
   const FINISH_ICON = 'check';
   const ERROR_ICON = 'close';
@@ -122,8 +125,9 @@ export function Steps(props: StepsProps) {
     };
   }
 
+  const mobileUI = useMobileUI && isMobile();
   return (
-    <ul className={cx('Steps', `Steps--${mode}`, className)}>
+    <ul className={cx('Steps', `Steps--${mode}`, mobileUI ? 'Steps-mobile' : '', className)}>
       {stepsRow.map((step, i) => {
         const {stepStatus, icon} = getStepStatus(step, i);
 
@@ -133,7 +137,8 @@ export function Steps(props: StepsProps) {
             className={cx('StepsItem', `is-${stepStatus}`, step.className)}
           >
             <div className={cx('StepsItem-container')}>
-              <div className={cx('StepsItem-containerIcon')}>
+              <div className={cx('StepsItem-containerIcon',
+                      i < current && 'is-success')}>
                 <span className={cx('StepsItem-icon')}>
                   {icon ? <Icon icon={icon} className="icon" /> : i + 1}
                 </span>

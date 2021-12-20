@@ -83,9 +83,10 @@ export function StepsCmpt(props: StepsProps) {
     data,
     source,
     config,
-    render
+    render,
+    env
   } = props;
-  
+
   const stepsRow =
     (resolveVariable(source, data) as Array<StepSchema>) ||
     config ||
@@ -140,6 +141,7 @@ export function StepsCmpt(props: StepsProps) {
       className={className}
       status={status}
       mode={mode}
+      useMobileUI={env.useMobileUI}
     ></Steps>
   );
 }
