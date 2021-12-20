@@ -20,17 +20,8 @@ export interface TransferPickerProps extends Omit<TransferProps, 'itemRender'> {
 
 export class TransferPicker extends React.Component<TransferPickerProps> {
   @autobind
-  handleClose() {
-    this.setState({
-      inputValue: '',
-      searchResult: null
-    });
-  }
-
-  @autobind
   handleConfirm(value: any) {
     this.props.onChange?.(value);
-    this.handleClose();
   }
 
   render() {
@@ -49,12 +40,11 @@ export class TransferPicker extends React.Component<TransferPickerProps> {
     return (
       <PickerContainer
         title={__('Select.placeholder')}
-        popOverRender={({onClose, value, onChange}) => {
+        bodyRender={({onClose, value, onChange}) => {
           return <Transfer {...rest} value={value} onChange={onChange} />;
         }}
         value={value}
         onConfirm={this.handleConfirm}
-        onCancel={this.handleClose}
         size={size}
       >
         {({onClick, isOpened}) => (

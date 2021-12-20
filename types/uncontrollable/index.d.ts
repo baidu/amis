@@ -4,5 +4,5 @@ declare module 'uncontrollable' {
     P extends {
       [propName: string]: any;
     }
-  >(arg: T, config: P): T;
+  >(arg: T, config: P, mapping?: any): T;
 }
