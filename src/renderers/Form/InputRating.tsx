@@ -56,7 +56,7 @@ export interface RatingControlSchema extends FormBaseControl {
   /**
    * 自定义字符
    */
-  char?: string | React.ReactNode;
+  char?: string;
 
   /**
    * 自定义字符类名
