@@ -1,12 +1,7 @@
 import React from 'react';
 import {Renderer, RendererProps} from '../factory';
 import {Collapse as BasicCollapse} from '../components/Collapse';
-import {
-  BaseSchema,
-  SchemaCollection,
-  SchemaTpl,
-  SchemaObject
-} from '../Schema';
+import {BaseSchema, SchemaCollection, SchemaTpl, SchemaObject} from '../Schema';
 
 /**
  * Collapse 折叠渲染器，格式说明。
@@ -63,9 +58,9 @@ export interface CollapseSchema extends BaseSchema {
    */
   showArrow?: boolean;
 
-   /**
-    * 自定义切换图标
-    */
+  /**
+   * 自定义切换图标
+   */
   expandIcon?: SchemaObject;
 
   /**
@@ -104,14 +99,9 @@ export interface CollapseProps
   children?: JSX.Element | ((props?: any) => JSX.Element);
 }
 
-export default class Collapse extends React.Component<
-  CollapseProps,
-  {}
-> {
-
+export default class Collapse extends React.Component<CollapseProps, {}> {
   render() {
     const {
-      key,
       id,
       classPrefix: ns,
       classnames: cx,
@@ -144,7 +134,6 @@ export default class Collapse extends React.Component<
 
     return (
       <BasicCollapse
-        key={key}
         id={id}
         classnames={cx}
         classPrefix={ns}
@@ -162,19 +151,30 @@ export default class Collapse extends React.Component<
         showArrow={showArrow}
         disabled={disabled}
         propsUpdate={propsUpdate}
-        expandIcon={expandIcon ? render('arrow-icon', expandIcon || '', {className: cx('Collapse-icon-tranform')}) : null}
-        collapseHeader={collapseTitle || collapseHeader ? render('heading', collapseTitle || collapseHeader) : null}
+        expandIcon={
+          expandIcon
+            ? render('arrow-icon', expandIcon || '', {
+                className: cx('Collapse-icon-tranform')
+              })
+            : null
+        }
+        collapseHeader={
+          collapseTitle || collapseHeader
+            ? render('heading', collapseTitle || collapseHeader)
+            : null
+        }
         header={render('heading', title || header || '')}
-        body={children
-          ? typeof children === 'function'
-            ? children(this.props)
-            : children
-          : body
-          ? render('body', body)
-          : null}
+        body={
+          children
+            ? typeof children === 'function'
+              ? children(this.props)
+              : children
+            : body
+            ? render('body', body)
+            : null
+        }
         onCollapse={onCollapse}
-      >
-      </BasicCollapse>
+      ></BasicCollapse>
     );
   }
 }
