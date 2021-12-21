@@ -1144,7 +1144,9 @@
   --ResultBox-value-bg: #f5f5f5;
   --ResultBox-value-color: #000;
 
-  --Rating-onActive-color: var(--info);
+  --Rating-inactive-color: #e6e6e8;
+  --Rating-star-margin: #{px2rem(8px)};
+  --Rating-star-size: #{px2rem(24px)};
 
   --Satus-icon-width: var(--gap-lg);
   --Satus-icon-height: var(--Satus-icon-width);
