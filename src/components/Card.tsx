@@ -176,7 +176,7 @@ export class Card extends React.Component<CardProps> {
             </div>
           </div>
         ) : (
-          <div>
+          <>
             {heading}
             {body ? (
               <div className={cx('Card-body', bodyClassName)}>{body}</div>
@@ -193,7 +193,7 @@ export class Card extends React.Component<CardProps> {
                 ) : null}
               </div>
             ) : null}
-          </div>
+          </>
         )}
       </div>
     );
