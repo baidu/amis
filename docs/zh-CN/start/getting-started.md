@@ -160,7 +160,7 @@ let amisScoped = amis.embed(
     // 全局 api 请求适配器
     // 另外在 amis 配置项中的 api 也可以配置适配器，针对某个特定接口单独处理。
     //
-    // responseAdaptor(api) {
+    // requestAdaptor(api) {
     //   return api;
     // }
     //
