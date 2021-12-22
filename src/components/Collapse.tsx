@@ -79,7 +79,7 @@ export class Collapse extends React.Component<CollapseProps, CollapseState> {
     super(props);
 
     this.toggleCollapsed = this.toggleCollapsed.bind(this);
-    this.state.collapsed = !!props.collapsed;
+    this.state.collapsed = props.collapsable ? !!props.collapsed : false;
   }
 
   static getDerivedStateFromProps(
