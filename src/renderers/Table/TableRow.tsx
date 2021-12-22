@@ -42,11 +42,13 @@ export class TableRow extends React.Component<TableRowProps> {
     if (isClickOnInput(e)) {
       return;
     }
-    const {itemAction, onAction, item} = this.props;
+    const {itemAction, onAction, item, classPrefix: ns} = this.props;
     if (itemAction) {
       onAction && onAction(e, itemAction, item?.data);
+      item.toggle();
+    } else {
+      this.props.onCheck(this.props.item);
     }
-    this.props.onCheck(this.props.item);
   }
 
   handleAction(e: React.UIEvent<any>, action: Action, ctx: any) {
