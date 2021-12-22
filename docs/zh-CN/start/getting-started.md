@@ -276,7 +276,7 @@ amis.embed(
 
 默认 JSSDK 不是 hash 路由，如果你想改成 hash 路由模式，请查看此处代码实现。只需要修改 env.isCurrentUrl、env.jumpTo 和 env.updateLocation 这几个方法即可。
 
-参考：https://github.com/baidu/amis/blob/master/examples/components/Example.tsx#L551-L575
+参考：https://github.com/baidu/amis/blob/master/examples/components/Example.jsx#L551-L575
 
 ### 销毁
 
@@ -436,7 +436,7 @@ class MyComponent extends React.Component<any, any> {
   render() {
     let amisScoped;
     let theme = 'cxd';
-    
+
     // 请勿使用 React.StrictMode，目前还不支持
     return (
       <div>
