@@ -751,7 +751,8 @@ export const TableStore = iRendererStore
           pristine: item,
           toggled: item.toggled !== false,
           breakpoint: item.breakpoint,
-          isPrimary: index === 3
+          isPrimary: index === 3,
+          className: item.className || ''
         }));
 
         self.columns.replace(columns as any);
