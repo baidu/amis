@@ -590,8 +590,8 @@ export const FormItemStore = StoreNode.named('FormItemStore')
 
       let options: Array<IOption> =
         json.data?.options ||
-        json.data.items ||
-        json.data.rows ||
+        json.data?.items ||
+        json.data?.rows ||
         json.data ||
         [];
 
