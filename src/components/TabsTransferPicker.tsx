@@ -16,17 +16,8 @@ export interface TabsTransferPickerProps
 
 export class TransferPicker extends React.Component<TabsTransferPickerProps> {
   @autobind
-  handleClose() {
-    this.setState({
-      inputValue: '',
-      searchResult: null
-    });
-  }
-
-  @autobind
   handleConfirm(value: any) {
     this.props.onChange?.(value);
-    this.handleClose();
   }
 
   render() {
@@ -49,7 +40,6 @@ export class TransferPicker extends React.Component<TabsTransferPickerProps> {
         }}
         value={value}
         onConfirm={this.handleConfirm}
-        onCancel={this.handleClose}
         size={size}
       >
         {({onClick, isOpened}) => (

@@ -4,12 +4,9 @@ import {
   FormOptionsControl
 } from './Options';
 import React from 'react';
-import {Api} from '../../types';
 import Spinner from '../../components/Spinner';
 import {BaseTransferRenderer} from './Transfer';
-import TabsTransfer from '../../components/TabsTransfer';
 import {SchemaApi} from '../../Schema';
-import TransferPicker from '../../components/TransferPicker';
 import TabsTransferPicker from '../../components/TabsTransferPicker';
 
 /**
@@ -91,7 +88,6 @@ export class TabsTransferPickerRenderer extends BaseTransferRenderer<TabsTransfe
       selectTitle,
       resultTitle,
       pickerSize,
-      columns,
       leftMode,
       leftOptions
     } = this.props;
