@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="zh">
+  <head>
+    <meta charset="UTF-8" />
+    <title>amis app 模式</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <link type="image/x-icon" rel="shortcut icon" href="./static/favicon.png" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, maximum-scale=1"
+    />
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <link rel="stylesheet" href="../static/iconfont.css" />
+    <link rel="stylesheet" href="@fortawesome/fontawesome-free/css/all.css" />
+    <link
+      rel="stylesheet"
+      href="@fortawesome/fontawesome-free/css/v4-shims.css"
+    />
+    <!--DEPENDENCIES_INJECT_PLACEHOLDER-->
+    <!--STYLE_PLACEHOLDER-->
+    <style>
+      .app-wrapper,
+      .schema-wrapper {
+        position: relative;
+        width: 100%;
+        height: 100%;
+      }
+    </style>
+    <script type="text/x-jsx">
+      let theme = localStorage.getItem('amis-theme') || 'cxd';
+      if (theme === 'default') {
+        theme = 'cxd';
+      }
+
+      // 非 IE 模式
+      if (window.navigator.userAgent.indexOf('Trident') === -1) {
+        document.write(
+          `<link rel="stylesheet" title="ang" ${
+            theme !== 'ang' ? 'disabled' : ''
+          }  href="${__uri('../../scss/themes/ang.scss')}" />`
+        );
+        document.write(
+          `<link rel="stylesheet" title="cxd" ${
+            theme !== 'cxd' ? 'disabled' : ''
+          } href="${__uri('../../scss/themes/cxd.scss')}" />`
+        );
+        document.write(
+          `<link rel="stylesheet" title="dark" ${
+            theme !== 'dark' ? 'disabled' : ''
+          } href="${__uri('../../scss/themes/dark.scss')}" />`
+        );
+        document.write(
+          `<link rel="stylesheet" title="antd" ${
+            theme !== 'antd' ? 'disabled' : ''
+          } href="${__uri('../../scss/themes/antd.scss')}" />`
+        );
+      } else {
+        document.write(
+          `<link rel="stylesheet" title="ang" ${
+            theme !== 'ang' ? 'disabled' : ''
+          }  href="${__uri('../../scss/themes/ang-ie11.scss')}" />`
+        );
+        document.write(
+          `<link rel="stylesheet" title="cxd" ${
+            theme !== 'cxd' ? 'disabled' : ''
+          } href="${__uri('../../scss/themes/cxd-ie11.scss')}" />`
+        );
+        document.write(
+          `<link rel="stylesheet" title="dark" ${
+            theme !== 'dark' ? 'disabled' : ''
+          } href="${__uri('../../scss/themes/dark-ie11.scss')}" />`
+        );
+        document.write(
+          `<link rel="stylesheet" title="antd" ${
+            theme !== 'antd' ? 'disabled' : ''
+          } href="${__uri('../../scss/themes/antd-ie11.scss')}" />`
+        );
+      }
+    </script>
+    <!--ignore-->
+    <link rel="stylesheet" href="../../scss/helper.scss" />
+    <!--ignore-->
+  </head>
+
+  <body>
+    <div id="root" class="app-wrapper"></div>
+    <script src="../mod.js"></script>
+    <script type="text/javascript">
+      /* @require ./index.jsx 标记为同步依赖，提前加载 */
+      amis.require(['./index.jsx'], function (app) {
+        var initialState = {};
+        app.bootstrap(document.getElementById('root'), initialState);
+      });
+    </script>
+  </body>
+</html>
