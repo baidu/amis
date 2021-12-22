@@ -45,8 +45,10 @@ export class TableRow extends React.Component<TableRowProps> {
     const {itemAction, onAction, item} = this.props;
     if (itemAction) {
       onAction && onAction(e, itemAction, item?.data);
+      item.toggle();
+    } else {
+      this.props.onCheck(this.props.item);
     }
-    this.props.onCheck(this.props.item);
   }
 
   handleAction(e: React.UIEvent<any>, action: Action, ctx: any) {
