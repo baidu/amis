@@ -110,9 +110,9 @@ export class AvatarField extends React.Component<AvatarProps> {
 
     let errHandler = () => false;
 
-    if (typeof onError === 'string' && onError.trim().startsWith('function')) {
+    if (typeof onError === 'string') {
       try {
-        errHandler = eval('(' + onError + ')');
+        errHandler = new Function('event', onError) as () => boolean;
       } catch (e) {
         console.warn(onError, e);
       }

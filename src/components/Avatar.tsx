@@ -125,7 +125,7 @@ export class Avatar extends React.Component<AvatarCmptProps, AvatarState> {
     }
   }
 
-  handleImageLoadError(event: React.SyntheticEvent) {
+  handleImageLoadError(event: React.SyntheticEvent<HTMLImageElement, Event>) {
     const {onError} = this.props;
     this.setState({
       hasImg: onError ? !onError(event.nativeEvent) : false
