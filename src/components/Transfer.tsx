@@ -18,7 +18,7 @@ import ChainedSelection from './ChainedSelection';
 export interface TransferProps
   extends ThemeProps,
     LocaleProps,
-    BaseSelectionProps {
+    Omit<BaseSelectionProps, 'itemRender'> {
   inline?: boolean;
   statistics?: boolean;
   showArrow?: boolean;
@@ -83,9 +83,8 @@ export interface TransferState {
 export class Transfer<
   T extends TransferProps = TransferProps
 > extends React.Component<T, TransferState> {
-  static defaultProps: Pick<TransferProps, 'itemRender' | 'multiple'> = {
-    multiple: true,
-    itemRender: (option: Option) => <span>{option.label}</span>
+  static defaultProps: Pick<TransferProps, 'multiple'> = {
+    multiple: true
   };
 
   state = {

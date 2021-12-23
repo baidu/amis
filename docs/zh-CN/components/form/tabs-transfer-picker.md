@@ -17,106 +17,119 @@ icon:
   "api": "/api/mock2/form/saveForm",
   "body": [
     {
-    "label": "组合穿梭器",
-    "type": "tabs-transfer-picker",
-    "name": "a",
-    "sortable": true,
-    "selectMode": "tree",
-    "searchable": true,
-    "pickerSize": "md",
-    "options": [
-      {
-        "label": "成员",
-        "selectMode": "tree",
-        "children": [
-          {
-            "label": "法师",
-            "children": [
-              {
-                "label": "诸葛亮",
-                "value": "zhugeliang"
-              }
-            ]
-          },
-          {
-            "label": "战士",
-            "children": [
-              {
-                "label": "曹操",
-                "value": "caocao"
-              },
-              {
-                "label": "钟无艳",
-                "value": "zhongwuyan"
-              }
-            ]
-          },
-          {
-            "label": "打野",
-            "children": [
-              {
-                "label": "李白",
-                "value": "libai"
-              },
-              {
-                "label": "韩信",
-                "value": "hanxin"
-              },
-              {
-                "label": "云中君",
-                "value": "yunzhongjun"
-              }
-            ]
-          }
-        ]
-      },
-      {
-        "label": "用户",
-        "selectMode": "chained",
-        "children": [
-          {
-            "label": "法师",
-            "children": [
-              {
-                "label": "诸葛亮",
-                "value": "zhugeliang"
-              }
-            ]
-          },
-          {
-            "label": "战士",
-            "children": [
-              {
-                "label": "曹操",
-                "value": "caocao"
-              },
-              {
-                "label": "钟无艳",
-                "value": "zhongwuyan"
-              }
-            ]
-          },
-          {
-            "label": "打野",
-            "children": [
-              {
-                "label": "李白",
-                "value": "libai"
-              },
-              {
-                "label": "韩信",
-                "value": "hanxin"
-              },
-              {
-                "label": "云中君",
-                "value": "yunzhongjun"
-              }
-            ]
-          }
-        ]
-      }
-    ]
-  }
+      "label": "组合穿梭器",
+      "type": "tabs-transfer-picker",
+      "name": "a",
+      "sortable": true,
+      "selectMode": "tree",
+      "searchable": true,
+      "pickerSize": "md",
+      "menuTpl": "<div class='flex justify-between'><span>${label}</span>${email ? `<span class='text-muted m-r-xs text-sm'>${email}</span>`: ''}</div>",
+      "options": [
+        {
+          "label": "成员",
+          "selectMode": "tree",
+          "children": [
+            {
+              "label": "法师",
+              "children": [
+                {
+                  "label": "诸葛亮",
+                  "value": "zhugeliang",
+                  "email": "zhugeliang@timi.com"
+                }
+              ]
+            },
+            {
+              "label": "战士",
+              "children": [
+                {
+                  "label": "曹操",
+                  "value": "caocao",
+                  "email": "caocao@timi.com"
+                },
+                {
+                  "label": "钟无艳",
+                  "value": "zhongwuyan",
+                  "email": "zhongwuyan@timi.com"
+                }
+              ]
+            },
+            {
+              "label": "打野",
+              "children": [
+                {
+                  "label": "李白",
+                  "value": "libai",
+                  "email": "libai@timi.com"
+                },
+                {
+                  "label": "韩信",
+                  "value": "hanxin",
+                  "email": "hanxin@timi.com"
+                },
+                {
+                  "label": "云中君",
+                  "value": "yunzhongjun",
+                  "email": "yunzhongjun@timi.com"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "label": "用户",
+          "selectMode": "chained",
+          "children": [
+            {
+              "label": "法师",
+              "children": [
+                {
+                  "label": "诸葛亮",
+                  "value": "zhugeliang",
+                  "email": "zhugeliang@timi.com"
+                }
+              ]
+            },
+            {
+              "label": "战士",
+              "children": [
+                {
+                  "label": "曹操",
+                  "value": "caocao",
+                  "email": "caocao@timi.com"
+                },
+                {
+                  "label": "钟无艳",
+                  "value": "zhongwuyan",
+                  "email": "zhongwuyan@timi.com"
+                }
+              ]
+            },
+            {
+              "label": "打野",
+              "children": [
+                {
+                  "label": "李白",
+                  "value": "libai",
+                  "email": "libai@timi.com"
+                },
+                {
+                  "label": "韩信",
+                  "value": "hanxin",
+                  "email": "hanxin@timi.com"
+                },
+                {
+                  "label": "云中君",
+                  "value": "yunzhongjun",
+                  "email": "yunzhongjun@timi.com"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
   ]
 }
 ```

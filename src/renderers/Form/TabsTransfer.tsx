@@ -66,7 +66,7 @@ export class TabsTransferRenderer extends BaseTransferRenderer<TabsTransferProps
           onDeferLoad={deferLoad}
           selectTitle={selectTitle}
           resultTitle={resultTitle}
-          itemRender={this.optionItemRender}
+          optionItemRender={this.optionItemRender}
         />
 
         <Spinner overlay key="info" show={loading} />

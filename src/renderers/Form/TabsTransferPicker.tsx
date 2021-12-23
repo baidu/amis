@@ -72,6 +72,7 @@ export class TabsTransferPickerRenderer extends BaseTransferRenderer<TabsTransfe
           size={pickerSize}
           leftMode={leftMode}
           leftOptions={leftOptions}
+          optionItemRender={this.optionItemRender}
         />
 
         <Spinner overlay key="info" show={loading} />
