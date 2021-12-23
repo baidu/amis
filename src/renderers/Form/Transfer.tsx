@@ -5,7 +5,7 @@ import {
 } from './Options';
 import React from 'react';
 import Transfer from '../../components/Transfer';
-import {Option} from './Options';
+import type {Option} from './Options';
 import {
   autobind,
   filterTree,
@@ -18,7 +18,8 @@ import Spinner from '../../components/Spinner';
 import find from 'lodash/find';
 import {optionValueCompare} from '../../components/Select';
 import {resolveVariable} from '../../utils/tpl-builtin';
-import {SchemaApi} from '../../Schema';
+import {SchemaApi, SchemaObject} from '../../Schema';
+import {BaseSelection, ItemRenderStates} from '../../components/Selection';
 
 /**
  * Transfer
@@ -91,6 +92,22 @@ export interface TransferControlSchema extends FormOptionsControl {
    * 右侧结果的标题文字
    */
   resultTitle?: string;
+
+  /**
+   * 用来丰富选项展示
+   */
+  menuTpl?: SchemaObject;
+
+  /**
+   * 选择选项后，选项本身还能加配置。
+   * 比如：
+   */
+  optionControls?: Array<SchemaObject>;
+
+  /**
+   * 选项配置交互。默认是 popover, 支持 inline 或者 dialog
+   */
+  optionMode?: 'inline' | 'popover' | 'dialog';
 }
 
 export interface BaseTransferProps
@@ -103,7 +120,6 @@ export interface BaseTransferProps
       | 'descriptionClassName'
       | 'inputClassName'
     > {
-  optionItemRender?: (option: Option) => JSX.Element;
   resultItemRender?: (option: Option) => JSX.Element;
 }
 
@@ -221,6 +237,19 @@ export class BaseTransferRenderer<
   }
 
   @autobind
+  optionItemRender(option: Option, states: ItemRenderStates) {
+    const {menuTpl, render, data} = this.props;
+
+    if (menuTpl) {
+      return render(`item/${states.index}`, menuTpl, {
+        data: createObject(createObject(data, states), option)
+      });
+    }
+
+    return BaseSelection.itemRender(option, states);
+  }
+
+  @autobind
   renderCell(
     column: {
       name: string;
@@ -264,7 +293,7 @@ export class BaseTransferRenderer<
       disabled,
       selectTitle,
       resultTitle,
-      optionItemRender,
+      menuTpl,
       resultItemRender
     } = this.props;
 
@@ -306,7 +335,7 @@ export class BaseTransferRenderer<
           cellRender={this.renderCell}
           selectTitle={selectTitle}
           resultTitle={resultTitle}
-          optionItemRender={optionItemRender}
+          optionItemRender={this.optionItemRender}
           resultItemRender={resultItemRender}
         />
 

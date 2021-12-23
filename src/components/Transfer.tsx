@@ -1,6 +1,6 @@
 import React from 'react';
 import {ThemeProps, themeable} from '../theme';
-import {BaseSelectionProps, BaseSelection} from './Selection';
+import {BaseSelectionProps, BaseSelection, ItemRenderStates} from './Selection';
 import {Options, Option} from './Select';
 import {uncontrollable} from 'uncontrollable';
 import ResultList from './ResultList';
@@ -70,7 +70,7 @@ export interface TransferProps
   ) => JSX.Element;
 
   resultTitle?: string;
-  optionItemRender?: (option: Option) => JSX.Element;
+  optionItemRender?: (option: Option, states: ItemRenderStates) => JSX.Element;
   resultItemRender?: (option: Option) => JSX.Element;
   sortable?: boolean;
 }
@@ -382,7 +382,6 @@ export class Transfer<
         option2value={option2value}
         onDeferLoad={onDeferLoad}
         cellRender={cellRender}
-        itemRender={optionItemRender}
         multiple={multiple}
       />
     ) : selectMode === 'tree' ? (

@@ -6,55 +6,17 @@ import {
 import React from 'react';
 import Spinner from '../../components/Spinner';
 import {BaseTransferRenderer} from './Transfer';
-import {SchemaApi} from '../../Schema';
+import {SchemaApi, SchemaObject} from '../../Schema';
 import TabsTransferPicker from '../../components/TabsTransferPicker';
+import {TabsTransferControlSchema} from './TabsTransfer';
 
 /**
  * TabsTransferPicker 穿梭器的弹框形态
  * 文档：https://baidu.gitee.io/amis/docs/components/form/tabs-transfer-picker
  */
-export interface TabsTransferPickerControlSchema extends FormOptionsControl {
+export interface TabsTransferPickerControlSchema
+  extends Omit<TabsTransferControlSchema, 'type'> {
   type: 'tabs-transfer-picker';
-
-  /**
-   * 是否显示剪头
-   */
-  showArrow?: boolean;
-
-  /**
-   * 可排序？
-   */
-  sortable?: boolean;
-
-  /**
-   * 搜索结果展示模式
-   */
-  searchResultMode?: 'table' | 'list' | 'tree' | 'chained';
-
-  /**
-   * 可搜索？
-   */
-  searchable?: boolean;
-
-  /**
-   * 搜索 API
-   */
-  searchApi?: SchemaApi;
-
-  /**
-   * 左侧的标题文字
-   */
-  selectTitle?: string;
-
-  /**
-   * 右侧结果的标题文字
-   */
-  resultTitle?: string;
-
-  /**
-   * 弹窗大小
-   */
-  pickerSize?: 'xs' | 'sm' | 'md' | 'lg' | 'xl' | 'full';
 }
 
 export interface TabsTransferProps

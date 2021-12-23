@@ -6,51 +6,17 @@ import {
 import React from 'react';
 import {Api} from '../../types';
 import Spinner from '../../components/Spinner';
-import {BaseTransferRenderer} from './Transfer';
+import {BaseTransferRenderer, TransferControlSchema} from './Transfer';
 import TabsTransfer from '../../components/TabsTransfer';
-import {SchemaApi} from '../../Schema';
+import {SchemaApi, SchemaObject} from '../../Schema';
 
 /**
  * TabsTransfer
  * 文档：https://baidu.gitee.io/amis/docs/components/form/tabs-transfer
  */
-export interface TabsTransferControlSchema extends FormOptionsControl {
+export interface TabsTransferControlSchema
+  extends Omit<TransferControlSchema, 'type'> {
   type: 'tabs-transfer';
-
-  /**
-   * 是否显示剪头
-   */
-  showArrow?: boolean;
-
-  /**
-   * 可排序？
-   */
-  sortable?: boolean;
-
-  /**
-   * 搜索结果展示模式
-   */
-  searchResultMode?: 'table' | 'list' | 'tree' | 'chained';
-
-  /**
-   * 可搜索？
-   */
-  searchable?: boolean;
-
-  /**
-   * 搜索 API
-   */
-  searchApi?: SchemaApi;
-
-  /**
-   * 左侧的标题文字
-   */
-  selectTitle?: string;
-
-  /**
-   * 右侧结果的标题文字
-   */
-  resultTitle?: string;
 }
 
 export interface TabsTransferProps
@@ -100,6 +66,7 @@ export class TabsTransferRenderer extends BaseTransferRenderer<TabsTransferProps
           onDeferLoad={deferLoad}
           selectTitle={selectTitle}
           resultTitle={resultTitle}
+          itemRender={this.optionItemRender}
         />
 
         <Spinner overlay key="info" show={loading} />

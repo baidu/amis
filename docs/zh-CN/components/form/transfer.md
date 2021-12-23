@@ -559,6 +559,54 @@ leftOptions 动态加载，默认 source 接口是返回 options 部分，而 le
 
 适用于需选择的数据/信息源较多时，用户可直观的知道自己所选择的数据/信息的场景，一般左侧框为数据/信息源，右侧为已选数据/信息，被选中信息同时存在于 2 个框内。
 
+## 自定义选项展示
+
+```schema: scope="body"
+{
+    "type": "form",
+    "body": [
+      {
+        "label": "默认",
+        "type": "transfer",
+        "name": "transfer",
+        "menuTpl": "<div class='flex justify-between'><span>${label}</span><span class='text-muted m-r text-sm'>${tag}</span></div>",
+        "options": [
+          {
+            "label": "诸葛亮",
+            "value": "zhugeliang",
+            "tag": "法师",
+          },
+          {
+            "label": "曹操",
+            "value": "caocao",
+            "tag": "战士",
+          },
+          {
+            "label": "钟无艳",
+            "value": "zhongwuyan",
+            "tag": "战士",
+          },
+          {
+            "label": "李白",
+            "value": "libai",
+            "tag": "打野"
+          },
+          {
+            "label": "韩信",
+            "value": "hanxin",
+            "tag": "打野"
+          },
+          {
+            "label": "云中君",
+            "value": "yunzhongjun",
+            "tag": "打野"
+          }
+        ]
+      }
+    ]
+}
+```
+
 ## 属性表
 
 除了支持 [普通表单项属性表](./formitem#%E5%B1%9E%E6%80%A7%E8%A1%A8) 中的配置以外，还支持下面一些配置
