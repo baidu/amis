@@ -84,57 +84,56 @@ icon:
           ]
         },
         {
-          "label": "用户",
-          "selectMode": "chained",
+          "label": "角色",
+          "selectMode": "list",
           "children": [
             {
-              "label": "法师",
-              "children": [
-                {
-                  "label": "诸葛亮",
-                  "value": "zhugeliang",
-                  "email": "zhugeliang@timi.com",
-                  "phone": 13111111111
-                }
-              ]
+              "label": "角色 1",
+              "value": "role1",
             },
             {
-              "label": "战士",
-              "children": [
-                {
-                  "label": "曹操",
-                  "value": "caocao",
-                  "email": "caocao@timi.com",
-                  "phone": 13111111111
-                },
-                {
-                  "label": "钟无艳",
-                  "value": "zhongwuyan",
-                  "email": "zhongwuyan@timi.com",
-                  "phone": 13111111111
-                }
-              ]
+              "label": "角色 2",
+              "value": "role2",
             },
             {
-              "label": "打野",
+              "label": "角色 3",
+              "value": "role3",
+            },
+            {
+              "label": "角色 4",
+              "value": "role4",
+            }
+          ]
+        },
+        {
+          "label": "部门",
+          "selectMode": "tree",
+          "children": [
+            {
+              "label": "总部",
+              "value": "dep0",
               "children": [
                 {
-                  "label": "李白",
-                  "value": "libai",
-                  "email": "libai@timi.com",
-                  "phone": 13111111111
+                  "label": "部门 1",
+                  "value": "dep1",
+                  "children": [
+                    {
+                      "label": "部门 4",
+                      "value": "dep4",
+                    },
+                    {
+                      "label": "部门 5",
+                      "value": "dep5",
+                    }
+                  ]
                 },
                 {
-                  "label": "韩信",
-                  "value": "hanxin",
-                  "email": "hanxin@timi.com",
-                  "phone": 13111111111
+                  "label": "部门 2",
+                  "value": "dep2",
                 },
                 {
-                  "label": "云中君",
-                  "value": "yunzhongjun",
-                  "email": "yunzhongjun@timi.com",
-                  "phone": 13111111111
+                  "label": "部门 3",
+                  "value": "dep3",
                 }
               ]
             }

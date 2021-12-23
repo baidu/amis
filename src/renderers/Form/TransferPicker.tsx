@@ -103,6 +103,7 @@ export class TransferPickerRenderer extends BaseTransferRenderer<TabsTransferPro
           leftMode={leftMode}
           leftOptions={leftOptions}
           optionItemRender={this.optionItemRender}
+          resultItemRender={this.resultItemRender}
         />
 
         <Spinner overlay key="info" show={loading} />

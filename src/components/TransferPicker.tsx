@@ -19,9 +19,11 @@ export interface TransferPickerProps extends Omit<TransferProps, 'itemRender'> {
 }
 
 export class TransferPicker extends React.Component<TransferPickerProps> {
+  optionModified = false;
   @autobind
   handleConfirm(value: any) {
-    this.props.onChange?.(value);
+    this.props.onChange?.(value, this.optionModified);
+    this.optionModified = false;
   }
 
   render() {
@@ -40,8 +42,27 @@ export class TransferPicker extends React.Component<TransferPickerProps> {
     return (
       <PickerContainer
         title={__('Select.placeholder')}
-        bodyRender={({onClose, value, onChange}) => {
-          return <Transfer {...rest} value={value} onChange={onChange} />;
+        bodyRender={({onClose, value, onChange, setState, ...states}) => {
+          return (
+            <Transfer
+              {...rest}
+              {...states}
+              value={value}
+              onChange={(value: any, optionModified) => {
+                if (optionModified) {
+                  let options = rest.options.map(item => {
+                    return (
+                      value.find((a: any) => a.value === item.value) || item
+                    );
+                  });
+                  this.optionModified = true;
+                  setState({options, value});
+                } else {
+                  onChange(value);
+                }
+              }}
+            />
+          );
         }}
         value={value}
         onConfirm={this.handleConfirm}

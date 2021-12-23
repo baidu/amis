@@ -570,6 +570,7 @@ leftOptions 动态加载，默认 source 接口是返回 options 部分，而 le
         "type": "transfer",
         "name": "transfer",
         "menuTpl": "<div class='flex justify-between'><span>${label}</span><span class='text-muted m-r text-sm'>${tag}</span></div>",
+        "valueTpl": "${label}(${value})",
         "options": [
           {
             "label": "诸葛亮",

@@ -14,6 +14,7 @@ import AssociatedSelection from './AssociatedSelection';
 import {LocaleProps, localeable} from '../locale';
 import GroupedSelection from './GroupedSelection';
 import ChainedSelection from './ChainedSelection';
+import {ItemRenderStates as ResultItemRenderStates} from './ResultList';
 
 export interface TransferProps
   extends ThemeProps,
@@ -55,6 +56,7 @@ export interface TransferProps
   }>;
   searchPlaceholder?: string;
   noResultsText?: string;
+  onChange?: (value: Array<Option>, optionModified?: boolean) => void;
   onSearch?: (
     term: string,
     setCancel: (cancel: () => void) => void
@@ -71,7 +73,10 @@ export interface TransferProps
 
   resultTitle?: string;
   optionItemRender?: (option: Option, states: ItemRenderStates) => JSX.Element;
-  resultItemRender?: (option: Option) => JSX.Element;
+  resultItemRender?: (
+    option: Option,
+    states: ResultItemRenderStates
+  ) => JSX.Element;
   sortable?: boolean;
 }
 

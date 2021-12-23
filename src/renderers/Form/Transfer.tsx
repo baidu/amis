@@ -11,7 +11,10 @@ import {
   filterTree,
   string2regExp,
   createObject,
-  findTree
+  findTree,
+  findTreeIndex,
+  getTree,
+  spliceTree
 } from '../../utils/helper';
 import {Api} from '../../types';
 import Spinner from '../../components/Spinner';
@@ -20,6 +23,10 @@ import {optionValueCompare} from '../../components/Select';
 import {resolveVariable} from '../../utils/tpl-builtin';
 import {SchemaApi, SchemaObject} from '../../Schema';
 import {BaseSelection, ItemRenderStates} from '../../components/Selection';
+import {
+  ItemRenderStates as ResultItemRenderStates,
+  ResultList
+} from '../../components/ResultList';
 
 /**
  * Transfer
@@ -99,15 +106,9 @@ export interface TransferControlSchema extends FormOptionsControl {
   menuTpl?: SchemaObject;
 
   /**
-   * 选择选项后，选项本身还能加配置。
-   * 比如：
+   * 用来丰富值的展示
    */
-  optionControls?: Array<SchemaObject>;
-
-  /**
-   * 选项配置交互。默认是 popover, 支持 inline 或者 dialog
-   */
-  optionMode?: 'inline' | 'popover' | 'dialog';
+  valueTpl?: SchemaObject;
 }
 
 export interface BaseTransferProps
@@ -127,7 +128,7 @@ export class BaseTransferRenderer<
   T extends OptionsControlProps = BaseTransferProps
 > extends React.Component<T> {
   @autobind
-  handleChange(value: Array<Option>) {
+  handleChange(value: Array<Option>, optionModified?: boolean) {
     const {
       onChange,
       joinValues,
@@ -141,30 +142,37 @@ export class BaseTransferRenderer<
     let newOptions = options.concat();
 
     if (Array.isArray(value)) {
-      if (joinValues || extractValue) {
-        newValue = value.map(item => {
-          const resolved = findTree(
-            options,
-            optionValueCompare(
-              item[(valueField as string) || 'value'],
-              (valueField as string) || 'value'
-            )
-          );
+      newValue = value.map(item => {
+        const indexes = findTreeIndex(
+          options,
+          optionValueCompare(
+            item[(valueField as string) || 'value'],
+            (valueField as string) || 'value'
+          )
+        );
 
-          if (!resolved) {
-            newOptions.push(item);
-          }
+        if (!indexes) {
+          newOptions.push(item);
+        } else if (optionModified) {
+          const origin = getTree(newOptions, indexes);
+          newOptions = spliceTree(newOptions, indexes, 1, {
+            ...origin,
+            ...item
+          });
+        }
 
-          return item[(valueField as string) || 'value'];
-        });
-      }
+        return joinValues || extractValue
+          ? item[(valueField as string) || 'value']
+          : item;
+      });
 
       if (joinValues) {
         newValue = newValue.join(delimiter || ',');
       }
     }
 
-    newOptions.length > options.length && setOptions(newOptions, true);
+    (newOptions.length > options.length || optionModified) &&
+      setOptions(newOptions, true);
     onChange(newValue);
   }
 
@@ -247,6 +255,20 @@ export class BaseTransferRenderer<
     }
 
     return BaseSelection.itemRender(option, states);
+  }
+
+  @autobind
+  resultItemRender(option: Option, states: ResultItemRenderStates) {
+    const {valueTpl, render, data} = this.props;
+
+    if (valueTpl) {
+      return render(`value/${states.index}`, valueTpl, {
+        onChange: states.onChange,
+        data: createObject(createObject(data, states), option)
+      });
+    }
+
+    return ResultList.itemRender(option);
   }
 
   @autobind
@@ -336,7 +358,7 @@ export class BaseTransferRenderer<
           selectTitle={selectTitle}
           resultTitle={resultTitle}
           optionItemRender={this.optionItemRender}
-          resultItemRender={resultItemRender}
+          resultItemRender={this.resultItemRender}
         />
 
         <Spinner overlay key="info" show={loading} />
