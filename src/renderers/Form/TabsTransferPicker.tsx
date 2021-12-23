@@ -9,6 +9,8 @@ import {BaseTransferRenderer} from './Transfer';
 import {SchemaApi, SchemaObject} from '../../Schema';
 import TabsTransferPicker from '../../components/TabsTransferPicker';
 import {TabsTransferControlSchema} from './TabsTransfer';
+import {autobind, createObject} from '../../utils/helper';
+import {BaseSelection, ItemRenderStates} from '../../components/Selection';
 
 /**
  * TabsTransferPicker 穿梭器的弹框形态
@@ -34,6 +36,26 @@ export interface TabsTransferProps
   type: 'tabs-transfer-picker'
 })
 export class TabsTransferPickerRenderer extends BaseTransferRenderer<TabsTransferProps> {
+  @autobind
+  optionItemRender(option: any, states: ItemRenderStates) {
+    const {menuTpl, render, data} = this.props;
+    const ctx = arguments[2] || {};
+
+    if (menuTpl) {
+      return render(`item/${states.index}`, menuTpl, {
+        data: createObject(
+          createObject(data, {
+            ...states,
+            ...ctx
+          }),
+          option
+        )
+      });
+    }
+
+    return BaseSelection.itemRender(option, states);
+  }
+
   render() {
     const {
       className,

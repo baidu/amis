@@ -24,7 +24,7 @@ icon:
       "selectMode": "tree",
       "searchable": true,
       "pickerSize": "md",
-      "menuTpl": "<div class='flex justify-between'><span>${label}</span>${email ? `<span class='text-muted m-r-xs text-sm'>${email}</span>`: ''}</div>",
+      "menuTpl": "<div class='flex justify-between'><span>${label}</span>${email ? `<div class='text-muted m-r-xs text-sm text-right'>${email}<br />${phone}</div>`: ''}</div>",
       "options": [
         {
           "label": "成员",
@@ -36,7 +36,8 @@ icon:
                 {
                   "label": "诸葛亮",
                   "value": "zhugeliang",
-                  "email": "zhugeliang@timi.com"
+                  "email": "zhugeliang@timi.com",
+                  "phone": 13111111111
                 }
               ]
             },
@@ -46,12 +47,14 @@ icon:
                 {
                   "label": "曹操",
                   "value": "caocao",
-                  "email": "caocao@timi.com"
+                  "email": "caocao@timi.com",
+                  "phone": 13111111111
                 },
                 {
                   "label": "钟无艳",
                   "value": "zhongwuyan",
-                  "email": "zhongwuyan@timi.com"
+                  "email": "zhongwuyan@timi.com",
+                  "phone": 13111111111
                 }
               ]
             },
@@ -61,17 +64,20 @@ icon:
                 {
                   "label": "李白",
                   "value": "libai",
-                  "email": "libai@timi.com"
+                  "email": "libai@timi.com",
+                  "phone": 13111111111
                 },
                 {
                   "label": "韩信",
                   "value": "hanxin",
-                  "email": "hanxin@timi.com"
+                  "email": "hanxin@timi.com",
+                  "phone": 13111111111
                 },
                 {
                   "label": "云中君",
                   "value": "yunzhongjun",
-                  "email": "yunzhongjun@timi.com"
+                  "email": "yunzhongjun@timi.com",
+                  "phone": 13111111111
                 }
               ]
             }
@@ -87,7 +93,8 @@ icon:
                 {
                   "label": "诸葛亮",
                   "value": "zhugeliang",
-                  "email": "zhugeliang@timi.com"
+                  "email": "zhugeliang@timi.com",
+                  "phone": 13111111111
                 }
               ]
             },
@@ -97,12 +104,14 @@ icon:
                 {
                   "label": "曹操",
                   "value": "caocao",
-                  "email": "caocao@timi.com"
+                  "email": "caocao@timi.com",
+                  "phone": 13111111111
                 },
                 {
                   "label": "钟无艳",
                   "value": "zhongwuyan",
-                  "email": "zhongwuyan@timi.com"
+                  "email": "zhongwuyan@timi.com",
+                  "phone": 13111111111
                 }
               ]
             },
@@ -112,17 +121,20 @@ icon:
                 {
                   "label": "李白",
                   "value": "libai",
-                  "email": "libai@timi.com"
+                  "email": "libai@timi.com",
+                  "phone": 13111111111
                 },
                 {
                   "label": "韩信",
                   "value": "hanxin",
-                  "email": "hanxin@timi.com"
+                  "email": "hanxin@timi.com",
+                  "phone": 13111111111
                 },
                 {
                   "label": "云中君",
                   "value": "yunzhongjun",
-                  "email": "yunzhongjun@timi.com"
+                  "email": "yunzhongjun@timi.com",
+                  "phone": 13111111111
                 }
               ]
             }
