@@ -37,6 +37,10 @@ interface BaseDatePickerProps
   }>;
   largeMode?: boolean;
   onScheduleClick?: (scheduleData: any) => void;
+  hideHeader?: boolean;
+  updateOn?: string;
+  useMobileUI?: boolean;
+  showToolbar?: boolean;
 }
 
 class BaseDatePicker extends ReactDatePicker {
@@ -94,7 +98,11 @@ class BaseDatePicker extends ReactDatePicker {
         'minDate',
         'schedules',
         'largeMode',
-        'onScheduleClick'
+        'onScheduleClick',
+        'hideHeader',
+        'updateOn',
+        'useMobileUI',
+        'showToolbar'
       ].forEach(key => (props[key] = (this.props as any)[key]));
 
       return props;
@@ -220,6 +228,10 @@ class BaseDatePicker extends ReactDatePicker {
     }
 
     viewProps.onConfirm = this.onConfirm;
+    if (this.props.viewMode === 'years') {
+      viewProps.updateOn = 'years';
+    }
+
     return (
       <div className={cx('rdt rdtStatic rdtOpen', this.props.className)}>
         <div key="dt" className="rdtPicker">

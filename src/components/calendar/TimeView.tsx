@@ -29,6 +29,8 @@ export class CustomTimeView extends TimeView {
     onClose?: () => void;
     onConfirm?: (value: number[], types: string[]) => void;
     useMobileUI: boolean;
+    showToolbar?: boolean;
+    onChange?: (value: any) => void;
   } & LocaleProps;
   onStartClicking: any;
   disableContextMenu: any;
@@ -42,6 +44,10 @@ export class CustomTimeView extends TimeView {
     minutes: 2,
     seconds: 2,
     milliseconds: 3
+  };
+
+  static defaultProps = {
+    showToolbar: true
   };
 
   renderDayPart = () => {
@@ -197,9 +203,11 @@ export class CustomTimeView extends TimeView {
         translate={this.props.translate}
         locale={this.props.locale}
         columns={columns}
-        value={values} 
+        value={values}
         onConfirm={this.onConfirm}
         onClose={this.props.onClose}
+        showToolbar={this.props.showToolbar}
+        onChange={this.props.onChange}
         />
     );
   }

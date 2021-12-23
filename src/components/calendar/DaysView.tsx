@@ -48,6 +48,7 @@ interface CustomDaysViewProps extends LocaleProps {
   }>;
   largeMode?: boolean;
   onScheduleClick?: (scheduleData: any) => void;
+  hideHeader?: boolean;
 }
 
 export class CustomDaysView extends DaysView {
@@ -364,7 +365,7 @@ export class CustomDaysView extends DaysView {
     const __ = this.props.translate;
 
     const tableChildren = [
-      <thead key="th">
+      this.props.hideHeader ? null : <thead key="th">
         <tr>
           <th colSpan={7}>
             <div className="rdtHeader">

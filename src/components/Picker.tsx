@@ -5,7 +5,8 @@
 import React, {
   memo,
   ReactNode,
-  useState
+  useState,
+  useEffect
 } from 'react';
 import {uncontrollable} from 'uncontrollable';
 
@@ -67,6 +68,9 @@ const Picker = memo<PickerProps>((props) => {
   const [innerValue, setInnerValue] = useState<PickerValue[]>(
     fixToArray(props.value === undefined ? props.defaultValue || [] : value )
   );
+  useEffect(() => {
+    setInnerValue(value);
+  }, [value]);
 
   const close = () => {
     if (props.onClose) {
@@ -103,6 +107,7 @@ const Picker = memo<PickerProps>((props) => {
         onChange={(val: string | number, i, confirm) => {
           onChange(val, index, confirm);
         }}
+        key={`column${index}`}
     />)
   };
 

@@ -16,8 +16,9 @@ import PopOver from './PopOver';
 import PopUp from './PopUp';
 import {ClassNamesFn, themeable, ThemeProps} from '../theme';
 import {PlainObject} from '../types';
-import {isMobile, noop, ucFirst} from '../utils/helper';
+import {noop, ucFirst, isMobile} from '../utils/helper';
 import {LocaleProps, localeable} from '../locale';
+import CalendarMobile from './CalendarMobile';
 
 export interface DateRangePickerProps extends ThemeProps, LocaleProps {
   className?: string;
@@ -287,6 +288,7 @@ export class DateRangePicker extends React.Component<
     this.handlePopOverClick = this.handlePopOverClick.bind(this);
     this.renderDay = this.renderDay.bind(this);
     this.renderQuarter = this.renderQuarter.bind(this);
+    this.handleMobileChange = this.handleMobileChange.bind(this);
     const {format, joinValues, delimiter, value} = this.props;
 
     this.state = {
@@ -499,6 +501,16 @@ export class DateRangePicker extends React.Component<
     );
   }
 
+  handleMobileChange(data: any, callback?: () => void) {
+    this.setState(
+      {
+        startDate: data.startDate,
+        endDate: data.endDate
+      },
+      callback
+    );
+  }
+
   selectRannge(range: PlainObject) {
     const {closeOnSelect, minDate, maxDate} = this.props;
     const now = moment();
@@ -693,7 +705,6 @@ export class DateRangePicker extends React.Component<
 
         <Calendar
           className={`${ns}DateRangePicker-start`}
-          value={startDate}
           onChange={this.handleStartChange}
           requiredConfirm={false}
           dateFormat={dateFormat}
@@ -763,10 +774,19 @@ export class DateRangePicker extends React.Component<
       embed,
       overlayPlacement,
       borderMode,
-      useMobileUI
+      useMobileUI,
+      timeFormat,
+      minDate,
+      maxDate,
+      minDuration,
+      maxDuration,
+      dateFormat,
+      viewMode = 'days',
+      ranges
     } = this.props;
+    const useCalendarMobile = useMobileUI && isMobile() && ['days', 'months', 'quarters'].indexOf(viewMode) > -1;
 
-    const {isOpened, isFocused} = this.state;
+    const {isOpened, isFocused, startDate, endDate} = this.state;
 
     const selectedDate = DateRangePicker.unFormatValue(
       value,
@@ -785,6 +805,24 @@ export class DateRangePicker extends React.Component<
     endViewValue && arr.push(endViewValue);
     const __ = this.props.translate;
 
+    const calendarMobile = <CalendarMobile
+      timeFormat={timeFormat}
+      inputFormat={inputFormat}
+      startDate={startDate}
+      endDate={endDate}
+      minDate={minDate}
+      maxDate={maxDate}
+      minDuration={minDuration}
+      maxDuration={maxDuration}
+      dateFormat={dateFormat}
+      embed={embed}
+      viewMode={viewMode}
+      close={this.close}
+      confirm={this.confirm}
+      onChange={this.handleMobileChange}
+      footerExtra={this.renderRanges(ranges)}
+    />;
+
     if (embed) {
       return (
         <div
@@ -796,7 +834,9 @@ export class DateRangePicker extends React.Component<
             className
           )}
         >
-          {this.renderCalendar()}
+          {useCalendarMobile
+            ? calendarMobile
+            : this.renderCalendar()}
         </div>
       );
     }
@@ -839,7 +879,7 @@ export class DateRangePicker extends React.Component<
           <Icon icon="clock" className="icon" />
         </a>
 
-        {!(useMobileUI && isMobile()) && isOpened ? (
+        {(!(useMobileUI && isMobile()) || useCalendarMobile) && isOpened ? (
           <Overlay
             target={() => this.dom.current}
             onHide={this.close}
@@ -850,17 +890,23 @@ export class DateRangePicker extends React.Component<
           >
             <PopOver
               classPrefix={ns}
-              className={cx(`${ns}DateRangePicker-popover`, popoverClassName)}
+              className={cx(
+                `${ns}DateRangePicker-popover`,
+                popoverClassName,
+                useCalendarMobile ? 'PopOver-isMobile' : ''
+              )}
               onHide={this.close}
               onClick={this.handlePopOverClick}
               overlay
             >
-              {this.renderCalendar()}
+              {useCalendarMobile
+                ? calendarMobile
+                : this.renderCalendar()}
             </PopOver>
           </Overlay>
         ) : null}
         {
-          useMobileUI && isMobile() && (
+          useMobileUI && isMobile() && !useCalendarMobile && (
             <PopUp
               isShow={isOpened}
               className={cx(`${ns}DateRangePicker-popup`)}

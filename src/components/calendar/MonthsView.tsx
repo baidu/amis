@@ -6,6 +6,7 @@ import {LocaleProps, localeable, TranslateFn} from '../../locale';
 
 export interface OtherProps {
   inputFormat?: string;
+  hideHeader?: boolean;
 }
 
 export class CustomMonthsView extends MonthsView {
@@ -42,7 +43,7 @@ export class CustomMonthsView extends MonthsView {
   };
   render() {
     const __ = this.props.translate;
-    const showYearHead = !/^mm$/i.test(this.props.inputFormat || '');
+    const showYearHead = !/^mm$/i.test(this.props.inputFormat || '') && !this.props.hideHeader;
     const canClick = /yy/i.test(this.props.inputFormat || '');
 
     return (

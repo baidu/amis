@@ -723,6 +723,7 @@ export class DatePicker extends React.Component<DateProps, DatePickerState> {
                 onClose={this.close}
                 locale={locale}
                 minDate={minDate}
+                useMobileUI={true}
                 // utc={utc}
               />
             </PopUp>
