@@ -64,7 +64,7 @@ interface AvatarCmptProps extends ThemeProps {
   /**
    * 图片加载失败的事件，返回 false 会关闭组件默认的
    */
-  onError?: (event: Event) => boolean;
+  onError?: (event: React.SyntheticEvent<HTMLImageElement, Event>) => boolean;
 
   /**
    * 
@@ -128,7 +128,7 @@ export class Avatar extends React.Component<AvatarCmptProps, AvatarState> {
   handleImageLoadError(event: React.SyntheticEvent<HTMLImageElement, Event>) {
     const {onError} = this.props;
     this.setState({
-      hasImg: onError ? !onError(event.nativeEvent) : false
+      hasImg: onError ? !onError(event) : false
     });
   }
 
