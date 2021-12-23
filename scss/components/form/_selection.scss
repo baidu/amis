@@ -251,6 +251,7 @@
 .#{$ns}ChainedSelection {
   display: flex;
   flex-direction: row;
+  min-height: 100%;
 
   &-col {
     flex-grow: 1;

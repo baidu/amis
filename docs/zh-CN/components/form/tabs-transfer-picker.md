@@ -17,7 +17,7 @@ icon:
   "api": "/api/mock2/form/saveForm",
   "body": [
     {
-      "label": "组合穿梭器",
+      "label": "选人",
       "type": "tabs-transfer-picker",
       "name": "a",
       "sortable": true,
