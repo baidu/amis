@@ -1,0 +1,47 @@
+.AMISDebug {
+  position: fixed;
+  z-index: $zindex-debug;
+  top: 0;
+  right: 0;
+  height: 100vh;
+  width: 32px;
+  padding: var(--gap-sm);
+  color: var(--text-color);
+
+  &-toggle {
+    background: var(--body-bg);
+    position: fixed;
+    top: 50%;
+    width: 24px;
+    height: 48px;
+    box-shadow: rgba(0, 0, 0, 0.24) -2px 0px 4px 0px;
+    border-top-left-radius: 12px;
+    border-bottom-left-radius: 12px;
+    padding-top: 14px;
+    padding-left: 6px;
+    cursor: pointer;
+    i {
+      color: var(--text-color);
+    }
+  }
+  &-content {
+    display: none;
+  }
+  &.is-expanded {
+    width: 420px;
+    overflow: auto;
+    border-left: 1px solid var(--borderColor);
+    background: var(--body-bg);
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+    .AMISDebug-toggle {
+      margin-left: -32px;
+    }
+    .AMISDebug-content {
+      display: block;
+    }
+  }
+
+  &-logLine {
+    display: flex;
+  }
+}

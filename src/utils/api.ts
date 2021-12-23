@@ -15,6 +15,7 @@ import {
   uuid
 } from './helper';
 import isPlainObject from 'lodash/isPlainObject';
+import {debug} from './debug';
 
 const rSchema = /(?:^|raw\:)(get|post|put|delete|patch|options|head|jsonp):/i;
 
@@ -265,7 +266,10 @@ export function responseAdaptor(ret: fetcherResult, api: ApiObject) {
     payload.errors = data.errors;
   }
 
+  debug('api response', payload);
+
   if (payload.ok && api.responseData) {
+    debug('api before dataMapping', payload.data);
     const responseData = dataMapping(
       api.responseData,
 
@@ -280,7 +284,7 @@ export function responseAdaptor(ret: fetcherResult, api: ApiObject) {
       undefined,
       api.convertKeyToPath
     );
-    console.debug('responseData', responseData);
+    debug('api after dataMapping', responseData);
     payload.data = responseData;
   }
 
