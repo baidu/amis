@@ -34,7 +34,7 @@ export class ResultList extends React.Component<ResultListProps> {
   }
   static defaultProps: Pick<ResultListProps, 'placeholder' | 'itemRender'> = {
     placeholder: 'placeholder.selectData',
-    itemRender: this.itemRender
+    itemRender: ResultList.itemRender
   };
 
   id = guid();

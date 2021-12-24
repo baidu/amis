@@ -147,7 +147,9 @@ export class ResultBox extends React.Component<ResultBoxProps> {
             </div>
           ))
         ) : result && !Array.isArray(result) ? (
-          <span className={cx('ResultBox-singleValue')}>{result}</span>
+          <span className={cx('ResultBox-singleValue')}>
+            {itemRender(result)}
+          </span>
         ) : allowInput && !disabled ? null : (
           <span className={cx('ResultBox-placeholder')}>
             {__(placeholder || 'placeholder.noData')}
