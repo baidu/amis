@@ -6,7 +6,7 @@ import React from 'react';
 import ResultBox from './ResultBox';
 import {Icon} from './icons';
 import PickerContainer from './PickerContainer';
-import {autobind} from '../utils/helper';
+import {autobind, mapTree} from '../utils/helper';
 
 export interface TransferPickerProps extends Omit<TransferProps, 'itemRender'> {
   // 新的属性？
@@ -50,7 +50,7 @@ export class TransferPicker extends React.Component<TransferPickerProps> {
               value={value}
               onChange={(value: any, optionModified) => {
                 if (optionModified) {
-                  let options = rest.options.map(item => {
+                  let options = mapTree(rest.options, item => {
                     return (
                       value.find((a: any) => a.value === item.value) || item
                     );

@@ -89,6 +89,7 @@ export class TabsTransferRenderer extends BaseTransferRenderer<TabsTransferProps
           selectTitle={selectTitle}
           resultTitle={resultTitle}
           optionItemRender={this.optionItemRender}
+          resultItemRender={this.resultItemRender}
         />
 
         <Spinner overlay key="info" show={loading} />

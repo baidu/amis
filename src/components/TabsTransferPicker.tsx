@@ -5,7 +5,7 @@ import React from 'react';
 import ResultBox from './ResultBox';
 import {Icon} from './icons';
 import PickerContainer from './PickerContainer';
-import {autobind} from '../utils/helper';
+import {autobind, mapTree} from '../utils/helper';
 import TabsTransfer, {TabsTransferProps} from './TabsTransfer';
 
 export interface TabsTransferPickerProps
@@ -15,9 +15,12 @@ export interface TabsTransferPickerProps
 }
 
 export class TransferPicker extends React.Component<TabsTransferPickerProps> {
+  optionModified = false;
+
   @autobind
   handleConfirm(value: any) {
-    this.props.onChange?.(value);
+    this.props.onChange?.(value, this.optionModified);
+    this.optionModified = false;
   }
 
   render() {
@@ -35,8 +38,27 @@ export class TransferPicker extends React.Component<TabsTransferPickerProps> {
     return (
       <PickerContainer
         title={__('Select.placeholder')}
-        bodyRender={({onClose, value, onChange}) => {
-          return <TabsTransfer {...rest} value={value} onChange={onChange} />;
+        bodyRender={({onClose, value, onChange, setState, ...states}) => {
+          return (
+            <TabsTransfer
+              {...rest}
+              {...states}
+              value={value}
+              onChange={(value: any, optionModified) => {
+                if (optionModified) {
+                  let options = mapTree(rest.options, item => {
+                    return (
+                      value.find((a: any) => a.value === item.value) || item
+                    );
+                  });
+                  this.optionModified = true;
+                  setState({options, value});
+                } else {
+                  onChange(value);
+                }
+              }}
+            />
+          );
         }}
         value={value}
         onConfirm={this.handleConfirm}
