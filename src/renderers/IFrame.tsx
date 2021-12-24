@@ -161,8 +161,6 @@ export default class IFrame extends React.Component<IFrameProps, object> {
       ...style
     };
 
-    src = dataMapping(src, data);
-
     const finalSrc = src ? buildApi(src, data).url : undefined;
 
     if (
