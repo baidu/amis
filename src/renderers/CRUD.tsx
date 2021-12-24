@@ -1532,9 +1532,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
   renderBulkActions(childProps: any) {
     let {bulkActions, itemActions, store, render, classnames: cx} = this.props;
 
-    const items = childProps.items;
-
-    if (!items.length || !bulkActions || !bulkActions.length) {
+    if (!bulkActions || !bulkActions.length) {
       return null;
     }
 

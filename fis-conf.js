@@ -54,6 +54,7 @@ fis.set('project.files', [
   '/scss/helper.scss',
   '/scss/themes/*.scss',
   '/examples/*.html',
+  '/examples/app/*.html',
   '/examples/*.tpl',
   '/examples/static/*.png',
   '/examples/static/*.svg',
@@ -906,7 +907,7 @@ if (fis.project.currentMedia() === 'publish') {
         const DocNavCN = ret.src['/examples/components/DocNavCN.ts'];
         const Components = ret.src['/examples/components/Components.tsx'];
         const DocCSS = ret.src['/examples/components/CssDocs.tsx'];
-        const ExampleJs = ret.src['/examples/components/Example.tsx'];
+        const ExampleJs = ret.src['/examples/components/Example.jsx'];
 
         const pages = [];
         const source = [
