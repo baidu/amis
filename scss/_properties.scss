@@ -1326,6 +1326,10 @@
   --TableCell-sortBtn--onActive-color: var(--primary);
   --TableCell-sortBtn-width: #{px2rem(8px)};
 
+  --Table-fixedLeftLast-boxShadow: inset 10px 0 8px -8px #00000026;
+  --Table-fixedRightFirst-boxShadow: inset -10px 0 8px -8px #00000026;
+  --Table-loading-padding: 30px 0px;
+
   --Tabs--card-bg: #f6f8f8;
   --Tabs--card-borderTopColor: var(--borderColor);
   --Tabs--card-linkMargin: 0 10px 0 0;

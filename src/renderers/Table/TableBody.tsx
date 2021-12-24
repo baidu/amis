@@ -156,14 +156,16 @@ export class TableBody extends React.Component<TableBodyProps> {
       classnames: cx,
       rows,
       prefixRowClassName,
-      affixRowClassName
+      affixRowClassName,
+      footable
     } = this.props;
 
     if (!(Array.isArray(items) && items.length)) {
       return null;
     }
 
-    const filterColumns = columns.filter(item => item.toggable);
+    // 开启了footable，不需要考虑设置了breakpoint的列了
+    const filterColumns = columns.filter(item => item.toggable && !(footable && item.breakpoint));
     const result: any[] = [];
 
     for (let index = 0; index < filterColumns.length; index++) {
@@ -182,14 +184,16 @@ export class TableBody extends React.Component<TableBodyProps> {
     }
 
     // 缺少的单元格补齐
+    // 考虑是否设置了
+    // 开启了footable，不需要考虑设置了breakpoint的列了
     const appendLen =
-      columns.length - result.reduce((p, c) => p + (c.colSpan || 1), 0);
+      (footable ? columns.filter(item => !item.breakpoint).length : columns.length) - result.reduce((p, c) => p + (c.colSpan || 1), 0);
 
     if (appendLen) {
       const item = result.pop();
       result.push({
         ...item,
-        colSpan: (item.colSpan || 1) + appendLen
+        colSpan: (item?.colSpan || 1) + appendLen
       });
     }
     const ctx = createObject(data, {

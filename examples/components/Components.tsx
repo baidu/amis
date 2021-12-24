@@ -776,6 +776,14 @@ export const components = [
         )
       },
       {
+        label: 'Table v2 表格',
+        path: '/zh-CN/components/table-v2',
+        getComponent: () =>
+          import('../../docs/zh-CN/components/table-v2.md').then(
+            makeMarkdownRenderer
+          )
+      },
+      {
         label: 'Table View 表格视图',
         path: '/zh-CN/components/table-view',
         component: React.lazy(() =>

@@ -322,11 +322,14 @@ export const HocQuickEdit =
         );
       }
 
-      openQuickEdit() {
+      openQuickEdit(e) {
         currentOpened = this;
         this.setState({
           isOpened: true
         });
+        // QuickEdit在table中使用时，如果table配置了checkOnItemClick，会同时触发行选中
+        // 所以这里阻止冒泡一下
+        e.stopPropagation && e.stopPropagation();
       }
 
       closeQuickEdit() {
