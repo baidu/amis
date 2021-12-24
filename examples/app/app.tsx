@@ -7,8 +7,7 @@ export default {
     type: 'tpl',
     inline: false,
     className: 'w-full',
-    tpl:
-      '<div class="flex justify-between"><div>顶部区域左侧</div><div>顶部区域右侧</div></div>'
+    tpl: '<div class="flex justify-between"><div>顶部区域左侧</div><div>顶部区域右侧</div></div>'
   },
   // footer: '<div class="p-2 text-center bg-light">底部区域</div>',
   // asideBefore: '<div class="p-2 text-center">菜单前面区域</div>',

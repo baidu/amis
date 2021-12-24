@@ -53,6 +53,7 @@ import HeaderHideSchema from './CRUD/HeaderHide';
 import LoadOnceTableCrudSchema from './CRUD/LoadOnce';
 import ExportCSVExcelSchema from './CRUD/ExportCSVExcel';
 import CRUDDynamicSchema from './CRUD/Dynamic';
+import ItemActionchema from './CRUD/ItemAction';
 import SdkTest from './Sdk/Test';
 import JSONSchemaForm from './Form/Schem';
 import SimpleDialogSchema from './Dialog/Simple';
@@ -84,7 +85,7 @@ import Tab1Schema from './Tabs/Tab1';
 import Tab2Schema from './Tabs/Tab2';
 import Tab3Schema from './Tabs/Tab3';
 import TestComponent from './Test';
-import APP from './APP/index';
+
 import {normalizeLink} from '../../src/utils/normalizeLink';
 
 export const examples = [
@@ -377,6 +378,11 @@ export const examples = [
             component: makeSchemaRenderer(LoadOnceTableCrudSchema)
           },
           {
+            label: '点击联动',
+            path: '/examples/crud/item-action',
+            component: makeSchemaRenderer(ItemActionchema)
+          },
+          {
             label: '导出 Excel/CSV',
             path: '/examples/crud/export-excel-csv',
             component: makeSchemaRenderer(ExportCSVExcelSchema)
@@ -577,49 +583,17 @@ export const examples = [
       {
         label: 'APP 多页应用',
         icon: 'fa fa-cubes',
-        path: '/examples/app',
-        component: makeSchemaRenderer(APP, false, {
-          session: 'app',
-          jumpTo: (to: string) => {
-            location.hash = to;
-          },
-          updateLocation: (to, replace) => {
-            if (to === 'goBack') {
-              return window.history.back();
-            }
-
-            if (replace && window.history.replaceState) {
-              window.history.replaceState(
-                '',
-                document.title,
-                normalizeLink(to)
-              );
-              return;
-            }
-
-            window.history.pushState('', document.title, normalizeLink(to));
-          },
-          isCurrentUrl: (to: string, ctx: any) => {
-            if (!to) {
-              return false;
-            }
-            const pathname = location.hash ? location.hash.substring(1) : '/';
-            const link = normalizeLink(to, {
-              ...location,
-              pathname,
-              hash: ''
-            });
-
-            if (!~link.indexOf('http') && ~link.indexOf(':')) {
-              return match(link, {
-                decode: decodeURIComponent,
-                strict: ctx?.strict ?? true
-              })(pathname);
-            }
-
-            return pathname === encodeURI(link);
+        path: '/app/',
+        component: () => {
+          // 如果在 gh-pages 里面
+          if (/^\/amis/.test(window.location.pathname)) {
+            window.open(`/amis/app/`, '_blank');
+          } else {
+            window.open(`/examples/app/`, '_blank');
           }
-        })
+
+          return null;
+        }
       }
 
       // {
