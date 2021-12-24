@@ -25,6 +25,7 @@ icon:
       "searchable": true,
       "pickerSize": "md",
       "menuTpl": "<div class='flex justify-between'><span>${label}</span>${email ? `<div class='text-muted m-r-xs text-sm text-right'>${email}<br />${phone}</div>`: ''}</div>",
+      "valueTpl": "${label}(${value})",
       "options": [
         {
           "label": "成员",

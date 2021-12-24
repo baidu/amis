@@ -78,6 +78,7 @@ icon:
         "type": "transfer-picker",
         "name": "transfer",
         "menuTpl": "<div class='flex justify-between'><span>${label}</span><span class='text-muted m-r text-sm'>${tag}</span></div>",
+        "valueTpl": "${label}(${value})",
         "options": [
           {
             "label": "诸葛亮",
