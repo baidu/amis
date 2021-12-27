@@ -81,7 +81,7 @@
 }
 
 .#{$ns}CalendarMobile {
-  height: px2rem(500px);
+  height: 100%;
   overflow: scroll;
 
   &-pop {
@@ -93,6 +93,7 @@
     background: #fff;
     border-radius: px2rem(16px) px2rem(16px) 0 0;
     overflow: hidden;
+    border-width: 0;
   }
 
   &-wrap {

@@ -78,22 +78,26 @@
 
   &-closeWrap{
     width: 100%;
-    position: absolute !important;
+    position: absolute;
     left: 0;
     top: 0;
+    text-align: center;
+    height: px2rem(48px);
+    line-height: px2rem(48px);
   }
 
-  &-close{
-    width: px2rem(34px) !important;
-    height: px2rem(34px) !important;
-    padding: px2rem(12px);
+  &-closeWrap &-close{
+    position: absolute;
+    z-index: 1;
+    color: var(--icon-color);
     cursor: pointer;
+    top: px2rem(15px);
+    right: px2rem(15px);
   }
 
   &-content{
-    overflow-y: auto;
+    overflow-y: scroll;
     height: 100%;
-    display: flex;
   }
 
   & > * {

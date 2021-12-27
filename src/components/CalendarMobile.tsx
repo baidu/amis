@@ -6,10 +6,10 @@
 
 import React from 'react';
 import moment from 'moment';
-import {Icon} from './icons';
 import Calendar from './calendar/Calendar';
 import {themeable, ThemeProps} from '../theme';
 import {LocaleProps, localeable} from '../locale';
+import {autobind} from '../utils/helper';
 
 export interface CalendarMobileProps extends ThemeProps, LocaleProps {
   className?: string;
@@ -28,16 +28,14 @@ export interface CalendarMobileProps extends ThemeProps, LocaleProps {
   confirm?: () => void;
   onChange?: (data: any, callback?: () => void) => void;
   footerExtra?: JSX.Element | null;
+  showViewMode?: 'years' | 'months';
 }
 
 export interface CalendarMobileState {
   startDate?: moment.Moment;
   endDate?: moment.Moment;
-  minDate: moment.Moment;
-  maxDate: moment.Moment;
   monthHeights?: number[];
   currentDate: moment.Moment;
-  showViewMode: 'years' | 'months';
   showToast: boolean;
   isScrollToBottom: boolean;
   dateTime: any;
@@ -50,6 +48,13 @@ export class CalendarMobile extends React.Component<
 
   mobileBody: any;
   mobileHeader: any;
+  timer: any;
+
+  static defaultProps: Pick<CalendarMobileProps, 'showViewMode' | 'minDate' | 'maxDate'> = {
+    showViewMode: 'months',
+    minDate: moment().subtract(1, 'year').startOf('months'),
+    maxDate: moment().add(1, 'year').endOf('months'),
+  };
 
   constructor(props: CalendarMobileProps) {
     super(props);
@@ -57,29 +62,11 @@ export class CalendarMobile extends React.Component<
     this.mobileBody = React.createRef();
     this.mobileHeader = React.createRef();
 
-    this.renderQuarter = this.renderQuarter.bind(this);
-    this.renderMonth = this.renderMonth.bind(this);
-    this.renderMobileDay = this.renderMobileDay.bind(this);
-    this.renderMobileCalendarBody = this.renderMobileCalendarBody.bind(this);
-    this.onMobileBodyScroll = this.onMobileBodyScroll.bind(this);
-    this.handleMobileChange = this.handleMobileChange.bind(this);
-    this.checkIsValidDate = this.checkIsValidDate.bind(this);
-    this.scrollPreYear = this.scrollPreYear.bind(this);
-    this.scrollAfterYear = this.scrollAfterYear.bind(this);
-    this.handleCalendarClick = this.handleCalendarClick.bind(this);
-    this.renderMobileTimePicker = this.renderMobileTimePicker.bind(this);
-    this.handleTimeChange = this.handleTimeChange.bind(this);
-
-    const {minDate, maxDate, startDate, endDate, viewMode} = this.props;
-
-    const showViewMode = viewMode === 'quarters' || viewMode === 'months' ? 'years' : 'months';
+    const {startDate, endDate, viewMode} = this.props;
 
     this.state = {
-      minDate: minDate || moment().subtract(1, 'year').startOf(showViewMode),
-      maxDate: maxDate || moment().add(1, 'year').endOf(showViewMode),
       startDate,
       endDate,
-      showViewMode,
       showToast: false,
       currentDate: moment(),
       isScrollToBottom: false,
@@ -99,6 +86,11 @@ export class CalendarMobile extends React.Component<
     }
   }
 
+  componentWillUnmount() {
+    this.setState({showToast: false});
+    clearTimeout(this.timer);
+  }
+
   initMonths() {
     if (this.mobileBody.current) {
       const header = this.mobileHeader.current;
@@ -115,16 +107,18 @@ export class CalendarMobile extends React.Component<
   }
 
   scollToDate(date: moment.Moment) {
-    const {minDate, showViewMode} = this.state;
+    const {minDate, showViewMode} = this.props;
     const index = date.diff(minDate, showViewMode);
     const currentEl = this.mobileBody.current.children[index];
     const header = this.mobileHeader.current;
     this.mobileBody.current.scrollBy(0, currentEl.offsetTop - this.mobileBody.current.scrollTop - header.clientHeight);
   }
 
+  @autobind
   onMobileBodyScroll(e: any) {
-    const {monthHeights, showViewMode} = this.state;
-    let minDate = this.state.minDate?.clone();
+    const {showViewMode} = this.props;
+    const {monthHeights} = this.state;
+    let minDate = this.props.minDate?.clone();
     if (!this.mobileBody?.current || !monthHeights || !minDate) {
       return;
     }
@@ -147,13 +141,15 @@ export class CalendarMobile extends React.Component<
     });
   }
 
+  @autobind
   scrollPreYear() {
     if (!this.state.currentDate) {
       return;
     }
-    let {minDate, currentDate} = this.state;
+    const {minDate} = this.props;
+    let {currentDate} = this.state;
     currentDate = currentDate.clone().subtract(1, 'years');
-    if (currentDate.isBefore(minDate)) {
+    if (minDate && currentDate.isBefore(minDate)) {
       currentDate = minDate;
     }
     this.setState({
@@ -162,13 +158,15 @@ export class CalendarMobile extends React.Component<
     this.scollToDate(currentDate);
   }
 
+  @autobind
   scrollAfterYear() {
     if (!this.state.currentDate) {
       return;
     }
-    let {maxDate, currentDate} = this.state;
+    const {maxDate} = this.props;
+    let {currentDate} = this.state;
     currentDate = currentDate.clone().add(1, 'years');
-    if (currentDate.isAfter(maxDate)) {
+    if (maxDate && currentDate.isAfter(maxDate)) {
       currentDate = maxDate;
     }
     this.setState({
@@ -180,21 +178,22 @@ export class CalendarMobile extends React.Component<
   getDaysOfWeek() {
     const locale = moment().localeData();
     const days = locale.weekdaysMin();
-    const	first = locale.firstDayOfWeek();
+    const first = locale.firstDayOfWeek();
     const	dow: string[] = [];
     let	i = 0;
-    
+
     days.forEach((day: string) => {
       dow[ (7 + ( i++ ) - first) % 7 ] = day;
     });
-    
+
     return dow;
   }
 
+  @autobind
   handleCalendarClick(isDisabled: boolean) {
     if (isDisabled) {
       this.setState({showToast: true});
-      setTimeout(() => {
+      this.timer = setTimeout(() => {
         this.setState({showToast: false});
       }, 2000);
     }
@@ -243,6 +242,53 @@ export class CalendarMobile extends React.Component<
     };
   }
 
+  @autobind
+  handleTimeChange(newTime: any) {
+    if (!newTime) {
+      return;
+    }
+    const {onChange} = this.props;
+    let {startDate, endDate} = this.state;
+    if (startDate) {
+      let obj = {
+        dateTime: newTime,
+        startDate: endDate ? startDate : startDate?.clone().set({hour: newTime[0], minute: newTime[1], second: 0}),
+        endDate: !endDate ? endDate : endDate?.clone().set({hour: newTime[0], minute: newTime[1], second: 0})
+      };
+      this.setState(obj, () => {
+        onChange && onChange(this.state);
+      });
+    }
+  }
+
+  @autobind
+  checkIsValidDate(currentDate: moment.Moment) {
+    const {minDate, maxDate} = this.props;
+    let {startDate, endDate} = this.state;
+    let {minDuration, maxDuration, viewMode} = this.props;
+    const precision = viewMode === 'time' ? 'hours' : viewMode || 'day';
+
+    if (minDate && currentDate.isBefore(minDate, precision)) {
+      return false;
+    }
+    else if (maxDate && currentDate.isAfter(maxDate, precision)) {
+      return false;
+    }
+    else if (startDate && !endDate) {
+      if (minDuration
+        && currentDate.isBefore(startDate.clone().add(minDuration))
+        && currentDate.isSameOrAfter(startDate)) {
+        return false;
+      }
+      else if (maxDuration && currentDate.isAfter(startDate.clone().add(maxDuration))) {
+        return false;
+      }
+    }
+
+    return true;
+  }
+
+  @autobind
   renderMobileDay(props: any, currentDate: moment.Moment) {
     const cx = this.props.classnames;
     const renderProps = this.getRenderProps(props, currentDate);
@@ -255,6 +301,7 @@ export class CalendarMobile extends React.Component<
     </td>;
   }
 
+  @autobind
   renderMonth(props: any, month: number, year: number) {
     const cx = this.props.classnames;
     const currentDate = moment().year(year).month(month);
@@ -275,6 +322,7 @@ export class CalendarMobile extends React.Component<
     );
   }
 
+  @autobind
   renderQuarter(props: any, quarter: number, year: number) {
     const cx = this.props.classnames;
     const currentDate = moment().year(year).quarter(quarter);
@@ -290,9 +338,10 @@ export class CalendarMobile extends React.Component<
     );
   }
 
+  @autobind
   handleMobileChange(newValue: moment.Moment) {
-    const {embed, minDuration, maxDuration, confirm, onChange, viewMode} = this.props;
-    const {startDate, endDate, minDate, maxDate, dateTime} = this.state;
+    const {embed, minDuration, maxDuration, confirm, onChange, viewMode, minDate, maxDate} = this.props;
+    const {startDate, endDate, dateTime} = this.state;
     const precision = viewMode === 'time' ? 'hours' : viewMode || 'day';
 
     if (minDate && newValue && newValue.isBefore(minDate, 'second')) {
@@ -331,58 +380,7 @@ export class CalendarMobile extends React.Component<
     );
   }
 
-  handleTimeChange(newTime: any) {
-    if (!newTime) {
-      return;
-    }
-    const onChange = this.props.onChange;
-    this.setState({
-      dateTime: newTime
-    });
-    let {startDate, endDate} = this.state;
-    if (startDate && endDate) {
-      this.setState({
-        endDate: endDate?.clone().set({hour: newTime[0], minute: newTime[1], second: 0})
-      },
-      () => {
-        onChange && onChange(this.state);
-      });
-    }
-    else if (startDate && !endDate) {
-      this.setState({
-        startDate: startDate?.clone().set({hour: newTime[0], minute: newTime[1], second: 0})
-      },
-      () => {
-        onChange && onChange(this.state);
-      });
-    }
-  }
-
-  checkIsValidDate(currentDate: moment.Moment) {
-    let {startDate, endDate, minDate, maxDate} = this.state;
-    let {minDuration, maxDuration, viewMode} = this.props;
-    const precision = viewMode === 'time' ? 'hours' : viewMode || 'day';
-
-    if (minDate && currentDate.isBefore(minDate, precision)) {
-      return false;
-    }
-    else if (maxDate && currentDate.isAfter(maxDate, precision)) {
-      return false;
-    }
-    else if (startDate && !endDate) {
-      if (minDuration
-        && currentDate.isBefore(startDate.clone().add(minDuration))
-        && currentDate.isSameOrAfter(startDate)) {
-        return false;
-      }
-      else if (maxDuration && currentDate.isAfter(startDate.clone().add(maxDuration))) {
-        return false;
-      }
-    }
-
-    return true;
-  }
-
+  @autobind
   renderMobileCalendarBody() {
     const {
       classnames: cx,
@@ -395,7 +393,7 @@ export class CalendarMobile extends React.Component<
     } = this.props;
     const __ = this.props.translate;
 
-    const {minDate, maxDate, showViewMode} = this.state;
+    const {minDate, maxDate, showViewMode} = this.props;
     if (!minDate || !maxDate) {
       return;
     }
@@ -451,6 +449,7 @@ export class CalendarMobile extends React.Component<
     );
   }
 
+  @autobind
   renderMobileTimePicker() {
     const {
       classnames: cx,
@@ -491,20 +490,21 @@ export class CalendarMobile extends React.Component<
       classnames: cx,
       embed,
       confirm,
-      close,
       footerExtra,
-      timeFormat
+      timeFormat,
+      minDate,
+      maxDate,
+      showViewMode
     } = this.props;
     const __ = this.props.translate;
 
-    const {startDate, endDate, currentDate, showViewMode, showToast, minDate, maxDate, isScrollToBottom} = this.state;
+    const {startDate, endDate, currentDate, showToast, isScrollToBottom} = this.state;
     let dateNow = currentDate
       ? currentDate.format(__(`Calendar.${showViewMode === 'months' ? 'yearmonth' : 'year'}`))
       : moment().format(__(`Calendar.${showViewMode === 'months' ? 'yearmonth' : 'year'}`));
 
     const header = (
       <div className={cx('CalendarMobile-header')} ref={this.mobileHeader}>
-        <div className={cx('CalendarMobile-title')}>{__('Calendar.datepicker')}</div>
         <div className={cx('CalendarMobile-subtitle')}>
           <span className="subtitle-text">
             {currentDate && currentDate.isSameOrBefore(minDate, showViewMode)
@@ -523,9 +523,6 @@ export class CalendarMobile extends React.Component<
             </span>
           ))}
         </div> : null}
-        {close && !embed && <a className={cx('CalendarMobile-close')}>
-          <Icon icon="close" className="icon" onClick={close} />
-        </a>}
       </div>
     );
 
@@ -548,7 +545,7 @@ export class CalendarMobile extends React.Component<
 
     return (
       <div className={cx('CalendarMobile',
-        embed ? 'CalendarMobile-embed' : 'CalendarMobile-pop',
+        embed ? 'CalendarMobile-embed' : '',
         className)}>
         <div className={cx('CalendarMobile-wrap')}>
           {header}

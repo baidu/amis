@@ -587,6 +587,7 @@ export class MonthRangePicker extends React.Component<
       confirm={this.confirm}
       onChange={this.handleMobileChange}
       footerExtra={this.renderRanges(ranges)}
+      showViewMode="years"
     />;
 
     if (embed) {
@@ -606,6 +607,8 @@ export class MonthRangePicker extends React.Component<
         </div>
       );
     }
+
+    const CalendarMobileTitle = <div className={`${ns}CalendarMobile-title`}>{__('Calendar.datepicker')}</div>;
 
     return (
       <div
@@ -645,7 +648,17 @@ export class MonthRangePicker extends React.Component<
         </a>
 
         {isOpened ? (
-          <Overlay
+          mobileUI ? (
+            <PopUp
+              isShow={isOpened}
+              className={cx(`${ns}CalendarMobile-pop`)}
+              onHide={this.close}
+              header={CalendarMobileTitle}
+            >
+              {calendarMobile}
+            </PopUp>
+          )
+          : <Overlay
             target={() => this.dom.current}
             onHide={this.close}
             container={popOverContainer || (() => findDOMNode(this))}
@@ -655,17 +668,12 @@ export class MonthRangePicker extends React.Component<
           >
             <PopOver
               classPrefix={ns}
-              className={cx(`${ns}DateRangePicker-popover`,
-                popoverClassName,
-                mobileUI ? 'PopOver-isMobile' : ''
-              )}
+              className={cx(`${ns}DateRangePicker-popover`, popoverClassName)}
               onHide={this.close}
               onClick={this.handlePopOverClick}
               overlay
             >
-              {mobileUI
-                ? calendarMobile
-                : this.renderCalendar()}
+              {this.renderCalendar()}
             </PopOver>
           </Overlay>
         ) : null}

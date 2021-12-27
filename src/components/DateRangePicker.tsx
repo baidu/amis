@@ -821,6 +821,7 @@ export class DateRangePicker extends React.Component<
       confirm={this.confirm}
       onChange={this.handleMobileChange}
       footerExtra={this.renderRanges(ranges)}
+      showViewMode={viewMode === 'quarters' || viewMode === 'months' ? 'years' : 'months'}
     />;
 
     if (embed) {
@@ -840,6 +841,8 @@ export class DateRangePicker extends React.Component<
         </div>
       );
     }
+
+    const CalendarMobileTitle = <div className={`${ns}CalendarMobile-title`}>{__('Calendar.datepicker')}</div>;
 
     return (
       <div
@@ -879,8 +882,20 @@ export class DateRangePicker extends React.Component<
           <Icon icon="clock" className="icon" />
         </a>
 
-        {(!(useMobileUI && isMobile()) || useCalendarMobile) && isOpened ? (
-          <Overlay
+        {isOpened ? (
+          useMobileUI && isMobile() ? (
+            <PopUp
+              isShow={isOpened}
+              className={cx(`${ns}CalendarMobile-pop`)}
+              onHide={this.close}
+              header={CalendarMobileTitle}
+            >
+              {useCalendarMobile
+                ? calendarMobile
+                : this.renderCalendar()}
+            </PopUp>
+          )
+          : <Overlay
             target={() => this.dom.current}
             onHide={this.close}
             container={popOverContainer || (() => findDOMNode(this))}
@@ -905,17 +920,6 @@ export class DateRangePicker extends React.Component<
             </PopOver>
           </Overlay>
         ) : null}
-        {
-          useMobileUI && isMobile() && !useCalendarMobile && (
-            <PopUp
-              isShow={isOpened}
-              className={cx(`${ns}DateRangePicker-popup`)}
-              onHide={this.handleClick}
-            >
-              {this.renderCalendar()}
-            </PopUp>
-          )
-        }
       </div>
     );
   }
