@@ -72,11 +72,6 @@ export interface DateRangeControlSchema extends FormBaseControl {
    * 开启后变成非弹出模式，即内联模式。
    */
   embed?: boolean;
-
-  /**
-   * 快捷模式，开启后不需要点击确认按钮
-   */
-  quickMode?: boolean;
 }
 
 export interface DateRangeProps
@@ -180,7 +175,6 @@ export default class DateRangeControl extends React.Component<DateRangeProps> {
       env,
       ...rest
     } = this.props;
-    env.useMobileUI = true
 
     return (
       <div className={cx(`${ns}DateRangeControl`, className)}>

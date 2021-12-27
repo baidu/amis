@@ -179,17 +179,17 @@ export class CalendarMobile extends React.Component<
 
   getDaysOfWeek() {
     const locale = moment().localeData();
-		const days = locale.weekdaysMin();
-		const	first = locale.firstDayOfWeek();
-		const	dow: string[] = [];
-		let	i = 0;
-
-		days.forEach((day: string) => {
-			dow[ (7 + ( i++ ) - first) % 7 ] = day;
-		});
-
-		return dow;
-	}
+    const days = locale.weekdaysMin();
+    const	first = locale.firstDayOfWeek();
+    const	dow: string[] = [];
+    let	i = 0;
+    
+    days.forEach((day: string) => {
+      dow[ (7 + ( i++ ) - first) % 7 ] = day;
+    });
+    
+    return dow;
+  }
 
   handleCalendarClick(isDisabled: boolean) {
     if (isDisabled) {
