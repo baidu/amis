@@ -13,7 +13,7 @@
     "dev": "fis3 release -cwd ./public",
     "publish-to-internal": "sh build.sh && sh publish.sh",
     "build": "sh build.sh",
-    "prettier": "prettier --write '{src,examples,scss}/**/*.{tsx,ts,jsx,scss}'",
+    "prettier": "prettier --write '{src,scss,examples}/**/**/*.{js,jsx,ts,tsx,scss,json}'",
     "deploy-gh-page": "sh ./deploy-gh-pages.sh",
     "build-schemas": "ts-node -O '{\"target\":\"es6\"}' scripts/build-schemas.ts"
   },
@@ -44,6 +44,7 @@
     "attr-accept": "2.2.2",
     "blueimp-canvastoblob": "2.1.0",
     "classnames": "2.3.1",
+    "codemirror": "^5.63.0",
     "downshift": "6.1.7",
     "echarts": "5.2.2",
     "echarts-stat": "^1.2.0",
@@ -88,14 +89,13 @@
     "tinymce": "^5.10.2",
     "tslib": "^2.3.1",
     "uncontrollable": "7.2.1",
-    "video-react": "0.14.1",
-    "codemirror": "^5.63.0"
+    "video-react": "0.14.1"
   },
   "devDependencies": {
-    "@types/codemirror": "^5.60.3",
     "@fortawesome/fontawesome-free": "^5.15.4",
     "@testing-library/react": "^12.0.0",
     "@types/async": "^2.0.45",
+    "@types/codemirror": "^5.60.3",
     "@types/echarts": "^4.9.2",
     "@types/file-saver": "^2.0.1",
     "@types/history": "^4.6.0",
@@ -148,6 +148,7 @@
     "jest-canvas-mock": "^2.3.0",
     "js-yaml": "^4.1.0",
     "json5": "^2.2.0",
+    "lint-staged": "^12.1.4",
     "marked": "^3.0.4",
     "mkdirp": "^1.0.4",
     "moment-timezone": "^0.5.33",

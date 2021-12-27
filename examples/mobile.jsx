@@ -16,14 +16,17 @@ import {render as renderAmis} from '../src/index';
 class AMISComponent extends React.Component {
   state = {
     schema: null,
-    props: {}
+    props: {useMobileUI: true}
   };
   constructor(props) {
     super(props);
     window.addEventListener('message', event => {
       const data = event.data;
       if (data && data.schema) {
-        this.setState({schema: data.schema, props: data.props});
+        this.setState({
+          schema: data.schema,
+          props: {useMobileUI: true, ...data.props}
+        });
       }
     });
     window.parent.postMessage('amisReady', '*');

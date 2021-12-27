@@ -1,7 +1,11 @@
 import React from 'react';
 import {FormItem, FormControlProps, FormBaseControl} from './Item';
 import cx from 'classnames';
-import {filterDate, isPureVariable, resolveVariableAndFilter} from '../../utils/tpl-builtin';
+import {
+  filterDate,
+  isPureVariable,
+  resolveVariableAndFilter
+} from '../../utils/tpl-builtin';
 import moment from 'moment';
 import 'moment/locale/zh-cn';
 import DatePicker from '../../components/DatePicker';
@@ -91,12 +95,14 @@ export interface DateControlSchema extends InputDateBaseControlSchema {
   /**
    * 日程
    */
-  schedules?: Array<{
-    startTime: Date,
-    endTime: Date,
-    content: any,
-    className?: string
-  }> | string;
+  schedules?:
+    | Array<{
+        startTime: Date;
+        endTime: Date;
+        content: any;
+        className?: string;
+      }>
+    | string;
   /**
    * 日程显示颜色自定义
    */
@@ -288,10 +294,10 @@ interface DateControlState {
   minDate?: moment.Moment;
   maxDate?: moment.Moment;
   schedules?: Array<{
-    startTime: Date,
-    endTime: Date,
-    content: any,
-    className?: string
+    startTime: Date;
+    endTime: Date;
+    content: any;
+    className?: string;
   }>;
 }
 
@@ -370,15 +376,25 @@ export default class DateControl extends React.PureComponent<
       });
     }
 
-    if (anyChanged(['schedules', 'data'], prevProps, props)
-      && (typeof props.schedules === 'string' && isPureVariable(props.schedules))
+    if (
+      anyChanged(['schedules', 'data'], prevProps, props) &&
+      typeof props.schedules === 'string' &&
+      isPureVariable(props.schedules)
     ) {
-      const schedulesData = resolveVariableAndFilter(props.schedules, props.data, '| raw');
-      const preSchedulesData = resolveVariableAndFilter(prevProps.schedules, prevProps.data, '| raw');
+      const schedulesData = resolveVariableAndFilter(
+        props.schedules,
+        props.data,
+        '| raw'
+      );
+      const preSchedulesData = resolveVariableAndFilter(
+        prevProps.schedules,
+        prevProps.data,
+        '| raw'
+      );
       if (Array.isArray(schedulesData) && preSchedulesData !== schedulesData) {
         this.setState({
           schedules: schedulesData
-        })
+        });
       }
     }
   }
@@ -408,8 +424,12 @@ export default class DateControl extends React.PureComponent<
       }
     };
 
-    onAction && onAction(null, scheduleAction || defaultscheduleAction, createObject(data, scheduleData));
-
+    onAction &&
+      onAction(
+        null,
+        scheduleAction || defaultscheduleAction,
+        createObject(data, scheduleData)
+      );
   }
 
   render() {
@@ -442,7 +462,6 @@ export default class DateControl extends React.PureComponent<
           format={valueFormat || format}
           {...this.state}
           classnames={cx}
-          useMobileUI={env.useMobileUI}
           schedules={this.state.schedules}
           largeMode={largeMode}
           onScheduleClick={this.onScheduleClick.bind(this)}
