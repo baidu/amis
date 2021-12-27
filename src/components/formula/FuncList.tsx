@@ -69,7 +69,9 @@ export function FuncList(props: FuncListProps) {
         <div className={cx('FormulaFuncList-column')}>
           {activeFunc ? (
             <div className={cx('FormulaFuncList-funcDetail')}>
-              <p>{activeFunc.example}</p>
+              <pre>
+                <code>{activeFunc.example}</code>
+              </pre>
               <div>{activeFunc.description}</div>
             </div>
           ) : null}

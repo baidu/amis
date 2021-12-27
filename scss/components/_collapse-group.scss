@@ -1,5 +1,4 @@
 .#{$ns}CollapseGroup {
-
   .#{$ns}Collapse:not(:last-child) {
     border-bottom: none;
   }
@@ -11,5 +10,4 @@
       }
     }
   }
-  
 }
