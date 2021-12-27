@@ -4,7 +4,7 @@ import {SchemaNode, Schema, Action, PlainObject} from '../types';
 import {filter, evalExpression} from '../utils/tpl';
 import Checkbox from '../components/Checkbox';
 import {padArr, isVisible, isDisabled, noop, hashCode} from '../utils/helper';
-import {resolveVariable} from '../utils/tpl-builtin';
+import {resolveVariable, resolveVariableAndFilter} from '../utils/tpl-builtin';
 import QuickEdit, {SchemaQuickEdit} from './QuickEdit';
 import PopOver, {SchemaPopOver} from './PopOver';
 import {TableCell} from './Table';
@@ -644,15 +644,19 @@ export class CardRenderer extends React.Component<CardProps> {
   }
 
   renderMedia() {
-    const {media, classnames: cx, render, region} = this.props;
+    const {media, classnames: cx, render, region, data} = this.props;
     if (media) {
       const {type, url, className, autoPlay, isLive, poster} = media;
+      const mediaUrl = resolveVariableAndFilter(url, data, '| raw');
 
-      if (type === 'image' && url) {
+      if (type === 'image' && mediaUrl) {
         return (
-          <img className={cx('Card-multiMedia-img', className)} src={url} />
+          <img
+            className={cx('Card-multiMedia-img', className)}
+            src={mediaUrl}
+          />
         );
-      } else if (type === 'video' && url) {
+      } else if (type === 'video' && mediaUrl) {
         return (
           <div className={cx('Card-multiMedia-video', className)}>
             {
@@ -660,7 +664,7 @@ export class CardRenderer extends React.Component<CardProps> {
                 type: type,
                 autoPlay: autoPlay,
                 poster: poster,
-                src: url,
+                src: mediaUrl,
                 isLive: isLive
               }) as JSX.Element
             }
