@@ -114,9 +114,7 @@ export class ConditionField extends React.Component<
               ref={ref}
               allowInput={false}
               result={
-                value
-                  ? findTree(options, item => item.name === value)?.label
-                  : ''
+                value ? findTree(options, item => item.name === value) : ''
               }
               onResultChange={noop}
               onResultClick={onClick}
