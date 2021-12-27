@@ -6,6 +6,7 @@ import {Icon} from './icons';
 import Input from './Input';
 import {autobind, ucFirst} from '../utils/helper';
 import {LocaleProps, localeable} from '../locale';
+import isPlainObject = require('lodash/isPlainObject');
 
 export interface ResultBoxProps
   extends ThemeProps,
@@ -147,7 +148,9 @@ export class ResultBox extends React.Component<ResultBoxProps> {
             </div>
           ))
         ) : result && !Array.isArray(result) ? (
-          <span className={cx('ResultBox-singleValue')}>{result}</span>
+          <span className={cx('ResultBox-singleValue')}>
+            {isPlainObject(result) ? itemRender(result) : result}
+          </span>
         ) : allowInput && !disabled ? null : (
           <span className={cx('ResultBox-placeholder')}>
             {__(placeholder || 'placeholder.noData')}

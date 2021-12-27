@@ -5,20 +5,28 @@ import {
 } from './Options';
 import React from 'react';
 import Transfer from '../../components/Transfer';
-import {Option} from './Options';
+import type {Option} from './Options';
 import {
   autobind,
   filterTree,
   string2regExp,
   createObject,
-  findTree
+  findTree,
+  findTreeIndex,
+  getTree,
+  spliceTree
 } from '../../utils/helper';
 import {Api} from '../../types';
 import Spinner from '../../components/Spinner';
 import find from 'lodash/find';
 import {optionValueCompare} from '../../components/Select';
 import {resolveVariable} from '../../utils/tpl-builtin';
-import {SchemaApi} from '../../Schema';
+import {SchemaApi, SchemaObject} from '../../Schema';
+import {BaseSelection, ItemRenderStates} from '../../components/Selection';
+import {
+  ItemRenderStates as ResultItemRenderStates,
+  ResultList
+} from '../../components/ResultList';
 
 /**
  * Transfer
@@ -91,6 +99,16 @@ export interface TransferControlSchema extends FormOptionsControl {
    * 右侧结果的标题文字
    */
   resultTitle?: string;
+
+  /**
+   * 用来丰富选项展示
+   */
+  menuTpl?: SchemaObject;
+
+  /**
+   * 用来丰富值的展示
+   */
+  valueTpl?: SchemaObject;
 }
 
 export interface BaseTransferProps
@@ -103,7 +121,6 @@ export interface BaseTransferProps
       | 'descriptionClassName'
       | 'inputClassName'
     > {
-  optionItemRender?: (option: Option) => JSX.Element;
   resultItemRender?: (option: Option) => JSX.Element;
 }
 
@@ -111,7 +128,7 @@ export class BaseTransferRenderer<
   T extends OptionsControlProps = BaseTransferProps
 > extends React.Component<T> {
   @autobind
-  handleChange(value: Array<Option>) {
+  handleChange(value: Array<Option>, optionModified?: boolean) {
     const {
       onChange,
       joinValues,
@@ -125,30 +142,37 @@ export class BaseTransferRenderer<
     let newOptions = options.concat();
 
     if (Array.isArray(value)) {
-      if (joinValues || extractValue) {
-        newValue = value.map(item => {
-          const resolved = findTree(
-            options,
-            optionValueCompare(
-              item[(valueField as string) || 'value'],
-              (valueField as string) || 'value'
-            )
-          );
+      newValue = value.map(item => {
+        const indexes = findTreeIndex(
+          options,
+          optionValueCompare(
+            item[(valueField as string) || 'value'],
+            (valueField as string) || 'value'
+          )
+        );
 
-          if (!resolved) {
-            newOptions.push(item);
-          }
+        if (!indexes) {
+          newOptions.push(item);
+        } else if (optionModified) {
+          const origin = getTree(newOptions, indexes);
+          newOptions = spliceTree(newOptions, indexes, 1, {
+            ...origin,
+            ...item
+          });
+        }
 
-          return item[(valueField as string) || 'value'];
-        });
-      }
+        return joinValues || extractValue
+          ? item[(valueField as string) || 'value']
+          : item;
+      });
 
       if (joinValues) {
         newValue = newValue.join(delimiter || ',');
       }
     }
 
-    newOptions.length > options.length && setOptions(newOptions, true);
+    (newOptions.length > options.length || optionModified) &&
+      setOptions(newOptions, true);
     onChange(newValue);
   }
 
@@ -221,6 +245,33 @@ export class BaseTransferRenderer<
   }
 
   @autobind
+  optionItemRender(option: Option, states: ItemRenderStates) {
+    const {menuTpl, render, data} = this.props;
+
+    if (menuTpl) {
+      return render(`item/${states.index}`, menuTpl, {
+        data: createObject(createObject(data, states), option)
+      });
+    }
+
+    return BaseSelection.itemRender(option, states);
+  }
+
+  @autobind
+  resultItemRender(option: Option, states: ResultItemRenderStates) {
+    const {valueTpl, render, data} = this.props;
+
+    if (valueTpl) {
+      return render(`value/${states.index}`, valueTpl, {
+        onChange: states.onChange,
+        data: createObject(createObject(data, states), option)
+      });
+    }
+
+    return ResultList.itemRender(option);
+  }
+
+  @autobind
   renderCell(
     column: {
       name: string;
@@ -264,7 +315,7 @@ export class BaseTransferRenderer<
       disabled,
       selectTitle,
       resultTitle,
-      optionItemRender,
+      menuTpl,
       resultItemRender
     } = this.props;
 
@@ -306,8 +357,8 @@ export class BaseTransferRenderer<
           cellRender={this.renderCell}
           selectTitle={selectTitle}
           resultTitle={resultTitle}
-          optionItemRender={optionItemRender}
-          resultItemRender={resultItemRender}
+          optionItemRender={this.optionItemRender}
+          resultItemRender={this.resultItemRender}
         />
 
         <Spinner overlay key="info" show={loading} />
