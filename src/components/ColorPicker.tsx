@@ -320,45 +320,43 @@ export class ColorControl extends React.PureComponent<
             </PopOver>
           </Overlay>
         ) : null}
-        {
-          useMobileUI && isMobile() && (
-            <PopUp
-              className={cx(`${ns}ColorPicker-popup`)}
-              isShow={isOpened}
-              onHide={this.handleClick}
-            >
-              {allowCustomColor ? (
-                <SketchPicker
-                  styles={{}}
-                  disableAlpha={!!~['rgb', 'hex'].indexOf(format as string)}
-                  color={value}
-                  presetColors={presetColors}
-                  onChangeComplete={this.handleChange}
-                />
-              ) : (
-                <GithubPicker
-                  color={value}
-                  colors={
-                    Array.isArray(presetColors)
-                      ? (presetColors
-                          .filter(
-                            item => typeof item === 'string' || isObject(item)
-                          )
-                          .map(item =>
-                            typeof item === 'string'
-                              ? item
-                              : isObject(item)
-                              ? item?.color
-                              : item
-                          ) as string[])
-                      : undefined
-                  }
-                  onChangeComplete={this.handleChange}
-                />
-              )}
-            </PopUp>
-          )
-        }
+        {useMobileUI && isMobile() && (
+          <PopUp
+            className={cx(`${ns}ColorPicker-popup`)}
+            isShow={isOpened}
+            onHide={this.handleClick}
+          >
+            {allowCustomColor ? (
+              <SketchPicker
+                styles={{}}
+                disableAlpha={!!~['rgb', 'hex'].indexOf(format as string)}
+                color={value}
+                presetColors={presetColors}
+                onChangeComplete={this.handleChange}
+              />
+            ) : (
+              <GithubPicker
+                color={value}
+                colors={
+                  Array.isArray(presetColors)
+                    ? (presetColors
+                        .filter(
+                          item => typeof item === 'string' || isObject(item)
+                        )
+                        .map(item =>
+                          typeof item === 'string'
+                            ? item
+                            : isObject(item)
+                            ? item?.color
+                            : item
+                        ) as string[])
+                    : undefined
+                }
+                onChangeComplete={this.handleChange}
+              />
+            )}
+          </PopUp>
+        )}
       </div>
     );
   }

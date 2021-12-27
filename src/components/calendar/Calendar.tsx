@@ -7,7 +7,7 @@ import CustomCalendarContainer from './CalendarContainer';
 import cx from 'classnames';
 import moment from 'moment';
 import {themeable, ThemeOutterProps, ThemeProps} from '../../theme';
-import {convertDateArrayToDate} from "../../utils/helper";
+import {convertDateArrayToDate} from '../../utils/helper';
 
 interface BaseDatePickerProps
   extends Omit<ReactDatePicker.DatetimepickerProps, 'viewMode'> {
@@ -195,8 +195,12 @@ class BaseDatePicker extends ReactDatePicker {
   };
 
   onConfirm = (value: number[], types: string[]) => {
-    const currentDate = (this.state.selectedDate || this.state.viewDate || moment()).clone();
-    
+    const currentDate = (
+      this.state.selectedDate ||
+      this.state.viewDate ||
+      moment()
+    ).clone();
+
     const date = convertDateArrayToDate(value, types, currentDate);
 
     if (!this.props.value) {
@@ -207,9 +211,8 @@ class BaseDatePicker extends ReactDatePicker {
     }
     this.props.onChange && this.props.onChange(date);
     this.props.onClose && this.props.onClose();
-  }
+  };
 
-  
   render() {
     const Component = CustomCalendarContainer as any;
     const viewProps = this.getComponentProps();
