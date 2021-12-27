@@ -2,6 +2,7 @@ import React from 'react';
 import Overlay from '../../components/Overlay';
 import Checkbox from '../../components/Checkbox';
 import PopOver from '../../components/PopOver';
+import PopUp from '../../components/PopUp';
 import {Icon} from '../../components/icons';
 import {
   autobind,
@@ -10,7 +11,8 @@ import {
   string2regExp,
   getTreeAncestors,
   getTreeParent,
-  ucFirst
+  ucFirst,
+  isMobile
 } from '../../utils/helper';
 import {
   FormOptionsControl,
@@ -23,7 +25,8 @@ import {ResultBox, Spinner} from '../../components';
 import xor from 'lodash/xor';
 import union from 'lodash/union';
 import compact from 'lodash/compact';
-import {RootClose} from '../../utils/RootClose';
+import { RootClose } from '../../utils/RootClose';
+import Cascader from '../../components/Cascader';
 
 /**
  * Nested Select
@@ -625,9 +628,11 @@ export default class NestedSelectControl extends React.Component<
       selectedOptions,
       clearable,
       loading,
-      borderMode
+      borderMode,
+      env
     } = this.props;
 
+    const mobileUI = env.useMobileUI && isMobile();
     return (
       <div className={cx('NestedSelectControl', className)}>
         <ResultBox
@@ -665,7 +670,28 @@ export default class NestedSelectControl extends React.Component<
         >
           {loading ? <Spinner size="sm" /> : undefined}
         </ResultBox>
-        {this.state.isOpened ? this.renderOuter() : null}
+        {mobileUI ? (
+          <PopUp
+            className={cx(`NestedSelect-popup`)}
+            isShow={this.state.isOpened}
+            onHide={this.close}
+            showConfirm={false}
+            showClose={false}
+          >
+            {
+              this.state.isOpened ? (
+                <Cascader
+                  onClose={this.close}
+                  {...this.props}
+                  options={this.props.options.slice()}
+                  value={selectedOptions}
+                />
+              ) : null
+            }
+          </PopUp>
+        ) : (
+          this.state.isOpened ? this.renderOuter() : null
+        )}
       </div>
     );
   }
