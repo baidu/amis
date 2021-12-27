@@ -18,6 +18,7 @@ interface BaseDatePickerProps
   onClose?: () => void;
   isEndDate?: boolean;
   minDate?: moment.Moment;
+  maxDate?: moment.Moment;
   renderDay?: (
     props: any,
     currentDate: moment.Moment,
@@ -92,6 +93,7 @@ class BaseDatePicker extends ReactDatePicker {
         'isEndDate',
         'classnames',
         'minDate',
+        'maxDate',
         'schedules',
         'largeMode',
         'onScheduleClick'
