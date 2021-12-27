@@ -16,7 +16,7 @@ import {render as renderAmis} from '../src/index';
 class AMISComponent extends React.Component {
   state = {
     schema: null,
-    props: {useMobileUI: true}
+    props: {}
   };
   constructor(props) {
     super(props);
