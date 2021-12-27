@@ -12,41 +12,48 @@ order: 21
 
 用来输入公式。还是 beta 版本，整体待优化。
 
-```schema: scope="formitem"
+```schema: scope="body"
 {
-  "type": "input-formula",
-  "name": "formula",
-  "label": "公式",
-  "variableMode": "tabs",
-  "evalMode": false,
-  "variables": [
-  {
-    "label": "表单字段",
-    "children": [
-      {
-        "label": "ID",
-        "value": "id"
-      },
-      {
-        "label": "ID2",
-        "value": "id2"
-      }
-    ]
-  },
-  {
-    "label": "流程字段",
-    "children": [
-      {
-        "label": "ID",
-        "value": "id"
-      },
-      {
-        "label": "ID2",
-        "value": "id2"
-      }
-    ]
-  }
-],
+  "type": "form",
+  "debug": true,
+  "body": [
+    {
+      "type": "input-formula",
+      "name": "formula",
+      "label": "公式",
+      "variableMode": "tabs",
+      "evalMode": false,
+      "value": "SUM(1 + 2)",
+      "variables": [
+        {
+          "label": "表单字段",
+          "children": [
+            {
+              "label": "ID",
+              "value": "id"
+            },
+            {
+              "label": "ID2",
+              "value": "id2"
+            }
+          ]
+        },
+        {
+          "label": "流程字段",
+          "children": [
+            {
+              "label": "ID",
+              "value": "id"
+            },
+            {
+              "label": "ID2",
+              "value": "id2"
+            }
+          ]
+        }
+      ],
+    }
+  ]
 }
 ```
 

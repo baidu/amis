@@ -54,7 +54,7 @@ export const components = [
           )
       },
       {
-        label: 'Grid 水平布局',
+        label: 'Grid 水平分栏',
         path: '/zh-CN/components/grid',
         getComponent: () =>
           import('../../docs/zh-CN/components/grid.md').then(

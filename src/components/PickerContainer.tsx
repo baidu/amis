@@ -19,6 +19,8 @@ export interface PickerContainerProps extends ThemeProps, LocaleProps {
     onClose: () => void;
     value: any;
     onChange: (value: any) => void;
+    setState: (state: any) => void;
+    [propName: string]: any;
   }) => JSX.Element;
   value?: any;
   onConfirm?: (value?: any) => void;
@@ -83,6 +85,15 @@ export class PickerContainer extends React.Component<
     this.close(undefined, () => onConfirm?.(this.state.value));
   }
 
+  @autobind
+  updateState(state: any = {}) {
+    const {isOpened, ...rest} = state;
+    this.setState({
+      ...this.state,
+      ...rest
+    });
+  }
+
   render() {
     const {
       children,
@@ -112,8 +123,9 @@ export class PickerContainer extends React.Component<
           ) : null}
           <Modal.Body>
             {popOverRender({
+              ...(this.state as any),
+              setState: this.updateState,
               onClose: this.close,
-              value: this.state.value,
               onChange: this.handleChange
             })}
           </Modal.Body>

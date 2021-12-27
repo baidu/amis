@@ -88,13 +88,7 @@ export class TransferDropDown extends Transfer<TransferDropDownProps> {
             )}
             borderMode={borderMode}
             allowInput={false}
-            result={
-              multiple
-                ? value
-                : value?.[0]
-                ? this.props.itemRender(value[0])
-                : null
-            }
+            result={multiple ? value : value?.[0] ? value?.[0] : null}
             onResultChange={onChange}
             onResultClick={onClick}
             placeholder={__('Select.placeholder')}

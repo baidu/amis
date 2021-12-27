@@ -1,7 +1,7 @@
 import {uncontrollable} from 'uncontrollable';
 import React from 'react';
 import {FormulaEditor, FormulaEditorProps} from './Editor';
-import {autobind} from '../../utils/helper';
+import {autobind, noop} from '../../utils/helper';
 import PickerContainer from '../PickerContainer';
 import Editor from './Editor';
 import ResultBox from '../ResultBox';
@@ -63,6 +63,7 @@ export class FormulaPicker extends React.Component<FormulaPickerProps> {
               rest.variables,
               rest.functions
             )}
+            onResultChange={noop}
             onResultClick={onClick}
             disabled={disabled}
             borderMode={borderMode}

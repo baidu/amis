@@ -364,7 +364,7 @@ $L1: 0px 4px 6px 0px rgba(8, 14, 26, 0.06),
   --Table-onHover-bg: #f5f5f5;
   --Table-onHover-bg-rgb: 245, 251, 255;
   --Table-onHover-borderColor: #eceff8;
-  --Table-onChecked-bg: transparent;
+  --Table-onChecked-bg: #f0faff;
   --Table-onChecked-borderColor: #eceff8;
   --Table-onChecked-color: #333;
   --Table-onChecked-onHover-bg: #f5f5f5;
@@ -612,6 +612,7 @@ $L1: 0px 4px 6px 0px rgba(8, 14, 26, 0.06),
   --Progress-borderRadius: #{$R7};
 
   --Rating-inactive-color: #{$G9};
+
   // timeline
   --TimelineItem--axle-flex: 0 0 #{px2rem(24px)};
   --TimelineItem--left-line-width: #{px2rem(2px)};
@@ -653,4 +654,9 @@ $L1: 0px 4px 6px 0px rgba(8, 14, 26, 0.06),
   --Timeline--info-bg: var(--info);
   --Timeline--warning-bg: var(--warning);
   --Timeline--danger-bg: var(--danger);
+
+
+  // Formula
+  --Formula-header-bgColor: #{$G10};
+  --Formula-funcItem-bgColor-onActive: #{$light};
 }
