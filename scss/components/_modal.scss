@@ -231,3 +231,21 @@
     }
   }
 }
+
+/* 移动端样式调整 */
+@include media-breakpoint-down(sm) {
+  .#{$ns}Modal {
+    .#{$ns}Modal-footer {
+      display: flex;
+
+      > .#{$ns}Button {
+        flex: 1;
+        height: px2rem(44px);
+
+        &:first-child {
+          margin-left: 0;
+        }
+      }
+    }
+  }
+}
