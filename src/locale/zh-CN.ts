@@ -260,5 +260,7 @@ register('zh-CN', {
   'Condition.cond_placeholder': '请选择操作',
   'Condition.field_placeholder': '请选择字段',
   'Condition.blank': '空',
-  'InputTable.uniqueError': '列`{{label}}`没有通过唯一验证'
+  'InputTable.uniqueError': '列`{{label}}`没有通过唯一验证',
+  'Timeline.collapseText': '展开',
+  'Timeline.expandText': '折叠',
 });
