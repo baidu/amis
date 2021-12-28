@@ -1096,11 +1096,12 @@
   --PickerColumns-bg: white;
   --PickerColumns-toolbar-height: #{px2rem(50px)};
   --PickerColumns-title-fontSize: var(--fontSizeLg);
+  --PickerColumns-title-color: #222;
   --PickerColumns-title-lineHeight: 1.5;
-  --PickerColumns-action-padding: 0 var(--gap-sm);
-  --PickerColumns-action-fontSize: var(--fontSizeMd);
-  --PickerColumns-confirmAction-color: #{lighten($text-color, 25%)};
-  --PickerColumns-cancelAction-color: #{lighten($text-color, 50%)};
+  --PickerColumns-action-padding: 0 var(--gap-md);
+  --PickerColumns-action-fontSize: var(--fontSizeLg);
+  --PickerColumns-confirmAction-color: #2468F2;
+  --PickerColumns-cancelAction-color: #666;
   --PickerColumns-option-fontSize: var(--fontSizeLg);
   --PickerColumns-optionText-color: var(--text-color);
   --PickerColumns-optionDisabled-opacity: 0.3;
