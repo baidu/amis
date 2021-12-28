@@ -176,6 +176,9 @@
     &.is-mobile {
       width: 100%;
       text-align: center;
+      .#{$ns}Select-option {
+        line-height: px2rem(36px);
+      }
     }
   }
   &--longlist {
@@ -216,7 +219,6 @@
   }
 
   &-option {
-    line-height: px2rem(36px);
     cursor: pointer;
     min-width: px2rem(120px);
     padding: calc(
