@@ -710,8 +710,9 @@ export class DatePicker extends React.Component<DateProps, DatePickerState> {
         ) : null}
         {useMobileUI && isMobile() ? (
           <PopUp
-            className={cx(`${ns}DatePicker-popup`)}
+            className={cx(`${ns}DatePicker-popup DatePicker-mobile`)}
             isShow={isOpened}
+            showClose={false}
             onHide={this.handleClick}
           >
             {this.renderShortCuts(shortcuts)}
@@ -730,6 +731,7 @@ export class DatePicker extends React.Component<DateProps, DatePickerState> {
               onClose={this.close}
               locale={locale}
               minDate={minDate}
+              maxDate={maxDate}
               // utc={utc}
             />
           </PopUp>

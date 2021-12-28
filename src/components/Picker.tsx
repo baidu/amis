@@ -2,7 +2,12 @@
  * @file Picker
  * @description 移动端列滚动选择器
  */
-import React, {memo, ReactNode, useState, useEffect} from 'react';
+import React, {
+  memo,
+  ReactNode,
+  useState,
+  useEffect
+} from 'react';
 import {uncontrollable} from 'uncontrollable';
 
 import {themeable, ThemeProps} from '../theme';
@@ -16,6 +21,7 @@ export type PickerValue = string | number;
 export interface PickerProps extends ThemeProps, LocaleProps {
   title?: String | ReactNode;
   labelField?: string;
+  valueField?: string;
   className?: string;
   showToolbar?: boolean;
   defaultValue?: PickerValue[];
@@ -38,12 +44,14 @@ function fixToArray(data: any) {
 
 const Picker = memo<PickerProps>(props => {
   const {
+    title,
     labelField,
+    valueField,
     visibleItemCount = 5,
     value = [],
     swipeDuration = 1000,
     columns = [],
-    itemHeight = 30,
+    itemHeight = 48,
     showToolbar = true,
     className = '',
     classnames: cx,
@@ -55,9 +63,11 @@ const Picker = memo<PickerProps>(props => {
   const [innerValue, setInnerValue] = useState<PickerValue[]>(
     fixToArray(props.value === undefined ? props.defaultValue || [] : value)
   );
+
   useEffect(() => {
-    setInnerValue(value);
-  }, [value]);
+    if (value === innerValue) return
+    setInnerValue(fixToArray(value));
+  }, [value])
 
   const close = () => {
     if (props.onClose) {
@@ -90,7 +100,8 @@ const Picker = memo<PickerProps>(props => {
         {...item}
         classnames={cx}
         classPrefix={ns}
-        labelField={labelField}
+        labelField={labelField || item.labelField} 
+        valueField={valueField || item.valueField}
         itemHeight={itemHeight}
         swipeDuration={swipeDuration}
         visibleItemCount={visibleItemCount}
@@ -109,25 +120,29 @@ const Picker = memo<PickerProps>(props => {
   const maskStyle = {
     backgroundSize: `100% ${(wrapHeight - itemHeight) / 2}px`
   };
-
+  const hasHeader = showToolbar || title;
   return (
     <div className={cx(className, 'PickerColumns', 'PickerColumns-popOver')}>
-      {showToolbar && (
-        <div className={cx('PickerColumns-toolbar')}>
-          <Button
+      {hasHeader && (<div className={cx('PickerColumns-header')}>
+          {showToolbar && (<Button
             className="PickerColumns-cancel"
             level="default"
             onClick={close}
           >
             {__('cancel')}
-          </Button>
-          <Button
+          </Button>)}
+          {title && (
+            <div className={cx('PickerColumns-title')}>
+              {title}
+            </div>
+          )}
+          {showToolbar && (<Button
             className="PickerColumns-confirm"
             level="primary"
             onClick={confirm}
           >
             {__('confirm')}
-          </Button>
+          </Button>)}
         </div>
       )}
       <div className={cx('PickerColumns-columns')} style={columnsStyle}>
