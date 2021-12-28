@@ -172,6 +172,8 @@ export class CustomTimeView extends TimeView {
   };
 
   renderTimeViewPicker = () => {
+    const {translate: __} =  this.props;
+    const title = __('Date.titleTime');
     const columns: PickerColumnItem[] = [];
     const values = [];
 
@@ -204,6 +206,7 @@ export class CustomTimeView extends TimeView {
       <Picker
         translate={this.props.translate}
         locale={this.props.locale}
+        title={title}
         columns={columns}
         value={values}
         onConfirm={this.onConfirm}

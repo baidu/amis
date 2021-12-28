@@ -6,7 +6,7 @@
   overflow: hidden;
   font-size: var(--PickerColumns-option-fontSize);
 
-  &-toolbar {
+  &-header {
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -18,12 +18,12 @@
     height: 100%;
     padding: var(--PickerColumns-action-padding);
     font-size: var(--PickerColumns-action-fontSize);
-    background-color: transparent;
+    background-color: none !important;
     border: none;
     cursor: pointer;
 
     &:active {
-      opacity: 0.7;
+      background-color: none !important;
     }
     &:hover {
       background-color: none !important;
@@ -44,6 +44,7 @@
     font-size: var(--PickerColumns-title-fontSize);
     line-height: var(--PickerColumns-title-lineHeight);
     text-align: center;
+    color: var(--PickerColumns-title-color);
   }
 
   &-columns {
@@ -126,5 +127,10 @@
   &-columnItem.is-disabled {
     cursor: not-allowed;
     opacity: var(--PickerColumns-optionDisabled-opacity);
+  }
+
+  &-columnItemis-selected {
+    font-size: 18px;
+    color: --PickerColumns-title-color;
   }
 }

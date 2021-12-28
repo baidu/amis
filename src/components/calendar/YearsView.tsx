@@ -4,7 +4,7 @@ import moment from 'moment';
 import React from 'react';
 import {LocaleProps, localeable} from '../../locale';
 import Picker from '../Picker';
-import {convertDateToObject, getRange, isMobile} from '../../utils/helper';
+import {getRange, isMobile} from '../../utils/helper';
 
 export class CustomYearsView extends YearsView {
   props: {
@@ -42,10 +42,11 @@ export class CustomYearsView extends YearsView {
   };
 
   renderYearPicker = () => {
-    const {minDate, maxDate, selectedDate, viewDate} = this.props;
+    const {translate: __, minDate, maxDate, selectedDate, viewDate} = this.props;
     const year = (selectedDate || viewDate || moment()).year();
-    const maxYear = maxDate ? convertDateToObject(maxDate)!.year : year + 100;
-    const minYear = minDate ? convertDateToObject(minDate)!.year : year - 100;
+    const maxYear = maxDate ? maxDate.toObject().years : year + 100;
+    const minYear = minDate ? minDate.toObject().years : year - 100;
+    const title = __('Date.titleYear');
 
     const columns = [
       {
@@ -57,6 +58,7 @@ export class CustomYearsView extends YearsView {
       <Picker
         translate={this.props.translate}
         locale={this.props.locale}
+        title={title}
         columns={columns}
         value={[year]}
         onConfirm={this.onConfirm}
