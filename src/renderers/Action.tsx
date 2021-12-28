@@ -828,8 +828,20 @@ export class ActionRenderer extends React.Component<
     }
 > {
   @autobind
-  handleAction(e: React.MouseEvent<any> | void | null, action: any) {
+  async handleAction(e: React.MouseEvent<any> | void | null, action: any) {
     const {env, onAction, data, ignoreConfirm} = this.props;
+
+    // 触发广播
+    const broadcast = await env.triggerBroadcast(
+      e as React.MouseEvent<any>,
+      this,
+      data
+    );
+
+    // 阻止原有动作执行
+    if (broadcast?.prevented) {
+      return;
+    }
 
     if (!ignoreConfirm && action.confirmText && env.confirm) {
       env
