@@ -16,7 +16,7 @@ import PopOver from './PopOver';
 import PopUp from './PopUp';
 import {ClassNamesFn, themeable, ThemeProps} from '../theme';
 import {PlainObject} from '../types';
-import {noop, ucFirst, isMobile} from '../utils/helper';
+import {isMobile, noop, ucFirst} from '../utils/helper';
 import {LocaleProps, localeable} from '../locale';
 import CalendarMobile from './CalendarMobile';
 
