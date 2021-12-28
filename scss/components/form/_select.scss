@@ -159,6 +159,10 @@
     .#{$ns}Checkbox--sm > i {
       margin-top: px2rem(-3px);
     }
+    &.is-mobile {
+      width: 100%;
+      text-align: center;
+    }
   }
   &--longlist {
     overflow: hidden;
@@ -313,6 +317,10 @@
     &:hover svg {
       fill: var(--Form-input-onHover-iconColor);
     }
+  }
+
+  &-popup {
+    height: px2rem(300px);
   }
 }
 

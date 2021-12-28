@@ -37,6 +37,7 @@ import Spinner from './Spinner';
 import {Option, Options} from '../Schema';
 import {RemoteOptionsProps, withRemoteConfig} from './WithRemoteConfig';
 import Picker from './Picker';
+import PopUp from './PopUp';
 
 export {Option, Options};
 
@@ -923,23 +924,12 @@ export class Select extends React.Component<SelectProps, SelectState> {
       labelField: 'label',
       options: filtedOptions
     };
-    const menu = mobileUI ? (
-      <Picker
-        className={cx('PickerColumns-column', mobileClassName)}
-        labelField='label'
-        value={value[0]}
-        translate={this.props.translate}
-        locale={this.props.locale}
-        columns={[column]}
-        onChange={checkAll ? noop : this.handlePickerChange}
-        onClose={this.close}
-        onConfirm={this.confirm}
-      />
-    ) : (
+    const menu = (
       <div
         ref={this.menu}
         className={cx('Select-menu', {
-          'Select--longlist': filtedOptions.length && filtedOptions.length > 100
+          'Select--longlist': filtedOptions.length && filtedOptions.length > 100,
+          'is-mobile': mobileUI
         })}
       >
         {searchable ? (
@@ -1021,8 +1011,15 @@ export class Select extends React.Component<SelectProps, SelectState> {
         )}
       </div>
     );
-
-    return (
+    return mobileUI ? (
+      <PopUp
+        className={cx(`Select-popup`)}
+        isShow={this.state.isOpen}
+        onHide={this.close}
+      >
+        {menu}
+      </PopUp>
+    ) : (
       <Overlay
         container={popOverContainer || this.getTarget}
         target={this.getTarget}
