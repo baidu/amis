@@ -1029,9 +1029,7 @@ export class Select extends React.Component<SelectProps, SelectState> {
         <PopOver
           overlay
           className={cx(
-            'Select-popover',
-            popoverClassName,
-            mobileUI ? 'PopOver-isMobile' : ''
+            'Select-popover'
           )}
           style={{
             minWidth: this.target ? this.target.offsetWidth : 'auto'

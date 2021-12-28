@@ -92,78 +92,65 @@ export class PopUp extends React.PureComponent<PopUpPorps> {
     } = this.props;
 
     const outerStyle: any = {
-      ...style,
+      ...style
     };
     delete outerStyle.top;
     return (
       <Portal container={container}>
-        <Transition
-          mountOnEnter
-          unmountOnExit
-          in={isShow}
-          timeout={500}
-          appear
-        >
+        <Transition mountOnEnter unmountOnExit in={isShow} timeout={500} appear>
           {(status: string) => {
-              return (
-                <div
-                  className={cx(
-                    `${ns}PopUp`,
-                    className,
-                    fadeStyles[status]
-                  )}
-                  style={outerStyle}
-                  {...rest}
-                  onClick={this.handleClick}
-                >
-                  {overlay && (
-                    <div className={`${ns}PopUp-overlay`} onClick={onHide}/>
-                  )}
-                  <div className={cx(
-                    `${ns}PopUp-inner`
-                  )}
+            return (
+              <div
+                className={cx(`${ns}PopUp`, className, fadeStyles[status])}
+                style={outerStyle}
+                {...rest}
+                onClick={this.handleClick}
+              >
+                {overlay && (
+                  <div className={`${ns}PopUp-overlay`} onClick={onHide} />
+                )}
+                <div className={cx(`${ns}PopUp-inner`)}>
+                  {
+                    !showConfirm && showClose && (
+                      <div className={cx(`${ns}PopUp-closeWrap`, 'text-right')}>
+                        <Icon
+                          icon="close"
+                        className={cx('icon', `${ns}PopUp-close`)}
+                          onClick={onHide}
+                        />
+                      </div>
+                    )
+                  }
+                  {
+                    showConfirm && (
+                      <div className={cx(`${ns}PopUp-toolbar`)}>
+                        <Button className={cx(`${ns}PopUp-cancel`)} level="default" onClick={onHide}>
+                          {__('cancel')}
+                        </Button>
+                        {
+                          title && (
+                              <span className={cx(`${ns}PopUp-title`)}>{ title}</span>
+                          )
+                        }
+                        <Button className={cx(`${ns}PopUp-confirm`)} level="primary" onClick={onConfirm}>
+                          {__('confirm')}
+                        </Button>
+                      </div>
+                    )
+                  }
+                  <div
+                    className={cx(`${ns}PopUp-content`, `justify-${placement}`)}
                   >
-                    {
-                      !showConfirm && showClose && (
-                        <div className={cx(`${ns}PopUp-closeWrap`, 'text-right')}>
-                          <Icon
-                            icon="close"
-                          className={cx('icon', `${ns}PopUp-close`)}
-                            onClick={onHide}
-                          />
-                        </div>
-                      )
-                    }
-                    {
-                      showConfirm && (
-                        <div className={cx(`${ns}PopUp-toolbar`)}>
-                          <Button className={cx(`${ns}PopUp-cancel`)} level="default" onClick={onHide}>
-                            {__('cancel')}
-                          </Button>
-                          {
-                            title && (
-                               <span className={cx(`${ns}PopUp-title`)}>{ title}</span>
-                            )
-                          }
-                          <Button className={cx(`${ns}PopUp-confirm`)} level="primary" onClick={onConfirm}>
-                            {__('confirm')}
-                          </Button>
-                        </div>
-                      )
-                    }
-                    <div
-                      className={cx(`${ns}PopUp-content`, `justify-${placement}`)}
-                    >
-                      {isShow ? children : null}
-                    </div>
-                    <div className={cx(`PopUp-safearea`)}></div>
+                    {isShow ? children : null}
                   </div>
+                  <div className={cx(`PopUp-safearea`)}></div>
                 </div>
-              )
+              </div>
+            );
           }}
         </Transition>
       </Portal>
-    )
+    );
   }
 }
 

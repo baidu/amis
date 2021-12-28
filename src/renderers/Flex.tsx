@@ -112,13 +112,9 @@ export default class Flex extends React.Component<FlexProps, object> {
 
     return (
       <div style={flexStyle} className={className}>
-        {(Array.isArray(items)
-          ? items
-          : items
-          ? [items]
-          : []
-        ).map((item, key) =>
-          render(`flexItem/${key}`, item, {key: `flexItem/${key}`})
+        {(Array.isArray(items) ? items : items ? [items] : []).map(
+          (item, key) =>
+            render(`flexItem/${key}`, item, {key: `flexItem/${key}`})
         )}
       </div>
     );

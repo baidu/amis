@@ -859,17 +859,15 @@ export class DateRangePicker extends React.Component<
             </PopOver>
           </Overlay>
         ) : null}
-        {
-          useMobileUI && isMobile() && (
-            <PopUp
-              isShow={isOpened}
-              className={cx(`${ns}DateRangePicker-popup`)}
-              onHide={this.handleClick}
-            >
-              {this.renderCalendar()}
-            </PopUp>
-          )
-        }
+        {useMobileUI && isMobile() && (
+          <PopUp
+            isShow={isOpened}
+            className={cx(`${ns}DateRangePicker-popup`)}
+            onHide={this.handleClick}
+          >
+            {this.renderCalendar()}
+          </PopUp>
+        )}
       </div>
     );
   }

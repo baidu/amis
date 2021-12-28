@@ -33,9 +33,12 @@ export interface CustomProps extends FormControlProps, CustomSchema {
 
 // 添加resolver，指定所有参数的联合字符串为key。因为最后一个参数为函数体
 // 缓存一下，避免在 crud 中的自定义组件被大量执行
-const getFunction = memoize((...args) => {
-  return new Function(...args);
-}, (...args) => JSON.stringify(args));
+const getFunction = memoize(
+  (...args) => {
+    return new Function(...args);
+  },
+  (...args) => JSON.stringify(args)
+);
 
 export class Custom extends React.Component<CustomProps, object> {
   static defaultProps: Partial<CustomProps> = {

@@ -149,16 +149,8 @@ export class FlvSource extends React.Component<FlvSourceProps, any> {
   unsubscribe: any;
 
   componentDidMount() {
-    let {
-      src,
-      video,
-      config,
-      manager,
-      isLive,
-      autoPlay,
-      actions,
-      setError
-    } = this.props;
+    let {src, video, config, manager, isLive, autoPlay, actions, setError} =
+      this.props;
 
     this.initFlv({
       video,
@@ -174,16 +166,8 @@ export class FlvSource extends React.Component<FlvSourceProps, any> {
 
   componentDidUpdate(prevProps: FlvSourceProps) {
     const props = this.props;
-    let {
-      autoPlay,
-      actions,
-      src,
-      setError,
-      isLive,
-      config,
-      video,
-      manager
-    } = props;
+    let {autoPlay, actions, src, setError, isLive, config, video, manager} =
+      props;
 
     if (src !== prevProps.src) {
       setError('');
