@@ -7,7 +7,7 @@ import {Icon} from '../icons';
 import {ClassNamesFn} from '../../theme';
 import Picker from '../Picker';
 import {PickerColumnItem} from '../PickerColumn';
-import {getRange, isMobile} from "../../utils/helper";
+import {getRange, isMobile} from '../../utils/helper';
 
 export class CustomTimeView extends TimeView {
   props: {
@@ -90,7 +90,7 @@ export class CustomTimeView extends TimeView {
       return parseInt(value);
     }
     return 0;
-  }
+  };
 
   renderCounter = (type: string) => {
     const cx = this.props.classnames;
@@ -150,12 +150,12 @@ export class CustomTimeView extends TimeView {
 
   onConfirm = (value: number[]) => {
     this.props.onConfirm && this.props.onConfirm(value, this.state.counters);
-  }
+  };
 
   getDayPartOptions = () => {
     const {translate: __} = this.props;
     let options = ['am', 'pm'];
-    if ( this.props.timeFormat.indexOf( ' A' ) !== -1 ) {
+    if (this.props.timeFormat.indexOf(' A') !== -1) {
       options = ['AM', 'PM'];
     }
 
@@ -163,7 +163,7 @@ export class CustomTimeView extends TimeView {
       text: __(daypart),
       value: daypart
     }));
-  }
+  };
 
   renderTimeViewPicker = () => {
     const columns: PickerColumnItem[] = [];
@@ -174,10 +174,12 @@ export class CustomTimeView extends TimeView {
         const counterValue: number = this.getCounterValue(type);
         let {min, max, step} = this.timeConstraints[type];
         // 修正am pm时hours可选最大值
-        if (type === 'hours'
-          && this.state.daypart !== false
-          && this.props.timeFormat.toLowerCase().indexOf(' a') !== -1) {
-            max = max > 12 ? 12 : max;
+        if (
+          type === 'hours' &&
+          this.state.daypart !== false &&
+          this.props.timeFormat.toLowerCase().indexOf(' a') !== -1
+        ) {
+          max = max > 12 ? 12 : max;
         }
         columns.push({
           options: getRange(min, max, step)
@@ -189,7 +191,7 @@ export class CustomTimeView extends TimeView {
       columns.push({
         options: this.getDayPartOptions()
       });
-      values.push(this.state.daypart)
+      values.push(this.state.daypart);
     }
 
     return (
@@ -197,21 +199,21 @@ export class CustomTimeView extends TimeView {
         translate={this.props.translate}
         locale={this.props.locale}
         columns={columns}
-        value={values} 
+        value={values}
         onConfirm={this.onConfirm}
         onClose={this.props.onClose}
-        />
+      />
     );
-  }
+  };
 
   render() {
     let counters: Array<JSX.Element | null> = [];
     const cx = this.props.classnames;
-    
+
     if (isMobile() && this.props.useMobileUI) {
-      return <div className={cx('CalendarTime')}>
-          {this.renderTimeViewPicker()}
-        </div>
+      return (
+        <div className={cx('CalendarTime')}>{this.renderTimeViewPicker()}</div>
+      );
     }
     this.state.counters.forEach(c => {
       if (counters.length) {

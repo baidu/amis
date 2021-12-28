@@ -926,7 +926,7 @@ export class Select extends React.Component<SelectProps, SelectState> {
     const menu = mobileUI ? (
       <Picker
         className={cx('PickerColumns-column', mobileClassName)}
-        labelField='label'
+        labelField="label"
         value={value[0]}
         translate={this.props.translate}
         locale={this.props.locale}

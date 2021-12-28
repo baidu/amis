@@ -23,7 +23,10 @@ class AMISComponent extends React.Component {
     window.addEventListener('message', event => {
       const data = event.data;
       if (data && data.schema) {
-        this.setState({schema: data.schema, props: data.props});
+        this.setState({
+          schema: data.schema,
+          props: {useMobileUI: true, ...data.props}
+        });
       }
     });
     window.parent.postMessage('amisReady', '*');
