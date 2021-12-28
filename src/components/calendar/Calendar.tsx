@@ -7,7 +7,7 @@ import CustomCalendarContainer from './CalendarContainer';
 import cx from 'classnames';
 import moment from 'moment';
 import {themeable, ThemeOutterProps, ThemeProps} from '../../theme';
-import {convertDateArrayToDate} from "../../utils/helper";
+import {convertDateArrayToDate} from '../../utils/helper';
 
 interface BaseDatePickerProps
   extends Omit<ReactDatePicker.DatetimepickerProps, 'viewMode'> {
@@ -18,6 +18,7 @@ interface BaseDatePickerProps
   onClose?: () => void;
   isEndDate?: boolean;
   minDate?: moment.Moment;
+  maxDate?: moment.Moment;
   renderDay?: (
     props: any,
     currentDate: moment.Moment,
@@ -96,6 +97,7 @@ class BaseDatePicker extends ReactDatePicker {
         'isEndDate',
         'classnames',
         'minDate',
+        'maxDate',
         'schedules',
         'largeMode',
         'onScheduleClick',
@@ -201,8 +203,12 @@ class BaseDatePicker extends ReactDatePicker {
   };
 
   onConfirm = (value: number[], types: string[]) => {
-    const currentDate = (this.state.selectedDate || this.state.viewDate || moment()).clone();
-    
+    const currentDate = (
+      this.state.selectedDate ||
+      this.state.viewDate ||
+      moment()
+    ).clone();
+
     const date = convertDateArrayToDate(value, types, currentDate);
 
     if (!this.props.value) {
@@ -213,9 +219,8 @@ class BaseDatePicker extends ReactDatePicker {
     }
     this.props.onChange && this.props.onChange(date);
     this.props.onClose && this.props.onClose();
-  }
+  };
 
-  
   render() {
     const Component = CustomCalendarContainer as any;
     const viewProps = this.getComponentProps();

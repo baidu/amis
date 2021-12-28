@@ -4,7 +4,7 @@ import moment from 'moment';
 import React from 'react';
 import {LocaleProps, localeable} from '../../locale';
 import Picker from '../Picker';
-import {convertDateToObject, getRange, isMobile} from "../../utils/helper";
+import {convertDateToObject, getRange, isMobile} from '../../utils/helper';
 
 export class CustomYearsView extends YearsView {
   props: {
@@ -38,28 +38,30 @@ export class CustomYearsView extends YearsView {
   };
 
   onConfirm = (value: number[]) => {
-    this.props.onConfirm && this.props.onConfirm(value, ["year"])
-  }
+    this.props.onConfirm && this.props.onConfirm(value, ['year']);
+  };
 
   renderYearPicker = () => {
-    const {minDate, maxDate, selectedDate, viewDate} =  this.props;
+    const {minDate, maxDate, selectedDate, viewDate} = this.props;
     const year = (selectedDate || viewDate || moment()).year();
     const maxYear = maxDate ? convertDateToObject(maxDate)!.year : year + 100;
     const minYear = minDate ? convertDateToObject(minDate)!.year : year - 100;
-    
-    const columns = [{
-      options: getRange(minYear, maxYear, 1)
-    }];
+
+    const columns = [
+      {
+        options: getRange(minYear, maxYear, 1)
+      }
+    ];
 
     return (
       <Picker
         translate={this.props.translate}
         locale={this.props.locale}
         columns={columns}
-        value={[year]} 
+        value={[year]}
         onConfirm={this.onConfirm}
         onClose={this.props.onClose}
-        />
+      />
     );
   };
 
@@ -67,13 +69,9 @@ export class CustomYearsView extends YearsView {
     let year = this.props.viewDate.year();
     year = year - (year % 10);
     const __ = this.props.translate;
-    
+
     if (isMobile() && this.props.useMobileUI) {
-      return (
-        <div className="rdtYears">
-          {this.renderYearPicker()}
-        </div>
-      );
+      return <div className="rdtYears">{this.renderYearPicker()}</div>;
     }
     return (
       <div className="rdtYears">

@@ -72,7 +72,7 @@ export default class ColorControl extends React.PureComponent<
     return (
       <div className={cx(`${ns}ColorControl`, className)}>
         <Suspense fallback={<div>...</div>}>
-          <ColorPicker classPrefix={ns} {...rest} value={value || ''} useMobileUI={env.useMobileUI}/>
+          <ColorPicker classPrefix={ns} {...rest} value={value || ''} />
         </Suspense>
       </div>
     );

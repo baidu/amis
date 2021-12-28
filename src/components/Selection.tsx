@@ -29,18 +29,30 @@ export interface BaseSelectionProps extends ThemeProps, LocaleProps {
   labelClassName?: string;
   option2value?: (option: Option) => any;
   itemClassName?: string;
-  itemRender: (option: Option) => JSX.Element;
+  itemRender: (option: Option, states: ItemRenderStates) => JSX.Element;
   disabled?: boolean;
   onClick?: (e: React.MouseEvent) => void;
+}
+
+export interface ItemRenderStates {
+  index: number;
+  multiple?: boolean;
+  checked: boolean;
+  onChange: () => void;
+  disabled?: boolean;
 }
 
 export class BaseSelection<
   T extends BaseSelectionProps = BaseSelectionProps,
   S = any
 > extends React.Component<T, S> {
+  static itemRender(option: Option, states: ItemRenderStates) {
+    return <span>{option.label}</span>;
+  }
+
   static defaultProps = {
     placeholder: 'placeholder.noOption',
-    itemRender: (option: Option) => <span>{option.label}</span>,
+    itemRender: BaseSelection.itemRender,
     multiple: true,
     clearable: false
   };
@@ -182,7 +194,13 @@ export class BaseSelection<
           labelClassName={labelClassName}
           description={option.description}
         >
-          {itemRender(option)}
+          {itemRender(option, {
+            index: key,
+            multiple: multiple,
+            checked: !!~valueArray.indexOf(option),
+            onChange: () => this.toggleOption(option),
+            disabled: disabled || option.disabled
+          })}
         </Checkbox>
       ));
     }

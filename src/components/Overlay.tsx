@@ -165,7 +165,7 @@ class Position extends React.Component<any, any> {
 interface OverlayProps {
   placement?: string;
   show?: boolean;
-  transition?: React.ReactType;
+  transition?: React.ElementType;
   containerPadding?: number;
   shouldUpdatePosition?: boolean;
   rootClose?: boolean;

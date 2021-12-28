@@ -406,3 +406,125 @@
 .#{$ns}Form-column-10 > .#{$ns}Form-item {
   width: 10%;
 }
+
+/* 移动端样式调整 */
+@include media-breakpoint-down(sm) {
+  .#{$ns}Form {
+    .#{$ns}Form-item {
+      display: flex;
+      flex-wrap: wrap;
+      margin-bottom: 0;
+      padding: var(--Form-item-gap) 0;
+      position: relative;
+
+      &::after {
+        position: absolute;
+        box-sizing: border-box;
+        content: ' ';
+        pointer-events: none;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        border-bottom: var(--Form-input-borderWidth) solid var(--borderColor);
+        transform: scaleY(0.5);
+      }
+
+      .#{$ns}InputGroup-addOn,
+      .#{$ns}TextControl-addOn {
+        border: none;
+      }
+
+      > .#{$ns}Form-label {
+        flex: 0 0 30%;
+        max-width: 30%;
+        min-height: 1px;
+        text-align: left;
+        padding-right: calc(var(--Form--horizontal-gutterWidth) / 2);
+        overflow-wrap: break-word;
+        margin-right: 0;
+        margin-bottom: 0;
+      }
+
+      .#{$ns}Form-value,
+      .#{$ns}Form-control {
+        flex: 1;
+        flex-wrap: wrap;
+
+        &.is-disabled > .#{$ns}TextControl-input {
+          background: transparent;
+        }
+      }
+
+      .#{$ns}Form-hint,
+      .#{$ns}Form-remark,
+      .#{$ns}Form-static,
+      .#{$ns}Form-group--hor .#{$ns}Form-item,
+      .#{$ns}SwitchControl,
+      .#{$ns}CheckboxControl,
+      .#{$ns}RadiosControl,
+      .#{$ns}CheckboxesControl {
+        padding-top: 0;
+        padding-bottom: 0;
+      }
+
+      .#{$ns}Form-hint {
+        margin-left: 0;
+        color: var(--text--muted-color);
+      }
+
+      .#{$ns}Form-static {
+        min-height: 0;
+      }
+
+      .#{$ns}InputGroup {
+        .#{$ns}Select,
+        .#{$ns}InputGroup-btn .#{$ns}Button {
+          border: none;
+        }
+      }
+
+      .#{$ns}Form-group--hor .#{$ns}Form-item .#{$ns}Button {
+        margin-bottom: var(--gap-xs);
+      }
+
+      .#{$ns}TextareaControl > textarea,
+      .#{$ns}Form-control > .#{$ns}TextControl-input,
+      .#{$ns}TextControl.is-focused > .#{$ns}TextControl-input {
+        border: none;
+        padding: 0 var(--Form-input-paddingX) 0 0;
+        box-shadow: none;
+
+        &:hover,
+        &:focus,
+        &.active {
+          border: none;
+          outline: none;
+          outline-style: none;
+        }
+      }
+    }
+
+    .#{$ns}Form-groupColumn {
+      margin-bottom: 0;
+    }
+
+    .#{$ns}Divider {
+      display: none;
+    }
+
+    .#{$ns}Tabs-pane {
+      padding: 0;
+    }
+
+    > .#{$ns}Form-item {
+      &:last-child::after,
+      &:last-of-type::after {
+        display: none;
+      }
+    }
+
+    .#{$ns}Form-item .#{$ns}Form-groupColumn > .#{$ns}Form-item {
+      padding-bottom: var(--Form-input-paddingX);
+    }
+  }
+}

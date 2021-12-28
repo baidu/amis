@@ -21,7 +21,11 @@ import {
 } from '../Schema';
 import {ActionSchema} from './Action';
 import {filter} from '../utils/tpl';
-import {resolveVariable, tokenize} from '../utils/tpl-builtin';
+import {
+  resolveVariable,
+  tokenize,
+  resolveVariableAndFilter
+} from '../utils/tpl-builtin';
 import {FormSchemaHorizontal} from './Form/index';
 import {str2AsyncFunction} from '../utils/api';
 
@@ -461,7 +465,7 @@ export default class Tabs extends React.Component<TabsProps, TabsState> {
     } = this.props;
 
     const mode = tabsMode || dMode;
-    const arr = resolveVariable(source, data);
+    const arr = resolveVariableAndFilter(source, data, '| raw');
     let mountOnEnter = this.props.mountOnEnter;
 
     // 如果在form下面，其他tabs默认需要渲染出来

@@ -1607,7 +1607,7 @@ export function convertDateToObject(value: moment.Moment) {
       day: parseInt(value.format('DD'), 10)
     };
   }
-  return null;
+  return value;
 }
 
 export function getRange(min: number, max: number, step: number = 1) {

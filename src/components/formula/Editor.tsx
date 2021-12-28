@@ -45,6 +45,9 @@ export interface FormulaEditorProps extends ThemeProps, LocaleProps {
    */
   variables: Array<VariableItem>;
 
+  /**
+   * 变量展现模式，可选值：'tabs' ｜ 'tree'
+   */
   variableMode?: 'tabs' | 'tree';
 
   /**
@@ -216,17 +219,19 @@ export class FormulaEditor extends React.Component<
           'is-focused': focused
         })}
       >
-        <div className={cx(`FormulaEditor-header`)}>{header ?? '表达式'}</div>
+        <div className={cx(`FormulaEditor-content`)}>
+          <div className={cx(`FormulaEditor-header`)}>{header ?? '表达式'}</div>
 
-        <CodeMirrorEditor
-          className={cx('FormulaEditor-editor')}
-          value={value}
-          onChange={this.handleOnChange}
-          editorFactory={this.editorFactory}
-          editorDidMount={this.handleEditorMounted}
-          onFocus={this.handleFocus}
-          onBlur={this.handleBlur}
-        ></CodeMirrorEditor>
+          <CodeMirrorEditor
+            className={cx('FormulaEditor-editor')}
+            value={value}
+            onChange={this.handleOnChange}
+            editorFactory={this.editorFactory}
+            editorDidMount={this.handleEditorMounted}
+            onFocus={this.handleFocus}
+            onBlur={this.handleBlur}
+          ></CodeMirrorEditor>
+        </div>
 
         <div className={cx('FormulaEditor-settings')}>
           {Array.isArray(functions) && functions.length ? (
