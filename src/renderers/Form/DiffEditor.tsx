@@ -98,9 +98,8 @@ export class DiffEditor extends React.Component<DiffEditorProps, any> {
     this.handleBlur = this.handleBlur.bind(this);
     this.editorFactory = this.editorFactory.bind(this);
     this.handleEditorMounted = this.handleEditorMounted.bind(this);
-    this.handleModifiedEditorChange = this.handleModifiedEditorChange.bind(
-      this
-    );
+    this.handleModifiedEditorChange =
+      this.handleModifiedEditorChange.bind(this);
   }
 
   componentWillUnmount() {

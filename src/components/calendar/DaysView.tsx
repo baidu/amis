@@ -41,10 +41,10 @@ interface CustomDaysViewProps extends LocaleProps {
   handleClickOutside: () => void;
   classnames: ClassNamesFn;
   schedules?: Array<{
-    startTime: Date,
-    endTime: Date,
-    content: any,
-    className?: string
+    startTime: Date;
+    endTime: Date;
+    content: any;
+    className?: string;
   }>;
   largeMode?: boolean;
   onScheduleClick?: (scheduleData: any) => void;
@@ -129,7 +129,12 @@ export class CustomDaysView extends DaysView {
     if (this.props.schedules) {
       let schedule: any[] = [];
       this.props.schedules.forEach((item: any) => {
-        if (currentDate.isSameOrAfter(moment(item.startTime).subtract(1, 'days')) && currentDate.isSameOrBefore(item.endTime)) {
+        if (
+          currentDate.isSameOrAfter(
+            moment(item.startTime).subtract(1, 'days')
+          ) &&
+          currentDate.isSameOrBefore(item.endTime)
+        ) {
           schedule.push(item);
         }
       });
@@ -141,8 +146,11 @@ export class CustomDaysView extends DaysView {
           scheduleData: schedule.map((item: any) => {
             return {
               ...item,
-              time: moment(item.startTime).format('YYYY-MM-DD HH:mm:ss') + ' - ' + moment(item.endTime).format('YYYY-MM-DD HH:mm:ss'),
-            }
+              time:
+                moment(item.startTime).format('YYYY-MM-DD HH:mm:ss') +
+                ' - ' +
+                moment(item.endTime).format('YYYY-MM-DD HH:mm:ss')
+            };
           }),
           currentDate
         };
@@ -156,8 +164,7 @@ export class CustomDaysView extends DaysView {
             }
             if (moment(schedule[i].startTime).isSame(currentDate, 'day')) {
               showSchedule.push(schedule[i]);
-            }
-            else if (currentDate.weekday() === 0) {
+            } else if (currentDate.weekday() === 0) {
               // 周一重新设置日程
               showSchedule.push({
                 ...schedule[i],
@@ -166,46 +173,86 @@ export class CustomDaysView extends DaysView {
             }
           }
           [0, 1, 2].forEach((i: number) => {
-            const findSchedule = find(schedule, (item: any) => item.height === i);
-            if (findSchedule && findSchedule !== showSchedule[i] && currentDate.weekday() !== 0) {
+            const findSchedule = find(
+              schedule,
+              (item: any) => item.height === i
+            );
+            if (
+              findSchedule &&
+              findSchedule !== showSchedule[i] &&
+              currentDate.weekday() !== 0
+            ) {
               // 生成一个空白格占位
               showSchedule.splice(i, 0, {
                 width: 1,
                 className: 'bg-transparent',
                 content: ''
               });
-            }
-            else {
+            } else {
               showSchedule[i] && (showSchedule[i].height = i);
             }
           });
           // 最多展示3个
           showSchedule = showSchedule.slice(0, 3);
           const scheduleDiv = showSchedule.map((item: any, index: number) => {
-            const width = item.width || Math.min(moment(item.endTime).diff(moment(item.startTime), 'days') + 1, 7 - moment(item.startTime).weekday());
-            return <div key={props.key + 'content' + index}
-              className={cx('ScheduleCalendar-large-schedule-content', item.className)}
-              style={{width: width + '00%'}}
-              onClick={() => this.props.onScheduleClick && this.props.onScheduleClick(scheduleData)}>
-                <div className={cx('ScheduleCalendar-text-overflow')}>{item.content}</div>
-            </div>;
-          });
-          return <td {...props}>
-              <div className={cx('ScheduleCalendar-large-day-wrap')}>
-                <div className={cx('ScheduleCalendar-large-schedule-header')}>{currentDate.date()}</div>
-                {scheduleDiv}
-                {schedule.length > 3 && <div className={cx('ScheduleCalendar-large-schedule-footer')}>{schedule.length - 3} {__('more')}</div>}
+            const width =
+              item.width ||
+              Math.min(
+                moment(item.endTime).diff(moment(item.startTime), 'days') + 1,
+                7 - moment(item.startTime).weekday()
+              );
+            return (
+              <div
+                key={props.key + 'content' + index}
+                className={cx(
+                  'ScheduleCalendar-large-schedule-content',
+                  item.className
+                )}
+                style={{width: width + '00%'}}
+                onClick={() =>
+                  this.props.onScheduleClick &&
+                  this.props.onScheduleClick(scheduleData)
+                }
+              >
+                <div className={cx('ScheduleCalendar-text-overflow')}>
+                  {item.content}
+                </div>
               </div>
-          </td>
+            );
+          });
+          return (
+            <td {...props}>
+              <div className={cx('ScheduleCalendar-large-day-wrap')}>
+                <div className={cx('ScheduleCalendar-large-schedule-header')}>
+                  {currentDate.date()}
+                </div>
+                {scheduleDiv}
+                {schedule.length > 3 && (
+                  <div className={cx('ScheduleCalendar-large-schedule-footer')}>
+                    {schedule.length - 3} {__('more')}
+                  </div>
+                )}
+              </div>
+            </td>
+          );
         }
 
         // 正常模式
-        const ScheduleIcon = <span className={cx('ScheduleCalendar-icon', schedule[0].className)}
-           onClick={() => this.props.onScheduleClick && this.props.onScheduleClick(scheduleData)}></span>;
-        return <td {...props}>
-          {currentDate.date()}
-          {ScheduleIcon}
-        </td>;
+        const ScheduleIcon = (
+          <span
+            className={cx('ScheduleCalendar-icon', schedule[0].className)}
+            onClick={() =>
+              this.props.onScheduleClick &&
+              this.props.onScheduleClick(scheduleData)
+            }
+          ></span>
+        );
+        return (
+          <td {...props}>
+            {currentDate.date()}
+            {ScheduleIcon}
+          </td>
+        );
       }
     }
     return <td {...props}>{currentDate.date()}</td>;

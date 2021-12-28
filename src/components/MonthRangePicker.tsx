@@ -20,7 +20,7 @@ import {LocaleProps, localeable} from '../locale';
 import {DateRangePicker} from './DateRangePicker';
 import capitalize from 'lodash/capitalize';
 import {ShortCuts, ShortCutDateRange} from './DatePicker';
-import { availableRanges } from './DateRangePicker';
+import {availableRanges} from './DateRangePicker';
 
 export interface MonthRangePickerProps extends ThemeProps, LocaleProps {
   className?: string;
@@ -626,17 +626,15 @@ export class MonthRangePicker extends React.Component<
             </PopOver>
           </Overlay>
         ) : null}
-        {
-          useMobileUI && isMobile() && (
-            <PopUp
-              className={cx(`${ns}DateRangePicker-popup`)}
-              isShow={isOpened}
-              onHide={this.handleClick}
-            >
-              {this.renderCalendar()}
-            </PopUp>
-          )
-        }
+        {useMobileUI && isMobile() && (
+          <PopUp
+            className={cx(`${ns}DateRangePicker-popup`)}
+            isShow={isOpened}
+            onHide={this.handleClick}
+          >
+            {this.renderCalendar()}
+          </PopUp>
+        )}
       </div>
     );
   }
