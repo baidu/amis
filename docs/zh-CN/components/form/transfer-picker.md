@@ -67,6 +67,55 @@ icon:
 }
 ```
 
+## 自定义选项展示
+
+```schema: scope="body"
+{
+    "type": "form",
+    "body": [
+      {
+        "label": "默认",
+        "type": "transfer-picker",
+        "name": "transfer",
+        "menuTpl": "<div class='flex justify-between'><span>${label}</span><span class='text-muted m-r text-sm'>${tag}</span></div>",
+        "valueTpl": "${label}(${value})",
+        "options": [
+          {
+            "label": "诸葛亮",
+            "value": "zhugeliang",
+            "tag": "法师",
+          },
+          {
+            "label": "曹操",
+            "value": "caocao",
+            "tag": "战士",
+          },
+          {
+            "label": "钟无艳",
+            "value": "zhongwuyan",
+            "tag": "战士",
+          },
+          {
+            "label": "李白",
+            "value": "libai",
+            "tag": "打野"
+          },
+          {
+            "label": "韩信",
+            "value": "hanxin",
+            "tag": "打野"
+          },
+          {
+            "label": "云中君",
+            "value": "yunzhongjun",
+            "tag": "打野"
+          }
+        ]
+      }
+    ]
+}
+```
+
 ## 属性表
 
 更多配置请参考[穿梭器（Transfer）](./transfer)。

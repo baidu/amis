@@ -65,10 +65,7 @@ export default class FormulaControl extends React.Component<
   componentDidMount() {
     const {formInited, initSet, addHook} = this.props;
 
-    this.unHook =
-      initSet !== false && addHook
-        ? addHook(this.handleFormInit, 'init')
-        : undefined;
+    this.unHook = addHook ? addHook(this.handleFormInit, 'init') : undefined;
 
     // 如果在表单中，还是等初始化数据过来才算
     if (formInited === false) {
@@ -97,7 +94,12 @@ export default class FormulaControl extends React.Component<
   @autobind
   handleFormInit(data: any) {
     this.inited = true;
-    const {name} = this.props;
+    const {name, initSet} = this.props;
+
+    if (initSet === false) {
+      return;
+    }
+
     const result = this.initSet();
 
     if (typeof name === 'string' && typeof result !== 'undefined') {

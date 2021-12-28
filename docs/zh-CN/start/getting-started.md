@@ -160,7 +160,7 @@ let amisScoped = amis.embed(
     // 全局 api 请求适配器
     // 另外在 amis 配置项中的 api 也可以配置适配器，针对某个特定接口单独处理。
     //
-    // responseAdaptor(api) {
+    // requestAdaptor(api) {
     //   return api;
     // }
     //
@@ -276,7 +276,7 @@ amis.embed(
 
 默认 JSSDK 不是 hash 路由，如果你想改成 hash 路由模式，请查看此处代码实现。只需要修改 env.isCurrentUrl、env.jumpTo 和 env.updateLocation 这几个方法即可。
 
-参考：https://github.com/baidu/amis/blob/master/examples/components/Example.tsx#L551-L575
+参考：https://github.com/baidu/amis/blob/master/examples/components/Example.jsx#L551-L575
 
 ### 销毁
 
@@ -436,6 +436,8 @@ class MyComponent extends React.Component<any, any> {
   render() {
     let amisScoped;
     let theme = 'cxd';
+
+    // 请勿使用 React.StrictMode，目前还不支持
     return (
       <div>
         <p>通过 amis 渲染页面</p>

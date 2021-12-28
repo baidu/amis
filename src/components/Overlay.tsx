@@ -165,7 +165,7 @@ class Position extends React.Component<any, any> {
 interface OverlayProps {
   placement?: string;
   show?: boolean;
-  transition?: React.ReactType;
+  transition?: React.ElementType;
   containerPadding?: number;
   shouldUpdatePosition?: boolean;
   rootClose?: boolean;
@@ -295,6 +295,12 @@ export default class Overlay extends React.Component<
         <Portal container={container}>
           <RootClose onRootClose={props.onHide}>
             {(ref: any) => {
+              if (React.isValidElement(child)) {
+                return React.cloneElement(child, {
+                  ref: ref
+                });
+              }
+
               return <div ref={ref}>{child}</div>;
             }}
           </RootClose>

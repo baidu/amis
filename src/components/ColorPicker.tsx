@@ -11,9 +11,12 @@ import {Icon} from './icons';
 import Overlay from './Overlay';
 import {uncontrollable} from 'uncontrollable';
 import PopOver from './PopOver';
+import PopUp from './PopUp';
 import {ClassNamesFn, themeable, ThemeProps} from '../theme';
-import {autobind} from '../utils/helper';
+import {autobind, isMobile, isObject} from '../utils/helper';
 import {localeable, LocaleProps} from '../locale';
+
+export type PresetColor = {color: string; title: string} | string;
 
 export interface ColorProps extends LocaleProps, ThemeProps {
   placeholder?: string;
@@ -27,9 +30,10 @@ export interface ColorProps extends LocaleProps, ThemeProps {
   placement?: string;
   value?: any;
   onChange: (value: any) => void;
-  presetColors?: string[];
+  presetColors?: PresetColor[];
   resetValue?: string;
   allowCustomColor?: boolean;
+  useMobileUI?: boolean;
 }
 
 export interface ColorControlState {
@@ -216,7 +220,8 @@ export class ColorControl extends React.PureComponent<
       placement,
       classnames: cx,
       presetColors,
-      allowCustomColor
+      allowCustomColor,
+      useMobileUI
     } = this.props;
 
     const __ = this.props.translate;
@@ -229,11 +234,20 @@ export class ColorControl extends React.PureComponent<
           `ColorPicker`,
           {
             'is-disabled': disabled,
-            'is-focused': isFocused
+            'is-focused': isFocused,
+            'is-opened': isOpened
           },
           className
         )}
       >
+        <span onClick={this.handleClick} className={cx('ColorPicker-preview')}>
+          <i
+            ref={this.preview}
+            className={`${ns}ColorPicker-previewIcon`}
+            style={{background: this.state.inputValue || '#ccc'}}
+          />
+        </span>
+
         <input
           ref={this.input}
           type="text"
@@ -255,15 +269,11 @@ export class ColorControl extends React.PureComponent<
           </a>
         ) : null}
 
-        <span onClick={this.handleClick} className={cx('ColorPicker-preview')}>
-          <i
-            ref={this.preview}
-            className={`${ns}ColorPicker-previewIcon`}
-            style={{background: this.state.inputValue || '#ccc'}}
-          />
+        <span className={cx('ColorPicker-arrow')}>
+          <Icon icon="caret" className="icon" onClick={this.handleClick} />
         </span>
 
-        {isOpened ? (
+        {!(useMobileUI && isMobile()) && isOpened ? (
           <Overlay
             placement={placement || 'auto'}
             target={() => findDOMNode(this)}
@@ -280,6 +290,7 @@ export class ColorControl extends React.PureComponent<
             >
               {allowCustomColor ? (
                 <SketchPicker
+                  styles={{}}
                   disableAlpha={!!~['rgb', 'hex'].indexOf(format as string)}
                   color={value}
                   presetColors={presetColors}
@@ -288,13 +299,64 @@ export class ColorControl extends React.PureComponent<
               ) : (
                 <GithubPicker
                   color={value}
-                  colors={presetColors}
+                  colors={
+                    Array.isArray(presetColors)
+                      ? (presetColors
+                          .filter(
+                            item => typeof item === 'string' || isObject(item)
+                          )
+                          .map(item =>
+                            typeof item === 'string'
+                              ? item
+                              : isObject(item)
+                              ? item?.color
+                              : item
+                          ) as string[])
+                      : undefined
+                  }
                   onChangeComplete={this.handleChange}
                 />
               )}
             </PopOver>
           </Overlay>
         ) : null}
+        {useMobileUI && isMobile() && (
+          <PopUp
+            className={cx(`${ns}ColorPicker-popup`)}
+            isShow={isOpened}
+            onHide={this.handleClick}
+          >
+            {allowCustomColor ? (
+              <SketchPicker
+                styles={{}}
+                disableAlpha={!!~['rgb', 'hex'].indexOf(format as string)}
+                color={value}
+                presetColors={presetColors}
+                onChangeComplete={this.handleChange}
+              />
+            ) : (
+              <GithubPicker
+                color={value}
+                colors={
+                  Array.isArray(presetColors)
+                    ? (presetColors
+                        .filter(
+                          item => typeof item === 'string' || isObject(item)
+                        )
+                        .map(item =>
+                          typeof item === 'string'
+                            ? item
+                            : isObject(item)
+                            ? item?.color
+                            : item
+                        ) as string[])
+                    : undefined
+                }
+                onChangeComplete={this.handleChange}
+              />
+            )}
+          </PopUp>
+        )}
       </div>
     );
   }

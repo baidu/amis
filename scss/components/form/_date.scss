@@ -122,6 +122,9 @@
   }
 }
 
+.#{$ns}DatePicker-popup {
+  height: 80vh;
+}
 // override third-party styles
 .rdt {
   user-select: none;

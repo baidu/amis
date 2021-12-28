@@ -213,8 +213,10 @@ export default class PlayGround extends React.Component {
         return response;
       },
       isCancel: value => axios.isCancel(value),
-      notify: (type, msg) =>
-        toast[type] ? toast[type](msg) : console.warn('[Notify]', type, msg),
+      notify: (type, msg, conf) =>
+        toast[type]
+          ? toast[type](msg, conf)
+          : console.warn('[Notify]', type, msg),
       alert,
       confirm,
       copy: (content, options) => {

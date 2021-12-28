@@ -12,6 +12,7 @@ import Button from './Button';
 import Checkbox from './Checkbox';
 import Checkboxes from './Selection';
 import Collapse from './Collapse';
+import CollapseGroup from './CollapseGroup';
 import DatePicker from './DatePicker';
 import DateRangePicker from './DateRangePicker';
 import Drawer from './Drawer';
@@ -69,6 +70,7 @@ export {
   Checkbox,
   Checkboxes,
   Collapse,
+  CollapseGroup,
   DatePicker,
   DateRangePicker,
   Drawer,

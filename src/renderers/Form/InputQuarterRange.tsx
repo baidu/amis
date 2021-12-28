@@ -26,6 +26,7 @@ export default class QuarterRangeControl extends InputDateRange {
       maxDuration,
       data,
       format,
+      env,
       ...rest
     } = this.props;
 

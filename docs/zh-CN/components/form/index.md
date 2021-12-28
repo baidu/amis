@@ -227,7 +227,7 @@ order: 24
   }
 ```
 
-另一个方法是使用 group，它能实现每行显示不同列数，可以实现更灵活的控制
+另一个方法是使用 group，它能实现每行显示不同列数，以及不同列的宽度分配情况，可以实现更灵活的控制
 
 ```schema: scope="body"
  [
@@ -259,12 +259,14 @@ order: 24
             {
               "type": "input-text",
               "name": "text3",
-              "label": "文本3"
+              "label": "文本3",
+              "columnRatio": 4
             },
             {
               "type": "input-text",
               "name": "text4",
-              "label": "文本4"
+              "label": "文本4",
+              "columnRatio": 6
             },
             {
               "type": "input-text",
@@ -903,6 +905,66 @@ Form 支持轮询初始化接口，步骤如下：
 上例中`form`提交成功后，会触发`name`为`my_service`的`Service`组件重新请求初始化接口
 
 上面示例是一种[组件间联动](../../docs/concepts/linkage#%E7%BB%84%E4%BB%B6%E9%97%B4%E8%81%94%E5%8A%A8)
+
+### 显示提交的返回结果
+
+默认情况下表单提交返回结果会写入当前表单的数据域，如果要显示在当前表单，可以直接使用 `static` 类型，比如下面的例子
+
+```schema: scope="body"
+{
+  "type": "form",
+  "api": "/api/mock2/form/saveForm",
+  "title": "用户信息",
+  "body": [
+    {
+      "type": "input-text",
+      "name": "name",
+      "label": "姓名"
+    },
+    {
+      "type": "static",
+      "name": "id",
+      "visibleOn": "typeof data.id !== 'undefined'",
+      "label": "返回 ID"
+    }
+  ]
+}
+```
+
+### 将提交返回内容发送到其它组件
+
+还可以将返回结果发送到其它组件，首先设置另一个表单的 `name`，然后通过 `reload` 配置参数来提交
+
+```schema: scope="body"
+[
+  {
+    "type": "form",
+    "api": "/api/mock2/form/saveForm",
+    "title": "用户信息",
+    "reload": "otherForm?id=${id}",
+    "body": [
+      {
+        "type": "input-text",
+        "name": "name",
+        "label": "姓名"
+      }
+    ]
+  },
+  {
+    "type": "form",
+    "name": "otherForm",
+    "title": "返回结果",
+    "actions": [],
+    "body": [
+      {
+        "type": "static",
+        "name": "id",
+        "label": "返回 ID"
+      }
+    ]
+  }
+]
+```
 
 ### 将数据域发送给目标组件
 

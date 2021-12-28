@@ -25,7 +25,11 @@ module.exports = function (req, res) {
       res.status(500).json({status: 500, msg: err});
     } else {
       res.set(result.headers);
-      res.status(result.statusCode).json(JSON.parse(result.body));
+      if (!result.json) {
+        res.status(result.statusCode).send(result.body);
+      } else {
+        res.status(result.statusCode).json(JSON.parse(result.body));
+      }
     }
   });
 };

@@ -1,0 +1,146 @@
+.#{$ns}FormulaEditor {
+  overflow: visible;
+  max-width: 100%;
+  box-sizing: content-box;
+
+  &-content {
+    border-radius: var(--borderRadius);
+    border: var(--Form-input-borderWidth) solid var(--Form-input-borderColor);
+  }
+
+  &-header {
+    width: 100%;
+    height: px2rem(30px);
+    line-height: px2rem(30px);
+    padding: 0 #{px2rem(10px)};
+    box-sizing: border-box;
+    background: var(--Formula-header-bgColor);
+    border-radius: var(--borderRadius) var(--borderRadius) 0 0;
+    border-bottom: var(--Form-input-borderWidth) solid
+      var(--Form-input-borderColor);
+    font-weight: 500;
+  }
+
+  &-editor {
+    min-height: px2rem(238px);
+    max-height: px2rem(320px);
+    height: auto;
+    padding: #{px2rem(10px)};
+    padding-right: 0;
+  }
+
+  &.is-error &-editor {
+    border-color: var(--Form-input-onError-borderColor);
+  }
+
+  &.is-focused &-editor {
+    border-color: var(--Form-input-onFocused-borderColor);
+  }
+
+  &-settings {
+    display: flex;
+    flex-direction: row;
+    align-items: stretch;
+    justify-content: space-between;
+    max-height: px2rem(350px);
+    margin: 0 -5px;
+
+    > div {
+      flex: 1;
+      padding: 0 5px;
+      display: flex;
+      flex-direction: column;
+
+      > h3 {
+        padding: 10px 0;
+        margin: 0;
+        flex-shrink: 0;
+      }
+
+      > div {
+        flex: 1;
+        min-height: 0;
+      }
+    }
+  }
+
+  .cm-field,
+  .cm-func {
+    border-radius: 2px;
+    color: #fff;
+    margin: 0 1px;
+    padding: 0 2px;
+  }
+  .cm-field {
+    background: #007bff;
+  }
+  .cm-func {
+    background: #17a2b8;
+  }
+}
+
+.#{$ns}FormulaFuncList {
+  display: flex;
+  flex-direction: column;
+
+  & > &-searchBox {
+    display: flex;
+    width: auto;
+    flex-shrink: 0;
+    margin-bottom: px2rem(8px);
+  }
+
+  &-columns {
+    flex: 1;
+    min-height: 0;
+    overflow: auto;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+
+    > div:first-child {
+      min-width: 200px;
+      flex-shrink: 0;
+    }
+  }
+  &-funcItem {
+    padding: 0 10px;
+    cursor: pointer;
+
+    &.is-active {
+      background: var(--Formula-funcItem-bgColor-onActive);
+    }
+  }
+  &-groupTitle {
+    padding: 5px 0;
+    background: transparent;
+  }
+  &-groupBody {
+    > div {
+      padding: 5px 0;
+    }
+  }
+  &-funcDetail {
+    padding: 10px 20px;
+
+    pre {
+      white-space: pre-wrap;
+      word-wrap: break-word;
+      background: var(--Formula-header-bgColor);
+      padding: #{px2rem(10px)};
+      border-radius: var(--borderRadius);
+      margin-top: 0;
+    }
+
+    div {
+      color: var(--text--loud-color);
+    }
+  }
+}
+
+.#{$ns}FormulaPicker {
+  &-icon {
+    margin-left: auto;
+    margin-right: #{px2rem(5px)};
+  }
+}

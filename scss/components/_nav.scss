@@ -75,8 +75,8 @@
           cursor: move;
           position: absolute;
           left: 0;
-          top: px2rem(11px);
           display: none;
+          line-height: 0;
           > .icon, > .#{$ns}Badge > .icon {
             color: var(--icon-color);
 
@@ -174,12 +174,6 @@
           pointer-events: none;
         }
 
-        &.active,
-        &.is-active {
-          background: var(--Nav-item-onActive-bg) !important;
-        }
-
-
         &.active > a,
         &.is-active > .#{$ns}Nav-item-atcions,
         &.is-active > a,
@@ -188,6 +182,7 @@
         &.is-active > .#{$ns}Badge > a {
           color: var(--Nav-item-onActive-color);
           position: relative;
+          background: var(--Nav-item-onActive-bg) !important;
 
           &::after {
             transform: scaleY(1);

@@ -840,6 +840,7 @@ body {
       top: 100px;
       bottom: 0;
       overflow-y: auto;
+      overflow-x: hidden;
       border-right: 1px solid #e8ebee;
     }
   }
@@ -1050,6 +1051,7 @@ body.dark {
   &-code {
     border-left: 1px solid #ddd;
     width: 350px;
+    flex-shrink: 0;
   }
 }
 

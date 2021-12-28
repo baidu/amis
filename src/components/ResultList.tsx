@@ -13,21 +13,28 @@ import {LocaleProps, localeable} from '../locale';
 export interface ResultListProps extends ThemeProps, LocaleProps {
   className?: string;
   value?: Array<Option>;
-  onChange?: (value: Array<Option>) => void;
+  onChange?: (value: Array<Option>, optionModified?: boolean) => void;
   sortable?: boolean;
   disabled?: boolean;
   title?: string;
   placeholder: string;
-  itemRender: (option: Option) => JSX.Element;
+  itemRender: (option: Option, states: ItemRenderStates) => JSX.Element;
   itemClassName?: string;
 }
 
+export interface ItemRenderStates {
+  index: number;
+  disabled?: boolean;
+  onChange: (value: any, name: string) => void;
+}
+
 export class ResultList extends React.Component<ResultListProps> {
+  static itemRender(option: any) {
+    return <span>{`${option.scopeLabel || ''}${option.label}`}</span>;
+  }
   static defaultProps: Pick<ResultListProps, 'placeholder' | 'itemRender'> = {
     placeholder: 'placeholder.selectData',
-    itemRender: (option: any) => (
-      <span>{`${option.scopeLabel || ''}${option.label}`}</span>
-    )
+    itemRender: ResultList.itemRender
   };
 
   id = guid();
@@ -114,6 +121,23 @@ export class ResultList extends React.Component<ResultListProps> {
     delete this.sortable;
   }
 
+  handleValueChange(index: number, value: any, name: string) {
+    if (typeof name !== 'string') {
+      return;
+    }
+    const {value: list, onChange} = this.props;
+
+    const result = Array.isArray(list) ? list.concat() : [];
+    if (!result[index]) {
+      return;
+    }
+    result.splice(index, 1, {
+      ...result[index],
+      [name]: value
+    });
+    onChange?.(result, true);
+  }
+
   render() {
     const {
       classnames: cx,
@@ -150,7 +174,13 @@ export class ResultList extends React.Component<ResultListProps> {
                   />
                 ) : null}
 
-                <label>{itemRender(option)}</label>
+                <label>
+                  {itemRender(option, {
+                    index,
+                    disabled,
+                    onChange: this.handleValueChange.bind(this, index)
+                  })}
+                </label>
 
                 {!disabled ? (
                   <a

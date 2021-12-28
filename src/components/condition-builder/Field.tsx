@@ -96,7 +96,9 @@ export class ConditionField extends React.Component<
               options={this.state.options}
               value={[value]}
               option2value={option2value}
-              onChange={([value]: any) => onChange(value)}
+              onChange={(value: any) =>
+                onChange(Array.isArray(value) ? value[0] : value)
+              }
             />
           </>
         )}
@@ -112,9 +114,7 @@ export class ConditionField extends React.Component<
               ref={ref}
               allowInput={false}
               result={
-                value
-                  ? findTree(options, item => item.name === value)?.label
-                  : ''
+                value ? findTree(options, item => item.name === value) : ''
               }
               onResultChange={noop}
               onResultClick={onClick}

@@ -13,9 +13,10 @@ import Overlay from './Overlay';
 import {ShortCuts, ShortCutDateRange} from './DatePicker';
 import Calendar from './calendar/Calendar';
 import PopOver from './PopOver';
+import PopUp from './PopUp';
 import {ClassNamesFn, themeable, ThemeProps} from '../theme';
 import {PlainObject} from '../types';
-import {noop, ucFirst} from '../utils/helper';
+import {isMobile, noop, ucFirst} from '../utils/helper';
 import {LocaleProps, localeable} from '../locale';
 
 export interface DateRangePickerProps extends ThemeProps, LocaleProps {
@@ -47,6 +48,7 @@ export interface DateRangePickerProps extends ThemeProps, LocaleProps {
   embed?: boolean;
   viewMode?: 'days' | 'months' | 'years' | 'time' | 'quarters';
   borderMode?: 'full' | 'half' | 'none';
+  useMobileUI?: boolean;
 }
 
 export interface DateRangePickerState {
@@ -760,7 +762,8 @@ export class DateRangePicker extends React.Component<
       disabled,
       embed,
       overlayPlacement,
-      borderMode
+      borderMode,
+      useMobileUI
     } = this.props;
 
     const {isOpened, isFocused} = this.state;
@@ -836,7 +839,7 @@ export class DateRangePicker extends React.Component<
           <Icon icon="clock" className="icon" />
         </a>
 
-        {isOpened ? (
+        {!(useMobileUI && isMobile()) && isOpened ? (
           <Overlay
             target={() => this.dom.current}
             onHide={this.close}
@@ -856,6 +859,15 @@ export class DateRangePicker extends React.Component<
             </PopOver>
           </Overlay>
         ) : null}
+        {useMobileUI && isMobile() && (
+          <PopUp
+            isShow={isOpened}
+            className={cx(`${ns}DateRangePicker-popup`)}
+            onHide={this.handleClick}
+          >
+            {this.renderCalendar()}
+          </PopUp>
+        )}
       </div>
     );
   }

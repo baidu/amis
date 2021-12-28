@@ -24,6 +24,20 @@ import Checkbox from './Checkbox';
 import {LocaleProps, localeable} from '../locale';
 import Spinner from './Spinner';
 
+interface IDropIndicator {
+  left: number;
+  top: number;
+  width: number;
+  height?: number;
+}
+
+export interface IDropInfo {
+  dragNode: Option | null;
+  node: Option;
+  position: 'top' | 'bottom' | 'self';
+  indicator: IDropIndicator;
+}
+
 interface TreeSelectorProps extends ThemeProps, LocaleProps {
   highlightTxt?: string;
 
@@ -97,6 +111,8 @@ interface TreeSelectorProps extends ThemeProps, LocaleProps {
   onDelete?: (value: Option) => void;
   onDeferLoad?: (option: Option) => void;
   onExpandTree?: (nodePathArr: any[]) => void;
+  draggable?: boolean;
+  onMove?: (dropInfo: IDropInfo) => void;
 }
 
 interface TreeSelectorState {
@@ -106,6 +122,9 @@ interface TreeSelectorState {
   isAdding: boolean;
   isEditing: boolean;
   editingItem: Option | null;
+
+  // 拖拽指示器
+  dropIndicator?: IDropIndicator;
 }
 
 export class TreeSelector extends React.Component<
@@ -146,6 +165,16 @@ export class TreeSelector extends React.Component<
   };
 
   unfolded: WeakMap<Object, boolean> = new WeakMap();
+  dragNode: Option | null;
+  dropInfo: IDropInfo | null;
+  startPoint: {
+    x: number;
+    y: number;
+  } = {
+    x: 0,
+    y: 0
+  };
+  root = React.createRef<HTMLDivElement>();
 
   constructor(props: TreeSelectorProps) {
     super(props);
@@ -168,7 +197,8 @@ export class TreeSelector extends React.Component<
       addingParent: null,
       isAdding: false,
       isEditing: false,
-      editingItem: null
+      editingItem: null,
+      dropIndicator: undefined
     };
 
     this.syncUnFolded(props);
@@ -603,6 +633,129 @@ export class TreeSelector extends React.Component<
     );
   }
 
+  getOffsetPosition(element: HTMLElement) {
+    let left = 0;
+    let top = 0;
+
+    while (element.offsetParent) {
+      left += element.offsetLeft;
+      top += element.offsetTop;
+      element = element.offsetParent as HTMLElement;
+    }
+    return {left, top};
+  }
+
+  @autobind
+  getDropInfo(e: React.DragEvent<Element>, node: Option): IDropInfo {
+    let rect = e.currentTarget.getBoundingClientRect();
+
+    const dragNode = this.dragNode;
+    const deltaX = Math.min(50, rect.width * 0.3);
+    const gap = node?.children?.length ? 0 : 16;
+
+    // 计算相对位置
+    let offset = this.getOffsetPosition(this.root.current!);
+    let targetOffset = this.getOffsetPosition(e.currentTarget as HTMLElement);
+    let left = targetOffset.left - offset.left;
+    let top = targetOffset.top - offset.top;
+
+    let {clientX, clientY} = e;
+
+    let position: IDropInfo['position'] =
+      clientY >= rect.top + rect.height / 2 ? 'bottom' : 'top';
+    let indicator;
+    if (position === 'bottom' && clientX >= this.startPoint.x + deltaX) {
+      position = 'self';
+      indicator = {
+        top: top,
+        left: left,
+        width: rect.width,
+        height: rect.height
+      };
+    } else {
+      indicator = {
+        top: position === 'bottom' ? top + rect.height : top,
+        left: left + gap,
+        width: rect.width - gap
+      };
+    }
+
+    return {
+      node,
+      dragNode,
+      position,
+      indicator
+    };
+  }
+
+  @autobind
+  updateDropIndicator(e: React.DragEvent<Element>, node: Option) {
+    const gap = node?.children?.length ? 0 : 16;
+    this.dropInfo = this.getDropInfo(e, node);
+    let {dragNode, indicator} = this.dropInfo;
+    if (node === dragNode) {
+      this.setState({dropIndicator: undefined});
+      return;
+    }
+    this.setState({
+      dropIndicator: indicator
+    });
+  }
+
+  @autobind
+  onDragStart(node: Option) {
+    let draggable = this.props.draggable;
+    return (e: React.DragEvent<Element>) => {
+      if (draggable) {
+        e.dataTransfer.effectAllowed = 'copyMove';
+
+        this.dragNode = node;
+        this.dropInfo = null;
+        this.startPoint = {
+          x: e.clientX,
+          y: e.clientY
+        };
+
+        if (node?.children?.length) {
+          this.unfolded.set(node, false);
+          this.forceUpdate();
+        }
+      } else {
+        this.dragNode = null;
+        this.dropInfo = null;
+      }
+      e.stopPropagation();
+    };
+  }
+
+  @autobind
+  onDragOver(node: Option) {
+    return (e: React.DragEvent<Element>) => {
+      if (!this.dragNode) {
+        return;
+      }
+      this.updateDropIndicator(e, node);
+      e.preventDefault();
+    };
+  }
+
+  @autobind
+  onDragEnd(dragNode: Option) {
+    return (e: React.DragEvent<Element>) => {
+      this.setState({
+        dropIndicator: undefined
+      });
+      let node = this.dropInfo?.node;
+      if (!this.dropInfo || !node || dragNode === node) {
+        return;
+      }
+      this.props.onMove?.(this.dropInfo);
+      this.dragNode = null;
+      this.dropInfo = null;
+      e.preventDefault();
+    };
+  }
+
   @autobind
   renderList(
     list: Options,
@@ -633,7 +786,8 @@ export class TreeSelector extends React.Component<
       createTip,
       editTip,
       removeTip,
-      translate: __
+      translate: __,
+      draggable
     } = this.props;
     const {
       value: stateValue,
@@ -729,7 +883,17 @@ export class TreeSelector extends React.Component<
                 'is-checked': checked,
                 'is-disabled': nodeDisabled
               })}
+              draggable={draggable}
+              onDragStart={this.onDragStart(item)}
+              onDragOver={this.onDragOver(item)}
+              onDragEnd={this.onDragEnd(item)}
             >
+              {draggable && (
+                <a className={cx('Tree-itemDrager drag-bar')}>
+                  <Icon icon="drag-bar" className="icon" />
+                </a>
+              )}
+
               {item.loading ? (
                 <Spinner
                   size="sm"
@@ -756,7 +920,7 @@ export class TreeSelector extends React.Component<
                 <i
                   className={cx(
                     `Tree-itemIcon ${
-                      (childrenItems ? 'Tree-folderIcon' : 'Tree-leafIcon')
+                      childrenItems ? 'Tree-folderIcon' : 'Tree-leafIcon'
                     }`
                   )}
                   onClick={() =>
@@ -766,9 +930,11 @@ export class TreeSelector extends React.Component<
                       : this.handleSelect(item))
                   }
                 >
-                  {getIcon(iconValue)
-                    ? <Icon icon={iconValue} className="icon"/>
-                    : <i className={iconValue}></i>}
+                  {getIcon(iconValue) ? (
+                    <Icon icon={iconValue} className="icon" />
+                  ) : (
+                    <i className={iconValue}></i>
+                  )}
                 </i>
               ) : null}
 
@@ -872,10 +1038,19 @@ export class TreeSelector extends React.Component<
       rootCreatable,
       rootCreateTip,
       disabled,
+      draggable,
       translate: __
     } = this.props;
     let options = this.props.options;
-    const {value, isAdding, addingParent, isEditing, inputValue} = this.state;
+    const {
+      value,
+      isAdding,
+      addingParent,
+      isEditing,
+      inputValue,
+      dropIndicator
+    } = this.state;
+
     let addBtn = null;
 
     if (creatable && rootCreatable !== false && hideRoot) {
@@ -896,8 +1071,10 @@ export class TreeSelector extends React.Component<
       <div
         className={cx(`Tree ${className || ''}`, {
           'Tree--outline': showOutline,
-          'is-disabled': disabled
+          'is-disabled': disabled,
+          'is-draggable': draggable
         })}
+        ref={this.root}
       >
         {(options && options.length) || addBtn || hideRoot === false ? (
           <ul className={cx('Tree-list')}>
@@ -956,6 +1133,15 @@ export class TreeSelector extends React.Component<
           </ul>
         ) : (
           <div className={cx('Tree-placeholder')}>{placeholder}</div>
+        )}
+
+        {dropIndicator && (
+          <div
+            className={cx('Tree-dropIndicator', {
+              'Tree-dropIndicator--hover': !!dropIndicator.height
+            })}
+            style={dropIndicator}
+          />
         )}
       </div>
     );

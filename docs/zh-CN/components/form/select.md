@@ -887,6 +887,37 @@ leftOptions 动态加载，默认 source 接口是返回 options 部分，而 le
 }
 ```
 
+### 人员点选
+
+> 请通过网络面板查看接口请求返回。
+
+实际上就是采用的[「关联选择模式」](#关联选择模式)的 select，注意要看那一部分文档，需要知道怎么动态加载 leftOptions。左侧部分和人员都是通过 source 接口返回。需要懒加载的项通过设置 `defer` 为 true 来标记。左右两部分都支持懒加载。
+都是通过 deferApi 来实现，后端根据传过来的参数决定是懒加载树，还是栏加载人员。
+
+- 有 dep 值则是懒加载部门树
+- 有 ref 值则是懒加载人员
+
+```schema: scope="body"
+{
+  "type": "form",
+  "api": "/api/mock2/form/saveForm",
+  "body": [
+    {
+      "label": "人员选择",
+      "type": "select",
+      "name": "b",
+      "multiple": true,
+      "sortable": true,
+      "searchable": true,
+      "selectMode": "associated",
+      "leftMode": "tree",
+      "source": "/api/mock2/form/departUser",
+      "deferApi": "/api/mock2/form/departUser?ref=${ref}&dep=${value}"
+    }
+  ]
+}
+```
+
 ## searchApi
 
 **发送**

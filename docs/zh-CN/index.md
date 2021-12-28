@@ -29,7 +29,7 @@ amis 是一个低代码前端框架，它使用 JSON 配置来生成页面，可
     "type": "crud",
     "draggable": true,
     "syncLocation": false,
-    "api": "/api/sample",
+    "api": "/api/mock2/sample",
     "keepItemSelectionOnPageChange": true,
     "autoGenerateFilter": true,
     "bulkActions": [
@@ -37,7 +37,7 @@ amis 是一个低代码前端框架，它使用 JSON 配置来生成页面，可
         "type": "button",
         "label": "批量删除",
         "actionType": "ajax",
-        "api": "delete:/api/sample/${ids|raw}",
+        "api": "delete:/api/mock2/sample/${ids|raw}",
         "confirmText": "确定要批量删除?"
       },
       {
@@ -49,7 +49,7 @@ amis 是一个低代码前端框架，它使用 JSON 配置来生成页面，可
           "name": "sample-bulk-edit",
           "body": {
             "type": "form",
-            "api": "/api/sample/bulkUpdate2",
+            "api": "/api/mock2/sample/bulkUpdate2",
             "body": [
               {
                 "type": "hidden",
@@ -65,8 +65,8 @@ amis 是一个低代码前端框架，它使用 JSON 配置来生成页面，可
         }
       }
     ],
-    "quickSaveApi": "/api/sample/bulkUpdate",
-    "quickSaveItemApi": "/api/sample/$id",
+    "quickSaveApi": "/api/mock2/sample/bulkUpdate",
+    "quickSaveItemApi": "/api/mock2/sample/$id",
     "headerToolbar": [
       "bulkActions",
       {
@@ -74,7 +74,7 @@ amis 是一个低代码前端框架，它使用 JSON 配置来生成页面，可
         "label": "重置测试数据",
         "actionType": "ajax",
         "size": "sm",
-        "api": "/api/sample/reset"
+        "api": "/api/mock2/sample/reset"
       },
       "export-excel",
       {
@@ -160,7 +160,7 @@ amis 是一个低代码前端框架，它使用 JSON 配置来生成页面，可
             "actionType": "ajax",
             "label": "删除",
             "confirmText": "您确认要删除?",
-            "api": "delete:/api/sample/$id"
+            "api": "delete:/api/mock2/sample/$id"
           }
         ]
       }

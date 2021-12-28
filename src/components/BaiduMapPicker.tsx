@@ -120,7 +120,11 @@ export class BaiduMapPicker extends React.Component<
       ? new BMap.Point(value.lng, value.lat)
       : new BMap.Point(116.404, 39.915);
     if (this.props.coordinatesType == 'gcj02') {
-      point = await this.covertPoint(point, COORDINATES_GCJ02, COORDINATES_BD09);
+      point = await this.covertPoint(
+        point,
+        COORDINATES_GCJ02,
+        COORDINATES_BD09
+      );
       map.centerAndZoom(point, 15);
     } else {
       map.centerAndZoom(point, 15);
@@ -269,27 +273,29 @@ export class BaiduMapPicker extends React.Component<
 
   covertPoint(point: any, from: number, to: number) {
     return new Promise((resolve, reject) => {
-      this.convertor.translate([point], from, to, (res:any)=> {
+      this.convertor.translate([point], from, to, (res: any) => {
         if (res.status === 0 && res.points.length) {
           resolve(new BMap.Point(res.points[0].lng, res.points[0].lat));
-        } else  {
+        } else {
           reject();
         }
-      })
-    })
+      });
+    });
   }
 
   triggerOnChange(loc: LocationItem) {
     const point = new BMap.Point(loc.lng, loc.lat);
     if (this.props.coordinatesType == 'gcj02') {
-      this.covertPoint(point, COORDINATES_BD09, COORDINATES_GCJ02).then((convertedPoint:any)=>{
-        this.props?.onChange({
-          address: loc.address.trim() || loc.title,
-          lat: convertedPoint.lat,
-          lng: convertedPoint.lng,
-          city: loc.city
-        });
-      })
+      this.covertPoint(point, COORDINATES_BD09, COORDINATES_GCJ02).then(
+        (convertedPoint: any) => {
+          this.props?.onChange({
+            address: loc.address.trim() || loc.title,
+            lat: convertedPoint.lat,
+            lng: convertedPoint.lng,
+            city: loc.city
+          });
+        }
+      );
     } else {
       this.props?.onChange({
         address: loc.address.trim() || loc.title,
@@ -298,7 +304,6 @@ export class BaiduMapPicker extends React.Component<
         city: loc.city
       });
     }
-
   }
 
   @autobind

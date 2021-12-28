@@ -55,6 +55,26 @@ test('api:buildApi', () => {
   });
 });
 
+test('api:buildApi2', () => {
+  expect(
+    buildApi('http://domain.com/#/subpath?a=1&b=2', {
+      a: 1
+    }).url
+  ).toBe('http://domain.com/#/subpath?a=1&b=2');
+
+  expect(
+    buildApi('http://domain.com/subpath?a=1&b=2#233', {
+      a: 1
+    }).url
+  ).toBe('http://domain.com/subpath?a=1&b=2#233');
+
+  expect(
+    buildApi('http://domain.com/subpath?a=1&b=${a}#233', {
+      a: 1
+    }).url
+  ).toBe('http://domain.com/subpath?a=1&b=1#233');
+});
+
 test('api:buildApi:dataMapping', () => {
   expect(
     buildApi(

@@ -12,9 +12,10 @@ import {Icon} from './icons';
 import Overlay from './Overlay';
 import Calendar from './calendar/Calendar';
 import PopOver from './PopOver';
+import PopUp from './PopUp';
 import {themeable, ThemeProps} from '../theme';
 import {PlainObject} from '../types';
-import {noop} from '../utils/helper';
+import {isMobile, noop} from '../utils/helper';
 import {LocaleProps, localeable} from '../locale';
 import {DateRangePicker} from './DateRangePicker';
 import capitalize from 'lodash/capitalize';
@@ -47,6 +48,7 @@ export interface MonthRangePickerProps extends ThemeProps, LocaleProps {
   resetValue?: any;
   popOverContainer?: any;
   embed?: boolean;
+  useMobileUI?: boolean;
 }
 
 export interface MonthRangePickerState {
@@ -528,7 +530,8 @@ export class MonthRangePicker extends React.Component<
       clearable,
       disabled,
       embed,
-      overlayPlacement
+      overlayPlacement,
+      useMobileUI
     } = this.props;
 
     const {isOpened, isFocused} = this.state;
@@ -603,7 +606,7 @@ export class MonthRangePicker extends React.Component<
           <Icon icon="clock" className="icon" />
         </a>
 
-        {isOpened ? (
+        {!(useMobileUI && isMobile()) && isOpened ? (
           <Overlay
             target={() => this.dom.current}
             onHide={this.close}
@@ -623,6 +626,15 @@ export class MonthRangePicker extends React.Component<
             </PopOver>
           </Overlay>
         ) : null}
+        {useMobileUI && isMobile() && (
+          <PopUp
+            className={cx(`${ns}DateRangePicker-popup`)}
+            isShow={isOpened}
+            onHide={this.handleClick}
+          >
+            {this.renderCalendar()}
+          </PopUp>
+        )}
       </div>
     );
   }

@@ -12,6 +12,7 @@ import {FormSchema} from './renderers/Form';
 import {CarouselSchema} from './renderers/Carousel';
 import {ChartSchema} from './renderers/Chart';
 import {CollapseSchema} from './renderers/Collapse';
+import {CollapseGroupSchema} from './renderers/CollapseGroup';
 import {ColorSchema} from './renderers/Color';
 import {ContainerSchema} from './renderers/Container';
 import {CRUDSchema} from './renderers/CRUD';
@@ -55,6 +56,7 @@ import {PaginationSchema} from './renderers/Pagination';
 import {AnchorNavSchema} from './renderers/AnchorNav';
 import {AvatarSchema} from './renderers/Avatar';
 import {StepsSchema} from './renderers/Steps';
+import {TimelineSchema} from './renderers/Timeline';
 import {ArrayControlSchema} from './renderers/Form/InputArray';
 import {ButtonGroupControlSchema} from './renderers/Form/ButtonGroupSelect';
 import {ChainedSelectControlSchema} from './renderers/Form/ChainedSelect';
@@ -131,6 +133,7 @@ export type SchemaType =
   | 'carousel'
   | 'chart'
   | 'collapse'
+  | 'collapse-group'
   | 'color'
   | 'container'
   | 'crud'
@@ -199,6 +202,7 @@ export type SchemaType =
   | 'web-component'
   | 'anchor-nav'
   | 'steps'
+  | 'timeline'
   | 'control'
   | 'input-array'
   | 'button'
@@ -225,6 +229,7 @@ export type SchemaType =
   | 'input-time-range'
   | 'input-datetime-range'
   | 'input-excel'
+  | 'input-formula'
   | 'diff-editor'
 
   // editor 系列
@@ -317,6 +322,7 @@ export type SchemaType =
   | 'tree-select'
   | 'table-view'
   | 'portlet'
+  | 'grid-nav'
 
   // 原生 input 类型
   | 'native-date'
@@ -339,6 +345,7 @@ export type SchemaObject =
   | CarouselSchema
   | ChartSchema
   | CollapseSchema
+  | CollapseGroupSchema
   | ColorSchema
   | ContainerSchema
   | CRUDSchema
@@ -382,6 +389,7 @@ export type SchemaObject =
   | AnchorNavSchema
   | StepsSchema
   | PortletSchema
+  | TimelineSchema
 
   // 表单项
   | FormControlSchema
@@ -487,7 +495,7 @@ export interface SchemaApiObject {
   /**
    * API 发送类型
    */
-  method?: 'get' | 'post' | 'put' | 'delete' | 'patch';
+  method?: 'get' | 'post' | 'put' | 'delete' | 'patch' | 'jsonp';
 
   /**
    * API 发送目标地址
@@ -732,11 +740,6 @@ export interface BaseSchema {
    * 是否显示表达式
    */
   visibleOn?: SchemaExpression;
-
-  /**
-   * 是否使用移动端交互
-   */
-  useMobileUI?: boolean;
 }
 
 export interface Option {

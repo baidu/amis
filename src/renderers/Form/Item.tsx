@@ -436,12 +436,12 @@ export class FormItemWrap extends React.Component<FormItemProps> {
   }
 
   @autobind
-  handleDialogClose() {
+  handleDialogClose(confirmed = false) {
     const {formItem: model} = this.props;
     if (!model) {
       return;
     }
-    model.closeDialog();
+    model.closeDialog(confirmed);
   }
 
   renderControl(): JSX.Element | null {
@@ -519,7 +519,8 @@ export class FormItemWrap extends React.Component<FormItemProps> {
         renderDescription,
         hint,
         data,
-        showErrorMsg
+        showErrorMsg,
+        useMobileUI
       } = props;
 
       // 强制不渲染 label 的话
@@ -575,6 +576,7 @@ export class FormItemWrap extends React.Component<FormItemProps> {
                       type: 'remark',
                       icon: labelRemark.icon || 'warning-mark',
                       tooltip: labelRemark,
+                      useMobileUI,
                       className: cx(`Form-labelRemark`),
                       container: props.popOverContainer
                         ? props.popOverContainer
@@ -608,6 +610,7 @@ export class FormItemWrap extends React.Component<FormItemProps> {
                   icon: remark.icon || 'warning-mark',
                   tooltip: remark,
                   className: cx(`Form-remark`),
+                  useMobileUI,
                   container: props.popOverContainer
                     ? props.popOverContainer
                     : env && env.getModalContainer
@@ -664,7 +667,8 @@ export class FormItemWrap extends React.Component<FormItemProps> {
         renderDescription,
         hint,
         data,
-        showErrorMsg
+        showErrorMsg,
+        useMobileUI
       } = props;
 
       description = description || desc;
@@ -700,6 +704,7 @@ export class FormItemWrap extends React.Component<FormItemProps> {
                       icon: labelRemark.icon || 'warning-mark',
                       tooltip: labelRemark,
                       className: cx(`Form-lableRemark`),
+                      useMobileUI,
                       container: props.popOverContainer
                         ? props.popOverContainer
                         : env && env.getModalContainer
@@ -725,6 +730,7 @@ export class FormItemWrap extends React.Component<FormItemProps> {
                 icon: remark.icon || 'warning-mark',
                 className: cx(`Form-remark`),
                 tooltip: remark,
+                useMobileUI,
                 container:
                   env && env.getModalContainer
                     ? env.getModalContainer
@@ -779,7 +785,8 @@ export class FormItemWrap extends React.Component<FormItemProps> {
         renderLabel,
         renderDescription,
         data,
-        showErrorMsg
+        showErrorMsg,
+        useMobileUI
       } = props;
 
       description = description || desc;
@@ -815,6 +822,7 @@ export class FormItemWrap extends React.Component<FormItemProps> {
                       icon: labelRemark.icon || 'warning-mark',
                       tooltip: labelRemark,
                       className: cx(`Form-lableRemark`),
+                      useMobileUI,
                       container: props.popOverContainer
                         ? props.popOverContainer
                         : env && env.getModalContainer
@@ -841,6 +849,7 @@ export class FormItemWrap extends React.Component<FormItemProps> {
                   icon: remark.icon || 'warning-mark',
                   className: cx(`Form-remark`),
                   tooltip: remark,
+                  useMobileUI,
                   container: props.popOverContainer
                     ? props.popOverContainer
                     : env && env.getModalContainer
@@ -897,7 +906,8 @@ export class FormItemWrap extends React.Component<FormItemProps> {
         renderDescription,
         hint,
         data,
-        showErrorMsg
+        showErrorMsg,
+        useMobileUI
       } = props;
 
       description = description || desc;
@@ -932,6 +942,7 @@ export class FormItemWrap extends React.Component<FormItemProps> {
                         icon: labelRemark.icon || 'warning-mark',
                         tooltip: labelRemark,
                         className: cx(`Form-lableRemark`),
+                        useMobileUI,
                         container: props.popOverContainer
                           ? props.popOverContainer
                           : env && env.getModalContainer

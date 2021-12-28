@@ -297,6 +297,7 @@ export default class SelectControl extends React.Component<SelectProps, any> {
       menuTpl,
       borderMode,
       selectMode,
+      env,
       ...rest
     } = this.props;
 

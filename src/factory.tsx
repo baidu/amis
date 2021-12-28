@@ -75,10 +75,6 @@ export interface RendererProps extends ThemeProps, LocaleProps {
   };
   defaultData?: object;
   className?: any;
-  /**
-   * 是否使用移动端交互
-   */
-  useMobileUI?: boolean;
   [propName: string]: any;
 }
 
@@ -148,7 +144,7 @@ export interface RenderOptions {
 
 export interface fetcherConfig {
   url: string;
-  method?: 'get' | 'post' | 'put' | 'patch' | 'delete';
+  method?: 'get' | 'post' | 'put' | 'patch' | 'delete' | 'jsonp';
   data?: any;
   config?: any;
 }
