@@ -13,8 +13,7 @@ import Transition, {
   ENTERING
 } from 'react-transition-group/Transition';
 import Portal from 'react-overlays/Portal';
-import { Icon } from './icons';
-
+import {Icon} from './icons';
 
 export interface PopUpPorps {
   className?: string;
@@ -46,12 +45,10 @@ export class PopUp extends React.PureComponent<PopUpPorps> {
     overlay: true,
     isShow: false,
     container: document.body,
-    hideClose: false,
+    hideClose: false
   };
 
-  componentDidMount() {
-
-  }
+  componentDidMount() {}
   handleClick(e: React.MouseEvent) {
     e.stopPropagation();
   }
@@ -68,65 +65,50 @@ export class PopUp extends React.PureComponent<PopUpPorps> {
       isShow,
       container,
       hideClose,
-      placement='center',
+      placement = 'center',
       ...rest
     } = this.props;
 
     const outerStyle: any = {
-      ...style,
+      ...style
     };
     delete outerStyle.top;
     return (
       <Portal container={container}>
-        <Transition
-          mountOnEnter
-          unmountOnExit
-          in={isShow}
-          timeout={500}
-          appear
-        >
+        <Transition mountOnEnter unmountOnExit in={isShow} timeout={500} appear>
           {(status: string) => {
-              return (
-                <div
-                  className={cx(
-                    `${ns}PopUp`,
-                    className,
-                    fadeStyles[status]
-                  )}
-                  style={outerStyle}
-                  {...rest}
-                  onClick={this.handleClick}
-                >
-                  {overlay && (
-                    <div className={`${ns}PopUp-overlay`} onClick={onHide}/>
-                  )}
-                  <div className={cx(
-                    `${ns}PopUp-inner`
-                  )}
-                  >
-                    {
-                      !hideClose && (
-                        <div className={cx(`${ns}PopUp-closeWrap`, 'text-right')}>
-                          <Icon
-                            icon="close"
-                          className={cx('icon', `${ns}PopUp-close`)}
-                            onClick={onHide}
-                          />
-                        </div>
-                      )
-                    }
-                    <div
-                      className={cx(`${ns}PopUp-content`, `justify-${placement}`)}
-                    >
-                      {children}
+            return (
+              <div
+                className={cx(`${ns}PopUp`, className, fadeStyles[status])}
+                style={outerStyle}
+                {...rest}
+                onClick={this.handleClick}
+              >
+                {overlay && (
+                  <div className={`${ns}PopUp-overlay`} onClick={onHide} />
+                )}
+                <div className={cx(`${ns}PopUp-inner`)}>
+                  {!hideClose && (
+                    <div className={cx(`${ns}PopUp-closeWrap`, 'text-right')}>
+                      <Icon
+                        icon="close"
+                        className={cx('icon', `${ns}PopUp-close`)}
+                        onClick={onHide}
+                      />
                     </div>
+                  )}
+                  <div
+                    className={cx(`${ns}PopUp-content`, `justify-${placement}`)}
+                  >
+                    {children}
                   </div>
                 </div>
-              )
+              </div>
+            );
           }}
         </Transition>
       </Portal>
-    )
+    );
   }
 }
 

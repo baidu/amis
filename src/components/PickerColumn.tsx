@@ -33,7 +33,7 @@ export interface PickerColumnItem {
     index?: number,
     confirm?: boolean
   ) => void;
-};
+}
 
 export interface PickerColumnProps extends PickerColumnItem, ThemeProps {}
 
@@ -64,7 +64,7 @@ function getElementTranslateY(element: HTMLElement | null) {
 function isOptionDisabled(option: PickerOption) {
   return isObject(option) && option.disabled;
 }
-  
+
 const PickerColumn = forwardRef<{}, PickerColumnProps>((props, ref) => {
   const {
     visibleItemCount = 5,
@@ -132,11 +132,9 @@ const PickerColumn = forwardRef<{}, PickerColumnProps>((props, ref) => {
       updateState({index});
 
       if (emitChange && props.onChange) {
-        requestAnimationFrame(
-          () => {
-            props.onChange?.(options[index], index, confirm);
-          }
-        );
+        requestAnimationFrame(() => {
+          props.onChange?.(options[index], index, confirm);
+        });
         // setTimeout(() => {
         //   props.onChange?.(options[index], index, confirm);
         // }, 0);
@@ -301,7 +299,7 @@ const PickerColumn = forwardRef<{}, PickerColumnProps>((props, ref) => {
           onClickItem(index);
         }
       };
-      
+
       const childData = {
         className: 'text-ellipsis',
         children: text
@@ -357,23 +355,23 @@ const PickerColumn = forwardRef<{}, PickerColumnProps>((props, ref) => {
     transitionProperty: state.duration ? 'all' : 'none'
   };
   return (
-      <div
-          ref={root}
-          className={props.classnames('PickerColumns', props.className)}
-          onTouchStart={onTouchStart}
-          onTouchMove={onTouchMove}
-          onTouchEnd={onTouchEnd}
-          onTouchCancel={onTouchEnd}
+    <div
+      ref={root}
+      className={props.classnames('PickerColumns', props.className)}
+      onTouchStart={onTouchStart}
+      onTouchMove={onTouchMove}
+      onTouchEnd={onTouchEnd}
+      onTouchCancel={onTouchEnd}
+    >
+      <ul
+        ref={wrapper}
+        style={wrapperStyle}
+        className={props.classnames('PickerColumns-columnWrapper')}
+        onTransitionEnd={stopMomentum}
       >
-          <ul
-          ref={wrapper}
-          style={wrapperStyle}
-          className={props.classnames('PickerColumns-columnWrapper')}
-          onTransitionEnd={stopMomentum}
-          >
-          {renderOptions()}
-          </ul>
-      </div>
+        {renderOptions()}
+      </ul>
+    </div>
   );
 });
 
@@ -389,4 +387,3 @@ export default themeable(
     value: 'onChange'
   })
 );
-

@@ -314,7 +314,6 @@ export default class SelectControl extends React.Component<SelectProps, any> {
         ) : (
           <Select
             {...rest}
-            useMobileUI={env.useMobileUI}
             borderMode={borderMode}
             placeholder={placeholder}
             multiple={multiple || multi}
