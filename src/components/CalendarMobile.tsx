@@ -530,7 +530,9 @@ export class CalendarMobile extends React.Component<
       <div className={cx('CalendarMobile-footer')}>
         {timeFormat && startDate && this.renderMobileTimePicker()}
         <div className={cx('CalendarMobile-footer-toolbar')}>
-          {footerExtra}
+          <div className={cx('CalendarMobile-footer-ranges')}>
+            {footerExtra}
+          </div>
           {confirm && !embed && <a
             className={cx('Button', 'Button--primary', 'date-range-confirm', {
               'is-disabled': !startDate || !endDate

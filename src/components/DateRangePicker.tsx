@@ -705,6 +705,7 @@ export class DateRangePicker extends React.Component<
 
         <Calendar
           className={`${ns}DateRangePicker-start`}
+          value={startDate}
           onChange={this.handleStartChange}
           requiredConfirm={false}
           dateFormat={dateFormat}
@@ -905,18 +906,12 @@ export class DateRangePicker extends React.Component<
           >
             <PopOver
               classPrefix={ns}
-              className={cx(
-                `${ns}DateRangePicker-popover`,
-                popoverClassName,
-                useCalendarMobile ? 'PopOver-isMobile' : ''
-              )}
+              className={cx(`${ns}DateRangePicker-popover`, popoverClassName)}
               onHide={this.close}
               onClick={this.handlePopOverClick}
               overlay
             >
-              {useCalendarMobile
-                ? calendarMobile
-                : this.renderCalendar()}
+              {this.renderCalendar()}
             </PopOver>
           </Overlay>
         ) : null}

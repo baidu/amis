@@ -15,7 +15,7 @@ import PopOver from './PopOver';
 import PopUp from './PopUp';
 import {themeable, ThemeProps} from '../theme';
 import {PlainObject} from '../types';
-import {noop, isMobile} from '../utils/helper';
+import {isMobile, noop} from '../utils/helper';
 import {LocaleProps, localeable} from '../locale';
 import {DateRangePicker} from './DateRangePicker';
 import capitalize from 'lodash/capitalize';
@@ -551,7 +551,7 @@ export class MonthRangePicker extends React.Component<
       maxDuration,
       ranges
     } = this.props;
-    const mobileUI = isMobile() || useMobileUI;
+    const mobileUI = isMobile() && useMobileUI;
 
     const {isOpened, isFocused, startDate, endDate} = this.state;
 

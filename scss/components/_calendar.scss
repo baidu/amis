@@ -88,8 +88,8 @@
     position: fixed;
     bottom: 0;
     left: 0;
-    right: 0;
-    height: 90%;
+    width: 100vw;
+    height: 90vh;
     background: #fff;
     border-radius: px2rem(16px) px2rem(16px) 0 0;
     overflow: hidden;
@@ -240,6 +240,22 @@
     }
     &-toolbar {
       padding: 0 px2rem(16px);
+    }
+    &-ranges {
+      background: #fff;
+      box-shadow: 0 0 2px 2px rgba(0,0,0,0.02);
+      border-radius: 24px;
+      overflow-x: scroll;
+      position: relative;
+      height: px2rem(48px);
+      line-height: px2rem(48px);
+    }
+    .#{$ns}DateRangePicker-rangers {
+      position: absolute;
+      white-space: nowrap;
+      .#{$ns}DateRangePicker-ranger {
+        margin: 0 px2rem(25px);
+      }
     }
   }
 

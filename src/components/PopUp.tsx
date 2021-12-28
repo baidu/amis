@@ -66,8 +66,8 @@ export class PopUp extends React.PureComponent<PopUpPorps> {
       isShow,
       container,
       hideClose,
-      placement='center',
       header,
+      placement = 'center',
       ...rest
     } = this.props;
 
@@ -91,7 +91,8 @@ export class PopUp extends React.PureComponent<PopUpPorps> {
                 )}
                 <div className={cx(`${ns}PopUp-inner`)}>
                   {!hideClose && (
-                    <div className={cx(`${ns}PopUp-closeWrap`, 'text-right')}>
+                    <div className={cx(`${ns}PopUp-closeWrap`)}>
+                      {header}
                       <Icon
                         icon="close"
                         className={cx('icon', `${ns}PopUp-close`)}
@@ -102,23 +103,7 @@ export class PopUp extends React.PureComponent<PopUpPorps> {
                   <div
                     className={cx(`${ns}PopUp-content`, `justify-${placement}`)}
                   >
-                    {
-                      !hideClose && (
-                        <div className={cx(`${ns}PopUp-closeWrap`)}>
-                          {header}
-                          <Icon
-                            icon="close"
-                            className={cx('icon', `${ns}PopUp-close`)}
-                            onClick={onHide}
-                          />
-                        </div>
-                      )
-                    }
-                    <div
-                      className={cx(`${ns}PopUp-content`, `justify-${placement}`)}
-                    >
-                      {children}
-                    </div>
+                    {children}
                   </div>
                 </div>
               </div>
