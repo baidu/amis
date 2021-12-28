@@ -1056,13 +1056,14 @@ export class Select extends React.Component<SelectProps, SelectState> {
       labelField,
       disabled,
       checkAll,
-      borderMode
+      borderMode,
+      useMobileUI
     } = this.props;
 
     const selection = this.state.selection;
     const inputValue = this.state.inputValue;
     const resetValue = this.props.resetValue;
-
+    const mobileUI = useMobileUI && isMobile();
     return (
       <Downshift
         selectedItem={selection}
@@ -1096,6 +1097,7 @@ export class Select extends React.Component<SelectProps, SelectState> {
                   'is-opened': isOpen,
                   'is-focused': this.state.isFocused,
                   'is-disabled': disabled,
+                  'is-mobile': mobileUI,
                   [`Select--border${ucFirst(borderMode)}`]: borderMode
                 },
                 className
