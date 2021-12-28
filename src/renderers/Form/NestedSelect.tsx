@@ -71,6 +71,7 @@ export interface NestedSelectProps extends OptionsControlProps {
   withChildren?: boolean;
   onlyChildren?: boolean;
   hideNodePathLabel?: boolean;
+  useMobileUI?: boolean;
 }
 
 export interface NestedSelectState {
@@ -678,16 +679,12 @@ export default class NestedSelectControl extends React.Component<
             showConfirm={false}
             showClose={false}
           >
-            {
-              this.state.isOpened ? (
-                <Cascader
-                  onClose={this.close}
-                  {...this.props}
-                  options={this.props.options.slice()}
-                  value={selectedOptions}
-                />
-              ) : null
-            }
+            <Cascader
+              onClose={this.close}
+              {...this.props}
+              options={this.props.options.slice()}
+              value={selectedOptions}
+            />
           </PopUp>
         ) : (
           this.state.isOpened ? this.renderOuter() : null
