@@ -422,6 +422,61 @@ export class Cascader extends React.Component<CascaderProps, CascaderState> {
   }
 
   @autobind
+  getSubmitOptions(selectedOptions: Options): Options {
+    const _selectedOptions: Options = [];
+    const {
+      multiple,
+      options,
+      valueField = 'value',
+      cascade,
+      onlyChildren,
+      withChildren
+    } = this.props;
+    if (cascade || onlyChildren || withChildren || !multiple) {
+      return selectedOptions;
+    }
+    const selectedValues = selectedOptions.map((option: Option) => option[valueField]);
+    function loop(options: Options) {
+      if (!options || !options.length) {
+        return;
+      }
+      options.forEach((option: Option) => {
+        if (selectedValues.includes(option[valueField])) {
+          _selectedOptions.push(option);
+        }
+        else {
+          loop(option.children ? option.children : []);
+        }
+      })
+    }
+    loop(options);
+    return _selectedOptions;
+  }
+
+  @autobind
+  confirm() {
+    const {
+      onChange,
+      joinValues,
+      delimiter,
+      extractValue,
+      valueField,
+      onClose
+    } = this.props;
+    let { selectedOptions } = this.state;
+    let _selectedOptions = this.getSubmitOptions(selectedOptions);
+    _selectedOptions = uniqBy(_selectedOptions, valueField);
+    onChange(
+      joinValues
+        ? _selectedOptions.map(item => item[valueField as string]).join(delimiter)
+        : extractValue
+        ? _selectedOptions.map(item => item[valueField as string])
+        : _selectedOptions
+    );
+    onClose && onClose();
+  }
+
+ @autobind
   renderOption(
     option: CascaderOption,
     tabIndex: number,
@@ -494,7 +549,7 @@ export class Cascader extends React.Component<CascaderProps, CascaderState> {
           ) => {
             const { options } = tab;
             return (
-              <div className={cx(`Cascader-tab`)} ref={this.tabRef}>
+              <div className={cx(`Cascader-tab`)} ref={this.tabRef} key={tabIndex}>
                 {
                   this.renderOptions(options, tabIndex)
                 }
@@ -507,61 +562,6 @@ export class Cascader extends React.Component<CascaderProps, CascaderState> {
         }
       </div>
     )
-  }
-
-  @autobind
-  getSubmitOptions(selectedOptions: Options): Options {
-    const _selectedOptions: Options = [];
-    const {
-      multiple,
-      options,
-      valueField = 'value',
-      cascade,
-      onlyChildren,
-      withChildren
-    } = this.props;
-    if (cascade || onlyChildren || withChildren || !multiple) {
-      return selectedOptions;
-    }
-    const selectedValues = selectedOptions.map((option: Option) => option[valueField]);
-    function loop(options: Options) {
-      if (!options || !options.length) {
-        return;
-      }
-      options.forEach((option: Option) => {
-        if (selectedValues.includes(option[valueField])) {
-          _selectedOptions.push(option);
-        }
-        else {
-          loop(option.children ? option.children : []);
-        }
-      })
-    }
-    loop(options);
-    return _selectedOptions;
-  }
-
-  @autobind
-  confirm() {
-    const {
-      onChange,
-      joinValues,
-      delimiter,
-      extractValue,
-      valueField,
-      onClose
-    } = this.props;
-    let { selectedOptions } = this.state;
-    let _selectedOptions = this.getSubmitOptions(selectedOptions);
-    _selectedOptions = uniqBy(_selectedOptions, valueField);
-    onChange(
-      joinValues
-        ? _selectedOptions.map(item => item[valueField as string]).join(delimiter)
-        : extractValue
-        ? _selectedOptions.map(item => item[valueField as string])
-        : _selectedOptions
-    );
-    onClose && onClose();
   }
 
   render() {
