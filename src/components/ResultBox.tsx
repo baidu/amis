@@ -4,7 +4,7 @@ import {InputBoxProps} from './InputBox';
 import {uncontrollable} from 'uncontrollable';
 import {Icon} from './icons';
 import Input from './Input';
-import {autobind, ucFirst} from '../utils/helper';
+import {autobind, isMobile, ucFirst} from '../utils/helper';
 import {LocaleProps, localeable} from '../locale';
 import isPlainObject = require('lodash/isPlainObject');
 
@@ -19,6 +19,7 @@ export interface ResultBoxProps
   onResultChange?: (value: Array<any>) => void;
   allowInput?: boolean;
   inputPlaceholder: string;
+  useMobileUI?: boolean;
 }
 
 export class ResultBox extends React.Component<ResultBoxProps> {
@@ -115,9 +116,11 @@ export class ResultBox extends React.Component<ResultBoxProps> {
       onFocus,
       onBlur,
       borderMode,
+      useMobileUI,
       ...rest
     } = this.props;
     const isFocused = this.state.isFocused;
+    const mobileUI = useMobileUI && isMobile();
 
     return (
       <div
@@ -126,6 +129,7 @@ export class ResultBox extends React.Component<ResultBoxProps> {
           'is-disabled': disabled,
           'is-error': hasError,
           'is-clickable': onResultClick,
+          'is-mobile': mobileUI,
           [`ResultBox--border${ucFirst(borderMode)}`]: borderMode
         })}
         onClick={onResultClick}
@@ -183,6 +187,13 @@ export class ResultBox extends React.Component<ResultBoxProps> {
             <Icon icon="close" className="icon" />
           </a>
         ) : null}
+        {
+          !allowInput && mobileUI ? (
+            <span className={cx('ResultBox-arrow')}>
+              <Icon icon="caret" className="icon" />
+            </span>
+          ) : null
+        }
       </div>
     );
   }

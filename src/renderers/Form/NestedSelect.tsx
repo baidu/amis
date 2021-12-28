@@ -637,6 +637,7 @@ export default class NestedSelectControl extends React.Component<
     return (
       <div className={cx('NestedSelectControl', className)}>
         <ResultBox
+          useMobileUI={useMobileUI}
           disabled={disabled}
           ref={this.domRef}
           placeholder={__(placeholder || '空')}
