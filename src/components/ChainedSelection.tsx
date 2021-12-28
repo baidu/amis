@@ -98,7 +98,13 @@ export class ChainedSelection extends BaseSelection<
         ) : null}
 
         <div className={cx('ChainedSelection-itemLabel')}>
-          {itemRender(option)}
+          {itemRender(option, {
+            index: index,
+            multiple: multiple,
+            checked: !!~valueArray.indexOf(option),
+            onChange: () => this.toggleOption(option),
+            disabled: disabled || option.disabled
+          })}
         </div>
       </div>
     );
