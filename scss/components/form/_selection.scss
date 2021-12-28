@@ -69,7 +69,7 @@
     flex-direction: row;
 
     > .#{$ns}Checkbox {
-      margin-right: 0;
+      margin-right: px2rem(8px);
     }
     cursor: pointer;
     user-select: none;

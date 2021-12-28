@@ -238,16 +238,6 @@ export class TreeSelection extends BaseSelection<
             </a>
           ) : null}
 
-          <div className={cx('TreeSelection-itemLabel')}>
-            {itemRender(option, {
-              index: index,
-              multiple: multiple,
-              checked: checked,
-              onChange: () => this.toggleOption(option),
-              disabled: disabled || option.disabled
-            })}
-          </div>
-
           {option.defer && option.loading ? <Spinner show size="sm" /> : null}
 
           {multiple && (!option.defer || option.loaded) ? (
@@ -262,7 +252,13 @@ export class TreeSelection extends BaseSelection<
           ) : null}
 
           <div className={cx('TreeSelection-itemLabel')}>
-            {itemRender(option)}
+            {itemRender(option, {
+              index: index,
+              multiple: multiple,
+              checked: checked,
+              onChange: () => this.toggleOption(option),
+              disabled: disabled || option.disabled
+            })}
           </div>
 
           {option.defer && option.loading ? <Spinner show size="sm" /> : null}
