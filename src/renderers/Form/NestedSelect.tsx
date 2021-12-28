@@ -629,10 +629,10 @@ export default class NestedSelectControl extends React.Component<
       clearable,
       loading,
       borderMode,
-      env
+      useMobileUI
     } = this.props;
 
-    const mobileUI = env.useMobileUI && isMobile();
+    const mobileUI = useMobileUI && isMobile();
     return (
       <div className={cx('NestedSelectControl', className)}>
         <ResultBox
