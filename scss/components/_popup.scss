@@ -23,6 +23,7 @@
 }
 .#{$ns}PopUp {
   width: 100%;
+  height: px2rem(400px);
   position: fixed;
   background: var(--PopOver-bg);
   left: 0;
@@ -136,5 +137,8 @@
   }
   &--leftTopLeftBottom {
     margin-top: px2rem(-4px);
+  }
+  &-safearea {
+    height: px2rem(16px);
   }
 }

@@ -156,6 +156,7 @@ export class PopUp extends React.PureComponent<PopUpPorps> {
                     >
                       {isShow ? children : null}
                     </div>
+                    <div className={cx(`PopUp-safearea`)}></div>
                   </div>
                 </div>
               )
