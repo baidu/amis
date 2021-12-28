@@ -9,35 +9,44 @@ import Picker from '../Picker';
 import {PickerColumnItem} from '../PickerColumn';
 import {getRange, isMobile} from '../../utils/helper';
 
+interface State {
+  daypart: any;
+  counters: Array<string>;
+  [propName: string]: any;
+}
+
+interface CustomTimeViewProps {
+  viewDate: moment.Moment;
+  selectedDate: moment.Moment;
+  subtractTime: (
+    amount: number,
+    type: string,
+    toSelected?: moment.Moment
+  ) => () => void;
+  addTime: (
+    amount: number,
+    type: string,
+    toSelected?: moment.Moment
+  ) => () => void;
+  showView: (view: string) => () => void;
+  timeFormat: string;
+  classnames: ClassNamesFn;
+  setTime: (type: string, value: any) => void;
+  onClose?: () => void;
+  onConfirm?: (value: number[], types: string[]) => void;
+  useMobileUI: boolean;
+  showToolbar?: boolean;
+  onChange?: (value: any) => void;
+};
+
 export class CustomTimeView extends TimeView {
-  props: {
-    viewDate: moment.Moment;
-    subtractTime: (
-      amount: number,
-      type: string,
-      toSelected?: moment.Moment
-    ) => () => void;
-    addTime: (
-      amount: number,
-      type: string,
-      toSelected?: moment.Moment
-    ) => () => void;
-    showView: (view: string) => () => void;
-    timeFormat: string;
-    classnames: ClassNamesFn;
-    setTime: (type: string, value: any) => void;
-    onClose?: () => void;
-    onConfirm?: (value: number[], types: string[]) => void;
-    useMobileUI: boolean;
-    showToolbar?: boolean;
-    onChange?: (value: any) => void;
-  } & LocaleProps;
+  props: CustomTimeViewProps & LocaleProps;
   onStartClicking: any;
   disableContextMenu: any;
   updateMilli: any;
   renderHeader: any;
   pad: any;
-  state: {daypart: any; counters: Array<string>; [propName: string]: any};
+  state: State;
   timeConstraints: any;
   padValues = {
     hours: 2,
@@ -45,11 +54,23 @@ export class CustomTimeView extends TimeView {
     seconds: 2,
     milliseconds: 3
   };
+  setState: (arg0: any) => () => any;
+  calculateState: (props: CustomTimeViewProps) => () => any;
 
   static defaultProps = {
     showToolbar: true
   };
 
+  
+  componentWillReceiveProps(nextProps: CustomTimeViewProps) {
+		console.log('custom:' + nextProps);
+		if (nextProps.viewDate !== this.props.viewDate
+			|| nextProps.selectedDate !== this.props.selectedDate
+			|| nextProps.timeFormat !== this.props.timeFormat) {
+			  this.setState(this.calculateState(nextProps));
+			}
+  }
+  
   renderDayPart = () => {
     const {translate: __, classnames: cx} = this.props;
     return (
@@ -154,8 +175,22 @@ export class CustomTimeView extends TimeView {
     return null;
   };
 
-  onConfirm = (value: number[]) => {
-    this.props.onConfirm && this.props.onConfirm(value, this.state.counters);
+  onConfirm = (value: (number | string)[]) => {
+    // 修正am、pm
+    const hourIndex = this.state.counters.indexOf('hours');
+    if (
+      hourIndex !== -1 &&
+      this.state.daypart !== false &&
+      this.props.timeFormat.toLowerCase().indexOf(' a') !== -1 
+    ) {
+      const amMode: string = value.splice(-1, 1)[0] as string;
+      let hour = (value[hourIndex] as number) % 12;
+      // 修正pm
+      amMode.toLowerCase().indexOf('p') !== -1 && (hour = hour + 12);
+      value[hourIndex] = hour;
+    }
+
+    this.props.onConfirm && this.props.onConfirm(value as number[], this.state.counters);
   };
 
   getDayPartOptions = () => {
@@ -171,6 +206,17 @@ export class CustomTimeView extends TimeView {
     }));
   };
 
+  onPickerChange = (value: (number | string)[], index: number) => {
+    const time: {[prop:string]: any} = {};
+    this.state.counters.forEach((type, i) => time[type] = value[i]);
+    if (this.state.daypart !== false && index > this.state.counters.length -1) {
+      time.daypart = value[value.length -1];
+    }
+    this.setState((prevState: State) => {
+      return {...prevState, ...time}
+    });
+  }
+
   renderTimeViewPicker = () => {
     const {translate: __} =  this.props;
     const title = __('Date.titleTime');
@@ -179,7 +225,6 @@ export class CustomTimeView extends TimeView {
 
     this.state.counters.forEach(type => {
       if (type !== 'daypart') {
-        const counterValue: number = this.getCounterValue(type);
         let {min, max, step} = this.timeConstraints[type];
         // 修正am pm时hours可选最大值
         if (
@@ -192,7 +237,7 @@ export class CustomTimeView extends TimeView {
         columns.push({
           options: getRange(min, max, step)
         });
-        values.push(counterValue);
+        values.push(parseInt(this.state[type], 10));
       }
     });
     if (this.state.daypart !== false) {
@@ -212,7 +257,7 @@ export class CustomTimeView extends TimeView {
         onConfirm={this.onConfirm}
         onClose={this.props.onClose}
         showToolbar={this.props.showToolbar}
-        onChange={this.props.onChange}
+        onChange={this.onPickerChange}
         />
     );
   };

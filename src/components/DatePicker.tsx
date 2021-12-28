@@ -628,6 +628,7 @@ export class DatePicker extends React.Component<DateProps, DatePickerState> {
             schedules={schedulesData}
             largeMode={largeMode}
             onScheduleClick={onScheduleClick}
+            useMobileUI={useMobileUI}
           />
         </div>
       );
@@ -703,6 +704,7 @@ export class DatePicker extends React.Component<DateProps, DatePickerState> {
                 locale={locale}
                 minDate={minDate}
                 maxDate={maxDate}
+                useMobileUI={useMobileUI}
                 // utc={utc}
               />
             </PopOver>
@@ -732,6 +734,7 @@ export class DatePicker extends React.Component<DateProps, DatePickerState> {
               locale={locale}
               minDate={minDate}
               maxDate={maxDate}
+              useMobileUI={useMobileUI}
               // utc={utc}
             />
           </PopUp>

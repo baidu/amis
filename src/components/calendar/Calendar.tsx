@@ -297,6 +297,9 @@ class BaseDatePicker extends ReactDatePicker {
     viewProps.getDateBoundary = this.getDateBoundary;
     viewProps.getColumns = this.getColumns;
 
+    if (this.props.viewMode === 'years') {
+      viewProps.updateOn = 'years';
+    }
     return (
       <div className={cx('rdt rdtStatic rdtOpen', this.props.className)}>
         <div key="dt" className="rdtPicker">
