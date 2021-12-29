@@ -215,7 +215,7 @@ register('de-DE', {
   'validate.minimum': 'Der Eingabewert ist kleiner als der Mindestwert von $1.',
   'validate.minLength': 'Geben Sie weitere Zeichen ein, mindestens $1.',
   'validate.notEmptyString': 'Geben Sie nicht nur Leerzeichen ein.',
-  'validateFailed': 'Fehler bei der Überprüfung,',
+  'validateFailed': 'Fehler bei der Überprüfung',
   'Wizard.configError': 'Konfigurationsfehler',
   'Wizard.finish': 'Ende',
   'Wizard.next': 'Weiter',
@@ -256,5 +256,5 @@ register('de-DE', {
   'Condition.blank': 'leer',
   'InputTable.uniqueError': 'Column `{{label}}` unique validate failed',
   'Timeline.collapseText': 'Entfalten',
-  'Timeline.expandText': 'Falten',
+  'Timeline.expandText': 'Falten'
 });

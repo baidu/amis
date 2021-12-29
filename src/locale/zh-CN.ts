@@ -262,5 +262,5 @@ register('zh-CN', {
   'Condition.blank': '空',
   'InputTable.uniqueError': '列`{{label}}`没有通过唯一验证',
   'Timeline.collapseText': '展开',
-  'Timeline.expandText': '折叠',
+  'Timeline.expandText': '折叠'
 });
