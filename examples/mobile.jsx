@@ -7,11 +7,14 @@ import './polyfills/index';
 import React from 'react';
 import {render} from 'react-dom';
 import axios from 'axios';
+import TouchEmulator from 'hammer-touchemulator';
 import copy from 'copy-to-clipboard';
 import {toast} from '../src/components/Toast';
 import '../src/locale/en-US';
 
 import {render as renderAmis} from '../src/index';
+
+TouchEmulator();
 
 class AMISComponent extends React.Component {
   state = {
