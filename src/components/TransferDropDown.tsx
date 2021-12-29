@@ -103,10 +103,15 @@ export class TransferDropDown extends Transfer<TransferDropDownProps> {
             placeholder={__('Select.placeholder')}
             disabled={disabled}
             ref={ref}
+            useMobileUI={useMobileUI}
           >
-            <span className={cx('TransferDropDown-icon')}>
-              <Icon icon="caret" className="icon" />
-            </span>
+            {!mobileUI ? (
+              <span className={cx('TransferDropDown-icon')}>
+                <Icon icon="caret" className="icon" />
+              </span>
+            ) : (
+              <></>
+            )}
           </ResultBox>
         )}
       </PopOverContainer>
