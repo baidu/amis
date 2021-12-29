@@ -626,10 +626,11 @@
   --DropDown-menu-paddingX: 0;
   --DropDown-menu-paddingY: var(--gap-xs);
   --DropDown-menuItem-onHover-bg: var(--ListMenu-item--onHover-bg);
-  --DropDown-menuItem-color: var(--text-color);
+  --DropDown-group-color: #848b99;
+  --DropDown-menuItem-color: #151a26;
   --DropDown-menuItem-onHover-color: var(--primary);
   --DropDown-menuItem-onActive-color: var(--primary);
-  --DropDown-menuItem-onDisabled-color: var(--text--muted-color);
+  --DropDown-menuItem-onDisabled-color: #b4b6ba;
   --DropDown-menuItem-paddingX: var(--gap-sm);
   --DropDown-menuItem-paddingY: calc(
     (var(--DropDown-menu-height) - var(--fontSizeBase) * var(--lineHeightBase)) /
