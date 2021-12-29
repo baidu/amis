@@ -231,11 +231,14 @@ class BaseDatePicker extends ReactDatePicker {
         this.props.renderQuarter
       ];
     }
-
-    viewProps.onConfirm = this.onConfirm;
-    if (this.props.viewMode === 'years') {
+    else if (this.props.viewMode === 'years') {
       viewProps.updateOn = 'years';
     }
+    else if (this.props.viewMode === 'months') {
+      viewProps.updateOn = 'months';
+    }
+
+    viewProps.onConfirm = this.onConfirm;
 
     return (
       <div className={cx('rdt rdtStatic rdtOpen', this.props.className)}>
