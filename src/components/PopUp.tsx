@@ -31,6 +31,7 @@ export interface PopUpPorps extends ThemeProps, LocaleProps {
   onConfirm?: (value: any) => void;
   showClose?: boolean;
   placement?: 'left' | 'center' | 'right';
+  header?: JSX.Element;
 }
 
 const fadeStyles: {
@@ -89,6 +90,7 @@ export class PopUp extends React.PureComponent<PopUpPorps> {
       showConfirm,
       translate: __,
       showClose,
+      header,
       placement = 'center',
       ...rest
     } = this.props;
@@ -112,15 +114,16 @@ export class PopUp extends React.PureComponent<PopUpPorps> {
                   <div className={`${ns}PopUp-overlay`} onClick={onHide} />
                 )}
                 <div className={cx(`${ns}PopUp-inner`)}>
-                  {!showConfirm && showClose && (
-                    <div className={cx(`${ns}PopUp-closeWrap`, 'text-right')}>
+                  {!showConfirm && showClose ? (
+                    <div className={cx(`${ns}PopUp-closeWrap`)}>
+                      {header}
                       <Icon
                         icon="close"
                         className={cx('icon', `${ns}PopUp-close`)}
                         onClick={onHide}
                       />
                     </div>
-                  )}
+                  ) : null}
                   {showConfirm && (
                     <div className={cx(`${ns}PopUp-toolbar`)}>
                       <Button
