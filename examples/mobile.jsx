@@ -25,7 +25,7 @@ class AMISComponent extends React.Component {
       if (data && data.schema) {
         this.setState({
           schema: data.schema,
-          props: {useMobileUI: true, ...data.props}
+          props: data.props
         });
       }
     });
