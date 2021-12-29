@@ -25,7 +25,7 @@ import {ResultBox, Spinner} from '../../components';
 import xor from 'lodash/xor';
 import union from 'lodash/union';
 import compact from 'lodash/compact';
-import { RootClose } from '../../utils/RootClose';
+import {RootClose} from '../../utils/RootClose';
 import Cascader from '../../components/Cascader';
 
 /**
@@ -687,9 +687,9 @@ export default class NestedSelectControl extends React.Component<
               value={selectedOptions}
             />
           </PopUp>
-        ) : (
-          this.state.isOpened ? this.renderOuter() : null
-        )}
+        ) : this.state.isOpened ? (
+          this.renderOuter()
+        ) : null}
       </div>
     );
   }

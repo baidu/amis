@@ -56,14 +56,14 @@
 
   &.in {
     animation-name: PopUpIn;
-    .#{$ns}PopUp-overlay{
+    .#{$ns}PopUp-overlay {
       animation-name: PopUpOpacityIn;
     }
   }
 
   &.out {
     animation-name: PopUpOut;
-    .#{$ns}PopUp-overlay{
+    .#{$ns}PopUp-overlay {
       animation-name: PopUpOpacityOut;
     }
   }
@@ -107,7 +107,7 @@
     margin-right: var(--gap-sm);
   }
 
-  &-content{
+  &-content {
     overflow-y: auto;
     height: 100%;
     display: flex;
@@ -126,7 +126,7 @@
     right: 0;
     z-index: 1;
     bottom: 0;
-    background: rgba(0, 0, 0, 0.3);;
+    background: rgba(0, 0, 0, 0.3);
     opacity: 1;
     animation-duration: var(--animation-duration);
     animation-fill-mode: both;

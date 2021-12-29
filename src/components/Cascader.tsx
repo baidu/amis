@@ -5,24 +5,16 @@
 
 import React from 'react';
 import {autobind, getTreeAncestors} from '../utils/helper';
-import { themeable } from '../theme';
-import { CSSProperties } from 'react';
-import { NestedSelectProps } from '../renderers/Form/NestedSelect'
+import {themeable} from '../theme';
+import {NestedSelectProps} from '../renderers/Form/NestedSelect';
 import {Option, Options} from './Select';
 import intersectionBy from 'lodash/intersectionBy';
 import compact from 'lodash/compact';
 import find from 'lodash/find';
 import uniqBy from 'lodash/uniqBy';
 import Button from './Button';
-import {
-  flattenTree,
-  findTree,
-  getTreeDepth
-} from '../utils/helper';
+import {flattenTree, findTree, getTreeDepth} from '../utils/helper';
 
-export interface BaseTypeProps {
-  style?: CSSProperties | any;
-}
 export type CascaderOption = {
   text?: string;
   value?: string | number;
@@ -32,50 +24,37 @@ export type CascaderOption = {
   className?: string;
   [key: string]: any;
 };
-export type CascaderFieldNames = {
-  text?: string;
-  value?: string;
-  children?: string;
-};
-export interface CascaderProps extends BaseTypeProps, NestedSelectProps {
-  title?: React.ReactNode;
-  closeable?: boolean;
-  swipeable?: boolean;
+export interface CascaderProps extends NestedSelectProps {
   value?: (number | string)[];
-  fieldNames?: CascaderFieldNames;
-  placeholder?: string;
   activeColor?: string;
   optionRender?: ({
     option,
-    selected,
+    selected
   }: {
     option: CascaderOption;
     selected: boolean;
   }) => React.ReactNode;
   onClose?: () => void;
   onConfirm?: (param: any) => void;
-  classPrefix: string;
   multiple?: boolean;
-  close: () => void;
 }
 export type CascaderTab = {
   options: Options;
-  selectedOption: CascaderOption | null;
 };
 
 export interface CascaderState {
   selectedOptions: Options;
   activeTab: number;
   tabs: Array<{
-    options: Options,
-  }>
+    options: Options;
+  }>;
 }
 
 export class Cascader extends React.Component<CascaderProps, CascaderState> {
   static defaultProps = {
     labelField: 'label',
     valueField: 'value'
-  }
+  };
   tabsRef: React.RefObject<HTMLDivElement> = React.createRef();
   tabRef: React.RefObject<HTMLDivElement> = React.createRef();
   constructor(props: CascaderProps) {
@@ -85,19 +64,14 @@ export class Cascader extends React.Component<CascaderProps, CascaderState> {
       activeTab: 0,
       tabs: [
         {
-          options: this.props.options.slice() || [],
+          options: this.props.options.slice() || []
         }
       ]
-    }
+    };
     this.initSourceOptions();
   }
   componentDidMount() {
-    const {
-      multiple,
-      options,
-      valueField = "value",
-      cascade,
-    } = this.props;
+    const {multiple, options, valueField = 'value', cascade} = this.props;
     let selectedOptions = this.props.selectedOptions.slice();
     let parentsCount = 0;
     let parentTree: Options = [];
@@ -109,43 +83,43 @@ export class Cascader extends React.Component<CascaderProps, CascaderState> {
         parentsCount = parentTree.length;
       }
     });
-    const selectedValues = selectedOptions.map((option: Option) => option[valueField]);
+    const selectedValues = selectedOptions.map(
+      (option: Option) => option[valueField]
+    );
     const tabs = parentTree.map((option: Option) => {
       if (multiple && !cascade) {
-        if (selectedValues.includes(option[valueField]) && option?.children?.length) {
-          option.children.forEach((option: Option) => option.disabled = true);
+        if (
+          selectedValues.includes(option[valueField]) &&
+          option?.children?.length
+        ) {
+          option.children.forEach((option: Option) => (option.disabled = true));
         }
       }
-      return multiple ? {
-        options: [{
-            ...option,
-            isCheckAll: true
-          },
-          ...(option.children ? option.children : [])
-        ]
-      } : {
-        options: option.children ? option.children : []
-      }
+      return multiple
+        ? {
+            options: [
+              {
+                ...option,
+                isCheckAll: true
+              },
+              ...(option.children ? option.children : [])
+            ]
+          }
+        : {
+            options: option.children ? option.children : []
+          };
     });
     this.setState({
       selectedOptions,
       tabs: [...this.state.tabs, ...tabs]
-    })
+    });
   }
 
   @autobind
   initSourceOptions() {
-    const {source, formItem, data, onChange} =
-        this.props;
+    const {source, formItem, data, onChange} = this.props;
     if (source && formItem) {
-      formItem.loadOptions(
-        source,
-        data,
-        undefined,
-        false,
-        onChange,
-        false
-      );
+      formItem.loadOptions(source, data, undefined, false, onChange, false);
     }
   }
 
@@ -155,12 +129,12 @@ export class Cascader extends React.Component<CascaderProps, CascaderState> {
     this.setState({
       activeTab: index,
       tabs
-    })
+    });
   }
 
   @autobind
   getOptionParent(option: Option) {
-    const { options, valueField = "value" } = this.props;
+    const {options, valueField = 'value'} = this.props;
     let ancestors: any[] = [];
     findTree(options, (item, index, level, paths) => {
       if (item[valueField] === option[valueField]) {
@@ -169,29 +143,35 @@ export class Cascader extends React.Component<CascaderProps, CascaderState> {
       }
       return false;
     });
-    return ancestors.length ? ancestors[ancestors.length-1] : null;
+    return ancestors.length ? ancestors[ancestors.length - 1] : null;
   }
 
   @autobind
   dealParentSelect(option: Option, selectedOptions: Options): Options {
-    const { valueField = "value" } = this.props;
+    const {valueField = 'value'} = this.props;
     const parentOption = this.getOptionParent(option);
     if (parentOption) {
       const parentChildren = parentOption?.children;
-      const equalOption = intersectionBy(selectedOptions, parentChildren, valueField);
+      const equalOption = intersectionBy(
+        selectedOptions,
+        parentChildren,
+        valueField
+      );
       // 包含则选中父节点
-      const isParentSelected = find(selectedOptions, { [valueField]: parentOption[valueField] });
-      if (equalOption.length === parentChildren?.length
-        && !isParentSelected){
+      const isParentSelected = find(selectedOptions, {
+        [valueField]: parentOption[valueField]
+      });
+      if (equalOption.length === parentChildren?.length && !isParentSelected) {
         selectedOptions.push(parentOption);
       }
       if (equalOption.length !== parentChildren?.length && isParentSelected) {
-        const index = selectedOptions.findIndex((item: Option) => (item[valueField] === parentOption[valueField]))
+        const index = selectedOptions.findIndex(
+          (item: Option) => item[valueField] === parentOption[valueField]
+        );
         selectedOptions.splice(index, 1);
       }
       return this.dealParentSelect(parentOption, selectedOptions);
-    }
-    else {
+    } else {
       return selectedOptions;
     }
   }
@@ -199,20 +179,19 @@ export class Cascader extends React.Component<CascaderProps, CascaderState> {
   @autobind
   flattenTreeWithLeafNodes(option: Option) {
     return compact(
-      flattenTree(Array.isArray(option) ? option : [option], node => node
-      )
+      flattenTree(Array.isArray(option) ? option : [option], node => node)
     );
   }
 
   @autobind
   adjustOptionSelect(option: Option): boolean {
-    const { valueField = 'value' } = this.props;
-    const { selectedOptions } = this.state;
+    const {valueField = 'value'} = this.props;
+    const {selectedOptions} = this.state;
     function loop(arr: any[]): boolean {
       if (!arr.length) {
         return false;
       }
-      return arr.some((item: any) => item[valueField] === option[valueField])
+      return arr.some((item: any) => item[valueField] === option[valueField]);
     }
     return loop(selectedOptions);
   }
@@ -227,14 +206,13 @@ export class Cascader extends React.Component<CascaderProps, CascaderState> {
       for (let item of arr) {
         if (item.children) {
           loop(item.children || []);
-        }
-        else {
+        } else {
           if (this.adjustOptionSelect(item)) {
             count++;
           }
         }
       }
-    }
+    };
     loop(option.children || []);
     return count;
   }
@@ -242,7 +220,7 @@ export class Cascader extends React.Component<CascaderProps, CascaderState> {
   @autobind
   dealOptionDisable(selectedOptions: Options) {
     const {
-      valueField = "value",
+      valueField = 'value',
       options,
       cascade,
       multiple,
@@ -251,35 +229,40 @@ export class Cascader extends React.Component<CascaderProps, CascaderState> {
     if (!multiple || cascade || onlyChildren) {
       return;
     }
-    const selectedValues = selectedOptions.map((option: Option) => option[valueField]);
+    const selectedValues = selectedOptions.map(
+      (option: Option) => option[valueField]
+    );
     const loop = (option: Option) => {
-      if (!option.children){
+      if (!option.children) {
         return;
       }
-      option.children && option.children.forEach((childOption: Option) => {
-        if (!selectedValues.includes(option[valueField]) && !option.disabled) {
-         childOption.disabled = false;
-        }
+      option.children &&
+        option.children.forEach((childOption: Option) => {
+          if (
+            !selectedValues.includes(option[valueField]) &&
+            !option.disabled
+          ) {
+            childOption.disabled = false;
+          }
 
-        if (selectedValues.includes(option[valueField]) || option.disabled) {
-          childOption.disabled = true;
-        }
-        loop(childOption);
-      })
-    }
+          if (selectedValues.includes(option[valueField]) || option.disabled) {
+            childOption.disabled = true;
+          }
+          loop(childOption);
+        });
+    };
     options.forEach((option: Option) => loop(option));
   }
 
   @autobind
   dealChildrenSelect(option: Option, selectedOptions: Options) {
-    const {
-      valueField = 'value',
-    } = this.props;
-    let index = selectedOptions.findIndex((item: Option) => item[valueField] === option[valueField]);
+    const {valueField = 'value'} = this.props;
+    let index = selectedOptions.findIndex(
+      (item: Option) => item[valueField] === option[valueField]
+    );
     if (index !== -1) {
       selectedOptions.splice(index, 1);
-    }
-    else {
+    } else {
       selectedOptions.push(option);
     }
     function loop(option: Option) {
@@ -289,14 +272,15 @@ export class Cascader extends React.Component<CascaderProps, CascaderState> {
       option.children.forEach((item: Option) => {
         if (index !== -1) {
           // 删除选中节点及其子节点
-          selectedOptions = selectedOptions.filter((sItem: Option) => sItem[valueField] !== item[valueField]);
-        }
-        else {
+          selectedOptions = selectedOptions.filter(
+            (sItem: Option) => sItem[valueField] !== item[valueField]
+          );
+        } else {
           // 添加节点及其子节点
           selectedOptions.push(item);
         }
         loop(item);
-      })
+      });
     }
     loop(option);
     return selectedOptions;
@@ -309,45 +293,45 @@ export class Cascader extends React.Component<CascaderProps, CascaderState> {
       return this.getParentTree(parentOption, arr);
     }
     return arr;
-  }
+  };
 
   @autobind
-  onSelect(
-    option: CascaderOption,
-    tabIndex: number
-  ) {
-    const {
-      multiple,
-      valueField = 'value',
-      cascade,
-     } = this.props;
+  onSelect(option: CascaderOption, tabIndex: number) {
+    const {multiple, valueField = 'value', cascade} = this.props;
 
     let tabs = this.state.tabs.slice();
-    let { activeTab } = this.state;
+    let {activeTab} = this.state;
     let selectedOptions = this.state.selectedOptions;
     const isDisable = option.disabled;
     if (!isDisable) {
       if (multiple) {
         // 父子级分离
         if (cascade) {
-          if (option.isCheckAll || !option.children || !option.children.length) {
-            let index = selectedOptions.findIndex((item: Option) => item[valueField] === option[valueField]);
+          if (
+            option.isCheckAll ||
+            !option.children ||
+            !option.children.length
+          ) {
+            let index = selectedOptions.findIndex(
+              (item: Option) => item[valueField] === option[valueField]
+            );
             if (index !== -1) {
               selectedOptions.splice(index, 1);
-            }
-            else {
+            } else {
               selectedOptions.push(option);
             }
           }
-        }
-        else {
-          if (option.isCheckAll || !option.children || !option.children.length) {
+        } else {
+          if (
+            option.isCheckAll ||
+            !option.children ||
+            !option.children.length
+          ) {
             selectedOptions = this.dealChildrenSelect(option, selectedOptions);
             selectedOptions = this.dealParentSelect(option, selectedOptions);
           }
         }
-      }
-      else {
+      } else {
         // 单选
         selectedOptions = this.getParentTree(option, [option]);
       }
@@ -358,7 +342,6 @@ export class Cascader extends React.Component<CascaderProps, CascaderState> {
       tabs = tabs.slice(0, tabIndex + 1);
     }
 
-
     requestAnimationFrame(() => {
       const tabWidth = this.tabRef.current?.offsetWidth || 1;
       const parentTree = this.getParentTree(option, [option]);
@@ -368,19 +351,20 @@ export class Cascader extends React.Component<CascaderProps, CascaderState> {
       }
     });
 
-
     if (option?.children && !option.isCheckAll) {
-      const nextTab = multiple ? {
-        options: [
-          {
-            ...option,
-            isCheckAll: true
-          },
-          ...option.children
-        ]
-      } : {
-        options: option.children
-      };
+      const nextTab = multiple
+        ? {
+            options: [
+              {
+                ...option,
+                isCheckAll: true
+              },
+              ...option.children
+            ]
+          }
+        : {
+            options: option.children
+          };
 
       if (tabs[tabIndex + 1]) {
         tabs[tabIndex + 1] = nextTab;
@@ -393,32 +377,29 @@ export class Cascader extends React.Component<CascaderProps, CascaderState> {
       tabs,
       activeTab,
       selectedOptions
-    })
+    });
   }
 
   @autobind
-  onNextClick(
-    option: CascaderOption,
-    tabIndex: number
-  ) {
-    let { activeTab } = this.state;
+  onNextClick(option: CascaderOption, tabIndex: number) {
+    let {activeTab} = this.state;
     let tabs = this.state.tabs.slice();
-    if(option.c)
-    if (option?.children) {
-      const nextTab = {
-        options: option.children,
-      };
-      if (tabs[tabIndex + 1]) {
-        tabs[tabIndex + 1] = nextTab;
-      } else {
-        tabs.push(nextTab);
+    if (option.c)
+      if (option?.children) {
+        const nextTab = {
+          options: option.children
+        };
+        if (tabs[tabIndex + 1]) {
+          tabs[tabIndex + 1] = nextTab;
+        } else {
+          tabs.push(nextTab);
+        }
+        activeTab += 1;
       }
-      activeTab += 1;
-    }
     this.setState({
       tabs,
       activeTab
-    })
+    });
   }
 
   @autobind
@@ -435,7 +416,9 @@ export class Cascader extends React.Component<CascaderProps, CascaderState> {
     if (cascade || onlyChildren || withChildren || !multiple) {
       return selectedOptions;
     }
-    const selectedValues = selectedOptions.map((option: Option) => option[valueField]);
+    const selectedValues = selectedOptions.map(
+      (option: Option) => option[valueField]
+    );
     function loop(options: Options) {
       if (!options || !options.length) {
         return;
@@ -443,11 +426,10 @@ export class Cascader extends React.Component<CascaderProps, CascaderState> {
       options.forEach((option: Option) => {
         if (selectedValues.includes(option[valueField])) {
           _selectedOptions.push(option);
-        }
-        else {
+        } else {
           loop(option.children ? option.children : []);
         }
-      })
+      });
     }
     loop(options);
     return _selectedOptions;
@@ -455,20 +437,16 @@ export class Cascader extends React.Component<CascaderProps, CascaderState> {
 
   @autobind
   confirm() {
-    const {
-      onChange,
-      joinValues,
-      delimiter,
-      extractValue,
-      valueField,
-      onClose
-    } = this.props;
-    let { selectedOptions } = this.state;
+    const {onChange, joinValues, delimiter, extractValue, valueField, onClose} =
+      this.props;
+    let {selectedOptions} = this.state;
     let _selectedOptions = this.getSubmitOptions(selectedOptions);
     _selectedOptions = uniqBy(_selectedOptions, valueField);
     onChange(
       joinValues
-        ? _selectedOptions.map(item => item[valueField as string]).join(delimiter)
+        ? _selectedOptions
+            .map(item => item[valueField as string])
+            .join(delimiter)
         : extractValue
         ? _selectedOptions.map(item => item[valueField as string])
         : _selectedOptions
@@ -476,92 +454,87 @@ export class Cascader extends React.Component<CascaderProps, CascaderState> {
     onClose && onClose();
   }
 
- @autobind
-  renderOption(
-    option: CascaderOption,
-    tabIndex: number,
-  ) {
+  @autobind
+  renderOption(option: CascaderOption, tabIndex: number) {
     const {
       activeColor,
       optionRender,
       labelField,
-      valueField = "value",
+      valueField = 'value',
       classnames: cx,
       cascade,
       multiple
     } = this.props;
-    const { selectedOptions } = this.state;
+    const {selectedOptions} = this.state;
     const selectedValueArr = selectedOptions.map(item => item[valueField]);
 
     let selfChecked = selectedValueArr.includes(option[valueField]);
     const color = option.color || (selfChecked ? activeColor : undefined);
     const Text = optionRender ? (
-      optionRender({ option, selected: selfChecked })
+      optionRender({option, selected: selfChecked})
     ) : (
       <span>{option[labelField]}</span>
     );
     return (
       <li
-        className={cx('Cascader-option', {
+        className={cx(
+          'Cascader-option',
+          {
             selected: selfChecked,
-            disabled: option.disabled,
-          }, option.className)}
-        style={{ color }}
+            disabled: option.disabled
+          },
+          option.className
+        )}
+        style={{color}}
         onClick={() => this.onSelect(option, tabIndex)}
         key={tabIndex + '-' + option[valueField]}
       >
-        <span className={cx('Cascader-option--text')}>
-          {Text}
-        </span>
+        <span className={cx('Cascader-option--text')}>{Text}</span>
       </li>
     );
   }
 
   @autobind
-  renderOptions(
-    options: Options,
-    tabIndex: number
-  ) {
-    const {
-      classnames: cx
-    } = this.props;
+  renderOptions(options: Options, tabIndex: number) {
+    const {classnames: cx} = this.props;
     return (
       <ul key={tabIndex} className={cx('Cascader-options')}>
-        {options.map((option) => this.renderOption(option, tabIndex))}
+        {options.map(option => this.renderOption(option, tabIndex))}
       </ul>
-    )
+    );
   }
 
   @autobind
   renderTabs() {
-    const {
-      classnames: cx,
-      options
-    } = this.props;
-    const { tabs } = this.state;
+    const {classnames: cx, options} = this.props;
+    const {tabs} = this.state;
     const depth = getTreeDepth(options);
     return (
-      <div className={cx(`Cascader-tabs`, depth > 3 ? 'scrollable': '' )} ref={this.tabsRef}>
-        {
-          tabs.map((
-            tab: CascaderTab,
-            tabIndex: number
-          ) => {
-            const { options } = tab;
-            return (
-              <div className={cx(`Cascader-tab`)} ref={this.tabRef} key={tabIndex}>
-                {
-                  this.renderOptions(options, tabIndex)
-                }
-              </div>
-            )
-          })
-        }
-        {
-          depth <=3 && options.length ? Array(getTreeDepth(options) - tabs.length).fill(1).map((item: number, index: number) =>  <div className={cx(`Cascader-tab`)} key={index}></div>) : null
-        }
+      <div
+        className={cx(`Cascader-tabs`, depth > 3 ? 'scrollable' : '')}
+        ref={this.tabsRef}
+      >
+        {tabs.map((tab: CascaderTab, tabIndex: number) => {
+          const {options} = tab;
+          return (
+            <div
+              className={cx(`Cascader-tab`)}
+              ref={this.tabRef}
+              key={tabIndex}
+            >
+              {this.renderOptions(options, tabIndex)}
+            </div>
+          );
+        })}
+        {depth <= 3 && options.length
+          ? Array(getTreeDepth(options) - tabs.length)
+              .fill(1)
+              .map((item: number, index: number) => (
+                <div className={cx(`Cascader-tab`)} key={index}></div>
+              ))
+          : null}
       </div>
-    )
+    );
   }
 
   render() {
@@ -570,24 +543,30 @@ export class Cascader extends React.Component<CascaderProps, CascaderState> {
       classnames: cx,
       className,
       onClose,
-      translate: __,
+      translate: __
     } = this.props;
 
     return (
       <div className={cx(`Cascader`, className)}>
-          <div className={cx(`Cascader-btnGroup`)}>
-            <Button className={cx(`Cascader-btnCancel`)} level="default" onClick={onClose}>
-              {__('cancel')}
-            </Button>
-            <Button className={cx(`Cascader-btnConfirm`)} level="primary" onClick={this.confirm}>
-              {__('confirm')}
-            </Button>
-          </div>
-          {
-            this.renderTabs()
-          }
+        <div className={cx(`Cascader-btnGroup`)}>
+          <Button
+            className={cx(`Cascader-btnCancel`)}
+            level="default"
+            onClick={onClose}
+          >
+            {__('cancel')}
+          </Button>
+          <Button
+            className={cx(`Cascader-btnConfirm`)}
+            level="primary"
+            onClick={this.confirm}
+          >
+            {__('confirm')}
+          </Button>
         </div>
-      )
+        {this.renderTabs()}
+      </div>
+    );
   }
 }
 

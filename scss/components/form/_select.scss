@@ -154,7 +154,11 @@
   }
 
   &.is-mobile {
+    min-height: calc(var(--Form-input-lineHeight) * var(--fontSizeLg));
     border: none;
+    padding: 0;
+    font-size: var(--fontSizeLg);
+
     .#{$ns}Select-valueWrap {
       text-align: right;
       padding-right: 4px;

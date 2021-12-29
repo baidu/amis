@@ -928,7 +928,8 @@ export class Select extends React.Component<SelectProps, SelectState> {
       <div
         ref={this.menu}
         className={cx('Select-menu', {
-          'Select--longlist': filtedOptions.length && filtedOptions.length > 100,
+          'Select--longlist':
+            filtedOptions.length && filtedOptions.length > 100,
           'is-mobile': mobileUI
         })}
       >
@@ -1028,9 +1029,7 @@ export class Select extends React.Component<SelectProps, SelectState> {
       >
         <PopOver
           overlay
-          className={cx(
-            'Select-popover'
-          )}
+          className={cx('Select-popover')}
           style={{
             minWidth: this.target ? this.target.offsetWidth : 'auto'
           }}

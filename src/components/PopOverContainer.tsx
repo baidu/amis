@@ -76,38 +76,35 @@ export class PopOverContainer extends React.Component<
           onClick: this.handleClick,
           ref: this.targetRef
         })}
-        {
-          mobileUI ? (
-            <PopUp
-              isShow={this.state.isOpened}
+        {mobileUI ? (
+          <PopUp
+            isShow={this.state.isOpened}
+            className={popOverClassName}
+            onHide={this.close}
+          >
+            {dropdownRender({onClose: this.close})}
+          </PopUp>
+        ) : (
+          <Overlay
+            container={popOverContainer || this.getParent}
+            target={this.getTarget}
+            placement={'auto'}
+            show={this.state.isOpened}
+          >
+            <PopOver
+              overlay
               className={popOverClassName}
+              style={{
+                minWidth: this.target
+                  ? Math.max(this.target.offsetWidth, 100)
+                  : 'auto'
+              }}
               onHide={this.close}
             >
               {dropdownRender({onClose: this.close})}
-            </PopUp>
-          ) : (
-            <Overlay
-              container={popOverContainer || this.getParent}
-              target={this.getTarget}
-              placement={'auto'}
-              show={this.state.isOpened}
-            >
-              <PopOver
-                overlay
-                className={popOverClassName}
-                style={{
-                  minWidth: this.target
-                    ? Math.max(this.target.offsetWidth, 100)
-                    : 'auto'
-                }}
-                onHide={this.close}
-              >
-                {dropdownRender({onClose: this.close})}
-              </PopOver>
-            </Overlay>
-          )
-        }
-
+            </PopOver>
+          </Overlay>
+        )}
       </>
     );
   }

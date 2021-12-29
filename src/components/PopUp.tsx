@@ -14,10 +14,8 @@ import Transition, {
   ENTERING
 } from 'react-transition-group/Transition';
 import Portal from 'react-overlays/Portal';
-import { Icon } from './icons';
+import {Icon} from './icons';
 import Button from './Button';
-
-
 
 export interface PopUpPorps extends ThemeProps, LocaleProps {
   title?: string;
@@ -55,17 +53,21 @@ export class PopUp extends React.PureComponent<PopUpPorps> {
   };
   componentDidUpdate() {
     if (this.props.isShow) {
-      this.scrollTop = document.body.scrollTop || document.documentElement.scrollTop;
-      (document.querySelector('body') as HTMLBodyElement).style.overflow = 'hidden';
-    }
-    else {
-      (document.querySelector('body') as HTMLBodyElement).style.overflow = 'auto';
-      (document.querySelector('body') as HTMLBodyElement).scrollTop = this.scrollTop;
+      this.scrollTop =
+        document.body.scrollTop || document.documentElement.scrollTop;
+      (document.querySelector('body') as HTMLBodyElement).style.overflow =
+        'hidden';
+    } else {
+      (document.querySelector('body') as HTMLBodyElement).style.overflow =
+        'auto';
+      (document.querySelector('body') as HTMLBodyElement).scrollTop =
+        this.scrollTop;
     }
   }
   componentWillUnmount() {
     (document.querySelector('body') as HTMLBodyElement).style.overflow = 'auto';
-      (document.querySelector('body') as HTMLBodyElement).scrollTop = this.scrollTop;
+    (document.querySelector('body') as HTMLBodyElement).scrollTop =
+      this.scrollTop;
   }
   handleClick(e: React.MouseEvent) {
     e.stopPropagation();
@@ -92,78 +94,67 @@ export class PopUp extends React.PureComponent<PopUpPorps> {
     } = this.props;
 
     const outerStyle: any = {
-      ...style,
+      ...style
     };
     delete outerStyle.top;
     return (
       <Portal container={container}>
-        <Transition
-          mountOnEnter
-          unmountOnExit
-          in={isShow}
-          timeout={500}
-          appear
-        >
+        <Transition mountOnEnter unmountOnExit in={isShow} timeout={500} appear>
           {(status: string) => {
-              return (
-                <div
-                  className={cx(
-                    `${ns}PopUp`,
-                    className,
-                    fadeStyles[status]
-                  )}
-                  style={outerStyle}
-                  {...rest}
-                  onClick={this.handleClick}
-                >
-                  {overlay && (
-                    <div className={`${ns}PopUp-overlay`} onClick={onHide}/>
-                  )}
-                  <div className={cx(
-                    `${ns}PopUp-inner`
-                  )}
-                  >
-                    {
-                      !showConfirm && showClose && (
-                        <div className={cx(`${ns}PopUp-closeWrap`, 'text-right')}>
-                          <Icon
-                            icon="close"
-                          className={cx('icon', `${ns}PopUp-close`)}
-                            onClick={onHide}
-                          />
-                        </div>
-                      )
-                    }
-                    {
-                      showConfirm && (
-                        <div className={cx(`${ns}PopUp-toolbar`)}>
-                          <Button className={cx(`${ns}PopUp-cancel`)} level="default" onClick={onHide}>
-                            {__('cancel')}
-                          </Button>
-                          {
-                            title && (
-                               <span className={cx(`${ns}PopUp-title`)}>{ title}</span>
-                            )
-                          }
-                          <Button className={cx(`${ns}PopUp-confirm`)} level="primary" onClick={onConfirm}>
-                            {__('confirm')}
-                          </Button>
-                        </div>
-                      )
-                    }
-                    <div
-                      className={cx(`${ns}PopUp-content`, `justify-${placement}`)}
-                    >
-                      {isShow ? children : null}
+            return (
+              <div
+                className={cx(`${ns}PopUp`, className, fadeStyles[status])}
+                style={outerStyle}
+                {...rest}
+                onClick={this.handleClick}
+              >
+                {overlay && (
+                  <div className={`${ns}PopUp-overlay`} onClick={onHide} />
+                )}
+                <div className={cx(`${ns}PopUp-inner`)}>
+                  {!showConfirm && showClose && (
+                    <div className={cx(`${ns}PopUp-closeWrap`, 'text-right')}>
+                      <Icon
+                        icon="close"
+                        className={cx('icon', `${ns}PopUp-close`)}
+                        onClick={onHide}
+                      />
                     </div>
-                    <div className={cx(`PopUp-safearea`)}></div>
+                  )}
+                  {showConfirm && (
+                    <div className={cx(`${ns}PopUp-toolbar`)}>
+                      <Button
+                        className={cx(`${ns}PopUp-cancel`)}
+                        level="default"
+                        onClick={onHide}
+                      >
+                        {__('cancel')}
+                      </Button>
+                      {title && (
+                        <span className={cx(`${ns}PopUp-title`)}>{title}</span>
+                      )}
+                      <Button
+                        className={cx(`${ns}PopUp-confirm`)}
+                        level="primary"
+                        onClick={onConfirm}
+                      >
+                        {__('confirm')}
+                      </Button>
+                    </div>
+                  )}
+                  <div
+                    className={cx(`${ns}PopUp-content`, `justify-${placement}`)}
+                  >
+                    {isShow ? children : null}
                   </div>
+                  <div className={cx(`PopUp-safearea`)}></div>
                 </div>
-              )
+              </div>
+            );
           }}
         </Transition>
       </Portal>
-    )
+    );
   }
 }
 

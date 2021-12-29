@@ -7,7 +7,7 @@ import ResultBox from './ResultBox';
 import {Icon} from './icons';
 import InputBox from './InputBox';
 import PopOverContainer from './PopOverContainer';
-import { isMobile } from '../utils/helper';
+import {isMobile} from '../utils/helper';
 
 export interface TransferDropDownProps extends TransferProps {
   // 新的属性？
@@ -37,10 +37,12 @@ export class TransferDropDown extends Transfer<TransferDropDownProps> {
       <PopOverContainer
         useMobileUI={useMobileUI}
         popOverClassName={cx('TransferDropDown-popover')}
-        popOverRender={({ onClose }) => (
-          <div className={cx('TransferDropDown-content', {
-            'is-mobile': mobileUI
-          })}>
+        popOverRender={({onClose}) => (
+          <div
+            className={cx('TransferDropDown-content', {
+              'is-mobile': mobileUI
+            })}
+          >
             {onSearch ? (
               <div className={cx('Transfer-search')}>
                 <InputBox

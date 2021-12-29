@@ -50,7 +50,7 @@ class AMISComponent extends React.Component {
               data,
               headers,
               responseType,
-              ...config,
+              ...config
             };
 
             if (config.dataType === 'json' && config.data) {
@@ -63,9 +63,7 @@ class AMISComponent extends React.Component {
             config.validateStatus = function () {
               return true;
             };
-            const response = await axios(
-              config
-            );
+            const response = await axios(config);
 
             if (response.status >= 400) {
               if (response.data) {
