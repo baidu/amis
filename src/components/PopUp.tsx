@@ -56,18 +56,18 @@ export class PopUp extends React.PureComponent<PopUpPorps> {
     if (this.props.isShow) {
       this.scrollTop =
         document.body.scrollTop || document.documentElement.scrollTop;
-      (document.querySelector('body') as HTMLBodyElement).style.overflow =
+      document.body.style.overflow =
         'hidden';
     } else {
-      (document.querySelector('body') as HTMLBodyElement).style.overflow =
+      document.body.style.overflow =
         'auto';
-      (document.querySelector('body') as HTMLBodyElement).scrollTop =
+      document.body.scrollTop =
         this.scrollTop;
     }
   }
   componentWillUnmount() {
-    (document.querySelector('body') as HTMLBodyElement).style.overflow = 'auto';
-    (document.querySelector('body') as HTMLBodyElement).scrollTop =
+    document.body.style.overflow = 'auto';
+    document.body.scrollTop =
       this.scrollTop;
   }
   handleClick(e: React.MouseEvent) {
