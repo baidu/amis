@@ -1173,6 +1173,7 @@ export default class Table extends React.Component<TableProps, object> {
         group: 'table',
         animation: 150,
         handle: `.${ns}Table-dragCell`,
+        filter: `.${ns}Table-dragCell.is-dragDisabled`,
         ghostClass: 'is-dragging',
         onEnd: (e: any) => {
           // 没有移动
@@ -1857,7 +1858,12 @@ export default class Table extends React.Component<TableProps, object> {
       );
     } else if (column.type === '__dragme') {
       return (
-        <td key={props.key} className={cx(column.pristine.className)}>
+        <td
+          key={props.key}
+          className={cx(column.pristine.className, {
+            'is-dragDisabled': !item.draggable
+          })}
+        >
           {item.draggable ? <Icon icon="drag-bar" className="icon" /> : null}
         </td>
       );
