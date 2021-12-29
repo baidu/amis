@@ -257,6 +257,7 @@ const defaultOptions: RenderOptions = {
   affixOffsetTop: 0,
   affixOffsetBottom: 0,
   richTextToken: '',
+  useMobileUI: true, // 是否启用移动端原生 UI
   loadRenderer,
   fetcher() {
     return Promise.reject('fetcher is required');
@@ -408,6 +409,11 @@ export function render(
   if (props.locale !== undefined) {
     env.translate = translate;
     env.locale = locale;
+  }
+
+  // 默认将开启移动端原生 UI
+  if (typeof options.useMobileUI) {
+    props.useMobileUI = true;
   }
 
   // 进行文本替换
