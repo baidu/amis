@@ -33,6 +33,16 @@ import ScopedRootRenderer, {RootRenderProps} from './Root';
 import {HocStoreFactory} from './WithStore';
 import {EnvContext, RendererEnv} from './env';
 import {envOverwrite} from './envOverwrite';
+import {
+  EventListeners,
+  BroadcastProps,
+  createBroadcast,
+  BroadcastListener
+} from './utils/broadcast';
+import {runActionTree} from './actions/Action';
+
+// 记录广播事件动作执行
+let broadcastListeners: BroadcastListener[] = [];
 
 export interface TestFunc {
   (
@@ -63,7 +73,7 @@ export interface RendererBasicConfig {
   // [propName:string]:any;
 }
 
-export interface RendererProps extends ThemeProps, LocaleProps {
+export interface RendererProps extends ThemeProps, LocaleProps, BroadcastProps {
   render: (region: string, node: SchemaNode, props?: any) => JSX.Element;
   env: RendererEnv;
   $path: string; // 当前组件所在的层级信息
@@ -347,6 +357,85 @@ const defaultOptions: RenderOptions = {
   },
   // 用于跟踪用户在界面中的各种操作
   tracker(eventTrack: EventTrack, props: PlainObject) {},
+  // 返回解绑函数
+  bindBroadcast(context: any) {
+    const listeners: EventListeners = context.props.$schema.eventListeners;
+    if (listeners) {
+      // 暂存
+      for (let key of Object.keys(listeners)) {
+        broadcastListeners.push({
+          context,
+          type: key,
+          weight: listeners[key].weight || 0,
+          actions: listeners[key].actions
+        });
+      }
+
+      return () => {
+        for (let key in listeners) {
+          const idx = findIndex(
+            broadcastListeners,
+            item => item.type === key && item.context === context
+          );
+
+          if (~idx) {
+            broadcastListeners.splice(idx, 1);
+          }
+        }
+      };
+    }
+
+    return undefined;
+  },
+  async triggerBroadcast(
+    e: string | React.MouseEvent<any>,
+    context: React.Component<RendererProps>,
+    data: any
+  ) {
+    const actionName = typeof e === 'string' ? e : e.type;
+    const trigger = context.props.triggerEvents?.[actionName];
+
+    if (trigger) {
+      // 没有可处理的监听
+      if (!broadcastListeners.length) {
+        return Promise.resolve();
+      }
+
+      const broadcast = createBroadcast(trigger.eventName, {
+        nativeEvent: e,
+        eventData: {
+          ...data,
+          ...trigger.context
+        }
+      });
+
+      // 过滤&排序
+      const listeners = broadcastListeners
+        .filter(item => item.type === broadcast.type)
+        .sort((prev, next) => next.weight - prev.weight);
+
+      for (let listener of listeners) {
+        await runActionTree(listener.actions, listener.context, broadcast);
+
+        // 停止后续监听器执行
+        if (broadcast.stoped) {
+          break;
+        }
+      }
+
+      // 强制停止
+      if (!broadcast.stoped) {
+        broadcast.stopPropagation();
+      }
+
+      return broadcast;
+    }
+
+    console.warn(`Unknown broadcast: ${actionName}`);
+
+    // 没命中也没关系
+    return Promise.resolve(undefined);
+  },
   rendererResolver: resolveRenderer,
   replaceTextIgnoreKeys: [
     'type',
