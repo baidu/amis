@@ -230,7 +230,7 @@ register('en-US', {
   'validate.minimum': 'The input value is lower than the minimum value of $1',
   'validate.minLength': 'Please enter more, at least $1 characters.',
   'validate.notEmptyString': 'Please do not enter all blank characters',
-  'validateFailed': 'Validate failed,',
+  'validateFailed': 'Validate failed',
   'Wizard.configError': 'Config error',
   'Wizard.finish': 'Finish',
   'Wizard.next': 'Next',
@@ -271,5 +271,5 @@ register('en-US', {
   'Condition.blank': 'blank',
   'InputTable.uniqueError': 'Column `{{label}}` unique validate failed',
   'Timeline.collapseText': 'Unfold',
-  'Timeline.expandText': 'Fold',
+  'Timeline.expandText': 'Fold'
 });
