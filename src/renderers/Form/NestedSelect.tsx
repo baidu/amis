@@ -654,7 +654,7 @@ export default class NestedSelectControl extends React.Component<
             multiple
               ? selectedOptions
               : selectedOptions.length
-              ? this.renderValue(selectedOptions[0])
+              ? selectedOptions[0]
               : ''
           }
           onResultClick={this.handleOutClick}
