@@ -68,7 +68,6 @@ export class Cascader extends React.Component<CascaderProps, CascaderState> {
         }
       ]
     };
-    this.initSourceOptions();
   }
   componentDidMount() {
     const {multiple, options, valueField = 'value', cascade} = this.props;
@@ -115,13 +114,6 @@ export class Cascader extends React.Component<CascaderProps, CascaderState> {
     });
   }
 
-  @autobind
-  initSourceOptions() {
-    const {source, formItem, data, onChange} = this.props;
-    if (source && formItem) {
-      formItem.loadOptions(source, data, undefined, false, onChange, false);
-    }
-  }
 
   @autobind
   handleTabSelect(index: number) {
