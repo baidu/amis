@@ -288,7 +288,6 @@ const CityArea = memo<AreaProps>(props => {
         className={cx(`CityArea-popup`)}
         isShow={isOpened}
         showConfirm
-        title={'城市选择'}
         onConfirm={onConfirm}
         onHide={onCancel}
       >
