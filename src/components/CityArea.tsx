@@ -8,7 +8,6 @@ import ResultBox from './ResultBox';
 import {useSetState, useUpdateEffect} from '../hooks';
 import {localeable, LocaleProps} from '../locale';
 import {themeable, ThemeProps} from '../theme';
-import {Icon} from './icons';
 import {uncontrollable} from 'uncontrollable';
 import PopUp from './PopUp';
 import {PickerObjectOption} from './PickerColumn';
@@ -101,16 +100,12 @@ const CityArea = memo<AreaProps>(props => {
   });
   const [isOpened, setIsOpened] = useState(false);
 
-  const onChange = (
-    columnValues: Array<AreaColumnOption>,
-    columnIndex: number
-  ) => {
-    values[columnIndex] = columnValues[columnIndex]?.value;
+  const onChange = (columnValues: Array<number>, columnIndex: number) => {
     // 清空后面的值
-    while (values[columnIndex++]) {
-      values[columnIndex++] = -1;
+    while (columnValues[columnIndex++]) {
+      columnValues[columnIndex++] = -1;
     }
-    let [provience, city, district] = values;
+    let [provience, city, district] = columnValues;
     if (city === -1) {
       city = db.city?.[provience]?.[0];
     }
