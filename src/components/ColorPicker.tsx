@@ -227,6 +227,7 @@ export class ColorControl extends React.PureComponent<
     const __ = this.props.translate;
     const isOpened = this.state.isOpened;
     const isFocused = this.state.isFocused;
+    const mobileUI = useMobileUI && isMobile();
 
     return (
       <div
@@ -261,6 +262,7 @@ export class ColorControl extends React.PureComponent<
           onFocus={this.handleFocus}
           onBlur={this.handleBlur}
           onClick={this.handleClick}
+          readOnly={mobileUI}
         />
 
         {clearable && !disabled && value ? (
@@ -273,7 +275,7 @@ export class ColorControl extends React.PureComponent<
           <Icon icon="caret" className="icon" onClick={this.handleClick} />
         </span>
 
-        {!(useMobileUI && isMobile()) && isOpened ? (
+        {!mobileUI && isOpened ? (
           <Overlay
             placement={placement || 'auto'}
             target={() => findDOMNode(this)}
@@ -320,7 +322,7 @@ export class ColorControl extends React.PureComponent<
             </PopOver>
           </Overlay>
         ) : null}
-        {useMobileUI && isMobile() && (
+        {mobileUI && (
           <PopUp
             className={cx(`${ns}ColorPicker-popup`)}
             isShow={isOpened}
