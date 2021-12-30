@@ -252,8 +252,8 @@ export class CalendarMobile extends React.Component<
     if (startDate) {
       let obj = {
         dateTime: newTime,
-        startDate: endDate ? startDate : startDate?.clone().set({hour: newTime[0], minute: newTime[1], second: 0}),
-        endDate: !endDate ? endDate : endDate?.clone().set({hour: newTime[0], minute: newTime[1], second: 0})
+        startDate: endDate ? startDate : startDate?.clone().set({hour: newTime[0], minute: newTime[1], second: newTime[2] || 0}),
+        endDate: !endDate ? endDate : endDate?.clone().set({hour: newTime[0], minute: newTime[1], second: newTime[2] || 0})
       };
       this.setState(obj, () => {
         onChange && onChange(this.state);
@@ -361,7 +361,7 @@ export class CalendarMobile extends React.Component<
     ) {
       return this.setState(
         {
-          endDate: newValue.clone().endOf(precision).set({hour: dateTime[0], minute: dateTime[1], second: 0})
+          endDate: newValue.clone().endOf(precision).set({hour: dateTime[0], minute: dateTime[1], second: dateTime[2] || 0})
         },
         () => {
           onChange && onChange(this.state, () => embed && confirm && confirm());
@@ -371,7 +371,7 @@ export class CalendarMobile extends React.Component<
 
     this.setState(
       {
-        startDate: newValue.clone().startOf(precision).set({hour: dateTime[0], minute: dateTime[1], second: 0}),
+        startDate: newValue.clone().startOf(precision).set({hour: dateTime[0], minute: dateTime[1], second: dateTime[2] || 0}),
         endDate: undefined
       },
       () => {
@@ -477,7 +477,7 @@ export class CalendarMobile extends React.Component<
           locale={locale}
           useMobileUI={true}
           showToolbar={false}
-          viewDate={moment().set({hour: dateTime[0], minute: dateTime[1], second: 0})}
+          viewDate={moment().set({hour: dateTime[0], minute: dateTime[1], second: dateTime[2] || 0})}
         />
       </div>
     );
