@@ -18,10 +18,10 @@ exports[`Renderer:dropdown-button 1`] = `
       </span>
     </button>
     <ul
-      class="cxd-DropDown-menu"
+      class="cxd-DropDown-menu-root cxd-DropDown-menu"
     >
       <li
-        class=""
+        class="cxd-DropDown-button"
       >
         <a
           class=""
@@ -32,7 +32,7 @@ exports[`Renderer:dropdown-button 1`] = `
         </a>
       </li>
       <li
-        class=""
+        class="cxd-DropDown-button"
       >
         <a
           class=""
