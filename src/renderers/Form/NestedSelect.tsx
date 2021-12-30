@@ -109,10 +109,6 @@ export default class NestedSelectControl extends React.Component<
     this.target = ref;
   }
 
-  componentDidMount() {
-    this.initSourceOptions();
-  }
-
   componentDidUpdate(prevProps: NestedSelectProps) {
     if (prevProps.options !== this.props.options) {
       this.setState({
@@ -441,13 +437,6 @@ export default class NestedSelectControl extends React.Component<
     }
 
     onChange(newValue);
-  }
-
-  initSourceOptions() {
-    const {source, formItem, data, onChange, useMobileUI} = this.props;
-    if (useMobileUI && isMobile() && source && formItem) {
-      formItem.loadOptions(source, data, undefined, false, onChange, false);
-    }
   }
 
   renderOptions() {
