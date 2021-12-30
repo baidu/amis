@@ -125,6 +125,18 @@
 .#{$ns}DatePicker-popup {
   height: 80vh;
 }
+
+.#{$ns}DatePicker-popup.#{$ns}DatePicker-mobile {
+  color: red;
+  .rdt {
+    width: 100%;
+    .rdtPicker {
+      width: 100%;
+      padding: unset;
+    }
+  }
+}
+
 // override third-party styles
 .rdt {
   user-select: none;
