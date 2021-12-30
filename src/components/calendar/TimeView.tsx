@@ -214,6 +214,7 @@ export class CustomTimeView extends TimeView {
     this.setState((prevState: State) => {
       return {...prevState, ...time}
     });
+    this.props.onChange && this.props.onChange(value);
   }
 
   renderTimeViewPicker = () => {
