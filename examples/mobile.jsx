@@ -47,7 +47,12 @@ class AMISComponent extends React.Component {
             headers // 请求头
           }) => {
             config = {
+              url,
               dataType: 'json',
+              method,
+              data,
+              headers,
+              responseType,
               ...config
             };
 
@@ -61,12 +66,7 @@ class AMISComponent extends React.Component {
             config.validateStatus = function () {
               return true;
             };
-
-            const response = await axios[config.method](
-              config.url,
-              config.data,
-              config
-            );
+            const response = await axios(config);
 
             if (response.status >= 400) {
               if (response.data) {

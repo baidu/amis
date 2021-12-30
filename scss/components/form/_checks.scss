@@ -29,6 +29,8 @@
       pointer-events: all;
       margin-left: var(--Checkbox-gap);
       cursor: pointer;
+      display: inline-block;
+      vertical-align: middle;
 
       > a {
         // float: right;
