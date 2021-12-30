@@ -1100,7 +1100,7 @@
   --PickerColumns-title-lineHeight: 1.5;
   --PickerColumns-action-padding: 0 var(--gap-md);
   --PickerColumns-action-fontSize: var(--fontSizeLg);
-  --PickerColumns-confirmAction-color: #2468F2;
+  --PickerColumns-confirmAction-color: #2468f2;
   --PickerColumns-cancelAction-color: #666;
   --PickerColumns-option-fontSize: var(--fontSizeLg);
   --PickerColumns-optionText-color: var(--text-color);
@@ -1111,6 +1111,8 @@
   --PopOver-bg: white;
   --PopOverAble-iconColor: inherit;
   --PopOverAble-onHover-iconColor: inherit;
+
+  --PopUp-cancelAction-color: #666;
 
   --Property-title-bg: #f2f2f2;
   --Property-label-bg: #f7f7f7;
