@@ -5,6 +5,7 @@ import LazyComponent from './components/LazyComponent';
 import {
   filterSchema,
   loadRenderer,
+  RendererComponent,
   RendererConfig,
   RendererEnv,
   RendererProps,
@@ -14,7 +15,7 @@ import {asFormItem} from './renderers/Form/Item';
 import {renderChild, renderChildren} from './Root';
 import {Schema, SchemaNode} from './types';
 import getExprProperties from './utils/filter-schema';
-import {anyChanged, chainEvents} from './utils/helper';
+import {anyChanged, chainEvents, autobind} from './utils/helper';
 import {SimpleMap} from './utils/SimpleMap';
 
 interface SchemaRendererProps extends Partial<RendererProps> {
@@ -49,6 +50,41 @@ const defaultOmitList = [
 ];
 
 const componentCache: SimpleMap = new SimpleMap();
+
+class BroadcastCmpt extends React.Component<
+  RendererProps & {
+    component: RendererComponent;
+  }
+> {
+  ref: any;
+  unbindEvent: (() => void) | undefined = undefined;
+
+  componentDidMount() {
+    const {env} = this.props;
+    this.unbindEvent = env.bindEvent(this.ref);
+  }
+
+  componentWillUnmount() {
+    this.unbindEvent?.();
+  }
+
+  getWrappedInstance() {
+    return this.ref;
+  }
+
+  @autobind
+  childRef(ref: any) {
+    while (ref && ref.getWrappedInstance) {
+      ref = ref.getWrappedInstance();
+    }
+
+    this.ref = ref;
+  }
+
+  render() {
+    return <this.props.component ref={this.childRef} {...this.props} />;
+  }
+}
 
 export class SchemaRenderer extends React.Component<SchemaRendererProps, any> {
   static displayName: string = 'Renderer';
@@ -152,6 +188,7 @@ export class SchemaRenderer extends React.Component<SchemaRendererProps, any> {
   }
 
   getWrappedInstance() {
+    // 兼容一下
     return this.ref;
   }
 
@@ -300,7 +337,6 @@ export class SchemaRenderer extends React.Component<SchemaRendererProps, any> {
       ...restSchema
     } = schema;
     const Component = renderer.component;
-
     // 原来表单项的 visible: false 和 hidden: true 表单项的值和验证是有效的
     // 而 visibleOn 和 hiddenOn 是无效的，
     // 这个本来就是个bug，但是已经被广泛使用了
@@ -316,7 +352,7 @@ export class SchemaRenderer extends React.Component<SchemaRendererProps, any> {
     }
 
     return (
-      <Component
+      <BroadcastCmpt
         {...theme.getRendererConfig(renderer.name)}
         {...restSchema}
         {...chainEvents(rest, restSchema)}
@@ -329,6 +365,7 @@ export class SchemaRenderer extends React.Component<SchemaRendererProps, any> {
         $schema={{...schema, ...exprProps}}
         ref={this.refFn}
         render={this.renderChild}
+        component={Component}
       />
     );
   }
