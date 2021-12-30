@@ -120,10 +120,6 @@
     align-items: center;
     justify-content: center;
     color: var(--PickerColumns-optionText-color);
-
-    &:focus {
-      outline: none;
-    }
   }
   &-columnItem.is-disabled {
     cursor: not-allowed;
