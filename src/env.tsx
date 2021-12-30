@@ -6,6 +6,11 @@ import {RendererConfig} from './factory';
 import {ThemeInstance} from './theme';
 import {Action, Api, Payload, Schema} from './types';
 import hoistNonReactStatic from 'hoist-non-react-statics';
+import {
+  RendererEvent,
+  RendererEventListener,
+  EventListeners
+} from './utils/renderer-event';
 
 export interface RendererEnv {
   fetcher: (api: Api, data?: any, options?: object) => Promise<Payload>;
@@ -54,6 +59,13 @@ export interface RendererEnv {
   ) => Promise<React.ReactType> | React.ReactType | JSX.Element | void;
   loadChartExtends?: () => void | Promise<void>;
   useMobileUI?: boolean;
+  bindEvent: (context: any) => (() => void) | undefined;
+  dispatchEvent: (
+    e: string | React.MouseEvent<any>,
+    context: any,
+    data: any
+  ) => Promise<RendererEvent<any> | undefined>;
+  rendererEventListeners: RendererEventListener[];
   [propName: string]: any;
 }
 

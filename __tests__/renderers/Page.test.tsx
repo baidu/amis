@@ -640,7 +640,7 @@ test('Renderer:Page initFetchOn trigger initApi fetch when condition becomes tur
   expect(component.toJSON()).toMatchSnapshot();
 });
 
-test('Renderer:Page handleAction actionType=url|link', () => {
+test('Renderer:Page handleAction actionType=url|link', async () => {
   const jumpTo = jest.fn();
   const {getByText} = render(
     amisRender(
@@ -667,6 +667,7 @@ test('Renderer:Page handleAction actionType=url|link', () => {
   );
 
   fireEvent.click(getByText(/JumpTo/));
+  await wait(100);
   expect(jumpTo).toHaveBeenCalled();
   expect(jumpTo.mock.calls[0][0]).toEqual('/goToPath?a=1');
 });
@@ -695,6 +696,7 @@ test('Renderer:Page handleAction actionType=dialog', async () => {
   );
 
   fireEvent.click(getByText(/OpenDialog/));
+  await wait(100);
   expect(container).toMatchSnapshot();
 
   fireEvent.click(getByText(/取消/));
@@ -744,6 +746,7 @@ test('Renderer:Page handleAction actionType=dialog mergeData', async () => {
   );
 
   fireEvent.click(getByText(/OpenDialog/));
+  await wait(100);
   expect(container).toMatchSnapshot();
 
   fireEvent.click(getByText(/确认/));
@@ -775,6 +778,7 @@ test('Renderer:Page handleAction actionType=drawer', async () => {
   );
 
   fireEvent.click(getByText(/OpenDrawer/));
+  await wait(100);
   expect(container).toMatchSnapshot();
 
   fireEvent.click(getByText(/取消/));
@@ -871,7 +875,7 @@ test('Renderer:Page handleAction actionType=ajax', async () => {
   expect(container).toMatchSnapshot();
 });
 
-test('Renderer:Page handleAction actionType=copy', () => {
+test('Renderer:Page handleAction actionType=copy', async () => {
   const copy = jest.fn();
   const {getByText} = render(
     amisRender(
@@ -898,6 +902,7 @@ test('Renderer:Page handleAction actionType=copy', () => {
   );
 
   fireEvent.click(getByText(/CopyContent/));
+  await wait(100);
   expect(copy).toHaveBeenCalled();
   expect(copy.mock.calls[0][0]).toEqual('the content is 1');
 });
@@ -944,7 +949,7 @@ test('Renderer:Page handleAction actionType=ajax & feedback', async () => {
   expect(container).toMatchSnapshot();
 
   fireEvent.click(getByText(/确认/));
-  await wait(500);
+  await wait(600);
   expect(container).toMatchSnapshot();
 });
 
@@ -1058,7 +1063,7 @@ test('Renderer:Page initApi reload by action', async () => {
   expect(container).toMatchSnapshot();
 });
 
-test('Renderer:Page Tpl JumpTo', () => {
+test('Renderer:Page Tpl JumpTo', async () => {
   const jumpTo = jest.fn();
   const {getByText} = render(
     amisRender(
@@ -1078,6 +1083,7 @@ test('Renderer:Page Tpl JumpTo', () => {
   );
 
   fireEvent.click(getByText(/JumpTo/));
+  await wait(100);
   expect(jumpTo).toHaveBeenCalled();
   expect(jumpTo.mock.calls[0][0]).toEqual('/goToPath?a=1');
 });

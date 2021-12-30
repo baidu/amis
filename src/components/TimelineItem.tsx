@@ -13,11 +13,11 @@ export interface TimelineItemProps {
   /**
    * 事件名称
    */
-  title?: string| ReactNode;
+  title?: string | ReactNode;
 
   /**
-    * 详细内容
-    */
+   * 详细内容
+   */
   detail?: string;
 
   /**
@@ -25,9 +25,9 @@ export interface TimelineItemProps {
    */
   detailCollapsedText?: string;
 
-   /**
-    * detail展开时文案
-    */
+  /**
+   * detail展开时文案
+   */
   detailExpandedText?: string;
 
   /**
@@ -41,7 +41,12 @@ export interface TimelineItemProps {
   icon?: string | ReactNode;
 }
 
-export interface TimelineItem extends ThemeProps, LocaleProps, TimelineItemProps {}
+export interface TimelineItem
+  extends ThemeProps,
+    LocaleProps,
+    TimelineItemProps {
+  key: string;
+}
 
 export function TimelineItem(props: TimelineItem) {
   const {
@@ -54,25 +59,46 @@ export function TimelineItem(props: TimelineItem) {
     icon,
     classnames: cx,
     translate: __,
+    key
   } = props;
 
   const [detailVisible, setDetailVisible] = useState<boolean>(false);
 
-  const renderDetail = (detail: string, detailCollapsedText: string = __('Timeline.collapseText'), detailExpandedText: string = __('Timeline.expandText')) : ReactNode => {
-
+  const renderDetail = (
+    detail: string,
+    detailCollapsedText: string = __('Timeline.collapseText'),
+    detailExpandedText: string = __('Timeline.expandText')
+  ): ReactNode => {
     return (
       <>
-        <div className={cx('TimelineItem-detail-button')} onClick={() => setDetailVisible(!detailVisible)}>
+        <div
+          className={cx('TimelineItem-detail-button')}
+          onClick={() => setDetailVisible(!detailVisible)}
+        >
           {detailVisible ? detailExpandedText : detailCollapsedText}
-          <div className={cx('TimelineItem-detail-arrow', `${detailVisible && 'TimelineItem-detail-arrow-top'}`)}>
-            <Icon icon="tree-down"/>
+          <div
+            className={cx(
+              'TimelineItem-detail-arrow',
+              `${detailVisible && 'TimelineItem-detail-arrow-top'}`
+            )}
+          >
+            <Icon icon="tree-down" />
           </div>
         </div>
-        <div className={cx(`${detailVisible ? 'TimelineItem-detail-visible' : 'TimelineItem-detail-invisible'}`)}>
+        <div
+          className={cx(
+            `${
+              detailVisible
+                ? 'TimelineItem-detail-visible'
+                : 'TimelineItem-detail-invisible'
+            }`
+          )}
+        >
           {detail}
         </div>
-      </>);
-  }
+      </>
+    );
+  };
 
   // 判断是否为颜色值
   const isColorVal = color && /^#([0-9a-fA-F]{6}|[0-9a-fA-F]{3})$/.test(color);
@@ -81,27 +107,34 @@ export function TimelineItem(props: TimelineItem) {
   const levelColor = !isColorVal && color;
 
   return (
-    <div className={cx('TimelineItem')}>
+    <div className={cx('TimelineItem')} key={key}>
       <div className={cx('TimelineItem-axle')}>
         <div className={cx('TimelineItem-line')}></div>
-        {icon
-          ? <div className={cx('TimelineItem-icon')}>
-              <Icon icon={icon} className="icon"/>
-            </div>
-          : <div
-              className={cx('TimelineItem-round',
-                            levelColor && `TimelineItem-round--${levelColor}`)}
-              style={isColorVal ? {backgroundColor: color} : undefined}
-            ></div>
-        }
+        {icon ? (
+          <div className={cx('TimelineItem-icon')}>
+            <Icon icon={icon} className="icon" />
+          </div>
+        ) : (
+          <div
+            className={cx(
+              'TimelineItem-round',
+              levelColor && `TimelineItem-round--${levelColor}`
+            )}
+            style={isColorVal ? {backgroundColor: color} : undefined}
+          ></div>
+        )}
       </div>
       <div className={cx('TimelineItem-content')}>
         <div className={cx('TimelineItem-time')}>{time}</div>
         <div className={cx('TimelineItem-title')}>{title}</div>
-        {detail
-          && <div className={cx('TimelineItem-detail')}>{renderDetail(detail, detailCollapsedText, detailExpandedText)}</div>}
+        {detail && (
+          <div className={cx('TimelineItem-detail')}>
+            {renderDetail(detail, detailCollapsedText, detailExpandedText)}
+          </div>
+        )}
       </div>
-    </div>)
+    </div>
+  );
 }
 
 export default themeable(localeable(TimelineItem));
