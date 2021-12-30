@@ -128,7 +128,7 @@
 }
 
 .#{$ns}DateRangePicker-popup {
-   height: 90vh;
+  height: px2rem(400px);
 }
 
 @include media-breakpoint-up(sm) {

@@ -114,7 +114,6 @@ export class Cascader extends React.Component<CascaderProps, CascaderState> {
     });
   }
 
-
   @autobind
   handleTabSelect(index: number) {
     const tabs = this.state.tabs.slice(0, index + 1);
@@ -543,14 +542,14 @@ export class Cascader extends React.Component<CascaderProps, CascaderState> {
         <div className={cx(`Cascader-btnGroup`)}>
           <Button
             className={cx(`Cascader-btnCancel`)}
-            level="default"
+            level="text"
             onClick={onClose}
           >
             {__('cancel')}
           </Button>
           <Button
             className={cx(`Cascader-btnConfirm`)}
-            level="primary"
+            level="text"
             onClick={this.confirm}
           >
             {__('confirm')}

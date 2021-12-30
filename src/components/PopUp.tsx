@@ -56,19 +56,15 @@ export class PopUp extends React.PureComponent<PopUpPorps> {
     if (this.props.isShow) {
       this.scrollTop =
         document.body.scrollTop || document.documentElement.scrollTop;
-      document.body.style.overflow =
-        'hidden';
+      document.body.style.overflow = 'hidden';
     } else {
-      document.body.style.overflow =
-        'auto';
-      document.body.scrollTop =
-        this.scrollTop;
+      document.body.style.overflow = 'auto';
+      document.body.scrollTop = this.scrollTop;
     }
   }
   componentWillUnmount() {
     document.body.style.overflow = 'auto';
-    document.body.scrollTop =
-      this.scrollTop;
+    document.body.scrollTop = this.scrollTop;
   }
   handleClick(e: React.MouseEvent) {
     e.stopPropagation();
@@ -128,7 +124,7 @@ export class PopUp extends React.PureComponent<PopUpPorps> {
                     <div className={cx(`${ns}PopUp-toolbar`)}>
                       <Button
                         className={cx(`${ns}PopUp-cancel`)}
-                        level="default"
+                        level="text"
                         onClick={onHide}
                       >
                         {__('cancel')}
@@ -138,7 +134,7 @@ export class PopUp extends React.PureComponent<PopUpPorps> {
                       )}
                       <Button
                         className={cx(`${ns}PopUp-confirm`)}
-                        level="primary"
+                        level="text"
                         onClick={onConfirm}
                       >
                         {__('confirm')}
