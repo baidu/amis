@@ -4,7 +4,9 @@ import moment from 'moment';
 import React from 'react';
 import {LocaleProps, localeable, TranslateFn} from '../../locale';
 import Picker from '../Picker';
-import {convertDateToObject, getRange, isMobile} from '../../utils/helper';
+import {PickerOption} from '../PickerColumn';
+import {getRange, isMobile} from '../../utils/helper';
+import {DateType} from './Calendar';
 
 export interface OtherProps {
   inputFormat?: string;
@@ -31,52 +33,31 @@ export class CustomMonthsView extends MonthsView {
     onChange?: () => void;
     onClose?: () => void;
     onConfirm?: (value: number[], types: string[]) => void;
+    getColumns: (types: DateType[], dateBoundary: void) => any;
+    timeCell: (value: number, type: DateType) => string;
+    getDateBoundary: (currentDate: moment.Moment) => any;
     useMobileUI: boolean;
   } & LocaleProps &
     OtherProps;
   maxDateObject: {year: number; month: number; day?: number};
   minDateObject: {year: number; month: number; day?: number};
-  state: {columns: {options: number[]}[]};
+  state: { columns: { options: PickerOption[] }[]; pickerValue: number[]};
   setState: (arg0: any) => () => any;
   renderMonths: () => JSX.Element;
+
 
   constructor(props: any) {
     super(props);
 
-    const {minDate, maxDate, selectedDate, viewDate} = props;
-    const currentDate = selectedDate || viewDate || moment();
-    const year = currentDate.year();
-    this.maxDateObject = maxDate
-      ? convertDateToObject(maxDate)
-      : {
-          year: year + 100,
-          month: 12
-        };
-    this.minDateObject = minDate
-      ? convertDateToObject(minDate)
-      : {
-          year: year - 100,
-          month: 1
-        };
+    const {selectedDate, viewDate} =  props;
+    const currentDate = (selectedDate || viewDate || moment());
 
-    const columns = ['year', 'month'].map((type: 'year' | 'month') => {
-      if (type === 'month') {
-        const minMonth =
-          year === this.minDateObject.year ? this.minDateObject.month : 1;
-        const maxMonth =
-          year === this.maxDateObject.year ? this.maxDateObject.month : 12;
-        return {
-          options: getRange(minMonth, maxMonth, 1)
-        };
-      }
-      return {
-        options: getRange(this.minDateObject[type], this.maxDateObject[type], 1)
-      };
-    });
-
+    const dateBoundary = this.props.getDateBoundary(currentDate);
+    const columns = this.props.getColumns(['year', 'month'], dateBoundary);
     this.state = {
-      columns
-    };
+      columns,
+      pickerValue: currentDate.toArray()
+    }
   }
 
   renderMonth = (props: any, month: number) => {
@@ -96,55 +77,66 @@ export class CustomMonthsView extends MonthsView {
   };
 
   onConfirm = (value: number[]) => {
-    // 将月份的值减1 ，月份是0-11
-    value[1] && --value[1];
     this.props.onConfirm && this.props.onConfirm(value, ['year', 'month']);
   };
 
   onPickerChange = (value: number[], index: number) => {
+    const {maxDate, minDate} =  this.props;
+    const year = moment().year();
     const columns = [...this.state.columns];
+    const maxDateObject = maxDate
+      ? maxDate.toObject()
+      : {
+          years: year + 100,
+          months: 11
+        };
+    const minDateObject = minDate
+      ? minDate.toObject()
+      : {
+          years: year - 100,
+          months: 0
+        };
+    let range = [];
     // 选择年份是最大值的年或者最小值的月时，需要重新计算月分选择的cloumn
     if (index === 0) {
       if (
-        value[0] === this.minDateObject.year &&
-        value[0] === this.maxDateObject.year
+        value[0] === minDateObject.years &&
+        value[0] === maxDateObject.years
       ) {
-        columns[1] = {
-          options: getRange(
-            this.minDateObject.month,
-            this.maxDateObject.month,
-            1
-          )
-        };
-      } else if (value[0] === this.minDateObject.year) {
-        columns[1] = {
-          options: getRange(this.minDateObject.month, 12, 1)
-        };
-      } else if (value[0] === this.maxDateObject.year) {
-        columns[1] = {
-          options: getRange(1, this.maxDateObject.month, 1)
-        };
-      } else {
-        columns[1] = {
-          options: getRange(1, 12, 1)
-        };
+        range = getRange(minDateObject.months, maxDateObject.months, 1);
       }
-      this.setState({columns});
+      else if (value[0] === minDateObject.years) {
+        range = getRange(minDateObject.months, 11, 1);
+      }
+      else if (value[0] === maxDateObject.years) {
+        range = getRange(0, maxDateObject.months, 1);
+      }
+      else {
+        range = getRange(0, 11, 1);
+      }
+      columns[1] = {
+        options: range.map(i => {
+          return {
+            text: this.props.timeCell(i+1, 'month'),
+            value: i
+          };
+        })
+      };
+      this.setState({columns, pickerValue: value});
     }
   };
 
   renderPicker = () => {
-    const {selectedDate, viewDate} = this.props;
-    const currentDate = selectedDate || viewDate || moment();
-    const year = currentDate.year();
-    const month = parseInt(currentDate.format('MM'), 10);
+    const {translate: __} =  this.props;
+    const title = __('Date.titleMonth');
 
     return (
       <Picker
         translate={this.props.translate}
         locale={this.props.locale}
+        title={title}
         columns={this.state.columns}
-        value={[year, month]}
+        value={this.state.pickerValue}
         onChange={this.onPickerChange}
         onConfirm={this.onConfirm}
         onClose={this.props.onClose}
@@ -156,6 +148,7 @@ export class CustomMonthsView extends MonthsView {
     const __ = this.props.translate;
     const showYearHead = !/^mm$/i.test(this.props.inputFormat || '') && !this.props.hideHeader;
     const canClick = /yy/i.test(this.props.inputFormat || '');
+
     if (isMobile() && this.props.useMobileUI) {
       return <div className="rdtYears">{this.renderPicker()}</div>;
     }
