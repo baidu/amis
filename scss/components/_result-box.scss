@@ -126,4 +126,35 @@
     padding-left: 8px;
     min-height: 24px;
   }
+
+  &.is-mobile {
+    min-height: calc(var(--Form-input-lineHeight) * var(--fontSizeLg));
+    border: none;
+    padding: 0;
+    font-size: var(--fontSizeLg);
+    border: none;
+    justify-content: flex-end;
+
+    .#{$ns}ResultBox-arrow {
+      margin-right: var(--gap-xs);
+      // margin-left: var(--gap-xs);
+      width: var(--gap-md);
+      text-align: center;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      line-height: 1;
+      margin-left: 4px;
+
+      > svg {
+        transition: transform var(--animation-duration);
+        display: inline-block;
+        color: var(--Form-select-caret-iconColor);
+        width: 10px;
+        height: 10px;
+        top: 0;
+        transform: rotate(-90deg);
+      }
+    }
+  }
 }

@@ -91,6 +91,7 @@ export interface SelectProps extends OptionsControlProps {
   autoComplete?: Api;
   searchable?: boolean;
   defaultOpen?: boolean;
+  useMobileUI?: boolean;
 }
 
 export default class SelectControl extends React.Component<SelectProps, any> {
@@ -297,7 +298,6 @@ export default class SelectControl extends React.Component<SelectProps, any> {
       menuTpl,
       borderMode,
       selectMode,
-      env,
       ...rest
     } = this.props;
 
@@ -347,6 +347,7 @@ export interface TransferDropDownProps
       | 'descriptionClassName'
     > {
   borderMode?: 'full' | 'half' | 'none';
+  useMobileUI?: boolean;
 }
 
 class TransferDropdownRenderer extends BaseTransferRenderer<TransferDropDownProps> {
@@ -367,7 +368,8 @@ class TransferDropdownRenderer extends BaseTransferRenderer<TransferDropDownProp
       multiple,
       columns,
       leftMode,
-      borderMode
+      borderMode,
+      useMobileUI
     } = this.props;
 
     // 目前 LeftOptions 没有接口可以动态加载
@@ -407,6 +409,7 @@ class TransferDropdownRenderer extends BaseTransferRenderer<TransferDropDownProp
           leftMode={leftMode}
           leftOptions={leftOptions}
           borderMode={borderMode}
+          useMobileUI={useMobileUI}
         />
 
         <Spinner overlay key="info" show={loading} />

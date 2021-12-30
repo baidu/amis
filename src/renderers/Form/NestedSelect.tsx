@@ -2,6 +2,7 @@ import React from 'react';
 import Overlay from '../../components/Overlay';
 import Checkbox from '../../components/Checkbox';
 import PopOver from '../../components/PopOver';
+import PopUp from '../../components/PopUp';
 import {Icon} from '../../components/icons';
 import {
   autobind,
@@ -10,7 +11,8 @@ import {
   string2regExp,
   getTreeAncestors,
   getTreeParent,
-  ucFirst
+  ucFirst,
+  isMobile
 } from '../../utils/helper';
 import {
   FormOptionsControl,
@@ -24,6 +26,7 @@ import xor from 'lodash/xor';
 import union from 'lodash/union';
 import compact from 'lodash/compact';
 import {RootClose} from '../../utils/RootClose';
+import Cascader from '../../components/Cascader';
 
 /**
  * Nested Select
@@ -68,6 +71,7 @@ export interface NestedSelectProps extends OptionsControlProps {
   withChildren?: boolean;
   onlyChildren?: boolean;
   hideNodePathLabel?: boolean;
+  useMobileUI?: boolean;
 }
 
 export interface NestedSelectState {
@@ -625,12 +629,15 @@ export default class NestedSelectControl extends React.Component<
       selectedOptions,
       clearable,
       loading,
-      borderMode
+      borderMode,
+      useMobileUI
     } = this.props;
 
+    const mobileUI = useMobileUI && isMobile();
     return (
       <div className={cx('NestedSelectControl', className)}>
         <ResultBox
+          useMobileUI={useMobileUI}
           disabled={disabled}
           ref={this.domRef}
           placeholder={__(placeholder || '空')}
@@ -665,7 +672,24 @@ export default class NestedSelectControl extends React.Component<
         >
           {loading ? <Spinner size="sm" /> : undefined}
         </ResultBox>
-        {this.state.isOpened ? this.renderOuter() : null}
+        {mobileUI ? (
+          <PopUp
+            className={cx(`NestedSelect-popup`)}
+            isShow={this.state.isOpened}
+            onHide={this.close}
+            showConfirm={false}
+            showClose={false}
+          >
+            <Cascader
+              onClose={this.close}
+              {...this.props}
+              options={this.props.options.slice()}
+              value={selectedOptions}
+            />
+          </PopUp>
+        ) : this.state.isOpened ? (
+          this.renderOuter()
+        ) : null}
       </div>
     );
   }
