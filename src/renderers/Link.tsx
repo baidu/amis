@@ -58,7 +58,7 @@ export class LinkCmpt extends React.Component<LinkProps, object> {
     htmlTarget: ''
   };
 
-  handleClick(href: string) {
+  async handleClick(href: string) {
     const {env, blank, body} = this.props;
     env?.tracker(
       {
@@ -68,6 +68,17 @@ export class LinkCmpt extends React.Component<LinkProps, object> {
       },
       this.props
     );
+    // 触发渲染器事件
+    const rendererEvent = await env.dispatchEvent('click', this, {
+      url: href,
+      blank,
+      label: body
+    });
+
+    // 阻止原有动作执行
+    if (rendererEvent?.prevented) {
+      return;
+    }
   }
 
   getHref() {}
