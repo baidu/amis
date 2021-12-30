@@ -9,13 +9,14 @@ import moment from 'moment';
 import 'moment/locale/zh-cn';
 import {Icon} from './icons';
 import PopOver from './PopOver';
+import PopUp from './PopUp';
 import Overlay from './Overlay';
 import {ClassNamesFn, themeable, ThemeProps} from '../theme';
 import {PlainObject} from '../types';
 import Calendar from './calendar/Calendar';
 import 'react-datetime/css/react-datetime.css';
 import {localeable, LocaleProps, TranslateFn} from '../locale';
-import {ucFirst} from '../utils/helper';
+import {isMobile, ucFirst} from '../utils/helper';
 
 const availableShortcuts: {[propName: string]: any} = {
   now: {
@@ -279,14 +280,16 @@ export interface DateProps extends LocaleProps, ThemeProps {
   // 是否为内嵌模式，如果开启就不是 picker 了，直接页面点选。
   embed?: boolean;
   schedules?: Array<{
-    startTime: Date,
-    endTime: Date,
-    content: any,
-    className?: string
+    startTime: Date;
+    endTime: Date;
+    content: any;
+    className?: string;
   }>;
   scheduleClassNames?: Array<string>;
   largeMode?: boolean;
   onScheduleClick?: (scheduleData: any) => void;
+
+  useMobileUI?: boolean;
 
   // 下面那个千万不要写，写了就会导致 keyof DateProps 得到的结果是 string | number;
   // [propName: string]: any;
@@ -312,7 +315,13 @@ export class DatePicker extends React.Component<DateProps, DatePickerState> {
     shortcuts: '',
     closeOnSelect: true,
     overlayPlacement: 'auto',
-    scheduleClassNames: ['bg-warning', 'bg-danger', 'bg-success', 'bg-info', 'bg-secondary']
+    scheduleClassNames: [
+      'bg-warning',
+      'bg-danger',
+      'bg-success',
+      'bg-info',
+      'bg-secondary'
+    ]
   };
   state: DatePickerState = {
     isOpened: false,
@@ -557,6 +566,8 @@ export class DatePicker extends React.Component<DateProps, DatePickerState> {
       borderMode,
       embed,
       minDate,
+      useMobileUI,
+      maxDate,
       schedules,
       largeMode,
       scheduleClassNames,
@@ -612,6 +623,7 @@ export class DatePicker extends React.Component<DateProps, DatePickerState> {
             onClose={this.close}
             locale={locale}
             minDate={minDate}
+            maxDate={maxDate}
             // utc={utc}
             schedules={schedulesData}
             largeMode={largeMode}
@@ -659,7 +671,7 @@ export class DatePicker extends React.Component<DateProps, DatePickerState> {
           <Icon icon="clock" className="icon" />
         </a>
 
-        {isOpened ? (
+        {!(useMobileUI && isMobile()) && isOpened ? (
           <Overlay
             target={this.getTarget}
             container={popOverContainer || this.getParent}
@@ -690,10 +702,37 @@ export class DatePicker extends React.Component<DateProps, DatePickerState> {
                 onClose={this.close}
                 locale={locale}
                 minDate={minDate}
+                maxDate={maxDate}
                 // utc={utc}
               />
             </PopOver>
           </Overlay>
+        ) : null}
+        {useMobileUI && isMobile() ? (
+          <PopUp
+            className={cx(`${ns}DatePicker-popup`)}
+            isShow={isOpened}
+            onHide={this.handleClick}
+          >
+            {this.renderShortCuts(shortcuts)}
+
+            <Calendar
+              value={date}
+              onChange={this.handleChange}
+              requiredConfirm={!!(dateFormat && timeFormat)}
+              dateFormat={dateFormat}
+              inputFormat={inputFormat}
+              timeFormat={timeFormat}
+              isValidDate={this.checkIsValidDate}
+              viewMode={viewMode}
+              timeConstraints={timeConstraints}
+              input={false}
+              onClose={this.close}
+              locale={locale}
+              minDate={minDate}
+              // utc={utc}
+            />
+          </PopUp>
         ) : null}
       </div>
     );

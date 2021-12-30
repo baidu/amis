@@ -6,6 +6,15 @@ register('de-DE', {
   'asc': 'Aufsteigend',
   'App.home': 'Startseite',
   'App.navigation': 'Navigation',
+  'Calendar.datepicker': 'Auswahl des Datums',
+  'Calendar.yearmonth': 'YYYY MM',
+  'Calendar.year': 'YYYY',
+  'Calendar.begin': 'beginnt',
+  'Calendar.end': 'ende',
+  'Calendar.beginAndEnd': 'b/e',
+  'Calendar.toast': 'Außerhalb des Datumsbereichs',
+  'Calendar.startPick': 'Wählen Sie Startzeit',
+  'Calendar.endPick': 'Wählen Sie Endzeit',
   'cancel': 'Abbrechen',
   'Card.dragTip': 'Obere Schaltfläche zum Sortieren ziehen',
   'Card.toggleDrag': 'Zum Sortieren umschalten',
@@ -215,7 +224,7 @@ register('de-DE', {
   'validate.minimum': 'Der Eingabewert ist kleiner als der Mindestwert von $1.',
   'validate.minLength': 'Geben Sie weitere Zeichen ein, mindestens $1.',
   'validate.notEmptyString': 'Geben Sie nicht nur Leerzeichen ein.',
-  'validateFailed': 'Fehler bei der Überprüfung,',
+  'validateFailed': 'Fehler bei der Überprüfung',
   'Wizard.configError': 'Konfigurationsfehler',
   'Wizard.finish': 'Ende',
   'Wizard.next': 'Weiter',
@@ -254,5 +263,7 @@ register('de-DE', {
   'Condition.cond_placeholder': 'Bedingung auswählen',
   'Condition.field_placeholder': 'Feld auswählen',
   'Condition.blank': 'leer',
-  'InputTable.uniqueError': 'Column `{{label}}` unique validate failed'
+  'InputTable.uniqueError': 'Column `{{label}}` unique validate failed',
+  'Timeline.collapseText': 'Entfalten',
+  'Timeline.expandText': 'Falten'
 });

@@ -181,8 +181,8 @@ export default class VirtualList extends React.PureComponent<Props, State> {
     const itemsDom = this.rootNode.children[0].children;
     const scrollbarWidth =
       window.innerWidth - document.documentElement.clientWidth || 15;
-    const containerWidth = this.rootNode.parentElement!.getBoundingClientRect()
-      .width;
+    const containerWidth =
+      this.rootNode.parentElement!.getBoundingClientRect().width;
     let maxItemWidth = 0;
     for (let i = 0; i < itemsDom.length; i++) {
       let itemWidth = itemsDom[i].getBoundingClientRect().width;
@@ -427,10 +427,8 @@ export default class VirtualList extends React.PureComponent<Props, State> {
     }
 
     const {scrollDirection = DIRECTION.VERTICAL} = this.props;
-    const {
-      size,
-      offset
-    } = this.sizeAndPositionManager.getSizeAndPositionForIndex(index);
+    const {size, offset} =
+      this.sizeAndPositionManager.getSizeAndPositionForIndex(index);
 
     return (this.styleCache[index] = sticky
       ? {

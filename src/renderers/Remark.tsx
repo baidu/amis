@@ -2,11 +2,12 @@ import React from 'react';
 import {Renderer, RendererProps} from '../factory';
 import {Api, SchemaNode, Schema, Action} from '../types';
 import cx from 'classnames';
-import TooltipWrapper from '../components/TooltipWrapper';
+import TooltipWrapper, {TooltipObject} from '../components/TooltipWrapper';
 import {filter} from '../utils/tpl';
-import {themeable} from '../theme';
+import {ClassNamesFn, themeable} from '../theme';
 import {hasIcon, Icon} from '../components/icons';
 import {BaseSchema, SchemaClassName, SchemaIcon, SchemaTpl} from '../Schema';
+import {autobind, isMobile} from '../utils/helper';
 
 /**
  * 提示渲染器，默认会显示个小图标，鼠标放上来的时候显示配置的内容。
@@ -91,6 +92,50 @@ class Remark extends React.Component<RemarkProps> {
     trigger: ['hover', 'focus'] as Array<'hover' | 'click' | 'focus'>
   };
 
+  @autobind
+  showModalTip(tooltip?: string | TooltipObject) {
+    let {onAction, data} = this.props;
+    return (e: React.MouseEvent) => {
+      onAction &&
+        onAction(
+          e,
+          {
+            actionType: 'dialog',
+            dialog: {
+              title:
+                tooltip && typeof tooltip !== 'string' ? tooltip.title : '',
+              body:
+                tooltip && typeof tooltip !== 'string'
+                  ? tooltip.content
+                  : tooltip
+            }
+          },
+          data
+        );
+    };
+  }
+
+  renderLabel(finalIcon: any, finalLabel: string, cx: ClassNamesFn) {
+    return (
+      <>
+        {finalLabel ? <span>{finalLabel}</span> : null}
+        {finalIcon ? (
+          hasIcon(finalIcon) ? (
+            <span className={cx('Remark-icon')}>
+              <Icon icon={finalIcon} />
+            </span>
+          ) : (
+            <i className={cx('Remark-icon', finalIcon)} />
+          )
+        ) : finalIcon === false && finalLabel ? null : (
+          <span className={cx('Remark-icon icon')}>
+            <Icon icon="question-mark" />
+          </span>
+        )}
+      </>
+    );
+  }
+
   render() {
     const {
       className,
@@ -106,17 +151,34 @@ class Remark extends React.Component<RemarkProps> {
       content,
       data,
       env,
-      tooltipClassName
+      tooltipClassName,
+      useMobileUI
     } = this.props;
 
     const finalIcon = tooltip?.icon ?? icon;
     const finalLabel = tooltip?.label ?? label;
+    const parsedTip = filterContents(tooltip || content, data);
+
+    // 移动端使用弹框提示
+    if (isMobile() && useMobileUI) {
+      return (
+        <div
+          className={cx(
+            `Remark`,
+            (tooltip && tooltip.className) || className || `Remark--warning`
+          )}
+          onClick={this.showModalTip(parsedTip)}
+        >
+          {this.renderLabel(finalIcon, finalLabel, cx)}
+        </div>
+      );
+    }
 
     return (
       <TooltipWrapper
         classPrefix={ns}
         classnames={cx}
-        tooltip={filterContents(tooltip || content, data)}
+        tooltip={parsedTip}
         tooltipClassName={
           (tooltip && tooltip.tooltipClassName) || tooltipClassName
         }
@@ -132,20 +194,7 @@ class Remark extends React.Component<RemarkProps> {
             (tooltip && tooltip.className) || className || `Remark--warning`
           )}
         >
-          {finalLabel ? <span>{finalLabel}</span> : null}
-          {finalIcon ? (
-            hasIcon(finalIcon) ? (
-              <span className={cx('Remark-icon')}>
-                <Icon icon={finalIcon} />
-              </span>
-            ) : (
-              <i className={cx('Remark-icon', finalIcon)} />
-            )
-          ) : finalIcon === false && finalLabel ? null : (
-            <span className={cx('Remark-icon icon')}>
-              <Icon icon="question-mark" />
-            </span>
-          )}
+          {this.renderLabel(finalIcon, finalLabel, cx)}
         </div>
       </TooltipWrapper>
     );

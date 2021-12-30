@@ -235,6 +235,9 @@
   display: flex;
   flex-direction: column;
 
+  &.is-mobile {
+     width: 100%;
+  }
   & > .#{$ns}Transfer-selection {
     flex-grow: 1;
     max-height: 100%;

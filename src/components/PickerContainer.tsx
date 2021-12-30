@@ -10,14 +10,17 @@ import Button from './Button';
 
 export interface PickerContainerProps extends ThemeProps, LocaleProps {
   title?: string;
+  showTitle?: boolean;
   children: (props: {
     onClick: (e: React.MouseEvent) => void;
     isOpened: boolean;
   }) => JSX.Element;
-  popOverRender: (props: {
+  bodyRender: (props: {
     onClose: () => void;
     value: any;
     onChange: (value: any) => void;
+    setState: (state: any) => void;
+    [propName: string]: any;
   }) => JSX.Element;
   value?: any;
   onConfirm?: (value?: any) => void;
@@ -82,11 +85,21 @@ export class PickerContainer extends React.Component<
     this.close(undefined, () => onConfirm?.(this.state.value));
   }
 
+  @autobind
+  updateState(state: any = {}) {
+    const {isOpened, ...rest} = state;
+    this.setState({
+      ...this.state,
+      ...rest
+    });
+  }
+
   render() {
     const {
       children,
-      popOverRender: dropdownRender,
+      bodyRender: popOverRender,
       title,
+      showTitle,
       translate: __,
       size
     } = this.props;
@@ -103,13 +116,16 @@ export class PickerContainer extends React.Component<
           show={this.state.isOpened}
           onHide={this.close}
         >
-          <Modal.Header onClose={this.close}>
-            {__(title || 'Select.placeholder')}
-          </Modal.Header>
+          {showTitle !== false ? (
+            <Modal.Header onClose={this.close}>
+              {__(title || 'Select.placeholder')}
+            </Modal.Header>
+          ) : null}
           <Modal.Body>
-            {dropdownRender({
+            {popOverRender({
+              ...(this.state as any),
+              setState: this.updateState,
               onClose: this.close,
-              value: this.state.value,
               onChange: this.handleChange
             })}
           </Modal.Body>

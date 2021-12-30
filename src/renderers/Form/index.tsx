@@ -398,7 +398,8 @@ export default class Form extends React.Component<FormProps, object> {
     'simpleMode',
     'inputOnly',
     'value',
-    'actions'
+    'actions',
+    'multiple'
   ];
 
   hooks: {
@@ -866,6 +867,18 @@ export default class Form extends React.Component<FormProps, object> {
 
     store.updateData(values);
 
+    store.items.forEach(formItem => {
+      const updatedValue = getVariable(values, formItem.name, false);
+
+      if (updatedValue !== undefined) {
+        // 更新验证状态但保留错误信息
+        formItem.reset(true);
+        // 这里需要更新value，否则提交时不会使用新的字段值校验
+        formItem.changeTmpValue(updatedValue);
+        formItem.validateOnChange && formItem.validate(values);
+      }
+    });
+
     (formLazyChange === false ? this.emitChange : this.lazyEmitChange)(submit);
   }
 
@@ -1155,9 +1168,9 @@ export default class Form extends React.Component<FormProps, object> {
     store.closeDialog(true);
   }
 
-  handleDialogClose() {
+  handleDialogClose(confirmed = false) {
     const {store} = this.props;
-    store.closeDialog(false);
+    store.closeDialog(confirmed);
   }
 
   handleDrawerConfirm(

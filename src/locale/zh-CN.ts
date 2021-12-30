@@ -6,6 +6,15 @@ register('zh-CN', {
   'App.home': '首页',
   'App.navigation': '导航',
   'asc': '正序',
+  'Calendar.datepicker': '日期选择',
+  'Calendar.yearmonth': 'YYYY年MM月',
+  'Calendar.year': 'YYYY年',
+  'Calendar.begin': '开始',
+  'Calendar.end': '结束',
+  'Calendar.beginAndEnd': '始/终',
+  'Calendar.toast': '超出日期范围',
+  'Calendar.startPick': '选择开始时间',
+  'Calendar.endPick': '选择结束时间',
   'cancel': '取消',
   'Card.dragTip': '请拖动顶部的按钮进行排序',
   'Card.toggleDrag': '对卡片进行排序操作',
@@ -260,5 +269,7 @@ register('zh-CN', {
   'Condition.cond_placeholder': '请选择操作',
   'Condition.field_placeholder': '请选择字段',
   'Condition.blank': '空',
-  'InputTable.uniqueError': '列`{{label}}`没有通过唯一验证'
+  'InputTable.uniqueError': '列`{{label}}`没有通过唯一验证',
+  'Timeline.collapseText': '展开',
+  'Timeline.expandText': '折叠'
 });

@@ -98,14 +98,17 @@ export function buildApi(
   if (~idx) {
     const hashIdx = api.url.indexOf('#');
     const params = qsparse(
-      api.url.substring(idx + 1, ~hashIdx ? hashIdx : undefined)
+      api.url.substring(
+        idx + 1,
+        ~hashIdx && hashIdx > idx ? hashIdx : undefined
+      )
     );
     api.url =
       tokenize(api.url.substring(0, idx + 1), data, '| url_encode') +
       qsstringify(
         (api.query = dataMapping(params, data, undefined, api.convertKeyToPath))
       ) +
-      (~hashIdx ? api.url.substring(hashIdx) : '');
+      (~hashIdx && hashIdx > idx ? api.url.substring(hashIdx) : '');
   } else {
     api.url = tokenize(api.url, data, '| url_encode');
   }

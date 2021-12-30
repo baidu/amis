@@ -1,6 +1,6 @@
 import React from 'react';
 import {ThemeProps, themeable} from '../theme';
-import {BaseSelectionProps, BaseSelection} from './Selection';
+import {BaseSelectionProps, BaseSelection, ItemRenderStates} from './Selection';
 import {Options, Option} from './Select';
 import {uncontrollable} from 'uncontrollable';
 import ResultList from './ResultList';
@@ -14,11 +14,12 @@ import AssociatedSelection from './AssociatedSelection';
 import {LocaleProps, localeable} from '../locale';
 import GroupedSelection from './GroupedSelection';
 import ChainedSelection from './ChainedSelection';
+import {ItemRenderStates as ResultItemRenderStates} from './ResultList';
 
 export interface TransferProps
   extends ThemeProps,
     LocaleProps,
-    BaseSelectionProps {
+    Omit<BaseSelectionProps, 'itemRender'> {
   inline?: boolean;
   statistics?: boolean;
   showArrow?: boolean;
@@ -55,6 +56,7 @@ export interface TransferProps
   }>;
   searchPlaceholder?: string;
   noResultsText?: string;
+  onChange?: (value: Array<Option>, optionModified?: boolean) => void;
   onSearch?: (
     term: string,
     setCancel: (cancel: () => void) => void
@@ -70,8 +72,11 @@ export interface TransferProps
   ) => JSX.Element;
 
   resultTitle?: string;
-  optionItemRender?: (option: Option) => JSX.Element;
-  resultItemRender?: (option: Option) => JSX.Element;
+  optionItemRender?: (option: Option, states: ItemRenderStates) => JSX.Element;
+  resultItemRender?: (
+    option: Option,
+    states: ResultItemRenderStates
+  ) => JSX.Element;
   sortable?: boolean;
 }
 
@@ -83,9 +88,8 @@ export interface TransferState {
 export class Transfer<
   T extends TransferProps = TransferProps
 > extends React.Component<T, TransferState> {
-  static defaultProps: Pick<TransferProps, 'itemRender' | 'multiple'> = {
-    multiple: true,
-    itemRender: (option: Option) => <span>{option.label}</span>
+  static defaultProps: Pick<TransferProps, 'multiple'> = {
+    multiple: true
   };
 
   state = {
@@ -382,7 +386,6 @@ export class Transfer<
         option2value={option2value}
         onDeferLoad={onDeferLoad}
         cellRender={cellRender}
-        itemRender={optionItemRender}
         multiple={multiple}
       />
     ) : selectMode === 'tree' ? (

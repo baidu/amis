@@ -90,6 +90,7 @@ export default {
           label: '弹个表单',
           actionType: 'dialog',
           dialog: {
+            size: 'lg',
             title: '在弹框中的表单',
             closeOnEsc: true,
             actions: [

@@ -97,7 +97,7 @@ export type DialogSchemaBase = Omit<DialogSchema, 'type'>;
 export interface DialogProps
   extends RendererProps,
     Omit<DialogSchema, 'className'> {
-  onClose: () => void;
+  onClose: (confirmed?: boolean) => void;
   onConfirm: (
     values: Array<object>,
     action: Action,
@@ -214,12 +214,12 @@ export default class Dialog extends React.Component<DialogProps> {
     return ret;
   }
 
-  handleSelfClose() {
+  handleSelfClose(e?: any, confirmed?: boolean) {
     const {onClose, store} = this.props;
 
     // clear error
     store.updateMessage();
-    onClose();
+    onClose(confirmed);
   }
 
   handleAction(e: React.UIEvent<any>, action: Action, data: object) {
@@ -251,7 +251,7 @@ export default class Dialog extends React.Component<DialogProps> {
       return;
     }
 
-    store.closeDialog();
+    store.closeDialog(true);
   }
 
   handleDialogClose(...args: Array<any>) {
@@ -264,7 +264,7 @@ export default class Dialog extends React.Component<DialogProps> {
       return;
     }
 
-    store.closeDialog();
+    store.closeDialog(args[1]);
   }
 
   handleDrawerConfirm(values: object[], action: Action, ...args: Array<any>) {
@@ -743,7 +743,7 @@ export class DialogRenderer extends Dialog {
         },
         data,
         action
-      ) || this.handleSelfClose();
+      ) || this.handleSelfClose(undefined, true);
     } else if (action.actionType === 'next' || action.actionType === 'prev') {
       store.setCurrentAction(action);
       if (action.type === 'submit') {
@@ -755,7 +755,7 @@ export class DialogRenderer extends Dialog {
           },
           data,
           action
-        ) || this.handleSelfClose();
+        ) || this.handleSelfClose(undefined, true);
       } else {
         onConfirm([data], action, data, []);
       }
@@ -769,7 +769,7 @@ export class DialogRenderer extends Dialog {
       store.setCurrentAction(action);
       action.target && scoped.reload(action.target, data);
       if (action.close || action.type === 'submit') {
-        this.handleSelfClose();
+        this.handleSelfClose(undefined, action.type === 'submit');
         this.closeTarget(action.close);
       }
     } else if (this.tryChildrenToHandle(action, data)) {

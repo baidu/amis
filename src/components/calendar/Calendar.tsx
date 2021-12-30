@@ -7,6 +7,7 @@ import CustomCalendarContainer from './CalendarContainer';
 import cx from 'classnames';
 import moment from 'moment';
 import {themeable, ThemeOutterProps, ThemeProps} from '../../theme';
+import {convertDateArrayToDate} from '../../utils/helper';
 
 interface BaseDatePickerProps
   extends Omit<ReactDatePicker.DatetimepickerProps, 'viewMode'> {
@@ -17,6 +18,7 @@ interface BaseDatePickerProps
   onClose?: () => void;
   isEndDate?: boolean;
   minDate?: moment.Moment;
+  maxDate?: moment.Moment;
   renderDay?: (
     props: any,
     currentDate: moment.Moment,
@@ -36,6 +38,10 @@ interface BaseDatePickerProps
   }>;
   largeMode?: boolean;
   onScheduleClick?: (scheduleData: any) => void;
+  hideHeader?: boolean;
+  updateOn?: string;
+  useMobileUI?: boolean;
+  showToolbar?: boolean;
 }
 
 class BaseDatePicker extends ReactDatePicker {
@@ -91,9 +97,14 @@ class BaseDatePicker extends ReactDatePicker {
         'isEndDate',
         'classnames',
         'minDate',
+        'maxDate',
         'schedules',
         'largeMode',
-        'onScheduleClick'
+        'onScheduleClick',
+        'hideHeader',
+        'updateOn',
+        'useMobileUI',
+        'showToolbar'
       ].forEach(key => (props[key] = (this.props as any)[key]));
 
       return props;
@@ -191,6 +202,25 @@ class BaseDatePicker extends ReactDatePicker {
     that.props.onChange(date);
   };
 
+  onConfirm = (value: number[], types: string[]) => {
+    const currentDate = (
+      this.state.selectedDate ||
+      this.state.viewDate ||
+      moment()
+    ).clone();
+
+    const date = convertDateArrayToDate(value, types, currentDate);
+
+    if (!this.props.value) {
+      this.setState({
+        selectedDate: date,
+        inputValue: date!.format(this.state.inputFormat)
+      });
+    }
+    this.props.onChange && this.props.onChange(date);
+    this.props.onClose && this.props.onClose();
+  };
+
   render() {
     const Component = CustomCalendarContainer as any;
     const viewProps = this.getComponentProps();
@@ -201,6 +231,14 @@ class BaseDatePicker extends ReactDatePicker {
         this.props.renderQuarter
       ];
     }
+    else if (this.props.viewMode === 'years') {
+      viewProps.updateOn = 'years';
+    }
+    else if (this.props.viewMode === 'months') {
+      viewProps.updateOn = 'months';
+    }
+
+    viewProps.onConfirm = this.onConfirm;
 
     return (
       <div className={cx('rdt rdtStatic rdtOpen', this.props.className)}>

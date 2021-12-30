@@ -13,10 +13,12 @@ import Overlay from './Overlay';
 import {ShortCuts, ShortCutDateRange} from './DatePicker';
 import Calendar from './calendar/Calendar';
 import PopOver from './PopOver';
+import PopUp from './PopUp';
 import {ClassNamesFn, themeable, ThemeProps} from '../theme';
 import {PlainObject} from '../types';
-import {noop, ucFirst} from '../utils/helper';
+import {isMobile, noop, ucFirst} from '../utils/helper';
 import {LocaleProps, localeable} from '../locale';
+import CalendarMobile from './CalendarMobile';
 
 export interface DateRangePickerProps extends ThemeProps, LocaleProps {
   className?: string;
@@ -47,6 +49,7 @@ export interface DateRangePickerProps extends ThemeProps, LocaleProps {
   embed?: boolean;
   viewMode?: 'days' | 'months' | 'years' | 'time' | 'quarters';
   borderMode?: 'full' | 'half' | 'none';
+  useMobileUI?: boolean;
 }
 
 export interface DateRangePickerState {
@@ -285,6 +288,7 @@ export class DateRangePicker extends React.Component<
     this.handlePopOverClick = this.handlePopOverClick.bind(this);
     this.renderDay = this.renderDay.bind(this);
     this.renderQuarter = this.renderQuarter.bind(this);
+    this.handleMobileChange = this.handleMobileChange.bind(this);
     const {format, joinValues, delimiter, value} = this.props;
 
     this.state = {
@@ -494,6 +498,16 @@ export class DateRangePicker extends React.Component<
       () => {
         embed && this.confirm();
       }
+    );
+  }
+
+  handleMobileChange(data: any, callback?: () => void) {
+    this.setState(
+      {
+        startDate: data.startDate,
+        endDate: data.endDate
+      },
+      callback
     );
   }
 
@@ -760,10 +774,20 @@ export class DateRangePicker extends React.Component<
       disabled,
       embed,
       overlayPlacement,
-      borderMode
+      borderMode,
+      useMobileUI,
+      timeFormat,
+      minDate,
+      maxDate,
+      minDuration,
+      maxDuration,
+      dateFormat,
+      viewMode = 'days',
+      ranges
     } = this.props;
+    const useCalendarMobile = useMobileUI && isMobile() && ['days', 'months', 'quarters'].indexOf(viewMode) > -1;
 
-    const {isOpened, isFocused} = this.state;
+    const {isOpened, isFocused, startDate, endDate} = this.state;
 
     const selectedDate = DateRangePicker.unFormatValue(
       value,
@@ -782,6 +806,25 @@ export class DateRangePicker extends React.Component<
     endViewValue && arr.push(endViewValue);
     const __ = this.props.translate;
 
+    const calendarMobile = <CalendarMobile
+      timeFormat={timeFormat}
+      inputFormat={inputFormat}
+      startDate={startDate}
+      endDate={endDate}
+      minDate={minDate}
+      maxDate={maxDate}
+      minDuration={minDuration}
+      maxDuration={maxDuration}
+      dateFormat={dateFormat}
+      embed={embed}
+      viewMode={viewMode}
+      close={this.close}
+      confirm={this.confirm}
+      onChange={this.handleMobileChange}
+      footerExtra={this.renderRanges(ranges)}
+      showViewMode={viewMode === 'quarters' || viewMode === 'months' ? 'years' : 'months'}
+    />;
+
     if (embed) {
       return (
         <div
@@ -793,10 +836,14 @@ export class DateRangePicker extends React.Component<
             className
           )}
         >
-          {this.renderCalendar()}
+          {useCalendarMobile
+            ? calendarMobile
+            : this.renderCalendar()}
         </div>
       );
     }
+
+    const CalendarMobileTitle = <div className={`${ns}CalendarMobile-title`}>{__('Calendar.datepicker')}</div>;
 
     return (
       <div
@@ -837,7 +884,19 @@ export class DateRangePicker extends React.Component<
         </a>
 
         {isOpened ? (
-          <Overlay
+          useMobileUI && isMobile() ? (
+            <PopUp
+              isShow={isOpened}
+              className={cx(`${ns}CalendarMobile-pop`)}
+              onHide={this.close}
+              header={CalendarMobileTitle}
+            >
+              {useCalendarMobile
+                ? calendarMobile
+                : this.renderCalendar()}
+            </PopUp>
+          )
+          : <Overlay
             target={() => this.dom.current}
             onHide={this.close}
             container={popOverContainer || (() => findDOMNode(this))}

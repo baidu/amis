@@ -53,43 +53,53 @@ exports[`Renderer:rating 1`] = `
             class="cxd-RatingControl cxd-Form-control"
           >
             <div
-              class=""
+              class="cxd-Rating"
             >
-              <span
-                class="cxd-Rating is-active"
-                data-forhalf="★"
-                data-index="0"
-              >
-                ★
-              </span>
-              <span
-                class="cxd-Rating is-active"
-                data-forhalf="★"
-                data-index="1"
-              >
-                ★
-              </span>
-              <span
-                class="cxd-Rating is-active"
-                data-forhalf="★"
-                data-index="2"
-              >
-                ★
-              </span>
-              <span
-                class="cxd-Rating"
-                data-forhalf="★"
-                data-index="3"
-              >
-                ★
-              </span>
-              <span
-                class="cxd-Rating"
-                data-forhalf="★"
-                data-index="4"
-              >
-                ★
-              </span>
+              <ul>
+                <li
+                  class="cxd-Rating-star is-active"
+                  style="color: rgb(120, 123, 129);"
+                >
+                  <icon-mock
+                    classname="icon icon-star"
+                    icon="star"
+                  />
+                </li>
+                <li
+                  class="cxd-Rating-star is-active"
+                  style="color: rgb(120, 123, 129);"
+                >
+                  <icon-mock
+                    classname="icon icon-star"
+                    icon="star"
+                  />
+                </li>
+                <li
+                  class="cxd-Rating-star is-active"
+                  style="color: rgb(120, 123, 129);"
+                >
+                  <icon-mock
+                    classname="icon icon-star"
+                    icon="star"
+                  />
+                </li>
+                <li
+                  class="cxd-Rating-star"
+                >
+                  <icon-mock
+                    classname="icon icon-star"
+                    icon="star"
+                  />
+                </li>
+                <li
+                  class="cxd-Rating-star"
+                >
+                  <icon-mock
+                    classname="icon icon-star"
+                    icon="star"
+                  />
+                </li>
+              </ul>
             </div>
           </div>
         </div>

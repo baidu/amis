@@ -8,10 +8,12 @@ import NotFound from './404';
 import {default as Alert, alert, confirm, prompt} from './Alert';
 import {default as ContextMenu, openContextMenus} from './ContextMenu';
 import AsideNav from './AsideNav';
+import Avatar from './Avatar';
 import Button from './Button';
 import Checkbox from './Checkbox';
 import Checkboxes from './Selection';
 import Collapse from './Collapse';
+import CollapseGroup from './CollapseGroup';
 import DatePicker from './DatePicker';
 import DateRangePicker from './DateRangePicker';
 import Drawer from './Drawer';
@@ -59,6 +61,7 @@ export {
   NotFound,
   Alert as AlertComponent,
   alert,
+  Avatar,
   confirm,
   prompt,
   ContextMenu,
@@ -69,6 +72,7 @@ export {
   Checkbox,
   Checkboxes,
   Collapse,
+  CollapseGroup,
   DatePicker,
   DateRangePicker,
   Drawer,

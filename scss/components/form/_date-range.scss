@@ -127,6 +127,10 @@
   }
 }
 
+.#{$ns}DateRangePicker-popup {
+   height: 90vh;
+}
+
 @include media-breakpoint-up(sm) {
   .#{$ns}DateRangePicker-wrap {
     white-space: nowrap;

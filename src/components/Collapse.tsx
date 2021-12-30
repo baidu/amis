@@ -26,13 +26,14 @@ const collapseStyles: {
 export interface CollapseProps {
   key?: string;
   id?: string;
+  propKey?: string;
   mountOnEnter?: boolean;
   unmountOnExit?: boolean;
   className?: string;
   classPrefix: string;
   classnames: ClassNamesFn;
   headerPosition?: 'top' | 'bottom';
-  header?: React.ReactElement;
+  header?: React.ReactNode;
   body: any;
   bodyClassName?: string;
   disabled?: boolean;
@@ -55,7 +56,6 @@ export interface CollapseState {
 }
 
 export class Collapse extends React.Component<CollapseProps, CollapseState> {
-
   static defaultProps: Partial<CollapseProps> = {
     mountOnEnter: false,
     unmountOnExit: false,
@@ -79,10 +79,13 @@ export class Collapse extends React.Component<CollapseProps, CollapseState> {
     super(props);
 
     this.toggleCollapsed = this.toggleCollapsed.bind(this);
-    this.state.collapsed = !!props.collapsed;
+    this.state.collapsed = props.collapsable ? !!props.collapsed : false;
   }
 
-  static getDerivedStateFromProps(nextProps: CollapseProps, preState: CollapseState) {
+  static getDerivedStateFromProps(
+    nextProps: CollapseProps,
+    preState: CollapseState
+  ) {
     if (nextProps.propsUpdate && nextProps.collapsed !== preState.collapsed) {
       return {
         collapsed: !!nextProps.collapsed
@@ -164,7 +167,9 @@ export class Collapse extends React.Component<CollapseProps, CollapseState> {
       children
     } = this.props;
 
-    const finalHeader = this.state.collapsed ? header : collapseHeader || header;
+    const finalHeader = this.state.collapsed
+      ? header
+      : collapseHeader || header;
 
     let dom = [
       finalHeader ? (
@@ -173,14 +178,18 @@ export class Collapse extends React.Component<CollapseProps, CollapseState> {
           onClick={this.toggleCollapsed}
           className={cx(`Collapse-header`, headingClassName)}
         >
-          {showArrow && collapsable
-            ? expandIcon
-              ? React.cloneElement(expandIcon, {
-                  ...expandIcon.props,
-                  className: cx('Collapse-icon-tranform')
-                })
-              : <span className={cx('Collapse-arrow')} />
-              : ''}
+          {showArrow && collapsable ? (
+            expandIcon ? (
+              React.cloneElement(expandIcon, {
+                ...expandIcon.props,
+                className: cx('Collapse-icon-tranform')
+              })
+            ) : (
+              <span className={cx('Collapse-arrow')} />
+            )
+          ) : (
+            ''
+          )}
           {finalHeader}
         </HeadingComponent>
       ) : null,
@@ -213,7 +222,6 @@ export class Collapse extends React.Component<CollapseProps, CollapseState> {
           );
         }}
       </Transition>
-      
     ];
 
     if (headerPosition === 'bottom') {

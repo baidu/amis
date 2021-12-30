@@ -23,8 +23,6 @@ order: 13
 ## 表达式语法
 
 > 表达式语法实际上是 JavaScript 代码，更多 JavaScript 知识查看 [这里](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript)。
->
-> 表达式中不要使用`${xxx}`语法，这个是数据映射的语法规则，不要搞混淆了！
 
 在 amis 的实现过程中，当正则匹配到某个组件存在`xxxOn`语法的属性名时，会尝试进行下面步骤（以上面配置为例）：
 
@@ -67,7 +65,7 @@ order: 13
     "obj[key] is ${obj[key]} <br />",
     "arr[0] is ${arr[0]} <br />",
     "arr[a] is ${arr[a]} <br />",
-    "arr[a + 1] is ${arr[a + 1]} <br />",
+    "arr[a + 1] is ${arr[a + 1]} <br />"
   ]
 }
 ```
@@ -92,3 +90,54 @@ order: 13
 ```
 
 !!!include(amis-formula/dist/doc.md)!!!
+
+## 函数调用示例
+
+```schema
+{
+  "type": "page",
+  "body": [
+    {
+      "type": "form",
+      "wrapWithPanel": false,
+      "body": [
+        {
+          "type": "static",
+          "label": "IF(true, 2, 3)",
+          "tpl": "${IF(true, 2, 3)}"
+        },
+        {
+          "type": "static",
+          "label": "MAX(1, -1, 2, 3, 5, -9)",
+          "tpl": "${MAX(1, -1, 2, 3, 5, -9)}"
+        },
+        {
+          "type": "static",
+          "label": "ROUND(3.5)",
+          "tpl": "${ROUND(3.5)}"
+        },
+        {
+          "type": "static",
+          "label": "AVG(4, 6, 10, 10, 10)",
+          "tpl": "${AVG(4, 6, 10, 10, 10)}"
+        },
+        {
+          "type": "static",
+          "label": "UPPERMONEY(7682.01)",
+          "tpl": "${UPPERMONEY(7682.01)}"
+        },
+        {
+          "type": "static",
+          "label": "TIMESTAMP(DATE(2021, 11, 21, 0, 0, 0), 'x')",
+          "tpl": "${TIMESTAMP(DATE(2021, 11, 21, 0, 0, 0), 'x')}"
+        },
+        {
+          "type": "static",
+          "label": "DATETOSTR(NOW(), 'YYYY-MM-DD')",
+          "tpl": "${DATETOSTR(NOW(), 'YYYY-MM-DD')}"
+        }
+      ]
+    }
+  ]
+}
+```

@@ -150,6 +150,7 @@ export function renderChild(
     <SchemaRenderer
       {...props}
       schema={schema}
+      propKey={schema.key}
       $path={`${prefix ? `${prefix}/` : ''}${(schema && schema.type) || ''}`}
     />
   );

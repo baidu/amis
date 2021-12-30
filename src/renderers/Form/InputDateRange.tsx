@@ -172,6 +172,7 @@ export default class DateRangeControl extends React.Component<DateRangeProps> {
       maxDuration,
       data,
       format,
+      env,
       ...rest
     } = this.props;
 
