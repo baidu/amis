@@ -57,6 +57,7 @@ interface BaseDatePickerProps
   hideHeader?: boolean;
   updateOn?: string;
   useMobileUI?: boolean;
+  embed?: boolean;
   showToolbar?: boolean;
 }
 
