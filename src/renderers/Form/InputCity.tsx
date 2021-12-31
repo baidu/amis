@@ -431,12 +431,16 @@ export class LocationControl extends React.Component<LocationControlProps> {
       allowStreet,
       disabled,
       searchable,
+      env,
       useMobileUI
     } = this.props;
     const mobileUI = useMobileUI && isMobile();
     return mobileUI ? (
       <CityArea
         value={value}
+        popOverContainer={
+          env && env.getModalContainer ? env.getModalContainer : undefined
+        }
         onChange={onChange}
         allowCity={allowCity}
         allowDistrict={allowDistrict}

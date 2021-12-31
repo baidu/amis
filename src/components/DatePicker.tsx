@@ -713,6 +713,7 @@ export class DatePicker extends React.Component<DateProps, DatePickerState> {
         {useMobileUI && isMobile() ? (
           <PopUp
             className={cx(`${ns}DatePicker-popup DatePicker-mobile`)}
+            container={popOverContainer}
             isShow={isOpened}
             showClose={false}
             onHide={this.handleClick}
