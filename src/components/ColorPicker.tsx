@@ -325,7 +325,7 @@ export class ColorControl extends React.PureComponent<
         {mobileUI && (
           <PopUp
             className={cx(`${ns}ColorPicker-popup`)}
-            container={popOverContainer}
+            container={popOverContainer || (() => findDOMNode(this))}
             isShow={isOpened}
             onHide={this.handleClick || (() => findDOMNode(this))}
           >
