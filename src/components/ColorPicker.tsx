@@ -327,7 +327,7 @@ export class ColorControl extends React.PureComponent<
             className={cx(`${ns}ColorPicker-popup`)}
             container={popOverContainer || (() => findDOMNode(this))}
             isShow={isOpened}
-            onHide={this.handleClick || (() => findDOMNode(this))}
+            onHide={this.handleClick}
           >
             {allowCustomColor ? (
               <SketchPicker
