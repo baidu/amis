@@ -9,15 +9,20 @@ import findLastIndex from 'lodash/findLastIndex';
 import find from 'lodash/find';
 import isEqual from 'lodash/isEqual';
 import filter from 'lodash/filter';
+import intersection from 'lodash/intersection';
+import cloneDeep from 'lodash/cloneDeep';
 import Sortable from 'sortablejs';
 
 import {themeable, ClassNamesFn, ThemeProps} from '../../theme';
 import {localeable, LocaleProps} from '../../locale';
-import {isObject} from '../../utils/helper';
+import {isObject, isBreakpoint, guid} from '../../utils/helper';
 import {Icon} from '../icons';
 import CheckBox from '../Checkbox';
+import Spinner from '../Spinner';
+
 import HeadCellSort from './HeadCellSort';
 import HeadCellFilter from './HeadCellFilter';
+import HeadCellSelect from './HeadCellSelect';
 import Cell from './Cell';
 
 export interface ColumnProps {
@@ -35,28 +40,41 @@ export interface ColumnProps {
   filterMultiple?: boolean; // 是否支持多选
   filteredValue?: Array<string>;
   filtered?: boolean;
+  filterDropdown?: Function | React.ReactNode; // 列筛选 filterDropdown的优先级更高 和filters两者不能并存
   align?: string; // left/right/center
+  breakpoint?: '*' | 'xs' | 'sm' | 'md' | 'lg';
 }
 
 export interface ThProps extends ColumnProps {
   rowSpan: number;
   colSpan: number;
+  groupId: string; // 随机生成表头分组的id
+  depth: number; // 表头分组层级
 }
 
 export interface TdProps extends ColumnProps {
   rowSpan: number;
   colSpan: number;
+  groupId: string; // 随机生成表头分组的id
+}
+
+export interface RowSelectionOptionProps {
+  key: string;
+  text: string;
+  onSelect: Function;
 }
 
 export interface RowSelectionProps {
   type: string;
+  rowClick: boolean; // 点击复选框选中还是点击整行选中
   fixed: boolean; // 只能固定在左边
   selectedRowKeys: Array<string | number>;
   keyField?: string; // 默认是key，可自定义
   columnWidth?: number;
-  onChange: Function;
-  onSelect: Function;
-  onSelectAll: Function;
+  selections?: Array<RowSelectionOptionProps>;
+  onChange?: Function;
+  onSelect?: Function;
+  onSelectAll?: Function;
   getCheckboxProps: Function;
 }
 
@@ -80,8 +98,10 @@ export interface SummaryProps {
   render: Function | React.ReactNode;
 }
 
-export interface ExchangeRecord {
-  [index: number]: number
+export interface OnRowProps {
+  onRowMouseEnter?: Function;
+  onRowMouseLeave?: Function;
+  onRowClick?: Function
 }
 
 export interface TableProps extends ThemeProps, LocaleProps {
@@ -96,13 +116,23 @@ export interface TableProps extends ThemeProps, LocaleProps {
   onSort?: Function;
   expandable?: ExpandableProps;
   bordered?: boolean;
-  size?: string; // default | middle | small
+  size?: string; // large | default | small
   headSummary?: Function | React.ReactNode | Array<SummaryProps | Array<SummaryProps>>;
   footSummary?: Function | React.ReactNode | Array<SummaryProps | Array<SummaryProps>>;
   draggable?: boolean;
+  onDrag?: Function;
   resizable?: boolean; // 列宽调整
   placeholder?: string | React.ReactNode | Function; // 数据为空展示
-  loading?: boolean; // 数据加载中
+  loading?: boolean | string | React.ReactNode; // 数据加载中
+  sticky?: boolean; // 粘性头部
+  onFilter?: Function; // 筛选/过滤函数
+  childrenColumnName?: string; // 控制数据源哪一列作为嵌套数据，不想支持，就随便设置一个不存在的值，默认是children
+  keyField?: string; // 展开嵌套数据的时候，用哪个字段做唯一标识
+  indentSize: number; // 树形展示时 设置缩进值
+  onRow?: OnRowProps; // 行操作事件
+  rowClassName?: Function;
+  lineHeight?: string; // 可设置large、middle固定高度，不设置则跟随内容
+  showHeader?: boolean; // 是否展示表头
 }
 
 export interface ScrollProps {
@@ -112,19 +142,21 @@ export interface ScrollProps {
 
 export interface TableState {
   selectedRowKeys: Array<string | number>;
-  selectedRows: Array<any>;
   dataSource: Array<any>;
   expandedRowKeys: Array<string | number>;
+  colWidths: Array<number>;
 }
 
 function getMaxLevelThRowSpan(columns: Array<ColumnProps>) {
   let maxLevel = 0;
-  columns.forEach(c => {
+
+  Array.isArray(columns) && columns.forEach(c => {
     const level = getThRowSpan(c);
     if (maxLevel < level) {
       maxLevel = level;
     }
   });
+
   return maxLevel;
 }
 
@@ -141,60 +173,55 @@ function getThColSpan(column: ColumnProps) {
     return 1;
   }
 
-  return column.children.length;
+  let childrenLength = 0;
+  column.children.forEach(item => childrenLength += getThColSpan(item));
+
+  return childrenLength;
 }
 
-function getThColumns(
+function buildColumns(
   columns: Array<ColumnProps> = [],
   thColumns: Array<Array<any>>,
+  tdColumns: Array<ColumnProps> = [],
   depth: number = 0,
-  fixed?: boolean | string
-) {
-  const ths: Array<any> = [];
-  const maxLevel = getMaxLevelThRowSpan(columns);
-  // 在处理表头时，如果父级column设置了fixed属性，那么所有children保持一致
-  columns.forEach(column => {
-    let childMaxLevel = 0;
-    if (column.children) {
-      childMaxLevel = getMaxLevelThRowSpan(column.children);
-    }
-    const newColumn = {...column, rowSpan: maxLevel - childMaxLevel, colSpan: getThColSpan(column)};
-    if (fixed) {
-      newColumn.fixed = fixed;
-    }
-    const index = thColumns.length - depth;
-    if (thColumns[index]) {
-      thColumns[index].push(newColumn);
-    }
-    else {
-      ths.push(newColumn);
-    }
-    if (column.children) {
-      getThColumns(column.children, thColumns, depth + 1, column.fixed);
-    }
-  });
-  if (ths.length > 0) {
-    thColumns.unshift(ths);
-  }
-}
-
-export function getTdColumns(
-  columns: Array<ColumnProps> = [],
-  tds: Array<ColumnProps> = [],
-  fixed?: boolean | string
-) {
-  columns.forEach(column => {
-    if (column.children) {
-      getTdColumns(column.children, tds, column.fixed);
-    }
-    else {
-      // 如果父级设置了fixed 子级设置了 也是以父级的为主
-      if (fixed) {
-        column.fixed = fixed;
+  id?: string,
+  fixed?: boolean | string) {
+    const maxLevel = getMaxLevelThRowSpan(columns);
+    // 在处理表头时，如果父级column设置了fixed属性，那么所有children保持一致
+    Array.isArray(columns) && columns.forEach(column => {
+      const groupId = id || guid();
+      let childMaxLevel = 0;
+      if (column.children) {
+        childMaxLevel = getMaxLevelThRowSpan(column.children);
       }
-      tds.push(column);
-    }
-  });
+      const newColumn = {
+        ...column,
+        rowSpan: childMaxLevel ? 1 : maxLevel - childMaxLevel + depth,
+        colSpan: getThColSpan(column),
+        groupId,
+        depth
+      };
+      const tdColumn = {
+        ...column,
+        groupId
+      };
+      if (fixed) {
+        newColumn.fixed = fixed;
+        tdColumn.fixed = fixed;
+      }
+
+      if (!thColumns[depth]) {
+        thColumns[depth] = []
+      }
+      thColumns[depth].push(newColumn);
+      if (column.children && column.children.length > 0) {
+        buildColumns(column.children, thColumns, tdColumns, depth + 1, groupId, column.fixed);
+      }
+      else {
+        const {children, ...rest} = tdColumn;
+        tdColumns.push(rest);
+      }
+    });
 }
 
 function isFixedLeftColumn(fixed: boolean | string | undefined) {
@@ -205,7 +232,11 @@ function isFixedRightColumn(fixed: boolean | string | undefined) {
   return fixed === 'right';
 }
 
-function getPreviousLeftWidth(doms: HTMLCollection, index: number, columns: Array<ColumnProps>) {
+function getPreviousLeftWidth(
+  doms: HTMLCollection,
+  index: number,
+  columns: Array<ColumnProps>
+) {
   let width = 0;
   for (let i = 0; i < index; i++) {
     if (columns && columns[i] && isFixedLeftColumn(columns[i].fixed)) {
@@ -216,7 +247,11 @@ function getPreviousLeftWidth(doms: HTMLCollection, index: number, columns: Arra
   return width;
 }
 
-function getAfterRightWidth(doms: HTMLCollection, index: number, columns: Array<ColumnProps>) {
+function getAfterRightWidth(
+  doms: HTMLCollection,
+  index: number,
+  columns: Array<ColumnProps>
+) {
   let width = 0;
   for (let i = doms.length - 0; i > index; i--) {
     if (columns && columns[i] && isFixedRightColumn(columns[i].fixed)) {
@@ -247,43 +282,38 @@ function getSummaryColumns(summary: Array<SummaryProps>) {
   return [first, ...last];
 }
 
+const DefaultCellWidth = 40;
+
 export class Table extends React.PureComponent<TableProps, TableState> {
   static defaultProps = {
     title: '',
     className: '',
     dataSource: [],
-    columns: []
+    columns: [],
+    indentSize: 15,
+    placeholder: '暂无数据',
+    showHeader: true
   };
 
   constructor(props: TableProps) {
     super(props);
 
-    const selectedRows: Array<any> = [];
-    if (props.rowSelection) {
-      props.dataSource.forEach(data => {
-        if (find(props.rowSelection?.selectedRowKeys,
-            key => key === data[props.rowSelection?.keyField || 'key'])) {
-          selectedRows.push(data);
-        }
-      });
-    }
+    this.selectedRows = props.rowSelection
+      ? this.getSelectedRows(props.dataSource, props.rowSelection?.selectedRowKeys)
+      : [];
 
     this.state = {
-      selectedRowKeys: props.rowSelection ? (props.rowSelection.selectedRowKeys || []) : [],
-      selectedRows,
-      dataSource: props.dataSource || [],
+      selectedRowKeys: props.rowSelection
+        ? (props.rowSelection.selectedRowKeys.map(key => key) || []) : [],
+      dataSource: props.dataSource || [], // 为了支持前端搜索
       expandedRowKeys: [
         ...(props.expandable ? (props.expandable.expandedRowKeys || []) : []),
         ...props.expandable ? (props.expandable.defaultExpandedRowKeys || []) : []
-      ]
+      ],
+      colWidths: []
     };
 
-    this.exchangeRecord = {};
-
-    this.onRowMouseEnter = this.onRowMouseEnter.bind(this);
-    this.onRowMouseLeave = this.onRowMouseLeave.bind(this);
     this.onTableContentScroll = this.onTableContentScroll.bind(this);
-    this.onTableScroll = this.onTableScroll.bind(this);
     this.getPopOverContainer = this.getPopOverContainer.bind(this);
   }
 
@@ -291,10 +321,13 @@ export class Table extends React.PureComponent<TableProps, TableState> {
     return findDOMNode(this);
   }
 
-  // 记录顺序调整
-  exchangeRecord: ExchangeRecord;
-  tdColumns: Array<TdProps>;
+  // 表头配置
   thColumns: Array<Array<ThProps>>;
+  // 表格配置
+  tdColumns: Array<TdProps>;
+  // 表格当前选中行
+  selectedRows: Array<any>;
+  // 拖拽排序
   sortable: Sortable;
   // 记录点击起始横坐标
   resizeStart: number;
@@ -306,7 +339,32 @@ export class Table extends React.PureComponent<TableProps, TableState> {
   contentDom: React.RefObject<HTMLDivElement> = React.createRef();
   headerDom: React.RefObject<HTMLDivElement> = React.createRef();
   bodyDom: React.RefObject<HTMLDivElement> = React.createRef();
-  footDom: React.RefObject<HTMLTableSectionElement> = React.createRef();
+  tfootDom: React.RefObject<HTMLTableSectionElement> = React.createRef();
+  footDom: React.RefObject<HTMLDivElement> = React.createRef();
+
+  getColWidths() {
+    const childrens = this.tbodyDom.current?.children[0]?.children || [];
+    const colWidths: Array<any> = new Array(childrens ? childrens.length : 0);
+
+    for (let i = 0; i < childrens.length; i++) {
+      const child: any = childrens[i];
+      colWidths[i] = child ? child.offsetWidth : null
+    };
+
+    return colWidths;
+  }
+
+  getSelectedRows(dataSource: Array<any>, selectedRowKeys: Array<string | number>) {
+    const selectedRows: Array<any> = [];
+    dataSource.forEach(data => {
+      if (find(selectedRowKeys,
+          key => key === data[this.getRowSelectionKeyField()])) {
+        selectedRows.push(data);
+      }
+    });
+
+    return selectedRows;
+  }
 
   updateTableBodyFixed() {
     const tbodyDom = this.tbodyDom && (this.tbodyDom.current as HTMLElement);
@@ -315,25 +373,31 @@ export class Table extends React.PureComponent<TableProps, TableState> {
     this.updateHeadSummaryFixedRow(tbodyDom);
   }
 
+  updateColWidths() {
+    this.setState({colWidths: this.getColWidths()}, () => {
+      if (hasFixedColumn(this.props.columns)) {
+        const theadDom = this.theadDom && (this.theadDom.current as HTMLElement);
+        const thColumns = this.thColumns;
+        this.updateTheadFixedRow(theadDom, thColumns);
+        this.updateTableBodyFixed();
+      }
+    });
+  }
+
   componentDidMount() {
     if (this.props.loading) {
       return;
     }
+
     if (hasFixedColumn(this.props.columns)) {
-      const theadDom = this.theadDom && (this.theadDom.current as HTMLElement);
-      const thColumns = this.thColumns;
-      this.updateTheadFixedRow(theadDom, thColumns);
       const headerDom = this.headerDom && (this.headerDom.current as HTMLElement);
       if (headerDom) {
         const headerBody = headerDom.getElementsByTagName('tbody');
         headerBody && headerBody[0] && this.updateHeadSummaryFixedRow(headerBody[0]);
       }
 
-      // 同步数据 dom加载后直接更新
-      this.updateTableBodyFixed();
-
-      const footDom = this.footDom && (this.footDom.current as HTMLElement);
-      footDom && this.updateFootSummaryFixedRow(footDom);
+      const tfootDom = this.tfootDom && (this.tfootDom.current as HTMLElement);
+      tfootDom && this.updateFootSummaryFixedRow(tfootDom);
     }
 
     let current = null;
@@ -342,10 +406,17 @@ export class Table extends React.PureComponent<TableProps, TableState> {
       current.addEventListener('scroll', this.onTableContentScroll.bind(this));
     } else {
       current = this.headerDom?.current;
-      this.headerDom && this.headerDom.current
-        && this.headerDom.current.addEventListener('scroll', this.onTableScroll.bind(this));
-      this.bodyDom && this.bodyDom.current
-        && this.bodyDom.current.addEventListener('scroll', this.onTableScroll.bind(this));
+      
+      // overflow设置为hidden的情况
+      const hiddenDomRefs = [this.headerDom, this.footDom];
+      hiddenDomRefs.forEach(ref =>
+        ref && ref.current
+          && ref.current.addEventListener('wheel', this.onWheel.bind(this)));
+      // 横向同步滚动
+      const scrollDomRefs = [this.bodyDom];
+      scrollDomRefs.forEach(ref =>
+        ref && ref.current
+          && ref.current.addEventListener('scroll', this.onTableScroll.bind(this)));
     }
     current && this.updateTableDom(current);
 
@@ -356,60 +427,113 @@ export class Table extends React.PureComponent<TableProps, TableState> {
     if (this.props.resizable) {
       this.theadDom.current?.addEventListener('mouseup', this.onResizeMouseUp.bind(this));
     }
+
+    this.updateStickyHeader();
+
+    this.updateColWidths();
   }
 
   componentDidUpdate(prevProps: TableProps, prevState: TableState) {
     // 数据源发生了变化
     if (!isEqual(prevProps.dataSource, this.props.dataSource)) {
-      this.setState({dataSource: [...this.props.dataSource]},
-        () => {
-          if (hasFixedColumn(this.props.columns)) {
-            this.updateTableBodyFixed();
-          }
-        }); // 异步加载数据需求再更新一次
+      this.setState({dataSource: [...this.props.dataSource]}, () => this.updateColWidths()); // 异步加载数据需求再更新一次
     }
+
     // 选择项发生了变化触发
     if (!isEqual(prevState.selectedRowKeys, this.state.selectedRowKeys)) {
+      // 更新保存的已选择行数据
+      this.selectedRows = this.getSelectedRows(this.state.dataSource, this.state.selectedRowKeys);
+
       const {rowSelection} = this.props;
       rowSelection && rowSelection.onChange
-        && rowSelection.onChange(this.state.selectedRowKeys, this.state.selectedRows);
+        && rowSelection.onChange(this.state.selectedRowKeys, this.selectedRows);
+
+      this.setState({selectedRowKeys: this.state.selectedRowKeys.filter((key, i, a) => a.indexOf(key) === i)});
     }
+
+    // 外部传入的选择项发生了变化
+    if (!isEqual(prevProps.rowSelection?.selectedRowKeys, this.props.rowSelection?.selectedRowKeys)) {
+      if (this.props.rowSelection) {
+        this.setState({selectedRowKeys: this.props.rowSelection.selectedRowKeys});
+        this.selectedRows = this.getSelectedRows(this.state.dataSource, this.state.selectedRowKeys); 
+      }
+    }
+
+    // 外部传入的展开项发生了变化
+    if (!isEqual(prevProps?.expandable?.expandedRowKeys, this.props.expandable?.expandedRowKeys)) {
+      if (this.props.expandable) {
+        this.setState({expandedRowKeys: this.props.expandable.expandedRowKeys || []});
+      }
+    }
+
     // 展开行变化时触发
     if (!isEqual(prevState.expandedRowKeys, this.state.expandedRowKeys)) {
       if (this.props.expandable) {
         const {onExpandedRowsChange, keyField} = this.props.expandable;
         const expandedRows: Array<any> = [];
         this.state.dataSource.forEach(item => {
-          if (find(this.state.expandedRowKeys, key => key === item[keyField || 'key'])) {
+          if (find(this.state.expandedRowKeys, key => key == item[keyField || 'key'])) {
             expandedRows.push(item);
           }
         });
         onExpandedRowsChange && onExpandedRowsChange(expandedRows);
       }
     }
+
+    // sticky属性发生了变化
+    if (prevProps.sticky !== this.props.sticky) {
+      this.updateStickyHeader();
+    }
   }
 
   componentWillUnmount() {
     this.contentDom && this.contentDom.current
       && this.contentDom.current.removeEventListener('scroll', this.onTableContentScroll.bind(this));
-    this.headerDom && this.headerDom.current
-      && this.headerDom.current.removeEventListener('scroll', this.onTableScroll.bind(this));
-    this.bodyDom && this.bodyDom.current
-      && this.bodyDom.current.removeEventListener('scroll', this.onTableScroll.bind(this));
+
+    const hiddenDomRefs = [this.headerDom, this.footDom];
+    hiddenDomRefs.forEach(ref =>
+      ref && ref.current
+        && ref.current.removeEventListener('wheel', this.onWheel.bind(this)));
+
+    const scrollDomRefs = [this.bodyDom];
+    scrollDomRefs.forEach(ref =>
+      ref && ref.current
+        && ref.current.removeEventListener('scroll', this.onTableScroll.bind(this)));
 
     this.destroyDragging();
   }
 
-  exchange(fromIndex: number, toIndex: number, item?: any) {
-    const {scroll, headSummary} = this.props;
+  exchange(fromIndex: number, toIndex: number, item: any) {
+    const {scroll, headSummary, onDrag} = this.props;
     // 如果有头部总结行 fromIndex就会+1
     if ((!scroll || scroll && !scroll.y) && headSummary) {
       fromIndex = fromIndex - 1;
     }
 
-    // 记录下交换顺序 估计会有用
-    // 本身sortable就更新视图了 就不要再setState触发试图更新了 会有问题
-    this.exchangeRecord[fromIndex] = toIndex;
+    const index = toIndex - fromIndex;
+
+    const levels = item.getAttribute('row-levels');
+    const rowIndex = +item.getAttribute('row-index');
+
+    const dataSource = cloneDeep(this.state.dataSource);
+    const levelsArray = levels ? levels.split(',') : [];
+    const childrenColumnName = this.getChildrenColumnName();
+    let data: Array<any> = dataSource;
+    let i = 0;
+    while (i < levelsArray.length) {
+      data = data[levelsArray[i]][childrenColumnName];
+      i++;
+    }
+
+    if (data && data.length > 0) {
+      const row = cloneDeep(data[rowIndex]);
+      data.splice(rowIndex, 1);
+      data.splice(rowIndex + index, 0, row);
+    }
+
+    // 先通过事件把最新的排序数据提供出去
+    // Sortable修改了dom 数据排序后再通过state更新 会有问题
+    onDrag && onDrag(dataSource);
   }
 
   initDragging() {
@@ -423,9 +547,22 @@ export class Table extends React.PureComponent<TableProps, TableState> {
         handle: `.${cx('Table-dragCell')}`,
         ghostClass: 'is-dragging',
         onMove: (e: any) => {
-          if (e.related && e.related.classList.contains(`${cx('Table-summary-row')}`)) {
+          const dragged = e.dragged;
+          const related = e.related;
+
+          if (related && related.classList.contains(`${cx('Table-summary-row')}`)) {
             return false;
           }
+
+          const draggedLevels = dragged.getAttribute('row-levels');
+          const relatedLevels = related.getAttribute('row-levels');
+
+          // 嵌套展示 不属于同一层的 不允许拖动
+          // 否则涉及到试图的更新，比如子元素都被拖完了
+          if (draggedLevels !== relatedLevels) {
+            return false;
+          }
+
           return true;
         },
         onEnd: (e: any) => {
@@ -434,7 +571,7 @@ export class Table extends React.PureComponent<TableProps, TableState> {
             return;
           }
 
-          this.exchange(e.oldIndex, e.newIndex);
+          this.exchange(e.oldIndex, e.newIndex, e.item);
         }
       }
     );
@@ -442,6 +579,24 @@ export class Table extends React.PureComponent<TableProps, TableState> {
 
   destroyDragging() {
     this.sortable && this.sortable.destroy();
+  }
+
+  updateStickyHeader() {
+    if (this.props.sticky) {
+      // 如果设置了sticky 如果父元素设置了overflow: auto top值还需要考虑padding值
+      let parent = this.headerDom?.current?.parentElement;
+      setTimeout(() => {
+        while (parent && window.getComputedStyle(parent, null).getPropertyValue('overflow') !== 'auto') {
+          parent = parent.parentElement;
+        }
+        if (parent && window.getComputedStyle(parent, null).getPropertyValue('overflow') === 'auto') {
+          const paddingTop = window.getComputedStyle(parent, null).getPropertyValue('padding-top');
+          if (paddingTop && this.headerDom && this.headerDom.current) {
+            this.headerDom.current.style.top = '-' + paddingTop;
+          }
+        }
+      });
+    }
   }
 
   // 更新一个tr下的td的left和class
@@ -455,7 +610,8 @@ export class Table extends React.PureComponent<TableProps, TableState> {
       if (isFixedLeftColumn(fixed)) {
         dom.style.left = i > 0 ? getPreviousLeftWidth(children, i, columns) + 'px' : '0';
       } else if (isFixedRightColumn(fixed)) {
-        dom.style.right = i < children.length - 1 ? getAfterRightWidth(children, i, columns) + 'px' : '0';
+        dom.style.right = i < children.length - 1
+          ? getAfterRightWidth(children, i, columns) + 'px' : '0';
       }
     }
     // 最后一个左fixed的添加样式
@@ -467,6 +623,9 @@ export class Table extends React.PureComponent<TableProps, TableState> {
     let rightIndex = columns.findIndex(column => isFixedRightColumn(column.fixed));
     if (rightIndex > -1) {
       children[rightIndex]?.classList.add(cx('Table-cell-fix-right-first'));
+      if (rightIndex > 0) {
+        children[rightIndex - 1]?.classList.add(cx('Table-cell-fix-right-first-prev'));
+      }
     }
   }
 
@@ -532,29 +691,30 @@ export class Table extends React.PureComponent<TableProps, TableState> {
     }
   }
 
-  renderColGroup() {
+  renderColGroup(colWidths?: Array<number>) {
     const {rowSelection, classnames: cx, expandable, draggable} = this.props;
 
     const tdColumns = this.tdColumns;
-    const isExpandable = !!expandable;
+    const isExpandable = this.isExpandableTable();
+    const extraCount = this.getExtraColumnCount();
 
     return (
       <colgroup>
         {draggable
           ? <col
               className={cx('Table-drag-col')}
-              style={{width: 50 + 'px'}}></col> : null}
-        {!draggable && rowSelection && rowSelection.type
+              style={{width: DefaultCellWidth + 'px'}}></col> : null}
+        {!draggable && rowSelection
           ? <col className={cx('Table-selection-col')}
-              style={{width: (rowSelection.columnWidth || 50) + 'px'}}></col> : null}
+              style={{width: (rowSelection.columnWidth || DefaultCellWidth) + 'px'}}></col> : null}
         {
           !draggable && isExpandable ? <col
             className={cx('Table-expand-col')}
-            style={{width: (expandable.columnWidth || 50) + 'px'}}
+            style={{width: (expandable?.columnWidth || DefaultCellWidth) + 'px'}}
           ></col> : null
         }
         {tdColumns.map((data, index) => {
-          const width = data.width ? +data.width : data.width;
+          const width = colWidths ? colWidths[index + extraCount] : data.width;
           return <col
             key={index}
             style={{width: typeof width === 'number' ? width + 'px' : width}}
@@ -579,7 +739,8 @@ export class Table extends React.PureComponent<TableProps, TableState> {
       // 计算横向移动距离
       const distance = event.clientX - this.resizeStart;
       const tdColumns = [...this.tdColumns];
-      let index = tdColumns.findIndex(c => c.key === this.resizeKey) + this.getExtraColumnCount();
+      let index = tdColumns.findIndex(c => c.key === this.resizeKey)
+        + this.getExtraColumnCount();
 
       const colGroup = this.tableDom.current?.getElementsByTagName('colgroup')[0];
       let currentWidth = 0;
@@ -587,10 +748,54 @@ export class Table extends React.PureComponent<TableProps, TableState> {
         const child = colGroup.children[index] as HTMLElement;
         currentWidth = child.offsetWidth;
       }
+      
+      let newWidth = 0;
+      if (colGroup) {
+        let maxDistance = 0; // 最多可以移动的距离
+        // 调宽列
+        if (distance > 0) {
+          for (let i = 0; i < colGroup.children.length; i++) {
+            const child = colGroup.children[i] as HTMLElement;
+            // 自适应列 保证有一个最小宽度
+            // 如果都设置了固定宽度 那一个都拖不动
+            if (!this.tdColumns[i].width) {
+              maxDistance += child.offsetWidth - DefaultCellWidth;
+            }
+          }
+          if (colGroup.children[index]) {
+            const child = colGroup.children[index] as HTMLElement;
+            newWidth = currentWidth + Math.min(distance, maxDistance);
+            child.style.width = newWidth + 'px';
+          }
+        } else { // 缩短列
+          const autoColumns = [];
+          for (let i = 0; i < colGroup.children.length; i++) {
+            const child = colGroup.children[i] as HTMLElement;
+            // 自适应列 保证有一个最小宽度
+            // 如果都设置了固定宽度 那一个都拖不动
+            if (!this.tdColumns[i].width) {
+              autoColumns.push(child);
+            }
+          }
+          maxDistance = DefaultCellWidth - currentWidth;
+          if (colGroup.children[index]) {
+            const child = colGroup.children[index] as HTMLElement;
+            newWidth = currentWidth + Math.max(distance, maxDistance);
+            child.style.width = newWidth + 'px';
+          }
+          const gap = Math.abs(Math.max(distance, maxDistance)) / autoColumns.length;
+          autoColumns.forEach(c => {
+            c.style.width = c.offsetWidth + gap + 'px';
+          });
+        }
+      }
 
       const column = find(tdColumns, c => c.key === this.resizeKey);
-      if (column) {
-        column.width = currentWidth + distance;
+      // 只有通过配置设置过的宽度保存到tdColumns
+      // 自动分配的不保存
+      // 这样可以一直调整了
+      if (column && column.width && newWidth) {
+        column.width = newWidth;
       }
 
       this.tdColumns = tdColumns;
@@ -613,57 +818,84 @@ export class Table extends React.PureComponent<TableProps, TableState> {
     } = this.props;
 
     const thColumns = this.thColumns;
-    const keyField = rowSelection ? (rowSelection.keyField || 'key') : '';
+    // 获取一行最多th个数
+    let maxCount = 0;
+    thColumns.forEach(columns => {
+      if (columns.length > maxCount) {
+        maxCount = columns.length;
+      }
+    });
+    const keyField = this.getRowSelectionKeyField();
     const dataList = rowSelection && rowSelection.getCheckboxProps
-      ? this.state.dataSource.filter(data => {
-        const props = rowSelection.getCheckboxProps(data);
+      ? this.state.dataSource.filter((data, index) => {
+        const props = rowSelection.getCheckboxProps(data, index);
         return !props.disabled;
       }) : this.state.dataSource;
-
-    const isExpandable = !!expandable;
+    
+    const isExpandable = this.isExpandableTable();
+    
+    let allRowKeys: Array<string> = [];
+    let allRows: Array<any> = [];
+    dataList.forEach(data => {
+      allRowKeys.push(data[keyField]);
+      allRows.push(data);
+      if (!expandable && this.hasChildrenRow(data)) {
+        allRowKeys = [...allRowKeys, ...this.getDataChildrenKeys(data)];
+        data[this.getChildrenColumnName()].forEach((item: any) => allRows.push(item));
+      }
+    });
 
     return (
     <thead ref={this.theadDom} className={cx('Table-thead')}>
       {thColumns.map((data, index) => {
-        return <tr key={index}>
+        return <tr key={'th-cell-' + index}>
           {
             draggable && index === 0 ? <Cell
-              tagName="TH"
+              wrapperComponent="th"
               rowSpan={thColumns.length}
               className={cx('Table-dragCell')}></Cell> : null
           }
           {!draggable && rowSelection && index === 0
             ? <Cell
-              tagName="TH"
+              wrapperComponent="th"
               rowSpan={thColumns.length}
-              fixed={rowSelection.fixed ? 'left': ''}>
+              fixed={rowSelection.fixed ? 'left': ''}
+              className={cx('Table-checkCell')}>
               {rowSelection.type !== 'radio'
-                ? <CheckBox
-                  partial={this.state.selectedRowKeys.length > 0 && this.state.selectedRowKeys.length < dataList.length}
+                ? [<CheckBox
+                  key="checkAll"
+                  partial={this.state.selectedRowKeys.length > 0
+                    && this.state.selectedRowKeys.length < allRowKeys.length}
                   checked={this.state.selectedRowKeys.length > 0}
                   onChange={value => {
                     let changeRows;
                     if (value) {
-                      changeRows = dataList.filter(data => !find(this.state.selectedRowKeys,
-                        key => key === data[keyField]));
+                      changeRows = dataList.filter(data => !this.hasCheckedRows(data));
                     } else {
-                      changeRows = this.state.selectedRows;
+                      changeRows = this.selectedRows;
                     }
-                    const selectedRows = value ? dataList : [];
+                    const selectedRows = value ? allRows : [];
                     this.setState({
-                      selectedRowKeys: value ? dataList.map(data => data[keyField]) : [],
-                      selectedRows
+                      selectedRowKeys: value ? allRowKeys : []
                     });
 
-                    rowSelection.onSelectAll && rowSelection.onSelectAll(value, selectedRows, changeRows);
-                  }}></CheckBox> : null
+                    rowSelection.onSelectAll
+                      && rowSelection.onSelectAll(value, selectedRows, changeRows);
+                  }}></CheckBox>,
+                  rowSelection.selections && rowSelection.selections.length > 0
+                    ? <HeadCellSelect
+                        key="checkSelection"
+                        keys={allRowKeys}
+                        selections={rowSelection.selections}
+                        popOverContainer={this.getPopOverContainer}>
+                      </HeadCellSelect> : null] : null
             }</Cell> : null}
           {
             !draggable && isExpandable && index === 0
               ? <Cell
-                  tagName="TH"
+                  wrapperComponent="th"
                   rowSpan={thColumns.length}
-                  fixed={expandable.fixed ? 'left': ''}
+                  fixed={expandable && expandable.fixed ? 'left': ''}
                   className={cx('Table-row-expand-icon-cell')}></Cell> : null
           }
           {data.map((item, i) => {
@@ -687,7 +919,9 @@ export class Table extends React.PureComponent<TableProps, TableState> {
             }
 
             let filter = null;
-            if (item.filters && item.filters.length > 0) {
+            if (item.filterDropdown) {
+              filter = item.filterDropdown;
+            } else if (item.filters && item.filters.length > 0) {
               filter = (
                 <HeadCellFilter
                   column={item}
@@ -696,19 +930,27 @@ export class Table extends React.PureComponent<TableProps, TableState> {
               );
             }
 
-            return <Cell
-              tagName="TH"
-              rowSpan={item.rowSpan}
-              colSpan={item.colSpan}
-              key={'cell' + (item.key || i)}
-              style={sort || filter ? {position: 'relative'} : {}}
-              fixed={item.fixed === true ? 'left' : item.fixed}>
-                {typeof item.title === 'function' ? item.title() : item.title}
-                {sort}
+            const children = <span>
+              {sort}
                 {filter}
                 {resizable ? <i
                   className={cx('Table-thead-resizable')}
-                  onMouseDown={e => this.onResizeMouseDown(e, item.key)}></i> : null}</Cell>;
+                  onMouseDown={e => this.onResizeMouseDown(e, item.key)}></i> : null}
+            </span>;
+
+            return <Cell
+              wrapperComponent="th"
+              rowSpan={item.rowSpan}
+              colSpan={item.colSpan}
+              key={'cell' + (item.key || i)}
+              fixed={item.fixed === true ? 'left' : item.fixed}
+              className={cx({
+                'Table-cell-last': i === maxCount - 1 && i === data.length - 1
+              })}
+              groupId={item.groupId}
+              depth={item.depth}>
+                {typeof item.title === 'function' ? item.title(children) : item.title}
+                </Cell>;
           })
         }</tr>;
       })}
@@ -716,40 +958,66 @@ export class Table extends React.PureComponent<TableProps, TableState> {
     );
   }
 
-  onRowMouseEnter(event: React.ChangeEvent<any>) {
-    const {classnames: cx} = this.props;
+  onRowClick(event: React.ChangeEvent<any>, record?: any, rowIndex?: number) {
+    const {rowSelection, onRow} = this.props;
 
-    let parent = event.target;
-    while (parent.tagName !== 'TR') {
-      parent = parent.parentNode;
+    if (rowSelection && rowSelection.type && rowSelection.rowClick) {
+      const defaultKey = this.getRowSelectionKeyField();
+
+      const isSelected = !!find(this.state.selectedRowKeys, key => key === record[defaultKey]);
+
+      this.selectedSingleRow(!isSelected, record);
     }
-    if (parent) {
-      for (let i = 0; i < parent.children.length; i++) {
-        const td = parent.children[i];
-        td.classList.add(cx(`Table-cell-row-hover`));
-      }
+
+    if (record && onRow) {
+      onRow.onRowClick && onRow.onRowClick(event, record, rowIndex);
     }
   }
 
-  onRowMouseLeave(event: React.ChangeEvent<any>) {
-    const {classnames: cx} = this.props;
+  onRowMouseEnter(event: React.ChangeEvent<any>, record?: any, rowIndex?: number) {
+    const {classnames: cx, onRow} = this.props;
 
     let parent = event.target;
-    while (parent.tagName !== 'TR') {
-      parent = parent.parentNode;
+    while (parent && parent.tagName !== 'TR') {
+      parent = parent.parentElement;
     }
+
+    if (parent && !parent.classList.contains(cx('Table-row-disabled'))) {
+      for (let i = 0; i < parent.children.length; i++) {
+        const td = parent.children[i];
+        td.classList.add(cx('Table-cell-row-hover')); // 保证有列fixed的时候样式一致
+      }
+    }
+
+    if (record && onRow) {
+      onRow.onRowMouseEnter && onRow.onRowMouseEnter(event, record, rowIndex);
+    }
+  }
+
+  onRowMouseLeave(event: React.ChangeEvent<any>, record?: any, rowIndex?: number) {
+    const {classnames: cx, onRow} = this.props;
+
+    let parent = event.target;
+    while (parent && parent.tagName !== 'TR') {
+      parent = parent.parentElement;
+    }
+
     if (parent) {
       for (let i = 0; i < parent.children.length; i++) {
         const td = parent.children[i];
-        td.classList.remove(cx(`Table-cell-row-hover`));
+        td.classList.remove(cx('Table-cell-row-hover'));
       }
+    }
+
+    if (record && onRow) {
+      onRow.onRowMouseLeave && onRow.onRowMouseLeave(event, record, rowIndex);
     }
   }
 
   onExpandRow(data: any) {
     const {expandedRowKeys} = this.state;
     const {expandable} = this.props;
-    const key = data[expandable?.keyField || 'key'];
+    const key = data[this.getExpandableKeyField()];
     this.setState({expandedRowKeys: [...expandedRowKeys, key]});
     expandable?.onExpand && expandable?.onExpand(true, data);
   }
@@ -757,181 +1025,348 @@ export class Table extends React.PureComponent<TableProps, TableState> {
   onCollapseRow(data: any) {
     const {expandedRowKeys} = this.state;
     const {expandable} = this.props;
-    const key = data[expandable?.keyField || 'key'];
+    const key = data[this.getExpandableKeyField()];
     // 还是得模糊匹配 否则'3'、3匹配不上
     this.setState({expandedRowKeys: expandedRowKeys.filter(k => k != key)});
     expandable?.onExpand && expandable?.onExpand(false, data);
   }
 
-  renderTBody() {
+  getChildrenColumnName() {
+    const {childrenColumnName} = this.props;
+
+    return childrenColumnName || 'children';
+  }
+
+  getRowSelectionKeyField() {
+    const {rowSelection} = this.props;
+
+    return rowSelection ? (rowSelection.keyField || 'key') : '';
+  }
+
+  getExpandableKeyField() {
+    const {expandable, keyField} = this.props;
+
+    return expandable?.keyField || keyField || 'key';
+  }
+
+  hasChildrenRow(data: any) {
+    const key = this.getChildrenColumnName();
+    return data[key]
+      && Array.isArray(data[key]) && data[key].length > 0;
+  }
+
+  // 展开和嵌套不能共存
+  isExpandableRow(data: any, rowIndex: number) {
+    const {expandable} = this.props;
+
+    return expandable && expandable.rowExpandable
+      && expandable.rowExpandable(data, rowIndex);
+  }
+
+  // 获取当前行数据所有子行的key值
+  getDataChildrenKeys(data: any) {
+    let keys: Array<string> = [];
+
+    if (this.hasChildrenRow(data)) {
+      const key = this.getChildrenColumnName();
+      data[key].forEach((item: any) =>
+        keys = [
+          ...keys,
+          ...this.getDataChildrenKeys(item),
+          item[this.getRowSelectionKeyField()]
+        ]);
+    }
+
+    return keys;
+  }
+
+  hasCheckedRows(data: any) {
+    const selectedRowKeys = this.state.selectedRowKeys;
+    const childrenKeys = this.getDataChildrenKeys(data);
+
+    return intersection(selectedRowKeys, [
+      ...childrenKeys,
+      data[this.getRowSelectionKeyField()]
+    ]).length > 0;
+  }
+
+  hasCheckedChildrenRows(data: any) {
+    const selectedRowKeys = this.state.selectedRowKeys;
+    const childrenKeys = this.getDataChildrenKeys(data);
+    const length = intersection(selectedRowKeys, childrenKeys).length;
+
+    return length > 0;
+  }
+
+  getExpandedIcons(isExpanded: boolean, record: any) {
+    const {classnames: cx} = this.props;
+
+    return isExpanded
+      ? <i
+        className={cx(
+          'Table-expandBtn',
+          'is-active'
+        )}
+        onClick={this.onCollapseRow.bind(this, record)}>
+          <Icon icon="right-arrow-bold" className="icon" />
+        </i>
+      : <i
+        className={cx(
+          'Table-expandBtn'
+        )}
+        onClick={this.onExpandRow.bind(this, record)}>
+          <Icon icon="right-arrow-bold" className="icon" />
+        </i>;
+  }
+
+  selectedSingleRow(value: boolean, data: any) {
+    const {rowSelection} = this.props;
+
+    const defaultKey = this.getRowSelectionKeyField();
+    const isRadio = rowSelection && rowSelection.type === 'radio';
+
+    const callback = () => {
+      rowSelection && rowSelection.onSelect
+        && rowSelection.onSelect(
+          data,
+          value,
+          this.selectedRows,
+          this.state.selectedRowKeys
+        );
+    };
+
+    if (value) {
+      if (isRadio) {
+        this.setState({
+          selectedRowKeys: [data[defaultKey]]
+        }, callback);
+      } else {
+        this.setState(prevState => (
+          {
+            selectedRowKeys: [
+              ...prevState.selectedRowKeys,
+              data[defaultKey],
+              ...this.getDataChildrenKeys(data)
+            ].filter((key, i, a) => a.indexOf(key) === i)
+          }
+        ), callback);
+      }
+    } else {
+      if (!isRadio) {
+        this.setState({
+          selectedRowKeys: this.state.selectedRowKeys.filter(key =>
+            ![data[defaultKey], ...this.getDataChildrenKeys(data)].includes(key))
+        }, callback);
+      }
+    }
+  }
+
+  renderRow(data: any, rowIndex: number, levels: Array<number>) {
     const {
       classnames: cx,
       rowSelection,
       expandable,
-      headSummary,
-      scroll,
       draggable,
-      placeholder
+      indentSize,
+      rowClassName,
+      lineHeight // 是否设置了固定行高
     } = this.props;
 
     const tdColumns = this.tdColumns;
-    const defaultKey = rowSelection ? (rowSelection.keyField || 'key') : '';
-    const isExpandable = !!expandable;
+    const isExpandable = this.isExpandableTable();
+    const defaultKey = this.getRowSelectionKeyField();
+    const colCount = this.getExtraColumnCount();
+
+    // 当前行是否可展开
+    const isExpandableRow = this.isExpandableRow(data, rowIndex);
+    // 当前行是否有children
+    const hasChildrenRow = this.hasChildrenRow(data);
+
+    const isExpanded = !!find(this.state.expandedRowKeys,
+      key => key == data[this.getExpandableKeyField()]); // == 匹配 否则'3'、3匹配不上
+
+    // 设置缩进效果
+    const indentDom = levels.length > 0 ? <span
+          className={cx('Table-row-indent', `indent-level-${levels.length}`)}
+          style={{paddingLeft: (indentSize * levels.length) + 'px'}}></span> : null;
+
+    const cells = tdColumns.map((item, i) => {
+      const render = item.render && typeof item.render === 'function'
+        ? item.render(data[item.key], data, rowIndex, i) : null;
+      let props = {rowSpan: 1, colSpan: 1};
+      let children = render;
+      if (render && isObject(render)) {
+        props = render.props;
+        children = render.children;
+        // 如果合并行 且有展开行，那么合并行不生效
+        if (props.rowSpan > 1 && isExpandableRow && hasChildrenRow) {
+          props.rowSpan === 1;
+        }
+      }
+      return props.rowSpan === 0 || props.colSpan === 0 ? null : <Cell
+        key={i}
+        {...props}
+        fixed={item.fixed === true ? 'left' : item.fixed}
+        column={item}
+        groupId={item.groupId}>
+        <div className={cx('Table-cell-wrapper', {
+          [cx('Table-cell-wrapper-prefix')]: i === 0
+            && (!!indentDom || levels.length === 0 && hasChildrenRow),
+          [cx(`Table-cell-height-${lineHeight}`)]: !!lineHeight
+        })}>
+          {i === 0 && levels.length > 0 ? indentDom : null}
+          {i === 0 && hasChildrenRow
+            ? this.getExpandedIcons(isExpanded, data) : null}
+          {render
+            ? children
+            : data[item.key]}
+        </div>
+      </Cell>;
+    });
+
+    const rowClassNameClass = rowClassName && typeof rowClassName === 'function'
+      ? rowClassName(data, rowIndex) : '';
+
+    // 可展开和嵌套不能同时支持
+    // 设置了expandable 数据源里有children也就不生效了
+    // 拖拽排序 可选、可展开都先不支持了，可以支持嵌套展示
+    const checkboxProps = rowSelection && rowSelection.getCheckboxProps
+      ? rowSelection.getCheckboxProps(data, rowIndex) : {};
+
+    const expandedRowClassName = expandable && expandable.expandedRowClassName
+      && typeof expandable.expandedRowClassName === 'function'
+        ? expandable.expandedRowClassName(data, rowIndex) : '';
+    const dataKey = this.getChildrenColumnName();
+
+    const children = !draggable && isExpandableRow && isExpanded
+      ? <tr
+          key="expanded"
+          className={cx('Table-expanded-row', expandedRowClassName)}>
+            <Cell colSpan={tdColumns.length + colCount}>
+              {expandable && expandable.expandedRowRender
+                && typeof expandable.expandedRowRender === 'function'
+                ? expandable.expandedRowRender(data, rowIndex) : null}
+            </Cell>
+        </tr> : (this.hasChildrenRow(data) && isExpanded ? data[dataKey].map((item: any, index: number) => {
+          return this.renderRow(item, index, [...levels, rowIndex]);
+        }) : null);
+
+    const isChecked = !!find(this.state.selectedRowKeys, key => key === data[defaultKey]);
+    const hasChildrenChecked = this.hasCheckedChildrenRows(data);
+
+    return [<tr
+      key={rowIndex}
+      row-index={rowIndex}
+      row-levels={levels.join(',')}
+      className={cx(
+        'Table-row',
+        `Table-row-level-${levels.length}`,
+        rowClassNameClass, {
+        'Table-row-disabled': !!checkboxProps.disabled
+      })}
+      onMouseEnter={e => this.onRowMouseEnter(e, data, rowIndex)}
+      onMouseLeave={e => this.onRowMouseLeave(e, data, rowIndex)}
+      onClick={e => this.onRowClick(e, data, rowIndex)}>
+      {
+        draggable ? <Cell
+          className={cx('Table-dragCell')}>
+          <Icon icon="drag-bar" className="icon"></Icon>
+        </Cell> : null
+      }
+      {!draggable && rowSelection
+        ? (<Cell
+          fixed={rowSelection.fixed ? 'left' : ''}
+          className={cx('Table-checkCell')}>
+          <CheckBox
+            name={'Table-checkbox'}
+            type={rowSelection.type || 'checkbox'}
+            partial={hasChildrenChecked && !isChecked}
+            checked={hasChildrenChecked || isChecked}
+            onChange={
+              (value, shift) => {
+                if (!(rowSelection && rowSelection.rowClick)) {
+                  this.selectedSingleRow(value, data);
+                }
+
+                event && event.stopPropagation();
+              }
+            }
+            {...checkboxProps}></CheckBox></Cell>) : null}
+      {
+        !draggable && isExpandable ? <Cell
+          fixed={expandable && expandable.fixed ? 'left' : ''}
+          className={cx('Table-cell-expand-icon-cell')}>
+          {isExpandableRow || hasChildrenRow
+            ? this.getExpandedIcons(isExpanded, data) : null}
+        </Cell> : null
+      }
+      {cells}</tr>, children];
+  }
+
+  renderTBody() {
+    const {
+      classnames: cx,
+      headSummary,
+      scroll,
+      placeholder,
+      sticky
+    } = this.props;
+
+    const tdColumns = this.tdColumns;
     const hasScrollY = scroll && scroll.y;
     const colCount = this.getExtraColumnCount();
     return (
-    <tbody ref={this.tbodyDom} className={cx('Table-tbody')}>
-      {!hasScrollY && headSummary ? this.renderSummaryRow(headSummary) : null}
-      {
-        !this.state.dataSource.length
-          ? <tr className={cx('Table-row', 'Table-empty-row')}>
-            <Cell colSpan={tdColumns.length + colCount}>
-              <div className={cx('Table-empty')}>
-                {typeof placeholder === 'function' ? placeholder() : placeholder}
-              </div>
-            </Cell>
-          </tr>
-          : this.state.dataSource.map((data, index) => {
-          // 当前行是否可展开
-          const expandableRow = expandable && expandable.rowExpandable
-            && expandable.rowExpandable(data);
-
-          const cells = tdColumns.map((item, i) => {
-            const render = item.render && typeof item.render === 'function'
-              ? item.render(data[item.key], data, index, i) : null;
-            let props = {rowSpan: 1, colSpan: 1};
-            let children = render;
-            if (render && isObject(render)) {
-              props = render.props;
-              children = render.children;
-              // 如果合并行 且有展开行，那么合并行不生效
-              if (props.rowSpan > 1 && expandableRow) {
-                props.rowSpan === 1;
-              }
-            }
-            return props.rowSpan === 0 || props.colSpan === 0 ? null : <Cell
-              key={i}
-              {...props}
-              fixed={item.fixed === true ? 'left' : item.fixed}
-              column={item}>
-              {item.render && typeof item.render === 'function'
-                ? children
-                : data[item.key]}
-            </Cell>;
-          });
-
-          // 支持拖拽排序 可选、可展开都先不支持了
-          if (draggable) {
-            return <tr
-              key={'row' + index}
-              className={cx('Table-row')}
-              onMouseEnter={this.onRowMouseEnter}
-              onMouseLeave={this.onRowMouseLeave}>
-                <Cell
-                  className={cx('Table-dragCell')}>
-                  <Icon icon="drag-bar" className="icon"></Icon>
-                </Cell>{cells}</tr>;
-          }
-
-          const checkboxProps = rowSelection && rowSelection.getCheckboxProps
-            ? rowSelection.getCheckboxProps(data) : {};
-          const isExpanded = !!find(this.state.expandedRowKeys,
-            key => key == data[expandable?.keyField || 'key']); // == 匹配 否则'3'、3匹配不上
-
-          const expandedRowClassName = expandable && expandable.expandedRowClassName
-            && typeof expandable.expandedRowClassName === 'function'
-              ? expandable.expandedRowClassName(data, index) : ''
-
-          return [<tr
-            key={index}
-            className={cx('Table-row')}
-            onMouseEnter={this.onRowMouseEnter}
-            onMouseLeave={this.onRowMouseLeave}>
-            {rowSelection
-              ? (<Cell
-                fixed={rowSelection.fixed ? 'left' : ''}
-                className={cx('Table-checkCell')}>
-                <CheckBox
-                  name={'Table-checkbox'}
-                  type={rowSelection.type || 'checkbox'}
-                  checked={!!find(this.state.selectedRowKeys, key => key === data[defaultKey])}
-                  onChange={
-                    (value, shift) => {
-                      const isRadio = rowSelection.type === 'radio';
-
-                      const callback = () => {
-                        rowSelection.onSelect
-                          && rowSelection.onSelect(data, value, this.state.selectedRows);
-                      };
-
-                      if (value) {
-                        if (isRadio) {
-                          this.setState({
-                            selectedRowKeys: [data[defaultKey]],
-                            selectedRows: [data]
-                          }, callback);
-                        } else {
-                          this.setState(prevState => ({
-                            selectedRowKeys: [...prevState.selectedRowKeys, data[defaultKey]],
-                            selectedRows: [...prevState.selectedRows, data]
-                          }), callback);
-                        }
-                      } else {
-                        if (!isRadio) {
-                          this.setState({
-                            selectedRowKeys: this.state.selectedRowKeys.filter(key => key !== data[defaultKey]),
-                            selectedRows: this.state.selectedRows.filter(item => item[defaultKey] !== data[defaultKey])
-                          }, callback);
-                        }
-                      }
-
-                      event && event.stopPropagation();
-                    }
-                  }
-                  {...checkboxProps}></CheckBox></Cell>) : null}
-            {
-              isExpandable ? <Cell
-                fixed={expandable.fixed ? 'left' : ''}
-                className={cx('Table-cell-expand-icon-cell')}>
-                {expandableRow ? (isExpanded
-                  ? <i
-                    className="fa fa-minus-square"
-                    onClick={this.onCollapseRow.bind(this, data)}></i>
-                  : <i
-                    className="fa fa-plus-square"
-                    onClick={this.onExpandRow.bind(this, data)}></i>) : null}
-              </Cell> : null
-            }
-            {cells}</tr>, expandableRow
-            ? <tr
-                key="expanded"
-                className={cx('Table-expanded-row', expandedRowClassName)}
-                style={isExpanded ? {} : {display: 'none'}}>
-                  <Cell colSpan={tdColumns.length + colCount}>
-                    {expandable.expandedRowRender
-                      && typeof expandable.expandedRowRender === 'function'
-                      ? expandable.expandedRowRender(data, index) : null}
-                  </Cell>
-              </tr> : null];
-        })
-      }
-    </tbody>
+      <tbody ref={this.tbodyDom} className={cx('Table-tbody')}>
+        {!hasScrollY && !sticky && headSummary
+          ? this.renderSummaryRow(headSummary) : null}
+        {
+          !this.state.dataSource.length
+            ? <tr className={cx('Table-row', 'Table-empty-row')}>
+              <Cell colSpan={tdColumns.length + colCount}>
+                <div className={cx('Table-empty')}>
+                  {typeof placeholder === 'function' ? placeholder() : placeholder}
+                </div>
+              </Cell>
+            </tr>
+            : this.state.dataSource.map((data, index) => {
+              return this.renderRow(data, index, []);
+          })
+        }
+      </tbody>
     );
   }
 
+  isExpandableTable() {
+    const {expandable} = this.props;
+
+    // 设置了expandable 优先级更高
+    // 就不支持默认嵌套了
+    return !!expandable;
+  }
+
+  isNestedTable() {
+    const {dataSource} = this.props;
+    return !!find(dataSource, item => this.hasChildrenRow(item));
+  }
+
   getExtraColumnCount() {
-    const {draggable, expandable, rowSelection} = this.props;
+    const {
+      draggable,
+      rowSelection
+    } = this.props;
+
     let count = 0;
     if (draggable) {
       count++;
     } else {
-      if (expandable) {
+      if (this.isExpandableTable()) {
         count++;
       }
       if (rowSelection) {
         count++;
       }
     }
+
     return count;
   }
 
@@ -941,52 +1376,49 @@ export class Table extends React.PureComponent<TableProps, TableState> {
     const trs: Array<React.ReactNode> = [];
     let colCount = this.getExtraColumnCount();
 
-    (Array.isArray(summary) ? summary.map((s, index) => {
-      return (
-        Array.isArray(s) ? trs.push(<tr
-          onMouseEnter={this.onRowMouseEnter}
-          onMouseLeave={this.onRowMouseLeave}
-          key={index}
-          className={cx('Table-summary-row')}>
-          {s.map((d, i) => {
-            // 将操作列自动添加到第一列，用户的colSpan只需要关心实际的列数
-            const colSpan = i === 0 ? (d.colSpan || 1) + colCount : d.colSpan;
-            return <Cell
-              key={i}
-              fixed={d.fixed}
-              colSpan={colSpan}
-              >
-                {typeof d.render === 'function' ? d.render(dataSource) : d.render}
-              </Cell>;
-          })}</tr>) : cells.push(
-            <Cell
-              key={index}
-              fixed={s.fixed}
-              colSpan={cells.length === 0 ? ((s.colSpan || 1) + colCount) : s.colSpan}>
-              {typeof s.render === 'function' ? s.render(dataSource) : s.render}
-            </Cell>)
-      )
+    (Array.isArray(summary) ? summary.forEach((s, index) => {
+      Array.isArray(s) ? trs.push(<tr
+        onMouseEnter={e => this.onRowMouseEnter(e)}
+        onMouseLeave={e => this.onRowMouseLeave(e)}
+        key={'summary-tr-' + index}
+        className={cx('Table-summary-row')}>
+        {s.map((d, i) => {
+          // 将操作列自动添加到第一列，用户的colSpan只需要关心实际的列数
+          const colSpan = i === 0 ? (d.colSpan || 1) + colCount : d.colSpan;
+          return <Cell
+            key={'summary-tr-cell-' + i}
+            fixed={d.fixed}
+            colSpan={colSpan}
+            >
+              {typeof d.render === 'function' ? d.render(dataSource) : d.render}
+            </Cell>;
+        })}</tr>) : cells.push(
+          <Cell
+            key={'summary-cell-' + index}
+            fixed={s.fixed}
+            colSpan={cells.length === 0 ? ((s.colSpan || 1) + colCount) : s.colSpan}>
+            {typeof s.render === 'function' ? s.render(dataSource) : s.render}
+          </Cell>);
     }) : null)
+
     return (
       summary ? (typeof summary === 'function'
-        ? summary(dataSource) : [
-          <tr
-            onMouseEnter={this.onRowMouseEnter}
-            onMouseLeave={this.onRowMouseLeave}
-            key="summary-row"
-            className={cx('Table-summary-row')}>{cells}</tr>, trs
-          ]) : null
+        ? summary(dataSource) : [cells.length > 0 ? <tr
+          onMouseEnter={e => this.onRowMouseEnter(e)}
+          onMouseLeave={e => this.onRowMouseLeave(e)}
+          key="summary-row"
+          className={cx('Table-summary-row')}>{cells}</tr> : null, ...trs]) : null
     );
   }
 
   renderTFoot() {
     const {classnames: cx, footSummary} = this.props;
-    return (<tfoot ref={this.footDom} className={cx('Table-summary')}>
+    return (<tfoot ref={this.tfootDom} className={cx('Table-summary')}>
       {this.renderSummaryRow(footSummary)}
     </tfoot>);
   }
 
-  updateTableDom(dom: HTMLDivElement) {
+  updateTableDom(dom: HTMLElement) {
     const {classnames: cx} = this.props;
     const {scrollLeft, scrollWidth, offsetWidth} = dom;
     const table = this.tableDom.current;
@@ -1010,22 +1442,42 @@ export class Table extends React.PureComponent<TableProps, TableState> {
     this.updateTableDom(event.target);
   }
 
-  onTableScroll(event: React.ChangeEvent<any>) {
-    const headerCurrent = this.headerDom.current;
-    const bodyCurrent = this.bodyDom.current;
-    const target = event.target;
-    if (target === bodyCurrent && headerCurrent) {
-      headerCurrent.scrollLeft = target.scrollLeft;
-    } else if (target === headerCurrent && bodyCurrent) {
-      bodyCurrent.scrollLeft = target.scrollLeft;
+  onWheel(event: WheelEvent) {
+    const {currentTarget, deltaX} = event as unknown as React.WheelEvent<HTMLDivElement>;
+    if (deltaX) {
+      this.onTableScroll({
+        target: currentTarget,
+        scrollLeft: currentTarget.scrollLeft + deltaX
+      });
+
+      event.preventDefault();
     }
+  }
+
+  onTableScroll(event: {target: HTMLDivElement, scrollLeft?: number}) {
+    const scrollDomRefs = [
+      this.headerDom,
+      this.bodyDom,
+      this.footDom
+    ];
+
+    const {target, scrollLeft} = event;
+  
+    scrollDomRefs.forEach(ref => {
+      const current = ref && ref.current
+      if (current && current !== target) {
+        current.scrollLeft = (scrollLeft || target.scrollLeft);
+      }
+    });
 
     this.updateTableDom(target);
   }
 
   renderLoading() {
-    const {classnames: cx} = this.props;
-    return <div className={cx('Table-loading')}>加载中</div>;
+    const {classnames: cx, loading} = this.props;
+    return <div className={cx('Table-loading')}>{
+      typeof loading === 'boolean' ? <Spinner></Spinner> : loading
+    }</div>;
   }
 
   renderTable() {
@@ -1033,6 +1485,7 @@ export class Table extends React.PureComponent<TableProps, TableState> {
       scroll,
       footSummary,
       loading,
+      showHeader,
       classnames: cx
     } = this.props;
 
@@ -1050,7 +1503,7 @@ export class Table extends React.PureComponent<TableProps, TableState> {
               : {tableLayout: 'auto'}}
             className={cx('Table-table')}>
           {this.renderColGroup()}
-          {this.renderTHead()}
+          {showHeader ? this.renderTHead() : null}
           {!loading ? this.renderTBody() : null}
           {!loading && footSummary ? this.renderTFoot() : null}
         </table>
@@ -1063,19 +1516,36 @@ export class Table extends React.PureComponent<TableProps, TableState> {
     const {
       scroll,
       headSummary,
+      sticky,
+      showHeader,
       classnames: cx
     } = this.props;
+
+    const style = {overflow: 'hidden'};
+    if (!!sticky) {
+      Object.assign(style, {top: 0});
+    }
+
+    const tableStyle = {};
+    if (scroll && (scroll.y || scroll.x)) {
+      Object.assign(tableStyle, {
+        width: (scroll && scroll.x ? (scroll.x + 'px') : '100%'),
+        tableLayout: 'fixed'
+      });
+    }
 
     return (
       <div
         ref={this.headerDom}
-        className={cx('Table-header')}
-        style={{overflow: 'hidden'}}>
+        className={cx('Table-header', {
+          [cx('Table-sticky-holder')]: !!sticky
+        })}
+        style={style}>
         <table
           className={cx('Table-table')}
-          style={{width: (scroll?.x + 'px') || '100%', tableLayout: 'fixed'}}>
-          {this.renderColGroup()}
-          {this.renderTHead()}
+          style={tableStyle}>
+          {this.renderColGroup(this.state.colWidths)}
+          {showHeader ? this.renderTHead() : null}
           {headSummary ? <tbody>{this.renderSummaryRow(headSummary)}</tbody> : null}
         </table>
       </div>
@@ -1088,14 +1558,28 @@ export class Table extends React.PureComponent<TableProps, TableState> {
       classnames: cx
     } = this.props;
 
+    const style = {};
+    const tableStyle = {};
+    if (scroll && (scroll.y || scroll.x)) {
+      Object.assign(style, {
+        overflow: 'auto scroll',
+        maxHeight: scroll.y
+      });
+
+      Object.assign(tableStyle, {
+        width: scroll && scroll.x ? (scroll.x + 'px') : '100%',
+        tableLayout: 'fixed'
+      });
+    }
+
     return (
       <div
         ref={this.bodyDom}
         className={cx('Table-body')}
-        style={{overflow: 'auto scroll', maxHeight: scroll?.y}}>
+        style={style}>
           <table
             className={cx('Table-table')}
-            style={{width: (scroll?.x + 'px') || '100%', tableLayout: 'fixed'}}>
+            style={tableStyle}>
             {this.renderColGroup()}
             {this.renderTBody()}
           </table>
@@ -1111,6 +1595,7 @@ export class Table extends React.PureComponent<TableProps, TableState> {
 
     return (
       <div
+        ref={this.footDom}
         className={cx('Table-summary')}
         style={{overflow: 'hidden'}}>
         <table
@@ -1150,13 +1635,17 @@ export class Table extends React.PureComponent<TableProps, TableState> {
       bordered,
       resizable,
       columns,
+      sticky,
       classnames: cx
     } = this.props;
 
+    // 过滤掉设置了breakpoint属性的列
+    const filterColumns = columns.filter(item => !item.breakpoint ||
+      !isBreakpoint(item.breakpoint));
+
     this.thColumns = [];
     this.tdColumns = [];
-    getThColumns(columns, this.thColumns);
-    getTdColumns(columns, this.tdColumns);
+    buildColumns(filterColumns, this.thColumns, this.tdColumns);
 
     // 是否设置了纵向滚动
     const hasScrollY = scroll && scroll.y;
@@ -1166,7 +1655,7 @@ export class Table extends React.PureComponent<TableProps, TableState> {
     return (
     <div
       ref={this.tableDom}
-      className={cx('Table', className, {
+      className={cx('Table-v2', className, {
         [cx('Table-scroll-horizontal')]: hasScrollX,
         [cx(`Table-${size}`)]: size,
         [cx('Table-bordered')]: bordered,
@@ -1174,14 +1663,14 @@ export class Table extends React.PureComponent<TableProps, TableState> {
       })}>
       {title ? <div className={cx('Table-title')}>{
           typeof title === 'function' ? title() : title
-      }</div> : ''}
+      }</div> : null}
 
-      {hasScrollY ? this.renderScrollTable()
+      {hasScrollY || sticky ? this.renderScrollTable()
         : <div className={cx('Table-container')}>{this.renderTable()}</div>}
 
       {footer ? <div className={cx('Table-footer')}>{
         typeof footer === 'function' ? footer() : footer
-      }</div> : ''}
+      }</div> : null}
     </div>
     );
   }

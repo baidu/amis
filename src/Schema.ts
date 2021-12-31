@@ -118,6 +118,7 @@ import {FormControlSchema} from './renderers/Form/Control';
 import {TransferPickerControlSchema} from './renderers/Form/TransferPicker';
 import {TabsTransferPickerControlSchema} from './renderers/Form/TabsTransferPicker';
 import {JSONSchemaEditorControlSchema} from './renderers/Form/JSONSchemaEditor';
+import {TableSchemaV2} from './renderers/Table-v2';
 
 // 每加个类型，这补充一下。
 export type SchemaType =
@@ -392,6 +393,7 @@ export type SchemaObject =
   | StatusSchema
   | SpinnerSchema
   | TableSchema
+  | TableSchemaV2
   | TabsSchema
   | TasksSchema
   | VBoxSchema

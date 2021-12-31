@@ -9,19 +9,17 @@ import isEqual from 'lodash/isEqual';
 
 import {themeable, ThemeProps} from '../../theme';
 import {LocaleProps, localeable} from '../../locale';
-import Overlay from '../Overlay';
-import PopOver from '../PopOver';
+import HeadCellDropDown, {FilterDropdownProps, FilterPayload} from './HeadCellDropDown';
 import CheckBox from '../Checkbox';
 import Button from '../Button';
 import {Icon} from '../icons';
 
 export interface Props extends ThemeProps, LocaleProps {
   column: any;
-  popOverContainer?: () => Element | Text | null;
   onFilter?: Function;
-  onQuery?: Function;
   filteredValue?: Array<string>;
   filterMultiple?: boolean;
+  popOverContainer?: () => Element | Text | null;
 }
 
 export interface OptionProps {
@@ -33,7 +31,6 @@ export interface OptionProps {
 
 export interface State {
   options: Array<OptionProps>;
-  isOpened: boolean;
   filteredValue:  Array<string>;
 }
 
@@ -48,17 +45,11 @@ export class HeadCellFilter extends React.Component<Props, State> {
 
     this.state = {
       options: [],
-      isOpened: false,
       filteredValue: props.filteredValue || []
     }
-
-    this.openLayer = this.openLayer.bind(this);
-    this.closeLayer = this.closeLayer.bind(this);
   }
 
   alterOptions(options: Array<any>) {
-    const {column} = this.props;
-
     options = options.map(option => ({
       ...option,
       selected: this.state.filteredValue.indexOf(option.value) > -1
@@ -83,7 +74,7 @@ export class HeadCellFilter extends React.Component<Props, State> {
   }
 
   render() {
-    const {isOpened, options} = this.state;
+    const {options} = this.state;
     const {
       column,
       popOverContainer,
@@ -91,120 +82,111 @@ export class HeadCellFilter extends React.Component<Props, State> {
       classPrefix: ns
     } = this.props;
 
-    return (
-      <span
-        className={cx(
-          `${ns}TableCell-filterBtn`,
-          column.filtered || options && options.some((item: any) => item.selected) ? 'is-active' : ''
-        )}
-      >
-        <span onClick={this.openLayer}>
-          <Icon icon="column-filter" className="icon" />
-        </span>
-        {
-          isOpened ? (
-          <Overlay
-            container={popOverContainer || (() => findDOMNode(this))}
-            placement="left-bottom-left-top right-bottom-right-top"
-            target={
-              popOverContainer ? () => findDOMNode(this) : null
-            }
-            show
-          >
-            <PopOver
-              classPrefix={ns}
-              onHide={this.closeLayer}
-              className={cx(
-                `${ns}TableCell-filterPopOver`
-              )}
-              overlay
-            >
-              {options && options.length > 0 ? (
-                <ul className={cx('DropDown-menu')}>
-                  {!column.filterMultiple
-                    ? options.map((option: any, index) => (
-                        <li
-                          key={index}
-                          className={cx({
-                            'is-active': option.selected
-                          })}
-                          onClick={this.handleClick.bind(this, option.value)}
-                        >
-                          {option.text}
-                        </li>
-                      ))
-                    : options.map((option: any, index) => (
-                        <li key={index}>
-                          <CheckBox
-                            classPrefix={ns}
-                            onChange={this.handleCheck.bind(this, option.value)}
-                            checked={option.selected}
-                          >
-                            {option.text}
-                          </CheckBox>
-                        </li>
-                      ))}
-                  {column.filterMultiple ? (
-                    <li
-                      key="DropDown-multiple-menu"
-                      className={cx('DropDown-multiple-menu')}
+    const filterProps = {
+      filterDropdown: (payload: FilterDropdownProps) => {
+        const {setSelectedKeys, selectedKeys, confirm, clearFilters} = payload
+        return options && options.length > 0 ? (
+          <ul className={cx('DropDown-menu')}>
+            {!column.filterMultiple
+              ? options.map((option: any, index) => (
+                  <li
+                    key={index}
+                    className={cx({
+                      'is-active': option.selected
+                    })}
+                    onClick={() => this.handleClick(confirm, setSelectedKeys, [option.value])}
+                  >
+                    {option.text}
+                  </li>
+                ))
+              : options.map((option: any, index) => (
+                  <li key={index}>
+                    <CheckBox
+                      classPrefix={ns}
+                      onChange={e =>
+                        this.handleCheck(confirm, setSelectedKeys, e
+                          ? [option.value] : option.value)}
+                      checked={option.selected}
                     >
-                      <Button
-                        size={'xs'}
-                        level={'primary'}
-                        onClick={this.handleConfirmClick.bind(this)}
-                        >确定</Button>
-                      <Button
-                        size={'xs'}
-                        onClick={this.handleCancelClick.bind(this)}
-                        >取消</Button>
-                    </li>
-                  ) : null}
-                </ul>
-              ) : null}
-            </PopOver>
-          </Overlay>)
-          : null
-        }
-      </span>
+                      {option.text}
+                    </CheckBox>
+                  </li>
+                ))}
+            {column.filterMultiple ? (
+              <li
+                key="dropDown-multiple-menu"
+                className={cx('DropDown-multiple-menu')}
+              >
+                <Button
+                  size={'xs'}
+                  level={'primary'}
+                  onClick={() => this.handleConfirmClick(confirm)}
+                  >确定</Button>
+                <Button
+                  size={'xs'}
+                  onClick={() => this.handleCancelClick(confirm, setSelectedKeys)}
+                  >取消</Button>
+              </li>
+            ) : null}
+          </ul>
+        ) : null
+      },
+      setSelectedKeys: (keys: Array<string>) => this.setState({filteredValue: keys})
+    };
+
+    return (
+      <HeadCellDropDown
+        className={`${ns}TableCell-filterBtn`}
+        layerClassName={`${ns}TableCell-filterPopOver`}
+        filterIcon={<Icon icon="column-filter" className="icon" />}
+        active={column.filtered || options && options.some((item: any) => item.selected)}
+        popOverContainer={popOverContainer ? popOverContainer : () => findDOMNode(this)}
+        selectedKeys={this.state.filteredValue}
+        {...filterProps}
+        >
+      </HeadCellDropDown>
     );
   }
 
-  openLayer() {
-    this.setState({isOpened: true});
+  handleClick(
+    confirm: (payload?: FilterPayload) => void,
+    setSelectedKeys?: (keys?: (string | Array<string | number>)) => void,
+    selectedKeys?: Array<string>
+  ) {
+    const {onFilter, column} = this.props;
+
+    setSelectedKeys && setSelectedKeys(selectedKeys);
+
+    onFilter && onFilter({[column.key] : selectedKeys});
+    confirm();
   }
 
-  closeLayer() {
-    this.setState({isOpened: false});
-  }
-
-  handleClick(value: string) {
-    const {onQuery, column} = this.props;
-
-    this.setState({filteredValue: [value]});
-
-    onQuery && onQuery({[column.key] : value});
-    this.closeLayer();
-  }
-
-  handleCheck(value: string) {
+  handleCheck(
+    confirm: (payload?: FilterPayload) => void,
+    setSelectedKeys?: ((keys: (string | Array<string | number>)) => void | undefined),
+    selectedKeys?: Array<string>
+  ) {
     const filteredValue = this.state.filteredValue;
-    if (value) {
-      this.setState({filteredValue: [...filteredValue, value]});
-    } else {
-      this.setState({filteredValue: filteredValue.filter(v => v !== value)});
+    // 选中
+    if (Array.isArray(selectedKeys)) {
+      setSelectedKeys && setSelectedKeys([...filteredValue, ...selectedKeys]);
+    } else { // 取消选中
+      setSelectedKeys && setSelectedKeys(filteredValue.filter(v => v !== selectedKeys));
     }
   }
 
-  handleConfirmClick() {
-    const {onQuery, column} = this.props;
-    onQuery && onQuery({[column.key] : this.state.filteredValue});
-    this.closeLayer();
+  handleConfirmClick(confirm: (payload?: FilterPayload) => void) {
+    const {onFilter, column} = this.props;
+    onFilter && onFilter({[column.key] : this.state.filteredValue});
+    confirm();
   }
 
-  handleCancelClick() {
-    this.setState({filteredValue: []});
-    this.closeLayer();
+  handleCancelClick(
+    confirm: (payload?: FilterPayload) => void,
+    setSelectedKeys?: ((keys: (string | Array<string | number>)) => void | undefined)
+  ) {
+    setSelectedKeys && setSelectedKeys([]);
+    confirm();
   }
 }
 

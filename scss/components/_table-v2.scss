@@ -1,105 +1,96 @@
-.#{$ns}Table {
+.#{$ns}Table-v2 {
   position: relative;
 
   border-radius: var(--Table-borderRadius);
   margin-bottom: var(--gap-md);
 
-  .#{$ns}Form-control > & {
-    margin-bottom: var(--gap-sm);
-  }
+  &.#{$ns}Table-bordered {
+    border-width: var(--Table-borderWidth) var(--Table-borderWidth) 0 var(--Table-borderWidth);
+    border-style: solid;
+    border-color: var(--Table-borderColor);
+    border-collapse: inherit;
 
-  &-fixedLeft,
-  &-fixedRight {
-    position: absolute;
-    background: var(--Table-bg);
-    z-index: var(--Table-fixed-zIndex);
-    top: auto;
-    box-shadow: none;
-  }
+    .#{$ns}Table-table {
+      > thead > tr > th,
+      > tbody > tr > td,
+      > tfoot > tr > td {
+        border-right: var(--Table-borderWidth) solid var(--Table-borderColor);
 
-  &-fixedLeft {
-    // 还是改成默认不显示，footable 展示的时候，配置 固定列还没修复
-    left: 0;
-    top: -999999px;
-
-    &.in {
-      box-shadow: var(--Table-fixedLeft-boxShadow);
-      top: auto;
-    }
-
-    & > .#{$ns}Table-table {
-      > thead > tr > th:last-child,
-      > tbody > tr > td:last-child {
-        padding-right: var(--TableCell-paddingX);
-      }
-
-      // > thead > tr > th:last-child {
-      //   border-right: var(--Table-thead-borderWidth) solid var(--Table-thead-borderColor);
-      // }
-    }
-  }
-
-  &-fixedRight {
-    // 还是改成默认不显示，footable 展示的时候，配置 固定列还没修复
-    right: 0;
-    top: -999999px;
-
-    &.in {
-      box-shadow: var(--Table-fixedRight-boxShadow);
-      top: auto;
-    }
-
-    & > .#{$ns}Table-table {
-      > thead > tr > th:first-child,
-      > tbody > tr > td:first-child {
-        padding-left: var(--TableCell-paddingX);
-      }
-
-      // > thead > tr > th:first-child {
-      //   border-left: var(--Table-thead-borderWidth) solid var(--Table-thead-borderColor);
-      // }
-    }
-  }
-
-  &-fixedTop {
-    position: absolute;
-    background: var(--Table-bg);
-    z-index: -1;
-    opacity: 0;
-    box-shadow: var(--Table-fixedTop-boxShadow);
-
-    // box-sizing: content-box;
-    // padding: var(--gap-base) var(--gap-base) 0 var(--gap-base);
-    // margin: calc(var(--gap-base) * -1) calc(var(--gap-base) * -1) 0
-    //   calc(var(--gap-base) * -1);
-    // > * {
-    //   box-sizing: border-box;
-    // }
-
-    &.in {
-      position: fixed;
-      opacity: 1;
-      z-index: $zindex-affix;
-    }
-
-    > .#{$ns}Table-fixedLeft,
-    > .#{$ns}Table-fixedRight {
-      z-index: $zindex-affix + 10;
-      // box-shadow: none;
-      background: transparent;
-    }
-
-    &.is-fakeHide {
-      > .#{$ns}Table-fixedLeft,
-      > .#{$ns}Table-fixedRight,
-      > .#{$ns}Table-wrapper {
-        visibility: hidden;
-        position: absolute;
+        &:last-child {
+          border-right: none;
+        }
       }
     }
+
+    .#{$ns}Table-footer {
+      border-bottom: var(--Table-borderWidth) solid var(--Table-borderColor);
+    }
+  
+    .#{$ns}Table-title {
+      border-bottom: var(--Table-borderWidth) solid var(--Table-borderColor);
+    }
   }
 
-  &-heading {
+  &.#{$ns}Table-large {
+    .#{$ns}Table-table {
+      > thead > tr {
+        > th {
+          padding: var(--TableCell-paddingY-large) var(--TableCell-paddingX-large);
+        }
+      }
+
+      > tbody > tr {
+        > td,
+        > th {
+          padding: var(--TableCell-paddingY-large) var(--TableCell-paddingX-large);
+        }
+      }
+
+      > tfoot > tr {
+        > td {
+          padding: var(--TableCell-paddingY-large) var(--TableCell-paddingX-large);
+        }
+      }
+    }
+
+    .#{$ns}TableCell-filterBtn {
+      right: calc(
+        var(--TableCell-paddingX-large) - var(--TableCell-filterBtn-width) / 2
+      );
+    }
+  }
+
+  &.#{$ns}Table-small {
+    .#{$ns}Table-table {
+      > thead > tr {
+        > th {
+          padding: var(--TableCell-paddingY-small) var(--TableCell-paddingX-small);
+        }
+      }
+
+      > tbody > tr {
+        > td,
+        > th {
+          padding: var(--TableCell-paddingY-small) var(--TableCell-paddingX-small);
+        }
+      }
+
+      > tfoot > tr {
+        > td {
+          padding: var(--TableCell-paddingY-small) var(--TableCell-paddingX-small);
+        }
+      }
+    }
+
+    .#{$ns}TableCell-filterBtn {
+      right: calc(
+        var(--TableCell-paddingX-small) - var(--TableCell-filterBtn-width) / 2
+      );
+    }
+  }
+
+  .#{$ns}Table-title,
+  .#{$ns}Table-footer {
     background: var(--Table-heading-bg);
     padding: calc(
         (
@@ -110,59 +101,17 @@
       var(--gap-sm);
   }
 
-  &--unsaved &-heading {
-    background: var(--Table--unsaved-heading-bg);
-    color: var(--Table--unsaved-heading-color);
-  }
-
-  &-wrapper {
-    overflow: hidden;
-  }
-
-  &-placeholder {
-    color: var(--text--muted-color);
-    text-align: center;
-    height: var(--Table-placeholder-height);
-    background: transparent !important;
-
-    &:hover {
-      color: var(--text--muted-color);
-      background: transparent !important;
-    }
-
-    > td {
-      vertical-align: middle !important;
-      text-align: center;
-    }
-  }
-
-  &-searchableForm {
-    background: var(--Table-searchableForm-backgroundColor);
-    border-radius: var(--Table-searchableForm-borderRadius);
-
-    &-footer {
-      padding: var(--Panel-footerPadding);
-      clear: both;
-    }
-
-    &-checkbox {
-      & > div > .#{$ns}CheckboxControl {
-        padding-top: 0;
-      }
-    }
-  }
-
-  &-header {
+  .#{$ns}Table-header {
     padding: var(--Table-toolbar-marginY) var(--Table-toolbar-marginX);
 
-    > * + .#{$ns}Button,
-    > * + .#{$ns}ButtonGroup,
-    > * + .#{$ns}ButtonToolbar {
-      margin-left: var(--Crud-toolbar-gap);
+    &.#{$ns}Table-sticky-holder {
+      position: sticky;
+      z-index: 3;
+      background: var(--Table-bg);
     }
   }
 
-  &-toolbar {
+  .#{$ns}Table-toolbar {
     @include clearfix();
     display: flex;
     margin: 0 var(--Table-toolbar-marginX) var(--Table-toolbar-marginY);
@@ -180,24 +129,11 @@
     }
   }
 
-  &-header + &-toolbar {
+  .#{$ns}Table-header + .#{$ns}Table-toolbar {
     padding-top: 0;
   }
 
-  &-contentWrap {
-    position: relative;
-    margin-bottom: var(--Table-toolbar-marginY);
-  }
-
-  &-actions {
-    display: inline-block;
-
-    > * {
-      margin-right: var(--Crud-toolbar-gap);
-    }
-  }
-
-  &-content {
+  .#{$ns}Table-content {
     min-height: 0.01%;
     overflow-x: auto;
     transform: translateZ(0);
@@ -207,22 +143,7 @@
     }
   }
 
-  &-content-colDragLine {
-    position: absolute;
-    width: 7px;
-    top: 0;
-    bottom: 0;
-    right: -4px;
-    cursor: col-resize;
-    user-select: none;
-    opacity: 0.5;
-    z-index: $zindex-top;
-    &:hover {
-      background: var(--primary);
-    }
-  }
-
-  &-table {
+  .#{$ns}Table-table {
     width: 100%;
     min-width: 100%;
     margin-bottom: 0;
@@ -231,7 +152,7 @@
     background: var(--Table-bg);
     border-spacing: 0;
     border-collapse: collapse;
-    border: var(--Table-borderWidth) solid var(--Table-borderColor);
+    border: none;
 
     & th,
     & td {
@@ -250,108 +171,61 @@
       text-align: right;
     }
 
-    &--withCombine {
-      > thead > tr > th,
-      > tbody > tr > td {
-        &:first-child {
-          padding-left: var(--TableCell-paddingX) !important;
-        }
-
-        &:last-child {
-          padding-right: var(--TableCell-paddingX) !important;
-        }
-      }
-
-      // reset
-      > tbody > tr {
-        @if $Table-strip-bg !=transparent {
-          &.#{$ns}Table-tr--odd {
-            background: transparent;
-          }
-        }
-
-        &:hover {
-          background: transparent;
-        }
-
-        > td {
-          vertical-align: middle;
-        }
-
-        > td:not(:last-child) {
-          border-right: var(--Table-borderWidth) solid var(--Table-borderColor);
-        }
-      }
-    }
-
-    &--checkOnItemClick {
-      > tbody > tr {
-        cursor: pointer;
-      }
-    }
-
     > thead > tr {
       > th {
         background: var(--Table-thead-bg);
-        padding: var(--TableCell-paddingY) var(--TableCell-paddingX);
+        padding: var(--TableCell-paddingY-default) var(--TableCell-paddingX);
 
         &:first-child {
-          padding-left: var(--TableCell--edge-paddingX);
+          padding-left: var(--TableCell--edge-paddingX-default);
         }
 
-        &:last-child {
-          padding-right: var(--TableCell--edge-paddingX);
-          .#{$ns}Table-content-colDragLine {
-            // 避免出现横向滚动条
-            width: 4px;
-            right: 0;
-          }
+        &.#{$ns}Table-cell-last {
+          padding-right: var(--TableCell--edge-paddingX-default);
         }
 
-        &:not(:last-child) {
+        &:not(.#{$ns}Table-cell-last) {
           border-right: var(--Table-thead-borderWidth) solid
             var(--Table-thead-borderColor);
         }
-        border-bottom: var(--Table-thead-borderWidth) solid
-          var(--Table-thead-borderColor);
+
+        &.#{$ns}Table-row-expand-icon-cell {
+          border-right: 0;
+        }
 
         font-size: var(--Table-thead-fontSize);
         color: var(--Table-thead-color);
         font-weight: var(--fontWeightNormal);
         white-space: nowrap;
 
-        // .#{$ns}TableCell--title {
-        //   display: flex;
-        //   align-items: center;
-        // }
         .#{$ns}Remark {
           margin-left: var(--gap-xs);
+          position: relative;
+          top: 2px;
+        }
+
+        .#{$ns}Table-head-cell-wrapper {
+          display: flex;
         }
       }
     }
 
-    > thead > tr + tr {
-      border-top: var(--Table-borderWidth) solid var(--Table-borderColor);
-    }
-
-    > thead > tr {
+    > thead > tr:not(:last-child) {
       border-bottom: var(--Table-borderWidth) solid var(--Table-borderColor);
     }
 
     > tbody > tr {
       position: relative;
+      border-bottom: var(--Table-borderWidth) solid var(--Table-borderColor);
 
-      & + tr {
-        border-top: var(--Table-borderWidth) solid var(--Table-borderColor);
-        > th {
-          border-top: var(--Table-thead-borderWidth) solid
-            var(--Table-thead-borderColor);
+      &.#{$ns}Table-summary-row {
+        > td {
+          background: var(--Table-thead-bg);
         }
       }
 
       > th {
         background: var(--Table-thead-bg);
-        // font-size: var(--Table-thead-fontSize);
         color: var(--Table-thead-color);
         font-weight: var(--fontWeightNormal);
         white-space: nowrap;
@@ -361,15 +235,35 @@
 
       > td,
       > th {
-        padding: var(--TableCell-paddingY) var(--TableCell-paddingX);
+        padding: var(--TableCell-paddingY-default) var(--TableCell-paddingX);
 
         &:first-child {
-          padding-left: var(--TableCell--edge-paddingX);
+          padding-left: var(--TableCell--edge-paddingX-default);
         }
 
         &:last-child {
-          padding-right: var(--TableCell--edge-paddingX);
+          padding-right: var(--TableCell--edge-paddingX-default);
         }
+      }
+
+      .#{$ns}Table-cell-wrapper-prefix {
+        display: flex;
+
+        .#{$ns}Table-expandBtn {
+          margin-right: 5px;
+        }
+      }
+
+      .#{$ns}Table-cell-height-large {
+        height: var(--TableCell-line-height-large);
+        line-height: var(--TableCell-line-height-large);
+        overflow: hidden;
+      }
+
+      .#{$ns}Table-cell-height-middle {
+        height: var(--TableCell-line-height-middle);
+        line-height: var(--TableCell-line-height-middle);
+        overflow: hidden;
       }
 
       @if var(--Table-strip-bg) !=transparent {
@@ -417,7 +311,9 @@
       }
 
       &.is-summary {
-        // font-weight: var(--fontWeightNormal);
+        background: var(--Table-thead-bg);
+        color: var(--Table-thead-color);
+        font-weight: var(--fontWeightNormal);
       }
 
       &.bg-light {
@@ -525,8 +421,6 @@
     > thead > tr > th.#{$ns}Table-checkCell,
     > tbody > tr > td.#{$ns}Table-checkCell {
       border-right: 0;
-      width: px2rem(1px);
-      padding-right: var(--TableCell-paddingX);
       white-space: nowrap;
 
       .#{$ns}Checkbox {
@@ -569,7 +463,6 @@
     }
 
     > tbody > tr.is-expanded > td.#{$ns}Table-expandCell {
-      // position: relative;
 
       &::before {
         content: '';
@@ -603,21 +496,179 @@
       );
       position: relative;
     }
+
+    > tbody > tr.#{$ns}Table-row-disabled {
+      background: var(--TableRow-onDisabled-bg);
+      color: var(--TableRow-onDisabled-color);
+    }
+
+    > tbody > tr:not(.#{$ns}Table-row-disabled) > td.#{$ns}Table-cell-row-hover {
+      background: var(--Table-onHover-bg);
+      border-color: var(--Table-onHover-borderColor);
+      color: var(--Table-onHover-color);
+    }
+
+    > thead > tr > th.#{$ns}Table-cell-fix-left-last,
+    > tbody > tr > td.#{$ns}Table-cell-fix-left-last,
+    > tfoot > tr > td.#{$ns}Table-cell-fix-left-last {
+      &:after {
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: -1px;
+        width: 30px;
+        transform: translate(100%);
+        transition: box-shadow .3s;
+        content: "";
+        pointer-events: none;
+      }
+    }
+
+    > thead > tr > th.#{$ns}Table-cell-fix-right-first,
+    > tbody > tr > td.#{$ns}Table-cell-fix-right-first,
+    > tfoot > tr > td.#{$ns}Table-cell-fix-right-last {
+      &:after {
+        position: absolute;
+        top: 0;
+        bottom: -1px;
+        left: 0;
+        width: 30px;
+        transform: translate(-100%);
+        transition: box-shadow .3s;
+        content: "";
+        pointer-events: none;
+      }
+    }
+
+    > tbody > tr > td.#{$ns}Table-cell-expand-icon-cell {
+      text-align: center;
+
+      .#{$ns}Table-row-indent {
+        height: 1px;
+      }
+    }
+
+    > tbody > tr.#{$ns}Table-expanded-row > td {
+      background: var(--Table-onHover-bg);
+    }
+
+    > tfoot > tr {
+      border-bottom: var(--Table-borderWidth) solid var(--Table-borderColor);
+
+      > td {
+        padding: var(--TableCell-paddingY-default) var(--TableCell-paddingX);
+        background: var(--Table-thead-bg);
+      }
+    }
   }
 
-  &Cell-sortBtn {
+  .#{$ns}Table-container {
+    .#{$ns}Table-header {
+      padding: 0;
+    }
+  }
+
+  &.#{$ns}Table-ping-left {
+    .#{$ns}Table-table {
+      > thead > tr > th.#{$ns}Table-cell-fix-left-last,
+      > tbody > tr > td.#{$ns}Table-cell-fix-left-last,
+      > tfoot > tr > td.#{$ns}Table-cell-fix-left-last {
+        &:after {
+          box-shadow: var(--Table-fixedLeftLast-boxShadow);
+        }
+      }
+
+      > tbody > tr:not(.#{$ns}Table-row-disabled) {
+        > td.#{$ns}Table-cell-fix-left {
+          border-right: none;
+        }
+
+        > td.#{$ns}Table-cell-fix-left:not(.#{$ns}Table-cell-row-hover) {
+          background: #FFF;
+        }
+      }
+
+      > tfoot > tr > td:not(:last-child) {
+        &.#{$ns}Table-cell-fix-left-last {
+          border-right: none;
+        }
+      }
+
+      > thead > tr > th:not(:last-child):not(:first-child) {
+        &.#{$ns}Table-cell-fix-left-last {
+          border-right: none;
+        }
+      }
+    }
+  }
+
+  &.#{$ns}Table-ping-right {
+    .#{$ns}Table-table {
+      > thead > tr > th.#{$ns}Table-cell-fix-right-first,
+      > tbody > tr > td.#{$ns}Table-cell-fix-right-first,
+      > tfoot > tr > td.#{$ns}Table-cell-fix-right-first {
+        &:after {
+          box-shadow: var(--Table-fixedRightFirst-boxShadow);
+        }
+      }
+
+      > tbody > tr:not(.#{$ns}Table-row-disabled) {
+        > td.#{$ns}Table-cell-fix-right {
+          border-right: none;
+        }
+
+        > td.#{$ns}Table-cell-fix-right:not(.#{$ns}Table-cell-row-hover) {
+          background: #FFF;
+        }
+      }
+    }
+
+    &:not(.#{$ns}Table-bordered) {
+      .#{$ns}Table-table {
+        > thead > tr > th.#{$ns}Table-cell-fix-right-first-prev {
+          border-right: none;
+        }
+
+        > thead > tr > th:not(:last-child) {
+          &.#{$ns}Table-cell-fix-right-first {
+            border-right: none;
+          }
+        }
+      }
+    }
+  }
+
+  &.#{$ns}Table-resizable {
+    .#{$ns}Table-table {
+      > thead > tr > th {
+        position: relative;
+
+        .#{$ns}Table-thead-resizable {
+          position: absolute;
+          width: 1px;
+          right: 0;
+          top: 0;
+          bottom: 0;
+          cursor: col-resize;
+        }
+      }
+    }
+  }
+
+  .#{$ns}Table-loading {
+    padding: var(--Table-loading-padding);
+    text-align: center;
+  }
+
+  .#{$ns}TableCell-sortBtn {
     cursor: pointer;
     width: var(--TableCell-sortBtn-width);
     height: var(--gap-md);
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    position: absolute;
-    right: calc(var(--TableCell-paddingX) - var(--TableCell-sortBtn-width) / 2);
-    top: 50%;
-    transform: translateY(-50%);
+    position: static;
+    display: inline-block;
+    transform: none;
     color: var(--icon-color);
+    margin-left: var(--TableCell-icon-gap);
 
     &:hover {
       color: var(--icon-onHover-color);
@@ -627,15 +678,14 @@
     &--down > svg,
     &--default > svg {
       color: inherit;
-      width: 12px;
-      height: 12px;
+      width: 13px;
+      height: 13px;
     }
 
     &--up,
     &--down,
     &--default {
       display: none;
-      position: absolute;
       z-index: 2;
       font-style: normal;
 
@@ -660,14 +710,12 @@
     }
   }
 
-  &Cell-searchBtn {
+  .#{$ns}TableCell-searchBtn {
     cursor: pointer;
-    // width: var(--TableCell-searchBtn-width);
-    position: absolute;
-    right: var(--gap-xs);
-    top: 50%;
+    position: static;
     transform: translateY(-50%);
     color: var(--text--muted-color);
+    margin-left: var(--TableCell-icon-gap);
 
     svg.icon {
       width: 12px;
@@ -682,7 +730,7 @@
     }
   }
 
-  &Cell-searchPopOver {
+  .#{$ns}TableCell-searchPopOver {
     border: none;
     min-width: px2rem(320px);
     max-width: px2rem(640px);
@@ -692,20 +740,18 @@
     }
   }
 
-  &Cell-filterBtn {
+  .#{$ns}TableCell-filterBtn {
     cursor: pointer;
     width: var(--TableCell-filterBtn-width);
-    position: absolute;
-    right: calc(
-      var(--TableCell-paddingX) - var(--TableCell-filterBtn-width) / 2
-    );
-    top: 50%;
-    transform: translateY(-50%);
+    position: static;
+    display: inline-block;
+    transform: none;
     color: var(--text--muted-color);
+    margin-left: var(--TableCell-icon-gap);
 
     svg.icon {
-      width: 12px;
-      height: 12px;
+      width: 13px;
+      height: 13px;
     }
 
     &:hover {
@@ -721,14 +767,13 @@
     }
   }
 
-  &Cell-filterPopOver {
+  .#{$ns}TableCell-filterPopOver {
     border: none;
     width: px2rem(160px);
 
     .#{$ns}DropDown-menu {
       margin: 0;
       padding: 0;
-      border-radius: 0;
 
       .#{$ns}DropDown-divider {
         height: var(--TableCell-filterPopOver-dropDownItem-height);
@@ -753,90 +798,40 @@
         }
       }
     }
-  }
 
-  &-itemActions-wrap {
-    position: absolute;
-    width: 100%;
-    z-index: calc(var(--Table-fixed-zIndex) + 1);
-    left: 0;
-    top: 0;
-    min-height: 30px;
-    pointer-events: none;
-    box-shadow: var(--Table-onHover-boxShadow);
-  }
+    .#{$ns}DropDown-multiple-menu {
+      text-align: center;
+      border-top: 1px solid var(--Table-borderColor);
 
-  &-itemActions {
-    pointer-events: all;
-    position: absolute;
-    // background: var(--Table-onHover-bg);
-    background: linear-gradient(
-      90deg,
-      rgba(var(--Table-onHover-bg-rgb), 0) 0%,
-      rgba(var(--Table-onHover-bg-rgb), 1) 20%,
-      rgba(var(--Table-onHover-bg-rgb), 1) 100%
-    );
-    top: var(--Table-borderWidth);
-    bottom: 0;
-    right: 0;
-    padding-left: px2rem(80px);
-    padding-right: var(--TableCell-paddingX);
-    display: flex;
-    align-items: center;
-
-    a {
-      cursor: pointer;
-      padding: var(--gap-xs) var(--gap-sm);
-      color: var(--link-color);
-      text-decoration: var(--link-decoration);
+      .#{$ns}Button {
+        margin: 0 5px;
+        padding: 0 10px;
+      }
 
       &:hover {
-        color: var(--link-onHover-color);
-        text-decoration: var(--link-onHover-decoration);
-      }
-
-      &.is-disabled {
-        pointer-events: none;
-        opacity: var(--Button-onDisabled-opacity);
-        color: var(--text--muted-color);
+        background: none;
       }
     }
   }
 
-  &-dragTip {
-    color: var(--text--loud-color);
-    clear: both;
-    margin-top: var(--gap-xs);
-    width: 100%;
-    color: var(--info);
-  }
+  .#{$ns}TableCell-selectionBtn {
+    cursor: pointer;
+    margin-left: 4px;
 
-  &-footTable {
-    position: relative;
-    width: 100%;
-    border-spacing: 0;
-    border-collapse: collapse;
-    margin-bottom: 0;
-    background: transparent;
-
-    > tbody > tr > th {
-      width: px2rem(120px);
-      text-align: right;
-      padding: var(--TableCell-paddingY) var(--TableCell-paddingX);
-    }
-
-    > tbody > tr > td {
-      word-break: break-all;
-      padding: var(--TableCell-paddingY) var(--TableCell-paddingX);
-    }
-
-    > tbody > tr:not(:first-child) {
-      border-top: var(--Table-borderWidth) solid
-        var(--Table-tbody-borderTopColor);
+    svg.icon {
+      transform: rotate(270deg);
+      font-size: 12px;
     }
   }
 
-  &-expandBtn {
+  .#{$ns}TableCell-selectionPopOver {
+    .#{$ns}DropDown-menu {
+      margin: 0;
+      padding: 0;
+    }
+  }
+
+  &.#{$ns}Table-expandBtn {
     position: relative;
     z-index: 1;
     color: var(--Table-expandBtn-color);
@@ -869,25 +864,9 @@
     }
   }
 
-  &-dragBtn {
-    margin-right: var(--gap-xs);
-    display: inline-block;
-    visibility: hidden;
-    cursor: move;
-    color: var(--icon-color);
-
-    &:hover {
-      text-decoration: none;
-      color: var(--icon-onHover-color);
-    }
-    > svg {
-      vertical-align: -2px;
-    }
-  }
-
-  &-table > tbody > tr:hover .#{$ns}Table-dragBtn,
-  &-table > tbody > tr.is-dragging .#{$ns}Table-dragBtn,
-  &-table > tbody > tr.is-drop-allowed .#{$ns}Table-dragBtn {
+  .#{$ns}Table-table > tbody > tr:hover .#{$ns}Table-dragBtn,
+  .#{$ns}Table-table > tbody > tr.is-dragging .#{$ns}Table-dragBtn,
+  .#{$ns}Table-table > tbody > tr.is-drop-allowed .#{$ns}Table-dragBtn {
     visibility: visible;
   }
 
@@ -896,30 +875,10 @@
     position: absolute;
   }
 
-  &-badge {
+  .#{$ns}Table-badge {
     position: absolute;
     top: 0;
     left: 0;
-  }
-
-  &--autoFillHeight {
-    margin-bottom: 0;
-    > .#{$ns}Table-contentWrap {
-      > .#{$ns}Table-content table {
-        border-top: none; // 不然会导致拖动时顶部露出内容
-      }
-      > .#{$ns}Table-content table thead {
-        position: sticky; // 简单实现表头吸顶效果，不考虑 IE 11 不然太麻烦
-        top: 0;
-        z-index: 1; // 由于 badge 导致 tbody 里 tr 的 position: relative 了
-      }
-    }
-    > .#{$ns}Table-fixedTop {
-      display: none;
-    }
-    > .#{$ns}Table-footToolbar {
-      margin-bottom: 0;
-    }
   }
 }
 

@@ -20,12 +20,16 @@ export interface Props extends ThemeProps, LocaleProps {
   children?: any;
   tagName?: string;
   style?: Object;
-  column?: ColumnProps
+  column?: ColumnProps;
+  wrapperComponent: any;
+  groupId?: string; // 表头分组随机生成的id
+  depth?: number;  // 表头分组
 }
 
 export class BodyCell extends React.Component<Props> {
   static defaultProps = {
     fixed: '',
+    wrapperComponent: 'td',
     rowSpan: null,
     colSpan: null
   };
@@ -38,28 +42,16 @@ export class BodyCell extends React.Component<Props> {
       key,
       children,
       className,
-      tagName,
-      style,
       column,
+      style,
+      groupId,
+      depth,
+      wrapperComponent: Component,
       classnames: cx
     } = this.props;
 
-    if (tagName === 'TH') {
-      return (
-        <th
-          key={key || null}
-          rowSpan={rowSpan && rowSpan > 1 ? rowSpan : null}
-          colSpan={colSpan && colSpan > 1 ? colSpan : null}
-          className={cx('Table-cell', className, {
-            [cx(`Table-cell-fix-${fixed}`)] : fixed
-          })}
-          style={fixed ? {position: 'sticky', zIndex} : style}
-        >{children}</th>
-      );
-    }
-
     return (
-      <td
+      <Component
         key={key || null}
         rowSpan={rowSpan && rowSpan > 1 ? rowSpan : null}
         colSpan={colSpan && colSpan > 1 ? colSpan : null}
@@ -67,8 +59,10 @@ export class BodyCell extends React.Component<Props> {
           [cx(`Table-cell-fix-${fixed}`)] : fixed,
           [`text-${column?.align}`] : column?.align
         })}
-        style={fixed ? {position: 'sticky', zIndex} : {}}
-      >{children}</td>
+        style={fixed ? {position: 'sticky', zIndex, ...style} : {...style}}
+        data-group-id={groupId || null}
+        data-depth={depth || null}
+      >{children}</Component>
     );
   }
 }

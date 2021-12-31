@@ -639,8 +639,7 @@ export const TableStore = iRendererStore
       },
 
       get disabledHeadCheckbox() {
-        // 设置为multiple 默认没选择会报错
-        const selectedLength = self.data?.selectedItems?.length;
+        const selectedLength = self.data?.selectedItems.length;
         const maxLength = self.maxKeepItemSelectionLength;
 
         if (!self.data || !self.keepItemSelectionOnPageChange || !maxLength) {

@@ -1309,14 +1309,34 @@
   --Table-searchableForm-borderRadius: #{px2rem(4px)};
 
   --TableCell--edge-paddingX: var(--gap-md);
+  --TableCell--edge-paddingX-default: var(--gap-base);
   --TableCell-filterBtn--onActive-color: var(--primary);
   --TableCell-filterBtn-width: #{px2rem(16px)};
   --TableCell-filterPopOver-dropDownItem-height: #{px2rem(34px)};
   --TableCell-filterPopOver-dropDownItem-padding: 0 #{px2rem(12px)};
+  --TableCell-line-height-large: #{px2rem(40px)};
+  --TableCell-line-height-middle: #{px2rem(30px)};
   --TableCell-height: #{px2rem(40px)};
+  --TableCell-height-default: #{px2rem(41px)};
+  --TableCell-height-large: #{px2rem(61px)};
+  --TableCell-height-small: #{px2rem(33px)};
   --TableCell-paddingX: var(--gap-sm);
+  --TableCell-paddingX-large: var(--gap-base);
+  --TableCell-paddingX-small: var(--gap-xs);
   --TableCell-paddingY: calc(
     (var(--TableCell-height) - var(--Table-fontSize) * var(--Table-lineHeight)) /
+      2
+  );
+  --TableCell-paddingY-default: calc(
+    (var(--TableCell-height-default) - var(--Table-fontSize) * var(--Table-lineHeight)) /
+      2
+  );
+  --TableCell-paddingY-large: calc(
+    (var(--TableCell-height-large) - var(--Table-fontSize) * var(--Table-lineHeight)) /
+      2
+  );
+  --TableCell-paddingY-small: calc(
+    (var(--TableCell-height-small) - var(--Table-fontSize) * var(--Table-lineHeight)) /
       2
   );
   --TableCell-searchBtn--onActive-color: var(--primary);
@@ -1325,6 +1345,7 @@
   --TableCell-sortBtn--default-opacity: 0;
   --TableCell-sortBtn--onActive-color: var(--primary);
   --TableCell-sortBtn-width: #{px2rem(8px)};
+  --TableCell-icon-gap: var(--gap-sm);
 
   --Table-fixedLeftLast-boxShadow: inset 10px 0 8px -8px #00000026;
   --Table-fixedRightFirst-boxShadow: inset -10px 0 8px -8px #00000026;

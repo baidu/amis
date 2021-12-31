@@ -1043,6 +1043,7 @@ body.dark {
     flex-direction: column;
     flex-grow: 1;
     // overflow: hidden;
+    width: calc(100% - 350px);
 
     > div {
       flex: 1;
