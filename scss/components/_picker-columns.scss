@@ -22,7 +22,7 @@
     height: 100%;
     padding: var(--PickerColumns-action-padding);
     font-size: var(--PickerColumns-action-fontSize);
-    background-color: none !important;
+    background-color: transparent !important;
     border: none;
     cursor: pointer;
 
@@ -35,11 +35,11 @@
   }
 
   &-confirm {
-    color: var(--PickerColumns-confirmAction-color);
+    color: var(--PickerColumns-confirmAction-color) !important;
   }
 
   &-cancel {
-    color: var(--PickerColumns-cancelAction-color);
+    color: var(--PickerColumns-cancelAction-color) !important;
   }
 
   &-title {
