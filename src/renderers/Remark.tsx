@@ -107,7 +107,8 @@ class Remark extends React.Component<RemarkProps> {
               body:
                 tooltip && typeof tooltip !== 'string'
                   ? tooltip.content
-                  : tooltip
+                  : tooltip,
+              actions: []
             }
           },
           data
