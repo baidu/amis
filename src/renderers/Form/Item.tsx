@@ -1222,6 +1222,7 @@ export function asFormItem(config: Omit<FormItemConfig, 'component'>) {
             return (
               <Control
                 {...rest}
+                useMobileUI={useMobileUI}
                 onOpenDialog={this.handleOpenDialog}
                 size={config.sizeMutable !== false ? undefined : size}
                 onFocus={this.handleFocus}
