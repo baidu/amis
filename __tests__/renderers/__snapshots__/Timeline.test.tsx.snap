@@ -1,0 +1,124 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Renderer:timeline 1`] = `
+<div>
+  <div
+    class="cxd-Timeline cxd-Timeline-vertical cxd-Timeline-right"
+  >
+    <div
+      class="cxd-TimelineItem"
+    >
+      <div
+        class="cxd-TimelineItem-axle"
+      >
+        <div
+          class="cxd-TimelineItem-line"
+        />
+        <div
+          class="cxd-TimelineItem-round"
+          style="background-color: rgb(255, 178, 0);"
+        />
+      </div>
+      <div
+        class="cxd-TimelineItem-content"
+      >
+        <div
+          class="cxd-TimelineItem-time"
+        >
+          2019-02-07
+        </div>
+        <div
+          class="cxd-TimelineItem-title"
+        >
+          节点数据
+        </div>
+      </div>
+    </div>
+    <div
+      class="cxd-TimelineItem"
+    >
+      <div
+        class="cxd-TimelineItem-axle"
+      >
+        <div
+          class="cxd-TimelineItem-line"
+        />
+        <div
+          class="cxd-TimelineItem-round"
+          style="background-color: rgb(79, 134, 244);"
+        />
+      </div>
+      <div
+        class="cxd-TimelineItem-content"
+      >
+        <div
+          class="cxd-TimelineItem-time"
+        >
+          2019-02-08
+        </div>
+        <div
+          class="cxd-TimelineItem-title"
+        >
+          节点数据
+        </div>
+      </div>
+    </div>
+    <div
+      class="cxd-TimelineItem"
+    >
+      <div
+        class="cxd-TimelineItem-axle"
+      >
+        <div
+          class="cxd-TimelineItem-line"
+        />
+        <div
+          class="cxd-TimelineItem-round cxd-TimelineItem-round--success"
+        />
+      </div>
+      <div
+        class="cxd-TimelineItem-content"
+      >
+        <div
+          class="cxd-TimelineItem-time"
+        >
+          2019-02-09
+        </div>
+        <div
+          class="cxd-TimelineItem-title"
+        >
+          节点数据
+        </div>
+      </div>
+    </div>
+    <div
+      class="cxd-TimelineItem"
+    >
+      <div
+        class="cxd-TimelineItem-axle"
+      >
+        <div
+          class="cxd-TimelineItem-line"
+        />
+        <div
+          class="cxd-TimelineItem-round cxd-TimelineItem-round--warning"
+        />
+      </div>
+      <div
+        class="cxd-TimelineItem-content"
+      >
+        <div
+          class="cxd-TimelineItem-time"
+        >
+          2019-02-09
+        </div>
+        <div
+          class="cxd-TimelineItem-title"
+        >
+          节点数据
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;

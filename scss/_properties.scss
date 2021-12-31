@@ -626,10 +626,11 @@
   --DropDown-menu-paddingX: 0;
   --DropDown-menu-paddingY: var(--gap-xs);
   --DropDown-menuItem-onHover-bg: var(--ListMenu-item--onHover-bg);
-  --DropDown-menuItem-color: var(--text-color);
+  --DropDown-group-color: #848b99;
+  --DropDown-menuItem-color: #151a26;
   --DropDown-menuItem-onHover-color: var(--primary);
   --DropDown-menuItem-onActive-color: var(--primary);
-  --DropDown-menuItem-onDisabled-color: var(--text--muted-color);
+  --DropDown-menuItem-onDisabled-color: #b4b6ba;
   --DropDown-menuItem-paddingX: var(--gap-sm);
   --DropDown-menuItem-paddingY: calc(
     (var(--DropDown-menu-height) - var(--fontSizeBase) * var(--lineHeightBase)) /
@@ -1096,11 +1097,12 @@
   --PickerColumns-bg: white;
   --PickerColumns-toolbar-height: #{px2rem(50px)};
   --PickerColumns-title-fontSize: var(--fontSizeLg);
+  --PickerColumns-title-color: #222;
   --PickerColumns-title-lineHeight: 1.5;
-  --PickerColumns-action-padding: 0 var(--gap-sm);
-  --PickerColumns-action-fontSize: var(--fontSizeMd);
-  --PickerColumns-confirmAction-color: #{lighten($text-color, 25%)};
-  --PickerColumns-cancelAction-color: #{lighten($text-color, 50%)};
+  --PickerColumns-action-padding: 0 var(--gap-md);
+  --PickerColumns-action-fontSize: var(--fontSizeLg);
+  --PickerColumns-confirmAction-color: #2468f2;
+  --PickerColumns-cancelAction-color: #666;
   --PickerColumns-option-fontSize: var(--fontSizeLg);
   --PickerColumns-optionText-color: var(--text-color);
   --PickerColumns-optionDisabled-opacity: 0.3;
@@ -1110,6 +1112,8 @@
   --PopOver-bg: white;
   --PopOverAble-iconColor: inherit;
   --PopOverAble-onHover-iconColor: inherit;
+
+  --PopUp-cancelAction-color: #666;
 
   --Property-title-bg: #f2f2f2;
   --Property-label-bg: #f7f7f7;
