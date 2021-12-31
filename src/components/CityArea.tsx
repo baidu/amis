@@ -53,6 +53,8 @@ export interface AreaProps extends LocaleProps, ThemeProps {
   onConfirm?: (result: AreaColumnOption[], index: number) => void;
   /** 点击取消按钮时触发	 */
   onCancel?: (...args: unknown[]) => void;
+
+  popOverContainer?: any;
 }
 /**
  * 街道
@@ -87,6 +89,7 @@ const CityArea = memo<AreaProps>(props => {
     classnames: cx,
     translate: __,
     disabled = false,
+    popOverContainer,
     useMobileUI
   } = props;
 
@@ -281,6 +284,7 @@ const CityArea = memo<AreaProps>(props => {
       ) : null}
       <PopUp
         className={cx(`CityArea-popup`)}
+        container={popOverContainer}
         isShow={isOpened}
         showConfirm
         onConfirm={onConfirm}
