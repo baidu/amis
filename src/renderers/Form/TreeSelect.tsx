@@ -569,7 +569,8 @@ export default class TreeSelectControl extends React.Component<
       placeholder,
       popOverContainer,
       useMobileUI,
-      translate: __
+      translate: __,
+      env
     } = this.props;
 
     const {isOpened} = this.state;
@@ -633,7 +634,9 @@ export default class TreeSelectControl extends React.Component<
         ) : null}
         {mobileUI ? (
           <PopUp
-            container={popOverContainer}
+            container={
+              env && env.getModalContainer ? env.getModalContainer : undefined
+            }
             className={cx(`${ns}TreeSelect-popup`)}
             isShow={isOpened}
             onHide={this.close}

@@ -6,6 +6,7 @@ import 'moment/locale/zh-cn';
 import DateRangePicker, {
   DateRangePicker as BaseDateRangePicker
 } from '../../components/DateRangePicker';
+import {isMobile} from '../../utils/helper';
 
 /**
  * DateRange 日期范围控件
@@ -173,14 +174,21 @@ export default class DateRangeControl extends React.Component<DateRangeProps> {
       data,
       format,
       env,
+      useMobileUI,
       ...rest
     } = this.props;
-
+    const mobileUI = useMobileUI && isMobile();
     return (
       <div className={cx(`${ns}DateRangeControl`, className)}>
         <DateRangePicker
           {...rest}
+          useMobileUI={useMobileUI}
           classPrefix={ns}
+          popOverContainer={
+            mobileUI && env && env.getModalContainer
+              ? env.getModalContainer
+              : undefined
+          }
           data={data}
           format={format}
           minDate={minDate ? filterDate(minDate, data, format) : undefined}

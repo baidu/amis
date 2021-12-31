@@ -631,7 +631,7 @@ export default class NestedSelectControl extends React.Component<
       loading,
       borderMode,
       useMobileUI,
-      popOverContainer
+      env
     } = this.props;
 
     const mobileUI = useMobileUI && isMobile();
@@ -676,7 +676,9 @@ export default class NestedSelectControl extends React.Component<
         {mobileUI ? (
           <PopUp
             className={cx(`NestedSelect-popup`)}
-            container={popOverContainer}
+            container={
+              env && env.getModalContainer ? env.getModalContainer : undefined
+            }
             isShow={this.state.isOpened}
             onHide={this.close}
             showConfirm={false}
