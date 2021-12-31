@@ -896,7 +896,7 @@ export class DateRangePicker extends React.Component<
           useMobileUI && isMobile() ? (
             <PopUp
               isShow={isOpened}
-              container={popOverContainer || (() => findDOMNode(this))}
+              container={popOverContainer}
               className={cx(`${ns}CalendarMobile-pop`)}
               onHide={this.close}
               header={CalendarMobileTitle}

@@ -79,7 +79,7 @@ export class PopOverContainer extends React.Component<
         {mobileUI ? (
           <PopUp
             isShow={this.state.isOpened}
-            container={popOverContainer || this.getParent}
+            container={popOverContainer}
             className={popOverClassName}
             onHide={this.close}
           >

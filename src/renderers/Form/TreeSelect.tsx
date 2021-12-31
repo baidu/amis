@@ -633,7 +633,7 @@ export default class TreeSelectControl extends React.Component<
         ) : null}
         {mobileUI ? (
           <PopUp
-            container={popOverContainer || (() => this.container.current)}
+            container={popOverContainer}
             className={cx(`${ns}TreeSelect-popup`)}
             isShow={isOpened}
             onHide={this.close}

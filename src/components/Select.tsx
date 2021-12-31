@@ -1015,7 +1015,7 @@ export class Select extends React.Component<SelectProps, SelectState> {
     return mobileUI ? (
       <PopUp
         className={cx(`Select-popup`)}
-        container={popOverContainer || this.getTarget}
+        container={popOverContainer}
         isShow={this.state.isOpen}
         onHide={this.close}
       >
