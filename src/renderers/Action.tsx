@@ -405,6 +405,7 @@ import {generateIcon} from '../utils/icon';
 import {BadgeSchema, withBadge} from '../components/Badge';
 import {normalizeApi, str2AsyncFunction} from '../utils/api';
 import {TooltipWrapper} from '../components/TooltipWrapper';
+import handleAction from '../utils/handleAction';
 
 // 构造一个假的 React 事件避免可能的报错，主要用于快捷键功能
 // 来自 https://stackoverflow.com/questions/27062455/reactjs-can-i-create-my-own-syntheticevent
@@ -828,8 +829,16 @@ export class ActionRenderer extends React.Component<
     }
 > {
   @autobind
-  handleAction(e: React.MouseEvent<any> | void | null, action: any) {
-    const {env, onAction, data, ignoreConfirm} = this.props;
+  async handleAction(e: React.MouseEvent<any> | void | null, action: any) {
+    const {env, onAction, data, ignoreConfirm, dispatchEvent} = this.props;
+
+    // 触发渲染器事件
+    const rendererEvent = await dispatchEvent(e as React.MouseEvent<any>, data);
+
+    // 阻止原有动作执行
+    if (rendererEvent?.prevented) {
+      return;
+    }
 
     if (!ignoreConfirm && action.confirmText && env.confirm) {
       env
