@@ -82,6 +82,7 @@
 
 .#{$ns}CalendarMobile {
   height: 100%;
+  width: 100%;
   overflow: scroll;
 
   &-pop {
@@ -256,6 +257,9 @@
       .#{$ns}DateRangePicker-ranger {
         margin: 0 px2rem(25px);
       }
+    }
+    .#{$ns}DatePicker-shortcuts {
+      width: auto;
     }
   }
 
