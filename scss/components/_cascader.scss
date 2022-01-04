@@ -95,4 +95,8 @@
   &-tab {
     padding: 0;
   }
+
+  &-btnCancel {
+    color: var(--PopUp-cancelAction-color);
+  }
 }

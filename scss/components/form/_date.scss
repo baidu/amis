@@ -123,7 +123,7 @@
 }
 
 .#{$ns}DatePicker-popup {
-  height: 80vh;
+  height: px2rem(300px);
 }
 
 .#{$ns}DatePicker-popup.#{$ns}DatePicker-mobile {

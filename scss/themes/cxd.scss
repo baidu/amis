@@ -96,18 +96,6 @@
   }
 }
 
-.#{$ns}DropDown {
-  .#{$ns}DropDown-menu {
-    border: none;
-    > li {
-      color: #{$G2};
-    }
-    > li.is-disabled {
-      color: #{$G6};
-    }
-  }
-}
-
 .#{$ns}Toast {
   .#{$ns}Toast-icon {
     margin-right: #{px2rem(8px)};

@@ -580,6 +580,26 @@ export class DatePicker extends React.Component<DateProps, DatePickerState> {
     const isOpened = this.state.isOpened;
     let date: moment.Moment | undefined = this.state.value;
 
+    const calendarMobile = <CalendarMobile
+      isDatePicker={true}
+      timeFormat={timeFormat}
+      inputFormat={inputFormat}
+      startDate={date}
+      defaultDate={date}
+      minDate={minDate}
+      maxDate={maxDate}
+      dateFormat={dateFormat}
+      embed={embed}
+      viewMode={viewMode}
+      close={this.close}
+      confirm={this.handleChange}
+      footerExtra={this.renderShortCuts(shortcuts)}
+      showViewMode={viewMode === 'quarters' || viewMode === 'months' ? 'years' : 'months'}
+      timeConstraints={timeConstraints}
+    />;
+    const CalendarMobileTitle = <div className={`${ns}CalendarMobile-title`}>{__('Calendar.datepicker')}</div>;
+    const useCalendarMobile = useMobileUI && isMobile() && ['days', 'months', 'quarters'].indexOf(viewMode) > -1;
+
     if (embed) {
       let schedulesData: DateProps['schedules'] = undefined;
       if (schedules && Array.isArray(schedules)) {
@@ -635,26 +655,6 @@ export class DatePicker extends React.Component<DateProps, DatePickerState> {
         </div>
       );
     }
-
-    const calendarMobile = <CalendarMobile
-      isDatePicker={true}
-      timeFormat={timeFormat}
-      inputFormat={inputFormat}
-      startDate={date}
-      defaultDate={date}
-      minDate={minDate}
-      maxDate={maxDate}
-      dateFormat={dateFormat}
-      embed={embed}
-      viewMode={viewMode}
-      close={this.close}
-      confirm={this.handleChange}
-      footerExtra={this.renderShortCuts(shortcuts)}
-      showViewMode={viewMode === 'quarters' || viewMode === 'months' ? 'years' : 'months'}
-      timeConstraints={timeConstraints}
-    />;
-    const CalendarMobileTitle = <div className={`${ns}CalendarMobile-title`}>{__('Calendar.datepicker')}</div>;
-    const useCalendarMobile = useMobileUI && isMobile() && ['days', 'months', 'quarters'].indexOf(viewMode) > -1;
 
     return (
       <div
