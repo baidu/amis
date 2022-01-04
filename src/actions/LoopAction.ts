@@ -43,11 +43,7 @@ export class LoopAction implements Action {
       for (const data of loopData) {
         renderer.loopStatus = LoopStatus.NORMAL;
         // 追加逻辑处理中的数据，用完还要还原
-        event.setData(
-          createObject(protoData, {
-            ...data
-          })
-        );
+        event.setData(createObject(event.data, data));
 
         for (const subAction of action.children) {
           // @ts-ignore

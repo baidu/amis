@@ -20,7 +20,17 @@ export default {
               eventName: 'broadcast_1',
               args: {
                 name: 'lvxj',
-                age: 18
+                age: 18,
+                ld: [
+                  {
+                    name: 'ld-lv',
+                    age: 'ld-19'
+                  },
+                  {
+                    name: 'ld-xj',
+                    age: 'ld-21'
+                  }
+                ]
               },
               description: '一个按钮的点击事件'
             }
@@ -57,6 +67,7 @@ export default {
       type: 'form',
       title: '表单1(我的权重最低)-刷新',
       name: 'form1',
+      debug: true,
       body: [
         {
           type: 'input-text',
@@ -93,6 +104,7 @@ export default {
       type: 'form',
       name: 'form2',
       title: '表单2(权重2)-刷新+发Ajax',
+      debug: true,
       body: [
         {
           type: 'input-text',
@@ -137,6 +149,7 @@ export default {
       type: 'form',
       name: 'form3',
       title: '表单3(权重3)-逻辑编排',
+      debug: true,
       body: [
         {
           type: 'input-text',
@@ -177,7 +190,9 @@ export default {
               children: [
                 {
                   actionType: 'ajax',
-                  api: 'https://api/form/form3-parallel-ajax-1'
+                  api: 'https://api/form/form3-parallel-ajax-1',
+                  preventDefault: false
+                  // stopPropagation: true
                 },
                 {
                   actionType: 'ajax',
@@ -186,7 +201,7 @@ export default {
               ]
             },
             {
-              actionType: 'branch',
+              actionType: 'switch',
               preventDefault: false,
               stopPropagation: false,
               children: [
@@ -201,8 +216,8 @@ export default {
                   actionType: 'ajax',
                   api: 'https://api/form/form3-branch-ajax-2',
                   expression: 'this.branchCont > 17',
-                  preventDefault: false
-                  // stopPropagation: true
+                  preventDefault: false,
+                  stopPropagation: false
                 },
                 {
                   actionType: 'ajax',
@@ -227,14 +242,16 @@ export default {
                 },
                 {
                   actionType: 'ajax',
-                  api: 'https://api/form/form3-loop-ajax-1?name=${name}'
+                  api: 'https://api/form/form3-loop-ajax-1?name=${name}',
+                  preventDefault: false,
+                  stopPropagation: false
                 },
                 // {
                 //   actionType: 'break'
                 // },
                 {
                   actionType: 'ajax',
-                  api: 'https://api/form/form3-loop-ajax-2'
+                  api: 'https://api/form/form3-loop-ajax-2?age=${age}'
                 },
                 {
                   actionType: 'loop',
@@ -249,7 +266,7 @@ export default {
                     },
                     {
                       actionType: 'ajax',
-                      api: 'https://api/form/form3-loop-loop-ajax-2?aage=${aage}',
+                      api: 'https://api/form/form3-loop-loop-ajax-2?age=${age}',
                       preventDefault: false,
                       stopPropagation: false
                     },

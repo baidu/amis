@@ -1,5 +1,4 @@
 import {RendererEvent} from '../utils/renderer-event';
-import {createObject} from '../utils/helper';
 import {evalExpression} from '../utils/tpl';
 import {dataMapping} from '../utils/tpl-builtin';
 
@@ -74,17 +73,8 @@ export const runActionTree = async (
       actionInstrance = getActionByType('component');
     }
 
-    // 处理数据
-    actionConfig.args &&
-      (actionConfig.args = dataMapping(actionConfig.args, event.data));
-
     // 这些节点的子节点运行逻辑由节点内部实现
     await runAction(actionInstrance, actionConfig, renderer, event);
-
-    // 阻止原有动作执行
-    actionConfig.preventDefault && event.preventDefault();
-    // 阻止后续动作执行
-    actionConfig.stopPropagation && event.stopPropagation();
 
     if (event.stoped) {
       break;
@@ -104,5 +94,17 @@ export const runAction = async (
     return;
   }
 
-  await actionInstrance.run(actionConfig, renderer, event);
+  await actionInstrance.run(
+    {
+      ...actionConfig,
+      args: actionConfig.args ? dataMapping(actionConfig.args, event.data) : {} // 处理数据映射
+    },
+    renderer,
+    event
+  );
+
+  // 阻止原有动作执行
+  actionConfig.preventDefault && event.preventDefault();
+  // 阻止后续动作执行
+  actionConfig.stopPropagation && event.stopPropagation();
 };

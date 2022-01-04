@@ -23,6 +23,7 @@ export class CmptAction implements Action {
   ) {
     // 执行组件动作
     await renderer.doAction?.(action, {
+      ...event.data.__proto__,
       ...event.data,
       ...action.args
     });

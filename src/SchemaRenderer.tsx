@@ -98,8 +98,8 @@ class BroadcastCmpt extends React.Component<BroadcastCmptProps> {
     return (
       <this.props.component
         ref={this.childRef}
-        dispatchEvent={this.triggerEvent}
         {...this.props}
+        dispatchEvent={this.triggerEvent}
       />
     );
   }

@@ -372,15 +372,13 @@ const defaultOptions: RenderOptions = {
       }
 
       return () => {
-        for (let key in listeners) {
-          const idx = findIndex(
-            this.rendererEventListeners,
-            item => item.type === key && item.renderer === renderer
-          );
+        const idx = findIndex(
+          this.rendererEventListeners,
+          item => item.renderer === renderer
+        );
 
-          if (~idx) {
-            this.rendererEventListeners.splice(idx, 1);
-          }
+        if (~idx) {
+          this.rendererEventListeners.splice(idx, 1);
         }
       };
     }
@@ -398,7 +396,7 @@ const defaultOptions: RenderOptions = {
       const eventConfig = renderer.props.onEvent?.[eventName];
 
       if (!eventConfig) {
-        console.warn(`Unknown renderer event: ${eventName}`);
+        console.log(`Unknown renderer event: ${eventName}`);
         // 没命中也没关系
         return Promise.resolve(undefined);
       }
@@ -415,7 +413,7 @@ const defaultOptions: RenderOptions = {
       createRendererEvent(eventName, {
         env: this,
         nativeEvent: e,
-        eventData: data
+        data
       });
 
     // 过滤&排序
@@ -433,11 +431,7 @@ const defaultOptions: RenderOptions = {
     for (let listener of listeners) {
       if (broadcast) {
         // merge事件数据
-        rendererEvent.setData(
-          createObject(data, {
-            ...listener.renderer.props.data
-          })
-        );
+        rendererEvent.setData(createObject(data, listener.renderer.props.data));
       }
 
       await runActionTree(listener.actions, listener.renderer, rendererEvent);
