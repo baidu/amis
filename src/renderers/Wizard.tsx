@@ -9,7 +9,8 @@ import {
   until,
   isVisible,
   getScrollParent,
-  autobind
+  autobind,
+  SkipOperation
 } from '../utils/helper';
 import {isApiOutdated, isEffectiveApi} from '../utils/api';
 import {IFormStore} from '../store/form';
@@ -546,8 +547,16 @@ export default class Wizard extends React.Component<WizardProps, WizardState> {
         .then(async () => {
           this.form && this.form.isValidated() && this.form.validate(true);
 
-          if (action.feedback && isVisible(action.feedback, store.data)) {
-            await this.openFeedback(action.feedback, store.data);
+          const feedback = action.feedback;
+          if (feedback && isVisible(feedback, store.data)) {
+            const confirmed = await this.openFeedback(feedback, store.data);
+
+            // 如果 feedback 配置了，取消就跳过原有逻辑。
+            if (feedback.skipRestOnCancel && !confirmed) {
+              throw new SkipOperation();
+            } else if (feedback.skipRestOnConfirm && confirmed) {
+              throw new SkipOperation();
+            }
           }
 
           const reidrect =
@@ -556,7 +565,11 @@ export default class Wizard extends React.Component<WizardProps, WizardState> {
 
           action.reload && this.reloadTarget(action.reload, store.data);
         })
-        .catch(() => {});
+        .catch(reason => {
+          if (reason instanceof SkipOperation) {
+            return;
+          }
+        });
     } else if (action.actionType === 'reload') {
       action.target && this.reloadTarget(action.target, data);
     } else if (onAction) {
@@ -667,14 +680,29 @@ export default class Wizard extends React.Component<WizardProps, WizardState> {
               }
             }
           })
-          .then((value: any) =>
+          .then(async (value: any) => {
+            const feedback = action.feedback;
+            if (feedback && isVisible(feedback, value)) {
+              const confirmed = await this.openFeedback(feedback, value);
+
+              // 如果 feedback 配置了，取消就跳过原有逻辑。
+              if (feedback.skipRestOnCancel && !confirmed) {
+                throw new SkipOperation();
+              } else if (feedback.skipRestOnConfirm && confirmed) {
+                throw new SkipOperation();
+              }
+            }
+
             this.gotoStep(
               value && typeof value.step === 'number'
                 ? value.step
                 : this.state.currentStep + 1
-            )
-          )
-          .catch(() => {
+            );
+          })
+          .catch(reason => {
+            if (reason instanceof SkipOperation) {
+              return;
+            }
             // do nothing
           });
       } else {
@@ -715,7 +743,19 @@ export default class Wizard extends React.Component<WizardProps, WizardState> {
               );
             }
           })
-          .then(value => {
+          .then(async value => {
+            const feedback = action.feedback;
+            if (feedback && isVisible(feedback, value)) {
+              const confirmed = await this.openFeedback(feedback, value);
+
+              // 如果 feedback 配置了，取消就跳过原有逻辑。
+              if (feedback.skipRestOnCancel && !confirmed) {
+                throw new SkipOperation();
+              } else if (feedback.skipRestOnConfirm && confirmed) {
+                throw new SkipOperation();
+              }
+            }
+
             this.setState({completeStep: steps.length});
             store.updateData({
               ...store.data,
@@ -771,13 +811,13 @@ export default class Wizard extends React.Component<WizardProps, WizardState> {
       store.updateData(values[0]);
     }
 
-    store.closeDialog();
+    store.closeDialog(true);
   }
 
   @autobind
-  handleDialogClose() {
+  handleDialogClose(confirmed = false) {
     const {store} = this.props;
-    store.closeDialog();
+    store.closeDialog(confirmed);
   }
 
   renderSteps() {

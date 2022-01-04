@@ -242,6 +242,7 @@ export class SchemaRenderer extends React.Component<SchemaRendererProps, any> {
         data: defaultData,
         value: defaultValue,
         activeKey: defaultActiveKey,
+        key: propKey,
         ...restSchema
       } = schema;
       return rest.invisible
@@ -253,6 +254,7 @@ export class SchemaRenderer extends React.Component<SchemaRendererProps, any> {
             defaultData,
             defaultValue,
             defaultActiveKey,
+            propKey,
             $path: $path,
             $schema: schema,
             ref: isSFC ? undefined : this.refFn,
@@ -293,6 +295,7 @@ export class SchemaRenderer extends React.Component<SchemaRendererProps, any> {
     const {
       data: defaultData,
       value: defaultValue,
+      key: propKey,
       activeKey: defaultActiveKey,
       ...restSchema
     } = schema;
@@ -321,6 +324,7 @@ export class SchemaRenderer extends React.Component<SchemaRendererProps, any> {
         defaultData={restSchema.defaultData ?? defaultData}
         defaultValue={restSchema.defaultValue ?? defaultValue}
         defaultActiveKey={defaultActiveKey}
+        propKey={propKey}
         $path={$path}
         $schema={{...schema, ...exprProps}}
         ref={this.refFn}

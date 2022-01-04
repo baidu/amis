@@ -160,7 +160,7 @@ let amisScoped = amis.embed(
     // 全局 api 请求适配器
     // 另外在 amis 配置项中的 api 也可以配置适配器，针对某个特定接口单独处理。
     //
-    // responseAdaptor(api) {
+    // requestAdaptor(api) {
     //   return api;
     // }
     //
@@ -276,7 +276,7 @@ amis.embed(
 
 默认 JSSDK 不是 hash 路由，如果你想改成 hash 路由模式，请查看此处代码实现。只需要修改 env.isCurrentUrl、env.jumpTo 和 env.updateLocation 这几个方法即可。
 
-参考：https://github.com/baidu/amis/blob/master/examples/components/Example.tsx#L551-L575
+参考：https://github.com/baidu/amis/blob/master/examples/components/Example.jsx#L551-L575
 
 ### 销毁
 
@@ -436,6 +436,8 @@ class MyComponent extends React.Component<any, any> {
   render() {
     let amisScoped;
     let theme = 'cxd';
+
+    // 请勿使用 React.StrictMode，目前还不支持
     return (
       <div>
         <p>通过 amis 渲染页面</p>
@@ -714,3 +716,43 @@ render 有三个参数，后面会详细说明这三个参数内的属性
 #### hideValidateFailedDetail: boolean
 
 Form 表单验证失败时在 notify 消息提示中是否隐藏详细信息，默认展示，设置为 true 时隐藏
+
+#### replaceText
+
+> 1.5.0 及以上版本
+
+可以用来实现变量替换及多语言功能，比如下面的例子
+
+```javascript
+let amisScoped = amis.embed(
+  '#root',
+  {
+    type: 'page',
+    body: {
+      type: 'service',
+      api: 'service/api'
+    }
+  },
+  {},
+  {
+    replaceText: {
+      service: 'http://localhost'
+    },
+    replaceTextKeys: ['api']
+  }
+);
+```
+
+它会替换 `api` 里的 `service` 字符串
+
+#### replaceTextIgnoreKeys
+
+> 1.5.0 及以上版本
+
+和前面的 `replaceText` 配合使用，某些字段会禁用文本替换，默认有以下：
+
+```
+type, name, mode, target, reload
+```
+
+如果发现有字段被意外替换了，可以通过设置这个属性来避免

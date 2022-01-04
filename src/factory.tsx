@@ -3,7 +3,14 @@ import {RendererStore, IRendererStore, IIRendererStore} from './store/index';
 import {getEnv, destroy} from 'mobx-state-tree';
 import {wrapFetcher} from './utils/api';
 import {normalizeLink} from './utils/normalizeLink';
-import {findIndex, promisify, qsparse, string2regExp} from './utils/helper';
+import {
+  findIndex,
+  isObject,
+  JSONTraverse,
+  promisify,
+  qsparse,
+  string2regExp
+} from './utils/helper';
 import {
   Api,
   fetcherResult,
@@ -25,6 +32,7 @@ import {getDefaultLocale, makeTranslator, LocaleProps} from './locale';
 import ScopedRootRenderer, {RootRenderProps} from './Root';
 import {HocStoreFactory} from './WithStore';
 import {EnvContext, RendererEnv} from './env';
+import {envOverwrite} from './envOverwrite';
 
 export interface TestFunc {
   (
@@ -67,10 +75,6 @@ export interface RendererProps extends ThemeProps, LocaleProps {
   };
   defaultData?: object;
   className?: any;
-  /**
-   * 是否使用移动端交互
-   */
-  useMobileUI?: boolean;
   [propName: string]: any;
 }
 
@@ -127,12 +131,20 @@ export interface RenderOptions {
   affixOffsetTop?: number;
   affixOffsetBottom?: number;
   richTextToken?: string;
+  /**
+   * 替换文本，用于实现 URL 替换、语言替换等
+   */
+  replaceText?: {[propName: string]: any};
+  /**
+   * 文本替换的黑名单，因为属性太多了所以改成黑名单的 fangs
+   */
+  replaceTextIgnoreKeys?: String[];
   [propName: string]: any;
 }
 
 export interface fetcherConfig {
   url: string;
-  method?: 'get' | 'post' | 'put' | 'patch' | 'delete';
+  method?: 'get' | 'post' | 'put' | 'patch' | 'delete' | 'jsonp';
   data?: any;
   config?: any;
 }
@@ -245,6 +257,7 @@ const defaultOptions: RenderOptions = {
   affixOffsetTop: 0,
   affixOffsetBottom: 0,
   richTextToken: '',
+  useMobileUI: true, // 是否启用移动端原生 UI
   loadRenderer,
   fetcher() {
     return Promise.reject('fetcher is required');
@@ -275,19 +288,19 @@ const defaultOptions: RenderOptions = {
   },
   isCancel() {
     console.error(
-      'Please implements this. see https://baidu.gitee.io/amis/docs/start/getting-started#%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97'
+      'Please implement isCancel. see https://baidu.gitee.io/amis/docs/start/getting-started#%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97'
     );
     return false;
   },
   updateLocation() {
     console.error(
-      'Please implements this. see https://baidu.gitee.io/amis/docs/start/getting-started#%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97'
+      'Please implement updateLocation. see https://baidu.gitee.io/amis/docs/start/getting-started#%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97'
     );
   },
   alert,
   confirm,
   notify: (type, msg, conf) =>
-    toast[type] ? toast[type](msg) : console.warn('[Notify]', type, msg),
+    toast[type] ? toast[type](msg, conf) : console.warn('[Notify]', type, msg),
 
   jumpTo: (to: string, action?: any) => {
     if (to === 'goBack') {
@@ -335,7 +348,15 @@ const defaultOptions: RenderOptions = {
   },
   // 用于跟踪用户在界面中的各种操作
   tracker(eventTrack: EventTrack, props: PlainObject) {},
-  rendererResolver: resolveRenderer
+  rendererResolver: resolveRenderer,
+  replaceTextIgnoreKeys: [
+    'type',
+    'name',
+    'mode',
+    'target',
+    'reload',
+    'persistData'
+  ]
 };
 let stores: {
   [propName: string]: IRendererStore;
@@ -354,6 +375,9 @@ export function render(
   locale = locale === 'cn' ? 'zh-CN' : locale;
   const translate = props.translate || makeTranslator(locale);
   let store = stores[options.session || 'global'];
+
+  // 根据环境覆盖 schema，这个要在最前面做，不然就无法覆盖 validations
+  envOverwrite(schema, locale);
 
   if (!store) {
     options = {
@@ -385,6 +409,30 @@ export function render(
   if (props.locale !== undefined) {
     env.translate = translate;
     env.locale = locale;
+  }
+
+  // 默认将开启移动端原生 UI
+  if (typeof options.useMobileUI) {
+    props.useMobileUI = true;
+  }
+
+  // 进行文本替换
+  if (env.replaceText && isObject(env.replaceText)) {
+    const replaceKeys = Object.keys(env.replaceText);
+    replaceKeys.sort().reverse(); // 避免用户将短的放前面
+    const replaceTextIgnoreKeys = new Set(env.replaceTextIgnoreKeys || []);
+    JSONTraverse(schema, (value: any, key: string, object: any) => {
+      if (typeof value === 'string' && !replaceTextIgnoreKeys.has(key)) {
+        for (const replaceKey of replaceKeys) {
+          if (~value.indexOf(replaceKey)) {
+            object[key] = value.replaceAll(
+              replaceKey,
+              env.replaceText[replaceKey]
+            );
+          }
+        }
+      }
+    });
   }
 
   return (

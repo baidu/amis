@@ -1278,7 +1278,8 @@ order: 2
             "label": "选项",
             "name": "select",
             "autoFill": {
-                "option": "${label}"
+                "option.instantValidate": "${label}",
+                "option.submitValidate": "${label}",
             },
             "clearable": true,
             "options": [
@@ -1293,15 +1294,38 @@ order: 2
             ]
         },
         {
-            "type": "text",
-            "name": "option",
-            "label": "选中项"
+            "type": "input-text",
+            "name": "option.instantValidate",
+            "label": "选中项",
+            "description": "填充后立即校验",
+            "required": true,
+            "validateOnChange": true,
+            "validations": {
+                "equals": "Option B"
+            },
+            "validationErrors": {
+                "equals": "校验失败，数据必须为Option B"
+            }
+        },
+        {
+            "type": "input-text",
+            "name": "option.submitValidate",
+            "label": "选中项1",
+            "description": "填充后提交表单时才校验",
+            "required": true,
+            "validations": {
+                "equals": "Option B"
+            },
+            "validationErrors": {
+                "equals": "校验失败，数据必须为Option B"
+            }
         }
     ]
 }
 ```
 
-上例中我们配置了`"autoFill": {"option": "${label}"}`，表示将选中项中的`label`的值，自动填充到当前表单项中`name`为`option`的文本框中。
+上例中我们配置了`"autoFill": {"option.instantValidate": "${label}"}`，表示将选中项中的`label`的值，自动填充到当前表单项中`name`为`option.instantValidate`的文本框中。可以额外配置`"validateOnChange": true`，实现自动填充后立即校验填充项。
+
 
 **多选模式**
 

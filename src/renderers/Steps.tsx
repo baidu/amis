@@ -60,9 +60,11 @@ export interface StepsSchema extends BaseSchema {
    */
   name?: string;
 
-  status?: StepStatus | {
-    [propName: string]: StepStatus;
-  };
+  status?:
+    | StepStatus
+    | {
+        [propName: string]: StepStatus;
+      };
 
   /**
    * 展示模式
@@ -83,17 +85,17 @@ export function StepsCmpt(props: StepsProps) {
     data,
     source,
     config,
-    render
+    render,
+    useMobileUI
   } = props;
-  
+
   const stepsRow =
     (resolveVariable(source, data) as Array<StepSchema>) ||
     config ||
     steps ||
     [];
-  const resolveRender = (val?: string | SchemaCollection) => typeof val === 'string'
-    ? filter(val, data)
-    : val && render('inner', val);
+  const resolveRender = (val?: string | SchemaCollection) =>
+    typeof val === 'string' ? filter(val, data) : val && render('inner', val);
   const value = getPropValue(props) ?? 0;
   const resolveValue =
     typeof value === 'string' && isNaN(+value)
@@ -111,13 +113,10 @@ export function StepsCmpt(props: StepsProps) {
       title: resolveRender(step.title),
       subTitle: resolveRender(step.subTitle),
       description: resolveRender(step.description)
-    }
+    };
   });
 
-  function getStepStatus(
-    step: StepSchema,
-    i: number
-  ): StepStatus {
+  function getStepStatus(step: StepSchema, i: number): StepStatus {
     let stepStatus;
 
     if (typeof status === 'string') {
@@ -140,6 +139,7 @@ export function StepsCmpt(props: StepsProps) {
       className={className}
       status={status}
       mode={mode}
+      useMobileUI={useMobileUI}
     ></Steps>
   );
 }

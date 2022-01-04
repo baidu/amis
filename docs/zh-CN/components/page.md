@@ -172,6 +172,31 @@ Page 默认将页面分为几个区域，分别是**内容区（`body`）**、**
 }
 ```
 
+## aside 可调整宽度
+
+通过配置 `asideResizor`，可以让侧边栏支持动态调整宽度，同时可以通过 `asideMinWidth`、`asideMaxWidth` 设置 aside 最大最小宽度。
+
+```schema
+{
+  "type": "page",
+  "asideResizor": true,
+  "asideMinWidth": 150,
+  "asideMaxWidth": 400,
+  "aside": [
+    {
+      "type": "tpl",
+      "tpl": "这是侧边栏部分"
+    }
+  ],
+  "body": [
+    {
+      "type": "tpl",
+      "tpl": "这是内容区"
+    }
+  ]
+}
+```
+
 上面的配置会自动创建一个 `<style>` 标签，其中内容就是：
 
 ```css
@@ -191,6 +216,9 @@ Page 默认将页面分为几个区域，分别是**内容区（`body`）**、**
 | subTitle            | [SchemaNode](../../docs/types/schemanode) |                                            | 页面副标题                                                                            |
 | remark              | [Remark](./remark)                        |                                            | 标题附近会出现一个提示图标，鼠标放上去会提示该内容。                                  |
 | aside               | [SchemaNode](../../docs/types/schemanode) |                                            | 往页面的边栏区域加内容                                                                |
+| asideResizor        | `boolean`                                 |                                            | 页面的边栏区域宽度是否可调整                                                          |
+| asideMinWidth       | `number`                                  |                                            | 页面边栏区域的最小宽度                                                                |
+| asideMaxWidth       | `number`                                  |                                            | 页面边栏区域的最大宽度                                                                |
 | toolbar             | [SchemaNode](../../docs/types/schemanode) |                                            | 往页面的右上角加内容，需要注意的是，当有 title 时，该区域在右上角，没有时该区域在顶部 |
 | body                | [SchemaNode](../../docs/types/schemanode) |                                            | 往页面的内容区域加内容                                                                |
 | className           | `string`                                  |                                            | 外层 dom 类名                                                                         |

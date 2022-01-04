@@ -140,3 +140,63 @@
     }
   }
 }
+
+
+.#{$ns}Steps-mobile.#{$ns}Steps--horizontal {
+  .#{$ns}StepsItem {
+
+    &-container {
+      &Wrapper {
+        .#{$ns}StepsItem-body {
+          .#{$ns}StepsItem-title {
+            &::after {
+              display: none !important;
+            }
+          }
+        }
+
+        .#{$ns}StepsItem-body{
+          .#{$ns}StepsItem-title {
+            .#{$ns}StepsItem-subTitle {
+              padding-left: px2rem(5px);
+            }
+          }
+        }
+      }
+
+      &Icon {
+        position: relative;
+        display: block;
+
+        &:after {
+          content: '';
+          position: absolute;
+          right: 0;
+          top: px2rem(15px);
+          height: 1px;
+          left: px2rem(40px);
+          width: 99999px;
+          background-color: var(--Steps-line-bg);
+        }
+      }
+
+      &Icon.is-success {
+        &:after {
+          background-color: var(--Steps-line-success-bg);
+        }
+      }
+    }
+
+    &:last-child {
+      flex: 1;
+
+      .#{$ns}StepsItem-container {
+        &Icon {
+          &:after {
+            display: none !important;
+          }
+        }
+      }
+    }
+  }
+}

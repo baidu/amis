@@ -11,7 +11,7 @@ import find from 'lodash/find';
 import debouce from 'lodash/debounce';
 import {Api} from '../../types';
 import {isEffectiveApi} from '../../utils/api';
-import {isEmpty, createObject, autobind} from '../../utils/helper';
+import {isEmpty, createObject, autobind, isMobile} from '../../utils/helper';
 import {dataMapping} from '../../utils/tpl-builtin';
 import {SchemaApi} from '../../Schema';
 import Spinner from '../../components/Spinner';
@@ -91,6 +91,7 @@ export interface SelectProps extends OptionsControlProps {
   autoComplete?: Api;
   searchable?: boolean;
   defaultOpen?: boolean;
+  useMobileUI?: boolean;
 }
 
 export default class SelectControl extends React.Component<SelectProps, any> {
@@ -297,12 +298,16 @@ export default class SelectControl extends React.Component<SelectProps, any> {
       menuTpl,
       borderMode,
       selectMode,
+      env,
+      useMobileUI,
       ...rest
     } = this.props;
 
     if (noResultsText) {
       noResultsText = render('noResultText', noResultsText);
     }
+
+    const mobileUI = useMobileUI && isMobile();
 
     return (
       <div className={cx(`${classPrefix}SelectControl`, className)}>
@@ -313,6 +318,12 @@ export default class SelectControl extends React.Component<SelectProps, any> {
         ) : (
           <Select
             {...rest}
+            useMobileUI={useMobileUI}
+            popOverContainer={
+              mobileUI && env && env.getModalContainer
+                ? env.getModalContainer
+                : undefined
+            }
             borderMode={borderMode}
             placeholder={placeholder}
             multiple={multiple || multi}
@@ -344,7 +355,10 @@ export interface TransferDropDownProps
       | 'inputClassName'
       | 'className'
       | 'descriptionClassName'
-    > {}
+    > {
+  borderMode?: 'full' | 'half' | 'none';
+  useMobileUI?: boolean;
+}
 
 class TransferDropdownRenderer extends BaseTransferRenderer<TransferDropDownProps> {
   render() {
@@ -363,7 +377,9 @@ class TransferDropdownRenderer extends BaseTransferRenderer<TransferDropDownProp
       selectMode,
       multiple,
       columns,
-      leftMode
+      leftMode,
+      borderMode,
+      useMobileUI
     } = this.props;
 
     // 目前 LeftOptions 没有接口可以动态加载
@@ -402,6 +418,8 @@ class TransferDropdownRenderer extends BaseTransferRenderer<TransferDropDownProp
           columns={columns}
           leftMode={leftMode}
           leftOptions={leftOptions}
+          borderMode={borderMode}
+          useMobileUI={useMobileUI}
         />
 
         <Spinner overlay key="info" show={loading} />

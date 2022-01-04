@@ -35,6 +35,99 @@ order: 44
 }
 ```
 
+## 分组展示模式
+
+配置`children`可以实现分组展示，分组标题支持配置`icon`。
+
+> 1.5.7 及以上版本
+
+```schema: scope="body"
+{
+    "type": "dropdown-button",
+    "label": "下拉菜单",
+    "buttons": [
+        {
+            "label": "RD",
+            "icon": "fa fa-user",
+            "children": [
+                {
+                    "type": "button",
+                    "label": "前端FE"
+                },
+                {
+                    "type": "button",
+                    "label": "后端RD"
+                }
+            ]
+        },
+        {
+            "label": "QA",
+            "icon": "fa fa-user",
+            "children": [
+                {
+                    "type": "button",
+                    "label": "测试QA",
+                },
+                {
+                    "type": "button",
+                    "label": "交付测试DQA",
+                    "disabled": true
+                },
+                {
+                    "type": "divider"
+                }
+            ]
+        },
+        {
+            "label": "Manager",
+            "icon": "fa fa-user",
+            "children": [
+                {
+                    "type": "button",
+                    "label": "项目经理PM"
+                },
+                {
+                    "type": "button",
+                    "label": "项目管理中心PMO",
+                    "visible": false
+                }
+            ]
+        }
+    ]
+}
+```
+
+## 关闭下拉菜单
+
+配置`"closeOnClick": true`可以实现点击按钮后自动关闭下拉菜单。
+
+```schema
+{
+    "type": "page",
+    "body": {
+        "type": "dropdown-button",
+        "label": "下拉菜单",
+        "closeOnClick": true,
+        "closeOnOutside": true,
+        "buttons": [
+            {
+                "type": "button",
+                "label": "按钮1",
+                "disabled": true
+            },
+            {
+                "type": "button",
+                "label": "按钮2"
+            },
+            {
+                "type": "button",
+                "label": "按钮3"
+            }
+        ]
+    }
+}
+```
+
 ## 触发方式
 
 > 1.4.0 及以上版本
@@ -166,17 +259,20 @@ order: 44
 
 ## 属性表
 
-| 属性名          | 类型               | 默认值            | 说明                                      |
-| --------------- | ------------------ | ----------------- | ----------------------------------------- |
-| type            | `string`           | `dropdown-button` | 类型                                      |
-| label           | `string`           |                   | 按钮文本                                  |
-| className       | `string`           |                   | 外层 CSS 类名                             |
-| block           | `boolean`          |                   | 块状样式                                  |
-| size            | `string`           |                   | 尺寸，支持`'xs'`、`'sm'`、`'md'` 、`'lg'` |
-| align           | `string`           |                   | 位置，可选`'left'`或`'right'`             |
-| buttons         | `Array<action>`    |                   | 配置下拉按钮                              |
-| iconOnly        | `boolean`          |                   | 只显示 icon                               |
-| defaultIsOpened | `boolean`          |                   | 默认是否打开                              |
-| closeOnOutside  | `boolean`          |                   | 点击外侧区域是否收起                      |
-| trigger         | `click` 或 `hover` | `click`           | 触发方式                                  |
-| hideCaret       | `boolean`          | false             | 隐藏下拉图标                              |
+| 属性名          | 类型                    | 默认值            | 说明                                      |
+| --------------- | ----------------------- | ----------------- | ----------------------------------------- |
+| type            | `string`                | `dropdown-button` | 类型                                      |
+| label           | `string`                |                   | 按钮文本                                  |
+| className       | `string`                |                   | 外层 CSS 类名                             |
+| btnClassName    | `string`                |                   | 按钮 CSS 类名                             |
+| menuClassName   | `string`                |                   | 下拉菜单 CSS 类名                         |
+| block           | `boolean`               |                   | 块状样式                                  |
+| size            | `string`                |                   | 尺寸，支持`'xs'`、`'sm'`、`'md'` 、`'lg'` |
+| align           | `string`                |                   | 位置，可选`'left'`或`'right'`             |
+| buttons         | `Array<DropdownButton>` |                   | 配置下拉按钮                              |
+| iconOnly        | `boolean`               |                   | 只显示 icon                               |
+| defaultIsOpened | `boolean`               |                   | 默认是否打开                              |
+| closeOnOutside  | `boolean`               | `true`            | 点击外侧区域是否收起                      |
+| closeOnClick    | `boolean`               | `false`           | 点击按钮后自动关闭下拉菜单                |
+| trigger         | `click` 或 `hover`      | `click`           | 触发方式                                  |
+| hideCaret       | `boolean`               | false             | 隐藏下拉图标                              |

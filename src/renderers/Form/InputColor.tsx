@@ -1,6 +1,9 @@
 import React, {Suspense} from 'react';
-import {FormItem, FormControlProps, FormBaseControl} from './Item';
 import cx from 'classnames';
+
+import {FormItem, FormControlProps, FormBaseControl} from './Item';
+import type {PresetColor} from '../../components/ColorPicker';
+import {isMobile} from '../../utils/helper';
 
 export const ColorPicker = React.lazy(
   () => import('../../components/ColorPicker')
@@ -34,7 +37,7 @@ export interface InputColorControlSchema extends FormBaseControl {
   /**
    * 预设颜色，用户可以直接从预设中选。
    */
-  presetColors?: Array<any>;
+  presetColors?: Array<PresetColor>;
 
   /**
    * 是否允许用户输入颜色。
@@ -66,12 +69,29 @@ export default class ColorControl extends React.PureComponent<
   };
 
   render() {
-    const {className, classPrefix: ns, value, ...rest} = this.props;
-
+    const {
+      className,
+      classPrefix: ns,
+      value,
+      env,
+      useMobileUI,
+      ...rest
+    } = this.props;
+    const mobileUI = useMobileUI && isMobile();
     return (
       <div className={cx(`${ns}ColorControl`, className)}>
         <Suspense fallback={<div>...</div>}>
-          <ColorPicker classPrefix={ns} {...rest} value={value || ''} />
+          <ColorPicker
+            classPrefix={ns}
+            {...rest}
+            useMobileUI={useMobileUI}
+            popOverContainer={
+              mobileUI && env && env.getModalContainer
+                ? env.getModalContainer
+                : undefined
+            }
+            value={value || ''}
+          />
         </Suspense>
       </div>
     );

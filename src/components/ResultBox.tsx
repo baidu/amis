@@ -4,8 +4,9 @@ import {InputBoxProps} from './InputBox';
 import {uncontrollable} from 'uncontrollable';
 import {Icon} from './icons';
 import Input from './Input';
-import {autobind} from '../utils/helper';
+import {autobind, isMobile, ucFirst} from '../utils/helper';
 import {LocaleProps, localeable} from '../locale';
+import isPlainObject = require('lodash/isPlainObject');
 
 export interface ResultBoxProps
   extends ThemeProps,
@@ -18,6 +19,7 @@ export interface ResultBoxProps
   onResultChange?: (value: Array<any>) => void;
   allowInput?: boolean;
   inputPlaceholder: string;
+  useMobileUI?: boolean;
 }
 
 export class ResultBox extends React.Component<ResultBoxProps> {
@@ -113,20 +115,23 @@ export class ResultBox extends React.Component<ResultBoxProps> {
       onKeyPress,
       onFocus,
       onBlur,
+      borderMode,
+      useMobileUI,
       ...rest
     } = this.props;
     const isFocused = this.state.isFocused;
+    const mobileUI = useMobileUI && isMobile();
 
     return (
       <div
-        className={cx(
-          'ResultBox',
-          className,
-          isFocused ? 'is-focused' : '',
-          disabled ? 'is-disabled' : '',
-          hasError ? 'is-error' : '',
-          onResultClick ? 'is-clickable' : ''
-        )}
+        className={cx('ResultBox', className, {
+          'is-focused': isFocused,
+          'is-disabled': disabled,
+          'is-error': hasError,
+          'is-clickable': onResultClick,
+          'is-mobile': mobileUI,
+          [`ResultBox--border${ucFirst(borderMode)}`]: borderMode
+        })}
         onClick={onResultClick}
         tabIndex={!allowInput && !disabled && onFocus ? 0 : -1}
         onKeyPress={allowInput ? undefined : onKeyPress}
@@ -147,7 +152,9 @@ export class ResultBox extends React.Component<ResultBoxProps> {
             </div>
           ))
         ) : result && !Array.isArray(result) ? (
-          <span className={cx('ResultBox-singleValue')}>{result}</span>
+          <span className={cx('ResultBox-singleValue')}>
+            {isPlainObject(result) ? itemRender(result) : result}
+          </span>
         ) : allowInput && !disabled ? null : (
           <span className={cx('ResultBox-placeholder')}>
             {__(placeholder || 'placeholder.noData')}
@@ -179,6 +186,11 @@ export class ResultBox extends React.Component<ResultBoxProps> {
           <a onClick={this.clearValue} className={cx('ResultBox-clear')}>
             <Icon icon="close" className="icon" />
           </a>
+        ) : null}
+        {!allowInput && mobileUI ? (
+          <span className={cx('ResultBox-arrow')}>
+            <Icon icon="caret" className="icon" />
+          </span>
         ) : null}
       </div>
     );

@@ -54,6 +54,7 @@ fis.set('project.files', [
   '/scss/helper.scss',
   '/scss/themes/*.scss',
   '/examples/*.html',
+  '/examples/app/*.html',
   '/examples/*.tpl',
   '/examples/static/*.png',
   '/examples/static/*.svg',
@@ -215,7 +216,7 @@ fis.match('*.html:jsx', {
 
 // 这些用了 esm
 fis.match(
-  '{echarts/extension/**.js,zrender/**.js,ansi-to-react/lib/index.js}',
+  '{echarts/extension/**.js,zrender/**.js,ansi-to-react/lib/index.js,markdown-it-html5-media/**.js}',
   {
     parser: fis.plugin('typescript', {
       sourceMap: false,
@@ -495,6 +496,7 @@ if (fis.project.currentMedia() === 'publish') {
         '!mpegts.js/**',
         '!hls.js/**',
         '!froala-editor/**',
+        '!codemirror/**',
 
         '!tinymce/**',
         '!zrender/**',
@@ -530,6 +532,7 @@ if (fis.project.currentMedia() === 'publish') {
 
       'tinymce.js': ['src/components/Tinymce.tsx', 'tinymce/**'],
 
+      'codemirror.js': ['codemirror/**'],
       'papaparse.js': ['papaparse/**'],
 
       'exceljs.js': ['exceljs/**'],
@@ -562,6 +565,7 @@ if (fis.project.currentMedia() === 'publish') {
       'rest.js': [
         '*.js',
         '!monaco-editor/**',
+        '!codemirror/**',
         '!mpegts.js/**',
         '!hls.js/**',
         '!froala-editor/**',
@@ -770,6 +774,7 @@ if (fis.project.currentMedia() === 'publish') {
         '/examples/mod.js',
         'node_modules/**.js',
         '!monaco-editor/**',
+        '!codemirror/**',
         '!mpegts.js/**',
         '!hls.js/**',
         '!froala-editor/**',
@@ -807,6 +812,8 @@ if (fis.project.currentMedia() === 'publish') {
       'pkg/rich-text.js': ['src/components/RichText.js', 'froala-editor/**'],
 
       'pkg/tinymce.js': ['src/components/Tinymce.tsx', 'tinymce/**'],
+
+      'pkg/codemirror.js': ['codemirror/**'],
 
       'pkg/papaparse.js': ['papaparse/**'],
 
@@ -900,7 +907,7 @@ if (fis.project.currentMedia() === 'publish') {
         const DocNavCN = ret.src['/examples/components/DocNavCN.ts'];
         const Components = ret.src['/examples/components/Components.tsx'];
         const DocCSS = ret.src['/examples/components/CssDocs.tsx'];
-        const ExampleJs = ret.src['/examples/components/Example.tsx'];
+        const ExampleJs = ret.src['/examples/components/Example.jsx'];
 
         const pages = [];
         const source = [

@@ -1,7 +1,12 @@
 import {Renderer, RendererProps} from '../factory';
 import React from 'react';
 import Alert, {AlertProps} from '../components/Alert2';
-import {BaseSchema, SchemaCollection} from '../Schema';
+import {
+  BaseSchema,
+  SchemaObject,
+  SchemaCollection,
+  SchemaIcon
+} from '../Schema';
 
 /**
  * Alert 提示渲染器。
@@ -12,6 +17,11 @@ export interface AlertSchema extends BaseSchema {
    * 指定为提示框类型
    */
   type: 'alert';
+
+  /**
+   * 提示框标题
+   */
+  title?: string;
 
   /**
    * 内容区域
@@ -27,6 +37,26 @@ export interface AlertSchema extends BaseSchema {
    * 是否显示关闭按钮
    */
   showCloseButton?: boolean;
+
+  /**
+   * 关闭按钮CSS类名
+   */
+  closeButtonClassName?: string;
+
+  /**
+   * 是否显示ICON
+   */
+  showIcon?: boolean;
+
+  /**
+   * 左侧图标
+   */
+  icon?: SchemaIcon;
+
+  /**
+   * 图标CSS类名
+   */
+  iconClassName?: string;
 }
 
 @Renderer({

@@ -2,6 +2,7 @@ import React from 'react';
 import {toast} from '../../src/components/Toast';
 import {render, makeTranslator} from '../../src/index';
 import {normalizeLink} from '../../src/utils/normalizeLink';
+import {isMobile} from '../../src/utils/helper';
 import attachmentAdpator from '../../src/utils/attachmentAdpator';
 import {alert, confirm} from '../../src/components/Alert';
 import axios from 'axios';
@@ -213,8 +214,10 @@ export default class PlayGround extends React.Component {
         return response;
       },
       isCancel: value => axios.isCancel(value),
-      notify: (type, msg) =>
-        toast[type] ? toast[type](msg) : console.warn('[Notify]', type, msg),
+      notify: (type, msg, conf) =>
+        toast[type]
+          ? toast[type](msg, conf)
+          : console.warn('[Notify]', type, msg),
       alert,
       confirm,
       copy: (content, options) => {
@@ -223,6 +226,9 @@ export default class PlayGround extends React.Component {
       },
       tracker(eventTrack) {
         console.debug('eventTrack', eventTrack);
+      },
+      replaceText: {
+        AMIS_HOST: 'https://baidu.gitee.io/amis'
       }
     };
 
@@ -319,11 +325,10 @@ export default class PlayGround extends React.Component {
       theme: this.props.theme,
       locale: this.props.locale,
       affixHeader: false,
-      affixFooter: false,
-      useMobileUI: true
+      affixFooter: false
     };
 
-    if (this.props.viewMode === 'mobile') {
+    if (this.props.viewMode === 'mobile' && !isMobile()) {
       return (
         <iframe
           width="375"

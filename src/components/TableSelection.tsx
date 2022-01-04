@@ -153,50 +153,7 @@ export class TableSelection extends BaseSelection<TableSelectionProps> {
   }
 
   render() {
-    const {
-      value,
-      options,
-      className,
-      labelClassName,
-      disabled,
-      classnames: cx,
-      option2value,
-      itemClassName,
-      itemRender,
-      multiple
-    } = this.props;
-
-    let valueArray = BaseSelection.value2array(value, options, option2value);
-    let body: Array<React.ReactNode> = [];
-
-    if (Array.isArray(options) && options.length) {
-      body = options.map((option, key) => (
-        <div
-          key={key}
-          className={cx(
-            'TableSelection-item',
-            itemClassName,
-            option.className,
-            disabled || option.disabled ? 'is-disabled' : ''
-          )}
-          onClick={() => this.toggleOption(option)}
-        >
-          <div className={cx('TableSelection-itemLabel')}>
-            {itemRender(option)}
-          </div>
-
-          {multiple ? (
-            <Checkbox
-              size="sm"
-              checked={!!~valueArray.indexOf(option)}
-              disabled={disabled || option.disabled}
-              labelClassName={labelClassName}
-              description={option.description}
-            />
-          ) : null}
-        </div>
-      ));
-    }
+    const {className, classnames: cx} = this.props;
 
     return (
       <div className={cx('TableSelection', className)}>

@@ -429,7 +429,7 @@ export const TableStore = iRendererStore
     }
 
     function getUnSelectedRows() {
-      return self.rows.filter(item => !item.checked);
+      return flattenTree<IRow>(self.rows).filter((item: IRow) => !item.checked);
     }
 
     function getData(superData: any): any {
@@ -604,7 +604,9 @@ export const TableStore = iRendererStore
       },
 
       get checkableRows() {
-        return self.rows.filter(item => item.checkable);
+        return flattenTree<IRow>(self.rows).filter(
+          (item: IRow) => item.checkable
+        );
       },
 
       get expandableRows() {
@@ -749,7 +751,8 @@ export const TableStore = iRendererStore
           pristine: item,
           toggled: item.toggled !== false,
           breakpoint: item.breakpoint,
-          isPrimary: index === 3
+          isPrimary: index === 3,
+          className: item.className || ''
         }));
 
         self.columns.replace(columns as any);
@@ -1023,9 +1026,10 @@ export const TableStore = iRendererStore
 
     function updateSelected(selected: Array<any>, valueField?: string) {
       self.selectedRows.clear();
-      self.rows.forEach(item => {
+
+      eachTree(self.rows, item => {
         if (~selected.indexOf(item.pristine)) {
-          self.selectedRows.push(item);
+          self.selectedRows.push(item.id);
         } else if (
           find(
             selected,
@@ -1034,9 +1038,10 @@ export const TableStore = iRendererStore
               a[valueField || 'value'] == item.pristine[valueField || 'value']
           )
         ) {
-          self.selectedRows.push(item);
+          self.selectedRows.push(item.id);
         }
       });
+
       updateCheckDisable();
     }
 

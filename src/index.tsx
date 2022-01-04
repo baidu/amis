@@ -56,6 +56,7 @@ import './renderers/Form/ButtonToolbar';
 import './renderers/Breadcrumb';
 import './renderers/DropDownButton';
 import './renderers/Collapse';
+import './renderers/CollapseGroup';
 import './renderers/Color';
 import './renderers/CRUD';
 import './renderers/Pagination';
@@ -88,6 +89,7 @@ import './renderers/Form/Select';
 import './renderers/Form/Static';
 import './renderers/Form/InputDate';
 import './renderers/Form/InputDateRange';
+import './renderers/Form/InputFormula';
 import './renderers/Form/InputRepeat';
 import './renderers/Form/InputTree';
 import './renderers/Form/TreeSelect';
@@ -163,10 +165,12 @@ import './renderers/Icon';
 import './renderers/Carousel';
 import './renderers/AnchorNav';
 import './renderers/Steps';
+import './renderers/Timeline';
 import './renderers/Markdown';
 import './renderers/TableView';
 import './renderers/Code';
 import './renderers/WebComponent';
+import './renderers/GridNav';
 
 import Scoped, {ScopedContext} from './Scoped';
 

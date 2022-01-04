@@ -55,7 +55,7 @@ icon:
 ```schema: scope="body"
 {
     "type": "crud",
-    "api": "/api/sample",
+    "api": "/api/mock2/sample",
     "syncLocation": false,
     "headerToolbar": [
       {

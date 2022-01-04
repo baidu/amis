@@ -11,9 +11,7 @@ export const UniqueGroup = types
   })
   .views(self => ({
     get items() {
-      return self.itemsRef.map(
-        id => (getStoreById(id) as any) as IFormItemStore
-      );
+      return self.itemsRef.map(id => getStoreById(id) as any as IFormItemStore);
     }
   }))
   .actions(self => ({

@@ -170,6 +170,7 @@ export default class MonthRangeControl extends React.Component<MonthRangeProps> 
       maxDuration,
       data,
       format,
+      env,
       ...rest
     } = this.props;
 

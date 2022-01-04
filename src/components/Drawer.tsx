@@ -225,12 +225,14 @@ export class Drawer extends React.Component<DrawerProps, DrawerState> {
                     fadeStyles[status]
                   )}
                 >
-                  <a
-                    onClick={disabled ? undefined : onHide}
-                    className={`${ns}Drawer-close`}
-                  >
-                    <Icon icon="close" className="icon" />
-                  </a>
+                  {show ? (
+                    <a
+                      onClick={disabled ? undefined : onHide}
+                      className={`${ns}Drawer-close`}
+                    >
+                      <Icon icon="close" className="icon" />
+                    </a>
+                  ) : null}
                   {status === EXITED ? null : children}
                 </div>
               </div>
