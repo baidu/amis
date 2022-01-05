@@ -601,6 +601,7 @@ test('Renderer:Wizard actionPrevLabel actionNextLabel actionFinishLabel classNam
   expect(fetcher).toHaveBeenCalled();
 
   fireEvent.click(getByText(/PrevStep/));
+  await wait(100);
   expect(container).toMatchSnapshot();
 });
 
@@ -1377,6 +1378,7 @@ test('Renderer:Wizard dialog', async () => {
   );
 
   fireEvent.click(getByText(/OpenDialog/));
+  await wait(100);
   expect(container).toMatchSnapshot();
 
   fireEvent.click(getByText(/取消/));
