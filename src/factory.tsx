@@ -149,13 +149,33 @@ export interface fetcherConfig {
   config?: any;
 }
 
-const renderers: Array<RendererConfig> = [];
-const rendererNames: Array<string> = [];
-const schemaFilters: Array<RenderSchemaFilter> = [];
-let anonymousIndex = 1;
+// 定义Window中使用到的全局变量
+declare var window: Window & {
+  renderers: Array<RendererConfig>,
+  rendererNames: Array<string>,
+  schemaFilters: Array<RenderSchemaFilter>,
+  anonymousIndex: number
+};
+
+/**
+ *  保留此前注册的插件
+ *  备注：设计态编辑器和本地自定义组件对接需要
+ */
+if (!window.renderers) {
+  window.renderers = [];
+}
+if (!window.rendererNames) {
+  window.rendererNames = [];
+}
+if (!window.schemaFilters) {
+  window.schemaFilters = [];
+}
+if (!window.anonymousIndex) {
+  window.anonymousIndex = 1;
+}
 
 export function addSchemaFilter(fn: RenderSchemaFilter) {
-  schemaFilters.push(fn);
+  window.schemaFilters.push(fn);
 }
 
 export function filterSchema(
@@ -163,7 +183,7 @@ export function filterSchema(
   render: RendererConfig,
   props?: any
 ) {
-  return schemaFilters.reduce(
+  return window.schemaFilters.reduce(
     (schema, filter) => filter(schema, render, props),
     schema
   ) as Schema;
@@ -194,12 +214,10 @@ export function registerRenderer(config: RendererConfig): RendererConfig {
 
   config.weight = config.weight || 0;
   config.Renderer = config.component;
-  config.name = config.name || config.type || `anonymous-${anonymousIndex++}`;
+  config.name = config.name || config.type || `anonymous-${window.anonymousIndex++}`;
 
-  if (~rendererNames.indexOf(config.name)) {
-    throw new Error(
-      `The renderer with name "${config.name}" has already exists, please try another name!`
-    );
+  if (~window.rendererNames.indexOf(config.name)) {
+    console.warn(`The renderer with name "${config.name}" has already exists, please try another name!`);
   }
 
   if (config.storeType && config.component) {
@@ -215,26 +233,26 @@ export function registerRenderer(config: RendererConfig): RendererConfig {
   }
 
   const idx = findIndex(
-    renderers,
+    window.renderers,
     item => (config.weight as number) < item.weight
   );
-  ~idx ? renderers.splice(idx, 0, config) : renderers.push(config);
-  rendererNames.push(config.name);
+  ~idx ? window.renderers.splice(idx, 0, config) : window.renderers.push(config);
+  window.rendererNames.push(config.name);
   return config;
 }
 
 export function unRegisterRenderer(config: RendererConfig | string) {
   let idx =
     typeof config === 'string'
-      ? findIndex(renderers, item => item.name === config)
-      : renderers.indexOf(config);
-  ~idx && renderers.splice(idx, 1);
+      ? findIndex(window.renderers, item => item.name === config)
+      : window.renderers.indexOf(config);
+  ~idx && window.renderers.splice(idx, 1);
 
   let idx2 =
     typeof config === 'string'
-      ? findIndex(rendererNames, item => item === config)
-      : rendererNames.indexOf(config.name || '');
-  ~idx2 && rendererNames.splice(idx2, 1);
+      ? findIndex(window.rendererNames, item => item === config)
+      : window.rendererNames.indexOf(config.name || '');
+  ~idx2 && window.rendererNames.splice(idx2, 1);
 
   // 清空渲染器定位缓存
   cache = {};
@@ -513,7 +531,7 @@ export function resolveRenderer(
 
   let renderer: null | RendererConfig = null;
 
-  renderers.some(item => {
+  window.renderers.some(item => {
     let matched = false;
 
     // 直接匹配类型，后续注册渲染都应该用这个方式而不是之前的判断路径。
@@ -554,11 +572,11 @@ export function resolveRenderer(
 }
 
 export function getRenderers() {
-  return renderers.concat();
+  return window.renderers.concat();
 }
 
 export function getRendererByName(name: string) {
-  return find(renderers, item => item.name === name);
+  return find(window.renderers, item => item.name === name);
 }
 
 setRenderSchemaFn((controls, value, callback, scopeRef, theme) => {
