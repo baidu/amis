@@ -113,6 +113,8 @@ $link-color: $info;
   --Modal-header-bg: #fff;
   --Modal-title-fontWeight: 500;
 
+  --Form-item-fontSize: var(--fontSizeBase);
+  --Form-item-fontColor: var(--body-color);
   --Form-input-onFocused-borderColor: #{$blue-5};
   --Form-input-borderColor: #{$border-color-base};
   --Form-input-boxShadow: 0 0 0 2px rgba(24, 144, 255, 0.2);
@@ -193,7 +195,8 @@ $link-color: $info;
   --TimelineItem--round-radius: 50%;
   --TimelineItem--content-radius: #{px2rem(2px)};
 
-  --TimelineItem-detail-visible-shadow: 0 #{px2rem(1px)} #{px2rem(10px)} 0 rgba(0 0 0 / 10%);
+  --TimelineItem-detail-visible-shadow: 0 #{px2rem(1px)} #{px2rem(10px)} 0
+    rgba(0 0 0 / 10%);
 
   --TimelineItem--font-size: #{px2rem(12px)};
 

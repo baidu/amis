@@ -52,6 +52,8 @@
   font-weight: var(--fontWeightNormal);
   margin-bottom: var(--gap-xs);
   position: relative;
+  font-size: var(--Form-item-fontSize);
+  color: var(--Form-item-fontColor);
 
   > span {
     position: relative;
