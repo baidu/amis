@@ -323,8 +323,7 @@ export class DatePicker extends React.Component<DateProps, DatePickerState> {
       'bg-success',
       'bg-info',
       'bg-secondary'
-    ],
-    useMobileUI: true
+    ]
   };
   state: DatePickerState = {
     isOpened: false,
