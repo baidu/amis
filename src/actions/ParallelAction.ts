@@ -4,7 +4,7 @@ import {
   ListenerContext,
   LogicAction,
   registerAction,
-  runActionTree
+  runActions
 } from './Action';
 
 export class ParallelAction implements Action {
@@ -16,7 +16,7 @@ export class ParallelAction implements Action {
     if (action.children && action.children.length) {
       const childActions = action.children.map((child: LogicAction) => {
         // 并行动作互不干扰，但不管哪个存在干预都对后续动作生效
-        return runActionTree(child, renderer, event);
+        return runActions(child, renderer, event);
       });
       await Promise.all(childActions);
     }

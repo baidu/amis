@@ -7,7 +7,7 @@ import {
   LoopStatus,
   registerAction,
   runAction,
-  runActionTree
+  runActions
 } from './Action';
 import {resolveVariable} from '../utils/tpl-builtin';
 
@@ -22,14 +22,15 @@ export class LoopAction implements Action {
   async run(
     action: LogicAction,
     renderer: ListenerContext,
-    event: RendererEvent<any>
+    event: RendererEvent<any>,
+    mergeData: any
   ) {
     if (typeof action.loopName !== 'string') {
       console.warn('loopName 必须是字符串类型');
       return;
     }
 
-    const loopData = resolveVariable(action.loopName, event.data) || [];
+    const loopData = resolveVariable(action.loopName, mergeData) || [];
 
     // 必须是数组
     if (!loopData) {
@@ -38,11 +39,11 @@ export class LoopAction implements Action {
       console.warn(`${action.loopName} 数据不是数组`);
     } else if (action.children?.length) {
       // 暂存一下
-      const protoData = {...event.data.__proto__};
+      const protoData = event.data;
 
       for (const data of loopData) {
         renderer.loopStatus = LoopStatus.NORMAL;
-        // 追加逻辑处理中的数据，用完还要还原
+        // 追加逻辑处理中的数据，事件数据优先，用完还要还原
         event.setData(createObject(event.data, data));
 
         for (const subAction of action.children) {
@@ -50,7 +51,7 @@ export class LoopAction implements Action {
           if (renderer.loopStatus === LoopStatus.CONTINUE) {
             continue;
           }
-          await runActionTree(subAction, renderer, event);
+          await runActions(subAction, renderer, event);
 
           // @ts-ignore
           if (renderer.loopStatus === LoopStatus.BREAK || event.stoped) {

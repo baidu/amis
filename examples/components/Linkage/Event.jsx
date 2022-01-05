@@ -68,6 +68,9 @@ export default {
       title: '表单1(我的权重最低)-刷新',
       name: 'form1',
       debug: true,
+      data: {
+        selfname: 'selfname'
+      },
       body: [
         {
           type: 'input-text',
@@ -79,7 +82,14 @@ export default {
         {
           type: 'input-text',
           label: '等级',
-          name: 'abc',
+          name: 'level',
+          disabled: false,
+          mode: 'horizontal'
+        },
+        {
+          type: 'input-text',
+          label: '昵称',
+          name: 'myname',
           disabled: false,
           mode: 'horizontal'
         }
@@ -91,7 +101,8 @@ export default {
               actionType: 'reload',
               args: {
                 level: 1,
-                abc: '${name}'
+                myname: '${event.data.name}', // 从事件数据中取
+                name: '${selfname}' // 从当前渲染器上下文数据中取
               },
               preventDefault: true,
               stopPropagation: false
@@ -115,7 +126,8 @@ export default {
         }
       ],
       data: {
-        execOn: 'kkk'
+        execOn: 'kkk',
+        param: '1'
       },
       onEvent: {
         broadcast_1: {
@@ -123,13 +135,21 @@ export default {
           actions: [
             {
               actionType: 'reload',
+              args: {
+                age: '${event.data.age}'
+              },
               preventDefault: false,
               stopPropagation: false,
-              execOn: 'this.execOn === "kkk"'
+              execOn: 'execOn === "kkk"' // or this.xxx
             },
             {
               actionType: 'ajax',
-              api: 'https://api/form/form2-ajax',
+              args: {
+                param: '2'
+              },
+              api: 'https://api/form/form2-ajax?param=${param}', // param=2，如果想要拿到当前域的数据需要通过args数据映射
+              // api: 'https://api/form/form2-ajax?param=${name}', // param=lvxj 事件数据最终会丢给执行动作，所以这里可以拿到事件数据
+              execOn: 'execOn === "kkk"',
               preventDefault: false,
               stopPropagation: false
             },
@@ -288,16 +308,15 @@ export default {
             {
               actionType: 'reset-and-submit',
               api: 'https://api/form/form3-reset-and-submit',
-              args: {
-                level: 33
-              },
               script: null, // 自己编排
               preventDefault: false,
               stopPropagation: false
             },
             {
               actionType: 'reload',
-              args: {},
+              args: {
+                job: '${event.data.job}'
+              },
               preventDefault: false,
               stopPropagation: false
             }

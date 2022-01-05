@@ -38,8 +38,9 @@ export interface Action {
   // 运行这个 Action，每个类型的 Action 都只有一个实例，run 函数是个可重入的函数
   run: (
     action: ListenerAction,
-    context: ListenerContext,
-    rendererEvent: RendererEvent<any>
+    renderer: ListenerContext,
+    event: RendererEvent<any>,
+    mergeData?: any // 有些Action内部需要通过上下文数据处理专有逻辑，这里的数据是事件数据+渲染器数据
   ) => Promise<void>;
 }
 
@@ -56,7 +57,7 @@ export const getActionByType = (type: string) => {
   return ActionTypeMap[type];
 };
 
-export const runActionTree = async (
+export const runActions = async (
   actions: ListenerAction | ListenerAction[],
   renderer: ListenerContext,
   event: any
@@ -89,18 +90,35 @@ export const runAction = async (
   renderer: ListenerContext,
   event: any
 ) => {
-  if (actionConfig.execOn && !evalExpression(actionConfig.execOn, event.data)) {
-    console.log('execOn false');
+  // 用户可能，需要用到事件数据和当前域的数据，因此merge事件数据和当前渲染器数据
+  const mergeData = {
+    event: {
+      data: event.data
+    },
+    ...renderer.props.data
+  };
+
+  if (actionConfig.execOn && !evalExpression(actionConfig.execOn, mergeData)) {
     return;
+  }
+
+  // 修正参数，处理数据映射
+  let args = event.data;
+
+  if (actionConfig.args) {
+    // console.log('mergeData');
+    // console.log(mergeData);
+    args = dataMapping(actionConfig.args, mergeData);
   }
 
   await actionInstrance.run(
     {
       ...actionConfig,
-      args: actionConfig.args ? dataMapping(actionConfig.args, event.data) : {} // 处理数据映射
+      args
     },
     renderer,
-    event
+    event,
+    mergeData
   );
 
   // 阻止原有动作执行

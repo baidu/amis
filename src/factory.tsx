@@ -41,7 +41,7 @@ import {
   OnEventProps,
   RendererEvent
 } from './utils/renderer-event';
-import {runActionTree} from './actions/Action';
+import {runActions} from './actions/Action';
 
 export interface TestFunc {
   (
@@ -372,14 +372,9 @@ const defaultOptions: RenderOptions = {
       }
 
       return () => {
-        const idx = findIndex(
-          this.rendererEventListeners,
-          item => item.renderer === renderer
+        this.rendererEventListeners = this.rendererEventListeners.filter(
+          (item: RendererEventListener) => item.renderer === renderer
         );
-
-        if (~idx) {
-          this.rendererEventListeners.splice(idx, 1);
-        }
       };
     }
 
@@ -393,10 +388,9 @@ const defaultOptions: RenderOptions = {
   ) {
     const eventName = typeof e === 'string' ? e : e.type;
     if (!broadcast) {
-      const eventConfig = renderer.props.onEvent?.[eventName];
+      const eventConfig = renderer?.props?.onEvent?.[eventName];
 
       if (!eventConfig) {
-        console.log(`Unknown renderer event: ${eventName}`);
         // 没命中也没关系
         return Promise.resolve(undefined);
       }
@@ -429,12 +423,7 @@ const defaultOptions: RenderOptions = {
       );
 
     for (let listener of listeners) {
-      if (broadcast) {
-        // merge事件数据
-        rendererEvent.setData(createObject(data, listener.renderer.props.data));
-      }
-
-      await runActionTree(listener.actions, listener.renderer, rendererEvent);
+      await runActions(listener.actions, listener.renderer, rendererEvent);
 
       // 停止后续监听器执行
       if (rendererEvent.stoped) {

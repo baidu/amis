@@ -22,11 +22,7 @@ export class CmptAction implements Action {
     event: RendererEvent<any>
   ) {
     // 执行组件动作
-    await renderer.doAction?.(action, {
-      ...event.data.__proto__,
-      ...event.data,
-      ...action.args
-    });
+    await renderer.doAction?.(action, action.args);
   }
 }
 

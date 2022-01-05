@@ -5,7 +5,7 @@ import {
   ListenerContext,
   LogicAction,
   registerAction,
-  runActionTree
+  runActions
 } from './Action';
 
 /**
@@ -15,15 +15,16 @@ export class SwitchAction implements Action {
   async run(
     action: LogicAction,
     renderer: ListenerContext,
-    event: RendererEvent<any>
+    event: RendererEvent<any>,
+    mergeData: any
   ) {
     for (const branch of action.children || []) {
       if (!branch.expression) {
         continue;
       }
 
-      if (evalExpression(branch.expression, event.data)) {
-        await runActionTree(branch, renderer, event);
+      if (evalExpression(branch.expression, mergeData)) {
+        await runActions(branch, renderer, event);
         // 去掉runAllMatch，这里只做排他，多个可以直接通过execOn
         break;
       }
