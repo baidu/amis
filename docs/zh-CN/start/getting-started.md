@@ -85,18 +85,6 @@ SDK 版本适合对前端或 React 不了解的开发者，它不依赖 npm 及 
 </html>
 ```
 
-### 更新属性
-
-可以通过 amisScoped 对象的 updateProps 方法来更新下发到 amis 的属性。
-
-```ts
-amisScoped.updateProps(
-  {
-    // 新的属性对象
-  } /*, () => {} 更新回调 */
-);
-```
-
 ### 切换主题
 
 jssdk 版本默认使用 `sdk.css` 即云舍主题，如果你想用使用仿 Antd，请将 css 引用改成 `.antd.css`。同时 js 渲染地方第四个参数传入 `theme` 属性。如：
