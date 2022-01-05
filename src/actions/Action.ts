@@ -1,3 +1,4 @@
+import {extendObject} from '../utils/helper';
 import {RendererEvent} from '../utils/renderer-event';
 import {evalExpression} from '../utils/tpl';
 import {dataMapping} from '../utils/tpl-builtin';
@@ -91,12 +92,10 @@ export const runAction = async (
   event: any
 ) => {
   // 用户可能，需要用到事件数据和当前域的数据，因此merge事件数据和当前渲染器数据
-  const mergeData = {
-    event: {
-      data: event.data
-    },
-    ...renderer.props.data
-  };
+  // 需要保持渲染器数据链完整
+  const mergeData = extendObject(renderer.props.data, {
+    event
+  });
 
   if (actionConfig.execOn && !evalExpression(actionConfig.execOn, mergeData)) {
     return;
@@ -106,8 +105,6 @@ export const runAction = async (
   let args = event.data;
 
   if (actionConfig.args) {
-    // console.log('mergeData');
-    // console.log(mergeData);
     args = dataMapping(actionConfig.args, mergeData);
   }
 

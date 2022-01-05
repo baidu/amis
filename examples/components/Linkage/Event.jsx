@@ -69,47 +69,55 @@ export default {
       name: 'form1',
       debug: true,
       data: {
-        selfname: 'selfname'
+        selfname: 'selfname' // 测下数据链
       },
       body: [
         {
-          type: 'input-text',
-          label: '名称',
-          name: 'name',
-          disabled: false,
-          mode: 'horizontal'
-        },
-        {
-          type: 'input-text',
-          label: '等级',
-          name: 'level',
-          disabled: false,
-          mode: 'horizontal'
-        },
-        {
-          type: 'input-text',
-          label: '昵称',
-          name: 'myname',
-          disabled: false,
-          mode: 'horizontal'
-        }
-      ],
-      onEvent: {
-        broadcast_1: {
-          actions: [
+          type: 'form',
+          title: '表单1(我的权重最低)-刷新',
+          name: 'sub-form1',
+          debug: true,
+          body: [
             {
-              actionType: 'reload',
-              args: {
-                level: 1,
-                myname: '${event.data.name}', // 从事件数据中取
-                name: '${selfname}' // 从当前渲染器上下文数据中取
-              },
-              preventDefault: true,
-              stopPropagation: false
+              type: 'input-text',
+              label: '名称',
+              name: 'name',
+              disabled: false,
+              mode: 'horizontal'
+            },
+            {
+              type: 'input-text',
+              label: '等级',
+              name: 'level',
+              disabled: false,
+              mode: 'horizontal'
+            },
+            {
+              type: 'input-text',
+              label: '昵称',
+              name: 'myname',
+              disabled: false,
+              mode: 'horizontal'
             }
-          ]
+          ],
+          onEvent: {
+            broadcast_1: {
+              actions: [
+                {
+                  actionType: 'reload',
+                  args: {
+                    level: 1,
+                    myname: '${event.data.name}', // 从事件数据中取
+                    name: '${selfname}' // 从当前渲染器上下文数据中取
+                  },
+                  preventDefault: true,
+                  stopPropagation: false
+                }
+              ]
+            }
+          }
         }
-      }
+      ]
     },
     {
       type: 'form',
