@@ -151,31 +151,31 @@ export interface fetcherConfig {
 
 // 定义Window中使用到的全局变量
 declare var window: Window & {
-  renderers: Array<RendererConfig>,
-  rendererNames: Array<string>,
-  schemaFilters: Array<RenderSchemaFilter>,
-  anonymousIndex: number
+  _amis_global_var_renderers: Array<RendererConfig>,
+  _amis_global_var_rendererNames: Array<string>,
+  _amis_global_var_schemaFilters: Array<RenderSchemaFilter>,
+  _amis_global_var_anonymousIndex: number
 };
 
 /**
  *  保留此前注册的插件
  *  备注：设计态编辑器和本地自定义组件对接需要
  */
-if (!window.renderers) {
-  window.renderers = [];
+if (!window._amis_global_var_renderers) {
+  window._amis_global_var_renderers = [];
 }
-if (!window.rendererNames) {
-  window.rendererNames = [];
+if (!window._amis_global_var_rendererNames) {
+  window._amis_global_var_rendererNames = [];
 }
-if (!window.schemaFilters) {
-  window.schemaFilters = [];
+if (!window._amis_global_var_schemaFilters) {
+  window._amis_global_var_schemaFilters = [];
 }
-if (!window.anonymousIndex) {
-  window.anonymousIndex = 1;
+if (!window._amis_global_var_anonymousIndex) {
+  window._amis_global_var_anonymousIndex = 1;
 }
 
 export function addSchemaFilter(fn: RenderSchemaFilter) {
-  window.schemaFilters.push(fn);
+  window._amis_global_var_schemaFilters.push(fn);
 }
 
 export function filterSchema(
@@ -183,7 +183,7 @@ export function filterSchema(
   render: RendererConfig,
   props?: any
 ) {
-  return window.schemaFilters.reduce(
+  return window._amis_global_var_schemaFilters.reduce(
     (schema, filter) => filter(schema, render, props),
     schema
   ) as Schema;
@@ -214,9 +214,9 @@ export function registerRenderer(config: RendererConfig): RendererConfig {
 
   config.weight = config.weight || 0;
   config.Renderer = config.component;
-  config.name = config.name || config.type || `anonymous-${window.anonymousIndex++}`;
+  config.name = config.name || config.type || `anonymous-${window._amis_global_var_anonymousIndex++}`;
 
-  if (~window.rendererNames.indexOf(config.name)) {
+  if (~window._amis_global_var_rendererNames.indexOf(config.name)) {
     console.warn(`The renderer with name "${config.name}" has already exists, please try another name!`);
   }
 
@@ -233,26 +233,26 @@ export function registerRenderer(config: RendererConfig): RendererConfig {
   }
 
   const idx = findIndex(
-    window.renderers,
+    window._amis_global_var_renderers,
     item => (config.weight as number) < item.weight
   );
-  ~idx ? window.renderers.splice(idx, 0, config) : window.renderers.push(config);
-  window.rendererNames.push(config.name);
+  ~idx ? window._amis_global_var_renderers.splice(idx, 0, config) : window._amis_global_var_renderers.push(config);
+  window._amis_global_var_rendererNames.push(config.name);
   return config;
 }
 
 export function unRegisterRenderer(config: RendererConfig | string) {
   let idx =
     typeof config === 'string'
-      ? findIndex(window.renderers, item => item.name === config)
-      : window.renderers.indexOf(config);
-  ~idx && window.renderers.splice(idx, 1);
+      ? findIndex(window._amis_global_var_renderers, item => item.name === config)
+      : window._amis_global_var_renderers.indexOf(config);
+  ~idx && window._amis_global_var_renderers.splice(idx, 1);
 
   let idx2 =
     typeof config === 'string'
-      ? findIndex(window.rendererNames, item => item === config)
-      : window.rendererNames.indexOf(config.name || '');
-  ~idx2 && window.rendererNames.splice(idx2, 1);
+      ? findIndex(window._amis_global_var_rendererNames, item => item === config)
+      : window._amis_global_var_rendererNames.indexOf(config.name || '');
+  ~idx2 && window._amis_global_var_rendererNames.splice(idx2, 1);
 
   // 清空渲染器定位缓存
   cache = {};
@@ -531,7 +531,7 @@ export function resolveRenderer(
 
   let renderer: null | RendererConfig = null;
 
-  window.renderers.some(item => {
+  window._amis_global_var_renderers.some(item => {
     let matched = false;
 
     // 直接匹配类型，后续注册渲染都应该用这个方式而不是之前的判断路径。
@@ -572,11 +572,11 @@ export function resolveRenderer(
 }
 
 export function getRenderers() {
-  return window.renderers.concat();
+  return window._amis_global_var_renderers.concat();
 }
 
 export function getRendererByName(name: string) {
-  return find(window.renderers, item => item.name === name);
+  return find(window._amis_global_var_renderers, item => item.name === name);
 }
 
 setRenderSchemaFn((controls, value, callback, scopeRef, theme) => {
