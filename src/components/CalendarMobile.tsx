@@ -542,7 +542,9 @@ export class CalendarMobile extends React.Component<
       timeFormat,
       locale,
       close,
-      timeConstraints
+      timeConstraints,
+      defaultDate,
+      isDatePicker
     } = this.props;
     const __ = this.props.translate;
 
@@ -551,10 +553,11 @@ export class CalendarMobile extends React.Component<
     return (
       <div className={cx('CalendarMobile-time')}>
         <div className={cx('CalendarMobile-time-title')}>
-          {startDate && endDate ? __('Calendar.endPick') : __('Calendar.startPick')}
+          {isDatePicker ? __('Date.titleTime') : startDate && endDate ? __('Calendar.endPick') : __('Calendar.startPick')}
         </div>
         <Calendar
           className={cx('CalendarMobile-time-calendar')}
+          value={defaultDate}
           onChange={this.handleTimeChange}
           requiredConfirm={false}
           timeFormat={timeFormat}
@@ -578,6 +581,7 @@ export class CalendarMobile extends React.Component<
       className,
       classnames: cx,
       embed,
+      close,
       confirm,
       footerExtra,
       timeFormat,
@@ -625,7 +629,10 @@ export class CalendarMobile extends React.Component<
             className={cx('Button', 'Button--primary', 'date-range-confirm', {
               'is-disabled': !startDate || !(endDate || isDatePicker)
             })}
-            onClick={() => confirm(startDate, endDate)}
+            onClick={() => {
+              confirm(startDate, endDate);
+              close && close();
+            }}
           >
             {__('confirm')}
           </a>}

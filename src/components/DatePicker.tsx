@@ -737,7 +737,7 @@ export class DatePicker extends React.Component<DateProps, DatePickerState> {
           </Overlay>
         ) : null}
         {useMobileUI && isMobile() ? (
-          useCalendarMobile
+          mobileCalendarMode === 'calendar' && useCalendarMobile
           ? <PopUp
               isShow={isOpened}
               className={cx(`${ns}CalendarMobile-pop`)}
@@ -753,7 +753,7 @@ export class DatePicker extends React.Component<DateProps, DatePickerState> {
             showClose={false}
             onHide={this.handleClick}
           >
-            {mobileCalendarMode === 'calendar' && this.renderShortCuts(shortcuts)}
+            {this.renderShortCuts(shortcuts)}
 
             <Calendar
               value={date}
