@@ -53,6 +53,18 @@ order: 11
 }
 ```
 
+如果是变量本身有 html，则需要使用 raw 过滤
+
+```schema
+{
+  "data": {
+    "text": "<b>World!</b>"
+  },
+  "type": "page",
+  "body": "<h1>Hello</h1> <span>${text|raw}</span>"
+}
+```
+
 ### 表达式
 
 > 1.5.0 及以上版本
