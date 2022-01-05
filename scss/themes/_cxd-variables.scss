@@ -119,6 +119,8 @@ $L1: 0px 4px 6px 0px rgba(8, 14, 26, 0.06),
   --Page-header-paddingX: var(--gap-md);
   --Page-header-paddingY: #{px2rem(10px)};
 
+  --Form-item-fontSize: var(--fontSizeBase);
+  --Form-item-fontColor: #{$G4};
   --Form-item-gap: var(--gap-base);
   --Form-input-bg: #{$G11};
   --Form-input-color: #{$G2};
