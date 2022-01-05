@@ -25,10 +25,29 @@ export interface CalendarMobileProps extends ThemeProps, LocaleProps {
   embed?: boolean;
   viewMode?: 'days' | 'months' | 'years' | 'time' | 'quarters';
   close?: () => void;
-  confirm?: () => void;
+  confirm?: (startDate?: any, endTime?: any) => void;
   onChange?: (data: any, callback?: () => void) => void;
   footerExtra?: JSX.Element | null;
   showViewMode?: 'years' | 'months';
+  isDatePicker?: boolean;
+  timeConstraints?: {
+    hours?: {
+      min: number;
+      max: number;
+      step: number;
+    };
+    minutes?: {
+      min: number;
+      max: number;
+      step: number;
+    };
+    seconds: {
+      min: number;
+      max: number;
+      step: number;
+    };
+  };
+  defaultDate?: moment.Moment;
 }
 
 export interface CalendarMobileState {
@@ -39,6 +58,8 @@ export interface CalendarMobileState {
   showToast: boolean;
   isScrollToBottom: boolean;
   dateTime: any;
+  minDate?: moment.Moment;
+  maxDate?: moment.Moment;
 }
 
 export class CalendarMobile extends React.Component<
@@ -50,10 +71,8 @@ export class CalendarMobile extends React.Component<
   mobileHeader: any;
   timer: any;
 
-  static defaultProps: Pick<CalendarMobileProps, 'showViewMode' | 'minDate' | 'maxDate'> = {
-    showViewMode: 'months',
-    minDate: moment().subtract(1, 'year').startOf('months'),
-    maxDate: moment().add(1, 'year').endOf('months'),
+  static defaultProps: Pick<CalendarMobileProps, 'showViewMode'> = {
+    showViewMode: 'months'
   };
 
   constructor(props: CalendarMobileProps) {
@@ -62,15 +81,60 @@ export class CalendarMobile extends React.Component<
     this.mobileBody = React.createRef();
     this.mobileHeader = React.createRef();
 
-    const {startDate, endDate, viewMode} = this.props;
+    const {startDate, endDate, defaultDate, minDate, maxDate} = this.props;
+    const dateRange = this.getDateRange(minDate, maxDate, defaultDate);
 
     this.state = {
+      minDate: dateRange.minDate,
+      maxDate: dateRange.maxDate,
       startDate,
       endDate,
       showToast: false,
-      currentDate: moment(),
+      currentDate: dateRange.currentDate,
       isScrollToBottom: false,
       dateTime: endDate ? [endDate.hour(), endDate.minute()] : [0, 0]
+    };
+  }
+
+  getDateRange(minDate?: moment.Moment, maxDate?: moment.Moment, defaultDate?: moment.Moment) {
+    !moment.isMoment(minDate) || !minDate.isValid() && (minDate = undefined);
+    !moment.isMoment(maxDate) || !maxDate.isValid() && (maxDate = undefined);
+
+    let currentDate = defaultDate || moment();
+    let dateRange: {
+      minDate: moment.Moment,
+      maxDate: moment.Moment
+    } = {
+      minDate: currentDate.clone().subtract(1, 'year').startOf('months'),
+      maxDate: currentDate.clone().add(1, 'year').endOf('months')
+    };
+    if (minDate && maxDate) {
+      dateRange = {
+        minDate,
+        maxDate
+      };
+    }
+    else if (minDate && !maxDate) {
+      dateRange = {
+        minDate,
+        maxDate: moment(minDate).add(2, 'year')
+      };
+      currentDate = minDate.clone();
+    }
+    else if (!minDate && maxDate) {
+      dateRange = {
+        minDate: moment(maxDate).subtract(2, 'year'),
+        maxDate
+      };
+      currentDate = maxDate.clone();
+    }
+
+    if (!currentDate.isBetween(dateRange.minDate, dateRange.maxDate, 'days', '[]')) {
+      currentDate = dateRange.minDate.clone();
+    }
+    return {
+      ...dateRange,
+      currentDate
     };
   }
 
@@ -82,7 +146,16 @@ export class CalendarMobile extends React.Component<
     const props = this.props;
 
     if (prevProps.minDate !== props.minDate || prevProps.maxDate !== props.maxDate) {
-      this.initMonths();
+      const currentDate = this.state.currentDate;
+      const dateRange = this.getDateRange(props.minDate, props.maxDate, moment(currentDate));
+      this.setState(
+        {
+          minDate: dateRange.minDate,
+          maxDate: dateRange.maxDate,
+          currentDate: dateRange.currentDate,
+        },
+        () => this.initMonths()
+      );
     }
   }
 
@@ -102,14 +175,19 @@ export class CalendarMobile extends React.Component<
       this.setState({
         monthHeights
       });
-      this.scollToDate(moment());
+      const defaultDate = this.props.defaultDate || this.state.currentDate;
+      this.scollToDate(defaultDate ? moment(defaultDate) : moment());
     }
   }
 
   scollToDate(date: moment.Moment) {
-    const {minDate, showViewMode} = this.props;
+    const {showViewMode} = this.props;
+    const {minDate} = this.state;
     const index = date.diff(minDate, showViewMode);
     const currentEl = this.mobileBody.current.children[index];
+    if (!currentEl) {
+      return;
+    }
     const header = this.mobileHeader.current;
     this.mobileBody.current.scrollBy(0, currentEl.offsetTop - this.mobileBody.current.scrollTop - header.clientHeight);
   }
@@ -118,7 +196,7 @@ export class CalendarMobile extends React.Component<
   onMobileBodyScroll(e: any) {
     const {showViewMode} = this.props;
     const {monthHeights} = this.state;
-    let minDate = this.props.minDate?.clone();
+    let minDate = this.state.minDate?.clone();
     if (!this.mobileBody?.current || !monthHeights || !minDate) {
       return;
     }
@@ -146,8 +224,7 @@ export class CalendarMobile extends React.Component<
     if (!this.state.currentDate) {
       return;
     }
-    const {minDate} = this.props;
-    let {currentDate} = this.state;
+    let {currentDate, minDate} = this.state;
     currentDate = currentDate.clone().subtract(1, 'years');
     if (minDate && currentDate.isBefore(minDate)) {
       currentDate = minDate;
@@ -163,8 +240,7 @@ export class CalendarMobile extends React.Component<
     if (!this.state.currentDate) {
       return;
     }
-    const {maxDate} = this.props;
-    let {currentDate} = this.state;
+    let {currentDate, maxDate} = this.state;
     currentDate = currentDate.clone().add(1, 'years');
     if (maxDate && currentDate.isAfter(maxDate)) {
       currentDate = maxDate;
@@ -201,7 +277,7 @@ export class CalendarMobile extends React.Component<
 
   getRenderProps(props: any, currentDate: moment.Moment) {
     let {startDate, endDate} = this.state;
-    const {translate: __, viewMode} = this.props;
+    const {translate: __, viewMode, isDatePicker} = this.props;
     const precision = viewMode === 'time' ? 'hours' : viewMode || 'day';
     let footerText = '';
 
@@ -231,6 +307,10 @@ export class CalendarMobile extends React.Component<
 
     if (precision === 'day' && currentDate.date() === 1 && currentDate.day() === 1) {
       props.className += ' rdtOldNone';
+    }
+
+    if (isDatePicker) {
+      footerText = '';
     }
 
     const rdtDisabled = props.className.indexOf('rdtDisabled') > -1;
@@ -263,8 +343,7 @@ export class CalendarMobile extends React.Component<
 
   @autobind
   checkIsValidDate(currentDate: moment.Moment) {
-    const {minDate, maxDate} = this.props;
-    let {startDate, endDate} = this.state;
+    const {startDate, endDate, minDate, maxDate} = this.state;
     let {minDuration, maxDuration, viewMode} = this.props;
     const precision = viewMode === 'time' ? 'hours' : viewMode || 'day';
 
@@ -340,8 +419,8 @@ export class CalendarMobile extends React.Component<
 
   @autobind
   handleMobileChange(newValue: moment.Moment) {
-    const {embed, minDuration, maxDuration, confirm, onChange, viewMode, minDate, maxDate} = this.props;
-    const {startDate, endDate, dateTime} = this.state;
+    const {embed, minDuration, maxDuration, confirm, onChange, viewMode, isDatePicker} = this.props;
+    const {startDate, endDate, dateTime, minDate, maxDate} = this.state;
     const precision = viewMode === 'time' ? 'hours' : viewMode || 'day';
 
     if (minDate && newValue && newValue.isBefore(minDate, 'second')) {
@@ -353,6 +432,7 @@ export class CalendarMobile extends React.Component<
     }
 
     if (
+      !isDatePicker &&
       startDate &&
       !endDate &&
       newValue.isSameOrAfter(startDate) &&
@@ -364,7 +444,7 @@ export class CalendarMobile extends React.Component<
           endDate: newValue.clone().endOf(precision).set({hour: dateTime[0], minute: dateTime[1], second: dateTime[2] || 0})
         },
         () => {
-          onChange && onChange(this.state, () => embed && confirm && confirm());
+          onChange && onChange(this.state, () => embed && confirm && confirm(startDate, endDate));
         }
       );
     }
@@ -389,17 +469,23 @@ export class CalendarMobile extends React.Component<
       inputFormat,
       locale,
       viewMode = 'days',
-      close
+      close,
+      defaultDate,
+      showViewMode
     } = this.props;
     const __ = this.props.translate;
 
-    const {minDate, maxDate, showViewMode} = this.props;
+    const {minDate, maxDate} = this.state;
     if (!minDate || !maxDate) {
       return;
     }
     let calendarDates: moment.Moment[] = [];
     for(let minDateClone = minDate.clone(); minDateClone.isSameOrBefore(maxDate); minDateClone.add(1, showViewMode)) {
-      calendarDates.push(minDateClone.clone());
+      let date = minDateClone.clone();
+      if (defaultDate) {
+        date = moment(defaultDate).set({year: date.get('year'), month: date.get('month')});
+      }
+      calendarDates.push(date);
     }
 
     return (
@@ -455,7 +541,10 @@ export class CalendarMobile extends React.Component<
       classnames: cx,
       timeFormat,
       locale,
-      close
+      close,
+      timeConstraints,
+      defaultDate,
+      isDatePicker
     } = this.props;
     const __ = this.props.translate;
 
@@ -464,10 +553,11 @@ export class CalendarMobile extends React.Component<
     return (
       <div className={cx('CalendarMobile-time')}>
         <div className={cx('CalendarMobile-time-title')}>
-          {startDate && endDate ? __('Calendar.endPick') : __('Calendar.startPick')}
+          {isDatePicker ? __('Date.titleTime') : startDate && endDate ? __('Calendar.endPick') : __('Calendar.startPick')}
         </div>
         <Calendar
           className={cx('CalendarMobile-time-calendar')}
+          value={defaultDate}
           onChange={this.handleTimeChange}
           requiredConfirm={false}
           timeFormat={timeFormat}
@@ -478,6 +568,8 @@ export class CalendarMobile extends React.Component<
           useMobileUI={true}
           showToolbar={false}
           viewDate={moment().set({hour: dateTime[0], minute: dateTime[1], second: dateTime[2] || 0})}
+          timeConstraints={timeConstraints}
+          isValidDate={this.checkIsValidDate}
         />
       </div>
     );
@@ -489,16 +581,16 @@ export class CalendarMobile extends React.Component<
       className,
       classnames: cx,
       embed,
+      close,
       confirm,
       footerExtra,
       timeFormat,
-      minDate,
-      maxDate,
-      showViewMode
+      showViewMode,
+      isDatePicker
     } = this.props;
     const __ = this.props.translate;
 
-    const {startDate, endDate, currentDate, showToast, isScrollToBottom} = this.state;
+    const {startDate, endDate, currentDate, showToast, isScrollToBottom, minDate, maxDate} = this.state;
     let dateNow = currentDate
       ? currentDate.format(__(`Calendar.${showViewMode === 'months' ? 'yearmonth' : 'year'}`))
       : moment().format(__(`Calendar.${showViewMode === 'months' ? 'yearmonth' : 'year'}`));
@@ -535,9 +627,12 @@ export class CalendarMobile extends React.Component<
           </div>
           {confirm && !embed && <a
             className={cx('Button', 'Button--primary', 'date-range-confirm', {
-              'is-disabled': !startDate || !endDate
+              'is-disabled': !startDate || !(endDate || isDatePicker)
             })}
-            onClick={confirm}
+            onClick={() => {
+              confirm(startDate, endDate);
+              close && close();
+            }}
           >
             {__('confirm')}
           </a>}
