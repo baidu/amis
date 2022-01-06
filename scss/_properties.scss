@@ -658,6 +658,8 @@
   --Form-description-fontSize: var(--fontSizeSm);
 
   --Form-fontSize: var(--fontSizeBase);
+  --Form-item-fontSize: var(--Form-fontSize);
+  --Form-item-fontColor: #5e626a;
 
   --Form-group--lg-gutterWidth: #{px2rem(40px)};
   --Form-group--md-gutterWidth: #{px2rem(30px)};
