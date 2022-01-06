@@ -5,8 +5,38 @@
   right: 0;
   height: 100vh;
   width: 32px;
-  padding: var(--gap-sm);
+
   color: var(--text-color);
+
+  &-header {
+    padding: var(--Drawer-header-padding);
+    background: var(--Drawer-header-bg);
+    border-bottom: var(--Drawer-content-borderWidth) solid
+      var(--Drawer-header-borderColor);
+  }
+
+  &-tab {
+    overflow: hidden;
+    background-color: #f1f1f1;
+  }
+
+  &-tab > button {
+    background-color: inherit;
+    float: left;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    padding: 14px 16px;
+    transition: 0.3s;
+  }
+
+  &-tab > button:hover {
+    background-color: #ddd;
+  }
+
+  &-tab > button.active {
+    background-color: #ccc;
+  }
 
   &-toggle {
     background: var(--body-bg);
@@ -34,7 +64,7 @@
     background: var(--body-bg);
     box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
     .AMISDebug-toggle {
-      margin-left: -32px;
+      margin-left: -24px;
     }
     .AMISDebug-content {
       display: block;
