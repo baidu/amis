@@ -3,6 +3,7 @@ import cx from 'classnames';
 
 import {FormItem, FormControlProps, FormBaseControl} from './Item';
 import type {PresetColor} from '../../components/ColorPicker';
+import {isMobile} from '../../utils/helper';
 
 export const ColorPicker = React.lazy(
   () => import('../../components/ColorPicker')
@@ -68,11 +69,29 @@ export default class ColorControl extends React.PureComponent<
   };
 
   render() {
-    const {className, classPrefix: ns, value, env, ...rest} = this.props;
+    const {
+      className,
+      classPrefix: ns,
+      value,
+      env,
+      useMobileUI,
+      ...rest
+    } = this.props;
+    const mobileUI = useMobileUI && isMobile();
     return (
       <div className={cx(`${ns}ColorControl`, className)}>
         <Suspense fallback={<div>...</div>}>
-          <ColorPicker classPrefix={ns} {...rest} value={value || ''} useMobileUI={env.useMobileUI}/>
+          <ColorPicker
+            classPrefix={ns}
+            {...rest}
+            useMobileUI={useMobileUI}
+            popOverContainer={
+              mobileUI && env && env.getModalContainer
+                ? env.getModalContainer
+                : undefined
+            }
+            value={value || ''}
+          />
         </Suspense>
       </div>
     );

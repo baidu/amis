@@ -3,20 +3,30 @@
   max-width: 100%;
   box-sizing: content-box;
 
+  &-content {
+    border-radius: var(--borderRadius);
+    border: var(--Form-input-borderWidth) solid var(--Form-input-borderColor);
+  }
+
   &-header {
     width: 100%;
-    height: px2rem(40px);
-    line-height: px2rem(40px);
-    padding-left: px2rem(10px);
+    height: px2rem(30px);
+    line-height: px2rem(30px);
+    padding: 0 #{px2rem(10px)};
     box-sizing: border-box;
-    background: #f3f8fb;
+    background: var(--Formula-header-bgColor);
+    border-radius: var(--borderRadius) var(--borderRadius) 0 0;
+    border-bottom: var(--Form-input-borderWidth) solid
+      var(--Form-input-borderColor);
+    font-weight: 500;
   }
 
   &-editor {
     min-height: px2rem(238px);
     max-height: px2rem(320px);
     height: auto;
-    border: var(--Form-input-borderWidth) solid var(--Form-input-borderColor);
+    padding: #{px2rem(10px)};
+    padding-right: 0;
   }
 
   &.is-error &-editor {
@@ -98,7 +108,7 @@
     cursor: pointer;
 
     &.is-active {
-      color: var(--primary);
+      background: var(--Formula-funcItem-bgColor-onActive);
     }
   }
   &-groupTitle {
@@ -112,11 +122,25 @@
   }
   &-funcDetail {
     padding: 10px 20px;
+
+    pre {
+      white-space: pre-wrap;
+      word-wrap: break-word;
+      background: var(--Formula-header-bgColor);
+      padding: #{px2rem(10px)};
+      border-radius: var(--borderRadius);
+      margin-top: 0;
+    }
+
+    div {
+      color: var(--text--loud-color);
+    }
   }
 }
 
 .#{$ns}FormulaPicker {
   &-icon {
     margin-left: auto;
+    margin-right: #{px2rem(5px)};
   }
 }

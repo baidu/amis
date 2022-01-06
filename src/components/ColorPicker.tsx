@@ -227,6 +227,7 @@ export class ColorControl extends React.PureComponent<
     const __ = this.props.translate;
     const isOpened = this.state.isOpened;
     const isFocused = this.state.isFocused;
+    const mobileUI = useMobileUI && isMobile();
 
     return (
       <div
@@ -261,6 +262,7 @@ export class ColorControl extends React.PureComponent<
           onFocus={this.handleFocus}
           onBlur={this.handleBlur}
           onClick={this.handleClick}
+          readOnly={mobileUI}
         />
 
         {clearable && !disabled && value ? (
@@ -273,7 +275,7 @@ export class ColorControl extends React.PureComponent<
           <Icon icon="caret" className="icon" onClick={this.handleClick} />
         </span>
 
-        {!(useMobileUI && isMobile()) && isOpened ? (
+        {!mobileUI && isOpened ? (
           <Overlay
             placement={placement || 'auto'}
             target={() => findDOMNode(this)}
@@ -320,45 +322,44 @@ export class ColorControl extends React.PureComponent<
             </PopOver>
           </Overlay>
         ) : null}
-        {
-          useMobileUI && isMobile() && (
-            <PopUp
-              className={cx(`${ns}ColorPicker-popup`)}
-              isShow={isOpened}
-              onHide={this.handleClick}
-            >
-              {allowCustomColor ? (
-                <SketchPicker
-                  styles={{}}
-                  disableAlpha={!!~['rgb', 'hex'].indexOf(format as string)}
-                  color={value}
-                  presetColors={presetColors}
-                  onChangeComplete={this.handleChange}
-                />
-              ) : (
-                <GithubPicker
-                  color={value}
-                  colors={
-                    Array.isArray(presetColors)
-                      ? (presetColors
-                          .filter(
-                            item => typeof item === 'string' || isObject(item)
-                          )
-                          .map(item =>
-                            typeof item === 'string'
-                              ? item
-                              : isObject(item)
-                              ? item?.color
-                              : item
-                          ) as string[])
-                      : undefined
-                  }
-                  onChangeComplete={this.handleChange}
-                />
-              )}
-            </PopUp>
-          )
-        }
+        {mobileUI && (
+          <PopUp
+            className={cx(`${ns}ColorPicker-popup`)}
+            container={popOverContainer}
+            isShow={isOpened}
+            onHide={this.handleClick}
+          >
+            {allowCustomColor ? (
+              <SketchPicker
+                styles={{}}
+                disableAlpha={!!~['rgb', 'hex'].indexOf(format as string)}
+                color={value}
+                presetColors={presetColors}
+                onChangeComplete={this.handleChange}
+              />
+            ) : (
+              <GithubPicker
+                color={value}
+                colors={
+                  Array.isArray(presetColors)
+                    ? (presetColors
+                        .filter(
+                          item => typeof item === 'string' || isObject(item)
+                        )
+                        .map(item =>
+                          typeof item === 'string'
+                            ? item
+                            : isObject(item)
+                            ? item?.color
+                            : item
+                        ) as string[])
+                    : undefined
+                }
+                onChangeComplete={this.handleChange}
+              />
+            )}
+          </PopUp>
+        )}
       </div>
     );
   }

@@ -96,18 +96,6 @@
   }
 }
 
-.#{$ns}DropDown {
-  .#{$ns}DropDown-menu {
-    border: none;
-    > li {
-      color: #{$G2};
-    }
-    > li.is-disabled {
-      color: #{$G6};
-    }
-  }
-}
-
 .#{$ns}Toast {
   .#{$ns}Toast-icon {
     margin-right: #{px2rem(8px)};
@@ -338,17 +326,10 @@
   padding-left: 0;
 }
 
-.#{$ns}Form-label {
-  font-size: #{$T3};
-  color: #{$G4};
-}
-
 .#{$ns}Form-item {
   &--inline {
     .#{$ns}Form-label {
       margin-right: #{px2rem(16px)};
-      font-size: #{$T3};
-      color: #{$G4};
     }
   }
 }

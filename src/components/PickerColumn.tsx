@@ -21,6 +21,7 @@ import useTouch from '../hooks/use-touch';
 
 export interface PickerColumnItem {
   labelField?: string;
+  valueField?: string;
   readonly?: boolean;
   value?: PickerOption;
   swipeDuration?: number;
@@ -33,7 +34,7 @@ export interface PickerColumnItem {
     index?: number,
     confirm?: boolean
   ) => void;
-};
+}
 
 export interface PickerColumnProps extends PickerColumnItem, ThemeProps {}
 
@@ -64,12 +65,13 @@ function getElementTranslateY(element: HTMLElement | null) {
 function isOptionDisabled(option: PickerOption) {
   return isObject(option) && option.disabled;
 }
-  
+
 const PickerColumn = forwardRef<{}, PickerColumnProps>((props, ref) => {
   const {
     visibleItemCount = 5,
-    itemHeight = 30,
+    itemHeight = 48,
     value,
+    valueField = 'value',
     swipeDuration = 1000,
     labelField = 'text',
     options = [],
@@ -88,7 +90,24 @@ const PickerColumn = forwardRef<{}, PickerColumnProps>((props, ref) => {
 
   const touch = useTouch();
   const count = options.length;
-  const defaultIndex = options.findIndex(item => item === value);
+
+  const getOptionText = (option: [] | PickerOption) => {
+    if (isObject(option) && labelField in option) {
+      //@ts-ignore
+      return option[labelField];
+    }
+    return option;
+  };
+
+  const getOptionValue = (option: [] | PickerOption) => {
+    if (isObject(option) && valueField in option) {
+      //@ts-ignore
+      return option[valueField];
+    }
+    return option;
+  };
+
+  const defaultIndex = options.findIndex(item => getOptionValue(item) === value);
 
   const baseOffset = useMemo(() => {
     // 默认转入第一个选项的位置
@@ -134,12 +153,9 @@ const PickerColumn = forwardRef<{}, PickerColumnProps>((props, ref) => {
       if (emitChange && props.onChange) {
         requestAnimationFrame(
           () => {
-            props.onChange?.(options[index], index, confirm);
+            props.onChange?.(getOptionValue(options[index]), index, confirm);
           }
         );
-        // setTimeout(() => {
-        //   props.onChange?.(options[index], index, confirm);
-        // }, 0);
       }
     };
 
@@ -156,7 +172,7 @@ const PickerColumn = forwardRef<{}, PickerColumnProps>((props, ref) => {
   const setOptions = (options: Array<PickerOption>) => {
     if (JSON.stringify(options) !== JSON.stringify(state.options)) {
       updateState({options});
-      const index = options.findIndex(item => item === value) || 0;
+      const index = options.findIndex(item => getOptionValue(item) === value) || 0;
       setIndex(index, true, true);
     }
   };
@@ -168,14 +184,6 @@ const PickerColumn = forwardRef<{}, PickerColumnProps>((props, ref) => {
     transitionEndTrigger.current = null;
     updateState({duration: DEFAULT_DURATION});
     setIndex(index, true, true);
-  };
-
-  const getOptionText = (option: [] | PickerOption) => {
-    if (isObject(option) && labelField in option) {
-      //@ts-ignore
-      return option[labelField];
-    }
-    return option;
   };
 
   const getIndexByOffset = (offset: number) =>
@@ -301,7 +309,7 @@ const PickerColumn = forwardRef<{}, PickerColumnProps>((props, ref) => {
           onClickItem(index);
         }
       };
-      
+
       const childData = {
         className: 'text-ellipsis',
         children: text
@@ -357,23 +365,23 @@ const PickerColumn = forwardRef<{}, PickerColumnProps>((props, ref) => {
     transitionProperty: state.duration ? 'all' : 'none'
   };
   return (
-      <div
-          ref={root}
-          className={props.classnames('PickerColumns', props.className)}
-          onTouchStart={onTouchStart}
-          onTouchMove={onTouchMove}
-          onTouchEnd={onTouchEnd}
-          onTouchCancel={onTouchEnd}
+    <div
+      ref={root}
+      className={props.classnames('PickerColumns', props.className)}
+      onTouchStart={onTouchStart}
+      onTouchMove={onTouchMove}
+      onTouchEnd={onTouchEnd}
+      onTouchCancel={onTouchEnd}
+    >
+      <ul
+        ref={wrapper}
+        style={wrapperStyle}
+        className={props.classnames('PickerColumns-columnWrapper')}
+        onTransitionEnd={stopMomentum}
       >
-          <ul
-          ref={wrapper}
-          style={wrapperStyle}
-          className={props.classnames('PickerColumns-columnWrapper')}
-          onTransitionEnd={stopMomentum}
-          >
-          {renderOptions()}
-          </ul>
-      </div>
+        {renderOptions()}
+      </ul>
+    </div>
   );
 });
 
@@ -381,7 +389,7 @@ PickerColumn.defaultProps = {
   options: [],
   visibleItemCount: 5,
   swipeDuration: 1000,
-  itemHeight: 30
+  itemHeight: 48
 };
 
 export default themeable(
@@ -389,4 +397,3 @@ export default themeable(
     value: 'onChange'
   })
 );
-

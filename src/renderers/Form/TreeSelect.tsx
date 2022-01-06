@@ -568,12 +568,13 @@ export default class TreeSelectControl extends React.Component<
       selectedOptions,
       placeholder,
       popOverContainer,
-      env,
-      translate: __
+      useMobileUI,
+      translate: __,
+      env
     } = this.props;
 
-    const { isOpened } = this.state;
-    const { useMobileUI } = env;
+    const {isOpened} = this.state;
+    const mobileUI = useMobileUI && isMobile();
     return (
       <div ref={this.container} className={cx(`TreeSelectControl`, className)}>
         <ResultBox
@@ -612,7 +613,7 @@ export default class TreeSelectControl extends React.Component<
         >
           {loading ? <Spinner size="sm" /> : undefined}
         </ResultBox>
-        { !(useMobileUI && isMobile()) && isOpened ? (
+        {!mobileUI && isOpened ? (
           <Overlay
             container={popOverContainer || (() => this.container.current)}
             target={() => this.target}
@@ -631,17 +632,18 @@ export default class TreeSelectControl extends React.Component<
             </PopOver>
           </Overlay>
         ) : null}
-        {
-          useMobileUI && isMobile() && (
-            <PopUp
-              className={cx(`${ns}TreeSelect-popup`)}
-              isShow={isOpened}
-              onHide={this.close}
-            >
-              {this.renderOuter()}
-            </PopUp>
-          )
-        }
+        {mobileUI ? (
+          <PopUp
+            container={
+              env && env.getModalContainer ? env.getModalContainer : undefined
+            }
+            className={cx(`${ns}TreeSelect-popup`)}
+            isShow={isOpened}
+            onHide={this.close}
+          >
+            {this.renderOuter()}
+          </PopUp>
+        ) : null}
       </div>
     );
   }

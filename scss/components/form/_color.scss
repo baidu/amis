@@ -10,8 +10,8 @@
   color: var(--ColorPicker-color);
   border-radius: var(--borderRadius);
 
-  &-popup{
-    height: 80vh;
+  &-popup {
+    height: px2rem(400px);
   }
 
   &:not(.is-disabled) {

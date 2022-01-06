@@ -5,7 +5,8 @@
  */
 
 import React from 'react';
-import {ClassNamesFn, themeable} from '../theme';
+import {themeable, ThemeProps} from '../theme';
+import {localeable, LocaleProps} from '../locale';
 import Transition, {
   ENTERED,
   EXITING,
@@ -13,23 +14,24 @@ import Transition, {
   ENTERING
 } from 'react-transition-group/Transition';
 import Portal from 'react-overlays/Portal';
-import { Icon } from './icons';
+import {Icon} from './icons';
+import Button from './Button';
 
-
-export interface PopUpPorps {
+export interface PopUpPorps extends ThemeProps, LocaleProps {
+  title?: string;
   className?: string;
   style?: {
     [styleName: string]: string;
   };
   overlay?: boolean;
   onHide?: () => void;
-  classPrefix: string;
-  classnames: ClassNamesFn;
-  [propName: string]: any;
   isShow?: boolean;
   container?: any;
-  hideClose?: boolean;
+  showConfirm?: boolean;
+  onConfirm?: (value: any) => void;
+  showClose?: boolean;
   placement?: 'left' | 'center' | 'right';
+  header?: JSX.Element;
 }
 
 const fadeStyles: {
@@ -41,16 +43,28 @@ const fadeStyles: {
   [ENTERING]: 'in'
 };
 export class PopUp extends React.PureComponent<PopUpPorps> {
+  scrollTop: number = 0;
   static defaultProps = {
     className: '',
     overlay: true,
     isShow: false,
     container: document.body,
-    hideClose: false,
+    showClose: true,
+    onConfirm: () => {}
   };
-
-  componentDidMount() {
-
+  componentDidUpdate() {
+    if (this.props.isShow) {
+      this.scrollTop =
+        document.body.scrollTop || document.documentElement.scrollTop;
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'auto';
+      document.body.scrollTop = this.scrollTop;
+    }
+  }
+  componentWillUnmount() {
+    document.body.style.overflow = 'auto';
+    document.body.scrollTop = this.scrollTop;
   }
   handleClick(e: React.MouseEvent) {
     e.stopPropagation();
@@ -59,75 +73,88 @@ export class PopUp extends React.PureComponent<PopUpPorps> {
   render() {
     const {
       style,
+      title,
       children,
       overlay,
       onHide,
+      onConfirm,
       classPrefix: ns,
       classnames: cx,
       className,
       isShow,
       container,
-      hideClose,
-      placement='center',
+      showConfirm,
+      translate: __,
+      showClose,
+      header,
+      placement = 'center',
       ...rest
     } = this.props;
 
     const outerStyle: any = {
-      ...style,
+      ...style
     };
     delete outerStyle.top;
     return (
       <Portal container={container}>
-        <Transition
-          mountOnEnter
-          unmountOnExit
-          in={isShow}
-          timeout={500}
-          appear
-        >
+        <Transition mountOnEnter unmountOnExit in={isShow} timeout={500} appear>
           {(status: string) => {
-              return (
-                <div
-                  className={cx(
-                    `${ns}PopUp`,
-                    className,
-                    fadeStyles[status]
-                  )}
-                  style={outerStyle}
-                  {...rest}
-                  onClick={this.handleClick}
-                >
-                  {overlay && (
-                    <div className={`${ns}PopUp-overlay`} onClick={onHide}/>
-                  )}
-                  <div className={cx(
-                    `${ns}PopUp-inner`
-                  )}
-                  >
-                    {
-                      !hideClose && (
-                        <div className={cx(`${ns}PopUp-closeWrap`, 'text-right')}>
-                          <Icon
-                            icon="close"
-                          className={cx('icon', `${ns}PopUp-close`)}
-                            onClick={onHide}
-                          />
-                        </div>
-                      )
-                    }
-                    <div
-                      className={cx(`${ns}PopUp-content`, `justify-${placement}`)}
-                    >
-                      {children}
+            return (
+              <div
+                className={cx(`${ns}PopUp`, className, fadeStyles[status])}
+                style={outerStyle}
+                {...rest}
+                onClick={this.handleClick}
+              >
+                {overlay && (
+                  <div className={`${ns}PopUp-overlay`} onClick={onHide} />
+                )}
+                <div className={cx(`${ns}PopUp-inner`)}>
+                  {!showConfirm && showClose ? (
+                    <div className={cx(`${ns}PopUp-closeWrap`)}>
+                      {header}
+                      <Icon
+                        icon="close"
+                        className={cx('icon', `${ns}PopUp-close`)}
+                        onClick={onHide}
+                      />
                     </div>
+                  ) : null}
+                  {showConfirm && (
+                    <div className={cx(`${ns}PopUp-toolbar`)}>
+                      <Button
+                        className={cx(`${ns}PopUp-cancel`)}
+                        level="text"
+                        onClick={onHide}
+                      >
+                        {__('cancel')}
+                      </Button>
+                      {title && (
+                        <span className={cx(`${ns}PopUp-title`)}>{title}</span>
+                      )}
+                      <Button
+                        className={cx(`${ns}PopUp-confirm`)}
+                        level="text"
+                        onClick={onConfirm}
+                      >
+                        {__('confirm')}
+                      </Button>
+                    </div>
+                  )}
+                  <div
+                    className={cx(`${ns}PopUp-content`, `justify-${placement}`)}
+                  >
+                    {isShow ? children : null}
                   </div>
+                  <div className={cx(`PopUp-safearea`)}></div>
                 </div>
-              )
+              </div>
+            );
           }}
         </Transition>
       </Portal>
-    )
+    );
   }
 }
 
-export default themeable(PopUp);
+export default themeable(localeable(PopUp));

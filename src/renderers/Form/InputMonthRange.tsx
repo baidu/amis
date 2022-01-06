@@ -185,7 +185,6 @@ export default class MonthRangeControl extends React.Component<MonthRangeProps> 
           maxDate={maxDate ? filterDate(maxDate, data, format) : undefined}
           minDuration={minDuration ? parseDuration(minDuration) : undefined}
           maxDuration={maxDuration ? parseDuration(maxDuration) : undefined}
-          useMobileUI={env.useMobileUI}
         />
       </div>
     );

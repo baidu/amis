@@ -5,7 +5,7 @@ import type {FuncGroup, VariableItem} from '../../components/formula/Editor';
 
 /**
  * InputFormula 公式编辑器
- * 文档：https://baidu.gitee.io/amis/docs/components/form/input-formula
+ * 文档：https://baidu.gitee.io/amis/zh-CN/components/form/input-formula
  */
 export interface InputFormulaControlSchema extends FormBaseControl {
   type: 'input-formula';
@@ -22,6 +22,9 @@ export interface InputFormulaControlSchema extends FormBaseControl {
    */
   variables: Array<VariableItem>;
 
+  /**
+   * 变量展现模式，可选值：'tabs' ｜ 'tree'
+   */
   variableMode?: 'tabs' | 'tree';
 
   /**
@@ -56,19 +59,21 @@ export class InputFormulaRenderer extends React.Component<InputFormulaProps> {
       variables,
       variableMode,
       functions,
-      header
+      header,
+      label,
+      value
     } = this.props;
 
     return (
       <FormulaPicker
-        value={selectedOptions}
+        value={value}
         disabled={disabled}
         onChange={onChange}
         evalMode={evalMode}
         variables={variables}
         variableMode={variableMode}
         functions={functions}
-        header={header}
+        header={header || label || ''}
       />
     );
   }

@@ -167,6 +167,7 @@ import './renderers/Icon';
 import './renderers/Carousel';
 import './renderers/AnchorNav';
 import './renderers/Steps';
+import './renderers/Timeline';
 import './renderers/Markdown';
 import './renderers/TableView';
 import './renderers/Code';
@@ -212,6 +213,8 @@ import {
   getTheme
 } from './theme';
 const classPrefix = getClassPrefix();
+
+import './actions';
 
 export * from './components/index';
 
