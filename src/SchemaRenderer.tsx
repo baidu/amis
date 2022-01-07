@@ -95,10 +95,11 @@ class BroadcastCmpt extends React.Component<BroadcastCmptProps> {
   }
 
   render() {
+    const {component: Component, ...rest} = this.props;
     return (
-      <this.props.component
+      <Component
         ref={this.childRef}
-        {...this.props}
+        {...rest}
         dispatchEvent={this.triggerEvent}
       />
     );
