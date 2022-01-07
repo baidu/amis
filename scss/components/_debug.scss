@@ -4,7 +4,7 @@
   top: 0;
   right: 0;
   height: 100vh;
-  width: 32px;
+  width: 24px;
 
   color: var(--text-color);
 
@@ -13,6 +13,18 @@
     background: var(--Drawer-header-bg);
     border-bottom: var(--Drawer-content-borderWidth) solid
       var(--Drawer-header-borderColor);
+  }
+
+  &-hoverBox {
+    pointer-events: none;
+    position: absolute;
+    outline: 1px dashed #1c76c4;
+  }
+
+  &-activeBox {
+    pointer-events: none;
+    position: absolute;
+    outline: 1px #1c76c4;
   }
 
   &-tab {

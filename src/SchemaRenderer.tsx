@@ -372,7 +372,7 @@ export class SchemaRenderer extends React.Component<SchemaRendererProps, any> {
     }
 
     return (
-      <DebugWrapper>
+      <DebugWrapper renderer={renderer}>
         <BroadcastCmpt
           {...theme.getRendererConfig(renderer.name)}
           {...restSchema}
