@@ -390,7 +390,7 @@ export function registerOptionsControl(config: OptionsConfig) {
         this.normalizeValue();
       } else if (
         config.autoLoadOptionsFromSource !== false &&
-        props.formInited &&
+        (props.formInited || typeof props.formInited === 'undefined') &&
         props.source &&
         formItem &&
         (prevProps.source !== props.source || prevProps.data !== props.data)
