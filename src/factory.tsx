@@ -4,6 +4,7 @@ import {getEnv, destroy} from 'mobx-state-tree';
 import {wrapFetcher} from './utils/api';
 import {normalizeLink} from './utils/normalizeLink';
 import {
+  createObject,
   findIndex,
   isObject,
   JSONTraverse,
@@ -33,6 +34,14 @@ import ScopedRootRenderer, {RootRenderProps} from './Root';
 import {HocStoreFactory} from './WithStore';
 import {EnvContext, RendererEnv} from './env';
 import {envOverwrite} from './envOverwrite';
+import {
+  EventListeners,
+  createRendererEvent,
+  RendererEventListener,
+  OnEventProps,
+  RendererEvent
+} from './utils/renderer-event';
+import {runActions} from './actions/Action';
 
 export interface TestFunc {
   (
@@ -63,7 +72,7 @@ export interface RendererBasicConfig {
   // [propName:string]:any;
 }
 
-export interface RendererProps extends ThemeProps, LocaleProps {
+export interface RendererProps extends ThemeProps, LocaleProps, OnEventProps {
   render: (region: string, node: SchemaNode, props?: any) => JSX.Element;
   env: RendererEnv;
   $path: string; // 当前组件所在的层级信息
@@ -257,7 +266,9 @@ const defaultOptions: RenderOptions = {
   affixOffsetTop: 0,
   affixOffsetBottom: 0,
   richTextToken: '',
+  useMobileUI: true, // 是否启用移动端原生 UI
   loadRenderer,
+  rendererEventListeners: [],
   fetcher() {
     return Promise.reject('fetcher is required');
   },
@@ -347,6 +358,82 @@ const defaultOptions: RenderOptions = {
   },
   // 用于跟踪用户在界面中的各种操作
   tracker(eventTrack: EventTrack, props: PlainObject) {},
+  // 返回解绑函数
+  bindEvent(renderer: any) {
+    const listeners: EventListeners = renderer.props.$schema.onEvent;
+    if (listeners) {
+      // 暂存
+      for (let key of Object.keys(listeners)) {
+        this.rendererEventListeners.push({
+          renderer,
+          type: key,
+          weight: listeners[key].weight || 0,
+          actions: listeners[key].actions
+        });
+      }
+
+      return () => {
+        this.rendererEventListeners = this.rendererEventListeners.filter(
+          (item: RendererEventListener) => item.renderer === renderer
+        );
+      };
+    }
+
+    return undefined;
+  },
+  async dispatchEvent(
+    e: string | React.MouseEvent<any>,
+    renderer: React.Component<RendererProps>,
+    data: any,
+    broadcast: RendererEvent<any>
+  ) {
+    const eventName = typeof e === 'string' ? e : e.type;
+    if (!broadcast) {
+      const eventConfig = renderer?.props?.onEvent?.[eventName];
+
+      if (!eventConfig) {
+        // 没命中也没关系
+        return Promise.resolve(undefined);
+      }
+    }
+
+    // 没有可处理的监听
+    if (!this.rendererEventListeners.length) {
+      return Promise.resolve();
+    }
+
+    // 如果是广播动作，就直接复用
+    const rendererEvent =
+      broadcast ||
+      createRendererEvent(eventName, {
+        env: this,
+        nativeEvent: e,
+        data
+      });
+
+    // 过滤&排序
+    const listeners = this.rendererEventListeners
+      .filter(
+        (item: RendererEventListener) =>
+          item.type === eventName &&
+          (broadcast ? true : item.renderer === renderer)
+      )
+      .sort(
+        (prev: RendererEventListener, next: RendererEventListener) =>
+          next.weight - prev.weight
+      );
+
+    for (let listener of listeners) {
+      await runActions(listener.actions, listener.renderer, rendererEvent);
+
+      // 停止后续监听器执行
+      if (rendererEvent.stoped) {
+        break;
+      }
+    }
+
+    return rendererEvent;
+  },
   rendererResolver: resolveRenderer,
   replaceTextIgnoreKeys: [
     'type',
@@ -408,6 +495,11 @@ export function render(
   if (props.locale !== undefined) {
     env.translate = translate;
     env.locale = locale;
+  }
+
+  // 默认将开启移动端原生 UI
+  if (typeof options.useMobileUI) {
+    props.useMobileUI = true;
   }
 
   // 进行文本替换

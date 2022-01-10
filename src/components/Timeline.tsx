@@ -15,7 +15,7 @@ export function Timeline(props: TimelineProps) {
     classnames: cx,
     direction = 'vertical',
     reverse = false,
-    mode = 'right',
+    mode = 'right'
   } = props;
 
   const timelineDatasource = items?.slice();
@@ -23,9 +23,14 @@ export function Timeline(props: TimelineProps) {
   reverse && timelineDatasource?.reverse();
 
   return (
-    <div className={cx('Timeline', `Timeline-${direction}`, `Timeline-${mode}`)}>
-      {timelineDatasource?.map((item: TimelineItemProps) => <TimelineItem {...item} />)}
-    </div>)
+    <div
+      className={cx('Timeline', `Timeline-${direction}`, `Timeline-${mode}`)}
+    >
+      {timelineDatasource?.map((item: TimelineItemProps, index: number) => (
+        <TimelineItem {...item} key={`TimelineItem-${index}`} />
+      ))}
+    </div>
+  );
 }
 
 export default themeable(Timeline);

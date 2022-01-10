@@ -2,6 +2,7 @@ import React from 'react';
 import {toast} from '../../src/components/Toast';
 import {render, makeTranslator} from '../../src/index';
 import {normalizeLink} from '../../src/utils/normalizeLink';
+import {isMobile} from '../../src/utils/helper';
 import attachmentAdpator from '../../src/utils/attachmentAdpator';
 import {alert, confirm} from '../../src/components/Alert';
 import axios from 'axios';
@@ -324,11 +325,10 @@ export default class PlayGround extends React.Component {
       theme: this.props.theme,
       locale: this.props.locale,
       affixHeader: false,
-      affixFooter: false,
-      useMobileUI: true
+      affixFooter: false
     };
 
-    if (this.props.viewMode === 'mobile') {
+    if (this.props.viewMode === 'mobile' && !isMobile()) {
       return (
         <iframe
           width="375"

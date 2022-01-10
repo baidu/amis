@@ -119,6 +119,8 @@ $L1: 0px 4px 6px 0px rgba(8, 14, 26, 0.06),
   --Page-header-paddingX: var(--gap-md);
   --Page-header-paddingY: #{px2rem(10px)};
 
+  --Form-item-fontSize: var(--fontSizeBase);
+  --Form-item-fontColor: #{$G4};
   --Form-item-gap: var(--gap-base);
   --Form-input-bg: #{$G11};
   --Form-input-color: #{$G2};
@@ -320,7 +322,7 @@ $L1: 0px 4px 6px 0px rgba(8, 14, 26, 0.06),
   --Button--primary-onActive-color: #{$G11};
 
   --Button--light-border: var(--light);
-  --Button--light-color: var(--button-color);
+  --Button--light-color: var(--text-color);
 
   --Button-onDisabled-borderColor: #{$G9};
   --Button-onDisabled-opacity: 0.65;
@@ -641,7 +643,8 @@ $L1: 0px 4px 6px 0px rgba(8, 14, 26, 0.06),
   --TimelineItem--round-radius: #{$R8};
   --TimelineItem--content-radius: #{$R2};
 
-  --TimelineItem-detail-visible-shadow: 0 #{px2rem(1px)} #{px2rem(10px)} 0 rgba(0 0 0 / 10%);
+  --TimelineItem-detail-visible-shadow: 0 #{px2rem(1px)} #{px2rem(10px)} 0
+    rgba(0 0 0 / 10%);
 
   --TimelineItem--font-size: #{$T2};
 
@@ -656,7 +659,6 @@ $L1: 0px 4px 6px 0px rgba(8, 14, 26, 0.06),
   --Timeline--info-bg: var(--info);
   --Timeline--warning-bg: var(--warning);
   --Timeline--danger-bg: var(--danger);
-
 
   // Formula
   --Formula-header-bgColor: #{$G10};

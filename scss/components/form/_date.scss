@@ -123,8 +123,53 @@
 }
 
 .#{$ns}DatePicker-popup {
-  height: 80vh;
+  height: px2rem(300px);
 }
+
+// 移动端输入框样式
+.#{$ns}DatePicker.is-mobile {
+  border: 0;
+  justify-content: flex-end;
+
+  span,
+  a {
+    &:focus {
+      outline: unset;
+    }
+  }
+
+  .#{$ns}DatePicker-value,
+  .#{$ns}DatePicker-clear {
+    display: inline-flex;
+    justify-content: flex-end;
+    padding: 0 0;
+  }
+
+  .#{$ns}DatePicker-value {
+    margin-right: var(--gap-xs);
+  }
+
+  .#{$ns}DatePicker-placeholder {
+    flex-grow: unset;
+    flex-basis: unset;
+  }
+
+  .#{$ns}DatePicker-toggler {
+    margin-top: -3px;
+  }
+}
+
+.#{$ns}DatePicker-popup.#{$ns}DatePicker-mobile {
+  color: red;
+  .rdt {
+    width: 100%;
+    .rdtPicker {
+      width: 100%;
+      padding: unset;
+    }
+  }
+}
+
 // override third-party styles
 .rdt {
   user-select: none;

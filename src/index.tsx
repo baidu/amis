@@ -212,6 +212,8 @@ import {
 } from './theme';
 const classPrefix = getClassPrefix();
 
+import './actions';
+
 export * from './components/index';
 
 export {

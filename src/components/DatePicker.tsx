@@ -17,6 +17,7 @@ import Calendar from './calendar/Calendar';
 import 'react-datetime/css/react-datetime.css';
 import {localeable, LocaleProps, TranslateFn} from '../locale';
 import {isMobile, ucFirst} from '../utils/helper';
+import CalendarMobile from './CalendarMobile';
 
 const availableShortcuts: {[propName: string]: any} = {
   now: {
@@ -288,8 +289,9 @@ export interface DateProps extends LocaleProps, ThemeProps {
   scheduleClassNames?: Array<string>;
   largeMode?: boolean;
   onScheduleClick?: (scheduleData: any) => void;
-
   useMobileUI?: boolean;
+  // 在移动端日期展示有多种形式，一种是picker 滑动选择，一种是日历展开选择，mobileCalendarMode为calendar表示日历展开选择
+  mobileCalendarMode?: 'picker' | 'calendar';
 
   // 下面那个千万不要写，写了就会导致 keyof DateProps 得到的结果是 string | number;
   // [propName: string]: any;
@@ -571,12 +573,33 @@ export class DatePicker extends React.Component<DateProps, DatePickerState> {
       schedules,
       largeMode,
       scheduleClassNames,
-      onScheduleClick
+      onScheduleClick,
+      mobileCalendarMode
     } = this.props;
 
     const __ = this.props.translate;
     const isOpened = this.state.isOpened;
     let date: moment.Moment | undefined = this.state.value;
+
+    const calendarMobile = <CalendarMobile
+      isDatePicker={true}
+      timeFormat={timeFormat}
+      inputFormat={inputFormat}
+      startDate={date}
+      defaultDate={date}
+      minDate={minDate}
+      maxDate={maxDate}
+      dateFormat={dateFormat}
+      embed={embed}
+      viewMode={viewMode}
+      close={this.close}
+      confirm={this.handleChange}
+      footerExtra={this.renderShortCuts(shortcuts)}
+      showViewMode={viewMode === 'quarters' || viewMode === 'months' ? 'years' : 'months'}
+      timeConstraints={timeConstraints}
+    />;
+    const CalendarMobileTitle = <div className={`${ns}CalendarMobile-title`}>{__('Calendar.datepicker')}</div>;
+    const useCalendarMobile = useMobileUI && isMobile() && ['days', 'months', 'quarters'].indexOf(viewMode) > -1;
 
     if (embed) {
       let schedulesData: DateProps['schedules'] = undefined;
@@ -628,6 +651,8 @@ export class DatePicker extends React.Component<DateProps, DatePickerState> {
             schedules={schedulesData}
             largeMode={largeMode}
             onScheduleClick={onScheduleClick}
+            embed={embed}
+            useMobileUI={useMobileUI}
           />
         </div>
       );
@@ -644,7 +669,8 @@ export class DatePicker extends React.Component<DateProps, DatePickerState> {
           {
             'is-disabled': disabled,
             'is-focused': this.state.isFocused,
-            [`DatePicker--border${ucFirst(borderMode)}`]: borderMode
+            [`DatePicker--border${ucFirst(borderMode)}`]: borderMode,
+            'is-mobile': useMobileUI && isMobile()
           },
           className
         )}
@@ -703,15 +729,27 @@ export class DatePicker extends React.Component<DateProps, DatePickerState> {
                 locale={locale}
                 minDate={minDate}
                 maxDate={maxDate}
+                useMobileUI={useMobileUI}
                 // utc={utc}
               />
             </PopOver>
           </Overlay>
         ) : null}
         {useMobileUI && isMobile() ? (
-          <PopUp
-            className={cx(`${ns}DatePicker-popup`)}
+          mobileCalendarMode === 'calendar' && useCalendarMobile
+          ? <PopUp
+              isShow={isOpened}
+              className={cx(`${ns}CalendarMobile-pop`)}
+              onHide={this.close}
+              header={CalendarMobileTitle}
+            >
+              {calendarMobile}
+            </PopUp>
+          : <PopUp
+            className={cx(`${ns}DatePicker-popup DatePicker-mobile`)}
+            container={popOverContainer}
             isShow={isOpened}
+            showClose={false}
             onHide={this.handleClick}
           >
             {this.renderShortCuts(shortcuts)}
@@ -730,6 +768,8 @@ export class DatePicker extends React.Component<DateProps, DatePickerState> {
               onClose={this.close}
               locale={locale}
               minDate={minDate}
+              maxDate={maxDate}
+              useMobileUI={useMobileUI}
               // utc={utc}
             />
           </PopUp>

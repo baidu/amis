@@ -52,6 +52,8 @@
   font-weight: var(--fontWeightNormal);
   margin-bottom: var(--gap-xs);
   position: relative;
+  font-size: var(--Form-item-fontSize);
+  color: var(--Form-item-fontColor);
 
   > span {
     position: relative;
@@ -435,20 +437,34 @@
       }
 
       > .#{$ns}Form-label {
-        flex: 0 0 30%;
-        max-width: 30%;
+        flex: 0 0 28%;
+        max-width: 28%;
         min-height: 1px;
         text-align: left;
         padding-right: calc(var(--Form--horizontal-gutterWidth) / 2);
         overflow-wrap: break-word;
         margin-right: 0;
         margin-bottom: 0;
+        font-size: var(--fontSizeLg);
+      }
+
+      .#{$ns}Form-description {
+        font-size: var(--fontSizeBase);
+      }
+
+      .#{$ns}TextControl-input {
+        font-size: var(--fontSizeLg);
+
+        input {
+          height: calc(var(--Form-input-lineHeight) * var(--fontSizeLg));
+        }
       }
 
       .#{$ns}Form-value,
       .#{$ns}Form-control {
         flex: 1;
         flex-wrap: wrap;
+        font-size: var(--fontSizeLg);
 
         &.is-disabled > .#{$ns}TextControl-input {
           background: transparent;
@@ -467,19 +483,46 @@
         padding-bottom: 0;
       }
 
+      .#{$ns}Form-group--horizontal .#{$ns}TextControl-input input {
+        height: var(--Form-input-height);
+      }
+
       .#{$ns}Form-hint {
+        font-size: var(--fontSizeBase);
         margin-left: 0;
         color: var(--text--muted-color);
+      }
+
+      .#{$ns}TextControl-placeholder {
+        top: 0;
       }
 
       .#{$ns}Form-static {
         min-height: 0;
       }
 
+      .#{$ns}Form-description,
+      .#{$ns}Form-feedback {
+        font-size: var(--fontSizeBase);
+      }
+
       .#{$ns}InputGroup {
         .#{$ns}Select,
         .#{$ns}InputGroup-btn .#{$ns}Button {
           border: none;
+        }
+
+        > .#{$ns}TextControl-input input {
+          height: var(--Form-input-height);
+        }
+      }
+
+      .#{$ns}ColorPicker {
+        padding: 0;
+        border: none;
+
+        .#{$ns}ColorPicker-arrow {
+          display: none;
         }
       }
 
@@ -501,6 +544,11 @@
           outline: none;
           outline-style: none;
         }
+      }
+
+      .#{$ns}Form-control > .#{$ns}TextControl-input--multiple {
+        padding: 0;
+        min-height: 0;
       }
     }
 

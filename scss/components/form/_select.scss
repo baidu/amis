@@ -2,6 +2,7 @@
   display: inline-flex;
   vertical-align: middle;
   text-align: left;
+  align-items: center;
   outline: none;
   position: relative;
   font-size: var(--Form-input-fontSize);
@@ -162,8 +163,25 @@
     }
   }
 
-  &.is-opened &-arrow > svg {
+  &.is-opened:not(.is-mobile) &-arrow > svg {
     transform: rotate(180deg);
+  }
+
+  &.is-mobile {
+    min-height: calc(var(--Form-input-lineHeight) * var(--fontSizeLg));
+    border: none;
+    padding: 0;
+    font-size: var(--fontSizeLg);
+
+    .#{$ns}Select-valueWrap {
+      text-align: right;
+      padding-right: 4px;
+    }
+    .#{$ns}Select-arrow {
+      > svg {
+        transform: rotate(-90deg);
+      }
+    }
   }
 
   &-menu {
@@ -175,6 +193,13 @@
     .#{$ns}Checkbox--sm > i {
       margin-top: px2rem(-3px);
       margin-right: px2rem(4px);
+    }
+    &.is-mobile {
+      width: 100%;
+      text-align: center;
+      .#{$ns}Select-option {
+        line-height: px2rem(36px);
+      }
     }
   }
   &--longlist {
@@ -299,8 +324,8 @@
     }
   }
 
-  &.is-focused,
-  &.is-opened {
+  &.is-focused:not(.is-mobile),
+  &.is-opened:not(.is-mobile) {
     border-color: var(--Form-input-onFocused-borderColor);
     color: var(--Form-select-onFocused-color);
   }
@@ -332,6 +357,10 @@
         }
       }
     }
+  }
+
+  &-popup {
+    height: px2rem(320px);
   }
 }
 

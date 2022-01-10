@@ -21,6 +21,7 @@ import useTouch from '../hooks/use-touch';
 
 export interface PickerColumnItem {
   labelField?: string;
+  valueField?: string;
   readonly?: boolean;
   value?: PickerOption;
   swipeDuration?: number;
@@ -68,8 +69,9 @@ function isOptionDisabled(option: PickerOption) {
 const PickerColumn = forwardRef<{}, PickerColumnProps>((props, ref) => {
   const {
     visibleItemCount = 5,
-    itemHeight = 30,
+    itemHeight = 48,
     value,
+    valueField = 'value',
     swipeDuration = 1000,
     labelField = 'text',
     options = [],
@@ -88,7 +90,24 @@ const PickerColumn = forwardRef<{}, PickerColumnProps>((props, ref) => {
 
   const touch = useTouch();
   const count = options.length;
-  const defaultIndex = options.findIndex(item => item === value);
+
+  const getOptionText = (option: [] | PickerOption) => {
+    if (isObject(option) && labelField in option) {
+      //@ts-ignore
+      return option[labelField];
+    }
+    return option;
+  };
+
+  const getOptionValue = (option: [] | PickerOption) => {
+    if (isObject(option) && valueField in option) {
+      //@ts-ignore
+      return option[valueField];
+    }
+    return option;
+  };
+
+  const defaultIndex = options.findIndex(item => getOptionValue(item) === value);
 
   const baseOffset = useMemo(() => {
     // 默认转入第一个选项的位置
@@ -132,12 +151,11 @@ const PickerColumn = forwardRef<{}, PickerColumnProps>((props, ref) => {
       updateState({index});
 
       if (emitChange && props.onChange) {
-        requestAnimationFrame(() => {
-          props.onChange?.(options[index], index, confirm);
-        });
-        // setTimeout(() => {
-        //   props.onChange?.(options[index], index, confirm);
-        // }, 0);
+        requestAnimationFrame(
+          () => {
+            props.onChange?.(getOptionValue(options[index]), index, confirm);
+          }
+        );
       }
     };
 
@@ -154,7 +172,7 @@ const PickerColumn = forwardRef<{}, PickerColumnProps>((props, ref) => {
   const setOptions = (options: Array<PickerOption>) => {
     if (JSON.stringify(options) !== JSON.stringify(state.options)) {
       updateState({options});
-      const index = options.findIndex(item => item === value) || 0;
+      const index = options.findIndex(item => getOptionValue(item) === value) || 0;
       setIndex(index, true, true);
     }
   };
@@ -166,14 +184,6 @@ const PickerColumn = forwardRef<{}, PickerColumnProps>((props, ref) => {
     transitionEndTrigger.current = null;
     updateState({duration: DEFAULT_DURATION});
     setIndex(index, true, true);
-  };
-
-  const getOptionText = (option: [] | PickerOption) => {
-    if (isObject(option) && labelField in option) {
-      //@ts-ignore
-      return option[labelField];
-    }
-    return option;
   };
 
   const getIndexByOffset = (offset: number) =>
@@ -379,7 +389,7 @@ PickerColumn.defaultProps = {
   options: [],
   visibleItemCount: 5,
   swipeDuration: 1000,
-  itemHeight: 30
+  itemHeight: 48
 };
 
 export default themeable(

@@ -38,6 +38,7 @@ import Spinner from './Spinner';
 import {Option, Options} from '../Schema';
 import {RemoteOptionsProps, withRemoteConfig} from './WithRemoteConfig';
 import Picker from './Picker';
+import PopUp from './PopUp';
 
 export {Option, Options};
 
@@ -935,23 +936,13 @@ export class Select extends React.Component<SelectProps, SelectState> {
       labelField: 'label',
       options: filtedOptions
     };
-    const menu = mobileUI ? (
-      <Picker
-        className={cx('PickerColumns-column', mobileClassName)}
-        labelField="label"
-        value={value[0]}
-        translate={this.props.translate}
-        locale={this.props.locale}
-        columns={[column]}
-        onChange={checkAll ? noop : this.handlePickerChange}
-        onClose={this.close}
-        onConfirm={this.confirm}
-      />
-    ) : (
+    const menu = (
       <div
         ref={this.menu}
         className={cx('Select-menu', {
-          'Select--longlist': filtedOptions.length && filtedOptions.length > 100
+          'Select--longlist':
+            filtedOptions.length && filtedOptions.length > 100,
+          'is-mobile': mobileUI
         })}
       >
         {searchable ? (
@@ -1033,8 +1024,16 @@ export class Select extends React.Component<SelectProps, SelectState> {
         )}
       </div>
     );
-
-    return (
+    return mobileUI ? (
+      <PopUp
+        className={cx(`Select-popup`)}
+        container={popOverContainer}
+        isShow={this.state.isOpen}
+        onHide={this.close}
+      >
+        {menu}
+      </PopUp>
+    ) : (
       <Overlay
         container={popOverContainer || this.getTarget}
         target={this.getTarget}
@@ -1043,11 +1042,7 @@ export class Select extends React.Component<SelectProps, SelectState> {
       >
         <PopOver
           overlay
-          className={cx(
-            'Select-popover',
-            popoverClassName,
-            mobileUI ? 'PopOver-isMobile' : ''
-          )}
+          className={cx('Select-popover')}
           style={{
             minWidth: this.target ? this.target.offsetWidth : 'auto'
           }}
@@ -1073,13 +1068,14 @@ export class Select extends React.Component<SelectProps, SelectState> {
       labelField,
       disabled,
       checkAll,
-      borderMode
+      borderMode,
+      useMobileUI
     } = this.props;
 
     const selection = this.state.selection;
     const inputValue = this.state.inputValue;
     const resetValue = this.props.resetValue;
-
+    const mobileUI = useMobileUI && isMobile();
     return (
       <Downshift
         selectedItem={selection}
@@ -1113,6 +1109,7 @@ export class Select extends React.Component<SelectProps, SelectState> {
                   'is-opened': isOpen,
                   'is-focused': this.state.isFocused,
                   'is-disabled': disabled,
+                  'is-mobile': mobileUI,
                   [`Select--border${ucFirst(borderMode)}`]: borderMode
                 },
                 className
