@@ -133,8 +133,6 @@ const AMISDebug = observer(({store}: {store: AMISDebugStore}) => {
 
   const panelRef = useRef(null);
 
-  const toggleRef = useRef(null);
-
   const [isResizing, setResizing] = useState(false);
 
   const [startX, setStartX] = useState(0);
@@ -146,14 +144,14 @@ const AMISDebug = observer(({store}: {store: AMISDebugStore}) => {
       setResizing(false);
     };
     const handleMouseMove = (e: MouseEvent) => {
+      if (!isResizing) {
+        return;
+      }
       const xOffset =
         store.position === 'right' ? e.clientX - startX : startX - e.clientX;
       const panel = panelRef.current! as HTMLElement;
-      const targetWidth = `${panelWidth - xOffset}px`;
-      panel.style.width = targetWidth;
-      if (store.position === 'left') {
-        (toggleRef.current! as HTMLElement).style.marginLeft = targetWidth;
-      }
+      const targetWidth = Math.max(200, panelWidth - xOffset);
+      panel.style.width = targetWidth + 'px';
       if (e.stopPropagation) e.stopPropagation();
       if (e.preventDefault) e.preventDefault();
       e.cancelBubble = true;
@@ -167,7 +165,7 @@ const AMISDebug = observer(({store}: {store: AMISDebugStore}) => {
     return () => {
       if (isResizing) {
         document.removeEventListener('mousemove', handleMouseMove);
-        document.addEventListener('mouseup', handleMouseUp);
+        document.removeEventListener('mouseup', handleMouseUp);
       }
     };
   }, [isResizing]);

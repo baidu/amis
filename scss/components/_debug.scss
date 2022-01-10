@@ -66,6 +66,7 @@
     background: var(--body-bg);
     position: fixed;
     top: 50%;
+    right: 0;
     width: 24px;
     height: 48px;
     box-shadow: rgba(0, 0, 0, 0.24) -2px 0px 4px 0px;
@@ -135,9 +136,6 @@
     .AMISDebug-resize {
       left: unset;
       right: 0;
-    }
-    .AMISDebug-toggle {
-      transform: rotateY(180deg);
     }
   }
 
