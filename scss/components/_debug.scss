@@ -48,7 +48,7 @@
     border: none;
     outline: none;
     cursor: pointer;
-    padding: 14px 16px;
+    padding: var(--gap-sm) var(--gap-md);
     transition: 0.3s;
     border-bottom: 1px solid transparent;
   }
@@ -77,29 +77,72 @@
     i {
       color: var(--text-color);
     }
+    &:hover {
+      i {
+        color: var(--primary);
+      }
+    }
   }
 
   &-content {
     display: none;
   }
 
+  &-resize {
+    position: absolute;
+    width: 4px;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    cursor: col-resize;
+    &:hover {
+      background: #75715e;
+    }
+  }
+
+  &-changePosition {
+    position: absolute;
+    font-size: 18px;
+    right: 40px;
+    top: var(--gap-sm);
+    cursor: pointer;
+  }
+
+  &-close {
+    position: absolute;
+    font-size: 18px;
+    right: var(--gap-sm);
+    top: var(--gap-sm);
+    cursor: pointer;
+  }
+
   &.is-expanded {
     width: 420px;
     overflow: auto;
-    border-left: 1px solid var(--borderColor);
     background: #272821;
     color: #cccccc;
     box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
     .AMISDebug-toggle {
-      margin-left: -24px;
+      display: none;
     }
     .AMISDebug-content {
       display: block;
     }
   }
 
+  &.is-left {
+    left: 0;
+    .AMISDebug-resize {
+      left: unset;
+      right: 0;
+    }
+    .AMISDebug-toggle {
+      transform: rotateY(180deg);
+    }
+  }
+
   &-log {
-    padding: var(--gap-xs);
+    padding: var(--gap-sm);
     button {
       cursor: pointer;
       background: #0e639c;
@@ -121,6 +164,6 @@
   }
 
   &-inspect {
-    padding: var(--gap-xs);
+    padding: var(--gap-sm);
   }
 }

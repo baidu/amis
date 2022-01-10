@@ -2,7 +2,7 @@
  * amis 运行时调试功能，为了避免循环引用，这个组件
  */
 
-import React, {Component, useEffect} from 'react';
+import React, {Component, useEffect, useRef, useState} from 'react';
 import cx from 'classnames';
 import {findDOMNode, render} from 'react-dom';
 import JsonView from 'react-json-view';
@@ -24,6 +24,11 @@ class AMISDebugStore {
    * 当前 tab
    */
   @observable tab: 'log' | 'inspect' = 'log';
+
+  /**
+   * 显示位置，默认在右边
+   */
+  @observable position: 'left' | 'right' = 'right';
 
   /**
    * 组件日志
@@ -126,17 +131,90 @@ const AMISDebug = observer(({store}: {store: AMISDebugStore}) => {
     }
   }
 
+  const panelRef = useRef(null);
+
+  const toggleRef = useRef(null);
+
+  const [isResizing, setResizing] = useState(false);
+
+  const [startX, setStartX] = useState(0);
+
+  const [panelWidth, setPanelWidth] = useState(0);
+
+  useEffect(() => {
+    const handleMouseUp = () => {
+      setResizing(false);
+    };
+    const handleMouseMove = (e: MouseEvent) => {
+      const xOffset =
+        store.position === 'right' ? e.clientX - startX : startX - e.clientX;
+      const panel = panelRef.current! as HTMLElement;
+      const targetWidth = `${panelWidth - xOffset}px`;
+      panel.style.width = targetWidth;
+      if (store.position === 'left') {
+        (toggleRef.current! as HTMLElement).style.marginLeft = targetWidth;
+      }
+      if (e.stopPropagation) e.stopPropagation();
+      if (e.preventDefault) e.preventDefault();
+      e.cancelBubble = true;
+      return false;
+    };
+    if (isResizing) {
+      document.addEventListener('mousemove', handleMouseMove);
+      document.addEventListener('mouseup', handleMouseUp);
+    }
+
+    return () => {
+      if (isResizing) {
+        document.removeEventListener('mousemove', handleMouseMove);
+        document.addEventListener('mouseup', handleMouseUp);
+      }
+    };
+  }, [isResizing]);
+
   return (
-    <div className={cx('AMISDebug', {'is-expanded': store.isExpanded})}>
+    <div
+      className={cx('AMISDebug', {
+        'is-expanded': store.isExpanded,
+        'is-left': store.position === 'left'
+      })}
+      ref={panelRef}
+    >
       <div
         className="AMISDebug-toggle"
         onClick={() => {
-          store.isExpanded = !store.isExpanded;
+          store.isExpanded = true;
         }}
       >
-        <i className="fas fa-bug"></i>
+        {store.isExpanded ? (
+          <i className="fas fa-times"></i>
+        ) : (
+          <i className="fas fa-bug"></i>
+        )}
       </div>
       <div className={cx('AMISDebug-content')}>
+        <div
+          className="AMISDebug-close"
+          title="Close"
+          onClick={() => {
+            store.isExpanded = false;
+          }}
+        >
+          <i className="fas fa-times" />
+        </div>
+        <div
+          className="AMISDebug-resize"
+          onMouseDown={event => {
+            setStartX(event.clientX);
+            setPanelWidth(
+              parseInt(
+                getComputedStyle(panelRef.current!).getPropertyValue('width'),
+                10
+              )
+            );
+            setResizing(true);
+          }}
+        ></div>
         <div className="AMISDebug-tab">
           <button
             className={cx({active: store.tab === 'log'})}
@@ -154,6 +232,25 @@ const AMISDebug = observer(({store}: {store: AMISDebugStore}) => {
           >
             Inspect
           </button>
+        </div>
+        <div className="AMISDebug-changePosition">
+          {store.position === 'right' ? (
+            <i
+              className="fas fa-chevron-left"
+              title="move to left"
+              onClick={() => {
+                store.position = 'left';
+              }}
+            />
+          ) : (
+            <i
+              className="fas fa-chevron-right"
+              title="move to right"
+              onClick={() => {
+                store.position = 'right';
+              }}
+            />
+          )}
         </div>
         {store.tab === 'log' ? (
           <div className="AMISDebug-log">
