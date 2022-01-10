@@ -624,7 +624,8 @@ export class MonthRangePicker extends React.Component<
           `${ns}DateRangePicker`,
           {
             'is-disabled': disabled,
-            'is-focused': isFocused
+            'is-focused': isFocused,
+            'is-mobile': useMobileUI && isMobile()
           },
           className
         )}

@@ -865,7 +865,8 @@ export class DateRangePicker extends React.Component<
           {
             'is-disabled': disabled,
             'is-focused': isFocused,
-            [`${ns}DateRangePicker--border${ucFirst(borderMode)}`]: borderMode
+            [`${ns}DateRangePicker--border${ucFirst(borderMode)}`]: borderMode,
+            'is-mobile': useMobileUI && isMobile()
           },
           className
         )}
