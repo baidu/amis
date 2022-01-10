@@ -1,5 +1,5 @@
 /**
- * amis 运行时调试功能，为了避免循环引用，这个组件
+ * amis 运行时调试功能，为了避免循环引用，这个组件不要依赖 amis 里的组件
  */
 
 import React, {Component, useEffect, useRef, useState} from 'react';
@@ -8,7 +8,6 @@ import {findDOMNode, render} from 'react-dom';
 import JsonView from 'react-json-view';
 import {autorun, observable} from 'mobx';
 import {observer} from 'mobx-react';
-import {resolveRenderer} from '../factory';
 import {uuidv4} from './helper';
 import position from './position';
 
