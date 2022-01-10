@@ -14,7 +14,7 @@ import {
 import {asFormItem} from './renderers/Form/Item';
 import {renderChild, renderChildren} from './Root';
 import {Schema, SchemaNode} from './types';
-import {DebugWrapper} from './utils/debug';
+import {DebugWrapper, enableAMISDebug} from './utils/debug';
 import getExprProperties from './utils/filter-schema';
 import {anyChanged, chainEvents, autobind} from './utils/helper';
 import {RendererEvent} from './utils/renderer-event';
@@ -371,24 +371,28 @@ export class SchemaRenderer extends React.Component<SchemaRendererProps, any> {
       return null;
     }
 
-    return (
-      <DebugWrapper renderer={renderer}>
-        <BroadcastCmpt
-          {...theme.getRendererConfig(renderer.name)}
-          {...restSchema}
-          {...chainEvents(rest, restSchema)}
-          {...exprProps}
-          defaultData={restSchema.defaultData ?? defaultData}
-          defaultValue={restSchema.defaultValue ?? defaultValue}
-          defaultActiveKey={defaultActiveKey}
-          propKey={propKey}
-          $path={$path}
-          $schema={{...schema, ...exprProps}}
-          ref={this.refFn}
-          render={this.renderChild}
-          component={Component}
-        />
-      </DebugWrapper>
+    const component = (
+      <BroadcastCmpt
+        {...theme.getRendererConfig(renderer.name)}
+        {...restSchema}
+        {...chainEvents(rest, restSchema)}
+        {...exprProps}
+        defaultData={restSchema.defaultData ?? defaultData}
+        defaultValue={restSchema.defaultValue ?? defaultValue}
+        defaultActiveKey={defaultActiveKey}
+        propKey={propKey}
+        $path={$path}
+        $schema={{...schema, ...exprProps}}
+        ref={this.refFn}
+        render={this.renderChild}
+        component={Component}
+      />
+    );
+
+    return enableAMISDebug ? (
+      <DebugWrapper renderer={renderer}>{component}</DebugWrapper>
+    ) : (
+      component
     );
   }
 }

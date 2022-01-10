@@ -1,3 +1,7 @@
+/**
+ * Debug 模块的 UI，由于没法使用任何主题，所以这里使用独立配色风格
+ */
+
 .AMISDebug {
   position: fixed;
   z-index: $zindex-debug;
@@ -6,7 +10,13 @@
   height: 100vh;
   width: 24px;
 
-  color: var(--text-color);
+  h3 {
+    color: inherit;
+  }
+
+  .primary {
+    color: #009fff;
+  }
 
   &-header {
     padding: var(--Drawer-header-padding);
@@ -29,25 +39,27 @@
 
   &-tab {
     overflow: hidden;
-    background-color: #f1f1f1;
   }
 
   &-tab > button {
-    background-color: inherit;
+    color: inherit;
+    background: inherit;
     float: left;
     border: none;
     outline: none;
     cursor: pointer;
     padding: 14px 16px;
     transition: 0.3s;
+    border-bottom: 1px solid transparent;
   }
 
   &-tab > button:hover {
-    background-color: #ddd;
+    color: #e7e7e7;
   }
 
   &-tab > button.active {
-    background-color: #ccc;
+    color: #e7e7e7;
+    border-bottom-color: #e7e7e7;
   }
 
   &-toggle {
@@ -66,14 +78,17 @@
       color: var(--text-color);
     }
   }
+
   &-content {
     display: none;
   }
+
   &.is-expanded {
     width: 420px;
     overflow: auto;
     border-left: 1px solid var(--borderColor);
-    background: var(--body-bg);
+    background: #272821;
+    color: #cccccc;
     box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
     .AMISDebug-toggle {
       margin-left: -24px;
@@ -83,7 +98,29 @@
     }
   }
 
-  &-logLine {
-    display: flex;
+  &-log {
+    padding: var(--gap-xs);
+    button {
+      cursor: pointer;
+      background: #0e639c;
+      flex-grow: 1;
+      box-sizing: border-box;
+      display: inline-flex;
+      justify-content: center;
+      align-items: center;
+      padding: 6px 11px;
+      outline: none;
+      text-decoration: none;
+      color: inherit;
+      max-width: 300px;
+      border: none;
+    }
+    button:hover {
+      background: #1177bb;
+    }
+  }
+
+  &-inspect {
+    padding: var(--gap-xs);
   }
 }

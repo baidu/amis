@@ -13,6 +13,7 @@ import {uuidv4} from './helper';
 import position from './position';
 
 class Log {
+  @observable cat = '';
   @observable level = '';
   @observable msg = '';
   @observable ext? = '';
@@ -63,13 +64,17 @@ const ComponentInfo = {} as {[propName: string]: ComponentInspect};
 const LogView = observer(({store}: {store: AMISDebugStore}) => {
   const logs = store.logs;
   return (
-    <div className="AMISDebug-log">
+    <>
       {logs.map((log, index) => {
         return (
           <div className="AMISDebug-logLine" key={`log-${index}`}>
-            <div className="AMISDebug-logLineMsg">{log.msg}</div>
+            <div className="AMISDebug-logLineMsg">
+              [{log.cat}] {log.msg}
+            </div>
             {log.ext ? (
               <JsonView
+                name={null}
+                theme="monokai"
                 src={JSON.parse(log.ext)}
                 collapsed={true}
                 enableClipboard={false}
@@ -80,23 +85,16 @@ const LogView = observer(({store}: {store: AMISDebugStore}) => {
           </div>
         );
       })}
-    </div>
+    </>
   );
 });
 
 const AMISDebug = observer(({store}: {store: AMISDebugStore}) => {
   const activeId = store.activeId;
-  const activeElementInspect = ComponentInfo[activeId];
+  const activeComponentInspect = ComponentInfo[activeId];
 
-  if (activeElementInspect?.component) {
-    console.debug(
-      'click component',
-      activeElementInspect?.component,
-      activeElementInspect?.component?.props?.store?.data
-    );
-  }
-
-  let start = activeElementInspect?.component?.props.data || {};
+  // 收集数据域里的数据
+  let start = activeComponentInspect?.component?.props?.data || {};
   const stacks = [start];
 
   while (Object.getPrototypeOf(start) !== Object.prototype) {
@@ -108,7 +106,26 @@ const AMISDebug = observer(({store}: {store: AMISDebugStore}) => {
     start = superData;
   }
 
-  console.log('--stacks', stacks);
+  const stackDataView = [];
+  if (Object.keys(stacks[0]).length || stacks.length > 1) {
+    let level = 0;
+    for (const stack of stacks) {
+      stackDataView.push(<h3 key={`data-${level}`}>Data Level-{level}</h3>);
+      stackDataView.push(
+        <JsonView
+          name={null}
+          theme="monokai"
+          src={stack}
+          collapsed={level === 0 ? false : true}
+          enableClipboard={false}
+          displayDataTypes={false}
+          iconStyle="square"
+        />
+      );
+      level += 1;
+    }
+  }
+
   return (
     <div className={cx('AMISDebug', {'is-expanded': store.isExpanded})}>
       <div
@@ -139,7 +156,7 @@ const AMISDebug = observer(({store}: {store: AMISDebugStore}) => {
           </button>
         </div>
         {store.tab === 'log' ? (
-          <div className="AMISDebug-Log">
+          <div className="AMISDebug-log">
             <button
               onClick={() => {
                 store.logs = [];
@@ -154,18 +171,14 @@ const AMISDebug = observer(({store}: {store: AMISDebugStore}) => {
           <div className="AMISDebug-inspect">
             {activeId ? (
               <>
-                <h2>Component: {activeElementInspect.name}</h2>
-                <h2>Data</h2>
-                {/* <JsonView
-                  src={activeElementInspect.data}
-                  collapsed={true}
-                  enableClipboard={false}
-                  displayDataTypes={false}
-                  iconStyle="square"
-                /> */}
+                <h3>
+                  Component:{' '}
+                  <span className="primary">{activeComponentInspect.name}</span>
+                </h3>
+                {stackDataView}
               </>
             ) : (
-              'Click element'
+              'Click component to display inspect'
             )}
           </div>
         ) : null}
@@ -289,16 +302,19 @@ export class DebugWrapper extends Component<DebugWrapperProps> {
   }
 }
 
+type Category = 'api' | 'event';
+
 /**
  * 一般调试日志
  * @param msg 简单消息
  * @param ext 扩展信息
  */
-export function debug(msg: string, ext?: object) {
+export function debug(cat: Category, msg: string, ext?: object) {
   if (!enableAMISDebug) {
     return;
   }
   const log = {
+    cat,
     level: 'debug',
     msg: msg,
     ext: JSON.stringify(ext)
@@ -312,11 +328,12 @@ export function debug(msg: string, ext?: object) {
  * @param msg 简单消息
  * @param ext 扩展信息
  */
-export function warning(msg: string, ext?: object) {
+export function warning(cat: Category, msg: string, ext?: object) {
   if (!enableAMISDebug) {
     return;
   }
   store.logs.push({
+    cat,
     level: 'warn',
     msg: msg,
     ext: JSON.stringify(ext)

@@ -266,10 +266,10 @@ export function responseAdaptor(ret: fetcherResult, api: ApiObject) {
     payload.errors = data.errors;
   }
 
-  debug('api response', payload);
+  debug('api', 'response', payload);
 
   if (payload.ok && api.responseData) {
-    debug('api before dataMapping', payload.data);
+    debug('api', 'before dataMapping', payload.data);
     const responseData = dataMapping(
       api.responseData,
 
@@ -284,7 +284,7 @@ export function responseAdaptor(ret: fetcherResult, api: ApiObject) {
       undefined,
       api.convertKeyToPath
     );
-    debug('api after dataMapping', responseData);
+    debug('api', 'after dataMapping', responseData);
     payload.data = responseData;
   }
 
@@ -298,7 +298,11 @@ export function wrapFetcher(
   return function (api, data, options) {
     api = buildApi(api, data, options) as ApiObject;
 
-    api.requestAdaptor && (api = api.requestAdaptor(api) || api);
+    if (api.requestAdaptor) {
+      debug('api', 'before requestAdaptor', api);
+      api = api.requestAdaptor(api) || api;
+      debug('api', 'after requestAdaptor', api);
+    }
 
     if (api.data && (hasFile(api.data) || api.dataType === 'form-data')) {
       api.data =
@@ -322,6 +326,8 @@ export function wrapFetcher(
       api.headers = api.headers || (api.headers = {});
       api.headers['Content-Type'] = 'application/json';
     }
+
+    debug('api', 'request api', api);
 
     tracker?.(
       {eventType: 'api', eventData: omit(api, ['config', 'data', 'body'])},
@@ -359,11 +365,14 @@ export function wrapAdaptor(promise: Promise<fetcherResult>, api: ApiObject) {
   return adaptor
     ? promise
         .then(async response => {
+          debug('api', 'before adaptor data', (response as any).data);
           let result = adaptor((response as any).data, response, api);
 
           if (result?.then) {
             result = await result;
           }
+
+          debug('api', 'after adaptor data', result);
 
           return {
             ...response,
