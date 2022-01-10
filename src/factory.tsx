@@ -521,6 +521,18 @@ export function render(
     });
   }
 
+  document.addEventListener('visibilitychange', function () {
+    if (document.visibilityState === 'hidden') {
+      env?.tracker({
+        eventType: 'pageHidden'
+      });
+    } else if (document.visibilityState === 'visible') {
+      env?.tracker({
+        eventType: 'pageVisible'
+      });
+    }
+  });
+
   return (
     <EnvContext.Provider value={env}>
       <ScopedRootRenderer
