@@ -32,6 +32,7 @@ export interface IScopedContext {
   registerComponent: (component: ScopedComponentType) => void;
   unRegisterComponent: (component: ScopedComponentType) => void;
   getComponentByName: (name: string) => ScopedComponentType;
+  getComponentById: (id: string) => ScopedComponentType | undefined;
   getComponents: () => Array<ScopedComponentType>;
   reload: (target: string, ctx: RendererData) => void;
   send: (target: string, ctx: RendererData) => void;
@@ -94,6 +95,11 @@ function createScopedTools(
           component.props.name === name || component.props.id === name
       );
       return resolved || (parent && parent.getComponentByName(name));
+    },
+
+    getComponentById(id: string) {
+      const resolved = find(components, component => component.props.id === id);
+      return resolved;
     },
 
     getComponents() {

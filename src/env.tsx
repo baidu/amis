@@ -61,7 +61,17 @@ export interface RendererEnv {
   useMobileUI?: boolean;
   bindEvent: (context: any) => (() => void) | undefined;
   dispatchEvent: (
-    e: string | React.MouseEvent<any>,
+    e:
+      | string
+      | React.ClipboardEvent<any>
+      | React.DragEvent<any>
+      | React.ChangeEvent<any>
+      | React.KeyboardEvent<any>
+      | React.TouchEvent<any>
+      | React.WheelEvent<any>
+      | React.AnimationEvent<any>
+      | React.TransitionEvent<any>
+      | React.MouseEvent<any>,
     context: any,
     data: any
   ) => Promise<RendererEvent<any> | undefined>;

@@ -21,8 +21,14 @@ export class CmptAction implements Action {
     renderer: ListenerContext,
     event: RendererEvent<any>
   ) {
-    // 执行组件动作
-    await renderer.doAction?.(action, action.args);
+    if (action.componentId) {
+      debugger;
+      renderer;
+    } else {
+      // 执行组件动作
+      (await renderer.props.onAction?.(event, action, action.args)) ||
+        renderer.doAction?.(action, action.args);
+    }
   }
 }
 
