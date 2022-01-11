@@ -55,7 +55,9 @@ interface EventTrack {
     | 'reset'
     | 'reset-and-submit'
     | 'formItemChange'
-    | 'tabChange';
+    | 'tabChange'
+    | 'pageHidden'
+    | 'pageVisible';
 
   /**
    * 事件数据，根据不同事件有不同结构，下面会详细说明
@@ -471,3 +473,13 @@ tab 切换事件，示例
 默认情况下 `key` 的值从 `0` 开始，如果 tab 上设置了 `hash` 值就会用这个值。
 
 同样，如果 tabs 设置了 id，也会输出这个 id 值方便区分
+
+### pageHidden
+
+当 tab 切换或者页面关闭时触发，可以当成用户离开页面的时间。
+
+### pageVisible
+
+当用户又切换回当前页面的时间，可以当做是用户重新访问的开始时间。
+
+由于 amis 可能被嵌入到页面中，所以 amis 无法知晓页面首次打开的时间，需要自行处理。
