@@ -77,7 +77,7 @@ export class RootRenderer extends React.Component<RootRendererProps> {
   }
 
   handlePageVisibilityChange() {
-    const env = getEnv(this.store);
+    const env = this.props.env;
     if (document.visibilityState === 'hidden') {
       env?.tracker({
         eventType: 'pageHidden'
