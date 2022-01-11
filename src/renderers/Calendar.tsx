@@ -4,8 +4,8 @@ import {SchemaObject, BaseSchema} from '../Schema';
 import {DateControlRenderer} from './Form/InputDate';
 
 interface scheduleItem {
-  startTime: Date;
-  endTime: Date;
+  startTime: string;
+  endTime: string;
   content: any;
   className?: string;
 }
