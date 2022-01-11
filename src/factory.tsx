@@ -362,7 +362,7 @@ const defaultOptions: RenderOptions = {
   bindEvent(renderer: any) {
     const listeners: EventListeners = renderer.props.$schema.onEvent;
     if (listeners) {
-      // 暂存
+      // 暂存
       for (let key of Object.keys(listeners)) {
         this.rendererEventListeners.push({
           renderer,
@@ -520,18 +520,6 @@ export function render(
       }
     });
   }
-
-  document.addEventListener('visibilitychange', function () {
-    if (document.visibilityState === 'hidden') {
-      env?.tracker({
-        eventType: 'pageHidden'
-      });
-    } else if (document.visibilityState === 'visible') {
-      env?.tracker({
-        eventType: 'pageVisible'
-      });
-    }
-  });
 
   return (
     <EnvContext.Provider value={env}>
