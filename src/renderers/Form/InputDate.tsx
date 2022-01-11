@@ -240,13 +240,6 @@ export interface YearControlSchema extends InputDateBaseControlSchema {
   inputFormat?: string;
 }
 
-interface scheduleItem {
-  startTime: string;
-  endTime: string;
-  content: any;
-  className?: string;
-}
-
 export interface DateProps extends FormControlProps {
   inputFormat?: string;
   timeFormat?: string;
@@ -275,16 +268,17 @@ export interface DateProps extends FormControlProps {
   utc?: boolean; // 设定是否存储 utc 时间。
   minDate?: string;
   maxDate?: string;
-  schedules?: Array<scheduleItem> | string;
-  scheduleClassNames?: Array<string>;
-  scheduleAction?: SchemaObject;
-  largeMode?: boolean;
 }
 
 interface DateControlState {
   minDate?: moment.Moment;
   maxDate?: moment.Moment;
-  schedules?: Array<scheduleItem>;
+  schedules?: Array<{
+    startTime: Date;
+    endTime: Date;
+    content: any;
+    className?: string;
+  }>;
 }
 
 export default class DateControl extends React.PureComponent<
