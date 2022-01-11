@@ -8,7 +8,15 @@ import find from 'lodash/find';
 import hoistNonReactStatic from 'hoist-non-react-statics';
 import {dataMapping} from './utils/tpl-builtin';
 import {RendererEnv, RendererProps} from './factory';
-import {noop, autobind, qsstringify, qsparse} from './utils/helper';
+import {
+  noop,
+  autobind,
+  qsstringify,
+  qsparse,
+  createObject,
+  findTree,
+  TreeItem
+} from './utils/helper';
 import {RendererData, Action} from './types';
 
 export interface ScopedComponentType extends React.Component<RendererProps> {
@@ -29,9 +37,11 @@ export interface ScopedComponentType extends React.Component<RendererProps> {
 
 export interface IScopedContext {
   parent?: AliasIScopedContext;
+  children?: AliasIScopedContext[];
   registerComponent: (component: ScopedComponentType) => void;
   unRegisterComponent: (component: ScopedComponentType) => void;
   getComponentByName: (name: string) => ScopedComponentType;
+  getComponentById: (id: string) => ScopedComponentType | undefined;
   getComponents: () => Array<ScopedComponentType>;
   reload: (target: string, ctx: RendererData) => void;
   send: (target: string, ctx: RendererData) => void;
@@ -43,12 +53,19 @@ export const ScopedContext = React.createContext(createScopedTools(''));
 function createScopedTools(
   path?: string,
   parent?: AliasIScopedContext,
+  children?: AliasIScopedContext[],
   env?: RendererEnv
 ): IScopedContext {
   const components: Array<ScopedComponentType> = [];
 
+  // 把孩子们带上
+  if (parent && children) {
+    parent.children = parent.children?.concat(children);
+  }
+
   return {
     parent,
+    children,
     registerComponent(component: ScopedComponentType) {
       // 不要把自己注册在自己的 Scoped 上，自己的 Scoped 是给子节点们注册的。
       if (component.props.$path === path && parent) {
@@ -94,6 +111,27 @@ function createScopedTools(
           component.props.name === name || component.props.id === name
       );
       return resolved || (parent && parent.getComponentByName(name));
+    },
+
+    getComponentById(id: string) {
+      let root = this;
+      // 找到顶端scoped
+      while (root.parent) {
+        root = root.parent;
+      }
+
+      // 向下查找
+      let component = undefined;
+      findTree([root], (item: TreeItem) =>
+        item.getComponents().find((cmpt: ScopedComponentType) => {
+          if (cmpt.props.id === id) {
+            component = cmpt;
+            return true;
+          }
+          return false;
+        })
+      ) as ScopedComponentType | undefined;
+      return component;
     },
 
     getComponents() {
@@ -255,8 +293,12 @@ export function HocScoped<
       this.scoped = createScopedTools(
         this.props.$path,
         context,
+        context.children,
         this.props.env
       );
+
+      context.children = [this.scoped!];
+
       const scopeRef = props.scopeRef;
       scopeRef && scopeRef(this.scoped);
     }

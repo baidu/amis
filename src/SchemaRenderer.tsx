@@ -13,6 +13,7 @@ import {
 } from './factory';
 import {asFormItem} from './renderers/Form/Item';
 import {renderChild, renderChildren} from './Root';
+import {IScopedContext, ScopedContext} from './Scoped';
 import {Schema, SchemaNode} from './types';
 import getExprProperties from './utils/filter-schema';
 import {anyChanged, chainEvents, autobind} from './utils/helper';
@@ -59,8 +60,9 @@ const componentCache: SimpleMap = new SimpleMap();
 class BroadcastCmpt extends React.Component<BroadcastCmptProps> {
   ref: any;
   unbindEvent: (() => void) | undefined = undefined;
+  static contextType = ScopedContext;
 
-  constructor(props: BroadcastCmptProps) {
+  constructor(props: BroadcastCmptProps, context: IScopedContext) {
     super(props);
     this.triggerEvent = this.triggerEvent.bind(this);
   }
@@ -100,6 +102,7 @@ class BroadcastCmpt extends React.Component<BroadcastCmptProps> {
       <Component
         ref={this.childRef}
         {...rest}
+        scoped={this.context}
         dispatchEvent={this.triggerEvent}
       />
     );

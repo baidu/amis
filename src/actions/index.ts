@@ -10,5 +10,11 @@ import './ParallelAction';
 import './CustomAction';
 import './BroadcastAction';
 import './CmptAction';
+import './AjaxAction';
+import './CopyAction';
+import './DialogAction';
+import './DrawerAction';
+import './EmailAction';
+import './OpenPageAction';
 
 export * from './Action';
