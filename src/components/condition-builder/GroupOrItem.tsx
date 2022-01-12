@@ -37,6 +37,7 @@ export class CBGroupOrItem extends React.Component<CBGroupOrItemProps> {
 
   render() {
     const {
+      mode,
       classnames: cx,
       fieldClassName,
       value,
@@ -51,7 +52,10 @@ export class CBGroupOrItem extends React.Component<CBGroupOrItemProps> {
     } = this.props;
 
     return (
-      <div className={cx('CBGroupOrItem')} data-id={value?.id}>
+      <div
+        className={cx(`CBGroupOrItem${mode === 'simple' ? '-simple' : ''}`)}
+        data-id={value?.id}
+      >
         <div className={cx('CBGroupOrItem-body')}>
           {draggable ? (
             <a

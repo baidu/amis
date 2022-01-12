@@ -114,6 +114,7 @@ export class ConditionGroup extends React.Component<ConditionGroupProps> {
 
   render() {
     const {
+      mode,
       classnames: cx,
       fieldClassName,
       value,
@@ -129,55 +130,62 @@ export class ConditionGroup extends React.Component<ConditionGroupProps> {
       searchable,
       translate: __
     } = this.props;
-
     return (
       <div className={cx('CBGroup')} data-group-id={value?.id}>
         <div className={cx('CBGroup-toolbar')}>
-          <div className={cx('CBGroup-toolbarCondition')}>
-            {showNot ? (
-              <Button
-                onClick={this.handleNotClick}
-                className="m-r-xs"
-                size="xs"
-                active={value?.not}
-                disabled={disabled}
-              >
-                {__('Condition.not')}
-              </Button>
-            ) : null}
-            <div className={cx('ButtonGroup')}>
-              <Button
-                size="xs"
-                onClick={this.handleConjunctionClick}
-                active={value?.conjunction !== 'or'}
-                disabled={disabled}
-              >
-                {__('Condition.and')}
-              </Button>
-              <Button
-                size="xs"
-                onClick={this.handleConjunctionClick}
-                active={value?.conjunction === 'or'}
-                disabled={disabled}
-              >
-                {__('Condition.or')}
-              </Button>
+          {mode === 'simple' ? null : (
+            <div className={cx('CBGroup-toolbarCondition')}>
+              {showNot ? (
+                <Button
+                  onClick={this.handleNotClick}
+                  className="m-r-xs"
+                  size="xs"
+                  active={value?.not}
+                  disabled={disabled}
+                >
+                  {__('Condition.not')}
+                </Button>
+              ) : null}
+              <div className={cx('ButtonGroup')}>
+                <Button
+                  size="xs"
+                  onClick={this.handleConjunctionClick}
+                  active={value?.conjunction !== 'or'}
+                  disabled={disabled}
+                >
+                  {__('Condition.and')}
+                </Button>
+                <Button
+                  size="xs"
+                  onClick={this.handleConjunctionClick}
+                  active={value?.conjunction === 'or'}
+                  disabled={disabled}
+                >
+                  {__('Condition.or')}
+                </Button>
+              </div>
             </div>
-          </div>
-          <div className={cx('CBGroup-toolbarConditionAdd')}>
+          )}
+          <div
+            className={cx(
+              `CBGroup-toolbarConditionAdd${mode === 'simple' ? '-simple' : ''}`
+            )}
+          >
             <div className={cx('ButtonGroup')}>
               <Button onClick={this.handleAdd} size="xs" disabled={disabled}>
                 <Icon icon="plus" className="icon" />
                 {__('Condition.add_cond')}
               </Button>
-              <Button
-                onClick={this.handleAddGroup}
-                size="xs"
-                disabled={disabled}
-              >
-                <Icon icon="plus-cicle" className="icon" />
-                {__('Condition.add_cond_group')}
-              </Button>
+              {mode === 'simple' ? null : (
+                <Button
+                  onClick={this.handleAddGroup}
+                  size="xs"
+                  disabled={disabled}
+                >
+                  <Icon icon="plus-cicle" className="icon" />
+                  {__('Condition.add_cond_group')}
+                </Button>
+              )}
             </div>
           </div>
           {removeable ? (
@@ -186,7 +194,6 @@ export class ConditionGroup extends React.Component<ConditionGroupProps> {
             </a>
           ) : null}
         </div>
-
         <div className={cx('CBGroup-body')}>
           {Array.isArray(value?.children) && value!.children.length ? (
             value!.children.map((item, index) => (
@@ -205,10 +212,15 @@ export class ConditionGroup extends React.Component<ConditionGroupProps> {
                 data={data}
                 disabled={disabled}
                 searchable={searchable}
+                mode={mode}
               />
             ))
           ) : (
-            <div className={cx('CBGroup-placeholder')}>
+            <div
+              className={cx(
+                `CBGroup-placeholder ${mode === 'simple' ? 'simple' : ''}`
+              )}
+            >
               {__('Condition.blank')}
             </div>
           )}
