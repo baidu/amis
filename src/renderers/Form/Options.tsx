@@ -300,7 +300,7 @@ export function registerOptionsControl(config: OptionsConfig) {
 
       if (formItem) {
         formItem.setOptions(
-          normalizeOptions(options),
+          normalizeOptions(options, undefined, valueField),
           this.changeOptionValue,
           data
         );
@@ -383,7 +383,7 @@ export function registerOptionsControl(config: OptionsConfig) {
 
       if (prevProps.options !== props.options && formItem) {
         formItem.setOptions(
-          normalizeOptions(props.options || []),
+          normalizeOptions(props.options || [], undefined, props.valueField),
           this.changeOptionValue,
           props.data
         );
@@ -409,7 +409,11 @@ export function registerOptionsControl(config: OptionsConfig) {
 
           if (prevOptions !== options) {
             formItem.setOptions(
-              normalizeOptions(options || []),
+              normalizeOptions(
+                options || [],
+                undefined,
+                props.valueField || 'value'
+              ),
               this.changeOptionValue,
               props.data
             );
@@ -707,14 +711,16 @@ export function registerOptionsControl(config: OptionsConfig) {
 
     @autobind
     reloadOptions(setError?: boolean, isInit = false) {
-      const {source, formItem, data, onChange, setPrinstineValue, selectFirst} =
+      const {source, formItem, data, onChange, setPrinstineValue, valueField} =
         this.props;
 
       if (formItem && isPureVariable(source as string)) {
         isAlive(formItem) &&
           formItem.setOptions(
             normalizeOptions(
-              resolveVariableAndFilter(source as string, data, '| raw') || []
+              resolveVariableAndFilter(source as string, data, '| raw') || [],
+              undefined,
+              valueField
             ),
             this.changeOptionValue,
             data
@@ -808,7 +814,9 @@ export function registerOptionsControl(config: OptionsConfig) {
       const formItem = this.props.formItem as IFormItemStore;
       formItem &&
         formItem.setOptions(
-          skipNormalize ? options : normalizeOptions(options || []),
+          skipNormalize
+            ? options
+            : normalizeOptions(options || [], undefined, this.props.valueField),
           this.changeOptionValue,
           this.props.data
         );

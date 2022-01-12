@@ -117,6 +117,30 @@ public class StreamingResponseBodyController {
 }
 ```
 
+## source 支持高级配置
+
+> 1.6.1 及以上版本
+
+可以类似 api 那样自定义 header、method 等，比如：
+
+```json
+{
+  "type": "log",
+  "height": 300,
+  "source": {
+    "method": "post",
+    "url": "[/api/mock2/form/saveForm](http://localhost:3000/)",
+    "data": {
+      "myName": "${name}",
+      "myEmail": "${email}"
+    },
+    "headers": {
+      "my-header": "${myHeader}"
+    }
+  }
+}
+```
+
 ## 属性表
 
 | 属性名      | 类型      | 默认值 | 说明               |
@@ -126,3 +150,4 @@ public class StreamingResponseBodyController {
 | autoScroll  | `boolean` | true   | 是否自动滚动       |
 | placeholder | `string`  |        | 加载中的文字       |
 | encoding    | `string`  | utf-8  | 返回内容的字符编码 |
+| source      | `string`  |        | 接口               |

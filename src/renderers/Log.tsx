@@ -131,7 +131,11 @@ export class Log extends React.Component<LogProps, LogState> {
     if (!api.url) {
       return;
     }
-    const res = await fetch(api.url);
+    const res = await fetch(api.url, {
+      method: api.method?.toLocaleUpperCase() || 'GET',
+      headers: (api.headers as Record<string, string>) || undefined,
+      body: api.data ? JSON.stringify(api.data) : undefined
+    });
     if (res.status === 200) {
       const body = res.body;
       if (!body) {
