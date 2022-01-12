@@ -595,7 +595,7 @@ export const FormItemStore = StoreNode.named('FormItemStore')
         json.data ||
         [];
 
-      options = normalizeOptions(options as any);
+      options = normalizeOptions(options as any, undefined, self.valueField);
 
       if (config?.extendsOptions && self.selectedOptions.length > 0) {
         self.selectedOptions.forEach((item: any) => {
