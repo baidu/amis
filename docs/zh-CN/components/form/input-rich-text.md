@@ -28,7 +28,11 @@ order: 47
 
 ## 图片上传
 
-通过设置 `receiver` 来支持文件上传，它的返回值类似如下：
+通过设置 `receiver` 来支持文件上传，如果是 tinymce，它会将图片放在 `file` 字段中
+
+> 1.6.1 及以上版本可以通过 receiverFieldName 字段修改
+
+它的返回值类似如下：
 
 ```json
 {
@@ -55,7 +59,7 @@ order: 47
     "body": [
         {
             "type": "input-rich-text",
-            "receiver": "/api/mock2/sample/mirror?json={%22value%22:%22/amis/static/logo_c812f54.png%22}",
+            "receiver": "/api/mock2/sample/mirror?json={%22link%22:%22/amis/static/logo_c812f54.png%22}",
             "name": "rich",
             "label": "Rich Text"
         }
@@ -141,11 +145,12 @@ froala 可以通过设置 buttons 参数来控制显示哪些按钮，默认是�
 
 当做选择器表单项使用时，除了支持 [普通表单项属性表](./formitem#%E5%B1%9E%E6%80%A7%E8%A1%A8) 中的配置以外，还支持下面一些配置
 
-| 属性名        | 类型                           | 默认值 | 说明                                                                                                                                                    |
-| ------------- | ------------------------------ | ------ | ------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| saveAsUbb     | `boolean`                      |        | 是否保存为 ubb 格式                                                                                                                                     |
-| receiver      | [API](../../../docs/types/api) |        | 默认的图片保存 API                                                                                                                                      |
-| videoReceiver | [API](../../../docs/types/api) |        | 默认的视频保存 API                                                                                                                                      |
-| size          | `string`                       |        | 框的大小，可设置为 `md` 或者 `lg`                                                                                                                       |
-| options       | `object`                       |        | 需要参考 [tinymce](https://www.tiny.cloud/docs/configure/integration-and-setup/) 或 [froala](https://www.froala.com/wysiwyg-editor/docs/options) 的文档 |
-| buttons       | `Array<string>`                |        | froala 专用，配置显示的按钮，tinymce 可以通过前面的 options 设置 [toolbar](https://www.tiny.cloud/docs/demo/custom-toolbar-button/) 字符串              |
+| 属性名            | 类型                           | 默认值 | 说明                                                                                                                                                    |
+| ----------------- | ------------------------------ | ------ | ------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| saveAsUbb         | `boolean`                      |        | 是否保存为 ubb 格式                                                                                                                                     |
+| receiver          | [API](../../../docs/types/api) |        | 默认的图片保存 API                                                                                                                                      |
+| videoReceiver     | [API](../../../docs/types/api) |        | 默认的视频保存 API                                                                                                                                      |
+| receiverFieldName | string                         |        | 上传文件时的字段名                                                                                                                                      |
+| size              | `string`                       |        | 框的大小，可设置为 `md` 或者 `lg`                                                                                                                       |
+| options           | `object`                       |        | 需要参考 [tinymce](https://www.tiny.cloud/docs/configure/integration-and-setup/) 或 [froala](https://www.froala.com/wysiwyg-editor/docs/options) 的文档 |
+| buttons           | `Array<string>`                |        | froala 专用，配置显示的按钮，tinymce 可以通过前面的 options 设置 [toolbar](https://www.tiny.cloud/docs/demo/custom-toolbar-button/) 字符串              |
