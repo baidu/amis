@@ -53,19 +53,11 @@ export const ScopedContext = React.createContext(createScopedTools(''));
 function createScopedTools(
   path?: string,
   parent?: AliasIScopedContext,
-  children?: AliasIScopedContext[],
   env?: RendererEnv
 ): IScopedContext {
   const components: Array<ScopedComponentType> = [];
-
-  // 把孩子们带上
-  if (parent && children) {
-    parent.children = parent.children?.concat(children);
-  }
-
-  return {
+  const self = {
     parent,
-    children,
     registerComponent(component: ScopedComponentType) {
       // 不要把自己注册在自己的 Scoped 上，自己的 Scoped 是给子节点们注册的。
       if (component.props.$path === path && parent) {
@@ -97,7 +89,7 @@ function createScopedTools(
 
         return paths.reduce((scope, name, idx) => {
           if (scope && scope.getComponentByName) {
-            const result = scope.getComponentByName(name);
+            const result: ScopedComponentType = scope.getComponentByName(name);
             return result && idx < len - 1 ? result.context : result;
           }
 
@@ -114,7 +106,7 @@ function createScopedTools(
     },
 
     getComponentById(id: string) {
-      let root = this;
+      let root: AliasIScopedContext = this;
       // 找到顶端scoped
       while (root.parent) {
         root = root.parent;
@@ -246,6 +238,17 @@ function createScopedTools(
       }
     }
   };
+
+  if (!parent) {
+    return self;
+  }
+
+  !parent.children && (parent.children = []);
+
+  // 把孩子带上
+  parent.children!.push(self);
+
+  return self;
 }
 
 function closeDialog(component: ScopedComponentType) {
@@ -293,11 +296,8 @@ export function HocScoped<
       this.scoped = createScopedTools(
         this.props.$path,
         context,
-        context.children,
         this.props.env
       );
-
-      context.children = [this.scoped!];
 
       const scopeRef = props.scopeRef;
       scopeRef && scopeRef(this.scoped);
