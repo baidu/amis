@@ -14,6 +14,7 @@ import {
 import {asFormItem} from './renderers/Form/Item';
 import {renderChild, renderChildren} from './Root';
 import {Schema, SchemaNode} from './types';
+import {DebugWrapper, enableAMISDebug} from './utils/debug';
 import getExprProperties from './utils/filter-schema';
 import {anyChanged, chainEvents, autobind} from './utils/helper';
 import {RendererEvent} from './utils/renderer-event';
@@ -370,7 +371,7 @@ export class SchemaRenderer extends React.Component<SchemaRendererProps, any> {
       return null;
     }
 
-    return (
+    const component = (
       <BroadcastCmpt
         {...theme.getRendererConfig(renderer.name)}
         {...restSchema}
@@ -386,6 +387,12 @@ export class SchemaRenderer extends React.Component<SchemaRendererProps, any> {
         render={this.renderChild}
         component={Component}
       />
+    );
+
+    return enableAMISDebug ? (
+      <DebugWrapper renderer={renderer}>{component}</DebugWrapper>
+    ) : (
+      component
     );
   }
 }

@@ -103,6 +103,8 @@
         })();
       }
 
+      window.enableAMISDebug = true;
+
       /* @require ./index.jsx 标记为同步依赖，提前加载 */
       amis.require(['./index.jsx'], function (app) {
         var initialState = {};
