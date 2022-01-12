@@ -41,6 +41,8 @@ import {
 
 import './locale/zh-CN';
 
+import './utils/debug';
+
 import animation from './utils/Animation';
 
 export * from './Schema';

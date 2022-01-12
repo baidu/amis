@@ -362,7 +362,7 @@ const defaultOptions: RenderOptions = {
   bindEvent(renderer: any) {
     const listeners: EventListeners = renderer.props.$schema.onEvent;
     if (listeners) {
-      // 暂存
+      // 暂存
       for (let key of Object.keys(listeners)) {
         this.rendererEventListeners.push({
           renderer,

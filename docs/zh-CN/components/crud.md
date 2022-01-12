@@ -96,6 +96,8 @@ CRUD，即增删改查组件，主要用来展现数据列表，并支持各类�
 
 如果不需要分页，或者配置了 `loadDataOnce` 则可以忽略掉 `total` 和 `hasNext` 参数。
 
+> 如果 api 地址中有变量，比如 `/api/mock2/sample/${id}`，amis 就不会自动加上分页参数，需要自己加上，改成 `/api/mock2/sample/${id}?page=${page}&perPage=${perPage}`
+
 ## 功能
 
 既然这个渲染器叫增删改查，那接下来分开介绍这几个功能吧。
