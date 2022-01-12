@@ -21,7 +21,7 @@ export interface RichTextControlSchema extends FormBaseControl {
   /**
    * 接收器的字段名
    */
-  receiverFieldName?: string;
+  fileField?: string;
 
   /**
    * 边框模式，全边框，还是半边框，或者没边框。
@@ -53,7 +53,7 @@ export default class RichTextControl extends React.Component<
     imageEditable: true,
     receiver: '/api/upload/image',
     videoReceiver: '/api/upload/video',
-    receiverFieldName: 'file',
+    fileField: 'file',
     placeholder: 'placeholder.enter',
     options: {
       toolbarButtons: [
@@ -148,7 +148,7 @@ export default class RichTextControl extends React.Component<
         ) => {
           const formData = new FormData();
           formData.append(
-            props.receiverFieldName,
+            props.fileField,
             blobInfo.blob(),
             blobInfo.filename()
           );
