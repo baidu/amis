@@ -152,6 +152,10 @@ export interface TabsSchema extends BaseSchema {
    * 是否支持溢出滚动
    */
   scrollable?: boolean;
+  /**
+   * 是否支持新增
+   */
+  addBtn?: boolean;
 }
 
 export interface TabsProps
@@ -181,6 +185,8 @@ export default class Tabs extends React.Component<TabsProps, TabsState> {
   constructor(props: TabsProps) {
     super(props);
 
+    console.log('props.tabs', props.tabs);
+
     const location = props.location || window.location;
     const tabs = props.tabs;
     let activeKey: any = 0;
@@ -202,7 +208,8 @@ export default class Tabs extends React.Component<TabsProps, TabsState> {
 
     this.state = {
       prevKey: undefined,
-      activeKey: (this.activeKey = activeKey)
+      activeKey: (this.activeKey = activeKey),
+      localTabs: Array.isArray(tabs) ? tabs.concat() : []
     };
   }
 
@@ -210,6 +217,8 @@ export default class Tabs extends React.Component<TabsProps, TabsState> {
     this.autoJumpToNeighbour(this.activeKey);
 
     let {name, value, onChange, source, tabs, data} = this.props;
+
+    const localTabs = this.state.localTabs;
 
     // 如果没有配置 name ，说明不需要同步表单值
     if (
@@ -224,7 +233,7 @@ export default class Tabs extends React.Component<TabsProps, TabsState> {
     value = value ?? getVariable(data, name);
 
     //  如果有值，切到对应的 tab
-    if (value && Array.isArray(tabs)) {
+    if (value && Array.isArray(localTabs)) {
       const key = this.resolveKeyByValue(value);
       key !== undefined && this.handleSelect(key);
     } else {
@@ -237,6 +246,7 @@ export default class Tabs extends React.Component<TabsProps, TabsState> {
 
   componentDidUpdate(preProps: TabsProps, prevState: any) {
     const props = this.props;
+    const localTabs = this.state.localTabs;
 
     if (props.location && props.location.hash !== preProps.location.hash) {
       const hash = props.location.hash.substring(1);
@@ -245,7 +255,7 @@ export default class Tabs extends React.Component<TabsProps, TabsState> {
       }
 
       const tab: TabSchema = find(
-        props.tabs,
+        localTabs,
         tab => tab.hash === hash
       ) as TabSchema;
       if (tab && tab.hash && tab.hash !== this.state.activeKey) {
@@ -255,29 +265,29 @@ export default class Tabs extends React.Component<TabsProps, TabsState> {
         });
       }
     } else if (
-      Array.isArray(props.tabs) &&
-      Array.isArray(preProps.tabs) &&
-      JSON.stringify(props.tabs.map(item => item.hash)) !==
-        JSON.stringify(preProps.tabs.map(item => item.hash))
+      Array.isArray(localTabs) &&
+      Array.isArray(prevState.localTabs) &&
+      JSON.stringify(localTabs.map(item => item.hash)) !==
+        JSON.stringify(prevState.localTabs.map(item => item.hash))
     ) {
       let activeKey: any = this.state.activeKey;
       const location = props.location;
       let tab: TabSchema | null = null;
 
-      if (location && Array.isArray(props.tabs)) {
+      if (location && Array.isArray(localTabs)) {
         const hash = location.hash.substring(1);
-        tab = find(props.tabs, tab => tab.hash === hash) as TabSchema;
+        tab = find(localTabs, tab => tab.hash === hash) as TabSchema;
       }
 
       if (tab) {
         activeKey = tab.hash;
       } else if (
-        !props.tabs ||
-        !props.tabs.some((item, index) =>
+        !localTabs ||
+        !localTabs.some((item, index) =>
           item.hash ? item.hash === activeKey : index === activeKey
         )
       ) {
-        activeKey = (props.tabs && props.tabs[0] && props.tabs[0].hash) || 0;
+        activeKey = (localTabs && localTabs[0] && localTabs[0].hash) || 0;
       }
 
       this.setState({
@@ -319,54 +329,55 @@ export default class Tabs extends React.Component<TabsProps, TabsState> {
   }
 
   resolveTabByKey(key: any) {
-    const tabs = this.props.tabs;
+    const localTabs = this.state.localTabs;
 
-    if (!Array.isArray(tabs)) {
+    if (!Array.isArray(localTabs)) {
       return;
     }
 
-    return find(tabs, (tab: TabSchema, index) =>
+    return find(localTabs, (tab: TabSchema, index) =>
       tab.hash ? tab.hash === key : index === key
     );
   }
 
   resolveKeyByValue(value: any) {
-    const tabs = this.props.tabs;
+    const localTabs = this.state.localTabs;
 
-    if (!Array.isArray(tabs)) {
+    if (!Array.isArray(localTabs)) {
       return;
     }
 
     const tab: TabSchema = find(
-      tabs,
+      localTabs,
       tab => ((tab as any).value ?? tab.title) === value
     ) as TabSchema;
 
-    return tab && tab.hash ? tab.hash : tabs.indexOf(tab);
+    return tab && tab.hash ? tab.hash : localTabs.indexOf(tab);
   }
 
   @autobind
   autoJumpToNeighbour(key: any) {
     const {tabs, data} = this.props;
+    const localTabs = this.state.localTabs;
 
-    if (!Array.isArray(tabs)) {
+    if (!Array.isArray(localTabs)) {
       return;
     }
 
     // 当前 tab 可能不可见，所以需要自动切到一个可见的 tab, 向前找，找一圈
-    const tabIndex = findIndex(tabs, (tab: TabSchema, index) =>
+    const tabIndex = findIndex(localTabs, (tab: TabSchema, index) =>
       tab.hash ? tab.hash === key : index === key
     );
 
-    if (tabs[tabIndex] && !isVisible(tabs[tabIndex], this.props.data)) {
-      let len = tabs.length;
+    if (localTabs[tabIndex] && !isVisible(localTabs[tabIndex], this.props.data)) {
+      let len = localTabs.length;
       let i = tabIndex - 1 + len;
       let tries = len - 1;
 
       while (tries--) {
         const index = i-- % len;
-        if (isVisible(tabs[index], data)) {
-          let activeKey = tabs[index].hash || index;
+        if (isVisible(localTabs[index], data)) {
+          let activeKey = localTabs[index].hash || index;
           this.setState({
             activeKey: (this.activeKey = activeKey)
           });
@@ -377,7 +388,24 @@ export default class Tabs extends React.Component<TabsProps, TabsState> {
   }
 
   @autobind
+  handleAdd() {
+    console.log('handleAdd');
+
+    const localTabs = this.state.localTabs;
+
+    this.setState({
+      localTabs: localTabs.concat([{
+        title: '新增tab',
+        body: '新增tab 内容'
+      }])
+    }, () => {
+      this.switchTo(this.state.localTabs.length - 1);
+    })
+  }
+
+  @autobind
   handleSelect(key: any) {
+    console.log('handleSelect', key);
     const {env, onSelect, id} = this.props;
 
     env.tracker?.({
@@ -410,21 +438,23 @@ export default class Tabs extends React.Component<TabsProps, TabsState> {
 
   @autobind
   switchTo(index: number) {
-    const {tabs} = this.props;
+    // const {tabs} = this.props;
+    const localTabs = this.state.localTabs;
 
-    Array.isArray(tabs) &&
-      tabs[index] &&
+    Array.isArray(localTabs) &&
+      localTabs[index] &&
       this.setState({
-        activeKey: (this.activeKey = tabs[index].hash || index)
+        activeKey: (this.activeKey = localTabs[index].hash || index)
       });
   }
 
   @autobind
   currentIndex(): number {
-    const {tabs} = this.props;
+    // const {tabs} = this.props;
+    const localTabs = this.state.localTabs;
 
-    return Array.isArray(tabs)
-      ? findIndex(tabs, (tab: TabSchema, index) =>
+    return Array.isArray(localTabs)
+      ? findIndex(localTabs, (tab: TabSchema, index) =>
           tab.hash
             ? tab.hash === this.state.activeKey
             : index === this.state.activeKey
@@ -461,7 +491,9 @@ export default class Tabs extends React.Component<TabsProps, TabsState> {
       formHorizontal,
       subFormMode,
       subFormHorizontal,
-      scrollable
+      scrollable,
+      icon,
+      addBtn
     } = this.props;
 
     const mode = tabsMode || dMode;
@@ -474,7 +506,7 @@ export default class Tabs extends React.Component<TabsProps, TabsState> {
       mountOnEnter = false;
     }
 
-    let tabs = this.props.tabs;
+    let tabs = this.state.localTabs;
     if (!tabs) {
       return null;
     }
@@ -563,6 +595,7 @@ export default class Tabs extends React.Component<TabsProps, TabsState> {
         classPrefix={ns}
         classnames={cx}
         mode={mode}
+        icon={icon}
         className={className}
         contentClassName={contentClassName}
         linksClassName={linksClassName}
@@ -570,6 +603,8 @@ export default class Tabs extends React.Component<TabsProps, TabsState> {
         activeKey={this.state.activeKey}
         toolbar={this.renderToolbar()}
         scrollable={scrollable}
+        addBtn={true || addBtn}
+        onAdd={this.handleAdd}
       >
         {children}
       </CTabs>

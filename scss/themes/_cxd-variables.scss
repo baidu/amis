@@ -487,6 +487,9 @@ $L1: 0px 4px 6px 0px rgba(8, 14, 26, 0.06),
   --Tabs--radio-bg: var(--white);
   --Tabs--chrome-onHover-bg: #fcfcfc;
   --Tabs--chrome-bg: #f5f5f5;
+  // --gap-md
+  --Tabs--simple-split-color: #{$G9};
+  --Tabs--simple-split-size: var(--gap-xs) var(--gap-md);
 
   // Pagination
   --Pagination-fontSize: #{px2rem(12px)};

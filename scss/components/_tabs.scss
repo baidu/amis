@@ -1,14 +1,52 @@
 .#{$ns}Tabs {
+  &-linksWrapper {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    border-bottom: var(--Tabs-borderWidth) solid var(--Tabs-borderColor);
+  }
+
+  &-linksWrapper .#{$ns}Tabs-addBtn,
+  &-linksContainer-wrapper .#{$ns}Tabs-addBtn {
+    display: flex;
+    margin-left: 20px;
+    align-items: center;
+    justify-content: flex-start;
+    padding: var(--Tabs--line-linkPadding);
+
+    &-icon {
+      width: 16px;
+      height: 16px;
+    }
+
+    span {
+      margin-left: 4px;
+      line-height: 1;
+    }
+  }
+
   &-linksContainer {
     position: relative;
+    display: flex;
+    align-items: center;
+    // flex: 1;
+
+    &-wrapper {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      border-bottom: var(--Tabs-borderWidth) solid var(--Tabs-borderColor);
+    }
 
     &-arrow {
+      width: 16px;
       height: 100%;
       display: flex;
       align-items: center;
-      top: 0;
+      // top: 0;
       cursor: pointer;
-      position: absolute;
+      // position: absolute;
       .iconfont {
         font-size: var(--Remark-icon-fontSize);
       }
@@ -39,27 +77,35 @@
         display: none;
       }
       > .#{$ns}Tabs-links {
-        white-space: nowrap;
+        // width: 0;
+        // white-space: nowrap;
         min-width: 100%;
-        display: inline-block;
+        // display: inline-block;
       }
     }
   }
   .#{$ns}Tabs-linksContainer--overflow {
-    padding: 0 20px;
+    flex: 1;
+    // padding: 0 20px;
+
+    .#{$ns}Tabs-links {
+      max-width: 0;
+    }
   }
   &-links {
+    display: flex;
     margin: 0;
     padding: 0;
-    border-bottom: var(--Tabs-borderWidth) solid var(--Tabs-borderColor);
+    // border-bottom: var(--Tabs-borderWidth) solid var(--Tabs-borderColor);
     list-style: none;
     user-select: none;
     @include clearfix();
 
     > .#{$ns}Tabs-link {
       margin-bottom: calc(var(--Tabs-borderWidth) * -1);
-      display: inline-block;
+      // display: inline-block;
       position: relative;
+      flex: none;
 
       > a:first-child {
         font-size: var(--Tabs-linkFontSize);
@@ -142,7 +188,8 @@
       top: -4px;
     }
 
-    > .#{$ns}Tabs-links, > .#{$ns}Tabs-linksContainer > .#{$ns}Tabs-linksContainer-main > .#{$ns}Tabs-links {
+    > .#{$ns}Tabs-linksWrapper > .#{$ns}Tabs-links,
+    > .#{$ns}Tabs-linksContainer-wrapper > .#{$ns}Tabs-linksContainer > .#{$ns}Tabs-linksContainer-main > .#{$ns}Tabs-links {
       border-bottom-color: var(--Tabs--line-borderColor);
 
       > li {
@@ -188,7 +235,19 @@
     > .#{$ns}Tabs-linksContainer {
       background: var(--Tabs--card-bg);
     }
-    > .#{$ns}Tabs-links, > .#{$ns}Tabs-linksContainer > .#{$ns}Tabs-linksContainer-main > .#{$ns}Tabs-links {
+
+    > .#{$ns}Tabs-linksWrapper {
+      background: var(--Tabs--card-bg);
+
+      > .#{$ns}Tabs-addBtn {
+        margin-left: 0;
+        padding: 0;
+        padding-top: 10px;
+      }
+    }
+
+    > .#{$ns}Tabs-linksWrapper > .#{$ns}Tabs-links,
+    > .#{$ns}Tabs-linksContainer-wrapper > .#{$ns}Tabs-linksContainer > .#{$ns}Tabs-linksContainer-main > .#{$ns}Tabs-links {
       padding: var(--Tabs--card-padding);
       background: var(--Tabs--card-bg);
       border-top: px2rem(1px) solid var(--Tabs--card-borderTopColor);
@@ -228,7 +287,8 @@
     > .#{$ns}Tabs-linksContainer > .#{$ns}Tabs-linksContainer-arrow {
       top: -4px;
     }
-    > .#{$ns}Tabs-links, > .#{$ns}Tabs-linksContainer > .#{$ns}Tabs-linksContainer-main > .#{$ns}Tabs-links {
+    > .#{$ns}Tabs-linksWrapper > .#{$ns}Tabs-links,
+    > .#{$ns}Tabs-linksContainer-wrapper > .#{$ns}Tabs-linksContainer > .#{$ns}Tabs-linksContainer-main > .#{$ns}Tabs-links {
       border: 0;
       margin-bottom: px2rem(10px);
 
@@ -280,7 +340,61 @@
   // todo 第一个选中，有一像素的空隙待修复。
   // 不带眼镜应该看不出来。
   &--tiled {
-    > .#{$ns}Tabs-links, > .#{$ns}Tabs-linksContainer > .#{$ns}Tabs-linksContainer-main > .#{$ns}Tabs-links {
+    > .#{$ns}Tabs-linksWrapper {
+      align-items: stretch;
+      border-bottom: none;
+
+      > .#{$ns}Tabs-addBtn {
+        margin-left: 0;
+        padding: 0 10px;
+        white-space: nowrap;
+        border-style: solid;
+        border-color: var(--Tabs-borderColor);
+        border-width: var(--Tabs-borderWidth);
+        border-left-width: 0;
+      }
+    }
+
+    > .#{$ns}Tabs-linksContainer-wrapper {
+      align-items: stretch;
+      border-bottom: none;
+
+      > .#{$ns}Tabs-linksContainer {
+        align-items: stretch;
+
+        > .#{$ns}Tabs-linksContainer-arrow {
+          height: auto;
+          align-items: center;
+          padding: 0 10px;
+          justify-content: center;
+          border-width: var(--Tabs-borderWidth);
+          border-style: solid;
+          border-color: var(--Tabs-borderColor);
+        }
+
+        > .#{$ns}Tabs-linksContainer-main > .#{$ns}Tabs-links > .#{$ns}Tabs-link {
+          &:first-of-type a {
+            border-left-width: 0;
+          }
+          &:last-of-type a {
+            border-right-width: 0;
+          }
+        }
+      }
+
+      > .#{$ns}Tabs-addBtn {
+        padding: 0 12px;
+        margin-left: 0;
+        white-space: nowrap;
+        border-style: solid;
+        border-color: var(--Tabs-borderColor);
+        border-width: var(--Tabs-borderWidth);
+        border-left-width: 0;
+      }
+    }
+
+    > .#{$ns}Tabs-linksWrapper > .#{$ns}Tabs-links,
+    > .#{$ns}Tabs-linksContainer-wrapper > .#{$ns}Tabs-linksContainer > .#{$ns}Tabs-linksContainer-main > .#{$ns}Tabs-links {
       width: 100%;
       display: flex;
       flex-direction: row;
@@ -329,12 +443,25 @@
     border: var(--Tabs-borderWidth) solid var(--Tabs-borderColor);
     border-radius: 0;
 
-    > .#{$ns}Tabs-links {
-      width: var(--Tabs--vertical-width);
+    > .#{$ns}Tabs-linksWrapper {
+      flex-direction: column;
+      align-items: flex-start;
+      border-bottom: none;
       background: var(--Tabs--vertical-onActive-container-bg);
+
+      > .#{$ns}Tabs-addBtn {
+        margin-left: 0;
+        padding: var(--Tabs-linkPadding);
+        // padding: 0 10px;
+      }
+    }
+
+    > .#{$ns}Tabs-linksWrapper > .#{$ns}Tabs-links {
+      width: var(--Tabs--vertical-width);
+      // background: var(--Tabs--vertical-onActive-container-bg);
       border: none;
       border-right: var(--Tabs--vertical-onActive-container-borderRight);
-      padding-bottom: px2rem(60px);
+      // padding-bottom: px2rem(60px);
 
       > li {
         margin: 0 0 0 -1px;
@@ -376,8 +503,19 @@
   }
 
   &--chrome {
-    > .#{$ns}Tabs-links {
+    > .#{$ns}Tabs-linksWrapper {
       background: var(--Tabs--chrome-bg);
+      border-bottom: none;
+
+      > .#{$ns}Tabs-addBtn {
+        margin-left: 0;
+        padding: 0;
+        padding-top: 10px;
+      }
+    }
+
+    > .#{$ns}Tabs-linksWrapper > .#{$ns}Tabs-links {
+      // background: var(--Tabs--chrome-bg);
       border-bottom: 0;
       padding: 0 px2rem(10px);
       padding-top: px2rem(8px);
@@ -470,6 +608,68 @@
       > .chrome-tab-background--left {
         left: calc(var(--Tabs--chrome-radius-size) * -1);
       }
+    }
+  }
+
+  &--simple {
+    > .#{$ns}Tabs-linksContainer > .#{$ns}Tabs-linksContainer-arrow {
+      top: 1px;
+    }
+    & > .#{$ns}Tabs-linksWrapper {
+      border-bottom: none;
+
+      & > .#{$ns}Tabs-addBtn {
+        margin-left: 0;
+        padding: 0;
+      }
+    }
+    & > .#{$ns}Tabs-linksWrapper > .#{$ns}Tabs-links,
+    & > .#{$ns}Tabs-linksContainer-wrapper > .#{$ns}Tabs-linksContainer > .#{$ns}Tabs-linksContainer-main > .#{$ns}Tabs-links {
+      border: none;
+
+      & > li {
+        position: relative;
+        border: none;
+
+        &::after {
+          content: '';
+          position: absolute;
+          top: 50%;
+          right: 0;
+          width: 1px;
+          height: 16px;
+          transform: translateY(-50%);
+          background-color: var(--Tabs--simple-split-color);
+        }
+
+        &:last-of-type::after {
+          content: none;
+        }
+
+        &.is-active,
+        &:hover {
+          > a:first-child,
+          > a:first-child:hover,
+          > a:first-child:focus {
+            color: var(--Tabs--line-onHover-color);
+            border: none;
+          }
+        }
+
+        & > a:first-child {
+          padding: var(--Tabs--simple-split-size);
+          
+          &,
+          &:hover,
+          &:focus {
+            border: none;
+          }
+        }
+      }
+    }
+
+    > .#{$ns}Tabs-content {
+      border: none;
     }
   }
 

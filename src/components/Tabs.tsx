@@ -12,6 +12,7 @@ import {uncontrollable} from 'uncontrollable';
 import {generateIcon} from '../utils/icon';
 import {SchemaClassName} from '../Schema';
 import {autobind} from '../utils/helper';
+import {Icon} from './icons';
 import debounce from 'lodash/debounce';
 
 const transitionStyles: {
@@ -85,7 +86,7 @@ class TabComponent extends React.PureComponent<TabProps> {
 export const Tab = themeable(TabComponent);
 
 export interface TabsProps extends ThemeProps {
-  mode: '' | 'line' | 'card' | 'radio' | 'vertical' | 'chrome';
+  mode: '' | 'line' | 'card' | 'radio' | 'vertical' | 'chrome' | 'simple';
   tabsMode?: '' | 'line' | 'card' | 'radio' | 'vertical' | 'chrome';
   additionBtns?: React.ReactNode;
   onSelect?: (key: string | number) => void;
@@ -97,6 +98,8 @@ export interface TabsProps extends ThemeProps {
   tabRender?: (tab: TabProps, props?: TabsProps) => JSX.Element;
   toolbar?: React.ReactNode;
   scrollable?: boolean; // 是否支持溢出滚动
+  addBtn?: boolean; // 是否显示增加按钮
+  onAdd?: () => void;
 }
 
 export class Tabs extends React.Component<TabsProps, any> {
@@ -170,6 +173,7 @@ export class Tabs extends React.Component<TabsProps, any> {
   }
 
   componentDidUpdate() {
+    console.log('componentDidUpdate', this.scroll);
     // 判断是否是由滚动触发的数据更新，如果是则不需要再次判断容器与内容的关系
     if (!this.scroll) {
       this.computedWidth();
@@ -190,10 +194,16 @@ export class Tabs extends React.Component<TabsProps, any> {
     if (!scrollable || mode === 'vertical') {
       return;
     }
+  
     const navMainRef = this.navMain.current;
+    console.log('navMainRef', navMainRef);
     const clientWidth: number = navMainRef?.clientWidth || 0;
     const scrollWidth: number = navMainRef?.scrollWidth || 0;
+    console.log('clientWidth', clientWidth);
+    console.log('scrollWidth', scrollWidth);
     const isOverflow = scrollWidth > clientWidth;
+    console.log('isOverflow', isOverflow);
+
     // 内容超出容器长度标记溢出
     if (isOverflow !== this.state.isOverflow) {
       this.setState({isOverflow});
@@ -201,6 +211,8 @@ export class Tabs extends React.Component<TabsProps, any> {
     if (isOverflow) {
       this.showSelected();
     }
+
+    console.log('computed before')
   }
   /**
    * 保证选中的tab始终显示在可视区域
@@ -399,6 +411,14 @@ export class Tabs extends React.Component<TabsProps, any> {
     ) : null;
   }
 
+  handleAddBtn() {
+    console.log('handleAddBtn');
+
+    const {onAdd} = this.props;
+
+    onAdd && onAdd();
+  }
+
   render() {
     const {
       classnames: cx,
@@ -410,7 +430,8 @@ export class Tabs extends React.Component<TabsProps, any> {
       additionBtns,
       toolbar,
       linksClassName,
-      scrollable
+      scrollable,
+      addBtn
     } = this.props;
 
     const {isOverflow} = this.state;
@@ -431,28 +452,48 @@ export class Tabs extends React.Component<TabsProps, any> {
         )}
       >
         {scrollable && !['vertical', 'chrome'].includes(mode) ? (
-          <div
-            className={cx(
-              'Tabs-linksContainer',
-              isOverflow && 'Tabs-linksContainer--overflow'
-            )}
-          >
-            {this.renderArrow('left')}
-            <div className={cx('Tabs-linksContainer-main')} ref={this.navMain}>
-              <ul className={cx('Tabs-links', linksClassName)} role="tablist">
-                {children.map((tab, index) => this.renderNav(tab, index))}
-                {additionBtns}
-                {toolbar}
-              </ul>
+          <div className={cx('Tabs-linksContainer-wrapper')}>
+            <div
+              className={cx(
+                'Tabs-linksContainer',
+                isOverflow && 'Tabs-linksContainer--overflow'
+              )}
+            >
+              {this.renderArrow('left')}
+              <div className={cx('Tabs-linksContainer-main')} ref={this.navMain}>
+                <ul className={cx('Tabs-links', linksClassName)} role="tablist">
+                  {children.map((tab, index) => this.renderNav(tab, index))}
+                  {additionBtns}
+                  {toolbar}
+                </ul>
+              </div>
+              {this.renderArrow('right')}
             </div>
-            {this.renderArrow('right')}
+            {
+              addBtn && (
+                <div className={cx('Tabs-addBtn')} onClick={() => this.handleAddBtn()}>
+                  <Icon icon="plus" className={cx('Tabs-addBtn-icon')} />
+                  增加
+                </div>
+              )
+            }
           </div>
         ) : (
-          <ul className={cx('Tabs-links', linksClassName)} role="tablist">
-            {children.map((tab, index) => this.renderNav(tab, index))}
-            {additionBtns}
-            {toolbar}
-          </ul>
+          <div className={cx('Tabs-linksWrapper')}>
+            <ul className={cx('Tabs-links', linksClassName)} role="tablist">
+              {children.map((tab, index) => this.renderNav(tab, index))}
+              {additionBtns}
+              {toolbar}
+            </ul>
+            {
+              addBtn && (
+                <div className={cx('Tabs-addBtn')}>
+                  <Icon icon="plus" className={cx('Tabs-addBtn-icon')} />
+                  <span>增加</span>
+                </div>
+              )
+            }
+          </div>
         )}
 
         <div className={cx('Tabs-content', contentClassName)}>

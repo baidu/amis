@@ -68,6 +68,31 @@ order: 68
 
 ## 展示模式
 
+### 简约
+
+```schema: scope="body"
+{
+    "type": "tabs",
+    "mode": "simple",
+    "addBtn": true,
+    "tabs": [
+        {
+            "title": "简约(10)",
+            "body": "选项卡内容1",
+            "icon": "fa fa-home"
+        },
+        {
+            "title": "选项卡2",
+            "body": "选项卡内容2"
+        },
+        {
+            "title": "选项卡3",
+            "body": "选项卡内容3"
+        }
+    ]
+}
+```
+
 ### 线型
 
 ```schema: scope="body"
@@ -218,6 +243,7 @@ order: 68
 {
     "type": "tabs",
     "scrollable": true,
+    "mode": "tiled",
     "tabs": [
         {
             "title": "选项卡1",
@@ -254,22 +280,6 @@ order: 68
         {
             "title": "选项卡9",
             "body": "选项卡内容9"
-        },
-        {
-            "title": "选项卡10",
-            "body": "选项卡内容10"
-        },
-        {
-            "title": "选项卡11",
-            "body": "选项卡内容11"
-        },
-        {
-            "title": "选项卡12",
-            "body": "选项卡内容12"
-        },
-        {
-            "title": "选项卡13",
-            "body": "选项卡内容13"
         }
     ]
 }
