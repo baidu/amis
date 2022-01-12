@@ -65,6 +65,7 @@ import Form2LinkPageSchema from './Linkage/Form2';
 import CRUDLinkPageSchema from './Linkage/CRUD';
 import OptionsPageSchema from './Linkage/Options';
 import OptionsLocalPageSchema from './Linkage/OptionsLocal';
+import FormSubmitSchema from './Linkage/FormSubmit';
 import EventsSchema from './Linkage/Event';
 import WizardSchema from './Wizard';
 import ChartSchema from './Chart';
@@ -480,6 +481,11 @@ export const examples = [
             label: '表单和表单联动',
             path: '/examples/linkpage/form',
             component: makeSchemaRenderer(FormLinkPageSchema)
+          },
+          {
+            label: '表单提交后显示结果',
+            path: '/examples/linkpage/form-submit',
+            component: makeSchemaRenderer(FormSubmitSchema)
           },
           {
             label: '表单自动更新',

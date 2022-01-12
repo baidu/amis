@@ -99,3 +99,7 @@ amisScoped.updateProps({
   }
 })
 ```
+
+## CRUD api 分页功能失效
+
+如果 api 地址中有变量，比如 `/api/mock2/sample/${id}`，amis 就不会自动加上分页参数，需要自己加上，改成 `/api/mock2/sample/${id}?page=${page}&perPage=${perPage}`

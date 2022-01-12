@@ -145,6 +145,8 @@ order: 14
 > - `crud`组件中的`api`；（crud 默认是跟地址栏联动，如果要做请关闭同步地址栏 syncLocation: false）
 > - 等等...
 
+> 如果 api 地址中有变量，比如 `/api/mock2/sample/${id}`，amis 就不会自动加上分页参数，需要自己加上，改成 `/api/mock2/sample/${id}?page=${page}&perPage=${perPage}`
+
 #### 配置请求条件
 
 默认在变量变化时，总是会去请求联动的接口，你也可以配置请求条件，当只有当前数据域中某个值符合特定条件才去请求该接口。
@@ -232,6 +234,59 @@ order: 14
 1. 通过`api`对象形式，将获取变量值配置到`data`请求体中。
 2. 配置搜索按钮，并配置该行为是刷新目标组件，并配置目标组件`target`
 3. 这样我们只有在点击搜索按钮的时候，才会将`keyword`值发送给`select`组件，重新拉取选项
+
+### 表单提交返回数据
+
+表单提交后会将返回结果合并到当前表单数据域，因此可以基于它实现提交按钮后显示结果，比如
+
+```schema: scope="body"
+{
+    "type": "form",
+    "api": "/api/mock2/form/saveForm",
+    "title": "查询用户 ID",
+    "body": [
+      {
+        "type": "input-group",
+        "name": "input-group",
+        "body": [
+           {
+            "type": "input-text",
+            "name": "name",
+            "label": "姓名"
+          },
+          {
+            "type": "submit",
+            "label": "查询",
+            "level": "primary"
+          }
+        ]
+      },
+      {
+        "type": "static",
+        "name": "id",
+        "visibleOn": "typeof data.id !== 'undefined'",
+        "label": "返回 ID"
+      }
+    ],
+    "actions": []
+}
+```
+
+上面的例子首先用 `"actions": []` 将表单默认的提交按钮去掉，然后在 `input-group` 里放一个 `submit` 类型的按钮来替代表单查询。
+
+这个查询结果返回类似如下的数据
+
+```json
+{
+  "status": 0,
+  "msg": "保存成功",
+  "data": {
+    "id": 1
+  }
+}
+```
+
+amis 会将返回的 `data` 写入表单数据域，因此下面的 `static` 组件就能显示了。
 
 ### 其他联动
 
