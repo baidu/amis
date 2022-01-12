@@ -322,7 +322,7 @@ export default class SelectControl extends React.Component<SelectProps, any> {
             popOverContainer={
               mobileUI && env && env.getModalContainer
                 ? env.getModalContainer
-                : undefined
+                : rest.popOverContainer
             }
             borderMode={borderMode}
             placeholder={placeholder}
