@@ -18,7 +18,7 @@ import {Renderer, RendererProps} from '../factory';
 import {resolveVariable} from '../utils/tpl-builtin';
 import {filter} from '../utils/tpl';
 // import css
-import 'video-react/dist/video-react.css';
+// import 'video-react/dist/video-react.css';
 import {BaseSchema, SchemaClassName, SchemaUrlPath} from '../Schema';
 
 /**
