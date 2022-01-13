@@ -16,10 +16,10 @@ interface CheckboxProps {
   labelClassName?: string;
   className?: string;
   onChange?: (value: any, shift?: boolean) => void;
-  value?: any;
+  value?: boolean | string | number;
   inline?: boolean;
-  trueValue?: any;
-  falseValue?: any;
+  trueValue?: boolean | string | number;
+  falseValue?: boolean | string | number;
   disabled?: boolean;
   readOnly?: boolean;
   checked?: boolean;
@@ -77,6 +77,7 @@ export class Checkbox extends React.Component<CheckboxProps, any> {
       <label
         className={cx(`Checkbox Checkbox--${type}`, className, {
           'Checkbox--full': !partial,
+          'Checkbox--partial': partial,
           [`Checkbox--${size}`]: size
         })}
       >

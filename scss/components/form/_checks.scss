@@ -158,6 +158,34 @@
     }
   }
 
+  &--partial.#{$ns}Checkbox--checkbox {
+    input {
+      margin-left: calc(var(--Checkbox-size) * -1);
+
+      & + i {
+        border-color: var(--Checkbox-onHover-color);
+
+        &:before {
+          width: var(--Checkbox-inner-size);
+          height: var(--Checkbox-inner-size);
+          background: var(--Checkbox-onHover-color);
+        }
+      }
+
+      &[disabled] + i {
+        border-color: var(--Checkbox-onDisabled-color);
+        background: var(--Checkbox-onDisabled-bg);
+
+        &:before {
+          width: var(--Checkbox-inner-size);
+          height: var(--Checkbox-inner-size);
+          background: var(--Checkbox-onDisabled-bg);
+        }
+      }
+    }
+
+
+  }
   &--radio {
     padding-left: var(--Radio-size);
 
