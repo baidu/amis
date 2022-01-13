@@ -33,7 +33,6 @@
       transition: opacity var(--animation-duration);
       display: flex;
       align-items: center;
-      margin-left: var(--gap-base);
 
       .#{$ns}CBDelete {
         margin-left: var(--gap-xs);
@@ -123,6 +122,10 @@
         display: none;
       }
     }
+  }
+
+  &-toolbarCondition {
+    margin-right: var(--gap-base);
   }
 }
 
@@ -227,6 +230,10 @@
     &:after {
       display: none;
     }
+  }
+
+  &-simple {
+    margin-bottom: var(--gap-sm);
   }
 }
 

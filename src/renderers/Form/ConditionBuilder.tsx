@@ -38,6 +38,16 @@ export interface ConditionBuilderControlSchema extends FormBaseControl {
    * 通过远程拉取配置项
    */
   source?: SchemaApi | SchemaTokenizeableString;
+
+  /**
+   * 展现模式
+   */
+  builderMode?: 'simple' | 'full';
+
+  /**
+   * 是否显示并或切换键按钮，只在简单模式下有用
+   */
+  showANDOR?: boolean;
 }
 
 export interface ConditionBuilderProps
