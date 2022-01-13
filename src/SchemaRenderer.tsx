@@ -85,7 +85,7 @@ class BroadcastCmpt extends React.Component<BroadcastCmptProps> {
     e: React.MouseEvent<any>,
     data: any
   ): Promise<RendererEvent<any> | undefined> {
-    return await this.props.env.dispatchEvent(e, this.ref, data);
+    return await this.props.env.dispatchEvent(e, this.ref, this.context, data);
   }
 
   @autobind
@@ -108,15 +108,10 @@ class BroadcastCmpt extends React.Component<BroadcastCmptProps> {
       <Component
         ref={this.childRef}
         {...rest}
-        scoped={this.context}
         dispatchEvent={this.triggerEvent}
       />
     ) : (
-      <Component
-        {...rest}
-        scoped={this.context}
-        dispatchEvent={this.triggerEvent}
-      />
+      <Component {...rest} dispatchEvent={this.triggerEvent} />
     );
   }
 }

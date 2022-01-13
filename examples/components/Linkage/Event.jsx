@@ -29,7 +29,7 @@ export default {
             },
             {
               actionType: 'broadcast',
-              eventName: 'broadcast_1dddd',
+              eventName: 'broadcast_1',
               args: {
                 name: 'lvxj',
                 age: 18,
