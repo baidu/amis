@@ -99,9 +99,20 @@ class BroadcastCmpt extends React.Component<BroadcastCmptProps> {
 
   render() {
     const {component: Component, ...rest} = this.props;
-    return (
+
+    const isClassComponent = Component.prototype?.isReactComponent;
+
+    // 函数组件不支持 ref https://reactjs.org/docs/refs-and-the-dom.html#refs-and-function-components
+
+    return isClassComponent ? (
       <Component
         ref={this.childRef}
+        {...rest}
+        scoped={this.context}
+        dispatchEvent={this.triggerEvent}
+      />
+    ) : (
+      <Component
         {...rest}
         scoped={this.context}
         dispatchEvent={this.triggerEvent}

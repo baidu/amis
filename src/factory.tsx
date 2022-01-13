@@ -360,6 +360,9 @@ const defaultOptions: RenderOptions = {
   tracker(eventTrack: EventTrack, props: PlainObject) {},
   // 返回解绑函数
   bindEvent(renderer: any) {
+    if (!renderer) {
+      return undefined;
+    }
     const listeners: EventListeners = renderer.props.$schema.onEvent;
     if (listeners) {
       // 暂存
