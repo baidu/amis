@@ -15,6 +15,7 @@ export interface ConditionGroupProps extends ThemeProps, LocaleProps {
   fields: Fields;
   funcs?: Funcs;
   showNot?: boolean;
+  showANDOR?: boolean;
   data?: any;
   disabled?: boolean;
   searchable?: boolean;
@@ -127,6 +128,7 @@ export class ConditionGroup extends React.Component<ConditionGroupProps> {
       onRemove,
       onDragStart,
       showNot,
+      showANDOR = false,
       disabled,
       searchable,
       translate: __
@@ -134,7 +136,7 @@ export class ConditionGroup extends React.Component<ConditionGroupProps> {
     return (
       <div className={cx('CBGroup')} data-group-id={value?.id}>
         <div className={cx('CBGroup-toolbar')}>
-          {builderMode === 'simple' ? null : (
+          {builderMode === 'simple' && showANDOR === false ? null : (
             <div className={cx('CBGroup-toolbarCondition')}>
               {showNot ? (
                 <Button
