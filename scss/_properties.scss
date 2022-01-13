@@ -1443,4 +1443,9 @@
   --ColumnToggler-fontColor: #151a26;
   --ColumnToggler-item-backgroundColor: #f6f7f8;
   --ColumnToggler-item-backgroundColor-onHover: rgba(36, 104, 242, 0.1);
+
+  --InputFormula-header-bgColor: #fafafa;
+  --InputFormula-icon-size: #{px2rem(24px)};
+  --InputFormula-icon-color-onActive: var(--primary);
+  --InputFormula-code-bgColor: #f2f2f4;
 }

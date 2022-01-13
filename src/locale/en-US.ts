@@ -271,5 +271,9 @@ register('en-US', {
   'Condition.blank': 'blank',
   'InputTable.uniqueError': 'Column `{{label}}` unique validate failed',
   'Timeline.collapseText': 'Unfold',
-  'Timeline.expandText': 'Fold'
+  'Timeline.expandText': 'Fold',
+  'FormulaEditor.btnLabel': 'Formula Edit',
+  'FormulaEditor.title': 'Formula Editor',
+  'FormulaEditor.variable': 'Variable',
+  'FormulaEditor.function': 'Function'
 });

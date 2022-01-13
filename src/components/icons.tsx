@@ -76,6 +76,7 @@ import AlertSuccess from '../icons/alert-success.svg';
 import AlertInfo from '../icons/alert-info.svg';
 import AlertWarning from '../icons/alert-warning.svg';
 import AlertDanger from '../icons/alert-danger.svg';
+import FunctionIcon from '../icons/function.svg';
 
 // 兼容原来的用法，后续不直接试用。
 
@@ -178,6 +179,7 @@ registerIcon('alert-info', AlertInfo);
 registerIcon('alert-warning', AlertWarning);
 registerIcon('alert-danger', AlertDanger);
 registerIcon('tree-down', TreeDownIcon);
+registerIcon('function', FunctionIcon);
 
 export function Icon({
   icon,
@@ -213,5 +215,6 @@ export {
   CheckIcon,
   PlusIcon,
   MinusIcon,
-  PencilIcon
+  PencilIcon,
+  FunctionIcon
 };
