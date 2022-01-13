@@ -11,6 +11,7 @@ import {
   RendererEventListener,
   EventListeners
 } from './utils/renderer-event';
+import {IScopedContext} from './Scoped';
 
 export interface RendererEnv {
   fetcher: (api: Api, data?: any, options?: object) => Promise<Payload>;
@@ -73,7 +74,9 @@ export interface RendererEnv {
       | React.TransitionEvent<any>
       | React.MouseEvent<any>,
     context: any,
-    data: any
+    scoped: IScopedContext,
+    data: any,
+    broadcast?: RendererEvent<any>
   ) => Promise<RendererEvent<any> | undefined>;
   rendererEventListeners: RendererEventListener[];
   [propName: string]: any;

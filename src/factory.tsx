@@ -23,7 +23,7 @@ import {
   PlainObject
 } from './types';
 import {observer} from 'mobx-react';
-import Scoped from './Scoped';
+import Scoped, {IScopedContext} from './Scoped';
 import {getTheme, ThemeInstance, ThemeProps} from './theme';
 import find from 'lodash/find';
 import Alert from './components/Alert2';
@@ -387,8 +387,9 @@ const defaultOptions: RenderOptions = {
   async dispatchEvent(
     e: string | React.MouseEvent<any>,
     renderer: React.Component<RendererProps>,
+    scoped: IScopedContext,
     data: any,
-    broadcast: RendererEvent<any>
+    broadcast?: RendererEvent<any>
   ) {
     const eventName = typeof e === 'string' ? e : e.type;
     if (!broadcast) {
@@ -411,7 +412,8 @@ const defaultOptions: RenderOptions = {
       createRendererEvent(eventName, {
         env: this,
         nativeEvent: e,
-        data
+        data,
+        scoped
       });
 
     // 过滤&排序
