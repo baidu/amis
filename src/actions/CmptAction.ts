@@ -24,7 +24,7 @@ export class CmptAction implements Action {
     // 根据唯一ID查找指定组件
     const component =
       renderer.props.$schema.id !== action.componentId
-        ? renderer.props.scoped?.getComponentById(action.componentId)
+        ? event.context.scoped?.getComponentById(action.componentId)
         : renderer;
 
     // 执行组件动作
