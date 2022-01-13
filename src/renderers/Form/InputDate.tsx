@@ -91,26 +91,6 @@ export interface DateControlSchema extends InputDateBaseControlSchema {
    * 限制最大日期
    */
   maxDate?: string;
-
-  /**
-   * 日程
-   */
-  schedules?:
-    | Array<{
-        startTime: Date;
-        endTime: Date;
-        content: any;
-        className?: string;
-      }>
-    | string;
-  /**
-   * 日程显示颜色自定义
-   */
-  scheduleClassNames?: Array<string>;
-  /**
-   * 日程点击展示
-   */
-  scheduleAction?: SchemaObject;
 }
 
 /**

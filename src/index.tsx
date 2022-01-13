@@ -57,6 +57,7 @@ import './renderers/ButtonGroup';
 import './renderers/Form/ButtonToolbar';
 import './renderers/Breadcrumb';
 import './renderers/DropDownButton';
+import './renderers/Calendar';
 import './renderers/Collapse';
 import './renderers/CollapseGroup';
 import './renderers/Color';
