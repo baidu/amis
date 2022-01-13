@@ -17,7 +17,7 @@ import {findDOMNode} from 'react-dom';
 import animtion from '../../utils/Animation';
 
 export interface ConditionBuilderProps extends ThemeProps, LocaleProps {
-  mode?: 'simple' | 'full'; // 简单模式｜完整模式
+  builderMode?: 'simple' | 'full'; // 简单模式｜完整模式
   fields: Fields;
   funcs?: Funcs;
   showNot?: boolean;
@@ -205,7 +205,7 @@ export class QueryBuilder extends React.Component<ConditionBuilderProps> {
       data,
       disabled,
       searchable,
-      mode
+      builderMode
     } = this.props;
 
     const normalizedValue = Array.isArray(value?.children)
@@ -226,7 +226,7 @@ export class QueryBuilder extends React.Component<ConditionBuilderProps> {
 
     return (
       <ConditionGroup
-        mode={mode}
+        builderMode={builderMode}
         config={this.config}
         funcs={funcs || this.config.funcs}
         fields={fields || this.config.fields}

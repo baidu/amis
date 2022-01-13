@@ -9,6 +9,7 @@ import {Icon} from '../icons';
 import {localeable, LocaleProps} from '../../locale';
 
 export interface ConditionGroupProps extends ThemeProps, LocaleProps {
+  builderMode?: 'simple' | 'full';
   config: Config;
   value?: ConditionGroupValue;
   fields: Fields;
@@ -114,7 +115,7 @@ export class ConditionGroup extends React.Component<ConditionGroupProps> {
 
   render() {
     const {
-      mode,
+      builderMode,
       classnames: cx,
       fieldClassName,
       value,
@@ -133,7 +134,7 @@ export class ConditionGroup extends React.Component<ConditionGroupProps> {
     return (
       <div className={cx('CBGroup')} data-group-id={value?.id}>
         <div className={cx('CBGroup-toolbar')}>
-          {mode === 'simple' ? null : (
+          {builderMode === 'simple' ? null : (
             <div className={cx('CBGroup-toolbarCondition')}>
               {showNot ? (
                 <Button
@@ -168,7 +169,9 @@ export class ConditionGroup extends React.Component<ConditionGroupProps> {
           )}
           <div
             className={cx(
-              `CBGroup-toolbarConditionAdd${mode === 'simple' ? '-simple' : ''}`
+              `CBGroup-toolbarConditionAdd${
+                builderMode === 'simple' ? '-simple' : ''
+              }`
             )}
           >
             <div className={cx('ButtonGroup')}>
@@ -176,7 +179,7 @@ export class ConditionGroup extends React.Component<ConditionGroupProps> {
                 <Icon icon="plus" className="icon" />
                 {__('Condition.add_cond')}
               </Button>
-              {mode === 'simple' ? null : (
+              {builderMode === 'simple' ? null : (
                 <Button
                   onClick={this.handleAddGroup}
                   size="xs"
@@ -212,13 +215,15 @@ export class ConditionGroup extends React.Component<ConditionGroupProps> {
                 data={data}
                 disabled={disabled}
                 searchable={searchable}
-                mode={mode}
+                builderMode={builderMode}
               />
             ))
           ) : (
             <div
               className={cx(
-                `CBGroup-placeholder ${mode === 'simple' ? 'simple' : ''}`
+                `CBGroup-placeholder ${
+                  builderMode === 'simple' ? 'simple' : ''
+                }`
               )}
             >
               {__('Condition.blank')}

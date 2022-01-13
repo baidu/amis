@@ -8,6 +8,7 @@ import ConditionGroup from './Group';
 import ConditionItem from './Item';
 
 export interface CBGroupOrItemProps extends ThemeProps {
+  builderMode?: 'simple' | 'full';
   config: Config;
   value?: ConditionGroupValue;
   fields: Fields;
@@ -37,7 +38,7 @@ export class CBGroupOrItem extends React.Component<CBGroupOrItemProps> {
 
   render() {
     const {
-      mode,
+      builderMode,
       classnames: cx,
       fieldClassName,
       value,
@@ -53,7 +54,9 @@ export class CBGroupOrItem extends React.Component<CBGroupOrItemProps> {
 
     return (
       <div
-        className={cx(`CBGroupOrItem${mode === 'simple' ? '-simple' : ''}`)}
+        className={cx(
+          `CBGroupOrItem${builderMode === 'simple' ? '-simple' : ''}`
+        )}
         data-id={value?.id}
       >
         <div className={cx('CBGroupOrItem-body')}>
