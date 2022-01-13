@@ -111,11 +111,7 @@ class BroadcastCmpt extends React.Component<BroadcastCmptProps> {
         dispatchEvent={this.triggerEvent}
       />
     ) : (
-      <Component
-        {...rest}
-        scoped={this.context}
-        dispatchEvent={this.triggerEvent}
-      />
+      <Component {...rest} dispatchEvent={this.triggerEvent} />
     );
   }
 }
