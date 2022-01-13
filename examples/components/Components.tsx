@@ -754,6 +754,14 @@ export const components = [
           )
       },
       {
+        label: 'Calendar 日历',
+        path: '/zh-CN/components/calendar',
+        getComponent: () =>
+          import('../../docs/zh-CN/components/calendar.md').then(
+            makeMarkdownRenderer
+          )
+      },
+      {
         label: 'Card 卡片',
         path: '/zh-CN/components/card',
         getComponent: () =>

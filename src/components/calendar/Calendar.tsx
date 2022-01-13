@@ -132,8 +132,7 @@ class BaseDatePicker extends ReactDatePicker {
         'updateOn',
         'useMobileUI',
         'showToolbar',
-        'embed',
-        'onScheduleClick'
+        'embed'
       ].forEach(key => (props[key] = (this.props as any)[key]));
 
       return props;
