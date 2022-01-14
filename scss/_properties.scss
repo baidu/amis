@@ -822,36 +822,44 @@
   --InputGroup-select-onFocused-bg: var(--white);
   --InputGroup-select-onFocused-color: var(--Form-select-onFocused-color);
 
-  --InputRange-label--value-display: block;
-  --InputRange-label--value-positionTop: #{px2rem(-36px)};
-  --InputRange-label--value-positionLeft: #{px2rem(-6px)};
-  --InputRange-label-color: var(--InputRange-neutralColor);
-  --InputRange-label-fontSize: 0.8rem;
-  --InputRange-label-positionBottom: -1.4rem;
-  --InputRange-neutralColor: #aaaaaa;
-  --InputRange-neutralLightColor: #eeeeee;
-  --InputRange-onDisabled-color: #cccccc;
-  --InputRange-primaryColor: var(--info);
-  --InputRange-slider-bg: var(--InputRange-primaryColor);
-  --InputRange-slider-border: #{px2rem(1px)} solid var(--InputRange-primaryColor);
-  --InputRange-slider-height: #{px2rem(24px)};
-  --InputRange-slider-onActive-transform: scale(1.3);
-  --InputRange-slider-onDisabled-bg: var(--InputRange-onDisabled-color);
-  --InputRange-slider-onDisabled-border: #{px2rem(1px)} solid var(--InputRange-onDisabled-color);
-  --InputRange-slider-onFocus-borderRadius: var(--borderRadiusMd);
-  --InputRange-slider-onFocus-boxShadow: 0 0 0
-    var(--InputRange-slider-onFocus-borderRadius) #{transparentize($info, 0.8)};
-  --InputRange-slider-transition: transform var(--animation-duration) ease-out,
-    box-shadow var(--animation-duration) ease-out;
-  --InputRange-slider-width: #{px2rem(18px)};
-  --InputRange-sliderContainer-transition: left var(--animation-duration)
-    ease-out;
-  --InputRange-track-bg: var(--InputRange-neutralLightColor);
-  --InputRange-track-height: #{px2rem(12px)};
+  --InputRange-padding: #{px2rem(20px)};
+  --InputRange-onDisabled-color: var(--light);
+  --InputRange-primaryColor: var(--primary);
+  --InputRange-track-height: #{px2rem(4px)};
+  --InputRange-track-bg: #{$gray100};
+  --InputRange-track-onDisabled-bg: var(--InputRange-onDisabled-color);
   --InputRange-track-onActive-bg: var(--InputRange-primaryColor);
-  --InputRange-track-onDisabled-bg: var(--InputRange-neutralLightColor);
+  --InputRange-track-onActive-onDisabled-bg: #{$gray200};
+  --InputRange-track-onActive-transition: transform var(--animation-duration)
+    ease-out left;
+  --InputRange-track-border-radius: #{px2rem(4px)};
+  --InputRange-track-dot-width: #{px2rem(4px)};
+  --InputRange-track-dot-height: #{px2rem(4px)};
+  --InputRange-track-dot-bg: var(--white);
   --InputRange-track-transition: left var(--animation-duration) ease-out,
     width var(--animation-duration) ease-out;
+  --InputRange-handle-height: #{px2rem(16px)};
+  --InputRange-handle-width: #{px2rem(16px)};
+  --InputRange-handle-bg: var(--white);
+  --InputRange-handle-border: #{px2rem(1px)} solid var(--InputRange-primaryColor);
+  --InputRange-handle-onDisabled-border-color: #ceced1;
+  --InputRange-handle-onActive-transform: scale(1.3);
+  --InputRange-handle-onDrage-border-width: #{px2rem(2px)};
+  --InputRange-handle-onDisabled-bg: var(--InputRange-onDisabled-color);
+  --InputRange-handle-onDisabled-border: #{px2rem(1px)} solid var(--InputRange-onDisabled-color);
+  --InputRange-handle-onFocus-borderRadius: var(--borderRadiusMd);
+  --InputRange-handele-onFocus-boxShadow: 0 0 0
+    var(--InputRange-slider-onFocus-borderRadius) #{transparentize($info, 0.8)};
+  --InputRange-handle-transition: transform var(--animation-duration) ease-out,
+    box-shadow var(--animation-duration) ease-out;
+  --InputRange-handle-icon-width: #{px2rem(8px)};
+  --InputRange-handle-icon-height: #{px2rem(8px)};
+  --InputRange-label-padding: #{px2rem(8px)};
+  --InputRange-label-bg: #000;
+  --InputRange-label-color: var(--white);
+  --InputRange-label-font-size: #{px2rem(14px)};
+  --InputRange-label-border-radius: #{px2rem(4px)};
+  --InputRange-label-position-bottom: calc(100% + 14px);
 
   --Layout--offscreen-width: 75%;
   --Layout-aside--folded-width: #{px2rem(60px)};
