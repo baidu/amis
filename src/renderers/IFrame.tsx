@@ -6,7 +6,7 @@ import {ScopedContext, IScopedContext} from '../Scoped';
 import {buildApi, isApiOutdated} from '../utils/api';
 import {BaseSchema, SchemaUrlPath} from '../Schema';
 import {ActionSchema} from './Action';
-import {dataMapping} from '../utils/tpl-builtin';
+import {dataMapping, resolveVariableAndFilter} from '../utils/tpl-builtin';
 
 /**
  * IFrame 渲染器
@@ -113,10 +113,8 @@ export default class IFrame extends React.Component<IFrameProps, object> {
     const {src, data} = this.props;
 
     if (src) {
-      (this.IFrameRef.current as HTMLIFrameElement).src = buildApi(
-        src,
-        data
-      ).url;
+      (this.IFrameRef.current as HTMLIFrameElement).src =
+        resolveVariableAndFilter(src, data, '| raw');
     }
   }
 
@@ -129,10 +127,8 @@ export default class IFrame extends React.Component<IFrameProps, object> {
     this.postMessage('receive', newData);
 
     if (isApiOutdated(src, src, data, newData)) {
-      (this.IFrameRef.current as HTMLIFrameElement).src = buildApi(
-        src,
-        newData
-      ).url;
+      (this.IFrameRef.current as HTMLIFrameElement).src =
+        resolveVariableAndFilter(src, newData, '| raw');
     }
   }
 
@@ -161,7 +157,9 @@ export default class IFrame extends React.Component<IFrameProps, object> {
       ...style
     };
 
-    const finalSrc = src ? buildApi(src, data).url : undefined;
+    const finalSrc = src
+      ? resolveVariableAndFilter(src, data, '| raw')
+      : undefined;
 
     if (
       typeof finalSrc === 'string' &&
