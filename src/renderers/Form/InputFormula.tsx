@@ -1,7 +1,13 @@
 import React from 'react';
+
+import ResultBox from '../../components/ResultBox';
+import Spinner from '../../components/Spinner';
 import FormItem, {FormBaseControl, FormControlProps} from './Item';
 import FormulaPicker from '../../components/formula/Picker';
+import {autobind} from '../../utils/helper';
+
 import type {FuncGroup, VariableItem} from '../../components/formula/Editor';
+import type {SchemaIcon} from '../../Schema';
 
 /**
  * InputFormula 公式编辑器
@@ -34,9 +40,67 @@ export interface InputFormulaControlSchema extends FormBaseControl {
   functions: Array<FuncGroup>;
 
   /**
+   * 编辑器标题
+   */
+  title?: string;
+
+  /**
    * 顶部标题，默认为表达式
    */
   header: string;
+
+  /**
+   * 控件模式
+   */
+  inputMode?: 'button' | 'input-button';
+
+  /**
+   * 按钮图标
+   */
+  icon?: SchemaIcon;
+
+  /**
+   * 按钮Label，inputMode为button时生效
+   */
+  btnLabel?: string;
+
+  /**
+   * 按钮样式
+   */
+  level?:
+    | 'info'
+    | 'success'
+    | 'warning'
+    | 'danger'
+    | 'link'
+    | 'primary'
+    | 'dark'
+    | 'light';
+
+  /**
+   * 按钮大小
+   */
+  btnSize?: 'xs' | 'sm' | 'md' | 'lg';
+
+  /**
+   * 边框模式，全边框，还是半边框，或者没边框。
+   */
+  borderMode?: 'full' | 'half' | 'none';
+
+  /**
+   * 输入框占位符
+   */
+  placeholder?: string;
+
+  /**
+   * 变量面板CSS样式类名
+   */
+  variableClassName?: string;
+
+  /**
+   * 函数面板CSS样式类名
+   */
+  functionClassName?: string;
 }
 
 export interface InputFormulaProps
@@ -50,6 +114,14 @@ export interface InputFormulaProps
   type: 'input-formula'
 })
 export class InputFormulaRenderer extends React.Component<InputFormulaProps> {
+  static defaultProps: Pick<
+    InputFormulaControlSchema,
+    'inputMode' | 'borderMode'
+  > = {
+    inputMode: 'input-button',
+    borderMode: 'full'
+  };
+
   render() {
     const {
       selectedOptions,
@@ -61,11 +133,26 @@ export class InputFormulaRenderer extends React.Component<InputFormulaProps> {
       functions,
       header,
       label,
-      value
+      value,
+      clearable,
+      className,
+      classPrefix: ns,
+      classnames: cx,
+      borderMode,
+      placeholder,
+      inputMode,
+      btnLabel,
+      level,
+      btnSize,
+      icon,
+      title,
+      variableClassName,
+      functionClassName
     } = this.props;
 
     return (
       <FormulaPicker
+        className={className}
         value={value}
         disabled={disabled}
         onChange={onChange}
@@ -74,6 +161,17 @@ export class InputFormulaRenderer extends React.Component<InputFormulaProps> {
         variableMode={variableMode}
         functions={functions}
         header={header || label || ''}
+        borderMode={borderMode}
+        placeholder={placeholder}
+        mode={inputMode}
+        btnLabel={btnLabel}
+        level={level}
+        btnSize={btnSize}
+        icon={icon}
+        title={title}
+        clearable={clearable}
+        variableClassName={variableClassName}
+        functionClassName={functionClassName}
       />
     );
   }

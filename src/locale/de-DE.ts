@@ -272,5 +272,9 @@ register('de-DE', {
   'Condition.blank': 'leer',
   'InputTable.uniqueError': 'Column `{{label}}` unique validate failed',
   'Timeline.collapseText': 'Entfalten',
-  'Timeline.expandText': 'Falten'
+  'Timeline.expandText': 'Falten',
+  'FormulaEditor.btnLabel': 'Formel Bearbeiten',
+  'FormulaEditor.title': 'Formel Editor',
+  'FormulaEditor.variable': 'Variable',
+  'FormulaEditor.function': 'Funktion'
 });

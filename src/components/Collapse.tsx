@@ -182,7 +182,10 @@ export class Collapse extends React.Component<CollapseProps, CollapseState> {
             expandIcon ? (
               React.cloneElement(expandIcon, {
                 ...expandIcon.props,
-                className: cx('Collapse-icon-tranform')
+                className: cx(
+                  'Collapse-icon-tranform',
+                  expandIcon.props?.className
+                )
               })
             ) : (
               <span className={cx('Collapse-arrow')} />

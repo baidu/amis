@@ -1,17 +1,28 @@
 import React from 'react';
+
 import {themeable, ThemeProps} from '../../theme';
 import Collapse from '../Collapse';
 import CollapseGroup from '../CollapseGroup';
 import SearchBox from '../SearchBox';
 import type {FuncGroup, FuncItem} from './Editor';
+import {generateIcon} from '../../utils/icon';
 
 export interface FuncListProps extends ThemeProps {
+  title?: string;
+  descClassName?: string;
+  bodyClassName?: string;
   data: Array<FuncGroup>;
   onSelect?: (item: FuncItem) => void;
 }
 
 export function FuncList(props: FuncListProps) {
-  const cx = props.classnames;
+  const {
+    title,
+    className,
+    classnames: cx,
+    bodyClassName,
+    descClassName
+  } = props;
   const [filteredFuncs, setFiteredFuncs] = React.useState(props.data);
   const [activeFunc, setActiveFunc] = React.useState<any>(null);
   function onSearch(term: string) {
@@ -29,52 +40,71 @@ export function FuncList(props: FuncListProps) {
   }
 
   return (
-    <div className={cx('FormulaFuncList')}>
-      <SearchBox
-        className="FormulaFuncList-searchBox"
-        mini={false}
-        onSearch={onSearch}
-      />
-      <div className={cx('FormulaFuncList-columns')}>
-        <CollapseGroup
-          className="FormulaFuncList-group"
-          defaultActiveKey={filteredFuncs[0]?.groupName}
-          accordion
-        >
-          {filteredFuncs.map(item => (
-            <Collapse
-              headingClassName="FormulaFuncList-groupTitle"
-              bodyClassName="FormulaFuncList-groupBody"
-              propKey={item.groupName}
-              header={item.groupName}
-              key={item.groupName}
+    <div className={cx('FormulaEditor-FuncList', className)}>
+      <div className={cx('FormulaEditor-panel')}>
+        <div className={cx('FormulaEditor-panel-header')}>{title}</div>
+        <div className={cx('FormulaEditor-panel-body')}>
+          <div className={cx('FormulaEditor-FuncList-searchBox')}>
+            <SearchBox mini={false} onSearch={onSearch} />
+          </div>
+          <div className={cx('FormulaEditor-FuncList-body', bodyClassName)}>
+            <CollapseGroup
+              className={cx('FormulaEditor-FuncList-collapseGroup')}
+              defaultActiveKey={filteredFuncs[0]?.groupName}
+              expandIcon={
+                generateIcon(
+                  cx,
+                  'fa fa-chevron-right FormulaEditor-FuncList-expandIcon',
+                  'Icon'
+                )!
+              }
+              accordion
             >
-              {item.items.map(item => (
-                <div
-                  className={cx(
-                    `FormulaFuncList-funcItem ${
-                      item.name === activeFunc?.name ? 'is-active' : ''
-                    }`
-                  )}
-                  onMouseEnter={() => setActiveFunc(item)}
-                  onClick={() => props.onSelect?.(item)}
-                  key={item.name}
+              {filteredFuncs.map(item => (
+                <Collapse
+                  className={cx('FormulaEditor-FuncList-collapse')}
+                  headingClassName={cx('FormulaEditor-FuncList-groupTitle')}
+                  bodyClassName={cx('FormulaEditor-FuncList-groupBody')}
+                  propKey={item.groupName}
+                  header={item.groupName}
+                  key={item.groupName}
                 >
-                  {item.name}
-                </div>
+                  {item.items.map(item => (
+                    <div
+                      className={cx('FormulaEditor-FuncList-item', {
+                        'is-active': item.name === activeFunc?.name
+                      })}
+                      onMouseEnter={() => setActiveFunc(item)}
+                      onClick={() => props.onSelect?.(item)}
+                      key={item.name}
+                    >
+                      {item.name}
+                    </div>
+                  ))}
+                </Collapse>
               ))}
-            </Collapse>
-          ))}
-        </CollapseGroup>
-        <div className={cx('FormulaFuncList-column')}>
-          {activeFunc ? (
-            <div className={cx('FormulaFuncList-funcDetail')}>
-              <pre>
-                <code>{activeFunc.example}</code>
-              </pre>
-              <div>{activeFunc.description}</div>
-            </div>
-          ) : null}
+            </CollapseGroup>
+          </div>
+        </div>
+      </div>
+
+      <div className={cx('FormulaEditor-panel')}>
+        <div className={cx('FormulaEditor-panel-header')}>
+          {activeFunc?.name || ''}
+        </div>
+        <div className={cx('FormulaEditor-panel-body')}>
+          <div className={cx('FormulaEditor-FuncList-doc', descClassName)}>
+            {activeFunc ? (
+              <>
+                <pre>
+                  <code>{activeFunc.example}</code>
+                </pre>
+                <div className={cx('FormulaEditor-FuncList-doc-desc')}>
+                  {activeFunc.description}
+                </div>
+              </>
+            ) : null}
+          </div>
         </div>
       </div>
     </div>
