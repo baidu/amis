@@ -278,5 +278,9 @@ register('zh-CN', {
   'Condition.blank': '空',
   'InputTable.uniqueError': '列`{{label}}`没有通过唯一验证',
   'Timeline.collapseText': '展开',
-  'Timeline.expandText': '折叠'
+  'Timeline.expandText': '折叠',
+  'FormulaEditor.btnLabel': '公式编辑',
+  'FormulaEditor.title': '公式编辑器',
+  'FormulaEditor.variable': '变量',
+  'FormulaEditor.function': '函数'
 });
