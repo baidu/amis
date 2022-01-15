@@ -2,6 +2,7 @@ import React from 'react';
 import {themeable, ThemeProps} from '../theme';
 import {Icon} from './icons';
 import {BaseSchema} from '../Schema';
+import { func } from 'prop-types';
 
 export enum StepStatus {
   wait = 'wait',
@@ -68,6 +69,11 @@ export interface StepsSchema extends BaseSchema {
    * 展示模式
    */
   mode?: 'horizontal' | 'vertical';
+
+  /**
+   * 标签放置位置
+   */
+   labelPlacement?: 'horizontal' | 'vertical';
 }
 
 export interface StepsProps extends ThemeProps {
@@ -78,6 +84,8 @@ export interface StepsProps extends ThemeProps {
     [propName: string]: StepStatus;
   };
   mode?: 'horizontal' | 'vertical';
+  labelPlacement?: 'horizontal' | 'vertical';
+  progressDot: boolean;
 }
 
 export function Steps(props: StepsProps) {
@@ -87,7 +95,9 @@ export function Steps(props: StepsProps) {
     className,
     current,
     status,
-    mode = 'horizontal'
+    mode = 'horizontal',
+    labelPlacement = 'horizontal',
+    progressDot = false,
   } = props;
   const FINISH_ICON = 'check';
   const ERROR_ICON = 'close';
@@ -122,22 +132,58 @@ export function Steps(props: StepsProps) {
     };
   }
 
+  function strlen(str: string | any, max: number): {len: number, index: number} { 
+    let len = 0;
+    let index = 0;
+
+    if (!str) {
+      return {
+        len: 0,
+        index: 0
+      }
+    }
+    for (let i = 0; i < str.length; i++) {   
+      const character = str.charCodeAt(i);
+      //字母数字占一字符，其余两字符
+      if ((character >= 0x0001 && character <= 0x007e) || (0xff60<=character && character<=0xff9f)) {   
+        len++;   
+      } else {   
+        len += 2;   
+      }
+      if (len < max) {
+        index++;
+      }
+    }   
+    return {len, index};  
+  }
+
+  function setTextLong(content: string | any): string {
+    const {len, index} = strlen(content, 18);
+    if (len > 18) {
+      return content.slice(0, index + 1).concat('...');
+    }
+    return content;
+  }
+
   return (
-    <ul className={cx('Steps', `Steps--${mode}`, className)}>
+    <ul className={cx('Steps',`Steps--Placement-${(progressDot || (labelPlacement === 'vertical' && mode != 'vertical'))
+      ? 'vertical' : ''}`, `Steps--${progressDot ? 'ProgressDot' : ''}`, `Steps--${mode}`, className)}>
       {stepsRow.map((step, i) => {
         const {stepStatus, icon} = getStepStatus(step, i);
 
         return (
           <li
             key={i}
-            className={cx('StepsItem', `is-${stepStatus}`, step.className)}
+            className={cx('StepsItem', `is-${stepStatus}`, step.className, `StepsItem-${progressDot ? 'ProgressDot' : ''}`)}
           >
             <div className={cx('StepsItem-container')}>
-              <div className={cx('StepsItem-containerIcon')}>
-                <span className={cx('StepsItem-icon')}>
-                  {icon ? <Icon icon={icon} className="icon" /> : i + 1}
-                </span>
-              </div>
+                <div className={cx('StepsItem-containerTail')}></div>
+                {progressDot ? <div className={cx('StepsItem-containerProgressDot')}></div>
+                : <div className={cx('StepsItem-containerIcon')}>
+                    <span className={cx('StepsItem-icon')}>
+                        {icon ? <Icon icon={icon} className="icon" /> : i + 1}
+                    </span>
+                  </div>}
               <div className={cx('StepsItem-containerWrapper')}>
                 <div className={cx('StepsItem-body')}>
                   <div
@@ -146,13 +192,16 @@ export function Steps(props: StepsProps) {
                       i < current && 'is-success'
                     )}
                   >
-                    <span>{step.title}</span>
+                    {strlen(step.title, 18).len > 18 ? <span data-tooltip={step.title} data-position="top">{setTextLong(step.title)}</span>
+                      : <span>{setTextLong(step.title)}</span>}
                     <span className={cx('StepsItem-subTitle')}>
-                      {step.subTitle}
+                      {strlen(step.subTitle, 18).len > 18 ? <span data-tooltip={step.subTitle} data-position="top">{setTextLong(step.subTitle)}</span>
+                        : <span>{step.subTitle}</span>}
                     </span>
                   </div>
                   <div className={cx('StepsItem-description')}>
-                    {step.description}
+                      {strlen(step.description, 18).len > 18 ? <span data-tooltip={step.description} data-position="top">{setTextLong(step.description)}</span>
+                        : step.description}
                   </div>
                 </div>
               </div>
