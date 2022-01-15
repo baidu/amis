@@ -68,6 +68,16 @@ export interface StepsSchema extends BaseSchema {
    * 展示模式
    */
   mode?: 'horizontal' | 'vertical';
+
+  /**
+   * 标签放置位置
+   */
+   labelPlacement?: 'horizontal' | 'vertical';
+
+   /**
+   * 点状步骤条
+   */
+    progressDot?: boolean;
 }
 
 export interface StepsProps
@@ -80,6 +90,8 @@ export function StepsCmpt(props: StepsProps) {
     steps,
     status,
     mode,
+    labelPlacement,
+    progressDot,
     data,
     source,
     config,
@@ -140,6 +152,8 @@ export function StepsCmpt(props: StepsProps) {
       className={className}
       status={status}
       mode={mode}
+      progressDot={progressDot}
+      labelPlacement={labelPlacement}
     ></Steps>
   );
 }
