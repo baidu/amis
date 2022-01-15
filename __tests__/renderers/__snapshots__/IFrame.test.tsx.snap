@@ -10,3 +10,41 @@ exports[`Renderer:iframe 1`] = `
   />
 </div>
 `;
+
+exports[`Renderer:iframe-escape 1`] = `
+<div>
+  <iframe
+    class="b-a"
+    frameborder="0"
+    src="https://www.baidu.com/?s=%25f"
+    style="width: 500px; height: 500px;"
+  />
+</div>
+`;
+
+exports[`Renderer:iframe-var 1`] = `
+<div>
+  <div
+    class="cxd-Page"
+  >
+    <div
+      class="cxd-Page-content"
+    >
+      <div
+        class="cxd-Page-main"
+      >
+        <div
+          class="cxd-Page-body"
+        >
+          <iframe
+            class="b-a"
+            frameborder="0"
+            src="https://www.baidu.com"
+            style="width: 500px; height: 500px;"
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;

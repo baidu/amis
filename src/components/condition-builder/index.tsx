@@ -21,6 +21,7 @@ export interface ConditionBuilderProps extends ThemeProps, LocaleProps {
   fields: Fields;
   funcs?: Funcs;
   showNot?: boolean;
+  showANDOR?: boolean;
   value?: ConditionGroupValue;
   data?: any;
   onChange: (value: ConditionGroupValue) => void;
@@ -202,6 +203,7 @@ export class QueryBuilder extends React.Component<ConditionBuilderProps> {
       onChange,
       value,
       showNot,
+      showANDOR,
       data,
       disabled,
       searchable,
@@ -236,6 +238,7 @@ export class QueryBuilder extends React.Component<ConditionBuilderProps> {
         fieldClassName={fieldClassName}
         removeable={false}
         onDragStart={this.handleDragStart}
+        showANDOR={showANDOR}
         showNot={showNot}
         data={data}
         disabled={disabled}

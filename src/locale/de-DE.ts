@@ -15,6 +15,9 @@ register('de-DE', {
   'Calendar.toast': 'Außerhalb des Datumsbereichs',
   'Calendar.startPick': 'Wählen Sie Startzeit',
   'Calendar.endPick': 'Wählen Sie Endzeit',
+  'Schedule': 'Zeitplan',
+  'Time': 'Zeit',
+  'Content': 'Inhalt',
   'cancel': 'Abbrechen',
   'Card.dragTip': 'Obere Schaltfläche zum Sortieren ziehen',
   'Card.toggleDrag': 'Zum Sortieren umschalten',
@@ -269,5 +272,9 @@ register('de-DE', {
   'Condition.blank': 'leer',
   'InputTable.uniqueError': 'Column `{{label}}` unique validate failed',
   'Timeline.collapseText': 'Entfalten',
-  'Timeline.expandText': 'Falten'
+  'Timeline.expandText': 'Falten',
+  'FormulaEditor.btnLabel': 'Formel Bearbeiten',
+  'FormulaEditor.title': 'Formel Editor',
+  'FormulaEditor.variable': 'Variable',
+  'FormulaEditor.function': 'Funktion'
 });

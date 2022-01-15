@@ -1,5 +1,5 @@
 import React from 'react';
-import 'codemirror/lib/codemirror.css';
+// import 'codemirror/lib/codemirror.css';
 import type CodeMirror from 'codemirror';
 import {autobind} from '../utils/helper';
 import {resizeSensor} from '../utils/resize-sensor';
