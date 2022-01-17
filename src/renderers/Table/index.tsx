@@ -59,6 +59,7 @@ import ColumnToggler from './ColumnToggler';
 import {BadgeSchema} from '../../components/Badge';
 import offset from '../../utils/offset';
 import {getStyleNumber} from '../../utils/dom';
+import {buildApi} from '../../utils/api';
 
 /**
  * 表格列，不指定类型时默认为文本类型。
@@ -2258,7 +2259,8 @@ export default class Table extends React.Component<TableProps, object> {
             let filename = 'data';
             // 支持配置 api 远程获取
             if (typeof toolbar === 'object' && toolbar.api) {
-              const res = await env.fetcher(toolbar.api, data);
+              const api = buildApi(toolbar.api, data);
+              const res = await env.fetcher(api, data);
               if (!res.data) {
                 env.notify('warning', __('placeholder.noData'));
                 return;
