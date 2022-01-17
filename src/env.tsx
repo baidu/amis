@@ -79,6 +79,11 @@ export interface RendererEnv {
     broadcast?: RendererEvent<any>
   ) => Promise<RendererEvent<any> | undefined>;
   rendererEventListeners: RendererEventListener[];
+
+  /**
+   * 过滤 html 标签，可用来添加 xss 保护逻辑
+   */
+  filterHtml: (input: string) => string;
   [propName: string]: any;
 }
 

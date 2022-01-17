@@ -207,18 +207,33 @@ export function responseAdaptor(ret: fetcherResult, api: ApiObject) {
     throw new Error('Response is empty');
   }
 
+  // 返回内容是 string，说明 content-type 不是 json，这时可能是返回了纯文本或 html
   if (typeof data === 'string') {
-    try {
-      data = JSON.parse(data);
-      if (typeof data === 'undefined') {
-        throw new Error('Response should be JSON');
+    // 如果是文本类型就尝试解析一下
+    if (
+      ret.headers &&
+      ((ret.headers as any)['content-type'] || '').startsWith('text/')
+    ) {
+      try {
+        data = JSON.parse(data);
+        if (typeof data === 'undefined') {
+          throw new Error('Response should be JSON');
+        }
+      } catch (e) {
+        const responseBrief =
+          typeof data === 'string'
+            ? escapeHtml((data as string).substring(0, 100))
+            : '';
+        throw new Error(`Response should be JSON\n ${responseBrief}`);
       }
-    } catch (e) {
-      const responseBrief =
-        typeof data === 'string'
-          ? escapeHtml((data as string).substring(0, 100))
-          : '';
-      throw new Error(`Response should be JSON\n ${responseBrief}`);
+    } else {
+      if (api.responseType === 'blob') {
+        throw new Error('Should have "Content-Disposition" in Header');
+      } else {
+        throw new Error(
+          `Content type is wrong "${(ret.headers as any)['content-type']}"`
+        );
+      }
     }
   }
 
