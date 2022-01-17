@@ -108,6 +108,7 @@ amisScoped.updateProps({
   theme: 'antd'
 });
 ```
+> 如果想使用 amis 1.2.2 之前的默认主题，名字是 ang
 
 ### 初始值
 
@@ -234,27 +235,6 @@ amisScoped.updateProps(
 ```ts
 amisScoped.unmount();
 ```
-
-### 切换主题
-
-jssdk 版本默认使用 `sdk.css` 即云舍主题，如果你想用使用仿 AntD 主题，请改成引用 `antd.css`。同时 js 渲染地方第四个参数传入 `theme` 属性。如：
-
-```js
-amis.embed(
-  '#root',
-  {
-    // amis schema
-  },
-  {
-    // 默认数据
-  },
-  {
-    theme: 'antd'
-  }
-);
-```
-
-> 如果想使用 amis 1.2.2 之前的默认主题，名字是 ang
 
 ### 多页模式
 
