@@ -773,7 +773,61 @@ feedback 反馈弹框是指，在 ajax 请求后，可以显示一个弹框，�
     }
 }
 ```
+## 信息提示对话框
 
+可以通过配置`dialogType`来设置四种样式
+
+```schema: scope="body"
+{
+  "type": "button-toolbar",
+    "buttons": [
+        {
+            "type": "button",
+            "label": "成功",
+            "level": "success",
+            "actionType": "dialog",
+            "dialog": {
+                "title": "成功标题",
+                "body": "这是个简单的弹框",
+                "dialogType": "success"
+            }
+        },
+        {
+            "type": "button",
+            "label": "报错",
+            "level": "danger",
+            "actionType": "dialog",
+            "dialog": {
+                "title": "报错标题",
+                "body": "这是个简单的弹框",
+                "dialogType": "danger"
+            }
+        },
+        {
+            "type": "button",
+            "label": "通知",
+            "level": "info",
+            "actionType": "dialog",
+            "dialog": {
+                "title": "通知标题",
+                "body": "这是个简单的弹框",
+                "dialogType": "info"
+            }
+        },
+        {
+            "type": "button",
+            "label": "警告",
+            "level": "warning",
+            "actionType": "dialog",
+            "dialog": {
+                "title": "注意标题",
+                "body": "这是个简单的弹框",
+                "dialogType": "warning"
+            }
+        },
+    ]
+}
+```
 ## 属性表
 
 | 属性名          | 类型                                      | 默认值             | 说明                                                                                             |
@@ -788,4 +842,6 @@ feedback 反馈弹框是指，在 ajax 请求后，可以显示一个弹框，�
 | showErrorMsg    | `boolean`                                 | `true`             | 是否在弹框左下角显示报错信息                                                                     |
 | disabled        | `boolean`                                 | `false`            | 如果设置此属性，则该 Dialog 只读没有提交操作。                                                   |
 | actions         | Array<[Action](./action)>                 | 【确认】和【取消】 | 如果想不显示底部按钮，可以配置：`[]`                                                             |
-| data            | `object`                                  |                    | 支持[数据映射](../../docs/concepts/data-mapping)，如果不设定将默认将触发按钮的上下文中继承数据。 |
+| data            | `object`                                  |                    | 支持[数据映射](../../docs/concepts/
+data-mapping)，如果不设定将默认将触发按钮的上下文中继承数据。 |
+| dialogType      | `string`                                  |                    | 支持四种类型,`success`、`warning`,`info`,`danger`
