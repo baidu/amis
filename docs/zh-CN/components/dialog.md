@@ -845,7 +845,61 @@ feedback 反馈弹框是指，在 ajax 请求后，可以显示一个弹框，�
     }
 }
 ```
+## 信息提示对话框
 
+可以通过配置`dialogType`来设置四种样式
+
+```schema: scope="body"
+{
+  "type": "button-toolbar",
+    "buttons": [
+        {
+            "type": "button",
+            "label": "成功",
+            "level": "success",
+            "actionType": "dialog",
+            "dialog": {
+                "title": "成功标题",
+                "body": "这是个简单的弹框",
+                "dialogType": "success"
+            }
+        },
+        {
+            "type": "button",
+            "label": "报错",
+            "level": "danger",
+            "actionType": "dialog",
+            "dialog": {
+                "title": "报错标题",
+                "body": "这是个简单的弹框",
+                "dialogType": "danger"
+            }
+        },
+        {
+            "type": "button",
+            "label": "通知",
+            "level": "info",
+            "actionType": "dialog",
+            "dialog": {
+                "title": "通知标题",
+                "body": "这是个简单的弹框",
+                "dialogType": "info"
+            }
+        },
+        {
+            "type": "button",
+            "label": "警告",
+            "level": "warning",
+            "actionType": "dialog",
+            "dialog": {
+                "title": "注意标题",
+                "body": "这是个简单的弹框",
+                "dialogType": "warning"
+            }
+        },
+    ]
+}
+```
 ## 属性表
 
 | 属性名          | 类型                                      | 默认值             | 说明                                                                                             |
