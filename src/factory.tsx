@@ -148,6 +148,10 @@ export interface RenderOptions {
    * 文本替换的黑名单，因为属性太多了所以改成黑名单的 fangs
    */
   replaceTextIgnoreKeys?: String[];
+  /**
+   * 过滤 html 标签，可用来添加 xss 保护逻辑
+   */
+  filterHtml?: (input: string) => string;
   [propName: string]: any;
 }
 
@@ -442,7 +446,11 @@ const defaultOptions: RenderOptions = {
     'target',
     'reload',
     'persistData'
-  ]
+  ],
+  /**
+   * 过滤 html 标签，可用来添加 xss 保护逻辑
+   */
+  filterHtml: (input: string) => input
 };
 let stores: {
   [propName: string]: IRendererStore;
