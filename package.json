@@ -154,7 +154,7 @@
     "js-yaml": "^4.1.0",
     "json5": "^2.2.0",
     "lint-staged": "^12.1.4",
-    "marked": "^3.0.4",
+    "marked": ">=4.0.10",
     "mkdirp": "^1.0.4",
     "moment-timezone": "^0.5.33",
     "path-to-regexp": "^6.2.0",
