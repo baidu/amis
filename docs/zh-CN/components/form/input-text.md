@@ -304,7 +304,7 @@ order: 56
       "name": "b",
       "type": "input-text",
       "label": "B",
-      "placeholder": "输入的英文自动转为小写",
+      "placeholder": "输入的英文自动转为大写",
       "transform": {
         "upperCase": true
       }
