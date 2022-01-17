@@ -228,14 +228,6 @@ amisScoped.updateProps(
 );
 ```
 
-### 销毁
-
-如果是单页应用，在离开当前页面的时候通常需要销毁实例，可以通过 unmount 方法来完成。
-
-```ts
-amisScoped.unmount();
-```
-
 ### 多页模式
 
 默认 amis 渲染是单页模式，如果想实现多页应用，请使用 [app 渲染器](../../components/app)。
