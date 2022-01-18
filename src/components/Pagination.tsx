@@ -4,14 +4,16 @@
  * @Date: 2021-11-01 16:57:38
  */
 import React from 'react';
-import {themeable, ThemeProps} from '../theme';
+import {themeable, ClassNamesFn} from '../theme';
 import {autobind} from '../utils/helper';
 import {Icon} from './icons';
 import {BaseSchema, SchemaClassName} from '../Schema';
 import Select from './Select';
 
-export interface PaginationProps extends ThemeProps {
+export interface PaginationProps {
   className?: SchemaClassName;
+
+  classnames: ClassNamesFn;
 
   /**
    * 通过控制layout属性的顺序，调整分页结构 total,pageSize,pager,go
@@ -108,8 +110,8 @@ export class Pagination extends React.Component<
 
   state = {
     pageNum: String(this.props.activePage) || '',
-    pageSize: parseInt(this.props.perPage, 10),
-    activePage: parseInt(this.props.activePage, 10)
+    pageSize: Number(this.props.perPage),
+    activePage: Number(this.props.activePage)
   };
 
   constructor(props: PaginationProps) {
@@ -138,7 +140,7 @@ export class Pagination extends React.Component<
     }
     if (prevProps.perPage !== props.perPage) {
       this.setState({
-        pageSize: parseInt(props.perPage, 10)
+        pageSize: Number(props.perPage)
       });
     }
   }
@@ -171,15 +173,14 @@ export class Pagination extends React.Component<
       classnames: cx,
       showPageInput,
       className,
-      disabled,
-      translate
+      disabled
     } = this.props;
     // const pageNum = this.state.pageNum;
     // const pageSize = this.state.pageSize;
     const activePage = this.state.activePage;
     // const activePage = parseInt(this.props.activePage, 10);
-    const lastPage = parseInt(this.props.lastPage, 10);
-    const perPage = parseInt(this.props.perPage, 10);
+    const lastPage = Number(this.props.lastPage);
+    const perPage = Number(this.props.perPage);
 
     let pageButtons: any = [];
     let startPage: number;
@@ -190,7 +191,7 @@ export class Pagination extends React.Component<
       layoutList = layout;
     } else {
       try {
-        layoutList = layout.split(',');
+        layoutList = (layout as string).split(',');
       } catch (error) {
         layoutList = [];
       }
@@ -397,12 +398,12 @@ export class Pagination extends React.Component<
             onChange={this.handlePageChange}
             onFocus={(e: any) => e.currentTarget.select()}
             onKeyUp={(e: any) =>{
-              const v = parseInt(e.currentTarget.value, 10);
+              const v: number = parseInt(e.currentTarget.value, 10);
               if (!v || e.keyCode != 13) {
                 return;
               }
               this.setState({
-                pageNum: v
+                pageNum: String(v)
               });
 
               this.doPageChange(v, perPage);
@@ -413,7 +414,7 @@ export class Pagination extends React.Component<
             className={cx('go-right')}
             key="go-right"
             onClick={(e: any) => {
-              this.doPageChange(this.state.pageNum, perPage);
+              this.doPageChange(+this.state.pageNum, perPage);
             }}
             >GO</span>
       </div>;
@@ -427,7 +428,7 @@ export class Pagination extends React.Component<
               disabled={disabled}
               value={this.state.pageSize}
               options={selection}
-              onChange={p => {
+              onChange={(p: any) => {
                 this.setState({pageSize: p.value});
                 this.doPageChange(1, p.value);
               }}
@@ -438,7 +439,7 @@ export class Pagination extends React.Component<
         {
           layoutList.map((layoutItem) => {
             if (layoutItem === 'pager') {
-              return <ul key="pager"key="pager" className={cx('Pagination', 'Pagination--sm','Pagination-item')}>{pageButtons}</ul>;
+              return <ul key="pager" className={cx('Pagination', 'Pagination--sm','Pagination-item')}>{pageButtons}</ul>;
             }
             else if (layoutItem === 'go' && showPageInput) {
               return go;
