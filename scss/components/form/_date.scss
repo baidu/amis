@@ -204,11 +204,28 @@
 
 // override third-party styles
 .rdt {
+  width: #{px2rem(450px)};
+  height: #{px2rem(324px)};
   user-select: none;
   font-size: var(--Calendar-fontSize);
   color: var(--Calendar-color);
 
+  .rdtDays{
+    display: flex;
+    height: #{px2rem(264px)};
+
+    .rdtDaysPart{
+      width: #{px2rem(280px)};
+    }
+  
+    .rdtTimePart{
+      width: #{px2rem(170px)};
+    }
+  }
+  
   .rdtPicker {
+    width: 100%;
+    height: 100%;
     margin-top: 0;
     padding: var(--gap-sm);
     background: transparent;
@@ -295,15 +312,17 @@
     background: var(--Form-select-menu-bg);
     color: var(--Form-select-menu-color);
     border: var(--Form-input-borderWidth) solid
-      var(--Form-input-onFocused-borderColor);
+      // var(--Form-input-onFocused-borderColor);
+      #f0f0f0;
     left: px2rem(-1px);
     right: px2rem(-1px);
     top: 100%;
     z-index: 10;
-    max-height: px2rem(200px);
+    max-height: px2rem(224px);
     overflow: auto;
     &Item {
-      padding-left: 4px;
+      text-align: center;
+      height: px2rem(28px);
       &.is-highlight,
       &:hover {
         color: var(--Form-select-menu-onHover-color);
@@ -315,7 +334,7 @@
 
 .#{$ns}CalendarInput {
   outline: none;
-  width: 40px;
+  width: #{px2rem(50px)};
   font-size: var(--Calendar-input-fontSize);
   color: var(--Calendar-input-color);
   border: 1px solid var(--Calendar-input-borderColor);
