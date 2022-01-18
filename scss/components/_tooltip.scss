@@ -156,13 +156,11 @@
   }
 
   &-title {
-    padding: var(--Tooltip-title-paddingY) var(--Tooltip-title-paddingX);
+    padding: var(--Tooltip-title-paddingY) var(--Tooltip-title-paddingX) 0;
     margin-bottom: 0; // Reset the default from Reboot
     font-size: var(--fontSizeBase);
     color: var(--Tooltip-title-color);
-    background: var(--Tooltip-title-bg);
-    border-bottom: var(--Tooltip-borderWidth) solid
-      var(--Tooltip-title-borderBottom-color);
+    font-weight: var(--Tooltip-fontWeight);
     border-top-left-radius: calc(
       var(--Tooltip-borderRadius) - var(--Tooltip-borderWidth)
     );
@@ -178,6 +176,21 @@
   &-body {
     color: var(--Tooltip-body-color);
     padding: var(--Tooltip-body-paddingY) var(--Tooltip-body-paddingX);
+    word-break: break-all;
+    text-align: justify;
+  }
+
+  &--drak {
+    background-color: var(--Tooltip-drak-background-color);
+
+    .#{$ns}Tooltip-arrow::after {
+      border-top-color: var(--Tooltip-drak-background-color);
+    }
+
+    .#{$ns}Tooltip-title,
+    .#{$ns}Tooltip-body {
+      color: var(--Tooltip-drak-text-color);
+    }
   }
 }
 

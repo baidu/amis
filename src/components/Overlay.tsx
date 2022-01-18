@@ -97,7 +97,8 @@ class Position extends React.Component<any, any> {
         overlay,
         target,
         container,
-        this.props.containerPadding
+        this.props.containerPadding,
+        this.props.offset
       )
     );
   }
@@ -238,6 +239,7 @@ export default class Overlay extends React.Component<
       children,
       watchTargetSizeChange,
       transition: Transition,
+      offset,
       ...props
     } = this.props;
 
@@ -259,7 +261,8 @@ export default class Overlay extends React.Component<
           containerPadding,
           target,
           placement,
-          shouldUpdatePosition
+          shouldUpdatePosition,
+          offset
         }}
         ref={this.positionRef}
       >

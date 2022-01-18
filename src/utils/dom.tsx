@@ -125,7 +125,8 @@ export function calculatePosition(
   overlayNode: any,
   target: HTMLElement,
   container: any,
-  padding: any = 0
+  padding: any = 0,
+  customOffset: Array = [0, 0]
 ) {
   const childOffset: any =
     container.tagName === 'BODY'
@@ -258,12 +259,12 @@ export function calculatePosition(
       `calcOverlayPosition(): No such placement of "${placement}" found.`
     );
   }
-
+  const [offSetX = 0, offSetY = 0] = customOffset;
   return {
-    positionLeft: positionLeft / scaleX,
-    positionTop: positionTop / scaleY,
-    arrowOffsetLeft: arrowOffsetLeft / scaleX,
-    arrowOffsetTop: arrowOffsetTop / scaleY,
+    positionLeft: (positionLeft + offSetX) / scaleX,
+    positionTop: (positionTop + offSetY) / scaleY,
+    arrowOffsetLeft: (arrowOffsetLeft + offSetX) / scaleX,
+    arrowOffsetTop: (arrowOffsetTop + offSetY) / scaleY,
     activePlacement
   };
 }
