@@ -58,6 +58,42 @@ key 只能是字符串，因此输入格式是 `input-text`，但 value 格式�
 }
 ```
 
+## 自定义 value 的默认值
+
+通过 `defaultValue` 设置默认值
+
+```schema: scope="body"
+{
+    "type": "form",
+    "api": "/api/mock2/form/saveForm",
+    "debug": true,
+    "body": [
+        {
+            "type": "input-kv",
+            "name": "css",
+            "defaultValue": "1.0"
+        }
+    ]
+}
+```
+
+## 关闭可拖拽排序
+
+```schema: scope="body"
+{
+    "type": "form",
+    "api": "/api/mock2/form/saveForm",
+    "debug": true,
+    "body": [
+        {
+            "type": "input-kv",
+            "name": "css",
+            "draggable": false
+        }
+    ]
+}
+```
+
 ## 自定义提示信息
 
 ```schema: scope="body"
@@ -78,8 +114,10 @@ key 只能是字符串，因此输入格式是 `input-text`，但 value 格式�
 
 ## 属性表
 
-| 属性名           | 类型     | 默认值         | 说明               |
-| ---------------- | -------- | -------------- | ------------------ |
-| valueType        | `type`   | `"input-text"` | 值类型             |
-| keyPlaceholder   | `string` |                | key 的提示信息的   |
-| valuePlaceholder | `string` |                | value 的提示信息的 |
+| 属性名           | 类型      | 默认值         | 说明               |
+| ---------------- | --------- | -------------- | ------------------ |
+| valueType        | `type`    | `"input-text"` | 值类型             |
+| keyPlaceholder   | `string`  |                | key 的提示信息的   |
+| valuePlaceholder | `string`  |                | value 的提示信息的 |
+| draggable        | `boolean` | true           | 是否可拖拽排序     |
+| defaultValue     |           | `''`           | 默认值             |
