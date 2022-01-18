@@ -282,7 +282,17 @@ export class CardRenderer extends React.Component<CardProps> {
   }
 
   handleClick(e: React.MouseEvent<HTMLDivElement>) {
-    const {item, href, data, env, blank, itemAction, onAction} = this.props;
+    const {
+      item,
+      href,
+      data,
+      env,
+      blank,
+      itemAction,
+      onAction,
+      onCheck,
+      selectable
+    } = this.props;
 
     if (href) {
       env.jumpTo(filter(href, data), {
@@ -298,7 +308,7 @@ export class CardRenderer extends React.Component<CardProps> {
       return;
     }
 
-    this.props.onCheck && this.props.onCheck(item);
+    selectable && onCheck?.(item);
   }
 
   handleAction(e: React.UIEvent<any>, action: Action, ctx: object) {
