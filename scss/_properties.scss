@@ -1448,4 +1448,22 @@
   --InputFormula-icon-size: #{px2rem(24px)};
   --InputFormula-icon-color-onActive: var(--primary);
   --InputFormula-code-bgColor: #f2f2f4;
+
+  --Tag-content-fontSize: var(--fontSizeSm);
+  --Tag-content-lineHeight: #{px2rem(24px)};
+  --Tag-height: #{px2rem(24px)};
+  --Tag-borderRadius: #{px2rem(2px)};
+  --Tag-content-color: var(--primary);
+  --Tag-inactive-color: #b5b7ba;
+  --Tag-active-color: #2968f2;
+  --Tag-processing-color: #3ec5ff;
+  --Tag-success-color: #34c280;
+  --Tag-error-color: #e8684a;
+  --Tag-warning-color: #f9b103;
+  --CheckableTag-bg: #f5f5f5;
+  --CheckableTag-disabled-bg: #ebebeb;
+  --CheckableTag-disabled-fontColor: #999;
+  --CheckableTag-checked-hover-bg: rgba(16, 140, 238, 0.7);
+  --CheckableTag-checked-bg: rgba(16, 140, 238, 1);
+  --CheckableTag-hover-bg: #ebebeb;
 }
