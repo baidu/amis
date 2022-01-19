@@ -97,7 +97,12 @@
   &-title {
     font-size: var(--Modal-title-fontSize);
     color: var(--Modal-title-color);
-    font-weight: var(--Modal-title-fontWeight);
+    font-weight: var(--Modal-title-fontBold);
+  }
+
+  &-icon {
+    display: var(----Modal-icon-display);
+    margin-right: var(--Modal-icon-marginRight);
   }
 
   &-close {

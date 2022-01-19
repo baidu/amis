@@ -847,7 +847,7 @@ feedback 反馈弹框是指，在 ajax 请求后，可以显示一个弹框，�
 ```
 ## 信息提示对话框
 
-可以通过配置`dialogType`来设置四种样式
+可以通过配置`level`来设置四种样式
 
 ```schema: scope="body"
 {
@@ -861,7 +861,7 @@ feedback 反馈弹框是指，在 ajax 请求后，可以显示一个弹框，�
             "dialog": {
                 "title": "成功标题",
                 "body": "这是个简单的弹框",
-                "dialogType": "success"
+                "level": "success"
             }
         },
         {
@@ -872,7 +872,7 @@ feedback 反馈弹框是指，在 ajax 请求后，可以显示一个弹框，�
             "dialog": {
                 "title": "报错标题",
                 "body": "这是个简单的弹框",
-                "dialogType": "danger"
+                "level": "danger"
             }
         },
         {
@@ -883,7 +883,7 @@ feedback 反馈弹框是指，在 ajax 请求后，可以显示一个弹框，�
             "dialog": {
                 "title": "通知标题",
                 "body": "这是个简单的弹框",
-                "dialogType": "info"
+                "level": "info"
             }
         },
         {
@@ -894,10 +894,26 @@ feedback 反馈弹框是指，在 ajax 请求后，可以显示一个弹框，�
             "dialog": {
                 "title": "注意标题",
                 "body": "这是个简单的弹框",
-                "dialogType": "warning"
+                "level": "warning"
             }
         },
     ]
+}
+```
+
+可以通过配置`icon`来自定义左上角图标
+
+```schema: scope="body"
+{
+  "label": "点击弹框",
+    "type": "button",
+    "actionType": "dialog",
+    "dialog": {
+      "title": "自定义图标",
+      "body": "这是个简单的弹框",
+      "level": "info",
+      "icon": "info"
+    }
 }
 ```
 ## 属性表
