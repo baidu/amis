@@ -247,7 +247,6 @@ register('zh-CN', {
   'Year.placeholder': '请选择年',
   'reload': '刷新',
   'rotate': '旋转',
-  'retry': '重试',
   'Editor.fullscreen': '全屏',
   'Editor.exitFullscreen': '退出全屏',
   'Condition.not': '非',

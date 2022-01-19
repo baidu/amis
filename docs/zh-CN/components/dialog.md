@@ -775,7 +775,7 @@ feedback 反馈弹框是指，在 ajax 请求后，可以显示一个弹框，�
 ```
 ## 信息提示对话框
 
-可以通过配置`dialogType`来设置四种样式
+可以通过配置`level`来设置四种样式
 
 ```schema: scope="body"
 {
@@ -789,7 +789,7 @@ feedback 反馈弹框是指，在 ajax 请求后，可以显示一个弹框，�
             "dialog": {
                 "title": "成功标题",
                 "body": "这是个简单的弹框",
-                "dialogType": "success"
+                "level": "success"
             }
         },
         {
@@ -800,7 +800,7 @@ feedback 反馈弹框是指，在 ajax 请求后，可以显示一个弹框，�
             "dialog": {
                 "title": "报错标题",
                 "body": "这是个简单的弹框",
-                "dialogType": "danger"
+                "level": "danger"
             }
         },
         {
@@ -811,7 +811,7 @@ feedback 反馈弹框是指，在 ajax 请求后，可以显示一个弹框，�
             "dialog": {
                 "title": "通知标题",
                 "body": "这是个简单的弹框",
-                "dialogType": "info"
+                "level": "info"
             }
         },
         {
@@ -822,10 +822,26 @@ feedback 反馈弹框是指，在 ajax 请求后，可以显示一个弹框，�
             "dialog": {
                 "title": "注意标题",
                 "body": "这是个简单的弹框",
-                "dialogType": "warning"
+                "level": "warning"
             }
         },
     ]
+}
+```
+
+可以通过配置`icon`来自定义左上角图标
+
+```schema: scope="body"
+{
+  "label": "点击弹框",
+    "type": "button",
+    "actionType": "dialog",
+    "dialog": {
+      "title": "自定义图标",
+      "body": "这是个简单的弹框",
+      "level": "info",
+      "icon": "info"
+    }
 }
 ```
 ## 属性表
@@ -844,4 +860,5 @@ feedback 反馈弹框是指，在 ajax 请求后，可以显示一个弹框，�
 | actions         | Array<[Action](./action)>                 | 【确认】和【取消】 | 如果想不显示底部按钮，可以配置：`[]`                                                             |
 | data            | `object`                                  |                    | 支持[数据映射](../../docs/concepts/
 data-mapping)，如果不设定将默认将触发按钮的上下文中继承数据。 |
-| dialogType      | `string`                                  |                    | 支持四种类型,`success`、`warning`,`info`,`danger`
+| level           | `string`                                  |                    | 支持四种类型,`success`、`warning`,`info`,`danger`
+| icon            | `string`                                  |                    | 自定义

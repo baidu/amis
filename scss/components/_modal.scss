@@ -99,7 +99,12 @@
   &-title {
     font-size: var(--Modal-title-fontSize);
     color: var(--Modal-title-color);
-    font-weight: var(--Modal-title-fontWeight);
+    font-weight: var(--Modal-title-fontBold);
+  }
+
+  &-icon {
+    display: var(----Modal-icon-display);
+    margin-right: var(--Modal-icon-marginRight);
   }
 
   &-close {
@@ -140,6 +145,10 @@
     padding: var(--Modal-body--noHeader-paddingTop) var(--Modal-body-paddingX)
       var(--Modal-body-paddingY);
     flex-grow: 1;
+  }
+
+  .body-paddingLeft {
+    padding-left: var(--Modal-body-paddingLeft);
   }
 
   &-header + &-body {
