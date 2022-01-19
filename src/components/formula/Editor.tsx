@@ -223,7 +223,6 @@ export class FormulaEditor extends React.Component<
       classPrefix
     } = this.props;
     const {focused} = this.state;
-
     return (
       <div
         className={cx(`FormulaEditor`, {

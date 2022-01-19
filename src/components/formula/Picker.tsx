@@ -12,6 +12,7 @@ import {themeable} from '../../theme';
 import {localeable} from '../../locale';
 
 import type {SchemaIcon} from '../../Schema';
+import {resolveVariableAndFilter} from '../../utils/tpl-builtin';
 
 export interface FormulaPickerProps extends FormulaEditorProps {
   // 新的属性？
@@ -74,6 +75,16 @@ export interface FormulaPickerProps extends FormulaEditorProps {
    * 可清除
    */
   clearable?: boolean;
+
+  /**
+   * 支持通过上下文变量配置value
+   */
+  source?: string;
+
+  /**
+   * 外层透传的 data，和source配合使用
+   */
+  data?: any;
 }
 
 export class FormulaPicker extends React.Component<FormulaPickerProps> {
@@ -102,6 +113,9 @@ export class FormulaPicker extends React.Component<FormulaPickerProps> {
       clearable,
       ...rest
     } = this.props;
+    rest.variables = rest.variables
+      ? rest.variables
+      : resolveVariableAndFilter(rest.source, this.props.data, '| raw');
     const iconElement = generateIcon(cx, icon, 'Icon');
 
     return (

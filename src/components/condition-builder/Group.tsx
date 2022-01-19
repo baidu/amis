@@ -7,6 +7,7 @@ import {autobind, guid} from '../../utils/helper';
 import {Config} from './config';
 import {Icon} from '../icons';
 import {localeable, LocaleProps} from '../../locale';
+import {FormulaPickerProps} from '../formula/Picker';
 
 export interface ConditionGroupProps extends ThemeProps, LocaleProps {
   builderMode?: 'simple' | 'full';
@@ -24,6 +25,7 @@ export interface ConditionGroupProps extends ThemeProps, LocaleProps {
   onRemove?: (e: React.MouseEvent) => void;
   onDragStart?: (e: React.MouseEvent) => void;
   fieldClassName?: string;
+  formula?: FormulaPickerProps;
 }
 
 export class ConditionGroup extends React.Component<ConditionGroupProps> {
@@ -131,7 +133,8 @@ export class ConditionGroup extends React.Component<ConditionGroupProps> {
       showANDOR = false,
       disabled,
       searchable,
-      translate: __
+      translate: __,
+      formula
     } = this.props;
     return (
       <div className={cx('CBGroup')} data-group-id={value?.id}>
@@ -218,6 +221,7 @@ export class ConditionGroup extends React.Component<ConditionGroupProps> {
                 disabled={disabled}
                 searchable={searchable}
                 builderMode={builderMode}
+                formula={formula}
               />
             ))
           ) : (
