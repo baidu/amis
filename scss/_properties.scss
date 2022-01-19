@@ -465,14 +465,19 @@
   --Cards-toolbar-marginX: 0;
   --Cards-toolbar-marginY: var(--gap-base);
 
+  --Carousel--arrow-width: #{px2rem(40px)};
+  --Carousel--arrow-height: #{px2rem(40px)};
   --Carousel--dark-control: black;
   --Carousel--light-control: white;
+  --Carousel--blue-control: #2468f2;
   --Carousel-arrowControl-height: var(--gap-lg);
   --Carousel-arrowControl-width: var(--gap-lg);
   --Carousel-bg: #f6f8f8;
+  --Carousel-gap: #{px2rem(12px)};
   --Carousel-dot-borderRadius: #{px2rem(4px)};
   --Carousel-dot-height: #{px2rem(8px)};
-  --Carousel-dot-margin: #{px2rem(7px)} var(--gap-xs);
+  --Carousel-dot-horizontal-margin: 0 var(--gap-xs);
+  --Carousel-dot-vertical-margin: var(--gap-xs) 0;
   --Carousel-dot-width: #{px2rem(8px)};
   --Carousel-height: #{px2rem(200px)};
   --Carousel-imageDescription-bottom: #{px2rem(25px)};
@@ -481,6 +486,14 @@
   --Carousel-svg-height: var(--gap-lg);
   --Carousel-svg-width: var(--gap-lg);
   --Carousel-transitionDuration: var(--animation-duration);
+  --Carousel-digital-width: #{px2rem(48px)};
+  --Carousel-digital-height: #{px2rem(24px)};
+  --Carousel-digital-borderRadius: #{px2rem(3px)};
+  --Carousel-bar-borderRadius: #{px2rem(4px)};
+  --Carousel-bar-height: #{px2rem(4px)};
+  --Carousel-bar-horizontal-margin: 0 var(--gap-xs);
+  --Carousel-bar-vertical-margin: var(--gap-xs) 0;
+  --Carousel-bar-width: #{px2rem(40px)};
 
   --Checkbox--full-inner-size: #{px2rem(8px)};
   --Checkbox--sm--full-inner-size: #{px2rem(8px)};

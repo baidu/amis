@@ -13,6 +13,9 @@ order: 33
 ```schema: scope="body"
 {
     "type": "carousel",
+    "dotPosition": "bottom",
+    "infinite": false,
+    "controls": ['dots', 'arrows'],
     "auto": false,
     "thumbMode": "cover",
     "animation": "slide",
@@ -118,12 +121,14 @@ itemSchema: {
 | options.html                 | `string`  |                        | HTML 自定义，同[Tpl](./tpl)一致                         |
 | itemSchema                   | `object`  |                        | 自定义`schema`来展示数据                                |
 | auto                         | `boolean` | `true`                 | 是否自动轮播                                            |
+| infinite                     | `boolean` | `true`                 | 是否无限轮播                                            |
+| dotPosition                  | `string` | `bottom`                | 指示点位置,默认`bottom`,另有`top`、`left`、`right`模式                                            |
 | interval                     | `string`  | `5s`                   | 切换动画间隔                                            |
 | duration                     | `string`  | `0.5s`                 | 切换动画时长                                            |
 | width                        | `string`  | `auto`                 | 宽度                                                    |
 | height                       | `string`  | `200px`                | 高度                                                    |
-| controls                     | `array`   | `['dots', 'arrows']`   | 显示左右箭头、底部圆点索引                              |
-| controlsTheme                | `string`  | `light`                | 左右箭头、底部圆点索引颜色，默认`light`，另有`dark`模式 |
+| controls                     | `array`   | `['dots', 'arrows']`   | 显示左右箭头、底部圆点索引,指示点可选`dots`、`digital`、`bar`模式                              |
+| controlsTheme                | `string`  | `light`                | 左右箭头、底部圆点索引颜色，默认`light`，另有`dark`、`blue`模式 |
 | animation                    | `string`  | fade                   | 切换动画效果，默认`fade`，另有`slide`模式               |
 | thumbMode                    | `string`  | `"cover" \| "contain"` | 图片默认缩放模式                                        |
 
@@ -140,11 +145,13 @@ itemSchema: {
   - `html` HTML 自定义，同[Tpl](./Tpl)一致
 - `itemSchema` 自定义`schema`来展示数据
 - `auto` 是否自动轮播，默认`true`
+- `infinite` 是否无限轮播，默认`true`
+- `dotPosition` 指示点位置,默认`bottom`,另有`top`、`left`、`right`模式
 - `interval` 切换动画间隔，默认`5s`
 - `duration` 切换动画时长，默认`0.5s`
 - `width` 宽度，默认`auto`
 - `height` 高度，默认`200px`
-- `controls` 显示左右箭头、底部圆点索引，默认`['dots', 'arrows']`
-- `controlsTheme` 左右箭头、底部圆点索引颜色，默认`light`，另有`dark`模式
+- `controls` 显示左右箭头、底部圆点索引，默认`['dots', 'arrows']`,指示点可选`dots`、`digital`、`bar`模式
+- `controlsTheme` 左右箭头、底部圆点索引颜色，默认`light`，另有`dark`、`blue`模式
 - `animation` 切换动画效果，默认`fade`，另有`slide`模式
 - `thumbMode` 图片默认缩放模式，可以配置 `"cover" | "contain"`

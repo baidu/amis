@@ -5,7 +5,6 @@ import Transition, {
   EXITING
 } from 'react-transition-group/Transition';
 import {Renderer, RendererProps} from '../factory';
-import {resolveVariable} from '../utils/tpl-builtin';
 import {
   autobind,
   createObject,
@@ -27,11 +26,20 @@ export interface CarouselSchema extends BaseSchema {
    * 指定为轮播图类型
    */
   type: 'carousel';
+  /**
+   * 指示点位置
+   */
+  dotPosition?: 'bottom' | 'top' | 'left' | 'right';
 
   /**
    * 是否自动播放
    */
   auto?: boolean;
+
+  /**
+   * 是否无限轮播
+   */
+  infinite?: boolean;
 
   /**
    * 轮播间隔时间
@@ -53,7 +61,7 @@ export interface CarouselSchema extends BaseSchema {
    */
   height?: number;
 
-  controlsTheme?: 'light' | 'dark';
+  controlsTheme?: 'light' | 'dark' | 'blue';
 
   /**
    * 占位
@@ -63,7 +71,7 @@ export interface CarouselSchema extends BaseSchema {
   /**
    * 配置控件内容
    */
-  controls?: Array<'dots' | 'arrows'>;
+  controls?: Array<'dots' | 'bar' | 'digital' | 'arrows'>;
 
   /**
    * 动画类型
@@ -154,6 +162,8 @@ export class Carousel extends React.Component<CarouselProps, CarouselState> {
     | 'animation'
     | 'controls'
     | 'placeholder'
+    | 'infinite'
+    | 'dotPosition'
   > = {
     auto: true,
     interval: 5000,
@@ -161,7 +171,9 @@ export class Carousel extends React.Component<CarouselProps, CarouselState> {
     controlsTheme: 'light',
     animation: 'fade',
     controls: ['dots', 'arrows'],
-    placeholder: '-'
+    placeholder: '-',
+    infinite: true,
+    dotPosition: 'bottom'
   };
 
   state = {
@@ -245,7 +257,25 @@ export class Carousel extends React.Component<CarouselProps, CarouselState> {
     this.setState({
       current,
       nextAnimation
+    }, () => {
+      const {controls, dotPosition, duration} = this.props;
+      if (controls?.includes('bar')) {
+        const domControl = document.querySelector(`.control-${dotPosition}`);
+        const controls = domControl?.querySelectorAll('.carousel-inner-bar') as NodeListOf<HTMLElement>;
+        Array.from(controls).forEach(item => {
+          item.style.transitionDuration = '0s';
+        })
+        const activeDom = domControl?.querySelector('.is-active') as HTMLElement;
+        activeDom && (activeDom.style.transitionDuration = `${duration as number / 1000}s`);
+      }
     });
+  }
+
+  @autobind
+  setCurrent(current: number) {
+    this.setState({
+      current
+    })
   }
 
   @autobind
@@ -264,11 +294,22 @@ export class Carousel extends React.Component<CarouselProps, CarouselState> {
 
   @autobind
   next() {
+    const {options, current} = this.state;
+    const {infinite} = this.props;
+    if (!infinite && current === options.length - 1) {
+      return;
+    }
+    const total = options.length;
     this.autoSlide('next');
   }
 
   @autobind
   prev() {
+    const {options, current} = this.state;
+    const {infinite} = this.props;
+    if (!infinite && current === 0) {
+      return;
+    }
     this.autoSlide('prev');
   }
 
@@ -286,20 +327,54 @@ export class Carousel extends React.Component<CarouselProps, CarouselState> {
   }
 
   renderDots() {
-    const {classnames: cx} = this.props;
+    const {classnames: cx, dotPosition} = this.props;
     const {current, options} = this.state;
     return (
       <div
-        className={cx('Carousel-dotsControl')}
+        className={cx('Carousel-dotsControl', `control-${dotPosition}`)}
         onMouseEnter={this.handleMouseEnter}
         onMouseLeave={this.handleMouseLeave}
       >
         {Array.from({length: options.length}).map((_, i) => (
           <span
+            onClick={() => this.setCurrent(i)}
             key={i}
             onClick={() => this.changeSlide(i)}
             className={cx('Carousel-dot', current === i ? 'is-active' : '')}
           />
+        ))}
+      </div>
+    );
+  }
+
+  renderDigital() {
+    const {classnames: cx, dotPosition} = this.props;
+    const {current, options} = this.state;
+    return (
+      <div
+        className={cx('Carousel-digitalControl', `digitalControl-${dotPosition}`)}
+      >
+        <span className={cx('Carousel-digital-current')}>{current + 1}</span>/
+        <span className={cx('Carousel-digital-total')}>{options.length}</span>
+      </div>
+    );
+  }
+
+  renderBar() {
+    const {classnames: cx, dotPosition} = this.props;
+    const {current, options} = this.state;
+    return (
+      <div
+        className={cx('Carousel-barControl', `control-${dotPosition}`)}
+      >
+        {Array.from({length: options.length}).map((_, i) => (
+          <span
+            onClick={() => this.setCurrent(i)}
+            key={i}
+            className={cx('Carousel-bar')}
+          >
+            <span className={cx(`Carousel-inner-bar-${dotPosition}`, 'carousel-inner-bar', current === i ? 'is-active' : '')} />
+          </span>
         ))}
       </div>
     );
@@ -346,7 +421,9 @@ export class Carousel extends React.Component<CarouselProps, CarouselState> {
       controlsTheme,
       placeholder,
       data,
-      name
+      name,
+      infinite,
+      dotPosition
     } = this.props;
     const {options, current, nextAnimation} = this.state;
 
@@ -356,11 +433,15 @@ export class Carousel extends React.Component<CarouselProps, CarouselState> {
     } = {};
     width ? (carouselStyles.width = width + 'px') : '';
     height ? (carouselStyles.height = height + 'px') : '';
-    const [dots, arrows] = [
+    const [dots, bar, digital, arrows] = [
       controls!.indexOf('dots') > -1,
-      controls!.indexOf('arrows') > -1
+      controls!.indexOf('bar') > -1,
+      controls!.indexOf('digital') > -1,
+      controls!.indexOf('arrows') > -1,
     ];
     const animationName = nextAnimation || animation;
+    const isHorizontal = (dotPosition === 'bottom' || dotPosition === 'top');
+    const transPosition = isHorizontal ? 'transX' : 'transY';
 
     if (Array.isArray(options) && options.length) {
       body = (
@@ -391,7 +472,8 @@ export class Carousel extends React.Component<CarouselProps, CarouselState> {
                     className={cx(
                       'Carousel-item',
                       animationName,
-                      animationStyles[status]
+                      animationStyles[status],
+                      transPosition
                     )}
                   >
                     {render(
@@ -424,13 +506,15 @@ export class Carousel extends React.Component<CarouselProps, CarouselState> {
         {body ? body : placeholder}
 
         {dots ? this.renderDots() : null}
+        {digital ? this.renderDigital() : null}
+        {bar ? this.renderBar() : null}
         {arrows ? (
-          <div className={cx('Carousel-leftArrow')} onClick={this.prev}>
+          <div className={cx(`Carousel-${isHorizontal ? 'left' : 'top'}Arrow`, (current === 0 && !infinite) ? 'is-disabled' : '')} onClick={this.prev}>
             <Icon icon="left-arrow" className="icon" />
           </div>
         ) : null}
         {arrows ? (
-          <div className={cx('Carousel-rightArrow')} onClick={this.next}>
+          <div className={cx(`Carousel-${isHorizontal ? 'right' : 'bottom'}Arrow`, (current === options.length - 1 && !infinite) ? 'is-disabled' : '')} onClick={this.next}>
             <Icon icon="right-arrow" className="icon" />
           </div>
         ) : null}
