@@ -11,7 +11,7 @@ import {themeable, ThemeProps} from '../theme';
 import {uncontrollable} from 'uncontrollable';
 import {generateIcon} from '../utils/icon';
 import {SchemaClassName} from '../Schema';
-import {autobind} from '../utils/helper';
+import {autobind, guid} from '../utils/helper';
 import {Icon} from './icons';
 import debounce from 'lodash/debounce';
 
@@ -86,7 +86,7 @@ class TabComponent extends React.PureComponent<TabProps> {
 export const Tab = themeable(TabComponent);
 
 export interface TabsProps extends ThemeProps {
-  mode: '' | 'line' | 'card' | 'radio' | 'vertical' | 'chrome' | 'simple';
+  mode: '' | 'line' | 'card' | 'radio' | 'vertical' | 'chrome' | 'simple' | 'strong';
   tabsMode?: '' | 'line' | 'card' | 'radio' | 'vertical' | 'chrome';
   additionBtns?: React.ReactNode;
   onSelect?: (key: string | number) => void;
@@ -100,6 +100,13 @@ export interface TabsProps extends ThemeProps {
   scrollable?: boolean; // 是否支持溢出滚动
   addBtn?: boolean; // 是否显示增加按钮
   onAdd?: () => void;
+  onClose?: (index: number, key: string | number) => void;
+  draggable?: boolean;
+  closable?: boolean;
+}
+
+export interface IDragInfo {
+  nodeId: string;
 }
 
 export class Tabs extends React.Component<TabsProps, any> {
@@ -111,6 +118,8 @@ export class Tabs extends React.Component<TabsProps, any> {
   static Tab = Tab;
   navMain = React.createRef<HTMLDivElement>();
   scroll: boolean = false;
+  dragInfo: IDragInfo | null;
+  dragNode: HTMLElement | null;
 
   checkArrowStatus = debounce(
     () => {
@@ -158,7 +167,8 @@ export class Tabs extends React.Component<TabsProps, any> {
     this.state = {
       isOverflow: false,
       arrowLeftDisabled: false,
-      arrowRightDisabled: false
+      arrowRightDisabled: false,
+      dragIndicator: null
     };
   }
 
@@ -173,7 +183,6 @@ export class Tabs extends React.Component<TabsProps, any> {
   }
 
   componentDidUpdate() {
-    console.log('componentDidUpdate', this.scroll);
     // 判断是否是由滚动触发的数据更新，如果是则不需要再次判断容器与内容的关系
     if (!this.scroll) {
       this.computedWidth();
@@ -196,23 +205,19 @@ export class Tabs extends React.Component<TabsProps, any> {
     }
   
     const navMainRef = this.navMain.current;
-    console.log('navMainRef', navMainRef);
     const clientWidth: number = navMainRef?.clientWidth || 0;
     const scrollWidth: number = navMainRef?.scrollWidth || 0;
-    console.log('clientWidth', clientWidth);
-    console.log('scrollWidth', scrollWidth);
     const isOverflow = scrollWidth > clientWidth;
-    console.log('isOverflow', isOverflow);
 
     // 内容超出容器长度标记溢出
     if (isOverflow !== this.state.isOverflow) {
       this.setState({isOverflow});
     }
-    if (isOverflow) {
+
+    // 正在拖动的不自动定位
+    if (isOverflow && !this.dragNode) {
       this.showSelected();
     }
-
-    console.log('computed before')
   }
   /**
    * 保证选中的tab始终显示在可视区域
@@ -231,7 +236,7 @@ export class Tabs extends React.Component<TabsProps, any> {
     );
     const li = this.navMain.current?.children[0]?.children || [];
     const currentLi = li[currentIndex] as HTMLElement;
-    const liOffsetLeft = currentLi?.offsetLeft - 20;
+    const liOffsetLeft = currentLi?.offsetLeft;
     const liClientWidth = currentLi?.clientWidth;
     const scrollLeft = this.navMain.current?.scrollLeft || 0;
     const clientWidth = this.navMain.current?.clientWidth || 0;
@@ -259,6 +264,100 @@ export class Tabs extends React.Component<TabsProps, any> {
       this.checkArrowStatus();
     }, 500);
     onSelect && onSelect(key);
+  }
+
+  @autobind
+  handleClose(index: number, key: string | number) {
+    const {onClose} = this.props;
+    onClose && onClose(index, key);
+  }
+
+  @autobind
+  handleDragStart(e: DragEvent, child: TabProps, index: number) {
+    const currentTarget = e.currentTarget as HTMLElement;
+    e.dataTransfer.effectAllowed = 'copyMove';
+    e.dataTransfer.setDragImage(currentTarget, 0, 0);
+
+    const target = e.target as HTMLElement;
+
+    this.dragNode = target;
+    this.dragInfo = null;
+    this.setState({
+      dragIndicator: null
+    });
+    
+    currentTarget.addEventListener('dragend', this.handleDragEnd);
+    document.body.addEventListener('dragover', this.handleDragOver);
+  }
+
+  @autobind
+  handleDragOver(e: React.DragEvent) {
+    const target = e.target as HTMLElement;
+
+    const uuid = target.getAttribute('data-id');
+
+    if (!uuid || !this.dragNode || this.dragNode.parentElement.parentElement !== target.parentElement.parentElement) {
+      return;
+    }
+    let rect = target.getBoundingClientRect();
+    const {left, height, width} = rect;
+    let {clientY, clientX} = e;
+
+    let position: string;
+
+    if (clientX  > left + (width / 2)) {
+      position = 'right';
+    }
+    else {
+      position = 'left';
+    }
+
+    if (
+      this.dragInfo
+      && position === this.dragInfo.position
+      && uuid === this.dragInfo.nodeId
+    ) {
+      return;
+    }
+    const ul = this.navMain.current;
+
+    const leftOffset = target.parentElement.getBoundingClientRect().left - ul.getBoundingClientRect().x + ul.scrollLeft;
+    const parentWidth = target.parentElement.getBoundingClientRect().width;
+
+    this.dragInfo = {
+      nodeId: uuid,
+      position
+    };
+
+    this.setState({
+      dragIndicator: {
+        left: position === 'left' ? leftOffset : (leftOffset + parentWidth)
+      }
+    })
+  }
+
+  @autobind
+  handleDragEnd(e: React.DragEvent) {
+    e.preventDefault();
+    e.stopPropagation();
+    this.dragNode = null;
+    //this.setState({
+    //  dragIndicator: null
+    //});
+
+    const target = e.target as HTMLElement;
+    const currentTarget = e.currentTarget as HTMLElement;
+
+    const uuid = target.getAttribute('data-id');
+
+    currentTarget.removeEventListener('dragend', this.handleDragEnd);
+    document.body.removeEventListener('dragover', this.handleDragOver);
+
+    if (!this.dragInfo || !this.dragInfo.nodeId || this.dragInfo.nodeId === uuid) {
+      return;
+    }
+
+    this.dragInfo = null;
   }
 
   handleArrow(type: 'left' | 'right') {
@@ -314,7 +413,7 @@ export class Tabs extends React.Component<TabsProps, any> {
       return;
     }
 
-    const {classnames: cx, activeKey: activeKeyProp, mode} = this.props;
+    const {classnames: cx, activeKey: activeKeyProp, mode, closable, draggable} = this.props;
     const {
       eventKey,
       disabled,
@@ -322,7 +421,8 @@ export class Tabs extends React.Component<TabsProps, any> {
       iconPosition,
       title,
       toolbar,
-      tabClassName
+      tabClassName,
+      _uuid
     } = child.props;
     const activeKey =
       activeKeyProp === undefined && index === 0 ? eventKey : activeKeyProp;
@@ -337,10 +437,15 @@ export class Tabs extends React.Component<TabsProps, any> {
           disabled ? 'is-disabled' : '',
           tabClassName
         )}
+        data-id={_uuid}
         key={eventKey ?? index}
+        onDragStart={e => this.handleDragStart(e, child.props, index)}
         onClick={() => (disabled ? '' : this.handleSelect(eventKey))}
       >
-        <a>
+        <a
+          data-id={_uuid}
+          draggable={draggable && !['vertical', 'chrome'].includes(mode)}
+        >
           {icon ? (
             iconPosition === 'right' ? (
               <>
@@ -356,6 +461,16 @@ export class Tabs extends React.Component<TabsProps, any> {
           )}
           {React.isValidElement(toolbar) ? toolbar : null}
         </a>
+        {
+          closable && (
+            <span className={cx('Tabs-link-close')} onClick={(e) => {
+              e.stopPropagation();
+              this.handleClose(index, eventKey ?? index)
+            }}>
+              <Icon icon="close" className={cx('Tabs-link-close-icon')} />
+            </span>
+          )
+        }
         {mode === 'chrome' ? (
           <div className="chrome-tab-background">
             <svg viewBox="0 0 124 124" className="chrome-tab-background--right">
@@ -412,8 +527,6 @@ export class Tabs extends React.Component<TabsProps, any> {
   }
 
   handleAddBtn() {
-    console.log('handleAddBtn');
-
     const {onAdd} = this.props;
 
     onAdd && onAdd();
@@ -434,7 +547,7 @@ export class Tabs extends React.Component<TabsProps, any> {
       addBtn
     } = this.props;
 
-    const {isOverflow} = this.state;
+    const {isOverflow, dragIndicator} = this.state;
     if (!Array.isArray(children)) {
       return null;
     }
@@ -451,7 +564,9 @@ export class Tabs extends React.Component<TabsProps, any> {
           className
         )}
       >
-        {scrollable && !['vertical', 'chrome'].includes(mode) ? (
+        {
+        // scrollable && 
+        !['vertical', 'chrome'].includes(mode) ? (
           <div className={cx('Tabs-linksContainer-wrapper')}>
             <div
               className={cx(
@@ -465,6 +580,11 @@ export class Tabs extends React.Component<TabsProps, any> {
                   {children.map((tab, index) => this.renderNav(tab, index))}
                   {additionBtns}
                   {toolbar}
+                  {
+                    dragIndicator && (
+                      <i className={cx('Tabs-links-drag')} style={dragIndicator} />
+                    )
+                  }
                 </ul>
               </div>
               {this.renderArrow('right')}
@@ -485,14 +605,14 @@ export class Tabs extends React.Component<TabsProps, any> {
               {additionBtns}
               {toolbar}
             </ul>
-            {
+            {/* {
               addBtn && (
                 <div className={cx('Tabs-addBtn')}>
                   <Icon icon="plus" className={cx('Tabs-addBtn-icon')} />
                   <span>增加</span>
                 </div>
               )
-            }
+            } */}
           </div>
         )}
 

@@ -8,7 +8,8 @@ import {
   isDisabled,
   isObject,
   createObject,
-  getVariable
+  getVariable,
+  guid
 } from '../utils/helper';
 import findIndex from 'lodash/findIndex';
 import {Tabs as CTabs, Tab} from '../components/Tabs';
@@ -156,6 +157,14 @@ export interface TabsSchema extends BaseSchema {
    * 是否支持新增
    */
   addBtn?: boolean;
+  /**
+   * 是否支持删除
+   */
+  closable?: boolean;
+  /**
+   * 是否支持拖拽
+   */
+  draggable?: boolean;
 }
 
 export interface TabsProps
@@ -206,10 +215,15 @@ export default class Tabs extends React.Component<TabsProps, TabsState> {
       activeKey = activeKey || (tabs[0] && tabs[0].hash) || 0;
     }
 
+    console.log('tabs', tabs);
+
     this.state = {
       prevKey: undefined,
       activeKey: (this.activeKey = activeKey),
-      localTabs: Array.isArray(tabs) ? tabs.concat() : []
+      localTabs: Array.isArray(tabs) ? tabs.concat().map(item => {
+        item._uuid = guid();
+        return item;
+      }) : []
     };
   }
 
@@ -389,18 +403,32 @@ export default class Tabs extends React.Component<TabsProps, TabsState> {
 
   @autobind
   handleAdd() {
-    console.log('handleAdd');
-
     const localTabs = this.state.localTabs;
 
     this.setState({
       localTabs: localTabs.concat([{
-        title: '新增tab',
-        body: '新增tab 内容'
+        title: '新增tab3',
+        body: '新增tab 内容',
+        _uuid: guid()
       }])
     }, () => {
       this.switchTo(this.state.localTabs.length - 1);
     })
+  }
+
+  @autobind
+  handleClose(index: number, key: string | number) {
+    console.log('handleClose');
+    console.log('index', index);
+    console.log('key', key);
+
+    const originTabs = [].concat(this.state.localTabs);
+
+    originTabs.splice(index, 1);
+
+    this.setState({
+      localTabs: originTabs
+    });
   }
 
   @autobind
@@ -493,7 +521,9 @@ export default class Tabs extends React.Component<TabsProps, TabsState> {
       subFormHorizontal,
       scrollable,
       icon,
-      addBtn
+      addBtn,
+      closable,
+      draggable
     } = this.props;
 
     const mode = tabsMode || dMode;
@@ -596,15 +626,18 @@ export default class Tabs extends React.Component<TabsProps, TabsState> {
         classnames={cx}
         mode={mode}
         icon={icon}
+        closable={closable}
         className={className}
         contentClassName={contentClassName}
         linksClassName={linksClassName}
         onSelect={this.handleSelect}
         activeKey={this.state.activeKey}
         toolbar={this.renderToolbar()}
-        scrollable={scrollable}
+        scrollable={true || scrollable}
         addBtn={true || addBtn}
         onAdd={this.handleAdd}
+        onClose={this.handleClose}
+        draggable={draggable}
       >
         {children}
       </CTabs>

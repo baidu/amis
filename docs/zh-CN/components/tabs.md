@@ -15,6 +15,8 @@ order: 68
 ```schema: scope="body"
 {
     "type": "tabs",
+    "closable": true,
+    "draggable": true,
     "tabs": [
         {
             "title": "Tab 1",
@@ -75,11 +77,36 @@ order: 68
     "type": "tabs",
     "mode": "simple",
     "addBtn": true,
+    "closable": true,
     "tabs": [
         {
             "title": "简约(10)",
             "body": "选项卡内容1",
             "icon": "fa fa-home"
+        },
+        {
+            "title": "选项卡2",
+            "body": "选项卡内容2"
+        },
+        {
+            "title": "选项卡3",
+            "body": "选项卡内容3"
+        }
+    ]
+}
+```
+
+### 加强
+
+```schema: scope="body"
+{
+    "type": "tabs",
+    "mode": "strong",
+    "closable": true,
+    "tabs": [
+        {
+            "title": "选项卡1",
+            "body": "选项卡内容1"
         },
         {
             "title": "选项卡2",
@@ -122,6 +149,7 @@ order: 68
 {
     "type": "tabs",
     "mode": "card",
+    "closable": true,
     "tabs": [
         {
             "title": "选项卡1",
@@ -170,6 +198,7 @@ order: 68
 {
     "type": "tabs",
     "mode": "tiled",
+    "closable": true,
     "tabs": [
         {
             "title": "选项卡1",
@@ -197,6 +226,7 @@ order: 68
 {
     "type": "tabs",
     "mode": "radio",
+    "closable": true,
     "tabs": [
         {
             "title": "选项卡1",
@@ -244,6 +274,7 @@ order: 68
     "type": "tabs",
     "scrollable": true,
     "mode": "tiled",
+    "closable": true,
     "tabs": [
         {
             "title": "选项卡1",
