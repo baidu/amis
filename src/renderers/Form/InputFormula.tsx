@@ -25,10 +25,6 @@ export interface InputFormulaControlSchema extends FormBaseControl {
   evalMode?: boolean;
 
   /**
-   * 支持通过上下文变量配置value
-   */
-  source?: string;
-  /**
    * 用于提示的变量集合，默认为空
    */
   variables: Array<VariableItem>;
@@ -153,7 +149,6 @@ export class InputFormulaRenderer extends React.Component<InputFormulaProps> {
       title,
       variableClassName,
       functionClassName,
-      source,
       data
     } = this.props;
     return (
@@ -178,7 +173,6 @@ export class InputFormulaRenderer extends React.Component<InputFormulaProps> {
         clearable={clearable}
         variableClassName={variableClassName}
         functionClassName={functionClassName}
-        source={source}
         data={data}
       />
     );

@@ -12,7 +12,10 @@ import {themeable} from '../../theme';
 import {localeable} from '../../locale';
 
 import type {SchemaIcon} from '../../Schema';
-import {resolveVariableAndFilter} from '../../utils/tpl-builtin';
+import {
+  resolveVariableAndFilter,
+  isPureVariable
+} from '../../utils/tpl-builtin';
 
 export interface FormulaPickerProps extends FormulaEditorProps {
   // 新的属性？
@@ -94,7 +97,7 @@ export class FormulaPicker extends React.Component<FormulaPickerProps> {
   }
 
   render() {
-    const {
+    let {
       classnames: cx,
       value,
       translate: __,
@@ -111,11 +114,13 @@ export class FormulaPicker extends React.Component<FormulaPickerProps> {
       icon,
       title,
       clearable,
+      variables,
       ...rest
     } = this.props;
-    rest.variables = rest.variables
-      ? rest.variables
-      : resolveVariableAndFilter(rest.source, this.props.data, '| raw');
+    if (isPureVariable(variables)) {
+      // 如果是 ${xxx} 这种形式，将其处理成实际的值
+      variables = resolveVariableAndFilter(variables, this.props.data, '| raw');
+    }
     const iconElement = generateIcon(cx, icon, 'Icon');
 
     return (
@@ -123,7 +128,14 @@ export class FormulaPicker extends React.Component<FormulaPickerProps> {
         title={__(title || 'FormulaEditor.title')}
         headerClassName="font-bold"
         bodyRender={({onClose, value, onChange}) => {
-          return <Editor {...rest} value={value} onChange={onChange} />;
+          return (
+            <Editor
+              {...rest}
+              variables={variables}
+              value={value}
+              onChange={onChange}
+            />
+          );
         }}
         value={value}
         onConfirm={this.handleConfirm}
