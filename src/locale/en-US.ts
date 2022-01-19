@@ -43,6 +43,10 @@ register('en-US', {
   'CRUD.paginationGoText': 'Go to',
   'CRUD.paginationPageText': 'page',
   'PaginationWrapper.placeholder': 'please config body',
+  'Date.titleYear': 'select year',
+  'Date.titleMonth': 'select month and year',
+  'Date.titleDate': 'select month, year and day',
+  'Date.titleTime': 'select time',
   'Date.daysago': '{{days}} day(s) ago',
   'Date.dayslater': '{{days}} day(s) later',
   'Date.endOfMonth': 'last day of the month',
@@ -267,5 +271,9 @@ register('en-US', {
   'Condition.blank': 'blank',
   'InputTable.uniqueError': 'Column `{{label}}` unique validate failed',
   'Timeline.collapseText': 'Unfold',
-  'Timeline.expandText': 'Fold'
+  'Timeline.expandText': 'Fold',
+  'FormulaEditor.btnLabel': 'Formula Edit',
+  'FormulaEditor.title': 'Formula Editor',
+  'FormulaEditor.variable': 'Variable',
+  'FormulaEditor.function': 'Function'
 });

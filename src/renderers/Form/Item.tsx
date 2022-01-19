@@ -9,7 +9,13 @@ import {
   TestFunc,
   RendererConfig
 } from '../../factory';
-import {anyChanged, ucFirst, getWidthRate, autobind} from '../../utils/helper';
+import {
+  anyChanged,
+  ucFirst,
+  getWidthRate,
+  autobind,
+  isMobile
+} from '../../utils/helper';
 import {observer} from 'mobx-react';
 import {FormHorizontal, FormSchema, FormSchemaHorizontal} from '.';
 import {Api, Schema} from '../../types';
@@ -456,9 +462,11 @@ export class FormItemWrap extends React.Component<FormItemProps> {
       sizeMutable,
       size,
       defaultSize,
+      useMobileUI,
       ...rest
     } = this.props;
 
+    const mobileUI = useMobileUI && isMobile();
     if (renderControl) {
       const controlSize = size || defaultSize;
       return renderControl({
@@ -470,7 +478,7 @@ export class FormItemWrap extends React.Component<FormItemProps> {
         className: cx(
           `Form-control`,
           {
-            'is-inline': !!rest.inline,
+            'is-inline': !!rest.inline && !mobileUI,
             'is-error': model && !model.valid,
             [`Form-control--withSize Form-control--size${ucFirst(
               controlSize
@@ -1205,14 +1213,16 @@ export function asFormItem(config: Omit<FormItemConfig, 'component'>) {
               type,
               size,
               defaultSize,
+              useMobileUI,
               ...rest
             } = this.props;
 
             const controlSize = size || defaultSize;
-
+            const mobileUI = useMobileUI && isMobile();
             return (
               <Control
                 {...rest}
+                useMobileUI={useMobileUI}
                 onOpenDialog={this.handleOpenDialog}
                 size={config.sizeMutable !== false ? undefined : size}
                 onFocus={this.handleFocus}
@@ -1225,7 +1235,7 @@ export function asFormItem(config: Omit<FormItemConfig, 'component'>) {
                 className={cx(
                   `Form-control`,
                   {
-                    'is-inline': !!rest.inline,
+                    'is-inline': !!rest.inline && !mobileUI,
                     'is-error': model && !model.valid,
                     [`Form-control--withSize Form-control--size${ucFirst(
                       controlSize

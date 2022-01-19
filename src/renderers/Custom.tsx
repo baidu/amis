@@ -100,7 +100,7 @@ export class Custom extends React.Component<CustomProps, object> {
     this.onMount(this.dom.current, value, onChange, this.props);
   }
 
-  componentwillUnmount() {
+  componentWillUnmount() {
     this.onUnmount(this.props);
   }
 

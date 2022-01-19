@@ -65,6 +65,8 @@ import Form2LinkPageSchema from './Linkage/Form2';
 import CRUDLinkPageSchema from './Linkage/CRUD';
 import OptionsPageSchema from './Linkage/Options';
 import OptionsLocalPageSchema from './Linkage/OptionsLocal';
+import FormSubmitSchema from './Linkage/FormSubmit';
+import EventsSchema from './Linkage/Event';
 import WizardSchema from './Wizard';
 import ChartSchema from './Chart';
 import EChartsEditorSchema from './ECharts';
@@ -481,6 +483,11 @@ export const examples = [
             component: makeSchemaRenderer(FormLinkPageSchema)
           },
           {
+            label: '表单提交后显示结果',
+            path: '/examples/linkpage/form-submit',
+            component: makeSchemaRenderer(FormSubmitSchema)
+          },
+          {
             label: '表单自动更新',
             path: '/examples/linkpage/form2',
             component: makeSchemaRenderer(Form2LinkPageSchema)
@@ -489,6 +496,11 @@ export const examples = [
             label: '表单和列表联动',
             path: '/examples/linkpage/crud',
             component: makeSchemaRenderer(CRUDLinkPageSchema)
+          },
+          {
+            label: '广播事件机制',
+            path: '/examples/linkpage/event',
+            component: makeSchemaRenderer(EventsSchema)
           }
         ]
       },

@@ -41,6 +41,8 @@ import {
 
 import './locale/zh-CN';
 
+import './utils/debug';
+
 import animation from './utils/Animation';
 
 export * from './Schema';
@@ -55,6 +57,7 @@ import './renderers/ButtonGroup';
 import './renderers/Form/ButtonToolbar';
 import './renderers/Breadcrumb';
 import './renderers/DropDownButton';
+import './renderers/Calendar';
 import './renderers/Collapse';
 import './renderers/CollapseGroup';
 import './renderers/Color';
@@ -211,6 +214,8 @@ import {
   getTheme
 } from './theme';
 const classPrefix = getClassPrefix();
+
+import './actions';
 
 export * from './components/index';
 

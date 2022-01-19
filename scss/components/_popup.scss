@@ -28,7 +28,7 @@
   background: var(--PopOver-bg);
   left: 0;
   bottom: 0;
-  z-index: $zindex-popover;
+  z-index: $zindex-top;
   padding: 0;
   margin: 0;
   font-weight: var(--fontWeightNormal);
@@ -105,6 +105,7 @@
   }
 
   &-cancel {
+    color: var(--PopUp-cancelAction-color);
     margin-left: var(--gap-sm);
   }
 

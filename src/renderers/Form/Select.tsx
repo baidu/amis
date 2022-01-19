@@ -11,7 +11,7 @@ import find from 'lodash/find';
 import debouce from 'lodash/debounce';
 import {Api} from '../../types';
 import {isEffectiveApi} from '../../utils/api';
-import {isEmpty, createObject, autobind} from '../../utils/helper';
+import {isEmpty, createObject, autobind, isMobile} from '../../utils/helper';
 import {dataMapping} from '../../utils/tpl-builtin';
 import {SchemaApi} from '../../Schema';
 import Spinner from '../../components/Spinner';
@@ -232,8 +232,12 @@ export default class SelectControl extends React.Component<SelectProps, any> {
   }
 
   mergeOptions(options: Array<object>) {
-    const {selectedOptions} = this.props;
-    let combinedOptions = normalizeOptions(options).concat();
+    const {selectedOptions, valueField = 'value'} = this.props;
+    let combinedOptions = normalizeOptions(
+      options,
+      undefined,
+      valueField
+    ).concat();
 
     if (Array.isArray(selectedOptions) && selectedOptions.length) {
       selectedOptions.forEach(option => {
@@ -298,12 +302,16 @@ export default class SelectControl extends React.Component<SelectProps, any> {
       menuTpl,
       borderMode,
       selectMode,
+      env,
+      useMobileUI,
       ...rest
     } = this.props;
 
     if (noResultsText) {
       noResultsText = render('noResultText', noResultsText);
     }
+
+    const mobileUI = useMobileUI && isMobile();
 
     return (
       <div className={cx(`${classPrefix}SelectControl`, className)}>
@@ -314,6 +322,12 @@ export default class SelectControl extends React.Component<SelectProps, any> {
         ) : (
           <Select
             {...rest}
+            useMobileUI={useMobileUI}
+            popOverContainer={
+              mobileUI && env && env.getModalContainer
+                ? env.getModalContainer
+                : rest.popOverContainer
+            }
             borderMode={borderMode}
             placeholder={placeholder}
             multiple={multiple || multi}

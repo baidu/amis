@@ -10,7 +10,7 @@ import moment from 'moment';
 import 'moment/locale/zh-cn';
 import DatePicker from '../../components/DatePicker';
 import {SchemaObject} from '../../Schema';
-import {createObject, anyChanged} from '../../utils/helper';
+import {createObject, anyChanged, isMobile} from '../../utils/helper';
 
 export interface InputDateBaseControlSchema extends FormBaseControl {
   /**
@@ -91,26 +91,6 @@ export interface DateControlSchema extends InputDateBaseControlSchema {
    * 限制最大日期
    */
   maxDate?: string;
-
-  /**
-   * 日程
-   */
-  schedules?:
-    | Array<{
-        startTime: Date;
-        endTime: Date;
-        content: any;
-        className?: string;
-      }>
-    | string;
-  /**
-   * 日程显示颜色自定义
-   */
-  scheduleClassNames?: Array<string>;
-  /**
-   * 日程点击展示
-   */
-  scheduleAction?: SchemaObject;
 }
 
 /**
@@ -447,6 +427,7 @@ export default class DateControl extends React.PureComponent<
       env,
       largeMode,
       render,
+      useMobileUI,
       ...rest
     } = this.props;
 
@@ -454,10 +435,18 @@ export default class DateControl extends React.PureComponent<
       format = timeFormat;
     }
 
+    const mobileUI = useMobileUI && isMobile();
+
     return (
       <div className={cx(`DateControl`, className)}>
         <DatePicker
           {...rest}
+          useMobileUI={useMobileUI}
+          popOverContainer={
+            mobileUI && env && env.getModalContainer
+              ? env.getModalContainer
+              : rest.popOverContainer
+          }
           timeFormat={timeFormat}
           format={valueFormat || format}
           {...this.state}

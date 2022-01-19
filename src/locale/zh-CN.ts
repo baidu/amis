@@ -15,6 +15,9 @@ register('zh-CN', {
   'Calendar.toast': '超出日期范围',
   'Calendar.startPick': '选择开始时间',
   'Calendar.endPick': '选择结束时间',
+  'Schedule': '日程',
+  'Time': '时间',
+  'Content': '内容',
   'cancel': '取消',
   'Card.dragTip': '请拖动顶部的按钮进行排序',
   'Card.toggleDrag': '对卡片进行排序操作',
@@ -43,6 +46,10 @@ register('zh-CN', {
   'CRUD.paginationGoText': '前往',
   'CRUD.paginationPageText': '页',
   'PaginationWrapper.placeholder': '请配置内容',
+  'Date.titleYear': '选择年',
+  'Date.titleMonth': '选择年月',
+  'Date.titleDate': '选择年月日',
+  'Date.titleTime': '选择时间',
   'Date.daysago': '{{days}}天前',
   'Date.dayslater': '{{days}}天后',
   'Date.endOfMonth': '本月最后一天',
@@ -271,5 +278,9 @@ register('zh-CN', {
   'Condition.blank': '空',
   'InputTable.uniqueError': '列`{{label}}`没有通过唯一验证',
   'Timeline.collapseText': '展开',
-  'Timeline.expandText': '折叠'
+  'Timeline.expandText': '折叠',
+  'FormulaEditor.btnLabel': '公式编辑',
+  'FormulaEditor.title': '公式编辑器',
+  'FormulaEditor.variable': '变量',
+  'FormulaEditor.function': '函数'
 });
