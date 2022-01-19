@@ -4,11 +4,11 @@
 import React from 'react';
 import {Renderer, RendererProps} from '../factory';
 import {BaseSchema, SchemaIcon, SchemaUrlPath} from '../Schema';
-import {generateIcon} from '../utils/icon';
 import {filter} from '../utils/tpl';
-import {resolveVariable, resolveVariableAndFilter} from '../utils/tpl-builtin';
+import {resolveVariableAndFilter} from '../utils/tpl-builtin';
+import Breadcrumb from '../components/Breadcrumb';
 
-export type BreadcrumbItemSchema = {
+export type BreadcrumbBaseItemSchema = {
   /**
    * 文字
    */
@@ -25,6 +25,29 @@ export type BreadcrumbItemSchema = {
   href?: SchemaUrlPath;
 } & Omit<BaseSchema, 'type'>;
 
+export type BreadcrumbItemSchema = {
+  /**
+   * 文字
+   */
+  label?: string;
+
+  /**
+   * 图标类名
+   */
+  icon?: SchemaIcon;
+
+  /**
+   * 链接地址
+   */
+  href?: SchemaUrlPath;
+
+  /**
+   * 下拉菜单
+   */
+  dropdwon?: Array<BreadcrumbBaseItemSchema>;
+} & Omit<BaseSchema, 'type'>;
+
+export type tooltipPositionType = 'top' | 'bottom' | 'left' | 'right';
 /**
  * Breadcrumb 显示渲染器
  * 文档：https://baidu.gitee.io/amis/docs/components/breadcrumb
@@ -36,43 +59,58 @@ export interface BreadcrumbSchema extends BaseSchema {
   type: 'breadcrumb';
 
   /**
+   * 面包项类名
+   */
+  itemClassName?: string;
+  /**
    * 分隔符
    */
   separator?: string;
 
   /**
-   * 分隔符类
+   * 分隔符类名
    */
   separatorClassName?: string;
+
+  /**
+   * 下拉菜单类名
+   */
+  dropdownClassName?: string;
 
   /**
    * 列表
    */
   items: Array<BreadcrumbItemSchema>;
+
+  /**
+   * labelMaxLength
+   */
+  labelMaxLength?: number;
+
+  /**
+   * 浮窗提示位置
+   */
+  tooltipPosition?: tooltipPositionType;
 }
 
-export interface BreadcrumbProps
-  extends RendererProps,
-    Omit<BreadcrumbSchema, 'type' | 'className'> {}
+export interface BreadcrumbProps extends RendererProps,
+  Omit<BreadcrumbSchema, 'type' | 'className'> {}
 
 export class BreadcrumbField extends React.Component<BreadcrumbProps, object> {
   static defaultProps = {
     className: '',
     itemClassName: '',
-    separator: '/'
+    separator: '>',
+    labelMaxLength: 16,
+    tooltipPosition: 'top'
   };
 
   render() {
     const {
-      className,
-      itemClassName,
-      separatorClassName,
-      classnames: cx,
       items,
       source,
       data,
-      separator,
-      render
+      ...restProps
     } = this.props;
 
     const crumbItems = items
@@ -83,31 +121,12 @@ export class BreadcrumbField extends React.Component<BreadcrumbProps, object> {
           '| raw'
         ) as Array<BreadcrumbItemSchema>);
 
-    const crumbs = crumbItems
-      .map<React.ReactNode>((item, index) => (
-        <span className={cx('Breadcrumb-item', itemClassName)} key={index}>
-          {item.icon
-            ? generateIcon(cx, item.icon, 'Icon', 'Breadcrumb-icon')
-            : null}
-          {item.href ? (
-            <a href={item.href}>{filter(item.label, data)}</a>
-          ) : (
-            render('label', filter(item.label, data))
-          )}
-        </span>
-      ))
-      .reduce((prev, curr, index) => [
-        prev,
-        <span
-          className={cx('Breadcrumb-separator', separatorClassName)}
-          key={`separator-${index}`}
-        >
-          {separator}
-        </span>,
-        curr
-      ]);
-
-    return <div className={cx('Breadcrumb', className)}>{crumbs}</div>;
+    return (
+      <Breadcrumb
+        items={crumbItems}
+        {...restProps}
+      ></Breadcrumb>
+    );
   }
 }
 
