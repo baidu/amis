@@ -64,6 +64,9 @@ export interface NumberControlSchema extends FormBaseControl {
    * 只读
    */
   readOnly?: boolean;
+  autoFocus?: boolean;
+  keyboard?: boolean;
+  stepPosition?: 'aside' | 'behind';
 }
 
 export interface NumberProps extends FormControlProps {
@@ -92,6 +95,9 @@ export interface NumberProps extends FormControlProps {
    * 只读
    */
   readOnly?: boolean;
+  autoFocus?: boolean;
+  keyboard?: boolean;
+  stepPosition?: 'aside' | 'behind';
 }
 
 interface NumberState {
@@ -243,7 +249,10 @@ export default class NumberControl extends React.Component<
       prefix,
       kilobitSeparator,
       unitOptions,
-      readOnly
+      readOnly,
+      autoFocus,
+      keyboard,
+      stepPosition
     } = this.props;
 
     let precisionProps: any = {};

@@ -1,6 +1,7 @@
 import React from 'react';
 // @ts-ignore
 import InputNumber from 'rc-input-number';
+import {Icon} from './icons';
 import {ThemeProps, themeable} from '../theme';
 import {autobind, ucFirst} from '../utils/helper';
 
@@ -38,6 +39,9 @@ export interface NumberProps extends ThemeProps {
    * 失去焦点事件
    */
   onBlur?: Function;
+  stepPosition?: 'aside' | 'behind';
+  autoFocus?: Boolean;
+  keyboard?: Boolean;
 }
 
 export class NumberInput extends React.Component<NumberProps, any> {
@@ -63,6 +67,22 @@ export class NumberInput extends React.Component<NumberProps, any> {
 
     onChange?.(value);
   }
+  @autobind
+  upHandle() {
+    const {value, step, max, min, disabled, readOnly} = this.props;
+    if (disabled || readOnly) {
+      return;
+    }
+    // value为undefined会导致溢出错误
+    let val = Number(value) || 0;
+    if (Number(step)) {
+      val = val + Number(step);
+    } else {
+      val = val + 1;
+    }
+    if (typeof min === 'number') {
+      val = Math.max(val, min);
+    }
 
   @autobind
   handleFocus(e: React.SyntheticEvent<HTMLElement>) {
@@ -76,6 +96,33 @@ export class NumberInput extends React.Component<NumberProps, any> {
     onBlur && onBlur(e);
   }
 
+    if (typeof max === 'number') {
+      val = Math.min(val, max);
+    }
+    this.handleChange(val);
+  }
+  @autobind
+  minusHandle() {
+    const {value, step, max, min, disabled, readOnly} = this.props;
+    if (disabled || readOnly) {
+      return;
+    }
+    // value为undefined会导致溢出错误
+    let val = Number(value) || 0;
+    if (Number(step)) {
+      val = val - Number(step);
+    } else {
+      val = val - 1;
+    }
+    if (typeof min === 'number') {
+      val = Math.max(val, min);
+    }
+
+    if (typeof max === 'number') {
+      val = Math.min(val, max);
+    }
+    this.handleChange(val);
+  }
   render(): JSX.Element {
     const {
       className,
@@ -93,7 +140,10 @@ export class NumberInput extends React.Component<NumberProps, any> {
       formatter,
       parser,
       borderMode,
-      readOnly
+      readOnly,
+      stepPosition,
+      autoFocus,
+      keyboard
     } = this.props;
 
     let precisionProps: any = {};
@@ -103,25 +153,41 @@ export class NumberInput extends React.Component<NumberProps, any> {
     }
 
     return (
-      <InputNumber
-        className={cx(className, showSteps === false ? 'no-steps' : '', {
-          [`Number--border${ucFirst(borderMode)}`]: borderMode
-        })}
-        readOnly={readOnly}
-        prefixCls={`${ns}Number`}
-        value={value}
-        step={step}
-        max={max}
-        min={min}
-        formatter={formatter}
-        parser={parser}
-        onChange={this.handleChange}
-        disabled={disabled}
-        placeholder={placeholder}
-        onFocus={this.handleFocus}
-        onBlur={this.handleBlur}
-        {...precisionProps}
-      />
+      <div className={cx('outer-input-number', readOnly ? 'outer-number-readOnly' : '',
+        disabled ? 'outer-number-disabled' : '')}>
+        <div className={cx(
+            (stepPosition && stepPosition) === 'aside' ? 'is-aside' : 'is-behind',
+            'Number-left-border'
+          )} onClick={this.minusHandle}>
+          <Icon icon="minus" className="icon" />
+        </div>
+        <InputNumber
+          className={cx(className, showSteps === false || (stepPosition && stepPosition)
+            || disabled || readOnly ? 'no-steps' : '', {
+            [`Number--border${ucFirst(borderMode)}`]: borderMode
+          }, (stepPosition && stepPosition) ? 'stepPosition-number' : '',)}
+          readOnly={readOnly}
+          prefixCls={`${ns}Number`}
+          value={value}
+          step={step}
+          max={max}
+          min={min}
+          formatter={formatter}
+          parser={parser}
+          onChange={this.handleChange}
+          disabled={disabled}
+          placeholder={placeholder}
+          autoFocus={autoFocus}
+          keyboard={keyboard}
+          {...precisionProps}
+        />
+        <div className={cx(
+          (stepPosition && stepPosition) ? 'is-aside' : 'is-behind',
+          'Number-right-border')}
+          onClick={this.upHandle}>
+          <Icon icon="plus" className="icon " />
+        </div>
+      </div>
     );
   }
 }
