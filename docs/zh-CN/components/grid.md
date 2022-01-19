@@ -1,5 +1,5 @@
 ---
-title: Grid 水平布局
+title: Grid 水平分栏
 description:
 type: 0
 group: ⚙ 组件
@@ -9,6 +9,73 @@ order: 46
 ---
 
 ## 基本用法
+
+默认会水平均分宽度
+
+```schema: scope="body"
+[
+    {
+        "type": "grid",
+        "columns": [
+            {
+                "columnClassName": "bg-green-300",
+                "body": [
+                    {
+                        "type": "plain",
+                        "text": "第一栏"
+                    }
+                ]
+            },
+            {
+                "columnClassName": "bg-blue-300",
+                "body": [
+                    {
+                        "type": "plain",
+                        "text": "第二栏"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "type": "grid",
+        "className": "m-t",
+        "columns": [
+            {
+                "columnClassName": "bg-green-300",
+                "body": [
+                    {
+                        "type": "plain",
+                        "text": "第一栏"
+                    }
+                ]
+            },
+            {
+                "columnClassName": "bg-blue-300",
+                "body": [
+                    {
+                        "type": "plain",
+                        "text": "第二栏"
+                    }
+                ]
+            },
+            {
+                "columnClassName": "bg-red-300",
+                "body": [
+                    {
+                        "type": "plain",
+                        "text": "第三栏"
+                    }
+                ]
+            }
+        ]
+    }
+]
+```
+
+## 响应式
+
+通过 `md` 设置屏幕中等宽度（768px）情况下的分栏
 
 ```schema: scope="body"
 [

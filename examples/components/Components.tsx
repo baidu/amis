@@ -54,7 +54,7 @@ export const components = [
           )
       },
       {
-        label: 'Grid 水平布局',
+        label: 'Grid 水平分栏',
         path: '/zh-CN/components/grid',
         getComponent: () =>
           import('../../docs/zh-CN/components/grid.md').then(
@@ -367,6 +367,14 @@ export const components = [
         path: '/zh-CN/components/form/input-kv',
         getComponent: () =>
           import('../../docs/zh-CN/components/form/input-kv.md').then(
+            makeMarkdownRenderer
+          )
+      },
+      {
+        label: 'InputFormula 公式编辑器',
+        path: '/zh-CN/components/form/input-formula',
+        getComponent: () =>
+          import('../../docs/zh-CN/components/form/input-formula.md').then(
             makeMarkdownRenderer
           )
       },
@@ -746,6 +754,14 @@ export const components = [
           )
       },
       {
+        label: 'Calendar 日历',
+        path: '/zh-CN/components/calendar',
+        getComponent: () =>
+          import('../../docs/zh-CN/components/calendar.md').then(
+            makeMarkdownRenderer
+          )
+      },
+      {
         label: 'Card 卡片',
         path: '/zh-CN/components/card',
         getComponent: () =>
@@ -991,7 +1007,15 @@ export const components = [
           import('../../docs/zh-CN/components/video.md').then(
             makeMarkdownRenderer
           )
-      }
+      },
+      {
+        label: 'Timeline 时间轴',
+        path: '/zh-CN/components/timeline',
+        getComponent: () =>
+          import('../../docs/zh-CN/components/timeline.md').then(
+            makeMarkdownRenderer
+          )
+      },
     ]
   },
 

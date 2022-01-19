@@ -1,7 +1,7 @@
 .#{$ns}Selection {
   > .#{$ns}Checkbox {
     display: block;
-    height: var(--Form-input-height);
+    // height: var(--Form-input-height);
     line-height: var(--Form-input-lineHeight);
     font-size: var(--Form-input-fontSize);
     padding: calc(
@@ -57,7 +57,7 @@
 
   &-item {
     display: flex;
-    height: var(--Form-input-height);
+    // height: var(--Form-input-height);
     line-height: var(--Form-input-lineHeight);
     font-size: var(--Form-input-fontSize);
     padding: calc(
@@ -193,7 +193,7 @@
   &-itemInner {
     display: flex;
     align-items: center;
-    height: var(--Form-input-height);
+    // height: var(--Form-input-height);
     line-height: var(--Form-input-lineHeight);
     font-size: var(--Form-input-fontSize);
     padding: calc(
@@ -251,6 +251,7 @@
 .#{$ns}ChainedSelection {
   display: flex;
   flex-direction: row;
+  min-height: 100%;
 
   &-col {
     flex-grow: 1;
@@ -269,7 +270,7 @@
 
   &-item {
     display: flex;
-    height: var(--Form-input-height);
+    // height: var(--Form-input-height);
     line-height: var(--Form-input-lineHeight);
     font-size: var(--Form-input-fontSize);
     padding: calc(

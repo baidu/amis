@@ -283,6 +283,36 @@ order: 56
 }
 ```
 
+## 自动转换值
+
+可以配置 transform，来自动转换值，支持转小写或大写。
+
+```schema: scope="body"
+{
+  "type": "form",
+  "body": [
+    {
+      "name": "a",
+      "type": "input-text",
+      "label": "A",
+      "placeholder": "输入的英文自动转为小写",
+      "transform": {
+        "lowerCase": true
+      }
+    },
+    {
+      "name": "b",
+      "type": "input-text",
+      "label": "B",
+      "placeholder": "输入的英文自动转为大写",
+      "transform": {
+        "upperCase": true
+      }
+    }
+  ]
+}
+```
+
 ## 属性表
 
 当做选择器表单项使用时，除了支持 [普通表单项属性表](./formitem#%E5%B1%9E%E6%80%A7%E8%A1%A8) 中的配置以外，还支持下面一些配置
@@ -308,6 +338,7 @@ order: 56
 | resetValue   | `string`                                  | `""`      | 清除后设置此配置项给定的值。                                                                |
 | prefix       | `string`                                  | `""`      | 前缀                                                                                        |
 | suffix       | `string`                                  | `""`      | 后缀                                                                                        |
-| showCounter  | `boolean`                                 | ``        | 是否显示计数器                                                                              |
-| minLength    | `number`                                  | ``        | 限制最小字数                                                                                |
-| maxLength    | `number`                                  | ``        | 限制最大字数                                                                                |
+| showCounter  | `boolean`                                 |           | 是否显示计数器                                                                              |
+| minLength    | `number`                                  |           | 限制最小字数                                                                                |
+| maxLength    | `number`                                  |           | 限制最大字数                                                                                |
+| transform    | `object`                                  |           | 自动转换值，可选 `transform: { lowerCase: true, upperCase: true }`                          |

@@ -182,3 +182,48 @@
     }
   }
 }
+
+/* 移动端样式调整 */
+@include media-breakpoint-down(sm) {
+  .#{$ns}Panel--form {
+    border: none;
+    box-shadow: none;
+
+    margin: 0 calc(var(--Panel-bodyPadding) * -1)
+      calc(var(--Panel-marginBottom) / 2);
+
+    .#{$ns}Panel-body {
+      padding: 0 var(--gap-md) var(--gap-md);
+    }
+
+    > .#{$ns}Panel-heading {
+      background: none;
+      border: none;
+      border-radius: 0;
+
+      .#{$ns}Panel-title {
+        padding-left: var(--Panel-bodyPadding);
+        border-left: px2rem(3px) solid var(--primary);
+        font-size: var(--fontSizeLg);
+      }
+    }
+
+    .#{$ns}Panel-footerWrap {
+      padding-bottom: var(--Panel-bodyPadding);
+    }
+
+    .#{$ns}Panel-footer {
+      border-top: none;
+      display: flex;
+      padding: 0 var(--Panel-bodyPadding);
+
+      > .#{$ns}Button {
+        flex: 1;
+
+        &:first-child {
+          margin-left: 0;
+        }
+      }
+    }
+  }
+}

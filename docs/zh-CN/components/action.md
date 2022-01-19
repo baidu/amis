@@ -348,6 +348,12 @@ Content-Type: application/pdf
 Content-Disposition: attachment; filename="download.pdf"
 ```
 
+如果接口存在跨域，除了常见的 cors header 外，还需要添加以下 header
+
+```
+Access-Control-Expose-Headers:  Content-Disposition
+```
+
 ## 倒计时
 
 主要用于发验证码的场景，通过设置倒计时 `countDown`（单位是秒），让点击按钮后禁用一段时间：

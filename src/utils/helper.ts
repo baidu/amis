@@ -1585,30 +1585,20 @@ export function JSONTraverse(
   });
 }
 
-export function convertDateArrayToDate(
+export function convertArrayValueToMoment(
   value: number[],
   types: string[],
-  date: moment.Moment
-): moment.Moment | null {
-  if (value.length === 0) return date;
+  mom: moment.Moment
+): moment.Moment {
+  if (value.length === 0) return mom;
   for (let i = 0; i < types.length; i++) {
     const type = types[i];
     // @ts-ignore
-    date[type](value[i]);
+    mom.set(type, value[i]);
   }
-  return date;
+  return mom;
 }
 
-export function convertDateToObject(value: moment.Moment) {
-  if (value) {
-    return {
-      year: value.year(),
-      month: parseInt(value.format('MM'), 10),
-      day: parseInt(value.format('DD'), 10)
-    };
-  }
-  return null;
-}
 
 export function getRange(min: number, max: number, step: number = 1) {
   const arr = [];

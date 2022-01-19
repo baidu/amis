@@ -43,6 +43,7 @@ import ExchangeIcon from '../icons/exchange.svg';
 import ColmunsIcon from '../icons/columns.svg';
 import CalendarIcon from '../icons/calendar.svg';
 import ClockIcon from '../icons/clock.svg';
+import TreeDownIcon from '../icons/tree-down.svg';
 
 import CopyIcon from '../icons/copy.svg';
 import FilterIcon from '../icons/filter.svg';
@@ -70,10 +71,12 @@ import ExpandAltIcon from '../icons/expand-alt.svg';
 import CompressAltIcon from '../icons/compress-alt.svg';
 import TransparentIcon from '../icons/transparent.svg';
 import LoadingOutline from '../icons/loading-outline.svg';
+import Star from '../icons/star.svg';
 import AlertSuccess from '../icons/alert-success.svg';
 import AlertInfo from '../icons/alert-info.svg';
 import AlertWarning from '../icons/alert-warning.svg';
 import AlertDanger from '../icons/alert-danger.svg';
+import FunctionIcon from '../icons/function.svg';
 
 // 兼容原来的用法，后续不直接试用。
 
@@ -170,10 +173,13 @@ registerIcon('expand-alt', ExpandAltIcon);
 registerIcon('compress-alt', CompressAltIcon);
 registerIcon('transparent', TransparentIcon);
 registerIcon('loading-outline', LoadingOutline);
+registerIcon('star', Star);
 registerIcon('alert-success', AlertSuccess);
 registerIcon('alert-info', AlertInfo);
 registerIcon('alert-warning', AlertWarning);
 registerIcon('alert-danger', AlertDanger);
+registerIcon('tree-down', TreeDownIcon);
+registerIcon('function', FunctionIcon);
 
 export function Icon({
   icon,
@@ -209,5 +215,6 @@ export {
   CheckIcon,
   PlusIcon,
   MinusIcon,
-  PencilIcon
+  PencilIcon,
+  FunctionIcon
 };

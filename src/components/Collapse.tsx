@@ -26,13 +26,14 @@ const collapseStyles: {
 export interface CollapseProps {
   key?: string;
   id?: string;
+  propKey?: string;
   mountOnEnter?: boolean;
   unmountOnExit?: boolean;
   className?: string;
   classPrefix: string;
   classnames: ClassNamesFn;
   headerPosition?: 'top' | 'bottom';
-  header?: React.ReactElement;
+  header?: React.ReactNode;
   body: any;
   bodyClassName?: string;
   disabled?: boolean;
@@ -78,7 +79,7 @@ export class Collapse extends React.Component<CollapseProps, CollapseState> {
     super(props);
 
     this.toggleCollapsed = this.toggleCollapsed.bind(this);
-    this.state.collapsed = !!props.collapsed;
+    this.state.collapsed = props.collapsable ? !!props.collapsed : false;
   }
 
   static getDerivedStateFromProps(
@@ -181,7 +182,10 @@ export class Collapse extends React.Component<CollapseProps, CollapseState> {
             expandIcon ? (
               React.cloneElement(expandIcon, {
                 ...expandIcon.props,
-                className: cx('Collapse-icon-tranform')
+                className: cx(
+                  'Collapse-icon-tranform',
+                  expandIcon.props?.className
+                )
               })
             ) : (
               <span className={cx('Collapse-arrow')} />

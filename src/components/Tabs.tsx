@@ -21,6 +21,8 @@ const transitionStyles: {
   [ENTERED]: 'in'
 };
 
+export type TabsMode = '' | 'line' | 'card' | 'radio' | 'vertical' | 'chrome';
+
 export interface TabProps extends ThemeProps {
   title?: string | React.ReactNode; // 标题
   icon?: string;
@@ -85,8 +87,8 @@ class TabComponent extends React.PureComponent<TabProps> {
 export const Tab = themeable(TabComponent);
 
 export interface TabsProps extends ThemeProps {
-  mode: '' | 'line' | 'card' | 'radio' | 'vertical' | 'chrome';
-  tabsMode?: '' | 'line' | 'card' | 'radio' | 'vertical' | 'chrome';
+  mode: TabsMode;
+  tabsMode?: TabsMode;
   additionBtns?: React.ReactNode;
   onSelect?: (key: string | number) => void;
   activeKey?: string | number;
@@ -96,7 +98,7 @@ export interface TabsProps extends ThemeProps {
   tabs?: Array<TabProps>;
   tabRender?: (tab: TabProps, props?: TabsProps) => JSX.Element;
   toolbar?: React.ReactNode;
-  scrollable?: boolean // 是否支持溢出滚动
+  scrollable?: boolean; // 是否支持溢出滚动
 }
 
 export class Tabs extends React.Component<TabsProps, any> {
@@ -107,23 +109,25 @@ export class Tabs extends React.Component<TabsProps, any> {
 
   static Tab = Tab;
   navMain = React.createRef<HTMLDivElement>();
-  scroll:boolean = false;
+  scroll: boolean = false;
 
   checkArrowStatus = debounce(
     () => {
-      const {scrollLeft, scrollWidth, clientWidth} = this.navMain.current
-        || {
-          scrollLeft: 0,
-          scrollWidth: 0,
-          clientWidth: 0
-        }
+      const {scrollLeft, scrollWidth, clientWidth} = this.navMain.current || {
+        scrollLeft: 0,
+        scrollWidth: 0,
+        clientWidth: 0
+      };
       const {arrowRightDisabled, arrowLeftDisabled} = this.state;
       if (scrollLeft === 0 && !arrowLeftDisabled) {
         this.setState({
           arrowRightDisabled: false,
           arrowLeftDisabled: true
         });
-      } else if (scrollWidth === scrollLeft + clientWidth && !arrowRightDisabled) {
+      } else if (
+        scrollWidth === scrollLeft + clientWidth &&
+        !arrowRightDisabled
+      ) {
         this.setState({
           arrowRightDisabled: true,
           arrowLeftDisabled: false
@@ -132,7 +136,10 @@ export class Tabs extends React.Component<TabsProps, any> {
         this.setState({
           arrowLeftDisabled: false
         });
-      } else if (scrollWidth !== scrollLeft + clientWidth && arrowRightDisabled) {
+      } else if (
+        scrollWidth !== scrollLeft + clientWidth &&
+        arrowRightDisabled
+      ) {
         this.setState({
           arrowRightDisabled: false
         });
@@ -143,21 +150,23 @@ export class Tabs extends React.Component<TabsProps, any> {
       trailing: true,
       leading: false
     }
-  )
+  );
 
   constructor(props: TabsProps) {
     super(props);
     this.state = {
       isOverflow: false,
       arrowLeftDisabled: false,
-      arrowRightDisabled: false,
+      arrowRightDisabled: false
     };
   }
 
   componentDidMount() {
     this.computedWidth();
     if (this.navMain) {
-      this.navMain.current?.addEventListener('wheel', this.handleWheel, {passive: false});
+      this.navMain.current?.addEventListener('wheel', this.handleWheel, {
+        passive: false
+      });
       this.checkArrowStatus();
     }
   }
@@ -207,7 +216,9 @@ export class Tabs extends React.Component<TabsProps, any> {
     }
     const {activeKey, children} = this.props;
     const currentKey = key !== undefined ? key : activeKey;
-    const currentIndex = (children as any[])?.findIndex((item: any) => item.props.eventKey === currentKey);
+    const currentIndex = (children as any[])?.findIndex(
+      (item: any) => item.props.eventKey === currentKey
+    );
     const li = this.navMain.current?.children[0]?.children || [];
     const currentLi = li[currentIndex] as HTMLElement;
     const liOffsetLeft = currentLi?.offsetLeft - 20;
@@ -241,12 +252,11 @@ export class Tabs extends React.Component<TabsProps, any> {
   }
 
   handleArrow(type: 'left' | 'right') {
-    const {scrollLeft, scrollWidth, clientWidth} = this.navMain.current
-      || {
-        scrollLeft: 0,
-        scrollWidth: 0,
-        clientWidth: 0
-      }
+    const {scrollLeft, scrollWidth, clientWidth} = this.navMain.current || {
+      scrollLeft: 0,
+      scrollWidth: 0,
+      clientWidth: 0
+    };
     if (type === 'left' && scrollLeft > 0) {
       this.navMain.current?.scrollTo({
         left: 0,
@@ -369,7 +379,7 @@ export class Tabs extends React.Component<TabsProps, any> {
   }
 
   renderArrow(type: 'left' | 'right') {
-    const {mode: dMode, tabsMode,} = this.props;
+    const {mode: dMode, tabsMode} = this.props;
     const mode = tabsMode || dMode;
     if (mode === 'vertical') {
       return;
@@ -377,17 +387,18 @@ export class Tabs extends React.Component<TabsProps, any> {
     const {classnames: cx} = this.props;
     const {isOverflow, arrowLeftDisabled, arrowRightDisabled} = this.state;
     const disabled = type === 'left' ? arrowLeftDisabled : arrowRightDisabled;
-    return (isOverflow
-      ? (<div onClick={() => this.handleArrow(type)}
-          className={cx(
-            'Tabs-linksContainer-arrow',
-            'Tabs-linksContainer-arrow--' + type,
-            disabled && 'Tabs-linksContainer-arrow--disabled'
-          )}>
-          <i className={'iconfont icon-arrow-' + type} />
-        </div>)
-      : null
-    )
+    return isOverflow ? (
+      <div
+        onClick={() => this.handleArrow(type)}
+        className={cx(
+          'Tabs-linksContainer-arrow',
+          'Tabs-linksContainer-arrow--' + type,
+          disabled && 'Tabs-linksContainer-arrow--disabled'
+        )}
+      >
+        <i className={'iconfont icon-arrow-' + type} />
+      </div>
+    ) : null;
   }
 
   render() {
@@ -421,28 +432,30 @@ export class Tabs extends React.Component<TabsProps, any> {
           className
         )}
       >
-        {
-          scrollable && !['vertical', 'chrome'].includes(mode) ?
-            (<div className={cx('Tabs-linksContainer', isOverflow && 'Tabs-linksContainer--overflow')}>
-              {this.renderArrow('left')}
-              <div
-                className={cx('Tabs-linksContainer-main')}
-                ref={this.navMain}
-              >
-                <ul className={cx('Tabs-links', linksClassName)} role="tablist">
-                  {children.map((tab, index) => this.renderNav(tab, index))}
-                  {additionBtns}
-                  {toolbar}
-                </ul>
-              </div>
-              {this.renderArrow('right')}
-            </div>)
-          : (<ul className={cx('Tabs-links', linksClassName)} role="tablist">
-              {children.map((tab, index) => this.renderNav(tab, index))}
-              {additionBtns}
-              {toolbar}
-            </ul>)
-        }
+        {scrollable && !['vertical', 'chrome'].includes(mode) ? (
+          <div
+            className={cx(
+              'Tabs-linksContainer',
+              isOverflow && 'Tabs-linksContainer--overflow'
+            )}
+          >
+            {this.renderArrow('left')}
+            <div className={cx('Tabs-linksContainer-main')} ref={this.navMain}>
+              <ul className={cx('Tabs-links', linksClassName)} role="tablist">
+                {children.map((tab, index) => this.renderNav(tab, index))}
+                {additionBtns}
+                {toolbar}
+              </ul>
+            </div>
+            {this.renderArrow('right')}
+          </div>
+        ) : (
+          <ul className={cx('Tabs-links', linksClassName)} role="tablist">
+            {children.map((tab, index) => this.renderNav(tab, index))}
+            {additionBtns}
+            {toolbar}
+          </ul>
+        )}
 
         <div className={cx('Tabs-content', contentClassName)}>
           {children.map((child, index) => {

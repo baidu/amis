@@ -1,12 +1,16 @@
 import React from 'react';
 import {FormItem, FormControlProps, FormBaseControl} from './Item';
 import cx from 'classnames';
-import {filterDate, isPureVariable, resolveVariableAndFilter} from '../../utils/tpl-builtin';
+import {
+  filterDate,
+  isPureVariable,
+  resolveVariableAndFilter
+} from '../../utils/tpl-builtin';
 import moment from 'moment';
 import 'moment/locale/zh-cn';
 import DatePicker from '../../components/DatePicker';
 import {SchemaObject} from '../../Schema';
-import {createObject, anyChanged} from '../../utils/helper';
+import {createObject, anyChanged, isMobile} from '../../utils/helper';
 
 export interface InputDateBaseControlSchema extends FormBaseControl {
   /**
@@ -87,24 +91,6 @@ export interface DateControlSchema extends InputDateBaseControlSchema {
    * 限制最大日期
    */
   maxDate?: string;
-
-  /**
-   * 日程
-   */
-  schedules?: Array<{
-    startTime: Date,
-    endTime: Date,
-    content: any,
-    className?: string
-  }> | string;
-  /**
-   * 日程显示颜色自定义
-   */
-  scheduleClassNames?: Array<string>;
-  /**
-   * 日程点击展示
-   */
-  scheduleAction?: SchemaObject;
 }
 
 /**
@@ -288,10 +274,10 @@ interface DateControlState {
   minDate?: moment.Moment;
   maxDate?: moment.Moment;
   schedules?: Array<{
-    startTime: Date,
-    endTime: Date,
-    content: any,
-    className?: string
+    startTime: Date;
+    endTime: Date;
+    content: any;
+    className?: string;
   }>;
 }
 
@@ -370,15 +356,25 @@ export default class DateControl extends React.PureComponent<
       });
     }
 
-    if (anyChanged(['schedules', 'data'], prevProps, props)
-      && (typeof props.schedules === 'string' && isPureVariable(props.schedules))
+    if (
+      anyChanged(['schedules', 'data'], prevProps, props) &&
+      typeof props.schedules === 'string' &&
+      isPureVariable(props.schedules)
     ) {
-      const schedulesData = resolveVariableAndFilter(props.schedules, props.data, '| raw');
-      const preSchedulesData = resolveVariableAndFilter(prevProps.schedules, prevProps.data, '| raw');
+      const schedulesData = resolveVariableAndFilter(
+        props.schedules,
+        props.data,
+        '| raw'
+      );
+      const preSchedulesData = resolveVariableAndFilter(
+        prevProps.schedules,
+        prevProps.data,
+        '| raw'
+      );
       if (Array.isArray(schedulesData) && preSchedulesData !== schedulesData) {
         this.setState({
           schedules: schedulesData
-        })
+        });
       }
     }
   }
@@ -408,8 +404,12 @@ export default class DateControl extends React.PureComponent<
       }
     };
 
-    onAction && onAction(null, scheduleAction || defaultscheduleAction, createObject(data, scheduleData));
-
+    onAction &&
+      onAction(
+        null,
+        scheduleAction || defaultscheduleAction,
+        createObject(data, scheduleData)
+      );
   }
 
   render() {
@@ -424,8 +424,10 @@ export default class DateControl extends React.PureComponent<
       format,
       timeFormat,
       valueFormat,
+      env,
       largeMode,
       render,
+      useMobileUI,
       ...rest
     } = this.props;
 
@@ -433,10 +435,18 @@ export default class DateControl extends React.PureComponent<
       format = timeFormat;
     }
 
+    const mobileUI = useMobileUI && isMobile();
+
     return (
       <div className={cx(`DateControl`, className)}>
         <DatePicker
           {...rest}
+          useMobileUI={useMobileUI}
+          popOverContainer={
+            mobileUI && env && env.getModalContainer
+              ? env.getModalContainer
+              : rest.popOverContainer
+          }
           timeFormat={timeFormat}
           format={valueFormat || format}
           {...this.state}

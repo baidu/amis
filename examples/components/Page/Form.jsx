@@ -12,7 +12,6 @@ export default {
           type: 'input-text',
           name: 'name'
         },
-
         {
           label: 'Email',
           type: 'input-email',

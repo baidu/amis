@@ -3,9 +3,13 @@ import moment from 'moment';
 import DaysView from 'react-datetime/src/DaysView';
 import React from 'react';
 import Downshift from 'downshift';
+import find from 'lodash/find';
 import {LocaleProps, localeable} from '../../locale';
 import {ClassNamesFn} from '../../theme';
-import find from 'lodash/find';
+import {isMobile, convertArrayValueToMoment} from "../../utils/helper";
+import Picker from '../Picker';
+import {PickerOption} from '../PickerColumn';
+import {DateType} from './Calendar';
 
 interface CustomDaysViewProps extends LocaleProps {
   classPrefix?: string;
@@ -14,12 +18,16 @@ interface CustomDaysViewProps extends LocaleProps {
   viewDate: moment.Moment;
   selectedDate: moment.Moment;
   minDate: moment.Moment;
+  maxDate: moment.Moment;
+  useMobileUI: boolean;
+  embed: boolean;
   timeFormat: string;
   requiredConfirm?: boolean;
   isEndDate?: boolean;
   renderDay?: Function;
   onClose?: () => void;
   onChange: (value: moment.Moment) => void;
+  onConfirm?: (value: number[], types: DateType[]) => void;
   setDateTimeState: (state: any) => void;
   setTime: (type: string, amount: number) => void;
   subtractTime: (
@@ -41,19 +49,51 @@ interface CustomDaysViewProps extends LocaleProps {
   handleClickOutside: () => void;
   classnames: ClassNamesFn;
   schedules?: Array<{
-    startTime: Date,
-    endTime: Date,
-    content: any,
-    className?: string
+    startTime: Date;
+    endTime: Date;
+    content: any;
+    className?: string;
   }>;
   largeMode?: boolean;
   onScheduleClick?: (scheduleData: any) => void;
+  hideHeader?: boolean;
+  getColumns: (types: DateType[], dateBoundary: void) => any;
+  getDateBoundary: (currentDate: moment.Moment) => any;
 }
 
 export class CustomDaysView extends DaysView {
   props: CustomDaysViewProps;
+  state: { columns: { options: PickerOption[] }[]; types: DateType[]; pickerValue: number[]};
+  setState: (arg0: any) => () => any;
   getDaysOfWeek: (locale: any) => any;
   renderDays: () => JSX.Element;
+
+  constructor(props: any) {
+    super(props);
+
+    const {selectedDate, viewDate, timeFormat} =  props;
+    const currentDate = (selectedDate || viewDate || moment());
+
+    const types: DateType[] = ['year', 'month', 'date'];
+    timeFormat.split(':').forEach((format: string) => {
+      const type: DateType | '' = /h/i.test(format)
+        ? 'hours'
+        : /m/.test(format)
+        ? 'minutes'
+        : /s/.test(format)
+        ? 'seconds'
+        : '';
+      type && types.push(type)
+    });
+
+    const dateBoundary = this.props.getDateBoundary(currentDate);
+    const columns = this.props.getColumns(types, dateBoundary);
+    this.state = {
+      columns,
+      types,
+      pickerValue: currentDate.toArray()
+    }
+  }
 
   updateSelectedDate = (event: React.MouseEvent<any>) => {
     // need confirm
@@ -129,7 +169,12 @@ export class CustomDaysView extends DaysView {
     if (this.props.schedules) {
       let schedule: any[] = [];
       this.props.schedules.forEach((item: any) => {
-        if (currentDate.isSameOrAfter(moment(item.startTime).subtract(1, 'days')) && currentDate.isSameOrBefore(item.endTime)) {
+        if (
+          currentDate.isSameOrAfter(
+            moment(item.startTime).subtract(1, 'days')
+          ) &&
+          currentDate.isSameOrBefore(item.endTime)
+        ) {
           schedule.push(item);
         }
       });
@@ -141,8 +186,11 @@ export class CustomDaysView extends DaysView {
           scheduleData: schedule.map((item: any) => {
             return {
               ...item,
-              time: moment(item.startTime).format('YYYY-MM-DD HH:mm:ss') + ' - ' + moment(item.endTime).format('YYYY-MM-DD HH:mm:ss'),
-            }
+              time:
+                moment(item.startTime).format('YYYY-MM-DD HH:mm:ss') +
+                ' - ' +
+                moment(item.endTime).format('YYYY-MM-DD HH:mm:ss')
+            };
           }),
           currentDate
         };
@@ -156,8 +204,7 @@ export class CustomDaysView extends DaysView {
             }
             if (moment(schedule[i].startTime).isSame(currentDate, 'day')) {
               showSchedule.push(schedule[i]);
-            }
-            else if (currentDate.weekday() === 0) {
+            } else if (currentDate.weekday() === 0) {
               // 周一重新设置日程
               showSchedule.push({
                 ...schedule[i],
@@ -166,46 +213,86 @@ export class CustomDaysView extends DaysView {
             }
           }
           [0, 1, 2].forEach((i: number) => {
-            const findSchedule = find(schedule, (item: any) => item.height === i);
-            if (findSchedule && findSchedule !== showSchedule[i] && currentDate.weekday() !== 0) {
+            const findSchedule = find(
+              schedule,
+              (item: any) => item.height === i
+            );
+            if (
+              findSchedule &&
+              findSchedule !== showSchedule[i] &&
+              currentDate.weekday() !== 0
+            ) {
               // 生成一个空白格占位
               showSchedule.splice(i, 0, {
                 width: 1,
                 className: 'bg-transparent',
                 content: ''
               });
-            }
-            else {
+            } else {
               showSchedule[i] && (showSchedule[i].height = i);
             }
           });
           // 最多展示3个
           showSchedule = showSchedule.slice(0, 3);
           const scheduleDiv = showSchedule.map((item: any, index: number) => {
-            const width = item.width || Math.min(moment(item.endTime).diff(moment(item.startTime), 'days') + 1, 7 - moment(item.startTime).weekday());
-            return <div key={props.key + 'content' + index}
-              className={cx('ScheduleCalendar-large-schedule-content', item.className)}
-              style={{width: width + '00%'}}
-              onClick={() => this.props.onScheduleClick && this.props.onScheduleClick(scheduleData)}>
-                <div className={cx('ScheduleCalendar-text-overflow')}>{item.content}</div>
-            </div>;
-          });
-          return <td {...props}>
-              <div className={cx('ScheduleCalendar-large-day-wrap')}>
-                <div className={cx('ScheduleCalendar-large-schedule-header')}>{currentDate.date()}</div>
-                {scheduleDiv}
-                {schedule.length > 3 && <div className={cx('ScheduleCalendar-large-schedule-footer')}>{schedule.length - 3} {__('more')}</div>}
+            const width =
+              item.width ||
+              Math.min(
+                moment(item.endTime).diff(moment(item.startTime), 'days') + 1,
+                7 - moment(item.startTime).weekday()
+              );
+            return (
+              <div
+                key={props.key + 'content' + index}
+                className={cx(
+                  'ScheduleCalendar-large-schedule-content',
+                  item.className
+                )}
+                style={{width: width + '00%'}}
+                onClick={() =>
+                  this.props.onScheduleClick &&
+                  this.props.onScheduleClick(scheduleData)
+                }
+              >
+                <div className={cx('ScheduleCalendar-text-overflow')}>
+                  {item.content}
+                </div>
               </div>
-          </td>
+            );
+          });
+          return (
+            <td {...props}>
+              <div className={cx('ScheduleCalendar-large-day-wrap')}>
+                <div className={cx('ScheduleCalendar-large-schedule-header')}>
+                  {currentDate.date()}
+                </div>
+                {scheduleDiv}
+                {schedule.length > 3 && (
+                  <div className={cx('ScheduleCalendar-large-schedule-footer')}>
+                    {schedule.length - 3} {__('more')}
+                  </div>
+                )}
+              </div>
+            </td>
+          );
         }
 
         // 正常模式
-        const ScheduleIcon = <span className={cx('ScheduleCalendar-icon', schedule[0].className)}
-           onClick={() => this.props.onScheduleClick && this.props.onScheduleClick(scheduleData)}></span>;
-        return <td {...props}>
-          {currentDate.date()}
-          {ScheduleIcon}
-        </td>;
+        const ScheduleIcon = (
+          <span
+            className={cx('ScheduleCalendar-icon', schedule[0].className)}
+            onClick={() =>
+              this.props.onScheduleClick &&
+              this.props.onScheduleClick(scheduleData)
+            }
+          ></span>
+        );
+        return (
+          <td {...props}>
+            {currentDate.date()}
+            {ScheduleIcon}
+          </td>
+        );
       }
     }
     return <td {...props}>{currentDate.date()}</td>;
@@ -357,14 +444,59 @@ export class CustomDaysView extends DaysView {
     );
   };
 
+  onPickerConfirm = (value: number[]) => {
+    this.props.onConfirm && this.props.onConfirm(value, this.state.types);
+  }
+
+  onPickerChange = (value: number[], index: number) => {
+    const {selectedDate, viewDate} = this.props;
+
+    // 变更年份、月份的时候，需要更新columns
+    if (index === 1 || index === 0) {
+      const currentDate = (selectedDate || viewDate || moment()).clone();
+  
+      // 只需计算year 、month
+      const selectDate = convertArrayValueToMoment(value, ['year', 'month'], currentDate);
+      const dateBoundary = this.props.getDateBoundary(selectDate);
+      this.setState({
+        columns: this.props.getColumns(this.state.types, dateBoundary),
+        pickerValue: value
+      });
+    }
+  }
+
+  renderPicker = () => {
+    const {translate: __} =  this.props;
+    const title = this.state.types.length > 3 ? __('Date.titleTime') : __('Date.titleDate');
+    return (
+      <Picker
+        translate={this.props.translate}
+        locale={this.props.locale}
+        title={title}
+        columns={this.state.columns}
+        value={this.state.pickerValue}
+        onChange={this.onPickerChange}
+        onConfirm={this.onPickerConfirm}
+        onClose={this.cancel}
+        />
+    );
+  };
+
   render() {
+    const {viewDate: date, useMobileUI, embed} = this.props;
     const footer = this.renderFooter();
-    const date = this.props.viewDate;
     const locale = date.localeData();
     const __ = this.props.translate;
+    if (isMobile() && useMobileUI && !embed) {
+      return (
+        <div className="rdtYears">
+          {this.renderPicker()}
+        </div>
+      );
+    }
 
     const tableChildren = [
-      <thead key="th">
+      this.props.hideHeader ? null : <thead key="th">
         <tr>
           <th colSpan={7}>
             <div className="rdtHeader">

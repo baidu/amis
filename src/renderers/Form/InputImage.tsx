@@ -1,6 +1,6 @@
 import React, {Suspense} from 'react';
 import {FormItem, FormControlProps, FormBaseControl} from './Item';
-import 'cropperjs/dist/cropper.css';
+// import 'cropperjs/dist/cropper.css';
 const Cropper = React.lazy(() => import('react-cropper'));
 import DropZone from 'react-dropzone';
 import {FileRejection} from 'react-dropzone';
@@ -283,6 +283,7 @@ export interface ImageState {
   crop?: any;
   error?: string;
   cropFile?: FileValue;
+  cropFileName?: string; // 主要是用于后续上传的时候获得用户名
   submitOnChange?: boolean;
   frameImageWidth?: number;
 }
@@ -651,7 +652,7 @@ export default class ImageControl extends React.Component<
                 env.notify('error', error || __('File.errorRetry'));
               } else {
                 newFile = {
-                  name: file.name,
+                  name: file.name || this.state.cropFileName,
                   ...obj,
                   preview: file.preview
                 } as FileValue;
@@ -748,8 +749,10 @@ export default class ImageControl extends React.Component<
     this.setState({
       cropFile: {
         preview: files[index].preview || (files[index].url as string),
+        name: files[index].name,
         state: 'init'
-      }
+      },
+      cropFileName: files[index].name
     });
   }
 
@@ -848,7 +851,8 @@ export default class ImageControl extends React.Component<
       }
 
       return this.setState({
-        cropFile: file
+        cropFile: file,
+        cropFileName: file.name
       });
     }
 
@@ -899,6 +903,7 @@ export default class ImageControl extends React.Component<
     this.setState(
       {
         cropFile: undefined,
+        cropFileName: undefined,
         locked: false,
         lockedReason: ''
       },
@@ -1086,7 +1091,7 @@ export default class ImageControl extends React.Component<
     }
 
     // Note: File类型字段放在后面，可以支持第三方云存储鉴权
-    fd.append(fileField, file, (file as File).name);
+    fd.append(fileField, file, (file as File).name || this.state.cropFileName);
 
     const env = this.props.env;
 

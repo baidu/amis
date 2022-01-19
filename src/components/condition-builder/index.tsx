@@ -17,9 +17,11 @@ import {findDOMNode} from 'react-dom';
 import animtion from '../../utils/Animation';
 
 export interface ConditionBuilderProps extends ThemeProps, LocaleProps {
+  builderMode?: 'simple' | 'full'; // 简单模式｜完整模式
   fields: Fields;
   funcs?: Funcs;
   showNot?: boolean;
+  showANDOR?: boolean;
   value?: ConditionGroupValue;
   data?: any;
   onChange: (value: ConditionGroupValue) => void;
@@ -201,9 +203,11 @@ export class QueryBuilder extends React.Component<ConditionBuilderProps> {
       onChange,
       value,
       showNot,
+      showANDOR,
       data,
       disabled,
-      searchable
+      searchable,
+      builderMode
     } = this.props;
 
     const normalizedValue = Array.isArray(value?.children)
@@ -224,6 +228,7 @@ export class QueryBuilder extends React.Component<ConditionBuilderProps> {
 
     return (
       <ConditionGroup
+        builderMode={builderMode}
         config={this.config}
         funcs={funcs || this.config.funcs}
         fields={fields || this.config.fields}
@@ -233,6 +238,7 @@ export class QueryBuilder extends React.Component<ConditionBuilderProps> {
         fieldClassName={fieldClassName}
         removeable={false}
         onDragStart={this.handleDragStart}
+        showANDOR={showANDOR}
         showNot={showNot}
         data={data}
         disabled={disabled}

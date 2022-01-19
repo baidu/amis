@@ -85,6 +85,10 @@ export interface TextProps extends OptionsControlProps {
   autoComplete?: any;
   allowInputText?: boolean;
   spinnerClassName: string;
+  transform?: {
+    lowerCase?: boolean; // 用户输入的字符自动转小写
+    upperCase?: boolean; // 用户输入的字符自动转大写
+  };
 }
 
 export interface TextState {
@@ -459,12 +463,33 @@ export default class TextControl extends React.PureComponent<
 
     let value = e.currentTarget.value;
 
-    onChange(value);
+    onChange(this.transformValue(value));
+  }
+
+  transformValue(value: string) {
+    const {transform} = this.props;
+
+    if (!transform) {
+      return value;
+    }
+
+    Object.keys(transform).forEach((key: 'lowerCase' | 'upperCase') => {
+      const propValue = transform[key];
+      switch (key) {
+        case 'lowerCase':
+          propValue && (value = value.toLowerCase());
+          break;
+        case 'upperCase':
+          propValue && (value = value.toUpperCase());
+          break;
+      }
+    });
+
+    return value;
   }
 
   loadAutoComplete() {
-    const {formItem, autoComplete, data, multiple, selectedOptions} =
-      this.props;
+    const {formItem, autoComplete, data} = this.props;
 
     if (isEffectiveApi(autoComplete, data) && formItem) {
       formItem.loadOptions(

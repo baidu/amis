@@ -398,7 +398,8 @@ export default class Form extends React.Component<FormProps, object> {
     'simpleMode',
     'inputOnly',
     'value',
-    'actions'
+    'actions',
+    'multiple'
   ];
 
   hooks: {
@@ -1132,7 +1133,13 @@ export default class Form extends React.Component<FormProps, object> {
         });
     } else if (action.actionType === 'reload') {
       store.setCurrentAction(action);
-      action.target && this.reloadTarget(action.target, data);
+      if (action.target) {
+        this.reloadTarget(action.target, data);
+      } else {
+        // 刷自己
+        this.receive(data);
+      }
+      // action.target && this.reloadTarget(action.target, data);
     } else if (onAction) {
       // 不识别的丢给上层去处理。
       return onAction(e, action, data, throwErrors, delegate || this.context);

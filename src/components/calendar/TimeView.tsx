@@ -7,35 +7,46 @@ import {Icon} from '../icons';
 import {ClassNamesFn} from '../../theme';
 import Picker from '../Picker';
 import {PickerColumnItem} from '../PickerColumn';
-import {getRange, isMobile} from "../../utils/helper";
+import {getRange, isMobile} from '../../utils/helper';
+
+interface State {
+  daypart: any;
+  counters: Array<string>;
+  [propName: string]: any;
+}
+
+interface CustomTimeViewProps {
+  viewDate: moment.Moment;
+  selectedDate: moment.Moment;
+  subtractTime: (
+    amount: number,
+    type: string,
+    toSelected?: moment.Moment
+  ) => () => void;
+  addTime: (
+    amount: number,
+    type: string,
+    toSelected?: moment.Moment
+  ) => () => void;
+  showView: (view: string) => () => void;
+  timeFormat: string;
+  classnames: ClassNamesFn;
+  setTime: (type: string, value: any) => void;
+  onClose?: () => void;
+  onConfirm?: (value: number[], types: string[]) => void;
+  useMobileUI: boolean;
+  showToolbar?: boolean;
+  onChange?: (value: any) => void;
+};
 
 export class CustomTimeView extends TimeView {
-  props: {
-    viewDate: moment.Moment;
-    subtractTime: (
-      amount: number,
-      type: string,
-      toSelected?: moment.Moment
-    ) => () => void;
-    addTime: (
-      amount: number,
-      type: string,
-      toSelected?: moment.Moment
-    ) => () => void;
-    showView: (view: string) => () => void;
-    timeFormat: string;
-    classnames: ClassNamesFn;
-    setTime: (type: string, value: any) => void;
-    onClose?: () => void;
-    onConfirm?: (value: number[], types: string[]) => void;
-    useMobileUI: boolean;
-  } & LocaleProps;
+  props: CustomTimeViewProps & LocaleProps;
   onStartClicking: any;
   disableContextMenu: any;
   updateMilli: any;
   renderHeader: any;
   pad: any;
-  state: {daypart: any; counters: Array<string>; [propName: string]: any};
+  state: State;
   timeConstraints: any;
   padValues = {
     hours: 2,
@@ -43,7 +54,22 @@ export class CustomTimeView extends TimeView {
     seconds: 2,
     milliseconds: 3
   };
+  setState: (arg0: any) => () => any;
+  calculateState: (props: CustomTimeViewProps) => () => any;
 
+  static defaultProps = {
+    showToolbar: true
+  };
+
+  
+  componentWillReceiveProps(nextProps: CustomTimeViewProps) {
+    if (nextProps.viewDate !== this.props.viewDate
+      || nextProps.selectedDate !== this.props.selectedDate
+      || nextProps.timeFormat !== this.props.timeFormat) {
+      this.setState(this.calculateState(nextProps));
+      }
+  }
+  
   renderDayPart = () => {
     const {translate: __, classnames: cx} = this.props;
     return (
@@ -90,7 +116,7 @@ export class CustomTimeView extends TimeView {
       return parseInt(value);
     }
     return 0;
-  }
+  };
 
   renderCounter = (type: string) => {
     const cx = this.props.classnames;
@@ -148,14 +174,28 @@ export class CustomTimeView extends TimeView {
     return null;
   };
 
-  onConfirm = (value: number[]) => {
-    this.props.onConfirm && this.props.onConfirm(value, this.state.counters);
-  }
+  onConfirm = (value: (number | string)[]) => {
+    // 修正am、pm
+    const hourIndex = this.state.counters.indexOf('hours');
+    if (
+      hourIndex !== -1 &&
+      this.state.daypart !== false &&
+      this.props.timeFormat.toLowerCase().indexOf(' a') !== -1 
+    ) {
+      const amMode: string = value.splice(-1, 1)[0] as string;
+      let hour = (value[hourIndex] as number) % 12;
+      // 修正pm
+      amMode.toLowerCase().indexOf('p') !== -1 && (hour = hour + 12);
+      value[hourIndex] = hour;
+    }
+
+    this.props.onConfirm && this.props.onConfirm(value as number[], this.state.counters);
+  };
 
   getDayPartOptions = () => {
     const {translate: __} = this.props;
     let options = ['am', 'pm'];
-    if ( this.props.timeFormat.indexOf( ' A' ) !== -1 ) {
+    if (this.props.timeFormat.indexOf(' A') !== -1) {
       options = ['AM', 'PM'];
     }
 
@@ -163,55 +203,78 @@ export class CustomTimeView extends TimeView {
       text: __(daypart),
       value: daypart
     }));
+  };
+
+  onPickerChange = (value: (number | string)[], index: number) => {
+    const time: {[prop:string]: any} = {};
+    this.state.counters.forEach((type, i) => time[type] = value[i]);
+    if (this.state.daypart !== false && index > this.state.counters.length -1) {
+      time.daypart = value[value.length -1];
+    }
+    this.setState((prevState: State) => {
+      return {...prevState, ...time}
+    });
+    this.props.onChange && this.props.onChange(value);
   }
 
   renderTimeViewPicker = () => {
+    const {translate: __} =  this.props;
+    const title = __('Date.titleTime');
     const columns: PickerColumnItem[] = [];
     const values = [];
 
     this.state.counters.forEach(type => {
       if (type !== 'daypart') {
-        const counterValue: number = this.getCounterValue(type);
         let {min, max, step} = this.timeConstraints[type];
         // 修正am pm时hours可选最大值
-        if (type === 'hours'
-          && this.state.daypart !== false
-          && this.props.timeFormat.toLowerCase().indexOf(' a') !== -1) {
-            max = max > 12 ? 12 : max;
+        if (
+          type === 'hours' &&
+          this.state.daypart !== false &&
+          this.props.timeFormat.toLowerCase().indexOf(' a') !== -1
+        ) {
+          max = max > 12 ? 12 : max;
         }
         columns.push({
-          options: getRange(min, max, step)
+          options: getRange(min, max, step).map(item => {
+            return {
+              text: this.pad(type, item),
+              value: item
+            }
+          })
         });
-        values.push(counterValue);
+        values.push(parseInt(this.state[type], 10));
       }
     });
     if (this.state.daypart !== false) {
       columns.push({
         options: this.getDayPartOptions()
       });
-      values.push(this.state.daypart)
+      values.push(this.state.daypart);
     }
 
     return (
       <Picker
         translate={this.props.translate}
         locale={this.props.locale}
+        title={title}
         columns={columns}
-        value={values} 
+        value={values}
         onConfirm={this.onConfirm}
         onClose={this.props.onClose}
+        showToolbar={this.props.showToolbar}
+        onChange={this.onPickerChange}
         />
     );
-  }
+  };
 
   render() {
     let counters: Array<JSX.Element | null> = [];
     const cx = this.props.classnames;
-    
+
     if (isMobile() && this.props.useMobileUI) {
-      return <div className={cx('CalendarTime')}>
-          {this.renderTimeViewPicker()}
-        </div>
+      return (
+        <div className={cx('CalendarTime')}>{this.renderTimeViewPicker()}</div>
+      );
     }
     this.state.counters.forEach(c => {
       if (counters.length) {

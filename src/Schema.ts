@@ -9,6 +9,7 @@ import {ButtonToolbarSchema} from './renderers/Form/ButtonToolbar';
 import {CardSchema} from './renderers/Card';
 import {CardsSchema} from './renderers/Cards';
 import {FormSchema} from './renderers/Form';
+import {CalendarSchema} from './renderers/Calendar';
 import {CarouselSchema} from './renderers/Carousel';
 import {ChartSchema} from './renderers/Chart';
 import {CollapseSchema} from './renderers/Collapse';
@@ -56,6 +57,7 @@ import {PaginationSchema} from './renderers/Pagination';
 import {AnchorNavSchema} from './renderers/AnchorNav';
 import {AvatarSchema} from './renderers/Avatar';
 import {StepsSchema} from './renderers/Steps';
+import {TimelineSchema} from './renderers/Timeline';
 import {ArrayControlSchema} from './renderers/Form/InputArray';
 import {ButtonGroupControlSchema} from './renderers/Form/ButtonGroupSelect';
 import {ChainedSelectControlSchema} from './renderers/Form/ChainedSelect';
@@ -131,6 +133,7 @@ export type SchemaType =
   | 'cards'
   | 'carousel'
   | 'chart'
+  | 'calendar'
   | 'collapse'
   | 'collapse-group'
   | 'color'
@@ -201,6 +204,7 @@ export type SchemaType =
   | 'web-component'
   | 'anchor-nav'
   | 'steps'
+  | 'timeline'
   | 'control'
   | 'input-array'
   | 'button'
@@ -227,6 +231,7 @@ export type SchemaType =
   | 'input-time-range'
   | 'input-datetime-range'
   | 'input-excel'
+  | 'input-formula'
   | 'diff-editor'
 
   // editor 系列
@@ -337,6 +342,7 @@ export type SchemaObject =
   | AvatarSchema
   | ButtonGroupSchema
   | ButtonToolbarSchema
+  | CalendarSchema
   | CardSchema
   | CardsSchema
   | CarouselSchema
@@ -386,6 +392,7 @@ export type SchemaObject =
   | AnchorNavSchema
   | StepsSchema
   | PortletSchema
+  | TimelineSchema
 
   // 表单项
   | FormControlSchema

@@ -15,6 +15,10 @@
     box-shadow: var(--Form-input-boxShadow);
     background: var(--Form-input-onFocused-bg);
   }
+
+  &-popup {
+    height: px2rem(400px);
+  }
 }
 
 .#{$ns}TreeSelect-popover {

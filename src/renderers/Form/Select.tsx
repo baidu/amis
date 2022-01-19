@@ -11,7 +11,7 @@ import find from 'lodash/find';
 import debouce from 'lodash/debounce';
 import {Api} from '../../types';
 import {isEffectiveApi} from '../../utils/api';
-import {isEmpty, createObject, autobind} from '../../utils/helper';
+import {isEmpty, createObject, autobind, isMobile} from '../../utils/helper';
 import {dataMapping} from '../../utils/tpl-builtin';
 import {SchemaApi} from '../../Schema';
 import Spinner from '../../components/Spinner';
@@ -91,6 +91,7 @@ export interface SelectProps extends OptionsControlProps {
   autoComplete?: Api;
   searchable?: boolean;
   defaultOpen?: boolean;
+  useMobileUI?: boolean;
 }
 
 export default class SelectControl extends React.Component<SelectProps, any> {
@@ -231,8 +232,12 @@ export default class SelectControl extends React.Component<SelectProps, any> {
   }
 
   mergeOptions(options: Array<object>) {
-    const {selectedOptions} = this.props;
-    let combinedOptions = normalizeOptions(options).concat();
+    const {selectedOptions, valueField = 'value'} = this.props;
+    let combinedOptions = normalizeOptions(
+      options,
+      undefined,
+      valueField
+    ).concat();
 
     if (Array.isArray(selectedOptions) && selectedOptions.length) {
       selectedOptions.forEach(option => {
@@ -298,12 +303,15 @@ export default class SelectControl extends React.Component<SelectProps, any> {
       borderMode,
       selectMode,
       env,
+      useMobileUI,
       ...rest
     } = this.props;
 
     if (noResultsText) {
       noResultsText = render('noResultText', noResultsText);
     }
+
+    const mobileUI = useMobileUI && isMobile();
 
     return (
       <div className={cx(`${classPrefix}SelectControl`, className)}>
@@ -314,7 +322,12 @@ export default class SelectControl extends React.Component<SelectProps, any> {
         ) : (
           <Select
             {...rest}
-            useMobileUI={env.useMobileUI}
+            useMobileUI={useMobileUI}
+            popOverContainer={
+              mobileUI && env && env.getModalContainer
+                ? env.getModalContainer
+                : rest.popOverContainer
+            }
             borderMode={borderMode}
             placeholder={placeholder}
             multiple={multiple || multi}
@@ -348,6 +361,7 @@ export interface TransferDropDownProps
       | 'descriptionClassName'
     > {
   borderMode?: 'full' | 'half' | 'none';
+  useMobileUI?: boolean;
 }
 
 class TransferDropdownRenderer extends BaseTransferRenderer<TransferDropDownProps> {
@@ -368,7 +382,8 @@ class TransferDropdownRenderer extends BaseTransferRenderer<TransferDropDownProp
       multiple,
       columns,
       leftMode,
-      borderMode
+      borderMode,
+      useMobileUI
     } = this.props;
 
     // 目前 LeftOptions 没有接口可以动态加载
@@ -408,6 +423,7 @@ class TransferDropdownRenderer extends BaseTransferRenderer<TransferDropDownProp
           leftMode={leftMode}
           leftOptions={leftOptions}
           borderMode={borderMode}
+          useMobileUI={useMobileUI}
         />
 
         <Spinner overlay key="info" show={loading} />

@@ -41,6 +41,8 @@ import {
 
 import './locale/zh-CN';
 
+import './utils/debug';
+
 import animation from './utils/Animation';
 
 export * from './Schema';
@@ -55,6 +57,7 @@ import './renderers/ButtonGroup';
 import './renderers/Form/ButtonToolbar';
 import './renderers/Breadcrumb';
 import './renderers/DropDownButton';
+import './renderers/Calendar';
 import './renderers/Collapse';
 import './renderers/CollapseGroup';
 import './renderers/Color';
@@ -89,6 +92,7 @@ import './renderers/Form/Select';
 import './renderers/Form/Static';
 import './renderers/Form/InputDate';
 import './renderers/Form/InputDateRange';
+import './renderers/Form/InputFormula';
 import './renderers/Form/InputRepeat';
 import './renderers/Form/InputTree';
 import './renderers/Form/TreeSelect';
@@ -164,6 +168,7 @@ import './renderers/Icon';
 import './renderers/Carousel';
 import './renderers/AnchorNav';
 import './renderers/Steps';
+import './renderers/Timeline';
 import './renderers/Markdown';
 import './renderers/TableView';
 import './renderers/Code';
@@ -209,6 +214,8 @@ import {
   getTheme
 } from './theme';
 const classPrefix = getClassPrefix();
+
+import './actions';
 
 export * from './components/index';
 
