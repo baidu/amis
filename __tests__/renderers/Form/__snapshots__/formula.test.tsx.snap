@@ -53,46 +53,66 @@ exports[`Renderer:formula 1`] = `
             class="cxd-NumberControl cxd-Form-control"
           >
             <div
-              class="cxd-Number cxd-Number--borderFull"
+              class="outer-input-number"
             >
               <div
-                class="cxd-Number-handler-wrap"
+                class="is-behind cxd-Number-left-border"
               >
-                <span
-                  aria-disabled="false"
-                  aria-label="Increase Value"
-                  class="cxd-Number-handler cxd-Number-handler-up"
-                  role="button"
-                  unselectable="on"
-                >
-                  <span
-                    class="cxd-Number-handler-up-inner"
-                    unselectable="on"
-                  />
-                </span>
-                <span
-                  aria-disabled="false"
-                  aria-label="Decrease Value"
-                  class="cxd-Number-handler cxd-Number-handler-down"
-                  role="button"
-                  unselectable="on"
-                >
-                  <span
-                    class="cxd-Number-handler-down-inner"
-                    unselectable="on"
-                  />
-                </span>
+                <icon-mock
+                  classname="icon icon-minus"
+                  icon="minus"
+                />
               </div>
               <div
-                class="cxd-Number-input-wrap"
+                class="cxd-Number cxd-Number--borderFull"
               >
-                <input
-                  aria-valuenow="1"
-                  autocomplete="off"
-                  class="cxd-Number-input"
-                  role="spinbutton"
-                  step="1"
-                  value="1"
+                <div
+                  class="cxd-Number-handler-wrap"
+                >
+                  <span
+                    aria-disabled="false"
+                    aria-label="Increase Value"
+                    class="cxd-Number-handler cxd-Number-handler-up"
+                    role="button"
+                    unselectable="on"
+                  >
+                    <span
+                      class="cxd-Number-handler-up-inner"
+                      unselectable="on"
+                    />
+                  </span>
+                  <span
+                    aria-disabled="false"
+                    aria-label="Decrease Value"
+                    class="cxd-Number-handler cxd-Number-handler-down"
+                    role="button"
+                    unselectable="on"
+                  >
+                    <span
+                      class="cxd-Number-handler-down-inner"
+                      unselectable="on"
+                    />
+                  </span>
+                </div>
+                <div
+                  class="cxd-Number-input-wrap"
+                >
+                  <input
+                    aria-valuenow="1"
+                    autocomplete="off"
+                    class="cxd-Number-input"
+                    role="spinbutton"
+                    step="1"
+                    value="1"
+                  />
+                </div>
+              </div>
+              <div
+                class="is-behind cxd-Number-right-border"
+              >
+                <icon-mock
+                  classname="icon  icon-plus"
+                  icon="plus"
                 />
               </div>
             </div>
@@ -119,46 +139,66 @@ exports[`Renderer:formula 1`] = `
             class="cxd-NumberControl cxd-Form-control"
           >
             <div
-              class="cxd-Number cxd-Number--borderFull"
+              class="outer-input-number"
             >
               <div
-                class="cxd-Number-handler-wrap"
+                class="is-behind cxd-Number-left-border"
               >
-                <span
-                  aria-disabled="false"
-                  aria-label="Increase Value"
-                  class="cxd-Number-handler cxd-Number-handler-up"
-                  role="button"
-                  unselectable="on"
-                >
-                  <span
-                    class="cxd-Number-handler-up-inner"
-                    unselectable="on"
-                  />
-                </span>
-                <span
-                  aria-disabled="false"
-                  aria-label="Decrease Value"
-                  class="cxd-Number-handler cxd-Number-handler-down"
-                  role="button"
-                  unselectable="on"
-                >
-                  <span
-                    class="cxd-Number-handler-down-inner"
-                    unselectable="on"
-                  />
-                </span>
+                <icon-mock
+                  classname="icon icon-minus"
+                  icon="minus"
+                />
               </div>
               <div
-                class="cxd-Number-input-wrap"
+                class="cxd-Number cxd-Number--borderFull"
               >
-                <input
-                  aria-valuenow="2"
-                  autocomplete="off"
-                  class="cxd-Number-input"
-                  role="spinbutton"
-                  step="1"
-                  value="2"
+                <div
+                  class="cxd-Number-handler-wrap"
+                >
+                  <span
+                    aria-disabled="false"
+                    aria-label="Increase Value"
+                    class="cxd-Number-handler cxd-Number-handler-up"
+                    role="button"
+                    unselectable="on"
+                  >
+                    <span
+                      class="cxd-Number-handler-up-inner"
+                      unselectable="on"
+                    />
+                  </span>
+                  <span
+                    aria-disabled="false"
+                    aria-label="Decrease Value"
+                    class="cxd-Number-handler cxd-Number-handler-down"
+                    role="button"
+                    unselectable="on"
+                  >
+                    <span
+                      class="cxd-Number-handler-down-inner"
+                      unselectable="on"
+                    />
+                  </span>
+                </div>
+                <div
+                  class="cxd-Number-input-wrap"
+                >
+                  <input
+                    aria-valuenow="2"
+                    autocomplete="off"
+                    class="cxd-Number-input"
+                    role="spinbutton"
+                    step="1"
+                    value="2"
+                  />
+                </div>
+              </div>
+              <div
+                class="is-behind cxd-Number-right-border"
+              >
+                <icon-mock
+                  classname="icon  icon-plus"
+                  icon="plus"
                 />
               </div>
             </div>
@@ -185,46 +225,66 @@ exports[`Renderer:formula 1`] = `
             class="cxd-NumberControl cxd-Form-control"
           >
             <div
-              class="cxd-Number cxd-Number--borderFull"
+              class="outer-input-number"
             >
               <div
-                class="cxd-Number-handler-wrap"
+                class="is-behind cxd-Number-left-border"
               >
-                <span
-                  aria-disabled="false"
-                  aria-label="Increase Value"
-                  class="cxd-Number-handler cxd-Number-handler-up"
-                  role="button"
-                  unselectable="on"
-                >
-                  <span
-                    class="cxd-Number-handler-up-inner"
-                    unselectable="on"
-                  />
-                </span>
-                <span
-                  aria-disabled="false"
-                  aria-label="Decrease Value"
-                  class="cxd-Number-handler cxd-Number-handler-down"
-                  role="button"
-                  unselectable="on"
-                >
-                  <span
-                    class="cxd-Number-handler-down-inner"
-                    unselectable="on"
-                  />
-                </span>
+                <icon-mock
+                  classname="icon icon-minus"
+                  icon="minus"
+                />
               </div>
               <div
-                class="cxd-Number-input-wrap"
+                class="cxd-Number cxd-Number--borderFull"
               >
-                <input
-                  aria-valuenow="3"
-                  autocomplete="off"
-                  class="cxd-Number-input"
-                  role="spinbutton"
-                  step="1"
-                  value="3"
+                <div
+                  class="cxd-Number-handler-wrap"
+                >
+                  <span
+                    aria-disabled="false"
+                    aria-label="Increase Value"
+                    class="cxd-Number-handler cxd-Number-handler-up"
+                    role="button"
+                    unselectable="on"
+                  >
+                    <span
+                      class="cxd-Number-handler-up-inner"
+                      unselectable="on"
+                    />
+                  </span>
+                  <span
+                    aria-disabled="false"
+                    aria-label="Decrease Value"
+                    class="cxd-Number-handler cxd-Number-handler-down"
+                    role="button"
+                    unselectable="on"
+                  >
+                    <span
+                      class="cxd-Number-handler-down-inner"
+                      unselectable="on"
+                    />
+                  </span>
+                </div>
+                <div
+                  class="cxd-Number-input-wrap"
+                >
+                  <input
+                    aria-valuenow="3"
+                    autocomplete="off"
+                    class="cxd-Number-input"
+                    role="spinbutton"
+                    step="1"
+                    value="3"
+                  />
+                </div>
+              </div>
+              <div
+                class="is-behind cxd-Number-right-border"
+              >
+                <icon-mock
+                  classname="icon  icon-plus"
+                  icon="plus"
                 />
               </div>
             </div>
@@ -251,46 +311,66 @@ exports[`Renderer:formula 1`] = `
             class="cxd-NumberControl cxd-Form-control"
           >
             <div
-              class="cxd-Number cxd-Number--borderFull"
+              class="outer-input-number"
             >
               <div
-                class="cxd-Number-handler-wrap"
+                class="is-behind cxd-Number-left-border"
               >
-                <span
-                  aria-disabled="false"
-                  aria-label="Increase Value"
-                  class="cxd-Number-handler cxd-Number-handler-up"
-                  role="button"
-                  unselectable="on"
-                >
-                  <span
-                    class="cxd-Number-handler-up-inner"
-                    unselectable="on"
-                  />
-                </span>
-                <span
-                  aria-disabled="false"
-                  aria-label="Decrease Value"
-                  class="cxd-Number-handler cxd-Number-handler-down"
-                  role="button"
-                  unselectable="on"
-                >
-                  <span
-                    class="cxd-Number-handler-down-inner"
-                    unselectable="on"
-                  />
-                </span>
+                <icon-mock
+                  classname="icon icon-minus"
+                  icon="minus"
+                />
               </div>
               <div
-                class="cxd-Number-input-wrap"
+                class="cxd-Number cxd-Number--borderFull"
               >
-                <input
-                  aria-valuenow="4"
-                  autocomplete="off"
-                  class="cxd-Number-input"
-                  role="spinbutton"
-                  step="1"
-                  value="4"
+                <div
+                  class="cxd-Number-handler-wrap"
+                >
+                  <span
+                    aria-disabled="false"
+                    aria-label="Increase Value"
+                    class="cxd-Number-handler cxd-Number-handler-up"
+                    role="button"
+                    unselectable="on"
+                  >
+                    <span
+                      class="cxd-Number-handler-up-inner"
+                      unselectable="on"
+                    />
+                  </span>
+                  <span
+                    aria-disabled="false"
+                    aria-label="Decrease Value"
+                    class="cxd-Number-handler cxd-Number-handler-down"
+                    role="button"
+                    unselectable="on"
+                  >
+                    <span
+                      class="cxd-Number-handler-down-inner"
+                      unselectable="on"
+                    />
+                  </span>
+                </div>
+                <div
+                  class="cxd-Number-input-wrap"
+                >
+                  <input
+                    aria-valuenow="4"
+                    autocomplete="off"
+                    class="cxd-Number-input"
+                    role="spinbutton"
+                    step="1"
+                    value="4"
+                  />
+                </div>
+              </div>
+              <div
+                class="is-behind cxd-Number-right-border"
+              >
+                <icon-mock
+                  classname="icon  icon-plus"
+                  icon="plus"
                 />
               </div>
             </div>
@@ -317,46 +397,66 @@ exports[`Renderer:formula 1`] = `
             class="cxd-NumberControl cxd-Form-control"
           >
             <div
-              class="cxd-Number cxd-Number--borderFull"
+              class="outer-input-number"
             >
               <div
-                class="cxd-Number-handler-wrap"
+                class="is-behind cxd-Number-left-border"
               >
-                <span
-                  aria-disabled="false"
-                  aria-label="Increase Value"
-                  class="cxd-Number-handler cxd-Number-handler-up"
-                  role="button"
-                  unselectable="on"
-                >
-                  <span
-                    class="cxd-Number-handler-up-inner"
-                    unselectable="on"
-                  />
-                </span>
-                <span
-                  aria-disabled="false"
-                  aria-label="Decrease Value"
-                  class="cxd-Number-handler cxd-Number-handler-down"
-                  role="button"
-                  unselectable="on"
-                >
-                  <span
-                    class="cxd-Number-handler-down-inner"
-                    unselectable="on"
-                  />
-                </span>
+                <icon-mock
+                  classname="icon icon-minus"
+                  icon="minus"
+                />
               </div>
               <div
-                class="cxd-Number-input-wrap"
+                class="cxd-Number cxd-Number--borderFull"
               >
-                <input
-                  aria-valuenow="5"
-                  autocomplete="off"
-                  class="cxd-Number-input"
-                  role="spinbutton"
-                  step="1"
-                  value="5"
+                <div
+                  class="cxd-Number-handler-wrap"
+                >
+                  <span
+                    aria-disabled="false"
+                    aria-label="Increase Value"
+                    class="cxd-Number-handler cxd-Number-handler-up"
+                    role="button"
+                    unselectable="on"
+                  >
+                    <span
+                      class="cxd-Number-handler-up-inner"
+                      unselectable="on"
+                    />
+                  </span>
+                  <span
+                    aria-disabled="false"
+                    aria-label="Decrease Value"
+                    class="cxd-Number-handler cxd-Number-handler-down"
+                    role="button"
+                    unselectable="on"
+                  >
+                    <span
+                      class="cxd-Number-handler-down-inner"
+                      unselectable="on"
+                    />
+                  </span>
+                </div>
+                <div
+                  class="cxd-Number-input-wrap"
+                >
+                  <input
+                    aria-valuenow="5"
+                    autocomplete="off"
+                    class="cxd-Number-input"
+                    role="spinbutton"
+                    step="1"
+                    value="5"
+                  />
+                </div>
+              </div>
+              <div
+                class="is-behind cxd-Number-right-border"
+              >
+                <icon-mock
+                  classname="icon  icon-plus"
+                  icon="plus"
                 />
               </div>
             </div>
@@ -383,46 +483,66 @@ exports[`Renderer:formula 1`] = `
             class="cxd-NumberControl cxd-Form-control"
           >
             <div
-              class="cxd-Number cxd-Number--borderFull"
+              class="outer-input-number"
             >
               <div
-                class="cxd-Number-handler-wrap"
+                class="is-behind cxd-Number-left-border"
               >
-                <span
-                  aria-disabled="false"
-                  aria-label="Increase Value"
-                  class="cxd-Number-handler cxd-Number-handler-up"
-                  role="button"
-                  unselectable="on"
-                >
-                  <span
-                    class="cxd-Number-handler-up-inner"
-                    unselectable="on"
-                  />
-                </span>
-                <span
-                  aria-disabled="false"
-                  aria-label="Decrease Value"
-                  class="cxd-Number-handler cxd-Number-handler-down"
-                  role="button"
-                  unselectable="on"
-                >
-                  <span
-                    class="cxd-Number-handler-down-inner"
-                    unselectable="on"
-                  />
-                </span>
+                <icon-mock
+                  classname="icon icon-minus"
+                  icon="minus"
+                />
               </div>
               <div
-                class="cxd-Number-input-wrap"
+                class="cxd-Number cxd-Number--borderFull"
               >
-                <input
-                  aria-valuenow="5"
-                  autocomplete="off"
-                  class="cxd-Number-input"
-                  role="spinbutton"
-                  step="1"
-                  value="5"
+                <div
+                  class="cxd-Number-handler-wrap"
+                >
+                  <span
+                    aria-disabled="false"
+                    aria-label="Increase Value"
+                    class="cxd-Number-handler cxd-Number-handler-up"
+                    role="button"
+                    unselectable="on"
+                  >
+                    <span
+                      class="cxd-Number-handler-up-inner"
+                      unselectable="on"
+                    />
+                  </span>
+                  <span
+                    aria-disabled="false"
+                    aria-label="Decrease Value"
+                    class="cxd-Number-handler cxd-Number-handler-down"
+                    role="button"
+                    unselectable="on"
+                  >
+                    <span
+                      class="cxd-Number-handler-down-inner"
+                      unselectable="on"
+                    />
+                  </span>
+                </div>
+                <div
+                  class="cxd-Number-input-wrap"
+                >
+                  <input
+                    aria-valuenow="5"
+                    autocomplete="off"
+                    class="cxd-Number-input"
+                    role="spinbutton"
+                    step="1"
+                    value="5"
+                  />
+                </div>
+              </div>
+              <div
+                class="is-behind cxd-Number-right-border"
+              >
+                <icon-mock
+                  classname="icon  icon-plus"
+                  icon="plus"
                 />
               </div>
             </div>
