@@ -1,4 +1,8 @@
 .#{$ns}Tabs {
+  &-drag-tip {
+    display: none;
+  }
+
   &-linksWrapper {
     display: flex;
     align-items: center;

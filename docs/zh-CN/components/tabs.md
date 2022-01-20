@@ -22,10 +22,11 @@ order: 68
             "title": "Tab 1",
             "tab": "Content 1"
         },
-
         {
             "title": "Tab 2",
-            "tab": "Content 2"
+            "tab": "Content 2",
+            "closeable": false,
+            "disabled": true
         }
     ]
 }

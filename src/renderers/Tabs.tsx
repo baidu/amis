@@ -87,6 +87,10 @@ export interface TabSchema extends Omit<BaseSchema, 'type'> {
    * 如果是水平排版，这个属性可以细化水平排版的左右宽度占比。
    */
   horizontal?: FormSchemaHorizontal;
+  /**
+   * 是否可关闭
+   */
+  closeable?: boolean;
 }
 
 /**
@@ -190,11 +194,10 @@ export default class Tabs extends React.Component<TabsProps, TabsState> {
 
   renderTab?: (tab: TabSchema, props: TabsProps, index: number) => JSX.Element;
   activeKey: any;
+  newTabDefaultId: number = 3;
 
   constructor(props: TabsProps) {
     super(props);
-
-    console.log('props.tabs', props.tabs);
 
     const location = props.location || window.location;
     const tabs = props.tabs;
@@ -214,8 +217,6 @@ export default class Tabs extends React.Component<TabsProps, TabsState> {
 
       activeKey = activeKey || (tabs[0] && tabs[0].hash) || 0;
     }
-
-    console.log('tabs', tabs);
 
     this.state = {
       prevKey: undefined,
@@ -402,38 +403,66 @@ export default class Tabs extends React.Component<TabsProps, TabsState> {
   }
 
   @autobind
-  handleAdd() {
+  async handleAdd() {
     const localTabs = this.state.localTabs;
 
+    localTabs.push({
+      title: `新增tab${this.newTabDefaultId++}`,
+      body: '新增tab 内容',
+      _uuid: guid()
+    });
+
+    const newTabs = await this.confirmTabs(localTabs);
+
     this.setState({
-      localTabs: localTabs.concat([{
-        title: '新增tab3',
-        body: '新增tab 内容',
-        _uuid: guid()
-      }])
+      localTabs: newTabs
     }, () => {
       this.switchTo(this.state.localTabs.length - 1);
     })
   }
 
   @autobind
-  handleClose(index: number, key: string | number) {
-    console.log('handleClose');
-    console.log('index', index);
-    console.log('key', key);
-
+  async handleClose(index: number, key: string | number) {
     const originTabs = [].concat(this.state.localTabs);
 
     originTabs.splice(index, 1);
 
+    const newTabs = await this.confirmTabs(originTabs);
+
     this.setState({
-      localTabs: originTabs
+      localTabs: newTabs
+    });
+  }
+
+  async confirmTabs(tabs: Array<TabSchema>) {
+    const {onTabsChange} = this.props;
+
+    if (onTabsChange) {
+      const confirmedTabs = await Promise.resolve(onTabsChange(originTabs));
+
+      if (confirmedTabs && Array.isArray(confirmedTabs)) {
+        return confirmedTabs;
+      }
+    }
+
+    return tabs;
+  }
+
+  @autobind
+  async handleDragChange(e: any){
+    const originTabs = [].concat(this.state.localTabs);
+
+    originTabs.splice(e.newIndex, 0, originTabs.splice(e.oldIndex, 1)[0]);
+
+    const newTabs = await this.confirmTabs(originTabs);
+
+    this.setState({
+      localTabs: newTabs
     });
   }
 
   @autobind
   handleSelect(key: any) {
-    console.log('handleSelect', key);
     const {env, onSelect, id} = this.props;
 
     env.tracker?.({
@@ -638,6 +667,7 @@ export default class Tabs extends React.Component<TabsProps, TabsState> {
         onAdd={this.handleAdd}
         onClose={this.handleClose}
         draggable={draggable}
+        onDragChange={this.handleDragChange}
       >
         {children}
       </CTabs>

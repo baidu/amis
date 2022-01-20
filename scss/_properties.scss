@@ -1296,6 +1296,7 @@
   --Tabs-add-margin: var(--gap-lg);
   --Tabs-close-margin: #{var(--gap-xs)};
   --Tabs-close-size: #{px2rem(12px)};
+  --Tabs-link-maxWidth: #{px2rem(160px)};
   
 
   --Tabs--vertical-bg: var(--Table-thead-bg);
