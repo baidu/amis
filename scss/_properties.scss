@@ -703,6 +703,12 @@
   --Form-input-placeholderColor: var(--text--muted-color);
   --Form-input-onDisabled-color: var(--text--muted-color);
 
+  --Form-input-clearBtn-size: var(--fontSizeMd);
+  --Form-input-clearBtn-padding: #{px2rem(3px)};
+  --Form-input-clearBtn-color: #cecfd1;
+  --Form-input-clearBtn-color-onHover: #5e626a;
+  --Form-input-clearBtn-color-onActive: #2d323c;
+
   --Form-item-gap: var(--gap-base);
 
   --Form-label-paddingTop: calc(

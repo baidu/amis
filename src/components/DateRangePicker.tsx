@@ -885,7 +885,7 @@ export class DateRangePicker extends React.Component<
 
         {clearable && !disabled && value ? (
           <a className={`${ns}DateRangePicker-clear`} onClick={this.clearValue}>
-            <Icon icon="close" className="icon" />
+            <Icon icon="input-clear" className="icon" />
           </a>
         ) : null}
 

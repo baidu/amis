@@ -267,7 +267,7 @@ export class ColorControl extends React.PureComponent<
 
         {clearable && !disabled && value ? (
           <a onClick={this.clearValue} className={cx('ColorPicker-clear')}>
-            <Icon icon="close" className="icon" />
+            <Icon icon="input-clear" className="icon" />
           </a>
         ) : null}
 

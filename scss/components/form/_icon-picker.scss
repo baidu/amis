@@ -12,6 +12,8 @@
   }
 
   &-valueWrap {
+    display: flex;
+    justify-content: space-between;
     flex-grow: 1;
     line-height: 1;
     white-space: nowrap;
