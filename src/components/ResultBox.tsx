@@ -184,7 +184,7 @@ export class ResultBox extends React.Component<ResultBoxProps> {
         !disabled &&
         (Array.isArray(result) ? result.length : result) ? (
           <a onClick={this.clearValue} className={cx('ResultBox-clear')}>
-            <Icon icon="close" className="icon" />
+            <Icon icon="input-clear" className="icon" />
           </a>
         ) : null}
         {!allowInput && mobileUI ? (

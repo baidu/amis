@@ -148,6 +148,9 @@ $L1: 0px 4px 6px 0px rgba(8, 14, 26, 0.06),
   --Form-input-addOnColor: #666;
   --Form-input-onFocus-addOnColor: var(--primary);
   --Form-input-addOnDividerBorderWidth: 0;
+  --Form-input-clearBtn-color: #{$G7};
+  --Form-input-clearBtn-color-onHover: #{$G4};
+  --Form-input-clearBtn-color-onActive: #{$G3};
 
   --Form-select-borderWidth: #{px2rem(1px)};
   --Form-select-borderRadius: #{$R3};
@@ -179,7 +182,7 @@ $L1: 0px 4px 6px 0px rgba(8, 14, 26, 0.06),
   --InputGroup-select-arrowColor: #999;
   --InputGroup-select-onFocused-arrowColor: var(--primary);
   --InputGroup-button-borderWidth: #{px2rem(1px)};
-  --InputGroup-button-borderRadius: 0;
+  --InputGroup-button-borderRadius: #{$R3};
 
   // $Number-bg: #eaf6fe;
   --Number-borderWidth: #{px2rem(1px)};

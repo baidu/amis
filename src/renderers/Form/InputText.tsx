@@ -634,7 +634,7 @@ export default class TextControl extends React.PureComponent<
                   onClick={this.clearValue}
                   className={cx('TextControl-clear')}
                 >
-                  <Icon icon="close" className="icon" />
+                  <Icon icon="input-clear" className="icon" />
                 </a>
               ) : null}
 
@@ -740,7 +740,7 @@ export default class TextControl extends React.PureComponent<
         />
         {clearable && !disabled && value ? (
           <a onClick={this.clearValue} className={`${ns}TextControl-clear`}>
-            <Icon icon="close" className="icon" />
+            <Icon icon="input-clear" className="icon" />
           </a>
         ) : null}
         {showCounter ? (
