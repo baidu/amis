@@ -19,7 +19,8 @@ import {
   isEmpty,
   getVariable,
   isObjectShallowModified,
-  qsparse
+  qsparse,
+  repeatCount
 } from '../../utils/helper';
 import debouce from 'lodash/debounce';
 import flatten from 'lodash/flatten';
@@ -1454,6 +1455,18 @@ export default class Form extends React.Component<FormProps, object> {
       this.props.wrapperComponent ||
       (/(?:\/|^)form\//.test($path as string) ? 'div' : 'form');
 
+    const padDom = repeatCount(
+      columnCount && Array.isArray(body)
+        ? columnCount - (body.length % columnCount)
+        : 0,
+      index => (
+        <div
+          className={cx(`Form-item Form-item--${mode} is-placeholder`)}
+          key={index}
+        ></div>
+      )
+    );
+
     return (
       <WrapperComponent
         className={cx(
@@ -1479,6 +1492,8 @@ export default class Form extends React.Component<FormProps, object> {
         {this.renderFormItems({
           body
         })}
+
+        {padDom}
 
         {/* 显示没有映射上的 errors */}
         {restError && restError.length ? (
