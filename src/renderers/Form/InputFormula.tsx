@@ -2,6 +2,7 @@ import React from 'react';
 
 import ResultBox from '../../components/ResultBox';
 import Spinner from '../../components/Spinner';
+import {SchemaApi, SchemaTokenizeableString} from '../../Schema';
 import FormItem, {FormBaseControl, FormControlProps} from './Item';
 import FormulaPicker from '../../components/formula/Picker';
 import {autobind} from '../../utils/helper';
@@ -123,7 +124,7 @@ export class InputFormulaRenderer extends React.Component<InputFormulaProps> {
   };
 
   render() {
-    const {
+    let {
       selectedOptions,
       disabled,
       onChange,
@@ -147,9 +148,9 @@ export class InputFormulaRenderer extends React.Component<InputFormulaProps> {
       icon,
       title,
       variableClassName,
-      functionClassName
+      functionClassName,
+      data
     } = this.props;
-
     return (
       <FormulaPicker
         className={className}
@@ -172,6 +173,7 @@ export class InputFormulaRenderer extends React.Component<InputFormulaProps> {
         clearable={clearable}
         variableClassName={variableClassName}
         functionClassName={functionClassName}
+        data={data}
       />
     );
   }

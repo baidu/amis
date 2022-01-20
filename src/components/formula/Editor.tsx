@@ -123,7 +123,7 @@ export class FormulaEditor extends React.Component<
     FormulaEditorProps,
     'functions' | 'variables' | 'evalMode'
   > = {
-    functions: this.buildDefaultFunctions(doc),
+    functions: FormulaEditor.buildDefaultFunctions(doc),
     variables: [],
     evalMode: true
   };
@@ -223,7 +223,6 @@ export class FormulaEditor extends React.Component<
       classPrefix
     } = this.props;
     const {focused} = this.state;
-
     return (
       <div
         className={cx(`FormulaEditor`, {

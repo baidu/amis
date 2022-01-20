@@ -7,6 +7,7 @@ import DatePicker from '../DatePicker';
 import {SelectWithRemoteOptions as Select} from '../Select';
 import Switch from '../Switch';
 import {localeable, LocaleProps} from '../../locale';
+import {FormulaPicker, FormulaPickerProps} from '../formula/Picker';
 
 export interface ValueProps extends ThemeProps, LocaleProps {
   value: any;
@@ -15,11 +16,12 @@ export interface ValueProps extends ThemeProps, LocaleProps {
   field: FieldSimple;
   op?: OperatorType;
   disabled?: boolean;
+  formula?: FormulaPickerProps;
 }
 
 export class Value extends React.Component<ValueProps> {
   render() {
-    const {
+    let {
       classnames: cx,
       field,
       value,
@@ -27,11 +29,22 @@ export class Value extends React.Component<ValueProps> {
       op,
       translate: __,
       data,
-      disabled
+      disabled,
+      formula
     } = this.props;
     let input: JSX.Element | undefined = undefined;
-
-    if (field.type === 'text') {
+    if (formula) {
+      // 如果配置了 formula 字段，则所有的输入变为 formula 形式
+      formula = Object.assign(formula, {
+        translate: __,
+        classnames: cx,
+        data,
+        value: value ?? field.defaultValue,
+        onChange,
+        disabled
+      });
+      input = <FormulaPicker {...formula} />;
+    } else if (field.type === 'text') {
       input = (
         <InputBox
           value={value ?? field.defaultValue}
