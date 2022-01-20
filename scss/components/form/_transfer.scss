@@ -232,11 +232,12 @@
 }
 .#{$ns}TransferDropDown-content {
   min-height: px2rem(200px);
+  min-width: px2rem(400px);
   display: flex;
   flex-direction: column;
 
   &.is-mobile {
-     width: 100%;
+    width: 100%;
   }
   & > .#{$ns}Transfer-selection {
     flex-grow: 1;
