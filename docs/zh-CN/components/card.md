@@ -262,6 +262,280 @@ order: 31
 }
 ```
 
+## 设置标签卡片
+
+> 1.5.0 及以上版本
+
+```schema: scope="body"
+{
+    "type": "card",
+    "header": {
+      "title": "标题"
+    },
+    "body": "这里是内容这里是内容这里是内容这里是内容这里是内容这里是内容这里是内容这里是内容这里是内容这里是内容这里是内容这里是内容这里是内容",
+    "secondary": "次要说明",
+    "actions": [
+      {
+        "type": "button",
+        "label": "操作",
+        "actionType": "dialog",
+        "className": "mr-4",
+        "dialog": {
+          "title": "操作",
+          "body": "你正在编辑该卡片"
+        }
+      },
+      {
+        "type": "button",
+        "label": "操作",
+        "actionType": "dialog",
+        "className": "mr-2.5",
+        "dialog": {
+          "title": "操作",
+          "body": "你正在编辑该卡片"
+        }
+      },
+      {
+        "type": "dropdown-button",
+        "level": "link",
+        "icon": "fa fa-ellipsis-h",
+        "className": "pr-1 flex",
+        "hideCaret": true,
+        "buttons": [
+          {
+            "type": "button",
+            "label": "编辑",
+            "actionType": "dialog",
+            "dialog": {
+              "title": "编辑",
+              "body": "你正在编辑该卡片"
+            }
+          },
+          {
+            "type": "button",
+            "label": "删除",
+            "actionType": "dialog",
+            "dialog": {
+              "title": "提示",
+              "body": "你删掉了该卡片"
+            }
+          }
+        ]
+      }
+    ],
+    "toolbar": [
+      {
+        "type": "tpl",
+        "tpl": "标签",
+        "className": "label label-warning"
+      }
+    ]
+}
+```
+
+## 设置按钮卡片
+
+> 1.5.0 及以上版本
+
+按钮卡片一般以卡片形式展示当前卡片的执行语义，例如：创建卡片、添加卡片等场景。
+
+```schema: scope="body"
+{
+  "type": "card",
+  "className": "hover:shadow",
+  "body": {
+    "type": "wrapper",
+    "className": "h-32 flex items-center justify-center",
+    "body": [
+      {
+        "type": "wrapper",
+        "size": "none",
+        "className": "text-center",
+        "body": {
+          "type": "icon",
+          "icon": "plus",
+          "className": "text-2xl",
+        }
+      },
+      {
+        "type": "wrapper",
+        "size": "none",
+        "body": "点击会有弹框"
+      }
+    ]
+  },
+  "itemAction": {
+    "type": "button",
+    "actionType": "dialog",
+    "dialog": {
+      "title": "详情",
+      "body": "当前描述"
+    }
+  }
+}
+```
+
+## 设置文本卡片
+
+> 1.5.0 及以上版本
+
+```schema: scope="body"
+{
+  "type": "card",
+  "header": {
+    "className": "items-center",
+    "title": "卡片标题"
+  },
+  "body": {
+    "type": "wrapper",
+    "size": "none",
+    "body": {
+      "type": "tabs",
+      "tabs": [
+        {
+          "title": "标签1",
+          "className": "p-0",
+          "tab": [
+            {
+              "type": "card",
+              "className": "border-0",
+              "header": {
+                "className": "p-0 pb-2",
+                "title": "内容标题"
+              },
+              "body": "卡片内容卡片内容卡片内容卡片内容卡片内容卡片内容卡片内容卡片内容卡片内容卡片内容卡片内容",
+              "bodyClassName": "p-0"
+            },
+            {
+              "type": "card",
+              "className": "border-0",
+              "header": {
+                "className": "p-0 pb-2",
+                "title": "内容标题"
+              },
+              "body": "卡片内容卡片内容卡片内容卡片内容卡片内容卡片内容卡片内容卡片内容卡片内容卡片内容卡片内容",
+              "bodyClassName": "p-0"
+            }
+          ]
+        },
+        {
+          "title": "标签2",
+          "className": "p-0",
+          "tab": "卡片内容卡片内容卡片内容卡片内容卡片内容卡片内容卡片内容卡片内容卡片内容卡片内容卡片内容"
+        }
+      ]
+    }
+  },
+  "toolbar": [
+    {
+      "type": "button",
+      "label": "操作",
+      "actionType": "dialog",
+      "dialog": {
+        "title": "操作",
+        "body": "你正在编辑该卡片"
+      }
+    }
+  ]
+}
+```
+
+## 设置单元格卡片
+
+> 1.5.0 及以上版本
+
+```schema: scope="body"
+{
+  "type": "card",
+  "body": [
+    {
+      "type": "wrapper",
+      "size": "none",
+      "body": {
+        "type": "wrapper",
+        "size": "none",
+        "style": {
+          "display": "flex",
+          "align-items": "center",
+          "justify-content": "space-between",
+          "margin-bottom": "4px"
+        },
+        "body": [
+          {
+            "type": "wrapper",
+            "size": "none",
+            "style": {
+              "flex": "1",
+              "overflow": "hidden",
+              "white-space": "nowrap",
+              "text-overflow": "ellipsis"
+            },
+            "body": "单元格"
+          },
+          {
+            "type": "wrapper",
+            "size": "none",
+            "style": {
+              "color": "#999"
+            },
+            "body": "内容"
+          }
+        ]
+      }
+    },
+    {
+      "type": "divider"
+    },
+    {
+      "type": "wrapper",
+      "size": "none",
+      "body": [
+        {
+          "type": "wrapper",
+          "size": "none",
+          "style": {
+            "display": "flex",
+            "align-items": "center",
+            "justify-content": "space-between",
+            "margin-bottom": "4px"
+          },
+          "body": [
+            {
+              "type": "wrapper",
+              "size": "none",
+              "style": {
+                "flex": "1",
+                "overflow": "hidden",
+                "white-space": "nowrap",
+                "text-overflow": "ellipsis"
+              },
+              "body": "单元格"
+            },
+            {
+              "type": "wrapper",
+              "size": "none",
+              "style": {
+                "color": "#999"
+              },
+              "body": "内容"
+            }
+          ]
+        },
+        {
+          "type": "wrapper",
+          "size": "none",
+          "style": {
+            "color": "#999",
+            "font-size": "12px"
+          },
+          "body": "描述信息"
+        }
+      ]
+    }
+  ]
+}
+```
+
 ## 配置工具栏
 
 > 1.5.0 及以上版本
