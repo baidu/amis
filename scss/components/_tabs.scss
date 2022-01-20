@@ -7,7 +7,7 @@
     display: flex;
     align-items: center;
     justify-content: flex-start;
-    border-bottom: var(--Tabs-borderWidth) solid var(--Tabs-borderColor);
+    border-bottom: var(--Tabs-borderWidth) solid var(--Tabs--simple-split-color);
   }
 
   &-linksContainer-wrapper {
@@ -22,6 +22,7 @@
       align-items: center;
       justify-content: flex-start;
       padding: var(--Tabs--line-linkPadding);
+      white-space: nowrap;
       cursor: pointer;
 
       &-icon {
@@ -41,14 +42,15 @@
       position: relative;
       display: flex;
       align-items: center;
+      overflow: hidden;
 
-      &--overflow {
-        flex: 1;
+      // &--overflow {
+      //   flex: 1;
     
-        .#{$ns}Tabs-links {
-          max-width: 0;
-        }
-      }
+      //   .#{$ns}Tabs-links {
+      //     max-width: 0;
+      //   }
+      // }
 
       &-arrow {
         margin-bottom: 7px;
@@ -121,6 +123,8 @@
       position: relative;
       flex: none;
       display: flex;
+      max-width: var(--Tabs-link-maxWidth);
+      overflow: hidden;
 
       .#{$ns}Tabs-link-close {
         margin-left: var( --Tabs-close-margin);
@@ -142,6 +146,10 @@
         text-decoration: none;
         cursor: pointer;
         display: block;
+
+        text-overflow: ellipsis;
+        overflow: hidden;
+        white-space: nowrap;
       }
 
       > .#{$ns}Combo-toolbarBtn {
@@ -166,7 +174,8 @@
         cursor: not-allowed;
 
         > a:first-child {
-          color: var(--Tabs-onDisabled-color);
+          // color: var(--Tabs-onDisabled-color);
+          color: var(--Tabs-link-disabled-color);
           background: transparent;
           border-color: transparent;
           pointer-events: none;
@@ -187,7 +196,7 @@
     background: var(--Tabs-content-bg);
     border-style: solid;
     border-width: 0 var(--Tabs-borderWidth) var(--Tabs-borderWidth);
-    border-color: var(--Tabs-borderColor);
+    border-color: var(--Tabs--simple-split-color);
   }
 
   &-pane {
@@ -207,7 +216,7 @@
 
   &--line {
     > .#{$ns}Tabs-linksContainer-wrapper {
-      border-bottom: var(--Tabs-borderWidth) solid var(--Tabs-borderColor);
+      border-bottom: var(--Tabs-borderWidth) solid var(--Tabs--simple-split-color);
     }
 
     > .#{$ns}Tabs-linksContainer > .#{$ns}Tabs-linksContainer-arrow {
@@ -348,7 +357,7 @@
             align-items: center;
 
             border-width: px2rem(1px);
-            border-color: var(--Tabs-borderColor);
+            border-color: var(--Tabs--simple-split-color);
             text-align: center;
             margin: 0;
             padding: 0 px2rem(10px);
@@ -395,7 +404,7 @@
     }
 
     > .#{$ns}Tabs-content {
-      border-top: var(--Tabs-borderWidth) solid var(--Tabs-borderColor);
+      border-top: var(--Tabs-borderWidth) solid var(--Tabs--simple-split-color);
     }
   }
 
@@ -418,7 +427,7 @@
           justify-content: center;
           border-width: var(--Tabs-borderWidth);
           border-style: solid;
-          border-color: var(--Tabs-borderColor);
+          border-color: var(--Tabs--simple-split-color);
         }
 
         &.#{$ns}Tabs-linksContainer--overflow > .#{$ns}Tabs-linksContainer-main > .#{$ns}Tabs-links > .#{$ns}Tabs-link {
@@ -436,7 +445,7 @@
         margin-left: 0;
         white-space: nowrap;
         border-style: solid;
-        border-color: var(--Tabs-borderColor);
+        border-color: var(--Tabs--simple-split-color);
         border-width: var(--Tabs-borderWidth);
         border-left-width: 0;
       }
@@ -454,7 +463,7 @@
         text-align: center;
         margin: 0 0 0 calc(var(--Tabs-borderWidth) * -1);
         border-style: solid;
-        border-color: var(--Tabs-borderColor);
+        border-color: var(--Tabs--simple-split-color);
         border-width: var(--Tabs-borderWidth);
         padding: var(--Tabs-linkPadding);
         cursor: pointer;
@@ -478,7 +487,7 @@
         &.is-active {
           cursor: default;
           color: var(--primary);
-          border-color: var(--Tabs-borderColor);
+          border-color: var(--Tabs--simple-split-color);
           border-top-color: var(--primary);
           border-bottom-color: transparent;
         }
@@ -489,7 +498,7 @@
   &--vertical {
     display: flex;
     min-height: px2rem(200px);
-    border: var(--Tabs-borderWidth) solid var(--Tabs-borderColor);
+    border: var(--Tabs-borderWidth) solid var(--Tabs--simple-split-color);
     border-radius: 0;
 
     > .#{$ns}Tabs-linksWrapper {
@@ -723,7 +732,7 @@
   &--strong {
     & > .#{$ns}Tabs-linksContainer-wrapper {
       align-items: stretch;
-      border-bottom: var(--Tabs-borderWidth) solid var(--Tabs-borderColor);
+      border-bottom: var(--Tabs-borderWidth) solid var(--Tabs--simple-split-color);
 
       & > .#{$ns}Tabs-addBtn {
         width: var(--Tabs--strong-add-size);
@@ -733,7 +742,7 @@
         align-items: center;
         justify-content: center;
         font-size: 0;
-        border: var(--Tabs-borderWidth) solid var(--Tabs-borderColor);
+        border: var(--Tabs-borderWidth) solid var(--Tabs--simple-split-color);
         border-top-left-radius: var(--Tabs-borderRadius);
         border-top-right-radius: var(--Tabs-borderRadius);
 
@@ -766,7 +775,7 @@
           margin-bottom: 0;
           padding: 0;
           justify-content: center;
-          border: var(--Tabs-borderWidth) solid var(--Tabs-borderColor);
+          border: var(--Tabs-borderWidth) solid var(--Tabs--simple-split-color);
           border-top-right-radius: var(--Tabs-borderRadius);
           box-sizing: border-box;
 
@@ -789,7 +798,7 @@
           background: var(--Tabs-onActive-bg);
           border-top-left-radius: var(--Tabs-borderRadius);
           border-top-right-radius: var(--Tabs-borderRadius);
-          border: var(--Tabs-borderWidth) solid var(--Tabs-borderColor);
+          border: var(--Tabs-borderWidth) solid var(--Tabs--simple-split-color);
           cursor: pointer;
 
           &.is-active {

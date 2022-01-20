@@ -17,13 +17,14 @@ order: 68
     "type": "tabs",
     "closable": true,
     "draggable": true,
+    "showTip": true,
     "tabs": [
         {
             "title": "Tab 1",
             "tab": "Content 1"
         },
         {
-            "title": "Tab 2",
+            "title": "超长的内容会被省略显示，可以开启tooltip提示",
             "tab": "Content 2",
             "closeable": false,
             "disabled": true

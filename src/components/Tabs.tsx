@@ -15,6 +15,7 @@ import {autobind, guid} from '../utils/helper';
 import {Icon} from './icons';
 import debounce from 'lodash/debounce';
 import {findDOMNode} from 'react-dom';
+import TooltipWrapper, {TooltipObject, Trigger} from './TooltipWrapper';
 
 import Sortable from 'sortablejs';
 
@@ -107,6 +108,8 @@ export interface TabsProps extends ThemeProps {
   onClose?: (index: number, key: string | number) => void;
   draggable?: boolean;
   onDragChange?: (e: any) => void;
+  showTip?: boolean;
+  showTipClassName?: string;
 }
 
 export interface IDragInfo {
@@ -116,7 +119,9 @@ export interface IDragInfo {
 export class Tabs extends React.Component<TabsProps, any> {
   static defaultProps: Pick<TabsProps, 'mode' | 'contentClassName'> = {
     mode: '',
-    contentClassName: ''
+    contentClassName: '',
+    showTip: false,
+    showTipClassName: ''
   };
 
   static Tab = Tab;
@@ -391,7 +396,16 @@ export class Tabs extends React.Component<TabsProps, any> {
       return;
     }
 
-    const {classnames: cx, activeKey: activeKeyProp, mode, closable, draggable} = this.props;
+    const {
+      classnames: cx,
+      activeKey: activeKeyProp,
+      mode,
+      closable,
+      draggable,
+      showTip,
+      showTipClassName
+    } = this.props;
+
     const {
       eventKey,
       disabled,
@@ -408,6 +422,25 @@ export class Tabs extends React.Component<TabsProps, any> {
 
     const iconElement = generateIcon(cx, icon, 'Icon');
 
+    const link = (
+      <a>
+        {icon ? (
+          iconPosition === 'right' ? (
+            <>
+              {title} {iconElement}
+            </>
+          ) : (
+            <>
+              {iconElement} {title}
+            </>
+          )
+        ) : (
+          title
+        )}
+        {React.isValidElement(toolbar) ? toolbar : null}
+      </a>
+    );
+
     return (
       <li
         className={cx(
@@ -420,22 +453,19 @@ export class Tabs extends React.Component<TabsProps, any> {
         key={eventKey ?? index}
         onClick={() => (disabled ? '' : this.handleSelect(eventKey))}
       >
-        <a>
-          {icon ? (
-            iconPosition === 'right' ? (
-              <>
-                {title} {iconElement}
-              </>
-            ) : (
-              <>
-                {iconElement} {title}
-              </>
-            )
-          ) : (
-            title
-          )}
-          {React.isValidElement(toolbar) ? toolbar : null}
-        </a>
+        {
+          showTip ? (
+            <TooltipWrapper
+              placement='top'
+              tooltip={title}
+              trigger='hover'
+              tooltipClassName={showTipClassName}
+            >
+              {link}
+            </TooltipWrapper>
+          ) : link
+        }
+
         {
           (tabCloseable ?? closable) && (
             <span className={cx('Tabs-link-close')} onClick={(e) => {

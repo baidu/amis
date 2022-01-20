@@ -88,9 +88,13 @@ export interface TabSchema extends Omit<BaseSchema, 'type'> {
    */
   horizontal?: FormSchemaHorizontal;
   /**
-   * 是否可关闭
+   * 是否可关闭，优先级高于 tabs 的 closeable
    */
   closeable?: boolean;
+  /**
+   * 是否禁用
+   */
+  disabled?: boolean;
 }
 
 /**
@@ -169,6 +173,14 @@ export interface TabsSchema extends BaseSchema {
    * 是否支持拖拽
    */
   draggable?: boolean;
+  /**
+   * 是否显示提示
+   */
+  showTip?: boolean;
+  /**
+   * tooltip 提示的类名
+   */
+  showTipClassName?: string;
 }
 
 export interface TabsProps
@@ -552,7 +564,9 @@ export default class Tabs extends React.Component<TabsProps, TabsState> {
       icon,
       addBtn,
       closable,
-      draggable
+      draggable,
+      showTip,
+      showTipClassName
     } = this.props;
 
     const mode = tabsMode || dMode;
@@ -668,6 +682,8 @@ export default class Tabs extends React.Component<TabsProps, TabsState> {
         onClose={this.handleClose}
         draggable={draggable}
         onDragChange={this.handleDragChange}
+        showTip={showTip}
+        showTipClassName={showTipClassName}
       >
         {children}
       </CTabs>
