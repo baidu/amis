@@ -128,7 +128,7 @@ export class BaseTransferRenderer<
   T extends OptionsControlProps = BaseTransferProps
 > extends React.Component<T> {
   @autobind
-  handleChange(value: Array<Option>, optionModified?: boolean) {
+  handleChange(value: Array<Option> | Option, optionModified?: boolean) {
     const {
       onChange,
       joinValues,
@@ -169,6 +169,11 @@ export class BaseTransferRenderer<
       if (joinValues) {
         newValue = newValue.join(delimiter || ',');
       }
+    } else if (value) {
+      newValue =
+        joinValues || extractValue
+          ? value[(valueField as string) || 'value']
+          : value;
     }
 
     (newOptions.length > options.length || optionModified) &&
