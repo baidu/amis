@@ -119,12 +119,12 @@ export class FormulaPicker extends React.Component<FormulaPickerProps> {
       ...rest
     } = this.props;
     if (isPureVariable(variables)) {
-      // 如果是 ${xxx} 这种形式，将其处理成实际的值
+      // 如果 variables 是 ${xxx} 这种形式，将其处理成实际的值
       variables = resolveVariableAndFilter(variables, this.props.data, '| raw');
     }
 
     if (isPureVariable(functions)) {
-      // 如果是 ${xxx} 这种形式，将其处理成实际的值
+      // 如果 functions 是 ${xxx} 这种形式，将其处理成实际的值
       functions = resolveVariableAndFilter(functions, this.props.data, '| raw');
     }
     const iconElement = generateIcon(cx, icon, 'Icon');
