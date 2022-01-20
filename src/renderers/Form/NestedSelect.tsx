@@ -603,7 +603,8 @@ export default class NestedSelectControl extends React.Component<
       selectedOptions,
       multiple,
       disabled,
-      onlyChildren
+      onlyChildren,
+      noResultsText
     } = this.props;
     const regexp = string2regExp(inputValue || '');
     const flattenTreeWithNodes = flattenTree(stack[0]).filter(option => {
@@ -668,7 +669,7 @@ export default class NestedSelectControl extends React.Component<
               'no-result': true
             })}
           >
-            未查找到任何结果
+            {noResultsText}
           </div>
         )}
       </div>
