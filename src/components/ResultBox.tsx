@@ -17,9 +17,11 @@ export interface ResultBoxProps
   result?: Array<any> | any;
   itemRender: (value: any) => JSX.Element | string;
   onResultChange?: (value: Array<any>) => void;
+  onClear?: (e: React.MouseEvent<HTMLElement>) => void;
   allowInput?: boolean;
   inputPlaceholder: string;
   useMobileUI?: boolean;
+  hasDropDownArrow?: boolean;
 }
 
 export class ResultBox extends React.Component<ResultBoxProps> {
@@ -53,6 +55,8 @@ export class ResultBox extends React.Component<ResultBoxProps> {
   clearValue(e: React.MouseEvent<any>) {
     e.preventDefault();
     const onResultChange = this.props.onResultChange;
+    const onResultClear = this.props.onClear;
+    onResultClear && onResultClear(e);
     onResultChange && onResultChange([]);
   }
 
@@ -117,6 +121,8 @@ export class ResultBox extends React.Component<ResultBoxProps> {
       onBlur,
       borderMode,
       useMobileUI,
+      hasDropDownArrow,
+      onClear,
       ...rest
     } = this.props;
     const isFocused = this.state.isFocused;
@@ -183,10 +189,22 @@ export class ResultBox extends React.Component<ResultBoxProps> {
         {clearable &&
         !disabled &&
         (Array.isArray(result) ? result.length : result) ? (
-          <a onClick={this.clearValue} className={cx('ResultBox-clear')}>
-            <Icon icon="input-clear" className="icon" />
+          <a
+            onClick={this.clearValue}
+            className={cx('ResultBox-clear', {
+              'ResultBox-clear-with-arrow': hasDropDownArrow
+            })}
+          >
+            <div className={cx('ResultBox-clear-wrap')}>
+              <Icon icon="close" className="icon" />
+            </div>
           </a>
         ) : null}
+        {hasDropDownArrow && !mobileUI && (
+          <span className={cx('ResultBox-pc-arrow')}>
+            <Icon icon="caret" className="icon" />
+          </span>
+        )}
         {!allowInput && mobileUI ? (
           <span className={cx('ResultBox-arrow')}>
             <Icon icon="caret" className="icon" />

@@ -136,6 +136,7 @@ $L1: 0px 4px 6px 0px rgba(8, 14, 26, 0.06),
   --Form-input-onDisabled-bg: #{$G10};
   --Form-input-onDisabled-borderColor: #{$G8};
   --Form-input-onDisabled-color: #{$G5};
+  --Form-input-iconColor: #{$G5};
   --Form-input-paddingX: #{px2rem(10px)};
   --Form-description-color: #999;
   --Form--horizontal-label-whiteSpace: normal;
@@ -622,4 +623,9 @@ $L1: 0px 4px 6px 0px rgba(8, 14, 26, 0.06),
 
   // Formula
   --InputFormula-code-bgColor: #{$G10};
+
+  // ResultBox
+  --ResultBox-value-bg: #{$G10};
+  --ResultBox-value-clear-bg: #{$G8};
+  --ResultBox-value-clear-hover-bg: #{$G9};
 }
