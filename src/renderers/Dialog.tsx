@@ -111,7 +111,7 @@ export interface DialogProps
   lazySchema?: (props: DialogProps) => SchemaCollection;
   wrapperComponent: React.ElementType;
   level?: '' | 'info' | 'warning' | 'success' | 'danger',
-  icon?: string | React.ReactNode
+  icon?: React.ReactNode | ((props?: any) => React.ReactNode);
 }
 
 export default class Dialog extends React.Component<DialogProps> {
@@ -461,6 +461,8 @@ export default class Dialog extends React.Component<DialogProps> {
     );
   }
 
+
+
   render() {
     const store = this.props.store;
     const {
@@ -498,13 +500,9 @@ export default class Dialog extends React.Component<DialogProps> {
       ? (
           typeof icon === 'string'
           ? <Icon icon={icon} className={cx(`Alert-icon icon`)} />
-          : React.isValidElement(icon)
-          ? (
-              React.cloneElement(icon, {
-                className: cx(`Alert-icon`, icon.props?.className)
-              })
-            )
-          : <Icon icon={`alert-${level}`} className={cx(`Modal-icon icon`)} />
+          : React.cloneElement(icon as React.ReactElement<any>, {
+              className: cx(`Alert-icon`, icon.props?.className)
+            })
         )
       : <Icon icon={`alert-${level}`} className={cx(`Modal-icon icon`)} />
       : null;
