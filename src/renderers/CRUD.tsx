@@ -376,7 +376,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
   ];
   static defaultProps = {
     toolbarInline: true,
-    headerToolbar: ['bulkActions', 'pagination'],
+    headerToolbar: ['bulkActions'],
     footerToolbar: ['statistics', 'pagination'],
     primaryField: 'id',
     syncLocation: true,
