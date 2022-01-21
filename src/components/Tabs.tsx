@@ -101,7 +101,6 @@ export interface TabsProps extends ThemeProps {
   tabs?: Array<TabProps>;
   tabRender?: (tab: TabProps, props?: TabsProps) => JSX.Element;
   toolbar?: React.ReactNode;
-  scrollable?: boolean; // 是否支持溢出滚动
   addBtn?: boolean; // 是否显示增加按钮
   onAdd?: () => void;
   closable?: boolean;
@@ -211,9 +210,9 @@ export class Tabs extends React.Component<TabsProps, any> {
    * 处理内容与容器之间的位置关系
    */
   computedWidth() {
-    const {mode: dMode, tabsMode, scrollable} = this.props;
+    const {mode: dMode, tabsMode} = this.props;
     const mode = tabsMode || dMode;
-    if (!scrollable || mode === 'vertical') {
+    if (mode === 'vertical') {
       return;
     }
   
@@ -236,10 +235,10 @@ export class Tabs extends React.Component<TabsProps, any> {
    * 保证选中的tab始终显示在可视区域
    */
   showSelected(key?: string | number) {
-    const {mode: dMode, tabsMode, scrollable} = this.props;
+    const {mode: dMode, tabsMode} = this.props;
     const {isOverflow} = this.state;
     const mode = tabsMode || dMode;
-    if (!scrollable || mode === 'vertical' || !isOverflow) {
+    if (mode === 'vertical' || !isOverflow) {
       return;
     }
     const {activeKey, children} = this.props;
@@ -548,7 +547,6 @@ export class Tabs extends React.Component<TabsProps, any> {
       additionBtns,
       toolbar,
       linksClassName,
-      scrollable,
       addBtn,
       draggable
     } = this.props;

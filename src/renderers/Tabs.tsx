@@ -122,7 +122,7 @@ export interface TabsSchema extends BaseSchema {
   /**
    * 展示形式
    */
-  tabsMode?: '' | 'line' | 'card' | 'radio' | 'vertical' | 'tiled';
+  tabsMode?: '' | 'line' | 'card' | 'radio' | 'vertical' | 'chrome' | 'simple' | 'strong';
 
   /**
    * 内容类名
@@ -157,10 +157,6 @@ export interface TabsSchema extends BaseSchema {
    * 如果是水平排版，这个属性可以细化水平排版的左右宽度占比。
    */
   subFormHorizontal?: FormSchemaHorizontal;
-  /**
-   * 是否支持溢出滚动
-   */
-  scrollable?: boolean;
   /**
    * 是否支持新增
    */
@@ -560,7 +556,6 @@ export default class Tabs extends React.Component<TabsProps, TabsState> {
       formHorizontal,
       subFormMode,
       subFormHorizontal,
-      scrollable,
       icon,
       addBtn,
       closable,
@@ -676,7 +671,6 @@ export default class Tabs extends React.Component<TabsProps, TabsState> {
         onSelect={this.handleSelect}
         activeKey={this.state.activeKey}
         toolbar={this.renderToolbar()}
-        scrollable={true || scrollable}
         addBtn={true || addBtn}
         onAdd={this.handleAdd}
         onClose={this.handleClose}

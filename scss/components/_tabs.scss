@@ -459,6 +459,7 @@
       border-bottom: 0;
 
       > li {
+        max-width: unset;
         flex-grow: 1;
         text-align: center;
         margin: 0 0 0 calc(var(--Tabs-borderWidth) * -1);
@@ -577,6 +578,7 @@
         padding: px2rem(7px) px2rem(20px) px2rem(6px);
         cursor: pointer;
         flex: 1;
+        overflow: inherit;
 
         > a:first-child {
           background: none;
@@ -585,6 +587,7 @@
           z-index: 5;
           overflow: hidden;
           padding: 0;
+          text-overflow: unset;
         }
 
         &.is-active {
