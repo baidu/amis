@@ -83,7 +83,7 @@ order: 73
 | 属性名            | 类型                                     | 默认值 | 说明                                                                                          |
 | ----------------- | ---------------------------------------- | ------ | --------------------------------------------------------------------------------------------- |
 | title             | `string`                                 |        | 步骤标题                                                                                      |
-| mode              | `string`                                 |        | 展示默认，跟 [Form](./Form/Form.md) 中的模式一样，选择： `normal`、`horizontal`或者`inline`。 |
+| mode              | `string`                                 |        | 展示默认，跟 [Form](./Form/Form) 中的模式一样，选择： `normal`、`horizontal`或者`inline`。 |
 | horizontal        | `Object`                                 |        | 当为水平模式时，用来控制左右占比                                                              |
 | horizontal.label  | `number`                                 |        | 左边 label 的宽度占比                                                                         |
 | horizontal.right  | `number`                                 |        | 右边控制器的宽度占比。                                                                        |
