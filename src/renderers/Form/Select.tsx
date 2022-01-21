@@ -9,7 +9,7 @@ import {
 import Select, {normalizeOptions} from '../../components/Select';
 import find from 'lodash/find';
 import debouce from 'lodash/debounce';
-import {Api} from '../../types';
+import {Api, Action} from '../../types';
 import {isEffectiveApi} from '../../utils/api';
 import {isEmpty, createObject, autobind, isMobile} from '../../utils/helper';
 import {dataMapping} from '../../utils/tpl-builtin';
@@ -278,6 +278,13 @@ export default class SelectControl extends React.Component<SelectProps, any> {
         selectMode={selectMode === 'group' ? 'list' : selectMode}
       />
     );
+  }
+
+  doAction(action: Action, data: object, throwErrors: boolean): any {
+    const {simpleValue} = this.props;
+    if (action.actionType === 'clear') {
+      this.changeValue(simpleValue ? undefined : []);
+    }
   }
 
   render() {
