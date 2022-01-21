@@ -413,7 +413,7 @@ export class Tabs extends React.Component<TabsProps, any> {
       title,
       toolbar,
       tabClassName,
-      closeable: tabCloseable,
+      closable: tabClosable,
       _uuid
     } = child.props;
     const activeKey =
@@ -466,7 +466,7 @@ export class Tabs extends React.Component<TabsProps, any> {
         }
 
         {
-          (tabCloseable ?? closable) && (
+          (tabClosable ?? closable) && (
             <span className={cx('Tabs-link-close')} onClick={(e) => {
               e.stopPropagation();
               this.handleClose(index, eventKey ?? index)

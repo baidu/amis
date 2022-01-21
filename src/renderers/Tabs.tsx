@@ -671,7 +671,7 @@ export default class Tabs extends React.Component<TabsProps, TabsState> {
         onSelect={this.handleSelect}
         activeKey={this.state.activeKey}
         toolbar={this.renderToolbar()}
-        addBtn={true || addBtn}
+        addBtn={addBtn}
         onAdd={this.handleAdd}
         onClose={this.handleClose}
         draggable={draggable}
