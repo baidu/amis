@@ -4,6 +4,7 @@ import {getEnv, destroy} from 'mobx-state-tree';
 import {wrapFetcher} from './utils/api';
 import {normalizeLink} from './utils/normalizeLink';
 import {
+  createObject,
   findIndex,
   isObject,
   JSONTraverse,
@@ -22,7 +23,7 @@ import {
   PlainObject
 } from './types';
 import {observer} from 'mobx-react';
-import Scoped from './Scoped';
+import Scoped, {IScopedContext} from './Scoped';
 import {getTheme, ThemeInstance, ThemeProps} from './theme';
 import find from 'lodash/find';
 import Alert from './components/Alert2';
@@ -33,6 +34,14 @@ import ScopedRootRenderer, {RootRenderProps} from './Root';
 import {HocStoreFactory} from './WithStore';
 import {EnvContext, RendererEnv} from './env';
 import {envOverwrite} from './envOverwrite';
+import {
+  EventListeners,
+  createRendererEvent,
+  RendererEventListener,
+  OnEventProps,
+  RendererEvent
+} from './utils/renderer-event';
+import {runActions} from './actions/Action';
 
 export interface TestFunc {
   (
@@ -63,7 +72,7 @@ export interface RendererBasicConfig {
   // [propName:string]:any;
 }
 
-export interface RendererProps extends ThemeProps, LocaleProps {
+export interface RendererProps extends ThemeProps, LocaleProps, OnEventProps {
   render: (region: string, node: SchemaNode, props?: any) => JSX.Element;
   env: RendererEnv;
   $path: string; // 当前组件所在的层级信息
@@ -75,10 +84,6 @@ export interface RendererProps extends ThemeProps, LocaleProps {
   };
   defaultData?: object;
   className?: any;
-  /**
-   * 是否使用移动端交互
-   */
-  useMobileUI?: boolean;
   [propName: string]: any;
 }
 
@@ -143,6 +148,10 @@ export interface RenderOptions {
    * 文本替换的黑名单，因为属性太多了所以改成黑名单的 fangs
    */
   replaceTextIgnoreKeys?: String[];
+  /**
+   * 过滤 html 标签，可用来添加 xss 保护逻辑
+   */
+  filterHtml?: (input: string) => string;
   [propName: string]: any;
 }
 
@@ -261,7 +270,9 @@ const defaultOptions: RenderOptions = {
   affixOffsetTop: 0,
   affixOffsetBottom: 0,
   richTextToken: '',
+  useMobileUI: true, // 是否启用移动端原生 UI
   loadRenderer,
+  rendererEventListeners: [],
   fetcher() {
     return Promise.reject('fetcher is required');
   },
@@ -351,6 +362,87 @@ const defaultOptions: RenderOptions = {
   },
   // 用于跟踪用户在界面中的各种操作
   tracker(eventTrack: EventTrack, props: PlainObject) {},
+  // 返回解绑函数
+  bindEvent(renderer: any) {
+    if (!renderer) {
+      return undefined;
+    }
+    const listeners: EventListeners = renderer.props.$schema.onEvent;
+    if (listeners) {
+      // 暂存
+      for (let key of Object.keys(listeners)) {
+        this.rendererEventListeners.push({
+          renderer,
+          type: key,
+          weight: listeners[key].weight || 0,
+          actions: listeners[key].actions
+        });
+      }
+
+      return () => {
+        this.rendererEventListeners = this.rendererEventListeners.filter(
+          (item: RendererEventListener) => item.renderer === renderer
+        );
+      };
+    }
+
+    return undefined;
+  },
+  async dispatchEvent(
+    e: string | React.MouseEvent<any>,
+    renderer: React.Component<RendererProps>,
+    scoped: IScopedContext,
+    data: any,
+    broadcast?: RendererEvent<any>
+  ) {
+    const eventName = typeof e === 'string' ? e : e.type;
+    if (!broadcast) {
+      const eventConfig = renderer?.props?.onEvent?.[eventName];
+
+      if (!eventConfig) {
+        // 没命中也没关系
+        return Promise.resolve(undefined);
+      }
+    }
+
+    // 没有可处理的监听
+    if (!this.rendererEventListeners.length) {
+      return Promise.resolve();
+    }
+
+    // 如果是广播动作，就直接复用
+    const rendererEvent =
+      broadcast ||
+      createRendererEvent(eventName, {
+        env: this,
+        nativeEvent: e,
+        data,
+        scoped
+      });
+
+    // 过滤&排序
+    const listeners = this.rendererEventListeners
+      .filter(
+        (item: RendererEventListener) =>
+          item.type === eventName &&
+          (broadcast ? true : item.renderer === renderer)
+      )
+      .sort(
+        (prev: RendererEventListener, next: RendererEventListener) =>
+          next.weight - prev.weight
+      );
+
+    for (let listener of listeners) {
+      await runActions(listener.actions, listener.renderer, rendererEvent);
+
+      // 停止后续监听器执行
+      if (rendererEvent.stoped) {
+        break;
+      }
+    }
+
+    return rendererEvent;
+  },
   rendererResolver: resolveRenderer,
   replaceTextIgnoreKeys: [
     'type',
@@ -359,7 +451,11 @@ const defaultOptions: RenderOptions = {
     'target',
     'reload',
     'persistData'
-  ]
+  ],
+  /**
+   * 过滤 html 标签，可用来添加 xss 保护逻辑
+   */
+  filterHtml: (input: string) => input
 };
 let stores: {
   [propName: string]: IRendererStore;
@@ -412,6 +508,11 @@ export function render(
   if (props.locale !== undefined) {
     env.translate = translate;
     env.locale = locale;
+  }
+
+  // 默认将开启移动端原生 UI
+  if (typeof options.useMobileUI) {
+    props.useMobileUI = true;
   }
 
   // 进行文本替换

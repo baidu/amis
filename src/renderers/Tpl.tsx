@@ -104,7 +104,9 @@ export class Tpl extends React.Component<TplProps, object> {
       return;
     }
 
-    this.dom.firstChild.innerHTML = this.getContent();
+    this.dom.firstChild.innerHTML = this.props.env.filterHtml(
+      this.getContent()
+    );
   }
 
   render() {

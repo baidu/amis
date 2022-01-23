@@ -7,6 +7,23 @@ import CustomCalendarContainer from './CalendarContainer';
 import cx from 'classnames';
 import moment from 'moment';
 import {themeable, ThemeOutterProps, ThemeProps} from '../../theme';
+import {convertArrayValueToMoment, getRange} from "../../utils/helper";
+import {PickerOption} from '../PickerColumn';
+
+export type DateType = 'year' | 'month' | 'date' | 'hours' | 'minutes' | 'seconds';
+export interface BoundaryObject {
+  max: number;
+  min: number;
+}
+
+export interface DateBoundary {
+  year: BoundaryObject;
+  month: BoundaryObject;
+  date: BoundaryObject;
+  hours: BoundaryObject;
+  minutes: BoundaryObject;
+  seconds: BoundaryObject;
+}
 
 interface BaseDatePickerProps
   extends Omit<ReactDatePicker.DatetimepickerProps, 'viewMode'> {
@@ -17,6 +34,7 @@ interface BaseDatePickerProps
   onClose?: () => void;
   isEndDate?: boolean;
   minDate?: moment.Moment;
+  maxDate?: moment.Moment;
   renderDay?: (
     props: any,
     currentDate: moment.Moment,
@@ -28,6 +46,19 @@ interface BaseDatePickerProps
     year?: number,
     date?: moment.Moment
   ) => JSX.Element;
+  schedules?: Array<{
+    startTime: Date;
+    endTime: Date;
+    content: string | React.ReactElement;
+    color?: string;
+  }>;
+  largeMode?: boolean;
+  onScheduleClick?: (scheduleData: any) => void;
+  hideHeader?: boolean;
+  updateOn?: string;
+  useMobileUI?: boolean;
+  embed?: boolean;
+  showToolbar?: boolean;
 }
 
 class BaseDatePicker extends ReactDatePicker {
@@ -35,6 +66,16 @@ class BaseDatePicker extends ReactDatePicker {
   props: any;
   setState: (state: any) => void;
   getStateFromProps: any;
+
+  timeCellLength = {
+    year: 4,
+    month: 2,
+    date: 2,
+    hours: 2,
+    minutes: 2,
+    seconds: 2,
+    milliseconds: 3
+  };
 
   constructor(props: any) {
     super(props);
@@ -82,7 +123,16 @@ class BaseDatePicker extends ReactDatePicker {
         'nextIcon',
         'isEndDate',
         'classnames',
-        'minDate'
+        'minDate',
+        'maxDate',
+        'schedules',
+        'largeMode',
+        'onScheduleClick',
+        'hideHeader',
+        'updateOn',
+        'useMobileUI',
+        'showToolbar',
+        'embed'
       ].forEach(key => (props[key] = (this.props as any)[key]));
 
       return props;
@@ -180,6 +230,70 @@ class BaseDatePicker extends ReactDatePicker {
     that.props.onChange(date);
   };
 
+  getDateBoundary = (currentDate: moment.Moment) => {
+    const {years, months} = currentDate.toObject();
+    const maxDateObject = this.props.maxDate?.toObject();
+    const minDateObject = this.props.minDate?.toObject();
+
+    const yearBoundary = {
+      max: maxDateObject ? maxDateObject.years : years + 100,
+      min: minDateObject ? minDateObject.years : years - 100,
+    };
+    const monthBoundary = {
+      max: years === maxDateObject?.years ? maxDateObject.months : 11,
+      min: years === minDateObject?.years ? minDateObject.months : 0
+    };
+    const dateBoundary  = {
+      max: years === maxDateObject?.years && months === maxDateObject?.months ? maxDateObject.date : currentDate.daysInMonth(),
+      min: years === minDateObject?.years && months === minDateObject?.months ? minDateObject.date : 1
+    }
+    return {
+      year: yearBoundary,
+      month: monthBoundary,
+      date: dateBoundary,
+      hours: {max: 23, min: 0},
+      minutes: {max: 59, min: 0},
+      seconds: {max: 59, min: 0}
+    };
+  };
+
+  timeCell = (value: number, type: DateType) => {
+		let str = value + '';
+		while (str.length < this.timeCellLength[type])
+			str = '0' + str;
+		return str;
+	};
+
+  getColumns = (types: DateType[], dateBoundary: DateBoundary) => {
+    const columns: { options: PickerOption[] }[] = [];
+    types.map((type: DateType) => {
+      const options = getRange(dateBoundary[type].min, dateBoundary[type].max, 1).map(item => {
+
+        return {
+          text: type === 'month' ? this.timeCell(item+1, type) : this.timeCell(item, type),
+          value: item
+        };
+      });
+      columns.push({options})
+    });
+    return columns;
+  };
+
+  onConfirm = (value: number[], types: string[]) => {
+    const currentDate = (this.state.selectedDate || this.state.viewDate || moment()).clone();
+    const date = convertArrayValueToMoment(value, types, currentDate);
+
+    if (!this.props.value) {
+      this.setState({
+        selectedDate: date,
+        inputValue: date!.format(this.state.inputFormat)
+      });
+    }
+    this.props.onChange && this.props.onChange(date);
+    this.props.onClose && this.props.onClose();
+  };
+
+  
   render() {
     const Component = CustomCalendarContainer as any;
     const viewProps = this.getComponentProps();
@@ -190,6 +304,17 @@ class BaseDatePicker extends ReactDatePicker {
         this.props.renderQuarter
       ];
     }
+    else if (this.props.viewMode === 'years') {
+      viewProps.updateOn = 'years';
+    }
+    else if (this.props.viewMode === 'months') {
+      viewProps.updateOn = 'months';
+    }
+
+    viewProps.onConfirm = this.onConfirm;
+    viewProps.getDateBoundary = this.getDateBoundary;
+    viewProps.getColumns = this.getColumns;
+    viewProps.timeCell = this.timeCell;
 
     return (
       <div className={cx('rdt rdtStatic rdtOpen', this.props.className)}>

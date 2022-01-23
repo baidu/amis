@@ -26,6 +26,7 @@ export default class YearRangeControl extends InputDateRange {
       maxDuration,
       data,
       format,
+      env,
       ...rest
     } = this.props;
 

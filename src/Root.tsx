@@ -140,8 +140,9 @@ export function renderChild(
   const transform = props.propsTransform;
 
   if (transform) {
-    // @ts-ignore
+    props = {...props};
     delete props.propsTransform;
+
     props = transform(props);
   }
 
@@ -149,6 +150,7 @@ export function renderChild(
     <SchemaRenderer
       {...props}
       schema={schema}
+      propKey={schema.key}
       $path={`${prefix ? `${prefix}/` : ''}${(schema && schema.type) || ''}`}
     />
   );

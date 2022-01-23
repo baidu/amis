@@ -26,6 +26,12 @@
     font-style: normal;
     font-weight: bold;
     transition: all var(--animation-duration);
+
+    > svg {
+      width: var(--fontSizeSm);
+      height: var(--fontSizeSm);
+      margin-top: calc((var(--Switch-height) - var(--fontSizeSm)) / 2);
+    }
   }
 
   .slider {

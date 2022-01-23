@@ -98,13 +98,8 @@ export default class ChartRadiosControl extends React.Component<
   }
 
   render() {
-    const {
-      options,
-      labelField,
-      chartValueField,
-      valueField,
-      render
-    } = this.props;
+    const {options, labelField, chartValueField, valueField, render} =
+      this.props;
     const config = {
       legend: {
         top: 10

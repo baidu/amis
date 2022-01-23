@@ -5,6 +5,7 @@ import LazyComponent from './components/LazyComponent';
 import {
   filterSchema,
   loadRenderer,
+  RendererComponent,
   RendererConfig,
   RendererEnv,
   RendererProps,
@@ -12,15 +13,22 @@ import {
 } from './factory';
 import {asFormItem} from './renderers/Form/Item';
 import {renderChild, renderChildren} from './Root';
+import {IScopedContext, ScopedContext} from './Scoped';
 import {Schema, SchemaNode} from './types';
+import {DebugWrapper, enableAMISDebug} from './utils/debug';
 import getExprProperties from './utils/filter-schema';
-import {anyChanged, chainEvents} from './utils/helper';
+import {anyChanged, chainEvents, autobind} from './utils/helper';
+import {RendererEvent} from './utils/renderer-event';
 import {SimpleMap} from './utils/SimpleMap';
 
 interface SchemaRendererProps extends Partial<RendererProps> {
   schema: Schema;
   $path: string;
   env: RendererEnv;
+}
+
+interface BroadcastCmptProps extends RendererProps {
+  component: RendererComponent;
 }
 
 const defaultOmitList = [
@@ -49,6 +57,64 @@ const defaultOmitList = [
 ];
 
 const componentCache: SimpleMap = new SimpleMap();
+
+class BroadcastCmpt extends React.Component<BroadcastCmptProps> {
+  ref: any;
+  unbindEvent: (() => void) | undefined = undefined;
+  static contextType = ScopedContext;
+
+  constructor(props: BroadcastCmptProps, context: IScopedContext) {
+    super(props);
+    this.triggerEvent = this.triggerEvent.bind(this);
+  }
+
+  componentDidMount() {
+    const {env} = this.props;
+    this.unbindEvent = env.bindEvent(this.ref);
+  }
+
+  componentWillUnmount() {
+    this.unbindEvent?.();
+  }
+
+  getWrappedInstance() {
+    return this.ref;
+  }
+
+  async triggerEvent(
+    e: React.MouseEvent<any>,
+    data: any
+  ): Promise<RendererEvent<any> | undefined> {
+    return await this.props.env.dispatchEvent(e, this.ref, this.context, data);
+  }
+
+  @autobind
+  childRef(ref: any) {
+    while (ref && ref.getWrappedInstance) {
+      ref = ref.getWrappedInstance();
+    }
+
+    this.ref = ref;
+  }
+
+  render() {
+    const {component: Component, ...rest} = this.props;
+
+    const isClassComponent = Component.prototype?.isReactComponent;
+
+    // 函数组件不支持 ref https://reactjs.org/docs/refs-and-the-dom.html#refs-and-function-components
+
+    return isClassComponent ? (
+      <Component
+        ref={this.childRef}
+        {...rest}
+        dispatchEvent={this.triggerEvent}
+      />
+    ) : (
+      <Component {...rest} dispatchEvent={this.triggerEvent} />
+    );
+  }
+}
 
 export class SchemaRenderer extends React.Component<SchemaRendererProps, any> {
   static displayName: string = 'Renderer';
@@ -242,6 +308,7 @@ export class SchemaRenderer extends React.Component<SchemaRendererProps, any> {
         data: defaultData,
         value: defaultValue,
         activeKey: defaultActiveKey,
+        key: propKey,
         ...restSchema
       } = schema;
       return rest.invisible
@@ -253,6 +320,7 @@ export class SchemaRenderer extends React.Component<SchemaRendererProps, any> {
             defaultData,
             defaultValue,
             defaultActiveKey,
+            propKey,
             $path: $path,
             $schema: schema,
             ref: isSFC ? undefined : this.refFn,
@@ -293,11 +361,11 @@ export class SchemaRenderer extends React.Component<SchemaRendererProps, any> {
     const {
       data: defaultData,
       value: defaultValue,
+      key: propKey,
       activeKey: defaultActiveKey,
       ...restSchema
     } = schema;
     const Component = renderer.component;
-
     // 原来表单项的 visible: false 和 hidden: true 表单项的值和验证是有效的
     // 而 visibleOn 和 hiddenOn 是无效的，
     // 这个本来就是个bug，但是已经被广泛使用了
@@ -312,8 +380,8 @@ export class SchemaRenderer extends React.Component<SchemaRendererProps, any> {
       return null;
     }
 
-    return (
-      <Component
+    const component = (
+      <BroadcastCmpt
         {...theme.getRendererConfig(renderer.name)}
         {...restSchema}
         {...chainEvents(rest, restSchema)}
@@ -321,11 +389,19 @@ export class SchemaRenderer extends React.Component<SchemaRendererProps, any> {
         defaultData={restSchema.defaultData ?? defaultData}
         defaultValue={restSchema.defaultValue ?? defaultValue}
         defaultActiveKey={defaultActiveKey}
+        propKey={propKey}
         $path={$path}
         $schema={{...schema, ...exprProps}}
         ref={this.refFn}
         render={this.renderChild}
+        component={Component}
       />
+    );
+
+    return enableAMISDebug ? (
+      <DebugWrapper renderer={renderer}>{component}</DebugWrapper>
+    ) : (
+      component
     );
   }
 }

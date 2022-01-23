@@ -376,7 +376,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
   ];
   static defaultProps = {
     toolbarInline: true,
-    headerToolbar: ['bulkActions', 'pagination'],
+    headerToolbar: ['bulkActions'],
     footerToolbar: ['statistics', 'pagination'],
     primaryField: 'id',
     syncLocation: true,
@@ -465,13 +465,16 @@ export default class CRUD extends React.Component<CRUDProps, any> {
   }
 
   componentDidMount() {
-    const store = this.props.store;
+    const {store, autoGenerateFilter} = this.props;
 
     if (this.props.perPage) {
       store.changePage(store.page, this.props.perPage);
     }
 
-    if (!this.props.filter || (store.filterTogggable && !store.filterVisible)) {
+    if (
+      (!this.props.filter || (store.filterTogggable && !store.filterVisible)) &&
+      !autoGenerateFilter
+    ) {
       this.handleFilterInit({});
     }
 
@@ -885,7 +888,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
       env
     } = this.props;
 
-    store.closeDialog();
+    store.closeDialog(true);
     const dialogAction = store.action as Action;
 
     if (stopAutoRefreshWhenModalIsOpen && interval) {
@@ -968,10 +971,10 @@ export default class CRUD extends React.Component<CRUDProps, any> {
     redirect && env.jumpTo(redirect, dialogAction);
   }
 
-  handleDialogClose() {
+  handleDialogClose(confirmed = false) {
     const {store, stopAutoRefreshWhenModalIsOpen, silentPolling, interval} =
       this.props;
-    store.closeDialog();
+    store.closeDialog(confirmed);
 
     if (stopAutoRefreshWhenModalIsOpen && interval) {
       this.timer = setTimeout(
@@ -1532,9 +1535,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
   renderBulkActions(childProps: any) {
     let {bulkActions, itemActions, store, render, classnames: cx} = this.props;
 
-    const items = childProps.items;
-
-    if (!items.length || !bulkActions || !bulkActions.length) {
+    if (!bulkActions || !bulkActions.length) {
       return null;
     }
 

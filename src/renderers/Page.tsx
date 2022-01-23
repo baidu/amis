@@ -95,7 +95,7 @@ export interface PageSchema extends BaseSchema {
    */
   asideMinWidth?: number;
 
-   /**
+  /**
    * 边栏最小宽度
    */
   asideMaxWidth?: number;
@@ -471,12 +471,12 @@ export default class Page extends React.Component<PageProps> {
       return;
     }
 
-    store.closeDialog();
+    store.closeDialog(true);
   }
 
-  handleDialogClose() {
+  handleDialogClose(confirmed = false) {
     const {store} = this.props;
-    store.closeDialog();
+    store.closeDialog(confirmed);
   }
 
   handleDrawerConfirm(values: object[], action: Action, ...args: Array<any>) {
@@ -734,11 +734,13 @@ export default class Page extends React.Component<PageProps> {
         style={styleVar}
       >
         {hasAside ? (
-          <div className={cx(
-            `Page-aside`,
-            asideResizor ? 'relative' : 'Page-aside--withWidth',
-            asideClassName
-          )}>
+          <div
+            className={cx(
+              `Page-aside`,
+              asideResizor ? 'relative' : 'Page-aside--withWidth',
+              asideClassName
+            )}
+          >
             {render('aside', aside || '', {
               ...subProps,
               ...(typeof aside === 'string'
@@ -754,7 +756,6 @@ export default class Page extends React.Component<PageProps> {
                 className={cx(`Page-asideResizor`)}
               ></div>
             ) : null}
-            
           </div>
         ) : null}
 

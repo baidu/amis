@@ -8,7 +8,15 @@ import find from 'lodash/find';
 import hoistNonReactStatic from 'hoist-non-react-statics';
 import {dataMapping} from './utils/tpl-builtin';
 import {RendererEnv, RendererProps} from './factory';
-import {noop, autobind, qsstringify, qsparse} from './utils/helper';
+import {
+  noop,
+  autobind,
+  qsstringify,
+  qsparse,
+  createObject,
+  findTree,
+  TreeItem
+} from './utils/helper';
 import {RendererData, Action} from './types';
 
 export interface ScopedComponentType extends React.Component<RendererProps> {
@@ -29,9 +37,11 @@ export interface ScopedComponentType extends React.Component<RendererProps> {
 
 export interface IScopedContext {
   parent?: AliasIScopedContext;
+  children?: AliasIScopedContext[];
   registerComponent: (component: ScopedComponentType) => void;
   unRegisterComponent: (component: ScopedComponentType) => void;
   getComponentByName: (name: string) => ScopedComponentType;
+  getComponentById: (id: string) => ScopedComponentType | undefined;
   getComponents: () => Array<ScopedComponentType>;
   reload: (target: string, ctx: RendererData) => void;
   send: (target: string, ctx: RendererData) => void;
@@ -46,8 +56,7 @@ function createScopedTools(
   env?: RendererEnv
 ): IScopedContext {
   const components: Array<ScopedComponentType> = [];
-
-  return {
+  const self = {
     parent,
     registerComponent(component: ScopedComponentType) {
       // 不要把自己注册在自己的 Scoped 上，自己的 Scoped 是给子节点们注册的。
@@ -80,7 +89,7 @@ function createScopedTools(
 
         return paths.reduce((scope, name, idx) => {
           if (scope && scope.getComponentByName) {
-            const result = scope.getComponentByName(name);
+            const result: ScopedComponentType = scope.getComponentByName(name);
             return result && idx < len - 1 ? result.context : result;
           }
 
@@ -94,6 +103,27 @@ function createScopedTools(
           component.props.name === name || component.props.id === name
       );
       return resolved || (parent && parent.getComponentByName(name));
+    },
+
+    getComponentById(id: string) {
+      let root: AliasIScopedContext = this;
+      // 找到顶端scoped
+      while (root.parent) {
+        root = root.parent;
+      }
+
+      // 向下查找
+      let component = undefined;
+      findTree([root], (item: TreeItem) =>
+        item.getComponents().find((cmpt: ScopedComponentType) => {
+          if (cmpt.props.id === id) {
+            component = cmpt;
+            return true;
+          }
+          return false;
+        })
+      ) as ScopedComponentType | undefined;
+      return component;
     },
 
     getComponents() {
@@ -208,6 +238,17 @@ function createScopedTools(
       }
     }
   };
+
+  if (!parent) {
+    return self;
+  }
+
+  !parent.children && (parent.children = []);
+
+  // 把孩子带上
+  parent.children!.push(self);
+
+  return self;
 }
 
 function closeDialog(component: ScopedComponentType) {
@@ -257,6 +298,7 @@ export function HocScoped<
         context,
         this.props.env
       );
+
       const scopeRef = props.scopeRef;
       scopeRef && scopeRef(this.scoped);
     }

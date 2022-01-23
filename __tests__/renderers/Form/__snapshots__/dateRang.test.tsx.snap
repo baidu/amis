@@ -65,8 +65,8 @@ exports[`Renderer:dateRange 1`] = `
                 class="cxd-DateRangePicker-clear"
               >
                 <icon-mock
-                  classname="icon icon-close"
-                  icon="close"
+                  classname="icon icon-input-clear"
+                  icon="input-clear"
                 />
               </a>
               <a

@@ -4,6 +4,7 @@
   </p>
 
 [文档（国内）](https://baidu.gitee.io/amis/) |
+[文档（备用）](https://aisuda.bce.baidu.com/amis/) |
 [文档（国外）](https://baidu.github.io/amis/) |
 [可视化编辑器](https://aisuda.github.io/amis-editor-demo/) |
 [amis-admin](https://github.com/aisuda/amis-admin) |
@@ -80,6 +81,11 @@ npm run update-snapshot
 - [RickCole21](https://github.com/RickCole21)
 - [catchonme](https://github.com/catchonme)
 - [nwind](https://github.com/nwind)
+- [zhangtao07](https://github.com/zhangtao07)
+- [hsm-lv](https://github.com/hsm-lv)
+- [RUNZE LU](https://github.com/lurunze1226)
+- [ucasliyuan](https://github.com/ucasliyuan)
+- [yangwei9012](https://github.com/yangwei9012)
 
 ## 低代码平台
 
