@@ -21,7 +21,7 @@ order: 68
       "value": 1,
       "steps": [
         {
-          "title": "First",
+          "title": "Frist",
           "subTitle": "this is subTitle",
           "description": "this is description"
         },

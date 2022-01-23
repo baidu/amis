@@ -2,7 +2,6 @@ import React from 'react';
 import {themeable, ThemeProps} from '../theme';
 import {Icon} from './icons';
 import {BaseSchema} from '../Schema';
-import { func } from 'prop-types';
 
 export enum StepStatus {
   wait = 'wait',
