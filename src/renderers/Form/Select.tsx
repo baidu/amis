@@ -127,6 +127,15 @@ export default class SelectControl extends React.Component<SelectProps, any> {
     this.input && this.input.focus();
   }
 
+  dispatchEvent(eventName: string, e: any = {}) {
+    const event = 'on' + eventName.charAt(0).toUpperCase() + eventName.slice(1);
+    const {dispatchEvent, options} = this.props;
+    isEmpty(e) ? this.props[event]() : this.props[event](e);
+    dispatchEvent(eventName, createObject(e, {
+      options
+    }));
+  }
+
   changeValue(value: Option | Array<Option> | void) {
     const {
       joinValues,
@@ -137,7 +146,8 @@ export default class SelectControl extends React.Component<SelectProps, any> {
       valueField,
       onChange,
       setOptions,
-      options
+      options,
+      dispatchEvent
     } = this.props;
 
     let newValue: string | Option | Array<Option> | void = value;
@@ -182,6 +192,10 @@ export default class SelectControl extends React.Component<SelectProps, any> {
     additonalOptions.length && setOptions(options.concat(additonalOptions));
 
     onChange(newValue);
+    dispatchEvent('change', {
+      value: newValue,
+      options
+    });
   }
 
   async loadRemote(input: string) {
@@ -347,6 +361,11 @@ export default class SelectControl extends React.Component<SelectProps, any> {
             creatable={creatable}
             searchable={searchable || !!autoComplete}
             onChange={this.changeValue}
+            onBlur={(e: any) => this.dispatchEvent('blur', e)}
+            onFocus={(e: any) => this.dispatchEvent('focus', e)}
+            onAdd={() => this.dispatchEvent('add')}
+            onEdit={(e: any) => this.dispatchEvent('edit', e)}
+            onDelete={(e: any) => this.dispatchEvent('delete', e)}
             loading={loading}
             noResultsText={noResultsText}
             renderMenu={menuTpl ? this.renderMenu : undefined}
