@@ -1,7 +1,7 @@
 import React from 'react';
 import {Renderer, RendererProps} from '../factory';
 import {BaseSchema, SchemaTpl} from '../Schema';
-import {autobind, getPropValue} from '../utils/helper';
+import {autobind, createObject, getPropValue} from '../utils/helper';
 import {filter} from '../utils/tpl';
 import {BadgeSchema, withBadge} from '../components/Badge';
 import Link from '../components/Link';
@@ -58,8 +58,8 @@ export class LinkCmpt extends React.Component<LinkProps, object> {
     htmlTarget: ''
   };
 
-  handleClick(href: string) {
-    const {env, blank, body} = this.props;
+  async handleClick(href: string) {
+    const {env, blank, body, dispatchEvent, data} = this.props;
     env?.tracker(
       {
         eventType: 'url',
@@ -68,6 +68,21 @@ export class LinkCmpt extends React.Component<LinkProps, object> {
       },
       this.props
     );
+    // 触发渲染器事件
+    const rendererEvent = await dispatchEvent(
+      'click',
+      createObject(data, {
+        // 注意：每个组件都必须把数据链带上
+        url: href,
+        blank,
+        label: body
+      })
+    );
+
+    // 阻止原有动作执行
+    if (rendererEvent?.prevented) {
+      return;
+    }
   }
 
   getHref() {}

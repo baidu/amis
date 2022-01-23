@@ -57,7 +57,8 @@
     .#{$ns}Select-menu {
       border-radius: #{$R3};
       .#{$ns}Select-option {
-        height: var(--Form-input-height);
+        // height: var(--Form-input-height);
+        line-height: 1.1;
         padding: px2rem(5px) px2rem(12px);
       }
     }
@@ -95,18 +96,6 @@
   }
 }
 
-.#{$ns}DropDown {
-  .#{$ns}DropDown-menu {
-    border: none;
-    > li {
-      color: #{$G2};
-    }
-    > li.is-disabled {
-      color: #{$G6};
-    }
-  }
-}
-
 .#{$ns}Toast {
   .#{$ns}Toast-icon {
     margin-right: #{px2rem(8px)};
@@ -114,19 +103,6 @@
   .#{$ns}Toast-close {
     margin-left: #{px2rem(8px)};
     cursor: pointer;
-  }
-}
-
-.#{$ns}InputGroup {
-  // .#{$ns}TextControl-input {
-  // }
-  .#{$ns}InputGroup-btn .#{$ns}Button {
-    border-radius: px2rem(3px);
-  }
-
-  .#{$ns}InputGroup-btn:last-child .#{$ns}Button {
-    border-top-left-radius: 0;
-    border-bottom-left-radius: 0;
   }
 }
 
@@ -337,17 +313,10 @@
   padding-left: 0;
 }
 
-.#{$ns}Form-label {
-  font-size: #{$T3};
-  color: #{$G4};
-}
-
 .#{$ns}Form-item {
   &--inline {
     .#{$ns}Form-label {
       margin-right: #{px2rem(16px)};
-      font-size: #{$T3};
-      color: #{$G4};
     }
   }
 }

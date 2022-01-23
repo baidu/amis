@@ -1,5 +1,4 @@
 .#{$ns}CollapseGroup {
-
   .#{$ns}Collapse:not(:last-child) {
     border-bottom: none;
   }
@@ -9,7 +8,10 @@
       .#{$ns}Collapse-arrow {
         float: right;
       }
+
+      .#{$ns}Collapse-icon-tranform {
+        float: right;
+      }
     }
   }
-  
 }

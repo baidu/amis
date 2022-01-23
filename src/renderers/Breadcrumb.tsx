@@ -82,7 +82,6 @@ export class BreadcrumbField extends React.Component<BreadcrumbProps, object> {
           data,
           '| raw'
         ) as Array<BreadcrumbItemSchema>);
-
     const crumbs = crumbItems
       .map<React.ReactNode>((item, index) => (
         <span className={cx('Breadcrumb-item', itemClassName)} key={index}>

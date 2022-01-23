@@ -54,10 +54,10 @@ export default class Each extends React.Component<EachProps> {
       translate: __
     } = this.props;
 
-    const value = getPropValue(
-      this.props,
-      props => props.source && !props.name
-        ? resolveVariableAndFilter(props.source, props.data, '| raw') : undefined
+    const value = getPropValue(this.props, props =>
+      props.source && !props.name
+        ? resolveVariableAndFilter(props.source, props.data, '| raw')
+        : undefined
     );
 
     const arr = isObject(value)

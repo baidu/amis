@@ -72,6 +72,30 @@ export function extendObject(
   return obj;
 }
 
+export function isSuperDataModified(
+  data: any,
+  prevData: any,
+  store: IIRendererStore
+) {
+  let keys: Array<string> = [];
+
+  if (store && store.storeType === 'FormStore') {
+    keys = uniq(
+      (store as IFormStore).items
+        .map(item => `${item.name}`.replace(/\..*$/, ''))
+        .concat(Object.keys(store.data))
+    );
+  } else {
+    keys = Object.keys(store.data);
+  }
+
+  if (Array.isArray(keys) && keys.length) {
+    return keys.some(key => data[key] !== prevData[key]);
+  }
+
+  return false;
+}
+
 export function syncDataFromSuper(
   data: any,
   superObject: any,
@@ -867,11 +891,7 @@ export function filterTree<T extends TreeItem>(
           ? filterTree(item.children, iterator, level + 1, depthFirst)
           : undefined;
 
-        if (
-          Array.isArray(children) &&
-          Array.isArray(item.children) &&
-          children.length !== item.children.length
-        ) {
+        if (Array.isArray(children) && Array.isArray(item.children)) {
           item = {...item, children: children};
         }
 
@@ -891,11 +911,7 @@ export function filterTree<T extends TreeItem>(
           depthFirst
         );
 
-        if (
-          Array.isArray(children) &&
-          Array.isArray(item.children) &&
-          children.length !== item.children.length
-        ) {
+        if (Array.isArray(children) && Array.isArray(item.children)) {
           item = {...item, children: children};
         }
       }
@@ -1567,4 +1583,37 @@ export function JSONTraverse(
       mapper(value, key, json);
     }
   });
+}
+
+export function convertArrayValueToMoment(
+  value: number[],
+  types: string[],
+  mom: moment.Moment
+): moment.Moment {
+  if (value.length === 0) return mom;
+  for (let i = 0; i < types.length; i++) {
+    const type = types[i];
+    // @ts-ignore
+    mom.set(type, value[i]);
+  }
+  return mom;
+}
+
+export function getRange(min: number, max: number, step: number = 1) {
+  const arr = [];
+  for (let i = min; i <= max; i += step) {
+    arr.push(i);
+  }
+  return arr;
+}
+
+export function repeatCount(count: number, iterator: (index: number) => any) {
+  let result: Array<any> = [];
+  let index = 0;
+
+  while (count--) {
+    result.push(iterator(index++));
+  }
+
+  return result;
 }

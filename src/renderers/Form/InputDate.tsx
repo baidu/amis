@@ -1,10 +1,16 @@
 import React from 'react';
 import {FormItem, FormControlProps, FormBaseControl} from './Item';
 import cx from 'classnames';
-import {filterDate} from '../../utils/tpl-builtin';
+import {
+  filterDate,
+  isPureVariable,
+  resolveVariableAndFilter
+} from '../../utils/tpl-builtin';
 import moment from 'moment';
 import 'moment/locale/zh-cn';
 import DatePicker from '../../components/DatePicker';
+import {SchemaObject} from '../../Schema';
+import {createObject, anyChanged, isMobile} from '../../utils/helper';
 
 export interface InputDateBaseControlSchema extends FormBaseControl {
   /**
@@ -267,6 +273,12 @@ export interface DateProps extends FormControlProps {
 interface DateControlState {
   minDate?: moment.Moment;
   maxDate?: moment.Moment;
+  schedules?: Array<{
+    startTime: Date;
+    endTime: Date;
+    content: any;
+    className?: string;
+  }>;
 }
 
 export default class DateControl extends React.PureComponent<
@@ -304,9 +316,18 @@ export default class DateControl extends React.PureComponent<
       setPrinstineValue((utc ? moment.utc(date) : date).format(format));
     }
 
+    let schedulesData = props.schedules;
+    if (typeof schedulesData === 'string') {
+      const resolved = resolveVariableAndFilter(schedulesData, data, '| raw');
+      if (Array.isArray(resolved)) {
+        schedulesData = resolved;
+      }
+    }
+
     this.state = {
       minDate: minDate ? filterDate(minDate, data, format) : undefined,
-      maxDate: maxDate ? filterDate(maxDate, data, format) : undefined
+      maxDate: maxDate ? filterDate(maxDate, data, format) : undefined,
+      schedules: schedulesData
     };
   }
 
@@ -334,6 +355,61 @@ export default class DateControl extends React.PureComponent<
           : undefined
       });
     }
+
+    if (
+      anyChanged(['schedules', 'data'], prevProps, props) &&
+      typeof props.schedules === 'string' &&
+      isPureVariable(props.schedules)
+    ) {
+      const schedulesData = resolveVariableAndFilter(
+        props.schedules,
+        props.data,
+        '| raw'
+      );
+      const preSchedulesData = resolveVariableAndFilter(
+        prevProps.schedules,
+        prevProps.data,
+        '| raw'
+      );
+      if (Array.isArray(schedulesData) && preSchedulesData !== schedulesData) {
+        this.setState({
+          schedules: schedulesData
+        });
+      }
+    }
+  }
+
+  // 日程点击事件
+  onScheduleClick(scheduleData: any) {
+    const {scheduleAction, onAction, data, translate: __} = this.props;
+    const defaultscheduleAction = {
+      actionType: 'dialog',
+      dialog: {
+        title: __('Schedule'),
+        actions: [],
+        body: {
+          type: 'table',
+          columns: [
+            {
+              name: 'time',
+              label: __('Time')
+            },
+            {
+              name: 'content',
+              label: __('Content')
+            }
+          ],
+          data: '${scheduleData}'
+        }
+      }
+    };
+
+    onAction &&
+      onAction(
+        null,
+        scheduleAction || defaultscheduleAction,
+        createObject(data, scheduleData)
+      );
   }
 
   render() {
@@ -348,6 +424,10 @@ export default class DateControl extends React.PureComponent<
       format,
       timeFormat,
       valueFormat,
+      env,
+      largeMode,
+      render,
+      useMobileUI,
       ...rest
     } = this.props;
 
@@ -355,14 +435,25 @@ export default class DateControl extends React.PureComponent<
       format = timeFormat;
     }
 
+    const mobileUI = useMobileUI && isMobile();
+
     return (
       <div className={cx(`DateControl`, className)}>
         <DatePicker
           {...rest}
+          useMobileUI={useMobileUI}
+          popOverContainer={
+            mobileUI && env && env.getModalContainer
+              ? env.getModalContainer
+              : rest.popOverContainer
+          }
           timeFormat={timeFormat}
           format={valueFormat || format}
           {...this.state}
           classnames={cx}
+          schedules={this.state.schedules}
+          largeMode={largeMode}
+          onScheduleClick={this.onScheduleClick.bind(this)}
         />
       </div>
     );

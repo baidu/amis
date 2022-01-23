@@ -323,7 +323,7 @@ icon 也可以是 url 地址，比如
 | -------- | ---------------------------------------------------------------------------------------- | ------ | ----------------------------------------------------------------------------------------------------------------------------------------- |
 | api      | [Api](../../docs/types/api)                                                              | -      | 请求地址，参考 [api](../../docs/types/api) 格式说明。                                                                                     |
 | redirect | [模板字符串](../../docs/concepts/template#%E6%A8%A1%E6%9D%BF%E5%AD%97%E7%AC%A6%E4%B8%B2) | -      | 指定当前请求结束后跳转的路径，可用 `${xxx}` 取值。                                                                                        |
-| feedback | `DialogObject`                                                                           | -      | 如果 ajax 类型的，当 ajax 返回正常后，还能接着弹出一个 dialog 做其他交互。返回的数据可用于这个 dialog 中。格式可参考[Dialog](./Dialog.md) |
+| feedback | `DialogObject`                                                                           | -      | 如果 ajax 类型的，当 ajax 返回正常后，还能接着弹出一个 dialog 做其他交互。返回的数据可用于这个 dialog 中。格式可参考[Dialog](./Dialog) |
 | messages | `object`                                                                                 | -      | `success`：ajax 操作成功后提示，可以不指定，不指定时以 api 返回为准。`failed`：ajax 操作失败提示。                                        |
 
 ## 下载请求
@@ -346,6 +346,12 @@ icon 也可以是 url 地址，比如
 ```
 Content-Type: application/pdf
 Content-Disposition: attachment; filename="download.pdf"
+```
+
+如果接口存在跨域，除了常见的 cors header 外，还需要添加以下 header
+
+```
+Access-Control-Expose-Headers:  Content-Disposition
 ```
 
 ## 倒计时

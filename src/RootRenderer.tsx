@@ -1,4 +1,5 @@
 import {observer} from 'mobx-react';
+import {getEnv} from 'mobx-state-tree';
 import React from 'react';
 import Alert from './components/Alert2';
 import Spinner from './components/Spinner';
@@ -39,8 +40,16 @@ export class RootRenderer extends React.Component<RootRendererProps> {
       'handleDialogConfirm',
       'handleDialogClose',
       'handleDrawerConfirm',
-      'handleDrawerClose'
+      'handleDrawerClose',
+      'handlePageVisibilityChange'
     ]);
+  }
+
+  componentDidMount() {
+    document.addEventListener(
+      'visibilitychange',
+      this.handlePageVisibilityChange
+    );
   }
 
   componentDidUpdate(prevProps: RootRendererProps) {
@@ -61,6 +70,23 @@ export class RootRenderer extends React.Component<RootRendererProps> {
 
   componentWillUnmount() {
     this.props.rootStore.removeStore(this.store);
+    document.removeEventListener(
+      'visibilitychange',
+      this.handlePageVisibilityChange
+    );
+  }
+
+  handlePageVisibilityChange() {
+    const env = this.props.env;
+    if (document.visibilityState === 'hidden') {
+      env?.tracker({
+        eventType: 'pageHidden'
+      });
+    } else if (document.visibilityState === 'visible') {
+      env?.tracker({
+        eventType: 'pageVisible'
+      });
+    }
   }
 
   handleAction(
@@ -184,12 +210,12 @@ export class RootRenderer extends React.Component<RootRendererProps> {
       return;
     }
 
-    store.closeDialog();
+    store.closeDialog(true);
   }
 
-  handleDialogClose() {
+  handleDialogClose(confirmed = false) {
     const store = this.store;
-    store.closeDialog();
+    store.closeDialog(confirmed);
   }
 
   handleDrawerConfirm(values: object[], action: Action, ...args: Array<any>) {

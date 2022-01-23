@@ -114,6 +114,11 @@ export interface CodeSchema extends BaseSchema {
   tabSize?: number;
 
   /**
+   * 是否折行
+   */
+  wordWrap?: boolean;
+
+  /**
    * 自定义语言
    */
   customLang?: CustomLang;
@@ -127,7 +132,8 @@ export default class Code extends React.Component<CodeProps> {
   static defaultProps: Partial<CodeProps> = {
     language: 'plaintext',
     editorTheme: 'vs',
-    tabSize: 4
+    tabSize: 4,
+    wordWrap: true
   };
 
   monaco: any;
@@ -225,7 +231,7 @@ export default class Code extends React.Component<CodeProps> {
   }
 
   render() {
-    const {className, classnames: cx, data, customLang} = this.props;
+    const {className, classnames: cx, data, customLang, wordWrap} = this.props;
     let language = this.props.language;
     const sourceCode = getPropValue(this.props);
     if (isPureVariable(language)) {
@@ -242,7 +248,7 @@ export default class Code extends React.Component<CodeProps> {
     return (
       <code
         ref={this.codeRef}
-        className={cx(`Code`, className)}
+        className={cx(`Code`, {'word-break': wordWrap}, className)}
         data-lang={language}
       >
         {sourceCode}

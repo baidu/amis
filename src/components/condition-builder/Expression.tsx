@@ -19,6 +19,7 @@ import {ThemeProps, themeable} from '../../theme';
 import {Config} from './config';
 import InputBox from '../InputBox';
 import Formula from './Formula';
+import {FormulaPickerProps} from '../formula/Picker';
 
 /**
  * 支持4中表达式设置方式
@@ -43,6 +44,7 @@ export interface ExpressionProps extends ThemeProps {
   disabled?: boolean;
   searchable?: boolean;
   fieldClassName?: string;
+  formula?: FormulaPickerProps;
 }
 
 const fieldMap = {
@@ -132,7 +134,8 @@ export class Expression extends React.Component<ExpressionProps> {
       config,
       data,
       disabled,
-      searchable
+      searchable,
+      formula
     } = this.props;
     const inputType =
       ((value as any)?.type === 'field'
@@ -146,7 +149,6 @@ export class Expression extends React.Component<ExpressionProps> {
         : undefined) ||
       allowedTypes?.[0] ||
       'value';
-
     const types = allowedTypes || ['value', 'field', 'func'];
 
     if ((!Array.isArray(funcs) || !funcs.length) && ~types.indexOf('func')) {
@@ -163,6 +165,7 @@ export class Expression extends React.Component<ExpressionProps> {
             op={op}
             data={data}
             disabled={disabled}
+            formula={formula}
           />
         ) : null}
 

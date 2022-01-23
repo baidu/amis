@@ -2,6 +2,7 @@ import React from 'react';
 import {themeable, ThemeProps} from '../theme';
 import {Icon} from './icons';
 import {BaseSchema} from '../Schema';
+import {isMobile} from '../utils/helper';
 
 export enum StepStatus {
   wait = 'wait',
@@ -62,7 +63,7 @@ export interface StepsSchema extends BaseSchema {
    */
   name?: string;
 
-  status: StepStatus
+  status: StepStatus;
 
   /**
    * 展示模式
@@ -79,12 +80,15 @@ export interface StepsProps extends ThemeProps {
   steps: StepSchema[];
   className: string;
   current: number;
-  status?: StepStatus | {
-    [propName: string]: StepStatus;
-  };
+  status?:
+    | StepStatus
+    | {
+        [propName: string]: StepStatus;
+      };
   mode?: 'horizontal' | 'vertical';
   labelPlacement?: 'horizontal' | 'vertical';
-  progressDot: boolean;
+  progressDot?: boolean;
+  useMobileUI?: boolean;
 }
 
 export function Steps(props: StepsProps) {
@@ -97,6 +101,7 @@ export function Steps(props: StepsProps) {
     mode = 'horizontal',
     labelPlacement = 'horizontal',
     progressDot = false,
+    useMobileUI
   } = props;
   const FINISH_ICON = 'check';
   const ERROR_ICON = 'close';
@@ -164,9 +169,10 @@ export function Steps(props: StepsProps) {
     return content;
   }
 
+  const mobileUI = useMobileUI && isMobile();
   return (
     <ul className={cx('Steps',`Steps--Placement-${(progressDot || (labelPlacement === 'vertical' && mode != 'vertical'))
-      ? 'vertical' : ''}`, `Steps--${progressDot ? 'ProgressDot' : ''}`, `Steps--${mode}`, className)}>
+      ? 'vertical' : ''}`, `Steps--${progressDot ? 'ProgressDot' : ''}`, `Steps--${mode}`, mobileUI ? 'Steps-mobile' : '', className)}>
       {stepsRow.map((step, i) => {
         const {stepStatus, icon} = getStepStatus(step, i);
         return (
@@ -177,7 +183,7 @@ export function Steps(props: StepsProps) {
             <div className={cx('StepsItem-container')}>
                 <div className={cx('StepsItem-containerTail')}></div>
                 {progressDot ? <div className={cx('StepsItem-containerProgressDot')}></div>
-                  : <div className={cx('StepsItem-containerIcon')}>
+                  : <div className={cx('StepsItem-containerIcon', i < current && 'is-success')}>
                       <span className={cx('StepsItem-icon')}>
                           {icon ? <Icon icon={icon} className="icon" /> : i + 1}
                       </span>
@@ -211,7 +217,7 @@ export function Steps(props: StepsProps) {
         );
       })}
     </ul>
-  )
+  );
 }
 
 export default themeable(Steps);

@@ -72,7 +72,8 @@ export default class SizeAndPositionManager {
     }
 
     if (index > this.lastMeasuredIndex) {
-      const lastMeasuredSizeAndPosition = this.getSizeAndPositionOfLastMeasuredItem();
+      const lastMeasuredSizeAndPosition =
+        this.getSizeAndPositionOfLastMeasuredItem();
       let offset =
         lastMeasuredSizeAndPosition.offset + lastMeasuredSizeAndPosition.size;
 
@@ -109,7 +110,8 @@ export default class SizeAndPositionManager {
    * As items as measured the estimate will be updated.
    */
   getTotalSize(): number {
-    const lastMeasuredSizeAndPosition = this.getSizeAndPositionOfLastMeasuredItem();
+    const lastMeasuredSizeAndPosition =
+      this.getSizeAndPositionOfLastMeasuredItem();
 
     return (
       lastMeasuredSizeAndPosition.offset +
@@ -232,7 +234,8 @@ export default class SizeAndPositionManager {
     // So make sure the offset is at least 0 or no match will be found.
     offset = Math.max(0, offset);
 
-    const lastMeasuredSizeAndPosition = this.getSizeAndPositionOfLastMeasuredItem();
+    const lastMeasuredSizeAndPosition =
+      this.getSizeAndPositionOfLastMeasuredItem();
     const lastMeasuredIndex = Math.max(0, this.lastMeasuredIndex);
 
     if (lastMeasuredSizeAndPosition.offset >= offset) {

@@ -68,6 +68,7 @@
 
   --fontWeightNormal: 400;
   --fontWeightBase: var(--fontWeightNormal);
+  --fontWeightMd: 500;
   --fontWeightBold: 700;
 
   --background: var(--white);
@@ -163,6 +164,14 @@
   --Audio-volumeControl-width: #{px2rem(110px)};
   --Avatar-bg: #{$gray300};
   --Avatar-width: #{px2rem(40px)};
+  --Avatar-size-large: #{px2rem(48px)};
+  // 兼容旧的size大小写法
+  --Avatar-size-default: var(--Avatar-width);
+  --Avatar-size-small: #{px2rem(32px)};
+  --Avatar-icon-size-large: #{px2rem(20px)};
+  // 兼容旧的icon大小写法
+  --Avatar-icon-size-default: var(--fontSizeLg);
+  --Avatar-icon-size-small: #{px2rem(12px)};
 
   --Badge-size: var(--gap-md);
   --Badge-color: var(--white);
@@ -401,6 +410,15 @@
   --Calendar-shortcuts-height: #{px2rem(30px)};
   --Calendar-wLabel-color: #999;
 
+  --Calendar-icon-bottom: #{px2rem(-4px)};
+  --Calendar-icon-width: #{px2rem(10px)};
+  --Calendar-icon-height: #{px2rem(10px)};
+  --Calendar-borderWidth: #{px2rem(1px)};
+  --Calendar-rdt-day: #{px2rem(100px)};
+  --Calendar-schedule-content-padding: 0 #{px2rem(4px)};
+  --Calendar-schedule-content-height: #{px2rem(20px)};
+  --Calendar-schedule-content-color: #{$white};
+
   --Card-actions-borderColor: #{lighten($borderColor, 5%)};
   --Card-actions-fontSize: var(--fontSizeBase);
   --Card-actions-onChecked-onHover-bg: #{darken(#d9f3fb, 5%)};
@@ -411,6 +429,7 @@
   --Card-borderColor: var(--borderColor);
   --Card-borderRadius: var(--borderRadius);
   --Card-borderWidth: var(--borderWidth);
+  --Card-secondary-color: #83868c;
   --Card-onChecked-bg: #d9f3fb;
   --Card-onChecked-borderColor: #{darken(#d9f3fb, 10%)};
   --Card-onChecked-color: #{darken(#d9f3fb, 40%)};
@@ -572,7 +591,7 @@
 
   --LocationPicker-borderRadius: var(--Form-input-borderWidth);
 
-  --Divider-borderStyle: dashed;
+  --Divider-borderStyle: solid;
 
   --Drawer-bg: var(--background);
   --Drawer-body-padding: var(--gap-base);
@@ -607,10 +626,11 @@
   --DropDown-menu-paddingX: 0;
   --DropDown-menu-paddingY: var(--gap-xs);
   --DropDown-menuItem-onHover-bg: var(--ListMenu-item--onHover-bg);
-  --DropDown-menuItem-color: var(--text-color);
+  --DropDown-group-color: #848b99;
+  --DropDown-menuItem-color: #151a26;
   --DropDown-menuItem-onHover-color: var(--primary);
   --DropDown-menuItem-onActive-color: var(--primary);
-  --DropDown-menuItem-onDisabled-color: var(--text--muted-color);
+  --DropDown-menuItem-onDisabled-color: #b4b6ba;
   --DropDown-menuItem-paddingX: var(--gap-sm);
   --DropDown-menuItem-paddingY: calc(
     (var(--DropDown-menu-height) - var(--fontSizeBase) * var(--lineHeightBase)) /
@@ -638,6 +658,8 @@
   --Form-description-fontSize: var(--fontSizeSm);
 
   --Form-fontSize: var(--fontSizeBase);
+  --Form-item-fontSize: var(--Form-fontSize);
+  --Form-item-fontColor: #5e626a;
 
   --Form-group--lg-gutterWidth: #{px2rem(40px)};
   --Form-group--md-gutterWidth: #{px2rem(30px)};
@@ -680,6 +702,12 @@
   );
   --Form-input-placeholderColor: var(--text--muted-color);
   --Form-input-onDisabled-color: var(--text--muted-color);
+
+  --Form-input-clearBtn-size: var(--fontSizeMd);
+  --Form-input-clearBtn-padding: #{px2rem(3px)};
+  --Form-input-clearBtn-color: #cecfd1;
+  --Form-input-clearBtn-color-onHover: #5e626a;
+  --Form-input-clearBtn-color-onActive: #2d323c;
 
   --Form-item-gap: var(--gap-base);
 
@@ -1077,11 +1105,12 @@
   --PickerColumns-bg: white;
   --PickerColumns-toolbar-height: #{px2rem(50px)};
   --PickerColumns-title-fontSize: var(--fontSizeLg);
+  --PickerColumns-title-color: #222;
   --PickerColumns-title-lineHeight: 1.5;
-  --PickerColumns-action-padding: 0 var(--gap-sm);
-  --PickerColumns-action-fontSize: var(--fontSizeMd);
-  --PickerColumns-confirmAction-color: var(--Button--info-bg);
-  --PickerColumns-cancelAction-color: var(--Button--light-bg);
+  --PickerColumns-action-padding: 0 var(--gap-md);
+  --PickerColumns-action-fontSize: var(--fontSizeLg);
+  --PickerColumns-confirmAction-color: #2468f2;
+  --PickerColumns-cancelAction-color: #666;
   --PickerColumns-option-fontSize: var(--fontSizeLg);
   --PickerColumns-optionText-color: var(--text-color);
   --PickerColumns-optionDisabled-opacity: 0.3;
@@ -1091,6 +1120,8 @@
   --PopOver-bg: white;
   --PopOverAble-iconColor: inherit;
   --PopOverAble-onHover-iconColor: inherit;
+
+  --PopUp-cancelAction-color: #666;
 
   --Property-title-bg: #f2f2f2;
   --Property-label-bg: #f7f7f7;
@@ -1133,7 +1164,9 @@
   --ResultBox-value-bg: #f5f5f5;
   --ResultBox-value-color: #000;
 
-  --Rating-onActive-color: var(--info);
+  --Rating-inactive-color: #e6e6e8;
+  --Rating-star-margin: #{px2rem(8px)};
+  --Rating-star-size: #{px2rem(24px)};
 
   --Satus-icon-width: var(--gap-lg);
   --Satus-icon-height: var(--Satus-icon-width);
@@ -1406,6 +1439,9 @@
   --Steps-line-success-bg: var(--Steps-status-success);
 
   --Progress-borderRadius: var(--borderRadius);
+  --Progress-animate-backgroundColor: #fff;
+  --Progress-bar-backgroundColor: #d3d9e6;
+
   --ColumnToggler-backgroundColor: var(--white);
   --ColumnToggler-borderRadius: #{px2rem(4px)};
   --ColumnToggler-lineHeight: #{px2rem(24px)};
@@ -1413,4 +1449,9 @@
   --ColumnToggler-fontColor: #151a26;
   --ColumnToggler-item-backgroundColor: #f6f7f8;
   --ColumnToggler-item-backgroundColor-onHover: rgba(36, 104, 242, 0.1);
+
+  --InputFormula-header-bgColor: #fafafa;
+  --InputFormula-icon-size: #{px2rem(24px)};
+  --InputFormula-icon-color-onActive: var(--primary);
+  --InputFormula-code-bgColor: #f2f2f4;
 }

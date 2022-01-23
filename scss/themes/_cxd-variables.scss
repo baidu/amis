@@ -119,6 +119,8 @@ $L1: 0px 4px 6px 0px rgba(8, 14, 26, 0.06),
   --Page-header-paddingX: var(--gap-md);
   --Page-header-paddingY: #{px2rem(10px)};
 
+  --Form-item-fontSize: var(--fontSizeBase);
+  --Form-item-fontColor: #{$G4};
   --Form-item-gap: var(--gap-base);
   --Form-input-bg: #{$G11};
   --Form-input-color: #{$G2};
@@ -146,6 +148,9 @@ $L1: 0px 4px 6px 0px rgba(8, 14, 26, 0.06),
   --Form-input-addOnColor: #666;
   --Form-input-onFocus-addOnColor: var(--primary);
   --Form-input-addOnDividerBorderWidth: 0;
+  --Form-input-clearBtn-color: #{$G7};
+  --Form-input-clearBtn-color-onHover: #{$G4};
+  --Form-input-clearBtn-color-onActive: #{$G3};
 
   --Form-select-borderWidth: #{px2rem(1px)};
   --Form-select-borderRadius: #{$R3};
@@ -177,7 +182,7 @@ $L1: 0px 4px 6px 0px rgba(8, 14, 26, 0.06),
   --InputGroup-select-arrowColor: #999;
   --InputGroup-select-onFocused-arrowColor: var(--primary);
   --InputGroup-button-borderWidth: #{px2rem(1px)};
-  --InputGroup-button-borderRadius: 0;
+  --InputGroup-button-borderRadius: #{$R3};
 
   // $Number-bg: #eaf6fe;
   --Number-borderWidth: #{px2rem(1px)};
@@ -220,6 +225,15 @@ $L1: 0px 4px 6px 0px rgba(8, 14, 26, 0.06),
   --Switch-onDisabled-bgColor: #{$B2};
   --Switch-onDisabled-color: #{$G11};
   // --Switch-onDisabled-circle-BackgroundColor: #fff;
+
+  --Calendar-icon-bottom: #{px2rem(-4px)};
+  --Calendar-icon-width: #{px2rem(10px)};
+  --Calendar-icon-height: #{px2rem(10px)};
+  --Calendar-borderWidth: #{px2rem(1px)};
+  --Calendar-rdt-day: #{px2rem(100px)};
+  --Calendar-schedule-content-padding: 0 #{px2rem(4px)};
+  --Calendar-schedule-content-height: #{px2rem(20px)};
+  --Calendar-schedule-content-color: #{$white};
 
   --ColorPicker-borderWidth: #{px2rem(1px)};
   --ColorPicker-borderRadius: #{$R3};
@@ -309,7 +323,7 @@ $L1: 0px 4px 6px 0px rgba(8, 14, 26, 0.06),
   --Button--primary-onActive-color: #{$G11};
 
   --Button--light-border: var(--light);
-  --Button--light-color: var(--button-color);
+  --Button--light-color: var(--text-color);
 
   --Button-onDisabled-borderColor: #{$G9};
   --Button-onDisabled-opacity: 0.65;
@@ -355,7 +369,7 @@ $L1: 0px 4px 6px 0px rgba(8, 14, 26, 0.06),
   --Table-onHover-bg: #f5f5f5;
   --Table-onHover-bg-rgb: 245, 251, 255;
   --Table-onHover-borderColor: #eceff8;
-  --Table-onChecked-bg: transparent;
+  --Table-onChecked-bg: #f0faff;
   --Table-onChecked-borderColor: #eceff8;
   --Table-onChecked-color: #333;
   --Table-onChecked-onHover-bg: #f5f5f5;
@@ -601,4 +615,52 @@ $L1: 0px 4px 6px 0px rgba(8, 14, 26, 0.06),
   --Tree-itemHeight: #{px2rem(32px)};
 
   --Progress-borderRadius: #{$R7};
+
+  --Rating-inactive-color: #{$G9};
+
+  // timeline
+  --TimelineItem--axle-flex: 0 0 #{px2rem(24px)};
+  --TimelineItem--left-line-width: #{px2rem(2px)};
+  --TimelineItem--left-line-left: #{px2rem(13px)};
+  --TimelineItem--left-line-top: #{px2rem(20px)};
+  --TimelineItem--round-width: #{px2rem(8px)};
+  --TimelineItem--round-height: #{px2rem(8px)};
+  --TimelineItem--round-left: #{px2rem(10px)};
+  --TimelineItem--round-top: #{px2rem(8px)};
+  --TimelineItem--icon-width: #{px2rem(16px)};
+  --TimelineItem--icon-height: #{px2rem(16px)};
+  --TimelineItem--icon-left: #{px2rem(6px)};
+  --TimelineItem--content-padding-bottom: #{px2rem(16px)};
+  --TimelineItem--content-margin-left: #{px2rem(8px)};
+  --TimelineItem--content-time-margin-bottom: #{px2rem(4px)};
+  --TimelineItem--content-title-margin-bottom: #{px2rem(4px)};
+  --TimelineItem--detail-button-margin-bottom: #{px2rem(8px)};
+  --TimelineItem-detail-arrow-width: #{px2rem(16px)};
+  --TimelineItem-detail-visible-padding: #{px2rem(10px)};
+  --TimelineItem-detail-visible-max-width: #{px2rem(300px)};
+  --Timeline-alternate-margin-left: #{px2rem(24px)};
+
+  --TimelineItem--icon-radius: #{$R8};
+  --TimelineItem--round-radius: #{$R8};
+  --TimelineItem--content-radius: #{$R2};
+
+  --TimelineItem-detail-visible-shadow: 0 #{px2rem(1px)} #{px2rem(10px)} 0
+    rgba(0 0 0 / 10%);
+
+  --TimelineItem--font-size: #{$T2};
+
+  --TimelineItem--text-primary-color: #{$text-color};
+  --TimelineItem--text-secondary-color: #{$G5};
+  --TimelineItem--detail-button-color: var(--primary);
+  --TimelineItem--line-bg: #{$G9};
+  --TimelineItem--content-bg: #{$G10};
+  --TimelineItem-round-bg: #{$G8};
+
+  --Timeline--success-bg: var(--success);
+  --Timeline--info-bg: var(--info);
+  --Timeline--warning-bg: var(--warning);
+  --Timeline--danger-bg: var(--danger);
+
+  // Formula
+  --InputFormula-code-bgColor: #{$G10};
 }

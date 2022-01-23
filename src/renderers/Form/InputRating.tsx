@@ -1,6 +1,6 @@
 import React from 'react';
 import {FormItem, FormControlProps, FormBaseControl} from './Item';
-import Rating from '../../components/Rating';
+import Rating, {textPositionType} from '../../components/Rating';
 
 /**
  * Rating
@@ -23,6 +23,50 @@ export interface RatingControlSchema extends FormBaseControl {
    * 是否允许再次点击后清除
    */
   allowClear?: boolean;
+
+  /**
+   * 是否只读
+   */
+  readonly?: boolean;
+
+  /**
+   * 星星被选中的颜色
+   */
+  // colors?: string | {
+  //   [propName: string | number]: string;
+  // };
+
+  colors?: string | {[propName: string]: string};
+
+  /**
+   * 未被选中的星星的颜色
+   */
+  inactiveColor?: string;
+
+  /**
+   * 星星被选中时的提示文字
+   */
+  texts?: {[propName: string]: string};
+
+  /**
+   * 文字的位置
+   */
+  textPosition?: textPositionType;
+
+  /**
+   * 自定义字符
+   */
+  char?: string;
+
+  /**
+   * 自定义字符类名
+   */
+  charClassName?: string;
+
+  /**
+   * 自定义文字类名
+   */
+  textClassName?: string;
 }
 
 export interface RatingProps extends FormControlProps {
@@ -49,8 +93,15 @@ export default class RatingControl extends React.Component<RatingProps, any> {
       readOnly,
       disabled,
       onChange,
-      size,
+      onHoverChange,
       allowClear,
+      char,
+      inactiveColor,
+      colors,
+      texts,
+      charClassName,
+      textClassName,
+      textPosition,
       classnames: cx
     } = this.props;
 
@@ -64,7 +115,19 @@ export default class RatingControl extends React.Component<RatingProps, any> {
           half={half}
           allowClear={allowClear}
           readOnly={readOnly}
-          onChange={(value: any) => onChange(value)}
+          char={char}
+          inactiveColor={inactiveColor}
+          colors={colors}
+          texts={texts}
+          charClassName={charClassName}
+          textClassName={textClassName}
+          textPosition={textPosition}
+          onChange={(value: number) => {
+            onChange && onChange(value);
+          }}
+          onHoverChange={(value: number) => {
+            onHoverChange && onHoverChange(value);
+          }}
         />
       </div>
     );

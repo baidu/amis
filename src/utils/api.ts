@@ -15,6 +15,7 @@ import {
   uuid
 } from './helper';
 import isPlainObject from 'lodash/isPlainObject';
+import {debug} from './debug';
 
 const rSchema = /(?:^|raw\:)(get|post|put|delete|patch|options|head|jsonp):/i;
 
@@ -98,14 +99,17 @@ export function buildApi(
   if (~idx) {
     const hashIdx = api.url.indexOf('#');
     const params = qsparse(
-      api.url.substring(idx + 1, ~hashIdx ? hashIdx : undefined)
+      api.url.substring(
+        idx + 1,
+        ~hashIdx && hashIdx > idx ? hashIdx : undefined
+      )
     );
     api.url =
       tokenize(api.url.substring(0, idx + 1), data, '| url_encode') +
       qsstringify(
         (api.query = dataMapping(params, data, undefined, api.convertKeyToPath))
       ) +
-      (~hashIdx ? api.url.substring(hashIdx) : '');
+      (~hashIdx && hashIdx > idx ? api.url.substring(hashIdx) : '');
   } else {
     api.url = tokenize(api.url, data, '| url_encode');
   }
@@ -203,18 +207,33 @@ export function responseAdaptor(ret: fetcherResult, api: ApiObject) {
     throw new Error('Response is empty');
   }
 
+  // 返回内容是 string，说明 content-type 不是 json，这时可能是返回了纯文本或 html
   if (typeof data === 'string') {
-    try {
-      data = JSON.parse(data);
-      if (typeof data === 'undefined') {
-        throw new Error('Response should be JSON');
+    // 如果是文本类型就尝试解析一下
+    if (
+      ret.headers &&
+      ((ret.headers as any)['content-type'] || '').startsWith('text/')
+    ) {
+      try {
+        data = JSON.parse(data);
+        if (typeof data === 'undefined') {
+          throw new Error('Response should be JSON');
+        }
+      } catch (e) {
+        const responseBrief =
+          typeof data === 'string'
+            ? escapeHtml((data as string).substring(0, 100))
+            : '';
+        throw new Error(`Response should be JSON\n ${responseBrief}`);
       }
-    } catch (e) {
-      const responseBrief =
-        typeof data === 'string'
-          ? escapeHtml((data as string).substring(0, 100))
-          : '';
-      throw new Error(`Response should be JSON\n ${responseBrief}`);
+    } else {
+      if (api.responseType === 'blob') {
+        throw new Error('Should have "Content-Disposition" in Header');
+      } else {
+        throw new Error(
+          `Content type is wrong "${(ret.headers as any)['content-type']}"`
+        );
+      }
     }
   }
 
@@ -262,7 +281,10 @@ export function responseAdaptor(ret: fetcherResult, api: ApiObject) {
     payload.errors = data.errors;
   }
 
+  debug('api', 'response', payload);
+
   if (payload.ok && api.responseData) {
+    debug('api', 'before dataMapping', payload.data);
     const responseData = dataMapping(
       api.responseData,
 
@@ -277,7 +299,7 @@ export function responseAdaptor(ret: fetcherResult, api: ApiObject) {
       undefined,
       api.convertKeyToPath
     );
-    console.debug('responseData', responseData);
+    debug('api', 'after dataMapping', responseData);
     payload.data = responseData;
   }
 
@@ -291,7 +313,11 @@ export function wrapFetcher(
   return function (api, data, options) {
     api = buildApi(api, data, options) as ApiObject;
 
-    api.requestAdaptor && (api = api.requestAdaptor(api) || api);
+    if (api.requestAdaptor) {
+      debug('api', 'before requestAdaptor', api);
+      api = api.requestAdaptor(api) || api;
+      debug('api', 'after requestAdaptor', api);
+    }
 
     if (api.data && (hasFile(api.data) || api.dataType === 'form-data')) {
       api.data =
@@ -315,6 +341,8 @@ export function wrapFetcher(
       api.headers = api.headers || (api.headers = {});
       api.headers['Content-Type'] = 'application/json';
     }
+
+    debug('api', 'request api', api);
 
     tracker?.(
       {eventType: 'api', eventData: omit(api, ['config', 'data', 'body'])},
@@ -352,11 +380,14 @@ export function wrapAdaptor(promise: Promise<fetcherResult>, api: ApiObject) {
   return adaptor
     ? promise
         .then(async response => {
+          debug('api', 'before adaptor data', (response as any).data);
           let result = adaptor((response as any).data, response, api);
 
           if (result?.then) {
             result = await result;
           }
+
+          debug('api', 'after adaptor data', result);
 
           return {
             ...response,

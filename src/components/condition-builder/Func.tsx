@@ -97,7 +97,7 @@ export class ConditionFunc extends React.Component<ConditionFuncProps> {
                 )}
                 ref={ref}
                 allowInput={false}
-                result={func?.label}
+                result={func}
                 onResultChange={noop}
                 onResultClick={onClick}
                 placeholder="请选择字段"

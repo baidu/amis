@@ -94,6 +94,11 @@ export class JSONField extends React.Component<JSONProps, object> {
     let data = value;
     if (source !== undefined && isPureVariable(source)) {
       data = resolveVariableAndFilter(source, this.props.data, '| raw');
+    } else if (typeof value === 'string') {
+      // 尝试解析 json
+      try {
+        data = JSON.parse(value);
+      } catch (e) {}
     }
 
     let jsonThemeValue = jsonTheme;
