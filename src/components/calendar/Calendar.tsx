@@ -665,10 +665,10 @@ class BaseDatePicker extends React.Component<
         className={cx(
           'rdt rdtStatic rdtOpen', 
           this.props.className, 
-          (timeFormat && timeFormat.toLowerCase().indexOf('s') > 0)
-            ? 'rdtTimeWithS'
-            : (timeFormat && typeof dateFormat !== 'string')
+          (timeFormat && !dateFormat || typeof dateFormat !== 'string')
             ? 'rdtTimeWithoutD'
+            : (timeFormat && timeFormat.toLowerCase().indexOf('s') > 0)
+            ? 'rdtTimeWithS'
             : timeFormat
             ? 'rdtTime'
             : ''
@@ -679,8 +679,10 @@ class BaseDatePicker extends React.Component<
             'rdtPicker', 
             (timeFormat && !dateFormat)
               ? 'rdtPickerTimeWithoutD'
-              : timeFormat
+              : (timeFormat && dateFormat)
               ? 'rdtPickerTime'
+              : (dateFormat && !timeFormat)
+              ? 'rdtPickerDate'
               : ''
           )}
         >
