@@ -267,7 +267,7 @@ export class CustomDaysView extends DaysView {
                   this.props.onScheduleClick(scheduleData)
                 }
               >
-                <div className={cx('ScheduleCalendar-text-overflow')} s-height={item.height}>
+                <div className={cx('ScheduleCalendar-text-overflow')}>
                   {item.content}
                 </div>
               </div>
