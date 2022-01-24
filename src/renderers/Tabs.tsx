@@ -184,18 +184,17 @@ export interface TabsProps
   activeKey?: string | number;
   location?: any;
   tabRender?: (tab: TabSchema, props: TabsProps, index: number) => JSX.Element;
-  scrollable?: boolean;
+}
+
+interface TabSource extends TabSchema {
+  ctx?: any;
 }
 
 export interface TabsState {
   activeKey: any;
   prevKey: any;
-  localTabs: Array<TabSchema>;
+  localTabs: Array<TabSource>;
   isFromSource: boolean;
-}
-
-interface TabSource extends TabsSchema {
-  ctx: any;
 }
 
 export default class Tabs extends React.Component<TabsProps, TabsState> {
@@ -221,7 +220,7 @@ export default class Tabs extends React.Component<TabsProps, TabsState> {
       activeKey = props.activeKey;
     } else if (location && Array.isArray(tabs)) {
       const hash = location.hash.substring(1);
-      const tab: TabSchema = find(tabs, tab => tab.hash === hash) as TabSchema;
+      const tab: TabSource = find(tabs, tab => tab.hash === hash) as TabSource;
 
       if (tab) {
         activeKey = tab.hash;
@@ -244,7 +243,7 @@ export default class Tabs extends React.Component<TabsProps, TabsState> {
 
   // 初始化 tabs 数组，当从 source 获取数据源时
   @autobind
-  initTabArray(tabs: Array<TabSchema>, source: string, data: any) {
+  initTabArray(tabs: Array<TabSource>, source?: string, data?: any): [Array<TabSource>, boolean] {
     if (!tabs) {
       return [[], false];
     }
@@ -316,10 +315,10 @@ export default class Tabs extends React.Component<TabsProps, TabsState> {
         return;
       }
 
-      const tab: TabSchema = find(
+      const tab: TabSource = find(
         localTabs,
         tab => tab.hash === hash
-      ) as TabSchema;
+      ) as TabSource;
       if (tab && tab.hash && tab.hash !== this.state.activeKey) {
         this.setState({
           activeKey: (this.activeKey = tab.hash),
@@ -330,15 +329,15 @@ export default class Tabs extends React.Component<TabsProps, TabsState> {
       Array.isArray(localTabs) &&
       Array.isArray(prevState.localTabs) &&
       JSON.stringify(localTabs.map(item => item.hash)) !==
-        JSON.stringify(prevState.localTabs.map(item => item.hash))
+        JSON.stringify(prevState.localTabs.map((item: TabSource) => item.hash))
     ) {
       let activeKey: any = this.state.activeKey;
       const location = props.location;
-      let tab: TabSchema | null = null;
+      let tab: TabSource | null = null;
 
       if (location && Array.isArray(localTabs)) {
         const hash = location.hash.substring(1);
-        tab = find(localTabs, tab => tab.hash === hash) as TabSchema;
+        tab = find(localTabs, tab => tab.hash === hash) as TabSource;
       }
 
       if (tab) {
@@ -397,7 +396,7 @@ export default class Tabs extends React.Component<TabsProps, TabsState> {
       return;
     }
 
-    return find(localTabs, (tab: TabSchema, index) =>
+    return find(localTabs, (tab: TabSource, index) =>
       tab.hash ? tab.hash === key : index === key
     );
   }
@@ -409,10 +408,10 @@ export default class Tabs extends React.Component<TabsProps, TabsState> {
       return;
     }
 
-    const tab: TabSchema = find(
+    const tab: TabSource = find(
       localTabs,
       tab => ((tab as any).value ?? tab.title) === value
-    ) as TabSchema;
+    ) as TabSource;
 
     return tab && tab.hash ? tab.hash : localTabs.indexOf(tab);
   }
@@ -427,7 +426,7 @@ export default class Tabs extends React.Component<TabsProps, TabsState> {
     }
 
     // 当前 tab 可能不可见，所以需要自动切到一个可见的 tab, 向前找，找一圈
-    const tabIndex = findIndex(localTabs, (tab: TabSchema, index) =>
+    const tabIndex = findIndex(localTabs, (tab: TabSource, index) =>
       tab.hash ? tab.hash === key : index === key
     );
 
@@ -451,12 +450,12 @@ export default class Tabs extends React.Component<TabsProps, TabsState> {
 
   @autobind
   async handleAdd() {
-    const localTabs = [].concat(this.state.localTabs);
+    const localTabs = this.state.localTabs.concat();
 
     localTabs.push({
       title: `新增tab${this.newTabDefaultId++}`,
       body: '新增tab 内容'
-    });
+    } as TabSource);
 
     const canContinue = await this.confirmTabs(localTabs);
 
@@ -473,7 +472,7 @@ export default class Tabs extends React.Component<TabsProps, TabsState> {
 
   @autobind
   async handleClose(index: number, key: string | number) {
-    const originTabs = [].concat(this.state.localTabs);
+    const originTabs = this.state.localTabs.concat();
 
     originTabs.splice(index, 1);
 
@@ -489,7 +488,7 @@ export default class Tabs extends React.Component<TabsProps, TabsState> {
   }
 
   // 回调，拦截器
-  async confirmTabs(tabs: Array<TabSchema>) {
+  async confirmTabs(tabs: Array<TabSource>) {
     const {onTabsChange} = this.props;
 
     if (onTabsChange) {
@@ -509,7 +508,7 @@ export default class Tabs extends React.Component<TabsProps, TabsState> {
   @autobind
   async handleDragChange(e: any){
     const activeTab = this.resolveTabByKey(this.activeKey);
-    const originTabs = [].concat(this.state.localTabs);
+    const originTabs: TabSource[] = this.state.localTabs.concat();
 
     originTabs.splice(e.newIndex, 0, originTabs.splice(e.oldIndex, 1)[0]);
 
@@ -519,12 +518,15 @@ export default class Tabs extends React.Component<TabsProps, TabsState> {
       return;
     }
 
-    const newActiveTabIndex = originTabs.indexOf(activeTab);
 
     this.setState({
       localTabs: originTabs
     }, () => {
-      this.switchTo(newActiveTabIndex)
+
+      if (activeTab) {
+        const newActiveTabIndex = originTabs.indexOf(activeTab);
+        this.switchTo(newActiveTabIndex);
+      }
     });
   }
 
@@ -578,7 +580,7 @@ export default class Tabs extends React.Component<TabsProps, TabsState> {
     const localTabs = this.state.localTabs;
 
     return Array.isArray(localTabs)
-      ? findIndex(localTabs, (tab: TabSchema, index) =>
+      ? findIndex(localTabs, (tab: TabSource, index) =>
           tab.hash
             ? tab.hash === this.state.activeKey
             : index === this.state.activeKey
@@ -615,7 +617,6 @@ export default class Tabs extends React.Component<TabsProps, TabsState> {
       formHorizontal,
       subFormMode,
       subFormHorizontal,
-      icon,
       addBtn,
       closable,
       draggable,
@@ -637,7 +638,7 @@ export default class Tabs extends React.Component<TabsProps, TabsState> {
 
     // 是否从 source 数据中生成
     if (isFromSource) {
-      children = tabs.map((tab, index) =>
+      children = tabs.map((tab: TabSource, index: number) =>
         isVisible(tab, tab.ctx) ? (
           <Tab
             {...(tab as any)}
@@ -708,7 +709,6 @@ export default class Tabs extends React.Component<TabsProps, TabsState> {
         classPrefix={ns}
         classnames={cx}
         mode={mode}
-        icon={icon}
         closable={closable}
         className={className}
         contentClassName={contentClassName}

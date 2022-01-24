@@ -111,6 +111,7 @@ export interface TabsProps extends ThemeProps {
   onDragChange?: (e: any) => void;
   showTip?: boolean;
   showTipClassName?: string;
+  scrollable?: boolean;
 }
 
 export interface IDragInfo {
