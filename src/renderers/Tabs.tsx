@@ -184,11 +184,18 @@ export interface TabsProps
   activeKey?: string | number;
   location?: any;
   tabRender?: (tab: TabSchema, props: TabsProps, index: number) => JSX.Element;
+  scrollable?: boolean;
 }
 
 export interface TabsState {
   activeKey: any;
   prevKey: any;
+  localTabs: Array<TabSchema>;
+  isFromSource: boolean;
+}
+
+interface TabSource extends TabsSchema {
+  ctx: any;
 }
 
 export default class Tabs extends React.Component<TabsProps, TabsState> {
@@ -250,7 +257,7 @@ export default class Tabs extends React.Component<TabsProps, TabsState> {
     tabs = Array.isArray(tabs) ? tabs : [tabs];
 
     let indexKey = 0;
-    const sourceTabs = [];
+    const sourceTabs: Array<TabSource> = [];
     arr.forEach((value, index) => {
       const ctx = createObject(
         data,
@@ -258,11 +265,8 @@ export default class Tabs extends React.Component<TabsProps, TabsState> {
       );
 
       for (let tabIndex = 0; tabIndex < tabs.length; tabIndex++ ) {
-        const tab = Object.assign({}, tabs[tabIndex]);
+        const tab: TabSource = Object.assign({}, tabs[tabIndex]);
         tab.ctx = ctx;
-
-        tab.arrIndex = index;
-        tab.tabIndex = tabIndex;
 
         sourceTabs.push(tab);
       };

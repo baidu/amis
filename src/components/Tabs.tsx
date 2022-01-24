@@ -118,7 +118,12 @@ export interface IDragInfo {
 }
 
 export class Tabs extends React.Component<TabsProps, any> {
-  static defaultProps: Pick<TabsProps, 'mode' | 'contentClassName'> = {
+  static defaultProps: Pick<TabsProps,
+    'mode' 
+    | 'contentClassName'
+    | 'showTip'
+    | 'showTipClassName'
+  > = {
     mode: '',
     contentClassName: '',
     showTip: false,
