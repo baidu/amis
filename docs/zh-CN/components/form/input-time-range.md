@@ -1,5 +1,5 @@
 ---
-title: InputMonthRange 时间范围
+title: InputTimeRange 时间范围
 description:
 type: 0
 group: null

@@ -754,7 +754,7 @@ export const components = [
           )
       },
       {
-        label: 'Calendar 日历',
+        label: 'Calendar 日历日程',
         path: '/zh-CN/components/calendar',
         getComponent: () =>
           import('../../docs/zh-CN/components/calendar.md').then(
@@ -1015,7 +1015,7 @@ export const components = [
           import('../../docs/zh-CN/components/timeline.md').then(
             makeMarkdownRenderer
           )
-      },
+      }
     ]
   },
 
