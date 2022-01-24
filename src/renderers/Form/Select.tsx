@@ -232,8 +232,12 @@ export default class SelectControl extends React.Component<SelectProps, any> {
   }
 
   mergeOptions(options: Array<object>) {
-    const {selectedOptions} = this.props;
-    let combinedOptions = normalizeOptions(options).concat();
+    const {selectedOptions, valueField = 'value'} = this.props;
+    let combinedOptions = normalizeOptions(
+      options,
+      undefined,
+      valueField
+    ).concat();
 
     if (Array.isArray(selectedOptions) && selectedOptions.length) {
       selectedOptions.forEach(option => {
@@ -322,7 +326,7 @@ export default class SelectControl extends React.Component<SelectProps, any> {
             popOverContainer={
               mobileUI && env && env.getModalContainer
                 ? env.getModalContainer
-                : undefined
+                : rest.popOverContainer
             }
             borderMode={borderMode}
             placeholder={placeholder}

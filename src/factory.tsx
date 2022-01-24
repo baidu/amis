@@ -23,7 +23,7 @@ import {
   PlainObject
 } from './types';
 import {observer} from 'mobx-react';
-import Scoped from './Scoped';
+import Scoped, {IScopedContext} from './Scoped';
 import {getTheme, ThemeInstance, ThemeProps} from './theme';
 import find from 'lodash/find';
 import Alert from './components/Alert2';
@@ -148,6 +148,10 @@ export interface RenderOptions {
    * 文本替换的黑名单，因为属性太多了所以改成黑名单的 fangs
    */
   replaceTextIgnoreKeys?: String[];
+  /**
+   * 过滤 html 标签，可用来添加 xss 保护逻辑
+   */
+  filterHtml?: (input: string) => string;
   [propName: string]: any;
 }
 
@@ -360,9 +364,12 @@ const defaultOptions: RenderOptions = {
   tracker(eventTrack: EventTrack, props: PlainObject) {},
   // 返回解绑函数
   bindEvent(renderer: any) {
+    if (!renderer) {
+      return undefined;
+    }
     const listeners: EventListeners = renderer.props.$schema.onEvent;
     if (listeners) {
-      // 暂存
+      // 暂存
       for (let key of Object.keys(listeners)) {
         this.rendererEventListeners.push({
           renderer,
@@ -384,8 +391,9 @@ const defaultOptions: RenderOptions = {
   async dispatchEvent(
     e: string | React.MouseEvent<any>,
     renderer: React.Component<RendererProps>,
+    scoped: IScopedContext,
     data: any,
-    broadcast: RendererEvent<any>
+    broadcast?: RendererEvent<any>
   ) {
     const eventName = typeof e === 'string' ? e : e.type;
     if (!broadcast) {
@@ -408,7 +416,8 @@ const defaultOptions: RenderOptions = {
       createRendererEvent(eventName, {
         env: this,
         nativeEvent: e,
-        data
+        data,
+        scoped
       });
 
     // 过滤&排序
@@ -442,7 +451,11 @@ const defaultOptions: RenderOptions = {
     'target',
     'reload',
     'persistData'
-  ]
+  ],
+  /**
+   * 过滤 html 标签，可用来添加 xss 保护逻辑
+   */
+  filterHtml: (input: string) => input
 };
 let stores: {
   [propName: string]: IRendererStore;

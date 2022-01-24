@@ -403,10 +403,192 @@ type Value = ValueGroup;
 }
 ```
 
+## 简易模式
+
+通过 builderMode 配置为简易模式，在这个模式下将不开启树形分组功能，输出结果只有一层，方便后端实现简单的 SQL 生成。
+
+```schema: scope="body"
+{
+    "type": "form",
+    "debug": true,
+    "body": [
+        {
+          "type": "condition-builder",
+          "label": "条件组件",
+          "builderMode": "simple",
+          "name": "conditions",
+          "description": "适合让用户自己拼查询条件，然后后端根据数据生成 query where",
+          "fields": [
+            {
+              "label": "文本",
+              "type": "text",
+              "name": "text"
+            },
+            {
+              "label": "数字",
+              "type": "number",
+              "name": "number"
+            },
+            {
+              "label": "布尔",
+              "type": "boolean",
+              "name": "boolean"
+            },
+            {
+              "label": "选项",
+              "type": "select",
+              "name": "select",
+              "options": [
+                {
+                  "label": "A",
+                  "value": "a"
+                },
+                {
+                  "label": "B",
+                  "value": "b"
+                },
+                {
+                  "label": "C",
+                  "value": "c"
+                },
+                {
+                  "label": "D",
+                  "value": "d"
+                },
+                {
+                  "label": "E",
+                  "value": "e"
+                }
+              ]
+            },
+            {
+              "label": "动态选项",
+              "type": "select",
+              "name": "select2",
+              "source": "/api/mock2/form/getOptions?waitSeconds=1"
+            },
+            {
+              "label": "日期",
+              "children": [
+                {
+                  "label": "日期",
+                  "type": "date",
+                  "name": "date"
+                },
+                {
+                  "label": "时间",
+                  "type": "time",
+                  "name": "time"
+                },
+                {
+                  "label": "日期时间",
+                  "type": "datetime",
+                  "name": "datetime"
+                }
+              ]
+            }
+          ]
+        }
+    ]
+}
+```
+
+在这个模式下还可以通过 `showANDOR` 来显示顶部的条件类型切换
+
+```schema: scope="body"
+{
+    "type": "form",
+    "debug": true,
+    "body": [
+        {
+          "type": "condition-builder",
+          "label": "条件组件",
+          "builderMode": "simple",
+          "showANDOR": true,
+          "name": "conditions",
+          "description": "适合让用户自己拼查询条件，然后后端根据数据生成 query where",
+          "fields": [
+            {
+              "label": "文本",
+              "type": "text",
+              "name": "text"
+            },
+            {
+              "label": "数字",
+              "type": "number",
+              "name": "number"
+            },
+            {
+              "label": "布尔",
+              "type": "boolean",
+              "name": "boolean"
+            },
+            {
+              "label": "选项",
+              "type": "select",
+              "name": "select",
+              "options": [
+                {
+                  "label": "A",
+                  "value": "a"
+                },
+                {
+                  "label": "B",
+                  "value": "b"
+                },
+                {
+                  "label": "C",
+                  "value": "c"
+                },
+                {
+                  "label": "D",
+                  "value": "d"
+                },
+                {
+                  "label": "E",
+                  "value": "e"
+                }
+              ]
+            },
+            {
+              "label": "动态选项",
+              "type": "select",
+              "name": "select2",
+              "source": "/api/mock2/form/getOptions?waitSeconds=1"
+            },
+            {
+              "label": "日期",
+              "children": [
+                {
+                  "label": "日期",
+                  "type": "date",
+                  "name": "date"
+                },
+                {
+                  "label": "时间",
+                  "type": "time",
+                  "name": "time"
+                },
+                {
+                  "label": "日期时间",
+                  "type": "datetime",
+                  "name": "datetime"
+                }
+              ]
+            }
+          ]
+        }
+    ]
+}
+```
+
 ## 属性表
 
-| 属性名         | 类型     | 默认值 | 说明               |
-| -------------- | -------- | ------ | ------------------ |
-| className      | `string` |        | 外层 dom 类名      |
-| fieldClassName | `string` |        | 输入字段的类名     |
-| source         | `string` |        | 通过远程拉取配置项 |
+| 属性名         | 类型      | 默认值 | 说明                           |
+| -------------- | --------- | ------ | ------------------------------ |
+| className      | `string`  |        | 外层 dom 类名                  |
+| fieldClassName | `string`  |        | 输入字段的类名                 |
+| source         | `string`  |        | 通过远程拉取配置项             |
+| fields         |           |        | 字段配置                       |
+| showANDOR      | `boolean` |        | 用于 simple 模式下显示切换按钮 |
+| showNot        | `boolean` |        | 是否显示「非」按钮             |

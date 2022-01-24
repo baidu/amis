@@ -96,6 +96,8 @@ CRUD，即增删改查组件，主要用来展现数据列表，并支持各类�
 
 如果不需要分页，或者配置了 `loadDataOnce` 则可以忽略掉 `total` 和 `hasNext` 参数。
 
+> 如果 api 地址中有变量，比如 `/api/mock2/sample/${id}`，amis 就不会自动加上分页参数，需要自己加上，改成 `/api/mock2/sample/${id}?page=${page}&perPage=${perPage}`
+
 ## 功能
 
 既然这个渲染器叫增删改查，那接下来分开介绍这几个功能吧。
@@ -2538,6 +2540,7 @@ itemAction 里的 onClick 还能通过 `data` 参数拿到当前行的数据，�
 | stopAutoRefreshWhenModalIsOpen        | `boolean`                   | `false`                         | 当有弹框时关闭自动刷新，关闭弹框又恢复                                                                                |
 | syncLocation                          | `boolean`                   | `true`                          | 是否将过滤条件的参数同步到地址栏                                                                                      |
 | draggable                             | `boolean`                   | `false`                         | 是否可通过拖拽排序                                                                                                    |
+| resizable                             | `boolean`                   | `true`                          | 是否可以调整列宽度                                                                                                    |
 | itemDraggableOn                       | `boolean`                   |                                 | 用[表达式](../../docs/concepts/expression)来配置是否可拖拽排序                                                        |
 | [saveOrderApi](#saveOrderApi)         | [API](../../docs/types/api) |                                 | 保存排序的 api。                                                                                                      |
 | [quickSaveApi](#quickSaveApi)         | [API](../../docs/types/api) |                                 | 快速编辑后用来批量保存的 API。                                                                                        |

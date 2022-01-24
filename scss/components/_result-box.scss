@@ -51,19 +51,6 @@
 
   &-clear {
     @include input-clear();
-    width: px2rem(26px);
-    height: px2rem(26px);
-    margin: 0 px2rem(-2px);
-    margin-left: auto;
-
-    &:hover {
-      background: var(--ResultBox-value-bg);
-    }
-
-    > svg {
-      width: px2rem(12px);
-      height: px2rem(12px);
-    }
   }
 
   > svg {

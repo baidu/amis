@@ -376,7 +376,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
   ];
   static defaultProps = {
     toolbarInline: true,
-    headerToolbar: ['bulkActions', 'pagination'],
+    headerToolbar: ['bulkActions'],
     footerToolbar: ['statistics', 'pagination'],
     primaryField: 'id',
     syncLocation: true,
@@ -465,13 +465,16 @@ export default class CRUD extends React.Component<CRUDProps, any> {
   }
 
   componentDidMount() {
-    const store = this.props.store;
+    const {store, autoGenerateFilter} = this.props;
 
     if (this.props.perPage) {
       store.changePage(store.page, this.props.perPage);
     }
 
-    if (!this.props.filter || (store.filterTogggable && !store.filterVisible)) {
+    if (
+      (!this.props.filter || (store.filterTogggable && !store.filterVisible)) &&
+      !autoGenerateFilter
+    ) {
       this.handleFilterInit({});
     }
 

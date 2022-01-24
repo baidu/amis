@@ -9,6 +9,7 @@ import {isObject} from './utils/helper';
 addSchemaFilter(function (schema: Schema, renderer, props?: any) {
   if (schema && schema.type === 'input-kv') {
     return {
+      draggable: true,
       ...schema,
       multiple: true,
       pipeIn: (value: any) => {
@@ -43,14 +44,17 @@ addSchemaFilter(function (schema: Schema, renderer, props?: any) {
         }
         const obj: any = {};
         value.forEach((item: any) => {
-          const key: string = item.key || '';
-          let value: any = item.value;
-          try {
-            value = JSON.parse(value);
-          } catch (e) {}
+          const key: string = item.key ?? '';
+          let value: any = item.value ?? schema.defaultValue ?? '';
+          if (typeof value === 'string' && value.startsWith('{')) {
+            try {
+              value = JSON.parse(value);
+            } catch (e) {}
+          }
+
           // 如果先输入了 a 作为 key，想输入 aa 的时候会先进入这里，导致无法输入 aa，因此当遇到 key 相同的时候加个 ___tmp 后缀
-          if (key in obj && typeof value === 'undefined') {
-            obj[key + '___tmp'] = '';
+          if (key in obj) {
+            obj[key + '___tmp'] = value;
           } else {
             obj[key] = value;
           }

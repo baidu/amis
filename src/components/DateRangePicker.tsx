@@ -426,7 +426,7 @@ export class DateRangePicker extends React.Component<
 
     if (
       startDate &&
-      !endDate &&
+      (!endDate || (endDate && newValue.isSame(startDate))) && // 没有结束时间，或者新的时间也是开始时间，这时都会将新值当成结束时间
       newValue.isSameOrAfter(startDate) &&
       (!minDuration || newValue.isAfter(startDate.clone().add(minDuration))) &&
       (!maxDuration || newValue.isBefore(startDate.clone().add(maxDuration)))
@@ -885,7 +885,7 @@ export class DateRangePicker extends React.Component<
 
         {clearable && !disabled && value ? (
           <a className={`${ns}DateRangePicker-clear`} onClick={this.clearValue}>
-            <Icon icon="close" className="icon" />
+            <Icon icon="input-clear" className="icon" />
           </a>
         ) : null}
 

@@ -26,6 +26,8 @@ const transitionStyles: {
   [ENTERED]: 'in'
 };
 
+export type TabsMode = '' | 'line' | 'card' | 'radio' | 'vertical' | 'chrome' | 'simple' | 'strong';
+
 export interface TabProps extends ThemeProps {
   title?: string | React.ReactNode; // 标题
   icon?: string;
@@ -90,8 +92,8 @@ class TabComponent extends React.PureComponent<TabProps> {
 export const Tab = themeable(TabComponent);
 
 export interface TabsProps extends ThemeProps {
-  mode: '' | 'line' | 'card' | 'radio' | 'vertical' | 'chrome' | 'simple' | 'strong';
-  tabsMode?: '' | 'line' | 'card' | 'radio' | 'vertical' | 'chrome';
+  mode: TabsMode;
+  tabsMode?: TabsMode;
   additionBtns?: React.ReactNode;
   onSelect?: (key: string | number) => void;
   activeKey?: string | number;

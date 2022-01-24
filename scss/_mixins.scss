@@ -303,22 +303,27 @@
 }
 
 @mixin input-clear {
-  padding: px2rem(3px);
+  padding: var(--Form-input-clearBtn-padding);
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
   margin-left: auto;
+  text-decoration: none;
 
   svg {
-    fill: var(--Form-input-iconColor);
+    fill: var(--Form-input-clearBtn-color);
     top: 0;
-    width: px2rem(10px);
-    height: px2rem(10px);
+    width: var(--Form-input-clearBtn-size);
+    height: var(--Form-input-clearBtn-size);
   }
 
   &:hover svg {
-    fill: var(--Form-input-onHover-iconColor);
+    fill: var(--Form-input-clearBtn-color-onHover);
+  }
+
+  &:active svg {
+    fill: var(--Form-input-clearBtn-color-onActive);
   }
 }
 

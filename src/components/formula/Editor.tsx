@@ -3,13 +3,14 @@
  */
 import React from 'react';
 import {uncontrollable} from 'uncontrollable';
-import {FormulaPlugin, editorFactory} from './plugin';
+import {parse} from 'amis-formula';
 import {doc} from 'amis-formula/dist/doc';
+
+import {FormulaPlugin, editorFactory} from './plugin';
 import FuncList from './FuncList';
 import {VariableList} from './VariableList';
-import {parse} from 'amis-formula';
-import {autobind} from '../../utils/helper';
 import CodeMirrorEditor from '../CodeMirror';
+import {autobind} from '../../utils/helper';
 import {themeable, ThemeProps} from '../../theme';
 import {localeable, LocaleProps} from '../../locale';
 
@@ -17,6 +18,8 @@ export interface VariableItem {
   label: string;
   value?: string;
   children?: Array<VariableItem>;
+  type: '';
+  tag?: string;
   selectMode?: 'tree' | 'tabs';
 }
 
@@ -60,6 +63,10 @@ export interface FormulaEditorProps extends ThemeProps, LocaleProps {
    * 顶部标题，默认为表达式
    */
   header: string;
+
+  variableClassName?: string;
+
+  functionClassName?: string;
 }
 
 export interface FunctionsProps {
@@ -116,7 +123,7 @@ export class FormulaEditor extends React.Component<
     FormulaEditorProps,
     'functions' | 'variables' | 'evalMode'
   > = {
-    functions: this.buildDefaultFunctions(doc),
+    functions: FormulaEditor.buildDefaultFunctions(doc),
     variables: [],
     evalMode: true
   };
@@ -209,18 +216,23 @@ export class FormulaEditor extends React.Component<
       value,
       functions,
       variableMode,
-      classnames: cx
+      translate: __,
+      classnames: cx,
+      variableClassName,
+      functionClassName,
+      classPrefix
     } = this.props;
     const {focused} = this.state;
-
     return (
       <div
         className={cx(`FormulaEditor`, {
           'is-focused': focused
         })}
       >
-        <div className={cx(`FormulaEditor-content`)}>
-          <div className={cx(`FormulaEditor-header`)}>{header ?? '表达式'}</div>
+        <section className={cx(`FormulaEditor-content`)}>
+          <header className={cx(`FormulaEditor-header`)}>
+            {__(header || 'FormulaEditor.title')}
+          </header>
 
           <CodeMirrorEditor
             className={cx('FormulaEditor-editor')}
@@ -230,28 +242,36 @@ export class FormulaEditor extends React.Component<
             editorDidMount={this.handleEditorMounted}
             onFocus={this.handleFocus}
             onBlur={this.handleBlur}
-          ></CodeMirrorEditor>
-        </div>
+          />
+        </section>
 
-        <div className={cx('FormulaEditor-settings')}>
-          {Array.isArray(functions) && functions.length ? (
-            <div>
-              <h3>变量</h3>
+        <section className={cx('FormulaEditor-settings')}>
+          <div className={cx('FormulaEditor-panel')}>
+            <div className={cx('FormulaEditor-panel-header')}>
+              {__('FormulaEditor.variable')}
+            </div>
+            <div className={cx('FormulaEditor-panel-body')}>
               <VariableList
-                className={cx('VariableList')}
+                classPrefix={classPrefix}
+                className={cx(
+                  'FormulaEditor-VariableList',
+                  'FormulaEditor-VariableList-root',
+                  variableClassName
+                )}
                 selectMode={variableMode}
                 data={variables}
                 onSelect={this.handleVariableSelect}
               />
             </div>
-          ) : null}
-          {Array.isArray(variables) && variables.length ? (
-            <div>
-              <h3>函数</h3>
-              <FuncList data={functions} onSelect={this.handleFunctionSelect} />
-            </div>
-          ) : null}
-        </div>
+          </div>
+
+          <FuncList
+            className={functionClassName}
+            title={__('FormulaEditor.function')}
+            data={functions}
+            onSelect={this.handleFunctionSelect}
+          />
+        </section>
       </div>
     );
   }

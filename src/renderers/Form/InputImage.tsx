@@ -1,6 +1,6 @@
 import React, {Suspense} from 'react';
 import {FormItem, FormControlProps, FormBaseControl} from './Item';
-import 'cropperjs/dist/cropper.css';
+// import 'cropperjs/dist/cropper.css';
 const Cropper = React.lazy(() => import('react-cropper'));
 import DropZone from 'react-dropzone';
 import {FileRejection} from 'react-dropzone';

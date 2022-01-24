@@ -1,3 +1,5 @@
+@import '../thirds';
+
 @import '../mixins';
 @import '../base/reset';
 @import '../base/normalize';
@@ -122,5 +124,7 @@
 @import '../components/mapping';
 @import '../components/formula';
 @import '../components/timeline';
+
+@import '../components/debug';
 
 @import '../utilities';

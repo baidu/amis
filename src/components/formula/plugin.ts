@@ -13,8 +13,6 @@ export function editorFactory(
 ) {
   registerLaunguageMode(cm);
 
-  console.log('here', props.evalMode);
-
   return cm(dom, {
     value: props.value || '',
     autofocus: true,

@@ -11,6 +11,7 @@ import Button from './Button';
 export interface PickerContainerProps extends ThemeProps, LocaleProps {
   title?: string;
   showTitle?: boolean;
+  headerClassName?: string;
   children: (props: {
     onClick: (e: React.MouseEvent) => void;
     isOpened: boolean;
@@ -100,6 +101,7 @@ export class PickerContainer extends React.Component<
       bodyRender: popOverRender,
       title,
       showTitle,
+      headerClassName,
       translate: __,
       size
     } = this.props;
@@ -117,7 +119,7 @@ export class PickerContainer extends React.Component<
           onHide={this.close}
         >
           {showTitle !== false ? (
-            <Modal.Header onClose={this.close}>
+            <Modal.Header onClose={this.close} className={headerClassName}>
               {__(title || 'Select.placeholder')}
             </Modal.Header>
           ) : null}

@@ -14,7 +14,7 @@ import Overlay from './Overlay';
 import {ClassNamesFn, themeable, ThemeProps} from '../theme';
 import {PlainObject} from '../types';
 import Calendar from './calendar/Calendar';
-import 'react-datetime/css/react-datetime.css';
+// import 'react-datetime/css/react-datetime.css';
 import {localeable, LocaleProps, TranslateFn} from '../locale';
 import {isMobile, ucFirst} from '../utils/helper';
 import CalendarMobile from './CalendarMobile';
@@ -581,25 +581,36 @@ export class DatePicker extends React.Component<DateProps, DatePickerState> {
     const isOpened = this.state.isOpened;
     let date: moment.Moment | undefined = this.state.value;
 
-    const calendarMobile = <CalendarMobile
-      isDatePicker={true}
-      timeFormat={timeFormat}
-      inputFormat={inputFormat}
-      startDate={date}
-      defaultDate={date}
-      minDate={minDate}
-      maxDate={maxDate}
-      dateFormat={dateFormat}
-      embed={embed}
-      viewMode={viewMode}
-      close={this.close}
-      confirm={this.handleChange}
-      footerExtra={this.renderShortCuts(shortcuts)}
-      showViewMode={viewMode === 'quarters' || viewMode === 'months' ? 'years' : 'months'}
-      timeConstraints={timeConstraints}
-    />;
-    const CalendarMobileTitle = <div className={`${ns}CalendarMobile-title`}>{__('Calendar.datepicker')}</div>;
-    const useCalendarMobile = useMobileUI && isMobile() && ['days', 'months', 'quarters'].indexOf(viewMode) > -1;
+    const calendarMobile = (
+      <CalendarMobile
+        isDatePicker={true}
+        timeFormat={timeFormat}
+        inputFormat={inputFormat}
+        startDate={date}
+        defaultDate={date}
+        minDate={minDate}
+        maxDate={maxDate}
+        dateFormat={dateFormat}
+        embed={embed}
+        viewMode={viewMode}
+        close={this.close}
+        confirm={this.handleChange}
+        footerExtra={this.renderShortCuts(shortcuts)}
+        showViewMode={
+          viewMode === 'quarters' || viewMode === 'months' ? 'years' : 'months'
+        }
+        timeConstraints={timeConstraints}
+      />
+    );
+    const CalendarMobileTitle = (
+      <div className={`${ns}CalendarMobile-title`}>
+        {__('Calendar.datepicker')}
+      </div>
+    );
+    const useCalendarMobile =
+      useMobileUI &&
+      isMobile() &&
+      ['days', 'months', 'quarters'].indexOf(viewMode) > -1;
 
     if (embed) {
       let schedulesData: DateProps['schedules'] = undefined;
@@ -689,7 +700,7 @@ export class DatePicker extends React.Component<DateProps, DatePickerState> {
 
         {clearable && !disabled && normalizeValue(value, format) ? (
           <a className={cx(`DatePicker-clear`)} onClick={this.clearValue}>
-            <Icon icon="close" className="icon" />
+            <Icon icon="input-clear" className="icon" />
           </a>
         ) : null}
 
@@ -736,8 +747,8 @@ export class DatePicker extends React.Component<DateProps, DatePickerState> {
           </Overlay>
         ) : null}
         {useMobileUI && isMobile() ? (
-          mobileCalendarMode === 'calendar' && useCalendarMobile
-          ? <PopUp
+          mobileCalendarMode === 'calendar' && useCalendarMobile ? (
+            <PopUp
               isShow={isOpened}
               className={cx(`${ns}CalendarMobile-pop`)}
               onHide={this.close}
@@ -745,34 +756,36 @@ export class DatePicker extends React.Component<DateProps, DatePickerState> {
             >
               {calendarMobile}
             </PopUp>
-          : <PopUp
-            className={cx(`${ns}DatePicker-popup DatePicker-mobile`)}
-            container={popOverContainer}
-            isShow={isOpened}
-            showClose={false}
-            onHide={this.handleClick}
-          >
-            {this.renderShortCuts(shortcuts)}
+          ) : (
+            <PopUp
+              className={cx(`${ns}DatePicker-popup DatePicker-mobile`)}
+              container={popOverContainer}
+              isShow={isOpened}
+              showClose={false}
+              onHide={this.handleClick}
+            >
+              {this.renderShortCuts(shortcuts)}
 
-            <Calendar
-              value={date}
-              onChange={this.handleChange}
-              requiredConfirm={!!(dateFormat && timeFormat)}
-              dateFormat={dateFormat}
-              inputFormat={inputFormat}
-              timeFormat={timeFormat}
-              isValidDate={this.checkIsValidDate}
-              viewMode={viewMode}
-              timeConstraints={timeConstraints}
-              input={false}
-              onClose={this.close}
-              locale={locale}
-              minDate={minDate}
-              maxDate={maxDate}
-              useMobileUI={useMobileUI}
-              // utc={utc}
-            />
-          </PopUp>
+              <Calendar
+                value={date}
+                onChange={this.handleChange}
+                requiredConfirm={!!(dateFormat && timeFormat)}
+                dateFormat={dateFormat}
+                inputFormat={inputFormat}
+                timeFormat={timeFormat}
+                isValidDate={this.checkIsValidDate}
+                viewMode={viewMode}
+                timeConstraints={timeConstraints}
+                input={false}
+                onClose={this.close}
+                locale={locale}
+                minDate={minDate}
+                maxDate={maxDate}
+                useMobileUI={useMobileUI}
+                // utc={utc}
+              />
+            </PopUp>
+          )
         ) : null}
       </div>
     );

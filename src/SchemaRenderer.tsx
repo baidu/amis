@@ -13,7 +13,9 @@ import {
 } from './factory';
 import {asFormItem} from './renderers/Form/Item';
 import {renderChild, renderChildren} from './Root';
+import {IScopedContext, ScopedContext} from './Scoped';
 import {Schema, SchemaNode} from './types';
+import {DebugWrapper, enableAMISDebug} from './utils/debug';
 import getExprProperties from './utils/filter-schema';
 import {anyChanged, chainEvents, autobind} from './utils/helper';
 import {RendererEvent} from './utils/renderer-event';
@@ -59,8 +61,9 @@ const componentCache: SimpleMap = new SimpleMap();
 class BroadcastCmpt extends React.Component<BroadcastCmptProps> {
   ref: any;
   unbindEvent: (() => void) | undefined = undefined;
+  static contextType = ScopedContext;
 
-  constructor(props: BroadcastCmptProps) {
+  constructor(props: BroadcastCmptProps, context: IScopedContext) {
     super(props);
     this.triggerEvent = this.triggerEvent.bind(this);
   }
@@ -82,7 +85,7 @@ class BroadcastCmpt extends React.Component<BroadcastCmptProps> {
     e: React.MouseEvent<any>,
     data: any
   ): Promise<RendererEvent<any> | undefined> {
-    return await this.props.env.dispatchEvent(e, this.ref, data);
+    return await this.props.env.dispatchEvent(e, this.ref, this.context, data);
   }
 
   @autobind
@@ -96,12 +99,19 @@ class BroadcastCmpt extends React.Component<BroadcastCmptProps> {
 
   render() {
     const {component: Component, ...rest} = this.props;
-    return (
+
+    const isClassComponent = Component.prototype?.isReactComponent;
+
+    // 函数组件不支持 ref https://reactjs.org/docs/refs-and-the-dom.html#refs-and-function-components
+
+    return isClassComponent ? (
       <Component
         ref={this.childRef}
         {...rest}
         dispatchEvent={this.triggerEvent}
       />
+    ) : (
+      <Component {...rest} dispatchEvent={this.triggerEvent} />
     );
   }
 }
@@ -370,7 +380,7 @@ export class SchemaRenderer extends React.Component<SchemaRendererProps, any> {
       return null;
     }
 
-    return (
+    const component = (
       <BroadcastCmpt
         {...theme.getRendererConfig(renderer.name)}
         {...restSchema}
@@ -386,6 +396,12 @@ export class SchemaRenderer extends React.Component<SchemaRendererProps, any> {
         render={this.renderChild}
         component={Component}
       />
+    );
+
+    return enableAMISDebug ? (
+      <DebugWrapper renderer={renderer}>{component}</DebugWrapper>
+    ) : (
+      component
     );
   }
 }

@@ -187,7 +187,7 @@ export default class DateRangeControl extends React.Component<DateRangeProps> {
           popOverContainer={
             mobileUI && env && env.getModalContainer
               ? env.getModalContainer
-              : undefined
+              : rest.popOverContainer
           }
           data={data}
           format={format}

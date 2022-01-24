@@ -5,6 +5,7 @@ export default {
   body: [
     {
       type: 'button',
+      id: 'b_001',
       label: '发送广播事件1-表单1/2/3都在监听',
       actionType: 'reload',
       dialog: {
@@ -15,6 +16,17 @@ export default {
       onEvent: {
         click: {
           actions: [
+            {
+              actionType: 'reload',
+              args: {
+                name: 'lvxj',
+                age: 18
+              },
+              preventDefault: true,
+              stopPropagation: false,
+              componentId: 'form_001'
+              // componentId: 'form_001_form_01_text_01'
+            },
             {
               actionType: 'broadcast',
               eventName: 'broadcast_1',
@@ -40,6 +52,7 @@ export default {
     },
     {
       type: 'button',
+      id: 'b_002',
       label: '发送广播事件2-表单3在监听',
       className: 'ml-2',
       actionType: 'reload',
@@ -65,6 +78,7 @@ export default {
     },
     {
       type: 'form',
+      id: 'form_001',
       title: '表单1(我的权重最低)-刷新',
       name: 'form1',
       debug: true,
@@ -74,12 +88,14 @@ export default {
       body: [
         {
           type: 'form',
+          id: 'form_001_form_01',
           title: '表单1(我的权重最低)-刷新',
           name: 'sub-form1',
           debug: true,
           body: [
             {
               type: 'input-text',
+              id: 'form_001_form_01_text_01',
               label: '名称',
               name: 'name',
               disabled: false,
@@ -87,6 +103,7 @@ export default {
             },
             {
               type: 'input-text',
+              id: 'form_001_form_01_text_02',
               label: '等级',
               name: 'level',
               disabled: false,
@@ -94,6 +111,7 @@ export default {
             },
             {
               type: 'input-text',
+              id: 'form_001_form_01_text_03',
               label: '昵称',
               name: 'myname',
               disabled: false,
@@ -122,11 +140,13 @@ export default {
     {
       type: 'form',
       name: 'form2',
+      id: 'form_002',
       title: '表单2(权重2)-刷新+发Ajax',
       debug: true,
       body: [
         {
           type: 'input-text',
+          id: 'form_001_text_01',
           label: '年龄',
           name: 'age',
           disabled: false,
@@ -176,11 +196,13 @@ export default {
     {
       type: 'form',
       name: 'form3',
+      id: 'form_003',
       title: '表单3(权重3)-逻辑编排',
       debug: true,
       body: [
         {
           type: 'input-text',
+          id: 'form_003_text_01',
           label: '职业',
           name: 'job',
           disabled: false,
