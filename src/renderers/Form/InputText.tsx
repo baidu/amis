@@ -21,6 +21,11 @@ import {ActionSchema} from '../Action';
 import {SchemaApi} from '../../Schema';
 import {generateIcon} from '../../utils/icon';
 
+import type {Option} from '../../components/Select';
+import type {RendererEvent} from '../../utils/renderer-event';
+import type {IScopedContext} from '../../Scoped';
+import type {ListenerAction} from '../../actions/Action';
+
 // declare function matchSorter(items:Array<any>, input:any, options:any): Array<any>;
 
 /**
@@ -95,6 +100,71 @@ export interface TextState {
   isOpen?: boolean;
   inputValue?: string;
   isFocused?: boolean;
+}
+
+export type InputTextRendererEvent =
+  | 'blur'
+  | 'focus'
+  | 'click'
+  | 'change'
+  | 'clear'
+  | 'enter';
+
+/**
+ * 渲染器事件派发
+ */
+async function rendererEventDispatcher<T extends OptionsControlProps>(
+  props: T,
+  e: InputTextRendererEvent,
+  ctx: Record<string, any> = {}
+): Promise<RendererEvent<any> | undefined> {
+  const {dispatchEvent, data} = props;
+
+  return dispatchEvent(e, createObject(data, ctx));
+}
+
+/**
+ * 渲染器事件装饰器
+ *
+ * @param {InputTextRendererEvent} e 事件类型
+ * @returns {Function}
+ */
+export function bindRendererEvent<T extends OptionsControlProps, P = any>(
+  e: InputTextRendererEvent,
+  ctx: Record<string, any> = {}
+) {
+  return function (
+    target: any,
+    propertyKey: string,
+    descriptor: TypedPropertyDescriptor<any>
+  ) {
+    let fn = descriptor.value;
+
+    if (!fn || typeof fn !== 'function') {
+      throw new Error(
+        `decorator can only be applied to methods not: ${typeof fn}`
+      );
+    }
+
+    return {
+      ...descriptor,
+
+      value: async function boundFn(...params: any[]) {
+        const context = (this as TypedPropertyDescriptor<any> & {props: T})
+          ?.props;
+        let value = e === 'clear' ? context?.resetValue : context?.value;
+        const dispatcher = await rendererEventDispatcher<T>(context, e, {
+          value
+        });
+
+        if (dispatcher?.prevented) {
+          return;
+        }
+
+        return fn.apply(this, [...params]);
+      }
+    };
+  };
 }
 
 export default class TextControl extends React.PureComponent<
@@ -192,6 +262,19 @@ export default class TextControl extends React.PureComponent<
     this.input = ref;
   }
 
+  /**
+   * 动作处理
+   */
+  doAction(action: ListenerAction, args: any) {
+    const actionType = action?.actionType as string;
+
+    if (!!~['clear', 'reset'].indexOf(actionType)) {
+      this.clearValue();
+    } else if (actionType === 'focus') {
+      this.focus();
+    }
+  }
+
   focus() {
     if (!this.input) {
       return;
@@ -204,6 +287,7 @@ export default class TextControl extends React.PureComponent<
     len && this.input.setSelectionRange(len, len);
   }
 
+  @bindRendererEvent<TextProps>('clear')
   clearValue() {
     const {onChange, resetValue} = this.props;
 
@@ -220,29 +304,15 @@ export default class TextControl extends React.PureComponent<
   }
 
   removeItem(index: number) {
-    const {
-      selectedOptions,
-      onChange,
-      joinValues,
-      extractValue,
-      delimiter,
-      valueField
-    } = this.props;
+    const {selectedOptions, onChange} = this.props;
 
     const newValue = selectedOptions.concat();
     newValue.splice(index, 1);
 
-    onChange(
-      joinValues
-        ? newValue
-            .map(item => item[valueField || 'value'])
-            .join(delimiter || ',')
-        : extractValue
-        ? newValue.map(item => item[valueField || 'value'])
-        : newValue
-    );
+    onChange(this.normalizeValue(newValue));
   }
 
+  @bindRendererEvent<TextProps>('click')
   handleClick() {
     this.focus();
     this.setState({
@@ -250,6 +320,7 @@ export default class TextControl extends React.PureComponent<
     });
   }
 
+  @bindRendererEvent<TextProps>('focus')
   handleFocus(e: any) {
     this.setState({
       isOpen: true,
@@ -259,6 +330,7 @@ export default class TextControl extends React.PureComponent<
     this.props.onFocus && this.props.onFocus(e);
   }
 
+  @bindRendererEvent<TextProps>('blur')
   handleBlur(e: any) {
     const {onBlur, trimContents, value, onChange} = this.props;
 
@@ -294,32 +366,16 @@ export default class TextControl extends React.PureComponent<
     );
   }
 
-  handleKeyDown(evt: React.KeyboardEvent<HTMLInputElement>) {
-    const {
-      selectedOptions,
-      onChange,
-      joinValues,
-      extractValue,
-      delimiter,
-      multiple,
-      valueField,
-      creatable
-    } = this.props;
+  async handleKeyDown(evt: React.KeyboardEvent<HTMLInputElement>) {
+    const {selectedOptions, onChange, multiple, creatable} = this.props;
 
     if (selectedOptions.length && !this.state.inputValue && evt.keyCode === 8) {
       evt.preventDefault();
       const newValue = selectedOptions.concat();
       newValue.pop();
 
-      onChange(
-        joinValues
-          ? newValue
-              .map(item => item[valueField || 'value'])
-              .join(delimiter || ',')
-          : extractValue
-          ? newValue.map(item => item[valueField || 'value'])
-          : newValue
-      );
+      onChange(this.normalizeValue(newValue));
+
       this.setState(
         {
           inputValue: ''
@@ -327,34 +383,38 @@ export default class TextControl extends React.PureComponent<
         this.loadAutoComplete
       );
     } else if (
-      evt.keyCode === 13 &&
+      evt.key === 'Enter' &&
       this.state.inputValue &&
       typeof this.highlightedIndex !== 'number'
     ) {
       evt.preventDefault();
-      const value = this.state.inputValue;
+      let value: string | Array<string | any> = this.state.inputValue;
 
-      if (multiple) {
-        if (value && !find(selectedOptions, item => item.value == value)) {
-          const newValue = selectedOptions.concat();
-          newValue.push({
-            label: value,
-            value: value
-          });
+      if (
+        multiple &&
+        value &&
+        !find(selectedOptions, item => item.value == value)
+      ) {
+        const newValue = selectedOptions.concat();
+        newValue.push({
+          label: value,
+          value: value
+        });
 
-          onChange(
-            joinValues
-              ? newValue
-                  .map(item => item[valueField || 'value'])
-                  .join(delimiter || ',')
-              : extractValue
-              ? newValue.map(item => item[valueField || 'value'])
-              : newValue
-          );
-        }
-      } else {
-        onChange(value);
+        value = this.normalizeValue(newValue).concat();
       }
+
+      const dispatcher = await rendererEventDispatcher<TextProps>(
+        this.props,
+        'enter',
+        {value}
+      );
+
+      if (dispatcher?.prevented) {
+        return;
+      }
+
+      onChange(value);
 
       if (creatable === false || multiple) {
         this.setState(
@@ -366,7 +426,7 @@ export default class TextControl extends React.PureComponent<
         );
       }
     } else if (
-      evt.keyCode === 13 &&
+      evt.key === 'Enter' &&
       this.state.isOpen &&
       typeof this.highlightedIndex !== 'number'
     ) {
@@ -377,16 +437,7 @@ export default class TextControl extends React.PureComponent<
   }
 
   handleChange(value: any) {
-    const {
-      onChange,
-      multiple,
-      joinValues,
-      extractValue,
-      delimiter,
-      selectedOptions,
-      valueField,
-      creatable
-    } = this.props;
+    const {onChange, multiple, selectedOptions, creatable} = this.props;
 
     if (multiple) {
       const newValue = selectedOptions.concat();
@@ -395,15 +446,7 @@ export default class TextControl extends React.PureComponent<
         value: value
       });
 
-      onChange(
-        joinValues
-          ? newValue
-              .map(item => item[valueField || 'value'])
-              .join(delimiter || ',')
-          : extractValue
-          ? newValue.map(item => item[valueField || 'value'])
-          : newValue
-      );
+      onChange(this.normalizeValue(newValue));
     } else {
       onChange(value);
     }
@@ -458,12 +501,30 @@ export default class TextControl extends React.PureComponent<
   }
 
   @autobind
-  handleNormalInputChange(e: React.ChangeEvent<HTMLInputElement>) {
+  async handleNormalInputChange(e: React.ChangeEvent<HTMLInputElement>) {
     const {onChange} = this.props;
-
     let value = e.currentTarget.value;
+    const dispatcher = await rendererEventDispatcher<TextProps>(
+      this.props,
+      'change',
+      {value: this.transformValue(value)}
+    );
+
+    if (dispatcher?.prevented) {
+      return;
+    }
 
     onChange(this.transformValue(value));
+  }
+
+  normalizeValue(value: Option[]) {
+    const {delimiter, joinValues, extractValue, valueField} = this.props;
+
+    return joinValues
+      ? value.map(item => item[valueField || 'value']).join(delimiter || ',')
+      : extractValue
+      ? value.map(item => item[valueField || 'value'])
+      : value;
   }
 
   transformValue(value: string) {

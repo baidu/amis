@@ -449,7 +449,7 @@ exports[`Renderer:text type is password 1`] = `
                 placeholder=""
                 size="10"
                 type="password"
-                value="abcd"
+                value=""
               />
             </div>
           </div>
@@ -1243,12 +1243,12 @@ exports[`Renderer:text with counter 2`] = `
                 placeholder=""
                 size="10"
                 type="text"
-                value="abcd"
+                value=""
               />
               <span
                 class="cxd-TextControl-counter"
               >
-                4
+                0
               </span>
             </div>
           </div>
@@ -1507,12 +1507,12 @@ exports[`Renderer:text with counter and maxLength 2`] = `
                 placeholder=""
                 size="10"
                 type="text"
-                value="abcd"
+                value=""
               />
               <span
                 class="cxd-TextControl-counter"
               >
-                4/10
+                0/10
               </span>
             </div>
           </div>
@@ -1776,10 +1776,11 @@ exports[`Renderer:text with options and multiple: first option selected 1`] = `
             class="cxd-Form-control cxd-TextControl is-focused"
           >
             <div
-              aria-expanded="false"
+              aria-expanded="true"
               aria-haspopup="listbox"
               aria-labelledby="downshift-1-label"
-              class="cxd-TextControl-input cxd-TextControl-input--withAC cxd-TextControl-input--multiple"
+              aria-owns="downshift-1-menu"
+              class="cxd-TextControl-input cxd-TextControl-input--withAC is-opened cxd-TextControl-input--multiple"
               role="combobox"
             >
               <div
@@ -1798,6 +1799,7 @@ exports[`Renderer:text with options and multiple: first option selected 1`] = `
               </div>
               <input
                 aria-autocomplete="list"
+                aria-controls="downshift-1-menu"
                 aria-labelledby="downshift-1-label"
                 autocomplete="off"
                 id="downshift-1-input"
@@ -1806,6 +1808,40 @@ exports[`Renderer:text with options and multiple: first option selected 1`] = `
                 type="text"
                 value=""
               />
+              <div
+                class="cxd-TextControl-sugs"
+              >
+                <div
+                  aria-selected="false"
+                  class="cxd-TextControl-sugItem"
+                  id="downshift-1-item-0"
+                  role="option"
+                >
+                  <span>
+                    OptionB
+                  </span>
+                </div>
+                <div
+                  aria-selected="false"
+                  class="cxd-TextControl-sugItem"
+                  id="downshift-1-item-1"
+                  role="option"
+                >
+                  <span>
+                    OptionC
+                  </span>
+                </div>
+                <div
+                  aria-selected="false"
+                  class="cxd-TextControl-sugItem"
+                  id="downshift-1-item-2"
+                  role="option"
+                >
+                  <span>
+                    OptionD
+                  </span>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -2304,10 +2340,11 @@ exports[`Renderer:text with options and multiple: second option selected 1`] = `
             class="cxd-Form-control cxd-TextControl is-focused"
           >
             <div
-              aria-expanded="false"
+              aria-expanded="true"
               aria-haspopup="listbox"
               aria-labelledby="downshift-1-label"
-              class="cxd-TextControl-input cxd-TextControl-input--withAC cxd-TextControl-input--multiple"
+              aria-owns="downshift-1-menu"
+              class="cxd-TextControl-input cxd-TextControl-input--withAC is-opened cxd-TextControl-input--multiple"
               role="combobox"
             >
               <div
@@ -2340,6 +2377,7 @@ exports[`Renderer:text with options and multiple: second option selected 1`] = `
               </div>
               <input
                 aria-autocomplete="list"
+                aria-controls="downshift-1-menu"
                 aria-labelledby="downshift-1-label"
                 autocomplete="off"
                 id="downshift-1-input"
@@ -2348,6 +2386,30 @@ exports[`Renderer:text with options and multiple: second option selected 1`] = `
                 type="text"
                 value=""
               />
+              <div
+                class="cxd-TextControl-sugs"
+              >
+                <div
+                  aria-selected="false"
+                  class="cxd-TextControl-sugItem"
+                  id="downshift-1-item-0"
+                  role="option"
+                >
+                  <span>
+                    OptionC
+                  </span>
+                </div>
+                <div
+                  aria-selected="false"
+                  class="cxd-TextControl-sugItem"
+                  id="downshift-1-item-1"
+                  role="option"
+                >
+                  <span>
+                    OptionD
+                  </span>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -2636,14 +2698,16 @@ exports[`Renderer:text with options: select first option 1`] = `
             class="cxd-Form-control cxd-TextControl is-focused"
           >
             <div
-              aria-expanded="false"
+              aria-expanded="true"
               aria-haspopup="listbox"
               aria-labelledby="downshift-0-label"
-              class="cxd-TextControl-input cxd-TextControl-input--withAC"
+              aria-owns="downshift-0-menu"
+              class="cxd-TextControl-input cxd-TextControl-input--withAC is-opened"
               role="combobox"
             >
               <input
                 aria-autocomplete="list"
+                aria-controls="downshift-0-menu"
                 aria-labelledby="downshift-0-label"
                 autocomplete="off"
                 id="downshift-0-input"
