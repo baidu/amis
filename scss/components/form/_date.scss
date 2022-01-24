@@ -213,10 +213,6 @@
 
 .rdtTimeWithoutD {}
 
-.rdtTry {
-  height: 0;
-}
-
 .rdt {
   user-select: none;
   font-size: var(--Calendar-fontSize);
@@ -255,7 +251,7 @@
   }
 
   .rdtPickerDate {
-    width: 272px;
+    width: #{px2rem(272px)};
     height: 100%;
   }
 
@@ -272,7 +268,7 @@
 
     .dow {
       // color: var(--Calendar-wLabel-color);
-      font-weight: 400;
+      font-weight: normal;
     }
 
     td.rdtDay,
@@ -321,7 +317,7 @@
   }
 
   tbody {
-    height: 194px;
+    height: #{px2rem(194px)};
   }
 
   tfoot {
