@@ -128,8 +128,6 @@ export class Tabs extends React.Component<TabsProps, any> {
   static Tab = Tab;
   navMain = React.createRef<HTMLDivElement>();
   scroll: boolean = false;
-  dragInfo: IDragInfo | null;
-  dragNode: HTMLElement | null;
   sortable?: Sortable;
   dragTip?: HTMLElement;
   id: string = guid();
@@ -415,8 +413,7 @@ export class Tabs extends React.Component<TabsProps, any> {
       title,
       toolbar,
       tabClassName,
-      closable: tabClosable,
-      _uuid
+      closable: tabClosable
     } = child.props;
     const activeKey =
       activeKeyProp === undefined && index === 0 ? eventKey : activeKeyProp;
@@ -450,7 +447,6 @@ export class Tabs extends React.Component<TabsProps, any> {
           disabled ? 'is-disabled' : '',
           tabClassName
         )}
-        data-id={_uuid}
         key={eventKey ?? index}
         onClick={() => (disabled ? '' : this.handleSelect(eventKey))}
       >

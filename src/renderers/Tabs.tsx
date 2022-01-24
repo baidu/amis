@@ -8,11 +8,10 @@ import {
   isDisabled,
   isObject,
   createObject,
-  getVariable,
-  guid
+  getVariable
 } from '../utils/helper';
 import findIndex from 'lodash/findIndex';
-import {Tabs as CTabs, Tab} from '../components/Tabs';
+import {Tabs as CTabs, Tab, TabsMode} from '../components/Tabs';
 import {ClassNamesFn} from '../theme';
 import {
   BaseSchema,
@@ -122,7 +121,7 @@ export interface TabsSchema extends BaseSchema {
   /**
    * 展示形式
    */
-  tabsMode?: '' | 'line' | 'card' | 'radio' | 'vertical' | 'chrome' | 'simple' | 'strong';
+  tabsMode?: TabsMode;
 
   /**
    * 内容类名
@@ -208,7 +207,7 @@ export default class Tabs extends React.Component<TabsProps, TabsState> {
     super(props);
 
     const location = props.location || window.location;
-    const tabs = props.tabs;
+    const {tabs, source, data} = props;
     let activeKey: any = 0;
 
     if (typeof props.activeKey !== 'undefined') {
@@ -226,14 +225,50 @@ export default class Tabs extends React.Component<TabsProps, TabsState> {
       activeKey = activeKey || (tabs[0] && tabs[0].hash) || 0;
     }
 
+    const [localTabs, isFromSource] = this.initTabArray(tabs, source, data);
+
     this.state = {
       prevKey: undefined,
       activeKey: (this.activeKey = activeKey),
-      localTabs: Array.isArray(tabs) ? tabs.concat().map(item => {
-        item._uuid = guid();
-        return item;
-      }) : []
+      localTabs,
+      isFromSource
     };
+  }
+
+  // 初始化 tabs 数组，当从 source 获取数据源时
+  @autobind
+  initTabArray(tabs: Array<TabSchema>, source: string, data: any) {
+    if (!tabs) {
+      return [[], false];
+    }
+
+    const arr = resolveVariableAndFilter(source, data, '| raw');
+    if (!Array.isArray(arr)) {
+      return [tabs, false];
+    }
+
+    tabs = Array.isArray(tabs) ? tabs : [tabs];
+
+    let indexKey = 0;
+    const sourceTabs = [];
+    arr.forEach((value, index) => {
+      const ctx = createObject(
+        data,
+        isObject(value) ? {index, ...value} : {item: value, index}
+      );
+
+      for (let tabIndex = 0; tabIndex < tabs.length; tabIndex++ ) {
+        const tab = Object.assign({}, tabs[tabIndex]);
+        tab.ctx = ctx;
+
+        tab.arrIndex = index;
+        tab.tabIndex = tabIndex;
+
+        sourceTabs.push(tab);
+      };
+    });
+
+    return [sourceTabs, true];
   }
 
   componentDidMount() {
@@ -412,18 +447,21 @@ export default class Tabs extends React.Component<TabsProps, TabsState> {
 
   @autobind
   async handleAdd() {
-    const localTabs = this.state.localTabs;
+    const localTabs = [].concat(this.state.localTabs);
 
     localTabs.push({
       title: `新增tab${this.newTabDefaultId++}`,
-      body: '新增tab 内容',
-      _uuid: guid()
+      body: '新增tab 内容'
     });
 
-    const newTabs = await this.confirmTabs(localTabs);
+    const canContinue = await this.confirmTabs(localTabs);
+
+    if (!canContinue) {
+      return;
+    }
 
     this.setState({
-      localTabs: newTabs
+      localTabs
     }, () => {
       this.switchTo(this.state.localTabs.length - 1);
     })
@@ -435,37 +473,54 @@ export default class Tabs extends React.Component<TabsProps, TabsState> {
 
     originTabs.splice(index, 1);
 
-    const newTabs = await this.confirmTabs(originTabs);
+    const canContinue = await this.confirmTabs(originTabs);
+
+    if (!canContinue) {
+      return;
+    }
 
     this.setState({
-      localTabs: newTabs
+      localTabs: originTabs
     });
   }
 
+  // 回调，拦截器
   async confirmTabs(tabs: Array<TabSchema>) {
     const {onTabsChange} = this.props;
 
     if (onTabsChange) {
-      const confirmedTabs = await Promise.resolve(onTabsChange(originTabs));
+      try {
+        const canContinue = await Promise.resolve(onTabsChange(tabs));
 
-      if (confirmedTabs && Array.isArray(confirmedTabs)) {
-        return confirmedTabs;
+        return !!canContinue;
+      }
+      catch (e) {
+        return false;
       }
     }
 
-    return tabs;
+    return true;
   }
 
   @autobind
   async handleDragChange(e: any){
+    const activeTab = this.resolveTabByKey(this.activeKey);
     const originTabs = [].concat(this.state.localTabs);
 
     originTabs.splice(e.newIndex, 0, originTabs.splice(e.oldIndex, 1)[0]);
 
-    const newTabs = await this.confirmTabs(originTabs);
+    const canContinue = await this.confirmTabs(originTabs);
+
+    if (!canContinue) {
+      return;
+    }
+
+    const newActiveTabIndex = originTabs.indexOf(activeTab);
 
     this.setState({
-      localTabs: newTabs
+      localTabs: originTabs
+    }, () => {
+      this.switchTo(newActiveTabIndex)
     });
   }
 
@@ -565,7 +620,6 @@ export default class Tabs extends React.Component<TabsProps, TabsState> {
     } = this.props;
 
     const mode = tabsMode || dMode;
-    const arr = resolveVariableAndFilter(source, data, '| raw');
     let mountOnEnter = this.props.mountOnEnter;
 
     // 如果在form下面，其他tabs默认需要渲染出来
@@ -574,54 +628,41 @@ export default class Tabs extends React.Component<TabsProps, TabsState> {
       mountOnEnter = false;
     }
 
-    let tabs = this.state.localTabs;
-    if (!tabs) {
-      return null;
-    }
-
-    tabs = Array.isArray(tabs) ? tabs : [tabs];
+    const {localTabs: tabs, isFromSource} = this.state;
     let children: Array<JSX.Element | null> = [];
 
-    if (Array.isArray(arr)) {
-      arr.forEach((value, index) => {
-        const ctx = createObject(
-          data,
-          isObject(value) ? {index, ...value} : {item: value, index}
-        );
-
-        children.push(
-          ...tabs.map((tab, tabIndex) =>
-            isVisible(tab, ctx) ? (
-              <Tab
-                {...(tab as any)}
-                title={filter(tab.title, ctx)}
-                disabled={isDisabled(tab, ctx)}
-                key={`${index * 1000 + tabIndex}`}
-                eventKey={index * 1000 + tabIndex}
-                mountOnEnter={mountOnEnter}
-                unmountOnExit={
-                  typeof tab.reload === 'boolean'
-                    ? tab.reload
-                    : typeof tab.unmountOnExit === 'boolean'
-                    ? tab.unmountOnExit
-                    : unmountOnExit
-                }
-              >
-                {render(
-                  `item/${index}/${tabIndex}`,
-                  (tab as any)?.type ? (tab as any) : tab.tab || tab.body,
-                  {
-                    data: ctx,
-                    formMode: tab.mode || subFormMode || formMode,
-                    formHorizontal:
-                      tab.horizontal || subFormHorizontal || formHorizontal
-                  }
-                )}
-              </Tab>
-            ) : null
-          )
-        );
-      });
+    // 是否从 source 数据中生成
+    if (isFromSource) {
+      children = tabs.map((tab, index) =>
+        isVisible(tab, tab.ctx) ? (
+          <Tab
+            {...(tab as any)}
+            title={filter(tab.title, tab.ctx)}
+            disabled={isDisabled(tab, tab.ctx)}
+            key={index}
+            eventKey={index}
+            mountOnEnter={mountOnEnter}
+            unmountOnExit={
+              typeof tab.reload === 'boolean'
+                ? tab.reload
+                : typeof tab.unmountOnExit === 'boolean'
+                ? tab.unmountOnExit
+                : unmountOnExit
+            }
+          >
+            {render(
+              `item/${index}`,
+              (tab as any)?.type ? (tab as any) : tab.tab || tab.body,
+              {
+                data: tab.ctx,
+                formMode: tab.mode || subFormMode || formMode,
+                formHorizontal:
+                  tab.horizontal || subFormHorizontal || formHorizontal
+              }
+            )}
+          </Tab>
+        ) : null
+      );
     } else {
       children = tabs.map((tab, index) =>
         isVisible(tab, data) ? (

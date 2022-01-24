@@ -79,6 +79,10 @@ order: 68
         {
             "title": "Tab 2",
             "tab": "Content 2"
+        },
+        {
+            "title": "Tab 3",
+            "tab": "Content 3"
         }
     ]
 }
@@ -98,6 +102,27 @@ order: 68
             "title": "Tab 1",
             "tab": "Content 1",
             "closable": false
+        },
+        {
+            "title": "Tab 2",
+            "tab": "Content 2"
+        }
+    ]
+}
+```
+
+## 可禁用
+
+```schema: scope="body"
+{
+    "type": "tabs",
+    "addBtn": true,
+    "closable": true,
+    "tabs": [
+        {
+            "title": "Tab 1",
+            "tab": "Content 1",
+            "disabled": true
         },
         {
             "title": "Tab 2",
