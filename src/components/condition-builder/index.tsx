@@ -15,6 +15,7 @@ import {
 } from '../../utils/helper';
 import {findDOMNode} from 'react-dom';
 import animtion from '../../utils/Animation';
+import {FormulaPickerProps} from '../formula/Picker';
 
 export interface ConditionBuilderProps extends ThemeProps, LocaleProps {
   builderMode?: 'simple' | 'full'; // 简单模式｜完整模式
@@ -29,6 +30,7 @@ export interface ConditionBuilderProps extends ThemeProps, LocaleProps {
   disabled?: boolean;
   searchable?: boolean;
   fieldClassName?: string;
+  formula?: FormulaPickerProps;
 }
 
 export class QueryBuilder extends React.Component<ConditionBuilderProps> {
@@ -207,7 +209,8 @@ export class QueryBuilder extends React.Component<ConditionBuilderProps> {
       data,
       disabled,
       searchable,
-      builderMode
+      builderMode,
+      formula
     } = this.props;
 
     const normalizedValue = Array.isArray(value?.children)
@@ -243,6 +246,7 @@ export class QueryBuilder extends React.Component<ConditionBuilderProps> {
         data={data}
         disabled={disabled}
         searchable={searchable}
+        formula={formula}
       />
     );
   }

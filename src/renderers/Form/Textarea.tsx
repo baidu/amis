@@ -2,6 +2,7 @@ import React from 'react';
 import {FormItem, FormControlProps, FormBaseControl} from './Item';
 import cx from 'classnames';
 import Textarea from '../../components/Textarea';
+import {Icon} from '../../components/icons';
 import {findDOMNode} from 'react-dom';
 import {autobind, ucFirst} from '../../utils/helper';
 /**
@@ -43,12 +44,24 @@ export interface TextareaControlSchema extends FormBaseControl {
    * 是否显示计数
    */
   showCounter?: boolean;
+
+  /**
+   * 输入内容是否可清除
+   */
+  clearable?: boolean;
+
+  /**
+   * 重置值
+   */
+  resetValue?: string;
 }
 
 export interface TextAreaProps extends FormControlProps {
   placeholder?: string;
   minRows?: number;
   maxRows?: number;
+  clearable?: boolean;
+  resetValue?: string;
 }
 
 export default class TextAreaControl extends React.Component<
@@ -58,7 +71,9 @@ export default class TextAreaControl extends React.Component<
   static defaultProps: Partial<TextAreaProps> = {
     minRows: 3,
     maxRows: 20,
-    trimContents: true
+    trimContents: true,
+    resetValue: '',
+    clearable: false
   };
 
   state = {
@@ -67,6 +82,14 @@ export default class TextAreaControl extends React.Component<
 
   input?: HTMLInputElement;
   inputRef = (ref: any) => (this.input = findDOMNode(ref) as HTMLInputElement);
+
+  valueToString(value: any) {
+    return typeof value === 'undefined' || value === null
+      ? ''
+      : typeof value === 'string'
+      ? value
+      : JSON.stringify(value);
+  }
 
   focus() {
     if (!this.input) {
@@ -132,6 +155,14 @@ export default class TextAreaControl extends React.Component<
     );
   }
 
+  @autobind
+  handleClear() {
+    const {onChange, resetValue} = this.props;
+
+    onChange?.(resetValue);
+    this.focus();
+  }
+
   render() {
     const {
       className,
@@ -147,17 +178,10 @@ export default class TextAreaControl extends React.Component<
       borderMode,
       classnames: cx,
       maxLength,
-      showCounter
+      showCounter,
+      clearable
     } = this.props;
-
-    let counter = showCounter
-      ? (typeof value === 'undefined' || value === null
-          ? ''
-          : typeof value === 'string'
-          ? value
-          : JSON.stringify(value)
-        ).length
-      : 0;
+    const counter = showCounter ? this.valueToString(value).length : 0;
 
     return (
       <div
@@ -175,13 +199,7 @@ export default class TextAreaControl extends React.Component<
           ref={this.inputRef}
           name={name}
           disabled={disabled}
-          value={
-            typeof value === 'undefined' || value === null
-              ? ''
-              : typeof value === 'string'
-              ? value
-              : JSON.stringify(value)
-          }
+          value={this.valueToString(value)}
           placeholder={placeholder}
           autoCorrect="off"
           spellCheck="false"
@@ -193,12 +211,18 @@ export default class TextAreaControl extends React.Component<
           onBlur={this.handleBlur}
         />
 
+        {clearable && !disabled && value ? (
+          <a onClick={this.handleClear} className={cx('TextareaControl-clear')}>
+            <Icon icon="input-clear" className="icon" />
+          </a>
+        ) : null}
+
         {showCounter ? (
           <span
-            className={cx(
-              'TextareaControl-counter',
-              counter === 0 ? 'is-empty' : ''
-            )}
+            className={cx('TextareaControl-counter', {
+              'is-empty': counter === 0,
+              'is-clearable': clearable && !disabled && value
+            })}
           >
             {`${counter}${
               typeof maxLength === 'number' && maxLength ? `/${maxLength}` : ''

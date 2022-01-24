@@ -77,6 +77,7 @@ import AlertInfo from '../icons/alert-info.svg';
 import AlertWarning from '../icons/alert-warning.svg';
 import AlertDanger from '../icons/alert-danger.svg';
 import FunctionIcon from '../icons/function.svg';
+import InputClearIcon from '../icons/input-clear.svg';
 
 // 兼容原来的用法，后续不直接试用。
 
@@ -180,6 +181,7 @@ registerIcon('alert-warning', AlertWarning);
 registerIcon('alert-danger', AlertDanger);
 registerIcon('tree-down', TreeDownIcon);
 registerIcon('function', FunctionIcon);
+registerIcon('input-clear', InputClearIcon);
 
 export function Icon({
   icon,
@@ -202,6 +204,7 @@ export function Icon({
 }
 
 export {
+  InputClearIcon,
   CloseIcon,
   UnDoIcon,
   ReDoIcon,

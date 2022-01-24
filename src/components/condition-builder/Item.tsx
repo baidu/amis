@@ -21,6 +21,7 @@ import PopOverContainer from '../PopOverContainer';
 import GroupedSelection from '../GroupedSelection';
 import ResultBox from '../ResultBox';
 import {localeable, LocaleProps} from '../../locale';
+import {FormulaPickerProps} from '../formula/Picker';
 
 const option2value = (item: any) => item.value;
 
@@ -35,6 +36,7 @@ export interface ConditionItemProps extends ThemeProps, LocaleProps {
   searchable?: boolean;
   onChange: (value: ConditionRule, index?: number) => void;
   fieldClassName?: string;
+  formula?: FormulaPickerProps;
 }
 
 export class ConditionItem extends React.Component<ConditionItemProps> {
@@ -239,7 +241,8 @@ export class ConditionItem extends React.Component<ConditionItemProps> {
       fields,
       config,
       classnames: cx,
-      disabled
+      disabled,
+      formula
     } = this.props;
     let field = {
       ...config.types[type],
@@ -278,6 +281,7 @@ export class ConditionItem extends React.Component<ConditionItemProps> {
               config.valueTypes || ['value', 'field', 'func', 'formula']
             }
             disabled={disabled}
+            formula={formula}
           />
 
           <span className={cx('CBSeprator')}>~</span>
@@ -295,6 +299,7 @@ export class ConditionItem extends React.Component<ConditionItemProps> {
               config.valueTypes || ['value', 'field', 'func', 'formula']
             }
             disabled={disabled}
+            formula={formula}
           />
         </>
       );
@@ -315,6 +320,7 @@ export class ConditionItem extends React.Component<ConditionItemProps> {
           config.valueTypes || ['value', 'field', 'func', 'formula']
         }
         disabled={disabled}
+        formula={formula}
       />
     );
   }

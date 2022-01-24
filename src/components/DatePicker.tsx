@@ -700,7 +700,7 @@ export class DatePicker extends React.Component<DateProps, DatePickerState> {
 
         {clearable && !disabled && normalizeValue(value, format) ? (
           <a className={cx(`DatePicker-clear`)} onClick={this.clearValue}>
-            <Icon icon="close" className="icon" />
+            <Icon icon="input-clear" className="icon" />
           </a>
         ) : null}
 

@@ -982,8 +982,8 @@ exports[`Renderer:text with clearable 1`] = `
                 class="cxd-TextControl-clear"
               >
                 <icon-mock
-                  classname="icon icon-close"
-                  icon="close"
+                  classname="icon icon-input-clear"
+                  icon="input-clear"
                 />
               </a>
             </div>

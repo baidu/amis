@@ -367,6 +367,7 @@
   margin-left: calc(var(--Form-group-gutterWidth) / -2);
   margin-right: calc(var(--Form-group-gutterWidth) / -2);
   > .#{$ns}Form-item {
+    flex-shrink: 0;
     flex-grow: 1;
     padding-left: calc(var(--Form-group-gutterWidth) / 2);
     padding-right: calc(var(--Form-group-gutterWidth) / 2);
