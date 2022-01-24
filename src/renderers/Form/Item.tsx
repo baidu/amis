@@ -30,10 +30,13 @@ import {
 } from '../../Schema';
 import {HocStoreFactory} from '../../WithStore';
 import {wrapControl} from './wrapControl';
+import type {OnEventProps} from '../../utils/renderer-event';
 
 export type FormControlSchemaAlias = SchemaObject;
 
-export interface FormBaseControl extends Omit<BaseSchema, 'type'> {
+export interface FormBaseControl
+  extends Omit<BaseSchema, 'type'>,
+    OnEventProps {
   /**
    * 表单项类型
    */

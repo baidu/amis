@@ -18,8 +18,9 @@ import {Schema, SchemaNode} from './types';
 import {DebugWrapper, enableAMISDebug} from './utils/debug';
 import getExprProperties from './utils/filter-schema';
 import {anyChanged, chainEvents, autobind} from './utils/helper';
-import {RendererEvent} from './utils/renderer-event';
 import {SimpleMap} from './utils/SimpleMap';
+
+import type {RendererEvent} from './utils/renderer-event';
 
 interface SchemaRendererProps extends Partial<RendererProps> {
   schema: Schema;

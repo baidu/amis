@@ -73,6 +73,7 @@ import CustomEventActionSchema from './EventAction/Custom';
 import LogicEventActionSchema from './EventAction/Logic';
 import StopEventActionSchema from './EventAction/Stop';
 import DataFlowEventActionSchema from './EventAction/DataFlow';
+import InputEventSchema from './EventAction/InputEvent';
 import WizardSchema from './Wizard';
 import ChartSchema from './Chart';
 import EChartsEditorSchema from './ECharts';
@@ -508,22 +509,29 @@ export const examples = [
 
       {
         label: '事件动作机制',
-        icon: 'fa fa-bolt',
+        icon: 'fa fa-bullhorn',
         children: [
           {
-            label: '执行通用动作',
+            label: '执行通用动作',
             path: '/examples/event-action/common',
             component: makeSchemaRenderer(CommonEventActionSchema)
           },
           {
-            label: '广播(自定义事件)',
+            label: '广播(自定义事件)',
             path: '/examples/event-action/broadcat',
             component: makeSchemaRenderer(BroadcastEventActionSchema)
           },
           {
-            label: '执行其他组件动作',
+            label: '执行其他组件动作',
             path: '/examples/event-action/cmpt',
-            component: makeSchemaRenderer(CmptEventActionSchema)
+            component: makeSchemaRenderer(CmptEventActionSchema),
+            children: [
+              {
+                label: '输入类组件',
+                path: '/examples/event/input',
+                component: makeSchemaRenderer(InputEventSchema)
+              }
+            ]
           },
           {
             label: '自定义JS',
@@ -531,7 +539,7 @@ export const examples = [
             component: makeSchemaRenderer(CustomEventActionSchema)
           },
           {
-            label: '执行逻辑编排动作',
+            label: '执行逻辑编排动作',
             path: '/examples/event-action/logic',
             component: makeSchemaRenderer(LogicEventActionSchema)
           },
