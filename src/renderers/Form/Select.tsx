@@ -94,6 +94,13 @@ export interface SelectProps extends OptionsControlProps {
   useMobileUI?: boolean;
 }
 
+export type SelectRendererEvent =
+  | 'change'
+  | 'blur'
+  | 'focus'
+  | 'add'
+  | 'edit'
+  | 'delete';
 export default class SelectControl extends React.Component<SelectProps, any> {
   static defaultProps: Partial<SelectProps> = {
     clearable: false,
@@ -108,6 +115,7 @@ export default class SelectControl extends React.Component<SelectProps, any> {
     super(props);
 
     this.changeValue = this.changeValue.bind(this);
+    this.otherChangeValue = this.otherChangeValue.bind(this);
     this.lazyloadRemote = debouce(this.loadRemote.bind(this), 250, {
       trailing: true,
       leading: false
@@ -127,16 +135,16 @@ export default class SelectControl extends React.Component<SelectProps, any> {
     this.input && this.input.focus();
   }
 
-  dispatchEvent(eventName: string, e: any = {}) {
+  dispatchEvent(eventName: SelectRendererEvent, e: any = {}) {
     const event = 'on' + eventName.charAt(0).toUpperCase() + eventName.slice(1);
     const {dispatchEvent, options} = this.props;
-    isEmpty(e) ? this.props[event]() : this.props[event](e);
     dispatchEvent(eventName, createObject(e, {
       options
     }));
+    this.props[event](e);
   }
 
-  changeValue(value: Option | Array<Option> | void) {
+  changeValue(value: Option | Array<Option> | string | void) {
     const {
       joinValues,
       extractValue,
@@ -191,11 +199,25 @@ export default class SelectControl extends React.Component<SelectProps, any> {
     // 不设置没法回显
     additonalOptions.length && setOptions(options.concat(additonalOptions));
 
-    onChange(newValue);
     dispatchEvent('change', {
       value: newValue,
       options
     });
+    onChange(newValue);
+  }
+
+  otherChangeValue(newValue: Option | Array<Option> | string | void) {
+    const {
+      onChange,
+      options,
+      dispatchEvent
+    } = this.props;
+
+    dispatchEvent('change', {
+      value: newValue,
+      options
+    });
+    onChange(newValue);
   }
 
   async loadRemote(input: string) {
@@ -290,14 +312,15 @@ export default class SelectControl extends React.Component<SelectProps, any> {
       <TransferDropdownRenderer
         {...rest}
         selectMode={selectMode === 'group' ? 'list' : selectMode}
+        onChange={this.otherChangeValue}
       />
     );
   }
 
   doAction(action: Action, data: object, throwErrors: boolean): any {
-    const {simpleValue} = this.props;
+    const {simpleValue, resetValue} = this.props;
     if (action.actionType === 'clear') {
-      this.changeValue(simpleValue ? undefined : []);
+      this.changeValue(resetValue ? resetValue : '');
     }
   }
 
@@ -364,8 +387,8 @@ export default class SelectControl extends React.Component<SelectProps, any> {
             onBlur={(e: any) => this.dispatchEvent('blur', e)}
             onFocus={(e: any) => this.dispatchEvent('focus', e)}
             onAdd={() => this.dispatchEvent('add')}
-            onEdit={(e: any) => this.dispatchEvent('edit', e)}
-            onDelete={(e: any) => this.dispatchEvent('delete', e)}
+            onEdit={(item: any) => this.dispatchEvent('edit', item)}
+            onDelete={(item: any) => this.dispatchEvent('delete', item)}
             loading={loading}
             noResultsText={noResultsText}
             renderMenu={menuTpl ? this.renderMenu : undefined}
