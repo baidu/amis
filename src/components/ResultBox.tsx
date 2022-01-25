@@ -195,7 +195,7 @@ export class ResultBox extends React.Component<ResultBoxProps> {
             })}
           >
             <div className={cx('ResultBox-clear-wrap')}>
-              <Icon icon="close" className="icon" />
+              <Icon icon="input-clear" className="icon" />
             </div>
           </a>
         ) : null}
