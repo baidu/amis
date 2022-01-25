@@ -30,7 +30,6 @@ export class DialogAction implements Action {
     event: RendererEvent<any>
   ) {
     const store = renderer.props.store;
-    debugger;
     // 记录弹窗
     dialogs.push({
       id: action.dialog.id || '', // id依赖用户的配置
@@ -39,7 +38,6 @@ export class DialogAction implements Action {
     });
     // 打开弹窗
     store.setCurrentAction(action);
-    debugger;
     store.openDialog(action.args);
   }
 }
