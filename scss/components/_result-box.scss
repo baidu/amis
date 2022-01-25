@@ -8,6 +8,10 @@
   border-radius: 3px;
   position: relative;
 
+  &.is-clearable {
+    padding-right: px2rem(55px);
+  }
+
   &.is-error {
     border-color: var(--Form-input-onError-borderColor);
     background: var(--Form-input-onError-bg);
@@ -176,6 +180,20 @@
     font-size: var(--fontSizeLg);
     border: none;
     justify-content: flex-end;
+
+    .#{$ns}ResultBox-clear {
+      @include input-clear();
+      width: px2rem(26px);
+      height: px2rem(26px);
+      margin: 0 px2rem(-2px);
+      margin-left: auto;
+      padding: px2rem(4px);
+      position: unset;
+      right: 0;
+      display: flex;
+      align-items: center;
+      background-color: unset;
+    }
 
     .#{$ns}ResultBox-arrow {
       margin-right: var(--gap-xs);

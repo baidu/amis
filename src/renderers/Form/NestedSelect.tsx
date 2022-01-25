@@ -197,14 +197,14 @@ export default class NestedSelectControl extends React.Component<
               const unmatchText = label.split(regexp || '');
               let pointer = 0;
               return (
-                <span key={label}>
+                <span key={index}>
                   {regexp.test(label)
-                    ? unmatchText.map((text: string) => {
+                    ? unmatchText.map((text: string, textIndex: number) => {
                         const current = pointer;
                         pointer += text.length || inputValue?.length || 0;
                         return (
                           <span
-                            key={text || label.slice(current, pointer)}
+                            key={textIndex}
                             className={cx({
                               'NestedSelect-optionLabel-highlight': !text
                             })}
@@ -613,46 +613,52 @@ export default class NestedSelectControl extends React.Component<
 
     // 一个stack一个menu
     const resultBody = (
-      <div key={0} className={cx('NestedSelect-menu')}>
+      <div className={cx('NestedSelect-menu')}>
         {flattenTreeWithNodes.length ? (
           flattenTreeWithNodes.map((option, index) => {
             const ancestors = getTreeAncestors(propOptions, option as any);
-            const parentChecked = ancestors?.some(
-              item => !!~selectedOptions.indexOf(item)
-            );
-            const uncheckable = cascade ? false : multiple && parentChecked;
-            const parentDisabled = ancestors?.some(item => !!item.disabled);
-            let nodeDisabled =
-              uncheckable || option.disabled || parentDisabled || !!disabled;
-            let selfChildrenChecked = !!(
+
+            const uncheckable = cascade
+              ? false
+              : multiple &&
+                ancestors?.some(item => !!~selectedOptions.indexOf(item));
+
+            let isNodeDisabled =
+              uncheckable ||
+              option.disabled ||
+              !!disabled ||
+              ancestors?.some(item => !!item.disabled);
+
+            let isChildrenChecked = !!(
               option.children && this.partialChecked(option.children)
             );
-            let selfChecked = uncheckable || !!~selectedOptions.indexOf(option);
+
+            let isChecked = uncheckable || !!~selectedOptions.indexOf(option);
 
             if (
-              !selfChecked &&
+              !isChecked &&
               onlyChildren &&
               option.children &&
               this.allChecked(option.children)
             ) {
-              selfChecked = true;
+              isChecked = true;
             }
 
             return (
               <div
                 className={cx('NestedSelect-option', {
                   'is-active':
-                    !nodeDisabled &&
-                    (selfChecked || (!cascade && selfChildrenChecked))
+                    !isNodeDisabled &&
+                    (isChecked || (!cascade && isChildrenChecked))
                 })}
-                key={option.value}
+                key={index}
               >
                 <div
                   className={cx('NestedSelect-optionLabel', {
-                    'is-disabled': nodeDisabled
+                    'is-disabled': isNodeDisabled
                   })}
                   onClick={() => {
-                    !nodeDisabled &&
+                    !isNodeDisabled &&
                       (multiple
                         ? this.handleCheck(option, option.value)
                         : this.handleOptionClick(option));

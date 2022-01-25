@@ -54,10 +54,8 @@ export class ResultBox extends React.Component<ResultBoxProps> {
   @autobind
   clearValue(e: React.MouseEvent<any>) {
     e.preventDefault();
-    const onResultChange = this.props.onResultChange;
-    const onResultClear = this.props.onClear;
-    onResultClear && onResultClear(e);
-    onResultChange && onResultChange([]);
+    this.props.onClear && this.props.onClear(e);
+    this.props.onResultChange && this.props.onResultChange([]);
   }
 
   @autobind
@@ -135,6 +133,7 @@ export class ResultBox extends React.Component<ResultBoxProps> {
           'is-disabled': disabled,
           'is-error': hasError,
           'is-clickable': onResultClick,
+          'is-clearable': clearable,
           'is-mobile': mobileUI,
           [`ResultBox--border${ucFirst(borderMode)}`]: borderMode
         })}
