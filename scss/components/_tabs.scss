@@ -748,6 +748,7 @@
         border: var(--Tabs-borderWidth) solid var(--Tabs--simple-split-color);
         border-top-left-radius: var(--Tabs-borderRadius);
         border-top-right-radius: var(--Tabs-borderRadius);
+        flex: none;
 
         > .#{$ns}Tabs-addBtn-icon {
           margin-right: 0;
