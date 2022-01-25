@@ -617,7 +617,7 @@ Access-Control-Expose-Headers:  Content-Disposition
 
 ### 表单中表格添加一行
 
-该 actionType 为[FormItem-Table](./form/table)专用行为
+该 actionType 为[FormItem-Table](./form/input-table)专用行为
 
 ### 重置表单
 
