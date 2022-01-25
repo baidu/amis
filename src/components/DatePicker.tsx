@@ -295,6 +295,8 @@ export interface DateProps extends LocaleProps, ThemeProps {
 
   // 下面那个千万不要写，写了就会导致 keyof DateProps 得到的结果是 string | number;
   // [propName: string]: any;
+  onFocus?: Function;
+  onBlur?: Function;
 }
 
 export interface DatePickerState {
@@ -369,16 +371,22 @@ export class DatePicker extends React.Component<DateProps, DatePickerState> {
     this.dom.focus();
   }
 
-  handleFocus() {
+  handleFocus(e: React.SyntheticEvent<HTMLDivElement>) {
     this.setState({
       isFocused: true
     });
+    console.log('focus')
+    const {onFocus} = this.props;
+    onFocus && onFocus(e);
   }
 
-  handleBlur() {
+  handleBlur(e: React.SyntheticEvent<HTMLDivElement>) {
     this.setState({
       isFocused: false
     });
+    console.log('blur')
+    const {onBlur} = this.props;
+    onBlur && onBlur(e);
   }
 
   handleKeyPress(e: React.KeyboardEvent) {
