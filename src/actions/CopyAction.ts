@@ -26,7 +26,6 @@ export class CopyAction implements Action {
     renderer: ListenerContext,
     event: RendererEvent<any>
   ) {
-    debugger;
     if (action.content || action.copy) {
       renderer.props.env.copy?.(
         filter(action.content || action.copy, action.args, '| raw'),

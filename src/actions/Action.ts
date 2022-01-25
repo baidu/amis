@@ -20,6 +20,7 @@ export interface ListenerAction {
   description?: string; // 事件描述，actionType: broadcast
   componentId?: string; // 组件ID，用于直接执行指定组件的动作
   args?: any; // 参数，可以配置数据映射
+  outputVar?: any; // 输出数据变量名
   preventDefault?: boolean; // 阻止原有组件的动作行为
   stopPropagation?: boolean; // 阻止后续的事件处理器执行
   execOn?: string; // 执行条件
@@ -72,7 +73,7 @@ export const runActions = async (
     let actionInstrance = getActionByType(actionConfig.actionType);
 
     // 如果存在指定组件ID，说明是组件专有动作
-    if (actionConfig.componentId) {
+    if (!actionInstrance && actionConfig.componentId) {
       actionInstrance = getActionByType('component');
     } else if (
       actionConfig.actionType === 'url' ||
@@ -80,7 +81,7 @@ export const runActions = async (
       actionConfig.actionType === 'jump'
     ) {
       // 打开页面动作
-      actionInstrance = getActionByType('openpage');
+      actionInstrance = getActionByType('openlink');
     }
 
     // 找不到就通过组件专有动作完成

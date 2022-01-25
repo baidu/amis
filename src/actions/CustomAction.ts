@@ -37,8 +37,10 @@ export class CustomAction implements Action {
     await (scriptFunc as any)?.call(
       null,
       renderer,
-      renderer.doAction.bind(renderer),
-      event
+      renderer.props.onAction?.bind(renderer, event.context.nativeEvent) ||
+        renderer.doAction?.bind(renderer),
+      event,
+      action
     );
   }
 }

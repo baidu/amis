@@ -15,6 +15,7 @@ import './CopyAction';
 import './DialogAction';
 import './DrawerAction';
 import './EmailAction';
-import './OpenPageAction';
+import './LinkAction';
+import './ToastAction';
 
 export * from './Action';
