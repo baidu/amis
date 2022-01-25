@@ -375,7 +375,6 @@ export class DatePicker extends React.Component<DateProps, DatePickerState> {
     this.setState({
       isFocused: true
     });
-    console.log('focus')
     const {onFocus} = this.props;
     onFocus && onFocus(e);
   }
@@ -384,7 +383,6 @@ export class DatePicker extends React.Component<DateProps, DatePickerState> {
     this.setState({
       isFocused: false
     });
-    console.log('blur')
     const {onBlur} = this.props;
     onBlur && onBlur(e);
   }
