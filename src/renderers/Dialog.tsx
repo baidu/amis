@@ -3,6 +3,7 @@ import {ScopedContext, IScopedContext} from '../Scoped';
 import {Renderer, RendererProps} from '../factory';
 import {SchemaNode, Schema, Action} from '../types';
 import {filter} from '../utils/tpl';
+import {generateIcon} from '../utils/icon';
 import Modal from '../components/Modal';
 import findLast from 'lodash/findLast';
 import {
@@ -12,7 +13,7 @@ import {
   isObjectShallowModified
 } from '../utils/helper';
 import {reaction} from 'mobx';
-import {Icon} from '../components/icons';
+import {Icon, getIcon} from '../components/icons';
 import {ModalStore, IModalStore} from '../store/modal';
 import {findDOMNode} from 'react-dom';
 import {Spinner} from '../components';
@@ -22,6 +23,7 @@ import {
   SchemaClassName,
   SchemaCollection,
   SchemaName,
+  SchemaIcon,
   SchemaTpl
 } from '../Schema';
 import {ActionSchema} from './Action';
@@ -110,8 +112,8 @@ export interface DialogProps
   lazyRender?: boolean;
   lazySchema?: (props: DialogProps) => SchemaCollection;
   wrapperComponent: React.ElementType;
-  level?: '' | 'info' | 'warning' | 'success' | 'danger',
-  icon?: React.ReactNode | ((props?: any) => React.ReactNode);
+  level?: 'info' | 'warning' | 'success' | 'danger';
+  icon?: SchemaIcon;
 }
 
 export default class Dialog extends React.Component<DialogProps> {
@@ -195,7 +197,7 @@ export default class Dialog extends React.Component<DialogProps> {
   buildActions(): Array<ActionSchema> {
     const {actions, confirm, translate: __, level} = this.props;
 
-    if (level) {
+    if (level && ~['success', 'info', 'warning', 'danger'].indexOf(level)) {
       return [{
         type: 'button',
         primary: true,
@@ -499,7 +501,11 @@ export default class Dialog extends React.Component<DialogProps> {
       ? icon
       ? (
           typeof icon === 'string'
-          ? <Icon icon={icon} className={cx(`Alert-icon icon`)} />
+          ? (
+            getIcon(icon)
+            ? (<Icon icon={icon} className={cx(`Modal-icon icon`)} />)
+            : generateIcon(cx, icon, 'Alert-icon')
+          )
           : React.cloneElement(icon as React.ReactElement<any>, {
               className: cx(`Alert-icon`, icon.props?.className)
             })
