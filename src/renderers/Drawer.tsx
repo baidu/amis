@@ -93,12 +93,12 @@ export interface DrawerSchema extends BaseSchema {
   /**
    * 抽屉的宽度 （当position为left | right时生效）
    */
-  width?: boolean;
+  width?: number | string;
 
   /**
    * 抽屉的高度 （当position为top | bottom时生效）
    */
-  height?: boolean;
+  height?: number | string;
 
   /**
    * 头部
