@@ -196,7 +196,7 @@
   &-wrap--topCenter {
     top: var(--gap-base);
     left: 50%;
-    margin-left: calc(var(--Toast-width) / -2);
+    transform: translate(-50%, 0);
   }
 
   &-wrap--topLeft {
@@ -211,7 +211,7 @@
 
   &-wrap--bottomCenter {
     left: 50%;
-    margin-left: calc(var(--Toast-width) / -2);
+    transform: translate(-50%, 0);
     bottom: var(--gap-base);
   }
 
