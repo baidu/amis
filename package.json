@@ -169,7 +169,7 @@
     "ts-jest": "^27.0.5",
     "ts-json-schema-generator": "^0.95.0",
     "ts-node": "^10.2.1",
-    "typescript": "~4.4.3"
+    "typescript": "~4.5.5"
   },
   "jest": {
     "testEnvironment": "jsdom",

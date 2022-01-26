@@ -845,7 +845,7 @@ export default class ImageControl extends React.Component<
     const {multiple, crop} = this.props;
 
     if (crop && !multiple) {
-      const file = files[0] as FileValue;
+      const file = files[0] as any;
       if (!file.preview || !file.url) {
         file.preview = window.URL.createObjectURL(file);
       }
