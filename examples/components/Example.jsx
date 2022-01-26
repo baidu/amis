@@ -74,6 +74,7 @@ import LogicEventActionSchema from './EventAction/Logic';
 import StopEventActionSchema from './EventAction/Stop';
 import DataFlowEventActionSchema from './EventAction/DataFlow';
 import InputEventSchema from './EventAction/InputEvent';
+import DateEvent from './EventAction/DateEvent';
 import WizardSchema from './Wizard';
 import ChartSchema from './Chart';
 import EChartsEditorSchema from './ECharts';
@@ -530,6 +531,11 @@ export const examples = [
                 label: '输入类组件',
                 path: '/examples/event/input',
                 component: makeSchemaRenderer(InputEventSchema)
+              },
+              {
+                label: '时间类组件',
+                path: 'examples/event/date',
+                component: makeSchemaRenderer(DateEvent)
               }
             ]
           },
