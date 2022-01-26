@@ -74,6 +74,16 @@ export interface TextControlSchema extends FormOptionsControl {
    * 是否显示计数
    */
   showCounter?: boolean;
+
+  /**
+   * 前缀
+   */
+  prefix?: string;
+
+  /**
+   * 后缀
+   */
+  suffix?: string;
 }
 
 export interface TextProps extends OptionsControlProps {
@@ -782,7 +792,7 @@ export default class TextControl extends React.PureComponent<
             {filter(prefix, data)}
           </span>
         ) : null}
-        <input
+        <Input
           name={name}
           placeholder={placeholder}
           ref={this.inputRef}
@@ -806,14 +816,7 @@ export default class TextControl extends React.PureComponent<
         ) : null}
         {showCounter ? (
           <span className={cx('TextControl-counter')}>
-            {`${
-              (typeof value === 'undefined' || value === null
-                ? ''
-                : typeof value === 'string'
-                ? value
-                : JSON.stringify(value)
-              ).length
-            }${
+            {`${this.valueToString(value)?.length}${
               typeof maxLength === 'number' && maxLength ? `/${maxLength}` : ''
             }`}
           </span>
