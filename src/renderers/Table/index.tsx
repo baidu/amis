@@ -500,7 +500,7 @@ export default class Table extends React.Component<TableProps, object> {
     this.handleMouseLeave = this.handleMouseLeave.bind(this);
     this.subFormRef = this.subFormRef.bind(this);
     this.handleColumnToggle = this.handleColumnToggle.bind(this);
-    this.renderAutoFilterForm = this.renderAutoFilterForm.bind(this);
+
     this.updateAutoFillHeight = this.updateAutoFillHeight.bind(this);
 
     const {
@@ -614,6 +614,19 @@ export default class Table extends React.Component<TableProps, object> {
     window.addEventListener('resize', this.affixDetect);
     this.updateAutoFillHeight();
     window.addEventListener('resize', this.updateAutoFillHeight);
+
+    const {store, autoGenerateFilter, onSearchableFromInit} = this.props;
+
+    // autoGenerateFilter 开启后
+    // 如果没有一个 searchable 的 column crud 就不会初始化加载
+    // 所以这里加个判断默认初始加载一次
+    if (
+      autoGenerateFilter &&
+      !store.searchableColumns.length &&
+      onSearchableFromInit
+    ) {
+      onSearchableFromInit({});
+    }
   }
 
   /**
@@ -1470,7 +1483,13 @@ export default class Table extends React.Component<TableProps, object> {
 
     activedSearchableColumns.forEach((column, index) => {
       groupedSearchableColumns[index % 3].body.push({
-        ...column.searchable,
+        ...(column.searchable === true
+          ? {
+              type: 'input-text',
+              name: column.name,
+              label: column.label
+            }
+          : column.searchable),
         name: column.searchable?.name ?? column.name,
         label: column.searchable?.label ?? column.label,
         mode: 'horizontal'

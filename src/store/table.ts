@@ -518,9 +518,7 @@ export const TableStore = iRendererStore
     }
 
     function getSearchableColumns() {
-      return self.columns.filter(
-        column => column.searchable && isObject(column.searchable)
-      );
+      return self.columns.filter(column => column.searchable);
     }
 
     return {
