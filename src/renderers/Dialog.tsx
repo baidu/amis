@@ -112,8 +112,13 @@ export interface DialogProps
   lazyRender?: boolean;
   lazySchema?: (props: DialogProps) => SchemaCollection;
   wrapperComponent: React.ElementType;
+<<<<<<< HEAD
   level?: 'info' | 'warning' | 'success' | 'danger';
   icon?: SchemaIcon;
+=======
+  level?: '' | 'info' | 'warning' | 'success' | 'danger',
+  icon?: string | React.ReactNode
+>>>>>>> master
 }
 
 export default class Dialog extends React.Component<DialogProps> {
@@ -197,7 +202,11 @@ export default class Dialog extends React.Component<DialogProps> {
   buildActions(): Array<ActionSchema> {
     const {actions, confirm, translate: __, level} = this.props;
 
+<<<<<<< HEAD
     if (level && ~['success', 'info', 'warning', 'danger'].indexOf(level)) {
+=======
+    if (level) {
+>>>>>>> master
       return [{
         type: 'button',
         primary: true,
@@ -497,22 +506,22 @@ export default class Dialog extends React.Component<DialogProps> {
     const Wrapper = wrapperComponent || Modal;
 
     const isOpenDialogBox = level && ['success', 'info', 'warning', 'danger'].find(item => item === level);
-    const iconNode = isOpenDialogBox
+    const iconNode = !isOpenDialogBox
       ? icon
       ? (
           typeof icon === 'string'
           ? (
             getIcon(icon)
-            ? (<Icon icon={icon} className={cx(`Modal-icon icon`)} />)
-            : generateIcon(cx, icon, 'Alert-icon')
+            ? (<Icon icon={icon} className={cx(`Icon`)} />)
+            : generateIcon(cx, icon, 'Icon')
           )
           : React.cloneElement(icon as React.ReactElement<any>, {
-              className: cx(`Alert-icon`, icon.props?.className)
+              className: cx(`Icon`, icon.props?.className)
             })
         )
-      : <Icon icon={`alert-${level}`} className={cx(`Modal-icon icon`)} />
-      : null;
-    const bodyPaddingLeft = isOpenDialogBox ? 'body-paddingLeft' : '';
+      : null
+      : <Icon icon={`alert-${level}`} className={cx(`Icon`)} />;
+    const bodyPaddingLeft = (isOpenDialogBox || icon) ? 'body-paddingLeft' : '';
 
     return (
       <Wrapper

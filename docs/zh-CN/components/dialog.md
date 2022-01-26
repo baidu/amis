@@ -839,8 +839,7 @@ feedback 反馈弹框是指，在 ajax 请求后，可以显示一个弹框，�
     "dialog": {
       "title": "自定义图标",
       "body": "这是个简单的弹框",
-      "level": "info",
-      "icon": "info"
+      "icon": "fa fa-list"
     }
 }
 ```

@@ -982,7 +982,7 @@
     )};
   --Modal-body-paddingX: var(--gap-md);
   --Modal-body-paddingY: var(--gap-md);
-  --Modal-body-paddingLeft: #{px2rem(24px)};
+  --Modal-body-paddingLeft: var(--gap-xl);
   --Modal-close-color: var(--text--muted-color);
   --Modal-close-width: #{px2rem(12px)};
   --Modal-content-borderColor: var(--borderColor);
@@ -1006,11 +1006,10 @@
   --Modal-overlay-bg: rgba(0, 0, 0, 0.6);
   --Modal-title-color: var(--text--loud-color);
   --Modal-title-fontSize: var(--fontSizeBase);
-  --Modal-title-fontWeight: normal;
-  --Modal-title-fontBold: var(--fontWeightBold);
+  --Modal-title-fontWeight: var(--fontWeightBold);
   --Modal-title-lineHeight: var(--lineHeightBase);
   --Modal-icon-display: inline-block;
-  --Modal-icon-marginRight: #{px2rem(5px)};
+  --Modal-icon-marginRight: #{px2rem(10px)};
   --Modal-widthBase: #{px2rem(500px)};
   --Modal-widthLg: #{px2rem(1100px)};
   --Modal-widthMd: #{px2rem(800px)};
