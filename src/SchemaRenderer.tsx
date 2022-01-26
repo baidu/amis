@@ -65,7 +65,7 @@ class BroadcastCmpt extends React.Component<BroadcastCmptProps> {
 
   constructor(props: BroadcastCmptProps, context: IScopedContext) {
     super(props);
-    this.triggerEvent = this.triggerEvent.bind(this);
+    this.dispatchEvent = this.dispatchEvent.bind(this);
   }
 
   componentDidMount() {
@@ -81,7 +81,7 @@ class BroadcastCmpt extends React.Component<BroadcastCmptProps> {
     return this.ref;
   }
 
-  async triggerEvent(
+  async dispatchEvent(
     e: React.MouseEvent<any>,
     data: any
   ): Promise<RendererEvent<any> | undefined> {
@@ -108,10 +108,10 @@ class BroadcastCmpt extends React.Component<BroadcastCmptProps> {
       <Component
         ref={this.childRef}
         {...rest}
-        dispatchEvent={this.triggerEvent}
+        dispatchEvent={this.dispatchEvent}
       />
     ) : (
-      <Component {...rest} dispatchEvent={this.triggerEvent} />
+      <Component {...rest} dispatchEvent={this.dispatchEvent} />
     );
   }
 }

@@ -23,13 +23,18 @@ export class CmptAction implements Action {
   ) {
     // 根据唯一ID查找指定组件
     const component =
-      renderer.props.$schema.id !== action.componentId
+      action.componentId && renderer.props.$schema.id !== action.componentId
         ? event.context.scoped?.getComponentById(action.componentId)
         : renderer;
 
     // 执行组件动作
-    (await component.props.onAction?.(event, action, action.args)) ||
-      component.doAction?.(action, action.args);
+    return (
+      (await component.props.onAction?.(
+        event.context.nativeEvent,
+        action,
+        action.args
+      )) || component.doAction?.(action, action.args)
+    );
   }
 }
 
