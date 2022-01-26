@@ -112,13 +112,8 @@ export interface DialogProps
   lazyRender?: boolean;
   lazySchema?: (props: DialogProps) => SchemaCollection;
   wrapperComponent: React.ElementType;
-<<<<<<< HEAD
   level?: 'info' | 'warning' | 'success' | 'danger';
   icon?: SchemaIcon;
-=======
-  level?: '' | 'info' | 'warning' | 'success' | 'danger',
-  icon?: string | React.ReactNode
->>>>>>> master
 }
 
 export default class Dialog extends React.Component<DialogProps> {
@@ -202,11 +197,7 @@ export default class Dialog extends React.Component<DialogProps> {
   buildActions(): Array<ActionSchema> {
     const {actions, confirm, translate: __, level} = this.props;
 
-<<<<<<< HEAD
     if (level && ~['success', 'info', 'warning', 'danger'].indexOf(level)) {
-=======
-    if (level) {
->>>>>>> master
       return [{
         type: 'button',
         primary: true,
