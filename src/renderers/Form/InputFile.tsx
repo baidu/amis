@@ -1189,7 +1189,7 @@ export default class FileControl extends React.Component<FileProps, FileState> {
   ) {
     const {dispatchEvent} = this.props;
     data = data ? data : this.state.files;
-    return dispatchEvent(e, createObject(data));
+    return dispatchEvent(e, createObject(this.props.data, data));
   }
 
   doAction(action: Action, data: object, throwErrors: boolean = false): any {
