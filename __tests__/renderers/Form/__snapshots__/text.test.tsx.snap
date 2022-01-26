@@ -449,7 +449,7 @@ exports[`Renderer:text type is password 1`] = `
                 placeholder=""
                 size="10"
                 type="password"
-                value=""
+                value="abcd"
               />
             </div>
           </div>
@@ -1243,7 +1243,7 @@ exports[`Renderer:text with counter 2`] = `
                 placeholder=""
                 size="10"
                 type="text"
-                value=""
+                value="abcd"
               />
               <span
                 class="cxd-TextControl-counter"
@@ -1507,7 +1507,7 @@ exports[`Renderer:text with counter and maxLength 2`] = `
                 placeholder=""
                 size="10"
                 type="text"
-                value=""
+                value="abcd"
               />
               <span
                 class="cxd-TextControl-counter"
