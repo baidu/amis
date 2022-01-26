@@ -88,14 +88,21 @@ interface TreeSelectorProps extends ThemeProps, LocaleProps {
   pathSeparator?: string;
   // 已选择节点路径
   nodePath: any[];
+  // ui级联关系，true代表级联选中，false代表不级联，默认为true
+  autoCheckChildren: boolean;
 
-  // 这个配置名字没取好，目前的含义是，如果这个配置成true，点父级的时候，子级点不会自选中。
-  // 否则点击父级，子节点选中。
+  /*
+   * 该属性代表数据级联关系，autoCheckChildren为true时生效，默认为false，具体数据级联关系如下：
+   * 1.casacde为false，ui行为为级联选中子节点，子节点禁用；值只包含父节点的值
+   * 2.cascade为false，withChildren为true，ui行为为级联选中子节点，子节点禁用；值包含父子节点的值
+   * 3.cascade为true，ui行为级联选中子节点，子节点可反选，值包含父子节点的值，此时withChildren属性失效
+   * 4.cascade不论为true还是false，onlyChildren为true，ui行为级联选中子节点，子节点可反选，值只包含子节点的值
+  */
   cascade?: boolean;
+
   selfDisabledAffectChildren?: boolean;
   minLength?: number;
   maxLength?: number;
-
   // 是否为内建 增、改、删。当有复杂表单的时候直接抛出去让外层能统一处理
   bultinCUD?: boolean;
   rootCreatable?: boolean;
@@ -157,6 +164,7 @@ export class TreeSelector extends React.Component<
     hideRoot: true,
     rootLabel: 'Tree.root',
     rootValue: 0,
+    autoCheckChildren: true,
     cascade: false,
     selfDisabledAffectChildren: true,
     rootCreateTip: 'Tree.addRoot',
@@ -182,7 +190,6 @@ export class TreeSelector extends React.Component<
 
   constructor(props: TreeSelectorProps) {
     super(props);
-
     this.state = {
       value: value2array(
         props.value,
@@ -412,15 +419,12 @@ export class TreeSelector extends React.Component<
     const props = this.props;
     const value = this.state.value.concat();
     const idx = value.indexOf(item);
-    const onlyChildren = props.onlyChildren;
-
+    const {onlyChildren, withChildren, cascade, autoCheckChildren} = props;
     if (checked) {
       ~idx || value.push(item);
-
       // cascade 为 true 表示父节点跟子节点没有级联关系。
-      if (!props.cascade) {
+      if (autoCheckChildren) {
         const children = item.children ? item.children.concat([]) : [];
-
         if (onlyChildren) {
           // 父级选中的时候，子节点也都选中，但是自己不选中
           !~idx && children.length && value.pop();
@@ -445,7 +449,7 @@ export class TreeSelector extends React.Component<
               value.splice(index, 1);
             }
 
-            if (props.withChildren) {
+            if (withChildren || cascade) {
               value.push(child);
             }
 
@@ -464,7 +468,7 @@ export class TreeSelector extends React.Component<
               if (
                 parent.children.every((child: any) => ~value.indexOf(child))
               ) {
-                if (!props.withChildren) {
+                if (!cascade && !withChildren) {
                   parent.children.forEach((child: any) => {
                     const index = value.indexOf(child);
                     if (~index) {
@@ -483,19 +487,18 @@ export class TreeSelector extends React.Component<
       }
     } else {
       ~idx && value.splice(idx, 1);
-
-      if (!props.cascade && (props.withChildren || onlyChildren)) {
-        const children = item.children ? item.children.concat([]) : [];
-        while (children.length) {
-          let child = children.shift();
-          let index = value.indexOf(child);
-
-          if (~index) {
-            value.splice(index, 1);
-          }
-
-          if (child.children && child.children.length) {
-            children.push.apply(children, child.children);
+      if (autoCheckChildren) {
+        if (cascade || withChildren || onlyChildren) {
+          const children = item.children ? item.children.concat([]) : [];
+          while (children.length) {
+            let child = children.shift();
+            let index = value.indexOf(child);
+            if (~index) {
+              value.splice(index, 1);
+            }
+            if (child.children && child.children.length) {
+              children.push.apply(children, child.children);
+            }
           }
         }
       }
@@ -788,6 +791,7 @@ export class TreeSelector extends React.Component<
       valueField,
       iconField,
       disabledField,
+      autoCheckChildren,
       cascade,
       selfDisabledAffectChildren,
       onlyChildren,
@@ -818,7 +822,15 @@ export class TreeSelector extends React.Component<
       if (!isVisible(item as any, options)) {
         return null;
       }
-
+      // selfChecked
+      // 1. value里面有当前item的值
+      // 2. 传入的uncheckable为true
+      // 3. onlychilren情况下子节点数量等于子节点选中数量
+      // nodeDisabled
+      // 1. 子节点显示传入disbaled或者树传入disable
+      // 2. 开启多选且父节点选中
+      // 3. 当前父节点的uncheckable状态
+      // 需要加一个判断，除了
       const checked = !!~value.indexOf(item);
       const selfDisabled = item[disabledField];
       let selfChecked = !!uncheckable || checked;
@@ -829,16 +841,15 @@ export class TreeSelector extends React.Component<
         childrenItems = this.renderList(
           item.children,
           value,
-          cascade
-            ? false
-            : uncheckable ||
-                (selfDisabledAffectChildren ? selfDisabled : false) ||
-                (multiple && checked)
+          (!autoCheckChildren || cascade)
+            ? false: (uncheckable
+            || (selfDisabledAffectChildren ? selfDisabled : false)
+            || (multiple && checked))
         );
         selfChildrenChecked = !!childrenItems.childrenChecked;
         if (
           !selfChecked &&
-          onlyChildren &&
+          onlyChildren && autoCheckChildren &&
           item.children.length === childrenItems.childrenChecked
         ) {
           selfChecked = true;
