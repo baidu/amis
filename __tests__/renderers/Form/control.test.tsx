@@ -55,6 +55,7 @@ test('Control:onChange', async () => {
       value: '123'
     }
   });
+  await wait(100);
   expect(onChange).toBeCalledTimes(1);
 
   fireEvent.click(getByText('Submit'));
