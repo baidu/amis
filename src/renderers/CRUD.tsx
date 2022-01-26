@@ -465,12 +465,16 @@ export default class CRUD extends React.Component<CRUDProps, any> {
   }
 
   componentDidMount() {
-    const {store, autoGenerateFilter} = this.props;
+    const {store, autoGenerateFilter, columns} = this.props;
 
     if (this.props.perPage) {
       store.changePage(store.page, this.props.perPage);
     }
 
+    // 没有 filter 或者 没有展示 filter 时应该默认初始化一次，
+    // 否则就应该等待 filter 里面的表单初始化的时候才初始化
+    // 另外autoGenerateFilter时，table 里面会单独处理这块逻辑
+    // 所以这里应该忽略 autoGenerateFilter 情况
     if (
       (!this.props.filter || (store.filterTogggable && !store.filterVisible)) &&
       !autoGenerateFilter
