@@ -32,6 +32,7 @@ export class BroadcastAction implements Action {
     return await event.context.env.dispatchEvent(
       action.eventName,
       renderer,
+      event.context.scoped,
       action.args,
       event
     );

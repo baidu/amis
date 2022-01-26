@@ -1,28 +1,23 @@
-import {RendererEvent} from '../utils/renderer-event';
-import {
-  Action,
-  ListenerAction,
-  ListenerContext,
-  registerAction
-} from './Action';
+import {registerAction} from './Action';
+import {CloseDialogAction, DialogAction} from './DialogAction';
 
 /**
  * 打开抽屉动作
  *
  * @export
  * @class DrawerAction
- * @implements {Action}
+ * @extends {DialogAction}
  */
-export class DrawerAction implements Action {
-  async run(
-    action: ListenerAction,
-    renderer: ListenerContext,
-    event: RendererEvent<any>
-  ) {
-    const store = renderer.props.store;
-    store.setCurrentAction(action);
-    store.openDrawer(action.args);
-  }
-}
+export class DrawerAction extends DialogAction {}
+
+/**
+ * 关闭抽屉动作
+ *
+ * @export
+ * @class CloseDrawerAction
+ * @extends {CloseDialogAction}
+ */
+export class CloseDrawerAction extends CloseDialogAction {}
 
 registerAction('drawer', new DrawerAction());
+registerAction('closeDrawer', new CloseDrawerAction());

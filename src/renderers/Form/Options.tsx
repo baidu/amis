@@ -26,6 +26,7 @@ import {
   FormBaseControl
 } from './Item';
 import {IFormItemStore} from '../../store/formItem';
+
 export type OptionsControlComponent = React.ComponentType<FormControlProps>;
 
 import React from 'react';

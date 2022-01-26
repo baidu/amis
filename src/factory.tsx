@@ -381,7 +381,7 @@ const defaultOptions: RenderOptions = {
 
       return () => {
         this.rendererEventListeners = this.rendererEventListeners.filter(
-          (item: RendererEventListener) => item.renderer === renderer
+          (item: RendererEventListener) => item.renderer !== renderer
         );
       };
     }

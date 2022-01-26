@@ -18,8 +18,9 @@ import {Schema, SchemaNode} from './types';
 import {DebugWrapper, enableAMISDebug} from './utils/debug';
 import getExprProperties from './utils/filter-schema';
 import {anyChanged, chainEvents, autobind} from './utils/helper';
-import {RendererEvent} from './utils/renderer-event';
 import {SimpleMap} from './utils/SimpleMap';
+
+import type {RendererEvent} from './utils/renderer-event';
 
 interface SchemaRendererProps extends Partial<RendererProps> {
   schema: Schema;
@@ -65,7 +66,7 @@ class BroadcastCmpt extends React.Component<BroadcastCmptProps> {
 
   constructor(props: BroadcastCmptProps, context: IScopedContext) {
     super(props);
-    this.triggerEvent = this.triggerEvent.bind(this);
+    this.dispatchEvent = this.dispatchEvent.bind(this);
   }
 
   componentDidMount() {
@@ -81,7 +82,7 @@ class BroadcastCmpt extends React.Component<BroadcastCmptProps> {
     return this.ref;
   }
 
-  async triggerEvent(
+  async dispatchEvent(
     e: React.MouseEvent<any>,
     data: any
   ): Promise<RendererEvent<any> | undefined> {
@@ -108,10 +109,10 @@ class BroadcastCmpt extends React.Component<BroadcastCmptProps> {
       <Component
         ref={this.childRef}
         {...rest}
-        dispatchEvent={this.triggerEvent}
+        dispatchEvent={this.dispatchEvent}
       />
     ) : (
-      <Component {...rest} dispatchEvent={this.triggerEvent} />
+      <Component {...rest} dispatchEvent={this.dispatchEvent} />
     );
   }
 }
