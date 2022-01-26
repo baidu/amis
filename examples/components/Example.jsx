@@ -66,7 +66,13 @@ import CRUDLinkPageSchema from './Linkage/CRUD';
 import OptionsPageSchema from './Linkage/Options';
 import OptionsLocalPageSchema from './Linkage/OptionsLocal';
 import FormSubmitSchema from './Linkage/FormSubmit';
-import EventsSchema from './Linkage/Event';
+import CommonEventActionSchema from './EventAction/Common';
+import BroadcastEventActionSchema from './EventAction/Broadcast';
+import CmptEventActionSchema from './EventAction/Cmpt';
+import CustomEventActionSchema from './EventAction/Custom';
+import LogicEventActionSchema from './EventAction/Logic';
+import StopEventActionSchema from './EventAction/Stop';
+import DataFlowEventActionSchema from './EventAction/DataFlow';
 import WizardSchema from './Wizard';
 import ChartSchema from './Chart';
 import EChartsEditorSchema from './ECharts';
@@ -496,11 +502,48 @@ export const examples = [
             label: '表单和列表联动',
             path: '/examples/linkpage/crud',
             component: makeSchemaRenderer(CRUDLinkPageSchema)
+          }
+        ]
+      },
+
+      {
+        label: '事件动作机制',
+        icon: 'fa fa-bolt',
+        children: [
+          {
+            label: '执行通用动作',
+            path: '/examples/event-action/common',
+            component: makeSchemaRenderer(CommonEventActionSchema)
           },
           {
-            label: '广播事件机制',
-            path: '/examples/linkpage/event',
-            component: makeSchemaRenderer(EventsSchema)
+            label: '广播(自定义事件)',
+            path: '/examples/event-action/broadcat',
+            component: makeSchemaRenderer(BroadcastEventActionSchema)
+          },
+          {
+            label: '执行其他组件动作',
+            path: '/examples/event-action/cmpt',
+            component: makeSchemaRenderer(CmptEventActionSchema)
+          },
+          {
+            label: '自定义JS',
+            path: '/examples/event-action/custom',
+            component: makeSchemaRenderer(CustomEventActionSchema)
+          },
+          {
+            label: '执行逻辑编排动作',
+            path: '/examples/event-action/logic',
+            component: makeSchemaRenderer(LogicEventActionSchema)
+          },
+          {
+            label: '事件/动作干预',
+            path: '/examples/event-action/stop',
+            component: makeSchemaRenderer(StopEventActionSchema)
+          },
+          {
+            label: '动作间数据传递',
+            path: '/examples/event-action/dataflow',
+            component: makeSchemaRenderer(DataFlowEventActionSchema)
           }
         ]
       },
