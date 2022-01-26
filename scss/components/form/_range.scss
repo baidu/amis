@@ -18,7 +18,7 @@
       overflow: hidden;
     }
 
-    .#{$ns}Number-handler  {
+    .#{$ns}Number-handler {
       transition: 0.3s opacity;
       color: var(--Number-handler-color);
 
@@ -38,8 +38,8 @@
     cursor: pointer;
 
     svg {
-      height: px2rem(16px);
-      width: px2rem(16px);
+      height: px2rem(8px);
+      width: px2rem(8px);
       fill: #999;
     }
   }
@@ -55,7 +55,7 @@
       cursor: not-allowed;
     }
 
-    .#{$ns}InputRange-handle {
+    .#{$ns}InputRange-handle-icon {
       border-color: var(--InputRange-handle-onDisabled-border-color);
       cursor: not-allowed;
 
@@ -71,7 +71,7 @@
       &-down-inner {
         cursor: not-allowed;
         &:hover {
-          color: var(--text--muted-color)
+          color: var(--text--muted-color);
         }
       }
     }
@@ -79,40 +79,46 @@
 
   // hander
   &-handle {
-    appearance: none;
-    background-color: var(--InputRange-handle-bg);
-    border: var(--InputRange-handle-border);
-    border-radius: 50%;
-    cursor: pointer;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: var(--InputRange-handle-width);
-    height: var(--InputRange-handle-height);
-    outline: none;
     position: absolute;
-    z-index: 2;
     top: 0;
     bottom: 0;
     margin: auto 0 auto calc(var(--InputRange-handle-width) / -2);
-    transition: var(--InputRange-handle-transition);
+    width: var(--InputRange-handle-width);
+    height: var(--InputRange-handle-height);
 
-    &:hover,
+    &-icon,
     &-drage {
-      transform: var(--InputRange-handle-onActive-transform);
-      box-shadow: var(--InputRange-handle-onFocus-boxShadow);
+      width: 100%;
+      height: 100%;
+      appearance: none;
+      background-color: var(--InputRange-handle-bg);
+      border: var(--InputRange-handle-border);
+      cursor: pointer;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      outline: none;
+      border-radius: 50%;
+      transition: var(--InputRange-handle-transition);
+
+      &:hover {
+        transform: var(--InputRange-handle-onActive-transform);
+        box-shadow: var(--InputRange-handle-onFocus-boxShadow);
+      }
+
+      &:active {
+        transform: var(--InputRange-handle-onActive-transform);
+      }
+
+      &:focus {
+        box-shadow: var(--InputRange-handle-onFocus-boxShadow);
+      }
     }
 
     &-drage {
+      transform: var(--InputRange-handle-onActive-transform);
+      box-shadow: var(--InputRange-handle-onFocus-boxShadow);
       border-width: var(--InputRange-handle-onDrage-border-width);
-    }
-
-    &:active {
-      transform: var(--InputRange-handle-onActive-transform);
-    }
-
-    &:focus {
-      box-shadow: var(--InputRange-handle-onFocus-boxShadow);
     }
 
     .input-range--disabled & {

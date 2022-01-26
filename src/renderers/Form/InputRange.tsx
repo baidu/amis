@@ -18,7 +18,7 @@ import { filter } from '../../utils/tpl';
 
 export type Value = string | MultipleValue | number | [number, number];
 export type FormarValue = MultipleValue | number;
-export type TooltipPosType = 'top' | 'right' | 'bottom' | 'left';
+export type TooltipPosType = 'auto' | 'top' | 'right' | 'bottom' | 'left';
 export type Overwrite<T, U> = Pick<T, Extract<keyof T, keyof U>> & U;
 export interface RangeControlSchema extends FormBaseControl {
   type: 'input-range';
@@ -184,7 +184,7 @@ export function formatValue(
     multiple: boolean;
     delimiter: string;
     min: number;
-    max:number;
+    max: number;
   }
 ): FormarValue {
   if (props.multiple) {
@@ -283,7 +283,7 @@ export class Input extends React.Component<RangeItemProps, any> {
   }
 
   getStepPrecision() {
-    const {step} = this.props;
+    const { step } = this.props;
 
     return typeof step !== 'number' || step >= 1 || step < 0
       ? 0
@@ -291,7 +291,7 @@ export class Input extends React.Component<RangeItemProps, any> {
   }
 
   getValue(value: string | number, type?: string) {
-    const {max, min, step, value: stateValue} = this.props as RangeItemProps;
+    const { max, min, step, value: stateValue } = this.props as RangeItemProps;
 
     if (
       value === '' ||
@@ -322,8 +322,8 @@ export class Input extends React.Component<RangeItemProps, any> {
       case 'max':
         return isObject(stateValue) && isNumber(stateValue.min)
           ? (_value > max && max) ||
-              (_value <= stateValue.min && stateValue.min + step) ||
-              value
+          (_value <= stateValue.min && stateValue.min + step) ||
+          value
           : max;
       default:
         return (_value < min && min) || (_value > max && max) || value;
@@ -344,8 +344,8 @@ export class Input extends React.Component<RangeItemProps, any> {
     } = this.props;
     const _value = multiple
       ? type === 'min'
-          ? Math.min((value as MultipleValue).min, (value as MultipleValue).max)
-          : Math.max((value as MultipleValue).min, (value as MultipleValue).max)
+        ? Math.min((value as MultipleValue).min, (value as MultipleValue).max)
+        : Math.max((value as MultipleValue).min, (value as MultipleValue).max)
       : value;
     return (
       <div className={cx(`${ns}InputRange-input`)}>
@@ -382,12 +382,12 @@ export default class RangeControl extends React.PureComponent<
     delimiter: ',',
     showSteps: false,
     parts: 1,
-    tooltipPlacement: 'top'
+    tooltipPlacement: 'auto'
   };
 
   constructor(props: RangeProps) {
     super(props);
-    const {value: propsValue, multiple, delimiter, min, max} = {
+    const { value: propsValue, multiple, delimiter, min, max } = {
       ...RangeControl.defaultProps,
       ...this.props
     };
@@ -404,8 +404,8 @@ export default class RangeControl extends React.PureComponent<
   }
 
   componentDidUpdate(prevProps: RangeProps) {
-    const {value} = prevProps;
-    const {value: nextPropsValue, multiple, delimiter, min, max, onChange} = {
+    const { value } = prevProps;
+    const { value: nextPropsValue, multiple, delimiter, min, max, onChange } = {
       ...RangeControl.defaultProps,
       ...this.props
     };
@@ -424,12 +424,12 @@ export default class RangeControl extends React.PureComponent<
 
   @autobind
   clearValue() {
-    const {multiple, min, max} = {
+    const { multiple, min, max } = {
       ...RangeControl.defaultProps,
       ...this.props
     };
     if (multiple) {
-      this.updateValue({min, max});
+      this.updateValue({ min, max });
     } else {
       this.updateValue(min)
     }
@@ -437,7 +437,7 @@ export default class RangeControl extends React.PureComponent<
 
   @autobind
   getValue(value: FormarValue) {
-    const {multiple} = this.props;
+    const { multiple } = this.props;
     return multiple ? {
       max: stripNumber((value as MultipleValue).max),
       min: stripNumber((value as MultipleValue).min),
@@ -450,16 +450,16 @@ export default class RangeControl extends React.PureComponent<
     */
   @autobind
   updateValue(value: FormarValue) {
-    this.setState({value: this.getValue(value)});
-    const {multiple, joinValues, delimiter, onChange} = this.props;
+    this.setState({ value: this.getValue(value) });
+    const { multiple, joinValues, delimiter, onChange } = this.props;
     onChange(
       multiple ?
         joinValues
           ? [(value as MultipleValue).min, (value as MultipleValue).max].join(delimiter || ',')
           : {
-              min: (value as MultipleValue).min,
-              max: (value as MultipleValue).max
-            }
+            min: (value as MultipleValue).min,
+            max: (value as MultipleValue).max
+          }
         : value
     );
   }
@@ -476,9 +476,9 @@ export default class RangeControl extends React.PureComponent<
         joinValues
           ? [(value as MultipleValue).min, (value as MultipleValue).max].join(delimiter || ',')
           : {
-              min: (value as MultipleValue).min,
-              max: (value as MultipleValue).max
-            }
+            min: (value as MultipleValue).min,
+            max: (value as MultipleValue).max
+          }
         : value
     );
   }
@@ -517,7 +517,7 @@ export default class RangeControl extends React.PureComponent<
         className={cx(
           'RangeControl',
           `${ns}InputRange`,
-          {'is-disabled': disabled},
+          { 'is-disabled': disabled },
           className
         )}
       >
@@ -525,14 +525,14 @@ export default class RangeControl extends React.PureComponent<
           showInput && multiple &&
           <Input {...props} type="min" />
         }
-        <InputRange {...props}/>
+        <InputRange {...props} />
         {showInput && <Input {...props} type="max" />}
         {clearable && !disabled && showInput ? (
           <a
             onClick={() => this.clearValue()}
             className={cx('InputRange-clear', {
               'is-active': multiple
-                ? isEqual(this.state.value, {min: min, max: max})
+                ? isEqual(this.state.value, { min: min, max: max })
                 : this.state.value !== min
             })}
           >
@@ -547,4 +547,4 @@ export default class RangeControl extends React.PureComponent<
 @FormItem({
   type: 'input-range'
 })
-export class RangeControlRenderer extends RangeControl {}
+export class RangeControlRenderer extends RangeControl { }

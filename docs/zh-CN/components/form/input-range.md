@@ -46,8 +46,8 @@ order: 38
             "label": "range",
             "multiple": true,
             "value": {
-            		"min": 10,
-            		"max": 50
+                "min": 10,
+                "max": 50
             }
         }
     ]
@@ -90,15 +90,13 @@ order: 38
             "label": '滑块',
             "name": 'range',
             "value": 10,
-          	"disabled": true,
-          	"showInput": true,
-          	"clearable": true
+            "disabled": true,
+            "showInput": true,
+            "clearable": true
         }
     ]
 }
 ```
-
-
 
 ## 显示步长
 
@@ -115,13 +113,11 @@ order: 38
             "label": '滑块',
             "name": 'range',
             "max": 10,
-          	"showSteps": true
+            "showSteps": true
         }
     ]
 }
 ```
-
-
 
 ## 分割块数
 
@@ -138,13 +134,11 @@ order: 38
             "label": '滑块',
             "name": 'range',
             "showSteps": true,
-          	"parts": 20
+            "parts": 20
         }
     ]
 }
 ```
-
-
 
 ## 刻度标记
 
@@ -161,20 +155,18 @@ order: 38
             "label": '滑块',
             "name": 'range',
             "parts": 5,
-          	"marks": {
-              '0': '0',
-              '20%': '20Mbps',
-              '40%': '40Mbps',
-              '60%': '60Mbps',
-              '80%': '80Mbps',
-              '100': '100'
+            "marks": {
+                '0': '0',
+                '20%': '20Mbps',
+                '40%': '40Mbps',
+                '60%': '60Mbps',
+                '80%': '80Mbps',
+                '100': '100'
             }
         }
     ]
 }
 ```
-
-
 
 ## 输入框
 
@@ -215,8 +207,6 @@ order: 38
 }
 ```
 
-
-
 ## 清除输入
 
 在打开`showInput`输入框的前提下，开启`clearable`可对数据进行清除。
@@ -239,11 +229,9 @@ order: 38
 }
 ```
 
-
-
 ## 显示标签
 
-标签默认在hover和拖拽过程中展示，通过`tooltipVisible`或者`tipFormatter`可指定标签是否展示。标签默认展示在滑块上方，通过`tooltipPlacement`可指定标签展示的位置。
+标签默认在 hover 和拖拽过程中展示，通过`tooltipVisible`或者`tipFormatter`可指定标签是否展示。标签默认展示在滑块上方，通过`tooltipPlacement`可指定标签展示的位置。
 
 ```schema: scope="body"
 {
@@ -263,8 +251,6 @@ order: 38
 }
 ```
 
-
-
 ## 属性表
 
 当做选择器表单项使用时，除了支持 [普通表单项属性表](./formitem#%E5%B1%9E%E6%80%A7%E8%A1%A8) 中的配置以外，还支持下面一些配置
@@ -281,15 +267,14 @@ order: 38
 | parts            | `number`                                                     | `1`     | 分割的块数                                                   |
 | marks            | `{ [index: number | string]: ReactNode }`  or `{ [number | string]: { style: CSSProperties, label: ReactNode } }` |         | 刻度标记<br/>- 支持自定义样式<br/>- 设置百分比               |
 | tooltipVisible   | `boolean`                                                    | `false` | 是否显示滑块标签                                             |
-| tooltipPlacement | `top` or `bottom` or `left` or `right`                       | `top`   | 滑块标签的位置，默认auto，方向自适应                         |
-| tipFormatter     | `function`                                                   |         | 控制滑块标签显隐函数。前置条件：tooltipVisible开启后有效     |
+| tooltipPlacement | `auto` or `bottom` or `left` or `right`                      | `top`   | 滑块标签的位置，默认`auto`，方向自适应<br/>前置条件：tooltipVisible 不为 false 时有效 |
+| tipFormatter     | `function`                                                   |         | 控制滑块标签显隐函数<br/>前置条件：tooltipVisible 不为 false 时有效 |
 | multiple         | `boolean`                                                    | `false` | 支持选择范围                                                 |
-| joinValues       | `boolean`                                                    | `true`  | 默认为 `true`，选择的 `value` 会通过 `delimiter` 连接起来，否则直接将以`{min: 1, max: 100}`的形式提交，开启`multiple`时有效 |
+| joinValues       | `boolean`                                                    | `true`  | 默认为 `true`，选择的 `value` 会通过 `delimiter` 连接起来，否则直接将以`{min: 1, max: 100}`的形式提交<br/>开启`multiple`时有效 |
 | delimiter        | `string`                                                     | `,`     | 分隔符                                                       |
 | unit             | `string`                                                     |         | 单位                                                         |
 | clearable        | `boolean`                                                    | `false` | 是否可清除                                                   |
 | showInput        | `boolean`                                                    | `false` | 是否显示输入框                                               |
-| onChange         | `function`                                                   |         | value改变事件                                                |
-| onAfterChange    | `function`                                                   |         | 鼠标松开事件                                                 |
-
+| onChange         | `function`                                                   |         | 当 组件 的值发生改变时，会触发 onChange 事件，并把改变后的值作为参数传入 |
+| onAfterChange    | `function`                                                   |         | 与 `onmouseup` 触发时机一致，把当前值作为参数传入            |
 
