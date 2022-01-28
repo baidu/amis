@@ -136,6 +136,7 @@ export class BaseTransferRenderer<
       valueField,
       extractValue,
       options,
+      dispatchEvent,
       setOptions
     } = this.props;
     let newValue: any = value;
@@ -178,6 +179,11 @@ export class BaseTransferRenderer<
 
     (newOptions.length > options.length || optionModified) &&
       setOptions(newOptions, true);
+      
+    dispatchEvent('change', {
+      value: newValue,
+      options
+    });
     onChange(newValue);
   }
 

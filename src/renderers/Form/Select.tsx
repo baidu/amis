@@ -116,7 +116,6 @@ export default class SelectControl extends React.Component<SelectProps, any> {
     super(props);
 
     this.changeValue = this.changeValue.bind(this);
-    this.otherChangeValue = this.otherChangeValue.bind(this);
     this.lazyloadRemote = debouce(this.loadRemote.bind(this), 250, {
       trailing: true,
       leading: false
@@ -223,20 +222,6 @@ export default class SelectControl extends React.Component<SelectProps, any> {
     onChange(newValue);
   }
 
-  otherChangeValue(newValue: Option | Array<Option> | string | void) {
-    const {
-      onChange,
-      options,
-      dispatchEvent
-    } = this.props;
-
-    dispatchEvent('change', {
-      value: newValue,
-      options
-    });
-    onChange(newValue);
-  }
-
   async loadRemote(input: string) {
     const {
       autoComplete,
@@ -330,7 +315,6 @@ export default class SelectControl extends React.Component<SelectProps, any> {
       <TransferDropdownRenderer
         {...rest}
         selectMode={selectMode === 'group' ? 'list' : selectMode}
-        onChange={this.otherChangeValue}
       />
     );
   }
