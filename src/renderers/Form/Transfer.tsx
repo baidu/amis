@@ -328,10 +328,11 @@ export class BaseTransferRenderer<
     // 为了方便可以快速实现动态化，让选项的第一个成员携带
     // LeftOptions 信息
     let {options, leftOptions, leftDefaultValue} = this.props;
+
     if (
       selectMode === 'associated' &&
       options &&
-      options.length === 1 &&
+      options.length &&
       options[0].leftOptions &&
       Array.isArray(options[0].children)
     ) {
