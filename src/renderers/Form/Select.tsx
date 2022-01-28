@@ -10,7 +10,7 @@ import Select, {normalizeOptions} from '../../components/Select';
 import find from 'lodash/find';
 import debouce from 'lodash/debounce';
 import {Api, Action} from '../../types';
-import {isEffectiveApi} from '../../utils/api';
+import {isEffectiveApi, isApiOutdated} from '../../utils/api';
 import {isEmpty, createObject, autobind, isMobile} from '../../utils/helper';
 import {dataMapping} from '../../utils/tpl-builtin';
 import {SchemaApi} from '../../Schema';
@@ -111,6 +111,7 @@ export default class SelectControl extends React.Component<SelectProps, any> {
   input: any;
   unHook: Function;
   lazyloadRemote: Function;
+  lastTerm: string = ''; // 用来记录上一次搜索时关键字
   constructor(props: SelectProps) {
     super(props);
 
@@ -121,6 +122,22 @@ export default class SelectControl extends React.Component<SelectProps, any> {
       leading: false
     });
     this.inputRef = this.inputRef.bind(this);
+  }
+
+  componentDidUpdate(prevProps: SelectProps) {
+    const props = this.props;
+
+    if (
+      isEffectiveApi(props.autoComplete, props.data) &&
+      isApiOutdated(
+        prevProps.autoComplete,
+        props.autoComplete,
+        prevProps.data,
+        props.data
+      )
+    ) {
+      this.lazyloadRemote(this.lastTerm);
+    }
   }
 
   componentWillUnmount() {
@@ -240,6 +257,7 @@ export default class SelectControl extends React.Component<SelectProps, any> {
       return (this.unHook = addHook(this.loadRemote.bind(this, input), 'init'));
     }
 
+    this.lastTerm = input;
     const ctx = createObject(data, {
       term: input,
       value: input
