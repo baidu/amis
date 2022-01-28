@@ -333,7 +333,7 @@ export default class SelectControl extends React.Component<SelectProps, any> {
   doAction(action: Action, data: object, throwErrors: boolean): any {
     const {simpleValue, resetValue} = this.props;
     if (action.actionType === 'clear') {
-      this.changeValue(resetValue ? resetValue : '');
+      this.changeValue(resetValue ?? '');
     }
   }
 
