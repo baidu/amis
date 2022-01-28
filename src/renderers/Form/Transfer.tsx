@@ -128,7 +128,7 @@ export class BaseTransferRenderer<
   T extends OptionsControlProps = BaseTransferProps
 > extends React.Component<T> {
   @autobind
-  handleChange(value: Array<Option> | Option, optionModified?: boolean) {
+  async handleChange(value: Array<Option> | Option, optionModified?: boolean) {
     const {
       onChange,
       joinValues,
@@ -179,11 +179,19 @@ export class BaseTransferRenderer<
 
     (newOptions.length > options.length || optionModified) &&
       setOptions(newOptions, true);
-      
-    dispatchEvent('change', {
-      value: newValue,
-      options
-    });
+
+    // 触发渲染器事件
+    const rendererEvent = await dispatchEvent(
+      'change',
+      {
+        value: newValue,
+        options
+      }
+    );
+    if (rendererEvent?.prevented) {
+      return;
+    }
+
     onChange(newValue);
   }
 

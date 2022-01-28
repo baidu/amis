@@ -151,16 +151,23 @@ export default class SelectControl extends React.Component<SelectProps, any> {
     this.input && this.input.focus();
   }
 
-  dispatchEvent(eventName: SelectRendererEvent, e: any = {}) {
+  async dispatchEvent(eventName: SelectRendererEvent, e: any = {}) {
     const event = 'on' + eventName.charAt(0).toUpperCase() + eventName.slice(1);
     const {dispatchEvent, options} = this.props;
-    dispatchEvent(eventName, createObject(e, {
-      options
-    }));
+    // 触发渲染器事件
+    const rendererEvent = await dispatchEvent(
+      eventName,
+      createObject(e, {
+        options
+      })
+    );
+    if (rendererEvent?.prevented) {
+      return;
+    }
     this.props[event](e);
   }
 
-  changeValue(value: Option | Array<Option> | string | void) {
+  async changeValue(value: Option | Array<Option> | string | void) {
     const {
       joinValues,
       extractValue,
@@ -215,10 +222,14 @@ export default class SelectControl extends React.Component<SelectProps, any> {
     // 不设置没法回显
     additonalOptions.length && setOptions(options.concat(additonalOptions));
 
-    dispatchEvent('change', {
+    const rendererEvent = await dispatchEvent('change', {
       value: newValue,
       options
     });
+    if (rendererEvent?.prevented) {
+      return;
+    }
+
     onChange(newValue);
   }
 
