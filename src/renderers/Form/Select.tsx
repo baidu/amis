@@ -9,7 +9,7 @@ import {
 import Select, {normalizeOptions} from '../../components/Select';
 import find from 'lodash/find';
 import debouce from 'lodash/debounce';
-import {Api} from '../../types';
+import {Api, Action} from '../../types';
 import {isEffectiveApi, isApiOutdated} from '../../utils/api';
 import {isEmpty, createObject, autobind, isMobile} from '../../utils/helper';
 import {dataMapping} from '../../utils/tpl-builtin';
@@ -94,6 +94,13 @@ export interface SelectProps extends OptionsControlProps {
   useMobileUI?: boolean;
 }
 
+export type SelectRendererEvent =
+  | 'change'
+  | 'blur'
+  | 'focus'
+  | 'add'
+  | 'edit'
+  | 'delete';
 export default class SelectControl extends React.Component<SelectProps, any> {
   static defaultProps: Partial<SelectProps> = {
     clearable: false,
@@ -144,7 +151,23 @@ export default class SelectControl extends React.Component<SelectProps, any> {
     this.input && this.input.focus();
   }
 
-  changeValue(value: Option | Array<Option> | void) {
+  async dispatchEvent(eventName: SelectRendererEvent, e: any = {}) {
+    const event = 'on' + eventName.charAt(0).toUpperCase() + eventName.slice(1);
+    const {dispatchEvent, options} = this.props;
+    // 触发渲染器事件
+    const rendererEvent = await dispatchEvent(
+      eventName,
+      createObject(e, {
+        options
+      })
+    );
+    if (rendererEvent?.prevented) {
+      return;
+    }
+    this.props[event](e);
+  }
+
+  async changeValue(value: Option | Array<Option> | string | void) {
     const {
       joinValues,
       extractValue,
@@ -154,7 +177,8 @@ export default class SelectControl extends React.Component<SelectProps, any> {
       valueField,
       onChange,
       setOptions,
-      options
+      options,
+      dispatchEvent
     } = this.props;
 
     let newValue: string | Option | Array<Option> | void = value;
@@ -197,6 +221,14 @@ export default class SelectControl extends React.Component<SelectProps, any> {
 
     // 不设置没法回显
     additonalOptions.length && setOptions(options.concat(additonalOptions));
+
+    const rendererEvent = await dispatchEvent('change', {
+      value: newValue,
+      options
+    });
+    if (rendererEvent?.prevented) {
+      return;
+    }
 
     onChange(newValue);
   }
@@ -298,6 +330,13 @@ export default class SelectControl extends React.Component<SelectProps, any> {
     );
   }
 
+  doAction(action: Action, data: object, throwErrors: boolean): any {
+    const {simpleValue, resetValue} = this.props;
+    if (action.actionType === 'clear') {
+      this.changeValue(resetValue ?? '');
+    }
+  }
+
   render() {
     let {
       autoComplete,
@@ -358,6 +397,11 @@ export default class SelectControl extends React.Component<SelectProps, any> {
             creatable={creatable}
             searchable={searchable || !!autoComplete}
             onChange={this.changeValue}
+            onBlur={(e: any) => this.dispatchEvent('blur', e)}
+            onFocus={(e: any) => this.dispatchEvent('focus', e)}
+            onAdd={() => this.dispatchEvent('add')}
+            onEdit={(item: any) => this.dispatchEvent('edit', item)}
+            onDelete={(item: any) => this.dispatchEvent('delete', item)}
             loading={loading}
             noResultsText={noResultsText}
             renderMenu={menuTpl ? this.renderMenu : undefined}
