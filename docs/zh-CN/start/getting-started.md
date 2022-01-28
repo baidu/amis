@@ -396,13 +396,14 @@ class MyComponent extends React.Component<any, any> {
   render() {
     let amisScoped;
     let theme = 'cxd';
+    let locale = 'zh-CN';
 
     // 请勿使用 React.StrictMode，目前还不支持
     return (
       <div>
         <p>通过 amis 渲染页面</p>
-        <ToastComponent theme={theme} key="toast" position={'top-right'} />
-        <AlertComponent theme={theme} key="alert" />
+        <ToastComponent theme={theme} key="toast" position={'top-right'} locale={locale} />
+        <AlertComponent theme={theme} key="alert" locale={locale} />
         {renderAmis(
           {
             // 这里是 amis 的 Json 配置。
