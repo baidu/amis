@@ -189,7 +189,7 @@ export default class SelectControl extends React.Component<SelectProps, any> {
           ? value.map(item => item[valueField || 'value'])
           : value
           ? [(value as Option)[valueField || 'value']]
-          : [''];
+          : [];
       } else {
         newValue = newValue ? (newValue as Option)[valueField || 'value'] : '';
       }
