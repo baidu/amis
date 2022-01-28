@@ -55,6 +55,10 @@
     position: relative; // 貌似不加 relative 会有 bug。
   }
 
+  &-select > &-selection.#{$ns}AssociatedSelection {
+    overflow: initial;
+  }
+
   &-search + &-selection {
     border-top: 1px solid var(--borderColor);
   }
