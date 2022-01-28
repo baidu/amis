@@ -401,7 +401,8 @@ class TransferDropdownRenderer extends BaseTransferRenderer<TransferDropDownProp
       columns,
       leftMode,
       borderMode,
-      useMobileUI
+      useMobileUI,
+      popOverContainer
     } = this.props;
 
     // 目前 LeftOptions 没有接口可以动态加载
@@ -442,6 +443,7 @@ class TransferDropdownRenderer extends BaseTransferRenderer<TransferDropDownProp
           leftOptions={leftOptions}
           borderMode={borderMode}
           useMobileUI={useMobileUI}
+          popOverContainer={popOverContainer}
         />
 
         <Spinner overlay key="info" show={loading} />
