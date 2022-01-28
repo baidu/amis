@@ -959,6 +959,14 @@ export const components = [
           )
       },
       {
+        label: 'BarCode 条形码',
+        path: '/zh-CN/components/barcode',
+        getComponent: () =>
+          import('../../docs/zh-CN/components/barcode.md').then(
+            makeMarkdownRenderer
+          )
+      },
+      {
         label: 'Remark 标记',
         path: '/zh-CN/components/remark',
         getComponent: () =>
