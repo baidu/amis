@@ -291,6 +291,7 @@ export interface FormItemBasicConfig extends Partial<RendererConfig> {
   storeType?: string;
   validations?: string;
   strictMode?: boolean;
+  shouldComponentUpdate?: (props: any, prevProps: any) => boolean;
   descriptionClassName?: string;
   storeExtendsData?: boolean;
   sizeMutable?: boolean;
@@ -1187,7 +1188,11 @@ export function asFormItem(config: Omit<FormItemConfig, 'component'>) {
           }
 
           shouldComponentUpdate(nextProps: FormControlProps) {
-            if (nextProps.strictMode === false || config.strictMode === false) {
+            if (
+              config.shouldComponentUpdate?.(this.props, nextProps) ||
+              nextProps.strictMode === false ||
+              config.strictMode === false
+            ) {
               return true;
             }
 

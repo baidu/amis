@@ -9,7 +9,12 @@ import {Payload, ApiObject, ApiString, Action} from '../../types';
 import {filter} from '../../utils/tpl';
 import Alert from '../../components/Alert2';
 import {qsstringify, createObject, guid, isEmpty} from '../../utils/helper';
-import {buildApi, normalizeApi} from '../../utils/api';
+import {
+  buildApi,
+  isEffectiveApi,
+  normalizeApi,
+  isApiOutdated
+} from '../../utils/api';
 import Button from '../../components/Button';
 import {Icon} from '../../components/icons';
 import DropZone from 'react-dropzone';
@@ -1421,6 +1426,14 @@ export default class FileControl extends React.Component<FileProps, FileState> {
 @FormItem({
   type: 'input-file',
   sizeMutable: false,
-  renderDescription: false
+  renderDescription: false,
+  shouldComponentUpdate: (props: any, prevProps: any) =>
+    !!isEffectiveApi(props.receiver, props.data) &&
+    isApiOutdated(
+      props.receiver,
+      prevProps.receiver,
+      props.data,
+      prevProps.data
+    )
 })
 export class FileControlRenderer extends FileControl {}
