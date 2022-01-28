@@ -9,8 +9,8 @@ import {
 import Select, {normalizeOptions} from '../../components/Select';
 import find from 'lodash/find';
 import debouce from 'lodash/debounce';
-import {Api} from '../../types';
-import {isEffectiveApi, isApiOutdated} from '../../utils/api';
+import {Api, Action} from '../../types';
+import {isEffectiveApi} from '../../utils/api';
 import {isEmpty, createObject, autobind, isMobile} from '../../utils/helper';
 import {dataMapping} from '../../utils/tpl-builtin';
 import {SchemaApi} from '../../Schema';
@@ -94,6 +94,13 @@ export interface SelectProps extends OptionsControlProps {
   useMobileUI?: boolean;
 }
 
+export type SelectRendererEvent =
+  | 'change'
+  | 'blur'
+  | 'focus'
+  | 'add'
+  | 'edit'
+  | 'delete';
 export default class SelectControl extends React.Component<SelectProps, any> {
   static defaultProps: Partial<SelectProps> = {
     clearable: false,
@@ -104,32 +111,16 @@ export default class SelectControl extends React.Component<SelectProps, any> {
   input: any;
   unHook: Function;
   lazyloadRemote: Function;
-  lastTerm: string = ''; // 用来记录上一次搜索时关键字
   constructor(props: SelectProps) {
     super(props);
 
     this.changeValue = this.changeValue.bind(this);
+    this.otherChangeValue = this.otherChangeValue.bind(this);
     this.lazyloadRemote = debouce(this.loadRemote.bind(this), 250, {
       trailing: true,
       leading: false
     });
     this.inputRef = this.inputRef.bind(this);
-  }
-
-  componentDidUpdate(prevProps: SelectProps) {
-    const props = this.props;
-
-    if (
-      isEffectiveApi(props.autoComplete, props.data) &&
-      isApiOutdated(
-        prevProps.autoComplete,
-        props.autoComplete,
-        prevProps.data,
-        props.data
-      )
-    ) {
-      this.lazyloadRemote(this.lastTerm);
-    }
   }
 
   componentWillUnmount() {
@@ -144,7 +135,16 @@ export default class SelectControl extends React.Component<SelectProps, any> {
     this.input && this.input.focus();
   }
 
-  changeValue(value: Option | Array<Option> | void) {
+  dispatchEvent(eventName: SelectRendererEvent, e: any = {}) {
+    const event = 'on' + eventName.charAt(0).toUpperCase() + eventName.slice(1);
+    const {dispatchEvent, options} = this.props;
+    dispatchEvent(eventName, createObject(e, {
+      options
+    }));
+    this.props[event](e);
+  }
+
+  changeValue(value: Option | Array<Option> | string | void) {
     const {
       joinValues,
       extractValue,
@@ -154,7 +154,8 @@ export default class SelectControl extends React.Component<SelectProps, any> {
       valueField,
       onChange,
       setOptions,
-      options
+      options,
+      dispatchEvent
     } = this.props;
 
     let newValue: string | Option | Array<Option> | void = value;
@@ -198,6 +199,24 @@ export default class SelectControl extends React.Component<SelectProps, any> {
     // 不设置没法回显
     additonalOptions.length && setOptions(options.concat(additonalOptions));
 
+    dispatchEvent('change', {
+      value: newValue,
+      options
+    });
+    onChange(newValue);
+  }
+
+  otherChangeValue(newValue: Option | Array<Option> | string | void) {
+    const {
+      onChange,
+      options,
+      dispatchEvent
+    } = this.props;
+
+    dispatchEvent('change', {
+      value: newValue,
+      options
+    });
     onChange(newValue);
   }
 
@@ -221,7 +240,6 @@ export default class SelectControl extends React.Component<SelectProps, any> {
       return (this.unHook = addHook(this.loadRemote.bind(this, input), 'init'));
     }
 
-    this.lastTerm = input;
     const ctx = createObject(data, {
       term: input,
       value: input
@@ -294,8 +312,16 @@ export default class SelectControl extends React.Component<SelectProps, any> {
       <TransferDropdownRenderer
         {...rest}
         selectMode={selectMode === 'group' ? 'list' : selectMode}
+        onChange={this.otherChangeValue}
       />
     );
+  }
+
+  doAction(action: Action, data: object, throwErrors: boolean): any {
+    const {simpleValue, resetValue} = this.props;
+    if (action.actionType === 'clear') {
+      this.changeValue(resetValue ? resetValue : '');
+    }
   }
 
   render() {
@@ -358,6 +384,11 @@ export default class SelectControl extends React.Component<SelectProps, any> {
             creatable={creatable}
             searchable={searchable || !!autoComplete}
             onChange={this.changeValue}
+            onBlur={(e: any) => this.dispatchEvent('blur', e)}
+            onFocus={(e: any) => this.dispatchEvent('focus', e)}
+            onAdd={() => this.dispatchEvent('add')}
+            onEdit={(item: any) => this.dispatchEvent('edit', item)}
+            onDelete={(item: any) => this.dispatchEvent('delete', item)}
             loading={loading}
             noResultsText={noResultsText}
             renderMenu={menuTpl ? this.renderMenu : undefined}
