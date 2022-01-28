@@ -82,6 +82,7 @@ export interface TreeControlSchema extends FormOptionsControl {
    */
   showOutline?: boolean;
 
+  draggable?: boolean;
   deferApi?: SchemaApi;
 }
 
@@ -199,7 +200,8 @@ export default class TreeControl extends React.Component<TreeProps> {
       nodePath,
       deferLoad,
       expandTreeOptions,
-      translate: __
+      translate: __,
+      draggable
     } = this.props;
 
     return (
@@ -254,6 +256,7 @@ export default class TreeControl extends React.Component<TreeProps> {
             bultinCUD={!addControls && !editControls}
             onDeferLoad={deferLoad}
             onExpandTree={expandTreeOptions}
+            draggable={draggable}
           />
         )}
       </div>

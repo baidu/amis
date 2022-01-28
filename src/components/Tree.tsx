@@ -667,7 +667,6 @@ export class TreeSelector extends React.Component<
   @autobind
   getDropInfo(e: React.DragEvent<Element>, node: Option): IDropInfo {
     let rect = e.currentTarget.getBoundingClientRect();
-
     const dragNode = this.dragNode;
     const deltaX = Math.min(50, rect.width * 0.3);
     const gap = node?.children?.length ? 0 : 16;
@@ -679,7 +678,6 @@ export class TreeSelector extends React.Component<
     let top = targetOffset.top - offset.top;
 
     let {clientX, clientY} = e;
-
     let position: IDropInfo['position'] =
       clientY >= rect.top + rect.height / 2 ? 'bottom' : 'top';
     let indicator;
@@ -822,15 +820,6 @@ export class TreeSelector extends React.Component<
       if (!isVisible(item as any, options)) {
         return null;
       }
-      // selfChecked
-      // 1. value里面有当前item的值
-      // 2. 传入的uncheckable为true
-      // 3. onlychilren情况下子节点数量等于子节点选中数量
-      // nodeDisabled
-      // 1. 子节点显示传入disbaled或者树传入disable
-      // 2. 开启多选且父节点选中
-      // 3. 当前父节点的uncheckable状态
-      // 需要加一个判断，除了
       const checked = !!~value.indexOf(item);
       const selfDisabled = item[disabledField];
       let selfChecked = !!uncheckable || checked;
@@ -875,7 +864,7 @@ export class TreeSelector extends React.Component<
         <Checkbox
           size="sm"
           disabled={nodeDisabled}
-          checked={selfChecked || (!cascade && selfChildrenChecked)}
+          checked={selfChecked || (autoCheckChildren && selfChildrenChecked)}
           partial={!selfChecked}
           onChange={this.handleCheck.bind(this, item, !selfChecked)}
         />

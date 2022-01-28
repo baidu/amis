@@ -1495,6 +1495,7 @@
   --TabsTransfer-border-color: #e8e9eb;
 
   --Tree-indent: var(--gap-md);
+  --Tree-icon-gap: var(--gap-xs);
   --Tree-inputHeight: calc(var(--Form-input-height) * 0.85);
   --Tree-item-onHover-bg: rgba(0, 126, 255, 0.08);
   --Tree-itemArrowWidth: #{px2rem(12px)};
