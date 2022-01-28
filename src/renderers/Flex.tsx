@@ -97,8 +97,9 @@ export default class Flex extends React.Component<FlexProps, object> {
       alignItems,
       alignContent,
       style,
+      className,
       render,
-      className
+      disabled
     } = this.props;
 
     const flexStyle = {
@@ -114,7 +115,10 @@ export default class Flex extends React.Component<FlexProps, object> {
       <div style={flexStyle} className={className}>
         {(Array.isArray(items) ? items : items ? [items] : []).map(
           (item, key) =>
-            render(`flexItem/${key}`, item, {key: `flexItem/${key}`})
+            render(`flexItem/${key}`, item, {
+              key: `flexItem/${key}`,
+              disabled
+            })
         )}
       </div>
     );
@@ -150,14 +154,14 @@ export class FlexItem extends React.Component<FlexItemProps, object> {
   static propsList: Array<string> = ['body', 'className', 'children'];
 
   renderBody(): JSX.Element | null {
-    const {children, body, render} = this.props;
+    const {children, body, render, disabled} = this.props;
 
     return children
       ? typeof children === 'function'
         ? (children(this.props) as JSX.Element)
         : (children as JSX.Element)
       : body
-      ? (render('body', body) as JSX.Element)
+      ? (render('body', body, {disabled}) as JSX.Element)
       : null;
   }
 

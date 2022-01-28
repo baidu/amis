@@ -46,14 +46,14 @@ export default class Wrapper extends React.Component<WrapperProps, object> {
   };
 
   renderBody(): JSX.Element | null {
-    const {children, body, render} = this.props;
+    const {children, body, render, disabled} = this.props;
 
     return children
       ? typeof children === 'function'
         ? (children(this.props) as JSX.Element)
         : (children as JSX.Element)
       : body
-      ? (render('body', body) as JSX.Element)
+      ? (render('body', body, {disabled}) as JSX.Element)
       : null;
   }
 
