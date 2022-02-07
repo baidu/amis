@@ -415,9 +415,9 @@ export default class DateControl extends React.PureComponent<
 
   // 派发有event的事件
   @autobind
-  dispatchEvent(event: React.SyntheticEvent<HTMLElement> | string, data: any = {}) {
-    const {dispatchEvent} = this.props;
-    const dispatcher =  dispatchEvent(event, createObject(data));
+  dispatchEvent(eventName: string, e: React.SyntheticEvent<HTMLElement> | string) {
+    const {dispatchEvent, value} = this.props;
+    const dispatcher = dispatchEvent(eventName, createObject({e, value}));
     if (dispatcher?.prevented) {
       return;
     }
@@ -434,8 +434,11 @@ export default class DateControl extends React.PureComponent<
   // 值的变化
   @autobind
   async handleChange(data: any) {
-    const {dispatchEvent} = this.props;
-    const dispatcher = dispatchEvent('change', createObject(data));
+    const {dispatchEvent, value} = this.props;
+    const dispatcher = dispatchEvent('change', createObject({
+      oldValue: value,
+      value: data
+    }));
     if (dispatcher?.prevented) {
       return;
     }
@@ -485,8 +488,8 @@ export default class DateControl extends React.PureComponent<
           largeMode={largeMode}
           onScheduleClick={this.onScheduleClick.bind(this)}
           onChange={this.handleChange}
-          onFocus={this.dispatchEvent}
-          onBlur={this.dispatchEvent}
+          onFocus={(e: React.SyntheticEvent<HTMLDivElement>) => this.dispatchEvent('focus', e)}
+          onBlur={(e: React.SyntheticEvent<HTMLDivElement>) => this.dispatchEvent('blur', e)}
         />
       </div>
     );

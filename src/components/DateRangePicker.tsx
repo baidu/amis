@@ -332,7 +332,7 @@ export class DateRangePicker extends React.Component<
       isFocused: true
     });
     const {onFocus} = this.props;
-    onFocus && onFocus();
+    onFocus && onFocus(e);
   }
 
   handleBlur(e: React.SyntheticEvent<HTMLDivElement>) {
@@ -340,7 +340,7 @@ export class DateRangePicker extends React.Component<
       isFocused: false
     });
     const {onBlur} = this.props;
-    onBlur && onBlur();
+    onBlur && onBlur(e);
   }
 
   open() {

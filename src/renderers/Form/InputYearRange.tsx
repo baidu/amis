@@ -1,12 +1,10 @@
 import React from 'react';
 import {FormItem} from './Item';
 import cx from 'classnames';
-import includes from 'lodash/includes';
 import {filterDate, parseDuration} from '../../utils/tpl-builtin';
 import InputDateRange, {DateRangeControlSchema} from './InputDateRange';
 import DateRangePicker from '../../components/DateRangePicker';
-import {createObject, autobind} from '../../utils/helper';
-import {Action} from '../../types';
+
 /**
  * YearRange 年份范围控件
  * 文档：https://baidu.gitee.io/amis/docs/components/form/input-year-range
@@ -17,7 +15,6 @@ export interface YearRangeControlSchema
 }
 
 export default class YearRangeControl extends InputDateRange {
-
   render() {
     const {
       className,
@@ -50,8 +47,8 @@ export default class YearRangeControl extends InputDateRange {
           minDuration={minDuration ? parseDuration(minDuration) : undefined}
           maxDuration={maxDuration ? parseDuration(maxDuration) : undefined}
           onChange={this.handleChange}
-          onFocus={this.dispatchEvent}
-          onBlur={this.dispatchEvent}
+          onFocus={(e: React.SyntheticEvent<HTMLDivElement>) => this.dispatchEvent('focus', e)}
+          onBlur={(e: React.SyntheticEvent<HTMLDivElement>) => this.dispatchEvent('blur', e)}
         />
       </div>
     );
