@@ -152,7 +152,7 @@ export class MonthRangePicker extends React.Component<
       isFocused: false
     });
     const {onBlur} = this.props;
-    onBlur && onBlur();
+    onBlur && onBlur(e);
   }
 
   open() {
