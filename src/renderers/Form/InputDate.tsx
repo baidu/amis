@@ -417,25 +417,29 @@ export default class DateControl extends React.PureComponent<
   @autobind
   dispatchEvent(event: React.SyntheticEvent<HTMLElement> | string, data: any = {}) {
     const {dispatchEvent} = this.props;
-    dispatchEvent(event, createObject(data));
+    const dispatcher =  dispatchEvent(event, createObject(data));
+    if (dispatcher?.prevented) {
+      return;
+    }
   }
 
   // 动作
   doAction(action: Action, data: object, throwErrors: boolean) {
     const {resetValue, onChange} = this.props;
     if (action.actionType === 'clear') {
-      onChange('');
-    }
-    if (action.actionType === 'reset') {
-      onChange(resetValue || '');
+      onChange(resetValue ?? '');
     }
   }
 
   // 值的变化
   @autobind
-  handleChange(data: any) {
+  async handleChange(data: any) {
+    const {dispatchEvent} = this.props;
+    const dispatcher = dispatchEvent('change', createObject(data));
+    if (dispatcher?.prevented) {
+      return;
+    }
     this.props.onChange(data);
-    this.dispatchEvent('change', data);
   }
 
   render() {
