@@ -111,6 +111,31 @@ order: 68
 }
 ```
 
+## 可编辑标签名
+
+双击标签名，可开启编辑
+
+```schema: scope="body"
+{
+    "type": "tabs",
+    "editable": true,
+    "tabs": [
+        {
+            "title": "Tab 1",
+            "tab": "Content 1",
+        },
+        {
+            "title": "Tab 2",
+            "tab": "Content 2"
+        },
+        {
+            "title": "双击编辑",
+            "tab": "Content 2"
+        }
+    ]
+}
+```
+
 ## 可禁用
 
 ```schema: scope="body"
@@ -531,3 +556,4 @@ order: 68
 | draggable             | `boolean`                         | false                               | 是否支持拖拽                                                                               |
 | showTip               | `boolean`                         | false                               | 是否支持提示                                                                               |
 | showTipClassName      | `string`                          | `'' `                               | 提示的类                                                                              |
+| editable              | `boolean`                         | false                               | 收否可编辑标签名                                                                              |

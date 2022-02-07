@@ -176,6 +176,10 @@ export interface TabsSchema extends BaseSchema {
    * tooltip 提示的类名
    */
   showTipClassName?: string;
+  /**
+   * 是否可编辑标签名
+   */
+  editable?: boolean;
 }
 
 export interface TabsProps
@@ -487,6 +491,22 @@ export default class Tabs extends React.Component<TabsProps, TabsState> {
     });
   }
 
+  @autobind
+  async handleEdit(index: number, text: string) {
+    const originTabs = this.state.localTabs.concat();
+    originTabs[index].title = text;
+
+    const canContinue = await this.confirmTabs(originTabs);
+
+    if (!canContinue) {
+      return;
+    }
+
+    this.setState({
+      localTabs: originTabs
+    });
+  }
+
   // 回调，拦截器
   async confirmTabs(tabs: Array<TabSource>) {
     const {onTabsChange} = this.props;
@@ -621,7 +641,8 @@ export default class Tabs extends React.Component<TabsProps, TabsState> {
       closable,
       draggable,
       showTip,
-      showTipClassName
+      showTipClassName,
+      editable
     } = this.props;
 
     const mode = tabsMode || dMode;
@@ -723,6 +744,8 @@ export default class Tabs extends React.Component<TabsProps, TabsState> {
         onDragChange={this.handleDragChange}
         showTip={showTip}
         showTipClassName={showTipClassName}
+        editable={editable}
+        onEdit={this.handleEdit}
       >
         {children}
       </CTabs>

@@ -126,6 +126,12 @@
       max-width: var(--Tabs-link-maxWidth);
       overflow: hidden;
 
+      .#{$ns}Tabs-link-edit {
+        max-width: var(--Tabs-link-maxWidth);
+        border: none;
+        outline: none;
+      }
+
       .#{$ns}Tabs-link-close {
         margin-left: var( --Tabs-close-margin);
 

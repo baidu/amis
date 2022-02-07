@@ -112,6 +112,8 @@ export interface TabsProps extends ThemeProps {
   showTip?: boolean;
   showTipClassName?: string;
   scrollable?: boolean;
+  editable?: boolean;
+  onEdit?: (index: number, text: string) => void;
 }
 
 export interface IDragInfo {
@@ -186,7 +188,10 @@ export class Tabs extends React.Component<TabsProps, any> {
       isOverflow: false,
       arrowLeftDisabled: false,
       arrowRightDisabled: false,
-      dragIndicator: null
+      dragIndicator: null,
+      editingIndex: null,
+      editInputText: null,
+      editOriginText: null
     };
   }
 
@@ -288,6 +293,58 @@ export class Tabs extends React.Component<TabsProps, any> {
   handleClose(index: number, key: string | number) {
     const {onClose} = this.props;
     onClose && onClose(index, key);
+  }
+
+  @autobind
+  handleStartEdit(index: number, title: string) {
+    this.setState({
+      editingIndex: index,
+      editInputText: title,
+      editOriginText: title
+    });
+  }
+
+  @autobind
+  editRef(ref: any) {
+    if (!ref) {
+      return;
+    }
+
+    ref?.focus();
+  }
+
+  @autobind
+  handleEditInputChange(e: React.ChangeEvent<HTMLInputElement>) {
+    this.setState({
+      editInputText: e.currentTarget.value
+    })
+  }
+
+  @autobind
+  handleEdit() {
+    let {editingIndex, editInputText, editOriginText} = this.state;
+    const {onEdit} = this.props;
+
+    this.setState({
+      editingIndex: null,
+      editInputText: null,
+      editOriginText: null
+    });
+
+    if (!editInputText) {
+      return;
+    }
+
+    editInputText = String(editInputText).trim();
+
+    (editInputText !== editOriginText)
+    && onEdit
+    && onEdit(editingIndex, editInputText);
+  }
+
+  @autobind
+  handleKeyPress(e: React.KeyboardEvent) {
+    e && e.key === 'Enter' && this.handleEdit()
   }
 
   @autobind
@@ -408,7 +465,8 @@ export class Tabs extends React.Component<TabsProps, any> {
       closable,
       draggable,
       showTip,
-      showTipClassName
+      showTipClassName,
+      editable
     } = this.props;
 
     const {
@@ -421,6 +479,10 @@ export class Tabs extends React.Component<TabsProps, any> {
       tabClassName,
       closable: tabClosable
     } = child.props;
+
+
+    const {editingIndex, editInputText} = this.state;
+
     const activeKey =
       activeKeyProp === undefined && index === 0 ? eventKey : activeKeyProp;
 
@@ -428,20 +490,36 @@ export class Tabs extends React.Component<TabsProps, any> {
 
     const link = (
       <a>
-        {icon ? (
-          iconPosition === 'right' ? (
-            <>
-              {title} {iconElement}
-            </>
+        {
+          editable && editingIndex === index ? (
+            <input
+              className={cx('Tabs-link-edit')}
+              type="text"
+              value={editInputText}
+              ref={this.editRef}
+              onChange={this.handleEditInputChange}
+              onBlur={this.handleEdit}
+              onKeyPress={this.handleKeyPress}
+            />
           ) : (
             <>
-              {iconElement} {title}
+              {icon ? (
+                iconPosition === 'right' ? (
+                  <>
+                    {title} {iconElement}
+                  </>
+                ) : (
+                  <>
+                    {iconElement} {title}
+                  </>
+                )
+              ) : (
+                title
+              )}
+              {React.isValidElement(toolbar) ? toolbar : null}
             </>
           )
-        ) : (
-          title
-        )}
-        {React.isValidElement(toolbar) ? toolbar : null}
+        }
       </a>
     );
 
@@ -455,6 +533,9 @@ export class Tabs extends React.Component<TabsProps, any> {
         )}
         key={eventKey ?? index}
         onClick={() => (disabled ? '' : this.handleSelect(eventKey))}
+        onDoubleClick={() => {
+          editable && this.handleStartEdit(index, title);
+        }}
       >
         {
           showTip ? (
