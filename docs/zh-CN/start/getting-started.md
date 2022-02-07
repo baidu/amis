@@ -144,7 +144,7 @@ let amisScoped = amis.embed(
   },
   {
     // 下面是一些可选的外部控制函数
-    // 在 skd 中可以不传，用来实现 ajax 请求，但在 npm 中这是必须提供的
+    // 在 sdk 中可以不传，用来实现 ajax 请求，但在 npm 中这是必须提供的
     // fetcher: (url, method, data, config) => {},
     // 全局 api 请求适配器
     // 另外在 amis 配置项中的 api 也可以配置适配器，针对某个特定接口单独处理。
