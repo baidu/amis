@@ -9,13 +9,13 @@ import keys from 'lodash/keys';
 import isString from 'lodash/isString';
 import difference from 'lodash/difference';
 import React from 'react';
-import { uncontrollable } from 'uncontrollable';
+import {uncontrollable} from 'uncontrollable';
 
-import { RendererProps } from '../factory';
+import {RendererProps} from '../factory';
 import Overlay from './Overlay';
-import { themeable } from '../theme';
-import { autobind, camel } from '../utils/helper';
-import { Icon } from '../../src';
+import {themeable} from '../theme';
+import {autobind, camel} from '../utils/helper';
+import {Icon} from '../../src';
 import {
   MultipleValue,
   Value,
@@ -23,8 +23,8 @@ import {
   MarksType,
   RangeItemProps
 } from '../renderers/Form/InputRange';
-import { stripNumber } from '../utils/tpl-builtin';
-import { findDOMNode } from 'react-dom';
+import {stripNumber} from '../utils/tpl-builtin';
+import {findDOMNode} from 'react-dom';
 
 interface HandleItemState {
   isDrag: boolean;
@@ -32,8 +32,8 @@ interface HandleItemState {
 }
 
 interface HandleItemProps {
-  classPrefix: string,
-  disabled: boolean,
+  classPrefix: string;
+  disabled: boolean;
   value: number;
   min: number;
   max: number;
@@ -44,11 +44,11 @@ interface HandleItemProps {
   tipFormatter?: (value: Value) => boolean;
   unit?: string;
   tooltipPlacement?: string;
-};
+}
 
 interface LabelProps {
   show: boolean;
-  classPrefix: string,
+  classPrefix: string;
   value: number;
   tooltipVisible?: boolean;
   tipFormatter?: (value: Value) => boolean;
@@ -57,7 +57,7 @@ interface LabelProps {
   activePlacement?: string;
   positionLeft?: number;
   positionTop?: number;
-};
+}
 
 /**
  * 滑块值 -> position.left
@@ -66,7 +66,8 @@ interface LabelProps {
  * @param max 最大值
  * @returns position.left
  */
-const valueToOffsetLeft = (value: any, min: number, max: number) => (value * 100) / (max - min) + '%';
+const valueToOffsetLeft = (value: any, min: number, max: number) =>
+  (value * 100) / (max - min) + '%';
 
 /**
  * 滑块handle
@@ -103,8 +104,8 @@ class HandleItem extends React.Component<HandleItemProps, HandleItemState> {
    */
   @autobind
   onMouseMove(e: MouseEvent) {
-    const { isDrag } = this.state;
-    const { type = 'min' } = this.props;
+    const {isDrag} = this.state;
+    const {type = 'min'} = this.props;
     if (!isDrag) {
       return;
     }
@@ -142,7 +143,7 @@ class HandleItem extends React.Component<HandleItemProps, HandleItemState> {
    */
   @autobind
   onMouseLeave() {
-    const { isDrag } = this.state;
+    const {isDrag} = this.state;
     if (isDrag) {
       return;
     }
@@ -163,7 +164,7 @@ class HandleItem extends React.Component<HandleItemProps, HandleItemState> {
       unit,
       tooltipPlacement = 'auto'
     } = this.props;
-    const { isDrag, labelActive } = this.state;
+    const {isDrag, labelActive} = this.state;
     const style = {
       left: valueToOffsetLeft(value, min, max),
       zIndex: isDrag ? 2 : 1
@@ -176,9 +177,17 @@ class HandleItem extends React.Component<HandleItemProps, HandleItemState> {
         </div>
       </div>
     ) : (
-      <div className={`${ns}InputRange-handle`} style={style} ref={this.handleRef}>
+      <div
+        className={`${ns}InputRange-handle`}
+        style={style}
+        ref={this.handleRef}
+      >
         <div
-          className={isDrag ? `${ns}InputRange-handle-drage` : `${ns}InputRange-handle-icon`}
+          className={
+            isDrag
+              ? `${ns}InputRange-handle-drage`
+              : `${ns}InputRange-handle-icon`
+          }
           onMouseDown={this.onMouseDown}
           onMouseEnter={this.onMouseEnter}
           onMouseLeave={this.onMouseLeave}
@@ -224,19 +233,22 @@ class Label extends React.Component<LabelProps, any> {
       positionTop = 0
     } = this.props;
 
-    let { placement } = this.props;
-
-    positionLeft >= 0 && positionTop >= 0 && (placement = 'top');
-    positionLeft >= 0 && positionTop < 0 && (placement = 'bottom');
-    positionLeft < 0 && positionTop >= 0 && (placement = 'left');
-    positionLeft < 0 && positionTop < 0 && (placement = 'right');
-
+    let {placement} = this.props;
+    if (placement === 'auto') {
+      positionLeft >= 0 && positionTop >= 0 && (placement = 'top');
+      positionLeft >= 0 && positionTop < 0 && (placement = 'bottom');
+      positionLeft < 0 && positionTop >= 0 && (placement = 'left');
+      positionLeft < 0 && positionTop < 0 && (placement = 'right');
+    }
 
     // tooltipVisible 优先级 比show高
     // tooltipVisible 为 true时，tipFormatter才生效
-    const isShow = tooltipVisible !== undefined
-      ? (tooltipVisible && tipFormatter) ? tipFormatter(value) : tooltipVisible
-      : show;
+    const isShow =
+      tooltipVisible !== undefined
+        ? tooltipVisible && tipFormatter
+          ? tipFormatter(value)
+          : tooltipVisible
+        : show;
     return (
       <div
         className={`${ns}InputRange-label pos-${camel(placement)}`}
@@ -272,8 +284,8 @@ export class Range extends React.Component<RangeItemProps, any> {
    */
   @autobind
   getBoundingClient(dom: Element) {
-    const { x, y, width, height } = dom?.getBoundingClientRect();
-    return { x, y, width, height };
+    const {x, y, width, height} = dom?.getBoundingClientRect();
+    return {x, y, width, height};
   }
 
   /**
@@ -282,8 +294,8 @@ export class Range extends React.Component<RangeItemProps, any> {
    * @returns 滑块值
    */
   pageXToValue(pageX: number) {
-    const { x, width } = this.getBoundingClient(this.trackRef.current as Element);
-    const { max, min } = this.props;
+    const {x, width} = this.getBoundingClient(this.trackRef.current as Element);
+    const {max, min} = this.props;
     return ((pageX - x) * (max - min)) / width;
   }
 
@@ -295,14 +307,14 @@ export class Range extends React.Component<RangeItemProps, any> {
    */
   @autobind
   onChange(pageX: number, type: string = 'min') {
-    const { max, min, step, multiple, value: originValue } = this.props;
+    const {max, min, step, multiple, value: originValue} = this.props;
     const value = this.pageXToValue(pageX);
     if (value > max || value < min) {
       return;
     }
     const result = stripNumber(this.getStepValue(value, step));
     if (multiple) {
-      this.updateValue({ ...(originValue as MultipleValue), [type]: result });
+      this.updateValue({...(originValue as MultipleValue), [type]: result});
     } else {
       this.updateValue(result);
     }
@@ -336,10 +348,11 @@ export class Range extends React.Component<RangeItemProps, any> {
     if (!!this.props.disabled) {
       return;
     }
-    const { value } = this.props;
+    const {value} = this.props;
     const _value = this.pageXToValue(e.pageX);
     const type =
-      Math.abs(_value - (value as MultipleValue).min) > Math.abs(_value - (value as MultipleValue).max)
+      Math.abs(_value - (value as MultipleValue).min) >
+      Math.abs(_value - (value as MultipleValue).max)
         ? 'max'
         : 'min';
     this.onChange(e.pageX, type);
@@ -351,18 +364,20 @@ export class Range extends React.Component<RangeItemProps, any> {
    */
   @autobind
   renderSteps() {
-    const { max, min, step, showSteps, classPrefix: ns } = this.props;
+    const {max, min, step, showSteps, classPrefix: ns} = this.props;
     const steps = Math.floor((max - min) / step);
-    return showSteps && (
-      <div>
-        {range(steps - 1).map(item => (
-          <span
-            key={item}
-            className={`${ns}InputRange-track-dot`}
-            style={{ left: ((item + 1) * 100) / steps + '%' }}
-          ></span>
-        ))}
-      </div>
+    return (
+      showSteps && (
+        <div>
+          {range(steps - 1).map(item => (
+            <span
+              key={item}
+              className={`${ns}InputRange-track-dot`}
+              style={{left: ((item + 1) * 100) / steps + '%'}}
+            ></span>
+          ))}
+        </div>
+      )
     );
   }
 
@@ -373,15 +388,17 @@ export class Range extends React.Component<RangeItemProps, any> {
    */
   @autobind
   onGetChangeValue(pageX: number, type: keyof MultipleValue) {
-    const { max, min } = this.props;
+    const {max, min} = this.props;
     const value = this.pageXToValue(pageX);
     if (value > max || value < min) {
       return;
     }
-    this.multipleValue[type] = stripNumber(this.getStepValue(value, this.props.step));
+    this.multipleValue[type] = stripNumber(
+      this.getStepValue(value, this.props.step)
+    );
     const _min = Math.min(this.multipleValue.min, this.multipleValue.max);
     const _max = Math.max(this.multipleValue.min, this.multipleValue.max);
-    this.updateValue({ max: _max, min: _min });
+    this.updateValue({max: _max, min: _min});
   }
 
   /**
@@ -391,7 +408,7 @@ export class Range extends React.Component<RangeItemProps, any> {
    */
   @autobind
   getOffsetLeft(value: number | string) {
-    const { max, min } = this.props;
+    const {max, min} = this.props;
     if (isString(value) && /^\d+%$/.test(value)) {
       return value;
     }
@@ -411,18 +428,22 @@ export class Range extends React.Component<RangeItemProps, any> {
       unit,
       tooltipPlacement,
       tipFormatter,
-      onAfterChange,
+      onAfterChange
     } = this.props;
 
     // trace
     const traceActiveStyle = {
       width: valueToOffsetLeft(
-        multiple ? (value as MultipleValue).max - (value as MultipleValue).min : value,
-        min, max
+        multiple
+          ? (value as MultipleValue).max - (value as MultipleValue).min
+          : value,
+        min,
+        max
       ),
       left: valueToOffsetLeft(
         multiple ? (value as MultipleValue).min : 0,
-        min, max
+        min,
+        max
       )
     };
 
@@ -445,34 +466,21 @@ export class Range extends React.Component<RangeItemProps, any> {
           className={`${ns}InputRange-track ${ns}InputRange-track--background`}
           onClick={this.onClickTrack}
         >
-          <div className={`${ns}InputRange-track-active`} style={traceActiveStyle} />
+          <div
+            className={`${ns}InputRange-track-active`}
+            style={traceActiveStyle}
+          />
 
           {/* 显示步长 */}
           {this.renderSteps()}
 
           {/* 滑块handle */}
-          {
-            multiple
-              ? (
-                ['min', 'max'].map((type: 'min' | 'max') => (
-                  <HandleItem
-                    value={this.multipleValue[type]}
-                    type={type}
-                    min={min}
-                    max={max}
-                    classPrefix={ns}
-                    disabled={disabled}
-                    tooltipVisible={tooltipVisible}
-                    tipFormatter={tipFormatter}
-                    unit={unit}
-                    tooltipPlacement={tooltipPlacement}
-                    onAfterChange={onAfterChange}
-                    onChange={this.onGetChangeValue.bind(this)}
-                  />
-                ))
-              )
-              : <HandleItem
-                value={+value}
+          {multiple ? (
+            ['min', 'max'].map((type: 'min' | 'max') => (
+              <HandleItem
+                key={type}
+                value={this.multipleValue[type]}
+                type={type}
                 min={min}
                 max={max}
                 classPrefix={ns}
@@ -482,22 +490,37 @@ export class Range extends React.Component<RangeItemProps, any> {
                 unit={unit}
                 tooltipPlacement={tooltipPlacement}
                 onAfterChange={onAfterChange}
-                onChange={this.onChange.bind(this)}
+                onChange={this.onGetChangeValue.bind(this)}
               />
-          }
+            ))
+          ) : (
+            <HandleItem
+              value={+value}
+              min={min}
+              max={max}
+              classPrefix={ns}
+              disabled={disabled}
+              tooltipVisible={tooltipVisible}
+              tipFormatter={tipFormatter}
+              unit={unit}
+              tooltipPlacement={tooltipPlacement}
+              onAfterChange={onAfterChange}
+              onChange={this.onChange.bind(this)}
+            />
+          )}
 
           {/* 刻度标记 */}
-          {
-            marks && <div className={`${ns}InputRange-marks`}>
+          {marks && (
+            <div className={`${ns}InputRange-marks`}>
               {keys(marks).map((key: keyof MarksType) => (
-                <div key={key} style={{ left: this.getOffsetLeft(key) }}>
+                <div key={key} style={{left: this.getOffsetLeft(key)}}>
                   <span style={(marks[key] as any)?.style}>
                     {(marks[key] as any)?.label || marks[key]}
                   </span>
                 </div>
               ))}
             </div>
-          }
+          )}
         </div>
       </div>
     );

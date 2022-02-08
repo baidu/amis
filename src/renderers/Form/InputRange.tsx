@@ -1,15 +1,15 @@
-import React, { CSSProperties, ReactNode } from 'react';
+import React, {CSSProperties, ReactNode} from 'react';
 import isNumber from 'lodash/isNumber';
 import isObject from 'lodash/isObject';
 import isEqual from 'lodash/isEqual';
 
-import { FormItem, FormControlProps, FormBaseControl } from './Item';
+import {FormItem, FormControlProps, FormBaseControl} from './Item';
 import InputRange from '../../components/Range';
 import NumberInput from '../../components/NumberInput';
-import { Icon } from '../../components/icons';
-import { stripNumber } from '../../utils/tpl-builtin';
-import { autobind } from '../../utils/helper';
-import { filter } from '../../utils/tpl';
+import {Icon} from '../../components/icons';
+import {stripNumber} from '../../utils/tpl-builtin';
+import {autobind} from '../../utils/helper';
+import {filter} from '../../utils/tpl';
 
 /**
  * Range
@@ -45,98 +45,101 @@ export interface RangeControlSchema extends FormBaseControl {
 }
 
 export type MarksType = {
-  [index: number | string]: Record<number, React.ReactNode | { style?: React.CSSProperties; label?: string }>
+  [index: number | string]: Record<
+    number,
+    React.ReactNode | {style?: React.CSSProperties; label?: string}
+  >;
 };
 
 export interface RangeProps extends FormControlProps {
   /**
-  * 滑块值
-  */
+   * 滑块值
+   */
   value: Value;
 
   /**
-  * 最小值
-  */
+   * 最小值
+   */
   min?: number;
 
   /**
-  * 最大值
-  */
+   * 最大值
+   */
   max?: number;
 
   /**
-  * 步长
-  */
+   * 步长
+   */
   step?: number;
 
   /**
-  * 是否展示步长
-  */
+   * 是否展示步长
+   */
   showSteps?: boolean;
 
   /**
-  * 分割块数
-  */
+   * 分割块数
+   */
   parts?: number;
 
   /**
-  * 刻度
-  */
+   * 刻度
+   */
   marks?: MarksType;
 
   /**
-  * 是否展示标签
-  */
+   * 是否展示标签
+   */
   tooltipVisible?: boolean;
 
   /**
-  * 标签方向
-  */
+   * 标签方向
+   */
   tooltipPlacement?: TooltipPosType;
 
   /**
-  * 控制滑块标签显隐函数
-  */
+   * 控制滑块标签显隐函数
+   */
   tipFormatter?: (value: Value) => boolean;
 
   /**
-  * 是否为双滑块
-  */
+   * 是否为双滑块
+   */
   multiple?: boolean;
 
   /**
-  * 是否通过分隔符连接
-  */
+   * 是否通过分隔符连接
+   */
   joinValues?: boolean;
 
   /**
-  * 分隔符
-  */
+   * 分隔符
+   */
   delimiter?: string;
 
   /**
-  * 单位
-  */
+   * 单位
+   */
   unit?: string;
 
   /**
-  * 是否展示输入框
-  */
+   * 是否展示输入框
+   */
   showInput?: boolean;
 
   /**
-  * 是否禁用
-  */
+   * 是否禁用
+   */
   disabled?: boolean;
 
   /**
-  * value改变事件
-  */
+   * value改变事件
+   */
   onChange: (value: Value) => void;
 
   /**
-  * 鼠标松开事件
-  */
+   * 鼠标松开事件
+   */
   onAfterChange?: (value: Value) => any;
 }
 
@@ -173,11 +176,11 @@ export interface RangeState {
 }
 
 /**
-  * 格式化初始value值
-  * @param value 初始value值 Value
-  * @param props RangeProps
-  * @returns number | {min: number, max: number}
-  */
+ * 格式化初始value值
+ * @param value 初始value值 Value
+ * @param props RangeProps
+ * @returns number | {min: number, max: number}
+ */
 export function formatValue(
   value: Value,
   props: {
@@ -202,21 +205,13 @@ export function formatValue(
           maxValue ||
           props.max
       };
-    }
-    else if (Array.isArray(value)) {
+    } else if (Array.isArray(value)) {
       const [min, max] = value;
       return {
-        min:
-          (props.min && min < props.min && props.min) ||
-          min ||
-          props.min,
-        max:
-          (props.max && max > props.max && props.max) ||
-          max ||
-          props.max,
+        min: (props.min && min < props.min && props.min) || min || props.min,
+        max: (props.max && max > props.max && props.max) || max || props.max
       };
-    }
-    else if (typeof value === 'object') {
+    } else if (typeof value === 'object') {
       return {
         min:
           (props.min && value.min < props.min && props.min) ||
@@ -227,8 +222,7 @@ export function formatValue(
           value.max ||
           props.max
       };
-    }
-    else {
+    } else {
       return {
         min: props.min,
         max: props.max
@@ -239,38 +233,34 @@ export function formatValue(
 }
 
 /**
-  * 输入框
-  */
+ * 输入框
+ */
 export class Input extends React.Component<RangeItemProps, any> {
   /**
-    * onChange事件，只能输入数字
-    * @param e React.ChangeEvent
-    */
+   * onChange事件，只能输入数字
+   * @param e React.ChangeEvent
+   */
   @autobind
   onChange(value: number) {
-    const { multiple, value: originValue, type } = this.props;
+    const {multiple, value: originValue, type} = this.props;
     const _value = this.getValue(value, type);
 
     this.props.updateValue(
-      multiple
-        ? { ...(originValue as MultipleValue), [type]: _value }
-        : value
+      multiple ? {...(originValue as MultipleValue), [type]: _value} : value
     );
   }
 
   /**
-    * 双滑块 更新value
-    * @param value 输入的value值
-    */
+   * 双滑块 更新value
+   * @param value 输入的value值
+   */
   @autobind
   onUpdateValue(value: number) {
-    const { multiple, value: originValue, type } = this.props;
+    const {multiple, value: originValue, type} = this.props;
     const _value = this.getValue(value, type);
 
     this.props.updateValue(
-      multiple
-        ? { ...(originValue as MultipleValue), [type]: _value }
-        : value
+      multiple ? {...(originValue as MultipleValue), [type]: _value} : value
     );
   }
 
@@ -283,7 +273,7 @@ export class Input extends React.Component<RangeItemProps, any> {
   }
 
   getStepPrecision() {
-    const { step } = this.props;
+    const {step} = this.props;
 
     return typeof step !== 'number' || step >= 1 || step < 0
       ? 0
@@ -291,7 +281,7 @@ export class Input extends React.Component<RangeItemProps, any> {
   }
 
   getValue(value: string | number, type?: string) {
-    const { max, min, step, value: stateValue } = this.props as RangeItemProps;
+    const {max, min, step, value: stateValue} = this.props as RangeItemProps;
 
     if (
       value === '' ||
@@ -322,8 +312,8 @@ export class Input extends React.Component<RangeItemProps, any> {
       case 'max':
         return isObject(stateValue) && isNumber(stateValue.min)
           ? (_value > max && max) ||
-          (_value <= stateValue.min && stateValue.min + step) ||
-          value
+              (_value <= stateValue.min && stateValue.min + step) ||
+              value
           : max;
       default:
         return (_value < min && min) || (_value > max && max) || value;
@@ -387,7 +377,13 @@ export default class RangeControl extends React.PureComponent<
 
   constructor(props: RangeProps) {
     super(props);
-    const { value: propsValue, multiple, delimiter, min, max } = {
+    const {
+      value: propsValue,
+      multiple,
+      delimiter,
+      min,
+      max
+    } = {
       ...RangeControl.defaultProps,
       ...this.props
     };
@@ -404,8 +400,15 @@ export default class RangeControl extends React.PureComponent<
   }
 
   componentDidUpdate(prevProps: RangeProps) {
-    const { value } = prevProps;
-    const { value: nextPropsValue, multiple, delimiter, min, max, onChange } = {
+    const {value} = prevProps;
+    const {
+      value: nextPropsValue,
+      multiple,
+      delimiter,
+      min,
+      max,
+      onChange
+    } = {
       ...RangeControl.defaultProps,
       ...this.props
     };
@@ -424,42 +427,46 @@ export default class RangeControl extends React.PureComponent<
 
   @autobind
   clearValue() {
-    const { multiple, min, max } = {
+    const {multiple, min, max} = {
       ...RangeControl.defaultProps,
       ...this.props
     };
     if (multiple) {
-      this.updateValue({ min, max });
+      this.updateValue({min, max});
     } else {
-      this.updateValue(min)
+      this.updateValue(min);
     }
   }
 
   @autobind
   getValue(value: FormarValue) {
-    const { multiple } = this.props;
-    return multiple ? {
-      max: stripNumber((value as MultipleValue).max),
-      min: stripNumber((value as MultipleValue).min),
-    } : stripNumber(value as number)
+    const {multiple} = this.props;
+    return multiple
+      ? {
+          max: stripNumber((value as MultipleValue).max),
+          min: stripNumber((value as MultipleValue).min)
+        }
+      : stripNumber(value as number);
   }
 
   /**
-    * 所有触发value变换 -> updateValue
-    * @param value
-    */
+   * 所有触发value变换 -> updateValue
+   * @param value
+   */
   @autobind
   updateValue(value: FormarValue) {
-    this.setState({ value: this.getValue(value) });
-    const { multiple, joinValues, delimiter, onChange } = this.props;
+    this.setState({value: this.getValue(value)});
+    const {multiple, joinValues, delimiter, onChange} = this.props;
     onChange(
-      multiple ?
-        joinValues
-          ? [(value as MultipleValue).min, (value as MultipleValue).max].join(delimiter || ',')
+      multiple
+        ? joinValues
+          ? [(value as MultipleValue).min, (value as MultipleValue).max].join(
+              delimiter || ','
+            )
           : {
-            min: (value as MultipleValue).min,
-            max: (value as MultipleValue).max
-          }
+              min: (value as MultipleValue).min,
+              max: (value as MultipleValue).max
+            }
         : value
     );
   }
@@ -469,22 +476,25 @@ export default class RangeControl extends React.PureComponent<
    */
   @autobind
   onAfterChange() {
-    const { value } = this.state;
-    const { multiple, joinValues, delimiter, onAfterChange } = this.props;
-    onAfterChange && onAfterChange(
-      multiple ?
-        joinValues
-          ? [(value as MultipleValue).min, (value as MultipleValue).max].join(delimiter || ',')
-          : {
-            min: (value as MultipleValue).min,
-            max: (value as MultipleValue).max
-          }
-        : value
-    );
+    const {value} = this.state;
+    const {multiple, joinValues, delimiter, onAfterChange} = this.props;
+    onAfterChange &&
+      onAfterChange(
+        multiple
+          ? joinValues
+            ? [(value as MultipleValue).min, (value as MultipleValue).max].join(
+                delimiter || ','
+              )
+            : {
+                min: (value as MultipleValue).min,
+                max: (value as MultipleValue).max
+              }
+          : value
+      );
   }
 
   render() {
-    const { value } = this.state;
+    const {value} = this.state;
     const props: RangeItemProps = {
       ...RangeControl.defaultProps,
       ...this.props,
@@ -517,14 +527,11 @@ export default class RangeControl extends React.PureComponent<
         className={cx(
           'RangeControl',
           `${ns}InputRange`,
-          { 'is-disabled': disabled },
+          {'is-disabled': disabled},
           className
         )}
       >
-        {
-          showInput && multiple &&
-          <Input {...props} type="min" />
-        }
+        {showInput && multiple && <Input {...props} type="min" />}
         <InputRange {...props} />
         {showInput && <Input {...props} type="max" />}
         {clearable && !disabled && showInput ? (
@@ -532,7 +539,7 @@ export default class RangeControl extends React.PureComponent<
             onClick={() => this.clearValue()}
             className={cx('InputRange-clear', {
               'is-active': multiple
-                ? isEqual(this.state.value, { min: min, max: max })
+                ? isEqual(this.state.value, {min: min, max: max})
                 : this.state.value !== min
             })}
           >
@@ -547,4 +554,4 @@ export default class RangeControl extends React.PureComponent<
 @FormItem({
   type: 'input-range'
 })
-export class RangeControlRenderer extends RangeControl { }
+export class RangeControlRenderer extends RangeControl {}

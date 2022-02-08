@@ -221,7 +221,7 @@
 
     &.pos-left {
       top: 50%;
-      transform: translateY(-50%) translateX(-100%) translateX(-18px);
+      transform: translateY(-50%) translateX(-100%) translateX(-12px);
 
       &::after {
         content: '';
@@ -237,7 +237,7 @@
 
     &.pos-right {
       top: 50%;
-      transform: translateY(-50%) translateX(18px);
+      transform: translateY(-50%) translateX(26px);
 
       &::after {
         content: '';

@@ -265,15 +265,15 @@ order: 38
 | step             | `number`                                                     | `1`     | 步长                                                         |
 | showSteps        | `boolean`                                                    | `false` | 是否显示步长                                                 |
 | parts            | `number`                                                     | `1`     | 分割的块数                                                   |
-| marks            | `{ [index: number | string]: ReactNode }`  or `{ [number | string]: { style: CSSProperties, label: ReactNode } }` |         | 刻度标记<br/>- 支持自定义样式<br/>- 设置百分比               |
+| marks            | `{ [number | string]: ReactNode }`  or `{ [number | string]: { style: CSSProperties, label: ReactNode } }` |         | 刻度标记<br/>- 支持自定义样式<br/>- 设置百分比               |
 | tooltipVisible   | `boolean`                                                    | `false` | 是否显示滑块标签                                             |
 | tooltipPlacement | `auto` or `bottom` or `left` or `right`                      | `top`   | 滑块标签的位置，默认`auto`，方向自适应<br/>前置条件：tooltipVisible 不为 false 时有效 |
 | tipFormatter     | `function`                                                   |         | 控制滑块标签显隐函数<br/>前置条件：tooltipVisible 不为 false 时有效 |
 | multiple         | `boolean`                                                    | `false` | 支持选择范围                                                 |
-| joinValues       | `boolean`                                                    | `true`  | 默认为 `true`，选择的 `value` 会通过 `delimiter` 连接起来，否则直接将以`{min: 1, max: 100}`的形式提交<br/>开启`multiple`时有效 |
+| joinValues       | `boolean`                                                    | `true`  | 默认为 `true`，选择的 `value` 会通过 `delimiter` 连接起来，否则直接将以`{min: 1, max: 100}`的形式提交<br/>前置条件：开启`multiple`时有效 |
 | delimiter        | `string`                                                     | `,`     | 分隔符                                                       |
 | unit             | `string`                                                     |         | 单位                                                         |
-| clearable        | `boolean`                                                    | `false` | 是否可清除                                                   |
+| clearable        | `boolean`                                                    | `false` | 是否可清除<br/>前置条件：开启`showInput`时有效               |
 | showInput        | `boolean`                                                    | `false` | 是否显示输入框                                               |
 | onChange         | `function`                                                   |         | 当 组件 的值发生改变时，会触发 onChange 事件，并把改变后的值作为参数传入 |
 | onAfterChange    | `function`                                                   |         | 与 `onmouseup` 触发时机一致，把当前值作为参数传入            |
