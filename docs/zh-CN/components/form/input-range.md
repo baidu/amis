@@ -261,7 +261,7 @@ order: 38
 | value            | `number` or `string` or `{min: number, max: number}` or `[number, number]` |         |                                                              |
 | min              | `number`                                                     | `0`     | 最小值                                                       |
 | max              | `number`                                                     | `100`   | 最大值                                                       |
-| disabled         | `boolean`                                                    | `false` | 是否可清除                                                   |
+| disabled         | `boolean`                                                    | `false` | 是否禁用                                                     |
 | step             | `number`                                                     | `1`     | 步长                                                         |
 | showSteps        | `boolean`                                                    | `false` | 是否显示步长                                                 |
 | parts            | `number`                                                     | `1`     | 分割的块数                                                   |
