@@ -26,6 +26,8 @@ Object {
   "schema": null,
   "schemaKey": "",
   "storeType": "ServiceStore",
+  "toastData": undefined,
+  "toastOpen": false,
   "updatedAt": 0,
 }
 `;
@@ -57,6 +59,8 @@ Array [
     "schema": null,
     "schemaKey": "",
     "storeType": "ServiceStore",
+    "toastData": undefined,
+    "toastOpen": false,
     "updatedAt": 0,
   },
   Object {
@@ -84,6 +88,8 @@ Array [
     "schema": null,
     "schemaKey": "",
     "storeType": "ServiceStore",
+    "toastData": undefined,
+    "toastOpen": false,
     "updatedAt": 0,
   },
 ]
@@ -116,6 +122,8 @@ Array [
     "schema": null,
     "schemaKey": "",
     "storeType": "ServiceStore",
+    "toastData": undefined,
+    "toastOpen": false,
   },
   Object {
     "action": undefined,
@@ -148,6 +156,8 @@ Array [
     "schema": null,
     "schemaKey": "",
     "storeType": "ServiceStore",
+    "toastData": undefined,
+    "toastOpen": false,
   },
 ]
 `;
