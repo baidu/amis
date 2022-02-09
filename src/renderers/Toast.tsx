@@ -1,12 +1,12 @@
 import React from 'react';
 import {Renderer, RendererProps} from '../factory';
-import {SchemaObject, BaseSchema} from '../Schema';
+import {SchemaCollection, BaseSchema} from '../Schema';
 import ToastComponent from '../components/Toast';
 import {isMobile} from '../utils/helper';
 
 interface Item {
-  title?: string | React.ReactNode;
-  body: string | React.ReactNode;
+  title?: SchemaCollection;
+  body: SchemaCollection;
   level: 'info' | 'success' | 'error' | 'warning';
   id: string;
   position?:
@@ -95,13 +95,22 @@ export class ToastRenderer extends React.Component<ToastProps, {}> {
       errorTimeout,
       useMobileUI,
       visible,
-      store
+      store,
+      render
     } = this.props;
     const mobileUI = useMobileUI && isMobile();
 
+    const toastItems = items.map((item: Item) => {
+      return {
+        ...item,
+        title: item.title ? render('title', item.title) : null,
+        body: item.body ? render('body', item.body) : ''
+      };
+    });
+
     return (
       <ToastComponent
-        items={items}
+        items={toastItems}
         position={position || (mobileUI ? 'center' : undefined)}
         closeButton={closeButton}
         showIcon={showIcon}
