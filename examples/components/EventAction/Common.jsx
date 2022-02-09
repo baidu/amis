@@ -28,10 +28,52 @@ export default {
       }
     },
     {
+      type: 'form',
+      body: [
+        {
+          type: 'group',
+          body: [
+            {
+              type: 'button',
+              id: 'b_002',
+              className: 'ml-2',
+              label: '打开一个弹窗（模态）',
+              actionType: 'reload',
+              dialog: {
+                title: '系统提示',
+                body: '对你点击了'
+              },
+              onEvent: {
+                click: {
+                  actions: [
+                    {
+                      actionType: 'dialog',
+                      dialog: {
+                        type: 'dialog',
+                        id: 'dialog_1',
+                        title: '一个模态弹窗',
+                        body: [
+                          {
+                            type: 'tpl',
+                            tpl: '<p>对，你打开了一个模态弹窗</p>',
+                            inline: false
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
       type: 'button',
       id: 'b_002',
       className: 'ml-2',
-      label: '打开一个弹窗',
+      label: '打开一个弹窗（模态）',
       actionType: 'reload',
       dialog: {
         title: '系统提示',
@@ -42,27 +84,15 @@ export default {
           actions: [
             {
               actionType: 'dialog',
-              args: {
-                id: '${event.data.ajax1.id}'
-              },
               dialog: {
                 type: 'dialog',
                 id: 'dialog_1',
-                title: '弹框标题1',
-                data: {
-                  id: '${id}'
-                },
+                title: '一个模态弹窗',
                 body: [
                   {
-                    type: 'form',
-                    debug: true,
-                    body: [
-                      {
-                        type: 'tpl',
-                        tpl: '<p>对，你刚刚点击了111${id}</p>',
-                        inline: false
-                      }
-                    ]
+                    type: 'tpl',
+                    tpl: '<p>对，你打开了一个模态弹窗</p>',
+                    inline: false
                   }
                 ]
               }
@@ -74,7 +104,7 @@ export default {
     {
       type: 'button',
       id: 'b_003',
-      label: '关闭一个弹窗',
+      label: '关闭一个弹窗（模态）',
       className: 'ml-2',
       onEvent: {
         click: {
@@ -84,13 +114,8 @@ export default {
               dialog: {
                 type: 'dialog',
                 id: 'dialog_1',
-                title: '弹框标题1',
+                title: '一个模态弹窗',
                 body: [
-                  {
-                    type: 'tpl',
-                    tpl: '<p>对，你刚刚点击了111</p>',
-                    inline: false
-                  },
                   {
                     type: 'button',
                     label: '打开一个子弹窗，然后关闭它的父亲',
@@ -101,11 +126,11 @@ export default {
                             actionType: 'dialog',
                             dialog: {
                               type: 'dialog',
-                              title: '弹框标题3',
+                              title: '一个模态子弹窗',
                               body: [
                                 {
                                   type: 'button',
-                                  label: '关闭指定弹窗',
+                                  label: '关闭指定弹窗（关闭父弹窗）',
                                   onEvent: {
                                     click: {
                                       actions: [
@@ -127,6 +152,7 @@ export default {
                   {
                     type: 'button',
                     label: '关闭当前弹窗',
+                    className: 'ml-2',
                     onEvent: {
                       click: {
                         actions: [
@@ -136,13 +162,6 @@ export default {
                         ]
                       }
                     }
-                  },
-                  {
-                    type: 'input-text',
-                    label: '文本',
-                    name: 'text',
-                    disabled: false,
-                    mode: 'horizontal'
                   }
                 ]
               }
@@ -154,6 +173,102 @@ export default {
     {
       type: 'button',
       id: 'b_004',
+      className: 'ml-2',
+      label: '打开一个抽屉（模态）',
+      onEvent: {
+        click: {
+          actions: [
+            {
+              actionType: 'drawer',
+              drawer: {
+                type: 'drawer',
+                id: 'drawer_1',
+                title: '一个模态抽屉',
+                body: [
+                  {
+                    type: 'tpl',
+                    tpl: '<p>对，你打开了一个模态抽屉</p>',
+                    inline: false
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      type: 'button',
+      id: 'b_005',
+      label: '关闭一个抽屉（模态）',
+      className: 'ml-2',
+      onEvent: {
+        click: {
+          actions: [
+            {
+              actionType: 'drawer',
+              drawer: {
+                type: 'drawer',
+                id: 'drawer_1',
+                title: '一个模态抽屉',
+                body: [
+                  {
+                    type: 'button',
+                    label: '打开一个子抽屉，然后关闭它的父亲',
+                    onEvent: {
+                      click: {
+                        actions: [
+                          {
+                            actionType: 'drawer',
+                            drawer: {
+                              type: 'drawer',
+                              title: '一个模态子抽屉',
+                              body: [
+                                {
+                                  type: 'button',
+                                  label: '关闭指定抽屉(关闭父抽屉)',
+                                  onEvent: {
+                                    click: {
+                                      actions: [
+                                        {
+                                          actionType: 'closeDrawer',
+                                          componentId: 'drawer_1'
+                                        }
+                                      ]
+                                    }
+                                  }
+                                }
+                              ]
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  },
+                  {
+                    type: 'button',
+                    label: '关闭当前抽屉',
+                    className: 'ml-2',
+                    onEvent: {
+                      click: {
+                        actions: [
+                          {
+                            actionType: 'closeDrawer'
+                          }
+                        ]
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      type: 'button',
+      id: 'b_006',
       label: '打开页面',
       className: 'ml-2',
       onEvent: {
@@ -170,7 +285,7 @@ export default {
     },
     {
       type: 'button',
-      id: 'b_005',
+      id: 'b_007',
       label: '打开页面（单页模式）',
       className: 'ml-2',
       onEvent: {
@@ -186,8 +301,8 @@ export default {
     },
     {
       type: 'button',
-      id: 'b_006',
-      label: '弹个提示对话框',
+      id: 'b_008',
+      label: '弹个提示对话框（模态）',
       className: 'ml-2',
       onEvent: {
         click: {
@@ -202,8 +317,8 @@ export default {
     },
     {
       type: 'button',
-      id: 'b_007',
-      label: '弹个确认对话框',
+      id: 'b_009',
+      label: '弹个确认对话框（模态）',
       className: 'ml-2',
       onEvent: {
         click: {
@@ -219,7 +334,7 @@ export default {
     },
     {
       type: 'button',
-      id: 'b_008',
+      id: 'b_010',
       label: '全局消息提示',
       className: 'ml-2',
       onEvent: {
@@ -228,7 +343,7 @@ export default {
             {
               actionType: 'toast',
               msgType: 'warning',
-              msg: '我是一个全局警告消息',
+              msg: '我是一个全局警告消息，可以配置不同类型和弹出位置~',
               options: {
                 position: 'top-right'
               }
@@ -239,7 +354,7 @@ export default {
     },
     {
       type: 'button',
-      id: 'b_009',
+      id: 'b_011',
       label: '复制一段文本',
       className: 'ml-2',
       onEvent: {
@@ -255,7 +370,7 @@ export default {
     },
     {
       type: 'button',
-      id: 'b_010',
+      id: 'b_012',
       label: '复制一段富文本',
       className: 'ml-2',
       onEvent: {
@@ -272,7 +387,7 @@ export default {
     },
     {
       type: 'button',
-      id: 'b_011',
+      id: 'b_013',
       label: '发送邮件',
       className: 'ml-2',
       onEvent: {

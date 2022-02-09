@@ -10,6 +10,7 @@ import Select from '../../components/Select';
 import {Api} from '../../types';
 import {isEffectiveApi} from '../../utils/api';
 import {SchemaApi} from '../../Schema';
+import {isMobile} from '../../utils/helper';
 
 /**
  * 级联选择框
@@ -207,6 +208,8 @@ export default class ChainedSelectControl extends React.Component<
       joinValues,
       extractValue,
       multiple,
+      useMobileUI,
+      env,
       ...rest
     } = this.props;
     const arr = Array.isArray(value)
@@ -215,10 +218,17 @@ export default class ChainedSelectControl extends React.Component<
       ? value.split(delimiter || ',')
       : [];
 
+    const mobileUI = useMobileUI && isMobile();
     return (
       <div className={cx(`${ns}ChainedSelectControl`, className)}>
         <Select
           {...rest}
+          useMobileUI={useMobileUI}
+          popOverContainer={
+            mobileUI && env && env.getModalContainer
+              ? env.getModalContainer
+              : rest.popOverContainer
+          }
           classPrefix={ns}
           key="base"
           options={options}
@@ -232,6 +242,12 @@ export default class ChainedSelectControl extends React.Component<
           visible === false ? null : (
             <Select
               {...rest}
+              useMobileUI={useMobileUI}
+              popOverContainer={
+                mobileUI && env && env.getModalContainer
+                  ? env.getModalContainer
+                  : rest.popOverContainer
+              }
               classPrefix={ns}
               key={`x-${index + 1}`}
               options={options}

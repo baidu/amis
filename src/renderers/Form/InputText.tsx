@@ -74,6 +74,16 @@ export interface TextControlSchema extends FormOptionsControl {
    * 是否显示计数
    */
   showCounter?: boolean;
+
+  /**
+   * 前缀
+   */
+  prefix?: string;
+
+  /**
+   * 后缀
+   */
+  suffix?: string;
 }
 
 export interface TextProps extends OptionsControlProps {
@@ -385,7 +395,8 @@ export default class TextControl extends React.PureComponent<
     } else if (
       evt.key === 'Enter' &&
       this.state.inputValue &&
-      typeof this.highlightedIndex !== 'number'
+      typeof this.highlightedIndex !== 'number' &&
+      creatable !== false
     ) {
       evt.preventDefault();
       let value: string | Array<string | any> = this.state.inputValue;
@@ -416,15 +427,13 @@ export default class TextControl extends React.PureComponent<
 
       onChange(value);
 
-      if (creatable === false || multiple) {
-        this.setState(
-          {
-            inputValue: '',
-            isOpen: false
-          },
-          this.loadAutoComplete
-        );
-      }
+      this.setState(
+        {
+          inputValue: '',
+          isOpen: false
+        },
+        this.loadAutoComplete
+      );
     } else if (
       evt.key === 'Enter' &&
       this.state.isOpen &&
@@ -626,9 +635,25 @@ export default class TextControl extends React.PureComponent<
           const indices = isOpen
             ? mapItemIndex(filtedOptions, selectedItem)
             : {};
+
           filtedOptions = filtedOptions.filter(
             (option: any) => !~selectedItem.indexOf(option.value)
           );
+
+          if (
+            this.state.inputValue &&
+            creatable !== false &&
+            multiple &&
+            !filtedOptions.some(
+              (option: any) => option.value === this.state.inputValue
+            )
+          ) {
+            filtedOptions.push({
+              [labelField || 'label']: this.state.inputValue,
+              [valueField || 'value']: this.state.inputValue,
+              isNew: true
+            });
+          }
 
           return (
             <div
@@ -723,12 +748,19 @@ export default class TextControl extends React.PureComponent<
                         })}
                         key={option.value}
                       >
-                        <span>
-                          {option.disabled
-                            ? option.label
-                            : highlight(option.label, inputValue as string)}
-                          {option.tip}
-                        </span>
+                        {option.isNew ? (
+                          <span>
+                            {__('Text.add', {label: option.label})}
+                            <Icon icon="enter" className="icon" />
+                          </span>
+                        ) : (
+                          <span>
+                            {option.disabled
+                              ? option.label
+                              : highlight(option.label, inputValue as string)}
+                            {option.tip}
+                          </span>
+                        )}
                       </div>
                     );
                   })}
@@ -782,7 +814,7 @@ export default class TextControl extends React.PureComponent<
             {filter(prefix, data)}
           </span>
         ) : null}
-        <input
+        <Input
           name={name}
           placeholder={placeholder}
           ref={this.inputRef}
@@ -806,14 +838,7 @@ export default class TextControl extends React.PureComponent<
         ) : null}
         {showCounter ? (
           <span className={cx('TextControl-counter')}>
-            {`${
-              (typeof value === 'undefined' || value === null
-                ? ''
-                : typeof value === 'string'
-                ? value
-                : JSON.stringify(value)
-              ).length
-            }${
+            {`${this.valueToString(value)?.length}${
               typeof maxLength === 'number' && maxLength ? `/${maxLength}` : ''
             }`}
           </span>

@@ -74,7 +74,9 @@ import LogicEventActionSchema from './EventAction/Logic';
 import StopEventActionSchema from './EventAction/Stop';
 import DataFlowEventActionSchema from './EventAction/DataFlow';
 import InputEventSchema from './EventAction/InputEvent';
-import DateEvent from './EventAction/DateEvent';
+import DateEventSchema from './EventAction/DateEvent';
+import UploadEventSchema from './EventAction/UploadEvent';
+import SelectEventActionSchema from './EventAction/SelectEvent';
 import WizardSchema from './Wizard';
 import ChartSchema from './Chart';
 import EChartsEditorSchema from './ECharts';
@@ -533,9 +535,19 @@ export const examples = [
                 component: makeSchemaRenderer(InputEventSchema)
               },
               {
+                label: '上传类组件',
+                path: '/examples/event/upload',
+                component: makeSchemaRenderer(UploadEventSchema)
+              },
+              {
+                label: '下拉框',
+                path: '/examples/event/select',
+                component: makeSchemaRenderer(SelectEventActionSchema)
+              },
+              {
                 label: '时间类组件',
                 path: 'examples/event/date',
-                component: makeSchemaRenderer(DateEvent)
+                component: makeSchemaRenderer(DateEventSchema)
               }
             ]
           },

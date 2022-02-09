@@ -14,6 +14,7 @@ export interface TransferDropDownProps extends TransferProps {
   multiple?: boolean;
   borderMode?: 'full' | 'half' | 'none';
   useMobileUI?: boolean;
+  popOverContainer?: any;
 }
 
 export class TransferDropDown extends Transfer<TransferDropDownProps> {
@@ -28,7 +29,8 @@ export class TransferDropDown extends Transfer<TransferDropDownProps> {
       onSearch,
       multiple,
       borderMode,
-      useMobileUI
+      useMobileUI,
+      popOverContainer
     } = this.props;
     const {inputValue, searchResult} = this.state;
 
@@ -36,6 +38,7 @@ export class TransferDropDown extends Transfer<TransferDropDownProps> {
     return (
       <PopOverContainer
         useMobileUI={useMobileUI}
+        popOverContainer={popOverContainer}
         popOverClassName={cx('TransferDropDown-popover')}
         popOverRender={({onClose}) => (
           <div

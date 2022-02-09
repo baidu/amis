@@ -144,7 +144,7 @@ let amisScoped = amis.embed(
   },
   {
     // 下面是一些可选的外部控制函数
-    // 在 skd 中可以不传，用来实现 ajax 请求，但在 npm 中这是必须提供的
+    // 在 sdk 中可以不传，用来实现 ajax 请求，但在 npm 中这是必须提供的
     // fetcher: (url, method, data, config) => {},
     // 全局 api 请求适配器
     // 另外在 amis 配置项中的 api 也可以配置适配器，针对某个特定接口单独处理。
@@ -396,13 +396,14 @@ class MyComponent extends React.Component<any, any> {
   render() {
     let amisScoped;
     let theme = 'cxd';
+    let locale = 'zh-CN';
 
     // 请勿使用 React.StrictMode，目前还不支持
     return (
       <div>
         <p>通过 amis 渲染页面</p>
-        <ToastComponent theme={theme} key="toast" position={'top-right'} />
-        <AlertComponent theme={theme} key="alert" />
+        <ToastComponent theme={theme} key="toast" position={'top-right'} locale={locale} />
+        <AlertComponent theme={theme} key="alert" locale={locale} />
         {renderAmis(
           {
             // 这里是 amis 的 Json 配置。

@@ -52,7 +52,14 @@ export default class Container<T> extends React.Component<
   };
 
   renderBody(): JSX.Element | null {
-    const {children, body, render, classnames: cx, bodyClassName} = this.props;
+    const {
+      children,
+      body,
+      render,
+      classnames: cx,
+      bodyClassName,
+      disabled
+    } = this.props;
 
     return (
       <div className={cx('Container-body', bodyClassName)}>
@@ -61,7 +68,7 @@ export default class Container<T> extends React.Component<
             ? ((children as any)(this.props) as JSX.Element)
             : (children as JSX.Element)
           : body
-          ? (render('body', body as any) as JSX.Element)
+          ? (render('body', body as any, {disabled}) as JSX.Element)
           : null}
       </div>
     );

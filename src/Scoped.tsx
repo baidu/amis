@@ -46,6 +46,7 @@ export interface IScopedContext {
   reload: (target: string, ctx: RendererData) => void;
   send: (target: string, ctx: RendererData) => void;
   close: (target: string) => void;
+  closeById: (target: string) => void;
 }
 type AliasIScopedContext = IScopedContext;
 export const ScopedContext = React.createContext(createScopedTools(''));
@@ -235,6 +236,18 @@ function createScopedTools(
           .map(name => scoped.getComponentByName(name))
           .filter(component => component && component.props.show)
           .forEach(closeDialog);
+      }
+    },
+
+    /**
+     * 关闭指定id的弹窗
+     * @param id
+     */
+    closeById(id: string) {
+      const scoped = this;
+      const component: any = scoped.getComponentById(id);
+      if (component && component.props.show) {
+        closeDialog(component);
       }
     }
   };
