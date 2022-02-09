@@ -47,8 +47,8 @@ export default class YearRangeControl extends InputDateRange {
           minDuration={minDuration ? parseDuration(minDuration) : undefined}
           maxDuration={maxDuration ? parseDuration(maxDuration) : undefined}
           onChange={this.handleChange}
-          onFocus={(e: React.SyntheticEvent<HTMLDivElement>) => this.dispatchEvent('focus', e)}
-          onBlur={(e: React.SyntheticEvent<HTMLDivElement>) => this.dispatchEvent('blur', e)}
+          onFocus={this.dispatchEvent}
+          onBlur={this.dispatchEvent}
         />
       </div>
     );

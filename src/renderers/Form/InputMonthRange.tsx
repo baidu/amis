@@ -162,9 +162,9 @@ export default class MonthRangeControl extends React.Component<MonthRangeProps> 
 
   // 派发有event的事件
   @autobind
-  dispatchEvent(eventName: string, e: React.SyntheticEvent<HTMLElement> | string) {
-    const {dispatchEvent, value} = this.props;
-    const dispatcher = dispatchEvent(eventName, createObject({e, value}));
+  dispatchEvent(e: React.SyntheticEvent<HTMLElement> | string) {
+    const {dispatchEvent, data} = this.props;
+    const dispatcher = dispatchEvent(e, data);
     if (dispatcher?.prevented) {
       return;
     }
@@ -180,16 +180,13 @@ export default class MonthRangeControl extends React.Component<MonthRangeProps> 
 
   // 值的变化
   @autobind
-  async handleChange(data: any) {
-    const {dispatchEvent, value} = this.props;
-    const dispatcher = dispatchEvent('change', createObject({
-      oldValue: value,
-      value: data
-    }));
+  async handleChange(nextValue: any) {
+    const {dispatchEvent, data} = this.props;
+    const dispatcher = dispatchEvent('change', createObject(data, nextValue));
     if (dispatcher?.prevented) {
       return;
     }
-    this.props.onChange(data);
+    this.props.onChange(nextValue);
   }
 
   render() {
@@ -220,8 +217,8 @@ export default class MonthRangeControl extends React.Component<MonthRangeProps> 
           minDuration={minDuration ? parseDuration(minDuration) : undefined}
           maxDuration={maxDuration ? parseDuration(maxDuration) : undefined}
           onChange={this.handleChange}
-          onFocus={(e: React.SyntheticEvent<HTMLDivElement>) => this.dispatchEvent('focus', e)}
-          onBlur={(e: React.SyntheticEvent<HTMLDivElement>) => this.dispatchEvent('blur', e)}
+          onFocus={this.dispatchEvent}
+          onBlur={this.dispatchEvent}
         />
       </div>
     );
