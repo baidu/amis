@@ -754,7 +754,7 @@ export const components = [
           )
       },
       {
-        label: 'Calendar 日历',
+        label: 'Calendar 日历日程',
         path: '/zh-CN/components/calendar',
         getComponent: () =>
           import('../../docs/zh-CN/components/calendar.md').then(
@@ -959,6 +959,14 @@ export const components = [
           )
       },
       {
+        label: 'BarCode 条形码',
+        path: '/zh-CN/components/barcode',
+        getComponent: () =>
+          import('../../docs/zh-CN/components/barcode.md').then(
+            makeMarkdownRenderer
+          )
+      },
+      {
         label: 'Remark 标记',
         path: '/zh-CN/components/remark',
         getComponent: () =>
@@ -1015,7 +1023,7 @@ export const components = [
           import('../../docs/zh-CN/components/timeline.md').then(
             makeMarkdownRenderer
           )
-      },
+      }
     ]
   },
 

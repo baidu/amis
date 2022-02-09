@@ -11,10 +11,10 @@ import {
  * 打开页面动作
  *
  * @export
- * @class OpenPageAction
+ * @class LinkAction
  * @implements {Action}
  */
-export class OpenPageAction implements Action {
+export class LinkAction implements Action {
   async run(
     action: ListenerAction,
     renderer: ListenerContext,
@@ -36,4 +36,4 @@ export class OpenPageAction implements Action {
   }
 }
 
-registerAction('openpage', new OpenPageAction());
+registerAction('openlink', new LinkAction());

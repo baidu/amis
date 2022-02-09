@@ -245,7 +245,9 @@ export class Chart extends React.Component<ChartProps> {
       Promise.all([
         import('echarts'),
         import('echarts-stat'),
+        // @ts-ignore 官方没提供 type
         import('echarts/extension/dataTool'),
+        // @ts-ignore 官方没提供 type
         import('echarts/extension/bmap/bmap')
       ]).then(async ([echarts, ecStat]) => {
         (window as any).echarts = echarts;

@@ -153,6 +153,30 @@ order: 27
 ]
 ```
 
+## level 支持表达式
+
+> 1.6.4 及以上版本
+
+修改下面例子的 status 值为 2 就能看到变化
+
+```schema:
+{
+  "type": "page",
+  "data": {
+    "status": 1
+  },
+  "body": [
+    {
+      "type": "alert",
+      "level": "${IFS(status===1, 'danger', status===2, 'warning')}",
+      "body": "这是内容区"
+    }
+  ]
+}
+```
+
+同时 icon 和 showIcon 也都支持表达式
+
 ## 显示关闭按钮
 
 配置`"showCloseButton": true`实现显示关闭按钮。

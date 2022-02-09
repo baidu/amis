@@ -195,6 +195,7 @@ export function wrapControl<
 
             // 如果没有初始值，通过 onChange 设置过去
             if (
+              this.props.data === this.props.scope &&
               onChange &&
               typeof propValue === 'undefined' &&
               typeof store?.getValueByName(model.name, false) === 'undefined'

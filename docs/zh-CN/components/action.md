@@ -719,7 +719,7 @@ Access-Control-Expose-Headers:  Content-Disposition
 
 > 1.3.0 版本新增功能
 
-如果上面的的行为不满足需求，还可以通过字符串形式的 `onClick` 来定义点击事件，这个字符串会转成 JavaScript 函数，并支持异步。
+如果上面的的行为不满足需求，还可以通过字符串形式的 `onClick` 来定义点击事件，这个字符串会转成 JavaScript 函数，并支持异步（如果是用 sdk 需要自己编译一个 es2017 版本）。
 
 ```schema: scope="body"
 {

@@ -36,7 +36,9 @@ const setup = (inputOptions: any = {}, formOptions: any = {}) => {
     'input[name="text"]'
   ) as HTMLInputElement;
 
-  const submitBtn = utils.container.querySelector('button[type="submit"]');
+  const submitBtn = utils.container.querySelector(
+    'button[type="submit"]'
+  ) as HTMLElement;
 
   return {
     input,
@@ -48,13 +50,14 @@ const setup = (inputOptions: any = {}, formOptions: any = {}) => {
 /**
  * 基本使用
  */
-test('Renderer:text', () => {
+test('Renderer:text', async () => {
   const {container, input} = setup();
 
   expect(container).toMatchSnapshot();
-
   // 输入是否正常
   fireEvent.change(input, {target: {value: 'AbCd'}});
+  // 事件机制导致hanleChange变为异步
+  await wait(100);
   expect(input.value).toBe('AbCd');
 });
 
@@ -128,10 +131,12 @@ test('Renderer:text with clearable', async () => {
     clearable: true
   });
   fireEvent.change(input, {target: {value: 'abcd'}}); // 有值之后才会显示clear的icon
-
+  await wait(100);
   expect(container).toMatchSnapshot();
 
-  fireEvent.click(container.querySelector('a.cxd-TextControl-clear'));
+  fireEvent.click(
+    container.querySelector('a.cxd-TextControl-clear') as HTMLElement
+  );
   await wait(100);
   expect(input.value).toBe('');
 });
@@ -158,13 +163,19 @@ test('Renderer:text with options', async () => {
   expect(container).toMatchSnapshot();
 
   // 展开 options
-  fireEvent.click(container.querySelector('.cxd-TextControl-input'));
+  fireEvent.click(
+    container.querySelector('.cxd-TextControl-input') as HTMLElement
+  );
+  await wait(100);
   expect(container).toMatchSnapshot('options is open');
 
   // 选中一项
   fireEvent.click(
-    container.querySelector('.cxd-TextControl-sugs .cxd-TextControl-sugItem')
+    container.querySelector(
+      '.cxd-TextControl-sugs .cxd-TextControl-sugItem'
+    ) as HTMLElement
   );
+  await wait(100);
   // expect(input.value).toBe('a');
   expect(container).toMatchSnapshot('select first option');
 });
@@ -198,29 +209,39 @@ test('Renderer:text with options and multiple', async () => {
     {debug: true}
   );
 
-  const textControl = container.querySelector('.cxd-TextControl-input');
+  const textControl = container.querySelector(
+    '.cxd-TextControl-input'
+  ) as HTMLElement;
 
   // 展开 options
   fireEvent.click(textControl);
+  await wait(100);
   expect(container).toMatchSnapshot('options is opened');
 
   // 选中第一项
   fireEvent.click(
-    container.querySelector('.cxd-TextControl-sugs .cxd-TextControl-sugItem')
+    container.querySelector(
+      '.cxd-TextControl-sugs .cxd-TextControl-sugItem'
+    ) as HTMLElement
   );
+  await wait(100);
   // expect(input.value).toBe('a');
   expect(container).toMatchSnapshot('first option selected');
 
   // 再次打开 options
   fireEvent.click(textControl);
+  await wait(100);
   expect(container).toMatchSnapshot(
     'options is opened again, and first option already selected'
   );
 
   // 选中 options 中的第一项
   fireEvent.click(
-    container.querySelector('.cxd-TextControl-sugs .cxd-TextControl-sugItem')
+    container.querySelector(
+      '.cxd-TextControl-sugs .cxd-TextControl-sugItem'
+    ) as HTMLElement
   );
+  await wait(100);
   // expect(input.value).toBe('a,b');
   expect(container).toMatchSnapshot('second option selected');
 });
@@ -267,19 +288,21 @@ test('Renderer:text with counter and maxLength', () => {
 /**
  * 转小写
  */
-test('Renderer:text with transform lowerCase', () => {
+test('Renderer:text with transform lowerCase', async () => {
   const {input} = setup({transform: {lowerCase: true}});
 
   fireEvent.change(input, {target: {value: 'AbCd'}});
+  await wait(100);
   expect(input.value).toBe('abcd');
 });
 
 /**
  * 转大写
  */
-test('Renderer:text with transform upperCase', () => {
+test('Renderer:text with transform upperCase', async () => {
   const {input} = setup({transform: {upperCase: true}});
 
   fireEvent.change(input, {target: {value: 'AbCd'}});
+  await wait(100);
   expect(input.value).toBe('ABCD');
 });

@@ -3,7 +3,7 @@ import moment from 'moment';
 import DaysView from 'react-datetime/src/DaysView';
 import React from 'react';
 import Downshift from 'downshift';
-import find from 'lodash/find';
+import findIndex from 'lodash/findIndex';
 import {LocaleProps, localeable} from '../../locale';
 import {ClassNamesFn} from '../../theme';
 import {isMobile, convertArrayValueToMoment} from "../../utils/helper";
@@ -205,31 +205,44 @@ export class CustomDaysView extends DaysView {
             if (moment(schedule[i].startTime).isSame(currentDate, 'day')) {
               showSchedule.push(schedule[i]);
             } else if (currentDate.weekday() === 0) {
+              const width = Math.min(moment(schedule[i].endTime).diff(currentDate, 'days') + 1, 7);
               // 周一重新设置日程
               showSchedule.push({
                 ...schedule[i],
-                width: moment(schedule[i].endTime).date() - currentDate.date()
+                width,
+                startTime: moment(currentDate),
+                endTime: moment(currentDate).add(width - 1, 'days')
               });
+              schedule[i].height === undefined && (schedule[i].height = 0);
+            } else {
+              // 生成空白格占位
+              showSchedule.push({
+                width: 1,
+                className: 'bg-transparent',
+                content: '',
+                height: schedule[i].height
+              })
             }
           }
           [0, 1, 2].forEach((i: number) => {
-            const findSchedule = find(
-              schedule,
+            // 排序
+            let tempIndex = findIndex(
+              showSchedule,
               (item: any) => item.height === i
             );
-            if (
-              findSchedule &&
-              findSchedule !== showSchedule[i] &&
-              currentDate.weekday() !== 0
-            ) {
-              // 生成一个空白格占位
-              showSchedule.splice(i, 0, {
-                width: 1,
-                className: 'bg-transparent',
-                content: ''
-              });
-            } else {
-              showSchedule[i] && (showSchedule[i].height = i);
+            if (tempIndex === -1) {
+              tempIndex = findIndex(
+                showSchedule,
+                (item: any) => item.height === undefined
+              );
+            }
+            if (tempIndex > -1 && tempIndex !== i) {
+              let temp = showSchedule[i];
+              showSchedule[i] = showSchedule[tempIndex];
+              showSchedule[tempIndex] = temp;
+            }
+            if (showSchedule[i] && showSchedule[i].height === undefined) {
+              showSchedule[i].height = i;
             }
           });
           // 最多展示3个

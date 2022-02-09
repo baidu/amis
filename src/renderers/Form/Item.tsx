@@ -30,10 +30,13 @@ import {
 } from '../../Schema';
 import {HocStoreFactory} from '../../WithStore';
 import {wrapControl} from './wrapControl';
+import type {OnEventProps} from '../../utils/renderer-event';
 
 export type FormControlSchemaAlias = SchemaObject;
 
-export interface FormBaseControl extends Omit<BaseSchema, 'type'> {
+export interface FormBaseControl
+  extends Omit<BaseSchema, 'type'>,
+    OnEventProps {
   /**
    * 表单项类型
    */
@@ -288,6 +291,7 @@ export interface FormItemBasicConfig extends Partial<RendererConfig> {
   storeType?: string;
   validations?: string;
   strictMode?: boolean;
+  shouldComponentUpdate?: (props: any, prevProps: any) => boolean;
   descriptionClassName?: string;
   storeExtendsData?: boolean;
   sizeMutable?: boolean;
@@ -1184,7 +1188,11 @@ export function asFormItem(config: Omit<FormItemConfig, 'component'>) {
           }
 
           shouldComponentUpdate(nextProps: FormControlProps) {
-            if (nextProps.strictMode === false || config.strictMode === false) {
+            if (
+              config.shouldComponentUpdate?.(this.props, nextProps) ||
+              nextProps.strictMode === false ||
+              config.strictMode === false
+            ) {
               return true;
             }
 
