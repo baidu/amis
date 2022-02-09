@@ -1776,7 +1776,8 @@ export default class CRUD extends React.Component<CRUDProps, any> {
       classPrefix: ns,
       classnames: cx,
       translate: __,
-      loadDataOnce
+      loadDataOnce,
+      data
     } = this.props;
 
     const api = (toolbar as Schema).api;
@@ -1787,7 +1788,8 @@ export default class CRUD extends React.Component<CRUDProps, any> {
         onClick={() =>
           store.exportAsCSV({
             loadDataOnce,
-            api
+            api,
+            data
           })
         }
         size="sm"

@@ -173,7 +173,7 @@ fis.on('compile:optimizer', function (file) {
   }
 });
 
-fis.match('{*.ts,*.jsx,*.tsx,/src/**.js,/src/**.ts}', {
+fis.match('{*.ts,*.jsx,*.tsx,/examples/**.js,/src/**.js,/src/**.ts}', {
   parser: [
     // docsGennerator,
     fis.plugin('typescript', {
@@ -441,7 +441,7 @@ if (fis.project.currentMedia() === 'publish') {
     })
   });
 
-  env.match('{*.ts,*.jsx,*.tsx,/src/**.js,/src/**.ts}', {
+  env.match('{*.ts,*.jsx,*.tsx,/examples/**.js,/src/**.js,/src/**.ts}', {
     parser: [
       // docsGennerator,
       fis.plugin('typescript', {
@@ -978,7 +978,7 @@ if (fis.project.currentMedia() === 'publish') {
     url: 'null',
     useHash: false
   });
-  ghPages.match('{*.jsx,*.tsx,*.ts}', {
+  ghPages.match('{*.jsx,*.tsx,*.ts,/examples/**.js,}', {
     moduleId: function (m, path) {
       return fis.util.md5('amis' + path);
     },
