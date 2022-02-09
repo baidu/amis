@@ -162,12 +162,9 @@ export default class MonthRangeControl extends React.Component<MonthRangeProps> 
 
   // 派发有event的事件
   @autobind
-  dispatchEvent(e: React.SyntheticEvent<HTMLElement> | string) {
+  dispatchEvent(e: React.SyntheticEvent<HTMLElement>) {
     const {dispatchEvent, data} = this.props;
-    const dispatcher = dispatchEvent(e, data);
-    if (dispatcher?.prevented) {
-      return;
-    }
+    dispatchEvent(e, data);
   }
 
   // 动作
