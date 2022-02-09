@@ -323,7 +323,7 @@ icon 也可以是 url 地址，比如
 | -------- | ---------------------------------------------------------------------------------------- | ------ | ----------------------------------------------------------------------------------------------------------------------------------------- |
 | api      | [Api](../../docs/types/api)                                                              | -      | 请求地址，参考 [api](../../docs/types/api) 格式说明。                                                                                     |
 | redirect | [模板字符串](../../docs/concepts/template#%E6%A8%A1%E6%9D%BF%E5%AD%97%E7%AC%A6%E4%B8%B2) | -      | 指定当前请求结束后跳转的路径，可用 `${xxx}` 取值。                                                                                        |
-| feedback | `DialogObject`                                                                           | -      | 如果 ajax 类型的，当 ajax 返回正常后，还能接着弹出一个 dialog 做其他交互。返回的数据可用于这个 dialog 中。格式可参考[Dialog](./Dialog.md) |
+| feedback | `DialogObject`                                                                           | -      | 如果 ajax 类型的，当 ajax 返回正常后，还能接着弹出一个 dialog 做其他交互。返回的数据可用于这个 dialog 中。格式可参考[Dialog](./Dialog) |
 | messages | `object`                                                                                 | -      | `success`：ajax 操作成功后提示，可以不指定，不指定时以 api 返回为准。`failed`：ajax 操作失败提示。                                        |
 
 ## 下载请求
@@ -617,7 +617,7 @@ Access-Control-Expose-Headers:  Content-Disposition
 
 ### 表单中表格添加一行
 
-该 actionType 为[FormItem-Table](./form/table)专用行为
+该 actionType 为[FormItem-Table](./form/input-table)专用行为
 
 ### 重置表单
 
@@ -719,7 +719,7 @@ Access-Control-Expose-Headers:  Content-Disposition
 
 > 1.3.0 版本新增功能
 
-如果上面的的行为不满足需求，还可以通过字符串形式的 `onClick` 来定义点击事件，这个字符串会转成 JavaScript 函数，并支持异步。
+如果上面的的行为不满足需求，还可以通过字符串形式的 `onClick` 来定义点击事件，这个字符串会转成 JavaScript 函数，并支持异步（如果是用 sdk 需要自己编译一个 es2017 版本）。
 
 ```schema: scope="body"
 {

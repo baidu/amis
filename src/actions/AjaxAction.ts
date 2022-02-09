@@ -1,5 +1,8 @@
 import {IRootStore} from '../store/root';
-import {isVisible} from '../utils/helper';
+import {fetchOptions} from '../types';
+import {normalizeApiResponseData} from '../utils/api';
+import {ServerError} from '../utils/errors';
+import {createObject, isEmpty, isVisible} from '../utils/helper';
 import {RendererEvent} from '../utils/renderer-event';
 import {filter} from '../utils/tpl';
 import {
@@ -22,36 +25,73 @@ export class AjaxAction implements Action {
     renderer: ListenerContext,
     event: RendererEvent<any>
   ) {
-    const store = renderer.props.store;
+    const env = event.context.env;
+    try {
+      const options = {
+        ...(action.options ?? {}),
+        method: action.method ?? 'post'
+      };
 
-    store.setCurrentAction(action);
-    store
-      .saveRemote(action.api as string, action.args, {
-        successMessage: action.messages && action.messages.success,
-        errorMessage: action.messages && action.messages.failed
-      })
-      .then(async () => {
-        if (action.feedback && isVisible(action.feedback, store.data)) {
-          await this.openFeedback(action.feedback, store);
-        }
+      const result = await env.fetcher(
+        action.api as string,
+        action.args,
+        options
+      );
 
-        const redirect = action.redirect && filter(action.redirect, store.data);
-        redirect && renderer.env.jumpTo(redirect, action);
-      })
-      .catch(() => {});
-  }
+      if (!isEmpty(result.data) || result.ok) {
+        const responseData = normalizeApiResponseData(result.data);
+        // 记录请求返回的数据
+        event.setData(
+          createObject(
+            event.data,
+            action.outputVar
+              ? {
+                  [`${action.outputVar}`]: responseData
+                }
+              : responseData
+          )
+        );
+      }
 
-  openFeedback(dialog: any, store: IRootStore) {
-    return new Promise(resolve => {
-      store.setCurrentAction({
-        type: 'button',
-        actionType: 'dialog',
-        dialog: dialog
-      });
-      store.openDialog(store.data, undefined, confirmed => {
-        resolve(confirmed);
-      });
-    });
+      if (!result.ok) {
+        throw new ServerError(
+          (action.messages && action.messages.failed) ?? result.msg,
+          result
+        );
+      } else {
+        env.notify(
+          'success',
+          (action.messages && action.messages.success) ?? result.msg,
+          result.msgTimeout !== undefined
+            ? {
+                closeButton: true,
+                timeout: result.msgTimeout
+              }
+            : undefined
+        );
+      }
+
+      return result.data;
+    } catch (e) {
+      if (e.type === 'ServerError') {
+        const result = (e as ServerError).response;
+        env.notify(
+          'error',
+          e.message,
+          result.msgTimeout !== undefined
+            ? {
+                closeButton: true,
+                timeout: result.msgTimeout
+              }
+            : undefined
+        );
+      } else {
+        env.notify('error', e.message);
+      }
+
+      // 不阻塞后面执行
+      // throw e;
+    }
   }
 }
 

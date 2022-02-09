@@ -186,6 +186,7 @@ export type SchemaType =
   | 'progress'
   | 'qrcode'
   | 'qr-code'
+  | 'barcode'
   | 'remark'
   | 'search-box'
   | 'service'

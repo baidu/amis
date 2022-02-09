@@ -215,6 +215,13 @@ export default [
           )
       },
       {
+        label: '调试工具',
+        path: '/zh-CN/docs/extend/debug',
+        getComponent: () =>
+          // @ts-ignore
+          import('../../docs/zh-CN/extend/debug.md').then(makeMarkdownRenderer)
+      },
+      {
         label: '移动端定制',
         path: '/zh-CN/docs/extend/mobile',
         getComponent: () =>

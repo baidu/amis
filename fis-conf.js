@@ -497,7 +497,6 @@ if (fis.project.currentMedia() === 'publish') {
         '!hls.js/**',
         '!froala-editor/**',
         '!codemirror/**',
-
         '!tinymce/**',
         '!zrender/**',
         '!echarts/**',
@@ -515,6 +514,8 @@ if (fis.project.currentMedia() === 'publish') {
         '!tinycolor2/**',
         '!cropperjs/**',
         '!react-cropper/**',
+        '!jsbarcode/**',
+        '!src/components/BarCode.tsx',
         '!src/lib/renderers/Form/CityDB.js',
         '!src/components/Markdown.tsx',
         '!src/utils/markdown.ts',
@@ -559,6 +560,8 @@ if (fis.project.currentMedia() === 'publish') {
       ],
 
       'cropperjs.js': ['cropperjs/**', 'react-cropper/**'],
+
+      'barcode.js': ['src/components/BarCode.tsx', 'jsbarcode/**'],
 
       'charts.js': ['zrender/**', 'echarts/**', 'echarts-stat/**'],
 
@@ -796,6 +799,8 @@ if (fis.project.currentMedia() === 'publish') {
         '!tinycolor2/**',
         '!cropperjs/**',
         '!react-cropper/**',
+        '!jsbarcode/**',
+        '!src/components/BarCode.tsx',
         '!src/lib/renderers/Form/CityDB.js',
         '!src/components/Markdown.tsx',
         '!src/utils/markdown.ts',
@@ -818,6 +823,8 @@ if (fis.project.currentMedia() === 'publish') {
       'pkg/papaparse.js': ['papaparse/**'],
 
       'pkg/exceljs.js': ['exceljs/**'],
+
+      'pkg/barcode.js': ['src/components/BarCode.tsx', 'jsbarcode/**'],
 
       'pkg/markdown.js': [
         'src/components/Markdown.tsx',
