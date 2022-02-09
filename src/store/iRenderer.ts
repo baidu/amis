@@ -22,7 +22,9 @@ export const iRendererStore = StoreNode.named('iRendererStore')
     dialogOpen: false,
     dialogData: types.optional(types.frozen(), undefined),
     drawerOpen: false,
-    drawerData: types.optional(types.frozen(), undefined)
+    drawerData: types.optional(types.frozen(), undefined),
+    toastOpen: false,
+    toastData: types.optional(types.frozen(), undefined),
   })
   .views(self => ({
     getValueByName(name: string, canAccessSuper: boolean = true) {
@@ -220,7 +222,49 @@ export const iRendererStore = StoreNode.named('iRendererStore')
           dialogCallbacks.delete(self.drawerData);
           setTimeout(() => callback(result), 200);
         }
-      }
+      },
+
+      openToast(ctx: any, additonal?: object, callback?: (ret: any) => void) {
+        let proto = ctx.__super ? ctx.__super : self.data;
+
+        if (additonal) {
+          proto = createObject(proto, additonal);
+        }
+
+        const data = createObject(proto, {
+          ...ctx
+        });
+
+        if (self.action.toast.data) {
+          self.toastData = dataMapping(self.action.toast.data, data);
+
+          const clonedAction = {
+            ...self.action,
+            toast: {
+              ...self.action.toast
+            }
+          };
+          delete clonedAction.toast.data;
+          self.action = clonedAction;
+        } else {
+          self.toastData = data;
+        }
+        self.toastOpen = true;
+
+        if (callback) {
+          dialogCallbacks.set(self.toastData, callback);
+        }
+      },
+
+      closeToast(result?: any) {
+        const callback = dialogCallbacks.get(self.toastData);
+        self.toastOpen = false;
+
+        if (callback) {
+          dialogCallbacks.delete(self.toastData);
+          setTimeout(() => callback(result), 200);
+        }
+      },
     };
   });
 

@@ -13,11 +13,12 @@ import Transition, {
 import React from 'react';
 import cx from 'classnames';
 import Html from './Html';
-import {uuid, autobind, noop} from '../utils/helper';
+import {uuid, autobind, noop, isMobile} from '../utils/helper';
 import {ClassNamesFn, themeable, classnames, ThemeProps} from '../theme';
 import {Icon} from './icons';
 import {LocaleProps, localeable, TranslateFn} from '../locale';
 import groupBy from 'lodash/groupBy';
+import {IIRendererStore} from '../store';
 
 interface Config {
   closeButton?: boolean;
@@ -47,12 +48,20 @@ interface ToastComponentProps extends ThemeProps, LocaleProps {
     | 'top-left'
     | 'bottom-center'
     | 'bottom-left'
-    | 'bottom-right';
+    | 'bottom-right'
+    | 'center'
+    | 'center-left'
+    | 'center-right';
   closeButton: boolean;
   showIcon?: boolean;
   timeout: number;
   errorTimeout: number;
   className?: string;
+  items?: Array<Item>;
+  useMobileUI?: boolean;
+  visible?: boolean;
+  store?: IIRendererStore;
+  toastKey?: string
 }
 
 interface Item extends Config {
@@ -67,7 +76,10 @@ interface Item extends Config {
     | 'top-left'
     | 'bottom-center'
     | 'bottom-left'
-    | 'bottom-right';
+    | 'bottom-right'
+    | 'center'
+    | 'center-left'
+    | 'center-right';
 }
 
 interface ToastComponentState {
@@ -80,12 +92,13 @@ export class ToastComponent extends React.Component<
 > {
   static defaultProps: Pick<
     ToastComponentProps,
-    'position' | 'closeButton' | 'timeout' | 'errorTimeout'
+    'position' | 'closeButton' | 'timeout' | 'errorTimeout' | 'items'
   > = {
     position: 'top-center',
     closeButton: false,
     timeout: 4000,
-    errorTimeout: 6000 // 错误的时候 time 调长
+    errorTimeout: 6000, // 错误的时候 time 调长
+    items: []
   };
   static themeKey = 'toast';
 
@@ -96,13 +109,20 @@ export class ToastComponent extends React.Component<
   };
 
   componentDidMount() {
+    if (toastRef && toastRef.props && toastRef.props.store) {
+      // 清除上一个轻提示组件，同时间只能存在一个
+      toastRef.props.store.closeToast();
+      if (this.props.store && !this.props.store.toastOpen) {
+        this.props.store.toastOpen = true;
+      }
+    }
     this.hasRendered = true;
     toastRef = this;
-  }
 
-  componentWillUnmount() {
-    if (this.hasRendered) {
-      toastRef = null;
+    if (this.props.items && this.props.items.length > 0) {
+      this.setState({
+        items: this.props.items
+      });
     }
   }
 
@@ -162,9 +182,12 @@ export class ToastComponent extends React.Component<
       position,
       showIcon,
       translate,
-      closeButton
+      closeButton,
+      useMobileUI,
+      visible
     } = this.props;
     const items = this.state.items;
+    const mobileUI = useMobileUI && isMobile();
     const groupedItems = groupBy(items, item => item.position || position);
 
     return Object.keys(groupedItems).map(position => {
@@ -176,25 +199,31 @@ export class ToastComponent extends React.Component<
             `Toast-wrap Toast-wrap--${position.replace(/\-(\w)/g, (_, l) =>
               l.toUpperCase()
             )}`,
+            {
+              'Toast-mobile': mobileUI,
+              'Toast-mobile--has-icon': mobileUI && showIcon !== false
+            },
             className
           )}
         >
-          {toasts.map(item => {
+          {toasts.map((item, index) => {
             const level = item.level || 'info';
             const toastTimeout =
               item.timeout ?? (level === 'error' ? errorTimeout : timeout);
             return (
               <ToastMessage
                 classnames={cx}
-                key={item.id}
+                key={item.id || index}
                 title={item.title}
                 body={item.body}
                 level={level}
                 timeout={toastTimeout}
-                closeButton={item.closeButton ?? closeButton}
+                closeButton={!mobileUI && (item.closeButton ?? closeButton)}
                 onDismiss={this.handleDismissed.bind(this, items.indexOf(item))}
                 translate={translate}
                 showIcon={showIcon}
+                useMobileUI={mobileUI}
+                visible={visible}
               />
             );
           })}
@@ -219,11 +248,16 @@ interface ToastMessageProps {
     | 'top-left'
     | 'bottom-center'
     | 'bottom-left'
-    | 'bottom-right';
+    | 'bottom-right'
+    | 'center'
+    | 'center-left'
+    | 'center-right';
   onDismiss?: () => void;
   classnames: ClassNamesFn;
   translate: TranslateFn;
   allowHtml: boolean;
+  useMobileUI?: boolean;
+  visible?: boolean;
 }
 
 interface ToastMessageState {
@@ -298,8 +332,10 @@ export class ToastMessage extends React.Component<
       allowHtml,
       level,
       showIcon,
+      useMobileUI,
       translate: __
     } = this.props;
+    const iconName = useMobileUI ? '' : 'status-';
 
     return (
       <Transition
@@ -321,13 +357,13 @@ export class ToastMessage extends React.Component<
               {showIcon === false ? null : (
                 <div className={cx('Toast-icon')}>
                   {level === 'success' ? (
-                    <Icon icon="status-success" className="icon" />
+                    <Icon icon={iconName + 'success'} className="icon" />
                   ) : level == 'error' ? (
-                    <Icon icon="status-fail" className="icon" />
+                    <Icon icon={iconName + 'fail'} className="icon" />
                   ) : level == 'info' ? (
-                    <Icon icon="status-info" className="icon" />
+                    <Icon icon={iconName + 'info'} className="icon" />
                   ) : level == 'warning' ? (
-                    <Icon icon="status-warning" className="icon" />
+                    <Icon icon={iconName + 'warning'} className="icon" />
                   ) : null}
                 </div>
               )}

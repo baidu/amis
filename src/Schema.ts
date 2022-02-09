@@ -115,6 +115,7 @@ import {UUIDControlSchema} from './renderers/Form/UUID';
 import {FormControlSchema} from './renderers/Form/Control';
 import {TransferPickerControlSchema} from './renderers/Form/TransferPicker';
 import {TabsTransferPickerControlSchema} from './renderers/Form/TabsTransferPicker';
+import {ToastSchema} from './renderers/Toast';
 
 // 每加个类型，这补充一下。
 export type SchemaType =
@@ -325,6 +326,7 @@ export type SchemaType =
   | 'table-view'
   | 'portlet'
   | 'grid-nav'
+  | 'toast'
 
   // 原生 input 类型
   | 'native-date'
@@ -450,7 +452,8 @@ export type SchemaObject =
   | TransferPickerControlSchema
   | TabsTransferPickerControlSchema
   | TreeControlSchema
-  | TreeSelectControlSchema;
+  | TreeSelectControlSchema
+  | ToastSchema;
 
 export type SchemaCollection =
   | SchemaObject

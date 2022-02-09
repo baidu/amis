@@ -1053,7 +1053,15 @@ export const components = [
           import('../../docs/zh-CN/components/spinner.md').then(
             makeMarkdownRenderer
           )
-      }
+      },
+      {
+        label: 'Toast 轻提示',
+        path: '/zh-CN/components/toast',
+        getComponent: () =>
+          import('../../docs/zh-CN/components/toast.md').then(
+            makeMarkdownRenderer
+          )
+      },
     ]
   },
 
