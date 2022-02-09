@@ -14,7 +14,6 @@ import Overlay from './Overlay';
 import {ClassNamesFn, themeable, ThemeProps} from '../theme';
 import {PlainObject} from '../types';
 import Calendar from './calendar/Calendar';
-// import 'react-datetime/css/react-datetime.css';
 import {localeable, LocaleProps, TranslateFn} from '../locale';
 import {isMobile, ucFirst} from '../utils/helper';
 import CalendarMobile from './CalendarMobile';
