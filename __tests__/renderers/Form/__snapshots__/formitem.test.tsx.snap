@@ -215,9 +215,6 @@ exports[`Renderer:FormItem:validateApi:failed 2`] = `
             <li>
               用户名已存在
             </li>
-            <li>
-              用户名已存在
-            </li>
           </ul>
         </div>
       </form>
