@@ -1,0 +1,98 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Renderer:portlet 1`] = `
+<div>
+  <div
+    class="cxd-Portlet"
+  >
+    <div
+      class="cxd-Tabs cxd-Tabs--line cxd-Portlet-tab"
+    >
+      <ul
+        class="cxd-Tabs-links"
+        role="tablist"
+      >
+        <li
+          class="cxd-Tabs-link is-active"
+        >
+          <a>
+            Tab 1
+          </a>
+        </li>
+        <li
+          class="cxd-Tabs-link"
+        >
+          <a>
+            Tab 2
+          </a>
+        </li>
+        <div
+          class="cxd-Portlet-toolbar"
+        >
+          <div
+            class="cxd-toolbar"
+          >
+            <button
+              class="cxd-Button cxd-Button--link cxd-Button--sm"
+              type="button"
+            >
+              <span>
+                固定操作
+              </span>
+            </button>
+          </div>
+          <div
+            class="cxd-tab-toolbar"
+          >
+            <button
+              class="cxd-Button cxd-Button--link cxd-Button--sm"
+              type="button"
+            >
+              <span>
+                ajax请求
+              </span>
+            </button>
+            <div
+              class="cxd-DropDown "
+            >
+              <button
+                class="cxd-Button cxd-Button--link cxd-Button--sm"
+              >
+                <i
+                  class="m-r-xs fa fa-ellipsis-h"
+                />
+              </button>
+            </div>
+          </div>
+        </div>
+      </ul>
+      <div
+        class="cxd-Tabs-content"
+      >
+        <div
+          class="in is-active cxd-Tabs-pane"
+        >
+          <span
+            class="cxd-TplField"
+          >
+            <span>
+              Content 1
+            </span>
+          </span>
+        </div>
+        <div
+          class="cxd-Tabs-pane"
+        >
+          <span
+            class="cxd-TplField"
+          >
+            <span>
+              Content 2
+            </span>
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
