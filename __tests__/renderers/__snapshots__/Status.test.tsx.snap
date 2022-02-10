@@ -1,0 +1,115 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Renderer:status 1`] = `
+<div>
+  <div
+    class="cxd-Page"
+  >
+    <div
+      class="cxd-Page-content"
+    >
+      <div
+        class="cxd-Page-main"
+      >
+        <div
+          class="cxd-Page-body"
+        >
+          <span
+            class="cxd-StatusField cxd-StatusField--0"
+          >
+            <icon-mock
+              classname="cxd-Status-icon icon icon icon-fail"
+              icon="fail"
+            />
+          </span>
+          <span
+            class="cxd-StatusField cxd-StatusField--1"
+          >
+            <icon-mock
+              classname="cxd-Status-icon icon icon icon-success"
+              icon="success"
+            />
+          </span>
+          <span
+            class="cxd-StatusField cxd-StatusField--success"
+          >
+            <icon-mock
+              classname="cxd-Status-icon icon icon icon-success"
+              icon="success"
+            />
+            <span
+              class="cxd-StatusField-label"
+            >
+              成功
+            </span>
+          </span>
+          <span
+            class="cxd-StatusField cxd-StatusField--pending"
+          >
+            <i
+              class="cxd-Status-icon rolling"
+            />
+            <span
+              class="cxd-StatusField-label"
+            >
+              运行中
+            </span>
+          </span>
+          <span
+            class="cxd-StatusField cxd-StatusField--fail"
+          >
+            <icon-mock
+              classname="cxd-Status-icon icon icon icon-fail"
+              icon="fail"
+            />
+            <span
+              class="cxd-StatusField-label"
+            >
+              失败
+            </span>
+          </span>
+          <span
+            class="cxd-StatusField cxd-StatusField--fail"
+          >
+            <icon-mock
+              classname="cxd-Status-icon icon icon icon-fail"
+              icon="fail"
+            />
+            <span
+              class="cxd-StatusField-label"
+            >
+              失败
+            </span>
+          </span>
+          <span
+            class="cxd-StatusField cxd-StatusField--queue"
+          >
+            <icon-mock
+              classname="cxd-Status-icon icon icon icon-warning"
+              icon="warning"
+            />
+            <span
+              class="cxd-StatusField-label"
+            >
+              排队中
+            </span>
+          </span>
+          <span
+            class="cxd-StatusField cxd-StatusField--schedule"
+          >
+            <icon-mock
+              classname="cxd-Status-icon icon icon icon-schedule"
+              icon="schedule"
+            />
+            <span
+              class="cxd-StatusField-label"
+            >
+              调度中
+            </span>
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
