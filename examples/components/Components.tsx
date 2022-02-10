@@ -237,10 +237,11 @@ export const components = [
       {
         label: 'ButtonGroupSelect 按钮点选',
         path: '/zh-CN/components/form/button-group-select',
-        getComponent: () =>
+        wrapDoc: React.lazy(() =>
           import(
             '../../docs/zh-CN/components/form/button-group-select.md'
-          ).then(makeMarkdownRenderer)
+          ).then(wrapDoc)
+        )
       },
       {
         label: 'ChainedSelect 链式下拉框',
@@ -334,10 +335,11 @@ export const components = [
       {
         label: 'InputDatetimeRange 日期时间范围',
         path: '/zh-CN/components/form/input-datetime-range',
-        getComponent: () =>
+        component: React.lazy(() =>
           import(
             '../../docs/zh-CN/components/form/input-datetime-range.md'
-          ).then(makeMarkdownRenderer)
+          ).then(wrapDoc)
+        )
       },
       {
         label: 'InputMonthRange 月份范围',
@@ -522,10 +524,11 @@ export const components = [
       {
         label: 'InputQuarterRange 季度范围',
         path: '/zh-CN/components/form/input-quarter-range',
-        getComponent: () =>
+        component: React.lazy(() =>
           import(
             '../../docs/zh-CN/components/form/input-quarter-range.md'
-          ).then(makeMarkdownRenderer)
+          ).then(wrapDoc)
+        )
       },
       {
         label: 'Radios 单选框',
@@ -674,10 +677,11 @@ export const components = [
       {
         label: 'TabsTransferPicker 组合穿梭选择器',
         path: '/zh-CN/components/form/tabs-transfer-picker',
-        getComponent: () =>
+        component: React.lazy(() =>
           import(
             '../../docs/zh-CN/components/form/tabs-transfer-picker.md'
-          ).then(makeMarkdownRenderer)
+          ).then(wrapDoc)
+        )
       },
       {
         label: 'InputTree 树形选择框',

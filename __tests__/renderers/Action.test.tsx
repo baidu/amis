@@ -2,6 +2,8 @@ import React = require('react');
 import Action from '../../src/renderers/Action';
 import * as renderer from 'react-test-renderer';
 import {render, fireEvent, cleanup} from '@testing-library/react';
+import {render as amisRender} from '../../src/index';
+import {makeEnv} from '../helper';
 import '../../src/themes/default';
 
 afterEach(cleanup);
@@ -125,4 +127,39 @@ test('Renderers:Action onClick cancel onAction?', () => {
 
   expect(onClick).toHaveBeenCalled();
   expect(onAction).not.toHaveBeenCalled();
+});
+
+test('Renderers:Action download shortcut', () => {
+  const component = renderer.create(
+    <Action actionType="download" link="a" label="123" />
+  );
+  let tree = component.toJSON();
+
+  expect(tree).toMatchSnapshot();
+});
+
+test('Renderers:Action countDown', async () => {
+  const {container} = render(
+    amisRender(
+      {
+        label: '发送验证码',
+        type: 'button',
+        className: 'countDown',
+        countDown: 1
+      },
+      {},
+      makeEnv({})
+    )
+  );
+
+  let button = document.querySelector('button');
+  fireEvent.click(button as HTMLButtonElement);
+
+  button = document.querySelector('button');
+  expect(button).toBeNull();
+
+  await new Promise(r => setTimeout(r, 2000));
+
+  button = document.querySelector('button');
+  expect(button).not.toBeNull();
 });

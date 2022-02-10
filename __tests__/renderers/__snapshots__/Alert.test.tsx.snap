@@ -39,3 +39,51 @@ exports[`Renderer:alert 1`] = `
   </div>
 </div>
 `;
+
+exports[`Renderer:alert var 1`] = `
+<div>
+  <div
+    class="cxd-Page"
+  >
+    <div
+      class="cxd-Page-content"
+    >
+      <div
+        class="cxd-Page-main"
+      >
+        <div
+          class="cxd-Page-body"
+        >
+          <div
+            class="cxd-Alert cxd-Alert--success"
+          >
+            <div
+              class="cxd-Alert-icon"
+            >
+              <icon-mock
+                classname="cxd-Alert-icon icon icon-copy"
+                icon="copy"
+              />
+            </div>
+            <div
+              class="cxd-Alert-content"
+            >
+              <div
+                class="cxd-Alert-desc"
+              >
+                <span
+                  class="cxd-TplField"
+                >
+                  <span>
+                    tpl
+                  </span>
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
