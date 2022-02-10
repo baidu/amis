@@ -9,7 +9,7 @@ import Overlay from '../../src/components/Overlay';
 import PopOver from '../../src/components/PopOver';
 import NestedLinks from '../../src/components/AsideNav';
 import classnames from 'classnames';
-import {Link} from 'react-router';
+import {Link} from 'react-router-dom';
 import Play from './Play';
 
 class CodePreview extends React.Component<any> {
@@ -157,7 +157,7 @@ class Preview extends React.Component {
   }
 }
 
-export default function (doc) {
+export default function (doc: any) {
   return class extends React.Component {
     popoverDom = null;
 
