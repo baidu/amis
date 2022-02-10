@@ -280,7 +280,7 @@ export default class PlayGround extends React.Component {
     const query = props.location.query;
 
     try {
-      const scope = query.scope || props.scope;
+      const scope = props.scope;
 
       if (scope && scopes[scope]) {
         schemaContent = scopes[scope].replace(
