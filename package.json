@@ -128,7 +128,7 @@
     "bce-sdk-js": "^0.2.9",
     "concurrently": "^7.0.0",
     "copy-to-clipboard": "3.3.1",
-    "core-js": "^3.21.2",
+    "core-js": "^3.21.0",
     "css": "3.0.0",
     "fis-optimizer-terser": "^1.0.1",
     "fis-parser-sass": "^1.1.1",
