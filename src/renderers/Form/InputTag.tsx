@@ -9,11 +9,12 @@ import Downshift from 'downshift';
 import find from 'lodash/find';
 import {findDOMNode} from 'react-dom';
 import ResultBox from '../../components/ResultBox';
-import {autobind, filterTree} from '../../utils/helper';
+import {autobind, filterTree, createObject} from '../../utils/helper';
 import Spinner from '../../components/Spinner';
 import Overlay from '../../components/Overlay';
 import PopOver from '../../components/PopOver';
 import ListMenu from '../../components/ListMenu';
+import {Action} from '../../types';
 
 /**
  * Tag 输入框
@@ -80,6 +81,27 @@ export default class TagControl extends React.PureComponent<
     }
   }
 
+  doAction(action: Action, data: object, throwErrors: boolean) {
+    const {resetValue, onChange} = this.props;
+    if (action.actionType === 'clear') {
+      onChange(resetValue ?? '');
+    }
+  }
+
+  @autobind
+  async dispatchEvent(eventName: string, e: any = {}) {
+    const {dispatchEvent, options} = this.props;
+    const rendererEvent = await dispatchEvent(
+      eventName,
+      createObject(e, {
+        options
+      })
+    );
+    if (rendererEvent?.prevented) {
+      return;
+    }
+  }
+
   addItem(option: Option) {
     const {
       selectedOptions,
@@ -97,15 +119,17 @@ export default class TagControl extends React.PureComponent<
 
     newValue.push(option);
 
-    onChange(
-      joinValues
-        ? newValue
-            .map(item => item[valueField || 'value'])
-            .join(delimiter || ',')
-        : extractValue
-        ? newValue.map(item => item[valueField || 'value'])
-        : newValue
-    );
+    const newValueRes = joinValues
+      ? newValue
+          .map(item => item[valueField || 'value'])
+          .join(delimiter || ',')
+      : extractValue
+      ? newValue.map(item => item[valueField || 'value'])
+      : newValue;
+    this.dispatchEvent('change', {
+      value: newValueRes
+    });
+    onChange(newValueRes);
   }
 
   @autobind
@@ -115,6 +139,7 @@ export default class TagControl extends React.PureComponent<
       isOpened: true
     });
 
+    this.dispatchEvent('focus', e);
     this.props.onFocus?.(e);
   }
 
@@ -130,6 +155,8 @@ export default class TagControl extends React.PureComponent<
     } = this.props;
 
     const value = this.state.inputValue.trim();
+
+    this.dispatchEvent('blur', e);
     this.props.onBlur?.(e);
     this.setState(
       {
@@ -190,6 +217,9 @@ export default class TagControl extends React.PureComponent<
       newValue = newValue.join(delimiter || ',');
     }
 
+    this.dispatchEvent('change', {
+      value: newValue
+    });
     onChange(newValue);
   }
 
@@ -216,15 +246,17 @@ export default class TagControl extends React.PureComponent<
       const newValue = selectedOptions.concat();
       newValue.pop();
 
-      onChange(
-        joinValues
-          ? newValue
-              .map(item => item[valueField || 'value'])
-              .join(delimiter || ',')
-          : extractValue
-          ? newValue.map(item => item[valueField || 'value'])
-          : newValue
-      );
+      const newValueRes = joinValues
+        ? newValue
+            .map(item => item[valueField || 'value'])
+            .join(delimiter || ',')
+        : extractValue
+        ? newValue.map(item => item[valueField || 'value'])
+        : newValue;
+      this.dispatchEvent('change', {
+        value: newValueRes
+      });
+      onChange(newValueRes);
     } else if (value && (evt.key === 'Enter' || evt.key === delimiter)) {
       evt.preventDefault();
       evt.stopPropagation();
@@ -236,15 +268,17 @@ export default class TagControl extends React.PureComponent<
           value: value
         });
 
-        onChange(
-          joinValues
-            ? newValue
-                .map(item => item[valueField || 'value'])
-                .join(delimiter || ',')
-            : extractValue
-            ? newValue.map(item => item[valueField || 'value'])
-            : newValue
-        );
+        const newValueRes = joinValues
+          ? newValue
+              .map(item => item[valueField || 'value'])
+              .join(delimiter || ',')
+          : extractValue
+          ? newValue.map(item => item[valueField || 'value'])
+          : newValue;
+        this.dispatchEvent('change', {
+          value: newValueRes
+        });
+        onChange(newValueRes);
       }
 
       this.setState({

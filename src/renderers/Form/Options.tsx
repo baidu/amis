@@ -2,7 +2,7 @@
  * @file 所有列表选择类控件的父级，比如 Select、Radios、Checkboxes、
  * List、ButtonGroup 等等
  */
-import {Api, PlainObject, Schema} from '../../types';
+import {Api, PlainObject, Schema, Action} from '../../types';
 import {isEffectiveApi, isApiOutdated, isValidApi} from '../../utils/api';
 import {isAlive} from 'mobx-state-tree';
 import {
@@ -453,6 +453,27 @@ export function registerOptionsControl(config: OptionsConfig) {
       this.toDispose = [];
     }
 
+    async dispatchChangeEvent(data: any = '') {
+      const {dispatchEvent, options} = this.props;
+      const rendererEvent = await dispatchEvent(
+        'change',
+        {
+          value: data,
+          options
+        }
+      );
+      if (rendererEvent?.prevented) {
+        return;
+      }
+    }
+
+    doAction(action: Action, data: object, throwErrors: boolean) {
+      const {resetValue, onChange} = this.props;
+      if (action.actionType === 'clear') {
+        onChange(resetValue ?? '');
+      }
+    }
+
     syncAutoFill(value: any) {
       const {autoFill, multiple, onBulkChange, data} = this.props;
       const formItem = this.props.formItem as IFormItemStore;
@@ -576,6 +597,7 @@ export function registerOptionsControl(config: OptionsConfig) {
         value
       );
 
+      this.dispatchChangeEvent(newValue);
       onChange && onChange(newValue, submitOnChange, changeImmediately);
     }
 
@@ -643,6 +665,7 @@ export function registerOptionsControl(config: OptionsConfig) {
           ? []
           : formItem.filteredOptions.concat();
       const newValue = this.formatValueArray(valueArray);
+      this.dispatchChangeEvent(newValue);
       onChange && onChange(newValue);
     }
 
