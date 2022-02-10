@@ -559,6 +559,16 @@ export const components = [
           )
         )
       },
+
+      {
+        label: 'Chart 单选框',
+        path: '/zh-CN/components/form/chart-radios',
+        component: React.lazy(() =>
+          import('../../docs/zh-CN/components/form/chart-radios.md').then(
+            wrapDoc
+          )
+        )
+      },
       {
         label: 'InputRating 评分',
         path: '/zh-CN/components/form/input-rating',
