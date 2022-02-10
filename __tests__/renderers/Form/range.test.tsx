@@ -1,11 +1,11 @@
 import React = require('react');
-import { render, fireEvent } from '@testing-library/react';
+import {render, fireEvent} from '@testing-library/react';
 import '../../../src/themes/default';
-import { render as amisRender } from '../../../src/index';
-import { makeEnv } from '../../helper';
+import {render as amisRender} from '../../../src/index';
+import {makeEnv} from '../../helper';
 
 test('Renderer:range', async () => {
-  const { container } = render(
+  const {container} = render(
     amisRender(
       {
         type: 'form',
@@ -45,7 +45,7 @@ test('Renderer:range', async () => {
 });
 
 test('Renderer:range:multiple', async () => {
-  const { container } = render(
+  const {container} = render(
     amisRender(
       {
         type: 'form',
@@ -87,7 +87,7 @@ test('Renderer:range:multiple', async () => {
 });
 
 test('Renderer:range:showSteps', async () => {
-  const { container } = render(
+  const {container} = render(
     amisRender(
       {
         type: 'form',
@@ -113,7 +113,7 @@ test('Renderer:range:showSteps', async () => {
 });
 
 test('Renderer:range:marks', async () => {
-  const { container } = render(
+  const {container} = render(
     amisRender(
       {
         type: 'form',
@@ -145,7 +145,7 @@ test('Renderer:range:marks', async () => {
 });
 
 test('Renderer:range:tooltipVisible', async () => {
-  const { container } = render(
+  const {container} = render(
     amisRender(
       {
         type: 'form',
