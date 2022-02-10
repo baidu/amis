@@ -9,6 +9,7 @@ import LazyComponent from '../../src/components/LazyComponent';
 import {default as DrawerContainer} from '../../src/components/Drawer';
 
 import {withRouter} from 'react-router';
+import {matchPath} from 'react-router-dom';
 import copy from 'copy-to-clipboard';
 
 function loadEditor() {
@@ -48,14 +49,14 @@ export default function (schema, showCode, envOverrides) {
       constructor(props) {
         super(props);
 
-        const {router, route} = props;
+        const {history} = props;
         this.env = {
           updateLocation: (location, replace) => {
-            router[replace ? 'replace' : 'push'](normalizeLink(location));
+            history[replace ? 'replace' : 'push'](normalizeLink(location));
           },
           jumpTo: (to, action) => {
             if (to === 'goBack') {
-              return router.location.goBack();
+              return history.location.goBack();
             }
             to = normalizeLink(to);
             if (action && action.actionType === 'url') {
@@ -71,7 +72,7 @@ export default function (schema, showCode, envOverrides) {
             if (/^https?:\/\//.test(to)) {
               window.location.replace(to);
             } else {
-              router.push(to);
+              history.push(to);
             }
           },
           isCurrentUrl: to => {
@@ -79,7 +80,10 @@ export default function (schema, showCode, envOverrides) {
               return false;
             }
             const link = normalizeLink(to);
-            return router.isActive(link);
+            return !!matchPath(history.location.pathname, {
+              path: link,
+              exact: true
+            });
           },
           fetcher: ({url, method, data, config, headers}) => {
             config = config || {};
@@ -122,9 +126,7 @@ export default function (schema, showCode, envOverrides) {
             toast.success('内容已复制到粘贴板');
           },
           blockRouting: fn => {
-            return router.setRouteLeaveHook(route, nextLocation => {
-              return fn(nextLocation);
-            });
+            return history.block(fn);
           },
           tracker(eventTrack) {
             console.debug('eventTrack', eventTrack);
@@ -211,7 +213,7 @@ export default function (schema, showCode, envOverrides) {
       }
 
       renderSchema() {
-        const {router, location, theme, locale} = this.props;
+        const {location, theme, locale} = this.props;
 
         if (viewMode === 'mobile') {
           return (
