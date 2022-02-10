@@ -67,7 +67,7 @@
     "markdown-it-html5-media": "^0.7.1",
     "match-sorter": "^6.3.1",
     "mobx": "^4.5.0",
-    "mobx-react": "^6.1.4",
+    "mobx-react": "^6.3.1",
     "mobx-state-tree": "^3.17.3",
     "moment": "^2.19.3",
     "monaco-editor": "0.31.1",
@@ -79,10 +79,8 @@
     "qs": "6.9.7",
     "rc-input-number": "^7.3.4",
     "rc-progress": "^3.1.4",
-    "react": "^16.8.6",
     "react-color": "^2.19.3",
     "react-cropper": "^2.1.8",
-    "react-dom": "^16.8.6",
     "react-dropzone": "^11.4.2",
     "react-input-range": "1.3.0",
     "react-json-view": "1.21.3",
@@ -114,13 +112,13 @@
     "@types/papaparse": "^5.2.2",
     "@types/prop-types": "^15.5.2",
     "@types/qs": "^6.5.1",
-    "@types/react": "^16.9.35",
+    "@types/react": "^17.0.39",
     "@types/react-color": "^3.0.5",
-    "@types/react-dom": "^16.0.7",
+    "@types/react-dom": "^17.0.11",
     "@types/react-dropzone": "^5.1.0",
     "@types/react-onclickoutside": "^6.0.2",
     "@types/react-router-dom": "^5.3.3",
-    "@types/react-test-renderer": "^16.8.1",
+    "@types/react-test-renderer": "^17.0.1",
     "@types/react-transition-group": "4.4.3",
     "@types/sortablejs": "^1.3.32",
     "@types/tinymce": "^4.5.24",
@@ -163,9 +161,11 @@
     "prettier": "^2.4.1",
     "pretty-quick": "^3.1.1",
     "prismjs": "^1.25.0",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
     "react-router": "^5.2.1",
     "react-router-dom": "5.3.0",
-    "react-test-renderer": "^16.8.6",
+    "react-test-renderer": "^17.0.2",
     "ts-jest": "^27.0.5",
     "ts-json-schema-generator": "0.96.0",
     "ts-node": "^10.5.0",
@@ -229,5 +229,9 @@
         }
       }
     }
+  },
+  "peerDependencies": {
+    "react": ">=16.8.6",
+    "react-dom": ">=16.8.6"
   }
 }
