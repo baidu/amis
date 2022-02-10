@@ -7,7 +7,7 @@ import {BaseSchema} from '../Schema';
 import {resolveVariableAndFilter} from '../utils/tpl-builtin';
 import LazyComponent from '../components/LazyComponent';
 import {getPropValue} from '../utils/helper';
-import {isEffectiveApi} from '../utils/api';
+import {isApiOutdated, isEffectiveApi} from '../utils/api';
 
 /**
  * Markdown 渲染
@@ -64,10 +64,11 @@ export class Markdown extends React.Component<MarkdownProps, MarkdownState> {
 
   componentDidUpdate(prevProps: MarkdownProps) {
     const props = this.props;
-    if (props.src) {
-      if (props.src !== prevProps.src) {
-        this.updateContent();
-      }
+    if (
+      props.src &&
+      isApiOutdated(prevProps.src, props.src, prevProps.data, props.data)
+    ) {
+      this.updateContent();
     } else {
       this.updateContent();
     }
