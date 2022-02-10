@@ -108,6 +108,7 @@ amisScoped.updateProps({
   theme: 'antd'
 });
 ```
+
 > 如果想使用 amis 1.2.2 之前的默认主题，名字是 ang
 
 ### 初始值
@@ -250,7 +251,9 @@ amisScoped.unmount();
 
 初始项目请参考 <https://github.com/aisuda/amis-react-starter>。
 
-如果在已有项目中，React 版本需要是 `^16.8.6`，mobx 需要 `^4.5.0`。
+如果在已有项目中，React 版本需要是 `>=16.8.6`，mobx 需要 `^4.5.0`。
+
+amis 1.6.5 及以上版本支持 React 17。
 
 ### 安装
 
@@ -326,7 +329,7 @@ module.exports = {
 
 ### 主题样式
 
-目前主要支持两个主题：`cxd（云舍）` 和 `angt（仿 Antd）`
+目前主要支持两个主题：`cxd（云舍）` 和 `antd（仿 Antd）`
 
 1. 引入样式文件：
 
@@ -349,6 +352,7 @@ import './node_modules/amis/sdk/iconfont.css';
 ```
 
 > 上面只是示例，请根据自己的项目结构调整引用路径
+> 如果要支持 IE 11 请引入 ./node_modules/amis/sdk/cxd-ie11.css，但这样就没法支持 CSS 变量了
 
 2. 渲染器使用配置主题
 
@@ -402,7 +406,12 @@ class MyComponent extends React.Component<any, any> {
     return (
       <div>
         <p>通过 amis 渲染页面</p>
-        <ToastComponent theme={theme} key="toast" position={'top-right'} locale={locale} />
+        <ToastComponent
+          theme={theme}
+          key="toast"
+          position={'top-right'}
+          locale={locale}
+        />
         <AlertComponent theme={theme} key="alert" locale={locale} />
         {renderAmis(
           {
