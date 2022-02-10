@@ -115,7 +115,6 @@
     "@types/react": "^17.0.39",
     "@types/react-color": "^3.0.5",
     "@types/react-dom": "^17.0.11",
-    "@types/react-dropzone": "^5.1.0",
     "@types/react-onclickoutside": "^6.0.2",
     "@types/react-router-dom": "^5.3.3",
     "@types/react-test-renderer": "^17.0.1",
