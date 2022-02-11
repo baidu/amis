@@ -3,7 +3,7 @@ import Action from '../../src/renderers/Action';
 import * as renderer from 'react-test-renderer';
 import {render, fireEvent, cleanup} from '@testing-library/react';
 import {render as amisRender} from '../../src/index';
-import {makeEnv} from '../helper';
+import {makeEnv, wait} from '../helper';
 import '../../src/themes/default';
 
 afterEach(cleanup);
@@ -152,14 +152,14 @@ test('Renderers:Action countDown', async () => {
     )
   );
 
-  let button = document.querySelector('button');
+  let button = container.querySelector('button');
   fireEvent.click(button as HTMLButtonElement);
 
-  button = document.querySelector('button');
+  button = container.querySelector('button');
   expect(button).toBeNull();
 
-  await new Promise(r => setTimeout(r, 2000));
+  await wait(2000);
 
-  button = document.querySelector('button');
+  button = container.querySelector('button');
   expect(button).not.toBeNull();
 });

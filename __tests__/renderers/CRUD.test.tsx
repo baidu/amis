@@ -2,11 +2,11 @@ import React = require('react');
 import {render} from '@testing-library/react';
 import '../../src/themes/default';
 import {render as amisRender} from '../../src/index';
-import {makeEnv} from '../helper';
+import {makeEnv, wait} from '../helper';
 import rows from '../mockData/rows';
 
 test('Renderer:crud', async () => {
-  const {container} = render(
+  const {container, findByText} = render(
     amisRender(
       {
         type: 'page',
@@ -62,8 +62,9 @@ test('Renderer:crud', async () => {
     )
   );
 
-  // TODO: 没想好还有啥别的办法，这里可能会导致太慢的机器报错
-  await new Promise(r => setTimeout(r, 2500));
+  await findByText('Internet Explorer 4.0');
+
+  await wait(1000);
 
   expect(container).toMatchSnapshot();
 });
