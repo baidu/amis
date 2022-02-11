@@ -37,7 +37,43 @@ exports[`Renderer:Pagination 1`] = `
               </a>
             </li>
             <li
-              class="cxd-Pagination-next is-disabled"
+              class=""
+            >
+              <a
+                role="button"
+              >
+                2
+              </a>
+            </li>
+            <li
+              class=""
+            >
+              <a
+                role="button"
+              >
+                3
+              </a>
+            </li>
+            <li
+              class=""
+            >
+              <a
+                role="button"
+              >
+                4
+              </a>
+            </li>
+            <li
+              class=""
+            >
+              <a
+                role="button"
+              >
+                5
+              </a>
+            </li>
+            <li
+              class="cxd-Pagination-next"
             >
               <span>
                 <icon-mock
@@ -128,7 +164,31 @@ exports[`Renderer:Pagination 1`] = `
                       <span
                         class="cxd-PlainField"
                       >
-                        Trident - tbvea
+                        Trident
+                      </span>
+                    </td>
+                    <td
+                      class=""
+                    >
+                      <span
+                        class="cxd-PlainField"
+                      >
+                        4
+                      </span>
+                    </td>
+                  </tr>
+                  <tr
+                    class="cxd-Table-tr--even cxd-Table-tr--1th"
+                    data-id="2"
+                    data-index="1"
+                  >
+                    <td
+                      class=""
+                    >
+                      <span
+                        class="cxd-PlainField"
+                      >
+                        Trident
                       </span>
                     </td>
                     <td

@@ -903,7 +903,7 @@ export const TableStore = iRendererStore
 
         return {
           // id: String(item && (item as any)[self.primaryField] || `${pindex}-${depth}-${key}`),
-          id: id,
+          id: String(id),
           parentId,
           key: String(`${pindex}-${depth}-${index}`),
           path: `${path}${index}`,
