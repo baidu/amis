@@ -154,7 +154,7 @@ export class CustomDaysView extends React.Component<CustomDaysViewProps> {
   constructor(props: any) {
     super(props);
     const {selectedDate, viewDate, timeFormat} = props;
-    const currentDate = selectedDate || viewDate || moment();
+    const currentDate = selectedDate || moment();
 
     const types: DateType[] = ['year', 'month', 'date'];
     timeFormat.split(':').forEach((format: string) => {
