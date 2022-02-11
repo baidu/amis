@@ -74,6 +74,7 @@ import LogicEventActionSchema from './EventAction/Logic';
 import StopEventActionSchema from './EventAction/Stop';
 import DataFlowEventActionSchema from './EventAction/DataFlow';
 import InputEventSchema from './EventAction/InputEvent';
+import DateEventSchema from './EventAction/DateEvent';
 import UploadEventSchema from './EventAction/UploadEvent';
 import SelectEventActionSchema from './EventAction/SelectEvent';
 import WizardSchema from './Wizard';
@@ -98,6 +99,8 @@ import Tab3Schema from './Tabs/Tab3';
 import TestComponent from './Test';
 
 import {normalizeLink} from '../../src/utils/normalizeLink';
+import {Switch} from 'react-router-dom';
+import {navigations2route} from './App';
 
 export const examples = [
   {
@@ -542,6 +545,11 @@ export const examples = [
                 label: '下拉框',
                 path: '/examples/event/select',
                 component: makeSchemaRenderer(SelectEventActionSchema)
+              },
+              {
+                label: '时间类组件',
+                path: 'examples/event/date',
+                component: makeSchemaRenderer(DateEventSchema)
               }
             ]
           },
@@ -692,16 +700,23 @@ export default class Example extends React.PureComponent {
 
   render() {
     return (
-      <>
-        {React.cloneElement(this.props.children, {
+      <Switch>
+        {/* {React.cloneElement(this.props.children, {
           ...this.props.children.props,
           theme: this.props.theme,
           classPrefix: this.props.classPrefix,
           locale: this.props.locale,
           viewMode: this.props.viewMode,
           offScreen: this.props.offScreen
+        })} */}
+        {navigations2route(examples, {
+          theme: this.props.theme,
+          classPrefix: this.props.classPrefix,
+          locale: this.props.locale,
+          viewMode: this.props.viewMode,
+          offScreen: this.props.offScreen
         })}
-      </>
+      </Switch>
     );
   }
 }

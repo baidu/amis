@@ -35,7 +35,7 @@ const scopes = {
             "autoFocus": false,
             "api": "/api/mock/saveForm?waitSeconds=1",
             "mode": "horizontal",
-            "controls": SCHEMA_PLACEHOLDER,
+            "body": SCHEMA_PLACEHOLDER,
             "submitText": null,
             "actions": []
         }
@@ -62,7 +62,7 @@ const scopes = {
             "type": "form",
             "mode": "horizontal",
             "autoFocus": false,
-            "controls": [
+            "body": [
                 SCHEMA_PLACEHOLDER
             ],
             "submitText": null,
@@ -100,7 +100,7 @@ export default class PlayGround extends React.Component {
   constructor(props) {
     super(props);
     this.iframeRef = React.createRef();
-    const {router} = props;
+    const {history} = props;
 
     const schema = this.buildSchema(props.code || DEFAULT_CONTENT, props);
     this.state = {
@@ -121,11 +121,17 @@ export default class PlayGround extends React.Component {
     this.env = {
       session: 'doc',
       updateLocation: (location, replace) => {
-        router[replace ? 'replace' : 'push'](normalizeLink(location));
+        history[replace ? 'replace' : 'push'](normalizeLink(location));
       },
       isCurrentUrl: to => {
+        if (!to) {
+          return false;
+        }
         const link = normalizeLink(to);
-        return router.isActive(link);
+        return !!matchPath(history.location.pathname, {
+          path: link,
+          exact: true
+        });
       },
       jumpTo: (to, action) => {
         to = normalizeLink(to);
@@ -143,7 +149,7 @@ export default class PlayGround extends React.Component {
         if (/^https?:\/\//.test(to)) {
           window.location.replace(to);
         } else {
-          router.push(to);
+          history.push(to);
         }
       },
       fetcher: async api => {
@@ -255,14 +261,11 @@ export default class PlayGround extends React.Component {
     }
   }
 
-  componentWillReceiveProps(nextprops) {
+  componentDidUpdate(preProps) {
     const props = this.props;
 
-    if (props.code !== nextprops.code) {
-      const schema = this.buildSchema(
-        nextprops.code || DEFAULT_CONTENT,
-        nextprops
-      );
+    if (preProps.code !== props.code) {
+      const schema = this.buildSchema(props.code || DEFAULT_CONTENT, props);
       this.setState({
         schema: schema,
         schemaCode: JSON.stringify(schema, null, 2)
@@ -283,7 +286,7 @@ export default class PlayGround extends React.Component {
     const query = props.location.query;
 
     try {
-      const scope = query.scope || props.scope;
+      const scope = props.scope;
 
       if (scope && scopes[scope]) {
         schemaContent = scopes[scope].replace(

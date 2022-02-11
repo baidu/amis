@@ -41,7 +41,7 @@
 
 ```bash
 # 安装项目 npm 依赖，在 node 12 下会有报错但不影响正常使用。
-npm i
+npm i --legacy-peer-deps
 
 # 启动项目，等编译结束后通过 http://127.0.0.1:8888/examples/pages/simple 访问。
 npm start
@@ -51,7 +51,7 @@ npm start
 
 ```bash
 # 安装依赖
-npm i
+npm i --legacy-peer-deps
 
 # 执行测试用例
 npm test

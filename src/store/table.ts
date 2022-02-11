@@ -899,7 +899,7 @@ export const TableStore = iRendererStore
           : {
               item
             };
-        const id = guid();
+        const id = item.id ?? guid();
 
         return {
           // id: String(item && (item as any)[self.primaryField] || `${pindex}-${depth}-${key}`),
@@ -940,7 +940,9 @@ export const TableStore = iRendererStore
       // self.expandedRows.clear();
 
       let arr: Array<SRow> = rows.map((item, index) => {
-        let id = getEntryId ? getEntryId(item, index) : guid();
+        let id = String(
+          getEntryId ? getEntryId(item, index) : item.id ?? guid()
+        );
         return {
           // id: getEntryId ? getEntryId(item, key) : String(item && (item as any)[self.primaryField] || `${key}-1-${key}`),
           id: id,

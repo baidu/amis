@@ -398,10 +398,10 @@ export default class Page extends React.Component<PageProps> {
     this.mounted = false;
     clearTimeout(this.timer);
     if (this.style) {
-      this.style.remove();
+      this.style.parentNode?.removeChild(this.style);
     }
     if (this.varStyle) {
-      this.varStyle.remove();
+      this.varStyle.parentNode?.removeChild(this.varStyle);
     }
   }
 
