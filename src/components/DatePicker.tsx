@@ -769,8 +769,6 @@ export class DatePicker extends React.Component<DateProps, DatePickerState> {
               showClose={false}
               onHide={this.handleClick}
             >
-              {this.renderShortCuts(shortcuts)}
-
               <Calendar
                 value={date}
                 onChange={this.handleChange}
