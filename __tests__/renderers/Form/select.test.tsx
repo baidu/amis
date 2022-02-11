@@ -1,5 +1,5 @@
 import React = require('react');
-import {render} from '@testing-library/react';
+import {render, screen, fireEvent} from '@testing-library/react';
 import '../../../src/themes/default';
 import {render as amisRender} from '../../../src/index';
 import {makeEnv} from '../../helper';
@@ -499,6 +499,38 @@ test('Renderer:select associated', () => {
       makeEnv({})
     )
   );
+
+  expect(container).toMatchSnapshot();
+});
+
+test('Renderer:select virtual', async () => {
+  const options = [...Array(200)].map((_, i) => {
+    return 'option' + i;
+  });
+
+  const {container, queryByText, findByText} = render(
+    amisRender(
+      {
+        type: 'form',
+        body: [
+          {
+            label: '选项',
+            type: 'select',
+            name: 'select',
+            options: options
+          }
+        ]
+      },
+      {},
+      makeEnv({})
+    )
+  );
+  const inputDate = await findByText('请选择');
+
+  fireEvent.click(inputDate);
+
+  const option12 = queryByText('option12');
+  expect(option12).toBeNull();
 
   expect(container).toMatchSnapshot();
 });
