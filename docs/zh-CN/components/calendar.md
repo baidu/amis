@@ -10,9 +10,12 @@ order: 36
 
 ## 基本用法
 
+设置 `schedules` 属性
+
 ```schema: scope="body"
 {
     "type": "calendar",
+    "value": "1638288000",
     "schedules": [
       {
         "startTime": "2021-12-11 05:14:00",
@@ -33,6 +36,7 @@ order: 36
 ```schema: scope="body"
 {
     "type": "calendar",
+    "value": "1638288000",
     "schedules": [
       {
         "startTime": "2021-12-11 05:14:00",
@@ -53,6 +57,7 @@ order: 36
 ```schema: scope="body"
 {
     "type": "calendar",
+    "value": "1638288000",
     "scheduleClassNames": ["bg-success", "bg-info"],
     "schedules": [
       {
@@ -74,6 +79,7 @@ order: 36
 ```schema: scope="body"
 {
     "type": "calendar",
+    "value": "1638288000",
     "schedules": [
       {
         "startTime": "2021-12-11 05:14:00",
@@ -131,6 +137,7 @@ order: 36
     "body": [
       {
         "type": "calendar",
+        "value": "1638288000",
         "schedules": "${schedules}"
       }
     ]
@@ -142,6 +149,7 @@ order: 36
 ```schema: scope="body"
 {
     "type": "calendar",
+    "value": "1638288000",
     "largeMode": true,
     "schedules": [
       {

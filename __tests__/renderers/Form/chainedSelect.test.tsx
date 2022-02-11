@@ -5,7 +5,7 @@ import {render as amisRender} from '../../../src/index';
 import {makeEnv} from '../../helper';
 
 test('Renderer:chained-select', async () => {
-  const {container} = render(
+  const {container, findByText} = render(
     amisRender(
       {
         type: 'form',
@@ -44,7 +44,7 @@ test('Renderer:chained-select', async () => {
     )
   );
 
-  await new Promise(r => setTimeout(r, 2500));
+  await findByText('A 0');
 
   expect(container).toMatchSnapshot();
 });
