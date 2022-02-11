@@ -85,6 +85,16 @@ export class ToastRenderer extends React.Component<ToastProps, {}> {
     super(props);
   }
 
+  hidePreToast(toastRef: any) {
+    if (toastRef && toastRef.props && toastRef.props.store) {
+      // 清除上一个轻提示组件，同时间只能存在一个
+      toastRef.props.store.closeToast();
+      if (this.props.store && !this.props.store.toastOpen) {
+        this.props.store.toastOpen = true;
+      }
+    }
+  }
+
   render() {
     const {
       items,
@@ -95,7 +105,6 @@ export class ToastRenderer extends React.Component<ToastProps, {}> {
       errorTimeout,
       useMobileUI,
       visible,
-      store,
       render
     } = this.props;
     const mobileUI = useMobileUI && isMobile();
@@ -118,7 +127,7 @@ export class ToastRenderer extends React.Component<ToastProps, {}> {
         errorTimeout={errorTimeout}
         useMobileUI={mobileUI}
         visible={visible}
-        store={store}
+        onMount={this.hidePreToast.bind(this)}
       />
     );
   }

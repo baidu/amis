@@ -18,7 +18,6 @@ import {ClassNamesFn, themeable, classnames, ThemeProps} from '../theme';
 import {Icon} from './icons';
 import {LocaleProps, localeable, TranslateFn} from '../locale';
 import groupBy from 'lodash/groupBy';
-import {IIRendererStore} from '../store';
 
 interface Config {
   closeButton?: boolean;
@@ -60,8 +59,7 @@ interface ToastComponentProps extends ThemeProps, LocaleProps {
   items?: Array<Item>;
   useMobileUI?: boolean;
   visible?: boolean;
-  store?: IIRendererStore;
-  toastKey?: string
+  onMount?: (toastRef: any) => void;
 }
 
 interface Item extends Config {
@@ -109,13 +107,8 @@ export class ToastComponent extends React.Component<
   };
 
   componentDidMount() {
-    if (toastRef && toastRef.props && toastRef.props.store) {
-      // 清除上一个轻提示组件，同时间只能存在一个
-      toastRef.props.store.closeToast();
-      if (this.props.store && !this.props.store.toastOpen) {
-        this.props.store.toastOpen = true;
-      }
-    }
+    this.props.onMount && this.props.onMount(toastRef);
+
     this.hasRendered = true;
     toastRef = this;
 
