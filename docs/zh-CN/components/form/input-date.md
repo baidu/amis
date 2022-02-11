@@ -224,6 +224,7 @@ order: 13
 ## 快捷键
 
 你也可以配置`shortcuts`属性支持快捷选择日期
+注：移动端picker的形式不支持快捷键
 
 ```schema: scope="body"
 {
