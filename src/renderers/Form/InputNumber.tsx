@@ -4,8 +4,9 @@ import cx from 'classnames';
 import {filter} from '../../utils/tpl';
 import NumberInput from '../../components/NumberInput';
 import {FormOptionsControl} from './Options';
+import {autobind, createObject} from '../../utils/helper';
 import Select, {normalizeOptions, Option} from '../../components/Select';
-import {PlainObject} from '../../types';
+import {PlainObject, Action} from '../../types';
 /**
  * 数字输入框
  * 文档：https://baidu.gitee.io/amis/docs/components/form/number
@@ -99,6 +100,9 @@ interface NumberState {
   unitOptions?: Option[];
 }
 
+export type InputNumberRendererEvent = 'blur' | 'focus' | 'change';
+export type InputNumberRendererAction = 'clear';
+
 export default class NumberControl extends React.Component<
   NumberProps,
   NumberState
@@ -115,6 +119,17 @@ export default class NumberControl extends React.Component<
     const unit = this.getUnit();
     const unitOptions = normalizeOptions(props.unitOptions);
     this.state = {unit, unitOptions};
+  }
+
+  /**
+   * 动作处理
+   */
+  doAction(action: Action, args: any) {
+    const actionType = action?.actionType as string;
+    const {resetValue, onChange} = this.props;
+    if (action.actionType === 'clear') {
+      onChange(resetValue ?? '');
+    }
   }
 
   // 解析出单位
@@ -144,8 +159,15 @@ export default class NumberControl extends React.Component<
     return undefined;
   }
 
-  handleChange(inputValue: any) {
-    const {classPrefix: ns, onChange, resetValue, unitOptions} = this.props;
+  // 派发有event的事件
+  @autobind
+  dispatchEvent(e: React.SyntheticEvent<HTMLElement>) {
+    const {dispatchEvent, data} = this.props;
+    dispatchEvent(e, data);
+  }
+
+  async handleChange(inputValue: any) {
+    const {classPrefix: ns, onChange, resetValue, unitOptions, data, dispatchEvent} = this.props;
 
     if (inputValue && typeof inputValue !== 'number') {
       return;
@@ -153,6 +175,12 @@ export default class NumberControl extends React.Component<
 
     if (inputValue !== null && unitOptions && this.state.unit) {
       inputValue = inputValue + this.state.unit;
+    }
+    const rendererEvent = await dispatchEvent('change', createObject(data, {
+      value: inputValue,
+    }));
+    if (rendererEvent?.prevented) {
+      return;
     }
 
     onChange(inputValue === null ? resetValue ?? null : inputValue);
@@ -263,6 +291,8 @@ export default class NumberControl extends React.Component<
           showSteps={showSteps}
           borderMode={borderMode}
           readOnly={readOnly}
+          onFocus={this.dispatchEvent}
+          onBlur={this.dispatchEvent}
         />
         {unitOptions ? (
           <Select
