@@ -9,6 +9,7 @@ import axios from 'axios';
 import JSON5 from 'json5';
 import CodeEditor from '../../src/components/Editor';
 import copy from 'copy-to-clipboard';
+import {matchPath} from 'react-router-dom';
 
 const DEFAULT_CONTENT = `{
     "$schema": "/schemas/page.json#",
