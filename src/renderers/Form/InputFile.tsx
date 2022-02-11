@@ -5,7 +5,7 @@ import isPlainObject from 'lodash/isPlainObject';
 // @ts-ignore
 import mapLimit from 'async/mapLimit';
 import ImageControl from './InputImage';
-import {Payload, ApiObject, ApiString, Action} from '../../types';
+import {Payload, ApiObject, ApiString} from '../../types';
 import {filter} from '../../utils/tpl';
 import Alert from '../../components/Alert2';
 import {qsstringify, createObject, guid, isEmpty} from '../../utils/helper';
@@ -509,8 +509,7 @@ export default class FileControl extends React.Component<FileProps, FileState> {
         }
       }
     );
-    // 添加文件触发
-    this.dispatchEvent('change');
+    this.onChange();
   }
 
   handleDropRejected(
@@ -711,7 +710,7 @@ export default class FileControl extends React.Component<FileProps, FileState> {
           uploading: false
         },
         () => {
-          this.onChange(!!this.resolve);
+          this.onChange(!!this.resolve, false);
 
           if (this.resolve) {
             this.resolve(
@@ -796,7 +795,7 @@ export default class FileControl extends React.Component<FileProps, FileState> {
       },
       onProgress
     )
-      .then(ret => {
+      .then(async ret => {
         if ((ret.status && (ret as any).status !== '0') || !ret.data) {
           throw new Error(ret.msg || __('File.errorRetry'));
         }
@@ -805,7 +804,10 @@ export default class FileControl extends React.Component<FileProps, FileState> {
         let value =
           (ret.data as any).value || (ret.data as any).url || ret.data;
 
-        this.dispatchEvent('success', file);
+        const dispatcher = await this.dispatchEvent('success', file);
+        if (dispatcher?.prevented) {
+          return;
+        }
         cb(null, file, {
           ...(isPlainObject(ret.data) ? ret.data : null),
           value: value,
@@ -813,8 +815,11 @@ export default class FileControl extends React.Component<FileProps, FileState> {
           id: file.id
         });
       })
-      .catch(error => {
-        this.dispatchEvent('fail', file);
+      .catch(async error => {
+        const dispatcher = await this.dispatchEvent('fail', {file, error});
+        if (dispatcher?.prevented) {
+          return;
+        }
         cb(error.message || __('File.errorRetry'), file);
       });
   }
@@ -823,7 +828,10 @@ export default class FileControl extends React.Component<FileProps, FileState> {
     const files = this.state.files.concat();
     const removeFile = files[index];
     // 触发移出文件事件
-    await this.dispatchEvent('remove', removeFile);
+    const dispatcher = await this.dispatchEvent('remove', removeFile);
+    if (dispatcher?.prevented) {
+      return;
+    }
     this.removeFileCanelExecutor(file, true);
     files.splice(index, 1);
 
@@ -838,7 +846,6 @@ export default class FileControl extends React.Component<FileProps, FileState> {
       },
       isUploading ? this.tick : this.onChange
     );
-    this.dispatchEvent('change');
   }
 
   clearError() {
@@ -847,7 +854,7 @@ export default class FileControl extends React.Component<FileProps, FileState> {
     });
   }
 
-  onChange(changeImmediately?: boolean) {
+  async onChange(changeImmediately?: boolean, isFileChange = true) {
     const {
       multiple,
       onChange,
@@ -880,6 +887,12 @@ export default class FileControl extends React.Component<FileProps, FileState> {
       }
     } else {
       value = typeof resetValue === 'undefined' ? '' : resetValue;
+    }
+    if (isFileChange) {
+      const dispatcher = await this.dispatchEvent('change');
+      if (dispatcher?.prevented) {
+        return;
+      }
     }
 
     onChange((this.emitValue = value), undefined, changeImmediately);
@@ -1188,19 +1201,15 @@ export default class FileControl extends React.Component<FileProps, FileState> {
     }
   }
 
-  async dispatchEvent(
-    e: string,
-    data?: Array<FileX | FileValue> | FileX | FileValue
-  ) {
+  async dispatchEvent(e: string, data?: Record<string, any>) {
     const {dispatchEvent} = this.props;
-    data = data ? data : this.state.files;
-    return dispatchEvent(e, createObject(this.props.data, data));
-  }
-
-  doAction(action: Action, data: object, throwErrors: boolean = false): any {
-    if (action.actionType === 'clear') {
-      this.setState({files: []});
-    }
+    data = data || this.state.files;
+    return dispatchEvent(
+      e,
+      createObject(this.props.data, {
+        file: data
+      })
+    );
   }
 
   render() {
