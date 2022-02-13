@@ -126,7 +126,7 @@ export function calculatePosition(
   target: HTMLElement,
   container: any,
   padding: any = 0,
-  customOffset: Array = [0, 0]
+  customOffset: Array<number> = [0, 0]
 ) {
   const childOffset: any =
     container.tagName === 'BODY'

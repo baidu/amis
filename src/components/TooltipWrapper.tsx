@@ -4,7 +4,7 @@
  * @author fex
  */
 
-import React from 'react';
+import React, {MouseEvent} from 'react';
 import Html from './Html';
 import {uncontrollable} from 'uncontrollable';
 import {findDOMNode} from 'react-dom';
@@ -15,8 +15,9 @@ import Overlay from './Overlay';
 export interface TooltipObject {
   title?: string;
   content?: string;
-  effect?: string;
-  offset?: number[];
+  themeColor?: 'light' | 'dark';
+  offset?: [number, number];
+  style?: string;
   visibleArrow?: boolean;
   disabled?: boolean;
   enterable?: boolean;
@@ -113,15 +114,25 @@ export class TooltipWrapper extends React.Component<
     clearTimeout(this.timer);
     // 顺速让即将消失的层消失。
     waitToHide && waitToHide();
-    const {mouseEnterDelay = 0} = this.props.tooltip;
-    this.timer = setTimeout(this.show, mouseEnterDelay);
+    const tooltip = this.props.tooltip;
+    if (typeof tooltip === 'object') {
+      const {mouseEnterDelay = 0} = tooltip;
+      this.timer = setTimeout(this.show, mouseEnterDelay);
+    } else {
+      this.timer = setTimeout(this.show, 0);
+    }
   }
 
   handleHide() {
     clearTimeout(this.timer);
-    const {mouseLeaveDelay = 200} = this.props.tooltip;
     waitToHide = this.hide.bind(this);
-    this.timer = setTimeout(this.hide, mouseLeaveDelay);
+    const tooltip = this.props.tooltip;
+    if (typeof tooltip === 'object') {
+      const {mouseLeaveDelay = 200} = tooltip;
+      this.timer = setTimeout(this.hide, mouseLeaveDelay);
+    } else {
+      this.timer = setTimeout(this.hide, 200);
+    }
   }
 
   handleFocus(e: any) {
@@ -164,13 +175,25 @@ export class TooltipWrapper extends React.Component<
     onClick && onClick(e);
   }
 
-  MouseEnter = e => {
-    const {enterable} = this.props.tooltip;
+  MouseEnter = (e: MouseEvent) => {
+    const tooltip = this.props.tooltip;
+    let enterable: boolean | undefined;
+    if (typeof tooltip === 'object') {
+      enterable = tooltip.enterable;
+    } else {
+      enterable = false;
+    }
     enterable && clearTimeout(this.timer);
   };
 
-  MouseLeave = e => {
-    const {enterable} = this.props.tooltip;
+  MouseLeave = (e: MouseEvent) => {
+    const tooltip = this.props.tooltip;
+    let enterable: boolean | undefined;
+    if (typeof tooltip === 'object') {
+      enterable = tooltip.enterable;
+    } else {
+      enterable = false;
+    }
     enterable && clearTimeout(this.timer);
     this.hide();
   };
@@ -218,21 +241,24 @@ export class TooltipWrapper extends React.Component<
       <Overlay
         key="overlay"
         target={this.getTarget}
-        show={this.state.show && !tooltip.disabled}
+        show={
+          this.state.show &&
+          !(typeof tooltip !== 'string' ? tooltip?.disabled : false)
+        }
         onHide={this.handleHide}
         rootClose={rootClose}
         placement={placement}
         container={container}
-        offset={tooltip.offset}
+        offset={typeof tooltip !== 'string' ? tooltip?.offset : [0, 0]}
       >
         <Tooltip
           title={typeof tooltip !== 'string' ? tooltip.title : undefined}
           className={tooltipClassName}
-          style={tooltip.style}
-          effect={tooltip.effect}
-          visibleArrow={tooltip.visibleArrow}
-          mouseEnterEvent={this.MouseEnter.bind(this)}
-          mouseLeaveEvent={this.MouseLeave.bind(this)}
+          style={(tooltip as TooltipObject).style}
+          themeColor={(tooltip as TooltipObject).themeColor}
+          visibleArrow={(tooltip as TooltipObject).visibleArrow}
+          mouseEnterEvent={this.MouseEnter}
+          mouseLeaveEvent={this.MouseLeave}
         >
           {tooltip && (tooltip as TooltipObject).render ? (
             this.state.show ? (

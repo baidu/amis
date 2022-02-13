@@ -174,6 +174,7 @@ interface OverlayProps {
   container?: React.ReactNode | Function;
   target?: React.ReactNode | Function;
   watchTargetSizeChange?: boolean;
+  offset?: [number, number];
 
   onEnter?(node: HTMLElement): any;
   onEntering?(node: HTMLElement): any;

@@ -4,7 +4,7 @@
  * @author fex
  */
 
-import React from 'react';
+import React, {MouseEvent} from 'react';
 import cx from 'classnames';
 import {classPrefix, classnames} from '../themes/default';
 import {ClassNamesFn, themeable} from '../theme';
@@ -18,22 +18,25 @@ interface TooltipProps extends React.HTMLProps<HTMLDivElement> {
   style?: any;
   arrowProps?: any;
   placement?: string;
+  visibleArrow?: boolean;
+  mouseEnterEvent: Function;
+  mouseLeaveEvent: Function;
   [propName: string]: any;
 }
 
 export class Tooltip extends React.Component<TooltipProps> {
   static defaultProps = {
     className: '',
-    effect: 'light',
+    themeColor: 'light',
     visibleArrow: true
   };
 
-  triggerMouseEnter = e => {
+  triggerMouseEnter = (e: MouseEvent) => {
     e.stopPropagation();
     this.props.mouseEnterEvent(e);
   };
 
-  triggerMouseLeave = e => {
+  triggerMouseLeave = (e: MouseEvent) => {
     e.stopPropagation();
     this.props.mouseLeaveEvent(e);
   };
@@ -42,7 +45,7 @@ export class Tooltip extends React.Component<TooltipProps> {
     const {
       classPrefix: ns,
       className,
-      effect,
+      themeColor,
       title,
       children,
       arrowProps,
@@ -67,7 +70,7 @@ export class Tooltip extends React.Component<TooltipProps> {
           `Tooltip`,
           activePlacement ? `Tooltip--${activePlacement}` : '',
           className,
-          effect === 'light' ? 'Tooltip--light' : `Tooltip--${effect}`
+          `Tooltip--${themeColor === 'dark' ? 'dark' : 'light'}`
         )}
         style={style}
         role="tooltip"

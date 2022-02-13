@@ -11,7 +11,6 @@
   z-index: $zindex-tooltip;
   word-wrap: break-word;
   background: var(--Tooltip-bg);
-  border: var(--Tooltip-borderWidth) solid var(--Tooltip-borderColor);
   box-shadow: var(--Tooltip-boxShadow);
 
   &-arrow {
@@ -49,7 +48,6 @@
 
     .#{$ns}Tooltip-arrow::before {
       bottom: 0;
-      border-top-color: var(--Tooltip-arrow-outerColor);
     }
 
     .#{$ns}Tooltip-arrow::after {
@@ -177,19 +175,19 @@
     color: var(--Tooltip-body-color);
     padding: var(--Tooltip-body-paddingY) var(--Tooltip-body-paddingX);
     word-break: break-all;
-    text-align: justify;
+    text-align: left;
   }
 
-  &--drak {
-    background-color: var(--Tooltip-drak-background-color);
+  &--dark {
+    background-color: var(--Tooltip-dark-background-color);
 
     .#{$ns}Tooltip-arrow::after {
-      border-top-color: var(--Tooltip-drak-background-color);
+      border-top-color: var(--Tooltip-dark-background-color);
     }
 
     .#{$ns}Tooltip-title,
     .#{$ns}Tooltip-body {
-      color: var(--Tooltip-drak-text-color);
+      color: var(--Tooltip-dark-text-color);
     }
   }
 }
