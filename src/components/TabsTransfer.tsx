@@ -137,6 +137,7 @@ export class TabsTransfer extends React.Component<TabsTransferProps> {
       onSearch: searchable,
       option2value,
       onDeferLoad,
+      onLeftDeferLoad,
       cellRender,
       translate: __,
       optionItemRender
@@ -242,6 +243,7 @@ export class TabsTransfer extends React.Component<TabsTransferProps> {
                     onChange={onChange}
                     option2value={option2value}
                     onDeferLoad={onDeferLoad}
+                    onLeftDeferLoad={onLeftDeferLoad}
                     leftMode={option.leftMode}
                     leftOptions={option.leftOptions}
                     leftDefaultValue={option.leftDefaultValue}

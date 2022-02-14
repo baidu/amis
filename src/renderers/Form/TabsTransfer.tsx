@@ -68,6 +68,7 @@ export class TabsTransferRenderer extends BaseTransferRenderer<TabsTransferProps
       searchResultMode,
       showArrow,
       deferLoad,
+      leftDeferLoad,
       disabled,
       selectTitle,
       resultTitle
@@ -86,6 +87,7 @@ export class TabsTransferRenderer extends BaseTransferRenderer<TabsTransferProps
           onSearch={searchable ? this.handleSearch : undefined}
           showArrow={showArrow}
           onDeferLoad={deferLoad}
+          onLeftDeferLoad={leftDeferLoad}
           selectTitle={selectTitle}
           resultTitle={resultTitle}
           optionItemRender={this.optionItemRender}
