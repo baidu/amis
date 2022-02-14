@@ -224,6 +224,11 @@ export const HocPopOver =
             ],
             ...popOver
           };
+        } else if (typeof popOver === 'string') {
+          schema = {
+            type: 'panel',
+            body: popOver
+          };
         } else if (popOver) {
           schema = {
             type: 'panel',
