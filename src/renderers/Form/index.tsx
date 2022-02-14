@@ -291,6 +291,9 @@ export interface FormSchema extends BaseSchema {
   rules?: Array<{
     rule: string;
     message: string;
+
+    // 高亮表单项
+    name?: string | Array<string>;
   }>;
 
   /**
@@ -335,6 +338,7 @@ export interface FormProps
   rules: Array<{
     rule: string;
     message: string;
+    name?: string | Array<string>;
   }>;
   lazyChange?: boolean; // 表单项的
   formLazyChange?: boolean; // 表单的
@@ -526,7 +530,7 @@ export default class Form extends React.Component<FormProps, object> {
         rules.forEach(
           item =>
             !evalExpression(item.rule, store.data) &&
-            store.addRestError(item.message)
+            store.addRestError(item.message, item.name)
         );
       });
     }
