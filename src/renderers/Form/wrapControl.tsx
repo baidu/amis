@@ -23,6 +23,7 @@ import hoistNonReactStatic from 'hoist-non-react-statics';
 import {withRootStore} from '../../WithRootStore';
 import {FormBaseControl, FormItemWrap} from './Item';
 import {Api} from '../../types';
+import {TableStore} from '../../store/table';
 
 export interface ControlOutterProps extends RendererProps {
   formStore?: IFormStore;
@@ -195,10 +196,13 @@ export function wrapControl<
 
             // 如果没有初始值，通过 onChange 设置过去
             if (
-              this.props.data === this.props.scope &&
               onChange &&
               typeof propValue === 'undefined' &&
-              typeof store?.getValueByName(model.name, false) === 'undefined'
+              typeof store?.getValueByName(model.name, false) === 'undefined' &&
+              // todo 后续再优化这个判断，
+              // 目前 input-table 中默认值会给冲掉，所以加上这个判断
+              // 对应 issue 为 https://github.com/baidu/amis/issues/2674
+              store?.storeType !== TableStore.name
             ) {
               onChange(model.tmpValue, model.name, false, true);
             }
