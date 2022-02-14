@@ -495,9 +495,9 @@ order: 31
           "size": "none",
           "style": {
             "display": "flex",
-            "align-items": "center",
-            "justify-content": "space-between",
-            "margin-bottom": "4px"
+            "alignItems": "center",
+            "justifyContent": "space-between",
+            "marginBottom": "4px"
           },
           "body": [
             {
@@ -506,8 +506,8 @@ order: 31
               "style": {
                 "flex": "1",
                 "overflow": "hidden",
-                "white-space": "nowrap",
-                "text-overflow": "ellipsis"
+                "whiteSpace": "nowrap",
+                "textOverflow": "ellipsis"
               },
               "body": "单元格"
             },
@@ -526,7 +526,7 @@ order: 31
           "size": "none",
           "style": {
             "color": "#999",
-            "font-size": "12px"
+            "fontSize": "12px"
           },
           "body": "描述信息"
         }

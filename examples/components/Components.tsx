@@ -188,6 +188,14 @@ export const components = [
         component: React.lazy(() =>
           import('../../docs/zh-CN/components/anchor-nav.md').then(wrapDoc)
         )
+      },
+
+      {
+        label: 'PopOver 弹出提示',
+        path: '/zh-CN/components/popover',
+        component: React.lazy(() =>
+          import('../../docs/zh-CN/components/popover.md').then(wrapDoc)
+        )
       }
     ]
   },
