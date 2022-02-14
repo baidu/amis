@@ -462,9 +462,8 @@ export function registerOptionsControl(config: OptionsConfig) {
           options
         }
       );
-      if (rendererEvent?.prevented) {
-        return;
-      }
+      // 返回阻塞标识
+      return !!rendererEvent?.prevented;
     }
 
     doAction(action: Action, data: object, throwErrors: boolean) {
@@ -581,7 +580,7 @@ export function registerOptionsControl(config: OptionsConfig) {
     }
 
     @autobind
-    handleToggle(
+    async handleToggle(
       option: Option,
       submitOnChange?: boolean,
       changeImmediately?: boolean
@@ -597,8 +596,8 @@ export function registerOptionsControl(config: OptionsConfig) {
         value
       );
 
-      this.dispatchChangeEvent(newValue);
-      onChange && onChange(newValue, submitOnChange, changeImmediately);
+      const isPrevented = await this.dispatchChangeEvent(newValue);
+      isPrevented || (onChange && onChange(newValue, submitOnChange, changeImmediately));
     }
 
     /**
@@ -653,7 +652,7 @@ export function registerOptionsControl(config: OptionsConfig) {
     }
 
     @autobind
-    handleToggleAll() {
+    async handleToggleAll() {
       const {value, onChange, formItem} = this.props;
 
       if (!formItem) {
@@ -665,8 +664,8 @@ export function registerOptionsControl(config: OptionsConfig) {
           ? []
           : formItem.filteredOptions.concat();
       const newValue = this.formatValueArray(valueArray);
-      this.dispatchChangeEvent(newValue);
-      onChange && onChange(newValue);
+      const isPrevented = await this.dispatchChangeEvent(newValue);
+      isPrevented || (onChange && onChange(newValue));
     }
 
     toggleValue(option: Option, originValue?: any) {

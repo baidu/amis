@@ -97,12 +97,11 @@ export default class TagControl extends React.PureComponent<
         options
       })
     );
-    if (rendererEvent?.prevented) {
-      return;
-    }
+    // 返回阻塞标识
+    return !!rendererEvent?.prevented;
   }
 
-  addItem(option: Option) {
+  async addItem(option: Option) {
     const {
       selectedOptions,
       onChange,
@@ -126,25 +125,25 @@ export default class TagControl extends React.PureComponent<
       : extractValue
       ? newValue.map(item => item[valueField || 'value'])
       : newValue;
-    this.dispatchEvent('change', {
+    const isPrevented = await this.dispatchEvent('change', {
       value: newValueRes
     });
-    onChange(newValueRes);
+    isPrevented || onChange(newValueRes);
   }
 
   @autobind
-  handleFocus(e: any) {
+  async handleFocus(e: any) {
     this.setState({
       isFocused: true,
       isOpened: true
     });
 
-    this.dispatchEvent('focus', e);
-    this.props.onFocus?.(e);
+    const isPrevented = await this.dispatchEvent('focus', e);
+    isPrevented || this.props.onFocus?.(e);
   }
 
   @autobind
-  handleBlur(e: any) {
+  async handleBlur(e: any) {
     const {
       selectedOptions,
       onChange,
@@ -156,8 +155,8 @@ export default class TagControl extends React.PureComponent<
 
     const value = this.state.inputValue.trim();
 
-    this.dispatchEvent('blur', e);
-    this.props.onBlur?.(e);
+    const isPrevented = await this.dispatchEvent('blur', e);
+    isPrevented || this.props.onBlur?.(e);
     this.setState(
       {
         isFocused: false,
@@ -203,7 +202,7 @@ export default class TagControl extends React.PureComponent<
   }
 
   @autobind
-  handleChange(value: Array<Option>) {
+  async handleChange(value: Array<Option>) {
     const {joinValues, extractValue, delimiter, valueField, onChange} =
       this.props;
 
@@ -217,10 +216,10 @@ export default class TagControl extends React.PureComponent<
       newValue = newValue.join(delimiter || ',');
     }
 
-    this.dispatchEvent('change', {
+    const isPrevented = await this.dispatchEvent('change', {
       value: newValue
     });
-    onChange(newValue);
+    isPrevented || onChange(newValue);
   }
 
   @autobind
@@ -230,7 +229,7 @@ export default class TagControl extends React.PureComponent<
   }
 
   @autobind
-  handleKeyDown(evt: React.KeyboardEvent<HTMLInputElement>) {
+  async handleKeyDown(evt: React.KeyboardEvent<HTMLInputElement>) {
     const {
       selectedOptions,
       onChange,
@@ -253,10 +252,10 @@ export default class TagControl extends React.PureComponent<
         : extractValue
         ? newValue.map(item => item[valueField || 'value'])
         : newValue;
-      this.dispatchEvent('change', {
+      const isPrevented = await this.dispatchEvent('change', {
         value: newValueRes
       });
-      onChange(newValueRes);
+      isPrevented || onChange(newValueRes);
     } else if (value && (evt.key === 'Enter' || evt.key === delimiter)) {
       evt.preventDefault();
       evt.stopPropagation();
@@ -275,10 +274,10 @@ export default class TagControl extends React.PureComponent<
           : extractValue
           ? newValue.map(item => item[valueField || 'value'])
           : newValue;
-        this.dispatchEvent('change', {
+        const isPrevented = await this.dispatchEvent('change', {
           value: newValueRes
         });
-        onChange(newValueRes);
+        isPrevented || onChange(newValueRes);
       }
 
       this.setState({
