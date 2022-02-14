@@ -676,7 +676,7 @@ export default class Wizard extends React.Component<WizardProps, WizardState> {
             },
             onFailed: json => {
               if (json.status === 422 && json.errors && this.form) {
-                this.form.props.store.handleRemoteError(json.errors);
+                this.form.props.store.setFormItemErrors(json.errors);
               }
             }
           })
