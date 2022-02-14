@@ -180,6 +180,10 @@ export interface TabsSchema extends BaseSchema {
    * 是否可编辑标签名
    */
   editable?: boolean;
+  /**
+   * 是否导航支持内容溢出滚动。属性废弃，为了兼容暂且保留
+   */
+  scrollable?: boolean;
 }
 
 export interface TabsProps
@@ -461,17 +465,9 @@ export default class Tabs extends React.Component<TabsProps, TabsState> {
       body: '新增tab 内容'
     } as TabSource);
 
-    const canContinue = await this.confirmTabs(localTabs);
-
-    if (!canContinue) {
-      return;
-    }
-
-    this.setState({
-      localTabs
-    }, () => {
+    this.confirmTabs(localTabs, () => {
       this.switchTo(this.state.localTabs.length - 1);
-    })
+    });
   }
 
   @autobind
@@ -480,15 +476,7 @@ export default class Tabs extends React.Component<TabsProps, TabsState> {
 
     originTabs.splice(index, 1);
 
-    const canContinue = await this.confirmTabs(originTabs);
-
-    if (!canContinue) {
-      return;
-    }
-
-    this.setState({
-      localTabs: originTabs
-    });
+    this.confirmTabs(originTabs);
   }
 
   @autobind
@@ -496,33 +484,26 @@ export default class Tabs extends React.Component<TabsProps, TabsState> {
     const originTabs = this.state.localTabs.concat();
     originTabs[index].title = text;
 
-    const canContinue = await this.confirmTabs(originTabs);
-
-    if (!canContinue) {
-      return;
-    }
-
-    this.setState({
-      localTabs: originTabs
-    });
+    this.confirmTabs(originTabs);
   }
 
   // 回调，拦截器
-  async confirmTabs(tabs: Array<TabSource>) {
+  async confirmTabs(tabs: Array<TabSource>, resolve?: () => void) {
     const {onTabsChange} = this.props;
+    let res: boolean = true;
 
     if (onTabsChange) {
       try {
-        const canContinue = await Promise.resolve(onTabsChange(tabs));
-
-        return !!canContinue;
+        res = !!(await Promise.resolve(onTabsChange(tabs))); 
       }
       catch (e) {
-        return false;
+        res = false;
       }
     }
 
-    return true;
+    res && this.setState({
+      localTabs: tabs
+    }, resolve);
   }
 
   @autobind
@@ -532,17 +513,7 @@ export default class Tabs extends React.Component<TabsProps, TabsState> {
 
     originTabs.splice(e.newIndex, 0, originTabs.splice(e.oldIndex, 1)[0]);
 
-    const canContinue = await this.confirmTabs(originTabs);
-
-    if (!canContinue) {
-      return;
-    }
-
-
-    this.setState({
-      localTabs: originTabs
-    }, () => {
-
+    this.confirmTabs(originTabs, () => {
       if (activeTab) {
         const newActiveTabIndex = originTabs.indexOf(activeTab);
         this.switchTo(newActiveTabIndex);
@@ -584,7 +555,6 @@ export default class Tabs extends React.Component<TabsProps, TabsState> {
 
   @autobind
   switchTo(index: number) {
-    // const {tabs} = this.props;
     const localTabs = this.state.localTabs;
 
     Array.isArray(localTabs) &&

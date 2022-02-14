@@ -111,7 +111,7 @@ export interface TabsProps extends ThemeProps {
   onDragChange?: (e: any) => void;
   showTip?: boolean;
   showTipClassName?: string;
-  scrollable?: boolean;
+  scrollable?: boolean; // 属性废弃，为了兼容暂且保留
   editable?: boolean;
   onEdit?: (index: number, text: string) => void;
 }
@@ -122,10 +122,7 @@ export interface IDragInfo {
 
 export class Tabs extends React.Component<TabsProps, any> {
   static defaultProps: Pick<TabsProps,
-    'mode' 
-    | 'contentClassName'
-    | 'showTip'
-    | 'showTipClassName'
+    'mode' | 'contentClassName' | 'showTip' | 'showTipClassName'
   > = {
     mode: '',
     contentClassName: '',
@@ -290,27 +287,12 @@ export class Tabs extends React.Component<TabsProps, any> {
   }
 
   @autobind
-  handleClose(index: number, key: string | number) {
-    const {onClose} = this.props;
-    onClose && onClose(index, key);
-  }
-
-  @autobind
   handleStartEdit(index: number, title: string) {
     this.setState({
       editingIndex: index,
       editInputText: title,
       editOriginText: title
     });
-  }
-
-  @autobind
-  editRef(ref: any) {
-    if (!ref) {
-      return;
-    }
-
-    ref?.focus();
   }
 
   @autobind
@@ -325,26 +307,17 @@ export class Tabs extends React.Component<TabsProps, any> {
     let {editingIndex, editInputText, editOriginText} = this.state;
     const {onEdit} = this.props;
 
+
     this.setState({
       editingIndex: null,
       editInputText: null,
       editOriginText: null
     });
 
-    if (!editInputText) {
-      return;
-    }
-
-    editInputText = String(editInputText).trim();
-
-    (editInputText !== editOriginText)
-    && onEdit
-    && onEdit(editingIndex, editInputText);
-  }
-
-  @autobind
-  handleKeyPress(e: React.KeyboardEvent) {
-    e && e.key === 'Enter' && this.handleEdit()
+    onEdit
+      && (editInputText = String(editInputText).trim())
+      && (editInputText !== editOriginText)
+      && onEdit(editingIndex, editInputText);
   }
 
   @autobind
@@ -496,10 +469,11 @@ export class Tabs extends React.Component<TabsProps, any> {
               className={cx('Tabs-link-edit')}
               type="text"
               value={editInputText}
-              ref={this.editRef}
+              autoFocus
+              onFocus={(e: React.ChangeEvent<HTMLInputElement>) => e.currentTarget.select()}
               onChange={this.handleEditInputChange}
               onBlur={this.handleEdit}
-              onKeyPress={this.handleKeyPress}
+              onKeyPress={(e: React.KeyboardEvent) => e && e.key === 'Enter' && this.handleEdit()}
             />
           ) : (
             <>
@@ -552,9 +526,9 @@ export class Tabs extends React.Component<TabsProps, any> {
 
         {
           (tabClosable ?? closable) && (
-            <span className={cx('Tabs-link-close')} onClick={(e) => {
+            <span className={cx('Tabs-link-close')} onClick={(e: React.MouseEvent) => {
               e.stopPropagation();
-              this.handleClose(index, eventKey ?? index)
+              this.props.onClose && this.props.onClose(index, eventKey ?? index);
             }}>
               <Icon icon="close" className={cx('Tabs-link-close-icon')} />
             </span>

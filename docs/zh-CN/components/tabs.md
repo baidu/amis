@@ -557,3 +557,4 @@ order: 68
 | showTip               | `boolean`                         | false                               | 是否支持提示                                                                               |
 | showTipClassName      | `string`                          | `'' `                               | 提示的类                                                                              |
 | editable              | `boolean`                         | false                               | 收否可编辑标签名                                                                              |
+| scrollable            | `boolean`                         | true                                | 是否导航支持内容溢出滚动。（属性废弃）                                             |
