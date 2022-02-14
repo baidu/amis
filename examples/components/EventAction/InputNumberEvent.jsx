@@ -39,7 +39,36 @@ export default {
               id: 'clear-input-number-receiver',
               type: 'input-number',
               label: 'clear动作测试',
-              value: 1
+              value: 1,
+              onEvent: {
+                blur: {
+                  actions: [
+                    {
+                      actionType: 'toast',
+                      msgType: 'info',
+                      msg: '派发blur事件'
+                    }
+                  ]
+                },
+                focus: {
+                  actions: [
+                    {
+                      actionType: 'toast',
+                      msgType: 'info',
+                      msg: '派发focus事件'
+                    }
+                  ]
+                },
+                change: {
+                  actions: [
+                    {
+                      actionType: 'toast',
+                      msgType: 'info',
+                      msg: '派发change事件'
+                    }
+                  ]
+                }
+              }
             }
           ]
         }
