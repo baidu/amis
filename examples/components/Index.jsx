@@ -1,94 +1,16 @@
 export default {
   type: 'page',
-  data: {
-    items: [
-      {
-        engine: 'Trident',
-        browser: 'Internet Explorer 4.0',
-        platform: 'Win 95+',
-        version: '4',
-        grade: 'X'
-      },
-      {
-        engine: 'Trident',
-        browser: 'Internet Explorer 5.0',
-        platform: 'Win 95+',
-        version: '5',
-        grade: 'C'
-      },
-      {
-        engine: 'Trident',
-        browser: 'Internet Explorer 5.5',
-        platform: 'Win 95+',
-        version: '5.5',
-        grade: 'A'
-      },
-      {
-        engine: 'Trident',
-        browser: 'Internet Explorer 6',
-        platform: 'Win 98+',
-        version: '6',
-        grade: 'A'
-      },
-      {
-        engine: 'Trident',
-        browser: 'Internet Explorer 7',
-        platform: 'Win XP SP2+',
-        version: '7',
-        grade: 'A'
-      }
-    ]
+  title: '标题',
+  remark: {
+    title: '标题',
+    body: '这是一段描述问题，注意到了没，还可以设置标题。而且只有点击了才弹出来。',
+    icon: 'question-mark',
+    placement: 'right',
+    trigger: 'click',
+    rootClose: true
   },
-  body: {
-    type: 'cards',
-    source: '$items',
-    card: {
-      body: [
-        {
-          label: 'Engine',
-          popOver: "dfasdfa'",
-          name: 'engine'
-        },
-        {
-          label: 'Browser',
-          name: 'browser'
-        },
-        {
-          name: 'version',
-          label: 'Version'
-        }
-      ],
-      actions: [
-        {
-          type: 'button',
-          level: 'link',
-          icon: 'fa fa-eye',
-          actionType: 'dialog',
-          dialog: {
-            title: '查看详情',
-            body: {
-              type: 'form',
-              body: [
-                {
-                  label: 'Engine',
-                  name: 'engine',
-                  type: 'static'
-                },
-                {
-                  name: 'browser',
-                  label: 'Browser',
-                  type: 'static'
-                },
-                {
-                  name: 'version',
-                  label: 'Version',
-                  type: 'static'
-                }
-              ]
-            }
-          }
-        }
-      ]
-    }
-  }
+  body: '内容部分. 可以使用 \\${var} 获取变量。如: `\\$date`: ${date}',
+  aside: '边栏部分',
+  toolbar: '工具栏',
+  initApi: '/api/mock2/page/initData'
 };
