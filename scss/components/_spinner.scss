@@ -43,7 +43,7 @@
   width: var(--Spinner-width);
   height: var(--Spinner-height);
   transform: translateZ(0);
-  display: inline-block;
+  display: inline-flex;
   background: var(--Spinner-bg);
   background-size: 100%;
 
