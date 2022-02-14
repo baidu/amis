@@ -746,6 +746,38 @@ Form 支持轮询初始化接口，步骤如下：
 
 > `rule` 编写使用 [表达式](../../../docs/concepts/expression)
 
+### 组合校验高亮表单项
+
+> 1.6.5 及以上版本
+
+默认组合校验的错误信息显示在表单的底部，如果希望可以定位到表单项自己，则可以通过配置 `name` 来高亮错误。
+
+```schema:scope="body"
+{
+  "type": "form",
+  "api": "/api/form/saveForm",
+  "rules": [
+    {
+      "rule": "!(data.a && data.b)",
+      "message": "a 和 b 不能同时有值",
+      "name": ["a", "b"]
+    }
+  ],
+  "body": [
+    {
+      "type": "input-text",
+      "name": "a",
+      "label": "A"
+    },
+    {
+      "type": "input-text",
+      "name": "b",
+      "label": "B"
+    }
+  ]
+}
+```
+
 ## 重置表单
 
 配置`"type": "reset"`或者`"actionType": "reset"`的按钮，可以实现点击重置表单项值。
@@ -1072,7 +1104,7 @@ Form 支持轮询初始化接口，步骤如下：
 | panelClassName              | `string`                                                                  |                                                                        | 外层 panel 的类名                                                                                                                                                                                                                                                                                                                                            |
 | api                         | [API](../../../docs/types/api)                                            |                                                                        | Form 用来保存数据的 api。                                                                                                                                                                                                                                                                                                                                    |
 | initApi                     | [API](../../../docs/types/api)                                            |                                                                        | Form 用来获取初始数据的 api。                                                                                                                                                                                                                                                                                                                                |
-| rules                       | Array<{rule:string;message:string}>                                       |                                                                        | 表单组合校验规则                                                                                                                                                                                                                                                                                                                                             |
+| rules                       | Array<{rule:string;message:string;name?: string[]}>                       |                                                                        | 表单组合校验规则                                                                                                                                                                                                                                                                                                                                             |
 | interval                    | `number`                                                                  | `3000`                                                                 | 刷新时间(最低 3000)                                                                                                                                                                                                                                                                                                                                          |
 | silentPolling               | `boolean`                                                                 | `false`                                                                | 配置刷新时是否显示加载动画                                                                                                                                                                                                                                                                                                                                   |
 | stopAutoRefreshWhen         | `string`                                                                  | `""`                                                                   | 通过[表达式](./Types.md#表达式) 来配置停止刷新的条件                                                                                                                                                                                                                                                                                                         |
