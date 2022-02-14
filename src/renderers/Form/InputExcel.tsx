@@ -1,6 +1,7 @@
 import React, {Suspense} from 'react';
 import Dropzone from 'react-dropzone';
 import {FileRejection} from 'react-dropzone';
+import {Icon} from '../../components/icons';
 import {autobind} from '../../utils/helper';
 import {FormItem, FormControlProps, FormBaseControl} from './Item';
 
@@ -43,7 +44,7 @@ export interface ExcelProps
     > {}
 
 export interface ExcelControlState {
-  open: boolean;
+  filename: string;
 }
 
 export default class ExcelControl extends React.PureComponent<
@@ -56,8 +57,9 @@ export default class ExcelControl extends React.PureComponent<
     includeEmpty: true,
     plainText: true
   };
+
   state: ExcelControlState = {
-    open: false
+    filename: ''
   };
 
   ExcelJS: any;
@@ -87,6 +89,7 @@ export default class ExcelControl extends React.PureComponent<
             const worksheet = workbook.worksheets[0];
             onChange(this.readWorksheet(worksheet));
           }
+          this.setState({filename: files[0].name});
         });
       }
     };
@@ -165,7 +168,13 @@ export default class ExcelControl extends React.PureComponent<
             <section className={cx('ExcelControl-container', className)}>
               <div {...getRootProps({className: cx('ExcelControl-dropzone')})}>
                 <input {...getInputProps()} />
-                <p>{__('Excel.placeholder')}</p>
+                {this.state.filename ? (
+                  __('Excel.parsed', {
+                    filename: this.state.filename
+                  })
+                ) : (
+                  <p>{__('Excel.placeholder')}</p>
+                )}
               </div>
             </section>
           )}

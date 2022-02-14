@@ -96,6 +96,7 @@ register('en-US', {
   'Embed.invalidRoot': 'Invalid root selector',
   'Embed.downloading': 'Start downloading',
   'Excel.placeholder': `Drag 'n' drop excel here, or click to select`,
+  'Excel.parsed': '{{filename}} Parsed',
   'fetchFailed': 'Fetch api failed',
   'File.continueAdd': 'Continue add',
   'File.downloadTpl': 'Download template',
