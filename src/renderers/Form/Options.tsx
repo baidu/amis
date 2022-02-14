@@ -207,6 +207,7 @@ export interface OptionsControlProps
   setLoading: (value: boolean) => void;
   reloadOptions: (setError?: boolean) => void;
   deferLoad: (option: Option) => void;
+  leftDeferLoad: (option: Option, leftOptions: Option) => void;
   expandTreeOptions: (nodePathArr: any[]) => void;
   onAdd?: (
     idx?: number | Array<number>,
@@ -758,6 +759,27 @@ export function registerOptionsControl(config: OptionsConfig) {
     }
 
     @autobind
+    leftDeferLoad(option: Option, leftOptions: Option) {
+      const {deferApi, source, env, formItem, data} = this.props;
+      const api = option.deferApi || deferApi || source;
+
+      if (!api) {
+        env.notify(
+          'error',
+          '请在选项中设置 `deferApi` 或者表单项中设置 `deferApi`，用来加载子选项。'
+        );
+        return;
+      }
+
+      formItem?.deferLoadLeftOptions(
+        option,
+        leftOptions,
+        api,
+        createObject(data, option)
+      );
+    }
+
+    @autobind
     expandTreeOptions(nodePathArr: any[]) {
       const {deferApi, source, env, formItem, data} = this.props;
       const api = deferApi || source;
@@ -1178,6 +1200,7 @@ export function registerOptionsControl(config: OptionsConfig) {
           syncOptions={this.syncOptions}
           reloadOptions={this.reload}
           deferLoad={this.deferLoad}
+          leftDeferLoad={this.leftDeferLoad}
           expandTreeOptions={this.expandTreeOptions}
           creatable={
             creatable !== false && isEffectiveApi(addApi) ? true : creatable
