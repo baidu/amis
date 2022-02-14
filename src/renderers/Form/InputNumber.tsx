@@ -176,14 +176,15 @@ export default class NumberControl extends React.Component<
     if (inputValue !== null && unitOptions && this.state.unit) {
       inputValue = inputValue + this.state.unit;
     }
+    const value = inputValue === null ? resetValue ?? null : inputValue;
     const rendererEvent = await dispatchEvent('change', createObject(data, {
-      value: inputValue,
+      value,
     }));
     if (rendererEvent?.prevented) {
       return;
     }
+    onChange(value);
 
-    onChange(inputValue === null ? resetValue ?? null : inputValue);
   }
 
   filterNum(value: number | string | undefined) {
