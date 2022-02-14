@@ -127,8 +127,8 @@ export default class NumberControl extends React.Component<
   doAction(action: Action, args: any) {
     const actionType = action?.actionType as string;
     const {resetValue, onChange} = this.props;
-    if (action.actionType === 'clear') {
-      onChange(resetValue ?? '');
+    if (actionType === 'clear') {
+      this.handleChange(resetValue ?? '');
     }
   }
 
