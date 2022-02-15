@@ -65,7 +65,21 @@ import Form2LinkPageSchema from './Linkage/Form2';
 import CRUDLinkPageSchema from './Linkage/CRUD';
 import OptionsPageSchema from './Linkage/Options';
 import OptionsLocalPageSchema from './Linkage/OptionsLocal';
-import EventsSchema from './Linkage/Event';
+import FormSubmitSchema from './Linkage/FormSubmit';
+import CommonEventActionSchema from './EventAction/Common';
+import BroadcastEventActionSchema from './EventAction/Broadcast';
+import CmptEventActionSchema from './EventAction/Cmpt';
+import CustomEventActionSchema from './EventAction/Custom';
+import LogicEventActionSchema from './EventAction/Logic';
+import StopEventActionSchema from './EventAction/Stop';
+import DataFlowEventActionSchema from './EventAction/DataFlow';
+import InputEventSchema from './EventAction/InputEvent';
+import InputNumberEventSchema from './EventAction/InputNumberEvent';
+import DateEventSchema from './EventAction/DateEvent';
+import SwitchEventSchema from './EventAction/SwitchEvent';
+import TabsEventSchema from './EventAction/TabsEvent';
+import UploadEventSchema from './EventAction/UploadEvent';
+import SelectEventActionSchema from './EventAction/SelectEvent';
 import WizardSchema from './Wizard';
 import ChartSchema from './Chart';
 import EChartsEditorSchema from './ECharts';
@@ -88,6 +102,8 @@ import Tab3Schema from './Tabs/Tab3';
 import TestComponent from './Test';
 
 import {normalizeLink} from '../../src/utils/normalizeLink';
+import {Switch} from 'react-router-dom';
+import {navigations2route} from './App';
 
 export const examples = [
   {
@@ -482,6 +498,11 @@ export const examples = [
             component: makeSchemaRenderer(FormLinkPageSchema)
           },
           {
+            label: '表单提交后显示结果',
+            path: '/examples/linkpage/form-submit',
+            component: makeSchemaRenderer(FormSubmitSchema)
+          },
+          {
             label: '表单自动更新',
             path: '/examples/linkpage/form2',
             component: makeSchemaRenderer(Form2LinkPageSchema)
@@ -490,11 +511,85 @@ export const examples = [
             label: '表单和列表联动',
             path: '/examples/linkpage/crud',
             component: makeSchemaRenderer(CRUDLinkPageSchema)
+          }
+        ]
+      },
+
+      {
+        label: '事件动作机制',
+        icon: 'fa fa-bullhorn',
+        children: [
+          {
+            label: '执行通用动作',
+            path: '/examples/event-action/common',
+            component: makeSchemaRenderer(CommonEventActionSchema)
           },
           {
-            label: '广播事件机制',
-            path: '/examples/linkpage/event',
-            component: makeSchemaRenderer(EventsSchema)
+            label: '广播(自定义事件)',
+            path: '/examples/event-action/broadcat',
+            component: makeSchemaRenderer(BroadcastEventActionSchema)
+          },
+          {
+            label: '执行其他组件动作',
+            path: '/examples/event-action/cmpt',
+            component: makeSchemaRenderer(CmptEventActionSchema),
+            children: [
+              {
+                label: '输入类组件',
+                path: '/examples/event/input',
+                component: makeSchemaRenderer(InputEventSchema)
+              },
+              {
+                label: '数字输入组件',
+                path: '/examples/event/input-number',
+                component: makeSchemaRenderer(InputNumberEventSchema)
+              },
+              {
+                label: '上传类组件',
+                path: '/examples/event/upload',
+                component: makeSchemaRenderer(UploadEventSchema)
+              },
+              {
+                label: '下拉框',
+                path: '/examples/event/select',
+                component: makeSchemaRenderer(SelectEventActionSchema)
+              },
+              {
+                label: '时间类组件',
+                path: 'examples/event/date',
+                component: makeSchemaRenderer(DateEventSchema)
+              },
+              {
+                label: '开关组件',
+                path: 'examples/event/switch',
+                component: makeSchemaRenderer(SwitchEventSchema)
+              },
+              {
+                label: '标签页组件',
+                path: 'examples/event/tabs',
+                component: makeSchemaRenderer(TabsEventSchema)
+              }
+            ]
+          },
+          {
+            label: '自定义JS',
+            path: '/examples/event-action/custom',
+            component: makeSchemaRenderer(CustomEventActionSchema)
+          },
+          {
+            label: '执行逻辑编排动作',
+            path: '/examples/event-action/logic',
+            component: makeSchemaRenderer(LogicEventActionSchema)
+          },
+          {
+            label: '事件/动作干预',
+            path: '/examples/event-action/stop',
+            component: makeSchemaRenderer(StopEventActionSchema)
+          },
+          {
+            label: '动作间数据传递',
+            path: '/examples/event-action/dataflow',
+            component: makeSchemaRenderer(DataFlowEventActionSchema)
           }
         ]
       },
@@ -623,16 +718,23 @@ export default class Example extends React.PureComponent {
 
   render() {
     return (
-      <>
-        {React.cloneElement(this.props.children, {
+      <Switch>
+        {/* {React.cloneElement(this.props.children, {
           ...this.props.children.props,
           theme: this.props.theme,
           classPrefix: this.props.classPrefix,
           locale: this.props.locale,
           viewMode: this.props.viewMode,
           offScreen: this.props.offScreen
+        })} */}
+        {navigations2route(examples, {
+          theme: this.props.theme,
+          classPrefix: this.props.classPrefix,
+          locale: this.props.locale,
+          viewMode: this.props.viewMode,
+          offScreen: this.props.offScreen
         })}
-      </>
+      </Switch>
     );
   }
 }

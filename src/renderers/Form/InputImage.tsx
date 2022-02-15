@@ -1,6 +1,6 @@
 import React, {Suspense} from 'react';
 import {FormItem, FormControlProps, FormBaseControl} from './Item';
-import 'cropperjs/dist/cropper.css';
+// import 'cropperjs/dist/cropper.css';
 const Cropper = React.lazy(() => import('react-cropper'));
 import DropZone from 'react-dropzone';
 import {FileRejection} from 'react-dropzone';
@@ -845,7 +845,7 @@ export default class ImageControl extends React.Component<
     const {multiple, crop} = this.props;
 
     if (crop && !multiple) {
-      const file = files[0] as FileValue;
+      const file = files[0] as any;
       if (!file.preview || !file.url) {
         file.preview = window.URL.createObjectURL(file);
       }

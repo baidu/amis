@@ -7,20 +7,17 @@ import {render as amisRender} from '../../../src/index';
 import {makeEnv} from '../../helper';
 import moment from 'moment';
 
-test('Renderer:date', async () => {
-  const {container} = render(
+test('Renderer:inputYear click', async () => {
+  const {container, findByText} = render(
     amisRender(
       {
         type: 'form',
         api: '/api/xxx',
-        controls: [
+        body: [
           {
-            type: 'date',
-            name: 'a',
-            label: 'date',
-            value: '1559836800',
-            minDate: '1559664000',
-            maxDate: '1561737600'
+            type: 'input-year',
+            name: 'year',
+            label: '年'
           }
         ],
         title: 'The form',
@@ -31,10 +28,19 @@ test('Renderer:date', async () => {
     )
   );
 
-  const input = container.querySelector('.cxd-DatePicker-value');
-  expect(input?.innerHTML).toEqual(
-    moment(1559836800, 'X').format('YYYY-MM-DD')
-  );
+  const inputDate = await findByText('请选择年');
 
-  expect(container).toMatchSnapshot();
+  fireEvent.click(inputDate);
+
+  const thisYearText = moment().format('YYYY');
+
+  const thisYear = await findByText(thisYearText);
+
+  fireEvent.click(thisYear);
+
+  const value = document.querySelector(
+    '.cxd-DatePicker-value'
+  ) as HTMLSpanElement;
+
+  expect(value.innerHTML).toEqual(thisYearText);
 });

@@ -41,6 +41,8 @@ export class Tooltip extends React.Component<TooltipProps> {
       positionTop,
       classnames: cx,
       activePlacement,
+      onMouseEnter,
+      onMouseLeave,
       ...rest
     } = this.props;
 
@@ -53,6 +55,8 @@ export class Tooltip extends React.Component<TooltipProps> {
           className
         )}
         style={style}
+        onMouseEnter={onMouseEnter}
+        onMouseLeave={onMouseLeave}
         role="tooltip"
       >
         <div className={cx(`Tooltip-arrow`)} {...arrowProps} />

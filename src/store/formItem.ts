@@ -595,7 +595,7 @@ export const FormItemStore = StoreNode.named('FormItemStore')
         json.data ||
         [];
 
-      options = normalizeOptions(options as any);
+      options = normalizeOptions(options as any, undefined, self.valueField);
 
       if (config?.extendsOptions && self.selectedOptions.length > 0) {
         self.selectedOptions.forEach((item: any) => {
@@ -625,23 +625,20 @@ export const FormItemStore = StoreNode.named('FormItemStore')
 
     const tryDeferLoadLeftOptions: (
       option: any,
+      leftOptions: any,
       api: Api,
       data?: object,
       config?: fetchOptions
     ) => Promise<Payload | null> = flow(function* (
       option: any,
+      leftOptions: any,
       api: string,
       data: object,
       config?: fetchOptions
     ) {
-      if (
-        self.options.length != 1 ||
-        !Array.isArray(self.options[0].leftOptions)
-      ) {
+      if (!Array.isArray(leftOptions)) {
         return;
       }
-
-      let leftOptions = self.options[0].leftOptions as any;
 
       const indexes = findTreeIndex(leftOptions, item => item === option);
       if (!indexes) {
@@ -730,6 +727,28 @@ export const FormItemStore = StoreNode.named('FormItemStore')
       return json;
     });
 
+    const deferLoadLeftOptions: (
+      option: any,
+      leftOptions: any,
+      api: Api,
+      data?: object,
+      config?: fetchOptions
+    ) => Promise<Payload | null> = flow(function* (
+      option: any,
+      leftOptions: any,
+      api: string,
+      data: object,
+      config?: fetchOptions
+    ) {
+      return yield tryDeferLoadLeftOptions(
+        option,
+        leftOptions,
+        api,
+        data,
+        config
+      );
+    });
+
     const deferLoadOptions: (
       option: any,
       api: Api,
@@ -743,7 +762,14 @@ export const FormItemStore = StoreNode.named('FormItemStore')
     ) {
       const indexes = findTreeIndex(self.options, item => item === option);
       if (!indexes) {
-        return yield tryDeferLoadLeftOptions(option, api, data, config);
+        const leftOptions = self.options[0]?.leftOptions;
+        return yield tryDeferLoadLeftOptions(
+          option,
+          leftOptions,
+          api,
+          data,
+          config
+        );
       }
 
       setOptions(
@@ -1112,6 +1138,7 @@ export const FormItemStore = StoreNode.named('FormItemStore')
       setOptions,
       loadOptions,
       deferLoadOptions,
+      deferLoadLeftOptions,
       expandTreeOptions,
       syncOptions,
       setLoading,

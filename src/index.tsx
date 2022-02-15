@@ -41,6 +41,8 @@ import {
 
 import './locale/zh-CN';
 
+import './utils/debug';
+
 import animation from './utils/Animation';
 
 export * from './Schema';
@@ -55,6 +57,7 @@ import './renderers/ButtonGroup';
 import './renderers/Form/ButtonToolbar';
 import './renderers/Breadcrumb';
 import './renderers/DropDownButton';
+import './renderers/Calendar';
 import './renderers/Collapse';
 import './renderers/CollapseGroup';
 import './renderers/Color';
@@ -160,6 +163,7 @@ import './renderers/Tasks';
 import './renderers/Drawer';
 import './renderers/Wrapper';
 import './renderers/IFrame';
+import './renderers/BarCode';
 import './renderers/QRCode';
 import './renderers/Icon';
 import './renderers/Carousel';

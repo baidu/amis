@@ -96,6 +96,7 @@ register('en-US', {
   'Embed.invalidRoot': 'Invalid root selector',
   'Embed.downloading': 'Start downloading',
   'Excel.placeholder': `Drag 'n' drop excel here, or click to select`,
+  'Excel.parsed': '{{filename}} Parsed',
   'fetchFailed': 'Fetch api failed',
   'File.continueAdd': 'Continue add',
   'File.downloadTpl': 'Download template',
@@ -271,5 +272,9 @@ register('en-US', {
   'Condition.blank': 'blank',
   'InputTable.uniqueError': 'Column `{{label}}` unique validate failed',
   'Timeline.collapseText': 'Unfold',
-  'Timeline.expandText': 'Fold'
+  'Timeline.expandText': 'Fold',
+  'FormulaEditor.btnLabel': 'Formula Edit',
+  'FormulaEditor.title': 'Formula Editor',
+  'FormulaEditor.variable': 'Variable',
+  'FormulaEditor.function': 'Function'
 });

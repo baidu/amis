@@ -10,7 +10,7 @@ To build your own backend system with amis, you can refer to this: https://githu
 
 ```
 # Install project npm dependencies.
-npm i
+npm i --legacy-peer-deps
 
 # Start compiling and output the code to the webroot directory of the service you just opened.
 npm run dev
@@ -23,7 +23,7 @@ npm start
 
 ```bash
 #Installation dependency
-npm i
+npm i --legacy-peer-deps
 
 #Executing test cases
 npm test

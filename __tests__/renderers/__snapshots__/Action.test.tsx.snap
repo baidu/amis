@@ -106,3 +106,15 @@ exports[`Renderers:Action custom activeClass 2`] = `
   </span>
 </button>
 `;
+
+exports[`Renderers:Action download shortcut 1`] = `
+<button
+  className="cxd-Button cxd-Button--default"
+  onClick={[Function]}
+  type="button"
+>
+  <span>
+    123
+  </span>
+</button>
+`;

@@ -26,6 +26,7 @@ import {
   FormBaseControl
 } from './Item';
 import {IFormItemStore} from '../../store/formItem';
+
 export type OptionsControlComponent = React.ComponentType<FormControlProps>;
 
 import React from 'react';
@@ -206,6 +207,7 @@ export interface OptionsControlProps
   setLoading: (value: boolean) => void;
   reloadOptions: (setError?: boolean) => void;
   deferLoad: (option: Option) => void;
+  leftDeferLoad: (option: Option, leftOptions: Option) => void;
   expandTreeOptions: (nodePathArr: any[]) => void;
   onAdd?: (
     idx?: number | Array<number>,
@@ -300,7 +302,7 @@ export function registerOptionsControl(config: OptionsConfig) {
 
       if (formItem) {
         formItem.setOptions(
-          normalizeOptions(options),
+          normalizeOptions(options, undefined, valueField),
           this.changeOptionValue,
           data
         );
@@ -383,7 +385,7 @@ export function registerOptionsControl(config: OptionsConfig) {
 
       if (prevProps.options !== props.options && formItem) {
         formItem.setOptions(
-          normalizeOptions(props.options || []),
+          normalizeOptions(props.options || [], undefined, props.valueField),
           this.changeOptionValue,
           props.data
         );
@@ -409,7 +411,11 @@ export function registerOptionsControl(config: OptionsConfig) {
 
           if (prevOptions !== options) {
             formItem.setOptions(
-              normalizeOptions(options || []),
+              normalizeOptions(
+                options || [],
+                undefined,
+                props.valueField || 'value'
+              ),
               this.changeOptionValue,
               props.data
             );
@@ -707,14 +713,16 @@ export function registerOptionsControl(config: OptionsConfig) {
 
     @autobind
     reloadOptions(setError?: boolean, isInit = false) {
-      const {source, formItem, data, onChange, setPrinstineValue, selectFirst} =
+      const {source, formItem, data, onChange, setPrinstineValue, valueField} =
         this.props;
 
       if (formItem && isPureVariable(source as string)) {
         isAlive(formItem) &&
           formItem.setOptions(
             normalizeOptions(
-              resolveVariableAndFilter(source as string, data, '| raw') || []
+              resolveVariableAndFilter(source as string, data, '| raw') || [],
+              undefined,
+              valueField
             ),
             this.changeOptionValue,
             data
@@ -748,6 +756,27 @@ export function registerOptionsControl(config: OptionsConfig) {
       }
 
       formItem?.deferLoadOptions(option, api, createObject(data, option));
+    }
+
+    @autobind
+    leftDeferLoad(option: Option, leftOptions: Option) {
+      const {deferApi, source, env, formItem, data} = this.props;
+      const api = option.deferApi || deferApi || source;
+
+      if (!api) {
+        env.notify(
+          'error',
+          '请在选项中设置 `deferApi` 或者表单项中设置 `deferApi`，用来加载子选项。'
+        );
+        return;
+      }
+
+      formItem?.deferLoadLeftOptions(
+        option,
+        leftOptions,
+        api,
+        createObject(data, option)
+      );
     }
 
     @autobind
@@ -808,7 +837,9 @@ export function registerOptionsControl(config: OptionsConfig) {
       const formItem = this.props.formItem as IFormItemStore;
       formItem &&
         formItem.setOptions(
-          skipNormalize ? options : normalizeOptions(options || []),
+          skipNormalize
+            ? options
+            : normalizeOptions(options || [], undefined, this.props.valueField),
           this.changeOptionValue,
           this.props.data
         );
@@ -1169,6 +1200,7 @@ export function registerOptionsControl(config: OptionsConfig) {
           syncOptions={this.syncOptions}
           reloadOptions={this.reload}
           deferLoad={this.deferLoad}
+          leftDeferLoad={this.leftDeferLoad}
           expandTreeOptions={this.expandTreeOptions}
           creatable={
             creatable !== false && isEffectiveApi(addApi) ? true : creatable

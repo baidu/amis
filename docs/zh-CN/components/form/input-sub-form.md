@@ -179,3 +179,4 @@ order: 50
 | itemClassName      | `string`        | ``       | 值元素 CSS 类名                                        |
 | itemsClassName     | `string`        | ``       | 值包裹元素 CSS 类名                                    |
 | form               | [Form](./index) |          | 子表单配置，同 [Form](./index)                         |
+| addButtonText      | `string`        | ``       | 自定义新增一项的文本                                    |

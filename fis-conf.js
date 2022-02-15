@@ -173,7 +173,7 @@ fis.on('compile:optimizer', function (file) {
   }
 });
 
-fis.match('{*.ts,*.jsx,*.tsx,/src/**.js,/src/**.ts}', {
+fis.match('{*.ts,*.jsx,*.tsx,/examples/**.js,/src/**.js,/src/**.ts}', {
   parser: [
     // docsGennerator,
     fis.plugin('typescript', {
@@ -441,7 +441,7 @@ if (fis.project.currentMedia() === 'publish') {
     })
   });
 
-  env.match('{*.ts,*.jsx,*.tsx,/src/**.js,/src/**.ts}', {
+  env.match('{*.ts,*.jsx,*.tsx,/examples/**.js,/src/**.js,/src/**.ts}', {
     parser: [
       // docsGennerator,
       fis.plugin('typescript', {
@@ -497,7 +497,6 @@ if (fis.project.currentMedia() === 'publish') {
         '!hls.js/**',
         '!froala-editor/**',
         '!codemirror/**',
-
         '!tinymce/**',
         '!zrender/**',
         '!echarts/**',
@@ -515,6 +514,8 @@ if (fis.project.currentMedia() === 'publish') {
         '!tinycolor2/**',
         '!cropperjs/**',
         '!react-cropper/**',
+        '!jsbarcode/**',
+        '!src/components/BarCode.tsx',
         '!src/lib/renderers/Form/CityDB.js',
         '!src/components/Markdown.tsx',
         '!src/utils/markdown.ts',
@@ -559,6 +560,8 @@ if (fis.project.currentMedia() === 'publish') {
       ],
 
       'cropperjs.js': ['cropperjs/**', 'react-cropper/**'],
+
+      'barcode.js': ['src/components/BarCode.tsx', 'jsbarcode/**'],
 
       'charts.js': ['zrender/**', 'echarts/**', 'echarts-stat/**'],
 
@@ -796,6 +799,8 @@ if (fis.project.currentMedia() === 'publish') {
         '!tinycolor2/**',
         '!cropperjs/**',
         '!react-cropper/**',
+        '!jsbarcode/**',
+        '!src/components/BarCode.tsx',
         '!src/lib/renderers/Form/CityDB.js',
         '!src/components/Markdown.tsx',
         '!src/utils/markdown.ts',
@@ -818,6 +823,8 @@ if (fis.project.currentMedia() === 'publish') {
       'pkg/papaparse.js': ['papaparse/**'],
 
       'pkg/exceljs.js': ['exceljs/**'],
+
+      'pkg/barcode.js': ['src/components/BarCode.tsx', 'jsbarcode/**'],
 
       'pkg/markdown.js': [
         'src/components/Markdown.tsx',
@@ -971,7 +978,7 @@ if (fis.project.currentMedia() === 'publish') {
     url: 'null',
     useHash: false
   });
-  ghPages.match('{*.jsx,*.tsx,*.ts}', {
+  ghPages.match('{*.jsx,*.tsx,*.ts,/examples/**.js,}', {
     moduleId: function (m, path) {
       return fis.util.md5('amis' + path);
     },

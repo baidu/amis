@@ -6,6 +6,7 @@ import {anyChanged, getPropValue} from '../utils/helper';
 import {escapeHtml} from '../utils/tpl-builtin';
 import {BaseSchema, SchemaTpl} from '../Schema';
 import {BadgeSchema, withBadge} from '../components/Badge';
+import {buildStyle} from '../utils/style';
 
 /**
  * tpl 渲染器
@@ -104,7 +105,9 @@ export class Tpl extends React.Component<TplProps, object> {
       return;
     }
 
-    this.dom.firstChild.innerHTML = this.getContent();
+    this.dom.firstChild.innerHTML = this.props.env.filterHtml(
+      this.getContent()
+    );
   }
 
   render() {
@@ -113,7 +116,8 @@ export class Tpl extends React.Component<TplProps, object> {
       wrapperComponent,
       inline,
       classnames: cx,
-      style
+      style,
+      data
     } = this.props;
     const Component = wrapperComponent || (inline ? 'span' : 'div');
 
@@ -121,7 +125,7 @@ export class Tpl extends React.Component<TplProps, object> {
       <Component
         ref={this.htmlRef}
         className={cx('TplField', className)}
-        style={style}
+        style={buildStyle(style, data)}
       >
         <span>{this.getContent()}</span>
       </Component>

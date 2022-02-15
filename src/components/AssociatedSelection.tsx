@@ -86,6 +86,13 @@ export class AssociatedSelection extends BaseSelection<
     }
   }
 
+  @autobind
+  handleLeftDeferLoad(option: Option) {
+    const {leftOptions, onLeftDeferLoad} = this.props;
+
+    onLeftDeferLoad?.(option, leftOptions);
+  }
+
   handleRetry(option: Option) {
     const {onDeferLoad} = this.props;
     onDeferLoad?.(option);
@@ -106,7 +113,6 @@ export class AssociatedSelection extends BaseSelection<
       leftMode,
       cellRender,
       multiple,
-      onDeferLoad,
       itemRender
     } = this.props;
 
@@ -129,7 +135,7 @@ export class AssociatedSelection extends BaseSelection<
               onChange={this.handleLeftSelect}
               multiple={false}
               clearable={false}
-              onDeferLoad={onDeferLoad}
+              onDeferLoad={this.handleLeftDeferLoad}
             />
           ) : (
             <GroupedSelecton

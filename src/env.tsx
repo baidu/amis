@@ -11,6 +11,7 @@ import {
   RendererEventListener,
   EventListeners
 } from './utils/renderer-event';
+import {IScopedContext} from './Scoped';
 
 export interface RendererEnv {
   fetcher: (api: Api, data?: any, options?: object) => Promise<Payload>;
@@ -61,11 +62,28 @@ export interface RendererEnv {
   useMobileUI?: boolean;
   bindEvent: (context: any) => (() => void) | undefined;
   dispatchEvent: (
-    e: string | React.MouseEvent<any>,
+    e:
+      | string
+      | React.ClipboardEvent<any>
+      | React.DragEvent<any>
+      | React.ChangeEvent<any>
+      | React.KeyboardEvent<any>
+      | React.TouchEvent<any>
+      | React.WheelEvent<any>
+      | React.AnimationEvent<any>
+      | React.TransitionEvent<any>
+      | React.MouseEvent<any>,
     context: any,
-    data: any
+    scoped: IScopedContext,
+    data: any,
+    broadcast?: RendererEvent<any>
   ) => Promise<RendererEvent<any> | undefined>;
   rendererEventListeners: RendererEventListener[];
+
+  /**
+   * 过滤 html 标签，可用来添加 xss 保护逻辑
+   */
+  filterHtml: (input: string) => string;
   [propName: string]: any;
 }
 

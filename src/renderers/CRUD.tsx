@@ -376,7 +376,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
   ];
   static defaultProps = {
     toolbarInline: true,
-    headerToolbar: ['bulkActions', 'pagination'],
+    headerToolbar: ['bulkActions'],
     footerToolbar: ['statistics', 'pagination'],
     primaryField: 'id',
     syncLocation: true,
@@ -465,13 +465,20 @@ export default class CRUD extends React.Component<CRUDProps, any> {
   }
 
   componentDidMount() {
-    const store = this.props.store;
+    const {store, autoGenerateFilter, columns} = this.props;
 
     if (this.props.perPage) {
       store.changePage(store.page, this.props.perPage);
     }
 
-    if (!this.props.filter || (store.filterTogggable && !store.filterVisible)) {
+    // 没有 filter 或者 没有展示 filter 时应该默认初始化一次，
+    // 否则就应该等待 filter 里面的表单初始化的时候才初始化
+    // 另外autoGenerateFilter时，table 里面会单独处理这块逻辑
+    // 所以这里应该忽略 autoGenerateFilter 情况
+    if (
+      (!this.props.filter || (store.filterTogggable && !store.filterVisible)) &&
+      !autoGenerateFilter
+    ) {
       this.handleFilterInit({});
     }
 
@@ -1769,7 +1776,8 @@ export default class CRUD extends React.Component<CRUDProps, any> {
       classPrefix: ns,
       classnames: cx,
       translate: __,
-      loadDataOnce
+      loadDataOnce,
+      data
     } = this.props;
 
     const api = (toolbar as Schema).api;
@@ -1780,7 +1788,8 @@ export default class CRUD extends React.Component<CRUDProps, any> {
         onClick={() =>
           store.exportAsCSV({
             loadDataOnce,
-            api
+            api,
+            data
           })
         }
         size="sm"

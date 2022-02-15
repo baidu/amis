@@ -1,5 +1,3 @@
-// @ts-ignore
-import TimeView from 'react-datetime/src/TimeView';
 import moment from 'moment';
 import React from 'react';
 import {LocaleProps, localeable} from '../../locale';
@@ -9,15 +7,10 @@ import Picker from '../Picker';
 import {PickerColumnItem} from '../PickerColumn';
 import {getRange, isMobile} from '../../utils/helper';
 
-interface State {
-  daypart: any;
-  counters: Array<string>;
-  [propName: string]: any;
-}
-
-interface CustomTimeViewProps {
+interface CustomTimeViewProps extends LocaleProps {
   viewDate: moment.Moment;
   selectedDate: moment.Moment;
+  dateFormat?: boolean | string;
   subtractTime: (
     amount: number,
     type: string,
@@ -37,39 +30,212 @@ interface CustomTimeViewProps {
   useMobileUI: boolean;
   showToolbar?: boolean;
   onChange?: (value: any) => void;
-};
+}
 
-export class CustomTimeView extends TimeView {
-  props: CustomTimeViewProps & LocaleProps;
-  onStartClicking: any;
-  disableContextMenu: any;
-  updateMilli: any;
-  renderHeader: any;
-  pad: any;
-  state: State;
-  timeConstraints: any;
+interface CustomTimeViewState {
+  daypart: any;
+  hours: any;
+  counters: Array<string>;
+  [propName: string]: any;
+}
+
+type TimeScale = 'hours' | 'minutes' | 'seconds' | 'milliseconds';
+
+export class CustomTimeView extends React.Component<
+  CustomTimeViewProps & LocaleProps,
+  CustomTimeViewState
+> {
   padValues = {
     hours: 2,
     minutes: 2,
     seconds: 2,
     milliseconds: 3
   };
-  setState: (arg0: any) => () => any;
-  calculateState: (props: CustomTimeViewProps) => () => any;
+
+  timeConstraints = {
+    hours: {
+      min: 0,
+      max: 23,
+      step: 1
+    },
+    minutes: {
+      min: 0,
+      max: 59,
+      step: 1
+    },
+    seconds: {
+      min: 0,
+      max: 59,
+      step: 1
+    },
+    milliseconds: {
+      min: 0,
+      max: 999,
+      step: 1
+    }
+  };
 
   static defaultProps = {
     showToolbar: true
   };
 
-  
-  componentWillReceiveProps(nextProps: CustomTimeViewProps) {
-    if (nextProps.viewDate !== this.props.viewDate
-      || nextProps.selectedDate !== this.props.selectedDate
-      || nextProps.timeFormat !== this.props.timeFormat) {
-      this.setState(this.calculateState(nextProps));
-      }
+  timer?: any;
+  increaseTimer?: any;
+
+  constructor(props: any) {
+    super(props);
+    this.state = this.calculateState(this.props);
   }
-  
+
+  componentDidUpdate(preProps: CustomTimeViewProps) {
+    if (
+      preProps.viewDate !== this.props.viewDate ||
+      preProps.selectedDate !== this.props.selectedDate ||
+      preProps.timeFormat !== this.props.timeFormat
+    ) {
+      this.setState(this.calculateState(this.props));
+    }
+  }
+
+  onStartClicking(action: any, type: string) {
+    let me: any = this;
+
+    return function () {
+      let update: any = {};
+      update[type] = me[action](type);
+      me.setState(update);
+
+      me.timer = setTimeout(function () {
+        me.increaseTimer = setInterval(function () {
+          update[type] = me[action](type);
+          me.setState(update);
+        }, 70);
+      }, 500);
+
+      me.mouseUpListener = function () {
+        clearTimeout(me.timer);
+        clearInterval(me.increaseTimer);
+        me.props.setTime(type, me.state[type]);
+        document.body.removeEventListener('mouseup', me.mouseUpListener);
+        document.body.removeEventListener('touchend', me.mouseUpListener);
+      };
+
+      document.body.addEventListener('mouseup', me.mouseUpListener);
+      document.body.addEventListener('touchend', me.mouseUpListener);
+    };
+  }
+
+  updateMilli(e: any) {
+    var milli = parseInt(e.target.value, 10);
+    if (milli === e.target.value && milli >= 0 && milli < 1000) {
+      this.props.setTime('milliseconds', milli);
+      this.setState({milliseconds: milli});
+    }
+  }
+
+  renderHeader() {
+    if (!this.props.dateFormat) return null;
+
+    var date = this.props.selectedDate || this.props.viewDate;
+    return React.createElement(
+      'thead',
+      {key: 'h'},
+      React.createElement(
+        'tr',
+        {},
+        React.createElement(
+          'th',
+          {
+            className: 'rdtSwitch',
+            colSpan: 4,
+            onClick: this.props.showView('days')
+          },
+          date.format(this.props.dateFormat as string)
+        )
+      )
+    );
+  }
+
+  toggleDayPart(type: 'hours') {
+    // type is always 'hours'
+    var value = parseInt(this.state[type], 10) + 12;
+    if (value > this.timeConstraints[type].max)
+      value =
+        this.timeConstraints[type].min +
+        (value - (this.timeConstraints[type].max + 1));
+    return this.pad(type, value);
+  }
+
+  increase(type: TimeScale) {
+    var value =
+      parseInt(this.state[type], 10) + this.timeConstraints[type].step;
+    if (value > this.timeConstraints[type].max)
+      value =
+        this.timeConstraints[type].min +
+        (value - (this.timeConstraints[type].max + 1));
+    return this.pad(type, value);
+  }
+
+  decrease(type: TimeScale) {
+    var value =
+      parseInt(this.state[type], 10) - this.timeConstraints[type].step;
+    if (value < this.timeConstraints[type].min)
+      value =
+        this.timeConstraints[type].max +
+        1 -
+        (this.timeConstraints[type].min - value);
+    return this.pad(type, value);
+  }
+
+  pad(type: TimeScale, value: number) {
+    var str = value + '';
+    while (str.length < this.padValues[type]) str = '0' + str;
+    return str;
+  }
+
+  disableContextMenu(event: React.MouseEvent<any>) {
+    event.preventDefault();
+    return false;
+  }
+
+  calculateState(props: CustomTimeViewProps) {
+    var date = props.selectedDate || props.viewDate,
+      format = props.timeFormat,
+      counters = [];
+    if (format.toLowerCase().indexOf('h') !== -1) {
+      counters.push('hours');
+      if (format.indexOf('m') !== -1) {
+        counters.push('minutes');
+        if (format.indexOf('s') !== -1) {
+          counters.push('seconds');
+        }
+      }
+    }
+
+    var hours = parseInt(date.format('H'), 10);
+
+    let daypart: any = false;
+    if (
+      this.state !== null &&
+      this.props.timeFormat.toLowerCase().indexOf(' a') !== -1
+    ) {
+      if (this.props.timeFormat.indexOf(' A') !== -1) {
+        daypart = hours >= 12 ? 'PM' : 'AM';
+      } else {
+        daypart = hours >= 12 ? 'pm' : 'am';
+      }
+    }
+
+    return {
+      hours: hours,
+      minutes: date.format('mm'),
+      seconds: date.format('ss'),
+      milliseconds: date.format('SSS'),
+      daypart: daypart,
+      counters: counters
+    };
+  }
+
   renderDayPart = () => {
     const {translate: __, classnames: cx} = this.props;
     return (
@@ -118,7 +284,7 @@ export class CustomTimeView extends TimeView {
     return 0;
   };
 
-  renderCounter = (type: string) => {
+  renderCounter = (type: TimeScale | 'daypart') => {
     const cx = this.props.classnames;
     if (type !== 'daypart') {
       const value = this.getCounterValue(type);
@@ -180,7 +346,7 @@ export class CustomTimeView extends TimeView {
     if (
       hourIndex !== -1 &&
       this.state.daypart !== false &&
-      this.props.timeFormat.toLowerCase().indexOf(' a') !== -1 
+      this.props.timeFormat.toLowerCase().indexOf(' a') !== -1
     ) {
       const amMode: string = value.splice(-1, 1)[0] as string;
       let hour = (value[hourIndex] as number) % 12;
@@ -189,7 +355,8 @@ export class CustomTimeView extends TimeView {
       value[hourIndex] = hour;
     }
 
-    this.props.onConfirm && this.props.onConfirm(value as number[], this.state.counters);
+    this.props.onConfirm &&
+      this.props.onConfirm(value as number[], this.state.counters);
   };
 
   getDayPartOptions = () => {
@@ -206,24 +373,27 @@ export class CustomTimeView extends TimeView {
   };
 
   onPickerChange = (value: (number | string)[], index: number) => {
-    const time: {[prop:string]: any} = {};
-    this.state.counters.forEach((type, i) => time[type] = value[i]);
-    if (this.state.daypart !== false && index > this.state.counters.length -1) {
-      time.daypart = value[value.length -1];
+    const time: {[prop: string]: any} = {};
+    this.state.counters.forEach((type, i) => (time[type] = value[i]));
+    if (
+      this.state.daypart !== false &&
+      index > this.state.counters.length - 1
+    ) {
+      time.daypart = value[value.length - 1];
     }
-    this.setState((prevState: State) => {
-      return {...prevState, ...time}
+    this.setState((prevState: CustomTimeViewState) => {
+      return {...prevState, ...time};
     });
     this.props.onChange && this.props.onChange(value);
-  }
+  };
 
   renderTimeViewPicker = () => {
-    const {translate: __} =  this.props;
+    const {translate: __} = this.props;
     const title = __('Date.titleTime');
     const columns: PickerColumnItem[] = [];
     const values = [];
 
-    this.state.counters.forEach(type => {
+    this.state.counters.forEach((type: TimeScale | 'daypart') => {
       if (type !== 'daypart') {
         let {min, max, step} = this.timeConstraints[type];
         // 修正am pm时hours可选最大值
@@ -239,7 +409,7 @@ export class CustomTimeView extends TimeView {
             return {
               text: this.pad(type, item),
               value: item
-            }
+            };
           })
         });
         values.push(parseInt(this.state[type], 10));
@@ -263,7 +433,7 @@ export class CustomTimeView extends TimeView {
         onClose={this.props.onClose}
         showToolbar={this.props.showToolbar}
         onChange={this.onPickerChange}
-        />
+      />
     );
   };
 
@@ -276,7 +446,7 @@ export class CustomTimeView extends TimeView {
         <div className={cx('CalendarTime')}>{this.renderTimeViewPicker()}</div>
       );
     }
-    this.state.counters.forEach(c => {
+    this.state.counters.forEach((c: any) => {
       if (counters.length) {
         counters.push(
           <div

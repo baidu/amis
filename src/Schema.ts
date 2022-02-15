@@ -9,6 +9,7 @@ import {ButtonToolbarSchema} from './renderers/Form/ButtonToolbar';
 import {CardSchema} from './renderers/Card';
 import {CardsSchema} from './renderers/Cards';
 import {FormSchema} from './renderers/Form';
+import {CalendarSchema} from './renderers/Calendar';
 import {CarouselSchema} from './renderers/Carousel';
 import {ChartSchema} from './renderers/Chart';
 import {CollapseSchema} from './renderers/Collapse';
@@ -132,6 +133,7 @@ export type SchemaType =
   | 'cards'
   | 'carousel'
   | 'chart'
+  | 'calendar'
   | 'collapse'
   | 'collapse-group'
   | 'color'
@@ -183,6 +185,7 @@ export type SchemaType =
   | 'progress'
   | 'qrcode'
   | 'qr-code'
+  | 'barcode'
   | 'remark'
   | 'search-box'
   | 'service'
@@ -340,6 +343,7 @@ export type SchemaObject =
   | AvatarSchema
   | ButtonGroupSchema
   | ButtonToolbarSchema
+  | CalendarSchema
   | CardSchema
   | CardsSchema
   | CarouselSchema

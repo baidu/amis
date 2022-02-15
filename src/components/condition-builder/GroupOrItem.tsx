@@ -6,8 +6,10 @@ import {Icon} from '../icons';
 import {autobind} from '../../utils/helper';
 import ConditionGroup from './Group';
 import ConditionItem from './Item';
+import {FormulaPickerProps} from '../formula/Picker';
 
 export interface CBGroupOrItemProps extends ThemeProps {
+  builderMode?: 'simple' | 'full';
   config: Config;
   value?: ConditionGroupValue;
   fields: Fields;
@@ -22,6 +24,7 @@ export interface CBGroupOrItemProps extends ThemeProps {
   onDragStart?: (e: React.MouseEvent) => void;
   onRemove?: (index: number) => void;
   fieldClassName?: string;
+  formula?: FormulaPickerProps;
 }
 
 export class CBGroupOrItem extends React.Component<CBGroupOrItemProps> {
@@ -37,6 +40,7 @@ export class CBGroupOrItem extends React.Component<CBGroupOrItemProps> {
 
   render() {
     const {
+      builderMode,
       classnames: cx,
       fieldClassName,
       value,
@@ -47,11 +51,17 @@ export class CBGroupOrItem extends React.Component<CBGroupOrItemProps> {
       data,
       disabled,
       searchable,
-      onDragStart
+      onDragStart,
+      formula
     } = this.props;
 
     return (
-      <div className={cx('CBGroupOrItem')} data-id={value?.id}>
+      <div
+        className={cx(
+          `CBGroupOrItem${builderMode === 'simple' ? '-simple' : ''}`
+        )}
+        data-id={value?.id}
+      >
         <div className={cx('CBGroupOrItem-body')}>
           {draggable ? (
             <a
@@ -90,6 +100,7 @@ export class CBGroupOrItem extends React.Component<CBGroupOrItemProps> {
                 fieldClassName={fieldClassName}
                 funcs={funcs}
                 data={data}
+                formula={formula}
               />
               <a className={cx('CBDelete')} onClick={this.handleItemRemove}>
                 <Icon icon="close" className="icon" />

@@ -109,6 +109,8 @@ amisScoped.updateProps({
 });
 ```
 
+> 如果想使用 amis 1.2.2 之前的默认主题，名字是 ang
+
 ### 初始值
 
 可以通过 props 里的 data 属性来赋予 amis 顶层数据域的值，类似下面的例子。
@@ -143,7 +145,7 @@ let amisScoped = amis.embed(
   },
   {
     // 下面是一些可选的外部控制函数
-    // 在 skd 中可以不传，用来实现 ajax 请求，但在 npm 中这是必须提供的
+    // 在 sdk 中可以不传，用来实现 ajax 请求，但在 npm 中这是必须提供的
     // fetcher: (url, method, data, config) => {},
     // 全局 api 请求适配器
     // 另外在 amis 配置项中的 api 也可以配置适配器，针对某个特定接口单独处理。
@@ -227,35 +229,6 @@ amisScoped.updateProps(
 );
 ```
 
-### 销毁
-
-如果是单页应用，在离开当前页面的时候通常需要销毁实例，可以通过 unmount 方法来完成。
-
-```ts
-amisScoped.unmount();
-```
-
-### 切换主题
-
-jssdk 版本默认使用 `sdk.css` 即云舍主题，如果你想用使用仿 AntD 主题，请改成引用 `antd.css`。同时 js 渲染地方第四个参数传入 `theme` 属性。如：
-
-```js
-amis.embed(
-  '#root',
-  {
-    // amis schema
-  },
-  {
-    // 默认数据
-  },
-  {
-    theme: 'antd'
-  }
-);
-```
-
-> 如果想使用 amis 1.2.2 之前的默认主题，名字是 ang
-
 ### 多页模式
 
 默认 amis 渲染是单页模式，如果想实现多页应用，请使用 [app 渲染器](../../components/app)。
@@ -278,7 +251,9 @@ amisScoped.unmount();
 
 初始项目请参考 <https://github.com/aisuda/amis-react-starter>。
 
-如果在已有项目中，React 版本需要是 `^16.8.6`，mobx 需要 `^4.5.0`。
+如果在已有项目中，React 版本需要是 `>=16.8.6`，mobx 需要 `^4.5.0`。
+
+amis 1.6.5 及以上版本支持 React 17。
 
 ### 安装
 
@@ -354,7 +329,7 @@ module.exports = {
 
 ### 主题样式
 
-目前主要支持两个主题：`cxd（云舍）` 和 `angt（仿 Antd）`
+目前主要支持两个主题：`cxd（云舍）` 和 `antd（仿 Antd）`
 
 1. 引入样式文件：
 
@@ -377,6 +352,7 @@ import './node_modules/amis/sdk/iconfont.css';
 ```
 
 > 上面只是示例，请根据自己的项目结构调整引用路径
+> 如果要支持 IE 11 请引入 ./node_modules/amis/sdk/cxd-ie11.css，但这样就没法支持 CSS 变量了
 
 2. 渲染器使用配置主题
 
@@ -424,13 +400,19 @@ class MyComponent extends React.Component<any, any> {
   render() {
     let amisScoped;
     let theme = 'cxd';
+    let locale = 'zh-CN';
 
     // 请勿使用 React.StrictMode，目前还不支持
     return (
       <div>
         <p>通过 amis 渲染页面</p>
-        <ToastComponent theme={theme} key="toast" position={'top-right'} />
-        <AlertComponent theme={theme} key="alert" />
+        <ToastComponent
+          theme={theme}
+          key="toast"
+          position={'top-right'}
+          locale={locale}
+        />
+        <AlertComponent theme={theme} key="alert" locale={locale} />
         {renderAmis(
           {
             // 这里是 amis 的 Json 配置。

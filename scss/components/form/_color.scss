@@ -74,8 +74,6 @@
 
   &-clear {
     @include input-clear();
-    display: inline-block;
-    line-height: 1;
   }
 
   &-arrow {

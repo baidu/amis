@@ -185,7 +185,8 @@ export function normalizeOptions(
   } = {
     values: [],
     options: []
-  }
+  },
+  valueField = 'value'
 ): Options {
   if (typeof options === 'string') {
     return options.split(',').map(item => {
@@ -226,7 +227,7 @@ export function normalizeOptions(
     });
   } else if (Array.isArray(options as Options)) {
     return (options as Options).map(item => {
-      const value = item && item.value;
+      const value = item && item[valueField];
 
       const idx =
         value !== undefined && !item.children
@@ -243,7 +244,7 @@ export function normalizeOptions(
       };
 
       if (typeof option.children !== 'undefined') {
-        option.children = normalizeOptions(option.children, share);
+        option.children = normalizeOptions(option.children, share, valueField);
       } else if (value !== undefined) {
         share.values.push(value);
         share.options.push(option);

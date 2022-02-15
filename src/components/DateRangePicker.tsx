@@ -50,6 +50,8 @@ export interface DateRangePickerProps extends ThemeProps, LocaleProps {
   viewMode?: 'days' | 'months' | 'years' | 'time' | 'quarters';
   borderMode?: 'full' | 'half' | 'none';
   useMobileUI?: boolean;
+  onFocus?: Function;
+  onBlur?: Function;
 }
 
 export interface DateRangePickerState {
@@ -325,16 +327,20 @@ export class DateRangePicker extends React.Component<
     this.dom.current.blur();
   }
 
-  handleFocus() {
+  handleFocus(e: React.SyntheticEvent<HTMLDivElement>) {
     this.setState({
       isFocused: true
     });
+    const {onFocus} = this.props;
+    onFocus && onFocus(e);
   }
 
-  handleBlur() {
+  handleBlur(e: React.SyntheticEvent<HTMLDivElement>) {
     this.setState({
       isFocused: false
     });
+    const {onBlur} = this.props;
+    onBlur && onBlur(e);
   }
 
   open() {
@@ -426,7 +432,7 @@ export class DateRangePicker extends React.Component<
 
     if (
       startDate &&
-      !endDate &&
+      (!endDate || (endDate && newValue.isSame(startDate))) && // 没有结束时间，或者新的时间也是开始时间，这时都会将新值当成结束时间
       newValue.isSameOrAfter(startDate) &&
       (!minDuration || newValue.isAfter(startDate.clone().add(minDuration))) &&
       (!maxDuration || newValue.isBefore(startDate.clone().add(maxDuration)))
@@ -885,7 +891,7 @@ export class DateRangePicker extends React.Component<
 
         {clearable && !disabled && value ? (
           <a className={`${ns}DateRangePicker-clear`} onClick={this.clearValue}>
-            <Icon icon="close" className="icon" />
+            <Icon icon="input-clear" className="icon" />
           </a>
         ) : null}
 

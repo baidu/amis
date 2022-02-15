@@ -1,37 +1,131 @@
-// @ts-ignore
-import YearsView from 'react-datetime/src/YearsView';
 import moment from 'moment';
 import React from 'react';
 import {LocaleProps, localeable} from '../../locale';
 import Picker from '../Picker';
 import {getRange, isMobile} from '../../utils/helper';
 
-export class CustomYearsView extends YearsView {
-  props: {
-    viewDate: moment.Moment;
-    selectedDate: moment.Moment;
-    subtractTime: (
-      amount: number,
-      type: string,
-      toSelected?: moment.Moment
-    ) => () => void;
-    addTime: (
-      amount: number,
-      type: string,
-      toSelected?: moment.Moment
-    ) => () => void;
-    showView: (view: string) => () => void;
-    minDate?: moment.Moment;
-    maxDate?: moment.Moment;
-    onChange?: () => void;
-    onClose?: () => void;
-    onConfirm?: (value: number[], types: string[]) => void;
-    useMobileUI: boolean;
-  } & LocaleProps;
+interface CustomYearsViewProps extends LocaleProps {
+  viewDate: moment.Moment;
+  selectedDate: moment.Moment;
+  subtractTime: (
+    amount: number,
+    type: string,
+    toSelected?: moment.Moment
+  ) => () => void;
+  addTime: (
+    amount: number,
+    type: string,
+    toSelected?: moment.Moment
+  ) => () => void;
+  showView: (view: string) => () => void;
+  minDate?: moment.Moment;
+  maxDate?: moment.Moment;
+  onChange?: () => void;
+  onClose?: () => void;
+  onConfirm?: (value: number[], types: string[]) => void;
+  useMobileUI: boolean;
+  updateOn?: string;
+  setDate?: (date: string) => void;
+  renderYear?: (props: any, year: number) => JSX.Element;
+  updateSelectedDate: (event: React.MouseEvent<any>, close?: boolean) => void;
+  isValidDate?: (
+    currentDate: moment.Moment,
+    selected?: moment.Moment
+  ) => boolean;
+}
+
+export class CustomYearsView extends React.Component<CustomYearsViewProps> {
   state: {pickerValue: number[]};
-  setState: (arg0: any) => () => any;
-  renderYears: (year: number) => JSX.Element;
-  renderYear = (props: any, year: number) => {
+
+  constructor(props: any) {
+    super(props);
+
+    const {selectedDate, viewDate} = props;
+    const currentDate = selectedDate || viewDate || moment();
+
+    this.state = {
+      pickerValue: currentDate.toObject().years
+    };
+
+    this.updateSelectedYear = this.updateSelectedYear.bind(this);
+  }
+
+  renderYears(year: number) {
+    let years = [],
+      i = -1,
+      rows = [],
+      renderer = this.props.renderYear || this.renderYear,
+      selectedDate = this.props.selectedDate,
+      isValid = this.props.isValidDate || this.alwaysValidDate,
+      classes,
+      props,
+      currentYear: moment.Moment,
+      isDisabled,
+      noOfDaysInYear,
+      daysInYear,
+      validDay,
+      // Month and date are irrelevant here because
+      // we're only interested in the year
+      irrelevantMonth = 0,
+      irrelevantDate = 1;
+    year--;
+    while (i < 11) {
+      classes = 'rdtYear';
+      currentYear = this.props.viewDate
+        .clone()
+        .set({year: year, month: irrelevantMonth, date: irrelevantDate});
+
+      // Not sure what 'rdtOld' is for, commenting out for now as it's not working properly
+      // if ( i === -1 | i === 10 )
+      // classes += ' rdtOld';
+
+      noOfDaysInYear = parseInt(currentYear.endOf('year').format('DDD'), 10);
+      daysInYear = Array.from({length: noOfDaysInYear}, function (e, i) {
+        return i + 1;
+      });
+
+      validDay = daysInYear.find(function (d) {
+        var day = currentYear.clone().dayOfYear(d);
+        return isValid(day);
+      });
+
+      isDisabled = validDay === undefined;
+
+      if (isDisabled) classes += ' rdtDisabled';
+
+      if (selectedDate && selectedDate.year() === year) classes += ' rdtActive';
+
+      props = {
+        'key': year,
+        'data-value': year,
+        'className': classes
+      };
+
+      if (!isDisabled)
+        (props as any).onClick =
+          this.props.updateOn === 'years'
+            ? this.updateSelectedYear
+            : this.props.setDate && this.props.setDate('year');
+
+      years.push(renderer(props, year, selectedDate && selectedDate.clone()));
+
+      if (years.length === 4) {
+        rows.push(React.createElement('tr', {key: i}, years));
+        years = [];
+      }
+
+      year++;
+      i++;
+    }
+
+    return rows;
+  }
+
+  updateSelectedYear(event: any) {
+    this.props.updateSelectedDate(event);
+  }
+
+  renderYear = (props: any, year: number, date?: moment.Moment) => {
     return (
       <td {...props}>
         <span>{year}</span>
@@ -39,27 +133,22 @@ export class CustomYearsView extends YearsView {
     );
   };
 
-  constructor(props: any) {
-    super(props);
-
-    const {selectedDate, viewDate} =  props;
-    const currentDate = (selectedDate || viewDate || moment());
-
-    this.state = {
-      pickerValue: currentDate.toObject().years
-    }
-  }
-
   onConfirm = (value: number[]) => {
     this.props.onConfirm && this.props.onConfirm(value, ['year']);
   };
 
   onPickerChange = (value: number[]) => {
     this.setState({pickerValue: value[0]});
-  }
+  };
 
   renderYearPicker = () => {
-    const {translate: __, minDate, maxDate, selectedDate, viewDate} = this.props;
+    const {
+      translate: __,
+      minDate,
+      maxDate,
+      selectedDate,
+      viewDate
+    } = this.props;
     const year = (selectedDate || viewDate || moment()).year();
     const maxYear = maxDate ? maxDate.toObject().years : year + 100;
     const minYear = minDate ? minDate.toObject().years : year - 100;
@@ -84,6 +173,10 @@ export class CustomYearsView extends YearsView {
       />
     );
   };
+
+  alwaysValidDate() {
+    return true;
+  }
 
   render() {
     let year = this.props.viewDate.year();

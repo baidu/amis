@@ -18,7 +18,9 @@ export interface ListenerAction {
   actionType: 'broadcast' | LogicActionType | 'custom' | string; // 动作类型 逻辑动作|自定义（脚本支撑）|reload|url|ajax|dialog|drawer 其他扩充的组件动作
   eventName?: string; // 事件名称，actionType: broadcast
   description?: string; // 事件描述，actionType: broadcast
+  componentId?: string; // 组件ID，用于直接执行指定组件的动作
   args?: any; // 参数，可以配置数据映射
+  outputVar?: any; // 输出数据变量名
   preventDefault?: boolean; // 阻止原有组件的动作行为
   stopPropagation?: boolean; // 阻止后续的事件处理器执行
   execOn?: string; // 执行条件
@@ -70,7 +72,19 @@ export const runActions = async (
   for (const actionConfig of actions) {
     let actionInstrance = getActionByType(actionConfig.actionType);
 
-    // 找不到就通过组件动作完成
+    // 如果存在指定组件ID，说明是组件专有动作
+    if (!actionInstrance && actionConfig.componentId) {
+      actionInstrance = getActionByType('component');
+    } else if (
+      actionConfig.actionType === 'url' ||
+      actionConfig.actionType === 'link' ||
+      actionConfig.actionType === 'jump'
+    ) {
+      // 打开页面动作
+      actionInstrance = getActionByType('openlink');
+    }
+
+    // 找不到就通过组件专有动作完成
     if (!actionInstrance) {
       actionInstrance = getActionByType('component');
     }

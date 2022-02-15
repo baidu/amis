@@ -15,6 +15,9 @@ register('zh-CN', {
   'Calendar.toast': '超出日期范围',
   'Calendar.startPick': '选择开始时间',
   'Calendar.endPick': '选择结束时间',
+  'Schedule': '日程',
+  'Time': '时间',
+  'Content': '内容',
   'cancel': '取消',
   'Card.dragTip': '请拖动顶部的按钮进行排序',
   'Card.toggleDrag': '对卡片进行排序操作',
@@ -98,6 +101,7 @@ register('zh-CN', {
   'Embed.invalidRoot': '选择器不对，页面上没有此元素',
   'Embed.downloading': '文件即将开始下载',
   'Excel.placeholder': '拖拽 Excel 到这，或点击上传',
+  'Excel.parsed': '已解析 {{filename}}',
   'fetchFailed': '初始化失败',
   'File.continueAdd': '继续添加',
   'File.downloadTpl': '下载模板',
@@ -111,7 +115,7 @@ register('zh-CN', {
   'File.result': '已成功上传 {{uploaded}} 个文件，{{failed}} 个文件上传失败，',
   'File.retry': '重试上传',
   'File.start': '开始上传',
-  'File.upload': '上传文件',
+  'File.upload': '已上传',
   'File.uploadFailed': '接口返回错误，请仔细检查',
   'File.uploading': '上传中...',
   'Form.loadOptionsFailed': '加载选项失败，原因：{{reason}}',
@@ -275,5 +279,9 @@ register('zh-CN', {
   'Condition.blank': '空',
   'InputTable.uniqueError': '列`{{label}}`没有通过唯一验证',
   'Timeline.collapseText': '展开',
-  'Timeline.expandText': '折叠'
+  'Timeline.expandText': '折叠',
+  'FormulaEditor.btnLabel': '公式编辑',
+  'FormulaEditor.title': '公式编辑器',
+  'FormulaEditor.variable': '变量',
+  'FormulaEditor.function': '函数'
 });
