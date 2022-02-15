@@ -31,13 +31,7 @@ export class CmptAction implements Action {
         : renderer;
 
     // 执行组件动作
-    return (
-      (await component.props.onAction?.(
-        event.context.nativeEvent,
-        action,
-        action.args
-      )) || component.doAction?.(action, action.args)
-    );
+    return component.doAction?.(action, action.args);
   }
 }
 

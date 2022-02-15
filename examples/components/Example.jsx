@@ -80,6 +80,7 @@ import SwitchEventSchema from './EventAction/SwitchEvent';
 import TabsEventSchema from './EventAction/TabsEvent';
 import UploadEventSchema from './EventAction/UploadEvent';
 import SelectEventActionSchema from './EventAction/SelectEvent';
+import ButtonEventActionSchema from './EventAction/ButtonEvent';
 import WizardSchema from './Wizard';
 import ChartSchema from './Chart';
 import EChartsEditorSchema from './ECharts';
@@ -534,6 +535,11 @@ export const examples = [
             path: '/examples/event-action/cmpt',
             component: makeSchemaRenderer(CmptEventActionSchema),
             children: [
+              {
+                label: '按钮类组件',
+                path: '/examples/event/button',
+                component: makeSchemaRenderer(ButtonEventActionSchema)
+              },
               {
                 label: '输入类组件',
                 path: '/examples/event/input',
