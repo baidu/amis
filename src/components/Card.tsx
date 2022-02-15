@@ -1,6 +1,7 @@
 import React from 'react';
 import {isClickOnInput} from '../utils/helper';
 import {ClassNamesFn, themeable, ThemeProps} from '../theme';
+import {buildStyle} from '../utils/style';
 export interface CardProps extends ThemeProps {
   className?: string;
   headerClassName?: string;
@@ -29,6 +30,7 @@ export interface CardProps extends ThemeProps {
   secondary?: string | JSX.Element;
   onClick?: (e: React.MouseEvent<HTMLDivElement>) => void;
   classnames: ClassNamesFn;
+  data?: any;
 }
 
 export class Card extends React.Component<CardProps> {
@@ -88,7 +90,8 @@ export class Card extends React.Component<CardProps> {
       descriptionPlaceholder,
       secondary,
       avatar,
-      avatarText
+      avatarText,
+      data
     } = this.props;
 
     let heading = null;
@@ -111,7 +114,7 @@ export class Card extends React.Component<CardProps> {
           ) : avatarText ? (
             <span
               className={cx('Card-avtarText', avatarTextClassName)}
-              style={avatarTextStyle}
+              style={buildStyle(avatarTextStyle, data)}
             >
               {avatarText}
             </span>

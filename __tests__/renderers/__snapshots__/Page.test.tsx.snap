@@ -4,7 +4,6 @@ exports[`Renderer:Page 1`] = `
 <div
   className="cxd-Page"
   onClick={[Function]}
-  style={Object {}}
 >
   <div
     className="cxd-Page-content"
@@ -89,7 +88,6 @@ exports[`Renderer:Page classNames 1`] = `
 <div
   className="cxd-Page cxd-Page--withSidebar"
   onClick={[Function]}
-  style={Object {}}
 >
   <div
     className="cxd-Page-aside cxd-Page-aside--withWidth aside-class-name"
@@ -1056,7 +1054,6 @@ exports[`Renderer:Page initApi 1`] = `
 <div
   className="cxd-Page"
   onClick={[Function]}
-  style={Object {}}
 >
   <div
     className="cxd-Page-content"
@@ -1090,7 +1087,6 @@ exports[`Renderer:Page initApi error show Message 1`] = `
 <div
   className="cxd-Page"
   onClick={[Function]}
-  style={Object {}}
 >
   <div
     className="cxd-Page-content"
@@ -1140,7 +1136,6 @@ exports[`Renderer:Page initApi reFetch when condition changes 1`] = `
 <div
   className="cxd-Page"
   onClick={[Function]}
-  style={Object {}}
 >
   <div
     className="cxd-Page-content"
@@ -1174,7 +1169,6 @@ exports[`Renderer:Page initApi reFetch when condition changes 2`] = `
 <div
   className="cxd-Page"
   onClick={[Function]}
-  style={Object {}}
 >
   <div
     className="cxd-Page-content"
@@ -2120,7 +2114,6 @@ exports[`Renderer:Page initApi show loading 1`] = `
 <div
   className="cxd-Page"
   onClick={[Function]}
-  style={Object {}}
 >
   <div
     className="cxd-Page-content"
@@ -2154,7 +2147,6 @@ exports[`Renderer:Page initApi show loading 2`] = `
 <div
   className="cxd-Page"
   onClick={[Function]}
-  style={Object {}}
 >
   <div
     className="cxd-Page-content"
@@ -2188,7 +2180,6 @@ exports[`Renderer:Page initApi silentPolling 1`] = `
 <div
   className="cxd-Page"
   onClick={[Function]}
-  style={Object {}}
 >
   <div
     className="cxd-Page-content"
@@ -2222,7 +2213,6 @@ exports[`Renderer:Page initApi silentPolling 2`] = `
 <div
   className="cxd-Page"
   onClick={[Function]}
-  style={Object {}}
 >
   <div
     className="cxd-Page-content"
@@ -2256,7 +2246,6 @@ exports[`Renderer:Page initApi silentPolling 3`] = `
 <div
   className="cxd-Page"
   onClick={[Function]}
-  style={Object {}}
 >
   <div
     className="cxd-Page-content"
@@ -2284,7 +2273,6 @@ exports[`Renderer:Page initApi silentPolling 4`] = `
 <div
   className="cxd-Page"
   onClick={[Function]}
-  style={Object {}}
 >
   <div
     className="cxd-Page-content"
@@ -2312,7 +2300,6 @@ exports[`Renderer:Page initData 1`] = `
 <div
   className="cxd-Page"
   onClick={[Function]}
-  style={Object {}}
 >
   <div
     className="cxd-Page-content"
@@ -2340,7 +2327,6 @@ exports[`Renderer:Page initFetchOn trigger initApi fetch when condition becomes 
 <div
   className="cxd-Page"
   onClick={[Function]}
-  style={Object {}}
 >
   <div
     className="cxd-Page-content"
@@ -2374,7 +2360,6 @@ exports[`Renderer:Page location query 1`] = `
 <div
   className="cxd-Page"
   onClick={[Function]}
-  style={Object {}}
 >
   <div
     className="cxd-Page-content"
@@ -2402,7 +2387,6 @@ exports[`Renderer:Page location query 2`] = `
 <div
   className="cxd-Page"
   onClick={[Function]}
-  style={Object {}}
 >
   <div
     className="cxd-Page-content"
