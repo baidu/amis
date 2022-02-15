@@ -179,11 +179,16 @@ export default class Tabs extends React.Component<TabsProps, TabsState> {
     unmountOnExit: false
   };
 
+  static contextType = ScopedContext;
+
   renderTab?: (tab: TabSchema, props: TabsProps, index: number) => JSX.Element;
   activeKey: any;
 
-  constructor(props: TabsProps) {
+  constructor(props: TabsProps, context: IScopedContext) {
     super(props);
+
+    const scoped = context;
+    scoped.registerComponent(this);
 
     const location = props.location || window.location;
     const tabs = props.tabs;
@@ -320,6 +325,11 @@ export default class Tabs extends React.Component<TabsProps, TabsState> {
         this.handleChange((tab as any).value ?? tab.title, name);
       }
     }
+  }
+
+  componentWillUnmount() {
+    const scoped = this.context as IScopedContext;
+    scoped.unRegisterComponent(this);
   }
 
   resolveTabByKey(key: any) {
@@ -609,6 +619,7 @@ export default class Tabs extends React.Component<TabsProps, TabsState> {
   }
 }
 @Renderer({
-  type: 'tabs'
+  type: 'tabs',
+  isolateScope: true,
 })
 export class TabsRenderer extends Tabs {}
