@@ -2,6 +2,7 @@ import React from 'react';
 import {Renderer, RendererProps} from '../factory';
 import {BaseSchema, SchemaClassName, SchemaCollection} from '../Schema';
 import {SchemaNode} from '../types';
+import {buildStyle} from '../utils/style';
 
 /**
  * Container 容器渲染器。
@@ -80,14 +81,18 @@ export default class Container<T> extends React.Component<
       wrapperComponent,
       size,
       classnames: cx,
-      style
+      style,
+      data
     } = this.props;
 
     const Component =
       (wrapperComponent as keyof JSX.IntrinsicElements) || 'div';
 
     return (
-      <Component className={cx('Container', className)} style={style}>
+      <Component
+        className={cx('Container', className)}
+        style={buildStyle(style, data)}
+      >
         {this.renderBody()}
       </Component>
     );

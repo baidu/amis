@@ -4,6 +4,7 @@ import {BaseSchema, SchemaCollection} from '../Schema';
 import {resolveVariable} from '../utils/tpl-builtin';
 import {SchemaNode} from '../types';
 import mapValues from 'lodash/mapValues';
+import {buildStyle} from '../utils/style';
 
 /**
  * Wrapper 容器渲染器。
@@ -65,11 +66,6 @@ export default class Wrapper extends React.Component<WrapperProps, object> {
       return this.renderBody();
     }
 
-    let styleVar =
-      typeof style === 'string'
-        ? resolveVariable(style, data) || {}
-        : mapValues(style, s => resolveVariable(s, data) || s);
-
     return (
       <div
         className={cx(
@@ -77,7 +73,7 @@ export default class Wrapper extends React.Component<WrapperProps, object> {
           size && size !== 'none' ? `Wrapper--${size}` : '',
           className
         )}
-        style={styleVar}
+        style={buildStyle(style, data)}
       >
         {this.renderBody()}
       </div>
