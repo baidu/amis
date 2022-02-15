@@ -73,45 +73,57 @@ exports[`Renderer:tabs-transfer 1`] = `
                         <div
                           class="cxd-Tabs cxd-Tabs--card cxd-TabsTransfer-tabs"
                         >
-                          <ul
-                            class="cxd-Tabs-links"
-                            role="tablist"
+                          <div
+                            class="cxd-Tabs-linksContainer-wrapper"
                           >
-                            <li
-                              class="cxd-Tabs-link is-active"
-                            >
-                              <a>
-                                成员
-                              </a>
-                            </li>
-                            <li
-                              class="cxd-Tabs-link"
-                            >
-                              <a>
-                                用户
-                              </a>
-                            </li>
-                            <span
-                              class="cxd-TabsTransfer-tabsMid"
-                            />
                             <div
-                              class="cxd-SearchBox"
+                              class="cxd-Tabs-linksContainer"
                             >
-                              <input
-                                autocomplete="off"
-                                placeholder="请输入"
-                                value=""
-                              />
-                              <a
-                                class="cxd-SearchBox-activeBtn"
+                              <div
+                                class="cxd-Tabs-linksContainer-main"
                               >
-                                <icon-mock
-                                  classname="icon icon-search"
-                                  icon="search"
-                                />
-                              </a>
+                                <ul
+                                  class="cxd-Tabs-links"
+                                  role="tablist"
+                                >
+                                  <li
+                                    class="cxd-Tabs-link is-active"
+                                  >
+                                    <a>
+                                      成员
+                                    </a>
+                                  </li>
+                                  <li
+                                    class="cxd-Tabs-link"
+                                  >
+                                    <a>
+                                      用户
+                                    </a>
+                                  </li>
+                                  <span
+                                    class="cxd-TabsTransfer-tabsMid"
+                                  />
+                                  <div
+                                    class="cxd-SearchBox"
+                                  >
+                                    <input
+                                      autocomplete="off"
+                                      placeholder="请输入"
+                                      value=""
+                                    />
+                                    <a
+                                      class="cxd-SearchBox-activeBtn"
+                                    >
+                                      <icon-mock
+                                        classname="icon icon-search"
+                                        icon="search"
+                                      />
+                                    </a>
+                                  </div>
+                                </ul>
+                              </div>
                             </div>
-                          </ul>
+                          </div>
                           <div
                             class="cxd-Tabs-content"
                           >
