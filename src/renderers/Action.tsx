@@ -386,7 +386,7 @@ const ActionProps = [
 ];
 import {filterContents} from './Remark';
 import {ClassNamesFn, themeable, ThemeProps} from '../theme';
-import {autobind} from '../utils/helper';
+import {autobind, createObject} from '../utils/helper';
 import {
   BaseSchema,
   FeedbackDialog,
@@ -833,7 +833,10 @@ export class ActionRenderer extends React.Component<
     const {env, onAction, data, ignoreConfirm, dispatchEvent} = this.props;
 
     // 触发渲染器事件
-    const rendererEvent = await dispatchEvent(e as React.MouseEvent<any>, data);
+    const rendererEvent = await dispatchEvent(
+      e as React.MouseEvent<any>,
+      createObject(data, action)
+    );
 
     // 阻止原有动作执行
     if (rendererEvent?.prevented) {
