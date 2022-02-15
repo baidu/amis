@@ -45,6 +45,8 @@ export interface SwitchProps extends FormControlProps {
   falseValue?: any;
 }
 
+export type SwitchRendererEvent = 'change';
+
 export default class SwitchControl extends React.Component<SwitchProps, any> {
   static defaultProps = {
     trueValue: true,
