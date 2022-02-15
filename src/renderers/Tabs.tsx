@@ -168,6 +168,9 @@ export interface TabsState {
   prevKey: any;
 }
 
+export type TabsRendererEvent = 'change';
+export type TabsRendererAction = 'changeActiveKey';
+
 export default class Tabs extends React.Component<TabsProps, TabsState> {
   static defaultProps: Partial<TabsProps> = {
     className: '',
@@ -176,16 +179,11 @@ export default class Tabs extends React.Component<TabsProps, TabsState> {
     unmountOnExit: false
   };
 
-  static contextType = ScopedContext;
-
   renderTab?: (tab: TabSchema, props: TabsProps, index: number) => JSX.Element;
   activeKey: any;
 
-  constructor(props: TabsProps, context: IScopedContext) {
+  constructor(props: TabsProps) {
     super(props);
-
-    const scoped = context;
-    scoped.registerComponent(this);
 
     const location = props.location || window.location;
     const tabs = props.tabs;
@@ -322,11 +320,6 @@ export default class Tabs extends React.Component<TabsProps, TabsState> {
         this.handleChange((tab as any).value ?? tab.title, name);
       }
     }
-  }
-
-  componentWillUnmount() {
-    const scoped = this.context as IScopedContext;
-    scoped.unRegisterComponent(this);
   }
 
   resolveTabByKey(key: any) {
@@ -616,7 +609,6 @@ export default class Tabs extends React.Component<TabsProps, TabsState> {
   }
 }
 @Renderer({
-  type: 'tabs',
-  isolateScope: true,
+  type: 'tabs'
 })
 export class TabsRenderer extends Tabs {}
