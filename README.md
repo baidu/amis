@@ -25,6 +25,7 @@
 ![license](https://img.shields.io/github/license/baidu/amis.svg)
 ![version](https://img.shields.io/npm/v/amis)
 ![language](https://img.shields.io/github/languages/top/baidu/amis)
+[![codecov](https://codecov.io/gh/baidu/amis/branch/master/graph/badge.svg?token=9LwimHGoE5)](https://codecov.io/gh/baidu/amis)
 ![last](https://img.shields.io/github/last-commit/baidu/amis.svg)
 
 </div>
