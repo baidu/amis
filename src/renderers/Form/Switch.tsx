@@ -1,6 +1,7 @@
 import React from 'react';
 import {FormItem, FormControlProps, FormBaseControl} from './Item';
 import Switch from '../../components/Switch';
+import {createObject, autobind} from '../../utils/helper';
 
 /**
  * Switch
@@ -50,6 +51,20 @@ export default class SwitchControl extends React.Component<SwitchProps, any> {
     falseValue: false,
     optionAtLeft: false
   };
+
+  @autobind
+  async handleChange(checked: string | number | boolean) {
+    const {dispatchEvent, data, onChange} = this.props;
+    const rendererEvent = await dispatchEvent('change', createObject(data, {
+      value: checked,
+    }));
+    if (rendererEvent?.prevented) {
+      return;
+    }
+
+    onChange && onChange(checked);
+  }
+
   render() {
     const {
       className,
@@ -80,7 +95,7 @@ export default class SwitchControl extends React.Component<SwitchProps, any> {
           onText={onText}
           offText={offText}
           disabled={disabled}
-          onChange={onChange}
+          onChange={this.handleChange}
         />
 
         {optionAtLeft ? null : (
