@@ -28,6 +28,7 @@ import {
 } from '../utils/tpl-builtin';
 import {FormSchemaHorizontal} from './Form/index';
 import {str2AsyncFunction} from '../utils/api';
+import {ScopedContext, IScopedContext} from '../Scoped';
 
 export interface TabSchema extends Omit<BaseSchema, 'type'> {
   /**
@@ -175,11 +176,16 @@ export default class Tabs extends React.Component<TabsProps, TabsState> {
     unmountOnExit: false
   };
 
+  static contextType = ScopedContext;
+
   renderTab?: (tab: TabSchema, props: TabsProps, index: number) => JSX.Element;
   activeKey: any;
 
-  constructor(props: TabsProps) {
+  constructor(props: TabsProps, context: IScopedContext) {
     super(props);
+
+    const scoped = context;
+    scoped.registerComponent(this);
 
     const location = props.location || window.location;
     const tabs = props.tabs;
@@ -230,7 +236,7 @@ export default class Tabs extends React.Component<TabsProps, TabsState> {
     } else {
       const tab = this.resolveTabByKey(this.activeKey);
       if (tab && value !== ((tab as any).value ?? tab.title)) {
-        onChange((tab as any).value ?? tab.title, name);
+        this.handleChange((tab as any).value ?? tab.title, name);
       }
     }
   }
@@ -313,9 +319,14 @@ export default class Tabs extends React.Component<TabsProps, TabsState> {
     } else if (this.activeKey !== prevState.activeKey) {
       const tab = this.resolveTabByKey(this.activeKey);
       if (tab && value !== ((tab as any).value ?? tab.title)) {
-        onChange((tab as any).value ?? tab.title, name);
+        this.handleChange((tab as any).value ?? tab.title, name);
       }
     }
+  }
+
+  componentWillUnmount() {
+    const scoped = this.context as IScopedContext;
+    scoped.unRegisterComponent(this);
   }
 
   resolveTabByKey(key: any) {
@@ -405,6 +416,30 @@ export default class Tabs extends React.Component<TabsProps, TabsState> {
       selectFunc && selectFunc(key, this.props);
     } else if (typeof onSelect === 'function') {
       onSelect(key, this.props);
+    }
+  }
+
+  @autobind
+  async handleChange(key: any, name: any) {
+    const {dispatchEvent, data, onChange} = this.props;
+    const rendererEvent = await dispatchEvent('change', createObject(data, {
+      value: key,
+    }));
+    if (rendererEvent?.prevented) {
+      return;
+    }
+
+    onChange && onChange(key, name);
+  }
+
+  /**
+   * 动作处理
+   */
+  doAction(action: Action, args: any) {
+    const actionType = action?.actionType as string;
+    const activeKey = action?.activeKey as number;
+    if (actionType === 'changeActiveKey') {
+      this.handleSelect(activeKey);
     }
   }
 
@@ -581,6 +616,7 @@ export default class Tabs extends React.Component<TabsProps, TabsState> {
   }
 }
 @Renderer({
-  type: 'tabs'
+  type: 'tabs',
+  isolateScope: true,
 })
 export class TabsRenderer extends Tabs {}

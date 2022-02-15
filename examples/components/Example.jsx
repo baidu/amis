@@ -75,6 +75,8 @@ import StopEventActionSchema from './EventAction/Stop';
 import DataFlowEventActionSchema from './EventAction/DataFlow';
 import InputEventSchema from './EventAction/InputEvent';
 import DateEventSchema from './EventAction/DateEvent';
+import SwitchEventSchema from './EventAction/SwitchEvent';
+import TabsEventSchema from './EventAction/TabsEvent';
 import UploadEventSchema from './EventAction/UploadEvent';
 import SelectEventActionSchema from './EventAction/SelectEvent';
 import WizardSchema from './Wizard';
@@ -550,6 +552,16 @@ export const examples = [
                 label: '时间类组件',
                 path: 'examples/event/date',
                 component: makeSchemaRenderer(DateEventSchema)
+              },
+              {
+                label: '开关组件',
+                path: 'examples/event/switch',
+                component: makeSchemaRenderer(SwitchEventSchema)
+              },
+              {
+                label: '标签页组件',
+                path: 'examples/event/tabs',
+                component: makeSchemaRenderer(TabsEventSchema)
               }
             ]
           },
