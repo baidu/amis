@@ -35,6 +35,19 @@ export class ConditionField extends React.Component<
     this.onSearch = this.onSearch.bind(this);
   }
 
+  static getDerivedStateFromProps(
+    nextProps: ConditionFieldProps,
+    preState: ConditionFieldState
+  ) {
+    // 远程拉取且有默认值时组件会提前渲染 导致 state.options 为空。这里如果 props.options 有值或者检索结果为空就使用 props.options 的值
+    if (nextProps.options.length && !preState.options.length) {
+      return {
+        options: nextProps.options
+      };
+    }
+    return null;
+  }
+
   onSearch(text: string) {
     let txt = text.toLowerCase();
 
