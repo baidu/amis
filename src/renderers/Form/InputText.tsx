@@ -20,10 +20,12 @@ import {FormBaseControl} from './Item';
 import {ActionSchema} from '../Action';
 import {SchemaApi} from '../../Schema';
 import {generateIcon} from '../../utils/icon';
+import {
+  rendererEventDispatcher,
+  bindRendererEvent
+} from '../../actions/Decorators';
 
 import type {Option} from '../../components/Select';
-import type {RendererEvent} from '../../utils/renderer-event';
-import type {IScopedContext} from '../../Scoped';
 import type {ListenerAction} from '../../actions/Action';
 
 // declare function matchSorter(items:Array<any>, input:any, options:any): Array<any>;
@@ -86,6 +88,14 @@ export interface TextControlSchema extends FormOptionsControl {
   suffix?: string;
 }
 
+export type InputTextRendererEvent =
+  | 'blur'
+  | 'focus'
+  | 'click'
+  | 'change'
+  | 'clear'
+  | 'enter';
+
 export interface TextProps extends OptionsControlProps {
   placeholder?: string;
   addOn?: Action & {
@@ -110,71 +120,6 @@ export interface TextState {
   isOpen?: boolean;
   inputValue?: string;
   isFocused?: boolean;
-}
-
-export type InputTextRendererEvent =
-  | 'blur'
-  | 'focus'
-  | 'click'
-  | 'change'
-  | 'clear'
-  | 'enter';
-
-/**
- * 渲染器事件派发
- */
-async function rendererEventDispatcher<T extends OptionsControlProps>(
-  props: T,
-  e: InputTextRendererEvent,
-  ctx: Record<string, any> = {}
-): Promise<RendererEvent<any> | undefined> {
-  const {dispatchEvent, data} = props;
-
-  return dispatchEvent(e, createObject(data, ctx));
-}
-
-/**
- * 渲染器事件装饰器
- *
- * @param {InputTextRendererEvent} e 事件类型
- * @returns {Function}
- */
-export function bindRendererEvent<T extends OptionsControlProps, P = any>(
-  e: InputTextRendererEvent,
-  ctx: Record<string, any> = {}
-) {
-  return function (
-    target: any,
-    propertyKey: string,
-    descriptor: TypedPropertyDescriptor<any>
-  ) {
-    let fn = descriptor.value;
-
-    if (!fn || typeof fn !== 'function') {
-      throw new Error(
-        `decorator can only be applied to methods not: ${typeof fn}`
-      );
-    }
-
-    return {
-      ...descriptor,
-
-      value: async function boundFn(...params: any[]) {
-        const context = (this as TypedPropertyDescriptor<any> & {props: T})
-          ?.props;
-        let value = e === 'clear' ? context?.resetValue : context?.value;
-        const dispatcher = await rendererEventDispatcher<T>(context, e, {
-          value
-        });
-
-        if (dispatcher?.prevented) {
-          return;
-        }
-
-        return fn.apply(this, [...params]);
-      }
-    };
-  };
 }
 
 export default class TextControl extends React.PureComponent<
@@ -272,9 +217,6 @@ export default class TextControl extends React.PureComponent<
     this.input = ref;
   }
 
-  /**
-   * 动作处理
-   */
   doAction(action: ListenerAction, args: any) {
     const actionType = action?.actionType as string;
 
@@ -297,7 +239,7 @@ export default class TextControl extends React.PureComponent<
     len && this.input.setSelectionRange(len, len);
   }
 
-  @bindRendererEvent<TextProps>('clear')
+  @bindRendererEvent<TextProps, InputTextRendererEvent>('clear')
   clearValue() {
     const {onChange, resetValue} = this.props;
 
@@ -322,7 +264,7 @@ export default class TextControl extends React.PureComponent<
     onChange(this.normalizeValue(newValue));
   }
 
-  @bindRendererEvent<TextProps>('click')
+  @bindRendererEvent<TextProps, InputTextRendererEvent>('click')
   handleClick() {
     this.focus();
     this.setState({
@@ -330,7 +272,7 @@ export default class TextControl extends React.PureComponent<
     });
   }
 
-  @bindRendererEvent<TextProps>('focus')
+  @bindRendererEvent<TextProps, InputTextRendererEvent>('focus')
   handleFocus(e: any) {
     this.setState({
       isOpen: true,
@@ -340,7 +282,7 @@ export default class TextControl extends React.PureComponent<
     this.props.onFocus && this.props.onFocus(e);
   }
 
-  @bindRendererEvent<TextProps>('blur')
+  @bindRendererEvent<TextProps, InputTextRendererEvent>('blur')
   handleBlur(e: any) {
     const {onBlur, trimContents, value, onChange} = this.props;
 
@@ -415,11 +357,10 @@ export default class TextControl extends React.PureComponent<
         value = this.normalizeValue(newValue).concat();
       }
 
-      const dispatcher = await rendererEventDispatcher<TextProps>(
-        this.props,
-        'enter',
-        {value}
-      );
+      const dispatcher = await rendererEventDispatcher<
+        TextProps,
+        InputTextRendererEvent
+      >(this.props, 'enter', {value});
 
       if (dispatcher?.prevented) {
         return;
@@ -513,11 +454,10 @@ export default class TextControl extends React.PureComponent<
   async handleNormalInputChange(e: React.ChangeEvent<HTMLInputElement>) {
     const {onChange} = this.props;
     let value = e.currentTarget.value;
-    const dispatcher = await rendererEventDispatcher<TextProps>(
-      this.props,
-      'change',
-      {value: this.transformValue(value)}
-    );
+    const dispatcher = await rendererEventDispatcher<
+      TextProps,
+      InputTextRendererEvent
+    >(this.props, 'change', {value: this.transformValue(value)});
 
     if (dispatcher?.prevented) {
       return;
