@@ -19,7 +19,7 @@ import {Icon} from '../../src';
 import {
   MultipleValue,
   Value,
-  FormarValue,
+  FormatValue,
   MarksType,
   RangeItemProps
 } from '../renderers/Form/InputRange';
@@ -275,7 +275,7 @@ export class Range extends React.Component<RangeItemProps, any> {
    * @param value
    */
   @autobind
-  updateValue(value: FormarValue) {
+  updateValue(value: FormatValue) {
     this.props.updateValue(value);
   }
 

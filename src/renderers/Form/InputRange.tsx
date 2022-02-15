@@ -17,9 +17,8 @@ import {filter} from '../../utils/tpl';
  */
 
 export type Value = string | MultipleValue | number | [number, number];
-export type FormarValue = MultipleValue | number;
+export type FormatValue = MultipleValue | number;
 export type TooltipPosType = 'auto' | 'top' | 'right' | 'bottom' | 'left';
-export type Overwrite<T, U> = Pick<T, Extract<keyof T, keyof U>> & U;
 export interface RangeControlSchema extends FormBaseControl {
   type: 'input-range';
 
@@ -60,27 +59,27 @@ export interface RangeProps extends FormControlProps {
   /**
    * 最小值
    */
-  min?: number;
+  min: number;
 
   /**
    * 最大值
    */
-  max?: number;
+  max: number;
 
   /**
    * 步长
    */
-  step?: number;
+  step: number;
 
   /**
    * 是否展示步长
    */
-  showSteps?: boolean;
+  showSteps: boolean;
 
   /**
    * 分割块数
    */
-  parts?: number;
+  parts: number;
 
   /**
    * 刻度
@@ -90,12 +89,12 @@ export interface RangeProps extends FormControlProps {
   /**
    * 是否展示标签
    */
-  tooltipVisible?: boolean;
+  tooltipVisible: boolean;
 
   /**
    * 标签方向
    */
-  tooltipPlacement?: TooltipPosType;
+  tooltipPlacement: TooltipPosType;
 
   /**
    * 控制滑块标签显隐函数
@@ -105,17 +104,17 @@ export interface RangeProps extends FormControlProps {
   /**
    * 是否为双滑块
    */
-  multiple?: boolean;
+  multiple: boolean;
 
   /**
    * 是否通过分隔符连接
    */
-  joinValues?: boolean;
+  joinValues: boolean;
 
   /**
    * 分隔符
    */
-  delimiter?: string;
+  delimiter: string;
 
   /**
    * 单位
@@ -125,12 +124,12 @@ export interface RangeProps extends FormControlProps {
   /**
    * 是否展示输入框
    */
-  showInput?: boolean;
+  showInput: boolean;
 
   /**
    * 是否禁用
    */
-  disabled?: boolean;
+  disabled: boolean;
 
   /**
    * value改变事件
@@ -165,14 +164,14 @@ export interface DefaultProps {
   tooltipPlacement: TooltipPosType;
 }
 
-export interface RangeItemProps extends Overwrite<DefaultProps, RangeProps> {
-  value: FormarValue;
+export interface RangeItemProps extends RangeProps {
+  value: FormatValue;
   updateValue: (value: Value) => void;
   onAfterChange: () => void;
 }
 
 export interface RangeState {
-  value: FormarValue;
+  value: FormatValue;
 }
 
 /**
@@ -189,45 +188,26 @@ export function formatValue(
     min: number;
     max: number;
   }
-): FormarValue {
+): FormatValue {
   if (props.multiple) {
+    let {min, max} = props;
+    // value是字符串
     if (typeof value === 'string') {
-      const [minValue, maxValue] = value
-        .split(props.delimiter || ',')
-        .map(v => Number(v));
-      return {
-        min:
-          (props.min && minValue < props.min && props.min) ||
-          minValue ||
-          props.min,
-        max:
-          (props.max && maxValue > props.max && props.max) ||
-          maxValue ||
-          props.max
-      };
-    } else if (Array.isArray(value)) {
-      const [min, max] = value;
-      return {
-        min: (props.min && min < props.min && props.min) || min || props.min,
-        max: (props.max && max > props.max && props.max) || max || props.max
-      };
-    } else if (typeof value === 'object') {
-      return {
-        min:
-          (props.min && value.min < props.min && props.min) ||
-          value.min ||
-          props.min,
-        max:
-          (props.max && value.max > props.max && props.max) ||
-          value.max ||
-          props.max
-      };
-    } else {
-      return {
-        min: props.min,
-        max: props.max
-      };
+      [min, max] = value.split(props.delimiter || ',').map(v => Number(v));
     }
+    // value是数组
+    else if (Array.isArray(value)) {
+      [min, max] = value;
+    }
+    // value是对象
+    else if (typeof value === 'object') {
+      min = value.min;
+      max = value.max;
+    }
+    return {
+      min: min === undefined || min < props.min ? props.min : min,
+      max: max === undefined || max > props.max ? props.max : max
+    };
   }
   return +value ?? props.min;
 }
@@ -264,7 +244,7 @@ export class Input extends React.Component<RangeItemProps, any> {
     );
   }
 
-  filterNum(value: number | string | undefined) {
+  checkNum(value: number | string | undefined) {
     if (typeof value !== 'number') {
       value = filter(value, this.props.data);
       value = /^[-]?\d+/.test(value) ? +value : undefined;
@@ -272,51 +252,55 @@ export class Input extends React.Component<RangeItemProps, any> {
     return value;
   }
 
+  /**
+   * 获取步长小数精度
+   * @returns
+   */
   getStepPrecision() {
     const {step} = this.props;
-
-    return typeof step !== 'number' || step >= 1 || step < 0
+    const stepIsDecimal = /^\d+\.\d+$/.test(step.toString());
+    return !stepIsDecimal || step < 0
       ? 0
       : step.toString().split('.')[1]?.length;
   }
 
+  /**
+   * 处理数据
+   * @param value input数据
+   * @param type min | max 双滑块
+   * @returns 处理之后数据
+   */
   getValue(value: string | number, type?: string) {
     const {max, min, step, value: stateValue} = this.props as RangeItemProps;
 
-    if (
-      value === '' ||
-      value === '-' ||
-      new RegExp('^[-]?\\d+[.]{1}[0]{0,' + this.getStepPrecision() + '}$').test(
-        value + ''
-      )
-    ) {
-      return value;
-    }
-
+    // 校正value为step的倍数
     let _value = Math.round(parseFloat(value + '') / step) * step;
-    _value =
-      step < 1 ? parseFloat(_value.toFixed(this.getStepPrecision())) : ~~value;
-
+    // 同步value与步长小数位数
+    _value = parseFloat(_value.toFixed(this.getStepPrecision()));
+    // 单滑块只用考虑 轨道边界 ，双滑块需要考虑 两端滑块边界
     switch (type) {
       case 'min': {
         if (isObject(stateValue) && isNumber(stateValue.max)) {
-          if (_value >= stateValue.max && min <= stateValue.max - step) {
+          // 如果 大于当前双滑块最大值 取 当前双滑块max值 - 步长
+          if (_value >= stateValue.max) {
             return stateValue.max - step;
           }
-          if (_value < stateValue.max - step) {
-            return value;
-          }
+          return _value;
         }
         return min;
       }
       case 'max':
-        return isObject(stateValue) && isNumber(stateValue.min)
-          ? (_value > max && max) ||
-              (_value <= stateValue.min && stateValue.min + step) ||
-              value
-          : max;
+        if (isObject(stateValue) && isNumber(stateValue.min)) {
+          // 如果 小于当前双滑块最大值 取 当前双滑块min值 + 步长
+          if (_value <= stateValue.min) {
+            return stateValue.min + step;
+          }
+          return _value;
+        }
+        return max;
       default:
-        return (_value < min && min) || (_value > max && max) || value;
+        // 轨道边界
+        return (_value < min && min) || (_value > max && max) || _value;
     }
   }
 
@@ -342,8 +326,8 @@ export class Input extends React.Component<RangeItemProps, any> {
         <NumberInput
           value={+_value}
           step={step}
-          max={this.filterNum(max)}
-          min={this.filterNum(min)}
+          max={this.checkNum(max)}
+          min={this.checkNum(min)}
           onChange={this.onChange}
           disabled={disabled}
         />
@@ -377,16 +361,7 @@ export default class RangeControl extends React.PureComponent<
 
   constructor(props: RangeProps) {
     super(props);
-    const {
-      value: propsValue,
-      multiple,
-      delimiter,
-      min,
-      max
-    } = {
-      ...RangeControl.defaultProps,
-      ...this.props
-    };
+    const {value: propsValue, multiple, delimiter, min, max} = this.props;
     const value = formatValue(propsValue, {
       multiple,
       delimiter,
@@ -408,10 +383,7 @@ export default class RangeControl extends React.PureComponent<
       min,
       max,
       onChange
-    } = {
-      ...RangeControl.defaultProps,
-      ...this.props
-    };
+    } = this.props;
     if (value !== nextPropsValue) {
       const value = formatValue(nextPropsValue, {
         multiple,
@@ -427,10 +399,7 @@ export default class RangeControl extends React.PureComponent<
 
   @autobind
   clearValue() {
-    const {multiple, min, max} = {
-      ...RangeControl.defaultProps,
-      ...this.props
-    };
+    const {multiple, min, max} = this.props;
     if (multiple) {
       this.updateValue({min, max});
     } else {
@@ -439,7 +408,7 @@ export default class RangeControl extends React.PureComponent<
   }
 
   @autobind
-  getValue(value: FormarValue) {
+  getValue(value: FormatValue) {
     const {multiple} = this.props;
     return multiple
       ? {
@@ -454,7 +423,7 @@ export default class RangeControl extends React.PureComponent<
    * @param value
    */
   @autobind
-  updateValue(value: FormarValue) {
+  updateValue(value: FormatValue) {
     this.setState({value: this.getValue(value)});
     const {multiple, joinValues, delimiter, onChange} = this.props;
     onChange(
@@ -496,7 +465,6 @@ export default class RangeControl extends React.PureComponent<
   render() {
     const {value} = this.state;
     const props: RangeItemProps = {
-      ...RangeControl.defaultProps,
       ...this.props,
       value,
       updateValue: this.updateValue,
