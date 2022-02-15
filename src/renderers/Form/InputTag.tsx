@@ -89,13 +89,13 @@ export default class TagControl extends React.PureComponent<
   }
 
   @autobind
-  async dispatchEvent(eventName: string, e: any = {}) {
+  async dispatchEvent(eventName: string, eventData: any = {}) {
     const {dispatchEvent, options, data} = this.props;
     const rendererEvent = await dispatchEvent(
       eventName,
-      createObject(e, {
+      createObject(data, {
         options,
-        ...data
+        ...eventData
       })
     );
     // 返回阻塞标识

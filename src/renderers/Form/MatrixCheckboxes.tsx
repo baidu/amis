@@ -269,9 +269,11 @@ export default class MatrixCheckbox extends React.Component<
       }
     }
 
-    const rendererEvent = await dispatchEvent('change', createObject({
-      value: value.concat(),
-    }, data));
+    const rendererEvent = await dispatchEvent('change',
+      createObject(data, {
+        value: value.concat(),
+      })
+    );
     if (rendererEvent?.prevented) {
       return;
     }

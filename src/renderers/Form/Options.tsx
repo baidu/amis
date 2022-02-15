@@ -458,11 +458,10 @@ export function registerOptionsControl(config: OptionsConfig) {
       const {dispatchEvent, options, data} = this.props;
       const rendererEvent = await dispatchEvent(
         'change',
-        {
+        createObject(data, {
           value: eventData,
           options,
-          ...data
-        }
+        })
       );
       // 返回阻塞标识
       return !!rendererEvent?.prevented;

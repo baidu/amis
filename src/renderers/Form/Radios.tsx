@@ -52,13 +52,12 @@ export default class RadiosControl extends React.Component<RadiosProps, any> {
       option = option[valueField || 'value'];
     }
 
-    const rendererEvent = await dispatchEvent('change', createObject(
-      {
+    const rendererEvent = await dispatchEvent('change',
+      createObject(data, {
         value: option,
         options,
-      },
-      data
-    ));
+      })
+    );
     if (rendererEvent?.prevented) {
       return;
     }
