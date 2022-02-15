@@ -2,7 +2,7 @@ import React = require('react');
 import {render, fireEvent} from '@testing-library/react';
 import '../../../src/themes/default';
 import {render as amisRender} from '../../../src/index';
-import {makeEnv} from '../../helper';
+import {makeEnv, wait} from '../../helper';
 
 test('Renderer:number', async () => {
   const {container} = render(
@@ -33,6 +33,7 @@ test('Renderer:number', async () => {
       value: '456'
     }
   });
+  await wait(100);
   expect(input?.value).toEqual('456');
 
   expect(container).toMatchSnapshot();

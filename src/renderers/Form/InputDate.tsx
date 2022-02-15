@@ -10,7 +10,8 @@ import moment from 'moment';
 import 'moment/locale/zh-cn';
 import DatePicker from '../../components/DatePicker';
 import {SchemaObject} from '../../Schema';
-import {createObject, anyChanged, isMobile} from '../../utils/helper';
+import {createObject, anyChanged, isMobile, autobind} from '../../utils/helper';
+import {Action} from '../../types';
 
 export interface InputDateBaseControlSchema extends FormBaseControl {
   /**
@@ -412,6 +413,32 @@ export default class DateControl extends React.PureComponent<
       );
   }
 
+  // 派发有event的事件
+  @autobind
+  dispatchEvent(e: React.SyntheticEvent<HTMLElement>) {
+    const {dispatchEvent, data} = this.props;
+    dispatchEvent(e, data);
+  }
+
+  // 动作
+  doAction(action: Action, data: object, throwErrors: boolean) {
+    const {resetValue, onChange} = this.props;
+    if (action.actionType === 'clear') {
+      onChange(resetValue ?? '');
+    }
+  }
+
+  // 值的变化
+  @autobind
+  async handleChange(nextValue: any) {
+    const {dispatchEvent, data} = this.props;
+    const dispatcher = dispatchEvent('change', createObject(data, nextValue));
+    if (dispatcher?.prevented) {
+      return;
+    }
+    this.props.onChange(nextValue);
+  }
+
   render() {
     let {
       className,
@@ -454,6 +481,9 @@ export default class DateControl extends React.PureComponent<
           schedules={this.state.schedules}
           largeMode={largeMode}
           onScheduleClick={this.onScheduleClick.bind(this)}
+          onChange={this.handleChange}
+          onFocus={this.dispatchEvent}
+          onBlur={this.dispatchEvent}
         />
       </div>
     );

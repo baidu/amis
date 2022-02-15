@@ -24,6 +24,25 @@ order: 16
 }
 ```
 
+## 时间显示到秒
+
+通过 `"timeFormat": "HH:mm:ss"` 设置时间输入框显示秒
+
+```schema: scope="body"
+{
+    "type": "form",
+    "api": "/api/mock2/form/saveForm",
+    "body": [
+        {
+            "type": "input-datetime-range",
+            "name": "select",
+            "timeFormat": "HH:mm:ss",
+            "label": "日期时间范围"
+        }
+    ]
+}
+```
+
 ## 属性表
 
 除了支持 [普通表单项属性表](./formitem#%E5%B1%9E%E6%80%A7%E8%A1%A8) 中的配置以外，还支持下面一些配置

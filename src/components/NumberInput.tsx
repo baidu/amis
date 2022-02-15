@@ -30,6 +30,14 @@ export interface NumberProps extends ThemeProps {
    * 指定从 formatter 里转换回数字的方式，和 formatter 搭配使用
    */
   parser?: Function;
+  /**
+   * 获取焦点事件
+   */
+  onFocus?: Function;
+  /**
+   * 失去焦点事件
+   */
+  onBlur?: Function;
 }
 
 export class NumberInput extends React.Component<NumberProps, any> {
@@ -54,6 +62,18 @@ export class NumberInput extends React.Component<NumberProps, any> {
     }
 
     onChange?.(value);
+  }
+
+  @autobind
+  handleFocus(e: React.SyntheticEvent<HTMLElement>) {
+    const {onFocus} = this.props;
+    onFocus && onFocus(e);
+  }
+
+  @autobind
+  handleBlur(e: React.SyntheticEvent<HTMLElement>) {
+    const {onBlur} = this.props;
+    onBlur && onBlur(e);
   }
 
   render(): JSX.Element {
@@ -98,6 +118,8 @@ export class NumberInput extends React.Component<NumberProps, any> {
         onChange={this.handleChange}
         disabled={disabled}
         placeholder={placeholder}
+        onFocus={this.handleFocus}
+        onBlur={this.handleBlur}
         {...precisionProps}
       />
     );

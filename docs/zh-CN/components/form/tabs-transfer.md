@@ -213,6 +213,156 @@ icon:
 }
 ```
 
+## 数据懒加载
+
+```schema: scope="body"
+{
+  "type": "form",
+  "api": "/api/mock2/form/saveForm",
+  "body": [
+    {
+    "label": "组合穿梭器",
+    "type": "tabs-transfer",
+    "name": "a",
+    "sortable": true,
+    "selectMode": "tree",
+    "searchable": true,
+    "options": [
+      {
+        "label": "成员",
+        "selectMode": "associated",
+        "leftMode": "tree",
+        "children": [
+          {
+            ref: "user",
+            "children": [
+              {
+                "label": "诸葛亮",
+                "value": "zhugeliang2"
+              },
+              {
+                "label": "上官婉儿",
+                "value": "shangguan"
+              }
+            ]
+          },
+          {
+            "ref": "a",
+            "children": [
+              {
+                "label": "A-1",
+                "value": "a1"
+              },
+              {
+                "label": "A-2",
+                "value": "a2"
+              }
+            ]
+          },
+          {
+            "ref": "b",
+            "children": [
+              {
+                "label": "B-1",
+                "value": "b1"
+              }
+            ]
+          },
+          {
+            "ref": "c",
+            "children": [
+              {
+                "label": "C-1",
+                "value": "c1"
+              }
+            ]
+          },
+          {
+            "ref": "d",
+            "children": [
+              {
+                "label": "D-1",
+                "value": "d1"
+              }
+            ]
+          },
+          {
+            "ref": "e",
+            "children": [
+              {
+                "label": "E-1",
+                "value": "e1"
+              },
+              {
+                "label": "E-2",
+                "value": "e2"
+              }
+            ]
+          }
+        ],
+        "leftOptions": [
+          {
+            "defer": true,
+            "deferApi": "/api/mock2/form/getOptions",
+            "label": "DEFER"
+          },
+          {
+            "label": "法师",
+            "value": "user"
+          }
+        ]
+      },
+      {
+        "label": "用户",
+        "selectMode": "chained",
+        "children": [
+          {
+            "label": "法师",
+            "children": [
+              {
+                "label": "诸葛亮",
+                "value": "zhugeliang2"
+              }
+            ]
+          },
+          {
+            "label": "战士",
+            "children": [
+              {
+                "label": "曹操",
+                "value": "caocao2"
+              },
+              {
+                "label": "钟无艳",
+                "value": "zhongwuyan2"
+              }
+            ]
+          },
+          {
+            "label": "打野",
+            "children": [
+              {
+                "label": "李白",
+                "value": "libai2"
+              },
+              {
+                "label": "韩信",
+                "value": "hanxin2"
+              },
+              {
+                "label": "云中君",
+                "value": "yunzhongjun2"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+  ]
+}
+```
+
 ## 属性表
 
 更多配置请参考[穿梭器（Transfer）](./transfer)。

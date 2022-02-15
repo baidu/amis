@@ -36,6 +36,16 @@
     position: absolute;
     width: 100%;
   }
+
+  .rdt .rdtPicker {
+    td.rdtActive {
+      background: transparent;
+      color: var(--Calendar-color);
+    }
+    td.rdtActive:hover{
+      background: var(--Calendar-cell-onHover-bg);
+    }
+  }
 }
 
 .#{$ns}ScheduleCalendar-large {

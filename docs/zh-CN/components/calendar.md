@@ -1,18 +1,21 @@
 ---
-title: Calendar 日历
+title: Calendar 日历日程
 description:
 type: 0
 group: ⚙ 组件
-menuName: Calendar 日历
+menuName: Calendar 日历日程
 icon:
 order: 36
 ---
 
 ## 基本用法
 
+设置 `schedules` 属性
+
 ```schema: scope="body"
 {
     "type": "calendar",
+    "value": "1638288000",
     "schedules": [
       {
         "startTime": "2021-12-11 05:14:00",
@@ -33,6 +36,7 @@ order: 36
 ```schema: scope="body"
 {
     "type": "calendar",
+    "value": "1638288000",
     "schedules": [
       {
         "startTime": "2021-12-11 05:14:00",
@@ -53,6 +57,7 @@ order: 36
 ```schema: scope="body"
 {
     "type": "calendar",
+    "value": "1638288000",
     "scheduleClassNames": ["bg-success", "bg-info"],
     "schedules": [
       {
@@ -70,9 +75,11 @@ order: 36
 ```
 
 ## 自定义日程展示
+
 ```schema: scope="body"
 {
     "type": "calendar",
+    "value": "1638288000",
     "schedules": [
       {
         "startTime": "2021-12-11 05:14:00",
@@ -109,6 +116,7 @@ order: 36
 ```
 
 ## 支持从数据源中获取日程
+
 ```schema
 {
     "type": "page",
@@ -129,6 +137,7 @@ order: 36
     "body": [
       {
         "type": "calendar",
+        "value": "1638288000",
         "schedules": "${schedules}"
       }
     ]
@@ -140,6 +149,7 @@ order: 36
 ```schema: scope="body"
 {
     "type": "calendar",
+    "value": "1638288000",
     "largeMode": true,
     "schedules": [
       {
@@ -183,11 +193,10 @@ order: 36
 
 ## Calendar 属性表
 
-| 属性名 | 类型 | 默认值 | 说明 |
-| - | - | - | - |
-| type | `string` | `"calendar"` | 指定为 calendar 渲染器 |
-| schedules       | `Array<{startTime: string, endTime: string, content: any, className?: string}> \| string`  |   | 日历中展示日程，可设置静态数据或从上下文中取数据，startTime和endTime格式参考[文档](https://momentjs.com/docs/#/parsing/string/)，className参考[背景色](https://baidu.gitee.io/amis/zh-CN/style/background/background-color)   |
-| scheduleClassNames  | `Array<string>`  | `['bg-warning', 'bg-danger', 'bg-success', 'bg-info', 'bg-secondary']`   | 日历中展示日程的颜色，参考[背景色](https://baidu.gitee.io/amis/zh-CN/style/background/background-color)   |
-| scheduleAction  | `SchemaNode`  |            | 自定义日程展示                    |
-| largeMode       | `boolean` | `false`        | 放大模式                         |
-
+| 属性名             | 类型                                                                                      | 默认值                                                                 | 说明                                                                                                                                                                                                                            |
+| ------------------ | ----------------------------------------------------------------------------------------- | ---------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| type               | `string`                                                                                  | `"calendar"`                                                           | 指定为 calendar 渲染器                                                                                                                                                                                                          |
+| schedules          | `Array<{startTime: string, endTime: string, content: any, className?: string}> \| string` |                                                                        | 日历中展示日程，可设置静态数据或从上下文中取数据，startTime 和 endTime 格式参考[文档](https://momentjs.com/docs/#/parsing/string/)，className 参考[背景色](https://baidu.gitee.io/amis/zh-CN/style/background/background-color) |
+| scheduleClassNames | `Array<string>`                                                                           | `['bg-warning', 'bg-danger', 'bg-success', 'bg-info', 'bg-secondary']` | 日历中展示日程的颜色，参考[背景色](https://baidu.gitee.io/amis/zh-CN/style/background/background-color)                                                                                                                         |
+| scheduleAction     | `SchemaNode`                                                                              |                                                                        | 自定义日程展示                                                                                                                                                                                                                  |
+| largeMode          | `boolean`                                                                                 | `false`                                                                | 放大模式                                                                                                                                                                                                                        |

@@ -54,7 +54,7 @@ Flex 布局是基于 CSS Flex 实现的布局效果，它比 Grid 和 HBox 对�
 
 可以通过 justify 控制水平分布方式，默认是 `center` 居中，其他几种的示例如下：
 
-```schema: scope="body"
+```schema
 {
     "type": "page",
     "body": [

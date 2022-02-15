@@ -4,11 +4,13 @@ import cx from 'classnames';
 import {filterDate, parseDuration} from '../../utils/tpl-builtin';
 import moment from 'moment';
 import 'moment/locale/zh-cn';
+import includes from 'lodash/includes';
 import DateRangePicker, {
   DateRangePicker as BaseDateRangePicker
 } from '../../components/DateRangePicker';
-import {anyChanged} from '../../utils/helper';
+import {anyChanged, createObject, autobind} from '../../utils/helper';
 import MonthRangePicker from '../../components/MonthRangePicker';
+import {Action} from '../../types';
 
 /**
  * MonthRange 月范围控件
@@ -158,6 +160,32 @@ export default class MonthRangeControl extends React.Component<MonthRangeProps> 
     }
   }
 
+  // 派发有event的事件
+  @autobind
+  dispatchEvent(e: React.SyntheticEvent<HTMLElement>) {
+    const {dispatchEvent, data} = this.props;
+    dispatchEvent(e, data);
+  }
+
+  // 动作
+  doAction(action: Action, data: object, throwErrors: boolean) {
+    const {resetValue, onChange} = this.props;
+    if (action.actionType === 'clear') {
+      onChange(resetValue ?? '');
+    }
+  }
+
+  // 值的变化
+  @autobind
+  async handleChange(nextValue: any) {
+    const {dispatchEvent, data} = this.props;
+    const dispatcher = dispatchEvent('change', createObject(data, nextValue));
+    if (dispatcher?.prevented) {
+      return;
+    }
+    this.props.onChange(nextValue);
+  }
+
   render() {
     const {
       className,
@@ -185,6 +213,9 @@ export default class MonthRangeControl extends React.Component<MonthRangeProps> 
           maxDate={maxDate ? filterDate(maxDate, data, format) : undefined}
           minDuration={minDuration ? parseDuration(minDuration) : undefined}
           maxDuration={maxDuration ? parseDuration(maxDuration) : undefined}
+          onChange={this.handleChange}
+          onFocus={this.dispatchEvent}
+          onBlur={this.dispatchEvent}
         />
       </div>
     );

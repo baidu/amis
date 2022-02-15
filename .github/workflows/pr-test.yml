@@ -24,6 +24,6 @@ jobs:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
       - name: test
         run: |
-          npm i
+          npm i --legacy-peer-deps
           npm test
           sh deploy-gh-pages.sh

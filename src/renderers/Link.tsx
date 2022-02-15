@@ -22,6 +22,11 @@ export interface LinkSchema extends BaseSchema {
   blank?: boolean;
 
   /**
+   * 链接地址
+   */
+  href?: string;
+
+  /**
    * 链接内容，如果不配置将显示链接地址。
    */
   body?: SchemaTpl;

@@ -7,6 +7,7 @@ import {Renderer, RendererProps} from '../factory';
 import {BaseSchema, SchemaExpression, SchemaObject, SchemaTpl} from '../Schema';
 import {resolveVariableAndFilter} from '../utils/tpl-builtin';
 import {visibilityFilter} from '../utils/helper';
+import {buildStyle} from '../utils/style';
 
 export type PropertyItemProps = {
   /**
@@ -167,7 +168,8 @@ export default class Property extends React.Component<PropertyProps, object> {
       contentStyle,
       labelStyle,
       separator = ': ',
-      mode = 'table'
+      mode = 'table',
+      data
     } = this.props;
     return rows.map((row, key) => {
       return (
@@ -175,10 +177,12 @@ export default class Property extends React.Component<PropertyProps, object> {
           {row.map((property, index) => {
             return mode === 'table' ? (
               <React.Fragment key={`item-${index}`}>
-                <th style={labelStyle}>{render('label', property.label)}</th>
+                <th style={buildStyle(labelStyle, data)}>
+                  {render('label', property.label)}
+                </th>
                 <td
                   colSpan={property.span + property.span - 1} // 需要再补上 th 所占的列数
-                  style={contentStyle}
+                  style={buildStyle(contentStyle, data)}
                 >
                   {render('content', property.content)}
                 </td>
@@ -186,10 +190,10 @@ export default class Property extends React.Component<PropertyProps, object> {
             ) : (
               <td
                 colSpan={property.span}
-                style={contentStyle}
+                style={buildStyle(contentStyle, data)}
                 key={`item-${index}`}
               >
-                <span style={labelStyle}>
+                <span style={buildStyle(labelStyle, data)}>
                   {render('label', property.label)}
                 </span>
                 {separator}
@@ -210,6 +214,7 @@ export default class Property extends React.Component<PropertyProps, object> {
       classnames: cx,
       className,
       titleStyle,
+      data,
       mode = 'table'
     } = this.props;
 
@@ -218,7 +223,7 @@ export default class Property extends React.Component<PropertyProps, object> {
     return (
       <div
         className={cx('Property', `Property--${mode}`, className)}
-        style={style}
+        style={buildStyle(style, data)}
       >
         <table>
           {title ? (
@@ -226,7 +231,7 @@ export default class Property extends React.Component<PropertyProps, object> {
               <tr>
                 <th
                   colSpan={mode === 'table' ? column + column : column}
-                  style={titleStyle}
+                  style={buildStyle(titleStyle, data)}
                 >
                   {title}
                 </th>

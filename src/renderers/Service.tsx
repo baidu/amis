@@ -319,8 +319,8 @@ export default class Service extends React.Component<ServiceProps> {
     // 初始化接口返回的是整个 response，
     // 保存 ajax 请求的时候返回时数据部分。
     const data = result?.hasOwnProperty('ok') ? result.data : result;
-    const {onBulkChange, formStore} = this.props;
-    if (formStore && !isEmpty(data) && onBulkChange) {
+    const {onBulkChange} = this.props;
+    if (!isEmpty(data) && onBulkChange) {
       onBulkChange(data);
     }
 

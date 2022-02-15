@@ -1,6 +1,6 @@
 export default {
   type: 'page',
-  title: '广播事件',
+  title: '广播（自定义事件）',
   regions: ['body', 'toolbar', 'header'],
   body: [
     {
@@ -12,21 +12,9 @@ export default {
         title: '系统提示',
         body: '对你点击了'
       },
-      // target: 'form?name=lvxj',
       onEvent: {
         click: {
           actions: [
-            {
-              actionType: 'reload',
-              args: {
-                name: 'lvxj',
-                age: 18
-              },
-              preventDefault: true,
-              stopPropagation: false,
-              componentId: 'form_001'
-              // componentId: 'form_001_form_01_text_01'
-            },
             {
               actionType: 'broadcast',
               eventName: 'broadcast_1',
@@ -60,7 +48,6 @@ export default {
         title: '系统提示',
         body: '对你点击了'
       },
-      // target: 'form?name=lvxj',
       onEvent: {
         click: {
           actions: [
@@ -231,105 +218,6 @@ export default {
               actionType: 'custom',
               script:
                 "doAction({actionType: 'ajax',api: 'https://api/form/form3-custom-ajax-1'});\n //event.stopPropagation();"
-            },
-            {
-              actionType: 'parallel',
-              args: {
-                level: 3
-              },
-              children: [
-                {
-                  actionType: 'ajax',
-                  api: 'https://api/form/form3-parallel-ajax-1',
-                  preventDefault: false
-                  // stopPropagation: true
-                },
-                {
-                  actionType: 'ajax',
-                  api: 'https://api/form/form3-parallel-ajax-2'
-                }
-              ]
-            },
-            {
-              actionType: 'switch',
-              preventDefault: false,
-              stopPropagation: false,
-              children: [
-                {
-                  actionType: 'ajax',
-                  api: 'https://api/form/form3-branch-ajax-1',
-                  expression: 'this.branchCont > 19',
-                  preventDefault: false,
-                  stopPropagation: true // 这里无效，因为条件不成立
-                },
-                {
-                  actionType: 'ajax',
-                  api: 'https://api/form/form3-branch-ajax-2',
-                  expression: 'this.branchCont > 17',
-                  preventDefault: false,
-                  stopPropagation: false
-                },
-                {
-                  actionType: 'ajax',
-                  api: 'https://api/form/form3-branch-ajax-3',
-                  expression: 'this.branchCont > 16'
-                }
-              ]
-            },
-            {
-              actionType: 'loop',
-              loopName: 'loopData',
-              preventDefault: false,
-              stopPropagation: false,
-              args: {
-                level: 3
-              },
-              children: [
-                {
-                  actionType: 'reload',
-                  preventDefault: false,
-                  stopPropagation: false
-                },
-                {
-                  actionType: 'ajax',
-                  api: 'https://api/form/form3-loop-ajax-1?name=${name}',
-                  preventDefault: false,
-                  stopPropagation: false
-                },
-                // {
-                //   actionType: 'break'
-                // },
-                {
-                  actionType: 'ajax',
-                  api: 'https://api/form/form3-loop-ajax-2?age=${age}'
-                },
-                {
-                  actionType: 'loop',
-                  loopName: 'loopData',
-                  args: {
-                    level: 3
-                  },
-                  children: [
-                    {
-                      actionType: 'ajax',
-                      api: 'https://api/form/form3-loop-loop-ajax-1'
-                    },
-                    {
-                      actionType: 'ajax',
-                      api: 'https://api/form/form3-loop-loop-ajax-2?age=${age}',
-                      preventDefault: false,
-                      stopPropagation: false
-                    },
-                    {
-                      actionType: 'continue'
-                    },
-                    {
-                      actionType: 'ajax',
-                      api: 'https://api/form/form3-loop-loop-ajax-3'
-                    }
-                  ]
-                }
-              ]
             }
           ]
         },
