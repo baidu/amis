@@ -2,7 +2,7 @@
  * @file 所有列表选择类控件的父级，比如 Select、Radios、Checkboxes、
  * List、ButtonGroup 等等
  */
-import {Api, PlainObject, Schema} from '../../types';
+import {Api, PlainObject, Schema, Action} from '../../types';
 import {isEffectiveApi, isApiOutdated, isValidApi} from '../../utils/api';
 import {isAlive} from 'mobx-state-tree';
 import {
@@ -454,6 +454,27 @@ export function registerOptionsControl(config: OptionsConfig) {
       this.toDispose = [];
     }
 
+    async dispatchChangeEvent(eventData: any = '') {
+      const {dispatchEvent, options, data} = this.props;
+      const rendererEvent = await dispatchEvent(
+        'change',
+        {
+          value: eventData,
+          options,
+          ...data
+        }
+      );
+      // 返回阻塞标识
+      return !!rendererEvent?.prevented;
+    }
+
+    doAction(action: Action, data: object, throwErrors: boolean) {
+      const {resetValue, onChange} = this.props;
+      if (action.actionType === 'clear') {
+        onChange(resetValue ?? '');
+      }
+    }
+
     syncAutoFill(value: any) {
       const {autoFill, multiple, onBulkChange, data} = this.props;
       const formItem = this.props.formItem as IFormItemStore;
@@ -561,7 +582,7 @@ export function registerOptionsControl(config: OptionsConfig) {
     }
 
     @autobind
-    handleToggle(
+    async handleToggle(
       option: Option,
       submitOnChange?: boolean,
       changeImmediately?: boolean
@@ -577,7 +598,8 @@ export function registerOptionsControl(config: OptionsConfig) {
         value
       );
 
-      onChange && onChange(newValue, submitOnChange, changeImmediately);
+      const isPrevented = await this.dispatchChangeEvent(newValue);
+      isPrevented || (onChange && onChange(newValue, submitOnChange, changeImmediately));
     }
 
     /**
@@ -632,7 +654,7 @@ export function registerOptionsControl(config: OptionsConfig) {
     }
 
     @autobind
-    handleToggleAll() {
+    async handleToggleAll() {
       const {value, onChange, formItem} = this.props;
 
       if (!formItem) {
@@ -644,7 +666,8 @@ export function registerOptionsControl(config: OptionsConfig) {
           ? []
           : formItem.filteredOptions.concat();
       const newValue = this.formatValueArray(valueArray);
-      onChange && onChange(newValue);
+      const isPrevented = await this.dispatchChangeEvent(newValue);
+      isPrevented || (onChange && onChange(newValue));
     }
 
     toggleValue(option: Option, originValue?: any) {

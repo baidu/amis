@@ -153,12 +153,13 @@ export default class SelectControl extends React.Component<SelectProps, any> {
 
   async dispatchEvent(eventName: SelectRendererEvent, e: any = {}) {
     const event = 'on' + eventName.charAt(0).toUpperCase() + eventName.slice(1);
-    const {dispatchEvent, options} = this.props;
+    const {dispatchEvent, options, data} = this.props;
     // 触发渲染器事件
     const rendererEvent = await dispatchEvent(
       eventName,
       createObject(e, {
-        options
+        options,
+        ...data
       })
     );
     if (rendererEvent?.prevented) {
@@ -178,6 +179,7 @@ export default class SelectControl extends React.Component<SelectProps, any> {
       onChange,
       setOptions,
       options,
+      data,
       dispatchEvent
     } = this.props;
 
@@ -224,7 +226,8 @@ export default class SelectControl extends React.Component<SelectProps, any> {
 
     const rendererEvent = await dispatchEvent('change', {
       value: newValue,
-      options
+      options,
+      ...data
     });
     if (rendererEvent?.prevented) {
       return;

@@ -8,8 +8,9 @@ import {
   Option,
   FormOptionsControl
 } from './Options';
-import {autobind, isEmpty} from '../../utils/helper';
+import {autobind, isEmpty, createObject} from '../../utils/helper';
 import {dataMapping} from '../../utils/tpl-builtin';
+import {Action} from '../../types';
 
 /**
  * Radio 单选框。
@@ -36,12 +37,30 @@ export default class RadiosControl extends React.Component<RadiosProps, any> {
     columnsCount: 1
   };
 
+  doAction(action: Action, data: object, throwErrors: boolean) {
+    const {resetValue, onChange} = this.props;
+    if (action.actionType === 'clear') {
+      onChange(resetValue ?? '');
+    }
+  }
+
   @autobind
-  handleChange(option: Option) {
-    const {joinValues, extractValue, valueField, onChange} = this.props;
+  async handleChange(option: Option) {
+    const {joinValues, extractValue, valueField, onChange, dispatchEvent, options, data} = this.props;
 
     if (option && (joinValues || extractValue)) {
       option = option[valueField || 'value'];
+    }
+
+    const rendererEvent = await dispatchEvent('change', createObject(
+      {
+        value: option,
+        options,
+      },
+      data
+    ));
+    if (rendererEvent?.prevented) {
+      return;
     }
 
     onChange && onChange(option);
