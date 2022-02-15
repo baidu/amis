@@ -31,8 +31,7 @@ jobs:
           npm run coverage
       - uses: codecov/codecov-action@v2
         with:
-          directory: ./coverage
-          files: ./clover.xml 
+          files: ./coverage/clover.xml 
           name: codecov-umbrella # optional
           fail_ci_if_error: true # optional (default = false)
           verbose: true # optional (default = false)
