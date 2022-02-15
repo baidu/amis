@@ -454,13 +454,14 @@ export function registerOptionsControl(config: OptionsConfig) {
       this.toDispose = [];
     }
 
-    async dispatchChangeEvent(data: any = '') {
-      const {dispatchEvent, options} = this.props;
+    async dispatchChangeEvent(eventData: any = '') {
+      const {dispatchEvent, options, data} = this.props;
       const rendererEvent = await dispatchEvent(
         'change',
         {
-          value: data,
-          options
+          value: eventData,
+          options,
+          ...data
         }
       );
       // 返回阻塞标识

@@ -7,7 +7,7 @@ import React from 'react';
 import {FormBaseControl, FormControlProps, FormItem} from './Item';
 import {buildApi, isValidApi, isEffectiveApi} from '../../utils/api';
 import {Checkbox, Spinner} from '../../components';
-import {autobind, setVariable} from '../../utils/helper';
+import {autobind, setVariable, createObject} from '../../utils/helper';
 import {ApiObject, Action} from '../../types';
 import {SchemaApi} from '../../Schema';
 
@@ -234,7 +234,7 @@ export default class MatrixCheckbox extends React.Component<
 
   async toggleItem(checked: boolean, x: number, y: number) {
     const {columns, rows} = this.state;
-    const {multiple, singleSelectMode, dispatchEvent} = this.props;
+    const {multiple, singleSelectMode, dispatchEvent, data} = this.props;
 
     const value = this.props.value || buildDefaultValue(columns, rows);
 
@@ -269,11 +269,9 @@ export default class MatrixCheckbox extends React.Component<
       }
     }
 
-    const rendererEvent = await dispatchEvent('change', {
+    const rendererEvent = await dispatchEvent('change', createObject({
       value: value.concat(),
-      columns,
-      rows
-    });
+    }, data));
     if (rendererEvent?.prevented) {
       return;
     }

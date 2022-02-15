@@ -8,7 +8,7 @@ import {
   Option,
   FormOptionsControl
 } from './Options';
-import {autobind, isEmpty} from '../../utils/helper';
+import {autobind, isEmpty, createObject} from '../../utils/helper';
 import {dataMapping} from '../../utils/tpl-builtin';
 import {Action} from '../../types';
 
@@ -46,16 +46,19 @@ export default class RadiosControl extends React.Component<RadiosProps, any> {
 
   @autobind
   async handleChange(option: Option) {
-    const {joinValues, extractValue, valueField, onChange, dispatchEvent, options} = this.props;
+    const {joinValues, extractValue, valueField, onChange, dispatchEvent, options, data} = this.props;
 
     if (option && (joinValues || extractValue)) {
       option = option[valueField || 'value'];
     }
 
-    const rendererEvent = await dispatchEvent('change', {
-      value: option,
-      options
-    });
+    const rendererEvent = await dispatchEvent('change', createObject(
+      {
+        value: option,
+        options,
+      },
+      data
+    ));
     if (rendererEvent?.prevented) {
       return;
     }

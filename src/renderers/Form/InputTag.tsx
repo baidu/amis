@@ -90,33 +90,34 @@ export default class TagControl extends React.PureComponent<
 
   @autobind
   async dispatchEvent(eventName: string, e: any = {}) {
-    const {dispatchEvent, options} = this.props;
+    const {dispatchEvent, options, data} = this.props;
     const rendererEvent = await dispatchEvent(
       eventName,
       createObject(e, {
-        options
+        options,
+        ...data
       })
     );
     // 返回阻塞标识
     return !!rendererEvent?.prevented;
   }
 
-  async addItem(option: Option) {
+  @autobind
+  getValue(type: 'push' | 'pop' = 'pop', option: any = {}) {
     const {
       selectedOptions,
-      onChange,
       joinValues,
       extractValue,
       delimiter,
       valueField
     } = this.props;
+
     const newValue = selectedOptions.concat();
-
-    if (find(newValue, item => item.value == option.value)) {
-      return;
+    if (type === 'push') {
+      newValue.push(option);
+    } else {
+      newValue.pop();
     }
-
-    newValue.push(option);
 
     const newValueRes = joinValues
       ? newValue
@@ -125,6 +126,22 @@ export default class TagControl extends React.PureComponent<
       : extractValue
       ? newValue.map(item => item[valueField || 'value'])
       : newValue;
+    return newValueRes;
+  }
+
+  async addItem(option: Option) {
+    const {
+      selectedOptions,
+      onChange
+    } = this.props;
+    const newValue = selectedOptions.concat();
+
+    if (find(newValue, item => item.value == option.value)) {
+      return;
+    }
+
+    const newValueRes = this.getValue('push', option);
+
     const isPrevented = await this.dispatchEvent('change', {
       value: newValueRes
     });
@@ -233,25 +250,13 @@ export default class TagControl extends React.PureComponent<
     const {
       selectedOptions,
       onChange,
-      joinValues,
-      extractValue,
-      delimiter,
-      valueField
+      delimiter
     } = this.props;
 
     const value = this.state.inputValue.trim();
 
     if (selectedOptions.length && !value && evt.key == 'Backspace') {
-      const newValue = selectedOptions.concat();
-      newValue.pop();
-
-      const newValueRes = joinValues
-        ? newValue
-            .map(item => item[valueField || 'value'])
-            .join(delimiter || ',')
-        : extractValue
-        ? newValue.map(item => item[valueField || 'value'])
-        : newValue;
+      const newValueRes = this.getValue('pop');
       const isPrevented = await this.dispatchEvent('change', {
         value: newValueRes
       });
@@ -262,18 +267,10 @@ export default class TagControl extends React.PureComponent<
       const newValue = selectedOptions.concat();
 
       if (!find(newValue, item => item.value == value)) {
-        newValue.push({
+        const newValueRes = this.getValue('push', {
           label: value,
           value: value
         });
-
-        const newValueRes = joinValues
-          ? newValue
-              .map(item => item[valueField || 'value'])
-              .join(delimiter || ',')
-          : extractValue
-          ? newValue.map(item => item[valueField || 'value'])
-          : newValue;
         const isPrevented = await this.dispatchEvent('change', {
           value: newValueRes
         });

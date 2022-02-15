@@ -550,7 +550,7 @@ export const examples = [
                 component: makeSchemaRenderer(UploadEventSchema)
               },
               {
-                label: '下拉框',
+                label: '下拉选择类',
                 path: '/examples/event/select',
                 component: makeSchemaRenderer(SelectEventActionSchema)
               },
