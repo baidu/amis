@@ -968,10 +968,10 @@ export default class Form extends React.Component<FormProps, object> {
     if (Array.isArray(action.required) && action.required.length) {
       return store.validateFields(action.required).then(result => {
         if (!result) {
-          dispatchEvent('validateError', createObject(this.props.data));
+          dispatchEvent('validateError', this.props.data);
           env.notify('error', __('Form.validateFailed'));
         } else {
-          dispatchEvent('validateSucc', createObject(this.props.data));
+          dispatchEvent('validateSucc', this.props.data);
           this.handleAction(
             e,
             {...action, required: undefined},
@@ -999,6 +999,7 @@ export default class Form extends React.Component<FormProps, object> {
 
       return this.submit((values): any => {
         if (onSubmit && onSubmit(values, action) === false) {
+          dispatchEvent('submitFail');
           return Promise.resolve(false);
         }
         // 走到这里代表校验成功了
@@ -1006,6 +1007,8 @@ export default class Form extends React.Component<FormProps, object> {
 
         if (target) {
           this.submitToTarget(target, values);
+          // 提交到target组件，认为提交成功
+          dispatchEvent('submitSucc');
         } else if (action.actionType === 'reload') {
           action.target && this.reloadTarget(action.target, values);
         } else if (action.actionType === 'dialog') {
@@ -1135,6 +1138,10 @@ export default class Form extends React.Component<FormProps, object> {
           )
         })
         .then(async response => {
+          dispatchEvent(
+            'change',
+            {newData: cloneObject(store.data), changeData: difference(store.data, store.pristine), oldData: store.pristine}
+          );
           response &&
             onChange &&
             onChange(
@@ -1216,7 +1223,7 @@ export default class Form extends React.Component<FormProps, object> {
     ctx: any,
     targets: Array<any>
   ) {
-    const {store, onChange} = this.props;
+    const {store, onChange, dispatchEvent} = this.props;
 
     if (
       (action.mergeData || store.action.mergeData) &&
@@ -1225,6 +1232,11 @@ export default class Form extends React.Component<FormProps, object> {
       targets[0].props.type === 'form'
     ) {
       store.updateData(values[0]);
+      // 派发change事件
+      dispatchEvent(
+        'change',
+        {newData: cloneObject(store.data), changeData: difference(store.data, store.pristine), oldData: store.pristine}
+      );
       onChange &&
         onChange(
           store.data,

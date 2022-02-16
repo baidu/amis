@@ -600,6 +600,7 @@ export const examples = [
                 path: 'examples/event/tree-select',
                 component: makeSchemaRenderer(treeSelectEventSchema)
               },
+              {
                 label: 'form表单',
                 path: 'examples/event/form',
                 component: makeSchemaRenderer(FormEventActionSchema)
