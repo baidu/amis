@@ -20,8 +20,7 @@ import {
   getVariable,
   isObjectShallowModified,
   qsparse,
-  repeatCount,
-  createObject
+  repeatCount
 } from '../../utils/helper';
 import debouce from 'lodash/debounce';
 import flatten from 'lodash/flatten';
@@ -1693,8 +1692,9 @@ export class FormRenderer extends Form {
 
   doAction(action: Action, data: object, throwErrors: boolean) {
     const {store, onReset, onClear} = this.props;
+    const actionType = action?.actionType as string;
     store.setCurrentAction(action);
-    if (action.actionType === 'submit' || action.actionType === 'confirm') {
+    if (actionType === 'submit' || actionType === 'confirm') {
       this.handleAction(
         undefined,
         {
@@ -1702,16 +1702,16 @@ export class FormRenderer extends Form {
         },
         store.data
       );
-    } else if (action.actionType === 'clear') {
+    } else if (actionType === 'clear') {
       store.clear(onClear);
-    } else if (action.actionType === 'reset') {
+    } else if (actionType === 'reset') {
       store.reset(onReset);
-    } else if (action.actionType === 'validate') {
+    } else if (actionType === 'validate') {
       this.validate(true);
-    } else if (action.actionType === 'reload') {
+    } else if (actionType === 'reload') {
       this.receive(store.data);
     } else {
-      // 其它情况是直接交给handleaction处理
+      // 其它情况直接交给handleAction处理
       this.handleAction(undefined, action, data, throwErrors);
     }
   }
