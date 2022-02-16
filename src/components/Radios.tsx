@@ -31,6 +31,7 @@ interface RadioProps extends OptionProps {
   style?: React.CSSProperties;
   inline?: boolean;
   level?: string; // 'link' | 'primary' | 'secondary' | 'info' | 'success' | 'warning' | 'danger' | 'light' | 'dark' | 'default';
+  btnActiveLevel?: string;
   disabled?: boolean;
   onChange?: Function;
   columnsCount: number;
