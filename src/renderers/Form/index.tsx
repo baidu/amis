@@ -625,7 +625,7 @@ export default class Form extends React.Component<FormProps, object> {
   }
 
   async onInit() {
-    const {onInit, store, persistData, submitOnInit} = this.props;
+    const {onInit, store, persistData, submitOnInit, dispatchEvent} = this.props;
     if (!isAlive(store)) {
       return;
     }
@@ -657,8 +657,9 @@ export default class Form extends React.Component<FormProps, object> {
 
     persistData && store.getLocalPersistData();
 
+    // 派发init事件，参数为初始化数据
+    dispatchEvent('inited', data);
     onInit && onInit(data, this.props);
-
     submitOnInit &&
       this.handleAction(
         undefined,
@@ -747,10 +748,17 @@ export default class Form extends React.Component<FormProps, object> {
   }
 
   validate(forceValidate?: boolean): Promise<boolean> {
-    const {store} = this.props;
+    const {store, dispatchEvent} = this.props;
 
     this.flush();
-    return store.validate(this.hooks['validate'] || [], forceValidate);
+    return store.validate(this.hooks['validate'] || [], forceValidate).then((result: boolean) => {
+      if (result) {
+        dispatchEvent('validateSucc');
+      } else {
+        dispatchEvent('validateFail');
+      }
+      return result;
+    });
   }
 
   clearErrors() {
@@ -772,14 +780,19 @@ export default class Form extends React.Component<FormProps, object> {
   }
 
   submit(fn?: (values: object) => Promise<any>): Promise<any> {
-    const {store, messages, translate: __} = this.props;
+    const {store, messages, translate: __, dispatchEvent} = this.props;
     this.flush();
 
     return store.submit(
       fn,
       this.hooks['validate'] || [],
       __(messages && messages.validateFailed)
-    );
+    ).then(result => {
+      dispatchEvent('validateSucc');
+      return result;
+    }).catch(error => {
+      dispatchEvent('validateFail');
+    });
   }
 
   // 如果开启了 lazyChange，需要一个 flush 方法把队列中值应用上。
@@ -828,13 +841,10 @@ export default class Form extends React.Component<FormProps, object> {
     changePristine = false
   ) {
     const {store, formLazyChange} = this.props;
-
     if (typeof name !== 'string') {
       return;
     }
-
     store.changeValue(name, value, changePristine);
-
     if (!changePristine) {
       (formLazyChange === false ? this.emitChange : this.lazyEmitChange)(
         submit
@@ -847,17 +857,23 @@ export default class Form extends React.Component<FormProps, object> {
   }
 
   emitChange(submit: boolean) {
-    const {onChange, store, submitOnChange} = this.props;
+    const {onChange, store, submitOnChange, dispatchEvent} = this.props;
 
     if (!isAlive(store)) {
       return;
     }
 
+    dispatchEvent(
+      'change',
+      {newData: cloneObject(store.data), changeData: difference(store.data, store.pristine), oldData: store.pristine}
+    );
     onChange &&
       onChange(store.data, difference(store.data, store.pristine), this.props);
-
+    
     store.clearRestError();
-
+    if (store.validated) {
+      this.validate(true);
+    }
     (submit || (submitOnChange && store.inited)) &&
       this.handleAction(
         undefined,
@@ -934,6 +950,7 @@ export default class Form extends React.Component<FormProps, object> {
       onChange,
       clearPersistDataAfterSubmit,
       trimValues,
+      dispatchEvent,
       translate: __
     } = this.props;
 
@@ -948,12 +965,13 @@ export default class Form extends React.Component<FormProps, object> {
     if (data === this.props.data) {
       data = store.data;
     }
-
     if (Array.isArray(action.required) && action.required.length) {
       return store.validateFields(action.required).then(result => {
         if (!result) {
+          dispatchEvent('validateError');
           env.notify('error', __('Form.validateFailed'));
         } else {
+          dispatchEvent('validateSucc');
           this.handleAction(
             e,
             {...action, required: undefined},
@@ -982,11 +1000,14 @@ export default class Form extends React.Component<FormProps, object> {
 
       return this.submit((values): any => {
         if (onSubmit && onSubmit(values, action) === false) {
+          dispatchEvent('submitFail');
           return Promise.resolve(false);
         }
 
         if (target) {
           this.submitToTarget(target, values);
+          // 提交到target组件，认为提交成功
+          dispatchEvent('submitSucc');
         } else if (action.actionType === 'reload') {
           action.target && this.reloadTarget(action.target, values);
         } else if (action.actionType === 'dialog') {
@@ -1005,20 +1026,24 @@ export default class Form extends React.Component<FormProps, object> {
             .saveRemote(action.api || (api as Api), values, {
               successMessage: saveSuccess,
               errorMessage: saveFailed,
-              onSuccess: () => {
+              onSuccess: (result: Payload) => {
+                // result为提交接口返回的内容
+                dispatchEvent('submitSucc', result);
                 if (
                   !isEffectiveApi(finnalAsyncApi, store.data) ||
                   store.data[finishedField || 'finished']
                 ) {
                   return;
                 }
-
                 return until(
                   () => store.checkRemote(finnalAsyncApi as Api, store.data),
                   (ret: any) => ret && ret[finishedField || 'finished'],
                   cancel => (this.asyncCancel = cancel),
                   checkInterval
                 );
+              },
+              onFailed: (result: Payload) => {
+                dispatchEvent('submitFail', result);
               }
             })
             .then(async response => {
@@ -1109,6 +1134,10 @@ export default class Form extends React.Component<FormProps, object> {
           )
         })
         .then(async response => {
+          dispatchEvent(
+            'change',
+            {newData: cloneObject(store.data), changeData: difference(store.data, store.pristine), oldData: store.pristine}
+          );
           response &&
             onChange &&
             onChange(
@@ -1191,7 +1220,7 @@ export default class Form extends React.Component<FormProps, object> {
     ctx: any,
     targets: Array<any>
   ) {
-    const {store, onChange} = this.props;
+    const {store, onChange, dispatchEvent} = this.props;
 
     if (
       (action.mergeData || store.action.mergeData) &&
@@ -1200,6 +1229,11 @@ export default class Form extends React.Component<FormProps, object> {
       targets[0].props.type === 'form'
     ) {
       store.updateData(values[0]);
+      // 派发change事件
+      dispatchEvent(
+        'change',
+        {newData: cloneObject(store.data), changeData: difference(store.data, store.pristine), oldData: store.pristine}
+      );
       onChange &&
         onChange(
           store.data,
@@ -1656,14 +1690,31 @@ export class FormRenderer extends Form {
     super.componentWillUnmount();
   }
 
-  doAction(
-    action: Action,
-    data: object = this.props.store.data,
-    throwErrors: boolean = false
-  ) {
-    return this.handleAction(undefined, action, data, throwErrors);
+  doAction(action: Action, data: object, throwErrors: boolean) {
+    const {store, onReset, onClear} = this.props;
+    const actionType = action?.actionType as string;
+    store.setCurrentAction(action);
+    if (actionType === 'submit' || actionType === 'confirm') {
+      this.handleAction(
+        undefined,
+        {
+          type: 'submit'
+        },
+        store.data
+      );
+    } else if (actionType === 'clear') {
+      store.clear(onClear);
+    } else if (actionType === 'reset') {
+      store.reset(onReset);
+    } else if (actionType === 'validate') {
+      this.validate(true);
+    } else if (actionType === 'reload') {
+      this.receive(store.data);
+    } else {
+      // 其它情况直接交给handleAction处理
+      this.handleAction(undefined, action, data, throwErrors);
+    }
   }
-
   handleAction(
     e: React.UIEvent<any> | undefined,
     action: Action,

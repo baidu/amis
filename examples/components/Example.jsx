@@ -85,6 +85,7 @@ import ExcelEventSchema from './EventAction/ExcelEvent';
 import WizardEventSchema from './EventAction/WizardEvent';
 import InputTreeEventSchema from './EventAction/InputTreeEvent';
 import treeSelectEventSchema from './EventAction/treeSelectEvent';
+import FormEventActionSchema from './EventAction/FormEvent';
 import WizardSchema from './Wizard';
 import ChartSchema from './Chart';
 import EChartsEditorSchema from './ECharts';
@@ -599,6 +600,10 @@ export const examples = [
                 path: 'examples/event/tree-select',
                 component: makeSchemaRenderer(treeSelectEventSchema)
               },
+                label: 'form表单',
+                path: 'examples/event/form',
+                component: makeSchemaRenderer(FormEventActionSchema)
+              }
             ]
           },
           {
