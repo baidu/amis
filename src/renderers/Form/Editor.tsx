@@ -8,6 +8,10 @@ import {
   isPureVariable,
   resolveVariableAndFilter
 } from '../../utils/tpl-builtin';
+import {bindRendererEvent} from '../../actions/Decorators';
+
+import type {Position} from 'monaco-editor';
+import type {ListenerAction} from '../../actions/Action';
 
 /**
  * Editor 代码编辑器
@@ -110,6 +114,8 @@ export interface EditorControlSchema extends Omit<FormBaseControl, 'size'> {
   allowFullscreen?: boolean;
 }
 
+export type EditorRendererEvent = 'blur' | 'focus';
+
 export interface EditorProps extends FormControlProps {
   options?: object;
 }
@@ -148,12 +154,31 @@ export default class EditorControl extends React.Component<EditorProps, any> {
     this.toDispose.forEach(fn => fn());
   }
 
+  doAction(action: ListenerAction, args: any) {
+    const actionType = action?.actionType as string;
+
+    if (actionType === 'focus') {
+      this.focus();
+    }
+  }
+
+  focus() {
+    this.editor.focus();
+    this.setState({focused: true});
+
+    // 最近一次光标位置
+    const position: Position | null = this.editor?.getPosition();
+    this.editor?.setPosition(position);
+  }
+
+  @bindRendererEvent<EditorProps, EditorRendererEvent>('focus')
   handleFocus() {
     this.setState({
       focused: true
     });
   }
 
+  @bindRendererEvent<EditorProps, EditorRendererEvent>('blur')
   handleBlur() {
     this.setState({
       focused: false
