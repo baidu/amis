@@ -327,6 +327,9 @@ export const FormStore = ServiceStore.named('FormStore')
 
         if (!json.ok) {
           // 验证错误
+          if (options && options.onFailed) {
+            options.onFailed(json);
+          }
           if (json.status === 422 && json.errors) {
             setFormItemErrors(json.errors);
 

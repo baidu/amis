@@ -77,6 +77,7 @@ import InputEventSchema from './EventAction/InputEvent';
 import DateEventSchema from './EventAction/DateEvent';
 import UploadEventSchema from './EventAction/UploadEvent';
 import SelectEventActionSchema from './EventAction/SelectEvent';
+import FormEventActionSchema from './EventAction/FormEvent';
 import WizardSchema from './Wizard';
 import ChartSchema from './Chart';
 import EChartsEditorSchema from './ECharts';
@@ -550,6 +551,11 @@ export const examples = [
                 label: '时间类组件',
                 path: 'examples/event/date',
                 component: makeSchemaRenderer(DateEventSchema)
+              },
+              {
+                label: 'form表单',
+                path: 'examples/event/form',
+                component: makeSchemaRenderer(FormEventActionSchema)
               }
             ]
           },
