@@ -240,6 +240,19 @@ export interface DrawerActionSchema extends ButtonSchema {
   redirect?: string;
 }
 
+export interface ToastActionSchema extends ButtonSchema {
+  /**
+   * 指定为打开弹窗，抽出式弹窗
+   */
+  actionType: 'toast';
+
+  /**
+   * 轻提示详情
+   * 文档：https://baidu.gitee.io/amis/docs/components/toast
+   */
+  toast: ToastSchemaBase;
+}
+
 export interface CopyActionSchema extends ButtonSchema {
   /**
    * 指定为复制内容行为
@@ -336,6 +349,7 @@ export type ActionSchema =
   | LinkActionSchema
   | DialogActionSchema
   | DrawerActionSchema
+  | ToastActionSchema
   | CopyActionSchema
   | ReloadActionSchema
   | EmailActionSchema
@@ -346,6 +360,7 @@ const ActionProps = [
   'id',
   'dialog',
   'drawer',
+  'toast',
   'url',
   'link',
   'confirmText',
@@ -401,6 +416,7 @@ import {
 } from '../Schema';
 import {DialogSchema, DialogSchemaBase} from './Dialog';
 import {DrawerSchema, DrawerSchemaBase} from './Drawer';
+import {ToastSchemaBase} from '../Schema';
 import {generateIcon} from '../utils/icon';
 import {BadgeSchema, withBadge} from '../components/Badge';
 import {normalizeApi, str2AsyncFunction} from '../utils/api';
@@ -481,6 +497,14 @@ export interface ActionProps
     >,
     Omit<
       DrawerActionSchema,
+      | 'type'
+      | 'className'
+      | 'iconClassName'
+      | 'rightIconClassName'
+      | 'loadingClassName'
+    >,
+    Omit<
+      ToastSchemaBase,
       | 'type'
       | 'className'
       | 'iconClassName'
