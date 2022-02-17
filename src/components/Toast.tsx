@@ -106,10 +106,6 @@ export class ToastComponent extends React.Component<
   componentDidMount() {
     this.hasRendered = true;
     toastRef = this;
-    
-    this.props.items?.forEach(item => {
-      toastRef.notifiy(item.level, item.body, {...item});
-    });
   }
 
   componentWillUnmount() {

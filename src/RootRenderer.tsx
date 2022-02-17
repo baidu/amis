@@ -157,7 +157,7 @@ export class RootRenderer extends React.Component<RootRendererProps> {
       store.setCurrentAction(action);
       store.openDrawer(ctx);
     } else if (action.actionType === 'toast') {
-      action.toast.items.forEach((item:any) => {
+      action.toast?.items?.forEach((item:any) => {
         env.notify(item.level || 'info', item.body ? renderChild('body', item.body, {
           ...this.props,
           data: ctx
