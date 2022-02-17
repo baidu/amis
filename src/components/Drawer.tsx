@@ -29,6 +29,9 @@ export interface DrawerProps {
   closeOnEsc?: boolean;
   container: any;
   show?: boolean;
+  showCloseButton?: boolean;
+  width?: number | string;
+  height?: number | string;
   position: DrawerPosition;
   disabled?: boolean;
   closeOnOutside?: boolean;
@@ -47,11 +50,12 @@ const fadeStyles: {
 export class Drawer extends React.Component<DrawerProps, DrawerState> {
   static defaultProps: Pick<
     DrawerProps,
-    'container' | 'position' | 'size' | 'overlay'
+    'container' | 'position' | 'size' | 'overlay' | 'showCloseButton'
   > = {
     container: document.body,
     position: 'left',
     size: 'md',
+    showCloseButton: true,
     overlay: true
   };
 
@@ -163,6 +167,20 @@ export class Drawer extends React.Component<DrawerProps, DrawerState> {
     this.isRootClosed && !e.defaultPrevented && onHide(e);
   }
 
+  getDrawerStyle() {
+    const {width, height, position} = this.props;
+    const offsetStyle: {
+      width?: number | string,
+      height?: number | string
+    } = {};
+    if ((position === 'left' || position === 'right') && width !== undefined) {
+      offsetStyle.width = width;
+    } else if ((position === 'top' || position === 'bottom') && height !== undefined) {
+      offsetStyle.height = height;
+    }
+    return offsetStyle;
+  }
+
   render() {
     const {
       classPrefix: ns,
@@ -170,6 +188,7 @@ export class Drawer extends React.Component<DrawerProps, DrawerState> {
       children,
       container,
       show,
+      showCloseButton,
       position,
       size,
       onHide,
@@ -177,6 +196,8 @@ export class Drawer extends React.Component<DrawerProps, DrawerState> {
       overlay,
       bodyClassName
     } = this.props;
+
+    const bodyStyle = this.getDrawerStyle();
 
     return (
       <Portal container={container}>
@@ -219,13 +240,14 @@ export class Drawer extends React.Component<DrawerProps, DrawerState> {
                 ) : null}
                 <div
                   ref={this.contentRef}
+                  style={bodyStyle}
                   className={cx(
                     `${ns}Drawer-content`,
                     bodyClassName,
                     fadeStyles[status]
                   )}
                 >
-                  {show ? (
+                  {show && showCloseButton ? (
                     <a
                       onClick={disabled ? undefined : onHide}
                       className={`${ns}Drawer-close`}
