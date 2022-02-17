@@ -8,7 +8,8 @@ import {
   isDisabled,
   isObject,
   createObject,
-  getVariable
+  getVariable,
+  isObjectShallowModified
 } from '../utils/helper';
 import findIndex from 'lodash/findIndex';
 import {Tabs as CTabs, Tab, TabsMode} from '../components/Tabs';
@@ -267,7 +268,6 @@ export default class Tabs extends React.Component<TabsProps, TabsState> {
 
     tabs = Array.isArray(tabs) ? tabs : [tabs];
 
-    let indexKey = 0;
     const sourceTabs: Array<TabSource> = [];
     arr.forEach((value, index) => {
       const ctx = createObject(
@@ -275,12 +275,7 @@ export default class Tabs extends React.Component<TabsProps, TabsState> {
         isObject(value) ? {index, ...value} : {item: value, index}
       );
 
-      for (let tabIndex = 0; tabIndex < tabs.length; tabIndex++ ) {
-        const tab: TabSource = Object.assign({}, tabs[tabIndex]);
-        tab.ctx = ctx;
-
-        sourceTabs.push(tab);
-      };
+      sourceTabs.push(...tabs.map((tab: TabSource) => ({...tab, ctx})));
     });
 
     return [sourceTabs, true];
@@ -319,7 +314,28 @@ export default class Tabs extends React.Component<TabsProps, TabsState> {
 
   componentDidUpdate(preProps: TabsProps, prevState: any) {
     const props = this.props;
-    const localTabs = this.state.localTabs;
+    let localTabs = this.state.localTabs;
+
+    // 响应外部修改 tabs
+    const isTabsModified = isObjectShallowModified({
+      tabs: props.tabs,
+      data: props.data,
+      source: props.source
+    }, {
+      tabs: preProps.tabs,
+      data: preProps.data,
+      source: preProps.source
+    }, false);
+
+    if (isTabsModified) {
+      const [newLocalTabs, isFromSource] = this.initTabArray(props.tabs, props.source, props.data);
+
+      this.setState({
+        localTabs: newLocalTabs,
+        isFromSource
+      });
+      localTabs = newLocalTabs;
+    }
 
     if (props.location && props.location.hash !== preProps.location.hash) {
       const hash = props.location.hash.substring(1);
