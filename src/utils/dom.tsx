@@ -4,49 +4,6 @@ import hoistNonReactStatic from 'hoist-non-react-statics';
 import getOffset from './offset';
 import getPosition from './position';
 
-const bsMapping: {
-  [propName: string]: string;
-} = {
-  level: 'bsStyle',
-  classPrefix: 'bsClass',
-  size: 'bsSize'
-};
-
-/**
- * 主要目的是希望在是用 bootstrap 组件的时候不需要带 bs 前缀。
- *
- * @param {Object} rawProps 原始属性对象。
- * @return {Object}
- */
-export const props2BsProps = (rawProps: {[propName: string]: any}) => {
-  let props: {[propName: string]: any} = {};
-
-  Object.keys(rawProps).forEach(
-    key => (props[bsMapping[key] || key] = rawProps[key])
-  );
-
-  return props;
-};
-
-/**
- * props2BsProps 的 hoc 版本
- *
- * @param {*} ComposedComponent 组合组件
- * @return {Component}
- */
-export const props2BsPropsHoc: (
-  ComposedComponent: React.ComponentType<any>
-) => React.ComponentType<any> = ComposedComponent => {
-  class BsComponent extends React.Component<any> {
-    render() {
-      return <ComposedComponent {...props2BsProps(this.props)} />;
-    }
-  }
-
-  hoistNonReactStatic(BsComponent, ComposedComponent);
-  return BsComponent;
-};
-
 export function getContainer(container: any, defaultContainer: any) {
   container = typeof container === 'function' ? container() : container;
   return ReactDOM.findDOMNode(container) || defaultContainer;

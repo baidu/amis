@@ -1,7 +1,7 @@
 import React = require('react');
 import Action from '../../src/renderers/Action';
 import * as renderer from 'react-test-renderer';
-import {render, fireEvent, cleanup} from '@testing-library/react';
+import {render, fireEvent, cleanup, screen} from '@testing-library/react';
 import {render as amisRender} from '../../src/index';
 import {makeEnv, wait} from '../helper';
 import '../../src/themes/default';
@@ -162,4 +162,48 @@ test('Renderers:Action countDown', async () => {
 
   button = container.querySelector('button');
   expect(button).not.toBeNull();
+});
+
+test('Renderers:Action tooltip', async () => {
+  const {container, getByText, findByText} = render(
+    amisRender(
+      {
+        type: 'page',
+        body: [
+          {
+            label: 'top',
+            type: 'action',
+            tooltip: 'topTooltip',
+            tooltipPlacement: 'top'
+          },
+          {
+            label: 'bottom',
+            type: 'action',
+            tooltip: 'bottomTooltip',
+            tooltipPlacement: 'bottom'
+          },
+          {
+            label: 'left',
+            type: 'action',
+            tooltip: 'leftTooltip',
+            tooltipPlacement: 'left'
+          },
+          {
+            label: 'right',
+            type: 'action',
+            tooltip: 'rightTooltip',
+            tooltipPlacement: 'right'
+          }
+        ]
+      },
+      {},
+      makeEnv({})
+    )
+  );
+
+  fireEvent.mouseOver(getByText(/top/));
+
+  await findByText('topTooltip');
+
+  expect(container).toMatchSnapshot();
 });
