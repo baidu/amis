@@ -175,7 +175,6 @@ import './renderers/TableView';
 import './renderers/Code';
 import './renderers/WebComponent';
 import './renderers/GridNav';
-import './renderers/Toast';
 
 import Scoped, {ScopedContext} from './Scoped';
 

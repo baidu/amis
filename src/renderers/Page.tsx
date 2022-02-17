@@ -424,10 +424,6 @@ export default class Page extends React.Component<PageProps> {
     } else if (action.actionType === 'drawer') {
       store.setCurrentAction(action);
       store.openDrawer(ctx);
-    } else if (action.actionType === 'toast') {
-      store.closeToast();
-      store.setCurrentAction(action);
-      store.openToast(ctx);
     } else if (action.actionType === 'ajax') {
       store.setCurrentAction(action);
       return store
@@ -819,20 +815,6 @@ export default class Page extends React.Component<PageProps> {
             show: store.drawerOpen,
             onAction: this.handleAction,
             onQuery: initApi ? this.handleQuery : undefined
-          }
-        )}
-
-        {render(
-          'toast',
-          {
-            ...((store.action as Action) &&
-              ((store.action as Action).toast as object)),
-            type: 'toast'
-          },
-          {
-            key: 'toast',
-            data: store.toastData,
-            visible: store.toastOpen
           }
         )}
       </div>

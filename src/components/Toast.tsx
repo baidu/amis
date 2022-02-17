@@ -48,9 +48,7 @@ interface ToastComponentProps extends ThemeProps, LocaleProps {
     | 'bottom-center'
     | 'bottom-left'
     | 'bottom-right'
-    | 'center'
-    | 'center-left'
-    | 'center-right';
+    | 'center';
   closeButton: boolean;
   showIcon?: boolean;
   timeout: number;
@@ -59,7 +57,6 @@ interface ToastComponentProps extends ThemeProps, LocaleProps {
   items?: Array<Item>;
   useMobileUI?: boolean;
   visible?: boolean;
-  onMount?: (toastRef: any) => void;
 }
 
 interface Item extends Config {
@@ -75,13 +72,14 @@ interface Item extends Config {
     | 'bottom-center'
     | 'bottom-left'
     | 'bottom-right'
-    | 'center'
-    | 'center-left'
-    | 'center-right';
+    | 'center';
+  showIcon?: boolean;
+  useMobileUI?: boolean;
 }
 
 interface ToastComponentState {
   items: Array<Item>;
+  useMobileUI?: boolean;
 }
 
 export class ToastComponent extends React.Component<
@@ -107,28 +105,33 @@ export class ToastComponent extends React.Component<
   };
 
   componentDidMount() {
-    this.props.onMount && this.props.onMount(toastRef);
-
-    this.hasRendered = true;
-    toastRef = this;
-
-    if (this.props.items && this.props.items.length > 0) {
-      this.setState({
-        items: this.props.items
-      });
+    if (!toastRef) {
+      this.hasRendered = true;
+      toastRef = this;
     }
+    
+    this.props.items?.forEach(item => {
+      toastRef.notifiy(item.level, item.body, {...item});
+    });
   }
 
-  notifiy(level: string, content: string, config?: any) {
-    const items = this.state.items.concat();
+  notifiy(level: string, content: any, config?: any) {
+    let items = this.state.items.concat();
+    const useMobileUI = (config.useMobileUI || this.props.useMobileUI) && isMobile();
+    if (useMobileUI) {
+      items = [];
+    }
     items.push({
       body: content,
       level,
       ...config,
-      id: uuid()
+      id: uuid(),
+      position: config.position || (useMobileUI ? 'center' : config.position),
+      timeout: config.timeout || (useMobileUI ? 3000 : undefined),
     });
     this.setState({
-      items
+      items,
+      useMobileUI
     });
   }
 
@@ -180,7 +183,7 @@ export class ToastComponent extends React.Component<
       visible
     } = this.props;
     const items = this.state.items;
-    const mobileUI = useMobileUI && isMobile();
+    const mobileUI = (useMobileUI || this.state.useMobileUI) && isMobile();
     const groupedItems = groupBy(items, item => item.position || position);
 
     return Object.keys(groupedItems).map(position => {
@@ -193,8 +196,7 @@ export class ToastComponent extends React.Component<
               l.toUpperCase()
             )}`,
             {
-              'Toast-mobile': mobileUI,
-              'Toast-mobile--has-icon': mobileUI && showIcon !== false
+              'Toast-mobile': mobileUI
             },
             className
           )}
@@ -214,7 +216,7 @@ export class ToastComponent extends React.Component<
                 closeButton={!mobileUI && (item.closeButton ?? closeButton)}
                 onDismiss={this.handleDismissed.bind(this, items.indexOf(item))}
                 translate={translate}
-                showIcon={showIcon}
+                showIcon={item.showIcon ?? showIcon}
                 useMobileUI={mobileUI}
                 visible={visible}
               />
@@ -242,9 +244,7 @@ interface ToastMessageProps {
     | 'bottom-center'
     | 'bottom-left'
     | 'bottom-right'
-    | 'center'
-    | 'center-left'
-    | 'center-right';
+    | 'center';
   onDismiss?: () => void;
   classnames: ClassNamesFn;
   translate: TranslateFn;
@@ -342,7 +342,9 @@ export class ToastMessage extends React.Component<
         {(status: string) => {
           return (
             <div
-              className={cx(`Toast Toast--${level}`, fadeStyles[status])}
+              className={cx(`Toast Toast--${level}`, fadeStyles[status],{
+                'Toast-mobile--has-icon': useMobileUI && showIcon !== false
+              })}
               onMouseEnter={this.handleMouseEnter}
               onMouseLeave={this.handleMouseLeave}
               onClick={closeButton ? noop : this.close}

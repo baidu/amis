@@ -1026,7 +1026,7 @@ export const components = [
       {
         label: 'Toast 轻提示',
         path: '/zh-CN/components/toast',
-        getComponent: (() =>
+        component: React.lazy(() =>
           import('../../docs/zh-CN/components/toast.md').then(wrapDoc)
         )
       }

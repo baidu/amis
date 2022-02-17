@@ -226,16 +226,6 @@
     transform: translate(-50%, -50%);
   }
 
-  &-wrap--centerLeft {
-    top: 50%;
-    left: var(--gap-base);
-  }
-
-  &-wrap--centerRight {
-    top: 50%;
-    right: var(--gap-base);
-  }
-  
 }
 
 .#{$ns}Toast-mobile {
@@ -257,6 +247,7 @@
 
     &-body {
       line-height: px2rem(18px);
+      font-size: var(--fontSizeMd);
     }
 
     &-icon {
@@ -272,15 +263,8 @@
     }
   }
 
-  &--has-icon {
+  & &--has-icon {
     min-width: px2rem(120px);
-
-    .#{$ns}Toast {
-      padding-bottom: var(--gap-lg);
-
-      &-body {
-        font-size: var(--fontSizeMd);
-      }
-    }
+    padding-bottom: var(--gap-lg);
   }
 }

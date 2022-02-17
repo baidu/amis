@@ -115,7 +115,6 @@ import {UUIDControlSchema} from './renderers/Form/UUID';
 import {FormControlSchema} from './renderers/Form/Control';
 import {TransferPickerControlSchema} from './renderers/Form/TransferPicker';
 import {TabsTransferPickerControlSchema} from './renderers/Form/TabsTransferPicker';
-import {ToastSchema} from './renderers/Toast';
 
 // 每加个类型，这补充一下。
 export type SchemaType =
@@ -836,3 +835,60 @@ export interface FeedbackDialog extends DialogSchemaBase {
 }
 
 export type RootSchema = PageSchema;
+
+export interface ToastSchema extends BaseSchema {
+  /**
+   * 指定为轻提示控件
+   */
+  type: 'toast';
+
+  /**
+   * 轻提示内容
+   */
+  items: Array<{
+    title?: SchemaCollection;
+    body: SchemaCollection;
+    level: 'info' | 'success' | 'error' | 'warning';
+    id: string;
+    position?:
+      | 'top-right'
+      | 'top-center'
+      | 'top-left'
+      | 'bottom-center'
+      | 'bottom-left'
+      | 'bottom-right'
+      | 'center';
+    closeButton?: boolean;
+    showIcon?: boolean;
+    timeout?: number;
+  }>;
+
+  /**
+   * 弹出位置
+   */
+  position:
+    | 'top-right'
+    | 'top-center'
+    | 'top-left'
+    | 'bottom-center'
+    | 'bottom-left'
+    | 'bottom-right'
+    | 'center';
+
+  /**
+   * 是否展示关闭按钮
+   */
+  closeButton: boolean;
+
+  /**
+   * 是否展示图标
+   */
+  showIcon?: boolean;
+
+  /**
+   * 持续时间
+   */
+  timeout: number;
+};
+
+export type ToastSchemaBase = Omit<ToastSchema, 'type'>;
