@@ -95,6 +95,17 @@ exports[`Renderer:transfer 1`] = `
                           <div
                             class="cxd-GroupedSelection-item"
                           >
+                            <label
+                              class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full cxd-Checkbox--sm"
+                            >
+                              <input
+                                type="checkbox"
+                              />
+                              <i />
+                              <span
+                                class=""
+                              />
+                            </label>
                             <div
                               class="cxd-GroupedSelection-itemLabel"
                             >
@@ -102,6 +113,10 @@ exports[`Renderer:transfer 1`] = `
                                 诸葛亮
                               </span>
                             </div>
+                          </div>
+                          <div
+                            class="cxd-GroupedSelection-item"
+                          >
                             <label
                               class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full cxd-Checkbox--sm"
                             >
@@ -113,10 +128,6 @@ exports[`Renderer:transfer 1`] = `
                                 class=""
                               />
                             </label>
-                          </div>
-                          <div
-                            class="cxd-GroupedSelection-item"
-                          >
                             <div
                               class="cxd-GroupedSelection-itemLabel"
                             >
@@ -124,6 +135,10 @@ exports[`Renderer:transfer 1`] = `
                                 曹操
                               </span>
                             </div>
+                          </div>
+                          <div
+                            class="cxd-GroupedSelection-item"
+                          >
                             <label
                               class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full cxd-Checkbox--sm"
                             >
@@ -135,10 +150,6 @@ exports[`Renderer:transfer 1`] = `
                                 class=""
                               />
                             </label>
-                          </div>
-                          <div
-                            class="cxd-GroupedSelection-item"
-                          >
                             <div
                               class="cxd-GroupedSelection-itemLabel"
                             >
@@ -146,6 +157,10 @@ exports[`Renderer:transfer 1`] = `
                                 钟无艳
                               </span>
                             </div>
+                          </div>
+                          <div
+                            class="cxd-GroupedSelection-item"
+                          >
                             <label
                               class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full cxd-Checkbox--sm"
                             >
@@ -157,10 +172,6 @@ exports[`Renderer:transfer 1`] = `
                                 class=""
                               />
                             </label>
-                          </div>
-                          <div
-                            class="cxd-GroupedSelection-item"
-                          >
                             <div
                               class="cxd-GroupedSelection-itemLabel"
                             >
@@ -168,6 +179,10 @@ exports[`Renderer:transfer 1`] = `
                                 李白
                               </span>
                             </div>
+                          </div>
+                          <div
+                            class="cxd-GroupedSelection-item"
+                          >
                             <label
                               class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full cxd-Checkbox--sm"
                             >
@@ -179,10 +194,6 @@ exports[`Renderer:transfer 1`] = `
                                 class=""
                               />
                             </label>
-                          </div>
-                          <div
-                            class="cxd-GroupedSelection-item"
-                          >
                             <div
                               class="cxd-GroupedSelection-itemLabel"
                             >
@@ -190,6 +201,10 @@ exports[`Renderer:transfer 1`] = `
                                 韩信
                               </span>
                             </div>
+                          </div>
+                          <div
+                            class="cxd-GroupedSelection-item"
+                          >
                             <label
                               class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full cxd-Checkbox--sm"
                             >
@@ -201,10 +216,6 @@ exports[`Renderer:transfer 1`] = `
                                 class=""
                               />
                             </label>
-                          </div>
-                          <div
-                            class="cxd-GroupedSelection-item"
-                          >
                             <div
                               class="cxd-GroupedSelection-itemLabel"
                             >
@@ -212,17 +223,6 @@ exports[`Renderer:transfer 1`] = `
                                 云中君
                               </span>
                             </div>
-                            <label
-                              class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full cxd-Checkbox--sm"
-                            >
-                              <input
-                                type="checkbox"
-                              />
-                              <i />
-                              <span
-                                class=""
-                              />
-                            </label>
                           </div>
                         </div>
                       </div>
@@ -435,6 +435,17 @@ exports[`Renderer:transfer tree 1`] = `
                                   icon="right-arrow-bold"
                                 />
                               </a>
+                              <label
+                                class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full cxd-Checkbox--sm"
+                              >
+                                <input
+                                  type="checkbox"
+                                />
+                                <i />
+                                <span
+                                  class=""
+                                />
+                              </label>
                               <div
                                 class="cxd-TreeSelection-itemLabel"
                               >
@@ -442,17 +453,6 @@ exports[`Renderer:transfer tree 1`] = `
                                   法师
                                 </span>
                               </div>
-                              <label
-                                class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full cxd-Checkbox--sm"
-                              >
-                                <input
-                                  type="checkbox"
-                                />
-                                <i />
-                                <span
-                                  class=""
-                                />
-                              </label>
                             </div>
                             <div
                               class="cxd-TreeSelection-sublist"
@@ -463,6 +463,17 @@ exports[`Renderer:transfer tree 1`] = `
                                 <div
                                   class="cxd-TreeSelection-itemInner"
                                 >
+                                  <label
+                                    class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full cxd-Checkbox--sm"
+                                  >
+                                    <input
+                                      type="checkbox"
+                                    />
+                                    <i />
+                                    <span
+                                      class=""
+                                    />
+                                  </label>
                                   <div
                                     class="cxd-TreeSelection-itemLabel"
                                   >
@@ -470,17 +481,6 @@ exports[`Renderer:transfer tree 1`] = `
                                       诸葛亮
                                     </span>
                                   </div>
-                                  <label
-                                    class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full cxd-Checkbox--sm"
-                                  >
-                                    <input
-                                      type="checkbox"
-                                    />
-                                    <i />
-                                    <span
-                                      class=""
-                                    />
-                                  </label>
                                 </div>
                               </div>
                             </div>
@@ -499,6 +499,17 @@ exports[`Renderer:transfer tree 1`] = `
                                   icon="right-arrow-bold"
                                 />
                               </a>
+                              <label
+                                class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full cxd-Checkbox--sm"
+                              >
+                                <input
+                                  type="checkbox"
+                                />
+                                <i />
+                                <span
+                                  class=""
+                                />
+                              </label>
                               <div
                                 class="cxd-TreeSelection-itemLabel"
                               >
@@ -506,17 +517,6 @@ exports[`Renderer:transfer tree 1`] = `
                                   战士
                                 </span>
                               </div>
-                              <label
-                                class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full cxd-Checkbox--sm"
-                              >
-                                <input
-                                  type="checkbox"
-                                />
-                                <i />
-                                <span
-                                  class=""
-                                />
-                              </label>
                             </div>
                             <div
                               class="cxd-TreeSelection-sublist"
@@ -527,13 +527,6 @@ exports[`Renderer:transfer tree 1`] = `
                                 <div
                                   class="cxd-TreeSelection-itemInner"
                                 >
-                                  <div
-                                    class="cxd-TreeSelection-itemLabel"
-                                  >
-                                    <span>
-                                      曹操
-                                    </span>
-                                  </div>
                                   <label
                                     class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full cxd-Checkbox--sm"
                                   >
@@ -545,6 +538,13 @@ exports[`Renderer:transfer tree 1`] = `
                                       class=""
                                     />
                                   </label>
+                                  <div
+                                    class="cxd-TreeSelection-itemLabel"
+                                  >
+                                    <span>
+                                      曹操
+                                    </span>
+                                  </div>
                                 </div>
                               </div>
                               <div
@@ -553,13 +553,6 @@ exports[`Renderer:transfer tree 1`] = `
                                 <div
                                   class="cxd-TreeSelection-itemInner"
                                 >
-                                  <div
-                                    class="cxd-TreeSelection-itemLabel"
-                                  >
-                                    <span>
-                                      钟无艳
-                                    </span>
-                                  </div>
                                   <label
                                     class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full cxd-Checkbox--sm"
                                   >
@@ -571,6 +564,13 @@ exports[`Renderer:transfer tree 1`] = `
                                       class=""
                                     />
                                   </label>
+                                  <div
+                                    class="cxd-TreeSelection-itemLabel"
+                                  >
+                                    <span>
+                                      钟无艳
+                                    </span>
+                                  </div>
                                 </div>
                               </div>
                             </div>
@@ -589,13 +589,6 @@ exports[`Renderer:transfer tree 1`] = `
                                   icon="right-arrow-bold"
                                 />
                               </a>
-                              <div
-                                class="cxd-TreeSelection-itemLabel"
-                              >
-                                <span>
-                                  打野
-                                </span>
-                              </div>
                               <label
                                 class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full cxd-Checkbox--sm"
                               >
@@ -607,6 +600,13 @@ exports[`Renderer:transfer tree 1`] = `
                                   class=""
                                 />
                               </label>
+                              <div
+                                class="cxd-TreeSelection-itemLabel"
+                              >
+                                <span>
+                                  打野
+                                </span>
+                              </div>
                             </div>
                             <div
                               class="cxd-TreeSelection-sublist"
@@ -617,6 +617,17 @@ exports[`Renderer:transfer tree 1`] = `
                                 <div
                                   class="cxd-TreeSelection-itemInner"
                                 >
+                                  <label
+                                    class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full cxd-Checkbox--sm"
+                                  >
+                                    <input
+                                      type="checkbox"
+                                    />
+                                    <i />
+                                    <span
+                                      class=""
+                                    />
+                                  </label>
                                   <div
                                     class="cxd-TreeSelection-itemLabel"
                                   >
@@ -624,6 +635,14 @@ exports[`Renderer:transfer tree 1`] = `
                                       李白
                                     </span>
                                   </div>
+                                </div>
+                              </div>
+                              <div
+                                class="cxd-TreeSelection-item"
+                              >
+                                <div
+                                  class="cxd-TreeSelection-itemInner"
+                                >
                                   <label
                                     class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full cxd-Checkbox--sm"
                                   >
@@ -635,14 +654,6 @@ exports[`Renderer:transfer tree 1`] = `
                                       class=""
                                     />
                                   </label>
-                                </div>
-                              </div>
-                              <div
-                                class="cxd-TreeSelection-item"
-                              >
-                                <div
-                                  class="cxd-TreeSelection-itemInner"
-                                >
                                   <div
                                     class="cxd-TreeSelection-itemLabel"
                                   >
@@ -650,17 +661,6 @@ exports[`Renderer:transfer tree 1`] = `
                                       韩信
                                     </span>
                                   </div>
-                                  <label
-                                    class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full cxd-Checkbox--sm"
-                                  >
-                                    <input
-                                      type="checkbox"
-                                    />
-                                    <i />
-                                    <span
-                                      class=""
-                                    />
-                                  </label>
                                 </div>
                               </div>
                               <div
@@ -669,13 +669,6 @@ exports[`Renderer:transfer tree 1`] = `
                                 <div
                                   class="cxd-TreeSelection-itemInner"
                                 >
-                                  <div
-                                    class="cxd-TreeSelection-itemLabel"
-                                  >
-                                    <span>
-                                      云中君
-                                    </span>
-                                  </div>
                                   <label
                                     class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full cxd-Checkbox--sm"
                                   >
@@ -687,6 +680,13 @@ exports[`Renderer:transfer tree 1`] = `
                                       class=""
                                     />
                                   </label>
+                                  <div
+                                    class="cxd-TreeSelection-itemLabel"
+                                  >
+                                    <span>
+                                      云中君
+                                    </span>
+                                  </div>
                                 </div>
                               </div>
                             </div>

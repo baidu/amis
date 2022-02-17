@@ -174,6 +174,8 @@ $L1: 0px 4px 6px 0px rgba(8, 14, 26, 0.06),
   --Form-select-popoverGap: #{$R3};
   --Form-select-search-height: #{px2rem(30px)};
   --Form-selectValue-color: var(--primary);
+  --Form-select-value-borderColor: #{$G9};
+  --Form-select-valueIcon-color: #{$G4};
 
   --InputGroup-select-borderWidth: #{px2rem(1px)};
   --InputGroup-select-onFocused-bg: #eaf6fe;

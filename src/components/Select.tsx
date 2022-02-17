@@ -10,6 +10,7 @@ import React from 'react';
 import VirtualList from './virtual-list';
 import Overlay from './Overlay';
 import PopOver from './PopOver';
+import TooltipWrapper from './TooltipWrapper';
 import Downshift, {ControllerStateAndHelpers} from 'downshift';
 import {closeIcon, Icon} from './icons';
 // @ts-ignore
@@ -377,27 +378,6 @@ export class Select extends React.Component<SelectProps, SelectState> {
   constructor(props: SelectProps) {
     super(props);
 
-    this.open = this.open.bind(this);
-    this.close = this.close.bind(this);
-    this.confirm = this.confirm.bind(this);
-    this.handlePickerChange = this.handlePickerChange.bind(this);
-    this.toggle = this.toggle.bind(this);
-    this.onBlur = this.onBlur.bind(this);
-    this.onFocus = this.onFocus.bind(this);
-    this.focus = this.focus.bind(this);
-    this.inputRef = this.inputRef.bind(this);
-    this.handleChange = this.handleChange.bind(this);
-    this.handleInputChange = this.handleInputChange.bind(this);
-    this.clearValue = this.clearValue.bind(this);
-    this.clearSearchValue = this.clearSearchValue.bind(this);
-    this.handleStateChange = this.handleStateChange.bind(this);
-    this.handleKeyPress = this.handleKeyPress.bind(this);
-    this.getTarget = this.getTarget.bind(this);
-    this.toggleCheckAll = this.toggleCheckAll.bind(this);
-    this.handleAddClick = this.handleAddClick.bind(this);
-    this.handleEditClick = this.handleEditClick.bind(this);
-    this.handleDeleteClick = this.handleDeleteClick.bind(this);
-
     this.state = {
       isOpen: props.defaultOpen || false,
       isFocused: false,
@@ -432,6 +412,7 @@ export class Select extends React.Component<SelectProps, SelectState> {
     }
   }
 
+  @autobind
   open() {
     this.props.disabled ||
       this.setState(
@@ -443,12 +424,14 @@ export class Select extends React.Component<SelectProps, SelectState> {
       );
   }
 
+  @autobind
   close() {
     this.setState({
       isOpen: false
     });
   }
 
+  @autobind
   confirm() {
     // @ts-ignore
     this.handleChange(this.state.pickerSelectItem);
@@ -457,6 +440,7 @@ export class Select extends React.Component<SelectProps, SelectState> {
     });
   }
 
+  @autobind
   toggle(e?: React.MouseEvent<HTMLDivElement>) {
     if (
       e &&
@@ -476,6 +460,7 @@ export class Select extends React.Component<SelectProps, SelectState> {
       );
   }
 
+  @autobind
   onFocus(e: any) {
     this.props.disabled ||
       this.state.isOpen ||
@@ -489,6 +474,7 @@ export class Select extends React.Component<SelectProps, SelectState> {
     this.props.onFocus && this.props.onFocus(e);
   }
 
+  @autobind
   onBlur(e: any) {
     this.setState({
       isFocused: false
@@ -497,6 +483,7 @@ export class Select extends React.Component<SelectProps, SelectState> {
     this.props.onBlur && this.props.onBlur(e);
   }
 
+  @autobind
   focus() {
     this.input
       ? this.input.focus()
@@ -509,6 +496,7 @@ export class Select extends React.Component<SelectProps, SelectState> {
       : this.getTarget() && this.getTarget().blur();
   }
 
+  @autobind
   getTarget() {
     if (!this.target) {
       this.target = findDOMNode(this) as HTMLElement;
@@ -516,10 +504,12 @@ export class Select extends React.Component<SelectProps, SelectState> {
     return this.target as HTMLElement;
   }
 
+  @autobind
   inputRef(ref: HTMLInputElement) {
     this.input = ref;
   }
 
+  @autobind
   toggleCheckAll() {
     const {
       options,
@@ -561,6 +551,7 @@ export class Select extends React.Component<SelectProps, SelectState> {
     onChange(simpleValue ? value.map(item => item.value) : value);
   }
 
+  @autobind
   handleInputChange(evt: React.ChangeEvent<HTMLInputElement>) {
     const {loadOptions} = this.props;
     this.setState(
@@ -571,6 +562,7 @@ export class Select extends React.Component<SelectProps, SelectState> {
     );
   }
 
+  @autobind
   handlePickerChange(selectItem: any, index: number, confirm?: boolean) {
     if (!this.props.multiple) {
       selectItem = selectItem[0];
@@ -584,6 +576,7 @@ export class Select extends React.Component<SelectProps, SelectState> {
     }
   }
 
+  @autobind
   handleChange(selectItem: any) {
     const {onChange, multiple, simpleValue, valueField} = this.props;
     let {selection} = this.state;
@@ -605,6 +598,7 @@ export class Select extends React.Component<SelectProps, SelectState> {
     }
   }
 
+  @autobind
   handleStateChange(changes: any) {
     const {multiple, checkAll} = this.props;
     let update: any = {};
@@ -638,6 +632,7 @@ export class Select extends React.Component<SelectProps, SelectState> {
     }
   }
 
+  @autobind
   handleKeyPress(e: React.KeyboardEvent) {
     if (this.props.multiple && e.key === ' ') {
       this.toggle();
@@ -645,6 +640,7 @@ export class Select extends React.Component<SelectProps, SelectState> {
     }
   }
 
+  @autobind
   clearValue(e: React.MouseEvent<any>) {
     const onChange = this.props.onChange;
     e.preventDefault();
@@ -652,6 +648,7 @@ export class Select extends React.Component<SelectProps, SelectState> {
     onChange(this.props.resetValue);
   }
 
+  @autobind
   clearSearchValue() {
     const {loadOptions} = this.props;
     this.setState(
@@ -662,11 +659,13 @@ export class Select extends React.Component<SelectProps, SelectState> {
     );
   }
 
+  @autobind
   handleAddClick() {
     const {onAdd} = this.props;
     onAdd && onAdd();
   }
 
+  @autobind
   handleEditClick(e: Event, item: any) {
     const {onEdit} = this.props;
     e.preventDefault();
@@ -674,6 +673,7 @@ export class Select extends React.Component<SelectProps, SelectState> {
     onEdit && onEdit(item);
   }
 
+  @autobind
   handleDeleteClick(e: Event, item: any) {
     const {onDelete} = this.props;
     e.preventDefault();
@@ -688,6 +688,7 @@ export class Select extends React.Component<SelectProps, SelectState> {
 
   renderValue({inputValue, isOpen}: ControllerStateAndHelpers<any>) {
     const {
+      classnames: cx,
       multiple,
       valuesNoWrap,
       placeholder,
@@ -711,8 +712,12 @@ export class Select extends React.Component<SelectProps, SelectState> {
     return selection.map((item, index) => {
       if (!multiple) {
         return (
-          <div className={`${ns}Select-value`} key={index}>
-            {`${item[labelField || 'label']}`}
+          <div className={cx('Select-value', {
+            'is-disabled': disabled
+            })}
+            key={index}
+          >
+            {item[labelField || 'label']}
           </div>
         );
       }
@@ -722,19 +727,26 @@ export class Select extends React.Component<SelectProps, SelectState> {
           index === selection.length - 1 ? '' : ' + '
         }`
       ) : (
-        <div className={`${ns}Select-value`} key={index}>
-          <span
-            className={`${ns}Select-valueIcon ${
-              disabled || item.disabled ? 'is-disabled' : ''
-            }`}
-            onClick={this.removeItem.bind(this, index)}
-          >
-            ×
-          </span>
-          <span className={`${ns}Select-valueLabel`}>
-            {`${item[labelField || 'label']}`}
-          </span>
-        </div>
+        <TooltipWrapper
+          placement={'top'}
+          tooltip={item[labelField || 'label']}
+          trigger={'hover'}
+          key={index}
+        >
+          <div className={`${ns}Select-value`}>
+            <span className={`${ns}Select-valueLabel`}>
+              {item[labelField || 'label']}
+            </span>
+            <span
+              className={cx('Select-valueIcon', {
+                'is-disabled': disabled || item.disabled
+              })}
+              onClick={this.removeItem.bind(this, index)}
+            >
+              ×
+            </span>
+          </div>
+        </TooltipWrapper>
       );
     });
   }
@@ -1115,7 +1127,7 @@ export class Select extends React.Component<SelectProps, SelectState> {
               !disabled &&
               (Array.isArray(value) ? value.length : value !== resetValue) ? (
                 <a onClick={this.clearValue} className={cx('Select-clear')}>
-                  <Icon icon="close" className="icon" />
+                  <Icon icon="close-small" className="icon" />
                 </a>
               ) : null}
               {loading ? (

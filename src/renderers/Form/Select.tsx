@@ -444,6 +444,7 @@ class TransferDropdownRenderer extends BaseTransferRenderer<TransferDropDownProp
       showArrow,
       deferLoad,
       disabled,
+      clearable,
       selectTitle,
       selectMode,
       multiple,
@@ -477,6 +478,7 @@ class TransferDropdownRenderer extends BaseTransferRenderer<TransferDropDownProp
           className={className}
           value={selectedOptions}
           disabled={disabled}
+          clearable={clearable}
           options={options}
           onChange={this.handleChange}
           option2value={this.option2value}

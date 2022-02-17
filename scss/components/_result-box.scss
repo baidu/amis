@@ -114,6 +114,18 @@
     min-height: 24px;
   }
 
+  &.#{$ns}TransferDropDown {
+    padding: 0;
+
+    > .#{$ns}ResultBox-value {
+      background: var(--Form-select-value-bgColor);
+
+      &:hover {
+        background: var(--Form-selectValue-onHover-bgColor);
+      }
+    }
+  }
+  
   &.is-mobile {
     min-height: calc(var(--Form-input-lineHeight) * var(--fontSizeLg));
     border: none;
