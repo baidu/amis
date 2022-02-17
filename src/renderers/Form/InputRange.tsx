@@ -23,6 +23,11 @@ export interface RangeControlSchema extends FormBaseControl {
   type: 'input-range';
 
   /**
+   * 滑块值
+   */
+  value?: Value;
+
+  /**
    * 最大值
    */
   max?: number;
@@ -41,6 +46,56 @@ export interface RangeControlSchema extends FormBaseControl {
    * 单位
    */
   unit?: string;
+
+  /**
+   * 是否展示步长
+   */
+  showSteps?: boolean;
+
+  /**
+   * 分割块数
+   */
+  parts?: number;
+
+  /**
+   * 刻度
+   */
+  marks?: MarksType;
+
+  /**
+   * 是否展示标签
+   */
+  tooltipVisible?: boolean;
+
+  /**
+   * 标签方向
+   */
+  tooltipPlacement?: TooltipPosType;
+
+  /**
+   * 是否为双滑块
+   */
+  multiple?: boolean;
+
+  /**
+   * 是否通过分隔符连接
+   */
+  joinValues?: boolean;
+
+  /**
+   * 分隔符
+   */
+  delimiter?: string;
+
+  /**
+   * 是否展示输入框
+   */
+  showInput?: boolean;
+
+  /**
+   * 是否禁用
+   */
+  disabled?: boolean;
 }
 
 export type MarksType = {

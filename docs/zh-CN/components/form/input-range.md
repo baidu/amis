@@ -265,7 +265,7 @@ order: 38
 | step             | `number`                                                     | `1`     | 步长                                                         |
 | showSteps        | `boolean`                                                    | `false` | 是否显示步长                                                 |
 | parts            | `number`                                                     | `1`     | 分割的块数                                                   |
-| marks            | `{ [number | string]: ReactNode }`  or `{ [number | string]: { style: CSSProperties, label: ReactNode } }` |         | 刻度标记<br/>- 支持自定义样式<br/>- 设置百分比               |
+| marks            | <code>{ [number &#124; string]: ReactNode }</code>  or <code>{ [number &#124; string]: { style: CSSProperties, label: ReactNode } }</code> |         | 刻度标记<br/>- 支持自定义样式<br/>- 设置百分比               |
 | tooltipVisible   | `boolean`                                                    | `false` | 是否显示滑块标签                                             |
 | tooltipPlacement | `auto` or `bottom` or `left` or `right`                      | `top`   | 滑块标签的位置，默认`auto`，方向自适应<br/>前置条件：tooltipVisible 不为 false 时有效 |
 | tipFormatter     | `function`                                                   |         | 控制滑块标签显隐函数<br/>前置条件：tooltipVisible 不为 false 时有效 |

@@ -63,7 +63,7 @@ exports[`Renderer:range 1`] = `
                   </div>
                   <div
                     class="cxd-InputRange-label pos-top"
-                    style="visibility: hidden; position: relative;"
+                    style="position: relative;"
                   >
                     <span>
                       7
@@ -336,7 +336,7 @@ exports[`Renderer:range:marks 1`] = `
                   </div>
                   <div
                     class="cxd-InputRange-label pos-top"
-                    style="visibility: hidden; position: relative;"
+                    style="position: relative;"
                   >
                     <span>
                       0
@@ -629,7 +629,7 @@ exports[`Renderer:range:multiple 1`] = `
                   </div>
                   <div
                     class="cxd-InputRange-label pos-top"
-                    style="visibility: hidden; position: relative;"
+                    style="position: relative;"
                   >
                     <span>
                       0
@@ -728,7 +728,7 @@ exports[`Renderer:range:multiple 1`] = `
                   </div>
                   <div
                     class="cxd-InputRange-label pos-top"
-                    style="visibility: hidden; position: relative;"
+                    style="position: relative;"
                   >
                     <span>
                       100
@@ -1021,7 +1021,7 @@ exports[`Renderer:range:showSteps 1`] = `
                   </div>
                   <div
                     class="cxd-InputRange-label pos-top"
-                    style="visibility: hidden; position: relative;"
+                    style="position: relative;"
                   >
                     <span>
                       0
@@ -1275,8 +1275,8 @@ exports[`Renderer:range:tooltipVisible 1`] = `
                     />
                   </div>
                   <div
-                    class="cxd-InputRange-label pos-right"
-                    style="visibility: visible; position: relative;"
+                    class="cxd-InputRange-label pos-right cxd-InputRange-label-visible"
+                    style="position: relative;"
                   >
                     <span>
                       0

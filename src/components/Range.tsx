@@ -13,7 +13,7 @@ import {uncontrollable} from 'uncontrollable';
 
 import {RendererProps} from '../factory';
 import Overlay from './Overlay';
-import {themeable} from '../theme';
+import {ThemeProps, themeable} from '../theme';
 import {autobind, camel} from '../utils/helper';
 import {Icon} from '../../src';
 import {
@@ -31,8 +31,7 @@ interface HandleItemState {
   labelActive: boolean;
 }
 
-interface HandleItemProps {
-  classPrefix: string;
+interface HandleItemProps extends ThemeProps {
   disabled: boolean;
   value: number;
   min: number;
@@ -46,9 +45,8 @@ interface HandleItemProps {
   tooltipPlacement?: string;
 }
 
-interface LabelProps {
+interface LabelProps extends ThemeProps {
   show: boolean;
-  classPrefix: string;
   value: number;
   tooltipVisible?: boolean;
   tipFormatter?: (value: Value) => boolean;
@@ -154,7 +152,7 @@ class HandleItem extends React.Component<HandleItemProps, HandleItemState> {
 
   render() {
     const {
-      classPrefix: ns,
+      classnames: cx,
       disabled,
       value,
       min,
@@ -171,23 +169,21 @@ class HandleItem extends React.Component<HandleItemProps, HandleItemState> {
     };
 
     return disabled ? (
-      <div className={`${ns}InputRange-handle`} style={style}>
-        <div className={`${ns}InputRange-handle-icon`}>
+      <div className={cx('InputRange-handle')} style={style}>
+        <div className={cx('InputRange-handle-icon')}>
           <Icon icon="slider-handle" className="icon" />
         </div>
       </div>
     ) : (
       <div
-        className={`${ns}InputRange-handle`}
+        className={cx('InputRange-handle')}
         style={style}
         ref={this.handleRef}
       >
         <div
-          className={
-            isDrag
-              ? `${ns}InputRange-handle-drage`
-              : `${ns}InputRange-handle-icon`
-          }
+          className={cx(
+            isDrag ? 'InputRange-handle-drage' : 'InputRange-handle-icon'
+          )}
           onMouseDown={this.onMouseDown}
           onMouseEnter={this.onMouseEnter}
           onMouseLeave={this.onMouseLeave}
@@ -204,7 +200,8 @@ class HandleItem extends React.Component<HandleItemProps, HandleItemState> {
         >
           <Label
             show={labelActive}
-            classPrefix={ns}
+            classPrefix={this.props.classPrefix}
+            classnames={cx}
             value={value}
             tooltipVisible={tooltipVisible}
             tipFormatter={tipFormatter}
@@ -223,7 +220,7 @@ class HandleItem extends React.Component<HandleItemProps, HandleItemState> {
 class Label extends React.Component<LabelProps, any> {
   render() {
     const {
-      classPrefix: ns,
+      classnames: cx,
       value,
       show,
       tooltipVisible,
@@ -251,10 +248,9 @@ class Label extends React.Component<LabelProps, any> {
         : show;
     return (
       <div
-        className={`${ns}InputRange-label pos-${camel(placement)}`}
-        style={{
-          visibility: isShow ? 'visible' : 'hidden'
-        }}
+        className={cx('InputRange-label', `pos-${camel(placement)}`, {
+          'InputRange-label-visible': isShow
+        })}
       >
         <span>{value + unit}</span>
       </div>
@@ -364,7 +360,7 @@ export class Range extends React.Component<RangeItemProps, any> {
    */
   @autobind
   renderSteps() {
-    const {max, min, step, showSteps, classPrefix: ns} = this.props;
+    const {max, min, step, showSteps, classnames: cx} = this.props;
     const steps = Math.floor((max - min) / step);
     return (
       showSteps && (
@@ -372,7 +368,7 @@ export class Range extends React.Component<RangeItemProps, any> {
           {range(steps - 1).map(item => (
             <span
               key={item}
-              className={`${ns}InputRange-track-dot`}
+              className={cx('InputRange-track-dot')}
               style={{left: ((item + 1) * 100) / steps + '%'}}
             ></span>
           ))}
@@ -417,7 +413,7 @@ export class Range extends React.Component<RangeItemProps, any> {
 
   render() {
     const {
-      classPrefix: ns,
+      classnames: cx,
       marks,
       multiple,
       value,
@@ -460,14 +456,14 @@ export class Range extends React.Component<RangeItemProps, any> {
     }
 
     return (
-      <div className={`${ns}InputRange-wrap`}>
+      <div className={cx('InputRange-wrap')}>
         <div
           ref={this.trackRef}
-          className={`${ns}InputRange-track ${ns}InputRange-track--background`}
+          className={cx('InputRange-track', 'InputRange-track--background')}
           onClick={this.onClickTrack}
         >
           <div
-            className={`${ns}InputRange-track-active`}
+            className={cx('InputRange-track-active')}
             style={traceActiveStyle}
           />
 
@@ -483,7 +479,8 @@ export class Range extends React.Component<RangeItemProps, any> {
                 type={type}
                 min={min}
                 max={max}
-                classPrefix={ns}
+                classPrefix={this.props.classPrefix}
+                classnames={cx}
                 disabled={disabled}
                 tooltipVisible={tooltipVisible}
                 tipFormatter={tipFormatter}
@@ -498,7 +495,8 @@ export class Range extends React.Component<RangeItemProps, any> {
               value={+value}
               min={min}
               max={max}
-              classPrefix={ns}
+              classPrefix={this.props.classPrefix}
+              classnames={cx}
               disabled={disabled}
               tooltipVisible={tooltipVisible}
               tipFormatter={tipFormatter}
@@ -511,7 +509,7 @@ export class Range extends React.Component<RangeItemProps, any> {
 
           {/* 刻度标记 */}
           {marks && (
-            <div className={`${ns}InputRange-marks`}>
+            <div className={cx('InputRange-marks')}>
               {keys(marks).map((key: keyof MarksType) => (
                 <div key={key} style={{left: this.getOffsetLeft(key)}}>
                   <span style={(marks[key] as any)?.style}>

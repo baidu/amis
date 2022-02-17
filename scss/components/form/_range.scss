@@ -184,6 +184,11 @@
     color: var(--InputRange-label-color);
     font-size: var(--InputRange-label-font-size);
     border-radius: var(--InputRange-label-border-radius);
+    visibility: hidden;
+
+    &-visible {
+      visibility: visible;
+    }
 
     &.pos-top {
       left: 50%;
