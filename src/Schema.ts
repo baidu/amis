@@ -58,6 +58,7 @@ import {PaginationSchema} from './renderers/Pagination';
 import {AnchorNavSchema} from './renderers/AnchorNav';
 import {AvatarSchema} from './renderers/Avatar';
 import {StepsSchema} from './renderers/Steps';
+import {SpinnerSchema} from './renderers/Spinner';
 import {TimelineSchema} from './renderers/Timeline';
 import {ArrayControlSchema} from './renderers/Form/InputArray';
 import {ButtonGroupControlSchema} from './renderers/Form/ButtonGroupSelect';
@@ -150,6 +151,7 @@ export type SchemaType =
   | 'month'
   | 'static-month' // 这个几个跟表单项同名，再form下面用必须带前缀 static-
   | 'dialog'
+  | 'spinner'
   | 'divider'
   | 'dropdown-button'
   | 'drawer'
@@ -384,6 +386,7 @@ export type SchemaObject =
   | ServiceSchema
   | SparkLineSchema
   | StatusSchema
+  | SpinnerSchema
   | TableSchema
   | TabsSchema
   | TasksSchema

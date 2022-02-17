@@ -165,12 +165,6 @@ exports[`Renderer:service 1`] = `
               </div>
             </div>
           </div>
-          <div
-            class="cxd-Spinner-overlay"
-          />
-          <div
-            class="cxd-Spinner cxd-Spinner--overlay cxd-Spinner--lg"
-          />
         </div>
       </form>
     </div>
