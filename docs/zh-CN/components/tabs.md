@@ -96,7 +96,7 @@ order: 68
 {
     "type": "tabs",
     "closable": true,
-    "addBtn": true,
+    "addable": true,
     "tabs": [
         {
             "title": "Tab 1",
@@ -141,7 +141,7 @@ order: 68
 ```schema: scope="body"
 {
     "type": "tabs",
-    "addBtn": true,
+    "addable": true,
     "closable": true,
     "tabs": [
         {
@@ -551,7 +551,7 @@ order: 68
 | tabs[x].closable      | `boolean`                         | false                               | 是否支持删除，优先级高于组件的 `closable`                                                      |
 | mountOnEnter          | `boolean`                         | false                               | 只有在点中 tab 的时候才渲染                                                                |
 | unmountOnExit         | `boolean`                         | false                               | 切换 tab 的时候销毁                                                                        |
-| addBtn                | `boolean`                         | false                               | 是否支持新增                                                                               |
+| addable                | `boolean`                         | false                               | 是否支持新增                                                                               |
 | closable              | `boolean`                         | false                               | 是否支持删除                                                                               |
 | draggable             | `boolean`                         | false                               | 是否支持拖拽                                                                               |
 | showTip               | `boolean`                         | false                               | 是否支持提示                                                                               |

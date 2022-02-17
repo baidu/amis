@@ -103,7 +103,7 @@ export interface TabsProps extends ThemeProps {
   tabs?: Array<TabProps>;
   tabRender?: (tab: TabProps, props?: TabsProps) => JSX.Element;
   toolbar?: React.ReactNode;
-  addBtn?: boolean; // 是否显示增加按钮
+  addable?: boolean; // 是否显示增加按钮
   onAdd?: () => void;
   closable?: boolean;
   onClose?: (index: number, key: string | number) => void;
@@ -606,7 +606,7 @@ export class Tabs extends React.Component<TabsProps, any> {
       additionBtns,
       toolbar,
       linksClassName,
-      addBtn,
+      addable,
       draggable
     } = this.props;
 
@@ -647,9 +647,9 @@ export class Tabs extends React.Component<TabsProps, any> {
               {this.renderArrow('right')}
             </div>
             {
-              addBtn && (
-                <div className={cx('Tabs-addBtn')} onClick={() => this.handleAddBtn()}>
-                  <Icon icon="plus" className={cx('Tabs-addBtn-icon')} />
+              addable && (
+                <div className={cx('Tabs-addable')} onClick={() => this.handleAddBtn()}>
+                  <Icon icon="plus" className={cx('Tabs-addable-icon')} />
                   增加
                 </div>
               )

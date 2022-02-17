@@ -16,7 +16,7 @@
     align-items: center;
     justify-content: flex-start;
 
-    .#{$ns}Tabs-addBtn {
+    .#{$ns}Tabs-addable {
       display: flex;
       margin-left: var(--Tabs-add-margin);
       align-items: center;
@@ -290,7 +290,7 @@
     > .#{$ns}Tabs-linksContainer-wrapper {
       background: var(--Tabs--card-bg);
 
-      > .#{$ns}Tabs-addBtn {
+      > .#{$ns}Tabs-addable {
         margin-left: 0;
         padding: 0;
         padding-top: var(--Tabs--card-add-gap-top);
@@ -346,7 +346,7 @@
     > .#{$ns}Tabs-linksContainer-wrapper {
       margin-bottom: px2rem(10px);
 
-      > .#{$ns}Tabs-addBtn {
+      > .#{$ns}Tabs-addable {
         padding: 0;
       }
 
@@ -446,7 +446,7 @@
         }
       }
 
-      > .#{$ns}Tabs-addBtn {
+      > .#{$ns}Tabs-addable {
         padding: 0 var(--Tabs--tiled-add-gap);
         margin-left: 0;
         white-space: nowrap;
@@ -563,7 +563,7 @@
       background: var(--Tabs--chrome-bg);
       border-bottom: none;
 
-      > .#{$ns}Tabs-addBtn {
+      > .#{$ns}Tabs-addable {
         margin-left: 0;
         padding: 0;
         padding-top: 10px;
@@ -672,7 +672,7 @@
     & > .#{$ns}Tabs-linksContainer-wrapper {
       border-bottom: none;
 
-      & > .#{$ns}Tabs-addBtn {
+      & > .#{$ns}Tabs-addable {
         padding: 0;
       }
 
@@ -743,7 +743,7 @@
       align-items: stretch;
       border-bottom: var(--Tabs-borderWidth) solid var(--Tabs--simple-split-color);
 
-      & > .#{$ns}Tabs-addBtn {
+      & > .#{$ns}Tabs-addable {
         width: var(--Tabs--strong-add-size);
         margin-left: var(--Tabs--card-arrow-gap);
         padding: 0;
@@ -756,7 +756,7 @@
         border-top-right-radius: var(--Tabs-borderRadius);
         flex: none;
 
-        > .#{$ns}Tabs-addBtn-icon {
+        > .#{$ns}Tabs-addable-icon {
           margin-right: 0;
         }
 

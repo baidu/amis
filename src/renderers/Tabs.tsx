@@ -160,7 +160,7 @@ export interface TabsSchema extends BaseSchema {
   /**
    * 是否支持新增
    */
-  addBtn?: boolean;
+  addable?: boolean;
   /**
    * 是否支持删除
    */
@@ -635,7 +635,7 @@ export default class Tabs extends React.Component<TabsProps, TabsState> {
       formHorizontal,
       subFormMode,
       subFormHorizontal,
-      addBtn,
+      addable,
       closable,
       draggable,
       showTip,
@@ -735,7 +735,7 @@ export default class Tabs extends React.Component<TabsProps, TabsState> {
         onSelect={this.handleSelect}
         activeKey={this.state.activeKey}
         toolbar={this.renderToolbar()}
-        addBtn={addBtn}
+        addable={addable}
         onAdd={this.handleAdd}
         onClose={this.handleClose}
         draggable={draggable}
