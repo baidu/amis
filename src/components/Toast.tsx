@@ -56,7 +56,6 @@ interface ToastComponentProps extends ThemeProps, LocaleProps {
   className?: string;
   items?: Array<Item>;
   useMobileUI?: boolean;
-  visible?: boolean;
 }
 
 interface Item extends Config {
@@ -105,14 +104,18 @@ export class ToastComponent extends React.Component<
   };
 
   componentDidMount() {
-    if (!toastRef) {
-      this.hasRendered = true;
-      toastRef = this;
-    }
+    this.hasRendered = true;
+    toastRef = this;
     
     this.props.items?.forEach(item => {
       toastRef.notifiy(item.level, item.body, {...item});
     });
+  }
+
+  componentWillUnmount() {
+    if (this.hasRendered) {
+      toastRef = null;
+    }
   }
 
   notifiy(level: string, content: any, config?: any) {
@@ -179,8 +182,7 @@ export class ToastComponent extends React.Component<
       showIcon,
       translate,
       closeButton,
-      useMobileUI,
-      visible
+      useMobileUI
     } = this.props;
     const items = this.state.items;
     const mobileUI = (useMobileUI || this.state.useMobileUI) && isMobile();
@@ -218,7 +220,6 @@ export class ToastComponent extends React.Component<
                 translate={translate}
                 showIcon={item.showIcon ?? showIcon}
                 useMobileUI={mobileUI}
-                visible={visible}
               />
             );
           })}

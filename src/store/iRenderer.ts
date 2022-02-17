@@ -22,7 +22,7 @@ export const iRendererStore = StoreNode.named('iRendererStore')
     dialogOpen: false,
     dialogData: types.optional(types.frozen(), undefined),
     drawerOpen: false,
-    drawerData: types.optional(types.frozen(), undefined),
+    drawerData: types.optional(types.frozen(), undefined)
   })
   .views(self => ({
     getValueByName(name: string, canAccessSuper: boolean = true) {
@@ -220,7 +220,7 @@ export const iRendererStore = StoreNode.named('iRendererStore')
           dialogCallbacks.delete(self.drawerData);
           setTimeout(() => callback(result), 200);
         }
-      },
+      }
     };
   });
 

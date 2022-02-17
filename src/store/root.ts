@@ -1,18 +1,12 @@
 import {Instance, types} from 'mobx-state-tree';
-import {createObject, qsparse, findIndex} from '../utils/helper';
+import {createObject, qsparse} from '../utils/helper';
 import {ServiceStore} from './service';
-import {dataMapping} from '../utils/tpl-builtin';
-import {SimpleMap} from '../utils/SimpleMap';
-
-const dialogCallbacks = new SimpleMap<(result?: any) => void>();
 
 export const RootStore = ServiceStore.named('RootStore')
   .props({
     runtimeError: types.frozen(),
     runtimeErrorStack: types.frozen(),
-    query: types.frozen(),
-    toastOpen: false,
-    toastData: types.optional(types.frozen(), undefined)
+    query: types.frozen()
   })
   .views(self => ({
     get downStream() {
