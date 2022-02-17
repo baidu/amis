@@ -141,17 +141,15 @@ order: 68
 ```schema: scope="body"
 {
     "type": "tabs",
-    "addable": true,
-    "closable": true,
     "tabs": [
         {
             "title": "Tab 1",
-            "tab": "Content 1",
-            "disabled": true
+            "tab": "Content 1"
         },
         {
             "title": "Tab 2",
-            "tab": "Content 2"
+            "tab": "Content 2",
+            "disabled": true
         }
     ]
 }

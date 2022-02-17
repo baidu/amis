@@ -477,7 +477,7 @@ export default class Tabs extends React.Component<TabsProps, TabsState> {
   }
 
   @autobind
-  async handleAdd() {
+  handleAdd() {
     const localTabs = this.state.localTabs.concat();
 
     localTabs.push({
@@ -485,45 +485,32 @@ export default class Tabs extends React.Component<TabsProps, TabsState> {
       body: '新增tab 内容'
     } as TabSource);
 
-    this.confirmTabs(localTabs, () => {
+    this.setState({
+      localTabs: localTabs
+    }, () => {
       this.switchTo(this.state.localTabs.length - 1);
     });
   }
 
   @autobind
-  async handleClose(index: number, key: string | number) {
+  handleClose(index: number, key: string | number) {
     const originTabs = this.state.localTabs.concat();
 
     originTabs.splice(index, 1);
 
-    this.confirmTabs(originTabs);
+    this.setState({
+      localTabs: originTabs
+    });
   }
 
   @autobind
-  async handleEdit(index: number, text: string) {
+  handleEdit(index: number, text: string) {
     const originTabs = this.state.localTabs.concat();
     originTabs[index].title = text;
 
-    this.confirmTabs(originTabs);
-  }
-
-  // 回调，拦截器
-  async confirmTabs(tabs: Array<TabSource>, resolve?: () => void) {
-    const {onTabsChange} = this.props;
-    let res: boolean = true;
-
-    if (onTabsChange) {
-      try {
-        res = !!(await Promise.resolve(onTabsChange(tabs))); 
-      }
-      catch (e) {
-        res = false;
-      }
-    }
-
-    res && this.setState({
-      localTabs: tabs
-    }, resolve);
+    this.setState({
+      localTabs: originTabs
+    });
   }
 
   @autobind
@@ -533,7 +520,9 @@ export default class Tabs extends React.Component<TabsProps, TabsState> {
 
     originTabs.splice(e.newIndex, 0, originTabs.splice(e.oldIndex, 1)[0]);
 
-    this.confirmTabs(originTabs, () => {
+    this.setState({
+      localTabs: originTabs
+    }, () => {
       if (activeTab) {
         const newActiveTabIndex = originTabs.indexOf(activeTab);
         this.switchTo(newActiveTabIndex);
