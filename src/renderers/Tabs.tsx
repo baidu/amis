@@ -319,12 +319,10 @@ export default class Tabs extends React.Component<TabsProps, TabsState> {
     // 响应外部修改 tabs
     const isTabsModified = isObjectShallowModified({
       tabs: props.tabs,
-      data: props.data,
-      source: props.source
+      source: resolveVariableAndFilter(props.source, props.data, '| raw')
     }, {
       tabs: preProps.tabs,
-      data: preProps.data,
-      source: preProps.source
+      source: resolveVariableAndFilter(preProps.source, preProps.data, '| raw')
     }, false);
 
     if (isTabsModified) {
