@@ -94,3 +94,42 @@ test('Renderer:breadcrumb separator', () => {
 
   expect(container).toMatchSnapshot();
 });
+
+test('Renderer:breadcrumb dropdown', () => {
+  const {container} = render(
+    amisRender(
+      {
+        type: 'page',
+        body: {
+          type: 'breadcrumb',
+          items: [
+            {
+              label: '首页',
+              href: 'https://baidu.gitee.com/',
+              icon: 'fa fa-home'
+            },
+            {
+              label: '上级页面',
+              dropdown: [
+                {
+                  label: '选项一',
+                  href: 'https://baidu.gitee.com/',
+                },
+                {
+                  label: '选项二',
+                }
+              ]
+            },
+            {
+              label: '<b>当前页面</b>'
+            }
+          ]
+        }
+      },
+      {},
+      makeEnv({})
+    )
+  );
+
+  expect(container).toMatchSnapshot();
+});
