@@ -326,7 +326,6 @@ export type SchemaType =
   | 'table-view'
   | 'portlet'
   | 'grid-nav'
-  | 'toast'
 
   // 原生 input 类型
   | 'native-date'
@@ -452,8 +451,7 @@ export type SchemaObject =
   | TransferPickerControlSchema
   | TabsTransferPickerControlSchema
   | TreeControlSchema
-  | TreeSelectControlSchema
-  | ToastSchema;
+  | TreeSelectControlSchema;
 
 export type SchemaCollection =
   | SchemaObject
@@ -836,12 +834,7 @@ export interface FeedbackDialog extends DialogSchemaBase {
 
 export type RootSchema = PageSchema;
 
-export interface ToastSchema extends BaseSchema {
-  /**
-   * 指定为轻提示控件
-   */
-  type: 'toast';
-
+export interface ToastSchemaBase extends BaseSchema {
   /**
    * 轻提示内容
    */
@@ -890,5 +883,3 @@ export interface ToastSchema extends BaseSchema {
    */
   timeout: number;
 };
-
-export type ToastSchemaBase = Omit<ToastSchema, 'type'>;

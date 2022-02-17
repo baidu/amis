@@ -122,6 +122,7 @@ export class ToastComponent extends React.Component<
     let items = this.state.items.concat();
     const useMobileUI = (config.useMobileUI || this.props.useMobileUI) && isMobile();
     if (useMobileUI) {
+      // 移动端只能存在一个
       items = [];
     }
     items.push({
@@ -251,7 +252,6 @@ interface ToastMessageProps {
   translate: TranslateFn;
   allowHtml: boolean;
   useMobileUI?: boolean;
-  visible?: boolean;
 }
 
 interface ToastMessageState {
