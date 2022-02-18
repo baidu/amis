@@ -456,12 +456,12 @@ export const FormStore = ServiceStore.named('FormStore')
       fn?: (values: object) => Promise<any>,
       hooks?: Array<() => Promise<any>>,
       failedMessage?: string,
-      validateErrCb: () => void
+      validateErrCb?: () => void
     ) => Promise<any> = flow(function* submit(
       fn: any,
       hooks?: Array<() => Promise<any>>,
       failedMessage?: string,
-      validateErrCb: () => void
+      validateErrCb?: () => void
     ) {
       self.submited = true;
       self.submiting = true;

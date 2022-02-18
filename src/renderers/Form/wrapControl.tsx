@@ -430,7 +430,9 @@ export function wrapControl<
               } else {
                 const validPromises = form?.getItemsByName(this.model.name)
                   .map(item => item.validate(data));
-                result = await Promise.all(validPromises);
+                if (validPromises && validPromises.length) {
+                  result = await Promise.all(validPromises);
+                }
               }
             }
             if (result && result.length){
