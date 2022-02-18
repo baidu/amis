@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {Renderer, RendererProps} from '../../factory';
 import {observer} from 'mobx-react';
-import {FormStore, IFormStore} from '../../store/form';
+import {FormStore, IFormStore, IFormItemStore} from '../../store/form';
 import {Api, SchemaNode, Schema, Action, ApiObject, Payload} from '../../types';
 import {filter, evalExpression} from '../../utils/tpl';
 import cx from 'classnames';
@@ -862,6 +862,10 @@ export default class Form extends React.Component<FormProps, object> {
     }
   }
 
+  // 问题1：sumbit的时候校验成功事件和提交成功事件的顺序问题 已解决
+  // 问题2：itme开启validateOnChange的时候，如何触发事件 
+  // 问题3：提交到target时候是否需要触发事件，ajax请求里面、drawconfirm里面应该都不需要吧 需要确认
+  // 问题4：确定props.data是如何同步到store.data里面的
   emitChange(submit: boolean) {
     const {onChange, store, submitOnChange, dispatchEvent, data} = this.props;
 
@@ -999,7 +1003,6 @@ export default class Form extends React.Component<FormProps, object> {
 
       return this.submit((values): any => {
         if (onSubmit && onSubmit(values, action) === false) {
-          dispatchEvent('submitFail');
           return Promise.resolve(false);
         }
         // 走到这里代表校验成功了
@@ -1007,8 +1010,6 @@ export default class Form extends React.Component<FormProps, object> {
 
         if (target) {
           this.submitToTarget(target, values);
-          // 提交到target组件，认为提交成功
-          dispatchEvent('submitSucc');
         } else if (action.actionType === 'reload') {
           action.target && this.reloadTarget(action.target, values);
         } else if (action.actionType === 'dialog') {
@@ -1138,10 +1139,6 @@ export default class Form extends React.Component<FormProps, object> {
           )
         })
         .then(async response => {
-          dispatchEvent(
-            'change',
-            {newData: cloneObject(store.data), changeData: difference(store.data, store.pristine), oldData: store.pristine}
-          );
           response &&
             onChange &&
             onChange(
@@ -1223,7 +1220,7 @@ export default class Form extends React.Component<FormProps, object> {
     ctx: any,
     targets: Array<any>
   ) {
-    const {store, onChange, dispatchEvent} = this.props;
+    const {store, onChange} = this.props;
 
     if (
       (action.mergeData || store.action.mergeData) &&
@@ -1232,11 +1229,6 @@ export default class Form extends React.Component<FormProps, object> {
       targets[0].props.type === 'form'
     ) {
       store.updateData(values[0]);
-      // 派发change事件
-      dispatchEvent(
-        'change',
-        {newData: cloneObject(store.data), changeData: difference(store.data, store.pristine), oldData: store.pristine}
-      );
       onChange &&
         onChange(
           store.data,
