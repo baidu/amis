@@ -33,7 +33,7 @@ jobs:
         with:
           files: ./coverage/clover.xml 
           name: codecov-umbrella # optional
-          fail_ci_if_error: true # optional (default = false)
+          fail_ci_if_error: false
           verbose: true # optional (default = false)
       - name: build gh-pages
         run: |
