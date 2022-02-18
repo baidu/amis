@@ -90,6 +90,9 @@
 
     &:hover {
       background: var(--BreadcrumbDropdown-item-hover-bg);
+      a {
+        color: var(--Breadcrumb-item-hover-color);
+      }
     }
   }
 }

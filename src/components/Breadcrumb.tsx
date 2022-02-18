@@ -4,31 +4,18 @@
 
 import React from 'react';
 import TooltipWrapper, {Trigger} from './TooltipWrapper';
-import {ClassNamesFn, themeable} from '../theme';
-import {RendererProps} from '../factory';
-import {filter} from '../utils/tpl';
+import {ClassNamesFn, themeable, ThemeProps} from '../theme';
 import {RootClose} from '../utils/RootClose';
-import {noop, removeHTMLTag} from '../utils/helper';
+import {removeHTMLTag} from '../utils/helper';
 import {Icon} from '../components/icons';
 import {generateIcon} from '../utils/icon';
 import {
-  BreadcrumbProps,
-  TooltipPositionType,
+  ItemPlace,
+  BreadcrumbBaseItemSchema,
   BreadcrumbItemSchema,
-  BreadcrumbBaseItemSchema
+  TooltipPositionType,
+  BreadcrumbSchema
 } from '../renderers/Breadcrumb';
-
-export type ItemPlace = 'start' | 'middle' | 'end';
-
-interface BreadcrumbItemProps extends Omit<RendererProps, 'data'>,
-  Omit<BreadcrumbItemSchema, 'type' | 'className'> {
-  itemClassName?: string;
-  dropdownClassName?: string;
-  dropdownItemClassName?: string;
-  classnames: ClassNamesFn;
-  itemPlace: ItemPlace;
-  tooltipContainer?: any;
-}
 
 interface BreadcrumbItemState {
   isOpened: boolean;
@@ -36,15 +23,42 @@ interface BreadcrumbItemState {
   tooltipRootClose: boolean;
 }
 
+interface BreadcrumbBaseItemProps
+  extends BreadcrumbBaseItemSchema {}
+
+interface BreadcrumbItemProps {
+  item: BreadcrumbItemSchema;
+  itemPlace: ItemPlace;
+  labelMaxLength?: number; 
+  tooltipContainer?: any;
+  tooltipPosition?: TooltipPositionType;
+  classnames: ClassNamesFn;
+  [propName: string]: any;
+}
+
+interface BreadcrumbProps extends ThemeProps,
+  Omit<BreadcrumbSchema, 'type' | 'className'> {
+  tooltipContainer?: any;
+  tooltipPosition?: TooltipPositionType;
+  [propName: string]: any;
+}
+
 /**
  * Breadcrumb 面包屑类
  */
 export class Breadcrumb extends React.Component<BreadcrumbProps> {
-  constructor(props: BreadcrumbProps) {
-    super(props);
-  }
-
   Item: typeof BreadcrumbItem;
+
+  static defaultProps: Pick<
+    BreadcrumbProps, 
+    | 'separator'
+    | 'labelMaxLength'
+    | 'tooltipPosition'
+  > = {
+    separator: '>',
+    labelMaxLength: 16,
+    tooltipPosition: 'top'
+  };
 
   render() {
     const cx = this.props.classnames;
@@ -52,10 +66,7 @@ export class Breadcrumb extends React.Component<BreadcrumbProps> {
       className,
       separatorClassName,
       items,
-      data,
       separator,
-      env,
-      tooltipPosition,
       ...restProps
     } = this.props;
 
@@ -72,15 +83,11 @@ export class Breadcrumb extends React.Component<BreadcrumbProps> {
       if (index === crumbsLength - 1) {
         itemPlace = 'end';
       }
-      // 从data中获取动态label数据
-      item.label = filter(item.label, data);
       return (
         <BreadcrumbItem
           {...restProps}
           item={item}
           itemPlace={itemPlace}
-          tooltipContainer={env?.getModalContainer}
-          tooltipPosition={tooltipPosition}
           key={index}
         ></BreadcrumbItem>
       )
@@ -106,17 +113,6 @@ export class Breadcrumb extends React.Component<BreadcrumbProps> {
  * BreadcrumbItem 面包项类
  */
 export class BreadcrumbItem extends React.Component<BreadcrumbItemProps, BreadcrumbItemState> {
-  static defaultProps: Pick<BreadcrumbItemProps, 'tooltipPosition'> = {
-    tooltipPosition: 'top',
-  };
-
-  constructor(props: BreadcrumbItemProps) {
-    super(props);
-    this.toogle = this.toogle.bind(this);
-    this.close = this.close.bind(this);
-    this.domRef = this.domRef.bind(this);
-  }
-
   target: any;
 
   state: BreadcrumbItemState = {
@@ -125,11 +121,11 @@ export class BreadcrumbItem extends React.Component<BreadcrumbItemProps, Breadcr
     isOpened: false
   };
 
-  domRef(ref: any) {
+  domRef = (ref: any) => {
     this.target = ref;
   }
 
-  toogle(e: React.MouseEvent<any>) {
+  toogle = (e: React.MouseEvent<any>) => {
     e.preventDefault();
 
     this.setState({
@@ -137,7 +133,7 @@ export class BreadcrumbItem extends React.Component<BreadcrumbItemProps, Breadcr
     });
   }
 
-  close() {
+  close = () => {
     this.setState({
       isOpened: false
     });
@@ -154,14 +150,13 @@ export class BreadcrumbItem extends React.Component<BreadcrumbItemProps, Breadcr
   renderBreadcrumbBaseItem(
     showHref: boolean,
     itemType: 'default' | 'dropdown',
-    item: BreadcrumbBaseItemSchema,
+    item: BreadcrumbBaseItemProps,
     label?: string,
   ) {
     const {
       itemClassName,
       dropdownItemClassName,
-      classnames: cx,
-      render
+      classnames: cx
     } = this.props;
     const baseItemClassName = itemType === 'default' ? itemClassName : dropdownItemClassName;
     if (showHref) {
@@ -170,7 +165,7 @@ export class BreadcrumbItem extends React.Component<BreadcrumbItemProps, Breadcr
           {item.icon
             ? generateIcon(cx, item.icon, 'Icon', 'Breadcrumb-icon')
             : null}
-          {render('label', label)}
+          <span className={cx('TplField')}>{label}</span>
         </a>
       );
     }
@@ -179,7 +174,7 @@ export class BreadcrumbItem extends React.Component<BreadcrumbItemProps, Breadcr
         {item.icon
           ? generateIcon(cx, item.icon, 'Icon', 'Breadcrumb-icon')
           : null}
-        {render('label', label)}
+        <span className={cx('TplField')}>{label}</span>
       </span>
     );
   }
@@ -193,8 +188,8 @@ export class BreadcrumbItem extends React.Component<BreadcrumbItemProps, Breadcr
    * @returns 
    */
   renderBreadcrumbNode(
-    item: BreadcrumbBaseItemSchema,
-    tooltipPosition: TooltipPositionType,
+    item: BreadcrumbBaseItemProps,
+    tooltipPosition: TooltipPositionType = 'top',
     itemPlace: ItemPlace,
     itemType: 'default' | 'dropdown'
   ) {
@@ -208,7 +203,7 @@ export class BreadcrumbItem extends React.Component<BreadcrumbItemProps, Breadcr
     } = this.state;
     const pureLabel = item.label ? removeHTMLTag(item.label) : '';
     // 限制最大展示长度的最小值
-    const maxLength = +labelMaxLength > 1 ? +labelMaxLength : 1;
+    const maxLength = labelMaxLength && +labelMaxLength > 1 ? +labelMaxLength : 1;
     // 面包项相对位置为 middle ，且超过最大展示长度的面包项，进行缩略展示，并使用浮窗提示
     if (pureLabel.length > maxLength && itemPlace === 'middle') {
       return (
@@ -224,7 +219,7 @@ export class BreadcrumbItem extends React.Component<BreadcrumbItemProps, Breadcr
       );
     }
     const showHref = !item.href || itemPlace === 'end';
-    return this.renderBreadcrumbBaseItem(!showHref, itemType, item, item.label);
+    return this.renderBreadcrumbBaseItem(!showHref, itemType, item, pureLabel);
   }
 
   /**
@@ -232,10 +227,9 @@ export class BreadcrumbItem extends React.Component<BreadcrumbItemProps, Breadcr
    * @param dropdown 面包项下拉菜单
    * @returns 
    */
-  renderDropdownNode(dropdown: BreadcrumbBaseItemSchema[]) {
+  renderDropdownNode(dropdown: BreadcrumbBaseItemProps[]) {
     const {
       dropdownClassName,
-      closeOnClick,
       classnames: cx
     } = this.props;
     return (
@@ -247,11 +241,11 @@ export class BreadcrumbItem extends React.Component<BreadcrumbItemProps, Breadcr
           return (
             <ul
               className={cx('Breadcrumb-dropdown', dropdownClassName)}
-              onClick={closeOnClick ? this.close : noop}
+              onClick={this.close}
               ref={ref}
             >
               {Array.isArray(dropdown) 
-                && dropdown.map((menuItem: BreadcrumbBaseItemSchema, index: number) => {
+                && dropdown.map((menuItem: BreadcrumbBaseItemProps, index: number) => {
                 return (
                   <li key={'dropdown-item' + index}>
                     {this.renderBreadcrumbNode(menuItem, 'right', 'middle', 'dropdown')}
@@ -291,7 +285,7 @@ export class BreadcrumbItem extends React.Component<BreadcrumbItemProps, Breadcr
             <Icon icon="caret" className="icon" />
           </span>
         ): null}
-        {this.state.isOpened ? this.renderDropdownNode(dropdown) : null}
+        {dropdown && this.state.isOpened ? this.renderDropdownNode(dropdown) : null}
       </span>
     );
   }

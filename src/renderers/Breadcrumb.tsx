@@ -4,6 +4,7 @@
 import React from 'react';
 import {Renderer, RendererProps} from '../factory';
 import {BaseSchema, SchemaIcon, SchemaUrlPath} from '../Schema';
+import {filter} from '../utils/tpl';
 import {resolveVariableAndFilter} from '../utils/tpl-builtin';
 import Breadcrumb from '../components/Breadcrumb';
 
@@ -43,15 +44,19 @@ export type BreadcrumbItemSchema = {
   /**
    * 下拉菜单
    */
-  dropdwon?: Array<BreadcrumbBaseItemSchema>;
+  dropdown?: Array<BreadcrumbBaseItemSchema>;
 } & Omit<BaseSchema, 'type'>;
 
 export type TooltipPositionType = 'top' | 'bottom' | 'left' | 'right';
+
+export type ItemPlace = 'start' | 'middle' | 'end';
+
 /**
  * Breadcrumb 显示渲染器
  * 文档：https://baidu.gitee.io/amis/docs/components/breadcrumb
  */
-export interface BreadcrumbSchema extends BaseSchema {
+
+ export interface BreadcrumbSchema extends BaseSchema {
   /**
    *  指定为面包屑显示控件
    */
@@ -61,6 +66,7 @@ export interface BreadcrumbSchema extends BaseSchema {
    * 面包项类名
    */
   itemClassName?: string;
+
   /**
    * 分隔符
    */
@@ -101,33 +107,33 @@ export interface BreadcrumbProps extends RendererProps,
   Omit<BreadcrumbSchema, 'type' | 'className'> {}
 
 export class BreadcrumbField extends React.Component<BreadcrumbProps, object> {
-  static defaultProps = {
-    className: '',
-    itemClassName: '',
-    separator: '>',
-    labelMaxLength: 16,
-    tooltipPosition: 'top'
-  };
-
   render() {
     const {
       items,
       source,
       data,
+      env,
       ...restProps
     } = this.props;
 
-    const crumbItems = items
+    let crumbItems = items
       ? items
       : (resolveVariableAndFilter(
           source,
           data,
           '| raw'
         ) as Array<BreadcrumbItemSchema>);
+    crumbItems = crumbItems.map(item => {
+      return {
+        ...item,
+        label: filter(item.label, data)
+      }
+    });
 
     return (
       <Breadcrumb
         items={crumbItems}
+        tooltipContainer={env?.getModalContainer}
         {...restProps}
       ></Breadcrumb>
     );

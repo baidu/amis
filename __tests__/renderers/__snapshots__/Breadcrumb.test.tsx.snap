@@ -18,9 +18,7 @@ exports[`Renderer:breadcrumb 1`] = `
         <span
           class="cxd-TplField"
         >
-          <span>
-            首页
-          </span>
+          首页
         </span>
       </a>
     </span>
@@ -38,9 +36,7 @@ exports[`Renderer:breadcrumb 1`] = `
         <span
           class="cxd-TplField"
         >
-          <span>
-            上级页面
-          </span>
+          上级页面
         </span>
       </span>
     </span>
@@ -58,11 +54,7 @@ exports[`Renderer:breadcrumb 1`] = `
         <span
           class="cxd-TplField"
         >
-          <span>
-            <b>
-              当前页面
-            </b>
-          </span>
+          当前页面
         </span>
       </span>
     </span>
@@ -100,9 +92,7 @@ exports[`Renderer:breadcrumb dropdown 1`] = `
                 <span
                   class="cxd-TplField"
                 >
-                  <span>
-                    首页
-                  </span>
+                  首页
                 </span>
               </a>
             </span>
@@ -120,9 +110,7 @@ exports[`Renderer:breadcrumb dropdown 1`] = `
                 <span
                   class="cxd-TplField"
                 >
-                  <span>
-                    上级页面
-                  </span>
+                  上级页面
                 </span>
               </span>
               <span
@@ -148,11 +136,7 @@ exports[`Renderer:breadcrumb dropdown 1`] = `
                 <span
                   class="cxd-TplField"
                 >
-                  <span>
-                    <b>
-                      当前页面
-                    </b>
-                  </span>
+                  当前页面
                 </span>
               </span>
             </span>
@@ -194,9 +178,7 @@ exports[`Renderer:breadcrumb separator 1`] = `
                 <span
                   class="cxd-TplField"
                 >
-                  <span>
-                    首页
-                  </span>
+                  首页
                 </span>
               </a>
             </span>
@@ -214,9 +196,7 @@ exports[`Renderer:breadcrumb separator 1`] = `
                 <span
                   class="cxd-TplField"
                 >
-                  <span>
-                    上级页面
-                  </span>
+                  上级页面
                 </span>
               </span>
             </span>
@@ -234,11 +214,7 @@ exports[`Renderer:breadcrumb separator 1`] = `
                 <span
                   class="cxd-TplField"
                 >
-                  <span>
-                    <b>
-                      当前页面
-                    </b>
-                  </span>
+                  当前页面
                 </span>
               </span>
             </span>
@@ -277,9 +253,7 @@ exports[`Renderer:breadcrumb var 1`] = `
                 <span
                   class="cxd-TplField"
                 >
-                  <span>
-                    首页
-                  </span>
+                  首页
                 </span>
               </a>
             </span>
@@ -297,9 +271,7 @@ exports[`Renderer:breadcrumb var 1`] = `
                 <span
                   class="cxd-TplField"
                 >
-                  <span>
-                    上级页面
-                  </span>
+                  上级页面
                 </span>
               </span>
             </span>
@@ -317,11 +289,7 @@ exports[`Renderer:breadcrumb var 1`] = `
                 <span
                   class="cxd-TplField"
                 >
-                  <span>
-                    <b>
-                      当前页面
-                    </b>
-                  </span>
+                  当前页面
                 </span>
               </span>
             </span>
