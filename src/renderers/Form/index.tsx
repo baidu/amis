@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {Renderer, RendererProps} from '../../factory';
 import {observer} from 'mobx-react';
-import {FormStore, IFormStore, IFormItemStore} from '../../store/form';
+import {FormStore, IFormStore} from '../../store/form';
 import {Api, SchemaNode, Schema, Action, ApiObject, Payload} from '../../types';
 import {filter, evalExpression} from '../../utils/tpl';
 import cx from 'classnames';
