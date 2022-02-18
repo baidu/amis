@@ -785,14 +785,15 @@ export default class Form extends React.Component<FormProps, object> {
   submit(fn?: (values: object) => Promise<any>): Promise<any> {
     const {store, messages, translate: __, dispatchEvent, data} = this.props;
     this.flush();
-
+    const validateErrCb = () => {
+      dispatchEvent('validateFail', createObject(data));
+    };
     return store.submit(
       fn,
       this.hooks['validate'] || [],
-      __(messages && messages.validateFailed)
-    ).catch(error => {
-      dispatchEvent('validateFail', createObject(data));
-    });
+      __(messages && messages.validateFailed),
+      validateErrCb,
+    );
   }
 
   // 如果开启了 lazyChange，需要一个 flush 方法把队列中值应用上。
@@ -861,10 +862,6 @@ export default class Form extends React.Component<FormProps, object> {
     }
   }
 
-  // 问题1：sumbit的时候校验成功事件和提交成功事件的顺序问题 已解决
-  // 问题2：itme开启validateOnChange的时候，如何触发事件 
-  // 问题3：提交到target时候是否需要触发事件，ajax请求里面、drawconfirm里面应该都不需要吧 需要确认
-  // 问题4：确定props.data是如何同步到store.data里面的
   emitChange(submit: boolean) {
     const {onChange, store, submitOnChange, dispatchEvent, data} = this.props;
 
@@ -985,7 +982,6 @@ export default class Form extends React.Component<FormProps, object> {
         }
       });
     }
-    debugger
     if (
       action.type === 'submit' ||
       action.actionType === 'submit' ||
@@ -1702,7 +1698,6 @@ export class FormRenderer extends Form {
     // if (this.props.disabled) {
     //   return;
     // }
-    console.log(action);
     if (action.target && action.actionType !== 'reload') {
       const scoped = this.context as IScopedContext;
 

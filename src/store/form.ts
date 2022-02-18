@@ -455,11 +455,13 @@ export const FormStore = ServiceStore.named('FormStore')
     const submit: (
       fn?: (values: object) => Promise<any>,
       hooks?: Array<() => Promise<any>>,
-      failedMessage?: string
+      failedMessage?: string,
+      validateErrCb: () => void
     ) => Promise<any> = flow(function* submit(
       fn: any,
       hooks?: Array<() => Promise<any>>,
-      failedMessage?: string
+      failedMessage?: string,
+      validateErrCb: () => void
     ) {
       self.submited = true;
       self.submiting = true;
@@ -479,7 +481,7 @@ export const FormStore = ServiceStore.named('FormStore')
           const env = getEnv(self);
 
           msg && env.notify('error', msg);
-
+          validateErrCb && validateErrCb();
           throw new Error(msg);
         }
 
