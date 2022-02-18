@@ -122,7 +122,7 @@ test('Renderer:transfer tree', () => {
   expect(container).toMatchSnapshot();
 });
 
-test('Renderer:transfer group', async () => {
+test('Renderer:transfer group options', async () => {
   const {container, findByText} = render(
     amisRender(
       {
@@ -326,7 +326,7 @@ test('Renderer:transfer chained', async () => {
     )
   );
 
-  await findByText('诸葛亮');
+  await findByText('法师');
 
   expect(container).toMatchSnapshot();
 });

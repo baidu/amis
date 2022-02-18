@@ -589,7 +589,7 @@ exports[`Renderer:transfer chained 1`] = `
 </div>
 `;
 
-exports[`Renderer:transfer group 1`] = `
+exports[`Renderer:transfer group options 1`] = `
 <div>
   <div
     class="cxd-Page"
