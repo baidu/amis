@@ -89,6 +89,10 @@ export default {
       type: 'form',
       debug: true,
       api: '/api/mock2/form/saveForm',
+      data: {
+        data1: '初始化数据1',
+        data2: '初始化数据2'
+      },
       initApi:
         'https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/initData',
       body: [
@@ -96,13 +100,15 @@ export default {
           type: 'input-text',
           name: 'name',
           label: '姓名',
-          required: true
+          required: true,
+          validateOnChange: true
         },
         {
           type: 'input-text',
           name: 'email',
           label: '邮箱',
           required: true,
+          validateOnChange: true,
           validations: {
             isEmail: true
           }
@@ -153,27 +159,95 @@ export default {
             }
           ]
         },
-        validateSucc: {
-          weight: 1,
+        formItemValidateSucc: {
           actions: [
             {
-              actionType: 'toast',
-              msg: '触发表单校验成功事件, 无数据',
-              msgType: 'info'
+              actionType: 'dialog',
+              args: {
+                val: '${event.data}'
+              },
+              dialog: {
+                title: '触发表单项校验成功事件',
+                data: {
+                  val: '${val}'
+                },
+                body: [
+                  {
+                    type: 'tpl',
+                    tpl: '当前表单项数据：${val|json}'
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        formItemValidateError: {
+          actions: [
+            {
+              actionType: 'dialog',
+              args: {
+                val: '${event.data}'
+              },
+              dialog: {
+                title: '触发表单项校验失败事件',
+                data: {
+                  val: '${val}'
+                },
+                body: [
+                  {
+                    type: 'tpl',
+                    tpl: '当前表单项数据：${val|json}'
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        validateSucc: {
+          actions: [
+            {
+              actionType: 'dialog',
+              args: {
+                val: '${event.data}'
+              },
+              dialog: {
+                title: '触发表单校验成功事件',
+                data: {
+                  val: '${val}'
+                },
+                body: [
+                  {
+                    type: 'tpl',
+                    tpl: '当前表单数据：${val|json}'
+                  }
+                ]
+              }
             }
           ]
         },
         validateFail: {
           actions: [
             {
-              actionType: 'toast',
-              msg: '触发表单校验失败事件, 无数据',
-              msgType: 'info'
+              actionType: 'dialog',
+              args: {
+                val: '${event.data}'
+              },
+              dialog: {
+                title: '触发表单校验失败事件',
+                data: {
+                  val: '${val}'
+                },
+                body: [
+                  {
+                    type: 'tpl',
+                    tpl: '当前表单数据：${val|json}'
+                  }
+                ]
+              }
             }
           ]
         },
         submitSucc: {
-          weight: 3,
           actions: [
             {
               actionType: 'dialog',

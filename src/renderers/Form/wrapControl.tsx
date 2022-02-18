@@ -11,7 +11,8 @@ import {
   guid,
   isEmpty,
   autobind,
-  getVariable
+  getVariable,
+  createObject
 } from '../../utils/helper';
 import {IIRendererStore, IRendererStore} from '../../store';
 import {ScopedContext, IScopedContext} from '../../Scoped';
@@ -63,6 +64,7 @@ export interface ControlOutterProps extends RendererProps {
     submit?: boolean,
     changePristine?: boolean
   ) => void;
+  formItemDispatchEvent: (type: string, data: any) => void;
 }
 
 export interface ControlProps {
@@ -410,9 +412,9 @@ export function wrapControl<
             }
           }
 
-          validate() {
-            const {formStore: form, data} = this.props;
-
+          async validate() {
+            const {formStore: form, data, formItemDispatchEvent} = this.props;
+            let result;
             if (this.model) {
               if (
                 this.model.unique &&
@@ -423,12 +425,19 @@ export function wrapControl<
                 const group = combo.uniques.get(
                   this.model.name
                 ) as IUniqueGroup;
-                group.items.forEach(item => item.validate(data));
+                const validPromises = group.items.map(item => item.validate(data));
+                result = await Promise.all(validPromises);
               } else {
-                this.model.validate(data, this.hook);
-                form
-                  ?.getItemsByName(this.model.name)
-                  .forEach(item => item !== this.model && item.validate(data));
+                const validPromises = form?.getItemsByName(this.model.name)
+                  .map(item => item.validate(data));
+                result = await Promise.all(validPromises);
+              }
+            }
+            if (result && result.length){
+              if (result.indexOf(false) > -1) {
+                formItemDispatchEvent('formItemValidateError', createObject(data));
+              } else {
+                formItemDispatchEvent('formItemValidateSucc', createObject(data));
               }
             }
           }
