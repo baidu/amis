@@ -7,7 +7,7 @@
   @include input-border();
   &-optionArrowRight {
     display: inline-block;
-    padding-right: px2rem(10px);
+    padding-right: px2rem(40px);
 
     svg {
       width: px2rem(12px);
@@ -61,11 +61,14 @@
 
       > .#{$ns}NestedSelect-optionLabel {
         flex: 1;
-
+        height: px2rem(32px);
         &.is-disabled {
           cursor: not-allowed;
           color: var(--text--muted-color);
         }
+      }
+      .#{$ns}NestedSelect-optionLabel-highlight {
+        color: var(--Form-select-menu-onActive-color);
       }
 
       &.is-active {
@@ -82,8 +85,13 @@
         display: block;
       }
 
-      &.checkall {
-        border-bottom: px2rem(1px) solid #eceff8;
+      &.no-result {
+        justify-content: center;
+        cursor: default;
+        &:hover {
+          color: unset;
+          background: unset;
+        }
       }
     }
   }
