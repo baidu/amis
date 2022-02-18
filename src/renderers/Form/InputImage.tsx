@@ -982,7 +982,7 @@ export default class ImageControl extends React.Component<
         }
       }
     );
-    this.onChange();
+    this.dispatchEvent('change');
   }
 
   sendFile(

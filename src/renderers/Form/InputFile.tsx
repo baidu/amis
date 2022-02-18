@@ -509,7 +509,7 @@ export default class FileControl extends React.Component<FileProps, FileState> {
         }
       }
     );
-    this.onChange();
+    this.dispatchEvent('change');
   }
 
   handleDropRejected(
