@@ -242,6 +242,11 @@ export interface ImageControlSchema extends FormBaseControl {
   };
 
   /**
+   * 初始化时是否把其他字段同步到表单内部。
+   */
+  initAutoFill?: boolean
+
+  /**
    * 默认占位图图片地址
    */
   frameImage?: SchemaUrlPath;
@@ -390,6 +395,7 @@ export default class ImageControl extends React.Component<
   resolve?: (value?: any) => void;
   emitValue: any;
   unmounted = false;
+  initAutoFill: boolean;
 
   constructor(props: ImageProps) {
     super(props);
@@ -398,6 +404,7 @@ export default class ImageControl extends React.Component<
     const joinValues = props.joinValues;
     const delimiter = props.delimiter as string;
     let files: Array<FileValue> = [];
+    this.initAutoFill = !!props.initAutoFill;
 
     if (value) {
       // files = (multiple && Array.isArray(value) ? value : joinValues ? (value as string).split(delimiter) : [value])
@@ -493,6 +500,9 @@ export default class ImageControl extends React.Component<
         },
         this.syncAutoFill
       );
+    } else if (prevProps.value !== props.value && !this.initAutoFill) {
+      this.initAutoFill = true
+      this.syncAutoFill()
     }
 
     if (prevProps.crop !== props.crop) {
@@ -805,7 +815,7 @@ export default class ImageControl extends React.Component<
 
   syncAutoFill() {
     const {autoFill, multiple, onBulkChange, data} = this.props;
-    if (!isEmpty(autoFill) && onBulkChange) {
+    if (!isEmpty(autoFill) && onBulkChange && this.initAutoFill) {
       const files = this.state.files.filter(
         file => ~['uploaded', 'init', 'ready'].indexOf(file.state as string)
       );
