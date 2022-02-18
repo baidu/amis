@@ -122,8 +122,8 @@ test('Renderer:transfer tree', () => {
   expect(container).toMatchSnapshot();
 });
 
-test('Renderer:transfer group', () => {
-  const {container} = render(
+test('Renderer:transfer group', async () => {
+  const {container, findByText} = render(
     amisRender(
       {
         type: 'page',
@@ -185,11 +185,13 @@ test('Renderer:transfer group', () => {
     )
   );
 
+  await findByText('诸葛亮');
+
   expect(container).toMatchSnapshot();
 });
 
-test('Renderer:transfer table', () => {
-  const {container} = render(
+test('Renderer:transfer table', async () => {
+  const {container, findByText} = render(
     amisRender(
       {
         type: 'page',
@@ -253,11 +255,13 @@ test('Renderer:transfer table', () => {
     )
   );
 
+  await findByText('诸葛亮');
+
   expect(container).toMatchSnapshot();
 });
 
-test('Renderer:transfer chained', () => {
-  const {container} = render(
+test('Renderer:transfer chained', async () => {
+  const {container, findByText} = render(
     amisRender(
       {
         type: 'page',
@@ -322,11 +326,13 @@ test('Renderer:transfer chained', () => {
     )
   );
 
+  await findByText('诸葛亮');
+
   expect(container).toMatchSnapshot();
 });
 
-test('Renderer:transfer left tree', () => {
-  const {container} = render(
+test('Renderer:transfer left tree', async () => {
+  const {container, findByText} = render(
     amisRender(
       {
         type: 'page',
@@ -441,6 +447,8 @@ test('Renderer:transfer left tree', () => {
       makeEnv({})
     )
   );
+
+  await findByText('诸葛亮');
 
   expect(container).toMatchSnapshot();
 });
