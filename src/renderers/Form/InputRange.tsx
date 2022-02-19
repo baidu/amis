@@ -101,7 +101,7 @@ export interface RangeControlSchema extends FormBaseControl {
 export type MarksType = {
   [index: number | string]: Record<
     number,
-    React.ReactNode | {style?: React.CSSProperties; label?: string}
+    {style?: React.CSSProperties; label?: string} | any
   >;
 };
 
