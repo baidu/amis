@@ -345,6 +345,8 @@
   display: inline-block;
   position: relative;
   width: #{px2rem(64px)};
+  height: #{px2rem(224px)};
+  overflow: auto;
   .#{$ns}CalendarInput-sugs {
     list-style: none;
     // position: absolute;
@@ -356,8 +358,9 @@
     right: px2rem(-1px);
     top: 100%;
     z-index: 10;
-    max-height: #{px2rem(224px)};
-    overflow: auto;
+    height: #{px2rem(1876px)};
+    // max-height: #{px2rem(224px)};
+    // overflow: auto;
     &Item {
       text-align: center;
       height: 28px;

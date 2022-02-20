@@ -467,7 +467,7 @@ export class CustomTimeView extends React.Component<
     });
 
     if (!this.props.requiredConfirm) {
-      this.props.onChange(date);
+      this.props.onChange(date as object);
     }
   };
 
@@ -494,7 +494,7 @@ export class CustomTimeView extends React.Component<
     this.props.setDateTimeState({
       selectedDate: date
     });
-    this.props.onChange(date);
+    this.props.onChange(date as object);
     this.props.onClose && this.props.onClose();
   };
 
