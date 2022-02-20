@@ -497,7 +497,7 @@ export class CustomDaysView extends React.Component<CustomDaysViewProps> {
                   )
               });
               return (
-                <div className={cx('CalendarInputWrapper')}>
+                <div className={cx('CalendarInputWrapper', 'CalendarInputWrapperMT')}>
                   {/* <input
                     type="text"
                     value={date.format(formatMap[type])}
@@ -531,13 +531,10 @@ export class CustomDaysView extends React.Component<CustomDaysViewProps> {
             }}
           </Downshift>
         );
-
         inputs.push(<span key={i + 'divider'}></span>);
       }
     });
-
     inputs.length && inputs.pop();
-
     return <div>{inputs}</div>;
   };
 

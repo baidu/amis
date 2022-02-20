@@ -638,7 +638,7 @@ class BaseDatePicker extends React.Component<
   };
 
   render() {
-    const {viewMode, timeFormat} = this.props
+    const {viewMode, timeFormat, dateFormat} = this.props
     const Component = CustomCalendarContainer as any;
     const viewProps = this.getComponentProps();
 
@@ -667,12 +667,23 @@ class BaseDatePicker extends React.Component<
           this.props.className, 
           (timeFormat && timeFormat.toLowerCase().indexOf('s') > 0)
             ? 'rdtTimeWithS'
+            : (timeFormat && typeof dateFormat !== 'string')
+            ? 'rdtTimeWithoutD'
             : timeFormat
             ? 'rdtTime'
             : ''
         )}
       >
-        <div key="dt" className={timeFormat ? `${cx('rdtPicker', 'rdtPickerTime')}`: 'rdtPicker'}>
+        <div key="dt" 
+          className={cx(
+            'rdtPicker', 
+            (timeFormat && !dateFormat)
+              ? 'rdtPickerTimeWithoutD'
+              : timeFormat
+              ? 'rdtPickerTime'
+              : ''
+          )}
+        >
           <Component view={this.state.currentView} viewProps={viewProps} />
         </div>
       </div>
