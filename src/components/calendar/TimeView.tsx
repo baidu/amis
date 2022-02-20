@@ -27,6 +27,7 @@ interface CustomTimeViewProps extends LocaleProps {
   timeFormat: string;
   classnames: ClassNamesFn;
   setTime: (type: string, amount: number) => void;
+  scrollToTop: (type: string, amount: number, i: number, lable?: string) => void;
   onClose?: () => void;
   onConfirm?: (value: number[], types: string[]) => void;
   minDate: moment.Moment;
@@ -467,7 +468,7 @@ export class CustomTimeView extends React.Component<
     });
 
     if (!this.props.requiredConfirm) {
-      this.props.onChange(date as object);
+      this.props.onChange(date);
     }
   };
 
@@ -475,11 +476,12 @@ export class CustomTimeView extends React.Component<
     type: 'hours' | 'minutes' | 'seconds' | 'milliseconds',
     value: number,
     i: number,
+    label?: string,
   ) => {
     let elf: any = document.getElementById(`${this.state.uniqueTag}-${i}-input`);
     elf.scrollTo({
       top: value * 28,
-      behavior: 'smooth'
+      behavior: label === 'init' ? 'auto' : 'smooth'
     })
   };
 
@@ -494,7 +496,7 @@ export class CustomTimeView extends React.Component<
     this.props.setDateTimeState({
       selectedDate: date
     });
-    this.props.onChange(date as object);
+    this.props.onChange(date);
     this.props.onClose && this.props.onClose();
   };
 

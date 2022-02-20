@@ -31,7 +31,7 @@ interface CustomDaysViewProps extends LocaleProps {
   setDateTimeState: (state: any) => void;
   showTime: () => void;
   setTime: (type: string, amount: number) => void;
-  scrollToTop: (type: string, amount: number, i: number) => void;
+  scrollToTop: (type: string, amount: number, i: number, lable?: string) => void;
   subtractTime: (
     amount: number,
     type: string,
@@ -185,6 +185,31 @@ export class CustomDaysView extends React.Component<CustomDaysViewProps> {
     this.setState({uniqueTag: (new Date()).valueOf()})
   }
 
+  componentDidMount() {
+    const {
+      timeFormat,
+      selectedDate,
+      viewDate,
+      isEndDate,
+    } = this.props;
+    const formatMap = {
+      hours: 'HH',
+      minutes: 'mm',
+      seconds: 'ss'
+    };
+    const date = selectedDate || (isEndDate ? viewDate.endOf('day') : viewDate);
+    timeFormat.split(':').forEach((format, i) => {
+      const type = /h/i.test(format)
+        ? 'hours'
+        : /m/.test(format)
+        ? 'minutes'
+        : /s/.test(format)
+        ? 'seconds'
+        : '';
+      this.scrollToTop(type, parseInt(date.format(formatMap[type]), 10), i, 'init');
+    })
+  }
+
   updateSelectedDate = (event: React.MouseEvent<any>) => {
     // need confirm
     if (this.props.requiredConfirm) {
@@ -252,11 +277,12 @@ export class CustomDaysView extends React.Component<CustomDaysViewProps> {
     type: 'hours' | 'minutes' | 'seconds' | 'milliseconds',
     value: number,
     i: number,
+    label?: string,
   ) => {
     let elf: any = document.getElementById(`${this.state.uniqueTag}-${i}-input`);
     elf.scrollTo({
       top: value * 28,
-      behavior: 'smooth'
+      behavior: label === 'init' ? 'auto' : 'smooth'
     })
   };
 
@@ -511,10 +537,10 @@ export class CustomDaysView extends React.Component<CustomDaysViewProps> {
                       return (
                         <div
                           key={option.value}
-                          className={cx('CalendarInput-sugsItem', {
-                            'is-highlight':
-                              option.value === date.format(formatMap[type])
-                          })}
+                          className={cx(
+                            'CalendarInput-sugsItem', 
+                            {'is-highlight': option.value === date.format(formatMap[type])}
+                          )}
                           onClick={() => {
                             this.setTime(type, parseInt(option.value, 10));
                             this.scrollToTop(type, parseInt(option.value, 10), i);
