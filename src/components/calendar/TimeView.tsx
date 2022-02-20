@@ -101,6 +101,10 @@ export class CustomTimeView extends React.Component<
     }
   }
 
+  componentWillMount() {
+    this.setState({uniqueTag: (new Date()).valueOf()})
+  }
+
   componentDidUpdate(preProps: CustomTimeViewProps) {
     if (
       preProps.viewDate !== this.props.viewDate ||
@@ -109,6 +113,33 @@ export class CustomTimeView extends React.Component<
     ) {
       this.setState(this.calculateState(this.props));
     }
+  }
+
+  componentDidMount() {
+    const {
+      timeFormat,
+      selectedDate,
+      viewDate,
+      isEndDate,
+    } = this.props;
+    const formatMap = {
+      hours: 'HH',
+      minutes: 'mm',
+      seconds: 'ss'
+    };
+    const date = selectedDate || (isEndDate ? viewDate.endOf('day') : viewDate);
+    timeFormat.split(':').forEach((format, i) => {
+      const type = /h/i.test(format)
+        ? 'hours'
+        : /m/.test(format)
+        ? 'minutes'
+        : /s/.test(format)
+        ? 'seconds'
+        : '';
+      if (type) {
+        this.scrollToTop(type, parseInt(date.format(formatMap[type]), 10), i, 'init')
+      }
+    })
   }
 
   onStartClicking(action: any, type: string) {
@@ -250,7 +281,6 @@ export class CustomTimeView extends React.Component<
       milliseconds: date.format('SSS'),
       daypart: daypart,
       counters: counters,
-      uniqueTag: 0,
     };
   }
 
@@ -479,7 +509,7 @@ export class CustomTimeView extends React.Component<
     label?: string,
   ) => {
     let elf: any = document.getElementById(`${this.state.uniqueTag}-${i}-input`);
-    elf.scrollTo({
+    elf.parentNode.scrollTo({
       top: value * 28,
       behavior: label === 'init' ? 'auto' : 'smooth'
     })

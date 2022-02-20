@@ -282,7 +282,7 @@ export class CustomDaysView extends React.Component<CustomDaysViewProps> {
     label?: string,
   ) => {
     let elf: any = document.getElementById(`${this.state.uniqueTag}-${i}-input`);
-    elf.scrollTo({
+    elf.parentNode.scrollTo({
       top: value * 28,
       behavior: label === 'init' ? 'auto' : 'smooth'
     })
