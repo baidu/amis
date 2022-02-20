@@ -29,13 +29,13 @@ interface CustomTimeViewProps extends LocaleProps {
   setTime: (type: string, value: any) => void;
   onClose?: () => void;
   onConfirm?: (value: number[], types: string[]) => void;
+  minDate: moment.Moment;
+  isEndDate?: boolean;
+  requiredConfirm?: boolean;
+  setDateTimeState: (state: any) => void;
   useMobileUI: boolean;
   showToolbar?: boolean;
   onChange?: any;
-  setDateTimeState: any;
-  requiredConfirm: any;
-  minDate: any;
-  isEndDate: any;
 }
 
 interface CustomTimeViewState {
