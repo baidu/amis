@@ -26,7 +26,7 @@ interface CustomTimeViewProps extends LocaleProps {
   showView: (view: string) => () => void;
   timeFormat: string;
   classnames: ClassNamesFn;
-  setTime: (type: string, value: any) => void;
+  setTime: (type: string, amount: number) => void;
   onClose?: () => void;
   onConfirm?: (value: number[], types: string[]) => void;
   minDate: moment.Moment;
