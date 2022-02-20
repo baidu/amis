@@ -44,7 +44,7 @@ interface BaseDatePickerProps {
   viewMode?: 'years' | 'months' | 'days' | 'time' | 'quarters';
   dateFormat?: boolean | string;
   inputFormat?: boolean | string;
-  timeFormat?: boolean | string;
+  timeFormat?: any;
   input?: boolean;
   locale: string;
   date?: any;
@@ -638,17 +638,20 @@ class BaseDatePicker extends React.Component<
   };
 
   render() {
+    const {viewMode, timeFormat} = this.props
     const Component = CustomCalendarContainer as any;
     const viewProps = this.getComponentProps();
 
-    if (this.props.viewMode === 'quarters') {
+    if (viewMode === 'quarters') {
       [viewProps.updateOn, viewProps.renderQuarter] = [
         'quarters',
         this.props.renderQuarter
       ];
-    } else if (this.props.viewMode === 'years') {
+    }
+    else if (viewMode === 'years') {
       viewProps.updateOn = 'years';
-    } else if (this.props.viewMode === 'months') {
+    }
+    else if (viewMode === 'months') {
       viewProps.updateOn = 'months';
     }
 
@@ -658,8 +661,18 @@ class BaseDatePicker extends React.Component<
     viewProps.timeCell = this.timeCell;
 
     return (
-      <div className={cx('rdt rdtStatic rdtOpen', this.props.className)}>
-        <div key="dt" className="rdtPicker">
+      <div 
+        className={cx(
+          'rdt rdtStatic rdtOpen', 
+          this.props.className, 
+          (timeFormat && timeFormat.toLowerCase().indexOf('s') > 0)
+            ? 'rdtTimeWithS'
+            : timeFormat
+            ? 'rdtTime'
+            : ''
+        )}
+      >
+        <div key="dt" className={timeFormat ? `${cx('rdtPicker', 'rdtPickerTime')}`: 'rdtPicker'}>
           <Component view={this.state.currentView} viewProps={viewProps} />
         </div>
       </div>

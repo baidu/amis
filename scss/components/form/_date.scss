@@ -203,9 +203,15 @@
 }
 
 // override third-party styles
-.rdt {
+.rdtTime {
+  width: #{px2rem(393px)};
+}
+
+.rdtTimeWithS {
   width: #{px2rem(450px)};
-  height: #{px2rem(324px)};
+}
+
+.rdt {
   user-select: none;
   font-size: var(--Calendar-fontSize);
   color: var(--Calendar-color);
@@ -219,13 +225,26 @@
     }
   
     .rdtTimePart{
+      width: #{px2rem(113px)};
+      text-align: center;
+    }
+    
+    .rdtTimePartWithS{
       width: #{px2rem(170px)};
+      text-align: center;
+
+      .rdtShowTime {
+        padding: 9px 0 0 0;
+      }
     }
   }
-  
-  .rdtPicker {
+
+  .rdtPickerTime {
     width: 100%;
     height: 100%;
+  }
+
+  .rdtPicker {
     margin-top: 0;
     padding: var(--gap-sm);
     background: transparent;
@@ -305,7 +324,7 @@
 .#{$ns}CalendarInputWrapper {
   display: inline-block;
   position: relative;
-
+  width: #{px2rem(50px)};
   .#{$ns}CalendarInput-sugs {
     list-style: none;
     position: absolute;
@@ -318,11 +337,11 @@
     right: px2rem(-1px);
     top: 100%;
     z-index: 10;
-    max-height: px2rem(224px);
+    max-height: #{px2rem(224px)};
     overflow: auto;
     &Item {
       text-align: center;
-      height: px2rem(28px);
+      height: 28px;
       &.is-highlight,
       &:hover {
         color: var(--Form-select-menu-onHover-color);
@@ -334,7 +353,7 @@
 
 .#{$ns}CalendarInput {
   outline: none;
-  width: #{px2rem(50px)};
+  width: #{px2rem(56px)};
   font-size: var(--Calendar-input-fontSize);
   color: var(--Calendar-input-color);
   border: 1px solid var(--Calendar-input-borderColor);

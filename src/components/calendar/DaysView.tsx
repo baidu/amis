@@ -29,7 +29,9 @@ interface CustomDaysViewProps extends LocaleProps {
   onChange: (value: moment.Moment) => void;
   onConfirm?: (value: number[], types: DateType[]) => void;
   setDateTimeState: (state: any) => void;
+  showTime: () => void;
   setTime: (type: string, amount: number) => void;
+  scrollToTop: (type: string, amount: number, i: number) => void;
   subtractTime: (
     amount: number,
     type: string,
@@ -66,6 +68,7 @@ export class CustomDaysView extends React.Component<CustomDaysViewProps> {
     columns: {options: PickerOption[]}[];
     types: DateType[];
     pickerValue: number[];
+    uniqueTag: any;
   };
 
   getDaysOfWeek(locale: any) {
@@ -173,8 +176,13 @@ export class CustomDaysView extends React.Component<CustomDaysViewProps> {
     this.state = {
       columns,
       types,
-      pickerValue: currentDate.toArray()
-    };
+      pickerValue: currentDate.toArray(),
+      uniqueTag: 0,
+    }
+  }
+
+  componentWillMount() {
+    this.setState({uniqueTag: (new Date()).valueOf()})
   }
 
   updateSelectedDate = (event: React.MouseEvent<any>) => {
@@ -211,6 +219,18 @@ export class CustomDaysView extends React.Component<CustomDaysViewProps> {
     this.props.updateSelectedDate(event, true);
   };
 
+  showTime = () =>{
+    const {selectedDate, viewDate, timeFormat} = this.props
+    return (
+      <div 
+        key="stb"
+        className="rdtShowTime"
+      >
+        {(selectedDate || viewDate || moment()).format(timeFormat)}
+      </div>
+    )
+  }
+
   setTime = (
     type: 'hours' | 'minutes' | 'seconds' | 'milliseconds',
     value: number
@@ -228,12 +248,13 @@ export class CustomDaysView extends React.Component<CustomDaysViewProps> {
     }
   };
 
-  scrolToTop = (
+  scrollToTop = (
     type: 'hours' | 'minutes' | 'seconds' | 'milliseconds',
     value: number,
     i: number,
   ) => {
-    document.getElementById(`${i}-input`);.scrollTo({
+    let elf: any = document.getElementById(`${this.state.uniqueTag}-${i}-input`);
+    elf.scrollTo({
       top: value * 28,
       behavior: 'smooth'
     })
@@ -430,6 +451,8 @@ export class CustomDaysView extends React.Component<CustomDaysViewProps> {
     const date = selectedDate || (isEndDate ? viewDate.endOf('day') : viewDate);
     const inputs: Array<React.ReactNode> = [];
 
+    inputs.push(this.showTime())
+
     timeFormat.split(':').forEach((format, i) => {
       const type = /h/i.test(format)
         ? 'hours'
@@ -455,7 +478,7 @@ export class CustomDaysView extends React.Component<CustomDaysViewProps> {
             key={i + 'input'}
             inputValue={date.format(formatMap[type])}
           >
-            {({getInputProps, openMenu, closeMenu, scrollIntoView}) => {
+            {({getInputProps, openMenu, closeMenu}) => {
               const inputProps = getInputProps({
                 onFocus: () => openMenu(),
                 onChange: (e: any) =>
@@ -475,15 +498,15 @@ export class CustomDaysView extends React.Component<CustomDaysViewProps> {
               });
               return (
                 <div className={cx('CalendarInputWrapper')}>
-                  <input
+                  {/* <input
                     type="text"
                     value={date.format(formatMap[type])}
                     className={cx('CalendarInput')}
                     min={min}
                     max={max}
                     {...inputProps}
-                  />
-                  <div className={cx('CalendarInput-sugs')} id={`${i}-input`}>
+                  /> */}
+                  <div className={cx('CalendarInput-sugs')} id={`${this.state.uniqueTag}-${i}-input`}>
                     {options.map(option => {
                       return (
                         <div
@@ -494,7 +517,7 @@ export class CustomDaysView extends React.Component<CustomDaysViewProps> {
                           })}
                           onClick={() => {
                             this.setTime(type, parseInt(option.value, 10));
-                            this.scrolToTop(type, parseInt(option.value, 10), i);
+                            this.scrollToTop(type, parseInt(option.value, 10), i);
                             closeMenu();
                           }}
                         >
@@ -509,7 +532,7 @@ export class CustomDaysView extends React.Component<CustomDaysViewProps> {
           </Downshift>
         );
 
-        inputs.push(<span key={i + 'divider'}>:</span>);
+        inputs.push(<span key={i + 'divider'}></span>);
       }
     });
 
@@ -519,7 +542,7 @@ export class CustomDaysView extends React.Component<CustomDaysViewProps> {
   };
 
   renderFooter = () => {
-    if (!this.props.timeFormat && !this.props.requiredConfirm) {
+    if (!this.props.requiredConfirm) {
       return null;
     }
 
@@ -595,7 +618,7 @@ export class CustomDaysView extends React.Component<CustomDaysViewProps> {
   };
 
   render() {
-    const {viewDate: date, useMobileUI, embed} = this.props;
+    const {viewDate: date, useMobileUI, embed, timeFormat, classnames: cx} = this.props;
     const locale = date.localeData();
     const __ = this.props.translate;
     if (isMobile() && useMobileUI && !embed) {
@@ -663,13 +686,13 @@ export class CustomDaysView extends React.Component<CustomDaysViewProps> {
 
     return (
       <>
-        <div className="rdtDays">
-          <table className="rdtDaysPart">{tableChildren}</table>
-          {this.props.timeFormat ? (
-            <div className="rdtTimePart">{this.renderTimes()}</div>
+        <div className={timeFormat ? 'rdtDays' : ''}>
+          <table className={timeFormat ? 'rdtDaysPart' : ''}>{tableChildren}</table>
+          {timeFormat ? (
+            <div className={timeFormat.toLowerCase().indexOf('s') > 0 ? "rdtTimePartWithS" : "rdtTimePart"}>{this.renderTimes()}</div>
           ) : null}
         </div>
-        {this.renderFooter()}
+        <table>{this.renderFooter()}</table>
       </>
     );
   }
