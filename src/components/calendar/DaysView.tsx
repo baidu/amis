@@ -206,7 +206,9 @@ export class CustomDaysView extends React.Component<CustomDaysViewProps> {
         : /s/.test(format)
         ? 'seconds'
         : '';
-      this.scrollToTop(type, parseInt(date.format(formatMap[type]), 10), i, 'init');
+      if (type) {
+        this.scrollToTop(type, parseInt(date.format(formatMap[type]), 10), i, 'init')
+      }
     })
   }
 
