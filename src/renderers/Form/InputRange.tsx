@@ -2,16 +2,17 @@ import React, {CSSProperties, ReactNode} from 'react';
 import isNumber from 'lodash/isNumber';
 import isObject from 'lodash/isObject';
 import isEqual from 'lodash/isEqual';
+import {forEach} from 'lodash';
 
 import {FormItem, FormControlProps, FormBaseControl} from './Item';
 import InputRange from '../../components/Range';
 import NumberInput from '../../components/NumberInput';
 import {Icon} from '../../components/icons';
 import {stripNumber} from '../../utils/tpl-builtin';
-import {autobind} from '../../utils/helper';
+import {autobind, createObject} from '../../utils/helper';
 import {filter} from '../../utils/tpl';
 import {SchemaObject} from '../../Schema';
-import {forEach} from 'lodash';
+import {Action} from '../../types';
 
 /**
  * Range
@@ -21,6 +22,12 @@ import {forEach} from 'lodash';
 export type Value = string | MultipleValue | number | [number, number];
 export type FormatValue = MultipleValue | number;
 export type TooltipPosType = 'auto' | 'top' | 'right' | 'bottom' | 'left';
+export type InputTextRendererEvent =
+  | 'change'
+  | 'afterChange'
+  | 'blur'
+  | 'focus';
+export type InputTextRendererAction = 'clear';
 export interface RangeControlSchema extends FormBaseControl {
   type: 'input-range';
 
@@ -363,6 +370,32 @@ export class Input extends React.Component<RangeItemProps, any> {
     }
   }
 
+  /**
+   * 失焦事件
+   */
+  @autobind
+  async onBlur() {
+    const {data, dispatchEvent} = this.props;
+    const rendererEvent = await dispatchEvent('blur', createObject(data));
+
+    if (rendererEvent?.prevented) {
+      return;
+    }
+  }
+
+  /**
+   * 聚焦事件
+   */
+  @autobind
+  async onFocus() {
+    const {data, dispatchEvent} = this.props;
+    const rendererEvent = await dispatchEvent('focus', createObject(data));
+
+    if (rendererEvent?.prevented) {
+      return;
+    }
+  }
+
   render() {
     const {
       classnames: cx,
@@ -389,6 +422,8 @@ export class Input extends React.Component<RangeItemProps, any> {
           min={this.checkNum(min)}
           onChange={this.onChange}
           disabled={disabled}
+          onBlur={this.onBlur}
+          onFocus={this.onFocus}
         />
       </div>
     );
@@ -456,6 +491,12 @@ export default class RangeControl extends React.PureComponent<
     }
   }
 
+  doAction(action: Action, data: object, throwErrors: boolean) {
+    if (action.actionType === 'clear') {
+      this.clearValue();
+    }
+  }
+
   @autobind
   clearValue() {
     const {multiple, min, max} = this.props;
@@ -482,43 +523,64 @@ export default class RangeControl extends React.PureComponent<
    * @param value
    */
   @autobind
-  updateValue(value: FormatValue) {
+  async updateValue(value: FormatValue) {
     this.setState({value: this.getValue(value)});
-    const {multiple, joinValues, delimiter, onChange} = this.props;
-    onChange(
-      multiple
-        ? joinValues
-          ? [(value as MultipleValue).min, (value as MultipleValue).max].join(
-              delimiter || ','
-            )
-          : {
-              min: (value as MultipleValue).min,
-              max: (value as MultipleValue).max
-            }
-        : value
+    const {onChange, data, dispatchEvent} = this.props;
+    const result = this.getFormatValue(value);
+
+    const rendererEvent = await dispatchEvent(
+      'change',
+      createObject(data, {
+        value: result
+      })
     );
+
+    if (rendererEvent?.prevented) {
+      return;
+    }
+
+    onChange && onChange(result);
   }
 
   /**
    * 鼠标松开事件
    */
   @autobind
-  onAfterChange() {
+  async onAfterChange() {
     const {value} = this.state;
-    const {multiple, joinValues, delimiter, onAfterChange} = this.props;
-    onAfterChange &&
-      onAfterChange(
-        multiple
-          ? joinValues
-            ? [(value as MultipleValue).min, (value as MultipleValue).max].join(
-                delimiter || ','
-              )
-            : {
-                min: (value as MultipleValue).min,
-                max: (value as MultipleValue).max
-              }
-          : value
-      );
+    const {onAfterChange, dispatchEvent, data} = this.props;
+    const result = this.getFormatValue(value);
+
+    const rendererEvent = await dispatchEvent(
+      'afterChange',
+      createObject(data, {
+        value: result
+      })
+    );
+
+    if (rendererEvent?.prevented) {
+      return;
+    }
+
+    onAfterChange && onAfterChange(result);
+  }
+
+  /**
+   * 获取导出格式数据
+   */
+  @autobind
+  getFormatValue(value: FormatValue) {
+    const {multiple, joinValues, delimiter} = this.props;
+    return multiple
+      ? joinValues
+        ? [(value as MultipleValue).min, (value as MultipleValue).max].join(
+            delimiter || ','
+          )
+        : {
+            min: (value as MultipleValue).min,
+            max: (value as MultipleValue).max
+          }
+      : value;
   }
 
   render() {
