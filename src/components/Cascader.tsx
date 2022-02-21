@@ -338,7 +338,7 @@ export class Cascader extends React.Component<CascaderProps, CascaderState> {
       const parentTree = this.getParentTree(option, [option]);
       const scrollLeft = (parentTree.length - 2) * tabWidth;
       if (scrollLeft !== 0) {
-        (this.tabsRef.current as HTMLElement).scrollTo(scrollLeft, 0);
+        (this.tabsRef.current as HTMLElement)?.scrollTo(scrollLeft, 0);
       }
     });
 
