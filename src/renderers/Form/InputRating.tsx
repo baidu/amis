@@ -93,25 +93,19 @@ export default class RatingControl extends React.Component<RatingProps, any> {
     }
   }
 
-  async dispatchChangeEvent(eventName: string, eventData: any = {}) {
-    const {dispatchEvent, data} = this.props;
-    const rendererEvent = await dispatchEvent(
-      eventName,
-      createObject(data, {
-        value: eventData,
-      })
-    );
-
-    return rendererEvent?.prevented ?? false;
-  }
-
   @autobind
   async handleChange(value: any) {
-    const {onChange} = this.props;
+    const {onChange, dispatchEvent, data} = this.props;
 
-    const prevented = await this.dispatchChangeEvent('change', value);
+    const rendererEvent = await dispatchEvent('change', createObject(data, {
+      value
+    }));
 
-    prevented || (onChange && onChange(value));
+    if (rendererEvent?.prevented) {
+      return;
+    }
+    
+    onChange && onChange(value);
   }
 
   render() {
