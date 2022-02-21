@@ -4,6 +4,7 @@ import cx from 'classnames';
 import Checkbox from '../../components/Checkbox';
 import {withBadge, BadgeSchema} from '../../components/Badge';
 import {autobind, createObject} from '../../utils/helper';
+import {Action} from '../../types';
 
 /**
  * Checkbox 勾选框。
@@ -51,6 +52,13 @@ export default class CheckboxControl extends React.Component<
     trueValue: true,
     falseValue: false
   };
+
+  doAction(action: Action, data: object, throwErrors: boolean) {
+    const {resetValue, onChange} = this.props;
+    if (action.actionType === 'clear') {
+      onChange(resetValue ?? false);
+    }
+  }
 
   @autobind
   async dispatchChangeEvent(eventData: any = {}) {

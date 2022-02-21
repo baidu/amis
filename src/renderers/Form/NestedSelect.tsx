@@ -28,6 +28,7 @@ import union from 'lodash/union';
 import compact from 'lodash/compact';
 import {RootClose} from '../../utils/RootClose';
 import Cascader from '../../components/Cascader';
+import {Action} from '../../types';
 
 /**
  * Nested Select
@@ -115,6 +116,13 @@ export default class NestedSelectControl extends React.Component<
       this.setState({
         stack: [this.props.options]
       });
+    }
+  }
+
+  doAction(action: Action, data: object, throwErrors: boolean) {
+    const {resetValue, onChange} = this.props;
+    if (action.actionType === 'clear') {
+      onChange(resetValue ?? '');
     }
   }
 

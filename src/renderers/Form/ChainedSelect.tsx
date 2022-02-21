@@ -11,6 +11,7 @@ import {Api} from '../../types';
 import {isEffectiveApi} from '../../utils/api';
 import {SchemaApi} from '../../Schema';
 import {isMobile, createObject} from '../../utils/helper';
+import {Action} from '../../types';
 
 /**
  * 级联选择框
@@ -78,6 +79,13 @@ export default class ChainedSelectControl extends React.Component<
       });
     } else if (props.formInited && props.value !== prevProps.value) {
       this.loadMore();
+    }
+  }
+
+  doAction(action: Action, data: object, throwErrors: boolean) {
+    const {resetValue, onChange} = this.props;
+    if (action.actionType === 'clear') {
+      onChange(resetValue ?? '');
     }
   }
 
