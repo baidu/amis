@@ -73,17 +73,17 @@ test('options:linkage', async () => {
 
   expect(container).toMatchSnapshot();
   fireEvent.click(getByText('选项1'));
-  await wait(300);
+  await wait(600);
 
   expect(container).toMatchSnapshot();
 
   fireEvent.click(getByText('选项2'));
-  await wait(300);
+  await wait(600);
 
   expect(container).toMatchSnapshot();
 
   fireEvent.click(getByText('选项3'));
-  await wait(300);
+  await wait(600);
 
   expect(container).toMatchSnapshot();
 });
