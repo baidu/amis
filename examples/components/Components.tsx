@@ -1030,6 +1030,13 @@ export const components = [
         component: React.lazy(() =>
           import('../../docs/zh-CN/components/spinner.md').then(wrapDoc)
         )
+      },
+      {
+        label: 'Toast 轻提示',
+        path: '/zh-CN/components/toast',
+        component: React.lazy(() =>
+          import('../../docs/zh-CN/components/toast.md').then(wrapDoc)
+        )
       }
     ]
   },

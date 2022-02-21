@@ -737,6 +737,7 @@
   --Form-select-menu-onDisabled-color: var(--text--muted-color);
   --Form-select-menu-onHover-bg: rgba(0, 126, 255, 0.08);
   --Form-select-menu-onHover-color: var(--info);
+  --Form-select-group-color: var(--Form-select-caret-iconColor);
   --Form-select-onError-borderColor: var(--Form-input-onError-borderColor);
   --Form-select-onFocused-borderColor: var(--Form-input-onFocused-borderColor);
   --Form-select-onFocused-color: var(--Form-select-color);
@@ -748,8 +749,13 @@
   --Form-select-placeholderColor: var(--Form-input-placeholderColor);
   --Form-select-popoverGap: 0;
   --Form-select-search-height: var(--Form-select-menu-height);
+  --Form-select-value-bgColor: var(--Form-input-onDisabled-bg);
+  --Form-select-value-borderColor: var(--Form-select-value-borderColor);
+  --Form-select-valueIcon-color: var(--Form-select-valueIcon-color);
+  --Form-select-valueIcon-onHover-color: var(--Form-select-color);
   --Form-selectOption-height: var(--Form-input-height);
   --Form-selectValue-bg: #{saturate(lighten($info, 40%), 2.5%)};
+  --Form-selectValue-onHover-bgColor: var(--Form-select-borderColor);
   --Form-selectValue-borderColor: #{saturate(lighten($info, 30%), 2.5%)};
   --Form-selectValue-color: var(--info);
   --Form-selectValue-fontSize: var(--fontSizeSm);
@@ -761,6 +767,8 @@
       saturate(lighten($info, 40%), 2.5%),
       5%
     )};
+  --Form-selectValue-onDisabled-color: var(--Form-select-caret-iconColor);
+  --Form-valueLabel-maxWidth: #{px2rem(120px)};
   --Form-select-onFocus-boxShadow: none;
 
   --IconPicker-content-maxHeight: #{px2rem(350px)};
@@ -822,36 +830,44 @@
   --InputGroup-select-onFocused-bg: var(--white);
   --InputGroup-select-onFocused-color: var(--Form-select-onFocused-color);
 
-  --InputRange-label--value-display: block;
-  --InputRange-label--value-positionTop: #{px2rem(-36px)};
-  --InputRange-label--value-positionLeft: #{px2rem(-6px)};
-  --InputRange-label-color: var(--InputRange-neutralColor);
-  --InputRange-label-fontSize: 0.8rem;
-  --InputRange-label-positionBottom: -1.4rem;
-  --InputRange-neutralColor: #aaaaaa;
-  --InputRange-neutralLightColor: #eeeeee;
-  --InputRange-onDisabled-color: #cccccc;
-  --InputRange-primaryColor: var(--info);
-  --InputRange-slider-bg: var(--InputRange-primaryColor);
-  --InputRange-slider-border: #{px2rem(1px)} solid var(--InputRange-primaryColor);
-  --InputRange-slider-height: #{px2rem(24px)};
-  --InputRange-slider-onActive-transform: scale(1.3);
-  --InputRange-slider-onDisabled-bg: var(--InputRange-onDisabled-color);
-  --InputRange-slider-onDisabled-border: #{px2rem(1px)} solid var(--InputRange-onDisabled-color);
-  --InputRange-slider-onFocus-borderRadius: var(--borderRadiusMd);
-  --InputRange-slider-onFocus-boxShadow: 0 0 0
-    var(--InputRange-slider-onFocus-borderRadius) #{transparentize($info, 0.8)};
-  --InputRange-slider-transition: transform var(--animation-duration) ease-out,
-    box-shadow var(--animation-duration) ease-out;
-  --InputRange-slider-width: #{px2rem(18px)};
-  --InputRange-sliderContainer-transition: left var(--animation-duration)
-    ease-out;
-  --InputRange-track-bg: var(--InputRange-neutralLightColor);
-  --InputRange-track-height: #{px2rem(12px)};
+  --InputRange-padding: #{px2rem(20px)};
+  --InputRange-onDisabled-color: var(--light);
+  --InputRange-primaryColor: var(--primary);
+  --InputRange-track-height: #{px2rem(4px)};
+  --InputRange-track-bg: #{$gray100};
+  --InputRange-track-onDisabled-bg: var(--InputRange-onDisabled-color);
   --InputRange-track-onActive-bg: var(--InputRange-primaryColor);
-  --InputRange-track-onDisabled-bg: var(--InputRange-neutralLightColor);
+  --InputRange-track-onActive-onDisabled-bg: #{$gray200};
+  --InputRange-track-onActive-transition: transform var(--animation-duration)
+    ease-out left;
+  --InputRange-track-border-radius: #{px2rem(4px)};
+  --InputRange-track-dot-width: #{px2rem(4px)};
+  --InputRange-track-dot-height: #{px2rem(4px)};
+  --InputRange-track-dot-bg: var(--white);
   --InputRange-track-transition: left var(--animation-duration) ease-out,
     width var(--animation-duration) ease-out;
+  --InputRange-handle-height: #{px2rem(16px)};
+  --InputRange-handle-width: #{px2rem(16px)};
+  --InputRange-handle-bg: var(--white);
+  --InputRange-handle-border: #{px2rem(1px)} solid var(--InputRange-primaryColor);
+  --InputRange-handle-onDisabled-border-color: #ceced1;
+  --InputRange-handle-onActive-transform: scale(1.3);
+  --InputRange-handle-onDrage-border-width: #{px2rem(2px)};
+  --InputRange-handle-onDisabled-bg: var(--InputRange-onDisabled-color);
+  --InputRange-handle-onDisabled-border: #{px2rem(1px)} solid var(--InputRange-onDisabled-color);
+  --InputRange-handle-onFocus-borderRadius: var(--borderRadiusMd);
+  --InputRange-handele-onFocus-boxShadow: 0 0 0
+    var(--InputRange-slider-onFocus-borderRadius) #{transparentize($info, 0.8)};
+  --InputRange-handle-transition: transform var(--animation-duration) ease-out,
+    box-shadow var(--animation-duration) ease-out;
+  --InputRange-handle-icon-width: #{px2rem(8px)};
+  --InputRange-handle-icon-height: #{px2rem(8px)};
+  --InputRange-label-padding: #{px2rem(8px)};
+  --InputRange-label-bg: #000;
+  --InputRange-label-color: var(--white);
+  --InputRange-label-font-size: #{px2rem(14px)};
+  --InputRange-label-border-radius: #{px2rem(4px)};
+  --InputRange-label-position-bottom: calc(100% + 8px);
 
   --Layout--offscreen-width: 75%;
   --Layout-aside--folded-width: #{px2rem(60px)};
@@ -1163,6 +1179,8 @@
   --ResultBox-value--onHover-bg: rgba(0, 145, 255, 0.1);
   --ResultBox-value-bg: #f5f5f5;
   --ResultBox-value-color: #000;
+  --ResultBox-value-clear-bg: #d4d6d9;
+  --ResultBox-value-clear-hover-bg: #f5f5f5;
 
   --Rating-inactive-color: #e6e6e8;
   --Rating-star-margin: #{px2rem(8px)};

@@ -833,3 +833,53 @@ export interface FeedbackDialog extends DialogSchemaBase {
 }
 
 export type RootSchema = PageSchema;
+
+export interface ToastSchemaBase extends BaseSchema {
+  /**
+   * 轻提示内容
+   */
+  items: Array<{
+    title?: SchemaCollection;
+    body: SchemaCollection;
+    level: 'info' | 'success' | 'error' | 'warning';
+    id: string;
+    position?:
+      | 'top-right'
+      | 'top-center'
+      | 'top-left'
+      | 'bottom-center'
+      | 'bottom-left'
+      | 'bottom-right'
+      | 'center';
+    closeButton?: boolean;
+    showIcon?: boolean;
+    timeout?: number;
+  }>;
+
+  /**
+   * 弹出位置
+   */
+  position:
+    | 'top-right'
+    | 'top-center'
+    | 'top-left'
+    | 'bottom-center'
+    | 'bottom-left'
+    | 'bottom-right'
+    | 'center';
+
+  /**
+   * 是否展示关闭按钮
+   */
+  closeButton: boolean;
+
+  /**
+   * 是否展示图标
+   */
+  showIcon?: boolean;
+
+  /**
+   * 持续时间
+   */
+  timeout: number;
+};

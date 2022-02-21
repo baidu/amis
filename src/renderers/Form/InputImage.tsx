@@ -242,6 +242,11 @@ export interface ImageControlSchema extends FormBaseControl {
   };
 
   /**
+   * 初始化时是否把其他字段同步到表单内部。
+   */
+  initAutoFill?: boolean
+
+  /**
    * 默认占位图图片地址
    */
   frameImage?: SchemaUrlPath;
@@ -390,6 +395,7 @@ export default class ImageControl extends React.Component<
   resolve?: (value?: any) => void;
   emitValue: any;
   unmounted = false;
+  initAutoFill: boolean;
 
   constructor(props: ImageProps) {
     super(props);
@@ -398,6 +404,7 @@ export default class ImageControl extends React.Component<
     const joinValues = props.joinValues;
     const delimiter = props.delimiter as string;
     let files: Array<FileValue> = [];
+    this.initAutoFill = !!props.initAutoFill;
 
     if (value) {
       // files = (multiple && Array.isArray(value) ? value : joinValues ? (value as string).split(delimiter) : [value])
@@ -493,6 +500,9 @@ export default class ImageControl extends React.Component<
         },
         this.syncAutoFill
       );
+    } else if (prevProps.value !== props.value && !this.initAutoFill) {
+      this.initAutoFill = true
+      this.syncAutoFill()
     }
 
     if (prevProps.crop !== props.crop) {
@@ -689,7 +699,7 @@ export default class ImageControl extends React.Component<
           locked: false
         },
         () => {
-          this.onChange(!!this.resolve);
+          this.onChange(!!this.resolve, false);
 
           if (this.resolve) {
             this.resolve(
@@ -704,9 +714,12 @@ export default class ImageControl extends React.Component<
     }
   }
 
-  removeFile(file: FileValue, index: number) {
+  async removeFile(file: FileValue, index: number) {
     const files = this.files.concat();
-
+    const dispatcher = await this.dispatchEvent('remove', file);
+    if (dispatcher?.prevented) {
+      return;
+    }
     this.removeFileCanelExecutor(file, true);
     files.splice(index, 1);
 
@@ -756,7 +769,7 @@ export default class ImageControl extends React.Component<
     });
   }
 
-  onChange(changeImmediately?: boolean) {
+  async onChange(changeImmediately?: boolean, isFileChange = true) {
     const {
       multiple,
       onChange,
@@ -789,6 +802,12 @@ export default class ImageControl extends React.Component<
         ? newValue[valueField || 'value']
         : newValue;
     }
+    if (isFileChange) {
+      const dispatcher = await this.dispatchEvent('change');
+      if (dispatcher?.prevented) {
+        return;
+      }
+    }
 
     onChange((this.emitValue = newValue || ''), undefined, changeImmediately);
     this.syncAutoFill();
@@ -796,7 +815,7 @@ export default class ImageControl extends React.Component<
 
   syncAutoFill() {
     const {autoFill, multiple, onBulkChange, data} = this.props;
-    if (!isEmpty(autoFill) && onBulkChange) {
+    if (!isEmpty(autoFill) && onBulkChange && this.initAutoFill) {
       const files = this.state.files.filter(
         file => ~['uploaded', 'init', 'ready'].indexOf(file.state as string)
       );
@@ -973,6 +992,7 @@ export default class ImageControl extends React.Component<
         }
       }
     );
+    this.dispatchEvent('change');
   }
 
   sendFile(
@@ -987,7 +1007,7 @@ export default class ImageControl extends React.Component<
     }
 
     const image = new Image();
-    image.onload = () => {
+    image.onload = async () => {
       const width = image.width;
       const height = image.height;
       let error = '';
@@ -1024,6 +1044,10 @@ export default class ImageControl extends React.Component<
 
       if (error) {
         file.state = 'invalid';
+        const dispatcher = await this.dispatchEvent('fail', {file, error});
+        if (dispatcher?.prevented) {
+          return;
+        }
         cb(error, file);
       } else {
         this._upload(file, cb, onProgress);
@@ -1033,13 +1057,13 @@ export default class ImageControl extends React.Component<
   }
 
   _upload(
-    file: Blob,
+    file: FileX,
     cb: (error: null | string, file: Blob, obj?: FileValue) => void,
     onProgress: (progress: number) => void
   ) {
     const __ = this.props.translate;
     this._send(file, this.props.receiver as string, {}, onProgress)
-      .then((ret: Payload) => {
+      .then(async (ret: Payload) => {
         if (ret.status && (ret as any).status !== '0') {
           throw new Error(ret.msg || __('File.errorRetry'));
         }
@@ -1050,9 +1074,22 @@ export default class ImageControl extends React.Component<
         };
         obj.value = obj.value || obj.url;
 
+        const dispatcher = await this.dispatchEvent('success', obj);
+        if (dispatcher?.prevented) {
+          return;
+        }
         cb(null, file, obj);
       })
-      .catch(error => cb(error.message || __('File.errorRetry'), file));
+      .catch(async error => {
+        const dispatcher = await this.dispatchEvent('fail', {
+          file,
+          error
+        });
+        if (dispatcher?.prevented) {
+          return;
+        }
+        cb(error.message || __('File.errorRetry'), file);
+      });
   }
 
   async _send(
@@ -1204,6 +1241,12 @@ export default class ImageControl extends React.Component<
     } else if (this.files.some(item => item.state === 'error')) {
       return __('File.errorRetry');
     }
+  }
+
+  async dispatchEvent(e: string, data?: Record<string, any>) {
+    const {dispatchEvent} = this.props;
+    data = data ? data : this.state.files;
+    return dispatchEvent(e, createObject(this.props.data, {file: data}));
   }
 
   render() {

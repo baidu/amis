@@ -989,7 +989,7 @@ export function someTree<T extends TreeItem>(
  *              { id: 3 },
  *         ]
  *     }
- * ], item => item.id); // 输出位 [1, 2, 3]
+ * ], item => item.id); // 输出为 [1, 2, 3]
  *
  * @param tree
  * @param mapper

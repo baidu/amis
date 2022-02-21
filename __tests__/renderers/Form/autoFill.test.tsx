@@ -16,7 +16,7 @@ test('Form:options:autoFill', async () => {
       {
         type: 'form',
         title: 'The form',
-        controls: [
+        body: [
           {
             type: 'radios',
             name: 'a',
@@ -38,19 +38,19 @@ test('Form:options:autoFill', async () => {
             ]
           },
           {
-            type: 'text',
+            type: 'input-text',
             name: 'a'
           },
           {
-            type: 'text',
+            type: 'input-text',
             name: 'aValue'
           },
           {
-            type: 'text',
+            type: 'input-text',
             name: 'aLabel'
           },
           {
-            type: 'text',
+            type: 'input-text',
             name: 'aId'
           }
         ],
@@ -80,7 +80,7 @@ test('Form:options:autoFill', async () => {
   ).toBe('233');
 
   fireEvent.click(getByText(/OptionB/));
-  await wait(300);
+  await wait(500);
 
   expect(container.querySelector('input[name=a]')?.getAttribute('value')).toBe(
     'b'

@@ -50,8 +50,7 @@
   }
 
   &-group > &-itemLabel {
-    font-size: var(--fontSizeSm);
-    padding: var(--gap-xs) var(--gap-xs);
+    padding: var(--gap-xs) var(--gap-base);
     color: var(--text--muted-color);
   }
 
@@ -70,7 +69,7 @@
     flex-direction: row;
 
     > .#{$ns}Checkbox {
-      margin-right: 0;
+      margin-right: px2rem(8px);
     }
     cursor: pointer;
     user-select: none;
@@ -91,13 +90,14 @@
   }
 
   &-group > &-items > &-item {
-    padding-left: var(--gap-base);
+    padding-left: calc(var(--gap-base) * 2);
   }
 
   &-itemLabel {
     flex-grow: 1;
 
     span {
+      vertical-align: middle;
       white-space: nowrap; // 避免在条件组合中折行
     }
   }
@@ -241,6 +241,11 @@
 
   &-itemLabel {
     flex-grow: 1;
+
+    span {
+      margin-left: var(--gap-xs);
+      vertical-align: middle;
+    }
   }
 
   &-placeholder {
@@ -305,6 +310,11 @@
 
   &-itemLabel {
     flex-grow: 1;
+
+    span {
+      margin-left: var(--gap-xs);
+      vertical-align: middle;
+    }
   }
 
   &-placeholder {

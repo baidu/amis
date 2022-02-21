@@ -73,8 +73,8 @@ exports[`Renderer:city 1`] = `
                 class="cxd-Select-clear"
               >
                 <icon-mock
-                  classname="icon icon-close"
-                  icon="close"
+                  classname="icon icon-close-small"
+                  icon="close-small"
                 />
               </a>
               <span
@@ -107,8 +107,8 @@ exports[`Renderer:city 1`] = `
                 class="cxd-Select-clear"
               >
                 <icon-mock
-                  classname="icon icon-close"
-                  icon="close"
+                  classname="icon icon-close-small"
+                  icon="close-small"
                 />
               </a>
               <span
@@ -141,8 +141,8 @@ exports[`Renderer:city 1`] = `
                 class="cxd-Select-clear"
               >
                 <icon-mock
-                  classname="icon icon-close"
-                  icon="close"
+                  classname="icon icon-close-small"
+                  icon="close-small"
                 />
               </a>
               <span

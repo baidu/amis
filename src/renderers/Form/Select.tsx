@@ -151,20 +151,21 @@ export default class SelectControl extends React.Component<SelectProps, any> {
     this.input && this.input.focus();
   }
 
-  async dispatchEvent(eventName: SelectRendererEvent, e: any = {}) {
+  async dispatchEvent(eventName: SelectRendererEvent, eventData: any = {}) {
     const event = 'on' + eventName.charAt(0).toUpperCase() + eventName.slice(1);
-    const {dispatchEvent, options} = this.props;
+    const {dispatchEvent, options, data} = this.props;
     // 触发渲染器事件
     const rendererEvent = await dispatchEvent(
       eventName,
-      createObject(e, {
-        options
+      createObject(data, {
+        options,
+        ...eventData
       })
     );
     if (rendererEvent?.prevented) {
       return;
     }
-    this.props[event](e);
+    this.props[event](eventData);
   }
 
   async changeValue(value: Option | Array<Option> | string | void) {
@@ -178,6 +179,7 @@ export default class SelectControl extends React.Component<SelectProps, any> {
       onChange,
       setOptions,
       options,
+      data,
       dispatchEvent
     } = this.props;
 
@@ -222,10 +224,13 @@ export default class SelectControl extends React.Component<SelectProps, any> {
     // 不设置没法回显
     additonalOptions.length && setOptions(options.concat(additonalOptions));
 
-    const rendererEvent = await dispatchEvent('change', {
-      value: newValue,
-      options
-    });
+    const rendererEvent = await dispatchEvent(
+      'change',
+      createObject(data, {
+        value: newValue,
+        options,
+      })
+    );
     if (rendererEvent?.prevented) {
       return;
     }
@@ -439,6 +444,7 @@ class TransferDropdownRenderer extends BaseTransferRenderer<TransferDropDownProp
       showArrow,
       deferLoad,
       disabled,
+      clearable,
       selectTitle,
       selectMode,
       multiple,
@@ -472,6 +478,7 @@ class TransferDropdownRenderer extends BaseTransferRenderer<TransferDropDownProp
           className={className}
           value={selectedOptions}
           disabled={disabled}
+          clearable={clearable}
           options={options}
           onChange={this.handleChange}
           option2value={this.option2value}

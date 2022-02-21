@@ -64,7 +64,7 @@ export default function attachmentAdpator(response: any, __: Function) {
         }
       };
     }
-  } else if (response.data.toString() === '[object Blob]') {
+  } else if (response.data && response.data.toString() === '[object Blob]') {
     return new Promise((resolve, reject) => {
       let reader = new FileReader();
       reader.addEventListener('loadend', e => {

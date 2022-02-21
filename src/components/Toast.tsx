@@ -13,7 +13,7 @@ import Transition, {
 import React from 'react';
 import cx from 'classnames';
 import Html from './Html';
-import {uuid, autobind, noop} from '../utils/helper';
+import {uuid, autobind, noop, isMobile} from '../utils/helper';
 import {ClassNamesFn, themeable, classnames, ThemeProps} from '../theme';
 import {Icon} from './icons';
 import {LocaleProps, localeable, TranslateFn} from '../locale';
@@ -47,12 +47,15 @@ interface ToastComponentProps extends ThemeProps, LocaleProps {
     | 'top-left'
     | 'bottom-center'
     | 'bottom-left'
-    | 'bottom-right';
+    | 'bottom-right'
+    | 'center';
   closeButton: boolean;
   showIcon?: boolean;
   timeout: number;
   errorTimeout: number;
   className?: string;
+  items?: Array<Item>;
+  useMobileUI?: boolean;
 }
 
 interface Item extends Config {
@@ -67,11 +70,15 @@ interface Item extends Config {
     | 'top-left'
     | 'bottom-center'
     | 'bottom-left'
-    | 'bottom-right';
+    | 'bottom-right'
+    | 'center';
+  showIcon?: boolean;
+  useMobileUI?: boolean;
 }
 
 interface ToastComponentState {
   items: Array<Item>;
+  useMobileUI?: boolean;
 }
 
 export class ToastComponent extends React.Component<
@@ -80,12 +87,13 @@ export class ToastComponent extends React.Component<
 > {
   static defaultProps: Pick<
     ToastComponentProps,
-    'position' | 'closeButton' | 'timeout' | 'errorTimeout'
+    'position' | 'closeButton' | 'timeout' | 'errorTimeout' | 'items'
   > = {
     position: 'top-center',
     closeButton: false,
     timeout: 4000,
-    errorTimeout: 6000 // 错误的时候 time 调长
+    errorTimeout: 6000, // 错误的时候 time 调长
+    items: []
   };
   static themeKey = 'toast';
 
@@ -106,16 +114,24 @@ export class ToastComponent extends React.Component<
     }
   }
 
-  notifiy(level: string, content: string, config?: any) {
-    const items = this.state.items.concat();
+  notifiy(level: string, content: any, config?: any) {
+    let items = this.state.items.concat();
+    const useMobileUI = (config.useMobileUI || this.props.useMobileUI) && isMobile();
+    if (useMobileUI) {
+      // 移动端只能存在一个
+      items = [];
+    }
     items.push({
       body: content,
       level,
       ...config,
-      id: uuid()
+      id: uuid(),
+      position: config.position || (useMobileUI ? 'center' : config.position),
+      timeout: config.timeout || (useMobileUI ? 3000 : undefined),
     });
     this.setState({
-      items
+      items,
+      useMobileUI
     });
   }
 
@@ -162,9 +178,11 @@ export class ToastComponent extends React.Component<
       position,
       showIcon,
       translate,
-      closeButton
+      closeButton,
+      useMobileUI
     } = this.props;
     const items = this.state.items;
+    const mobileUI = (useMobileUI || this.state.useMobileUI) && isMobile();
     const groupedItems = groupBy(items, item => item.position || position);
 
     return Object.keys(groupedItems).map(position => {
@@ -176,25 +194,29 @@ export class ToastComponent extends React.Component<
             `Toast-wrap Toast-wrap--${position.replace(/\-(\w)/g, (_, l) =>
               l.toUpperCase()
             )}`,
+            {
+              'Toast-mobile': mobileUI
+            },
             className
           )}
         >
-          {toasts.map(item => {
+          {toasts.map((item, index) => {
             const level = item.level || 'info';
             const toastTimeout =
               item.timeout ?? (level === 'error' ? errorTimeout : timeout);
             return (
               <ToastMessage
                 classnames={cx}
-                key={item.id}
+                key={item.id || index}
                 title={item.title}
                 body={item.body}
                 level={level}
                 timeout={toastTimeout}
-                closeButton={item.closeButton ?? closeButton}
+                closeButton={!mobileUI && (item.closeButton ?? closeButton)}
                 onDismiss={this.handleDismissed.bind(this, items.indexOf(item))}
                 translate={translate}
-                showIcon={showIcon}
+                showIcon={item.showIcon ?? showIcon}
+                useMobileUI={mobileUI}
               />
             );
           })}
@@ -219,11 +241,13 @@ interface ToastMessageProps {
     | 'top-left'
     | 'bottom-center'
     | 'bottom-left'
-    | 'bottom-right';
+    | 'bottom-right'
+    | 'center';
   onDismiss?: () => void;
   classnames: ClassNamesFn;
   translate: TranslateFn;
   allowHtml: boolean;
+  useMobileUI?: boolean;
 }
 
 interface ToastMessageState {
@@ -298,8 +322,10 @@ export class ToastMessage extends React.Component<
       allowHtml,
       level,
       showIcon,
+      useMobileUI,
       translate: __
     } = this.props;
+    const iconName = useMobileUI ? '' : 'status-';
 
     return (
       <Transition
@@ -313,7 +339,9 @@ export class ToastMessage extends React.Component<
         {(status: string) => {
           return (
             <div
-              className={cx(`Toast Toast--${level}`, fadeStyles[status])}
+              className={cx(`Toast Toast--${level}`, fadeStyles[status],{
+                'Toast-mobile--has-icon': useMobileUI && showIcon !== false
+              })}
               onMouseEnter={this.handleMouseEnter}
               onMouseLeave={this.handleMouseLeave}
               onClick={closeButton ? noop : this.close}
@@ -321,13 +349,13 @@ export class ToastMessage extends React.Component<
               {showIcon === false ? null : (
                 <div className={cx('Toast-icon')}>
                   {level === 'success' ? (
-                    <Icon icon="status-success" className="icon" />
+                    <Icon icon={iconName + 'success'} className="icon" />
                   ) : level == 'error' ? (
-                    <Icon icon="status-fail" className="icon" />
+                    <Icon icon={iconName + 'fail'} className="icon" />
                   ) : level == 'info' ? (
-                    <Icon icon="status-info" className="icon" />
+                    <Icon icon={iconName + 'info'} className="icon" />
                   ) : level == 'warning' ? (
-                    <Icon icon="status-warning" className="icon" />
+                    <Icon icon={iconName + 'warning'} className="icon" />
                   ) : null}
                 </div>
               )}
