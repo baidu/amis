@@ -31,6 +31,11 @@
       }
     </style>
     <script type="text/x-jsx">
+      // gitee 最近特别慢
+      if (location.hostname === 'baidu.gitee.io') {
+        location.hostname = 'aisuda.bce.baidu.com';
+      }
+
       let theme = localStorage.getItem('amis-theme') || 'cxd';
       if (theme === 'default') {
         theme = 'cxd';

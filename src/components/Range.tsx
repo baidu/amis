@@ -15,7 +15,6 @@ import {RendererProps} from '../factory';
 import Overlay from './Overlay';
 import {ThemeProps, themeable} from '../theme';
 import {autobind, camel} from '../utils/helper';
-import {Icon} from '../../src';
 import {
   MultipleValue,
   Value,
@@ -25,6 +24,7 @@ import {
 } from '../renderers/Form/InputRange';
 import {stripNumber} from '../utils/tpl-builtin';
 import {findDOMNode} from 'react-dom';
+import {Icon} from './icons';
 
 interface HandleItemState {
   isDrag: boolean;

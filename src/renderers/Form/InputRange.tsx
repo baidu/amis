@@ -60,7 +60,7 @@ export interface RangeControlSchema extends FormBaseControl {
   /**
    * 刻度
    */
-  marks?: MarksType;
+  // marks?: MarksType;
 
   /**
    * 是否展示标签
@@ -101,7 +101,7 @@ export interface RangeControlSchema extends FormBaseControl {
 export type MarksType = {
   [index: number | string]: Record<
     number,
-    React.ReactNode | {style?: React.CSSProperties; label?: string}
+    {style?: React.CSSProperties; label?: string} | any
   >;
 };
 
@@ -138,8 +138,11 @@ export interface RangeProps extends FormControlProps {
 
   /**
    * 刻度
+   *
+   * todo 这里面存在 React.Compnonent 复杂定义，不能转成 json schema
+   * 需要简化类型定义，json 中是不能定义复杂类型的，如 function
    */
-  marks?: MarksType;
+  // marks?: MarksType;
 
   /**
    * 是否展示标签
