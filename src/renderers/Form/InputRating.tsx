@@ -1,5 +1,6 @@
 import React from 'react';
 import {FormItem, FormControlProps, FormBaseControl} from './Item';
+import {autobind, createObject} from '../../utils/helper';
 import Rating, {textPositionType} from '../../components/Rating';
 
 /**
@@ -84,6 +85,27 @@ export default class RatingControl extends React.Component<RatingProps, any> {
     readOnly: false
   };
 
+  async dispatchChangeEvent(eventName: string, eventData: any = {}) {
+    const {dispatchEvent, data} = this.props;
+    let rendererEvent = await dispatchEvent(
+      eventName,
+      createObject(data, {
+        value: eventData,
+      })
+    );
+
+    return rendererEvent?.prevented ?? false;
+  }
+
+  @autobind
+  async handleChange(value: number) {
+    const {onChange} = this.props;
+
+    const prevented = await this.dispatchChangeEvent('change', value);
+
+    prevented || (onChange && onChange(value));
+  }
+
   render() {
     const {
       className,
@@ -92,7 +114,6 @@ export default class RatingControl extends React.Component<RatingProps, any> {
       half,
       readOnly,
       disabled,
-      onChange,
       onHoverChange,
       allowClear,
       char,
@@ -122,9 +143,7 @@ export default class RatingControl extends React.Component<RatingProps, any> {
           charClassName={charClassName}
           textClassName={textClassName}
           textPosition={textPosition}
-          onChange={(value: number) => {
-            onChange && onChange(value);
-          }}
+          onChange={this.handleChange}
           onHoverChange={(value: number) => {
             onHoverChange && onHoverChange(value);
           }}
