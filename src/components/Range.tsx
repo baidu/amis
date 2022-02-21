@@ -20,11 +20,17 @@ import {
   MultipleValue,
   Value,
   FormatValue,
-  MarksType,
   RangeItemProps
 } from '../renderers/Form/InputRange';
 import {stripNumber} from '../utils/tpl-builtin';
 import {findDOMNode} from 'react-dom';
+
+type MarksType = {
+  [index: number | string]: Record<
+    number,
+    React.ReactNode | {style?: React.CSSProperties; label?: string}
+  >;
+};
 
 interface HandleItemState {
   isDrag: boolean;
