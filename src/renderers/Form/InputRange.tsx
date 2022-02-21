@@ -10,6 +10,7 @@ import {Icon} from '../../components/icons';
 import {stripNumber} from '../../utils/tpl-builtin';
 import {autobind} from '../../utils/helper';
 import {filter} from '../../utils/tpl';
+import {SchemaObject} from '../../Schema';
 
 /**
  * Range
@@ -98,10 +99,10 @@ export interface RangeControlSchema extends FormBaseControl {
   disabled?: boolean;
 }
 
-export type MarksType = {
+type MarksType = {
   [index: number | string]: Record<
     number,
-    React.ReactNode | {style?: React.CSSProperties; label?: string}
+    SchemaObject | {style?: React.CSSProperties; label?: string}
   >;
 };
 
