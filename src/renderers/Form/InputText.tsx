@@ -20,6 +20,13 @@ import {FormBaseControl} from './Item';
 import {ActionSchema} from '../Action';
 import {SchemaApi} from '../../Schema';
 import {generateIcon} from '../../utils/icon';
+import {
+  rendererEventDispatcher,
+  bindRendererEvent
+} from '../../actions/Decorators';
+
+import type {Option} from '../../components/Select';
+import type {ListenerAction} from '../../actions/Action';
 
 // declare function matchSorter(items:Array<any>, input:any, options:any): Array<any>;
 
@@ -69,7 +76,25 @@ export interface TextControlSchema extends FormOptionsControl {
    * 是否显示计数
    */
   showCounter?: boolean;
+
+  /**
+   * 前缀
+   */
+  prefix?: string;
+
+  /**
+   * 后缀
+   */
+  suffix?: string;
 }
+
+export type InputTextRendererEvent =
+  | 'blur'
+  | 'focus'
+  | 'click'
+  | 'change'
+  | 'clear'
+  | 'enter';
 
 export interface TextProps extends OptionsControlProps {
   placeholder?: string;
@@ -85,6 +110,10 @@ export interface TextProps extends OptionsControlProps {
   autoComplete?: any;
   allowInputText?: boolean;
   spinnerClassName: string;
+  transform?: {
+    lowerCase?: boolean; // 用户输入的字符自动转小写
+    upperCase?: boolean; // 用户输入的字符自动转大写
+  };
 }
 
 export interface TextState {
@@ -188,6 +217,16 @@ export default class TextControl extends React.PureComponent<
     this.input = ref;
   }
 
+  doAction(action: ListenerAction, args: any) {
+    const actionType = action?.actionType as string;
+
+    if (!!~['clear', 'reset'].indexOf(actionType)) {
+      this.clearValue();
+    } else if (actionType === 'focus') {
+      this.focus();
+    }
+  }
+
   focus() {
     if (!this.input) {
       return;
@@ -200,6 +239,7 @@ export default class TextControl extends React.PureComponent<
     len && this.input.setSelectionRange(len, len);
   }
 
+  @bindRendererEvent<TextProps, InputTextRendererEvent>('clear')
   clearValue() {
     const {onChange, resetValue} = this.props;
 
@@ -216,29 +256,15 @@ export default class TextControl extends React.PureComponent<
   }
 
   removeItem(index: number) {
-    const {
-      selectedOptions,
-      onChange,
-      joinValues,
-      extractValue,
-      delimiter,
-      valueField
-    } = this.props;
+    const {selectedOptions, onChange} = this.props;
 
     const newValue = selectedOptions.concat();
     newValue.splice(index, 1);
 
-    onChange(
-      joinValues
-        ? newValue
-            .map(item => item[valueField || 'value'])
-            .join(delimiter || ',')
-        : extractValue
-        ? newValue.map(item => item[valueField || 'value'])
-        : newValue
-    );
+    onChange(this.normalizeValue(newValue));
   }
 
+  @bindRendererEvent<TextProps, InputTextRendererEvent>('click')
   handleClick() {
     this.focus();
     this.setState({
@@ -246,6 +272,7 @@ export default class TextControl extends React.PureComponent<
     });
   }
 
+  @bindRendererEvent<TextProps, InputTextRendererEvent>('focus')
   handleFocus(e: any) {
     this.setState({
       isOpen: true,
@@ -255,6 +282,7 @@ export default class TextControl extends React.PureComponent<
     this.props.onFocus && this.props.onFocus(e);
   }
 
+  @bindRendererEvent<TextProps, InputTextRendererEvent>('blur')
   handleBlur(e: any) {
     const {onBlur, trimContents, value, onChange} = this.props;
 
@@ -290,32 +318,16 @@ export default class TextControl extends React.PureComponent<
     );
   }
 
-  handleKeyDown(evt: React.KeyboardEvent<HTMLInputElement>) {
-    const {
-      selectedOptions,
-      onChange,
-      joinValues,
-      extractValue,
-      delimiter,
-      multiple,
-      valueField,
-      creatable
-    } = this.props;
+  async handleKeyDown(evt: React.KeyboardEvent<HTMLInputElement>) {
+    const {selectedOptions, onChange, multiple, creatable} = this.props;
 
     if (selectedOptions.length && !this.state.inputValue && evt.keyCode === 8) {
       evt.preventDefault();
       const newValue = selectedOptions.concat();
       newValue.pop();
 
-      onChange(
-        joinValues
-          ? newValue
-              .map(item => item[valueField || 'value'])
-              .join(delimiter || ',')
-          : extractValue
-          ? newValue.map(item => item[valueField || 'value'])
-          : newValue
-      );
+      onChange(this.normalizeValue(newValue));
+
       this.setState(
         {
           inputValue: ''
@@ -323,46 +335,48 @@ export default class TextControl extends React.PureComponent<
         this.loadAutoComplete
       );
     } else if (
-      evt.keyCode === 13 &&
+      evt.key === 'Enter' &&
       this.state.inputValue &&
-      typeof this.highlightedIndex !== 'number'
+      typeof this.highlightedIndex !== 'number' &&
+      creatable !== false
     ) {
       evt.preventDefault();
-      const value = this.state.inputValue;
+      let value: string | Array<string | any> = this.state.inputValue;
 
-      if (multiple) {
-        if (value && !find(selectedOptions, item => item.value == value)) {
-          const newValue = selectedOptions.concat();
-          newValue.push({
-            label: value,
-            value: value
-          });
+      if (
+        multiple &&
+        value &&
+        !find(selectedOptions, item => item.value == value)
+      ) {
+        const newValue = selectedOptions.concat();
+        newValue.push({
+          label: value,
+          value: value
+        });
 
-          onChange(
-            joinValues
-              ? newValue
-                  .map(item => item[valueField || 'value'])
-                  .join(delimiter || ',')
-              : extractValue
-              ? newValue.map(item => item[valueField || 'value'])
-              : newValue
-          );
-        }
-      } else {
-        onChange(value);
+        value = this.normalizeValue(newValue).concat();
       }
 
-      if (creatable === false || multiple) {
-        this.setState(
-          {
-            inputValue: '',
-            isOpen: false
-          },
-          this.loadAutoComplete
-        );
+      const dispatcher = await rendererEventDispatcher<
+        TextProps,
+        InputTextRendererEvent
+      >(this.props, 'enter', {value});
+
+      if (dispatcher?.prevented) {
+        return;
       }
+
+      onChange(value);
+
+      this.setState(
+        {
+          inputValue: '',
+          isOpen: false
+        },
+        this.loadAutoComplete
+      );
     } else if (
-      evt.keyCode === 13 &&
+      evt.key === 'Enter' &&
       this.state.isOpen &&
       typeof this.highlightedIndex !== 'number'
     ) {
@@ -373,16 +387,7 @@ export default class TextControl extends React.PureComponent<
   }
 
   handleChange(value: any) {
-    const {
-      onChange,
-      multiple,
-      joinValues,
-      extractValue,
-      delimiter,
-      selectedOptions,
-      valueField,
-      creatable
-    } = this.props;
+    const {onChange, multiple, selectedOptions, creatable} = this.props;
 
     if (multiple) {
       const newValue = selectedOptions.concat();
@@ -391,15 +396,7 @@ export default class TextControl extends React.PureComponent<
         value: value
       });
 
-      onChange(
-        joinValues
-          ? newValue
-              .map(item => item[valueField || 'value'])
-              .join(delimiter || ',')
-          : extractValue
-          ? newValue.map(item => item[valueField || 'value'])
-          : newValue
-      );
+      onChange(this.normalizeValue(newValue));
     } else {
       onChange(value);
     }
@@ -454,17 +451,55 @@ export default class TextControl extends React.PureComponent<
   }
 
   @autobind
-  handleNormalInputChange(e: React.ChangeEvent<HTMLInputElement>) {
+  async handleNormalInputChange(e: React.ChangeEvent<HTMLInputElement>) {
     const {onChange} = this.props;
-
     let value = e.currentTarget.value;
+    const dispatcher = await rendererEventDispatcher<
+      TextProps,
+      InputTextRendererEvent
+    >(this.props, 'change', {value: this.transformValue(value)});
 
-    onChange(value);
+    if (dispatcher?.prevented) {
+      return;
+    }
+
+    onChange(this.transformValue(value));
+  }
+
+  normalizeValue(value: Option[]) {
+    const {delimiter, joinValues, extractValue, valueField} = this.props;
+
+    return joinValues
+      ? value.map(item => item[valueField || 'value']).join(delimiter || ',')
+      : extractValue
+      ? value.map(item => item[valueField || 'value'])
+      : value;
+  }
+
+  transformValue(value: string) {
+    const {transform} = this.props;
+
+    if (!transform) {
+      return value;
+    }
+
+    Object.keys(transform).forEach((key: 'lowerCase' | 'upperCase') => {
+      const propValue = transform[key];
+      switch (key) {
+        case 'lowerCase':
+          propValue && (value = value.toLowerCase());
+          break;
+        case 'upperCase':
+          propValue && (value = value.toUpperCase());
+          break;
+      }
+    });
+
+    return value;
   }
 
   loadAutoComplete() {
-    const {formItem, autoComplete, data, multiple, selectedOptions} =
-      this.props;
+    const {formItem, autoComplete, data} = this.props;
 
     if (isEffectiveApi(autoComplete, data) && formItem) {
       formItem.loadOptions(
@@ -540,9 +575,25 @@ export default class TextControl extends React.PureComponent<
           const indices = isOpen
             ? mapItemIndex(filtedOptions, selectedItem)
             : {};
+
           filtedOptions = filtedOptions.filter(
             (option: any) => !~selectedItem.indexOf(option.value)
           );
+
+          if (
+            this.state.inputValue &&
+            creatable !== false &&
+            multiple &&
+            !filtedOptions.some(
+              (option: any) => option.value === this.state.inputValue
+            )
+          ) {
+            filtedOptions.push({
+              [labelField || 'label']: this.state.inputValue,
+              [valueField || 'value']: this.state.inputValue,
+              isNew: true
+            });
+          }
 
           return (
             <div
@@ -609,7 +660,7 @@ export default class TextControl extends React.PureComponent<
                   onClick={this.clearValue}
                   className={cx('TextControl-clear')}
                 >
-                  <Icon icon="close" className="icon" />
+                  <Icon icon="input-clear" className="icon" />
                 </a>
               ) : null}
 
@@ -637,12 +688,19 @@ export default class TextControl extends React.PureComponent<
                         })}
                         key={option.value}
                       >
-                        <span>
-                          {option.disabled
-                            ? option.label
-                            : highlight(option.label, inputValue as string)}
-                          {option.tip}
-                        </span>
+                        {option.isNew ? (
+                          <span>
+                            {__('Text.add', {label: option.label})}
+                            <Icon icon="enter" className="icon" />
+                          </span>
+                        ) : (
+                          <span>
+                            {option.disabled
+                              ? option.label
+                              : highlight(option.label, inputValue as string)}
+                            {option.tip}
+                          </span>
+                        )}
                       </div>
                     );
                   })}
@@ -696,7 +754,7 @@ export default class TextControl extends React.PureComponent<
             {filter(prefix, data)}
           </span>
         ) : null}
-        <input
+        <Input
           name={name}
           placeholder={placeholder}
           ref={this.inputRef}
@@ -715,19 +773,12 @@ export default class TextControl extends React.PureComponent<
         />
         {clearable && !disabled && value ? (
           <a onClick={this.clearValue} className={`${ns}TextControl-clear`}>
-            <Icon icon="close" className="icon" />
+            <Icon icon="input-clear" className="icon" />
           </a>
         ) : null}
         {showCounter ? (
           <span className={cx('TextControl-counter')}>
-            {`${
-              (typeof value === 'undefined' || value === null
-                ? ''
-                : typeof value === 'string'
-                ? value
-                : JSON.stringify(value)
-              ).length
-            }${
+            {`${this.valueToString(value)?.length}${
               typeof maxLength === 'number' && maxLength ? `/${maxLength}` : ''
             }`}
           </span>

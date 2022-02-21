@@ -1,12 +1,14 @@
 /* eslint-disable */
 
-var rLinkScript = /(<!(?:--)?\[[\s\S]*?<\!\[endif\](?:--)?>|<!--[\s\S]*?(?:-->|$))|(?:(\s*<script([^>]*)>([\s\S]*?)<\/script>)|(?:\s*(<link([^>]*?)(?:\/)?>)|(<style([^>]*)>([\s\S]*?)<\/style>)))(<!--ignore-->)?\n?/gi;
+var rLinkScript =
+  /(<!(?:--)?\[[\s\S]*?<\!\[endif\](?:--)?>|<!--[\s\S]*?(?:-->|$))|(?:(\s*<script([^>]*)>([\s\S]*?)<\/script>)|(?:\s*(<link([^>]*?)(?:\/)?>)|(<style([^>]*)>([\s\S]*?)<\/style>)))(<!--ignore-->)?\n?/gi;
 var rScriptType = /type=('|")(.*?)\1/i;
 var rSrcHref = /\s*(?:src|href)=('|")(.+?)\1/i;
 var rRefStyle = /rel=('|")stylesheet\1/i;
 var path = require('path');
 var css = require('css');
-var rSourceMap = /(?:\/\/\#\s*sourceMappingURL[^\r\n\'\"]*|\/\*\#\s*sourceMappingURL[^\r\n\'\"]*\*\/)(?:\r?\n|$)/gi;
+var rSourceMap =
+  /(?:\/\/\#\s*sourceMappingURL[^\r\n\'\"]*|\/\*\#\s*sourceMappingURL[^\r\n\'\"]*\*\/)(?:\r?\n|$)/gi;
 var caches = {};
 var createResource = fis.require('postpackager-loader/lib/resource.js');
 
@@ -27,7 +29,7 @@ function prefixCss(code, prefix) {
       );
     else if (
       sel.match(
-        /^(?:\.fr-|\.fa|\.tox|\.monaco-|\.vs-dark|\.hc-black|\.vs\b|\.cursor-|::|\.context-view|\.menubar|\.fullscreen|\.colorpicker-)/
+        /^(?:\.fr-|\.fa|\.tox|\.AMISDebug|\.monaco-|\.vs-dark|\.hc-black|\.vs\b|\.cursor-|::|\.context-view|\.menubar|\.fullscreen|\.colorpicker-)/
       )
     )
       return sel;

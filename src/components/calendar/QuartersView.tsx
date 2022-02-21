@@ -23,6 +23,7 @@ export interface QuarterViewProps extends LocaleProps, ThemeProps {
   updateSelectedDate: (e: any, close?: boolean) => void;
   renderQuarter: any;
   isValidDate: (date: moment.Moment) => boolean;
+  hideHeader?: boolean;
 }
 
 export class QuarterView extends React.Component<QuarterViewProps> {
@@ -140,11 +141,11 @@ export class QuarterView extends React.Component<QuarterViewProps> {
   }
 
   render() {
-    const {classnames: cx} = this.props;
+    const {classnames: cx, hideHeader} = this.props;
 
     return (
       <div className={cx('ClalendarQuarter')}>
-        {this.renderYear()}
+        {hideHeader ? null : this.renderYear()}
         <table>
           <tbody>{this.renderQuarters()}</tbody>
         </table>

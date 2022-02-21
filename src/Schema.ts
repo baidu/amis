@@ -9,6 +9,7 @@ import {ButtonToolbarSchema} from './renderers/Form/ButtonToolbar';
 import {CardSchema} from './renderers/Card';
 import {CardsSchema} from './renderers/Cards';
 import {FormSchema} from './renderers/Form';
+import {CalendarSchema} from './renderers/Calendar';
 import {CarouselSchema} from './renderers/Carousel';
 import {ChartSchema} from './renderers/Chart';
 import {CollapseSchema} from './renderers/Collapse';
@@ -56,6 +57,7 @@ import {PaginationSchema} from './renderers/Pagination';
 import {AnchorNavSchema} from './renderers/AnchorNav';
 import {AvatarSchema} from './renderers/Avatar';
 import {StepsSchema} from './renderers/Steps';
+import {TimelineSchema} from './renderers/Timeline';
 import {ArrayControlSchema} from './renderers/Form/InputArray';
 import {ButtonGroupControlSchema} from './renderers/Form/ButtonGroupSelect';
 import {ChainedSelectControlSchema} from './renderers/Form/ChainedSelect';
@@ -131,6 +133,7 @@ export type SchemaType =
   | 'cards'
   | 'carousel'
   | 'chart'
+  | 'calendar'
   | 'collapse'
   | 'collapse-group'
   | 'color'
@@ -182,6 +185,7 @@ export type SchemaType =
   | 'progress'
   | 'qrcode'
   | 'qr-code'
+  | 'barcode'
   | 'remark'
   | 'search-box'
   | 'service'
@@ -201,6 +205,7 @@ export type SchemaType =
   | 'web-component'
   | 'anchor-nav'
   | 'steps'
+  | 'timeline'
   | 'control'
   | 'input-array'
   | 'button'
@@ -227,6 +232,7 @@ export type SchemaType =
   | 'input-time-range'
   | 'input-datetime-range'
   | 'input-excel'
+  | 'input-formula'
   | 'diff-editor'
 
   // editor 系列
@@ -337,6 +343,7 @@ export type SchemaObject =
   | AvatarSchema
   | ButtonGroupSchema
   | ButtonToolbarSchema
+  | CalendarSchema
   | CardSchema
   | CardsSchema
   | CarouselSchema
@@ -386,6 +393,7 @@ export type SchemaObject =
   | AnchorNavSchema
   | StepsSchema
   | PortletSchema
+  | TimelineSchema
 
   // 表单项
   | FormControlSchema
@@ -825,3 +833,53 @@ export interface FeedbackDialog extends DialogSchemaBase {
 }
 
 export type RootSchema = PageSchema;
+
+export interface ToastSchemaBase extends BaseSchema {
+  /**
+   * 轻提示内容
+   */
+  items: Array<{
+    title?: SchemaCollection;
+    body: SchemaCollection;
+    level: 'info' | 'success' | 'error' | 'warning';
+    id: string;
+    position?:
+      | 'top-right'
+      | 'top-center'
+      | 'top-left'
+      | 'bottom-center'
+      | 'bottom-left'
+      | 'bottom-right'
+      | 'center';
+    closeButton?: boolean;
+    showIcon?: boolean;
+    timeout?: number;
+  }>;
+
+  /**
+   * 弹出位置
+   */
+  position:
+    | 'top-right'
+    | 'top-center'
+    | 'top-left'
+    | 'bottom-center'
+    | 'bottom-left'
+    | 'bottom-right'
+    | 'center';
+
+  /**
+   * 是否展示关闭按钮
+   */
+  closeButton: boolean;
+
+  /**
+   * 是否展示图标
+   */
+  showIcon?: boolean;
+
+  /**
+   * 持续时间
+   */
+  timeout: number;
+};

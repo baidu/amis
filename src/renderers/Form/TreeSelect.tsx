@@ -1,6 +1,7 @@
 import React from 'react';
 import Overlay from '../../components/Overlay';
 import PopOver from '../../components/PopOver';
+import PopUp from '../../components/PopUp';
 
 import {
   OptionsControl,
@@ -17,7 +18,7 @@ import {Api} from '../../types';
 import {isEffectiveApi} from '../../utils/api';
 import Spinner from '../../components/Spinner';
 import ResultBox from '../../components/ResultBox';
-import {autobind, getTreeAncestors} from '../../utils/helper';
+import {autobind, getTreeAncestors, isMobile} from '../../utils/helper';
 import {findDOMNode} from 'react-dom';
 import {normalizeOptions} from '../../components/Select';
 
@@ -90,6 +91,7 @@ export interface TreeSelectProps extends OptionsControlProps {
   hideNodePathLabel?: boolean;
   enableNodePath?: boolean;
   pathSeparator?: string;
+  useMobileUI?: boolean;
 }
 
 export interface TreeSelectState {
@@ -502,67 +504,51 @@ export default class TreeSelectControl extends React.Component<
         : options;
 
     return (
-      <Overlay
-        container={popOverContainer || (() => this.container.current)}
-        target={() => this.target}
-        show
-      >
-        <PopOver
-          classPrefix={ns}
-          className={`${ns}TreeSelect-popover`}
-          style={{
-            minWidth: this.target ? this.target.offsetWidth : undefined
-          }}
-          onHide={this.close}
-          overlay
-        >
-          <TreeSelector
-            classPrefix={ns}
-            onlyChildren={onlyChildren}
-            labelField={labelField}
-            valueField={valueField}
-            disabled={disabled}
-            onChange={this.handleChange}
-            joinValues={joinValues}
-            extractValue={extractValue}
-            delimiter={delimiter}
-            placeholder={__(optionsPlaceholder)}
-            options={filtedOptions}
-            highlightTxt={this.state.inputValue}
-            multiple={multiple}
-            initiallyOpen={initiallyOpen}
-            unfoldedLevel={unfoldedLevel}
-            withChildren={withChildren}
-            rootLabel={__(rootLabel)}
-            rootValue={rootValue}
-            showIcon={showIcon}
-            showRadio={showRadio}
-            cascade={cascade}
-            foldedField="collapsed"
-            hideRoot
-            value={value || ''}
-            nodePath={nodePath}
-            enableNodePath={enableNodePath}
-            pathSeparator={pathSeparator}
-            maxLength={maxLength}
-            minLength={minLength}
-            onAdd={onAdd}
-            creatable={creatable}
-            createTip={createTip}
-            rootCreatable={rootCreatable}
-            rootCreateTip={rootCreateTip}
-            onEdit={onEdit}
-            editable={editable}
-            editTip={editTip}
-            removable={removable}
-            removeTip={removeTip}
-            onDelete={onDelete}
-            bultinCUD={!addControls && !editControls}
-            onDeferLoad={deferLoad}
-            onExpandTree={expandTreeOptions}
-          />
-        </PopOver>
-      </Overlay>
+      <TreeSelector
+        classPrefix={ns}
+        onlyChildren={onlyChildren}
+        labelField={labelField}
+        valueField={valueField}
+        disabled={disabled}
+        onChange={this.handleChange}
+        joinValues={joinValues}
+        extractValue={extractValue}
+        delimiter={delimiter}
+        placeholder={__(optionsPlaceholder)}
+        options={filtedOptions}
+        highlightTxt={this.state.inputValue}
+        multiple={multiple}
+        initiallyOpen={initiallyOpen}
+        unfoldedLevel={unfoldedLevel}
+        withChildren={withChildren}
+        rootLabel={__(rootLabel)}
+        rootValue={rootValue}
+        showIcon={showIcon}
+        showRadio={showRadio}
+        cascade={cascade}
+        foldedField="collapsed"
+        hideRoot
+        value={value || ''}
+        nodePath={nodePath}
+        enableNodePath={enableNodePath}
+        pathSeparator={pathSeparator}
+        maxLength={maxLength}
+        minLength={minLength}
+        onAdd={onAdd}
+        creatable={creatable}
+        createTip={createTip}
+        rootCreatable={rootCreatable}
+        rootCreateTip={rootCreateTip}
+        onEdit={onEdit}
+        editable={editable}
+        editTip={editTip}
+        removable={removable}
+        removeTip={removeTip}
+        onDelete={onDelete}
+        bultinCUD={!addControls && !editControls}
+        onDeferLoad={deferLoad}
+        onExpandTree={expandTreeOptions}
+      />
     );
   }
 
@@ -581,9 +567,14 @@ export default class TreeSelectControl extends React.Component<
       autoComplete,
       selectedOptions,
       placeholder,
-      translate: __
+      popOverContainer,
+      useMobileUI,
+      translate: __,
+      env
     } = this.props;
 
+    const {isOpened} = this.state;
+    const mobileUI = useMobileUI && isMobile();
     return (
       <div ref={this.container} className={cx(`TreeSelectControl`, className)}>
         <ResultBox
@@ -622,7 +613,37 @@ export default class TreeSelectControl extends React.Component<
         >
           {loading ? <Spinner size="sm" /> : undefined}
         </ResultBox>
-        {this.state.isOpened ? this.renderOuter() : null}
+        {!mobileUI && isOpened ? (
+          <Overlay
+            container={popOverContainer || (() => this.container.current)}
+            target={() => this.target}
+            show
+          >
+            <PopOver
+              classPrefix={ns}
+              className={`${ns}TreeSelect-popover`}
+              style={{
+                minWidth: this.target ? this.target.offsetWidth : undefined
+              }}
+              onHide={this.close}
+              overlay
+            >
+              {this.renderOuter()}
+            </PopOver>
+          </Overlay>
+        ) : null}
+        {mobileUI ? (
+          <PopUp
+            container={
+              env && env.getModalContainer ? env.getModalContainer : undefined
+            }
+            className={cx(`${ns}TreeSelect-popup`)}
+            isShow={isOpened}
+            onHide={this.close}
+          >
+            {this.renderOuter()}
+          </PopUp>
+        ) : null}
       </div>
     );
   }

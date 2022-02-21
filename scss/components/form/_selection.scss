@@ -1,7 +1,7 @@
 .#{$ns}Selection {
   > .#{$ns}Checkbox {
     display: block;
-    height: var(--Form-input-height);
+    // height: var(--Form-input-height);
     line-height: var(--Form-input-lineHeight);
     font-size: var(--Form-input-fontSize);
     padding: calc(
@@ -41,19 +41,22 @@
 }
 
 .#{$ns}GroupedSelection {
+  max-height: px2rem(300px);
+  overflow: auto;
+  user-select: none;
+
   &-group:not(:first-child) > &-itemLabel {
     border-top: px2rem(1px) solid var(--ListMenu-divider-color);
   }
 
   &-group > &-itemLabel {
-    font-size: var(--fontSizeSm);
-    padding: var(--gap-xs) var(--gap-xs);
+    padding: var(--gap-xs) var(--gap-base);
     color: var(--text--muted-color);
   }
 
   &-item {
     display: flex;
-    height: var(--Form-input-height);
+    // height: var(--Form-input-height);
     line-height: var(--Form-input-lineHeight);
     font-size: var(--Form-input-fontSize);
     padding: calc(
@@ -66,7 +69,7 @@
     flex-direction: row;
 
     > .#{$ns}Checkbox {
-      margin-right: 0;
+      margin-right: px2rem(8px);
     }
     cursor: pointer;
     user-select: none;
@@ -87,13 +90,14 @@
   }
 
   &-group > &-items > &-item {
-    padding-left: var(--gap-base);
+    padding-left: calc(var(--gap-base) * 2);
   }
 
   &-itemLabel {
     flex-grow: 1;
 
     span {
+      vertical-align: middle;
       white-space: nowrap; // 避免在条件组合中折行
     }
   }
@@ -189,7 +193,7 @@
   &-itemInner {
     display: flex;
     align-items: center;
-    height: var(--Form-input-height);
+    // height: var(--Form-input-height);
     line-height: var(--Form-input-lineHeight);
     font-size: var(--Form-input-fontSize);
     padding: calc(
@@ -237,6 +241,11 @@
 
   &-itemLabel {
     flex-grow: 1;
+
+    span {
+      margin-left: var(--gap-xs);
+      vertical-align: middle;
+    }
   }
 
   &-placeholder {
@@ -247,6 +256,7 @@
 .#{$ns}ChainedSelection {
   display: flex;
   flex-direction: row;
+  min-height: 100%;
 
   &-col {
     flex-grow: 1;
@@ -265,7 +275,7 @@
 
   &-item {
     display: flex;
-    height: var(--Form-input-height);
+    // height: var(--Form-input-height);
     line-height: var(--Form-input-lineHeight);
     font-size: var(--Form-input-fontSize);
     padding: calc(
@@ -300,6 +310,11 @@
 
   &-itemLabel {
     flex-grow: 1;
+
+    span {
+      margin-left: var(--gap-xs);
+      vertical-align: middle;
+    }
   }
 
   &-placeholder {

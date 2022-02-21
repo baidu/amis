@@ -77,10 +77,6 @@ export class ChainedSelection extends BaseSelection<
         )}
         onClick={() => this.toggleOption(option)}
       >
-        <div className={cx('ChainedSelection-itemLabel')}>
-          {itemRender(option)}
-        </div>
-
         {multiple ? (
           <Checkbox
             size="sm"
@@ -90,6 +86,16 @@ export class ChainedSelection extends BaseSelection<
             description={option.description}
           />
         ) : null}
+
+        <div className={cx('ChainedSelection-itemLabel')}>
+          {itemRender(option, {
+            index: index,
+            multiple: multiple,
+            checked: !!~valueArray.indexOf(option),
+            onChange: () => this.toggleOption(option),
+            disabled: disabled || option.disabled
+          })}
+        </div>
       </div>
     );
   }
@@ -100,7 +106,8 @@ export class ChainedSelection extends BaseSelection<
       disabled,
       classnames: cx,
       itemClassName,
-      itemRender
+      itemRender,
+      multiple
     } = this.props;
     const valueArray = this.valueArray;
 
@@ -118,7 +125,13 @@ export class ChainedSelection extends BaseSelection<
           onClick={() => this.selectOption(option, depth, id)}
         >
           <div className={cx('ChainedSelection-itemLabel')}>
-            {itemRender(option)}
+            {itemRender(option, {
+              index: index,
+              multiple: multiple,
+              checked: !!~this.state.selected.indexOf(id),
+              onChange: () => this.selectOption(option, depth, id),
+              disabled: disabled || option.disabled
+            })}
           </div>
 
           {option.defer && option.loading ? <Spinner size="sm" show /> : null}

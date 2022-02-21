@@ -31,6 +31,7 @@ import {SchemaRemark} from './Remark';
 import {onAction} from 'mobx-state-tree';
 import mapValues from 'lodash/mapValues';
 import {resolveVariable} from '../utils/tpl-builtin';
+import {buildStyle} from '../utils/style';
 
 /**
  * 样式属性名及值
@@ -95,7 +96,7 @@ export interface PageSchema extends BaseSchema {
    */
   asideMinWidth?: number;
 
-   /**
+  /**
    * 边栏最小宽度
    */
   asideMaxWidth?: number;
@@ -398,10 +399,10 @@ export default class Page extends React.Component<PageProps> {
     this.mounted = false;
     clearTimeout(this.timer);
     if (this.style) {
-      this.style.remove();
+      this.style.parentNode?.removeChild(this.style);
     }
     if (this.varStyle) {
-      this.varStyle.remove();
+      this.varStyle.parentNode?.removeChild(this.varStyle);
     }
   }
 
@@ -471,12 +472,12 @@ export default class Page extends React.Component<PageProps> {
       return;
     }
 
-    store.closeDialog();
+    store.closeDialog(true);
   }
 
-  handleDialogClose() {
+  handleDialogClose(confirmed = false) {
     const {store} = this.props;
-    store.closeDialog();
+    store.closeDialog(confirmed);
   }
 
   handleDrawerConfirm(values: object[], action: Action, ...args: Array<any>) {
@@ -722,10 +723,7 @@ export default class Page extends React.Component<PageProps> {
       ? ~regions.indexOf('aside')
       : aside && (!Array.isArray(aside) || aside.length);
 
-    let styleVar =
-      typeof style === 'string'
-        ? resolveVariable(style, data) || {}
-        : mapValues(style, s => resolveVariable(s, data) || s);
+    const styleVar = buildStyle(style, data);
 
     return (
       <div
@@ -734,11 +732,13 @@ export default class Page extends React.Component<PageProps> {
         style={styleVar}
       >
         {hasAside ? (
-          <div className={cx(
-            `Page-aside`,
-            asideResizor ? 'relative' : 'Page-aside--withWidth',
-            asideClassName
-          )}>
+          <div
+            className={cx(
+              `Page-aside`,
+              asideResizor ? 'relative' : 'Page-aside--withWidth',
+              asideClassName
+            )}
+          >
             {render('aside', aside || '', {
               ...subProps,
               ...(typeof aside === 'string'
@@ -754,7 +754,6 @@ export default class Page extends React.Component<PageProps> {
                 className={cx(`Page-asideResizor`)}
               ></div>
             ) : null}
-            
           </div>
         ) : null}
 

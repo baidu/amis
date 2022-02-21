@@ -9,7 +9,12 @@ import {Payload, ApiObject, ApiString} from '../../types';
 import {filter} from '../../utils/tpl';
 import Alert from '../../components/Alert2';
 import {qsstringify, createObject, guid, isEmpty} from '../../utils/helper';
-import {buildApi, normalizeApi} from '../../utils/api';
+import {
+  buildApi,
+  isEffectiveApi,
+  normalizeApi,
+  isApiOutdated
+} from '../../utils/api';
 import Button from '../../components/Button';
 import {Icon} from '../../components/icons';
 import DropZone from 'react-dropzone';
@@ -504,6 +509,7 @@ export default class FileControl extends React.Component<FileProps, FileState> {
         }
       }
     );
+    this.dispatchEvent('change');
   }
 
   handleDropRejected(
@@ -704,7 +710,7 @@ export default class FileControl extends React.Component<FileProps, FileState> {
           uploading: false
         },
         () => {
-          this.onChange(!!this.resolve);
+          this.onChange(!!this.resolve, false);
 
           if (this.resolve) {
             this.resolve(
@@ -789,8 +795,8 @@ export default class FileControl extends React.Component<FileProps, FileState> {
       },
       onProgress
     )
-      .then(ret => {
-        if (ret.status || !ret.data) {
+      .then(async ret => {
+        if ((ret.status && (ret as any).status !== '0') || !ret.data) {
           throw new Error(ret.msg || __('File.errorRetry'));
         }
 
@@ -798,6 +804,10 @@ export default class FileControl extends React.Component<FileProps, FileState> {
         let value =
           (ret.data as any).value || (ret.data as any).url || ret.data;
 
+        const dispatcher = await this.dispatchEvent('success', file);
+        if (dispatcher?.prevented) {
+          return;
+        }
         cb(null, file, {
           ...(isPlainObject(ret.data) ? ret.data : null),
           value: value,
@@ -805,14 +815,23 @@ export default class FileControl extends React.Component<FileProps, FileState> {
           id: file.id
         });
       })
-      .catch(error => {
+      .catch(async error => {
+        const dispatcher = await this.dispatchEvent('fail', {file, error});
+        if (dispatcher?.prevented) {
+          return;
+        }
         cb(error.message || __('File.errorRetry'), file);
       });
   }
 
-  removeFile(file: FileX | FileValue, index: number) {
+  async removeFile(file: FileX | FileValue, index: number) {
     const files = this.state.files.concat();
-
+    const removeFile = files[index];
+    // 触发移出文件事件
+    const dispatcher = await this.dispatchEvent('remove', removeFile);
+    if (dispatcher?.prevented) {
+      return;
+    }
     this.removeFileCanelExecutor(file, true);
     files.splice(index, 1);
 
@@ -835,7 +854,7 @@ export default class FileControl extends React.Component<FileProps, FileState> {
     });
   }
 
-  onChange(changeImmediately?: boolean) {
+  async onChange(changeImmediately?: boolean, isFileChange = true) {
     const {
       multiple,
       onChange,
@@ -868,6 +887,12 @@ export default class FileControl extends React.Component<FileProps, FileState> {
       }
     } else {
       value = typeof resetValue === 'undefined' ? '' : resetValue;
+    }
+    if (isFileChange) {
+      const dispatcher = await this.dispatchEvent('change');
+      if (dispatcher?.prevented) {
+        return;
+      }
     }
 
     onChange((this.emitValue = value), undefined, changeImmediately);
@@ -1176,6 +1201,17 @@ export default class FileControl extends React.Component<FileProps, FileState> {
     }
   }
 
+  async dispatchEvent(e: string, data?: Record<string, any>) {
+    const {dispatchEvent} = this.props;
+    data = data || this.state.files;
+    return dispatchEvent(
+      e,
+      createObject(this.props.data, {
+        file: data
+      })
+    );
+  }
+
   render() {
     const {
       btnLabel,
@@ -1185,6 +1221,7 @@ export default class FileControl extends React.Component<FileProps, FileState> {
       multiple,
       autoUpload,
       description,
+      descriptionClassName,
       hideUploadButton,
       className,
       btnClassName,
@@ -1224,7 +1261,7 @@ export default class FileControl extends React.Component<FileProps, FileState> {
             <Icon icon="download" className="icon" />
             <span>{__('File.downloadTpl')}</span>
           </a>
-          ) : null}
+        ) : null}
 
         <DropZone
           disabled={disabled}
@@ -1277,7 +1314,10 @@ export default class FileControl extends React.Component<FileProps, FileState> {
 
                   {description
                     ? render('desc', description!, {
-                        className: cx('FileControl-description')
+                        className: cx(
+                          'FileControl-description',
+                          descriptionClassName
+                        )
                       })
                     : null}
 
@@ -1395,6 +1435,14 @@ export default class FileControl extends React.Component<FileProps, FileState> {
 @FormItem({
   type: 'input-file',
   sizeMutable: false,
-  renderDescription: false
+  renderDescription: false,
+  shouldComponentUpdate: (props: any, prevProps: any) =>
+    !!isEffectiveApi(props.receiver, props.data) &&
+    isApiOutdated(
+      props.receiver,
+      prevProps.receiver,
+      props.data,
+      prevProps.data
+    )
 })
 export class FileControlRenderer extends FileControl {}

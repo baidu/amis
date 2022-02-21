@@ -91,6 +91,7 @@ test('Renderer:list:multiple clearable', async () => {
   fireEvent.click(getByText(/Option A/));
   await wait(100);
   fireEvent.click(getByText(/Option B/));
+  await wait(100);
   expect(container).toMatchSnapshot();
   await wait(100);
   fireEvent.click(getByText(/Option B/));

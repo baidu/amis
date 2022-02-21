@@ -6,7 +6,7 @@ import React from 'react';
 import ResultBox from './ResultBox';
 import {Icon} from './icons';
 import PickerContainer from './PickerContainer';
-import {autobind} from '../utils/helper';
+import {autobind, mapTree} from '../utils/helper';
 
 export interface TransferPickerProps extends Omit<TransferProps, 'itemRender'> {
   // 新的属性？
@@ -19,18 +19,11 @@ export interface TransferPickerProps extends Omit<TransferProps, 'itemRender'> {
 }
 
 export class TransferPicker extends React.Component<TransferPickerProps> {
-  @autobind
-  handleClose() {
-    this.setState({
-      inputValue: '',
-      searchResult: null
-    });
-  }
-
+  optionModified = false;
   @autobind
   handleConfirm(value: any) {
-    this.props.onChange?.(value);
-    this.handleClose();
+    this.props.onChange?.(value, this.optionModified);
+    this.optionModified = false;
   }
 
   render() {
@@ -49,12 +42,30 @@ export class TransferPicker extends React.Component<TransferPickerProps> {
     return (
       <PickerContainer
         title={__('Select.placeholder')}
-        popOverRender={({onClose, value, onChange}) => {
-          return <Transfer {...rest} value={value} onChange={onChange} />;
+        bodyRender={({onClose, value, onChange, setState, ...states}) => {
+          return (
+            <Transfer
+              {...rest}
+              {...states}
+              value={value}
+              onChange={(value: any, optionModified) => {
+                if (optionModified) {
+                  let options = mapTree(rest.options, item => {
+                    return (
+                      value.find((a: any) => a.value === item.value) || item
+                    );
+                  });
+                  this.optionModified = true;
+                  setState({options, value});
+                } else {
+                  onChange(value);
+                }
+              }}
+            />
+          );
         }}
         value={value}
         onConfirm={this.handleConfirm}
-        onCancel={this.handleClose}
         size={size}
       >
         {({onClick, isOpened}) => (

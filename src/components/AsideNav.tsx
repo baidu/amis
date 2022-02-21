@@ -24,7 +24,7 @@ interface LinkItemProps {
 
 export interface Navigation {
   label: string;
-  children: Array<LinkItem>;
+  children?: Array<LinkItem>;
   prefix?: JSX.Element;
   affix?: JSX.Element;
   className?: string;

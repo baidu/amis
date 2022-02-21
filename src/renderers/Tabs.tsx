@@ -21,9 +21,14 @@ import {
 } from '../Schema';
 import {ActionSchema} from './Action';
 import {filter} from '../utils/tpl';
-import {resolveVariable, tokenize} from '../utils/tpl-builtin';
+import {
+  resolveVariable,
+  tokenize,
+  resolveVariableAndFilter
+} from '../utils/tpl-builtin';
 import {FormSchemaHorizontal} from './Form/index';
 import {str2AsyncFunction} from '../utils/api';
+import {ScopedContext, IScopedContext} from '../Scoped';
 
 export interface TabSchema extends Omit<BaseSchema, 'type'> {
   /**
@@ -163,6 +168,9 @@ export interface TabsState {
   prevKey: any;
 }
 
+export type TabsRendererEvent = 'change';
+export type TabsRendererAction = 'changeActiveKey';
+
 export default class Tabs extends React.Component<TabsProps, TabsState> {
   static defaultProps: Partial<TabsProps> = {
     className: '',
@@ -226,7 +234,7 @@ export default class Tabs extends React.Component<TabsProps, TabsState> {
     } else {
       const tab = this.resolveTabByKey(this.activeKey);
       if (tab && value !== ((tab as any).value ?? tab.title)) {
-        onChange((tab as any).value ?? tab.title, name);
+        this.handleChange((tab as any).value ?? tab.title, name);
       }
     }
   }
@@ -309,7 +317,7 @@ export default class Tabs extends React.Component<TabsProps, TabsState> {
     } else if (this.activeKey !== prevState.activeKey) {
       const tab = this.resolveTabByKey(this.activeKey);
       if (tab && value !== ((tab as any).value ?? tab.title)) {
-        onChange((tab as any).value ?? tab.title, name);
+        this.handleChange((tab as any).value ?? tab.title, name);
       }
     }
   }
@@ -405,6 +413,30 @@ export default class Tabs extends React.Component<TabsProps, TabsState> {
   }
 
   @autobind
+  async handleChange(key: any, name: any) {
+    const {dispatchEvent, data, onChange} = this.props;
+    const rendererEvent = await dispatchEvent('change', createObject(data, {
+      value: key,
+    }));
+    if (rendererEvent?.prevented) {
+      return;
+    }
+
+    onChange && onChange(key, name);
+  }
+
+  /**
+   * 动作处理
+   */
+  doAction(action: Action, args: any) {
+    const actionType = action?.actionType as string;
+    const activeKey = action?.activeKey as number;
+    if (actionType === 'changeActiveKey') {
+      this.handleSelect(activeKey);
+    }
+  }
+
+  @autobind
   switchTo(index: number) {
     const {tabs} = this.props;
 
@@ -461,7 +493,7 @@ export default class Tabs extends React.Component<TabsProps, TabsState> {
     } = this.props;
 
     const mode = tabsMode || dMode;
-    const arr = resolveVariable(source, data);
+    const arr = resolveVariableAndFilter(source, data, '| raw');
     let mountOnEnter = this.props.mountOnEnter;
 
     // 如果在form下面，其他tabs默认需要渲染出来

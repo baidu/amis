@@ -92,8 +92,6 @@ $link-color: $info;
 
   --Rating-onActive-color: #fadb14;
 
-  --Divider-borderStyle: solid;
-
   --Panel--default-bg: #fff;
 
   --Layout-aside-bg: #001529;
@@ -115,6 +113,8 @@ $link-color: $info;
   --Modal-header-bg: #fff;
   --Modal-title-fontWeight: 500;
 
+  --Form-item-fontSize: var(--fontSizeBase);
+  --Form-item-fontColor: var(--body-color);
   --Form-input-onFocused-borderColor: #{$blue-5};
   --Form-input-borderColor: #{$border-color-base};
   --Form-input-boxShadow: 0 0 0 2px rgba(24, 144, 255, 0.2);

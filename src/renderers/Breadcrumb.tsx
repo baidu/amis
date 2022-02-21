@@ -82,7 +82,6 @@ export class BreadcrumbField extends React.Component<BreadcrumbProps, object> {
           data,
           '| raw'
         ) as Array<BreadcrumbItemSchema>);
-
     const crumbs = crumbItems
       .map<React.ReactNode>((item, index) => (
         <span className={cx('Breadcrumb-item', itemClassName)} key={index}>
@@ -90,7 +89,7 @@ export class BreadcrumbField extends React.Component<BreadcrumbProps, object> {
             ? generateIcon(cx, item.icon, 'Icon', 'Breadcrumb-icon')
             : null}
           {item.href ? (
-            <a href={item.href}>{filter(item.label, data)}</a>
+            <a href={filter(item.href, data)}>{filter(item.label, data)}</a>
           ) : (
             render('label', filter(item.label, data))
           )}

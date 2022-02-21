@@ -54,6 +54,7 @@ fis.set('project.files', [
   '/scss/helper.scss',
   '/scss/themes/*.scss',
   '/examples/*.html',
+  '/examples/app/*.html',
   '/examples/*.tpl',
   '/examples/static/*.png',
   '/examples/static/*.svg',
@@ -172,7 +173,7 @@ fis.on('compile:optimizer', function (file) {
   }
 });
 
-fis.match('{*.ts,*.jsx,*.tsx,/src/**.js,/src/**.ts}', {
+fis.match('{*.ts,*.jsx,*.tsx,/examples/**.js,/src/**.js,/src/**.ts}', {
   parser: [
     // docsGennerator,
     fis.plugin('typescript', {
@@ -440,7 +441,7 @@ if (fis.project.currentMedia() === 'publish') {
     })
   });
 
-  env.match('{*.ts,*.jsx,*.tsx,/src/**.js,/src/**.ts}', {
+  env.match('{*.ts,*.jsx,*.tsx,/examples/**.js,/src/**.js,/src/**.ts}', {
     parser: [
       // docsGennerator,
       fis.plugin('typescript', {
@@ -495,7 +496,7 @@ if (fis.project.currentMedia() === 'publish') {
         '!mpegts.js/**',
         '!hls.js/**',
         '!froala-editor/**',
-
+        '!codemirror/**',
         '!tinymce/**',
         '!zrender/**',
         '!echarts/**',
@@ -513,6 +514,8 @@ if (fis.project.currentMedia() === 'publish') {
         '!tinycolor2/**',
         '!cropperjs/**',
         '!react-cropper/**',
+        '!jsbarcode/**',
+        '!src/components/BarCode.tsx',
         '!src/lib/renderers/Form/CityDB.js',
         '!src/components/Markdown.tsx',
         '!src/utils/markdown.ts',
@@ -530,6 +533,7 @@ if (fis.project.currentMedia() === 'publish') {
 
       'tinymce.js': ['src/components/Tinymce.tsx', 'tinymce/**'],
 
+      'codemirror.js': ['codemirror/**'],
       'papaparse.js': ['papaparse/**'],
 
       'exceljs.js': ['exceljs/**'],
@@ -557,11 +561,14 @@ if (fis.project.currentMedia() === 'publish') {
 
       'cropperjs.js': ['cropperjs/**', 'react-cropper/**'],
 
+      'barcode.js': ['src/components/BarCode.tsx', 'jsbarcode/**'],
+
       'charts.js': ['zrender/**', 'echarts/**', 'echarts-stat/**'],
 
       'rest.js': [
         '*.js',
         '!monaco-editor/**',
+        '!codemirror/**',
         '!mpegts.js/**',
         '!hls.js/**',
         '!froala-editor/**',
@@ -770,6 +777,7 @@ if (fis.project.currentMedia() === 'publish') {
         '/examples/mod.js',
         'node_modules/**.js',
         '!monaco-editor/**',
+        '!codemirror/**',
         '!mpegts.js/**',
         '!hls.js/**',
         '!froala-editor/**',
@@ -791,6 +799,8 @@ if (fis.project.currentMedia() === 'publish') {
         '!tinycolor2/**',
         '!cropperjs/**',
         '!react-cropper/**',
+        '!jsbarcode/**',
+        '!src/components/BarCode.tsx',
         '!src/lib/renderers/Form/CityDB.js',
         '!src/components/Markdown.tsx',
         '!src/utils/markdown.ts',
@@ -808,9 +818,13 @@ if (fis.project.currentMedia() === 'publish') {
 
       'pkg/tinymce.js': ['src/components/Tinymce.tsx', 'tinymce/**'],
 
+      'pkg/codemirror.js': ['codemirror/**'],
+
       'pkg/papaparse.js': ['papaparse/**'],
 
       'pkg/exceljs.js': ['exceljs/**'],
+
+      'pkg/barcode.js': ['src/components/BarCode.tsx', 'jsbarcode/**'],
 
       'pkg/markdown.js': [
         'src/components/Markdown.tsx',
@@ -900,7 +914,7 @@ if (fis.project.currentMedia() === 'publish') {
         const DocNavCN = ret.src['/examples/components/DocNavCN.ts'];
         const Components = ret.src['/examples/components/Components.tsx'];
         const DocCSS = ret.src['/examples/components/CssDocs.tsx'];
-        const ExampleJs = ret.src['/examples/components/Example.tsx'];
+        const ExampleJs = ret.src['/examples/components/Example.jsx'];
 
         const pages = [];
         const source = [
@@ -964,7 +978,7 @@ if (fis.project.currentMedia() === 'publish') {
     url: 'null',
     useHash: false
   });
-  ghPages.match('{*.jsx,*.tsx,*.ts}', {
+  ghPages.match('{*.jsx,*.tsx,*.ts,/examples/**.js,}', {
     moduleId: function (m, path) {
       return fis.util.md5('amis' + path);
     },

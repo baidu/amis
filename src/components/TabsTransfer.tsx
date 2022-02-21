@@ -11,12 +11,22 @@ import Transfer, {TransferProps} from './Transfer';
 import {themeable} from '../theme';
 import AssociatedCheckboxes from './AssociatedSelection';
 import {localeable} from '../locale';
+import {ItemRenderStates} from './Selection';
 
 export interface TabsTransferProps
   extends Omit<
     TransferProps,
-    'selectMode' | 'columns' | 'selectRender' | 'statistics'
+    | 'selectMode'
+    | 'columns'
+    | 'selectRender'
+    | 'statistics'
+    | 'optionItemRender'
   > {
+  optionItemRender?: (
+    option: Option,
+    states: ItemRenderStates,
+    tab: Option
+  ) => JSX.Element;
   cellRender?: (
     column: {
       name: string;
@@ -30,10 +40,6 @@ export interface TabsTransferProps
 }
 
 export class TabsTransfer extends React.Component<TabsTransferProps> {
-  static defaultProps = {
-    itemRender: (option: Option) => <span>{option.label}</span>
-  };
-
   renderSearchResult(searchResult: Options | null) {
     const {
       searchResultMode,
@@ -44,7 +50,8 @@ export class TabsTransfer extends React.Component<TabsTransferProps> {
       disabled,
       onChange,
       option2value,
-      cellRender
+      cellRender,
+      optionItemRender
     } = this.props;
     const options = searchResult || [];
     const mode = searchResultMode;
@@ -70,6 +77,14 @@ export class TabsTransfer extends React.Component<TabsTransferProps> {
         disabled={disabled}
         onChange={onChange}
         option2value={option2value}
+        itemRender={
+          optionItemRender
+            ? (item: Option, states: ItemRenderStates) =>
+                optionItemRender(item, states, {
+                  panel: 'result'
+                })
+            : undefined
+        }
       />
     ) : mode === 'chained' ? (
       <ChainedCheckboxes
@@ -80,6 +95,14 @@ export class TabsTransfer extends React.Component<TabsTransferProps> {
         disabled={disabled}
         onChange={onChange}
         option2value={option2value}
+        itemRender={
+          optionItemRender
+            ? (item: Option, states: ItemRenderStates) =>
+                optionItemRender(item, states, {
+                  panel: 'result'
+                })
+            : undefined
+        }
       />
     ) : (
       <ListCheckboxes
@@ -90,6 +113,14 @@ export class TabsTransfer extends React.Component<TabsTransferProps> {
         disabled={disabled}
         onChange={onChange}
         option2value={option2value}
+        itemRender={
+          optionItemRender
+            ? (item: Option, states: ItemRenderStates) =>
+                optionItemRender(item, states, {
+                  panel: 'result'
+                })
+            : undefined
+        }
       />
     );
   }
@@ -106,8 +137,10 @@ export class TabsTransfer extends React.Component<TabsTransferProps> {
       onSearch: searchable,
       option2value,
       onDeferLoad,
+      onLeftDeferLoad,
       cellRender,
-      translate: __
+      translate: __,
+      optionItemRender
     } = this.props;
 
     if (!Array.isArray(options) || !options.length) {
@@ -171,6 +204,15 @@ export class TabsTransfer extends React.Component<TabsTransferProps> {
                     onChange={onChange}
                     option2value={option2value}
                     onDeferLoad={onDeferLoad}
+                    itemRender={
+                      optionItemRender
+                        ? (item: Option, states: ItemRenderStates) =>
+                            optionItemRender(item, states, {
+                              panel: 'tab',
+                              tag: option
+                            })
+                        : undefined
+                    }
                   />
                 ) : option.selectMode === 'chained' ? (
                   <ChainedCheckboxes
@@ -182,6 +224,15 @@ export class TabsTransfer extends React.Component<TabsTransferProps> {
                     option2value={option2value}
                     onDeferLoad={onDeferLoad}
                     defaultSelectedIndex={option.defaultSelectedIndex}
+                    itemRender={
+                      optionItemRender
+                        ? (item: Option, states: ItemRenderStates) =>
+                            optionItemRender(item, states, {
+                              panel: 'tab',
+                              tag: option
+                            })
+                        : undefined
+                    }
                   />
                 ) : option.selectMode === 'associated' ? (
                   <AssociatedCheckboxes
@@ -192,9 +243,19 @@ export class TabsTransfer extends React.Component<TabsTransferProps> {
                     onChange={onChange}
                     option2value={option2value}
                     onDeferLoad={onDeferLoad}
+                    onLeftDeferLoad={onLeftDeferLoad}
                     leftMode={option.leftMode}
                     leftOptions={option.leftOptions}
                     leftDefaultValue={option.leftDefaultValue}
+                    itemRender={
+                      optionItemRender
+                        ? (item: Option, states: ItemRenderStates) =>
+                            optionItemRender(item, states, {
+                              panel: 'tab',
+                              tag: option
+                            })
+                        : undefined
+                    }
                   />
                 ) : (
                   <ListCheckboxes
@@ -205,6 +266,15 @@ export class TabsTransfer extends React.Component<TabsTransferProps> {
                     onChange={onChange}
                     option2value={option2value}
                     onDeferLoad={onDeferLoad}
+                    itemRender={
+                      optionItemRender
+                        ? (item: Option, states: ItemRenderStates) =>
+                            optionItemRender(item, states, {
+                              panel: 'tab',
+                              tag: option
+                            })
+                        : undefined
+                    }
                   />
                 )}
               </Tab>
@@ -214,12 +284,13 @@ export class TabsTransfer extends React.Component<TabsTransferProps> {
   }
 
   render() {
-    const {className, classnames: cx} = this.props;
+    const {className, classnames: cx, optionItemRender, ...reset} = this.props;
 
     return (
       <Transfer
-        {...this.props}
+        {...reset}
         statistics={false}
+        classnames={cx}
         className={cx('TabsTransfer', className)}
         selectRender={this.renderSelect}
       />

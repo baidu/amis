@@ -55,6 +55,10 @@
     position: relative; // 貌似不加 relative 会有 bug。
   }
 
+  &-select > &-selection.#{$ns}AssociatedSelection {
+    overflow: initial;
+  }
+
   &-search + &-selection {
     border-top: 1px solid var(--borderColor);
   }
@@ -232,9 +236,13 @@
 }
 .#{$ns}TransferDropDown-content {
   min-height: px2rem(200px);
+  min-width: px2rem(400px);
   display: flex;
   flex-direction: column;
 
+  &.is-mobile {
+    width: 100%;
+  }
   & > .#{$ns}Transfer-selection {
     flex-grow: 1;
     max-height: 100%;

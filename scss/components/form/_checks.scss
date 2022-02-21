@@ -29,6 +29,8 @@
       pointer-events: all;
       margin-left: var(--Checkbox-gap);
       cursor: pointer;
+      display: inline-block;
+      vertical-align: middle;
 
       > a {
         // float: right;
@@ -281,5 +283,12 @@
     display: block;
     font-size: var(--fontSizeSm);
     color: #999;
+  }
+}
+
+.#{$ns}RadiosControl {
+  .#{$ns}Button:active,
+  .#{$ns}Button.is-active {
+    background: var(--ButtonGroup--primary-isActive-bg);
   }
 }

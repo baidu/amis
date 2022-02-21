@@ -6,14 +6,29 @@ import {RendererConfig} from './factory';
 import {ThemeInstance} from './theme';
 import {Action, Api, Payload, Schema} from './types';
 import hoistNonReactStatic from 'hoist-non-react-statics';
+import {
+  RendererEvent,
+  RendererEventListener,
+  EventListeners
+} from './utils/renderer-event';
+import {IScopedContext} from './Scoped';
 
 export interface RendererEnv {
   fetcher: (api: Api, data?: any, options?: object) => Promise<Payload>;
   isCancel: (val: any) => boolean;
   notify: (
     type: 'error' | 'success' | 'warning',
-    msg: string,
+    msg: any,
     conf?: {
+      title?: any;
+      position?:
+        | 'top-right'
+        | 'top-center'
+        | 'top-left'
+        | 'bottom-center'
+        | 'bottom-left'
+        | 'bottom-right'
+        | 'center';
       closeButton?: boolean;
       timeout?: number;
     }
@@ -54,6 +69,30 @@ export interface RendererEnv {
   ) => Promise<React.ReactType> | React.ReactType | JSX.Element | void;
   loadChartExtends?: () => void | Promise<void>;
   useMobileUI?: boolean;
+  bindEvent: (context: any) => (() => void) | undefined;
+  dispatchEvent: (
+    e:
+      | string
+      | React.ClipboardEvent<any>
+      | React.DragEvent<any>
+      | React.ChangeEvent<any>
+      | React.KeyboardEvent<any>
+      | React.TouchEvent<any>
+      | React.WheelEvent<any>
+      | React.AnimationEvent<any>
+      | React.TransitionEvent<any>
+      | React.MouseEvent<any>,
+    context: any,
+    scoped: IScopedContext,
+    data: any,
+    broadcast?: RendererEvent<any>
+  ) => Promise<RendererEvent<any> | undefined>;
+  rendererEventListeners: RendererEventListener[];
+
+  /**
+   * 过滤 html 标签，可用来添加 xss 保护逻辑
+   */
+  filterHtml: (input: string) => string;
   [propName: string]: any;
 }
 

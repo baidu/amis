@@ -891,11 +891,7 @@ export function filterTree<T extends TreeItem>(
           ? filterTree(item.children, iterator, level + 1, depthFirst)
           : undefined;
 
-        if (
-          Array.isArray(children) &&
-          Array.isArray(item.children) &&
-          children.length !== item.children.length
-        ) {
+        if (Array.isArray(children) && Array.isArray(item.children)) {
           item = {...item, children: children};
         }
 
@@ -915,11 +911,7 @@ export function filterTree<T extends TreeItem>(
           depthFirst
         );
 
-        if (
-          Array.isArray(children) &&
-          Array.isArray(item.children) &&
-          children.length !== item.children.length
-        ) {
+        if (Array.isArray(children) && Array.isArray(item.children)) {
           item = {...item, children: children};
         }
       }
@@ -997,7 +989,7 @@ export function someTree<T extends TreeItem>(
  *              { id: 3 },
  *         ]
  *     }
- * ], item => item.id); // 输出位 [1, 2, 3]
+ * ], item => item.id); // 输出为 [1, 2, 3]
  *
  * @param tree
  * @param mapper
@@ -1591,4 +1583,37 @@ export function JSONTraverse(
       mapper(value, key, json);
     }
   });
+}
+
+export function convertArrayValueToMoment(
+  value: number[],
+  types: string[],
+  mom: moment.Moment
+): moment.Moment {
+  if (value.length === 0) return mom;
+  for (let i = 0; i < types.length; i++) {
+    const type = types[i];
+    // @ts-ignore
+    mom.set(type, value[i]);
+  }
+  return mom;
+}
+
+export function getRange(min: number, max: number, step: number = 1) {
+  const arr = [];
+  for (let i = min; i <= max; i += step) {
+    arr.push(i);
+  }
+  return arr;
+}
+
+export function repeatCount(count: number, iterator: (index: number) => any) {
+  let result: Array<any> = [];
+  let index = 0;
+
+  while (count--) {
+    result.push(iterator(index++));
+  }
+
+  return result;
 }

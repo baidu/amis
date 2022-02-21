@@ -26,6 +26,7 @@ export default class QuarterRangeControl extends InputDateRange {
       maxDuration,
       data,
       format,
+      env,
       ...rest
     } = this.props;
 
@@ -44,6 +45,9 @@ export default class QuarterRangeControl extends InputDateRange {
           maxDate={maxDate ? filterDate(maxDate, data, format) : undefined}
           minDuration={minDuration ? parseDuration(minDuration) : undefined}
           maxDuration={maxDuration ? parseDuration(maxDuration) : undefined}
+          onChange={this.handleChange}
+          onFocus={this.dispatchEvent}
+          onBlur={this.dispatchEvent}
         />
       </div>
     );

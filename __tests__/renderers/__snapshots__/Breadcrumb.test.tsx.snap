@@ -1,0 +1,195 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Renderer:breadcrumb 1`] = `
+<div>
+  <div
+    class="cxd-Breadcrumb"
+  >
+    <span
+      class="cxd-Breadcrumb-item"
+    >
+      <i
+        class="cxd-Icon fa fa-home cxd-Breadcrumb-icon"
+      />
+      <a
+        href="https://baidu.gitee.com/"
+      >
+        首页
+      </a>
+    </span>
+    <span
+      class="cxd-Breadcrumb-separator"
+    >
+      /
+    </span>
+    <span
+      class="cxd-Breadcrumb-item"
+    >
+      <span
+        class="cxd-TplField"
+      >
+        <span>
+          上级页面
+        </span>
+      </span>
+    </span>
+    <span
+      class="cxd-Breadcrumb-separator"
+    >
+      /
+    </span>
+    <span
+      class="cxd-Breadcrumb-item"
+    >
+      <span
+        class="cxd-TplField"
+      >
+        <span>
+          <b>
+            当前页面
+          </b>
+        </span>
+      </span>
+    </span>
+  </div>
+</div>
+`;
+
+exports[`Renderer:breadcrumb separator 1`] = `
+<div>
+  <div
+    class="cxd-Page"
+  >
+    <div
+      class="cxd-Page-content"
+    >
+      <div
+        class="cxd-Page-main"
+      >
+        <div
+          class="cxd-Page-body"
+        >
+          <div
+            class="cxd-Breadcrumb"
+          >
+            <span
+              class="cxd-Breadcrumb-item"
+            >
+              <i
+                class="cxd-Icon fa fa-home cxd-Breadcrumb-icon"
+              />
+              <a
+                href="https://baidu.gitee.com/"
+              >
+                首页
+              </a>
+            </span>
+            <span
+              class="cxd-Breadcrumb-separator text-black"
+            >
+              &gt;
+            </span>
+            <span
+              class="cxd-Breadcrumb-item"
+            >
+              <span
+                class="cxd-TplField"
+              >
+                <span>
+                  上级页面
+                </span>
+              </span>
+            </span>
+            <span
+              class="cxd-Breadcrumb-separator text-black"
+            >
+              &gt;
+            </span>
+            <span
+              class="cxd-Breadcrumb-item"
+            >
+              <span
+                class="cxd-TplField"
+              >
+                <span>
+                  <b>
+                    当前页面
+                  </b>
+                </span>
+              </span>
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Renderer:breadcrumb var 1`] = `
+<div>
+  <div
+    class="cxd-Page"
+  >
+    <div
+      class="cxd-Page-content"
+    >
+      <div
+        class="cxd-Page-main"
+      >
+        <div
+          class="cxd-Page-body"
+        >
+          <div
+            class="cxd-Breadcrumb"
+          >
+            <span
+              class="cxd-Breadcrumb-item"
+            >
+              <a
+                href="https://baidu.gitee.com/"
+              >
+                首页
+              </a>
+            </span>
+            <span
+              class="cxd-Breadcrumb-separator"
+            >
+              /
+            </span>
+            <span
+              class="cxd-Breadcrumb-item"
+            >
+              <span
+                class="cxd-TplField"
+              >
+                <span>
+                  上级页面
+                </span>
+              </span>
+            </span>
+            <span
+              class="cxd-Breadcrumb-separator"
+            >
+              /
+            </span>
+            <span
+              class="cxd-Breadcrumb-item"
+            >
+              <span
+                class="cxd-TplField"
+              >
+                <span>
+                  <b>
+                    当前页面
+                  </b>
+                </span>
+              </span>
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;

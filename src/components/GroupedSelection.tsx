@@ -27,7 +27,13 @@ export class GroupedSelection extends BaseSelection {
           className={cx('GroupedSelection-group', option.className)}
         >
           <div className={cx('GroupedSelection-itemLabel')}>
-            {itemRender(option)}
+            {itemRender(option, {
+              index: index,
+              multiple: multiple,
+              checked: false,
+              onChange: () => undefined,
+              disabled: disabled || option.disabled
+            })}
           </div>
 
           <div className={cx('GroupedSelection-items', option.className)}>
@@ -51,10 +57,6 @@ export class GroupedSelection extends BaseSelection {
         )}
         onClick={() => this.toggleOption(option)}
       >
-        <div className={cx('GroupedSelection-itemLabel')}>
-          {itemRender(option)}
-        </div>
-
         {multiple ? (
           <Checkbox
             size="sm"
@@ -64,6 +66,15 @@ export class GroupedSelection extends BaseSelection {
             description={option.description}
           />
         ) : null}
+        <div className={cx('GroupedSelection-itemLabel')}>
+          {itemRender(option, {
+            index: index,
+            multiple: multiple,
+            checked: !!~valueArray.indexOf(option),
+            onChange: () => this.toggleOption(option),
+            disabled: disabled || option.disabled
+          })}
+        </div>
       </div>
     );
   }

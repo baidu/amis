@@ -415,7 +415,10 @@ export class Navigation extends React.Component<
               />
             ) : hasSub ? (
               <span
-                onClick={() => this.toggleLink(link)}
+                onClick={e => {
+                  this.toggleLink(link);
+                  e.stopPropagation();
+                }}
                 className={cx('Nav-itemToggler', togglerClassName)}
               >
                 <Icon icon="caret" className="icon" />
@@ -520,7 +523,7 @@ const ConditionBuilderWithRemoteOptions = withRemoteConfig({
                     env &&
                     env.isCurrentUrl(filter(link.to as string, data))
                   )),
-            __id: link.__id || guid()
+            __id: link.id ?? link.__id ?? guid()
           };
 
           item.unfolded =

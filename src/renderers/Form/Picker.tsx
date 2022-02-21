@@ -469,7 +469,7 @@ export default class PickerControl extends React.PureComponent<
 
               {clearable && !disabled && selectedOptions.length ? (
                 <a onClick={this.clearValue} className={cx('Picker-clear')}>
-                  <Icon icon="close" className="icon" />
+                  <Icon icon="input-clear" className="icon" />
                 </a>
               ) : null}
 

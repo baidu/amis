@@ -7,11 +7,14 @@ import ResultBox from './ResultBox';
 import {Icon} from './icons';
 import InputBox from './InputBox';
 import PopOverContainer from './PopOverContainer';
+import {isMobile} from '../utils/helper';
 
 export interface TransferDropDownProps extends TransferProps {
   // 新的属性？
   multiple?: boolean;
   borderMode?: 'full' | 'half' | 'none';
+  useMobileUI?: boolean;
+  popOverContainer?: any;
 }
 
 export class TransferDropDown extends Transfer<TransferDropDownProps> {
@@ -21,19 +24,29 @@ export class TransferDropDown extends Transfer<TransferDropDownProps> {
       value,
       translate: __,
       disabled,
+      clearable,
       className,
       onChange,
       onSearch,
       multiple,
-      borderMode
+      borderMode,
+      useMobileUI,
+      popOverContainer
     } = this.props;
     const {inputValue, searchResult} = this.state;
 
+    const mobileUI = useMobileUI && isMobile();
     return (
       <PopOverContainer
+        useMobileUI={useMobileUI}
+        popOverContainer={popOverContainer}
         popOverClassName={cx('TransferDropDown-popover')}
         popOverRender={({onClose}) => (
-          <div className={cx('TransferDropDown-content')}>
+          <div
+            className={cx('TransferDropDown-content', {
+              'is-mobile': mobileUI
+            })}
+          >
             {onSearch ? (
               <div className={cx('Transfer-search')}>
                 <InputBox
@@ -88,22 +101,22 @@ export class TransferDropDown extends Transfer<TransferDropDownProps> {
             )}
             borderMode={borderMode}
             allowInput={false}
-            result={
-              multiple
-                ? value
-                : value?.[0]
-                ? this.props.itemRender(value[0])
-                : null
-            }
+            result={multiple ? value : value?.[0] ? value?.[0] : null}
             onResultChange={onChange}
             onResultClick={onClick}
             placeholder={__('Select.placeholder')}
             disabled={disabled}
+            clearable={clearable}
             ref={ref}
+            useMobileUI={useMobileUI}
           >
-            <span className={cx('TransferDropDown-icon')}>
-              <Icon icon="caret" className="icon" />
-            </span>
+            {!mobileUI ? (
+              <span className={cx('TransferDropDown-icon')}>
+                <Icon icon="caret" className="icon" />
+              </span>
+            ) : (
+              <></>
+            )}
           </ResultBox>
         )}
       </PopOverContainer>

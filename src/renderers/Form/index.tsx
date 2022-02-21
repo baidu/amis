@@ -19,7 +19,8 @@ import {
   isEmpty,
   getVariable,
   isObjectShallowModified,
-  qsparse
+  qsparse,
+  repeatCount
 } from '../../utils/helper';
 import debouce from 'lodash/debounce';
 import flatten from 'lodash/flatten';
@@ -290,6 +291,9 @@ export interface FormSchema extends BaseSchema {
   rules?: Array<{
     rule: string;
     message: string;
+
+    // 高亮表单项
+    name?: string | Array<string>;
   }>;
 
   /**
@@ -334,6 +338,7 @@ export interface FormProps
   rules: Array<{
     rule: string;
     message: string;
+    name?: string | Array<string>;
   }>;
   lazyChange?: boolean; // 表单项的
   formLazyChange?: boolean; // 表单的
@@ -398,7 +403,8 @@ export default class Form extends React.Component<FormProps, object> {
     'simpleMode',
     'inputOnly',
     'value',
-    'actions'
+    'actions',
+    'multiple'
   ];
 
   hooks: {
@@ -524,7 +530,7 @@ export default class Form extends React.Component<FormProps, object> {
         rules.forEach(
           item =>
             !evalExpression(item.rule, store.data) &&
-            store.addRestError(item.message)
+            store.addRestError(item.message, item.name)
         );
       });
     }
@@ -866,6 +872,18 @@ export default class Form extends React.Component<FormProps, object> {
 
     store.updateData(values);
 
+    store.items.forEach(formItem => {
+      const updatedValue = getVariable(values, formItem.name, false);
+
+      if (updatedValue !== undefined) {
+        // 更新验证状态但保留错误信息
+        formItem.reset(true);
+        // 这里需要更新value，否则提交时不会使用新的字段值校验
+        formItem.changeTmpValue(updatedValue);
+        formItem.validateOnChange && formItem.validate(values);
+      }
+    });
+
     (formLazyChange === false ? this.emitChange : this.lazyEmitChange)(submit);
   }
 
@@ -1120,7 +1138,13 @@ export default class Form extends React.Component<FormProps, object> {
         });
     } else if (action.actionType === 'reload') {
       store.setCurrentAction(action);
-      action.target && this.reloadTarget(action.target, data);
+      if (action.target) {
+        this.reloadTarget(action.target, data);
+      } else {
+        // 刷自己
+        this.receive(data);
+      }
+      // action.target && this.reloadTarget(action.target, data);
     } else if (onAction) {
       // 不识别的丢给上层去处理。
       return onAction(e, action, data, throwErrors, delegate || this.context);
@@ -1155,9 +1179,9 @@ export default class Form extends React.Component<FormProps, object> {
     store.closeDialog(true);
   }
 
-  handleDialogClose() {
+  handleDialogClose(confirmed = false) {
     const {store} = this.props;
-    store.closeDialog(false);
+    store.closeDialog(confirmed);
   }
 
   handleDrawerConfirm(
@@ -1435,6 +1459,18 @@ export default class Form extends React.Component<FormProps, object> {
       this.props.wrapperComponent ||
       (/(?:\/|^)form\//.test($path as string) ? 'div' : 'form');
 
+    const padDom = repeatCount(
+      columnCount && Array.isArray(body)
+        ? columnCount - (body.length % columnCount)
+        : 0,
+      index => (
+        <div
+          className={cx(`Form-item Form-item--${mode} is-placeholder`)}
+          key={index}
+        ></div>
+      )
+    );
+
     return (
       <WrapperComponent
         className={cx(
@@ -1460,6 +1496,8 @@ export default class Form extends React.Component<FormProps, object> {
         {this.renderFormItems({
           body
         })}
+
+        {padDom}
 
         {/* 显示没有映射上的 errors */}
         {restError && restError.length ? (

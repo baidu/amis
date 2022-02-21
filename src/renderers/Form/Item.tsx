@@ -9,7 +9,13 @@ import {
   TestFunc,
   RendererConfig
 } from '../../factory';
-import {anyChanged, ucFirst, getWidthRate, autobind} from '../../utils/helper';
+import {
+  anyChanged,
+  ucFirst,
+  getWidthRate,
+  autobind,
+  isMobile
+} from '../../utils/helper';
 import {observer} from 'mobx-react';
 import {FormHorizontal, FormSchema, FormSchemaHorizontal} from '.';
 import {Api, Schema} from '../../types';
@@ -24,10 +30,13 @@ import {
 } from '../../Schema';
 import {HocStoreFactory} from '../../WithStore';
 import {wrapControl} from './wrapControl';
+import type {OnEventProps} from '../../utils/renderer-event';
 
 export type FormControlSchemaAlias = SchemaObject;
 
-export interface FormBaseControl extends Omit<BaseSchema, 'type'> {
+export interface FormBaseControl
+  extends Omit<BaseSchema, 'type'>,
+    OnEventProps {
   /**
    * 表单项类型
    */
@@ -282,6 +291,7 @@ export interface FormItemBasicConfig extends Partial<RendererConfig> {
   storeType?: string;
   validations?: string;
   strictMode?: boolean;
+  shouldComponentUpdate?: (props: any, prevProps: any) => boolean;
   descriptionClassName?: string;
   storeExtendsData?: boolean;
   sizeMutable?: boolean;
@@ -436,12 +446,12 @@ export class FormItemWrap extends React.Component<FormItemProps> {
   }
 
   @autobind
-  handleDialogClose() {
+  handleDialogClose(confirmed = false) {
     const {formItem: model} = this.props;
     if (!model) {
       return;
     }
-    model.closeDialog();
+    model.closeDialog(confirmed);
   }
 
   renderControl(): JSX.Element | null {
@@ -456,9 +466,11 @@ export class FormItemWrap extends React.Component<FormItemProps> {
       sizeMutable,
       size,
       defaultSize,
+      useMobileUI,
       ...rest
     } = this.props;
 
+    const mobileUI = useMobileUI && isMobile();
     if (renderControl) {
       const controlSize = size || defaultSize;
       return renderControl({
@@ -470,7 +482,7 @@ export class FormItemWrap extends React.Component<FormItemProps> {
         className: cx(
           `Form-control`,
           {
-            'is-inline': !!rest.inline,
+            'is-inline': !!rest.inline && !mobileUI,
             'is-error': model && !model.valid,
             [`Form-control--withSize Form-control--size${ucFirst(
               controlSize
@@ -519,7 +531,8 @@ export class FormItemWrap extends React.Component<FormItemProps> {
         renderDescription,
         hint,
         data,
-        showErrorMsg
+        showErrorMsg,
+        useMobileUI
       } = props;
 
       // 强制不渲染 label 的话
@@ -575,6 +588,7 @@ export class FormItemWrap extends React.Component<FormItemProps> {
                       type: 'remark',
                       icon: labelRemark.icon || 'warning-mark',
                       tooltip: labelRemark,
+                      useMobileUI,
                       className: cx(`Form-labelRemark`),
                       container: props.popOverContainer
                         ? props.popOverContainer
@@ -608,6 +622,7 @@ export class FormItemWrap extends React.Component<FormItemProps> {
                   icon: remark.icon || 'warning-mark',
                   tooltip: remark,
                   className: cx(`Form-remark`),
+                  useMobileUI,
                   container: props.popOverContainer
                     ? props.popOverContainer
                     : env && env.getModalContainer
@@ -664,7 +679,8 @@ export class FormItemWrap extends React.Component<FormItemProps> {
         renderDescription,
         hint,
         data,
-        showErrorMsg
+        showErrorMsg,
+        useMobileUI
       } = props;
 
       description = description || desc;
@@ -700,6 +716,7 @@ export class FormItemWrap extends React.Component<FormItemProps> {
                       icon: labelRemark.icon || 'warning-mark',
                       tooltip: labelRemark,
                       className: cx(`Form-lableRemark`),
+                      useMobileUI,
                       container: props.popOverContainer
                         ? props.popOverContainer
                         : env && env.getModalContainer
@@ -725,6 +742,7 @@ export class FormItemWrap extends React.Component<FormItemProps> {
                 icon: remark.icon || 'warning-mark',
                 className: cx(`Form-remark`),
                 tooltip: remark,
+                useMobileUI,
                 container:
                   env && env.getModalContainer
                     ? env.getModalContainer
@@ -779,7 +797,8 @@ export class FormItemWrap extends React.Component<FormItemProps> {
         renderLabel,
         renderDescription,
         data,
-        showErrorMsg
+        showErrorMsg,
+        useMobileUI
       } = props;
 
       description = description || desc;
@@ -815,6 +834,7 @@ export class FormItemWrap extends React.Component<FormItemProps> {
                       icon: labelRemark.icon || 'warning-mark',
                       tooltip: labelRemark,
                       className: cx(`Form-lableRemark`),
+                      useMobileUI,
                       container: props.popOverContainer
                         ? props.popOverContainer
                         : env && env.getModalContainer
@@ -841,6 +861,7 @@ export class FormItemWrap extends React.Component<FormItemProps> {
                   icon: remark.icon || 'warning-mark',
                   className: cx(`Form-remark`),
                   tooltip: remark,
+                  useMobileUI,
                   container: props.popOverContainer
                     ? props.popOverContainer
                     : env && env.getModalContainer
@@ -897,7 +918,8 @@ export class FormItemWrap extends React.Component<FormItemProps> {
         renderDescription,
         hint,
         data,
-        showErrorMsg
+        showErrorMsg,
+        useMobileUI
       } = props;
 
       description = description || desc;
@@ -932,6 +954,7 @@ export class FormItemWrap extends React.Component<FormItemProps> {
                         icon: labelRemark.icon || 'warning-mark',
                         tooltip: labelRemark,
                         className: cx(`Form-lableRemark`),
+                        useMobileUI,
                         container: props.popOverContainer
                           ? props.popOverContainer
                           : env && env.getModalContainer
@@ -1165,7 +1188,11 @@ export function asFormItem(config: Omit<FormItemConfig, 'component'>) {
           }
 
           shouldComponentUpdate(nextProps: FormControlProps) {
-            if (nextProps.strictMode === false || config.strictMode === false) {
+            if (
+              config.shouldComponentUpdate?.(this.props, nextProps) ||
+              nextProps.strictMode === false ||
+              config.strictMode === false
+            ) {
               return true;
             }
 
@@ -1194,14 +1221,16 @@ export function asFormItem(config: Omit<FormItemConfig, 'component'>) {
               type,
               size,
               defaultSize,
+              useMobileUI,
               ...rest
             } = this.props;
 
             const controlSize = size || defaultSize;
-
+            const mobileUI = useMobileUI && isMobile();
             return (
               <Control
                 {...rest}
+                useMobileUI={useMobileUI}
                 onOpenDialog={this.handleOpenDialog}
                 size={config.sizeMutable !== false ? undefined : size}
                 onFocus={this.handleFocus}
@@ -1214,7 +1243,7 @@ export function asFormItem(config: Omit<FormItemConfig, 'component'>) {
                 className={cx(
                   `Form-control`,
                   {
-                    'is-inline': !!rest.inline,
+                    'is-inline': !!rest.inline && !mobileUI,
                     'is-error': model && !model.valid,
                     [`Form-control--withSize Form-control--size${ucFirst(
                       controlSize

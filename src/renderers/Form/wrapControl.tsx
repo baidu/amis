@@ -23,6 +23,7 @@ import hoistNonReactStatic from 'hoist-non-react-statics';
 import {withRootStore} from '../../WithRootStore';
 import {FormBaseControl, FormItemWrap} from './Item';
 import {Api} from '../../types';
+import {TableStore} from '../../store/table';
 
 export interface ControlOutterProps extends RendererProps {
   formStore?: IFormStore;
@@ -129,7 +130,8 @@ export function wrapControl<
                 clearValueOnHidden,
                 validateApi,
                 minLength,
-                maxLength
+                maxLength,
+                validateOnChange
               }
             } = this.props;
 
@@ -174,7 +176,8 @@ export function wrapControl<
               clearValueOnHidden,
               validateApi,
               minLength,
-              maxLength
+              maxLength,
+              validateOnChange
             });
 
             // issue 这个逻辑应该在 combo 里面自己实现。
@@ -195,7 +198,11 @@ export function wrapControl<
             if (
               onChange &&
               typeof propValue === 'undefined' &&
-              typeof store?.getValueByName(model.name, false) === 'undefined'
+              typeof store?.getValueByName(model.name, false) === 'undefined' &&
+              // todo 后续再优化这个判断，
+              // 目前 input-table 中默认值会给冲掉，所以加上这个判断
+              // 对应 issue 为 https://github.com/baidu/amis/issues/2674
+              store?.storeType !== TableStore.name
             ) {
               onChange(model.tmpValue, model.name, false, true);
             }
@@ -465,6 +472,7 @@ export function wrapControl<
             }
 
             this.model.changeTmpValue(value);
+
             if (changeImmediately || conrolChangeImmediately || !formInited) {
               this.emitChange(submitOnChange);
             } else {

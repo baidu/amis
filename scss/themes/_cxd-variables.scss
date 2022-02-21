@@ -119,6 +119,8 @@ $L1: 0px 4px 6px 0px rgba(8, 14, 26, 0.06),
   --Page-header-paddingX: var(--gap-md);
   --Page-header-paddingY: #{px2rem(10px)};
 
+  --Form-item-fontSize: var(--fontSizeBase);
+  --Form-item-fontColor: #{$G4};
   --Form-item-gap: var(--gap-base);
   --Form-input-bg: #{$G11};
   --Form-input-color: #{$G2};
@@ -134,6 +136,7 @@ $L1: 0px 4px 6px 0px rgba(8, 14, 26, 0.06),
   --Form-input-onDisabled-bg: #{$G10};
   --Form-input-onDisabled-borderColor: #{$G8};
   --Form-input-onDisabled-color: #{$G5};
+  --Form-input-iconColor: #{$G5};
   --Form-input-paddingX: #{px2rem(10px)};
   --Form-description-color: #999;
   --Form--horizontal-label-whiteSpace: normal;
@@ -146,6 +149,9 @@ $L1: 0px 4px 6px 0px rgba(8, 14, 26, 0.06),
   --Form-input-addOnColor: #666;
   --Form-input-onFocus-addOnColor: var(--primary);
   --Form-input-addOnDividerBorderWidth: 0;
+  --Form-input-clearBtn-color: #{$G7};
+  --Form-input-clearBtn-color-onHover: #{$G4};
+  --Form-input-clearBtn-color-onActive: #{$G3};
 
   --Form-select-borderWidth: #{px2rem(1px)};
   --Form-select-borderRadius: #{$R3};
@@ -169,6 +175,8 @@ $L1: 0px 4px 6px 0px rgba(8, 14, 26, 0.06),
   --Form-select-popoverGap: #{$R3};
   --Form-select-search-height: #{px2rem(30px)};
   --Form-selectValue-color: var(--primary);
+  --Form-select-value-borderColor: #{$G9};
+  --Form-select-valueIcon-color: #{$G4};
 
   --InputGroup-select-borderWidth: #{px2rem(1px)};
   --InputGroup-select-onFocused-bg: #eaf6fe;
@@ -177,7 +185,7 @@ $L1: 0px 4px 6px 0px rgba(8, 14, 26, 0.06),
   --InputGroup-select-arrowColor: #999;
   --InputGroup-select-onFocused-arrowColor: var(--primary);
   --InputGroup-button-borderWidth: #{px2rem(1px)};
-  --InputGroup-button-borderRadius: 0;
+  --InputGroup-button-borderRadius: #{$R3};
 
   // $Number-bg: #eaf6fe;
   --Number-borderWidth: #{px2rem(1px)};
@@ -220,6 +228,15 @@ $L1: 0px 4px 6px 0px rgba(8, 14, 26, 0.06),
   --Switch-onDisabled-bgColor: #{$B2};
   --Switch-onDisabled-color: #{$G11};
   // --Switch-onDisabled-circle-BackgroundColor: #fff;
+
+  --Calendar-icon-bottom: #{px2rem(-4px)};
+  --Calendar-icon-width: #{px2rem(10px)};
+  --Calendar-icon-height: #{px2rem(10px)};
+  --Calendar-borderWidth: #{px2rem(1px)};
+  --Calendar-rdt-day: #{px2rem(100px)};
+  --Calendar-schedule-content-padding: 0 #{px2rem(4px)};
+  --Calendar-schedule-content-height: #{px2rem(20px)};
+  --Calendar-schedule-content-color: #{$white};
 
   --ColorPicker-borderWidth: #{px2rem(1px)};
   --ColorPicker-borderRadius: #{$R3};
@@ -309,7 +326,7 @@ $L1: 0px 4px 6px 0px rgba(8, 14, 26, 0.06),
   --Button--primary-onActive-color: #{$G11};
 
   --Button--light-border: var(--light);
-  --Button--light-color: var(--button-color);
+  --Button--light-color: var(--text-color);
 
   --Button-onDisabled-borderColor: #{$G9};
   --Button-onDisabled-opacity: 0.65;
@@ -355,7 +372,7 @@ $L1: 0px 4px 6px 0px rgba(8, 14, 26, 0.06),
   --Table-onHover-bg: #f5f5f5;
   --Table-onHover-bg-rgb: 245, 251, 255;
   --Table-onHover-borderColor: #eceff8;
-  --Table-onChecked-bg: transparent;
+  --Table-onChecked-bg: #f0faff;
   --Table-onChecked-borderColor: #eceff8;
   --Table-onChecked-color: #333;
   --Table-onChecked-onHover-bg: #f5f5f5;
@@ -601,4 +618,14 @@ $L1: 0px 4px 6px 0px rgba(8, 14, 26, 0.06),
   --Tree-itemHeight: #{px2rem(32px)};
 
   --Progress-borderRadius: #{$R7};
+
+  --Rating-inactive-color: #{$G9};
+
+  // Formula
+  --InputFormula-code-bgColor: #{$G10};
+
+  // ResultBox
+  --ResultBox-value-bg: #{$G10};
+  --ResultBox-value-clear-bg: #{$G8};
+  --ResultBox-value-clear-hover-bg: #{$G9};
 }

@@ -175,6 +175,74 @@ order: 22
 }
 ```
 
+## 使用新表达式语法
+
+> 1.5.0 及以上版本
+
+通过新的[表达式](../../../docs/concepts/expression)语法，可以调用其中的函数，比如
+
+```schema: scope="body"
+{
+  "type": "form",
+  "debug": true,
+  "body": [
+    {
+      "type": "static",
+      "value": "这个表单没有内容，通过上面的 debug 可以看到输出当前日期"
+    },
+    {
+        "type": "formula",
+        "name": "date",
+        "formula": "${DATETOSTR(NOW(), 'YYYY-MM-DD')}"
+    }
+  ]
+}
+```
+
+这种写法默认会解决浮点数计算问题（需要更新到 amis 1.6.4 及以上版本），比如
+
+```schema: scope="body"
+{
+  "type": "form",
+  "body": [
+    {
+      "type": "input-number",
+      "name": "a",
+      "value": 0.1,
+      "label": "A"
+    },
+    {
+      "type": "input-number",
+      "name": "b",
+      "value": 0.2,
+      "label": "B"
+    },
+    {
+      "type": "input-number",
+      "name": "sum",
+      "label": "直接相加",
+      "disabled": true
+    },
+    {
+      "type": "formula",
+      "name": "sum",
+      "formula": "a + b"
+    },
+    {
+      "type": "input-number",
+      "name": "sum-new",
+      "label": "使用新表达式",
+      "disabled": true
+    },
+    {
+      "type": "formula",
+      "name": "sum-new",
+      "formula": "${a + b}"
+    }
+  ]
+}
+```
+
 ## 属性表
 
 | 属性名    | 类型                                        | 默认值 | 说明                                                                                                           |

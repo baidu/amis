@@ -14,6 +14,7 @@ import {str2rules, validate as doValidate} from '../utils/validations';
 import {Api, Payload, fetchOptions} from '../types';
 import {ComboStore, IComboStore, IUniqueGroup} from './combo';
 import {evalExpression} from '../utils/tpl';
+import {isEffectiveApi} from '../utils/api';
 import findIndex from 'lodash/findIndex';
 import {
   isArrayChildrenModified,
@@ -88,7 +89,8 @@ export const FormItemStore = StoreNode.named('FormItemStore')
     dialogSchema: types.frozen(),
     dialogOpen: false,
     dialogData: types.frozen(),
-    resetValue: types.optional(types.frozen(), '')
+    resetValue: types.optional(types.frozen(), ''),
+    validateOnChange: false
   })
   .views(self => {
     function getForm(): any {
@@ -233,7 +235,8 @@ export const FormItemStore = StoreNode.named('FormItemStore')
       clearValueOnHidden,
       validateApi,
       maxLength,
-      minLength
+      minLength,
+      validateOnChange
     }: {
       required?: boolean;
       unique?: boolean;
@@ -254,6 +257,7 @@ export const FormItemStore = StoreNode.named('FormItemStore')
       validateApi?: boolean;
       minLength?: number;
       maxLength?: number;
+      validateOnChange?: boolean;
     }) {
       if (typeof rules === 'string') {
         rules = str2rules(rules);
@@ -279,6 +283,8 @@ export const FormItemStore = StoreNode.named('FormItemStore')
       typeof clearValueOnHidden !== 'undefined' &&
         (self.clearValueOnHidden = !!clearValueOnHidden);
       typeof validateApi !== 'undefined' && (self.validateApi = validateApi);
+      typeof validateOnChange !== 'undefined' &&
+        (self.validateOnChange = !!validateOnChange);
 
       rules = {
         ...rules,
@@ -315,7 +321,7 @@ export const FormItemStore = StoreNode.named('FormItemStore')
     let validateCancel: Function | null = null;
     const validate: (data: Object, hook?: any) => Promise<boolean> = flow(
       function* validate(data: Object, hook?: any) {
-        if (self.validating && !self.validateApi) {
+        if (self.validating && !isEffectiveApi(self.validateApi, data)) {
           return self.valid;
         }
 
@@ -329,7 +335,7 @@ export const FormItemStore = StoreNode.named('FormItemStore')
           doValidate(self.tmpValue, data, self.rules, self.messages, self.__)
         );
 
-        if (!self.errors.length && self.validateApi) {
+        if (!self.errors.length && isEffectiveApi(self.validateApi, data)) {
           if (validateCancel) {
             validateCancel();
             validateCancel = null;
@@ -584,12 +590,12 @@ export const FormItemStore = StoreNode.named('FormItemStore')
 
       let options: Array<IOption> =
         json.data?.options ||
-        json.data.items ||
-        json.data.rows ||
+        json.data?.items ||
+        json.data?.rows ||
         json.data ||
         [];
 
-      options = normalizeOptions(options as any);
+      options = normalizeOptions(options as any, undefined, self.valueField);
 
       if (config?.extendsOptions && self.selectedOptions.length > 0) {
         self.selectedOptions.forEach((item: any) => {
@@ -619,23 +625,20 @@ export const FormItemStore = StoreNode.named('FormItemStore')
 
     const tryDeferLoadLeftOptions: (
       option: any,
+      leftOptions: any,
       api: Api,
       data?: object,
       config?: fetchOptions
     ) => Promise<Payload | null> = flow(function* (
       option: any,
+      leftOptions: any,
       api: string,
       data: object,
       config?: fetchOptions
     ) {
-      if (
-        self.options.length != 1 ||
-        !Array.isArray(self.options[0].leftOptions)
-      ) {
+      if (!Array.isArray(leftOptions)) {
         return;
       }
-
-      let leftOptions = self.options[0].leftOptions as any;
 
       const indexes = findTreeIndex(leftOptions, item => item === option);
       if (!indexes) {
@@ -706,7 +709,44 @@ export const FormItemStore = StoreNode.named('FormItemStore')
         data
       );
 
+      // 插入新的子节点，用于之后BaseSelection.resolveSelected查找
+      if (Array.isArray(self.options[0].children)) {
+        const children = self.options[0].children.concat();
+
+        flattenTree(self.options[0].leftOptions).forEach(item => {
+          if (
+            !findTree(self.options[0].children, node => node.ref === item.value)
+          ) {
+            children.push({ref: item.value, defer: true});
+          }
+        });
+
+        setOptions([{...self.options[0], children}], undefined, data);
+      }
+
       return json;
+    });
+
+    const deferLoadLeftOptions: (
+      option: any,
+      leftOptions: any,
+      api: Api,
+      data?: object,
+      config?: fetchOptions
+    ) => Promise<Payload | null> = flow(function* (
+      option: any,
+      leftOptions: any,
+      api: string,
+      data: object,
+      config?: fetchOptions
+    ) {
+      return yield tryDeferLoadLeftOptions(
+        option,
+        leftOptions,
+        api,
+        data,
+        config
+      );
     });
 
     const deferLoadOptions: (
@@ -722,7 +762,14 @@ export const FormItemStore = StoreNode.named('FormItemStore')
     ) {
       const indexes = findTreeIndex(self.options, item => item === option);
       if (!indexes) {
-        return yield tryDeferLoadLeftOptions(option, api, data, config);
+        const leftOptions = self.options[0]?.leftOptions;
+        return yield tryDeferLoadLeftOptions(
+          option,
+          leftOptions,
+          api,
+          data,
+          config
+        );
       }
 
       setOptions(
@@ -1029,7 +1076,7 @@ export const FormItemStore = StoreNode.named('FormItemStore')
       subStore = store;
     }
 
-    function reset() {
+    function reset(keepErrors: boolean = false) {
       self.validated = false;
 
       if (subStore && subStore.storeType === 'ComboStore') {
@@ -1037,7 +1084,7 @@ export const FormItemStore = StoreNode.named('FormItemStore')
         combo.forms.forEach(form => form.reset());
       }
 
-      clearError();
+      !keepErrors && clearError();
     }
 
     function openDialog(
@@ -1091,6 +1138,7 @@ export const FormItemStore = StoreNode.named('FormItemStore')
       setOptions,
       loadOptions,
       deferLoadOptions,
+      deferLoadLeftOptions,
       expandTreeOptions,
       syncOptions,
       setLoading,

@@ -3,7 +3,8 @@ import {FormItem, FormControlProps, FormBaseControl} from './Item';
 import {ClassNamesFn, themeable, ThemeProps} from '../../theme';
 import Spinner from '../../components/Spinner';
 import Select from '../../components/Select';
-import {autobind} from '../../utils/helper';
+import CityArea from '../../components/CityArea';
+import {autobind, isMobile} from '../../utils/helper';
 import {Option} from './Options';
 import {localeable, LocaleProps} from '../../locale';
 
@@ -65,6 +66,7 @@ export interface CityPickerProps
   allowCity: boolean;
   allowDistrict: boolean;
   allowStreet: boolean;
+  useMobileUI?: boolean;
 }
 
 export interface CityPickerState {
@@ -428,9 +430,27 @@ export class LocationControl extends React.Component<LocationControlProps> {
       joinValues,
       allowStreet,
       disabled,
-      searchable
+      searchable,
+      env,
+      useMobileUI
     } = this.props;
-    return (
+    const mobileUI = useMobileUI && isMobile();
+    return mobileUI ? (
+      <CityArea
+        value={value}
+        popOverContainer={
+          env && env.getModalContainer ? env.getModalContainer : undefined
+        }
+        onChange={onChange}
+        allowCity={allowCity}
+        allowDistrict={allowDistrict}
+        extractValue={extractValue}
+        joinValues={joinValues}
+        allowStreet={allowStreet}
+        disabled={disabled}
+        useMobileUI={useMobileUI}
+      />
+    ) : (
       <ThemedCity
         searchable={searchable}
         value={value}

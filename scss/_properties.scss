@@ -68,6 +68,7 @@
 
   --fontWeightNormal: 400;
   --fontWeightBase: var(--fontWeightNormal);
+  --fontWeightMd: 500;
   --fontWeightBold: 700;
 
   --background: var(--white);
@@ -163,6 +164,14 @@
   --Audio-volumeControl-width: #{px2rem(110px)};
   --Avatar-bg: #{$gray300};
   --Avatar-width: #{px2rem(40px)};
+  --Avatar-size-large: #{px2rem(48px)};
+  // 兼容旧的size大小写法
+  --Avatar-size-default: var(--Avatar-width);
+  --Avatar-size-small: #{px2rem(32px)};
+  --Avatar-icon-size-large: #{px2rem(20px)};
+  // 兼容旧的icon大小写法
+  --Avatar-icon-size-default: var(--fontSizeLg);
+  --Avatar-icon-size-small: #{px2rem(12px)};
 
   --Badge-size: var(--gap-md);
   --Badge-color: var(--white);
@@ -401,6 +410,15 @@
   --Calendar-shortcuts-height: #{px2rem(30px)};
   --Calendar-wLabel-color: #999;
 
+  --Calendar-icon-bottom: #{px2rem(-4px)};
+  --Calendar-icon-width: #{px2rem(10px)};
+  --Calendar-icon-height: #{px2rem(10px)};
+  --Calendar-borderWidth: #{px2rem(1px)};
+  --Calendar-rdt-day: #{px2rem(100px)};
+  --Calendar-schedule-content-padding: 0 #{px2rem(4px)};
+  --Calendar-schedule-content-height: #{px2rem(20px)};
+  --Calendar-schedule-content-color: #{$white};
+
   --Card-actions-borderColor: #{lighten($borderColor, 5%)};
   --Card-actions-fontSize: var(--fontSizeBase);
   --Card-actions-onChecked-onHover-bg: #{darken(#d9f3fb, 5%)};
@@ -411,6 +429,7 @@
   --Card-borderColor: var(--borderColor);
   --Card-borderRadius: var(--borderRadius);
   --Card-borderWidth: var(--borderWidth);
+  --Card-secondary-color: #83868c;
   --Card-onChecked-bg: #d9f3fb;
   --Card-onChecked-borderColor: #{darken(#d9f3fb, 10%)};
   --Card-onChecked-color: #{darken(#d9f3fb, 40%)};
@@ -572,7 +591,7 @@
 
   --LocationPicker-borderRadius: var(--Form-input-borderWidth);
 
-  --Divider-borderStyle: dashed;
+  --Divider-borderStyle: solid;
 
   --Drawer-bg: var(--background);
   --Drawer-body-padding: var(--gap-base);
@@ -607,10 +626,11 @@
   --DropDown-menu-paddingX: 0;
   --DropDown-menu-paddingY: var(--gap-xs);
   --DropDown-menuItem-onHover-bg: var(--ListMenu-item--onHover-bg);
-  --DropDown-menuItem-color: var(--text-color);
+  --DropDown-group-color: #848b99;
+  --DropDown-menuItem-color: #151a26;
   --DropDown-menuItem-onHover-color: var(--primary);
   --DropDown-menuItem-onActive-color: var(--primary);
-  --DropDown-menuItem-onDisabled-color: var(--text--muted-color);
+  --DropDown-menuItem-onDisabled-color: #b4b6ba;
   --DropDown-menuItem-paddingX: var(--gap-sm);
   --DropDown-menuItem-paddingY: calc(
     (var(--DropDown-menu-height) - var(--fontSizeBase) * var(--lineHeightBase)) /
@@ -638,6 +658,8 @@
   --Form-description-fontSize: var(--fontSizeSm);
 
   --Form-fontSize: var(--fontSizeBase);
+  --Form-item-fontSize: var(--Form-fontSize);
+  --Form-item-fontColor: #5e626a;
 
   --Form-group--lg-gutterWidth: #{px2rem(40px)};
   --Form-group--md-gutterWidth: #{px2rem(30px)};
@@ -681,6 +703,12 @@
   --Form-input-placeholderColor: var(--text--muted-color);
   --Form-input-onDisabled-color: var(--text--muted-color);
 
+  --Form-input-clearBtn-size: var(--fontSizeMd);
+  --Form-input-clearBtn-padding: #{px2rem(3px)};
+  --Form-input-clearBtn-color: #cecfd1;
+  --Form-input-clearBtn-color-onHover: #5e626a;
+  --Form-input-clearBtn-color-onActive: #2d323c;
+
   --Form-item-gap: var(--gap-base);
 
   --Form-label-paddingTop: calc(
@@ -709,6 +737,7 @@
   --Form-select-menu-onDisabled-color: var(--text--muted-color);
   --Form-select-menu-onHover-bg: rgba(0, 126, 255, 0.08);
   --Form-select-menu-onHover-color: var(--info);
+  --Form-select-group-color: var(--Form-select-caret-iconColor);
   --Form-select-onError-borderColor: var(--Form-input-onError-borderColor);
   --Form-select-onFocused-borderColor: var(--Form-input-onFocused-borderColor);
   --Form-select-onFocused-color: var(--Form-select-color);
@@ -720,8 +749,13 @@
   --Form-select-placeholderColor: var(--Form-input-placeholderColor);
   --Form-select-popoverGap: 0;
   --Form-select-search-height: var(--Form-select-menu-height);
+  --Form-select-value-bgColor: var(--Form-input-onDisabled-bg);
+  --Form-select-value-borderColor: var(--Form-select-value-borderColor);
+  --Form-select-valueIcon-color: var(--Form-select-valueIcon-color);
+  --Form-select-valueIcon-onHover-color: var(--Form-select-color);
   --Form-selectOption-height: var(--Form-input-height);
   --Form-selectValue-bg: #{saturate(lighten($info, 40%), 2.5%)};
+  --Form-selectValue-onHover-bgColor: var(--Form-select-borderColor);
   --Form-selectValue-borderColor: #{saturate(lighten($info, 30%), 2.5%)};
   --Form-selectValue-color: var(--info);
   --Form-selectValue-fontSize: var(--fontSizeSm);
@@ -733,6 +767,8 @@
       saturate(lighten($info, 40%), 2.5%),
       5%
     )};
+  --Form-selectValue-onDisabled-color: var(--Form-select-caret-iconColor);
+  --Form-valueLabel-maxWidth: #{px2rem(120px)};
   --Form-select-onFocus-boxShadow: none;
 
   --IconPicker-content-maxHeight: #{px2rem(350px)};
@@ -794,36 +830,44 @@
   --InputGroup-select-onFocused-bg: var(--white);
   --InputGroup-select-onFocused-color: var(--Form-select-onFocused-color);
 
-  --InputRange-label--value-display: block;
-  --InputRange-label--value-positionTop: #{px2rem(-36px)};
-  --InputRange-label--value-positionLeft: #{px2rem(-6px)};
-  --InputRange-label-color: var(--InputRange-neutralColor);
-  --InputRange-label-fontSize: 0.8rem;
-  --InputRange-label-positionBottom: -1.4rem;
-  --InputRange-neutralColor: #aaaaaa;
-  --InputRange-neutralLightColor: #eeeeee;
-  --InputRange-onDisabled-color: #cccccc;
-  --InputRange-primaryColor: var(--info);
-  --InputRange-slider-bg: var(--InputRange-primaryColor);
-  --InputRange-slider-border: #{px2rem(1px)} solid var(--InputRange-primaryColor);
-  --InputRange-slider-height: #{px2rem(24px)};
-  --InputRange-slider-onActive-transform: scale(1.3);
-  --InputRange-slider-onDisabled-bg: var(--InputRange-onDisabled-color);
-  --InputRange-slider-onDisabled-border: #{px2rem(1px)} solid var(--InputRange-onDisabled-color);
-  --InputRange-slider-onFocus-borderRadius: var(--borderRadiusMd);
-  --InputRange-slider-onFocus-boxShadow: 0 0 0
-    var(--InputRange-slider-onFocus-borderRadius) #{transparentize($info, 0.8)};
-  --InputRange-slider-transition: transform var(--animation-duration) ease-out,
-    box-shadow var(--animation-duration) ease-out;
-  --InputRange-slider-width: #{px2rem(18px)};
-  --InputRange-sliderContainer-transition: left var(--animation-duration)
-    ease-out;
-  --InputRange-track-bg: var(--InputRange-neutralLightColor);
-  --InputRange-track-height: #{px2rem(12px)};
+  --InputRange-padding: #{px2rem(20px)};
+  --InputRange-onDisabled-color: var(--light);
+  --InputRange-primaryColor: var(--primary);
+  --InputRange-track-height: #{px2rem(4px)};
+  --InputRange-track-bg: #{$gray100};
+  --InputRange-track-onDisabled-bg: var(--InputRange-onDisabled-color);
   --InputRange-track-onActive-bg: var(--InputRange-primaryColor);
-  --InputRange-track-onDisabled-bg: var(--InputRange-neutralLightColor);
+  --InputRange-track-onActive-onDisabled-bg: #{$gray200};
+  --InputRange-track-onActive-transition: transform var(--animation-duration)
+    ease-out left;
+  --InputRange-track-border-radius: #{px2rem(4px)};
+  --InputRange-track-dot-width: #{px2rem(4px)};
+  --InputRange-track-dot-height: #{px2rem(4px)};
+  --InputRange-track-dot-bg: var(--white);
   --InputRange-track-transition: left var(--animation-duration) ease-out,
     width var(--animation-duration) ease-out;
+  --InputRange-handle-height: #{px2rem(16px)};
+  --InputRange-handle-width: #{px2rem(16px)};
+  --InputRange-handle-bg: var(--white);
+  --InputRange-handle-border: #{px2rem(1px)} solid var(--InputRange-primaryColor);
+  --InputRange-handle-onDisabled-border-color: #ceced1;
+  --InputRange-handle-onActive-transform: scale(1.3);
+  --InputRange-handle-onDrage-border-width: #{px2rem(2px)};
+  --InputRange-handle-onDisabled-bg: var(--InputRange-onDisabled-color);
+  --InputRange-handle-onDisabled-border: #{px2rem(1px)} solid var(--InputRange-onDisabled-color);
+  --InputRange-handle-onFocus-borderRadius: var(--borderRadiusMd);
+  --InputRange-handele-onFocus-boxShadow: 0 0 0
+    var(--InputRange-slider-onFocus-borderRadius) #{transparentize($info, 0.8)};
+  --InputRange-handle-transition: transform var(--animation-duration) ease-out,
+    box-shadow var(--animation-duration) ease-out;
+  --InputRange-handle-icon-width: #{px2rem(8px)};
+  --InputRange-handle-icon-height: #{px2rem(8px)};
+  --InputRange-label-padding: #{px2rem(8px)};
+  --InputRange-label-bg: #000;
+  --InputRange-label-color: var(--white);
+  --InputRange-label-font-size: #{px2rem(14px)};
+  --InputRange-label-border-radius: #{px2rem(4px)};
+  --InputRange-label-position-bottom: calc(100% + 8px);
 
   --Layout--offscreen-width: 75%;
   --Layout-aside--folded-width: #{px2rem(60px)};
@@ -1077,11 +1121,12 @@
   --PickerColumns-bg: white;
   --PickerColumns-toolbar-height: #{px2rem(50px)};
   --PickerColumns-title-fontSize: var(--fontSizeLg);
+  --PickerColumns-title-color: #222;
   --PickerColumns-title-lineHeight: 1.5;
-  --PickerColumns-action-padding: 0 var(--gap-sm);
-  --PickerColumns-action-fontSize: var(--fontSizeMd);
-  --PickerColumns-confirmAction-color: var(--Button--info-bg);
-  --PickerColumns-cancelAction-color: var(--Button--light-bg);
+  --PickerColumns-action-padding: 0 var(--gap-md);
+  --PickerColumns-action-fontSize: var(--fontSizeLg);
+  --PickerColumns-confirmAction-color: #2468f2;
+  --PickerColumns-cancelAction-color: #666;
   --PickerColumns-option-fontSize: var(--fontSizeLg);
   --PickerColumns-optionText-color: var(--text-color);
   --PickerColumns-optionDisabled-opacity: 0.3;
@@ -1091,6 +1136,8 @@
   --PopOver-bg: white;
   --PopOverAble-iconColor: inherit;
   --PopOverAble-onHover-iconColor: inherit;
+
+  --PopUp-cancelAction-color: #666;
 
   --Property-title-bg: #f2f2f2;
   --Property-label-bg: #f7f7f7;
@@ -1132,8 +1179,12 @@
   --ResultBox-value--onHover-bg: rgba(0, 145, 255, 0.1);
   --ResultBox-value-bg: #f5f5f5;
   --ResultBox-value-color: #000;
+  --ResultBox-value-clear-bg: #d4d6d9;
+  --ResultBox-value-clear-hover-bg: #f5f5f5;
 
-  --Rating-onActive-color: var(--info);
+  --Rating-inactive-color: #e6e6e8;
+  --Rating-star-margin: #{px2rem(8px)};
+  --Rating-star-size: #{px2rem(24px)};
 
   --Satus-icon-width: var(--gap-lg);
   --Satus-icon-height: var(--Satus-icon-width);
@@ -1416,4 +1467,52 @@
   --ColumnToggler-fontColor: #151a26;
   --ColumnToggler-item-backgroundColor: #f6f7f8;
   --ColumnToggler-item-backgroundColor-onHover: rgba(36, 104, 242, 0.1);
+
+  --InputFormula-header-bgColor: #fafafa;
+  --InputFormula-icon-size: #{px2rem(24px)};
+  --InputFormula-icon-color-onActive: var(--primary);
+  --InputFormula-code-bgColor: #f2f2f4;
+
+  // timeline
+  --TimelineItem--axle-flex: 0 0 #{px2rem(24px)};
+  --TimelineItem--left-line-width: #{px2rem(2px)};
+  --TimelineItem--left-line-left: #{px2rem(13px)};
+  --TimelineItem--left-line-top: #{px2rem(20px)};
+  --TimelineItem--round-width: #{px2rem(8px)};
+  --TimelineItem--round-height: #{px2rem(8px)};
+  --TimelineItem--round-left: #{px2rem(10px)};
+  --TimelineItem--round-top: #{px2rem(8px)};
+  --TimelineItem--icon-width: #{px2rem(16px)};
+  --TimelineItem--icon-height: #{px2rem(16px)};
+  --TimelineItem--icon-left: #{px2rem(6px)};
+  --TimelineItem--content-padding-bottom: var(--gap-md);
+  --TimelineItem--content-margin-left: var(--gap-base);
+  --TimelineItem--content-time-margin-bottom: var(--gap-xs);
+  --TimelineItem--content-title-margin-bottom: var(--gap-xs);
+  --TimelineItem--detail-button-margin-bottom: var(--gap-base);
+  --TimelineItem-detail-arrow-width: #{px2rem(16px)};
+  --TimelineItem-detail-visible-padding: #{px2rem(10px)};
+  --TimelineItem-detail-visible-max-width: #{px2rem(300px)};
+  --Timeline-alternate-margin-left: var(--gap-xl);
+
+  --TimelineItem--icon-radius: 50%;
+  --TimelineItem--round-radius: 50%;
+  --TimelineItem--content-radius: px2rem(2px);
+
+  --TimelineItem-detail-visible-shadow: 0 #{px2rem(1px)} #{px2rem(10px)} 0
+    rgba(0 0 0 / 10%);
+
+  --TimelineItem--font-size: var(--fontSizeSm);
+
+  --TimelineItem--text-primary-color: #151a26;
+  --TimelineItem--text-secondary-color: #83868c;
+  --TimelineItem--detail-button-color: var(--primary);
+  --TimelineItem--line-bg: #e6e6e8;
+  --TimelineItem--content-bg: #f2f2f4;
+  --TimelineItem-round-bg: #dadbdd;
+
+  --Timeline--success-bg: var(--success);
+  --Timeline--info-bg: var(--info);
+  --Timeline--warning-bg: var(--warning);
+  --Timeline--danger-bg: var(--danger);
 }

@@ -67,58 +67,115 @@ exports[`Renderer:repeat 1`] = `
                 class="col v-middle"
               >
                 <div
-                  aria-disabled="false"
-                  class="cxd-InputRange"
+                  class="cxd-InputRange-wrap"
                 >
-                  <span
-                    class="cxd-InputRange-label cxd-InputRange-label--min"
-                  >
-                    <span
-                      class="cxd-InputRange-labelContainer"
-                    >
-                      1
-                    </span>
-                  </span>
                   <div
                     class="cxd-InputRange-track cxd-InputRange-track--background"
                   >
                     <div
-                      class="cxd-InputRange-track"
-                      style="left: 0%; width: 0%;"
+                      class="cxd-InputRange-track-active"
+                      style="width: 5.2631578947368425%; left: 0%;"
                     />
-                    <span
-                      class="cxd-InputRange-sliderContainer"
-                      style="position: absolute; left: 0%;"
+                    <div
+                      class="cxd-InputRange-handle"
+                      style="left: 5.2631578947368425%; z-index: 1; position: relative;"
                     >
-                      <span
-                        class="cxd-InputRange-label cxd-InputRange-label--value"
+                      <div
+                        class="cxd-InputRange-handle-icon"
                       >
-                        <span
-                          class="cxd-InputRange-labelContainer"
-                        >
+                        <icon-mock
+                          classname="icon icon-slider-handle"
+                          icon="slider-handle"
+                        />
+                      </div>
+                      <div
+                        class="cxd-InputRange-label pos-top"
+                        style="position: relative;"
+                      >
+                        <span>
                           1
                         </span>
-                      </span>
+                        <div
+                          class="resize-sensor"
+                          style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
+                        >
+                          
+  
+                          <div
+                            class="resize-sensor-expand"
+                            style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+                          >
+                            
+    
+                            <div
+                              style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
+                            />
+                            
+  
+                          </div>
+                          
+  
+                          <div
+                            class="resize-sensor-shrink"
+                            style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+                          >
+                            
+    
+                            <div
+                              style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
+                            />
+                            
+  
+                          </div>
+                          
+  
+                          <div
+                            class="resize-sensor-appear"
+                            style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
+                          />
+                        </div>
+                      </div>
                       <div
-                        aria-valuemax="20"
-                        aria-valuemin="1"
-                        aria-valuenow="1"
-                        class="cxd-InputRange-slider"
-                        draggable="false"
-                        role="slider"
-                        tabindex="0"
-                      />
-                    </span>
+                        class="resize-sensor"
+                        style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
+                      >
+                        
+  
+                        <div
+                          class="resize-sensor-expand"
+                          style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+                        >
+                          
+    
+                          <div
+                            style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
+                          />
+                          
+  
+                        </div>
+                        
+  
+                        <div
+                          class="resize-sensor-shrink"
+                          style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+                        >
+                          
+    
+                          <div
+                            style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
+                          />
+                          
+  
+                        </div>
+                        
+  
+                        <div
+                          class="resize-sensor-appear"
+                          style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
+                        />
+                      </div>
+                    </div>
                   </div>
-                  <span
-                    class="cxd-InputRange-label cxd-InputRange-label--max"
-                  >
-                    <span
-                      class="cxd-InputRange-labelContainer"
-                    >
-                      20
-                    </span>
-                  </span>
                 </div>
               </div>
               <div
