@@ -93,5 +93,8 @@ order: 51
 | option     | `string` |           | 选项说明     |
 | onText     | `string` |           | 开启时的文本 |
 | offText    | `string` |           | 关闭时的文本 |
+| iconShow   | `boolean`|  `false`  | 是否显示开启关闭时的icon，开启后onText和offText将不起作用 |
+| onIcon     | `string` |           | 开启时的Icon |
+| offIcon    | `string` |           | 关闭时的Icon |
 | trueValue  | `boolean / string / number`    | `true`    | 标识真值     |
 | falseValue | `boolean / string / number`    | `"false"` | 标识假值     |

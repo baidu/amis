@@ -2,6 +2,7 @@ import React from 'react';
 import {FormItem, FormControlProps, FormBaseControl} from './Item';
 import Switch from '../../components/Switch';
 import {createObject, autobind} from '../../utils/helper';
+import {generateIcon} from "../../utils/icon";
 
 /**
  * Switch
@@ -16,12 +17,12 @@ export interface SwitchControlSchema extends FormBaseControl {
   /**
    * 勾选值
    */
-  trueValue?: any;
+  trueValue?: boolean | string | number;
 
   /**
    * 未勾选值
    */
-  falseValue?: any;
+  falseValue?: boolean | string | number;
 
   /**
    * 选项说明
@@ -37,12 +38,30 @@ export interface SwitchControlSchema extends FormBaseControl {
    * 关闭时显示的文本
    */
   offText?: string;
+
+  /**
+   * 开启时显示的icon
+   */
+  onIcon?: string;
+
+  /**
+   * 关闭时显示的icon
+   */
+  offIcon?: string;
+
+  /**
+   * 展示icon还是文字
+   */
+  iconShow?: boolean;
 }
 
 export interface SwitchProps extends FormControlProps {
   option?: string;
-  trueValue?: any;
-  falseValue?: any;
+  trueValue?: boolean | string | number;
+  falseValue?: boolean | string | number;
+  onIcon?: string;
+  offIcon?: string;
+  iconShow?: boolean;
 }
 
 export type SwitchRendererEvent = 'change';
@@ -51,7 +70,8 @@ export default class SwitchControl extends React.Component<SwitchProps, any> {
   static defaultProps = {
     trueValue: true,
     falseValue: false,
-    optionAtLeft: false
+    optionAtLeft: false,
+    iconShow: false
   };
 
   @autobind
@@ -80,8 +100,14 @@ export default class SwitchControl extends React.Component<SwitchProps, any> {
       option,
       onChange,
       disabled,
-      optionAtLeft
+      optionAtLeft,
+      iconShow,
+      onIcon,
+      offIcon
     } = this.props;
+
+    const onShow = iconShow ? generateIcon(cx, onIcon, 'Switch-icon') : onText;
+    const offShow = iconShow ? generateIcon(cx, offIcon, 'Switch-icon') : offText;
 
     return (
       <div className={cx(`SwitchControl`, className)}>
@@ -94,8 +120,8 @@ export default class SwitchControl extends React.Component<SwitchProps, any> {
           value={value}
           trueValue={trueValue}
           falseValue={falseValue}
-          onText={onText}
-          offText={offText}
+          onText={onShow}
+          offText={offShow}
           disabled={disabled}
           onChange={this.handleChange}
         />

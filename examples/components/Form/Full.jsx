@@ -555,6 +555,23 @@ export default {
           label: '开关禁用'
         },
         {
+          type: 'switch',
+          name: 'switch4',
+          value: true,
+          onText: "开启",
+          offText: "关闭",
+          label: '开关文字'
+        },
+        {
+          type: 'switch',
+          name: 'switch5',
+          value: true,
+          iconShow: true,
+          onIcon: "fa fa-check-circle",
+          offIcon: "fa fa-times-circle",
+          label: '开关icon'
+        },
+        {
           type: 'divider'
         },
         {

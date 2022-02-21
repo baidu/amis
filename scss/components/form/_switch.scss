@@ -19,7 +19,7 @@
   .text {
     margin: 0 px2rem(7px) 0 px2rem(25px);
     color: var(--Switch-valueColor);
-    text-indent: calc(var(--Switch-width) / 2);
+    text-indent: var(--gap-xs);
     text-transform: uppercase;
     font-size: var(--fontSizeSm);
     line-height: var(--Switch-height);
@@ -58,9 +58,7 @@
     }
 
     .text {
-      margin: 0 25px 0 7px;
       color: var(--white);
-      text-indent: var(--gap-xs); // todo
     }
   }
 
