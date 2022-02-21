@@ -82,5 +82,5 @@ test('Renderer:mobile nested select', async () => {
     '.cxd-Select-valueLabel'
   ) as HTMLSpanElement;
 
-  expect(value.innerHTML.trim()).toEqual('B / B-1');
+  expect(value).toMatchSnapshot();
 });
