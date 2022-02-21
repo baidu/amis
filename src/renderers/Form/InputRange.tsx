@@ -11,6 +11,7 @@ import {stripNumber} from '../../utils/tpl-builtin';
 import {autobind} from '../../utils/helper';
 import {filter} from '../../utils/tpl';
 import {SchemaObject} from '../../Schema';
+import {forEach} from 'lodash';
 
 /**
  * Range
@@ -100,11 +101,13 @@ export interface RangeControlSchema extends FormBaseControl {
 }
 
 type MarksType = {
-  [index: number | string]: Record<
-    number,
-    SchemaObject | {style?: React.CSSProperties; label?: string}
-  >;
+  [index: number | string]: MarksValue;
 };
+
+type MarksValue = Record<
+  number,
+  SchemaObject | {style?: React.CSSProperties; label?: string}
+>;
 
 export interface RangeProps extends FormControlProps {
   /**
@@ -537,7 +540,10 @@ export default class RangeControl extends React.PureComponent<
       disabled,
       clearable,
       min,
-      max
+      max,
+      render,
+      marks,
+      region
     } = props;
 
     // 指定parts -> 重新计算步长
@@ -545,6 +551,19 @@ export default class RangeControl extends React.PureComponent<
       props.step = (props.max - props.min) / props.parts;
       props.showSteps = true;
     }
+
+    // 处理自定义json配置
+    let renderMarks:
+      | MarksType
+      | {[index: number | string]: ReactNode}
+      | undefined = {...marks};
+    marks &&
+      forEach(marks, (item, key) => {
+        if (isObject(item) && (item as SchemaObject).type) {
+          renderMarks &&
+            (renderMarks[key] = render(region, item as SchemaObject));
+        }
+      });
 
     return (
       <div
@@ -556,7 +575,7 @@ export default class RangeControl extends React.PureComponent<
         )}
       >
         {showInput && multiple && <Input {...props} type="min" />}
-        <InputRange {...props} />
+        <InputRange {...props} marks={renderMarks} />
         {showInput && <Input {...props} type="max" />}
         {clearable && !disabled && showInput ? (
           <a
