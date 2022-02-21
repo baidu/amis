@@ -1,6 +1,7 @@
 import React from 'react';
 import {FormItem, FormControlProps, FormBaseControl} from './Item';
 import {autobind, createObject} from '../../utils/helper';
+import {Action} from '../../types';
 import Rating, {textPositionType} from '../../components/Rating';
 
 /**
@@ -85,6 +86,13 @@ export default class RatingControl extends React.Component<RatingProps, any> {
     readOnly: false
   };
 
+  doAction(action: Action, data: object, throwErrors: boolean) {
+    const {resetValue} = this.props;
+    if (action.actionType && ['clear', 'reset'].includes(action.actionType)) {
+      this.handleChange(resetValue ?? '');
+    }
+  }
+
   async dispatchChangeEvent(eventName: string, eventData: any = {}) {
     const {dispatchEvent, data} = this.props;
     let rendererEvent = await dispatchEvent(
@@ -98,7 +106,7 @@ export default class RatingControl extends React.Component<RatingProps, any> {
   }
 
   @autobind
-  async handleChange(value: number) {
+  async handleChange(value: any) {
     const {onChange} = this.props;
 
     const prevented = await this.dispatchChangeEvent('change', value);
