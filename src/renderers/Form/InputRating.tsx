@@ -95,7 +95,7 @@ export default class RatingControl extends React.Component<RatingProps, any> {
 
   async dispatchChangeEvent(eventName: string, eventData: any = {}) {
     const {dispatchEvent, data} = this.props;
-    let rendererEvent = await dispatchEvent(
+    const rendererEvent = await dispatchEvent(
       eventName,
       createObject(data, {
         value: eventData,

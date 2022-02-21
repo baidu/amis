@@ -24,7 +24,7 @@ export default {
                 {
                   actionType: 'clear',
                   componentId: 'clear-input-rating-receiver',
-                  description: '点击清空指定输入框的内容'
+                  description: '点击清空内容'
                 }
               ]
             }
