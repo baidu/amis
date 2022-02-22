@@ -618,7 +618,7 @@ export default class RangeControl extends React.PureComponent<
     let renderMarks:
       | MarksType
       | {[index: number | string]: ReactNode}
-      | undefined = {...marks};
+      | undefined = marks ? {...marks} : marks;
     marks &&
       forEach(marks, (item, key) => {
         if (isObject(item) && (item as SchemaObject).type) {
