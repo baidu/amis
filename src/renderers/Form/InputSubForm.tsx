@@ -524,6 +524,7 @@ export default class SubFormControl extends React.PureComponent<
 
 @FormItem({
   type: 'input-sub-form',
-  sizeMutable: false
+  sizeMutable: false,
+  strictMode: false
 })
 export class SubFormControlRenderer extends SubFormControl {}
