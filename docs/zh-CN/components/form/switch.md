@@ -91,7 +91,13 @@ order: 51
 | 属性名     | 类型     | 默认值    | 说明         |
 | ---------- | -------- | --------- | ------------ |
 | option     | `string` |           | 选项说明     |
-| onText     | `string` |           | 开启时的文本 |
-| offText    | `string` |           | 关闭时的文本 |
+| onText     | `string / IconSchema` |           | 开启时开关显示的内容 |
+| offText    | `string / IconSchema` |           | 关闭时开关显示的内容 |
 | trueValue  | `boolean / string / number`    | `true`    | 标识真值     |
-| falseValue | `boolean / string / number`    | `"false"` | 标识假值     |
+| falseValue | `boolean / string / number`    | `false` | 标识假值     |
+
+IconSchema 配置
+| 属性名     | 类型     | 默认值    | 说明         |
+| ---------- | -------- | --------- | ------------ |
+| type       | `string` |           | `icon`     |
+| icon       | `string` |           | icon的类型  |
