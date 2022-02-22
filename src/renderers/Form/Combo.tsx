@@ -932,7 +932,7 @@ export default class ComboControl extends React.Component<ComboProps> {
       removable !== false; // 是否可以删除
 
     if (!Array.isArray(value)) {
-      return this.renderPlaceholder();
+      value = []; // 让 tabs 输出，否则会没有新增按钮。
     }
 
     // todo 支持拖拽排序。
@@ -987,7 +987,7 @@ export default class ComboControl extends React.Component<ComboProps> {
           ) : null
         }
       >
-        {value.map((value, index) => {
+        {value.map((value: any, index: number) => {
           const data = this.formatValue(value, index);
           let condition: ComboCondition | null | undefined = null;
           let toolbar = undefined;
