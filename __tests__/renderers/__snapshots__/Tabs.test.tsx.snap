@@ -5,25 +5,37 @@ exports[`Renderer:tabs 1`] = `
   <div
     class="cxd-Tabs cxd-Tabs--line"
   >
-    <ul
-      class="cxd-Tabs-links"
-      role="tablist"
+    <div
+      class="cxd-Tabs-linksContainer-wrapper"
     >
-      <li
-        class="cxd-Tabs-link is-active"
+      <div
+        class="cxd-Tabs-linksContainer"
       >
-        <a>
-          基本配置
-        </a>
-      </li>
-      <li
-        class="cxd-Tabs-link"
-      >
-        <a>
-          其他配置
-        </a>
-      </li>
-    </ul>
+        <div
+          class="cxd-Tabs-linksContainer-main"
+        >
+          <ul
+            class="cxd-Tabs-links"
+            role="tablist"
+          >
+            <li
+              class="cxd-Tabs-link is-active"
+            >
+              <a>
+                基本配置
+              </a>
+            </li>
+            <li
+              class="cxd-Tabs-link"
+            >
+              <a>
+                其他配置
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
     <div
       class="cxd-Tabs-content"
     >

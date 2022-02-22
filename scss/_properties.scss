@@ -1282,16 +1282,25 @@
   --Tabs--card-onActive-bg: var(--background);
   --Tabs--card-onActive-borderColor: var(--borderColor);
   --Tabs--card-padding: #{px2rem(6px)} 0 0 #{px2rem(10px)};
+  --Tabs--card-add-gap: var(--gap-md);
+  --Tabs--card-add-gap-top: #{px2rem(7px)};
+  --Tabs--card-arrow-gap: var(--gap-sm);
   --Tabs--line-borderColor: var(--borderColor);
   --Tabs--line-borderWidth: #{px2rem(2px)};
   --Tabs--line-content-bg: transparent;
   --Tabs--line-content-padding: var(--gap-base) 0;
-  --Tabs--line-linkMargin: 0 40px 0 0;
+  --Tabs--line-linkMargin: 0 32px 0 0;
   --Tabs--line-linkPadding: 0 0 8px;
+  --Tabs--line-padding: var(--gap-md);
   --Tabs--line-onHover-borderColor: var(--primary);
   --Tabs--line-onHover-color: var(--primary);
   --Tabs--radio-bg: #eaf6fe;
   --Tabs--vertical-onActive-borderColor: var(--primary);
+  --Tabs--tiled-add-gap: var(--gap-base);
+  --Tabs--simple-split-width: #{px2rem(1px)};
+  --Tabs--strong-add-size: #{px2rem(32px)};
+  --Tabs--strong-arrow-size: #{px2rem(24px)};
+
   --Tabs-borderColor: var(--borderColor);
   --Tabs-borderRadius: var(--borderRadius);
   --Tabs-borderWidth: var(--borderWidth);
@@ -1305,6 +1314,15 @@
   --Tabs-onActive-color: #{$gray700};
   --Tabs-onDisabled-color: #{$gray600};
   --Tabs-onHover-borderColor: #{$gray200};
+  --Tabs-add-icon-size: #{px2rem(16px)};
+  --Tabs-add-icon-padding: #{px2rem(1px)};
+  --Tabs-add-icon-margin: var(--gap-xs);
+  --Tabs-add-margin: var(--gap-lg);
+  --Tabs-close-margin: #{var(--gap-xs)};
+  --Tabs-close-size: #{px2rem(12px)};
+  --Tabs-link-maxWidth: #{px2rem(160px)};
+
+
   --Tabs--vertical-bg: var(--Table-thead-bg);
   --Tabs--vertical-width: #{px2rem(140px)};
   --Tabs--vertical-onActive-color: var(--primary);

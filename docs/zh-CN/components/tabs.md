@@ -20,7 +20,6 @@ order: 68
             "title": "Tab 1",
             "tab": "Content 1"
         },
-
         {
             "title": "Tab 2",
             "tab": "Content 2"
@@ -66,7 +65,163 @@ order: 68
 }
 ```
 
+## 拖拽排序
+
+```schema: scope="body"
+{
+    "type": "tabs",
+    "draggable": true,
+    "tabs": [
+        {
+            "title": "Tab 1",
+            "tab": "Content 1"
+        },
+        {
+            "title": "Tab 2",
+            "tab": "Content 2"
+        },
+        {
+            "title": "Tab 3",
+            "tab": "Content 3"
+        }
+    ]
+}
+```
+
+## 可增加、删除
+
+`tab` 设置的 `closable` 优先级高于整体
+
+```schema: scope="body"
+{
+    "type": "tabs",
+    "closable": true,
+    "addable": true,
+    "tabs": [
+        {
+            "title": "Tab 1",
+            "tab": "Content 1",
+            "closable": false
+        },
+        {
+            "title": "Tab 2",
+            "tab": "Content 2"
+        }
+    ]
+}
+```
+
+## 可编辑标签名
+
+双击标签名，可开启编辑
+
+```schema: scope="body"
+{
+    "type": "tabs",
+    "editable": true,
+    "tabs": [
+        {
+            "title": "Tab 1",
+            "tab": "Content 1",
+        },
+        {
+            "title": "Tab 2",
+            "tab": "Content 2"
+        },
+        {
+            "title": "双击编辑",
+            "tab": "Content 2"
+        }
+    ]
+}
+```
+
+## 可禁用
+
+```schema: scope="body"
+{
+    "type": "tabs",
+    "tabs": [
+        {
+            "title": "Tab 1",
+            "tab": "Content 1"
+        },
+        {
+            "title": "Tab 2",
+            "tab": "Content 2",
+            "disabled": true
+        }
+    ]
+}
+```
+
+## 显示提示
+
+```schema: scope="body"
+{
+    "type": "tabs",
+    "showTip": true,
+    "tabs": [
+        {
+            "title": "Tab 1",
+            "tab": "Content 1"
+        },
+        {
+            "title": "Tab 2",
+            "tab": "Content 2"
+        }
+    ]
+}
+```
+
 ## 展示模式
+
+### 简约
+
+```schema: scope="body"
+{
+    "type": "tabs",
+    "mode": "simple",
+    "tabs": [
+        {
+            "title": "简约(10)",
+            "body": "选项卡内容1",
+            "icon": "fa fa-home"
+        },
+        {
+            "title": "选项卡2",
+            "body": "选项卡内容2"
+        },
+        {
+            "title": "选项卡3",
+            "body": "选项卡内容3"
+        }
+    ]
+}
+```
+
+### 加强
+
+```schema: scope="body"
+{
+    "type": "tabs",
+    "mode": "strong",
+    "tabs": [
+        {
+            "title": "选项卡1",
+            "body": "选项卡内容1"
+        },
+        {
+            "title": "选项卡2",
+            "body": "选项卡内容2"
+        },
+        {
+            "title": "选项卡3",
+            "body": "选项卡内容3"
+        }
+    ]
+}
+```
 
 ### 线型
 
@@ -212,68 +367,6 @@ order: 68
 }
 ```
 
-## 内容溢出滚动
-
-```schema: scope="body"
-{
-    "type": "tabs",
-    "scrollable": true,
-    "tabs": [
-        {
-            "title": "选项卡1",
-            "body": "选项卡内容1"
-        },
-        {
-            "title": "选项卡2",
-            "body": "选项卡内容2"
-        },
-        {
-            "title": "选项卡3",
-            "body": "选项卡内容3"
-        },
-        {
-            "title": "选项卡4",
-            "body": "选项卡内容4"
-        },
-        {
-            "title": "选项卡5",
-            "body": "选项卡内容5"
-        },
-        {
-            "title": "选项卡6",
-            "body": "选项卡内容6"
-        },
-        {
-            "title": "选项卡7",
-            "body": "选项卡内容7"
-        },
-        {
-            "title": "选项卡8",
-            "body": "选项卡内容8"
-        },
-        {
-            "title": "选项卡9",
-            "body": "选项卡内容9"
-        },
-        {
-            "title": "选项卡10",
-            "body": "选项卡内容10"
-        },
-        {
-            "title": "选项卡11",
-            "body": "选项卡内容11"
-        },
-        {
-            "title": "选项卡12",
-            "body": "选项卡内容12"
-        },
-        {
-            "title": "选项卡13",
-            "body": "选项卡内容13"
-        }
-    ]
-}
-```
 
 ## 配置顶部工具栏
 
@@ -440,7 +533,7 @@ order: 68
 | --------------------- | --------------------------------- | ----------------------------------- | ------------------------------------------------------------------------------------------ |
 | type                  | `string`                          | `"tabs"`                            | 指定为 Tabs 渲染器                                                                         |
 | className             | `string`                          |                                     | 外层 Dom 的类名                                                                            |
-| mode                  | `string`                          |                                     | 展示模式，取值可以是 `line`、`card`、`radio`、`vertical`                                   |
+| mode                  | `string`                          |                                     | 展示模式，取值可以是 `line`、`card`、`radio`、`vertical`、`chrome`、`simple`、`strong`         |
 | tabsClassName         | `string`                          |                                     | Tabs Dom 的类名                                                                            |
 | tabs                  | `Array`                           |                                     | tabs 内容                                                                                  |
 | source                | `string`                          |                                     | tabs 关联数据，关联后可以重复生成选项卡                                                    |
@@ -453,6 +546,13 @@ order: 68
 | tabs[x].reload        | `boolean`                         |                                     | 设置以后内容每次都会重新渲染，对于 crud 的重新拉取很有用                                   |
 | tabs[x].unmountOnExit | `boolean`                         |                                     | 每次退出都会销毁当前 tab 栏内容                                                            |
 | tabs[x].className     | `string`                          | `"bg-white b-l b-r b-b wrapper-md"` | Tab 区域样式                                                                               |
+| tabs[x].closable      | `boolean`                         | false                               | 是否支持删除，优先级高于组件的 `closable`                                                      |
 | mountOnEnter          | `boolean`                         | false                               | 只有在点中 tab 的时候才渲染                                                                |
 | unmountOnExit         | `boolean`                         | false                               | 切换 tab 的时候销毁                                                                        |
-| scrollable            | `boolean`                         | false                               | 是否导航支持内容溢出滚动，`vertical`和`chrome`模式下不支持该属性；`chrome`模式默认压缩标签 |
+| addable                | `boolean`                         | false                               | 是否支持新增                                                                               |
+| closable              | `boolean`                         | false                               | 是否支持删除                                                                               |
+| draggable             | `boolean`                         | false                               | 是否支持拖拽                                                                               |
+| showTip               | `boolean`                         | false                               | 是否支持提示                                                                               |
+| showTipClassName      | `string`                          | `'' `                               | 提示的类                                                                              |
+| editable              | `boolean`                         | false                               | 收否可编辑标签名                                                                              |
+| scrollable            | `boolean`                         | true                                | 是否导航支持内容溢出滚动。（属性废弃）                                             |

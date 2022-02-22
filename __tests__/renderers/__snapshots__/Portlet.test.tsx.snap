@@ -8,64 +8,76 @@ exports[`Renderer:portlet 1`] = `
     <div
       class="cxd-Tabs cxd-Tabs--line cxd-Portlet-tab"
     >
-      <ul
-        class="cxd-Tabs-links"
-        role="tablist"
+      <div
+        class="cxd-Tabs-linksContainer-wrapper"
       >
-        <li
-          class="cxd-Tabs-link is-active"
-        >
-          <a>
-            Tab 1
-          </a>
-        </li>
-        <li
-          class="cxd-Tabs-link"
-        >
-          <a>
-            Tab 2
-          </a>
-        </li>
         <div
-          class="cxd-Portlet-toolbar"
+          class="cxd-Tabs-linksContainer"
         >
           <div
-            class="cxd-toolbar"
+            class="cxd-Tabs-linksContainer-main"
           >
-            <button
-              class="cxd-Button cxd-Button--link cxd-Button--sm"
-              type="button"
+            <ul
+              class="cxd-Tabs-links"
+              role="tablist"
             >
-              <span>
-                固定操作
-              </span>
-            </button>
-          </div>
-          <div
-            class="cxd-tab-toolbar"
-          >
-            <button
-              class="cxd-Button cxd-Button--link cxd-Button--sm"
-              type="button"
-            >
-              <span>
-                ajax请求
-              </span>
-            </button>
-            <div
-              class="cxd-DropDown "
-            >
-              <button
-                class="cxd-Button cxd-Button--link cxd-Button--sm"
+              <li
+                class="cxd-Tabs-link is-active"
               >
-                <i
-                  class="m-r-xs fa fa-ellipsis-h"
-                />
-              </button>
-            </div>
+                <a>
+                  Tab 1
+                </a>
+              </li>
+              <li
+                class="cxd-Tabs-link"
+              >
+                <a>
+                  Tab 2
+                </a>
+              </li>
+              <div
+                class="cxd-Portlet-toolbar"
+              >
+                <div
+                  class="cxd-toolbar"
+                >
+                  <button
+                    class="cxd-Button cxd-Button--link cxd-Button--sm"
+                    type="button"
+                  >
+                    <span>
+                      固定操作
+                    </span>
+                  </button>
+                </div>
+                <div
+                  class="cxd-tab-toolbar"
+                >
+                  <button
+                    class="cxd-Button cxd-Button--link cxd-Button--sm"
+                    type="button"
+                  >
+                    <span>
+                      ajax请求
+                    </span>
+                  </button>
+                  <div
+                    class="cxd-DropDown "
+                  >
+                    <button
+                      class="cxd-Button cxd-Button--link cxd-Button--sm"
+                    >
+                      <i
+                        class="m-r-xs fa fa-ellipsis-h"
+                      />
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </ul>
           </div>
         </div>
-      </ul>
+      </div>
       <div
         class="cxd-Tabs-content"
       >
