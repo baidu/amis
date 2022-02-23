@@ -124,10 +124,24 @@ export class BreadcrumbField extends React.Component<BreadcrumbProps, object> {
           '| raw'
         ) as Array<BreadcrumbItemSchema>);
     crumbItems = crumbItems.map(item => {
-      return {
-        ...item,
-        label: filter(item.label, data)
+      if (item.label) {
+        item.label = filter(item.label, data);
       }
+      if (item.href) {
+        item.href = filter(item.href, data);
+      }
+      if (item.dropdown) {
+        item.dropdown = item.dropdown.map(dropdownItem => {
+          if (dropdownItem.label) {
+            dropdownItem.label = filter(dropdownItem.label, data);
+          }
+          if (dropdownItem.href) {
+            dropdownItem.href = filter(dropdownItem.href, data);
+          }
+          return dropdownItem;
+        });
+      }
+      return item;
     });
 
     return (
