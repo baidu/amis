@@ -426,6 +426,14 @@ $L1: 0px 4px 6px 0px rgba(8, 14, 26, 0.06),
   --ImageControl-progress-borderRadius: #{$R2};
 
   // 文件上传
+  --FileControl-danger-color: #{$E6};
+  --FileControl-drag-color: #{$G3};
+  --FileControl-icon-onHover-color: #{$G4};
+  --FileControl-icon-color: #{$G5};
+  --FileControl-onDisabled-color: #{$G6};
+  --FileControl-border-color: #{$G8};
+  --FileControl-onHover-bg: #{$G9};
+  --FileControl-onDisabled-bg: #{$G10};
   --FileControl-progress-borderRadius: #{$R2};
 
   // Modal

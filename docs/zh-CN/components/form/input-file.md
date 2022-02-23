@@ -259,6 +259,27 @@ order: 21
 }
 ```
 
+## 拖拽上传
+
+把文件拖入指定区域，完成上传，同样支持点击上传。
+
+```schema: scope="body"
+{
+    "type": "form",
+    "api": "/api/mock2/form/saveForm",
+    "body": [
+        {
+            "type": "input-file",
+            "name": "file",
+            "label": "File",
+            "accept": "*",
+            "receiver": "/api/upload/file",
+            "drag": true
+        }
+    ]
+}
+```
+
 ## 属性表
 
 除了支持 [普通表单项属性表](./formitem#%E5%B1%9E%E6%80%A7%E8%A1%A8) 中的配置以外，还支持下面一些配置
@@ -272,6 +293,7 @@ order: 21
 | maxSize          | `number`                       |                                                                                                            | 默认没有限制，当设置后，文件大小大于此值将不允许上传。单位为`B`                                                                      |
 | maxLength        | `number`                       |                                                                                                            | 默认没有限制，当设置后，一次只允许上传指定数量文件。                                                                                 |
 | multiple         | `boolean`                      | `false`                                                                                                    | 是否多选。                                                                                                                           |
+| drag             | `boolean`                      | `false`                                              | 是否为拖拽上传 | |
 | joinValues       | `boolean`                      | `true`                                                                                                     | [拼接值](./options#%E6%8B%BC%E6%8E%A5%E5%80%BC-joinvalues)                                                                           |
 | extractValue     | `boolean`                      | `false`                                                                                                    | [提取值](./options#%E6%8F%90%E5%8F%96%E5%A4%9A%E9%80%89%E5%80%BC-extractvalue)                                                       |
 | delimiter        | `string`                       | `,`                                                                                                        | [拼接符](./options#%E6%8B%BC%E6%8E%A5%E7%AC%A6-delimiter)                                                                            |

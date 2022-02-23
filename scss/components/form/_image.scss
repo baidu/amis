@@ -82,6 +82,36 @@
     margin-bottom: var(--gap-base);
     position: relative;
     width: px2rem(120px);
+
+    &.is-invalid {
+      padding: 0;
+      border-color: var(--FileControl-danger-color);
+    }
+
+    svg.icon-refresh {
+      transform: rotate(180deg);
+    }
+  }
+
+  &-filename {
+    display: inline-flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: var(--FileControl-danger-color);
+
+    > svg.icon-image {
+      margin-bottom: 8px;
+      width: 24px;
+      height: 24px;
+    }
+
+    > span {
+      max-width: 100%;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+    }
   }
 
   &-image {
@@ -146,31 +176,6 @@
 
   &-item.is-invalid:hover &-itemClear {
     display: block;
-  }
-
-  &-retryBtn {
-    margin: 0;
-    width: px2rem(110px);
-    height: px2rem(110px);
-    display: inline-flex;
-    cursor: pointer;
-    justify-content: center;
-    align-items: center;
-    align-content: center;
-    flex-wrap: wrap;
-    color: #666;
-
-    &:hover {
-      color: #333;
-      text-decoration: none;
-    }
-
-    > p {
-      width: 100%;
-      text-align: center;
-      color: var(--danger);
-      margin: 10px 0 0;
-    }
   }
 
   &-errorMsg {

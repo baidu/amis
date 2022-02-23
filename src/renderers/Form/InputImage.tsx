@@ -1380,37 +1380,43 @@ export default class ImageControl extends React.Component<
                           >
                             {file.state === 'invalid' ||
                             file.state === 'error' ? (
-                              <>
-                                <a
-                                  className={cx('ImageControl-itemClear')}
-                                  data-tooltip={__('Select.clear')}
-                                  data-position="bottom"
-                                  onClick={this.removeFile.bind(
-                                    this,
-                                    file,
-                                    key
-                                  )}
-                                >
-                                  <Icon icon="close" className="icon" />
-                                </a>
+                              <div className={cx('Image--thumb')}>
+                                <div className={cx('Image-thumbWrap')}>
+                                  <div className={cx('Image-thumb', 'ImageControl-filename')}>
+                                    <Icon icon="image" className="icon" />
+                                    <span title={file.name || getNameFromUrl(file.value || file.url)}>
+                                      {file.name || getNameFromUrl(file.value || file.url)}
+                                    </span>
+                                  </div>
 
-                                <a
-                                  className={cx(
-                                    'ImageControl-retryBtn',
-                                    {
-                                      'is-disabled': disabled
-                                    },
-                                    fixedSize ? 'ImageControl-fixed-size' : '',
-                                    fixedSize ? fixedSizeClassName : ''
-                                  )}
-                                  onClick={this.handleRetry.bind(this, key)}
-                                >
-                                  <Icon icon="retry" className="icon" />
-                                  <p className="ImageControl-itemInfoError">
-                                    {__('File.repick')}
-                                  </p>
-                                </a>
-                              </>
+                                  <div className={cx('Image-overlay')}>
+                                    <a
+                                      data-tooltip={__('File.repick')}
+                                      data-position="bottom"
+                                      onClick={this.handleRetry.bind(
+                                        this,
+                                        key
+                                      )}
+                                    >
+                                      <Icon icon="refresh" className="icon" />
+                                    </a>
+
+                                    {!disabled ? (
+                                      <a
+                                        data-tooltip={__('Select.clear')}
+                                        data-position="bottom"
+                                        onClick={this.removeFile.bind(
+                                          this,
+                                          file,
+                                          key
+                                        )}
+                                      >
+                                        <Icon icon="remove" className="icon" />
+                                      </a>
+                                    ) : null}
+                                  </div>
+                                </div>
+                              </div>
                             ) : file.state === 'uploading' ? (
                               <>
                                 <a
