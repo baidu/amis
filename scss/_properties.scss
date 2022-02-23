@@ -351,6 +351,23 @@
   --ButtonGroup--primary-isActive-color: var(--white);
   --ButtonGroup--primary-isActive-bg: var(--primary);
 
+  --Breadcrumb-item-fontSize: var(--fontSizeMd);
+  --Breadcrumb-item-default-color: #83868C;
+  --Breadcrumb-item-hover-color: #2468F2;
+  --Breadcrumb-item-active-color: #1C53C1;
+  --Breadcrumb-item-last-color: #151A26;
+  --BreadcrumbDropdown-item-default-color: #151A26;
+  --BreadcrumbDropdown-item-default-bg: #FFFFFF;
+  --BreadcrumbDropdown-item-hover-bg: #E9F0FD;
+  --BreadcrumbDropdown-item-fontSize: var(--fontSizeSm);
+  --BreadcrumbDropdown-item-height: #{px2rem(32px)};
+  --BreadcrumbDropdown-item-paddingX: var(--gap-sm);
+  --BreadcrumbDropdown-item-paddingY: calc(
+    (var(--BreadcrumbDropdown-item-height) - var(--fontSizeSm)) /
+      2
+  );
+  
+
   --Calendar-btn-bg: var(--info);
   --Calendar-btn-border: var(--Calendar-btn-bg);
   --Calendar-btn-borderRadius: var(--Button-borderRadius);

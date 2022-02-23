@@ -8,27 +8,34 @@ exports[`Renderer:breadcrumb 1`] = `
     <span
       class="cxd-Breadcrumb-item"
     >
-      <i
-        class="cxd-Icon fa fa-home cxd-Breadcrumb-icon"
-      />
       <a
+        class="cxd-Breadcrumb-item-default"
         href="https://baidu.gitee.com/"
       >
-        首页
+        <i
+          class="cxd-Icon fa fa-home cxd-Breadcrumb-icon"
+        />
+        <span
+          class="cxd-TplField"
+        >
+          首页
+        </span>
       </a>
     </span>
     <span
       class="cxd-Breadcrumb-separator"
     >
-      /
+      &gt;
     </span>
     <span
       class="cxd-Breadcrumb-item"
     >
       <span
-        class="cxd-TplField"
+        class="cxd-Breadcrumb-item-default"
       >
-        <span>
+        <span
+          class="cxd-TplField"
+        >
           上级页面
         </span>
       </span>
@@ -36,21 +43,107 @@ exports[`Renderer:breadcrumb 1`] = `
     <span
       class="cxd-Breadcrumb-separator"
     >
-      /
+      &gt;
     </span>
     <span
-      class="cxd-Breadcrumb-item"
+      class="cxd-Breadcrumb-item cxd-Breadcrumb-item-last"
     >
       <span
-        class="cxd-TplField"
+        class="cxd-Breadcrumb-item-default"
       >
-        <span>
-          <b>
-            当前页面
-          </b>
+        <span
+          class="cxd-TplField"
+        >
+          当前页面
         </span>
       </span>
     </span>
+  </div>
+</div>
+`;
+
+exports[`Renderer:breadcrumb dropdown 1`] = `
+<div>
+  <div
+    class="cxd-Page"
+  >
+    <div
+      class="cxd-Page-content"
+    >
+      <div
+        class="cxd-Page-main"
+      >
+        <div
+          class="cxd-Page-body"
+        >
+          <div
+            class="cxd-Breadcrumb"
+          >
+            <span
+              class="cxd-Breadcrumb-item"
+            >
+              <a
+                class="cxd-Breadcrumb-item-default"
+                href="https://baidu.gitee.com/"
+              >
+                <i
+                  class="cxd-Icon fa fa-home cxd-Breadcrumb-icon"
+                />
+                <span
+                  class="cxd-TplField"
+                >
+                  首页
+                </span>
+              </a>
+            </span>
+            <span
+              class="cxd-Breadcrumb-separator"
+            >
+              &gt;
+            </span>
+            <span
+              class="cxd-Breadcrumb-item"
+            >
+              <span
+                class="cxd-Breadcrumb-item-default"
+              >
+                <span
+                  class="cxd-TplField"
+                >
+                  上级页面
+                </span>
+              </span>
+              <span
+                class="cxd-Breadcrumb-item-caret"
+              >
+                <icon-mock
+                  classname="icon icon-caret"
+                  icon="caret"
+                />
+              </span>
+            </span>
+            <span
+              class="cxd-Breadcrumb-separator"
+            >
+              &gt;
+            </span>
+            <span
+              class="cxd-Breadcrumb-item cxd-Breadcrumb-item-last"
+            >
+              <span
+                class="cxd-Breadcrumb-item-default"
+              >
+                <span
+                  class="cxd-TplField"
+                >
+                  当前页面
+                </span>
+              </span>
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
 `;
@@ -75,13 +168,18 @@ exports[`Renderer:breadcrumb separator 1`] = `
             <span
               class="cxd-Breadcrumb-item"
             >
-              <i
-                class="cxd-Icon fa fa-home cxd-Breadcrumb-icon"
-              />
               <a
+                class="cxd-Breadcrumb-item-default"
                 href="https://baidu.gitee.com/"
               >
-                首页
+                <i
+                  class="cxd-Icon fa fa-home cxd-Breadcrumb-icon"
+                />
+                <span
+                  class="cxd-TplField"
+                >
+                  首页
+                </span>
               </a>
             </span>
             <span
@@ -93,9 +191,11 @@ exports[`Renderer:breadcrumb separator 1`] = `
               class="cxd-Breadcrumb-item"
             >
               <span
-                class="cxd-TplField"
+                class="cxd-Breadcrumb-item-default"
               >
-                <span>
+                <span
+                  class="cxd-TplField"
+                >
                   上级页面
                 </span>
               </span>
@@ -106,15 +206,15 @@ exports[`Renderer:breadcrumb separator 1`] = `
               &gt;
             </span>
             <span
-              class="cxd-Breadcrumb-item"
+              class="cxd-Breadcrumb-item cxd-Breadcrumb-item-last"
             >
               <span
-                class="cxd-TplField"
+                class="cxd-Breadcrumb-item-default"
               >
-                <span>
-                  <b>
-                    当前页面
-                  </b>
+                <span
+                  class="cxd-TplField"
+                >
+                  当前页面
                 </span>
               </span>
             </span>
@@ -147,23 +247,30 @@ exports[`Renderer:breadcrumb var 1`] = `
               class="cxd-Breadcrumb-item"
             >
               <a
+                class="cxd-Breadcrumb-item-default"
                 href="https://baidu.gitee.com/"
               >
-                首页
+                <span
+                  class="cxd-TplField"
+                >
+                  首页
+                </span>
               </a>
             </span>
             <span
               class="cxd-Breadcrumb-separator"
             >
-              /
+              &gt;
             </span>
             <span
               class="cxd-Breadcrumb-item"
             >
               <span
-                class="cxd-TplField"
+                class="cxd-Breadcrumb-item-default"
               >
-                <span>
+                <span
+                  class="cxd-TplField"
+                >
                   上级页面
                 </span>
               </span>
@@ -171,18 +278,18 @@ exports[`Renderer:breadcrumb var 1`] = `
             <span
               class="cxd-Breadcrumb-separator"
             >
-              /
+              &gt;
             </span>
             <span
-              class="cxd-Breadcrumb-item"
+              class="cxd-Breadcrumb-item cxd-Breadcrumb-item-last"
             >
               <span
-                class="cxd-TplField"
+                class="cxd-Breadcrumb-item-default"
               >
-                <span>
-                  <b>
-                    当前页面
-                  </b>
+                <span
+                  class="cxd-TplField"
+                >
+                  当前页面
                 </span>
               </span>
             </span>
