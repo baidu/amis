@@ -26,7 +26,7 @@ test('Renderer:range', async () => {
     )
   );
 
-  const slider = container.querySelector('.cxd-InputRange-handle');
+  const slider = container.querySelector('.cxd-InputRange-handle')!;
   fireEvent.mouseDown(slider);
   fireEvent.mouseMove(slider, {
     clientX: 400,

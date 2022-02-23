@@ -474,15 +474,6 @@ export const FormStore = ServiceStore.named('FormStore')
         ) {
           let msg = failedMessage ?? self.__('Form.validateFailed');
           const env = getEnv(self);
-          // 同时也列出所有表单项报错，方便在很长的表单中知道是哪个字段的问题
-          // 支持在env中配hideValidateFailedDetail来隐藏所有表单项报错
-          failedMessage == null &&
-            !env.hideValidateFailedDetail &&
-            self.items.forEach(item => {
-              item.errorData.forEach(errorData => {
-                msg = `${msg}\n${errorData.msg}`;
-              });
-            });
 
           msg && env.notify('error', msg);
 
