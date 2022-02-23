@@ -85,7 +85,7 @@ export class CustomDaysView extends React.Component<CustomDaysViewProps> {
   }
 
   renderDays() {
-    var date = this.props.viewDate,
+    let date = this.props.viewDate,
       selected = this.props.selectedDate && this.props.selectedDate.clone(),
       prevMonth = date.clone().subtract(1, 'months'),
       currentYear = date.year(),
@@ -101,7 +101,7 @@ export class CustomDaysView extends React.Component<CustomDaysViewProps> {
 
     // Go to the last week of the previous month
     prevMonth.date(prevMonth.daysInMonth()).startOf('week');
-    var lastDay = prevMonth.clone().add(42, 'd');
+    let lastDay = prevMonth.clone().add(42, 'd');
 
     while (prevMonth.isBefore(lastDay)) {
       classes = 'rdtDay';

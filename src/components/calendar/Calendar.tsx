@@ -555,6 +555,11 @@ class BaseDatePicker extends React.Component<
         open: open
       });
     } else {
+      this.setState({
+        selectedDate: date,
+        viewDate: date?.clone().startOf('month'),
+        inputValue: date?.format(this.state.inputFormat)
+      });
       if (this.props.closeOnSelect && close) {
         that.closeCalendar();
       }
