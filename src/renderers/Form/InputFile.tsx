@@ -603,9 +603,10 @@ export default class FileControl extends React.Component<FileProps, FileState> {
 
   handleSelect() {
     const {disabled, multiple, maxLength} = this.props;
-    !disabled
-      && !(multiple && maxLength && this.state.files.length >= maxLength)
-      && this.dropzone.current && this.dropzone.current.open();
+    !disabled &&
+      !(multiple && maxLength && this.state.files.length >= maxLength) &&
+      this.dropzone.current &&
+      this.dropzone.current.open();
   }
 
   startUpload(retry: boolean = false) {
@@ -1290,7 +1291,9 @@ export default class FileControl extends React.Component<FileProps, FileState> {
                 onClick: preventEvent
               })}
               className={cx('FileControl-dropzone', {
-                disabled: disabled || (multiple && !!maxLength && files.length >= maxLength),
+                'disabled':
+                  disabled ||
+                  (multiple && !!maxLength && files.length >= maxLength),
                 'is-empty': !files.length,
                 'is-active': isDragActive
               })}
@@ -1298,12 +1301,17 @@ export default class FileControl extends React.Component<FileProps, FileState> {
               <input disabled={disabled} {...getInputProps()} />
 
               {drag ? (
-                <div className={cx('FileControl-acceptTip')} onClick={this.handleSelect}>
+                <div
+                  className={cx('FileControl-acceptTip')}
+                  onClick={this.handleSelect}
+                >
                   <Icon icon="cloud-upload" className="icon" />
                   <span>{__('File.dragDrop')}</span>
-                  {maxSize
-                    ? <div className={cx('FileControl-sizeTip')}>{__('File.sizeLimit', {maxSize})}</div>
-                    : null}
+                  {maxSize ? (
+                    <div className={cx('FileControl-sizeTip')}>
+                      {__('File.sizeLimit', {maxSize})}
+                    </div>
+                  ) : null}
                 </div>
               ) : (
                 <>
@@ -1312,22 +1320,25 @@ export default class FileControl extends React.Component<FileProps, FileState> {
                     disabled={disabled}
                     className={cx('FileControl-selectBtn', {
                       btnClassName,
-                      'is-disabled': multiple && !!maxLength && files.length >= maxLength
+                      'is-disabled':
+                        multiple && !!maxLength && files.length >= maxLength
                     })}
-                    tooltip={(multiple && maxLength && files.length >= maxLength)
-                      ? __('File.maxLength', {maxLength})
-                      : ""}
+                    tooltip={
+                      multiple && maxLength && files.length >= maxLength
+                        ? __('File.maxLength', {maxLength})
+                        : ''
+                    }
                     onClick={this.handleSelect}
                   >
                     <Icon icon="upload" className="icon" />
                     <span>
                       {!multiple && files.length
-                      ? __('File.repick')
-                      : multiple && files.length
-                      ? __('File.continueAdd')
-                      : btnLabel
-                      ? btnLabel
-                      : __('File.upload')}
+                        ? __('File.repick')
+                        : multiple && files.length
+                        ? __('File.continueAdd')
+                        : btnLabel
+                        ? btnLabel
+                        : __('File.upload')}
                     </span>
                   </Button>
 
@@ -1345,85 +1356,93 @@ export default class FileControl extends React.Component<FileProps, FileState> {
           )}
         </DropZone>
 
-        {maxSize && !drag
-            ? <div className={cx('FileControl-sizeTip')}>{__('File.sizeLimit', {maxSize})}</div>
-            : null}
+        {maxSize && !drag ? (
+          <div className={cx('FileControl-sizeTip')}>
+            {__('File.sizeLimit', {maxSize})}
+          </div>
+        ) : null}
 
         {Array.isArray(files) ? (
           <ul className={cx('FileControl-list')}>
-            {files.map((file, index) => (
-              <li key={file.id}>
-                <TooltipWrapper
-                  placement="bottom"
-                  tooltipClassName={cx('FileControl-list-tooltip')}
-                  tooltip={file.state === 'invalid' || file.state === 'error'
-                    ? (file as FileValue).error
-                      || (maxSize && file.size > maxSize ? __('File.maxSize', {
-                        filename: file.name,
-                        actualSize: ImageControl.formatFileSize(file.size),
-                        maxSize: ImageControl.formatFileSize(maxSize)
-                      }) : '')
-                    : ''}
-                >
-                  <div
-                    className={cx('FileControl-itemInfo', {
-                      'is-invalid':
-                        file.state === 'invalid' ||
-                        file.state === 'error'
-                    })}
+            {files.map((file, index) => {
+              const filename =
+                file[nameField as keyof typeof file] ||
+                (file as FileValue).filename;
+
+              return (
+                <li key={file.id}>
+                  <TooltipWrapper
+                    placement="bottom"
+                    tooltipClassName={cx('FileControl-list-tooltip')}
+                    tooltip={
+                      file.state === 'invalid' || file.state === 'error'
+                        ? (file as FileValue).error ||
+                          (maxSize && file.size > maxSize
+                            ? __('File.maxSize', {
+                                filename: file.name,
+                                actualSize: ImageControl.formatFileSize(
+                                  file.size
+                                ),
+                                maxSize: ImageControl.formatFileSize(maxSize)
+                              })
+                            : '')
+                        : ''
+                    }
                   >
-                    <Icon icon="file" className="icon" />
-                    {(file as FileValue)[urlField] ||
-                    (file as FileValue)[valueField] ||
-                    downloadUrl ? (
-                      <a
-                        className={cx('FileControl-itemInfoText')}
-                        target="_blank"
-                        rel="noopener"
-                        href="#"
-                        onClick={this.handleClickFile.bind(this, file)}
-                      >
-                        {file[nameField as keyof typeof file] ||
-                          (file as FileValue).filename}
-                      </a>
-                    ) : (
-                      <span className={cx('FileControl-itemInfoText')}>
-                        {file[nameField as keyof typeof file] ||
-                          (file as FileValue).filename}
+                    <div
+                      className={cx('FileControl-itemInfo', {
+                        'is-invalid':
+                          file.state === 'invalid' || file.state === 'error'
+                      })}
+                    >
+                      <span className={cx('FileControl-itemInfoIcon')}>
+                        <Icon icon="file" className="icon" />
                       </span>
-                    )}
 
-                    {/* {file.state === 'invalid' ||
-                    file.state === 'error' ? (
-                      <>
-                        <span className="text-danger">
-                          {(file as FileValue).error || null}
+                      {(file as FileValue)[urlField] ||
+                      (file as FileValue)[valueField] ||
+                      downloadUrl ? (
+                        <a
+                          className={cx('FileControl-itemInfoText')}
+                          target="_blank"
+                          rel="noopener"
+                          href="#"
+                          onClick={this.handleClickFile.bind(this, file)}
+                        >
+                          {filename}
+                        </a>
+                      ) : (
+                        <span className={cx('FileControl-itemInfoText')}>
+                          {filename}
                         </span>
-                      </>
-                    ) : null} */}
-                    {!disabled ? (
-                      <a
-                        data-tooltip={__('Select.clear')}
-                        data-position="left"
-                        className={cx('FileControl-clear')}
-                        onClick={() => this.removeFile(file, index)}
-                      >
-                        <Icon icon="close" className="icon" />
-                      </a>
-                    ) : null}
-                  </div>
-                </TooltipWrapper>
+                      )}
 
-                {file.state === 'uploading' ? (
-                  <div className={cx('FileControl-progressInfo')}>
-                    <div className={cx('FileControl-progress')}>
-                      <span style={{width: `${(file.progress || 0) * 100}%`}} />
+                      {!disabled ? (
+                        <a
+                          data-tooltip={__('Select.clear')}
+                          data-position="left"
+                          className={cx('FileControl-clear')}
+                          onClick={() => this.removeFile(file, index)}
+                        >
+                          <Icon icon="close" className="icon" />
+                        </a>
+                      ) : null}
                     </div>
-                    <span>{Math.round((file.progress || 0) * 100)}%</span>
-                  </div>
-                ) : null}
-              </li>
-            ))}
+                  </TooltipWrapper>
+
+                  {file.state === 'uploading' ? (
+                    <div className={cx('FileControl-progressInfo')}>
+                      <div className={cx('FileControl-progress')}>
+                        <span
+                          style={{width: `${(file.progress || 0) * 100}%`}}
+                        />
+                      </div>
+                      <span>{Math.round((file.progress || 0) * 100)}%</span>
+                    </div>
+                  ) : null}
+                </li>
+              );
+            })}
           </ul>
         ) : null}
 
