@@ -12,7 +12,8 @@ import {
   getTreeAncestors,
   getTreeParent,
   ucFirst,
-  isMobile
+  isMobile,
+  createObject
 } from '../../utils/helper';
 import {
   FormOptionsControl,
@@ -27,6 +28,7 @@ import union from 'lodash/union';
 import compact from 'lodash/compact';
 import {RootClose} from '../../utils/RootClose';
 import Cascader from '../../components/Cascader';
+import {Action} from '../../types';
 
 /**
  * Nested Select
@@ -117,6 +119,28 @@ export default class NestedSelectControl extends React.Component<
     }
   }
 
+  doAction(action: Action, data: object, throwErrors: boolean) {
+    const {resetValue, onChange} = this.props;
+    const actionType = action?.actionType as string;
+
+    if (!!~['clear', 'reset'].indexOf(actionType)) {
+      onChange(resetValue ?? '');
+    }
+  }
+
+  @autobind
+  async dispatchEvent(eventName: string, eventData: any = {}) {
+    const {dispatchEvent, data} = this.props;
+    const rendererEvent = await dispatchEvent(
+      eventName,
+      createObject(data, {
+        ...eventData
+      })
+    );
+    // 返回阻塞标识
+    return !!rendererEvent?.prevented;
+  }
+
   @autobind
   handleOutClick(e: React.MouseEvent<any>) {
     const {options} = this.props;
@@ -140,7 +164,7 @@ export default class NestedSelectControl extends React.Component<
     });
   }
 
-  removeItem(index: number, e?: React.MouseEvent<HTMLElement>) {
+  async removeItem(index: number, e?: React.MouseEvent<HTMLElement>) {
     let {
       onChange,
       selectedOptions,
@@ -165,7 +189,10 @@ export default class NestedSelectControl extends React.Component<
       );
     }
 
-    onChange(value);
+    const isPrevented = await this.dispatchEvent('change', {
+      value
+    });
+    isPrevented || onChange(value);
   }
 
   @autobind
@@ -224,7 +251,7 @@ export default class NestedSelectControl extends React.Component<
   }
 
   @autobind
-  handleOptionClick(option: Option) {
+  async handleOptionClick(option: Option) {
     const {multiple, onChange, joinValues, extractValue, valueField} =
       this.props;
 
@@ -232,18 +259,21 @@ export default class NestedSelectControl extends React.Component<
       return;
     }
 
-    onChange(
-      joinValues
-        ? option[valueField || 'value']
-        : extractValue
-        ? option[valueField || 'value']
-        : option
-    );
+    const value = joinValues
+      ? option[valueField || 'value']
+      : extractValue
+      ? option[valueField || 'value']
+      : option;
+
+    const isPrevented = await this.dispatchEvent('change', {
+      value
+    });
+    isPrevented || onChange(value);
     !multiple && this.close();
   }
 
   @autobind
-  handleCheck(option: Option | Options, index?: number) {
+  async handleCheck(option: Option | Options, index?: number) {
     const {
       onChange,
       selectedOptions,
@@ -343,13 +373,16 @@ export default class NestedSelectControl extends React.Component<
       }
     }
 
-    onChange(
-      joinValues
-        ? value.map(item => item[valueField as string]).join(delimiter)
-        : extractValue
-        ? value.map(item => item[valueField as string])
-        : value
-    );
+    const newValue = joinValues
+      ? value.map(item => item[valueField as string]).join(delimiter)
+      : extractValue
+      ? value.map(item => item[valueField as string])
+      : value;
+
+    const isPrevented = await this.dispatchEvent('change', {
+      value: newValue
+    });
+    isPrevented || onChange(newValue);
   }
 
   allChecked(options: Options): boolean {
@@ -379,19 +412,29 @@ export default class NestedSelectControl extends React.Component<
   }
 
   @autobind
-  onFocus(e: any) {
-    this.props.disabled ||
-      this.state.isOpened ||
+  async onFocus(e: any) {
+    const {onFocus, disabled} = this.props;
+
+    if (!disabled && !this.state.isOpened) {
       this.setState({
         isFocused: true
       });
+
+      const isPrevented = await this.dispatchEvent('focus', e);
+      isPrevented || onFocus && onFocus(e);
+    }
   }
 
   @autobind
-  onBlur(e: any) {
+  async onBlur(e: any) {
+    const {onBlur} = this.props;
+
     this.setState({
       isFocused: false
     });
+
+    const isPrevented = await this.dispatchEvent('blur', e);
+    isPrevented || onBlur && onBlur(e);
   }
 
   @autobind
@@ -451,7 +494,7 @@ export default class NestedSelectControl extends React.Component<
   }
 
   @autobind
-  handleResultChange(value: Array<Option>) {
+  async handleResultChange(value: Array<Option>) {
     const {
       joinValues,
       extractValue,
@@ -464,7 +507,10 @@ export default class NestedSelectControl extends React.Component<
     let newValue: any = Array.isArray(value) ? value.concat() : [];
 
     if (!multiple && !newValue.length) {
-      onChange('');
+      const isPrevented = await this.dispatchEvent('change', {
+        value: ''
+      });
+      isPrevented || onChange('');
       return;
     }
 
@@ -476,7 +522,10 @@ export default class NestedSelectControl extends React.Component<
       newValue = newValue.join(delimiter || ',');
     }
 
-    onChange(newValue);
+    const isPrevented = await this.dispatchEvent('change', {
+      value: newValue
+    });
+    isPrevented || onChange(newValue);
   }
 
   renderOptions() {

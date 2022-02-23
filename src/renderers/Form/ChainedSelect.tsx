@@ -10,7 +10,8 @@ import Select from '../../components/Select';
 import {Api} from '../../types';
 import {isEffectiveApi} from '../../utils/api';
 import {SchemaApi} from '../../Schema';
-import {isMobile} from '../../utils/helper';
+import {isMobile, createObject} from '../../utils/helper';
+import {Action} from '../../types';
 
 /**
  * 级联选择框
@@ -81,6 +82,27 @@ export default class ChainedSelectControl extends React.Component<
     }
   }
 
+  doAction(action: Action, data: object, throwErrors: boolean) {
+    const {resetValue, onChange} = this.props;
+    const actionType = action?.actionType as string;
+
+    if (!!~['clear', 'reset'].indexOf(actionType)) {
+      onChange(resetValue ?? '');
+    }
+  }
+
+  array2value(arr: Array<any>, isExtracted: boolean = false) {
+    const {delimiter, joinValues, extractValue} = this.props;
+    // 判断arr的项是否已抽取
+    return isExtracted
+      ? (joinValues ? arr.join(delimiter || ',') : arr)
+      : (joinValues
+        ? arr.join(delimiter || ',')
+        : extractValue
+        ? arr.map(item => item.value || item)
+        : arr)
+  }
+
   loadMore() {
     const {
       value,
@@ -90,7 +112,8 @@ export default class ChainedSelectControl extends React.Component<
       extractValue,
       source,
       data,
-      env
+      env,
+      dispatchEvent
     } = this.props;
 
     const arr = Array.isArray(value)
@@ -135,7 +158,7 @@ export default class ChainedSelectControl extends React.Component<
             parentId,
             parent: arr[idx]
           })
-          .then(ret => {
+          .then(async (ret) => {
             // todo 没有检测 response.ok
 
             const stack = this.state.stack.concat();
@@ -147,7 +170,21 @@ export default class ChainedSelectControl extends React.Component<
             if (typeof remoteValue !== 'undefined') {
               arr.splice(idx + 1, value.length - idx - 1);
               arr.push(remoteValue);
-              onChange(joinValues ? arr.join(delimiter || ',') : arr);
+
+              const valueRes = this.array2value(arr, true);
+
+              const rendererEvent = await dispatchEvent(
+                'change',
+                createObject(data, {
+                  value: valueRes
+                })
+              );
+              
+              if (rendererEvent?.prevented) {
+                return;
+              }
+
+              onChange(valueRes);
             }
 
             stack.push({
@@ -171,8 +208,8 @@ export default class ChainedSelectControl extends React.Component<
     );
   }
 
-  handleChange(index: number, currentValue: any) {
-    const {value, delimiter, onChange, joinValues, extractValue} = this.props;
+  async handleChange(index: number, currentValue: any) {
+    const {value, delimiter, onChange, joinValues, extractValue, dispatchEvent, data} = this.props;
 
     const arr = Array.isArray(value)
       ? value.concat()
@@ -182,13 +219,20 @@ export default class ChainedSelectControl extends React.Component<
     arr.splice(index, arr.length - index);
     arr.push(joinValues ? currentValue.value : currentValue);
 
-    onChange(
-      joinValues
-        ? arr.join(delimiter || ',')
-        : extractValue
-        ? arr.map(item => item.value || item)
-        : arr
+    const valueRes = this.array2value(arr);
+      
+    const rendererEvent = await dispatchEvent(
+      'change',
+      createObject(data, {
+        value: valueRes
+      })
     );
+    
+    if (rendererEvent?.prevented) {
+      return;
+    }
+
+    onChange(valueRes);
   }
 
   reload() {

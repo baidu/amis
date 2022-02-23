@@ -1,22 +1,9 @@
 const change = {
   actions: [
     {
-      actionType: 'dialog',
-      args: {
-        val: '${event.data.value}'
-      },
-      dialog: {
-        title: '派发change事件',
-        data: {
-          val: '${val}'
-        },
-        body: [
-          {
-            type: 'tpl',
-            tpl: '值更新：${val}'
-          }
-        ]
-      }
+      actionType: 'toast',
+      msgType: 'info',
+      msg: '派发change事件'
     }
   ]
 };
@@ -270,6 +257,160 @@ export default {
     },
     {
       type: 'tpl',
+      tpl: 'nested-select嵌套下拉框',
+      inline: false,
+      wrapperComponent: 'h2'
+    },
+    {
+      type: 'form',
+      debug: true,
+      body: [
+        {
+          type: 'group',
+          body: [
+            {
+              name: 'trigger6',
+              id: 'trigger6',
+              type: 'action',
+              label: 'clear触发器',
+              level: 'primary',
+              onEvent: {
+                click: {
+                  actions: [
+                    {
+                      actionType: 'clear',
+                      componentId: 'clear-nested-select',
+                      description: '点击清空指定嵌套下拉框选中值'
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              name: 'clear-nested-select',
+              id: 'clear-nested-select',
+              type: 'nested-select',
+              label: 'clear动作测试',
+              mode: 'row',
+              options: [
+                {
+                  label: "选项A",
+                  value: "A",
+                  children: []
+                },
+                {
+                  label: '选项B',
+                  value: 'B',
+                  children: [
+                    {
+                      label: '选项C',
+                      value: 'C'
+                    },
+                    {
+                      label: '选项D',
+                      value: 'D'
+                    }
+                  ]
+                }
+              ],
+              multiple: false,
+              hideNodePathLabel: false,
+              onlyChildren: false,
+              joinValues: true,
+              delimiter: '。',
+              onEvent: {
+                change,
+                blur,
+                focus
+              }
+            },
+          ]
+        }
+      ]
+    },
+    {
+      type: 'tpl',
+      tpl: '单选框/复选框',
+      inline: false,
+      wrapperComponent: 'h2'
+    },
+    {
+      type: 'form',
+      debug: true,
+      body: [
+        {
+          type: 'group',
+          body: [
+            {
+              name: 'trigger8',
+              id: 'trigger8',
+              type: 'action',
+              label: 'clear触发器',
+              level: 'primary',
+              onEvent: {
+                click: {
+                  actions: [
+                    {
+                      actionType: 'clear',
+                      componentId: 'clear-checkbox',
+                      description: '点击清空指定单选框选中值'
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              name: 'clear-checkbox',
+              id: 'clear-checkbox',
+              type: "checkbox",
+              label: 'clear动作测试',
+              mode: 'row',
+              option: '勾选框',
+              onEvent: {
+                change
+              },
+            },
+          ]
+        },
+        {
+          type: 'group',
+          body: [
+            {
+              name: 'trigger9',
+              id: 'trigger9',
+              type: 'action',
+              mode: 'row',
+              label: 'clear触发器',
+              level: 'primary',
+              onEvent: {
+                click: {
+                  actions: [
+                    {
+                      actionType: 'clear',
+                      componentId: 'clear-checkboxes',
+                      description: '点击清空指定浮选框选中值'
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              name: 'clear-checkboxes',
+              id: 'clear-checkboxes',
+              type: 'checkboxes',
+              mode: 'row',
+              label: 'clear动作测试',
+              options,
+              onEvent: {
+                change
+              }
+            },
+          ]
+        }
+      ]
+    },
+    {
+      type: 'tpl',
       tpl: 'options类',
       inline: false,
       wrapperComponent: 'h2'
@@ -297,15 +438,6 @@ export default {
                     }
                   ]
                 }
-              }
-            },
-            {
-              name: 'clear-options',
-              id: 'clear-options',
-              type: 'checkboxes',
-              options,
-              onEvent: {
-                change
               }
             },
             {

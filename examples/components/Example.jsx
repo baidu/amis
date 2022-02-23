@@ -74,7 +74,6 @@ import LogicEventActionSchema from './EventAction/Logic';
 import StopEventActionSchema from './EventAction/Stop';
 import DataFlowEventActionSchema from './EventAction/DataFlow';
 import InputEventSchema from './EventAction/InputEvent';
-import InputNumberEventSchema from './EventAction/InputNumberEvent';
 import DateEventSchema from './EventAction/DateEvent';
 import SwitchEventSchema from './EventAction/SwitchEvent';
 import TabsEventSchema from './EventAction/TabsEvent';
@@ -547,11 +546,6 @@ export const examples = [
                 component: makeSchemaRenderer(InputEventSchema)
               },
               {
-                label: '数字输入组件',
-                path: '/examples/event/input-number',
-                component: makeSchemaRenderer(InputNumberEventSchema)
-              },
-              {
                 label: '上传类组件',
                 path: '/examples/event/upload',
                 component: makeSchemaRenderer(UploadEventSchema)
@@ -572,7 +566,7 @@ export const examples = [
                 component: makeSchemaRenderer(SwitchEventSchema)
               },
               {
-                label: '标签页组件',
+                label: '选项卡组件',
                 path: 'examples/event/tabs',
                 component: makeSchemaRenderer(TabsEventSchema)
               },
