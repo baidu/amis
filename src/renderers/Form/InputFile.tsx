@@ -5,7 +5,7 @@ import isPlainObject from 'lodash/isPlainObject';
 // @ts-ignore
 import mapLimit from 'async/mapLimit';
 import ImageControl from './InputImage';
-import {Payload, ApiObject, ApiString} from '../../types';
+import {Payload, ApiObject, ApiString, Action} from '../../types';
 import {filter} from '../../utils/tpl';
 import Alert from '../../components/Alert2';
 import {qsstringify, createObject, guid, isEmpty} from '../../utils/helper';
@@ -281,6 +281,8 @@ export function getNameFromUrl(url: string) {
 
   return url;
 }
+export type InputFileRendererEvent = 'change' | 'success' | 'fail' | 'remove';
+export type InputFileRendererAction = 'clear';
 
 export default class FileControl extends React.Component<FileProps, FileState> {
   static defaultProps: Partial<FileProps> = {
@@ -1221,6 +1223,16 @@ export default class FileControl extends React.Component<FileProps, FileState> {
         file: data
       })
     );
+  }
+
+  // 动作
+  doAction(action: Action, data: object, throwErrors: boolean) {
+    const {onChange} = this.props;
+    if (action.actionType === 'clear') {
+      this.setState({files: []}, () => {
+        onChange('');
+      });
+    }
   }
 
   render() {
