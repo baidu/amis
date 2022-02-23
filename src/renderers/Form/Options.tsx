@@ -469,7 +469,9 @@ export function registerOptionsControl(config: OptionsConfig) {
 
     doAction(action: Action, data: object, throwErrors: boolean) {
       const {resetValue, onChange} = this.props;
-      if (action.actionType === 'clear') {
+      const actionType = action?.actionType as string;
+
+      if (!!~['clear', 'reset'].indexOf(actionType)) {
         onChange(resetValue ?? '');
       }
     }

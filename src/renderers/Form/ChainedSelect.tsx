@@ -84,9 +84,23 @@ export default class ChainedSelectControl extends React.Component<
 
   doAction(action: Action, data: object, throwErrors: boolean) {
     const {resetValue, onChange} = this.props;
-    if (action.actionType === 'clear') {
+    const actionType = action?.actionType as string;
+
+    if (!!~['clear', 'reset'].indexOf(actionType)) {
       onChange(resetValue ?? '');
     }
+  }
+
+  array2value(arr: Array<any>, isExtracted: boolean = false) {
+    const {delimiter, joinValues, extractValue} = this.props;
+    // 判断arr的项是否已抽取
+    return isExtracted
+      ? (joinValues ? arr.join(delimiter || ',') : arr)
+      : (joinValues
+        ? arr.join(delimiter || ',')
+        : extractValue
+        ? arr.map(item => item.value || item)
+        : arr)
   }
 
   loadMore() {
@@ -157,10 +171,12 @@ export default class ChainedSelectControl extends React.Component<
               arr.splice(idx + 1, value.length - idx - 1);
               arr.push(remoteValue);
 
+              const valueRes = this.array2value(arr, true);
+
               const rendererEvent = await dispatchEvent(
                 'change',
                 createObject(data, {
-                  value: joinValues ? arr.join(delimiter || ',') : arr
+                  value: valueRes
                 })
               );
               
@@ -168,7 +184,7 @@ export default class ChainedSelectControl extends React.Component<
                 return;
               }
 
-              onChange(joinValues ? arr.join(delimiter || ',') : arr);
+              onChange(valueRes);
             }
 
             stack.push({
@@ -203,11 +219,7 @@ export default class ChainedSelectControl extends React.Component<
     arr.splice(index, arr.length - index);
     arr.push(joinValues ? currentValue.value : currentValue);
 
-    const valueRes = joinValues
-      ? arr.join(delimiter || ',')
-      : extractValue
-      ? arr.map(item => item.value || item)
-      : arr;
+    const valueRes = this.array2value(arr);
       
     const rendererEvent = await dispatchEvent(
       'change',

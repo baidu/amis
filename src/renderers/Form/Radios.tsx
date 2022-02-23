@@ -39,7 +39,9 @@ export default class RadiosControl extends React.Component<RadiosProps, any> {
 
   doAction(action: Action, data: object, throwErrors: boolean) {
     const {resetValue, onChange} = this.props;
-    if (action.actionType === 'clear') {
+    const actionType = action?.actionType as string;
+
+    if (!!~['clear', 'reset'].indexOf(actionType)) {
       onChange(resetValue ?? '');
     }
   }

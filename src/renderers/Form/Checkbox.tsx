@@ -55,8 +55,10 @@ export default class CheckboxControl extends React.Component<
 
   doAction(action: Action, data: object, throwErrors: boolean) {
     const {resetValue, onChange} = this.props;
-    if (action.actionType === 'clear') {
-      onChange(resetValue ?? false);
+    const actionType = action?.actionType as string;
+
+    if (!!~['clear', 'reset'].indexOf(actionType)) {
+      onChange(resetValue ?? '');
     }
   }
 
