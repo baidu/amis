@@ -152,7 +152,7 @@ export const Row = types
     },
 
     get expanded(): boolean {
-      return !this.collapsed && this.children.length > 0;
+      return !this.collapsed && self.children.length > 0;
     },
 
     get moved() {
