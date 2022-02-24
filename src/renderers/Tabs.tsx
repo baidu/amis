@@ -335,7 +335,7 @@ export default class Tabs extends React.Component<TabsProps, TabsState> {
       localTabs = newLocalTabs;
     }
 
-    if (props.location && props.location.hash !== preProps.location.hash) {
+    if (props.location && preProps.location && props.location.hash !== preProps.location.hash) {
       const hash = props.location.hash.substring(1);
       if (!hash) {
         return;
