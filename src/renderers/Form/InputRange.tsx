@@ -2,7 +2,7 @@ import React, {CSSProperties, ReactNode} from 'react';
 import isNumber from 'lodash/isNumber';
 import isObject from 'lodash/isObject';
 import isEqual from 'lodash/isEqual';
-import {forEach} from 'lodash';
+import forEach from 'lodash/forEach';
 
 import {FormItem, FormControlProps, FormBaseControl} from './Item';
 import InputRange from '../../components/Range';
@@ -376,11 +376,7 @@ export class Input extends React.Component<RangeItemProps, any> {
   @autobind
   async onBlur() {
     const {data, dispatchEvent} = this.props;
-    const rendererEvent = await dispatchEvent('blur', createObject(data));
-
-    if (rendererEvent?.prevented) {
-      return;
-    }
+    await dispatchEvent('blur', data);
   }
 
   /**
@@ -389,11 +385,7 @@ export class Input extends React.Component<RangeItemProps, any> {
   @autobind
   async onFocus() {
     const {data, dispatchEvent} = this.props;
-    const rendererEvent = await dispatchEvent('focus', createObject(data));
-
-    if (rendererEvent?.prevented) {
-      return;
-    }
+    await dispatchEvent('focus', data);
   }
 
   render() {
