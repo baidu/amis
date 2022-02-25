@@ -81,6 +81,7 @@ import UploadEventSchema from './EventAction/UploadEvent';
 import SelectEventActionSchema from './EventAction/SelectEvent';
 import ButtonEventActionSchema from './EventAction/ButtonEvent';
 import InputRatingEventSchema from './EventAction/InputRatingEvent';
+import ExcelEventSchema from './EventAction/ExcelEvent';
 import WizardSchema from './Wizard';
 import ChartSchema from './Chart';
 import EChartsEditorSchema from './ECharts';
@@ -574,6 +575,11 @@ export const examples = [
                 label: '评分组件',
                 path: 'examples/event/input-rating',
                 component: makeSchemaRenderer(InputRatingEventSchema)
+              },
+              {
+                label: 'excel',
+                path: 'examples/event/excel',
+                component: makeSchemaRenderer(ExcelEventSchema)
               }
             ]
           },

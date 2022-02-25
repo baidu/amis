@@ -6,7 +6,7 @@ import DropZone from 'react-dropzone';
 import {FileRejection} from 'react-dropzone';
 import 'blueimp-canvastoblob';
 import find from 'lodash/find';
-import {Payload} from '../../types';
+import {Payload, Action} from '../../types';
 import {buildApi} from '../../utils/api';
 import {
   createObject,
@@ -244,7 +244,7 @@ export interface ImageControlSchema extends FormBaseControl {
   /**
    * 初始化时是否把其他字段同步到表单内部。
    */
-  initAutoFill?: boolean
+  initAutoFill?: boolean;
 
   /**
    * 默认占位图图片地址
@@ -313,6 +313,9 @@ export interface FileX extends File {
   progress?: number;
   [propName: string]: any;
 }
+
+export type InputImageRendererEvent = 'change' | 'success' | 'fail' | 'remove';
+export type InputImageRendererAction = 'clear';
 
 export default class ImageControl extends React.Component<
   ImageProps,
@@ -501,8 +504,8 @@ export default class ImageControl extends React.Component<
         this.syncAutoFill
       );
     } else if (prevProps.value !== props.value && !this.initAutoFill) {
-      this.initAutoFill = true
-      this.syncAutoFill()
+      this.initAutoFill = true;
+      this.syncAutoFill();
     }
 
     if (prevProps.crop !== props.crop) {
@@ -1245,8 +1248,17 @@ export default class ImageControl extends React.Component<
 
   async dispatchEvent(e: string, data?: Record<string, any>) {
     const {dispatchEvent} = this.props;
-    data = data ? data : this.state.files;
+    data = data ? data : this.files;
     return dispatchEvent(e, createObject(this.props.data, {file: data}));
+  }
+
+  // 动作
+  doAction(action: Action, data: object, throwErrors: boolean) {
+    const {onChange} = this.props;
+    if (action.actionType === 'clear') {
+      this.files = [];
+      onChange('');
+    }
   }
 
   render() {
@@ -1382,10 +1394,21 @@ export default class ImageControl extends React.Component<
                             file.state === 'error' ? (
                               <div className={cx('Image--thumb')}>
                                 <div className={cx('Image-thumbWrap')}>
-                                  <div className={cx('Image-thumb', 'ImageControl-filename')}>
+                                  <div
+                                    className={cx(
+                                      'Image-thumb',
+                                      'ImageControl-filename'
+                                    )}
+                                  >
                                     <Icon icon="image" className="icon" />
-                                    <span title={file.name || getNameFromUrl(file.value || file.url)}>
-                                      {file.name || getNameFromUrl(file.value || file.url)}
+                                    <span
+                                      title={
+                                        file.name ||
+                                        getNameFromUrl(file.value || file.url)
+                                      }
+                                    >
+                                      {file.name ||
+                                        getNameFromUrl(file.value || file.url)}
                                     </span>
                                   </div>
 
@@ -1393,10 +1416,7 @@ export default class ImageControl extends React.Component<
                                     <a
                                       data-tooltip={__('File.repick')}
                                       data-position="bottom"
-                                      onClick={this.handleRetry.bind(
-                                        this,
-                                        key
-                                      )}
+                                      onClick={this.handleRetry.bind(this, key)}
                                     >
                                       <Icon icon="refresh" className="icon" />
                                     </a>
