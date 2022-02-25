@@ -2,14 +2,17 @@ import React, {CSSProperties, ReactNode} from 'react';
 import isNumber from 'lodash/isNumber';
 import isObject from 'lodash/isObject';
 import isEqual from 'lodash/isEqual';
+import forEach from 'lodash/forEach';
 
 import {FormItem, FormControlProps, FormBaseControl} from './Item';
 import InputRange from '../../components/Range';
 import NumberInput from '../../components/NumberInput';
 import {Icon} from '../../components/icons';
 import {stripNumber} from '../../utils/tpl-builtin';
-import {autobind} from '../../utils/helper';
+import {autobind, createObject} from '../../utils/helper';
 import {filter} from '../../utils/tpl';
+import {SchemaObject} from '../../Schema';
+import {Action} from '../../types';
 
 /**
  * Range
@@ -19,6 +22,12 @@ import {filter} from '../../utils/tpl';
 export type Value = string | MultipleValue | number | [number, number];
 export type FormatValue = MultipleValue | number;
 export type TooltipPosType = 'auto' | 'top' | 'right' | 'bottom' | 'left';
+export type InputTextRendererEvent =
+  | 'change'
+  | 'afterChange'
+  | 'blur'
+  | 'focus';
+export type InputTextRendererAction = 'clear';
 export interface RangeControlSchema extends FormBaseControl {
   type: 'input-range';
 
@@ -60,7 +69,7 @@ export interface RangeControlSchema extends FormBaseControl {
   /**
    * 刻度
    */
-  // marks?: MarksType;
+  marks?: MarksType;
 
   /**
    * 是否展示标签
@@ -98,12 +107,14 @@ export interface RangeControlSchema extends FormBaseControl {
   disabled?: boolean;
 }
 
-export type MarksType = {
-  [index: number | string]: Record<
-    number,
-    {style?: React.CSSProperties; label?: string} | any
-  >;
+type MarksType = {
+  [index: number | string]: MarksValue;
 };
+
+type MarksValue = Record<
+  number,
+  SchemaObject | {style?: React.CSSProperties; label?: string}
+>;
 
 export interface RangeProps extends FormControlProps {
   /**
@@ -138,11 +149,8 @@ export interface RangeProps extends FormControlProps {
 
   /**
    * 刻度
-   *
-   * todo 这里面存在 React.Compnonent 复杂定义，不能转成 json schema
-   * 需要简化类型定义，json 中是不能定义复杂类型的，如 function
    */
-  // marks?: MarksType;
+  marks?: MarksType;
 
   /**
    * 是否展示标签
@@ -362,6 +370,24 @@ export class Input extends React.Component<RangeItemProps, any> {
     }
   }
 
+  /**
+   * 失焦事件
+   */
+  @autobind
+  onBlur() {
+    const {data, dispatchEvent} = this.props;
+    dispatchEvent('blur', data);
+  }
+
+  /**
+   * 聚焦事件
+   */
+  @autobind
+  onFocus() {
+    const {data, dispatchEvent} = this.props;
+    dispatchEvent('focus', data);
+  }
+
   render() {
     const {
       classnames: cx,
@@ -388,6 +414,8 @@ export class Input extends React.Component<RangeItemProps, any> {
           min={this.checkNum(min)}
           onChange={this.onChange}
           disabled={disabled}
+          onBlur={this.onBlur}
+          onFocus={this.onFocus}
         />
       </div>
     );
@@ -455,6 +483,12 @@ export default class RangeControl extends React.PureComponent<
     }
   }
 
+  doAction(action: Action, data: object, throwErrors: boolean) {
+    if (action.actionType === 'clear') {
+      this.clearValue();
+    }
+  }
+
   @autobind
   clearValue() {
     const {multiple, min, max} = this.props;
@@ -481,21 +515,23 @@ export default class RangeControl extends React.PureComponent<
    * @param value
    */
   @autobind
-  updateValue(value: FormatValue) {
+  async updateValue(value: FormatValue) {
     this.setState({value: this.getValue(value)});
-    const {multiple, joinValues, delimiter, onChange} = this.props;
-    onChange(
-      multiple
-        ? joinValues
-          ? [(value as MultipleValue).min, (value as MultipleValue).max].join(
-              delimiter || ','
-            )
-          : {
-              min: (value as MultipleValue).min,
-              max: (value as MultipleValue).max
-            }
-        : value
+    const {onChange, data, dispatchEvent} = this.props;
+    const result = this.getFormatValue(value);
+
+    const rendererEvent = await dispatchEvent(
+      'change',
+      createObject(data, {
+        value: result
+      })
     );
+
+    if (rendererEvent?.prevented) {
+      return;
+    }
+
+    onChange && onChange(result);
   }
 
   /**
@@ -504,20 +540,27 @@ export default class RangeControl extends React.PureComponent<
   @autobind
   onAfterChange() {
     const {value} = this.state;
-    const {multiple, joinValues, delimiter, onAfterChange} = this.props;
-    onAfterChange &&
-      onAfterChange(
-        multiple
-          ? joinValues
-            ? [(value as MultipleValue).min, (value as MultipleValue).max].join(
-                delimiter || ','
-              )
-            : {
-                min: (value as MultipleValue).min,
-                max: (value as MultipleValue).max
-              }
-          : value
-      );
+    const {onAfterChange, dispatchEvent, data} = this.props;
+    const result = this.getFormatValue(value);
+    onAfterChange && onAfterChange(result);
+  }
+
+  /**
+   * 获取导出格式数据
+   */
+  @autobind
+  getFormatValue(value: FormatValue) {
+    const {multiple, joinValues, delimiter} = this.props;
+    return multiple
+      ? joinValues
+        ? [(value as MultipleValue).min, (value as MultipleValue).max].join(
+            delimiter || ','
+          )
+        : {
+            min: (value as MultipleValue).min,
+            max: (value as MultipleValue).max
+          }
+      : value;
   }
 
   render() {
@@ -539,7 +582,10 @@ export default class RangeControl extends React.PureComponent<
       disabled,
       clearable,
       min,
-      max
+      max,
+      render,
+      marks,
+      region
     } = props;
 
     // 指定parts -> 重新计算步长
@@ -547,6 +593,19 @@ export default class RangeControl extends React.PureComponent<
       props.step = (props.max - props.min) / props.parts;
       props.showSteps = true;
     }
+
+    // 处理自定义json配置
+    let renderMarks:
+      | MarksType
+      | {[index: number | string]: ReactNode}
+      | undefined = marks ? {...marks} : marks;
+    marks &&
+      forEach(marks, (item, key) => {
+        if (isObject(item) && (item as SchemaObject).type) {
+          renderMarks &&
+            (renderMarks[key] = render(region, item as SchemaObject));
+        }
+      });
 
     return (
       <div
@@ -558,7 +617,7 @@ export default class RangeControl extends React.PureComponent<
         )}
       >
         {showInput && multiple && <Input {...props} type="min" />}
-        <InputRange {...props} />
+        <InputRange {...props} marks={renderMarks} />
         {showInput && <Input {...props} type="max" />}
         {clearable && !disabled && showInput ? (
           <a
