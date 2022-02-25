@@ -374,18 +374,18 @@ export class Input extends React.Component<RangeItemProps, any> {
    * 失焦事件
    */
   @autobind
-  async onBlur() {
+  onBlur() {
     const {data, dispatchEvent} = this.props;
-    await dispatchEvent('blur', data);
+    dispatchEvent('blur', data);
   }
 
   /**
    * 聚焦事件
    */
   @autobind
-  async onFocus() {
+  onFocus() {
     const {data, dispatchEvent} = this.props;
-    await dispatchEvent('focus', data);
+    dispatchEvent('focus', data);
   }
 
   render() {
@@ -538,22 +538,10 @@ export default class RangeControl extends React.PureComponent<
    * 鼠标松开事件
    */
   @autobind
-  async onAfterChange() {
+  onAfterChange() {
     const {value} = this.state;
     const {onAfterChange, dispatchEvent, data} = this.props;
     const result = this.getFormatValue(value);
-
-    const rendererEvent = await dispatchEvent(
-      'afterChange',
-      createObject(data, {
-        value: result
-      })
-    );
-
-    if (rendererEvent?.prevented) {
-      return;
-    }
-
     onAfterChange && onAfterChange(result);
   }
 
