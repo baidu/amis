@@ -113,11 +113,12 @@ export class PopUp extends React.PureComponent<PopUpPorps> {
                   {!showConfirm && showClose ? (
                     <div className={cx(`${ns}PopUp-closeWrap`)}>
                       {header}
-                      <Icon
-                        icon="close"
-                        className={cx('icon', `${ns}PopUp-close`)}
-                        onClick={onHide}
-                      />
+                      <span className={cx(`PopUp-closeBox`)} onClick={onHide}>
+                        <Icon
+                          icon="close"
+                          className={cx('icon', `${ns}PopUp-close`)}
+                        />
+                      </span>
                     </div>
                   ) : null}
                   {showConfirm && (

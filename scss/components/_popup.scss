@@ -78,6 +78,19 @@
     flex-direction: column;
   }
 
+  &-closeBox {
+    width: px2rem(48px);
+    height: px2rem(48px);
+    position: absolute;
+    z-index: 1;
+    cursor: pointer;
+    right: 0;
+    top: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
   &-closeWrap {
     position: relative;
     text-align: center;
@@ -86,12 +99,9 @@
   }
 
   &-closeWrap &-close {
-    position: absolute;
     z-index: 1;
     color: var(--icon-color);
     cursor: pointer;
-    top: px2rem(15px);
-    right: px2rem(15px);
   }
 
   &-toolbar {
