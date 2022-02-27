@@ -445,6 +445,8 @@ export default class DateControl extends React.PureComponent<
           popOverContainer={
             mobileUI && env && env.getModalContainer
               ? env.getModalContainer
+              : mobileUI
+              ? undefined
               : rest.popOverContainer
           }
           timeFormat={timeFormat}
