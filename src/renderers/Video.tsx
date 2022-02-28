@@ -113,6 +113,12 @@ export interface VideoSchema extends BaseSchema {
    * 跳转到帧时，往前多少秒。
    */
   jumpBufferDuration?: number;
+
+  /**
+   * 默认播放的时候到了下一帧会继续播放，同时高亮下一帧。
+   * 如果配置这个则会停止播放，等待用户选择新的区间再播放。
+   */
+  stopOnNextFrame?: boolean;
 }
 
 const str2seconds: (str: string) => number = str =>
@@ -389,6 +395,7 @@ export default class Video extends React.Component<VideoProps, VideoState> {
   player: any;
   times: Array<number>;
   currentIndex: number;
+  manualJump = false;
   constructor(props: VideoProps) {
     super(props);
 
@@ -459,6 +466,7 @@ export default class Video extends React.Component<VideoProps, VideoState> {
       let index = 0;
       const times = this.times;
       const len = times.length;
+      const stopOnNextFrame = this.props.stopOnNextFrame;
       while (index < len - 1) {
         if (
           times[index + 1] &&
@@ -472,6 +480,12 @@ export default class Video extends React.Component<VideoProps, VideoState> {
 
       if (this.currentIndex !== index) {
         this.moveCursorToIndex(index);
+
+        stopOnNextFrame && !this.manualJump && player.pause();
+
+        if (this.manualJump) {
+          this.manualJump = false;
+        }
       }
     });
   }
@@ -505,6 +519,7 @@ export default class Video extends React.Component<VideoProps, VideoState> {
     const times = this.times;
     const player = this.player;
 
+    this.manualJump = true;
     player.seek(times[index] - jumpBufferDuration);
     player.play();
   }
@@ -572,11 +587,11 @@ export default class Video extends React.Component<VideoProps, VideoState> {
           }
 
           return (
-            <div className="pull-in-xxs" key={i}>
-              <div className={`${ns}Hbox ${ns}Video-frameItem`}>
+            <div className="pull-in-xs" key={i}>
+              <div className={cx(`Hbox Video-frameItem`)}>
                 {items.map((item, key) => (
                   <div
-                    className={`${ns}Hbox-col Wrapper--xxs ${ns}Video-frame`}
+                    className={cx(`Hbox-col Wrapper--xs Video-frame`)}
                     key={key}
                     onClick={() =>
                       this.jumpToIndex(i * (columnsCount as number) + key)
@@ -585,7 +600,7 @@ export default class Video extends React.Component<VideoProps, VideoState> {
                     {item.src ? (
                       <img className="w-full" alt="poster" src={item.src} />
                     ) : null}
-                    <div className={`${ns}Video-frameLabel`}>{item.time}</div>
+                    <div className={cx(`Video-frameLabel`)}>{item.time}</div>
                   </div>
                 ))}
 
@@ -593,7 +608,7 @@ export default class Video extends React.Component<VideoProps, VideoState> {
                   /* 补充空白 */ restCount
                     ? blankArray.map((_, index) => (
                         <div
-                          className={`${ns}Hbox-col Wrapper--xxs`}
+                          className={cx(`Hbox-col Wrapper--xs`)}
                           key={`blank_${index}`}
                         />
                       ))
@@ -604,7 +619,7 @@ export default class Video extends React.Component<VideoProps, VideoState> {
           );
         })}
         {jumpFrame ? (
-          <span ref={this.cursorRef} className={`${ns}Video-cursor`} />
+          <span ref={this.cursorRef} className={cx('Video-cursor')} />
         ) : null}
       </div>
     );
