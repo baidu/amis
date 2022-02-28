@@ -207,7 +207,7 @@ export const HocPopOver =
         if (popOver === true) {
           schema = {
             type: 'panel',
-            body: '${name}'
+            body: `\${${name}}`
           };
         } else if (
           popOver &&
