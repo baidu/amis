@@ -1343,10 +1343,16 @@
   --Tabs-add-icon-padding: #{px2rem(1px)};
   --Tabs-add-icon-margin: var(--gap-xs);
   --Tabs-add-margin: var(--gap-lg);
+  --Tabs-close-color: #83868c;
   --Tabs-close-margin: #{var(--gap-xs)};
   --Tabs-close-size: #{px2rem(12px)};
   --Tabs-link-maxWidth: #{px2rem(160px)};
 
+  --Tabs--editor-sideWidth: #{px2rem(62px)};
+  --Tabs--editor-sidePadding: #{px2rem(27px)};
+  --Tabs--editor-sideMargin: 0 0 #{px2rem(22px)} 0;
+  --Tabs--editor-iconSize: #{px2rem(24px)};
+  --Tabs--editor-iconMargin: #{px2rem(5px)};
 
   --Tabs--vertical-bg: var(--Table-thead-bg);
   --Tabs--vertical-width: #{px2rem(140px)};

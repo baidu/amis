@@ -141,6 +141,8 @@
 
       .#{$ns}Tabs-link-close {
         margin-left: var( --Tabs-close-margin);
+        fill: var(--Tabs-close-color);
+        cursor: pointer;
 
         .#{$ns}Tabs-link-close-icon {
           width: var(--Tabs-close-size);
@@ -255,14 +257,21 @@
         > a:first-child {
           border-width: 0 0 var(--Tabs--line-borderWidth) 0;
           padding: var(--Tabs--line-linkPadding);
+        }
 
-          &:hover,
-          &:focus {
+        &:hover {
+          a:first-child {
             color: var(--primary);
             background: transparent;
             border-color: transparent;
           }
+
+          .#{$ns}Tabs-link-close {
+            fill: var(--primary);
+          }
         }
+
+        
 
         &:last-child {
           > a {
@@ -305,6 +314,10 @@
       }
 
       > .#{$ns}Tabs-linksContainer {
+        .#{$ns}Tabs-addable {
+          padding: 0;
+        }
+
         > .#{$ns}Tabs-linksContainer-arrow {
           padding: var(--Tabs--card-arrow-gap) var(--Tabs--card-add-gap) 0;
           margin-bottom: 0;
@@ -353,7 +366,7 @@
     > .#{$ns}Tabs-linksContainer-wrapper {
       margin-bottom: px2rem(10px);
 
-      > .#{$ns}Tabs-addable {
+      .#{$ns}Tabs-addable {
         padding: 0;
       }
 
@@ -453,7 +466,7 @@
         }
       }
 
-      > .#{$ns}Tabs-addable {
+      .#{$ns}Tabs-addable {
         padding: 0 var(--Tabs--tiled-add-gap);
         margin-left: 0;
         white-space: nowrap;
@@ -585,7 +598,7 @@
     }
 
     > .#{$ns}Tabs-linksWrapper {
-      flex: 0 0 62px;
+      flex: 0 0 var(--Tabs--editor-sideWidth);
       align-items: flex-start;
       border: none;
     }
@@ -593,7 +606,7 @@
     > .#{$ns}Tabs-linksWrapper > .#{$ns}Tabs-links {
       position: relative;
       margin: 0;
-      padding-top: 27px;
+      padding-top: var(--Tabs--editor-sidePadding);
       flex-grow: 1;
       border: none;
       flex-direction: column;
@@ -601,7 +614,7 @@
 
       > li {
         display: flex;
-        margin: 0 0 22px 0;
+        margin: var(--Tabs--editor-sideMargin);
         padding: 0;
         flex-direction: column;
         justify-content: flex-start;
@@ -617,15 +630,15 @@
           align-items: center;
 
           i.fa {
-            font-size: 24px;
-            height: 24px;
-            margin-bottom: 5px;
+            font-size: var(--Tabs--editor-iconSize);
+            height: var(--Tabs--editor-iconSize);
+            margin-bottom: var(--Tabs--editor-iconMargin);
           }
         }
         &.is-active > a:first-child,
         > a:first-child:hover,
         > a:first-child:focus {
-            color: #2468f2
+            color: var(--Tabs--editor-iconColor)
         }
       }
     }
@@ -754,7 +767,7 @@
     & > .#{$ns}Tabs-linksContainer-wrapper {
       border-bottom: none;
 
-      & > .#{$ns}Tabs-addable {
+      .#{$ns}Tabs-addable {
         padding: 0;
       }
 
@@ -800,6 +813,10 @@
                 border: none;
               }
             }
+
+            &:hover .#{$ns}Tabs-link-close {
+              fill: var(--primary);
+            }
     
             & > a:first-child {
               padding: 0;
@@ -825,7 +842,7 @@
       align-items: stretch;
       border-bottom: var(--Tabs-borderWidth) solid var(--Tabs--simple-split-color);
 
-      & > .#{$ns}Tabs-addable {
+      .#{$ns}Tabs-addable {
         width: var(--Tabs--strong-add-size);
         margin-left: var(--Tabs--card-arrow-gap);
         padding: 0;
@@ -904,6 +921,10 @@
             > a:first-child:focus {
               color: var(--Tabs--line-onHover-color);
             }
+          }
+
+          &:hover .#{$ns}Tabs-link-close {
+            fill: var(--primary);
           }
 
           &:last-of-type {

@@ -182,6 +182,8 @@ order: 68
 {
     "type": "tabs",
     "mode": "simple",
+        "closable": true,
+    "addable": true,
     "tabs": [
         {
             "title": "简约(10)",
@@ -218,6 +220,8 @@ order: 68
 {
     "type": "tabs",
     "mode": "strong",
+        "closable": true,
+    "addable": true,
     "tabs": [
         {
             "title": "选项卡1",
@@ -253,6 +257,8 @@ order: 68
 {
     "type": "tabs",
     "mode": "line",
+        "closable": true,
+    "addable": true,
     "tabs": [
         {
             "title": "选项卡1",
@@ -288,6 +294,8 @@ order: 68
 {
     "type": "tabs",
     "mode": "card",
+        "closable": true,
+    "addable": true,
     "tabs": [
         {
             "title": "选项卡1",
