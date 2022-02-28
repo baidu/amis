@@ -463,6 +463,40 @@ order: 68
 }
 ```
 
+### 渲染器
+
+```schema: scope="body"
+{
+    "type": "tabs",
+    "mode": "editor",
+    "sidePosition": "right",
+    "tabs": [
+        {
+            "title": "按钮",
+            "body": "选项卡内容1",
+            "icon": "fa fa-square"
+        },
+        {
+            "title": "动作",
+            "body": "选项卡内容2",
+            "icon": "fa fa-gavel"
+        }
+    ],
+    "toolbar": [
+        {
+            "type": "button",
+            "label": "按钮",
+            "size": "sm",
+            "actionType": "dialog",
+            "dialog": {
+                "title": "弹窗标题",
+                "body": "你点击了"
+            }
+        }
+    ]
+}
+```
+
 
 ## 配置顶部工具栏
 

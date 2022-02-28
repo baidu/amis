@@ -27,7 +27,7 @@ const transitionStyles: {
   [ENTERED]: 'in'
 };
 
-export type TabsMode = '' | 'line' | 'card' | 'radio' | 'vertical' | 'chrome' | 'simple' | 'strong';
+export type TabsMode = '' | 'line' | 'card' | 'radio' | 'vertical' | 'chrome' | 'simple' | 'strong' | 'editor';
 
 export interface TabProps extends ThemeProps {
   title?: string | React.ReactNode; // 标题
@@ -115,6 +115,7 @@ export interface TabsProps extends ThemeProps {
   scrollable?: boolean; // 属性废弃，为了兼容暂且保留
   editable?: boolean;
   onEdit?: (index: number, text: string) => void;
+  sidePosition?: 'left' | 'right'
 }
 
 export interface IDragInfo {
@@ -231,7 +232,7 @@ export class Tabs extends React.Component<TabsProps, any> {
   computedWidth() {
     const {mode: dMode, tabsMode} = this.props;
     const mode = tabsMode || dMode;
-    if (mode === 'vertical') {
+    if (['vertical', 'editor'].includes(mode)) {
       return;
     }
   
@@ -257,7 +258,7 @@ export class Tabs extends React.Component<TabsProps, any> {
     const {mode: dMode, tabsMode} = this.props;
     const {isOverflow} = this.state;
     const mode = tabsMode || dMode;
-    if (mode === 'vertical' || !isOverflow) {
+    if (['vertical', 'editor'].includes(mode) || !isOverflow) {
       return;
     }
     const {activeKey, children} = this.props;
@@ -580,7 +581,7 @@ export class Tabs extends React.Component<TabsProps, any> {
   renderArrow(type: 'left' | 'right') {
     const {mode: dMode, tabsMode} = this.props;
     const mode = tabsMode || dMode;
-    if (mode === 'vertical') {
+    if (['vertical', 'editor'].includes(mode)) {
       return;
     }
     const {classnames: cx} = this.props;
@@ -618,7 +619,8 @@ export class Tabs extends React.Component<TabsProps, any> {
       toolbar,
       linksClassName,
       addable,
-      draggable
+      draggable,
+      sidePosition
     } = this.props;
 
     const {isOverflow} = this.state;
@@ -645,13 +647,14 @@ export class Tabs extends React.Component<TabsProps, any> {
         className={cx(
           `Tabs`,
           {
-            [`Tabs--${mode}`]: mode
+            [`Tabs--${mode}`]: mode,
+            [`editor--${sidePosition}`]: mode === 'editor'
           },
           className
         )}
       >
         {
-        !['vertical', 'chrome'].includes(mode) ? (
+        !['vertical', 'editor', 'chrome'].includes(mode) ? (
           <div className={cx('Tabs-linksContainer-wrapper')} ref={this.resizeDom}>
             <div
               className={cx(

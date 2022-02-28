@@ -565,6 +565,81 @@
     }
   }
 
+  &--editor {
+    display: flex;
+    height: 100%;
+
+    &.editor--left {
+      flex-direction: row;
+
+      > .#{$ns}Tabs-content {
+        border-right: none;
+      }
+    }
+    &.editor--right {
+      flex-direction: row-reverse;
+
+      > .#{$ns}Tabs-content {
+        border-left: none;
+      }
+    }
+
+    > .#{$ns}Tabs-linksWrapper {
+      flex: 0 0 62px;
+      align-items: flex-start;
+      border: none;
+    }
+
+    > .#{$ns}Tabs-linksWrapper > .#{$ns}Tabs-links {
+      position: relative;
+      margin: 0;
+      padding-top: 27px;
+      flex-grow: 1;
+      border: none;
+      flex-direction: column;
+      border: 0;
+
+      > li {
+        display: flex;
+        margin: 0 0 22px 0;
+        padding: 0;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: center;
+        border: 0;
+
+        > a:first-child {
+          padding: 0;
+          border: 0;
+          margin: 0;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+
+          i.fa {
+            font-size: 24px;
+            height: 24px;
+            margin-bottom: 5px;
+          }
+        }
+        &.is-active > a:first-child,
+        > a:first-child:hover,
+        > a:first-child:focus {
+            color: #2468f2
+        }
+      }
+    }
+
+    > .#{$ns}Tabs-content {
+      flex-grow: 1;
+      border-bottom: none;
+
+      > .#{$ns}Tabs-pane {
+        height: 100%;
+      }
+    }
+  }
+
   &--chrome {
     > .#{$ns}Tabs-linksWrapper {
       background: var(--Tabs--chrome-bg);

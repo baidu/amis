@@ -96,6 +96,10 @@ export interface TabSchema extends Omit<BaseSchema, 'type'> {
    * 是否禁用
    */
   disabled?: boolean;
+  /**
+   * 编辑器模式，侧边的位置
+   */
+  sidePosition?: 'left' | 'right';
 }
 
 /**
@@ -643,7 +647,8 @@ export default class Tabs extends React.Component<TabsProps, TabsState> {
       draggable,
       showTip,
       showTipClassName,
-      editable
+      editable,
+      sidePosition
     } = this.props;
 
     const mode = tabsMode || dMode;
@@ -747,6 +752,7 @@ export default class Tabs extends React.Component<TabsProps, TabsState> {
         showTipClassName={showTipClassName}
         editable={editable}
         onEdit={this.handleEdit}
+        sidePosition={sidePosition}
       >
         {children}
       </CTabs>
