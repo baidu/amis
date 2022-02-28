@@ -196,6 +196,18 @@ order: 68
             "title": "选项卡3",
             "body": "选项卡内容3"
         }
+    ],
+    "toolbar": [
+        {
+            "type": "button",
+            "label": "按钮",
+            "size": "sm",
+            "actionType": "dialog",
+            "dialog": {
+                "title": "弹窗标题",
+                "body": "你点击了"
+            }
+        }
     ]
 }
 ```
@@ -218,6 +230,18 @@ order: 68
         {
             "title": "选项卡3",
             "body": "选项卡内容3"
+        }
+    ],
+    "toolbar": [
+        {
+            "type": "button",
+            "label": "按钮",
+            "size": "sm",
+            "actionType": "dialog",
+            "dialog": {
+                "title": "弹窗标题",
+                "body": "你点击了"
+            }
         }
     ]
 }
@@ -242,6 +266,18 @@ order: 68
             "title": "选项卡3",
             "body": "选项卡内容3"
         }
+    ],
+    "toolbar": [
+        {
+            "type": "button",
+            "label": "按钮",
+            "size": "sm",
+            "actionType": "dialog",
+            "dialog": {
+                "title": "弹窗标题",
+                "body": "你点击了"
+            }
+        }
     ]
 }
 ```
@@ -264,6 +300,18 @@ order: 68
         {
             "title": "选项卡3",
             "body": "选项卡内容3"
+        }
+    ],
+    "toolbar": [
+        {
+            "type": "button",
+            "label": "按钮",
+            "size": "sm",
+            "actionType": "dialog",
+            "dialog": {
+                "title": "弹窗标题",
+                "body": "你点击了"
+            }
         }
     ]
 }
@@ -289,6 +337,18 @@ order: 68
         {
             "title": "选项卡3",
             "body": "选项卡内容3"
+        }
+    ],
+    "toolbar": [
+        {
+            "type": "button",
+            "label": "按钮",
+            "size": "sm",
+            "actionType": "dialog",
+            "dialog": {
+                "title": "弹窗标题",
+                "body": "你点击了"
+            }
         }
     ]
 }
@@ -317,6 +377,18 @@ order: 68
             "title": "选项卡4",
             "body": "选项卡内容4"
         }
+    ],
+    "toolbar": [
+        {
+            "type": "button",
+            "label": "按钮",
+            "size": "sm",
+            "actionType": "dialog",
+            "dialog": {
+                "title": "弹窗标题",
+                "body": "你点击了"
+            }
+        }
     ]
 }
 ```
@@ -339,6 +411,18 @@ order: 68
         {
             "title": "选项卡3",
             "body": "选项卡内容3"
+        }
+    ],
+    "toolbar": [
+        {
+            "type": "button",
+            "label": "按钮",
+            "size": "sm",
+            "actionType": "dialog",
+            "dialog": {
+                "title": "弹窗标题",
+                "body": "你点击了"
+            }
         }
     ]
 }
@@ -363,6 +447,18 @@ order: 68
             "title": "选项卡3",
             "body": "选项卡内容3"
         }
+    ],
+    "toolbar": [
+        {
+            "type": "button",
+            "label": "按钮",
+            "size": "sm",
+            "actionType": "dialog",
+            "dialog": {
+                "title": "弹窗标题",
+                "body": "你点击了"
+            }
+        }
     ]
 }
 ```
@@ -379,6 +475,7 @@ order: 68
         {
             "type": "button",
             "label": "按钮",
+            "size": "sm",
             "actionType": "dialog",
             "dialog": {
                 "title": "弹窗标题",

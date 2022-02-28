@@ -16,6 +16,7 @@ import {Icon} from './icons';
 import debounce from 'lodash/debounce';
 import {findDOMNode} from 'react-dom';
 import TooltipWrapper, {TooltipObject, Trigger} from './TooltipWrapper';
+import {resizeSensor} from '../utils/resize-sensor';
 
 import Sortable from 'sortablejs';
 
@@ -131,12 +132,14 @@ export class Tabs extends React.Component<TabsProps, any> {
   };
 
   static Tab = Tab;
-  navMain = React.createRef<HTMLDivElement>();
+  navMain = React.createRef<HTMLUListElement>(); // HTMLDivElement
   scroll: boolean = false;
   sortable?: Sortable;
   dragTip?: HTMLElement;
   id: string = guid();
   draging: boolean = false;
+  toDispose: Array<() => void> = [];
+  resizeDom = React.createRef<HTMLDivElement>();
 
   checkArrowStatus = debounce(
     () => {
@@ -200,6 +203,12 @@ export class Tabs extends React.Component<TabsProps, any> {
       });
       this.checkArrowStatus();
     }
+
+    this.resizeDom?.current && this.toDispose.push(
+      resizeSensor(this.resizeDom.current as HTMLElement, () =>
+        this.computedWidth()
+      )
+    );
   }
 
   componentDidUpdate() {
@@ -212,6 +221,8 @@ export class Tabs extends React.Component<TabsProps, any> {
 
   componentWillUnmount() {
     this.checkArrowStatus.cancel();
+    this.toDispose.forEach(fn => fn());
+    this.toDispose = [];
   }
 
   /**
@@ -254,7 +265,7 @@ export class Tabs extends React.Component<TabsProps, any> {
     const currentIndex = (children as any[])?.findIndex(
       (item: any) => item.props.eventKey === currentKey
     );
-    const li = this.navMain.current?.children[0]?.children || [];
+    const li = this.navMain.current?.children || [];
     const currentLi = li[currentIndex] as HTMLElement;
     const liOffsetLeft = currentLi?.offsetLeft;
     const liClientWidth = currentLi?.clientWidth;
@@ -617,6 +628,18 @@ export class Tabs extends React.Component<TabsProps, any> {
 
     const mode = tabsMode || dMode;
 
+    const toolButtons = (
+      <>
+        {addable && (
+          <div className={cx('Tabs-addable')} onClick={() => this.handleAddBtn()}>
+            <Icon icon="plus" className={cx('Tabs-addable-icon')} />
+            增加
+          </div>
+        )}
+        {toolbar}
+      </>
+    );
+
     return (
       <div
         className={cx(
@@ -629,7 +652,7 @@ export class Tabs extends React.Component<TabsProps, any> {
       >
         {
         !['vertical', 'chrome'].includes(mode) ? (
-          <div className={cx('Tabs-linksContainer-wrapper')}>
+          <div className={cx('Tabs-linksContainer-wrapper')} ref={this.resizeDom}>
             <div
               className={cx(
                 'Tabs-linksContainer',
@@ -637,22 +660,19 @@ export class Tabs extends React.Component<TabsProps, any> {
               )}
             >
               {this.renderArrow('left')}
-              <div className={cx('Tabs-linksContainer-main')} ref={this.navMain}>
-                <ul className={cx('Tabs-links', linksClassName)} role="tablist">
+              <div className={cx('Tabs-linksContainer-main')}>
+                <ul className={cx('Tabs-links', linksClassName)} role="tablist" ref={this.navMain}>
                   {children.map((tab, index) => this.renderNav(tab, index))}
                   {additionBtns}
-                  {toolbar}
+                  {
+                    !isOverflow && toolButtons
+                  }
                 </ul>
               </div>
               {this.renderArrow('right')}
             </div>
             {
-              addable && (
-                <div className={cx('Tabs-addable')} onClick={() => this.handleAddBtn()}>
-                  <Icon icon="plus" className={cx('Tabs-addable-icon')} />
-                  增加
-                </div>
-              )
+              isOverflow && toolButtons
             }
           </div>
         ) : (

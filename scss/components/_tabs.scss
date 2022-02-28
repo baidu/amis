@@ -39,6 +39,8 @@
     }
 
     .#{$ns}Tabs-linksContainer {
+      flex-grow: 1;
+
       position: relative;
       display: flex;
       align-items: center;
@@ -89,6 +91,8 @@
       }
 
       &-main {
+        position: relative;
+
         overflow-y: auto;
         scrollbar-width: none;
         width: 100%;
@@ -97,8 +101,11 @@
         }
   
         .#{$ns}Tabs-links {
-          position: relative;
+          // position: relative;
           min-width: 100%;
+          max-width: 0;
+          height: 100%;
+          overflow: hidden;
   
           .#{$ns}Tabs-links-drag {
             position: absolute;
@@ -839,8 +846,12 @@
   }
 
   &-toolbar {
-    display: inline-block;
-    float: right;
-    padding-top: var(--gap-xs);
+    // display: inline-block;
+    // float: right;
+    // padding-top: var(--gap-xs);
+    margin-left: var(--gap-base);
+    display: flex;
+    flex-direction: row;
+    align-items: center;
   }
 }
