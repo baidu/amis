@@ -146,7 +146,7 @@
 
       .#{$ns}Tabs-link-close {
         margin: var(--Tabs-close-marginTop) 0 0 var(--Tabs-close-margin);
-        fill: var(--Tabs-close-color);
+        fill: var(--Tabs-gray-color);
         cursor: pointer;
 
         .#{$ns}Tabs-link-close-icon {
@@ -652,6 +652,7 @@
           display: flex;
           flex-direction: column;
           align-items: center;
+          color: var(--Tabs-gray-color);
 
           .#{$ns}Icon {
             font-size: var(--Tabs--editor-iconSize);
