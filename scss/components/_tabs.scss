@@ -653,7 +653,7 @@
           flex-direction: column;
           align-items: center;
 
-          i.fa {
+          .#{$ns}Icon {
             font-size: var(--Tabs--editor-iconSize);
             height: var(--Tabs--editor-iconSize);
             margin-bottom: var(--Tabs--editor-iconMargin);

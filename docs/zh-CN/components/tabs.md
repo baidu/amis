@@ -90,13 +90,14 @@ order: 68
 
 ## 可增加、删除
 
-`tab` 设置的 `closable` 优先级高于整体
+`tab` 设置的 `closable` 优先级高于整体。使用 `addBtnText` 设置新增按钮文案
 
 ```schema: scope="body"
 {
     "type": "tabs",
     "closable": true,
     "addable": true,
+    "addBtnText": "新增Tab",
     "tabs": [
         {
             "title": "Tab 1",
@@ -182,8 +183,6 @@ order: 68
 {
     "type": "tabs",
     "tabsMode": "simple",
-        "closable": true,
-    "addable": true,
     "tabs": [
         {
             "title": "简约(10)",
@@ -198,18 +197,6 @@ order: 68
             "title": "选项卡3",
             "body": "选项卡内容3"
         }
-    ],
-    "toolbar": [
-        {
-            "type": "button",
-            "label": "按钮",
-            "size": "sm",
-            "actionType": "dialog",
-            "dialog": {
-                "title": "弹窗标题",
-                "body": "你点击了"
-            }
-        }
     ]
 }
 ```
@@ -220,8 +207,6 @@ order: 68
 {
     "type": "tabs",
     "tabsMode": "strong",
-        "closable": true,
-    "addable": true,
     "tabs": [
         {
             "title": "选项卡1",
@@ -234,18 +219,6 @@ order: 68
         {
             "title": "选项卡3",
             "body": "选项卡内容3"
-        }
-    ],
-    "toolbar": [
-        {
-            "type": "button",
-            "label": "按钮",
-            "size": "sm",
-            "actionType": "dialog",
-            "dialog": {
-                "title": "弹窗标题",
-                "body": "你点击了"
-            }
         }
     ]
 }
@@ -257,8 +230,6 @@ order: 68
 {
     "type": "tabs",
     "tabsMode": "line",
-        "closable": true,
-    "addable": true,
     "tabs": [
         {
             "title": "选项卡1",
@@ -271,18 +242,6 @@ order: 68
         {
             "title": "选项卡3",
             "body": "选项卡内容3"
-        }
-    ],
-    "toolbar": [
-        {
-            "type": "button",
-            "label": "按钮",
-            "size": "sm",
-            "actionType": "dialog",
-            "dialog": {
-                "title": "弹窗标题",
-                "body": "你点击了"
-            }
         }
     ]
 }
@@ -294,8 +253,6 @@ order: 68
 {
     "type": "tabs",
     "tabsMode": "card",
-        "closable": true,
-    "addable": true,
     "tabs": [
         {
             "title": "选项卡1",
@@ -308,18 +265,6 @@ order: 68
         {
             "title": "选项卡3",
             "body": "选项卡内容3"
-        }
-    ],
-    "toolbar": [
-        {
-            "type": "button",
-            "label": "按钮",
-            "size": "sm",
-            "actionType": "dialog",
-            "dialog": {
-                "title": "弹窗标题",
-                "body": "你点击了"
-            }
         }
     ]
 }
@@ -345,18 +290,6 @@ order: 68
         {
             "title": "选项卡3",
             "body": "选项卡内容3"
-        }
-    ],
-    "toolbar": [
-        {
-            "type": "button",
-            "label": "按钮",
-            "size": "sm",
-            "actionType": "dialog",
-            "dialog": {
-                "title": "弹窗标题",
-                "body": "你点击了"
-            }
         }
     ]
 }
@@ -385,18 +318,6 @@ order: 68
             "title": "选项卡4",
             "body": "选项卡内容4"
         }
-    ],
-    "toolbar": [
-        {
-            "type": "button",
-            "label": "按钮",
-            "size": "sm",
-            "actionType": "dialog",
-            "dialog": {
-                "title": "弹窗标题",
-                "body": "你点击了"
-            }
-        }
     ]
 }
 ```
@@ -419,18 +340,6 @@ order: 68
         {
             "title": "选项卡3",
             "body": "选项卡内容3"
-        }
-    ],
-    "toolbar": [
-        {
-            "type": "button",
-            "label": "按钮",
-            "size": "sm",
-            "actionType": "dialog",
-            "dialog": {
-                "title": "弹窗标题",
-                "body": "你点击了"
-            }
         }
     ]
 }
@@ -455,23 +364,13 @@ order: 68
             "title": "选项卡3",
             "body": "选项卡内容3"
         }
-    ],
-    "toolbar": [
-        {
-            "type": "button",
-            "label": "按钮",
-            "size": "sm",
-            "actionType": "dialog",
-            "dialog": {
-                "title": "弹窗标题",
-                "body": "你点击了"
-            }
-        }
     ]
 }
 ```
 
-### 渲染器
+### 渲染器模式
+
+使用 `sidePosition` 设置标签栏位置。
 
 ```schema: scope="body"
 {
@@ -489,18 +388,6 @@ order: 68
             "body": "选项卡内容2",
             "icon": "fa fa-gavel"
         }
-    ],
-    "toolbar": [
-        {
-            "type": "button",
-            "label": "按钮",
-            "size": "sm",
-            "actionType": "dialog",
-            "dialog": {
-                "title": "弹窗标题",
-                "body": "你点击了"
-            }
-        }
     ]
 }
 ```
@@ -513,8 +400,6 @@ order: 68
 ```schema: scope="body"
 {
     "type": "tabs",
-        "closable": true,
-    "addable": true,
     "toolbar": [
         {
             "type": "button",
@@ -532,25 +417,6 @@ order: 68
             "title": "Tab 1",
             "tab": "Content 1"
         },
-
-        {
-            "title": "Tab 2",
-            "tab": "Content 2"
-        },
-        {
-            "title": "Tab 1",
-            "tab": "Content 1"
-        },
-
-        {
-            "title": "Tab 2",
-            "tab": "Content 2"
-        },
-        {
-            "title": "Tab 1",
-            "tab": "Content 1"
-        },
-
         {
             "title": "Tab 2",
             "tab": "Content 2"
@@ -700,7 +566,7 @@ order: 68
 | toolbarClassName      | `string`                          |                                     | tabs 中工具栏的类名                                                                        |
 | tabs[x].title         | `string`                          |                                     | Tab 标题                                                                                   |
 | tabs[x].icon          | `icon`                            |                                     | Tab 的图标                                                                                 |
-| tabs[x].iconPosition  | `left` | `right`                  | `left`                              | Tab 的图标位置                                                                                 |
+| tabs[x].iconPosition  | `left` / `right`                  | `left`                              | Tab 的图标位置                                                                                 |
 | tabs[x].tab           | [SchemaNode](../types/schemanode) |                                     | 内容区                                                                                     |
 | tabs[x].hash          | `string`                          |                                     | 设置以后将跟 url 的 hash 对应                                                              |
 | tabs[x].reload        | `boolean`                         |                                     | 设置以后内容每次都会重新渲染，对于 crud 的重新拉取很有用                                   |
@@ -718,4 +584,4 @@ order: 68
 | showTipClassName      | `string`                          | `'' `                               | 提示的类                                                                              |
 | editable              | `boolean`                         | false                               | 收否可编辑标签名                                                                              |
 | scrollable            | `boolean`                         | true                                | 是否导航支持内容溢出滚动。（属性废弃）                                             |
-| sidePosition          | `left` | `right`                  | `left`                              | `editor` 模式下，标签栏位置
+| sidePosition          | `left` / `right`                  | `left`                              | `editor` 模式下，标签栏位置
