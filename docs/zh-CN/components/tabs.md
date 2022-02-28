@@ -181,7 +181,7 @@ order: 68
 ```schema: scope="body"
 {
     "type": "tabs",
-    "mode": "simple",
+    "tabsMode": "simple",
         "closable": true,
     "addable": true,
     "tabs": [
@@ -219,7 +219,7 @@ order: 68
 ```schema: scope="body"
 {
     "type": "tabs",
-    "mode": "strong",
+    "tabsMode": "strong",
         "closable": true,
     "addable": true,
     "tabs": [
@@ -256,7 +256,7 @@ order: 68
 ```schema: scope="body"
 {
     "type": "tabs",
-    "mode": "line",
+    "tabsMode": "line",
         "closable": true,
     "addable": true,
     "tabs": [
@@ -293,7 +293,7 @@ order: 68
 ```schema: scope="body"
 {
     "type": "tabs",
-    "mode": "card",
+    "tabsMode": "card",
         "closable": true,
     "addable": true,
     "tabs": [
@@ -332,7 +332,7 @@ order: 68
 ```schema: scope="body"
 {
     "type": "tabs",
-    "mode": "chrome",
+    "tabsMode": "chrome",
     "tabs": [
         {
             "title": "选项卡1",
@@ -367,7 +367,7 @@ order: 68
 ```schema: scope="body"
 {
     "type": "tabs",
-    "mode": "tiled",
+    "tabsMode": "tiled",
     "tabs": [
         {
             "title": "选项卡1",
@@ -406,7 +406,7 @@ order: 68
 ```schema: scope="body"
 {
     "type": "tabs",
-    "mode": "radio",
+    "tabsMode": "radio",
     "tabs": [
         {
             "title": "选项卡1",
@@ -441,7 +441,7 @@ order: 68
 ```schema: scope="body"
 {
     "type": "tabs",
-    "mode": "vertical",
+    "tabsMode": "vertical",
     "tabs": [
         {
             "title": "选项卡1",
@@ -476,7 +476,7 @@ order: 68
 ```schema: scope="body"
 {
     "type": "tabs",
-    "mode": "editor",
+    "tabsMode": "editor",
     "sidePosition": "right",
     "tabs": [
         {
@@ -672,7 +672,7 @@ order: 68
 | --------------------- | --------------------------------- | ----------------------------------- | ------------------------------------------------------------------------------------------ |
 | type                  | `string`                          | `"tabs"`                            | 指定为 Tabs 渲染器                                                                         |
 | className             | `string`                          |                                     | 外层 Dom 的类名                                                                            |
-| mode                  | `string`                          |                                     | 展示模式，取值可以是 `line`、`card`、`radio`、`vertical`、`chrome`、`simple`、`strong`         |
+| tabsMode              | `string`                          |                                     | 展示模式，取值可以是 `line`、`card`、`radio`、`vertical`、`chrome`、`simple`、`strong`         |
 | tabsClassName         | `string`                          |                                     | Tabs Dom 的类名                                                                            |
 | tabs                  | `Array`                           |                                     | tabs 内容                                                                                  |
 | source                | `string`                          |                                     | tabs 关联数据，关联后可以重复生成选项卡                                                    |

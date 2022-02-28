@@ -89,9 +89,9 @@ export interface TabSchema extends Omit<BaseSchema, 'type'> {
    */
   horizontal?: FormSchemaHorizontal;
   /**
-   * 是否可关闭，优先级高于 tabs 的 closeable
+   * 是否可关闭，优先级高于 tabs 的 closable
    */
-  closeable?: boolean;
+  closable?: boolean;
   /**
    * 是否禁用
    */
