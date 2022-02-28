@@ -96,10 +96,6 @@ export interface TabSchema extends Omit<BaseSchema, 'type'> {
    * 是否禁用
    */
   disabled?: boolean;
-  /**
-   * 编辑器模式，侧边的位置
-   */
-  sidePosition?: 'left' | 'right';
 }
 
 /**
@@ -190,6 +186,14 @@ export interface TabsSchema extends BaseSchema {
    * 是否导航支持内容溢出滚动。属性废弃，为了兼容暂且保留
    */
   scrollable?: boolean;
+  /**
+   * 编辑器模式，侧边的位置
+   */
+  sidePosition?: 'left' | 'right';
+  /**
+   * 自定义增加按钮文案
+   */
+  addBtnText?: string;
 }
 
 export interface TabsProps
@@ -648,7 +652,8 @@ export default class Tabs extends React.Component<TabsProps, TabsState> {
       showTip,
       showTipClassName,
       editable,
-      sidePosition
+      sidePosition,
+      addBtnText
     } = this.props;
 
     const mode = tabsMode || dMode;
@@ -753,6 +758,7 @@ export default class Tabs extends React.Component<TabsProps, TabsState> {
         editable={editable}
         onEdit={this.handleEdit}
         sidePosition={sidePosition}
+        addBtnText={addBtnText}
       >
         {children}
       </CTabs>

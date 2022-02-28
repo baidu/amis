@@ -27,7 +27,7 @@ const transitionStyles: {
   [ENTERED]: 'in'
 };
 
-export type TabsMode = '' | 'line' | 'card' | 'radio' | 'vertical' | 'chrome' | 'simple' | 'strong' | 'editor';
+export type TabsMode = '' | 'line' | 'card' | 'radio' | 'vertical' | 'chrome' | 'simple' | 'strong' | 'tiled' |'editor';
 
 export interface TabProps extends ThemeProps {
   title?: string | React.ReactNode; // 标题
@@ -115,7 +115,8 @@ export interface TabsProps extends ThemeProps {
   scrollable?: boolean; // 属性废弃，为了兼容暂且保留
   editable?: boolean;
   onEdit?: (index: number, text: string) => void;
-  sidePosition?: 'left' | 'right'
+  sidePosition?: 'left' | 'right';
+  addBtnText?: string;
 }
 
 export interface IDragInfo {
@@ -124,13 +125,14 @@ export interface IDragInfo {
 
 export class Tabs extends React.Component<TabsProps, any> {
   static defaultProps: Pick<TabsProps,
-    'mode' | 'contentClassName' | 'showTip' | 'showTipClassName' | 'sidePosition'
+    'mode' | 'contentClassName' | 'showTip' | 'showTipClassName' | 'sidePosition' | 'addBtnText'
   > = {
     mode: '',
     contentClassName: '',
     showTip: false,
     showTipClassName: '',
-    sidePosition: 'left'
+    sidePosition: 'left',
+    addBtnText: '增加'
   };
 
   static Tab = Tab;
@@ -621,7 +623,8 @@ export class Tabs extends React.Component<TabsProps, any> {
       linksClassName,
       addable,
       draggable,
-      sidePosition
+      sidePosition,
+      addBtnText
     } = this.props;
 
     const {isOverflow} = this.state;
@@ -636,7 +639,7 @@ export class Tabs extends React.Component<TabsProps, any> {
         {addable && (
           <div className={cx('Tabs-addable')} onClick={() => this.handleAddBtn()}>
             <Icon icon="plus" className={cx('Tabs-addable-icon')} />
-            增加
+            {addBtnText}
           </div>
         )}
         {toolbar}
@@ -656,7 +659,10 @@ export class Tabs extends React.Component<TabsProps, any> {
       >
         {
         !['vertical', 'editor', 'chrome'].includes(mode) ? (
-          <div className={cx('Tabs-linksContainer-wrapper')} ref={this.resizeDom}>
+          <div
+            className={cx('Tabs-linksContainer-wrapper', toolbar && 'Tabs-linksContainer-wrapper--toolbar')}
+            ref={this.resizeDom}
+          >
             <div
               className={cx(
                 'Tabs-linksContainer',

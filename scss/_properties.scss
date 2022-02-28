@@ -1316,6 +1316,7 @@
   --Tabs--line-content-padding: var(--gap-base) 0;
   --Tabs--line-linkMargin: 0 32px 0 0;
   --Tabs--line-linkPadding: 0 0 8px;
+  --Tabs--line-addPadding: 0 0 10px;
   --Tabs--line-padding: var(--gap-md);
   --Tabs--line-onHover-borderColor: var(--primary);
   --Tabs--line-onHover-color: var(--primary);
@@ -1339,12 +1340,13 @@
   --Tabs-onActive-color: #{$gray700};
   --Tabs-onDisabled-color: #{$gray600};
   --Tabs-onHover-borderColor: #{$gray200};
-  --Tabs-add-icon-size: #{px2rem(16px)};
+  --Tabs-add-icon-size: #{px2rem(15px)};
   --Tabs-add-icon-padding: #{px2rem(1px)};
   --Tabs-add-icon-margin: var(--gap-xs);
   --Tabs-add-margin: var(--gap-lg);
   --Tabs-close-color: #83868c;
   --Tabs-close-margin: #{var(--gap-xs)};
+  --Tabs-close-marginTop: #{px2rem(1px)};
   --Tabs-close-size: #{px2rem(12px)};
   --Tabs-link-maxWidth: #{px2rem(160px)};
 

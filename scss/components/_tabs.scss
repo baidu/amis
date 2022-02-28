@@ -21,7 +21,7 @@
       margin-left: var(--Tabs-add-margin);
       align-items: center;
       justify-content: flex-start;
-      padding: var(--Tabs--line-linkPadding);
+      padding: var(--Tabs--line-addPadding);
       white-space: nowrap;
       cursor: pointer;
 
@@ -35,6 +35,11 @@
       span {
         margin-left: 4px;
         line-height: 1;
+      }
+
+      &:hover {
+        color: var(--primary);
+        fill: var(--primary);
       }
     }
 
@@ -55,7 +60,7 @@
       // }
 
       &-arrow {
-        margin-bottom: 7px;
+        margin: var(--Tabs--line-addPadding);
         width: 16px;
         height: 100%;
         display: flex;
@@ -105,7 +110,7 @@
           min-width: 100%;
           max-width: 0;
           height: 100%;
-          overflow: hidden;
+          overflow-x: hidden;
   
           .#{$ns}Tabs-links-drag {
             position: absolute;
@@ -140,7 +145,7 @@
       }
 
       .#{$ns}Tabs-link-close {
-        margin-left: var( --Tabs-close-margin);
+        margin: var(--Tabs-close-marginTop) 0 0 var(--Tabs-close-margin);
         fill: var(--Tabs-close-color);
         cursor: pointer;
 
@@ -232,6 +237,20 @@
   &--line {
     > .#{$ns}Tabs-linksContainer-wrapper {
       border-bottom: var(--Tabs-borderWidth) solid var(--Tabs--simple-split-color);
+
+      &--toolbar {
+        .#{$ns}Tabs-link {
+          padding-top: 10px;
+        }
+        
+        .#{$ns}Tabs-addable {
+          padding: 0;
+        }
+
+        .#{$ns}Tabs-linksContainer-arrow {
+          margin: 0;
+        }
+      }
     }
 
     > .#{$ns}Tabs-linksContainer > .#{$ns}Tabs-linksContainer-arrow {
@@ -354,6 +373,11 @@
             }
           }
         }
+      }
+
+      > .#{$ns}Tabs-toolbar {
+        padding: var(--Tabs--card-padding);
+        margin: 0;
       }
     }
 
