@@ -27,7 +27,7 @@ const transitionStyles: {
   [ENTERED]: 'in'
 };
 
-export type TabsMode = '' | 'line' | 'card' | 'radio' | 'vertical' | 'chrome' | 'simple' | 'strong' | 'tiled' |'editor';
+export type TabsMode = '' | 'line' | 'card' | 'radio' | 'vertical' | 'chrome' | 'simple' | 'strong' | 'tiled' |'sidebar';
 
 export interface TabProps extends ThemeProps {
   title?: string | React.ReactNode; // 标题
@@ -235,7 +235,7 @@ export class Tabs extends React.Component<TabsProps, any> {
   computedWidth() {
     const {mode: dMode, tabsMode} = this.props;
     const mode = tabsMode || dMode;
-    if (['vertical', 'editor'].includes(mode)) {
+    if (['vertical', 'sidebar'].includes(mode)) {
       return;
     }
   
@@ -261,7 +261,7 @@ export class Tabs extends React.Component<TabsProps, any> {
     const {mode: dMode, tabsMode} = this.props;
     const {isOverflow} = this.state;
     const mode = tabsMode || dMode;
-    if (['vertical', 'editor'].includes(mode) || !isOverflow) {
+    if (['vertical', 'sidebar'].includes(mode) || !isOverflow) {
       return;
     }
     const {activeKey, children} = this.props;
@@ -584,7 +584,7 @@ export class Tabs extends React.Component<TabsProps, any> {
   renderArrow(type: 'left' | 'right') {
     const {mode: dMode, tabsMode} = this.props;
     const mode = tabsMode || dMode;
-    if (['vertical', 'editor'].includes(mode)) {
+    if (['vertical', 'sidebar'].includes(mode)) {
       return;
     }
     const {classnames: cx} = this.props;
@@ -652,13 +652,13 @@ export class Tabs extends React.Component<TabsProps, any> {
           `Tabs`,
           {
             [`Tabs--${mode}`]: mode,
-            [`editor--${sidePosition}`]: mode === 'editor'
+            [`sidebar--${sidePosition}`]: mode === 'sidebar'
           },
           className
         )}
       >
         {
-        !['vertical', 'editor', 'chrome'].includes(mode) ? (
+        !['vertical', 'sidebar', 'chrome'].includes(mode) ? (
           <div
             className={cx('Tabs-linksContainer-wrapper', toolbar && 'Tabs-linksContainer-wrapper--toolbar')}
             ref={this.resizeDom}

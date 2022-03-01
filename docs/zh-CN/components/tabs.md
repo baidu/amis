@@ -368,14 +368,14 @@ order: 68
 }
 ```
 
-### 渲染器模式
+### 侧边栏模式
 
 使用 `sidePosition` 设置标签栏位置。
 
 ```schema: scope="body"
 {
     "type": "tabs",
-    "tabsMode": "editor",
+    "tabsMode": "sidebar",
     "sidePosition": "right",
     "tabs": [
         {
@@ -558,7 +558,7 @@ order: 68
 | --------------------- | --------------------------------- | ----------------------------------- | ------------------------------------------------------------------------------------------ |
 | type                  | `string`                          | `"tabs"`                            | 指定为 Tabs 渲染器                                                                         |
 | className             | `string`                          |                                     | 外层 Dom 的类名                                                                            |
-| tabsMode              | `string`                          |                                     | 展示模式，取值可以是 `line`、`card`、`radio`、`vertical`、`chrome`、`simple`、`strong`、`tiled`、`editor`         |
+| tabsMode              | `string`                          |                                     | 展示模式，取值可以是 `line`、`card`、`radio`、`vertical`、`chrome`、`simple`、`strong`、`tiled`、`sidebar`         |
 | tabsClassName         | `string`                          |                                     | Tabs Dom 的类名                                                                            |
 | tabs                  | `Array`                           |                                     | tabs 内容                                                                                  |
 | source                | `string`                          |                                     | tabs 关联数据，关联后可以重复生成选项卡                                                    |
@@ -584,4 +584,4 @@ order: 68
 | showTipClassName      | `string`                          | `'' `                               | 提示的类                                                                              |
 | editable              | `boolean`                         | false                               | 收否可编辑标签名                                                                              |
 | scrollable            | `boolean`                         | true                                | 是否导航支持内容溢出滚动。（属性废弃）                                             |
-| sidePosition          | `left` / `right`                  | `left`                              | `editor` 模式下，标签栏位置
+| sidePosition          | `left` / `right`                  | `left`                              | `sidebar` 模式下，标签栏位置
