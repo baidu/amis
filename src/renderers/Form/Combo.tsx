@@ -1,5 +1,6 @@
 import React from 'react';
 import {findDOMNode} from 'react-dom';
+import cloneDeep from 'lodash/cloneDeep';
 import {
   FormItem,
   FormControlProps,
@@ -255,6 +256,8 @@ export interface ComboControlSchema extends FormBaseControl {
   };
 }
 
+export type ComboRendererEvent = 'add' | 'delete' | 'tabsChange';
+
 function pickVars(vars: any, fields: Array<string>) {
   return fields.reduce((data: any, key: string) => {
     data[key] = resolveVariable(key, vars);
@@ -469,15 +472,35 @@ export default class ComboControl extends React.Component<ComboProps> {
     this.props.onChange(value, submitOnChange, true);
   }
 
-  addItem() {
-    const {flat, joinValues, delimiter, scaffold, disabled, submitOnChange} =
-      this.props;
+  async addItem() {
+    const {
+      flat,
+      joinValues,
+      delimiter,
+      scaffold,
+      disabled,
+      submitOnChange,
+      data,
+      dispatchEvent
+    } = this.props;
 
     if (disabled) {
       return;
     }
 
     let value = this.getValueAsArray();
+
+    const rendererEvent = await dispatchEvent(
+      'add',
+      createObject(data, {
+        value:
+          flat && joinValues ? value.join(delimiter || ',') : cloneDeep(value)
+      })
+    );
+
+    if (rendererEvent?.prevented) {
+      return;
+    }
 
     value.push(
       flat
@@ -505,7 +528,8 @@ export default class ComboControl extends React.Component<ComboProps> {
       deleteConfirmText,
       data,
       env,
-      translate: __
+      translate: __,
+      dispatchEvent
     } = this.props;
 
     if (disabled) {
@@ -514,6 +538,19 @@ export default class ComboControl extends React.Component<ComboProps> {
 
     let value = this.getValueAsArray();
     const ctx = createObject(data, value[key]);
+
+    const rendererEvent = await dispatchEvent(
+      'delete',
+      createObject(data, {
+        key,
+        value:
+          flat && joinValues ? value.join(delimiter || ',') : cloneDeep(value)
+      })
+    );
+
+    if (rendererEvent?.prevented) {
+      return;
+    }
 
     if (isEffectiveApi(deleteApi, ctx)) {
       const confirmed = await env.confirm(
@@ -866,8 +903,19 @@ export default class ComboControl extends React.Component<ComboProps> {
   }
 
   @autobind
-  handleTabSelect(key: number) {
-    const {store} = this.props;
+  async handleTabSelect(key: number) {
+    const {store, data, dispatchEvent} = this.props;
+
+    const rendererEvent = await dispatchEvent(
+      'tabsChange',
+      createObject(data, {
+        key
+      })
+    );
+
+    if (rendererEvent?.prevented) {
+      return;
+    }
 
     store.setActiveKey(key);
   }
@@ -932,7 +980,7 @@ export default class ComboControl extends React.Component<ComboProps> {
       removable !== false; // 是否可以删除
 
     if (!Array.isArray(value)) {
-      return this.renderPlaceholder();
+      value = []; // 让 tabs 输出，否则会没有新增按钮。
     }
 
     // todo 支持拖拽排序。
@@ -987,7 +1035,7 @@ export default class ComboControl extends React.Component<ComboProps> {
           ) : null
         }
       >
-        {value.map((value, index) => {
+        {value.map((value: any, index: number) => {
           const data = this.formatValue(value, index);
           let condition: ComboCondition | null | undefined = null;
           let toolbar = undefined;

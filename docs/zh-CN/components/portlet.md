@@ -12,7 +12,7 @@ order: 60
 
 ## 基本用法
 
-```schema: scope="body"
+```schema
 {
     "type": "page",
     "data": {

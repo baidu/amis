@@ -8,6 +8,7 @@ import {BaseSchema, SchemaExpression} from '../Schema';
 import {evalExpression} from '../utils/tpl';
 import {resolveVariable, resolveVariableAndFilter} from '../utils/tpl-builtin';
 import {ClassNamesFn} from '../theme';
+import {buildStyle} from '../utils/style';
 
 /**
  * Badge 角标。
@@ -91,6 +92,8 @@ export class Badge extends React.Component<BadgeProps, object> {
     const {classnames: cx, badge, data} = this.props;
     let {mode = 'dot', level = 'danger', style} = badge as BadgeSchema;
 
+    const customStyle = buildStyle(style, data);
+
     if (typeof level === 'string' && level[0] === '$') {
       level = resolveVariableAndFilter(level, data);
     }
@@ -100,7 +103,7 @@ export class Badge extends React.Component<BadgeProps, object> {
         return (
           <span
             className={cx('Badge-dot', `Badge--${position}`, `Badge--${level}`)}
-            style={{...offsetStyle, ...sizeStyle, ...style}}
+            style={{...offsetStyle, ...sizeStyle, ...customStyle}}
           >
             {animationElement}
           </span>
@@ -113,7 +116,7 @@ export class Badge extends React.Component<BadgeProps, object> {
               `Badge--${position}`,
               `Badge--${level}`
             )}
-            style={{...offsetStyle, ...sizeStyle, ...style}}
+            style={{...offsetStyle, ...sizeStyle, ...customStyle}}
           >
             {text}
             {animationElement}
@@ -132,7 +135,7 @@ export class Badge extends React.Component<BadgeProps, object> {
                 `Badge-ribbon--${position}`,
                 `Badge--${level}`
               )}
-              style={{...sizeStyle, ...style}}
+              style={{...sizeStyle, ...customStyle}}
             >
               {text}
               {animationElement}

@@ -33,6 +33,7 @@ export interface TooltipWrapperProps {
   delay: number;
   theme?: string;
   tooltipClassName?: string;
+  style?: React.CSSProperties;
 }
 
 interface TooltipWrapperState {
@@ -52,7 +53,7 @@ export class TooltipWrapper extends React.Component<
     placement: 'top',
     trigger: ['hover', 'focus'],
     rootClose: false,
-    delay: 200
+    delay: 300
   };
 
   target: HTMLElement;
@@ -106,13 +107,7 @@ export class TooltipWrapper extends React.Component<
   }
 
   handleShow() {
-    // clearTimeout(this.timer);
-    // const {
-    //     delay
-    // } = this.props;
-
-    // this.timer = setTimeout(this.show, delay);
-    // 顺速让即将消失的层消失。
+    this.timer && clearTimeout(this.timer);
     waitToHide && waitToHide();
     this.show();
   }
@@ -173,7 +168,8 @@ export class TooltipWrapper extends React.Component<
       container,
       trigger,
       rootClose,
-      tooltipClassName
+      tooltipClassName,
+      style
     } = this.props;
 
     const child = React.Children.only(children);
@@ -216,7 +212,10 @@ export class TooltipWrapper extends React.Component<
       >
         <Tooltip
           title={typeof tooltip !== 'string' ? tooltip.title : undefined}
+          style={style}
           className={tooltipClassName}
+          onMouseEnter={~triggers.indexOf('hover') && this.handleMouseOver}
+          onMouseLeave={~triggers.indexOf('hover') && this.handleMouseOut}
         >
           {tooltip && (tooltip as TooltipObject).render ? (
             this.state.show ? (

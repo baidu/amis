@@ -142,6 +142,28 @@ order: 13
 - `month`或`months`: 月
 - `year`或`years`: 年
 
+### 通过公式配置默认值
+
+> 1.7.0 及以上版本
+
+可以通过日期公式来动态计算。
+
+```schema: scope="body"
+{
+    "type": "form",
+    "debug": true,
+    "api": "/api/mock2/form/saveForm",
+    "body": [
+        {
+            "type": "input-date",
+            "name": "date",
+            "label": "日期",
+            "value": "${DATEMODIFY(NOW(), 2, 'days')}"
+        }
+    ]
+}
+```
+
 ## 限制范围
 
 可以通过配置`maxDate`和`minDate`显示可选范围
@@ -224,6 +246,7 @@ order: 13
 ## 快捷键
 
 你也可以配置`shortcuts`属性支持快捷选择日期
+注：移动端 picker 的形式不支持快捷键
 
 ```schema: scope="body"
 {

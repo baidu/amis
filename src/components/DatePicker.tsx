@@ -14,7 +14,6 @@ import Overlay from './Overlay';
 import {ClassNamesFn, themeable, ThemeProps} from '../theme';
 import {PlainObject} from '../types';
 import Calendar from './calendar/Calendar';
-// import 'react-datetime/css/react-datetime.css';
 import {localeable, LocaleProps, TranslateFn} from '../locale';
 import {isMobile, ucFirst} from '../utils/helper';
 import CalendarMobile from './CalendarMobile';
@@ -295,6 +294,8 @@ export interface DateProps extends LocaleProps, ThemeProps {
 
   // 下面那个千万不要写，写了就会导致 keyof DateProps 得到的结果是 string | number;
   // [propName: string]: any;
+  onFocus?: Function;
+  onBlur?: Function;
 }
 
 export interface DatePickerState {
@@ -369,16 +370,20 @@ export class DatePicker extends React.Component<DateProps, DatePickerState> {
     this.dom.focus();
   }
 
-  handleFocus() {
+  handleFocus(e: React.SyntheticEvent<HTMLDivElement>) {
     this.setState({
       isFocused: true
     });
+    const {onFocus} = this.props;
+    onFocus && onFocus(e);
   }
 
-  handleBlur() {
+  handleBlur(e: React.SyntheticEvent<HTMLDivElement>) {
     this.setState({
       isFocused: false
     });
+    const {onBlur} = this.props;
+    onBlur && onBlur(e);
   }
 
   handleKeyPress(e: React.KeyboardEvent) {
@@ -764,8 +769,6 @@ export class DatePicker extends React.Component<DateProps, DatePickerState> {
               showClose={false}
               onHide={this.handleClick}
             >
-              {this.renderShortCuts(shortcuts)}
-
               <Calendar
                 value={date}
                 onChange={this.handleChange}

@@ -495,7 +495,7 @@ wsFetcher(ws, onMessage, onError) {
 ```javascript
 {
     "type": "service",
-    "func": async (data, setData) => {
+    "dataProvider": async (data, setData) => {
       const timer = setInterval(() => {
         setData({date: new Date().toString()})
       }, 1000);

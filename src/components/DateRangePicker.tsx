@@ -50,6 +50,8 @@ export interface DateRangePickerProps extends ThemeProps, LocaleProps {
   viewMode?: 'days' | 'months' | 'years' | 'time' | 'quarters';
   borderMode?: 'full' | 'half' | 'none';
   useMobileUI?: boolean;
+  onFocus?: Function;
+  onBlur?: Function;
 }
 
 export interface DateRangePickerState {
@@ -222,6 +224,9 @@ export class DateRangePicker extends React.Component<
   popover: any;
   input?: HTMLInputElement;
 
+  // 是否是第一次点击，如果是第一次点击就可以点任意地址
+  isFirstClick: boolean = true;
+
   static formatValue(
     newValue: any,
     format: string,
@@ -274,8 +279,7 @@ export class DateRangePicker extends React.Component<
 
     this.open = this.open.bind(this);
     this.close = this.close.bind(this);
-    this.handleStartChange = this.handleStartChange.bind(this);
-    this.handleEndChange = this.handleEndChange.bind(this);
+    this.handleSelectChange = this.handleSelectChange.bind(this);
     this.handleFocus = this.handleFocus.bind(this);
     this.handleBlur = this.handleBlur.bind(this);
     this.checkStartIsValidDate = this.checkStartIsValidDate.bind(this);
@@ -325,16 +329,20 @@ export class DateRangePicker extends React.Component<
     this.dom.current.blur();
   }
 
-  handleFocus() {
+  handleFocus(e: React.SyntheticEvent<HTMLDivElement>) {
     this.setState({
       isFocused: true
     });
+    const {onFocus} = this.props;
+    onFocus && onFocus(e);
   }
 
-  handleBlur() {
+  handleBlur(e: React.SyntheticEvent<HTMLDivElement>) {
     this.setState({
       isFocused: false
     });
+    const {onBlur} = this.props;
+    onBlur && onBlur(e);
   }
 
   open() {
@@ -420,18 +428,45 @@ export class DateRangePicker extends React.Component<
     return value;
   }
 
-  handleStartChange(newValue: moment.Moment) {
+  handleSelectChange(newValue: moment.Moment) {
     const {embed, timeFormat, minDuration, maxDuration, minDate} = this.props;
-    const {startDate, endDate} = this.state;
+    let {startDate, endDate} = this.state;
 
-    if (
-      startDate &&
-      (!endDate || (endDate && newValue.isSame(startDate))) && // 没有结束时间，或者新的时间也是开始时间，这时都会将新值当成结束时间
-      newValue.isSameOrAfter(startDate) &&
-      (!minDuration || newValue.isAfter(startDate.clone().add(minDuration))) &&
-      (!maxDuration || newValue.isBefore(startDate.clone().add(maxDuration)))
-    ) {
-      return this.setState(
+    // 第一次点击只标记起始时间，或者点击了开始时间前面的时间
+    if (this.isFirstClick || newValue.isBefore(startDate)) {
+      // 这种情况说明第二次点击点击了前面的时间，这时要标记为第二次点击
+      if (newValue.isBefore(startDate)) {
+        this.isFirstClick = true;
+      }
+      if (minDate && newValue.isBefore(minDate)) {
+        newValue = minDate;
+      }
+      this.setState({
+        startDate: this.filterDate(
+          newValue,
+          startDate || minDate,
+          timeFormat,
+          'start'
+        ),
+        endDate: undefined
+      });
+    } else {
+      // 第二次点击作为结束时间
+      if (!startDate) {
+        // 不大可能，但只能作为开始时间了
+        startDate = newValue;
+      }
+
+      if (minDuration && newValue.isAfter(startDate.clone().add(minDuration))) {
+        newValue = startDate.clone().add(minDuration);
+      }
+      if (
+        maxDuration &&
+        newValue.isBefore(startDate.clone().add(maxDuration))
+      ) {
+        newValue = startDate.clone().add(maxDuration);
+      }
+      this.setState(
         {
           endDate: this.filterDate(newValue, endDate, timeFormat, 'end')
         },
@@ -441,64 +476,7 @@ export class DateRangePicker extends React.Component<
       );
     }
 
-    if (minDate && newValue && newValue.isBefore(minDate, 'second')) {
-      newValue = minDate;
-    }
-
-    this.setState(
-      {
-        startDate: this.filterDate(
-          newValue,
-          startDate || minDate,
-          timeFormat,
-          'start'
-        )
-      },
-      () => {
-        embed && this.confirm();
-      }
-    );
-  }
-
-  handleEndChange(newValue: moment.Moment) {
-    const {embed, timeFormat, minDuration, maxDuration, maxDate} = this.props;
-    const {startDate, endDate} = this.state;
-
-    if (
-      endDate &&
-      !startDate &&
-      newValue.isSameOrBefore(endDate) &&
-      (!minDuration ||
-        newValue.isBefore(endDate.clone().subtract(minDuration))) &&
-      (!maxDuration || newValue.isAfter(endDate.clone().subtract(maxDuration)))
-    ) {
-      return this.setState(
-        {
-          startDate: this.filterDate(newValue, startDate, timeFormat, 'start')
-        },
-        () => {
-          embed && this.confirm();
-        }
-      );
-    }
-
-    if (maxDate && newValue && newValue.isAfter(maxDate, 'second')) {
-      newValue = maxDate;
-    }
-
-    this.setState(
-      {
-        endDate: this.filterDate(
-          newValue,
-          endDate || maxDate,
-          timeFormat,
-          'end'
-        )
-      },
-      () => {
-        embed && this.confirm();
-      }
-    );
+    this.isFirstClick = !this.isFirstClick;
   }
 
   handleMobileChange(data: any, callback?: () => void) {
@@ -594,7 +572,7 @@ export class DateRangePicker extends React.Component<
         ? maxDate.isBefore(endDate)
           ? maxDate
           : endDate
-        : maxDate || endDate;
+        : undefined;
 
     if (minDate && currentDate.isBefore(minDate, precision)) {
       return false;
@@ -628,7 +606,7 @@ export class DateRangePicker extends React.Component<
         ? minDate.isAfter(startDate)
           ? minDate
           : startDate
-        : minDate || startDate;
+        : undefined;
 
     if (minDate && currentDate.isBefore(minDate, precision)) {
       return false;
@@ -706,7 +684,7 @@ export class DateRangePicker extends React.Component<
         <Calendar
           className={`${ns}DateRangePicker-start`}
           value={startDate}
-          onChange={this.handleStartChange}
+          onChange={this.handleSelectChange}
           requiredConfirm={false}
           dateFormat={dateFormat}
           inputFormat={inputFormat}
@@ -723,7 +701,7 @@ export class DateRangePicker extends React.Component<
         <Calendar
           className={`${ns}DateRangePicker-end`}
           value={endDate}
-          onChange={this.handleEndChange}
+          onChange={this.handleSelectChange}
           requiredConfirm={false}
           dateFormat={dateFormat}
           inputFormat={inputFormat}

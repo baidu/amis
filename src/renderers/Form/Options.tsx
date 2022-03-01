@@ -2,7 +2,7 @@
  * @file 所有列表选择类控件的父级，比如 Select、Radios、Checkboxes、
  * List、ButtonGroup 等等
  */
-import {Api, PlainObject, Schema} from '../../types';
+import {Api, PlainObject, Schema, Action} from '../../types';
 import {isEffectiveApi, isApiOutdated, isValidApi} from '../../utils/api';
 import {isAlive} from 'mobx-state-tree';
 import {
@@ -26,6 +26,7 @@ import {
   FormBaseControl
 } from './Item';
 import {IFormItemStore} from '../../store/formItem';
+
 export type OptionsControlComponent = React.ComponentType<FormControlProps>;
 
 import React from 'react';
@@ -206,6 +207,7 @@ export interface OptionsControlProps
   setLoading: (value: boolean) => void;
   reloadOptions: (setError?: boolean) => void;
   deferLoad: (option: Option) => void;
+  leftDeferLoad: (option: Option, leftOptions: Option) => void;
   expandTreeOptions: (nodePathArr: any[]) => void;
   onAdd?: (
     idx?: number | Array<number>,
@@ -452,6 +454,28 @@ export function registerOptionsControl(config: OptionsConfig) {
       this.toDispose = [];
     }
 
+    async dispatchChangeEvent(eventData: any = '') {
+      const {dispatchEvent, options, data} = this.props;
+      const rendererEvent = await dispatchEvent(
+        'change',
+        createObject(data, {
+          value: eventData,
+          options,
+        })
+      );
+      // 返回阻塞标识
+      return !!rendererEvent?.prevented;
+    }
+
+    doAction(action: Action, data: object, throwErrors: boolean) {
+      const {resetValue, onChange} = this.props;
+      const actionType = action?.actionType as string;
+
+      if (!!~['clear', 'reset'].indexOf(actionType)) {
+        onChange(resetValue ?? '');
+      }
+    }
+
     syncAutoFill(value: any) {
       const {autoFill, multiple, onBulkChange, data} = this.props;
       const formItem = this.props.formItem as IFormItemStore;
@@ -559,7 +583,7 @@ export function registerOptionsControl(config: OptionsConfig) {
     }
 
     @autobind
-    handleToggle(
+    async handleToggle(
       option: Option,
       submitOnChange?: boolean,
       changeImmediately?: boolean
@@ -575,7 +599,8 @@ export function registerOptionsControl(config: OptionsConfig) {
         value
       );
 
-      onChange && onChange(newValue, submitOnChange, changeImmediately);
+      const isPrevented = await this.dispatchChangeEvent(newValue);
+      isPrevented || (onChange && onChange(newValue, submitOnChange, changeImmediately));
     }
 
     /**
@@ -630,7 +655,7 @@ export function registerOptionsControl(config: OptionsConfig) {
     }
 
     @autobind
-    handleToggleAll() {
+    async handleToggleAll() {
       const {value, onChange, formItem} = this.props;
 
       if (!formItem) {
@@ -642,7 +667,8 @@ export function registerOptionsControl(config: OptionsConfig) {
           ? []
           : formItem.filteredOptions.concat();
       const newValue = this.formatValueArray(valueArray);
-      onChange && onChange(newValue);
+      const isPrevented = await this.dispatchChangeEvent(newValue);
+      isPrevented || (onChange && onChange(newValue));
     }
 
     toggleValue(option: Option, originValue?: any) {
@@ -754,6 +780,27 @@ export function registerOptionsControl(config: OptionsConfig) {
       }
 
       formItem?.deferLoadOptions(option, api, createObject(data, option));
+    }
+
+    @autobind
+    leftDeferLoad(option: Option, leftOptions: Option) {
+      const {deferApi, source, env, formItem, data} = this.props;
+      const api = option.deferApi || deferApi || source;
+
+      if (!api) {
+        env.notify(
+          'error',
+          '请在选项中设置 `deferApi` 或者表单项中设置 `deferApi`，用来加载子选项。'
+        );
+        return;
+      }
+
+      formItem?.deferLoadLeftOptions(
+        option,
+        leftOptions,
+        api,
+        createObject(data, option)
+      );
     }
 
     @autobind
@@ -1177,6 +1224,7 @@ export function registerOptionsControl(config: OptionsConfig) {
           syncOptions={this.syncOptions}
           reloadOptions={this.reload}
           deferLoad={this.deferLoad}
+          leftDeferLoad={this.leftDeferLoad}
           expandTreeOptions={this.expandTreeOptions}
           creatable={
             creatable !== false && isEffectiveApi(addApi) ? true : creatable

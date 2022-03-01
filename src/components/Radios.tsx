@@ -17,6 +17,7 @@
 import React from 'react';
 import {uncontrollable} from 'uncontrollable';
 import Checkbox from './Checkbox';
+import Button from './Button';
 import {value2array, OptionProps, Option} from './Select';
 import chunk from 'lodash/chunk';
 import {ClassNamesFn, themeable} from '../theme';
@@ -24,10 +25,13 @@ import {ClassNamesFn, themeable} from '../theme';
 interface RadioProps extends OptionProps {
   id?: string;
   type: string;
+  optionType?: string,
   value?: string;
   className?: string;
   style?: React.CSSProperties;
   inline?: boolean;
+  level?: string; // 'link' | 'primary' | 'secondary' | 'info' | 'success' | 'warning' | 'danger' | 'light' | 'dark' | 'default';
+  btnActiveLevel?: string;
   disabled?: boolean;
   onChange?: Function;
   columnsCount: number;
@@ -41,6 +45,8 @@ interface RadioProps extends OptionProps {
 export class Radios extends React.Component<RadioProps, any> {
   static defaultProps = {
     type: 'radio',
+    optionType: 'default',
+    btnActiveLevel: 'primary',
     resetValue: '',
     inline: true,
     joinValues: true,
@@ -72,7 +78,7 @@ export class Radios extends React.Component<RadioProps, any> {
   }
 
   renderGroup(option: Option, index: number, valueArray: Array<Option>) {
-    const {classnames: cx} = this.props;
+    const {classnames: cx, optionType, classPrefix: ns,} = this.props;
 
     return (
       <div key={index} className={cx('RadiosControl-group', option.className)}>
@@ -102,8 +108,28 @@ export class Radios extends React.Component<RadioProps, any> {
       itemClassName,
       classnames: cx,
       labelClassName,
-      labelField
+      labelField,
+      optionType,
+      level,
+      btnActiveLevel,
+      classPrefix: ns
     } = this.props;
+
+    if (optionType === 'button') {
+      const active = !!~valueArray.indexOf(option);
+      return (
+        <Button
+          key={index}
+          active={active}
+          onClick={() => this.toggleOption(option)}
+          className={cx(itemClassName, option.className)}
+          disabled={disabled || option.disabled}
+          level={(active ? btnActiveLevel : '') || level}
+        >
+          <span>{`${option[labelField || 'label']}`}</span>
+        </Button>
+      );
+    }
 
     return (
       <Checkbox
@@ -135,8 +161,7 @@ export class Radios extends React.Component<RadioProps, any> {
       disabled,
       inline,
       delimiter,
-      valueField,
-      classPrefix
+      valueField
     } = this.props;
 
     let valueArray = value2array(value, {

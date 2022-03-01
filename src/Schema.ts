@@ -52,6 +52,7 @@ import {DialogSchema, DialogSchemaBase} from './renderers/Dialog';
 import {DrawerSchema} from './renderers/Drawer';
 import {SearchBoxSchema} from './renderers/SearchBox';
 import {SparkLineSchema} from './renderers/SparkLine';
+import {TooltipWrapperSchema} from './renderers/TooltipWrapper';
 import {PaginationWrapperSchema} from './renderers/PaginationWrapper';
 import {PaginationSchema} from './renderers/Pagination';
 import {AnchorNavSchema} from './renderers/AnchorNav';
@@ -185,6 +186,7 @@ export type SchemaType =
   | 'progress'
   | 'qrcode'
   | 'qr-code'
+  | 'barcode'
   | 'remark'
   | 'search-box'
   | 'service'
@@ -330,7 +332,8 @@ export type SchemaType =
   | 'native-date'
   | 'native-time'
   | 'native-number'
-  | 'code';
+  | 'code'
+  | 'tooltip-wrapper';
 
 export type SchemaObject =
   | PageSchema
@@ -388,6 +391,7 @@ export type SchemaObject =
   | VideoSchema
   | WizardSchema
   | WrapperSchema
+  | TooltipWrapperSchema
   | FormSchema
   | AnchorNavSchema
   | StepsSchema
@@ -832,3 +836,53 @@ export interface FeedbackDialog extends DialogSchemaBase {
 }
 
 export type RootSchema = PageSchema;
+
+export interface ToastSchemaBase extends BaseSchema {
+  /**
+   * 轻提示内容
+   */
+  items: Array<{
+    title?: SchemaCollection;
+    body: SchemaCollection;
+    level: 'info' | 'success' | 'error' | 'warning';
+    id: string;
+    position?:
+      | 'top-right'
+      | 'top-center'
+      | 'top-left'
+      | 'bottom-center'
+      | 'bottom-left'
+      | 'bottom-right'
+      | 'center';
+    closeButton?: boolean;
+    showIcon?: boolean;
+    timeout?: number;
+  }>;
+
+  /**
+   * 弹出位置
+   */
+  position:
+    | 'top-right'
+    | 'top-center'
+    | 'top-left'
+    | 'bottom-center'
+    | 'bottom-left'
+    | 'bottom-right'
+    | 'center';
+
+  /**
+   * 是否展示关闭按钮
+   */
+  closeButton: boolean;
+
+  /**
+   * 是否展示图标
+   */
+  showIcon?: boolean;
+
+  /**
+   * 持续时间
+   */
+  timeout: number;
+}

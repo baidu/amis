@@ -351,6 +351,21 @@
   --ButtonGroup--primary-isActive-color: var(--white);
   --ButtonGroup--primary-isActive-bg: var(--primary);
 
+  --Breadcrumb-item-fontSize: var(--fontSizeMd);
+  --Breadcrumb-item-default-color: #83868c;
+  --Breadcrumb-item-hover-color: #2468f2;
+  --Breadcrumb-item-active-color: #1c53c1;
+  --Breadcrumb-item-last-color: #151a26;
+  --BreadcrumbDropdown-item-default-color: #151a26;
+  --BreadcrumbDropdown-item-default-bg: #ffffff;
+  --BreadcrumbDropdown-item-hover-bg: #e9f0fd;
+  --BreadcrumbDropdown-item-fontSize: var(--fontSizeSm);
+  --BreadcrumbDropdown-item-height: #{px2rem(32px)};
+  --BreadcrumbDropdown-item-paddingX: var(--gap-sm);
+  --BreadcrumbDropdown-item-paddingY: calc(
+    (var(--BreadcrumbDropdown-item-height) - var(--fontSizeSm)) / 2
+  );
+
   --Calendar-btn-bg: var(--info);
   --Calendar-btn-border: var(--Calendar-btn-bg);
   --Calendar-btn-borderRadius: var(--Button-borderRadius);
@@ -737,6 +752,7 @@
   --Form-select-menu-onDisabled-color: var(--text--muted-color);
   --Form-select-menu-onHover-bg: rgba(0, 126, 255, 0.08);
   --Form-select-menu-onHover-color: var(--info);
+  --Form-select-group-color: var(--Form-select-caret-iconColor);
   --Form-select-onError-borderColor: var(--Form-input-onError-borderColor);
   --Form-select-onFocused-borderColor: var(--Form-input-onFocused-borderColor);
   --Form-select-onFocused-color: var(--Form-select-color);
@@ -748,8 +764,13 @@
   --Form-select-placeholderColor: var(--Form-input-placeholderColor);
   --Form-select-popoverGap: 0;
   --Form-select-search-height: var(--Form-select-menu-height);
+  --Form-select-value-bgColor: var(--Form-input-onDisabled-bg);
+  --Form-select-value-borderColor: var(--Form-select-value-borderColor);
+  --Form-select-valueIcon-color: var(--Form-select-valueIcon-color);
+  --Form-select-valueIcon-onHover-color: var(--Form-select-color);
   --Form-selectOption-height: var(--Form-input-height);
   --Form-selectValue-bg: #{saturate(lighten($info, 40%), 2.5%)};
+  --Form-selectValue-onHover-bgColor: var(--Form-select-borderColor);
   --Form-selectValue-borderColor: #{saturate(lighten($info, 30%), 2.5%)};
   --Form-selectValue-color: var(--info);
   --Form-selectValue-fontSize: var(--fontSizeSm);
@@ -761,6 +782,8 @@
       saturate(lighten($info, 40%), 2.5%),
       5%
     )};
+  --Form-selectValue-onDisabled-color: var(--Form-select-caret-iconColor);
+  --Form-valueLabel-maxWidth: #{px2rem(120px)};
   --Form-select-onFocus-boxShadow: none;
 
   --IconPicker-content-maxHeight: #{px2rem(350px)};
@@ -792,6 +815,14 @@
   --ImageControl-addBtn-onHover-color: var(--Button--default-color);
   --ImageControl-progress-borderRadius: 0;
 
+  --FileControl-danger-color: #f33e3e;
+  --FileControl-drag-color: #303540;
+  --FileControl-border-color: #e8e9eb;
+  --FileControl-onDisabled-color: #b8babf;
+  --FileControl-onDisabled-bg: #f7f7f9;
+  --FileControl-onHover-bg: #f2f2f4;
+  --FileControl-icon-color: #84868c;
+  --FileControl-icon-onHover-color: #5c5f66;
   --FileControl-progress-borderRadius: 0;
 
   --InputGroup-addOn-bg: var(--Form-input-addOnBg);
@@ -822,36 +853,44 @@
   --InputGroup-select-onFocused-bg: var(--white);
   --InputGroup-select-onFocused-color: var(--Form-select-onFocused-color);
 
-  --InputRange-label--value-display: block;
-  --InputRange-label--value-positionTop: #{px2rem(-36px)};
-  --InputRange-label--value-positionLeft: #{px2rem(-6px)};
-  --InputRange-label-color: var(--InputRange-neutralColor);
-  --InputRange-label-fontSize: 0.8rem;
-  --InputRange-label-positionBottom: -1.4rem;
-  --InputRange-neutralColor: #aaaaaa;
-  --InputRange-neutralLightColor: #eeeeee;
-  --InputRange-onDisabled-color: #cccccc;
-  --InputRange-primaryColor: var(--info);
-  --InputRange-slider-bg: var(--InputRange-primaryColor);
-  --InputRange-slider-border: #{px2rem(1px)} solid var(--InputRange-primaryColor);
-  --InputRange-slider-height: #{px2rem(24px)};
-  --InputRange-slider-onActive-transform: scale(1.3);
-  --InputRange-slider-onDisabled-bg: var(--InputRange-onDisabled-color);
-  --InputRange-slider-onDisabled-border: #{px2rem(1px)} solid var(--InputRange-onDisabled-color);
-  --InputRange-slider-onFocus-borderRadius: var(--borderRadiusMd);
-  --InputRange-slider-onFocus-boxShadow: 0 0 0
-    var(--InputRange-slider-onFocus-borderRadius) #{transparentize($info, 0.8)};
-  --InputRange-slider-transition: transform var(--animation-duration) ease-out,
-    box-shadow var(--animation-duration) ease-out;
-  --InputRange-slider-width: #{px2rem(18px)};
-  --InputRange-sliderContainer-transition: left var(--animation-duration)
-    ease-out;
-  --InputRange-track-bg: var(--InputRange-neutralLightColor);
-  --InputRange-track-height: #{px2rem(12px)};
+  --InputRange-padding: #{px2rem(20px)};
+  --InputRange-onDisabled-color: var(--light);
+  --InputRange-primaryColor: var(--primary);
+  --InputRange-track-height: #{px2rem(4px)};
+  --InputRange-track-bg: #{$gray100};
+  --InputRange-track-onDisabled-bg: var(--InputRange-onDisabled-color);
   --InputRange-track-onActive-bg: var(--InputRange-primaryColor);
-  --InputRange-track-onDisabled-bg: var(--InputRange-neutralLightColor);
+  --InputRange-track-onActive-onDisabled-bg: #{$gray200};
+  --InputRange-track-onActive-transition: transform var(--animation-duration)
+    ease-out left;
+  --InputRange-track-border-radius: #{px2rem(4px)};
+  --InputRange-track-dot-width: #{px2rem(4px)};
+  --InputRange-track-dot-height: #{px2rem(4px)};
+  --InputRange-track-dot-bg: var(--white);
   --InputRange-track-transition: left var(--animation-duration) ease-out,
     width var(--animation-duration) ease-out;
+  --InputRange-handle-height: #{px2rem(16px)};
+  --InputRange-handle-width: #{px2rem(16px)};
+  --InputRange-handle-bg: var(--white);
+  --InputRange-handle-border: #{px2rem(1px)} solid var(--InputRange-primaryColor);
+  --InputRange-handle-onDisabled-border-color: #ceced1;
+  --InputRange-handle-onActive-transform: scale(1.3);
+  --InputRange-handle-onDrage-border-width: #{px2rem(2px)};
+  --InputRange-handle-onDisabled-bg: var(--InputRange-onDisabled-color);
+  --InputRange-handle-onDisabled-border: #{px2rem(1px)} solid var(--InputRange-onDisabled-color);
+  --InputRange-handle-onFocus-borderRadius: var(--borderRadiusMd);
+  --InputRange-handele-onFocus-boxShadow: 0 0 0
+    var(--InputRange-slider-onFocus-borderRadius) #{transparentize($info, 0.8)};
+  --InputRange-handle-transition: transform var(--animation-duration) ease-out,
+    box-shadow var(--animation-duration) ease-out;
+  --InputRange-handle-icon-width: #{px2rem(8px)};
+  --InputRange-handle-icon-height: #{px2rem(8px)};
+  --InputRange-label-padding: #{px2rem(8px)};
+  --InputRange-label-bg: #000;
+  --InputRange-label-color: var(--white);
+  --InputRange-label-font-size: #{px2rem(14px)};
+  --InputRange-label-border-radius: #{px2rem(4px)};
+  --InputRange-label-position-bottom: calc(100% + 8px);
 
   --Layout--offscreen-width: 75%;
   --Layout-aside--folded-width: #{px2rem(60px)};
@@ -1163,6 +1202,8 @@
   --ResultBox-value--onHover-bg: rgba(0, 145, 255, 0.1);
   --ResultBox-value-bg: #f5f5f5;
   --ResultBox-value-color: #000;
+  --ResultBox-value-clear-bg: #d4d6d9;
+  --ResultBox-value-clear-hover-bg: #f5f5f5;
 
   --Rating-inactive-color: #e6e6e8;
   --Rating-star-margin: #{px2rem(8px)};
@@ -1264,16 +1305,26 @@
   --Tabs--card-onActive-bg: var(--background);
   --Tabs--card-onActive-borderColor: var(--borderColor);
   --Tabs--card-padding: #{px2rem(6px)} 0 0 #{px2rem(10px)};
+  --Tabs--card-add-gap: var(--gap-md);
+  --Tabs--card-add-gap-top: #{px2rem(7px)};
+  --Tabs--card-arrow-gap: var(--gap-sm);
   --Tabs--line-borderColor: var(--borderColor);
   --Tabs--line-borderWidth: #{px2rem(2px)};
   --Tabs--line-content-bg: transparent;
   --Tabs--line-content-padding: var(--gap-base) 0;
-  --Tabs--line-linkMargin: 0 40px 0 0;
+  --Tabs--line-linkMargin: 0 32px 0 0;
   --Tabs--line-linkPadding: 0 0 8px;
+  --Tabs--line-addPadding: 0 0 10px;
+  --Tabs--line-padding: var(--gap-md);
   --Tabs--line-onHover-borderColor: var(--primary);
   --Tabs--line-onHover-color: var(--primary);
   --Tabs--radio-bg: #eaf6fe;
   --Tabs--vertical-onActive-borderColor: var(--primary);
+  --Tabs--tiled-add-gap: var(--gap-base);
+  --Tabs--simple-split-width: #{px2rem(1px)};
+  --Tabs--strong-add-size: #{px2rem(32px)};
+  --Tabs--strong-arrow-size: #{px2rem(24px)};
+
   --Tabs-borderColor: var(--borderColor);
   --Tabs-borderRadius: var(--borderRadius);
   --Tabs-borderWidth: var(--borderWidth);
@@ -1287,6 +1338,22 @@
   --Tabs-onActive-color: #{$gray700};
   --Tabs-onDisabled-color: #{$gray600};
   --Tabs-onHover-borderColor: #{$gray200};
+  --Tabs-add-icon-size: #{px2rem(15px)};
+  --Tabs-add-icon-padding: #{px2rem(1px)};
+  --Tabs-add-icon-margin: var(--gap-xs);
+  --Tabs-add-margin: var(--gap-lg);
+  --Tabs-gray-color: #83868c;
+  --Tabs-close-margin: #{var(--gap-xs)};
+  --Tabs-close-marginTop: #{px2rem(1px)};
+  --Tabs-close-size: #{px2rem(12px)};
+  --Tabs-link-maxWidth: #{px2rem(160px)};
+
+  --Tabs--sidebar-sideWidth: #{px2rem(62px)};
+  --Tabs--sidebar-sidePadding: #{px2rem(27px)};
+  --Tabs--sidebar-sideMargin: 0 0 #{px2rem(22px)} 0;
+  --Tabs--sidebar-iconSize: #{px2rem(24px)};
+  --Tabs--sidebar-iconMargin: #{px2rem(5px)};
+
   --Tabs--vertical-bg: var(--Table-thead-bg);
   --Tabs--vertical-width: #{px2rem(140px)};
   --Tabs--vertical-onActive-color: var(--primary);
@@ -1367,26 +1434,31 @@
   --Tooltip--attr-paddingY: #{px2rem(2px)};
   --Tooltip--attr-transition: all var(--animation-duration) ease-in-out;
   --Tooltip-arrow-color: var(--Tooltip-bg);
-  --Tooltip-arrow-color: var(--Tooltip-bg);
+  --Tooltip-arrow-color--dark: rgba(7, 12, 20, 0.85);
   --Tooltip-arrow-height: #{px2rem(8px)};
   --Tooltip-arrow-height: 0.5rem;
   --Tooltip-arrow-outerColor: #{fade-in($borderColor, 0.05)};
   --Tooltip-arrow-width: #{px2rem(16px)};
   --Tooltip-arrow-width: 1rem;
   --Tooltip-bg: var(--background);
+  --Tooltip-bg--dark: rgba(7, 12, 20, 0.85);
   --Tooltip-body-color: var(--text-color);
+  --Tooltip-body-color--dark: var(--white);
   --Tooltip-body-paddingX: var(--gap-sm);
   --Tooltip-body-paddingY: var(--gap-sm);
   --Tooltip-borderColor: var(--borderColor);
   --Tooltip-borderRadius: var(--borderRadiusLg);
   --Tooltip-borderWidth: var(--borderWidth);
   --Tooltip-boxShadow: var(--boxShadow);
+  --Tooltip-boxShadow--dark: 0 2px 8px 0 rgba(7, 12, 20, 0.12);
   --Tooltip-fontSize: var(--fontSizeSm);
   --Tooltip-maxWidth: #{px2rem(240px)};
   --Tooltip-minWidth: auto;
+  --Tooltip-title-fontWeight: bold;
   --Tooltip-title-bg: #{darken($white, 3%)};
   --Tooltip-title-borderBottom-color: #{darken(darken($white, 3%), 5%)};
   --Tooltip-title-color: var(--text--loud-color);
+  --Tooltip-title-color--dark: var(--white);
   --Tooltip-title-paddingX: var(--gap-sm);
   --Tooltip-title-paddingY: var(--gap-xs);
 
@@ -1454,4 +1526,47 @@
   --InputFormula-icon-size: #{px2rem(24px)};
   --InputFormula-icon-color-onActive: var(--primary);
   --InputFormula-code-bgColor: #f2f2f4;
+
+  // timeline
+  --TimelineItem--axle-flex: 0 0 #{px2rem(24px)};
+  --TimelineItem--left-line-width: #{px2rem(2px)};
+  --TimelineItem--left-line-left: #{px2rem(13px)};
+  --TimelineItem--left-line-top: #{px2rem(20px)};
+  --TimelineItem--round-width: #{px2rem(8px)};
+  --TimelineItem--round-height: #{px2rem(8px)};
+  --TimelineItem--round-left: #{px2rem(10px)};
+  --TimelineItem--round-top: #{px2rem(8px)};
+  --TimelineItem--icon-width: #{px2rem(16px)};
+  --TimelineItem--icon-height: #{px2rem(16px)};
+  --TimelineItem--icon-left: #{px2rem(6px)};
+  --TimelineItem--content-padding-bottom: var(--gap-md);
+  --TimelineItem--content-margin-left: var(--gap-base);
+  --TimelineItem--content-time-margin-bottom: var(--gap-xs);
+  --TimelineItem--content-title-margin-bottom: var(--gap-xs);
+  --TimelineItem--detail-button-margin-bottom: var(--gap-base);
+  --TimelineItem-detail-arrow-width: #{px2rem(16px)};
+  --TimelineItem-detail-visible-padding: #{px2rem(10px)};
+  --TimelineItem-detail-visible-max-width: #{px2rem(300px)};
+  --Timeline-alternate-margin-left: var(--gap-xl);
+
+  --TimelineItem--icon-radius: 50%;
+  --TimelineItem--round-radius: 50%;
+  --TimelineItem--content-radius: px2rem(2px);
+
+  --TimelineItem-detail-visible-shadow: 0 #{px2rem(1px)} #{px2rem(10px)} 0
+    rgba(0 0 0 / 10%);
+
+  --TimelineItem--font-size: var(--fontSizeSm);
+
+  --TimelineItem--text-primary-color: #151a26;
+  --TimelineItem--text-secondary-color: #83868c;
+  --TimelineItem--detail-button-color: var(--primary);
+  --TimelineItem--line-bg: #e6e6e8;
+  --TimelineItem--content-bg: #f2f2f4;
+  --TimelineItem-round-bg: #dadbdd;
+
+  --Timeline--success-bg: var(--success);
+  --Timeline--info-bg: var(--info);
+  --Timeline--warning-bg: var(--warning);
+  --Timeline--danger-bg: var(--danger);
 }

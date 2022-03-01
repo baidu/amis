@@ -1,20 +1,36 @@
-import React from 'react';
+import React, {CSSProperties, ReactNode} from 'react';
 import isNumber from 'lodash/isNumber';
 import isObject from 'lodash/isObject';
 import isEqual from 'lodash/isEqual';
-import {FormItem, FormControlProps, FormBaseControl} from './Item';
+import forEach from 'lodash/forEach';
 
+import {FormItem, FormControlProps, FormBaseControl} from './Item';
 import InputRange from '../../components/Range';
+import NumberInput from '../../components/NumberInput';
 import {Icon} from '../../components/icons';
-import {FormOptionsControl} from './Options';
 import {stripNumber} from '../../utils/tpl-builtin';
+import {autobind, createObject} from '../../utils/helper';
+import {filter} from '../../utils/tpl';
+import {SchemaObject} from '../../Schema';
+import {Action} from '../../types';
 
 /**
  * Range
  * 文档：https://baidu.gitee.io/amis/docs/components/form/range
  */
+
+export type Value = string | MultipleValue | number | [number, number];
+export type FormatValue = MultipleValue | number;
+export type TooltipPosType = 'auto' | 'top' | 'right' | 'bottom' | 'left';
+export type InputRangeRendererEvent = 'change' | 'blur' | 'focus';
+export type InputRangeRendererAction = 'clear';
 export interface RangeControlSchema extends FormBaseControl {
   type: 'input-range';
+
+  /**
+   * 滑块值
+   */
+  value?: Value;
 
   /**
    * 最大值
@@ -35,25 +51,166 @@ export interface RangeControlSchema extends FormBaseControl {
    * 单位
    */
   unit?: string;
+
+  /**
+   * 是否展示步长
+   */
+  showSteps?: boolean;
+
+  /**
+   * 分割块数
+   */
+  parts?: number;
+
+  /**
+   * 刻度
+   */
+  marks?: MarksType;
+
+  /**
+   * 是否展示标签
+   */
+  tooltipVisible?: boolean;
+
+  /**
+   * 标签方向
+   */
+  tooltipPlacement?: TooltipPosType;
+
+  /**
+   * 是否为双滑块
+   */
+  multiple?: boolean;
+
+  /**
+   * 是否通过分隔符连接
+   */
+  joinValues?: boolean;
+
+  /**
+   * 分隔符
+   */
+  delimiter?: string;
+
+  /**
+   * 是否展示输入框
+   */
+  showInput?: boolean;
+
+  /**
+   * 是否禁用
+   */
+  disabled?: boolean;
 }
 
+type MarksType = {
+  [index: number | string]: MarksValue;
+};
+
+type MarksValue = Record<
+  number,
+  SchemaObject | {style?: React.CSSProperties; label?: string}
+>;
+
 export interface RangeProps extends FormControlProps {
-  max?: number;
-  min?: number;
-  step?: number;
+  /**
+   * 滑块值
+   */
+  value: Value;
+
+  /**
+   * 最小值
+   */
+  min: number;
+
+  /**
+   * 最大值
+   */
+  max: number;
+
+  /**
+   * 步长
+   */
+  step: number;
+
+  /**
+   * 是否展示步长
+   */
+  showSteps: boolean;
+
+  /**
+   * 分割块数
+   */
+  parts: number;
+
+  /**
+   * 刻度
+   */
+  marks?: MarksType;
+
+  /**
+   * 是否展示标签
+   */
+  tooltipVisible: boolean;
+
+  /**
+   * 标签方向
+   */
+  tooltipPlacement: TooltipPosType;
+
+  /**
+   * 控制滑块标签显隐函数
+   */
+  tipFormatter?: (value: Value) => boolean;
+
+  /**
+   * 是否为双滑块
+   */
+  multiple: boolean;
+
+  /**
+   * 是否通过分隔符连接
+   */
+  joinValues: boolean;
+
+  /**
+   * 分隔符
+   */
+  delimiter: string;
+
+  /**
+   * 单位
+   */
   unit?: string;
-  clearable?: boolean;
-  name?: string;
-  showInput?: boolean;
-  className?: string;
-  value: any;
-  onChange: (value: any) => void;
-  multiple?: boolean;
-  joinValues?: boolean;
-  delimiter?: string;
+
+  /**
+   * 是否展示输入框
+   */
+  showInput: boolean;
+
+  /**
+   * 是否禁用
+   */
+  disabled: boolean;
+
+  /**
+   * value改变事件
+   */
+  onChange: (value: Value) => void;
+
+  /**
+   * 鼠标松开事件
+   */
+  onAfterChange?: (value: Value) => any;
+}
+
+export interface MultipleValue {
+  min: number;
+  max: number;
 }
 
 export interface DefaultProps {
+  value: Value;
   max: number;
   min: number;
   step: number;
@@ -64,56 +221,201 @@ export interface DefaultProps {
   multiple: boolean;
   joinValues: boolean;
   delimiter: string;
+  showSteps: boolean;
+  parts: number;
+  tooltipPlacement: TooltipPosType;
 }
 
-export function formatValue(
-  value: string | number | {min: number; max: number},
-  props: Partial<RangeProps>
-) {
-  if (props.multiple) {
-    if (typeof value === 'string') {
-      const [minValue, maxValue] = value
-        .split(props.delimiter || ',')
-        .map(v => Number(v));
-      return {
-        min:
-          (props.min && minValue < props.min && props.min) ||
-          minValue ||
-          props.min,
-        max:
-          (props.max && maxValue > props.max && props.max) ||
-          maxValue ||
-          props.max
-      };
-    } else if (typeof value === 'object') {
-      return {
-        min:
-          (props.min && value.min < props.min && props.min) ||
-          value.min ||
-          props.min,
-        max:
-          (props.max && value.max > props.max && props.max) ||
-          value.max ||
-          props.max
-      };
-    }
-  }
-  return value ?? props.min;
+export interface RangeItemProps extends RangeProps {
+  value: FormatValue;
+  updateValue: (value: Value) => void;
+  onAfterChange: () => void;
 }
-
-type PropsWithDefaults = RangeProps & DefaultProps;
 
 export interface RangeState {
-  value:
-    | {
-        min?: number;
-        max?: number;
+  value: FormatValue;
+}
+
+/**
+ * 格式化初始value值
+ * @param value 初始value值 Value
+ * @param props RangeProps
+ * @returns number | {min: number, max: number}
+ */
+export function formatValue(
+  value: Value,
+  props: {
+    multiple: boolean;
+    delimiter: string;
+    min: number;
+    max: number;
+  }
+): FormatValue {
+  if (props.multiple) {
+    let {min, max} = props;
+    // value是字符串
+    if (typeof value === 'string') {
+      [min, max] = value.split(props.delimiter || ',').map(v => Number(v));
+    }
+    // value是数组
+    else if (Array.isArray(value)) {
+      [min, max] = value;
+    }
+    // value是对象
+    else if (typeof value === 'object') {
+      min = value.min;
+      max = value.max;
+    }
+    return {
+      min: min === undefined || min < props.min ? props.min : min,
+      max: max === undefined || max > props.max ? props.max : max
+    };
+  }
+  return +value ?? props.min;
+}
+
+/**
+ * 输入框
+ */
+export class Input extends React.Component<RangeItemProps, any> {
+  /**
+   * onChange事件，只能输入数字
+   * @param e React.ChangeEvent
+   */
+  @autobind
+  onChange(value: number) {
+    const {multiple, value: originValue, type} = this.props;
+    const _value = this.getValue(value, type);
+
+    this.props.updateValue(
+      multiple ? {...(originValue as MultipleValue), [type]: _value} : value
+    );
+  }
+
+  /**
+   * 双滑块 更新value
+   * @param value 输入的value值
+   */
+  @autobind
+  onUpdateValue(value: number) {
+    const {multiple, value: originValue, type} = this.props;
+    const _value = this.getValue(value, type);
+
+    this.props.updateValue(
+      multiple ? {...(originValue as MultipleValue), [type]: _value} : value
+    );
+  }
+
+  checkNum(value: number | string | undefined) {
+    if (typeof value !== 'number') {
+      value = filter(value, this.props.data);
+      value = /^[-]?\d+/.test(value) ? +value : undefined;
+    }
+    return value;
+  }
+
+  /**
+   * 获取步长小数精度
+   * @returns
+   */
+  getStepPrecision() {
+    const {step} = this.props;
+    const stepIsDecimal = /^\d+\.\d+$/.test(step.toString());
+    return !stepIsDecimal || step < 0
+      ? 0
+      : step.toString().split('.')[1]?.length;
+  }
+
+  /**
+   * 处理数据
+   * @param value input数据
+   * @param type min | max 双滑块
+   * @returns 处理之后数据
+   */
+  getValue(value: string | number, type?: string) {
+    const {max, min, step, value: stateValue} = this.props as RangeItemProps;
+
+    // 校正value为step的倍数
+    let _value = Math.round(parseFloat(value + '') / step) * step;
+    // 同步value与步长小数位数
+    _value = parseFloat(_value.toFixed(this.getStepPrecision()));
+    // 单滑块只用考虑 轨道边界 ，双滑块需要考虑 两端滑块边界
+    switch (type) {
+      case 'min': {
+        if (isObject(stateValue) && isNumber(stateValue.max)) {
+          // 如果 大于当前双滑块最大值 取 当前双滑块max值 - 步长
+          if (_value >= stateValue.max) {
+            return stateValue.max - step;
+          }
+          return _value;
+        }
+        return min;
       }
-    | number
-    | string
-    | undefined;
-  minValue?: any;
-  maxValue?: any;
+      case 'max':
+        if (isObject(stateValue) && isNumber(stateValue.min)) {
+          // 如果 小于当前双滑块最大值 取 当前双滑块min值 + 步长
+          if (_value <= stateValue.min) {
+            return stateValue.min + step;
+          }
+          return _value;
+        }
+        return max;
+      default:
+        // 轨道边界
+        return (_value < min && min) || (_value > max && max) || _value;
+    }
+  }
+
+  /**
+   * 失焦事件
+   */
+  @autobind
+  onBlur() {
+    const {data, dispatchEvent} = this.props;
+    dispatchEvent('blur', data);
+  }
+
+  /**
+   * 聚焦事件
+   */
+  @autobind
+  onFocus() {
+    const {data, dispatchEvent} = this.props;
+    dispatchEvent('focus', data);
+  }
+
+  render() {
+    const {
+      classnames: cx,
+      value,
+      multiple,
+      type,
+      step,
+      classPrefix: ns,
+      disabled,
+      max,
+      min
+    } = this.props;
+    const _value = multiple
+      ? type === 'min'
+        ? Math.min((value as MultipleValue).min, (value as MultipleValue).max)
+        : Math.max((value as MultipleValue).min, (value as MultipleValue).max)
+      : value;
+    return (
+      <div className={cx(`${ns}InputRange-input`)}>
+        <NumberInput
+          value={+_value}
+          step={step}
+          max={this.checkNum(max)}
+          min={this.checkNum(min)}
+          onChange={this.onChange}
+          disabled={disabled}
+          onBlur={this.onBlur}
+          onFocus={this.onFocus}
+        />
+      </div>
+    );
+  }
 }
 
 export default class RangeControl extends React.PureComponent<
@@ -123,6 +425,7 @@ export default class RangeControl extends React.PureComponent<
   midLabel?: HTMLSpanElement;
 
   static defaultProps: DefaultProps = {
+    value: 0,
     max: 100,
     min: 0,
     step: 1,
@@ -132,7 +435,10 @@ export default class RangeControl extends React.PureComponent<
     showInput: false,
     multiple: false,
     joinValues: true,
-    delimiter: ','
+    delimiter: ',',
+    showSteps: false,
+    parts: 1,
+    tooltipPlacement: 'auto'
   };
 
   constructor(props: RangeProps) {
@@ -146,28 +452,20 @@ export default class RangeControl extends React.PureComponent<
     });
 
     this.state = {
-      value: value,
-      minValue: isObject(value) ? value.min : min,
-      maxValue: isObject(value) ? value.max : max
+      value: this.getValue(value)
     };
-    this.handleChange = this.handleChange.bind(this);
-    this.handleEnd = this.handleEnd.bind(this);
-    this.handleInputChange = this.handleInputChange.bind(this);
-    this.midLabelRef = this.midLabelRef.bind(this);
-    this.clearValue = this.clearValue.bind(this);
-    this.handleMinInputBlur = this.handleMinInputBlur.bind(this);
-    this.handleMaxInputBlur = this.handleMaxInputBlur.bind(this);
-    this.handleMinInputChange = this.handleMinInputChange.bind(this);
-    this.handleMaxInputChange = this.handleMaxInputChange.bind(this);
-  }
-
-  componentDidMount() {
-    this.updateStyle();
   }
 
   componentDidUpdate(prevProps: RangeProps) {
     const {value} = prevProps;
-    const {value: nextPropsValue, multiple, delimiter, min, max} = this.props;
+    const {
+      value: nextPropsValue,
+      multiple,
+      delimiter,
+      min,
+      max,
+      onChange
+    } = this.props;
     if (value !== nextPropsValue) {
       const value = formatValue(nextPropsValue, {
         multiple,
@@ -175,312 +473,148 @@ export default class RangeControl extends React.PureComponent<
         min,
         max
       });
-
       this.setState({
-        value: value,
-        minValue: isObject(value) ? value.min : min,
-        maxValue: isObject(value) ? value.max : max
+        value: this.getValue(value)
       });
     }
+  }
 
-    if (prevProps.showInput !== this.props.showInput) {
-      this.updateStyle();
+  doAction(action: Action, data: object, throwErrors: boolean) {
+    if (action.actionType === 'clear') {
+      this.clearValue();
     }
   }
 
-  updateStyle() {
-    const {showInput, classPrefix: ns, max, min} = this.props;
-
-    let offsetWidth = (this.midLabel as HTMLSpanElement).offsetWidth;
-    const midValue = parseFloat(
-      ((max! + min! - 0.000001) / 2).toFixed(this.getStepPrecision())
-    );
-
-    let left = `${100 * ((midValue - min!) / (max! - min!))}%`;
-    (this.midLabel as HTMLSpanElement).style.left = left;
-  }
-
-  midLabelRef(ref: any) {
-    this.midLabel = ref;
-  }
-
-  handleChange(value: any) {
-    this.setState({
-      value: stripNumber(value),
-      minValue: value.min,
-      maxValue: value.max
-    });
-  }
-
+  @autobind
   clearValue() {
-    const {multiple, joinValues, delimiter, min, max, onChange} = this.props;
+    const {multiple, min, max} = this.props;
     if (multiple) {
-      this.setState(
-        {
-          value: {
-            min: min,
-            max: max
-          },
-          minValue: min,
-          maxValue: max
-        },
-        () =>
-          onChange(
-            joinValues
-              ? [min, max].join(delimiter || ',')
-              : {
-                  min: min,
-                  max: max
-                }
-          )
-      );
+      this.updateValue({min, max});
     } else {
-      this.setState(
-        {
-          value: min
-        },
-        () => onChange(min)
-      );
+      this.updateValue(min);
     }
   }
 
-  handleEnd(value: any) {
-    const {multiple, joinValues, delimiter} = this.props;
-    let endValue = value;
-    if (multiple) {
-      endValue = joinValues
-        ? [value.min, value.max].join(delimiter || ',')
-        : {
-            min: value.min,
-            max: value.max
-          };
-    } else {
-      endValue = stripNumber(value);
-    }
-    const {onChange} = this.props;
-    this.setState(
-      {
-        value
-      },
-      () => onChange(endValue)
-    );
-  }
-
-  getStepPrecision() {
-    const {step} = this.props;
-
-    return typeof step !== 'number' || step >= 1 || step < 0
-      ? 0
-      : step.toString().split('.')[1]?.length;
-  }
-
-  getValue(value: any, type?: string) {
-    const {max, min, step} = this.props as PropsWithDefaults;
-    const {value: stateValue} = this.state;
-
-    if (
-      value === '' ||
-      value === '-' ||
-      new RegExp('^[-]?\\d+[.]{1}[0]{0,' + this.getStepPrecision() + '}$').test(
-        value
-      )
-    ) {
-      return value;
-    }
-
-    value = Math.round(parseFloat(value) / step) * step;
-    value =
-      step < 1 ? parseFloat(value.toFixed(this.getStepPrecision())) : ~~value;
-
-    switch (type) {
-      case 'min': {
-        if (isObject(stateValue) && isNumber(stateValue.max)) {
-          if (value >= stateValue.max && min <= stateValue.max - step) {
-            return stateValue.max - step;
-          }
-          if (value < stateValue.max - step) {
-            return value;
-          }
+  @autobind
+  getValue(value: FormatValue) {
+    const {multiple} = this.props;
+    return multiple
+      ? {
+          max: stripNumber((value as MultipleValue).max),
+          min: stripNumber((value as MultipleValue).min)
         }
-        return min;
-      }
-      case 'max':
-        return isObject(stateValue) && isNumber(stateValue.min)
-          ? (value > max && max) ||
-              (value <= stateValue.min && stateValue.min + step) ||
-              value
-          : max;
-      default:
-        return (value < min && min) || (value > max && max) || value;
-    }
+      : stripNumber(value as number);
   }
 
-  handleInputChange(evt: React.ChangeEvent<HTMLInputElement>) {
-    const value = this.getValue(evt.target.value);
-    this.setState(
-      {
-        value
-      },
-      () => this.props.onChange(value)
+  /**
+   * 所有触发value变换 -> updateValue
+   * @param value
+   */
+  @autobind
+  async updateValue(value: FormatValue) {
+    this.setState({value: this.getValue(value)});
+    const {onChange, data, dispatchEvent} = this.props;
+    const result = this.getFormatValue(value);
+
+    const rendererEvent = await dispatchEvent(
+      'change',
+      createObject(data, {
+        value: result
+      })
     );
-  }
 
-  handleMinInputBlur(evt: React.ChangeEvent<HTMLInputElement>) {
-    const {joinValues, delimiter} = this.props;
-    const minValue = this.getValue(evt.target.value, 'min');
-    const {value} = this.state;
-    isObject(value)
-      ? this.setState(
-          {
-            value: {
-              min: minValue,
-              max: value.max
-            },
-            minValue: minValue
-          },
-          () =>
-            this.props.onChange(
-              joinValues
-                ? [minValue, value.max].join(delimiter || ',')
-                : {
-                    min: minValue,
-                    max: value.max
-                  }
-            )
-        )
-      : null;
-  }
-
-  handleMaxInputBlur(evt: React.ChangeEvent<HTMLInputElement>) {
-    const {joinValues, delimiter} = this.props;
-    const maxValue = this.getValue(evt.target.value, 'max');
-    const {value} = this.state;
-
-    if (isObject(value)) {
-      this.setState(
-        {
-          value: {
-            min: value.min,
-            max: maxValue
-          },
-          maxValue: maxValue
-        },
-        () =>
-          this.props.onChange(
-            joinValues
-              ? [value.min, maxValue].join(delimiter || ',')
-              : {
-                  min: value.min,
-                  max: maxValue
-                }
-          )
-      );
+    if (rendererEvent?.prevented) {
+      return;
     }
+
+    onChange && onChange(result);
   }
 
-  handleMinInputChange(evt: React.ChangeEvent<HTMLInputElement>) {
-    this.setState({
-      minValue: evt.target.value
-    });
+  /**
+   * 鼠标松开事件
+   */
+  @autobind
+  onAfterChange() {
+    const {value} = this.state;
+    const {onAfterChange, dispatchEvent, data} = this.props;
+    const result = this.getFormatValue(value);
+    onAfterChange && onAfterChange(result);
   }
 
-  handleMaxInputChange(evt: React.ChangeEvent<HTMLInputElement>) {
-    this.setState({
-      maxValue: evt.target.value
-    });
+  /**
+   * 获取导出格式数据
+   */
+  @autobind
+  getFormatValue(value: FormatValue) {
+    const {multiple, joinValues, delimiter} = this.props;
+    return multiple
+      ? joinValues
+        ? [(value as MultipleValue).min, (value as MultipleValue).max].join(
+            delimiter || ','
+          )
+        : {
+            min: (value as MultipleValue).min,
+            max: (value as MultipleValue).max
+          }
+      : value;
   }
 
   render() {
+    const {value} = this.state;
+    const props: RangeItemProps = {
+      ...this.props,
+      value,
+      updateValue: this.updateValue,
+      onAfterChange: this.onAfterChange
+    };
+
     const {
-      max,
-      min,
-      step,
-      unit,
-      clearable,
-      name,
-      disabled,
-      className,
-      showInput,
+      classPrefix: ns,
       multiple,
+      parts,
+      showInput,
       classnames: cx,
-      classPrefix: ns
-    } = this.props as PropsWithDefaults;
-    const midValue = ((max + min - 0.000001) / 2).toFixed(
-      this.getStepPrecision()
-    );
+      className,
+      disabled,
+      clearable,
+      min,
+      max,
+      render,
+      marks,
+      region
+    } = props;
+
+    // 指定parts -> 重新计算步长
+    if (parts > 1) {
+      props.step = (props.max - props.min) / props.parts;
+      props.showSteps = true;
+    }
+
+    // 处理自定义json配置
+    let renderMarks:
+      | MarksType
+      | {[index: number | string]: ReactNode}
+      | undefined = marks ? {...marks} : marks;
+    marks &&
+      forEach(marks, (item, key) => {
+        if (isObject(item) && (item as SchemaObject).type) {
+          renderMarks &&
+            (renderMarks[key] = render(region, item as SchemaObject));
+        }
+      });
 
     return (
       <div
         className={cx(
           'RangeControl',
-          {
-            'RangeControl--withInput': showInput,
-            'RangeControl--clearable': clearable,
-            'is-multiple': multiple
-          },
+          `${ns}InputRange`,
+          {'is-disabled': disabled},
           className
         )}
       >
-        <InputRange
-          classPrefix={ns}
-          value={this.state.value}
-          disabled={disabled}
-          onChange={this.handleChange}
-          onChangeComplete={this.handleEnd}
-          max={max}
-          min={min}
-          step={step}
-          formatLabel={(value: any) => value + unit}
-          multiple={multiple}
-        />
-
-        <span
-          className={cx('InputRange-label InputRange-label--mid')}
-          ref={this.midLabelRef}
-        >
-          <span className={cx('InputRange-labelContainer')}>
-            {midValue}
-            {unit}
-          </span>
-        </span>
-
-        {showInput ? (
-          multiple && isObject(this.state.value) ? (
-            <div className={cx('InputRange-input is-multiple')}>
-              <input
-                className={this.state.value.min !== min ? 'is-active' : ''}
-                type="text"
-                name={name}
-                value={this.state.minValue}
-                disabled={disabled}
-                onChange={this.handleMinInputChange}
-                onBlur={this.handleMinInputBlur}
-              />
-              <span className={cx('InputRange-input-separator')}> - </span>
-              <input
-                className={this.state.value.max !== max ? 'is-active' : ''}
-                type="text"
-                name={name}
-                value={this.state.maxValue}
-                disabled={disabled}
-                onChange={this.handleMaxInputChange}
-                onBlur={this.handleMaxInputBlur}
-              />
-            </div>
-          ) : (
-            <div className={cx('InputRange-input')}>
-              <input
-                className={this.state.value !== min ? 'is-active' : ''}
-                type="text"
-                name={name}
-                value={!isObject(this.state.value) ? this.state.value : 0}
-                disabled={disabled}
-                onChange={this.handleInputChange}
-              />
-            </div>
-          )
-        ) : null}
-
+        {showInput && multiple && <Input {...props} type="min" />}
+        <InputRange {...props} marks={renderMarks} />
+        {showInput && <Input {...props} type="max" />}
         {clearable && !disabled && showInput ? (
           <a
             onClick={() => this.clearValue()}

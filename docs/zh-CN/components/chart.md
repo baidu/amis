@@ -421,7 +421,7 @@ ECharts 中有些配置项可以写函数，比如 formatter 和 sort，但在 J
 
 从 amis 1.1.0 版本开始，ECharts 版本升级到 5.0.0，为了规避政策风险，在这个版本删除了之前的地图 geojson，如果需要这个功能需要手动引入。
 
-方法是去 `https://github.com/apache/incubator-echarts/tree/master/test/data/map/js` 下载 `china.js` 和 `world.js`。
+方法是去 `https://github.com/apache/echarts/tree/master/test/data/map/js` 下载 `china.js` 和 `world.js`。
 
 对于 npm 版本，直接 `import` 这两个文件就行。
 

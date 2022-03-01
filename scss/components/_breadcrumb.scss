@@ -1,9 +1,98 @@
 .#{$ns}Breadcrumb {
+  font-size: var(--Breadcrumb-item-fontSize);
+  font-weight: var(--fontWeightBase);
+  color: var(--Breadcrumb-item-default-color);
+
   &-icon {
     margin-right: px2rem(2px);
+    min-width: var(--gap-xs);
   }
+
+  &-item {
+    position: relative;
+
+    &-default {
+      cursor: pointer;
+      color: var(--Breadcrumb-item-default-color);
+    }
+    &-dropdown {
+      cursor: pointer;
+      color: var(--BreadcrumbDropdown-item-default-color);
+    }
+    a:hover {
+      color: var(--Breadcrumb-item-hover-color);
+    }
+    a:active {
+      color: var(--Breadcrumb-item-active-color);
+    }
+
+    &-last &-default {
+      font-weight: var(--fontWeightMd);
+      color: var(--Breadcrumb-item-last-color);
+    }
+
+    &-caret {
+      margin-left: var(--gap-sm);
+      cursor: pointer;
+      display: inline-block;
+      transition: transform var(--animation-duration) ease;
+  
+      > svg {
+        width: px2rem(10px);
+        height: px2rem(10px);
+        top: px2rem(1px);
+      }
+    }
+
+    &.is-opened &-caret {
+      transform: translateY(px2rem(2px)) rotate(180deg);
+      color: var(--Breadcrumb-item-hover-color);
+    }
+
+    &.is-opened &-default{
+      color: var(--Breadcrumb-item-hover-color);
+    }
+  }
+
   &-separator {
     user-select: none;
-    margin: 0 var(--gap-xs);
+    margin: 0 var(--gap-sm);
+    text-align: center;
+    min-width: var(--gap-xs);
+  }
+
+  &-dropdown {
+    position: absolute;
+    z-index: $zindex-dropdown;
+    top: 100%;
+    left: 0;
+    margin: px2rem(1px) 0;
+    background: var(--DropDown-menu-bg);
+    list-style: none;
+    padding: var(--DropDown-menu-paddingY) var(--DropDown-menu-paddingX);
+    border: var(--DropDown-menu-borderWidth) solid var(--DropDown-menu-borderColor);
+    border-radius: var(--DropDown-menu-borderRadius);
+    box-shadow: var(--DropDown-menu-boxShadow);
+    min-width: 100%;
+    text-align: left;
+    font-size: var(--BreadcrumbDropdown-item-fontSize);
+  }
+
+  &-dropdown > li {
+    padding: var(--BreadcrumbDropdown-item-paddingX) var(--BreadcrumbDropdown-item-paddingY);
+    white-space: nowrap;
+    box-sizing: border-box;
+    padding-left: px2rem(12px);
+    vertical-align: middle;
+    user-select: none;
+    color: var(--BreadcrumbDropdown-item-default-color);
+    background-color: var(--BreadcrumbDropdown-item-default-bg);
+
+    &:hover {
+      background: var(--BreadcrumbDropdown-item-hover-bg);
+      a {
+        color: var(--Breadcrumb-item-hover-color);
+      }
+    }
   }
 }

@@ -83,7 +83,40 @@ order: 43
                 "title": "提示",
                 "body": "这是个简单的弹框"
             }
-        }
+        },
+    ]
+}
+```
+## 自定义抽屉尺寸
+值如果是数字类型单位默认使用`px`, 如果是字符串类型可以使用自定义css宽度变量，如：`%`、`vw`、`px`等
+
+```schema: scope="body"
+{
+    "type": "button-toolbar",
+    "className": "block m-t",
+    "buttons": [
+        {
+            "type": "button",
+            "label": "自定义宽度",
+            "actionType": "drawer",
+            "drawer": {
+                "position": "right",
+                "width": 300,
+                "title": "提示",
+                "body": "这是个自定义300px宽度的弹框"
+            }
+        },
+        {
+            "type": "button",
+            "label": "自定义高度",
+            "actionType": "drawer",
+            "drawer": {
+                "position": "bottom",
+                "height": 300,
+                "title": "提示",
+                "body": "这是个自定义300px高度的弹框"
+            }
+        },
     ]
 }
 ```
@@ -157,6 +190,24 @@ order: 43
 }
 ```
 
+## 是否展示关闭按钮
+
+配置`"showCloseButton": false`，可以隐藏关闭按钮
+
+```schema: scope="body"
+{
+    "type": "button",
+    "label": "无关闭按钮",
+    "actionType": "drawer",
+    "drawer": {
+        "position": "right",
+        "title": "提示",
+        "body": "这是个简单的弹框",
+        "showCloseButton": false
+    }
+}
+```
+
 ## 不显示蒙层
 
 ```schema: scope="body"
@@ -217,11 +268,18 @@ order: 43
 | type           | `string`                                  |                    | `"drawer"` 指定为 Drawer 渲染器                                                                   |
 | title          | [SchemaNode](../../docs/types/schemanode) |                    | 弹出层标题                                                                                        |
 | body           | [SchemaNode](../../docs/types/schemanode) |                    | 往 Drawer 内容区加内容                                                                            |
-| size           | `string`                                  |                    | 指定 Drawer 大小，支持: `xs`、`sm`、`md`、`lg`                                                    |
+| size           | `string`                                  |                    | 指定 Drawer 大小，支持: `xs`、`sm`、`md`、`lg`、`xl`                                                    |
+| position           | `string`                                  |                    | 指定 Drawer 方向，支持: `left`、`right`、`top`、`bottom`                                                    |
+| className      | `string`                                  | ``                 | Drawer 最外层容器的样式类名                                                                        |
+| headerClassName | `string`                                  |                    | Drawer 头部 区域的样式类名                                                                        |
 | bodyClassName  | `string`                                  | `modal-body`       | Drawer body 区域的样式类名                                                                        |
+| footerClassName | `string`                                  |                    | Drawer 页脚 区域的样式类名                                                                        |
+| showCloseButton | `boolean`                                 | `true`            | 是否展示关闭按钮，当值为false时，默认开启closeOnOutside                                                               |
 | closeOnEsc     | `boolean`                                 | `false`            | 是否支持按 `Esc` 关闭 Drawer                                                                      |
 | closeOnOutside | `boolean`                                 | `false`            | 点击内容区外是否关闭 Drawer                                                                       |
 | overlay        | `boolean`                                 | `true`             | 是否显示蒙层                                                                                      |
 | resizable      | `boolean`                                 | `false`            | 是否可通过拖拽改变 Drawer 大小                                                                    |
+| width          | `string \| number`                         |  `500px`             | 容器的宽度，在 position 为 `left` 或 `right` 时生效              |
+| height          | `string \| number`                         |  `500px`             | 容器的高度，在 position 为 `top` 或 `bottom` 时生效              |
 | actions        | Array<[Action](./action)>                 | 【确认】和【取消】 | 可以不设置，默认只有两个按钮。                                                                    |
 | data           | `object`                                  |                    | 支持 [数据映射](../../docs/concepts/data-mapping)，如果不设定将默认将触发按钮的上下文中继承数据。 |

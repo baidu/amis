@@ -15,3 +15,4 @@ import 'core-js/es/set';
 import 'core-js/es/symbol';
 
 import './cloest';
+import './classList';

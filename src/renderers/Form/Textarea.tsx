@@ -5,6 +5,10 @@ import Textarea from '../../components/Textarea';
 import {Icon} from '../../components/icons';
 import {findDOMNode} from 'react-dom';
 import {autobind, ucFirst} from '../../utils/helper';
+
+import {bindRendererEvent} from '../../actions/Decorators';
+import type {ListenerAction} from '../../actions/Action';
+
 /**
  * TextArea 多行文本输入框。
  * 文档：https://baidu.gitee.io/amis/docs/components/form/textarea
@@ -56,6 +60,8 @@ export interface TextareaControlSchema extends FormBaseControl {
   resetValue?: string;
 }
 
+export type TextAreaRendererEvent = 'blur' | 'focus' | 'clear';
+
 export interface TextAreaProps extends FormControlProps {
   placeholder?: string;
   minRows?: number;
@@ -64,9 +70,13 @@ export interface TextAreaProps extends FormControlProps {
   resetValue?: string;
 }
 
+export interface TextAreaState {
+  focused: boolean;
+}
+
 export default class TextAreaControl extends React.Component<
   TextAreaProps,
-  {focused: boolean}
+  TextAreaState
 > {
   static defaultProps: Partial<TextAreaProps> = {
     minRows: 3,
@@ -82,6 +92,16 @@ export default class TextAreaControl extends React.Component<
 
   input?: HTMLInputElement;
   inputRef = (ref: any) => (this.input = findDOMNode(ref) as HTMLInputElement);
+
+  doAction(action: ListenerAction, args: any) {
+    const actionType = action?.actionType as string;
+
+    if (!!~['clear', 'reset'].indexOf(actionType)) {
+      this.handleClear();
+    } else if (actionType === 'focus') {
+      this.focus();
+    }
+  }
 
   valueToString(value: any) {
     return typeof value === 'undefined' || value === null
@@ -115,15 +135,15 @@ export default class TextAreaControl extends React.Component<
   }
 
   @autobind
-  handleChange(e: React.ChangeEvent<any>) {
+  handleChange(e: React.ChangeEvent<HTMLTextAreaElement>) {
     const {onChange} = this.props;
-
     let value = e.currentTarget.value;
 
-    onChange(value);
+    onChange?.(value);
   }
 
   @autobind
+  @bindRendererEvent<TextAreaProps, TextAreaRendererEvent>('focus')
   handleFocus(e: React.FocusEvent<HTMLTextAreaElement>) {
     const {onFocus} = this.props;
 
@@ -138,6 +158,7 @@ export default class TextAreaControl extends React.Component<
   }
 
   @autobind
+  @bindRendererEvent<TextAreaProps, TextAreaRendererEvent>('blur')
   handleBlur(e: React.FocusEvent<HTMLTextAreaElement>) {
     const {onBlur, trimContents, value, onChange} = this.props;
 
@@ -156,7 +177,8 @@ export default class TextAreaControl extends React.Component<
   }
 
   @autobind
-  handleClear() {
+  @bindRendererEvent<TextAreaProps, TextAreaRendererEvent>('clear')
+  async handleClear() {
     const {onChange, resetValue} = this.props;
 
     onChange?.(resetValue);

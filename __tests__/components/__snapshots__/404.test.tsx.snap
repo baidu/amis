@@ -2,7 +2,7 @@
 
 exports[`Components:404 Custom code & messages 1`] = `
 <div
-  className="container w-xxl w-auto-xs"
+  className="container w-xxl w-auto-xs m-auto"
 >
   <div
     className="text-center m-b-lg"
@@ -23,7 +23,7 @@ exports[`Components:404 Custom code & messages 1`] = `
 
 exports[`Components:404 default View 1`] = `
 <div
-  className="container w-xxl w-auto-xs"
+  className="container w-xxl w-auto-xs m-auto"
 >
   <div
     className="text-center m-b-lg"

@@ -7,8 +7,8 @@ import React from 'react';
 import {FormBaseControl, FormControlProps, FormItem} from './Item';
 import {buildApi, isValidApi, isEffectiveApi} from '../../utils/api';
 import {Checkbox, Spinner} from '../../components';
-import {autobind, setVariable} from '../../utils/helper';
-import {ApiObject} from '../../types';
+import {autobind, setVariable, createObject} from '../../utils/helper';
+import {ApiObject, Action} from '../../types';
 import {SchemaApi} from '../../Schema';
 
 /**
@@ -147,6 +147,15 @@ export default class MatrixCheckbox extends React.Component<
     removeHook?.(this.initOptions, 'init');
   }
 
+  doAction(action: Action, data: object, throwErrors: boolean) {
+    const {resetValue, onChange} = this.props;
+    const actionType = action?.actionType as string;
+
+    if (!!~['clear', 'reset'].indexOf(actionType)) {
+      onChange(resetValue ?? '');
+    }
+  }
+
   async initOptions(data: any) {
     await this.reload();
     const {formItem, name} = this.props;
@@ -225,9 +234,9 @@ export default class MatrixCheckbox extends React.Component<
     });
   }
 
-  toggleItem(checked: boolean, x: number, y: number) {
+  async toggleItem(checked: boolean, x: number, y: number) {
     const {columns, rows} = this.state;
-    const {multiple, singleSelectMode} = this.props;
+    const {multiple, singleSelectMode, dispatchEvent, data} = this.props;
 
     const value = this.props.value || buildDefaultValue(columns, rows);
 
@@ -260,6 +269,15 @@ export default class MatrixCheckbox extends React.Component<
           };
         }
       }
+    }
+
+    const rendererEvent = await dispatchEvent('change',
+      createObject(data, {
+        value: value.concat(),
+      })
+    );
+    if (rendererEvent?.prevented) {
+      return;
     }
 
     this.props.onChange(value.concat());

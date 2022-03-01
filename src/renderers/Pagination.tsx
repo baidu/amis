@@ -280,9 +280,9 @@ export default class Pagination extends React.Component<
   }
 
   render() {
-    const {builderMode} = this.props;
+    const {mode} = this.props;
 
-    return builderMode === 'simple' ? this.renderSimple() : this.renderNormal();
+    return mode === 'simple' ? this.renderSimple() : this.renderNormal();
   }
 }
 

@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Renderer:date 1`] = `
+exports[`Renderer:combo 1`] = `
 <div>
   <div
     class="cxd-Panel cxd-Panel--default cxd-Panel--form"
@@ -16,7 +16,7 @@ exports[`Renderer:date 1`] = `
           class="cxd-TplField"
         >
           <span>
-            The form
+            表单
           </span>
         </span>
       </h3>
@@ -25,7 +25,7 @@ exports[`Renderer:date 1`] = `
       class="cxd-Panel-body"
     >
       <form
-        class="cxd-Form cxd-Form--normal"
+        class="cxd-Form cxd-Form--horizontal"
         novalidate=""
       >
         <input
@@ -33,54 +33,67 @@ exports[`Renderer:date 1`] = `
           type="submit"
         />
         <div
-          class="cxd-Form-item cxd-Form-item--normal"
+          class="cxd-Form-item cxd-Form-item--horizontal"
           data-role="form-item"
         >
           <label
-            class="cxd-Form-label"
+            class="cxd-Form-label cxd-Form-itemColumn--normal"
           >
             <span>
               <span
                 class="cxd-TplField"
               >
                 <span>
-                  date
+                  Combo 单行展示
                 </span>
               </span>
             </span>
           </label>
           <div
-            class="cxd-DateControl cxd-Form-control"
+            class="cxd-Form-value"
+          />
+        </div>
+        <div
+          class="cxd-Divider cxd-Divider--dashed"
+        />
+        <div
+          class="cxd-Form-item cxd-Form-item--horizontal"
+          data-role="form-item"
+        >
+          <label
+            class="cxd-Form-label cxd-Form-itemColumn--normal"
           >
-            <div
-              class="cxd-DatePicker"
-              tabindex="0"
-            >
+            <span>
               <span
-                class="cxd-DatePicker-value"
+                class="cxd-TplField"
               >
-                2019-06-07
+                <span>
+                  Combo 多行展示
+                </span>
               </span>
-              <a
-                class="cxd-DatePicker-clear"
-              >
-                <icon-mock
-                  classname="icon icon-input-clear"
-                  icon="input-clear"
-                />
-              </a>
-              <a
-                class="cxd-DatePicker-toggler"
-              >
-                <icon-mock
-                  classname="icon icon-clock"
-                  icon="clock"
-                />
-              </a>
-            </div>
-          </div>
+            </span>
+          </label>
+          <div
+            class="cxd-Form-value"
+          />
         </div>
       </form>
+    </div>
+    <div
+      class="cxd-Panel-footerWrap"
+    >
+      <div
+        class="cxd-Panel-btnToolbar cxd-Panel-footer"
+      >
+        <button
+          class="cxd-Button cxd-Button--primary"
+          type="submit"
+        >
+          <span>
+            提交
+          </span>
+        </button>
+      </div>
     </div>
     <div
       class="resize-sensor"

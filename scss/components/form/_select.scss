@@ -70,6 +70,10 @@
     max-width: 100%;
     overflow: hidden;
     text-overflow: ellipsis;
+
+    &.is-disabled {
+      color: var(--Form-selectValue-onDisabled-color);
+    }
   }
   &--multi {
     height: auto;
@@ -100,25 +104,34 @@
       display: inline-block;
       vertical-align: middle;
       font-size: var(--Form-selectValue-fontSize);
-      color: var(--Form-selectValue-color);
-      background: var(--Form-selectValue-bg);
-      border: px2rem(1px) solid var(--Form-selectValue-borderColor);
+      background: var(--Form-select-value-bgColor);
+      border: px2rem(1px) solid var(--Form-select-value-borderColor);
       border-radius: px2rem(2px);
       margin-right: var(--gap-xs);
       margin-bottom: var(--gap-xs);
+
+      &:hover {
+        background-color: var(--Form-selectValue-onHover-bgColor);
+      }
     }
 
     .#{$ns}Select-valueLabel {
+      display: inline-block;
+      max-width: var(--Form-valueLabel-maxWidth);
       padding: 0 var(--gap-xs);
+      overflow: hidden;
+      vertical-align: top;
+      text-overflow: ellipsis;
+      white-space: nowrap;
     }
   }
   &-valueIcon {
     cursor: pointer;
-    border-right: px2rem(1px) solid var(--Form-selectValue-borderColor);
     padding: 1px 5px;
+    color: var(--Form-select-valueIcon-color);
 
     &:hover {
-      background: var(--Form-selectValue-onHover-bg);
+      color: var(--Form-select-valueIcon-onHover-color);
     }
 
     &.is-disabled {
@@ -130,7 +143,8 @@
   }
 
   &-arrow {
-    margin-right: var(--gap-xs);
+    margin-right: px2rem(12px);
+    // margin-right: var(--gap-xs);
     // margin-left: var(--gap-xs);
     width: var(--gap-md);
     text-align: center;
@@ -172,10 +186,13 @@
 
   &-menu {
     max-height: px2rem(300px);
+    padding-top: px2rem(4px);
+    padding-bottom: px2rem(4px);
     overflow: auto;
     user-select: none;
     .#{$ns}Checkbox--sm > i {
       margin-top: px2rem(-3px);
+      margin-right: px2rem(4px);
     }
     &.is-mobile {
       width: 100%;
@@ -282,7 +299,7 @@
   }
 
   &-option-hl {
-    color: var(--danger);
+    color: var(--info);
   }
 
   &-addBtn {
@@ -330,13 +347,15 @@
 
     svg {
       fill: var(--Form-input-iconColor);
-      width: px2rem(10px);
-      height: px2rem(10px);
+      width: px2rem(14px);
+      height: px2rem(14px);
       top: 0;
-    }
 
-    &:hover svg {
-      fill: var(--Form-input-onHover-iconColor);
+      &:hover > path {
+        &:first-of-type {
+          fill: var(--Form-select-valueIcon-color);
+        }
+      }
     }
   }
 

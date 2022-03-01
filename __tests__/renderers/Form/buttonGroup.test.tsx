@@ -85,14 +85,14 @@ test('Renderer:button-group:multiple clearable', async () => {
       makeEnv()
     )
   );
-  await wait(100);
+  await wait(200);
   fireEvent.click(getByText(/Option A/));
-  await wait(100);
+  await wait(200);
   fireEvent.click(getByText(/Option B/));
-  await wait(300);
+  await wait(600);
   expect(container).toMatchSnapshot();
-  await wait(100);
+  await wait(200);
   fireEvent.click(getByText(/Option B/));
-  await wait(300);
+  await wait(600);
   expect(container).toMatchSnapshot();
 });

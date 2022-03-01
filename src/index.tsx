@@ -163,6 +163,7 @@ import './renderers/Tasks';
 import './renderers/Drawer';
 import './renderers/Wrapper';
 import './renderers/IFrame';
+import './renderers/BarCode';
 import './renderers/QRCode';
 import './renderers/Icon';
 import './renderers/Carousel';
@@ -174,6 +175,7 @@ import './renderers/TableView';
 import './renderers/Code';
 import './renderers/WebComponent';
 import './renderers/GridNav';
+import './renderers/TooltipWrapper';
 
 import Scoped, {ScopedContext} from './Scoped';
 
