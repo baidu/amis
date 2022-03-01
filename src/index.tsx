@@ -175,6 +175,7 @@ import './renderers/TableView';
 import './renderers/Code';
 import './renderers/WebComponent';
 import './renderers/GridNav';
+import './renderers/TooltipWrapper';
 
 import Scoped, {ScopedContext} from './Scoped';
 

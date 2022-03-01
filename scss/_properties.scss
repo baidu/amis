@@ -352,21 +352,19 @@
   --ButtonGroup--primary-isActive-bg: var(--primary);
 
   --Breadcrumb-item-fontSize: var(--fontSizeMd);
-  --Breadcrumb-item-default-color: #83868C;
-  --Breadcrumb-item-hover-color: #2468F2;
-  --Breadcrumb-item-active-color: #1C53C1;
-  --Breadcrumb-item-last-color: #151A26;
-  --BreadcrumbDropdown-item-default-color: #151A26;
-  --BreadcrumbDropdown-item-default-bg: #FFFFFF;
-  --BreadcrumbDropdown-item-hover-bg: #E9F0FD;
+  --Breadcrumb-item-default-color: #83868c;
+  --Breadcrumb-item-hover-color: #2468f2;
+  --Breadcrumb-item-active-color: #1c53c1;
+  --Breadcrumb-item-last-color: #151a26;
+  --BreadcrumbDropdown-item-default-color: #151a26;
+  --BreadcrumbDropdown-item-default-bg: #ffffff;
+  --BreadcrumbDropdown-item-hover-bg: #e9f0fd;
   --BreadcrumbDropdown-item-fontSize: var(--fontSizeSm);
   --BreadcrumbDropdown-item-height: #{px2rem(32px)};
   --BreadcrumbDropdown-item-paddingX: var(--gap-sm);
   --BreadcrumbDropdown-item-paddingY: calc(
-    (var(--BreadcrumbDropdown-item-height) - var(--fontSizeSm)) /
-      2
+    (var(--BreadcrumbDropdown-item-height) - var(--fontSizeSm)) / 2
   );
-  
 
   --Calendar-btn-bg: var(--info);
   --Calendar-btn-border: var(--Calendar-btn-bg);
@@ -1347,7 +1345,6 @@
   --Tabs-close-size: #{px2rem(12px)};
   --Tabs-link-maxWidth: #{px2rem(160px)};
 
-
   --Tabs--vertical-bg: var(--Table-thead-bg);
   --Tabs--vertical-width: #{px2rem(140px)};
   --Tabs--vertical-onActive-color: var(--primary);
@@ -1428,26 +1425,31 @@
   --Tooltip--attr-paddingY: #{px2rem(2px)};
   --Tooltip--attr-transition: all var(--animation-duration) ease-in-out;
   --Tooltip-arrow-color: var(--Tooltip-bg);
-  --Tooltip-arrow-color: var(--Tooltip-bg);
+  --Tooltip-arrow-color--dark: rgba(7, 12, 20, 0.85);
   --Tooltip-arrow-height: #{px2rem(8px)};
   --Tooltip-arrow-height: 0.5rem;
   --Tooltip-arrow-outerColor: #{fade-in($borderColor, 0.05)};
   --Tooltip-arrow-width: #{px2rem(16px)};
   --Tooltip-arrow-width: 1rem;
   --Tooltip-bg: var(--background);
+  --Tooltip-bg--dark: rgba(7, 12, 20, 0.85);
   --Tooltip-body-color: var(--text-color);
+  --Tooltip-body-color--dark: var(--white);
   --Tooltip-body-paddingX: var(--gap-sm);
   --Tooltip-body-paddingY: var(--gap-sm);
   --Tooltip-borderColor: var(--borderColor);
   --Tooltip-borderRadius: var(--borderRadiusLg);
   --Tooltip-borderWidth: var(--borderWidth);
   --Tooltip-boxShadow: var(--boxShadow);
+  --Tooltip-boxShadow--dark: 0 2px 8px 0 rgba(7, 12, 20, 0.12);
   --Tooltip-fontSize: var(--fontSizeSm);
   --Tooltip-maxWidth: #{px2rem(240px)};
   --Tooltip-minWidth: auto;
+  --Tooltip-title-fontWeight: bold;
   --Tooltip-title-bg: #{darken($white, 3%)};
   --Tooltip-title-borderBottom-color: #{darken(darken($white, 3%), 5%)};
   --Tooltip-title-color: var(--text--loud-color);
+  --Tooltip-title-color--dark: var(--white);
   --Tooltip-title-paddingX: var(--gap-sm);
   --Tooltip-title-paddingY: var(--gap-xs);
 
