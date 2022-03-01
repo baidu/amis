@@ -95,11 +95,43 @@ order: 30
 ]
 ```
 
+## 按钮主题样式
+
+配置 `btnLevel` 统一设置按钮主题样式，注意 `buttons ` 或 `options` 中的`level`属性优先级高于`btnLevel`。配置 `btnActiveLevel` 为按钮设置激活态时的主题样式。
+
+```schema: scope="body"
+[
+  {
+    "type": "button-group",
+    "btnLevel": "light",
+    "btnActiveLevel": "warning",
+    "buttons": [
+      {
+        "type": "button",
+        "label": "按钮1"
+      },
+      {
+        "type": "button",
+        "label": "按钮2"
+      },
+      {
+        "type": "button",
+        "label": "按钮3",
+        "level": "primary"
+      }
+    ]
+  }
+]
+```
+
 ## 属性表
 
-| 属性名    | 类型                      | 默认值           | 说明                       |
-| --------- | ------------------------- | ---------------- | -------------------------- |
-| type      | `string`                  | `"button-group"` | 指定为 button-group 渲染器 |
-| className | `string`                  |                  | 外层 Dom 的类名            |
-| buttons   | Array<[Action](./action)> |                  | 行为按钮组                 |
-| vertical  | `string`                  |                  | 是否使用垂直模式           |
+| 属性名         | 类型                                                                                                                | 默认值           | 说明                       |
+| -------------- | ------------------------------------------------------------------------------------------------------------------- | ---------------- | -------------------------- |
+| type           | `string`                                                                                                            | `"button-group"` | 指定为 button-group 渲染器 |
+| vertical       | `boolean`                                                                                                           | `false`          | 是否使用垂直模式           |
+| tiled          | `boolean`                                                                                                           | `false`          | 是否使用平铺模式           |
+| btnLevel       | `'link' \| 'primary' \| 'secondary' \| 'info'\|'success' \| 'warning' \| 'danger' \| 'light'\| 'dark' \| 'default'` | `"default"`      | 按钮样式                   |
+| btnActiveLevel | `'link' \| 'primary' \| 'secondary' \| 'info'\|'success' \| 'warning' \| 'danger' \| 'light'\| 'dark' \| 'default'` | `"default"`      | 选中按钮样式               |
+| buttons        | `Array<Action>`                                                                                                     |                  | [按钮](./action)           |
+| className      | `string`                                                                                                            |                  | 外层 Dom 的类名            |
