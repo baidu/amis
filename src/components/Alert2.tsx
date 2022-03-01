@@ -5,7 +5,8 @@
 
 import React from 'react';
 import {ClassNamesFn, themeable} from '../theme';
-import {Icon} from './icons';
+import {generateIcon} from '../utils/icon';
+import {Icon, getIcon} from './icons';
 
 export interface AlertProps {
   level: 'danger' | 'info' | 'success' | 'warning';
@@ -73,16 +74,21 @@ export class Alert extends React.Component<AlertProps, AlertState> {
       closeButtonClassName
     } = this.props;
 
+    // 优先使用内置svg，其次使用icon库
     const iconNode = icon ? (
       typeof icon === 'string' ? (
-        <Icon icon={icon} className={cx(`Alert-icon icon`)} />
+        getIcon(icon) ? (
+          <Icon icon={icon} className={cx(`icon`)} />
+        ) : (
+          generateIcon(cx, icon, 'icon')
+        )
       ) : React.isValidElement(icon) ? (
         React.cloneElement(icon, {
           className: cx(`Alert-icon`, icon.props?.className)
         })
       ) : null
     ) : showIcon ? (
-      <Icon icon={`alert-${level}`} className={cx(`Alert-icon icon`)} />
+      <Icon icon={`alert-${level}`} className={cx(`icon`)} />
     ) : null;
 
     return this.state.show ? (
