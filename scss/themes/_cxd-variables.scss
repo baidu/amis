@@ -80,7 +80,6 @@ $L1: 0px 4px 6px 0px rgba(8, 14, 26, 0.06),
   --borderRadius: #{$R3};
   --body-bg: #ffffff;
   --text-color: #151a26;
-  --fontSizeBase: #{px2rem(12px)};
 
   --text--muted-color: #{$G6};
   --text--loud-color: #333;
@@ -121,7 +120,6 @@ $L1: 0px 4px 6px 0px rgba(8, 14, 26, 0.06),
   --Page-header-paddingY: #{px2rem(10px)};
 
   --Form-item-fontSize: var(--fontSizeBase);
-  --Form-fontSize: var(--fontSizeBase);
   --Form-item-fontColor: #{$G4};
   --Form-item-gap: var(--gap-base);
   --Form-input-bg: #{$G11};
@@ -639,8 +637,9 @@ $L1: 0px 4px 6px 0px rgba(8, 14, 26, 0.06),
   --Rating-inactive-color: #{$G9};
 
   // tree
-  --Tree-item-onHover-bg: #F2F2F4;
-  --Tree-item-onChekced-bg: var(--Form-select-menu-onHover-bg);;
+  --Tree-item-onHover-bg: #{$G10};
+  --Tree-item-onChekced-bg: var(--Form-select-menu-onHover-bg);
+  --Tree-item-onChekced-bg-borderRadius: #{px2rem(2px)};
   --Tree-itemHeight: #{px2rem(24px)};
   --Tree-icon-gap: var(--gap-sm);
 

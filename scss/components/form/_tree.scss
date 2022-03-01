@@ -107,6 +107,7 @@
   &-item {
     .is-checked {
       background: var(--Tree-item-onChekced-bg);
+      border-radius: var(--Tree-item-onChekced-bg-borderRadius);
     }
     .is-disabled {
       color: var(--text--muted-color);
