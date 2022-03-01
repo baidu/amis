@@ -95,47 +95,13 @@ export default class Pagination extends React.Component<
 > {
 
   render() {
-    let {
-      classPrefix: ns,
-      classnames: cx,
-      className,
-      layout,
-      maxButtons,
-      mode,
-      activePage,
-      lastPage,
-      perPage,
-      showPageSize,
-      perPageAvailable,
-      hideOnSinglePage,
-      onPageChange,
-      showPageInput,
-      disabled
-    } = this.props;
     return (
-      <BasicPagination
-        classnames={cx}
-        classPrefix={ns}
-        className={className}
-        layout={layout}
-        maxButtons={maxButtons}
-        mode={mode}
-        activePage={activePage}
-        lastPage={lastPage}
-        perPage={perPage}
-        showPageSize={showPageSize}
-        perPageAvailable={perPageAvailable}
-        hideOnSinglePage={hideOnSinglePage}
-        onPageChange={onPageChange}
-        showPageInput={showPageInput}
-        disabled={disabled}
-      />
+      <BasicPagination {...this.props} />
     );
   }
 }
 
 @Renderer({
-  test: /(^|\/)(?:pagination|pager)$/,
-  name: 'pagination'
+  type: 'pagination'
 })
-export class PaginationRenderer extends Pagination {}
+export class PaginationRenderer extends Pagination { }

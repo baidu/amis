@@ -4,13 +4,14 @@
  * @Date: 2021-11-01 16:57:38
  */
 import React from 'react';
+import {localeable, LocaleProps} from '../locale';
 import {themeable, ClassNamesFn} from '../theme';
 import {autobind} from '../utils/helper';
 import {Icon} from './icons';
 import {BaseSchema, SchemaClassName} from '../Schema';
 import Select from './Select';
 
-export interface PaginationProps {
+export interface PaginationProps extends ThemeProps, LocaleProps {
   className?: SchemaClassName;
 
   classnames: ClassNamesFn;
@@ -163,22 +164,21 @@ export class Pagination extends React.Component<
       layout,
       maxButtons,
       mode,
-      // activePage,
-      // lastPage,
-      // perPage,
       showPageSize,
       perPageAvailable,
       hideOnSinglePage,
       onPageChange,
       classnames: cx,
+      classPrefix: ns,
       showPageInput,
       className,
-      disabled
+      disabled,
+      translate: __
     } = this.props;
-    // const pageNum = this.state.pageNum;
-    // const pageSize = this.state.pageSize;
+    const pageNum = this.state.pageNum;
+    const pageSize = this.state.pageSize;
     const activePage = this.state.activePage;
-    // const activePage = parseInt(this.props.activePage, 10);
+
     const lastPage = Number(this.props.lastPage);
     const perPage = Number(this.props.perPage);
 
@@ -186,15 +186,12 @@ export class Pagination extends React.Component<
     let startPage: number;
     let endPage: number;
 
-    let layoutList = layout;
+    let layoutList = [];
     if (Array.isArray(layout)) {
       layoutList = layout;
-    } else {
-      try {
-        layoutList = (layout as string).split(',');
-      } catch (error) {
-        layoutList = [];
-      }
+    }
+    else if (typeof layout === 'string') {
+      layoutList = (layout as string).split(',');
     }
 
     if (lastPage <= maxButtons) {
@@ -390,7 +387,7 @@ export class Pagination extends React.Component<
       </li>
     );
     const go = <div className={cx('Pagination-inputGroup Pagination-item')} key="go">
-        <span className={cx('go-left')} key="go-left">跳转至</span>
+        <span className={cx('go-left')} key="go-left">{__('Pagination.goto')}</span>
           <input
             className={cx('go-input')} key="go-put"
             type="text"
@@ -408,32 +405,33 @@ export class Pagination extends React.Component<
 
               this.doPageChange(v, perPage);
             }}
-            value={this.state.pageNum}
+            value={pageNum}
           />
           <span
             className={cx('go-right')}
             key="go-right"
             onClick={(e: any) => {
-              this.doPageChange(+this.state.pageNum, perPage);
+              this.doPageChange(+pageNum, perPage);
             }}
             >GO</span>
       </div>;
-    const selection = perPageAvailable.map(v => ({label: `${v}条/页`, value: v}));
+    const selection = perPageAvailable.map(v => ({label: __('Pagination.select', {count: v}), value: v}));
     const pageSizeEle =
             <Select
               key="pagesize"
+              classPrefix={ns}
               className={cx('Pagination-pagesize', 'Pagination-item')}
               overlayPlacement="right-bottom-right-top"
               clearable={false}
               disabled={disabled}
-              value={this.state.pageSize}
+              value={pageSize}
               options={selection}
               onChange={(p: any) => {
                 this.setState({pageSize: p.value});
                 this.doPageChange(1, p.value);
               }}
             />;
-    const totalPage = <div className={cx('Pagination-total Pagination-item')} key="total">共{lastPage}页</div>;
+    const totalPage = <div className={cx('Pagination-total Pagination-item')} key="total">{__('Pagination.total', {lastPage: lastPage})}</div>;
     return (
       <div className={cx('Pagination-wrap',  {'disabled': disabled}, className)}>
         {
@@ -462,5 +460,5 @@ export class Pagination extends React.Component<
 
 }
 
-export default themeable(Pagination);
 
+export default themeable(localeable(Pagination));

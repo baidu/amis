@@ -26,7 +26,7 @@ order: 73
             "showPageSize": true,
             "perPageAvailable": [10, 20, 50, 100],
             "showPageInput": true,
-            "disabled": true
+            "disabled": false
 
         }
     ]
