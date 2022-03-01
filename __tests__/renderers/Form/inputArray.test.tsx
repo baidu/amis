@@ -39,6 +39,8 @@ test('Renderer:inputArray', async () => {
 
   fireEvent.click(addButton);
 
+  await wait(300);
+
   const input = container.querySelector('.cxd-TextControl-input input')!;
 
   fireEvent.change(input, {target: {value: 'amis'}});

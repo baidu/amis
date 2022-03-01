@@ -101,6 +101,8 @@ test('Renderer:combo multiple', async () => {
   // 点击新增
   add.click();
 
+  await wait(300);
+
   // 输入
   const input = container.querySelector(
     '.cxd-TextControl-input input'
