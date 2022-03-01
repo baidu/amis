@@ -33,6 +33,7 @@ export interface TooltipWrapperProps {
   delay: number;
   theme?: string;
   tooltipClassName?: string;
+  style?: React.CSSProperties;
 }
 
 interface TooltipWrapperState {
@@ -167,7 +168,8 @@ export class TooltipWrapper extends React.Component<
       container,
       trigger,
       rootClose,
-      tooltipClassName
+      tooltipClassName,
+      style
     } = this.props;
 
     const child = React.Children.only(children);
@@ -210,6 +212,7 @@ export class TooltipWrapper extends React.Component<
       >
         <Tooltip
           title={typeof tooltip !== 'string' ? tooltip.title : undefined}
+          style={style}
           className={tooltipClassName}
           onMouseEnter={~triggers.indexOf('hover') && this.handleMouseOver}
           onMouseLeave={~triggers.indexOf('hover') && this.handleMouseOut}
