@@ -89,9 +89,9 @@ export interface TabSchema extends Omit<BaseSchema, 'type'> {
    */
   horizontal?: FormSchemaHorizontal;
   /**
-   * 是否可关闭，优先级高于 tabs 的 closeable
+   * 是否可关闭，优先级高于 tabs 的 closable
    */
-  closeable?: boolean;
+  closable?: boolean;
   /**
    * 是否禁用
    */
@@ -186,6 +186,14 @@ export interface TabsSchema extends BaseSchema {
    * 是否导航支持内容溢出滚动。属性废弃，为了兼容暂且保留
    */
   scrollable?: boolean;
+  /**
+   * 编辑器模式，侧边的位置
+   */
+  sidePosition?: 'left' | 'right';
+  /**
+   * 自定义增加按钮文案
+   */
+  addBtnText?: string;
 }
 
 export interface TabsProps
@@ -643,7 +651,9 @@ export default class Tabs extends React.Component<TabsProps, TabsState> {
       draggable,
       showTip,
       showTipClassName,
-      editable
+      editable,
+      sidePosition,
+      addBtnText
     } = this.props;
 
     const mode = tabsMode || dMode;
@@ -747,6 +757,8 @@ export default class Tabs extends React.Component<TabsProps, TabsState> {
         showTipClassName={showTipClassName}
         editable={editable}
         onEdit={this.handleEdit}
+        sidePosition={sidePosition}
+        addBtnText={addBtnText}
       >
         {children}
       </CTabs>
