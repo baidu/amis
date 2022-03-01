@@ -1244,7 +1244,7 @@ export default class ComboControl extends React.Component<ComboProps> {
                     {deleteIcon ? (
                       <i className={deleteIcon} />
                     ) : (
-                      <Icon icon="trash" className="icon" />
+                      <Icon icon="status-close" className="icon" />
                     )}
                   </Button>
                 );
@@ -1378,6 +1378,7 @@ export default class ComboControl extends React.Component<ComboProps> {
                   tooltip={__('Combo.add')}
                   onClick={this.addItem}
                 >
+                  {addIcon ? <Icon icon="plus" className="icon" /> : null}
                   <span>{__(addButtonText || 'Combo.add')}</span>
                 </Button>
               )
