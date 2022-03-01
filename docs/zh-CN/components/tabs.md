@@ -90,13 +90,14 @@ order: 68
 
 ## 可增加、删除
 
-`tab` 设置的 `closable` 优先级高于整体
+`tab` 设置的 `closable` 优先级高于整体。使用 `addBtnText` 设置新增按钮文案
 
 ```schema: scope="body"
 {
     "type": "tabs",
     "closable": true,
     "addable": true,
+    "addBtnText": "新增Tab",
     "tabs": [
         {
             "title": "Tab 1",
@@ -181,7 +182,7 @@ order: 68
 ```schema: scope="body"
 {
     "type": "tabs",
-    "mode": "simple",
+    "tabsMode": "simple",
     "tabs": [
         {
             "title": "简约(10)",
@@ -205,7 +206,7 @@ order: 68
 ```schema: scope="body"
 {
     "type": "tabs",
-    "mode": "strong",
+    "tabsMode": "strong",
     "tabs": [
         {
             "title": "选项卡1",
@@ -228,7 +229,7 @@ order: 68
 ```schema: scope="body"
 {
     "type": "tabs",
-    "mode": "line",
+    "tabsMode": "line",
     "tabs": [
         {
             "title": "选项卡1",
@@ -251,7 +252,7 @@ order: 68
 ```schema: scope="body"
 {
     "type": "tabs",
-    "mode": "card",
+    "tabsMode": "card",
     "tabs": [
         {
             "title": "选项卡1",
@@ -276,7 +277,7 @@ order: 68
 ```schema: scope="body"
 {
     "type": "tabs",
-    "mode": "chrome",
+    "tabsMode": "chrome",
     "tabs": [
         {
             "title": "选项卡1",
@@ -299,7 +300,7 @@ order: 68
 ```schema: scope="body"
 {
     "type": "tabs",
-    "mode": "tiled",
+    "tabsMode": "tiled",
     "tabs": [
         {
             "title": "选项卡1",
@@ -326,7 +327,7 @@ order: 68
 ```schema: scope="body"
 {
     "type": "tabs",
-    "mode": "radio",
+    "tabsMode": "radio",
     "tabs": [
         {
             "title": "选项卡1",
@@ -349,7 +350,7 @@ order: 68
 ```schema: scope="body"
 {
     "type": "tabs",
-    "mode": "vertical",
+    "tabsMode": "vertical",
     "tabs": [
         {
             "title": "选项卡1",
@@ -367,6 +368,30 @@ order: 68
 }
 ```
 
+### 侧边栏模式
+
+使用 `sidePosition` 设置标签栏位置。
+
+```schema: scope="body"
+{
+    "type": "tabs",
+    "tabsMode": "sidebar",
+    "sidePosition": "right",
+    "tabs": [
+        {
+            "title": "按钮",
+            "body": "选项卡内容1",
+            "icon": "fa fa-square"
+        },
+        {
+            "title": "动作",
+            "body": "选项卡内容2",
+            "icon": "fa fa-gavel"
+        }
+    ]
+}
+```
+
 
 ## 配置顶部工具栏
 
@@ -379,6 +404,7 @@ order: 68
         {
             "type": "button",
             "label": "按钮",
+            "size": "sm",
             "actionType": "dialog",
             "dialog": {
                 "title": "弹窗标题",
@@ -391,7 +417,6 @@ order: 68
             "title": "Tab 1",
             "tab": "Content 1"
         },
-
         {
             "title": "Tab 2",
             "tab": "Content 2"
@@ -533,7 +558,7 @@ order: 68
 | --------------------- | --------------------------------- | ----------------------------------- | ------------------------------------------------------------------------------------------ |
 | type                  | `string`                          | `"tabs"`                            | 指定为 Tabs 渲染器                                                                         |
 | className             | `string`                          |                                     | 外层 Dom 的类名                                                                            |
-| mode                  | `string`                          |                                     | 展示模式，取值可以是 `line`、`card`、`radio`、`vertical`、`chrome`、`simple`、`strong`         |
+| tabsMode              | `string`                          |                                     | 展示模式，取值可以是 `line`、`card`、`radio`、`vertical`、`chrome`、`simple`、`strong`、`tiled`、`sidebar`         |
 | tabsClassName         | `string`                          |                                     | Tabs Dom 的类名                                                                            |
 | tabs                  | `Array`                           |                                     | tabs 内容                                                                                  |
 | source                | `string`                          |                                     | tabs 关联数据，关联后可以重复生成选项卡                                                    |
@@ -541,18 +566,22 @@ order: 68
 | toolbarClassName      | `string`                          |                                     | tabs 中工具栏的类名                                                                        |
 | tabs[x].title         | `string`                          |                                     | Tab 标题                                                                                   |
 | tabs[x].icon          | `icon`                            |                                     | Tab 的图标                                                                                 |
+| tabs[x].iconPosition  | `left` / `right`                  | `left`                              | Tab 的图标位置                                                                                 |
 | tabs[x].tab           | [SchemaNode](../types/schemanode) |                                     | 内容区                                                                                     |
 | tabs[x].hash          | `string`                          |                                     | 设置以后将跟 url 的 hash 对应                                                              |
 | tabs[x].reload        | `boolean`                         |                                     | 设置以后内容每次都会重新渲染，对于 crud 的重新拉取很有用                                   |
 | tabs[x].unmountOnExit | `boolean`                         |                                     | 每次退出都会销毁当前 tab 栏内容                                                            |
 | tabs[x].className     | `string`                          | `"bg-white b-l b-r b-b wrapper-md"` | Tab 区域样式                                                                               |
 | tabs[x].closable      | `boolean`                         | false                               | 是否支持删除，优先级高于组件的 `closable`                                                      |
+| tabs[x].disabled      | `boolean`                         | false                               | 是否禁用                                                    |
 | mountOnEnter          | `boolean`                         | false                               | 只有在点中 tab 的时候才渲染                                                                |
 | unmountOnExit         | `boolean`                         | false                               | 切换 tab 的时候销毁                                                                        |
-| addable                | `boolean`                         | false                               | 是否支持新增                                                                               |
+| addable               | `boolean`                         | false                               | 是否支持新增                                                                               |
+| addBtnText            | `string`                          | 增加                                 | 新增按钮文案                                                                               |
 | closable              | `boolean`                         | false                               | 是否支持删除                                                                               |
 | draggable             | `boolean`                         | false                               | 是否支持拖拽                                                                               |
 | showTip               | `boolean`                         | false                               | 是否支持提示                                                                               |
 | showTipClassName      | `string`                          | `'' `                               | 提示的类                                                                              |
 | editable              | `boolean`                         | false                               | 收否可编辑标签名                                                                              |
 | scrollable            | `boolean`                         | true                                | 是否导航支持内容溢出滚动。（属性废弃）                                             |
+| sidePosition          | `left` / `right`                  | `left`                              | `sidebar` 模式下，标签栏位置
