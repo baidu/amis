@@ -13,7 +13,7 @@ exports[`Renderer:progress 1`] = `
       >
         <div
           class="cxd-Progress-line-bar bg-success"
-          style="width: 60%;"
+          style="width: 60%; height: 10px;"
           title="60%"
         />
       </div>

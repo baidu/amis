@@ -4418,7 +4418,7 @@ exports[`Renderer:table list 1`] = `
                     >
                       <div
                         class="cxd-Progress-line-bar bg-warning"
-                        style="width: 22%;"
+                        style="width: 22%; height: 10px;"
                         title="22%"
                       />
                     </div>
@@ -4656,7 +4656,7 @@ exports[`Renderer:table list 1`] = `
                     >
                       <div
                         class="cxd-Progress-line-bar bg-success"
-                        style="width: 85%;"
+                        style="width: 85%; height: 10px;"
                         title="85%"
                       />
                     </div>
@@ -5014,7 +5014,7 @@ exports[`Renderer:table list 1`] = `
                     >
                       <div
                         class="cxd-Progress-line-bar bg-success"
-                        style="width: 72%;"
+                        style="width: 72%; height: 10px;"
                         title="72%"
                       />
                     </div>
