@@ -22,12 +22,8 @@ import {Action} from '../../types';
 export type Value = string | MultipleValue | number | [number, number];
 export type FormatValue = MultipleValue | number;
 export type TooltipPosType = 'auto' | 'top' | 'right' | 'bottom' | 'left';
-export type InputTextRendererEvent =
-  | 'change'
-  | 'afterChange'
-  | 'blur'
-  | 'focus';
-export type InputTextRendererAction = 'clear';
+export type InputRangeRendererEvent = 'change' | 'blur' | 'focus';
+export type InputRangeRendererAction = 'clear';
 export interface RangeControlSchema extends FormBaseControl {
   type: 'input-range';
 
