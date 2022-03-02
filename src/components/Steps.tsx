@@ -171,8 +171,12 @@ export function Steps(props: StepsProps) {
 
   const mobileUI = useMobileUI && isMobile();
   return (
-    <ul className={cx('Steps',`Steps--Placement-${(progressDot || (labelPlacement === 'vertical' && mode != 'vertical'))
-      ? 'vertical' : ''}`, `Steps--${progressDot ? 'ProgressDot' : ''}`, `Steps--${mode}`, mobileUI ? 'Steps-mobile' : '', className)}>
+    <ul className={cx( // 纵向步骤条暂时不支持labelPlacement属性
+      'Steps',
+      `Steps--Placement-${(progressDot || (labelPlacement === 'vertical' && mode != 'vertical')) ? 'vertical' : ''}`,
+      `Steps--${progressDot ? 'ProgressDot' : ''}`, 
+      `Steps--${mode}`,
+      mobileUI ? 'Steps-mobile' : '', className)}>
       {stepsRow.map((step, i) => {
         const {stepStatus, icon} = getStepStatus(step, i);
         return (
