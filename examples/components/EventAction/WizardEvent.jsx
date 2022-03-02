@@ -89,43 +89,6 @@ export default {
   title: '向导组件事件',
   regions: ['body', 'toolbar', 'header'],
   body: [
-<<<<<<< HEAD
-    // {
-    //   name: "wizard-next",
-    //   type: "button",
-    //   label: '跳转下一步',
-    //   level: 'primary',
-    //   onEvent: {
-    //     click: {
-    //       actions: [
-    //         {
-    //           actionType: 'next',
-    //           componentId: 'wizard-receiver',
-    //           description: '跳转下一步'
-    //         }
-    //       ]
-    //     }
-    //   }
-    // },
-    // {
-    //   name: "wizard-prev",
-    //   type: "button",
-    //   label: '跳转上一步',
-    //   level: 'primary',
-    //   onEvent: {
-    //     click: {
-    //       actions: [
-    //         {
-    //           actionType: 'prev',
-    //           componentId: 'wizard-receiver',
-    //           description: '跳转上一步'
-    //         }
-    //       ]
-    //     }
-    //   }
-    // },
-=======
->>>>>>> 700b723e (feat: 向导组件 事件&动作 配置)
     ...generateActions([
       {
         actionName: 'prev',

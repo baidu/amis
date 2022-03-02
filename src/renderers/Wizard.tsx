@@ -229,7 +229,7 @@ export default class Wizard extends React.Component<WizardProps, WizardState> {
       initFinishedField,
       store,
       messages: {fetchSuccess, fetchFailed},
-      onInit // c
+      onInit
     } = this.props;
 
     if (isEffectiveApi(initApi, store.data, initFetch)) {
@@ -675,7 +675,7 @@ export default class Wizard extends React.Component<WizardProps, WizardState> {
       redirect,
       reload,
       env,
-      onFinished // c
+      onFinished
     } = this.props;
 
     if (await this.dispatchEvent('finished', store.data)) {

@@ -32,11 +32,6 @@ order: 73
                     "label": "邮箱",
                     "type": "input-email",
                     "required": true
-                },
-                {
-                  "name": "ajax",
-                  "label": "按钮",
-                  "type": "button"
                 }
             ]
         },
