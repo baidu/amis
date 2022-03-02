@@ -15,14 +15,17 @@ exports[`Renderer:steps 1`] = `
           class="cxd-Page-body"
         >
           <ul
-            class="cxd-Steps cxd-Steps--horizontal"
+            class="cxd-Steps cxd-Steps--Placement- cxd-Steps-- cxd-Steps--horizontal"
           >
             <li
-              class="cxd-StepsItem is-finish"
+              class="cxd-StepsItem is-finish cxd-StepsItem-"
             >
               <div
                 class="cxd-StepsItem-container"
               >
+                <div
+                  class="cxd-StepsItem-containerTail"
+                />
                 <div
                   class="cxd-StepsItem-containerIcon is-success"
                 >
@@ -50,24 +53,34 @@ exports[`Renderer:steps 1`] = `
                       <span
                         class="cxd-StepsItem-subTitle"
                       >
-                        this is subTitle
+                        <span>
+                          this is subTitle
+                        </span>
                       </span>
                     </div>
                     <div
                       class="cxd-StepsItem-description"
                     >
-                      this is description
+                      <span
+                        data-position="top"
+                        data-tooltip="this is description"
+                      >
+                        this is descriptio...
+                      </span>
                     </div>
                   </div>
                 </div>
               </div>
             </li>
             <li
-              class="cxd-StepsItem is-process"
+              class="cxd-StepsItem is-process cxd-StepsItem-"
             >
               <div
                 class="cxd-StepsItem-container"
               >
+                <div
+                  class="cxd-StepsItem-containerTail"
+                />
                 <div
                   class="cxd-StepsItem-containerIcon"
                 >
@@ -91,7 +104,9 @@ exports[`Renderer:steps 1`] = `
                       </span>
                       <span
                         class="cxd-StepsItem-subTitle"
-                      />
+                      >
+                        <span />
+                      </span>
                     </div>
                     <div
                       class="cxd-StepsItem-description"
@@ -101,11 +116,14 @@ exports[`Renderer:steps 1`] = `
               </div>
             </li>
             <li
-              class="cxd-StepsItem is-wait"
+              class="cxd-StepsItem is-wait cxd-StepsItem-"
             >
               <div
                 class="cxd-StepsItem-container"
               >
+                <div
+                  class="cxd-StepsItem-containerTail"
+                />
                 <div
                   class="cxd-StepsItem-containerIcon"
                 >
@@ -129,7 +147,9 @@ exports[`Renderer:steps 1`] = `
                       </span>
                       <span
                         class="cxd-StepsItem-subTitle"
-                      />
+                      >
+                        <span />
+                      </span>
                     </div>
                     <div
                       class="cxd-StepsItem-description"
