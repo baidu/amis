@@ -1,5 +1,6 @@
 const wizardSchema = {
   type: 'wizard',
+  initApi: '/api/mock2/form/initForm',
   steps: [
     {
       title: '第一步',
@@ -88,6 +89,7 @@ export default {
   title: '向导组件事件',
   regions: ['body', 'toolbar', 'header'],
   body: [
+<<<<<<< HEAD
     // {
     //   name: "wizard-next",
     //   type: "button",
@@ -122,6 +124,8 @@ export default {
     //     }
     //   }
     // },
+=======
+>>>>>>> 700b723e (feat: 向导组件 事件&动作 配置)
     ...generateActions([
       {
         actionName: 'prev',

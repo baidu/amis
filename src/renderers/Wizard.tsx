@@ -253,6 +253,8 @@ export default class Wizard extends React.Component<WizardProps, WizardState> {
           }
         })
         .then(value => {
+          this.handleInitEvent(store.data)
+
           const state = {
             currentStep:
               typeof this.props.startStep === 'string'
