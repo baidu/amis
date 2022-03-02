@@ -299,7 +299,16 @@ export class CityPicker extends React.Component<
     const {onChange, allowStreet, joinValues, extractValue, delimiter} =
       this.props;
 
-    const {code, province, city, district, street} = this.state;
+    const {
+      code,
+      province,
+      city,
+      district,
+      street,
+      provinceCode,
+      cityCode,
+      districtCode
+    } = this.state;
 
     if (typeof extractValue === 'undefined' ? joinValues : extractValue) {
       code
@@ -312,8 +321,11 @@ export class CityPicker extends React.Component<
     } else {
       onChange({
         code,
+        provinceCode,
         province,
+        cityCode,
         city,
+        districtCode,
         district,
         street
       });
