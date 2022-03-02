@@ -62,7 +62,8 @@ export interface ButtonSchema extends BaseSchema {
     | 'link'
     | 'primary'
     | 'dark'
-    | 'light';
+    | 'light'
+    | 'secondary';
 
   /**
    * @deprecated 通过 level 来配置

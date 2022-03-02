@@ -249,7 +249,7 @@ export const components = [
       {
         label: 'ButtonGroupSelect 按钮点选',
         path: '/zh-CN/components/form/button-group-select',
-        wrapDoc: React.lazy(() =>
+        component: React.lazy(() =>
           import(
             '../../docs/zh-CN/components/form/button-group-select.md'
           ).then(wrapDoc)
