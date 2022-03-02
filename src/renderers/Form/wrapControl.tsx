@@ -24,6 +24,7 @@ import {withRootStore} from '../../WithRootStore';
 import {FormBaseControl, FormItemWrap} from './Item';
 import {Api} from '../../types';
 import {TableStore} from '../../store/table';
+import {resolveVariableAndFilter} from '../../utils/tpl-builtin';
 
 export interface ControlOutterProps extends RendererProps {
   formStore?: IFormStore;
@@ -69,6 +70,14 @@ export interface ControlProps {
   onBulkChange?: (values: Object) => void;
   onChange?: (value: any, name: string, submit: boolean) => void;
   store: IIRendererStore;
+}
+
+function filterDefaultValue(value: any, ctx: any) {
+  if (typeof value === 'string') {
+    return resolveVariableAndFilter(value, ctx);
+  }
+
+  return value;
 }
 
 export function wrapControl<
@@ -162,7 +171,6 @@ export function wrapControl<
               type,
               required,
               unique,
-              value,
               rules: validations,
               messages: validationErrors,
               multiple,
@@ -191,7 +199,9 @@ export function wrapControl<
 
             // 同步 value
             model.changeTmpValue(
-              propValue ?? store?.getValueByName(model.name) ?? value
+              propValue ??
+                store?.getValueByName(model.name) ??
+                filterDefaultValue(value, store?.data || data)
             );
 
             // 如果没有初始值，通过 onChange 设置过去
@@ -275,7 +285,6 @@ export function wrapControl<
                 required: props.$schema.required,
                 id: props.$schema.id,
                 unique: props.$schema.unique,
-                value: props.$schema.value,
                 rules: props.$schema.validations,
                 multiple: props.$schema.multiple,
                 delimiter: props.$schema.delimiter,

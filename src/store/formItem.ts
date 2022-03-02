@@ -219,7 +219,6 @@ export const FormItemStore = StoreNode.named('FormItemStore')
     function config({
       required,
       unique,
-      value,
       rules,
       messages,
       delimiter,
@@ -240,7 +239,6 @@ export const FormItemStore = StoreNode.named('FormItemStore')
     }: {
       required?: boolean;
       unique?: boolean;
-      value?: any;
       rules?: string | {[propName: string]: any};
       messages?: {[propName: string]: string};
       multiple?: boolean;
