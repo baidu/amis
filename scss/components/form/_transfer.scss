@@ -5,6 +5,10 @@
   min-height: px2rem(300px);
   position: relative;
 
+  &-searchbox {
+    width: 100%;
+  }
+
   &--inline {
     display: inline-flex;
     flex-wrap: nowrap;
@@ -127,6 +131,14 @@
     &.is-disabled {
       pointer-events: none;
       color: var(--text--muted-color);
+    }
+  }
+
+  .#{$ns}Tree {
+    padding: px2rem(2px) px2rem(10px);
+
+    &-itemLabel:hover::after {
+      left: 0;
     }
   }
 }

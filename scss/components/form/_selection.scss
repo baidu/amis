@@ -75,7 +75,6 @@
     user-select: none;
 
     &.is-active {
-      color: var(--Form-select-menu-onActive-color);
       background: var(--Form-select-menu-onActive-bg);
     }
 
@@ -104,6 +103,10 @@
 
   &-placeholder {
     @include checkboxes-placeholder();
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 }
 
@@ -142,6 +145,13 @@
   .#{$ns}Table-table > tbody > tr.is-active {
     color: var(--Form-select-menu-onActive-color);
     background: var(--Form-select-menu-onActive-bg);
+  }
+
+  .#{$ns}Table-close {
+
+    &-btn {
+      float: right;
+    }
   }
 }
 

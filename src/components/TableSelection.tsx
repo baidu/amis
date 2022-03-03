@@ -6,7 +6,7 @@ import Checkbox from './Checkbox';
 import {Option} from './Select';
 import {resolveVariable} from '../utils/tpl-builtin';
 import {localeable} from '../locale';
-
+import {CloseIcon} from './icons';
 export interface TableSelectionProps extends BaseSelectionProps {
   columns: Array<{
     name: string;
@@ -23,6 +23,10 @@ export interface TableSelectionProps extends BaseSelectionProps {
     colIndex: number,
     rowIndex: number
   ) => JSX.Element;
+
+  isCloseSide: boolean;
+
+  onCloseItem?: (option: Option) => void
 }
 
 export class TableSelection extends BaseSelection<TableSelectionProps> {
@@ -37,7 +41,8 @@ export class TableSelection extends BaseSelection<TableSelectionProps> {
       option: Option,
       colIndex: number,
       rowIndex: number
-    ) => <span>{resolveVariable(column.name, option)}</span>
+    ) => <span>{resolveVariable(column.name, option)}</span>,
+    isCloseSide: false
   };
 
   getColumns() {
@@ -47,6 +52,12 @@ export class TableSelection extends BaseSelection<TableSelectionProps> {
       columns = [{label: 'Label', name: 'label'}];
     }
     return columns;
+  }
+
+  // 关闭表格最后一项
+  handleCloseItem(option: Option) {
+    const {onCloseItem} = this.props;
+    onCloseItem && onCloseItem(option);
   }
 
   renderTHead() {
@@ -108,7 +119,8 @@ export class TableSelection extends BaseSelection<TableSelectionProps> {
       multiple,
       option2value,
       translate: __,
-      itemClassName
+      itemClassName,
+      isCloseSide
     } = this.props;
     const columns = this.getColumns();
     let valueArray = BaseSelection.value2array(value, options, option2value);
@@ -119,15 +131,26 @@ export class TableSelection extends BaseSelection<TableSelectionProps> {
           options.map((option, rowIndex) => {
             const checked = valueArray.indexOf(option) !== -1;
 
+            if (isCloseSide && !checked) {
+              return null;
+            }
+
             return (
               <tr
                 key={rowIndex}
-                onClick={e => e.defaultPrevented || this.toggleOption(option)}
+                onClick={e => {
+                  // 是关闭面板时，点击不触发关闭
+                  if (isCloseSide) {
+                    return;
+                  }
+                  e.defaultPrevented;
+                  this.toggleOption(option);
+                }}
                 className={cx(
                   itemClassName,
                   option.className,
                   disabled || option.disabled ? 'is-disabled' : '',
-                  !!~valueArray.indexOf(option) ? 'is-active' : ''
+                  !!~valueArray.indexOf(option) && !isCloseSide ? 'is-active' : ''
                 )}
               >
                 {multiple ? (
@@ -136,8 +159,18 @@ export class TableSelection extends BaseSelection<TableSelectionProps> {
                   </td>
                 ) : null}
                 {columns.map((column, colIndex) => (
-                  <td key={colIndex}>
+                  <td key={colIndex} className={cx(isCloseSide ? 'Table-close' : '')}>
                     {cellRender(column, option, colIndex, rowIndex)}
+                    {isCloseSide && colIndex === columns.length - 1 ?
+                      <span
+                        className={cx('Table-close-btn')}
+                        onClick={(e: React.SyntheticEvent<HTMLElement>) => {
+                          e.stopPropagation();
+                          this.handleCloseItem(option);
+                        }}>
+                        <CloseIcon />
+                      </span>
+                      : null}
                   </td>
                 ))}
               </tr>

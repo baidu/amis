@@ -1,4 +1,4 @@
-import {BaseSelection} from './Selection';
+import {BaseSelection, BaseSelectionProps} from './Selection';
 import {themeable} from '../theme';
 import React from 'react';
 import {uncontrollable} from 'uncontrollable';
@@ -6,7 +6,12 @@ import Checkbox from './Checkbox';
 import {Option} from './Select';
 import {localeable} from '../locale';
 
-export class GroupedSelection extends BaseSelection {
+export interface GroupedSelectionProps extends BaseSelectionProps {
+  checkboxPosition?: 'left' | 'right'
+}
+
+export class GroupedSelection extends BaseSelection<GroupedSelectionProps> {
+
   valueArray: Array<Option>;
 
   renderOption(option: Option, index: number) {
@@ -16,8 +21,10 @@ export class GroupedSelection extends BaseSelection {
       classnames: cx,
       itemClassName,
       itemRender,
-      multiple
+      multiple,
+      checkboxPosition = 'right'
     } = this.props;
+
     const valueArray = this.valueArray;
 
     if (Array.isArray(option.children)) {
@@ -57,16 +64,14 @@ export class GroupedSelection extends BaseSelection {
         )}
         onClick={() => this.toggleOption(option)}
       >
-        {multiple ? (
-          <Checkbox
+        <div className={cx('GroupedSelection-itemLabel')}>
+          {multiple && checkboxPosition === 'left' ? <Checkbox
             size="sm"
             checked={!!~valueArray.indexOf(option)}
             disabled={disabled || option.disabled}
             labelClassName={labelClassName}
             description={option.description}
-          />
-        ) : null}
-        <div className={cx('GroupedSelection-itemLabel')}>
+          /> : null}
           {itemRender(option, {
             index: index,
             multiple: multiple,
@@ -75,6 +80,16 @@ export class GroupedSelection extends BaseSelection {
             disabled: disabled || option.disabled
           })}
         </div>
+
+        {multiple && checkboxPosition === 'right' ? (
+          <Checkbox
+            size="sm"
+            checked={!!~valueArray.indexOf(option)}
+            disabled={disabled || option.disabled}
+            labelClassName={labelClassName}
+            description={option.description}
+          />
+        ) : null}
       </div>
     );
   }

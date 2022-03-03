@@ -47,9 +47,19 @@ export interface TransferControlSchema extends FormOptionsControl {
   sortable?: boolean;
 
   /**
+   * 复选框位置
+   */
+  checkboxPosition: 'left' | 'right';
+
+  /**
    * 勾选展示模式
    */
   selectMode?: 'table' | 'list' | 'tree' | 'chained' | 'associated';
+
+  /**
+   * 结果面板是否追踪显示
+   */
+  isFollowMode: boolean;
 
   /**
    * 当 selectMode 为 associated 时用来定义左侧的选项
@@ -86,6 +96,12 @@ export interface TransferControlSchema extends FormOptionsControl {
    */
   searchable?: boolean;
 
+
+  /**
+   * 结果（右则）列表的检索功能，当设置为true时，可以通过输入检索模糊匹配检索内容
+   */
+  resultSearchable?: boolean;
+
   /**
    * 搜索 API
    */
@@ -110,6 +126,21 @@ export interface TransferControlSchema extends FormOptionsControl {
    * 用来丰富值的展示
    */
   valueTpl?: SchemaObject;
+
+  /**
+   * 左侧列表搜索框提示
+   */
+  searchPlaceholder?: string;
+
+  /**
+   * 右侧列表搜索框提示
+   */
+  resultPlaceholder?: string;
+
+  /**
+   * 结果搜索函数
+   */
+  resultSearchFilter?: string
 }
 
 export interface BaseTransferProps
@@ -128,7 +159,14 @@ export interface BaseTransferProps
 export class BaseTransferRenderer<
   T extends OptionsControlProps = BaseTransferProps
 > extends React.Component<T> {
+
   tranferRef?: BaseTransfer;
+
+  static defaultProps = {
+    isFollowMode: false,
+    checkboxPosition: 'right',
+    resultSearchable: false
+  }
 
   @autobind
   async handleChange(value: Array<Option> | Option, optionModified?: boolean) {
@@ -272,6 +310,13 @@ export class BaseTransferRenderer<
   }
 
   @autobind
+  handleResultSearch(term: string, item: Option) {
+    const {valueField} = this.props;
+    const regexp = string2regExp(term);
+    return regexp.test(item[(valueField as string) || 'value']);
+  }
+
+  @autobind
   optionItemRender(option: Option, states: ItemRenderStates) {
     const {menuTpl, render, data} = this.props;
 
@@ -351,7 +396,7 @@ export class BaseTransferRenderer<
   }
 
   render() {
-    const {
+    let {
       className,
       classnames: cx,
       selectedOptions,
@@ -370,7 +415,12 @@ export class BaseTransferRenderer<
       selectTitle,
       resultTitle,
       menuTpl,
-      resultItemRender
+      resultSearchFilter,
+      searchPlaceholder,
+      isFollowMode,
+      checkboxPosition,
+      resultPlaceholder,
+      resultSearchable,
     } = this.props;
 
     // 目前 LeftOptions 没有接口可以动态加载
@@ -388,6 +438,16 @@ export class BaseTransferRenderer<
       leftOptions = options[0].leftOptions;
       leftDefaultValue = options[0].leftDefaultValue ?? leftDefaultValue;
       options = options[0].children;
+    }
+
+    let resultSearchFunc = this.handleResultSearch;
+
+    if (typeof resultSearchFilter === 'string') {
+      try {
+        resultSearchFunc = new Function('text', 'item', resultSearchFilter) as (text: string, item: Option) => boolean;
+      } catch (e) {
+        console.warn(resultSearchFilter, e);
+      }
     }
 
     return (
@@ -412,6 +472,12 @@ export class BaseTransferRenderer<
           cellRender={this.renderCell}
           selectTitle={selectTitle}
           resultTitle={resultTitle}
+          isFollowMode={isFollowMode}
+          onResultSearch={resultSearchFunc}
+          checkboxPosition={checkboxPosition}
+          searchPlaceholder={searchPlaceholder}
+          resultSearchable={resultSearchable}
+          resultPlaceholder={resultPlaceholder}
           optionItemRender={this.optionItemRender}
           resultItemRender={this.resultItemRender}
           onSelectAll={this.onSelectAll}

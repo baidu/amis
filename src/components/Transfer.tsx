@@ -5,9 +5,10 @@ import {Options, Option} from './Select';
 import {uncontrollable} from 'uncontrollable';
 import ResultList from './ResultList';
 import TableSelection from './TableSelection';
-import TreeSelection from './TreeSelection';
 import {autobind, flattenTree} from '../utils/helper';
 import InputBox from './InputBox';
+import Checkbox from './Checkbox';
+import Tree from './Tree';
 import {Icon} from './icons';
 import debounce from 'lodash/debounce';
 import AssociatedSelection from './AssociatedSelection';
@@ -15,6 +16,7 @@ import {LocaleProps, localeable} from '../locale';
 import GroupedSelection from './GroupedSelection';
 import ChainedSelection from './ChainedSelection';
 import {ItemRenderStates as ResultItemRenderStates} from './ResultList';
+
 
 export interface TransferProps
   extends ThemeProps,
@@ -24,6 +26,7 @@ export interface TransferProps
   statistics?: boolean;
   showArrow?: boolean;
   multiple?: boolean;
+  checkboxPosition: 'left' | 'right';
 
   selectTitle?: string;
   selectMode?: 'table' | 'group' | 'list' | 'tree' | 'chained' | 'associated';
@@ -72,11 +75,17 @@ export interface TransferProps
   ) => JSX.Element;
 
   resultTitle?: string;
+  // 结果提示语
+  isFollowMode?: boolean;
+  resultSearchPlaceholder?: string;
   optionItemRender?: (option: Option, states: ItemRenderStates) => JSX.Element;
   resultItemRender?: (
     option: Option,
     states: ResultItemRenderStates
   ) => JSX.Element;
+  resultSearchable?: boolean;
+  onResultSearch?: (text: string, item: Option) => boolean;
+  resultPlaceholder?: string;
   sortable?: boolean;
   onRef?: (ref: Transfer) => void;
   onSelectAll?: (options: Options) => void;
@@ -90,8 +99,10 @@ export interface TransferState {
 export class Transfer<
   T extends TransferProps = TransferProps
 > extends React.Component<T, TransferState> {
-  static defaultProps: Pick<TransferProps, 'multiple'> = {
-    multiple: true
+  static defaultProps: Pick<TransferProps, 'multiple' | 'isFollowMode' | 'selectMode'> = {
+    multiple: true,
+    isFollowMode: false,
+    selectMode: 'list'
   };
 
   state = {
@@ -169,22 +180,20 @@ export class Transfer<
   }
 
   @autobind
-  handleSearch(text: string) {
+  handleSearch(inputValue: string) {
     // text 有值的时候，走搜索否则直接走 handleSeachCancel ，等同于右侧的 clear 按钮
-    if (text) {
-      this.setState(
-        {
-          inputValue: text
-        },
-        () => {
+    this.setState({inputValue},
+      () => {
+        if (inputValue) {
           // 如果有取消搜索，先取消掉。
           this.cancelSearch && this.cancelSearch();
-          this.lazySearch(text);
+          this.lazySearch();
         }
-      );
-    } else {
-      this.handleSeachCancel();
-    }
+        else {
+          this.handleSeachCancel()
+        }
+      }
+    );
   }
 
   @autobind
@@ -195,34 +204,67 @@ export class Transfer<
     });
   }
 
-  lazySearch = debounce(
-    (text: string) => {
-      (async (text: string) => {
-        const onSearch = this.props.onSearch!;
-        let result = await onSearch(
-          text,
-          (cancelExecutor: () => void) => (this.cancelSearch = cancelExecutor)
-        );
-
-        if (this.unmounted) {
-          return;
-        }
-
-        if (!Array.isArray(result)) {
-          throw new Error('onSearch 需要返回数组');
-        }
-
-        this.setState({
-          searchResult: result
-        });
-      })(text).catch(e => console.error(e));
-    },
-    250,
-    {
-      trailing: true,
-      leading: false
+  lazySearch = debounce(async() => {
+    const {inputValue} = this.state;
+    if (!inputValue) {
+      return;
     }
-  );
+    const onSearch = this.props.onSearch!;
+    let result = await onSearch(
+      inputValue,
+      (cancelExecutor: () => void) => (this.cancelSearch = cancelExecutor)
+    );
+
+    if (this.unmounted) {
+      return;
+    }
+
+    if (!Array.isArray(result)) {
+      throw new Error('onSearch 需要返回数组');
+    }
+
+    this.setState({
+      searchResult: result
+    });
+  }, 250, {trailing: true, leading: false});
+
+  getFlattenArr(options: Array<Option>) {
+    return flattenTree(options).filter(
+      (option, index, list) =>
+        !option.disabled &&
+        option.value !== void 0 &&
+        list.indexOf(option) === index
+    );
+  }
+
+  // 树搜索处理
+  @autobind
+  handleSearchTreeChange(values: Array<Option>, searchOptions: Array<Option>) {
+    const {onChange, value} = this.props;
+    const searchAvailableOptions = this.getFlattenArr(searchOptions);
+    const useArr: Array<Option> = [];
+    const unuseArr: Array<Option> = [];
+
+    searchAvailableOptions.forEach((item) => {
+      !values.find(v => v.value === item.value)
+        ? unuseArr.push(item)
+        : useArr.push(item);
+    });
+
+    let newArr: Array<Option> = [];
+    Array.isArray(value) && value.forEach((item) => {
+      if (!unuseArr.find(v => v.value === item.value)) {
+        newArr.push(item);
+      }
+    });
+    useArr.forEach(item => {
+      if (!newArr.find(v => v.value === item.value)) {
+        newArr.push(item);
+      }
+    });
+
+    onChange && onChange(newArr);
+  }
 
   renderSelect(
     props: TransferProps & {
@@ -238,7 +280,9 @@ export class Transfer<
       disabled,
       options,
       statistics,
-      translate: __
+      checkboxPosition,
+      translate: __,
+      searchPlaceholder = __('Transfer.searchKeyword'),
     } = props;
 
     if (selectRender) {
@@ -250,6 +294,16 @@ export class Transfer<
       });
     }
 
+    let checkedPartial = false;
+    let checkedAll = false
+
+    checkedAll = this.availableOptions.every(
+      option => this.valueArray.indexOf(option) > -1
+    );
+    checkedPartial = this.availableOptions.some(
+      option => this.valueArray.indexOf(option) > -1
+    );
+
     return (
       <>
         <div
@@ -259,14 +313,22 @@ export class Transfer<
           )}
         >
           <span>
+            {checkboxPosition === 'left'
+              ? <Checkbox
+                  checked={checkedPartial}
+                  partial={checkedPartial && !checkedAll}
+                  onChange={props.onToggleAll || this.toggleAll}
+                  size="sm"
+                />
+              : null}
             {__(selectTitle || 'Transfer.available')}
             {statistics !== false ? (
               <span>
-                （{this.valueArray.length}/{this.availableOptions.length}）
+                （{this.availableOptions.length - this.valueArray.length}/{this.availableOptions.length}）
               </span>
             ) : null}
           </span>
-          {selectMode !== 'table' ? (
+          {selectMode !== 'table' && checkboxPosition === 'right' ? (
             <a
               onClick={props.onToggleAll || this.toggleAll}
               className={cx(
@@ -284,9 +346,9 @@ export class Transfer<
             <InputBox
               value={this.state.inputValue}
               onChange={this.handleSearch}
-              placeholder={__('Transfer.searchKeyword')}
               clearable={false}
               onKeyDown={this.handleSearchKeyDown}
+              placeholder={searchPlaceholder}
             >
               {this.state.searchResult !== null ? (
                 <a onClick={this.handleSeachCancel}>
@@ -320,7 +382,8 @@ export class Transfer<
       option2value,
       optionItemRender,
       cellRender,
-      multiple
+      multiple,
+      checkboxPosition
     } = props;
     const options = this.state.searchResult || [];
     const mode = searchResultMode || selectMode;
@@ -341,16 +404,17 @@ export class Transfer<
         multiple={multiple}
       />
     ) : mode === 'tree' ? (
-      <TreeSelection
+      <Tree
         placeholder={noResultsText}
         className={cx('Transfer-selection')}
         options={options}
         value={value}
         disabled={disabled}
-        onChange={onChange}
-        option2value={option2value}
-        itemRender={optionItemRender}
+        onChange={(value: Array<any>) => this.handleSearchTreeChange(value, options)}
+        joinValues={false}
+        showIcon={false}
         multiple={multiple}
+        onlyChildren
       />
     ) : mode === 'chained' ? (
       <ChainedSelection
@@ -375,6 +439,7 @@ export class Transfer<
         option2value={option2value}
         itemRender={optionItemRender}
         multiple={multiple}
+        checkboxPosition={checkboxPosition}
       />
     );
   }
@@ -396,7 +461,9 @@ export class Transfer<
       cellRender,
       leftDefaultValue,
       optionItemRender,
-      multiple
+      multiple,
+      checkboxPosition,
+      noResultsText
     } = props;
 
     return selectMode === 'table' ? (
@@ -413,16 +480,16 @@ export class Transfer<
         multiple={multiple}
       />
     ) : selectMode === 'tree' ? (
-      <TreeSelection
+      <Tree
+        placeholder={noResultsText}
         className={cx('Transfer-selection')}
-        options={options || []}
+        options={options}
         value={value}
-        disabled={disabled}
-        onChange={onChange}
-        option2value={option2value}
-        onDeferLoad={onDeferLoad}
-        itemRender={optionItemRender}
+        onChange={onChange!}
+        joinValues={false}
+        onlyChildren
         multiple={multiple}
+        showIcon={false}
       />
     ) : selectMode === 'chained' ? (
       <ChainedSelection
@@ -464,6 +531,7 @@ export class Transfer<
         onDeferLoad={onDeferLoad}
         itemRender={optionItemRender}
         multiple={multiple}
+        checkboxPosition={checkboxPosition}
       />
     );
   }
@@ -483,6 +551,14 @@ export class Transfer<
       statistics,
       showArrow,
       resultItemRender,
+      multiple,
+      cellRender,
+      columns,
+      isFollowMode,
+      resultSearchable,
+      onResultSearch,
+      resultPlaceholder,
+      selectMode = 'list',
       translate: __
     } = this.props;
 
@@ -493,6 +569,8 @@ export class Transfer<
         option.value !== void 0 &&
         list.indexOf(option) === index
     );
+
+    const tableType = isFollowMode && selectMode === 'table';
 
     return (
       <div
@@ -509,12 +587,12 @@ export class Transfer<
           ) : null}
         </div>
         <div className={cx('Transfer-result')}>
-          <div className={cx('Transfer-title')}>
+          <div className={cx('Transfer-title', tableType ? 'Transfer-table-title' : '')}>
             <span>
               {__(resultTitle || 'Transfer.selectd')}
               {statistics !== false ? (
                 <span>
-                  （{this.valueArray.length}/{this.availableOptions.length}）
+                  （{this.valueArray.length}）
                 </span>
               ) : null}
             </span>
@@ -536,6 +614,16 @@ export class Transfer<
             onChange={onChange}
             placeholder={__('Transfer.selectFromLeft')}
             itemRender={resultItemRender}
+            isFollowMode={isFollowMode}
+            columns={columns!}
+            options={options || []}
+            option2value={option2value}
+            cellRender={cellRender}
+            multiple={multiple}
+            resultSearchable={resultSearchable}
+            resultPlaceholder={resultPlaceholder}
+            onResultSearch={onResultSearch}
+            selectMode={selectMode}
           />
         </div>
       </div>

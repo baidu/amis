@@ -155,15 +155,37 @@
 
 .#{$ns}Transfer {
   &-title {
-    height: var(--Form-input-height);
-    padding-left: #{px2rem(16px)};
-    padding-right: #{px2rem(16px)};
+    height: #{px2rem(38px)};
+    padding-left: #{px2rem(12px)};
+    padding-right: #{px2rem(12px)};
   }
+
+  &-table-title {
+    background-color: unset;
+  }
+
   .#{$ns}ListCheckboxes {
     .#{$ns}ListCheckboxes-item {
       padding-left: #{px2rem(16px)};
       padding-right: #{px2rem(16px)};
     }
+  }
+}
+
+.#{$ns}GroupedSelection {
+
+  &-item {
+    padding-left: #{px2rem(12px)};
+    padding-right: #{px2rem(12px)};
+  }
+}
+
+.#{$ns}Selections {
+  height: auto;
+
+  &-item {
+    padding-left: #{px2rem(12px)};
+    padding-right: #{px2rem(12px)};
   }
 }
 
