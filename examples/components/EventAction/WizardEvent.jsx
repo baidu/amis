@@ -57,8 +57,6 @@ function generateEventAcions(events) {
     }
   });
 
-  console.log('onEvent', onEvent);
-
   return onEvent;
 }
 
