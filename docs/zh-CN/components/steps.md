@@ -335,9 +335,9 @@ order: 68
 
 | 属性名      | 类型                                                  | 默认值 | 说明                                    |
 | ----------- | ----------------------------------------------------- | ------ | --------------------------------------- |
-| title       | `string \| [SchemaNode](../../docs/types/schemanode)` |        | 标题                                    |
-| subTitle    | `string \| [SchemaNode](../../docs/types/schemanode)` |        | 子标题                                  |
-| description | `string \| [SchemaNode](../../docs/types/schemanode)` |        | 详细描述                                |
+| title       | `string` \| [SchemaNode](../../docs/types/schemanode) |        | 标题                                    |
+| subTitle    | `string` \| [SchemaNode](../../docs/types/schemanode) |        | 子标题                                  |
+| description | `string` \| [SchemaNode](../../docs/types/schemanode) |        | 详细描述                                |
 | icon        | `string`                                              |        | icon 名，支持 fontawesome v4 或使用 url |
 | value       | `string`                                              |        | value                                   |
 | className   | `string`                                              |        | 自定义类名                              |
