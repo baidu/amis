@@ -70,6 +70,11 @@ export interface FormulaPickerProps extends FormulaEditorProps {
   disabled?: boolean;
 
   /**
+   * 是否允许输入，否需要点击fx在弹窗中输入
+   */
+  allowInput?: boolean;
+
+  /**
    * 占位文本
    */
   placeholder?: string;
@@ -96,12 +101,28 @@ export class FormulaPicker extends React.Component<FormulaPickerProps> {
     this.props.onChange?.(value);
   }
 
+  @autobind
+  renderFormulaValue(item: any) {
+    const {allowInput, classnames: cx} = this.props;
+    const html = {__html: item.html};
+    if (allowInput) {
+      return '';
+    }
+    return (
+      <div
+        className={cx('FormulaPicker-ResultBox')}
+        dangerouslySetInnerHTML={html}
+      ></div>
+    );
+  }
+
   render() {
     let {
       classnames: cx,
       value,
       translate: __,
       disabled,
+      allowInput,
       className,
       onChange,
       size,
@@ -186,9 +207,15 @@ export class FormulaPicker extends React.Component<FormulaPickerProps> {
                     'FormulaPicker-input',
                     isOpened ? 'is-active' : ''
                   )}
-                  allowInput
+                  allowInput={allowInput}
                   clearable={clearable}
                   value={value}
+                  result={FormulaEditor.highlightValue(
+                    value,
+                    variables,
+                    functions
+                  )}
+                  itemRender={this.renderFormulaValue}
                   onResultChange={noop}
                   onChange={this.handleConfirm}
                   disabled={disabled}

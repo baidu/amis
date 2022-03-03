@@ -75,6 +75,9 @@ exports[`Renderer:input-formula 1`] = `
                       class="cxd-ResultBox cxd-FormulaPicker-input cxd-ResultBox--borderFull"
                       tabindex="-1"
                     >
+                      <span
+                        class="cxd-ResultBox-singleValue"
+                      />
                       <input
                         placeholder="暂无数据"
                         theme="cxd"
