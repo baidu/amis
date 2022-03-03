@@ -22,6 +22,7 @@ import {SimpleMap} from './utils/SimpleMap';
 
 import type {RendererEvent} from './utils/renderer-event';
 import {observer} from 'mobx-react';
+import {isAlive} from 'mobx-state-tree';
 
 interface SchemaRendererProps extends Partial<RendererProps> {
   schema: Schema;
@@ -102,23 +103,33 @@ class BroadcastCmpt extends React.Component<BroadcastCmptProps> {
 
   render() {
     const {component: Component, rootStore, ...rest} = this.props;
-    const visible = rootStore.visibleState[rest.$schema.id || rest.$path];
-    const disable = rootStore.disableState[rest.$schema.id || rest.$path];
+    const visible = isAlive(rootStore)
+      ? rootStore.visibleState[rest.$schema.id || rest.$path]
+      : true;
+    const disable = isAlive(rootStore)
+      ? rootStore.disableState[rest.$schema.id || rest.$path]
+      : false;
     const isClassComponent = Component.prototype?.isReactComponent;
 
-    // 函数组件不支持 ref https://reactjs.org/docs/refs-and-the-dom.html#refs-and-function-components
+    if (disable) {
+      (rest as any).disabled = true;
+    }
 
+    // 函数组件不支持 ref https://reactjs.org/docs/refs-and-the-dom.html#refs-and-function-components
     return visible !== false ? (
       isClassComponent ? (
         <Component
           ref={this.childRef}
-          rootStore={rootStore}
-          disabled={disable}
           {...rest}
+          rootStore={rootStore}
           dispatchEvent={this.dispatchEvent}
         />
       ) : (
-        <Component {...rest} dispatchEvent={this.dispatchEvent} />
+        <Component
+          {...rest}
+          rootStore={rootStore}
+          dispatchEvent={this.dispatchEvent}
+        />
       )
     ) : null;
   }
