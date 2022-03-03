@@ -74,19 +74,15 @@ export class Progress extends React.Component<ProgressProps, Object> {
     const isLineType = type === 'line';
     const prefixCls = isLineType ? 'Progress-line' : 'Progress-circle';
 
-    let viewValue: React.ReactNode = (
-      <span className="text-muted">{placeholder}</span>
-    );
-
-    if (type === 'line') {
+    let viewValue: React.ReactNode;
+    if (typeof value !== 'number') {
+      viewValue = <span className="text-muted">{placeholder}</span>;
+    } else if (type === 'line') {
+      const style: any = {};
+      strokeWidth && (style.height = strokeWidth);
       viewValue = [
-        <div
-          key="progress"
-          className={cx(prefixCls, progressClassName, {
-            [`${prefixCls}-no-label`]: !showLabel
-          })}
-        >
-          <div className={cx(`${prefixCls}-inter`)}>
+        <div key="progress" className={cx(prefixCls, progressClassName)}>
+          <div className={cx(`${prefixCls}-inter`)} style={style}>
             <div
               className={cx(
                 `${prefixCls}-bar`,
