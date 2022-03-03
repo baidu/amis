@@ -327,6 +327,7 @@ export type SchemaType =
   | 'table-view'
   | 'portlet'
   | 'grid-nav'
+  | 'tag'
 
   // 原生 input 类型
   | 'native-date'

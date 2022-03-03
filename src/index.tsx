@@ -176,6 +176,7 @@ import './renderers/Code';
 import './renderers/WebComponent';
 import './renderers/GridNav';
 import './renderers/TooltipWrapper';
+import './renderers/Tag';
 
 import Scoped, {ScopedContext} from './Scoped';
 
