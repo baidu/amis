@@ -353,7 +353,7 @@ export function wrapControl<
               this.model.clearValueOnHidden &&
                 this.model.form?.deleteValueByName(this.model.name);
 
-              rootStore.removeStore(this.model);
+              isAlive(rootStore) && rootStore.removeStore(this.model);
             }
             delete this.model;
           }
