@@ -4,6 +4,7 @@ exports[`Renderers:Action [actionType = "link"] show active class 1`] = `
 <button
   className="cxd-Button cxd-Button--default a"
   onClick={[Function]}
+  onMouseEnter={[Function]}
   type="button"
 >
   <span>
@@ -16,6 +17,7 @@ exports[`Renderers:Action [actionType = "link"] show active class 2`] = `
 <button
   className="cxd-Button cxd-Button--default a is-active"
   onClick={[Function]}
+  onMouseEnter={[Function]}
   type="button"
 >
   <span>
@@ -28,6 +30,7 @@ exports[`Renderers:Action MenuItem changes class when actived & disabled 1`] = `
 <a
   className="a"
   onClick={[Function]}
+  onMouseEnter={[Function]}
 >
   <span>
     123
@@ -39,6 +42,7 @@ exports[`Renderers:Action MenuItem changes class when actived & disabled 2`] = `
 <a
   className="a is-active"
   onClick={[Function]}
+  onMouseEnter={[Function]}
 >
   <span>
     233
@@ -51,6 +55,7 @@ exports[`Renderers:Action MenuItem changes class when actived & disabled 3`] = `
   className="a is-active"
   disabled={true}
   onClick={[Function]}
+  onMouseEnter={[Function]}
 >
   <span>
     233
@@ -62,6 +67,7 @@ exports[`Renderers:Action MenuItem display icon 1`] = `
 <a
   className="a"
   onClick={[Function]}
+  onMouseEnter={[Function]}
 >
   <span>
     123
@@ -73,6 +79,7 @@ exports[`Renderers:Action MenuItem display icon 2`] = `
 <a
   className="a"
   onClick={[Function]}
+  onMouseEnter={[Function]}
 >
   <i
     className="cxd-Button-icon fa fa-cloud"
@@ -87,6 +94,7 @@ exports[`Renderers:Action custom activeClass 1`] = `
 <button
   className="cxd-Button cxd-Button--default a"
   onClick={[Function]}
+  onMouseEnter={[Function]}
   type="button"
 >
   <span>
@@ -99,6 +107,7 @@ exports[`Renderers:Action custom activeClass 2`] = `
 <button
   className="cxd-Button cxd-Button--default a custom-active"
   onClick={[Function]}
+  onMouseEnter={[Function]}
   type="button"
 >
   <span>
@@ -111,6 +120,7 @@ exports[`Renderers:Action download shortcut 1`] = `
 <button
   className="cxd-Button cxd-Button--default"
   onClick={[Function]}
+  onMouseEnter={[Function]}
   type="button"
 >
   <span>
