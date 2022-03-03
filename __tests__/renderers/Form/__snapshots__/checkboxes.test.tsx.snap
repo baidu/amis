@@ -318,7 +318,11 @@ exports[`Renderer:checkboxes 2`] = `
               <span
                 class="cxd-PlainField"
               >
-                a,b
+                <span
+                  class="text-muted"
+                >
+                  -
+                </span>
               </span>
             </div>
           </div>

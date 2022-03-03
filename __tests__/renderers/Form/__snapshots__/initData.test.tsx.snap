@@ -205,21 +205,7 @@ exports[`Form:initData:remote 1`] = `
 </div>
 `;
 
-exports[`Form:initData:remote 2`] = `
-Object {
-  "config": Object {
-    "cancelExecutor": [Function],
-    "errorMessage": "fetchFailed",
-    "onSuccess": [Function],
-    "successMessage": undefined,
-  },
-  "method": "get",
-  "query": Object {
-    "a": "123",
-  },
-  "url": "/api/xxx?a=123",
-}
-`;
+exports[`Form:initData:remote 2`] = `Object {}`;
 
 exports[`Form:initData:remote 3`] = `
 <div>
@@ -360,6 +346,24 @@ Object {
   "b": 2,
 }
 `;
+
+exports[`Form:initData:remote:options:source 1`] = `
+Object {
+  "config": Object {
+    "cancelExecutor": [Function],
+    "errorMessage": "fetchFailed",
+    "onSuccess": [Function],
+    "successMessage": undefined,
+  },
+  "method": "get",
+  "query": Object {
+    "a": "123",
+  },
+  "url": "/api/xxx?a=123",
+}
+`;
+
+exports[`Form:initData:remote:options:source 2`] = `<div />`;
 
 exports[`Form:initData:super 1`] = `
 <div>
