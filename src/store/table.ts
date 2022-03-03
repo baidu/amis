@@ -152,8 +152,7 @@ export const Row = types
     },
 
     get expanded(): boolean {
-      const table = getParent(self, self.depth * 2) as ITableStore;
-      return table.expandedRows.indexOf(self.id) !== -1;
+      return !this.collapsed;
     },
 
     get moved() {

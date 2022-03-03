@@ -421,59 +421,62 @@ const data = [
 ].map(function (item, index) {
   return Object.assign({}, item, {
     id: index + 1,
-    children: [
-      {
-        engine: 'Trident',
-        browser: 'Internet Explorer 4.0',
-        platform: 'Win 95+',
-        version: '4',
-        grade: 'X'
-      },
-      {
-        engine: 'Trident',
-        browser: 'Internet Explorer 5.0',
-        platform: 'Win 95+',
-        version: '5',
-        grade: 'C'
-      },
-      {
-        engine: 'Other browsers',
-        browser: 'All others',
-        platform: '-',
-        version: '-',
-        grade: 'U'
-      }
-    ].map(function (child, i) {
-      return Object.assign({}, child, {
-        id: (index + 1) * 100 + i + 1,
-        children: [
-          {
-            engine: 'Trident',
-            browser: 'Internet Explorer 4.0',
-            platform: 'Win 95+',
-            version: '4',
-            grade: 'X'
-          },
-          {
-            engine: 'Misc',
-            browser: 'Internet Explorer 5.0',
-            platform: 'Win 95+',
-            version: '5',
-            grade: 'C'
-          },
-          {
-            engine: 'Misc',
-            browser: 'Internet Explorer 5.0',
-            platform: 'Win 95+',
-            version: '1',
-            grade: 'A'
-          }
-        ].map(function (child, i) {
-          return Object.assign({}, child, {
-            id: (i + 1) * 100 + (index + 1) * 1000 + i + 1
-          });
-        })
-      });
-    })
+    children:
+      Math.random() > 0.5
+        ? undefined
+        : [
+            {
+              engine: 'Trident',
+              browser: 'Internet Explorer 4.0',
+              platform: 'Win 95+',
+              version: '4',
+              grade: 'X'
+            },
+            {
+              engine: 'Trident',
+              browser: 'Internet Explorer 5.0',
+              platform: 'Win 95+',
+              version: '5',
+              grade: 'C'
+            },
+            {
+              engine: 'Other browsers',
+              browser: 'All others',
+              platform: '-',
+              version: '-',
+              grade: 'U'
+            }
+          ].map(function (child, i) {
+            return Object.assign({}, child, {
+              id: (index + 1) * 100 + i + 1,
+              children: [
+                {
+                  engine: 'Trident',
+                  browser: 'Internet Explorer 4.0',
+                  platform: 'Win 95+',
+                  version: '4',
+                  grade: 'X'
+                },
+                {
+                  engine: 'Misc',
+                  browser: 'Internet Explorer 5.0',
+                  platform: 'Win 95+',
+                  version: '5',
+                  grade: 'C'
+                },
+                {
+                  engine: 'Misc',
+                  browser: 'Internet Explorer 5.0',
+                  platform: 'Win 95+',
+                  version: '1',
+                  grade: 'A'
+                }
+              ].map(function (child, i) {
+                return Object.assign({}, child, {
+                  id: (i + 1) * 100 + (index + 1) * 1000 + i + 1
+                });
+              })
+            });
+          })
   });
 });
