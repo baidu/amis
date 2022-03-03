@@ -8,7 +8,7 @@ import {makeEnv} from '../../helper';
 import moment from 'moment';
 
 test('Renderer:inputYear click', async () => {
-  const {container, findByText} = render(
+  const {container, findByPlaceholderText, findByText} = render(
     amisRender(
       {
         type: 'form',
@@ -28,7 +28,7 @@ test('Renderer:inputYear click', async () => {
     )
   );
 
-  const inputDate = await findByText('请选择年');
+  const inputDate = await findByPlaceholderText('请选择年');
 
   fireEvent.click(inputDate);
 
@@ -39,8 +39,8 @@ test('Renderer:inputYear click', async () => {
   fireEvent.click(thisYear);
 
   const value = document.querySelector(
-    '.cxd-DatePicker-value'
-  ) as HTMLSpanElement;
+    '.cxd-DatePicker input'
+  ) as HTMLInputElement;
 
-  expect(value.innerHTML).toEqual(thisYearText);
+  expect(value.value).toEqual(thisYearText);
 });

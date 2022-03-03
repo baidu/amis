@@ -17,7 +17,7 @@ afterAll(() => {
 });
 
 test('Renderer:mobile Input Date', async () => {
-  const {container, findByText, getByText} = render(
+  const {container, findByPlaceholderText, getByText} = render(
     amisRender(
       {
         type: 'form',
@@ -35,7 +35,7 @@ test('Renderer:mobile Input Date', async () => {
     )
   );
 
-  const inputDate = await findByText('请选择日期');
+  const inputDate = await findByPlaceholderText('请选择日期');
   fireEvent.click(inputDate);
 
   const confirmButton = document.querySelector(
@@ -44,9 +44,9 @@ test('Renderer:mobile Input Date', async () => {
 
   fireEvent.click(confirmButton);
 
-  const value = document.querySelector(
-    '.cxd-DatePicker-value'
-  ) as HTMLSpanElement;
+  // const value = document.querySelector(
+  //   '.cxd-DatePicker-value'
+  // ) as HTMLSpanElement;
 
   // TODO: 这里原组件的日错了，等修复
   // expect(value.innerHTML).toEqual(moment().format('YYYY-MM-DD'));
