@@ -696,7 +696,7 @@ export const examples = [
       {
         label: 'APP 多页应用',
         icon: 'fa fa-cubes',
-        path: '/app/',
+        path: '/examples/app/',
         component: () => {
           // 如果在 gh-pages 里面
           if (/^\/amis/.test(window.location.pathname)) {
