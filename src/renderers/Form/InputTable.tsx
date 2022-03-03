@@ -1083,6 +1083,7 @@ export default class FormTable extends React.Component<TableProps, TableState> {
       formInited,
       perPage,
       classnames: cx,
+      rowClassName,
       rowClassNameExpr
     } = this.props;
 
@@ -1133,6 +1134,7 @@ export default class FormTable extends React.Component<TableProps, TableState> {
             canAccessSuperData,
             reUseRow: false,
             offset,
+            rowClassName,
             rowClassNameExpr
           }
         )}
