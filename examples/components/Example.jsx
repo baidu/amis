@@ -82,6 +82,7 @@ import SelectEventActionSchema from './EventAction/SelectEvent';
 import ButtonEventActionSchema from './EventAction/ButtonEvent';
 import InputRatingEventSchema from './EventAction/InputRatingEvent';
 import ExcelEventSchema from './EventAction/ExcelEvent';
+import WizardEventSchema from './EventAction/WizardEvent';
 import WizardSchema from './Wizard';
 import ChartSchema from './Chart';
 import EChartsEditorSchema from './ECharts';
@@ -580,7 +581,12 @@ export const examples = [
                 label: 'excel',
                 path: 'examples/event/excel',
                 component: makeSchemaRenderer(ExcelEventSchema)
-              }
+              },
+              {
+                label: '向导组件',
+                path: 'examples/event/wizard',
+                component: makeSchemaRenderer(WizardEventSchema)
+              },
             ]
           },
           {
