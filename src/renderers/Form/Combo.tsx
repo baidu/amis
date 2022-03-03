@@ -1372,9 +1372,7 @@ export default class ComboControl extends React.Component<ComboProps> {
                 )
               ) : (
                 <Button
-                  level="default"
                   className={cx(`Combo-addBtn`, addButtonClassName)}
-                  block
                   tooltip={__('Combo.add')}
                   onClick={this.addItem}
                 >
