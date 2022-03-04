@@ -165,6 +165,7 @@ exports[`Renderer:Wizard 1`] = `
         disabled={true}
         onClick={[Function]}
         onMouseEnter={[Function]}
+        onMouseLeave={[Function]}
       >
         <span>
           上一步
@@ -174,6 +175,7 @@ exports[`Renderer:Wizard 1`] = `
         className="cxd-Button cxd-Button--default"
         onClick={[Function]}
         onMouseEnter={[Function]}
+        onMouseLeave={[Function]}
         type="button"
       >
         <span>
@@ -1187,6 +1189,7 @@ exports[`Renderer:Wizard initApi 1`] = `
         disabled={true}
         onClick={[Function]}
         onMouseEnter={[Function]}
+        onMouseLeave={[Function]}
       >
         <span>
           上一步
@@ -1196,6 +1199,7 @@ exports[`Renderer:Wizard initApi 1`] = `
         className="cxd-Button cxd-Button--default"
         onClick={[Function]}
         onMouseEnter={[Function]}
+        onMouseLeave={[Function]}
         type="button"
       >
         <span>
@@ -1916,6 +1920,7 @@ exports[`Renderer:Wizard initApi show loading 2`] = `
         disabled={true}
         onClick={[Function]}
         onMouseEnter={[Function]}
+        onMouseLeave={[Function]}
       >
         <span>
           上一步
@@ -1925,6 +1930,7 @@ exports[`Renderer:Wizard initApi show loading 2`] = `
         className="cxd-Button cxd-Button--default"
         onClick={[Function]}
         onMouseEnter={[Function]}
+        onMouseLeave={[Function]}
         type="button"
       >
         <span>
@@ -2098,6 +2104,7 @@ exports[`Renderer:Wizard readOnly 1`] = `
         disabled={true}
         onClick={[Function]}
         onMouseEnter={[Function]}
+        onMouseLeave={[Function]}
       >
         <span>
           上一步
@@ -2107,6 +2114,7 @@ exports[`Renderer:Wizard readOnly 1`] = `
         className="cxd-Button cxd-Button--default"
         onClick={[Function]}
         onMouseEnter={[Function]}
+        onMouseLeave={[Function]}
         type="button"
       >
         <span>

@@ -30,6 +30,15 @@ export default {
               msg: '派发鼠标移入事件'
             }
           ]
+        },
+        mouseleave: {
+          actions: [
+            {
+              actionType: 'toast',
+              msgType: 'info',
+              msg: '派发鼠标移出事件'
+            }
+          ]
         }
       }
     },
@@ -262,6 +271,15 @@ export default {
               actionType: 'toast',
               msgType: 'info',
               msg: '派发鼠标移入事件'
+            }
+          ]
+        },
+        mouseleave: {
+          actions: [
+            {
+              actionType: 'toast',
+              msgType: 'info',
+              msg: '派发鼠标移出事件'
             }
           ]
         }

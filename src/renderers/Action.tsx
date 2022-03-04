@@ -754,6 +754,7 @@ export class Action extends React.Component<ActionProps, ActionState> {
       body,
       render,
       onMouseEnter,
+      onMouseLeave,
       classnames: cx,
       classPrefix: ns
     } = this.props;
@@ -773,6 +774,7 @@ export class Action extends React.Component<ActionProps, ActionState> {
             className={cx('Action', className)}
             onClick={this.handleAction}
             onMouseEnter={onMouseEnter}
+            onMouseLeave={onMouseLeave}
           >
             {render('body', body) as JSX.Element}
           </div>
@@ -820,6 +822,7 @@ export class Action extends React.Component<ActionProps, ActionState> {
         loading={loading}
         onClick={this.handleAction}
         onMouseEnter={onMouseEnter}
+        onMouseLeave={onMouseLeave}
         type={type && ~allowedType.indexOf(type) ? type : 'button'}
         disabled={disabled}
         componentClass={isMenuItem ? 'a' : componentClass}
@@ -885,9 +888,12 @@ export class ActionRenderer extends React.Component<
 
   @autobind
   handleMouseEnter(e: React.MouseEvent<any>) {
-    const {data, dispatchEvent} = this.props;
-    // 触发渲染器事件
-    dispatchEvent(e, data);
+    this.props.dispatchEvent(e, this.props.data);
+  }
+
+  @autobind
+  handleMouseLeave(e: React.MouseEvent<any>) {
+    this.props.dispatchEvent(e, this.props.data);
   }
 
   @autobind
@@ -906,6 +912,7 @@ export class ActionRenderer extends React.Component<
         disabled={disabled || btnDisabled}
         onAction={this.handleAction}
         onMouseEnter={this.handleMouseEnter}
+        onMouseLeave={this.handleMouseLeave}
         loading={loading}
         isCurrentUrl={this.isCurrentAction}
         tooltipContainer={
