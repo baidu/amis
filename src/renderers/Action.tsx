@@ -753,6 +753,7 @@ export class Action extends React.Component<ActionProps, ActionState> {
       loading,
       body,
       render,
+      onMouseEnter,
       classnames: cx,
       classPrefix: ns
     } = this.props;
@@ -768,7 +769,11 @@ export class Action extends React.Component<ActionProps, ActionState> {
           trigger={tooltipTrigger}
           rootClose={tooltipRootClose}
         >
-          <div className={cx('Action', className)} onClick={this.handleAction}>
+          <div
+            className={cx('Action', className)}
+            onClick={this.handleAction}
+            onMouseEnter={onMouseEnter}
+          >
             {render('body', body) as JSX.Element}
           </div>
         </TooltipWrapper>
@@ -814,6 +819,7 @@ export class Action extends React.Component<ActionProps, ActionState> {
         loadingClassName={loadingClassName}
         loading={loading}
         onClick={this.handleAction}
+        onMouseEnter={onMouseEnter}
         type={type && ~allowedType.indexOf(type) ? type : 'button'}
         disabled={disabled}
         componentClass={isMenuItem ? 'a' : componentClass}
@@ -878,6 +884,13 @@ export class ActionRenderer extends React.Component<
   }
 
   @autobind
+  handleMouseEnter(e: React.MouseEvent<any>) {
+    const {data, dispatchEvent} = this.props;
+    // 触发渲染器事件
+    dispatchEvent(e, data);
+  }
+
+  @autobind
   isCurrentAction(link: string) {
     const {env, data} = this.props;
     return env.isCurrentUrl(filter(link, data));
@@ -892,6 +905,7 @@ export class ActionRenderer extends React.Component<
         env={env}
         disabled={disabled || btnDisabled}
         onAction={this.handleAction}
+        onMouseEnter={this.handleMouseEnter}
         loading={loading}
         isCurrentUrl={this.isCurrentAction}
         tooltipContainer={
