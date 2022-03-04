@@ -83,7 +83,6 @@ export class Button extends React.Component<ButtonProps> {
         type={Comp === 'input' || Comp === 'button' ? type : undefined}
         {...pickEventsProps(rest)}
         onClick={rest.onClick && disabled ? () => {} : rest.onClick}
-        onMouseEnter={(e: React.MouseEvent<any>) => rest.onMouseEnter?.(e)}
         href={href}
         className={cx(
           overrideClassName

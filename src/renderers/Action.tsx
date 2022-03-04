@@ -680,7 +680,6 @@ export class Action extends React.Component<ActionProps, ActionState> {
 
   @autobind
   handleMouseEnter(e: React.MouseEvent<any>) {
-    debugger;
     this.props.onMouseEnter?.(e);
   }
 

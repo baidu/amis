@@ -7,6 +7,7 @@ import CityArea from '../../components/CityArea';
 import {autobind, isMobile} from '../../utils/helper';
 import {Option} from './Options';
 import {localeable, LocaleProps} from '../../locale';
+import {auto} from 'async';
 
 /**
  * City 城市选择框。
@@ -432,6 +433,11 @@ export interface LocationControlProps extends FormControlProps {
   allowStreet?: boolean;
 }
 export class LocationControl extends React.Component<LocationControlProps> {
+  @autobind
+  handleChange(e: any) {
+    debugger;
+  }
+
   render() {
     const {
       value,
@@ -453,7 +459,7 @@ export class LocationControl extends React.Component<LocationControlProps> {
         popOverContainer={
           env && env.getModalContainer ? env.getModalContainer : undefined
         }
-        onChange={onChange}
+        onChange={this.handleChange}
         allowCity={allowCity}
         allowDistrict={allowDistrict}
         extractValue={extractValue}
@@ -466,7 +472,7 @@ export class LocationControl extends React.Component<LocationControlProps> {
       <ThemedCity
         searchable={searchable}
         value={value}
-        onChange={onChange}
+        onChange={this.handleChange}
         allowCity={allowCity}
         allowDistrict={allowDistrict}
         extractValue={extractValue}
