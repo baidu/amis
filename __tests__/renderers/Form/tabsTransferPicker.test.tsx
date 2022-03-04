@@ -158,13 +158,13 @@ test('Renderer:TabsTransferPicker', async () => {
 
   fireEvent.click(checkbox);
 
-  await wait(300);
+  await wait(500);
 
   const confirm = await findByText('确认');
 
   fireEvent.click(confirm);
 
-  await wait(300);
+  await wait(500);
 
   // TODO: 应该是点了但不知为何没反应
   //  screen.debug();

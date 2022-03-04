@@ -115,7 +115,7 @@ test('Renderer:Form:valdiate', async () => {
       value: '123'
     }
   });
-  await wait(300); // 有 250 秒左右的节流
+  await wait(500); // 有 250 秒左右的节流
   fireEvent.click(getByText('Submit'));
   expect(container).toMatchSnapshot();
 
