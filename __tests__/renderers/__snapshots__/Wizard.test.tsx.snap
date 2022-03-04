@@ -164,6 +164,8 @@ exports[`Renderer:Wizard 1`] = `
         className="cxd-Button cxd-Button--default is-disabled"
         disabled={true}
         onClick={[Function]}
+        onMouseEnter={[Function]}
+        onMouseLeave={[Function]}
       >
         <span>
           上一步
@@ -172,6 +174,8 @@ exports[`Renderer:Wizard 1`] = `
       <button
         className="cxd-Button cxd-Button--default"
         onClick={[Function]}
+        onMouseEnter={[Function]}
+        onMouseLeave={[Function]}
         type="button"
       >
         <span>
@@ -1184,6 +1188,8 @@ exports[`Renderer:Wizard initApi 1`] = `
         className="cxd-Button cxd-Button--default is-disabled"
         disabled={true}
         onClick={[Function]}
+        onMouseEnter={[Function]}
+        onMouseLeave={[Function]}
       >
         <span>
           上一步
@@ -1192,6 +1198,8 @@ exports[`Renderer:Wizard initApi 1`] = `
       <button
         className="cxd-Button cxd-Button--default"
         onClick={[Function]}
+        onMouseEnter={[Function]}
+        onMouseLeave={[Function]}
         type="button"
       >
         <span>
@@ -1911,6 +1919,8 @@ exports[`Renderer:Wizard initApi show loading 2`] = `
         className="cxd-Button cxd-Button--default is-disabled"
         disabled={true}
         onClick={[Function]}
+        onMouseEnter={[Function]}
+        onMouseLeave={[Function]}
       >
         <span>
           上一步
@@ -1919,6 +1929,8 @@ exports[`Renderer:Wizard initApi show loading 2`] = `
       <button
         className="cxd-Button cxd-Button--default"
         onClick={[Function]}
+        onMouseEnter={[Function]}
+        onMouseLeave={[Function]}
         type="button"
       >
         <span>
@@ -2091,6 +2103,8 @@ exports[`Renderer:Wizard readOnly 1`] = `
         className="cxd-Button cxd-Button--default is-disabled"
         disabled={true}
         onClick={[Function]}
+        onMouseEnter={[Function]}
+        onMouseLeave={[Function]}
       >
         <span>
           上一步
@@ -2099,6 +2113,8 @@ exports[`Renderer:Wizard readOnly 1`] = `
       <button
         className="cxd-Button cxd-Button--default"
         onClick={[Function]}
+        onMouseEnter={[Function]}
+        onMouseLeave={[Function]}
         type="button"
       >
         <span>
