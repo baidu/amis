@@ -64,7 +64,7 @@ test('Form:options:autoFill', async () => {
 
   // expect(container).toMatchSnapshot();
   fireEvent.click(getByText(/OptionA/));
-  await wait(300);
+  await wait(500);
 
   expect(container.querySelector('input[name=a]')?.getAttribute('value')).toBe(
     'a'
@@ -136,14 +136,14 @@ test('Form:options:autoFill:data', async () => {
 
   fireEvent.click(getByText(/OptionA/));
   fireEvent.click(getByText(/Submit/));
-  await wait(300);
+  await wait(500);
 
   expect(onSubmit).toBeCalled();
   expect(onSubmit.mock.calls[0][0]).toMatchSnapshot();
 
   fireEvent.click(getByText(/OptionB/));
   fireEvent.click(getByText(/Submit/));
-  await wait(300);
+  await wait(500);
 
   expect(onSubmit).toBeCalledTimes(2);
   expect(onSubmit.mock.calls[1][0]).toMatchSnapshot();
@@ -190,14 +190,14 @@ test('Form:options:autoFill:multiple:data', async () => {
 
   fireEvent.click(getByText(/OptionA/));
   fireEvent.click(getByText(/Submit/));
-  await wait(300);
+  await wait(500);
 
   expect(onSubmit).toBeCalled();
   expect(onSubmit.mock.calls[0][0]).toMatchSnapshot();
 
   fireEvent.click(getByText(/OptionB/));
   fireEvent.click(getByText(/Submit/));
-  await wait(300);
+  await wait(500);
 
   expect(onSubmit).toBeCalledTimes(2);
   expect(onSubmit.mock.calls[1][0]).toMatchSnapshot();
