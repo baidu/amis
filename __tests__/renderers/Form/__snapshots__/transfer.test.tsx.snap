@@ -77,7 +77,7 @@ exports[`Renderer:transfer 1`] = `
                             可选项
                             <span>
                               （
-                              0
+                              6
                               /
                               6
                               ）
@@ -95,17 +95,6 @@ exports[`Renderer:transfer 1`] = `
                           <div
                             class="cxd-GroupedSelection-item"
                           >
-                            <label
-                              class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full cxd-Checkbox--sm"
-                            >
-                              <input
-                                type="checkbox"
-                              />
-                              <i />
-                              <span
-                                class=""
-                              />
-                            </label>
                             <div
                               class="cxd-GroupedSelection-itemLabel"
                             >
@@ -113,10 +102,6 @@ exports[`Renderer:transfer 1`] = `
                                 诸葛亮
                               </span>
                             </div>
-                          </div>
-                          <div
-                            class="cxd-GroupedSelection-item"
-                          >
                             <label
                               class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full cxd-Checkbox--sm"
                             >
@@ -128,6 +113,10 @@ exports[`Renderer:transfer 1`] = `
                                 class=""
                               />
                             </label>
+                          </div>
+                          <div
+                            class="cxd-GroupedSelection-item"
+                          >
                             <div
                               class="cxd-GroupedSelection-itemLabel"
                             >
@@ -135,10 +124,6 @@ exports[`Renderer:transfer 1`] = `
                                 曹操
                               </span>
                             </div>
-                          </div>
-                          <div
-                            class="cxd-GroupedSelection-item"
-                          >
                             <label
                               class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full cxd-Checkbox--sm"
                             >
@@ -150,6 +135,10 @@ exports[`Renderer:transfer 1`] = `
                                 class=""
                               />
                             </label>
+                          </div>
+                          <div
+                            class="cxd-GroupedSelection-item"
+                          >
                             <div
                               class="cxd-GroupedSelection-itemLabel"
                             >
@@ -157,10 +146,6 @@ exports[`Renderer:transfer 1`] = `
                                 钟无艳
                               </span>
                             </div>
-                          </div>
-                          <div
-                            class="cxd-GroupedSelection-item"
-                          >
                             <label
                               class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full cxd-Checkbox--sm"
                             >
@@ -172,6 +157,10 @@ exports[`Renderer:transfer 1`] = `
                                 class=""
                               />
                             </label>
+                          </div>
+                          <div
+                            class="cxd-GroupedSelection-item"
+                          >
                             <div
                               class="cxd-GroupedSelection-itemLabel"
                             >
@@ -179,10 +168,6 @@ exports[`Renderer:transfer 1`] = `
                                 李白
                               </span>
                             </div>
-                          </div>
-                          <div
-                            class="cxd-GroupedSelection-item"
-                          >
                             <label
                               class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full cxd-Checkbox--sm"
                             >
@@ -194,6 +179,10 @@ exports[`Renderer:transfer 1`] = `
                                 class=""
                               />
                             </label>
+                          </div>
+                          <div
+                            class="cxd-GroupedSelection-item"
+                          >
                             <div
                               class="cxd-GroupedSelection-itemLabel"
                             >
@@ -201,10 +190,6 @@ exports[`Renderer:transfer 1`] = `
                                 韩信
                               </span>
                             </div>
-                          </div>
-                          <div
-                            class="cxd-GroupedSelection-item"
-                          >
                             <label
                               class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full cxd-Checkbox--sm"
                             >
@@ -216,6 +201,10 @@ exports[`Renderer:transfer 1`] = `
                                 class=""
                               />
                             </label>
+                          </div>
+                          <div
+                            class="cxd-GroupedSelection-item"
+                          >
                             <div
                               class="cxd-GroupedSelection-itemLabel"
                             >
@@ -223,6 +212,17 @@ exports[`Renderer:transfer 1`] = `
                                 云中君
                               </span>
                             </div>
+                            <label
+                              class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full cxd-Checkbox--sm"
+                            >
+                              <input
+                                type="checkbox"
+                              />
+                              <i />
+                              <span
+                                class=""
+                              />
+                            </label>
                           </div>
                         </div>
                       </div>
@@ -240,8 +240,6 @@ exports[`Renderer:transfer 1`] = `
                             <span>
                               （
                               0
-                              /
-                              6
                               ）
                             </span>
                           </span>
@@ -406,7 +404,7 @@ exports[`Renderer:transfer chained 1`] = `
                             可选项
                             <span>
                               （
-                              0
+                              6
                               /
                               6
                               ）
@@ -500,8 +498,6 @@ exports[`Renderer:transfer chained 1`] = `
                             <span>
                               （
                               0
-                              /
-                              6
                               ）
                             </span>
                           </span>
@@ -666,7 +662,7 @@ exports[`Renderer:transfer left tree 1`] = `
                             可选项
                             <span>
                               （
-                              0
+                              5
                               /
                               5
                               ）
@@ -904,8 +900,6 @@ exports[`Renderer:transfer left tree 1`] = `
                             <span>
                               （
                               0
-                              /
-                              5
                               ）
                             </span>
                           </span>
@@ -1070,7 +1064,7 @@ exports[`Renderer:transfer table 1`] = `
                             可选项
                             <span>
                               （
-                              0
+                              6
                               /
                               6
                               ）
@@ -1130,14 +1124,18 @@ exports[`Renderer:transfer table 1`] = `
                                       />
                                     </label>
                                   </td>
-                                  <td>
+                                  <td
+                                    class=""
+                                  >
                                     <span
                                       class="cxd-PlainField"
                                     >
                                       诸葛亮
                                     </span>
                                   </td>
-                                  <td>
+                                  <td
+                                    class=""
+                                  >
                                     <span
                                       class="cxd-PlainField"
                                     >
@@ -1163,14 +1161,18 @@ exports[`Renderer:transfer table 1`] = `
                                       />
                                     </label>
                                   </td>
-                                  <td>
+                                  <td
+                                    class=""
+                                  >
                                     <span
                                       class="cxd-PlainField"
                                     >
                                       曹操
                                     </span>
                                   </td>
-                                  <td>
+                                  <td
+                                    class=""
+                                  >
                                     <span
                                       class="cxd-PlainField"
                                     >
@@ -1196,14 +1198,18 @@ exports[`Renderer:transfer table 1`] = `
                                       />
                                     </label>
                                   </td>
-                                  <td>
+                                  <td
+                                    class=""
+                                  >
                                     <span
                                       class="cxd-PlainField"
                                     >
                                       钟无艳
                                     </span>
                                   </td>
-                                  <td>
+                                  <td
+                                    class=""
+                                  >
                                     <span
                                       class="cxd-PlainField"
                                     >
@@ -1229,14 +1235,18 @@ exports[`Renderer:transfer table 1`] = `
                                       />
                                     </label>
                                   </td>
-                                  <td>
+                                  <td
+                                    class=""
+                                  >
                                     <span
                                       class="cxd-PlainField"
                                     >
                                       李白
                                     </span>
                                   </td>
-                                  <td>
+                                  <td
+                                    class=""
+                                  >
                                     <span
                                       class="cxd-PlainField"
                                     >
@@ -1262,14 +1272,18 @@ exports[`Renderer:transfer table 1`] = `
                                       />
                                     </label>
                                   </td>
-                                  <td>
+                                  <td
+                                    class=""
+                                  >
                                     <span
                                       class="cxd-PlainField"
                                     >
                                       韩信
                                     </span>
                                   </td>
-                                  <td>
+                                  <td
+                                    class=""
+                                  >
                                     <span
                                       class="cxd-PlainField"
                                     >
@@ -1295,14 +1309,18 @@ exports[`Renderer:transfer table 1`] = `
                                       />
                                     </label>
                                   </td>
-                                  <td>
+                                  <td
+                                    class=""
+                                  >
                                     <span
                                       class="cxd-PlainField"
                                     >
                                       云中君
                                     </span>
                                   </td>
-                                  <td>
+                                  <td
+                                    class=""
+                                  >
                                     <span
                                       class="cxd-PlainField"
                                     >
@@ -1329,8 +1347,6 @@ exports[`Renderer:transfer table 1`] = `
                             <span>
                               （
                               0
-                              /
-                              6
                               ）
                             </span>
                           </span>
@@ -1495,7 +1511,7 @@ exports[`Renderer:transfer tree 1`] = `
                             可选项
                             <span>
                               （
-                              0
+                              6
                               /
                               6
                               ）
@@ -1508,278 +1524,309 @@ exports[`Renderer:transfer tree 1`] = `
                           </a>
                         </div>
                         <div
-                          class="cxd-TreeSelection cxd-Transfer-selection"
+                          class="cxd-Tree cxd-Transfer-selection"
                         >
-                          <div
-                            class="cxd-TreeSelection-item is-expanded"
+                          <ul
+                            class="cxd-Tree-list"
                           >
-                            <div
-                              class="cxd-TreeSelection-itemInner"
+                            <li
+                              class="cxd-Tree-item "
                             >
-                              <a
-                                class="cxd-Table-expandBtn is-active"
-                              >
-                                <icon-mock
-                                  classname="icon icon-right-arrow-bold"
-                                  icon="right-arrow-bold"
-                                />
-                              </a>
-                              <label
-                                class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full cxd-Checkbox--sm"
-                              >
-                                <input
-                                  type="checkbox"
-                                />
-                                <i />
-                                <span
-                                  class=""
-                                />
-                              </label>
                               <div
-                                class="cxd-TreeSelection-itemLabel"
+                                class="cxd-Tree-itemLabel"
                               >
-                                <span>
+                                <div
+                                  class="cxd-Tree-itemArrow"
+                                >
+                                  <icon-mock
+                                    classname="icon icon-right-arrow-bold"
+                                    icon="right-arrow-bold"
+                                  />
+                                </div>
+                                <label
+                                  class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--sm"
+                                >
+                                  <input
+                                    type="checkbox"
+                                  />
+                                  <i />
+                                  <span
+                                    class=""
+                                  />
+                                </label>
+                                <span
+                                  class="cxd-Tree-itemText"
+                                >
                                   法师
                                 </span>
-                              </div>
-                            </div>
-                            <div
-                              class="cxd-TreeSelection-sublist"
-                            >
-                              <div
-                                class="cxd-TreeSelection-item"
-                              >
                                 <div
-                                  class="cxd-TreeSelection-itemInner"
+                                  class="cxd-Tree-item-icons"
+                                />
+                              </div>
+                              <ul
+                                class="cxd-Tree-sublist"
+                              >
+                                <li
+                                  class="cxd-Tree-item  cxd-Tree-item--isLeaf"
                                 >
-                                  <label
-                                    class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full cxd-Checkbox--sm"
-                                  >
-                                    <input
-                                      type="checkbox"
-                                    />
-                                    <i />
-                                    <span
-                                      class=""
-                                    />
-                                  </label>
                                   <div
-                                    class="cxd-TreeSelection-itemLabel"
+                                    class="cxd-Tree-itemLabel"
                                   >
-                                    <span>
+                                    <span
+                                      class="cxd-Tree-itemArrowPlaceholder"
+                                    />
+                                    <label
+                                      class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--sm"
+                                    >
+                                      <input
+                                        type="checkbox"
+                                      />
+                                      <i />
+                                      <span
+                                        class=""
+                                      />
+                                    </label>
+                                    <span
+                                      class="cxd-Tree-itemText"
+                                    >
                                       诸葛亮
                                     </span>
+                                    <div
+                                      class="cxd-Tree-item-icons"
+                                    />
                                   </div>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                          <div
-                            class="cxd-TreeSelection-item"
-                          >
-                            <div
-                              class="cxd-TreeSelection-itemInner"
+                                </li>
+                              </ul>
+                            </li>
+                            <li
+                              class="cxd-Tree-item "
                             >
-                              <a
-                                class="cxd-Table-expandBtn"
-                              >
-                                <icon-mock
-                                  classname="icon icon-right-arrow-bold"
-                                  icon="right-arrow-bold"
-                                />
-                              </a>
-                              <label
-                                class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full cxd-Checkbox--sm"
-                              >
-                                <input
-                                  type="checkbox"
-                                />
-                                <i />
-                                <span
-                                  class=""
-                                />
-                              </label>
                               <div
-                                class="cxd-TreeSelection-itemLabel"
+                                class="cxd-Tree-itemLabel"
                               >
-                                <span>
+                                <div
+                                  class="cxd-Tree-itemArrow"
+                                >
+                                  <icon-mock
+                                    classname="icon icon-right-arrow-bold"
+                                    icon="right-arrow-bold"
+                                  />
+                                </div>
+                                <label
+                                  class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--sm"
+                                >
+                                  <input
+                                    type="checkbox"
+                                  />
+                                  <i />
+                                  <span
+                                    class=""
+                                  />
+                                </label>
+                                <span
+                                  class="cxd-Tree-itemText"
+                                >
                                   战士
                                 </span>
-                              </div>
-                            </div>
-                            <div
-                              class="cxd-TreeSelection-sublist"
-                            >
-                              <div
-                                class="cxd-TreeSelection-item"
-                              >
                                 <div
-                                  class="cxd-TreeSelection-itemInner"
+                                  class="cxd-Tree-item-icons"
+                                />
+                              </div>
+                              <ul
+                                class="cxd-Tree-sublist"
+                              >
+                                <li
+                                  class="cxd-Tree-item  cxd-Tree-item--isLeaf"
                                 >
-                                  <label
-                                    class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full cxd-Checkbox--sm"
-                                  >
-                                    <input
-                                      type="checkbox"
-                                    />
-                                    <i />
-                                    <span
-                                      class=""
-                                    />
-                                  </label>
                                   <div
-                                    class="cxd-TreeSelection-itemLabel"
+                                    class="cxd-Tree-itemLabel"
                                   >
-                                    <span>
+                                    <span
+                                      class="cxd-Tree-itemArrowPlaceholder"
+                                    />
+                                    <label
+                                      class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--sm"
+                                    >
+                                      <input
+                                        type="checkbox"
+                                      />
+                                      <i />
+                                      <span
+                                        class=""
+                                      />
+                                    </label>
+                                    <span
+                                      class="cxd-Tree-itemText"
+                                    >
                                       曹操
                                     </span>
+                                    <div
+                                      class="cxd-Tree-item-icons"
+                                    />
                                   </div>
-                                </div>
-                              </div>
-                              <div
-                                class="cxd-TreeSelection-item"
-                              >
-                                <div
-                                  class="cxd-TreeSelection-itemInner"
+                                </li>
+                                <li
+                                  class="cxd-Tree-item  cxd-Tree-item--isLeaf"
                                 >
-                                  <label
-                                    class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full cxd-Checkbox--sm"
-                                  >
-                                    <input
-                                      type="checkbox"
-                                    />
-                                    <i />
-                                    <span
-                                      class=""
-                                    />
-                                  </label>
                                   <div
-                                    class="cxd-TreeSelection-itemLabel"
+                                    class="cxd-Tree-itemLabel"
                                   >
-                                    <span>
+                                    <span
+                                      class="cxd-Tree-itemArrowPlaceholder"
+                                    />
+                                    <label
+                                      class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--sm"
+                                    >
+                                      <input
+                                        type="checkbox"
+                                      />
+                                      <i />
+                                      <span
+                                        class=""
+                                      />
+                                    </label>
+                                    <span
+                                      class="cxd-Tree-itemText"
+                                    >
                                       钟无艳
                                     </span>
+                                    <div
+                                      class="cxd-Tree-item-icons"
+                                    />
                                   </div>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                          <div
-                            class="cxd-TreeSelection-item"
-                          >
-                            <div
-                              class="cxd-TreeSelection-itemInner"
+                                </li>
+                              </ul>
+                            </li>
+                            <li
+                              class="cxd-Tree-item "
                             >
-                              <a
-                                class="cxd-Table-expandBtn"
-                              >
-                                <icon-mock
-                                  classname="icon icon-right-arrow-bold"
-                                  icon="right-arrow-bold"
-                                />
-                              </a>
-                              <label
-                                class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full cxd-Checkbox--sm"
-                              >
-                                <input
-                                  type="checkbox"
-                                />
-                                <i />
-                                <span
-                                  class=""
-                                />
-                              </label>
                               <div
-                                class="cxd-TreeSelection-itemLabel"
+                                class="cxd-Tree-itemLabel"
                               >
-                                <span>
+                                <div
+                                  class="cxd-Tree-itemArrow"
+                                >
+                                  <icon-mock
+                                    classname="icon icon-right-arrow-bold"
+                                    icon="right-arrow-bold"
+                                  />
+                                </div>
+                                <label
+                                  class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--sm"
+                                >
+                                  <input
+                                    type="checkbox"
+                                  />
+                                  <i />
+                                  <span
+                                    class=""
+                                  />
+                                </label>
+                                <span
+                                  class="cxd-Tree-itemText"
+                                >
                                   打野
                                 </span>
-                              </div>
-                            </div>
-                            <div
-                              class="cxd-TreeSelection-sublist"
-                            >
-                              <div
-                                class="cxd-TreeSelection-item"
-                              >
                                 <div
-                                  class="cxd-TreeSelection-itemInner"
+                                  class="cxd-Tree-item-icons"
+                                />
+                              </div>
+                              <ul
+                                class="cxd-Tree-sublist"
+                              >
+                                <li
+                                  class="cxd-Tree-item  cxd-Tree-item--isLeaf"
                                 >
-                                  <label
-                                    class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full cxd-Checkbox--sm"
-                                  >
-                                    <input
-                                      type="checkbox"
-                                    />
-                                    <i />
-                                    <span
-                                      class=""
-                                    />
-                                  </label>
                                   <div
-                                    class="cxd-TreeSelection-itemLabel"
+                                    class="cxd-Tree-itemLabel"
                                   >
-                                    <span>
+                                    <span
+                                      class="cxd-Tree-itemArrowPlaceholder"
+                                    />
+                                    <label
+                                      class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--sm"
+                                    >
+                                      <input
+                                        type="checkbox"
+                                      />
+                                      <i />
+                                      <span
+                                        class=""
+                                      />
+                                    </label>
+                                    <span
+                                      class="cxd-Tree-itemText"
+                                    >
                                       李白
                                     </span>
+                                    <div
+                                      class="cxd-Tree-item-icons"
+                                    />
                                   </div>
-                                </div>
-                              </div>
-                              <div
-                                class="cxd-TreeSelection-item"
-                              >
-                                <div
-                                  class="cxd-TreeSelection-itemInner"
+                                </li>
+                                <li
+                                  class="cxd-Tree-item  cxd-Tree-item--isLeaf"
                                 >
-                                  <label
-                                    class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full cxd-Checkbox--sm"
-                                  >
-                                    <input
-                                      type="checkbox"
-                                    />
-                                    <i />
-                                    <span
-                                      class=""
-                                    />
-                                  </label>
                                   <div
-                                    class="cxd-TreeSelection-itemLabel"
+                                    class="cxd-Tree-itemLabel"
                                   >
-                                    <span>
+                                    <span
+                                      class="cxd-Tree-itemArrowPlaceholder"
+                                    />
+                                    <label
+                                      class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--sm"
+                                    >
+                                      <input
+                                        type="checkbox"
+                                      />
+                                      <i />
+                                      <span
+                                        class=""
+                                      />
+                                    </label>
+                                    <span
+                                      class="cxd-Tree-itemText"
+                                    >
                                       韩信
                                     </span>
+                                    <div
+                                      class="cxd-Tree-item-icons"
+                                    />
                                   </div>
-                                </div>
-                              </div>
-                              <div
-                                class="cxd-TreeSelection-item"
-                              >
-                                <div
-                                  class="cxd-TreeSelection-itemInner"
+                                </li>
+                                <li
+                                  class="cxd-Tree-item  cxd-Tree-item--isLeaf"
                                 >
-                                  <label
-                                    class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full cxd-Checkbox--sm"
-                                  >
-                                    <input
-                                      type="checkbox"
-                                    />
-                                    <i />
-                                    <span
-                                      class=""
-                                    />
-                                  </label>
                                   <div
-                                    class="cxd-TreeSelection-itemLabel"
+                                    class="cxd-Tree-itemLabel"
                                   >
-                                    <span>
+                                    <span
+                                      class="cxd-Tree-itemArrowPlaceholder"
+                                    />
+                                    <label
+                                      class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--sm"
+                                    >
+                                      <input
+                                        type="checkbox"
+                                      />
+                                      <i />
+                                      <span
+                                        class=""
+                                      />
+                                    </label>
+                                    <span
+                                      class="cxd-Tree-itemText"
+                                    >
                                       云中君
                                     </span>
+                                    <div
+                                      class="cxd-Tree-item-icons"
+                                    />
                                   </div>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
+                                </li>
+                              </ul>
+                            </li>
+                          </ul>
                         </div>
                       </div>
                       <div
@@ -1796,8 +1843,6 @@ exports[`Renderer:transfer tree 1`] = `
                             <span>
                               （
                               0
-                              /
-                              6
                               ）
                             </span>
                           </span>
