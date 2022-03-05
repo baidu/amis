@@ -169,7 +169,7 @@ icon:
 
 ### 复选框位置	
 
-使用 checkboxPosition	控制复选框位置，可选 `left | right`，默认是`right`
+使用 checkboxPosition	控制复选框位置，可选 `left | right`，默认是`right`。
 
 ```schema: scope="body"
 {
@@ -214,8 +214,9 @@ icon:
 
 ### 结果面板跟随模式 	
 
-isFollowMode开启结果面板跟随模式
+isFollowMode开启结果面板跟随模式。
 
+#### 表格跟随模式
 ```schema: scope="body"
 {
   "type": "form",
@@ -272,6 +273,68 @@ isFollowMode开启结果面板跟随模式
       ]
     }
   ]
+}
+```
+
+#### 树形跟随模式
+```schema: scope="body"
+{
+  "type": "page",
+  "body": {
+    "type": "form",
+    "api": "/api/mock2/form/saveForm",
+    "body": [
+      {
+        "label": "树型展示",
+        "type": "transfer",
+        "name": "transfer4",
+        "selectMode": "tree",
+        "searchable": true,
+        "isFollowMode": true,
+        "options": [
+          {
+            "label": "法师",
+            "children": [
+              {
+                "label": "诸葛亮",
+                "value": "zhugeliang"
+              }
+            ]
+          },
+          {
+            "label": "战士",
+            "children": [
+              {
+                "label": "曹操",
+                "value": "caocao"
+              },
+              {
+                "label": "钟无艳",
+                "value": "zhongwuyan"
+              }
+            ]
+          },
+          {
+            "label": "打野",
+            "children": [
+              {
+                "label": "李白",
+                "value": "libai"
+              },
+              {
+                "label": "韩信",
+                "value": "hanxin"
+              },
+              {
+                "label": "云中君",
+                "value": "yunzhongjun"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
 }
 ```
 
@@ -393,6 +456,10 @@ isFollowMode开启结果面板跟随模式
 ```
 
 ### 支持搜索
+#### 左侧搜索功能
+通过searchable字段来控制左侧选项栏的搜索功能。
+
+在不设置searchApi情况下，对输入框内容和对应列表项的value、label进行匹配，匹配成功就会左侧面板中显示。 
 
 ```schema: scope="body"
 {
@@ -449,6 +516,77 @@ isFollowMode开启结果面板跟随模式
       ]
     }
   ]
+}
+```
+
+#### 右侧结果搜索功能
+
+右侧结果搜索是通过resultSearchable字段开启，设置该字段为true时开启。
+
+开启结果搜索后，目前默认通过value、label对输入内容进行模糊匹配。
+
+如需要自定义搜索方式，可以通过设置resultSearchFilter字段来实现。
+
+```schema: scope="body"
+{
+  "type": "page",
+  "body": {
+    "type": "form",
+    "api": "/api/mock2/form/saveForm",
+    "body": [
+      {
+        "label": "树型展示",
+        "type": "transfer",
+        "name": "transfer4",
+        "selectMode": "tree",
+        "searchable": true,
+        "isFollowMode": true,
+        "resultSearchable": true,
+        "resultSearchFilter": "return item.value.indexOf(text) > -1",
+        "options": [
+          {
+            "label": "法师",
+            "children": [
+              {
+                "label": "诸葛亮",
+                "value": "zhugeliang"
+              }
+            ]
+          },
+          {
+            "label": "战士",
+            "children": [
+              {
+                "label": "曹操",
+                "value": "caocao"
+              },
+              {
+                "label": "钟无艳",
+                "value": "zhongwuyan"
+              }
+            ]
+          },
+          {
+            "label": "打野",
+            "children": [
+              {
+                "label": "李白",
+                "value": "libai"
+              },
+              {
+                "label": "韩信",
+                "value": "hanxin"
+              },
+              {
+                "label": "云中君",
+                "value": "yunzhongjun"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
 }
 ```
 

@@ -155,6 +155,7 @@
 
 .#{$ns}Transfer {
   &-title {
+    flex: 0 0 #{px2rem(38px)};
     height: #{px2rem(38px)};
     padding-left: #{px2rem(12px)};
     padding-right: #{px2rem(12px)};
