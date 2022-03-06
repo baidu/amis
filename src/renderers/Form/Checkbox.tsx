@@ -19,12 +19,12 @@ export interface CheckboxControlSchema extends FormBaseControl {
   /**
    * 勾选值
    */
-  trueValue?: any;
+  trueValue?: boolean | string | number;
 
   /**
    * 未勾选值
    */
-  falseValue?: any;
+  falseValue?: boolean | string | number;
 
   /**
    * 选项说明
@@ -35,6 +35,9 @@ export interface CheckboxControlSchema extends FormBaseControl {
    * 角标
    */
   badge?: BadgeSchema;
+  partial?: boolean;
+  optionType?: 'default' | 'button';
+  checked?: boolean;
 }
 
 export interface CheckboxProps
@@ -89,6 +92,9 @@ export default class CheckboxControl extends React.Component<
       onChange,
       disabled,
       render,
+      partial,
+      optionType,
+      checked,
       classPrefix: ns
     } = this.props;
 
@@ -101,6 +107,9 @@ export default class CheckboxControl extends React.Component<
           falseValue={falseValue}
           disabled={disabled}
           onChange={(value: any) => this.dispatchChangeEvent(value)}
+          partial={partial}
+          optionType={optionType}
+          checked={checked}
         >
           {option ? render('option', option) : null}
         </Checkbox>

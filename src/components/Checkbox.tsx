@@ -28,6 +28,7 @@ interface CheckboxProps {
   classPrefix: string;
   classnames: ClassNamesFn;
   partial?: boolean;
+  optionType?: 'default' | 'button';
 }
 
 export class Checkbox extends React.Component<CheckboxProps, any> {
@@ -70,7 +71,8 @@ export class Checkbox extends React.Component<CheckboxProps, any> {
       checked,
       type,
       name,
-      labelClassName
+      labelClassName,
+      optionType
     } = this.props;
 
     return (
@@ -78,7 +80,10 @@ export class Checkbox extends React.Component<CheckboxProps, any> {
         className={cx(`Checkbox Checkbox--${type}`, className, {
           'Checkbox--full': !partial,
           'Checkbox--partial': partial,
-          [`Checkbox--${size}`]: size
+          [`Checkbox--${size}`]: size,
+          'Checkbox--button': optionType === 'button',
+          'Checkbox--button--checked': optionType === 'button' && checked,
+          'Checkbox--button--disabled--unchecked': disabled && !checked
         })}
       >
         <input

@@ -493,6 +493,12 @@
   --Checkbox-onHover-color: var(--info);
   --Checkbox-onDisabled-bg: #e5e7eb;
   --Checkbox-onDisabled-color: var(--text--muted-color);
+  --Checkbox-inner-onDisabled-bg: #D4D6D9;
+  --Checkbox-disabled-unchecked-bg: #F2F3F3;
+  --Checkbox-border-width: var(--Form-input-borderWidth);
+  --Checkbox-paddingX: #{px2rem(12px)};
+  --Checkbox-button-height: #{px2rem(32px)};
+  --Checkbox-button-line-height: #{px2rem(30px)};
 
   --ColorPicker-bg: var(--white);
   --ColorPicker-borderColor: var(--Form-input-borderColor);
