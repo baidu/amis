@@ -2,7 +2,7 @@ import React from 'react';
 import {findDOMNode} from 'react-dom';
 import cloneDeep from 'lodash/cloneDeep';
 import {FormItem, FormControlProps, FormBaseControl} from './Item';
-import {Action, Api} from '../../types';
+import {Action, Api, SchemaNode} from '../../types';
 import {ComboStore, IComboStore} from '../../store/combo';
 import {default as CTabs, Tab} from '../../components/Tabs';
 import Button from '../../components/Button';
@@ -1228,38 +1228,52 @@ export default class ComboControl extends React.Component<ComboProps> {
                 (!itemRemovableOn ||
                   evalExpression(itemRemovableOn, value) !== false)
               ) {
+                const defaultDelBtn = (
+                  <a
+                    onClick={this.removeItem.bind(this, index)}
+                    key="remove"
+                    className={cx(
+                      `Combo-delBtn ${!store.removable ? 'is-disabled' : ''}`
+                    )}
+                    data-tooltip={__('delete')}
+                    data-position="bottom"
+                  >
+                    {deleteIcon ? (
+                      <i className={deleteIcon} />
+                    ) : (
+                      <Icon icon="status-close" className="icon" />
+                    )}
+                  </a>
+                );
+                const customDelBtn = (btnRenderer: SchemaNode) => (
+                  <div
+                    key="remove"
+                    className={cx('Combo-delController')}
+                    onClick={this.removeItem.bind(this, index)}
+                  >
+                    {btnRenderer}
+                  </div>
+                );
                 if (removeBtn && !Array.isArray(conditions)) {
-                  let btnRenderer: ActionSchema =
-                    typeof removeBtn === 'object'
-                      ? {type: 'button', ...removeBtn}
-                      : {type: 'button', label: removeBtn};
-                  delBtn = (
-                    <div
-                      key="remove"
-                      className={cx('Combo-delController')}
-                      onClick={this.removeItem.bind(this, index)}
-                    >
-                      {render('remove-btn', btnRenderer)}
-                    </div>
-                  );
+                  if (isObject(removeBtn)) {
+                    delBtn = customDelBtn(
+                      render('remove-btn', {
+                        type: 'button',
+                        ...removeBtn
+                      })
+                    );
+                  } else if (typeof removeBtn === 'string') {
+                    delBtn = delBtn = customDelBtn(
+                      render('remove-btn', {
+                        type: 'button',
+                        label: removeBtn
+                      })
+                    );
+                  } else {
+                    delBtn = defaultDelBtn;
+                  }
                 } else {
-                  delBtn = (
-                    <a
-                      onClick={this.removeItem.bind(this, index)}
-                      key="remove"
-                      className={cx(
-                        `Combo-delBtn ${!store.removable ? 'is-disabled' : ''}`
-                      )}
-                      data-tooltip={__('delete')}
-                      data-position="bottom"
-                    >
-                      {deleteIcon ? (
-                        <i className={deleteIcon} />
-                      ) : (
-                        <Icon icon="status-close" className="icon" />
-                      )}
-                    </a>
-                  );
+                  delBtn = defaultDelBtn;
                 }
               }
 
