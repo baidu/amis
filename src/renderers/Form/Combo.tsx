@@ -1,12 +1,7 @@
 import React from 'react';
 import {findDOMNode} from 'react-dom';
 import cloneDeep from 'lodash/cloneDeep';
-import {
-  FormItem,
-  FormControlProps,
-  FormBaseControl,
-  FormControlSchemaAlias
-} from './Item';
+import {FormItem, FormControlProps, FormBaseControl} from './Item';
 import {Schema, Action, Api} from '../../types';
 import {ComboStore, IComboStore} from '../../store/combo';
 import {default as CTabs, Tab} from '../../components/Tabs';
@@ -186,7 +181,7 @@ export interface ComboControlSchema extends FormBaseControl {
   /**
    * 自定义删除控件，前提是removeable为true
    */
-  removeController?: SchemaTpl;
+  removeController?: SchemaCollection;
 
   /**
    * 子表单的模式。
