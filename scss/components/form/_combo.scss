@@ -153,6 +153,10 @@
       }
     }
 
+    .#{$ns}Combo-delController {
+      margin-left: var(--gap-xs);
+    }
+
     &.is-draggable .#{$ns}Combo-toolbar {
       padding-left: px2rem(24px);
     }
@@ -199,6 +203,7 @@
       padding: var(--Combo--vertical-item-paddingY)
         var(--Combo--vertical-item-paddingX);
       position: relative;
+      clear: both;
     }
 
     > .#{$ns}Combo-items > .#{$ns}Combo-item {
@@ -220,6 +225,10 @@
       > .#{$ns}Combo-delBtn {
         opacity: 1;
       }
+    }
+
+    .#{$ns}Combo-delController {
+      margin-top: var(--Form-item-gap);
     }
 
     > .#{$ns}Combo-items > .#{$ns}Combo-item > .#{$ns}Combo-itemDrager {

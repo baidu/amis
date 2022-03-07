@@ -184,6 +184,11 @@ export interface ComboControlSchema extends FormBaseControl {
   removable?: boolean;
 
   /**
+   * 自定义删除控件，前提是removeable为true
+   */
+  removeController?: SchemaTpl;
+
+  /**
    * 子表单的模式。
    */
   subFormMode?: 'normal' | 'horizontal' | 'inline';
@@ -1196,7 +1201,8 @@ export default class ComboControl extends React.Component<ComboProps> {
       placeholder,
       translate: __,
       itemClassName,
-      itemsWrapperClassName
+      itemsWrapperClassName,
+      removeController
     } = this.props;
 
     let items = this.props.items;
@@ -1233,22 +1239,35 @@ export default class ComboControl extends React.Component<ComboProps> {
                 (!itemRemovableOn ||
                   evalExpression(itemRemovableOn, value) !== false)
               ) {
-                delBtn = (
-                  <Button
-                    key="remove"
-                    className={cx('Combo-delBtn')}
-                    disabled={!store.removable}
-                    tooltip={__('delete')}
-                    tooltipPlacement="bottom"
-                    onClick={this.removeItem.bind(this, index)}
-                  >
-                    {deleteIcon ? (
-                      <i className={deleteIcon} />
-                    ) : (
-                      <Icon icon="status-close" className="icon" />
-                    )}
-                  </Button>
-                );
+                if (removeController && !Array.isArray(conditions)) {
+                  delBtn = (
+                    <div
+                      key="remove"
+                      className={cx('Combo-delController')}
+                      onClick={this.removeItem.bind(this, index)}
+                    >
+                      {render('remove-controller', removeController)}
+                    </div>
+                  );
+                } else {
+                  delBtn = (
+                    <a
+                      onClick={this.removeItem.bind(this, index)}
+                      key="remove"
+                      className={cx(
+                        `Combo-delBtn ${!store.removable ? 'is-disabled' : ''}`
+                      )}
+                      data-tooltip={__('delete')}
+                      data-position="bottom"
+                    >
+                      {deleteIcon ? (
+                        <i className={deleteIcon} />
+                      ) : (
+                        <Icon icon="status-close" className="icon" />
+                      )}
+                    </a>
+                  );
+                }
               }
 
               const data = this.formatValue(value, index);
