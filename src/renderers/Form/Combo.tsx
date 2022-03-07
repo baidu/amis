@@ -2,7 +2,7 @@ import React from 'react';
 import {findDOMNode} from 'react-dom';
 import cloneDeep from 'lodash/cloneDeep';
 import {FormItem, FormControlProps, FormBaseControl} from './Item';
-import {Schema, Action, Api} from '../../types';
+import {Action, Api} from '../../types';
 import {ComboStore, IComboStore} from '../../store/combo';
 import {default as CTabs, Tab} from '../../components/Tabs';
 import Button from '../../components/Button';
@@ -29,11 +29,10 @@ import {isAlive} from 'mobx-state-tree';
 import {
   SchemaApi,
   SchemaClassName,
-  SchemaCollection,
-  SchemaIcon,
   SchemaObject,
   SchemaTpl
 } from '../../Schema';
+import {ActionSchema} from '../Action';
 
 export type ComboCondition = {
   test: string;
@@ -177,11 +176,6 @@ export interface ComboControlSchema extends FormBaseControl {
    * 是否可删除
    */
   removable?: boolean;
-
-  /**
-   * 自定义删除控件，前提是removeable为true
-   */
-  removeController?: SchemaCollection;
 
   /**
    * 子表单的模式。
@@ -1197,7 +1191,7 @@ export default class ComboControl extends React.Component<ComboProps> {
       translate: __,
       itemClassName,
       itemsWrapperClassName,
-      removeController
+      removeBtn
     } = this.props;
 
     let items = this.props.items;
@@ -1234,14 +1228,18 @@ export default class ComboControl extends React.Component<ComboProps> {
                 (!itemRemovableOn ||
                   evalExpression(itemRemovableOn, value) !== false)
               ) {
-                if (removeController && !Array.isArray(conditions)) {
+                if (removeBtn && !Array.isArray(conditions)) {
+                  let btnRenderer: ActionSchema =
+                    typeof removeBtn === 'object'
+                      ? {type: 'button', ...removeBtn}
+                      : {type: 'button', label: removeBtn};
                   delBtn = (
                     <div
                       key="remove"
                       className={cx('Combo-delController')}
                       onClick={this.removeItem.bind(this, index)}
                     >
-                      {render('remove-controller', removeController)}
+                      {render('remove-btn', btnRenderer)}
                     </div>
                   );
                 } else {

@@ -246,7 +246,11 @@ exports[`Renderer:button-group:multiple clearable 1`] = `
               <span
                 class="cxd-PlainField"
               >
-                a,b
+                <span
+                  class="text-muted"
+                >
+                  -
+                </span>
               </span>
             </div>
           </div>
