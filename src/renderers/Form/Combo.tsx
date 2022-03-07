@@ -1222,12 +1222,18 @@ export default class ComboControl extends React.Component<ComboProps> {
           {Array.isArray(value) && value.length ? (
             value.map((value, index, thelist) => {
               let delBtn: any = null;
+              let noLabelClass = '';
 
               if (
                 finnalRemovable && // 表达式判断单条是否可删除
                 (!itemRemovableOn ||
                   evalExpression(itemRemovableOn, value) !== false)
               ) {
+                if (Array.isArray(items) && items.length > 0) {
+                  noLabelClass = (items[0] as FormBaseControl).label
+                    ? ''
+                    : 'No-label';
+                }
                 const defaultDelBtn = (
                   <a
                     onClick={this.removeItem.bind(this, index)}
@@ -1297,7 +1303,7 @@ export default class ComboControl extends React.Component<ComboProps> {
 
               return (
                 <div
-                  className={cx(`Combo-item`, itemClassName)}
+                  className={cx(`Combo-item`, itemClassName, noLabelClass)}
                   key={this.keys[index] || (this.keys[index] = guid())}
                 >
                   {!disabled && draggable && thelist.length > 1 ? (

@@ -142,10 +142,10 @@
 
     .#{$ns}Combo-delBtn {
       margin-left: var(--gap-xs);
-      // display: flex;
-      // white-space: nowrap;
-      // align-items: flex-start;
-      // padding-top: var(--Form-label-paddingTop);
+      display: flex;
+      white-space: nowrap;
+      align-items: flex-start;
+      padding-top: var(--Form-label-paddingTop);
 
       &.is-disabled {
         pointer-events: none;
@@ -203,7 +203,11 @@
       padding: var(--Combo--vertical-item-paddingY)
         var(--Combo--vertical-item-paddingX);
       position: relative;
-      clear: both;
+      &.#{$ns}No-label {
+        &:hover {
+          padding-top: var(--Combo--vertical-nolabel-paddingY);
+        }
+      }
     }
 
     > .#{$ns}Combo-items > .#{$ns}Combo-item {
@@ -222,13 +226,17 @@
       border-color: var(--Combo--vertical-item-onHover-borderColor);
       // border-style: solid;
 
-      > .#{$ns}Combo-delBtn {
+      > .#{$ns}Combo-delBtn,
+      > .#{$ns}Combo-delController {
         opacity: 1;
       }
     }
 
     .#{$ns}Combo-delController {
-      margin-top: var(--Form-item-gap);
+      position: absolute;
+      top: var(--gap-xs);
+      right: var(--gap-xs);
+      opacity: 0;
     }
 
     > .#{$ns}Combo-items > .#{$ns}Combo-item > .#{$ns}Combo-itemDrager {

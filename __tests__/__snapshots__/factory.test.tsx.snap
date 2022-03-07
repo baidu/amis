@@ -16,7 +16,9 @@ exports[`factory custom not found 3! 1`] = `
 </div>
 `;
 
-exports[`factory custom not found! 1`] = `
+exports[`factory custom not found! 1`] = `<div />`;
+
+exports[`factory custom not found! 2`] = `
 <div>
   <div>
     Not Found
