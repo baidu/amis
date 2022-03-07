@@ -49,7 +49,7 @@ export interface TransferControlSchema extends FormOptionsControl {
   /**
    * 复选框位置
    */
-  checkboxPosition: 'left' | 'right';
+  checkboxPosition?: 'left' | 'right';
 
   /**
    * 勾选展示模式
