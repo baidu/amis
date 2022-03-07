@@ -59,7 +59,7 @@ export interface TransferControlSchema extends FormOptionsControl {
   /**
    * 结果面板是否追踪显示
    */
-  isFollowMode: boolean;
+  isFollowMode?: boolean;
 
   /**
    * 当 selectMode 为 associated 时用来定义左侧的选项
@@ -163,9 +163,7 @@ export class BaseTransferRenderer<
   tranferRef?: BaseTransfer;
 
   static defaultProps = {
-    isFollowMode: false,
-    checkboxPosition: 'right',
-    resultSearchable: false
+    checkboxPosition: 'right'
   }
 
   @autobind
@@ -417,10 +415,10 @@ export class BaseTransferRenderer<
       menuTpl,
       resultSearchFilter,
       searchPlaceholder,
-      isFollowMode,
-      checkboxPosition,
+      isFollowMode = false,
+      checkboxPosition ,
       resultPlaceholder,
-      resultSearchable,
+      resultSearchable = false,
     } = this.props;
 
     // 目前 LeftOptions 没有接口可以动态加载

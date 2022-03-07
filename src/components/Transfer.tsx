@@ -26,7 +26,7 @@ export interface TransferProps
   statistics?: boolean;
   showArrow?: boolean;
   multiple?: boolean;
-  checkboxPosition: 'left' | 'right';
+  checkboxPosition?: 'left' | 'right';
 
   selectTitle?: string;
   selectMode?: 'table' | 'group' | 'list' | 'tree' | 'chained' | 'associated';
@@ -280,7 +280,7 @@ export class Transfer<
       disabled,
       options,
       statistics,
-      checkboxPosition,
+      checkboxPosition = 'right',
       translate: __,
       searchPlaceholder = __('Transfer.searchKeyword'),
     } = props;
@@ -383,7 +383,7 @@ export class Transfer<
       optionItemRender,
       cellRender,
       multiple,
-      checkboxPosition
+      checkboxPosition = 'right'
     } = props;
     const options = this.state.searchResult || [];
     const mode = searchResultMode || selectMode;
@@ -462,7 +462,7 @@ export class Transfer<
       leftDefaultValue,
       optionItemRender,
       multiple,
-      checkboxPosition,
+      checkboxPosition = 'right',
       noResultsText
     } = props;
 
