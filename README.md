@@ -25,6 +25,7 @@
 ![license](https://img.shields.io/github/license/baidu/amis.svg)
 ![version](https://img.shields.io/npm/v/amis)
 ![language](https://img.shields.io/github/languages/top/baidu/amis)
+[![codecov](https://codecov.io/gh/baidu/amis/branch/master/graph/badge.svg?token=9LwimHGoE5)](https://codecov.io/gh/baidu/amis)
 ![last](https://img.shields.io/github/last-commit/baidu/amis.svg)
 
 </div>
@@ -41,7 +42,7 @@
 
 ```bash
 # 安装项目 npm 依赖，在 node 12 下会有报错但不影响正常使用。
-npm i
+npm i --legacy-peer-deps
 
 # 启动项目，等编译结束后通过 http://127.0.0.1:8888/examples/pages/simple 访问。
 npm start
@@ -51,7 +52,7 @@ npm start
 
 ```bash
 # 安装依赖
-npm i
+npm i --legacy-peer-deps
 
 # 执行测试用例
 npm test

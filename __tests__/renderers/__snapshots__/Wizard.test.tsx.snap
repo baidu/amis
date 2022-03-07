@@ -97,6 +97,9 @@ exports[`Renderer:Wizard 1`] = `
                 name="website"
                 onBlur={[Function]}
                 onChange={[Function]}
+                onCompositionEnd={[Function]}
+                onCompositionStart={[Function]}
+                onCompositionUpdate={[Function]}
                 onFocus={[Function]}
                 placeholder=""
                 size={10}
@@ -139,6 +142,9 @@ exports[`Renderer:Wizard 1`] = `
                 name="name"
                 onBlur={[Function]}
                 onChange={[Function]}
+                onCompositionEnd={[Function]}
+                onCompositionStart={[Function]}
+                onCompositionUpdate={[Function]}
                 onFocus={[Function]}
                 placeholder=""
                 size={10}
@@ -158,6 +164,8 @@ exports[`Renderer:Wizard 1`] = `
         className="cxd-Button cxd-Button--default is-disabled"
         disabled={true}
         onClick={[Function]}
+        onMouseEnter={[Function]}
+        onMouseLeave={[Function]}
       >
         <span>
           上一步
@@ -166,6 +174,8 @@ exports[`Renderer:Wizard 1`] = `
       <button
         className="cxd-Button cxd-Button--default"
         onClick={[Function]}
+        onMouseEnter={[Function]}
+        onMouseLeave={[Function]}
         type="button"
       >
         <span>
@@ -1111,6 +1121,9 @@ exports[`Renderer:Wizard initApi 1`] = `
                 name="website"
                 onBlur={[Function]}
                 onChange={[Function]}
+                onCompositionEnd={[Function]}
+                onCompositionStart={[Function]}
+                onCompositionUpdate={[Function]}
                 onFocus={[Function]}
                 placeholder=""
                 size={10}
@@ -1153,6 +1166,9 @@ exports[`Renderer:Wizard initApi 1`] = `
                 name="name"
                 onBlur={[Function]}
                 onChange={[Function]}
+                onCompositionEnd={[Function]}
+                onCompositionStart={[Function]}
+                onCompositionUpdate={[Function]}
                 onFocus={[Function]}
                 placeholder=""
                 size={10}
@@ -1172,6 +1188,8 @@ exports[`Renderer:Wizard initApi 1`] = `
         className="cxd-Button cxd-Button--default is-disabled"
         disabled={true}
         onClick={[Function]}
+        onMouseEnter={[Function]}
+        onMouseLeave={[Function]}
       >
         <span>
           上一步
@@ -1180,6 +1198,8 @@ exports[`Renderer:Wizard initApi 1`] = `
       <button
         className="cxd-Button cxd-Button--default"
         onClick={[Function]}
+        onMouseEnter={[Function]}
+        onMouseLeave={[Function]}
         type="button"
       >
         <span>
@@ -1832,6 +1852,9 @@ exports[`Renderer:Wizard initApi show loading 2`] = `
                 name="website"
                 onBlur={[Function]}
                 onChange={[Function]}
+                onCompositionEnd={[Function]}
+                onCompositionStart={[Function]}
+                onCompositionUpdate={[Function]}
                 onFocus={[Function]}
                 placeholder=""
                 size={10}
@@ -1874,6 +1897,9 @@ exports[`Renderer:Wizard initApi show loading 2`] = `
                 name="name"
                 onBlur={[Function]}
                 onChange={[Function]}
+                onCompositionEnd={[Function]}
+                onCompositionStart={[Function]}
+                onCompositionUpdate={[Function]}
                 onFocus={[Function]}
                 placeholder=""
                 size={10}
@@ -1893,6 +1919,8 @@ exports[`Renderer:Wizard initApi show loading 2`] = `
         className="cxd-Button cxd-Button--default is-disabled"
         disabled={true}
         onClick={[Function]}
+        onMouseEnter={[Function]}
+        onMouseLeave={[Function]}
       >
         <span>
           上一步
@@ -1901,6 +1929,8 @@ exports[`Renderer:Wizard initApi show loading 2`] = `
       <button
         className="cxd-Button cxd-Button--default"
         onClick={[Function]}
+        onMouseEnter={[Function]}
+        onMouseLeave={[Function]}
         type="button"
       >
         <span>
@@ -2010,6 +2040,9 @@ exports[`Renderer:Wizard readOnly 1`] = `
                 name="website"
                 onBlur={[Function]}
                 onChange={[Function]}
+                onCompositionEnd={[Function]}
+                onCompositionStart={[Function]}
+                onCompositionUpdate={[Function]}
                 onFocus={[Function]}
                 placeholder=""
                 readOnly={true}
@@ -2048,6 +2081,9 @@ exports[`Renderer:Wizard readOnly 1`] = `
                 name="name"
                 onBlur={[Function]}
                 onChange={[Function]}
+                onCompositionEnd={[Function]}
+                onCompositionStart={[Function]}
+                onCompositionUpdate={[Function]}
                 onFocus={[Function]}
                 placeholder=""
                 size={10}
@@ -2067,6 +2103,8 @@ exports[`Renderer:Wizard readOnly 1`] = `
         className="cxd-Button cxd-Button--default is-disabled"
         disabled={true}
         onClick={[Function]}
+        onMouseEnter={[Function]}
+        onMouseLeave={[Function]}
       >
         <span>
           上一步
@@ -2075,6 +2113,8 @@ exports[`Renderer:Wizard readOnly 1`] = `
       <button
         className="cxd-Button cxd-Button--default"
         onClick={[Function]}
+        onMouseEnter={[Function]}
+        onMouseLeave={[Function]}
         type="button"
       >
         <span>

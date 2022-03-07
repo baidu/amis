@@ -319,12 +319,12 @@ icon 也可以是 url 地址，比如
 
 **属性表**
 
-| 属性名   | 类型                                                                                     | 默认值 | 说明                                                                                                                                      |
-| -------- | ---------------------------------------------------------------------------------------- | ------ | ----------------------------------------------------------------------------------------------------------------------------------------- |
-| api      | [Api](../../docs/types/api)                                                              | -      | 请求地址，参考 [api](../../docs/types/api) 格式说明。                                                                                     |
-| redirect | [模板字符串](../../docs/concepts/template#%E6%A8%A1%E6%9D%BF%E5%AD%97%E7%AC%A6%E4%B8%B2) | -      | 指定当前请求结束后跳转的路径，可用 `${xxx}` 取值。                                                                                        |
-| feedback | `DialogObject`                                                                           | -      | 如果 ajax 类型的，当 ajax 返回正常后，还能接着弹出一个 dialog 做其他交互。返回的数据可用于这个 dialog 中。格式可参考[Dialog](./Dialog.md) |
-| messages | `object`                                                                                 | -      | `success`：ajax 操作成功后提示，可以不指定，不指定时以 api 返回为准。`failed`：ajax 操作失败提示。                                        |
+| 属性名   | 类型                                                                                     | 默认值 | 说明                                                                                                                                   |
+| -------- | ---------------------------------------------------------------------------------------- | ------ | -------------------------------------------------------------------------------------------------------------------------------------- |
+| api      | [Api](../../docs/types/api)                                                              | -      | 请求地址，参考 [api](../../docs/types/api) 格式说明。                                                                                  |
+| redirect | [模板字符串](../../docs/concepts/template#%E6%A8%A1%E6%9D%BF%E5%AD%97%E7%AC%A6%E4%B8%B2) | -      | 指定当前请求结束后跳转的路径，可用 `${xxx}` 取值。                                                                                     |
+| feedback | `DialogObject`                                                                           | -      | 如果 ajax 类型的，当 ajax 返回正常后，还能接着弹出一个 dialog 做其他交互。返回的数据可用于这个 dialog 中。格式可参考[Dialog](./Dialog) |
+| messages | `object`                                                                                 | -      | `success`：ajax 操作成功后提示，可以不指定，不指定时以 api 返回为准。`failed`：ajax 操作失败提示。                                     |
 
 ## 下载请求
 
@@ -617,7 +617,7 @@ Access-Control-Expose-Headers:  Content-Disposition
 
 ### 表单中表格添加一行
 
-该 actionType 为[FormItem-Table](./form/table)专用行为
+该 actionType 为[FormItem-Table](./form/input-table)专用行为
 
 ### 重置表单
 
@@ -719,7 +719,7 @@ Access-Control-Expose-Headers:  Content-Disposition
 
 > 1.3.0 版本新增功能
 
-如果上面的的行为不满足需求，还可以通过字符串形式的 `onClick` 来定义点击事件，这个字符串会转成 JavaScript 函数，并支持异步。
+如果上面的的行为不满足需求，还可以通过字符串形式的 `onClick` 来定义点击事件，这个字符串会转成 JavaScript 函数，并支持异步（如果是用 sdk 需要自己编译一个 es2017 版本）。
 
 ```schema: scope="body"
 {
@@ -861,6 +861,46 @@ action 还可以使用 `body` 来渲染其他组件，让那些不支持行为�
 ```
 
 在这种模式下不支持按钮的各种配置项，比如 `label`、`size`、`icon` 等，因为它只作为容器组件，没有展现。
+
+## 按钮提示
+
+通过 `tooltip` 来设置提示
+
+```schema: scope="body"
+{
+  "label": "弹框",
+  "type": "button",
+  "actionType": "link",
+  "link": "../index",
+  "tooltip": "点击链接跳转"
+}
+```
+
+如果按钮是 disabled，需要使用 `disabledTip`
+
+```schema: scope="body"
+{
+  "label": "弹框",
+  "type": "button",
+  "actionType": "link",
+  "disabled": true,
+  "link": "../index",
+  "disabledTip": "禁用了"
+}
+```
+
+还可以通过 `tooltipPlacement` 设置弹出位置
+
+```schema: scope="body"
+{
+  "label": "弹框",
+  "type": "button",
+  "actionType": "link",
+  "link": "../index",
+  "tooltipPlacement": "right",
+  "tooltip": "点击链接跳转"
+}
+```
 
 ## 通用属性表
 

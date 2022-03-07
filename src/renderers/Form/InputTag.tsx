@@ -9,11 +9,12 @@ import Downshift from 'downshift';
 import find from 'lodash/find';
 import {findDOMNode} from 'react-dom';
 import ResultBox from '../../components/ResultBox';
-import {autobind, filterTree} from '../../utils/helper';
+import {autobind, filterTree, createObject} from '../../utils/helper';
 import Spinner from '../../components/Spinner';
 import Overlay from '../../components/Overlay';
 import PopOver from '../../components/PopOver';
 import ListMenu from '../../components/ListMenu';
+import {Action} from '../../types';
 
 /**
  * Tag 输入框
@@ -80,14 +81,60 @@ export default class TagControl extends React.PureComponent<
     }
   }
 
-  addItem(option: Option) {
+  doAction(action: Action, data: object, throwErrors: boolean) {
+    const {resetValue, onChange} = this.props;
+    const actionType = action?.actionType as string;
+
+    if (!!~['clear', 'reset'].indexOf(actionType)) {
+      onChange(resetValue ?? '');
+    }
+  }
+
+  @autobind
+  async dispatchEvent(eventName: string, eventData: any = {}) {
+    const {dispatchEvent, options, data} = this.props;
+    const rendererEvent = await dispatchEvent(
+      eventName,
+      createObject(data, {
+        options,
+        ...eventData
+      })
+    );
+    // 返回阻塞标识
+    return !!rendererEvent?.prevented;
+  }
+
+  @autobind
+  getValue(type: 'push' | 'pop' = 'pop', option: any = {}) {
     const {
       selectedOptions,
-      onChange,
       joinValues,
       extractValue,
       delimiter,
       valueField
+    } = this.props;
+
+    const newValue = selectedOptions.concat();
+    if (type === 'push') {
+      newValue.push(option);
+    } else {
+      newValue.pop();
+    }
+
+    const newValueRes = joinValues
+      ? newValue
+          .map(item => item[valueField || 'value'])
+          .join(delimiter || ',')
+      : extractValue
+      ? newValue.map(item => item[valueField || 'value'])
+      : newValue;
+    return newValueRes;
+  }
+
+  async addItem(option: Option) {
+    const {
+      selectedOptions,
+      onChange
     } = this.props;
     const newValue = selectedOptions.concat();
 
@@ -95,31 +142,27 @@ export default class TagControl extends React.PureComponent<
       return;
     }
 
-    newValue.push(option);
+    const newValueRes = this.getValue('push', option);
 
-    onChange(
-      joinValues
-        ? newValue
-            .map(item => item[valueField || 'value'])
-            .join(delimiter || ',')
-        : extractValue
-        ? newValue.map(item => item[valueField || 'value'])
-        : newValue
-    );
+    const isPrevented = await this.dispatchEvent('change', {
+      value: newValueRes
+    });
+    isPrevented || onChange(newValueRes);
   }
 
   @autobind
-  handleFocus(e: any) {
+  async handleFocus(e: any) {
     this.setState({
       isFocused: true,
       isOpened: true
     });
 
-    this.props.onFocus?.(e);
+    const isPrevented = await this.dispatchEvent('focus', e);
+    isPrevented || this.props.onFocus?.(e);
   }
 
   @autobind
-  handleBlur(e: any) {
+  async handleBlur(e: any) {
     const {
       selectedOptions,
       onChange,
@@ -130,7 +173,9 @@ export default class TagControl extends React.PureComponent<
     } = this.props;
 
     const value = this.state.inputValue.trim();
-    this.props.onBlur?.(e);
+
+    const isPrevented = await this.dispatchEvent('blur', e);
+    isPrevented || this.props.onBlur?.(e);
     this.setState(
       {
         isFocused: false,
@@ -176,7 +221,7 @@ export default class TagControl extends React.PureComponent<
   }
 
   @autobind
-  handleChange(value: Array<Option>) {
+  async handleChange(value: Array<Option>) {
     const {joinValues, extractValue, delimiter, valueField, onChange} =
       this.props;
 
@@ -190,7 +235,10 @@ export default class TagControl extends React.PureComponent<
       newValue = newValue.join(delimiter || ',');
     }
 
-    onChange(newValue);
+    const isPrevented = await this.dispatchEvent('change', {
+      value: newValue
+    });
+    isPrevented || onChange(newValue);
   }
 
   @autobind
@@ -200,51 +248,35 @@ export default class TagControl extends React.PureComponent<
   }
 
   @autobind
-  handleKeyDown(evt: React.KeyboardEvent<HTMLInputElement>) {
+  async handleKeyDown(evt: React.KeyboardEvent<HTMLInputElement>) {
     const {
       selectedOptions,
       onChange,
-      joinValues,
-      extractValue,
-      delimiter,
-      valueField
+      delimiter
     } = this.props;
 
     const value = this.state.inputValue.trim();
 
     if (selectedOptions.length && !value && evt.key == 'Backspace') {
-      const newValue = selectedOptions.concat();
-      newValue.pop();
-
-      onChange(
-        joinValues
-          ? newValue
-              .map(item => item[valueField || 'value'])
-              .join(delimiter || ',')
-          : extractValue
-          ? newValue.map(item => item[valueField || 'value'])
-          : newValue
-      );
+      const newValueRes = this.getValue('pop');
+      const isPrevented = await this.dispatchEvent('change', {
+        value: newValueRes
+      });
+      isPrevented || onChange(newValueRes);
     } else if (value && (evt.key === 'Enter' || evt.key === delimiter)) {
       evt.preventDefault();
       evt.stopPropagation();
       const newValue = selectedOptions.concat();
 
       if (!find(newValue, item => item.value == value)) {
-        newValue.push({
+        const newValueRes = this.getValue('push', {
           label: value,
           value: value
         });
-
-        onChange(
-          joinValues
-            ? newValue
-                .map(item => item[valueField || 'value'])
-                .join(delimiter || ',')
-            : extractValue
-            ? newValue.map(item => item[valueField || 'value'])
-            : newValue
-        );
+        const isPrevented = await this.dispatchEvent('change', {
+          value: newValueRes
+        });
+        isPrevented || onChange(newValueRes);
       }
 
       this.setState({

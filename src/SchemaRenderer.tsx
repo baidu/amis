@@ -18,8 +18,11 @@ import {Schema, SchemaNode} from './types';
 import {DebugWrapper, enableAMISDebug} from './utils/debug';
 import getExprProperties from './utils/filter-schema';
 import {anyChanged, chainEvents, autobind} from './utils/helper';
-import {RendererEvent} from './utils/renderer-event';
 import {SimpleMap} from './utils/SimpleMap';
+
+import type {RendererEvent} from './utils/renderer-event';
+import {observer} from 'mobx-react';
+import {isAlive} from 'mobx-state-tree';
 
 interface SchemaRendererProps extends Partial<RendererProps> {
   schema: Schema;
@@ -58,6 +61,7 @@ const defaultOmitList = [
 
 const componentCache: SimpleMap = new SimpleMap();
 
+@observer
 class BroadcastCmpt extends React.Component<BroadcastCmptProps> {
   ref: any;
   unbindEvent: (() => void) | undefined = undefined;
@@ -65,7 +69,7 @@ class BroadcastCmpt extends React.Component<BroadcastCmptProps> {
 
   constructor(props: BroadcastCmptProps, context: IScopedContext) {
     super(props);
-    this.triggerEvent = this.triggerEvent.bind(this);
+    this.dispatchEvent = this.dispatchEvent.bind(this);
   }
 
   componentDidMount() {
@@ -81,7 +85,7 @@ class BroadcastCmpt extends React.Component<BroadcastCmptProps> {
     return this.ref;
   }
 
-  async triggerEvent(
+  async dispatchEvent(
     e: React.MouseEvent<any>,
     data: any
   ): Promise<RendererEvent<any> | undefined> {
@@ -98,21 +102,36 @@ class BroadcastCmpt extends React.Component<BroadcastCmptProps> {
   }
 
   render() {
-    const {component: Component, ...rest} = this.props;
-
+    const {component: Component, rootStore, ...rest} = this.props;
+    const visible = isAlive(rootStore)
+      ? rootStore.visibleState[rest.$schema.id || rest.$path]
+      : true;
+    const disable = isAlive(rootStore)
+      ? rootStore.disableState[rest.$schema.id || rest.$path]
+      : false;
     const isClassComponent = Component.prototype?.isReactComponent;
 
-    // 函数组件不支持 ref https://reactjs.org/docs/refs-and-the-dom.html#refs-and-function-components
+    if (disable) {
+      (rest as any).disabled = true;
+    }
 
-    return isClassComponent ? (
-      <Component
-        ref={this.childRef}
-        {...rest}
-        dispatchEvent={this.triggerEvent}
-      />
-    ) : (
-      <Component {...rest} dispatchEvent={this.triggerEvent} />
-    );
+    // 函数组件不支持 ref https://reactjs.org/docs/refs-and-the-dom.html#refs-and-function-components
+    return visible !== false ? (
+      isClassComponent ? (
+        <Component
+          ref={this.childRef}
+          {...rest}
+          rootStore={rootStore}
+          dispatchEvent={this.dispatchEvent}
+        />
+      ) : (
+        <Component
+          {...rest}
+          rootStore={rootStore}
+          dispatchEvent={this.dispatchEvent}
+        />
+      )
+    ) : null;
   }
 }
 

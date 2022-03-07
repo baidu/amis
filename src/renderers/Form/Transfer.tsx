@@ -128,7 +128,7 @@ export class BaseTransferRenderer<
   T extends OptionsControlProps = BaseTransferProps
 > extends React.Component<T> {
   @autobind
-  handleChange(value: Array<Option>, optionModified?: boolean) {
+  async handleChange(value: Array<Option> | Option, optionModified?: boolean) {
     const {
       onChange,
       joinValues,
@@ -136,6 +136,7 @@ export class BaseTransferRenderer<
       valueField,
       extractValue,
       options,
+      dispatchEvent,
       setOptions
     } = this.props;
     let newValue: any = value;
@@ -169,10 +170,28 @@ export class BaseTransferRenderer<
       if (joinValues) {
         newValue = newValue.join(delimiter || ',');
       }
+    } else if (value) {
+      newValue =
+        joinValues || extractValue
+          ? value[(valueField as string) || 'value']
+          : value;
     }
 
     (newOptions.length > options.length || optionModified) &&
       setOptions(newOptions, true);
+
+    // 触发渲染器事件
+    const rendererEvent = await dispatchEvent(
+      'change',
+      {
+        value: newValue,
+        options
+      }
+    );
+    if (rendererEvent?.prevented) {
+      return;
+    }
+
     onChange(newValue);
   }
 
@@ -323,10 +342,11 @@ export class BaseTransferRenderer<
     // 为了方便可以快速实现动态化，让选项的第一个成员携带
     // LeftOptions 信息
     let {options, leftOptions, leftDefaultValue} = this.props;
+
     if (
       selectMode === 'associated' &&
       options &&
-      options.length === 1 &&
+      options.length &&
       options[0].leftOptions &&
       Array.isArray(options[0].children)
     ) {

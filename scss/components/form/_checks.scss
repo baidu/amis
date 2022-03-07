@@ -285,3 +285,10 @@
     color: #999;
   }
 }
+
+.#{$ns}RadiosControl {
+  .#{$ns}Button:active,
+  .#{$ns}Button.is-active {
+    background: var(--ButtonGroup--primary-isActive-bg);
+  }
+}

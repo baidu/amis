@@ -12,6 +12,10 @@ import {themeable} from '../../theme';
 import {localeable} from '../../locale';
 
 import type {SchemaIcon} from '../../Schema';
+import {
+  resolveVariableAndFilter,
+  isPureVariable
+} from '../../utils/tpl-builtin';
 
 export interface FormulaPickerProps extends FormulaEditorProps {
   // 新的属性？
@@ -66,6 +70,11 @@ export interface FormulaPickerProps extends FormulaEditorProps {
   disabled?: boolean;
 
   /**
+   * 是否允许输入，否需要点击fx在弹窗中输入
+   */
+  allowInput?: boolean;
+
+  /**
    * 占位文本
    */
   placeholder?: string;
@@ -74,6 +83,16 @@ export interface FormulaPickerProps extends FormulaEditorProps {
    * 可清除
    */
   clearable?: boolean;
+
+  /**
+   * 支持通过上下文变量配置value
+   */
+  source?: string;
+
+  /**
+   * 外层透传的 data，和source配合使用
+   */
+  data?: any;
 }
 
 export class FormulaPicker extends React.Component<FormulaPickerProps> {
@@ -82,12 +101,28 @@ export class FormulaPicker extends React.Component<FormulaPickerProps> {
     this.props.onChange?.(value);
   }
 
+  @autobind
+  renderFormulaValue(item: any) {
+    const {allowInput, classnames: cx} = this.props;
+    const html = {__html: item.html};
+    if (allowInput) {
+      return '';
+    }
+    return (
+      <div
+        className={cx('FormulaPicker-ResultBox')}
+        dangerouslySetInnerHTML={html}
+      ></div>
+    );
+  }
+
   render() {
-    const {
+    let {
       classnames: cx,
       value,
       translate: __,
       disabled,
+      allowInput,
       className,
       onChange,
       size,
@@ -100,8 +135,19 @@ export class FormulaPicker extends React.Component<FormulaPickerProps> {
       icon,
       title,
       clearable,
+      variables,
+      functions,
       ...rest
     } = this.props;
+    if (isPureVariable(variables)) {
+      // 如果 variables 是 ${xxx} 这种形式，将其处理成实际的值
+      variables = resolveVariableAndFilter(variables, this.props.data, '| raw');
+    }
+
+    if (isPureVariable(functions)) {
+      // 如果 functions 是 ${xxx} 这种形式，将其处理成实际的值
+      functions = resolveVariableAndFilter(functions, this.props.data, '| raw');
+    }
     const iconElement = generateIcon(cx, icon, 'Icon');
 
     return (
@@ -109,7 +155,15 @@ export class FormulaPicker extends React.Component<FormulaPickerProps> {
         title={__(title || 'FormulaEditor.title')}
         headerClassName="font-bold"
         bodyRender={({onClose, value, onChange}) => {
-          return <Editor {...rest} value={value} onChange={onChange} />;
+          return (
+            <Editor
+              {...rest}
+              variables={variables}
+              functions={functions}
+              value={value}
+              onChange={onChange}
+            />
+          );
         }}
         value={value}
         onConfirm={this.handleConfirm}
@@ -153,9 +207,15 @@ export class FormulaPicker extends React.Component<FormulaPickerProps> {
                     'FormulaPicker-input',
                     isOpened ? 'is-active' : ''
                   )}
-                  allowInput
+                  allowInput={allowInput}
                   clearable={clearable}
                   value={value}
+                  result={FormulaEditor.highlightValue(
+                    value,
+                    variables,
+                    functions
+                  )}
+                  itemRender={this.renderFormulaValue}
                   onResultChange={noop}
                   onChange={this.handleConfirm}
                   disabled={disabled}

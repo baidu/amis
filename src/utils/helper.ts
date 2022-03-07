@@ -989,7 +989,7 @@ export function someTree<T extends TreeItem>(
  *              { id: 3 },
  *         ]
  *     }
- * ], item => item.id); // 输出位 [1, 2, 3]
+ * ], item => item.id); // 输出为 [1, 2, 3]
  *
  * @param tree
  * @param mapper
@@ -1599,11 +1599,21 @@ export function convertArrayValueToMoment(
   return mom;
 }
 
-
 export function getRange(min: number, max: number, step: number = 1) {
   const arr = [];
   for (let i = min; i <= max; i += step) {
     arr.push(i);
   }
   return arr;
+}
+
+export function repeatCount(count: number, iterator: (index: number) => any) {
+  let result: Array<any> = [];
+  let index = 0;
+
+  while (count--) {
+    result.push(iterator(index++));
+  }
+
+  return result;
 }

@@ -2,6 +2,7 @@ import React from 'react';
 
 import ResultBox from '../../components/ResultBox';
 import Spinner from '../../components/Spinner';
+import {SchemaApi, SchemaTokenizeableString} from '../../Schema';
 import FormItem, {FormBaseControl, FormControlProps} from './Item';
 import FormulaPicker from '../../components/formula/Picker';
 import {autobind} from '../../utils/helper';
@@ -53,6 +54,11 @@ export interface InputFormulaControlSchema extends FormBaseControl {
    * 控件模式
    */
   inputMode?: 'button' | 'input-button';
+
+  /**
+   * 外层input是否允许输入，否需要点击fx在弹窗中输入
+   */
+  allowInput?: boolean;
 
   /**
    * 按钮图标
@@ -123,7 +129,7 @@ export class InputFormulaRenderer extends React.Component<InputFormulaProps> {
   };
 
   render() {
-    const {
+    let {
       selectedOptions,
       disabled,
       onChange,
@@ -138,6 +144,7 @@ export class InputFormulaRenderer extends React.Component<InputFormulaProps> {
       className,
       classPrefix: ns,
       classnames: cx,
+      allowInput = true,
       borderMode,
       placeholder,
       inputMode,
@@ -147,14 +154,15 @@ export class InputFormulaRenderer extends React.Component<InputFormulaProps> {
       icon,
       title,
       variableClassName,
-      functionClassName
+      functionClassName,
+      data
     } = this.props;
-
     return (
       <FormulaPicker
         className={className}
         value={value}
         disabled={disabled}
+        allowInput={allowInput}
         onChange={onChange}
         evalMode={evalMode}
         variables={variables}
@@ -172,6 +180,7 @@ export class InputFormulaRenderer extends React.Component<InputFormulaProps> {
         clearable={clearable}
         variableClassName={variableClassName}
         functionClassName={functionClassName}
+        data={data}
       />
     );
   }

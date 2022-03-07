@@ -1,7 +1,8 @@
 import React, {Suspense} from 'react';
 import Dropzone from 'react-dropzone';
 import {FileRejection} from 'react-dropzone';
-import {autobind} from '../../utils/helper';
+import {Icon} from '../../components/icons';
+import {autobind, createObject} from '../../utils/helper';
 import {FormItem, FormControlProps, FormBaseControl} from './Item';
 
 /**
@@ -43,9 +44,11 @@ export interface ExcelProps
     > {}
 
 export interface ExcelControlState {
-  open: boolean;
+  filename: string;
 }
 
+export type InputExcelRendererEvent = 'change';
+export type InputExcelRendererAction = 'clear';
 export default class ExcelControl extends React.PureComponent<
   ExcelProps,
   ExcelControlState
@@ -56,15 +59,16 @@ export default class ExcelControl extends React.PureComponent<
     includeEmpty: true,
     plainText: true
   };
+
   state: ExcelControlState = {
-    open: false
+    filename: ''
   };
 
   ExcelJS: any;
 
   @autobind
   handleDrop(files: File[]) {
-    const {allSheets, onChange} = this.props;
+    const {allSheets, onChange, dispatchEvent, data} = this.props;
     const excel = files[0];
     const reader = new FileReader();
     reader.readAsArrayBuffer(excel);
@@ -74,24 +78,38 @@ export default class ExcelControl extends React.PureComponent<
           this.ExcelJS = ExcelJS;
           const workbook = new ExcelJS.Workbook();
           await workbook.xlsx.load(reader.result);
+          let sheetsResult: any[] = [];
           if (allSheets) {
-            const sheetsResult: any[] = [];
             workbook.eachSheet((worksheet: any) => {
               sheetsResult.push({
                 sheetName: worksheet.name,
                 data: this.readWorksheet(worksheet)
               });
-              onChange(sheetsResult);
             });
           } else {
             const worksheet = workbook.worksheets[0];
-            onChange(this.readWorksheet(worksheet));
+            sheetsResult = this.readWorksheet(worksheet);
           }
+          const dispatcher = await this.dispatchEvent('change', sheetsResult);
+          if (dispatcher?.prevented) {
+            return;
+          }
+          onChange(sheetsResult);
+          this.setState({filename: files[0].name});
         });
       }
     };
   }
 
+  async dispatchEvent(eventName: string, eventData?: Record<string, any>) {
+    const {dispatchEvent, data} = this.props;
+    return await dispatchEvent(
+      eventName,
+      createObject(data, {
+        value: eventData
+      })
+    );
+  }
   /**
    * 读取单个 sheet 的内容
    */
@@ -142,6 +160,13 @@ export default class ExcelControl extends React.PureComponent<
     }
   }
 
+  doAction(action: any, data: object, throwErrors: boolean) {
+    const {onChange} = this.props;
+    if (action.actionType === 'clear') {
+      onChange('');
+    }
+  }
+
   render() {
     const {
       className,
@@ -165,7 +190,13 @@ export default class ExcelControl extends React.PureComponent<
             <section className={cx('ExcelControl-container', className)}>
               <div {...getRootProps({className: cx('ExcelControl-dropzone')})}>
                 <input {...getInputProps()} />
-                <p>{__('Excel.placeholder')}</p>
+                {this.state.filename ? (
+                  __('Excel.parsed', {
+                    filename: this.state.filename
+                  })
+                ) : (
+                  <p>{__('Excel.placeholder')}</p>
+                )}
               </div>
             </section>
           )}

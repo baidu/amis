@@ -62,7 +62,8 @@ export interface ButtonSchema extends BaseSchema {
     | 'link'
     | 'primary'
     | 'dark'
-    | 'light';
+    | 'light'
+    | 'secondary';
 
   /**
    * @deprecated 通过 level 来配置
@@ -240,6 +241,19 @@ export interface DrawerActionSchema extends ButtonSchema {
   redirect?: string;
 }
 
+export interface ToastActionSchema extends ButtonSchema {
+  /**
+   * 指定为打开弹窗，抽出式弹窗
+   */
+  actionType: 'toast';
+
+  /**
+   * 轻提示详情
+   * 文档：https://baidu.gitee.io/amis/docs/components/toast
+   */
+  toast: ToastSchemaBase;
+}
+
 export interface CopyActionSchema extends ButtonSchema {
   /**
    * 指定为复制内容行为
@@ -336,6 +350,7 @@ export type ActionSchema =
   | LinkActionSchema
   | DialogActionSchema
   | DrawerActionSchema
+  | ToastActionSchema
   | CopyActionSchema
   | ReloadActionSchema
   | EmailActionSchema
@@ -346,6 +361,7 @@ const ActionProps = [
   'id',
   'dialog',
   'drawer',
+  'toast',
   'url',
   'link',
   'confirmText',
@@ -386,7 +402,7 @@ const ActionProps = [
 ];
 import {filterContents} from './Remark';
 import {ClassNamesFn, themeable, ThemeProps} from '../theme';
-import {autobind} from '../utils/helper';
+import {autobind, createObject} from '../utils/helper';
 import {
   BaseSchema,
   FeedbackDialog,
@@ -401,6 +417,7 @@ import {
 } from '../Schema';
 import {DialogSchema, DialogSchemaBase} from './Dialog';
 import {DrawerSchema, DrawerSchemaBase} from './Drawer';
+import {ToastSchemaBase} from '../Schema';
 import {generateIcon} from '../utils/icon';
 import {BadgeSchema, withBadge} from '../components/Badge';
 import {normalizeApi, str2AsyncFunction} from '../utils/api';
@@ -481,6 +498,14 @@ export interface ActionProps
     >,
     Omit<
       DrawerActionSchema,
+      | 'type'
+      | 'className'
+      | 'iconClassName'
+      | 'rightIconClassName'
+      | 'loadingClassName'
+    >,
+    Omit<
+      ToastSchemaBase,
       | 'type'
       | 'className'
       | 'iconClassName'
@@ -728,6 +753,8 @@ export class Action extends React.Component<ActionProps, ActionState> {
       loading,
       body,
       render,
+      onMouseEnter,
+      onMouseLeave,
       classnames: cx,
       classPrefix: ns
     } = this.props;
@@ -743,7 +770,12 @@ export class Action extends React.Component<ActionProps, ActionState> {
           trigger={tooltipTrigger}
           rootClose={tooltipRootClose}
         >
-          <div className={cx('Action', className)} onClick={this.handleAction}>
+          <div
+            className={cx('Action', className)}
+            onClick={this.handleAction}
+            onMouseEnter={onMouseEnter}
+            onMouseLeave={onMouseLeave}
+          >
             {render('body', body) as JSX.Element}
           </div>
         </TooltipWrapper>
@@ -789,6 +821,8 @@ export class Action extends React.Component<ActionProps, ActionState> {
         loadingClassName={loadingClassName}
         loading={loading}
         onClick={this.handleAction}
+        onMouseEnter={onMouseEnter}
+        onMouseLeave={onMouseLeave}
         type={type && ~allowedType.indexOf(type) ? type : 'button'}
         disabled={disabled}
         componentClass={isMenuItem ? 'a' : componentClass}
@@ -833,7 +867,10 @@ export class ActionRenderer extends React.Component<
     const {env, onAction, data, ignoreConfirm, dispatchEvent} = this.props;
 
     // 触发渲染器事件
-    const rendererEvent = await dispatchEvent(e as React.MouseEvent<any>, data);
+    const rendererEvent = await dispatchEvent(
+      e as React.MouseEvent<any>,
+      createObject(data, action)
+    );
 
     // 阻止原有动作执行
     if (rendererEvent?.prevented) {
@@ -847,6 +884,16 @@ export class ActionRenderer extends React.Component<
     } else {
       onAction(e, action, data);
     }
+  }
+
+  @autobind
+  handleMouseEnter(e: React.MouseEvent<any>) {
+    this.props.dispatchEvent(e, this.props.data);
+  }
+
+  @autobind
+  handleMouseLeave(e: React.MouseEvent<any>) {
+    this.props.dispatchEvent(e, this.props.data);
   }
 
   @autobind
@@ -864,6 +911,8 @@ export class ActionRenderer extends React.Component<
         env={env}
         disabled={disabled || btnDisabled}
         onAction={this.handleAction}
+        onMouseEnter={this.handleMouseEnter}
+        onMouseLeave={this.handleMouseLeave}
         loading={loading}
         isCurrentUrl={this.isCurrentAction}
         tooltipContainer={

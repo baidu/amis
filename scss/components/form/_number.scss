@@ -9,6 +9,7 @@
   background: var(--Number-bg);
   border: var(--Number-borderWidth) solid var(--Number-borderColor);
   border-radius: var(--Number-borderRadius);
+  overflow: hidden;
 
   @include input-border();
   &.no-steps > &-handler-wrap {
@@ -73,6 +74,7 @@
     transition: all var(--animation-duration) ease;
     border: 0;
     border-radius: var(--Form-input-borderRadius);
+    color: var(--Form-input-color);
     padding: 0 var(--Form-input-paddingX);
   }
 

@@ -207,7 +207,7 @@ export const HocPopOver =
         if (popOver === true) {
           schema = {
             type: 'panel',
-            body: '${name}'
+            body: `\${${name}}`
           };
         } else if (
           popOver &&
@@ -223,6 +223,11 @@ export const HocPopOver =
               }
             ],
             ...popOver
+          };
+        } else if (typeof popOver === 'string') {
+          schema = {
+            type: 'panel',
+            body: popOver
           };
         } else if (popOver) {
           schema = {

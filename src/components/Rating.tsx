@@ -105,6 +105,8 @@ export class Rating extends React.Component<RatingProps, any> {
           at: Math.floor(props.value),
           hidden: props.half && props.value % 1 < 0.5
         }
+      }, () => {
+        this.getShowColorAndText(props.value);
       });
     }
   }

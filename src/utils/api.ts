@@ -209,10 +209,12 @@ export function responseAdaptor(ret: fetcherResult, api: ApiObject) {
 
   // 返回内容是 string，说明 content-type 不是 json，这时可能是返回了纯文本或 html
   if (typeof data === 'string') {
+    const contentType = (ret.headers as any)['content-type'] || '';
     // 如果是文本类型就尝试解析一下
     if (
       ret.headers &&
-      ((ret.headers as any)['content-type'] || '').startsWith('text/')
+      contentType.startsWith('text/') &&
+      !contentType.includes('markdown')
     ) {
       try {
         data = JSON.parse(data);
@@ -229,10 +231,8 @@ export function responseAdaptor(ret: fetcherResult, api: ApiObject) {
     } else {
       if (api.responseType === 'blob') {
         throw new Error('Should have "Content-Disposition" in Header');
-      } else {
-        throw new Error(
-          `Content type is wrong "${(ret.headers as any)['content-type']}"`
-        );
+      } else if (!contentType.includes('markdown')) {
+        throw new Error(`Content type is wrong "${contentType}"`);
       }
     }
   }

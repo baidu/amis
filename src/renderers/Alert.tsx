@@ -7,6 +7,7 @@ import {
   SchemaCollection,
   SchemaIcon
 } from '../Schema';
+import {isPureVariable, resolveVariableAndFilter} from '../utils/tpl-builtin';
 
 /**
  * Alert 提示渲染器。
@@ -64,7 +65,21 @@ export interface AlertSchema extends BaseSchema {
 })
 export class TplRenderer extends React.Component<AlertProps & RendererProps> {
   render() {
-    const {render, body, ...rest} = this.props;
-    return <Alert {...rest}>{render('body', body)}</Alert>;
+    let {render, body, level, icon, showIcon, ...rest} = this.props;
+    if (isPureVariable(level)) {
+      level = resolveVariableAndFilter(level, this.props.data);
+    }
+    if (isPureVariable(icon)) {
+      icon = resolveVariableAndFilter(icon, this.props.data);
+    }
+    if (isPureVariable(showIcon)) {
+      showIcon = resolveVariableAndFilter(showIcon, this.props.data);
+    }
+
+    return (
+      <Alert {...rest} level={level} icon={icon} showIcon={showIcon}>
+        {render('body', body)}
+      </Alert>
+    );
   }
 }

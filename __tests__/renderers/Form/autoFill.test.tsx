@@ -16,7 +16,7 @@ test('Form:options:autoFill', async () => {
       {
         type: 'form',
         title: 'The form',
-        controls: [
+        body: [
           {
             type: 'radios',
             name: 'a',
@@ -38,19 +38,19 @@ test('Form:options:autoFill', async () => {
             ]
           },
           {
-            type: 'text',
+            type: 'input-text',
             name: 'a'
           },
           {
-            type: 'text',
+            type: 'input-text',
             name: 'aValue'
           },
           {
-            type: 'text',
+            type: 'input-text',
             name: 'aLabel'
           },
           {
-            type: 'text',
+            type: 'input-text',
             name: 'aId'
           }
         ],
@@ -64,7 +64,7 @@ test('Form:options:autoFill', async () => {
 
   // expect(container).toMatchSnapshot();
   fireEvent.click(getByText(/OptionA/));
-  await wait(300);
+  await wait(500);
 
   expect(container.querySelector('input[name=a]')?.getAttribute('value')).toBe(
     'a'
@@ -80,7 +80,7 @@ test('Form:options:autoFill', async () => {
   ).toBe('233');
 
   fireEvent.click(getByText(/OptionB/));
-  await wait(300);
+  await wait(500);
 
   expect(container.querySelector('input[name=a]')?.getAttribute('value')).toBe(
     'b'
@@ -136,14 +136,14 @@ test('Form:options:autoFill:data', async () => {
 
   fireEvent.click(getByText(/OptionA/));
   fireEvent.click(getByText(/Submit/));
-  await wait(300);
+  await wait(500);
 
   expect(onSubmit).toBeCalled();
   expect(onSubmit.mock.calls[0][0]).toMatchSnapshot();
 
   fireEvent.click(getByText(/OptionB/));
   fireEvent.click(getByText(/Submit/));
-  await wait(300);
+  await wait(500);
 
   expect(onSubmit).toBeCalledTimes(2);
   expect(onSubmit.mock.calls[1][0]).toMatchSnapshot();
@@ -190,14 +190,14 @@ test('Form:options:autoFill:multiple:data', async () => {
 
   fireEvent.click(getByText(/OptionA/));
   fireEvent.click(getByText(/Submit/));
-  await wait(300);
+  await wait(500);
 
   expect(onSubmit).toBeCalled();
   expect(onSubmit.mock.calls[0][0]).toMatchSnapshot();
 
   fireEvent.click(getByText(/OptionB/));
   fireEvent.click(getByText(/Submit/));
-  await wait(300);
+  await wait(500);
 
   expect(onSubmit).toBeCalledTimes(2);
   expect(onSubmit.mock.calls[1][0]).toMatchSnapshot();

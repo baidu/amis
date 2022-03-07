@@ -140,7 +140,7 @@ order: 27
     "type": "alert",
     "body": "自定义ICON文案",
     "showIcon": true,
-    "icon": "warning",
+    "icon": "info-circle",
     "className": "mb-1"
   },
   {
@@ -148,10 +148,34 @@ order: 27
     "title": "自定义ICON标题",
     "body": "自定义ICON文案",
     "showIcon": true,
-    "icon": "warning"
-  },
+    "icon": "fa fa-list"
+  }
 ]
 ```
+
+## level 支持表达式
+
+> 1.6.4 及以上版本
+
+修改下面例子的 status 值为 2 就能看到变化
+
+```schema:
+{
+  "type": "page",
+  "data": {
+    "status": 1
+  },
+  "body": [
+    {
+      "type": "alert",
+      "level": "${IFS(status===1, 'danger', status===2, 'warning')}",
+      "body": "这是内容区"
+    }
+  ]
+}
+```
+
+同时 icon 和 showIcon 也都支持表达式
 
 ## 显示关闭按钮
 

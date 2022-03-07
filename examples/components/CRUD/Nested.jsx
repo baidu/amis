@@ -5,8 +5,7 @@ export default {
     api: '/api/mock2/crud/table2',
     saveOrderApi: '/api/mock2/form/saveData',
     expandConfig: {
-      expand: 'first',
-      accordion: true
+      expand: 'first'
     },
     draggable: true,
     columns: [
@@ -116,8 +115,7 @@ export default {
                   },
                   {
                     type: 'html',
-                    html:
-                      '<p>添加其他 <span>Html 片段</span> 需要支持变量替换（todo）.</p>'
+                    html: '<p>添加其他 <span>Html 片段</span> 需要支持变量替换（todo）.</p>'
                   }
                 ]
               }

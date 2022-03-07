@@ -18,8 +18,17 @@ export interface RendererEnv {
   isCancel: (val: any) => boolean;
   notify: (
     type: 'error' | 'success' | 'warning',
-    msg: string,
+    msg: any,
     conf?: {
+      title?: any;
+      position?:
+        | 'top-right'
+        | 'top-center'
+        | 'top-left'
+        | 'bottom-center'
+        | 'bottom-left'
+        | 'bottom-right'
+        | 'center';
       closeButton?: boolean;
       timeout?: number;
     }

@@ -1,5 +1,7 @@
 import React from 'react';
 import {FormItem, FormControlProps, FormBaseControl} from './Item';
+import {autobind, createObject} from '../../utils/helper';
+import {Action} from '../../types';
 import Rating, {textPositionType} from '../../components/Rating';
 
 /**
@@ -84,6 +86,28 @@ export default class RatingControl extends React.Component<RatingProps, any> {
     readOnly: false
   };
 
+  doAction(action: Action, data: object, throwErrors: boolean) {
+    const {resetValue} = this.props;
+    if (action.actionType && ['clear', 'reset'].includes(action.actionType)) {
+      this.handleChange(resetValue ?? '');
+    }
+  }
+
+  @autobind
+  async handleChange(value: any) {
+    const {onChange, dispatchEvent, data} = this.props;
+
+    const rendererEvent = await dispatchEvent('change', createObject(data, {
+      value
+    }));
+
+    if (rendererEvent?.prevented) {
+      return;
+    }
+    
+    onChange && onChange(value);
+  }
+
   render() {
     const {
       className,
@@ -92,7 +116,6 @@ export default class RatingControl extends React.Component<RatingProps, any> {
       half,
       readOnly,
       disabled,
-      onChange,
       onHoverChange,
       allowClear,
       char,
@@ -122,9 +145,7 @@ export default class RatingControl extends React.Component<RatingProps, any> {
           charClassName={charClassName}
           textClassName={textClassName}
           textPosition={textPosition}
-          onChange={(value: number) => {
-            onChange && onChange(value);
-          }}
+          onChange={this.handleChange}
           onHoverChange={(value: number) => {
             onHoverChange && onHoverChange(value);
           }}

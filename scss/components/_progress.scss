@@ -1,9 +1,9 @@
 .#{$ns}Progress {
+  display: flex;
+  align-items: center;
   &-line {
     display: inline-block;
     width: 100%;
-    margin-right: calc(-2em + -8px);
-    padding-right: calc(2em + 8px);
 
     &-inter {
       height: 10px;
@@ -12,14 +12,9 @@
       border-radius: var(--Progress-borderRadius);
     }
 
-    &-no-label {
-      padding-right: 0;
-      margin-right: 0;
-    }
-
     &-text {
       display: inline-block;
-      width: 2em;
+      flex-grow: 1;
       margin-left: 8px;
       color: var(--text-color);
       font-size: var(--fontSizeXs);

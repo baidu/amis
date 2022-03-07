@@ -31,8 +31,11 @@ test('Renderer:date', async () => {
     )
   );
 
-  const input = container.querySelector('.cxd-DatePicker-value');
-  expect(input?.innerHTML).toEqual(
+  const input = container.querySelector(
+    '.cxd-DatePicker input'
+  )! as HTMLInputElement;
+
+  expect(input.value).toEqual(
     moment(1559826660, 'X').format('YYYY-MM-DD HH:mm:ss')
   );
 

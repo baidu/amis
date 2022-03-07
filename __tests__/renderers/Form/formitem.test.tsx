@@ -60,10 +60,7 @@ test('Renderer:FormItem:validateApi:success', async () => {
   expect(onSubmit).not.toHaveBeenCalled();
 
   await wait(100);
-  expect(notify).toHaveBeenCalledWith(
-    'error',
-    '依赖的部分字段没有通过验证\n这是必填项'
-  );
+  expect(notify).toHaveBeenCalledWith('error', '依赖的部分字段没有通过验证');
 
   const input = container.querySelector('input[name=a]');
   expect(input).toBeTruthy();
@@ -72,7 +69,7 @@ test('Renderer:FormItem:validateApi:success', async () => {
       value: '123'
     }
   });
-  await wait(300); // 有 250 秒左右的节流
+  await wait(500); // 有 250 秒左右的节流
   fireEvent.click(getByText('Submit'));
   await wait(100);
 
@@ -132,10 +129,7 @@ test('Renderer:FormItem:validateApi:failed', async () => {
   expect(onSubmit).not.toHaveBeenCalled();
 
   await wait(100);
-  expect(notify).toHaveBeenCalledWith(
-    'error',
-    '依赖的部分字段没有通过验证\n这是必填项'
-  );
+  expect(notify).toHaveBeenCalledWith('error', '依赖的部分字段没有通过验证');
 
   const input = container.querySelector('input[name=a]');
   expect(input).toBeTruthy();
@@ -144,7 +138,7 @@ test('Renderer:FormItem:validateApi:failed', async () => {
       value: '123'
     }
   });
-  await wait(300); // 有 250 秒左右的节流
+  await wait(500); // 有 250 秒左右的节流
   fireEvent.click(getByText('Submit'));
   await wait(100);
 

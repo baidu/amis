@@ -4,6 +4,7 @@ import {Funcs, Fields} from '../../components/condition-builder/types';
 import {Config} from '../../components/condition-builder/config';
 import ConditionBuilder from '../../components/condition-builder/index';
 import {SchemaApi, SchemaTokenizeableString} from '../../Schema';
+import FormulaPicker from '../../components/formula/Picker';
 import {
   RemoteOptionsProps,
   withRemoteConfig

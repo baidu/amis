@@ -27,3 +27,29 @@ test('Renderer:alert', () => {
 
   expect(container).toMatchSnapshot();
 });
+
+test('Renderer:alert var', () => {
+  const {container} = render(
+    amisRender(
+      {
+        type: 'page',
+        data: {
+          level: 'success',
+          icon: 'copy',
+          showIcon: true
+        },
+        body: {
+          type: 'alert',
+          level: '${level}',
+          icon: '${icon}',
+          showIcon: '${showIcon}',
+          body: 'tpl'
+        }
+      },
+      {},
+      makeEnv({})
+    )
+  );
+
+  expect(container).toMatchSnapshot();
+});

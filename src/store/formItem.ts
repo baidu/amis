@@ -625,39 +625,44 @@ export const FormItemStore = StoreNode.named('FormItemStore')
 
     const tryDeferLoadLeftOptions: (
       option: any,
+      leftOptions: any,
       api: Api,
       data?: object,
       config?: fetchOptions
     ) => Promise<Payload | null> = flow(function* (
       option: any,
+      leftOptions: any,
       api: string,
       data: object,
       config?: fetchOptions
     ) {
-      if (
-        self.options.length != 1 ||
-        !Array.isArray(self.options[0].leftOptions)
-      ) {
+      if (!Array.isArray(leftOptions)) {
         return;
       }
 
-      let leftOptions = self.options[0].leftOptions as any;
+      const indexes = findTreeIndex(
+        self.options,
+        item => item.leftOptions === leftOptions
+      );
+      const leftIndexes = findTreeIndex(leftOptions, item => item === option);
+      const topOption = findTree(
+        self.options,
+        item => item.leftOptions === leftOptions
+      );
 
-      const indexes = findTreeIndex(leftOptions, item => item === option);
-      if (!indexes) {
+      if (!indexes || !leftIndexes || !topOption) {
         return;
       }
 
       setOptions(
-        [
-          {
-            ...self.options[0],
-            leftOptions: spliceTree(leftOptions, indexes, 1, {
-              ...option,
-              loading: true
-            })
-          }
-        ],
+        spliceTree(self.options, indexes, 1, {
+          ...topOption,
+          loading: true,
+          leftOptions: spliceTree(topOption.leftOptions, leftIndexes, 1, {
+            ...option,
+            loading: true
+          })
+        }),
         undefined,
         data
       );
@@ -671,63 +676,94 @@ export const FormItemStore = StoreNode.named('FormItemStore')
         },
         false
       );
+
       if (!json) {
         setOptions(
-          [
-            {
-              ...self.options[0],
-              leftOptions: spliceTree(leftOptions, indexes, 1, {
-                ...option,
-                loading: false,
-                error: true
-              })
-            }
-          ],
+          spliceTree(self.options, indexes, 1, {
+            ...topOption,
+            loading: false,
+            error: true,
+            leftOptions: spliceTree(topOption.leftOptions, leftIndexes, 1, {
+              ...option,
+              loading: false,
+              error: true
+            })
+          }),
           undefined,
           data
         );
         return;
       }
 
-      let options: Array<IOption> =
+      const options: Array<IOption> =
         json.data?.options ||
         json.data.items ||
         json.data.rows ||
         json.data ||
         [];
+      const newLeftOptions = spliceTree(topOption.leftOptions, leftIndexes, 1, {
+        ...option,
+        loading: false,
+        loaded: true,
+        children: options
+      });
 
       setOptions(
-        [
-          {
-            ...self.options[0],
-            leftOptions: spliceTree(leftOptions, indexes, 1, {
-              ...option,
-              loading: false,
-              loaded: true,
-              children: options
-            })
-          }
-        ],
+        spliceTree(self.options, indexes, 1, {
+          ...topOption,
+          loading: false,
+          loaded: true,
+          children: options,
+          leftOptions: newLeftOptions
+        }),
         undefined,
         data
       );
 
       // 插入新的子节点，用于之后BaseSelection.resolveSelected查找
-      if (Array.isArray(self.options[0].children)) {
-        const children = self.options[0].children.concat();
+      if (Array.isArray(topOption.children)) {
+        const children = topOption.children.concat();
 
-        flattenTree(self.options[0].leftOptions).forEach(item => {
-          if (
-            !findTree(self.options[0].children, node => node.ref === item.value)
-          ) {
+        flattenTree(topOption.leftOptions).forEach(item => {
+          if (!findTree(topOption.children, node => node.ref === item.value)) {
             children.push({ref: item.value, defer: true});
           }
         });
 
-        setOptions([{...self.options[0], children}], undefined, data);
+        setOptions(
+          spliceTree(self.options, indexes, 1, {
+            ...topOption,
+            leftOptions: newLeftOptions,
+            children
+          }),
+          undefined,
+          data
+        );
       }
 
       return json;
+    });
+
+    const deferLoadLeftOptions: (
+      option: any,
+      leftOptions: any,
+      api: Api,
+      data?: object,
+      config?: fetchOptions
+    ) => Promise<Payload | null> = flow(function* (
+      option: any,
+      leftOptions: any,
+      api: string,
+      data: object,
+      config?: fetchOptions
+    ) {
+      return yield tryDeferLoadLeftOptions(
+        option,
+        leftOptions,
+        api,
+        data,
+        config
+      );
     });
 
     const deferLoadOptions: (
@@ -743,7 +779,14 @@ export const FormItemStore = StoreNode.named('FormItemStore')
     ) {
       const indexes = findTreeIndex(self.options, item => item === option);
       if (!indexes) {
-        return yield tryDeferLoadLeftOptions(option, api, data, config);
+        const leftOptions = self.options[0]?.leftOptions;
+        return yield tryDeferLoadLeftOptions(
+          option,
+          leftOptions,
+          api,
+          data,
+          config
+        );
       }
 
       setOptions(
@@ -1112,6 +1155,7 @@ export const FormItemStore = StoreNode.named('FormItemStore')
       setOptions,
       loadOptions,
       deferLoadOptions,
+      deferLoadLeftOptions,
       expandTreeOptions,
       syncOptions,
       setLoading,

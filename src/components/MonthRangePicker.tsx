@@ -50,6 +50,8 @@ export interface MonthRangePickerProps extends ThemeProps, LocaleProps {
   popOverContainer?: any;
   embed?: boolean;
   useMobileUI?: boolean;
+  onFocus?: Function;
+  onBlur?: Function;
 }
 
 export interface MonthRangePickerState {
@@ -137,16 +139,20 @@ export class MonthRangePicker extends React.Component<
     this.dom.current.blur();
   }
 
-  handleFocus() {
+  handleFocus(e: React.SyntheticEvent<HTMLDivElement>) {
     this.setState({
       isFocused: true
     });
+    const {onFocus} = this.props;
+    onFocus && onFocus(e);
   }
 
-  handleBlur() {
+  handleBlur(e: React.SyntheticEvent<HTMLDivElement>) {
     this.setState({
       isFocused: false
     });
+    const {onBlur} = this.props;
+    onBlur && onBlur(e);
   }
 
   open() {

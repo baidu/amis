@@ -8,8 +8,9 @@ import {
   Option,
   FormOptionsControl
 } from './Options';
-import {autobind, isEmpty} from '../../utils/helper';
+import {autobind, isEmpty, createObject} from '../../utils/helper';
 import {dataMapping} from '../../utils/tpl-builtin';
+import {Action} from '../../types';
 
 /**
  * Radio 单选框。
@@ -36,12 +37,31 @@ export default class RadiosControl extends React.Component<RadiosProps, any> {
     columnsCount: 1
   };
 
+  doAction(action: Action, data: object, throwErrors: boolean) {
+    const {resetValue, onChange} = this.props;
+    const actionType = action?.actionType as string;
+
+    if (!!~['clear', 'reset'].indexOf(actionType)) {
+      onChange(resetValue ?? '');
+    }
+  }
+
   @autobind
-  handleChange(option: Option) {
-    const {joinValues, extractValue, valueField, onChange} = this.props;
+  async handleChange(option: Option) {
+    const {joinValues, extractValue, valueField, onChange, dispatchEvent, options, data} = this.props;
 
     if (option && (joinValues || extractValue)) {
       option = option[valueField || 'value'];
+    }
+
+    const rendererEvent = await dispatchEvent('change',
+      createObject(data, {
+        value: option,
+        options,
+      })
+    );
+    if (rendererEvent?.prevented) {
+      return;
     }
 
     onChange && onChange(option);
@@ -72,7 +92,9 @@ export default class RadiosControl extends React.Component<RadiosProps, any> {
       labelClassName,
       labelField,
       valueField,
-      translate: __
+      translate: __,
+      optionType,
+      level
     } = this.props;
 
     return (
@@ -93,6 +115,8 @@ export default class RadiosControl extends React.Component<RadiosProps, any> {
         columnsCount={columnsCount}
         classPrefix={classPrefix}
         itemClassName={itemClassName}
+        optionType={optionType}
+        level={level}
       />
     );
   }

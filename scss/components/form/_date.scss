@@ -12,6 +12,19 @@
   background: var(--DatePicker-bg);
   border-radius: var(--DatePicker-borderRadius);
 
+  input {
+    display: inline-block;
+    width: 100%;
+    background: none;
+    padding: 0;
+    border: 0;
+    &:focus {
+      border: none;
+      outline: none;
+      box-sizing: none;
+    }
+  }
+
   @include input-border();
 
   &:not(.is-disabled) {
@@ -56,18 +69,25 @@
   }
 
   &-toggler {
-    cursor: pointer;
-    color: var(--DatePicker-iconColor);
-    display: inline-flex;
-    align-items: center;
+    @include input-clear();
+    line-height: 1;
 
-    &:hover {
-      color: var(--DatePicker-onHover-iconColor);
+    svg {
+      polyline,
+      circle {
+        stroke: var(--DatePicker-iconColor);
+      }
+    }
+
+    &:hover svg {
+      polyline,
+      circle {
+        stroke: var(--DatePicker-onHover-iconColor);
+      }
     }
   }
 
   &-clear {
-    display: inline-block;
     @include input-clear();
     line-height: 1;
     margin-right: var(--gap-xs);

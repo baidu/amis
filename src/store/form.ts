@@ -258,11 +258,20 @@ export const FormStore = ServiceStore.named('FormStore')
       self.restError.replace(errors);
     }
 
-    function addRestError(msg: string | Array<string>) {
-      const msgs: Array<string> = Array.isArray(msg) ? msg : [msg];
-      msgs.forEach(msg => {
+    function addRestError(msg: string, name?: string | Array<string>) {
+      const names = name
+        ? Array.isArray(name)
+          ? name.concat()
+          : [name]
+        : null;
+
+      if (Array.isArray(names)) {
+        const errors: any = {};
+        names.forEach(name => (errors[name] = msg));
+        setFormItemErrors(errors, 'rules');
+      } else {
         self.restError.push(msg);
-      });
+      }
     }
 
     function clearRestError() {
@@ -319,7 +328,7 @@ export const FormStore = ServiceStore.named('FormStore')
         if (!json.ok) {
           // 验证错误
           if (json.status === 422 && json.errors) {
-            handleRemoteError(json.errors);
+            setFormItemErrors(json.errors);
 
             self.updateMessage(
               json.msg ??
@@ -388,24 +397,27 @@ export const FormStore = ServiceStore.named('FormStore')
       }
     });
 
-    function handleRemoteError(errors: {[propName: string]: string}) {
+    function setFormItemErrors(
+      errors: {[propName: string]: string},
+      tag = 'remote'
+    ) {
       Object.keys(errors).forEach((key: string) => {
         const item = self.getItemById(key);
         const items = self.getItemsByName(key);
 
         if (item) {
-          item.setError(errors[key]);
+          item.setError(errors[key], tag);
           delete errors[key];
         } else if (items.length) {
           // 通过 name 直接找到的
-          items.forEach(item => item.setError(errors[key], 'remote'));
+          items.forEach(item => item.setError(errors[key], tag));
           delete errors[key];
         } else {
           // 尝试通过path寻找
           const items = getItemsByPath(key);
 
           if (Array.isArray(items) && items.length) {
-            items.forEach(item => item.setError(`${errors[key]}`));
+            items.forEach(item => item.setError(`${errors[key]}`, tag));
             delete errors[key];
           }
         }
@@ -462,15 +474,6 @@ export const FormStore = ServiceStore.named('FormStore')
         ) {
           let msg = failedMessage ?? self.__('Form.validateFailed');
           const env = getEnv(self);
-          // 同时也列出所有表单项报错，方便在很长的表单中知道是哪个字段的问题
-          // 支持在env中配hideValidateFailedDetail来隐藏所有表单项报错
-          failedMessage == null &&
-            !env.hideValidateFailedDetail &&
-            self.items.forEach(item => {
-              item.errorData.forEach(errorData => {
-                msg = `${msg}\n${errorData.msg}`;
-              });
-            });
 
           msg && env.notify('error', msg);
 
@@ -509,6 +512,9 @@ export const FormStore = ServiceStore.named('FormStore')
       const items = self.items.concat();
       for (let i = 0, len = items.length; i < len; i++) {
         let item = items[i] as IFormItemStore;
+
+        // 先清除组合校验的错误
+        item.clearError('rules');
 
         // 验证过，或者是 unique 的表单项，或者强制验证，或者有远端校验api
         if (
@@ -627,7 +633,7 @@ export const FormStore = ServiceStore.named('FormStore')
       setPersistData,
       clear,
       updateSavedData,
-      handleRemoteError,
+      setFormItemErrors,
       getItemsByPath,
       setRestError,
       addRestError,

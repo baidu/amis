@@ -43,9 +43,24 @@ export interface DrawerSchema extends BaseSchema {
   body?: SchemaCollection;
 
   /**
+   * 配置 外层 className
+   */
+  className?: SchemaClassName;
+
+  /**
    * 配置 Body 容器 className
    */
   bodyClassName?: SchemaClassName;
+
+  /**
+   * 配置 头部 容器 className
+   */
+  headerClassName?: SchemaClassName;
+
+  /**
+   * 配置 头部 容器 className
+   */
+  footerClassName?: SchemaClassName;
 
   /**
    * 是否支持按 ESC 关闭 Dialog
@@ -68,6 +83,22 @@ export interface DrawerSchema extends BaseSchema {
    * 从什么位置弹出
    */
   position?: 'left' | 'right' | 'top' | 'bottom';
+
+  /**
+   * 是否展示关闭按钮
+   * 当值为false时，默认开启closeOnOutside
+   */
+  showCloseButton?: boolean;
+
+  /**
+   * 抽屉的宽度 （当position为left | right时生效）
+   */
+  width?: number | string;
+
+  /**
+   * 抽屉的高度 （当position为top | bottom时生效）
+   */
+  height?: number | string;
 
   /**
    * 头部
@@ -138,12 +169,18 @@ export default class Drawer extends React.Component<DrawerProps> {
     'closeOnEsc',
     'closeOnOutside',
     'children',
+    'className',
     'bodyClassName',
+    'headerClassName',
+    'footerClassName',
     'confirm',
     'position',
     'onClose',
     'onConfirm',
     'show',
+    'showCloseButton',
+    'width',
+    'height',
     'resizable',
     'overlay',
     'body',
@@ -152,10 +189,14 @@ export default class Drawer extends React.Component<DrawerProps> {
   ];
   static defaultProps: Partial<DrawerProps> = {
     title: '',
+    className: '',
     bodyClassName: '',
+    headerClassName: '',
+    footerClassName: '',
     confirm: true,
     position: 'right',
     resizable: false,
+    showCloseButton: true,
     overlay: true,
     closeOnEsc: false,
     closeOnOutside: false,
@@ -417,10 +458,10 @@ export default class Drawer extends React.Component<DrawerProps> {
       return null;
     }
 
-    const {store, render, classnames: cx, showErrorMsg} = this.props;
+    const {store, render, classnames: cx, showErrorMsg, footerClassName} = this.props;
 
     return (
-      <div className={cx('Drawer-footer')}>
+      <div className={cx('Drawer-footer', footerClassName)}>
         {store.loading || store.error ? (
           <div className={cx('Drawer-info')}>
             <Spinner size="sm" key="info" show={store.loading} />
@@ -545,7 +586,11 @@ export default class Drawer extends React.Component<DrawerProps> {
       header,
       body,
       bodyClassName,
+      headerClassName,
       show,
+      showCloseButton,
+      width,
+      height,
       wrapperComponent,
       env,
       resizable,
@@ -569,13 +614,16 @@ export default class Drawer extends React.Component<DrawerProps> {
         onHide={this.handleSelfClose}
         disabled={store.loading}
         show={show}
+        showCloseButton={showCloseButton}
+        width={width}
+        height={height}
         position={position}
         overlay={overlay}
         onEntered={this.handleEntered}
         onExited={this.handleExited}
         closeOnEsc={closeOnEsc}
         closeOnOutside={
-          !store.drawerOpen && !store.dialogOpen && closeOnOutside
+          !store.drawerOpen && !store.dialogOpen && (closeOnOutside || !showCloseButton)
         }
         container={
           drawerContainer
@@ -585,7 +633,7 @@ export default class Drawer extends React.Component<DrawerProps> {
             : undefined
         }
       >
-        <div className={cx('Drawer-header')}>
+        <div className={cx('Drawer-header', headerClassName)}>
           {title ? (
             <div className={cx('Drawer-title')}>
               {render('title', title, {

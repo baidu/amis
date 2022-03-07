@@ -813,6 +813,12 @@ Content-Disposition: attachment; filename="download.pdf"
 
 如果只有 `Content-Type`，比如 Excel 的 `application/vnd.openxmlformats-officedocument.spreadsheetml.sheet`，则应该使用[页面跳转](../../components/action#直接跳转)的方式来实现下载。
 
+如果是跨域请求，还需要配置
+
+```
+Access-Control-Expose-Headers: Content-Disposition
+```
+
 ### replaceData
 
 返回的数据是否替换掉当前的数据，默认为 `false`（即追加），设置为`true`就是完全替换当前数据。

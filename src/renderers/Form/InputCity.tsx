@@ -4,7 +4,8 @@ import {ClassNamesFn, themeable, ThemeProps} from '../../theme';
 import Spinner from '../../components/Spinner';
 import Select from '../../components/Select';
 import CityArea from '../../components/CityArea';
-import {autobind, isMobile} from '../../utils/helper';
+import {autobind, isMobile, createObject} from '../../utils/helper';
+import {Action} from '../../types';
 import {Option} from './Options';
 import {localeable, LocaleProps} from '../../locale';
 
@@ -299,7 +300,16 @@ export class CityPicker extends React.Component<
     const {onChange, allowStreet, joinValues, extractValue, delimiter} =
       this.props;
 
-    const {code, province, city, district, street} = this.state;
+    const {
+      code,
+      province,
+      city,
+      district,
+      street,
+      provinceCode,
+      cityCode,
+      districtCode
+    } = this.state;
 
     if (typeof extractValue === 'undefined' ? joinValues : extractValue) {
       code
@@ -312,8 +322,11 @@ export class CityPicker extends React.Component<
     } else {
       onChange({
         code,
+        provinceCode,
         province,
+        cityCode,
         city,
+        districtCode,
         district,
         street
       });
@@ -420,10 +433,38 @@ export interface LocationControlProps extends FormControlProps {
   allowStreet?: boolean;
 }
 export class LocationControl extends React.Component<LocationControlProps> {
+
+  @autobind
+  doAction(action: Action, data: object, throwErrors: boolean) {
+    const {resetValue, onChange} = this.props;
+    const actionType = action?.actionType as string;
+
+    if (!!~['clear', 'reset'].indexOf(actionType)) {
+      onChange(resetValue ?? '');
+    }
+  }
+
+  @autobind
+  async handleChange(value: number | string) {
+    const {dispatchEvent, data, onChange} = this.props;
+
+    const rendererEvent = await dispatchEvent(
+      'change',
+      createObject(data, {
+        value
+      })
+    );
+
+    if (rendererEvent?.prevented) {
+      return;
+    }
+    
+    onChange(value);
+  }
+
   render() {
     const {
       value,
-      onChange,
       allowCity,
       allowDistrict,
       extractValue,
@@ -441,7 +482,7 @@ export class LocationControl extends React.Component<LocationControlProps> {
         popOverContainer={
           env && env.getModalContainer ? env.getModalContainer : undefined
         }
-        onChange={onChange}
+        onChange={this.handleChange}
         allowCity={allowCity}
         allowDistrict={allowDistrict}
         extractValue={extractValue}
@@ -454,7 +495,7 @@ export class LocationControl extends React.Component<LocationControlProps> {
       <ThemedCity
         searchable={searchable}
         value={value}
-        onChange={onChange}
+        onChange={this.handleChange}
         allowCity={allowCity}
         allowDistrict={allowDistrict}
         extractValue={extractValue}

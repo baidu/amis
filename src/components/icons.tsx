@@ -6,6 +6,7 @@
 import React from 'react';
 
 import CloseIcon from '../icons/close.svg';
+import CloseSmallIcon from '../icons/close-small.svg';
 import StatusCloseIcon from '../icons/status-close.svg';
 import UnDoIcon from '../icons/undo.svg';
 import ReDoIcon from '../icons/redo.svg';
@@ -44,6 +45,9 @@ import ColmunsIcon from '../icons/columns.svg';
 import CalendarIcon from '../icons/calendar.svg';
 import ClockIcon from '../icons/clock.svg';
 import TreeDownIcon from '../icons/tree-down.svg';
+import CloudUploadIcon from '../icons/cloud-upload.svg';
+import ImageIcon from '../icons/image.svg';
+import RefreshIcon from '../icons/refresh.svg';
 
 import CopyIcon from '../icons/copy.svg';
 import FilterIcon from '../icons/filter.svg';
@@ -77,6 +81,9 @@ import AlertInfo from '../icons/alert-info.svg';
 import AlertWarning from '../icons/alert-warning.svg';
 import AlertDanger from '../icons/alert-danger.svg';
 import FunctionIcon from '../icons/function.svg';
+import InputClearIcon from '../icons/input-clear.svg';
+import SliderHandleIcon from '../icons/slider-handle-icon.svg';
+import TrashIcon from '../icons/trash.svg';
 
 // 兼容原来的用法，后续不直接试用。
 
@@ -107,6 +114,7 @@ export function registerIcon(key: string, component: React.ReactType<{}>) {
 }
 
 registerIcon('close', CloseIcon);
+registerIcon('close-small', CloseSmallIcon);
 registerIcon('status-close', StatusCloseIcon);
 registerIcon('undo', UnDoIcon);
 registerIcon('redo', ReDoIcon);
@@ -180,6 +188,12 @@ registerIcon('alert-warning', AlertWarning);
 registerIcon('alert-danger', AlertDanger);
 registerIcon('tree-down', TreeDownIcon);
 registerIcon('function', FunctionIcon);
+registerIcon('input-clear', InputClearIcon);
+registerIcon('slider-handle', SliderHandleIcon);
+registerIcon('cloud-upload', CloudUploadIcon);
+registerIcon('image', ImageIcon);
+registerIcon('refresh', RefreshIcon);
+registerIcon('trash', TrashIcon);
 
 export function Icon({
   icon,
@@ -202,6 +216,7 @@ export function Icon({
 }
 
 export {
+  InputClearIcon,
   CloseIcon,
   UnDoIcon,
   ReDoIcon,

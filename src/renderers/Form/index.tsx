@@ -19,7 +19,8 @@ import {
   isEmpty,
   getVariable,
   isObjectShallowModified,
-  qsparse
+  qsparse,
+  repeatCount
 } from '../../utils/helper';
 import debouce from 'lodash/debounce';
 import flatten from 'lodash/flatten';
@@ -290,6 +291,9 @@ export interface FormSchema extends BaseSchema {
   rules?: Array<{
     rule: string;
     message: string;
+
+    // 高亮表单项
+    name?: string | Array<string>;
   }>;
 
   /**
@@ -334,6 +338,7 @@ export interface FormProps
   rules: Array<{
     rule: string;
     message: string;
+    name?: string | Array<string>;
   }>;
   lazyChange?: boolean; // 表单项的
   formLazyChange?: boolean; // 表单的
@@ -525,7 +530,7 @@ export default class Form extends React.Component<FormProps, object> {
         rules.forEach(
           item =>
             !evalExpression(item.rule, store.data) &&
-            store.addRestError(item.message)
+            store.addRestError(item.message, item.name)
         );
       });
     }
@@ -1405,7 +1410,7 @@ export default class Form extends React.Component<FormProps, object> {
       formHorizontal: horizontal,
       controlWidth,
       disabled: disabled || (control as Schema).disabled || form.loading,
-      btnDisabled: form.loading || form.validating,
+      btnDisabled: disabled || form.loading || form.validating,
       onAction: this.handleAction,
       onQuery: this.handleQuery,
       onChange: this.handleChange,
@@ -1454,6 +1459,18 @@ export default class Form extends React.Component<FormProps, object> {
       this.props.wrapperComponent ||
       (/(?:\/|^)form\//.test($path as string) ? 'div' : 'form');
 
+    const padDom = repeatCount(
+      columnCount && Array.isArray(body)
+        ? columnCount - (body.length % columnCount)
+        : 0,
+      index => (
+        <div
+          className={cx(`Form-item Form-item--${mode} is-placeholder`)}
+          key={index}
+        ></div>
+      )
+    );
+
     return (
       <WrapperComponent
         className={cx(
@@ -1479,6 +1496,8 @@ export default class Form extends React.Component<FormProps, object> {
         {this.renderFormItems({
           body
         })}
+
+        {padDom}
 
         {/* 显示没有映射上的 errors */}
         {restError && restError.length ? (

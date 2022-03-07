@@ -9,8 +9,8 @@ import {
 import Select, {normalizeOptions} from '../../components/Select';
 import find from 'lodash/find';
 import debouce from 'lodash/debounce';
-import {Api} from '../../types';
-import {isEffectiveApi} from '../../utils/api';
+import {Api, Action} from '../../types';
+import {isEffectiveApi, isApiOutdated} from '../../utils/api';
 import {isEmpty, createObject, autobind, isMobile} from '../../utils/helper';
 import {dataMapping} from '../../utils/tpl-builtin';
 import {SchemaApi} from '../../Schema';
@@ -94,6 +94,13 @@ export interface SelectProps extends OptionsControlProps {
   useMobileUI?: boolean;
 }
 
+export type SelectRendererEvent =
+  | 'change'
+  | 'blur'
+  | 'focus'
+  | 'add'
+  | 'edit'
+  | 'delete';
 export default class SelectControl extends React.Component<SelectProps, any> {
   static defaultProps: Partial<SelectProps> = {
     clearable: false,
@@ -104,6 +111,7 @@ export default class SelectControl extends React.Component<SelectProps, any> {
   input: any;
   unHook: Function;
   lazyloadRemote: Function;
+  lastTerm: string = ''; // 用来记录上一次搜索时关键字
   constructor(props: SelectProps) {
     super(props);
 
@@ -113,6 +121,22 @@ export default class SelectControl extends React.Component<SelectProps, any> {
       leading: false
     });
     this.inputRef = this.inputRef.bind(this);
+  }
+
+  componentDidUpdate(prevProps: SelectProps) {
+    const props = this.props;
+
+    if (
+      isEffectiveApi(props.autoComplete, props.data) &&
+      isApiOutdated(
+        prevProps.autoComplete,
+        props.autoComplete,
+        prevProps.data,
+        props.data
+      )
+    ) {
+      this.lazyloadRemote(this.lastTerm);
+    }
   }
 
   componentWillUnmount() {
@@ -127,7 +151,24 @@ export default class SelectControl extends React.Component<SelectProps, any> {
     this.input && this.input.focus();
   }
 
-  changeValue(value: Option | Array<Option> | void) {
+  async dispatchEvent(eventName: SelectRendererEvent, eventData: any = {}) {
+    const event = 'on' + eventName.charAt(0).toUpperCase() + eventName.slice(1);
+    const {dispatchEvent, options, data} = this.props;
+    // 触发渲染器事件
+    const rendererEvent = await dispatchEvent(
+      eventName,
+      createObject(data, {
+        options,
+        ...eventData
+      })
+    );
+    if (rendererEvent?.prevented) {
+      return;
+    }
+    this.props[event](eventData);
+  }
+
+  async changeValue(value: Option | Array<Option> | string | void) {
     const {
       joinValues,
       extractValue,
@@ -137,7 +178,9 @@ export default class SelectControl extends React.Component<SelectProps, any> {
       valueField,
       onChange,
       setOptions,
-      options
+      options,
+      data,
+      dispatchEvent
     } = this.props;
 
     let newValue: string | Option | Array<Option> | void = value;
@@ -172,7 +215,7 @@ export default class SelectControl extends React.Component<SelectProps, any> {
           ? value.map(item => item[valueField || 'value'])
           : value
           ? [(value as Option)[valueField || 'value']]
-          : [''];
+          : [];
       } else {
         newValue = newValue ? (newValue as Option)[valueField || 'value'] : '';
       }
@@ -180,6 +223,17 @@ export default class SelectControl extends React.Component<SelectProps, any> {
 
     // 不设置没法回显
     additonalOptions.length && setOptions(options.concat(additonalOptions));
+
+    const rendererEvent = await dispatchEvent(
+      'change',
+      createObject(data, {
+        value: newValue,
+        options,
+      })
+    );
+    if (rendererEvent?.prevented) {
+      return;
+    }
 
     onChange(newValue);
   }
@@ -204,6 +258,7 @@ export default class SelectControl extends React.Component<SelectProps, any> {
       return (this.unHook = addHook(this.loadRemote.bind(this, input), 'init'));
     }
 
+    this.lastTerm = input;
     const ctx = createObject(data, {
       term: input,
       value: input
@@ -280,6 +335,15 @@ export default class SelectControl extends React.Component<SelectProps, any> {
     );
   }
 
+  doAction(action: Action, data: object, throwErrors: boolean): any {
+    const {resetValue} = this.props;
+    const actionType = action?.actionType as string;
+
+    if (!!~['clear', 'reset'].indexOf(actionType)) {
+      this.changeValue(resetValue ?? '');
+    }
+  }
+
   render() {
     let {
       autoComplete,
@@ -326,6 +390,8 @@ export default class SelectControl extends React.Component<SelectProps, any> {
             popOverContainer={
               mobileUI && env && env.getModalContainer
                 ? env.getModalContainer
+                : mobileUI
+                ? undefined
                 : rest.popOverContainer
             }
             borderMode={borderMode}
@@ -340,6 +406,11 @@ export default class SelectControl extends React.Component<SelectProps, any> {
             creatable={creatable}
             searchable={searchable || !!autoComplete}
             onChange={this.changeValue}
+            onBlur={(e: any) => this.dispatchEvent('blur', e)}
+            onFocus={(e: any) => this.dispatchEvent('focus', e)}
+            onAdd={() => this.dispatchEvent('add')}
+            onEdit={(item: any) => this.dispatchEvent('edit', item)}
+            onDelete={(item: any) => this.dispatchEvent('delete', item)}
             loading={loading}
             noResultsText={noResultsText}
             renderMenu={menuTpl ? this.renderMenu : undefined}
@@ -377,13 +448,15 @@ class TransferDropdownRenderer extends BaseTransferRenderer<TransferDropDownProp
       showArrow,
       deferLoad,
       disabled,
+      clearable,
       selectTitle,
       selectMode,
       multiple,
       columns,
       leftMode,
       borderMode,
-      useMobileUI
+      useMobileUI,
+      popOverContainer
     } = this.props;
 
     // 目前 LeftOptions 没有接口可以动态加载
@@ -409,6 +482,7 @@ class TransferDropdownRenderer extends BaseTransferRenderer<TransferDropDownProp
           className={className}
           value={selectedOptions}
           disabled={disabled}
+          clearable={clearable}
           options={options}
           onChange={this.handleChange}
           option2value={this.option2value}
@@ -424,6 +498,7 @@ class TransferDropdownRenderer extends BaseTransferRenderer<TransferDropDownProp
           leftOptions={leftOptions}
           borderMode={borderMode}
           useMobileUI={useMobileUI}
+          popOverContainer={popOverContainer}
         />
 
         <Spinner overlay key="info" show={loading} />

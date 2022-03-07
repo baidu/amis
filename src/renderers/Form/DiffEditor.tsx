@@ -8,6 +8,10 @@ import {
 } from '../../utils/tpl-builtin';
 import {SchemaTokenizeableString} from '../../Schema';
 import {autobind} from '../../utils/helper';
+import {bindRendererEvent} from '../../actions/Decorators';
+
+import type {Position} from 'monaco-editor';
+import type {ListenerAction} from '../../actions/Action';
 
 /**
  * Diff 编辑器
@@ -34,6 +38,8 @@ export interface DiffControlSchema extends FormBaseControl {
    */
   options?: any;
 }
+
+export type DiffEditorRendererEvent = 'blur' | 'focus';
 
 function loadComponent(): Promise<any> {
   return import('../../components/Editor').then(item => item.default);
@@ -106,12 +112,31 @@ export class DiffEditor extends React.Component<DiffEditorProps, any> {
     this.toDispose.forEach(fn => fn());
   }
 
+  doAction(action: ListenerAction, args: any) {
+    const actionType = action?.actionType as string;
+
+    if (actionType === 'focus') {
+      this.focus();
+    }
+  }
+
+  focus() {
+    this.editor.focus();
+    this.setState({focused: true});
+
+    // 最近一次光标位置
+    const position: Position | null = this.editor?.getPosition();
+    this.editor?.setPosition(position);
+  }
+
+  @bindRendererEvent<DiffEditorProps, DiffEditorRendererEvent>('focus')
   handleFocus() {
     this.setState({
       focused: true
     });
   }
 
+  @bindRendererEvent<DiffEditorProps, DiffEditorRendererEvent>('blur')
   handleBlur() {
     this.setState({
       focused: false

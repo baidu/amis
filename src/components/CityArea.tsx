@@ -145,8 +145,11 @@ const CityArea = memo<AreaProps>(props => {
     } else {
       onChange({
         code,
+        provinceCode: province,
         province: db[province],
+        cityCode: city,
         city: db[city],
+        districtCode: district,
         district: db[district],
         street
       });
