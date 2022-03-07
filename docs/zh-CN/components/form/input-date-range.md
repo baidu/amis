@@ -24,6 +24,25 @@ order: 15
 }
 ```
 
+## 快捷键
+
+`ranges`属性支持自定义快捷选择日期范围快捷键
+
+```schema: scope="body"
+{
+    "type": "form",
+    "api": "/api/mock2/form/saveForm",
+    "body": [
+        {
+            "type": "input-date-range",
+            "name": "select",
+            "label": "日期范围",
+            "ranges": "yesterday,1dayago,7daysago"
+        }
+    ]
+}
+```
+
 ## 内嵌模式
 
 ```schema: scope="body"

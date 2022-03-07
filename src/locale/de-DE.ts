@@ -75,6 +75,7 @@ register('de-DE', {
   'Date.weekslater': '{{weeks}} Wochen später',
   'Date.yesterday': 'Gestern',
   'dateformat.year': 'YYYY',
+  'DateRange.1dayago': 'Vor 1 Tag',
   'DateRange.1daysago': 'Vor 1 Tag',
   'DateRange.7daysago': 'Vor 7 Tagen',
   'DateRange.30daysago': 'Vor 30 Tagen',
