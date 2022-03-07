@@ -366,7 +366,11 @@ export class DatePicker extends React.Component<DateProps, DatePickerState> {
 
     if (prevProps.value !== props.value) {
       this.setState({
-        value: normalizeValue(props.value, props.format)
+        value: normalizeValue(props.value, props.format),
+        inputValue:
+          normalizeValue(this.props.value, this.props.format)?.format(
+            this.props.inputFormat
+          ) || ''
       });
     }
   }
@@ -724,7 +728,7 @@ export class DatePicker extends React.Component<DateProps, DatePickerState> {
           `DatePicker`,
           {
             'is-disabled': disabled,
-            'is-focused': this.state.isFocused,
+            'is-focused': !disabled && this.state.isFocused,
             [`DatePicker--border${ucFirst(borderMode)}`]: borderMode,
             'is-mobile': useMobileUI && isMobile()
           },
@@ -734,11 +738,13 @@ export class DatePicker extends React.Component<DateProps, DatePickerState> {
         onClick={this.handleClick}
       >
         <Input
+          className={cx('DatePicker-input')}
           onChange={this.inputChange}
           ref={this.inputRef}
           placeholder={__(placeholder)}
           autoComplete="off"
           value={this.state.inputValue}
+          disabled={disabled}
         />
 
         {clearable && !disabled && normalizeValue(value, format) ? (
