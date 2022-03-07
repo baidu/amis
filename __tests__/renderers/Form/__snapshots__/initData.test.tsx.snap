@@ -521,4 +521,4 @@ exports[`Form:initData:without-super 1`] = `
 </div>
 `;
 
-exports[`Form:initData:without-super 3`] = `Object {}`;
+exports[`Form:initData:without-super 2`] = `Object {}`;

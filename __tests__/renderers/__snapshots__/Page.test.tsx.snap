@@ -324,68 +324,6 @@ exports[`Renderer:Page handleAction actionType=ajax & feedback 2`] = `
       </div>
     </div>
   </div>
-  <div
-    class="amis-dialog-widget cxd-Modal cxd-Modal--1th"
-    role="dialog"
-  >
-    <div
-      class="cxd-Modal-overlay out"
-    />
-    <div
-      class="cxd-Modal-content out"
-    >
-      <div
-        class="cxd-Modal-header"
-      >
-        <a
-          class="cxd-Modal-close"
-          data-position="left"
-          data-tooltip="关闭"
-        >
-          <icon-mock
-            classname="icon icon-close"
-            icon="close"
-          />
-        </a>
-        <div
-          class="cxd-Modal-title"
-        >
-          弹框
-        </div>
-      </div>
-      <div
-        class="cxd-Modal-body"
-      >
-        <span
-          class="cxd-TplField"
-        >
-          <span>
-            this is feedback
-          </span>
-        </span>
-      </div>
-      <div
-        class="cxd-Modal-footer"
-      >
-        <button
-          class="cxd-Button cxd-Button--default"
-          type="button"
-        >
-          <span>
-            取消
-          </span>
-        </button>
-        <button
-          class="cxd-Button cxd-Button--primary"
-          type="button"
-        >
-          <span>
-            确认
-          </span>
-        </button>
-      </div>
-    </div>
-  </div>
 </div>
 `;
 
@@ -1007,6 +945,91 @@ exports[`Renderer:Page handleAction actionType=drawer mergeData 1`] = `
       <div
         class="cxd-Drawer-body"
       >
+        <div
+          class="cxd-Spinner-overlay in"
+        />
+        <div
+          class="cxd-Spinner in cxd-Spinner--overlay cxd-Spinner--lg"
+        />
+      </div>
+      <div
+        class="cxd-Drawer-footer"
+      >
+        <button
+          class="cxd-Button cxd-Button--default"
+          type="submit"
+        >
+          <span>
+            确认
+          </span>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Renderer:Page handleAction actionType=drawer mergeData 2`] = `
+<div>
+  <div
+    class="cxd-Page"
+  >
+    <div
+      class="cxd-Page-content"
+    >
+      <div
+        class="cxd-Page-main"
+      >
+        <div
+          class="cxd-Page-toolbar"
+        >
+          <button
+            class="cxd-Button cxd-Button--default"
+            type="button"
+          >
+            <span>
+              OpenDrawer
+            </span>
+          </button>
+        </div>
+        <div
+          class="cxd-Page-body"
+        >
+          <span
+            class="cxd-TplField"
+          >
+            <span>
+              The variable a is 
+            </span>
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div
+    class="amis-dialog-widget cxd-Drawer cxd-Drawer--right cxd-Drawer--md cxd-Modal--1th"
+    role="dialog"
+  >
+    <div
+      class="cxd-Drawer-overlay in"
+    />
+    <div
+      class="cxd-Drawer-content in"
+    >
+      <a
+        class="cxd-Drawer-close"
+      >
+        <icon-mock
+          classname="icon icon-close"
+          icon="close"
+        />
+      </a>
+      <div
+        class="cxd-Drawer-header"
+      />
+      <div
+        class="cxd-Drawer-body"
+      >
         <form
           class="cxd-Form cxd-Form--horizontal"
           novalidate=""
@@ -1066,46 +1089,6 @@ exports[`Renderer:Page handleAction actionType=drawer mergeData 1`] = `
             确认
           </span>
         </button>
-      </div>
-    </div>
-  </div>
-</div>
-`;
-
-exports[`Renderer:Page handleAction actionType=drawer mergeData 2`] = `
-<div>
-  <div
-    class="cxd-Page"
-  >
-    <div
-      class="cxd-Page-content"
-    >
-      <div
-        class="cxd-Page-main"
-      >
-        <div
-          class="cxd-Page-toolbar"
-        >
-          <button
-            class="cxd-Button cxd-Button--default"
-            type="button"
-          >
-            <span>
-              OpenDrawer
-            </span>
-          </button>
-        </div>
-        <div
-          class="cxd-Page-body"
-        >
-          <span
-            class="cxd-TplField"
-          >
-            <span>
-              The variable a is 3
-            </span>
-          </span>
-        </div>
       </div>
     </div>
   </div>
@@ -1772,217 +1755,25 @@ exports[`Renderer:Page initApi reload by Drawer action 3`] = `
         <div
           class="cxd-Page-body"
         >
+          <div
+            class="cxd-Spinner-overlay"
+          />
+          <div
+            class="cxd-Spinner cxd-Spinner--overlay cxd-Spinner--lg"
+          />
           <span
             class="cxd-TplField"
           >
             <span>
-              The variable value is 1
+              The variable value is 2
             </span>
           </span>
         </div>
-      </div>
-    </div>
-  </div>
-  <div
-    class="amis-dialog-widget cxd-Drawer cxd-Drawer--right cxd-Drawer--md cxd-Modal--1th"
-    role="dialog"
-  >
-    <div
-      class="cxd-Drawer-overlay"
-    />
-    <div
-      class="cxd-Drawer-content"
-    >
-      <div
-        class="cxd-Drawer-header"
-      />
-      <div
-        class="cxd-Drawer-body"
-      >
-        <form
-          class="cxd-Form cxd-Form--horizontal"
-          novalidate=""
-        >
-          <input
-            style="display: none;"
-            type="submit"
-          />
-          <div
-            class="cxd-Form-item cxd-Form-item--horizontal"
-            data-role="form-item"
-          >
-            <label
-              class="cxd-Form-label cxd-Form-itemColumn--normal"
-            >
-              <span />
-            </label>
-            <div
-              class="cxd-Form-value"
-            >
-              <div
-                class="cxd-Form-control cxd-TextControl"
-              >
-                <div
-                  class="cxd-TextControl-input"
-                >
-                  <input
-                    autocomplete="off"
-                    name="a"
-                    placeholder=""
-                    size="10"
-                    type="text"
-                    value="1"
-                  />
-                </div>
-              </div>
-            </div>
-          </div>
-        </form>
-      </div>
-      <div
-        class="cxd-Drawer-footer"
-      >
-        <button
-          class="cxd-Button cxd-Button--default"
-          type="button"
-        >
-          <span>
-            取消
-          </span>
-        </button>
-        <button
-          class="cxd-Button cxd-Button--primary"
-          type="button"
-        >
-          <span>
-            确认
-          </span>
-        </button>
       </div>
     </div>
   </div>
 </div>
 `;
-
-exports[`Renderer:Page initApi reload by Drawer action 4`] = `
-<div>
-  <div
-    class="cxd-Page"
-  >
-    <div
-      class="cxd-Page-content"
-    >
-      <div
-        class="cxd-Page-main"
-      >
-        <div
-          class="cxd-Page-toolbar"
-        >
-          <button
-            class="cxd-Button cxd-Button--default"
-            type="button"
-          >
-            <span>
-              OpenDialog
-            </span>
-          </button>
-        </div>
-        <div
-          class="cxd-Page-body"
-        >
-          <span
-            class="cxd-TplField"
-          >
-            <span>
-              The variable value is 1
-            </span>
-          </span>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div
-    class="amis-dialog-widget cxd-Drawer cxd-Drawer--right cxd-Drawer--md cxd-Modal--1th"
-    role="dialog"
-  >
-    <div
-      class="cxd-Drawer-overlay"
-    />
-    <div
-      class="cxd-Drawer-content"
-    >
-      <div
-        class="cxd-Drawer-header"
-      />
-      <div
-        class="cxd-Drawer-body"
-      >
-        <form
-          class="cxd-Form cxd-Form--horizontal"
-          novalidate=""
-        >
-          <input
-            style="display: none;"
-            type="submit"
-          />
-          <div
-            class="cxd-Form-item cxd-Form-item--horizontal"
-            data-role="form-item"
-          >
-            <label
-              class="cxd-Form-label cxd-Form-itemColumn--normal"
-            >
-              <span />
-            </label>
-            <div
-              class="cxd-Form-value"
-            >
-              <div
-                class="cxd-Form-control cxd-TextControl"
-              >
-                <div
-                  class="cxd-TextControl-input"
-                >
-                  <input
-                    autocomplete="off"
-                    name="a"
-                    placeholder=""
-                    size="10"
-                    type="text"
-                    value="1"
-                  />
-                </div>
-              </div>
-            </div>
-          </div>
-        </form>
-      </div>
-      <div
-        class="cxd-Drawer-footer"
-      >
-        <button
-          class="cxd-Button cxd-Button--default"
-          type="button"
-        >
-          <span>
-            取消
-          </span>
-        </button>
-        <button
-          class="cxd-Button cxd-Button--primary"
-          type="button"
-        >
-          <span>
-            确认
-          </span>
-        </button>
-      </div>
-    </div>
-  </div>
-</div>
-`;
-
-exports[`Renderer:Page initApi reload by Drawer action 5`] = `<div />`;
 
 exports[`Renderer:Page initApi reload by Form submit 1`] = `
 <div>
@@ -2371,33 +2162,6 @@ exports[`Renderer:Page initApi reload by action 2`] = `
 `;
 
 exports[`Renderer:Page initApi sendOn -> true 1`] = `
-<div
-  className="cxd-Page"
-  onClick={[Function]}
->
-  <div
-    className="cxd-Page-content"
-  >
-    <div
-      className="cxd-Page-main"
-    >
-      <div
-        className="cxd-Page-body"
-      >
-        <span
-          className="cxd-TplField"
-        >
-          <span>
-            The variable value is 3
-          </span>
-        </span>
-      </div>
-    </div>
-  </div>
-</div>
-`;
-
-exports[`Renderer:Page initApi sendOn -> true 2`] = `
 <div
   className="cxd-Page"
   onClick={[Function]}

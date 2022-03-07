@@ -1239,7 +1239,7 @@ export default class ComboControl extends React.Component<ComboProps> {
                     className={cx('Combo-delBtn')}
                     disabled={!store.removable}
                     tooltip={__('delete')}
-                    tooltipPlacement="bottom"
+                    tooltipPlacement="top"
                     onClick={this.removeItem.bind(this, index)}
                   >
                     {deleteIcon ? (

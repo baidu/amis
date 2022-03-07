@@ -142,10 +142,10 @@
 
     .#{$ns}Combo-delBtn {
       margin-left: var(--gap-xs);
-      display: flex;
-      white-space: nowrap;
-      align-items: flex-start;
-      padding-top: var(--Form-label-paddingTop);
+      // display: flex;
+      // white-space: nowrap;
+      // align-items: flex-start;
+      // padding-top: var(--Form-label-paddingTop);
 
       &.is-disabled {
         pointer-events: none;

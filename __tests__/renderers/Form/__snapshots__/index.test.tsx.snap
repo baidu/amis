@@ -834,6 +834,12 @@ Object {
 `;
 
 exports[`Renderer:Form:remoteValidate 1`] = `
+Object {
+  "a": "123",
+}
+`;
+
+exports[`Renderer:Form:remoteValidate 2`] = `
 <div>
   <div
     class="cxd-Panel cxd-Panel--default cxd-Panel--form"
