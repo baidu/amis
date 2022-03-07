@@ -149,6 +149,7 @@
     text-align: center;
 
     .#{$ns}Carousel-dot {
+      cursor: pointer;
       display: inline-block;
       height: var(--Carousel-dot-width);
       width: var(--Carousel-dot-height);
