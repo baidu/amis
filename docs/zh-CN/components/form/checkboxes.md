@@ -147,7 +147,7 @@ order: 9
 
 > 1.8.0 及以上版本
 
-`columnsCount` 还有一种数组形式，可以通过数组的方式手动控制每行显示的列数
+`columnsCount` 还有一种数组形式，可以手动控制每行显示的列数
 
 ```schema: scope="body"
 {
