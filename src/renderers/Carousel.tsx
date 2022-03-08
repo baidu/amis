@@ -280,7 +280,6 @@ export class Carousel extends React.Component<CarouselProps, CarouselState> {
 
   @autobind
   changeSlide(index: number) {
-    console.log('index', index);
     this.setState({
       current: index
     });
