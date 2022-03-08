@@ -147,7 +147,7 @@ order: 9
 
 > 1.8.0 及以上版本
 
-`columnsCount` 支持数组格式，用于手动控制每行显示几个
+`columnsCount` 还有一种数组形式，可以通过数组的方式手动控制每行显示的列数
 
 ```schema: scope="body"
 {
@@ -158,7 +158,7 @@ order: 9
             "name": "checkboxes1",
             "type": "checkboxes",
             "label": "默认的复选框",
-            "columnsCount": [2, 3, 2],
+            "columnsCount": [1, 2, 3],
             "options": [
                 {
                     "label": "OptionA",
@@ -183,10 +183,6 @@ order: 9
                 {
                     "label": "OptionF",
                     "value": "f"
-                },
-                {
-                    "label": "OptionG",
-                    "value": "g"
                 }
             ]
         }

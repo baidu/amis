@@ -11,7 +11,7 @@ import Checkbox from '../../components/Checkbox';
 import {Icon} from '../../components/icons';
 import {Api} from '../../types';
 import {autobind, hasAbility} from '../../utils/helper';
-import {columnsCountSplit} from '../../utils/columnsCountSplit';
+import {columnsSplit} from '../../utils/columnsSplit';
 
 /**
  * 复选框
@@ -222,7 +222,7 @@ export default class CheckboxesControl extends React.Component<
       );
     }
 
-    body = columnsCountSplit(body, cx, columnsCount);
+    body = columnsSplit(body, cx, columnsCount);
 
     return (
       <div className={cx(`CheckboxesControl`, className)}>

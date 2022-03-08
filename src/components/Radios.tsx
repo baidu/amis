@@ -21,7 +21,7 @@ import Button from './Button';
 import {value2array, OptionProps, Option} from './Select';
 import chunk from 'lodash/chunk';
 import {ClassNamesFn, themeable} from '../theme';
-import {columnsCountSplit} from '../utils/columnsCountSplit';
+import {columnsSplit} from '../utils/columnsSplit';
 
 interface RadioProps extends OptionProps {
   id?: string;
@@ -180,7 +180,7 @@ export class Radios extends React.Component<RadioProps, any> {
     }
 
     if (!inline) {
-      body = columnsCountSplit(body, cx, columnsCount);
+      body = columnsSplit(body, cx, columnsCount);
     }
 
     return (
