@@ -26,6 +26,8 @@ order: 15
 
 ## 快捷键
 
+`ranges`属性支持自定义快捷选择日期范围快捷键
+
 ```schema: scope="body"
 {
     "type": "form",

@@ -92,6 +92,47 @@ export const availableRanges: {[propName: string]: any} = {
     }
   },
 
+  // 兼容一下错误的用法
+  '1daysago': {
+    label: 'DateRange.1daysago',
+    startDate: (now: moment.Moment) => {
+      return now.add(-1, 'days');
+    },
+    endDate: (now: moment.Moment) => {
+      return now;
+    }
+  },
+
+  '7daysago': {
+    label: 'DateRange.7daysago',
+    startDate: (now: moment.Moment) => {
+      return now.add(-7, 'days').startOf('day');
+    },
+    endDate: (now: moment.Moment) => {
+      return now.add(-1, 'days').endOf('day');
+    }
+  },
+
+  '30daysago': {
+    label: 'DateRange.30daysago',
+    startDate: (now: moment.Moment) => {
+      return now.add(-30, 'days').startOf('day');
+    },
+    endDate: (now: moment.Moment) => {
+      return now.add(-1, 'days').endOf('day');
+    }
+  },
+
+  '90daysago': {
+    label: 'DateRange.90daysago',
+    startDate: (now: moment.Moment) => {
+      return now.add(-90, 'days').startOf('day');
+    },
+    endDate: (now: moment.Moment) => {
+      return now.add(-1, 'days').endOf('day');
+    }
+  },
+
   'prevweek': {
     label: 'DateRange.lastWeek',
     startDate: (now: moment.Moment) => {

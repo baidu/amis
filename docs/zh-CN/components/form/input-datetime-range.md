@@ -43,6 +43,25 @@ order: 16
 }
 ```
 
+## 快捷键
+
+`ranges`属性支持自定义日期时间范围快捷键
+
+```schema: scope="body"
+{
+    "type": "form",
+    "api": "/api/mock2/form/saveForm",
+    "body": [
+        {
+            "type": "input-datetime-range",
+            "name": "select",
+            "label": "日期范围",
+            "ranges": "today,yesterday,1dayago,7daysago"
+        }
+    ]
+}
+```
+
 ## 属性表
 
 除了支持 [普通表单项属性表](./formitem#%E5%B1%9E%E6%80%A7%E8%A1%A8) 中的配置以外，还支持下面一些配置
