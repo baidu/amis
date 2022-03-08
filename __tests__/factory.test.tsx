@@ -83,7 +83,7 @@ test('factory load Renderer on need', async () => {
         session: 'loadRenderer',
         loadRenderer: schema => {
           interface MyProps extends RendererProps {
-            a: number;
+            a?: number;
           }
 
           class MyComponent extends React.Component<MyProps> {
@@ -106,7 +106,7 @@ test('factory load Renderer on need', async () => {
 
 test('factory:registerRenderer', () => {
   interface MyProps extends RendererProps {
-    a: number;
+    a?: number;
   }
 
   class MyComponent extends React.Component<MyProps> {
