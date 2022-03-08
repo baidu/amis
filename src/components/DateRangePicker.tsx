@@ -92,6 +92,17 @@ export const availableRanges: {[propName: string]: any} = {
     }
   },
 
+  // 兼容一下错误的用法
+  '1daysago': {
+    label: 'DateRange.1daysago',
+    startDate: (now: moment.Moment) => {
+      return now.add(-1, 'days');
+    },
+    endDate: (now: moment.Moment) => {
+      return now;
+    }
+  },
+
   '7daysago': {
     label: 'DateRange.7daysago',
     startDate: (now: moment.Moment) => {

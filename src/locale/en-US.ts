@@ -72,6 +72,7 @@ register('en-US', {
   'Date.weekslater': '{{weeks}} week(s) later',
   'Date.yesterday': 'Yesterday',
   'dateformat.year': 'YYYY',
+  'DateRange.1dayago': '1 day ago',
   'DateRange.1daysago': '1 day ago',
   'DateRange.7daysago': '7 days ago',
   'DateRange.30daysago': '30 days ago',

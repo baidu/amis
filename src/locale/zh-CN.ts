@@ -76,6 +76,7 @@ register('zh-CN', {
   'Date.yesterday': '昨天',
   'dateformat.year': 'YYYY年',
   'DateRange.1daysago': '最近1天',
+  'DateRange.1dayago': '最近1天',
   'DateRange.7daysago': '最近7天',
   'DateRange.30daysago': '最近30天',
   'DateRange.90daysago': '最近90天',
