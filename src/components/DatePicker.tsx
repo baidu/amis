@@ -364,14 +364,25 @@ export class DatePicker extends React.Component<DateProps, DatePickerState> {
   componentDidUpdate(prevProps: DateProps) {
     const props = this.props;
 
-    if (prevProps.value !== props.value) {
-      this.setState({
-        value: normalizeValue(props.value, props.format),
-        inputValue:
+    const prevValue = prevProps.value;
+
+    if (prevValue !== props.value) {
+      const newState: any = {
+        value: normalizeValue(props.value, props.format)
+      };
+      // 相对值和公式是 didUpdate 的时候才更新
+      if (
+        typeof prevValue === 'string' &&
+        (prevValue.startsWith('+') ||
+          prevValue.startsWith('-') ||
+          prevValue.startsWith('$'))
+      ) {
+        newState.inputValue =
           normalizeValue(this.props.value, this.props.format)?.format(
             this.props.inputFormat
-          ) || ''
-      });
+          ) || '';
+      }
+      this.setState(newState);
     }
   }
 
