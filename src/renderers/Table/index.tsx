@@ -2310,9 +2310,18 @@ export default class Table extends React.Component<TableProps, object> {
             });
             worksheet.views = [{state: 'frozen', xSplit: 0, ySplit: 1}];
 
-            const filteredColumns = toolbar.columns
+            let exportColumns = toolbar.columns;
+            if (isPureVariable(exportColumns)) {
+              exportColumns = resolveVariableAndFilter(
+                exportColumns,
+                data,
+                '| raw'
+              );
+            }
+
+            const filteredColumns = exportColumns
               ? columns.filter(column => {
-                  const filterColumnsNames = toolbar.columns!;
+                  const filterColumnsNames = exportColumns!;
                   if (filterColumnsNames.indexOf(column.name) !== -1) {
                     return true;
                   }
