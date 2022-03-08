@@ -12,7 +12,7 @@ import React from 'react';
 import {uncontrollable} from 'uncontrollable';
 
 import Overlay from './Overlay';
-import type { ThemeProps } from '../theme'
+import type {ThemeProps} from '../theme';
 import {themeable} from '../theme';
 import {autobind, camel} from '../utils/helper';
 import type {
@@ -24,6 +24,7 @@ import type {
 import {stripNumber} from '../utils/tpl-builtin';
 import {findDOMNode} from 'react-dom';
 import {Icon} from './icons';
+import {isArray, isNumber} from 'lodash';
 
 type MarksType = {
   [index: number | string]: Record<
