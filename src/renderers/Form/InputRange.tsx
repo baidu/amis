@@ -271,7 +271,7 @@ export function formatValue(
       max: max === undefined || max > props.max ? props.max : max
     };
   }
-  return +value ?? props.min;
+  return +value < props.min ? props.min : Math.min(+value, props.max);
 }
 
 /**
@@ -457,21 +457,26 @@ export default class RangeControl extends React.PureComponent<
   }
 
   componentDidUpdate(prevProps: RangeProps) {
-    const {value} = prevProps;
+    const {value, min, max} = prevProps;
     const {
       value: nextPropsValue,
       multiple,
       delimiter,
-      min,
-      max,
+      min: nextPropsMin,
+      max: nextPropsMax,
       onChange
     } = this.props;
-    if (value !== nextPropsValue) {
+
+    if (
+      value !== nextPropsValue ||
+      min !== nextPropsMin ||
+      max !== nextPropsMax
+    ) {
       const value = formatValue(nextPropsValue, {
         multiple,
         delimiter,
-        min,
-        max
+        min: nextPropsMin,
+        max: nextPropsMax
       });
       this.setState({
         value: this.getValue(value)
@@ -583,12 +588,6 @@ export default class RangeControl extends React.PureComponent<
       marks,
       region
     } = props;
-
-    // 指定parts -> 重新计算步长
-    if (parts > 1) {
-      props.step = (props.max - props.min) / props.parts;
-      props.showSteps = true;
-    }
 
     // 处理自定义json配置
     let renderMarks:
