@@ -20,7 +20,7 @@ export class BarCode extends React.Component<BarCodeProps> {
 
   constructor(props: BarCodeProps) {
     super(props);
-    this.dom = React.createRef<SVGSVGElement>();
+    this.dom = React.createRef<HTMLImageElement>();
   }
 
   componentDidUpdate(prevProps: BarCodeProps) {
@@ -43,7 +43,7 @@ export class BarCode extends React.Component<BarCodeProps> {
   }
 
   render() {
-    return <svg ref={this.dom}></svg>;
+    return <img ref={this.dom} />;
   }
 }
 
