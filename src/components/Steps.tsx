@@ -69,8 +69,12 @@ export interface StepsSchema extends BaseSchema {
    * 展示模式
    */
   mode?: 'horizontal' | 'vertical';
-}
 
+  /**
+   * 标签放置位置
+   */
+   labelPlacement?: 'horizontal' | 'vertical';
+}
 export interface StepsProps extends ThemeProps {
   steps: StepSchema[];
   className: string;
@@ -81,6 +85,8 @@ export interface StepsProps extends ThemeProps {
         [propName: string]: StepStatus;
       };
   mode?: 'horizontal' | 'vertical';
+  labelPlacement?: 'horizontal' | 'vertical';
+  progressDot?: boolean;
   useMobileUI?: boolean;
 }
 
@@ -92,6 +98,8 @@ export function Steps(props: StepsProps) {
     current,
     status,
     mode = 'horizontal',
+    labelPlacement = 'horizontal',
+    progressDot = false,
     useMobileUI
   } = props;
   const FINISH_ICON = 'check';
@@ -129,48 +137,41 @@ export function Steps(props: StepsProps) {
 
   const mobileUI = useMobileUI && isMobile();
   return (
-    <ul
-      className={cx(
-        'Steps',
-        `Steps--${mode}`,
-        mobileUI ? 'Steps-mobile' : '',
-        className
-      )}
-    >
+    <ul className={cx( // 纵向步骤条暂时不支持labelPlacement属性
+      'Steps',
+      `Steps--Placement-${(progressDot || (labelPlacement === 'vertical' && mode != 'vertical')) ? 'vertical' : ''}`,
+      `Steps--${progressDot ? 'ProgressDot' : ''}`, 
+      `Steps--${mode}`,
+      mobileUI ? 'Steps-mobile' : '', className)}>
       {stepsRow.map((step, i) => {
         const {stepStatus, icon} = getStepStatus(step, i);
-
         return (
           <li
             key={i}
-            className={cx('StepsItem', `is-${stepStatus}`, step.className)}
+            className={cx('StepsItem', `is-${stepStatus}`, step.className, `StepsItem-${progressDot ? 'ProgressDot' : ''}`)}
           >
             <div className={cx('StepsItem-container')}>
-              <div
-                className={cx(
-                  'StepsItem-containerIcon',
-                  i < current && 'is-success'
-                )}
-              >
-                <span className={cx('StepsItem-icon')}>
-                  {icon ? <Icon icon={icon} className="icon" /> : i + 1}
-                </span>
-              </div>
+                <div className={cx('StepsItem-containerTail')}></div>
+                {progressDot ? <div className={cx('StepsItem-containerProgressDot')}></div>
+                  : <div className={cx('StepsItem-containerIcon', i < current && 'is-success')}>
+                      <span className={cx('StepsItem-icon')}>
+                          {icon ? <Icon icon={icon} className="icon" /> : i + 1}
+                      </span>
+                    </div>}
               <div className={cx('StepsItem-containerWrapper')}>
                 <div className={cx('StepsItem-body')}>
                   <div
                     className={cx(
                       'StepsItem-title',
+                      `StepsItem-${progressDot ? 'vertical-ProgressDot' : ''}`,
                       i < current && 'is-success'
                     )}
                   >
-                    <span>{step.title}</span>
-                    <span className={cx('StepsItem-subTitle')}>
-                      {step.subTitle}
-                    </span>
+                    <span className={cx('StepsItem-ellText')} title={String(step.title)}>{step.title}</span>
+                    <span className={cx('StepsItem-subTitle', 'StepsItem-ellText')} title={String(step.subTitle)}>{step.subTitle}</span>
                   </div>
-                  <div className={cx('StepsItem-description')}>
-                    {step.description}
+                  <div className={cx('StepsItem-description', 'StepsItem-ellText')} title={String(step.description)}>
+                    <span>{step.description}</span>
                   </div>
                 </div>
               </div>
