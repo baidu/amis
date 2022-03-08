@@ -75,23 +75,6 @@ export interface StepsSchema extends BaseSchema {
    */
    labelPlacement?: 'horizontal' | 'vertical';
 }
-
-
-export interface TooltipWrapperSchema extends BaseSchema {
-  /**
-   * 文字提示容器
-   */
-  type: 'tooltip-wrapper';
-   /**
-   * 文字提示标题
-   */
-    title?: string;
-
-    /**
-     * 文字提示
-     */
-    tooltip?: string;
-}
 export interface StepsProps extends ThemeProps {
   steps: StepSchema[];
   className: string;
@@ -121,6 +104,7 @@ export function Steps(props: StepsProps) {
   } = props;
   const FINISH_ICON = 'check';
   const ERROR_ICON = 'close';
+
   function getStepStatus(
     step: StepSchema,
     i: number

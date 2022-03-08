@@ -56,7 +56,7 @@
             }
           }
           .#{$ns}StepsItem-ellText {
-            max-width: 158px;
+            max-width: px2rem(158px);
             overflow: hidden;
             text-overflow: ellipsis;
             white-space: nowrap;
@@ -70,7 +70,7 @@
             max-width: px2rem(140px);
             white-space: nowrap;
             position: relative;
-            bottom: 10px;
+            bottom: px2rem(10px);
           }
         }
       }
@@ -150,7 +150,7 @@
             
           }
           &-vertical-ProgressDot {
-            right: 10px;
+            right: px2rem(10px);
           }
           &-body {
             text-align: left !important;
@@ -209,13 +209,13 @@
               >span {
                 display: block;
                 position: relative;
-                left: 10px;
+                left: px2rem(10px);
               }
               .#{$ns}StepsItem-subTitle {
                 word-break: break-all;
                 padding: 0 px2rem(10px);
                 position: relative;
-                left: 10px;
+                left: px2rem(10px);
               }
             }
             .#{$ns}StepsItem-title:after  {
