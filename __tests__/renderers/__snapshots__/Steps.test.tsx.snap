@@ -45,27 +45,27 @@ exports[`Renderer:steps 1`] = `
                     class="cxd-StepsItem-body"
                   >
                     <div
-                      class="cxd-StepsItem-title is-success"
+                      class="cxd-StepsItem-title cxd-StepsItem- is-success"
                     >
-                      <span>
+                      <span
+                        class="cxd-StepsItem-ellText"
+                        title="First"
+                      >
                         First
                       </span>
                       <span
-                        class="cxd-StepsItem-subTitle"
+                        class="cxd-StepsItem-subTitle cxd-StepsItem-ellText"
+                        title="this is subTitle"
                       >
-                        <span>
-                          this is subTitle
-                        </span>
+                        this is subTitle
                       </span>
                     </div>
                     <div
-                      class="cxd-StepsItem-description"
+                      class="cxd-StepsItem-description cxd-StepsItem-ellText"
+                      title="this is description"
                     >
-                      <span
-                        data-position="top"
-                        data-tooltip="this is description"
-                      >
-                        this is descriptio...
+                      <span>
+                        this is description
                       </span>
                     </div>
                   </div>
@@ -97,20 +97,25 @@ exports[`Renderer:steps 1`] = `
                     class="cxd-StepsItem-body"
                   >
                     <div
-                      class="cxd-StepsItem-title"
+                      class="cxd-StepsItem-title cxd-StepsItem-"
                     >
-                      <span>
+                      <span
+                        class="cxd-StepsItem-ellText"
+                        title="Second"
+                      >
                         Second
                       </span>
                       <span
-                        class="cxd-StepsItem-subTitle"
-                      >
-                        <span />
-                      </span>
+                        class="cxd-StepsItem-subTitle cxd-StepsItem-ellText"
+                        title="undefined"
+                      />
                     </div>
                     <div
-                      class="cxd-StepsItem-description"
-                    />
+                      class="cxd-StepsItem-description cxd-StepsItem-ellText"
+                      title="undefined"
+                    >
+                      <span />
+                    </div>
                   </div>
                 </div>
               </div>
@@ -140,20 +145,25 @@ exports[`Renderer:steps 1`] = `
                     class="cxd-StepsItem-body"
                   >
                     <div
-                      class="cxd-StepsItem-title"
+                      class="cxd-StepsItem-title cxd-StepsItem-"
                     >
-                      <span>
+                      <span
+                        class="cxd-StepsItem-ellText"
+                        title="Last"
+                      >
                         Last
                       </span>
                       <span
-                        class="cxd-StepsItem-subTitle"
-                      >
-                        <span />
-                      </span>
+                        class="cxd-StepsItem-subTitle cxd-StepsItem-ellText"
+                        title="undefined"
+                      />
                     </div>
                     <div
-                      class="cxd-StepsItem-description"
-                    />
+                      class="cxd-StepsItem-description cxd-StepsItem-ellText"
+                      title="undefined"
+                    >
+                      <span />
+                    </div>
                   </div>
                 </div>
               </div>
