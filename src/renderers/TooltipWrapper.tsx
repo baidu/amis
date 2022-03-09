@@ -6,7 +6,7 @@ import {escapeHtml} from '../utils/tpl-builtin';
 import {buildStyle} from '../utils/style';
 import {TooltipWrapper as TooltipWrapperComp} from '../components';
 
-import type {Trigger} from '../components/TooltipWrapper';
+import type {Trigger, TooltipObject} from '../components/TooltipWrapper';
 
 export interface TooltipWrapperSchema extends BaseSchema {
   /**
@@ -20,9 +20,9 @@ export interface TooltipWrapperSchema extends BaseSchema {
   title?: string;
 
   /**
-   * 文字提示
+   * 文字提示内容
    */
-  tooltip?: string;
+  content?: string;
 
   /**
    * 文字提示浮层出现位置，默认为top
@@ -30,14 +30,34 @@ export interface TooltipWrapperSchema extends BaseSchema {
   placement?: 'top' | 'right' | 'bottom' | 'left';
 
   /**
+   * 浮层位置相对偏移量
+   */
+  offset?: [number, number];
+
+  /**
+   * 是否展示浮层指向箭头
+   */
+  visibleArrow?: boolean;
+
+  /**
+   * 是否禁用提示
+   */
+  disabled?: boolean;
+
+  /**
    * 浮层触发方式，默认为hover
    */
   trigger?: Trigger | Array<Trigger>;
 
   /**
-   * 浮层隐藏延迟时间，单位ms，默认0
+   * 浮层延迟显示时间
    */
-  delay?: number;
+
+  mouseEnterDelay?: number;
+   /**
+    * 浮层延迟隐藏时间
+    */
+  mouseLeaveDelay?: number;
 
   /**
    * 是否点击非内容区域关闭提示，默认为true
@@ -60,9 +80,9 @@ export interface TooltipWrapperSchema extends BaseSchema {
   inline?: boolean;
 
   /**
-   * 浮层主题色，默认为light
+   * 主题样式， 默认为light
    */
-  tooltipTheme?: 'light' | 'dark';
+  themeColor?: 'light' | 'dark';
 
   /**
    * 内容区自定义样式
@@ -97,7 +117,7 @@ export interface TooltipWrapperProps extends RendererProps {
   /**
    * 文字提示
    */
-  tooltip?: string;
+  content?: string;
   /**
    * 文字提示位置
    */
@@ -105,12 +125,16 @@ export interface TooltipWrapperProps extends RendererProps {
   inline?: boolean;
   trigger: Trigger | Array<Trigger>;
   rootClose?: boolean;
-  delay?: number;
+  visibleArrow?: boolean;
+  offset?: [number, number];
+  disabled?: boolean;
+  mouseEnterDelay?: number;
+  mouseLeaveDelay?: number;
   container?: React.ReactNode;
   style?: React.CSSProperties;
   tooltipStyle?: React.CSSProperties;
   wrapperComponent?: string;
-  tooltipTheme?: 'light' | 'dark';
+  themeColor?: 'light' | 'dark';
 }
 
 interface TooltipWrapperState {}
@@ -124,18 +148,20 @@ export default class TooltipWrapper extends React.Component<
     | 'placement'
     | 'trigger'
     | 'rootClose'
-    | 'delay'
+    | 'mouseEnterDelay'
+    | 'mouseLeaveDelay'
     | 'inline'
     | 'wrap'
-    | 'tooltipTheme'
+    | 'themeColor'
   > = {
     placement: 'top',
     trigger: 'hover',
     rootClose: true,
-    delay: 0,
+    mouseEnterDelay: 0,
+    mouseLeaveDelay: 200,
     inline: false,
     wrap: false,
-    tooltipTheme: 'light'
+    themeColor: 'light'
   };
 
   constructor(props: TooltipWrapperProps) {
@@ -172,40 +198,49 @@ export default class TooltipWrapper extends React.Component<
 
   render() {
     const {
-      tooltipClassName,
       classPrefix: ns,
       classnames: cx,
+      tooltipClassName,
+      themeColor,
       container,
       placement,
       rootClose,
       tooltipStyle,
       title,
-      tooltip,
-      delay,
+      content,
+      mouseEnterDelay,
+      mouseLeaveDelay,
       trigger,
-      tooltipTheme,
+      offset,
+      visibleArrow,
+      disabled,
+      dom,
       data
     } = this.props;
 
-    const tooltipObj = {
+    const tooltipObj: TooltipObject= {
       title: escapeHtml(filter(title, data)),
-      content: escapeHtml(filter(tooltip, data))
+      content: escapeHtml(filter(content, data)),
+      style: buildStyle(tooltipStyle, data),
+      placement,
+      trigger,
+      rootClose,
+      container,
+      themeColor,
+      tooltipClassName,
+      mouseEnterDelay,
+      mouseLeaveDelay,
+      offset,
+      visibleArrow,
+      disabled,
+      dom
     };
 
     return (
       <TooltipWrapperComp
         classPrefix={ns}
         classnames={cx}
-        style={buildStyle(tooltipStyle, data)}
-        placement={placement}
         tooltip={tooltipObj}
-        trigger={trigger}
-        rootClose={rootClose}
-        delay={delay}
-        container={container}
-        tooltipClassName={cx(tooltipClassName, {
-          'Tooltip--dark': tooltipTheme === 'dark'
-        })}
       >
         {this.renderBody()}
       </TooltipWrapperComp>
