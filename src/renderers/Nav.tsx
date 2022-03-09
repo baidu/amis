@@ -523,7 +523,7 @@ const ConditionBuilderWithRemoteOptions = withRemoteConfig({
                     env &&
                     env.isCurrentUrl(filter(link.to as string, data))
                   )),
-            __id: link.id ?? link.__id ?? guid()
+            __id: link.__id ?? guid()
           };
 
           item.unfolded =

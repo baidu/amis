@@ -5,7 +5,7 @@ export default [
     platform: 'Win 95+',
     version: '4',
     grade: 'A',
-    id: 1
+    __id: 1
   },
   {
     engine: 'Trident',
@@ -13,7 +13,7 @@ export default [
     platform: 'Win 95+',
     version: '4',
     grade: 'B',
-    id: 2
+    __id: 2
   },
   {
     engine: 'Trident',
@@ -21,7 +21,7 @@ export default [
     platform: 'Win 95+',
     version: '4',
     grade: 'C',
-    id: 3
+    __id: 3
   },
   {
     engine: 'Trident',
@@ -29,7 +29,7 @@ export default [
     platform: 'Win 98',
     version: '3',
     grade: 'A',
-    id: 4
+    __id: 4
   },
   {
     engine: 'Trident',
@@ -37,7 +37,7 @@ export default [
     platform: 'Win 98',
     version: '4',
     grade: 'A',
-    id: 5
+    __id: 5
   },
   {
     engine: 'Gecko',
@@ -45,7 +45,7 @@ export default [
     platform: 'Win 98+ / OSX.2+',
     version: '4',
     grade: 'A',
-    id: 6
+    __id: 6
   },
   {
     engine: 'Gecko',
@@ -53,7 +53,7 @@ export default [
     platform: 'Win 98+ / OSX.2+',
     version: '5',
     grade: 'A',
-    id: 7
+    __id: 7
   },
   {
     engine: 'Gecko',
@@ -61,7 +61,7 @@ export default [
     platform: 'Win 98+ / OSX.2+',
     version: '5',
     grade: 'B',
-    id: 8
+    __id: 8
   },
   {
     engine: 'Gecko',
@@ -69,7 +69,7 @@ export default [
     platform: 'Win 98+ / OSX.2+',
     version: '5',
     grade: 'C',
-    id: 9
+    __id: 9
   },
   {
     engine: 'Gecko',
@@ -77,6 +77,6 @@ export default [
     platform: 'Win 98+ / OSX.2+',
     version: '5',
     grade: 'D',
-    id: 10
+    __id: 10
   }
 ];
