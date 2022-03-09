@@ -18,18 +18,23 @@ interface TooltipProps extends React.HTMLProps<HTMLDivElement> {
   style?: any;
   arrowProps?: any;
   placement?: string;
+  visibleArrow?: boolean;
+  themeColor?: string;
   [propName: string]: any;
 }
 
 export class Tooltip extends React.Component<TooltipProps> {
   static defaultProps = {
-    className: ''
+    className: '',
+    themeColor: 'light',
+    visibleArrow: true
   };
 
   render() {
     const {
       classPrefix: ns,
       className,
+      themeColor,
       title,
       children,
       arrowProps,
@@ -41,6 +46,7 @@ export class Tooltip extends React.Component<TooltipProps> {
       positionTop,
       classnames: cx,
       activePlacement,
+      visibleArrow,
       onMouseEnter,
       onMouseLeave,
       ...rest
@@ -52,14 +58,17 @@ export class Tooltip extends React.Component<TooltipProps> {
         className={cx(
           `Tooltip`,
           activePlacement ? `Tooltip--${activePlacement}` : '',
-          className
+          className,
+          `Tooltip--${themeColor === 'dark' ? 'dark' : 'light'}`
         )}
         style={style}
         onMouseEnter={onMouseEnter}
         onMouseLeave={onMouseLeave}
         role="tooltip"
       >
-        <div className={cx(`Tooltip-arrow`)} {...arrowProps} />
+        {visibleArrow ? (
+          <div className={cx(`Tooltip-arrow`)} {...arrowProps} />
+        ) : null}
         {title ? <div className={cx('Tooltip-title')}>{title}</div> : null}
         <div className={cx('Tooltip-body')}>{children}</div>
       </div>
