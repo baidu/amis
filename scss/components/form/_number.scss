@@ -5,14 +5,14 @@
   border-radius: var(--Number-borderRadius);
   overflow: hidden;
 
-  .is-aside {
+  .is-base {
     display: inline-block;
-    width: var(--Form-inputNumber-aside-width);
-    height: var(--Form-inputNumber-aside-height);
-    line-height: var(--Form-inputNumber-aside-height);
+    width: var(--Form-inputNumber-base-width);
+    height: var(--Form-inputNumber-base-height);
+    line-height: var(--Form-inputNumber-base-height);
     text-align: center;
   }
-  .is-behind {
+  .is-strong {
     display: none;
   }
   .#{$ns}Number {
@@ -23,7 +23,7 @@
     height: var(--Form-input-height);
     display: inline-block;
     vertical-align: middle;
-    background: var(--Number-bg);
+    background: var(--Form-input-bg);
     border-radius: var(--Number-borderRadius);
     flex-grow: 1;
 
@@ -62,15 +62,6 @@
         border-color: var(--Form-input-onFocused-borderColor);
       }
     }
-
-    &-disabled:hover {
-
-      .#{$ns}Number-handler-up,
-      .#{$ns}Number-handler-wrap {
-        border-color: var(--Form-input-borderColor);
-      }
-    }
-
     &-input-wrap {
       overflow: hidden;
       height: 100%;
@@ -87,7 +78,8 @@
       height: 100%;
       transition: all var(--animation-duration) ease;
       border: 0;
-      border-radius: var(--Form-input-borderRadius);
+      border-top-left-radius: var(--Form-input-borderRadius);
+      border-bottom-left-radius: var(--Form-input-borderRadius);
       padding: 0 var(--Form-inputNumber-paddingX);
     }
 
@@ -131,12 +123,13 @@
         border-left: px2rem(1px) solid var(--Form-input-borderColor);
         width: var(--Number-handler-width);
         height: 100%;
+        cursor: pointer;
       }
 
       &-handler {
         line-height: calc((var(--Form-input-height) - #{px2rem(6px)}) / 2);
         height: calc(
-          (var(--Form-input-height) - var(--Number-borderWidth) * 2) / 2
+          var(--Form-input-height) / 2
         );
       }
 
@@ -171,19 +164,38 @@
         right: 0;
       }
     }
-
+    &-disabled {
+      .#{$ns}Number-handler-up,
+      .#{$ns}Number-handler-down{
+        cursor: not-allowed;
+        color: var(--Number-handler-onDisabled-color);
+        background: var(--Form-input-onDisabled-bg);
+        &:hover {
+          border-color: var(--Form-input-borderColor);
+          background: var(--Form-input-onDisabled-bg);
+        }
+        &:active {
+          border-color: var(--Form-input-borderColor);
+          background: var(--Form-input-onDisabled-bg);
+        }
+      }
+    }
     &-handler-down-disabled,
     &-handler-up-disabled {
-      background: var(--Number-handler-onDisabled-bg);
+      background: var(--Form-input-onDisabled-bg);
       pointer-events: none;
       color: var(--Number-handler-onDisabled-color);
+      &:hover {
+        cursor: not-allowed;
+      }
     }
 
     &-disabled {
       .#{$ns}Number-input {
         opacity: 0.72;
         cursor: not-allowed;
-        background: var(--Number-onDisabled-bg);
+        background: var(--Form-input-onDisabled-bg);
+        color: var(--Form-inputNumber-strong-disabled-color);
       }
 
       .#{$ns}Number-handler {
@@ -234,61 +246,78 @@
     border-left: var(--Number-borderWidth) solid var(--Number-borderColor);
     border-right: var(--Number-borderWidth) solid var(--Number-borderColor);
     border-radius: 0;
+    .#{$ns}Number-input {
+      border-radius: 0;
+    }
   }
-  // .#{$ns}Number-left-border {
-  //   border-right: none;
-  //   border-top-right-radius: 0;
-  //   border-bottom-right-radius: 0;
-  // }
-  // .#{$ns}Number-right-border {
-  //   border-left: none;
-  //   border-top-left-radius: 0;
-  //   border-bottom-left-radius: 0;
-  // }
-  // &:hover {
-  //   border-color: var(--Form-input-onFocused-borderColor);
-  //   border-radius: var(--Number-borderRadius);
-  //   .stepPosition-number {
-  //     border-top: none;
-  //     border-bottom: none;
-  //     &:hover {
-  //       border-right-color: var(--Number-borderColor);
-  //       border-left-color: var(--Number-borderColor);
-  //     }
-  //   }
-  //   .#{$ns}Number-left-border {
-  //     border: none;
-  //   }
-  //   .#{$ns}Number-right-border {
-  //     border: none;
-  //   }
-  // }
-  // &:focus-within {
-  //   border: var(--Number-borderWidth) solid var(--Number-borderColor);
-  //   border-color: var(--Form-input-onFocused-borderColor);
-  //   border-radius: var(--Number-borderRadius);
-  //   .stepPosition-number {
-  //     border-top: none;
-  //     border-bottom: none;
-  //   }
-  //   .#{$ns}Number-left-border {
-  //     border: none;
-  //   }
-  //   .#{$ns}Number-right-border {
-  //     border: none;
-  //   }
-  // }
+  .#{$ns}Number-left-border,
+  .#{$ns}Number-right-border {
+    color: var(--Form-input-color);
+    background: var(--Form-input-bg);
+    &:hover {
+      cursor: pointer;
+      background: var(--Form-input-bg);
+      color: var(--Form-input-onHover-borderColor);
+    }
+    &-focused {
+      background: var(--Form-input-bg);
+      color: var(--Form-input-onFocused-borderColor);
+    }
+  }
+  .#{$ns}Number-left-border-min,
+  .#{$ns}Number-right-border-max{
+    color: var(--Form-inputNumber-strong-disabled-color);
+    background: var(--Form-input-onDisabled-bg);
+    &:hover {
+      background: var(--Form-input-onDisabled-bg);
+      color: var(--Form-inputNumber-strong-disabled-color);
+    }
+  }
+  .#{$ns}Number-left-border{
+    border-top-left-radius: var(--Number-borderRadius);
+    border-bottom-left-radius: var(--Number-borderRadius);
+  }
+  .#{$ns}Number-right-border{
+    border-top-right-radius: var(--Number-borderRadius);
+    border-bottom-right-radius: var(--Number-borderRadius);
+  }
+  .#{$ns}Number-right-border-disabled,
+  .#{$ns}Number-left-border-disabled {
+    background: var(--Form-input-onDisabled-bg);
+    color: var(--Form-inputNumber-strong-disabled-color);
+    cursor: not-allowed;
+    &:hover {
+      cursor: not-allowed;
+      background: var(--Form-input-onDisabled-bg);
+      color: var(--Form-inputNumber-strong-disabled-color);
+    }
+  }
+  .#{$ns}Number-right-border-readOnly,
+  .#{$ns}Number-left-border-readOnly {
+    &:hover {
+      color: var(--Form-input-color);
+    }
+  }
 }
 .outer-number-readOnly{
   &:focus-within {
-    border-color: var(--Form-input-borderColor);
+    border-color: var(--Number-borderColor);
   }
   &:hover {
-    border-color: var(--Form-input-borderColor);
+    border-color: var(--Form-input-onFocused-borderColor);;
   }
 }
 .outer-number-disabled{
   &:hover {
-    border-color: var(--Form-input-borderColor);
+    border-color: var(--Number-borderColor);
+  }
+  &-handler-down,
+  &-handler-up {
+    background: var(--Form-input-onDisabled-bg);
+    pointer-events: none;
+    color: var(--Number-handler-onDisabled-color);
+    &:hover {
+      cursor: not-allowed;
+    }
   }
 }

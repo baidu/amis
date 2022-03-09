@@ -39,7 +39,10 @@ export interface NumberProps extends ThemeProps {
    * 失去焦点事件
    */
   onBlur?: Function;
-  stepPosition?: 'aside' | 'behind';
+  /**
+   * 指定输入框是基础输入框，增强输入框
+   */
+  mode?: 'base' | 'strong';
   autoFocus?: Boolean;
   keyboard?: Boolean;
 }
@@ -68,23 +71,6 @@ export class NumberInput extends React.Component<NumberProps, any> {
     onChange?.(value);
   }
   @autobind
-  upHandle() {
-    const {value, step, max, min, disabled, readOnly} = this.props;
-    if (disabled || readOnly) {
-      return;
-    }
-    // value为undefined会导致溢出错误
-    let val = Number(value) || 0;
-    if (Number(step)) {
-      val = val + Number(step);
-    } else {
-      val = val + 1;
-    }
-    if (typeof min === 'number') {
-      val = Math.max(val, min);
-    }
-
-  @autobind
   handleFocus(e: React.SyntheticEvent<HTMLElement>) {
     const {onFocus} = this.props;
     onFocus && onFocus(e);
@@ -95,31 +81,33 @@ export class NumberInput extends React.Component<NumberProps, any> {
     const {onBlur} = this.props;
     onBlur && onBlur(e);
   }
-
-    if (typeof max === 'number') {
-      val = Math.min(val, max);
+  @autobind
+  upHandle() {
+    const {value, step, disabled, readOnly} = this.props;
+    // value为undefined会导致溢出错误
+    let val = Number(value) || 0;
+    if (disabled || readOnly) {
+      return;
+    }
+    if (Number(step)) {
+      val = val + Number(step);
+    } else {
+      return;
     }
     this.handleChange(val);
   }
   @autobind
   minusHandle() {
-    const {value, step, max, min, disabled, readOnly} = this.props;
+    const {value, step, disabled, readOnly} = this.props;
+    // value为undefined会导致溢出错误
+    let val = Number(value) || 0;
     if (disabled || readOnly) {
       return;
     }
-    // value为undefined会导致溢出错误
-    let val = Number(value) || 0;
     if (Number(step)) {
       val = val - Number(step);
     } else {
-      val = val - 1;
-    }
-    if (typeof min === 'number') {
-      val = Math.max(val, min);
-    }
-
-    if (typeof max === 'number') {
-      val = Math.min(val, max);
+      return;
     }
     this.handleChange(val);
   }
@@ -141,7 +129,7 @@ export class NumberInput extends React.Component<NumberProps, any> {
       parser,
       borderMode,
       readOnly,
-      stepPosition,
+      mode,
       autoFocus,
       keyboard
     } = this.props;
@@ -156,16 +144,19 @@ export class NumberInput extends React.Component<NumberProps, any> {
       <div className={cx('outer-input-number', readOnly ? 'outer-number-readOnly' : '',
         disabled ? 'outer-number-disabled' : '')}>
         <div className={cx(
-            (stepPosition && stepPosition) === 'aside' ? 'is-aside' : 'is-behind',
+            mode === 'strong' ? 'is-base' : 'is-strong',
+            value && value === min ? 'Number-left-border-min': '',
+            disabled ? 'Number-left-border-disabled': '',
+            readOnly ? 'Number-left-border-readOnly': '',
             'Number-left-border'
           )} onClick={this.minusHandle}>
           <Icon icon="minus" className="icon" />
         </div>
         <InputNumber
-          className={cx(className, showSteps === false || (stepPosition && stepPosition)
-            || disabled || readOnly ? 'no-steps' : '', {
+          className={cx(className, showSteps === false || mode === 'strong'
+            ? 'no-steps' : '', {
             [`Number--border${ucFirst(borderMode)}`]: borderMode
-          }, (stepPosition && stepPosition) ? 'stepPosition-number' : '',)}
+          }, (mode === 'strong') ? 'stepPosition-number' : '')}
           readOnly={readOnly}
           prefixCls={`${ns}Number`}
           value={value}
@@ -182,7 +173,10 @@ export class NumberInput extends React.Component<NumberProps, any> {
           {...precisionProps}
         />
         <div className={cx(
-          (stepPosition && stepPosition) ? 'is-aside' : 'is-behind',
+          mode === 'strong' ? 'is-base' : 'is-strong',
+          value && value === max ? 'Number-right-border-max': '',
+          disabled ? 'Number-right-border-disabled': '',
+          readOnly ? 'Number-right-border-readOnly': '',
           'Number-right-border')}
           onClick={this.upHandle}>
           <Icon icon="plus" className="icon " />

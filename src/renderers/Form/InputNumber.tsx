@@ -64,9 +64,18 @@ export interface NumberControlSchema extends FormBaseControl {
    * 只读
    */
   readOnly?: boolean;
+  /**
+   * 是否自动聚焦，出现在表单下
+   */
   autoFocus?: boolean;
+  /**
+   * 是否启用键盘行为
+   */
   keyboard?: boolean;
-  stepPosition?: 'aside' | 'behind';
+  /**
+   * 输入框为基础输入框还是加强输入框
+   */
+  mode?: 'base' | 'strong';
 }
 
 export interface NumberProps extends FormControlProps {
@@ -95,9 +104,18 @@ export interface NumberProps extends FormControlProps {
    * 只读
    */
   readOnly?: boolean;
+  /**
+   * 自动聚焦
+   */
   autoFocus?: boolean;
+  /**
+   * 启用键盘行为，即通过上下方向键控制是否生效
+   */
   keyboard?: boolean;
-  stepPosition?: 'aside' | 'behind';
+  /**
+   * 输入框为基础输入框还是加强输入框
+   */
+  mode?: 'base' | 'strong';
 }
 
 interface NumberState {
@@ -252,7 +270,7 @@ export default class NumberControl extends React.Component<
       readOnly,
       autoFocus,
       keyboard,
-      stepPosition
+      mode
     } = this.props;
 
     let precisionProps: any = {};
@@ -312,6 +330,9 @@ export default class NumberControl extends React.Component<
           readOnly={readOnly}
           onFocus={this.dispatchEvent}
           onBlur={this.dispatchEvent}
+          autoFocus={autoFocus}
+          keyboard={keyboard}
+          mode={mode}
         />
         {unitOptions ? (
           <Select
