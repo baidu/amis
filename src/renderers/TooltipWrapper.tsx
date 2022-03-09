@@ -20,9 +20,10 @@ export interface TooltipWrapperSchema extends BaseSchema {
   title?: string;
 
   /**
-   * 文字提示内容
+   * 文字提示内容，兼容 tooltip，但建议通过content 来实现提示内容
    */
   content?: string;
+  tooltip?: string;
 
   /**
    * 文字提示浮层出现位置，默认为top
@@ -118,6 +119,7 @@ export interface TooltipWrapperProps extends RendererProps {
    * 文字提示
    */
   content?: string;
+  tooltip?: string;
   /**
    * 文字提示位置
    */
@@ -208,6 +210,7 @@ export default class TooltipWrapper extends React.Component<
       tooltipStyle,
       title,
       content,
+      tooltip,
       mouseEnterDelay,
       mouseLeaveDelay,
       trigger,
@@ -220,7 +223,7 @@ export default class TooltipWrapper extends React.Component<
 
     const tooltipObj: TooltipObject= {
       title: escapeHtml(filter(title, data)),
-      content: escapeHtml(filter(content, data)),
+      content: escapeHtml(filter(content || tooltip, data)),
       style: buildStyle(tooltipStyle, data),
       placement,
       trigger,
