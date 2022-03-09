@@ -1572,20 +1572,26 @@
 
   // tag
   --Tag-content-fontSize: var(--fontSizeSm);
-  --Tag-content-lineHeight: #{px2rem(24px)};
   --Tag-height: #{px2rem(24px)};
   --Tag-borderRadius: #{px2rem(2px)};
-  --Tag-content-color: var(--primary);
-  --Tag-inactive-color: #b5b7ba;
-  --Tag-active-color: #2968f2;
-  --Tag-processing-color: #3ec5ff;
-  --Tag-success-color: #34c280;
+  --Tag-fontColor: #151a26;
+
+  --Tag-default-color: #f2f2f4;
+  --Tag-inactive-color: #b4b6ba;
+  --Tag-active-color: #2468f2;
+  --Tag-processing-color: #1ac5ff;
+  --Tag-success-color: #0bc286;
   --Tag-error-color: #e8684a;
-  --Tag-warning-color: #f9b103;
-  --CheckableTag-bg: #f5f5f5;
-  --CheckableTag-disabled-bg: #ebebeb;
-  --CheckableTag-disabled-fontColor: #999;
-  --CheckableTag-checked-hover-bg: rgba(16, 140, 238, 0.7);
-  --CheckableTag-checked-bg: rgba(16, 140, 238, 1);
-  --CheckableTag-hover-bg: #ebebeb;
+  --Tag-warning-color: #ffb200;
+
+  --Tag-checkable-bgColor: #f2f2f4;
+  --Tag-checkable-bgColor-onDisable: #e6e6e8;
+  --Tag-checkable-bgColor-onHover: #e6e6e8;
+  --Tag-checkable-bgColor-onActive: #e6e6e8;
+
+  --Tag-checkable-bgColor-onHover-onChecked: #4f86f4;
+  --Tag-checkable-bgColor-onActive-onChecked: #1c53c1;
+  --Tag-checkable-bgColor-onChecked: #2468f2;
+
+  --Tag-checkable-fontColor-onDisable: #b4b6ba;
 }

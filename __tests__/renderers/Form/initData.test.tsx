@@ -45,7 +45,7 @@ test('Form:initData', async () => {
   expect(container).toMatchSnapshot();
 
   fireEvent.click(getByText(/Submit/));
-  await wait(300);
+  await wait(500);
 
   expect(onSubmit).toBeCalled();
   expect(onSubmit.mock.calls[0][0]).toMatchSnapshot();
@@ -90,7 +90,7 @@ test('Form:initData:super', async () => {
   expect(container).toMatchSnapshot();
 
   fireEvent.click(getByText(/Submit/));
-  await wait(300);
+  await wait(500);
 
   expect(onSubmit).toBeCalled();
   expect(onSubmit.mock.calls[0][0]).toMatchInlineSnapshot(
@@ -144,7 +144,7 @@ test('Form:initData:without-super', async () => {
   expect(container).toMatchSnapshot();
 
   fireEvent.click(getByText(/Submit/));
-  await wait(300);
+  await wait(500);
 
   expect(onSubmit).toBeCalled();
   expect(onSubmit.mock.calls[0][0]).toMatchSnapshot();
@@ -203,7 +203,7 @@ test('Form:initData:remote', async () => {
   expect(container).toMatchSnapshot();
 
   fireEvent.click(getByText('Submit'));
-  await wait(300);
+  await wait(500);
   expect(onSubmit).toBeCalled();
   expect(onSubmit.mock.calls[0][0]).toMatchSnapshot();
 });
@@ -297,7 +297,7 @@ test('Form:initData:remote:options:source', async () => {
   expect(fetcherSourceApi.mock.calls[0][0].url).toEqual('/api/source?id=1');
 
   fireEvent.click(getByText('Submit'));
-  await wait(300);
+  await wait(500);
   expect(onSubmit).toBeCalled();
   expect(onSubmit.mock.calls[0][0]).toMatchObject({
     id: 1,

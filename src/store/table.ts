@@ -152,7 +152,7 @@ export const Row = types
     },
 
     get expanded(): boolean {
-      return !this.collapsed && self.children.length > 0;
+      return !this.collapsed;
     },
 
     get moved() {
@@ -904,7 +904,7 @@ export const TableStore = iRendererStore
         return {
           // id: String(item && (item as any)[self.primaryField] || `${pindex}-${depth}-${key}`),
           id: String(id),
-          parentId,
+          parentId: String(parentId),
           key: String(`${pindex}-${depth}-${index}`),
           path: `${path}${index}`,
           depth: depth,

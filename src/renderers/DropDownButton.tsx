@@ -147,12 +147,14 @@ export default class DropDownButton extends React.Component<
   };
 
   target: any;
+  timer: ReturnType<typeof setTimeout>;
   constructor(props: DropDownButtonProps) {
     super(props);
 
     this.open = this.open.bind(this);
     this.close = this.close.bind(this);
     this.toogle = this.toogle.bind(this);
+    this.keepOpen = this.keepOpen.bind(this);
     this.domRef = this.domRef.bind(this);
   }
 
@@ -183,9 +185,17 @@ export default class DropDownButton extends React.Component<
   }
 
   close() {
-    this.setState({
-      isOpened: false
-    });
+    this.timer = setTimeout(() => {
+      this.setState({
+        isOpened: false
+      });
+    }, 200);
+  }
+
+  keepOpen() {
+    if (this.timer) {
+      clearTimeout(this.timer);
+    }
   }
 
   renderButton(
@@ -260,6 +270,7 @@ export default class DropDownButton extends React.Component<
                 menuClassName
               )}
               onClick={closeOnClick ? this.close : noop}
+              onMouseEnter={this.keepOpen}
               ref={ref}
             >
               {children

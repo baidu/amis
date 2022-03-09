@@ -642,7 +642,8 @@ export default class ComboControl extends React.Component<ComboProps> {
 
     if (
       syncDefaultValue === false ||
-      this.subFormDefaultValues.length !== this.subForms.length
+      this.subFormDefaultValues.length !==
+        this.subForms.filter(item => item !== undefined).length
     ) {
       return;
     }
@@ -1372,9 +1373,7 @@ export default class ComboControl extends React.Component<ComboProps> {
                 )
               ) : (
                 <Button
-                  level="default"
                   className={cx(`Combo-addBtn`, addButtonClassName)}
-                  block
                   tooltip={__('Combo.add')}
                   onClick={this.addItem}
                 >

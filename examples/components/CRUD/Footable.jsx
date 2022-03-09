@@ -117,8 +117,7 @@ export default {
                   },
                   {
                     type: 'html',
-                    html:
-                      '<p>添加其他 <span>Html 片段</span> 需要支持变量替换（todo）.</p>'
+                    html: '<p>添加其他 <span>Html 片段</span> 需要支持变量替换（todo）.</p>'
                   }
                 ]
               }

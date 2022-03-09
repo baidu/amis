@@ -786,6 +786,7 @@ feedback 反馈弹框是指，在 ajax 请求后，可以显示一个弹框，�
 | closeOnEsc      | `boolean`                                 | `false`            | 是否支持按 `Esc` 关闭 Dialog                                                                     |
 | showCloseButton | `boolean`                                 | `true`             | 是否显示右上角的关闭按钮                                                                         |
 | showErrorMsg    | `boolean`                                 | `true`             | 是否在弹框左下角显示报错信息                                                                     |
+| showLoading     | `boolean`                                 | `true`             | 是否在弹框左下角显示 loading 动画                                                                |
 | disabled        | `boolean`                                 | `false`            | 如果设置此属性，则该 Dialog 只读没有提交操作。                                                   |
 | actions         | Array<[Action](./action)>                 | 【确认】和【取消】 | 如果想不显示底部按钮，可以配置：`[]`                                                             |
 | data            | `object`                                  |                    | 支持[数据映射](../../docs/concepts/data-mapping)，如果不设定将默认将触发按钮的上下文中继承数据。 |

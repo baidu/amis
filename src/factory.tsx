@@ -518,13 +518,13 @@ export function render(
   // 进行文本替换
   if (env.replaceText && isObject(env.replaceText)) {
     const replaceKeys = Object.keys(env.replaceText);
-    replaceKeys.sort().reverse(); // 避免用户将短的放前面
+    replaceKeys.sort((a, b) => b.length - a.length); // 避免用户将短的放前面
     const replaceTextIgnoreKeys = new Set(env.replaceTextIgnoreKeys || []);
     JSONTraverse(schema, (value: any, key: string, object: any) => {
       if (typeof value === 'string' && !replaceTextIgnoreKeys.has(key)) {
         for (const replaceKey of replaceKeys) {
           if (~value.indexOf(replaceKey)) {
-            object[key] = value.replaceAll(
+            value = object[key] = value.replaceAll(
               replaceKey,
               env.replaceText[replaceKey]
             );

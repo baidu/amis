@@ -3,39 +3,38 @@
  */
 
 import React from 'react';
-import {ClassNamesFn, themeable, ThemeProps} from '../theme';
-import {Icon} from './icons';
-import {autobind} from '../utils/helper';
+import {themeable, ThemeProps} from '../theme';
+import {Icon, getIcon} from './icons';
+import {generateIcon} from '../utils/icon';
+import {autobind, noop} from '../utils/helper';
 
 export interface TagProps extends ThemeProps {
-  className?: string;
-  classnames: ClassNamesFn;
-  style: {
-    [props: string]: any;
-  };
+  style: React.CSSProperties;
   color?: string;
   label?: string | React.ReactNode;
   mode?: 'normal' | 'rounded' | 'status';
   icon?: string | React.ReactNode;
   closable?: boolean;
   closeIcon?: string | React.ReactNode;
-  onClose?: (e: React.MouseEvent<HTMLElement, MouseEvent>) => void;
+  onClose?: (e: React.MouseEvent) => void;
 }
 
-export interface CheckableTagProps extends ThemeProps {
-  className?: string;
-  classnames: ClassNamesFn;
-  style?: {
-    [props: string]: any;
-  };
-  label?: string | React.ReactNode;
-  onClick?: (e: React.MouseEvent<HTMLElement, MouseEvent>) => void;
+export interface CheckableTagProps extends TagProps {
+  onClick?: (e: React.MouseEvent) => void;
   onChange?: (checked: boolean) => void;
-  disabled: boolean;
-  checked: boolean;
+  disabled?: boolean;
+  checked?: boolean;
 }
 
-const PRESET_COLOR: string[] = [
+export type TagLevel =
+  | 'inactive'
+  | 'active'
+  | 'success'
+  | 'processing'
+  | 'error'
+  | 'warning';
+
+const PRESET_COLOR: TagLevel[] = [
   'inactive',
   'active',
   'success',
@@ -46,8 +45,7 @@ const PRESET_COLOR: string[] = [
 
 export class Tag extends React.Component<TagProps> {
   static defaultProps: Partial<TagProps> = {
-    mode: 'normal',
-    color: 'inactive'
+    mode: 'normal'
   };
 
   renderCloseIcon() {
@@ -57,15 +55,18 @@ export class Tag extends React.Component<TagProps> {
       return null;
     }
 
-    const icon = closeIcon ? (
+    const icon =
       typeof closeIcon === 'string' ? (
-        <Icon icon={closeIcon} className="icon"></Icon>
-      ) : (
+        getIcon(closeIcon) ? (
+          <Icon icon={closeIcon} className="icon" />
+        ) : (
+          generateIcon(cx, closeIcon, 'Icon')
+        )
+      ) : React.isValidElement(closeIcon) ? (
         closeIcon
-      )
-    ) : (
-      <Icon icon="close" className="icon" />
-    );
+      ) : (
+        <Icon icon="close" className="icon" />
+      );
 
     return (
       <span className={cx(`Tag--close`)} onClick={this.handleClose}>
@@ -93,14 +94,8 @@ export class Tag extends React.Component<TagProps> {
       label
     } = this.props;
 
-    const isPresetColor = color && PRESET_COLOR.indexOf(color) !== -1;
-
-    const tagClass = cx(
-      'Tag',
-      `Tag--${mode}`,
-      isPresetColor && `Tag--${mode}--${color}`,
-      className
-    );
+    const isPresetColor =
+      color && PRESET_COLOR.indexOf(color as TagLevel) !== -1;
 
     const customColor = color && !isPresetColor ? color : undefined;
 
@@ -113,20 +108,28 @@ export class Tag extends React.Component<TagProps> {
 
     const prevIcon = mode === 'status' && (
       <span className={cx('Tag--prev')}>
-        {icon ? (
-          typeof icon === 'string' ? (
-            <Icon icon={icon} className="icon"></Icon>
+        {typeof icon === 'string' ? (
+          getIcon(icon) ? (
+            <Icon icon={icon} className="icon" />
           ) : (
-            icon
+            generateIcon(cx, icon, 'Icon')
           )
+        ) : React.isValidElement(icon) ? (
+          icon
         ) : (
-          <i className="fa fa-circle" style={{color: customColor}}></i>
+          <Icon icon="dot" className="icon" />
         )}
       </span>
     );
 
     return (
-      <span className={tagClass} style={tagStyle}>
+      <span
+        className={cx('Tag', `Tag--${mode}`, className, {
+          [`Tag--${mode}--${color}`]: isPresetColor,
+          [`Tag--${mode}--hasColor`]: color
+        })}
+        style={tagStyle}
+      >
         {prevIcon}
         {label || children}
         {this.renderCloseIcon()}
@@ -137,8 +140,8 @@ export class Tag extends React.Component<TagProps> {
 
 class CheckableTagComp extends React.Component<CheckableTagProps> {
   @autobind
-  handleClick(e: React.MouseEvent<HTMLElement, MouseEvent>) {
-    const {onChange, onClick, checked, disabled} = this.props;
+  handleClick(e: React.MouseEvent) {
+    const {onChange, onClick, checked} = this.props;
 
     onChange?.(!checked);
     onClick?.(e);
@@ -161,7 +164,7 @@ class CheckableTagComp extends React.Component<CheckableTagProps> {
           'Tag--checkable--checked': checked,
           'Tag--checkable--disabled': disabled
         })}
-        onClick={disabled ? () => {} : this.handleClick}
+        onClick={disabled ? noop : this.handleClick}
         style={style}
       >
         {label || children}
