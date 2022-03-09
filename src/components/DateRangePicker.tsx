@@ -82,8 +82,19 @@ export const availableRanges: {[propName: string]: any} = {
     }
   },
 
-  '1dayago': {
-    label: 'DateRange.1dayago',
+  'tomorrow': {
+    label: 'Date.tomorrow',
+    startDate: (now: moment.Moment) => {
+      return now.add(1, 'days').startOf('day');
+    },
+    endDate: (now: moment.Moment) => {
+      return now.add(1, 'days').endOf('day');
+    }
+  },
+
+  // 兼容一下错误的用法
+  '1daysago': {
+    label: 'DateRange.1daysago',
     startDate: (now: moment.Moment) => {
       return now.add(-1, 'days');
     },
@@ -202,6 +213,177 @@ export const availableRanges: {[propName: string]: any} = {
     }
   }
 };
+
+export const advancedRanges = [
+  {
+    regexp: /^(\d+)hoursago$/,
+    resolve: (__: any, _: string, hours: string) => {
+      return {
+        label: __('DateRange.hoursago', {hours}),
+        startDate: (now: moment.Moment) => {
+          return now.add(-hours, 'hours').startOf('hour');
+        },
+        endDate: (now: moment.Moment) => {
+          return now.add(-1, 'hours').endOf('hours');
+        }
+      };
+    }
+  },
+  {
+    regexp: /^(\d+)hourslater$/,
+    resolve: (__: any, _: string, hours: string) => {
+      return {
+        label: __('DateRange.hourslater', {hours}),
+        startDate: (now: moment.Moment) => {
+          return now.startOf('hour');
+        },
+        endDate: (now: moment.Moment) => {
+          return now.add(hours, 'hours').endOf('hour');
+        }
+      };
+    }
+  },
+  {
+    regexp: /^(\d+)daysago$/,
+    resolve: (__: any, _: string, days: string) => {
+      return {
+        label: __('DateRange.daysago', {days}),
+        startDate: (now: moment.Moment) => {
+          return now.add(-days, 'days').startOf('day');
+        },
+        endDate: (now: moment.Moment) => {
+          return now.add(-1, 'days').endOf('day');
+        }
+      };
+    }
+  },
+  {
+    regexp: /^(\d+)dayslater$/,
+    resolve: (__: any, _: string, days: string) => {
+      return {
+        label: __('DateRange.dayslater', {days}),
+        startDate: (now: moment.Moment) => {
+          return now.startOf('day');
+        },
+        endDate: (now: moment.Moment) => {
+          return now.add(days, 'days').endOf('day');
+        }
+      };
+    }
+  },
+  {
+    regexp: /^(\d+)weeksago$/,
+    resolve: (__: any, _: string, weeks: string) => {
+      return {
+        label: __('DateRange.weeksago', {weeks}),
+        startDate: (now: moment.Moment) => {
+          return now.startOf('week').add(-weeks, 'weeks');
+        },
+        endDate: (now: moment.Moment) => {
+          return now.startOf('week').add(-1, 'days').endOf('day');
+        }
+      };
+    }
+  },
+  {
+    regexp: /^(\d+)weekslater$/,
+    resolve: (__: any, _: string, weeks: string) => {
+      return {
+        label: __('DateRange.weekslater', {weeks}),
+        startDate: (now: moment.Moment) => {
+          return now.startOf('week');
+        },
+        endDate: (now: moment.Moment) => {
+          return now.startOf('week').add(weeks, 'weeks').endOf('day');
+        }
+      };
+    }
+  },
+  {
+    regexp: /^(\d+)monthsago$/,
+    resolve: (__: any, _: string, months: string) => {
+      return {
+        label: __('DateRange.monthsago', {months}),
+        startDate: (now: moment.Moment) => {
+          return now.startOf('months').add(-months, 'months');
+        },
+        endDate: (now: moment.Moment) => {
+          return now.startOf('month').add(-1, 'days').endOf('day');
+        }
+      };
+    }
+  },
+  {
+    regexp: /^(\d+)monthslater$/,
+    resolve: (__: any, _: string, months: string) => {
+      return {
+        label: __('DateRange.monthslater', {months}),
+        startDate: (now: moment.Moment) => {
+          return now.startOf('month');
+        },
+        endDate: (now: moment.Moment) => {
+          return now.startOf('month').add(months, 'months').endOf('day');
+        }
+      };
+    }
+  },
+  {
+    regexp: /^(\d+)quartersago$/,
+    resolve: (__: any, _: string, quarters: string) => {
+      return {
+        label: __('DateRange.quartersago', {quarters}),
+        startDate: (now: moment.Moment) => {
+          return now.startOf('quarters').add(-quarters, 'quarters');
+        },
+        endDate: (now: moment.Moment) => {
+          return now.startOf('quarter').add(-1, 'days').endOf('day');
+        }
+      };
+    }
+  },
+  {
+    regexp: /^(\d+)quarterslater$/,
+    resolve: (__: any, _: string, quarters: string) => {
+      return {
+        label: __('DateRange.quarterslater', {quarters}),
+        startDate: (now: moment.Moment) => {
+          return now.startOf('quarter');
+        },
+        endDate: (now: moment.Moment) => {
+          return now.startOf('quarter').add(quarters, 'quarters').endOf('day');
+        }
+      };
+    }
+  },
+  {
+    regexp: /^(\d+)yearsago$/,
+    resolve: (__: any, _: string, years: string) => {
+      return {
+        label: __('DateRange.yearsago', {years}),
+        startDate: (now: moment.Moment) => {
+          return now.startOf('years').add(-years, 'years');
+        },
+        endDate: (now: moment.Moment) => {
+          return now.startOf('year').add(-1, 'days').endOf('day');
+        }
+      };
+    }
+  },
+  {
+    regexp: /^(\d+)yearslater$/,
+    resolve: (__: any, _: string, years: string) => {
+      return {
+        label: __('DateRange.yearslater', {years}),
+        startDate: (now: moment.Moment) => {
+          return now.startOf('year');
+        },
+        endDate: (now: moment.Moment) => {
+          return now.startOf('year').add(years, 'years').endOf('day');
+        }
+      };
+    }
+  }
+];
 
 export class DateRangePicker extends React.Component<
   DateRangePickerProps,
@@ -528,8 +710,20 @@ export class DateRangePicker extends React.Component<
           }
           let range: PlainObject = {};
           if (typeof item === 'string') {
-            range = availableRanges[item];
-            range.key = item;
+            if (availableRanges[item]) {
+              range = availableRanges[item];
+              range.key = item;
+            } else {
+              // 通过正则尝试匹配
+              for (let i = 0, len = advancedRanges.length; i < len; i++) {
+                let value = advancedRanges[i];
+                const m = value.regexp.exec(item);
+                if (m) {
+                  range = value.resolve.apply(item, [__, ...m]);
+                  range.key = item;
+                }
+              }
+            }
           } else if (
             (item as ShortCutDateRange).startDate &&
             (item as ShortCutDateRange).endDate

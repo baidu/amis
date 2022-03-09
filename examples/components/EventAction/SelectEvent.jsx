@@ -330,6 +330,51 @@ export default {
     },
     {
       type: 'tpl',
+      tpl: 'input-city城市选择器',
+      inline: false,
+      wrapperComponent: 'h2'
+    },
+    {
+      type: 'form',
+      debug: true,
+      body: [
+        {
+          type: 'group',
+          body: [
+            {
+              name: 'trigger10',
+              id: 'trigger10',
+              type: 'action',
+              label: 'clear触发器',
+              level: 'primary',
+              onEvent: {
+                click: {
+                  actions: [
+                    {
+                      actionType: 'clear',
+                      componentId: 'clear-input-city',
+                      description: '点击清空城市选择器选中值'
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              name: 'clear-input-city',
+              id: 'clear-input-city',
+              type: 'input-city',
+              label: 'clear动作测试',
+              mode: 'row',
+              onEvent: {
+                change
+              }
+            },
+          ]
+        }
+      ]
+    },
+    {
+      type: 'tpl',
       tpl: '单选框/复选框',
       inline: false,
       wrapperComponent: 'h2'

@@ -101,7 +101,7 @@ test('Renderer:combo multiple', async () => {
   // 点击新增
   add.click();
 
-  await wait(300);
+  await wait(500);
 
   // 输入
   const input = container.querySelector(
@@ -116,7 +116,7 @@ test('Renderer:combo multiple', async () => {
   await findByText(container, 'aOptions');
 
   fireEvent.click(getByText('aOptions'));
-  await wait(300);
+  await wait(500);
 
   const formDebug = JSON.parse(document.querySelector('pre code')!.innerHTML);
 
