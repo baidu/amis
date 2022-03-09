@@ -16,7 +16,7 @@ test('Renderer:crud', async () => {
           syncLocation: false,
           columns: [
             {
-              name: 'id',
+              name: '__id',
               label: 'ID'
             },
             {
