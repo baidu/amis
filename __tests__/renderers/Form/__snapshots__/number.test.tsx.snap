@@ -56,7 +56,7 @@ exports[`Renderer:number 1`] = `
               class="outer-input-number"
             >
               <div
-                class="is-behind cxd-Number-left-border"
+                class="is-strong cxd-Number-left-border"
               >
                 <icon-mock
                   classname="icon icon-minus"
@@ -108,7 +108,7 @@ exports[`Renderer:number 1`] = `
                 </div>
               </div>
               <div
-                class="is-behind cxd-Number-right-border"
+                class="is-strong cxd-Number-right-border"
               >
                 <icon-mock
                   classname="icon  icon-plus"
