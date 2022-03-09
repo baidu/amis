@@ -11,11 +11,11 @@ import difference from 'lodash/difference';
 import React from 'react';
 import {uncontrollable} from 'uncontrollable';
 
-import {RendererProps} from '../factory';
 import Overlay from './Overlay';
-import {ThemeProps, themeable} from '../theme';
+import type { ThemeProps } from '../theme'
+import {themeable} from '../theme';
 import {autobind, camel} from '../utils/helper';
-import {
+import type {
   MultipleValue,
   Value,
   FormatValue,
