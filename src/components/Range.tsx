@@ -71,7 +71,7 @@ interface LabelProps extends ThemeProps {
  * @returns position.left
  */
 const valueToOffsetLeft = (value: any, min: number, max: number) =>
-  (value * 100) / (max - min) + '%';
+  ((value - min) * 100) / (max - min) + '%';
 
 /**
  * 滑块handle
@@ -298,7 +298,7 @@ export class Range extends React.Component<RangeItemProps, any> {
   pageXToValue(pageX: number) {
     const {x, width} = this.getBoundingClient(this.trackRef.current as Element);
     const {max, min} = this.props;
-    return ((pageX - x) * (max - min)) / width;
+    return ((pageX - x) * (max - min)) / width + min;
   }
 
   /**
@@ -366,16 +366,30 @@ export class Range extends React.Component<RangeItemProps, any> {
    */
   @autobind
   renderSteps() {
-    const {max, min, step, showSteps, classnames: cx} = this.props;
-    const steps = Math.floor((max - min) / step);
+    const {max, min, step, showSteps, classnames: cx, parts} = this.props;
+    let isShowSteps = showSteps;
+    // 只要设置了 parts 就展示分隔
+    if (parts > 1 || Array.isArray(parts)) {
+      isShowSteps = true;
+    }
+    // 总区间
+    const section = max - min;
+    // 总区间被平均分为多少块
+    const steps = parts > 1 ? parts : Math.floor(section / step);
+    // 平均分 每块的长度
+    const partLength = section / steps;
+    // parts为数组时，以0为起点(传入的值 - min)
+    const partLengthList = Array.isArray(parts)
+      ? parts.map(item => item - min)
+      : range(steps - 1).map(item => (item + 1) * partLength);
     return (
-      showSteps && (
+      isShowSteps && (
         <div>
-          {range(steps - 1).map(item => (
+          {partLengthList.map(item => (
             <span
               key={item}
               className={cx('InputRange-track-dot')}
-              style={{left: ((item + 1) * 100) / steps + '%'}}
+              style={{left: (item * 100) / (max - min) + '%'}}
             ></span>
           ))}
         </div>
@@ -437,13 +451,13 @@ export class Range extends React.Component<RangeItemProps, any> {
     const traceActiveStyle = {
       width: valueToOffsetLeft(
         multiple
-          ? (value as MultipleValue).max - (value as MultipleValue).min
+          ? (value as MultipleValue).max - (value as MultipleValue).min + min
           : value,
         min,
         max
       ),
       left: valueToOffsetLeft(
-        multiple ? (value as MultipleValue).min : 0,
+        multiple ? (value as MultipleValue).min : min,
         min,
         max
       )
