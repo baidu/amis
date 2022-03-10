@@ -246,8 +246,8 @@ order: 14
 支持的快捷键除了 [Date](./date#%E5%BF%AB%E6%8D%B7%E9%94%AE) 中的以外，还支持：
 
 - `now`: 现在
-- `{n}hoursago` : n 小时前，例如：`1daysago`，下面用法相同
-- `{n}hourslater` : n 小时前，例如：`1daysago`，下面用法相同
+- `{n}hoursago` : n 小时前，例如：`2hoursago`，下面用法相同
+- `{n}hourslater` : n 小时前，例如：`2hourslater`，下面用法相同
 
 ## UTC
 

@@ -806,7 +806,7 @@ props.onAction(event, {
 }
 ```
 
-## 键盘快捷键触发
+## 全局键盘快捷键触发
 
 > 1.3.0 版本新增功能
 
@@ -826,6 +826,10 @@ props.onAction(event, {
 ```
 
 除了 ctrl 和 command 还支持 shift、alt。
+
+其它键盘特殊按键的命名列表：backspace, tab, clear, enter, return, esc, escape, space, up, down, left, right, home, end, pageup, pagedown, del, delete, f1 - f19, num_0 - num_9, num_multiply, num_add, num_enter, num_subtract, num_decimal, num_divide。
+
+> 注意这个主要用于实现页面级别快捷键，如果要实现回车提交功能，请将 `input-text` 放在 `form` 里，而不是给 button 配一个 `enter` 的快捷键。
 
 ## Action 作为容器组件
 

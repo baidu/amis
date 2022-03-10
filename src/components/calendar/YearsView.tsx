@@ -75,10 +75,6 @@ export class CustomYearsView extends React.Component<CustomYearsViewProps> {
         .clone()
         .set({year: year, month: irrelevantMonth, date: irrelevantDate});
 
-      // Not sure what 'rdtOld' is for, commenting out for now as it's not working properly
-      // if ( i === -1 | i === 10 )
-      // classes += ' rdtOld';
-
       noOfDaysInYear = parseInt(currentYear.endOf('year').format('DDD'), 10);
       daysInYear = Array.from({length: noOfDaysInYear}, function (e, i) {
         return i + 1;
@@ -94,6 +90,9 @@ export class CustomYearsView extends React.Component<CustomYearsViewProps> {
       if (isDisabled) classes += ' rdtDisabled';
 
       if (selectedDate && selectedDate.year() === year) classes += ' rdtActive';
+
+      // 第一个和最后一个置灰
+      if (i === -1 || i === 10) classes += ' text-muted';
 
       props = {
         'key': year,
