@@ -31,6 +31,7 @@ import {
 import {filter} from '../../utils/tpl';
 import isPlainObject from 'lodash/isPlainObject';
 import merge from 'lodash/merge';
+import omit from 'lodash/omit';
 
 /**
  * Image 图片上传控件
@@ -817,13 +818,16 @@ export default class ImageControl extends React.Component<
   }
 
   syncAutoFill() {
-    const {autoFill, multiple, onBulkChange, data} = this.props;
-    if (!isEmpty(autoFill) && onBulkChange && this.initAutoFill) {
+    const {autoFill, multiple, onBulkChange, data, name} = this.props;
+    // 排除自身的字段，否则会无限更新state
+    const excludeSelfAutoFill = omit(autoFill, name || '');
+
+    if (!isEmpty(excludeSelfAutoFill) && onBulkChange && this.initAutoFill) {
       const files = this.state.files.filter(
         file => ~['uploaded', 'init', 'ready'].indexOf(file.state as string)
       );
       const toSync = dataMapping(
-        autoFill,
+        excludeSelfAutoFill,
         multiple
           ? {
               items: files
