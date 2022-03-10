@@ -411,3 +411,20 @@ export function debug(cat: Category, msg: string, ext?: object) {
   console.debug(log);
   store.logs.push(log);
 }
+
+/**
+ * 警告日志
+ * @param msg 简单消息
+ * @param ext 扩展信息
+ */
+export function warning(cat: Category, msg: string, ext?: object) {
+  if (!isEnabled) {
+    return;
+  }
+  store.logs.push({
+    cat,
+    level: 'warn',
+    msg: msg,
+    ext: JSON.stringify(ext)
+  });
+}
