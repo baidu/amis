@@ -24,7 +24,6 @@ import {
 import {stripNumber} from '../utils/tpl-builtin';
 import {findDOMNode} from 'react-dom';
 import {Icon} from './icons';
-import {isArray, isNumber} from 'lodash';
 
 type MarksType = {
   [index: number | string]: Record<
@@ -370,7 +369,7 @@ export class Range extends React.Component<RangeItemProps, any> {
     const {max, min, step, showSteps, classnames: cx, parts} = this.props;
     let isShowSteps = showSteps;
     // 只要设置了 parts 就展示分隔
-    if (parts > 1 || isArray(parts)) {
+    if (parts > 1 || Array.isArray(parts)) {
       isShowSteps = true;
     }
     // 总区间
@@ -380,7 +379,7 @@ export class Range extends React.Component<RangeItemProps, any> {
     // 平均分 每块的长度
     const partLength = section / steps;
     // parts为数组时，以0为起点(传入的值 - min)
-    const partLengthList = isArray(parts)
+    const partLengthList = Array.isArray(parts)
       ? parts.map(item => item - min)
       : range(steps - 1).map(item => (item + 1) * partLength);
     return (

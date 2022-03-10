@@ -284,11 +284,13 @@ export class Input extends React.Component<RangeItemProps, any> {
    */
   @autobind
   onChange(value: number) {
-    const {multiple, value: originValue, type} = this.props;
+    const {multiple, value: originValue, type, min} = this.props;
     const _value = this.getValue(value, type);
 
     this.props.updateValue(
-      multiple ? {...(originValue as MultipleValue), [type]: _value} : value
+      multiple
+        ? {...(originValue as MultipleValue), [type]: _value}
+        : value ?? min
     );
   }
 
@@ -334,7 +336,8 @@ export class Input extends React.Component<RangeItemProps, any> {
    */
   getValue(value: string | number, type?: string) {
     const {max, min, step, value: stateValue} = this.props as RangeItemProps;
-
+    // value为null、undefined时，取对应的min/max
+    value = value ?? (type === 'min' ? min : max);
     // 校正value为step的倍数
     let _value = Math.round(parseFloat(value + '') / step) * step;
     // 同步value与步长小数位数
