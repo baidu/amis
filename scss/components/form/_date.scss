@@ -12,7 +12,7 @@
   background: var(--DatePicker-bg);
   border-radius: var(--DatePicker-borderRadius);
 
-  input {
+  &-input {
     display: inline-block;
     width: 100%;
     background: none;
@@ -276,6 +276,7 @@
 .#{$ns}CalendarInputWrapper {
   display: inline-block;
   position: relative;
+
   .#{$ns}CalendarInput-sugs {
     list-style: none;
     position: absolute;

@@ -28,6 +28,7 @@ import {
   SchemaUrlPath
 } from '../../Schema';
 import merge from 'lodash/merge';
+import omit from 'lodash/omit';
 
 /**
  * File 文件上传控件
@@ -913,13 +914,16 @@ export default class FileControl extends React.Component<FileProps, FileState> {
   }
 
   syncAutoFill() {
-    const {autoFill, multiple, onBulkChange, data} = this.props;
-    if (!isEmpty(autoFill) && onBulkChange) {
+    const {autoFill, multiple, onBulkChange, data, name} = this.props;
+    // 排除自身的字段，否则会无限更新state
+    const excludeSelfAutoFill = omit(autoFill, name || '');
+
+    if (!isEmpty(excludeSelfAutoFill) && onBulkChange) {
       const files = this.state.files.filter(
         file => ~['uploaded', 'init', 'ready'].indexOf(file.state as string)
       );
       const toSync = dataMapping(
-        autoFill,
+        excludeSelfAutoFill,
         multiple
           ? {
               items: files

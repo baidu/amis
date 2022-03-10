@@ -271,7 +271,7 @@ export function formatValue(
       max: max === undefined || max > props.max ? props.max : max
     };
   }
-  return +value ?? props.min;
+  return +value < props.min ? props.min : Math.min(+value, props.max);
 }
 
 /**
@@ -284,11 +284,13 @@ export class Input extends React.Component<RangeItemProps, any> {
    */
   @autobind
   onChange(value: number) {
-    const {multiple, value: originValue, type} = this.props;
+    const {multiple, value: originValue, type, min} = this.props;
     const _value = this.getValue(value, type);
 
     this.props.updateValue(
-      multiple ? {...(originValue as MultipleValue), [type]: _value} : value
+      multiple
+        ? {...(originValue as MultipleValue), [type]: _value}
+        : value ?? min
     );
   }
 
@@ -334,7 +336,8 @@ export class Input extends React.Component<RangeItemProps, any> {
    */
   getValue(value: string | number, type?: string) {
     const {max, min, step, value: stateValue} = this.props as RangeItemProps;
-
+    // value为null、undefined时，取对应的min/max
+    value = value ?? (type === 'min' ? min : max);
     // 校正value为step的倍数
     let _value = Math.round(parseFloat(value + '') / step) * step;
     // 同步value与步长小数位数
@@ -457,21 +460,26 @@ export default class RangeControl extends React.PureComponent<
   }
 
   componentDidUpdate(prevProps: RangeProps) {
-    const {value} = prevProps;
+    const {value, min, max} = prevProps;
     const {
       value: nextPropsValue,
       multiple,
       delimiter,
-      min,
-      max,
+      min: nextPropsMin,
+      max: nextPropsMax,
       onChange
     } = this.props;
-    if (value !== nextPropsValue) {
+
+    if (
+      value !== nextPropsValue ||
+      min !== nextPropsMin ||
+      max !== nextPropsMax
+    ) {
       const value = formatValue(nextPropsValue, {
         multiple,
         delimiter,
-        min,
-        max
+        min: nextPropsMin,
+        max: nextPropsMax
       });
       this.setState({
         value: this.getValue(value)
@@ -583,12 +591,6 @@ export default class RangeControl extends React.PureComponent<
       marks,
       region
     } = props;
-
-    // 指定parts -> 重新计算步长
-    if (parts > 1) {
-      props.step = (props.max - props.min) / props.parts;
-      props.showSteps = true;
-    }
 
     // 处理自定义json配置
     let renderMarks:

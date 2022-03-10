@@ -15,7 +15,7 @@ import {asFormItem} from './renderers/Form/Item';
 import {renderChild, renderChildren} from './Root';
 import {IScopedContext, ScopedContext} from './Scoped';
 import {Schema, SchemaNode} from './types';
-import {DebugWrapper, enableAMISDebug} from './utils/debug';
+import {DebugWrapper} from './utils/debug';
 import getExprProperties from './utils/filter-schema';
 import {anyChanged, chainEvents, autobind} from './utils/helper';
 import {SimpleMap} from './utils/SimpleMap';
@@ -417,7 +417,7 @@ export class SchemaRenderer extends React.Component<SchemaRendererProps, any> {
       />
     );
 
-    return enableAMISDebug ? (
+    return this.props.env.enableAMISDebug ? (
       <DebugWrapper renderer={renderer}>{component}</DebugWrapper>
     ) : (
       component

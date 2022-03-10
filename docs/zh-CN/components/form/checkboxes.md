@@ -145,6 +145,51 @@ order: 9
 }
 ```
 
+> 1.8.0 及以上版本
+
+`columnsCount` 还有一种数组形式，可以手动控制每行显示的列数
+
+```schema: scope="body"
+{
+    "type": "form",
+    "api": "/api/mock2/form/saveForm",
+    "body": [
+        {
+            "name": "checkboxes1",
+            "type": "checkboxes",
+            "label": "默认的复选框",
+            "columnsCount": [1, 2, 3],
+            "options": [
+                {
+                    "label": "OptionA",
+                    "value": "a"
+                },
+                {
+                    "label": "OptionB",
+                    "value": "b"
+                },
+                {
+                    "label": "OptionC",
+                    "value": "c"
+                },
+                {
+                    "label": "OptionD",
+                    "value": "d"
+                },
+                {
+                    "label": "OptionE",
+                    "value": "e"
+                },
+                {
+                    "label": "OptionF",
+                    "value": "f"
+                }
+            ]
+        }
+    ]
+}
+```
+
 ## 分组显示
 
 `"inline": false` 下，选项中配置 `children` 字段可以实现分组展示效果。

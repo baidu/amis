@@ -21,11 +21,12 @@ import Button from './Button';
 import {value2array, OptionProps, Option} from './Select';
 import chunk from 'lodash/chunk';
 import {ClassNamesFn, themeable} from '../theme';
+import {columnsSplit} from '../utils/columnsSplit';
 
 interface RadioProps extends OptionProps {
   id?: string;
   type: string;
-  optionType?: string,
+  optionType?: string;
   value?: string;
   className?: string;
   style?: React.CSSProperties;
@@ -34,7 +35,7 @@ interface RadioProps extends OptionProps {
   btnActiveLevel?: string;
   disabled?: boolean;
   onChange?: Function;
-  columnsCount: number;
+  columnsCount: number | number[];
   itemClassName?: string;
   labelField?: string;
   labelClassName?: string;
@@ -78,7 +79,7 @@ export class Radios extends React.Component<RadioProps, any> {
   }
 
   renderGroup(option: Option, index: number, valueArray: Array<Option>) {
-    const {classnames: cx, optionType, classPrefix: ns,} = this.props;
+    const {classnames: cx, optionType, classPrefix: ns} = this.props;
 
     return (
       <div key={index} className={cx('RadiosControl-group', option.className)}>
@@ -178,20 +179,8 @@ export class Radios extends React.Component<RadioProps, any> {
       );
     }
 
-    if (!inline && columnsCount > 1) {
-      let weight = 12 / (columnsCount as number);
-      let cellClassName = `Grid-col--sm${
-        weight === Math.round(weight) ? weight : ''
-      }`;
-      body = chunk(body, columnsCount).map((group, groupIndex) => (
-        <div className={cx('Grid')} key={groupIndex}>
-          {Array.from({length: columnsCount as number}).map((_, index) => (
-            <div key={index} className={cx(cellClassName)}>
-              {group[index]}
-            </div>
-          ))}
-        </div>
-      ));
+    if (!inline) {
+      body = columnsSplit(body, cx, columnsCount);
     }
 
     return (
