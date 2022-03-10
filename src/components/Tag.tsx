@@ -12,9 +12,10 @@ export interface TagProps extends ThemeProps {
   style: React.CSSProperties;
   color?: string;
   label?: string | React.ReactNode;
-  mode?: 'normal' | 'rounded' | 'status';
+  displayMode?: 'normal' | 'rounded' | 'status';
   icon?: string | React.ReactNode;
   closable?: boolean;
+  disabled?: boolean;
   closeIcon?: string | React.ReactNode;
   onClose?: (e: React.MouseEvent) => void;
 }
@@ -22,7 +23,6 @@ export interface TagProps extends ThemeProps {
 export interface CheckableTagProps extends TagProps {
   onClick?: (e: React.MouseEvent) => void;
   onChange?: (checked: boolean) => void;
-  disabled?: boolean;
   checked?: boolean;
 }
 
@@ -45,7 +45,7 @@ const PRESET_COLOR: TagLevel[] = [
 
 export class Tag extends React.Component<TagProps> {
   static defaultProps: Partial<TagProps> = {
-    mode: 'normal'
+    displayMode: 'normal'
   };
 
   renderCloseIcon() {
@@ -87,7 +87,8 @@ export class Tag extends React.Component<TagProps> {
       children,
       classnames: cx,
       className,
-      mode,
+      displayMode,
+      disabled,
       color,
       icon,
       style,
@@ -100,13 +101,13 @@ export class Tag extends React.Component<TagProps> {
     const customColor = color && !isPresetColor ? color : undefined;
 
     const tagStyle = {
-      backgroundColor: mode === 'normal' ? customColor : undefined,
-      borderColor: mode === 'rounded' ? customColor : undefined,
-      color: mode === 'rounded' ? customColor : undefined,
+      backgroundColor: displayMode === 'normal' ? customColor : undefined,
+      borderColor: displayMode === 'rounded' ? customColor : undefined,
+      color: displayMode === 'rounded' ? customColor : undefined,
       ...style
     };
 
-    const prevIcon = mode === 'status' && (
+    const prevIcon = displayMode === 'status' && (
       <span className={cx('Tag--prev')}>
         {typeof icon === 'string' ? (
           getIcon(icon) ? (
@@ -124,9 +125,10 @@ export class Tag extends React.Component<TagProps> {
 
     return (
       <span
-        className={cx('Tag', `Tag--${mode}`, className, {
-          [`Tag--${mode}--${color}`]: isPresetColor,
-          [`Tag--${mode}--hasColor`]: color
+        className={cx('Tag', `Tag--${displayMode}`, className, {
+          [`Tag--${displayMode}--${color}`]: isPresetColor,
+          [`Tag--${displayMode}--hasColor`]: color,
+          [`Tag--disabled`]: disabled
         })}
         style={tagStyle}
       >

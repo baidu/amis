@@ -7,10 +7,11 @@ import {
 } from './Options';
 import cx from 'classnames';
 import Checkbox from '../../components/Checkbox';
-import chunk from 'lodash/chunk';
+
 import {Icon} from '../../components/icons';
 import {Api} from '../../types';
 import {autobind, hasAbility} from '../../utils/helper';
+import {columnsSplit} from '../../utils/columnsSplit';
 
 /**
  * 复选框
@@ -32,7 +33,7 @@ export interface CheckboxesControlSchema extends FormOptionsControl {
   /**
    * 每行显示多少个
    */
-  columnsCount?: number;
+  columnsCount?: number | number[];
 }
 
 export interface CheckboxesProps
@@ -47,7 +48,7 @@ export interface CheckboxesProps
     > {
   placeholder?: any;
   itemClassName?: string;
-  columnsCount?: number;
+  columnsCount?: number | number[];
   labelClassName?: string;
   onAdd?: () => void;
   addApi?: Api;
@@ -221,21 +222,7 @@ export default class CheckboxesControl extends React.Component<
       );
     }
 
-    if ((columnsCount as number) > 1) {
-      let weight = 12 / (columnsCount as number);
-      let cellClassName = `Grid-col--sm${
-        weight === Math.round(weight) ? weight : ''
-      }`;
-      body = chunk(body, columnsCount).map((group, groupIndex) => (
-        <div className={cx('Grid')} key={groupIndex}>
-          {Array.from({length: columnsCount as number}).map((_, index) => (
-            <div key={index} className={cx(cellClassName)}>
-              {group[index]}
-            </div>
-          ))}
-        </div>
-      ));
-    }
+    body = columnsSplit(body, cx, columnsCount);
 
     return (
       <div className={cx(`CheckboxesControl`, className)}>

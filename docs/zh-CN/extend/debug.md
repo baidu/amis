@@ -8,10 +8,11 @@ amis 内置了调试工具，可以查看组件内部运行日志，方便分析
 
 ## 开启方法
 
-默认不会开启这个功能，可以通过下面两种方式开启：
+默认不会开启这个功能，可以通过下面三种方式开启：
 
+1. render 的 env 里设置 `enableAMISDebug`。
 1. 配置全局变量 `enableAMISDebug` 的值为 `true`，比如 `window.enableAMISDebug = true`。
-2. 在页面 URL 参数中加上 `amisDebug=1`，比如 `http://xxx.com/?amisDebug=1`。
+1. 在页面 URL 参数中加上 `amisDebug=1`，比如 `http://xxx.com/?amisDebug=1`。
 
 开启之后，在页面右侧就会显示。
 

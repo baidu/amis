@@ -43,7 +43,7 @@ export interface TagSchema extends BaseSchema {
    * rounded: 线性标签， 对应color的边框
    * status: 带图标的标签， 图标可以自定义
    */
-  mode?: 'normal' | 'rounded' | 'status';
+  displayMode?: 'normal' | 'rounded' | 'status';
 
   /**
    * status模式时候设置的前置图标
@@ -82,7 +82,7 @@ export interface TagProps
 
 export class TagField extends React.Component<TagProps, object> {
   static defaultProps: Partial<TagProps> = {
-    mode: 'normal'
+    displayMode: 'normal'
   };
 
   render() {
@@ -93,7 +93,7 @@ export class TagField extends React.Component<TagProps, object> {
       icon,
       closeIcon,
       closable,
-      mode,
+      displayMode,
       color,
       className,
       data,
@@ -112,9 +112,10 @@ export class TagField extends React.Component<TagProps, object> {
       </CheckableTag>
     ) : (
       <Tag
+        disabled={disabled}
         closable={closable}
         className={className}
-        mode={mode}
+        displayMode={displayMode}
         color={color}
         closeIcon={closeIcon}
         icon={icon}
