@@ -42,6 +42,7 @@ import {
   RendererEvent
 } from './utils/renderer-event';
 import {runActions} from './actions/Action';
+import {enableDebug} from './utils/debug';
 
 export interface TestFunc {
   (
@@ -152,6 +153,10 @@ export interface RenderOptions {
    * 过滤 html 标签，可用来添加 xss 保护逻辑
    */
   filterHtml?: (input: string) => string;
+  /**
+   * 是否开启 amis 调试
+   */
+  enableAMISDebug?: boolean;
   [propName: string]: any;
 }
 
@@ -271,6 +276,10 @@ const defaultOptions: RenderOptions = {
   affixOffsetBottom: 0,
   richTextToken: '',
   useMobileUI: true, // 是否启用移动端原生 UI
+  enableAMISDebug:
+    (window as any).enableAMISDebug ??
+    location.search.indexOf('amisDebug=1') !== -1 ??
+    false,
   loadRenderer,
   rendererEventListeners: [],
   fetcher() {
@@ -491,6 +500,10 @@ export function render(
       locale,
       translate
     } as any;
+
+    if (options.enableAMISDebug) {
+      enableDebug();
+    }
 
     store = RendererStore.create({}, options);
     stores[options.session || 'global'] = store;

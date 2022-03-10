@@ -284,24 +284,6 @@ const AMISDebug = observer(({store}: {store: AMISDebugStore}) => {
   );
 });
 
-export let enableAMISDebug = false;
-
-// 开启 debug 有两种方法，一个是设置 enableAMISDebug 全局变量，另一个是通过 amisDebug=1 query
-if (
-  (window as any).enableAMISDebug ||
-  location.search.indexOf('amisDebug=1') !== -1
-) {
-  enableAMISDebug = true;
-  // 页面只有一个
-  if (!(window as any).amisDebugElement) {
-    const amisDebugElement = document.createElement('div');
-    document.body.appendChild(amisDebugElement);
-    const element = <AMISDebug store={store} />;
-    render(element, amisDebugElement);
-    (window as any).amisDebugElement = true;
-  }
-}
-
 /**
  * 鼠标移动到某个组件的效果
  */
@@ -365,7 +347,20 @@ autorun(() => {
   }
 });
 
-if (enableAMISDebug) {
+// 页面中只能有一个实例
+let isEnabled = false;
+
+export function enableDebug() {
+  if (isEnabled) {
+    return;
+  }
+  isEnabled = true;
+
+  const amisDebugElement = document.createElement('div');
+  document.body.appendChild(amisDebugElement);
+  const element = <AMISDebug store={store} />;
+  render(element, amisDebugElement);
+
   document.body.appendChild(amisHoverBox);
   document.body.appendChild(amisActiveBox);
   document.addEventListener('mousemove', handleMouseMove);
@@ -378,9 +373,6 @@ interface DebugWrapperProps {
 
 export class DebugWrapper extends Component<DebugWrapperProps> {
   componentDidMount() {
-    if (!enableAMISDebug) {
-      return;
-    }
     const root = findDOMNode(this) as HTMLElement;
     if (!root) {
       return;
@@ -407,7 +399,7 @@ type Category = 'api' | 'event';
  * @param ext 扩展信息
  */
 export function debug(cat: Category, msg: string, ext?: object) {
-  if (!enableAMISDebug) {
+  if (!isEnabled) {
     return;
   }
   const log = {
@@ -418,21 +410,4 @@ export function debug(cat: Category, msg: string, ext?: object) {
   };
   console.debug(log);
   store.logs.push(log);
-}
-
-/**
- * 警告日志
- * @param msg 简单消息
- * @param ext 扩展信息
- */
-export function warning(cat: Category, msg: string, ext?: object) {
-  if (!enableAMISDebug) {
-    return;
-  }
-  store.logs.push({
-    cat,
-    level: 'warn',
-    msg: msg,
-    ext: JSON.stringify(ext)
-  });
 }
