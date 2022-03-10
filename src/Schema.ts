@@ -52,6 +52,7 @@ import {DialogSchema, DialogSchemaBase} from './renderers/Dialog';
 import {DrawerSchema} from './renderers/Drawer';
 import {SearchBoxSchema} from './renderers/SearchBox';
 import {SparkLineSchema} from './renderers/SparkLine';
+import {TooltipWrapperSchema} from './renderers/TooltipWrapper';
 import {PaginationWrapperSchema} from './renderers/PaginationWrapper';
 import {PaginationSchema} from './renderers/Pagination';
 import {AnchorNavSchema} from './renderers/AnchorNav';
@@ -331,7 +332,8 @@ export type SchemaType =
   | 'native-date'
   | 'native-time'
   | 'native-number'
-  | 'code';
+  | 'code'
+  | 'tooltip-wrapper';
 
 export type SchemaObject =
   | PageSchema
@@ -389,6 +391,7 @@ export type SchemaObject =
   | VideoSchema
   | WizardSchema
   | WrapperSchema
+  | TooltipWrapperSchema
   | FormSchema
   | AnchorNavSchema
   | StepsSchema
@@ -882,4 +885,4 @@ export interface ToastSchemaBase extends BaseSchema {
    * 持续时间
    */
   timeout: number;
-};
+}

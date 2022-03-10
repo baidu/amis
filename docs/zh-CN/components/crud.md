@@ -1809,6 +1809,55 @@ crud 组件支持通过配置`headerToolbar`和`footerToolbar`属性，实现在
 }
 ```
 
+> 1.8.0 及以上版本
+
+`columns` 支持变量，可以从上下文取数组
+
+```schema
+{
+    "type": "page",
+    "data": {
+        "columns": ["engine", "browser"]
+    },
+    "body": {
+        "type": "crud",
+        "syncLocation": false,
+        "api": "/api/mock2/sample",
+        "headerToolbar": [{
+            "type": "export-excel",
+            "label": "只导出 engine 和  browser 列",
+            "columns": "${columns}"
+        }],
+        "columns": [
+            {
+                "name": "id",
+                "label": "ID"
+            },
+            {
+                "name": "engine",
+                "label": "Rendering engine"
+            },
+            {
+                "name": "browser",
+                "label": "Browser"
+            },
+            {
+                "name": "platform",
+                "label": "Platform(s)"
+            },
+            {
+                "name": "version",
+                "label": "Engine version"
+            },
+            {
+                "name": "grade",
+                "label": "CSS grade"
+            }
+        ]
+    }
+}
+```
+
 #### 通过 api 导出 Excel
 
 > 1.1.6 以上版本支持

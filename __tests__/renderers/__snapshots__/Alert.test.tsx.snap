@@ -61,7 +61,7 @@ exports[`Renderer:alert var 1`] = `
               class="cxd-Alert-icon"
             >
               <icon-mock
-                classname="cxd-Alert-icon icon icon-copy"
+                classname="icon icon-copy"
                 icon="copy"
               />
             </div>

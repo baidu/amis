@@ -120,11 +120,11 @@ test('form:service:remoteData', async () => {
     )
   );
 
-  await wait(300);
+  await wait(500);
 
   expect(container).toMatchSnapshot();
   fireEvent.click(getByText('Submit'));
-  await wait(300);
+  await wait(500);
   expect(onSubmit).toBeCalled();
   expect(onSubmit.mock.calls[0][0]).toMatchObject({
     'child-a': '123'
@@ -183,11 +183,11 @@ test('form:service:remoteSchmea+data', async () => {
     )
   );
 
-  await wait(300);
+  await wait(500);
 
   expect(container).toMatchSnapshot();
   fireEvent.click(getByText('Submit'));
-  await wait(300);
+  await wait(500);
   expect(onSubmit).toBeCalled();
   expect(onSubmit.mock.calls[0][0]).toMatchObject({
     'child-a': '123',
@@ -236,7 +236,7 @@ test('form:service:onChange', async () => {
   });
 
   fireEvent.click(getByText('Submit'));
-  await wait(300);
+  await wait(500);
   expect(onSubmit).toBeCalled();
   expect(onSubmit.mock.calls[0][0]).toMatchObject({
     'child-a': '123'
@@ -288,7 +288,7 @@ test('form:service:super-remoteData', async () => {
     )
   );
 
-  await wait(300);
+  await wait(500);
 
   expect(container).toMatchSnapshot();
 });

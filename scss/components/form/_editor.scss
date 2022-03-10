@@ -4,7 +4,8 @@
 
   > .#{$ns}MonacoEditor,
   > .#{$ns}MonacoEditor > .monaco-diff-editor {
-    min-height: px2rem(198px);
+    // 解决多层Form嵌套情况下Editor无法完整显示的问题
+    min-height: inherit;
   }
 
   overflow: visible;

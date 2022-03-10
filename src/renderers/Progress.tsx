@@ -59,7 +59,7 @@ export interface ProgressSchema extends BaseSchema {
   animate?: boolean;
 
   /**
-   * 圆形进度条线的宽度
+   * 进度条线的宽度
    */
   strokeWidth?: number;
   /**
@@ -95,7 +95,7 @@ export class ProgressField extends React.Component<ProgressProps, object> {
   @autobind
   format(value: number) {
     const {valueTpl, render, data} = this.props;
-    return render(`progress-value`, valueTpl + '', {
+    return render(`progress-value`, valueTpl || '${value}%', {
       data: createObject(data, {value})
     });
   }

@@ -262,6 +262,101 @@ app.listen(8080, function () {});
 }
 ```
 
+**initAutoFill**
+
+当表单反显时，可通过`initAutoFill`控制`autoFill`在数据反显时是否执行。
+
+```schema: scope="body"
+{
+  type: 'crud',
+  api: '/api/mock2/crud/list',
+  perPage: 3,
+  columns: [
+    {
+      type: 'operation',
+      label: '操作',
+      buttons: [
+        {
+          type: 'button',
+          label: '修改',
+          level: 'link',
+          size: 'xs',
+          actionType: 'dialog',
+          dialog: {
+            title: '修改',
+            size: 'lg',
+            body: {
+              "type": "form",
+              "horizontal": {
+                "left": 3,
+                "right": 9
+              },
+              "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
+              "body": [
+                {
+                  "type": "input-image",
+                  "name": "image",
+                  "label": "image",
+                  "receiver": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/upload/file",
+                  "autoFill": {
+                    "text": "${url}"
+                  },
+                  "initAutoFill": true
+                },
+                {
+                  "type": "input-text",
+                  "name": "text",
+                  "label": "文本",
+                },
+                {
+                  "type": "input-image",
+                  "name": "carousel",
+                  "label": "image",
+                  "receiver": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/upload/file",
+                  "autoFill": {
+                    "id": "${url}"
+                  },
+                  "initAutoFill": false
+                },
+                {
+                  "type": "input-text",
+                  "name": "id",
+                  "label": "ID",
+                },
+              ]
+            }
+          },
+        },
+      ]
+    },
+    {
+      name: 'id',
+      label: 'ID',
+      type: 'text'
+    },
+    {
+      name: 'text',
+      label: '文本',
+      type: 'text'
+    },
+    {
+      type: 'image',
+      label: '图片',
+      name: 'image',
+      enlargeAble: true,
+      title: '233',
+      thumbMode: 'cover'
+    },
+    {
+      name: 'carousel',
+      label: '轮播图',
+      type: 'carousel',
+      width: '300'
+    },
+  ]
+}
+```
+
 ## 属性表
 
 除了支持 [普通表单项属性表](./formitem#%E5%B1%9E%E6%80%A7%E8%A1%A8) 中的配置以外，还支持下面一些配置
@@ -275,7 +370,7 @@ app.listen(8080, function () {});
 | multiple           | `boolean`                       | `false`                | 是否多选。                                                                                                                                       |
 | joinValues         | `boolean`                       | `true`                 | [拼接值](./options#%E6%8B%BC%E6%8E%A5%E5%80%BC-joinvalues)                                                                                       |
 | extractValue       | `boolean`                       | `false`                | [提取值](./options#%E6%8F%90%E5%8F%96%E5%A4%9A%E9%80%89%E5%80%BC-extractvalue)                                                                   |
-| delimeter          | `string`                        | `,`                    | [拼接符](./options#%E6%8B%BC%E6%8E%A5%E7%AC%A6-delimiter)                                                                                        |
+| delimiter          | `string`                        | `,`                    | [拼接符](./options#%E6%8B%BC%E6%8E%A5%E7%AC%A6-delimiter)                                                                                        |
 | autoUpload         | `boolean`                       | `true`                 | 否选择完就自动开始上传                                                                                                                           |
 | hideUploadButton   | `boolean`                       | `false`                | 隐藏上传按钮                                                                                                                                     |
 | fileField          | `string`                        | `file`                 | 如果你不想自己存储，则可以忽略此属性。                                                                                                           |
@@ -290,6 +385,7 @@ app.listen(8080, function () {});
 | frameImage         | `string`                        |                        | 默认占位图地址                                                                                                                                   |
 | fixedSize          | `boolean`                       |                        | 是否开启固定尺寸,若开启，需同时设置 fixedSizeClassName                                                                                           |
 | fixedSizeClassName | `string`                        |                        | 开启固定尺寸时，根据此值控制展示尺寸。例如`h-30`,即图片框高为 h-30,AMIS 将自动缩放比率设置默认图所占位置的宽度，最终上传图片根据此尺寸对应缩放。 |
+| initAutoFill       | `boolean`                       | `false`                | 表单反显时是否执行 autoFill                                                                                                                      |
 
 ### Limit 属性表
 

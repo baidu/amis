@@ -470,7 +470,7 @@
   --Carousel-bg: #f6f8f8;
   --Carousel-dot-borderRadius: #{px2rem(4px)};
   --Carousel-dot-height: #{px2rem(8px)};
-  --Carousel-dot-margin: #{px2rem(7px)} var(--gap-xs);
+  --Carousel-dot-margin: #{px2rem(8px)} var(--gap-xs);
   --Carousel-dot-width: #{px2rem(8px)};
   --Carousel-height: #{px2rem(200px)};
   --Carousel-imageDescription-bottom: #{px2rem(25px)};
@@ -1314,6 +1314,7 @@
   --Tabs--line-content-padding: var(--gap-base) 0;
   --Tabs--line-linkMargin: 0 32px 0 0;
   --Tabs--line-linkPadding: 0 0 8px;
+  --Tabs--line-addPadding: 0 0 10px;
   --Tabs--line-padding: var(--gap-md);
   --Tabs--line-onHover-borderColor: var(--primary);
   --Tabs--line-onHover-color: var(--primary);
@@ -1337,13 +1338,21 @@
   --Tabs-onActive-color: #{$gray700};
   --Tabs-onDisabled-color: #{$gray600};
   --Tabs-onHover-borderColor: #{$gray200};
-  --Tabs-add-icon-size: #{px2rem(16px)};
+  --Tabs-add-icon-size: #{px2rem(15px)};
   --Tabs-add-icon-padding: #{px2rem(1px)};
   --Tabs-add-icon-margin: var(--gap-xs);
   --Tabs-add-margin: var(--gap-lg);
+  --Tabs-gray-color: #83868c;
   --Tabs-close-margin: #{var(--gap-xs)};
+  --Tabs-close-marginTop: #{px2rem(1px)};
   --Tabs-close-size: #{px2rem(12px)};
   --Tabs-link-maxWidth: #{px2rem(160px)};
+
+  --Tabs--sidebar-sideWidth: #{px2rem(62px)};
+  --Tabs--sidebar-sidePadding: #{px2rem(27px)};
+  --Tabs--sidebar-sideMargin: 0 0 #{px2rem(22px)} 0;
+  --Tabs--sidebar-iconSize: #{px2rem(24px)};
+  --Tabs--sidebar-iconMargin: #{px2rem(5px)};
 
   --Tabs--vertical-bg: var(--Table-thead-bg);
   --Tabs--vertical-width: #{px2rem(140px)};
@@ -1425,26 +1434,31 @@
   --Tooltip--attr-paddingY: #{px2rem(2px)};
   --Tooltip--attr-transition: all var(--animation-duration) ease-in-out;
   --Tooltip-arrow-color: var(--Tooltip-bg);
-  --Tooltip-arrow-color: var(--Tooltip-bg);
+  --Tooltip-arrow-color--dark: rgba(7, 12, 20, 0.85);
   --Tooltip-arrow-height: #{px2rem(8px)};
   --Tooltip-arrow-height: 0.5rem;
   --Tooltip-arrow-outerColor: #{fade-in($borderColor, 0.05)};
   --Tooltip-arrow-width: #{px2rem(16px)};
   --Tooltip-arrow-width: 1rem;
   --Tooltip-bg: var(--background);
+  --Tooltip-bg--dark: rgba(7, 12, 20, 0.85);
   --Tooltip-body-color: var(--text-color);
+  --Tooltip-body-color--dark: var(--white);
   --Tooltip-body-paddingX: var(--gap-sm);
   --Tooltip-body-paddingY: var(--gap-sm);
   --Tooltip-borderColor: var(--borderColor);
   --Tooltip-borderRadius: var(--borderRadiusLg);
   --Tooltip-borderWidth: var(--borderWidth);
   --Tooltip-boxShadow: var(--boxShadow);
+  --Tooltip-boxShadow--dark: 0 2px 8px 0 rgba(7, 12, 20, 0.12);
   --Tooltip-fontSize: var(--fontSizeSm);
   --Tooltip-maxWidth: #{px2rem(240px)};
   --Tooltip-minWidth: auto;
+  --Tooltip-title-fontWeight: bold;
   --Tooltip-title-bg: #{darken($white, 3%)};
   --Tooltip-title-borderBottom-color: #{darken(darken($white, 3%), 5%)};
   --Tooltip-title-color: var(--text--loud-color);
+  --Tooltip-title-color--dark: var(--white);
   --Tooltip-title-paddingX: var(--gap-sm);
   --Tooltip-title-paddingY: var(--gap-xs);
 

@@ -173,7 +173,6 @@ export const components = [
           import('../../docs/zh-CN/components/service.md').then(wrapDoc)
         )
       },
-
       {
         label: 'Nav 导航',
         path: '/zh-CN/components/nav',
@@ -181,7 +180,6 @@ export const components = [
           import('../../docs/zh-CN/components/nav.md').then(wrapDoc)
         )
       },
-
       {
         label: 'AnchorNav 锚点导航',
         path: '/zh-CN/components/anchor-nav',
@@ -189,7 +187,13 @@ export const components = [
           import('../../docs/zh-CN/components/anchor-nav.md').then(wrapDoc)
         )
       },
-
+      {
+        label: 'TooltipWrapper 文字提示容器',
+        path: '/zh-CN/components/tooltip',
+        component: React.lazy(() =>
+          import('../../docs/zh-CN/components/tooltip-wrapper.md').then(wrapDoc)
+        )
+      },
       {
         label: 'PopOver 弹出提示',
         path: '/zh-CN/components/popover',
@@ -245,7 +249,7 @@ export const components = [
       {
         label: 'ButtonGroupSelect 按钮点选',
         path: '/zh-CN/components/form/button-group-select',
-        wrapDoc: React.lazy(() =>
+        component: React.lazy(() =>
           import(
             '../../docs/zh-CN/components/form/button-group-select.md'
           ).then(wrapDoc)

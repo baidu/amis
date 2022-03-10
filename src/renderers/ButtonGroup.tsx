@@ -15,12 +15,12 @@ export interface ButtonGroupSchema extends BaseSchema {
   type: 'button-group';
 
   /**
-   * 给 Button 配置 className。
+   * @deprecated 给 Button 配置 className。建议用btnLevel
    */
   btnClassName?: SchemaClassName;
 
   /**
-   * 给选中态 Button 配置 className。
+   * @deprecated 给选中态 Button 配置 className。建议用btnActiveLevel
    */
   btnActiveClassName: string;
 

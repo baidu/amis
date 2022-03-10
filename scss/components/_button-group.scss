@@ -68,6 +68,10 @@
     border-top-left-radius: 0;
     border-bottom-left-radius: 0;
   }
+
+  > .#{$ns}ButtonGroup:last-child > .#{$ns}Button:not(:last-child) {
+    border-top-right-radius: 0;
+  }
 }
 
 .#{$ns}ButtonGroup--vertical {
@@ -98,6 +102,17 @@
   > .#{$ns}ButtonGroup:not(:first-child) > .btn {
     border-top-left-radius: 0;
     border-top-right-radius: 0;
+  }
+
+  /* 修正头尾的圆角 */
+  > .#{$ns}Button:first-child,
+  > .#{$ns}ButtonGroup:first-child > .#{$ns}Button:first-child {
+    border-top-right-radius: var(--Button-borderRadius);
+  }
+
+  > .#{$ns}Button:last-child,
+  > .#{$ns}ButtonGroup:last-child > .#{$ns}Button:last-child {
+    border-bottom-left-radius: var(--Button-borderRadius);
   }
 }
 

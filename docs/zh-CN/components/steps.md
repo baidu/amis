@@ -93,6 +93,65 @@ order: 68
 }
 ```
 
+## 指定标签放置位置
+
+```schema
+{
+  "type": "page",
+  "body": {
+    "type": "steps",
+    "value": 1,
+    "labelPlacement": "vertical",
+    "steps": [
+      {
+        "title": "First",
+        "subTitle": "this is subTitle",
+        "description": "this is description"
+      },
+      {
+        "title": "Second",
+        "subTitle": "this is subTitle",
+        "description": "this is description"
+      },
+      {
+        "title": "Last",
+        "subTitle": "this is subTitle",
+        "description": "this is description"
+      }
+    ]
+  }
+}
+```
+
+## 点状步骤条
+
+```schema
+{
+  "type": "page",
+  "body": {
+    "type": "steps",
+    "value": 1,
+    "progressDot": true,
+    "steps": [
+      {
+        "title": "First",
+        "subTitle": "this is subTitle",
+        "description": "this is description"
+      },
+      {
+        "title": "Second",
+        "subTitle": "this is subTitle",
+        "description": "this is description"
+      },
+      {
+        "title": "Last",
+        "subTitle": "this is subTitle",
+        "description": "this is description"
+      }
+    ]
+  }
+}
+```
 ## 数据映射
 
 当前处于第几步统一通过 `name` 关联变量名，其他配置可通过 `"${xxx}"` 关联上下文变量。
@@ -270,14 +329,15 @@ order: 68
 | status    | [StepStatus](#StepStatus) \| {[propName: string]: stepStatus;}                    | `-`          | 状态                                                                 |
 | className | `string`                                                                          | `-`          | 自定义类名                                                           |
 | mode      | `horizontal` \| `vertical`                                                        | `horizontal` | 指定步骤条方向。目前支持水平（horizontal）和竖直（vertical）两种方向 |
-
+| labelPlacement      | `horizontal` \| `vertical`                                                        | `horizontal` | 指定标签放置位置，默认水平放图标右侧，可选 (vertical) 放图标下方 |
+| progressDot      | `boolean`                                                        | `false` | 点状步骤条 |
 ### step
 
 | 属性名      | 类型                                                  | 默认值 | 说明                                    |
 | ----------- | ----------------------------------------------------- | ------ | --------------------------------------- |
-| title       | `string \| [SchemaNode](../../docs/types/schemanode)` |        | 标题                                    |
-| subTitle    | `string \| [SchemaNode](../../docs/types/schemanode)` |        | 子标题                                  |
-| description | `string \| [SchemaNode](../../docs/types/schemanode)` |        | 详细描述                                |
+| title       | `string` \| [SchemaNode](../../docs/types/schemanode) |        | 标题                                    |
+| subTitle    | `string` \| [SchemaNode](../../docs/types/schemanode) |        | 子标题                                  |
+| description | `string` \| [SchemaNode](../../docs/types/schemanode) |        | 详细描述                                |
 | icon        | `string`                                              |        | icon 名，支持 fontawesome v4 或使用 url |
 | value       | `string`                                              |        | value                                   |
 | className   | `string`                                              |        | 自定义类名                              |

@@ -130,7 +130,7 @@ test('Renderer:condition-builder add', async () => {
 
   fireEvent.change(textRightInput, {target: {value: 'amis'}});
 
-  await wait(300);
+  await wait(500);
 
   const formDebug = JSON.parse(
     document.querySelector('form pre code')!.innerHTML

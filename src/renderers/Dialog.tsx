@@ -90,6 +90,11 @@ export interface DialogSchema extends BaseSchema {
    * 是否显示错误信息
    */
   showErrorMsg?: boolean;
+
+  /**
+   * 是否显示 spinner
+   */
+  showLoading?: boolean;
 }
 
 export type DialogSchemaBase = Omit<DialogSchema, 'type'>;
@@ -424,13 +429,22 @@ export default class Dialog extends React.Component<DialogProps> {
       return null;
     }
 
-    const {store, render, classnames: cx, showErrorMsg} = this.props;
+    const {
+      store,
+      render,
+      classnames: cx,
+      showErrorMsg,
+      showLoading
+    } = this.props;
 
     return (
       <div className={cx('Modal-footer')}>
-        {store.loading || store.error ? (
+        {(showLoading !== false && store.loading) ||
+        (showErrorMsg !== false && store.error) ? (
           <div className={cx('Dialog-info')} key="info">
-            <Spinner size="sm" key="info" show={store.loading} />
+            {showLoading !== false ? (
+              <Spinner size="sm" key="info" show={store.loading} />
+            ) : null}
             {store.error && showErrorMsg !== false ? (
               <span className={cx('Dialog-error')}>{store.msg}</span>
             ) : null}

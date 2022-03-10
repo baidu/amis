@@ -7,8 +7,10 @@ import includes from 'lodash/includes';
 import DateRangePicker, {
   DateRangePicker as BaseDateRangePicker
 } from '../../components/DateRangePicker';
-import { isMobile, createObject, autobind } from '../../utils/helper';
+import {isMobile, createObject, autobind} from '../../utils/helper';
 import {Action} from '../../types';
+
+import type {ShortCuts} from '../../components/DatePicker';
 
 /**
  * DateRange 日期范围控件
@@ -75,6 +77,11 @@ export interface DateRangeControlSchema extends FormBaseControl {
    * 开启后变成非弹出模式，即内联模式。
    */
   embed?: boolean;
+
+  /**
+   * 日期范围快捷键
+   */
+  ranges?: string | Array<ShortCuts>;
 }
 
 export interface DateRangeProps

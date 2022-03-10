@@ -69,7 +69,7 @@ test('Renderer:FormItem:validateApi:success', async () => {
       value: '123'
     }
   });
-  await wait(300); // 有 250 秒左右的节流
+  await wait(500); // 有 250 秒左右的节流
   fireEvent.click(getByText('Submit'));
   await wait(100);
 
@@ -138,7 +138,7 @@ test('Renderer:FormItem:validateApi:failed', async () => {
       value: '123'
     }
   });
-  await wait(300); // 有 250 秒左右的节流
+  await wait(500); // 有 250 秒左右的节流
   fireEvent.click(getByText('Submit'));
   await wait(100);
 

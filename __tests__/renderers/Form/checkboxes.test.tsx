@@ -55,11 +55,11 @@ test('Renderer:checkboxes', async () => {
     )
   );
   expect(container).toMatchSnapshot();
-  await wait(300);
+  await wait(500);
   fireEvent.click(getByText(/Option A/));
-  await wait(300);
+  await wait(500);
   fireEvent.click(getByText(/Option B/));
-  await wait(300);
+  await wait(500);
   expect(container).toMatchSnapshot();
 });
 

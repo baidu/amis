@@ -240,6 +240,6 @@ List 的内容、Card 卡片的内容配置同上
 | animate              | `boolean`       | `false`                                                              | type 为 line，可支持动画                          |
 | map                  | `Array<string>` | `['bg-danger', 'bg-warning', 'bg-info', 'bg-success', 'bg-success']` | 进度颜色映射                                      |
 | valueTpl             | `string`        | `${value}%`                                                          | 自定义格式化内容                                  |
-| strokeWidth          | `number`        | `6`                                                                  | 圆形进度条线宽度                                  |
+| strokeWidth          | `number`        | line 类型为`10`，circle、dashboard 类型为`6`                         | 进度条线宽度                                      |
 | gapDegree            | `number`        | `75`                                                                 | 仪表盘缺角角度，可取值 0 ~ 295                    |
 | gapPosition          | `string`        | `bottom`                                                             | 仪表盘进度条缺口位置，可选`top bottom left right` |

@@ -74,7 +74,8 @@ exports[`Renderer:tabs-transfer 1`] = `
                           class="cxd-Tabs cxd-Tabs--card cxd-TabsTransfer-tabs"
                         >
                           <div
-                            class="cxd-Tabs-linksContainer-wrapper"
+                            class="cxd-Tabs-linksContainer-wrapper cxd-Tabs-linksContainer-wrapper--toolbar"
+                            style="position: relative;"
                           >
                             <div
                               class="cxd-Tabs-linksContainer"
@@ -122,6 +123,45 @@ exports[`Renderer:tabs-transfer 1`] = `
                                   </div>
                                 </ul>
                               </div>
+                            </div>
+                            <div
+                              class="resize-sensor"
+                              style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
+                            >
+                              
+  
+                              <div
+                                class="resize-sensor-expand"
+                                style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+                              >
+                                
+    
+                                <div
+                                  style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
+                                />
+                                
+  
+                              </div>
+                              
+  
+                              <div
+                                class="resize-sensor-shrink"
+                                style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+                              >
+                                
+    
+                                <div
+                                  style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
+                                />
+                                
+  
+                              </div>
+                              
+  
+                              <div
+                                class="resize-sensor-appear"
+                                style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
+                              />
                             </div>
                           </div>
                           <div

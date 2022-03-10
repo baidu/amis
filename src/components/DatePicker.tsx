@@ -17,6 +17,7 @@ import Calendar from './calendar/Calendar';
 import {localeable, LocaleProps, TranslateFn} from '../locale';
 import {isMobile, ucFirst} from '../utils/helper';
 import CalendarMobile from './CalendarMobile';
+import Input from './Input';
 
 const availableShortcuts: {[propName: string]: any} = {
   now: {
@@ -302,6 +303,7 @@ export interface DatePickerState {
   isOpened: boolean;
   isFocused: boolean;
   value: moment.Moment | undefined;
+  inputValue: string | undefined; // 手动输入的值
 }
 
 function normalizeValue(value: any, format?: string) {
@@ -329,11 +331,15 @@ export class DatePicker extends React.Component<DateProps, DatePickerState> {
   state: DatePickerState = {
     isOpened: false,
     isFocused: false,
-    value: normalizeValue(this.props.value, this.props.format)
+    value: normalizeValue(this.props.value, this.props.format),
+    inputValue:
+      normalizeValue(this.props.value, this.props.format)?.format(
+        this.props.inputFormat
+      ) || ''
   };
   constructor(props: DateProps) {
     super(props);
-
+    this.inputRef = React.createRef();
     this.handleChange = this.handleChange.bind(this);
     this.selectRannge = this.selectRannge.bind(this);
     this.checkIsValidDate = this.checkIsValidDate.bind(this);
@@ -348,17 +354,35 @@ export class DatePicker extends React.Component<DateProps, DatePickerState> {
     this.getTarget = this.getTarget.bind(this);
     this.handlePopOverClick = this.handlePopOverClick.bind(this);
     this.renderShortCuts = this.renderShortCuts.bind(this);
+    this.inputChange = this.inputChange.bind(this);
   }
 
   dom: HTMLDivElement;
 
+  inputRef: React.RefObject<HTMLInputElement>;
+
   componentDidUpdate(prevProps: DateProps) {
     const props = this.props;
 
-    if (prevProps.value !== props.value) {
-      this.setState({
+    const prevValue = prevProps.value;
+
+    if (prevValue !== props.value) {
+      const newState: any = {
         value: normalizeValue(props.value, props.format)
-      });
+      };
+      // 相对值和公式是 didUpdate 的时候才更新
+      if (
+        typeof prevValue === 'string' &&
+        (prevValue.startsWith('+') ||
+          prevValue.startsWith('-') ||
+          prevValue.startsWith('$'))
+      ) {
+        newState.inputValue =
+          normalizeValue(this.props.value, this.props.format)?.format(
+            this.props.inputFormat
+          ) || '';
+      }
+      this.setState(newState);
     }
   }
 
@@ -403,13 +427,17 @@ export class DatePicker extends React.Component<DateProps, DatePickerState> {
   }
 
   open(fn?: () => void) {
-    this.props.disabled ||
-      this.setState(
-        {
-          isOpened: true
-        },
-        fn
-      );
+    if (this.props.disabled) {
+      return;
+    }
+    this.setState(
+      {
+        isOpened: true
+      },
+      fn
+    );
+    const input = this.inputRef.current;
+    input && input.focus();
   }
 
   close() {
@@ -423,6 +451,7 @@ export class DatePicker extends React.Component<DateProps, DatePickerState> {
     e.stopPropagation();
     const onChange = this.props.onChange;
     onChange('');
+    this.setState({inputValue: ''});
   }
 
   handleChange(value: moment.Moment) {
@@ -432,6 +461,7 @@ export class DatePicker extends React.Component<DateProps, DatePickerState> {
       minDate,
       maxDate,
       dateFormat,
+      inputFormat,
       timeFormat,
       closeOnSelect,
       utc,
@@ -452,6 +482,31 @@ export class DatePicker extends React.Component<DateProps, DatePickerState> {
 
     if (closeOnSelect && dateFormat && !timeFormat) {
       this.close();
+    }
+
+    this.setState({
+      inputValue: utc
+        ? moment.utc(value).format(inputFormat)
+        : value.format(inputFormat)
+    });
+  }
+
+  // 手动输入日期
+  inputChange(e: React.ChangeEvent<HTMLInputElement>) {
+    const {onChange, inputFormat, format, utc} = this.props;
+    const value = e.currentTarget.value;
+    this.setState({inputValue: value});
+    if (value === '') {
+      onChange('');
+    } else {
+      const newDate = moment(value, inputFormat);
+      const dateValue = utc
+        ? moment.utc(newDate).format(format)
+        : newDate.format(format);
+      // 小于 0 的日期丢弃
+      if (!dateValue.startsWith('-')) {
+        onChange(dateValue);
+      }
     }
   }
 
@@ -684,7 +739,7 @@ export class DatePicker extends React.Component<DateProps, DatePickerState> {
           `DatePicker`,
           {
             'is-disabled': disabled,
-            'is-focused': this.state.isFocused,
+            'is-focused': !disabled && this.state.isFocused,
             [`DatePicker--border${ucFirst(borderMode)}`]: borderMode,
             'is-mobile': useMobileUI && isMobile()
           },
@@ -693,15 +748,15 @@ export class DatePicker extends React.Component<DateProps, DatePickerState> {
         ref={this.domRef}
         onClick={this.handleClick}
       >
-        {date ? (
-          <span className={cx(`DatePicker-value`)}>
-            {date.format(inputFormat)}
-          </span>
-        ) : (
-          <span className={cx(`DatePicker-placeholder`)}>
-            {__(placeholder)}
-          </span>
-        )}
+        <Input
+          className={cx('DatePicker-input')}
+          onChange={this.inputChange}
+          ref={this.inputRef}
+          placeholder={__(placeholder)}
+          autoComplete="off"
+          value={this.state.inputValue}
+          disabled={disabled}
+        />
 
         {clearable && !disabled && normalizeValue(value, format) ? (
           <a className={cx(`DatePicker-clear`)} onClick={this.clearValue}>

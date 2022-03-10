@@ -10,6 +10,7 @@ import {
 import {Schema, Action, Api} from '../../types';
 import {ComboStore, IComboStore} from '../../store/combo';
 import {default as CTabs, Tab} from '../../components/Tabs';
+import Button from '../../components/Button';
 
 import {
   guid,
@@ -294,6 +295,8 @@ export default class ComboControl extends React.Component<ComboProps> {
     | 'tabsMode'
     | 'tabsStyle'
     | 'placeholder'
+    | 'itemClassName'
+    | 'itemsWrapperClassName'
   > = {
     minLength: 0,
     maxLength: 0,
@@ -310,7 +313,9 @@ export default class ComboControl extends React.Component<ComboProps> {
     deleteIcon: '',
     tabsMode: false,
     tabsStyle: '',
-    placeholder: 'placeholder.empty'
+    placeholder: 'placeholder.empty',
+    itemClassName: '',
+    itemsWrapperClassName: ''
   };
   static propsList: Array<string> = [
     'minLength',
@@ -337,7 +342,9 @@ export default class ComboControl extends React.Component<ComboProps> {
     'items',
     'conditions',
     'messages',
-    'formStore'
+    'formStore',
+    'itemClassName',
+    'itemsWrapperClassName'
   ];
 
   subForms: Array<any> = [];
@@ -635,7 +642,8 @@ export default class ComboControl extends React.Component<ComboProps> {
 
     if (
       syncDefaultValue === false ||
-      this.subFormDefaultValues.length !== this.subForms.length
+      this.subFormDefaultValues.length !==
+        this.subForms.filter(item => item !== undefined).length
     ) {
       return;
     }
@@ -1186,7 +1194,9 @@ export default class ComboControl extends React.Component<ComboProps> {
       lazyLoad,
       changeImmediately,
       placeholder,
-      translate: __
+      translate: __,
+      itemClassName,
+      itemsWrapperClassName
     } = this.props;
 
     let items = this.props.items;
@@ -1213,7 +1223,7 @@ export default class ComboControl extends React.Component<ComboProps> {
             : ''
         )}
       >
-        <div className={cx(`Combo-items`)}>
+        <div className={cx(`Combo-items`, itemsWrapperClassName)}>
           {Array.isArray(value) && value.length ? (
             value.map((value, index, thelist) => {
               let delBtn: any = null;
@@ -1224,21 +1234,20 @@ export default class ComboControl extends React.Component<ComboProps> {
                   evalExpression(itemRemovableOn, value) !== false)
               ) {
                 delBtn = (
-                  <a
-                    onClick={this.removeItem.bind(this, index)}
+                  <Button
                     key="remove"
-                    className={cx(
-                      `Combo-delBtn ${!store.removable ? 'is-disabled' : ''}`
-                    )}
-                    data-tooltip={__('delete')}
-                    data-position="bottom"
+                    className={cx('Combo-delBtn')}
+                    disabled={!store.removable}
+                    tooltip={__('delete')}
+                    tooltipPlacement="bottom"
+                    onClick={this.removeItem.bind(this, index)}
                   >
                     {deleteIcon ? (
                       <i className={deleteIcon} />
                     ) : (
                       <Icon icon="status-close" className="icon" />
                     )}
-                  </a>
+                  </Button>
                 );
               }
 
@@ -1262,7 +1271,7 @@ export default class ComboControl extends React.Component<ComboProps> {
 
               return (
                 <div
-                  className={cx(`Combo-item`)}
+                  className={cx(`Combo-item`, itemClassName)}
                   key={this.keys[index] || (this.keys[index] = guid())}
                 >
                   {!disabled && draggable && thelist.length > 1 ? (
@@ -1363,15 +1372,14 @@ export default class ComboControl extends React.Component<ComboProps> {
                   }
                 )
               ) : (
-                <button
-                  type="button"
+                <Button
+                  className={cx(`Combo-addBtn`, addButtonClassName)}
+                  tooltip={__('Combo.add')}
                   onClick={this.addItem}
-                  className={cx(`Button Combo-addBtn`, addButtonClassName)}
-                  data-tooltip={__('Combo.add')}
                 >
                   {addIcon ? <Icon icon="plus" className="icon" /> : null}
                   <span>{__(addButtonText || 'Combo.add')}</span>
-                </button>
+                </Button>
               )
             ) : null}
             {draggable ? (
@@ -1400,7 +1408,8 @@ export default class ComboControl extends React.Component<ComboProps> {
       disabled,
       typeSwitchable,
       nullable,
-      translate: __
+      translate: __,
+      itemClassName
     } = this.props;
 
     let items = this.props.items;
@@ -1421,7 +1430,7 @@ export default class ComboControl extends React.Component<ComboProps> {
           disabled ? 'is-disabled' : ''
         )}
       >
-        <div className={cx(`Combo-item`)}>
+        <div className={cx(`Combo-item`, itemClassName)}>
           {condition && typeSwitchable !== false ? (
             <div className={cx('Combo-itemTag')}>
               <label>{__('Combo.type')}</label>

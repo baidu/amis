@@ -140,7 +140,7 @@ order: 27
     "type": "alert",
     "body": "自定义ICON文案",
     "showIcon": true,
-    "icon": "warning",
+    "icon": "info-circle",
     "className": "mb-1"
   },
   {
@@ -148,8 +148,8 @@ order: 27
     "title": "自定义ICON标题",
     "body": "自定义ICON文案",
     "showIcon": true,
-    "icon": "warning"
-  },
+    "icon": "fa fa-list"
+  }
 ]
 ```
 
