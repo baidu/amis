@@ -24,7 +24,6 @@ import type {
 import {stripNumber} from '../utils/tpl-builtin';
 import {findDOMNode} from 'react-dom';
 import {Icon} from './icons';
-import {isArray, isNumber} from 'lodash';
 
 type MarksType = {
   [index: number | string]: Record<
