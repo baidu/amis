@@ -29,7 +29,9 @@ export interface FuncGroup {
 }
 
 export interface FuncItem {
-  name: string;
+  name: string; // 函数名
+  example?: string; // 示例
+  description?: string; // 描述
   [propName: string]: any;
 }
 
@@ -119,11 +121,7 @@ export class FormulaEditor extends React.Component<
     return funcs;
   }
 
-  static defaultProps: Pick<
-    FormulaEditorProps,
-    'functions' | 'variables' | 'evalMode'
-  > = {
-    functions: FormulaEditor.buildDefaultFunctions(doc),
+  static defaultProps: Pick<FormulaEditorProps, 'variables' | 'evalMode'> = {
     variables: [],
     evalMode: true
   };
@@ -254,6 +252,12 @@ export class FormulaEditor extends React.Component<
       classPrefix
     } = this.props;
     const {focused} = this.state;
+    const customFunctions = Array.isArray(functions) ? functions : [];
+    const functionList = [
+      ...FormulaEditor.buildDefaultFunctions(doc),
+      ...customFunctions
+    ];
+
     return (
       <div
         className={cx(`FormulaEditor`, {
@@ -299,7 +303,7 @@ export class FormulaEditor extends React.Component<
           <FuncList
             className={functionClassName}
             title={__('FormulaEditor.function')}
-            data={functions}
+            data={functionList}
             onSelect={this.handleFunctionSelect}
           />
         </section>
