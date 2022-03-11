@@ -100,7 +100,7 @@
     }
   
     &:hover {
-      background: var(--Tree-item-onHover-bg);
+      background: var(--Tree-item-onHover-bg-pure);
     }
   }
 
@@ -308,7 +308,7 @@
 
     &--hover {
       border-radius: 0;
-      background-color: var(--Tree-item-onHover-bg);
+      background-color: var(--Tree-item-onHover-bg-pure);
 
       &::after {
         display: none;

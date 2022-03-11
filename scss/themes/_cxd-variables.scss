@@ -637,7 +637,7 @@ $L1: 0px 4px 6px 0px rgba(8, 14, 26, 0.06),
   --Rating-inactive-color: #{$G9};
 
   // tree
-  --Tree-item-onHover-bg: #{$G10};
+  --Tree-item-onHover-bg-pure: #{$G10};
   --Tree-item-onChekced-bg: var(--Form-select-menu-onHover-bg);
   --Tree-item-onChekced-bg-borderRadius: #{px2rem(2px)};
   --Tree-itemHeight: #{px2rem(24px)};
