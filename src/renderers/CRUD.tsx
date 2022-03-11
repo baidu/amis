@@ -106,6 +106,16 @@ export interface CRUDCommonSchema extends BaseSchema {
   perPage?: number;
 
   /**
+   * 默认排序字段
+   */
+  orderBy?: string;
+
+  /**
+   * 默认排序方向
+   */
+  orderDir?: 'asc' | 'desc';
+
+  /**
    * 可以默认给定初始参数如： {\"perPage\": 24}
    */
   defaultParams?: PlainObject;
@@ -772,11 +782,17 @@ export default class CRUD extends React.Component<CRUDProps, any> {
   }
 
   handleFilterInit(values: object) {
-    const {defaultParams, data, store} = this.props;
+    const {defaultParams, data, store, orderBy, orderDir} = this.props;
+    const params = {...defaultParams};
+
+    if (orderBy) {
+      params['orderBy'] = orderBy;
+      params['orderDir'] = orderDir || 'asc';
+    }
 
     this.handleFilterSubmit(
       {
-        ...defaultParams,
+        ...params,
         ...values,
         ...store.query
       },
