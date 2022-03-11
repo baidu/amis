@@ -574,15 +574,6 @@ export const TableStore = iRendererStore
         );
       },
 
-      get partialChecked(): boolean {
-        return !!(
-          (self as ITableStore).checkableRows.length &&
-          self.selectedRows.length &&
-          self.selectedRows.length !==
-            (self as ITableStore).checkableRows.length
-        );
-      },
-
       isSelected,
 
       get allExpanded() {
