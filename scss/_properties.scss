@@ -663,6 +663,9 @@
   --Form--horizontal-label-widthSm: #{px2rem(90px)};
   --Form--horizontal-label-widthXs: #{px2rem(60px)};
 
+  --Form--horizontal-justify-label-align: left;
+  --Form--horizontal-justify-value-align: right;
+
   --Form-control-widthBase: #{px2rem(200px)};
   --Form-control-widthLg: #{px2rem(320px)};
   --Form-control-widthMd: #{px2rem(240px)};
@@ -856,7 +859,7 @@
   --InputRange-padding: #{px2rem(20px)};
   --InputRange-onDisabled-color: var(--light);
   --InputRange-primaryColor: var(--primary);
-  --InputRange-track-height: #{px2rem(6px)};
+  --InputRange-track-height: #{px2rem(4px)};
   --InputRange-track-bg: #{$gray100};
   --InputRange-track-onDisabled-bg: var(--InputRange-onDisabled-color);
   --InputRange-track-onActive-bg: var(--InputRange-primaryColor);
