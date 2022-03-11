@@ -43,6 +43,40 @@ order: 9
     ]
 }
 ```
+## 按钮模式
+
+```schema: scope="body"
+{
+    "type": "form",
+    "api": "/api/mock2/form/saveForm",
+    "body": [
+        {
+        "name": "checkboxes",
+        "type": "checkboxes",
+        "label": "复选框",
+        "optionType": "button",
+        "options": [
+            {
+                "label": "OptionA",
+                "value": "a"
+            },
+            {
+                "label": "OptionB",
+                "value": "b"
+            },
+            {
+                "label": "OptionC",
+                "value": "c"
+            },
+            {
+                "label": "OptionD",
+                "value": "d"
+            }
+            ]
+        }
+    ]
+}
+```
 
 ## 按列显示
 
