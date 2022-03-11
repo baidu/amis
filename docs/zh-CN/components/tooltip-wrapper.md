@@ -180,6 +180,54 @@ order: 59
 }
 ```
 
+## 位置偏移
+
+组件提供了关于相对提示位置的垂直、水平位置上的偏移，默认[0, 0]。
+
+```schema: scope="body"
+[
+  {
+    "type": "tooltip-wrapper",
+    "title": "标题",
+    "content": "文案提示位置偏移 [10, -20]",
+    "offset": [10, -20],
+    "inline": true,
+    "className": "mr-2",
+    "body": [
+      {
+        "type": "tpl",
+        "tpl": "向右偏移10px向上偏移20px"
+      }
+    ]
+  }
+]
+
+```
+
+## 展示箭头
+
+`showArrow` 为 `false` 不展示箭头。
+
+```schema: scope="body"
+[
+  {
+    "type": "tooltip-wrapper",
+    "title": "标题",
+    "content": "提示内容",
+    "showArrow": false,
+    "inline": true,
+    "className": "mr-2",
+    "body": [
+      {
+        "type": "tpl",
+        "tpl": "没有箭头"
+      }
+    ]
+  }
+]
+
+```
+
 ## 主题色
 
 组件提供了两个不同的主题：`dark` 和 `light`，默认使用`light`。
@@ -204,11 +252,36 @@ order: 59
     "title": "标题",
     "content": "文案提示",
     "inline": true,
-    "themeColor": "dark",
+    "tooltipTheme": "dark",
     "body": [
       {
         "type": "tpl",
         "tpl": "dark主题提示"
+      }
+    ]
+  }
+]
+
+```
+
+## 延迟打开&关闭
+
+`mouseEnterDelay` 为延迟展示, `mouseLeaveDelay` 为延迟隐藏，
+
+```schema: scope="body"
+[
+  {
+    "type": "tooltip-wrapper",
+    "title": "标题",
+    "content": "提示内容",
+    "mouseEnterDelay": 1000,
+    "mouseLeaveDelay": 2000,
+    "inline": true,
+    "className": "mr-2",
+    "body": [
+      {
+        "type": "tpl",
+        "tpl": "延迟1s展示，延迟2s隐藏"
       }
     ]
   }
@@ -313,25 +386,24 @@ order: 59
 
 ## 属性表
 
-| 属性名           | 类型                                                                    | 默认值              | 说明                                                              |
-| ---------------- | ----------------------------------------------------------------------- | ------------------- | ----------------------------------------------------------------- |
-| type             | `string`                                                                | `"tooltip-wrapper"` | 指定为文字提示容器组件                                            |
-| title            | `string`                                                                | `""`                | 文字提示标题                                                      |
-| content          | `string`                                                                | `""`                | 文字提示内容                                                      |
-| tooltip          | `string`                                                                | `""`                | 文字提示内容，兼容之前配置，同 content 属性，后续建议使用 content |
-| placement        | `"top" \| "left" \| "right" \| "bottom" `                               | `"top"`             | 文字提示浮层出现位置                                              |
-| themeColor       | `"light" \| "dark"`                                                     | `"light"`           | 主题样式， 默认为 light                                           |
-| offset           | `[number, number]`                                                      | `[0, 0]`            | 文字提示浮层位置相对偏移量                                        |
-| visibleArrow     | `boolean`                                                               | `true`              | 是否展示浮层指向箭头                                              |
-| disabled         | `boolean`                                                               | `false`             | 是否禁用浮层提示                                                  |
-| trigger          | `"hover" \| "click" \| "focus" \| Array<"hover" \| "click" \| "focus">` | `"hover"`           | 浮层触发方式，支持数组写法`["hover", "click"]`                    |
-| mouseEnterDelay  | `number`                                                                | `0`                 | 浮层延迟展示时间，单位 ms                                         |
-| mouseLeaveDelay  | `number`                                                                | `300`               | 浮层延迟隐藏时间，单位 ms                                         |
-| rootClose        | `boolean`                                                               | `true`              | 是否点击非内容区域关闭提示                                        |
-| inline           | `boolean`                                                               | `false`             | 内容区是否内联显示                                                |
-| wrapperComponent | `string`                                                                | `"div" \| "span"`   | 容器标签名                                                        |
-| body             | [SchemaNode](../../docs/types/schemanode)                               | -                   | 内容容器                                                          |
-| style            | `Object` \| `string`                                                    |                     | 内容区自定义样式                                                  |
-| tooltipStyle     | `Object` \| `string`                                                    |                     | 浮层自定义样式                                                    |
-| className        | `string`                                                                |                     | 内容区类名                                                        |
-| tooltipClassName | `string`                                                                |                     | 文字提示浮层类名                                                  |
+| 属性名           | 类型                                                                    | 默认值              | 说明                                           |
+| ---------------- | ----------------------------------------------------------------------- | ------------------- | ---------------------------------------------- |
+| type             | `string`                                                                | `"tooltip-wrapper"` | 指定为文字提示容器组件                         |
+| title            | `string`                                                                | `""`                | 文字提示标题                                   |
+| content          | `string`                                                                | `""`                | 文字提示内容, 兼容之前的 tooltip 属性          |
+| placement        | `"top" \| "left" \| "right" \| "bottom" `                               | `"top"`             | 文字提示浮层出现位置                           |
+| tooltipTheme     | `"light" \| "dark"`                                                     | `"light"`           | 主题样式， 默认为 light                        |
+| offset           | `[number, number]`                                                      | `[0, 0]`            | 文字提示浮层位置相对偏移量，单位 px            |
+| showArrow        | `boolean`                                                               | `true`              | 是否展示浮层指向箭头                           |
+| disabled         | `boolean`                                                               | `false`             | 是否禁用浮层提示                               |
+| trigger          | `"hover" \| "click" \| "focus" \| Array<"hover" \| "click" \| "focus">` | `"hover"`           | 浮层触发方式，支持数组写法`["hover", "click"]` |
+| mouseEnterDelay  | `number`                                                                | `0`                 | 浮层延迟展示时间，单位 ms                      |
+| mouseLeaveDelay  | `number`                                                                | `300`               | 浮层延迟隐藏时间，单位 ms                      |
+| rootClose        | `boolean`                                                               | `true`              | 是否点击非内容区域关闭提示                     |
+| inline           | `boolean`                                                               | `false`             | 内容区是否内联显示                             |
+| wrapperComponent | `string`                                                                | `"div" \| "span"`   | 容器标签名                                     |
+| body             | [SchemaNode](../../docs/types/schemanode)                               | -                   | 内容容器                                       |
+| style            | `Object` \| `string`                                                    |                     | 内容区自定义样式                               |
+| tooltipStyle     | `Object` \| `string`                                                    |                     | 浮层自定义样式                                 |
+| className        | `string`                                                                |                     | 内容区类名                                     |
+| tooltipClassName | `string`                                                                |                     | 文字提示浮层类名                               |

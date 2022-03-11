@@ -11,7 +11,7 @@ import {findDOMNode} from 'react-dom';
 import Tooltip from './Tooltip';
 import {ClassNamesFn, themeable} from '../theme';
 import Overlay from './Overlay';
-import {isArray} from 'lodash';
+import {isObject} from '../utils/helper';
 
 export type Trigger = 'hover' | 'click' | 'focus';
 
@@ -31,7 +31,7 @@ export interface TooltipObject {
   /**
    * 主题样式
    */
-  themeColor?: 'light' | 'dark';
+  tooltipTheme?: 'light' | 'dark';
   /**
    * 浮层位置相对偏移量
    */
@@ -43,17 +43,17 @@ export interface TooltipObject {
   /**
    * 是否展示浮层指向箭头
    */
-  visibleArrow?: boolean;
+  showArrow?: boolean;
   /**
    * 是否禁用提示
    */
   disabled?: boolean;
   /**
-   * 浮层延迟显示时间
+   * 浮层延迟显示时间, 单位 ms
    */
   mouseEnterDelay?: number;
   /**
-   * 浮层延迟隐藏时间
+   * 浮层延迟隐藏时间, 单位 ms
    */
   mouseLeaveDelay?: number;
   /**
@@ -80,7 +80,7 @@ export interface TooltipObject {
    * 文字提示浮层CSS类名
    */
   tooltipClassName?: string;
-};
+}
 
 export interface TooltipWrapperProps {
   tooltip?: string | TooltipObject;
@@ -111,11 +111,11 @@ export class TooltipWrapper extends React.Component<
     TooltipWrapperProps,
     'placement' | 'trigger' | 'rootClose' | 'delay'
   > = {
-      placement: 'top',
-      trigger: ['hover', 'focus'],
-      rootClose: false,
-      delay: 300
-    };
+    placement: 'top',
+    trigger: ['hover', 'focus'],
+    rootClose: false,
+    delay: 300
+  };
 
   target: HTMLElement;
   timer: ReturnType<typeof setTimeout>;
@@ -171,8 +171,8 @@ export class TooltipWrapper extends React.Component<
     this.timer && clearTimeout(this.timer);
     waitToHide && waitToHide();
     const tooltip = this.props.tooltip;
-    if (typeof tooltip === 'object') {
-      const { mouseEnterDelay = 0 } = tooltip;
+    if (isObject(tooltip)) {
+      const {mouseEnterDelay = 0} = tooltip as TooltipObject;
       this.timer = setTimeout(this.show, mouseEnterDelay);
     } else {
       this.timer = setTimeout(this.show, 0);
@@ -184,8 +184,8 @@ export class TooltipWrapper extends React.Component<
     const {delay, tooltip} = this.props;
 
     waitToHide = this.hide.bind(this);
-    if (typeof tooltip === 'object') {
-      const { mouseLeaveDelay = 300 } = tooltip;
+    if (isObject(tooltip)) {
+      const {mouseLeaveDelay = 300} = tooltip as TooltipObject;
       this.timer = setTimeout(this.hide, mouseLeaveDelay);
     } else {
       this.timer = setTimeout(this.hide, delay);
@@ -233,7 +233,6 @@ export class TooltipWrapper extends React.Component<
   }
 
   render() {
-
     const props = this.props;
 
     const child = React.Children.only(props.children);
@@ -250,7 +249,9 @@ export class TooltipWrapper extends React.Component<
       tooltipClassName: props.tooltipClassName,
       style: props.style,
       mouseLeaveDelay: props.delay,
-      ...(typeof props.tooltip === 'string' ? { content: props.tooltip } : props.tooltip)
+      ...(typeof props.tooltip === 'string'
+        ? {content: props.tooltip}
+        : props.tooltip)
     };
 
     const {
@@ -264,8 +265,8 @@ export class TooltipWrapper extends React.Component<
       style,
       disabled = false,
       offset,
-      themeColor = 'light',
-      visibleArrow = true,
+      tooltipTheme = 'light',
+      showArrow = true,
       render,
       dom
     } = tooltipObj;
@@ -301,25 +302,29 @@ export class TooltipWrapper extends React.Component<
         rootClose={rootClose}
         placement={placement}
         container={container}
-        offset={isArray(offset) ? offset : [0, 0]}
+        offset={Array.isArray(offset) ? offset : [0, 0]}
       >
         <Tooltip
           title={typeof title === 'string' ? title : undefined}
           style={style}
           className={tooltipClassName}
-          themeColor={themeColor}
-          visibleArrow={visibleArrow}
-          onMouseEnter={~triggers.indexOf('hover') && this.handleMouseOver}
-          onMouseLeave={~triggers.indexOf('hover') && this.handleMouseOut}
+          tooltipTheme={tooltipTheme}
+          showArrow={showArrow}
+          onMouseEnter={
+            ~triggers.indexOf('hover') ? this.handleMouseOver : () => {}
+          }
+          onMouseLeave={
+            ~triggers.indexOf('hover') ? this.handleMouseOut : () => {}
+          }
         >
           {render ? (
-            this.state.show ? render!() : null
-          ) : dom ? dom! : (
-            <Html
-              html={
-                typeof content === 'string' ? content : ''
-              }
-            />
+            this.state.show ? (
+              render!()
+            ) : null
+          ) : dom ? (
+            dom!
+          ) : (
+            <Html html={typeof content === 'string' ? content : ''} />
           )}
         </Tooltip>
       </Overlay>

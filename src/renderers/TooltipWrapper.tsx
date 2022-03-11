@@ -20,9 +20,13 @@ export interface TooltipWrapperSchema extends BaseSchema {
   title?: string;
 
   /**
-   * 文字提示内容，兼容 tooltip，但建议通过content 来实现提示内容
+   * 文字提示内容，兼容 tooltip，但建议通过 content 来实现提示内容
    */
   content?: string;
+
+  /**
+   *  @deprecated 文字提示内容
+   */
   tooltip?: string;
 
   /**
@@ -38,7 +42,7 @@ export interface TooltipWrapperSchema extends BaseSchema {
   /**
    * 是否展示浮层指向箭头
    */
-  visibleArrow?: boolean;
+  showArrow?: boolean;
 
   /**
    * 是否禁用提示
@@ -51,13 +55,13 @@ export interface TooltipWrapperSchema extends BaseSchema {
   trigger?: Trigger | Array<Trigger>;
 
   /**
-   * 浮层延迟显示时间
+   * 浮层延迟显示时间, 单位 ms
    */
 
   mouseEnterDelay?: number;
-   /**
-    * 浮层延迟隐藏时间
-    */
+  /**
+   * 浮层延迟隐藏时间, 单位 ms
+   */
   mouseLeaveDelay?: number;
 
   /**
@@ -83,7 +87,7 @@ export interface TooltipWrapperSchema extends BaseSchema {
   /**
    * 主题样式， 默认为light
    */
-  themeColor?: 'light' | 'dark';
+  tooltipTheme?: 'light' | 'dark';
 
   /**
    * 内容区自定义样式
@@ -127,7 +131,7 @@ export interface TooltipWrapperProps extends RendererProps {
   inline?: boolean;
   trigger: Trigger | Array<Trigger>;
   rootClose?: boolean;
-  visibleArrow?: boolean;
+  showArrow?: boolean;
   offset?: [number, number];
   disabled?: boolean;
   mouseEnterDelay?: number;
@@ -136,7 +140,7 @@ export interface TooltipWrapperProps extends RendererProps {
   style?: React.CSSProperties;
   tooltipStyle?: React.CSSProperties;
   wrapperComponent?: string;
-  themeColor?: 'light' | 'dark';
+  tooltipTheme?: 'light' | 'dark';
 }
 
 interface TooltipWrapperState {}
@@ -154,7 +158,7 @@ export default class TooltipWrapper extends React.Component<
     | 'mouseLeaveDelay'
     | 'inline'
     | 'wrap'
-    | 'themeColor'
+    | 'tooltipTheme'
   > = {
     placement: 'top',
     trigger: 'hover',
@@ -163,7 +167,7 @@ export default class TooltipWrapper extends React.Component<
     mouseLeaveDelay: 200,
     inline: false,
     wrap: false,
-    themeColor: 'light'
+    tooltipTheme: 'light'
   };
 
   constructor(props: TooltipWrapperProps) {
@@ -203,7 +207,7 @@ export default class TooltipWrapper extends React.Component<
       classPrefix: ns,
       classnames: cx,
       tooltipClassName,
-      themeColor,
+      tooltipTheme,
       container,
       placement,
       rootClose,
@@ -215,13 +219,13 @@ export default class TooltipWrapper extends React.Component<
       mouseLeaveDelay,
       trigger,
       offset,
-      visibleArrow,
+      showArrow,
       disabled,
       dom,
       data
     } = this.props;
 
-    const tooltipObj: TooltipObject= {
+    const tooltipObj: TooltipObject = {
       title: escapeHtml(filter(title, data)),
       content: escapeHtml(filter(content || tooltip, data)),
       style: buildStyle(tooltipStyle, data),
@@ -229,22 +233,18 @@ export default class TooltipWrapper extends React.Component<
       trigger,
       rootClose,
       container,
-      themeColor,
+      tooltipTheme,
       tooltipClassName,
       mouseEnterDelay,
       mouseLeaveDelay,
       offset,
-      visibleArrow,
+      showArrow,
       disabled,
       dom
     };
 
     return (
-      <TooltipWrapperComp
-        classPrefix={ns}
-        classnames={cx}
-        tooltip={tooltipObj}
-      >
+      <TooltipWrapperComp classPrefix={ns} classnames={cx} tooltip={tooltipObj}>
         {this.renderBody()}
       </TooltipWrapperComp>
     );
