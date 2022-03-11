@@ -68,6 +68,8 @@ export default {
     keepItemSelectionOnPageChange: true,
     maxKeepItemSelectionLength: 11,
     labelTpl: '${id} ${engine}',
+    orderBy: 'id',
+    orderDir: 'asc',
     filter: {
       title: '条件搜索',
       submitText: '',

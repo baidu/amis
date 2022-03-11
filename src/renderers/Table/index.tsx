@@ -472,6 +472,7 @@ export default class Table extends React.Component<TableProps, object> {
   } = {};
   renderedToolbars: Array<string> = [];
   subForms: any = {};
+  timer: ReturnType<typeof setTimeout>;
 
   constructor(props: TableProps) {
     super(props);
@@ -659,7 +660,7 @@ export default class Table extends React.Component<TableProps, object> {
     const footToolbarHeight = footToolbar ? offset(footToolbar).height : 0;
     // 有时候会拿不到 footToolbar，等一下在执行
     if (!footToolbarHeight && footerToolbar && footerToolbar.length) {
-      setTimeout(() => {
+      this.timer = setTimeout(() => {
         this.updateAutoFillHeight();
       }, 100);
       return;
@@ -777,6 +778,7 @@ export default class Table extends React.Component<TableProps, object> {
     this.unSensor && this.unSensor();
 
     formItem && isAlive(formItem) && formItem.setSubStore(null);
+    clearTimeout(this.timer);
   }
 
   subFormRef(form: any, x: number, y: number) {
