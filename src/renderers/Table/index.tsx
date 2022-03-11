@@ -1662,7 +1662,7 @@ export default class Table extends React.Component<TableProps, object> {
           {store.rows.length && multiple ? (
             <Checkbox
               classPrefix={ns}
-              partial={!store.allChecked}
+              partial={store.partialChecked}
               checked={store.someChecked}
               disabled={store.disabledHeadCheckbox}
               onChange={this.handleCheckAll}
