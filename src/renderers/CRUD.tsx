@@ -1025,7 +1025,8 @@ export default class CRUD extends React.Component<CRUDProps, any> {
       env,
       loadDataOnce,
       loadDataOnceFetchOnFilter,
-      source
+      source,
+      columns
     } = this.props;
 
     // reload 需要清空用户选择。
@@ -1066,7 +1067,8 @@ export default class CRUD extends React.Component<CRUDProps, any> {
             pageField,
             perPageField,
             loadDataMode,
-            syncResponse2Query
+            syncResponse2Query,
+            columns: store.columns ?? columns
           })
           .then(value => {
             interval &&
