@@ -462,6 +462,8 @@ export class DateRangePicker extends React.Component<
     this.open = this.open.bind(this);
     this.close = this.close.bind(this);
     this.handleSelectChange = this.handleSelectChange.bind(this);
+    this.handleTimeStartChange = this.handleTimeStartChange.bind(this);
+    this.handleTimeEndChange = this.handleTimeEndChange.bind(this);
     this.handleFocus = this.handleFocus.bind(this);
     this.handleBlur = this.handleBlur.bind(this);
     this.checkStartIsValidDate = this.checkStartIsValidDate.bind(this);
@@ -659,6 +661,88 @@ export class DateRangePicker extends React.Component<
     }
 
     this.isFirstClick = !this.isFirstClick;
+  }
+
+  // 主要用于处理时间的情况
+  handleTimeStartChange(newValue: moment.Moment) {
+    const {embed, timeFormat, minDuration, maxDuration, minDate} = this.props;
+    const {startDate, endDate} = this.state;
+
+    if (
+      startDate &&
+      (!endDate || (endDate && newValue.isSame(startDate))) && // 没有结束时间，或者新的时间也是开始时间，这时都会将新值当成结束时间
+      newValue.isSameOrAfter(startDate) &&
+      (!minDuration || newValue.isAfter(startDate.clone().add(minDuration))) &&
+      (!maxDuration || newValue.isBefore(startDate.clone().add(maxDuration)))
+    ) {
+      return this.setState(
+        {
+          endDate: this.filterDate(newValue, endDate, timeFormat, 'end')
+        },
+        () => {
+          embed && this.confirm();
+        }
+      );
+    }
+
+    if (minDate && newValue && newValue.isBefore(minDate, 'second')) {
+      newValue = minDate;
+    }
+
+    this.setState(
+      {
+        startDate: this.filterDate(
+          newValue,
+          startDate || minDate,
+          timeFormat,
+          'start'
+        )
+      },
+      () => {
+        embed && this.confirm();
+      }
+    );
+  }
+
+  handleTimeEndChange(newValue: moment.Moment) {
+    const {embed, timeFormat, minDuration, maxDuration, maxDate} = this.props;
+    const {startDate, endDate} = this.state;
+
+    if (
+      endDate &&
+      !startDate &&
+      newValue.isSameOrBefore(endDate) &&
+      (!minDuration ||
+        newValue.isBefore(endDate.clone().subtract(minDuration))) &&
+      (!maxDuration || newValue.isAfter(endDate.clone().subtract(maxDuration)))
+    ) {
+      return this.setState(
+        {
+          startDate: this.filterDate(newValue, startDate, timeFormat, 'start')
+        },
+        () => {
+          embed && this.confirm();
+        }
+      );
+    }
+
+    if (maxDate && newValue && newValue.isAfter(maxDate, 'second')) {
+      newValue = maxDate;
+    }
+
+    this.setState(
+      {
+        endDate: this.filterDate(
+          newValue,
+          endDate || maxDate,
+          timeFormat,
+          'end'
+        )
+      },
+      () => {
+        embed && this.confirm();
+      }
+    );
   }
 
   handleMobileChange(data: any, callback?: () => void) {
@@ -871,6 +955,7 @@ export class DateRangePicker extends React.Component<
     const __ = this.props.translate;
 
     const {startDate, endDate} = this.state;
+
     return (
       <div className={`${ns}DateRangePicker-wrap`}>
         {this.renderRanges(ranges)}
@@ -878,7 +963,13 @@ export class DateRangePicker extends React.Component<
         <Calendar
           className={`${ns}DateRangePicker-start`}
           value={startDate}
-          onChange={this.handleSelectChange}
+          // 区分的原因是 time-range 左侧就只能选起始时间，而其它都能在左侧同时同时选择起始和结束
+          // TODO: 后续得把 time-range 代码拆分出来
+          onChange={
+            viewMode === 'time'
+              ? this.handleTimeStartChange
+              : this.handleSelectChange
+          }
           requiredConfirm={false}
           dateFormat={dateFormat}
           inputFormat={inputFormat}
@@ -895,7 +986,11 @@ export class DateRangePicker extends React.Component<
         <Calendar
           className={`${ns}DateRangePicker-end`}
           value={endDate}
-          onChange={this.handleSelectChange}
+          onChange={
+            viewMode === 'time'
+              ? this.handleTimeEndChange
+              : this.handleSelectChange
+          }
           requiredConfirm={false}
           dateFormat={dateFormat}
           inputFormat={inputFormat}
