@@ -583,6 +583,10 @@
       margin-bottom: 0;
     }
 
+    > .#{$ns}Form-item.is-placeholder::after {
+      display: none;
+    }
+
     .#{$ns}Divider {
       display: none;
     }
