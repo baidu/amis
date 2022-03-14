@@ -429,6 +429,17 @@
 /* 移动端样式调整 */
 @include media-breakpoint-down(sm) {
   .#{$ns}Form {
+    &::before {
+      position: absolute;
+      box-sizing: border-box;
+      content: ' ';
+      pointer-events: none;
+      right: 0;
+      top: 0;
+      left: 0;
+      border-bottom: var(--Form-input-borderWidth) solid var(--borderColor);
+    }
+
     .#{$ns}Form-item {
       display: flex;
       flex-wrap: wrap;
@@ -445,7 +456,6 @@
         bottom: 0;
         left: 0;
         border-bottom: var(--Form-input-borderWidth) solid var(--borderColor);
-        transform: scaleY(0.5);
       }
 
       .#{$ns}InputGroup-addOn,
@@ -579,13 +589,6 @@
 
     .#{$ns}Tabs-pane {
       padding: 0;
-    }
-
-    > .#{$ns}Form-item {
-      &:last-child::after,
-      &:last-of-type::after {
-        display: none;
-      }
     }
 
     .#{$ns}Form-item .#{$ns}Form-groupColumn > .#{$ns}Form-item {
