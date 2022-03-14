@@ -254,6 +254,12 @@ exports[`Form:initData:remote 3`] = `
           type="submit"
         />
         <div
+          class="cxd-Spinner-overlay"
+        />
+        <div
+          class="cxd-Spinner cxd-Spinner--overlay"
+        />
+        <div
           class="cxd-Form-item cxd-Form-item--normal"
           data-role="form-item"
         >
@@ -515,4 +521,4 @@ exports[`Form:initData:without-super 1`] = `
 </div>
 `;
 
-exports[`Form:initData:without-super 3`] = `Object {}`;
+exports[`Form:initData:without-super 2`] = `Object {}`;

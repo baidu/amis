@@ -83,7 +83,7 @@ exports[`Renderer:inputArray 1`] = `
                           class="cxd-Combo-items"
                         >
                           <div
-                            class="cxd-Combo-item"
+                            class="cxd-Combo-item cxd-No-label"
                           >
                             <div
                               class="cxd-Combo-itemInner"
