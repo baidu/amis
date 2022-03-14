@@ -187,8 +187,6 @@ exports[`Renderer:Wizard 1`] = `
 </div>
 `;
 
-exports[`Renderer:Wizard actionNextSaveLabel 1`] = `<div />`;
-
 exports[`Renderer:Wizard actionPrevLabel actionNextLabel actionFinishLabel className actionClassName 1`] = `
 <div>
   <div
@@ -310,12 +308,6 @@ exports[`Renderer:Wizard actionPrevLabel actionNextLabel actionFinishLabel class
         style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
       />
     </div>
-    <div
-      class="cxd-Spinner-overlay"
-    />
-    <div
-      class="cxd-Spinner cxd-Spinner--overlay cxd-Spinner--lg"
-    />
   </div>
 </div>
 `;
@@ -2259,6 +2251,8 @@ exports[`Renderer:Wizard send data 1`] = `
 </div>
 `;
 
+exports[`Renderer:Wizard step api 1`] = `<div />`;
+
 exports[`Renderer:Wizard step initApi 1`] = `
 <div>
   <div
@@ -2319,12 +2313,6 @@ exports[`Renderer:Wizard step initApi 1`] = `
           <input
             style="display: none;"
             type="submit"
-          />
-          <div
-            class="cxd-Spinner-overlay"
-          />
-          <div
-            class="cxd-Spinner cxd-Spinner--overlay"
           />
           <div
             class="cxd-Form-item cxd-Form-item--normal is-required"

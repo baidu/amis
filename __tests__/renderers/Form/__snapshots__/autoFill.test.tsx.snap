@@ -20,6 +20,15 @@ Object {
 
 exports[`Form:options:autoFill:multiple:data 1`] = `
 Object {
+  "a": "b",
+  "aId": "",
+  "aLabel": "OptionB",
+  "aValue": "b",
+}
+`;
+
+exports[`Form:options:autoFill:multiple:data 2`] = `
+Object {
   "a": "a",
   "aIds": Array [
     233,
@@ -33,7 +42,7 @@ Object {
 }
 `;
 
-exports[`Form:options:autoFill:multiple:data 2`] = `
+exports[`Form:options:autoFill:multiple:data 3`] = `
 Object {
   "a": "b",
   "aIds": Array [
