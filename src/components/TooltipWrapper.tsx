@@ -57,13 +57,9 @@ export interface TooltipObject {
    */
   mouseLeaveDelay?: number;
   /**
-   * 浮层内容通过函数返回JSX渲染
+   * 浮层内容可通过JSX渲染
    */
-  render?: () => JSX.Element;
-  /**
-   * 浮层内容通过JSX渲染
-   */
-  dom?: JSX.Element;
+  children?: () => JSX.Element | JSX.Element;
   /**
    * 挂载容器元素
    */
@@ -267,8 +263,7 @@ export class TooltipWrapper extends React.Component<
       offset,
       tooltipTheme = 'light',
       showArrow = true,
-      render,
-      dom
+      children
     } = tooltipObj;
 
     const childProps: any = {
@@ -317,12 +312,8 @@ export class TooltipWrapper extends React.Component<
             ~triggers.indexOf('hover') ? this.handleMouseOut : () => {}
           }
         >
-          {render ? (
-            this.state.show ? (
-              render!()
-            ) : null
-          ) : dom ? (
-            dom!
+          {children ? (
+            <>{typeof children === 'function' ? children() : children}</>
           ) : (
             <Html html={typeof content === 'string' ? content : ''} />
           )}

@@ -221,13 +221,12 @@ export default class TooltipWrapper extends React.Component<
       offset,
       showArrow,
       disabled,
-      dom,
       data
     } = this.props;
 
     const tooltipObj: TooltipObject = {
-      title: escapeHtml(filter(title, data)),
-      content: escapeHtml(filter(content || tooltip, data)),
+      title: filter(title, data),
+      content: filter(content || tooltip, data),
       style: buildStyle(tooltipStyle, data),
       placement,
       trigger,
@@ -239,8 +238,7 @@ export default class TooltipWrapper extends React.Component<
       mouseLeaveDelay,
       offset,
       showArrow,
-      disabled,
-      dom
+      disabled
     };
 
     return (
