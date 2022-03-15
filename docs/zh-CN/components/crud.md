@@ -1809,6 +1809,55 @@ crud 组件支持通过配置`headerToolbar`和`footerToolbar`属性，实现在
 }
 ```
 
+> 1.8.0 及以上版本
+
+`columns` 支持变量，可以从上下文取数组
+
+```schema
+{
+    "type": "page",
+    "data": {
+        "columns": ["engine", "browser"]
+    },
+    "body": {
+        "type": "crud",
+        "syncLocation": false,
+        "api": "/api/mock2/sample",
+        "headerToolbar": [{
+            "type": "export-excel",
+            "label": "只导出 engine 和  browser 列",
+            "columns": "${columns}"
+        }],
+        "columns": [
+            {
+                "name": "id",
+                "label": "ID"
+            },
+            {
+                "name": "engine",
+                "label": "Rendering engine"
+            },
+            {
+                "name": "browser",
+                "label": "Browser"
+            },
+            {
+                "name": "platform",
+                "label": "Platform(s)"
+            },
+            {
+                "name": "version",
+                "label": "Engine version"
+            },
+            {
+                "name": "grade",
+                "label": "CSS grade"
+            }
+        ]
+    }
+}
+```
+
 #### 通过 api 导出 Excel
 
 > 1.1.6 以上版本支持
@@ -2554,6 +2603,8 @@ itemAction 里的 onClick 还能通过 `data` 参数拿到当前行的数据，�
 | messages.quickSaveSuccess             | `string`                    |                                 | 快速保存成功提示                                                                                                      |
 | primaryField                          | `string`                    | `"id"`                          | 设置 ID 字段名。                                                                                                      |
 | perPage                               | `number`                    | 10                              | 设置一页显示多少条数据。                                                                                              |
+| orderBy                               | `string`                    |                                 | 默认排序字段，这个是传给后端，需要后端接口实现                                                                        |
+| orderDir                              | `asc` \| `desc`             |                                 | 排序方向                                                                                                              |
 | defaultParams                         | `Object`                    |                                 | 设置默认 filter 默认参数，会在查询的时候一起发给后端                                                                  |
 | pageField                             | `string`                    | `"page"`                        | 设置分页页码字段名。                                                                                                  |
 | perPageField                          | `string`                    | `"perPage"`                     | 设置分页一页显示的多少条数据的字段名。注意：最好与 defaultParams 一起使用，请看下面例子。                             |

@@ -82,8 +82,19 @@ export const availableRanges: {[propName: string]: any} = {
     }
   },
 
-  '1dayago': {
-    label: 'DateRange.1dayago',
+  'tomorrow': {
+    label: 'Date.tomorrow',
+    startDate: (now: moment.Moment) => {
+      return now.add(1, 'days').startOf('day');
+    },
+    endDate: (now: moment.Moment) => {
+      return now.add(1, 'days').endOf('day');
+    }
+  },
+
+  // 兼容一下错误的用法
+  '1daysago': {
+    label: 'DateRange.1daysago',
     startDate: (now: moment.Moment) => {
       return now.add(-1, 'days');
     },
@@ -203,6 +214,177 @@ export const availableRanges: {[propName: string]: any} = {
   }
 };
 
+export const advancedRanges = [
+  {
+    regexp: /^(\d+)hoursago$/,
+    resolve: (__: any, _: string, hours: string) => {
+      return {
+        label: __('DateRange.hoursago', {hours}),
+        startDate: (now: moment.Moment) => {
+          return now.add(-hours, 'hours').startOf('hour');
+        },
+        endDate: (now: moment.Moment) => {
+          return now.add(-1, 'hours').endOf('hours');
+        }
+      };
+    }
+  },
+  {
+    regexp: /^(\d+)hourslater$/,
+    resolve: (__: any, _: string, hours: string) => {
+      return {
+        label: __('DateRange.hourslater', {hours}),
+        startDate: (now: moment.Moment) => {
+          return now.startOf('hour');
+        },
+        endDate: (now: moment.Moment) => {
+          return now.add(hours, 'hours').endOf('hour');
+        }
+      };
+    }
+  },
+  {
+    regexp: /^(\d+)daysago$/,
+    resolve: (__: any, _: string, days: string) => {
+      return {
+        label: __('DateRange.daysago', {days}),
+        startDate: (now: moment.Moment) => {
+          return now.add(-days, 'days').startOf('day');
+        },
+        endDate: (now: moment.Moment) => {
+          return now.add(-1, 'days').endOf('day');
+        }
+      };
+    }
+  },
+  {
+    regexp: /^(\d+)dayslater$/,
+    resolve: (__: any, _: string, days: string) => {
+      return {
+        label: __('DateRange.dayslater', {days}),
+        startDate: (now: moment.Moment) => {
+          return now.startOf('day');
+        },
+        endDate: (now: moment.Moment) => {
+          return now.add(days, 'days').endOf('day');
+        }
+      };
+    }
+  },
+  {
+    regexp: /^(\d+)weeksago$/,
+    resolve: (__: any, _: string, weeks: string) => {
+      return {
+        label: __('DateRange.weeksago', {weeks}),
+        startDate: (now: moment.Moment) => {
+          return now.startOf('week').add(-weeks, 'weeks');
+        },
+        endDate: (now: moment.Moment) => {
+          return now.startOf('week').add(-1, 'days').endOf('day');
+        }
+      };
+    }
+  },
+  {
+    regexp: /^(\d+)weekslater$/,
+    resolve: (__: any, _: string, weeks: string) => {
+      return {
+        label: __('DateRange.weekslater', {weeks}),
+        startDate: (now: moment.Moment) => {
+          return now.startOf('week');
+        },
+        endDate: (now: moment.Moment) => {
+          return now.startOf('week').add(weeks, 'weeks').endOf('day');
+        }
+      };
+    }
+  },
+  {
+    regexp: /^(\d+)monthsago$/,
+    resolve: (__: any, _: string, months: string) => {
+      return {
+        label: __('DateRange.monthsago', {months}),
+        startDate: (now: moment.Moment) => {
+          return now.startOf('months').add(-months, 'months');
+        },
+        endDate: (now: moment.Moment) => {
+          return now.startOf('month').add(-1, 'days').endOf('day');
+        }
+      };
+    }
+  },
+  {
+    regexp: /^(\d+)monthslater$/,
+    resolve: (__: any, _: string, months: string) => {
+      return {
+        label: __('DateRange.monthslater', {months}),
+        startDate: (now: moment.Moment) => {
+          return now.startOf('month');
+        },
+        endDate: (now: moment.Moment) => {
+          return now.startOf('month').add(months, 'months').endOf('day');
+        }
+      };
+    }
+  },
+  {
+    regexp: /^(\d+)quartersago$/,
+    resolve: (__: any, _: string, quarters: string) => {
+      return {
+        label: __('DateRange.quartersago', {quarters}),
+        startDate: (now: moment.Moment) => {
+          return now.startOf('quarters').add(-quarters, 'quarters');
+        },
+        endDate: (now: moment.Moment) => {
+          return now.startOf('quarter').add(-1, 'days').endOf('day');
+        }
+      };
+    }
+  },
+  {
+    regexp: /^(\d+)quarterslater$/,
+    resolve: (__: any, _: string, quarters: string) => {
+      return {
+        label: __('DateRange.quarterslater', {quarters}),
+        startDate: (now: moment.Moment) => {
+          return now.startOf('quarter');
+        },
+        endDate: (now: moment.Moment) => {
+          return now.startOf('quarter').add(quarters, 'quarters').endOf('day');
+        }
+      };
+    }
+  },
+  {
+    regexp: /^(\d+)yearsago$/,
+    resolve: (__: any, _: string, years: string) => {
+      return {
+        label: __('DateRange.yearsago', {years}),
+        startDate: (now: moment.Moment) => {
+          return now.startOf('years').add(-years, 'years');
+        },
+        endDate: (now: moment.Moment) => {
+          return now.startOf('year').add(-1, 'days').endOf('day');
+        }
+      };
+    }
+  },
+  {
+    regexp: /^(\d+)yearslater$/,
+    resolve: (__: any, _: string, years: string) => {
+      return {
+        label: __('DateRange.yearslater', {years}),
+        startDate: (now: moment.Moment) => {
+          return now.startOf('year');
+        },
+        endDate: (now: moment.Moment) => {
+          return now.startOf('year').add(years, 'years').endOf('day');
+        }
+      };
+    }
+  }
+];
+
 export class DateRangePicker extends React.Component<
   DateRangePickerProps,
   DateRangePickerState
@@ -280,6 +462,8 @@ export class DateRangePicker extends React.Component<
     this.open = this.open.bind(this);
     this.close = this.close.bind(this);
     this.handleSelectChange = this.handleSelectChange.bind(this);
+    this.handleTimeStartChange = this.handleTimeStartChange.bind(this);
+    this.handleTimeEndChange = this.handleTimeEndChange.bind(this);
     this.handleFocus = this.handleFocus.bind(this);
     this.handleBlur = this.handleBlur.bind(this);
     this.checkStartIsValidDate = this.checkStartIsValidDate.bind(this);
@@ -479,6 +663,88 @@ export class DateRangePicker extends React.Component<
     this.isFirstClick = !this.isFirstClick;
   }
 
+  // 主要用于处理时间的情况
+  handleTimeStartChange(newValue: moment.Moment) {
+    const {embed, timeFormat, minDuration, maxDuration, minDate} = this.props;
+    const {startDate, endDate} = this.state;
+
+    if (
+      startDate &&
+      (!endDate || (endDate && newValue.isSame(startDate))) && // 没有结束时间，或者新的时间也是开始时间，这时都会将新值当成结束时间
+      newValue.isSameOrAfter(startDate) &&
+      (!minDuration || newValue.isAfter(startDate.clone().add(minDuration))) &&
+      (!maxDuration || newValue.isBefore(startDate.clone().add(maxDuration)))
+    ) {
+      return this.setState(
+        {
+          endDate: this.filterDate(newValue, endDate, timeFormat, 'end')
+        },
+        () => {
+          embed && this.confirm();
+        }
+      );
+    }
+
+    if (minDate && newValue && newValue.isBefore(minDate, 'second')) {
+      newValue = minDate;
+    }
+
+    this.setState(
+      {
+        startDate: this.filterDate(
+          newValue,
+          startDate || minDate,
+          timeFormat,
+          'start'
+        )
+      },
+      () => {
+        embed && this.confirm();
+      }
+    );
+  }
+
+  handleTimeEndChange(newValue: moment.Moment) {
+    const {embed, timeFormat, minDuration, maxDuration, maxDate} = this.props;
+    const {startDate, endDate} = this.state;
+
+    if (
+      endDate &&
+      !startDate &&
+      newValue.isSameOrBefore(endDate) &&
+      (!minDuration ||
+        newValue.isBefore(endDate.clone().subtract(minDuration))) &&
+      (!maxDuration || newValue.isAfter(endDate.clone().subtract(maxDuration)))
+    ) {
+      return this.setState(
+        {
+          startDate: this.filterDate(newValue, startDate, timeFormat, 'start')
+        },
+        () => {
+          embed && this.confirm();
+        }
+      );
+    }
+
+    if (maxDate && newValue && newValue.isAfter(maxDate, 'second')) {
+      newValue = maxDate;
+    }
+
+    this.setState(
+      {
+        endDate: this.filterDate(
+          newValue,
+          endDate || maxDate,
+          timeFormat,
+          'end'
+        )
+      },
+      () => {
+        embed && this.confirm();
+      }
+    );
+  }
+
   handleMobileChange(data: any, callback?: () => void) {
     this.setState(
       {
@@ -528,8 +794,20 @@ export class DateRangePicker extends React.Component<
           }
           let range: PlainObject = {};
           if (typeof item === 'string') {
-            range = availableRanges[item];
-            range.key = item;
+            if (availableRanges[item]) {
+              range = availableRanges[item];
+              range.key = item;
+            } else {
+              // 通过正则尝试匹配
+              for (let i = 0, len = advancedRanges.length; i < len; i++) {
+                let value = advancedRanges[i];
+                const m = value.regexp.exec(item);
+                if (m) {
+                  range = value.resolve.apply(item, [__, ...m]);
+                  range.key = item;
+                }
+              }
+            }
           } else if (
             (item as ShortCutDateRange).startDate &&
             (item as ShortCutDateRange).endDate
@@ -677,6 +955,7 @@ export class DateRangePicker extends React.Component<
     const __ = this.props.translate;
 
     const {startDate, endDate} = this.state;
+
     return (
       <div className={`${ns}DateRangePicker-wrap`}>
         {this.renderRanges(ranges)}
@@ -684,7 +963,13 @@ export class DateRangePicker extends React.Component<
         <Calendar
           className={`${ns}DateRangePicker-start`}
           value={startDate}
-          onChange={this.handleSelectChange}
+          // 区分的原因是 time-range 左侧就只能选起始时间，而其它都能在左侧同时同时选择起始和结束
+          // TODO: 后续得把 time-range 代码拆分出来
+          onChange={
+            viewMode === 'time'
+              ? this.handleTimeStartChange
+              : this.handleSelectChange
+          }
           requiredConfirm={false}
           dateFormat={dateFormat}
           inputFormat={inputFormat}
@@ -701,7 +986,11 @@ export class DateRangePicker extends React.Component<
         <Calendar
           className={`${ns}DateRangePicker-end`}
           value={endDate}
-          onChange={this.handleSelectChange}
+          onChange={
+            viewMode === 'time'
+              ? this.handleTimeEndChange
+              : this.handleSelectChange
+          }
           requiredConfirm={false}
           dateFormat={dateFormat}
           inputFormat={inputFormat}

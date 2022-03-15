@@ -15,12 +15,14 @@ import {asFormItem} from './renderers/Form/Item';
 import {renderChild, renderChildren} from './Root';
 import {IScopedContext, ScopedContext} from './Scoped';
 import {Schema, SchemaNode} from './types';
-import {DebugWrapper, enableAMISDebug} from './utils/debug';
+import {DebugWrapper} from './utils/debug';
 import getExprProperties from './utils/filter-schema';
 import {anyChanged, chainEvents, autobind} from './utils/helper';
 import {SimpleMap} from './utils/SimpleMap';
 
 import type {RendererEvent} from './utils/renderer-event';
+import {observer} from 'mobx-react';
+import {isAlive} from 'mobx-state-tree';
 
 interface SchemaRendererProps extends Partial<RendererProps> {
   schema: Schema;
@@ -59,6 +61,7 @@ const defaultOmitList = [
 
 const componentCache: SimpleMap = new SimpleMap();
 
+@observer
 class BroadcastCmpt extends React.Component<BroadcastCmptProps> {
   ref: any;
   unbindEvent: (() => void) | undefined = undefined;
@@ -99,21 +102,36 @@ class BroadcastCmpt extends React.Component<BroadcastCmptProps> {
   }
 
   render() {
-    const {component: Component, ...rest} = this.props;
-
+    const {component: Component, rootStore, ...rest} = this.props;
+    const visible = isAlive(rootStore)
+      ? rootStore.visibleState[rest.$schema.id || rest.$path]
+      : true;
+    const disable = isAlive(rootStore)
+      ? rootStore.disableState[rest.$schema.id || rest.$path]
+      : false;
     const isClassComponent = Component.prototype?.isReactComponent;
 
-    // 函数组件不支持 ref https://reactjs.org/docs/refs-and-the-dom.html#refs-and-function-components
+    if (disable) {
+      (rest as any).disabled = true;
+    }
 
-    return isClassComponent ? (
-      <Component
-        ref={this.childRef}
-        {...rest}
-        dispatchEvent={this.dispatchEvent}
-      />
-    ) : (
-      <Component {...rest} dispatchEvent={this.dispatchEvent} />
-    );
+    // 函数组件不支持 ref https://reactjs.org/docs/refs-and-the-dom.html#refs-and-function-components
+    return visible !== false ? (
+      isClassComponent ? (
+        <Component
+          ref={this.childRef}
+          {...rest}
+          rootStore={rootStore}
+          dispatchEvent={this.dispatchEvent}
+        />
+      ) : (
+        <Component
+          {...rest}
+          rootStore={rootStore}
+          dispatchEvent={this.dispatchEvent}
+        />
+      )
+    ) : null;
   }
 }
 
@@ -399,7 +417,7 @@ export class SchemaRenderer extends React.Component<SchemaRendererProps, any> {
       />
     );
 
-    return enableAMISDebug ? (
+    return this.props.env.enableAMISDebug ? (
       <DebugWrapper renderer={renderer}>{component}</DebugWrapper>
     ) : (
       component

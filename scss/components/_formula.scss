@@ -226,7 +226,7 @@
 
     &-item {
       cursor: pointer;
-      padding: 0 var(--gap-lg);
+      padding: 0 #{px2rem(30px)};
       height: var(--gap-xl);
       line-height: var(--gap-xl);
 
@@ -314,6 +314,24 @@
     &.is-filled {
       fill: var(--InputFormula-icon-color-onActive);
       color: var(--InputFormula-icon-color-onActive);
+    }
+  }
+
+  &-ResultBox {
+    padding-right: 10px;
+    span.c-field {
+      background: #007bff;
+      padding: 3px 5px;
+      margin: 0 1px;
+      color: #fff;
+      font-size: 12px;
+      border-radius: 4px;
+    }
+    span.c-func {
+      color: #ae4597;
+      font-weight: bold;
+      line-height: 14px;
+      padding: 0 2px;
     }
   }
 }

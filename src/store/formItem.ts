@@ -723,8 +723,7 @@ export const FormItemStore = StoreNode.named('FormItemStore')
       // 插入新的子节点，用于之后BaseSelection.resolveSelected查找
       if (Array.isArray(topOption.children)) {
         const children = topOption.children.concat();
-
-        flattenTree(topOption.leftOptions).forEach(item => {
+        flattenTree(newLeftOptions).forEach(item => {
           if (!findTree(topOption.children, node => node.ref === item.value)) {
             children.push({ref: item.value, defer: true});
           }

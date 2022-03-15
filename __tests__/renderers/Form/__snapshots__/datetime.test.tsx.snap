@@ -56,11 +56,13 @@ exports[`Renderer:date 1`] = `
               class="cxd-DatePicker"
               tabindex="0"
             >
-              <span
-                class="cxd-DatePicker-value"
-              >
-                2019-06-06 21:11:00
-              </span>
+              <input
+                autocomplete="off"
+                class="cxd-DatePicker-input"
+                placeholder="请选择日期以及时间"
+                type="text"
+                value="2019-06-06 21:11:00"
+              />
               <a
                 class="cxd-DatePicker-clear"
               >

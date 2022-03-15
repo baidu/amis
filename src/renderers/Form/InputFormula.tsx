@@ -56,6 +56,11 @@ export interface InputFormulaControlSchema extends FormBaseControl {
   inputMode?: 'button' | 'input-button';
 
   /**
+   * 外层input是否允许输入，否需要点击fx在弹窗中输入
+   */
+  allowInput?: boolean;
+
+  /**
    * 按钮图标
    */
   icon?: SchemaIcon;
@@ -139,6 +144,7 @@ export class InputFormulaRenderer extends React.Component<InputFormulaProps> {
       className,
       classPrefix: ns,
       classnames: cx,
+      allowInput = true,
       borderMode,
       placeholder,
       inputMode,
@@ -156,6 +162,7 @@ export class InputFormulaRenderer extends React.Component<InputFormulaProps> {
         className={className}
         value={value}
         disabled={disabled}
+        allowInput={allowInput}
         onChange={onChange}
         evalMode={evalMode}
         variables={variables}

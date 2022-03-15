@@ -93,6 +93,13 @@ export default [
         )
       },
       {
+        label: '事件动作',
+        path: '/zh-CN/docs/concepts/event-action',
+        component: React.lazy(() =>
+          import('../../docs/zh-CN/concepts/event-action.md').then(wrapDoc)
+        )
+      },
+      {
         label: '行为',
         path: '/zh-CN/docs/concepts/action',
         component: React.lazy(() =>

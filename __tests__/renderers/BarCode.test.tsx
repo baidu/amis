@@ -2,10 +2,10 @@ import React = require('react');
 import {render, fireEvent} from '@testing-library/react';
 import '../../src/themes/default';
 import {render as amisRender} from '../../src/index';
-import {makeEnv} from '../helper';
+import {makeEnv, wait} from '../helper';
 import 'jest-canvas-mock';
 
-test('Renderer:bar-code', () => {
+test('Renderer:bar-code', async () => {
   const {container} = render(
     amisRender(
       {
@@ -19,6 +19,7 @@ test('Renderer:bar-code', () => {
       makeEnv({})
     )
   );
+  await wait(500);
 
   expect(container).toMatchSnapshot();
 });

@@ -42,6 +42,7 @@ import {
   RendererEvent
 } from './utils/renderer-event';
 import {runActions} from './actions/Action';
+import {enableDebug} from './utils/debug';
 
 export interface TestFunc {
   (
@@ -152,6 +153,10 @@ export interface RenderOptions {
    * 过滤 html 标签，可用来添加 xss 保护逻辑
    */
   filterHtml?: (input: string) => string;
+  /**
+   * 是否开启 amis 调试
+   */
+  enableAMISDebug?: boolean;
   [propName: string]: any;
 }
 
@@ -271,6 +276,10 @@ const defaultOptions: RenderOptions = {
   affixOffsetBottom: 0,
   richTextToken: '',
   useMobileUI: true, // 是否启用移动端原生 UI
+  enableAMISDebug:
+    (window as any).enableAMISDebug ??
+    location.search.indexOf('amisDebug=1') !== -1 ??
+    false,
   loadRenderer,
   rendererEventListeners: [],
   fetcher() {
@@ -492,6 +501,13 @@ export function render(
       translate
     } as any;
 
+    if (options.enableAMISDebug) {
+      // 因为里面还有 render
+      setTimeout(() => {
+        enableDebug();
+      }, 10);
+    }
+
     store = RendererStore.create({}, options);
     stores[options.session || 'global'] = store;
   }
@@ -518,13 +534,13 @@ export function render(
   // 进行文本替换
   if (env.replaceText && isObject(env.replaceText)) {
     const replaceKeys = Object.keys(env.replaceText);
-    replaceKeys.sort().reverse(); // 避免用户将短的放前面
+    replaceKeys.sort((a, b) => b.length - a.length); // 避免用户将短的放前面
     const replaceTextIgnoreKeys = new Set(env.replaceTextIgnoreKeys || []);
     JSONTraverse(schema, (value: any, key: string, object: any) => {
       if (typeof value === 'string' && !replaceTextIgnoreKeys.has(key)) {
         for (const replaceKey of replaceKeys) {
           if (~value.indexOf(replaceKey)) {
-            object[key] = value.replaceAll(
+            value = object[key] = value.replaceAll(
               replaceKey,
               env.replaceText[replaceKey]
             );

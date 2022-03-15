@@ -591,6 +591,34 @@ order: 54
 }
 ```
 
+## 高亮行
+
+> 1.8.0 及以上版本
+
+通过 `rowClassNameExpr` 来添加类，比如下面的例子中，如果输入的内容是 `a` 则背景色为绿色`
+
+```schema: scope="body"
+{
+    "type": "form",
+    "api": "/api/mock2/form/saveForm",
+    "body": [
+      {
+        "type": "input-table",
+        "name": "table",
+        "addable": true,
+        "editable": true,
+        "rowClassNameExpr": "<%= data.a === 'a' ? 'bg-success' : '' %>",
+        "columns": [
+          {
+            "name": "a",
+            "label": "A"
+          }
+        ]
+      }
+    ]
+  }
+```
+
 ## 属性表
 
 | 属性名                       | 类型                           | 默认值     | 说明                                                                                                 |

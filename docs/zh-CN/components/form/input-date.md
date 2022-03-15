@@ -279,7 +279,7 @@ order: 13
 - `endofthisweek`: 本周日
 - `endofthismonth`:本月底
 - `endoflastmonth`:上月底
-- `{n}daysago` : n 天前，例如：`1daysago`，下面用法相同
+- `{n}daysago` : n 天前，例如：`2daysago`，下面用法相同
 - `{n}dayslater`: n 天后
 - `{n}weeksago`: n 周前
 - `{n}weekslater`: n 周后

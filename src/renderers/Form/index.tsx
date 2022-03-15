@@ -61,6 +61,7 @@ export interface FormSchemaHorizontal {
   left?: number;
   right?: number;
   leftFixed?: boolean | number | 'xs' | 'sm' | 'md' | 'lg';
+  justify?: boolean; // 两端对齐
 }
 
 /**
@@ -1410,7 +1411,7 @@ export default class Form extends React.Component<FormProps, object> {
       formHorizontal: horizontal,
       controlWidth,
       disabled: disabled || (control as Schema).disabled || form.loading,
-      btnDisabled: form.loading || form.validating,
+      btnDisabled: disabled || form.loading || form.validating,
       onAction: this.handleAction,
       onQuery: this.handleQuery,
       onChange: this.handleChange,

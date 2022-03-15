@@ -206,7 +206,7 @@ exports[`factory:definitions 1`] = `
                         class="cxd-Combo-toolbar"
                       >
                         <button
-                          class="cxd-Button cxd-Button--default cxd-Button--block cxd-Combo-addBtn"
+                          class="cxd-Button cxd-Button--default cxd-Combo-addBtn"
                           type="button"
                         >
                           <icon-mock

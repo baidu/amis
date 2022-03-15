@@ -12,6 +12,19 @@
   background: var(--DatePicker-bg);
   border-radius: var(--DatePicker-borderRadius);
 
+  &-input {
+    display: inline-block;
+    width: 100%;
+    background: none;
+    padding: 0;
+    border: 0;
+    &:focus {
+      border: none;
+      outline: none;
+      box-sizing: none;
+    }
+  }
+
   @include input-border();
 
   &:not(.is-disabled) {
@@ -263,6 +276,7 @@
 .#{$ns}CalendarInputWrapper {
   display: inline-block;
   position: relative;
+
   .#{$ns}CalendarInput-sugs {
     list-style: none;
     position: absolute;

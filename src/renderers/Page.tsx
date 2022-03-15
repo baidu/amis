@@ -878,7 +878,7 @@ export class PageRenderer extends Page {
     throwErrors: boolean = false,
     delegate?: IScopedContext
   ) {
-    const scoped = this.context as IScopedContext;
+    const scoped = delegate || (this.context as IScopedContext);
 
     if (action.actionType === 'reload') {
       action.target && scoped.reload(action.target, ctx);
@@ -902,7 +902,6 @@ export class PageRenderer extends Page {
         action.reload &&
         ~['url', 'link', 'jump'].indexOf(action.actionType!)
       ) {
-        const scoped = delegate || (this.context as IScopedContext);
         scoped.reload(action.reload, ctx);
       }
     }

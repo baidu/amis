@@ -552,6 +552,7 @@ export class FormItemWrap extends React.Component<FormItemProps> {
             `Form-item Form-item--horizontal`,
             className,
             {
+              'Form-item--horizontal-justify': horizontal.justify,
               [`is-error`]: model && !model.valid,
               [`is-required`]: required
             },
