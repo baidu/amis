@@ -1,13 +1,8 @@
 import React from 'react';
 import {findDOMNode} from 'react-dom';
 import cloneDeep from 'lodash/cloneDeep';
-import {
-  FormItem,
-  FormControlProps,
-  FormBaseControl,
-  FormControlSchemaAlias
-} from './Item';
-import {Schema, Action, Api} from '../../types';
+import {FormItem, FormControlProps, FormBaseControl} from './Item';
+import {Action, Api, SchemaNode} from '../../types';
 import {ComboStore, IComboStore} from '../../store/combo';
 import {default as CTabs, Tab} from '../../components/Tabs';
 import Button from '../../components/Button';
@@ -34,11 +29,10 @@ import {isAlive} from 'mobx-state-tree';
 import {
   SchemaApi,
   SchemaClassName,
-  SchemaCollection,
-  SchemaIcon,
   SchemaObject,
   SchemaTpl
 } from '../../Schema';
+import {ActionSchema} from '../Action';
 
 export type ComboCondition = {
   test: string;
@@ -1196,7 +1190,8 @@ export default class ComboControl extends React.Component<ComboProps> {
       placeholder,
       translate: __,
       itemClassName,
-      itemsWrapperClassName
+      itemsWrapperClassName,
+      removeBtn
     } = this.props;
 
     let items = this.props.items;
@@ -1227,28 +1222,65 @@ export default class ComboControl extends React.Component<ComboProps> {
           {Array.isArray(value) && value.length ? (
             value.map((value, index, thelist) => {
               let delBtn: any = null;
+              let noLabelClass = '';
 
               if (
                 finnalRemovable && // 表达式判断单条是否可删除
                 (!itemRemovableOn ||
                   evalExpression(itemRemovableOn, value) !== false)
               ) {
-                delBtn = (
-                  <Button
-                    key="remove"
-                    className={cx('Combo-delBtn')}
-                    disabled={!store.removable}
-                    tooltip={__('delete')}
-                    tooltipPlacement="bottom"
+                if (Array.isArray(items) && items.length > 0) {
+                  noLabelClass = (items[0] as FormBaseControl).label
+                    ? ''
+                    : 'No-label';
+                }
+                const defaultDelBtn = (
+                  <a
                     onClick={this.removeItem.bind(this, index)}
+                    key="remove"
+                    className={cx(
+                      `Combo-delBtn ${!store.removable ? 'is-disabled' : ''}`
+                    )}
+                    data-tooltip={__('delete')}
+                    data-position="bottom"
                   >
                     {deleteIcon ? (
                       <i className={deleteIcon} />
                     ) : (
                       <Icon icon="status-close" className="icon" />
                     )}
-                  </Button>
+                  </a>
                 );
+                const customDelBtn = (btnRenderer: SchemaNode) => (
+                  <div
+                    key="remove"
+                    className={cx('Combo-delController')}
+                    onClick={this.removeItem.bind(this, index)}
+                  >
+                    {btnRenderer}
+                  </div>
+                );
+                if (removeBtn && !Array.isArray(conditions)) {
+                  if (isObject(removeBtn)) {
+                    delBtn = customDelBtn(
+                      render('remove-btn', {
+                        type: 'button',
+                        ...removeBtn
+                      })
+                    );
+                  } else if (typeof removeBtn === 'string') {
+                    delBtn = delBtn = customDelBtn(
+                      render('remove-btn', {
+                        type: 'button',
+                        label: removeBtn
+                      })
+                    );
+                  } else {
+                    delBtn = defaultDelBtn;
+                  }
+                } else {
+                  delBtn = defaultDelBtn;
+                }
               }
 
               const data = this.formatValue(value, index);
@@ -1271,7 +1303,7 @@ export default class ComboControl extends React.Component<ComboProps> {
 
               return (
                 <div
-                  className={cx(`Combo-item`, itemClassName)}
+                  className={cx(`Combo-item`, itemClassName, noLabelClass)}
                   key={this.keys[index] || (this.keys[index] = guid())}
                 >
                   {!disabled && draggable && thelist.length > 1 ? (
