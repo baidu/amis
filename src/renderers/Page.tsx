@@ -881,8 +881,6 @@ export class PageRenderer extends Page {
     const scoped = this.context as IScopedContext;
 
     if (action.actionType === 'reload') {
-      console.log('roothandleAction', action)
-      console.log(scoped.reload)
       action.target && scoped.reload(action.target, ctx);
     } else if (action.target) {
       action.target.split(',').forEach(name => {
