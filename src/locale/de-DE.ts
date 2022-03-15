@@ -289,5 +289,9 @@ register('de-DE', {
   'FormulaEditor.btnLabel': 'Formel Bearbeiten',
   'FormulaEditor.title': 'Formel Editor',
   'FormulaEditor.variable': 'Variable',
-  'FormulaEditor.function': 'Funktion'
+  'FormulaEditor.function': 'Funktion',
+  'pullRefresh.pullingText': 'Zum Aktualisieren nach unten ziehen...',
+  'pullRefresh.loosingText': 'Zum Aktualisieren freigeben...',
+  'pullRefresh.loadingText': 'Laden...',
+  'pullRefresh.successText': 'Laden erfolgreich'
 });

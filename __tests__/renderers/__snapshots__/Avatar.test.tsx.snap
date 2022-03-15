@@ -6,54 +6,68 @@ exports[`Renderer:avatar fit 1`] = `
     class="cxd-Page"
   >
     <div
-      class="cxd-Page-content"
+      class="cxd-PullRefresh"
     >
       <div
-        class="cxd-Page-main"
+        class="cxd-PullRefresh-wrap"
+        style="transform: translate3d(0, 0px, 0);"
       >
         <div
-          class="cxd-Page-body"
+          class="cxd-PullRefresh-header"
         >
-          <span
-            class="cxd-Avatar cxd-Avatar--circle"
+          
+        </div>
+        <div
+          class="cxd-Page-content"
+        >
+          <div
+            class="cxd-Page-main"
           >
-            <img
-              src="https://suda.cdn.bcebos.com/images/amis/plumeria.jpeg"
-              style="object-fit: cover;"
-            />
-          </span>
-          <span
-            class="cxd-Avatar cxd-Avatar--circle"
-          >
-            <img
-              src="https://suda.cdn.bcebos.com/images/amis/plumeria.jpeg"
-              style="object-fit: fill;"
-            />
-          </span>
-          <span
-            class="cxd-Avatar cxd-Avatar--circle"
-          >
-            <img
-              src="https://suda.cdn.bcebos.com/images/amis/plumeria.jpeg"
-              style="object-fit: contain;"
-            />
-          </span>
-          <span
-            class="cxd-Avatar cxd-Avatar--circle"
-          >
-            <img
-              src="https://suda.cdn.bcebos.com/images/amis/plumeria.jpeg"
-              style="object-fit: none;"
-            />
-          </span>
-          <span
-            class="cxd-Avatar cxd-Avatar--circle"
-          >
-            <img
-              src="https://suda.cdn.bcebos.com/images/amis/plumeria.jpeg"
-              style="object-fit: scale-down;"
-            />
-          </span>
+            <div
+              class="cxd-Page-body"
+            >
+              <span
+                class="cxd-Avatar cxd-Avatar--circle"
+              >
+                <img
+                  src="https://suda.cdn.bcebos.com/images/amis/plumeria.jpeg"
+                  style="object-fit: cover;"
+                />
+              </span>
+              <span
+                class="cxd-Avatar cxd-Avatar--circle"
+              >
+                <img
+                  src="https://suda.cdn.bcebos.com/images/amis/plumeria.jpeg"
+                  style="object-fit: fill;"
+                />
+              </span>
+              <span
+                class="cxd-Avatar cxd-Avatar--circle"
+              >
+                <img
+                  src="https://suda.cdn.bcebos.com/images/amis/plumeria.jpeg"
+                  style="object-fit: contain;"
+                />
+              </span>
+              <span
+                class="cxd-Avatar cxd-Avatar--circle"
+              >
+                <img
+                  src="https://suda.cdn.bcebos.com/images/amis/plumeria.jpeg"
+                  style="object-fit: none;"
+                />
+              </span>
+              <span
+                class="cxd-Avatar cxd-Avatar--circle"
+              >
+                <img
+                  src="https://suda.cdn.bcebos.com/images/amis/plumeria.jpeg"
+                  style="object-fit: scale-down;"
+                />
+              </span>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -67,34 +81,48 @@ exports[`Renderer:avatar gap 1`] = `
     class="cxd-Page"
   >
     <div
-      class="cxd-Page-content"
+      class="cxd-PullRefresh"
     >
       <div
-        class="cxd-Page-main"
+        class="cxd-PullRefresh-wrap"
+        style="transform: translate3d(0, 0px, 0);"
       >
         <div
-          class="cxd-Page-body"
+          class="cxd-PullRefresh-header"
         >
-          <span
-            class="cxd-Avatar cxd-Avatar--circle"
+          
+        </div>
+        <div
+          class="cxd-Page-content"
+        >
+          <div
+            class="cxd-Page-main"
           >
-            <span
-              class="cxd-Avatar--text"
-              style="transform: scale(1) translateX(-50%);"
+            <div
+              class="cxd-Page-body"
             >
-              ejson
-            </span>
-          </span>
-          <span
-            class="cxd-Avatar cxd-Avatar--circle"
-          >
-            <span
-              class="cxd-Avatar--text"
-              style="transform: scale(1) translateX(-50%);"
-            >
-              ejson
-            </span>
-          </span>
+              <span
+                class="cxd-Avatar cxd-Avatar--circle"
+              >
+                <span
+                  class="cxd-Avatar--text"
+                  style="transform: scale(1) translateX(-50%);"
+                >
+                  ejson
+                </span>
+              </span>
+              <span
+                class="cxd-Avatar cxd-Avatar--circle"
+              >
+                <span
+                  class="cxd-Avatar--text"
+                  style="transform: scale(1) translateX(-50%);"
+                >
+                  ejson
+                </span>
+              </span>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -120,35 +148,49 @@ exports[`Renderer:avatar shape 1`] = `
     class="cxd-Page"
   >
     <div
-      class="cxd-Page-content"
+      class="cxd-PullRefresh"
     >
       <div
-        class="cxd-Page-main"
+        class="cxd-PullRefresh-wrap"
+        style="transform: translate3d(0, 0px, 0);"
       >
         <div
-          class="cxd-Page-body"
+          class="cxd-PullRefresh-header"
         >
-          <span
-            class="cxd-Avatar cxd-Avatar--square"
+          
+        </div>
+        <div
+          class="cxd-Page-content"
+        >
+          <div
+            class="cxd-Page-main"
           >
-            <span
-              class="cxd-Avatar--text"
-              style="transform: scale(1) translateX(-50%);"
+            <div
+              class="cxd-Page-body"
             >
-              AM
-            </span>
-          </span>
-          <span
-            class="cxd-Avatar cxd-Avatar--rounded"
-            style="margin-left: 10px;"
-          >
-            <span
-              class="cxd-Avatar--text"
-              style="transform: scale(1) translateX(-50%);"
-            >
-              AM
-            </span>
-          </span>
+              <span
+                class="cxd-Avatar cxd-Avatar--square"
+              >
+                <span
+                  class="cxd-Avatar--text"
+                  style="transform: scale(1) translateX(-50%);"
+                >
+                  AM
+                </span>
+              </span>
+              <span
+                class="cxd-Avatar cxd-Avatar--rounded"
+                style="margin-left: 10px;"
+              >
+                <span
+                  class="cxd-Avatar--text"
+                  style="transform: scale(1) translateX(-50%);"
+                >
+                  AM
+                </span>
+              </span>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -162,61 +204,75 @@ exports[`Renderer:avatar size 1`] = `
     class="cxd-Page"
   >
     <div
-      class="cxd-Page-content"
+      class="cxd-PullRefresh"
     >
       <div
-        class="cxd-Page-main"
+        class="cxd-PullRefresh-wrap"
+        style="transform: translate3d(0, 0px, 0);"
       >
         <div
-          class="cxd-Page-body"
+          class="cxd-PullRefresh-header"
         >
-          <span
-            class="cxd-Avatar cxd-Avatar--circle cxd-Avatar--lg"
+          
+        </div>
+        <div
+          class="cxd-Page-content"
+        >
+          <div
+            class="cxd-Page-main"
           >
-            <i
-              class="fa fa-user"
-            />
-          </span>
-          <span
-            class="cxd-Avatar cxd-Avatar--circle"
-          >
-            <i
-              class="fa fa-user"
-            />
-          </span>
-          <span
-            class="cxd-Avatar cxd-Avatar--circle cxd-Avatar--sm"
-          >
-            <i
-              class="fa fa-user"
-            />
-          </span>
-          <span
-            class="cxd-Avatar cxd-Avatar--circle"
-            style="height: 60px; width: 60px; line-height: 60px;"
-          >
-            <img
-              src="https://suda.cdn.bcebos.com/images/amis/ai-fake-face.jpg"
-              style="object-fit: cover;"
-            />
-          </span>
-          <span
-            class="cxd-Avatar cxd-Avatar--circle"
-          >
-            <img
-              src="https://suda.cdn.bcebos.com/images/amis/ai-fake-face.jpg"
-              style="object-fit: cover;"
-            />
-          </span>
-          <span
-            class="cxd-Avatar cxd-Avatar--circle"
-            style="height: 20px; width: 20px; line-height: 20px;"
-          >
-            <img
-              src="https://suda.cdn.bcebos.com/images/amis/ai-fake-face.jpg"
-              style="object-fit: cover;"
-            />
-          </span>
+            <div
+              class="cxd-Page-body"
+            >
+              <span
+                class="cxd-Avatar cxd-Avatar--circle cxd-Avatar--lg"
+              >
+                <i
+                  class="fa fa-user"
+                />
+              </span>
+              <span
+                class="cxd-Avatar cxd-Avatar--circle"
+              >
+                <i
+                  class="fa fa-user"
+                />
+              </span>
+              <span
+                class="cxd-Avatar cxd-Avatar--circle cxd-Avatar--sm"
+              >
+                <i
+                  class="fa fa-user"
+                />
+              </span>
+              <span
+                class="cxd-Avatar cxd-Avatar--circle"
+                style="height: 60px; width: 60px; line-height: 60px;"
+              >
+                <img
+                  src="https://suda.cdn.bcebos.com/images/amis/ai-fake-face.jpg"
+                  style="object-fit: cover;"
+                />
+              </span>
+              <span
+                class="cxd-Avatar cxd-Avatar--circle"
+              >
+                <img
+                  src="https://suda.cdn.bcebos.com/images/amis/ai-fake-face.jpg"
+                  style="object-fit: cover;"
+                />
+              </span>
+              <span
+                class="cxd-Avatar cxd-Avatar--circle"
+                style="height: 20px; width: 20px; line-height: 20px;"
+              >
+                <img
+                  src="https://suda.cdn.bcebos.com/images/amis/ai-fake-face.jpg"
+                  style="object-fit: cover;"
+                />
+              </span>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -261,39 +317,53 @@ exports[`Renderer:avatar var 1`] = `
     class="cxd-Page"
   >
     <div
-      class="cxd-Page-content"
+      class="cxd-PullRefresh"
     >
       <div
-        class="cxd-Page-main"
+        class="cxd-PullRefresh-wrap"
+        style="transform: translate3d(0, 0px, 0);"
       >
         <div
-          class="cxd-Page-body"
+          class="cxd-PullRefresh-header"
         >
-          <span
-            class="cxd-Avatar cxd-Avatar--circle"
+          
+        </div>
+        <div
+          class="cxd-Page-content"
+        >
+          <div
+            class="cxd-Page-main"
           >
-            <img
-              src="https://suda.cdn.bcebos.com/images/amis/ai-fake-face.jpg"
-              style="object-fit: cover;"
-            />
-          </span>
-          <span
-            class="cxd-Avatar cxd-Avatar--circle"
-          >
-            <i
-              class="fa fa-user"
-            />
-          </span>
-          <span
-            class="cxd-Avatar cxd-Avatar--circle"
-          >
-            <span
-              class="cxd-Avatar--text"
-              style="transform: scale(1) translateX(-50%);"
+            <div
+              class="cxd-Page-body"
             >
-              avatar
-            </span>
-          </span>
+              <span
+                class="cxd-Avatar cxd-Avatar--circle"
+              >
+                <img
+                  src="https://suda.cdn.bcebos.com/images/amis/ai-fake-face.jpg"
+                  style="object-fit: cover;"
+                />
+              </span>
+              <span
+                class="cxd-Avatar cxd-Avatar--circle"
+              >
+                <i
+                  class="fa fa-user"
+                />
+              </span>
+              <span
+                class="cxd-Avatar cxd-Avatar--circle"
+              >
+                <span
+                  class="cxd-Avatar--text"
+                  style="transform: scale(1) translateX(-50%);"
+                >
+                  avatar
+                </span>
+              </span>
+            </div>
+          </div>
         </div>
       </div>
     </div>

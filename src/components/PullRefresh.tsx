@@ -9,10 +9,12 @@ import {ClassNamesFn, themeable} from '../theme';
 import {useSetState} from '../hooks';
 import useTouch from '../hooks/use-touch';
 import {Icon} from './icons';
+import {TranslateFn} from '../locale';
 
 export interface PullRefreshProps {
   classnames: ClassNamesFn;
   classPrefix: string;
+  translate: TranslateFn;
   disabled?: boolean;
   pullingText?: string;
   loosingText?: string;
@@ -32,10 +34,6 @@ export interface PullRefreshState {
 }
 
 const defaultProps = {
-  pullingText: '下拉即可刷新...',
-  loosingText: '释放即可刷新...',
-  loadingText: '加载中...',
-  successText: '加载成功',
   successDuration: 0,
   loadingDuration: 0
 };
@@ -46,10 +44,18 @@ const PullRefresh = forwardRef<{}, PullRefreshProps>((props, ref) => {
 
   const {
     classnames: cx,
+    translate: __,
     children,
     successDuration,
     loadingDuration
   } = props;
+
+  const refreshText = {
+    pullingText: __('pullRefresh.pullingText'),
+    loosingText: __('pullRefresh.loosingText'),
+    loadingText: __('pullRefresh.loadingText'),
+    successText: __('pullRefresh.successText')
+  };
 
   const touch = useTouch();
 
@@ -159,7 +165,7 @@ const PullRefresh = forwardRef<{}, PullRefreshProps>((props, ref) => {
     if (status === 'normal') {
       return '';
     }
-    return props[`${status}Text`];
+    return props[`${status}Text`] || refreshText[`${status}Text`];
   }
 
   return (

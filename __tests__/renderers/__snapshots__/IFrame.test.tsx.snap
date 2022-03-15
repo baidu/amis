@@ -28,20 +28,34 @@ exports[`Renderer:iframe-var 1`] = `
     class="cxd-Page"
   >
     <div
-      class="cxd-Page-content"
+      class="cxd-PullRefresh"
     >
       <div
-        class="cxd-Page-main"
+        class="cxd-PullRefresh-wrap"
+        style="transform: translate3d(0, 0px, 0);"
       >
         <div
-          class="cxd-Page-body"
+          class="cxd-PullRefresh-header"
         >
-          <iframe
-            class="b-a"
-            frameborder="0"
-            src="https://www.baidu.com"
-            style="width: 500px; height: 500px;"
-          />
+          
+        </div>
+        <div
+          class="cxd-Page-content"
+        >
+          <div
+            class="cxd-Page-main"
+          >
+            <div
+              class="cxd-Page-body"
+            >
+              <iframe
+                class="b-a"
+                frameborder="0"
+                src="https://www.baidu.com"
+                style="width: 500px; height: 500px;"
+              />
+            </div>
+          </div>
         </div>
       </div>
     </div>

@@ -367,73 +367,87 @@ exports[`Form:initData:super 1`] = `
     class="cxd-Page"
   >
     <div
-      class="cxd-Page-content"
+      class="cxd-PullRefresh"
     >
       <div
-        class="cxd-Page-main"
+        class="cxd-PullRefresh-wrap"
+        style="transform: translate3d(0, 0px, 0);"
       >
         <div
-          class="cxd-Page-body"
+          class="cxd-PullRefresh-header"
         >
-          <form
-            class="cxd-Form cxd-Form--normal"
-            novalidate=""
+          
+        </div>
+        <div
+          class="cxd-Page-content"
+        >
+          <div
+            class="cxd-Page-main"
           >
-            <input
-              style="display: none;"
-              type="submit"
-            />
             <div
-              class="cxd-Form-item cxd-Form-item--normal"
-              data-role="form-item"
+              class="cxd-Page-body"
             >
-              <div
-                class="cxd-Form-control cxd-TextControl"
+              <form
+                class="cxd-Form cxd-Form--normal"
+                novalidate=""
               >
+                <input
+                  style="display: none;"
+                  type="submit"
+                />
                 <div
-                  class="cxd-TextControl-input"
+                  class="cxd-Form-item cxd-Form-item--normal"
+                  data-role="form-item"
                 >
-                  <input
-                    autocomplete="off"
-                    name="a"
-                    placeholder=""
-                    size="10"
-                    type="text"
-                    value="1"
-                  />
+                  <div
+                    class="cxd-Form-control cxd-TextControl"
+                  >
+                    <div
+                      class="cxd-TextControl-input"
+                    >
+                      <input
+                        autocomplete="off"
+                        name="a"
+                        placeholder=""
+                        size="10"
+                        type="text"
+                        value="1"
+                      />
+                    </div>
+                  </div>
                 </div>
-              </div>
-            </div>
-            <div
-              class="cxd-Form-item cxd-Form-item--normal"
-              data-role="form-item"
-            >
-              <div
-                class="cxd-Form-control cxd-TextControl"
-              >
                 <div
-                  class="cxd-TextControl-input"
+                  class="cxd-Form-item cxd-Form-item--normal"
+                  data-role="form-item"
                 >
-                  <input
-                    autocomplete="off"
-                    name="b"
-                    placeholder=""
-                    size="10"
-                    type="text"
-                    value="2"
-                  />
+                  <div
+                    class="cxd-Form-control cxd-TextControl"
+                  >
+                    <div
+                      class="cxd-TextControl-input"
+                    >
+                      <input
+                        autocomplete="off"
+                        name="b"
+                        placeholder=""
+                        size="10"
+                        type="text"
+                        value="2"
+                      />
+                    </div>
+                  </div>
                 </div>
-              </div>
+                <button
+                  class="cxd-Button cxd-Button--default"
+                  type="submit"
+                >
+                  <span>
+                    Submit
+                  </span>
+                </button>
+              </form>
             </div>
-            <button
-              class="cxd-Button cxd-Button--default"
-              type="submit"
-            >
-              <span>
-                Submit
-              </span>
-            </button>
-          </form>
+          </div>
         </div>
       </div>
     </div>
@@ -447,73 +461,87 @@ exports[`Form:initData:without-super 1`] = `
     class="cxd-Page"
   >
     <div
-      class="cxd-Page-content"
+      class="cxd-PullRefresh"
     >
       <div
-        class="cxd-Page-main"
+        class="cxd-PullRefresh-wrap"
+        style="transform: translate3d(0, 0px, 0);"
       >
         <div
-          class="cxd-Page-body"
+          class="cxd-PullRefresh-header"
         >
-          <form
-            class="cxd-Form cxd-Form--normal"
-            novalidate=""
+          
+        </div>
+        <div
+          class="cxd-Page-content"
+        >
+          <div
+            class="cxd-Page-main"
           >
-            <input
-              style="display: none;"
-              type="submit"
-            />
             <div
-              class="cxd-Form-item cxd-Form-item--normal"
-              data-role="form-item"
+              class="cxd-Page-body"
             >
-              <div
-                class="cxd-Form-control cxd-TextControl"
+              <form
+                class="cxd-Form cxd-Form--normal"
+                novalidate=""
               >
+                <input
+                  style="display: none;"
+                  type="submit"
+                />
                 <div
-                  class="cxd-TextControl-input"
+                  class="cxd-Form-item cxd-Form-item--normal"
+                  data-role="form-item"
                 >
-                  <input
-                    autocomplete="off"
-                    name="a"
-                    placeholder=""
-                    size="10"
-                    type="text"
-                    value=""
-                  />
+                  <div
+                    class="cxd-Form-control cxd-TextControl"
+                  >
+                    <div
+                      class="cxd-TextControl-input"
+                    >
+                      <input
+                        autocomplete="off"
+                        name="a"
+                        placeholder=""
+                        size="10"
+                        type="text"
+                        value=""
+                      />
+                    </div>
+                  </div>
                 </div>
-              </div>
-            </div>
-            <div
-              class="cxd-Form-item cxd-Form-item--normal"
-              data-role="form-item"
-            >
-              <div
-                class="cxd-Form-control cxd-TextControl"
-              >
                 <div
-                  class="cxd-TextControl-input"
+                  class="cxd-Form-item cxd-Form-item--normal"
+                  data-role="form-item"
                 >
-                  <input
-                    autocomplete="off"
-                    name="b"
-                    placeholder=""
-                    size="10"
-                    type="text"
-                    value=""
-                  />
+                  <div
+                    class="cxd-Form-control cxd-TextControl"
+                  >
+                    <div
+                      class="cxd-TextControl-input"
+                    >
+                      <input
+                        autocomplete="off"
+                        name="b"
+                        placeholder=""
+                        size="10"
+                        type="text"
+                        value=""
+                      />
+                    </div>
+                  </div>
                 </div>
-              </div>
+                <button
+                  class="cxd-Button cxd-Button--default"
+                  type="submit"
+                >
+                  <span>
+                    Submit
+                  </span>
+                </button>
+              </form>
             </div>
-            <button
-              class="cxd-Button cxd-Button--default"
-              type="submit"
-            >
-              <span>
-                Submit
-              </span>
-            </button>
-          </form>
+          </div>
         </div>
       </div>
     </div>

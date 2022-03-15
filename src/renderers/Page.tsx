@@ -778,6 +778,7 @@ export default class Page extends React.Component<PageProps> {
 
         <PullRefresh
           {...pullRefresh}
+          translate={__}
           onRefresh={this.handleRefresh}
           >
           <div className={cx('Page-content')}>

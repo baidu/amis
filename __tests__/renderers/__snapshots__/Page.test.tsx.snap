@@ -6,78 +6,101 @@ exports[`Renderer:Page 1`] = `
   onClick={[Function]}
 >
   <div
-    className="cxd-Page-content"
+    className="cxd-PullRefresh"
+    onTouchCancel={[Function]}
+    onTouchEnd={[Function]}
+    onTouchMove={[Function]}
+    onTouchStart={[Function]}
   >
     <div
-      className="cxd-Page-main"
+      className="cxd-PullRefresh-wrap"
+      style={
+        Object {
+          "touchAction": "none",
+          "transform": "translate3d(0, 0px, 0)",
+        }
+      }
     >
       <div
-        className="cxd-Page-headerRow"
+        className="cxd-PullRefresh-header"
       >
-        <div
-          className="cxd-Page-header"
-        >
-          <h2
-            className="cxd-Page-title"
-          >
-            <span
-              className="cxd-TplField"
-            >
-              <span>
-                This is Title
-              </span>
-            </span>
-            <div
-              className="cxd-Remark cxd-Remark--warning"
-              onBlur={[Function]}
-              onFocus={[Function]}
-              onMouseOut={[Function]}
-              onMouseOver={[Function]}
-            >
-              <span
-                className="cxd-Remark-icon icon"
-              >
-                <icon-mock
-                  className=" icon-question-mark"
-                  icon="question-mark"
-                />
-              </span>
-            </div>
-          </h2>
-          <small
-            className="cxd-Page-subTitle"
-          >
-            <span
-              className="cxd-TplField"
-            >
-              <span>
-                This is SubTitle
-              </span>
-            </span>
-          </small>
-        </div>
-        <div
-          className="cxd-Page-toolbar"
-        >
-          <span
-            className="cxd-TplField"
-          >
-            <span>
-              This is toolbar
-            </span>
-          </span>
-        </div>
+        
       </div>
       <div
-        className="cxd-Page-body"
+        className="cxd-Page-content"
       >
-        <span
-          className="cxd-TplField"
+        <div
+          className="cxd-Page-main"
         >
-          <span>
-            This is body
-          </span>
-        </span>
+          <div
+            className="cxd-Page-headerRow"
+          >
+            <div
+              className="cxd-Page-header"
+            >
+              <h2
+                className="cxd-Page-title"
+              >
+                <span
+                  className="cxd-TplField"
+                >
+                  <span>
+                    This is Title
+                  </span>
+                </span>
+                <div
+                  className="cxd-Remark cxd-Remark--warning"
+                  onBlur={[Function]}
+                  onFocus={[Function]}
+                  onMouseOut={[Function]}
+                  onMouseOver={[Function]}
+                >
+                  <span
+                    className="cxd-Remark-icon icon"
+                  >
+                    <icon-mock
+                      className=" icon-question-mark"
+                      icon="question-mark"
+                    />
+                  </span>
+                </div>
+              </h2>
+              <small
+                className="cxd-Page-subTitle"
+              >
+                <span
+                  className="cxd-TplField"
+                >
+                  <span>
+                    This is SubTitle
+                  </span>
+                </span>
+              </small>
+            </div>
+            <div
+              className="cxd-Page-toolbar"
+            >
+              <span
+                className="cxd-TplField"
+              >
+                <span>
+                  This is toolbar
+                </span>
+              </span>
+            </div>
+          </div>
+          <div
+            className="cxd-Page-body"
+          >
+            <span
+              className="cxd-TplField"
+            >
+              <span>
+                This is body
+              </span>
+            </span>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -101,78 +124,101 @@ exports[`Renderer:Page classNames 1`] = `
     </div>
   </div>
   <div
-    className="cxd-Page-content"
+    className="cxd-PullRefresh"
+    onTouchCancel={[Function]}
+    onTouchEnd={[Function]}
+    onTouchMove={[Function]}
+    onTouchStart={[Function]}
   >
     <div
-      className="cxd-Page-main"
+      className="cxd-PullRefresh-wrap"
+      style={
+        Object {
+          "touchAction": "none",
+          "transform": "translate3d(0, 0px, 0)",
+        }
+      }
     >
       <div
-        className="cxd-Page-headerRow"
+        className="cxd-PullRefresh-header"
       >
-        <div
-          className="cxd-Page-header header-class-name"
-        >
-          <h2
-            className="cxd-Page-title"
-          >
-            <span
-              className="cxd-TplField"
-            >
-              <span>
-                This is Title
-              </span>
-            </span>
-            <div
-              className="cxd-Remark cxd-Remark--warning"
-              onBlur={[Function]}
-              onFocus={[Function]}
-              onMouseOut={[Function]}
-              onMouseOver={[Function]}
-            >
-              <span
-                className="cxd-Remark-icon icon"
-              >
-                <icon-mock
-                  className=" icon-question-mark"
-                  icon="question-mark"
-                />
-              </span>
-            </div>
-          </h2>
-          <small
-            className="cxd-Page-subTitle"
-          >
-            <span
-              className="cxd-TplField"
-            >
-              <span>
-                This is SubTitle
-              </span>
-            </span>
-          </small>
-        </div>
-        <div
-          className="cxd-Page-toolbar toolbar-class-name"
-        >
-          <span
-            className="cxd-TplField"
-          >
-            <span>
-              This is toolbar
-            </span>
-          </span>
-        </div>
+        
       </div>
       <div
-        className="cxd-Page-body body-class-name"
+        className="cxd-Page-content"
       >
-        <span
-          className="cxd-TplField"
+        <div
+          className="cxd-Page-main"
         >
-          <span>
-            This is body
-          </span>
-        </span>
+          <div
+            className="cxd-Page-headerRow"
+          >
+            <div
+              className="cxd-Page-header header-class-name"
+            >
+              <h2
+                className="cxd-Page-title"
+              >
+                <span
+                  className="cxd-TplField"
+                >
+                  <span>
+                    This is Title
+                  </span>
+                </span>
+                <div
+                  className="cxd-Remark cxd-Remark--warning"
+                  onBlur={[Function]}
+                  onFocus={[Function]}
+                  onMouseOut={[Function]}
+                  onMouseOver={[Function]}
+                >
+                  <span
+                    className="cxd-Remark-icon icon"
+                  >
+                    <icon-mock
+                      className=" icon-question-mark"
+                      icon="question-mark"
+                    />
+                  </span>
+                </div>
+              </h2>
+              <small
+                className="cxd-Page-subTitle"
+              >
+                <span
+                  className="cxd-TplField"
+                >
+                  <span>
+                    This is SubTitle
+                  </span>
+                </span>
+              </small>
+            </div>
+            <div
+              className="cxd-Page-toolbar toolbar-class-name"
+            >
+              <span
+                className="cxd-TplField"
+              >
+                <span>
+                  This is toolbar
+                </span>
+              </span>
+            </div>
+          </div>
+          <div
+            className="cxd-Page-body body-class-name"
+          >
+            <span
+              className="cxd-TplField"
+            >
+              <span>
+                This is body
+              </span>
+            </span>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -185,39 +231,53 @@ exports[`Renderer:Page handleAction actionType=ajax & feedback 1`] = `
     class="cxd-Page"
   >
     <div
-      class="cxd-Page-content"
+      class="cxd-PullRefresh"
     >
       <div
-        class="cxd-Page-main"
+        class="cxd-PullRefresh-wrap"
+        style="transform: translate3d(0, 0px, 0);"
       >
         <div
-          class="cxd-Page-toolbar"
+          class="cxd-PullRefresh-header"
         >
-          <button
-            class="cxd-Button cxd-Button--default"
-            type="button"
-          >
-            <span>
-              RequestAjax
-            </span>
-          </button>
+          
         </div>
         <div
-          class="cxd-Page-body"
+          class="cxd-Page-content"
         >
           <div
-            class="cxd-Spinner-overlay"
-          />
-          <div
-            class="cxd-Spinner cxd-Spinner--overlay cxd-Spinner--lg"
-          />
-          <span
-            class="cxd-TplField"
+            class="cxd-Page-main"
           >
-            <span>
-              The variable a is 6
-            </span>
-          </span>
+            <div
+              class="cxd-Page-toolbar"
+            >
+              <button
+                class="cxd-Button cxd-Button--default"
+                type="button"
+              >
+                <span>
+                  RequestAjax
+                </span>
+              </button>
+            </div>
+            <div
+              class="cxd-Page-body"
+            >
+              <div
+                class="cxd-Spinner-overlay"
+              />
+              <div
+                class="cxd-Spinner cxd-Spinner--overlay cxd-Spinner--lg"
+              />
+              <span
+                class="cxd-TplField"
+              >
+                <span>
+                  The variable a is 6
+                </span>
+              </span>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -293,33 +353,47 @@ exports[`Renderer:Page handleAction actionType=ajax & feedback 2`] = `
     class="cxd-Page"
   >
     <div
-      class="cxd-Page-content"
+      class="cxd-PullRefresh"
     >
       <div
-        class="cxd-Page-main"
+        class="cxd-PullRefresh-wrap"
+        style="transform: translate3d(0, 0px, 0);"
       >
         <div
-          class="cxd-Page-toolbar"
+          class="cxd-PullRefresh-header"
         >
-          <button
-            class="cxd-Button cxd-Button--default"
-            type="button"
-          >
-            <span>
-              RequestAjax
-            </span>
-          </button>
+          
         </div>
         <div
-          class="cxd-Page-body"
+          class="cxd-Page-content"
         >
-          <span
-            class="cxd-TplField"
+          <div
+            class="cxd-Page-main"
           >
-            <span>
-              The variable a is 6
-            </span>
-          </span>
+            <div
+              class="cxd-Page-toolbar"
+            >
+              <button
+                class="cxd-Button cxd-Button--default"
+                type="button"
+              >
+                <span>
+                  RequestAjax
+                </span>
+              </button>
+            </div>
+            <div
+              class="cxd-Page-body"
+            >
+              <span
+                class="cxd-TplField"
+              >
+                <span>
+                  The variable a is 6
+                </span>
+              </span>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -333,39 +407,53 @@ exports[`Renderer:Page handleAction actionType=ajax 1`] = `
     class="cxd-Page"
   >
     <div
-      class="cxd-Page-content"
+      class="cxd-PullRefresh"
     >
       <div
-        class="cxd-Page-main"
+        class="cxd-PullRefresh-wrap"
+        style="transform: translate3d(0, 0px, 0);"
       >
         <div
-          class="cxd-Page-toolbar"
+          class="cxd-PullRefresh-header"
         >
-          <button
-            class="cxd-Button cxd-Button--default"
-            type="button"
-          >
-            <span>
-              RequestAjax
-            </span>
-          </button>
+          
         </div>
         <div
-          class="cxd-Page-body"
+          class="cxd-Page-content"
         >
           <div
-            class="cxd-Spinner-overlay"
-          />
-          <div
-            class="cxd-Spinner cxd-Spinner--overlay cxd-Spinner--lg"
-          />
-          <span
-            class="cxd-TplField"
+            class="cxd-Page-main"
           >
-            <span>
-              The variable a is 6
-            </span>
-          </span>
+            <div
+              class="cxd-Page-toolbar"
+            >
+              <button
+                class="cxd-Button cxd-Button--default"
+                type="button"
+              >
+                <span>
+                  RequestAjax
+                </span>
+              </button>
+            </div>
+            <div
+              class="cxd-Page-body"
+            >
+              <div
+                class="cxd-Spinner-overlay"
+              />
+              <div
+                class="cxd-Spinner cxd-Spinner--overlay cxd-Spinner--lg"
+              />
+              <span
+                class="cxd-TplField"
+              >
+                <span>
+                  The variable a is 6
+                </span>
+              </span>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -379,26 +467,40 @@ exports[`Renderer:Page handleAction actionType=dialog 1`] = `
     class="cxd-Page"
   >
     <div
-      class="cxd-Page-content"
+      class="cxd-PullRefresh"
     >
       <div
-        class="cxd-Page-main"
+        class="cxd-PullRefresh-wrap"
+        style="transform: translate3d(0, 0px, 0);"
       >
         <div
-          class="cxd-Page-toolbar"
+          class="cxd-PullRefresh-header"
         >
-          <button
-            class="cxd-Button cxd-Button--default"
-            type="button"
-          >
-            <span>
-              OpenDialog
-            </span>
-          </button>
+          
         </div>
         <div
-          class="cxd-Page-body"
-        />
+          class="cxd-Page-content"
+        >
+          <div
+            class="cxd-Page-main"
+          >
+            <div
+              class="cxd-Page-toolbar"
+            >
+              <button
+                class="cxd-Button cxd-Button--default"
+                type="button"
+              >
+                <span>
+                  OpenDialog
+                </span>
+              </button>
+            </div>
+            <div
+              class="cxd-Page-body"
+            />
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -473,26 +575,40 @@ exports[`Renderer:Page handleAction actionType=dialog 2`] = `
     class="cxd-Page"
   >
     <div
-      class="cxd-Page-content"
+      class="cxd-PullRefresh"
     >
       <div
-        class="cxd-Page-main"
+        class="cxd-PullRefresh-wrap"
+        style="transform: translate3d(0, 0px, 0);"
       >
         <div
-          class="cxd-Page-toolbar"
+          class="cxd-PullRefresh-header"
         >
-          <button
-            class="cxd-Button cxd-Button--default"
-            type="button"
-          >
-            <span>
-              OpenDialog
-            </span>
-          </button>
+          
         </div>
         <div
-          class="cxd-Page-body"
-        />
+          class="cxd-Page-content"
+        >
+          <div
+            class="cxd-Page-main"
+          >
+            <div
+              class="cxd-Page-toolbar"
+            >
+              <button
+                class="cxd-Button cxd-Button--default"
+                type="button"
+              >
+                <span>
+                  OpenDialog
+                </span>
+              </button>
+            </div>
+            <div
+              class="cxd-Page-body"
+            />
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -505,33 +621,47 @@ exports[`Renderer:Page handleAction actionType=dialog mergeData 1`] = `
     class="cxd-Page"
   >
     <div
-      class="cxd-Page-content"
+      class="cxd-PullRefresh"
     >
       <div
-        class="cxd-Page-main"
+        class="cxd-PullRefresh-wrap"
+        style="transform: translate3d(0, 0px, 0);"
       >
         <div
-          class="cxd-Page-toolbar"
+          class="cxd-PullRefresh-header"
         >
-          <button
-            class="cxd-Button cxd-Button--default"
-            type="button"
-          >
-            <span>
-              OpenDialog
-            </span>
-          </button>
+          
         </div>
         <div
-          class="cxd-Page-body"
+          class="cxd-Page-content"
         >
-          <span
-            class="cxd-TplField"
+          <div
+            class="cxd-Page-main"
           >
-            <span>
-              The variable a is 
-            </span>
-          </span>
+            <div
+              class="cxd-Page-toolbar"
+            >
+              <button
+                class="cxd-Button cxd-Button--default"
+                type="button"
+              >
+                <span>
+                  OpenDialog
+                </span>
+              </button>
+            </div>
+            <div
+              class="cxd-Page-body"
+            >
+              <span
+                class="cxd-TplField"
+              >
+                <span>
+                  The variable a is 
+                </span>
+              </span>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -639,33 +769,47 @@ exports[`Renderer:Page handleAction actionType=dialog mergeData 2`] = `
     class="cxd-Page"
   >
     <div
-      class="cxd-Page-content"
+      class="cxd-PullRefresh"
     >
       <div
-        class="cxd-Page-main"
+        class="cxd-PullRefresh-wrap"
+        style="transform: translate3d(0, 0px, 0);"
       >
         <div
-          class="cxd-Page-toolbar"
+          class="cxd-PullRefresh-header"
         >
-          <button
-            class="cxd-Button cxd-Button--default"
-            type="button"
-          >
-            <span>
-              OpenDialog
-            </span>
-          </button>
+          
         </div>
         <div
-          class="cxd-Page-body"
+          class="cxd-Page-content"
         >
-          <span
-            class="cxd-TplField"
+          <div
+            class="cxd-Page-main"
           >
-            <span>
-              The variable a is 3
-            </span>
-          </span>
+            <div
+              class="cxd-Page-toolbar"
+            >
+              <button
+                class="cxd-Button cxd-Button--default"
+                type="button"
+              >
+                <span>
+                  OpenDialog
+                </span>
+              </button>
+            </div>
+            <div
+              class="cxd-Page-body"
+            >
+              <span
+                class="cxd-TplField"
+              >
+                <span>
+                  The variable a is 3
+                </span>
+              </span>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -773,26 +917,40 @@ exports[`Renderer:Page handleAction actionType=drawer 1`] = `
     class="cxd-Page"
   >
     <div
-      class="cxd-Page-content"
+      class="cxd-PullRefresh"
     >
       <div
-        class="cxd-Page-main"
+        class="cxd-PullRefresh-wrap"
+        style="transform: translate3d(0, 0px, 0);"
       >
         <div
-          class="cxd-Page-toolbar"
+          class="cxd-PullRefresh-header"
         >
-          <button
-            class="cxd-Button cxd-Button--default"
-            type="button"
-          >
-            <span>
-              OpenDrawer
-            </span>
-          </button>
+          
         </div>
         <div
-          class="cxd-Page-body"
-        />
+          class="cxd-Page-content"
+        >
+          <div
+            class="cxd-Page-main"
+          >
+            <div
+              class="cxd-Page-toolbar"
+            >
+              <button
+                class="cxd-Button cxd-Button--default"
+                type="button"
+              >
+                <span>
+                  OpenDrawer
+                </span>
+              </button>
+            </div>
+            <div
+              class="cxd-Page-body"
+            />
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -858,26 +1016,40 @@ exports[`Renderer:Page handleAction actionType=drawer 2`] = `
     class="cxd-Page"
   >
     <div
-      class="cxd-Page-content"
+      class="cxd-PullRefresh"
     >
       <div
-        class="cxd-Page-main"
+        class="cxd-PullRefresh-wrap"
+        style="transform: translate3d(0, 0px, 0);"
       >
         <div
-          class="cxd-Page-toolbar"
+          class="cxd-PullRefresh-header"
         >
-          <button
-            class="cxd-Button cxd-Button--default"
-            type="button"
-          >
-            <span>
-              OpenDrawer
-            </span>
-          </button>
+          
         </div>
         <div
-          class="cxd-Page-body"
-        />
+          class="cxd-Page-content"
+        >
+          <div
+            class="cxd-Page-main"
+          >
+            <div
+              class="cxd-Page-toolbar"
+            >
+              <button
+                class="cxd-Button cxd-Button--default"
+                type="button"
+              >
+                <span>
+                  OpenDrawer
+                </span>
+              </button>
+            </div>
+            <div
+              class="cxd-Page-body"
+            />
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -890,33 +1062,47 @@ exports[`Renderer:Page handleAction actionType=drawer mergeData 1`] = `
     class="cxd-Page"
   >
     <div
-      class="cxd-Page-content"
+      class="cxd-PullRefresh"
     >
       <div
-        class="cxd-Page-main"
+        class="cxd-PullRefresh-wrap"
+        style="transform: translate3d(0, 0px, 0);"
       >
         <div
-          class="cxd-Page-toolbar"
+          class="cxd-PullRefresh-header"
         >
-          <button
-            class="cxd-Button cxd-Button--default"
-            type="button"
-          >
-            <span>
-              OpenDrawer
-            </span>
-          </button>
+          
         </div>
         <div
-          class="cxd-Page-body"
+          class="cxd-Page-content"
         >
-          <span
-            class="cxd-TplField"
+          <div
+            class="cxd-Page-main"
           >
-            <span>
-              The variable a is 
-            </span>
-          </span>
+            <div
+              class="cxd-Page-toolbar"
+            >
+              <button
+                class="cxd-Button cxd-Button--default"
+                type="button"
+              >
+                <span>
+                  OpenDrawer
+                </span>
+              </button>
+            </div>
+            <div
+              class="cxd-Page-body"
+            >
+              <span
+                class="cxd-TplField"
+              >
+                <span>
+                  The variable a is 
+                </span>
+              </span>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -1016,33 +1202,47 @@ exports[`Renderer:Page handleAction actionType=drawer mergeData 2`] = `
     class="cxd-Page"
   >
     <div
-      class="cxd-Page-content"
+      class="cxd-PullRefresh"
     >
       <div
-        class="cxd-Page-main"
+        class="cxd-PullRefresh-wrap"
+        style="transform: translate3d(0, 0px, 0);"
       >
         <div
-          class="cxd-Page-toolbar"
+          class="cxd-PullRefresh-header"
         >
-          <button
-            class="cxd-Button cxd-Button--default"
-            type="button"
-          >
-            <span>
-              OpenDrawer
-            </span>
-          </button>
+          
         </div>
         <div
-          class="cxd-Page-body"
+          class="cxd-Page-content"
         >
-          <span
-            class="cxd-TplField"
+          <div
+            class="cxd-Page-main"
           >
-            <span>
-              The variable a is 3
-            </span>
-          </span>
+            <div
+              class="cxd-Page-toolbar"
+            >
+              <button
+                class="cxd-Button cxd-Button--default"
+                type="button"
+              >
+                <span>
+                  OpenDrawer
+                </span>
+              </button>
+            </div>
+            <div
+              class="cxd-Page-body"
+            >
+              <span
+                class="cxd-TplField"
+              >
+                <span>
+                  The variable a is 3
+                </span>
+              </span>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -1056,27 +1256,50 @@ exports[`Renderer:Page initApi 1`] = `
   onClick={[Function]}
 >
   <div
-    className="cxd-Page-content"
+    className="cxd-PullRefresh"
+    onTouchCancel={[Function]}
+    onTouchEnd={[Function]}
+    onTouchMove={[Function]}
+    onTouchStart={[Function]}
   >
     <div
-      className="cxd-Page-main"
+      className="cxd-PullRefresh-wrap"
+      style={
+        Object {
+          "touchAction": "none",
+          "transform": "translate3d(0, 0px, 0)",
+        }
+      }
     >
       <div
-        className="cxd-Page-body"
+        className="cxd-PullRefresh-header"
+      >
+        
+      </div>
+      <div
+        className="cxd-Page-content"
       >
         <div
-          className="cxd-Spinner-overlay"
-        />
-        <div
-          className="cxd-Spinner cxd-Spinner--overlay cxd-Spinner--lg"
-        />
-        <span
-          className="cxd-TplField"
+          className="cxd-Page-main"
         >
-          <span>
-            The variable value is 2
-          </span>
-        </span>
+          <div
+            className="cxd-Page-body"
+          >
+            <div
+              className="cxd-Spinner-overlay"
+            />
+            <div
+              className="cxd-Spinner cxd-Spinner--overlay cxd-Spinner--lg"
+            />
+            <span
+              className="cxd-TplField"
+            >
+              <span>
+                The variable value is 2
+              </span>
+            </span>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -1089,42 +1312,65 @@ exports[`Renderer:Page initApi error show Message 1`] = `
   onClick={[Function]}
 >
   <div
-    className="cxd-Page-content"
+    className="cxd-PullRefresh"
+    onTouchCancel={[Function]}
+    onTouchEnd={[Function]}
+    onTouchMove={[Function]}
+    onTouchStart={[Function]}
   >
     <div
-      className="cxd-Page-main"
+      className="cxd-PullRefresh-wrap"
+      style={
+        Object {
+          "touchAction": "none",
+          "transform": "translate3d(0, 0px, 0)",
+        }
+      }
     >
       <div
-        className="cxd-Page-body"
+        className="cxd-PullRefresh-header"
+      >
+        
+      </div>
+      <div
+        className="cxd-Page-content"
       >
         <div
-          className="cxd-Spinner-overlay"
-        />
-        <div
-          className="cxd-Spinner cxd-Spinner--overlay cxd-Spinner--lg"
-        />
-        <div
-          className="cxd-Alert cxd-Alert--danger"
+          className="cxd-Page-main"
         >
           <div
-            className="cxd-Alert-content"
+            className="cxd-Page-body"
           >
             <div
-              className="cxd-Alert-desc"
+              className="cxd-Spinner-overlay"
+            />
+            <div
+              className="cxd-Spinner cxd-Spinner--overlay cxd-Spinner--lg"
+            />
+            <div
+              className="cxd-Alert cxd-Alert--danger"
             >
-              Internal Error
+              <div
+                className="cxd-Alert-content"
+              >
+                <div
+                  className="cxd-Alert-desc"
+                >
+                  Internal Error
+                </div>
+              </div>
+              <button
+                className="cxd-Alert-close"
+                onClick={[Function]}
+                type="button"
+              >
+                <icon-mock
+                  className="icon icon-close"
+                  icon="close"
+                />
+              </button>
             </div>
           </div>
-          <button
-            className="cxd-Alert-close"
-            onClick={[Function]}
-            type="button"
-          >
-            <icon-mock
-              className="icon icon-close"
-              icon="close"
-            />
-          </button>
         </div>
       </div>
     </div>
@@ -1138,27 +1384,50 @@ exports[`Renderer:Page initApi reFetch when condition changes 1`] = `
   onClick={[Function]}
 >
   <div
-    className="cxd-Page-content"
+    className="cxd-PullRefresh"
+    onTouchCancel={[Function]}
+    onTouchEnd={[Function]}
+    onTouchMove={[Function]}
+    onTouchStart={[Function]}
   >
     <div
-      className="cxd-Page-main"
+      className="cxd-PullRefresh-wrap"
+      style={
+        Object {
+          "touchAction": "none",
+          "transform": "translate3d(0, 0px, 0)",
+        }
+      }
     >
       <div
-        className="cxd-Page-body"
+        className="cxd-PullRefresh-header"
+      >
+        
+      </div>
+      <div
+        className="cxd-Page-content"
       >
         <div
-          className="cxd-Spinner-overlay"
-        />
-        <div
-          className="cxd-Spinner cxd-Spinner--overlay cxd-Spinner--lg"
-        />
-        <span
-          className="cxd-TplField"
+          className="cxd-Page-main"
         >
-          <span>
-            The variable value is 1
-          </span>
-        </span>
+          <div
+            className="cxd-Page-body"
+          >
+            <div
+              className="cxd-Spinner-overlay"
+            />
+            <div
+              className="cxd-Spinner cxd-Spinner--overlay cxd-Spinner--lg"
+            />
+            <span
+              className="cxd-TplField"
+            >
+              <span>
+                The variable value is 1
+              </span>
+            </span>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -1171,21 +1440,44 @@ exports[`Renderer:Page initApi reFetch when condition changes 2`] = `
   onClick={[Function]}
 >
   <div
-    className="cxd-Page-content"
+    className="cxd-PullRefresh"
+    onTouchCancel={[Function]}
+    onTouchEnd={[Function]}
+    onTouchMove={[Function]}
+    onTouchStart={[Function]}
   >
     <div
-      className="cxd-Page-main"
+      className="cxd-PullRefresh-wrap"
+      style={
+        Object {
+          "touchAction": "none",
+          "transform": "translate3d(0, 0px, 0)",
+        }
+      }
     >
       <div
-        className="cxd-Page-body"
+        className="cxd-PullRefresh-header"
       >
-        <span
-          className="cxd-TplField"
+        
+      </div>
+      <div
+        className="cxd-Page-content"
+      >
+        <div
+          className="cxd-Page-main"
         >
-          <span>
-            The variable value is 2
-          </span>
-        </span>
+          <div
+            className="cxd-Page-body"
+          >
+            <span
+              className="cxd-TplField"
+            >
+              <span>
+                The variable value is 2
+              </span>
+            </span>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -1198,39 +1490,53 @@ exports[`Renderer:Page initApi reload by Dialog action 1`] = `
     class="cxd-Page"
   >
     <div
-      class="cxd-Page-content"
+      class="cxd-PullRefresh"
     >
       <div
-        class="cxd-Page-main"
+        class="cxd-PullRefresh-wrap"
+        style="transform: translate3d(0, 0px, 0);"
       >
         <div
-          class="cxd-Page-toolbar"
+          class="cxd-PullRefresh-header"
         >
-          <button
-            class="cxd-Button cxd-Button--default"
-            type="button"
-          >
-            <span>
-              OpenDialog
-            </span>
-          </button>
+          
         </div>
         <div
-          class="cxd-Page-body"
+          class="cxd-Page-content"
         >
           <div
-            class="cxd-Spinner-overlay"
-          />
-          <div
-            class="cxd-Spinner cxd-Spinner--overlay cxd-Spinner--lg"
-          />
-          <span
-            class="cxd-TplField"
+            class="cxd-Page-main"
           >
-            <span>
-              The variable value is 1
-            </span>
-          </span>
+            <div
+              class="cxd-Page-toolbar"
+            >
+              <button
+                class="cxd-Button cxd-Button--default"
+                type="button"
+              >
+                <span>
+                  OpenDialog
+                </span>
+              </button>
+            </div>
+            <div
+              class="cxd-Page-body"
+            >
+              <div
+                class="cxd-Spinner-overlay"
+              />
+              <div
+                class="cxd-Spinner cxd-Spinner--overlay cxd-Spinner--lg"
+              />
+              <span
+                class="cxd-TplField"
+              >
+                <span>
+                  The variable value is 1
+                </span>
+              </span>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -1244,33 +1550,47 @@ exports[`Renderer:Page initApi reload by Dialog action 2`] = `
     class="cxd-Page"
   >
     <div
-      class="cxd-Page-content"
+      class="cxd-PullRefresh"
     >
       <div
-        class="cxd-Page-main"
+        class="cxd-PullRefresh-wrap"
+        style="transform: translate3d(0, 0px, 0);"
       >
         <div
-          class="cxd-Page-toolbar"
+          class="cxd-PullRefresh-header"
         >
-          <button
-            class="cxd-Button cxd-Button--default"
-            type="button"
-          >
-            <span>
-              OpenDialog
-            </span>
-          </button>
+          
         </div>
         <div
-          class="cxd-Page-body"
+          class="cxd-Page-content"
         >
-          <span
-            class="cxd-TplField"
+          <div
+            class="cxd-Page-main"
           >
-            <span>
-              The variable value is 1
-            </span>
-          </span>
+            <div
+              class="cxd-Page-toolbar"
+            >
+              <button
+                class="cxd-Button cxd-Button--default"
+                type="button"
+              >
+                <span>
+                  OpenDialog
+                </span>
+              </button>
+            </div>
+            <div
+              class="cxd-Page-body"
+            >
+              <span
+                class="cxd-TplField"
+              >
+                <span>
+                  The variable value is 1
+                </span>
+              </span>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -1378,33 +1698,53 @@ exports[`Renderer:Page initApi reload by Dialog action 3`] = `
     class="cxd-Page"
   >
     <div
-      class="cxd-Page-content"
+      class="cxd-PullRefresh"
     >
       <div
-        class="cxd-Page-main"
+        class="cxd-PullRefresh-wrap"
+        style="transform: translate3d(0, 0px, 0);"
       >
         <div
-          class="cxd-Page-toolbar"
+          class="cxd-PullRefresh-header"
         >
-          <button
-            class="cxd-Button cxd-Button--default"
-            type="button"
-          >
-            <span>
-              OpenDialog
-            </span>
-          </button>
+          
         </div>
         <div
-          class="cxd-Page-body"
+          class="cxd-Page-content"
         >
-          <span
-            class="cxd-TplField"
+          <div
+            class="cxd-Page-main"
           >
-            <span>
-              The variable value is 2
-            </span>
-          </span>
+            <div
+              class="cxd-Page-toolbar"
+            >
+              <button
+                class="cxd-Button cxd-Button--default"
+                type="button"
+              >
+                <span>
+                  OpenDialog
+                </span>
+              </button>
+            </div>
+            <div
+              class="cxd-Page-body"
+            >
+              <div
+                class="cxd-Spinner-overlay"
+              />
+              <div
+                class="cxd-Spinner cxd-Spinner--overlay cxd-Spinner--lg"
+              />
+              <span
+                class="cxd-TplField"
+              >
+                <span>
+                  The variable value is 2
+                </span>
+              </span>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -1512,39 +1852,53 @@ exports[`Renderer:Page initApi reload by Drawer action 1`] = `
     class="cxd-Page"
   >
     <div
-      class="cxd-Page-content"
+      class="cxd-PullRefresh"
     >
       <div
-        class="cxd-Page-main"
+        class="cxd-PullRefresh-wrap"
+        style="transform: translate3d(0, 0px, 0);"
       >
         <div
-          class="cxd-Page-toolbar"
+          class="cxd-PullRefresh-header"
         >
-          <button
-            class="cxd-Button cxd-Button--default"
-            type="button"
-          >
-            <span>
-              OpenDialog
-            </span>
-          </button>
+          
         </div>
         <div
-          class="cxd-Page-body"
+          class="cxd-Page-content"
         >
           <div
-            class="cxd-Spinner-overlay"
-          />
-          <div
-            class="cxd-Spinner cxd-Spinner--overlay cxd-Spinner--lg"
-          />
-          <span
-            class="cxd-TplField"
+            class="cxd-Page-main"
           >
-            <span>
-              The variable value is 1
-            </span>
-          </span>
+            <div
+              class="cxd-Page-toolbar"
+            >
+              <button
+                class="cxd-Button cxd-Button--default"
+                type="button"
+              >
+                <span>
+                  OpenDialog
+                </span>
+              </button>
+            </div>
+            <div
+              class="cxd-Page-body"
+            >
+              <div
+                class="cxd-Spinner-overlay"
+              />
+              <div
+                class="cxd-Spinner cxd-Spinner--overlay cxd-Spinner--lg"
+              />
+              <span
+                class="cxd-TplField"
+              >
+                <span>
+                  The variable value is 1
+                </span>
+              </span>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -1558,33 +1912,47 @@ exports[`Renderer:Page initApi reload by Drawer action 2`] = `
     class="cxd-Page"
   >
     <div
-      class="cxd-Page-content"
+      class="cxd-PullRefresh"
     >
       <div
-        class="cxd-Page-main"
+        class="cxd-PullRefresh-wrap"
+        style="transform: translate3d(0, 0px, 0);"
       >
         <div
-          class="cxd-Page-toolbar"
+          class="cxd-PullRefresh-header"
         >
-          <button
-            class="cxd-Button cxd-Button--default"
-            type="button"
-          >
-            <span>
-              OpenDialog
-            </span>
-          </button>
+          
         </div>
         <div
-          class="cxd-Page-body"
+          class="cxd-Page-content"
         >
-          <span
-            class="cxd-TplField"
+          <div
+            class="cxd-Page-main"
           >
-            <span>
-              The variable value is 1
-            </span>
-          </span>
+            <div
+              class="cxd-Page-toolbar"
+            >
+              <button
+                class="cxd-Button cxd-Button--default"
+                type="button"
+              >
+                <span>
+                  OpenDialog
+                </span>
+              </button>
+            </div>
+            <div
+              class="cxd-Page-body"
+            >
+              <span
+                class="cxd-TplField"
+              >
+                <span>
+                  The variable value is 1
+                </span>
+              </span>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -1684,39 +2052,53 @@ exports[`Renderer:Page initApi reload by Drawer action 3`] = `
     class="cxd-Page"
   >
     <div
-      class="cxd-Page-content"
+      class="cxd-PullRefresh"
     >
       <div
-        class="cxd-Page-main"
+        class="cxd-PullRefresh-wrap"
+        style="transform: translate3d(0, 0px, 0);"
       >
         <div
-          class="cxd-Page-toolbar"
+          class="cxd-PullRefresh-header"
         >
-          <button
-            class="cxd-Button cxd-Button--default"
-            type="button"
-          >
-            <span>
-              OpenDialog
-            </span>
-          </button>
+          
         </div>
         <div
-          class="cxd-Page-body"
+          class="cxd-Page-content"
         >
           <div
-            class="cxd-Spinner-overlay"
-          />
-          <div
-            class="cxd-Spinner cxd-Spinner--overlay cxd-Spinner--lg"
-          />
-          <span
-            class="cxd-TplField"
+            class="cxd-Page-main"
           >
-            <span>
-              The variable value is 2
-            </span>
-          </span>
+            <div
+              class="cxd-Page-toolbar"
+            >
+              <button
+                class="cxd-Button cxd-Button--default"
+                type="button"
+              >
+                <span>
+                  OpenDialog
+                </span>
+              </button>
+            </div>
+            <div
+              class="cxd-Page-body"
+            >
+              <div
+                class="cxd-Spinner-overlay"
+              />
+              <div
+                class="cxd-Spinner cxd-Spinner--overlay cxd-Spinner--lg"
+              />
+              <span
+                class="cxd-TplField"
+              >
+                <span>
+                  The variable value is 2
+                </span>
+              </span>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -1730,140 +2112,154 @@ exports[`Renderer:Page initApi reload by Form submit 1`] = `
     class="cxd-Page"
   >
     <div
-      class="cxd-Page-content"
+      class="cxd-PullRefresh"
     >
       <div
-        class="cxd-Page-main"
+        class="cxd-PullRefresh-wrap"
+        style="transform: translate3d(0, 0px, 0);"
       >
         <div
-          class="cxd-Page-toolbar"
+          class="cxd-PullRefresh-header"
         >
-          <div
-            class="cxd-Panel cxd-Panel--default cxd-Panel--form"
-            style="position: relative;"
-          >
-            <div
-              class="cxd-Panel-heading"
-            >
-              <h3
-                class="cxd-Panel-title"
-              >
-                <span
-                  class="cxd-TplField"
-                >
-                  <span>
-                    表单
-                  </span>
-                </span>
-              </h3>
-            </div>
-            <div
-              class="cxd-Panel-body"
-            >
-              <form
-                class="cxd-Form cxd-Form--normal"
-                novalidate=""
-              >
-                <input
-                  style="display: none;"
-                  type="submit"
-                />
-                <div
-                  class="cxd-Form-item cxd-Form-item--normal"
-                  data-role="form-item"
-                >
-                  <div
-                    class="cxd-Form-control cxd-TextControl"
-                  >
-                    <div
-                      class="cxd-TextControl-input"
-                    >
-                      <input
-                        autocomplete="off"
-                        name="a"
-                        placeholder=""
-                        size="10"
-                        type="text"
-                        value="1"
-                      />
-                    </div>
-                  </div>
-                </div>
-              </form>
-            </div>
-            <div
-              class="cxd-Panel-footerWrap"
-            >
-              <div
-                class="cxd-Panel-btnToolbar cxd-Panel-footer"
-              >
-                <button
-                  class="cxd-Button cxd-Button--default"
-                  type="submit"
-                >
-                  <span>
-                    Submit
-                  </span>
-                </button>
-              </div>
-            </div>
-            <div
-              class="resize-sensor"
-              style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
-            >
-              
-  
-              <div
-                class="resize-sensor-expand"
-                style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-              >
-                
-    
-                <div
-                  style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
-                />
-                
-  
-              </div>
-              
-  
-              <div
-                class="resize-sensor-shrink"
-                style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-              >
-                
-    
-                <div
-                  style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
-                />
-                
-  
-              </div>
-              
-  
-              <div
-                class="resize-sensor-appear"
-                style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
-              />
-            </div>
-          </div>
+          
         </div>
         <div
-          class="cxd-Page-body"
+          class="cxd-Page-content"
         >
           <div
-            class="cxd-Spinner-overlay"
-          />
-          <div
-            class="cxd-Spinner cxd-Spinner--overlay cxd-Spinner--lg"
-          />
-          <span
-            class="cxd-TplField"
+            class="cxd-Page-main"
           >
-            <span>
-              The variable value is 1
-            </span>
-          </span>
+            <div
+              class="cxd-Page-toolbar"
+            >
+              <div
+                class="cxd-Panel cxd-Panel--default cxd-Panel--form"
+                style="position: relative;"
+              >
+                <div
+                  class="cxd-Panel-heading"
+                >
+                  <h3
+                    class="cxd-Panel-title"
+                  >
+                    <span
+                      class="cxd-TplField"
+                    >
+                      <span>
+                        表单
+                      </span>
+                    </span>
+                  </h3>
+                </div>
+                <div
+                  class="cxd-Panel-body"
+                >
+                  <form
+                    class="cxd-Form cxd-Form--normal"
+                    novalidate=""
+                  >
+                    <input
+                      style="display: none;"
+                      type="submit"
+                    />
+                    <div
+                      class="cxd-Form-item cxd-Form-item--normal"
+                      data-role="form-item"
+                    >
+                      <div
+                        class="cxd-Form-control cxd-TextControl"
+                      >
+                        <div
+                          class="cxd-TextControl-input"
+                        >
+                          <input
+                            autocomplete="off"
+                            name="a"
+                            placeholder=""
+                            size="10"
+                            type="text"
+                            value="1"
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  </form>
+                </div>
+                <div
+                  class="cxd-Panel-footerWrap"
+                >
+                  <div
+                    class="cxd-Panel-btnToolbar cxd-Panel-footer"
+                  >
+                    <button
+                      class="cxd-Button cxd-Button--default"
+                      type="submit"
+                    >
+                      <span>
+                        Submit
+                      </span>
+                    </button>
+                  </div>
+                </div>
+                <div
+                  class="resize-sensor"
+                  style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
+                >
+                  
+  
+                  <div
+                    class="resize-sensor-expand"
+                    style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+                  >
+                    
+    
+                    <div
+                      style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
+                    />
+                    
+  
+                  </div>
+                  
+  
+                  <div
+                    class="resize-sensor-shrink"
+                    style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+                  >
+                    
+    
+                    <div
+                      style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
+                    />
+                    
+  
+                  </div>
+                  
+  
+                  <div
+                    class="resize-sensor-appear"
+                    style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
+                  />
+                </div>
+              </div>
+            </div>
+            <div
+              class="cxd-Page-body"
+            >
+              <div
+                class="cxd-Spinner-overlay"
+              />
+              <div
+                class="cxd-Spinner cxd-Spinner--overlay cxd-Spinner--lg"
+              />
+              <span
+                class="cxd-TplField"
+              >
+                <span>
+                  The variable value is 1
+                </span>
+              </span>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -1877,140 +2273,154 @@ exports[`Renderer:Page initApi reload by Form submit 2`] = `
     class="cxd-Page"
   >
     <div
-      class="cxd-Page-content"
+      class="cxd-PullRefresh"
     >
       <div
-        class="cxd-Page-main"
+        class="cxd-PullRefresh-wrap"
+        style="transform: translate3d(0, 0px, 0);"
       >
         <div
-          class="cxd-Page-toolbar"
+          class="cxd-PullRefresh-header"
         >
-          <div
-            class="cxd-Panel cxd-Panel--default cxd-Panel--form"
-            style="position: relative;"
-          >
-            <div
-              class="cxd-Panel-heading"
-            >
-              <h3
-                class="cxd-Panel-title"
-              >
-                <span
-                  class="cxd-TplField"
-                >
-                  <span>
-                    表单
-                  </span>
-                </span>
-              </h3>
-            </div>
-            <div
-              class="cxd-Panel-body"
-            >
-              <form
-                class="cxd-Form cxd-Form--normal"
-                novalidate=""
-              >
-                <input
-                  style="display: none;"
-                  type="submit"
-                />
-                <div
-                  class="cxd-Form-item cxd-Form-item--normal"
-                  data-role="form-item"
-                >
-                  <div
-                    class="cxd-Form-control cxd-TextControl"
-                  >
-                    <div
-                      class="cxd-TextControl-input"
-                    >
-                      <input
-                        autocomplete="off"
-                        name="a"
-                        placeholder=""
-                        size="10"
-                        type="text"
-                        value="2"
-                      />
-                    </div>
-                  </div>
-                </div>
-              </form>
-            </div>
-            <div
-              class="cxd-Panel-footerWrap"
-            >
-              <div
-                class="cxd-Panel-btnToolbar cxd-Panel-footer"
-              >
-                <button
-                  class="cxd-Button cxd-Button--default"
-                  type="submit"
-                >
-                  <span>
-                    Submit
-                  </span>
-                </button>
-              </div>
-            </div>
-            <div
-              class="resize-sensor"
-              style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
-            >
-              
-  
-              <div
-                class="resize-sensor-expand"
-                style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-              >
-                
-    
-                <div
-                  style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
-                />
-                
-  
-              </div>
-              
-  
-              <div
-                class="resize-sensor-shrink"
-                style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-              >
-                
-    
-                <div
-                  style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
-                />
-                
-  
-              </div>
-              
-  
-              <div
-                class="resize-sensor-appear"
-                style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
-              />
-            </div>
-          </div>
+          
         </div>
         <div
-          class="cxd-Page-body"
+          class="cxd-Page-content"
         >
           <div
-            class="cxd-Spinner-overlay"
-          />
-          <div
-            class="cxd-Spinner cxd-Spinner--overlay cxd-Spinner--lg"
-          />
-          <span
-            class="cxd-TplField"
+            class="cxd-Page-main"
           >
-            <span>
-              The variable value is 2
-            </span>
-          </span>
+            <div
+              class="cxd-Page-toolbar"
+            >
+              <div
+                class="cxd-Panel cxd-Panel--default cxd-Panel--form"
+                style="position: relative;"
+              >
+                <div
+                  class="cxd-Panel-heading"
+                >
+                  <h3
+                    class="cxd-Panel-title"
+                  >
+                    <span
+                      class="cxd-TplField"
+                    >
+                      <span>
+                        表单
+                      </span>
+                    </span>
+                  </h3>
+                </div>
+                <div
+                  class="cxd-Panel-body"
+                >
+                  <form
+                    class="cxd-Form cxd-Form--normal"
+                    novalidate=""
+                  >
+                    <input
+                      style="display: none;"
+                      type="submit"
+                    />
+                    <div
+                      class="cxd-Form-item cxd-Form-item--normal"
+                      data-role="form-item"
+                    >
+                      <div
+                        class="cxd-Form-control cxd-TextControl"
+                      >
+                        <div
+                          class="cxd-TextControl-input"
+                        >
+                          <input
+                            autocomplete="off"
+                            name="a"
+                            placeholder=""
+                            size="10"
+                            type="text"
+                            value="2"
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  </form>
+                </div>
+                <div
+                  class="cxd-Panel-footerWrap"
+                >
+                  <div
+                    class="cxd-Panel-btnToolbar cxd-Panel-footer"
+                  >
+                    <button
+                      class="cxd-Button cxd-Button--default"
+                      type="submit"
+                    >
+                      <span>
+                        Submit
+                      </span>
+                    </button>
+                  </div>
+                </div>
+                <div
+                  class="resize-sensor"
+                  style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
+                >
+                  
+  
+                  <div
+                    class="resize-sensor-expand"
+                    style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+                  >
+                    
+    
+                    <div
+                      style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
+                    />
+                    
+  
+                  </div>
+                  
+  
+                  <div
+                    class="resize-sensor-shrink"
+                    style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+                  >
+                    
+    
+                    <div
+                      style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
+                    />
+                    
+  
+                  </div>
+                  
+  
+                  <div
+                    class="resize-sensor-appear"
+                    style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
+                  />
+                </div>
+              </div>
+            </div>
+            <div
+              class="cxd-Page-body"
+            >
+              <div
+                class="cxd-Spinner-overlay"
+              />
+              <div
+                class="cxd-Spinner cxd-Spinner--overlay cxd-Spinner--lg"
+              />
+              <span
+                class="cxd-TplField"
+              >
+                <span>
+                  The variable value is 2
+                </span>
+              </span>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -2024,39 +2434,53 @@ exports[`Renderer:Page initApi reload by action 1`] = `
     class="cxd-Page"
   >
     <div
-      class="cxd-Page-content"
+      class="cxd-PullRefresh"
     >
       <div
-        class="cxd-Page-main"
+        class="cxd-PullRefresh-wrap"
+        style="transform: translate3d(0, 0px, 0);"
       >
         <div
-          class="cxd-Page-toolbar"
+          class="cxd-PullRefresh-header"
         >
-          <button
-            class="cxd-Button cxd-Button--default"
-            type="button"
-          >
-            <span>
-              Reload
-            </span>
-          </button>
+          
         </div>
         <div
-          class="cxd-Page-body"
+          class="cxd-Page-content"
         >
           <div
-            class="cxd-Spinner-overlay"
-          />
-          <div
-            class="cxd-Spinner cxd-Spinner--overlay cxd-Spinner--lg"
-          />
-          <span
-            class="cxd-TplField"
+            class="cxd-Page-main"
           >
-            <span>
-              The variable value is 1
-            </span>
-          </span>
+            <div
+              class="cxd-Page-toolbar"
+            >
+              <button
+                class="cxd-Button cxd-Button--default"
+                type="button"
+              >
+                <span>
+                  Reload
+                </span>
+              </button>
+            </div>
+            <div
+              class="cxd-Page-body"
+            >
+              <div
+                class="cxd-Spinner-overlay"
+              />
+              <div
+                class="cxd-Spinner cxd-Spinner--overlay cxd-Spinner--lg"
+              />
+              <span
+                class="cxd-TplField"
+              >
+                <span>
+                  The variable value is 1
+                </span>
+              </span>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -2070,39 +2494,53 @@ exports[`Renderer:Page initApi reload by action 2`] = `
     class="cxd-Page"
   >
     <div
-      class="cxd-Page-content"
+      class="cxd-PullRefresh"
     >
       <div
-        class="cxd-Page-main"
+        class="cxd-PullRefresh-wrap"
+        style="transform: translate3d(0, 0px, 0);"
       >
         <div
-          class="cxd-Page-toolbar"
+          class="cxd-PullRefresh-header"
         >
-          <button
-            class="cxd-Button cxd-Button--default"
-            type="button"
-          >
-            <span>
-              Reload
-            </span>
-          </button>
+          
         </div>
         <div
-          class="cxd-Page-body"
+          class="cxd-Page-content"
         >
           <div
-            class="cxd-Spinner-overlay"
-          />
-          <div
-            class="cxd-Spinner cxd-Spinner--overlay cxd-Spinner--lg"
-          />
-          <span
-            class="cxd-TplField"
+            class="cxd-Page-main"
           >
-            <span>
-              The variable value is 2
-            </span>
-          </span>
+            <div
+              class="cxd-Page-toolbar"
+            >
+              <button
+                class="cxd-Button cxd-Button--default"
+                type="button"
+              >
+                <span>
+                  Reload
+                </span>
+              </button>
+            </div>
+            <div
+              class="cxd-Page-body"
+            >
+              <div
+                class="cxd-Spinner-overlay"
+              />
+              <div
+                class="cxd-Spinner cxd-Spinner--overlay cxd-Spinner--lg"
+              />
+              <span
+                class="cxd-TplField"
+              >
+                <span>
+                  The variable value is 2
+                </span>
+              </span>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -2116,27 +2554,50 @@ exports[`Renderer:Page initApi show loading 1`] = `
   onClick={[Function]}
 >
   <div
-    className="cxd-Page-content"
+    className="cxd-PullRefresh"
+    onTouchCancel={[Function]}
+    onTouchEnd={[Function]}
+    onTouchMove={[Function]}
+    onTouchStart={[Function]}
   >
     <div
-      className="cxd-Page-main"
+      className="cxd-PullRefresh-wrap"
+      style={
+        Object {
+          "touchAction": "none",
+          "transform": "translate3d(0, 0px, 0)",
+        }
+      }
     >
       <div
-        className="cxd-Page-body"
+        className="cxd-PullRefresh-header"
+      >
+        
+      </div>
+      <div
+        className="cxd-Page-content"
       >
         <div
-          className="cxd-Spinner-overlay in"
-        />
-        <div
-          className="cxd-Spinner in cxd-Spinner--overlay cxd-Spinner--lg"
-        />
-        <span
-          className="cxd-TplField"
+          className="cxd-Page-main"
         >
-          <span>
-            The variable value is 
-          </span>
-        </span>
+          <div
+            className="cxd-Page-body"
+          >
+            <div
+              className="cxd-Spinner-overlay in"
+            />
+            <div
+              className="cxd-Spinner in cxd-Spinner--overlay cxd-Spinner--lg"
+            />
+            <span
+              className="cxd-TplField"
+            >
+              <span>
+                The variable value is 
+              </span>
+            </span>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -2149,27 +2610,50 @@ exports[`Renderer:Page initApi show loading 2`] = `
   onClick={[Function]}
 >
   <div
-    className="cxd-Page-content"
+    className="cxd-PullRefresh"
+    onTouchCancel={[Function]}
+    onTouchEnd={[Function]}
+    onTouchMove={[Function]}
+    onTouchStart={[Function]}
   >
     <div
-      className="cxd-Page-main"
+      className="cxd-PullRefresh-wrap"
+      style={
+        Object {
+          "touchAction": "none",
+          "transform": "translate3d(0, 0px, 0)",
+        }
+      }
     >
       <div
-        className="cxd-Page-body"
+        className="cxd-PullRefresh-header"
+      >
+        
+      </div>
+      <div
+        className="cxd-Page-content"
       >
         <div
-          className="cxd-Spinner-overlay"
-        />
-        <div
-          className="cxd-Spinner cxd-Spinner--overlay cxd-Spinner--lg"
-        />
-        <span
-          className="cxd-TplField"
+          className="cxd-Page-main"
         >
-          <span>
-            The variable value is 3
-          </span>
-        </span>
+          <div
+            className="cxd-Page-body"
+          >
+            <div
+              className="cxd-Spinner-overlay"
+            />
+            <div
+              className="cxd-Spinner cxd-Spinner--overlay cxd-Spinner--lg"
+            />
+            <span
+              className="cxd-TplField"
+            >
+              <span>
+                The variable value is 3
+              </span>
+            </span>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -2182,27 +2666,50 @@ exports[`Renderer:Page initApi silentPolling 1`] = `
   onClick={[Function]}
 >
   <div
-    className="cxd-Page-content"
+    className="cxd-PullRefresh"
+    onTouchCancel={[Function]}
+    onTouchEnd={[Function]}
+    onTouchMove={[Function]}
+    onTouchStart={[Function]}
   >
     <div
-      className="cxd-Page-main"
+      className="cxd-PullRefresh-wrap"
+      style={
+        Object {
+          "touchAction": "none",
+          "transform": "translate3d(0, 0px, 0)",
+        }
+      }
     >
       <div
-        className="cxd-Page-body"
+        className="cxd-PullRefresh-header"
+      >
+        
+      </div>
+      <div
+        className="cxd-Page-content"
       >
         <div
-          className="cxd-Spinner-overlay in"
-        />
-        <div
-          className="cxd-Spinner in cxd-Spinner--overlay cxd-Spinner--lg"
-        />
-        <span
-          className="cxd-TplField"
+          className="cxd-Page-main"
         >
-          <span>
-            The variable value is 
-          </span>
-        </span>
+          <div
+            className="cxd-Page-body"
+          >
+            <div
+              className="cxd-Spinner-overlay in"
+            />
+            <div
+              className="cxd-Spinner in cxd-Spinner--overlay cxd-Spinner--lg"
+            />
+            <span
+              className="cxd-TplField"
+            >
+              <span>
+                The variable value is 
+              </span>
+            </span>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -2215,27 +2722,50 @@ exports[`Renderer:Page initApi silentPolling 2`] = `
   onClick={[Function]}
 >
   <div
-    className="cxd-Page-content"
+    className="cxd-PullRefresh"
+    onTouchCancel={[Function]}
+    onTouchEnd={[Function]}
+    onTouchMove={[Function]}
+    onTouchStart={[Function]}
   >
     <div
-      className="cxd-Page-main"
+      className="cxd-PullRefresh-wrap"
+      style={
+        Object {
+          "touchAction": "none",
+          "transform": "translate3d(0, 0px, 0)",
+        }
+      }
     >
       <div
-        className="cxd-Page-body"
+        className="cxd-PullRefresh-header"
+      >
+        
+      </div>
+      <div
+        className="cxd-Page-content"
       >
         <div
-          className="cxd-Spinner-overlay"
-        />
-        <div
-          className="cxd-Spinner cxd-Spinner--overlay cxd-Spinner--lg"
-        />
-        <span
-          className="cxd-TplField"
+          className="cxd-Page-main"
         >
-          <span>
-            The variable value is 3
-          </span>
-        </span>
+          <div
+            className="cxd-Page-body"
+          >
+            <div
+              className="cxd-Spinner-overlay"
+            />
+            <div
+              className="cxd-Spinner cxd-Spinner--overlay cxd-Spinner--lg"
+            />
+            <span
+              className="cxd-TplField"
+            >
+              <span>
+                The variable value is 3
+              </span>
+            </span>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -2248,21 +2778,44 @@ exports[`Renderer:Page initApi silentPolling 3`] = `
   onClick={[Function]}
 >
   <div
-    className="cxd-Page-content"
+    className="cxd-PullRefresh"
+    onTouchCancel={[Function]}
+    onTouchEnd={[Function]}
+    onTouchMove={[Function]}
+    onTouchStart={[Function]}
   >
     <div
-      className="cxd-Page-main"
+      className="cxd-PullRefresh-wrap"
+      style={
+        Object {
+          "touchAction": "none",
+          "transform": "translate3d(0, 0px, 0)",
+        }
+      }
     >
       <div
-        className="cxd-Page-body"
+        className="cxd-PullRefresh-header"
       >
-        <span
-          className="cxd-TplField"
+        
+      </div>
+      <div
+        className="cxd-Page-content"
+      >
+        <div
+          className="cxd-Page-main"
         >
-          <span>
-            The variable value is 3
-          </span>
-        </span>
+          <div
+            className="cxd-Page-body"
+          >
+            <span
+              className="cxd-TplField"
+            >
+              <span>
+                The variable value is 3
+              </span>
+            </span>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -2275,21 +2828,44 @@ exports[`Renderer:Page initApi silentPolling 4`] = `
   onClick={[Function]}
 >
   <div
-    className="cxd-Page-content"
+    className="cxd-PullRefresh"
+    onTouchCancel={[Function]}
+    onTouchEnd={[Function]}
+    onTouchMove={[Function]}
+    onTouchStart={[Function]}
   >
     <div
-      className="cxd-Page-main"
+      className="cxd-PullRefresh-wrap"
+      style={
+        Object {
+          "touchAction": "none",
+          "transform": "translate3d(0, 0px, 0)",
+        }
+      }
     >
       <div
-        className="cxd-Page-body"
+        className="cxd-PullRefresh-header"
       >
-        <span
-          className="cxd-TplField"
+        
+      </div>
+      <div
+        className="cxd-Page-content"
+      >
+        <div
+          className="cxd-Page-main"
         >
-          <span>
-            The variable value is 4
-          </span>
-        </span>
+          <div
+            className="cxd-Page-body"
+          >
+            <span
+              className="cxd-TplField"
+            >
+              <span>
+                The variable value is 4
+              </span>
+            </span>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -2302,21 +2878,44 @@ exports[`Renderer:Page initData 1`] = `
   onClick={[Function]}
 >
   <div
-    className="cxd-Page-content"
+    className="cxd-PullRefresh"
+    onTouchCancel={[Function]}
+    onTouchEnd={[Function]}
+    onTouchMove={[Function]}
+    onTouchStart={[Function]}
   >
     <div
-      className="cxd-Page-main"
+      className="cxd-PullRefresh-wrap"
+      style={
+        Object {
+          "touchAction": "none",
+          "transform": "translate3d(0, 0px, 0)",
+        }
+      }
     >
       <div
-        className="cxd-Page-body"
+        className="cxd-PullRefresh-header"
       >
-        <span
-          className="cxd-TplField"
+        
+      </div>
+      <div
+        className="cxd-Page-content"
+      >
+        <div
+          className="cxd-Page-main"
         >
-          <span>
-            The variable value is 1
-          </span>
-        </span>
+          <div
+            className="cxd-Page-body"
+          >
+            <span
+              className="cxd-TplField"
+            >
+              <span>
+                The variable value is 1
+              </span>
+            </span>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -2329,27 +2928,50 @@ exports[`Renderer:Page initFetchOn trigger initApi fetch when condition becomes 
   onClick={[Function]}
 >
   <div
-    className="cxd-Page-content"
+    className="cxd-PullRefresh"
+    onTouchCancel={[Function]}
+    onTouchEnd={[Function]}
+    onTouchMove={[Function]}
+    onTouchStart={[Function]}
   >
     <div
-      className="cxd-Page-main"
+      className="cxd-PullRefresh-wrap"
+      style={
+        Object {
+          "touchAction": "none",
+          "transform": "translate3d(0, 0px, 0)",
+        }
+      }
     >
       <div
-        className="cxd-Page-body"
+        className="cxd-PullRefresh-header"
+      >
+        
+      </div>
+      <div
+        className="cxd-Page-content"
       >
         <div
-          className="cxd-Spinner-overlay"
-        />
-        <div
-          className="cxd-Spinner cxd-Spinner--overlay cxd-Spinner--lg"
-        />
-        <span
-          className="cxd-TplField"
+          className="cxd-Page-main"
         >
-          <span>
-            The variable value is 6
-          </span>
-        </span>
+          <div
+            className="cxd-Page-body"
+          >
+            <div
+              className="cxd-Spinner-overlay"
+            />
+            <div
+              className="cxd-Spinner cxd-Spinner--overlay cxd-Spinner--lg"
+            />
+            <span
+              className="cxd-TplField"
+            >
+              <span>
+                The variable value is 6
+              </span>
+            </span>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -2362,21 +2984,44 @@ exports[`Renderer:Page location query 1`] = `
   onClick={[Function]}
 >
   <div
-    className="cxd-Page-content"
+    className="cxd-PullRefresh"
+    onTouchCancel={[Function]}
+    onTouchEnd={[Function]}
+    onTouchMove={[Function]}
+    onTouchStart={[Function]}
   >
     <div
-      className="cxd-Page-main"
+      className="cxd-PullRefresh-wrap"
+      style={
+        Object {
+          "touchAction": "none",
+          "transform": "translate3d(0, 0px, 0)",
+        }
+      }
     >
       <div
-        className="cxd-Page-body"
+        className="cxd-PullRefresh-header"
       >
-        <span
-          className="cxd-TplField"
+        
+      </div>
+      <div
+        className="cxd-Page-content"
+      >
+        <div
+          className="cxd-Page-main"
         >
-          <span>
-            The variable value is 5
-          </span>
-        </span>
+          <div
+            className="cxd-Page-body"
+          >
+            <span
+              className="cxd-TplField"
+            >
+              <span>
+                The variable value is 5
+              </span>
+            </span>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -2389,21 +3034,44 @@ exports[`Renderer:Page location query 2`] = `
   onClick={[Function]}
 >
   <div
-    className="cxd-Page-content"
+    className="cxd-PullRefresh"
+    onTouchCancel={[Function]}
+    onTouchEnd={[Function]}
+    onTouchMove={[Function]}
+    onTouchStart={[Function]}
   >
     <div
-      className="cxd-Page-main"
+      className="cxd-PullRefresh-wrap"
+      style={
+        Object {
+          "touchAction": "none",
+          "transform": "translate3d(0, 0px, 0)",
+        }
+      }
     >
       <div
-        className="cxd-Page-body"
+        className="cxd-PullRefresh-header"
       >
-        <span
-          className="cxd-TplField"
+        
+      </div>
+      <div
+        className="cxd-Page-content"
+      >
+        <div
+          className="cxd-Page-main"
         >
-          <span>
-            The variable value is 6
-          </span>
-        </span>
+          <div
+            className="cxd-Page-body"
+          >
+            <span
+              className="cxd-TplField"
+            >
+              <span>
+                The variable value is 6
+              </span>
+            </span>
+          </div>
+        </div>
       </div>
     </div>
   </div>

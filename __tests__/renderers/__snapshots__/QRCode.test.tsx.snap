@@ -6,33 +6,47 @@ exports[`Renderer:qr-code 1`] = `
     class="cxd-Page"
   >
     <div
-      class="cxd-Page-content"
+      class="cxd-PullRefresh"
     >
       <div
-        class="cxd-Page-main"
+        class="cxd-PullRefresh-wrap"
+        style="transform: translate3d(0, 0px, 0);"
       >
         <div
-          class="cxd-Page-body"
+          class="cxd-PullRefresh-header"
+        >
+          
+        </div>
+        <div
+          class="cxd-Page-content"
         >
           <div
-            class="cxd-QrCode"
+            class="cxd-Page-main"
           >
-            <svg
-              class=""
-              height="128"
-              shape-rendering="crispEdges"
-              viewBox="0 0 21 21"
-              width="128"
+            <div
+              class="cxd-Page-body"
             >
-              <path
-                d="M0,0 h21v21H0z"
-                fill="#fff"
-              />
-              <path
-                d="M0 0h7v1H0zM9 0h1v1H9zM12 0h1v1H12zM14,0 h7v1H14zM0 1h1v1H0zM6 1h1v1H6zM8 1h1v1H8zM11 1h1v1H11zM14 1h1v1H14zM20,1 h1v1H20zM0 2h1v1H0zM2 2h3v1H2zM6 2h1v1H6zM9 2h1v1H9zM14 2h1v1H14zM16 2h3v1H16zM20,2 h1v1H20zM0 3h1v1H0zM2 3h3v1H2zM6 3h1v1H6zM8 3h1v1H8zM11 3h1v1H11zM14 3h1v1H14zM16 3h3v1H16zM20,3 h1v1H20zM0 4h1v1H0zM2 4h3v1H2zM6 4h1v1H6zM10 4h3v1H10zM14 4h1v1H14zM16 4h3v1H16zM20,4 h1v1H20zM0 5h1v1H0zM6 5h1v1H6zM8 5h3v1H8zM12 5h1v1H12zM14 5h1v1H14zM20,5 h1v1H20zM0 6h7v1H0zM8 6h1v1H8zM10 6h1v1H10zM12 6h1v1H12zM14,6 h7v1H14zM10 7h3v1H10zM0 8h5v1H0zM6 8h4v1H6zM12 8h2v1H12zM15 8h1v1H15zM17 8h1v1H17zM19 8h1v1H19zM2 9h4v1H2zM7 9h4v1H7zM12 9h1v1H12zM15 9h1v1H15zM17 9h1v1H17zM20,9 h1v1H20zM3 10h1v1H3zM6 10h3v1H6zM11 10h1v1H11zM13 10h1v1H13zM16 10h4v1H16zM0 11h1v1H0zM5 11h1v1H5zM7 11h1v1H7zM10 11h1v1H10zM15 11h5v1H15zM1 12h1v1H1zM3 12h1v1H3zM5 12h3v1H5zM11 12h1v1H11zM13 12h1v1H13zM16 12h1v1H16zM8 13h2v1H8zM11 13h4v1H11zM20,13 h1v1H20zM0 14h7v1H0zM8 14h3v1H8zM12 14h1v1H12zM14 14h2v1H14zM17 14h3v1H17zM0 15h1v1H0zM6 15h1v1H6zM9 15h1v1H9zM11 15h4v1H11zM17 15h2v1H17zM0 16h1v1H0zM2 16h3v1H2zM6 16h1v1H6zM8 16h1v1H8zM12 16h1v1H12zM15 16h1v1H15zM17 16h1v1H17zM19 16h1v1H19zM0 17h1v1H0zM2 17h3v1H2zM6 17h1v1H6zM8 17h1v1H8zM10 17h1v1H10zM12 17h1v1H12zM15 17h1v1H15zM18 17h1v1H18zM0 18h1v1H0zM2 18h3v1H2zM6 18h1v1H6zM8 18h1v1H8zM11 18h1v1H11zM13 18h1v1H13zM16 18h2v1H16zM0 19h1v1H0zM6 19h1v1H6zM8 19h1v1H8zM15 19h2v1H15zM18 19h1v1H18zM0 20h7v1H0zM8 20h4v1H8zM13 20h1v1H13zM16 20h1v1H16zM18 20h2v1H18z"
-                fill="#000"
-              />
-            </svg>
+              <div
+                class="cxd-QrCode"
+              >
+                <svg
+                  class=""
+                  height="128"
+                  shape-rendering="crispEdges"
+                  viewBox="0 0 21 21"
+                  width="128"
+                >
+                  <path
+                    d="M0,0 h21v21H0z"
+                    fill="#fff"
+                  />
+                  <path
+                    d="M0 0h7v1H0zM9 0h1v1H9zM12 0h1v1H12zM14,0 h7v1H14zM0 1h1v1H0zM6 1h1v1H6zM8 1h1v1H8zM11 1h1v1H11zM14 1h1v1H14zM20,1 h1v1H20zM0 2h1v1H0zM2 2h3v1H2zM6 2h1v1H6zM9 2h1v1H9zM14 2h1v1H14zM16 2h3v1H16zM20,2 h1v1H20zM0 3h1v1H0zM2 3h3v1H2zM6 3h1v1H6zM8 3h1v1H8zM11 3h1v1H11zM14 3h1v1H14zM16 3h3v1H16zM20,3 h1v1H20zM0 4h1v1H0zM2 4h3v1H2zM6 4h1v1H6zM10 4h3v1H10zM14 4h1v1H14zM16 4h3v1H16zM20,4 h1v1H20zM0 5h1v1H0zM6 5h1v1H6zM8 5h3v1H8zM12 5h1v1H12zM14 5h1v1H14zM20,5 h1v1H20zM0 6h7v1H0zM8 6h1v1H8zM10 6h1v1H10zM12 6h1v1H12zM14,6 h7v1H14zM10 7h3v1H10zM0 8h5v1H0zM6 8h4v1H6zM12 8h2v1H12zM15 8h1v1H15zM17 8h1v1H17zM19 8h1v1H19zM2 9h4v1H2zM7 9h4v1H7zM12 9h1v1H12zM15 9h1v1H15zM17 9h1v1H17zM20,9 h1v1H20zM3 10h1v1H3zM6 10h3v1H6zM11 10h1v1H11zM13 10h1v1H13zM16 10h4v1H16zM0 11h1v1H0zM5 11h1v1H5zM7 11h1v1H7zM10 11h1v1H10zM15 11h5v1H15zM1 12h1v1H1zM3 12h1v1H3zM5 12h3v1H5zM11 12h1v1H11zM13 12h1v1H13zM16 12h1v1H16zM8 13h2v1H8zM11 13h4v1H11zM20,13 h1v1H20zM0 14h7v1H0zM8 14h3v1H8zM12 14h1v1H12zM14 14h2v1H14zM17 14h3v1H17zM0 15h1v1H0zM6 15h1v1H6zM9 15h1v1H9zM11 15h4v1H11zM17 15h2v1H17zM0 16h1v1H0zM2 16h3v1H2zM6 16h1v1H6zM8 16h1v1H8zM12 16h1v1H12zM15 16h1v1H15zM17 16h1v1H17zM19 16h1v1H19zM0 17h1v1H0zM2 17h3v1H2zM6 17h1v1H6zM8 17h1v1H8zM10 17h1v1H10zM12 17h1v1H12zM15 17h1v1H15zM18 17h1v1H18zM0 18h1v1H0zM2 18h3v1H2zM6 18h1v1H6zM8 18h1v1H8zM11 18h1v1H11zM13 18h1v1H13zM16 18h2v1H16zM0 19h1v1H0zM6 19h1v1H6zM8 19h1v1H8zM15 19h2v1H15zM18 19h1v1H18zM0 20h7v1H0zM8 20h4v1H8zM13 20h1v1H13zM16 20h1v1H16zM18 20h2v1H18z"
+                    fill="#000"
+                  />
+                </svg>
+              </div>
+            </div>
           </div>
         </div>
       </div>
