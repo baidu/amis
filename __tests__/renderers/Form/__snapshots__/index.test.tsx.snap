@@ -346,12 +346,6 @@ exports[`Renderer:Form sendOn:true 1`] = `
           type="submit"
         />
         <div
-          class="cxd-Spinner-overlay"
-        />
-        <div
-          class="cxd-Spinner cxd-Spinner--overlay"
-        />
-        <div
           class="cxd-Form-item cxd-Form-item--normal"
           data-role="form-item"
         >
