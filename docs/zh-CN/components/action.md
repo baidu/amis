@@ -932,3 +932,15 @@ action 还可以使用 `body` 来渲染其他组件，让那些不支持行为�
 | tooltipPlacement   | `string`                             | `top`       | 如果配置了`tooltip`或者`disabledTip`，指定提示信息位置，可配置`top`、`bottom`、`left`、`right`。                                                                            |
 | close              | `boolean` or `string`                | -           | 当`action`配置在`dialog`或`drawer`的`actions`中时，配置为`true`指定此次操作完后关闭当前`dialog`或`drawer`。当值为字符串，并且是祖先层弹框的名字的时候，会把祖先弹框关闭掉。 |
 | required           | `Array<string>`                      | -           | 配置字符串数组，指定在`form`中进行操作之前，需要指定的字段名的表单项通过验证                                                                                                |
+
+## 事件表
+
+| 事件名称   | 事件参数                                      | 说明     |
+| ---------- | --------------------------------------------- | -------- |
+| click      | [动作](../../docs/concepts/event-action#动作) | 点击     |
+| mouseenter | -                                             | 鼠标移入 |
+| mouseleave | -                                             | 鼠标移出 |
+
+## 动作表
+
+暂无
