@@ -83,7 +83,7 @@ exports[`Renderer:inputArray 1`] = `
                           class="cxd-Combo-items"
                         >
                           <div
-                            class="cxd-Combo-item"
+                            class="cxd-Combo-item cxd-No-label"
                           >
                             <div
                               class="cxd-Combo-itemInner"
@@ -131,15 +131,16 @@ exports[`Renderer:inputArray 1`] = `
                                 </div>
                               </div>
                             </div>
-                            <button
-                              class="cxd-Button cxd-Button--default cxd-Combo-delBtn"
-                              type="button"
+                            <a
+                              class="cxd-Combo-delBtn "
+                              data-position="bottom"
+                              data-tooltip="删除"
                             >
                               <icon-mock
                                 classname="icon icon-status-close"
                                 icon="status-close"
                               />
-                            </button>
+                            </a>
                           </div>
                         </div>
                         <div
