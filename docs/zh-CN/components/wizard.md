@@ -93,3 +93,27 @@ order: 73
 | initFetch         | `boolean`                                |        | 当前步骤数据初始化接口是否初始拉取。                                                          |
 | initFetchOn       | [表达式](../../docs/concepts/expression) |        | 当前步骤数据初始化接口是否初始拉取，用表达式来决定。                                          |
 | body              | Array<[FormItem](./form/formItem)>       |        | 当前步骤的表单项集合，请参考 [FormItem](./form/formItem)。                                    |
+
+
+## 事件表
+
+| 事件名称           | 事件参数                         | 说明                 |
+|-------------------|--------------------------------|----------------------|
+| inited            | `data: object`                 | 初始化完成             |
+| finished          | `data: object`                 | 点击完成              |
+| stepChange        | `step: number, data: object`   | 步骤切换              |
+| change            | `data: object`                 | 数值变化              |
+| submitSucc        | `data: object`                 | 提交成功              |
+| submitFail        | `error: object`                | 提交失败              |
+| stepSubmitSucc    | `data: object`                 | 步骤提交成功           |
+| stepSubmitFail    | `error: object`                | 步骤提交失败           |
+
+## 动作表
+
+| 动作名称           | 动作配置                 | 说明                    |
+|-------------------|-------------------------|------------------------|
+| submit            | -                       | 全部提交                |
+| step-submit       | -                       | 分步提交                |
+| next              | -                       | 下一步                  |
+| prev              | -                       | 上一步                  |
+| goto-step         | -                       | 定位步骤                |
