@@ -1,0 +1,25 @@
+.#{$ns}PullRefresh {
+
+  &-wrap {
+    position: relative;
+    height: 100%;
+  }
+
+  &-header {
+    position: absolute;
+    left: 0px;
+    width: 100%;
+    text-align: center;
+    transform: translateY(-100%);
+    overflow: hidden;
+    padding: var(--gap-xs) 0;
+    min-height: var(--gap-lg);
+    line-height: var(--gap-lg);
+    color: #999;
+  }
+
+  .loading-icon {
+    animation: var(--Button-animation-spin);
+    margin-right: var(--gap-xs);
+  }
+}
