@@ -33,7 +33,6 @@ import {
   SchemaTpl
 } from '../../Schema';
 import {ActionSchema} from '../Action';
-import {BreadcrumbField} from '../Breadcrumb';
 
 export type ComboCondition = {
   test: string;
@@ -1282,7 +1281,8 @@ export default class ComboControl extends React.Component<ComboProps> {
       placeholder,
       translate: __,
       itemClassName,
-      itemsWrapperClassName
+      itemsWrapperClassName,
+      removeBtn
     } = this.props;
 
     let items = this.props.items;
@@ -1307,8 +1307,67 @@ export default class ComboControl extends React.Component<ComboProps> {
         <div className={cx(`Combo-items`, itemsWrapperClassName)}>
           {Array.isArray(value) && value.length ? (
             value.map((value, index, thelist) => {
-              let delBtn: any = this.renderDelBtn(value, index);
+              let delBtn: any = null;
               let noLabelClass = '';
+
+              if (
+                finnalRemovable && // 表达式判断单条是否可删除
+                (!itemRemovableOn ||
+                  evalExpression(itemRemovableOn, value) !== false)
+              ) {
+                if (Array.isArray(items) && items.length > 0) {
+                  noLabelClass = (items[0] as FormBaseControl).label
+                    ? ''
+                    : 'No-label';
+                }
+                const defaultDelBtn = (
+                  <a
+                    onClick={this.removeItem.bind(this, index)}
+                    key="remove"
+                    className={cx(
+                      `Combo-delBtn ${!store.removable ? 'is-disabled' : ''}`
+                    )}
+                    data-tooltip={__('delete')}
+                    data-position="bottom"
+                  >
+                    {deleteIcon ? (
+                      <i className={deleteIcon} />
+                    ) : (
+                      <Icon icon="status-close" className="icon" />
+                    )}
+                  </a>
+                );
+                const customDelBtn = (btnRenderer: SchemaNode) => (
+                  <div
+                    key="remove"
+                    className={cx('Combo-delController')}
+                    onClick={this.removeItem.bind(this, index)}
+                  >
+                    {btnRenderer}
+                  </div>
+                );
+                if (removeBtn && !Array.isArray(conditions)) {
+                  if (isObject(removeBtn)) {
+                    delBtn = customDelBtn(
+                      render('remove-btn', {
+                        type: 'button',
+                        ...removeBtn
+                      })
+                    );
+                  } else if (typeof removeBtn === 'string') {
+                    delBtn = delBtn = customDelBtn(
+                      render('remove-btn', {
+                        type: 'button',
+                        label: removeBtn
+                      })
+                    );
+                  } else {
+                    delBtn = defaultDelBtn;
+                  }
+                } else {
+                  delBtn = defaultDelBtn;
+                }
+              }
 
               const data = this.formatValue(value, index);
               let condition: ComboCondition | null = null;
