@@ -33,6 +33,7 @@ import {
   SchemaTpl
 } from '../../Schema';
 import {ActionSchema} from '../Action';
+import {BreadcrumbField} from '../Breadcrumb';
 
 export type ComboCondition = {
   test: string;
@@ -1161,6 +1162,7 @@ export default class ComboControl extends React.Component<ComboProps> {
       classnames: cx,
       render,
       store,
+      conditions,
       deleteIcon,
       translate: __,
       itemRemovableOn,
@@ -1174,64 +1176,7 @@ export default class ComboControl extends React.Component<ComboProps> {
       !disabled && // 控件自身是否禁用
       removable !== false; // 是否可以删除
 
-    if (
-      !(
-        finnalRemovable && // 表达式判断单条是否可删除
-        (!itemRemovableOn || evalExpression(itemRemovableOn, value) !== false)
-      )
-    ) {
-      // 不符合删除条件，则不渲染删除按钮
-      return null;
-    }
-
-    // deleteBtn是对象，则根据自定义配置渲染按钮
-    if (isObject(deleteBtn)) {
-      return render('delete-btn', {
-        ...deleteBtn,
-        type: 'button',
-        className: cx(
-          'Combo-delController',
-          deleteBtn ? deleteBtn.classname : ''
-        ),
-        onClick: (e: any) => {
-          if (!deleteBtn.onClick) {
-            this.deleteItem(index);
-            return;
-          }
-
-          let originClickHandler = deleteBtn.onClick;
-          if (typeof originClickHandler === 'string') {
-            originClickHandler = str2AsyncFunction(
-              deleteBtn.onClick,
-              'e',
-              'index',
-              'props'
-            );
-          }
-          const result = originClickHandler(e, index, this.props);
-          if (result && result.then) {
-            result.then(() => {
-              this.deleteItem(index);
-            });
-          } else {
-            this.deleteItem(index);
-          }
-        }
-      });
-    }
-
-    // deleteBtn是string，则渲染按钮文本
-    if (typeof deleteBtn === 'string') {
-      return render('delete-btn', {
-        type: 'button',
-        className: cx('Combo-delController'),
-        label: deleteBtn,
-        onClick: this.deleteItem.bind(this, index)
-      });
-    }
-
-    // 如果上述按钮不满足，则渲染默认按钮
-    return (
+    const defaultDelBtn = (
       <a
         onClick={this.deleteItem.bind(this, index)}
         key="delete"
@@ -1246,6 +1191,50 @@ export default class ComboControl extends React.Component<ComboProps> {
         )}
       </a>
     );
+
+    const customDelBtn = render('delete-btn', {
+      ...deleteBtn,
+      type: 'button',
+      onClick: () => {
+        if (typeof deleteBtn.onClick === 'function') {
+          deleteBtn.onClick.bind(this, index);
+          deleteBtn.onClick().then(() => {
+            this.deleteItem.bind(this, index);
+          });
+        } else {
+          this.deleteItem.bind(this, index);
+        }
+      },
+      className: cx('Combo-delController', deleteBtn ? deleteBtn.classname : '')
+    });
+
+    const customLabel = render('delete-btn', {
+      type: 'button',
+      onClick: this.deleteItem.bind(this, index),
+      className: cx('Combo-delController'),
+      label: deleteBtn
+    });
+
+    let delBtn: any = null;
+
+    if (
+      finnalRemovable && // 表达式判断单条是否可删除
+      (!itemRemovableOn || evalExpression(itemRemovableOn, value) !== false)
+    ) {
+      if (deleteBtn && !Array.isArray(conditions)) {
+        if (isObject(deleteBtn)) {
+          delBtn = customDelBtn;
+        } else if (typeof deleteBtn === 'string') {
+          delBtn = customLabel;
+        } else {
+          delBtn = defaultDelBtn;
+        }
+      } else {
+        delBtn = defaultDelBtn;
+      }
+    }
+
+    return delBtn;
   }
 
   renderMultipe() {
@@ -1281,8 +1270,7 @@ export default class ComboControl extends React.Component<ComboProps> {
       placeholder,
       translate: __,
       itemClassName,
-      itemsWrapperClassName,
-      removeBtn
+      itemsWrapperClassName
     } = this.props;
 
     let items = this.props.items;
@@ -1307,67 +1295,8 @@ export default class ComboControl extends React.Component<ComboProps> {
         <div className={cx(`Combo-items`, itemsWrapperClassName)}>
           {Array.isArray(value) && value.length ? (
             value.map((value, index, thelist) => {
-              let delBtn: any = null;
+              let delBtn: any = this.renderDelBtn(value, index);
               let noLabelClass = '';
-
-              if (
-                finnalRemovable && // 表达式判断单条是否可删除
-                (!itemRemovableOn ||
-                  evalExpression(itemRemovableOn, value) !== false)
-              ) {
-                if (Array.isArray(items) && items.length > 0) {
-                  noLabelClass = (items[0] as FormBaseControl).label
-                    ? ''
-                    : 'No-label';
-                }
-                const defaultDelBtn = (
-                  <a
-                    onClick={this.removeItem.bind(this, index)}
-                    key="remove"
-                    className={cx(
-                      `Combo-delBtn ${!store.removable ? 'is-disabled' : ''}`
-                    )}
-                    data-tooltip={__('delete')}
-                    data-position="bottom"
-                  >
-                    {deleteIcon ? (
-                      <i className={deleteIcon} />
-                    ) : (
-                      <Icon icon="status-close" className="icon" />
-                    )}
-                  </a>
-                );
-                const customDelBtn = (btnRenderer: SchemaNode) => (
-                  <div
-                    key="remove"
-                    className={cx('Combo-delController')}
-                    onClick={this.removeItem.bind(this, index)}
-                  >
-                    {btnRenderer}
-                  </div>
-                );
-                if (removeBtn && !Array.isArray(conditions)) {
-                  if (isObject(removeBtn)) {
-                    delBtn = customDelBtn(
-                      render('remove-btn', {
-                        type: 'button',
-                        ...removeBtn
-                      })
-                    );
-                  } else if (typeof removeBtn === 'string') {
-                    delBtn = delBtn = customDelBtn(
-                      render('remove-btn', {
-                        type: 'button',
-                        label: removeBtn
-                      })
-                    );
-                  } else {
-                    delBtn = defaultDelBtn;
-                  }
-                } else {
-                  delBtn = defaultDelBtn;
-                }
-              }
 
               const data = this.formatValue(value, index);
               let condition: ComboCondition | null = null;
