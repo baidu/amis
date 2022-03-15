@@ -1251,30 +1251,21 @@ export default class ComboControl extends React.Component<ComboProps> {
                     )}
                   </a>
                 );
-                const customDelBtn = (btnRenderer: SchemaNode) => (
-                  <div
-                    key="remove"
-                    className={cx('Combo-delController')}
-                    onClick={this.removeItem.bind(this, index)}
-                  >
-                    {btnRenderer}
-                  </div>
-                );
                 if (removeBtn && !Array.isArray(conditions)) {
                   if (isObject(removeBtn)) {
-                    delBtn = customDelBtn(
-                      render('remove-btn', {
-                        type: 'button',
-                        ...removeBtn
-                      })
-                    );
+                    delBtn = render('remove-btn', {
+                      type: 'button',
+                      onClick: this.removeItem.bind(this, index),
+                      classname: cx('Combo-delController', removeBtn.classname),
+                      ...removeBtn
+                    });
                   } else if (typeof removeBtn === 'string') {
-                    delBtn = delBtn = customDelBtn(
-                      render('remove-btn', {
-                        type: 'button',
-                        label: removeBtn
-                      })
-                    );
+                    delBtn = render('remove-btn', {
+                      type: 'button',
+                      onClick: this.removeItem.bind(this, index),
+                      classname: cx('Combo-delController'),
+                      label: removeBtn
+                    });
                   } else {
                     delBtn = defaultDelBtn;
                   }
