@@ -33,6 +33,7 @@ import {
   SchemaTpl
 } from '../../Schema';
 import {ActionSchema} from '../Action';
+import {BreadcrumbField} from '../Breadcrumb';
 
 export type ComboCondition = {
   test: string;
@@ -363,7 +364,7 @@ export default class ComboControl extends React.Component<ComboProps> {
     this.handleFormInit = this.handleFormInit.bind(this);
     this.handleAction = this.handleAction.bind(this);
     this.addItem = this.addItem.bind(this);
-    this.removeItem = this.removeItem.bind(this);
+    this.deleteItem = this.deleteItem.bind(this);
     this.dragTipRef = this.dragTipRef.bind(this);
     this.flush = this.flush.bind(this);
     this.handleComboTypeChange = this.handleComboTypeChange.bind(this);
@@ -519,7 +520,7 @@ export default class ComboControl extends React.Component<ComboProps> {
     this.props.onChange(value, submitOnChange, true);
   }
 
-  async removeItem(key: number) {
+  async deleteItem(key: number) {
     const {
       flat,
       joinValues,
@@ -693,7 +694,7 @@ export default class ComboControl extends React.Component<ComboProps> {
     const {onAction} = this.props;
 
     if (action.actionType === 'delete') {
-      action.index !== void 0 && this.removeItem(action.index);
+      action.index !== void 0 && this.deleteItem(action.index);
       return;
     }
 
@@ -1048,8 +1049,8 @@ export default class ComboControl extends React.Component<ComboProps> {
           ) {
             toolbar = (
               <div
-                onClick={this.removeItem.bind(this, index)}
-                key="remove"
+                onClick={this.deleteItem.bind(this, index)}
+                key="delete"
                 className={cx(
                   `Combo-tab-delBtn ${!store.removable ? 'is-disabled' : ''}`
                 )}
@@ -1155,6 +1156,87 @@ export default class ComboControl extends React.Component<ComboProps> {
     );
   }
 
+  renderDelBtn(value: any, index: number) {
+    const {
+      classPrefix: ns,
+      classnames: cx,
+      render,
+      store,
+      conditions,
+      deleteIcon,
+      translate: __,
+      itemRemovableOn,
+      disabled,
+      removable,
+      deleteBtn
+    } = this.props;
+
+    const finnalRemovable =
+      store.removable !== false && // minLength ?
+      !disabled && // 控件自身是否禁用
+      removable !== false; // 是否可以删除
+
+    const defaultDelBtn = (
+      <a
+        onClick={this.deleteItem.bind(this, index)}
+        key="delete"
+        className={cx(`Combo-delBtn ${!store.removable ? 'is-disabled' : ''}`)}
+        data-tooltip={__('delete')}
+        data-position="bottom"
+      >
+        {deleteIcon ? (
+          <i className={deleteIcon} />
+        ) : (
+          <Icon icon="status-close" className="icon" />
+        )}
+      </a>
+    );
+
+    const customDelBtn = render('delete-btn', {
+      ...deleteBtn,
+      type: 'button',
+      onClick: () => {
+        if (typeof deleteBtn.onClick === 'function') {
+          deleteBtn.onClick.bind(this, index);
+          deleteBtn.onClick().then(() => {
+            this.deleteItem.bind(this, index);
+          });
+        } else {
+          this.deleteItem.bind(this, index);
+        }
+      },
+      className: cx('Combo-delController', deleteBtn ? deleteBtn.classname : '')
+    });
+
+    const customLabel = render('delete-btn', {
+      type: 'button',
+      onClick: this.deleteItem.bind(this, index),
+      className: cx('Combo-delController'),
+      label: deleteBtn
+    });
+
+    let delBtn: any = null;
+
+    if (
+      finnalRemovable && // 表达式判断单条是否可删除
+      (!itemRemovableOn || evalExpression(itemRemovableOn, value) !== false)
+    ) {
+      if (deleteBtn && !Array.isArray(conditions)) {
+        if (isObject(deleteBtn)) {
+          delBtn = customDelBtn;
+        } else if (typeof deleteBtn === 'string') {
+          delBtn = customLabel;
+        } else {
+          delBtn = defaultDelBtn;
+        }
+      } else {
+        delBtn = defaultDelBtn;
+      }
+    }
+
+    return delBtn;
+  }
+
   renderMultipe() {
     if (this.props.tabsMode) {
       return this.renderTabsMode();
@@ -1177,12 +1259,10 @@ export default class ComboControl extends React.Component<ComboProps> {
       addable,
       removable,
       typeSwitchable,
-      itemRemovableOn,
       delimiter,
       canAccessSuperData,
       addIcon,
       dragIcon,
-      deleteIcon,
       noBorder,
       conditions,
       lazyLoad,
@@ -1190,8 +1270,7 @@ export default class ComboControl extends React.Component<ComboProps> {
       placeholder,
       translate: __,
       itemClassName,
-      itemsWrapperClassName,
-      removeBtn
+      itemsWrapperClassName
     } = this.props;
 
     let items = this.props.items;
@@ -1200,11 +1279,6 @@ export default class ComboControl extends React.Component<ComboProps> {
     if (flat && typeof value === 'string') {
       value = value.split(delimiter || ',');
     }
-
-    const finnalRemovable =
-      store.removable !== false && // minLength ?
-      !disabled && // 控件自身是否禁用
-      removable !== false; // 是否可以删除
 
     return (
       <div
@@ -1221,58 +1295,8 @@ export default class ComboControl extends React.Component<ComboProps> {
         <div className={cx(`Combo-items`, itemsWrapperClassName)}>
           {Array.isArray(value) && value.length ? (
             value.map((value, index, thelist) => {
-              let delBtn: any = null;
+              let delBtn: any = this.renderDelBtn(value, index);
               let noLabelClass = '';
-
-              if (
-                finnalRemovable && // 表达式判断单条是否可删除
-                (!itemRemovableOn ||
-                  evalExpression(itemRemovableOn, value) !== false)
-              ) {
-                if (Array.isArray(items) && items.length > 0) {
-                  noLabelClass = (items[0] as FormBaseControl).label
-                    ? ''
-                    : 'No-label';
-                }
-                const defaultDelBtn = (
-                  <a
-                    onClick={this.removeItem.bind(this, index)}
-                    key="remove"
-                    className={cx(
-                      `Combo-delBtn ${!store.removable ? 'is-disabled' : ''}`
-                    )}
-                    data-tooltip={__('delete')}
-                    data-position="bottom"
-                  >
-                    {deleteIcon ? (
-                      <i className={deleteIcon} />
-                    ) : (
-                      <Icon icon="status-close" className="icon" />
-                    )}
-                  </a>
-                );
-                if (removeBtn && !Array.isArray(conditions)) {
-                  if (isObject(removeBtn)) {
-                    delBtn = render('remove-btn', {
-                      type: 'button',
-                      onClick: this.removeItem.bind(this, index),
-                      classname: cx('Combo-delController', removeBtn.classname),
-                      ...removeBtn
-                    });
-                  } else if (typeof removeBtn === 'string') {
-                    delBtn = render('remove-btn', {
-                      type: 'button',
-                      onClick: this.removeItem.bind(this, index),
-                      classname: cx('Combo-delController'),
-                      label: removeBtn
-                    });
-                  } else {
-                    delBtn = defaultDelBtn;
-                  }
-                } else {
-                  delBtn = defaultDelBtn;
-                }
-              }
 
               const data = this.formatValue(value, index);
               let condition: ComboCondition | null = null;
@@ -1291,6 +1315,17 @@ export default class ComboControl extends React.Component<ComboProps> {
                       }
                     ]
                   : items;
+
+              const finnalRemovable =
+                store.removable !== false && // minLength ?
+                !disabled && // 控件自身是否禁用
+                removable !== false; // 是否可以删除
+
+              if (Array.isArray(items) && items.length > 0 && finnalRemovable) {
+                noLabelClass = (items[0] as FormBaseControl).label
+                  ? ''
+                  : 'No-label';
+              }
 
               return (
                 <div
