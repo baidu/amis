@@ -179,7 +179,7 @@ export default class TextControl extends React.PureComponent<
             term: ''
           })
         );
-      } else {
+      } else if (addHook) {
         this.unHook = addHook(async (data: any) => {
           await formItem.loadOptions(
             autoComplete,
