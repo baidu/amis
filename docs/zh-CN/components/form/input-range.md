@@ -264,7 +264,7 @@ order: 38
 | disabled         | `boolean`                                                    | `false` | 是否禁用                                                     |
 | step             | `number`                                                     | `1`     | 步长                                                         |
 | showSteps        | `boolean`                                                    | `false` | 是否显示步长                                                 |
-| parts            | `number` | `number[]`                                        | `1`     | 分割的块数<br/>主持数组传入分块的节点                        |
+| parts            | `number` or `number[]`                                        | `1`     | 分割的块数<br/>主持数组传入分块的节点                        |
 | marks            | <code>{ [number &#124; string]: ReactNode }</code>  or <code>{ [number &#124; string]: { style: CSSProperties, label: ReactNode } }</code> |         | 刻度标记<br/>- 支持自定义样式<br/>- 设置百分比               |
 | tooltipVisible   | `boolean`                                                    | `false` | 是否显示滑块标签                                             |
 | tooltipPlacement | `auto` or `bottom` or `left` or `right`                      | `top`   | 滑块标签的位置，默认`auto`，方向自适应<br/>前置条件：tooltipVisible 不为 false 时有效 |
@@ -277,4 +277,22 @@ order: 38
 | showInput        | `boolean`                                                    | `false` | 是否显示输入框                                               |
 | onChange         | `function`                                                   |         | 当 组件 的值发生改变时，会触发 onChange 事件，并把改变后的值作为参数传入 |
 | onAfterChange    | `function`                                                   |         | 与 `onmouseup` 触发时机一致，把当前值作为参数传入            |
+
+
+## 事件表
+
+| 事件名称        | 事件参数                 | 说明                 |
+|--------------- |------------------------|----------------------|
+| change | value: `number` or `string` or`{min: number, max: number}` 滑块当前值 | 当值变化时触发的事件 |
+| blur | - | 输入框失去焦点<br/>前置条件：showInput为true |
+| focus | - | 输入框获取焦点<br/>前置条件：showInput为true |
+
+
+## 动作表
+
+| 动作名称        | 动作配置                 | 说明                 |
+|----------------|-------------------------|---------------------|
+| clear | - | 清除输入框<br />前置条件：showInput 和 clearable 都为 true |
+| reset | - | 重置到最小值 |
+
 
