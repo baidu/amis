@@ -818,7 +818,11 @@ export default class FileControl extends React.Component<FileProps, FileState> {
         let value =
           (ret.data as any).value || (ret.data as any).url || ret.data;
 
-        const dispatcher = await this.dispatchEvent('success', file);
+        const dispatcher = await this.dispatchEvent('success', {
+          ...file,
+          value,
+          state: 'uploaded'
+        });
         if (dispatcher?.prevented) {
           return;
         }
@@ -1220,11 +1224,19 @@ export default class FileControl extends React.Component<FileProps, FileState> {
 
   async dispatchEvent(e: string, data?: Record<string, any>) {
     const {dispatchEvent} = this.props;
-    data = data || this.state.files;
+    const getEventData = (item: Record<string, any>) => ({
+      name: item.path || item.name,
+      value: item.value,
+      state: item.state,
+      error: item.error
+    });
+    const value = data
+      ? getEventData(data)
+      : this.state.files.map(item => getEventData(item));
     return dispatchEvent(
       e,
       createObject(this.props.data, {
-        file: data
+        file: value
       })
     );
   }
