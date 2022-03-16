@@ -347,7 +347,7 @@ export default class Wizard extends React.Component<WizardProps, WizardState> {
 
   async handleInitEvent(data: any) {
     const {onInit} = this.props;
-    (await this.dispatchEvent('inited', {data})) && onInit && onInit(data);
+    (await this.dispatchEvent('inited', {formData: data})) && onInit && onInit(data);
   }
 
   @autobind
@@ -383,7 +383,7 @@ export default class Wizard extends React.Component<WizardProps, WizardState> {
     index = Math.max(Math.min(steps.length, index), 1);
 
     if (index != this.state.currentStep) {
-      if (await this.dispatchEvent('stepChange', {step: index, data: this.props.store.data})) {
+      if (await this.dispatchEvent('stepChange', {step: index, formData: this.props.store.data})) {
         return
       }
 
@@ -633,7 +633,7 @@ export default class Wizard extends React.Component<WizardProps, WizardState> {
     const previous =  store.data;
     const final = {...previous, ...values};
 
-    if (await this.dispatchEvent('change', {data: final})) {
+    if (await this.dispatchEvent('change', {formData: final})) {
       return;
     }
 
@@ -678,7 +678,7 @@ export default class Wizard extends React.Component<WizardProps, WizardState> {
       onFinished
     } = this.props;
 
-    if (await this.dispatchEvent('finished', {data: store.data})) {
+    if (await this.dispatchEvent('finished', {formData: store.data})) {
       return;
     }
 
@@ -706,7 +706,7 @@ export default class Wizard extends React.Component<WizardProps, WizardState> {
       formStore
         .saveRemote(action.api || step.api || api!, store.data, {
           onSuccess: () => {
-            this.dispatchEvent('submitSucc', {data: store.data});
+            this.dispatchEvent('submitSucc', {formData: store.data});
 
             if (
               !isEffectiveApi(finnalAsyncApi, store.data) ||
@@ -801,7 +801,7 @@ export default class Wizard extends React.Component<WizardProps, WizardState> {
         store
           .saveRemote(action.api || step.api!, store.data, {
             onSuccess: () => {
-              this.dispatchEvent('stepSubmitSucc', {data: store.data});
+              this.dispatchEvent('stepSubmitSucc', {formData: store.data});
 
               if (
                 !isEffectiveApi(finnalAsyncApi, store.data) ||

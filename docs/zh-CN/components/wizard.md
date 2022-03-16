@@ -97,16 +97,16 @@ order: 73
 
 ## 事件表
 
-| 事件名称           | 事件参数                         | 说明                 |
-|-------------------|--------------------------------|----------------------|
-| inited            | `data: object`                 | 初始化完成             |
-| finished          | `data: object`                 | 点击完成              |
-| stepChange        | `step: number, data: object`   | 步骤切换              |
-| change            | `data: object`                 | 数值变化              |
-| submitSucc        | `data: object`                 | 提交成功              |
-| submitFail        | `error: object`                | 提交失败              |
-| stepSubmitSucc    | `data: object`                 | 步骤提交成功           |
-| stepSubmitFail    | `error: object`                | 步骤提交失败           |
+| 事件名称           | 事件参数                                        | 说明                  |
+|-------------------|------------------------------------------------|----------------------|
+| inited            | `formData: object` 表单数据                     | 初始化完成             |
+| finished          | `formData: object` 表单数据                     | 点击完成              |
+| stepChange        | `step: number, formData: object` 步骤, 表单数据  | 步骤切换              |
+| change            | `formData: object` 表单数据                     | 数值变化              |
+| submitSucc        | `formData: object` 表单数据                     | 提交成功              |
+| submitFail        | `error: object` 错误信息                        | 提交失败              |
+| stepSubmitSucc    | `formData: object` 表单数据                     | 步骤提交成功           |
+| stepSubmitFail    | `error: object` 错误信息                        | 步骤提交失败           |
 
 ## 动作表
 
