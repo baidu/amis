@@ -495,7 +495,7 @@ wsFetcher(ws, onMessage, onError) {
 ```javascript
 {
     "type": "service",
-    "dataProvider": async (data, setData) => {
+    "dataProvider": (data, setData) => {
       const timer = setInterval(() => {
         setData({date: new Date().toString()})
       }, 1000);
@@ -508,7 +508,16 @@ wsFetcher(ws, onMessage, onError) {
 }
 ```
 
-函数里可以使用 `await` 调用异步方法
+> 1.8.0 及以上版本
+
+新增了一个 `env` 属性，可以调用系统环境中的方法，比如 env.fetcher、tracker 等，比如下面的例子会调用 `env.notify` 来弹出提示
+
+```javascript
+{
+    "type": "service",
+    "dataProvider": "env.notify('info', 'msg')"
+}
+```
 
 ## 属性表
 

@@ -127,6 +127,46 @@ Page 默认将页面分为几个区域，分别是**内容区（`body`）**、**
 }
 ```
 
+## 下拉刷新
+
+通过配置`pullRefresh`，可以设置下拉刷新功能（仅用于移动端）。
+
+```schema
+{
+  "type": "page",
+  "initApi": "/api/mock2/page/initData",
+  "pullRefresh": {
+    "disabled": false
+  },
+  "body": [
+    {
+      "type": "tpl",
+      "tpl": "当前时间是：${date}"
+    }
+  ]
+}
+```
+
+配置下拉刷新文案
+
+```schema
+{
+  "type": "page",
+  "initApi": "/api/mock2/page/initData",
+  "pullRefresh": {
+    "disabled": false,
+    "pullingText": "继续下拉",
+    "loosingText": "可以释放了"
+  },
+  "body": [
+    {
+      "type": "tpl",
+      "tpl": "当前时间是：${date}"
+    }
+  ]
+}
+```
+
 ## CSS 变量
 
 通过设置 CSS 变量几乎可以修改 amis 中任意组件的展现，具体细节请参考[样式](../../../style)。
@@ -238,3 +278,4 @@ Page 默认将页面分为几个区域，分别是**内容区（`body`）**、**
 | interval            | `number`                                  | `3000`                                     | 刷新时间(最小 1000)                                                                   |
 | silentPolling       | `boolean`                                 | `false`                                    | 配置刷新时是否显示加载动画                                                            |
 | stopAutoRefreshWhen | [表达式](../../docs/concepts/expression)  | `""`                                       | 通过表达式来配置停止刷新的条件                                                        |
+| pullRefresh         | `object`                                 | `{disabled: true}`                          | 下拉刷新配置                                                                       |

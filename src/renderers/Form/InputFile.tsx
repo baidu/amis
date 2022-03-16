@@ -1316,7 +1316,7 @@ export default class FileControl extends React.Component<FileProps, FileState> {
             >
               <input disabled={disabled} {...getInputProps()} />
 
-              {drag ? (
+              {drag || isDragActive ? (
                 <div
                   className={cx('FileControl-acceptTip')}
                   onClick={this.handleSelect}

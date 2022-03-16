@@ -25,6 +25,7 @@ export interface CBGroupOrItemProps extends ThemeProps {
   onRemove?: (index: number) => void;
   fieldClassName?: string;
   formula?: FormulaPickerProps;
+  popOverContainer?: any;
 }
 
 export class CBGroupOrItem extends React.Component<CBGroupOrItemProps> {
@@ -52,7 +53,8 @@ export class CBGroupOrItem extends React.Component<CBGroupOrItemProps> {
       disabled,
       searchable,
       onDragStart,
-      formula
+      formula,
+      popOverContainer
     } = this.props;
 
     return (
@@ -101,6 +103,7 @@ export class CBGroupOrItem extends React.Component<CBGroupOrItemProps> {
                 funcs={funcs}
                 data={data}
                 formula={formula}
+                popOverContainer={popOverContainer}
               />
               <a className={cx('CBDelete')} onClick={this.handleItemRemove}>
                 <Icon icon="close" className="icon" />
