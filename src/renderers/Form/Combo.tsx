@@ -1162,7 +1162,6 @@ export default class ComboControl extends React.Component<ComboProps> {
       classnames: cx,
       render,
       store,
-      conditions,
       deleteIcon,
       translate: __,
       itemRemovableOn,
@@ -1175,6 +1174,15 @@ export default class ComboControl extends React.Component<ComboProps> {
       store.removable !== false && // minLength ?
       !disabled && // 控件自身是否禁用
       removable !== false; // 是否可以删除
+
+    if (
+      !(
+        finnalRemovable && // 表达式判断单条是否可删除
+        (!itemRemovableOn || evalExpression(itemRemovableOn, value) !== false)
+      )
+    ) {
+      return null;
+    }
 
     const defaultDelBtn = (
       <a
@@ -1208,33 +1216,20 @@ export default class ComboControl extends React.Component<ComboProps> {
       className: cx('Combo-delController', deleteBtn ? deleteBtn.classname : '')
     });
 
-    const customLabel = render('delete-btn', {
+    const customDelLabel = render('delete-btn', {
       type: 'button',
       onClick: this.deleteItem.bind(this, index),
       className: cx('Combo-delController'),
       label: deleteBtn
     });
 
-    let delBtn: any = null;
-
-    if (
-      finnalRemovable && // 表达式判断单条是否可删除
-      (!itemRemovableOn || evalExpression(itemRemovableOn, value) !== false)
-    ) {
-      if (deleteBtn && !Array.isArray(conditions)) {
-        if (isObject(deleteBtn)) {
-          delBtn = customDelBtn;
-        } else if (typeof deleteBtn === 'string') {
-          delBtn = customLabel;
-        } else {
-          delBtn = defaultDelBtn;
-        }
-      } else {
-        delBtn = defaultDelBtn;
-      }
+    if (isObject(deleteBtn)) {
+      return customDelBtn;
+    } else if (typeof deleteBtn === 'string') {
+      return customDelLabel;
+    } else {
+      return defaultDelBtn;
     }
-
-    return delBtn;
   }
 
   renderMultipe() {
