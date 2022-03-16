@@ -993,3 +993,21 @@ leftOptions 动态加载，默认 source 接口是返回 options 部分，而 le
 | leftOptions      | `Array<Object>`                                                                   |              | 当展示形式为 `associated` 时用来配置左边的选项集。                                                                                                                                                           |
 | leftMode         | `string`                                                                          |              | 当展示形式为 `associated` 时用来配置左边的选择形式，支持 `list` 或者 `tree`。默认为 `list`。                                                                                                                 |
 | rightMode        | `string`                                                                          |              | 当展示形式为 `associated` 时用来配置右边的选择形式，可选：`list`、`table`、`tree`、`chained`。                                                                                                               |
+
+## 事件表
+
+| 事件名称 | 事件参数                                                                                           | 说明 |
+| -------- | -------------------------------------------------------------------------------------------------- | ---- |
+| change    |  value: string \| Option[] 选中值 | 选中值发生变化时触发 |
+| blur    |  (event: Event) 原始事件 | 失去焦点时触发 |
+| focus    |  (event: Event) 原始事件 | 获得焦点时触发 |
+| add    |  - | 新增选项的时候触发 |
+| edit    |  value: Option 修改的选项 | 编辑选项时触发 |
+| delete    |  value: Option 删除的选项 | 删除选项时触发 |
+
+## 动作表
+
+| 动作名称 | 动作配置                                                                                           | 说明 |
+| -------- | -------------------------------------------------------------------------------------------------- | ---- |
+| clear    |  - | 清空 |
+| reset    |  resetValue: '' 重置值 | 重置 |
