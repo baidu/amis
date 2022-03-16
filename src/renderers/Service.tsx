@@ -251,12 +251,18 @@ export default class Service extends React.Component<ServiceProps> {
     let dataProviderFunc = dataProvider;
 
     if (typeof dataProvider === 'string' && dataProvider) {
-      dataProviderFunc = str2AsyncFunction(dataProvider, 'data', 'setData')!;
+      dataProviderFunc = str2AsyncFunction(
+        dataProvider,
+        'data',
+        'setData',
+        'env'
+      )!;
     }
     if (typeof dataProviderFunc === 'function') {
       const unsubscribe = await dataProviderFunc(
         store.data,
-        this.dataProviderSetData
+        this.dataProviderSetData,
+        this.props.env
       );
       if (typeof unsubscribe === 'function') {
         this.dataProviderUnsubscribe = unsubscribe;
@@ -284,6 +290,8 @@ export default class Service extends React.Component<ServiceProps> {
     store.updateData(data, undefined, false);
     store.setHasRemoteData();
   }
+
+  // 外部函数调用自定义事件
 
   // 使用 websocket 获取使用，因为有异步所以放这里而不是 store 实现
   fetchWSData(ws: string | Api, data: any) {
@@ -363,6 +371,7 @@ export default class Service extends React.Component<ServiceProps> {
       initFetch,
       initFetchOn,
       store,
+      dataProvider,
       messages: {fetchSuccess, fetchFailed}
     } = this.props;
 
@@ -385,6 +394,10 @@ export default class Service extends React.Component<ServiceProps> {
           errorMessage: fetchFailed
         })
         .then(this.afterDataFetch);
+    }
+
+    if (dataProvider) {
+      this.runDataProvider();
     }
   }
 
