@@ -291,8 +291,6 @@ export default class Service extends React.Component<ServiceProps> {
     store.setHasRemoteData();
   }
 
-  // 外部函数调用自定义事件
-
   // 使用 websocket 获取使用，因为有异步所以放这里而不是 store 实现
   fetchWSData(ws: string | Api, data: any) {
     const {env, store} = this.props;
