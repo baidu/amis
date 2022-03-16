@@ -12,7 +12,7 @@ import {
   FunctionPropertyNames
 } from '../types';
 import {filter, evalExpression} from '../utils/tpl';
-import {isVisible, autobind, bulkBindFunctions} from '../utils/helper';
+import {isVisible, autobind, bulkBindFunctions, createObject} from '../utils/helper';
 import {ScopedContext, IScopedContext} from '../Scoped';
 import Alert from '../components/Alert2';
 import {isApiOutdated, isEffectiveApi} from '../utils/api';
@@ -617,8 +617,17 @@ export default class Page extends React.Component<PageProps> {
   }
 
   @autobind
-  handleRefresh() {
+  async handleRefresh() {
+    const {dispatchEvent, data} = this.props;
+    const rendererEvent = await dispatchEvent('pullRefresh', createObject(data));
+    if (rendererEvent?.prevented) {
+      return;
+    }
     this.reload();
+  }
+
+  doAction(action: Action, data: object, throwErrors: boolean = false) {
+    return this.handleAction(undefined, action, data);
   }
 
   handleChange(
