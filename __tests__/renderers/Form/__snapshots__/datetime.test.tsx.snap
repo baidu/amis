@@ -50,7 +50,7 @@ exports[`Renderer:date 1`] = `
             </span>
           </label>
           <div
-            class="cxd-DateControl cxd-Form-control"
+            class="cxd-DateControl is-datetime cxd-Form-control"
           >
             <div
               class="cxd-DatePicker"

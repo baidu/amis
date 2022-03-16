@@ -1704,12 +1704,6 @@ exports[`Renderer:Page initApi reload by Drawer action 3`] = `
         <div
           class="cxd-Page-body"
         >
-          <div
-            class="cxd-Spinner-overlay"
-          />
-          <div
-            class="cxd-Spinner cxd-Spinner--overlay cxd-Spinner--lg"
-          />
           <span
             class="cxd-TplField"
           >
