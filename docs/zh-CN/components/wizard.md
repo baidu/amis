@@ -116,4 +116,4 @@ order: 73
 | step-submit       | -                       | 分步提交                |
 | next              | -                       | 下一步                  |
 | prev              | -                       | 上一步                  |
-| goto-step         | -                       | 定位步骤                |
+| goto-step         | `step: number` 目标步骤  | 定位步骤                |
