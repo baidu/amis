@@ -370,6 +370,7 @@ export interface TableProps extends RendererProps {
 type ExportExcelToolbar = SchemaNode & {
   api?: SchemaApi;
   columns?: string[];
+  exportColumns?: any[];
   filename?: string;
 };
 
@@ -2261,9 +2262,10 @@ export default class Table extends React.Component<TableProps, object> {
       classPrefix: ns,
       classnames: cx,
       translate: __,
-      columns,
       data
     } = this.props;
+
+    let columns = this.props.columns || [];
 
     if (!columns) {
       return null;
@@ -2312,18 +2314,24 @@ export default class Table extends React.Component<TableProps, object> {
             });
             worksheet.views = [{state: 'frozen', xSplit: 0, ySplit: 1}];
 
-            let exportColumns = toolbar.columns;
-            if (isPureVariable(exportColumns)) {
-              exportColumns = resolveVariableAndFilter(
-                exportColumns,
+            let exportColumnNames = toolbar.columns;
+
+            if (isPureVariable(exportColumnNames)) {
+              exportColumnNames = resolveVariableAndFilter(
+                exportColumnNames,
                 data,
                 '| raw'
               );
             }
 
-            const filteredColumns = exportColumns
+            // 自定义导出列配置
+            if (toolbar.exportColumns && Array.isArray(toolbar.exportColumns)) {
+              columns = toolbar.exportColumns;
+            }
+
+            const filteredColumns = exportColumnNames
               ? columns.filter(column => {
-                  const filterColumnsNames = exportColumns!;
+                  const filterColumnsNames = exportColumnNames!;
                   if (filterColumnsNames.indexOf(column.name) !== -1) {
                     return true;
                   }
