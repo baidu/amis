@@ -744,6 +744,29 @@ export default class Page extends React.Component<PageProps> {
 
     const styleVar = buildStyle(style, data);
 
+    const pageContent = <div className={cx('Page-content')}>
+      <div className={cx('Page-main')}>
+        {this.renderHeader()}
+        <div className={cx(`Page-body`, bodyClassName)}>
+          <Spinner size="lg" overlay key="info" show={store.loading} />
+
+          {store.error && showErrorMsg !== false ? (
+            <Alert
+              level="danger"
+              showCloseButton
+              onClose={store.clearMessage}
+            >
+              {store.msg}
+            </Alert>
+          ) : null}
+
+          {(Array.isArray(regions) ? ~regions.indexOf('body') : body)
+            ? render('body', body || '', subProps)
+            : null}
+        </div>
+      </div>
+    </div>;
+
     return (
       <div
         className={cx(`Page`, hasAside ? `Page--withSidebar` : '', className)}
@@ -782,52 +805,9 @@ export default class Page extends React.Component<PageProps> {
               translate={__}
               onRefresh={this.handleRefresh}
               >
-              <div className={cx('Page-content')}>
-                <div className={cx('Page-main')}>
-                  {this.renderHeader()}
-                  <div className={cx(`Page-body`, bodyClassName)}>
-                    <Spinner size="lg" overlay key="info" show={store.loading} />
-
-                    {store.error && showErrorMsg !== false ? (
-                      <Alert
-                        level="danger"
-                        showCloseButton
-                        onClose={store.clearMessage}
-                      >
-                        {store.msg}
-                      </Alert>
-                    ) : null}
-
-                    {(Array.isArray(regions) ? ~regions.indexOf('body') : body)
-                      ? render('body', body || '', subProps)
-                      : null}
-                  </div>
-                </div>
-              </div>
+              {pageContent}
             </PullRefresh>
-          : <div className={cx('Page-content')}>
-              <div className={cx('Page-main')}>
-                {this.renderHeader()}
-                <div className={cx(`Page-body`, bodyClassName)}>
-                  <Spinner size="lg" overlay key="info" show={store.loading} />
-
-                  {store.error && showErrorMsg !== false ? (
-                    <Alert
-                      level="danger"
-                      showCloseButton
-                      onClose={store.clearMessage}
-                    >
-                      {store.msg}
-                    </Alert>
-                  ) : null}
-
-                  {(Array.isArray(regions) ? ~regions.indexOf('body') : body)
-                    ? render('body', body || '', subProps)
-                    : null}
-                </div>
-              </div>
-            </div>
-        }
+          : pageContent}
 
         {render(
           'dialog',
