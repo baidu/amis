@@ -340,14 +340,14 @@ export default class Wizard extends React.Component<WizardProps, WizardState> {
   async dispatchEvent(action: string, value?: object) {
     const {dispatchEvent, data} = this.props;
 
-    const rendererEvent = await dispatchEvent(action, createObject(data, value ? {value} : {}));
+    const rendererEvent = await dispatchEvent(action, createObject(data, value ? value : {}));
 
     return rendererEvent?.prevented ?? false;
   }
 
   async handleInitEvent(data: any) {
     const {onInit} = this.props;
-    (await this.dispatchEvent('inited', data)) && onInit && onInit(data);
+    (await this.dispatchEvent('inited', {formData: data})) && onInit && onInit(data);
   }
 
   @autobind
@@ -383,7 +383,7 @@ export default class Wizard extends React.Component<WizardProps, WizardState> {
     index = Math.max(Math.min(steps.length, index), 1);
 
     if (index != this.state.currentStep) {
-      if (await this.dispatchEvent('stepChange')) {
+      if (await this.dispatchEvent('stepChange', {step: index, formData: this.props.store.data})) {
         return
       }
 
@@ -633,7 +633,7 @@ export default class Wizard extends React.Component<WizardProps, WizardState> {
     const previous =  store.data;
     const final = {...previous, ...values};
 
-    if (await this.dispatchEvent('change', final)) {
+    if (await this.dispatchEvent('change', {formData: final})) {
       return;
     }
 
@@ -678,7 +678,7 @@ export default class Wizard extends React.Component<WizardProps, WizardState> {
       onFinished
     } = this.props;
 
-    if (await this.dispatchEvent('finished', store.data)) {
+    if (await this.dispatchEvent('finished', {formData: store.data})) {
       return;
     }
 
@@ -706,7 +706,7 @@ export default class Wizard extends React.Component<WizardProps, WizardState> {
       formStore
         .saveRemote(action.api || step.api || api!, store.data, {
           onSuccess: () => {
-            this.dispatchEvent('submitSucc', store.data);
+            this.dispatchEvent('submitSucc', {formData: store.data});
 
             if (
               !isEffectiveApi(finnalAsyncApi, store.data) ||
@@ -721,7 +721,7 @@ export default class Wizard extends React.Component<WizardProps, WizardState> {
               cancel => (this.asyncCancel = cancel)
             );
           },
-          onFailed: json => this.dispatchEvent('submitFail', json)
+          onFailed: error => this.dispatchEvent('submitFail', {error})
         })
         .then(async value => {
           const feedback = action.feedback;
@@ -766,7 +766,7 @@ export default class Wizard extends React.Component<WizardProps, WizardState> {
           return value;
         })
         .catch(error => {
-          this.dispatchEvent('submitFail', error)
+          this.dispatchEvent('submitFail', {error})
           store.markSaving(false);
           console.error(error);
         });
@@ -801,7 +801,7 @@ export default class Wizard extends React.Component<WizardProps, WizardState> {
         store
           .saveRemote(action.api || step.api!, store.data, {
             onSuccess: () => {
-              this.dispatchEvent('stepSubmitSucc', store.data);
+              this.dispatchEvent('stepSubmitSucc', {formData: store.data});
 
               if (
                 !isEffectiveApi(finnalAsyncApi, store.data) ||
@@ -817,7 +817,7 @@ export default class Wizard extends React.Component<WizardProps, WizardState> {
               );
             },
             onFailed: json => {
-              this.dispatchEvent('stepSubmitFail', json);
+              this.dispatchEvent('stepSubmitFail', {error: json});
               if (json.status === 422 && json.errors && this.form) {
                 this.form.props.store.setFormItemErrors(json.errors);
               }
@@ -843,7 +843,7 @@ export default class Wizard extends React.Component<WizardProps, WizardState> {
             );
           })
           .catch(reason => {
-            this.dispatchEvent('stepSubmitFail', reason);
+            this.dispatchEvent('stepSubmitFail', {error: reason});
             if (reason instanceof SkipOperation) {
               return;
             }

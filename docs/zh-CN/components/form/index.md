@@ -170,6 +170,51 @@ order: 24
 }
 ```
 
+有时表单内容需要两端对齐，可在 horizontal 中增加 justify 配置，注意只对内联控件生效
+
+```schema: scope="body"
+{
+  "type": "container",
+  "style": {
+    "width": "300px",
+  },
+  "body": [
+    {
+      "type": "form",
+      "title": "两端对齐",
+      "mode": "horizontal",
+      "horizontal": {
+        "justify": true,
+        "left": 3,
+        "right": 9
+      },
+      "body": [
+        {
+          "type": "input-text",
+          "name": "name",
+          "label": "姓名",
+          "required": true
+        },
+        {
+          "type": "input-text",
+          "name": "name",
+          "label": "班级",
+          "required": true
+        },
+        {
+          "type": "switch",
+          "name": "status",
+          "inputClassName": "is-inline",
+          "label": "是否在职",
+          "onText": "在职",
+          "offText": "非在职"
+        }
+      ]
+    }
+  ]
+}
+```
+
 ### 内联模式
 
 使用内联模式展现表单项

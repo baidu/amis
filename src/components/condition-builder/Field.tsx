@@ -1,4 +1,5 @@
 import React from 'react';
+import {findDOMNode} from 'react-dom';
 import PopOverContainer from '../PopOverContainer';
 import ListSelection from '../GroupedSelection';
 import ResultBox from '../ResultBox';
@@ -15,6 +16,7 @@ export interface ConditionFieldProps extends ThemeProps, LocaleProps {
   disabled?: boolean;
   fieldClassName?: string;
   searchable?: boolean;
+  popOverContainer?: any;
 }
 
 export interface ConditionFieldState {
@@ -86,11 +88,13 @@ export class ConditionField extends React.Component<
       fieldClassName,
       disabled,
       translate: __,
-      searchable
+      searchable,
+      popOverContainer
     } = this.props;
 
     return (
       <PopOverContainer
+        popOverContainer={popOverContainer || (() => findDOMNode(this))}
         popOverRender={({onClose}) => (
           <>
             {searchable ? (

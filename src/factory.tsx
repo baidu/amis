@@ -502,7 +502,10 @@ export function render(
     } as any;
 
     if (options.enableAMISDebug) {
-      enableDebug();
+      // 因为里面还有 render
+      setTimeout(() => {
+        enableDebug();
+      }, 10);
     }
 
     store = RendererStore.create({}, options);

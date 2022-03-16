@@ -298,5 +298,9 @@ register('zh-CN', {
   'FormulaEditor.btnLabel': '公式编辑',
   'FormulaEditor.title': '公式编辑器',
   'FormulaEditor.variable': '变量',
-  'FormulaEditor.function': '函数'
+  'FormulaEditor.function': '函数',
+  'pullRefresh.pullingText': '下拉即可刷新...',
+  'pullRefresh.loosingText': '释放即可刷新...',
+  'pullRefresh.loadingText': '加载中...',
+  'pullRefresh.successText': '加载成功'
 });

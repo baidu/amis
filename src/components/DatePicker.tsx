@@ -370,18 +370,20 @@ export class DatePicker extends React.Component<DateProps, DatePickerState> {
       const newState: any = {
         value: normalizeValue(props.value, props.format)
       };
-      // 相对值和公式是 didUpdate 的时候才更新
+
       if (
-        typeof prevValue === 'string' &&
-        (prevValue.startsWith('+') ||
-          prevValue.startsWith('-') ||
-          prevValue.startsWith('$'))
+        typeof prevValue === 'undefined' || // initApi 的情况
+        (typeof prevValue === 'string' && // 公式的情况
+          (prevValue.startsWith('+') ||
+            prevValue.startsWith('-') ||
+            prevValue.startsWith('$')))
       ) {
         newState.inputValue =
           normalizeValue(this.props.value, this.props.format)?.format(
             this.props.inputFormat
           ) || '';
       }
+
       this.setState(newState);
     }
   }

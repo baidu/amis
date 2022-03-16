@@ -226,7 +226,7 @@
 
     &-item {
       cursor: pointer;
-      padding: 0 var(--gap-lg);
+      padding: 0 #{px2rem(30px)};
       height: var(--gap-xl);
       line-height: var(--gap-xl);
 

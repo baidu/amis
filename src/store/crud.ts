@@ -16,12 +16,14 @@ import {
   isObjectShallowModified,
   sortArray,
   isEmpty,
-  qsstringify
+  qsstringify,
+  getVariable
 } from '../utils/helper';
 import {Api, Payload, fetchOptions, Action, ApiObject} from '../types';
 import pick from 'lodash/pick';
 import {resolveVariableAndFilter} from '../utils/tpl-builtin';
 import {normalizeApiResponseData} from '../utils/api';
+import {matchSorter} from 'match-sorter';
 
 class ServerError extends Error {
   type = 'ServerError';
@@ -139,6 +141,7 @@ export const CRUDStore = ServiceStore.named('CRUDStore')
         source?: string; // 支持自定义属于映射，默认不配置，读取 rows 或者 items
         loadDataMode?: boolean;
         syncResponse2Query?: boolean;
+        columns?: Array<any>;
       }
     ) => Promise<any> = flow(function* getInitData(
       api: Api,
@@ -150,6 +153,7 @@ export const CRUDStore = ServiceStore.named('CRUDStore')
         source?: string; // 支持自定义属于映射，默认不配置，读取 rows 或者 items
         loadDataMode?: boolean;
         syncResponse2Query?: boolean;
+        columns?: Array<any>;
       } = {}
     ) {
       try {
@@ -164,6 +168,21 @@ export const CRUDStore = ServiceStore.named('CRUDStore')
                 '| raw'
               )
             : self.items.concat();
+
+          if (Array.isArray(options.columns)) {
+            options.columns.forEach((column: any) => {
+              let value: any;
+              if (
+                column.searchable &&
+                column.name &&
+                (value = getVariable(self.query, column.name))
+              ) {
+                items = matchSorter(items, value, {
+                  keys: [column.name]
+                });
+              }
+            });
+          }
 
           if (self.query.orderBy) {
             const dir = /desc/i.test(self.query.orderDir) ? -1 : 1;
@@ -263,7 +282,7 @@ export const CRUDStore = ServiceStore.named('CRUDStore')
           }
 
           // 点击加载更多数据
-          let rowsData = [];
+          let rowsData: Array<any> = [];
           if (options.loadDataMode && Array.isArray(self.data.items)) {
             rowsData = self.data.items.concat(items);
           } else {
@@ -282,16 +301,32 @@ export const CRUDStore = ServiceStore.named('CRUDStore')
           if (options.loadDataOnce) {
             // 记录原始集合，后续可能基于原始数据做排序查找。
             data.itemsRaw = oItems || oRows;
+            let filteredItems = rowsData.concat();
+
+            if (Array.isArray(options.columns)) {
+              options.columns.forEach((column: any) => {
+                let value: any;
+                if (
+                  column.searchable &&
+                  column.name &&
+                  (value = getVariable(self.query, column.name))
+                ) {
+                  filteredItems = matchSorter(filteredItems, value, {
+                    keys: [column.name]
+                  });
+                }
+              });
+            }
 
             if (self.query.orderBy) {
               const dir = /desc/i.test(self.query.orderDir) ? -1 : 1;
-              rowsData = sortArray(rowsData, self.query.orderBy, dir);
+              filteredItems = sortArray(filteredItems, self.query.orderBy, dir);
             }
-            data.items = rowsData.slice(
+            data.items = filteredItems.slice(
               (self.page - 1) * self.perPage,
               self.page * self.perPage
             );
-            data.count = data.total = rowsData.length;
+            data.count = data.total = filteredItems.length;
           }
 
           if (Array.isArray(columns)) {

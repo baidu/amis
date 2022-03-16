@@ -28,6 +28,7 @@ import {
   SchemaUrlPath
 } from '../../Schema';
 import merge from 'lodash/merge';
+import omit from 'lodash/omit';
 
 /**
  * File 文件上传控件
@@ -817,7 +818,11 @@ export default class FileControl extends React.Component<FileProps, FileState> {
         let value =
           (ret.data as any).value || (ret.data as any).url || ret.data;
 
-        const dispatcher = await this.dispatchEvent('success', file);
+        const dispatcher = await this.dispatchEvent('success', {
+          ...file,
+          value,
+          state: 'uploaded'
+        });
         if (dispatcher?.prevented) {
           return;
         }
@@ -913,13 +918,16 @@ export default class FileControl extends React.Component<FileProps, FileState> {
   }
 
   syncAutoFill() {
-    const {autoFill, multiple, onBulkChange, data} = this.props;
-    if (!isEmpty(autoFill) && onBulkChange) {
+    const {autoFill, multiple, onBulkChange, data, name} = this.props;
+    // 排除自身的字段，否则会无限更新state
+    const excludeSelfAutoFill = omit(autoFill, name || '');
+
+    if (!isEmpty(excludeSelfAutoFill) && onBulkChange) {
       const files = this.state.files.filter(
         file => ~['uploaded', 'init', 'ready'].indexOf(file.state as string)
       );
       const toSync = dataMapping(
-        autoFill,
+        excludeSelfAutoFill,
         multiple
           ? {
               items: files
@@ -1216,11 +1224,19 @@ export default class FileControl extends React.Component<FileProps, FileState> {
 
   async dispatchEvent(e: string, data?: Record<string, any>) {
     const {dispatchEvent} = this.props;
-    data = data || this.state.files;
+    const getEventData = (item: Record<string, any>) => ({
+      name: item.path || item.name,
+      value: item.value,
+      state: item.state,
+      error: item.error
+    });
+    const value = data
+      ? getEventData(data)
+      : this.state.files.map(item => getEventData(item));
     return dispatchEvent(
       e,
       createObject(this.props.data, {
-        file: data
+        file: value
       })
     );
   }
@@ -1312,7 +1328,7 @@ export default class FileControl extends React.Component<FileProps, FileState> {
             >
               <input disabled={disabled} {...getInputProps()} />
 
-              {drag ? (
+              {drag || isDragActive ? (
                 <div
                   className={cx('FileControl-acceptTip')}
                   onClick={this.handleSelect}
