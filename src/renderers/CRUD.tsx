@@ -1610,7 +1610,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
             `bulk-action/${index}`,
             {
               ...omit(btn, ['visibleOn', 'hiddenOn', 'disabledOn']),
-              type: 'button',
+              type: btn.type || 'button',
               ignoreConfirm: true
             },
             {
