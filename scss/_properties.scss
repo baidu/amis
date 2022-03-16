@@ -495,6 +495,12 @@
   --Checkbox-onHover-color: var(--info);
   --Checkbox-onDisabled-bg: #e5e7eb;
   --Checkbox-onDisabled-color: var(--text--muted-color);
+  --Checkbox-inner-onDisabled-bg: #d4d6d9;
+  --Checkbox-disabled-unchecked-bg: #f2f3f3;
+  --Checkbox-border-width: var(--Form-input-borderWidth);
+  --Checkbox-paddingX: #{px2rem(12px)};
+  --Checkbox-button-height: #{px2rem(32px)};
+  --Checkbox-button-line-height: #{px2rem(30px)};
 
   --ColorPicker-bg: var(--white);
   --ColorPicker-borderColor: var(--Form-input-borderColor);
@@ -606,6 +612,16 @@
       ) / 2 - var(--DatePicker-borderWidth)
   );
   --DatePicker-placeholderColor: var(--Form-input-placeholderColor);
+  --DatePicker-minWidth: calc(
+    var(--fontSizeLg) * 5 +var(--DatePicker-paddingX) * 2 + var(
+        --Form-input-clearBtn-size
+      ) * 2
+  );
+  --DateRangePicker-minWidth: calc(
+    var(--fontSizeLg) * 8 +var(--DatePicker-paddingX) * 2 + var(
+        --Form-input-clearBtn-size
+      ) * 2
+  );
 
   --LocationPicker-borderRadius: var(--Form-input-borderWidth);
 
