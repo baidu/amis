@@ -457,15 +457,23 @@ export default class DateControl extends React.PureComponent<
       useMobileUI,
       ...rest
     } = this.props;
+    const mobileUI = useMobileUI && isMobile();
 
     if (type === 'time' && timeFormat) {
       format = timeFormat;
     }
 
-    const mobileUI = useMobileUI && isMobile();
-
     return (
-      <div className={cx(`DateControl`, className)}>
+      <div
+        className={cx(
+          `DateControl`,
+          {
+            'is-date': /date$/.test(type),
+            'is-datetime': /datetime$/.test(type)
+          },
+          className
+        )}
+      >
         <DatePicker
           {...rest}
           useMobileUI={useMobileUI}
