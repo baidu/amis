@@ -59,6 +59,8 @@
 
   --boxShadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
   --boxShadowSm: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+  --boxTooltipShadow: 0 4px 6px 1px rgb(8 14 26 / 6%),
+    0 1px 10px 0 rgb(8 14 26 / 5%), 0 2px 4px -1px rgb(8 14 26 / 4%);
 
   --lineHeightBase: 1.5;
 
@@ -1445,14 +1447,15 @@
   --Tooltip-bg--dark: rgba(7, 12, 20, 0.85);
   --Tooltip-body-color: var(--text-color);
   --Tooltip-body-color--dark: var(--white);
-  --Tooltip-body-paddingX: var(--gap-sm);
+  --Tooltip-body-paddingX: var(--gap-base);
   --Tooltip-body-paddingY: var(--gap-sm);
   --Tooltip-borderColor: var(--borderColor);
   --Tooltip-borderRadius: var(--borderRadiusLg);
   --Tooltip-borderWidth: var(--borderWidth);
-  --Tooltip-boxShadow: var(--boxShadow);
+  --Tooltip-boxShadow: var(--boxTooltipShadow);
   --Tooltip-boxShadow--dark: 0 2px 8px 0 rgba(7, 12, 20, 0.12);
   --Tooltip-fontSize: var(--fontSizeSm);
+  --Tooltip-fontWeight: var(--fontWeightMd);
   --Tooltip-maxWidth: #{px2rem(240px)};
   --Tooltip-minWidth: auto;
   --Tooltip-title-fontWeight: bold;
@@ -1460,8 +1463,8 @@
   --Tooltip-title-borderBottom-color: #{darken(darken($white, 3%), 5%)};
   --Tooltip-title-color: var(--text--loud-color);
   --Tooltip-title-color--dark: var(--white);
-  --Tooltip-title-paddingX: var(--gap-sm);
-  --Tooltip-title-paddingY: var(--gap-xs);
+  --Tooltip-title-paddingX: var(--gap-base);
+  --Tooltip-title-paddingY: var(--gap-sm);
 
   --Transfer-title-bg: #f6f8f8;
 
