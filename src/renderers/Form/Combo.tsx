@@ -1181,10 +1181,44 @@ export default class ComboControl extends React.Component<ComboProps> {
         (!itemRemovableOn || evalExpression(itemRemovableOn, value) !== false)
       )
     ) {
+      // 不符合删除条件，则不渲染删除按钮
       return null;
     }
 
-    const defaultDelBtn = (
+    // deleteBtn是对象，则根据自定义配置渲染按钮
+    if (isObject(deleteBtn)) {
+      return render('delete-btn', {
+        ...deleteBtn,
+        type: 'button',
+        onClick: () => {
+          if (typeof deleteBtn.onClick === 'function') {
+            deleteBtn.onClick.bind(this, index);
+            deleteBtn.onClick().then(() => {
+              this.deleteItem.bind(this, index);
+            });
+          } else {
+            this.deleteItem.bind(this, index);
+          }
+        },
+        className: cx(
+          'Combo-delController',
+          deleteBtn ? deleteBtn.classname : ''
+        )
+      });
+    }
+
+    // deleteBtn是string，则渲染按钮文本
+    if (typeof deleteBtn === 'string') {
+      return render('delete-btn', {
+        type: 'button',
+        onClick: this.deleteItem.bind(this, index),
+        className: cx('Combo-delController'),
+        label: deleteBtn
+      });
+    }
+
+    // 如果上述按钮不满足，则渲染默认按钮
+    return (
       <a
         onClick={this.deleteItem.bind(this, index)}
         key="delete"
@@ -1199,37 +1233,6 @@ export default class ComboControl extends React.Component<ComboProps> {
         )}
       </a>
     );
-
-    const customDelBtn = render('delete-btn', {
-      ...deleteBtn,
-      type: 'button',
-      onClick: () => {
-        if (typeof deleteBtn.onClick === 'function') {
-          deleteBtn.onClick.bind(this, index);
-          deleteBtn.onClick().then(() => {
-            this.deleteItem.bind(this, index);
-          });
-        } else {
-          this.deleteItem.bind(this, index);
-        }
-      },
-      className: cx('Combo-delController', deleteBtn ? deleteBtn.classname : '')
-    });
-
-    const customDelLabel = render('delete-btn', {
-      type: 'button',
-      onClick: this.deleteItem.bind(this, index),
-      className: cx('Combo-delController'),
-      label: deleteBtn
-    });
-
-    if (isObject(deleteBtn)) {
-      return customDelBtn;
-    } else if (typeof deleteBtn === 'string') {
-      return customDelLabel;
-    } else {
-      return defaultDelBtn;
-    }
   }
 
   renderMultipe() {
