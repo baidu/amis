@@ -6,213 +6,199 @@ exports[`Renderer:condition-builder 1`] = `
     class="cxd-Page"
   >
     <div
-      class="cxd-PullRefresh"
+      class="cxd-Page-content"
     >
       <div
-        class="cxd-PullRefresh-wrap"
-        style="transform: translate3d(0, 0px, 0);"
+        class="cxd-Page-main"
       >
         <div
-          class="cxd-PullRefresh-header"
-        >
-          
-        </div>
-        <div
-          class="cxd-Page-content"
+          class="cxd-Page-body"
         >
           <div
-            class="cxd-Page-main"
+            class="cxd-Panel cxd-Panel--default cxd-Panel--form"
+            style="position: relative;"
           >
             <div
-              class="cxd-Page-body"
+              class="cxd-Panel-heading"
             >
-              <div
-                class="cxd-Panel cxd-Panel--default cxd-Panel--form"
-                style="position: relative;"
+              <h3
+                class="cxd-Panel-title"
               >
-                <div
-                  class="cxd-Panel-heading"
+                <span
+                  class="cxd-TplField"
                 >
-                  <h3
-                    class="cxd-Panel-title"
-                  >
-                    <span
-                      class="cxd-TplField"
-                    >
-                      <span>
-                        表单
-                      </span>
-                    </span>
-                  </h3>
-                </div>
+                  <span>
+                    表单
+                  </span>
+                </span>
+              </h3>
+            </div>
+            <div
+              class="cxd-Panel-body"
+            >
+              <form
+                class="cxd-Form cxd-Form--normal"
+                novalidate=""
+              >
+                <input
+                  style="display: none;"
+                  type="submit"
+                />
+                <pre>
+                  <code>
+                    {}
+                  </code>
+                </pre>
                 <div
-                  class="cxd-Panel-body"
+                  class="cxd-Form-item cxd-Form-item--normal"
+                  data-role="form-item"
                 >
-                  <form
-                    class="cxd-Form cxd-Form--normal"
-                    novalidate=""
+                  <label
+                    class="cxd-Form-label"
                   >
-                    <input
-                      style="display: none;"
-                      type="submit"
-                    />
-                    <pre>
-                      <code>
-                        {}
-                      </code>
-                    </pre>
-                    <div
-                      class="cxd-Form-item cxd-Form-item--normal"
-                      data-role="form-item"
-                    >
-                      <label
-                        class="cxd-Form-label"
+                    <span>
+                      <span
+                        class="cxd-TplField"
                       >
                         <span>
-                          <span
-                            class="cxd-TplField"
-                          >
-                            <span>
-                              条件组件
-                            </span>
-                          </span>
+                          条件组件
                         </span>
-                      </label>
+                      </span>
+                    </span>
+                  </label>
+                  <div
+                    class="cxd-ConditionBuilderControl cxd-Form-control"
+                  >
+                    <div
+                      class="cxd-CBGroup"
+                    >
                       <div
-                        class="cxd-ConditionBuilderControl cxd-Form-control"
+                        class="cxd-CBGroup-toolbar"
                       >
                         <div
-                          class="cxd-CBGroup"
+                          class="cxd-CBGroup-toolbarCondition"
                         >
                           <div
-                            class="cxd-CBGroup-toolbar"
+                            class="cxd-ButtonGroup"
                           >
-                            <div
-                              class="cxd-CBGroup-toolbarCondition"
+                            <button
+                              class="cxd-Button cxd-Button--default cxd-Button--xs is-active"
+                              type="button"
                             >
-                              <div
-                                class="cxd-ButtonGroup"
-                              >
-                                <button
-                                  class="cxd-Button cxd-Button--default cxd-Button--xs is-active"
-                                  type="button"
-                                >
-                                  并且
-                                </button>
-                                <button
-                                  class="cxd-Button cxd-Button--default cxd-Button--xs"
-                                  type="button"
-                                >
-                                  或者
-                                </button>
-                              </div>
-                            </div>
-                            <div
-                              class="cxd-CBGroup-toolbarConditionAdd"
+                              并且
+                            </button>
+                            <button
+                              class="cxd-Button cxd-Button--default cxd-Button--xs"
+                              type="button"
                             >
-                              <div
-                                class="cxd-ButtonGroup"
-                              >
-                                <button
-                                  class="cxd-Button cxd-Button--default cxd-Button--xs"
-                                  type="button"
-                                >
-                                  <icon-mock
-                                    classname="icon icon-plus"
-                                    icon="plus"
-                                  />
-                                  添加条件
-                                </button>
-                                <button
-                                  class="cxd-Button cxd-Button--default cxd-Button--xs"
-                                  type="button"
-                                >
-                                  <icon-mock
-                                    classname="icon icon-plus-cicle"
-                                    icon="plus-cicle"
-                                  />
-                                  添加条件组
-                                </button>
-                              </div>
-                            </div>
+                              或者
+                            </button>
                           </div>
+                        </div>
+                        <div
+                          class="cxd-CBGroup-toolbarConditionAdd"
+                        >
                           <div
-                            class="cxd-CBGroup-body"
+                            class="cxd-ButtonGroup"
                           >
-                            <div
-                              class="cxd-CBGroup-placeholder "
+                            <button
+                              class="cxd-Button cxd-Button--default cxd-Button--xs"
+                              type="button"
                             >
-                              空
-                            </div>
+                              <icon-mock
+                                classname="icon icon-plus"
+                                icon="plus"
+                              />
+                              添加条件
+                            </button>
+                            <button
+                              class="cxd-Button cxd-Button--default cxd-Button--xs"
+                              type="button"
+                            >
+                              <icon-mock
+                                classname="icon icon-plus-cicle"
+                                icon="plus-cicle"
+                              />
+                              添加条件组
+                            </button>
                           </div>
                         </div>
                       </div>
-                      <span
-                        class="cxd-TplField cxd-Form-description"
+                      <div
+                        class="cxd-CBGroup-body"
                       >
-                        <span>
-                          适合让用户自己拼查询条件，然后后端根据数据生成 query where
-                        </span>
-                      </span>
+                        <div
+                          class="cxd-CBGroup-placeholder "
+                        >
+                          空
+                        </div>
+                      </div>
                     </div>
-                  </form>
+                  </div>
+                  <span
+                    class="cxd-TplField cxd-Form-description"
+                  >
+                    <span>
+                      适合让用户自己拼查询条件，然后后端根据数据生成 query where
+                    </span>
+                  </span>
                 </div>
-                <div
-                  class="cxd-Panel-footerWrap"
+              </form>
+            </div>
+            <div
+              class="cxd-Panel-footerWrap"
+            >
+              <div
+                class="cxd-Panel-btnToolbar cxd-Panel-footer"
+              >
+                <button
+                  class="cxd-Button cxd-Button--primary"
+                  type="submit"
                 >
-                  <div
-                    class="cxd-Panel-btnToolbar cxd-Panel-footer"
-                  >
-                    <button
-                      class="cxd-Button cxd-Button--primary"
-                      type="submit"
-                    >
-                      <span>
-                        提交
-                      </span>
-                    </button>
-                  </div>
-                </div>
-                <div
-                  class="resize-sensor"
-                  style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
-                >
-                  
-  
-                  <div
-                    class="resize-sensor-expand"
-                    style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-                  >
-                    
-    
-                    <div
-                      style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
-                    />
-                    
-  
-                  </div>
-                  
-  
-                  <div
-                    class="resize-sensor-shrink"
-                    style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-                  >
-                    
-    
-                    <div
-                      style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
-                    />
-                    
-  
-                  </div>
-                  
-  
-                  <div
-                    class="resize-sensor-appear"
-                    style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
-                  />
-                </div>
+                  <span>
+                    提交
+                  </span>
+                </button>
               </div>
+            </div>
+            <div
+              class="resize-sensor"
+              style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
+            >
+              
+  
+              <div
+                class="resize-sensor-expand"
+                style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+              >
+                
+    
+                <div
+                  style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
+                />
+                
+  
+              </div>
+              
+  
+              <div
+                class="resize-sensor-shrink"
+                style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+              >
+                
+    
+                <div
+                  style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
+                />
+                
+  
+              </div>
+              
+  
+              <div
+                class="resize-sensor-appear"
+                style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
+              />
             </div>
           </div>
         </div>

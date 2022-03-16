@@ -6,46 +6,32 @@ exports[`Renderer:container 1`] = `
     class="cxd-Page"
   >
     <div
-      class="cxd-PullRefresh"
+      class="cxd-Page-content"
     >
       <div
-        class="cxd-PullRefresh-wrap"
-        style="transform: translate3d(0, 0px, 0);"
+        class="cxd-Page-main"
       >
         <div
-          class="cxd-PullRefresh-header"
-        >
-          
-        </div>
-        <div
-          class="cxd-Page-content"
+          class="cxd-Page-body"
         >
           <div
-            class="cxd-Page-main"
+            class="cxd-Container bg-white"
           >
             <div
-              class="cxd-Page-body"
+              class="cxd-Container-body"
             >
-              <div
-                class="cxd-Container bg-white"
+              <span
+                class="cxd-TplField"
               >
-                <div
-                  class="cxd-Container-body"
-                >
-                  <span
-                    class="cxd-TplField"
-                  >
-                    <span>
-                      内容1
-                    </span>
-                  </span>
-                  <span
-                    class="cxd-PlainField"
-                  >
-                    内容2
-                  </span>
-                </div>
-              </div>
+                <span>
+                  内容1
+                </span>
+              </span>
+              <span
+                class="cxd-PlainField"
+              >
+                内容2
+              </span>
             </div>
           </div>
         </div>

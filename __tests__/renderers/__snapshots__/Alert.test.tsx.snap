@@ -6,44 +6,30 @@ exports[`Renderer:alert 1`] = `
     class="cxd-Page"
   >
     <div
-      class="cxd-PullRefresh"
+      class="cxd-Page-content"
     >
       <div
-        class="cxd-PullRefresh-wrap"
-        style="transform: translate3d(0, 0px, 0);"
+        class="cxd-Page-main"
       >
         <div
-          class="cxd-PullRefresh-header"
-        >
-          
-        </div>
-        <div
-          class="cxd-Page-content"
+          class="cxd-Page-body"
         >
           <div
-            class="cxd-Page-main"
+            class="cxd-Alert cxd-Alert--success"
           >
             <div
-              class="cxd-Page-body"
+              class="cxd-Alert-content"
             >
               <div
-                class="cxd-Alert cxd-Alert--success"
+                class="cxd-Alert-desc"
               >
-                <div
-                  class="cxd-Alert-content"
+                <span
+                  class="cxd-TplField"
                 >
-                  <div
-                    class="cxd-Alert-desc"
-                  >
-                    <span
-                      class="cxd-TplField"
-                    >
-                      <span>
-                        提示内容
-                      </span>
-                    </span>
-                  </div>
-                </div>
+                  <span>
+                    提示内容
+                  </span>
+                </span>
               </div>
             </div>
           </div>
@@ -60,52 +46,38 @@ exports[`Renderer:alert var 1`] = `
     class="cxd-Page"
   >
     <div
-      class="cxd-PullRefresh"
+      class="cxd-Page-content"
     >
       <div
-        class="cxd-PullRefresh-wrap"
-        style="transform: translate3d(0, 0px, 0);"
+        class="cxd-Page-main"
       >
         <div
-          class="cxd-PullRefresh-header"
-        >
-          
-        </div>
-        <div
-          class="cxd-Page-content"
+          class="cxd-Page-body"
         >
           <div
-            class="cxd-Page-main"
+            class="cxd-Alert cxd-Alert--success"
           >
             <div
-              class="cxd-Page-body"
+              class="cxd-Alert-icon"
+            >
+              <icon-mock
+                classname="icon icon-copy"
+                icon="copy"
+              />
+            </div>
+            <div
+              class="cxd-Alert-content"
             >
               <div
-                class="cxd-Alert cxd-Alert--success"
+                class="cxd-Alert-desc"
               >
-                <div
-                  class="cxd-Alert-icon"
+                <span
+                  class="cxd-TplField"
                 >
-                  <icon-mock
-                    classname="icon icon-copy"
-                    icon="copy"
-                  />
-                </div>
-                <div
-                  class="cxd-Alert-content"
-                >
-                  <div
-                    class="cxd-Alert-desc"
-                  >
-                    <span
-                      class="cxd-TplField"
-                    >
-                      <span>
-                        tpl
-                      </span>
-                    </span>
-                  </div>
-                </div>
+                  <span>
+                    tpl
+                  </span>
+                </span>
               </div>
             </div>
           </div>

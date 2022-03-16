@@ -6,334 +6,320 @@ exports[`Renderer:transfer 1`] = `
     class="cxd-Page"
   >
     <div
-      class="cxd-PullRefresh"
+      class="cxd-Page-content"
     >
       <div
-        class="cxd-PullRefresh-wrap"
-        style="transform: translate3d(0, 0px, 0);"
+        class="cxd-Page-main"
       >
         <div
-          class="cxd-PullRefresh-header"
-        >
-          
-        </div>
-        <div
-          class="cxd-Page-content"
+          class="cxd-Page-body"
         >
           <div
-            class="cxd-Page-main"
+            class="cxd-Panel cxd-Panel--default cxd-Panel--form"
+            style="position: relative;"
           >
             <div
-              class="cxd-Page-body"
+              class="cxd-Panel-heading"
             >
-              <div
-                class="cxd-Panel cxd-Panel--default cxd-Panel--form"
-                style="position: relative;"
+              <h3
+                class="cxd-Panel-title"
               >
-                <div
-                  class="cxd-Panel-heading"
+                <span
+                  class="cxd-TplField"
                 >
-                  <h3
-                    class="cxd-Panel-title"
-                  >
-                    <span
-                      class="cxd-TplField"
-                    >
-                      <span>
-                        表单
-                      </span>
-                    </span>
-                  </h3>
-                </div>
+                  <span>
+                    表单
+                  </span>
+                </span>
+              </h3>
+            </div>
+            <div
+              class="cxd-Panel-body"
+            >
+              <form
+                class="cxd-Form cxd-Form--normal"
+                novalidate=""
+              >
+                <input
+                  style="display: none;"
+                  type="submit"
+                />
                 <div
-                  class="cxd-Panel-body"
+                  class="cxd-Form-item cxd-Form-item--normal"
+                  data-role="form-item"
                 >
-                  <form
-                    class="cxd-Form cxd-Form--normal"
-                    novalidate=""
+                  <label
+                    class="cxd-Form-label"
                   >
-                    <input
-                      style="display: none;"
-                      type="submit"
-                    />
-                    <div
-                      class="cxd-Form-item cxd-Form-item--normal"
-                      data-role="form-item"
-                    >
-                      <label
-                        class="cxd-Form-label"
+                    <span>
+                      <span
+                        class="cxd-TplField"
                       >
                         <span>
-                          <span
-                            class="cxd-TplField"
-                          >
-                            <span>
-                              默认
-                            </span>
-                          </span>
+                          默认
                         </span>
-                      </label>
+                      </span>
+                    </span>
+                  </label>
+                  <div
+                    class="cxd-TransferControl cxd-Form-control"
+                  >
+                    <div
+                      class="cxd-Transfer"
+                    >
                       <div
-                        class="cxd-TransferControl cxd-Form-control"
+                        class="cxd-Transfer-select"
                       >
                         <div
-                          class="cxd-Transfer"
+                          class="cxd-Transfer-title"
+                        >
+                          <span>
+                            可选项
+                            <span>
+                              （
+                              0
+                              /
+                              6
+                              ）
+                            </span>
+                          </span>
+                          <a
+                            class="cxd-Transfer-checkAll"
+                          >
+                            全选
+                          </a>
+                        </div>
+                        <div
+                          class="cxd-GroupedSelection cxd-Transfer-selection"
                         >
                           <div
-                            class="cxd-Transfer-select"
+                            class="cxd-GroupedSelection-item"
                           >
+                            <label
+                              class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full cxd-Checkbox--sm"
+                            >
+                              <input
+                                type="checkbox"
+                              />
+                              <i />
+                              <span
+                                class=""
+                              />
+                            </label>
                             <div
-                              class="cxd-Transfer-title"
+                              class="cxd-GroupedSelection-itemLabel"
                             >
                               <span>
-                                可选项
-                                <span>
-                                  （
-                                  0
-                                  /
-                                  6
-                                  ）
-                                </span>
+                                诸葛亮
                               </span>
-                              <a
-                                class="cxd-Transfer-checkAll"
-                              >
-                                全选
-                              </a>
-                            </div>
-                            <div
-                              class="cxd-GroupedSelection cxd-Transfer-selection"
-                            >
-                              <div
-                                class="cxd-GroupedSelection-item"
-                              >
-                                <label
-                                  class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full cxd-Checkbox--sm"
-                                >
-                                  <input
-                                    type="checkbox"
-                                  />
-                                  <i />
-                                  <span
-                                    class=""
-                                  />
-                                </label>
-                                <div
-                                  class="cxd-GroupedSelection-itemLabel"
-                                >
-                                  <span>
-                                    诸葛亮
-                                  </span>
-                                </div>
-                              </div>
-                              <div
-                                class="cxd-GroupedSelection-item"
-                              >
-                                <label
-                                  class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full cxd-Checkbox--sm"
-                                >
-                                  <input
-                                    type="checkbox"
-                                  />
-                                  <i />
-                                  <span
-                                    class=""
-                                  />
-                                </label>
-                                <div
-                                  class="cxd-GroupedSelection-itemLabel"
-                                >
-                                  <span>
-                                    曹操
-                                  </span>
-                                </div>
-                              </div>
-                              <div
-                                class="cxd-GroupedSelection-item"
-                              >
-                                <label
-                                  class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full cxd-Checkbox--sm"
-                                >
-                                  <input
-                                    type="checkbox"
-                                  />
-                                  <i />
-                                  <span
-                                    class=""
-                                  />
-                                </label>
-                                <div
-                                  class="cxd-GroupedSelection-itemLabel"
-                                >
-                                  <span>
-                                    钟无艳
-                                  </span>
-                                </div>
-                              </div>
-                              <div
-                                class="cxd-GroupedSelection-item"
-                              >
-                                <label
-                                  class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full cxd-Checkbox--sm"
-                                >
-                                  <input
-                                    type="checkbox"
-                                  />
-                                  <i />
-                                  <span
-                                    class=""
-                                  />
-                                </label>
-                                <div
-                                  class="cxd-GroupedSelection-itemLabel"
-                                >
-                                  <span>
-                                    李白
-                                  </span>
-                                </div>
-                              </div>
-                              <div
-                                class="cxd-GroupedSelection-item"
-                              >
-                                <label
-                                  class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full cxd-Checkbox--sm"
-                                >
-                                  <input
-                                    type="checkbox"
-                                  />
-                                  <i />
-                                  <span
-                                    class=""
-                                  />
-                                </label>
-                                <div
-                                  class="cxd-GroupedSelection-itemLabel"
-                                >
-                                  <span>
-                                    韩信
-                                  </span>
-                                </div>
-                              </div>
-                              <div
-                                class="cxd-GroupedSelection-item"
-                              >
-                                <label
-                                  class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full cxd-Checkbox--sm"
-                                >
-                                  <input
-                                    type="checkbox"
-                                  />
-                                  <i />
-                                  <span
-                                    class=""
-                                  />
-                                </label>
-                                <div
-                                  class="cxd-GroupedSelection-itemLabel"
-                                >
-                                  <span>
-                                    云中君
-                                  </span>
-                                </div>
-                              </div>
                             </div>
                           </div>
                           <div
-                            class="cxd-Transfer-mid"
-                          />
-                          <div
-                            class="cxd-Transfer-result"
+                            class="cxd-GroupedSelection-item"
                           >
+                            <label
+                              class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full cxd-Checkbox--sm"
+                            >
+                              <input
+                                type="checkbox"
+                              />
+                              <i />
+                              <span
+                                class=""
+                              />
+                            </label>
                             <div
-                              class="cxd-Transfer-title"
+                              class="cxd-GroupedSelection-itemLabel"
                             >
                               <span>
-                                已选项
-                                <span>
-                                  （
-                                  0
-                                  /
-                                  6
-                                  ）
-                                </span>
+                                曹操
                               </span>
-                              <a
-                                class="cxd-Transfer-clearAll is-disabled"
-                              >
-                                清空
-                              </a>
                             </div>
-                            <div
-                              class="cxd-Selections cxd-Transfer-value"
+                          </div>
+                          <div
+                            class="cxd-GroupedSelection-item"
+                          >
+                            <label
+                              class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full cxd-Checkbox--sm"
                             >
-                              <div
-                                class="cxd-Selections-placeholder"
-                              >
-                                请选择左侧数据
-                              </div>
+                              <input
+                                type="checkbox"
+                              />
+                              <i />
+                              <span
+                                class=""
+                              />
+                            </label>
+                            <div
+                              class="cxd-GroupedSelection-itemLabel"
+                            >
+                              <span>
+                                钟无艳
+                              </span>
+                            </div>
+                          </div>
+                          <div
+                            class="cxd-GroupedSelection-item"
+                          >
+                            <label
+                              class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full cxd-Checkbox--sm"
+                            >
+                              <input
+                                type="checkbox"
+                              />
+                              <i />
+                              <span
+                                class=""
+                              />
+                            </label>
+                            <div
+                              class="cxd-GroupedSelection-itemLabel"
+                            >
+                              <span>
+                                李白
+                              </span>
+                            </div>
+                          </div>
+                          <div
+                            class="cxd-GroupedSelection-item"
+                          >
+                            <label
+                              class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full cxd-Checkbox--sm"
+                            >
+                              <input
+                                type="checkbox"
+                              />
+                              <i />
+                              <span
+                                class=""
+                              />
+                            </label>
+                            <div
+                              class="cxd-GroupedSelection-itemLabel"
+                            >
+                              <span>
+                                韩信
+                              </span>
+                            </div>
+                          </div>
+                          <div
+                            class="cxd-GroupedSelection-item"
+                          >
+                            <label
+                              class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full cxd-Checkbox--sm"
+                            >
+                              <input
+                                type="checkbox"
+                              />
+                              <i />
+                              <span
+                                class=""
+                              />
+                            </label>
+                            <div
+                              class="cxd-GroupedSelection-itemLabel"
+                            >
+                              <span>
+                                云中君
+                              </span>
                             </div>
                           </div>
                         </div>
                       </div>
+                      <div
+                        class="cxd-Transfer-mid"
+                      />
+                      <div
+                        class="cxd-Transfer-result"
+                      >
+                        <div
+                          class="cxd-Transfer-title"
+                        >
+                          <span>
+                            已选项
+                            <span>
+                              （
+                              0
+                              /
+                              6
+                              ）
+                            </span>
+                          </span>
+                          <a
+                            class="cxd-Transfer-clearAll is-disabled"
+                          >
+                            清空
+                          </a>
+                        </div>
+                        <div
+                          class="cxd-Selections cxd-Transfer-value"
+                        >
+                          <div
+                            class="cxd-Selections-placeholder"
+                          >
+                            请选择左侧数据
+                          </div>
+                        </div>
+                      </div>
                     </div>
-                  </form>
+                  </div>
                 </div>
-                <div
-                  class="cxd-Panel-footerWrap"
+              </form>
+            </div>
+            <div
+              class="cxd-Panel-footerWrap"
+            >
+              <div
+                class="cxd-Panel-btnToolbar cxd-Panel-footer"
+              >
+                <button
+                  class="cxd-Button cxd-Button--primary"
+                  type="submit"
                 >
-                  <div
-                    class="cxd-Panel-btnToolbar cxd-Panel-footer"
-                  >
-                    <button
-                      class="cxd-Button cxd-Button--primary"
-                      type="submit"
-                    >
-                      <span>
-                        提交
-                      </span>
-                    </button>
-                  </div>
-                </div>
-                <div
-                  class="resize-sensor"
-                  style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
-                >
-                  
-  
-                  <div
-                    class="resize-sensor-expand"
-                    style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-                  >
-                    
-    
-                    <div
-                      style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
-                    />
-                    
-  
-                  </div>
-                  
-  
-                  <div
-                    class="resize-sensor-shrink"
-                    style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-                  >
-                    
-    
-                    <div
-                      style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
-                    />
-                    
-  
-                  </div>
-                  
-  
-                  <div
-                    class="resize-sensor-appear"
-                    style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
-                  />
-                </div>
+                  <span>
+                    提交
+                  </span>
+                </button>
               </div>
+            </div>
+            <div
+              class="resize-sensor"
+              style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
+            >
+              
+  
+              <div
+                class="resize-sensor-expand"
+                style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+              >
+                
+    
+                <div
+                  style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
+                />
+                
+  
+              </div>
+              
+  
+              <div
+                class="resize-sensor-shrink"
+                style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+              >
+                
+    
+                <div
+                  style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
+                />
+                
+  
+              </div>
+              
+  
+              <div
+                class="resize-sensor-appear"
+                style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
+              />
             </div>
           </div>
         </div>
@@ -349,265 +335,251 @@ exports[`Renderer:transfer chained 1`] = `
     class="cxd-Page"
   >
     <div
-      class="cxd-PullRefresh"
+      class="cxd-Page-content"
     >
       <div
-        class="cxd-PullRefresh-wrap"
-        style="transform: translate3d(0, 0px, 0);"
+        class="cxd-Page-main"
       >
         <div
-          class="cxd-PullRefresh-header"
-        >
-          
-        </div>
-        <div
-          class="cxd-Page-content"
+          class="cxd-Page-body"
         >
           <div
-            class="cxd-Page-main"
+            class="cxd-Panel cxd-Panel--default cxd-Panel--form"
+            style="position: relative;"
           >
             <div
-              class="cxd-Page-body"
+              class="cxd-Panel-heading"
             >
-              <div
-                class="cxd-Panel cxd-Panel--default cxd-Panel--form"
-                style="position: relative;"
+              <h3
+                class="cxd-Panel-title"
               >
-                <div
-                  class="cxd-Panel-heading"
+                <span
+                  class="cxd-TplField"
                 >
-                  <h3
-                    class="cxd-Panel-title"
-                  >
-                    <span
-                      class="cxd-TplField"
-                    >
-                      <span>
-                        表单
-                      </span>
-                    </span>
-                  </h3>
-                </div>
+                  <span>
+                    表单
+                  </span>
+                </span>
+              </h3>
+            </div>
+            <div
+              class="cxd-Panel-body"
+            >
+              <form
+                class="cxd-Form cxd-Form--normal"
+                novalidate=""
+              >
+                <input
+                  style="display: none;"
+                  type="submit"
+                />
                 <div
-                  class="cxd-Panel-body"
+                  class="cxd-Form-item cxd-Form-item--normal"
+                  data-role="form-item"
                 >
-                  <form
-                    class="cxd-Form cxd-Form--normal"
-                    novalidate=""
+                  <label
+                    class="cxd-Form-label"
                   >
-                    <input
-                      style="display: none;"
-                      type="submit"
-                    />
-                    <div
-                      class="cxd-Form-item cxd-Form-item--normal"
-                      data-role="form-item"
-                    >
-                      <label
-                        class="cxd-Form-label"
+                    <span>
+                      <span
+                        class="cxd-TplField"
                       >
                         <span>
-                          <span
-                            class="cxd-TplField"
-                          >
-                            <span>
-                              级联选择
-                            </span>
-                          </span>
+                          级联选择
                         </span>
-                      </label>
+                      </span>
+                    </span>
+                  </label>
+                  <div
+                    class="cxd-TransferControl cxd-Form-control"
+                  >
+                    <div
+                      class="cxd-Transfer"
+                    >
                       <div
-                        class="cxd-TransferControl cxd-Form-control"
+                        class="cxd-Transfer-select"
                       >
                         <div
-                          class="cxd-Transfer"
+                          class="cxd-Transfer-title"
+                        >
+                          <span>
+                            可选项
+                            <span>
+                              （
+                              0
+                              /
+                              6
+                              ）
+                            </span>
+                          </span>
+                          <a
+                            class="cxd-Transfer-checkAll"
+                          >
+                            全选
+                          </a>
+                        </div>
+                        <div
+                          class="cxd-Transfer-search"
                         >
                           <div
-                            class="cxd-Transfer-select"
+                            class="cxd-InputBox"
+                          >
+                            <input
+                              placeholder="请输入关键字"
+                              size="12"
+                              theme="cxd"
+                              type="text"
+                              value=""
+                            />
+                            <icon-mock
+                              classname="icon icon-search"
+                              icon="search"
+                            />
+                          </div>
+                        </div>
+                        <div
+                          class="cxd-ChainedSelection cxd-Transfer-selection"
+                        >
+                          <div
+                            class="cxd-ChainedSelection-col"
                           >
                             <div
-                              class="cxd-Transfer-title"
+                              class="cxd-ChainedSelection-item"
                             >
-                              <span>
-                                可选项
+                              <div
+                                class="cxd-ChainedSelection-itemLabel"
+                              >
                                 <span>
-                                  （
-                                  0
-                                  /
-                                  6
-                                  ）
+                                  法师
                                 </span>
-                              </span>
-                              <a
-                                class="cxd-Transfer-checkAll"
-                              >
-                                全选
-                              </a>
-                            </div>
-                            <div
-                              class="cxd-Transfer-search"
-                            >
-                              <div
-                                class="cxd-InputBox"
-                              >
-                                <input
-                                  placeholder="请输入关键字"
-                                  size="12"
-                                  theme="cxd"
-                                  type="text"
-                                  value=""
-                                />
-                                <icon-mock
-                                  classname="icon icon-search"
-                                  icon="search"
-                                />
                               </div>
                             </div>
                             <div
-                              class="cxd-ChainedSelection cxd-Transfer-selection"
+                              class="cxd-ChainedSelection-item"
                             >
                               <div
-                                class="cxd-ChainedSelection-col"
+                                class="cxd-ChainedSelection-itemLabel"
                               >
-                                <div
-                                  class="cxd-ChainedSelection-item"
-                                >
-                                  <div
-                                    class="cxd-ChainedSelection-itemLabel"
-                                  >
-                                    <span>
-                                      法师
-                                    </span>
-                                  </div>
-                                </div>
-                                <div
-                                  class="cxd-ChainedSelection-item"
-                                >
-                                  <div
-                                    class="cxd-ChainedSelection-itemLabel"
-                                  >
-                                    <span>
-                                      战士
-                                    </span>
-                                  </div>
-                                </div>
-                                <div
-                                  class="cxd-ChainedSelection-item"
-                                >
-                                  <div
-                                    class="cxd-ChainedSelection-itemLabel"
-                                  >
-                                    <span>
-                                      打野
-                                    </span>
-                                  </div>
-                                </div>
+                                <span>
+                                  战士
+                                </span>
                               </div>
+                            </div>
+                            <div
+                              class="cxd-ChainedSelection-item"
+                            >
                               <div
-                                class="cxd-ChainedSelection-col"
+                                class="cxd-ChainedSelection-itemLabel"
                               >
-                                <div
-                                  class="cxd-ChainedSelection-placeholder"
-                                />
+                                <span>
+                                  打野
+                                </span>
                               </div>
                             </div>
                           </div>
                           <div
-                            class="cxd-Transfer-mid"
-                          />
-                          <div
-                            class="cxd-Transfer-result"
+                            class="cxd-ChainedSelection-col"
                           >
                             <div
-                              class="cxd-Transfer-title"
-                            >
-                              <span>
-                                已选项
-                                <span>
-                                  （
-                                  0
-                                  /
-                                  6
-                                  ）
-                                </span>
-                              </span>
-                              <a
-                                class="cxd-Transfer-clearAll is-disabled"
-                              >
-                                清空
-                              </a>
-                            </div>
-                            <div
-                              class="cxd-Selections cxd-Transfer-value"
-                            >
-                              <div
-                                class="cxd-Selections-placeholder"
-                              >
-                                请选择左侧数据
-                              </div>
-                            </div>
+                              class="cxd-ChainedSelection-placeholder"
+                            />
+                          </div>
+                        </div>
+                      </div>
+                      <div
+                        class="cxd-Transfer-mid"
+                      />
+                      <div
+                        class="cxd-Transfer-result"
+                      >
+                        <div
+                          class="cxd-Transfer-title"
+                        >
+                          <span>
+                            已选项
+                            <span>
+                              （
+                              0
+                              /
+                              6
+                              ）
+                            </span>
+                          </span>
+                          <a
+                            class="cxd-Transfer-clearAll is-disabled"
+                          >
+                            清空
+                          </a>
+                        </div>
+                        <div
+                          class="cxd-Selections cxd-Transfer-value"
+                        >
+                          <div
+                            class="cxd-Selections-placeholder"
+                          >
+                            请选择左侧数据
                           </div>
                         </div>
                       </div>
                     </div>
-                  </form>
+                  </div>
                 </div>
-                <div
-                  class="cxd-Panel-footerWrap"
+              </form>
+            </div>
+            <div
+              class="cxd-Panel-footerWrap"
+            >
+              <div
+                class="cxd-Panel-btnToolbar cxd-Panel-footer"
+              >
+                <button
+                  class="cxd-Button cxd-Button--primary"
+                  type="submit"
                 >
-                  <div
-                    class="cxd-Panel-btnToolbar cxd-Panel-footer"
-                  >
-                    <button
-                      class="cxd-Button cxd-Button--primary"
-                      type="submit"
-                    >
-                      <span>
-                        提交
-                      </span>
-                    </button>
-                  </div>
-                </div>
-                <div
-                  class="resize-sensor"
-                  style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
-                >
-                  
-  
-                  <div
-                    class="resize-sensor-expand"
-                    style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-                  >
-                    
-    
-                    <div
-                      style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
-                    />
-                    
-  
-                  </div>
-                  
-  
-                  <div
-                    class="resize-sensor-shrink"
-                    style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-                  >
-                    
-    
-                    <div
-                      style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
-                    />
-                    
-  
-                  </div>
-                  
-  
-                  <div
-                    class="resize-sensor-appear"
-                    style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
-                  />
-                </div>
+                  <span>
+                    提交
+                  </span>
+                </button>
               </div>
+            </div>
+            <div
+              class="resize-sensor"
+              style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
+            >
+              
+  
+              <div
+                class="resize-sensor-expand"
+                style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+              >
+                
+    
+                <div
+                  style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
+                />
+                
+  
+              </div>
+              
+  
+              <div
+                class="resize-sensor-shrink"
+                style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+              >
+                
+    
+                <div
+                  style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
+                />
+                
+  
+              </div>
+              
+  
+              <div
+                class="resize-sensor-appear"
+                style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
+              />
             </div>
           </div>
         </div>
@@ -623,960 +595,116 @@ exports[`Renderer:transfer left tree 1`] = `
     class="cxd-Page"
   >
     <div
-      class="cxd-PullRefresh"
+      class="cxd-Page-content"
     >
       <div
-        class="cxd-PullRefresh-wrap"
-        style="transform: translate3d(0, 0px, 0);"
+        class="cxd-Page-main"
       >
         <div
-          class="cxd-PullRefresh-header"
-        >
-          
-        </div>
-        <div
-          class="cxd-Page-content"
+          class="cxd-Page-body"
         >
           <div
-            class="cxd-Page-main"
+            class="cxd-Panel cxd-Panel--default cxd-Panel--form"
+            style="position: relative;"
           >
             <div
-              class="cxd-Page-body"
+              class="cxd-Panel-heading"
             >
-              <div
-                class="cxd-Panel cxd-Panel--default cxd-Panel--form"
-                style="position: relative;"
+              <h3
+                class="cxd-Panel-title"
               >
-                <div
-                  class="cxd-Panel-heading"
+                <span
+                  class="cxd-TplField"
                 >
-                  <h3
-                    class="cxd-Panel-title"
-                  >
-                    <span
-                      class="cxd-TplField"
-                    >
-                      <span>
-                        表单
-                      </span>
-                    </span>
-                  </h3>
-                </div>
+                  <span>
+                    表单
+                  </span>
+                </span>
+              </h3>
+            </div>
+            <div
+              class="cxd-Panel-body"
+            >
+              <form
+                class="cxd-Form cxd-Form--normal"
+                novalidate=""
+              >
+                <input
+                  style="display: none;"
+                  type="submit"
+                />
                 <div
-                  class="cxd-Panel-body"
+                  class="cxd-Form-item cxd-Form-item--normal"
+                  data-role="form-item"
                 >
-                  <form
-                    class="cxd-Form cxd-Form--normal"
-                    novalidate=""
+                  <label
+                    class="cxd-Form-label"
                   >
-                    <input
-                      style="display: none;"
-                      type="submit"
-                    />
-                    <div
-                      class="cxd-Form-item cxd-Form-item--normal"
-                      data-role="form-item"
-                    >
-                      <label
-                        class="cxd-Form-label"
+                    <span>
+                      <span
+                        class="cxd-TplField"
                       >
                         <span>
-                          <span
-                            class="cxd-TplField"
-                          >
-                            <span>
-                              关联选择模式
-                            </span>
-                          </span>
+                          关联选择模式
                         </span>
-                      </label>
+                      </span>
+                    </span>
+                  </label>
+                  <div
+                    class="cxd-TransferControl cxd-Form-control"
+                  >
+                    <div
+                      class="cxd-Transfer"
+                    >
                       <div
-                        class="cxd-TransferControl cxd-Form-control"
+                        class="cxd-Transfer-select"
                       >
                         <div
-                          class="cxd-Transfer"
+                          class="cxd-Transfer-title"
+                        >
+                          <span>
+                            可选项
+                            <span>
+                              （
+                              0
+                              /
+                              5
+                              ）
+                            </span>
+                          </span>
+                          <a
+                            class="cxd-Transfer-checkAll"
+                          >
+                            全选
+                          </a>
+                        </div>
+                        <div
+                          class="cxd-Transfer-search"
                         >
                           <div
-                            class="cxd-Transfer-select"
+                            class="cxd-InputBox"
                           >
-                            <div
-                              class="cxd-Transfer-title"
-                            >
-                              <span>
-                                可选项
-                                <span>
-                                  （
-                                  0
-                                  /
-                                  5
-                                  ）
-                                </span>
-                              </span>
-                              <a
-                                class="cxd-Transfer-checkAll"
-                              >
-                                全选
-                              </a>
-                            </div>
-                            <div
-                              class="cxd-Transfer-search"
-                            >
-                              <div
-                                class="cxd-InputBox"
-                              >
-                                <input
-                                  placeholder="请输入关键字"
-                                  size="12"
-                                  theme="cxd"
-                                  type="text"
-                                  value=""
-                                />
-                                <icon-mock
-                                  classname="icon icon-search"
-                                  icon="search"
-                                />
-                              </div>
-                            </div>
-                            <div
-                              class="cxd-AssociatedSelection cxd-Transfer-selection"
-                            >
-                              <div
-                                class="cxd-AssociatedSelection-left"
-                              >
-                                <div
-                                  class="cxd-TreeSelection"
-                                >
-                                  <div
-                                    class="cxd-TreeSelection-item is-expanded"
-                                  >
-                                    <div
-                                      class="cxd-TreeSelection-itemInner"
-                                    >
-                                      <a
-                                        class="cxd-Table-expandBtn is-active"
-                                      >
-                                        <icon-mock
-                                          classname="icon icon-right-arrow-bold"
-                                          icon="right-arrow-bold"
-                                        />
-                                      </a>
-                                      <div
-                                        class="cxd-TreeSelection-itemLabel"
-                                      >
-                                        <span>
-                                          法师
-                                        </span>
-                                      </div>
-                                    </div>
-                                    <div
-                                      class="cxd-TreeSelection-sublist"
-                                    >
-                                      <div
-                                        class="cxd-TreeSelection-item"
-                                      >
-                                        <div
-                                          class="cxd-TreeSelection-itemInner"
-                                        >
-                                          <div
-                                            class="cxd-TreeSelection-itemLabel"
-                                          >
-                                            <span>
-                                              诸葛亮
-                                            </span>
-                                          </div>
-                                        </div>
-                                      </div>
-                                    </div>
-                                  </div>
-                                  <div
-                                    class="cxd-TreeSelection-item"
-                                  >
-                                    <div
-                                      class="cxd-TreeSelection-itemInner"
-                                    >
-                                      <a
-                                        class="cxd-Table-expandBtn"
-                                      >
-                                        <icon-mock
-                                          classname="icon icon-right-arrow-bold"
-                                          icon="right-arrow-bold"
-                                        />
-                                      </a>
-                                      <div
-                                        class="cxd-TreeSelection-itemLabel"
-                                      >
-                                        <span>
-                                          战士
-                                        </span>
-                                      </div>
-                                    </div>
-                                    <div
-                                      class="cxd-TreeSelection-sublist"
-                                    >
-                                      <div
-                                        class="cxd-TreeSelection-item"
-                                      >
-                                        <div
-                                          class="cxd-TreeSelection-itemInner"
-                                        >
-                                          <div
-                                            class="cxd-TreeSelection-itemLabel"
-                                          >
-                                            <span>
-                                              曹操
-                                            </span>
-                                          </div>
-                                        </div>
-                                      </div>
-                                      <div
-                                        class="cxd-TreeSelection-item"
-                                      >
-                                        <div
-                                          class="cxd-TreeSelection-itemInner"
-                                        >
-                                          <div
-                                            class="cxd-TreeSelection-itemLabel"
-                                          >
-                                            <span>
-                                              钟无艳
-                                            </span>
-                                          </div>
-                                        </div>
-                                      </div>
-                                    </div>
-                                  </div>
-                                  <div
-                                    class="cxd-TreeSelection-item"
-                                  >
-                                    <div
-                                      class="cxd-TreeSelection-itemInner"
-                                    >
-                                      <a
-                                        class="cxd-Table-expandBtn"
-                                      >
-                                        <icon-mock
-                                          classname="icon icon-right-arrow-bold"
-                                          icon="right-arrow-bold"
-                                        />
-                                      </a>
-                                      <div
-                                        class="cxd-TreeSelection-itemLabel"
-                                      >
-                                        <span>
-                                          打野
-                                        </span>
-                                      </div>
-                                    </div>
-                                    <div
-                                      class="cxd-TreeSelection-sublist"
-                                    >
-                                      <div
-                                        class="cxd-TreeSelection-item"
-                                      >
-                                        <div
-                                          class="cxd-TreeSelection-itemInner"
-                                        >
-                                          <div
-                                            class="cxd-TreeSelection-itemLabel"
-                                          >
-                                            <span>
-                                              李白
-                                            </span>
-                                          </div>
-                                        </div>
-                                      </div>
-                                      <div
-                                        class="cxd-TreeSelection-item"
-                                      >
-                                        <div
-                                          class="cxd-TreeSelection-itemInner"
-                                        >
-                                          <div
-                                            class="cxd-TreeSelection-itemLabel"
-                                          >
-                                            <span>
-                                              韩信
-                                            </span>
-                                          </div>
-                                        </div>
-                                      </div>
-                                      <div
-                                        class="cxd-TreeSelection-item"
-                                      >
-                                        <div
-                                          class="cxd-TreeSelection-itemInner"
-                                        >
-                                          <div
-                                            class="cxd-TreeSelection-itemLabel"
-                                          >
-                                            <span>
-                                              云中君
-                                            </span>
-                                          </div>
-                                        </div>
-                                      </div>
-                                    </div>
-                                  </div>
-                                </div>
-                              </div>
-                              <div
-                                class="cxd-AssociatedSelection-right"
-                              >
-                                <div
-                                  class="cxd-AssociatedSelection-box"
-                                >
-                                  请选择左侧数据
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                          <div
-                            class="cxd-Transfer-mid"
-                          />
-                          <div
-                            class="cxd-Transfer-result"
-                          >
-                            <div
-                              class="cxd-Transfer-title"
-                            >
-                              <span>
-                                已选项
-                                <span>
-                                  （
-                                  0
-                                  /
-                                  5
-                                  ）
-                                </span>
-                              </span>
-                              <a
-                                class="cxd-Transfer-clearAll is-disabled"
-                              >
-                                清空
-                              </a>
-                            </div>
-                            <div
-                              class="cxd-Selections cxd-Transfer-value"
-                            >
-                              <div
-                                class="cxd-Selections-placeholder"
-                              >
-                                请选择左侧数据
-                              </div>
-                            </div>
+                            <input
+                              placeholder="请输入关键字"
+                              size="12"
+                              theme="cxd"
+                              type="text"
+                              value=""
+                            />
+                            <icon-mock
+                              classname="icon icon-search"
+                              icon="search"
+                            />
                           </div>
                         </div>
-                      </div>
-                    </div>
-                  </form>
-                </div>
-                <div
-                  class="cxd-Panel-footerWrap"
-                >
-                  <div
-                    class="cxd-Panel-btnToolbar cxd-Panel-footer"
-                  >
-                    <button
-                      class="cxd-Button cxd-Button--primary"
-                      type="submit"
-                    >
-                      <span>
-                        提交
-                      </span>
-                    </button>
-                  </div>
-                </div>
-                <div
-                  class="resize-sensor"
-                  style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
-                >
-                  
-  
-                  <div
-                    class="resize-sensor-expand"
-                    style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-                  >
-                    
-    
-                    <div
-                      style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
-                    />
-                    
-  
-                  </div>
-                  
-  
-                  <div
-                    class="resize-sensor-shrink"
-                    style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-                  >
-                    
-    
-                    <div
-                      style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
-                    />
-                    
-  
-                  </div>
-                  
-  
-                  <div
-                    class="resize-sensor-appear"
-                    style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
-                  />
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-`;
-
-exports[`Renderer:transfer table 1`] = `
-<div>
-  <div
-    class="cxd-Page"
-  >
-    <div
-      class="cxd-PullRefresh"
-    >
-      <div
-        class="cxd-PullRefresh-wrap"
-        style="transform: translate3d(0, 0px, 0);"
-      >
-        <div
-          class="cxd-PullRefresh-header"
-        >
-          
-        </div>
-        <div
-          class="cxd-Page-content"
-        >
-          <div
-            class="cxd-Page-main"
-          >
-            <div
-              class="cxd-Page-body"
-            >
-              <div
-                class="cxd-Panel cxd-Panel--default cxd-Panel--form"
-                style="position: relative;"
-              >
-                <div
-                  class="cxd-Panel-heading"
-                >
-                  <h3
-                    class="cxd-Panel-title"
-                  >
-                    <span
-                      class="cxd-TplField"
-                    >
-                      <span>
-                        表单
-                      </span>
-                    </span>
-                  </h3>
-                </div>
-                <div
-                  class="cxd-Panel-body"
-                >
-                  <form
-                    class="cxd-Form cxd-Form--normal"
-                    novalidate=""
-                  >
-                    <input
-                      style="display: none;"
-                      type="submit"
-                    />
-                    <div
-                      class="cxd-Form-item cxd-Form-item--normal"
-                      data-role="form-item"
-                    >
-                      <label
-                        class="cxd-Form-label"
-                      >
-                        <span>
-                          <span
-                            class="cxd-TplField"
-                          >
-                            <span>
-                              表格形式
-                            </span>
-                          </span>
-                        </span>
-                      </label>
-                      <div
-                        class="cxd-TransferControl cxd-Form-control"
-                      >
                         <div
-                          class="cxd-Transfer"
+                          class="cxd-AssociatedSelection cxd-Transfer-selection"
                         >
                           <div
-                            class="cxd-Transfer-select"
+                            class="cxd-AssociatedSelection-left"
                           >
                             <div
-                              class="cxd-Transfer-title cxd-Transfer-title--light"
-                            >
-                              <span>
-                                可选项
-                                <span>
-                                  （
-                                  0
-                                  /
-                                  6
-                                  ）
-                                </span>
-                              </span>
-                            </div>
-                            <div
-                              class="cxd-TableSelection cxd-Transfer-selection"
-                            >
-                              <div
-                                class="cxd-Table-content"
-                              >
-                                <table
-                                  class="cxd-Table-table"
-                                >
-                                  <thead>
-                                    <tr>
-                                      <th
-                                        class="cxd-Table-checkCell"
-                                      >
-                                        <label
-                                          class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full cxd-Checkbox--sm"
-                                        >
-                                          <input
-                                            type="checkbox"
-                                          />
-                                          <i />
-                                          <span
-                                            class=""
-                                          />
-                                        </label>
-                                      </th>
-                                      <th>
-                                        英雄
-                                      </th>
-                                      <th>
-                                        位置
-                                      </th>
-                                    </tr>
-                                  </thead>
-                                  <tbody>
-                                    <tr
-                                      class=""
-                                    >
-                                      <td
-                                        class="cxd-Table-checkCell"
-                                      >
-                                        <label
-                                          class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full cxd-Checkbox--sm"
-                                        >
-                                          <input
-                                            type="checkbox"
-                                          />
-                                          <i />
-                                          <span
-                                            class=""
-                                          />
-                                        </label>
-                                      </td>
-                                      <td>
-                                        <span
-                                          class="cxd-PlainField"
-                                        >
-                                          诸葛亮
-                                        </span>
-                                      </td>
-                                      <td>
-                                        <span
-                                          class="cxd-PlainField"
-                                        >
-                                          中单
-                                        </span>
-                                      </td>
-                                    </tr>
-                                    <tr
-                                      class=""
-                                    >
-                                      <td
-                                        class="cxd-Table-checkCell"
-                                      >
-                                        <label
-                                          class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full cxd-Checkbox--sm"
-                                        >
-                                          <input
-                                            type="checkbox"
-                                          />
-                                          <i />
-                                          <span
-                                            class=""
-                                          />
-                                        </label>
-                                      </td>
-                                      <td>
-                                        <span
-                                          class="cxd-PlainField"
-                                        >
-                                          曹操
-                                        </span>
-                                      </td>
-                                      <td>
-                                        <span
-                                          class="cxd-PlainField"
-                                        >
-                                          上单
-                                        </span>
-                                      </td>
-                                    </tr>
-                                    <tr
-                                      class=""
-                                    >
-                                      <td
-                                        class="cxd-Table-checkCell"
-                                      >
-                                        <label
-                                          class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full cxd-Checkbox--sm"
-                                        >
-                                          <input
-                                            type="checkbox"
-                                          />
-                                          <i />
-                                          <span
-                                            class=""
-                                          />
-                                        </label>
-                                      </td>
-                                      <td>
-                                        <span
-                                          class="cxd-PlainField"
-                                        >
-                                          钟无艳
-                                        </span>
-                                      </td>
-                                      <td>
-                                        <span
-                                          class="cxd-PlainField"
-                                        >
-                                          上单
-                                        </span>
-                                      </td>
-                                    </tr>
-                                    <tr
-                                      class=""
-                                    >
-                                      <td
-                                        class="cxd-Table-checkCell"
-                                      >
-                                        <label
-                                          class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full cxd-Checkbox--sm"
-                                        >
-                                          <input
-                                            type="checkbox"
-                                          />
-                                          <i />
-                                          <span
-                                            class=""
-                                          />
-                                        </label>
-                                      </td>
-                                      <td>
-                                        <span
-                                          class="cxd-PlainField"
-                                        >
-                                          李白
-                                        </span>
-                                      </td>
-                                      <td>
-                                        <span
-                                          class="cxd-PlainField"
-                                        >
-                                          打野
-                                        </span>
-                                      </td>
-                                    </tr>
-                                    <tr
-                                      class=""
-                                    >
-                                      <td
-                                        class="cxd-Table-checkCell"
-                                      >
-                                        <label
-                                          class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full cxd-Checkbox--sm"
-                                        >
-                                          <input
-                                            type="checkbox"
-                                          />
-                                          <i />
-                                          <span
-                                            class=""
-                                          />
-                                        </label>
-                                      </td>
-                                      <td>
-                                        <span
-                                          class="cxd-PlainField"
-                                        >
-                                          韩信
-                                        </span>
-                                      </td>
-                                      <td>
-                                        <span
-                                          class="cxd-PlainField"
-                                        >
-                                          打野
-                                        </span>
-                                      </td>
-                                    </tr>
-                                    <tr
-                                      class=""
-                                    >
-                                      <td
-                                        class="cxd-Table-checkCell"
-                                      >
-                                        <label
-                                          class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full cxd-Checkbox--sm"
-                                        >
-                                          <input
-                                            type="checkbox"
-                                          />
-                                          <i />
-                                          <span
-                                            class=""
-                                          />
-                                        </label>
-                                      </td>
-                                      <td>
-                                        <span
-                                          class="cxd-PlainField"
-                                        >
-                                          云中君
-                                        </span>
-                                      </td>
-                                      <td>
-                                        <span
-                                          class="cxd-PlainField"
-                                        >
-                                          打野
-                                        </span>
-                                      </td>
-                                    </tr>
-                                  </tbody>
-                                </table>
-                              </div>
-                            </div>
-                          </div>
-                          <div
-                            class="cxd-Transfer-mid"
-                          />
-                          <div
-                            class="cxd-Transfer-result"
-                          >
-                            <div
-                              class="cxd-Transfer-title"
-                            >
-                              <span>
-                                已选项
-                                <span>
-                                  （
-                                  0
-                                  /
-                                  6
-                                  ）
-                                </span>
-                              </span>
-                              <a
-                                class="cxd-Transfer-clearAll is-disabled"
-                              >
-                                清空
-                              </a>
-                            </div>
-                            <div
-                              class="cxd-Selections cxd-Transfer-value"
-                            >
-                              <div
-                                class="cxd-Selections-placeholder"
-                              >
-                                请选择左侧数据
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </form>
-                </div>
-                <div
-                  class="cxd-Panel-footerWrap"
-                >
-                  <div
-                    class="cxd-Panel-btnToolbar cxd-Panel-footer"
-                  >
-                    <button
-                      class="cxd-Button cxd-Button--primary"
-                      type="submit"
-                    >
-                      <span>
-                        提交
-                      </span>
-                    </button>
-                  </div>
-                </div>
-                <div
-                  class="resize-sensor"
-                  style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
-                >
-                  
-  
-                  <div
-                    class="resize-sensor-expand"
-                    style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-                  >
-                    
-    
-                    <div
-                      style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
-                    />
-                    
-  
-                  </div>
-                  
-  
-                  <div
-                    class="resize-sensor-shrink"
-                    style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-                  >
-                    
-    
-                    <div
-                      style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
-                    />
-                    
-  
-                  </div>
-                  
-  
-                  <div
-                    class="resize-sensor-appear"
-                    style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
-                  />
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-`;
-
-exports[`Renderer:transfer tree 1`] = `
-<div>
-  <div
-    class="cxd-Page"
-  >
-    <div
-      class="cxd-PullRefresh"
-    >
-      <div
-        class="cxd-PullRefresh-wrap"
-        style="transform: translate3d(0, 0px, 0);"
-      >
-        <div
-          class="cxd-PullRefresh-header"
-        >
-          
-        </div>
-        <div
-          class="cxd-Page-content"
-        >
-          <div
-            class="cxd-Page-main"
-          >
-            <div
-              class="cxd-Page-body"
-            >
-              <div
-                class="cxd-Panel cxd-Panel--default cxd-Panel--form"
-                style="position: relative;"
-              >
-                <div
-                  class="cxd-Panel-heading"
-                >
-                  <h3
-                    class="cxd-Panel-title"
-                  >
-                    <span
-                      class="cxd-TplField"
-                    >
-                      <span>
-                        表单
-                      </span>
-                    </span>
-                  </h3>
-                </div>
-                <div
-                  class="cxd-Panel-body"
-                >
-                  <form
-                    class="cxd-Form cxd-Form--normal"
-                    novalidate=""
-                  >
-                    <input
-                      style="display: none;"
-                      type="submit"
-                    />
-                    <div
-                      class="cxd-Form-item cxd-Form-item--normal"
-                      data-role="form-item"
-                    >
-                      <label
-                        class="cxd-Form-label"
-                      >
-                        <span>
-                          <span
-                            class="cxd-TplField"
-                          >
-                            <span>
-                              树型展示
-                            </span>
-                          </span>
-                        </span>
-                      </label>
-                      <div
-                        class="cxd-TransferControl cxd-Form-control"
-                      >
-                        <div
-                          class="cxd-Transfer"
-                        >
-                          <div
-                            class="cxd-Transfer-select"
-                          >
-                            <div
-                              class="cxd-Transfer-title"
-                            >
-                              <span>
-                                可选项
-                                <span>
-                                  （
-                                  0
-                                  /
-                                  6
-                                  ）
-                                </span>
-                              </span>
-                              <a
-                                class="cxd-Transfer-checkAll"
-                              >
-                                全选
-                              </a>
-                            </div>
-                            <div
-                              class="cxd-TreeSelection cxd-Transfer-selection"
+                              class="cxd-TreeSelection"
                             >
                               <div
                                 class="cxd-TreeSelection-item is-expanded"
@@ -1592,17 +720,6 @@ exports[`Renderer:transfer tree 1`] = `
                                       icon="right-arrow-bold"
                                     />
                                   </a>
-                                  <label
-                                    class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full cxd-Checkbox--sm"
-                                  >
-                                    <input
-                                      type="checkbox"
-                                    />
-                                    <i />
-                                    <span
-                                      class=""
-                                    />
-                                  </label>
                                   <div
                                     class="cxd-TreeSelection-itemLabel"
                                   >
@@ -1620,17 +737,6 @@ exports[`Renderer:transfer tree 1`] = `
                                     <div
                                       class="cxd-TreeSelection-itemInner"
                                     >
-                                      <label
-                                        class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full cxd-Checkbox--sm"
-                                      >
-                                        <input
-                                          type="checkbox"
-                                        />
-                                        <i />
-                                        <span
-                                          class=""
-                                        />
-                                      </label>
                                       <div
                                         class="cxd-TreeSelection-itemLabel"
                                       >
@@ -1656,17 +762,6 @@ exports[`Renderer:transfer tree 1`] = `
                                       icon="right-arrow-bold"
                                     />
                                   </a>
-                                  <label
-                                    class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full cxd-Checkbox--sm"
-                                  >
-                                    <input
-                                      type="checkbox"
-                                    />
-                                    <i />
-                                    <span
-                                      class=""
-                                    />
-                                  </label>
                                   <div
                                     class="cxd-TreeSelection-itemLabel"
                                   >
@@ -1684,17 +779,6 @@ exports[`Renderer:transfer tree 1`] = `
                                     <div
                                       class="cxd-TreeSelection-itemInner"
                                     >
-                                      <label
-                                        class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full cxd-Checkbox--sm"
-                                      >
-                                        <input
-                                          type="checkbox"
-                                        />
-                                        <i />
-                                        <span
-                                          class=""
-                                        />
-                                      </label>
                                       <div
                                         class="cxd-TreeSelection-itemLabel"
                                       >
@@ -1710,17 +794,6 @@ exports[`Renderer:transfer tree 1`] = `
                                     <div
                                       class="cxd-TreeSelection-itemInner"
                                     >
-                                      <label
-                                        class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full cxd-Checkbox--sm"
-                                      >
-                                        <input
-                                          type="checkbox"
-                                        />
-                                        <i />
-                                        <span
-                                          class=""
-                                        />
-                                      </label>
                                       <div
                                         class="cxd-TreeSelection-itemLabel"
                                       >
@@ -1746,17 +819,6 @@ exports[`Renderer:transfer tree 1`] = `
                                       icon="right-arrow-bold"
                                     />
                                   </a>
-                                  <label
-                                    class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full cxd-Checkbox--sm"
-                                  >
-                                    <input
-                                      type="checkbox"
-                                    />
-                                    <i />
-                                    <span
-                                      class=""
-                                    />
-                                  </label>
                                   <div
                                     class="cxd-TreeSelection-itemLabel"
                                   >
@@ -1774,17 +836,6 @@ exports[`Renderer:transfer tree 1`] = `
                                     <div
                                       class="cxd-TreeSelection-itemInner"
                                     >
-                                      <label
-                                        class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full cxd-Checkbox--sm"
-                                      >
-                                        <input
-                                          type="checkbox"
-                                        />
-                                        <i />
-                                        <span
-                                          class=""
-                                        />
-                                      </label>
                                       <div
                                         class="cxd-TreeSelection-itemLabel"
                                       >
@@ -1800,17 +851,6 @@ exports[`Renderer:transfer tree 1`] = `
                                     <div
                                       class="cxd-TreeSelection-itemInner"
                                     >
-                                      <label
-                                        class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full cxd-Checkbox--sm"
-                                      >
-                                        <input
-                                          type="checkbox"
-                                        />
-                                        <i />
-                                        <span
-                                          class=""
-                                        />
-                                      </label>
                                       <div
                                         class="cxd-TreeSelection-itemLabel"
                                       >
@@ -1826,17 +866,6 @@ exports[`Renderer:transfer tree 1`] = `
                                     <div
                                       class="cxd-TreeSelection-itemInner"
                                     >
-                                      <label
-                                        class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full cxd-Checkbox--sm"
-                                      >
-                                        <input
-                                          type="checkbox"
-                                        />
-                                        <i />
-                                        <span
-                                          class=""
-                                        />
-                                      </label>
                                       <div
                                         class="cxd-TreeSelection-itemLabel"
                                       >
@@ -1851,101 +880,1002 @@ exports[`Renderer:transfer tree 1`] = `
                             </div>
                           </div>
                           <div
-                            class="cxd-Transfer-mid"
-                          />
-                          <div
-                            class="cxd-Transfer-result"
+                            class="cxd-AssociatedSelection-right"
                           >
                             <div
-                              class="cxd-Transfer-title"
+                              class="cxd-AssociatedSelection-box"
                             >
-                              <span>
-                                已选项
-                                <span>
-                                  （
-                                  0
-                                  /
-                                  6
-                                  ）
-                                </span>
-                              </span>
+                              请选择左侧数据
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div
+                        class="cxd-Transfer-mid"
+                      />
+                      <div
+                        class="cxd-Transfer-result"
+                      >
+                        <div
+                          class="cxd-Transfer-title"
+                        >
+                          <span>
+                            已选项
+                            <span>
+                              （
+                              0
+                              /
+                              5
+                              ）
+                            </span>
+                          </span>
+                          <a
+                            class="cxd-Transfer-clearAll is-disabled"
+                          >
+                            清空
+                          </a>
+                        </div>
+                        <div
+                          class="cxd-Selections cxd-Transfer-value"
+                        >
+                          <div
+                            class="cxd-Selections-placeholder"
+                          >
+                            请选择左侧数据
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </form>
+            </div>
+            <div
+              class="cxd-Panel-footerWrap"
+            >
+              <div
+                class="cxd-Panel-btnToolbar cxd-Panel-footer"
+              >
+                <button
+                  class="cxd-Button cxd-Button--primary"
+                  type="submit"
+                >
+                  <span>
+                    提交
+                  </span>
+                </button>
+              </div>
+            </div>
+            <div
+              class="resize-sensor"
+              style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
+            >
+              
+  
+              <div
+                class="resize-sensor-expand"
+                style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+              >
+                
+    
+                <div
+                  style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
+                />
+                
+  
+              </div>
+              
+  
+              <div
+                class="resize-sensor-shrink"
+                style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+              >
+                
+    
+                <div
+                  style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
+                />
+                
+  
+              </div>
+              
+  
+              <div
+                class="resize-sensor-appear"
+                style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Renderer:transfer table 1`] = `
+<div>
+  <div
+    class="cxd-Page"
+  >
+    <div
+      class="cxd-Page-content"
+    >
+      <div
+        class="cxd-Page-main"
+      >
+        <div
+          class="cxd-Page-body"
+        >
+          <div
+            class="cxd-Panel cxd-Panel--default cxd-Panel--form"
+            style="position: relative;"
+          >
+            <div
+              class="cxd-Panel-heading"
+            >
+              <h3
+                class="cxd-Panel-title"
+              >
+                <span
+                  class="cxd-TplField"
+                >
+                  <span>
+                    表单
+                  </span>
+                </span>
+              </h3>
+            </div>
+            <div
+              class="cxd-Panel-body"
+            >
+              <form
+                class="cxd-Form cxd-Form--normal"
+                novalidate=""
+              >
+                <input
+                  style="display: none;"
+                  type="submit"
+                />
+                <div
+                  class="cxd-Form-item cxd-Form-item--normal"
+                  data-role="form-item"
+                >
+                  <label
+                    class="cxd-Form-label"
+                  >
+                    <span>
+                      <span
+                        class="cxd-TplField"
+                      >
+                        <span>
+                          表格形式
+                        </span>
+                      </span>
+                    </span>
+                  </label>
+                  <div
+                    class="cxd-TransferControl cxd-Form-control"
+                  >
+                    <div
+                      class="cxd-Transfer"
+                    >
+                      <div
+                        class="cxd-Transfer-select"
+                      >
+                        <div
+                          class="cxd-Transfer-title cxd-Transfer-title--light"
+                        >
+                          <span>
+                            可选项
+                            <span>
+                              （
+                              0
+                              /
+                              6
+                              ）
+                            </span>
+                          </span>
+                        </div>
+                        <div
+                          class="cxd-TableSelection cxd-Transfer-selection"
+                        >
+                          <div
+                            class="cxd-Table-content"
+                          >
+                            <table
+                              class="cxd-Table-table"
+                            >
+                              <thead>
+                                <tr>
+                                  <th
+                                    class="cxd-Table-checkCell"
+                                  >
+                                    <label
+                                      class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full cxd-Checkbox--sm"
+                                    >
+                                      <input
+                                        type="checkbox"
+                                      />
+                                      <i />
+                                      <span
+                                        class=""
+                                      />
+                                    </label>
+                                  </th>
+                                  <th>
+                                    英雄
+                                  </th>
+                                  <th>
+                                    位置
+                                  </th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                <tr
+                                  class=""
+                                >
+                                  <td
+                                    class="cxd-Table-checkCell"
+                                  >
+                                    <label
+                                      class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full cxd-Checkbox--sm"
+                                    >
+                                      <input
+                                        type="checkbox"
+                                      />
+                                      <i />
+                                      <span
+                                        class=""
+                                      />
+                                    </label>
+                                  </td>
+                                  <td>
+                                    <span
+                                      class="cxd-PlainField"
+                                    >
+                                      诸葛亮
+                                    </span>
+                                  </td>
+                                  <td>
+                                    <span
+                                      class="cxd-PlainField"
+                                    >
+                                      中单
+                                    </span>
+                                  </td>
+                                </tr>
+                                <tr
+                                  class=""
+                                >
+                                  <td
+                                    class="cxd-Table-checkCell"
+                                  >
+                                    <label
+                                      class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full cxd-Checkbox--sm"
+                                    >
+                                      <input
+                                        type="checkbox"
+                                      />
+                                      <i />
+                                      <span
+                                        class=""
+                                      />
+                                    </label>
+                                  </td>
+                                  <td>
+                                    <span
+                                      class="cxd-PlainField"
+                                    >
+                                      曹操
+                                    </span>
+                                  </td>
+                                  <td>
+                                    <span
+                                      class="cxd-PlainField"
+                                    >
+                                      上单
+                                    </span>
+                                  </td>
+                                </tr>
+                                <tr
+                                  class=""
+                                >
+                                  <td
+                                    class="cxd-Table-checkCell"
+                                  >
+                                    <label
+                                      class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full cxd-Checkbox--sm"
+                                    >
+                                      <input
+                                        type="checkbox"
+                                      />
+                                      <i />
+                                      <span
+                                        class=""
+                                      />
+                                    </label>
+                                  </td>
+                                  <td>
+                                    <span
+                                      class="cxd-PlainField"
+                                    >
+                                      钟无艳
+                                    </span>
+                                  </td>
+                                  <td>
+                                    <span
+                                      class="cxd-PlainField"
+                                    >
+                                      上单
+                                    </span>
+                                  </td>
+                                </tr>
+                                <tr
+                                  class=""
+                                >
+                                  <td
+                                    class="cxd-Table-checkCell"
+                                  >
+                                    <label
+                                      class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full cxd-Checkbox--sm"
+                                    >
+                                      <input
+                                        type="checkbox"
+                                      />
+                                      <i />
+                                      <span
+                                        class=""
+                                      />
+                                    </label>
+                                  </td>
+                                  <td>
+                                    <span
+                                      class="cxd-PlainField"
+                                    >
+                                      李白
+                                    </span>
+                                  </td>
+                                  <td>
+                                    <span
+                                      class="cxd-PlainField"
+                                    >
+                                      打野
+                                    </span>
+                                  </td>
+                                </tr>
+                                <tr
+                                  class=""
+                                >
+                                  <td
+                                    class="cxd-Table-checkCell"
+                                  >
+                                    <label
+                                      class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full cxd-Checkbox--sm"
+                                    >
+                                      <input
+                                        type="checkbox"
+                                      />
+                                      <i />
+                                      <span
+                                        class=""
+                                      />
+                                    </label>
+                                  </td>
+                                  <td>
+                                    <span
+                                      class="cxd-PlainField"
+                                    >
+                                      韩信
+                                    </span>
+                                  </td>
+                                  <td>
+                                    <span
+                                      class="cxd-PlainField"
+                                    >
+                                      打野
+                                    </span>
+                                  </td>
+                                </tr>
+                                <tr
+                                  class=""
+                                >
+                                  <td
+                                    class="cxd-Table-checkCell"
+                                  >
+                                    <label
+                                      class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full cxd-Checkbox--sm"
+                                    >
+                                      <input
+                                        type="checkbox"
+                                      />
+                                      <i />
+                                      <span
+                                        class=""
+                                      />
+                                    </label>
+                                  </td>
+                                  <td>
+                                    <span
+                                      class="cxd-PlainField"
+                                    >
+                                      云中君
+                                    </span>
+                                  </td>
+                                  <td>
+                                    <span
+                                      class="cxd-PlainField"
+                                    >
+                                      打野
+                                    </span>
+                                  </td>
+                                </tr>
+                              </tbody>
+                            </table>
+                          </div>
+                        </div>
+                      </div>
+                      <div
+                        class="cxd-Transfer-mid"
+                      />
+                      <div
+                        class="cxd-Transfer-result"
+                      >
+                        <div
+                          class="cxd-Transfer-title"
+                        >
+                          <span>
+                            已选项
+                            <span>
+                              （
+                              0
+                              /
+                              6
+                              ）
+                            </span>
+                          </span>
+                          <a
+                            class="cxd-Transfer-clearAll is-disabled"
+                          >
+                            清空
+                          </a>
+                        </div>
+                        <div
+                          class="cxd-Selections cxd-Transfer-value"
+                        >
+                          <div
+                            class="cxd-Selections-placeholder"
+                          >
+                            请选择左侧数据
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </form>
+            </div>
+            <div
+              class="cxd-Panel-footerWrap"
+            >
+              <div
+                class="cxd-Panel-btnToolbar cxd-Panel-footer"
+              >
+                <button
+                  class="cxd-Button cxd-Button--primary"
+                  type="submit"
+                >
+                  <span>
+                    提交
+                  </span>
+                </button>
+              </div>
+            </div>
+            <div
+              class="resize-sensor"
+              style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
+            >
+              
+  
+              <div
+                class="resize-sensor-expand"
+                style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+              >
+                
+    
+                <div
+                  style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
+                />
+                
+  
+              </div>
+              
+  
+              <div
+                class="resize-sensor-shrink"
+                style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+              >
+                
+    
+                <div
+                  style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
+                />
+                
+  
+              </div>
+              
+  
+              <div
+                class="resize-sensor-appear"
+                style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Renderer:transfer tree 1`] = `
+<div>
+  <div
+    class="cxd-Page"
+  >
+    <div
+      class="cxd-Page-content"
+    >
+      <div
+        class="cxd-Page-main"
+      >
+        <div
+          class="cxd-Page-body"
+        >
+          <div
+            class="cxd-Panel cxd-Panel--default cxd-Panel--form"
+            style="position: relative;"
+          >
+            <div
+              class="cxd-Panel-heading"
+            >
+              <h3
+                class="cxd-Panel-title"
+              >
+                <span
+                  class="cxd-TplField"
+                >
+                  <span>
+                    表单
+                  </span>
+                </span>
+              </h3>
+            </div>
+            <div
+              class="cxd-Panel-body"
+            >
+              <form
+                class="cxd-Form cxd-Form--normal"
+                novalidate=""
+              >
+                <input
+                  style="display: none;"
+                  type="submit"
+                />
+                <div
+                  class="cxd-Form-item cxd-Form-item--normal"
+                  data-role="form-item"
+                >
+                  <label
+                    class="cxd-Form-label"
+                  >
+                    <span>
+                      <span
+                        class="cxd-TplField"
+                      >
+                        <span>
+                          树型展示
+                        </span>
+                      </span>
+                    </span>
+                  </label>
+                  <div
+                    class="cxd-TransferControl cxd-Form-control"
+                  >
+                    <div
+                      class="cxd-Transfer"
+                    >
+                      <div
+                        class="cxd-Transfer-select"
+                      >
+                        <div
+                          class="cxd-Transfer-title"
+                        >
+                          <span>
+                            可选项
+                            <span>
+                              （
+                              0
+                              /
+                              6
+                              ）
+                            </span>
+                          </span>
+                          <a
+                            class="cxd-Transfer-checkAll"
+                          >
+                            全选
+                          </a>
+                        </div>
+                        <div
+                          class="cxd-TreeSelection cxd-Transfer-selection"
+                        >
+                          <div
+                            class="cxd-TreeSelection-item is-expanded"
+                          >
+                            <div
+                              class="cxd-TreeSelection-itemInner"
+                            >
                               <a
-                                class="cxd-Transfer-clearAll is-disabled"
+                                class="cxd-Table-expandBtn is-active"
                               >
-                                清空
+                                <icon-mock
+                                  classname="icon icon-right-arrow-bold"
+                                  icon="right-arrow-bold"
+                                />
                               </a>
+                              <label
+                                class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full cxd-Checkbox--sm"
+                              >
+                                <input
+                                  type="checkbox"
+                                />
+                                <i />
+                                <span
+                                  class=""
+                                />
+                              </label>
+                              <div
+                                class="cxd-TreeSelection-itemLabel"
+                              >
+                                <span>
+                                  法师
+                                </span>
+                              </div>
                             </div>
                             <div
-                              class="cxd-Selections cxd-Transfer-value"
+                              class="cxd-TreeSelection-sublist"
                             >
                               <div
-                                class="cxd-Selections-placeholder"
+                                class="cxd-TreeSelection-item"
                               >
-                                请选择左侧数据
+                                <div
+                                  class="cxd-TreeSelection-itemInner"
+                                >
+                                  <label
+                                    class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full cxd-Checkbox--sm"
+                                  >
+                                    <input
+                                      type="checkbox"
+                                    />
+                                    <i />
+                                    <span
+                                      class=""
+                                    />
+                                  </label>
+                                  <div
+                                    class="cxd-TreeSelection-itemLabel"
+                                  >
+                                    <span>
+                                      诸葛亮
+                                    </span>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          <div
+                            class="cxd-TreeSelection-item"
+                          >
+                            <div
+                              class="cxd-TreeSelection-itemInner"
+                            >
+                              <a
+                                class="cxd-Table-expandBtn"
+                              >
+                                <icon-mock
+                                  classname="icon icon-right-arrow-bold"
+                                  icon="right-arrow-bold"
+                                />
+                              </a>
+                              <label
+                                class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full cxd-Checkbox--sm"
+                              >
+                                <input
+                                  type="checkbox"
+                                />
+                                <i />
+                                <span
+                                  class=""
+                                />
+                              </label>
+                              <div
+                                class="cxd-TreeSelection-itemLabel"
+                              >
+                                <span>
+                                  战士
+                                </span>
+                              </div>
+                            </div>
+                            <div
+                              class="cxd-TreeSelection-sublist"
+                            >
+                              <div
+                                class="cxd-TreeSelection-item"
+                              >
+                                <div
+                                  class="cxd-TreeSelection-itemInner"
+                                >
+                                  <label
+                                    class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full cxd-Checkbox--sm"
+                                  >
+                                    <input
+                                      type="checkbox"
+                                    />
+                                    <i />
+                                    <span
+                                      class=""
+                                    />
+                                  </label>
+                                  <div
+                                    class="cxd-TreeSelection-itemLabel"
+                                  >
+                                    <span>
+                                      曹操
+                                    </span>
+                                  </div>
+                                </div>
+                              </div>
+                              <div
+                                class="cxd-TreeSelection-item"
+                              >
+                                <div
+                                  class="cxd-TreeSelection-itemInner"
+                                >
+                                  <label
+                                    class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full cxd-Checkbox--sm"
+                                  >
+                                    <input
+                                      type="checkbox"
+                                    />
+                                    <i />
+                                    <span
+                                      class=""
+                                    />
+                                  </label>
+                                  <div
+                                    class="cxd-TreeSelection-itemLabel"
+                                  >
+                                    <span>
+                                      钟无艳
+                                    </span>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          <div
+                            class="cxd-TreeSelection-item"
+                          >
+                            <div
+                              class="cxd-TreeSelection-itemInner"
+                            >
+                              <a
+                                class="cxd-Table-expandBtn"
+                              >
+                                <icon-mock
+                                  classname="icon icon-right-arrow-bold"
+                                  icon="right-arrow-bold"
+                                />
+                              </a>
+                              <label
+                                class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full cxd-Checkbox--sm"
+                              >
+                                <input
+                                  type="checkbox"
+                                />
+                                <i />
+                                <span
+                                  class=""
+                                />
+                              </label>
+                              <div
+                                class="cxd-TreeSelection-itemLabel"
+                              >
+                                <span>
+                                  打野
+                                </span>
+                              </div>
+                            </div>
+                            <div
+                              class="cxd-TreeSelection-sublist"
+                            >
+                              <div
+                                class="cxd-TreeSelection-item"
+                              >
+                                <div
+                                  class="cxd-TreeSelection-itemInner"
+                                >
+                                  <label
+                                    class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full cxd-Checkbox--sm"
+                                  >
+                                    <input
+                                      type="checkbox"
+                                    />
+                                    <i />
+                                    <span
+                                      class=""
+                                    />
+                                  </label>
+                                  <div
+                                    class="cxd-TreeSelection-itemLabel"
+                                  >
+                                    <span>
+                                      李白
+                                    </span>
+                                  </div>
+                                </div>
+                              </div>
+                              <div
+                                class="cxd-TreeSelection-item"
+                              >
+                                <div
+                                  class="cxd-TreeSelection-itemInner"
+                                >
+                                  <label
+                                    class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full cxd-Checkbox--sm"
+                                  >
+                                    <input
+                                      type="checkbox"
+                                    />
+                                    <i />
+                                    <span
+                                      class=""
+                                    />
+                                  </label>
+                                  <div
+                                    class="cxd-TreeSelection-itemLabel"
+                                  >
+                                    <span>
+                                      韩信
+                                    </span>
+                                  </div>
+                                </div>
+                              </div>
+                              <div
+                                class="cxd-TreeSelection-item"
+                              >
+                                <div
+                                  class="cxd-TreeSelection-itemInner"
+                                >
+                                  <label
+                                    class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full cxd-Checkbox--sm"
+                                  >
+                                    <input
+                                      type="checkbox"
+                                    />
+                                    <i />
+                                    <span
+                                      class=""
+                                    />
+                                  </label>
+                                  <div
+                                    class="cxd-TreeSelection-itemLabel"
+                                  >
+                                    <span>
+                                      云中君
+                                    </span>
+                                  </div>
+                                </div>
                               </div>
                             </div>
                           </div>
                         </div>
                       </div>
+                      <div
+                        class="cxd-Transfer-mid"
+                      />
+                      <div
+                        class="cxd-Transfer-result"
+                      >
+                        <div
+                          class="cxd-Transfer-title"
+                        >
+                          <span>
+                            已选项
+                            <span>
+                              （
+                              0
+                              /
+                              6
+                              ）
+                            </span>
+                          </span>
+                          <a
+                            class="cxd-Transfer-clearAll is-disabled"
+                          >
+                            清空
+                          </a>
+                        </div>
+                        <div
+                          class="cxd-Selections cxd-Transfer-value"
+                        >
+                          <div
+                            class="cxd-Selections-placeholder"
+                          >
+                            请选择左侧数据
+                          </div>
+                        </div>
+                      </div>
                     </div>
-                  </form>
+                  </div>
                 </div>
-                <div
-                  class="cxd-Panel-footerWrap"
+              </form>
+            </div>
+            <div
+              class="cxd-Panel-footerWrap"
+            >
+              <div
+                class="cxd-Panel-btnToolbar cxd-Panel-footer"
+              >
+                <button
+                  class="cxd-Button cxd-Button--primary"
+                  type="submit"
                 >
-                  <div
-                    class="cxd-Panel-btnToolbar cxd-Panel-footer"
-                  >
-                    <button
-                      class="cxd-Button cxd-Button--primary"
-                      type="submit"
-                    >
-                      <span>
-                        提交
-                      </span>
-                    </button>
-                  </div>
-                </div>
-                <div
-                  class="resize-sensor"
-                  style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
-                >
-                  
-  
-                  <div
-                    class="resize-sensor-expand"
-                    style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-                  >
-                    
-    
-                    <div
-                      style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
-                    />
-                    
-  
-                  </div>
-                  
-  
-                  <div
-                    class="resize-sensor-shrink"
-                    style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-                  >
-                    
-    
-                    <div
-                      style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
-                    />
-                    
-  
-                  </div>
-                  
-  
-                  <div
-                    class="resize-sensor-appear"
-                    style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
-                  />
-                </div>
+                  <span>
+                    提交
+                  </span>
+                </button>
               </div>
+            </div>
+            <div
+              class="resize-sensor"
+              style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
+            >
+              
+  
+              <div
+                class="resize-sensor-expand"
+                style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+              >
+                
+    
+                <div
+                  style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
+                />
+                
+  
+              </div>
+              
+  
+              <div
+                class="resize-sensor-shrink"
+                style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+              >
+                
+    
+                <div
+                  style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
+                />
+                
+  
+              </div>
+              
+  
+              <div
+                class="resize-sensor-appear"
+                style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
+              />
             </div>
           </div>
         </div>

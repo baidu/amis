@@ -6,128 +6,114 @@ exports[`Renderer:tesks 1`] = `
     class="cxd-Page"
   >
     <div
-      class="cxd-PullRefresh"
+      class="cxd-Page-content"
     >
       <div
-        class="cxd-PullRefresh-wrap"
-        style="transform: translate3d(0, 0px, 0);"
+        class="cxd-Page-main"
       >
         <div
-          class="cxd-PullRefresh-header"
-        >
-          
-        </div>
-        <div
-          class="cxd-Page-content"
+          class="cxd-Page-body"
         >
           <div
-            class="cxd-Page-main"
+            class="cxd-Table-content"
           >
-            <div
-              class="cxd-Page-body"
+            <table
+              class="cxd-Table-table"
             >
-              <div
-                class="cxd-Table-content"
-              >
-                <table
-                  class="cxd-Table-table"
-                >
-                  <thead>
-                    <tr>
-                      <th>
-                        任务名称
-                      </th>
-                      <th>
-                        操作
-                      </th>
-                      <th>
-                        状态
-                      </th>
-                      <th>
-                        备注说明
-                      </th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <td>
-                        hive 任务
-                      </td>
-                      <td>
+              <thead>
+                <tr>
+                  <th>
+                    任务名称
+                  </th>
+                  <th>
+                    操作
+                  </th>
+                  <th>
+                    状态
+                  </th>
+                  <th>
+                    备注说明
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>
+                    hive 任务
+                  </td>
+                  <td>
+                    <a
+                      class="cxd-Button cxd-Button--default disabled"
+                    >
+                      上线
+                    </a>
+                  </td>
+                  <td>
+                    <span
+                      class="label label-success"
+                    >
+                      已完成
+                    </span>
+                  </td>
+                  <td>
+                    <span
+                      class="cxd-TplField"
+                    >
+                      <span>
+                        查看详情
                         <a
-                          class="cxd-Button cxd-Button--default disabled"
+                          href="http://www.baidu.com"
+                          target="_blank"
                         >
-                          上线
+                          日志
                         </a>
-                      </td>
-                      <td>
-                        <span
-                          class="label label-success"
-                        >
-                          已完成
-                        </span>
-                      </td>
-                      <td>
-                        <span
-                          class="cxd-TplField"
-                        >
-                          <span>
-                            查看详情
-                            <a
-                              href="http://www.baidu.com"
-                              target="_blank"
-                            >
-                              日志
-                            </a>
-                            。
-                          </span>
-                        </span>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>
-                        小流量
-                      </td>
-                      <td>
-                        <a
-                          class="cxd-Button cxd-Button--default disabled"
-                        >
-                          上线
-                        </a>
-                      </td>
-                      <td>
-                        <span
-                          class="label label-success"
-                        >
-                          已完成
-                        </span>
-                      </td>
-                      <td />
-                    </tr>
-                    <tr>
-                      <td>
-                        全量
-                      </td>
-                      <td>
-                        <a
-                          class="cxd-Button cxd-Button--default disabled"
-                        >
-                          上线
-                        </a>
-                      </td>
-                      <td>
-                        <span
-                          class="label label-success"
-                        >
-                          已完成
-                        </span>
-                      </td>
-                      <td />
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-            </div>
+                        。
+                      </span>
+                    </span>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    小流量
+                  </td>
+                  <td>
+                    <a
+                      class="cxd-Button cxd-Button--default disabled"
+                    >
+                      上线
+                    </a>
+                  </td>
+                  <td>
+                    <span
+                      class="label label-success"
+                    >
+                      已完成
+                    </span>
+                  </td>
+                  <td />
+                </tr>
+                <tr>
+                  <td>
+                    全量
+                  </td>
+                  <td>
+                    <a
+                      class="cxd-Button cxd-Button--default disabled"
+                    >
+                      上线
+                    </a>
+                  </td>
+                  <td>
+                    <span
+                      class="label label-success"
+                    >
+                      已完成
+                    </span>
+                  </td>
+                  <td />
+                </tr>
+              </tbody>
+            </table>
           </div>
         </div>
       </div>

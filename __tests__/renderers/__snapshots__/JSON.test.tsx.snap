@@ -6,295 +6,281 @@ exports[`Renderer:json 1`] = `
     class="cxd-Page"
   >
     <div
-      class="cxd-PullRefresh"
+      class="cxd-Page-content"
     >
       <div
-        class="cxd-PullRefresh-wrap"
-        style="transform: translate3d(0, 0px, 0);"
+        class="cxd-Page-main"
       >
         <div
-          class="cxd-PullRefresh-header"
-        >
-          
-        </div>
-        <div
-          class="cxd-Page-content"
+          class="cxd-Page-body"
         >
           <div
-            class="cxd-Page-main"
+            class="cxd-JsonField"
           >
             <div
-              class="cxd-Page-body"
+              class="react-json-view"
+              style="font-family: monospace; cursor: default; background-color: rgba(0, 0, 0, 0); position: relative;"
             >
               <div
-                class="cxd-JsonField"
+                class="pretty-json-container object-container"
               >
                 <div
-                  class="react-json-view"
-                  style="font-family: monospace; cursor: default; background-color: rgba(0, 0, 0, 0); position: relative;"
+                  class="object-content"
                 >
                   <div
-                    class="pretty-json-container object-container"
+                    class="object-key-val"
                   >
+                    <span>
+                      <span
+                        style="display: inline-block; cursor: pointer;"
+                      >
+                        <div
+                          class="icon-container"
+                          style="display: inline-block; width: 17px;"
+                        >
+                          <span
+                            class="expanded-icon"
+                          >
+                            <svg
+                              fill="#586e75"
+                              height="1em"
+                              style="vertical-align: middle; color: rgb(88, 110, 117); height: 1em; width: 1em;"
+                              viewBox="0 0 1792 1792"
+                              width="1em"
+                            >
+                              <path
+                                d="M1344 800v64q0 14-9 23t-23 9h-832q-14 0-23-9t-9-23v-64q0-14 9-23t23-9h832q14 0 23 9t9 23zm128 448v-832q0-66-47-113t-113-47h-832q-66 0-113 47t-47 113v832q0 66 47 113t113 47h832q66 0 113-47t47-113zm128-832v832q0 119-84.5 203.5t-203.5 84.5h-832q-119 0-203.5-84.5t-84.5-203.5v-832q0-119 84.5-203.5t203.5-84.5h832q119 0 203.5 84.5t84.5 203.5z"
+                              />
+                            </svg>
+                          </span>
+                        </div>
+                        <span />
+                        <span
+                          style="display: inline-block; cursor: pointer; font-weight: bold; color: rgb(0, 43, 54);"
+                        >
+                          {
+                        </span>
+                      </span>
+                      <div
+                        class="object-meta-data"
+                        style="display: inline-block; padding: 0px 0px 0px 10px;"
+                      >
+                        <span
+                          class="object-size"
+                          style="color: rgba(0, 0, 0, 0.3); border-radius: 3px; font-style: italic; margin: 0px 6px 0px 0px; cursor: default;"
+                        >
+                          3
+                           item
+                          s
+                        </span>
+                      </div>
+                    </span>
                     <div
-                      class="object-content"
+                      class="pushed-content object-container"
                     >
                       <div
-                        class="object-key-val"
+                        class="object-content"
+                        style="margin-left: 6px;"
                       >
-                        <span>
-                          <span
-                            style="display: inline-block; cursor: pointer;"
-                          >
-                            <div
-                              class="icon-container"
-                              style="display: inline-block; width: 17px;"
+                        <div
+                          class="variable-row"
+                          style="border-left: 1px solid rgb(235, 235, 235); padding: 3px 5px 3px 20px;"
+                        >
+                          <span>
+                            <span
+                              class="object-key"
+                              style="display: inline-block; color: rgb(0, 43, 54); letter-spacing: 0.5px; font-style: none; vertical-align: top; opacity: 0.85;"
                             >
                               <span
-                                class="expanded-icon"
+                                style="vertical-align: top;"
                               >
-                                <svg
-                                  fill="#586e75"
-                                  height="1em"
-                                  style="vertical-align: middle; color: rgb(88, 110, 117); height: 1em; width: 1em;"
-                                  viewBox="0 0 1792 1792"
-                                  width="1em"
-                                >
-                                  <path
-                                    d="M1344 800v64q0 14-9 23t-23 9h-832q-14 0-23-9t-9-23v-64q0-14 9-23t23-9h832q14 0 23 9t9 23zm128 448v-832q0-66-47-113t-113-47h-832q-66 0-113 47t-47 113v832q0 66 47 113t113 47h832q66 0 113-47t47-113zm128-832v832q0 119-84.5 203.5t-203.5 84.5h-832q-119 0-203.5-84.5t-84.5-203.5v-832q0-119 84.5-203.5t203.5-84.5h832q119 0 203.5 84.5t84.5 203.5z"
-                                  />
-                                </svg>
+                                "
                               </span>
-                            </div>
-                            <span />
+                              <span
+                                style="display: inline-block;"
+                              >
+                                a
+                              </span>
+                              <span
+                                style="vertical-align: top;"
+                              >
+                                "
+                              </span>
+                            </span>
                             <span
-                              style="display: inline-block; cursor: pointer; font-weight: bold; color: rgb(0, 43, 54);"
+                              style="display: inline-block; margin: 0px 5px; color: rgb(0, 43, 54); vertical-align: top;"
                             >
-                              {
+                              :
                             </span>
                           </span>
                           <div
-                            class="object-meta-data"
-                            style="display: inline-block; padding: 0px 0px 0px 10px;"
-                          >
-                            <span
-                              class="object-size"
-                              style="color: rgba(0, 0, 0, 0.3); border-radius: 3px; font-style: italic; margin: 0px 6px 0px 0px; cursor: default;"
-                            >
-                              3
-                               item
-                              s
-                            </span>
-                          </div>
-                        </span>
-                        <div
-                          class="pushed-content object-container"
-                        >
-                          <div
-                            class="object-content"
-                            style="margin-left: 6px;"
+                            class="variable-value"
+                            style="display: inline-block; padding-right: 6px; position: relative; cursor: default;"
                           >
                             <div
-                              class="variable-row"
-                              style="border-left: 1px solid rgb(235, 235, 235); padding: 3px 5px 3px 20px;"
+                              style="display: inline-block; color: rgb(203, 75, 22);"
                             >
-                              <span>
-                                <span
-                                  class="object-key"
-                                  style="display: inline-block; color: rgb(0, 43, 54); letter-spacing: 0.5px; font-style: none; vertical-align: top; opacity: 0.85;"
-                                >
-                                  <span
-                                    style="vertical-align: top;"
-                                  >
-                                    "
-                                  </span>
-                                  <span
-                                    style="display: inline-block;"
-                                  >
-                                    a
-                                  </span>
-                                  <span
-                                    style="vertical-align: top;"
-                                  >
-                                    "
-                                  </span>
-                                </span>
-                                <span
-                                  style="display: inline-block; margin: 0px 5px; color: rgb(0, 43, 54); vertical-align: top;"
-                                >
-                                  :
-                                </span>
-                              </span>
-                              <div
-                                class="variable-value"
-                                style="display: inline-block; padding-right: 6px; position: relative; cursor: default;"
-                              >
-                                <div
-                                  style="display: inline-block; color: rgb(203, 75, 22);"
-                                >
-                                  <span
-                                    class="string-value"
-                                    style="cursor: default;"
-                                  >
-                                    "
-                                    a
-                                    "
-                                  </span>
-                                </div>
-                              </div>
-                            </div>
-                            <div
-                              class="variable-row"
-                              style="border-left: 1px solid rgb(235, 235, 235); padding: 3px 5px 3px 20px;"
-                            >
-                              <span>
-                                <span
-                                  class="object-key"
-                                  style="display: inline-block; color: rgb(0, 43, 54); letter-spacing: 0.5px; font-style: none; vertical-align: top; opacity: 0.85;"
-                                >
-                                  <span
-                                    style="vertical-align: top;"
-                                  >
-                                    "
-                                  </span>
-                                  <span
-                                    style="display: inline-block;"
-                                  >
-                                    b
-                                  </span>
-                                  <span
-                                    style="vertical-align: top;"
-                                  >
-                                    "
-                                  </span>
-                                </span>
-                                <span
-                                  style="display: inline-block; margin: 0px 5px; color: rgb(0, 43, 54); vertical-align: top;"
-                                >
-                                  :
-                                </span>
-                              </span>
-                              <div
-                                class="variable-value"
-                                style="display: inline-block; padding-right: 6px; position: relative; cursor: default;"
-                              >
-                                <div
-                                  style="display: inline-block; color: rgb(203, 75, 22);"
-                                >
-                                  <span
-                                    class="string-value"
-                                    style="cursor: default;"
-                                  >
-                                    "
-                                    b
-                                    "
-                                  </span>
-                                </div>
-                              </div>
-                            </div>
-                            <div
-                              class="object-key-val"
-                              style="border-left: 1px solid rgb(235, 235, 235); padding: 3px 5px 3px 20px;"
-                            >
-                              <span>
-                                <span
-                                  style="display: inline-block; cursor: pointer;"
-                                >
-                                  <div
-                                    class="icon-container"
-                                    style="display: inline-block; width: 17px;"
-                                  >
-                                    <span
-                                      class="collapsed-icon"
-                                    >
-                                      <svg
-                                        fill="#2aa198"
-                                        height="1em"
-                                        style="vertical-align: middle; color: rgb(42, 161, 152); height: 1em; width: 1em;"
-                                        viewBox="0 0 1792 1792"
-                                        width="1em"
-                                      >
-                                        <path
-                                          d="M1344 800v64q0 14-9 23t-23 9h-352v352q0 14-9 23t-23 9h-64q-14 0-23-9t-9-23v-352h-352q-14 0-23-9t-9-23v-64q0-14 9-23t23-9h352v-352q0-14 9-23t23-9h64q14 0 23 9t9 23v352h352q14 0 23 9t9 23zm128 448v-832q0-66-47-113t-113-47h-832q-66 0-113 47t-47 113v832q0 66 47 113t113 47h832q66 0 113-47t47-113zm128-832v832q0 119-84.5 203.5t-203.5 84.5h-832q-119 0-203.5-84.5t-84.5-203.5v-832q0-119 84.5-203.5t203.5-84.5h832q119 0 203.5 84.5t84.5 203.5z"
-                                        />
-                                      </svg>
-                                    </span>
-                                  </div>
-                                  <span
-                                    style="display: inline-block; color: rgb(0, 43, 54); letter-spacing: 0.5px; font-style: none; vertical-align: top; opacity: 0.85;"
-                                  >
-                                    <span
-                                      class="object-key"
-                                    >
-                                      <span
-                                        style="vertical-align: top;"
-                                      >
-                                        "
-                                      </span>
-                                      <span>
-                                        c
-                                      </span>
-                                      <span
-                                        style="vertical-align: top;"
-                                      >
-                                        "
-                                      </span>
-                                    </span>
-                                    <span
-                                      style="display: inline-block; margin: 0px 5px; color: rgb(0, 43, 54); vertical-align: top;"
-                                    >
-                                      :
-                                    </span>
-                                  </span>
-                                  <span
-                                    style="display: inline-block; cursor: pointer; font-weight: bold; color: rgb(0, 43, 54);"
-                                  >
-                                    {
-                                  </span>
-                                </span>
-                              </span>
-                              <div
-                                class="node-ellipsis"
-                                style="display: inline-block; color: rgb(203, 75, 22); font-size: 18px; line-height: 10px; cursor: pointer;"
-                              >
-                                ...
-                              </div>
                               <span
-                                class="brace-row"
+                                class="string-value"
+                                style="cursor: default;"
                               >
-                                <span
-                                  style="display: inline-block; cursor: pointer; font-weight: bold; color: rgb(0, 43, 54); padding-left: 0px;"
-                                >
-                                  }
-                                </span>
-                                <div
-                                  class="object-meta-data"
-                                  style="display: inline-block; padding: 0px 0px 0px 10px;"
-                                >
-                                  <span
-                                    class="object-size"
-                                    style="color: rgba(0, 0, 0, 0.3); border-radius: 3px; font-style: italic; margin: 0px 6px 0px 0px; cursor: default;"
-                                  >
-                                    1
-                                     item
-                                    
-                                  </span>
-                                </div>
+                                "
+                                a
+                                "
                               </span>
                             </div>
                           </div>
                         </div>
-                        <span
-                          class="brace-row"
+                        <div
+                          class="variable-row"
+                          style="border-left: 1px solid rgb(235, 235, 235); padding: 3px 5px 3px 20px;"
                         >
-                          <span
-                            style="display: inline-block; cursor: pointer; font-weight: bold; color: rgb(0, 43, 54); padding-left: 3px;"
-                          >
-                            }
+                          <span>
+                            <span
+                              class="object-key"
+                              style="display: inline-block; color: rgb(0, 43, 54); letter-spacing: 0.5px; font-style: none; vertical-align: top; opacity: 0.85;"
+                            >
+                              <span
+                                style="vertical-align: top;"
+                              >
+                                "
+                              </span>
+                              <span
+                                style="display: inline-block;"
+                              >
+                                b
+                              </span>
+                              <span
+                                style="vertical-align: top;"
+                              >
+                                "
+                              </span>
+                            </span>
+                            <span
+                              style="display: inline-block; margin: 0px 5px; color: rgb(0, 43, 54); vertical-align: top;"
+                            >
+                              :
+                            </span>
                           </span>
-                        </span>
+                          <div
+                            class="variable-value"
+                            style="display: inline-block; padding-right: 6px; position: relative; cursor: default;"
+                          >
+                            <div
+                              style="display: inline-block; color: rgb(203, 75, 22);"
+                            >
+                              <span
+                                class="string-value"
+                                style="cursor: default;"
+                              >
+                                "
+                                b
+                                "
+                              </span>
+                            </div>
+                          </div>
+                        </div>
+                        <div
+                          class="object-key-val"
+                          style="border-left: 1px solid rgb(235, 235, 235); padding: 3px 5px 3px 20px;"
+                        >
+                          <span>
+                            <span
+                              style="display: inline-block; cursor: pointer;"
+                            >
+                              <div
+                                class="icon-container"
+                                style="display: inline-block; width: 17px;"
+                              >
+                                <span
+                                  class="collapsed-icon"
+                                >
+                                  <svg
+                                    fill="#2aa198"
+                                    height="1em"
+                                    style="vertical-align: middle; color: rgb(42, 161, 152); height: 1em; width: 1em;"
+                                    viewBox="0 0 1792 1792"
+                                    width="1em"
+                                  >
+                                    <path
+                                      d="M1344 800v64q0 14-9 23t-23 9h-352v352q0 14-9 23t-23 9h-64q-14 0-23-9t-9-23v-352h-352q-14 0-23-9t-9-23v-64q0-14 9-23t23-9h352v-352q0-14 9-23t23-9h64q14 0 23 9t9 23v352h352q14 0 23 9t9 23zm128 448v-832q0-66-47-113t-113-47h-832q-66 0-113 47t-47 113v832q0 66 47 113t113 47h832q66 0 113-47t47-113zm128-832v832q0 119-84.5 203.5t-203.5 84.5h-832q-119 0-203.5-84.5t-84.5-203.5v-832q0-119 84.5-203.5t203.5-84.5h832q119 0 203.5 84.5t84.5 203.5z"
+                                    />
+                                  </svg>
+                                </span>
+                              </div>
+                              <span
+                                style="display: inline-block; color: rgb(0, 43, 54); letter-spacing: 0.5px; font-style: none; vertical-align: top; opacity: 0.85;"
+                              >
+                                <span
+                                  class="object-key"
+                                >
+                                  <span
+                                    style="vertical-align: top;"
+                                  >
+                                    "
+                                  </span>
+                                  <span>
+                                    c
+                                  </span>
+                                  <span
+                                    style="vertical-align: top;"
+                                  >
+                                    "
+                                  </span>
+                                </span>
+                                <span
+                                  style="display: inline-block; margin: 0px 5px; color: rgb(0, 43, 54); vertical-align: top;"
+                                >
+                                  :
+                                </span>
+                              </span>
+                              <span
+                                style="display: inline-block; cursor: pointer; font-weight: bold; color: rgb(0, 43, 54);"
+                              >
+                                {
+                              </span>
+                            </span>
+                          </span>
+                          <div
+                            class="node-ellipsis"
+                            style="display: inline-block; color: rgb(203, 75, 22); font-size: 18px; line-height: 10px; cursor: pointer;"
+                          >
+                            ...
+                          </div>
+                          <span
+                            class="brace-row"
+                          >
+                            <span
+                              style="display: inline-block; cursor: pointer; font-weight: bold; color: rgb(0, 43, 54); padding-left: 0px;"
+                            >
+                              }
+                            </span>
+                            <div
+                              class="object-meta-data"
+                              style="display: inline-block; padding: 0px 0px 0px 10px;"
+                            >
+                              <span
+                                class="object-size"
+                                style="color: rgba(0, 0, 0, 0.3); border-radius: 3px; font-style: italic; margin: 0px 6px 0px 0px; cursor: default;"
+                              >
+                                1
+                                 item
+                                
+                              </span>
+                            </div>
+                          </span>
+                        </div>
                       </div>
                     </div>
+                    <span
+                      class="brace-row"
+                    >
+                      <span
+                        style="display: inline-block; cursor: pointer; font-weight: bold; color: rgb(0, 43, 54); padding-left: 3px;"
+                      >
+                        }
+                      </span>
+                    </span>
                   </div>
                 </div>
               </div>

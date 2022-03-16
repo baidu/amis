@@ -41,202 +41,188 @@ exports[`Renderer:images 1`] = `
     class="cxd-Page"
   >
     <div
-      class="cxd-PullRefresh"
+      class="cxd-Page-content"
     >
       <div
-        class="cxd-PullRefresh-wrap"
-        style="transform: translate3d(0, 0px, 0);"
+        class="cxd-Page-main"
       >
         <div
-          class="cxd-PullRefresh-header"
-        >
-          
-        </div>
-        <div
-          class="cxd-Page-content"
+          class="cxd-Page-body"
         >
           <div
-            class="cxd-Page-main"
+            class="cxd-ImagesField"
           >
             <div
-              class="cxd-Page-body"
+              class="cxd-Images"
             >
               <div
-                class="cxd-ImagesField"
+                class="cxd-Image cxd-Image--thumb cxd-Images-item"
               >
                 <div
-                  class="cxd-Images"
+                  class="cxd-Image-thumbWrap"
                 >
                   <div
-                    class="cxd-Image cxd-Image--thumb cxd-Images-item"
+                    class="cxd-Image-thumb cxd-Image-thumb--contain cxd-Image-thumb--1-1"
                   >
-                    <div
-                      class="cxd-Image-thumbWrap"
-                    >
-                      <div
-                        class="cxd-Image-thumb cxd-Image-thumb--contain cxd-Image-thumb--1-1"
-                      >
-                        <img
-                          class="cxd-Image-image"
-                          src="https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395692722/4f3cb4202335.jpeg@s_0,w_216,l_1,f_jpg,q_80"
-                        />
-                      </div>
-                    </div>
-                  </div>
-                  <div
-                    class="cxd-Image cxd-Image--thumb cxd-Images-item"
-                  >
-                    <div
-                      class="cxd-Image-thumbWrap"
-                    >
-                      <div
-                        class="cxd-Image-thumb cxd-Image-thumb--contain cxd-Image-thumb--1-1"
-                      >
-                        <img
-                          class="cxd-Image-image"
-                          src="https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395692942/d8e4992057f9.jpeg@s_0,w_216,l_1,f_jpg,q_80"
-                        />
-                      </div>
-                    </div>
-                  </div>
-                  <div
-                    class="cxd-Image cxd-Image--thumb cxd-Images-item"
-                  >
-                    <div
-                      class="cxd-Image-thumbWrap"
-                    >
-                      <div
-                        class="cxd-Image-thumb cxd-Image-thumb--contain cxd-Image-thumb--1-1"
-                      >
-                        <img
-                          class="cxd-Image-image"
-                          src="https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395693148/1314a2a3d3f6.jpeg@s_0,w_216,l_1,f_jpg,q_80"
-                        />
-                      </div>
-                    </div>
-                  </div>
-                  <div
-                    class="cxd-Image cxd-Image--thumb cxd-Images-item"
-                  >
-                    <div
-                      class="cxd-Image-thumbWrap"
-                    >
-                      <div
-                        class="cxd-Image-thumb cxd-Image-thumb--contain cxd-Image-thumb--1-1"
-                      >
-                        <img
-                          class="cxd-Image-image"
-                          src="https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395693379/8f2e79f82be0.jpeg@s_0,w_216,l_1,f_jpg,q_80"
-                        />
-                      </div>
-                    </div>
-                  </div>
-                  <div
-                    class="cxd-Image cxd-Image--thumb cxd-Images-item"
-                  >
-                    <div
-                      class="cxd-Image-thumbWrap"
-                    >
-                      <div
-                        class="cxd-Image-thumb cxd-Image-thumb--contain cxd-Image-thumb--1-1"
-                      >
-                        <img
-                          class="cxd-Image-image"
-                          src="https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395693566/552b175ef11d.jpeg@s_0,w_216,l_1,f_jpg,q_80"
-                        />
-                      </div>
-                    </div>
+                    <img
+                      class="cxd-Image-image"
+                      src="https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395692722/4f3cb4202335.jpeg@s_0,w_216,l_1,f_jpg,q_80"
+                    />
                   </div>
                 </div>
               </div>
               <div
-                class="cxd-Divider cxd-Divider--dashed"
-              />
-              <div
-                class="cxd-ImagesField"
+                class="cxd-Image cxd-Image--thumb cxd-Images-item"
               >
                 <div
-                  class="cxd-Images"
+                  class="cxd-Image-thumbWrap"
                 >
                   <div
-                    class="cxd-Image cxd-Image--thumb cxd-Images-item"
+                    class="cxd-Image-thumb cxd-Image-thumb--contain cxd-Image-thumb--1-1"
                   >
-                    <div
-                      class="cxd-Image-thumbWrap"
-                    >
-                      <div
-                        class="cxd-Image-thumb cxd-Image-thumb--contain cxd-Image-thumb--1-1"
-                      >
-                        <img
-                          class="cxd-Image-image"
-                          src="https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395692722/4f3cb4202335.jpeg@s_0,w_216,l_1,f_jpg,q_80"
-                        />
-                      </div>
-                    </div>
+                    <img
+                      class="cxd-Image-image"
+                      src="https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395692942/d8e4992057f9.jpeg@s_0,w_216,l_1,f_jpg,q_80"
+                    />
                   </div>
+                </div>
+              </div>
+              <div
+                class="cxd-Image cxd-Image--thumb cxd-Images-item"
+              >
+                <div
+                  class="cxd-Image-thumbWrap"
+                >
                   <div
-                    class="cxd-Image cxd-Image--thumb cxd-Images-item"
+                    class="cxd-Image-thumb cxd-Image-thumb--contain cxd-Image-thumb--1-1"
                   >
-                    <div
-                      class="cxd-Image-thumbWrap"
-                    >
-                      <div
-                        class="cxd-Image-thumb cxd-Image-thumb--contain cxd-Image-thumb--1-1"
-                      >
-                        <img
-                          class="cxd-Image-image"
-                          src="https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395692942/d8e4992057f9.jpeg@s_0,w_216,l_1,f_jpg,q_80"
-                        />
-                      </div>
-                    </div>
+                    <img
+                      class="cxd-Image-image"
+                      src="https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395693148/1314a2a3d3f6.jpeg@s_0,w_216,l_1,f_jpg,q_80"
+                    />
                   </div>
+                </div>
+              </div>
+              <div
+                class="cxd-Image cxd-Image--thumb cxd-Images-item"
+              >
+                <div
+                  class="cxd-Image-thumbWrap"
+                >
                   <div
-                    class="cxd-Image cxd-Image--thumb cxd-Images-item"
+                    class="cxd-Image-thumb cxd-Image-thumb--contain cxd-Image-thumb--1-1"
                   >
-                    <div
-                      class="cxd-Image-thumbWrap"
-                    >
-                      <div
-                        class="cxd-Image-thumb cxd-Image-thumb--contain cxd-Image-thumb--1-1"
-                      >
-                        <img
-                          class="cxd-Image-image"
-                          src="https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395693148/1314a2a3d3f6.jpeg@s_0,w_216,l_1,f_jpg,q_80"
-                        />
-                      </div>
-                    </div>
+                    <img
+                      class="cxd-Image-image"
+                      src="https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395693379/8f2e79f82be0.jpeg@s_0,w_216,l_1,f_jpg,q_80"
+                    />
                   </div>
+                </div>
+              </div>
+              <div
+                class="cxd-Image cxd-Image--thumb cxd-Images-item"
+              >
+                <div
+                  class="cxd-Image-thumbWrap"
+                >
                   <div
-                    class="cxd-Image cxd-Image--thumb cxd-Images-item"
+                    class="cxd-Image-thumb cxd-Image-thumb--contain cxd-Image-thumb--1-1"
                   >
-                    <div
-                      class="cxd-Image-thumbWrap"
-                    >
-                      <div
-                        class="cxd-Image-thumb cxd-Image-thumb--contain cxd-Image-thumb--1-1"
-                      >
-                        <img
-                          class="cxd-Image-image"
-                          src="https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395693379/8f2e79f82be0.jpeg@s_0,w_216,l_1,f_jpg,q_80"
-                        />
-                      </div>
-                    </div>
+                    <img
+                      class="cxd-Image-image"
+                      src="https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395693566/552b175ef11d.jpeg@s_0,w_216,l_1,f_jpg,q_80"
+                    />
                   </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div
+            class="cxd-Divider cxd-Divider--dashed"
+          />
+          <div
+            class="cxd-ImagesField"
+          >
+            <div
+              class="cxd-Images"
+            >
+              <div
+                class="cxd-Image cxd-Image--thumb cxd-Images-item"
+              >
+                <div
+                  class="cxd-Image-thumbWrap"
+                >
                   <div
-                    class="cxd-Image cxd-Image--thumb cxd-Images-item"
+                    class="cxd-Image-thumb cxd-Image-thumb--contain cxd-Image-thumb--1-1"
                   >
-                    <div
-                      class="cxd-Image-thumbWrap"
-                    >
-                      <div
-                        class="cxd-Image-thumb cxd-Image-thumb--contain cxd-Image-thumb--1-1"
-                      >
-                        <img
-                          class="cxd-Image-image"
-                          src="https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395693566/552b175ef11d.jpeg@s_0,w_216,l_1,f_jpg,q_80"
-                        />
-                      </div>
-                    </div>
+                    <img
+                      class="cxd-Image-image"
+                      src="https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395692722/4f3cb4202335.jpeg@s_0,w_216,l_1,f_jpg,q_80"
+                    />
+                  </div>
+                </div>
+              </div>
+              <div
+                class="cxd-Image cxd-Image--thumb cxd-Images-item"
+              >
+                <div
+                  class="cxd-Image-thumbWrap"
+                >
+                  <div
+                    class="cxd-Image-thumb cxd-Image-thumb--contain cxd-Image-thumb--1-1"
+                  >
+                    <img
+                      class="cxd-Image-image"
+                      src="https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395692942/d8e4992057f9.jpeg@s_0,w_216,l_1,f_jpg,q_80"
+                    />
+                  </div>
+                </div>
+              </div>
+              <div
+                class="cxd-Image cxd-Image--thumb cxd-Images-item"
+              >
+                <div
+                  class="cxd-Image-thumbWrap"
+                >
+                  <div
+                    class="cxd-Image-thumb cxd-Image-thumb--contain cxd-Image-thumb--1-1"
+                  >
+                    <img
+                      class="cxd-Image-image"
+                      src="https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395693148/1314a2a3d3f6.jpeg@s_0,w_216,l_1,f_jpg,q_80"
+                    />
+                  </div>
+                </div>
+              </div>
+              <div
+                class="cxd-Image cxd-Image--thumb cxd-Images-item"
+              >
+                <div
+                  class="cxd-Image-thumbWrap"
+                >
+                  <div
+                    class="cxd-Image-thumb cxd-Image-thumb--contain cxd-Image-thumb--1-1"
+                  >
+                    <img
+                      class="cxd-Image-image"
+                      src="https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395693379/8f2e79f82be0.jpeg@s_0,w_216,l_1,f_jpg,q_80"
+                    />
+                  </div>
+                </div>
+              </div>
+              <div
+                class="cxd-Image cxd-Image--thumb cxd-Images-item"
+              >
+                <div
+                  class="cxd-Image-thumbWrap"
+                >
+                  <div
+                    class="cxd-Image-thumb cxd-Image-thumb--contain cxd-Image-thumb--1-1"
+                  >
+                    <img
+                      class="cxd-Image-image"
+                      src="https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395693566/552b175ef11d.jpeg@s_0,w_216,l_1,f_jpg,q_80"
+                    />
                   </div>
                 </div>
               </div>

@@ -504,217 +504,203 @@ exports[`Renderer:Wizard dialog 1`] = `
     class="cxd-Page"
   >
     <div
-      class="cxd-PullRefresh"
+      class="cxd-Page-content"
     >
       <div
-        class="cxd-PullRefresh-wrap"
-        style="transform: translate3d(0, 0px, 0);"
+        class="cxd-Page-main"
       >
         <div
-          class="cxd-PullRefresh-header"
-        >
-          
-        </div>
-        <div
-          class="cxd-Page-content"
+          class="cxd-Page-body"
         >
           <div
-            class="cxd-Page-main"
+            class="cxd-Panel cxd-Panel--default cxd-Wizard cxd-Wizard--horizontal"
+            style="position: relative;"
           >
             <div
-              class="cxd-Page-body"
+              class="cxd-Wizard-step"
             >
               <div
-                class="cxd-Panel cxd-Panel--default cxd-Wizard cxd-Wizard--horizontal"
-                style="position: relative;"
+                class="cxd-Wizard-steps"
+                id="form-wizard"
               >
-                <div
-                  class="cxd-Wizard-step"
-                >
-                  <div
-                    class="cxd-Wizard-steps"
-                    id="form-wizard"
+                <ul>
+                  <li
+                    class="is-active"
                   >
-                    <ul>
-                      <li
-                        class="is-active"
-                      >
-                        <span
-                          class="cxd-Badge is-active"
-                        >
-                          1
-                        </span>
-                        Step 1
-                      </li>
-                      <li
-                        class=""
-                      >
-                        <span
-                          class="cxd-Badge"
-                        >
-                          2
-                        </span>
-                        Step 2
-                      </li>
-                    </ul>
-                  </div>
-                  <div
-                    class="cxd-Wizard-stepContent clearfix"
-                    role="wizard-body"
-                  >
-                    <form
-                      class="cxd-Form cxd-Form--normal"
-                      novalidate=""
+                    <span
+                      class="cxd-Badge is-active"
                     >
-                      <input
-                        style="display: none;"
-                        type="submit"
-                      />
-                      <div
-                        class="cxd-Form-item cxd-Form-item--normal"
-                        data-role="form-item"
-                      >
-                        <label
-                          class="cxd-Form-label"
-                        >
-                          <span>
-                            <span
-                              class="cxd-TplField"
-                            >
-                              <span>
-                                网址
-                              </span>
-                            </span>
-                          </span>
-                        </label>
-                        <div
-                          class="cxd-Form-control cxd-TextControl"
-                        >
-                          <div
-                            class="cxd-TextControl-input"
-                          >
-                            <input
-                              autocomplete="off"
-                              name="website"
-                              placeholder=""
-                              size="10"
-                              type="url"
-                              value="http://amis.baidu.com"
-                            />
-                          </div>
-                        </div>
-                      </div>
-                      <div
-                        class="cxd-Form-item cxd-Form-item--normal"
-                        data-role="form-item"
-                      >
-                        <label
-                          class="cxd-Form-label"
-                        >
-                          <span>
-                            <span
-                              class="cxd-TplField"
-                            >
-                              <span>
-                                名称
-                              </span>
-                            </span>
-                          </span>
-                        </label>
-                        <div
-                          class="cxd-Form-control cxd-TextControl"
-                        >
-                          <div
-                            class="cxd-TextControl-input"
-                          >
-                            <input
-                              autocomplete="off"
-                              name="name"
-                              placeholder=""
-                              size="10"
-                              type="text"
-                              value="Amis"
-                            />
-                          </div>
-                        </div>
-                      </div>
-                      <div
-                        class="cxd-Form-item cxd-Form-item--normal"
-                        data-role="form-item"
-                      >
-                        <button
-                          class="cxd-Button cxd-Button--default"
-                          type="button"
-                        >
-                          <span>
-                            OpenDialog
-                          </span>
-                        </button>
-                      </div>
-                    </form>
-                  </div>
-                  <div
-                    class="cxd-Panel-footer cxd-Wizard-footer"
-                    role="wizard-footer"
+                      1
+                    </span>
+                    Step 1
+                  </li>
+                  <li
+                    class=""
                   >
-                    <div
-                      class="cxd-Button cxd-Button--default is-disabled"
-                      disabled=""
+                    <span
+                      class="cxd-Badge"
+                    >
+                      2
+                    </span>
+                    Step 2
+                  </li>
+                </ul>
+              </div>
+              <div
+                class="cxd-Wizard-stepContent clearfix"
+                role="wizard-body"
+              >
+                <form
+                  class="cxd-Form cxd-Form--normal"
+                  novalidate=""
+                >
+                  <input
+                    style="display: none;"
+                    type="submit"
+                  />
+                  <div
+                    class="cxd-Form-item cxd-Form-item--normal"
+                    data-role="form-item"
+                  >
+                    <label
+                      class="cxd-Form-label"
                     >
                       <span>
-                        上一步
+                        <span
+                          class="cxd-TplField"
+                        >
+                          <span>
+                            网址
+                          </span>
+                        </span>
                       </span>
+                    </label>
+                    <div
+                      class="cxd-Form-control cxd-TextControl"
+                    >
+                      <div
+                        class="cxd-TextControl-input"
+                      >
+                        <input
+                          autocomplete="off"
+                          name="website"
+                          placeholder=""
+                          size="10"
+                          type="url"
+                          value="http://amis.baidu.com"
+                        />
+                      </div>
                     </div>
+                  </div>
+                  <div
+                    class="cxd-Form-item cxd-Form-item--normal"
+                    data-role="form-item"
+                  >
+                    <label
+                      class="cxd-Form-label"
+                    >
+                      <span>
+                        <span
+                          class="cxd-TplField"
+                        >
+                          <span>
+                            名称
+                          </span>
+                        </span>
+                      </span>
+                    </label>
+                    <div
+                      class="cxd-Form-control cxd-TextControl"
+                    >
+                      <div
+                        class="cxd-TextControl-input"
+                      >
+                        <input
+                          autocomplete="off"
+                          name="name"
+                          placeholder=""
+                          size="10"
+                          type="text"
+                          value="Amis"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                  <div
+                    class="cxd-Form-item cxd-Form-item--normal"
+                    data-role="form-item"
+                  >
                     <button
                       class="cxd-Button cxd-Button--default"
                       type="button"
                     >
                       <span>
-                        下一步
+                        OpenDialog
                       </span>
                     </button>
                   </div>
-                </div>
-                <div
-                  class="resize-sensor"
-                  style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
-                >
-                  
-  
-                  <div
-                    class="resize-sensor-expand"
-                    style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-                  >
-                    
-    
-                    <div
-                      style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
-                    />
-                    
-  
-                  </div>
-                  
-  
-                  <div
-                    class="resize-sensor-shrink"
-                    style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-                  >
-                    
-    
-                    <div
-                      style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
-                    />
-                    
-  
-                  </div>
-                  
-  
-                  <div
-                    class="resize-sensor-appear"
-                    style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
-                  />
-                </div>
+                </form>
               </div>
+              <div
+                class="cxd-Panel-footer cxd-Wizard-footer"
+                role="wizard-footer"
+              >
+                <div
+                  class="cxd-Button cxd-Button--default is-disabled"
+                  disabled=""
+                >
+                  <span>
+                    上一步
+                  </span>
+                </div>
+                <button
+                  class="cxd-Button cxd-Button--default"
+                  type="button"
+                >
+                  <span>
+                    下一步
+                  </span>
+                </button>
+              </div>
+            </div>
+            <div
+              class="resize-sensor"
+              style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
+            >
+              
+  
+              <div
+                class="resize-sensor-expand"
+                style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+              >
+                
+    
+                <div
+                  style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
+                />
+                
+  
+              </div>
+              
+  
+              <div
+                class="resize-sensor-shrink"
+                style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+              >
+                
+    
+                <div
+                  style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
+                />
+                
+  
+              </div>
+              
+  
+              <div
+                class="resize-sensor-appear"
+                style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
+              />
             </div>
           </div>
         </div>
@@ -832,217 +818,203 @@ exports[`Renderer:Wizard dialog 2`] = `
     class="cxd-Page"
   >
     <div
-      class="cxd-PullRefresh"
+      class="cxd-Page-content"
     >
       <div
-        class="cxd-PullRefresh-wrap"
-        style="transform: translate3d(0, 0px, 0);"
+        class="cxd-Page-main"
       >
         <div
-          class="cxd-PullRefresh-header"
-        >
-          
-        </div>
-        <div
-          class="cxd-Page-content"
+          class="cxd-Page-body"
         >
           <div
-            class="cxd-Page-main"
+            class="cxd-Panel cxd-Panel--default cxd-Wizard cxd-Wizard--horizontal"
+            style="position: relative;"
           >
             <div
-              class="cxd-Page-body"
+              class="cxd-Wizard-step"
             >
               <div
-                class="cxd-Panel cxd-Panel--default cxd-Wizard cxd-Wizard--horizontal"
-                style="position: relative;"
+                class="cxd-Wizard-steps"
+                id="form-wizard"
               >
-                <div
-                  class="cxd-Wizard-step"
-                >
-                  <div
-                    class="cxd-Wizard-steps"
-                    id="form-wizard"
+                <ul>
+                  <li
+                    class="is-active"
                   >
-                    <ul>
-                      <li
-                        class="is-active"
-                      >
-                        <span
-                          class="cxd-Badge is-active"
-                        >
-                          1
-                        </span>
-                        Step 1
-                      </li>
-                      <li
-                        class=""
-                      >
-                        <span
-                          class="cxd-Badge"
-                        >
-                          2
-                        </span>
-                        Step 2
-                      </li>
-                    </ul>
-                  </div>
-                  <div
-                    class="cxd-Wizard-stepContent clearfix"
-                    role="wizard-body"
-                  >
-                    <form
-                      class="cxd-Form cxd-Form--normal"
-                      novalidate=""
+                    <span
+                      class="cxd-Badge is-active"
                     >
-                      <input
-                        style="display: none;"
-                        type="submit"
-                      />
-                      <div
-                        class="cxd-Form-item cxd-Form-item--normal"
-                        data-role="form-item"
-                      >
-                        <label
-                          class="cxd-Form-label"
-                        >
-                          <span>
-                            <span
-                              class="cxd-TplField"
-                            >
-                              <span>
-                                网址
-                              </span>
-                            </span>
-                          </span>
-                        </label>
-                        <div
-                          class="cxd-Form-control cxd-TextControl"
-                        >
-                          <div
-                            class="cxd-TextControl-input"
-                          >
-                            <input
-                              autocomplete="off"
-                              name="website"
-                              placeholder=""
-                              size="10"
-                              type="url"
-                              value="http://amis.baidu.com"
-                            />
-                          </div>
-                        </div>
-                      </div>
-                      <div
-                        class="cxd-Form-item cxd-Form-item--normal"
-                        data-role="form-item"
-                      >
-                        <label
-                          class="cxd-Form-label"
-                        >
-                          <span>
-                            <span
-                              class="cxd-TplField"
-                            >
-                              <span>
-                                名称
-                              </span>
-                            </span>
-                          </span>
-                        </label>
-                        <div
-                          class="cxd-Form-control cxd-TextControl"
-                        >
-                          <div
-                            class="cxd-TextControl-input"
-                          >
-                            <input
-                              autocomplete="off"
-                              name="name"
-                              placeholder=""
-                              size="10"
-                              type="text"
-                              value="Amis"
-                            />
-                          </div>
-                        </div>
-                      </div>
-                      <div
-                        class="cxd-Form-item cxd-Form-item--normal"
-                        data-role="form-item"
-                      >
-                        <button
-                          class="cxd-Button cxd-Button--default"
-                          type="button"
-                        >
-                          <span>
-                            OpenDialog
-                          </span>
-                        </button>
-                      </div>
-                    </form>
-                  </div>
-                  <div
-                    class="cxd-Panel-footer cxd-Wizard-footer"
-                    role="wizard-footer"
+                      1
+                    </span>
+                    Step 1
+                  </li>
+                  <li
+                    class=""
                   >
-                    <div
-                      class="cxd-Button cxd-Button--default is-disabled"
-                      disabled=""
+                    <span
+                      class="cxd-Badge"
+                    >
+                      2
+                    </span>
+                    Step 2
+                  </li>
+                </ul>
+              </div>
+              <div
+                class="cxd-Wizard-stepContent clearfix"
+                role="wizard-body"
+              >
+                <form
+                  class="cxd-Form cxd-Form--normal"
+                  novalidate=""
+                >
+                  <input
+                    style="display: none;"
+                    type="submit"
+                  />
+                  <div
+                    class="cxd-Form-item cxd-Form-item--normal"
+                    data-role="form-item"
+                  >
+                    <label
+                      class="cxd-Form-label"
                     >
                       <span>
-                        上一步
+                        <span
+                          class="cxd-TplField"
+                        >
+                          <span>
+                            网址
+                          </span>
+                        </span>
                       </span>
+                    </label>
+                    <div
+                      class="cxd-Form-control cxd-TextControl"
+                    >
+                      <div
+                        class="cxd-TextControl-input"
+                      >
+                        <input
+                          autocomplete="off"
+                          name="website"
+                          placeholder=""
+                          size="10"
+                          type="url"
+                          value="http://amis.baidu.com"
+                        />
+                      </div>
                     </div>
+                  </div>
+                  <div
+                    class="cxd-Form-item cxd-Form-item--normal"
+                    data-role="form-item"
+                  >
+                    <label
+                      class="cxd-Form-label"
+                    >
+                      <span>
+                        <span
+                          class="cxd-TplField"
+                        >
+                          <span>
+                            名称
+                          </span>
+                        </span>
+                      </span>
+                    </label>
+                    <div
+                      class="cxd-Form-control cxd-TextControl"
+                    >
+                      <div
+                        class="cxd-TextControl-input"
+                      >
+                        <input
+                          autocomplete="off"
+                          name="name"
+                          placeholder=""
+                          size="10"
+                          type="text"
+                          value="Amis"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                  <div
+                    class="cxd-Form-item cxd-Form-item--normal"
+                    data-role="form-item"
+                  >
                     <button
                       class="cxd-Button cxd-Button--default"
                       type="button"
                     >
                       <span>
-                        下一步
+                        OpenDialog
                       </span>
                     </button>
                   </div>
-                </div>
-                <div
-                  class="resize-sensor"
-                  style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
-                >
-                  
-  
-                  <div
-                    class="resize-sensor-expand"
-                    style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-                  >
-                    
-    
-                    <div
-                      style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
-                    />
-                    
-  
-                  </div>
-                  
-  
-                  <div
-                    class="resize-sensor-shrink"
-                    style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-                  >
-                    
-    
-                    <div
-                      style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
-                    />
-                    
-  
-                  </div>
-                  
-  
-                  <div
-                    class="resize-sensor-appear"
-                    style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
-                  />
-                </div>
+                </form>
               </div>
+              <div
+                class="cxd-Panel-footer cxd-Wizard-footer"
+                role="wizard-footer"
+              >
+                <div
+                  class="cxd-Button cxd-Button--default is-disabled"
+                  disabled=""
+                >
+                  <span>
+                    上一步
+                  </span>
+                </div>
+                <button
+                  class="cxd-Button cxd-Button--default"
+                  type="button"
+                >
+                  <span>
+                    下一步
+                  </span>
+                </button>
+              </div>
+            </div>
+            <div
+              class="resize-sensor"
+              style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
+            >
+              
+  
+              <div
+                class="resize-sensor-expand"
+                style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+              >
+                
+    
+                <div
+                  style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
+                />
+                
+  
+              </div>
+              
+  
+              <div
+                class="resize-sensor-shrink"
+                style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+              >
+                
+    
+                <div
+                  style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
+                />
+                
+  
+              </div>
+              
+  
+              <div
+                class="resize-sensor-appear"
+                style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
+              />
             </div>
           </div>
         </div>
@@ -1245,204 +1217,190 @@ exports[`Renderer:Wizard initApi reload 1`] = `
     class="cxd-Page"
   >
     <div
-      class="cxd-PullRefresh"
+      class="cxd-Page-content"
     >
       <div
-        class="cxd-PullRefresh-wrap"
-        style="transform: translate3d(0, 0px, 0);"
+        class="cxd-Page-main"
       >
         <div
-          class="cxd-PullRefresh-header"
-        >
-          
-        </div>
-        <div
-          class="cxd-Page-content"
+          class="cxd-Page-body"
         >
           <div
-            class="cxd-Page-main"
+            class="cxd-Panel cxd-Panel--default cxd-Wizard cxd-Wizard--horizontal"
+            style="position: relative;"
           >
             <div
-              class="cxd-Page-body"
+              class="cxd-Wizard-step"
             >
               <div
-                class="cxd-Panel cxd-Panel--default cxd-Wizard cxd-Wizard--horizontal"
-                style="position: relative;"
+                class="cxd-Wizard-steps"
+                id="form-wizard"
+              >
+                <ul>
+                  <li
+                    class="is-active"
+                  >
+                    <span
+                      class="cxd-Badge is-active"
+                    >
+                      1
+                    </span>
+                    Step 1
+                  </li>
+                  <li
+                    class=""
+                  >
+                    <span
+                      class="cxd-Badge"
+                    >
+                      2
+                    </span>
+                    Step 2
+                  </li>
+                </ul>
+              </div>
+              <div
+                class="cxd-Wizard-stepContent clearfix"
+                role="wizard-body"
+              >
+                <form
+                  class="cxd-Form cxd-Form--normal"
+                  novalidate=""
+                >
+                  <input
+                    style="display: none;"
+                    type="submit"
+                  />
+                  <div
+                    class="cxd-Form-item cxd-Form-item--normal"
+                    data-role="form-item"
+                  >
+                    <label
+                      class="cxd-Form-label"
+                    >
+                      <span>
+                        <span
+                          class="cxd-TplField"
+                        >
+                          <span>
+                            网址
+                          </span>
+                        </span>
+                      </span>
+                    </label>
+                    <div
+                      class="cxd-Form-control cxd-TextControl"
+                    >
+                      <div
+                        class="cxd-TextControl-input"
+                      >
+                        <input
+                          autocomplete="off"
+                          name="website"
+                          placeholder=""
+                          size="10"
+                          type="url"
+                          value="http://amis.baidu.com"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                  <div
+                    class="cxd-Form-item cxd-Form-item--normal"
+                    data-role="form-item"
+                  >
+                    <label
+                      class="cxd-Form-label"
+                    >
+                      <span>
+                        <span
+                          class="cxd-TplField"
+                        >
+                          <span>
+                            名称
+                          </span>
+                        </span>
+                      </span>
+                    </label>
+                    <div
+                      class="cxd-Form-control cxd-TextControl"
+                    >
+                      <div
+                        class="cxd-TextControl-input"
+                      >
+                        <input
+                          autocomplete="off"
+                          name="name"
+                          placeholder=""
+                          size="10"
+                          type="text"
+                          value="Amis"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                </form>
+              </div>
+              <div
+                class="cxd-Panel-footer cxd-Wizard-footer"
+                role="wizard-footer"
               >
                 <div
-                  class="cxd-Wizard-step"
+                  class="cxd-Button cxd-Button--default is-disabled"
+                  disabled=""
                 >
-                  <div
-                    class="cxd-Wizard-steps"
-                    id="form-wizard"
-                  >
-                    <ul>
-                      <li
-                        class="is-active"
-                      >
-                        <span
-                          class="cxd-Badge is-active"
-                        >
-                          1
-                        </span>
-                        Step 1
-                      </li>
-                      <li
-                        class=""
-                      >
-                        <span
-                          class="cxd-Badge"
-                        >
-                          2
-                        </span>
-                        Step 2
-                      </li>
-                    </ul>
-                  </div>
-                  <div
-                    class="cxd-Wizard-stepContent clearfix"
-                    role="wizard-body"
-                  >
-                    <form
-                      class="cxd-Form cxd-Form--normal"
-                      novalidate=""
-                    >
-                      <input
-                        style="display: none;"
-                        type="submit"
-                      />
-                      <div
-                        class="cxd-Form-item cxd-Form-item--normal"
-                        data-role="form-item"
-                      >
-                        <label
-                          class="cxd-Form-label"
-                        >
-                          <span>
-                            <span
-                              class="cxd-TplField"
-                            >
-                              <span>
-                                网址
-                              </span>
-                            </span>
-                          </span>
-                        </label>
-                        <div
-                          class="cxd-Form-control cxd-TextControl"
-                        >
-                          <div
-                            class="cxd-TextControl-input"
-                          >
-                            <input
-                              autocomplete="off"
-                              name="website"
-                              placeholder=""
-                              size="10"
-                              type="url"
-                              value="http://amis.baidu.com"
-                            />
-                          </div>
-                        </div>
-                      </div>
-                      <div
-                        class="cxd-Form-item cxd-Form-item--normal"
-                        data-role="form-item"
-                      >
-                        <label
-                          class="cxd-Form-label"
-                        >
-                          <span>
-                            <span
-                              class="cxd-TplField"
-                            >
-                              <span>
-                                名称
-                              </span>
-                            </span>
-                          </span>
-                        </label>
-                        <div
-                          class="cxd-Form-control cxd-TextControl"
-                        >
-                          <div
-                            class="cxd-TextControl-input"
-                          >
-                            <input
-                              autocomplete="off"
-                              name="name"
-                              placeholder=""
-                              size="10"
-                              type="text"
-                              value="Amis"
-                            />
-                          </div>
-                        </div>
-                      </div>
-                    </form>
-                  </div>
-                  <div
-                    class="cxd-Panel-footer cxd-Wizard-footer"
-                    role="wizard-footer"
-                  >
-                    <div
-                      class="cxd-Button cxd-Button--default is-disabled"
-                      disabled=""
-                    >
-                      <span>
-                        上一步
-                      </span>
-                    </div>
-                    <button
-                      class="cxd-Button cxd-Button--default"
-                      type="button"
-                    >
-                      <span>
-                        下一步
-                      </span>
-                    </button>
-                  </div>
+                  <span>
+                    上一步
+                  </span>
                 </div>
-                <div
-                  class="resize-sensor"
-                  style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
+                <button
+                  class="cxd-Button cxd-Button--default"
+                  type="button"
                 >
-                  
-  
-                  <div
-                    class="resize-sensor-expand"
-                    style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-                  >
-                    
-    
-                    <div
-                      style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
-                    />
-                    
-  
-                  </div>
-                  
-  
-                  <div
-                    class="resize-sensor-shrink"
-                    style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-                  >
-                    
-    
-                    <div
-                      style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
-                    />
-                    
-  
-                  </div>
-                  
-  
-                  <div
-                    class="resize-sensor-appear"
-                    style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
-                  />
-                </div>
+                  <span>
+                    下一步
+                  </span>
+                </button>
               </div>
+            </div>
+            <div
+              class="resize-sensor"
+              style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
+            >
+              
+  
+              <div
+                class="resize-sensor-expand"
+                style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+              >
+                
+    
+                <div
+                  style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
+                />
+                
+  
+              </div>
+              
+  
+              <div
+                class="resize-sensor-shrink"
+                style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+              >
+                
+    
+                <div
+                  style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
+                />
+                
+  
+              </div>
+              
+  
+              <div
+                class="resize-sensor-appear"
+                style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
+              />
             </div>
           </div>
         </div>
@@ -1458,146 +1416,132 @@ exports[`Renderer:Wizard initApi reload 2`] = `
     class="cxd-Page"
   >
     <div
-      class="cxd-PullRefresh"
+      class="cxd-Page-content"
     >
       <div
-        class="cxd-PullRefresh-wrap"
-        style="transform: translate3d(0, 0px, 0);"
+        class="cxd-Page-main"
       >
         <div
-          class="cxd-PullRefresh-header"
-        >
-          
-        </div>
-        <div
-          class="cxd-Page-content"
+          class="cxd-Page-body"
         >
           <div
-            class="cxd-Page-main"
+            class="cxd-Panel cxd-Panel--default cxd-Wizard cxd-Wizard--horizontal"
+            style="position: relative;"
           >
             <div
-              class="cxd-Page-body"
+              class="cxd-Wizard-step"
             >
               <div
-                class="cxd-Panel cxd-Panel--default cxd-Wizard cxd-Wizard--horizontal"
-                style="position: relative;"
+                class="cxd-Wizard-steps"
+                id="form-wizard"
               >
-                <div
-                  class="cxd-Wizard-step"
-                >
-                  <div
-                    class="cxd-Wizard-steps"
-                    id="form-wizard"
+                <ul>
+                  <li
+                    class="is-complete"
                   >
-                    <ul>
-                      <li
-                        class="is-complete"
-                      >
-                        <span
-                          class="cxd-Badge is-complete is-active"
-                        >
-                          <icon-mock
-                            classname="icon icon-check"
-                            icon="check"
-                          />
-                        </span>
-                        Step 1
-                      </li>
-                      <li
-                        class="is-active"
-                      >
-                        <span
-                          class="cxd-Badge is-active"
-                        >
-                          2
-                        </span>
-                        Step 2
-                      </li>
-                    </ul>
-                  </div>
-                  <div
-                    class="cxd-Wizard-stepContent clearfix"
-                    role="wizard-body"
-                  >
-                    <form
-                      class="cxd-Form cxd-Form--normal"
-                      novalidate=""
+                    <span
+                      class="cxd-Badge is-complete is-active"
                     >
-                      <input
-                        style="display: none;"
-                        type="submit"
+                      <icon-mock
+                        classname="icon icon-check"
+                        icon="check"
                       />
-                      <span
-                        class="cxd-TplField"
-                      >
-                        <span>
-                          这是最后一步了
-                        </span>
-                      </span>
-                    </form>
-                  </div>
-                  <div
-                    class="cxd-Panel-footer cxd-Wizard-footer"
-                    role="wizard-footer"
+                    </span>
+                    Step 1
+                  </li>
+                  <li
+                    class="is-active"
                   >
-                    <button
-                      class="cxd-Button cxd-Button--default"
-                      type="button"
+                    <span
+                      class="cxd-Badge is-active"
                     >
-                      <span>
-                        上一步
-                      </span>
-                    </button>
-                    <button
-                      class="cxd-Button cxd-Button--primary"
-                      type="button"
-                    >
-                      <span>
-                        完成
-                      </span>
-                    </button>
-                  </div>
-                </div>
-                <div
-                  class="resize-sensor"
-                  style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
-                >
-                  
-  
-                  <div
-                    class="resize-sensor-expand"
-                    style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-                  >
-                    
-    
-                    <div
-                      style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
-                    />
-                    
-  
-                  </div>
-                  
-  
-                  <div
-                    class="resize-sensor-shrink"
-                    style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-                  >
-                    
-    
-                    <div
-                      style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
-                    />
-                    
-  
-                  </div>
-                  
-  
-                  <div
-                    class="resize-sensor-appear"
-                    style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
-                  />
-                </div>
+                      2
+                    </span>
+                    Step 2
+                  </li>
+                </ul>
               </div>
+              <div
+                class="cxd-Wizard-stepContent clearfix"
+                role="wizard-body"
+              >
+                <form
+                  class="cxd-Form cxd-Form--normal"
+                  novalidate=""
+                >
+                  <input
+                    style="display: none;"
+                    type="submit"
+                  />
+                  <span
+                    class="cxd-TplField"
+                  >
+                    <span>
+                      这是最后一步了
+                    </span>
+                  </span>
+                </form>
+              </div>
+              <div
+                class="cxd-Panel-footer cxd-Wizard-footer"
+                role="wizard-footer"
+              >
+                <button
+                  class="cxd-Button cxd-Button--default"
+                  type="button"
+                >
+                  <span>
+                    上一步
+                  </span>
+                </button>
+                <button
+                  class="cxd-Button cxd-Button--primary"
+                  type="button"
+                >
+                  <span>
+                    完成
+                  </span>
+                </button>
+              </div>
+            </div>
+            <div
+              class="resize-sensor"
+              style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
+            >
+              
+  
+              <div
+                class="resize-sensor-expand"
+                style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+              >
+                
+    
+                <div
+                  style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
+                />
+                
+  
+              </div>
+              
+  
+              <div
+                class="resize-sensor-shrink"
+                style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+              >
+                
+    
+                <div
+                  style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
+                />
+                
+  
+              </div>
+              
+  
+              <div
+                class="resize-sensor-appear"
+                style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
+              />
             </div>
           </div>
         </div>
@@ -1613,146 +1557,132 @@ exports[`Renderer:Wizard initApi reload 3`] = `
     class="cxd-Page"
   >
     <div
-      class="cxd-PullRefresh"
+      class="cxd-Page-content"
     >
       <div
-        class="cxd-PullRefresh-wrap"
-        style="transform: translate3d(0, 0px, 0);"
+        class="cxd-Page-main"
       >
         <div
-          class="cxd-PullRefresh-header"
-        >
-          
-        </div>
-        <div
-          class="cxd-Page-content"
+          class="cxd-Page-body"
         >
           <div
-            class="cxd-Page-main"
+            class="cxd-Panel cxd-Panel--default cxd-Wizard cxd-Wizard--horizontal"
+            style="position: relative;"
           >
             <div
-              class="cxd-Page-body"
+              class="cxd-Wizard-step"
             >
               <div
-                class="cxd-Panel cxd-Panel--default cxd-Wizard cxd-Wizard--horizontal"
-                style="position: relative;"
+                class="cxd-Wizard-steps"
+                id="form-wizard"
               >
-                <div
-                  class="cxd-Wizard-step"
-                >
-                  <div
-                    class="cxd-Wizard-steps"
-                    id="form-wizard"
+                <ul>
+                  <li
+                    class="is-complete"
                   >
-                    <ul>
-                      <li
-                        class="is-complete"
-                      >
-                        <span
-                          class="cxd-Badge is-complete is-active"
-                        >
-                          <icon-mock
-                            classname="icon icon-check"
-                            icon="check"
-                          />
-                        </span>
-                        Step 1
-                      </li>
-                      <li
-                        class="is-complete is-active"
-                      >
-                        <span
-                          class="cxd-Badge is-complete is-active"
-                        >
-                          2
-                        </span>
-                        Step 2
-                      </li>
-                    </ul>
-                  </div>
-                  <div
-                    class="cxd-Wizard-stepContent clearfix"
-                    role="wizard-body"
-                  >
-                    <form
-                      class="cxd-Form cxd-Form--normal"
-                      novalidate=""
+                    <span
+                      class="cxd-Badge is-complete is-active"
                     >
-                      <input
-                        style="display: none;"
-                        type="submit"
+                      <icon-mock
+                        classname="icon icon-check"
+                        icon="check"
                       />
-                      <span
-                        class="cxd-TplField"
-                      >
-                        <span>
-                          这是最后一步了
-                        </span>
-                      </span>
-                    </form>
-                  </div>
-                  <div
-                    class="cxd-Panel-footer cxd-Wizard-footer"
-                    role="wizard-footer"
+                    </span>
+                    Step 1
+                  </li>
+                  <li
+                    class="is-complete is-active"
                   >
-                    <button
-                      class="cxd-Button cxd-Button--default"
-                      type="button"
+                    <span
+                      class="cxd-Badge is-complete is-active"
                     >
-                      <span>
-                        上一步
-                      </span>
-                    </button>
-                    <button
-                      class="cxd-Button cxd-Button--primary"
-                      type="button"
-                    >
-                      <span>
-                        完成
-                      </span>
-                    </button>
-                  </div>
-                </div>
-                <div
-                  class="resize-sensor"
-                  style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
-                >
-                  
-  
-                  <div
-                    class="resize-sensor-expand"
-                    style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-                  >
-                    
-    
-                    <div
-                      style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
-                    />
-                    
-  
-                  </div>
-                  
-  
-                  <div
-                    class="resize-sensor-shrink"
-                    style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-                  >
-                    
-    
-                    <div
-                      style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
-                    />
-                    
-  
-                  </div>
-                  
-  
-                  <div
-                    class="resize-sensor-appear"
-                    style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
-                  />
-                </div>
+                      2
+                    </span>
+                    Step 2
+                  </li>
+                </ul>
               </div>
+              <div
+                class="cxd-Wizard-stepContent clearfix"
+                role="wizard-body"
+              >
+                <form
+                  class="cxd-Form cxd-Form--normal"
+                  novalidate=""
+                >
+                  <input
+                    style="display: none;"
+                    type="submit"
+                  />
+                  <span
+                    class="cxd-TplField"
+                  >
+                    <span>
+                      这是最后一步了
+                    </span>
+                  </span>
+                </form>
+              </div>
+              <div
+                class="cxd-Panel-footer cxd-Wizard-footer"
+                role="wizard-footer"
+              >
+                <button
+                  class="cxd-Button cxd-Button--default"
+                  type="button"
+                >
+                  <span>
+                    上一步
+                  </span>
+                </button>
+                <button
+                  class="cxd-Button cxd-Button--primary"
+                  type="button"
+                >
+                  <span>
+                    完成
+                  </span>
+                </button>
+              </div>
+            </div>
+            <div
+              class="resize-sensor"
+              style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
+            >
+              
+  
+              <div
+                class="resize-sensor-expand"
+                style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+              >
+                
+    
+                <div
+                  style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
+                />
+                
+  
+              </div>
+              
+  
+              <div
+                class="resize-sensor-shrink"
+                style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+              >
+                
+    
+                <div
+                  style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
+                />
+                
+  
+              </div>
+              
+  
+              <div
+                class="resize-sensor-appear"
+                style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
+              />
             </div>
           </div>
         </div>
@@ -2519,302 +2449,288 @@ exports[`Renderer:Wizard target 1`] = `
     class="cxd-Page"
   >
     <div
-      class="cxd-PullRefresh"
+      class="cxd-Page-content"
     >
       <div
-        class="cxd-PullRefresh-wrap"
-        style="transform: translate3d(0, 0px, 0);"
+        class="cxd-Page-main"
       >
         <div
-          class="cxd-PullRefresh-header"
-        >
-          
-        </div>
-        <div
-          class="cxd-Page-content"
+          class="cxd-Page-body"
         >
           <div
-            class="cxd-Page-main"
+            class="cxd-Panel cxd-Panel--default cxd-Wizard cxd-Wizard--horizontal"
+            style="position: relative;"
           >
             <div
-              class="cxd-Page-body"
+              class="cxd-Wizard-step"
             >
               <div
-                class="cxd-Panel cxd-Panel--default cxd-Wizard cxd-Wizard--horizontal"
-                style="position: relative;"
+                class="cxd-Wizard-steps"
+                id="form-wizard"
               >
-                <div
-                  class="cxd-Wizard-step"
-                >
-                  <div
-                    class="cxd-Wizard-steps"
-                    id="form-wizard"
+                <ul>
+                  <li
+                    class="is-complete"
                   >
-                    <ul>
-                      <li
-                        class="is-complete"
-                      >
-                        <span
-                          class="cxd-Badge is-complete is-active"
-                        >
-                          <icon-mock
-                            classname="icon icon-check"
-                            icon="check"
-                          />
-                        </span>
-                        Step 1
-                      </li>
-                      <li
-                        class="is-complete is-active"
-                      >
-                        <span
-                          class="cxd-Badge is-complete is-active"
-                        >
-                          2
-                        </span>
-                        Step 2
-                      </li>
-                    </ul>
-                  </div>
-                  <div
-                    class="cxd-Wizard-stepContent clearfix"
-                    role="wizard-body"
-                  >
-                    <form
-                      class="cxd-Form cxd-Form--normal"
-                      novalidate=""
+                    <span
+                      class="cxd-Badge is-complete is-active"
                     >
-                      <input
-                        style="display: none;"
-                        type="submit"
+                      <icon-mock
+                        classname="icon icon-check"
+                        icon="check"
                       />
+                    </span>
+                    Step 1
+                  </li>
+                  <li
+                    class="is-complete is-active"
+                  >
+                    <span
+                      class="cxd-Badge is-complete is-active"
+                    >
+                      2
+                    </span>
+                    Step 2
+                  </li>
+                </ul>
+              </div>
+              <div
+                class="cxd-Wizard-stepContent clearfix"
+                role="wizard-body"
+              >
+                <form
+                  class="cxd-Form cxd-Form--normal"
+                  novalidate=""
+                >
+                  <input
+                    style="display: none;"
+                    type="submit"
+                  />
+                  <span
+                    class="cxd-TplField"
+                  >
+                    <span>
+                      这是最后一步了
+                    </span>
+                  </span>
+                </form>
+              </div>
+              <div
+                class="cxd-Panel-footer cxd-Wizard-footer"
+                role="wizard-footer"
+              >
+                <button
+                  class="cxd-Button cxd-Button--default"
+                  type="button"
+                >
+                  <span>
+                    上一步
+                  </span>
+                </button>
+                <button
+                  class="cxd-Button cxd-Button--primary"
+                  type="button"
+                >
+                  <span>
+                    完成
+                  </span>
+                </button>
+              </div>
+            </div>
+            <div
+              class="resize-sensor"
+              style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
+            >
+              
+  
+              <div
+                class="resize-sensor-expand"
+                style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+              >
+                
+    
+                <div
+                  style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
+                />
+                
+  
+              </div>
+              
+  
+              <div
+                class="resize-sensor-shrink"
+                style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+              >
+                
+    
+                <div
+                  style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
+                />
+                
+  
+              </div>
+              
+  
+              <div
+                class="resize-sensor-appear"
+                style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
+              />
+            </div>
+          </div>
+          <div
+            class="cxd-Panel cxd-Panel--default cxd-Panel--form"
+            style="position: relative;"
+          >
+            <div
+              class="cxd-Panel-heading"
+            >
+              <h3
+                class="cxd-Panel-title"
+              >
+                <span
+                  class="cxd-TplField"
+                >
+                  <span>
+                    表单
+                  </span>
+                </span>
+              </h3>
+            </div>
+            <div
+              class="cxd-Panel-body"
+            >
+              <form
+                class="cxd-Form cxd-Form--normal"
+                novalidate=""
+              >
+                <input
+                  style="display: none;"
+                  type="submit"
+                />
+                <div
+                  class="cxd-Form-item cxd-Form-item--normal"
+                  data-role="form-item"
+                >
+                  <label
+                    class="cxd-Form-label"
+                  >
+                    <span>
                       <span
                         class="cxd-TplField"
                       >
                         <span>
-                          这是最后一步了
+                          Website
                         </span>
-                      </span>
-                    </form>
-                  </div>
-                  <div
-                    class="cxd-Panel-footer cxd-Wizard-footer"
-                    role="wizard-footer"
-                  >
-                    <button
-                      class="cxd-Button cxd-Button--default"
-                      type="button"
-                    >
-                      <span>
-                        上一步
-                      </span>
-                    </button>
-                    <button
-                      class="cxd-Button cxd-Button--primary"
-                      type="button"
-                    >
-                      <span>
-                        完成
-                      </span>
-                    </button>
-                  </div>
-                </div>
-                <div
-                  class="resize-sensor"
-                  style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
-                >
-                  
-  
-                  <div
-                    class="resize-sensor-expand"
-                    style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-                  >
-                    
-    
-                    <div
-                      style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
-                    />
-                    
-  
-                  </div>
-                  
-  
-                  <div
-                    class="resize-sensor-shrink"
-                    style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-                  >
-                    
-    
-                    <div
-                      style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
-                    />
-                    
-  
-                  </div>
-                  
-  
-                  <div
-                    class="resize-sensor-appear"
-                    style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
-                  />
-                </div>
-              </div>
-              <div
-                class="cxd-Panel cxd-Panel--default cxd-Panel--form"
-                style="position: relative;"
-              >
-                <div
-                  class="cxd-Panel-heading"
-                >
-                  <h3
-                    class="cxd-Panel-title"
-                  >
-                    <span
-                      class="cxd-TplField"
-                    >
-                      <span>
-                        表单
                       </span>
                     </span>
-                  </h3>
-                </div>
-                <div
-                  class="cxd-Panel-body"
-                >
-                  <form
-                    class="cxd-Form cxd-Form--normal"
-                    novalidate=""
-                  >
-                    <input
-                      style="display: none;"
-                      type="submit"
-                    />
-                    <div
-                      class="cxd-Form-item cxd-Form-item--normal"
-                      data-role="form-item"
-                    >
-                      <label
-                        class="cxd-Form-label"
-                      >
-                        <span>
-                          <span
-                            class="cxd-TplField"
-                          >
-                            <span>
-                              Website
-                            </span>
-                          </span>
-                        </span>
-                      </label>
-                      <div
-                        class="cxd-Form-control cxd-TextControl"
-                      >
-                        <div
-                          class="cxd-TextControl-input"
-                        >
-                          <input
-                            autocomplete="off"
-                            name="website"
-                            placeholder=""
-                            size="10"
-                            type="text"
-                            value="http://amis.baidu.com"
-                          />
-                        </div>
-                      </div>
-                    </div>
-                    <div
-                      class="cxd-Form-item cxd-Form-item--normal"
-                      data-role="form-item"
-                    >
-                      <label
-                        class="cxd-Form-label"
-                      >
-                        <span>
-                          <span
-                            class="cxd-TplField"
-                          >
-                            <span>
-                              Name
-                            </span>
-                          </span>
-                        </span>
-                      </label>
-                      <div
-                        class="cxd-Form-control cxd-TextControl"
-                      >
-                        <div
-                          class="cxd-TextControl-input"
-                        >
-                          <input
-                            autocomplete="off"
-                            name="name"
-                            placeholder=""
-                            size="10"
-                            type="text"
-                            value="Amis"
-                          />
-                        </div>
-                      </div>
-                    </div>
-                  </form>
-                </div>
-                <div
-                  class="cxd-Panel-footerWrap"
-                >
+                  </label>
                   <div
-                    class="cxd-Panel-btnToolbar cxd-Panel-footer"
+                    class="cxd-Form-control cxd-TextControl"
                   >
-                    <button
-                      class="cxd-Button cxd-Button--primary"
-                      type="submit"
+                    <div
+                      class="cxd-TextControl-input"
                     >
-                      <span>
-                        提交
+                      <input
+                        autocomplete="off"
+                        name="website"
+                        placeholder=""
+                        size="10"
+                        type="text"
+                        value="http://amis.baidu.com"
+                      />
+                    </div>
+                  </div>
+                </div>
+                <div
+                  class="cxd-Form-item cxd-Form-item--normal"
+                  data-role="form-item"
+                >
+                  <label
+                    class="cxd-Form-label"
+                  >
+                    <span>
+                      <span
+                        class="cxd-TplField"
+                      >
+                        <span>
+                          Name
+                        </span>
                       </span>
-                    </button>
+                    </span>
+                  </label>
+                  <div
+                    class="cxd-Form-control cxd-TextControl"
+                  >
+                    <div
+                      class="cxd-TextControl-input"
+                    >
+                      <input
+                        autocomplete="off"
+                        name="name"
+                        placeholder=""
+                        size="10"
+                        type="text"
+                        value="Amis"
+                      />
+                    </div>
                   </div>
                 </div>
-                <div
-                  class="resize-sensor"
-                  style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
+              </form>
+            </div>
+            <div
+              class="cxd-Panel-footerWrap"
+            >
+              <div
+                class="cxd-Panel-btnToolbar cxd-Panel-footer"
+              >
+                <button
+                  class="cxd-Button cxd-Button--primary"
+                  type="submit"
                 >
-                  
-  
-                  <div
-                    class="resize-sensor-expand"
-                    style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-                  >
-                    
-    
-                    <div
-                      style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
-                    />
-                    
-  
-                  </div>
-                  
-  
-                  <div
-                    class="resize-sensor-shrink"
-                    style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-                  >
-                    
-    
-                    <div
-                      style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
-                    />
-                    
-  
-                  </div>
-                  
-  
-                  <div
-                    class="resize-sensor-appear"
-                    style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
-                  />
-                </div>
+                  <span>
+                    提交
+                  </span>
+                </button>
               </div>
+            </div>
+            <div
+              class="resize-sensor"
+              style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
+            >
+              
+  
+              <div
+                class="resize-sensor-expand"
+                style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+              >
+                
+    
+                <div
+                  style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
+                />
+                
+  
+              </div>
+              
+  
+              <div
+                class="resize-sensor-shrink"
+                style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+              >
+                
+    
+                <div
+                  style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
+                />
+                
+  
+              </div>
+              
+  
+              <div
+                class="resize-sensor-appear"
+                style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
+              />
             </div>
           </div>
         </div>

@@ -6,212 +6,198 @@ exports[`Renderer:gridnav 1`] = `
     class="cxd-Page"
   >
     <div
-      class="cxd-PullRefresh"
+      class="cxd-Page-content"
     >
       <div
-        class="cxd-PullRefresh-wrap"
-        style="transform: translate3d(0, 0px, 0);"
+        class="cxd-Page-main"
       >
         <div
-          class="cxd-PullRefresh-header"
-        >
-          
-        </div>
-        <div
-          class="cxd-Page-content"
+          class="cxd-Page-body"
         >
           <div
-            class="cxd-Page-main"
+            class="cxd-GridNav  cxd-GridNav-top u-hairline"
           >
             <div
-              class="cxd-Page-body"
+              class=""
+              style="flex-basis: 25%;"
             >
               <div
-                class="cxd-GridNav  cxd-GridNav-top u-hairline"
+                class="cxd-GridNavItem-content  cxd-GridNavItem-content--vertical cxd-GridNavItem-content--center cxd-GridNavItem-content--border u-hairline"
               >
                 <div
-                  class=""
-                  style="flex-basis: 25%;"
+                  class="cxd-GridNavItem-image"
                 >
-                  <div
-                    class="cxd-GridNavItem-content  cxd-GridNavItem-content--vertical cxd-GridNavItem-content--center cxd-GridNavItem-content--border u-hairline"
-                  >
-                    <div
-                      class="cxd-GridNavItem-image"
-                    >
-                      <img
-                        src="https://internal-amis-res.cdn.bcebos.com/images/icon-1.png"
-                        style="width: 60%;"
-                      />
-                    </div>
-                    <span
-                      class="cxd-GridNavItem-text"
-                    >
-                      导航1
-                    </span>
-                  </div>
+                  <img
+                    src="https://internal-amis-res.cdn.bcebos.com/images/icon-1.png"
+                    style="width: 60%;"
+                  />
                 </div>
-                <div
-                  class=""
-                  style="flex-basis: 25%;"
+                <span
+                  class="cxd-GridNavItem-text"
                 >
-                  <div
-                    class="cxd-GridNavItem-content  cxd-GridNavItem-content--vertical cxd-GridNavItem-content--center cxd-GridNavItem-content--border u-hairline"
-                  >
-                    <div
-                      class="cxd-GridNavItem-image"
-                    >
-                      <img
-                        src="https://internal-amis-res.cdn.bcebos.com/images/icon-1.png"
-                        style="width: 60%;"
-                      />
-                    </div>
-                    <span
-                      class="cxd-GridNavItem-text"
-                    >
-                      导航2
-                    </span>
-                  </div>
-                </div>
-                <div
-                  class=""
-                  style="flex-basis: 25%;"
-                >
-                  <div
-                    class="cxd-GridNavItem-content  cxd-GridNavItem-content--vertical cxd-GridNavItem-content--center cxd-GridNavItem-content--border u-hairline"
-                  >
-                    <div
-                      class="cxd-GridNavItem-image"
-                    >
-                      <img
-                        src="https://internal-amis-res.cdn.bcebos.com/images/icon-1.png"
-                        style="width: 60%;"
-                      />
-                    </div>
-                    <span
-                      class="cxd-GridNavItem-text"
-                    >
-                      导航3
-                    </span>
-                  </div>
-                </div>
-                <div
-                  class=""
-                  style="flex-basis: 25%;"
-                >
-                  <div
-                    class="cxd-GridNavItem-content  cxd-GridNavItem-content--vertical cxd-GridNavItem-content--center cxd-GridNavItem-content--border u-hairline"
-                  >
-                    <div
-                      class="cxd-GridNavItem-image"
-                    >
-                      <img
-                        src="https://internal-amis-res.cdn.bcebos.com/images/icon-1.png"
-                        style="width: 60%;"
-                      />
-                    </div>
-                    <span
-                      class="cxd-GridNavItem-text"
-                    >
-                      导航4
-                    </span>
-                  </div>
-                </div>
+                  导航1
+                </span>
               </div>
+            </div>
+            <div
+              class=""
+              style="flex-basis: 25%;"
+            >
               <div
-                class="cxd-Divider cxd-Divider--dashed"
-              />
-              <div
-                class="cxd-GridNav  cxd-GridNav-top u-hairline"
+                class="cxd-GridNavItem-content  cxd-GridNavItem-content--vertical cxd-GridNavItem-content--center cxd-GridNavItem-content--border u-hairline"
               >
                 <div
-                  class=""
-                  style="flex-basis: 25%;"
+                  class="cxd-GridNavItem-image"
                 >
-                  <div
-                    class="cxd-GridNavItem-content  cxd-GridNavItem-content--vertical cxd-GridNavItem-content--center cxd-GridNavItem-content--border u-hairline"
-                  >
-                    <div
-                      class="cxd-GridNavItem-image"
-                    >
-                      <img
-                        src="https://internal-amis-res.cdn.bcebos.com/images/icon-1.png"
-                        style="width: 60%;"
-                      />
-                    </div>
-                    <span
-                      class="cxd-GridNavItem-text"
-                    >
-                      导航1
-                    </span>
-                  </div>
+                  <img
+                    src="https://internal-amis-res.cdn.bcebos.com/images/icon-1.png"
+                    style="width: 60%;"
+                  />
                 </div>
+                <span
+                  class="cxd-GridNavItem-text"
+                >
+                  导航2
+                </span>
+              </div>
+            </div>
+            <div
+              class=""
+              style="flex-basis: 25%;"
+            >
+              <div
+                class="cxd-GridNavItem-content  cxd-GridNavItem-content--vertical cxd-GridNavItem-content--center cxd-GridNavItem-content--border u-hairline"
+              >
                 <div
-                  class=""
-                  style="flex-basis: 25%;"
+                  class="cxd-GridNavItem-image"
                 >
-                  <div
-                    class="cxd-GridNavItem-content  cxd-GridNavItem-content--vertical cxd-GridNavItem-content--center cxd-GridNavItem-content--border u-hairline"
-                  >
-                    <div
-                      class="cxd-GridNavItem-image"
-                    >
-                      <img
-                        src="https://internal-amis-res.cdn.bcebos.com/images/icon-1.png"
-                        style="width: 60%;"
-                      />
-                    </div>
-                    <span
-                      class="cxd-GridNavItem-text"
-                    >
-                      导航2
-                    </span>
-                  </div>
+                  <img
+                    src="https://internal-amis-res.cdn.bcebos.com/images/icon-1.png"
+                    style="width: 60%;"
+                  />
                 </div>
+                <span
+                  class="cxd-GridNavItem-text"
+                >
+                  导航3
+                </span>
+              </div>
+            </div>
+            <div
+              class=""
+              style="flex-basis: 25%;"
+            >
+              <div
+                class="cxd-GridNavItem-content  cxd-GridNavItem-content--vertical cxd-GridNavItem-content--center cxd-GridNavItem-content--border u-hairline"
+              >
                 <div
-                  class=""
-                  style="flex-basis: 25%;"
+                  class="cxd-GridNavItem-image"
                 >
-                  <div
-                    class="cxd-GridNavItem-content  cxd-GridNavItem-content--vertical cxd-GridNavItem-content--center cxd-GridNavItem-content--border u-hairline"
-                  >
-                    <div
-                      class="cxd-GridNavItem-image"
-                    >
-                      <img
-                        src="https://internal-amis-res.cdn.bcebos.com/images/icon-1.png"
-                        style="width: 60%;"
-                      />
-                    </div>
-                    <span
-                      class="cxd-GridNavItem-text"
-                    >
-                      导航3
-                    </span>
-                  </div>
+                  <img
+                    src="https://internal-amis-res.cdn.bcebos.com/images/icon-1.png"
+                    style="width: 60%;"
+                  />
                 </div>
+                <span
+                  class="cxd-GridNavItem-text"
+                >
+                  导航4
+                </span>
+              </div>
+            </div>
+          </div>
+          <div
+            class="cxd-Divider cxd-Divider--dashed"
+          />
+          <div
+            class="cxd-GridNav  cxd-GridNav-top u-hairline"
+          >
+            <div
+              class=""
+              style="flex-basis: 25%;"
+            >
+              <div
+                class="cxd-GridNavItem-content  cxd-GridNavItem-content--vertical cxd-GridNavItem-content--center cxd-GridNavItem-content--border u-hairline"
+              >
                 <div
-                  class=""
-                  style="flex-basis: 25%;"
+                  class="cxd-GridNavItem-image"
                 >
-                  <div
-                    class="cxd-GridNavItem-content  cxd-GridNavItem-content--vertical cxd-GridNavItem-content--center cxd-GridNavItem-content--border u-hairline"
-                  >
-                    <div
-                      class="cxd-GridNavItem-image"
-                    >
-                      <img
-                        src="https://internal-amis-res.cdn.bcebos.com/images/icon-1.png"
-                        style="width: 60%;"
-                      />
-                    </div>
-                    <span
-                      class="cxd-GridNavItem-text"
-                    >
-                      导航4
-                    </span>
-                  </div>
+                  <img
+                    src="https://internal-amis-res.cdn.bcebos.com/images/icon-1.png"
+                    style="width: 60%;"
+                  />
                 </div>
+                <span
+                  class="cxd-GridNavItem-text"
+                >
+                  导航1
+                </span>
+              </div>
+            </div>
+            <div
+              class=""
+              style="flex-basis: 25%;"
+            >
+              <div
+                class="cxd-GridNavItem-content  cxd-GridNavItem-content--vertical cxd-GridNavItem-content--center cxd-GridNavItem-content--border u-hairline"
+              >
+                <div
+                  class="cxd-GridNavItem-image"
+                >
+                  <img
+                    src="https://internal-amis-res.cdn.bcebos.com/images/icon-1.png"
+                    style="width: 60%;"
+                  />
+                </div>
+                <span
+                  class="cxd-GridNavItem-text"
+                >
+                  导航2
+                </span>
+              </div>
+            </div>
+            <div
+              class=""
+              style="flex-basis: 25%;"
+            >
+              <div
+                class="cxd-GridNavItem-content  cxd-GridNavItem-content--vertical cxd-GridNavItem-content--center cxd-GridNavItem-content--border u-hairline"
+              >
+                <div
+                  class="cxd-GridNavItem-image"
+                >
+                  <img
+                    src="https://internal-amis-res.cdn.bcebos.com/images/icon-1.png"
+                    style="width: 60%;"
+                  />
+                </div>
+                <span
+                  class="cxd-GridNavItem-text"
+                >
+                  导航3
+                </span>
+              </div>
+            </div>
+            <div
+              class=""
+              style="flex-basis: 25%;"
+            >
+              <div
+                class="cxd-GridNavItem-content  cxd-GridNavItem-content--vertical cxd-GridNavItem-content--center cxd-GridNavItem-content--border u-hairline"
+              >
+                <div
+                  class="cxd-GridNavItem-image"
+                >
+                  <img
+                    src="https://internal-amis-res.cdn.bcebos.com/images/icon-1.png"
+                    style="width: 60%;"
+                  />
+                </div>
+                <span
+                  class="cxd-GridNavItem-text"
+                >
+                  导航4
+                </span>
               </div>
             </div>
           </div>

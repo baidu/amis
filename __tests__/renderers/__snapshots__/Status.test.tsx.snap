@@ -6,121 +6,107 @@ exports[`Renderer:status 1`] = `
     class="cxd-Page"
   >
     <div
-      class="cxd-PullRefresh"
+      class="cxd-Page-content"
     >
       <div
-        class="cxd-PullRefresh-wrap"
-        style="transform: translate3d(0, 0px, 0);"
+        class="cxd-Page-main"
       >
         <div
-          class="cxd-PullRefresh-header"
+          class="cxd-Page-body"
         >
-          
-        </div>
-        <div
-          class="cxd-Page-content"
-        >
-          <div
-            class="cxd-Page-main"
+          <span
+            class="cxd-StatusField cxd-StatusField--0"
           >
-            <div
-              class="cxd-Page-body"
+            <icon-mock
+              classname="cxd-Status-icon icon icon icon-fail"
+              icon="fail"
+            />
+          </span>
+          <span
+            class="cxd-StatusField cxd-StatusField--1"
+          >
+            <icon-mock
+              classname="cxd-Status-icon icon icon icon-success"
+              icon="success"
+            />
+          </span>
+          <span
+            class="cxd-StatusField cxd-StatusField--success"
+          >
+            <icon-mock
+              classname="cxd-Status-icon icon icon icon-success"
+              icon="success"
+            />
+            <span
+              class="cxd-StatusField-label"
             >
-              <span
-                class="cxd-StatusField cxd-StatusField--0"
-              >
-                <icon-mock
-                  classname="cxd-Status-icon icon icon icon-fail"
-                  icon="fail"
-                />
-              </span>
-              <span
-                class="cxd-StatusField cxd-StatusField--1"
-              >
-                <icon-mock
-                  classname="cxd-Status-icon icon icon icon-success"
-                  icon="success"
-                />
-              </span>
-              <span
-                class="cxd-StatusField cxd-StatusField--success"
-              >
-                <icon-mock
-                  classname="cxd-Status-icon icon icon icon-success"
-                  icon="success"
-                />
-                <span
-                  class="cxd-StatusField-label"
-                >
-                  成功
-                </span>
-              </span>
-              <span
-                class="cxd-StatusField cxd-StatusField--pending"
-              >
-                <i
-                  class="cxd-Status-icon rolling"
-                />
-                <span
-                  class="cxd-StatusField-label"
-                >
-                  运行中
-                </span>
-              </span>
-              <span
-                class="cxd-StatusField cxd-StatusField--fail"
-              >
-                <icon-mock
-                  classname="cxd-Status-icon icon icon icon-fail"
-                  icon="fail"
-                />
-                <span
-                  class="cxd-StatusField-label"
-                >
-                  失败
-                </span>
-              </span>
-              <span
-                class="cxd-StatusField cxd-StatusField--fail"
-              >
-                <icon-mock
-                  classname="cxd-Status-icon icon icon icon-fail"
-                  icon="fail"
-                />
-                <span
-                  class="cxd-StatusField-label"
-                >
-                  失败
-                </span>
-              </span>
-              <span
-                class="cxd-StatusField cxd-StatusField--queue"
-              >
-                <icon-mock
-                  classname="cxd-Status-icon icon icon icon-warning"
-                  icon="warning"
-                />
-                <span
-                  class="cxd-StatusField-label"
-                >
-                  排队中
-                </span>
-              </span>
-              <span
-                class="cxd-StatusField cxd-StatusField--schedule"
-              >
-                <icon-mock
-                  classname="cxd-Status-icon icon icon icon-schedule"
-                  icon="schedule"
-                />
-                <span
-                  class="cxd-StatusField-label"
-                >
-                  调度中
-                </span>
-              </span>
-            </div>
-          </div>
+              成功
+            </span>
+          </span>
+          <span
+            class="cxd-StatusField cxd-StatusField--pending"
+          >
+            <i
+              class="cxd-Status-icon rolling"
+            />
+            <span
+              class="cxd-StatusField-label"
+            >
+              运行中
+            </span>
+          </span>
+          <span
+            class="cxd-StatusField cxd-StatusField--fail"
+          >
+            <icon-mock
+              classname="cxd-Status-icon icon icon icon-fail"
+              icon="fail"
+            />
+            <span
+              class="cxd-StatusField-label"
+            >
+              失败
+            </span>
+          </span>
+          <span
+            class="cxd-StatusField cxd-StatusField--fail"
+          >
+            <icon-mock
+              classname="cxd-Status-icon icon icon icon-fail"
+              icon="fail"
+            />
+            <span
+              class="cxd-StatusField-label"
+            >
+              失败
+            </span>
+          </span>
+          <span
+            class="cxd-StatusField cxd-StatusField--queue"
+          >
+            <icon-mock
+              classname="cxd-Status-icon icon icon icon-warning"
+              icon="warning"
+            />
+            <span
+              class="cxd-StatusField-label"
+            >
+              排队中
+            </span>
+          </span>
+          <span
+            class="cxd-StatusField cxd-StatusField--schedule"
+          >
+            <icon-mock
+              classname="cxd-Status-icon icon icon icon-schedule"
+              icon="schedule"
+            />
+            <span
+              class="cxd-StatusField-label"
+            >
+              调度中
+            </span>
+          </span>
         </div>
       </div>
     </div>

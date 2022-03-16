@@ -6,35 +6,21 @@ exports[`Renderer:bar-code 1`] = `
     class="cxd-Page"
   >
     <div
-      class="cxd-PullRefresh"
+      class="cxd-Page-content"
     >
       <div
-        class="cxd-PullRefresh-wrap"
-        style="transform: translate3d(0, 0px, 0);"
+        class="cxd-Page-main"
       >
         <div
-          class="cxd-PullRefresh-header"
-        >
-          
-        </div>
-        <div
-          class="cxd-Page-content"
+          class="cxd-Page-body"
         >
           <div
-            class="cxd-Page-main"
+            class="cxd-BarCode"
+            style=""
           >
-            <div
-              class="cxd-Page-body"
-            >
-              <div
-                class="cxd-BarCode"
-                style=""
-              >
-                <img
-                  src="data:image/png;base64,00"
-                />
-              </div>
-            </div>
+            <img
+              src="data:image/png;base64,00"
+            />
           </div>
         </div>
       </div>

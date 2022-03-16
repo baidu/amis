@@ -6,154 +6,140 @@ exports[`Renderer: chained select 1`] = `
     class="cxd-Page"
   >
     <div
-      class="cxd-PullRefresh"
+      class="cxd-Page-content"
     >
       <div
-        class="cxd-PullRefresh-wrap"
-        style="transform: translate3d(0, 0px, 0);"
+        class="cxd-Page-main"
       >
         <div
-          class="cxd-PullRefresh-header"
-        >
-          
-        </div>
-        <div
-          class="cxd-Page-content"
+          class="cxd-Page-body"
         >
           <div
-            class="cxd-Page-main"
+            class="cxd-Panel cxd-Panel--default cxd-Panel--form"
+            style="position: relative;"
           >
             <div
-              class="cxd-Page-body"
+              class="cxd-Panel-heading"
             >
-              <div
-                class="cxd-Panel cxd-Panel--default cxd-Panel--form"
-                style="position: relative;"
+              <h3
+                class="cxd-Panel-title"
               >
-                <div
-                  class="cxd-Panel-heading"
+                <span
+                  class="cxd-TplField"
                 >
-                  <h3
-                    class="cxd-Panel-title"
-                  >
-                    <span
-                      class="cxd-TplField"
-                    >
-                      <span>
-                        表单
-                      </span>
-                    </span>
-                  </h3>
-                </div>
+                  <span>
+                    表单
+                  </span>
+                </span>
+              </h3>
+            </div>
+            <div
+              class="cxd-Panel-body"
+            >
+              <form
+                class="cxd-Form cxd-Form--normal"
+                novalidate=""
+              >
+                <input
+                  style="display: none;"
+                  type="submit"
+                />
                 <div
-                  class="cxd-Panel-body"
+                  class="cxd-Form-item cxd-Form-item--normal"
+                  data-role="form-item"
                 >
-                  <form
-                    class="cxd-Form cxd-Form--normal"
-                    novalidate=""
+                  <label
+                    class="cxd-Form-label"
                   >
-                    <input
-                      style="display: none;"
-                      type="submit"
-                    />
-                    <div
-                      class="cxd-Form-item cxd-Form-item--normal"
-                      data-role="form-item"
-                    >
-                      <label
-                        class="cxd-Form-label"
+                    <span>
+                      <span
+                        class="cxd-TplField"
                       >
                         <span>
-                          <span
-                            class="cxd-TplField"
-                          >
-                            <span>
-                              带搜索
-                            </span>
-                          </span>
+                          带搜索
                         </span>
-                      </label>
-                      <div
-                        class="cxd-SelectControl cxd-Form-control"
-                      >
-                        <div
-                          class="cxd-ResultBox cxd-TransferDropDown cxd-Form-control is-clickable"
-                          tabindex="-1"
-                        >
-                          <span
-                            class="cxd-ResultBox-placeholder"
-                          >
-                            请选择
-                          </span>
-                          <span
-                            class="cxd-TransferDropDown-icon"
-                          >
-                            <icon-mock
-                              classname="icon icon-caret"
-                              icon="caret"
-                            />
-                          </span>
-                        </div>
-                      </div>
-                    </div>
-                  </form>
-                </div>
-                <div
-                  class="cxd-Panel-footerWrap"
-                >
-                  <div
-                    class="cxd-Panel-btnToolbar cxd-Panel-footer"
-                  >
-                    <button
-                      class="cxd-Button cxd-Button--primary"
-                      type="submit"
-                    >
-                      <span>
-                        提交
                       </span>
-                    </button>
+                    </span>
+                  </label>
+                  <div
+                    class="cxd-SelectControl cxd-Form-control"
+                  >
+                    <div
+                      class="cxd-ResultBox cxd-TransferDropDown cxd-Form-control is-clickable"
+                      tabindex="-1"
+                    >
+                      <span
+                        class="cxd-ResultBox-placeholder"
+                      >
+                        请选择
+                      </span>
+                      <span
+                        class="cxd-TransferDropDown-icon"
+                      >
+                        <icon-mock
+                          classname="icon icon-caret"
+                          icon="caret"
+                        />
+                      </span>
+                    </div>
                   </div>
                 </div>
-                <div
-                  class="resize-sensor"
-                  style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
+              </form>
+            </div>
+            <div
+              class="cxd-Panel-footerWrap"
+            >
+              <div
+                class="cxd-Panel-btnToolbar cxd-Panel-footer"
+              >
+                <button
+                  class="cxd-Button cxd-Button--primary"
+                  type="submit"
                 >
-                  
-  
-                  <div
-                    class="resize-sensor-expand"
-                    style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-                  >
-                    
-    
-                    <div
-                      style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
-                    />
-                    
-  
-                  </div>
-                  
-  
-                  <div
-                    class="resize-sensor-shrink"
-                    style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-                  >
-                    
-    
-                    <div
-                      style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
-                    />
-                    
-  
-                  </div>
-                  
-  
-                  <div
-                    class="resize-sensor-appear"
-                    style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
-                  />
-                </div>
+                  <span>
+                    提交
+                  </span>
+                </button>
               </div>
+            </div>
+            <div
+              class="resize-sensor"
+              style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
+            >
+              
+  
+              <div
+                class="resize-sensor-expand"
+                style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+              >
+                
+    
+                <div
+                  style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
+                />
+                
+  
+              </div>
+              
+  
+              <div
+                class="resize-sensor-shrink"
+                style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+              >
+                
+    
+                <div
+                  style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
+                />
+                
+  
+              </div>
+              
+  
+              <div
+                class="resize-sensor-appear"
+                style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
+              />
             </div>
           </div>
         </div>
@@ -169,154 +155,140 @@ exports[`Renderer:select associated 1`] = `
     class="cxd-Page"
   >
     <div
-      class="cxd-PullRefresh"
+      class="cxd-Page-content"
     >
       <div
-        class="cxd-PullRefresh-wrap"
-        style="transform: translate3d(0, 0px, 0);"
+        class="cxd-Page-main"
       >
         <div
-          class="cxd-PullRefresh-header"
-        >
-          
-        </div>
-        <div
-          class="cxd-Page-content"
+          class="cxd-Page-body"
         >
           <div
-            class="cxd-Page-main"
+            class="cxd-Panel cxd-Panel--default cxd-Panel--form"
+            style="position: relative;"
           >
             <div
-              class="cxd-Page-body"
+              class="cxd-Panel-heading"
             >
-              <div
-                class="cxd-Panel cxd-Panel--default cxd-Panel--form"
-                style="position: relative;"
+              <h3
+                class="cxd-Panel-title"
               >
-                <div
-                  class="cxd-Panel-heading"
+                <span
+                  class="cxd-TplField"
                 >
-                  <h3
-                    class="cxd-Panel-title"
-                  >
-                    <span
-                      class="cxd-TplField"
-                    >
-                      <span>
-                        表单
-                      </span>
-                    </span>
-                  </h3>
-                </div>
+                  <span>
+                    表单
+                  </span>
+                </span>
+              </h3>
+            </div>
+            <div
+              class="cxd-Panel-body"
+            >
+              <form
+                class="cxd-Form cxd-Form--normal"
+                novalidate=""
+              >
+                <input
+                  style="display: none;"
+                  type="submit"
+                />
                 <div
-                  class="cxd-Panel-body"
+                  class="cxd-Form-item cxd-Form-item--normal"
+                  data-role="form-item"
                 >
-                  <form
-                    class="cxd-Form cxd-Form--normal"
-                    novalidate=""
+                  <label
+                    class="cxd-Form-label"
                   >
-                    <input
-                      style="display: none;"
-                      type="submit"
-                    />
-                    <div
-                      class="cxd-Form-item cxd-Form-item--normal"
-                      data-role="form-item"
-                    >
-                      <label
-                        class="cxd-Form-label"
+                    <span>
+                      <span
+                        class="cxd-TplField"
                       >
                         <span>
-                          <span
-                            class="cxd-TplField"
-                          >
-                            <span>
-                              关联选择模式
-                            </span>
-                          </span>
+                          关联选择模式
                         </span>
-                      </label>
-                      <div
-                        class="cxd-SelectControl cxd-Form-control"
-                      >
-                        <div
-                          class="cxd-ResultBox cxd-TransferDropDown cxd-Form-control is-clickable"
-                          tabindex="-1"
-                        >
-                          <span
-                            class="cxd-ResultBox-placeholder"
-                          >
-                            请选择
-                          </span>
-                          <span
-                            class="cxd-TransferDropDown-icon"
-                          >
-                            <icon-mock
-                              classname="icon icon-caret"
-                              icon="caret"
-                            />
-                          </span>
-                        </div>
-                      </div>
-                    </div>
-                  </form>
-                </div>
-                <div
-                  class="cxd-Panel-footerWrap"
-                >
-                  <div
-                    class="cxd-Panel-btnToolbar cxd-Panel-footer"
-                  >
-                    <button
-                      class="cxd-Button cxd-Button--primary"
-                      type="submit"
-                    >
-                      <span>
-                        提交
                       </span>
-                    </button>
+                    </span>
+                  </label>
+                  <div
+                    class="cxd-SelectControl cxd-Form-control"
+                  >
+                    <div
+                      class="cxd-ResultBox cxd-TransferDropDown cxd-Form-control is-clickable"
+                      tabindex="-1"
+                    >
+                      <span
+                        class="cxd-ResultBox-placeholder"
+                      >
+                        请选择
+                      </span>
+                      <span
+                        class="cxd-TransferDropDown-icon"
+                      >
+                        <icon-mock
+                          classname="icon icon-caret"
+                          icon="caret"
+                        />
+                      </span>
+                    </div>
                   </div>
                 </div>
-                <div
-                  class="resize-sensor"
-                  style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
+              </form>
+            </div>
+            <div
+              class="cxd-Panel-footerWrap"
+            >
+              <div
+                class="cxd-Panel-btnToolbar cxd-Panel-footer"
+              >
+                <button
+                  class="cxd-Button cxd-Button--primary"
+                  type="submit"
                 >
-                  
-  
-                  <div
-                    class="resize-sensor-expand"
-                    style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-                  >
-                    
-    
-                    <div
-                      style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
-                    />
-                    
-  
-                  </div>
-                  
-  
-                  <div
-                    class="resize-sensor-shrink"
-                    style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-                  >
-                    
-    
-                    <div
-                      style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
-                    />
-                    
-  
-                  </div>
-                  
-  
-                  <div
-                    class="resize-sensor-appear"
-                    style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
-                  />
-                </div>
+                  <span>
+                    提交
+                  </span>
+                </button>
               </div>
+            </div>
+            <div
+              class="resize-sensor"
+              style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
+            >
+              
+  
+              <div
+                class="resize-sensor-expand"
+                style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+              >
+                
+    
+                <div
+                  style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
+                />
+                
+  
+              </div>
+              
+  
+              <div
+                class="resize-sensor-shrink"
+                style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+              >
+                
+    
+                <div
+                  style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
+                />
+                
+  
+              </div>
+              
+  
+              <div
+                class="resize-sensor-appear"
+                style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
+              />
             </div>
           </div>
         </div>
@@ -332,154 +304,140 @@ exports[`Renderer:select chained 1`] = `
     class="cxd-Page"
   >
     <div
-      class="cxd-PullRefresh"
+      class="cxd-Page-content"
     >
       <div
-        class="cxd-PullRefresh-wrap"
-        style="transform: translate3d(0, 0px, 0);"
+        class="cxd-Page-main"
       >
         <div
-          class="cxd-PullRefresh-header"
-        >
-          
-        </div>
-        <div
-          class="cxd-Page-content"
+          class="cxd-Page-body"
         >
           <div
-            class="cxd-Page-main"
+            class="cxd-Panel cxd-Panel--default cxd-Panel--form"
+            style="position: relative;"
           >
             <div
-              class="cxd-Page-body"
+              class="cxd-Panel-heading"
             >
-              <div
-                class="cxd-Panel cxd-Panel--default cxd-Panel--form"
-                style="position: relative;"
+              <h3
+                class="cxd-Panel-title"
               >
-                <div
-                  class="cxd-Panel-heading"
+                <span
+                  class="cxd-TplField"
                 >
-                  <h3
-                    class="cxd-Panel-title"
-                  >
-                    <span
-                      class="cxd-TplField"
-                    >
-                      <span>
-                        表单
-                      </span>
-                    </span>
-                  </h3>
-                </div>
+                  <span>
+                    表单
+                  </span>
+                </span>
+              </h3>
+            </div>
+            <div
+              class="cxd-Panel-body"
+            >
+              <form
+                class="cxd-Form cxd-Form--normal"
+                novalidate=""
+              >
+                <input
+                  style="display: none;"
+                  type="submit"
+                />
                 <div
-                  class="cxd-Panel-body"
+                  class="cxd-Form-item cxd-Form-item--normal"
+                  data-role="form-item"
                 >
-                  <form
-                    class="cxd-Form cxd-Form--normal"
-                    novalidate=""
+                  <label
+                    class="cxd-Form-label"
                   >
-                    <input
-                      style="display: none;"
-                      type="submit"
-                    />
-                    <div
-                      class="cxd-Form-item cxd-Form-item--normal"
-                      data-role="form-item"
-                    >
-                      <label
-                        class="cxd-Form-label"
+                    <span>
+                      <span
+                        class="cxd-TplField"
                       >
                         <span>
-                          <span
-                            class="cxd-TplField"
-                          >
-                            <span>
-                              级联选择
-                            </span>
-                          </span>
+                          级联选择
                         </span>
-                      </label>
-                      <div
-                        class="cxd-SelectControl cxd-Form-control"
-                      >
-                        <div
-                          class="cxd-ResultBox cxd-TransferDropDown cxd-Form-control is-clickable"
-                          tabindex="-1"
-                        >
-                          <span
-                            class="cxd-ResultBox-placeholder"
-                          >
-                            请选择
-                          </span>
-                          <span
-                            class="cxd-TransferDropDown-icon"
-                          >
-                            <icon-mock
-                              classname="icon icon-caret"
-                              icon="caret"
-                            />
-                          </span>
-                        </div>
-                      </div>
-                    </div>
-                  </form>
-                </div>
-                <div
-                  class="cxd-Panel-footerWrap"
-                >
-                  <div
-                    class="cxd-Panel-btnToolbar cxd-Panel-footer"
-                  >
-                    <button
-                      class="cxd-Button cxd-Button--primary"
-                      type="submit"
-                    >
-                      <span>
-                        提交
                       </span>
-                    </button>
+                    </span>
+                  </label>
+                  <div
+                    class="cxd-SelectControl cxd-Form-control"
+                  >
+                    <div
+                      class="cxd-ResultBox cxd-TransferDropDown cxd-Form-control is-clickable"
+                      tabindex="-1"
+                    >
+                      <span
+                        class="cxd-ResultBox-placeholder"
+                      >
+                        请选择
+                      </span>
+                      <span
+                        class="cxd-TransferDropDown-icon"
+                      >
+                        <icon-mock
+                          classname="icon icon-caret"
+                          icon="caret"
+                        />
+                      </span>
+                    </div>
                   </div>
                 </div>
-                <div
-                  class="resize-sensor"
-                  style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
+              </form>
+            </div>
+            <div
+              class="cxd-Panel-footerWrap"
+            >
+              <div
+                class="cxd-Panel-btnToolbar cxd-Panel-footer"
+              >
+                <button
+                  class="cxd-Button cxd-Button--primary"
+                  type="submit"
                 >
-                  
-  
-                  <div
-                    class="resize-sensor-expand"
-                    style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-                  >
-                    
-    
-                    <div
-                      style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
-                    />
-                    
-  
-                  </div>
-                  
-  
-                  <div
-                    class="resize-sensor-shrink"
-                    style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-                  >
-                    
-    
-                    <div
-                      style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
-                    />
-                    
-  
-                  </div>
-                  
-  
-                  <div
-                    class="resize-sensor-appear"
-                    style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
-                  />
-                </div>
+                  <span>
+                    提交
+                  </span>
+                </button>
               </div>
+            </div>
+            <div
+              class="resize-sensor"
+              style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
+            >
+              
+  
+              <div
+                class="resize-sensor-expand"
+                style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+              >
+                
+    
+                <div
+                  style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
+                />
+                
+  
+              </div>
+              
+  
+              <div
+                class="resize-sensor-shrink"
+                style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+              >
+                
+    
+                <div
+                  style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
+                />
+                
+  
+              </div>
+              
+  
+              <div
+                class="resize-sensor-appear"
+                style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
+              />
             </div>
           </div>
         </div>
@@ -495,154 +453,140 @@ exports[`Renderer:select group 1`] = `
     class="cxd-Page"
   >
     <div
-      class="cxd-PullRefresh"
+      class="cxd-Page-content"
     >
       <div
-        class="cxd-PullRefresh-wrap"
-        style="transform: translate3d(0, 0px, 0);"
+        class="cxd-Page-main"
       >
         <div
-          class="cxd-PullRefresh-header"
-        >
-          
-        </div>
-        <div
-          class="cxd-Page-content"
+          class="cxd-Page-body"
         >
           <div
-            class="cxd-Page-main"
+            class="cxd-Panel cxd-Panel--default cxd-Panel--form"
+            style="position: relative;"
           >
             <div
-              class="cxd-Page-body"
+              class="cxd-Panel-heading"
             >
-              <div
-                class="cxd-Panel cxd-Panel--default cxd-Panel--form"
-                style="position: relative;"
+              <h3
+                class="cxd-Panel-title"
               >
-                <div
-                  class="cxd-Panel-heading"
+                <span
+                  class="cxd-TplField"
                 >
-                  <h3
-                    class="cxd-Panel-title"
-                  >
-                    <span
-                      class="cxd-TplField"
-                    >
-                      <span>
-                        表单
-                      </span>
-                    </span>
-                  </h3>
-                </div>
+                  <span>
+                    表单
+                  </span>
+                </span>
+              </h3>
+            </div>
+            <div
+              class="cxd-Panel-body"
+            >
+              <form
+                class="cxd-Form cxd-Form--normal"
+                novalidate=""
+              >
+                <input
+                  style="display: none;"
+                  type="submit"
+                />
                 <div
-                  class="cxd-Panel-body"
+                  class="cxd-Form-item cxd-Form-item--normal"
+                  data-role="form-item"
                 >
-                  <form
-                    class="cxd-Form cxd-Form--normal"
-                    novalidate=""
+                  <label
+                    class="cxd-Form-label"
                   >
-                    <input
-                      style="display: none;"
-                      type="submit"
-                    />
-                    <div
-                      class="cxd-Form-item cxd-Form-item--normal"
-                      data-role="form-item"
-                    >
-                      <label
-                        class="cxd-Form-label"
+                    <span>
+                      <span
+                        class="cxd-TplField"
                       >
                         <span>
-                          <span
-                            class="cxd-TplField"
-                          >
-                            <span>
-                              分组
-                            </span>
-                          </span>
+                          分组
                         </span>
-                      </label>
-                      <div
-                        class="cxd-SelectControl cxd-Form-control"
-                      >
-                        <div
-                          class="cxd-ResultBox cxd-TransferDropDown cxd-Form-control is-clickable"
-                          tabindex="-1"
-                        >
-                          <span
-                            class="cxd-ResultBox-placeholder"
-                          >
-                            请选择
-                          </span>
-                          <span
-                            class="cxd-TransferDropDown-icon"
-                          >
-                            <icon-mock
-                              classname="icon icon-caret"
-                              icon="caret"
-                            />
-                          </span>
-                        </div>
-                      </div>
-                    </div>
-                  </form>
-                </div>
-                <div
-                  class="cxd-Panel-footerWrap"
-                >
-                  <div
-                    class="cxd-Panel-btnToolbar cxd-Panel-footer"
-                  >
-                    <button
-                      class="cxd-Button cxd-Button--primary"
-                      type="submit"
-                    >
-                      <span>
-                        提交
                       </span>
-                    </button>
+                    </span>
+                  </label>
+                  <div
+                    class="cxd-SelectControl cxd-Form-control"
+                  >
+                    <div
+                      class="cxd-ResultBox cxd-TransferDropDown cxd-Form-control is-clickable"
+                      tabindex="-1"
+                    >
+                      <span
+                        class="cxd-ResultBox-placeholder"
+                      >
+                        请选择
+                      </span>
+                      <span
+                        class="cxd-TransferDropDown-icon"
+                      >
+                        <icon-mock
+                          classname="icon icon-caret"
+                          icon="caret"
+                        />
+                      </span>
+                    </div>
                   </div>
                 </div>
-                <div
-                  class="resize-sensor"
-                  style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
+              </form>
+            </div>
+            <div
+              class="cxd-Panel-footerWrap"
+            >
+              <div
+                class="cxd-Panel-btnToolbar cxd-Panel-footer"
+              >
+                <button
+                  class="cxd-Button cxd-Button--primary"
+                  type="submit"
                 >
-                  
-  
-                  <div
-                    class="resize-sensor-expand"
-                    style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-                  >
-                    
-    
-                    <div
-                      style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
-                    />
-                    
-  
-                  </div>
-                  
-  
-                  <div
-                    class="resize-sensor-shrink"
-                    style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-                  >
-                    
-    
-                    <div
-                      style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
-                    />
-                    
-  
-                  </div>
-                  
-  
-                  <div
-                    class="resize-sensor-appear"
-                    style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
-                  />
-                </div>
+                  <span>
+                    提交
+                  </span>
+                </button>
               </div>
+            </div>
+            <div
+              class="resize-sensor"
+              style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
+            >
+              
+  
+              <div
+                class="resize-sensor-expand"
+                style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+              >
+                
+    
+                <div
+                  style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
+                />
+                
+  
+              </div>
+              
+  
+              <div
+                class="resize-sensor-shrink"
+                style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+              >
+                
+    
+                <div
+                  style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
+                />
+                
+  
+              </div>
+              
+  
+              <div
+                class="resize-sensor-appear"
+                style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
+              />
             </div>
           </div>
         </div>
@@ -658,162 +602,148 @@ exports[`Renderer:select menutpl 1`] = `
     class="cxd-Page"
   >
     <div
-      class="cxd-PullRefresh"
+      class="cxd-Page-content"
     >
       <div
-        class="cxd-PullRefresh-wrap"
-        style="transform: translate3d(0, 0px, 0);"
+        class="cxd-Page-main"
       >
         <div
-          class="cxd-PullRefresh-header"
-        >
-          
-        </div>
-        <div
-          class="cxd-Page-content"
+          class="cxd-Page-body"
         >
           <div
-            class="cxd-Page-main"
+            class="cxd-Panel cxd-Panel--default cxd-Panel--form"
+            style="position: relative;"
           >
             <div
-              class="cxd-Page-body"
+              class="cxd-Panel-heading"
             >
-              <div
-                class="cxd-Panel cxd-Panel--default cxd-Panel--form"
-                style="position: relative;"
+              <h3
+                class="cxd-Panel-title"
               >
-                <div
-                  class="cxd-Panel-heading"
+                <span
+                  class="cxd-TplField"
                 >
-                  <h3
-                    class="cxd-Panel-title"
-                  >
-                    <span
-                      class="cxd-TplField"
-                    >
-                      <span>
-                        表单
-                      </span>
-                    </span>
-                  </h3>
-                </div>
+                  <span>
+                    表单
+                  </span>
+                </span>
+              </h3>
+            </div>
+            <div
+              class="cxd-Panel-body"
+            >
+              <form
+                class="cxd-Form cxd-Form--normal"
+                novalidate=""
+              >
+                <input
+                  style="display: none;"
+                  type="submit"
+                />
                 <div
-                  class="cxd-Panel-body"
+                  class="cxd-Form-item cxd-Form-item--normal"
+                  data-role="form-item"
                 >
-                  <form
-                    class="cxd-Form cxd-Form--normal"
-                    novalidate=""
+                  <label
+                    class="cxd-Form-label"
                   >
-                    <input
-                      style="display: none;"
-                      type="submit"
-                    />
-                    <div
-                      class="cxd-Form-item cxd-Form-item--normal"
-                      data-role="form-item"
-                    >
-                      <label
-                        class="cxd-Form-label"
+                    <span>
+                      <span
+                        class="cxd-TplField"
                       >
                         <span>
-                          <span
-                            class="cxd-TplField"
-                          >
-                            <span>
-                              选项
-                            </span>
-                          </span>
+                          选项
                         </span>
-                      </label>
+                      </span>
+                    </span>
+                  </label>
+                  <div
+                    class="cxd-SelectControl cxd-Form-control"
+                  >
+                    <div
+                      aria-expanded="false"
+                      aria-haspopup="listbox"
+                      aria-labelledby="downshift-0-label"
+                      class="cxd-Select"
+                      role="combobox"
+                      tabindex="0"
+                    >
                       <div
-                        class="cxd-SelectControl cxd-Form-control"
+                        class="cxd-Select-valueWrap"
                       >
                         <div
-                          aria-expanded="false"
-                          aria-haspopup="listbox"
-                          aria-labelledby="downshift-0-label"
-                          class="cxd-Select"
-                          role="combobox"
-                          tabindex="0"
+                          class="cxd-Select-placeholder"
                         >
-                          <div
-                            class="cxd-Select-valueWrap"
-                          >
-                            <div
-                              class="cxd-Select-placeholder"
-                            >
-                              请选择
-                            </div>
-                          </div>
-                          <span
-                            class="cxd-Select-arrow"
-                          >
-                            <icon-mock
-                              classname="icon icon-caret"
-                              icon="caret"
-                            />
-                          </span>
+                          请选择
                         </div>
                       </div>
-                    </div>
-                  </form>
-                </div>
-                <div
-                  class="cxd-Panel-footerWrap"
-                >
-                  <div
-                    class="cxd-Panel-btnToolbar cxd-Panel-footer"
-                  >
-                    <button
-                      class="cxd-Button cxd-Button--primary"
-                      type="submit"
-                    >
-                      <span>
-                        提交
+                      <span
+                        class="cxd-Select-arrow"
+                      >
+                        <icon-mock
+                          classname="icon icon-caret"
+                          icon="caret"
+                        />
                       </span>
-                    </button>
+                    </div>
                   </div>
                 </div>
-                <div
-                  class="resize-sensor"
-                  style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
+              </form>
+            </div>
+            <div
+              class="cxd-Panel-footerWrap"
+            >
+              <div
+                class="cxd-Panel-btnToolbar cxd-Panel-footer"
+              >
+                <button
+                  class="cxd-Button cxd-Button--primary"
+                  type="submit"
                 >
-                  
-  
-                  <div
-                    class="resize-sensor-expand"
-                    style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-                  >
-                    
-    
-                    <div
-                      style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
-                    />
-                    
-  
-                  </div>
-                  
-  
-                  <div
-                    class="resize-sensor-shrink"
-                    style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-                  >
-                    
-    
-                    <div
-                      style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
-                    />
-                    
-  
-                  </div>
-                  
-  
-                  <div
-                    class="resize-sensor-appear"
-                    style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
-                  />
-                </div>
+                  <span>
+                    提交
+                  </span>
+                </button>
               </div>
+            </div>
+            <div
+              class="resize-sensor"
+              style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
+            >
+              
+  
+              <div
+                class="resize-sensor-expand"
+                style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+              >
+                
+    
+                <div
+                  style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
+                />
+                
+  
+              </div>
+              
+  
+              <div
+                class="resize-sensor-shrink"
+                style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+              >
+                
+    
+                <div
+                  style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
+                />
+                
+  
+              </div>
+              
+  
+              <div
+                class="resize-sensor-appear"
+                style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
+              />
             </div>
           </div>
         </div>
@@ -829,154 +759,140 @@ exports[`Renderer:select table 1`] = `
     class="cxd-Page"
   >
     <div
-      class="cxd-PullRefresh"
+      class="cxd-Page-content"
     >
       <div
-        class="cxd-PullRefresh-wrap"
-        style="transform: translate3d(0, 0px, 0);"
+        class="cxd-Page-main"
       >
         <div
-          class="cxd-PullRefresh-header"
-        >
-          
-        </div>
-        <div
-          class="cxd-Page-content"
+          class="cxd-Page-body"
         >
           <div
-            class="cxd-Page-main"
+            class="cxd-Panel cxd-Panel--default cxd-Panel--form"
+            style="position: relative;"
           >
             <div
-              class="cxd-Page-body"
+              class="cxd-Panel-heading"
             >
-              <div
-                class="cxd-Panel cxd-Panel--default cxd-Panel--form"
-                style="position: relative;"
+              <h3
+                class="cxd-Panel-title"
               >
-                <div
-                  class="cxd-Panel-heading"
+                <span
+                  class="cxd-TplField"
                 >
-                  <h3
-                    class="cxd-Panel-title"
-                  >
-                    <span
-                      class="cxd-TplField"
-                    >
-                      <span>
-                        表单
-                      </span>
-                    </span>
-                  </h3>
-                </div>
+                  <span>
+                    表单
+                  </span>
+                </span>
+              </h3>
+            </div>
+            <div
+              class="cxd-Panel-body"
+            >
+              <form
+                class="cxd-Form cxd-Form--normal"
+                novalidate=""
+              >
+                <input
+                  style="display: none;"
+                  type="submit"
+                />
                 <div
-                  class="cxd-Panel-body"
+                  class="cxd-Form-item cxd-Form-item--normal"
+                  data-role="form-item"
                 >
-                  <form
-                    class="cxd-Form cxd-Form--normal"
-                    novalidate=""
+                  <label
+                    class="cxd-Form-label"
                   >
-                    <input
-                      style="display: none;"
-                      type="submit"
-                    />
-                    <div
-                      class="cxd-Form-item cxd-Form-item--normal"
-                      data-role="form-item"
-                    >
-                      <label
-                        class="cxd-Form-label"
+                    <span>
+                      <span
+                        class="cxd-TplField"
                       >
                         <span>
-                          <span
-                            class="cxd-TplField"
-                          >
-                            <span>
-                              表格形式
-                            </span>
-                          </span>
+                          表格形式
                         </span>
-                      </label>
-                      <div
-                        class="cxd-SelectControl cxd-Form-control"
-                      >
-                        <div
-                          class="cxd-ResultBox cxd-TransferDropDown cxd-Form-control is-clickable"
-                          tabindex="-1"
-                        >
-                          <span
-                            class="cxd-ResultBox-placeholder"
-                          >
-                            请选择
-                          </span>
-                          <span
-                            class="cxd-TransferDropDown-icon"
-                          >
-                            <icon-mock
-                              classname="icon icon-caret"
-                              icon="caret"
-                            />
-                          </span>
-                        </div>
-                      </div>
-                    </div>
-                  </form>
-                </div>
-                <div
-                  class="cxd-Panel-footerWrap"
-                >
-                  <div
-                    class="cxd-Panel-btnToolbar cxd-Panel-footer"
-                  >
-                    <button
-                      class="cxd-Button cxd-Button--primary"
-                      type="submit"
-                    >
-                      <span>
-                        提交
                       </span>
-                    </button>
+                    </span>
+                  </label>
+                  <div
+                    class="cxd-SelectControl cxd-Form-control"
+                  >
+                    <div
+                      class="cxd-ResultBox cxd-TransferDropDown cxd-Form-control is-clickable"
+                      tabindex="-1"
+                    >
+                      <span
+                        class="cxd-ResultBox-placeholder"
+                      >
+                        请选择
+                      </span>
+                      <span
+                        class="cxd-TransferDropDown-icon"
+                      >
+                        <icon-mock
+                          classname="icon icon-caret"
+                          icon="caret"
+                        />
+                      </span>
+                    </div>
                   </div>
                 </div>
-                <div
-                  class="resize-sensor"
-                  style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
+              </form>
+            </div>
+            <div
+              class="cxd-Panel-footerWrap"
+            >
+              <div
+                class="cxd-Panel-btnToolbar cxd-Panel-footer"
+              >
+                <button
+                  class="cxd-Button cxd-Button--primary"
+                  type="submit"
                 >
-                  
-  
-                  <div
-                    class="resize-sensor-expand"
-                    style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-                  >
-                    
-    
-                    <div
-                      style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
-                    />
-                    
-  
-                  </div>
-                  
-  
-                  <div
-                    class="resize-sensor-shrink"
-                    style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-                  >
-                    
-    
-                    <div
-                      style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
-                    />
-                    
-  
-                  </div>
-                  
-  
-                  <div
-                    class="resize-sensor-appear"
-                    style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
-                  />
-                </div>
+                  <span>
+                    提交
+                  </span>
+                </button>
               </div>
+            </div>
+            <div
+              class="resize-sensor"
+              style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
+            >
+              
+  
+              <div
+                class="resize-sensor-expand"
+                style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+              >
+                
+    
+                <div
+                  style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
+                />
+                
+  
+              </div>
+              
+  
+              <div
+                class="resize-sensor-shrink"
+                style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+              >
+                
+    
+                <div
+                  style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
+                />
+                
+  
+              </div>
+              
+  
+              <div
+                class="resize-sensor-appear"
+                style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
+              />
             </div>
           </div>
         </div>
@@ -992,154 +908,140 @@ exports[`Renderer:select tree 1`] = `
     class="cxd-Page"
   >
     <div
-      class="cxd-PullRefresh"
+      class="cxd-Page-content"
     >
       <div
-        class="cxd-PullRefresh-wrap"
-        style="transform: translate3d(0, 0px, 0);"
+        class="cxd-Page-main"
       >
         <div
-          class="cxd-PullRefresh-header"
-        >
-          
-        </div>
-        <div
-          class="cxd-Page-content"
+          class="cxd-Page-body"
         >
           <div
-            class="cxd-Page-main"
+            class="cxd-Panel cxd-Panel--default cxd-Panel--form"
+            style="position: relative;"
           >
             <div
-              class="cxd-Page-body"
+              class="cxd-Panel-heading"
             >
-              <div
-                class="cxd-Panel cxd-Panel--default cxd-Panel--form"
-                style="position: relative;"
+              <h3
+                class="cxd-Panel-title"
               >
-                <div
-                  class="cxd-Panel-heading"
+                <span
+                  class="cxd-TplField"
                 >
-                  <h3
-                    class="cxd-Panel-title"
-                  >
-                    <span
-                      class="cxd-TplField"
-                    >
-                      <span>
-                        表单
-                      </span>
-                    </span>
-                  </h3>
-                </div>
+                  <span>
+                    表单
+                  </span>
+                </span>
+              </h3>
+            </div>
+            <div
+              class="cxd-Panel-body"
+            >
+              <form
+                class="cxd-Form cxd-Form--normal"
+                novalidate=""
+              >
+                <input
+                  style="display: none;"
+                  type="submit"
+                />
                 <div
-                  class="cxd-Panel-body"
+                  class="cxd-Form-item cxd-Form-item--normal"
+                  data-role="form-item"
                 >
-                  <form
-                    class="cxd-Form cxd-Form--normal"
-                    novalidate=""
+                  <label
+                    class="cxd-Form-label"
                   >
-                    <input
-                      style="display: none;"
-                      type="submit"
-                    />
-                    <div
-                      class="cxd-Form-item cxd-Form-item--normal"
-                      data-role="form-item"
-                    >
-                      <label
-                        class="cxd-Form-label"
+                    <span>
+                      <span
+                        class="cxd-TplField"
                       >
                         <span>
-                          <span
-                            class="cxd-TplField"
-                          >
-                            <span>
-                              树型展示
-                            </span>
-                          </span>
+                          树型展示
                         </span>
-                      </label>
-                      <div
-                        class="cxd-SelectControl cxd-Form-control"
-                      >
-                        <div
-                          class="cxd-ResultBox cxd-TransferDropDown cxd-Form-control is-clickable"
-                          tabindex="-1"
-                        >
-                          <span
-                            class="cxd-ResultBox-placeholder"
-                          >
-                            请选择
-                          </span>
-                          <span
-                            class="cxd-TransferDropDown-icon"
-                          >
-                            <icon-mock
-                              classname="icon icon-caret"
-                              icon="caret"
-                            />
-                          </span>
-                        </div>
-                      </div>
-                    </div>
-                  </form>
-                </div>
-                <div
-                  class="cxd-Panel-footerWrap"
-                >
-                  <div
-                    class="cxd-Panel-btnToolbar cxd-Panel-footer"
-                  >
-                    <button
-                      class="cxd-Button cxd-Button--primary"
-                      type="submit"
-                    >
-                      <span>
-                        提交
                       </span>
-                    </button>
+                    </span>
+                  </label>
+                  <div
+                    class="cxd-SelectControl cxd-Form-control"
+                  >
+                    <div
+                      class="cxd-ResultBox cxd-TransferDropDown cxd-Form-control is-clickable"
+                      tabindex="-1"
+                    >
+                      <span
+                        class="cxd-ResultBox-placeholder"
+                      >
+                        请选择
+                      </span>
+                      <span
+                        class="cxd-TransferDropDown-icon"
+                      >
+                        <icon-mock
+                          classname="icon icon-caret"
+                          icon="caret"
+                        />
+                      </span>
+                    </div>
                   </div>
                 </div>
-                <div
-                  class="resize-sensor"
-                  style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
+              </form>
+            </div>
+            <div
+              class="cxd-Panel-footerWrap"
+            >
+              <div
+                class="cxd-Panel-btnToolbar cxd-Panel-footer"
+              >
+                <button
+                  class="cxd-Button cxd-Button--primary"
+                  type="submit"
                 >
-                  
-  
-                  <div
-                    class="resize-sensor-expand"
-                    style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-                  >
-                    
-    
-                    <div
-                      style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
-                    />
-                    
-  
-                  </div>
-                  
-  
-                  <div
-                    class="resize-sensor-shrink"
-                    style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
-                  >
-                    
-    
-                    <div
-                      style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
-                    />
-                    
-  
-                  </div>
-                  
-  
-                  <div
-                    class="resize-sensor-appear"
-                    style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
-                  />
-                </div>
+                  <span>
+                    提交
+                  </span>
+                </button>
               </div>
+            </div>
+            <div
+              class="resize-sensor"
+              style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: scroll; z-index: -1; visibility: hidden;"
+            >
+              
+  
+              <div
+                class="resize-sensor-expand"
+                style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+              >
+                
+    
+                <div
+                  style="position: absolute; left: 0px; top: 0px; width: 10px; height: 10px;"
+                />
+                
+  
+              </div>
+              
+  
+              <div
+                class="resize-sensor-shrink"
+                style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;"
+              >
+                
+    
+                <div
+                  style="position: absolute; left: 0; top: 0; width: 200%; height: 200%"
+                />
+                
+  
+              </div>
+              
+  
+              <div
+                class="resize-sensor-appear"
+                style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: scroll; z-index: -1; visibility: hidden;animation-name: apearSensor; animation-duration: 0.2s;"
+              />
             </div>
           </div>
         </div>

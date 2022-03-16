@@ -6,183 +6,169 @@ exports[`Renderer:steps 1`] = `
     class="cxd-Page"
   >
     <div
-      class="cxd-PullRefresh"
+      class="cxd-Page-content"
     >
       <div
-        class="cxd-PullRefresh-wrap"
-        style="transform: translate3d(0, 0px, 0);"
+        class="cxd-Page-main"
       >
         <div
-          class="cxd-PullRefresh-header"
+          class="cxd-Page-body"
         >
-          
-        </div>
-        <div
-          class="cxd-Page-content"
-        >
-          <div
-            class="cxd-Page-main"
+          <ul
+            class="cxd-Steps cxd-Steps--Placement- cxd-Steps-- cxd-Steps--horizontal"
           >
-            <div
-              class="cxd-Page-body"
+            <li
+              class="cxd-StepsItem is-finish cxd-StepsItem-"
             >
-              <ul
-                class="cxd-Steps cxd-Steps--Placement- cxd-Steps-- cxd-Steps--horizontal"
+              <div
+                class="cxd-StepsItem-container"
               >
-                <li
-                  class="cxd-StepsItem is-finish cxd-StepsItem-"
+                <div
+                  class="cxd-StepsItem-containerTail"
+                />
+                <div
+                  class="cxd-StepsItem-containerIcon is-success"
+                >
+                  <span
+                    class="cxd-StepsItem-icon"
+                  >
+                    <icon-mock
+                      classname="icon icon-check"
+                      icon="check"
+                    />
+                  </span>
+                </div>
+                <div
+                  class="cxd-StepsItem-containerWrapper"
                 >
                   <div
-                    class="cxd-StepsItem-container"
+                    class="cxd-StepsItem-body"
                   >
                     <div
-                      class="cxd-StepsItem-containerTail"
-                    />
-                    <div
-                      class="cxd-StepsItem-containerIcon is-success"
+                      class="cxd-StepsItem-title cxd-StepsItem- is-success"
                     >
                       <span
-                        class="cxd-StepsItem-icon"
+                        class="cxd-StepsItem-ellText"
+                        title="First"
                       >
-                        <icon-mock
-                          classname="icon icon-check"
-                          icon="check"
-                        />
+                        First
+                      </span>
+                      <span
+                        class="cxd-StepsItem-subTitle cxd-StepsItem-ellText"
+                        title="this is subTitle"
+                      >
+                        this is subTitle
                       </span>
                     </div>
                     <div
-                      class="cxd-StepsItem-containerWrapper"
+                      class="cxd-StepsItem-description cxd-StepsItem-ellText"
+                      title="this is description"
                     >
-                      <div
-                        class="cxd-StepsItem-body"
-                      >
-                        <div
-                          class="cxd-StepsItem-title cxd-StepsItem- is-success"
-                        >
-                          <span
-                            class="cxd-StepsItem-ellText"
-                            title="First"
-                          >
-                            First
-                          </span>
-                          <span
-                            class="cxd-StepsItem-subTitle cxd-StepsItem-ellText"
-                            title="this is subTitle"
-                          >
-                            this is subTitle
-                          </span>
-                        </div>
-                        <div
-                          class="cxd-StepsItem-description cxd-StepsItem-ellText"
-                          title="this is description"
-                        >
-                          <span>
-                            this is description
-                          </span>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </li>
-                <li
-                  class="cxd-StepsItem is-process cxd-StepsItem-"
-                >
-                  <div
-                    class="cxd-StepsItem-container"
-                  >
-                    <div
-                      class="cxd-StepsItem-containerTail"
-                    />
-                    <div
-                      class="cxd-StepsItem-containerIcon"
-                    >
-                      <span
-                        class="cxd-StepsItem-icon"
-                      >
-                        2
+                      <span>
+                        this is description
                       </span>
                     </div>
-                    <div
-                      class="cxd-StepsItem-containerWrapper"
-                    >
-                      <div
-                        class="cxd-StepsItem-body"
-                      >
-                        <div
-                          class="cxd-StepsItem-title cxd-StepsItem-"
-                        >
-                          <span
-                            class="cxd-StepsItem-ellText"
-                            title="Second"
-                          >
-                            Second
-                          </span>
-                          <span
-                            class="cxd-StepsItem-subTitle cxd-StepsItem-ellText"
-                            title="undefined"
-                          />
-                        </div>
-                        <div
-                          class="cxd-StepsItem-description cxd-StepsItem-ellText"
-                          title="undefined"
-                        >
-                          <span />
-                        </div>
-                      </div>
-                    </div>
                   </div>
-                </li>
-                <li
-                  class="cxd-StepsItem is-wait cxd-StepsItem-"
+                </div>
+              </div>
+            </li>
+            <li
+              class="cxd-StepsItem is-process cxd-StepsItem-"
+            >
+              <div
+                class="cxd-StepsItem-container"
+              >
+                <div
+                  class="cxd-StepsItem-containerTail"
+                />
+                <div
+                  class="cxd-StepsItem-containerIcon"
+                >
+                  <span
+                    class="cxd-StepsItem-icon"
+                  >
+                    2
+                  </span>
+                </div>
+                <div
+                  class="cxd-StepsItem-containerWrapper"
                 >
                   <div
-                    class="cxd-StepsItem-container"
+                    class="cxd-StepsItem-body"
                   >
                     <div
-                      class="cxd-StepsItem-containerTail"
-                    />
-                    <div
-                      class="cxd-StepsItem-containerIcon"
+                      class="cxd-StepsItem-title cxd-StepsItem-"
                     >
                       <span
-                        class="cxd-StepsItem-icon"
+                        class="cxd-StepsItem-ellText"
+                        title="Second"
                       >
-                        3
+                        Second
                       </span>
+                      <span
+                        class="cxd-StepsItem-subTitle cxd-StepsItem-ellText"
+                        title="undefined"
+                      />
                     </div>
                     <div
-                      class="cxd-StepsItem-containerWrapper"
+                      class="cxd-StepsItem-description cxd-StepsItem-ellText"
+                      title="undefined"
                     >
-                      <div
-                        class="cxd-StepsItem-body"
-                      >
-                        <div
-                          class="cxd-StepsItem-title cxd-StepsItem-"
-                        >
-                          <span
-                            class="cxd-StepsItem-ellText"
-                            title="Last"
-                          >
-                            Last
-                          </span>
-                          <span
-                            class="cxd-StepsItem-subTitle cxd-StepsItem-ellText"
-                            title="undefined"
-                          />
-                        </div>
-                        <div
-                          class="cxd-StepsItem-description cxd-StepsItem-ellText"
-                          title="undefined"
-                        >
-                          <span />
-                        </div>
-                      </div>
+                      <span />
                     </div>
                   </div>
-                </li>
-              </ul>
-            </div>
-          </div>
+                </div>
+              </div>
+            </li>
+            <li
+              class="cxd-StepsItem is-wait cxd-StepsItem-"
+            >
+              <div
+                class="cxd-StepsItem-container"
+              >
+                <div
+                  class="cxd-StepsItem-containerTail"
+                />
+                <div
+                  class="cxd-StepsItem-containerIcon"
+                >
+                  <span
+                    class="cxd-StepsItem-icon"
+                  >
+                    3
+                  </span>
+                </div>
+                <div
+                  class="cxd-StepsItem-containerWrapper"
+                >
+                  <div
+                    class="cxd-StepsItem-body"
+                  >
+                    <div
+                      class="cxd-StepsItem-title cxd-StepsItem-"
+                    >
+                      <span
+                        class="cxd-StepsItem-ellText"
+                        title="Last"
+                      >
+                        Last
+                      </span>
+                      <span
+                        class="cxd-StepsItem-subTitle cxd-StepsItem-ellText"
+                        title="undefined"
+                      />
+                    </div>
+                    <div
+                      class="cxd-StepsItem-description cxd-StepsItem-ellText"
+                      title="undefined"
+                    >
+                      <span />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </li>
+          </ul>
         </div>
       </div>
     </div>
