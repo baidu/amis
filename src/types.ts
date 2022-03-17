@@ -104,6 +104,9 @@ export interface Action extends Button {
     | 'clear-and-submit'
     | 'toast'
     | 'goto-step'
+    | 'expand'
+    | 'collapse'
+    | 'choose'
     | 'step-submit';
   api?: Api;
   asyncApi?: Api;

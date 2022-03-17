@@ -454,10 +454,10 @@ export function registerOptionsControl(config: OptionsConfig) {
       this.toDispose = [];
     }
 
-    async dispatchChangeEvent(eventData: any = '') {
+    async dispatchOptionEvent(eventName: string, eventData: any = '') {
       const {dispatchEvent, options, data} = this.props;
       const rendererEvent = await dispatchEvent(
-        'change',
+        eventName,
         createObject(data, {
           value: eventData,
           options,
@@ -599,7 +599,7 @@ export function registerOptionsControl(config: OptionsConfig) {
         value
       );
 
-      const isPrevented = await this.dispatchChangeEvent(newValue);
+      const isPrevented = await this.dispatchOptionEvent('change', newValue);
       isPrevented || (onChange && onChange(newValue, submitOnChange, changeImmediately));
     }
 
@@ -667,7 +667,7 @@ export function registerOptionsControl(config: OptionsConfig) {
           ? []
           : formItem.filteredOptions.concat();
       const newValue = this.formatValueArray(valueArray);
-      const isPrevented = await this.dispatchChangeEvent(newValue);
+      const isPrevented = await this.dispatchOptionEvent('change', newValue);
       isPrevented || (onChange && onChange(newValue));
     }
 
@@ -767,7 +767,7 @@ export function registerOptionsControl(config: OptionsConfig) {
     }
 
     @autobind
-    deferLoad(option: Option) {
+    async deferLoad(option: Option) {
       const {deferApi, source, env, formItem, data} = this.props;
       const api = option.deferApi || deferApi || source;
 
@@ -779,7 +779,9 @@ export function registerOptionsControl(config: OptionsConfig) {
         return;
       }
 
-      formItem?.deferLoadOptions(option, api, createObject(data, option));
+      const json = await formItem?.deferLoadOptions(option, api, createObject(data, option));
+      // 触发事件通知,加载完成
+      this.dispatchOptionEvent('loadFinished',json);
     }
 
     @autobind
@@ -992,6 +994,11 @@ export function registerOptionsControl(config: OptionsConfig) {
           [valueField || 'value']: result[labelField || 'label']
         };
       }
+      // 触发事件通知
+      const isPrevented = await this.dispatchOptionEvent('add', {...result, idx});
+      if (isPrevented) {
+        return;
+      }
 
       // 如果是懒加载的，只懒加载当前节点。
       if (parent?.defer) {
@@ -1095,6 +1102,12 @@ export function registerOptionsControl(config: OptionsConfig) {
         return;
       }
 
+      // 触发事件通知
+      const isPrevented = await this.dispatchOptionEvent('edit', result);
+      if (isPrevented) {
+        return;
+      }
+
       if (source && editApi) {
         this.reload();
       } else {
@@ -1138,6 +1151,12 @@ export function registerOptionsControl(config: OptionsConfig) {
         ? await env.confirm(filter(deleteConfirmText, ctx))
         : true;
       if (!confirmed) {
+        return;
+      }
+
+      // 触发事件通知
+      const isPrevented = await this.dispatchOptionEvent('delete', ctx);
+      if (isPrevented) {
         return;
       }
 
