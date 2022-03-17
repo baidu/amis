@@ -194,3 +194,17 @@ order: 58
 | placeholder     | `string`  | `"请选择时间"` | 占位文本                                                                            |
 | clearable       | `boolean` | `true`         | 是否可清除                                                                          |
 | timeConstraints | `object`  | `true`         | 请参考： [react-datetime](https://github.com/YouCanBookMe/react-datetime)           |
+
+## 事件表
+
+| 事件名称           | 事件参数                                        | 说明                  |
+|-------------------|------------------------------------------------|----------------------|
+| focus             | -                                 |  获得焦点(非内嵌模式)               |
+| blur              | -                                 |  失去焦点(非内嵌模式)               |
+
+## 动作表
+
+| 动作名称           | 动作配置                 | 说明                    |
+|-------------------|-------------------------|------------------------|
+| clear             | -                       | 清空                    |
+| reset             | `resetValue: Date`            | 值重置                   |

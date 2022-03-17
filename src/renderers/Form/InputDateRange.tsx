@@ -180,8 +180,14 @@ export default class DateRangeControl extends React.Component<DateRangeProps> {
   // 动作
   doAction(action: Action, data: object, throwErrors: boolean) {
     const {resetValue, onChange} = this.props;
+
     if (action.actionType === 'clear') {
-      onChange(resetValue ?? '');
+      onChange('');
+      return;
+    }
+
+    if (action.actionType === 'reset' && resetValue) {
+      onChange(resetValue);
     }
   }
 
