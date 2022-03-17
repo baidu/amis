@@ -357,17 +357,16 @@ order: 13
 
 除了支持 [普通表单项属性表](./formitem#%E5%B1%9E%E6%80%A7%E8%A1%A8) 中的配置以外，还支持下面一些配置
 
-| 属性名          | 类型      | 默认值         | 说明                                                                                                        |
-| --------------- | --------- | -------------- | ----------------------------------------------------------------------------------------------------------- |
-| value           | `string`  |                | [默认值](./date#%E9%BB%98%E8%AE%A4%E5%80%BC)                                                                |
-| format          | `string`  | `X`            | 日期选择器值格式，更多格式类型请参考 [文档](https://momentjs.com/docs/#/displaying/format/)                 |
-| inputFormat     | `string`  | `YYYY-DD-MM`   | 日期选择器显示格式，即时间戳格式，更多格式类型请参考 [文档](https://momentjs.com/docs/#/displaying/format/) |
-| closeOnSelect   | `boolean` | `false`        | 点选日期后，是否马上关闭选择框                                                                              |
-| placeholder     | `string`  | `"请选择日期"` | 占位文本                                                                                                    |
-| shortcuts       | `string`  |                | 日期快捷键                                                                                                  |
-| minDate         | `string`  |                | 限制最小日期                                                                                                |
-| maxDate         | `string`  |                | 限制最大日期                                                                                                |
-| utc             | `boolean` | `false`        | 保存 utc 值                                                                                                 |
-| clearable       | `boolean` | `true`         | 是否可清除                                                                                                  |
-| embed           | `boolean` | `false`        | 是否内联模式                                                                                                |
-| timeConstraints | `object`  | `true`         | 请参考： [react-datetime](https://github.com/YouCanBookMe/react-datetime)                                   |
+| 属性名        | 类型      | 默认值         | 说明                                                                                                        |
+| ------------- | --------- | -------------- | ----------------------------------------------------------------------------------------------------------- |
+| value         | `string`  |                | [默认值](./date#%E9%BB%98%E8%AE%A4%E5%80%BC)                                                                |
+| format        | `string`  | `X`            | 日期选择器值格式，更多格式类型请参考 [文档](https://momentjs.com/docs/#/displaying/format/)                 |
+| inputFormat   | `string`  | `YYYY-DD-MM`   | 日期选择器显示格式，即时间戳格式，更多格式类型请参考 [文档](https://momentjs.com/docs/#/displaying/format/) |
+| closeOnSelect | `boolean` | `false`        | 点选日期后，是否马上关闭选择框                                                                              |
+| placeholder   | `string`  | `"请选择日期"` | 占位文本                                                                                                    |
+| shortcuts     | `string`  |                | 日期快捷键                                                                                                  |
+| minDate       | `string`  |                | 限制最小日期                                                                                                |
+| maxDate       | `string`  |                | 限制最大日期                                                                                                |
+| utc           | `boolean` | `false`        | 保存 utc 值                                                                                                 |
+| clearable     | `boolean` | `true`         | 是否可清除                                                                                                  |
+| embed         | `boolean` | `false`        | 是否内联模式                                                                                                |

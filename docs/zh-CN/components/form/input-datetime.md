@@ -313,4 +313,4 @@ order: 14
 | utc             | `boolean` | `false`                | 保存 utc 值                                                                                                     |
 | clearable       | `boolean` | `true`                 | 是否可清除                                                                                                      |
 | embed           | `boolean` | `false`                | 是否内联                                                                                                        |
-| timeConstraints | `object`  | `true`                 | 请参考： [react-datetime](https://github.com/YouCanBookMe/react-datetime)                                       |
+| timeConstraints | `object`  | `true`                 | 请参考 [input-time](./input-time#控制输入范围) 里的说明                                                         |
