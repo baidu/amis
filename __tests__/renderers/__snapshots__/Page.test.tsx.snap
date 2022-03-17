@@ -93,11 +93,15 @@ exports[`Renderer:Page classNames 1`] = `
     className="cxd-Page-aside cxd-Page-aside--withWidth aside-class-name"
   >
     <div
-      className="cxd-TplField cxd-Page-asideTplWrapper"
+      className="cxd-Page-asideInner"
     >
-      <span>
-        This is aside
-      </span>
+      <div
+        className="cxd-TplField cxd-Page-asideTplWrapper"
+      >
+        <span>
+          This is aside
+        </span>
+      </div>
     </div>
   </div>
   <div

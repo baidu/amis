@@ -247,6 +247,10 @@ Page 默认将页面分为几个区域，分别是**内容区（`body`）**、**
 
 配置写法和编写普通 css 的体验是一致的，可以使用任意 css 选择符及属性。
 
+## aside 位置固定
+
+通过配置 `asideSticky` 来开关，默认是开启状态。
+
 ## 属性表
 
 | 属性名              | 类型                                      | 默认值                                     | 说明                                                                                  |
@@ -259,6 +263,7 @@ Page 默认将页面分为几个区域，分别是**内容区（`body`）**、**
 | asideResizor        | `boolean`                                 |                                            | 页面的边栏区域宽度是否可调整                                                          |
 | asideMinWidth       | `number`                                  |                                            | 页面边栏区域的最小宽度                                                                |
 | asideMaxWidth       | `number`                                  |                                            | 页面边栏区域的最大宽度                                                                |
+| asideSticky         | `boolean`                                 | true                                       | 用来控制边栏固定与否                                                                  |
 | toolbar             | [SchemaNode](../../docs/types/schemanode) |                                            | 往页面的右上角加内容，需要注意的是，当有 title 时，该区域在右上角，没有时该区域在顶部 |
 | body                | [SchemaNode](../../docs/types/schemanode) |                                            | 往页面的内容区域加内容                                                                |
 | className           | `string`                                  |                                            | 外层 dom 类名                                                                         |

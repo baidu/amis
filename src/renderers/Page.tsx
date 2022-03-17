@@ -93,6 +93,13 @@ export interface PageSchema extends BaseSchema {
   asideResizor?: boolean;
 
   /**
+   * 边栏内容是否粘住，即不跟随滚动。
+   *
+   * @default true
+   */
+  asideSticky?: boolean;
+
+  /**
    * 边栏最小宽度
    */
   asideMinWidth?: number;
@@ -228,6 +235,7 @@ export default class Page extends React.Component<PageProps> {
   startX: number;
   startWidth: number;
   codeWrap: HTMLElement;
+  asideInner = React.createRef<HTMLDivElement>();
 
   static defaultProps = {
     asideClassName: '',
@@ -237,6 +245,7 @@ export default class Page extends React.Component<PageProps> {
     // primaryField: 'id',
     toolbarClassName: '',
     messages: {},
+    asideSticky: true,
     pullRefresh: {
       disabled: true
     }
@@ -360,7 +369,8 @@ export default class Page extends React.Component<PageProps> {
   }
 
   componentDidMount() {
-    const {initApi, initFetch, initFetchOn, store, messages} = this.props;
+    const {initApi, initFetch, initFetchOn, store, messages, asideSticky} =
+      this.props;
 
     this.mounted = true;
 
@@ -371,6 +381,12 @@ export default class Page extends React.Component<PageProps> {
           errorMessage: messages && messages.fetchFailed
         })
         .then(this.initInterval);
+    }
+
+    if (asideSticky && this.asideInner.current) {
+      const dom = this.asideInner.current!;
+      const rect = dom.getBoundingClientRect();
+      dom.style.cssText += `position: sticky; top: ${rect.top}px;`;
     }
   }
 
@@ -783,15 +799,17 @@ export default class Page extends React.Component<PageProps> {
               asideClassName
             )}
           >
-            {render('aside', aside || '', {
-              ...subProps,
-              ...(typeof aside === 'string'
-                ? {
-                    inline: false,
-                    className: `Page-asideTplWrapper`
-                  }
-                : null)
-            })}
+            <div className={cx(`Page-asideInner`)} ref={this.asideInner}>
+              {render('aside', aside || '', {
+                ...subProps,
+                ...(typeof aside === 'string'
+                  ? {
+                      inline: false,
+                      className: `Page-asideTplWrapper`
+                    }
+                  : null)
+              })}
+            </div>
             {asideResizor ? (
               <div
                 onMouseDown={this.handleResizeMouseDown}
