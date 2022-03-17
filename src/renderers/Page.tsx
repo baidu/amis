@@ -744,28 +744,30 @@ export default class Page extends React.Component<PageProps> {
 
     const styleVar = buildStyle(style, data);
 
-    const pageContent = <div className={cx('Page-content')}>
-      <div className={cx('Page-main')}>
-        {this.renderHeader()}
-        <div className={cx(`Page-body`, bodyClassName)}>
-          <Spinner size="lg" overlay key="info" show={store.loading} />
+    const pageContent = (
+      <div className={cx('Page-content')}>
+        <div className={cx('Page-main')}>
+          {this.renderHeader()}
+          <div className={cx(`Page-body`, bodyClassName)}>
+            <Spinner size="lg" overlay key="info" show={store.loading} />
 
-          {store.error && showErrorMsg !== false ? (
-            <Alert
-              level="danger"
-              showCloseButton
-              onClose={store.clearMessage}
-            >
-              {store.msg}
-            </Alert>
-          ) : null}
+            {store.error && showErrorMsg !== false ? (
+              <Alert
+                level="danger"
+                showCloseButton
+                onClose={store.clearMessage}
+              >
+                {store.msg}
+              </Alert>
+            ) : null}
 
-          {(Array.isArray(regions) ? ~regions.indexOf('body') : body)
-            ? render('body', body || '', subProps)
-            : null}
+            {(Array.isArray(regions) ? ~regions.indexOf('body') : body)
+              ? render('body', body || '', subProps)
+              : null}
+          </div>
         </div>
       </div>
-    </div>;
+    );
 
     return (
       <div
@@ -799,15 +801,17 @@ export default class Page extends React.Component<PageProps> {
           </div>
         ) : null}
 
-        {pullRefresh && !pullRefresh.disabled
-          ? <PullRefresh
-              {...pullRefresh}
-              translate={__}
-              onRefresh={this.handleRefresh}
-              >
-              {pageContent}
-            </PullRefresh>
-          : pageContent}
+        {pullRefresh && !pullRefresh.disabled ? (
+          <PullRefresh
+            {...pullRefresh}
+            translate={__}
+            onRefresh={this.handleRefresh}
+          >
+            {pageContent}
+          </PullRefresh>
+        ) : (
+          pageContent
+        )}
 
         {render(
           'dialog',
