@@ -1087,6 +1087,8 @@
   // --Nav-subNav-bg: #fafafa;
   --Nav-subItem-fontSize: var(--fontSizeBase);
   --Nav-subItem-onActiveBeforeBg: #e5eaeb;
+  --Nav-Item-maxWidth--tabs: #{px2rem(160px)};
+  --Nav-Item-height: #{px2rem(40px)};
 
   --Number-bg: var(--Form-input-bg);
   --Number-borderColor: var(--Form-input-borderColor);
