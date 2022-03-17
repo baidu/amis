@@ -1,4 +1,5 @@
 import React from 'react';
+import {findDOMNode} from 'react-dom';
 import {
   Fields,
   ConditionRule,
@@ -37,6 +38,7 @@ export interface ConditionItemProps extends ThemeProps, LocaleProps {
   onChange: (value: ConditionRule, index?: number) => void;
   fieldClassName?: string;
   formula?: FormulaPickerProps;
+  popOverContainer?: any;
 }
 
 export class ConditionItem extends React.Component<ConditionItemProps> {
@@ -102,8 +104,16 @@ export class ConditionItem extends React.Component<ConditionItemProps> {
   }
 
   renderLeft() {
-    const {value, fields, funcs, config, disabled, fieldClassName, searchable} =
-      this.props;
+    const {
+      value,
+      fields,
+      funcs,
+      config,
+      disabled,
+      fieldClassName,
+      searchable,
+      popOverContainer
+    } = this.props;
     return (
       <Expression
         config={config}
@@ -114,6 +124,7 @@ export class ConditionItem extends React.Component<ConditionItemProps> {
         fields={fields}
         disabled={disabled}
         searchable={searchable}
+        popOverContainer={popOverContainer}
         allowedTypes={
           ['field', 'func'].filter(
             type => type === 'field' || type === 'func'
@@ -124,7 +135,15 @@ export class ConditionItem extends React.Component<ConditionItemProps> {
   }
 
   renderOperator() {
-    const {funcs, config, fields, value, classnames: cx, disabled} = this.props;
+    const {
+      funcs,
+      config,
+      fields,
+      value,
+      classnames: cx,
+      disabled,
+      popOverContainer
+    } = this.props;
     const left = value?.left;
     let operators: Array<string> = [];
 
@@ -152,6 +171,7 @@ export class ConditionItem extends React.Component<ConditionItemProps> {
       const __ = this.props.translate;
       return (
         <PopOverContainer
+          popOverContainer={popOverContainer || (() => findDOMNode(this))}
           popOverRender={({onClose}) => (
             <GroupedSelection
               onClick={onClose}
@@ -242,7 +262,8 @@ export class ConditionItem extends React.Component<ConditionItemProps> {
       config,
       classnames: cx,
       disabled,
-      formula
+      formula,
+      popOverContainer
     } = this.props;
     let field = {
       ...config.types[type],
@@ -282,6 +303,7 @@ export class ConditionItem extends React.Component<ConditionItemProps> {
             }
             disabled={disabled}
             formula={formula}
+            popOverContainer={popOverContainer}
           />
 
           <span className={cx('CBSeprator')}>~</span>
@@ -300,6 +322,7 @@ export class ConditionItem extends React.Component<ConditionItemProps> {
             }
             disabled={disabled}
             formula={formula}
+            popOverContainer={popOverContainer}
           />
         </>
       );
@@ -321,6 +344,7 @@ export class ConditionItem extends React.Component<ConditionItemProps> {
         }
         disabled={disabled}
         formula={formula}
+        popOverContainer={popOverContainer}
       />
     );
   }

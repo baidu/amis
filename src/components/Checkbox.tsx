@@ -79,7 +79,7 @@ export class Checkbox extends React.Component<CheckboxProps, any> {
       <label
         className={cx(`Checkbox Checkbox--${type}`, className, {
           'Checkbox--full': !partial,
-          'Checkbox--partial': partial,
+          // 'Checkbox--partial': partial
           [`Checkbox--${size}`]: size,
           'Checkbox--button': optionType === 'button',
           'Checkbox--button--checked': optionType === 'button' && checked,

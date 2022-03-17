@@ -213,8 +213,19 @@ export default class DateRangeControl extends React.Component<DateRangeProps> {
       ...rest
     } = this.props;
     const mobileUI = useMobileUI && isMobile();
+    const comptType = this.props?.type;
+
     return (
-      <div className={cx(`${ns}DateRangeControl`, className)}>
+      <div
+        className={cx(
+          `${ns}DateRangeControl`,
+          {
+            'is-date': /date-/.test(comptType),
+            'is-datetime': /datetime-/.test(comptType)
+          },
+          className
+        )}
+      >
         <DateRangePicker
           {...rest}
           useMobileUI={useMobileUI}

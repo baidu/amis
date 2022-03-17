@@ -2262,19 +2262,25 @@ export default class Table extends React.Component<TableProps, object> {
       classPrefix: ns,
       classnames: cx,
       translate: __,
-      data
+      data,
+      render
     } = this.props;
 
-    let columns = this.props.columns || [];
+    let columns = store.filteredColumns || [];
 
     if (!columns) {
       return null;
     }
 
-    return (
-      <Button
-        classPrefix={ns}
-        onClick={() => {
+    return render(
+      'exportExcel',
+      {
+        label: __('CRUD.exportExcel'),
+        ...(toolbar as any),
+        type: 'button'
+      },
+      {
+        onAction: () => {
           import('exceljs').then(async (ExcelJS: any) => {
             let rows = [];
             let tmpStore;
@@ -2332,7 +2338,10 @@ export default class Table extends React.Component<TableProps, object> {
             const filteredColumns = exportColumnNames
               ? columns.filter(column => {
                   const filterColumnsNames = exportColumnNames!;
-                  if (filterColumnsNames.indexOf(column.name) !== -1) {
+                  if (
+                    column.name &&
+                    filterColumnsNames.indexOf(column.name) !== -1
+                  ) {
                     return true;
                   }
                   return false;
@@ -2513,11 +2522,8 @@ export default class Table extends React.Component<TableProps, object> {
               saveAs(blob, filename + '.xlsx');
             }
           });
-        }}
-        size="sm"
-      >
-        {(toolbar as Schema).label || __('CRUD.exportExcel')}
-      </Button>
+        }
+      }
     );
   }
 

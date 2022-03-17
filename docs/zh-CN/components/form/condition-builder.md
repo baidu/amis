@@ -21,6 +21,7 @@ icon:
           "label": "条件组件",
           "name": "conditions",
           "description": "适合让用户自己拼查询条件，然后后端根据数据生成 query where",
+          "searchable": true,
           "fields": [
             {
               "label": "文本",
@@ -592,3 +593,4 @@ type Value = ValueGroup;
 | fields         |           |        | 字段配置                       |
 | showANDOR      | `boolean` |        | 用于 simple 模式下显示切换按钮 |
 | showNot        | `boolean` |        | 是否显示「非」按钮             |
+| searchable     | `boolean` |        | 字段是否可搜索             |

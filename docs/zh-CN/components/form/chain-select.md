@@ -54,3 +54,16 @@ order: 7
 | valueField   | `boolean`                                 | `"value"` | [选项值字段](./options#%E9%80%89%E9%A1%B9%E5%80%BC%E5%AD%97%E6%AE%B5-valuefield)            |
 | joinValues   | `boolean`                                 | `true`    | [拼接值](./options#%E6%8B%BC%E6%8E%A5%E5%80%BC-joinvalues)                                  |
 | extractValue | `boolean`                                 | `false`   | [提取值](./options#%E6%8F%90%E5%8F%96%E5%A4%9A%E9%80%89%E5%80%BC-extractvalue)              |
+
+## 事件表
+
+| 事件名称 | 事件参数                                                                                           | 说明 |
+| -------- | -------------------------------------------------------------------------------------------------- | ---- |
+| change    |  `value: string \| Option[]` 选中值 | 选中值发生变化时触发 |
+
+## 动作表
+
+| 动作名称 | 动作配置                                                                                           | 说明 |
+| -------- | -------------------------------------------------------------------------------------------------- | ---- |
+| clear    |  - | 清空 |
+| reset    |  `resetValue: boolean` 重置值 | 重置 |
