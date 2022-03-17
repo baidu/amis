@@ -245,8 +245,9 @@
   }
   & > .#{$ns}Transfer-selection {
     flex-grow: 1;
-    max-height: 100%;
-    overflow: auto;
+    max-height: var(--Transfer-selection-maxHeight);
+    overflow-x: hidden;
+    overflow-y: auto;
     position: relative; // 貌似不加 relative 会有 bug。
   }
 }
