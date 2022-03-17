@@ -163,6 +163,63 @@ order: 58
 - `minute`或`minutes`: 分
 - `second`或`seconds`: 秒
 
+## 控制输入范围
+
+通过 `timeConstraints` 属性可以控制输入范围
+
+默认值是
+
+```json
+{
+  "hours": {
+    "min": 0,
+    "max": 23,
+    "step": 1
+  },
+  "minutes": {
+    "min": 0,
+    "max": 59,
+    "step": 1
+  },
+  "seconds": {
+    "min": 0,
+    "max": 59,
+    "step": 1
+  },
+  "milliseconds": {
+    "min": 0,
+    "max": 999,
+    "step": 1
+  }
+}
+```
+
+可以只修改其中的部分值，比如下面的示例将分钟每次加减改成了 15，小时的范围限制在 9 到 17
+
+```schema: scope="body"
+{
+    "type": "form",
+    "debug": true,
+    "api": "/api/mock2/form/saveForm",
+    "body": [
+        {
+            "type": "input-time",
+            "name": "time",
+            "label": "时间",
+            "timeConstraints": {
+                "hours": {
+                    "min": 9,
+                    "max": 17
+                },
+                "minutes": {
+                    "step": 15
+                }
+            }
+        }
+    ]
+}
+```
+
 ## 原生时间组件
 
 原生时间组件将直接使用浏览器的实现，最终展现效果和浏览器有关，而且只支持 `min`、`max`、`step` 这几个属性设置。
@@ -193,4 +250,4 @@ order: 58
 | inputFormat     | `string`  | `HH:mm`        | 时间选择器显示格式，即时间戳格式，更多格式类型请参考 [moment](http://momentjs.com/) |
 | placeholder     | `string`  | `"请选择时间"` | 占位文本                                                                            |
 | clearable       | `boolean` | `true`         | 是否可清除                                                                          |
-| timeConstraints | `object`  | `true`         | 请参考： [react-datetime](https://github.com/YouCanBookMe/react-datetime)           |
+| timeConstraints | `object`  | `true`         |                                                                                     |
