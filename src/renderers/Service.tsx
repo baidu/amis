@@ -422,22 +422,35 @@ export default class Service extends React.Component<ServiceProps> {
     // 会被覆写
   }
 
+  @autobind
+  handleDialogConfirm(
+    values: object[],
+    action: Action,
+    ctx: any,
+    targets: Array<any>
+  ) {
+    const {store} = this.props;
+    store.closeDialog(true);
+  }
+
+  @autobind
+  handleDialogClose(confirmed = false) {
+    const {store} = this.props;
+    store.closeDialog(confirmed);
+  }
+
   openFeedback(dialog: any, ctx: any) {
     return new Promise(resolve => {
       const {store} = this.props;
-      const parentStore = store.parentStore;
 
-      // 暂时自己不支持弹出 dialog
-      if (parentStore && parentStore.openDialog) {
-        store.setCurrentAction({
-          type: 'button',
-          actionType: 'dialog',
-          dialog: dialog
-        });
-        store.openDialog(ctx, undefined, confirmed => {
-          resolve(confirmed);
-        });
-      }
+      store.setCurrentAction({
+        type: 'button',
+        actionType: 'dialog',
+        dialog: dialog
+      });
+      store.openDialog(ctx, undefined, confirmed => {
+        resolve(confirmed);
+      });
     });
   }
 
@@ -538,6 +551,23 @@ export default class Service extends React.Component<ServiceProps> {
         {this.renderBody()}
 
         <Spinner size="lg" overlay key="info" show={store.loading} />
+
+        {render(
+          // 单独给 feedback 服务的，handleAction 里面先不要处理弹窗
+          'modal',
+          {
+            ...((store.action as Action) &&
+              ((store.action as Action).dialog as object)),
+            type: 'dialog'
+          },
+          {
+            key: 'dialog',
+            data: store.dialogData,
+            onConfirm: this.handleDialogConfirm,
+            onClose: this.handleDialogClose,
+            show: store.dialogOpen
+          }
+        )}
       </div>
     );
   }
