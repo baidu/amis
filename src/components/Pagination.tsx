@@ -5,16 +5,12 @@
  */
 import React from 'react';
 import {localeable, LocaleProps} from '../locale';
-import {themeable, ClassNamesFn} from '../theme';
+import {themeable, ThemeProps} from '../theme';
 import {autobind} from '../utils/helper';
 import {Icon} from './icons';
-import {BaseSchema, SchemaClassName} from '../Schema';
 import Select from './Select';
 
 export interface PaginationProps extends ThemeProps, LocaleProps {
-  className?: SchemaClassName;
-
-  classnames: ClassNamesFn;
 
   /**
    * 通过控制layout属性的顺序，调整分页结构 total,pageSize,pager,go
@@ -102,11 +98,7 @@ export class Pagination extends React.Component<
     perPage: 10,
     showPageSize: true,
     perPageAvailable: [10, 20, 50, 100],
-    hideOnSinglePage: false,
-    showPageInput: true,
-    disabled: false,
-    hasNext: false,
-    onPageChange: (page: number, perPage: number) => {}
+    showPageInput: true
   };
 
   state = {
@@ -117,11 +109,13 @@ export class Pagination extends React.Component<
 
   constructor(props: PaginationProps) {
     super(props);
-
-    this.doPageChange = this.doPageChange.bind(this);
+    this.handlePageNumChange = this.handlePageNumChange.bind(this);
+    this.renderPageItem = this.renderPageItem.bind(this);
+    this.renderEllipsis = this.renderEllipsis.bind(this);
+    this.handlePageNums = this.handlePageNums.bind(this);
   }
 
-  doPageChange(page: number, perPage: number) {
+  handlePageNumChange(page: number, perPage: number) {
     const props = this.props;
     if (props.disabled) {
       return;
@@ -130,6 +124,76 @@ export class Pagination extends React.Component<
       activePage: page
     });
     props.onPageChange && props.onPageChange(page, perPage);
+  }
+
+  /**
+  * 渲染每个页码li
+  *
+  * @param page 页码
+  */
+  renderPageItem(page: number) {
+    const {classnames: cx} = this.props;
+    const {pageNum, pageSize, activePage} = this.state;
+    const perPage = Number(this.props.perPage);
+    return
+    (<li
+      onClick={() => this.handlePageNumChange(page, perPage)}
+      key={page}
+      className={cx({
+        'is-active': page === activePage
+      })}
+    >
+      <a role="button">{page}</a>
+    </li>);
+  }
+
+  /**
+  * 渲染...
+  *
+  * @param key 类型 'prev-ellipsis' | 'next-ellipsis'
+  * @param page 页码
+  */
+  renderEllipsis(key: string, page: number) {
+    const perPage = Number(this.props.perPage);
+    return
+    (<li onClick={() => this.handlePageNumChange(page, perPage)} key={key}>
+      <a role="button">...</a>
+    </li>);
+  }
+
+  /**
+  * 渲染器事件方法装饰器
+  *
+  * @param cur 当前页数
+  * @param counts 总共页码按钮数
+  * @param min 最小页码
+  * @param max 最大页码
+  */
+  handlePageNums(cur: number, counts: number, min: number, max: number): Array<any> {
+    const pageButtons: Array<any> = [];
+    if (counts === 0) {
+      return pageButtons;
+    }
+
+    let step = 0;
+    let page = cur;
+    while (true) {
+      if (pageButtons.length >= counts) {
+        return pageButtons;
+      }
+      if ((cur - step) < min && (cur + step) > max) {
+        return pageButtons;
+      }
+      page = cur - step;
+      if (pageButtons.length < counts && page >= min) {
+        pageButtons.unshift(this.renderPageItem(page));
+      }
+      page = cur - step;
+      if (step !== 0 && pageButtons.length < counts && page <= max) {
+        pageButtons.push(this.renderPageItem(page));
+      }
+      step++;
+    }
   }
 
   componentDidUpdate(prevProps: PaginationProps) {
@@ -160,7 +224,7 @@ export class Pagination extends React.Component<
   }
 
   render() {
-    let {
+    const {
       layout,
       maxButtons,
       mode,
@@ -169,24 +233,19 @@ export class Pagination extends React.Component<
       hideOnSinglePage,
       onPageChange,
       classnames: cx,
-      classPrefix: ns,
       showPageInput,
       className,
       disabled,
       translate: __
     } = this.props;
-    const pageNum = this.state.pageNum;
-    const pageSize = this.state.pageSize;
-    const activePage = this.state.activePage;
+    const {pageNum, pageSize, activePage} = this.state;
 
     const lastPage = Number(this.props.lastPage);
     const perPage = Number(this.props.perPage);
 
     let pageButtons: any = [];
-    let startPage: number;
-    let endPage: number;
 
-    let layoutList = [];
+    let layoutList: Array<string> = [];
     if (Array.isArray(layout)) {
       layoutList = layout;
     }
@@ -194,162 +253,31 @@ export class Pagination extends React.Component<
       layoutList = (layout as string).split(',');
     }
 
+    // 页码全部显示 [1, 2, 3, 4]
     if (lastPage <= maxButtons) {
-      for (let page = lastPage; page >= 1; --page) {
-        pageButtons.unshift(
-          <li
-            onClick={() => this.doPageChange(page, perPage)}
-            key={page}
-            className={cx({
-              'is-active': page === activePage
-            })}
-          >
-            <a role="button">{page}</a>
-          </li>
-        );
-      }
+      pageButtons = this.handlePageNums(activePage, maxButtons, 1, maxButtons);
     }
-    else if (activePage < maxButtons - 2) {
-      for (let page = 1; page <= lastPage; ++page) {
-        if (pageButtons.length < maxButtons - 2) {
-          pageButtons.push(
-            <li
-              onClick={() => this.doPageChange(page, perPage)}
-              key={page}
-              className={cx({
-                'is-active': page === activePage
-              })}
-            >
-              <a role="button">{page}</a>
-            </li>
-          );
-        } else {
-          pageButtons.push(
-            <li onClick={() => this.doPageChange(page - 1, perPage)} key="next-ellipsis">
-              <a role="button">...</a>
-            </li>
-          );
-          pageButtons.push(
-            <li
-              onClick={() => this.doPageChange(lastPage, perPage)}
-              key={lastPage}
-              className={cx({
-                'is-active': lastPage === activePage
-              })}
-            >
-              <a role="button">{lastPage}</a>
-            </li>
-          );
-          break;
-        }
-      }
-
+    //当前为1234页时， [1, 2, 3, 4, 5, ... 12]
+    else if (activePage <= maxButtons - 3) {
+      pageButtons = this.handlePageNums(activePage, maxButtons - 2, 1, maxButtons - 2);
+      pageButtons.push(this.renderEllipsis('next-ellipsis', lastPage - 1));
+      pageButtons.push(this.renderPageItem(lastPage));
     }
-    else if (activePage >= lastPage - 3) {
-      for (let page = lastPage; page >= 1; --page) {
-        if (pageButtons.length < maxButtons - 2) {
-          pageButtons.unshift(
-            <li
-              onClick={() => this.doPageChange(page, perPage)}
-              key={page}
-              className={cx({
-                'is-active': page === activePage
-              })}
-            >
-              <a role="button">{page}</a>
-            </li>
-          );
-        } else {
-          pageButtons.unshift(
-            <li onClick={() => this.doPageChange(page - 1, perPage)} key="prev-ellipsis">
-              <a role="button">...</a>
-            </li>
-          );
-          pageButtons.unshift(
-            <li
-              onClick={() => this.doPageChange(1, perPage)}
-              key={1}
-              className={cx({
-                'is-active': 1 === activePage
-              })}
-            >
-              <a role="button">{1}</a>
-            </li>
-          );
-          break;
-        }
-      }
-
+    // [1, ..., 5, 6, 7, 8, 9]
+    else if (activePage > (lastPage - (maxButtons- 3))) {
+      const min = lastPage - (maxButtons- 3);
+      pageButtons = this.handlePageNums(activePage, maxButtons - 2, min, lastPage);
+      pageButtons.unshift(this.renderEllipsis('prev-ellipsis', 2));
+      pageButtons.unshift(this.renderPageItem(1));
     }
+    // [1, ... 4, 5, 6, ... 10]
     else {
-      let min = activePage;
-      let max = activePage + 1;
-      while(pageButtons.length < maxButtons - 4) {
-        let page = min;
-        pageButtons.unshift(
-            <li
-              onClick={() => this.doPageChange(page, perPage)}
-              key={page}
-              className={cx({
-                'is-active': page === activePage
-              })}
-            >
-              <a role="button">{page}</a>
-            </li>
-          );
-        min--;
-        if (pageButtons.length < maxButtons - 4) {
-          page = max;
-          pageButtons.push(
-            <li
-              onClick={() => this.doPageChange(page, perPage)}
-              key={page}
-              className={cx({
-                'is-active': page === activePage
-              })}
-            >
-              <a role="button">{page}</a>
-            </li>
-          );
-          max++;
-        }
-      }
-      pageButtons.unshift(
-            <li onClick={() => this.doPageChange(min, perPage)} key="prev-ellipsis">
-              <a role="button">...</a>
-            </li>
-          );
-      pageButtons.unshift(
-            <li
-              onClick={() => this.doPageChange(1, perPage)}
-              key={1}
-              className={cx({
-                'is-active': 1 === activePage
-              })}
-            >
-              <a role="button">{1}</a>
-            </li>
-          );
-
-      pageButtons.push(
-            <li onClick={() => this.doPageChange(max, perPage)} key="next-ellipsis">
-              <a role="button">...</a>
-            </li>
-          );
-      pageButtons.push(
-            <li
-              onClick={() => this.doPageChange(lastPage, perPage)}
-              key={lastPage}
-              className={cx({
-                'is-active': lastPage === activePage
-              })}
-            >
-              <a role="button">{lastPage}</a>
-            </li>
-          );
-
+      pageButtons = this.handlePageNums(activePage, maxButtons - 2, 3, lastPage - 3);
+      pageButtons.unshift(this.renderEllipsis('prev-ellipsis', 2));
+      pageButtons.unshift(this.renderPageItem(1));
+      pageButtons.push(this.renderEllipsis('prev-ellipsis', lastPage - 1));
+      pageButtons.push(this.renderPageItem(lastPage));
     }
-
 
     pageButtons.unshift(
       <li
@@ -359,7 +287,7 @@ export class Pagination extends React.Component<
         onClick={
           activePage === 1
             ? (e: any) => e.preventDefault()
-            : () => this.doPageChange(activePage - 1, perPage)
+            : () => this.handlePageNumChange(activePage - 1, perPage)
         }
         key="prev"
       >
@@ -377,7 +305,7 @@ export class Pagination extends React.Component<
         onClick={
           activePage === lastPage
             ? (e: any) => e.preventDefault()
-            : () => this.doPageChange(activePage + 1, perPage)
+            : () => this.handlePageNumChange(activePage + 1, perPage)
         }
         key="next"
       >
@@ -396,14 +324,14 @@ export class Pagination extends React.Component<
             onFocus={(e: any) => e.currentTarget.select()}
             onKeyUp={(e: any) =>{
               const v: number = parseInt(e.currentTarget.value, 10);
-              if (!v || e.keyCode != 13) {
+              if (!v || e.code != 'Enter') {
                 return;
               }
               this.setState({
                 pageNum: String(v)
               });
 
-              this.doPageChange(v, perPage);
+              this.handlePageNumChange(v, perPage);
             }}
             value={pageNum}
           />
@@ -411,7 +339,7 @@ export class Pagination extends React.Component<
             className={cx('go-right')}
             key="go-right"
             onClick={(e: any) => {
-              this.doPageChange(+pageNum, perPage);
+              this.handlePageNumChange(+pageNum, perPage);
             }}
             >GO</span>
       </div>;
@@ -419,7 +347,6 @@ export class Pagination extends React.Component<
     const pageSizeEle =
             <Select
               key="pagesize"
-              classPrefix={ns}
               className={cx('Pagination-pagesize', 'Pagination-item')}
               overlayPlacement="right-bottom-right-top"
               clearable={false}
@@ -428,16 +355,17 @@ export class Pagination extends React.Component<
               options={selection}
               onChange={(p: any) => {
                 this.setState({pageSize: p.value});
-                this.doPageChange(1, p.value);
+                this.handlePageNumChange(1, p.value);
               }}
             />;
-    const totalPage = <div className={cx('Pagination-total Pagination-item')} key="total">{__('Pagination.total', {lastPage: lastPage})}</div>;
+    const totalPage = <div className={cx('Pagination-total Pagination-item')} key="total">{__('Pagination.total', {total: lastPage})}</div>;
     return (
       <div className={cx('Pagination-wrap',  {'disabled': disabled}, className)}>
         {
           layoutList.map((layoutItem) => {
             if (layoutItem === 'pager') {
-              return <ul key="pager" className={cx('Pagination', 'Pagination--sm','Pagination-item')}>{pageButtons}</ul>;
+              return <ul key="pager" className={cx('Pagination', {,
+          'Pagination-simple': mode === 'simple'}, 'Pagination--sm','Pagination-item')}>{pageButtons}</ul>;
             }
             else if (layoutItem === 'go' && showPageInput) {
               return go;

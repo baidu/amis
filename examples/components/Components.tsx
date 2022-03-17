@@ -78,10 +78,11 @@ export const components = [
       {
         label: 'Pagination分页',
         path: '/zh-CN/components/pagination',
-        getComponent: () =>
+        component: React.lazy(() =>
           import('../../docs/zh-CN/components/pagination.md').then(
-            makeMarkdownRenderer
+            wrapDoc
           )
+        )
       },
       {
         label: 'PaginationWrapper 分页容器',

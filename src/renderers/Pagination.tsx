@@ -1,7 +1,5 @@
 import React from 'react';
 import {Renderer, RendererProps} from '../factory';
-import {autobind} from '../utils/helper';
-import {Icon} from '../components/icons';
 import {BaseSchema, SchemaClassName} from '../Schema';
 import {Pagination as BasicPagination} from '../components/Pagination';
 
