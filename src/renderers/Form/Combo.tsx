@@ -21,7 +21,7 @@ import {evalExpression, filter} from '../../utils/tpl';
 import find from 'lodash/find';
 import Select from '../../components/Select';
 import {dataMapping, resolveVariable} from '../../utils/tpl-builtin';
-import {isEffectiveApi} from '../../utils/api';
+import {isEffectiveApi, str2AsyncFunction} from '../../utils/api';
 import {Alert2} from '../../components';
 import memoize from 'lodash/memoize';
 import {Icon} from '../../components/icons';
@@ -1190,20 +1190,34 @@ export default class ComboControl extends React.Component<ComboProps> {
       return render('delete-btn', {
         ...deleteBtn,
         type: 'button',
-        onClick: () => {
-          if (typeof deleteBtn.onClick === 'function') {
-            deleteBtn.onClick.bind(this, index);
-            deleteBtn.onClick().then(() => {
-              this.deleteItem.bind(this, index);
-            });
-          } else {
-            this.deleteItem.bind(this, index);
-          }
-        },
         className: cx(
           'Combo-delController',
           deleteBtn ? deleteBtn.classname : ''
-        )
+        ),
+        onClick: (e: any) => {
+          if (!deleteBtn.onClick) {
+            this.deleteItem(index);
+            return;
+          }
+
+          let originClickHandler = deleteBtn.onClick;
+          if (typeof originClickHandler === 'string') {
+            originClickHandler = str2AsyncFunction(
+              deleteBtn.onClick,
+              'e',
+              'index',
+              'props'
+            );
+          }
+          const result = originClickHandler(e, index, this.props);
+          if (result && result.then) {
+            result.then(() => {
+              this.deleteItem(index);
+            });
+          } else {
+            this.deleteItem(index);
+          }
+        }
       });
     }
 
@@ -1211,9 +1225,9 @@ export default class ComboControl extends React.Component<ComboProps> {
     if (typeof deleteBtn === 'string') {
       return render('delete-btn', {
         type: 'button',
-        onClick: this.deleteItem.bind(this, index),
         className: cx('Combo-delController'),
-        label: deleteBtn
+        label: deleteBtn,
+        onClick: this.deleteItem.bind(this, index)
       });
     }
 
