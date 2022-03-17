@@ -23,6 +23,11 @@ export type BreadcrumbBaseItemSchema = {
    * 链接地址
    */
   href?: SchemaUrlPath;
+
+  /**
+   * 点击事件
+   */
+  onClick?: (event: React.MouseEvent, props: Omit<BreadcrumbBaseItemSchema, 'onClick'>) => void;
 } & Omit<BaseSchema, 'type'>;
 
 export type BreadcrumbItemSchema = {
@@ -45,6 +50,11 @@ export type BreadcrumbItemSchema = {
    * 下拉菜单
    */
   dropdown?: Array<BreadcrumbBaseItemSchema>;
+
+  /**
+   * 点击事件
+   */
+  onClick?: (event: React.MouseEvent, props: Omit<BreadcrumbBaseItemSchema, 'onClick'>) => void;
 } & Omit<BaseSchema, 'type'>;
 
 export type TooltipPositionType = 'top' | 'bottom' | 'left' | 'right';

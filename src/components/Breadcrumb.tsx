@@ -148,7 +148,7 @@ export class BreadcrumbItem extends React.Component<BreadcrumbItemProps, Breadcr
    * @returns 
    */
   renderBreadcrumbBaseItem(
-    showHref: boolean,
+    itemPlace: ItemPlace,
     itemType: 'default' | 'dropdown',
     item: BreadcrumbBaseItemProps,
     label?: string,
@@ -158,10 +158,25 @@ export class BreadcrumbItem extends React.Component<BreadcrumbItemProps, Breadcr
       dropdownItemClassName,
       classnames: cx
     } = this.props;
+    const {onClick, ...rest} = item;
     const baseItemClassName = itemType === 'default' ? itemClassName : dropdownItemClassName;
-    if (showHref) {
+    if (itemPlace === 'end') {
       return (
-        <a href={item.href} className={cx('Breadcrumb-item-' + itemType, baseItemClassName)}>
+        <span className={cx('Breadcrumb-item-' + itemType, baseItemClassName)}>
+          {item.icon
+            ? generateIcon(cx, item.icon, 'Icon', 'Breadcrumb-icon')
+            : null}
+          <span className={cx('TplField')}>{label}</span>
+        </span>
+      );
+    }
+    else if (item.href) {
+      return (
+        <a
+          href={onClick ? 'javascript:;' : item.href}
+          onClick={onClick ? (event) => onClick(event, rest) : () => {}}
+          className={cx('Breadcrumb-item-' + itemType, baseItemClassName)}
+        >
           {item.icon
             ? generateIcon(cx, item.icon, 'Icon', 'Breadcrumb-icon')
             : null}
@@ -170,7 +185,10 @@ export class BreadcrumbItem extends React.Component<BreadcrumbItemProps, Breadcr
       );
     }
     return (
-      <span className={cx('Breadcrumb-item-' + itemType, baseItemClassName)}>
+      <span
+        className={cx('Breadcrumb-item-' + itemType, baseItemClassName)}
+        onClick={onClick ? (event) => onClick(event, rest) : () => {}}
+      >
         {item.icon
           ? generateIcon(cx, item.icon, 'Icon', 'Breadcrumb-icon')
           : null}
@@ -214,12 +232,11 @@ export class BreadcrumbItem extends React.Component<BreadcrumbItemProps, Breadcr
           trigger={tooltipTrigger}
           rootClose={tooltipRootClose}
         >
-          {this.renderBreadcrumbBaseItem(true, itemType, item, pureLabel.substring(0, maxLength) + '...')}
+          {this.renderBreadcrumbBaseItem(itemPlace, itemType, item, pureLabel.substring(0, maxLength) + '...')}
         </TooltipWrapper>
       );
     }
-    const showHref = !item.href || itemPlace === 'end';
-    return this.renderBreadcrumbBaseItem(!showHref, itemType, item, pureLabel);
+    return this.renderBreadcrumbBaseItem(itemPlace, itemType, item, pureLabel);
   }
 
   /**
