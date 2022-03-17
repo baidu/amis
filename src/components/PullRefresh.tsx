@@ -26,7 +26,7 @@ export interface PullRefreshProps {
   loadingDuration?: number;
 }
 
-type statusText = 'normal' | 'pulling' | 'loosing' |'success' | 'loading';
+type statusText = 'normal' | 'pulling' | 'loosing' | 'success' | 'loading';
 
 export interface PullRefreshState {
   status: statusText;
@@ -41,7 +41,6 @@ const defaultProps = {
 const defaultHeaderHeight = 28;
 
 const PullRefresh = forwardRef<{}, PullRefreshProps>((props, ref) => {
-
   const {
     classnames: cx,
     translate: __,
@@ -59,11 +58,11 @@ const PullRefresh = forwardRef<{}, PullRefreshProps>((props, ref) => {
 
   const touch = useTouch();
 
-  useEffect(()=>{
+  useEffect(() => {
     if (props.loading === false) {
       loadSuccess();
     }
-  },[props.loading]);
+  }, [props.loading]);
 
   const [state, updateState] = useSetState({
     status: 'normal',
@@ -71,8 +70,12 @@ const PullRefresh = forwardRef<{}, PullRefreshProps>((props, ref) => {
   } as PullRefreshState);
 
   const isTouchable = () => {
-    return !props.disabled && state.status !== 'loading' && state.status !== 'success';
-  }
+    return (
+      !props.disabled &&
+      state.status !== 'loading' &&
+      state.status !== 'success'
+    );
+  };
 
   const ease = (distance: number) => {
     const pullDistance = defaultHeaderHeight;
@@ -118,13 +121,13 @@ const PullRefresh = forwardRef<{}, PullRefreshProps>((props, ref) => {
   };
 
   const onTouchStart = (event: any) => {
-    event.stopPropagation()
+    event.stopPropagation();
 
     if (isTouchable() && state.offsetY === 0) {
       touch.start(event);
       updateState({});
     }
-  }
+  };
 
   const onTouchMove = (event: any) => {
     event.stopPropagation();
@@ -137,7 +140,7 @@ const PullRefresh = forwardRef<{}, PullRefreshProps>((props, ref) => {
       }
     }
     return false;
-  }
+  };
 
   const onTouchEnd = (event: any) => {
     event.stopPropagation();
@@ -154,7 +157,7 @@ const PullRefresh = forwardRef<{}, PullRefreshProps>((props, ref) => {
         setStatus(0);
       }
     }
-  }
+  };
 
   const transformStyle = {
     transform: `translate3d(0, ${state.offsetY}px, 0)`,
@@ -166,7 +169,7 @@ const PullRefresh = forwardRef<{}, PullRefreshProps>((props, ref) => {
       return '';
     }
     return props[`${status}Text`] || refreshText[`${status}Text`];
-  }
+  };
 
   return (
     <div
@@ -178,7 +181,9 @@ const PullRefresh = forwardRef<{}, PullRefreshProps>((props, ref) => {
     >
       <div className={cx('PullRefresh-wrap')} style={transformStyle}>
         <div className={cx('PullRefresh-header')}>
-          {state.status === 'loading' && <Icon icon="loading-outline" className="icon loading-icon" />}
+          {state.status === 'loading' && (
+            <Icon icon="loading-outline" className="icon loading-icon" />
+          )}
           {getStatusText(state.status)}
         </div>
         {children}

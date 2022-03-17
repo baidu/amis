@@ -253,7 +253,7 @@ export default class Wizard extends React.Component<WizardProps, WizardState> {
           }
         })
         .then(value => {
-          this.handleInitEvent(store.data)
+          this.handleInitEvent(store.data);
 
           const state = {
             currentStep:
@@ -340,14 +340,19 @@ export default class Wizard extends React.Component<WizardProps, WizardState> {
   async dispatchEvent(action: string, value?: object) {
     const {dispatchEvent, data} = this.props;
 
-    const rendererEvent = await dispatchEvent(action, createObject(data, value ? value : {}));
+    const rendererEvent = await dispatchEvent(
+      action,
+      createObject(data, value ? value : {})
+    );
 
     return rendererEvent?.prevented ?? false;
   }
 
   async handleInitEvent(data: any) {
     const {onInit} = this.props;
-    (await this.dispatchEvent('inited', {formData: data})) && onInit && onInit(data);
+    (await this.dispatchEvent('inited', {formData: data})) &&
+      onInit &&
+      onInit(data);
   }
 
   @autobind
@@ -383,8 +388,13 @@ export default class Wizard extends React.Component<WizardProps, WizardState> {
     index = Math.max(Math.min(steps.length, index), 1);
 
     if (index != this.state.currentStep) {
-      if (await this.dispatchEvent('stepChange', {step: index, formData: this.props.store.data})) {
-        return
+      if (
+        await this.dispatchEvent('stepChange', {
+          step: index,
+          formData: this.props.store.data
+        })
+      ) {
+        return;
       }
 
       this.setState({
@@ -537,7 +547,11 @@ export default class Wizard extends React.Component<WizardProps, WizardState> {
   ) {
     const {onAction, store, env, steps} = this.props;
 
-    if (action.actionType === 'next' || action.type === 'submit' || action.actionType === 'step-submit') {
+    if (
+      action.actionType === 'next' ||
+      action.type === 'submit' ||
+      action.actionType === 'step-submit'
+    ) {
       this.form.doAction(
         {
           ...action,
@@ -593,11 +607,15 @@ export default class Wizard extends React.Component<WizardProps, WizardState> {
     } else if (action.actionType === 'goto-step') {
       const targetStep = (data as any).step;
 
-      if (targetStep !== undefined && targetStep <= steps.length && targetStep >= 0) {
+      if (
+        targetStep !== undefined &&
+        targetStep <= steps.length &&
+        targetStep >= 0
+      ) {
         this.gotoStep((data as any).step);
       }
     } else if (action.actionType === 'submit') {
-      this.finalSubmit()
+      this.finalSubmit();
     } else if (onAction) {
       onAction(e, action, data, throwErrors, delegate || this.context);
     }
@@ -630,13 +648,12 @@ export default class Wizard extends React.Component<WizardProps, WizardState> {
   async handleChange(values: object) {
     const {store} = this.props;
 
-    const previous =  store.data;
+    const previous = store.data;
     const final = {...previous, ...values};
 
     if (await this.dispatchEvent('change', {formData: final})) {
       return;
     }
-
 
     store.updateData(values);
   }
@@ -684,7 +701,6 @@ export default class Wizard extends React.Component<WizardProps, WizardState> {
 
     const step = steps[this.state.currentStep - 1];
     store.updateData(values);
-
 
     // 最后一步
     if (target) {
@@ -766,7 +782,7 @@ export default class Wizard extends React.Component<WizardProps, WizardState> {
           return value;
         })
         .catch(error => {
-          this.dispatchEvent('submitFail', {error})
+          this.dispatchEvent('submitFail', {error});
           store.markSaving(false);
           console.error(error);
         });
@@ -779,12 +795,7 @@ export default class Wizard extends React.Component<WizardProps, WizardState> {
   // 接管里面 form 的提交，不能直接让 form 提交，因为 wizard 自己需要知道进度。
   @autobind
   async handleSubmit(values: object, action: Action) {
-    const {
-      store,
-      steps,
-      finishedField
-    } = this.props;
-
+    const {store, steps, finishedField} = this.props;
 
     if (this.state.currentStep < steps.length) {
       const step = steps[this.state.currentStep - 1];

@@ -127,14 +127,14 @@ export function calculatePosition(
         atX === 'left'
           ? childOffset.left
           : atX === 'right'
-            ? childOffset.left + childOffset.width
-            : childOffset.left + childOffset.width / 2;
+          ? childOffset.left + childOffset.width
+          : childOffset.left + childOffset.width / 2;
       positionTop =
         atY === 'top'
           ? childOffset.top
           : atY === 'bottom'
-            ? childOffset.top + childOffset.height
-            : childOffset.top + childOffset.height / 2;
+          ? childOffset.top + childOffset.height
+          : childOffset.top + childOffset.height / 2;
 
       positionLeft -=
         myX === 'left' ? 0 : myX === 'right' ? overlayWidth : overlayWidth / 2;
@@ -142,8 +142,8 @@ export function calculatePosition(
         myY === 'top'
           ? 0
           : myY === 'bottom'
-            ? overlayHeight
-            : overlayHeight / 2;
+          ? overlayHeight
+          : overlayHeight / 2;
 
       // 如果还有其他可选项，则做位置判断，是否在可视区域，不完全在则继续看其他定位情况。
       if (tests.length) {
