@@ -109,6 +109,11 @@ export interface NavSchema extends BaseSchema {
   saveOrderApi?: SchemaApi;
 
   /**
+   * 控制是否排序之后立即同步至 source 对应的 data
+   */
+  syncOrder?: false;
+
+  /**
    * 角标
    */
   itemBadge?: BadgeSchema;
@@ -659,7 +664,11 @@ const ConditionBuilderWithRemoteOptions = withRemoteConfig({
           links = spliceTree(links, idx, 0, dragLink);
         }
       }
+
+      this.props.syncOrder && this.syncOrder(links);
+
       this.props.updateConfig(links, 'update');
+
       await this.saveOrder(
         mapTree(links, (link: Link) => {
           // 清除内部加的字段
@@ -673,6 +682,39 @@ const ConditionBuilderWithRemoteOptions = withRemoteConfig({
       );
     }
 
+    /**
+     * @description 同步排序之后
+     * @param links
+     */
+    syncOrder(links: Links) {
+      // @ts-ignore
+      const {store, source} = this.props;
+      if (typeof source !== 'string') {
+        return;
+      }
+
+      const reg = /^\${(\S+)}$/;
+      const matchResult = source.match(reg);
+      if (!matchResult || !matchResult[1]) {
+        return;
+      }
+
+      const key = matchResult[1];
+      let _data = store.data;
+      if (!_data[key]) {
+        return;
+      }
+
+      store.setData({
+        ..._data,
+        [key]: links
+      });
+    }
+
+    /**
+     * @description 在接口存在的时候，调用接口保存排序结果，不存在接口则不做处理
+     * @param links
+     */
     async saveOrder(links: Links) {
       const {saveOrderApi, env, data, reload} = this.props;
       if (saveOrderApi && isEffectiveApi(saveOrderApi)) {
@@ -682,8 +724,6 @@ const ConditionBuilderWithRemoteOptions = withRemoteConfig({
           {method: 'post'}
         );
         reload();
-      } else {
-        env.alert('NAV saveOrderApi is required!');
       }
     }
 
