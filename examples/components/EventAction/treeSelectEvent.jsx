@@ -90,12 +90,12 @@ const onEvent = {
       }
     ]
   },
-  load: {
+  loadFinished: {
     actions: [
       {
         actionType: 'toast',
         msgType: 'info',
-        msg: '派发load事件'
+        msg: '派发loadFinished事件'
       }
     ]
   }
