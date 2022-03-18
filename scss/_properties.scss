@@ -1546,6 +1546,10 @@
   --ColumnToggler-fontColor: #151a26;
   --ColumnToggler-item-backgroundColor: #f6f7f8;
   --ColumnToggler-item-backgroundColor-onHover: rgba(36, 104, 242, 0.1);
+  --ColumnToggler-item-paddingX: #{px2rem(8px)};
+  --ColumnToggler-item-paddingY: #{px2rem(4px)};
+  --ColumnToggler-item-margin: #{px2rem(4px)};
+  --ColumnToggler-item-dragBar-color: #d8d8d8;
 
   --InputFormula-header-bgColor: #fafafa;
   --InputFormula-icon-size: #{px2rem(24px)};
