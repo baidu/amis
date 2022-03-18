@@ -2310,7 +2310,10 @@ crud 组件支持通过配置`headerToolbar`和`footerToolbar`属性，实现在
         {
             "type": "columns-toggler",
             "align": "right",
-            "draggable": true
+            "draggable": true,
+            "icon": "fas fa-cog",
+            "overlay": true,
+            "footerBtnSize": "sm"
         }
     ],
     "columns": [
@@ -2681,3 +2684,25 @@ itemAction 里的 onClick 还能通过 `data` 参数拿到当前行的数据，�
 - 默认 [Table](./table) 模式里的列配置。
 - [Cards](./cards) 模式。
 - [List](./list) 模式。
+
+## columns-toggler 属性表
+
+| 属性名          | 类型                           | 默认值    | 说明                                   |
+| --------------- | ------------------------------ | --------- | -------------------------------------- |
+| label           | `string`                       |           | 按钮文字                               |
+| tooltip         | `string`                       |           | 按钮提示文字                           |
+| disabledTip     | `string`                       |           | 按钮禁用状态下的提示                   |
+| align           | `"left" \| "right"`            | `"left"`  | 点击内容是否关闭                       |
+| size            | `"xs" \| "sm" \| "md" \| "lg"` |           | 按钮大小，参考[按钮](./action)         |
+| footerBtnSize   | `"xs" \| "sm" \| "md" \| "lg"` |           | 弹窗底部按钮大小，参考[按钮](./action) |
+| level           | `string`                       | `default` | 按钮样式，参考[按钮](./action)         |
+| draggable       | `boolean`                      | `false`   | 是否可通过拖拽排序                     |
+| defaultIsOpened | `boolean`                      | `false`   | 默认是否展开                           |
+| hideExpandIcon  | `boolean`                      | `true`    | 是否隐藏展开的图标                     |
+| overlay         | `boolean`                      | `false`   | 是否显示遮罩层                         |
+| closeOnOutside  | `boolean`                      |           | 点击外部是否关闭                       |
+| closeOnClick    | `boolean`                      |           | 点击内容是否关闭                       |
+| iconOnly        | `boolean`                      | `false`   | 是否只显示图标。                       |
+| icon            | `string`                       |           | 按钮的图标                             |
+| className       | `string`                       |           | 外层 CSS 类名                          |
+| btnClassName    | `string`                       |           | 按钮的 CSS 类名                        |

@@ -2203,9 +2203,8 @@ export default class Table extends React.Component<TableProps, object> {
         classPrefix={ns}
         key="columns-toggable"
         size={config?.size || 'sm'}
-        label={
-          config?.label || <Icon icon="columns" className="icon m-r-none" />
-        }
+        icon={config?.icon}
+        label={config?.label}
         draggable={config?.draggable}
         columns={store.columnsData}
         onColumnToggle={this.handleColumnToggle}
