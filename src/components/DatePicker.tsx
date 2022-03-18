@@ -852,10 +852,4 @@ export class DatePicker extends React.Component<DateProps, DatePickerState> {
   }
 }
 
-const DatePickerRefComponent = React.forwardRef<DatePicker>((props, ref) => {
-  return <DatePicker {...props} ref={ref ? ref : props?.forwardRef} />;
-}) as React.ComponentType<
-  DatePicker & {ref?: any}
->;
-
-export default themeable(localeable(DatePickerRefComponent));
+export default themeable(localeable(DatePicker));

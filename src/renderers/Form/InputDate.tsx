@@ -298,8 +298,6 @@ export default class DateControl extends React.PureComponent<
     clearable: true
   };
 
-  ref: React.RefObject<DatePicker>;
-
   constructor(props: DateProps) {
     super(props);
 
@@ -313,8 +311,6 @@ export default class DateControl extends React.PureComponent<
       format,
       utc
     } = props;
-
-    this.ref = React.createRef();
 
     if (defaultValue && value === defaultValue) {
       const date = filterDate(defaultValue, data, format);
@@ -427,15 +423,14 @@ export default class DateControl extends React.PureComponent<
   // 动作
   doAction(action: Action, data: object, throwErrors: boolean) {
     const {resetValue, onChange} = this.props;
-    const current = this.ref?.current;
+
     if (action.actionType === 'clear') {
       onChange('');
-      current.setState({inputValue: ''});
       return;
     }
 
     if (action.actionType === 'reset' && resetValue) {
-      current.handleChange(moment(resetValue));
+      onChange(resetValue);
     }
   }
 
@@ -486,7 +481,6 @@ export default class DateControl extends React.PureComponent<
         )}
       >
         <DatePicker
-          forwardRef={this.ref}
           {...rest}
           useMobileUI={useMobileUI}
           popOverContainer={
