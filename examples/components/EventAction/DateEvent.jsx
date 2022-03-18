@@ -71,7 +71,83 @@ export default {
               type: 'input-date',
               label: 'reset动作测试',
               mode: 'row',
-              value: new Date()
+              value: new Date(),
+              resetValue: new Date()
+            }
+          ]
+        }
+      ]
+    },
+    {
+      type: 'tpl',
+      tpl: 'inputDateRange日期范围',
+      inline: false,
+      wrapperComponent: 'h2'
+    },
+    {
+      type: 'form',
+      debug: false,
+      body: [
+        {
+          type: 'group',
+          body: [
+            {
+              name: 'trigger3',
+              id: 'trigger3',
+              type: 'action',
+              label: 'clear触发器',
+              level: 'primary',
+              onEvent: {
+                click: {
+                  actions: [
+                    {
+                      actionType: 'clear',
+                      componentId: 'clear-inputDateRange-receiver',
+                      description: '点击清空指定日期组件的具体时间'
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              name: 'clear-inputDate',
+              id: 'clear-inputDateRange-receiver',
+              type: 'input-date-range',
+              label: 'clear动作测试',
+              mode: 'row',
+              value: [new Date(2100, 1, 1), new Date(2100, 1, 2)]
+            }
+          ]
+        },
+        {
+          type: 'group',
+          body: [
+            {
+              name: 'trigger4',
+              id: 'trigger4',
+              type: 'action',
+              label: 'reset触发器',
+              level: 'primary',
+              onEvent: {
+                click: {
+                  actions: [
+                    {
+                      actionType: 'reset',
+                      componentId: 'reset-inputDateRange-receiver',
+                      description: '点击重置指定日期组件的时间'
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              name: 'reset-inputDate',
+              id: 'reset-inputDateRange-receiver',
+              type: 'input-date-range',
+              label: 'reset动作测试',
+              mode: 'row',
+              value: [new Date(2100, 1, 1), new Date(2100, 1, 2)],
+              resetValue: [new Date(2100, 1, 1), new Date(2100, 1, 2)]
             }
           ]
         }
