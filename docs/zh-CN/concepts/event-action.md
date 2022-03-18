@@ -485,7 +485,8 @@ order: 9
           actions: [
             {
               actionType: 'url',
-              to: 'goBack'
+              url: 'http://www.baidu.com',
+              blank: true
             }
           ]
         }
