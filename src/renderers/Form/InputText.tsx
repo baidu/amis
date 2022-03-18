@@ -844,8 +844,8 @@ export default class TextControl extends React.PureComponent<
         </div>
       ) : (
         <div className={cx(`${ns}TextControl-addOn`, addOn.className)}>
-          {addOn.label ? filter(addOn.label, data) : null}
           {iconElement}
+          {addOn.label ? filter(addOn.label, data) : null}
         </div>
       )
     ) : null;
