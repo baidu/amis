@@ -539,8 +539,8 @@ export function wrapControl<
 
             if (
               // 如果配置了 minLength 或者 maxLength 就切成及时验证
-              this.model.rules.minLength ||
-              this.model.rules.maxLength ||
+              // this.model.rules.minLength ||
+              // this.model.rules.maxLength ||
               validateOnChange === true ||
               (validateOnChange !== false && (formSubmited || validated))
             ) {
