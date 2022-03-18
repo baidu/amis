@@ -546,6 +546,8 @@ export default class TextControl extends React.PureComponent<
       multiple,
       creatable,
       borderMode,
+      showCounter,
+      maxLength,
       translate: __
     } = this.props;
     let type = this.props.type?.replace(/^(?:native|input)\-/, '');
@@ -662,6 +664,16 @@ export default class TextControl extends React.PureComponent<
                 >
                   <Icon icon="input-clear" className="icon" />
                 </a>
+              ) : null}
+
+              {showCounter ? (
+                <span className={cx('TextControl-counter')}>
+                  {`${this.valueToString(value)?.length}${
+                    typeof maxLength === 'number' && maxLength
+                      ? `/${maxLength}`
+                      : ''
+                  }`}
+                </span>
               ) : null}
 
               {loading ? (
