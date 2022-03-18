@@ -485,8 +485,7 @@ order: 9
           actions: [
             {
               actionType: 'url',
-              url: 'http://www.baidu.com',
-              blank: true
+              to: 'goBack'
             }
           ]
         }
@@ -534,6 +533,104 @@ order: 9
 | ---------- | -------- | ------ | ------------------------------------------------------------------------------------------------------------------- |
 | actionType | `string` | `link` | 单页跳转 |
 | link | `string` | `link` | 用来指定跳转地址，跟 url 不同的是，这是单页跳转方式，不会渲染浏览器，请指定 amis 平台内的页面。可用 `${xxx}` 取值。 |
+
+#### 回退页面
+
+通过配置`actionType: 'goBack'`实现页面回退。
+
+```schema
+{
+  type: 'page',
+  body: [
+    {
+      type: 'button',
+      label: '回退',
+      className: 'ml-2',
+      onEvent: {
+        click: {
+          actions: [
+            {
+              actionType: 'goBack'
+            }
+          ]
+        }
+      }
+    }
+  ]
+}
+```
+
+**动作属性**
+
+| 属性名     | 类型     | 默认值   | 说明         |
+| ---------- | -------- | -------- | ------------ |
+| actionType | `string` | `goBack` | 返回上个页面 |
+
+#### 前进/后退到指定页面
+
+通过配置`actionType: 'goPage'`实现浏览器页面的前进/后退。
+
+```schema
+{
+  type: 'page',
+  body: [
+    {
+      type: 'button',
+      label: '后退到上上个页面',
+      className: 'ml-2',
+      onEvent: {
+        click: {
+          actions: [
+            {
+              actionType: 'goPage',
+              delta: -2
+            }
+          ]
+        }
+      }
+    }
+  ]
+}
+```
+
+**动作属性**
+
+| 属性名     | 类型     | 默认值   | 说明            |
+| ---------- | -------- | -------- | --------------- |
+| actionType | `string` | `goPage` | 前进/后退到页面 |
+| delta      | `string` | `0`      | 位置            |
+
+#### 刷新页面
+
+通过配置`actionType: 'reloadPage'`实现浏览器刷新。
+
+```schema
+{
+  type: 'page',
+  body: [
+    {
+      type: 'button',
+      label: '刷新页面',
+      className: 'ml-2',
+      onEvent: {
+        click: {
+          actions: [
+            {
+              actionType: 'reloadPage'
+            }
+          ]
+        }
+      }
+    }
+  ]
+}
+```
+
+**动作属性**
+
+| 属性名     | 类型     | 默认值       | 说明         |
+| ---------- | -------- | ------------ | ------------ |
+| actionType | `string` | `reloadPage` | 返回上个页面 |
 
 #### toast 提示
 
