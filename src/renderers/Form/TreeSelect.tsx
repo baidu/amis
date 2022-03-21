@@ -437,13 +437,9 @@ export default class TreeSelectControl extends React.Component<
     this.resultChangeEvent(newValue);
   }
 
-  doAction(action: Action, data: {value: any}, throwErrors: boolean) {
-    const {onChange} = this.props;
+  doAction(action: Action, data: any, throwErrors: boolean) {
     if (action.actionType && ['clear', 'reset'].includes(action.actionType)) {
       this.clearValue();
-    }
-    if (action.actionType === 'choose') {
-      onChange && onChange(data.value || '');
     }
   }
 

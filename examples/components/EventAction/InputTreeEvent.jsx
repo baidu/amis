@@ -56,9 +56,7 @@ export default {
                   actionType: 'expand',
                   componentId: 'input-tree-action',
                   description: '点击展开',
-                  args: {
-                    openLevel: 1
-                  },
+                  openLevel: 1
                 }
               ]
             }
@@ -77,27 +75,6 @@ export default {
                   actionType: 'collapse',
                   componentId: 'input-tree-action',
                   description: '点击收起'
-                }
-              ]
-            }
-          }
-        },
-        {
-          name: "input-tree-choose",
-          type: "action",
-          label: 'choose触发器（Folder A）',
-          level: 'primary',
-          className: 'mr-3',
-          onEvent: {
-            click: {
-              actions: [
-                {
-                  actionType: 'choose',
-                  componentId: 'input-tree-action',
-                  description: '点击选中特定值',
-                  args: {
-                    value: 1
-                  },
                 }
               ]
             }

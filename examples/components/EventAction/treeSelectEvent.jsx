@@ -147,27 +147,6 @@ export default {
           }
         },
         {
-          name: "tree-select-choose",
-          type: "action",
-          label: 'choose触发器（Folder A）',
-          level: 'primary',
-          className: 'mr-3',
-          onEvent: {
-            click: {
-              actions: [
-                {
-                  actionType: 'choose',
-                  componentId: 'tree-select-action',
-                  description: '点击选中特定值',
-                  args: {
-                    value: 1
-                  },
-                }
-              ]
-            }
-          }
-        },
-        {
           type: 'tree-select',
           id: 'tree-select-action',
           name: 'tree',
