@@ -125,7 +125,12 @@ export function buildApi(
       undefined,
       api.convertKeyToPath
     );
-  } else if (api.method === 'post' || api.method === 'put') {
+  } else if (
+    api.method === 'post' ||
+    api.method === 'put' ||
+    api.method === 'patch' ||
+    api.method === 'delete'
+  ) {
     api.body = api.data = cloneObject(data);
   }
 
