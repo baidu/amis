@@ -251,12 +251,12 @@ test('api:cache', async () => {
     )
   );
 
-  await wait(100);
+  await wait(300);
   expect(container).toMatchSnapshot();
 
   fireEvent.click(getByText(/Reload/));
 
-  await wait(100);
+  await wait(300);
   expect(fetcher).toHaveBeenCalledTimes(1); // 只请求一次，第二次请求从缓存中取
   expect(container).toMatchSnapshot();
 });

@@ -57,7 +57,7 @@ test('Renderer:text', async () => {
   // 输入是否正常
   fireEvent.change(input, {target: {value: 'AbCd'}});
   // 事件机制导致hanleChange变为异步
-  await wait(100);
+  await wait(300);
   expect(input.value).toBe('AbCd');
 });
 
@@ -131,13 +131,13 @@ test('Renderer:text with clearable', async () => {
     clearable: true
   });
   fireEvent.change(input, {target: {value: 'abcd'}}); // 有值之后才会显示clear的icon
-  await wait(100);
+  await wait(300);
   expect(container).toMatchSnapshot();
 
   fireEvent.click(
     container.querySelector('a.cxd-TextControl-clear') as HTMLElement
   );
-  await wait(100);
+  await wait(300);
   expect(input.value).toBe('');
 });
 
@@ -166,7 +166,7 @@ test('Renderer:text with options', async () => {
   fireEvent.click(
     container.querySelector('.cxd-TextControl-input') as HTMLElement
   );
-  await wait(100);
+  await wait(300);
   expect(container).toMatchSnapshot('options is open');
 
   // 选中一项
@@ -175,7 +175,7 @@ test('Renderer:text with options', async () => {
       '.cxd-TextControl-sugs .cxd-TextControl-sugItem'
     ) as HTMLElement
   );
-  await wait(100);
+  await wait(300);
   // expect(input.value).toBe('a');
   expect(container).toMatchSnapshot('select first option');
 });
@@ -215,7 +215,7 @@ test('Renderer:text with options and multiple', async () => {
 
   // 展开 options
   fireEvent.click(textControl);
-  await wait(100);
+  await wait(300);
   expect(container).toMatchSnapshot('options is opened');
 
   // 选中第一项
@@ -224,13 +224,13 @@ test('Renderer:text with options and multiple', async () => {
       '.cxd-TextControl-sugs .cxd-TextControl-sugItem'
     ) as HTMLElement
   );
-  await wait(100);
+  await wait(300);
   // expect(input.value).toBe('a');
   expect(container).toMatchSnapshot('first option selected');
 
   // 再次打开 options
   fireEvent.click(textControl);
-  await wait(100);
+  await wait(300);
   expect(container).toMatchSnapshot(
     'options is opened again, and first option already selected'
   );
@@ -241,7 +241,7 @@ test('Renderer:text with options and multiple', async () => {
       '.cxd-TextControl-sugs .cxd-TextControl-sugItem'
     ) as HTMLElement
   );
-  await wait(100);
+  await wait(300);
   // expect(input.value).toBe('a,b');
   expect(container).toMatchSnapshot('second option selected');
 });
@@ -292,7 +292,7 @@ test('Renderer:text with transform lowerCase', async () => {
   const {input} = setup({transform: {lowerCase: true}});
 
   fireEvent.change(input, {target: {value: 'AbCd'}});
-  await wait(100);
+  await wait(300);
   expect(input.value).toBe('abcd');
 });
 
@@ -303,6 +303,6 @@ test('Renderer:text with transform upperCase', async () => {
   const {input} = setup({transform: {upperCase: true}});
 
   fireEvent.change(input, {target: {value: 'AbCd'}});
-  await wait(100);
+  await wait(300);
   expect(input.value).toBe('ABCD');
 });

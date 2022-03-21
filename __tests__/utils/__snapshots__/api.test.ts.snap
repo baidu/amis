@@ -66,17 +66,6 @@ exports[`api:cache 2`] = `
         <div
           class="cxd-Page-body"
         >
-          <div
-            class="cxd-Spinner-overlay"
-          />
-          <div
-            class="cxd-Spinner cxd-Spinner--overlay"
-          >
-            <div
-              class="cxd-Spinner-icon cxd-Spinner-icon--lg cxd-Spinner-icon--default"
-            />
-            
-          </div>
           <span
             class="cxd-TplField"
           >
