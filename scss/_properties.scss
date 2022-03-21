@@ -472,7 +472,7 @@
   --Carousel-bg: #f6f8f8;
   --Carousel-dot-borderRadius: #{px2rem(4px)};
   --Carousel-dot-height: #{px2rem(8px)};
-  --Carousel-dot-margin: #{px2rem(8px)} var(--gap-xs);
+  --Carousel-dot-margin: #{px2rem(7px)} var(--gap-xs);
   --Carousel-dot-width: #{px2rem(8px)};
   --Carousel-height: #{px2rem(200px)};
   --Carousel-imageDescription-bottom: #{px2rem(25px)};
@@ -680,9 +680,6 @@
   --Form--horizontal-label-widthMd: #{px2rem(160px)};
   --Form--horizontal-label-widthSm: #{px2rem(90px)};
   --Form--horizontal-label-widthXs: #{px2rem(60px)};
-
-  --Form--horizontal-justify-label-align: left;
-  --Form--horizontal-justify-value-align: right;
 
   --Form-control-widthBase: #{px2rem(200px)};
   --Form-control-widthLg: #{px2rem(320px)};
