@@ -1750,8 +1750,13 @@ exports[`Renderer:Wizard initApi show loading 1`] = `
     className="cxd-Spinner-overlay in"
   />
   <div
-    className="cxd-Spinner in cxd-Spinner--overlay cxd-Spinner--lg"
-  />
+    className="cxd-Spinner cxd-Spinner--overlay in"
+  >
+    <div
+      className="cxd-Spinner-icon cxd-Spinner-icon--lg cxd-Spinner-icon--default"
+    />
+    
+  </div>
 </div>
 `;
 
@@ -1939,12 +1944,6 @@ exports[`Renderer:Wizard initApi show loading 2`] = `
       </button>
     </div>
   </div>
-  <div
-    className="cxd-Spinner-overlay"
-  />
-  <div
-    className="cxd-Spinner cxd-Spinner--overlay cxd-Spinner--lg"
-  />
 </div>
 `;
 

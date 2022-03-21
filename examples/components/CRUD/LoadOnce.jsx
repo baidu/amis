@@ -3,7 +3,7 @@ export default {
   body: {
     type: 'crud',
     loadDataOnce: true,
-    api: '/api/sample?waitSeconds=1',
+    api: '/api/sample?waitSeconds=1&loadDataOnce=1',
     filter: {
       title: '条件搜索',
       submitText: '',
@@ -119,8 +119,7 @@ export default {
                   },
                   {
                     type: 'html',
-                    html:
-                      '<p>添加其他 <span>Html 片段</span> 需要支持变量替换（todo）.</p>'
+                    html: '<p>添加其他 <span>Html 片段</span> 需要支持变量替换（todo）.</p>'
                   }
                 ]
               }

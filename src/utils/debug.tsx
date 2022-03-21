@@ -182,6 +182,7 @@ const AMISDebug = observer(({store}: {store: AMISDebugStore}) => {
     >
       <div
         className="AMISDebug-toggle"
+        title="open debug"
         onClick={() => {
           store.isExpanded = true;
         }}

@@ -88,9 +88,15 @@ export class AssociatedSelection extends BaseSelection<
 
   @autobind
   handleLeftDeferLoad(option: Option) {
-    const {leftOptions, onLeftDeferLoad} = this.props;
+    const {leftOptions, onLeftDeferLoad, onDeferLoad} = this.props;
 
-    onLeftDeferLoad?.(option, leftOptions);
+    if (typeof onLeftDeferLoad === 'function') {
+      // TabsTransfer
+      return onLeftDeferLoad?.(option, leftOptions);
+    } else if (typeof onDeferLoad === 'function') {
+      // Select
+      return onDeferLoad?.(option);
+    }
   }
 
   handleRetry(option: Option) {

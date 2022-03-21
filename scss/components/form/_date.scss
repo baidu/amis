@@ -11,8 +11,9 @@
   color: var(--DatePicker-color);
   background: var(--DatePicker-bg);
   border-radius: var(--DatePicker-borderRadius);
+  min-width: var(--DatePicker-minWidth);
 
-  input {
+  &-input {
     display: inline-block;
     width: 100%;
     background: none;
@@ -96,6 +97,16 @@
 
 .#{$ns}DateControl:not(.is-inline) > .#{$ns}DatePicker {
   display: flex;
+}
+
+.#{$ns}DateControl {
+  &.is-date > .#{$ns}DatePicker {
+    min-width: calc(var(--DatePicker-minWidth) + var(--fontSizeLg) * 2);
+  }
+
+  &.is-datetime > .#{$ns}DatePicker {
+    min-width: calc(var(--DatePicker-minWidth) + var(--fontSizeLg) * 6);
+  }
 }
 
 .#{$ns}DatePicker-shortcuts {
@@ -276,6 +287,7 @@
 .#{$ns}CalendarInputWrapper {
   display: inline-block;
   position: relative;
+
   .#{$ns}CalendarInput-sugs {
     list-style: none;
     position: absolute;

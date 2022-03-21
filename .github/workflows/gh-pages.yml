@@ -28,13 +28,13 @@ jobs:
       - name: Generate coverage report
         run: |
           npm i --legacy-peer-deps
-      #     npm run coverage
-      # - uses: codecov/codecov-action@v2
-      #   with:
-      #     files: ./coverage/clover.xml 
-      #     name: codecov-umbrella # optional
-      #     fail_ci_if_error: false
-      #     verbose: true # optional (default = false)
+          npm run coverage
+      - uses: codecov/codecov-action@v2
+        with:
+          files: ./coverage/clover.xml 
+          name: codecov-umbrella # optional
+          fail_ci_if_error: false
+          verbose: true # optional (default = false)
       - name: build gh-pages
         run: |
           sh deploy-gh-pages.sh

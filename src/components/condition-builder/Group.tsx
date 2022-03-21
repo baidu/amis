@@ -26,6 +26,7 @@ export interface ConditionGroupProps extends ThemeProps, LocaleProps {
   onDragStart?: (e: React.MouseEvent) => void;
   fieldClassName?: string;
   formula?: FormulaPickerProps;
+  popOverContainer?: any;
 }
 
 export class ConditionGroup extends React.Component<ConditionGroupProps> {
@@ -134,7 +135,8 @@ export class ConditionGroup extends React.Component<ConditionGroupProps> {
       disabled,
       searchable,
       translate: __,
-      formula
+      formula,
+      popOverContainer
     } = this.props;
     return (
       <div className={cx('CBGroup')} data-group-id={value?.id}>
@@ -222,6 +224,7 @@ export class ConditionGroup extends React.Component<ConditionGroupProps> {
                 searchable={searchable}
                 builderMode={builderMode}
                 formula={formula}
+                popOverContainer={popOverContainer}
               />
             ))
           ) : (

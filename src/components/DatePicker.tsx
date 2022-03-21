@@ -364,10 +364,27 @@ export class DatePicker extends React.Component<DateProps, DatePickerState> {
   componentDidUpdate(prevProps: DateProps) {
     const props = this.props;
 
-    if (prevProps.value !== props.value) {
-      this.setState({
+    const prevValue = prevProps.value;
+
+    if (prevValue !== props.value) {
+      const newState: any = {
         value: normalizeValue(props.value, props.format)
-      });
+      };
+
+      if (
+        typeof prevValue === 'undefined' || // initApi 的情况
+        (typeof prevValue === 'string' && // 公式的情况
+          (prevValue.startsWith('+') ||
+            prevValue.startsWith('-') ||
+            prevValue.startsWith('$')))
+      ) {
+        newState.inputValue =
+          normalizeValue(this.props.value, this.props.format)?.format(
+            this.props.inputFormat
+          ) || '';
+      }
+
+      this.setState(newState);
     }
   }
 
@@ -724,7 +741,7 @@ export class DatePicker extends React.Component<DateProps, DatePickerState> {
           `DatePicker`,
           {
             'is-disabled': disabled,
-            'is-focused': this.state.isFocused,
+            'is-focused': !disabled && this.state.isFocused,
             [`DatePicker--border${ucFirst(borderMode)}`]: borderMode,
             'is-mobile': useMobileUI && isMobile()
           },
@@ -734,11 +751,13 @@ export class DatePicker extends React.Component<DateProps, DatePickerState> {
         onClick={this.handleClick}
       >
         <Input
+          className={cx('DatePicker-input')}
           onChange={this.inputChange}
           ref={this.inputRef}
           placeholder={__(placeholder)}
           autoComplete="off"
           value={this.state.inputValue}
+          disabled={disabled}
         />
 
         {clearable && !disabled && normalizeValue(value, format) ? (

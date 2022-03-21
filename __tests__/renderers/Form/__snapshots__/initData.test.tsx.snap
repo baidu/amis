@@ -104,11 +104,16 @@ exports[`Form:initData:remote 1`] = `
           type="submit"
         />
         <div
-          class="cxd-Spinner-overlay in"
+          class="cxd-Spinner-overlay"
         />
         <div
-          class="cxd-Spinner in cxd-Spinner--overlay"
-        />
+          class="cxd-Spinner cxd-Spinner--overlay"
+        >
+          <div
+            class="cxd-Spinner-icon cxd-Spinner-icon--default"
+          />
+          
+        </div>
         <div
           class="cxd-Form-item cxd-Form-item--normal"
           data-role="form-item"
@@ -252,12 +257,6 @@ exports[`Form:initData:remote 3`] = `
         <input
           style="display: none;"
           type="submit"
-        />
-        <div
-          class="cxd-Spinner-overlay"
-        />
-        <div
-          class="cxd-Spinner cxd-Spinner--overlay"
         />
         <div
           class="cxd-Form-item cxd-Form-item--normal"

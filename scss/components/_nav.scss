@@ -16,6 +16,34 @@
       vertical-align: middle;
     }
 
+    &-overflow {
+      min-height: var(--Nav-Item-height) !important;
+      max-height: calc(var(--Nav-Item-height) * 5);
+      max-width: var(--Nav-Item-maxWidth--tabs);
+      font-size: var(--Nav-subItem-fontSize);
+      overflow-x: hidden;
+      overflow-y: auto;
+
+      .#{$ns}Nav-subItems {
+        margin-block-start: 0;
+        margin-block-end: 0;
+      }
+
+      .#{$ns}Nav-item {
+        max-width: var(--Nav-Item-maxWidth--tabs);
+        height: var(--Nav-Item-height);
+
+        > a {
+          border: none !important;
+          display: block !important;
+          text-overflow: ellipsis;
+          overflow: hidden;
+          white-space: nowrap;
+          user-select: none;
+        }
+      }
+    }
+
     &--tabs {
       border-bottom: var(--Tabs-borderWidth) solid var(--Tabs-borderColor);
 
@@ -23,6 +51,8 @@
         margin-bottom: calc(var(--Tabs-borderWidth) * -1);
         display: inline-block;
         position: relative;
+        max-width: var(--Nav-Item-maxWidth--tabs);
+
         > a {
           font-size: var(--Tabs-linkFontSize);
           display: block;
@@ -35,11 +65,15 @@
           margin-right: px2rem(2px);
           padding: var(--gap-sm) var(--gap-xl);
           cursor: pointer;
+          text-overflow: ellipsis;
+          overflow: hidden;
+          white-space: nowrap;
         }
 
         &:hover > a,
         > a:focus {
           border-color: var(--Tabs-onHover-borderColor);
+          border-bottom: none; // 外层已经有border-bottom了
           text-decoration: none;
         }
 
@@ -59,12 +93,22 @@
           border-bottom-color: var(--Tabs-content-bg);
         }
       }
+
+      .#{$ns}Nav-item-overflow {
+        &:hover > a,
+        > a:focus,
+        &.is-overflow-opened > a {
+          color: var(--primary);
+          border-color: transparent;
+        }
+      }
     }
 
     &--stacked {
       min-height: px2rem(50px);
 
-      .#{$ns}Nav-item, .#{$ns}Badge {
+      .#{$ns}Nav-item,
+      .#{$ns}Badge {
         position: relative;
         display: flex;
         flex-wrap: wrap;
@@ -77,7 +121,8 @@
           left: 0;
           display: none;
           line-height: 0;
-          > .icon, > .#{$ns}Badge > .icon {
+          > .icon,
+          > .#{$ns}Badge > .icon {
             color: var(--icon-color);
 
             &:hover {
@@ -106,7 +151,7 @@
             font-size: 12px;
             text-align: center;
             color: var(--white);
-            background: var(--success)
+            background: var(--success);
           }
         }
 
@@ -150,8 +195,7 @@
         > .#{$ns}Badge > a:hover,
         > .#{$ns}Badge > a:focus,
         > .#{$ns}Badge > a:hover + .#{$ns}Nav-item-atcions,
-        > .#{$ns}Badge > a:focus + .#{$ns}Nav-item-atcions
-         {
+        > .#{$ns}Badge > a:focus + .#{$ns}Nav-item-atcions {
           border-color: var(--Nav-item-onHover-color);
           text-decoration: none;
           background: var(--Nav-item-onHover-bg);
@@ -189,7 +233,8 @@
           }
         }
 
-        &.is-unfolded > , &.is-unfolded > .#{$ns}Badge > {
+        &.is-unfolded >,
+        &.is-unfolded > .#{$ns}Badge > {
           a .#{$ns}Nav-itemToggler {
             transform: rotate(180deg) scale(0.8);
           }

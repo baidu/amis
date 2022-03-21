@@ -1,5 +1,6 @@
 import moment from 'moment';
 import React from 'react';
+import merge from 'lodash/merge';
 import {LocaleProps, localeable} from '../../locale';
 import {Icon} from '../icons';
 import {ClassNamesFn} from '../../theme';
@@ -30,6 +31,7 @@ interface CustomTimeViewProps extends LocaleProps {
   useMobileUI: boolean;
   showToolbar?: boolean;
   onChange?: (value: any) => void;
+  timeConstraints?: any;
 }
 
 interface CustomTimeViewState {
@@ -85,6 +87,13 @@ export class CustomTimeView extends React.Component<
   constructor(props: any) {
     super(props);
     this.state = this.calculateState(this.props);
+
+    if (this.props.timeConstraints) {
+      this.timeConstraints = merge(
+        this.timeConstraints,
+        this.props.timeConstraints
+      );
+    }
   }
 
   componentDidUpdate(preProps: CustomTimeViewProps) {
@@ -173,6 +182,9 @@ export class CustomTimeView extends React.Component<
       value =
         this.timeConstraints[type].min +
         (value - (this.timeConstraints[type].max + 1));
+    if (value < this.timeConstraints[type].min) {
+      value = this.timeConstraints[type].min;
+    }
     return this.pad(type, value);
   }
 

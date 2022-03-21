@@ -182,6 +182,58 @@ order: 60
 }
 ```
 
+## 如何让某些节点无法点？
+
+只需要对应的节点没有 value 就行，比如下面例子的目录节点都无法点，只能点文件节点
+
+```schema: scope="body"
+{
+  "type": "form",
+  "api": "/api/mock2/form/saveForm",
+  "body": [
+    {
+      "type": "tree-select",
+      "name": "tree",
+      "label": "Tree",
+      "searchable": true,
+      "options": [
+        {
+          "label": "Folder A",
+          "children": [
+            {
+              "label": "file A",
+              "value": 2
+            },
+            {
+              "label": "file B",
+              "value": 3
+            }
+          ]
+        },
+        {
+          "label": "Folder E",
+          "children": [
+            {
+              "label": "Folder G",
+              "children": [
+                {
+                  "label": "file H",
+                  "value": 6
+                },
+                {
+                  "label": "file I",
+                  "value": 7
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
+```
+
 ## 属性表
 
 更多用法，见 [InputTree](./input-tree)

@@ -74,11 +74,11 @@ exports[`Renderer:repeat 1`] = `
                   >
                     <div
                       class="cxd-InputRange-track-active"
-                      style="width: 5.2631578947368425%; left: 0%;"
+                      style="width: 0%; left: 0%;"
                     />
                     <div
                       class="cxd-InputRange-handle"
-                      style="left: 5.2631578947368425%; z-index: 1; position: relative;"
+                      style="left: 0%; z-index: 1; position: relative;"
                     >
                       <div
                         class="cxd-InputRange-handle-icon"

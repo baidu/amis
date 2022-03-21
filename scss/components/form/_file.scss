@@ -222,6 +222,10 @@
     }
   }
 
+  &-dropzone.is-active &-acceptTip {
+    border-color: var(--info);
+  }
+
   &-sum {
     font-size: var(--fontSizeSm);
 
