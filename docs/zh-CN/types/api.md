@@ -136,7 +136,7 @@ API 还支持配置对象类型
 
 ### 配置请求方式
 
-可以配置`method`指定接口的请求方式，支持：`get`、`post`、`put`、`delete`。
+可以配置`method`指定接口的请求方式，支持：`get`、`post`、`put`、`delete`、`patch`。
 
 > `method`值留空时：
 >
