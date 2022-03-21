@@ -1002,7 +1002,7 @@ export function registerOptionsControl(config: OptionsConfig) {
 
       // 如果是懒加载的，只懒加载当前节点。
       if (parent?.defer) {
-        this.deferLoad(parent);
+        await this.deferLoad(parent);
       } else if (source && addApi) {
         // 如果配置了 source 且配置了 addApi 直接重新拉取接口就够了
         // 不能不判断 addApi 就刷新，因为有些场景就是临时添加的。
