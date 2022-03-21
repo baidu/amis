@@ -1081,7 +1081,11 @@ export default class ImageControl extends React.Component<
         };
         obj.value = obj.value || obj.url;
 
-        const dispatcher = await this.dispatchEvent('success', obj);
+        const dispatcher = await this.dispatchEvent('success', {
+          ...file,
+          value: obj.value,
+          state: 'uploaded'
+        });
         if (dispatcher?.prevented) {
           return;
         }
@@ -1252,8 +1256,16 @@ export default class ImageControl extends React.Component<
 
   async dispatchEvent(e: string, data?: Record<string, any>) {
     const {dispatchEvent} = this.props;
-    data = data ? data : this.files;
-    return dispatchEvent(e, createObject(this.props.data, {file: data}));
+    const getEventData = (item: Record<string, any>) => ({
+      name: item.path || item.name,
+      value: item.value,
+      state: item.state,
+      error: item.error
+    });
+    const value = data
+      ? getEventData(data)
+      : this.files.map(item => getEventData(item));
+    return dispatchEvent(e, createObject(this.props.data, {file: value}));
   }
 
   // 动作

@@ -25,6 +25,7 @@ import {
   BaseSchema,
   SchemaApi,
   SchemaClassName,
+  SchemaExpression,
   SchemaObject,
   SchemaType
 } from '../../Schema';
@@ -86,6 +87,11 @@ export interface FormBaseControl
    * 是否只读
    */
   readOnly?: boolean;
+
+  /**
+   * 只读条件
+   */
+  readOnlyOn?: SchemaExpression;
 
   /**
    * 不设置时，当表单提交过后表单项每次修改都会触发重新验证，
@@ -552,6 +558,7 @@ export class FormItemWrap extends React.Component<FormItemProps> {
             `Form-item Form-item--horizontal`,
             className,
             {
+              'Form-item--horizontal-justify': horizontal.justify,
               [`is-error`]: model && !model.valid,
               [`is-required`]: required
             },

@@ -291,5 +291,9 @@ register('en-US', {
   'FormulaEditor.btnLabel': 'Formula Edit',
   'FormulaEditor.title': 'Formula Editor',
   'FormulaEditor.variable': 'Variable',
-  'FormulaEditor.function': 'Function'
+  'FormulaEditor.function': 'Function',
+  'pullRefresh.pullingText': 'Pull down to refresh...',
+  'pullRefresh.loosingText': 'Release to refresh...',
+  'pullRefresh.loadingText': 'Loading...',
+  'pullRefresh.successText': 'Loading success'
 });

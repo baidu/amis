@@ -423,8 +423,14 @@ export default class DateControl extends React.PureComponent<
   // 动作
   doAction(action: Action, data: object, throwErrors: boolean) {
     const {resetValue, onChange} = this.props;
+
     if (action.actionType === 'clear') {
-      onChange(resetValue ?? '');
+      onChange('');
+      return;
+    }
+
+    if (action.actionType === 'reset' && resetValue) {
+      onChange(resetValue);
     }
   }
 
@@ -457,15 +463,23 @@ export default class DateControl extends React.PureComponent<
       useMobileUI,
       ...rest
     } = this.props;
+    const mobileUI = useMobileUI && isMobile();
 
     if (type === 'time' && timeFormat) {
       format = timeFormat;
     }
 
-    const mobileUI = useMobileUI && isMobile();
-
     return (
-      <div className={cx(`DateControl`, className)}>
+      <div
+        className={cx(
+          `DateControl`,
+          {
+            'is-date': /date$/.test(type),
+            'is-datetime': /datetime$/.test(type)
+          },
+          className
+        )}
+      >
         <DatePicker
           {...rest}
           useMobileUI={useMobileUI}

@@ -1146,7 +1146,7 @@ test('Renderer:Page initApi reload by Dialog action', async () => {
 
   expect(container).toMatchSnapshot();
   fireEvent.click(getByText(/确认/));
-  await wait(500);
+  await wait(1000);
 
   expect(container).toMatchSnapshot();
   expect(fetcher).toHaveBeenCalledTimes(2);
@@ -1210,7 +1210,7 @@ test('Renderer:Page initApi reload by Drawer action', async () => {
 
   expect(container).toMatchSnapshot();
   fireEvent.click(getByText(/确认/));
-  await wait(600);
+  await wait(1000);
 
   expect(container).toMatchSnapshot();
   expect(fetcher).toHaveBeenCalledTimes(2);

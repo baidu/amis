@@ -236,6 +236,7 @@ export class Modal extends React.Component<ModalProps, ModalState> {
       <Transition
         mountOnEnter
         unmountOnExit
+        appear
         in={show}
         timeout={500}
         onEnter={this.handleEnter}

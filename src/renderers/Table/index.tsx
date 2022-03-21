@@ -370,6 +370,7 @@ export interface TableProps extends RendererProps {
 type ExportExcelToolbar = SchemaNode & {
   api?: SchemaApi;
   columns?: string[];
+  exportColumns?: any[];
   filename?: string;
 };
 
@@ -472,6 +473,7 @@ export default class Table extends React.Component<TableProps, object> {
   } = {};
   renderedToolbars: Array<string> = [];
   subForms: any = {};
+  timer: ReturnType<typeof setTimeout>;
 
   constructor(props: TableProps) {
     super(props);
@@ -659,7 +661,7 @@ export default class Table extends React.Component<TableProps, object> {
     const footToolbarHeight = footToolbar ? offset(footToolbar).height : 0;
     // 有时候会拿不到 footToolbar，等一下在执行
     if (!footToolbarHeight && footerToolbar && footerToolbar.length) {
-      setTimeout(() => {
+      this.timer = setTimeout(() => {
         this.updateAutoFillHeight();
       }, 100);
       return;
@@ -777,6 +779,7 @@ export default class Table extends React.Component<TableProps, object> {
     this.unSensor && this.unSensor();
 
     formItem && isAlive(formItem) && formItem.setSubStore(null);
+    clearTimeout(this.timer);
   }
 
   subFormRef(form: any, x: number, y: number) {
@@ -1662,7 +1665,7 @@ export default class Table extends React.Component<TableProps, object> {
           {store.rows.length && multiple ? (
             <Checkbox
               classPrefix={ns}
-              partial={!store.allChecked}
+              partial={store.someChecked && !store.allChecked}
               checked={store.someChecked}
               disabled={store.disabledHeadCheckbox}
               onChange={this.handleCheckAll}
@@ -2200,9 +2203,8 @@ export default class Table extends React.Component<TableProps, object> {
         classPrefix={ns}
         key="columns-toggable"
         size={config?.size || 'sm'}
-        label={
-          config?.label || <Icon icon="columns" className="icon m-r-none" />
-        }
+        icon={config?.icon}
+        label={config?.label}
         draggable={config?.draggable}
         columns={store.columnsData}
         onColumnToggle={this.handleColumnToggle}
@@ -2259,18 +2261,25 @@ export default class Table extends React.Component<TableProps, object> {
       classPrefix: ns,
       classnames: cx,
       translate: __,
-      columns,
-      data
+      data,
+      render
     } = this.props;
+
+    let columns = store.filteredColumns || [];
 
     if (!columns) {
       return null;
     }
 
-    return (
-      <Button
-        classPrefix={ns}
-        onClick={() => {
+    return render(
+      'exportExcel',
+      {
+        label: __('CRUD.exportExcel'),
+        ...(toolbar as any),
+        type: 'button'
+      },
+      {
+        onAction: () => {
           import('exceljs').then(async (ExcelJS: any) => {
             let rows = [];
             let tmpStore;
@@ -2310,19 +2319,28 @@ export default class Table extends React.Component<TableProps, object> {
             });
             worksheet.views = [{state: 'frozen', xSplit: 0, ySplit: 1}];
 
-            let exportColumns = toolbar.columns;
-            if (isPureVariable(exportColumns)) {
-              exportColumns = resolveVariableAndFilter(
-                exportColumns,
+            let exportColumnNames = toolbar.columns;
+
+            if (isPureVariable(exportColumnNames)) {
+              exportColumnNames = resolveVariableAndFilter(
+                exportColumnNames,
                 data,
                 '| raw'
               );
             }
 
-            const filteredColumns = exportColumns
+            // 自定义导出列配置
+            if (toolbar.exportColumns && Array.isArray(toolbar.exportColumns)) {
+              columns = toolbar.exportColumns;
+            }
+
+            const filteredColumns = exportColumnNames
               ? columns.filter(column => {
-                  const filterColumnsNames = exportColumns!;
-                  if (filterColumnsNames.indexOf(column.name) !== -1) {
+                  const filterColumnsNames = exportColumnNames!;
+                  if (
+                    column.name &&
+                    filterColumnsNames.indexOf(column.name) !== -1
+                  ) {
                     return true;
                   }
                   return false;
@@ -2503,11 +2521,8 @@ export default class Table extends React.Component<TableProps, object> {
               saveAs(blob, filename + '.xlsx');
             }
           });
-        }}
-        size="sm"
-      >
-        {(toolbar as Schema).label || __('CRUD.exportExcel')}
-      </Button>
+        }
+      }
     );
   }
 

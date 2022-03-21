@@ -101,3 +101,18 @@ order: 57
 | maxLength    | `number`  | -       | 限制最大字数                 |
 | clearable    | `boolean` | `false` | 是否可清除                   |
 | resetValue   | `string`  | `""`    | 清除后设置此配置项给定的值。 |
+
+## 事件表
+
+| 事件名称 | 事件参数         | 说明     |
+| -------- | ---------------- | -------- |
+| focus    | `value: string`  | 获取焦点 |
+| blur     | `value: string ` | 失去焦点 |
+| change   | `value: string`  | 值变化   |
+
+## 动作表
+
+| 动作名称 | 动作配置 | 说明     |
+| -------- | -------- | -------- |
+| clear    | -        | 清空     |
+| focus    | -        | 获取焦点 |

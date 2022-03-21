@@ -251,12 +251,18 @@ export default class Service extends React.Component<ServiceProps> {
     let dataProviderFunc = dataProvider;
 
     if (typeof dataProvider === 'string' && dataProvider) {
-      dataProviderFunc = str2AsyncFunction(dataProvider, 'data', 'setData')!;
+      dataProviderFunc = str2AsyncFunction(
+        dataProvider,
+        'data',
+        'setData',
+        'env'
+      )!;
     }
     if (typeof dataProviderFunc === 'function') {
       const unsubscribe = await dataProviderFunc(
         store.data,
-        this.dataProviderSetData
+        this.dataProviderSetData,
+        this.props.env
       );
       if (typeof unsubscribe === 'function') {
         this.dataProviderUnsubscribe = unsubscribe;
@@ -363,6 +369,7 @@ export default class Service extends React.Component<ServiceProps> {
       initFetch,
       initFetchOn,
       store,
+      dataProvider,
       messages: {fetchSuccess, fetchFailed}
     } = this.props;
 
@@ -385,6 +392,10 @@ export default class Service extends React.Component<ServiceProps> {
           errorMessage: fetchFailed
         })
         .then(this.afterDataFetch);
+    }
+
+    if (dataProvider) {
+      this.runDataProvider();
     }
   }
 
@@ -411,22 +422,35 @@ export default class Service extends React.Component<ServiceProps> {
     // 会被覆写
   }
 
+  @autobind
+  handleDialogConfirm(
+    values: object[],
+    action: Action,
+    ctx: any,
+    targets: Array<any>
+  ) {
+    const {store} = this.props;
+    store.closeDialog(true);
+  }
+
+  @autobind
+  handleDialogClose(confirmed = false) {
+    const {store} = this.props;
+    store.closeDialog(confirmed);
+  }
+
   openFeedback(dialog: any, ctx: any) {
     return new Promise(resolve => {
       const {store} = this.props;
-      const parentStore = store.parentStore;
 
-      // 暂时自己不支持弹出 dialog
-      if (parentStore && parentStore.openDialog) {
-        store.setCurrentAction({
-          type: 'button',
-          actionType: 'dialog',
-          dialog: dialog
-        });
-        store.openDialog(ctx, undefined, confirmed => {
-          resolve(confirmed);
-        });
-      }
+      store.setCurrentAction({
+        type: 'button',
+        actionType: 'dialog',
+        dialog: dialog
+      });
+      store.openDialog(ctx, undefined, confirmed => {
+        resolve(confirmed);
+      });
     });
   }
 
@@ -527,6 +551,23 @@ export default class Service extends React.Component<ServiceProps> {
         {this.renderBody()}
 
         <Spinner size="lg" overlay key="info" show={store.loading} />
+
+        {render(
+          // 单独给 feedback 服务的，handleAction 里面先不要处理弹窗
+          'modal',
+          {
+            ...((store.action as Action) &&
+              ((store.action as Action).dialog as object)),
+            type: 'dialog'
+          },
+          {
+            key: 'dialog',
+            data: store.dialogData,
+            onConfirm: this.handleDialogConfirm,
+            onClose: this.handleDialogClose,
+            show: store.dialogOpen
+          }
+        )}
       </div>
     );
   }

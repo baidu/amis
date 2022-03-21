@@ -7,6 +7,7 @@ import {ClassNamesFn, themeable, ThemeProps} from '../../theme';
 export interface InputSwitchProps extends ThemeProps {
   options: Array<any>;
   disabled?: boolean;
+  popOverContainer?: any;
   value: any;
   onChange: (value: any) => void;
 }
@@ -18,10 +19,12 @@ export function InputSwitch({
   value,
   onChange,
   classnames: cx,
-  disabled
+  disabled,
+  popOverContainer
 }: InputSwitchProps) {
   return (
     <PopOverContainer
+      popOverContainer={popOverContainer}
       popOverRender={({onClose}) => (
         <GroupedSelection
           onClick={onClose}

@@ -474,6 +474,96 @@ order: 67
 }
 ```
 
+### 背景色阶
+
+> 1.8.0 及以上版本
+
+`backgroundScale` 可以用来根据数据控制自动分配色阶
+
+```schema: scope="body"
+{
+    "type": "service",
+    "data": {
+        "rows": [
+            {
+                "engine": "Trident",
+                "version": "1",
+                "grade": "A"
+            },
+            {
+                "engine": "Trident",
+                "version": "7",
+                "grade": "B"
+            },
+            {
+                "engine": "Trident",
+                "version": "4",
+                "grade": "C"
+            },
+            {
+                "engine": "Trident",
+                "version": "3",
+                "grade": "A"
+            },
+            {
+                "engine": "Trident",
+                "version": "4",
+                "grade": "A"
+            },
+            {
+                "engine": "Gecko",
+                "version": "6",
+                "grade": "A"
+            },
+            {
+                "engine": "Gecko",
+                "version": "2",
+                "grade": "A"
+            },
+            {
+                "engine": "Gecko",
+                "version": "5",
+                "grade": "B"
+            },
+            {
+                "engine": "Gecko",
+                "version": "10",
+                "grade": "D"
+            }
+        ]
+    },
+    "body": [
+        {
+            "type": "table",
+            "source": "$rows",
+            "columns": [
+                {
+                    "name": "engine",
+                    "label": "Engine"
+                },
+                {
+                    "name": "version",
+                    "label": "Version",
+                    backgroundScale: {
+                        min: 0,
+                        max: 10,
+                        colors: ['#FFEF9C', '#FF7127']
+                    }
+                },
+                {
+                    "name": "grade",
+                    "label": "Grade"
+                }
+            ]
+        }
+    ]
+}
+```
+
+`min` 和 `max` 都支持变量，如果为设置会自动计算当前列的最大和最小值。
+
+默认会从当前列的 `name` 属性来获取数据，也可以通过 `backgroundScale.source` 使用变量及公式来获取数据。
+
 ### 默认是否显示
 
 默认 `columnsTogglable` 配置为 `auto`，当列超过 5 列后，就会在工具栏多渲染出来一个列展示与否的开关。你可以设置成 `true` 或者 `false` 来强制开或者关。在列配置中可以通过配置 `toggled` 为 `false` 默认不展示这列，比如下面这个例子中 ID 这一栏。

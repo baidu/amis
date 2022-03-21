@@ -210,11 +210,15 @@ export class FormulaPicker extends React.Component<FormulaPickerProps> {
                   allowInput={allowInput}
                   clearable={clearable}
                   value={value}
-                  result={FormulaEditor.highlightValue(
-                    value,
-                    variables,
-                    functions
-                  )}
+                  result={
+                    allowInput
+                      ? void 0
+                      : FormulaEditor.highlightValue(
+                          value,
+                          variables,
+                          functions
+                        )
+                  }
                   itemRender={this.renderFormulaValue}
                   onResultChange={noop}
                   onChange={this.handleConfirm}
