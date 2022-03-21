@@ -44,10 +44,10 @@ export class PageGoAction implements Action {
  * 浏览器刷新
  *
  * @export
- * @class PageReloadAction
+ * @class PageRefreshAction
  * @implements {Action}
  */
-export class PageReloadAction implements Action {
+export class PageRefreshAction implements Action {
   async run(
     action: ListenerAction,
     renderer: ListenerContext,
@@ -58,5 +58,5 @@ export class PageReloadAction implements Action {
 }
 
 registerAction('goBack', new PageGoBackAction());
-registerAction('reloadPage', new PageReloadAction());
+registerAction('refresh', new PageRefreshAction());
 registerAction('goPage', new PageGoAction());

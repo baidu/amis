@@ -603,7 +603,7 @@ order: 9
 
 #### 刷新页面
 
-通过配置`actionType: 'reloadPage'`实现浏览器刷新。
+通过配置`actionType: 'refresh'`实现浏览器刷新。
 
 ```schema
 {
@@ -617,7 +617,7 @@ order: 9
         click: {
           actions: [
             {
-              actionType: 'reloadPage'
+              actionType: 'refresh'
             }
           ]
         }
@@ -629,9 +629,9 @@ order: 9
 
 **动作属性**
 
-| 属性名     | 类型     | 默认值       | 说明         |
-| ---------- | -------- | ------------ | ------------ |
-| actionType | `string` | `reloadPage` | 返回上个页面 |
+| 属性名     | 类型     | 默认值    | 说明         |
+| ---------- | -------- | --------- | ------------ |
+| actionType | `string` | `refresh` | 返回上个页面 |
 
 #### toast 提示
 
