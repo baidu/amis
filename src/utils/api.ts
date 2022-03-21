@@ -172,6 +172,22 @@ export function buildApi(
     }
   }
 
+  if (api.graphql) {
+    if (api.method === 'get') {
+      api.query = api.data = {...api.query, query: api.graphql};
+    } else if (
+      api.method === 'post' ||
+      api.method === 'put' ||
+      api.method === 'patch'
+    ) {
+      api.body = api.data = {
+        query: api.graphql,
+        operationName: api.operationName,
+        variables: cloneObject(api.data)
+      };
+    }
+  }
+
   return api;
 }
 
