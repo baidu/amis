@@ -128,8 +128,7 @@ export function buildApi(
   } else if (
     api.method === 'post' ||
     api.method === 'put' ||
-    api.method === 'patch' ||
-    api.method === 'delete'
+    api.method === 'patch'
   ) {
     api.body = api.data = cloneObject(data);
   }
