@@ -18,9 +18,10 @@ import {Api} from '../../types';
 import {isEffectiveApi} from '../../utils/api';
 import Spinner from '../../components/Spinner';
 import ResultBox from '../../components/ResultBox';
-import {autobind, getTreeAncestors, isMobile} from '../../utils/helper';
+import {autobind, getTreeAncestors, isMobile, createObject} from '../../utils/helper';
 import {findDOMNode} from 'react-dom';
 import {normalizeOptions} from '../../components/Select';
+import {Action} from '../../types';
 
 /**
  * Tree 下拉选择框。
@@ -121,6 +122,8 @@ export default class TreeSelectControl extends React.Component<
     pathSeparator: '/'
   };
 
+  treeRef: any
+
   container: React.RefObject<HTMLDivElement> = React.createRef();
 
   input: React.RefObject<any> = React.createRef();
@@ -185,16 +188,20 @@ export default class TreeSelectControl extends React.Component<
     );
   }
 
-  handleFocus() {
+  handleFocus(e: any) {
+    const {dispatchEvent} = this.props;
     this.setState({
       isFocused: true
     });
+    dispatchEvent('focus', e);
   }
 
-  handleBlur() {
+  handleBlur(e: any) {
+    const {dispatchEvent} = this.props;
     this.setState({
       isFocused: false
     });
+    dispatchEvent('blur', e);
   }
 
   handleKeyPress(e: React.KeyboardEvent) {
@@ -257,19 +264,19 @@ export default class TreeSelectControl extends React.Component<
   }
 
   handleChange(value: any) {
-    const {onChange, multiple} = this.props;
+    const {multiple} = this.props;
 
     if (!multiple) {
       this.close();
     }
 
     multiple || !this.state.inputValue
-      ? onChange(value)
+      ? this.resultChangeEvent(value)
       : this.setState(
           {
             inputValue: ''
           },
-          () => onChange(value)
+          () => this.resultChangeEvent(value)
         );
   }
 
@@ -410,14 +417,13 @@ export default class TreeSelectControl extends React.Component<
       extractValue,
       delimiter,
       valueField,
-      onChange,
       multiple
     } = this.props;
 
     let newValue: any = Array.isArray(value) ? value.concat() : [];
 
     if (!multiple && !newValue.length) {
-      onChange('');
+      this.resultChangeEvent('');
       return;
     }
 
@@ -428,8 +434,27 @@ export default class TreeSelectControl extends React.Component<
     if (joinValues) {
       newValue = newValue.join(delimiter || ',');
     }
+    this.resultChangeEvent(newValue);
+  }
 
-    onChange(newValue);
+  doAction(action: Action, data: any, throwErrors: boolean) {
+    if (action.actionType && ['clear', 'reset'].includes(action.actionType)) {
+      this.clearValue();
+    }
+  }
+
+  @autobind
+  async resultChangeEvent(value: any) {
+    const {onChange, dispatchEvent, data} = this.props;
+
+    const rendererEvent = await dispatchEvent('change', createObject(data, {
+      value
+    }));
+
+    if (rendererEvent?.prevented) {
+      return;
+    }
+    onChange && onChange(value);
   }
 
   @autobind
@@ -447,6 +472,11 @@ export default class TreeSelectControl extends React.Component<
         ? ancestors.map(item => `${item[labelField || 'label']}`).join(' / ')
         : item[labelField || 'label']
     }`;
+  }
+
+  @autobind
+  domRef(ref: any) {
+    this.treeRef = ref;
   }
 
   renderOuter() {
@@ -506,6 +536,7 @@ export default class TreeSelectControl extends React.Component<
     return (
       <TreeSelector
         classPrefix={ns}
+        onRef={this.domRef}
         onlyChildren={onlyChildren}
         labelField={labelField}
         valueField={valueField}
