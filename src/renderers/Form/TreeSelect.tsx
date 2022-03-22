@@ -65,6 +65,11 @@ export interface TreeSelectControlSchema extends FormOptionsControl {
   onlyChildren?: boolean;
 
   /**
+   * 单选时，只运行选择叶子节点
+   */
+  onlyLeaf?: boolean;
+
+  /**
    * 顶级节点是否可以创建子节点
    */
   rootCreatable?: boolean;
@@ -472,6 +477,7 @@ export default class TreeSelectControl extends React.Component<
       showRadio,
       popOverContainer,
       onlyChildren,
+      onlyLeaf,
       classPrefix: ns,
       optionsPlaceholder,
       searchable,
@@ -507,6 +513,7 @@ export default class TreeSelectControl extends React.Component<
       <TreeSelector
         classPrefix={ns}
         onlyChildren={onlyChildren}
+        onlyLeaf={onlyLeaf}
         labelField={labelField}
         valueField={valueField}
         disabled={disabled}

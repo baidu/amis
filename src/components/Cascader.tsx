@@ -48,6 +48,8 @@ export interface CascaderState {
   tabs: Array<{
     options: Options;
   }>;
+  // 用于在只选择子节点模式的时候禁用按钮
+  disableConfirm: boolean;
 }
 
 export class Cascader extends React.Component<CascaderProps, CascaderState> {
@@ -66,7 +68,8 @@ export class Cascader extends React.Component<CascaderProps, CascaderState> {
         {
           options: this.props.options.slice() || []
         }
-      ]
+      ],
+      disableConfirm: false
     };
   }
   componentDidMount() {
@@ -288,7 +291,7 @@ export class Cascader extends React.Component<CascaderProps, CascaderState> {
 
   @autobind
   onSelect(option: CascaderOption, tabIndex: number) {
-    const {multiple, valueField = 'value', cascade} = this.props;
+    const {multiple, valueField = 'value', cascade, onlyLeaf} = this.props;
 
     let tabs = this.state.tabs.slice();
     let {activeTab} = this.state;
@@ -364,10 +367,15 @@ export class Cascader extends React.Component<CascaderProps, CascaderState> {
       }
       activeTab += 1;
     }
+    let disableConfirm = false;
+    if (onlyLeaf && selectedOptions.length && selectedOptions[0].children) {
+      disableConfirm = true;
+    }
     this.setState({
       tabs,
       activeTab,
-      selectedOptions
+      selectedOptions,
+      disableConfirm
     });
   }
 
@@ -428,21 +436,37 @@ export class Cascader extends React.Component<CascaderProps, CascaderState> {
 
   @autobind
   confirm() {
-    const {onChange, joinValues, delimiter, extractValue, valueField, onClose} =
-      this.props;
-    let {selectedOptions} = this.state;
-    let _selectedOptions = this.getSubmitOptions(selectedOptions);
-    _selectedOptions = uniqBy(_selectedOptions, valueField);
+    const {
+      onChange,
+      joinValues,
+      delimiter,
+      extractValue,
+      valueField,
+      onClose,
+      onlyLeaf
+    } = this.props;
+    const selectedOptions = this.getSelectedOptions();
+    if (onlyLeaf && selectedOptions.length && selectedOptions[0].children) {
+      return;
+    }
     onChange(
       joinValues
-        ? _selectedOptions
+        ? selectedOptions
             .map(item => item[valueField as string])
             .join(delimiter)
         : extractValue
-        ? _selectedOptions.map(item => item[valueField as string])
-        : _selectedOptions
+        ? selectedOptions.map(item => item[valueField as string])
+        : selectedOptions
     );
     onClose && onClose();
+  }
+
+  @autobind
+  getSelectedOptions() {
+    return uniqBy(
+      this.getSubmitOptions(this.state.selectedOptions),
+      this.props.valueField
+    );
   }
 
   @autobind
@@ -534,6 +558,7 @@ export class Cascader extends React.Component<CascaderProps, CascaderState> {
       classnames: cx,
       className,
       onClose,
+      valueField,
       translate: __
     } = this.props;
 
@@ -551,6 +576,7 @@ export class Cascader extends React.Component<CascaderProps, CascaderState> {
             className={cx(`Cascader-btnConfirm`)}
             level="text"
             onClick={this.confirm}
+            disabled={this.state.disableConfirm}
           >
             {__('confirm')}
           </Button>
