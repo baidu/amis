@@ -619,15 +619,11 @@ export default class Page extends React.Component<PageProps> {
   @autobind
   async handleRefresh() {
     const {dispatchEvent, data} = this.props;
-    const rendererEvent = await dispatchEvent('pullRefresh', createObject(data));
+    const rendererEvent = await dispatchEvent('pullRefresh', data);
     if (rendererEvent?.prevented) {
       return;
     }
     this.reload();
-  }
-
-  doAction(action: Action, data: object, throwErrors: boolean = false) {
-    return this.handleAction(undefined, action, data);
   }
 
   handleChange(
