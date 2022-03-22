@@ -88,6 +88,7 @@ export class ResultList extends React.Component<ResultListProps, ResultListState
   treeOptions?: Array<TreeNode>;
   clearTreeOptions: Array<TreeNode> | null;
   unmounted = false;
+  treeRef: any;
 
   componentDidMount() {
     this.props.sortable && this.initSortable();
@@ -105,6 +106,11 @@ export class ResultList extends React.Component<ResultListProps, ResultListState
     this.desposeSortable();
     this.lazySearch.cancel();
     this.unmounted = true;
+  }
+
+  @autobind
+  domRef(ref: any) {
+    this.treeRef = ref;
   }
 
   initSortable() {
@@ -380,6 +386,7 @@ export class ResultList extends React.Component<ResultListProps, ResultListState
     const {classnames: cx} = this.props;
     return (
       <Tree
+        onRef={this.domRef}
         className={cx('Transfer-tree')}
         options={searchResult}
         valueField={'value'}
@@ -404,6 +411,7 @@ export class ResultList extends React.Component<ResultListProps, ResultListState
     this.clearTreeOptions = null;
     return (
       <Tree
+        onRef={this.domRef}
         className={cx('Transfer-tree')}
         options={newOptions}
         valueField={'value'}

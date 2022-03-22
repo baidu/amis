@@ -118,6 +118,7 @@ export class Transfer<
   availableOptions: Options;
   unmounted = false;
   cancelSearch?: () => void;
+  treeRef: any;
 
 
   componentDidMount() {
@@ -139,6 +140,11 @@ export class Transfer<
   componentWillUnmount() {
     this.lazySearch.cancel();
     this.unmounted = true;
+  }
+
+  @autobind
+  domRef(ref: any) {
+    this.treeRef = ref;
   }
 
   @autobind
@@ -417,6 +423,7 @@ export class Transfer<
     ) : mode === 'tree' ? (
       !isTreeDeferLoad ?
         <Tree
+          onRef={this.domRef}
           placeholder={noResultsText}
           className={cx('Transfer-selection')}
           options={options}
@@ -503,6 +510,7 @@ export class Transfer<
     ) : selectMode === 'tree' ? (
       !this.state.isTreeDeferLoad ?
         <Tree
+          onRef={this.domRef}
           placeholder={noResultsText}
           className={cx('Transfer-selection')}
           options={options}
