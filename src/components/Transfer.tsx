@@ -1,10 +1,12 @@
 import React from 'react';
+import {intersectionWith, differenceWith, includes} from 'lodash';
 import {ThemeProps, themeable} from '../theme';
 import {BaseSelectionProps, BaseSelection, ItemRenderStates} from './Selection';
 import {Options, Option} from './Select';
 import {uncontrollable} from 'uncontrollable';
 import ResultList from './ResultList';
 import TableSelection from './TableSelection';
+import TreeSelection from './TreeSelection';
 import {autobind, flattenTree} from '../utils/helper';
 import InputBox from './InputBox';
 import Checkbox from './Checkbox';
@@ -17,6 +19,7 @@ import GroupedSelection from './GroupedSelection';
 import ChainedSelection from './ChainedSelection';
 import {ItemRenderStates as ResultItemRenderStates} from './ResultList';
 
+export type SelectMode = 'table' | 'group' | 'list' | 'tree' | 'chained' | 'associated';
 
 export interface TransferProps
   extends ThemeProps,
@@ -26,10 +29,9 @@ export interface TransferProps
   statistics?: boolean;
   showArrow?: boolean;
   multiple?: boolean;
-  checkboxPosition?: 'left' | 'right';
 
   selectTitle?: string;
-  selectMode?: 'table' | 'group' | 'list' | 'tree' | 'chained' | 'associated';
+  selectMode?: SelectMode;
   columns?: Array<{
     name: string;
     label: string;
@@ -94,6 +96,7 @@ export interface TransferProps
 export interface TransferState {
   inputValue: string;
   searchResult: Options | null;
+  isTreeDeferLoad: boolean
 }
 
 export class Transfer<
@@ -107,7 +110,8 @@ export class Transfer<
 
   state = {
     inputValue: '',
-    searchResult: null
+    searchResult: null,
+    isTreeDeferLoad: false
   };
 
   valueArray: Options;
@@ -115,8 +119,21 @@ export class Transfer<
   unmounted = false;
   cancelSearch?: () => void;
 
+
   componentDidMount() {
     this.props?.onRef?.(this);
+  }
+
+  static getDerivedStateFromProps(props: TransferProps) {
+    let isTreeDeferLoad: boolean = false;
+    props.selectMode === 'tree' && props.options.forEach(item => {
+      if (item.defer) {
+        isTreeDeferLoad = true;
+      }
+    });
+    return {
+      isTreeDeferLoad
+    }
   }
 
   componentWillUnmount() {
@@ -242,16 +259,11 @@ export class Transfer<
   handleSearchTreeChange(values: Array<Option>, searchOptions: Array<Option>) {
     const {onChange, value} = this.props;
     const searchAvailableOptions = this.getFlattenArr(searchOptions);
-    const useArr: Array<Option> = [];
-    const unuseArr: Array<Option> = [];
 
-    searchAvailableOptions.forEach((item) => {
-      !values.find(v => v.value === item.value)
-        ? unuseArr.push(item)
-        : useArr.push(item);
-    });
+    const useArr = intersectionWith(searchAvailableOptions, values, (a, b) => a.value === b.value);
+    const unuseArr = differenceWith(searchAvailableOptions, values, (a, b) => a.value === b.value);
 
-    let newArr: Array<Option> = [];
+    const newArr: Array<Option> = [];
     Array.isArray(value) && value.forEach((item) => {
       if (!unuseArr.find(v => v.value === item.value)) {
         newArr.push(item);
@@ -280,7 +292,6 @@ export class Transfer<
       disabled,
       options,
       statistics,
-      checkboxPosition = 'right',
       translate: __,
       searchPlaceholder = __('Transfer.searchKeyword'),
     } = props;
@@ -313,13 +324,13 @@ export class Transfer<
           )}
         >
           <span>
-            {checkboxPosition === 'left'
-              ? <Checkbox
-                  checked={checkedPartial}
-                  partial={checkedPartial && !checkedAll}
-                  onChange={props.onToggleAll || this.toggleAll}
-                  size="sm"
-                />
+            {includes(['list', 'tree'], selectMode) ?
+              <Checkbox
+                checked={checkedPartial}
+                partial={checkedPartial && !checkedAll}
+                onChange={props.onToggleAll || this.toggleAll}
+                size="sm"
+              />
               : null}
             {__(selectTitle || 'Transfer.available')}
             {statistics !== false ? (
@@ -328,8 +339,8 @@ export class Transfer<
               </span>
             ) : null}
           </span>
-          {selectMode !== 'table' && checkboxPosition === 'right' ? (
-            <a
+          {includes(['chained', 'associated'], selectMode) ? 
+            (<a
               onClick={props.onToggleAll || this.toggleAll}
               className={cx(
                 'Transfer-checkAll',
@@ -383,9 +394,9 @@ export class Transfer<
       optionItemRender,
       cellRender,
       multiple,
-      checkboxPosition = 'right'
     } = props;
-    const options = this.state.searchResult || [];
+    const {isTreeDeferLoad, searchResult} = this.state;
+    const options = searchResult ?? [];
     const mode = searchResultMode || selectMode;
     const resultColumns = searchResultColumns || columns;
 
@@ -404,18 +415,30 @@ export class Transfer<
         multiple={multiple}
       />
     ) : mode === 'tree' ? (
-      <Tree
-        placeholder={noResultsText}
-        className={cx('Transfer-selection')}
-        options={options}
-        value={value}
-        disabled={disabled}
-        onChange={(value: Array<any>) => this.handleSearchTreeChange(value, options)}
-        joinValues={false}
-        showIcon={false}
-        multiple={multiple}
-        onlyChildren
-      />
+      !isTreeDeferLoad ?
+        <Tree
+          placeholder={noResultsText}
+          className={cx('Transfer-selection')}
+          options={options}
+          value={value}
+          disabled={disabled}
+          onChange={(value: Array<any>) => this.handleSearchTreeChange(value, options)}
+          joinValues={false}
+          showIcon={false}
+          multiple={multiple}
+          onlyChildren
+        />
+      : <TreeSelection
+          placeholder={noResultsText}
+          className={cx('Transfer-selection')}
+          options={options}
+          value={value}
+          disabled={disabled}
+          onChange={onChange}
+          option2value={option2value}
+          itemRender={optionItemRender}
+          multiple={multiple}
+        />
     ) : mode === 'chained' ? (
       <ChainedSelection
         placeholder={noResultsText}
@@ -439,7 +462,6 @@ export class Transfer<
         option2value={option2value}
         itemRender={optionItemRender}
         multiple={multiple}
-        checkboxPosition={checkboxPosition}
       />
     );
   }
@@ -462,7 +484,6 @@ export class Transfer<
       leftDefaultValue,
       optionItemRender,
       multiple,
-      checkboxPosition = 'right',
       noResultsText
     } = props;
 
@@ -480,17 +501,29 @@ export class Transfer<
         multiple={multiple}
       />
     ) : selectMode === 'tree' ? (
-      <Tree
-        placeholder={noResultsText}
-        className={cx('Transfer-selection')}
-        options={options}
-        value={value}
-        onChange={onChange!}
-        joinValues={false}
-        onlyChildren
-        multiple={multiple}
-        showIcon={false}
-      />
+      !this.state.isTreeDeferLoad ?
+        <Tree
+          placeholder={noResultsText}
+          className={cx('Transfer-selection')}
+          options={options}
+          value={value}
+          onChange={onChange!}
+          joinValues={false}
+          onlyChildren
+          multiple={multiple}
+          showIcon={false}
+        />
+      : <TreeSelection
+          className={cx('Transfer-selection')}
+          options={options || []}
+          value={value}
+          disabled={disabled}
+          onChange={onChange}
+          option2value={option2value}
+          onDeferLoad={onDeferLoad}
+          itemRender={optionItemRender}
+          multiple={multiple}
+        />
     ) : selectMode === 'chained' ? (
       <ChainedSelection
         className={cx('Transfer-selection')}
@@ -531,7 +564,6 @@ export class Transfer<
         onDeferLoad={onDeferLoad}
         itemRender={optionItemRender}
         multiple={multiple}
-        checkboxPosition={checkboxPosition}
       />
     );
   }
@@ -620,7 +652,7 @@ export class Transfer<
             option2value={option2value}
             cellRender={cellRender}
             multiple={multiple}
-            resultSearchable={resultSearchable}
+            resultSearchable={!this.state.isTreeDeferLoad && resultSearchable}
             resultPlaceholder={resultPlaceholder}
             onResultSearch={onResultSearch}
             selectMode={selectMode}

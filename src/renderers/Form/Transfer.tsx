@@ -16,7 +16,6 @@ import {
   getTree,
   spliceTree
 } from '../../utils/helper';
-import {Api} from '../../types';
 import Spinner from '../../components/Spinner';
 import find from 'lodash/find';
 import {optionValueCompare} from '../../components/Select';
@@ -45,11 +44,6 @@ export interface TransferControlSchema extends FormOptionsControl {
    * 可排序？
    */
   sortable?: boolean;
-
-  /**
-   * 复选框位置
-   */
-  checkboxPosition?: 'left' | 'right';
 
   /**
    * 勾选展示模式
@@ -416,7 +410,6 @@ export class BaseTransferRenderer<
       resultSearchFilter,
       searchPlaceholder,
       isFollowMode = false,
-      checkboxPosition ,
       resultPlaceholder,
       resultSearchable = false,
     } = this.props;
@@ -472,7 +465,6 @@ export class BaseTransferRenderer<
           resultTitle={resultTitle}
           isFollowMode={isFollowMode}
           onResultSearch={resultSearchFunc}
-          checkboxPosition={checkboxPosition}
           searchPlaceholder={searchPlaceholder}
           resultSearchable={resultSearchable}
           resultPlaceholder={resultPlaceholder}

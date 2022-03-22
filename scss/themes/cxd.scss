@@ -157,8 +157,8 @@
   &-title {
     flex: 0 0 #{px2rem(38px)};
     height: #{px2rem(38px)};
-    padding-left: #{px2rem(12px)};
-    padding-right: #{px2rem(12px)};
+    padding-left: var(--gap-base);
+    padding-right: var(--gap-base);
   }
 
   &-table-title {
@@ -171,13 +171,30 @@
       padding-right: #{px2rem(16px)};
     }
   }
+
+  .#{$ns}TableSelection {
+
+    tbody {
+
+      tr {
+
+        &.is-active {
+          color: unset;
+        }
+      }
+    }
+  }
 }
 
 .#{$ns}GroupedSelection {
 
   &-item {
-    padding-left: #{px2rem(12px)};
-    padding-right: #{px2rem(12px)};
+    padding-left: var(--gap-base);
+    padding-right: var(--gap-base);
+
+    &.is-active {
+      color: unset;
+    }
   }
 }
 
@@ -185,8 +202,8 @@
   height: auto;
 
   &-item {
-    padding-left: #{px2rem(12px)};
-    padding-right: #{px2rem(12px)};
+    padding-left: var(--gap-base);
+    padding-right: var(--gap-base);
   }
 }
 

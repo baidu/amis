@@ -167,177 +167,6 @@ icon:
 }
 ```
 
-### 复选框位置	
-
-使用 checkboxPosition	控制复选框位置，可选 `left | right`，默认是`right`。
-
-```schema: scope="body"
-{
-  "type": "form",
-  "api": "/api/mock2/form/saveForm",
-  "body": [
-    {
-      "label": "默认",
-      "type": "transfer",
-      "name": "transfer",
-      "checkboxPosition": "left",
-      "options": [
-        {
-          "label": "诸葛亮",
-          "value": "zhugeliang"
-        },
-        {
-          "label": "曹操",
-          "value": "caocao"
-        },
-        {
-          "label": "钟无艳",
-          "value": "zhongwuyan"
-        },
-        {
-          "label": "李白",
-          "value": "libai"
-        },
-        {
-          "label": "韩信",
-          "value": "hanxin"
-        },
-        {
-          "label": "云中君",
-          "value": "yunzhongjun"
-        }
-      ]
-    }
-  ]
-}
-```
-
-### 结果面板跟随模式 	
-
-isFollowMode开启结果面板跟随模式。
-
-#### 表格跟随模式
-```schema: scope="body"
-{
-  "type": "form",
-  "api": "/api/mock2/form/saveForm",
-  "body": [
-    {
-      "label": "表格形式",
-      "type": "transfer",
-      "name": "transfer",
-      "selectMode": "table",
-      "checkboxPosition": "right",
-      "isFollowMode": true,
-      "columns": [
-        {
-          "name": "label",
-          "label": "英雄"
-        },
-        {
-          "name": "position",
-          "label": "位置"
-        }
-      ],
-      "options": [
-        {
-          "label": "诸葛亮",
-          "value": "zhugeliang",
-          "position": "中单"
-        },
-        {
-          "label": "曹操",
-          "value": "caocao",
-          "position": "上单"
-        },
-        {
-          "label": "钟无艳",
-          "value": "zhongwuyan",
-          "position": "上单"
-        },
-        {
-          "label": "李白",
-          "value": "libai",
-          "position": "打野"
-        },
-        {
-          "label": "韩信",
-          "value": "hanxin",
-          "position": "打野"
-        },
-        {
-          "label": "云中君",
-          "value": "yunzhongjun",
-          "position": "打野"
-        }
-      ]
-    }
-  ]
-}
-```
-
-#### 树形跟随模式
-```schema: scope="body"
-{
-  "type": "page",
-  "body": {
-    "type": "form",
-    "api": "/api/mock2/form/saveForm",
-    "body": [
-      {
-        "label": "树型展示",
-        "type": "transfer",
-        "name": "transfer4",
-        "selectMode": "tree",
-        "searchable": true,
-        "isFollowMode": true,
-        "options": [
-          {
-            "label": "法师",
-            "children": [
-              {
-                "label": "诸葛亮",
-                "value": "zhugeliang"
-              }
-            ]
-          },
-          {
-            "label": "战士",
-            "children": [
-              {
-                "label": "曹操",
-                "value": "caocao"
-              },
-              {
-                "label": "钟无艳",
-                "value": "zhongwuyan"
-              }
-            ]
-          },
-          {
-            "label": "打野",
-            "children": [
-              {
-                "label": "李白",
-                "value": "libai"
-              },
-              {
-                "label": "韩信",
-                "value": "hanxin"
-              },
-              {
-                "label": "云中君",
-                "value": "yunzhongjun"
-              }
-            ]
-          }
-        ]
-      }
-    ]
-  }
-}
-```
-
 ### 树形模式
 
 ```schema: scope="body"
@@ -431,191 +260,6 @@ isFollowMode开启结果面板跟随模式。
               "value": "zhongwuyan"
             }
           ]
-        },
-        {
-          "label": "打野",
-          "children": [
-            {
-              "label": "李白",
-              "value": "libai"
-            },
-            {
-              "label": "韩信",
-              "value": "hanxin"
-            },
-            {
-              "label": "云中君",
-              "value": "yunzhongjun"
-            }
-          ]
-        }
-      ]
-    }
-  ]
-}
-```
-
-### 支持搜索
-#### 左侧搜索功能
-通过searchable字段来控制左侧选项栏的搜索功能。
-
-在不设置searchApi情况下，对输入框内容和对应列表项的value、label进行匹配，匹配成功就会左侧面板中显示。 
-
-```schema: scope="body"
-{
-  "type": "form",
-  "api": "/api/mock2/form/saveForm",
-  "body": [
-    {
-      "label": "带搜索",
-      "type": "transfer",
-      "name": "transfer6",
-      "selectMode": "chained",
-      "searchable": true,
-      "sortable": true,
-      "options": [
-        {
-          "label": "法师",
-          "children": [
-            {
-              "label": "诸葛亮",
-              "value": "zhugeliang"
-            }
-          ]
-        },
-        {
-          "label": "战士",
-          "children": [
-            {
-              "label": "曹操",
-              "value": "caocao"
-            },
-            {
-              "label": "钟无艳",
-              "value": "zhongwuyan"
-            }
-          ]
-        },
-        {
-          "label": "打野",
-          "children": [
-            {
-              "label": "李白",
-              "value": "libai"
-            },
-            {
-              "label": "韩信",
-              "value": "hanxin"
-            },
-            {
-              "label": "云中君",
-              "value": "yunzhongjun"
-            }
-          ]
-        }
-      ]
-    }
-  ]
-}
-```
-
-#### 右侧结果搜索功能
-
-右侧结果搜索是通过resultSearchable字段开启，设置该字段为true时开启。
-
-开启结果搜索后，目前默认通过value、label对输入内容进行模糊匹配。
-
-如需要自定义搜索方式，可以通过设置resultSearchFilter字段来实现。
-
-```schema: scope="body"
-{
-  "type": "page",
-  "body": {
-    "type": "form",
-    "api": "/api/mock2/form/saveForm",
-    "body": [
-      {
-        "label": "树型展示",
-        "type": "transfer",
-        "name": "transfer4",
-        "selectMode": "tree",
-        "searchable": true,
-        "isFollowMode": true,
-        "resultSearchable": true,
-        "resultSearchFilter": "return item.value.indexOf(text) > -1",
-        "options": [
-          {
-            "label": "法师",
-            "children": [
-              {
-                "label": "诸葛亮",
-                "value": "zhugeliang"
-              }
-            ]
-          },
-          {
-            "label": "战士",
-            "children": [
-              {
-                "label": "曹操",
-                "value": "caocao"
-              },
-              {
-                "label": "钟无艳",
-                "value": "zhongwuyan"
-              }
-            ]
-          },
-          {
-            "label": "打野",
-            "children": [
-              {
-                "label": "李白",
-                "value": "libai"
-              },
-              {
-                "label": "韩信",
-                "value": "hanxin"
-              },
-              {
-                "label": "云中君",
-                "value": "yunzhongjun"
-              }
-            ]
-          }
-        ]
-      }
-    ]
-  }
-}
-```
-
-### 延时加载
-
-```schema: scope="body"
-{
-  "type": "form",
-  "api": "/api/mock2/form/saveForm",
-  "body": [
-    {
-      "label": "延时加载",
-      "type": "transfer",
-      "name": "transfer7",
-      "selectMode": "tree",
-      "deferApi": "/api/mock2/form/deferOptions?label=${label}&waitSeconds=2",
-      "options": [
-        {
-          "label": "法师",
-          "children": [
-            {
-              "label": "诸葛亮",
-              "value": "zhugeliang"
-            }
-          ]
-        },
-        {
-          "label": "战士",
-          "defer": true
         },
         {
           "label": "打野",
@@ -771,13 +415,203 @@ leftOptions 动态加载，默认 source 接口是返回 options 部分，而 le
 }
 ```
 
-## searchApi
 
-**发送**
+### 延时加载
+
+```schema: scope="body"
+{
+  "type": "form",
+  "api": "/api/mock2/form/saveForm",
+  "body": [
+    {
+      "label": "延时加载",
+      "type": "transfer",
+      "name": "transfer7",
+      "selectMode": "tree",
+      "deferApi": "/api/mock2/form/deferOptions?label=${label}&waitSeconds=2",
+      "options": [
+        {
+          "label": "法师",
+          "children": [
+            {
+              "label": "诸葛亮",
+              "value": "zhugeliang"
+            }
+          ]
+        },
+        {
+          "label": "战士",
+          "defer": true
+        },
+        {
+          "label": "打野",
+          "children": [
+            {
+              "label": "李白",
+              "value": "libai"
+            },
+            {
+              "label": "韩信",
+              "value": "hanxin"
+            },
+            {
+              "label": "云中君",
+              "value": "yunzhongjun"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
+```
+
+### 支持搜索
+#### 左侧搜索功能
+通过searchable字段来控制左侧选项栏的搜索功能。
+
+在不设置searchApi情况下，对输入框内容和对应列表项的value、label进行匹配，匹配成功就会左侧面板中显示。 
+
+```schema: scope="body"
+{
+  "type": "form",
+  "api": "/api/mock2/form/saveForm",
+  "body": [
+    {
+      "label": "带搜索",
+      "type": "transfer",
+      "name": "transfer6",
+      "selectMode": "chained",
+      "searchable": true,
+      "sortable": true,
+      "options": [
+        {
+          "label": "法师",
+          "children": [
+            {
+              "label": "诸葛亮",
+              "value": "zhugeliang"
+            }
+          ]
+        },
+        {
+          "label": "战士",
+          "children": [
+            {
+              "label": "曹操",
+              "value": "caocao"
+            },
+            {
+              "label": "钟无艳",
+              "value": "zhongwuyan"
+            }
+          ]
+        },
+        {
+          "label": "打野",
+          "children": [
+            {
+              "label": "李白",
+              "value": "libai"
+            },
+            {
+              "label": "韩信",
+              "value": "hanxin"
+            },
+            {
+              "label": "云中君",
+              "value": "yunzhongjun"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
+```
+
+#### 右侧结果搜索功能
+
+右侧结果搜索是通过resultSearchable字段开启，设置该字段为true时开启。
+
+开启结果搜索后，目前默认通过value、label对输入内容进行模糊匹配。
+
+如需要自定义搜索方式，可以通过设置resultSearchFilter字段来实现。
+
+目前树的延时加载不支持结果搜索功能。
+
+```schema: scope="body"
+{
+  "type": "page",
+  "body": {
+    "type": "form",
+    "api": "/api/mock2/form/saveForm",
+    "body": [
+      {
+        "label": "树型展示",
+        "type": "transfer",
+        "name": "transfer4",
+        "selectMode": "tree",
+        "searchable": true,
+        "isFollowMode": true,
+        "resultSearchable": true,
+        "resultSearchFilter": "return item.value.indexOf(text) > -1",
+        "options": [
+          {
+            "label": "法师",
+            "children": [
+              {
+                "label": "诸葛亮",
+                "value": "zhugeliang"
+              }
+            ]
+          },
+          {
+            "label": "战士",
+            "children": [
+              {
+                "label": "曹操",
+                "value": "caocao"
+              },
+              {
+                "label": "钟无艳",
+                "value": "zhongwuyan"
+              }
+            ]
+          },
+          {
+            "label": "打野",
+            "children": [
+              {
+                "label": "李白",
+                "value": "libai"
+              },
+              {
+                "label": "韩信",
+                "value": "hanxin"
+              },
+              {
+                "label": "云中君",
+                "value": "yunzhongjun"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+}
+```
+
+#### searchApi
+
+设置这个api，可以实现左侧选项搜索结果的检索。
+
+##### 发送
 
 默认 GET，携带 term 变量，值为搜索框输入的文字，可从上下文中取数据设置进去。
 
-**响应**
+##### 响应
 
 格式要求如下：
 
@@ -806,7 +640,133 @@ leftOptions 动态加载，默认 source 接口是返回 options 部分，而 le
 
 适用于需选择的数据/信息源较多时，用户可直观的知道自己所选择的数据/信息的场景，一般左侧框为数据/信息源，右侧为已选数据/信息，被选中信息同时存在于 2 个框内。
 
-## 自定义选项展示
+### 结果面板跟随模式 	
+
+isFollowMode开启结果面板跟随模式。
+
+#### 表格跟随模式
+```schema: scope="body"
+{
+  "type": "form",
+  "api": "/api/mock2/form/saveForm",
+  "body": [
+    {
+      "label": "表格形式",
+      "type": "transfer",
+      "name": "transfer",
+      "selectMode": "table",
+      "checkboxPosition": "right",
+      "isFollowMode": true,
+      "columns": [
+        {
+          "name": "label",
+          "label": "英雄"
+        },
+        {
+          "name": "position",
+          "label": "位置"
+        }
+      ],
+      "options": [
+        {
+          "label": "诸葛亮",
+          "value": "zhugeliang",
+          "position": "中单"
+        },
+        {
+          "label": "曹操",
+          "value": "caocao",
+          "position": "上单"
+        },
+        {
+          "label": "钟无艳",
+          "value": "zhongwuyan",
+          "position": "上单"
+        },
+        {
+          "label": "李白",
+          "value": "libai",
+          "position": "打野"
+        },
+        {
+          "label": "韩信",
+          "value": "hanxin",
+          "position": "打野"
+        },
+        {
+          "label": "云中君",
+          "value": "yunzhongjun",
+          "position": "打野"
+        }
+      ]
+    }
+  ]
+}
+```
+
+#### 树形跟随模式
+```schema: scope="body"
+{
+  "type": "page",
+  "body": {
+    "type": "form",
+    "api": "/api/mock2/form/saveForm",
+    "body": [
+      {
+        "label": "树型展示",
+        "type": "transfer",
+        "name": "transfer4",
+        "selectMode": "tree",
+        "searchable": true,
+        "isFollowMode": true,
+        "options": [
+          {
+            "label": "法师",
+            "children": [
+              {
+                "label": "诸葛亮",
+                "value": "zhugeliang"
+              }
+            ]
+          },
+          {
+            "label": "战士",
+            "children": [
+              {
+                "label": "曹操",
+                "value": "caocao"
+              },
+              {
+                "label": "钟无艳",
+                "value": "zhongwuyan"
+              }
+            ]
+          },
+          {
+            "label": "打野",
+            "children": [
+              {
+                "label": "李白",
+                "value": "libai"
+              },
+              {
+                "label": "韩信",
+                "value": "hanxin"
+              },
+              {
+                "label": "云中君",
+                "value": "yunzhongjun"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+}
+```
+
+### 自定义选项展示
 
 ```schema: scope="body"
 {
@@ -866,10 +826,9 @@ leftOptions 动态加载，默认 source 接口是返回 options 部分，而 le
 | delimeter        | `string`                                              | `false`      | [拼接符](./options#%E6%8B%BC%E6%8E%A5%E7%AC%A6-delimiter)  |
 | joinValues       | `boolean`                                             | `true`       | [拼接值](./options#%E6%8B%BC%E6%8E%A5%E5%80%BC-joinvalues) |
 | extractValue     | `boolean`                                             | `false`      | [提取值](./options#%E6%8F%90%E5%8F%96%E5%A4%9A%E9%80%89%E5%80%BC-extractvalue) |
-| searchApi        | [API](../../../docs/types/api)                        |              | 如果想通过接口检索，可以设置个 api。|
+| searchApi        | [API](../../../docs/types/api)                        |              | 如果想通过接口检索，可以设置这个api。|
 | isFollowMode     | `boolean`                                 |    `false`   | 结果面板跟随模式，目前只支持`list`、`table`、`tree` |
 | statistics       | `boolean`                                             | `true`       | 是否显示统计数据|
-| checkboxPosition     | `'left' \| 'right'`                                 |    `'right'`   | 复选框位置示，目前只支持`list` |
 | selectTitle      | `string`                                              | `"请选择"`   | 左侧的标题文字  |
 | resultTitle      | `string`                                              | `"当前选择"` | 右侧结果的标题文字|
 | sortable         | `boolean`                                             | `false`      | 结果可以进行拖拽排序|
@@ -881,7 +840,7 @@ leftOptions 动态加载，默认 source 接口是返回 options 部分，而 le
 | leftOptions      | `Array<Object>`                                       |              | 当展示形式为 `associated` 时用来配置左边的选项集。|
 | leftMode         | `string`                                              |              | 当展示形式为 `associated` 时用来配置左边的选择形式，支持 `list` 或者 `tree`。默认为 `list`。|
 | rightMode        | `string`                                              |              | 当展示形式为 `associated` 时用来配置右边的选择形式，可选：`list`、`table`、`tree`、`chained`。 |
-| resultSearchable       | `boolean`                                             | `false`      | 结果（右则）列表的检索功能，当设置为true时，可以通过输入检索模糊匹配检索内容  |
+| resultSearchable       | `boolean`                                             | `false`      | 结果（右则）列表的检索功能，当设置为true时，可以通过输入检索模糊匹配检索内容（目前树的延时加载不支持结果搜索功能）  |
 | resultPlaceholder     | `string`                                 |       | 右侧列表搜索框提示 |
 | resultSearchFilter       | `string`          | `false`      | 结果（右则）列表的检索功能的检索字符串，这个字符串是一个New Function内部执行的字符串，第一个参数是text（当前输入值），第二个参数是item（这是一个对象，对象对应option项的值），这个字符串需要返回boolean值。设置 "item.value.indexOf(text) > -1"意味着当前项值和输入值一致时，搜索结果显示该项  |
 | menuTpl          | `string` \| [SchemaNode](../../docs/types/schemanode) |              | 用来自定义选项展示 |

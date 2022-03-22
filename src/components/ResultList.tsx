@@ -6,15 +6,16 @@ import {cloneDeep, debounce, isEqual, omit} from 'lodash';
 import {Option, Options} from './Select';
 import {ThemeProps, themeable} from '../theme';
 import {Icon} from './icons';
-import {autobind, guid} from '../utils/helper';
+import {autobind, guid, noop} from '../utils/helper';
 import Sortable from 'sortablejs';
 import {findDOMNode} from 'react-dom';
 import {LocaleProps, localeable} from '../locale';
-import {BaseSelectionProps, BaseSelection} from './Selection';
+import {BaseSelection, BaseSelectionProps} from './Selection';
 import InputBox from './InputBox';
 
 import TableSelection from './TableSelection';
 import Tree from './Tree';
+import {SelectMode} from './Transfer';
 
 type TreeNode = {
   label?: string
@@ -52,7 +53,7 @@ export interface ResultListProps extends ThemeProps, LocaleProps, BaseSelectionP
   resultSearchable?: boolean;
   resultPlaceholder?: string;
   onResultSearch?: Function;
-  selectMode: 'table' | 'group' | 'list' | 'tree' | 'chained' | 'associated'
+  selectMode: SelectMode
 }
 
 export interface ItemRenderStates {
@@ -104,22 +105,6 @@ export class ResultList extends React.Component<ResultListProps, ResultListState
     this.desposeSortable();
     this.lazySearch.cancel();
     this.unmounted = true;
-  }
-
-  @autobind
-  handleRemove(e: React.MouseEvent<HTMLElement>, option: Option) {
-    const index = parseInt(e.currentTarget.getAttribute('data-index')!, 10);
-    const {value, onChange} = this.props;
-
-    if (!Array.isArray(value)) {
-      return;
-    }
-
-    const newValue = value.concat();
-    newValue.splice(index, 1);
-    onChange?.(newValue);
-
-    this.deleteSearchNotTreeResultItem(option);
   }
 
   initSortable() {
@@ -334,7 +319,7 @@ export class ResultList extends React.Component<ResultListProps, ResultListState
 
   // 关闭表格最后一项
   @autobind
-  handleCloseTableItem(option: Option) {
+  handleCloseItem(option: Option) {
     const {
       value,
       onChange,
@@ -357,13 +342,6 @@ export class ResultList extends React.Component<ResultListProps, ResultListState
       : valueArray;
     onChange && onChange(newValue);
 
-    this.deleteSearchNotTreeResultItem(option);
-  }
-
-  // 删除结果搜索值
-  deleteSearchNotTreeResultItem(option: Option) {
-    const {option2value, options} = this.props;
-    // 删除搜索值
     let {searchResult} = this.state;
     if (searchResult) {
       let searchArray = BaseSelection.value2array(searchResult, options, option2value);
@@ -406,7 +384,7 @@ export class ResultList extends React.Component<ResultListProps, ResultListState
         options={searchResult}
         valueField={'value'}
         value={[]}
-        onChange={() => {}}
+        onChange={noop}
         showIcon={false}
         onDelete={(option: Option) => {
           this.deleteTreeChecked(option);
@@ -477,7 +455,7 @@ export class ResultList extends React.Component<ResultListProps, ResultListState
                   <a
                     className={cx('Selections-delBtn')}
                     data-index={index}
-                    onClick={(e: React.MouseEvent<HTMLElement>) => this.handleRemove(e, option)}
+                    onClick={(e: React.MouseEvent<HTMLElement>) => this.handleCloseItem(option)}
                   >
                     <Icon icon="close" className="icon" />
                   </a>
@@ -513,7 +491,7 @@ export class ResultList extends React.Component<ResultListProps, ResultListState
       option2value={option2value}
       cellRender={cellRender}
       onChange={onChange}
-      onCloseItem={this.handleCloseTableItem}
+      onCloseItem={this.handleCloseItem}
       multiple={false}
       isCloseSide={true}
     />)
