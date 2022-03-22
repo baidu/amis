@@ -633,7 +633,12 @@ export default class Page extends React.Component<PageProps> {
   }
 
   @autobind
-  handleRefresh() {
+  async handleRefresh() {
+    const {dispatchEvent, data} = this.props;
+    const rendererEvent = await dispatchEvent('pullRefresh', data);
+    if (rendererEvent?.prevented) {
+      return;
+    }
     this.reload();
   }
 
