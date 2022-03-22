@@ -20,11 +20,11 @@ icon:
     "name": "a",
     "sortable": true,
     "selectMode": "tree",
-    "searchable": true,
     "options": [
       {
         "label": "成员",
         "selectMode": "tree",
+        "searchable": true,
         "children": [
           {
             "label": "法师",
@@ -131,13 +131,13 @@ icon:
       "name": "a",
       "sortable": true,
       "selectMode": "tree",
-      "searchable": true,
       "menuTpl": "<div class='flex justify-between'><span>${label}</span><span class='text-muted m-r text-sm'>${tag}</span></div>",
       "valueTpl": "${label}(${value})",
       "options": [
         {
           "label": "成员",
           "selectMode": "list",
+          "searchable": true,
           "children": [
             {
               "label": "诸葛亮",
@@ -226,11 +226,11 @@ icon:
     "name": "a",
     "sortable": true,
     "selectMode": "tree",
-    "searchable": true,
     "options": [
       {
         "label": "成员",
         "selectMode": "associated",
+        "searchable": true,
         "leftMode": "tree",
         "children": [
           {

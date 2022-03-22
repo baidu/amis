@@ -115,6 +115,27 @@
   .#{$ns}Transfer-title {
     height: 40px;
   }
+  &-tabs {
+    .#{$ns}Tabs-linksContainer {
+      padding-left: px2rem(20px);
+      padding-top: px2rem(8px);
+      background-color: var(--TabsTransfer-title-bg);
+    }
+  }
+
+  &-search {
+    margin: var(--gap-sm) var(--gap-sm);
+    .#{$ns}InputBox {
+      border: 1px solid var(--TabsTransfer-border-color);
+    }
+  }
+
+  .#{$ns}Transfer-result {
+    .#{$ns}Transfer-title {
+      height: px2rem(40px);
+      line-height: px2rem(40px);
+    }
+  }
 
   // .#{$ns}Transfer-result {
   //   flex-grow: unset;
