@@ -6,6 +6,8 @@ export interface ApiObject extends SchemaApiObject {
     withCredentials?: boolean;
     cancelExecutor?: (cancel: Function) => void;
   };
+  graphql?: string;
+  operationName?: string;
   body?: PlainObject;
   query?: PlainObject;
   adaptor?: (payload: object, response: fetcherResult, api: ApiObject) => any;
@@ -104,6 +106,8 @@ export interface Action extends Button {
     | 'clear-and-submit'
     | 'toast'
     | 'goto-step'
+    | 'expand'
+    | 'collapse'
     | 'step-submit';
   api?: Api;
   asyncApi?: Api;

@@ -33,7 +33,7 @@ test('Renderer:number', async () => {
       value: '456'
     }
   });
-  await wait(100);
+  await wait(300);
   expect(input?.value).toEqual('456');
 
   expect(container).toMatchSnapshot();

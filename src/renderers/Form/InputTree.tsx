@@ -8,6 +8,8 @@ import {
 } from './Options';
 import {Spinner} from '../../components';
 import {SchemaApi} from '../../Schema';
+import {autobind, createObject} from '../../utils/helper';
+import {Action} from '../../types';
 
 /**
  * Tree 下拉选择框。
@@ -98,10 +100,46 @@ export default class TreeControl extends React.Component<TreeProps> {
     enableNodePath: false,
     pathSeparator: '/'
   };
+  treeRef: any
 
   reload() {
     const reload = this.props.reloadOptions;
     reload && reload();
+  }
+
+  doAction(action: Action, data: any, throwErrors: boolean) {
+    const {resetValue, onChange, options} = this.props;
+    if (action.actionType && ['clear', 'reset'].includes(action.actionType)) {
+      onChange && onChange(resetValue ?? '');
+    }
+    if (action.actionType === 'expand') {
+      this.treeRef.syncUnFolded(this.props, action.openLevel);
+    }
+    if (action.actionType === 'collapse') {
+      this.treeRef.syncUnFolded(this.props, 0);
+    }
+  }
+
+
+
+  @autobind
+  async handleChange(value: any) {
+    const {onChange, dispatchEvent, data} = this.props;
+
+    const rendererEvent = await dispatchEvent('change', createObject(data, {
+      value
+    }));
+
+    if (rendererEvent?.prevented) {
+      return;
+    }
+
+    onChange && onChange(value);
+  }
+
+  @autobind
+  domRef(ref: any) {
+    this.treeRef = ref;
   }
 
   render() {
@@ -112,7 +150,6 @@ export default class TreeControl extends React.Component<TreeProps> {
       value,
       enableNodePath,
       pathSeparator = '/',
-      onChange,
       disabled,
       joinValues,
       extractValue,
@@ -162,11 +199,12 @@ export default class TreeControl extends React.Component<TreeProps> {
         {loading ? null : (
           <TreeSelector
             classPrefix={ns}
+            onRef={this.domRef}
             labelField={labelField}
             valueField={valueField}
             iconField={iconField}
             disabled={disabled}
-            onChange={onChange}
+            onChange={this.handleChange}
             joinValues={joinValues}
             extractValue={extractValue}
             delimiter={delimiter}

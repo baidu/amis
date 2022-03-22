@@ -41,6 +41,8 @@ export interface IDropInfo {
 interface TreeSelectorProps extends ThemeProps, LocaleProps {
   highlightTxt?: string;
 
+  onRef: any;
+
   showIcon?: boolean;
   // 是否默认都展开
   initiallyOpen?: boolean;
@@ -208,6 +210,7 @@ export class TreeSelector extends React.Component<
 
   componentDidMount() {
     const {enableNodePath} = this.props;
+    this.props.onRef(this)
     enableNodePath && this.expandLazyLoadNodes();
   }
 
@@ -248,20 +251,23 @@ export class TreeSelector extends React.Component<
     onExpandTree?.(nodePathArr);
   }
 
-  syncUnFolded(props: TreeSelectorProps) {
+  syncUnFolded(props: TreeSelectorProps, unfoldedLevel?: Number) {
+    // 传入默认展开层级需要重新初始化unfolded
+    let initFoldedLevel = typeof unfoldedLevel !== 'undefined';
+    let expandLevel = initFoldedLevel ? unfoldedLevel : props.unfoldedLevel;
     // 初始化树节点的展开状态
     let unfolded = this.unfolded;
     const {foldedField, unfoldedField} = this.props;
 
     eachTree(props.options, (node: Option, index, level) => {
-      if (unfolded.has(node)) {
+      if (unfolded.has(node) && !initFoldedLevel) {
         return;
       }
 
       if (node.children && node.children.length) {
         let ret: any = true;
 
-        if (node.defer && node.loaded) {
+        if (node.defer && node.loaded && !initFoldedLevel) {
           ret = true;
         } else if (
           unfoldedField &&
@@ -272,13 +278,15 @@ export class TreeSelector extends React.Component<
           ret = !node[foldedField];
         } else {
           ret = !!props.initiallyOpen;
-          if (!ret && level <= (props.unfoldedLevel as number)) {
+          if (!ret && level <= (expandLevel as number)) {
             ret = true;
           }
         }
         unfolded.set(node, ret);
       }
     });
+
+    initFoldedLevel && this.forceUpdate();
 
     return unfolded;
   }

@@ -16,7 +16,7 @@ test('factory unregistered Renderer', async () => {
       a: 23
     })
   );
-  await wait(100);
+  await wait(300);
   expect(container).toMatchSnapshot(); // not found
 });
 
@@ -33,7 +33,7 @@ test('factory custom not found!', async () => {
       })
     )
   );
-  await wait(100);
+  await wait(300);
   expect(container).toMatchSnapshot(); // not found
 });
 
@@ -50,7 +50,7 @@ test('factory custom not found 2!', async () => {
       })
     )
   );
-  await wait(100);
+  await wait(300);
   expect(container).toMatchSnapshot(); // not found
 });
 
@@ -67,7 +67,7 @@ test('factory custom not found 3!', async () => {
       })
     )
   );
-  await wait(100);
+  await wait(300);
   expect(container).toMatchSnapshot(); // not found
 });
 
@@ -100,7 +100,7 @@ test('factory load Renderer on need', async () => {
       })
     )
   );
-  await wait(100);
+  await wait(300);
   expect(container).toMatchSnapshot(); // not found
 });
 
@@ -193,7 +193,7 @@ test('factory:definitions', async () => {
     )
   );
 
-  await wait(100);
+  await wait(300);
   fireEvent.click(getByText('新增'));
   expect(container).toMatchSnapshot();
 });
