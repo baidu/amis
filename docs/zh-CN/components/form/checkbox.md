@@ -67,12 +67,44 @@ order: 8
 
 勾选上例中的勾选框，观察数据域变化，会发现勾选后值为`1`，而取消勾选后为`0`
 
+## 按钮模式
+```schema: scope="body"
+{
+    "type": "form",
+    "debug": true,
+    "body": [
+        {
+            "name": "checkbox",
+            "type": "checkbox",
+            "label": "勾选框",
+            "trueValue": true,
+            "falseValue": false,
+            "optionType": "button",
+            "checked": true
+        }
+    ]
+}
+```
 ## 属性表
 
 除了支持 [普通表单项属性表](./formitem#%E5%B1%9E%E6%80%A7%E8%A1%A8) 中的配置以外，还支持下面一些配置
 
-| 属性名     | 类型     | 默认值    | 说明 ## 二级标题 |
+| 属性名     | 类型     | 默认值    | 说明  |
 | ---------- | -------- | --------- | ---------------- |
 | option     | `string` |           | 选项说明         |
-| trueValue  | `any`    | `true`    | 标识真值         |
-| falseValue | `any`    | `"false"` | 标识假值         |
+| trueValue  | `string｜number｜boolean`    | `true`    | 标识真值         |
+| falseValue | `string｜number｜boolean`    | `false` | 标识假值         |
+| optionType     | `default｜button` |     `default`      |   设置option类型     |
+
+## 事件表
+
+| 事件名称 | 事件参数                                                                                           | 说明 |
+| -------- | -------------------------------------------------------------------------------------------------- | ---- |
+| change    |  `value: boolean` 选中状态 | 选中状态发生变化时触发 |
+
+## 动作表
+
+| 动作名称 | 动作配置                                                                                           | 说明 |
+| -------- | -------------------------------------------------------------------------------------------------- | ---- |
+| clear    |  - | 清空 |
+| reset    |  - | 重置 |

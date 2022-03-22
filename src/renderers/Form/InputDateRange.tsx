@@ -7,8 +7,10 @@ import includes from 'lodash/includes';
 import DateRangePicker, {
   DateRangePicker as BaseDateRangePicker
 } from '../../components/DateRangePicker';
-import { isMobile, createObject, autobind } from '../../utils/helper';
+import {isMobile, createObject, autobind} from '../../utils/helper';
 import {Action} from '../../types';
+
+import type {ShortCuts} from '../../components/DatePicker';
 
 /**
  * DateRange 日期范围控件
@@ -75,6 +77,11 @@ export interface DateRangeControlSchema extends FormBaseControl {
    * 开启后变成非弹出模式，即内联模式。
    */
   embed?: boolean;
+
+  /**
+   * 日期范围快捷键
+   */
+  ranges?: string | Array<ShortCuts>;
 }
 
 export interface DateRangeProps
@@ -173,8 +180,14 @@ export default class DateRangeControl extends React.Component<DateRangeProps> {
   // 动作
   doAction(action: Action, data: object, throwErrors: boolean) {
     const {resetValue, onChange} = this.props;
+
     if (action.actionType === 'clear') {
-      onChange(resetValue ?? '');
+      onChange('');
+      return;
+    }
+
+    if (action.actionType === 'reset' && resetValue) {
+      onChange(resetValue);
     }
   }
 
@@ -206,8 +219,19 @@ export default class DateRangeControl extends React.Component<DateRangeProps> {
       ...rest
     } = this.props;
     const mobileUI = useMobileUI && isMobile();
+    const comptType = this.props?.type;
+
     return (
-      <div className={cx(`${ns}DateRangeControl`, className)}>
+      <div
+        className={cx(
+          `${ns}DateRangeControl`,
+          {
+            'is-date': /date-/.test(comptType),
+            'is-datetime': /datetime-/.test(comptType)
+          },
+          className
+        )}
+      >
         <DateRangePicker
           {...rest}
           useMobileUI={useMobileUI}

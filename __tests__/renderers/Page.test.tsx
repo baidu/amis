@@ -612,7 +612,7 @@ test('Renderer:Page initFetchOn trigger initApi fetch when condition becomes tur
     )
   );
 
-  await wait(100);
+  await wait(300);
   history.push('/xxxx?id=1');
 
   component.update(
@@ -635,7 +635,7 @@ test('Renderer:Page initFetchOn trigger initApi fetch when condition becomes tur
     )
   );
 
-  await wait(100);
+  await wait(300);
   expect(fetcher).toHaveBeenCalledTimes(1);
   expect(component.toJSON()).toMatchSnapshot();
 });
@@ -667,7 +667,7 @@ test('Renderer:Page handleAction actionType=url|link', async () => {
   );
 
   fireEvent.click(getByText(/JumpTo/));
-  await wait(100);
+  await wait(300);
   expect(jumpTo).toHaveBeenCalled();
   expect(jumpTo.mock.calls[0][0]).toEqual('/goToPath?a=1');
 });
@@ -696,7 +696,7 @@ test('Renderer:Page handleAction actionType=dialog', async () => {
   );
 
   fireEvent.click(getByText(/OpenDialog/));
-  await wait(100);
+  await wait(300);
   expect(container).toMatchSnapshot();
 
   fireEvent.click(getByText(/取消/));
@@ -746,7 +746,7 @@ test('Renderer:Page handleAction actionType=dialog mergeData', async () => {
   );
 
   fireEvent.click(getByText(/OpenDialog/));
-  await wait(100);
+  await wait(300);
   expect(container).toMatchSnapshot();
 
   fireEvent.click(getByText(/确认/));
@@ -778,7 +778,7 @@ test('Renderer:Page handleAction actionType=drawer', async () => {
   );
 
   fireEvent.click(getByText(/OpenDrawer/));
-  await wait(100);
+  await wait(300);
   expect(container).toMatchSnapshot();
 
   fireEvent.click(getByText(/取消/));
@@ -871,7 +871,7 @@ test('Renderer:Page handleAction actionType=ajax', async () => {
   );
 
   fireEvent.click(getByText(/RequestAjax/));
-  await wait(100);
+  await wait(300);
   expect(container).toMatchSnapshot();
 });
 
@@ -902,7 +902,7 @@ test('Renderer:Page handleAction actionType=copy', async () => {
   );
 
   fireEvent.click(getByText(/CopyContent/));
-  await wait(100);
+  await wait(300);
   expect(copy).toHaveBeenCalled();
   expect(copy.mock.calls[0][0]).toEqual('the content is 1');
 });
@@ -945,7 +945,7 @@ test('Renderer:Page handleAction actionType=ajax & feedback', async () => {
   );
 
   fireEvent.click(getByText(/RequestAjax/));
-  await wait(100);
+  await wait(300);
   expect(container).toMatchSnapshot();
 
   fireEvent.click(getByText(/确认/));
@@ -988,7 +988,7 @@ test('Renderer:Page initApi reFetch when condition changes', async () => {
     )
   );
 
-  await wait(100);
+  await wait(300);
   expect(component.toJSON()).toMatchSnapshot();
   history.push('/xxxx?id=1');
 
@@ -1053,12 +1053,12 @@ test('Renderer:Page initApi reload by action', async () => {
     )
   );
 
-  await wait(100);
+  await wait(300);
   expect(container).toMatchSnapshot();
 
   fireEvent.click(getByText(/Reload/));
 
-  await wait(100);
+  await wait(300);
   expect(fetcher).toHaveBeenCalledTimes(2);
   expect(container).toMatchSnapshot();
 });
@@ -1083,7 +1083,7 @@ test('Renderer:Page Tpl JumpTo', async () => {
   );
 
   fireEvent.click(getByText(/JumpTo/));
-  await wait(100);
+  await wait(300);
   expect(jumpTo).toHaveBeenCalled();
   expect(jumpTo.mock.calls[0][0]).toEqual('/goToPath?a=1');
 });
@@ -1138,7 +1138,7 @@ test('Renderer:Page initApi reload by Dialog action', async () => {
     )
   );
 
-  await wait(100);
+  await wait(300);
   expect(container).toMatchSnapshot();
 
   fireEvent.click(getByText(/OpenDialog/));
@@ -1146,7 +1146,7 @@ test('Renderer:Page initApi reload by Dialog action', async () => {
 
   expect(container).toMatchSnapshot();
   fireEvent.click(getByText(/确认/));
-  await wait(500);
+  await wait(1000);
 
   expect(container).toMatchSnapshot();
   expect(fetcher).toHaveBeenCalledTimes(2);
@@ -1202,7 +1202,7 @@ test('Renderer:Page initApi reload by Drawer action', async () => {
     )
   );
 
-  await wait(100);
+  await wait(300);
   expect(container).toMatchSnapshot();
 
   fireEvent.click(getByText(/OpenDialog/));
@@ -1210,7 +1210,7 @@ test('Renderer:Page initApi reload by Drawer action', async () => {
 
   expect(container).toMatchSnapshot();
   fireEvent.click(getByText(/确认/));
-  await wait(600);
+  await wait(1000);
 
   expect(container).toMatchSnapshot();
   expect(fetcher).toHaveBeenCalledTimes(2);
@@ -1265,11 +1265,11 @@ test('Renderer:Page initApi reload by Form submit', async () => {
     )
   );
 
-  await wait(100);
+  await wait(300);
   expect(container).toMatchSnapshot();
 
   fireEvent.click(getByText(/Submit/));
-  await wait(100);
+  await wait(300);
 
   expect(container).toMatchSnapshot();
   expect(fetcher).toHaveBeenCalledTimes(2);

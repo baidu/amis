@@ -50,7 +50,7 @@ exports[`Renderer:inputDate 1`] = `
             </span>
           </label>
           <div
-            class="cxd-DateControl cxd-Form-control"
+            class="cxd-DateControl is-date cxd-Form-control"
           >
             <div
               class="cxd-DatePicker"
@@ -58,6 +58,7 @@ exports[`Renderer:inputDate 1`] = `
             >
               <input
                 autocomplete="off"
+                class="cxd-DatePicker-input"
                 placeholder="请选择日期"
                 type="text"
                 value="2019-06-07"

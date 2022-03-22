@@ -71,7 +71,7 @@ test('Renderer:service', async () => {
     )
   );
 
-  await wait(100);
+  await wait(300);
   expect(fetcher).toHaveBeenCalled();
   expect(container).toMatchSnapshot();
 });

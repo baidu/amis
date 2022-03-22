@@ -223,3 +223,15 @@ order: 14
 | parseMode    | `'array'` 或 `'object'` | 'object' | 解析模式           |
 | includeEmpty | `boolean`               | true     | 是否包含空值       |
 | plainText    | `boolean`               | true     | 是否解析为纯文本   |
+
+## 事件表
+
+| 事件名称 | 事件参数               | 说明                 |
+| -------- | ---------------------- | -------------------- |
+| change   | `value: Array<object>` | 选中值发生变化时触发 |
+
+## 动作表
+
+| 动作名称 | 动作配置 | 说明 |
+| -------- | -------- | ---- |
+| clear    | -        | 清空 |

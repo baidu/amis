@@ -343,3 +343,20 @@ order: 56
 | minLength      | `number`                                  |           | 限制最小字数                                                                                |
 | maxLength      | `number`                                  |           | 限制最大字数                                                                                |
 | transform      | `object`                                  |           | 自动转换值，可选 `transform: { lowerCase: true, upperCase: true }`                          |
+
+## 事件表
+
+| 事件名称 | 事件参数                    | 说明     |
+| -------- | --------------------------- | -------- |
+| click    | `value: string \| string[]` | 点击     |
+| focus    | `value: string \| string[]` | 获取焦点 |
+| blur     | `value: string \| string[]` | 失去焦点 |
+| enter    | `value: string \| string[]` | 回车     |
+| change   | `value: string \| string[]` | 值变化   |
+
+## 动作表
+
+| 动作名称 | 动作配置 | 说明     |
+| -------- | -------- | -------- |
+| clear    | -        | 清空     |
+| focus    | -        | 获取焦点 |

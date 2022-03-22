@@ -83,6 +83,8 @@ import ButtonEventActionSchema from './EventAction/ButtonEvent';
 import InputRatingEventSchema from './EventAction/InputRatingEvent';
 import ExcelEventSchema from './EventAction/ExcelEvent';
 import WizardEventSchema from './EventAction/WizardEvent';
+import InputTreeEventSchema from './EventAction/InputTreeEvent';
+import treeSelectEventSchema from './EventAction/treeSelectEvent';
 import WizardSchema from './Wizard';
 import ChartSchema from './Chart';
 import EChartsEditorSchema from './ECharts';
@@ -586,6 +588,16 @@ export const examples = [
                 label: '向导组件',
                 path: 'examples/event/wizard',
                 component: makeSchemaRenderer(WizardEventSchema)
+              },
+              {
+                label: '树形选择框',
+                path: 'examples/event/input-tree',
+                component: makeSchemaRenderer(InputTreeEventSchema)
+              },
+              {
+                label: '树形选择器',
+                path: 'examples/event/tree-select',
+                component: makeSchemaRenderer(treeSelectEventSchema)
               },
             ]
           },

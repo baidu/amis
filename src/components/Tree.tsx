@@ -41,6 +41,8 @@ export interface IDropInfo {
 interface TreeSelectorProps extends ThemeProps, LocaleProps {
   highlightTxt?: string;
 
+  onRef: any;
+
   showIcon?: boolean;
   // 是否默认都展开
   initiallyOpen?: boolean;
@@ -55,6 +57,8 @@ interface TreeSelectorProps extends ThemeProps, LocaleProps {
   withChildren?: boolean;
   // 多选时，选中父节点时，是否只将起子节点加入到值中。
   onlyChildren?: boolean;
+  // 单选时，只运行选择子节点
+  onlyLeaf?: boolean;
   // 名称、取值等字段名映射
   labelField: string;
   valueField: string;
@@ -206,6 +210,7 @@ export class TreeSelector extends React.Component<
 
   componentDidMount() {
     const {enableNodePath} = this.props;
+    this.props.onRef(this)
     enableNodePath && this.expandLazyLoadNodes();
   }
 
@@ -246,20 +251,23 @@ export class TreeSelector extends React.Component<
     onExpandTree?.(nodePathArr);
   }
 
-  syncUnFolded(props: TreeSelectorProps) {
+  syncUnFolded(props: TreeSelectorProps, unfoldedLevel?: Number) {
+    // 传入默认展开层级需要重新初始化unfolded
+    let initFoldedLevel = typeof unfoldedLevel !== 'undefined';
+    let expandLevel = initFoldedLevel ? unfoldedLevel : props.unfoldedLevel;
     // 初始化树节点的展开状态
     let unfolded = this.unfolded;
     const {foldedField, unfoldedField} = this.props;
 
     eachTree(props.options, (node: Option, index, level) => {
-      if (unfolded.has(node)) {
+      if (unfolded.has(node) && !initFoldedLevel) {
         return;
       }
 
       if (node.children && node.children.length) {
         let ret: any = true;
 
-        if (node.defer && node.loaded) {
+        if (node.defer && node.loaded && !initFoldedLevel) {
           ret = true;
         } else if (
           unfoldedField &&
@@ -270,13 +278,15 @@ export class TreeSelector extends React.Component<
           ret = !node[foldedField];
         } else {
           ret = !!props.initiallyOpen;
-          if (!ret && level <= (props.unfoldedLevel as number)) {
+          if (!ret && level <= (expandLevel as number)) {
             ret = true;
           }
         }
         unfolded.set(node, ret);
       }
     });
+
+    initFoldedLevel && this.forceUpdate();
 
     return unfolded;
   }
@@ -365,13 +375,17 @@ export class TreeSelector extends React.Component<
 
   @autobind
   handleSelect(node: any, value?: any) {
-    const {joinValues, valueField, onChange, enableNodePath} = this.props;
+    const {joinValues, valueField, onChange, enableNodePath, onlyLeaf} =
+      this.props;
 
     if (node[valueField as string] === undefined) {
       if (node.defer && !node.loaded) {
         this.toggleUnfolded(node);
       }
+      return;
+    }
 
+    if (onlyLeaf && node.children) {
       return;
     }
 

@@ -19,6 +19,7 @@ exports[`Renderer:nav 1`] = `
             data-depth="1"
             data-id="0"
             style="padding-left: 24px;"
+            title="Nav 1"
           >
             <img
               class="cxd-Nav-itemIcon"
@@ -39,6 +40,7 @@ exports[`Renderer:nav 1`] = `
             data-depth="1"
             data-id="1"
             style="padding-left: 24px;"
+            title="Nav 2"
           >
             Nav 2
           </a>
@@ -66,6 +68,7 @@ exports[`Renderer:nav 1`] = `
             data-depth="1"
             data-id="2"
             style="padding-left: 24px;"
+            title="Nav 3"
           >
             Nav 3
           </a>
@@ -93,6 +96,7 @@ exports[`Renderer:nav 1`] = `
             data-depth="1"
             data-id="3"
             style="padding-left: 24px;"
+            title="外部地址"
           >
             外部地址
           </a>

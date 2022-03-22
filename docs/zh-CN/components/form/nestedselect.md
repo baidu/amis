@@ -124,6 +124,55 @@ order: 31
 }
 ```
 
+## 只允许选中叶子节点
+
+> 1.8.0 及以上版本，如果是之前版本可以在对应的节点上不设置 value 实现
+
+在单选时，可以通过 `onlyLeaf` 来设置只允许选择叶子节点，即便分支节点有 `value` 也不会被选中。
+
+```schema: scope="body"
+{
+  "type": "form",
+  "api": "/api/mock2/form/saveForm",
+  "body": [
+    {
+      "type": "nested-select",
+      "name": "nestedSelect",
+      "label": "级联选择器",
+      "onlyLeaf": true,
+      "options": [
+        {
+          "label": "A",
+          "value": "a"
+        },
+        {
+          "label": "B",
+          "value": "b",
+          "children": [
+            {
+              "label": "B-1",
+              "value": "b-1"
+            },
+            {
+              "label": "B-2",
+              "value": "b-2"
+            },
+            {
+              "label": "B-3",
+              "value": "b-3"
+            }
+          ]
+        },
+        {
+          "label": "C",
+          "value": "c"
+        }
+      ]
+    }
+  ]
+}
+```
+
 ## 选中父节点是否自动选中子节点
 
 默认选中父节点会自动选中子节点，可以设置`"cascade": true`，不自动选中子节点
@@ -519,3 +568,18 @@ order: 31
 | noResultsText     | `string`                                  | `"未找到任何结果"`   | 无结果时的文本                                                                              |
 | multiple          | `boolean`                                 | `false`              | 可否多选                                                                                    |
 | hideNodePathLabel | `boolean`                                 | `false`              | 是否隐藏选择框中已选择节点的路径 label 信息                                                 |
+
+## 事件表
+
+| 事件名称 | 事件参数                           | 说明                 |
+| -------- | ---------------------------------- | -------------------- |
+| change   | `value: string \| Option[]` 选中值 | 选中值发生变化时触发 |
+| blur     | `(event: Event)` 原始事件          | 失去焦点时触发       |
+| focus    | `(event: Event)` 原始事件          | 获得焦点时触发       |
+
+## 动作表
+
+| 动作名称 | 动作配置 | 说明 |
+| -------- | -------- | ---- |
+| clear    | -        | 清空 |
+| reset    | -        | 重置 |

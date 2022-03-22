@@ -32,6 +32,7 @@ import {onAction} from 'mobx-state-tree';
 import mapValues from 'lodash/mapValues';
 import {resolveVariable} from '../utils/tpl-builtin';
 import {buildStyle} from '../utils/style';
+import PullRefresh from '../components/PullRefresh';
 
 /**
  * 样式属性名及值
@@ -90,6 +91,13 @@ export interface PageSchema extends BaseSchema {
    * 边栏是否允许拖动
    */
   asideResizor?: boolean;
+
+  /**
+   * 边栏内容是否粘住，即不跟随滚动。
+   *
+   * @default true
+   */
+  asideSticky?: boolean;
 
   /**
    * 边栏最小宽度
@@ -200,6 +208,15 @@ export interface PageSchema extends BaseSchema {
   style?: {
     [propName: string]: any;
   };
+
+  /**
+   * 下拉刷新配置
+   */
+  pullRefresh?: {
+    disabled?: boolean;
+    pullingText?: string;
+    loosingText?: string;
+  };
 }
 
 export interface PageProps
@@ -218,6 +235,7 @@ export default class Page extends React.Component<PageProps> {
   startX: number;
   startWidth: number;
   codeWrap: HTMLElement;
+  asideInner = React.createRef<HTMLDivElement>();
 
   static defaultProps = {
     asideClassName: '',
@@ -226,7 +244,11 @@ export default class Page extends React.Component<PageProps> {
     initFetch: true,
     // primaryField: 'id',
     toolbarClassName: '',
-    messages: {}
+    messages: {},
+    asideSticky: true,
+    pullRefresh: {
+      disabled: true
+    }
   };
 
   static propsList: Array<keyof PageProps> = [
@@ -347,7 +369,8 @@ export default class Page extends React.Component<PageProps> {
   }
 
   componentDidMount() {
-    const {initApi, initFetch, initFetchOn, store, messages} = this.props;
+    const {initApi, initFetch, initFetchOn, store, messages, asideSticky} =
+      this.props;
 
     this.mounted = true;
 
@@ -358,6 +381,12 @@ export default class Page extends React.Component<PageProps> {
           errorMessage: messages && messages.fetchFailed
         })
         .then(this.initInterval);
+    }
+
+    if (asideSticky && this.asideInner.current) {
+      const dom = this.asideInner.current!;
+      const rect = dom.getBoundingClientRect();
+      dom.style.cssText += `position: sticky; top: ${rect.top}px;`;
     }
   }
 
@@ -603,6 +632,16 @@ export default class Page extends React.Component<PageProps> {
     return value;
   }
 
+  @autobind
+  async handleRefresh() {
+    const {dispatchEvent, data} = this.props;
+    const rendererEvent = await dispatchEvent('pullRefresh', data);
+    if (rendererEvent?.prevented) {
+      return;
+    }
+    this.reload();
+  }
+
   handleChange(
     value: any,
     name: string,
@@ -709,6 +748,7 @@ export default class Page extends React.Component<PageProps> {
       style,
       data,
       asideResizor,
+      pullRefresh,
       translate: __
     } = this.props;
 
@@ -725,6 +765,31 @@ export default class Page extends React.Component<PageProps> {
 
     const styleVar = buildStyle(style, data);
 
+    const pageContent = (
+      <div className={cx('Page-content')}>
+        <div className={cx('Page-main')}>
+          {this.renderHeader()}
+          <div className={cx(`Page-body`, bodyClassName)}>
+            <Spinner size="lg" overlay key="info" show={store.loading} />
+
+            {store.error && showErrorMsg !== false ? (
+              <Alert
+                level="danger"
+                showCloseButton
+                onClose={store.clearMessage}
+              >
+                {store.msg}
+              </Alert>
+            ) : null}
+
+            {(Array.isArray(regions) ? ~regions.indexOf('body') : body)
+              ? render('body', body || '', subProps)
+              : null}
+          </div>
+        </div>
+      </div>
+    );
+
     return (
       <div
         className={cx(`Page`, hasAside ? `Page--withSidebar` : '', className)}
@@ -739,15 +804,17 @@ export default class Page extends React.Component<PageProps> {
               asideClassName
             )}
           >
-            {render('aside', aside || '', {
-              ...subProps,
-              ...(typeof aside === 'string'
-                ? {
-                    inline: false,
-                    className: `Page-asideTplWrapper`
-                  }
-                : null)
-            })}
+            <div className={cx(`Page-asideInner`)} ref={this.asideInner}>
+              {render('aside', aside || '', {
+                ...subProps,
+                ...(typeof aside === 'string'
+                  ? {
+                      inline: false,
+                      className: `Page-asideTplWrapper`
+                    }
+                  : null)
+              })}
+            </div>
             {asideResizor ? (
               <div
                 onMouseDown={this.handleResizeMouseDown}
@@ -757,28 +824,17 @@ export default class Page extends React.Component<PageProps> {
           </div>
         ) : null}
 
-        <div className={cx('Page-content')}>
-          <div className={cx('Page-main')}>
-            {this.renderHeader()}
-            <div className={cx(`Page-body`, bodyClassName)}>
-              <Spinner size="lg" overlay key="info" show={store.loading} />
-
-              {store.error && showErrorMsg !== false ? (
-                <Alert
-                  level="danger"
-                  showCloseButton
-                  onClose={store.clearMessage}
-                >
-                  {store.msg}
-                </Alert>
-              ) : null}
-
-              {(Array.isArray(regions) ? ~regions.indexOf('body') : body)
-                ? render('body', body || '', subProps)
-                : null}
-            </div>
-          </div>
-        </div>
+        {pullRefresh && !pullRefresh.disabled ? (
+          <PullRefresh
+            {...pullRefresh}
+            translate={__}
+            onRefresh={this.handleRefresh}
+          >
+            {pageContent}
+          </PullRefresh>
+        ) : (
+          pageContent
+        )}
 
         {render(
           'dialog',

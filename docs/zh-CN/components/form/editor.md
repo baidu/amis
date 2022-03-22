@@ -134,3 +134,16 @@ order: 19
 | size            | `string`  | `md`         | 编辑器高度，取值可以是 `md`、`lg`、`xl`、`xxl`                                                                                                                                                           |
 | allowFullscreen | `boolean` | `false`      | 是否显示全屏模式开关                                                                                                                                                                                     |
 | options         | `object`  |              | monaco 编辑器的其它配置，比如是否显示行号等，请参考[这里](https://microsoft.github.io/monaco-editor/api/enums/monaco.editor.EditorOption.html)，不过无法设置 readOnly，只读模式需要使用 `disabled: true` |
+
+## 事件表
+
+| 事件名称 | 事件参数        | 说明     |
+| -------- | --------------- | -------- |
+| focus    | `value: string` | 获取焦点 |
+| blur     | `value: string` | 失去焦点 |
+
+## 动作表
+
+| 动作名称 | 动作配置 | 说明     |
+| -------- | -------- | -------- |
+| focus    | -        | 获取焦点 |

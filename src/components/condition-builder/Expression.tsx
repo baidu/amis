@@ -45,6 +45,7 @@ export interface ExpressionProps extends ThemeProps {
   searchable?: boolean;
   fieldClassName?: string;
   formula?: FormulaPickerProps;
+  popOverContainer?: any;
 }
 
 const fieldMap = {
@@ -135,7 +136,8 @@ export class Expression extends React.Component<ExpressionProps> {
       data,
       disabled,
       searchable,
-      formula
+      formula,
+      popOverContainer
     } = this.props;
     const inputType =
       ((value as any)?.type === 'field'
@@ -166,6 +168,7 @@ export class Expression extends React.Component<ExpressionProps> {
             data={data}
             disabled={disabled}
             formula={formula}
+            popOverContainer={popOverContainer}
           />
         ) : null}
 
@@ -176,6 +179,7 @@ export class Expression extends React.Component<ExpressionProps> {
             fieldClassName={fieldClassName}
             disabled={disabled}
             searchable={searchable}
+            popOverContainer={popOverContainer}
             options={
               valueField
                 ? filterTree(
@@ -214,6 +218,7 @@ export class Expression extends React.Component<ExpressionProps> {
           <InputSwitch
             disabled={disabled}
             value={inputType}
+            popOverContainer={popOverContainer}
             onChange={this.handleInputTypeChange}
             options={types.map(item => ({
               label: fieldMap[item],

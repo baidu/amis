@@ -98,6 +98,14 @@ CRUD，即增删改查组件，主要用来展现数据列表，并支持各类�
 
 > 如果 api 地址中有变量，比如 `/api/mock2/sample/${id}`，amis 就不会自动加上分页参数，需要自己加上，改成 `/api/mock2/sample/${id}?page=${page}&perPage=${perPage}`
 
+## 分页参数
+
+默认的分页参数是 `page` 和 `perPage`，page 代表页数，比如第一页，perPage 代表每页显示几行。
+
+如果要其它格式，比如转成 `limit` 和 `offset`，可以使用公式来转换，比如
+
+`/api/mock2/sample?limit=${perPage}&offset=${(page - 1) * perPage}`
+
 ## 功能
 
 既然这个渲染器叫增删改查，那接下来分开介绍这几个功能吧。
@@ -1809,6 +1817,110 @@ crud 组件支持通过配置`headerToolbar`和`footerToolbar`属性，实现在
 }
 ```
 
+> 1.8.0 及以上版本
+
+`columns` 支持变量，可以从上下文取数组
+
+```schema
+{
+    "type": "page",
+    "data": {
+        "columns": ["engine", "browser"]
+    },
+    "body": {
+        "type": "crud",
+        "syncLocation": false,
+        "api": "/api/mock2/sample",
+        "headerToolbar": [{
+            "type": "export-excel",
+            "label": "只导出 engine 和  browser 列",
+            "columns": "${columns}"
+        }],
+        "columns": [
+            {
+                "name": "id",
+                "label": "ID"
+            },
+            {
+                "name": "engine",
+                "label": "Rendering engine"
+            },
+            {
+                "name": "browser",
+                "label": "Browser"
+            },
+            {
+                "name": "platform",
+                "label": "Platform(s)"
+            },
+            {
+                "name": "version",
+                "label": "Engine version"
+            },
+            {
+                "name": "grade",
+                "label": "CSS grade"
+            }
+        ]
+    }
+}
+```
+
+#### 自定义导出列
+
+> 1.8.0 及以上版本
+
+除了简单隐藏某些列，还可以通过 `exportColumns` 完全控制导出列，比如新增某些列，它的配置项和 `columns` 一致
+
+```schema: scope="body"
+{
+    "type": "crud",
+    "syncLocation": false,
+    "api": "/api/mock2/sample",
+    "headerToolbar": [{
+        "type": "export-excel",
+        "label": "导出 Excel",
+        "exportColumns": [
+            {
+                "name": "engine",
+                "label": "Engine"
+            },
+            {
+                "type": "tpl",
+                "label": "tpl",
+                "tpl": "${browser}"
+            }
+        ]
+    }],
+    "columns": [
+        {
+            "name": "id",
+            "label": "ID"
+        },
+        {
+            "name": "engine",
+            "label": "Rendering engine"
+        },
+        {
+            "name": "browser",
+            "label": "Browser"
+        },
+        {
+            "name": "platform",
+            "label": "Platform(s)"
+        },
+        {
+            "name": "version",
+            "label": "Engine version"
+        },
+        {
+            "name": "grade",
+            "label": "CSS grade"
+        }
+    ]
+}
+```
+
 #### 通过 api 导出 Excel
 
 > 1.1.6 以上版本支持
@@ -2206,7 +2318,10 @@ crud 组件支持通过配置`headerToolbar`和`footerToolbar`属性，实现在
         {
             "type": "columns-toggler",
             "align": "right",
-            "draggable": true
+            "draggable": true,
+            "icon": "fas fa-cog",
+            "overlay": true,
+            "footerBtnSize": "sm"
         }
     ],
     "columns": [
@@ -2554,6 +2669,8 @@ itemAction 里的 onClick 还能通过 `data` 参数拿到当前行的数据，�
 | messages.quickSaveSuccess             | `string`                    |                                 | 快速保存成功提示                                                                                                      |
 | primaryField                          | `string`                    | `"id"`                          | 设置 ID 字段名。                                                                                                      |
 | perPage                               | `number`                    | 10                              | 设置一页显示多少条数据。                                                                                              |
+| orderBy                               | `string`                    |                                 | 默认排序字段，这个是传给后端，需要后端接口实现                                                                        |
+| orderDir                              | `asc` \| `desc`             |                                 | 排序方向                                                                                                              |
 | defaultParams                         | `Object`                    |                                 | 设置默认 filter 默认参数，会在查询的时候一起发给后端                                                                  |
 | pageField                             | `string`                    | `"page"`                        | 设置分页页码字段名。                                                                                                  |
 | perPageField                          | `string`                    | `"perPage"`                     | 设置分页一页显示的多少条数据的字段名。注意：最好与 defaultParams 一起使用，请看下面例子。                             |
@@ -2575,3 +2692,25 @@ itemAction 里的 onClick 还能通过 `data` 参数拿到当前行的数据，�
 - 默认 [Table](./table) 模式里的列配置。
 - [Cards](./cards) 模式。
 - [List](./list) 模式。
+
+## columns-toggler 属性表
+
+| 属性名          | 类型                           | 默认值    | 说明                                   |
+| --------------- | ------------------------------ | --------- | -------------------------------------- |
+| label           | `string`                       |           | 按钮文字                               |
+| tooltip         | `string`                       |           | 按钮提示文字                           |
+| disabledTip     | `string`                       |           | 按钮禁用状态下的提示                   |
+| align           | `"left" \| "right"`            | `"left"`  | 点击内容是否关闭                       |
+| size            | `"xs" \| "sm" \| "md" \| "lg"` |           | 按钮大小，参考[按钮](./action)         |
+| footerBtnSize   | `"xs" \| "sm" \| "md" \| "lg"` |           | 弹窗底部按钮大小，参考[按钮](./action) |
+| level           | `string`                       | `default` | 按钮样式，参考[按钮](./action)         |
+| draggable       | `boolean`                      | `false`   | 是否可通过拖拽排序                     |
+| defaultIsOpened | `boolean`                      | `false`   | 默认是否展开                           |
+| hideExpandIcon  | `boolean`                      | `true`    | 是否隐藏展开的图标                     |
+| overlay         | `boolean`                      | `false`   | 是否显示遮罩层                         |
+| closeOnOutside  | `boolean`                      |           | 点击外部是否关闭                       |
+| closeOnClick    | `boolean`                      |           | 点击内容是否关闭                       |
+| iconOnly        | `boolean`                      | `false`   | 是否只显示图标。                       |
+| icon            | `string`                       |           | 按钮的图标                             |
+| className       | `string`                       |           | 外层 CSS 类名                          |
+| btnClassName    | `string`                       |           | 按钮的 CSS 类名                        |

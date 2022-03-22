@@ -1,5 +1,6 @@
 import React from 'react';
 import {findDOMNode} from 'react-dom';
+import Overflow from 'rc-overflow';
 import {Renderer, RendererEnv, RendererProps} from '../factory';
 import getExprProperties from '../utils/filter-schema';
 import {filter, evalExpression} from '../utils/tpl';
@@ -7,32 +8,36 @@ import {
   guid,
   autobind,
   createObject,
-  findTree,
   isUnfolded,
   mapTree,
   someTree,
   spliceTree,
-  findTreeIndex
+  findTreeIndex,
+  isObject
 } from '../utils/helper';
-import {ScopedContext, IScopedContext} from '../Scoped';
-import {themeable, ThemeProps} from '../theme';
-import {Icon} from '../components/icons';
-import {
-  BaseSchema,
-  SchemaApi,
-  SchemaIcon,
-  SchemaUrlPath,
-  SchemaCollection
-} from '../Schema';
 import {generateIcon} from '../utils/icon';
+import {isEffectiveApi} from '../utils/api';
+import {themeable, ThemeProps} from '../theme';
+import {Icon, getIcon} from '../components/icons';
+import {Badge, BadgeSchema} from '../components/Badge';
 import {
   RemoteOptionsProps,
   withRemoteConfig
 } from '../components/WithRemoteConfig';
-import {Payload} from '../types';
 import Spinner from '../components/Spinner';
-import {isEffectiveApi} from '../utils/api';
-import {Badge, BadgeSchema} from '../components/Badge';
+import PopOverContainer from '../components/PopOverContainer';
+import {ScopedContext, IScopedContext} from '../Scoped';
+
+import type {Payload} from '../types';
+import type {
+  BaseSchema,
+  SchemaObject,
+  SchemaApi,
+  SchemaIcon,
+  SchemaUrlPath,
+  SchemaCollection,
+  SchemaClassName
+} from '../Schema';
 
 export type NavItemSchema = {
   /**
@@ -57,6 +62,71 @@ export type NavItemSchema = {
 
   children?: Array<NavItemSchema>;
 } & Omit<BaseSchema, 'type'>;
+
+export interface NavOverflow {
+  /**
+   * 是否开启响应式收纳
+   */
+  enable: boolean;
+
+  /**
+   * 菜单触发按钮的文字
+   */
+  overflowLabel?: string | SchemaObject;
+
+  /**
+   * 菜单触发按钮的图标
+   * @default "fa fa-ellipsis"
+   */
+  overflowIndicator?: SchemaIcon;
+
+  /**
+   * 菜单触发按钮CSS类名
+   */
+  overflowClassName?: SchemaClassName;
+
+  /**
+   * Popover浮层CSS类名
+   */
+  overflowPopoverClassName?: SchemaClassName;
+
+  /**
+   * 菜单外层CSS类名
+   */
+  overflowListClassName?: SchemaClassName;
+
+  /**
+   * 导航横向布局时，开启开启响应式收纳后最大可显示数量，超出此数量的导航将被收纳到下拉菜单中
+   */
+  maxVisibleCount?: number;
+
+  /**
+   * 包裹导航的外层标签名，可以使用其他标签渲染
+   * @default "ul"
+   */
+  wrapperComponent?: string;
+
+  /**
+   * 导航项目宽度
+   * @default 160
+   */
+  itemWidth?: number;
+
+  /**
+   * 导航列表后缀节点
+   */
+  overflowSuffix?: SchemaCollection;
+
+  /**
+   * 自定义样式
+   */
+  style?: React.CSSProperties;
+
+  /**
+   * 菜单DOM挂载点
+   */
+  popOverContainer?: any;
+}
 
 /**
  * Nav 导航渲染器
@@ -117,6 +187,11 @@ export interface NavSchema extends BaseSchema {
    * 仅允许同层级拖拽
    */
   dragOnSameLevel?: boolean;
+
+  /**
+   * 横向导航时自动收纳配置
+   */
+  overflow?: NavOverflow;
 }
 
 export interface Link {
@@ -162,6 +237,7 @@ export interface NavigationProps
   env: RendererEnv;
   data: Object;
   reload?: any;
+  overflow?: NavOverflow;
 }
 
 export interface IDropInfo {
@@ -177,7 +253,7 @@ export class Navigation extends React.Component<
   NavigationProps,
   NavigationState
 > {
-  static defaultProps = {
+  static defaultProps: Pick<NavigationProps, 'indentSize'> = {
     indentSize: 24
   };
 
@@ -369,6 +445,7 @@ export class Navigation extends React.Component<
     } = this.props;
     const hasSub =
       (link.defer && !link.loaded) || (link.children && link.children.length);
+
     return (
       <li
         key={link.__id}
@@ -389,6 +466,7 @@ export class Navigation extends React.Component<
           <a
             data-id={link.__id}
             data-depth={depth}
+            title={link?.label?.toString()}
             onClick={this.handleClick.bind(this, link)}
             style={{
               paddingLeft: depth * (parseInt(indentSize as any, 10) ?? 24)
@@ -452,27 +530,147 @@ export class Navigation extends React.Component<
     );
   }
 
+  renderOverflowNavs(overflowConfig: NavOverflow) {
+    const {render, classnames: cx, className, loading, links = []} = this.props;
+    const {
+      overflowClassName,
+      overflowPopoverClassName,
+      overflowListClassName,
+      overflowLabel,
+      overflowIndicator,
+      itemWidth = 160,
+      overflowSuffix,
+      popOverContainer,
+      style,
+      maxVisibleCount,
+      wrapperComponent = 'ul'
+    } = overflowConfig;
+
+    return (
+      <>
+        <Spinner show={!!loading} overlay icon="reload" />
+
+        <Overflow<Link>
+          className={cx('Nav-list--tabs', className)}
+          prefixCls={cx('Nav-list')}
+          itemWidth={itemWidth}
+          style={style}
+          component={wrapperComponent as any}
+          data={links}
+          suffix={
+            overflowSuffix
+              ? render('nav-overflow-suffix', overflowSuffix)
+              : null
+          }
+          renderRawItem={(item, index) =>
+            this.renderItem(item, index) as JSX.Element
+          }
+          renderRawRest={overFlowedItems => {
+            return (
+              <PopOverContainer
+                popOverContainer={popOverContainer}
+                popOverClassName={cx(
+                  'Nav-item-overflow-popover',
+                  overflowPopoverClassName
+                )}
+                popOverRender={({onClose}) => (
+                  <div
+                    className={cx(
+                      'Nav-list',
+                      'Nav-list--stacked', // 浮层菜单为垂直布局
+                      'Nav-list-overflow',
+                      overflowListClassName
+                    )}
+                  >
+                    {overFlowedItems.map((item, index) =>
+                      React.cloneElement(
+                        this.renderItem(item, index) as JSX.Element,
+                        {
+                          onClick: onClose
+                        }
+                      )
+                    )}
+                  </div>
+                )}
+              >
+                {({onClick, ref, isOpened}) => (
+                  <li
+                    ref={ref}
+                    className={cx(
+                      'Nav-item',
+                      'Nav-item-overflow',
+                      {
+                        'is-overflow-opened': isOpened
+                      },
+                      overflowClassName
+                    )}
+                    onClick={onClick}
+                  >
+                    <a data-id={guid()} data-depth={1}>
+                      {getIcon(overflowIndicator!) ? (
+                        <Icon icon={overflowIndicator} className="icon" />
+                      ) : (
+                        generateIcon(cx, overflowIndicator, 'Nav-itemIcon')
+                      )}
+                      {overflowLabel && isObject
+                        ? render('nav-overflow-label', overflowLabel)
+                        : overflowLabel}
+                    </a>
+                  </li>
+                )}
+              </PopOverContainer>
+            );
+          }}
+          maxCount={
+            maxVisibleCount && Number.isInteger(maxVisibleCount)
+              ? maxVisibleCount
+              : 'responsive'
+          }
+        />
+      </>
+    );
+  }
+
   render(): JSX.Element {
-    const {className, stacked, classnames: cx, links, loading} = this.props;
+    const {
+      className,
+      stacked,
+      classnames: cx,
+      links,
+      loading,
+      overflow
+    } = this.props;
     const {dropIndicator} = this.state;
+
     return (
       <div className={cx('Nav')}>
-        <ul
-          className={cx(
-            'Nav-list',
-            className,
-            stacked ? 'Nav-list--stacked' : 'Nav-list--tabs'
-          )}
-        >
-          {Array.isArray(links)
-            ? links.map((item, index) => this.renderItem(item, index))
-            : null}
+        {overflow && isObject(overflow) && overflow.enable ? (
+          this.renderOverflowNavs({
+            overflowIndicator: 'fa fa-ellipsis',
+            wrapperComponent: 'ul',
+            itemWidth: 160,
+            ...overflow
+          })
+        ) : (
+          <>
+            <ul
+              className={cx(
+                'Nav-list',
+                className,
+                stacked ? 'Nav-list--stacked' : 'Nav-list--tabs'
+              )}
+            >
+              {Array.isArray(links)
+                ? links.map((item, index) => this.renderItem(item, index))
+                : null}
 
-          <Spinner show={!!loading} overlay icon="reload" />
-        </ul>
-        {dropIndicator ? (
-          <div className={cx('Nav-dropIndicator')} style={dropIndicator} />
-        ) : null}
+              <Spinner show={!!loading} overlay icon="reload" />
+            </ul>
+            {dropIndicator ? (
+              <div className={cx('Nav-dropIndicator')} style={dropIndicator} />
+            ) : null}
+          </>
+        )}
       </div>
     );
   }
@@ -523,7 +721,7 @@ const ConditionBuilderWithRemoteOptions = withRemoteConfig({
                     env &&
                     env.isCurrentUrl(filter(link.to as string, data))
                   )),
-            __id: link.id ?? link.__id ?? guid()
+            __id: link.__id ?? guid()
           };
 
           item.unfolded =

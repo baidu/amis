@@ -8,7 +8,12 @@ exports[`Renderer:markdown 1`] = `
     <div>
       <div
         class="cxd-Spinner in"
-      />
+      >
+        <div
+          class="cxd-Spinner-icon cxd-Spinner-icon--default"
+        />
+        
+      </div>
     </div>
   </div>
 </div>

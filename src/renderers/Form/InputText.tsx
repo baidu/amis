@@ -179,7 +179,7 @@ export default class TextControl extends React.PureComponent<
             term: ''
           })
         );
-      } else {
+      } else if (addHook) {
         this.unHook = addHook(async (data: any) => {
           await formItem.loadOptions(
             autoComplete,
@@ -546,6 +546,8 @@ export default class TextControl extends React.PureComponent<
       multiple,
       creatable,
       borderMode,
+      showCounter,
+      maxLength,
       translate: __
     } = this.props;
     let type = this.props.type?.replace(/^(?:native|input)\-/, '');
@@ -662,6 +664,16 @@ export default class TextControl extends React.PureComponent<
                 >
                   <Icon icon="input-clear" className="icon" />
                 </a>
+              ) : null}
+
+              {showCounter ? (
+                <span className={cx('TextControl-counter')}>
+                  {`${this.valueToString(value)?.length}${
+                    typeof maxLength === 'number' && maxLength
+                      ? `/${maxLength}`
+                      : ''
+                  }`}
+                </span>
               ) : null}
 
               {loading ? (
@@ -832,8 +844,8 @@ export default class TextControl extends React.PureComponent<
         </div>
       ) : (
         <div className={cx(`${ns}TextControl-addOn`, addOn.className)}>
-          {addOn.label ? filter(addOn.label, data) : null}
           {iconElement}
+          {addOn.label ? filter(addOn.label, data) : null}
         </div>
       )
     ) : null;

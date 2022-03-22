@@ -7,6 +7,11 @@ import {observer} from 'mobx-react';
 import omit = require('lodash/omit');
 import {filter} from '../../utils/tpl';
 import {Badge} from '../../components/Badge';
+import ColorScale from '../../utils/ColorScale';
+import {
+  isPureVariable,
+  resolveVariableAndFilter
+} from '../../utils/tpl-builtin';
 
 export interface TableCellProps extends RendererProps {
   wrapperComponent?: React.ReactType;
@@ -34,7 +39,7 @@ export class TableCell extends React.Component<RendererProps> {
       className,
       classNameExpr,
       render,
-      style,
+      style = {},
       wrapperComponent: Component,
       column,
       value,
@@ -104,6 +109,39 @@ export class TableCell extends React.Component<RendererProps> {
         ...style,
         textAlign: align
       };
+    }
+
+    if (column.backgroundScale) {
+      const backgroundScale = column.backgroundScale;
+      let min = backgroundScale.min;
+      let max = backgroundScale.max;
+
+      if (isPureVariable(min)) {
+        min = resolveVariableAndFilter(min, data, '| raw');
+      }
+      if (isPureVariable(max)) {
+        max = resolveVariableAndFilter(max, data, '| raw');
+      }
+
+      if (typeof min === 'undefined') {
+        min = Math.min(...data.rows.map((r: any) => r[column.name]));
+      }
+      if (typeof max === 'undefined') {
+        max = Math.max(...data.rows.map((r: any) => r[column.name]));
+      }
+
+      const colorScale = new ColorScale(
+        min,
+        max,
+        backgroundScale.colors || ['#FFEF9C', '#FF7127']
+      );
+      let value = data[column.name];
+      if (isPureVariable(backgroundScale.source)) {
+        value = resolveVariableAndFilter(backgroundScale.source, data, '| raw');
+      }
+
+      const color = colorScale.getColor(Number(value)).toHexString();
+      style.background = color;
     }
 
     if (!Component) {

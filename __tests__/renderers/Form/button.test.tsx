@@ -57,6 +57,6 @@ test('Renderer:button', async () => {
   );
   expect(container).toMatchSnapshot();
   fireEvent.click(getByText(/OpenDialog/));
-  await wait(100);
+  await wait(300);
   expect(container).toMatchSnapshot();
 });

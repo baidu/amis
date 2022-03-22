@@ -80,7 +80,7 @@ test('Form:options:autoFill', async () => {
   ).toBe('233');
 
   fireEvent.click(getByText(/OptionB/));
-  await wait(500);
+  await wait(1000);
 
   expect(container.querySelector('input[name=a]')?.getAttribute('value')).toBe(
     'b'

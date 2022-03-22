@@ -278,6 +278,13 @@ export class Carousel extends React.Component<CarouselProps, CarouselState> {
     clearTimeout(this.durationTimeout as number);
   }
 
+  @autobind
+  changeSlide(index: number) {
+    this.setState({
+      current: index
+    });
+  }
+
   renderDots() {
     const {classnames: cx} = this.props;
     const {current, options} = this.state;
@@ -290,6 +297,7 @@ export class Carousel extends React.Component<CarouselProps, CarouselState> {
         {Array.from({length: options.length}).map((_, i) => (
           <span
             key={i}
+            onClick={() => this.changeSlide(i)}
             className={cx('Carousel-dot', current === i ? 'is-active' : '')}
           />
         ))}

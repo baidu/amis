@@ -31,6 +31,7 @@ import {
 import {filter} from '../../utils/tpl';
 import isPlainObject from 'lodash/isPlainObject';
 import merge from 'lodash/merge';
+import omit from 'lodash/omit';
 
 /**
  * Image 图片上传控件
@@ -817,13 +818,16 @@ export default class ImageControl extends React.Component<
   }
 
   syncAutoFill() {
-    const {autoFill, multiple, onBulkChange, data} = this.props;
-    if (!isEmpty(autoFill) && onBulkChange && this.initAutoFill) {
+    const {autoFill, multiple, onBulkChange, data, name} = this.props;
+    // 排除自身的字段，否则会无限更新state
+    const excludeSelfAutoFill = omit(autoFill, name || '');
+
+    if (!isEmpty(excludeSelfAutoFill) && onBulkChange && this.initAutoFill) {
       const files = this.state.files.filter(
         file => ~['uploaded', 'init', 'ready'].indexOf(file.state as string)
       );
       const toSync = dataMapping(
-        autoFill,
+        excludeSelfAutoFill,
         multiple
           ? {
               items: files
@@ -1077,7 +1081,11 @@ export default class ImageControl extends React.Component<
         };
         obj.value = obj.value || obj.url;
 
-        const dispatcher = await this.dispatchEvent('success', obj);
+        const dispatcher = await this.dispatchEvent('success', {
+          ...file,
+          value: obj.value,
+          state: 'uploaded'
+        });
         if (dispatcher?.prevented) {
           return;
         }
@@ -1248,8 +1256,16 @@ export default class ImageControl extends React.Component<
 
   async dispatchEvent(e: string, data?: Record<string, any>) {
     const {dispatchEvent} = this.props;
-    data = data ? data : this.files;
-    return dispatchEvent(e, createObject(this.props.data, {file: data}));
+    const getEventData = (item: Record<string, any>) => ({
+      name: item.path || item.name,
+      value: item.value,
+      state: item.state,
+      error: item.error
+    });
+    const value = data
+      ? getEventData(data)
+      : this.files.map(item => getEventData(item));
+    return dispatchEvent(e, createObject(this.props.data, {file: value}));
   }
 
   // 动作

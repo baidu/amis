@@ -398,3 +398,27 @@ app.listen(8080, function () {});
 | maxWidth    | `number` |        | 限制图片最大宽度。                                                                                                                                  |
 | maxHeight   | `number` |        | 限制图片最大高度。                                                                                                                                  |
 | aspectRatio | `number` |        | 限制图片宽高比，格式为浮点型数字，默认 `1` 即 `1:1`，如果要设置 `16:9` 请设置 `1.7777777777777777` 即 `16 / 9`。 如果不想限制比率，请设置空字符串。 |
+
+## 事件表
+
+| 事件名称 | 事件参数                 | 说明                 |
+| -------- | ------------------------ | -------------------- |
+| change   | `file: Array<FileValue>` | 选中值发生变化时触发 |
+| remove   | `file: FileValue`        | 被移除的文件         |
+| success  | `file: FileValue`        | 上传成功的文件       |
+| fail     | `file: FileValue`        | 上传失败的文件       |
+
+### FileValue 属性表
+
+| 属性名 | 类型     | 说明                                               |
+| ------ | -------- | -------------------------------------------------- |
+| name   | `string` | 图片名称                                           |
+| value  | `string` | 上传成功后返回的 url                               |
+| state  | `string` | 文件当前状态,值可为 `pending` `uploaded` `invalid` |
+| error  | `string` | 错误信息                                           |
+
+## 动作表
+
+| 动作名称 | 动作配置 | 说明 |
+| -------- | -------- | ---- |
+| clear    | -        | 清空 |

@@ -13,7 +13,6 @@ import {
   mapTree,
   guid
 } from '../../utils/helper';
-import {findDOMNode} from 'react-dom';
 import animtion from '../../utils/Animation';
 import {FormulaPickerProps} from '../formula/Picker';
 
@@ -31,6 +30,7 @@ export interface ConditionBuilderProps extends ThemeProps, LocaleProps {
   searchable?: boolean;
   fieldClassName?: string;
   formula?: FormulaPickerProps;
+  popOverContainer?: any;
 }
 
 export class QueryBuilder extends React.Component<ConditionBuilderProps> {
@@ -210,7 +210,8 @@ export class QueryBuilder extends React.Component<ConditionBuilderProps> {
       disabled,
       searchable,
       builderMode,
-      formula
+      formula,
+      popOverContainer
     } = this.props;
 
     const normalizedValue = Array.isArray(value?.children)
@@ -247,6 +248,7 @@ export class QueryBuilder extends React.Component<ConditionBuilderProps> {
         disabled={disabled}
         searchable={searchable}
         formula={formula}
+        popOverContainer={popOverContainer}
       />
     );
   }

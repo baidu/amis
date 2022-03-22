@@ -125,19 +125,25 @@ export function buildApi(
       undefined,
       api.convertKeyToPath
     );
-  } else if (api.method === 'post' || api.method === 'put') {
+  } else if (
+    api.method === 'post' ||
+    api.method === 'put' ||
+    api.method === 'patch'
+  ) {
     api.body = api.data = cloneObject(data);
   }
 
   // get 类请求，把 data 附带到 url 上。
   if (api.method === 'get' || api.method === 'jsonp') {
-    if (!~raw.indexOf('$') && !api.data && autoAppend) {
+    if (
+      !api.data &&
+      ((!~raw.indexOf('$') && autoAppend) || api.forceAppendDataToQuery)
+    ) {
       api.query = api.data = data;
     } else if (
       api.attachDataToQuery === false &&
       api.data &&
-      !~raw.indexOf('$') &&
-      autoAppend
+      ((!~raw.indexOf('$') && autoAppend) || api.forceAppendDataToQuery)
     ) {
       const idx = api.url.indexOf('?');
       if (~idx) {
@@ -165,6 +171,22 @@ export function buildApi(
         api.url += '?' + qsstringify(api.data);
       }
       delete api.data;
+    }
+  }
+
+  if (api.graphql) {
+    if (api.method === 'get') {
+      api.query = api.data = {...api.query, query: api.graphql};
+    } else if (
+      api.method === 'post' ||
+      api.method === 'put' ||
+      api.method === 'patch'
+    ) {
+      api.body = api.data = {
+        query: api.graphql,
+        operationName: api.operationName,
+        variables: cloneObject(api.data)
+      };
     }
   }
 

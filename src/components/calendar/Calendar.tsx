@@ -161,20 +161,6 @@ class BaseDatePicker extends React.Component<
       updatedState = this.getStateFromProps(props);
     }
 
-    // open 是外部控制了
-    // if (updatedState.open === undefined) {
-    //   if (typeof props.open !== 'undefined') {
-    //     updatedState.open = props.open;
-    //   } else if (
-    //     prevProps.closeOnSelect &&
-    //     this.state.currentView !== viewModes.TIME
-    //   ) {
-    //     updatedState.open = false;
-    //   } else {
-    //     updatedState.open = this.state.open;
-    //   }
-    // }
-
     if (props.viewMode !== prevProps.viewMode) {
       updatedState.currentView = props.viewMode;
     }
@@ -237,7 +223,8 @@ class BaseDatePicker extends React.Component<
       updatedState.viewDate = moment(props.viewDate);
     }
 
-    if (Object.keys(updatedState).length) {
+    // time-range 下会有问题，先不支持
+    if (Object.keys(updatedState).length && props.viewMode !== 'time') {
       this.setState(updatedState);
     }
 

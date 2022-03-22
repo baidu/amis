@@ -55,7 +55,7 @@ test('Control:onChange', async () => {
       value: '123'
     }
   });
-  await wait(100);
+  await wait(300);
   expect(onChange).toBeCalledTimes(1);
 
   fireEvent.click(getByText('Submit'));
@@ -125,7 +125,7 @@ test('Control:formItem:reload', async () => {
     )
   );
 
-  await wait(100);
+  await wait(300);
   expect(fetcher).toHaveBeenCalled();
 
   fireEvent.click(getByText('Reload'));

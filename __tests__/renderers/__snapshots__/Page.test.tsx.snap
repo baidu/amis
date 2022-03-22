@@ -93,11 +93,15 @@ exports[`Renderer:Page classNames 1`] = `
     className="cxd-Page-aside cxd-Page-aside--withWidth aside-class-name"
   >
     <div
-      className="cxd-TplField cxd-Page-asideTplWrapper"
+      className="cxd-Page-asideInner"
     >
-      <span>
-        This is aside
-      </span>
+      <div
+        className="cxd-TplField cxd-Page-asideTplWrapper"
+      >
+        <span>
+          This is aside
+        </span>
+      </div>
     </div>
   </div>
   <div
@@ -205,12 +209,6 @@ exports[`Renderer:Page handleAction actionType=ajax & feedback 1`] = `
         <div
           class="cxd-Page-body"
         >
-          <div
-            class="cxd-Spinner-overlay"
-          />
-          <div
-            class="cxd-Spinner cxd-Spinner--overlay cxd-Spinner--lg"
-          />
           <span
             class="cxd-TplField"
           >
@@ -353,12 +351,6 @@ exports[`Renderer:Page handleAction actionType=ajax 1`] = `
         <div
           class="cxd-Page-body"
         >
-          <div
-            class="cxd-Spinner-overlay"
-          />
-          <div
-            class="cxd-Spinner cxd-Spinner--overlay cxd-Spinner--lg"
-          />
           <span
             class="cxd-TplField"
           >
@@ -824,8 +816,13 @@ exports[`Renderer:Page handleAction actionType=drawer 1`] = `
           class="cxd-Spinner-overlay in"
         />
         <div
-          class="cxd-Spinner in cxd-Spinner--overlay cxd-Spinner--lg"
-        />
+          class="cxd-Spinner cxd-Spinner--overlay in"
+        >
+          <div
+            class="cxd-Spinner-icon cxd-Spinner-icon--lg cxd-Spinner-icon--default"
+          />
+          
+        </div>
       </div>
       <div
         class="cxd-Drawer-footer"
@@ -1064,12 +1061,6 @@ exports[`Renderer:Page initApi 1`] = `
       <div
         className="cxd-Page-body"
       >
-        <div
-          className="cxd-Spinner-overlay"
-        />
-        <div
-          className="cxd-Spinner cxd-Spinner--overlay cxd-Spinner--lg"
-        />
         <span
           className="cxd-TplField"
         >
@@ -1097,12 +1088,6 @@ exports[`Renderer:Page initApi error show Message 1`] = `
       <div
         className="cxd-Page-body"
       >
-        <div
-          className="cxd-Spinner-overlay"
-        />
-        <div
-          className="cxd-Spinner cxd-Spinner--overlay cxd-Spinner--lg"
-        />
         <div
           className="cxd-Alert cxd-Alert--danger"
         >
@@ -1146,12 +1131,6 @@ exports[`Renderer:Page initApi reFetch when condition changes 1`] = `
       <div
         className="cxd-Page-body"
       >
-        <div
-          className="cxd-Spinner-overlay"
-        />
-        <div
-          className="cxd-Spinner cxd-Spinner--overlay cxd-Spinner--lg"
-        />
         <span
           className="cxd-TplField"
         >
@@ -1218,12 +1197,6 @@ exports[`Renderer:Page initApi reload by Dialog action 1`] = `
         <div
           class="cxd-Page-body"
         >
-          <div
-            class="cxd-Spinner-overlay"
-          />
-          <div
-            class="cxd-Spinner cxd-Spinner--overlay cxd-Spinner--lg"
-          />
           <span
             class="cxd-TplField"
           >
@@ -1409,100 +1382,6 @@ exports[`Renderer:Page initApi reload by Dialog action 3`] = `
       </div>
     </div>
   </div>
-  <div
-    class="amis-dialog-widget cxd-Modal cxd-Modal--1th"
-    role="dialog"
-  >
-    <div
-      class="cxd-Modal-overlay out"
-    />
-    <div
-      class="cxd-Modal-content out"
-    >
-      <div
-        class="cxd-Modal-header"
-      >
-        <a
-          class="cxd-Modal-close"
-          data-position="left"
-          data-tooltip="关闭"
-        >
-          <icon-mock
-            classname="icon icon-close"
-            icon="close"
-          />
-        </a>
-        <div
-          class="cxd-Modal-title"
-        >
-          弹框
-        </div>
-      </div>
-      <div
-        class="cxd-Modal-body"
-      >
-        <form
-          class="cxd-Form cxd-Form--horizontal"
-          novalidate=""
-        >
-          <input
-            style="display: none;"
-            type="submit"
-          />
-          <div
-            class="cxd-Form-item cxd-Form-item--horizontal"
-            data-role="form-item"
-          >
-            <label
-              class="cxd-Form-label cxd-Form-itemColumn--normal"
-            >
-              <span />
-            </label>
-            <div
-              class="cxd-Form-value"
-            >
-              <div
-                class="cxd-Form-control cxd-TextControl"
-              >
-                <div
-                  class="cxd-TextControl-input"
-                >
-                  <input
-                    autocomplete="off"
-                    name="a"
-                    placeholder=""
-                    size="10"
-                    type="text"
-                    value="1"
-                  />
-                </div>
-              </div>
-            </div>
-          </div>
-        </form>
-      </div>
-      <div
-        class="cxd-Modal-footer"
-      >
-        <button
-          class="cxd-Button cxd-Button--default"
-          type="button"
-        >
-          <span>
-            取消
-          </span>
-        </button>
-        <button
-          class="cxd-Button cxd-Button--primary"
-          type="button"
-        >
-          <span>
-            确认
-          </span>
-        </button>
-      </div>
-    </div>
-  </div>
 </div>
 `;
 
@@ -1532,12 +1411,6 @@ exports[`Renderer:Page initApi reload by Drawer action 1`] = `
         <div
           class="cxd-Page-body"
         >
-          <div
-            class="cxd-Spinner-overlay"
-          />
-          <div
-            class="cxd-Spinner cxd-Spinner--overlay cxd-Spinner--lg"
-          />
           <span
             class="cxd-TplField"
           >
@@ -1704,12 +1577,6 @@ exports[`Renderer:Page initApi reload by Drawer action 3`] = `
         <div
           class="cxd-Page-body"
         >
-          <div
-            class="cxd-Spinner-overlay"
-          />
-          <div
-            class="cxd-Spinner cxd-Spinner--overlay cxd-Spinner--lg"
-          />
           <span
             class="cxd-TplField"
           >
@@ -1851,12 +1718,6 @@ exports[`Renderer:Page initApi reload by Form submit 1`] = `
         <div
           class="cxd-Page-body"
         >
-          <div
-            class="cxd-Spinner-overlay"
-          />
-          <div
-            class="cxd-Spinner cxd-Spinner--overlay cxd-Spinner--lg"
-          />
           <span
             class="cxd-TplField"
           >
@@ -1998,12 +1859,6 @@ exports[`Renderer:Page initApi reload by Form submit 2`] = `
         <div
           class="cxd-Page-body"
         >
-          <div
-            class="cxd-Spinner-overlay"
-          />
-          <div
-            class="cxd-Spinner cxd-Spinner--overlay cxd-Spinner--lg"
-          />
           <span
             class="cxd-TplField"
           >
@@ -2044,12 +1899,6 @@ exports[`Renderer:Page initApi reload by action 1`] = `
         <div
           class="cxd-Page-body"
         >
-          <div
-            class="cxd-Spinner-overlay"
-          />
-          <div
-            class="cxd-Spinner cxd-Spinner--overlay cxd-Spinner--lg"
-          />
           <span
             class="cxd-TplField"
           >
@@ -2090,12 +1939,6 @@ exports[`Renderer:Page initApi reload by action 2`] = `
         <div
           class="cxd-Page-body"
         >
-          <div
-            class="cxd-Spinner-overlay"
-          />
-          <div
-            class="cxd-Spinner cxd-Spinner--overlay cxd-Spinner--lg"
-          />
           <span
             class="cxd-TplField"
           >
@@ -2128,8 +1971,13 @@ exports[`Renderer:Page initApi show loading 1`] = `
           className="cxd-Spinner-overlay in"
         />
         <div
-          className="cxd-Spinner in cxd-Spinner--overlay cxd-Spinner--lg"
-        />
+          className="cxd-Spinner cxd-Spinner--overlay in"
+        >
+          <div
+            className="cxd-Spinner-icon cxd-Spinner-icon--lg cxd-Spinner-icon--default"
+          />
+          
+        </div>
         <span
           className="cxd-TplField"
         >
@@ -2157,12 +2005,6 @@ exports[`Renderer:Page initApi show loading 2`] = `
       <div
         className="cxd-Page-body"
       >
-        <div
-          className="cxd-Spinner-overlay"
-        />
-        <div
-          className="cxd-Spinner cxd-Spinner--overlay cxd-Spinner--lg"
-        />
         <span
           className="cxd-TplField"
         >
@@ -2194,8 +2036,13 @@ exports[`Renderer:Page initApi silentPolling 1`] = `
           className="cxd-Spinner-overlay in"
         />
         <div
-          className="cxd-Spinner in cxd-Spinner--overlay cxd-Spinner--lg"
-        />
+          className="cxd-Spinner cxd-Spinner--overlay in"
+        >
+          <div
+            className="cxd-Spinner-icon cxd-Spinner-icon--lg cxd-Spinner-icon--default"
+          />
+          
+        </div>
         <span
           className="cxd-TplField"
         >
@@ -2223,12 +2070,6 @@ exports[`Renderer:Page initApi silentPolling 2`] = `
       <div
         className="cxd-Page-body"
       >
-        <div
-          className="cxd-Spinner-overlay"
-        />
-        <div
-          className="cxd-Spinner cxd-Spinner--overlay cxd-Spinner--lg"
-        />
         <span
           className="cxd-TplField"
         >
@@ -2337,12 +2178,6 @@ exports[`Renderer:Page initFetchOn trigger initApi fetch when condition becomes 
       <div
         className="cxd-Page-body"
       >
-        <div
-          className="cxd-Spinner-overlay"
-        />
-        <div
-          className="cxd-Spinner cxd-Spinner--overlay cxd-Spinner--lg"
-        />
         <span
           className="cxd-TplField"
         >

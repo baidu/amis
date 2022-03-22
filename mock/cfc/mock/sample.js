@@ -25,6 +25,12 @@ module.exports = function (req, res) {
     return bulkUpdate2(req, res);
   } else if (pathname === 'sample/mirror') {
     return mirror(req, res);
+  } else if (pathname === 'sample/array') {
+    return res.json(DB.concat());
+  } else if (pathname === 'sample/itemsHasAnother') {
+    return res.json({myItems: DB.concat()});
+  } else if (pathname === 'sample/arrayInData') {
+    return res.json({data: DB.concat()});
   }
 
   return index(req, res);
@@ -43,21 +49,21 @@ function index(req, res) {
     };
   });
 
-  if (req.query.keywords) {
+  if (req.query.keywords && !req.query.loadDataOnce) {
     const keywords = req.query.keywords;
     items = items.filter(function (item) {
       return ~JSON.stringify(item).indexOf(keywords);
     });
   }
 
-  if (req.query.engine) {
+  if (req.query.engine && !req.query.loadDataOnce) {
     const keywords = req.query.engine;
     items = items.filter(function (item) {
       return ~JSON.stringify(item.engine).indexOf(keywords);
     });
   }
 
-  if (req.query.orderBy) {
+  if (req.query.orderBy && !req.query.loadDataOnce) {
     const field = req.query.orderBy;
     const direction = req.query.orderDir === 'desc' ? -1 : 1;
     items = items.sort(function (a, b) {

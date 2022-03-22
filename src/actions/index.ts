@@ -17,6 +17,7 @@ import './DrawerAction';
 import './EmailAction';
 import './LinkAction';
 import './ToastAction';
+import './PageAction';
 import './Decorators';
 
 export * from './Action';
