@@ -192,10 +192,10 @@ test('Form:initData:remote', async () => {
     )
   );
   expect(container).toMatchSnapshot();
-  await wait(100);
+  await wait(300);
 
   await resultPromise;
-  await wait(100);
+  await wait(300);
 
   expect(fetcher).toHaveBeenCalled();
   expect(fetcher.mock.calls[0][0]).toMatchSnapshot();
@@ -290,7 +290,7 @@ test('Form:initData:remote:options:source', async () => {
   expect(fetcherinitApi).toHaveBeenCalled();
   expect(fetcherinitApi.mock.calls[0][0].url).toEqual('/api/initApi?op=init');
 
-  await wait(100);
+  await wait(300);
 
   await sourceApiPromise;
   expect(fetcherSourceApi).toHaveBeenCalled();

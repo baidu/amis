@@ -17,114 +17,110 @@ exports[`Renderer:tableview 1`] = `
           <div
             class="cxd-Service"
           >
-            <div
-              class="cxd-Service-body"
+            <table
+              class="cxd-TableView"
+              style="width: 100%; border-collapse: collapse;"
             >
-              <table
-                class="cxd-TableView"
-                style="width: 100%; border-collapse: collapse;"
-              >
-                <tbody>
-                  <tr
-                    style="background: rgb(247, 247, 247);"
+              <tbody>
+                <tr
+                  style="background: rgb(247, 247, 247);"
+                >
+                  <td
+                    style="font-weight: normal; width: auto; text-align: left; vertical-align: center;"
                   >
-                    <td
-                      style="font-weight: normal; width: auto; text-align: left; vertical-align: center;"
+                    <span
+                      class="cxd-TplField"
                     >
-                      <span
-                        class="cxd-TplField"
-                      >
-                        <span>
-                          地区
-                        </span>
+                      <span>
+                        地区
                       </span>
-                    </td>
-                    <td
-                      style="font-weight: normal; width: auto; text-align: left; vertical-align: center;"
+                    </span>
+                  </td>
+                  <td
+                    style="font-weight: normal; width: auto; text-align: left; vertical-align: center;"
+                  >
+                    <span
+                      class="cxd-TplField"
                     >
-                      <span
-                        class="cxd-TplField"
-                      >
-                        <span>
-                          城市
-                        </span>
+                      <span>
+                        城市
                       </span>
-                    </td>
-                    <td
-                      style="font-weight: normal; width: auto; text-align: left; vertical-align: center;"
+                    </span>
+                  </td>
+                  <td
+                    style="font-weight: normal; width: auto; text-align: left; vertical-align: center;"
+                  >
+                    <span
+                      class="cxd-TplField"
                     >
-                      <span
-                        class="cxd-TplField"
-                      >
-                        <span>
-                          销量
-                        </span>
+                      <span>
+                        销量
                       </span>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td
-                      rowspan="2"
-                      style="font-weight: normal; width: auto; text-align: left; vertical-align: center;"
+                    </span>
+                  </td>
+                </tr>
+                <tr>
+                  <td
+                    rowspan="2"
+                    style="font-weight: normal; width: auto; text-align: left; vertical-align: center;"
+                  >
+                    <span
+                      class="cxd-TplField"
                     >
-                      <span
-                        class="cxd-TplField"
-                      >
-                        <span>
-                          华北
-                        </span>
+                      <span>
+                        华北
                       </span>
-                    </td>
-                    <td
-                      style="font-weight: normal; width: auto; text-align: left; vertical-align: center;"
+                    </span>
+                  </td>
+                  <td
+                    style="font-weight: normal; width: auto; text-align: left; vertical-align: center;"
+                  >
+                    <span
+                      class="cxd-TplField"
                     >
-                      <span
-                        class="cxd-TplField"
-                      >
-                        <span>
-                          北京
-                        </span>
+                      <span>
+                        北京
                       </span>
-                    </td>
-                    <td
-                      style="font-weight: normal; width: auto; text-align: left; vertical-align: center;"
+                    </span>
+                  </td>
+                  <td
+                    style="font-weight: normal; width: auto; text-align: left; vertical-align: center;"
+                  >
+                    <span
+                      class="cxd-TplField"
                     >
-                      <span
-                        class="cxd-TplField"
-                      >
-                        <span>
-                          20
-                        </span>
+                      <span>
+                        20
                       </span>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td
-                      style="font-weight: normal; width: auto; text-align: left; vertical-align: center;"
+                    </span>
+                  </td>
+                </tr>
+                <tr>
+                  <td
+                    style="font-weight: normal; width: auto; text-align: left; vertical-align: center;"
+                  >
+                    <span
+                      class="cxd-TplField"
                     >
-                      <span
-                        class="cxd-TplField"
-                      >
-                        <span>
-                          天津
-                        </span>
+                      <span>
+                        天津
                       </span>
-                    </td>
-                    <td
-                      style="font-weight: normal; width: auto; text-align: left; vertical-align: center;"
+                    </span>
+                  </td>
+                  <td
+                    style="font-weight: normal; width: auto; text-align: left; vertical-align: center;"
+                  >
+                    <span
+                      class="cxd-TplField"
                     >
-                      <span
-                        class="cxd-TplField"
-                      >
-                        <span>
-                          19
-                        </span>
+                      <span>
+                        19
                       </span>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
+                    </span>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
           </div>
         </div>
       </div>
