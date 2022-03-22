@@ -7,6 +7,7 @@ import {Option} from './Select';
 import {resolveVariable} from '../utils/tpl-builtin';
 import {localeable} from '../locale';
 import {CloseIcon} from './icons';
+
 export interface TableSelectionProps extends BaseSelectionProps {
   columns: Array<{
     name: string;
