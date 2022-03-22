@@ -74,6 +74,17 @@ exports[`Renderer:transfer 1`] = `
                           class="cxd-Transfer-title"
                         >
                           <span>
+                            <label
+                              class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full cxd-Checkbox--sm"
+                            >
+                              <input
+                                type="checkbox"
+                              />
+                              <i />
+                              <span
+                                class=""
+                              />
+                            </label>
                             可选项
                             <span>
                               （
@@ -83,11 +94,6 @@ exports[`Renderer:transfer 1`] = `
                               ）
                             </span>
                           </span>
-                          <a
-                            class="cxd-Transfer-checkAll"
-                          >
-                            全选
-                          </a>
                         </div>
                         <div
                           class="cxd-GroupedSelection cxd-Transfer-selection"
@@ -95,6 +101,17 @@ exports[`Renderer:transfer 1`] = `
                           <div
                             class="cxd-GroupedSelection-item"
                           >
+                            <label
+                              class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full cxd-Checkbox--sm"
+                            >
+                              <input
+                                type="checkbox"
+                              />
+                              <i />
+                              <span
+                                class=""
+                              />
+                            </label>
                             <div
                               class="cxd-GroupedSelection-itemLabel"
                             >
@@ -102,6 +119,10 @@ exports[`Renderer:transfer 1`] = `
                                 诸葛亮
                               </span>
                             </div>
+                          </div>
+                          <div
+                            class="cxd-GroupedSelection-item"
+                          >
                             <label
                               class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full cxd-Checkbox--sm"
                             >
@@ -113,10 +134,6 @@ exports[`Renderer:transfer 1`] = `
                                 class=""
                               />
                             </label>
-                          </div>
-                          <div
-                            class="cxd-GroupedSelection-item"
-                          >
                             <div
                               class="cxd-GroupedSelection-itemLabel"
                             >
@@ -124,6 +141,10 @@ exports[`Renderer:transfer 1`] = `
                                 曹操
                               </span>
                             </div>
+                          </div>
+                          <div
+                            class="cxd-GroupedSelection-item"
+                          >
                             <label
                               class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full cxd-Checkbox--sm"
                             >
@@ -135,10 +156,6 @@ exports[`Renderer:transfer 1`] = `
                                 class=""
                               />
                             </label>
-                          </div>
-                          <div
-                            class="cxd-GroupedSelection-item"
-                          >
                             <div
                               class="cxd-GroupedSelection-itemLabel"
                             >
@@ -146,6 +163,10 @@ exports[`Renderer:transfer 1`] = `
                                 钟无艳
                               </span>
                             </div>
+                          </div>
+                          <div
+                            class="cxd-GroupedSelection-item"
+                          >
                             <label
                               class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full cxd-Checkbox--sm"
                             >
@@ -157,10 +178,6 @@ exports[`Renderer:transfer 1`] = `
                                 class=""
                               />
                             </label>
-                          </div>
-                          <div
-                            class="cxd-GroupedSelection-item"
-                          >
                             <div
                               class="cxd-GroupedSelection-itemLabel"
                             >
@@ -168,6 +185,10 @@ exports[`Renderer:transfer 1`] = `
                                 李白
                               </span>
                             </div>
+                          </div>
+                          <div
+                            class="cxd-GroupedSelection-item"
+                          >
                             <label
                               class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full cxd-Checkbox--sm"
                             >
@@ -179,10 +200,6 @@ exports[`Renderer:transfer 1`] = `
                                 class=""
                               />
                             </label>
-                          </div>
-                          <div
-                            class="cxd-GroupedSelection-item"
-                          >
                             <div
                               class="cxd-GroupedSelection-itemLabel"
                             >
@@ -190,6 +207,10 @@ exports[`Renderer:transfer 1`] = `
                                 韩信
                               </span>
                             </div>
+                          </div>
+                          <div
+                            class="cxd-GroupedSelection-item"
+                          >
                             <label
                               class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full cxd-Checkbox--sm"
                             >
@@ -201,10 +222,6 @@ exports[`Renderer:transfer 1`] = `
                                 class=""
                               />
                             </label>
-                          </div>
-                          <div
-                            class="cxd-GroupedSelection-item"
-                          >
                             <div
                               class="cxd-GroupedSelection-itemLabel"
                             >
@@ -212,17 +229,6 @@ exports[`Renderer:transfer 1`] = `
                                 云中君
                               </span>
                             </div>
-                            <label
-                              class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full cxd-Checkbox--sm"
-                            >
-                              <input
-                                type="checkbox"
-                              />
-                              <i />
-                              <span
-                                class=""
-                              />
-                            </label>
                           </div>
                         </div>
                       </div>
@@ -1508,6 +1514,17 @@ exports[`Renderer:transfer tree 1`] = `
                           class="cxd-Transfer-title"
                         >
                           <span>
+                            <label
+                              class="cxd-Checkbox cxd-Checkbox--checkbox cxd-Checkbox--full cxd-Checkbox--sm"
+                            >
+                              <input
+                                type="checkbox"
+                              />
+                              <i />
+                              <span
+                                class=""
+                              />
+                            </label>
                             可选项
                             <span>
                               （
@@ -1517,11 +1534,6 @@ exports[`Renderer:transfer tree 1`] = `
                               ）
                             </span>
                           </span>
-                          <a
-                            class="cxd-Transfer-checkAll"
-                          >
-                            全选
-                          </a>
                         </div>
                         <div
                           class="cxd-Tree cxd-Transfer-selection"
