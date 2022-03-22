@@ -30,7 +30,7 @@ exports[`Renderer:alert 1`] = `
         />
         <button
           aria-live="polite"
-          class="video-react-big-play-button video-react-big-play-button-center big-play-button-hide"
+          class="video-react-button video-react-big-play-button video-react-big-play-button-center big-play-button-hide"
           tabindex="0"
           type="button"
         >

@@ -42,7 +42,7 @@ export interface NumberProps extends ThemeProps {
   /**
    * 指定输入框是基础输入框，增强输入框
    */
-  mode?: 'base' | 'strong';
+  displayMode?: 'base' | 'enhance';
   autoFocus?: Boolean;
   keyboard?: Boolean;
 }
@@ -82,36 +82,30 @@ export class NumberInput extends React.Component<NumberProps, any> {
     onBlur && onBlur(e);
   }
   @autobind
-  upHandle() {
+  handleEnhanceModeChange(action: 'add' | 'subtract'): void {
     const {value, step, disabled, readOnly} = this.props;
     // value为undefined会导致溢出错误
     let val = Number(value) || 0;
     if (disabled || readOnly) {
       return;
     }
-    if (Number(step)) {
-      val = val + Number(step);
+    if (action === 'add') {
+      if (Number(step)) {
+        val = val + Number(step);
+      } else {
+        return;
+      }
     } else {
-      return;
+      if (Number(step)) {
+        val = val - Number(step);
+      } else {
+        return;
+      }
     }
     this.handleChange(val);
   }
   @autobind
-  minusHandle() {
-    const {value, step, disabled, readOnly} = this.props;
-    // value为undefined会导致溢出错误
-    let val = Number(value) || 0;
-    if (disabled || readOnly) {
-      return;
-    }
-    if (Number(step)) {
-      val = val - Number(step);
-    } else {
-      return;
-    }
-    this.handleChange(val);
-  }
-  render(): JSX.Element {
+  renderBase() {
     const {
       className,
       classPrefix: ns,
@@ -129,7 +123,7 @@ export class NumberInput extends React.Component<NumberProps, any> {
       parser,
       borderMode,
       readOnly,
-      mode,
+      displayMode,
       autoFocus,
       keyboard
     } = this.props;
@@ -139,49 +133,75 @@ export class NumberInput extends React.Component<NumberProps, any> {
     if (typeof precision === 'number') {
       precisionProps.precision = precision;
     }
+    return <InputNumber
+      className={cx(className, showSteps === false ? 'no-steps' : '',
+        displayMode === 'enhance' ? 'Number--enhance-input' : '', {
+        [`Number--border${ucFirst(borderMode)}`]: borderMode
+      })}
+      readOnly={readOnly}
+      prefixCls={`${ns}Number`}
+      value={value}
+      step={step}
+      max={max}
+      min={min}
+      formatter={formatter}
+      parser={parser}
+      onChange={this.handleChange}
+      disabled={disabled}
+      placeholder={placeholder}
+      onFocus={this.handleFocus}
+      onBlur={this.handleBlur}
+      autoFocus={autoFocus}
+      keyboard={keyboard}
+      {...precisionProps}
+    />
+  }
+  render(): JSX.Element {
+    const {
+      classPrefix: ns,
+      classnames: cx,
+      value,
+      precision,
+      max,
+      min,
+      disabled,
+      showSteps,
+      borderMode,
+      readOnly,
+      displayMode
+    } = this.props;
 
+    let precisionProps: any = {};
+
+    if (typeof precision === 'number') {
+      precisionProps.precision = precision;
+    }
     return (
-      <div className={cx('outer-input-number', readOnly ? 'outer-number-readOnly' : '',
-        disabled ? 'outer-number-disabled' : '')}>
-        <div className={cx(
-            mode === 'strong' ? 'is-base' : 'is-strong',
-            value && value === min ? 'Number-left-border-min': '',
-            disabled ? 'Number-left-border-disabled': '',
-            readOnly ? 'Number-left-border-readOnly': '',
-            'Number-left-border'
-          )} onClick={this.minusHandle}>
-          <Icon icon="minus" className="icon" />
-        </div>
-        <InputNumber
-          className={cx(className, showSteps === false || mode === 'strong'
-            ? 'no-steps' : '', {
-            [`Number--border${ucFirst(borderMode)}`]: borderMode
-          }, (mode === 'strong') ? 'stepPosition-number' : '')}
-          readOnly={readOnly}
-          prefixCls={`${ns}Number`}
-          value={value}
-          step={step}
-          max={max}
-          min={min}
-          formatter={formatter}
-          parser={parser}
-          onChange={this.handleChange}
-          disabled={disabled}
-          placeholder={placeholder}
-          autoFocus={autoFocus}
-          keyboard={keyboard}
-          {...precisionProps}
-        />
-        <div className={cx(
-          mode === 'strong' ? 'is-base' : 'is-strong',
-          value && value === max ? 'Number-right-border-max': '',
-          disabled ? 'Number-right-border-disabled': '',
-          readOnly ? 'Number-right-border-readOnly': '',
-          'Number-right-border')}
-          onClick={this.upHandle}>
-          <Icon icon="plus" className="icon " />
-        </div>
-      </div>
+      <>
+        {displayMode === 'enhance' ?
+          <div className={cx('Number--enhance',
+            disabled ? 'Number--enhance-disabled' : '',
+            showSteps === false ? 'Number--enhance-no-steps' : '',
+            {
+              [`Number--enhance-border${ucFirst(borderMode)}`]: borderMode
+            })}>
+            <div
+              className={cx('Number--enhance-left-icon',
+              value && value === min ? 'Number--enhance-border-min': '',
+              disabled ? 'Number--enhance-border-disabled': '',
+              readOnly ? 'Number--enhance-border-readOnly': '')} onClick={() => this.handleEnhanceModeChange('subtract')}>
+              <Icon icon="minus" className="icon" />
+            </div>
+            {this.renderBase()}
+            <div
+              className={cx('Number--enhance-right-icon',
+              value && value === max ? 'Number--enhance-border-max': '',
+              disabled ? 'Number--enhance-border-disabled': '',
+              readOnly ? 'Number--enhance-border-readOnly': '')} onClick={() => this.handleEnhanceModeChange('add')}>
+              <Icon icon="plus" className="icon " />
+            </div>
+          </div> : this.renderBase()}
+      </>
     );
   }
 }
