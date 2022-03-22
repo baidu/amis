@@ -1609,12 +1609,6 @@ exports[`Renderer:Wizard initApi reload 3`] = `
           class="cxd-Page-body"
         >
           <div
-            class="cxd-Spinner-overlay"
-          />
-          <div
-            class="cxd-Spinner cxd-Spinner--overlay cxd-Spinner--lg"
-          />
-          <div
             class="cxd-Panel cxd-Panel--default cxd-Wizard cxd-Wizard--horizontal"
             style="position: relative;"
           >
