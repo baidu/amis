@@ -57,6 +57,8 @@ interface TreeSelectorProps extends ThemeProps, LocaleProps {
   withChildren?: boolean;
   // 多选时，选中父节点时，是否只将起子节点加入到值中。
   onlyChildren?: boolean;
+  // 单选时，只运行选择子节点
+  onlyLeaf?: boolean;
   // 名称、取值等字段名映射
   labelField: string;
   valueField: string;
@@ -373,13 +375,17 @@ export class TreeSelector extends React.Component<
 
   @autobind
   handleSelect(node: any, value?: any) {
-    const {joinValues, valueField, onChange, enableNodePath} = this.props;
+    const {joinValues, valueField, onChange, enableNodePath, onlyLeaf} =
+      this.props;
 
     if (node[valueField as string] === undefined) {
       if (node.defer && !node.loaded) {
         this.toggleUnfolded(node);
       }
+      return;
+    }
 
+    if (onlyLeaf && node.children) {
       return;
     }
 

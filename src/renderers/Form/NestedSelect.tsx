@@ -62,6 +62,11 @@ export interface NestedSelectControlSchema extends FormOptionsControl {
   onlyChildren?: boolean;
 
   /**
+   * 单选时只允许选择叶子节点
+   */
+  onlyLeaf?: boolean;
+
+  /**
    * 是否隐藏选择框中已选中节点的祖先节点的文本信息
    */
   hideNodePathLabel?: boolean;
@@ -91,6 +96,7 @@ export default class NestedSelectControl extends React.Component<
     cascade: false,
     withChildren: false,
     onlyChildren: false,
+    onlyLeaf: false,
     searchPromptText: 'Select.searchPromptText',
     noResultsText: 'noResult',
     checkAll: true,
@@ -241,7 +247,7 @@ export default class NestedSelectControl extends React.Component<
                         );
                       })
                     : label}
-                  {!isEnd && '>'}
+                  {!isEnd && ' > '}
                 </span>
               );
             })
@@ -252,7 +258,7 @@ export default class NestedSelectControl extends React.Component<
 
   @autobind
   async handleOptionClick(option: Option) {
-    const {multiple, onChange, joinValues, extractValue, valueField} =
+    const {multiple, onChange, joinValues, extractValue, valueField, onlyLeaf} =
       this.props;
 
     if (multiple) {
@@ -265,10 +271,21 @@ export default class NestedSelectControl extends React.Component<
       ? option[valueField || 'value']
       : option;
 
+    if (value === undefined) {
+      return;
+    }
+
+    if (onlyLeaf && option.children) {
+      return;
+    }
+
     const isPrevented = await this.dispatchEvent('change', {
       value
     });
     isPrevented || onChange(value);
+
+    isPrevented || this.handleResultClear();
+
     !multiple && this.close();
   }
 
@@ -383,6 +400,8 @@ export default class NestedSelectControl extends React.Component<
       value: newValue
     });
     isPrevented || onChange(newValue);
+
+    isPrevented || this.handleResultClear();
   }
 
   allChecked(options: Options): boolean {
@@ -421,7 +440,7 @@ export default class NestedSelectControl extends React.Component<
       });
 
       const isPrevented = await this.dispatchEvent('focus', e);
-      isPrevented || onFocus && onFocus(e);
+      isPrevented || (onFocus && onFocus(e));
     }
   }
 
@@ -434,7 +453,7 @@ export default class NestedSelectControl extends React.Component<
     });
 
     const isPrevented = await this.dispatchEvent('blur', e);
-    isPrevented || onBlur && onBlur(e);
+    isPrevented || (onBlur && onBlur(e));
   }
 
   @autobind
