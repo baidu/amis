@@ -13,8 +13,8 @@ import Select from './Select';
 export interface PaginationProps extends ThemeProps, LocaleProps {
 
   /**
-   * 通过控制layout属性的顺序，调整分页结构 total,pageSize,pager,go
-   * @default 'total,pageSize,pager,go'
+   * 通过控制layout属性的顺序，调整分页结构 total,perPage,pager,go
+   * @default 'total,perPage,pager,go'
    */
   layout?: string | Array<string>;
 
@@ -37,7 +37,12 @@ export interface PaginationProps extends ThemeProps, LocaleProps {
   activePage: number;
 
   /**
-   * 最后一页，总页数
+   * 总条数
+   */
+  total: number;
+
+  /**
+   * 最后一页，总页数（如果传入了total，会重新计算lastPage）
    */
   lastPage: number;
 
@@ -51,7 +56,7 @@ export interface PaginationProps extends ThemeProps, LocaleProps {
    * 是否展示分页切换，也同时受layout控制
    * @default true
    */
-  showPageSize: boolean;
+  showPerPage: boolean;
 
   /**
    * 指定每页可以显示多少条
@@ -82,33 +87,36 @@ export interface PaginationProps extends ThemeProps, LocaleProps {
 }
 export interface PaginationState {
   pageNum: string;
-  pageSize: number;
+  perPage: number;
   activePage: number;
+  lastPage: number;
 }
 export class Pagination extends React.Component<
   PaginationProps,
   PaginationState
 > {
   static defaultProps: Partial<PaginationProps> = {
-    layout: 'total,pageSize,pager,go',
+    layout: 'total,perPage,pager,go',
     maxButtons: 7,
     mode: 'normal',
     activePage: 1,
     lastPage: 1,
     perPage: 10,
-    showPageSize: true,
+    showPerPage: true,
     perPageAvailable: [10, 20, 50, 100],
     showPageInput: true
   };
 
   state = {
     pageNum: String(this.props.activePage) || '',
-    pageSize: Number(this.props.perPage),
-    activePage: Number(this.props.activePage)
+    perPage: Number(this.props.perPage),
+    activePage: Number(this.props.activePage),
+    lastPage: this.getLastPage()
   };
 
   constructor(props: PaginationProps) {
     super(props);
+
     this.handlePageNumChange = this.handlePageNumChange.bind(this);
     this.renderPageItem = this.renderPageItem.bind(this);
     this.renderEllipsis = this.renderEllipsis.bind(this);
@@ -120,9 +128,7 @@ export class Pagination extends React.Component<
     if (props.disabled) {
       return;
     }
-    this.setState({
-      activePage: page
-    });
+    this.setState({activePage: page});
     props.onPageChange && props.onPageChange(page, perPage);
   }
 
@@ -133,13 +139,12 @@ export class Pagination extends React.Component<
   */
   renderPageItem(page: number) {
     const {classnames: cx} = this.props;
-    const {pageNum, pageSize, activePage} = this.state;
-    const perPage = Number(this.props.perPage);
-    return
-    (<li
+    const {perPage, activePage} = this.state;
+
+    return (<li
       onClick={() => this.handlePageNumChange(page, perPage)}
       key={page}
-      className={cx({
+      className={cx('page-item', {
         'is-active': page === activePage
       })}
     >
@@ -153,12 +158,9 @@ export class Pagination extends React.Component<
   * @param key 类型 'prev-ellipsis' | 'next-ellipsis'
   * @param page 页码
   */
-  renderEllipsis(key: string, page: number) {
-    const perPage = Number(this.props.perPage);
-    return
-    (<li onClick={() => this.handlePageNumChange(page, perPage)} key={key}>
-      <a role="button">...</a>
-    </li>);
+  renderEllipsis(key: string) {
+    const {classnames: cx} = this.props;
+    return (<li key={key} className={cx('ellipsis')}><a role="button">...</a></li>);
   }
 
   /**
@@ -188,7 +190,7 @@ export class Pagination extends React.Component<
       if (pageButtons.length < counts && page >= min) {
         pageButtons.unshift(this.renderPageItem(page));
       }
-      page = cur - step;
+      page = cur + step;
       if (step !== 0 && pageButtons.length < counts && page <= max) {
         pageButtons.push(this.renderPageItem(page));
       }
@@ -196,24 +198,22 @@ export class Pagination extends React.Component<
     }
   }
 
+  getLastPage() {
+    const {total, perPage, lastPage} = this.props;
+    // 输入total，重新计算lastPage
+    if (total || total === 0) {
+      return Math.ceil(total / perPage);
+    }
+    return Number(lastPage);
+  }
+
   componentDidUpdate(prevProps: PaginationProps) {
-    const props = prevProps;
-    if (prevProps.activePage !== props.activePage) {
-      this.setState({
-        pageNum: String(props.activePage) || ''
-      });
-    }
-    if (prevProps.perPage !== props.perPage) {
-      this.setState({
-        pageSize: Number(props.perPage)
-      });
-    }
   }
 
 
   @autobind
   handlePageChange(e: React.ChangeEvent<any>) {
-    const {lastPage} = this.props;
+    const {lastPage} = this.state;
     let value = e.currentTarget.value;
 
     if (/^\d+$/.test(value) && parseInt(value, 10) > lastPage) {
@@ -228,7 +228,8 @@ export class Pagination extends React.Component<
       layout,
       maxButtons,
       mode,
-      showPageSize,
+      total,
+      showPerPage,
       perPageAvailable,
       hideOnSinglePage,
       onPageChange,
@@ -238,10 +239,8 @@ export class Pagination extends React.Component<
       disabled,
       translate: __
     } = this.props;
-    const {pageNum, pageSize, activePage} = this.state;
+    const {pageNum, perPage, activePage, lastPage} = this.state;
 
-    const lastPage = Number(this.props.lastPage);
-    const perPage = Number(this.props.perPage);
 
     let pageButtons: any = [];
 
@@ -260,22 +259,22 @@ export class Pagination extends React.Component<
     //当前为1234页时， [1, 2, 3, 4, 5, ... 12]
     else if (activePage <= maxButtons - 3) {
       pageButtons = this.handlePageNums(activePage, maxButtons - 2, 1, maxButtons - 2);
-      pageButtons.push(this.renderEllipsis('next-ellipsis', lastPage - 1));
+      pageButtons.push(this.renderEllipsis('next-ellipsis'));
       pageButtons.push(this.renderPageItem(lastPage));
     }
     // [1, ..., 5, 6, 7, 8, 9]
     else if (activePage > (lastPage - (maxButtons- 3))) {
       const min = lastPage - (maxButtons- 3);
       pageButtons = this.handlePageNums(activePage, maxButtons - 2, min, lastPage);
-      pageButtons.unshift(this.renderEllipsis('prev-ellipsis', 2));
+      pageButtons.unshift(this.renderEllipsis('prev-ellipsis'));
       pageButtons.unshift(this.renderPageItem(1));
     }
     // [1, ... 4, 5, 6, ... 10]
     else {
       pageButtons = this.handlePageNums(activePage, maxButtons - 2, 3, lastPage - 3);
-      pageButtons.unshift(this.renderEllipsis('prev-ellipsis', 2));
+      pageButtons.unshift(this.renderEllipsis('prev-ellipsis'));
       pageButtons.unshift(this.renderPageItem(1));
-      pageButtons.push(this.renderEllipsis('prev-ellipsis', lastPage - 1));
+      pageButtons.push(this.renderEllipsis('next-ellipsis'));
       pageButtons.push(this.renderPageItem(lastPage));
     }
 
@@ -284,11 +283,12 @@ export class Pagination extends React.Component<
         className={cx('Pagination-prev', {
           'is-disabled': activePage === 1
         })}
-        onClick={
-          activePage === 1
-            ? (e: any) => e.preventDefault()
-            : () => this.handlePageNumChange(activePage - 1, perPage)
-        }
+        onClick={(e: any) => {
+          if (activePage === 1) {
+            return e.preventDefault();
+          }
+          return this.handlePageNumChange(activePage - 1, perPage)
+        }}
         key="prev"
       >
         <span>
@@ -302,11 +302,12 @@ export class Pagination extends React.Component<
         className={cx('Pagination-next', {
           'is-disabled': activePage === lastPage
         })}
-        onClick={
-          activePage === lastPage
-            ? (e: any) => e.preventDefault()
-            : () => this.handlePageNumChange(activePage + 1, perPage)
-        }
+        onClick={(e: any) => {
+          if (activePage === lastPage) {
+            return e.preventDefault();
+          }
+          return this.handlePageNumChange(activePage + 1, perPage)
+        }}
         key="next"
       >
         <span>
@@ -317,7 +318,7 @@ export class Pagination extends React.Component<
     const go = <div className={cx('Pagination-inputGroup Pagination-item')} key="go">
         <span className={cx('go-left')} key="go-left">{__('Pagination.goto')}</span>
           <input
-            className={cx('go-input')} key="go-put"
+            className={cx('go-input')} key="go-input"
             type="text"
             disabled={disabled}
             onChange={this.handlePageChange}
@@ -327,9 +328,7 @@ export class Pagination extends React.Component<
               if (!v || e.code != 'Enter') {
                 return;
               }
-              this.setState({
-                pageNum: String(v)
-              });
+              this.setState({pageNum: String(v)});
 
               this.handlePageNumChange(v, perPage);
             }}
@@ -344,17 +343,20 @@ export class Pagination extends React.Component<
             >GO</span>
       </div>;
     const selection = perPageAvailable.map(v => ({label: __('Pagination.select', {count: v}), value: v}));
-    const pageSizeEle =
+    const perPageEle =
             <Select
-              key="pagesize"
-              className={cx('Pagination-pagesize', 'Pagination-item')}
+              key="perpage"
+              className={cx('Pagination-perpage', 'Pagination-item')}
               overlayPlacement="right-bottom-right-top"
               clearable={false}
               disabled={disabled}
-              value={pageSize}
+              value={perPage}
               options={selection}
               onChange={(p: any) => {
-                this.setState({pageSize: p.value});
+                this.setState({perPage: p.value});
+                if (total) {
+                  this.setState({lastPage: Math.ceil(total / p.value)})
+                }
                 this.handlePageNumChange(1, p.value);
               }}
             />;
@@ -364,14 +366,14 @@ export class Pagination extends React.Component<
         {
           layoutList.map((layoutItem) => {
             if (layoutItem === 'pager') {
-              return <ul key="pager" className={cx('Pagination', {,
+              return <ul key="pager-items" className={cx('Pagination', {
           'Pagination-simple': mode === 'simple'}, 'Pagination--sm','Pagination-item')}>{pageButtons}</ul>;
             }
             else if (layoutItem === 'go' && showPageInput) {
               return go;
             }
-            else if (layoutItem === 'pageSize' && showPageSize) {
-              return pageSizeEle;
+            else if (layoutItem === 'perPage'&& showPerPage) {
+              return perPageEle;
             }
             else if (layoutItem === 'total') {
               return totalPage;

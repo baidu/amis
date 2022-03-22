@@ -9,8 +9,8 @@ export interface PaginationSchema extends BaseSchema {
   className?: SchemaClassName;
 
   /**
-   * 通过控制layout属性的顺序，调整分页结构 pager,go,pageSize,total
-   * @default 'pager,go,pageSize,total'
+   * 通过控制layout属性的顺序，调整分页结构 pager,go,perPage,total
+   * @default 'pager,go,perPage,total'
    */
   layout?: string | Array<string>;
 
@@ -32,7 +32,12 @@ export interface PaginationSchema extends BaseSchema {
   activePage: number;
 
   /**
-   * 最后一页，总页数
+   * 总条数
+   */
+  total: number;
+
+  /**
+   * 最后一页，总页数（如果传入了total，会重新计算lastPage）
    */
   lastPage: number;
 
@@ -46,7 +51,7 @@ export interface PaginationSchema extends BaseSchema {
    * 是否展示分页切换，也同时受layout控制
    * @default true
    */
-  showPageSize: boolean;
+  showPerPage: boolean;
 
   /**
    * 指定每页可以显示多少条
@@ -84,7 +89,9 @@ export interface PaginationProps
 
 export interface PaginationState {
   pageNum: string;
-  pageSize: number;
+  perPage: number;
+  activePage: number;
+  lastPage: number
 }
 
 export default class Pagination extends React.Component<

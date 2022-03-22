@@ -6,6 +6,7 @@
 
   > li {
     display: inline-flex;
+    cursor: pointer;
 
     > a,
     > span {
@@ -32,6 +33,14 @@
     > span:focus {
       background: transparent;
       color: var(--primary);
+    }
+  }
+  .ellipsis {
+    cursor: unset;
+    > a {
+      cursor: unset;
+      position: relative;
+      top: px2rem(-4px);
     }
   }
 
@@ -75,12 +84,7 @@
     }
   }
 
-  &-ellipsis {
-    > a > span {
-      position: relative;
-      top: px2rem(-4px);
-    }
-  }
+
 
   &-next {
     > span {
@@ -92,7 +96,7 @@
     display: inline-block;
     color: var(--Pagination-light-color);
   }
-  &-pagesize {
+  &-perpage {
     // margin-left: px2rem(10px);
   }
 
