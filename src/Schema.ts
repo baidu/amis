@@ -600,6 +600,13 @@ export interface SchemaApiObject {
   cache?: number;
 
   /**
+   * 强制将数据附加在 query，默认只有 api 地址中没有用变量的时候 crud 查询接口才会
+   * 自动附加数据到 query 部分，如果想强制附加请设置这个属性。
+   * 对于那种临时加了个变量但是又不想全部参数写一遍的时候配置很有用。
+   */
+  forceAppendDataToQuery?: boolean;
+
+  /**
    * qs 配置项
    */
   qsOptions?: {
