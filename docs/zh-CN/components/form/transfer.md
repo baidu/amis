@@ -827,7 +827,7 @@ isFollowMode开启结果面板跟随模式。
 | joinValues       | `boolean`                                             | `true`       | [拼接值](./options#%E6%8B%BC%E6%8E%A5%E5%80%BC-joinvalues) |
 | extractValue     | `boolean`                                             | `false`      | [提取值](./options#%E6%8F%90%E5%8F%96%E5%A4%9A%E9%80%89%E5%80%BC-extractvalue) |
 | searchApi        | [API](../../../docs/types/api)                        |              | 如果想通过接口检索，可以设置这个api。|
-| isFollowMode     | `boolean`                                 |    `false`   | 结果面板跟随模式，目前只支持`list`、`table`、`tree` |
+| isFollowMode     | `boolean`                                 |    `false`   | 结果面板跟随模式，目前只支持`list`、`table`、`tree`（tree目前只支持非延时加载的`tree`） |
 | statistics       | `boolean`                                             | `true`       | 是否显示统计数据|
 | selectTitle      | `string`                                              | `"请选择"`   | 左侧的标题文字  |
 | resultTitle      | `string`                                              | `"当前选择"` | 右侧结果的标题文字|
