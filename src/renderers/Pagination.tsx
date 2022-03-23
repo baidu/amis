@@ -24,7 +24,7 @@ export interface PaginationSchema extends BaseSchema {
   /**
    * 模式'simple' | 'normal'，默认normal，如果只想简单显示可以配置成 `simple`。
    */
-  mode: 'simple' | 'normal' | undefined;
+  mode: string;
 
   /**
    * 当前页数

@@ -29,7 +29,7 @@ export interface PaginationProps extends ThemeProps, LocaleProps {
    * 模式，默认normal，如果只想简单显示可以配置成 `simple`。
    * @default 'normal'
    */
-  mode: 'simple' | 'normal' | undefined;
+  mode: string;
 
   /**
    * 当前页数
