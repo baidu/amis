@@ -31,12 +31,12 @@ test('Renderer:dateRange', async () => {
     )
   );
 
-  const input = container.querySelector('.cxd-DateRangePicker-value');
-  expect(input?.innerHTML).toEqual(
-    `${moment(1559750400, 'X').format('YYYY-MM-DD')} 至 ${moment(
-      1561564799,
-      'X'
-    ).format('YYYY-MM-DD')}`
+  const input = container.querySelectorAll('.cxd-DateRangePicker-input');
+  expect(input[0].value).toEqual(
+    `${moment(1559750400, 'X').format('YYYY-MM-DD')}`
+  );
+  expect(input[1].value).toEqual(
+    `${moment(1561564799, 'X').format('YYYY-MM-DD')}`
   );
 
   expect(container).toMatchSnapshot();

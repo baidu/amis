@@ -713,8 +713,12 @@ export class DateRangePicker extends React.Component<
         startDate: date,
         startInputValue: date.format(inputFormat)
       } as any;
-      // 如果是只有日期选择就可以切换到结束时间的选择
-      if (type === 'input-date-range') {
+      // 这些没有时间的选择点第一次后第二次就是选结束时间
+      if (
+        type === 'input-date-range' ||
+        type === 'input-year-range' ||
+        type === 'input-quarter-range'
+      ) {
         newState.editState = 'end';
       }
       this.setState(newState);
