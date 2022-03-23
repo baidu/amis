@@ -108,7 +108,7 @@ export class Pagination extends React.Component<
   };
 
   state = {
-    pageNum: String(this.props.activePage) || '',
+    pageNum: '',
     perPage: Number(this.props.perPage),
     activePage: Number(this.props.activePage),
     lastPage: this.getLastPage()
@@ -354,6 +354,7 @@ export class Pagination extends React.Component<
               options={selection}
               onChange={(p: any) => {
                 this.setState({perPage: p.value});
+                this.setState({pageNum: ''});
                 if (total) {
                   this.setState({lastPage: Math.ceil(total / p.value)})
                 }
