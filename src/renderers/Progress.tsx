@@ -6,6 +6,8 @@ import {autobind, getPropValue, createObject} from '../utils/helper';
 import {filter} from '../utils/tpl';
 
 import Progress from '../components/Progress';
+import {ColorMapType} from '../components/Progress';
+
 /**
  * 进度展示控件。
  * 文档：https://baidu.gitee.io/amis/docs/components/progress
@@ -29,14 +31,9 @@ export interface ProgressSchema extends BaseSchema {
   progressClassName?: SchemaClassName;
 
   /**
-   * 进度外层 CSS 类名
+   * 配置不同的值段，用不同的样式提示用户
    */
-  progressBarClassName?: SchemaClassName;
-
-  /**
-   * 配置不通的值段，用不通的样式提示用户
-   */
-  map?: Array<string>;
+  map?: ColorMapType;
 
   /**
    * 是否显示值
@@ -62,14 +59,17 @@ export interface ProgressSchema extends BaseSchema {
    * 进度条线的宽度
    */
   strokeWidth?: number;
+
   /**
    * 仪表盘进度条缺口角度，可取值 0 ~ 295
    */
   gapDegree?: number;
+
   /**
    * 仪表盘进度条缺口位置
    */
   gapPosition?: 'top' | 'bottom' | 'left' | 'right';
+
   /**
    * 内容的模板函数
    */
@@ -106,7 +106,6 @@ export class ProgressField extends React.Component<ProgressProps, object> {
       className,
       placeholder,
       progressClassName,
-      progressBarClassName,
       map,
       stripe,
       animate,
@@ -137,7 +136,6 @@ export class ProgressField extends React.Component<ProgressProps, object> {
         gapPosition={gapPosition}
         className={className}
         progressClassName={progressClassName}
-        progressBarClassName={progressBarClassName}
       />
     );
   }
