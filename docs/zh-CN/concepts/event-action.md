@@ -942,7 +942,7 @@ order: 9
 
 #### 刷新
 
-通过配置`actionType: 'reload'`实现对指定组件的刷新操作。
+通过配置`actionType: 'reload'`实现对指定组件的刷新操作，限于`form`、`dialog`、`drawer`、`wizard`、`service`、`page`、`service`、`app`、`chart`、`crud`，以及选择类组件。
 
 ```schema
 {
@@ -1010,10 +1010,10 @@ order: 9
 
 **动作属性**
 
-| 属性名      | 类型     | 默认值   | 说明              |
-| ----------- | -------- | -------- | ----------------- |
-| actionType  | `string` | `reload` | 刷新组件          |
-| componentId | `string` | -        | 指定刷新的组件 id |
+| 属性名      | 类型     | 默认值   | 说明                  |
+| ----------- | -------- | -------- | --------------------- |
+| actionType  | `string` | `reload` | 刷新组件              |
+| componentId | `string` | -        | 指定刷新的目标组件 id |
 
 #### 显示与隐藏
 
@@ -1065,14 +1065,14 @@ order: 9
 
 **动作属性**
 
-| 属性名      | 类型     | 默认值             | 说明                    |
-| ----------- | -------- | ------------------ | ----------------------- |
-| actionType  | `string` | `show` or `hidden` | 显示或隐藏组件          |
-| componentId | `string` | -                  | 指定显示或隐藏的组件 id |
+| 属性名      | 类型     | 默认值             | 说明                        |
+| ----------- | -------- | ------------------ | --------------------------- |
+| actionType  | `string` | `show` or `hidden` | 显示或隐藏组件              |
+| componentId | `string` | -                  | 指定显示或隐藏的目标组件 id |
 
 #### 控制状态
 
-通过配置`actionType: 'enabled'`或`actionType: 'disabled'`实现对指定组件的启用和禁用。
+通过配置`actionType: 'enabled'`或`actionType: 'disabled'`实现对指定组件的启用和禁用，限于数据输入类组件。
 
 ```schema
 {
@@ -1162,14 +1162,14 @@ order: 9
 
 **动作属性**
 
-| 属性名      | 类型     | 默认值                  | 说明                    |
-| ----------- | -------- | ----------------------- | ----------------------- |
-| actionType  | `string` | `enabled` or `disabled` | 启用或禁用组件          |
-| componentId | `string` | -                       | 指定启用或禁用的组件 id |
+| 属性名      | 类型     | 默认值                  | 说明                        |
+| ----------- | -------- | ----------------------- | --------------------------- |
+| actionType  | `string` | `enabled` or `disabled` | 启用或禁用组件              |
+| componentId | `string` | -                       | 指定启用或禁用的目标组件 id |
 
 #### 变量赋值
 
-通过配置`actionType: 'setValue'`实现组件数据变量的更新。
+通过配置`actionType: 'setValue'`实现组件数据变量的更新，限于`form`、`dialog`、`drawer`、`wizard`、`service`、`page`、`app`、`chart`，以及数据输入类组件。
 
 ```schema
 {
@@ -1186,8 +1186,8 @@ order: 9
               actionType: 'setValue',
               componentId: 'form_data',
               values: {
-                myrole: 'ddddd',
-                author: 'jjj'
+                myrole: '预言家',
+                mymsg: 'jjj'
               }
             }
           ]
@@ -1204,7 +1204,7 @@ order: 9
             {
               actionType: 'setValue',
               componentId: 'input_data_role',
-              values: 'dddd'
+              value: '我是女巫'
             }
           ]
         }
@@ -1219,20 +1219,58 @@ order: 9
           actions: [
             {
               actionType: 'setValue',
-              componentId: 'input_data_author',
-              values: 'dddd'
+              componentId: 'input_data_msg',
+              value: '我是amis!'
             }
           ]
         }
       }
     },
     {
+      type: 'button',
+      label: '给向导赋值',
+      className: 'ml-2',
+      onEvent: {
+        click: {
+          actions: [
+            {
+              actionType: 'setValue',
+              componentId: 'wizard_data',
+              value: {
+                website: "http://www.baidu.com",
+                email: "amis!@baidu.com"
+              }
+            }
+          ]
+        }
+      }
+    },
+      {
+        "title": "Step 2",
+        "body": [
+          {
+            "name": "email",
+            "label": "邮箱",
+            "type": "input-email",
+            "required": true
+          }
+        ]
+      },
+      {
+        "title": "Step 3",
+        "body": [
+          "这是最后一步了"
+        ]
+      }
+    ]
+  },
+    {
       type: 'form',
       id: 'form_data',
       title: '表单',
       debug: true,
       data: {
-        myrole: 'kkk',
+        myrole: '杀手',
         age: '18'
       },
       "initApi": "/api/mock2/form/initData",
@@ -1256,23 +1294,39 @@ order: 9
     },
     {
       type: "input-text",
-      id: "input_data_author",
-      name: "author"
+      id: "input_data_msg",
+      name: "mymsg"
     },
     {
-      type: "tpl",
-      tpl: "${author}"
-    }
+    "type": "wizard",
+    "id": "wizard_data",
+    "mode": "vertical",
+    "data": {
+      "website": "",
+      "email": ""
+    },
+    "steps": [
+      {
+        "title": "第一步",
+        "body": [
+          {
+            "name": "website",
+            "label": "网址",
+            "type": "input-url"
+          }
+        ]
+      }
   ]
 }
 ```
 
 **动作属性**
 
-| 属性名     | 类型     | 默认值     | 说明                         |
-| ---------- | -------- | ---------- | ---------------------------- |
-| actionType | `string` | `setValue` | 变量赋值，即设置组件的数据值 |
-| value      | `any`    | -          | 值                           |
+| 属性名      | 类型     | 默认值     | 说明                         |
+| ----------- | -------- | ---------- | ---------------------------- |
+| actionType  | `string` | `setValue` | 变量赋值，即设置组件的数据值 |
+| componentId | `string` | -          | 指定赋值的目标组件 id        |
+| value       | `any`    | -          | 值                           |
 
 #### 自定义 JS
 

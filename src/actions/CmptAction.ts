@@ -50,8 +50,8 @@ export class CmptAction implements Action {
         'wizard',
         'service',
         'page',
-        'service',
-        'app'
+        'app',
+        'chart'
       ];
 
       if (dataContainer.includes(component.props.type)) {
