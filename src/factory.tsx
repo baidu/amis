@@ -103,6 +103,7 @@ export interface RenderSchemaFilter {
 
 export interface wsObject {
   url: string;
+  responseKey?: string;
   body?: any;
 }
 
@@ -296,7 +297,18 @@ const defaultOptions: RenderOptions = {
       };
       socket.onmessage = event => {
         if (event.data) {
-          onMessage(JSON.parse(event.data));
+          let data;
+          try {
+            data = JSON.parse(event.data);
+          } catch (error) {}
+          if (typeof data !== 'object') {
+            let key = ws.responseKey || 'data';
+            data = {
+              [key]: event.data
+            };
+          }
+
+          onMessage(data);
         }
       };
       socket.onerror = onError;
