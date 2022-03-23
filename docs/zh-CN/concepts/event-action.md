@@ -1167,6 +1167,113 @@ order: 9
 | actionType  | `string` | `enabled` or `disabled` | 启用或禁用组件          |
 | componentId | `string` | -                       | 指定启用或禁用的组件 id |
 
+#### 变量赋值
+
+通过配置`actionType: 'setValue'`实现组件数据变量的更新。
+
+```schema
+{
+  type: 'page',
+  body: [
+    {
+      type: 'button',
+      label: '给表单赋值',
+      className: 'ml-2',
+      onEvent: {
+        click: {
+          actions: [
+            {
+              actionType: 'setValue',
+              componentId: 'form_data',
+              values: {
+                myrole: 'ddddd',
+                author: 'jjj'
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      type: 'button',
+      label: '给表单里的输入框赋值',
+      className: 'ml-2',
+      onEvent: {
+        click: {
+          actions: [
+            {
+              actionType: 'setValue',
+              componentId: 'input_data_role',
+              values: 'dddd'
+            }
+          ]
+        }
+      }
+    },
+    {
+      type: 'button',
+      label: '直接给输入框赋值',
+      className: 'ml-2',
+      onEvent: {
+        click: {
+          actions: [
+            {
+              actionType: 'setValue',
+              componentId: 'input_data_author',
+              values: 'dddd'
+            }
+          ]
+        }
+      }
+    },
+    {
+      type: 'form',
+      id: 'form_data',
+      title: '表单',
+      debug: true,
+      data: {
+        myrole: 'kkk',
+        age: '18'
+      },
+      "initApi": "/api/mock2/form/initData",
+      body: [
+        {
+          type: 'input-text',
+          id: "input_data_role",
+          label: '角色',
+          name: 'myrole',
+          disabled: false,
+          mode: 'horizontal'
+        },
+        {
+          type: 'input-text',
+          label: '年龄',
+          name: 'age',
+          disabled: false,
+          mode: 'horizontal'
+        }
+      ]
+    },
+    {
+      type: "input-text",
+      id: "input_data_author",
+      name: "author"
+    },
+    {
+      type: "tpl",
+      tpl: "${author}"
+    }
+  ]
+}
+```
+
+**动作属性**
+
+| 属性名     | 类型     | 默认值     | 说明                         |
+| ---------- | -------- | ---------- | ---------------------------- |
+| actionType | `string` | `setValue` | 变量赋值，即设置组件的数据值 |
+| value      | `any`    | -          | 值                           |
+
 #### 自定义 JS
 
 通过配置`actionType: 'custom'`实现自定义 JS。
