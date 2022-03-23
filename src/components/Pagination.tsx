@@ -26,10 +26,10 @@ export interface PaginationProps extends ThemeProps, LocaleProps {
   maxButtons: number;
 
   /**
-   * 模式，默认显示多个分页数字，如果只想简单显示可以配置成 `simple`。
+   * 模式，默认normal，如果只想简单显示可以配置成 `simple`。
    * @default 'normal'
    */
-  mode?: 'simple' | 'normal';
+  mode: 'simple' | 'normal' | undefined;
 
   /**
    * 当前页数
@@ -82,7 +82,7 @@ export interface PaginationProps extends ThemeProps, LocaleProps {
   disabled?: boolean;
 
 
-  hasNext: boolean;
+  // hasNext: boolean;
   onPageChange: (page: number, perPage?: number) => void;
 }
 export interface PaginationState {
@@ -95,7 +95,7 @@ export class Pagination extends React.Component<
   PaginationProps,
   PaginationState
 > {
-  static defaultProps: Partial<PaginationProps> = {
+  static defaultProps = {
     layout: 'total,perPage,pager,go',
     maxButtons: 7,
     mode: 'normal',

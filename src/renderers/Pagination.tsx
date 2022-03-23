@@ -22,9 +22,9 @@ export interface PaginationSchema extends BaseSchema {
   maxButtons: number;
 
   /**
-   * 模式，默认显示多个分页数字，如果只想简单显示可以配置成 `simple`。
+   * 模式'simple' | 'normal'，默认normal，如果只想简单显示可以配置成 `simple`。
    */
-  mode?: 'simple' | 'normal';
+  mode: 'simple' | 'normal' | undefined;
 
   /**
    * 当前页数
@@ -75,16 +75,13 @@ export interface PaginationSchema extends BaseSchema {
    * @default false
    */
   disabled?: boolean;
+
+  onPageChange: (page: number, perPage?: number) => void;
 }
 
 export interface PaginationProps
   extends RendererProps,
     Omit<PaginationSchema, 'type' | 'className'> {
-  activePage: number;
-  lastPage: number;
-  hasNext: boolean;
-  maxButtons: number;
-  onPageChange: (page: number, perPage?: number) => void;
 }
 
 export interface PaginationState {
