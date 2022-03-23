@@ -223,8 +223,7 @@ class BaseDatePicker extends React.Component<
       updatedState.viewDate = moment(props.viewDate);
     }
 
-    // time-range 下会有问题，先不支持
-    if (Object.keys(updatedState).length && props.viewMode !== 'time') {
+    if (Object.keys(updatedState).length) {
       this.setState(updatedState);
     }
 
