@@ -28,12 +28,6 @@
     }
   }
 
-  &.is-error {
-    > textarea {
-      border-color: var(--Form-input-onError-borderColor);
-    }
-  }
-
   &-counter {
     position: absolute;
     right: var(--Form-input-paddingX);
