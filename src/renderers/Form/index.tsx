@@ -1683,10 +1683,14 @@ export class FormRenderer extends Form {
     super.componentWillUnmount();
   }
 
-  doAction(action: Action, data: object, throwErrors: boolean) {
-    // 其它情况直接交给handleAction处理
-    this.handleAction(undefined, action, data, throwErrors);
+  doAction(
+    action: Action,
+    data: object = this.props.store.data,
+    throwErrors: boolean = false
+  ) {
+    return this.handleAction(undefined, action, data, throwErrors);
   }
+
   handleAction(
     e: React.UIEvent<any> | undefined,
     action: Action,
