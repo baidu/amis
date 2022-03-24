@@ -97,6 +97,11 @@ export interface TooltipWrapperSchema extends BaseSchema {
   };
 
   /**
+   * 是否可以移入浮层中, 默认true
+   */
+  enterable?: boolean;
+
+  /**
    * 自定义提示浮层样式
    */
   tooltipStyle?: {
@@ -221,6 +226,7 @@ export default class TooltipWrapper extends React.Component<
       offset,
       showArrow,
       disabled,
+      enterable,
       data
     } = this.props;
 
@@ -238,7 +244,8 @@ export default class TooltipWrapper extends React.Component<
       mouseLeaveDelay,
       offset,
       showArrow,
-      disabled
+      disabled,
+      enterable
     };
 
     return (

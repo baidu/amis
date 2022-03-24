@@ -41,6 +41,10 @@ export interface TooltipObject {
    */
   style?: React.CSSProperties;
   /**
+   * 是否可以移入浮层中, 默认true
+   */
+  enterable?: boolean;
+  /**
    * 是否展示浮层指向箭头
    */
   showArrow?: boolean;
@@ -162,6 +166,19 @@ export class TooltipWrapper extends React.Component<
     const child = React.Children.only(this.props.children);
     return child && (child as any).props;
   }
+
+  tooltipMouseEnter = (e: MouseEvent) => {
+    const tooltip = this.props.tooltip;
+    const enterable = (tooltip as any)?.enterable ?? true;
+    enterable && clearTimeout(this.timer);
+  };
+
+  tooltipMouseLeave = (e: MouseEvent) => {
+    const tooltip = this.props.tooltip;
+    const enterable = (tooltip as any)?.enterable ?? true;
+    enterable && clearTimeout(this.timer);
+    this.hide();
+  };
 
   handleShow() {
     this.timer && clearTimeout(this.timer);
@@ -306,10 +323,10 @@ export class TooltipWrapper extends React.Component<
           tooltipTheme={tooltipTheme}
           showArrow={showArrow}
           onMouseEnter={
-            ~triggers.indexOf('hover') ? this.handleMouseOver : () => {}
+            ~triggers.indexOf('hover') ? this.tooltipMouseEnter : () => {}
           }
           onMouseLeave={
-            ~triggers.indexOf('hover') ? this.handleMouseOut : () => {}
+            ~triggers.indexOf('hover') ? this.tooltipMouseLeave : () => {}
           }
         >
           {children ? (
