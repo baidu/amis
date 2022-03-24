@@ -61,7 +61,7 @@ export interface CarouselSchema extends BaseSchema {
    */
   height?: number;
 
-  controlsTheme?: 'light' | 'dark' | 'blue';
+  controlsTheme?: 'light' | 'dark' | 'primary';
 
   /**
    * 占位
@@ -210,9 +210,24 @@ export class Carousel extends React.Component<CarouselProps, CarouselState> {
     }
 
     this.clearAutoTimeout();
-    if (this.props.auto) {
-      this.intervalTimeout = setTimeout(this.autoSlide, this.props.interval);
+    this.controlDuration();
+  }
+
+  controlDuration() {
+    const {controls, dotPosition, interval, auto} = this.props;
+    if (auto && controls?.includes('bar')) {
+      const domControl = document.querySelector(`.control-${dotPosition}`);
+      const controls = domControl?.querySelectorAll('.carousel-inner-bar') as NodeListOf<HTMLElement>;
+      const hw = dotPosition === 'top' || dotPosition === 'bottom' ? 'width' : 'height';
+      Array.from(controls).forEach(item => {
+        item.style.transitionDuration = '0s';
+        item.style[hw] = '0';
+      })
+      const activeDom = domControl?.querySelector('.is-active') as HTMLElement;
+      activeDom && (activeDom.style.transitionDuration = `${interval as number / 1000}s`);
+      activeDom && (activeDom.style[hw] = `100%`);
     }
+    this.intervalTimeout = setTimeout(this.autoSlide, this.props.interval);
   }
 
   @autobind
@@ -257,17 +272,6 @@ export class Carousel extends React.Component<CarouselProps, CarouselState> {
     this.setState({
       current,
       nextAnimation
-    }, () => {
-      const {controls, dotPosition, duration} = this.props;
-      if (controls?.includes('bar')) {
-        const domControl = document.querySelector(`.control-${dotPosition}`);
-        const controls = domControl?.querySelectorAll('.carousel-inner-bar') as NodeListOf<HTMLElement>;
-        Array.from(controls).forEach(item => {
-          item.style.transitionDuration = '0s';
-        })
-        const activeDom = domControl?.querySelector('.is-active') as HTMLElement;
-        activeDom && (activeDom.style.transitionDuration = `${duration as number / 1000}s`);
-      }
     });
   }
 
@@ -299,7 +303,6 @@ export class Carousel extends React.Component<CarouselProps, CarouselState> {
     if (!infinite && current === options.length - 1) {
       return;
     }
-    const total = options.length;
     this.autoSlide('next');
   }
 
@@ -373,7 +376,7 @@ export class Carousel extends React.Component<CarouselProps, CarouselState> {
             key={i}
             className={cx('Carousel-bar')}
           >
-            <span className={cx(`Carousel-inner-bar-${dotPosition}`, 'carousel-inner-bar', current === i ? 'is-active' : '')} />
+            <span className={cx(`Carousel-inner-bar-${dotPosition}`, 'carousel-inner-bar', {'is-active': current === i})} />
           </span>
         ))}
       </div>
@@ -509,12 +512,12 @@ export class Carousel extends React.Component<CarouselProps, CarouselState> {
         {digital ? this.renderDigital() : null}
         {bar ? this.renderBar() : null}
         {arrows ? (
-          <div className={cx(`Carousel-${isHorizontal ? 'left' : 'top'}Arrow`, (current === 0 && !infinite) ? 'is-disabled' : '')} onClick={this.prev}>
+          <div className={cx(`Carousel-${isHorizontal ? 'left' : 'top'}Arrow`, {'is-disabled': current === 0 && !infinite})} onClick={this.prev}>
             <Icon icon="left-arrow" className="icon" />
           </div>
         ) : null}
         {arrows ? (
-          <div className={cx(`Carousel-${isHorizontal ? 'right' : 'bottom'}Arrow`, (current === options.length - 1 && !infinite) ? 'is-disabled' : '')} onClick={this.next}>
+          <div className={cx(`Carousel-${isHorizontal ? 'right' : 'bottom'}Arrow`, {'is-disabled': current === options.length - 1 && !infinite})} onClick={this.next}>
             <Icon icon="right-arrow" className="icon" />
           </div>
         ) : null}

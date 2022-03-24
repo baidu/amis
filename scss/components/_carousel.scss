@@ -63,22 +63,22 @@
     }
   }
 
-  &.#{$ns}Carousel--blue {
+  &.#{$ns}Carousel--primary {
     .#{$ns}Carousel-dot, .carousel-inner-bar {
-      background: var(--Carousel--blue-control);
+      background: var(--Carousel--primary-control);
     }
     .#{$ns}Carousel-bar {
       background: rgba(36, 104, 242, 0.5);
     }
 
     svg {
-      fill: var(--Carousel--blue-control);
+      fill: var(--Carousel--primary-control);
     }
 
     .#{$ns}Carousel-item {
       .title,
       .description {
-        color: var(--Carousel--blue-control);
+        color: var(--Carousel--primary-control);
       }
     }
   }
@@ -343,9 +343,6 @@
         width: 0;
         display: inline-block;
         border-radius: var(--Carousel-bar-borderRadius);
-          &.is-active {
-            width: 100%;
-          }
       }
 
       .#{$ns}Carousel-inner-bar-left, .#{$ns}Carousel-inner-bar-right {
@@ -358,9 +355,6 @@
         width: 100%;
         display: inline-block;
         border-radius: var(--Carousel-bar-borderRadius);
-          &.is-active {
-            height: 100%;
-          }
       }
     }
   }

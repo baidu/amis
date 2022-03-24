@@ -14,9 +14,59 @@ order: 33
 {
     "type": "carousel",
     "dotPosition": "bottom",
-    "infinite": false,
+    "infinite": true,
+    "controls": ['bar', 'arrows'],
+    "auto": true,
+    "thumbMode": "cover",
+    "animation": "slide",
+    "height": 300,
+    "options": [
+        {
+            "image": "https://internal-amis-res.cdn.bcebos.com/images/2019-12/1577157239810/da6376bf988c.png"
+        },
+        {
+            "html": "<div style=\"width: 100%; height: 300px; background: #e3e3e3; text-align: center; line-height: 300px;\">carousel data</div>"
+        },
+        {
+            "thumbMode": "contain",
+            "image": "https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=3893101144,2877209892&fm=23&gp=0.jpg"
+        }
+    ]
+}
+```
+
+```schema: scope="body"
+{
+    "type": "carousel",
+    "dotPosition": "bottom",
+    "infinite": true,
+    "controls": ['digital', 'arrows'],
+    "auto": true,
+    "thumbMode": "cover",
+    "animation": "slide",
+    "height": 300,
+    "options": [
+        {
+            "image": "https://internal-amis-res.cdn.bcebos.com/images/2019-12/1577157239810/da6376bf988c.png"
+        },
+        {
+            "html": "<div style=\"width: 100%; height: 300px; background: #e3e3e3; text-align: center; line-height: 300px;\">carousel data</div>"
+        },
+        {
+            "thumbMode": "contain",
+            "image": "https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=3893101144,2877209892&fm=23&gp=0.jpg"
+        }
+    ]
+}
+```
+
+```schema: scope="body"
+{
+    "type": "carousel",
+    "dotPosition": "bottom",
+    "infinite": true,
     "controls": ['dots', 'arrows'],
-    "auto": false,
+    "auto": true,
     "thumbMode": "cover",
     "animation": "slide",
     "height": 300,
@@ -128,7 +178,7 @@ itemSchema: {
 | width                        | `string`  | `auto`                 | 宽度                                                    |
 | height                       | `string`  | `200px`                | 高度                                                    |
 | controls                     | `array`   | `['dots', 'arrows']`   | 显示左右箭头、底部圆点索引,指示点可选`dots`、`digital`、`bar`模式                              |
-| controlsTheme                | `string`  | `light`                | 左右箭头、底部圆点索引颜色，默认`light`，另有`dark`、`blue`模式 |
+| controlsTheme                | `string`  | `light`                | 左右箭头、底部圆点索引颜色，默认`light`，另有`dark`、`primary`模式 |
 | animation                    | `string`  | fade                   | 切换动画效果，默认`fade`，另有`slide`模式               |
 | thumbMode                    | `string`  | `"cover" \| "contain"` | 图片默认缩放模式                                        |
 
@@ -152,6 +202,6 @@ itemSchema: {
 - `width` 宽度，默认`auto`
 - `height` 高度，默认`200px`
 - `controls` 显示左右箭头、底部圆点索引，默认`['dots', 'arrows']`,指示点可选`dots`、`digital`、`bar`模式
-- `controlsTheme` 左右箭头、底部圆点索引颜色，默认`light`，另有`dark`、`blue`模式
+- `controlsTheme` 左右箭头、底部圆点索引颜色，默认`light`，另有`dark`、`primary`模式
 - `animation` 切换动画效果，默认`fade`，另有`slide`模式
 - `thumbMode` 图片默认缩放模式，可以配置 `"cover" | "contain"`

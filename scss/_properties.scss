@@ -473,7 +473,7 @@
   --Carousel-arrowControl-height: var(--gap-lg);
   --Carousel-arrowControl-width: var(--gap-lg);
   --Carousel-bg: #f6f8f8;
-  --Carousel-gap: #{px2rem(12px)};
+  --Carousel-gap: #{var(--gap-base)};
   --Carousel-dot-borderRadius: #{px2rem(4px)};
   --Carousel-dot-height: #{px2rem(8px)};
   --Carousel-dot-horizontal-margin: 0 var(--gap-xs);
