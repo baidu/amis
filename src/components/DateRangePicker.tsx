@@ -728,13 +728,14 @@ export class DateRangePicker extends React.Component<
         startDate = newValue;
       }
 
-      if (minDuration && newValue.isAfter(startDate.clone().add(minDuration))) {
+      if (
+        minDuration &&
+        newValue.isBefore(startDate.clone().add(minDuration))
+      ) {
         newValue = startDate.clone().add(minDuration);
       }
-      if (
-        maxDuration &&
-        newValue.isBefore(startDate.clone().add(maxDuration))
-      ) {
+
+      if (maxDuration && newValue.isAfter(startDate.clone().add(maxDuration))) {
         newValue = startDate.clone().add(maxDuration);
       }
 
@@ -745,6 +746,7 @@ export class DateRangePicker extends React.Component<
           startInputValue: ''
         });
       }
+
       const date = this.filterDate(newValue, endDate, timeFormat, 'end');
       this.setState(
         {
