@@ -659,7 +659,7 @@ export default class Form extends React.Component<FormProps, object> {
     persistData && store.getLocalPersistData();
 
     // 派发init事件，参数为初始化数据
-    const dispatcher = dispatchEvent('inited', createObject(this.props.data, {value: data}));
+    const dispatcher = dispatchEvent('inited', createObject(this.props.data, {formData: data}));
     if (!dispatcher?.prevented) {
       onInit && onInit(data, this.props);
     }
@@ -868,7 +868,7 @@ export default class Form extends React.Component<FormProps, object> {
     if (!isAlive(store)) {
       return;
     }
-    const dispatcher = dispatchEvent('change', createObject(data, {value: store.data}));
+    const dispatcher = dispatchEvent('change', createObject(data, {formData: store.data}));
     if (!dispatcher?.prevented) {
       onChange && onChange(store.data, difference(store.data, store.pristine), this.props);
     }
@@ -1041,7 +1041,7 @@ export default class Form extends React.Component<FormProps, object> {
                 );
               },
               onFailed: (result: Payload) => {
-                dispatchEvent('submitFail', createObject(this.props.data, {result}));
+                dispatchEvent('submitFail', createObject(this.props.data, {error: result}));
               }
             })
             .then(async response => {
