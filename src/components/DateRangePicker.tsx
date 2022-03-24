@@ -690,7 +690,6 @@ export class DateRangePicker extends React.Component<
   handleDateChange(newValue: moment.Moment) {
     const {
       embed,
-      viewMode = 'days',
       timeFormat,
       minDuration,
       maxDuration,
@@ -723,21 +722,7 @@ export class DateRangePicker extends React.Component<
       }
       this.setState(newState);
     } else if (editState === 'end') {
-      if (!startDate) {
-        // 先设置了结束时间
-        startDate = newValue;
-      }
-
-      if (
-        minDuration &&
-        newValue.isBefore(startDate.clone().add(minDuration))
-      ) {
-        newValue = startDate.clone().add(minDuration);
-      }
-
-      if (maxDuration && newValue.isAfter(startDate.clone().add(maxDuration))) {
-        newValue = startDate.clone().add(maxDuration);
-      }
+      newValue = this.getEndDateByDuration(newValue);
 
       // 如果结束时间在前面，需要清空开始时间
       if (newValue.isBefore(startDate)) {
@@ -758,6 +743,75 @@ export class DateRangePicker extends React.Component<
         }
       );
     }
+  }
+
+  // 手动控制输入时间
+  startInputChange(e: React.ChangeEvent<HTMLInputElement>) {
+    const {onChange, inputFormat, format, utc} = this.props;
+    const value = e.currentTarget.value;
+    this.setState({startInputValue: value});
+    if (value === '') {
+      onChange('');
+    } else {
+      let newDate = this.getStartDateByDuration(moment(value, inputFormat));
+      this.setState({startDate: newDate});
+    }
+  }
+
+  endInputChange(e: React.ChangeEvent<HTMLInputElement>) {
+    const {onChange, inputFormat, format, utc} = this.props;
+    const value = e.currentTarget.value;
+    this.setState({endInputValue: value});
+    if (value === '') {
+      onChange('');
+    } else {
+      let newDate = this.getEndDateByDuration(moment(value, inputFormat));
+      this.setState({endDate: newDate});
+    }
+  }
+
+  // 根据 duration 修复结束时间
+  getEndDateByDuration(newValue: moment.Moment) {
+    const {minDuration, maxDuration} = this.props;
+    let {startDate, endDate, editState} = this.state;
+    if (!startDate) {
+      return newValue;
+    }
+
+    if (minDuration && newValue.isBefore(startDate.clone().add(minDuration))) {
+      newValue = startDate.clone().add(minDuration);
+    }
+
+    if (maxDuration && newValue.isAfter(startDate.clone().add(maxDuration))) {
+      newValue = startDate.clone().add(maxDuration);
+    }
+
+    return newValue;
+  }
+
+  // 根据 duration 修复起始时间
+  getStartDateByDuration(newValue: moment.Moment) {
+    const {minDuration, maxDuration} = this.props;
+    let {endDate, editState} = this.state;
+    if (!endDate) {
+      return newValue;
+    }
+
+    if (
+      minDuration &&
+      newValue.isBefore(endDate.clone().subtract(minDuration))
+    ) {
+      newValue = endDate.clone().subtract(minDuration);
+    }
+
+    if (
+      maxDuration &&
+      newValue.isAfter(endDate.clone().subtract(maxDuration))
+    ) {
+      newValue = endDate.clone().subtract(maxDuration);
+    }
+
+    return newValue;
   }
 
   // 主要用于处理时间的情况
@@ -1126,31 +1180,6 @@ export class DateRangePicker extends React.Component<
         )}
       </div>
     );
-  }
-
-  // 手动控制输入时间
-  startInputChange(e: React.ChangeEvent<HTMLInputElement>) {
-    const {onChange, inputFormat, format, utc} = this.props;
-    const value = e.currentTarget.value;
-    this.setState({startInputValue: value});
-    if (value === '') {
-      onChange('');
-    } else {
-      const newDate = moment(value, inputFormat);
-      this.setState({startDate: newDate});
-    }
-  }
-
-  endInputChange(e: React.ChangeEvent<HTMLInputElement>) {
-    const {onChange, inputFormat, format, utc} = this.props;
-    const value = e.currentTarget.value;
-    this.setState({endInputValue: value});
-    if (value === '') {
-      onChange('');
-    } else {
-      const newDate = moment(value, inputFormat);
-      this.setState({endDate: newDate});
-    }
   }
 
   render() {
