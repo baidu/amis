@@ -477,6 +477,7 @@ export class DateRangePicker extends React.Component<
     this.startInputChange = this.startInputChange.bind(this);
     this.endInputChange = this.endInputChange.bind(this);
     this.handleDateChange = this.handleDateChange.bind(this);
+    this.handleStartDateChange = this.handleStartDateChange.bind(this);
     this.handeleEndDateChange = this.handeleEndDateChange.bind(this);
     this.handleTimeStartChange = this.handleTimeStartChange.bind(this);
     this.handleTimeEndChange = this.handleTimeEndChange.bind(this);
@@ -689,42 +690,39 @@ export class DateRangePicker extends React.Component<
   }
 
   handleDateChange(newValue: moment.Moment) {
-    const {
-      embed,
-      timeFormat,
-      minDuration,
-      maxDuration,
-      minDate,
-      inputFormat,
-      type
-    } = this.props;
-    let {startDate, endDate, editState} = this.state;
+    let {editState} = this.state;
     if (editState === 'start') {
-      if (minDate && newValue.isBefore(minDate)) {
-        newValue = minDate;
-      }
-      const date = this.filterDate(
-        newValue,
-        startDate || minDate,
-        timeFormat,
-        'start'
-      );
-      const newState = {
-        startDate: date,
-        startInputValue: date.format(inputFormat)
-      } as any;
-      // 这些没有时间的选择点第一次后第二次就是选结束时间
-      if (
-        type === 'input-date-range' ||
-        type === 'input-year-range' ||
-        type === 'input-quarter-range'
-      ) {
-        newState.editState = 'end';
-      }
-      this.setState(newState);
+      this.handleStartDateChange(newValue);
     } else if (editState === 'end') {
       this.handeleEndDateChange(newValue);
     }
+  }
+
+  handleStartDateChange(newValue: moment.Moment) {
+    const {timeFormat, minDate, inputFormat, type} = this.props;
+    let {startDate} = this.state;
+    if (minDate && newValue.isBefore(minDate)) {
+      newValue = minDate;
+    }
+    const date = this.filterDate(
+      newValue,
+      startDate || minDate,
+      timeFormat,
+      'start'
+    );
+    const newState = {
+      startDate: date,
+      startInputValue: date.format(inputFormat)
+    } as any;
+    // 这些没有时间的选择点第一次后第二次就是选结束时间
+    if (
+      type === 'input-date-range' ||
+      type === 'input-year-range' ||
+      type === 'input-quarter-range'
+    ) {
+      newState.editState = 'end';
+    }
+    this.setState(newState);
   }
 
   handeleEndDateChange(newValue: moment.Moment) {
@@ -1131,7 +1129,9 @@ export class DateRangePicker extends React.Component<
           // 区分的原因是 time-range 左侧就只能选起始时间，而其它都能在左侧同时同时选择起始和结束
           // TODO: 后续得把 time-range 代码拆分出来
           onChange={
-            viewMode === 'time'
+            type === 'input-datetime-range'
+              ? this.handleStartDateChange
+              : viewMode === 'time'
               ? this.handleTimeStartChange
               : this.handleDateChange
           }
