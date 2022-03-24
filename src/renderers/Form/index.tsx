@@ -756,9 +756,9 @@ export default class Form extends React.Component<FormProps, object> {
     this.flush();
     return store.validate(this.hooks['validate'] || [], forceValidate).then((result: boolean) => {
       if (result) {
-        dispatchEvent('validateSucc', createObject(data));
+        dispatchEvent('validateSucc', data);
       } else {
-        dispatchEvent('validateFail', createObject(data));
+        dispatchEvent('validateFail', data);
       }
       return result;
     });
@@ -786,7 +786,7 @@ export default class Form extends React.Component<FormProps, object> {
     const {store, messages, translate: __, dispatchEvent, data} = this.props;
     this.flush();
     const validateErrCb = () => {
-      dispatchEvent('validateFail', createObject(data));
+      dispatchEvent('validateFail', data);
     };
     return store.submit(
       fn,
@@ -1002,7 +1002,7 @@ export default class Form extends React.Component<FormProps, object> {
           return Promise.resolve(false);
         }
         // 走到这里代表校验成功了
-        dispatchEvent('validateSucc', createObject(this.props.data));
+        dispatchEvent('validateSucc', this.props.data);
 
         if (target) {
           this.submitToTarget(target, values);
