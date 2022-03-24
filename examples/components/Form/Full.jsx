@@ -59,6 +59,20 @@ export default {
           type: 'divider'
         },
         {
+          type: 'input-number',
+          name: 'number',
+          label: '数字禁用',
+          placeholder: '',
+          disabled: true,
+          inline: true,
+          value: 5,
+          min: 1,
+          max: 10
+        },
+        {
+          type: 'divider'
+        },
+        {
           type: 'input-tag',
           name: 'tag',
           label: '标签',
@@ -231,6 +245,30 @@ export default {
             {
               label: '选项3',
               disabled: true,
+              value: 3
+            }
+          ]
+        },
+        {
+          type: 'divider'
+        },
+        {
+          type: 'radios',
+          name: 'radios',
+          label: '单选禁用',
+          value: 3,
+          disabled: true,
+          options: [
+            {
+              label: '选项1',
+              value: 1
+            },
+            {
+              label: '选项2',
+              value: 2
+            },
+            {
+              label: '选项3',
               value: 3
             }
           ]
@@ -558,8 +596,8 @@ export default {
           type: 'switch',
           name: 'switch4',
           value: true,
-          onText: "开启",
-          offText: "关闭",
+          onText: '开启',
+          offText: '关闭',
           label: '开关文字'
         },
         {
@@ -592,6 +630,26 @@ export default {
           type: 'select',
           name: 'type',
           label: '单选',
+          inline: true,
+          options: [
+            {
+              label: '选项1',
+              value: 1
+            },
+            {
+              label: '选项2',
+              value: 2
+            }
+          ]
+        },
+        {
+          type: 'divider'
+        },
+        {
+          type: 'select',
+          name: 'type',
+          label: '单选禁用',
+          disabled: true,
           inline: true,
           options: [
             {
@@ -916,6 +974,15 @@ export default {
           type: 'textarea',
           name: 'textarea',
           label: '多行文本'
+        },
+        {
+          type: 'divider'
+        },
+        {
+          type: 'textarea',
+          name: 'textarea',
+          disabled: true,
+          label: '多行文本禁用'
         },
         {
           type: 'divider'
