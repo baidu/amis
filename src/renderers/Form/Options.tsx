@@ -460,7 +460,7 @@ export function registerOptionsControl(config: OptionsConfig) {
         eventName,
         createObject(data, {
           value: eventData,
-          options,
+          options
         })
       );
       // 返回阻塞标识
@@ -600,7 +600,8 @@ export function registerOptionsControl(config: OptionsConfig) {
       );
 
       const isPrevented = await this.dispatchOptionEvent('change', newValue);
-      isPrevented || (onChange && onChange(newValue, submitOnChange, changeImmediately));
+      isPrevented ||
+        (onChange && onChange(newValue, submitOnChange, changeImmediately));
     }
 
     /**
@@ -779,9 +780,13 @@ export function registerOptionsControl(config: OptionsConfig) {
         return;
       }
 
-      const json = await formItem?.deferLoadOptions(option, api, createObject(data, option));
+      const json = await formItem?.deferLoadOptions(
+        option,
+        api,
+        createObject(data, option)
+      );
       // 触发事件通知,加载完成
-      this.dispatchOptionEvent('loadFinished',json);
+      this.dispatchOptionEvent('loadFinished', json);
     }
 
     @autobind
@@ -995,7 +1000,10 @@ export function registerOptionsControl(config: OptionsConfig) {
         };
       }
       // 触发事件通知
-      const isPrevented = await this.dispatchOptionEvent('add', {...result, idx});
+      const isPrevented = await this.dispatchOptionEvent('add', {
+        ...result,
+        idx
+      });
       if (isPrevented) {
         return;
       }

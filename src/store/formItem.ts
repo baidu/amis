@@ -623,6 +623,21 @@ export const FormItemStore = StoreNode.named('FormItemStore')
       return json;
     });
 
+    const loadAutoUpdateData: (api: Api, data?: object) => Promise<Payload> =
+      flow(function* getAutoUpdateData(api: string, data: object) {
+        const json: Payload = yield getEnv(self).fetcher(api, data);
+        if (!json) {
+          return;
+        }
+        const result = json.data?.items || json.data?.rows;
+        if ((result && result.length > 1) || !result.length) {
+          // 只处理仅有一个结果的数据
+          return;
+        }
+
+        return result[0] || json.data;
+      });
+
     const tryDeferLoadLeftOptions: (
       option: any,
       leftOptions: any,
@@ -1166,7 +1181,8 @@ export const FormItemStore = StoreNode.named('FormItemStore')
       changeTmpValue,
       changeEmitedValue,
       addSubFormItem,
-      removeSubFormItem
+      removeSubFormItem,
+      loadAutoUpdateData
     };
   });
 

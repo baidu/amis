@@ -32,6 +32,8 @@ import {
 import {HocStoreFactory} from '../../WithStore';
 import {wrapControl} from './wrapControl';
 import type {OnEventProps} from '../../utils/renderer-event';
+import isEmpty from 'lodash/isEmpty';
+import omit from 'lodash/omit';
 
 export type FormControlSchemaAlias = SchemaObject;
 
@@ -396,7 +398,7 @@ export interface FormItemConfig extends FormItemBasicConfig {
 }
 
 export class FormItemWrap extends React.Component<FormItemProps> {
-  reaction: any;
+  reaction: Array<() => void> = [];
 
   constructor(props: FormItemProps) {
     super(props);
@@ -404,15 +406,24 @@ export class FormItemWrap extends React.Component<FormItemProps> {
     const {formItem: model} = props;
 
     if (model) {
-      this.reaction = reaction(
-        () => `${model.errors.join('')}${model.isFocused}${model.dialogOpen}`,
-        () => this.forceUpdate()
+      this.reaction.push(
+        reaction(
+          () => `${model.errors.join('')}${model.isFocused}${model.dialogOpen}`,
+          () => this.forceUpdate()
+        )
+      );
+      this.reaction.push(
+        reaction(
+          () => JSON.stringify(model.tmpValue),
+          () => this.syncAutoUpdate(model)
+        )
       );
     }
   }
 
   componentWillUnmount() {
-    this.reaction && this.reaction();
+    this.reaction.forEach(fn => fn());
+    this.reaction = [];
   }
 
   @autobind
@@ -427,6 +438,27 @@ export class FormItemWrap extends React.Component<FormItemProps> {
     const {formItem: model} = this.props;
     model && model.blur();
     this.props.onBlur && this.props.onBlur(e);
+  }
+
+  async syncAutoUpdate(model: any) {
+    const {autoUpdate, onBulkChange, name, formItem} = this.props;
+
+    if (!autoUpdate || (autoUpdate && !autoUpdate.mapping)) {
+      return;
+    }
+
+    const {mapping, api} = autoUpdate;
+    // 排除自身的字段，否则会无限更新state
+    const excludeSelfAutoUpdate = omit(mapping, name || '');
+    if (!isEmpty(excludeSelfAutoUpdate) && onBulkChange && api) {
+      let result = await formItem?.loadAutoUpdateData(api);
+      const toSync: any = {};
+      Object.entries(excludeSelfAutoUpdate).forEach(([key, value]) => {
+        toSync[key] = (result as any)[value];
+      });
+
+      onBulkChange(toSync);
+    }
   }
 
   @autobind
@@ -482,6 +514,7 @@ export class FormItemWrap extends React.Component<FormItemProps> {
       return renderControl({
         ...rest,
         onOpenDialog: this.handleOpenDialog,
+
         type,
         classnames: cx,
         formItem: model,
