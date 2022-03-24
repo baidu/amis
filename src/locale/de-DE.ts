@@ -126,6 +126,7 @@ register('de-DE', {
   'File.upload': 'Hochladen',
   'File.uploadFailed': 'Zurückgegebene Daten der Upload-API sind leer',
   'File.uploading': 'Wird hochgeladen...',
+  'FormItem.autoUpdateloadFaild': 'Die Schnittstelle hat einen Fehler zurückgegeben, bitte sorgfältig prüfen',
   'Form.loadOptionsFailed': 'Optionen wurden auf folgendem Grund nicht geladen: {{reason}}',
   'Form.submit': 'Absenden',
   'Form.title': 'Formular',
