@@ -1,31 +1,24 @@
 import position from './position';
 
-export function getScrollParent(element: HTMLElement | null): HTMLElement {
+function getScrollParent(element: HTMLElement | null, includeHidden?: boolean) {
   if (!element) {
     return document.body;
   }
 
-  const position = getComputedStyle(element).getPropertyValue('position');
-  const excludeStatic = position === 'absolute';
-  const ownerDoc = element.ownerDocument;
+  let style = getComputedStyle(element);
+  const excludeStaticParent = style.position === 'absolute';
+  const overflowRegex = includeHidden
+    ? /(auto|scroll|hidden)/
+    : /(auto|scroll)/;
 
-  if (position === 'fixed') return document.body;
-
-  // @ts-ignore
-  while ((element = element.parentNode) && element !== document.body) {
-    const currentStyle = getComputedStyle(element);
-    const isStatic =
-      excludeStatic && currentStyle.getPropertyValue('position') === 'static';
-    const style =
-      (currentStyle.getPropertyValue('overflow') || '') +
-      (currentStyle.getPropertyValue('overflow-y') || '') +
-      currentStyle.getPropertyValue('overflow-x');
-
-    if (isStatic) continue;
-
-    if (/(auto|scroll)/.test(style)) {
-      return element;
+  if (style.position === 'fixed') return document.body;
+  for (let parent = element; (parent = parent.parentElement!); ) {
+    style = getComputedStyle(parent);
+    if (excludeStaticParent && style.position === 'static') {
+      continue;
     }
+    if (overflowRegex.test(style.overflow + style.overflowY + style.overflowX))
+      return parent;
   }
 
   return document.body;
