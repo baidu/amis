@@ -371,7 +371,8 @@ export class DatePicker extends React.Component<DateProps, DatePickerState> {
         value: normalizeValue(props.value, props.format)
       };
 
-      newState.inputValue = newState.value.format(this.props.inputFormat) || '';
+      newState.inputValue =
+        newState.value?.format(this.props.inputFormat) || '';
 
       this.setState(newState);
     }
