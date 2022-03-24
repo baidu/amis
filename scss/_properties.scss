@@ -482,15 +482,15 @@
   --Carousel-svg-width: var(--gap-lg);
   --Carousel-transitionDuration: var(--animation-duration);
 
-  --Checkbox--full-inner-size: #{px2rem(12px)};
-  --Checkbox--sm--full-inner-size: #{px2rem(10px)};
+  --Checkbox--full-inner-size: #{px2rem(8px)};
+  --Checkbox--sm--full-inner-size: #{px2rem(8px)};
   --Checkbox--sm-inner-size: calc(var(--Checkbox--sm-size) / 2);
   --Checkbox--sm-size: #{px2rem(16px)};
-  --Checkbox-borderRadius: var(--borderRadius);
+  --Checkbox-borderRadius: #{px2rem(2px)};
   --Checkbox-color: var(--Form-input-borderColor);
   --Checkbox-gap: var(--gap-xs);
   --Checkbox-gb: #fff;
-  --Checkbox-size: var(--Form-fontSize);
+  --Checkbox-size: #{px2rem(16px)};
   --Checkbox-inner-size: calc(var(--Checkbox-size) / 2);
   --Checkbox-onHover-color: var(--info);
   --Checkbox-onDisabled-bg: #e5e7eb;
@@ -500,7 +500,8 @@
   --Checkbox-border-width: var(--Form-input-borderWidth);
   --Checkbox-paddingX: #{px2rem(12px)};
   --Checkbox-button-height: #{px2rem(32px)};
-  --Checkbox-button-line-height: #{px2rem(30px)};
+  --Checkbox-button-line-height: #{px2rem(28px)};
+  --Checkbox-button-min-width: #{px2rem(80px)};
 
   --ColorPicker-bg: var(--white);
   --ColorPicker-borderColor: var(--Form-input-borderColor);
@@ -680,6 +681,9 @@
   --Form--horizontal-label-widthMd: #{px2rem(160px)};
   --Form--horizontal-label-widthSm: #{px2rem(90px)};
   --Form--horizontal-label-widthXs: #{px2rem(60px)};
+
+  --Form--horizontal-justify-label-align: left;
+  --Form--horizontal-justify-value-align: right;
 
   --Form-control-widthBase: #{px2rem(200px)};
   --Form-control-widthLg: #{px2rem(320px)};
