@@ -33,6 +33,8 @@ import mapValues from 'lodash/mapValues';
 import {resolveVariable} from '../utils/tpl-builtin';
 import {buildStyle} from '../utils/style';
 import PullRefresh from '../components/PullRefresh';
+import position from '../utils/position';
+import {scrollPosition} from '../utils/scrollPosition';
 
 /**
  * 样式属性名及值
@@ -385,8 +387,9 @@ export default class Page extends React.Component<PageProps> {
 
     if (asideSticky && this.asideInner.current) {
       const dom = this.asideInner.current!;
-      const rect = dom.getBoundingClientRect();
-      dom.style.cssText += `position: sticky; top: ${rect.top}px;`;
+      dom.style.cssText += `position: sticky; top: ${
+        scrollPosition(dom).top
+      }px;`;
     }
   }
 
