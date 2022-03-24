@@ -772,10 +772,19 @@ export class DateRangePicker extends React.Component<
 
   // 根据 duration 修复结束时间
   getEndDateByDuration(newValue: moment.Moment) {
-    const {minDuration, maxDuration} = this.props;
+    const {minDuration, maxDuration, type} = this.props;
     let {startDate, endDate, editState} = this.state;
     if (!startDate) {
       return newValue;
+    }
+
+    // 时间范围必须统一成同一天，不然会不一致
+    if (type === 'input-time-range' && startDate) {
+      newValue.set({
+        year: startDate.year(),
+        month: startDate.month(),
+        date: startDate.date()
+      });
     }
 
     if (minDuration && newValue.isBefore(startDate.clone().add(minDuration))) {
@@ -791,10 +800,18 @@ export class DateRangePicker extends React.Component<
 
   // 根据 duration 修复起始时间
   getStartDateByDuration(newValue: moment.Moment) {
-    const {minDuration, maxDuration} = this.props;
+    const {minDuration, maxDuration, type} = this.props;
     let {endDate, editState} = this.state;
     if (!endDate) {
       return newValue;
+    }
+    // 时间范围必须统一成同一天，不然会不一致
+    if (type === 'input-time-range' && endDate) {
+      newValue.set({
+        year: endDate.year(),
+        month: endDate.month(),
+        date: endDate.date()
+      });
     }
 
     if (
@@ -820,11 +837,12 @@ export class DateRangePicker extends React.Component<
       this.props;
     const {startDate, endDate} = this.state;
 
+    // 时间范围必须统一成同一天，不然会不一致
     if (endDate) {
       newValue.set({
         year: endDate.year(),
         month: endDate.month(),
-        day: endDate.day()
+        date: endDate.date()
       });
     }
 
@@ -832,19 +850,10 @@ export class DateRangePicker extends React.Component<
       newValue = minDate;
     }
 
-    const newStartDate = this.filterDate(
-      newValue,
-      startDate || minDate,
-      timeFormat,
-      'start'
-    );
-
-    // 时间范围必须统一成同一天，不然会出事
-
     this.setState(
       {
-        startDate: newStartDate,
-        startInputValue: newStartDate.format(inputFormat)
+        startDate: newValue,
+        startInputValue: newValue.format(inputFormat)
       },
       () => {
         embed && this.confirm();
@@ -860,7 +869,7 @@ export class DateRangePicker extends React.Component<
       newValue.set({
         year: startDate.year(),
         month: startDate.month(),
-        day: startDate.day()
+        date: startDate.date()
       });
     }
 
@@ -883,16 +892,10 @@ export class DateRangePicker extends React.Component<
       newValue = startDate.clone().add(maxDuration);
     }
 
-    const newEndDate = this.filterDate(
-      newValue,
-      endDate || maxDate,
-      timeFormat,
-      'end'
-    );
     this.setState(
       {
-        endDate: newEndDate,
-        endInputValue: newEndDate.format(inputFormat)
+        endDate: newValue,
+        endInputValue: newValue.format(inputFormat)
       },
       () => {
         embed && this.confirm();
