@@ -41,24 +41,13 @@ export class CmptAction implements Action {
         action.componentId,
         action.actionType === 'disabled'
       );
-    } else if (action.actionType === 'setValue') {
-      // 只有数据容器和数据输入有效
-      // 数据容器范围
-      const dataContainer = [
-        'form',
-        'dialog',
-        'drawer',
-        'wizard',
-        'service',
-        'page',
-        'app',
-        'chart'
-      ];
+    }
 
+    // 数据更新
+    if (action.actionType === 'setValue') {
       const value = dataMapping(action.value, event.data);
-
-      if (dataContainer.includes(component.props.type)) {
-        return component.props.store.updateData(value);
+      if (component.setData) {
+        return component.setData(value);
       } else {
         return component.props.onChange?.(value);
       }

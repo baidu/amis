@@ -1793,4 +1793,8 @@ export class FormRenderer extends Form {
 
     return super.receive(values);
   }
+
+  setData(values: object) {
+    return super.setValues(values);
+  }
 }

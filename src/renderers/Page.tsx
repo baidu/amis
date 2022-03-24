@@ -971,4 +971,8 @@ export class PageRenderer extends Page {
       }
     }, 300);
   }
+
+  setData(values: object) {
+    return this.props.store.updateData(values);
+  }
 }

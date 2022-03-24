@@ -1167,9 +1167,11 @@ order: 9
 | actionType  | `string` | `enabled` or `disabled` | 启用或禁用组件              |
 | componentId | `string` | -                       | 指定启用或禁用的目标组件 id |
 
-#### 变量赋值
+#### 更新数据
 
 通过配置`actionType: 'setValue'`实现组件数据变量的更新，限于`form`、`dialog`、`drawer`、`wizard`、`service`、`page`、`app`、`chart`，以及数据输入类组件。
+
+**更新表单数据**
 
 ```schema
 {
@@ -1183,7 +1185,7 @@ order: 9
   body: [
     {
       type: 'button',
-      label: '给表单赋值',
+      label: '更新',
       className: 'ml-2 m',
       onEvent: {
         click: {
@@ -1198,25 +1200,54 @@ order: 9
       }
     },
     {
-      type: 'button',
-      label: '给表单里的输入框赋值',
-      className: 'ml-2',
-      onEvent: {
-        click: {
-          actions: [
-            {
-              actionType: 'setValue',
-              componentId: 'input_data_role',
-              value: '我是女巫'
-            }
-          ]
+      type: 'form',
+      id: 'form_data',
+      title: '表单',
+      debug: true,
+      data: {
+        myrole: '预言家',
+        age: '18'
+      },
+      "initApi": "/api/mock2/form/initData",
+      body: [
+        {
+          type: 'input-text',
+          label: '角色',
+          name: 'myrole',
+          disabled: false,
+          mode: 'horizontal'
+        },
+        {
+          type: 'input-text',
+          label: '年龄',
+          name: 'age',
+          disabled: false,
+          mode: 'horizontal'
         }
-      }
-    },
+      ]
+    }
+  ]
+}
+```
+
+**更新输入类组件数据**
+
+```schema
+{
+  type: 'page',
+  id: 'mypage',
+  data: {
+    globalData: {
+      myrole: '法官',
+      mymsg: '该吃饭了!',
+      title: 'beijing time'
+    }
+  },
+  body: [
     {
       type: 'button',
-      label: '直接给输入框赋值',
-      className: 'ml-2',
+      label: '更新',
+      className: 'ml-2 m',
       onEvent: {
         click: {
           actions: [
@@ -1231,26 +1262,29 @@ order: 9
     },
     {
       type: 'button',
-      label: '给向导赋值',
-      className: 'ml-2',
+      label: '更新表单内输入框',
+      className: 'ml-2 m',
       onEvent: {
         click: {
           actions: [
             {
               actionType: 'setValue',
-              componentId: 'wizard_data',
-              value: {
-                website: "http://www.baidu.com",
-                email: "amis!@baidu.com"
-              }
+              componentId: 'input_data_role',
+              value: '预言家'
             }
           ]
         }
       }
     },
     {
+      type: "input-text",
+      label: "消息",
+      id: "input_data_msg",
+      mode: 'horizontal',
+      name: "mymsg"
+    },
+    {
       type: 'form',
-      id: 'form_data',
       title: '表单',
       debug: true,
       data: {
@@ -1275,19 +1309,136 @@ order: 9
           mode: 'horizontal'
         }
       ]
-    },
+    }
+  ]
+}
+```
+
+**更新 弹窗 数据**
+
+这种场景一般用在弹窗内某个异步操作后，数据的回填。
+
+```schema
+{
+  type: 'page',
+  data: {
+    globalData: {
+      website: "http://www.baidu.com",
+      email: "amis!@baidu.com"
+    }
+  },
+  body: [
     {
-      type: "input-text",
-      id: "input_data_msg",
-      name: "mymsg"
+      type: 'button',
+      label: '打开弹窗',
+      className: 'ml-2',
+      onEvent: {
+        click: {
+          actions: [
+            {
+              actionType: 'dialog',
+              "dialog": {
+                "title": "在弹框中的表单",
+                "id": "dialog_data",
+                "data": {
+                  username: 'amis'
+                },
+                "body": {
+                  "type": "form",
+                  "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm?waitSeconds=2",
+                  "body": [
+                    {
+                      "type": "input-text",
+                      "name": "username",
+                      "required": true,
+                      "placeholder": "请输入用户名",
+                      "label": "用户名"
+                    },
+                    {
+                      "type": "input-password",
+                      "name": "password",
+                      "label": "密码",
+                      "required": true,
+                      "placeholder": "请输入密码"
+                    },
+                    {
+                      "type": "checkbox",
+                      "name": "rememberMe",
+                      "label": "记住登录"
+                    }
+                  ]
+                },
+                "actions": [
+                  {
+                    type: 'button',
+                    label: '请求后更新',
+                    className: 'm',
+                    primary: true,
+                    onEvent: {
+                      click: {
+                        actions: [
+                          {
+                            actionType: 'ajax',
+                            api: 'https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/initData',
+                            outputVar: 'myResult'
+                          },
+                          {
+                            actionType: 'setValue',
+                            componentId: 'dialog_data',
+                            value: {
+                              username: '${myResult.name}'
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      }
+    }
+  ]
+}
+```
+
+**更新 向导 数据**
+
+```schema
+{
+  type: 'page',
+  data: {
+    globalData: {
+      website: "http://www.baidu.com",
+      email: "amis!@baidu.com"
+    }
+  },
+  body: [
+    {
+      type: 'button',
+      label: '更新',
+      className: 'ml-2 m',
+      onEvent: {
+        click: {
+          actions: [
+            {
+              actionType: 'setValue',
+              componentId: 'wizard_data',
+              value: '${globalData}'
+            }
+          ]
+        }
+      }
     },
     {
       "type": "wizard",
       "id": "wizard_data",
       "mode": "vertical",
       "data": {
-        "website": "",
-        "email": ""
+        "website": "test",
+        "email": "test"
       },
       "steps": [
         {
@@ -1309,12 +1460,6 @@ order: 9
               "type": "input-email",
               "required": true
             }
-          ]
-        },
-        {
-          "title": "Step 3",
-          "body": [
-            "这是最后一步了"
           ]
         }
       ]
