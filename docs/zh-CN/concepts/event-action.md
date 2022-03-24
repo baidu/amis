@@ -1174,21 +1174,24 @@ order: 9
 ```schema
 {
   type: 'page',
+  data: {
+    globalData: {
+      myrole: '法官',
+      mymsg: '该吃饭了!'
+    }
+  },
   body: [
     {
       type: 'button',
       label: '给表单赋值',
-      className: 'ml-2',
+      className: 'ml-2 m',
       onEvent: {
         click: {
           actions: [
             {
               actionType: 'setValue',
               componentId: 'form_data',
-              values: {
-                myrole: '预言家',
-                mymsg: 'jjj'
-              }
+              value: '${globalData}'
             }
           ]
         }
@@ -1245,25 +1248,6 @@ order: 9
         }
       }
     },
-      {
-        "title": "Step 2",
-        "body": [
-          {
-            "name": "email",
-            "label": "邮箱",
-            "type": "input-email",
-            "required": true
-          }
-        ]
-      },
-      {
-        "title": "Step 3",
-        "body": [
-          "这是最后一步了"
-        ]
-      }
-    ]
-  },
     {
       type: 'form',
       id: 'form_data',
@@ -1298,24 +1282,43 @@ order: 9
       name: "mymsg"
     },
     {
-    "type": "wizard",
-    "id": "wizard_data",
-    "mode": "vertical",
-    "data": {
-      "website": "",
-      "email": ""
-    },
-    "steps": [
-      {
-        "title": "第一步",
-        "body": [
-          {
-            "name": "website",
-            "label": "网址",
-            "type": "input-url"
-          }
-        ]
-      }
+      "type": "wizard",
+      "id": "wizard_data",
+      "mode": "vertical",
+      "data": {
+        "website": "",
+        "email": ""
+      },
+      "steps": [
+        {
+          "title": "第一步",
+          "body": [
+            {
+              "name": "website",
+              "label": "网址",
+              "type": "input-url"
+            }
+          ]
+        },
+        {
+          "title": "Step 2",
+          "body": [
+            {
+              "name": "email",
+              "label": "邮箱",
+              "type": "input-email",
+              "required": true
+            }
+          ]
+        },
+        {
+          "title": "Step 3",
+          "body": [
+            "这是最后一步了"
+          ]
+        }
+      ]
+    }
   ]
 }
 ```

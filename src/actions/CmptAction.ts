@@ -1,4 +1,5 @@
 import {RendererEvent} from '../utils/renderer-event';
+import {dataMapping} from '../utils/tpl-builtin';
 import {
   Action,
   ListenerAction,
@@ -54,10 +55,12 @@ export class CmptAction implements Action {
         'chart'
       ];
 
+      const value = dataMapping(action.value, event.data);
+
       if (dataContainer.includes(component.props.type)) {
-        return component.props.store.updateData(action.value);
+        return component.props.store.updateData(value);
       } else {
-        return component.props.onChange?.(action.value);
+        return component.props.onChange?.(value);
       }
     }
 
