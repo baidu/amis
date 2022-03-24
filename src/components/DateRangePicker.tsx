@@ -477,6 +477,7 @@ export class DateRangePicker extends React.Component<
     this.startInputChange = this.startInputChange.bind(this);
     this.endInputChange = this.endInputChange.bind(this);
     this.handleDateChange = this.handleDateChange.bind(this);
+    this.handeleEndDateChange = this.handeleEndDateChange.bind(this);
     this.handleTimeStartChange = this.handleTimeStartChange.bind(this);
     this.handleTimeEndChange = this.handleTimeEndChange.bind(this);
     this.handleFocus = this.handleFocus.bind(this);
@@ -722,27 +723,33 @@ export class DateRangePicker extends React.Component<
       }
       this.setState(newState);
     } else if (editState === 'end') {
-      newValue = this.getEndDateByDuration(newValue);
-
-      // 如果结束时间在前面，需要清空开始时间
-      if (newValue.isBefore(startDate)) {
-        this.setState({
-          startDate: undefined,
-          startInputValue: ''
-        });
-      }
-
-      const date = this.filterDate(newValue, endDate, timeFormat, 'end');
-      this.setState(
-        {
-          endDate: date,
-          endInputValue: date.format(inputFormat)
-        },
-        () => {
-          embed && this.confirm();
-        }
-      );
+      this.handeleEndDateChange(newValue);
     }
+  }
+
+  handeleEndDateChange(newValue: moment.Moment) {
+    const {embed, timeFormat, inputFormat} = this.props;
+    let {startDate, endDate} = this.state;
+    newValue = this.getEndDateByDuration(newValue);
+
+    // 如果结束时间在前面，需要清空开始时间
+    if (newValue.isBefore(startDate)) {
+      this.setState({
+        startDate: undefined,
+        startInputValue: ''
+      });
+    }
+
+    const date = this.filterDate(newValue, endDate, timeFormat, 'end');
+    this.setState(
+      {
+        endDate: date,
+        endInputValue: date.format(inputFormat)
+      },
+      () => {
+        embed && this.confirm();
+      }
+    );
   }
 
   // 手动控制输入时间
@@ -1144,7 +1151,9 @@ export class DateRangePicker extends React.Component<
           className={`${ns}DateRangePicker-end`}
           value={endDate}
           onChange={
-            viewMode === 'time'
+            type === 'input-datetime-range'
+              ? this.handeleEndDateChange
+              : viewMode === 'time'
               ? this.handleTimeEndChange
               : this.handleDateChange
           }
