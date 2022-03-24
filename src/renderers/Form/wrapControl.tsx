@@ -437,9 +437,9 @@ export function wrapControl<
             }
             if (result && result.length){
               if (result.indexOf(false) > -1) {
-                formItemDispatchEvent('formItemValidateError', createObject(data));
+                formItemDispatchEvent('formItemValidateError', data);
               } else {
-                formItemDispatchEvent('formItemValidateSucc', createObject(data));
+                formItemDispatchEvent('formItemValidateSucc', data);
               }
             }
           }
