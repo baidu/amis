@@ -1,4 +1,5 @@
 .#{$ns}TextareaControl {
+  @include input-text();
   --Form-input-clearBtn-padding: #{px2rem(2px)};
 
   position: relative;
@@ -24,29 +25,6 @@
     // yunshe4.0
     &:hover {
       border-color: var(--Form-input-onHover-borderColor);
-    }
-  }
-
-  & > textarea:focus,
-  &.is-focused > textarea {
-    border-color: var(--Form-input-onFocused-borderColor);
-    box-shadow: var(--Form-input-boxShadow);
-
-    // yunshe4.0
-    &:hover {
-      border-color: var(--Form-input-onFocused-borderColor);
-    }
-  }
-
-  &.is-disabled > textarea,
-  & > textarea[disabled] {
-    background: $gray200;
-    color: var(--text--muted-color);
-  }
-
-  &.is-error {
-    > textarea {
-      border-color: var(--Form-input-onError-borderColor);
     }
   }
 

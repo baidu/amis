@@ -211,12 +211,14 @@ export default class TextAreaControl extends React.Component<
           `TextareaControl`,
           {
             [`TextareaControl--border${ucFirst(borderMode)}`]: borderMode,
-            'is-focused': this.state.focused
+            'is-focused': this.state.focused,
+            'is-disabled': disabled
           },
           className
         )}
       >
         <Textarea
+          className={cx(`TextareaControl-input`)}
           autoComplete="off"
           ref={this.inputRef}
           name={name}
