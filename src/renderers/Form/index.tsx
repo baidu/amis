@@ -659,7 +659,7 @@ export default class Form extends React.Component<FormProps, object> {
     persistData && store.getLocalPersistData();
 
     // 派发init事件，参数为初始化数据
-    const dispatcher = dispatchEvent('inited', createObject(this.props.data, data));
+    const dispatcher = dispatchEvent('inited', createObject(this.props.data, {formData: data}));
     if (!dispatcher?.prevented) {
       onInit && onInit(data, this.props);
     }
@@ -868,7 +868,7 @@ export default class Form extends React.Component<FormProps, object> {
     if (!isAlive(store)) {
       return;
     }
-    const dispatcher = dispatchEvent('change', createObject(data, store.data));
+    const dispatcher = dispatchEvent('change', createObject(data, {formData: store.data}));
     if (!dispatcher?.prevented) {
       onChange && onChange(store.data, difference(store.data, store.pristine), this.props);
     }
@@ -1026,7 +1026,7 @@ export default class Form extends React.Component<FormProps, object> {
               errorMessage: saveFailed,
               onSuccess: (result: Payload) => {
                 // result为提交接口返回的内容
-                dispatchEvent('submitSucc', createObject(this.props.data, result));
+                dispatchEvent('submitSucc', createObject(this.props.data, {result}));
                 if (
                   !isEffectiveApi(finnalAsyncApi, store.data) ||
                   store.data[finishedField || 'finished']
@@ -1041,7 +1041,7 @@ export default class Form extends React.Component<FormProps, object> {
                 );
               },
               onFailed: (result: Payload) => {
-                dispatchEvent('submitFail', createObject(this.props.data, result));
+                dispatchEvent('submitFail', createObject(this.props.data, {error: result}));
               }
             })
             .then(async response => {

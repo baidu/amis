@@ -1176,3 +1176,28 @@ Form 支持轮询初始化接口，步骤如下：
 | trimValues                  | `boolean`                                                                 | `false`                                                                | trim 当前表单项的每一个值                                                                                                                                                                                                                                                                                                                                    |
 | promptPageLeave             | `boolean`                                                                 | `false`                                                                | form 还没保存，即将离开页面前是否弹框确认。                                                                                                                                                                                                                                                                                                                  |
 | columnCount                 | `number`                                                                  | 0                                                                      | 表单项显示为几列                                                                                                                                                                                                                                                                                                                                             |
+
+## 事件表
+
+| 事件名称           | 事件参数                                        | 说明                  |
+|-------------------|------------------------------------------------|----------------------|
+| inited            |  `formData: object` 表单值           |  初始化完成              |
+| change            |  `formData: object` 表单值           |  值变化             |
+| formItemValidateSucc            |  -            |  表单项校验成功              |
+| formItemValidateError           |  -         |  表单项校验失败              |
+| validateSucc            |  -             |  表单校验成功              |
+| validateError            |  -             |  表单校验成功              |
+| submitSucc            |  `result: object` 接口返回内容            |  提交成功              |
+| submitFail            |  `error: object` 接口返回内容            |  提交失败              |
+
+
+
+## 动作表
+
+| 动作名称           | 动作配置                 | 说明                    |
+|-------------------|-------------------------|------------------------|
+| submit             | -                       | 提交表单                   |
+| reset             | -            | 重置表单                   |
+| clear             | -            | 清空表单                   |
+| validate             | -            | 校验表单                   |
+| reload             | -            | 重新加载                   |
