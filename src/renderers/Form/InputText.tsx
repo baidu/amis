@@ -93,7 +93,6 @@ export type InputTextRendererEvent =
   | 'focus'
   | 'click'
   | 'change'
-  | 'clear'
   | 'enter';
 
 export interface TextProps extends OptionsControlProps {
@@ -239,7 +238,6 @@ export default class TextControl extends React.PureComponent<
     len && this.input.setSelectionRange(len, len);
   }
 
-  @bindRendererEvent<TextProps, InputTextRendererEvent>('clear')
   clearValue() {
     const {onChange, resetValue} = this.props;
 

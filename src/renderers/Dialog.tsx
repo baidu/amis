@@ -902,4 +902,8 @@ export class DialogRenderer extends Dialog {
     const scoped = this.context as IScopedContext;
     scoped.close(target);
   }
+
+  setData(values: object) {
+    return this.props.store.updateData(values);
+  }
 }

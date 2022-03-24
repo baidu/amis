@@ -614,4 +614,8 @@ export class ServiceRenderer extends Service {
     const scoped = this.context as IScopedContext;
     scoped.reload(target, data);
   }
+
+  setData(values: object) {
+    return super.afterDataFetch(values);
+  }
 }

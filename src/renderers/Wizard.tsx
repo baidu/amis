@@ -1217,4 +1217,8 @@ export class WizardRenderer extends Wizard {
       scoped.reload(store.action.reload, store.data);
     }
   }
+
+  setData(values: object) {
+    return this.props.store.updateData(values);
+  }
 }

@@ -942,7 +942,7 @@ order: 9
 
 #### 刷新
 
-通过配置`actionType: 'reload'`实现对指定组件的刷新操作。
+通过配置`actionType: 'reload'`实现对指定组件的刷新操作，限于`form`、`dialog`、`drawer`、`wizard`、`service`、`page`、`service`、`app`、`chart`、`crud`，以及选择类组件。
 
 ```schema
 {
@@ -1010,10 +1010,10 @@ order: 9
 
 **动作属性**
 
-| 属性名      | 类型     | 默认值   | 说明              |
-| ----------- | -------- | -------- | ----------------- |
-| actionType  | `string` | `reload` | 刷新组件          |
-| componentId | `string` | -        | 指定刷新的组件 id |
+| 属性名      | 类型     | 默认值   | 说明                  |
+| ----------- | -------- | -------- | --------------------- |
+| actionType  | `string` | `reload` | 刷新组件              |
+| componentId | `string` | -        | 指定刷新的目标组件 id |
 
 #### 显示与隐藏
 
@@ -1065,14 +1065,14 @@ order: 9
 
 **动作属性**
 
-| 属性名      | 类型     | 默认值             | 说明                    |
-| ----------- | -------- | ------------------ | ----------------------- |
-| actionType  | `string` | `show` or `hidden` | 显示或隐藏组件          |
-| componentId | `string` | -                  | 指定显示或隐藏的组件 id |
+| 属性名      | 类型     | 默认值             | 说明                        |
+| ----------- | -------- | ------------------ | --------------------------- |
+| actionType  | `string` | `show` or `hidden` | 显示或隐藏组件              |
+| componentId | `string` | -                  | 指定显示或隐藏的目标组件 id |
 
 #### 控制状态
 
-通过配置`actionType: 'enabled'`或`actionType: 'disabled'`实现对指定组件的启用和禁用。
+通过配置`actionType: 'enabled'`或`actionType: 'disabled'`实现对指定组件的启用和禁用，限于数据输入类组件。
 
 ```schema
 {
@@ -1162,10 +1162,319 @@ order: 9
 
 **动作属性**
 
-| 属性名      | 类型     | 默认值                  | 说明                    |
-| ----------- | -------- | ----------------------- | ----------------------- |
-| actionType  | `string` | `enabled` or `disabled` | 启用或禁用组件          |
-| componentId | `string` | -                       | 指定启用或禁用的组件 id |
+| 属性名      | 类型     | 默认值                  | 说明                        |
+| ----------- | -------- | ----------------------- | --------------------------- |
+| actionType  | `string` | `enabled` or `disabled` | 启用或禁用组件              |
+| componentId | `string` | -                       | 指定启用或禁用的目标组件 id |
+
+#### 更新数据
+
+通过配置`actionType: 'setValue'`实现组件数据变量的更新，限于`form`、`dialog`、`drawer`、`wizard`、`service`、`page`、`app`、`chart`，以及数据输入类组件。
+
+**更新表单数据**
+
+```schema
+{
+  type: 'page',
+  data: {
+    globalData: {
+      myrole: '法官',
+      mymsg: '该吃饭了!'
+    }
+  },
+  body: [
+    {
+      type: 'button',
+      label: '更新',
+      className: 'ml-2 m',
+      onEvent: {
+        click: {
+          actions: [
+            {
+              actionType: 'setValue',
+              componentId: 'form_data',
+              value: '${globalData}'
+            }
+          ]
+        }
+      }
+    },
+    {
+      type: 'form',
+      id: 'form_data',
+      title: '表单',
+      debug: true,
+      data: {
+        myrole: '预言家',
+        age: '18'
+      },
+      "initApi": "/api/mock2/form/initData",
+      body: [
+        {
+          type: 'input-text',
+          label: '角色',
+          name: 'myrole',
+          disabled: false,
+          mode: 'horizontal'
+        },
+        {
+          type: 'input-text',
+          label: '年龄',
+          name: 'age',
+          disabled: false,
+          mode: 'horizontal'
+        }
+      ]
+    }
+  ]
+}
+```
+
+**更新输入类组件数据**
+
+```schema
+{
+  type: 'page',
+  id: 'mypage',
+  data: {
+    globalData: {
+      myrole: '法官',
+      mymsg: '该吃饭了!',
+      title: 'beijing time'
+    }
+  },
+  body: [
+    {
+      type: 'button',
+      label: '更新',
+      className: 'ml-2 m',
+      onEvent: {
+        click: {
+          actions: [
+            {
+              actionType: 'setValue',
+              componentId: 'input_data_msg',
+              value: '我是amis!'
+            }
+          ]
+        }
+      }
+    },
+    {
+      type: 'button',
+      label: '更新表单内输入框',
+      className: 'ml-2 m',
+      onEvent: {
+        click: {
+          actions: [
+            {
+              actionType: 'setValue',
+              componentId: 'input_data_role',
+              value: '预言家'
+            }
+          ]
+        }
+      }
+    },
+    {
+      type: "input-text",
+      label: "消息",
+      id: "input_data_msg",
+      mode: 'horizontal',
+      name: "mymsg"
+    },
+    {
+      type: 'form',
+      title: '表单',
+      debug: true,
+      data: {
+        myrole: '杀手',
+        age: '18'
+      },
+      "initApi": "/api/mock2/form/initData",
+      body: [
+        {
+          type: 'input-text',
+          id: "input_data_role",
+          label: '角色',
+          name: 'myrole',
+          disabled: false,
+          mode: 'horizontal'
+        },
+        {
+          type: 'input-text',
+          label: '年龄',
+          name: 'age',
+          disabled: false,
+          mode: 'horizontal'
+        }
+      ]
+    }
+  ]
+}
+```
+
+**更新 弹窗 数据**
+
+这种场景一般用在弹窗内某个异步操作后，数据的回填。
+
+```schema
+{
+  type: 'page',
+  data: {
+    globalData: {
+      website: "http://www.baidu.com",
+      email: "amis!@baidu.com"
+    }
+  },
+  body: [
+    {
+      type: 'button',
+      label: '打开弹窗',
+      className: 'ml-2',
+      onEvent: {
+        click: {
+          actions: [
+            {
+              actionType: 'dialog',
+              "dialog": {
+                "title": "在弹框中的表单",
+                "id": "dialog_data",
+                "data": {
+                  username: 'amis'
+                },
+                "body": {
+                  "type": "form",
+                  "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm?waitSeconds=2",
+                  "body": [
+                    {
+                      "type": "input-text",
+                      "name": "username",
+                      "required": true,
+                      "placeholder": "请输入用户名",
+                      "label": "用户名"
+                    },
+                    {
+                      "type": "input-password",
+                      "name": "password",
+                      "label": "密码",
+                      "required": true,
+                      "placeholder": "请输入密码"
+                    },
+                    {
+                      "type": "checkbox",
+                      "name": "rememberMe",
+                      "label": "记住登录"
+                    }
+                  ]
+                },
+                "actions": [
+                  {
+                    type: 'button',
+                    label: '请求后更新',
+                    className: 'm',
+                    primary: true,
+                    onEvent: {
+                      click: {
+                        actions: [
+                          {
+                            actionType: 'ajax',
+                            api: 'https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/initData',
+                            outputVar: 'myResult'
+                          },
+                          {
+                            actionType: 'setValue',
+                            componentId: 'dialog_data',
+                            value: {
+                              username: '${myResult.name}'
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      }
+    }
+  ]
+}
+```
+
+**更新 向导 数据**
+
+```schema
+{
+  type: 'page',
+  data: {
+    globalData: {
+      website: "http://www.baidu.com",
+      email: "amis!@baidu.com"
+    }
+  },
+  body: [
+    {
+      type: 'button',
+      label: '更新',
+      className: 'ml-2 m',
+      onEvent: {
+        click: {
+          actions: [
+            {
+              actionType: 'setValue',
+              componentId: 'wizard_data',
+              value: '${globalData}'
+            }
+          ]
+        }
+      }
+    },
+    {
+      "type": "wizard",
+      "id": "wizard_data",
+      "mode": "vertical",
+      "data": {
+        "website": "test",
+        "email": "test"
+      },
+      "steps": [
+        {
+          "title": "第一步",
+          "body": [
+            {
+              "name": "website",
+              "label": "网址",
+              "type": "input-url"
+            }
+          ]
+        },
+        {
+          "title": "Step 2",
+          "body": [
+            {
+              "name": "email",
+              "label": "邮箱",
+              "type": "input-email",
+              "required": true
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
+```
+
+**动作属性**
+
+| 属性名      | 类型     | 默认值     | 说明                         |
+| ----------- | -------- | ---------- | ---------------------------- |
+| actionType  | `string` | `setValue` | 变量赋值，即设置组件的数据值 |
+| componentId | `string` | -          | 指定赋值的目标组件 id        |
+| value       | `any`    | -          | 值                           |
 
 #### 自定义 JS
 
