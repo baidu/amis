@@ -101,6 +101,7 @@ export interface Action extends Button {
     | 'next'
     | 'prev'
     | 'reset'
+    | 'validate'
     | 'reset-and-submit'
     | 'clear'
     | 'clear-and-submit'
