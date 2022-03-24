@@ -1181,14 +1181,14 @@ Form 支持轮询初始化接口，步骤如下：
 
 | 事件名称           | 事件参数                                        | 说明                  |
 |-------------------|------------------------------------------------|----------------------|
-| inited            |  `data: object` 表单值           |  初始化完成              |
-| change            |  `data: object` 表单值           |  值变化             |
+| inited            |  `value: object` 表单值           |  初始化完成              |
+| change            |  `value: object` 表单值           |  值变化             |
 | formItemValidateSucc            |  -            |  表单项校验成功              |
 | formItemValidateError           |  -         |  表单项校验失败              |
 | validateSucc            |  -             |  表单校验成功              |
 | validateError            |  -             |  表单校验成功              |
-| submitSucc            |  `data: object` 接口返回内容            |  提交成功              |
-| submitFail            |  `data: object` 接口返回内容            |  提交失败              |
+| submitSucc            |  `result: object` 接口返回内容            |  提交成功              |
+| submitFail            |  `result: object` 接口返回内容            |  提交失败              |
 
 
 
@@ -1201,4 +1201,3 @@ Form 支持轮询初始化接口，步骤如下：
 | clear             | -            | 清空表单                   |
 | validate             | -            | 校验表单                   |
 | reload             | -            | 重新加载                   |
-| confirm             | -            | 提交表单                   |
