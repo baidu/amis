@@ -460,6 +460,7 @@ export class DateRangePicker extends React.Component<
   }
 
   dom: React.RefObject<HTMLDivElement>;
+  calendarRef: React.RefObject<HTMLDivElement>;
   nextMonth = moment().add(1, 'months');
 
   startInputRef: React.RefObject<HTMLInputElement>;
@@ -470,6 +471,7 @@ export class DateRangePicker extends React.Component<
 
     this.startInputRef = React.createRef();
     this.endInputRef = React.createRef();
+    this.calendarRef = React.createRef();
     this.open = this.open.bind(this);
     this.openStart = this.openStart.bind(this);
     this.openEnd = this.openEnd.bind(this);
@@ -523,7 +525,9 @@ export class DateRangePicker extends React.Component<
     if (
       !e.target ||
       !this.dom.current ||
-      this.dom.current.contains(e.target as HTMLElement)
+      this.dom.current.contains(e.target as HTMLElement) ||
+      !this.calendarRef.current ||
+      this.calendarRef.current.contains(e.target as HTMLElement)
     ) {
       return;
     }
@@ -1121,7 +1125,7 @@ export class DateRangePicker extends React.Component<
     const {startDate, endDate} = this.state;
 
     return (
-      <div className={`${ns}DateRangePicker-wrap`}>
+      <div className={`${ns}DateRangePicker-wrap`} ref={this.calendarRef}>
         {this.renderRanges(ranges)}
         <Calendar
           className={`${ns}DateRangePicker-start`}
