@@ -169,19 +169,13 @@ export class TooltipWrapper extends React.Component<
 
   tooltipMouseEnter = (e: MouseEvent) => {
     const tooltip = this.props.tooltip;
-    let enterable: boolean = true;
-    if (typeof tooltip === 'object') {
-      enterable = tooltip.enterable !== false;
-    }
+    const enterable = (tooltip as any)?.enterable ?? true;
     enterable && clearTimeout(this.timer);
   };
 
   tooltipMouseLeave = (e: MouseEvent) => {
     const tooltip = this.props.tooltip;
-    let enterable: boolean = true;
-    if (typeof tooltip === 'object') {
-      enterable = tooltip.enterable !== false;
-    }
+    const enterable = (tooltip as any)?.enterable ?? true;
     enterable && clearTimeout(this.timer);
     this.hide();
   };
