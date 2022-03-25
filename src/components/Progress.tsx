@@ -110,16 +110,15 @@ export class Progress extends React.Component<ProgressProps, Object> {
     if (typeof value !== 'number') {
       viewValue = <span className="text-muted">{placeholder}</span>;
     } else if (type === 'line') {
-      const style: any = {};
       const barStyle: any = {
         width: `${value}%`
       };
-      strokeWidth && (style.height = strokeWidth);
+      strokeWidth && (barStyle.height = strokeWidth);
       !isColorClass && (barStyle.backgroundColor = bgColor);
 
       viewValue = [
         <div key="progress" className={cx(prefixCls, progressClassName)}>
-          <div className={cx(`${prefixCls}-inter`)} style={style}>
+          <div className={cx(`${prefixCls}-inter`)}>
             <div
               className={cx(
                 `${prefixCls}-bar`,
@@ -149,7 +148,10 @@ export class Progress extends React.Component<ProgressProps, Object> {
       };
 
       viewValue = [
-        <div className={cx(prefixCls, progressClassName)} key="circle">
+        <div
+          className={cx(prefixCls, progressClassName || 'w-ssm')}
+          key="circle"
+        >
           <Circle
             percent={value}
             strokeColor={!isColorClass ? bgColor : ''}
