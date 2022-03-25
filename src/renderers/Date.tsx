@@ -105,6 +105,8 @@ export class DateField extends React.Component<DateProps, DateState> {
 
     const value = getPropValue(this.props);
 
+    // 主要是给 fromNow 用的
+    let date;
     if (value) {
       let ISODate = moment(value, moment.ISO_8601);
       let NormalDate = moment(value, valueFormat);
@@ -114,6 +116,10 @@ export class DateField extends React.Component<DateProps, DateState> {
         : NormalDate.isValid()
         ? NormalDate.format(format)
         : false;
+
+      if (viewValue) {
+        date = viewValue as string;
+      }
     }
 
     if (fromNow) {
@@ -126,7 +132,11 @@ export class DateField extends React.Component<DateProps, DateState> {
       viewValue
     );
 
-    return <span className={cx('DateField', className)}>{viewValue}</span>;
+    return (
+      <span className={cx('DateField', className)} title={fromNow ? date : ''}>
+        {viewValue}
+      </span>
+    );
   }
 }
 
