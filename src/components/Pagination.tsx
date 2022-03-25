@@ -10,7 +10,8 @@ import {autobind} from '../utils/helper';
 import {Icon} from './icons';
 import Select from './Select';
 
-export interface PaginationProps extends ThemeProps, LocaleProps {
+type MODE_TYPE = 'simple' | 'normal';
+export interface BasicPaginationProps {
 
   /**
    * 通过控制layout属性的顺序，调整分页结构 total,perPage,pager,go
@@ -29,7 +30,7 @@ export interface PaginationProps extends ThemeProps, LocaleProps {
    * 模式，默认normal，如果只想简单显示可以配置成 `simple`。
    * @default 'normal'
    */
-  mode: string;
+  mode?: MODE_TYPE;
 
   /**
    * 当前页数
@@ -65,12 +66,6 @@ export interface PaginationProps extends ThemeProps, LocaleProps {
   perPageAvailable: Array<number>;
 
   /**
-   * 只有一页时是否隐藏分页器
-   * @default false
-   */
-  hideOnSinglePage: boolean;
-
-  /**
    * 是否显示快速跳转输入框
    */
   showPageInput?: boolean;
@@ -85,6 +80,8 @@ export interface PaginationProps extends ThemeProps, LocaleProps {
   // hasNext: boolean;
   onPageChange: (page: number, perPage?: number) => void;
 }
+export interface PaginationProps extends BasicPaginationProps, ThemeProps, LocaleProps {
+}
 export interface PaginationState {
   pageNum: string;
   perPage: number;
@@ -98,9 +95,8 @@ export class Pagination extends React.Component<
   static defaultProps = {
     layout: 'total,perPage,pager,go',
     maxButtons: 7,
-    mode: 'normal',
+    mode: 'normal' as MODE_TYPE,
     activePage: 1,
-    lastPage: 1,
     perPage: 10,
     showPerPage: true,
     perPageAvailable: [10, 20, 50, 100],
@@ -199,15 +195,12 @@ export class Pagination extends React.Component<
   }
 
   getLastPage() {
-    const {total, perPage, lastPage} = this.props;
+    const {total, perPage, lastPage, activePage} = this.props;
     // 输入total，重新计算lastPage
     if (total || total === 0) {
       return Math.ceil(total / perPage);
     }
-    return Number(lastPage);
-  }
-
-  componentDidUpdate(prevProps: PaginationProps) {
+    return Number(lastPage || activePage);
   }
 
 
@@ -231,8 +224,6 @@ export class Pagination extends React.Component<
       total,
       showPerPage,
       perPageAvailable,
-      hideOnSinglePage,
-      onPageChange,
       classnames: cx,
       showPageInput,
       className,
@@ -338,6 +329,9 @@ export class Pagination extends React.Component<
             className={cx('go-right')}
             key="go-right"
             onClick={(e: any) => {
+              if (!pageNum) {
+                return;
+              }
               this.handlePageNumChange(+pageNum, perPage);
             }}
             >GO</span>
@@ -361,14 +355,17 @@ export class Pagination extends React.Component<
                 this.handlePageNumChange(1, p.value);
               }}
             />;
-    const totalPage = <div className={cx('Pagination-total Pagination-item')} key="total">{__('Pagination.total', {total: lastPage})}</div>;
+    const totalPage = <div className={cx('Pagination-total Pagination-item')} key="total">{
+      total || total === 0
+      ? __('Pagination.totalCount', {total})
+      : __('Pagination.totalPage', {lastPage})
+    }</div>;
     return (
-      <div className={cx('Pagination-wrap',  {'disabled': disabled}, className)}>
+      <div className={cx('Pagination-wrap',  {'disabled': disabled, 'Pagination-simple': mode === 'simple'}, className)}>
         {
           layoutList.map((layoutItem) => {
             if (layoutItem === 'pager') {
-              return <ul key="pager-items" className={cx('Pagination', {
-          'Pagination-simple': mode === 'simple'}, 'Pagination--sm','Pagination-item')}>{pageButtons}</ul>;
+              return <ul key="pager-items" className={cx('Pagination', 'Pagination--sm','Pagination-item')}>{pageButtons}</ul>;
             }
             else if (layoutItem === 'go' && showPageInput) {
               return go;
