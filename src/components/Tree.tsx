@@ -210,7 +210,9 @@ export class TreeSelector extends React.Component<
 
   componentDidMount() {
     const {enableNodePath} = this.props;
-    this.props.onRef(this)
+
+    // onRef只有渲染器的情况才会使用
+    this.props.onRef?.(this);
     enableNodePath && this.expandLazyLoadNodes();
   }
 
