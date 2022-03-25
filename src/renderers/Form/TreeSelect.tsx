@@ -18,7 +18,12 @@ import {Api} from '../../types';
 import {isEffectiveApi} from '../../utils/api';
 import Spinner from '../../components/Spinner';
 import ResultBox from '../../components/ResultBox';
-import {autobind, getTreeAncestors, isMobile, createObject} from '../../utils/helper';
+import {
+  autobind,
+  getTreeAncestors,
+  isMobile,
+  createObject
+} from '../../utils/helper';
 import {findDOMNode} from 'react-dom';
 import {normalizeOptions} from '../../components/Select';
 import {Action} from '../../types';
@@ -127,7 +132,7 @@ export default class TreeSelectControl extends React.Component<
     pathSeparator: '/'
   };
 
-  treeRef: any
+  treeRef: any;
 
   container: React.RefObject<HTMLDivElement> = React.createRef();
 
@@ -417,13 +422,8 @@ export default class TreeSelectControl extends React.Component<
 
   @autobind
   handleResultChange(value: Array<Option>) {
-    const {
-      joinValues,
-      extractValue,
-      delimiter,
-      valueField,
-      multiple
-    } = this.props;
+    const {joinValues, extractValue, delimiter, valueField, multiple} =
+      this.props;
 
     let newValue: any = Array.isArray(value) ? value.concat() : [];
 
@@ -452,9 +452,12 @@ export default class TreeSelectControl extends React.Component<
   async resultChangeEvent(value: any) {
     const {onChange, dispatchEvent, data} = this.props;
 
-    const rendererEvent = await dispatchEvent('change', createObject(data, {
-      value
-    }));
+    const rendererEvent = await dispatchEvent(
+      'change',
+      createObject(data, {
+        value
+      })
+    );
 
     if (rendererEvent?.prevented) {
       return;
