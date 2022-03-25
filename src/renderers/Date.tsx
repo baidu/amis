@@ -133,7 +133,10 @@ export class DateField extends React.Component<DateProps, DateState> {
     );
 
     return (
-      <span className={cx('DateField', className)} title={fromNow ? date : ''}>
+      <span
+        className={cx('DateField', className)}
+        title={fromNow ? date : undefined}
+      >
         {viewValue}
       </span>
     );
