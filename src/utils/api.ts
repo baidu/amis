@@ -12,10 +12,12 @@ import {
   cloneObject,
   createObject,
   qsparse,
-  uuid
+  uuid,
+  JSONTraverse
 } from './helper';
 import isPlainObject from 'lodash/isPlainObject';
 import {debug} from './debug';
+import {evaluate, parse} from 'amis-formula';
 
 const rSchema = /(?:^|raw\:)(get|post|put|delete|patch|options|head|jsonp):/i;
 
@@ -94,24 +96,48 @@ export function buildApi(
   }
 
   const raw = (api.url = api.url || '');
-  const idx = api.url.indexOf('?');
+  const ast: any = parse(api.url);
+  const url = ast.body
+    .map((item: any, index: number) => {
+      return item.type === 'raw' ? item.value : `__expression__${index}__`;
+    })
+    .join('');
+
+  const idx = url.indexOf('?');
+  let replaceExpression = (fragment: string) => {
+    return fragment.replace(
+      /__expression__(\d+)__/g,
+      (_: any, index: string) => {
+        return evaluate(ast.body[index], data, {
+          defaultFilter: 'url_encode'
+        });
+      }
+    );
+  };
 
   if (~idx) {
-    const hashIdx = api.url.indexOf('#');
+    const hashIdx = url.indexOf('#');
     const params = qsparse(
-      api.url.substring(
-        idx + 1,
-        ~hashIdx && hashIdx > idx ? hashIdx : undefined
-      )
+      url.substring(idx + 1, ~hashIdx && hashIdx > idx ? hashIdx : undefined)
     );
+
+    // 将里面的表达式运算完
+    JSONTraverse(params, (value: any, key: string | number, host: any) => {
+      if (typeof value === 'string' && /^__expression__(\d+)__$/.test(value)) {
+        host[key] = evaluate(ast.body[RegExp.$1].body, data);
+      }
+    });
+
     api.url =
-      tokenize(api.url.substring(0, idx + 1), data, '| url_encode') +
+      replaceExpression(url.substring(0, idx + 1)) +
       qsstringify(
         (api.query = dataMapping(params, data, undefined, api.convertKeyToPath))
       ) +
-      (~hashIdx && hashIdx > idx ? api.url.substring(hashIdx) : '');
+      (~hashIdx && hashIdx > idx
+        ? replaceExpression(url.substring(hashIdx))
+        : '');
   } else {
-    api.url = tokenize(api.url, data, '| url_encode');
+    api.url = replaceExpression(url);
   }
 
   if (ignoreData) {

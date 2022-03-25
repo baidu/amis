@@ -53,6 +53,68 @@ test('api:buildApi', () => {
     method: 'get',
     url: '/api/xxx?a=' + encodeURIComponent('&')
   });
+
+  expect(
+    buildApi('/api/xxx?a=${a}', {
+      a: [1, 2, 3]
+    })
+  ).toMatchObject({
+    method: 'get',
+    url: '/api/xxx?a[0]=1&a[1]=2&a[2]=3'
+  });
+
+  expect(
+    buildApi('/api/xxx/${x === "a" ? "A" : "B"}?a=${a}', {
+      x: 'a',
+      a: [1, 2, 3]
+    })
+  ).toMatchObject({
+    method: 'get',
+    url: '/api/xxx/A?a[0]=1&a[1]=2&a[2]=3'
+  });
+
+  expect(
+    buildApi('/api/xxx/${x === "a" ? "A" : "B"}?a=${a}', {
+      x: 'b',
+      a: [1, 2, 3]
+    })
+  ).toMatchObject({
+    method: 'get',
+    url: '/api/xxx/B?a[0]=1&a[1]=2&a[2]=3'
+  });
+
+  expect(
+    buildApi('/api/xxx/${x === "a" ? "A" : "B"}?a=${a}#a=1&b=2', {
+      x: 'b',
+      a: [1, 2, 3]
+    })
+  ).toMatchObject({
+    method: 'get',
+    url: '/api/xxx/B?a[0]=1&a[1]=2&a[2]=3#a=1&b=2'
+  });
+
+  expect(
+    buildApi(
+      '/api/xxx/${x === "a" ? "A" : "B"}?a=${a}&b=${x == "a" ? "A" : "B"}',
+      {
+        x: 'b',
+        a: [1, 2, 3]
+      }
+    )
+  ).toMatchObject({
+    method: 'get',
+    url: '/api/xxx/B?a[0]=1&a[1]=2&a[2]=3&b=B'
+  });
+
+  expect(
+    buildApi('/api/xxx/${x === "a" ? "A" : "B"}', {
+      x: 'b',
+      a: [1, 2, 3]
+    })
+  ).toMatchObject({
+    method: 'get',
+    url: '/api/xxx/B'
+  });
 });
 
 test('api:buildApi2', () => {
