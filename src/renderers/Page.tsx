@@ -12,7 +12,12 @@ import {
   FunctionPropertyNames
 } from '../types';
 import {filter, evalExpression} from '../utils/tpl';
-import {isVisible, autobind, bulkBindFunctions} from '../utils/helper';
+import {
+  isVisible,
+  autobind,
+  bulkBindFunctions,
+  isObjectShallowModified
+} from '../utils/helper';
 import {ScopedContext, IScopedContext} from '../Scoped';
 import Alert from '../components/Alert2';
 import {isApiOutdated, isEffectiveApi} from '../utils/api';
@@ -422,7 +427,9 @@ export default class Page extends React.Component<PageProps> {
       JSON.stringify(props.cssVars) !== JSON.stringify(prevProps.cssVars)
     ) {
       this.updateVarStyle();
-    } else if (props.defaultData !== prevProps.defaultData) {
+    } else if (
+      isObjectShallowModified(prevProps.defaultData, props.defaultData)
+    ) {
       store.reInitData(props.defaultData);
     }
   }
