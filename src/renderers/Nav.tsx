@@ -230,6 +230,7 @@ export interface NavigationProps
   onSelect?: (item: Link) => void | false;
   onToggle?: (item: Link, forceFold?: boolean) => void;
   onDragUpdate?: (dropInfo: IDropInfo) => void;
+  onOrderChange?: (res: Link[]) => void;
   togglerClassName?: string;
   links?: Array<Link>;
   loading?: boolean;
@@ -858,6 +859,7 @@ const ConditionBuilderWithRemoteOptions = withRemoteConfig({
         }
       }
       this.props.updateConfig(links, 'update');
+      this.props.onOrderChange!(links);
       await this.saveOrder(
         mapTree(links, (link: Link) => {
           // 清除内部加的字段
@@ -871,6 +873,10 @@ const ConditionBuilderWithRemoteOptions = withRemoteConfig({
       );
     }
 
+    /**
+     * @description 在接口存在的时候，调用接口保存排序结果
+     * @param links 排序后的结果
+     */
     async saveOrder(links: Links) {
       const {saveOrderApi, env, data, reload} = this.props;
       if (saveOrderApi && isEffectiveApi(saveOrderApi)) {
@@ -880,7 +886,7 @@ const ConditionBuilderWithRemoteOptions = withRemoteConfig({
           {method: 'post'}
         );
         reload();
-      } else {
+      } else if (!this.props.onOrderChange) {
         env.alert('NAV saveOrderApi is required!');
       }
     }
