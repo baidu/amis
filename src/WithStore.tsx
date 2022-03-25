@@ -201,7 +201,7 @@ export function HocStoreFactory(renderer: {
             store.initData(
               extendObject(
                 props.data,
-                store.hasRemoteData
+                store.hasRemoteData || store.path === 'page'
                   ? {
                       ...store.data,
                       ...props.data

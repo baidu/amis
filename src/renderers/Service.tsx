@@ -14,7 +14,13 @@ import {
   str2AsyncFunction
 } from '../utils/api';
 import {Spinner} from '../components';
-import {autobind, isEmpty, isVisible, qsstringify} from '../utils/helper';
+import {
+  autobind,
+  isEmpty,
+  isObjectShallowModified,
+  isVisible,
+  qsstringify
+} from '../utils/helper';
 import {
   BaseSchema,
   SchemaApi,
@@ -185,7 +191,7 @@ export default class Service extends React.Component<ServiceProps> {
       this.socket = this.fetchWSData(props.ws, store.data);
     }
 
-    if (props.defaultData !== prevProps.defaultData) {
+    if (isObjectShallowModified(prevProps.defaultData, props.defaultData)) {
       store.reInitData(props.defaultData);
     }
 
