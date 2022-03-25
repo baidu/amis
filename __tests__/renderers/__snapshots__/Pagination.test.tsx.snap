@@ -11,8 +11,39 @@ exports[`Renderer:Pagination 1`] = `
       <div
         class="cxd-Pagination-wrap cxd-PaginationWrapper-pager"
       >
+        <div
+          class="cxd-Pagination-total cxd-Pagination-item"
+        >
+          共 5 页
+        </div>
+        <div
+          aria-expanded="false"
+          aria-haspopup="listbox"
+          aria-labelledby="downshift-0-label"
+          class="cxd-Select cxd-Pagination-perpage cxd-Pagination-item"
+          role="combobox"
+          tabindex="0"
+        >
+          <div
+            class="cxd-Select-valueWrap"
+          >
+            <div
+              class="cxd-Select-value"
+            >
+              10 条/页
+            </div>
+          </div>
+          <span
+            class="cxd-Select-arrow"
+          >
+            <icon-mock
+              classname="icon icon-caret"
+              icon="caret"
+            />
+          </span>
+        </div>
         <ul
-          class="cxd-Pagination cxd-Pagination--sm"
+          class="cxd-Pagination cxd-Pagination--sm cxd-Pagination-item"
         >
           <li
             class="cxd-Pagination-prev is-disabled"
@@ -25,7 +56,7 @@ exports[`Renderer:Pagination 1`] = `
             </span>
           </li>
           <li
-            class="is-active"
+            class="page-item is-active"
           >
             <a
               role="button"
@@ -34,7 +65,7 @@ exports[`Renderer:Pagination 1`] = `
             </a>
           </li>
           <li
-            class=""
+            class="page-item"
           >
             <a
               role="button"
@@ -43,7 +74,7 @@ exports[`Renderer:Pagination 1`] = `
             </a>
           </li>
           <li
-            class=""
+            class="page-item"
           >
             <a
               role="button"
@@ -52,7 +83,7 @@ exports[`Renderer:Pagination 1`] = `
             </a>
           </li>
           <li
-            class=""
+            class="page-item"
           >
             <a
               role="button"
@@ -61,12 +92,48 @@ exports[`Renderer:Pagination 1`] = `
             </a>
           </li>
           <li
-            class=""
+            class="page-item"
           >
             <a
               role="button"
             >
               5
+            </a>
+          </li>
+          <li
+            class="page-item"
+          >
+            <a
+              role="button"
+            >
+              6
+            </a>
+          </li>
+          <li
+            class="page-item"
+          >
+            <a
+              role="button"
+            >
+              7
+            </a>
+          </li>
+          <li
+            class="page-item"
+          >
+            <a
+              role="button"
+            >
+              8
+            </a>
+          </li>
+          <li
+            class="page-item"
+          >
+            <a
+              role="button"
+            >
+              9
             </a>
           </li>
           <li
