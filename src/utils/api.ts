@@ -96,7 +96,13 @@ export function buildApi(
   }
 
   const raw = (api.url = api.url || '');
-  const ast: any = parse(api.url);
+  let ast: any = undefined;
+  try {
+    ast = parse(api.url);
+  } catch (e) {
+    console.warn(`api 配置语法出错：${e}`);
+    return api;
+  }
   const url = ast.body
     .map((item: any, index: number) => {
       return item.type === 'raw' ? item.value : `__expression__${index}__`;
