@@ -19,9 +19,9 @@ export default function handleAction(
   let onClick: any = action.onClick;
 
   if (typeof onClick === 'string') {
-    onClick = str2function(onClick, 'event', 'props');
+    onClick = str2function(onClick, 'event', 'props', 'data');
   }
-  const result: any = onClick && onClick(e, props);
+  const result: any = onClick && onClick(e, props, data);
 
   if (e.isDefaultPrevented() || result === false || !onAction) {
     return;
