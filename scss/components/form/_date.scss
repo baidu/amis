@@ -203,10 +203,62 @@
 }
 
 // override third-party styles
+.rdtTime {
+  width: #{px2rem(393px)};
+}
+
+.rdtTimeWithS {
+  width: #{px2rem(472px)};
+}
+
+.rdtTimeWithoutD {}
+
 .rdt {
   user-select: none;
   font-size: var(--Calendar-fontSize);
   color: var(--Calendar-color);
+
+  .rdtDays{
+    display: flex;
+    // height: #{px2rem(280px)};
+
+    .rdtDaysPart{
+      width: #{px2rem(264px)};
+    }
+  
+    .rdtTimePart{
+      width: #{px2rem(131px)};
+      text-align: center;
+    }
+    
+    .rdtTimePartWithS{
+      width: #{px2rem(199px)};
+      text-align: center;
+    }
+
+    .rdtShowTime {
+      height: #{px2rem(43px)};
+      padding-top: #{px2rem(11px)};
+      margin-left: #{px2rem(2px)};
+      border-bottom: 1px solid var(--Calendar-input-borderColor);
+      border-left: 1px solid var(--Calendar-input-borderColor);
+    }
+  }
+
+  .rdtPickerTime {
+    width: 100%;
+    height: 100%;
+  }
+
+  .rdtPickerDate {
+    width: #{px2rem(272px)};
+    height: 100%;
+  }
+
+  .rdtPickerTimeWithoutD {
+    width: 100%;
+    // height: #{px2rem(240px)};
+  }
 
   .rdtPicker {
     margin-top: 0;
@@ -215,7 +267,7 @@
     border: none;
 
     .dow {
-      color: var(--Calendar-wLabel-color);
+      // color: var(--Calendar-wLabel-color);
       font-weight: normal;
     }
 
@@ -264,6 +316,10 @@
     background: transparent;
   }
 
+  tbody {
+    height: #{px2rem(194px)};
+  }
+
   tfoot {
     border-top: 0;
 
@@ -288,22 +344,27 @@
 .#{$ns}CalendarInputWrapper {
   display: inline-block;
   position: relative;
-
+  width: #{px2rem(64px)};
+  height: #{px2rem(224px)};
+  overflow: auto;
   .#{$ns}CalendarInput-sugs {
     list-style: none;
-    position: absolute;
+    // position: absolute;
     background: var(--Form-select-menu-bg);
     color: var(--Form-select-menu-color);
-    border: var(--Form-input-borderWidth) solid
-      var(--Form-input-onFocused-borderColor);
+    border-left: 1px solid var(--Calendar-input-borderColor);
+    //   var(--Form-input-onFocused-borderColor);
     left: px2rem(-1px);
     right: px2rem(-1px);
     top: 100%;
     z-index: 10;
-    max-height: px2rem(200px);
-    overflow: auto;
+    height: #{px2rem(1876px)};
+    // max-height: #{px2rem(224px)};
+    // overflow: auto;
     &Item {
-      padding-left: 4px;
+      text-align: center;
+      height: 28px;
+      line-height: 28px;
       &.is-highlight,
       &:hover {
         color: var(--Form-select-menu-onHover-color);
@@ -313,9 +374,15 @@
   }
 }
 
+.#{$ns}TimeRangeHeaderWrapper {
+  height: 36px;
+  padding-top: 4px;
+  text-align: center;
+}
+
 .#{$ns}CalendarInput {
   outline: none;
-  width: 40px;
+  width: #{px2rem(56px)};
   font-size: var(--Calendar-input-fontSize);
   color: var(--Calendar-input-color);
   border: 1px solid var(--Calendar-input-borderColor);
@@ -483,6 +550,9 @@
   display: table;
   table-layout: fixed;
   border-collapse: separate;
+  border-bottom: 1px solid var(--Calendar-input-borderColor);
+  height: 40px;
+
   width: 100%;
   // padding: 0 10px;
 

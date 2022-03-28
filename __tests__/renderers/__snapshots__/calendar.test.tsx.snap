@@ -28,12 +28,14 @@ exports[`Renderer:calendar 1`] = `
                   class="rdt rdtStatic rdtOpen"
                 >
                   <div
-                    class="rdtPicker"
+                    class="rdtPicker rdtPickerDate"
                   >
                     <div
-                      class="rdtDays"
+                      class=""
                     >
-                      <table>
+                      <table
+                        class=""
+                      >
                         <thead>
                           <tr>
                             <th
@@ -394,6 +396,7 @@ exports[`Renderer:calendar 1`] = `
                         </tbody>
                       </table>
                     </div>
+                    <table />
                   </div>
                 </div>
               </div>
@@ -434,12 +437,14 @@ exports[`Renderer:calendar largeMode 1`] = `
                   class="rdt rdtStatic rdtOpen"
                 >
                   <div
-                    class="rdtPicker"
+                    class="rdtPicker rdtPickerDate"
                   >
                     <div
-                      class="rdtDays"
+                      class=""
                     >
-                      <table>
+                      <table
+                        class=""
+                      >
                         <thead>
                           <tr>
                             <th
@@ -948,6 +953,7 @@ exports[`Renderer:calendar largeMode 1`] = `
                         </tbody>
                       </table>
                     </div>
+                    <table />
                   </div>
                 </div>
               </div>
@@ -988,12 +994,14 @@ exports[`Renderer:calendar scheduleAction 1`] = `
                   class="rdt rdtStatic rdtOpen"
                 >
                   <div
-                    class="rdtPicker"
+                    class="rdtPicker rdtPickerDate"
                   >
                     <div
-                      class="rdtDays"
+                      class=""
                     >
-                      <table>
+                      <table
+                        class=""
+                      >
                         <thead>
                           <tr>
                             <th
@@ -1354,6 +1362,7 @@ exports[`Renderer:calendar scheduleAction 1`] = `
                         </tbody>
                       </table>
                     </div>
+                    <table />
                   </div>
                 </div>
               </div>
