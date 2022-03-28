@@ -278,11 +278,11 @@
           padding: var(--Tabs--line-linkPadding);
         }
 
-        &:hover {
+        &:not(.is-disabled):hover {
           a:first-child {
             color: var(--primary);
             background: transparent;
-            border-color: transparent;
+            // border-color: transparent;
           }
 
           .#{$ns}Tabs-link-close {
@@ -358,6 +358,10 @@
               color: var(--primary);
               border-bottom-color: var(--Tabs--card-onActive-bg);
               background: var(--Tabs--card-onActive-bg);
+            }
+
+            &.is-disabled {
+              cursor: not-allowed;
             }
 
             &:hover,
@@ -542,6 +546,10 @@
           border-top-color: var(--primary);
           border-bottom-color: transparent;
         }
+
+        &.is-disabled {
+          cursor: not-allowed;
+        }
       }
     }
   }
@@ -645,6 +653,10 @@
         align-items: center;
         border: 0;
 
+        &:not(.is-disabled) > a:first-child {
+          color: var(--Tabs-gray-color);
+        }
+
         > a:first-child {
           padding: 0;
           border: 0;
@@ -652,7 +664,6 @@
           display: flex;
           flex-direction: column;
           align-items: center;
-          color: var(--Tabs-gray-color);
 
           .#{$ns}Icon {
             font-size: var(--Tabs--sidebar-iconSize);
@@ -761,6 +772,10 @@
             fill: var(--Tabs-onActive-bg);
           }
         }
+
+        &.is-disabled {
+          cursor: not-allowed;
+        }
       }
     }
     .chrome-tab-background {
@@ -830,7 +845,7 @@
             }
     
             &.is-active,
-            &:hover {
+            &:not(.is-disabled):hover {
               > a:first-child,
               > a:first-child:hover,
               > a:first-child:focus {
@@ -839,7 +854,7 @@
               }
             }
 
-            &:hover .#{$ns}Tabs-link-close {
+            &:not(.is-disabled):hover .#{$ns}Tabs-link-close {
               fill: var(--primary);
             }
     
@@ -939,8 +954,12 @@
             border-bottom-color: var(--Tabs-onActive-bg);
           }
 
+          &.is-disabled {
+            cursor: not-allowed;
+          }
+
           &.is-active,
-          &:hover {
+          &:not(.is-disabled):hover {
             > a:first-child,
             > a:first-child:hover,
             > a:first-child:focus {
@@ -948,7 +967,7 @@
             }
           }
 
-          &:hover .#{$ns}Tabs-link-close {
+          &:not(.is-disabled):hover .#{$ns}Tabs-link-close {
             fill: var(--primary);
           }
 
