@@ -1492,6 +1492,9 @@
   --Transfer-title-bg: #f6f8f8;
   --Transfer-selection-maxHeight: #{px2rem(350px)};
 
+  --TabsTransfer-title-bg: #f7f7f9;
+  --TabsTransfer-border-color: #e8e9eb;
+
   --Tree-indent: var(--gap-md);
   --Tree-inputHeight: calc(var(--Form-input-height) * 0.85);
   --Tree-item-onHover-bg: rgba(0, 126, 255, 0.08);

@@ -22,7 +22,6 @@ icon:
       "name": "a",
       "sortable": true,
       "selectMode": "tree",
-      "searchable": true,
       "pickerSize": "md",
       "menuTpl": "<div class='flex justify-between'><span>${label}</span>${email ? `<div class='text-muted m-r-xs text-sm text-right'>${email}<br />${phone}</div>`: ''}</div>",
       "valueTpl": "${label}(${value})",
@@ -30,6 +29,7 @@ icon:
         {
           "label": "成员",
           "selectMode": "tree",
+          "searchable": true,
           "children": [
             {
               "label": "法师",
