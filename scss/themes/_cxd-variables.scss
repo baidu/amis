@@ -547,7 +547,7 @@ $L1: 0px 4px 6px 0px rgba(8, 14, 26, 0.06),
   --Alert-paddingX: #{px2rem(16px)};
   --Alert-fontSize: #{$T2};
   --Alert-borderRadius: #{$R3};
-  --Alert-marginBottom: var(--Alert-md);
+  --Alert-marginBottom: var(--gap-md);
 
   --Alert--danger-color: #{$G4};
   --Alert--danger-bg: #{$danger-bg};
