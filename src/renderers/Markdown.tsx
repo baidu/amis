@@ -69,8 +69,6 @@ export class Markdown extends React.Component<MarkdownProps, MarkdownState> {
       isApiOutdated(prevProps.src, props.src, prevProps.data, props.data)
     ) {
       this.updateContent();
-    } else {
-      this.updateContent();
     }
   }
 
