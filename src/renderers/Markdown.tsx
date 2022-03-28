@@ -64,10 +64,11 @@ export class Markdown extends React.Component<MarkdownProps, MarkdownState> {
 
   componentDidUpdate(prevProps: MarkdownProps) {
     const props = this.props;
-    if (
-      props.src &&
-      isApiOutdated(prevProps.src, props.src, prevProps.data, props.data)
-    ) {
+    if (props.src) {
+      if (isApiOutdated(prevProps.src, props.src, prevProps.data, props.data)) {
+          this.updateContent();
+      }
+    } else {
       this.updateContent();
     }
   }
