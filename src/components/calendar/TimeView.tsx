@@ -40,6 +40,7 @@ interface CustomTimeViewProps extends LocaleProps {
   showToolbar?: boolean;
   onChange: (value: moment.Moment) => void;
   timeConstraints?: any;
+  timeRangeHeader?: string;
 }
 
 interface CustomTimeViewState {
@@ -593,7 +594,8 @@ export class CustomTimeView extends React.Component<
       selectedDate,
       viewDate,
       isEndDate,
-      classnames: cx
+      classnames: cx,
+      timeRangeHeader
     } = this.props;
     
     const date = selectedDate || (isEndDate ? viewDate.endOf('day') : viewDate);
@@ -679,8 +681,15 @@ export class CustomTimeView extends React.Component<
       }
     });
     inputs.length && inputs.pop();
-
-    return <div>{inputs}</div>;
+    console.log(this.props)
+    return (
+      <>
+        <div className={cx('TimeRangeHeaderWrapper')}>
+          {timeRangeHeader}
+        </div>
+        <div>{inputs}</div>
+      </>
+    )
   }
 }
 

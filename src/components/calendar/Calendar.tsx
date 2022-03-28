@@ -90,6 +90,7 @@ interface BaseDatePickerProps {
   utc?: boolean;
   displayTimeZone?: string;
   timeConstraints?: any;
+  timeRangeHeader?: string;
 }
 
 interface BaseDatePickerState {
@@ -638,7 +639,7 @@ class BaseDatePicker extends React.Component<
   };
 
   render() {
-    const {viewMode, timeFormat, dateFormat} = this.props
+    const {viewMode, timeFormat, dateFormat, timeRangeHeader} = this.props;
     const Component = CustomCalendarContainer as any;
     const viewProps = this.getComponentProps();
 
@@ -659,6 +660,7 @@ class BaseDatePicker extends React.Component<
     viewProps.getDateBoundary = this.getDateBoundary;
     viewProps.getColumns = this.getColumns;
     viewProps.timeCell = this.timeCell;
+    viewProps.timeRangeHeader = this.props.timeRangeHeader;
 
     return (
       <div 
@@ -686,7 +688,7 @@ class BaseDatePicker extends React.Component<
               : ''
           )}
         >
-          <Component view={this.state.currentView} viewProps={viewProps} />
+          <Component view={this.state.currentView} viewProps={viewProps} timeRangeHeader={timeRangeHeader}/>
         </div>
       </div>
     );

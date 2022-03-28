@@ -1150,6 +1150,7 @@ export class DateRangePicker extends React.Component<
           renderDay={this.renderDay}
           renderQuarter={this.renderQuarter}
           locale={locale}
+          timeRangeHeader='开始时间'
         />
         <Calendar
           className={`${ns}DateRangePicker-end`}
@@ -1174,6 +1175,7 @@ export class DateRangePicker extends React.Component<
           renderDay={this.renderDay}
           renderQuarter={this.renderQuarter}
           locale={locale}
+          timeRangeHeader='结束时间'
         />
 
         {embed ? null : (

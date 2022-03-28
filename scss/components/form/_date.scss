@@ -374,6 +374,12 @@
   }
 }
 
+.#{$ns}TimeRangeHeaderWrapper {
+  height: 36px;
+  padding-top: 4px;
+  text-align: center;
+}
+
 .#{$ns}CalendarInput {
   outline: none;
   width: #{px2rem(56px)};
