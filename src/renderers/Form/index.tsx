@@ -626,7 +626,8 @@ export default class Form extends React.Component<FormProps, object> {
   }
 
   async onInit() {
-    const {onInit, store, persistData, submitOnInit, dispatchEvent} = this.props;
+    const {onInit, store, persistData, submitOnInit, dispatchEvent} =
+      this.props;
     if (!isAlive(store)) {
       return;
     }
@@ -659,7 +660,10 @@ export default class Form extends React.Component<FormProps, object> {
     persistData && store.getLocalPersistData();
 
     // 派发init事件，参数为初始化数据
-    const dispatcher = dispatchEvent('inited', createObject(this.props.data, {formData: data}));
+    const dispatcher = dispatchEvent(
+      'inited',
+      createObject(this.props.data, {formData: data})
+    );
     if (!dispatcher?.prevented) {
       onInit && onInit(data, this.props);
     }
@@ -754,14 +758,16 @@ export default class Form extends React.Component<FormProps, object> {
     const {store, dispatchEvent, data} = this.props;
 
     this.flush();
-    return store.validate(this.hooks['validate'] || [], forceValidate).then((result: boolean) => {
-      if (result) {
-        dispatchEvent('validateSucc', data);
-      } else {
-        dispatchEvent('validateFail', data);
-      }
-      return result;
-    });
+    return store
+      .validate(this.hooks['validate'] || [], forceValidate)
+      .then((result: boolean) => {
+        if (result) {
+          dispatchEvent('validateSucc', data);
+        } else {
+          dispatchEvent('validateFail', data);
+        }
+        return result;
+      });
   }
 
   clearErrors() {
@@ -792,7 +798,7 @@ export default class Form extends React.Component<FormProps, object> {
       fn,
       this.hooks['validate'] || [],
       __(messages && messages.validateFailed),
-      validateErrCb,
+      validateErrCb
     );
   }
 
@@ -859,7 +865,7 @@ export default class Form extends React.Component<FormProps, object> {
   formItemDispatchEvent(dispatchEvent: any) {
     return (type: string, data: any) => {
       dispatchEvent(type, data);
-    }
+    };
   }
 
   emitChange(submit: boolean) {
@@ -868,9 +874,17 @@ export default class Form extends React.Component<FormProps, object> {
     if (!isAlive(store)) {
       return;
     }
-    const dispatcher = dispatchEvent('change', createObject(data, {formData: store.data}));
+    const dispatcher = dispatchEvent(
+      'change',
+      createObject(data, {formData: store.data})
+    );
     if (!dispatcher?.prevented) {
-      onChange && onChange(store.data, difference(store.data, store.pristine), this.props);
+      onChange &&
+        onChange(
+          store.data,
+          difference(store.data, store.pristine),
+          this.props
+        );
     }
 
     store.clearRestError();
@@ -1026,7 +1040,10 @@ export default class Form extends React.Component<FormProps, object> {
               errorMessage: saveFailed,
               onSuccess: (result: Payload) => {
                 // result为提交接口返回的内容
-                dispatchEvent('submitSucc', createObject(this.props.data, {result}));
+                dispatchEvent(
+                  'submitSucc',
+                  createObject(this.props.data, {result})
+                );
                 if (
                   !isEffectiveApi(finnalAsyncApi, store.data) ||
                   store.data[finishedField || 'finished']
@@ -1041,7 +1058,10 @@ export default class Form extends React.Component<FormProps, object> {
                 );
               },
               onFailed: (result: Payload) => {
-                dispatchEvent('submitFail', createObject(this.props.data, {error: result}));
+                dispatchEvent(
+                  'submitFail',
+                  createObject(this.props.data, {error: result})
+                );
               }
             })
             .then(async response => {
@@ -1634,6 +1654,7 @@ export default class Form extends React.Component<FormProps, object> {
   type: 'form',
   storeType: FormStore.name,
   isolateScope: true,
+  storeExtendsData: (props: any) => props.inheritData,
   shouldSyncSuperStore: (store, props, prevProps) => {
     // 如果是 QuickEdit，让 store 同步 __super 数据。
     if (
