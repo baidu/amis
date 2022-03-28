@@ -1,3 +1,19 @@
+/**
+ * 页面设计器 3.0 UI 升级
+ * 备注: 右键菜单面板样式大部分在amis中
+ */
+$menu-background: #fff;
+$menu-box-shadow: 0 2px 8px 0 rgba(7, 12, 20, 0.12);
+$menu-border-radius: 4px;
+$menu-font-color: #151b26;
+$menu-font-family: PingFangSC-Regular;
+$menu-border-color: #e8e9eb; // 默认的边框色
+$menu-active-color: #2468f2;
+$menu-hover-bg-color: #e6f0ff;
+$menu-disabled-color: #b8babf; // 禁用文字颜色
+$default-icon-color: #84868c; // 默认的icon颜色
+$default-padding: 4px 12px; // 6px 12px
+
 // 为了提示用户这不是系统菜单。
 @keyframes contextMenuInSpecial {
   from {
@@ -57,16 +73,17 @@
     position: absolute;
 
     margin: 0;
-    padding: 4px 0 5px;
+    padding: 0;
 
-    background: rgba(239, 239, 239, 0.95);
-    box-shadow: 0px 4px 9px rgba(0, 0, 0, 0.34);
+    background: $menu-background;
+    box-shadow: $menu-box-shadow;
 
-    color: rgba(0, 0, 0, 0.75);
-    font-family: -apple-system, Lucida Grande;
-    font-size: var(--fontSizeMd);
-    line-height: 1.1;
+    color: $menu-font-color;
+    font-family: $menu-font-family;
+    font-size: 12px;
+    line-height: 20px;
 
+    // 附加的边框线
     &::before {
       display: block;
       position: absolute;
@@ -76,8 +93,8 @@
       bottom: -1px;
       right: -1px;
 
-      border-radius: 4px;
-      border: 1px solid rgba(0, 0, 0, 0.125);
+      border-radius: $menu-border-radius;
+      border: 1px solid $menu-border-color;
       z-index: -1;
     }
   }
@@ -85,8 +102,8 @@
   &-divider {
     border: none;
     height: 1px;
-    background: rgba(0, 0, 0, 0.1);
-    margin: 6px 1px 5px;
+    background: $menu-border-color;
+    margin: 4px 1px;
     padding: 0;
   }
 
@@ -94,7 +111,7 @@
     list-style: none;
     margin: 0;
     padding: 0;
-    width: 185px;
+    min-width: 100px;
   }
 
   &-item {
@@ -103,24 +120,23 @@
     > a {
       white-space: nowrap;
       display: block;
-      padding: 0 20px;
-      border-top: 1px solid rgba(0, 0, 0, 0);
-      border-bottom: 1px solid rgba(0, 0, 0, 0);
+      padding: $default-padding;
       color: inherit;
+      border-top: none;
+      border-bottom: none;
     }
 
     &:not(.is-disabled):hover > a {
       text-decoration: none;
-      color: #fff;
-      background: -webkit-linear-gradient(top, #648bf5, #2866f2);
-      background: linear-gradient(to bottom, #648bf5 0%, #2866f2 100%);
-      border-top: 1px solid #5a82eb;
-      border-bottom: 1px solid #1758e7;
+      color: $menu-active-color;
+      background: $menu-hover-bg-color;
       cursor: pointer;
+      border-top: none;
+      border-bottom: none;
     }
 
     &.is-disabled > a {
-      color: #999;
+      color: $menu-disabled-color;
       pointer-events: none;
     }
 
@@ -130,8 +146,8 @@
       height: 0;
       border-width: 4px 7px;
       border-style: solid;
-      border-color: transparent transparent transparent rgba(0, 0, 0, 0.75);
-      text-shadow: 0px 4px 9px rgba(0, 0, 0, 0.34);
+      border-color: transparent transparent transparent $default-icon-color;
+      text-shadow: $menu-box-shadow;
       position: absolute;
       top: 50%;
       right: 0;
@@ -139,7 +155,7 @@
     }
 
     &.has-child:hover > a::after {
-      border-color: transparent transparent transparent #fff;
+      border-color: transparent transparent transparent $menu-active-color;
     }
   }
 
@@ -150,6 +166,7 @@
   &-subList {
     display: none;
     list-style: none;
+    transition: display ease-out 0.25s;
   }
 
   &-item:hover > &-subList {
@@ -157,24 +174,28 @@
     animation-duration: var(--animation-duration);
     animation-fill-mode: both;
     animation-name: contextMenuIn;
-
-    display: block;
     position: absolute;
-    left: 100%;
+    left: 100%; // calc(100% + 3px);
     top: -3px;
+    min-width: 100px;
 
     margin: 0;
-    padding: 4px 0 5px;
+    padding: 0;
 
-    background: rgba(239, 239, 239, 0.95);
-    box-shadow: 0px 4px 9px rgba(0, 0, 0, 0.34);
-    border-radius: 7px;
+    background: $menu-background;
+    box-shadow: $menu-box-shadow;
+    border-radius: $menu-border-radius;
 
-    color: rgba(0, 0, 0, 0.75);
-    font-family: -apple-system, Lucida Grande;
-    font-size: var(--fontSizeMd);
-    line-height: 1.1;
+    color: $menu-font-color;
+    font-family: $menu-font-family;
+    font-size: 12px;
+    line-height: 20px;
 
+    &:hover {
+      display: block;
+    }
+
+    // 附加的边框线
     &::before {
       display: block;
       position: absolute;
@@ -184,8 +205,8 @@
       bottom: -1px;
       right: -1px;
 
-      border-radius: 4px;
-      border: 1px solid rgba(0, 0, 0, 0.125);
+      border-radius: $menu-border-radius;
+      border: 1px solid $menu-border-color;
       z-index: -1;
     }
   }
