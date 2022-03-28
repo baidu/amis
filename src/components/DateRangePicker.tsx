@@ -108,6 +108,16 @@ export const availableRanges: {[propName: string]: any} = {
     }
   },
 
+  '1dayago': {
+    label: 'DateRange.1daysago',
+    startDate: (now: moment.Moment) => {
+      return now.add(-1, 'days');
+    },
+    endDate: (now: moment.Moment) => {
+      return now;
+    }
+  },
+
   '7daysago': {
     label: 'DateRange.7daysago',
     startDate: (now: moment.Moment) => {
@@ -985,15 +995,19 @@ export class DateRangePicker extends React.Component<
               endDate: () => (item as ShortCutDateRange).endDate
             };
           }
-          return (
-            <li
-              className={`${ns}DateRangePicker-ranger`}
-              onClick={() => this.selectRannge(range)}
-              key={range.key || range.label}
-            >
-              <a>{__(range.label)}</a>
-            </li>
-          );
+          if (Object.keys(range).length) {
+            return (
+              <li
+                className={`${ns}DateRangePicker-ranger`}
+                onClick={() => this.selectRannge(range)}
+                key={range.key || range.label}
+              >
+                <a>{__(range.label)}</a>
+              </li>
+            );
+          } else {
+            return null;
+          }
         })}
       </ul>
     );
@@ -1150,7 +1164,7 @@ export class DateRangePicker extends React.Component<
           renderDay={this.renderDay}
           renderQuarter={this.renderQuarter}
           locale={locale}
-          timeRangeHeader='开始时间'
+          timeRangeHeader="开始时间"
         />
         <Calendar
           className={`${ns}DateRangePicker-end`}
@@ -1175,7 +1189,7 @@ export class DateRangePicker extends React.Component<
           renderDay={this.renderDay}
           renderQuarter={this.renderQuarter}
           locale={locale}
-          timeRangeHeader='结束时间'
+          timeRangeHeader="结束时间"
         />
 
         {embed ? null : (
