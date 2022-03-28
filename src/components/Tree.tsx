@@ -210,13 +210,9 @@ export class TreeSelector extends React.Component<
 
   componentDidMount() {
     const {enableNodePath} = this.props;
-<<<<<<< HEAD
 
     // onRef只有渲染器的情况才会使用
     this.props.onRef?.(this);
-=======
-    this.props.onRef(this);
->>>>>>> d133eba9 (feat: DatePicker&TimePicker)
     enableNodePath && this.expandLazyLoadNodes();
   }
 
