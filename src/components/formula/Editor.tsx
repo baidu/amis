@@ -8,7 +8,7 @@ import {doc} from 'amis-formula/dist/doc';
 
 import {FormulaPlugin, editorFactory} from './plugin';
 import FuncList from './FuncList';
-import {VariableList} from './VariableList';
+import VariableList from './VariableList';
 import CodeMirrorEditor from '../CodeMirror';
 import {autobind, eachTree} from '../../utils/helper';
 import {themeable, ThemeProps} from '../../theme';
@@ -283,10 +283,17 @@ export class FormulaEditor extends React.Component<
 
         <section className={cx('FormulaEditor-settings')}>
           <div className={cx('FormulaEditor-panel')}>
-            <div className={cx('FormulaEditor-panel-header')}>
-              {__('FormulaEditor.variable')}
-            </div>
-            <div className={cx('FormulaEditor-panel-body')}>
+            {variableMode !== 'tabs' ? (
+              <div className={cx('FormulaEditor-panel-header')}>
+                {__('FormulaEditor.variable')}
+              </div>
+            ) : null}
+            <div
+              className={cx(
+                'FormulaEditor-panel-body',
+                variableMode && `FormulaEditor-panel-body--${variableMode}`
+              )}
+            >
               <VariableList
                 classPrefix={classPrefix}
                 className={cx(
