@@ -173,6 +173,52 @@ order: 31
 }
 ```
 
+在多选时，也可以通过 `onlyLeaf` 来设置只允许选择叶子节点，即便分支节点有 `value` 也不会有选中动作。
+
+```schema: scope="body"
+{
+  "type": "form",
+  "api": "/api/mock2/form/saveForm",
+  "body": [
+    {
+      "type": "nested-select",
+      "name": "nestedSelect",
+      "label": "级联选择器",
+      "onlyLeaf": true,
+      "multiple": true,
+      "options": [
+        {
+          "label": "A",
+          "value": "a"
+        },
+        {
+          "label": "B",
+          "value": "b",
+          "children": [
+            {
+              "label": "B-1",
+              "value": "b-1"
+            },
+            {
+              "label": "B-2",
+              "value": "b-2"
+            },
+            {
+              "label": "B-3",
+              "value": "b-3"
+            }
+          ]
+        },
+        {
+          "label": "C",
+          "value": "c"
+        }
+      ]
+    }
+  ]
+}
+```
+
 ## 选中父节点是否自动选中子节点
 
 默认选中父节点会自动选中子节点，可以设置`"cascade": true`，不自动选中子节点
@@ -567,7 +613,8 @@ order: 31
 | searchPromptText  | `string`                                  | `"输入内容进行检索"` | 搜索框占位文本                                                                              |
 | noResultsText     | `string`                                  | `"未找到任何结果"`   | 无结果时的文本                                                                              |
 | multiple          | `boolean`                                 | `false`              | 可否多选                                                                                    |
-| hideNodePathLabel | `boolean`                                 | `false`              | 是否隐藏选择框中已选择节点的路径 label 信息                                                 |
+| hideNodePathLabel | `boolean`                                 | `false`              | 是否隐藏选择框中已选择节点的路径 label 信息    
+| onlyLeaf | `boolean`                                 | `false`              | 只允许选择叶子节点                                                 |
 
 ## 事件表
 

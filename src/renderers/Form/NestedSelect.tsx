@@ -62,7 +62,7 @@ export interface NestedSelectControlSchema extends FormOptionsControl {
   onlyChildren?: boolean;
 
   /**
-   * 单选时只允许选择叶子节点
+   * 只允许选择叶子节点
    */
   onlyLeaf?: boolean;
 
@@ -300,11 +300,20 @@ export default class NestedSelectControl extends React.Component<
       withChildren,
       onlyChildren,
       cascade,
-      options
+      options,
+      onlyLeaf
     } = this.props;
     const {stack} = this.state;
 
     let valueField = this.props.valueField || 'value';
+    
+    if (
+      onlyLeaf
+      && !Array.isArray(option)
+      && option.children
+    ) {
+      return;
+    }
 
     if (
       !Array.isArray(option) &&
