@@ -41,13 +41,12 @@ export class Icon extends React.Component<IconProps, object> {
     if (vendor === 'iconfont') {
       iconPrefix = `iconfont icon-${icon}`;
     } else if (vendor === 'fa') {
-      //默认是fontawesome v4，兼容之前配置，如果是设置ventor为空，则不拼接
+      //默认是fontawesome v4，兼容之前配置
       iconPrefix = `${vendor} ${vendor}-${icon}`;
     } else {
       // 如果vendor为空，则不设置前缀,这样可以支持fontawesome v5、fontawesome v6或者其他框架
       iconPrefix = `${icon}`;
     }
-    console.log('iconPrefix', iconPrefix);
     return isURLIcon ? (
       <img className={cx('Icon')} src={icon} />
     ) : (
