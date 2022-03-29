@@ -15,7 +15,7 @@ export interface IconSchema extends BaseSchema {
    */
   icon: string;
 
-  vendor?: 'iconfont' | 'fa';
+  vendor?: 'iconfont' | 'fa' | '';
 
   /**
    * 角标
@@ -37,17 +37,20 @@ export class Icon extends React.Component<IconProps, object> {
     const {icon, vendor, classnames: cx, className} = this.props;
 
     const isURLIcon = icon?.indexOf('.') !== -1;
+    let iconPrefix = '';
+    if (vendor === 'iconfont') {
+      iconPrefix = `iconfont icon-${icon}`;
+    } else if (vendor === 'fa') {
+      //默认是fontawesome v4，兼容之前配置
+      iconPrefix = `${vendor} ${vendor}-${icon}`;
+    } else {
+      // 如果vendor为空，则不设置前缀,这样可以支持fontawesome v5、fontawesome v6或者其他框架
+      iconPrefix = `${icon}`;
+    }
     return isURLIcon ? (
       <img className={cx('Icon')} src={icon} />
     ) : (
-      <i
-        className={cx(
-          vendor === 'iconfont'
-            ? `iconfont icon-${icon}`
-            : `${vendor} ${vendor}-${icon}`,
-          className
-        )}
-      />
+      <i className={cx(iconPrefix, className)} />
     );
   }
 }
