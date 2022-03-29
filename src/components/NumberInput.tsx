@@ -1,6 +1,12 @@
 import React from 'react';
 // @ts-ignore
 import InputNumber from 'rc-input-number';
+import getMiniDecimal, {
+  DecimalClass,
+  toFixed
+} from 'rc-input-number/lib/utils/MiniDecimal';
+import {getNumberPrecision} from 'rc-input-number/lib/utils/numberUtil';
+
 import {Icon} from './icons';
 import {ThemeProps, themeable} from '../theme';
 import {autobind, ucFirst} from '../utils/helper';
@@ -83,25 +89,39 @@ export class NumberInput extends React.Component<NumberProps, any> {
   }
   @autobind
   handleEnhanceModeChange(action: 'add' | 'subtract'): void {
-    const {value, step, disabled, readOnly} = this.props;
+    const {value, step, disabled, readOnly, precision} = this.props;
     // value为undefined会导致溢出错误
     let val = Number(value) || 0;
     if (disabled || readOnly) {
       return;
     }
-    if (action === 'add') {
-      if (Number(step)) {
-        val = val + Number(step);
-      } else {
-        return;
-      }
-    } else {
-      if (Number(step)) {
-        val = val - Number(step);
-      } else {
-        return;
-      }
+    if (isNaN(Number(step)) || !Number(step)) {
+      return;
     }
+    let stepDecimal = getMiniDecimal(Number(step));
+    if (action !== 'add') {
+      stepDecimal = stepDecimal.negate();
+    }
+    const target = getMiniDecimal(val).add(stepDecimal.toString());
+    const getPrecision = (numStr: string) => {
+      if (precision! >= 0) {
+        return precision;
+      }
+      return Math.max(getNumberPrecision(numStr), getNumberPrecision(Number(step) || 1));
+    };
+    const triggerValueUpdate = (newValue: DecimalClass, userTyping: boolean): DecimalClass => {
+      let updateValue = newValue;
+      const numStr = updateValue.toString();
+      const mergedPrecision = getPrecision(numStr);
+      if (mergedPrecision! >= 0) {
+        updateValue = getMiniDecimal(toFixed(numStr, '.', mergedPrecision));
+      }
+
+      return updateValue;
+
+    };
+    const updatedValue = triggerValueUpdate(target, false);
+    val = Number(updatedValue.toString());
     this.handleChange(val);
   }
   @autobind

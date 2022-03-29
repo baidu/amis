@@ -43,7 +43,7 @@
   }
 
   &-disabled:hover {
-    border-color: var(--Number-borderColor);
+    border-color: var(--Form-input-onDisabled-borderColor);
   }
 
   &-input-wrap {
@@ -153,6 +153,7 @@
   }
 
   &-disabled {
+    border-color: var(--Form-input-onDisabled-borderColor);
     .#{$ns}Number-input {
       opacity: 0.72;
       cursor: not-allowed;
@@ -162,18 +163,19 @@
       background: var(--Form-input-onDisabled-bg);
       border-color: var(--Form-input-onDisabled-borderColor);
     }
-
+    .#{$ns}Number-handler-wrap {
+      border-color: var(--Form-input-onDisabled-borderColor);
+    }
     .#{$ns}Number-handler {
       cursor: not-allowed;
       color: var(--text--muted-color);
       background: var(--Form-input-onDisabled-bg);
-      border-color: var(--Number-borderColor);
+      border-color: var(--Form-input-onDisabled-borderColor);
       opacity: 0.72;
 
       &:hover {
         color: var(--text--muted-color);
-        border-color: var(--Form-input-onDisabled-borderColor);
-        // border-color: var(--Form-input-borderColor);
+        border-color: var(--Form-input-borderColor);
       }
       &:hover:active {
         background: var(--Form-input-onDisabled-bg);
@@ -203,7 +205,7 @@
   }
 }
 .#{$ns}Number--enhance {
-  display: flex;
+  display: inline-flex;
   align-items: center;
   border: var(--Number-borderWidth) solid var(--Number-borderColor);
   border-radius: var(--Number-borderRadius);
@@ -295,6 +297,10 @@
 }
 
 .#{$ns}Number--enhance-disabled{
+  border-color: var(--Form-input-onDisabled-borderColor);
+  .#{$ns}Number--enhance-input {
+    border-color: var(--Form-input-onDisabled-borderColor);
+  }
   &:hover {
     border-color: var(--Number-borderColor);
   }
