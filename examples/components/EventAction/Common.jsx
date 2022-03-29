@@ -7,11 +7,6 @@ export default {
       type: 'button',
       id: 'b_001',
       label: '发送Ajax请求',
-      actionType: 'reload',
-      dialog: {
-        title: '系统提示',
-        body: '对你点击了'
-      },
       onEvent: {
         click: {
           actions: [
@@ -32,11 +27,6 @@ export default {
       id: 'b_002',
       className: 'ml-2',
       label: '打开一个弹窗（模态）',
-      actionType: 'reload',
-      dialog: {
-        title: '系统提示',
-        body: '对你点击了'
-      },
       onEvent: {
         click: {
           actions: [

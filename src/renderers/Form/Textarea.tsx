@@ -60,7 +60,7 @@ export interface TextareaControlSchema extends FormBaseControl {
   resetValue?: string;
 }
 
-export type TextAreaRendererEvent = 'blur' | 'focus' | 'clear';
+export type TextAreaRendererEvent = 'blur' | 'focus';
 
 export interface TextAreaProps extends FormControlProps {
   placeholder?: string;
@@ -177,7 +177,6 @@ export default class TextAreaControl extends React.Component<
   }
 
   @autobind
-  @bindRendererEvent<TextAreaProps, TextAreaRendererEvent>('clear')
   async handleClear() {
     const {onChange, resetValue} = this.props;
 
