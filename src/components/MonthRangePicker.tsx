@@ -363,9 +363,9 @@ export class MonthRangePicker extends React.Component<
   clearValue(e: React.MouseEvent<any>) {
     e.preventDefault();
     e.stopPropagation();
-    const {resetValue, onChange} = this.props;
+    const {onChange} = this.props;
 
-    onChange(resetValue);
+    onChange('');
   }
 
   checkStartIsValidDate(currentDate: moment.Moment) {
