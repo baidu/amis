@@ -15,7 +15,7 @@ export class ToastAction implements Action {
     renderer: ListenerContext,
     event: RendererEvent<any>
   ) {
-    event.context.env.notify?.(action.msgType, action.msg, action.options);
+    event.context.env.notify?.(action.msgType, action.msg, action);
   }
 }
 

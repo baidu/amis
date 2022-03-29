@@ -652,9 +652,7 @@ order: 9
               actionType: 'toast',
               msgType: 'warning',
               msg: '我是全局警告消息，可以配置不同类型和弹出位置~',
-              options: {
-                position: 'top-right'
-              }
+              position: 'top-right'
             }
           ]
         }
@@ -671,9 +669,7 @@ order: 9
               actionType: 'toast',
               msgType: 'success',
               msg: '我是全局警告消息，可以配置不同类型和弹出位置~',
-              options: {
-                position: 'top-right'
-              }
+              position: 'top-right'
             }
           ]
         }
@@ -690,9 +686,7 @@ order: 9
               actionType: 'toast',
               msgType: 'error',
               msg: '我是全局警告消息，可以配置不同类型和弹出位置~',
-              options: {
-                position: 'top-right'
-              }
+              position: 'top-right'
             }
           ]
         }
@@ -709,9 +703,7 @@ order: 9
               actionType: 'toast',
               msgType: 'info',
               msg: '我是全局警告消息，可以配置不同类型和弹出位置~',
-              options: {
-                position: 'top-right'
-              }
+              position: 'top-right'
             }
           ]
         }
@@ -732,9 +724,7 @@ order: 9
               actionType: 'toast',
               msgType: 'info',
               msg: '我是全局警告消息，可以配置不同类型和弹出位置~',
-              options: {
-                position: 'top-left'
-              }
+              position: 'top-left'
             }
           ]
         }
@@ -751,9 +741,7 @@ order: 9
               actionType: 'toast',
               msgType: 'info',
               msg: '我是全局警告消息，可以配置不同类型和弹出位置~',
-              options: {
-                position: 'top-center'
-              }
+              position: 'top-center'
             }
           ]
         }
@@ -770,9 +758,7 @@ order: 9
               actionType: 'toast',
               msgType: 'info',
               msg: '我是全局警告消息，可以配置不同类型和弹出位置~',
-              options: {
-                position: 'top-right'
-              }
+              position: 'top-right'
             }
           ]
         }
@@ -789,9 +775,7 @@ order: 9
               actionType: 'toast',
               msgType: 'info',
               msg: '我是全局警告消息，可以配置不同类型和弹出位置~',
-              options: {
-                position: 'bottom-left'
-              }
+              position: 'bottom-left'
             }
           ]
         }
@@ -808,9 +792,7 @@ order: 9
               actionType: 'toast',
               msgType: 'info',
               msg: '我是全局警告消息，可以配置不同类型和弹出位置~',
-              options: {
-                position: 'bottom-center'
-              }
+              position: 'bottom-center'
             }
           ]
         }
@@ -827,9 +809,7 @@ order: 9
               actionType: 'toast',
               msgType: 'info',
               msg: '我是全局警告消息，可以配置不同类型和弹出位置~',
-              options: {
-                position: 'bottom-right'
-              }
+              position: 'bottom-right'
             }
           ]
         }
@@ -841,12 +821,15 @@ order: 9
 
 **动作属性**
 
-| 属性名     | 类型     | 默认值    | 说明                                                                                                                      |
-| ---------- | -------- | --------- | ------------------------------------------------------------------------------------------------------------------------- |
-| actionType | `string` | `"toast"` | 指定 toast 动作                                                                                                           |
-| msgType    | `string` |           | 消息类型 `"info"、"success"、"error"、"warning"`｜                                                                        |
-| msg        | `string` |           | 消息内容                                                                                                                  |
-| options    | `object` |           | 其他配置项 <br> {<br>position: `top-left`、`top-center`、`top-right`、`bottom-left`、`bottom-center`、`bottom-right`<br>} |
+| 属性名     | 类型     | 默认值    | 说明 |
+| ---------- | -------- | --------- | -------------- |
+| actionType | `string` | `"toast"` | 指定 toast 动作 |
+| msgType    | `string` |           | 消息类型 `"info"、"success"、"error"、"warning"`  |
+| msg        | `string` |           | 消息内容 |
+| position     | `string` | `top-center（移动端为center）` | 提示显示位置，可用'top-right'、'top-center'、'top-left'、'bottom-center'、'bottom-left'、'bottom-right'、'center' |
+| closeButton  | `boolean` | `false` | 是否展示关闭按钮 |
+| showIcon     | `boolean` | `true` | 是否展示图标 |
+| timeout      | `number` | `5000（error类型为6000，移动端为3000）` | 持续时间 |
 
 #### 复制
 
@@ -1817,23 +1800,19 @@ order: 9
                 loopName: 'loopData',
                 children: [
                   {
-                    "actionType": "toast",
-                    "msgType": 'success',
-                    "msg": '第一个动作',
-                    options: {
-                      position: 'top-right'
-                    }
+                    actionType: "toast",
+                    msgType: 'success',
+                    msg: '第一个动作',
+                    position: 'top-right'
                   },
                   {
                     actionType: 'break'
                   },
                   {
-                    "actionType": "toast",
-                    "msgType": 'success',
-                    "msg": '第一个dd动作',
-                    options: {
-                      position: 'top-right'
-                    }
+                    actionType: "toast",
+                    msgType: 'success',
+                    msg: '第一个dd动作',
+                    position: 'top-right'
                   },
                   {
                     actionType: 'ajax',
@@ -1892,23 +1871,19 @@ order: 9
                 },
                 children: [
                   {
-                    "actionType": "toast",
-                    "msgType": 'success',
-                    "msg": '第一个动作',
-                    options: {
-                      position: 'top-right'
-                    }
+                    actionType: "toast",
+                    msgType: 'success',
+                    msg: '第一个动作',
+                    position: 'top-right'
                   },
                   {
                     actionType: 'continue'
                   },
                   {
-                    "actionType": "toast",
-                    "msgType": 'success',
-                    "msg": '最后的动作',
-                    options: {
-                      position: 'top-right'
-                    }
+                    actionType: "toast",
+                    msgType: 'success',
+                    msg: '最后的动作',
+                    position: 'top-right'
                   }
                 ]
               }
@@ -1950,31 +1925,25 @@ order: 9
                 actionType: 'switch',
                 children: [
                   {
-                    "actionType": "toast",
-                    "msgType": 'info',
-                    "msg": '动作1',
-                    options: {
-                      position: 'top-right'
-                    },
+                    actionType: "toast",
+                    msgType: 'info',
+                    msg: '动作1',
+                    position: 'top-right',
                     expression: 'this.branchCont > 19',
                     stopPropagation: true // 这里无效，因为条件不成立
                   },
                   {
-                    "actionType": "toast",
-                    "msgType": 'info',
-                    "msg": '动作2',
-                    options: {
-                      position: 'top-right'
-                    },
+                    actionType: "toast",
+                    msgType: 'info',
+                    msg: '动作2',
+                    position: 'top-right',
                     expression: 'this.branchCont > 17'
                   },
                   {
-                    "actionType": "toast",
-                    "msgType": 'info',
-                    "msg": '动作3',
-                    options: {
-                      position: 'top-right'
-                    },
+                    actionType: "toast",
+                    msgType: 'info',
+                    msg: '动作3',
+                    position: 'top-right',
                     expression: 'this.branchCont > 16'
                   }
                 ]
@@ -2015,16 +1984,14 @@ order: 9
                 actionType: 'parallel',
                 children: [
                   {
-                    "actionType": "alert",
-                    "msg": '动作1'
+                    actionType: "alert",
+                    msg: '动作1'
                   },
                   {
-                    "actionType": "toast",
-                    "msgType": 'success',
-                    "msg": '动作2',
-                    options: {
-                      position: 'top-right'
-                    }
+                    actionType: "toast",
+                    msgType: 'success',
+                    msg: '动作2',
+                    position: 'top-right'
                   }
                 ]
               }
