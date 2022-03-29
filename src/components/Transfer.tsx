@@ -78,6 +78,8 @@ export interface TransferProps
     states: ResultItemRenderStates
   ) => JSX.Element;
   sortable?: boolean;
+  onRef?: (ref: Transfer) => void;
+  onSelectAll?: (options: Options) => void;
 }
 
 export interface TransferState {
@@ -102,6 +104,10 @@ export class Transfer<
   unmounted = false;
   cancelSearch?: () => void;
 
+  componentDidMount() {
+    this.props?.onRef?.(this);
+  }
+
   componentWillUnmount() {
     this.lazySearch.cancel();
     this.unmounted = true;
@@ -109,7 +115,7 @@ export class Transfer<
 
   @autobind
   toggleAll() {
-    const {options, option2value, onChange, value} = this.props;
+    const {options, option2value, onChange, value, onSelectAll} = this.props;
     let valueArray = BaseSelection.value2array(value, options, option2value);
     const availableOptions = flattenTree(options).filter(
       (option, index, list) =>
@@ -127,6 +133,9 @@ export class Transfer<
     let newValue: string | Options = option2value
       ? valueArray.map(item => option2value(item))
       : valueArray;
+
+    // > 0 全选
+    newValue.length > 0 && onSelectAll && onSelectAll(newValue);
 
     onChange && onChange(newValue);
   }

@@ -45,6 +45,8 @@ export interface TabsTransferProps
     colIndex: number,
     rowIndex: number
   ) => JSX.Element;
+  onTabChange?: (key: number) => void;
+  activeKey: number
 }
 
 export interface TabsTransferState {
@@ -134,7 +136,9 @@ export class TabsTransfer extends React.Component<
   }
 
   @autobind
-  handleTabChange() {
+  handleTabChange(key: number) {
+    this.props?.onTabChange?.(key);
+
     this.handleSeachCancel();
   }
 
@@ -225,7 +229,7 @@ export class TabsTransfer extends React.Component<
 
   @autobind
   renderSelect() {
-    const {options, placeholder, classnames: cx, translate: __} = this.props;
+    const {options, placeholder, activeKey, classnames: cx, translate: __} = this.props;
     const showOptions = options.filter(item => item.visible !== false);
 
     if (!Array.isArray(options) || !options.length) {
@@ -241,6 +245,7 @@ export class TabsTransfer extends React.Component<
         mode="line"
         className={cx('TabsTransfer-tabs')}
         onSelect={this.handleTabChange}
+        activeKey={activeKey}
       >
         {showOptions.map((option, index) => (
           <Tab
