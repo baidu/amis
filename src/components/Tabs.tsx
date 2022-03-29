@@ -441,7 +441,7 @@ export class Tabs extends React.Component<TabsProps, any> {
     this.scroll = true;
   }
 
-  renderNav(child: any, index: number) {
+  renderNav(child: any, index: number, showClose: boolean) {
     if (!child) {
       return;
     }
@@ -540,7 +540,7 @@ export class Tabs extends React.Component<TabsProps, any> {
         }
 
         {
-          (tabClosable ?? closable) && (
+          showClose && (tabClosable ?? closable) && (
             <span className={cx('Tabs-link-close')} onClick={(e: React.MouseEvent) => {
               e.stopPropagation();
               this.props.onClose && this.props.onClose(index, eventKey ?? index);
@@ -672,7 +672,7 @@ export class Tabs extends React.Component<TabsProps, any> {
               {this.renderArrow('left')}
               <div className={cx('Tabs-linksContainer-main')}>
                 <ul className={cx('Tabs-links', linksClassName)} role="tablist" ref={this.navMain}>
-                  {children.map((tab, index) => this.renderNav(tab, index))}
+                  {children.map((tab, index) => this.renderNav(tab, index, true))}
                   {additionBtns}
                   {
                     !isOverflow && toolButtons
@@ -688,7 +688,7 @@ export class Tabs extends React.Component<TabsProps, any> {
         ) : (
           <div className={cx('Tabs-linksWrapper')}>
             <ul className={cx('Tabs-links', linksClassName)} role="tablist">
-              {children.map((tab, index) => this.renderNav(tab, index))}
+              {children.map((tab, index) => this.renderNav(tab, index, false))}
               {additionBtns}
               {toolbar}
             </ul>
