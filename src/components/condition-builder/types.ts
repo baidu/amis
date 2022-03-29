@@ -1,3 +1,4 @@
+import {Schema} from './../../types';
 import {SchemaApi} from '../../Schema';
 import {Api} from '../../types';
 
@@ -8,7 +9,8 @@ export type FieldTypes =
   | 'date'
   | 'time'
   | 'datetime'
-  | 'select';
+  | 'select'
+  | 'custom';
 
 export type OperatorType =
   | 'equal'
@@ -28,7 +30,8 @@ export type OperatorType =
   | 'select_equals'
   | 'select_not_equals'
   | 'select_any_in'
-  | 'select_not_any_in';
+  | 'select_not_any_in'
+  | string;
 
 export type FieldItem = {
   type: 'text';
@@ -82,7 +85,7 @@ interface BaseField {
   type: FieldTypes;
   label: string;
   valueTypes?: Array<'value' | 'field' | 'func' | 'formula'>;
-  operators?: Array<string>;
+  operators?: Array<string | {lable: string; value: string; values?: any[]}>;
 
   // valueTypes 里面配置 func 才有效。
   funcs?: Array<string>;
@@ -158,6 +161,12 @@ interface BooleanField extends BaseField {
   name: string;
 }
 
+interface CustomField extends BaseField {
+  type: 'custom';
+  name: string;
+  value: Schema;
+}
+
 interface GroupField {
   type: 'group';
   label: string;
@@ -172,7 +181,8 @@ export type FieldSimple =
   | TimeField
   | DatetimeField
   | SelectField
-  | BooleanField;
+  | BooleanField
+  | CustomField;
 
 export type Field = FieldSimple | FieldGroup | GroupField;
 

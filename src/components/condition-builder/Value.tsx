@@ -18,6 +18,7 @@ export interface ValueProps extends ThemeProps, LocaleProps {
   disabled?: boolean;
   formula?: FormulaPickerProps;
   popOverContainer?: any;
+  renderEtrValue?: any;
 }
 
 export class Value extends React.Component<ValueProps> {
@@ -32,7 +33,8 @@ export class Value extends React.Component<ValueProps> {
       data,
       disabled,
       formula,
-      popOverContainer
+      popOverContainer,
+      renderEtrValue
     } = this.props;
     let input: JSX.Element | undefined = undefined;
     if (formula) {
@@ -135,6 +137,32 @@ export class Value extends React.Component<ValueProps> {
           disabled={disabled}
         />
       );
+    } else if (field.type === 'custom') {
+      input = renderEtrValue
+        ? renderEtrValue(
+            Object.assign(
+              {
+                onChange,
+                value: value ?? field.defaultValue
+              },
+              field.value
+            ),
+            Object.assign({}, data)
+          )
+        : null;
+    } else {
+      input = renderEtrValue
+        ? renderEtrValue(
+            Object.assign(
+              {
+                onChange,
+                value: value ?? (field as any).defaultValue
+              },
+              field
+            ),
+            Object.assign({}, data)
+          )
+        : null;
     }
 
     return <div className={cx('CBValue')}>{input}</div>;

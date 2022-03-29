@@ -9,6 +9,8 @@ import {
   RemoteOptionsProps,
   withRemoteConfig
 } from '../../components/WithRemoteConfig';
+import {render} from '../../factory';
+import {Schema} from '../../types';
 
 /**
  * 条件组合控件
@@ -58,6 +60,11 @@ export interface ConditionBuilderProps
       'type' | 'className' | 'descriptionClassName' | 'inputClassName'
     > {}
 
+function renderEtrValue(schema: Schema, data: any) {
+  delete schema.label;
+  return render(schema, data);
+}
+
 export default class ConditionBuilderControl extends React.PureComponent<ConditionBuilderProps> {
   render() {
     const {className, classnames: cx, ...rest} = this.props;
@@ -83,6 +90,7 @@ const ConditionBuilderWithRemoteOptions = withRemoteConfig({
           {...rest}
           fields={config || rest.fields || []}
           disabled={disabled || loading}
+          renderEtrValue={renderEtrValue}
         />
       );
     }

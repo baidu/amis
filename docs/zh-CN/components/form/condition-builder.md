@@ -384,6 +384,97 @@ type Value = ValueGroup;
 }
 ```
 
+### 自定义
+
+- `type` 字段配置中配置成 `"custom"`
+- `label` 字段名称
+- `placeholder` 占位符
+- `operators` 默认为空，需配置自定义判断条件，支持字符串或 key-value 格式
+- `value` 字段配置右边值需要渲染的组件，支持 amis 输入类组件或自定义输入类组件
+
+```schema: scope="body"
+{
+    "type": "form",
+    "debug": true,
+    "body": [
+        {
+          "type": "condition-builder",
+          "label": "条件组件",
+          "name": "conditions",
+          "description": "适合让用户自己拼查询条件，然后后端根据数据生成 query where",
+          "fields": [
+            {
+              "label": "自定义",
+              "type": "custom",
+              "name": "a",
+              "value": {
+                "type": "input-color"
+              },
+              "operators": [
+                "equal",
+                {
+                  "label": "等于（自定义）",
+                  "value": "custom_equal"
+                }
+              ]
+            }
+          ]
+        }
+    ]
+}
+```
+
+其中`operators`通过配置 values 还支持右边多个组件的渲染，`right`值格式为对象，`key`为组件的`name`
+
+```schema: scope="body"
+{
+    "type": "form",
+    "debug": true,
+    "body": [
+        {
+          "type": "condition-builder",
+          "label": "条件组件",
+          "name": "conditions",
+          "description": "适合让用户自己拼查询条件，然后后端根据数据生成 query where",
+          "fields": [
+            {
+              "label": "自定义",
+              "type": "custom",
+              "name": "a",
+              "value": {
+                "type": "input-color"
+              },
+              "operators": [
+                {
+                  "label": "等于（自定义）",
+                  "value": "custom_equal"
+                },
+                {
+                  "label": "属于",
+                  "value": "belong",
+                  "values": [
+                    {
+                      "type": "input-text",
+                      "name": "color1"
+                    },
+                    {
+                      "type": "tpl",
+                      "tpl": "~"
+                    },
+                    {
+                      "type": "input-text",
+                      "name": "color2"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+    ]
+}
+```
+
 ## 字段选项远程拉取
 
 - 方式 1 配置 `source` 接口返回的数据对象 `data` 中存在 fields 变量即可。
@@ -593,4 +684,4 @@ type Value = ValueGroup;
 | fields         |           |        | 字段配置                       |
 | showANDOR      | `boolean` |        | 用于 simple 模式下显示切换按钮 |
 | showNot        | `boolean` |        | 是否显示「非」按钮             |
-| searchable     | `boolean` |        | 字段是否可搜索             |
+| searchable     | `boolean` |        | 字段是否可搜索                 |

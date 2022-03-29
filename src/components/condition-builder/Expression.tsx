@@ -46,6 +46,7 @@ export interface ExpressionProps extends ThemeProps {
   fieldClassName?: string;
   formula?: FormulaPickerProps;
   popOverContainer?: any;
+  renderEtrValue?: any;
 }
 
 const fieldMap = {
@@ -137,7 +138,8 @@ export class Expression extends React.Component<ExpressionProps> {
       disabled,
       searchable,
       formula,
-      popOverContainer
+      popOverContainer,
+      renderEtrValue
     } = this.props;
     const inputType =
       ((value as any)?.type === 'field'
@@ -169,6 +171,7 @@ export class Expression extends React.Component<ExpressionProps> {
             disabled={disabled}
             formula={formula}
             popOverContainer={popOverContainer}
+            renderEtrValue={renderEtrValue}
           />
         ) : null}
 
