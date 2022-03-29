@@ -7,11 +7,6 @@ export default {
       type: 'button',
       id: 'b_001',
       label: '发送广播事件1-表单1/2/3都在监听',
-      actionType: 'reload',
-      dialog: {
-        title: '系统提示',
-        body: '对你点击了'
-      },
       onEvent: {
         click: {
           actions: [
@@ -43,11 +38,6 @@ export default {
       id: 'b_002',
       label: '发送广播事件2-表单3在监听',
       className: 'ml-2',
-      actionType: 'reload',
-      dialog: {
-        title: '系统提示',
-        body: '对你点击了'
-      },
       onEvent: {
         click: {
           actions: [
