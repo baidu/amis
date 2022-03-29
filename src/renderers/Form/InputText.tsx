@@ -235,7 +235,16 @@ export default class TextControl extends React.PureComponent<
 
     // 光标放到最后
     const len = this.input.value.length;
-    len && this.input.setSelectionRange(len, len);
+    if (len) {
+      // type为email的input元素不支持setSelectionRange，先改为text
+      if (this.input.type === 'email') {
+        this.input.type = 'text';
+        this.input.setSelectionRange(len, len);
+        this.input.type = 'email';
+      } else {
+        this.input.setSelectionRange(len, len);
+      }
+    }
   }
 
   clearValue() {
