@@ -7,11 +7,6 @@ export default {
       type: 'button',
       id: 'b_001',
       label: '联动表单1(事件干预)',
-      actionType: 'dialog',
-      dialog: {
-        title: '系统提示',
-        body: '对你点击了'
-      },
       onEvent: {
         click: {
           actions: [
@@ -33,11 +28,6 @@ export default {
       id: 'b_002',
       label: '联动表单2(动作干预)',
       className: 'ml-2',
-      actionType: 'dialog',
-      dialog: {
-        title: '系统提示',
-        body: '对你点击了'
-      },
       onEvent: {
         click: {
           actions: [

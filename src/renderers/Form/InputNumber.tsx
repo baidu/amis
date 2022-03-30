@@ -127,7 +127,7 @@ export default class NumberControl extends React.Component<
   doAction(action: Action, args: any) {
     const actionType = action?.actionType as string;
     const {resetValue, onChange} = this.props;
-    if (actionType === 'clear') {
+    if (!!~['clear', 'reset'].indexOf(actionType)) {
       this.handleChange(resetValue ?? '');
     }
   }
@@ -167,7 +167,14 @@ export default class NumberControl extends React.Component<
   }
 
   async handleChange(inputValue: any) {
-    const {classPrefix: ns, onChange, resetValue, unitOptions, data, dispatchEvent} = this.props;
+    const {
+      classPrefix: ns,
+      onChange,
+      resetValue,
+      unitOptions,
+      data,
+      dispatchEvent
+    } = this.props;
 
     if (inputValue && typeof inputValue !== 'number') {
       return;
@@ -177,14 +184,16 @@ export default class NumberControl extends React.Component<
       inputValue = inputValue + this.state.unit;
     }
     const value = inputValue === null ? resetValue ?? null : inputValue;
-    const rendererEvent = await dispatchEvent('change', createObject(data, {
-      value,
-    }));
+    const rendererEvent = await dispatchEvent(
+      'change',
+      createObject(data, {
+        value
+      })
+    );
     if (rendererEvent?.prevented) {
       return;
     }
     onChange(value);
-
   }
 
   filterNum(value: number | string | undefined) {

@@ -54,6 +54,7 @@ export interface DateRangePickerProps extends ThemeProps, LocaleProps {
   onFocus?: Function;
   onBlur?: Function;
   type?: string;
+  onRef?: any;
 }
 
 export interface DateRangePickerState {
@@ -525,6 +526,7 @@ export class DateRangePicker extends React.Component<
   }
   componentDidMount() {
     document.body.addEventListener('click', this.handleOutClick, true);
+    this.props?.onRef?.(this);
   }
 
   componentWillUnmount() {
@@ -1016,9 +1018,35 @@ export class DateRangePicker extends React.Component<
   clearValue(e: React.MouseEvent<any>) {
     e.preventDefault();
     e.stopPropagation();
-    const {resetValue, onChange} = this.props;
+    const {onChange} = this.props;
     this.setState({startInputValue: '', endInputValue: ''});
+    onChange('');
+  }
+
+  // 清空
+  clear() {
+    const {onChange} = this.props;
+    this.setState({startInputValue: '', endInputValue: ''});
+    onChange('');
+  }
+
+  // 重置
+  reset() {
+    const {resetValue, onChange, format, joinValues, delimiter, inputFormat} = this.props;
+    if (!resetValue) {
+      return;
+    }
+    const {startDate, endDate} = DateRangePicker.unFormatValue(
+      resetValue,
+      format,
+      joinValues,
+      delimiter
+    );
     onChange(resetValue);
+    this.setState({
+      startInputValue: startDate?.format(inputFormat),
+      endInputValue: endDate?.format(inputFormat)
+    })
   }
 
   checkStartIsValidDate(currentDate: moment.Moment) {

@@ -297,6 +297,7 @@ export interface DateProps extends LocaleProps, ThemeProps {
   // [propName: string]: any;
   onFocus?: Function;
   onBlur?: Function;
+  onRef?: any
 }
 
 export interface DatePickerState {
@@ -360,6 +361,10 @@ export class DatePicker extends React.Component<DateProps, DatePickerState> {
   dom: HTMLDivElement;
 
   inputRef: React.RefObject<HTMLInputElement>;
+
+  componentDidMount() {
+    this.props?.onRef?.(this);
+  }
 
   componentDidUpdate(prevProps: DateProps) {
     const props = this.props;
@@ -444,6 +449,25 @@ export class DatePicker extends React.Component<DateProps, DatePickerState> {
     const onChange = this.props.onChange;
     onChange('');
     this.setState({inputValue: ''});
+  }
+
+  // 清空
+  clear() {
+    const onChange = this.props.onChange;
+    onChange('');
+    this.setState({inputValue: ''});
+  }
+
+  // 重置
+  reset(resetValue?: any) {
+    if (!resetValue) {
+      return;
+    }
+    const {format, inputFormat, onChange} = this.props;
+    onChange(resetValue);
+    this.setState({
+      inputValue: normalizeValue(resetValue, format)?.format(inputFormat || '')
+    });
   }
 
   handleChange(value: moment.Moment) {

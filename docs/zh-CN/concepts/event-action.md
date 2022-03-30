@@ -73,22 +73,20 @@ order: 9
 }
 ```
 
-## 事件
+## 事件与动作
 
 事件包含`渲染器事件`和`广播事件`。
 
 - 渲染器事件，由具体的渲染器组件提供，每个渲染器组件暴露的事件可以查看具体的[组件文档](./components/page)；
 - 广播事件，即自定义事件，可以自定义派发的事件名称`eventName`，其他渲染器可以监听该自定义事件并配置响应动作。
 
-## 动作
-
 动作包含`通用动作`、`组件动作`、`广播动作`、`自定义动作`，可以通过配置`actionType`来指定具体执行什么动作。
 
-### 触发通用动作
+## 触发通用动作
 
 通用动作包含发送 http 请求、跳转链接、打开/关闭弹窗、打开/关闭抽屉、打开对话框、弹出 Toast 提示、刷新、控制显示隐藏、控制启用禁用状态。
 
-#### 发送 http 请求
+### 发送 http 请求
 
 通过配置`actionType: 'ajax'`和`api`实现 http 请求发送。
 
@@ -126,7 +124,7 @@ order: 9
 | actionType | `string`                       | `ajax` | 点击后显示一个弹出框 |
 | api        | [API](../../../docs/types/api) | -      | 请求接口配置         |
 
-#### 打开弹窗（模态）
+### 打开弹窗（模态）
 
 通过配置`actionType: 'dialog'`和`dialog`实现 Dialog 弹窗。
 
@@ -138,11 +136,6 @@ order: 9
       type: 'button',
       className: 'ml-2',
       label: '打开弹窗（模态）',
-      actionType: 'reload',
-      dialog: {
-        title: '系统提示',
-        body: '对你点击了'
-      },
       onEvent: {
         click: {
           actions: [
@@ -156,8 +149,23 @@ order: 9
                     type: 'tpl',
                     tpl: '<p>对，你打开了模态弹窗</p>',
                     inline: false
+                  },
+                  {
+                    type: 'input-text',
+                    name: 'myname',
+                    mode: 'horizontal'
                   }
-                ]
+                ],
+                onEvent: {
+                  confirm: {
+                    actions: [
+                      {
+                        actionType: 'toast',
+                        msg: 'confirm'
+                      }
+                    ]
+                  }
+                }
               }
             }
           ]
@@ -175,7 +183,7 @@ order: 9
 | actionType | `string`                   | `dialog` | 点击后显示一个弹出框                       |
 | dialog     | `string` 或 `DialogObject` | -        | 指定弹框内容，格式可参考[Dialog](./dialog) |
 
-#### 关闭弹窗（模态）
+### 关闭弹窗（模态）
 
 通过配置`actionType: 'closeDialog'`实现关闭当前弹窗；附加配置`componentId`可以实现关闭指定弹窗。
 
@@ -263,7 +271,7 @@ order: 9
 | actionType  | `string` | `closeDialog` | 关闭弹窗        |
 | componentId | `string` | -             | 指定弹框组件 id |
 
-#### 打开抽屉（模态）
+### 打开抽屉（模态）
 
 通过配置`actionType: 'drawer'`和`drawer`实现 Drawer 抽屉打开。
 
@@ -309,7 +317,7 @@ order: 9
 | actionType | `string`                   | `drawer` | 点击后显示一个侧边栏                       |
 | drawer     | `string` 或 `DrawerObject` | -        | 指定弹框内容，格式可参考[Drawer](./drawer) |
 
-#### 关闭抽屉（模态）
+### 关闭抽屉（模态）
 
 通过配置`actionType: 'closeDrawer'`实现关闭当前抽屉；附加配置`componentId`可以实现关闭指定抽屉。
 
@@ -396,11 +404,11 @@ order: 9
 | actionType  | `string` | `closeDrawer` | 关闭抽屉        |
 | componentId | `string` | -             | 指定抽屉组件 id |
 
-#### 打开对话框
+### 打开对话框
 
 通过配置`actionType: 'alert'`或`actionType: 'confirm'`打开不同对话框。
 
-**提示对话框**
+#### 提示对话框
 
 ```schema
 {
@@ -432,7 +440,7 @@ order: 9
 | actionType | `string` | `alert` | 打开提示对话框 |
 | msg        | `string` | -       | 对话框提示内容 |
 
-**确认对话框**
+#### 确认对话框
 
 ```schema
 {
@@ -466,7 +474,7 @@ order: 9
 | title      | `string` | -         | 对话框标题     |
 | msg        | `string` | -         | 对话框提示内容 |
 
-#### 跳转链接
+### 跳转链接
 
 通过配置`actionType: 'url'`或`actionType: 'link'`实现链接跳转。
 
@@ -535,7 +543,7 @@ order: 9
 | actionType | `string` | `link` | 单页跳转 |
 | link | `string` | `link` | 用来指定跳转地址，跟 url 不同的是，这是单页跳转方式，不会渲染浏览器，请指定 amis 平台内的页面。可用 `${xxx}` 取值。 |
 
-#### 回退页面
+### 浏览器回退
 
 通过配置`actionType: 'goBack'`实现页面回退。
 
@@ -567,7 +575,7 @@ order: 9
 | ---------- | -------- | -------- | ------------ |
 | actionType | `string` | `goBack` | 返回上个页面 |
 
-#### 前进/后退到指定页面
+### 前进/后退到指定页面
 
 通过配置`actionType: 'goPage'`实现浏览器页面的前进/后退。
 
@@ -601,7 +609,7 @@ order: 9
 | actionType | `string` | `goPage` | 前进/后退到页面 |
 | delta      | `string` | `0`      | 位置            |
 
-#### 刷新页面
+### 浏览器刷新
 
 通过配置`actionType: 'refresh'`实现浏览器刷新。
 
@@ -633,7 +641,7 @@ order: 9
 | ---------- | -------- | --------- | ------------ |
 | actionType | `string` | `refresh` | 返回上个页面 |
 
-#### toast 提示
+### toast 提示
 
 通过配置`actionType: 'toast'`和`msg`实现弹出 toast
 
@@ -652,9 +660,7 @@ order: 9
               actionType: 'toast',
               msgType: 'warning',
               msg: '我是全局警告消息，可以配置不同类型和弹出位置~',
-              options: {
-                position: 'top-right'
-              }
+              position: 'top-right'
             }
           ]
         }
@@ -671,9 +677,7 @@ order: 9
               actionType: 'toast',
               msgType: 'success',
               msg: '我是全局警告消息，可以配置不同类型和弹出位置~',
-              options: {
-                position: 'top-right'
-              }
+              position: 'top-right'
             }
           ]
         }
@@ -690,9 +694,7 @@ order: 9
               actionType: 'toast',
               msgType: 'error',
               msg: '我是全局警告消息，可以配置不同类型和弹出位置~',
-              options: {
-                position: 'top-right'
-              }
+              position: 'top-right'
             }
           ]
         }
@@ -709,9 +711,7 @@ order: 9
               actionType: 'toast',
               msgType: 'info',
               msg: '我是全局警告消息，可以配置不同类型和弹出位置~',
-              options: {
-                position: 'top-right'
-              }
+              position: 'top-right'
             }
           ]
         }
@@ -732,9 +732,7 @@ order: 9
               actionType: 'toast',
               msgType: 'info',
               msg: '我是全局警告消息，可以配置不同类型和弹出位置~',
-              options: {
-                position: 'top-left'
-              }
+              position: 'top-left'
             }
           ]
         }
@@ -751,9 +749,7 @@ order: 9
               actionType: 'toast',
               msgType: 'info',
               msg: '我是全局警告消息，可以配置不同类型和弹出位置~',
-              options: {
-                position: 'top-center'
-              }
+              position: 'top-center'
             }
           ]
         }
@@ -770,9 +766,7 @@ order: 9
               actionType: 'toast',
               msgType: 'info',
               msg: '我是全局警告消息，可以配置不同类型和弹出位置~',
-              options: {
-                position: 'top-right'
-              }
+              position: 'top-right'
             }
           ]
         }
@@ -789,9 +783,7 @@ order: 9
               actionType: 'toast',
               msgType: 'info',
               msg: '我是全局警告消息，可以配置不同类型和弹出位置~',
-              options: {
-                position: 'bottom-left'
-              }
+              position: 'bottom-left'
             }
           ]
         }
@@ -808,9 +800,7 @@ order: 9
               actionType: 'toast',
               msgType: 'info',
               msg: '我是全局警告消息，可以配置不同类型和弹出位置~',
-              options: {
-                position: 'bottom-center'
-              }
+              position: 'bottom-center'
             }
           ]
         }
@@ -827,9 +817,7 @@ order: 9
               actionType: 'toast',
               msgType: 'info',
               msg: '我是全局警告消息，可以配置不同类型和弹出位置~',
-              options: {
-                position: 'bottom-right'
-              }
+              position: 'bottom-right'
             }
           ]
         }
@@ -841,14 +829,17 @@ order: 9
 
 **动作属性**
 
-| 属性名     | 类型     | 默认值    | 说明                                                                                                                      |
-| ---------- | -------- | --------- | ------------------------------------------------------------------------------------------------------------------------- |
-| actionType | `string` | `"toast"` | 指定 toast 动作                                                                                                           |
-| msgType    | `string` |           | 消息类型 `"info"、"success"、"error"、"warning"`｜                                                                        |
-| msg        | `string` |           | 消息内容                                                                                                                  |
-| options    | `object` |           | 其他配置项 <br> {<br>position: `top-left`、`top-center`、`top-right`、`bottom-left`、`bottom-center`、`bottom-right`<br>} |
+| 属性名     | 类型     | 默认值    | 说明 |
+| ---------- | -------- | --------- | -------------- |
+| actionType | `string` | `"toast"` | 指定 toast 动作 |
+| msgType    | `string` |           | 消息类型 `"info"、"success"、"error"、"warning"`  |
+| msg        | `string` |           | 消息内容 |
+| position     | `string` | `top-center（移动端为center）` | 提示显示位置，可用'top-right'、'top-center'、'top-left'、'bottom-center'、'bottom-left'、'bottom-right'、'center' |
+| closeButton  | `boolean` | `false` | 是否展示关闭按钮 |
+| showIcon     | `boolean` | `true` | 是否展示图标 |
+| timeout      | `number` | `5000（error类型为6000，移动端为3000）` | 持续时间 |
 
-#### 复制
+### 复制
 
 通过配置`actionType: 'copy'`和复制属性实现文本的复制操作。
 
@@ -899,7 +890,7 @@ order: 9
 | copyFormat | `string`                             | `text/html` | 复制格式                             |
 | content    | [模板](../../docs/concepts/template) | -           | 指定复制的内容。可用 `${xxx}` 取值。 |
 
-#### 发送邮件
+### 发送邮件
 
 通过配置`actionType: 'email'`和邮件属性实现发送邮件操作。
 
@@ -940,7 +931,7 @@ order: 9
 | subject    | `string` | -       | 邮件主题，可用 ${xxx} 取值。     |
 | body       | `string` | -       | 邮件正文，可用 ${xxx} 取值。     |
 
-#### 刷新
+### 刷新
 
 通过配置`actionType: 'reload'`实现对指定组件的刷新操作，限于`form`、`dialog`、`drawer`、`wizard`、`service`、`page`、`service`、`app`、`chart`、`crud`，以及选择类组件。
 
@@ -1015,7 +1006,7 @@ order: 9
 | actionType  | `string` | `reload` | 刷新组件              |
 | componentId | `string` | -        | 指定刷新的目标组件 id |
 
-#### 显示与隐藏
+### 显示与隐藏
 
 通过配置`actionType: 'show'`或`'hidden'`实现对指定组件的显示和隐藏。
 
@@ -1070,7 +1061,7 @@ order: 9
 | actionType  | `string` | `show` or `hidden` | 显示或隐藏组件              |
 | componentId | `string` | -                  | 指定显示或隐藏的目标组件 id |
 
-#### 控制状态
+### 控制状态
 
 通过配置`actionType: 'enabled'`或`actionType: 'disabled'`实现对指定组件的启用和禁用，限于数据输入类组件。
 
@@ -1167,11 +1158,13 @@ order: 9
 | actionType  | `string` | `enabled` or `disabled` | 启用或禁用组件              |
 | componentId | `string` | -                       | 指定启用或禁用的目标组件 id |
 
-#### 更新数据
+### 更新数据
 
 通过配置`actionType: 'setValue'`实现组件数据变量的更新，限于`form`、`dialog`、`drawer`、`wizard`、`service`、`page`、`app`、`chart`，以及数据输入类组件。
 
-**更新表单数据**
+#### 更新 表单 数据
+
+直接更新指定的表单组件的数据。
 
 ```schema
 {
@@ -1230,91 +1223,7 @@ order: 9
 }
 ```
 
-**更新输入类组件数据**
-
-```schema
-{
-  type: 'page',
-  id: 'mypage',
-  data: {
-    globalData: {
-      myrole: '法官',
-      mymsg: '该吃饭了!',
-      title: 'beijing time'
-    }
-  },
-  body: [
-    {
-      type: 'button',
-      label: '更新',
-      className: 'ml-2 m',
-      onEvent: {
-        click: {
-          actions: [
-            {
-              actionType: 'setValue',
-              componentId: 'input_data_msg',
-              value: '我是amis!'
-            }
-          ]
-        }
-      }
-    },
-    {
-      type: 'button',
-      label: '更新表单内输入框',
-      className: 'ml-2 m',
-      onEvent: {
-        click: {
-          actions: [
-            {
-              actionType: 'setValue',
-              componentId: 'input_data_role',
-              value: '预言家'
-            }
-          ]
-        }
-      }
-    },
-    {
-      type: "input-text",
-      label: "消息",
-      id: "input_data_msg",
-      mode: 'horizontal',
-      name: "mymsg"
-    },
-    {
-      type: 'form',
-      title: '表单',
-      debug: true,
-      data: {
-        myrole: '杀手',
-        age: '18'
-      },
-      "initApi": "/api/mock2/form/initData",
-      body: [
-        {
-          type: 'input-text',
-          id: "input_data_role",
-          label: '角色',
-          name: 'myrole',
-          disabled: false,
-          mode: 'horizontal'
-        },
-        {
-          type: 'input-text',
-          label: '年龄',
-          name: 'age',
-          disabled: false,
-          mode: 'horizontal'
-        }
-      ]
-    }
-  ]
-}
-```
-
-**更新 弹窗 数据**
+#### 更新 弹窗 数据
 
 这种场景一般用在弹窗内某个异步操作后，数据的回填。
 
@@ -1404,7 +1313,9 @@ order: 9
 }
 ```
 
-**更新 向导 数据**
+#### 更新 向导 数据
+
+直接更新指定的向导组件的数据。
 
 ```schema
 {
@@ -1468,6 +1379,317 @@ order: 9
 }
 ```
 
+#### 更新 输入类组件 数据
+
+直接更新指定输入框、下拉框等输入类组件的数据。
+
+```schema
+{
+  type: 'page',
+  id: 'mypage',
+  data: {
+    globalData: {
+      myrole: '法官',
+      mymsg: '该吃饭了!',
+      title: 'beijing time'
+    }
+  },
+  body: [
+    {
+      type: 'button',
+      label: '更新',
+      className: 'ml-2 m',
+      onEvent: {
+        click: {
+          actions: [
+            {
+              actionType: 'setValue',
+              componentId: 'input_data_msg',
+              value: '我是amis!'
+            }
+          ]
+        }
+      }
+    },
+    {
+      type: 'button',
+      label: '更新表单内输入框',
+      className: 'ml-2 m',
+      onEvent: {
+        click: {
+          actions: [
+            {
+              actionType: 'setValue',
+              componentId: 'input_data_role',
+              value: '预言家'
+            }
+          ]
+        }
+      }
+    },
+    {
+      type: "input-text",
+      label: "消息",
+      id: "input_data_msg",
+      mode: 'horizontal',
+      name: "mymsg"
+    },
+    {
+      type: 'form',
+      title: '表单',
+      debug: true,
+      data: {
+        myrole: '杀手',
+        age: '18'
+      },
+      "initApi": "/api/mock2/form/initData",
+      body: [
+        {
+          type: 'input-text',
+          id: "input_data_role",
+          label: '角色',
+          name: 'myrole',
+          disabled: false,
+          mode: 'horizontal'
+        },
+        {
+          type: 'input-text',
+          label: '年龄',
+          name: 'age',
+          disabled: false,
+          mode: 'horizontal'
+        }
+      ]
+    }
+  ]
+}
+```
+
+#### 联动更新
+
+当某组件的值发生变化时，联动去更新另一个组件的数据，可以通过`${事件参数}`来获取事件产生的数据，例如输入框`change`事件的参数是`value: string | string[]`d，则可以通过`${value}`来获取输入的值。
+
+```schema
+{
+  type: 'page',
+  body: [
+    {
+      type: 'input-text',
+      label: '输入角色',
+      className: 'ml-2 m',
+      onEvent: {
+        change: {
+          actions: [
+            {
+              actionType: 'setValue',
+              componentId: 'form_data_2',
+              value: {
+                myrole: '${value}'
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      type: 'input-text',
+      label: '输入年龄',
+      className: 'ml-2 m',
+      onEvent: {
+        change: {
+          actions: [
+            {
+              actionType: 'setValue',
+              componentId: 'form_data_2',
+              value: {
+                age: '${value}'
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      type: 'form',
+      id: 'form_data_2',
+      title: '表单',
+      debug: true,
+      "initApi": "/api/mock2/form/initData",
+      body: [
+        {
+          type: 'input-text',
+          label: '角色',
+          name: 'myrole',
+          disabled: false,
+          mode: 'horizontal'
+        },
+        {
+          type: 'input-text',
+          label: '年龄',
+          name: 'age',
+          disabled: false,
+          mode: 'horizontal'
+        }
+      ]
+    },
+    {
+      type: 'select',
+      label: '选择消息',
+      name: 'message',
+      "options": [
+        {
+          "label": "Hi",
+          "value": "Hi!"
+        },
+        {
+          "label": "Hello",
+          "value": "Hello!"
+        },
+        {
+          "label": "Hey",
+          "value": "Hey!"
+        }
+      ],
+      className: 'ml-2 m',
+      onEvent: {
+        change: {
+          actions: [
+            {
+              actionType: 'setValue',
+              componentId: 'input_data_msg2',
+              value: '${value}'
+            }
+          ]
+        }
+      }
+    },
+    {
+      type: "input-text",
+      label: "消息",
+      id: "input_data_msg2",
+      mode: 'horizontal',
+      name: "mymsg"
+    }
+  ]
+}
+```
+
+#### 数据回填
+
+远程请求后、表单提交后，将数据回填给另一个组件。
+
+```schema
+{
+  type: 'page',
+  data: {
+    globalData: {
+      website: "http://www.baidu.com",
+      email: "amis!@baidu.com"
+    }
+  },
+  body: [
+    {
+      type: 'form',
+      id: 'form_data_3',
+      title: '表单',
+      debug: true,
+      body: [
+        {
+          type: 'input-text',
+          label: '名称',
+          name: 'name',
+          disabled: false,
+          mode: 'horizontal'
+        },
+        {
+          type: 'input-text',
+          label: '作者',
+          name: 'author',
+          disabled: false,
+          mode: 'horizontal'
+        }
+      ],
+      actions: [
+        {
+          type: 'button',
+          label: '去获取表单数据',
+          primary: true,
+          wrapWithPanel: false,
+          onEvent: {
+            click: {
+              actions: [
+                {
+                  actionType: 'dialog',
+                  "dialog": {
+                    "title": "登录",
+                    "id": "dialog_data",
+                    "data": {
+                      username: 'amis'
+                    },
+                    "body": {
+                      "type": "form",
+                      "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm?waitSeconds=2",
+                      "body": [
+                        {
+                          "type": "input-text",
+                          "name": "username",
+                          "required": true,
+                          "placeholder": "请输入用户名",
+                          "label": "用户名"
+                        },
+                        {
+                          "type": "input-password",
+                          "name": "password",
+                          "label": "密码",
+                          "required": true,
+                          "placeholder": "请输入密码"
+                        },
+                        {
+                          "type": "checkbox",
+                          "name": "rememberMe",
+                          "label": "记住登录"
+                        }
+                      ]
+                    },
+                    "actions": [
+                      {
+                        type: 'button',
+                        label: '提交后回填表单',
+                        className: 'm',
+                        primary: true,
+                        onEvent: {
+                          click: {
+                            actions: [
+                              {
+                                actionType: 'ajax',
+                                api: 'https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/initData',
+                                outputVar: 'myResult'
+                              },
+                              {
+                                actionType: 'setValue',
+                                componentId: 'form_data_3',
+                                value: '${myResult}'
+                              },
+                              {
+                                actionType: 'closeDialog'
+                              }
+                            ]
+                          }
+                        }
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          }
+        }
+      ]
+    }
+  ]
+}
+```
+
 **动作属性**
 
 | 属性名      | 类型     | 默认值     | 说明                         |
@@ -1476,7 +1698,7 @@ order: 9
 | componentId | `string` | -          | 指定赋值的目标组件 id        |
 | value       | `any`    | -          | 值                           |
 
-#### 自定义 JS
+### 自定义 JS
 
 通过配置`actionType: 'custom'`实现自定义 JS。
 
@@ -1510,7 +1732,7 @@ order: 9
 | actionType | `string` | `custom` | 自定义 JS                                                                                                                                       |
 | script     | `string` |          | 自定义 JS 脚本代码，代码内可以通过调用`doAction`执行任何[动作](../../docs/concepts/event-action#动作) ，通过事件对象`event`可以实现事件动作干预 |
 
-### 触发其他组件的动作
+## 触发其他组件的动作
 
 通过配置`componentId`来触发指定组件的动作，组件动作参考具体组件文档。
 
@@ -1557,7 +1779,7 @@ order: 9
 }
 ```
 
-### 触发广播动作
+## 触发广播动作
 
 通过配置`actionType: 'broadcast'`和`eventName`实现触发一个广播，可以通过配置动作执行优先级`weight`来控制所有监听者的动作执行顺序。
 
@@ -1718,15 +1940,15 @@ order: 9
 | actionType | `string` | `broadcast` | 广播动作                                         |
 | eventName  | `string` |             | 广播动作对应的自定义事件名称，用于广播事件的监听 |
 
-### 自定义动作
+## 自定义动作
 
 补充中...
 
-## 编排动作
+# 编排动作
 
 通过配置`actionType: 'for'`或`actionType: 'break'`或`actionType: 'continue'`或`actionType: 'switch'`或`actionType: 'parallel'`实现动作的逻辑编排，支持嵌套。
 
-### 循环
+## 循环
 
 ```schema
 {
@@ -1784,7 +2006,7 @@ order: 9
 | loopName   | `string`                                             |        | 循环变量                              |
 | children   | Array<[动作](../../docs/concepts/event-action#动作)> | -      | 子动作，可以通过`break动作`来跳出循环 |
 
-### Break 动作
+## Break 动作
 
 ```schema
 {
@@ -1817,23 +2039,19 @@ order: 9
                 loopName: 'loopData',
                 children: [
                   {
-                    "actionType": "toast",
-                    "msgType": 'success',
-                    "msg": '第一个动作',
-                    options: {
-                      position: 'top-right'
-                    }
+                    actionType: "toast",
+                    msgType: 'success',
+                    msg: '第一个动作',
+                    position: 'top-right'
                   },
                   {
                     actionType: 'break'
                   },
                   {
-                    "actionType": "toast",
-                    "msgType": 'success',
-                    "msg": '第一个dd动作',
-                    options: {
-                      position: 'top-right'
-                    }
+                    actionType: "toast",
+                    msgType: 'success',
+                    msg: '第一个dd动作',
+                    position: 'top-right'
                   },
                   {
                     actionType: 'ajax',
@@ -1856,7 +2074,7 @@ order: 9
 | ---------- | -------- | ------- | ------------ |
 | actionType | `string` | `break` | 跳出循环动作 |
 
-### Continue 动作
+## Continue 动作
 
 ```schema
 {
@@ -1892,23 +2110,19 @@ order: 9
                 },
                 children: [
                   {
-                    "actionType": "toast",
-                    "msgType": 'success',
-                    "msg": '第一个动作',
-                    options: {
-                      position: 'top-right'
-                    }
+                    actionType: "toast",
+                    msgType: 'success',
+                    msg: '第一个动作',
+                    position: 'top-right'
                   },
                   {
                     actionType: 'continue'
                   },
                   {
-                    "actionType": "toast",
-                    "msgType": 'success',
-                    "msg": '最后的动作',
-                    options: {
-                      position: 'top-right'
-                    }
+                    actionType: "toast",
+                    msgType: 'success',
+                    msg: '最后的动作',
+                    position: 'top-right'
                   }
                 ]
               }
@@ -1927,7 +2141,7 @@ order: 9
 | ---------- | -------- | ---------- | -------- |
 | actionType | `string` | `continue` | 跳出当前 |
 
-### 排他（switch）
+## 排他（switch）
 
 ```schema
 {
@@ -1950,31 +2164,25 @@ order: 9
                 actionType: 'switch',
                 children: [
                   {
-                    "actionType": "toast",
-                    "msgType": 'info',
-                    "msg": '动作1',
-                    options: {
-                      position: 'top-right'
-                    },
+                    actionType: "toast",
+                    msgType: 'info',
+                    msg: '动作1',
+                    position: 'top-right',
                     expression: 'this.branchCont > 19',
                     stopPropagation: true // 这里无效，因为条件不成立
                   },
                   {
-                    "actionType": "toast",
-                    "msgType": 'info',
-                    "msg": '动作2',
-                    options: {
-                      position: 'top-right'
-                    },
+                    actionType: "toast",
+                    msgType: 'info',
+                    msg: '动作2',
+                    position: 'top-right',
                     expression: 'this.branchCont > 17'
                   },
                   {
-                    "actionType": "toast",
-                    "msgType": 'info',
-                    "msg": '动作3',
-                    options: {
-                      position: 'top-right'
-                    },
+                    actionType: "toast",
+                    msgType: 'info',
+                    msg: '动作3',
+                    position: 'top-right',
                     expression: 'this.branchCont > 16'
                   }
                 ]
@@ -1995,7 +2203,7 @@ order: 9
 | actionType | `string`                                             | `switch` | 只执行第一个符合条件的动作                             |
 | children   | Array<[动作](../../docs/concepts/event-action#动作)> | -        | 子动作，每个子动作可以通过配置`expression`来匹配的条件 |
 
-### 并行
+## 并行
 
 ```schema
 {
@@ -2015,16 +2223,14 @@ order: 9
                 actionType: 'parallel',
                 children: [
                   {
-                    "actionType": "alert",
-                    "msg": '动作1'
+                    actionType: "alert",
+                    msg: '动作1'
                   },
                   {
-                    "actionType": "toast",
-                    "msgType": 'success',
-                    "msg": '动作2',
-                    options: {
-                      position: 'top-right'
-                    }
+                    actionType: "toast",
+                    msgType: 'success',
+                    msg: '动作2',
+                    position: 'top-right'
                   }
                 ]
               }
@@ -2044,7 +2250,7 @@ order: 9
 | actionType | `string`                                             | `parallel` | 点击后显示一个弹出框                       |
 | children   | Array<[动作](../../docs/concepts/event-action#动作)> | -          | 指定弹框内容，格式可参考[Dialog](./dialog) |
 
-## 动作间数据传递
+# 动作间数据传递
 
 从事件触发开始，整个数据流包含事件本身产生的事件数据和动作产生的动作数据，事件源头产生的数据在 AMIS 事件动作机制底层已经自动加入渲染器数据域，可以通过`event.data.xxx`直接获取，而部分动作产生的数据如何流动需要交互设计者进行介入，对于数据流动可以通过数据映射，将上一个动作产生的数据作为动作参数写入下一个动作。
 
@@ -2171,7 +2377,7 @@ order: 9
 }
 ```
 
-## 事件动作干预
+# 事件动作干预
 
 事件动作干预是指执行完当前动作后，干预所监听事件默认处理逻辑和后续其他动作的执行。通过`preventDefault`、`stopPropagation`分别阻止监听事件默认行为和停止下一个动作执行。
 
@@ -2191,10 +2397,6 @@ order: 9
       "type": "button",
       "label": "阻止弹窗",
       "actionType": "dialog",
-      "dialog": {
-        "title": "系统提示",
-        "body": "对你点击了"
-      },
       "onEvent": {
         "click": {
           "actions": [
@@ -2255,11 +2457,11 @@ order: 9
 }
 ```
 
-## 典型场景
+# 典型场景
 
 补充中...
 
-## 通用属性表
+# 通用属性表
 
 | 属性名          | 类型                             | 默认值 | 说明             |
 | --------------- | -------------------------------- | ------ | ---------------- |
