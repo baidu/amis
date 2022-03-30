@@ -189,6 +189,7 @@
     padding-bottom: px2rem(4px);
     overflow: auto;
     user-select: none;
+    min-width: px2rem(140px);
     .#{$ns}Checkbox--sm > i {
       margin-top: px2rem(-3px);
       margin-right: px2rem(4px);
