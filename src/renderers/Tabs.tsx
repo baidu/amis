@@ -319,7 +319,7 @@ export default class Tabs extends React.Component<TabsProps, TabsState> {
     } else {
       const tab = this.resolveTabByKey(this.activeKey);
       if (tab && value !== ((tab as any).value ?? tab.title)) {
-        this.handleChange((tab as any).value ?? tab.title, name);
+        onChange((tab as any).value ?? tab.title, name);
       }
     }
   }
@@ -438,7 +438,7 @@ export default class Tabs extends React.Component<TabsProps, TabsState> {
     } else if (this.activeKey !== prevState.activeKey) {
       const tab = this.resolveTabByKey(this.activeKey);
       if (tab && value !== ((tab as any).value ?? tab.title)) {
-        this.handleChange((tab as any).value ?? tab.title, name);
+        onChange((tab as any).value ?? tab.title, name);
       }
     }
   }
@@ -566,8 +566,8 @@ export default class Tabs extends React.Component<TabsProps, TabsState> {
   }
 
   @autobind
-  handleSelect(key: any) {
-    const {env, onSelect, id} = this.props;
+  async handleSelect(key: any) {
+    const {dispatchEvent, data, env, onSelect, id} = this.props;
 
     env.tracker?.({
       eventType: 'tabChange',
@@ -576,6 +576,16 @@ export default class Tabs extends React.Component<TabsProps, TabsState> {
         key
       }
     });
+
+    const rendererEvent = await dispatchEvent(
+      'change',
+      createObject(data, {
+        value: key
+      })
+    );
+    if (rendererEvent?.prevented) {
+      return;
+    }
 
     // 是 hash，需要更新到地址栏
     if (typeof key === 'string' && env) {
@@ -595,22 +605,6 @@ export default class Tabs extends React.Component<TabsProps, TabsState> {
     } else if (typeof onSelect === 'function') {
       onSelect(key, this.props);
     }
-  }
-
-  @autobind
-  async handleChange(key: any, name: any) {
-    const {dispatchEvent, data, onChange} = this.props;
-    const rendererEvent = await dispatchEvent(
-      'change',
-      createObject(data, {
-        value: key
-      })
-    );
-    if (rendererEvent?.prevented) {
-      return;
-    }
-
-    onChange && onChange(key, name);
   }
 
   /**
