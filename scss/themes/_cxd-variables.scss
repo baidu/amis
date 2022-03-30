@@ -76,7 +76,7 @@ $L1: 0px 4px 6px 0px rgba(8, 14, 26, 0.06),
   0px 1px 10px 0px rgba(8, 14, 26, 0.05), 0px 2px 4px -1px rgba(8, 14, 26, 0.04);
 
 :root {
-  --borderColor: #e0e7ec;
+  --borderColor: #{$G6};
   --borderRadius: #{$R3};
   --body-bg: #ffffff;
   --text-color: #151a26;
@@ -155,7 +155,6 @@ $L1: 0px 4px 6px 0px rgba(8, 14, 26, 0.06),
 
   --Form-select-borderWidth: #{px2rem(1px)};
   --Form-select-borderRadius: #{$R3};
-  --Form-select-borderColor: #{$G8};
   --Form-select-bg: var(--white);
   --Form-select-onHover-bg: var(--white);
   --Form-select-onHover-borderColor: var(--primary);
@@ -298,7 +297,6 @@ $L1: 0px 4px 6px 0px rgba(8, 14, 26, 0.06),
   --Button--lg-paddingX: #{px2rem(16px)};
 
   --Button--default-bg: #{$G11};
-  --Button--default-border: #{$G8};
   --Button--default-color: #{$G2};
   --Button--default-onHover-bg: #{$G11};
   --Button--default-onHover-border: var(--primary);
@@ -395,7 +393,6 @@ $L1: 0px 4px 6px 0px rgba(8, 14, 26, 0.06),
 
   // listControl
   --ListControl-item-borderWidth: #{px2rem(1px)};
-  --ListControl-item-borderColor: #ccc;
   --ListControl-item-borderRadius: #{$R3};
   --ListControl-item-paddingX: #{px2rem(10px)};
   --ListControl-item-bg: var(--Button--default-bg);
