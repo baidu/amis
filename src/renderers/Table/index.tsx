@@ -420,6 +420,7 @@ export default class Table extends React.Component<TableProps, object> {
     'itemBadge',
     'autoFillHeight',
     'onSelect',
+    'keepItemSelectionOnPageChange',
     'maxKeepItemSelectionLength'
   ];
   static defaultProps: Partial<TableProps> = {
