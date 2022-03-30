@@ -1483,7 +1483,11 @@ export default class Table extends React.Component<TableProps, object> {
               name: column.name,
               label: column.label
             }
-          : column.searchable),
+          : {
+              type: 'input-text',
+              name: column.name,
+              ...column.searchable
+            }),
         name: column.searchable?.name ?? column.name,
         label: column.searchable?.label ?? column.label,
         mode: 'horizontal'
