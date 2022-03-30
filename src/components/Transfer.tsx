@@ -134,10 +134,25 @@ export class Transfer<
       ? valueArray.map(item => option2value(item))
       : valueArray;
 
-    // > 0 全选
-    newValue.length > 0 && onSelectAll && onSelectAll(newValue);
+    // > 0 全选。TODO：由于未来可能有逻辑：禁用清空不了，这里判断全选，得完善下
+    newValue.length > 0 && onSelectAll?.(newValue);
 
-    onChange && onChange(newValue);
+    onChange?.(newValue);
+  }
+
+  // 全选，给予动作全选使用
+  selectAll() {
+    const {options, option2value, onChange} = this.props;;
+    const availableOptions = flattenTree(options).filter(
+      (option, index, list) =>
+        !option.disabled &&
+        option.value !== void 0 &&
+        list.indexOf(option) === index
+    );
+    let newValue: string | Options = option2value
+      ? availableOptions.map(item => option2value(item))
+      : availableOptions;
+    onChange?.(newValue);
   }
 
   @autobind

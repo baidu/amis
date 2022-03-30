@@ -29,7 +29,7 @@ export interface PickerContainerProps extends ThemeProps, LocaleProps {
   popOverContainer?: any;
   popOverClassName?: string;
   size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl' | 'full';
-  onOpen?: () => void;
+  onFocus?: () => void;
   onClose?: () => void;
 }
 
@@ -63,7 +63,7 @@ export class PickerContainer extends React.Component<
       {
         isOpened: true
       }, 
-      (() => this.props.onOpen?.())
+      (() => this.props.onFocus?.())
     );
   }
 
@@ -74,12 +74,12 @@ export class PickerContainer extends React.Component<
         isOpened: false
       },
       () => {
-        this.props?.onClose?.();
+        this.props.onClose?.();
         if (callback) {
           callback();
           return
         }
-        this.props?.onCancel?.();
+        this.props.onCancel?.();
       })
   }
 

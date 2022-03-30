@@ -633,3 +633,17 @@ leftOptions 动态加载，默认 source 接口是返回 options 部分，而 le
 | rightMode        | `string`                                              |              | 当展示形式为 `associated` 时用来配置右边的选择形式，可选：`list`、`table`、`tree`、`chained`。                                                                                                              |
 | menuTpl          | `string` \| [SchemaNode](../../docs/types/schemanode) |              | 用来自定义选项展示                                                                                                                                                                                          |
 | valueTpl         | `string` \| [SchemaNode](../../docs/types/schemanode) |              | 用来自定义值的展示                                                                                                                                                                                          |
+
+## 事件表
+
+| 事件名称           | 事件参数                                        | 说明                  |
+|-------------------|------------------------------------------------|----------------------|
+| change            |  `value: string` 时间值            |  值变化                           |
+
+## 动作表
+
+| 动作名称           | 动作配置                 | 说明                    |
+|-------------------|-------------------------|------------------------|
+| clear             | -                       | 清空                    |
+| reset             | -            | 值重置                   |
+| selectAll             | -            | 全选                   |

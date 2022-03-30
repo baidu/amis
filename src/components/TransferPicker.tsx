@@ -17,9 +17,9 @@ export interface TransferPickerProps extends Omit<TransferProps, 'itemRender'> {
    */
   borderMode?: 'full' | 'half' | 'none';
 
-  onFocus?: Function;
+  onFocus?: () => void;
 
-  onBlur?: Function;
+  onBlur?: () => void;
 }
 
 export class TransferPicker extends React.Component<TransferPickerProps> {
@@ -32,12 +32,12 @@ export class TransferPicker extends React.Component<TransferPickerProps> {
 
   @autobind
   onFoucs() {
-    this.props?.onFocus?.();
+    this.props.onFocus?.();
   }
 
   @autobind
   onBlur() {
-    this.props?.onBlur?.();
+    this.props.onBlur?.();
   }
 
   render() {
@@ -56,7 +56,7 @@ export class TransferPicker extends React.Component<TransferPickerProps> {
     return (
       <PickerContainer
         title={__('Select.placeholder')}
-        onOpen={this.onFoucs}
+        onFocus={this.onFoucs}
         onClose={this.onBlur}
         bodyRender={({onClose, value, onChange, setState, ...states}) => {
           return (

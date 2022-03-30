@@ -92,7 +92,7 @@ export class TabsTransferPickerRenderer extends BaseTabsTransferRenderer<TabsTra
       resultTitle,
       pickerSize,
       leftMode,
-      leftOptions,
+      leftOptions
     } = this.props;
 
     return (

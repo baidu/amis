@@ -53,7 +53,7 @@ export class BaseTabsTransferRenderer<
   @autobind
   async onTabChange(key: number) {
     const {dispatchEvent} = this.props;
-    const rendererEvent = await dispatchEvent('tab-change', {value: key});
+    const rendererEvent = await dispatchEvent('tab-change', {key});
     if (rendererEvent?.prevented) {
       return;
     }

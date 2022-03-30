@@ -341,7 +341,7 @@ export class BaseTransferRenderer<
         onChange(resetValue);
         break;
       case 'selectAll':
-        this.tranferRef?.toggleAll();
+        this.tranferRef?.selectAll();
         break;
     }
   }
