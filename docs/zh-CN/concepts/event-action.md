@@ -26,7 +26,7 @@ order: 9
   - 针对监听到的事件，循环执行一些动作作为响应，还可以控制循环跳出或跳过
   - 针对监听到的事件，根据条件选择性的执行动作响应
   - 针对监听到的事件，并行执行多个动作作为响应
-  - 执行完当然动作后，可以选择是否继续执行后续动作，是否关闭事件默认行为的执行
+  - 执行完当前动作后，可以选择是否继续执行后续动作，是否关闭事件默认行为的执行
 
 ## 基本使用
 
@@ -933,7 +933,7 @@ order: 9
 
 ### 刷新
 
-通过配置`actionType: 'reload'`实现对指定组件的刷新操作，限于`form`、`dialog`、`drawer`、`wizard`、`service`、`page`、`service`、`app`、`chart`、`crud`，以及选择类组件。
+通过配置`actionType: 'reload'`实现对指定组件的刷新操作，限于`form`、`dialog`、`drawer`、`wizard`、`service`、`page`、`app`、`chart`、`crud`，以及选择类组件。
 
 ```schema
 {
