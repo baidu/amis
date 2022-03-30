@@ -129,7 +129,8 @@ export default class TreeSelectControl extends React.Component<
     resetValue: '',
     hideNodePathLabel: false,
     enableNodePath: false,
-    pathSeparator: '/'
+    pathSeparator: '/',
+    selfDisabledAffectChildren: true
   };
 
   treeRef: any;
