@@ -940,6 +940,12 @@ export const TableStore = iRendererStore
       // self.expandedRows.clear();
 
       let arr: Array<SRow> = rows.map((item, index) => {
+        if (!isObject(item)) {
+          item = {
+            item
+          };
+        }
+
         let id = String(
           getEntryId ? getEntryId(item, index) : item.__id ?? guid()
         );
