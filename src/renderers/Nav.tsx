@@ -449,7 +449,7 @@ export class Navigation extends React.Component<
 
     return (
       <li
-        key={link.__id}
+        key={link.__id ?? index}
         data-id={link.__id}
         className={cx('Nav-item', link.className, {
           'is-disabled': disabled || link.disabled || link.loading,
