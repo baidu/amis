@@ -534,7 +534,8 @@ export default class TreeSelectControl extends React.Component<
       rootCreateTip,
       translate: __,
       deferLoad,
-      expandTreeOptions
+      expandTreeOptions,
+      selfDisabledAffectChildren
     } = this.props;
 
     let filtedOptions =
@@ -589,6 +590,7 @@ export default class TreeSelectControl extends React.Component<
         bultinCUD={!addControls && !editControls}
         onDeferLoad={deferLoad}
         onExpandTree={expandTreeOptions}
+        selfDisabledAffectChildren={selfDisabledAffectChildren}
       />
     );
   }
