@@ -1755,7 +1755,6 @@ exports[`Renderer:Wizard initApi show loading 1`] = `
     <div
       className="cxd-Spinner-icon cxd-Spinner-icon--lg cxd-Spinner-icon--default"
     />
-    
   </div>
 </div>
 `;

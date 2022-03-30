@@ -1,6 +1,6 @@
 import './polyfills/index';
 import React from 'react';
-import {render as renderReact, unmountComponentAtNode} from 'react-dom';
+import {createRoot} from 'react-dom/client';
 import axios from 'axios';
 import {match} from 'path-to-regexp';
 import copy from 'copy-to-clipboard';
@@ -272,15 +272,16 @@ export function embed(
     );
   }
 
-  renderReact(createElements(props), container);
+  const root = createRoot(container);
+  root.render(createElements(props));
 
   return {
     ...scoped,
     updateProps: (props: any, callback?: () => void) => {
-      renderReact(createElements(props), container as HTMLElement, callback);
+      root.render(createElements(props));
     },
     unmount: () => {
-      unmountComponentAtNode(container as HTMLElement);
+      root.unmount();
     }
   };
 }

@@ -112,7 +112,6 @@ exports[`Form:initData:remote 1`] = `
           <div
             class="cxd-Spinner-icon cxd-Spinner-icon--default"
           />
-          
         </div>
         <div
           class="cxd-Form-item cxd-Form-item--normal"
