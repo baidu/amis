@@ -281,7 +281,7 @@ export default {
         }
       ]
     },
-    // picker
+    // transferpicker
     {
       type: "tpl",
       tpl: "transferpicker",
@@ -332,7 +332,7 @@ export default {
         },
         {
           "label": "组合穿梭器",
-          "type": "tabs-transfer",
+          "type": "transfer-picker",
           "name": "transferEvent10",
           "debug": true,
           "id": "transfer-picker-receiver",
@@ -377,6 +377,186 @@ export default {
                 {
                   "label": "云中君",
                   "value": "yunzhongjun"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    // tabsTransferPicker
+    {
+      type: "tpl",
+      tpl: "tabsTransferPicker",
+      inline: false,
+      wrapperComponent: "h2"
+    },
+    {
+      type: "form",
+      debug: true,
+      body: [
+        {
+          name: "transferEvent11",
+          id: "transferEvent11",
+          type: "action",
+          label: "清空功能",
+          level: "primary",
+          className: "mr-3 mb-3",
+          debugger: true,
+          onEvent: {
+            click: {
+              actions: [
+                {
+                  actionType: "clear",
+                  componentId: "tabs-transfer-picker-receiver"
+                }
+              ]
+            }
+          }
+        },
+        {
+          name: "transferEvent12",
+          id: "transferEvent12",
+          type: "action",
+          label: "重置功能",
+          level: "primary",
+          className: "mr-3 mb-3",
+          debugger: true,
+          onEvent: {
+            click: {
+              actions: [
+                {
+                  actionType: "reset",
+                  componentId: "tabs-transfer-picker-receiver"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "label": "组合穿梭器",
+          "type": "tabs-transfer-picker",
+          "name": "transferEvent13",
+          "debug": true,
+          "id": "tabs-transfer-picker-receiver",
+          "resetValue": "zhugeliang",
+          "sortable": true,
+          "selectMode": "tree",
+          "pickerSize": "md",
+          "menuTpl": "<div class='flex justify-between'><span>${label}</span>${email ? `<div class='text-muted m-r-xs text-sm text-right'>${email}<br />${phone}</div>`: ''}</div>",
+          "valueTpl": "${label}(${value})",
+          "options": [
+            {
+              "label": "成员",
+              "selectMode": "tree",
+              "searchable": true,
+              "children": [
+                {
+                  "label": "法师",
+                  "children": [
+                    {
+                      "label": "诸葛亮",
+                      "value": "zhugeliang",
+                      "email": "zhugeliang@timi.com",
+                      "phone": 13111111111
+                    }
+                  ]
+                },
+                {
+                  "label": "战士",
+                  "children": [
+                    {
+                      "label": "曹操",
+                      "value": "caocao",
+                      "email": "caocao@timi.com",
+                      "phone": 13111111111
+                    },
+                    {
+                      "label": "钟无艳",
+                      "value": "zhongwuyan",
+                      "email": "zhongwuyan@timi.com",
+                      "phone": 13111111111
+                    }
+                  ]
+                },
+                {
+                  "label": "打野",
+                  "children": [
+                    {
+                      "label": "李白",
+                      "value": "libai",
+                      "email": "libai@timi.com",
+                      "phone": 13111111111
+                    },
+                    {
+                      "label": "韩信",
+                      "value": "hanxin",
+                      "email": "hanxin@timi.com",
+                      "phone": 13111111111
+                    },
+                    {
+                      "label": "云中君",
+                      "value": "yunzhongjun",
+                      "email": "yunzhongjun@timi.com",
+                      "phone": 13111111111
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "label": "角色",
+              "selectMode": "list",
+              "children": [
+                {
+                  "label": "角色 1",
+                  "value": "role1"
+                },
+                {
+                  "label": "角色 2",
+                  "value": "role2"
+                },
+                {
+                  "label": "角色 3",
+                  "value": "role3"
+                },
+                {
+                  "label": "角色 4",
+                  "value": "role4"
+                }
+              ]
+            },
+            {
+              "label": "部门",
+              "selectMode": "tree",
+              "children": [
+                {
+                  "label": "总部",
+                  "value": "dep0",
+                  "children": [
+                    {
+                      "label": "部门 1",
+                      "value": "dep1",
+                      "children": [
+                        {
+                          "label": "部门 4",
+                          "value": "dep4"
+                        },
+                        {
+                          "label": "部门 5",
+                          "value": "dep5"
+                        }
+                      ]
+                    },
+                    {
+                      "label": "部门 2",
+                      "value": "dep2"
+                    },
+                    {
+                      "label": "部门 3",
+                      "value": "dep3"
+                    }
+                  ]
                 }
               ]
             }
