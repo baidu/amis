@@ -24,11 +24,6 @@
   /* margin: 0 auto; */
 }
 
-.anchor {
-  padding-top: 70px;
-  margin-top: -70px;
-}
-
 .markdown-body a:not(.btn) {
   background-color: transparent;
   -webkit-text-decoration-skip: objects;
@@ -278,13 +273,13 @@
   text-decoration: none;
 }
 
-.markdown-body .anchor {
+.markdown-body a.anchor {
   display: inline-block;
   padding-right: 2px;
   margin-left: -18px;
 }
 
-.markdown-body .anchor:focus {
+.markdown-body a.anchor:focus {
   outline: none;
 }
 

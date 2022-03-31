@@ -458,7 +458,13 @@ export default class Drawer extends React.Component<DrawerProps> {
       return null;
     }
 
-    const {store, render, classnames: cx, showErrorMsg, footerClassName} = this.props;
+    const {
+      store,
+      render,
+      classnames: cx,
+      showErrorMsg,
+      footerClassName
+    } = this.props;
 
     return (
       <div className={cx('Drawer-footer', footerClassName)}>
@@ -623,7 +629,9 @@ export default class Drawer extends React.Component<DrawerProps> {
         onExited={this.handleExited}
         closeOnEsc={closeOnEsc}
         closeOnOutside={
-          !store.drawerOpen && !store.dialogOpen && (closeOnOutside || !showCloseButton)
+          !store.drawerOpen &&
+          !store.dialogOpen &&
+          (closeOnOutside || !showCloseButton)
         }
         container={
           drawerContainer
@@ -954,5 +962,9 @@ export class DrawerRenderer extends Drawer {
   closeTarget(target: string) {
     const scoped = this.context as IScopedContext;
     scoped.close(target);
+  }
+
+  setData(values: object) {
+    return this.props.store.updateData(values);
   }
 }

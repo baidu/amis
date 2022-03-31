@@ -43,7 +43,7 @@ $link-color: $info;
 
   --lineHeightBase: 1.57;
 
-  --borderColor: #eceff8;
+  --borderColor: #d9d9d9;
   --text-color: #{$text-color};
 
   --text--muted-color: #999;
@@ -168,4 +168,17 @@ $link-color: $info;
   --Table-onChecked-borderColor: var(--Table-borderColor);
 
   --Switch-bgColor: #bfbfbf;
+
+  // ContextMenu
+  --menu-background: #fff;
+  --menu-box-shadow: 0 2px 8px 0 rgba(7, 12, 20, 0.12);
+  --menu-border-radius: 4px;
+  --menu-font-color: #151b26;
+  --menu-font-family: PingFangSC-Regular;
+  --menu-border-color: #e8e9eb; // 默认的边框色
+  --menu-active-color: #2468f2;
+  --menu-hover-bg-color: #e6f0ff;
+  --menu-disabled-color: #b8babf; // 禁用文字颜色
+  --default-icon-color: #84868c; // 默认的icon颜色
+  --default-padding: 4px 12px; // 6px 12px
 }

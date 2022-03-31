@@ -96,6 +96,50 @@ order: 47
 }
 ```
 
+## 关于 tinymce 粘贴 word 的问题
+
+因为 amis 中使用的是开源版本 tinymce，没有商业版本功能，导致比如从 Word 中粘贴表格会看不到边框，解决方法是自己
+
+```json
+{
+    "type": "input-rich-text",
+    "name": "rich",
+    "options": {
+        "content_css": "/xxx.css"
+    }
+}
+```
+
+比如下面的示例
+
+```css
+.mce-item-table th {
+	font-weight: bold;
+}
+.mce-item-table th, .mce-item-table td {
+    padding: 6px 13px;
+	border: 1px solid #ddd;
+}
+.mce-item-table tr {
+	border-top: 1px solid #ccc;
+}
+```
+
+但最终页面渲染的时候，这个 class 没有了，得改成 table
+
+```css
+table th {
+	font-weight: bold;
+}
+table th, table td {
+    padding: 6px 13px;
+	border: 1px solid #ddd;
+}
+table tr {
+	border-top: 1px solid #ccc;
+}
+```
+
 ## 使用 froala 编辑器
 
 只需要加一行 `"vendor": "froala"` 配置就行，froala 是付费产品，需要设置 [richTextToken](../../start/getting-started#richtexttoken-string) 才能去掉水印。

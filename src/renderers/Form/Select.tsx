@@ -228,7 +228,7 @@ export default class SelectControl extends React.Component<SelectProps, any> {
       'change',
       createObject(data, {
         value: newValue,
-        options,
+        options
       })
     );
     if (rendererEvent?.prevented) {
@@ -409,8 +409,10 @@ export default class SelectControl extends React.Component<SelectProps, any> {
             onBlur={(e: any) => this.dispatchEvent('blur', e)}
             onFocus={(e: any) => this.dispatchEvent('focus', e)}
             onAdd={() => this.dispatchEvent('add')}
-            onEdit={(item: any) => this.dispatchEvent('edit', item)}
-            onDelete={(item: any) => this.dispatchEvent('delete', item)}
+            onEdit={(item: any) => this.dispatchEvent('edit', {value: item})}
+            onDelete={(item: any) =>
+              this.dispatchEvent('delete', {value: item})
+            }
             loading={loading}
             noResultsText={noResultsText}
             renderMenu={menuTpl ? this.renderMenu : undefined}

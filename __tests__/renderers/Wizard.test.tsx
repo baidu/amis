@@ -601,7 +601,7 @@ test('Renderer:Wizard actionPrevLabel actionNextLabel actionFinishLabel classNam
   expect(fetcher).toHaveBeenCalled();
 
   fireEvent.click(getByText(/PrevStep/));
-  await wait(100);
+  await wait(300);
   expect(container).toMatchSnapshot();
 });
 
@@ -717,6 +717,7 @@ test('Renderer:Wizard send data', async () => {
       website: 'http://amis.baidu.com'
     }
   });
+  await wait(1000);
   expect(container).toMatchSnapshot();
 });
 
@@ -1378,7 +1379,7 @@ test('Renderer:Wizard dialog', async () => {
   );
 
   fireEvent.click(getByText(/OpenDialog/));
-  await wait(100);
+  await wait(300);
   expect(container).toMatchSnapshot();
 
   fireEvent.click(getByText(/取消/));

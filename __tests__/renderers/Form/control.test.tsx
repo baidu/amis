@@ -55,11 +55,11 @@ test('Control:onChange', async () => {
       value: '123'
     }
   });
-  await wait(100);
+  await wait(300);
   expect(onChange).toBeCalledTimes(1);
 
   fireEvent.click(getByText('Submit'));
-  await wait(300);
+  await wait(500);
   expect(onSubmit).toBeCalled();
   expect(onSubmit.mock.calls[0][0]).toMatchObject({
     a: '123',
@@ -125,11 +125,11 @@ test('Control:formItem:reload', async () => {
     )
   );
 
-  await wait(100);
+  await wait(300);
   expect(fetcher).toHaveBeenCalled();
 
   fireEvent.click(getByText('Reload'));
-  await wait(300);
+  await wait(500);
 
   expect(fetcher).toBeCalledTimes(2);
 });
@@ -179,10 +179,10 @@ test('options:clearValueOnHidden ', async () => {
   );
 
   fireEvent.click(getByText('选项1'));
-  await wait(300);
+  await wait(500);
 
   fireEvent.click(getByText('Submit'));
-  await wait(300);
+  await wait(500);
   expect(onSubmit).toBeCalledTimes(1);
   expect(onSubmit.mock.calls[0][0]).toMatchObject({
     a: 1,
@@ -190,10 +190,10 @@ test('options:clearValueOnHidden ', async () => {
   });
 
   fireEvent.click(getByText('选项2'));
-  await wait(300);
+  await wait(500);
 
   fireEvent.click(getByText('Submit'));
-  await wait(300);
+  await wait(500);
   expect(onSubmit).toBeCalledTimes(2);
   expect(onSubmit.mock.calls[1][0]).toMatchObject({
     a: 2

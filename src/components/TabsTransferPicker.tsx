@@ -12,6 +12,8 @@ export interface TabsTransferPickerProps
   extends Omit<TabsTransferProps, 'itemRender'> {
   // 新的属性？
   size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl' | 'full';
+  onFocus?: () => void;
+  onBlur?: () => void;
 }
 
 export class TransferPicker extends React.Component<TabsTransferPickerProps> {
@@ -21,6 +23,16 @@ export class TransferPicker extends React.Component<TabsTransferPickerProps> {
   handleConfirm(value: any) {
     this.props.onChange?.(value, this.optionModified);
     this.optionModified = false;
+  }
+
+  @autobind
+  onFoucs() {
+    this.props.onFocus?.();
+  }
+
+  @autobind
+  onBlur() {
+    this.props.onBlur?.();
   }
 
   render() {
@@ -38,6 +50,8 @@ export class TransferPicker extends React.Component<TabsTransferPickerProps> {
     return (
       <PickerContainer
         title={__('Select.placeholder')}
+        onFocus={this.onFoucs}
+        onClose={this.onBlur}
         bodyRender={({onClose, value, onChange, setState, ...states}) => {
           return (
             <TabsTransfer

@@ -71,10 +71,10 @@ exports[`Renderer:tabs-transfer 1`] = `
                         class="cxd-Transfer-select"
                       >
                         <div
-                          class="cxd-Tabs cxd-Tabs--card cxd-TabsTransfer-tabs"
+                          class="cxd-Tabs cxd-Tabs--line cxd-TabsTransfer-tabs"
                         >
                           <div
-                            class="cxd-Tabs-linksContainer-wrapper cxd-Tabs-linksContainer-wrapper--toolbar"
+                            class="cxd-Tabs-linksContainer-wrapper"
                             style="position: relative;"
                           >
                             <div
@@ -101,26 +101,6 @@ exports[`Renderer:tabs-transfer 1`] = `
                                       用户
                                     </a>
                                   </li>
-                                  <span
-                                    class="cxd-TabsTransfer-tabsMid"
-                                  />
-                                  <div
-                                    class="cxd-SearchBox"
-                                  >
-                                    <input
-                                      autocomplete="off"
-                                      placeholder="请输入"
-                                      value=""
-                                    />
-                                    <a
-                                      class="cxd-SearchBox-activeBtn"
-                                    >
-                                      <icon-mock
-                                        classname="icon icon-search"
-                                        icon="search"
-                                      />
-                                    </a>
-                                  </div>
                                 </ul>
                               </div>
                             </div>
@@ -170,6 +150,25 @@ exports[`Renderer:tabs-transfer 1`] = `
                             <div
                               class="in is-active cxd-Tabs-pane cxd-TabsTransfer-tab"
                             >
+                              <div
+                                class="cxd-TabsTransfer-search"
+                              >
+                                <div
+                                  class="cxd-InputBox"
+                                >
+                                  <input
+                                    placeholder="请输入关键字"
+                                    size="12"
+                                    theme="cxd"
+                                    type="text"
+                                    value=""
+                                  />
+                                  <icon-mock
+                                    classname="icon icon-search"
+                                    icon="search"
+                                  />
+                                </div>
+                              </div>
                               <div
                                 class="cxd-TreeSelection cxd-Transfer-checkboxes"
                               >

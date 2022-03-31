@@ -417,4 +417,8 @@ export class AppRenderer extends App {
     scoped.unRegisterComponent(this);
     super.componentWillUnmount();
   }
+
+  setData(values: object) {
+    return this.props.store.updateData(values);
+  }
 }

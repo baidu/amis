@@ -489,4 +489,8 @@ export class ChartRenderer extends Chart {
     const scoped = this.context as IScopedContext;
     scoped.unRegisterComponent(this);
   }
+
+  setData(values: object) {
+    return this.props.store.updateData(values);
+  }
 }

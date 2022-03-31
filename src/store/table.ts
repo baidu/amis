@@ -152,7 +152,7 @@ export const Row = types
     },
 
     get expanded(): boolean {
-      return !this.collapsed && self.children.length > 0;
+      return !this.collapsed;
     },
 
     get moved() {
@@ -899,12 +899,12 @@ export const TableStore = iRendererStore
           : {
               item
             };
-        const id = item.id ?? guid();
+        const id = item.__id ?? guid();
 
         return {
           // id: String(item && (item as any)[self.primaryField] || `${pindex}-${depth}-${key}`),
           id: String(id),
-          parentId,
+          parentId: String(parentId),
           key: String(`${pindex}-${depth}-${index}`),
           path: `${path}${index}`,
           depth: depth,
@@ -940,8 +940,14 @@ export const TableStore = iRendererStore
       // self.expandedRows.clear();
 
       let arr: Array<SRow> = rows.map((item, index) => {
+        if (!isObject(item)) {
+          item = {
+            item
+          };
+        }
+
         let id = String(
-          getEntryId ? getEntryId(item, index) : item.id ?? guid()
+          getEntryId ? getEntryId(item, index) : item.__id ?? guid()
         );
         return {
           // id: getEntryId ? getEntryId(item, key) : String(item && (item as any)[self.primaryField] || `${key}-1-${key}`),

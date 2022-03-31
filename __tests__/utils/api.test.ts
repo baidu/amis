@@ -53,6 +53,68 @@ test('api:buildApi', () => {
     method: 'get',
     url: '/api/xxx?a=' + encodeURIComponent('&')
   });
+
+  expect(
+    buildApi('/api/xxx?a=${a}', {
+      a: [1, 2, 3]
+    })
+  ).toMatchObject({
+    method: 'get',
+    url: '/api/xxx?a[0]=1&a[1]=2&a[2]=3'
+  });
+
+  expect(
+    buildApi('/api/xxx/${x === "a" ? "A" : "B"}?a=${a}', {
+      x: 'a',
+      a: [1, 2, 3]
+    })
+  ).toMatchObject({
+    method: 'get',
+    url: '/api/xxx/A?a[0]=1&a[1]=2&a[2]=3'
+  });
+
+  expect(
+    buildApi('/api/xxx/${x === "a" ? "A" : "B"}?a=${a}', {
+      x: 'b',
+      a: [1, 2, 3]
+    })
+  ).toMatchObject({
+    method: 'get',
+    url: '/api/xxx/B?a[0]=1&a[1]=2&a[2]=3'
+  });
+
+  expect(
+    buildApi('/api/xxx/${x === "a" ? "A" : "B"}?a=${a}#a=1&b=2', {
+      x: 'b',
+      a: [1, 2, 3]
+    })
+  ).toMatchObject({
+    method: 'get',
+    url: '/api/xxx/B?a[0]=1&a[1]=2&a[2]=3#a=1&b=2'
+  });
+
+  expect(
+    buildApi(
+      '/api/xxx/${x === "a" ? "A" : "B"}?a=${a}&b=${x == "a" ? "A" : "B"}',
+      {
+        x: 'b',
+        a: [1, 2, 3]
+      }
+    )
+  ).toMatchObject({
+    method: 'get',
+    url: '/api/xxx/B?a[0]=1&a[1]=2&a[2]=3&b=B'
+  });
+
+  expect(
+    buildApi('/api/xxx/${x === "a" ? "A" : "B"}', {
+      x: 'b',
+      a: [1, 2, 3]
+    })
+  ).toMatchObject({
+    method: 'get',
+    url: '/api/xxx/B'
+  });
 });
 
 test('api:buildApi2', () => {
@@ -251,12 +313,12 @@ test('api:cache', async () => {
     )
   );
 
-  await wait(100);
+  await wait(300);
   expect(container).toMatchSnapshot();
 
   fireEvent.click(getByText(/Reload/));
 
-  await wait(100);
+  await wait(300);
   expect(fetcher).toHaveBeenCalledTimes(1); // 只请求一次，第二次请求从缓存中取
   expect(container).toMatchSnapshot();
 });

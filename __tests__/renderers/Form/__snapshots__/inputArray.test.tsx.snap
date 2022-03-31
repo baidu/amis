@@ -147,8 +147,7 @@ exports[`Renderer:inputArray 1`] = `
                           class="cxd-Combo-toolbar"
                         >
                           <button
-                            class="cxd-Button cxd-Combo-addBtn"
-                            data-tooltip="新增"
+                            class="cxd-Button cxd-Button--default cxd-Combo-addBtn"
                             type="button"
                           >
                             <icon-mock

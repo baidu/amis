@@ -7,11 +7,6 @@ export default {
       type: 'button',
       id: 'b_001',
       label: '发送Ajax请求',
-      actionType: 'reload',
-      dialog: {
-        title: '系统提示',
-        body: '对你点击了'
-      },
       onEvent: {
         click: {
           actions: [
@@ -28,57 +23,10 @@ export default {
       }
     },
     {
-      type: 'form',
-      body: [
-        {
-          type: 'group',
-          body: [
-            {
-              type: 'button',
-              id: 'b_002',
-              className: 'ml-2',
-              label: '打开一个弹窗（模态）',
-              actionType: 'reload',
-              dialog: {
-                title: '系统提示',
-                body: '对你点击了'
-              },
-              onEvent: {
-                click: {
-                  actions: [
-                    {
-                      actionType: 'dialog',
-                      dialog: {
-                        type: 'dialog',
-                        id: 'dialog_1',
-                        title: '一个模态弹窗',
-                        body: [
-                          {
-                            type: 'tpl',
-                            tpl: '<p>对，你打开了一个模态弹窗</p>',
-                            inline: false
-                          }
-                        ]
-                      }
-                    }
-                  ]
-                }
-              }
-            }
-          ]
-        }
-      ]
-    },
-    {
       type: 'button',
       id: 'b_002',
       className: 'ml-2',
       label: '打开一个弹窗（模态）',
-      actionType: 'reload',
-      dialog: {
-        title: '系统提示',
-        body: '对你点击了'
-      },
       onEvent: {
         click: {
           actions: [
@@ -403,6 +351,152 @@ export default {
           ]
         }
       }
+    },
+    {
+      type: 'button',
+      id: 'b_018',
+      label: '刷新(一个表单)',
+      className: 'ml-2',
+      onEvent: {
+        click: {
+          actions: [
+            {
+              actionType: 'reload',
+              componentId: 'form-reload'
+            }
+          ]
+        }
+      }
+    },
+    {
+      type: 'button',
+      id: 'b_019',
+      label: '刷新(一个下拉框)',
+      className: 'ml-2',
+      onEvent: {
+        click: {
+          actions: [
+            {
+              actionType: 'reload',
+              componentId: 'select-reload'
+            }
+          ]
+        }
+      }
+    },
+    {
+      type: 'button',
+      id: 'b_014',
+      label: '显示',
+      className: 'ml-2',
+      onEvent: {
+        click: {
+          actions: [
+            {
+              actionType: 'show',
+              componentId: 'input-text_001'
+            }
+          ]
+        }
+      }
+    },
+    {
+      type: 'button',
+      id: 'b_015',
+      label: '隐藏',
+      className: 'ml-2',
+      onEvent: {
+        click: {
+          actions: [
+            {
+              actionType: 'hidden',
+              componentId: 'input-text_001' // b_001
+            }
+          ]
+        }
+      }
+    },
+    {
+      type: 'button',
+      id: 'b_016',
+      label: '禁用',
+      className: 'ml-2',
+      onEvent: {
+        click: {
+          actions: [
+            {
+              actionType: 'disabled',
+              componentId: 'form_disable'
+            }
+          ]
+        }
+      }
+    },
+    {
+      type: 'button',
+      id: 'b_017',
+      label: '启用',
+      className: 'ml-2',
+      onEvent: {
+        click: {
+          actions: [
+            {
+              actionType: 'enabled',
+              componentId: 'form_disable'
+            }
+          ]
+        }
+      }
+    },
+    {
+      label: '刷新下拉框',
+      type: 'select',
+      id: 'select-reload',
+      mode: 'horizontal',
+      className: 'm-t',
+      name: 'select',
+      source:
+        'https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/getOptions?waitSeconds=1'
+    },
+    {
+      type: 'form',
+      id: 'form-reload',
+      name: 'form-reload',
+      initApi:
+        'https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/page/initData',
+      title: '刷新表单',
+      body: [
+        {
+          type: 'input-text',
+          id: 'date-input-01',
+          name: 'date',
+          label: '时间戳'
+        }
+      ]
+    },
+    {
+      type: 'input-text',
+      label: '控制显隐',
+      id: 'input-text_001',
+      mode: 'horizontal'
+    },
+    {
+      type: 'form',
+      id: 'form_disable',
+      title: '控制状态',
+      body: [
+        {
+          type: 'group',
+          body: [
+            {
+              type: 'button',
+              id: 'b_002',
+              className: 'ml-2',
+              label: '打开一个弹窗（模态）'
+            }
+          ]
+        }
+      ]
     }
   ]
 };

@@ -264,7 +264,11 @@ export default class Tabs extends React.Component<TabsProps, TabsState> {
 
   // 初始化 tabs 数组，当从 source 获取数据源时
   @autobind
-  initTabArray(tabs: Array<TabSource>, source?: string, data?: any): [Array<TabSource>, boolean] {
+  initTabArray(
+    tabs: Array<TabSource>,
+    source?: string,
+    data?: any
+  ): [Array<TabSource>, boolean] {
     if (!tabs) {
       return [[], false];
     }
@@ -315,7 +319,7 @@ export default class Tabs extends React.Component<TabsProps, TabsState> {
     } else {
       const tab = this.resolveTabByKey(this.activeKey);
       if (tab && value !== ((tab as any).value ?? tab.title)) {
-        this.handleChange((tab as any).value ?? tab.title, name);
+        onChange((tab as any).value ?? tab.title, name);
       }
     }
   }
@@ -325,16 +329,28 @@ export default class Tabs extends React.Component<TabsProps, TabsState> {
     let localTabs = this.state.localTabs;
 
     // 响应外部修改 tabs
-    const isTabsModified = isObjectShallowModified({
-      tabs: props.tabs,
-      source: resolveVariableAndFilter(props.source, props.data, '| raw')
-    }, {
-      tabs: preProps.tabs,
-      source: resolveVariableAndFilter(preProps.source, preProps.data, '| raw')
-    }, false);
+    const isTabsModified = isObjectShallowModified(
+      {
+        tabs: props.tabs,
+        source: resolveVariableAndFilter(props.source, props.data, '| raw')
+      },
+      {
+        tabs: preProps.tabs,
+        source: resolveVariableAndFilter(
+          preProps.source,
+          preProps.data,
+          '| raw'
+        )
+      },
+      false
+    );
 
     if (isTabsModified) {
-      const [newLocalTabs, isFromSource] = this.initTabArray(props.tabs, props.source, props.data);
+      const [newLocalTabs, isFromSource] = this.initTabArray(
+        props.tabs,
+        props.source,
+        props.data
+      );
 
       this.setState({
         localTabs: newLocalTabs,
@@ -343,7 +359,11 @@ export default class Tabs extends React.Component<TabsProps, TabsState> {
       localTabs = newLocalTabs;
     }
 
-    if (props.location && preProps.location && props.location.hash !== preProps.location.hash) {
+    if (
+      props.location &&
+      preProps.location &&
+      props.location.hash !== preProps.location.hash
+    ) {
       const hash = props.location.hash.substring(1);
       if (!hash) {
         return;
@@ -418,7 +438,7 @@ export default class Tabs extends React.Component<TabsProps, TabsState> {
     } else if (this.activeKey !== prevState.activeKey) {
       const tab = this.resolveTabByKey(this.activeKey);
       if (tab && value !== ((tab as any).value ?? tab.title)) {
-        this.handleChange((tab as any).value ?? tab.title, name);
+        onChange((tab as any).value ?? tab.title, name);
       }
     }
   }
@@ -464,7 +484,10 @@ export default class Tabs extends React.Component<TabsProps, TabsState> {
       tab.hash ? tab.hash === key : index === key
     );
 
-    if (localTabs[tabIndex] && !isVisible(localTabs[tabIndex], this.props.data)) {
+    if (
+      localTabs[tabIndex] &&
+      !isVisible(localTabs[tabIndex], this.props.data)
+    ) {
       let len = localTabs.length;
       let i = tabIndex - 1 + len;
       let tries = len - 1;
@@ -491,11 +514,14 @@ export default class Tabs extends React.Component<TabsProps, TabsState> {
       body: '新增tab 内容'
     } as TabSource);
 
-    this.setState({
-      localTabs: localTabs
-    }, () => {
-      this.switchTo(this.state.localTabs.length - 1);
-    });
+    this.setState(
+      {
+        localTabs: localTabs
+      },
+      () => {
+        this.switchTo(this.state.localTabs.length - 1);
+      }
+    );
   }
 
   @autobind
@@ -520,25 +546,28 @@ export default class Tabs extends React.Component<TabsProps, TabsState> {
   }
 
   @autobind
-  async handleDragChange(e: any){
+  async handleDragChange(e: any) {
     const activeTab = this.resolveTabByKey(this.activeKey);
     const originTabs: TabSource[] = this.state.localTabs.concat();
 
     originTabs.splice(e.newIndex, 0, originTabs.splice(e.oldIndex, 1)[0]);
 
-    this.setState({
-      localTabs: originTabs
-    }, () => {
-      if (activeTab) {
-        const newActiveTabIndex = originTabs.indexOf(activeTab);
-        this.switchTo(newActiveTabIndex);
+    this.setState(
+      {
+        localTabs: originTabs
+      },
+      () => {
+        if (activeTab) {
+          const newActiveTabIndex = originTabs.indexOf(activeTab);
+          this.switchTo(newActiveTabIndex);
+        }
       }
-    });
+    );
   }
 
   @autobind
-  handleSelect(key: any) {
-    const {env, onSelect, id} = this.props;
+  async handleSelect(key: any) {
+    const {dispatchEvent, data, env, onSelect, id} = this.props;
 
     env.tracker?.({
       eventType: 'tabChange',
@@ -547,6 +576,16 @@ export default class Tabs extends React.Component<TabsProps, TabsState> {
         key
       }
     });
+
+    const rendererEvent = await dispatchEvent(
+      'change',
+      createObject(data, {
+        value: key
+      })
+    );
+    if (rendererEvent?.prevented) {
+      return;
+    }
 
     // 是 hash，需要更新到地址栏
     if (typeof key === 'string' && env) {
@@ -566,19 +605,6 @@ export default class Tabs extends React.Component<TabsProps, TabsState> {
     } else if (typeof onSelect === 'function') {
       onSelect(key, this.props);
     }
-  }
-
-  @autobind
-  async handleChange(key: any, name: any) {
-    const {dispatchEvent, data, onChange} = this.props;
-    const rendererEvent = await dispatchEvent('change', createObject(data, {
-      value: key,
-    }));
-    if (rendererEvent?.prevented) {
-      return;
-    }
-
-    onChange && onChange(key, name);
   }
 
   /**
@@ -772,4 +798,19 @@ export default class Tabs extends React.Component<TabsProps, TabsState> {
 @Renderer({
   type: 'tabs'
 })
-export class TabsRenderer extends Tabs {}
+export class TabsRenderer extends Tabs {
+  static contextType = ScopedContext;
+
+  constructor(props: TabsProps, context: IScopedContext) {
+    super(props);
+
+    const scoped = context;
+    scoped.registerComponent(this);
+  }
+
+  componentWillUnmount() {
+    super.componentWillUnmount?.();
+    const scoped = this.context as IScopedContext;
+    scoped.unRegisterComponent(this);
+  }
+}

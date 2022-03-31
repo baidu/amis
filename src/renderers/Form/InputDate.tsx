@@ -8,7 +8,7 @@ import {
 } from '../../utils/tpl-builtin';
 import moment from 'moment';
 import 'moment/locale/zh-cn';
-import DatePicker from '../../components/DatePicker';
+import DatePicker, {DatePicker as BaseDatePicker} from '../../components/DatePicker';
 import {SchemaObject} from '../../Schema';
 import {createObject, anyChanged, isMobile, autobind} from '../../utils/helper';
 import {Action} from '../../types';
@@ -298,6 +298,8 @@ export default class DateControl extends React.PureComponent<
     clearable: true
   };
 
+  dateRef?: BaseDatePicker;
+
   constructor(props: DateProps) {
     super(props);
 
@@ -413,6 +415,11 @@ export default class DateControl extends React.PureComponent<
       );
   }
 
+  @autobind
+  getRef(ref: BaseDatePicker) {
+    this.dateRef = ref;
+  }
+
   // 派发有event的事件
   @autobind
   dispatchEvent(e: React.SyntheticEvent<HTMLElement>) {
@@ -422,9 +429,15 @@ export default class DateControl extends React.PureComponent<
 
   // 动作
   doAction(action: Action, data: object, throwErrors: boolean) {
-    const {resetValue, onChange} = this.props;
+    const {resetValue} = this.props;
+
     if (action.actionType === 'clear') {
-      onChange(resetValue ?? '');
+      this.dateRef?.clear();
+      return;
+    }
+
+    if (action.actionType === 'reset' && resetValue) {
+      this.dateRef?.reset(resetValue);
     }
   }
 
@@ -457,15 +470,23 @@ export default class DateControl extends React.PureComponent<
       useMobileUI,
       ...rest
     } = this.props;
+    const mobileUI = useMobileUI && isMobile();
 
     if (type === 'time' && timeFormat) {
       format = timeFormat;
     }
 
-    const mobileUI = useMobileUI && isMobile();
-
     return (
-      <div className={cx(`DateControl`, className)}>
+      <div
+        className={cx(
+          `DateControl`,
+          {
+            'is-date': /date$/.test(type),
+            'is-datetime': /datetime$/.test(type)
+          },
+          className
+        )}
+      >
         <DatePicker
           {...rest}
           useMobileUI={useMobileUI}
@@ -480,6 +501,7 @@ export default class DateControl extends React.PureComponent<
           format={valueFormat || format}
           {...this.state}
           classnames={cx}
+          onRef={this.getRef}
           schedules={this.state.schedules}
           largeMode={largeMode}
           onScheduleClick={this.onScheduleClick.bind(this)}

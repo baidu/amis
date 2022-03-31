@@ -82,6 +82,11 @@ import SelectEventActionSchema from './EventAction/SelectEvent';
 import ButtonEventActionSchema from './EventAction/ButtonEvent';
 import InputRatingEventSchema from './EventAction/InputRatingEvent';
 import ExcelEventSchema from './EventAction/ExcelEvent';
+import WizardEventSchema from './EventAction/WizardEvent';
+import InputTreeEventSchema from './EventAction/InputTreeEvent';
+import treeSelectEventSchema from './EventAction/treeSelectEvent';
+import FormEventActionSchema from './EventAction/FormEvent';
+import TransferEventSchema from './EventAction/TransferEvent';
 import WizardSchema from './Wizard';
 import ChartSchema from './Chart';
 import EChartsEditorSchema from './ECharts';
@@ -580,6 +585,31 @@ export const examples = [
                 label: 'excel',
                 path: 'examples/event/excel',
                 component: makeSchemaRenderer(ExcelEventSchema)
+              },
+              {
+                label: '向导组件',
+                path: 'examples/event/wizard',
+                component: makeSchemaRenderer(WizardEventSchema)
+              },
+              {
+                label: '树形选择框',
+                path: 'examples/event/input-tree',
+                component: makeSchemaRenderer(InputTreeEventSchema)
+              },
+              {
+                label: '树形选择器',
+                path: 'examples/event/tree-select',
+                component: makeSchemaRenderer(treeSelectEventSchema)
+              },
+              {
+                label: 'form表单',
+                path: 'examples/event/form',
+                component: makeSchemaRenderer(FormEventActionSchema)
+              },
+              {
+                label: '穿梭框类组件',
+                path: 'examples/event/transfer',
+                component: makeSchemaRenderer(TransferEventSchema)
               }
             ]
           },
@@ -696,7 +726,7 @@ export const examples = [
       {
         label: 'APP 多页应用',
         icon: 'fa fa-cubes',
-        path: '/app/',
+        path: '/examples/app/',
         component: () => {
           // 如果在 gh-pages 里面
           if (/^\/amis/.test(window.location.pathname)) {

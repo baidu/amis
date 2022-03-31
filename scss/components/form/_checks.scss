@@ -151,13 +151,126 @@
         border-color: transparent;
         transition: width var(--animation-duration),
           height var(--animation-duration), transform var(--animation-duration);
-        border-width: 0 0 px2rem(2px) px2rem(2px);
-        transform: translate(-50%, -60%) rotate(-40deg);
+        border-width: 0 0 px2rem(1px) px2rem(1px);
+        transform: translate(-50%, -90%) rotate(-40deg);
         border-style: solid;
       }
     }
   }
 
+  &--partial.#{$ns}Checkbox--checkbox {
+    input {
+      margin-left: calc(var(--Checkbox-size) * -1);
+
+      & + i {
+        border-color: var(--Checkbox-onHover-color);
+
+        &:before {
+          width: var(--Checkbox-inner-size);
+          height: var(--Checkbox-inner-size);
+          background: var(--Checkbox-onHover-color);
+        }
+      }
+
+      &[disabled] + i {
+        border-color: var(--Checkbox-onDisabled-color);
+
+        &:before {
+          width: var(--Checkbox-inner-size);
+          height: var(--Checkbox-inner-size);
+          background: var(--Checkbox-inner-onDisabled-bg);
+        }
+      }
+
+      &:checked[disabled] + i{
+        width: var(--Checkbox-inner-size);
+        height: var(--Checkbox-inner-size);
+        background: var(--Checkbox-onDisabled-bg);
+      }
+
+    }
+
+  }
+  &--button.#{$ns}Checkbox--checkbox {
+    text-align: center;
+    height: var(--Checkbox-button-height);
+    line-height: var(--Checkbox-button-line-height);
+    padding-left: var(--Checkbox-paddingX);
+    padding-right: var(--Checkbox-paddingX);
+    font-size: var(--fontSizeSm);
+    border: var(--Checkbox-border-width) solid;
+    cursor: pointer;
+    position: relative;
+    display: inline-block;
+    background-color: var(--Checkbox-gb);
+    border-color: var(--Checkbox-color);
+    margin-right: 0;
+    border-radius: calc(var(--Checkbox-borderRadius) * 2);
+    min-width: var(--Checkbox-button-min-width);
+
+    &:hover:not(:disabled){
+      color: var(--Checkbox-onHover-color);
+    }
+
+    input {
+        &:checked + i {
+          background: transparent;
+          top: 0;
+          left: 0;
+          width: 0;
+          height: 0;
+          border-width: px2rem(8px);
+          border-color: var(--Checkbox-onHover-color) transparent transparent var(--Checkbox-onHover-color);
+          border-radius: 0;
+
+          &:before {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: var(--Checkbox--full-inner-size);
+            height: calc(var(--Checkbox--full-inner-size) / 2);
+            transform: translate(-80%, -160%) rotate(-50deg);
+            background: transparent;
+          }
+        }
+
+        &[disabled] + i {
+          border-color: var(--Checkbox-onDisabled-color);
+          background: transparent;
+            &:before {
+              background: transparent;
+          }
+        }
+
+        &:checked[disabled] + i {
+          background: transparent;
+          border-width: px2rem(8px);
+          border-color: var(--Checkbox-onHover-color) transparent transparent var(--Checkbox-onHover-color);
+        }
+    }
+    > i {
+      position: absolute;
+      top: 0;
+      left:0;
+      margin-left: 0;
+      border: 0;
+      border-style: solid;
+
+      + span {
+        max-width: px2rem(100px);
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        overflow: hidden;
+      }
+    }
+  }
+  &--button--checked.#{$ns}Checkbox--checkbox {
+    border-color: var(--Checkbox-onHover-color);
+    color: var(--Checkbox-onHover-color);
+  }
+  &--button--disabled--unchecked.#{$ns}Checkbox--checkbox {
+    background: var(--Checkbox-disabled-unchecked-bg);
+  }
   &--radio {
     padding-left: var(--Radio-size);
 
@@ -265,10 +378,20 @@
     display: block;
     margin-bottom: var(--Form-label-paddingTop);
   }
+  
+  .#{$ns}Checkbox--button {
+    margin-bottom: 0;
+  }
 
   &.is-inline .#{$ns}Checkbox {
     display: inline-block;
     margin-right: var(--gap-md);
+  }
+
+  &.is-inline .#{$ns}Checkbox--button {
+    display: inline-block;
+    margin-right: 0;
+    margin-bottom: 0;
   }
 }
 

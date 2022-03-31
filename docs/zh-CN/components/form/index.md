@@ -170,6 +170,51 @@ order: 24
 }
 ```
 
+有时表单内容需要两端对齐，可在 horizontal 中增加 justify 配置，注意只对内联控件生效
+
+```schema: scope="body"
+{
+  "type": "container",
+  "style": {
+    "width": "300px",
+  },
+  "body": [
+    {
+      "type": "form",
+      "title": "两端对齐",
+      "mode": "horizontal",
+      "horizontal": {
+        "justify": true,
+        "left": 3,
+        "right": 9
+      },
+      "body": [
+        {
+          "type": "input-text",
+          "name": "name",
+          "label": "姓名",
+          "required": true
+        },
+        {
+          "type": "input-text",
+          "name": "name",
+          "label": "班级",
+          "required": true
+        },
+        {
+          "type": "switch",
+          "name": "status",
+          "inputClassName": "is-inline",
+          "label": "是否在职",
+          "onText": "在职",
+          "offText": "非在职"
+        }
+      ]
+    }
+  ]
+}
+```
+
 ### 内联模式
 
 使用内联模式展现表单项
@@ -530,6 +575,31 @@ Form 支持轮询初始化接口，步骤如下：
     "type": "form",
     "data": {
       "name": "rick",
+      "email": "rick@gmail.com"
+    },
+    "title": "用户信息",
+    "body": [
+      {
+        "type": "input-text",
+        "name": "name",
+        "label": "姓名"
+      },
+      {
+        "type": "input-email",
+        "name": "email",
+        "label": "邮箱"
+      }
+    ]
+  }
+```
+
+注意这里的 `data` 会进行数据映射，如果想不映射，需要进行转义，比如下面的例子
+
+```schema: scope="body"
+{
+    "type": "form",
+    "data": {
+      "name": "\\${rick}",
       "email": "rick@gmail.com"
     },
     "title": "用户信息",
@@ -1131,3 +1201,27 @@ Form 支持轮询初始化接口，步骤如下：
 | trimValues                  | `boolean`                                                                 | `false`                                                                | trim 当前表单项的每一个值                                                                                                                                                                                                                                                                                                                                    |
 | promptPageLeave             | `boolean`                                                                 | `false`                                                                | form 还没保存，即将离开页面前是否弹框确认。                                                                                                                                                                                                                                                                                                                  |
 | columnCount                 | `number`                                                                  | 0                                                                      | 表单项显示为几列                                                                                                                                                                                                                                                                                                                                             |
+| inheritData                 | `booelan`                                                                 | `true`                                                                 | 默认表单是采用数据链的形式创建个自己的数据域，表单提交的时候只会发送自己这个数据域的数据，如果希望共用上层数据域可以设置这个属性为 false，这样上层数据域的数据不需要在表单中用隐藏域或者显式映射才能发送了。                                                                                                                                                 |
+
+## 事件表
+
+| 事件名称              | 事件参数                      | 说明           |
+| --------------------- | ----------------------------- | -------------- |
+| inited                | `formData: object` 表单值     | 初始化完成     |
+| change                | `formData: object` 表单值     | 值变化         |
+| formItemValidateSucc  | -                             | 表单项校验成功 |
+| formItemValidateError | -                             | 表单项校验失败 |
+| validateSucc          | -                             | 表单校验成功   |
+| validateError         | -                             | 表单校验成功   |
+| submitSucc            | `result: object` 接口返回内容 | 提交成功       |
+| submitFail            | `error: object` 接口返回内容  | 提交失败       |
+
+## 动作表
+
+| 动作名称 | 动作配置 | 说明     |
+| -------- | -------- | -------- |
+| submit   | -        | 提交表单 |
+| reset    | -        | 重置表单 |
+| clear    | -        | 清空表单 |
+| validate | -        | 校验表单 |
+| reload   | -        | 重新加载 |

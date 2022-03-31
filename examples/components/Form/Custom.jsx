@@ -26,13 +26,16 @@ class MyFormItem extends React.Component {
 }
 
 @Renderer({
-  test: /(^|\/)my\-renderer$/
+  test: /(^|\/)my\-renderer$/,
+  autoVar: true
 })
 class CustomRenderer extends React.Component {
   render() {
-    const {tip} = this.props;
-    return (
-      <div>{tip || '非 FormItem 类型的渲染器注册， 这种不能修改 form'}</div>
+    const {tip, source} = this.props;
+    return source ? (
+      <div>{`非 FormItem 类型的渲染器注册，通过变量获取 x 的值为：${source}`}</div>
+    ) : (
+      <div>{tip}</div>
     );
   }
 }
@@ -121,7 +124,8 @@ export default {
         {
           type: 'control',
           body: {
-            type: 'my-renderer'
+            type: 'my-renderer',
+            source: '${x}'
           }
         },
 
@@ -222,7 +226,7 @@ export default {
 
     {
       type: 'my-renderer',
-      tip: '他能放 controls 里面，也能放外面。'
+      tip: '放表单外的情况'
     }
   ]
 };

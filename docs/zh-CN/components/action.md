@@ -806,7 +806,7 @@ props.onAction(event, {
 }
 ```
 
-## 键盘快捷键触发
+## 全局键盘快捷键触发
 
 > 1.3.0 版本新增功能
 
@@ -826,6 +826,10 @@ props.onAction(event, {
 ```
 
 除了 ctrl 和 command 还支持 shift、alt。
+
+其它键盘特殊按键的命名列表：backspace, tab, clear, enter, return, esc, escape, space, up, down, left, right, home, end, pageup, pagedown, del, delete, f1 - f19, num_0 - num_9, num_multiply, num_add, num_enter, num_subtract, num_decimal, num_divide。
+
+> 注意这个主要用于实现页面级别快捷键，如果要实现回车提交功能，请将 `input-text` 放在 `form` 里，而不是给 button 配一个 `enter` 的快捷键。
 
 ## Action 作为容器组件
 
@@ -928,3 +932,15 @@ action 还可以使用 `body` 来渲染其他组件，让那些不支持行为�
 | tooltipPlacement   | `string`                             | `top`       | 如果配置了`tooltip`或者`disabledTip`，指定提示信息位置，可配置`top`、`bottom`、`left`、`right`。                                                                            |
 | close              | `boolean` or `string`                | -           | 当`action`配置在`dialog`或`drawer`的`actions`中时，配置为`true`指定此次操作完后关闭当前`dialog`或`drawer`。当值为字符串，并且是祖先层弹框的名字的时候，会把祖先弹框关闭掉。 |
 | required           | `Array<string>`                      | -           | 配置字符串数组，指定在`form`中进行操作之前，需要指定的字段名的表单项通过验证                                                                                                |
+
+## 事件表
+
+| 事件名称   | 事件参数                                      | 说明     |
+| ---------- | --------------------------------------------- | -------- |
+| click      | [动作](../../docs/concepts/event-action#动作) | 点击     |
+| mouseenter | -                                             | 鼠标移入 |
+| mouseleave | -                                             | 鼠标移出 |
+
+## 动作表
+
+暂无

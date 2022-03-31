@@ -44,7 +44,7 @@ interface BaseDatePickerProps {
   viewMode?: 'years' | 'months' | 'days' | 'time' | 'quarters';
   dateFormat?: boolean | string;
   inputFormat?: boolean | string;
-  timeFormat?: boolean | string;
+  timeFormat?: any;
   input?: boolean;
   locale: string;
   date?: any;
@@ -90,6 +90,7 @@ interface BaseDatePickerProps {
   utc?: boolean;
   displayTimeZone?: string;
   timeConstraints?: any;
+  timeRangeHeader?: string;
 }
 
 interface BaseDatePickerState {
@@ -161,19 +162,6 @@ class BaseDatePicker extends React.Component<
       updatedState = this.getStateFromProps(props);
     }
 
-    if (updatedState.open === undefined) {
-      if (typeof props.open !== 'undefined') {
-        updatedState.open = props.open;
-      } else if (
-        prevProps.closeOnSelect &&
-        this.state.currentView !== viewModes.TIME
-      ) {
-        updatedState.open = false;
-      } else {
-        updatedState.open = this.state.open;
-      }
-    }
-
     if (props.viewMode !== prevProps.viewMode) {
       updatedState.currentView = props.viewMode;
     }
@@ -234,6 +222,10 @@ class BaseDatePicker extends React.Component<
 
     if (props.viewDate !== prevProps.viewDate) {
       updatedState.viewDate = moment(props.viewDate);
+    }
+
+    if (Object.keys(updatedState).length) {
+      this.setState(updatedState);
     }
 
     this.checkTZ(props);
@@ -647,17 +639,20 @@ class BaseDatePicker extends React.Component<
   };
 
   render() {
+    const {viewMode, timeFormat, dateFormat, timeRangeHeader} = this.props;
     const Component = CustomCalendarContainer as any;
     const viewProps = this.getComponentProps();
 
-    if (this.props.viewMode === 'quarters') {
+    if (viewMode === 'quarters') {
       [viewProps.updateOn, viewProps.renderQuarter] = [
         'quarters',
         this.props.renderQuarter
       ];
-    } else if (this.props.viewMode === 'years') {
+    }
+    else if (viewMode === 'years') {
       viewProps.updateOn = 'years';
-    } else if (this.props.viewMode === 'months') {
+    }
+    else if (viewMode === 'months') {
       viewProps.updateOn = 'months';
     }
 
@@ -665,11 +660,35 @@ class BaseDatePicker extends React.Component<
     viewProps.getDateBoundary = this.getDateBoundary;
     viewProps.getColumns = this.getColumns;
     viewProps.timeCell = this.timeCell;
+    viewProps.timeRangeHeader = this.props.timeRangeHeader;
 
     return (
-      <div className={cx('rdt rdtStatic rdtOpen', this.props.className)}>
-        <div key="dt" className="rdtPicker">
-          <Component view={this.state.currentView} viewProps={viewProps} />
+      <div 
+        className={cx(
+          'rdt rdtStatic rdtOpen', 
+          this.props.className, 
+          (timeFormat && !dateFormat || typeof dateFormat !== 'string')
+            ? 'rdtTimeWithoutD'
+            : (timeFormat && timeFormat.toLowerCase().indexOf('s') > 0)
+            ? 'rdtTimeWithS'
+            : timeFormat
+            ? 'rdtTime'
+            : ''
+        )}
+      >
+        <div key="dt" 
+          className={cx(
+            'rdtPicker', 
+            (timeFormat && !dateFormat)
+              ? 'rdtPickerTimeWithoutD'
+              : (timeFormat && dateFormat)
+              ? 'rdtPickerTime'
+              : (dateFormat && !timeFormat)
+              ? 'rdtPickerDate'
+              : ''
+          )}
+        >
+          <Component view={this.state.currentView} viewProps={viewProps} timeRangeHeader={timeRangeHeader}/>
         </div>
       </div>
     );

@@ -20,11 +20,11 @@ icon:
     "name": "a",
     "sortable": true,
     "selectMode": "tree",
-    "searchable": true,
     "options": [
       {
         "label": "成员",
         "selectMode": "tree",
+        "searchable": true,
         "children": [
           {
             "label": "法师",
@@ -131,13 +131,13 @@ icon:
       "name": "a",
       "sortable": true,
       "selectMode": "tree",
-      "searchable": true,
       "menuTpl": "<div class='flex justify-between'><span>${label}</span><span class='text-muted m-r text-sm'>${tag}</span></div>",
       "valueTpl": "${label}(${value})",
       "options": [
         {
           "label": "成员",
           "selectMode": "list",
+          "searchable": true,
           "children": [
             {
               "label": "诸葛亮",
@@ -226,11 +226,11 @@ icon:
     "name": "a",
     "sortable": true,
     "selectMode": "tree",
-    "searchable": true,
     "options": [
       {
         "label": "成员",
         "selectMode": "associated",
+        "searchable": true,
         "leftMode": "tree",
         "children": [
           {
@@ -366,3 +366,16 @@ icon:
 ## 属性表
 
 更多配置请参考[穿梭器（Transfer）](./transfer)。
+
+| 事件名称           | 事件参数                                        | 说明                  |
+|-------------------|------------------------------------------------|----------------------|
+| change            |  `value: string` 时间值            |  值变化                           |
+| tab-change            |  `key: number` 当前选择的tab的index            |  值变化                           |
+
+## 动作表
+
+| 动作名称           | 动作配置                 | 说明                    |
+|-------------------|-------------------------|------------------------|
+| clear             | -                       | 清空                    |
+| reset             | -            | 值重置                   |
+| selectAll             | -            | 全选                   |

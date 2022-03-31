@@ -15,7 +15,8 @@ export default {
           engine: {
             name: 'Trident',
             version: '4'
-          }
+          },
+          date: '1591326307'
         },
         {
           link: 'https://www.microsoft.com/',
@@ -28,7 +29,8 @@ export default {
             version: '4'
           },
           notExport: '1',
-          grade: 'B'
+          grade: 'B',
+          date: '1591322307'
         },
         {
           link: 'https://www.microsoft.com/',
@@ -40,7 +42,8 @@ export default {
             version: '4'
           },
           notExport: '1',
-          grade: 'C'
+          grade: 'C',
+          date: '1591322307'
         },
         {
           link: 'https://www.microsoft.com/',
@@ -52,7 +55,8 @@ export default {
           browser: 'AOL browser (AOL desktop)',
           platform: 'Win 98',
           notExport: '1',
-          grade: 'A'
+          grade: 'A',
+          date: '1591322307'
         },
         {
           link: 'https://www.microsoft.com/',
@@ -64,7 +68,8 @@ export default {
           browser: 'AOL browser (AOL desktop)',
           platform: 'Win 98',
           notExport: '1',
-          grade: 'A'
+          grade: 'A',
+          date: '1591322307'
         },
         {
           icon: __uri('../../static/firefox.png'),
@@ -76,7 +81,8 @@ export default {
             version: '4'
           },
           notExport: '1',
-          grade: 'A'
+          grade: 'A',
+          date: '1591322307'
         },
         {
           icon: __uri('../../static/firefox.png'),
@@ -88,7 +94,8 @@ export default {
             version: '5'
           },
           notExport: '1',
-          grade: 'A'
+          grade: 'A',
+          date: '1591322307'
         },
         {
           icon: __uri('../../static/firefox.png'),
@@ -100,7 +107,8 @@ export default {
           browser: 'Firefox 2.0',
           platform: 'Win 98+ / OSX.2+',
           notExport: '1',
-          grade: 'B'
+          grade: 'B',
+          date: '1591322307'
         },
         {
           icon: __uri('../../static/firefox.png'),
@@ -112,7 +120,8 @@ export default {
           browser: 'Firefox 2.0',
           platform: 'Win 98+ / OSX.2+',
           notExport: '1',
-          grade: 'C'
+          grade: 'C',
+          date: '1591322307'
         },
         {
           icon: __uri('../../static/firefox.png'),
@@ -168,6 +177,11 @@ export default {
           C: '差',
           D: '极差'
         }
+      },
+      {
+        name: 'date',
+        label: 'Date',
+        type: 'date'
       }
     ]
   }

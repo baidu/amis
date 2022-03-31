@@ -8,9 +8,9 @@ import {doc} from 'amis-formula/dist/doc';
 
 import {FormulaPlugin, editorFactory} from './plugin';
 import FuncList from './FuncList';
-import {VariableList} from './VariableList';
+import VariableList from './VariableList';
 import CodeMirrorEditor from '../CodeMirror';
-import {autobind} from '../../utils/helper';
+import {autobind, eachTree} from '../../utils/helper';
 import {themeable, ThemeProps} from '../../theme';
 import {localeable, LocaleProps} from '../../locale';
 
@@ -29,7 +29,9 @@ export interface FuncGroup {
 }
 
 export interface FuncItem {
-  name: string;
+  name: string; // 函数名
+  example?: string; // 示例
+  description?: string; // 描述
   [propName: string]: any;
 }
 
@@ -119,11 +121,7 @@ export class FormulaEditor extends React.Component<
     return funcs;
   }
 
-  static defaultProps: Pick<
-    FormulaEditorProps,
-    'functions' | 'variables' | 'evalMode'
-  > = {
-    functions: FormulaEditor.buildDefaultFunctions(doc),
+  static defaultProps: Pick<FormulaEditorProps, 'variables' | 'evalMode'> = {
     variables: [],
     evalMode: true
   };
@@ -133,8 +131,40 @@ export class FormulaEditor extends React.Component<
     variables: Array<VariableItem>,
     functions: Array<FuncGroup>
   ) {
-    // todo 高亮原始文本
-    return value;
+    if (!Array.isArray(variables) || !variables.length || !value) {
+      return;
+    }
+
+    const varMap: {
+      [propname: string]: string;
+    } = {};
+
+    eachTree(
+      variables,
+      item => item.value && (varMap[item.value] = item.label)
+    );
+    const vars = Object.keys(varMap)
+      .filter(item => item)
+      .sort((a, b) => b.length - a.length);
+
+    const content = value || '';
+    let html = '';
+
+    // 标记方法调用
+    html = content.replace(/([A-Z]+)\s*\(/g, (_, func, pos) => {
+      return _?.replace(func, `<span class="c-func">${func}</span>`);
+    });
+
+    vars.forEach(v => {
+      let from = 0;
+      let idx = -1;
+      while (~(idx = content.indexOf(v, from))) {
+        html = content.replace(v, `<span class="c-field">${varMap[v]}</span>`);
+        from = idx + v.length;
+      }
+    });
+
+    return {html};
   }
 
   componentWillUnmount() {
@@ -223,6 +253,12 @@ export class FormulaEditor extends React.Component<
       classPrefix
     } = this.props;
     const {focused} = this.state;
+    const customFunctions = Array.isArray(functions) ? functions : [];
+    const functionList = [
+      ...FormulaEditor.buildDefaultFunctions(doc),
+      ...customFunctions
+    ];
+
     return (
       <div
         className={cx(`FormulaEditor`, {
@@ -247,10 +283,17 @@ export class FormulaEditor extends React.Component<
 
         <section className={cx('FormulaEditor-settings')}>
           <div className={cx('FormulaEditor-panel')}>
-            <div className={cx('FormulaEditor-panel-header')}>
-              {__('FormulaEditor.variable')}
-            </div>
-            <div className={cx('FormulaEditor-panel-body')}>
+            {variableMode !== 'tabs' ? (
+              <div className={cx('FormulaEditor-panel-header')}>
+                {__('FormulaEditor.variable')}
+              </div>
+            ) : null}
+            <div
+              className={cx(
+                'FormulaEditor-panel-body',
+                variableMode && `FormulaEditor-panel-body--${variableMode}`
+              )}
+            >
               <VariableList
                 classPrefix={classPrefix}
                 className={cx(
@@ -268,7 +311,7 @@ export class FormulaEditor extends React.Component<
           <FuncList
             className={functionClassName}
             title={__('FormulaEditor.function')}
-            data={functions}
+            data={functionList}
             onSelect={this.handleFunctionSelect}
           />
         </section>

@@ -20,7 +20,8 @@ import {
   getVariable,
   isObjectShallowModified,
   qsparse,
-  repeatCount
+  repeatCount,
+  createObject
 } from '../../utils/helper';
 import debouce from 'lodash/debounce';
 import flatten from 'lodash/flatten';
@@ -61,6 +62,7 @@ export interface FormSchemaHorizontal {
   left?: number;
   right?: number;
   leftFixed?: boolean | number | 'xs' | 'sm' | 'md' | 'lg';
+  justify?: boolean; // 两端对齐
 }
 
 /**
@@ -624,7 +626,8 @@ export default class Form extends React.Component<FormProps, object> {
   }
 
   async onInit() {
-    const {onInit, store, persistData, submitOnInit} = this.props;
+    const {onInit, store, persistData, submitOnInit, dispatchEvent} =
+      this.props;
     if (!isAlive(store)) {
       return;
     }
@@ -656,8 +659,14 @@ export default class Form extends React.Component<FormProps, object> {
 
     persistData && store.getLocalPersistData();
 
-    onInit && onInit(data, this.props);
-
+    // 派发init事件，参数为初始化数据
+    const dispatcher = dispatchEvent(
+      'inited',
+      createObject(this.props.data, {formData: data})
+    );
+    if (!dispatcher?.prevented) {
+      onInit && onInit(data, this.props);
+    }
     submitOnInit &&
       this.handleAction(
         undefined,
@@ -746,10 +755,19 @@ export default class Form extends React.Component<FormProps, object> {
   }
 
   validate(forceValidate?: boolean): Promise<boolean> {
-    const {store} = this.props;
+    const {store, dispatchEvent, data} = this.props;
 
     this.flush();
-    return store.validate(this.hooks['validate'] || [], forceValidate);
+    return store
+      .validate(this.hooks['validate'] || [], forceValidate)
+      .then((result: boolean) => {
+        if (result) {
+          dispatchEvent('validateSucc', data);
+        } else {
+          dispatchEvent('validateFail', data);
+        }
+        return result;
+      });
   }
 
   clearErrors() {
@@ -771,13 +789,16 @@ export default class Form extends React.Component<FormProps, object> {
   }
 
   submit(fn?: (values: object) => Promise<any>): Promise<any> {
-    const {store, messages, translate: __} = this.props;
+    const {store, messages, translate: __, dispatchEvent, data} = this.props;
     this.flush();
-
+    const validateErrCb = () => {
+      dispatchEvent('validateFail', data);
+    };
     return store.submit(
       fn,
       this.hooks['validate'] || [],
-      __(messages && messages.validateFailed)
+      __(messages && messages.validateFailed),
+      validateErrCb
     );
   }
 
@@ -827,13 +848,10 @@ export default class Form extends React.Component<FormProps, object> {
     changePristine = false
   ) {
     const {store, formLazyChange} = this.props;
-
     if (typeof name !== 'string') {
       return;
     }
-
     store.changeValue(name, value, changePristine);
-
     if (!changePristine) {
       (formLazyChange === false ? this.emitChange : this.lazyEmitChange)(
         submit
@@ -844,19 +862,32 @@ export default class Form extends React.Component<FormProps, object> {
       store.setLocalPersistData();
     }
   }
+  formItemDispatchEvent(dispatchEvent: any) {
+    return (type: string, data: any) => {
+      dispatchEvent(type, data);
+    };
+  }
 
   emitChange(submit: boolean) {
-    const {onChange, store, submitOnChange} = this.props;
+    const {onChange, store, submitOnChange, dispatchEvent, data} = this.props;
 
     if (!isAlive(store)) {
       return;
     }
-
-    onChange &&
-      onChange(store.data, difference(store.data, store.pristine), this.props);
+    const dispatcher = dispatchEvent(
+      'change',
+      createObject(data, {formData: store.data})
+    );
+    if (!dispatcher?.prevented) {
+      onChange &&
+        onChange(
+          store.data,
+          difference(store.data, store.pristine),
+          this.props
+        );
+    }
 
     store.clearRestError();
-
     (submit || (submitOnChange && store.inited)) &&
       this.handleAction(
         undefined,
@@ -933,6 +964,7 @@ export default class Form extends React.Component<FormProps, object> {
       onChange,
       clearPersistDataAfterSubmit,
       trimValues,
+      dispatchEvent,
       translate: __
     } = this.props;
 
@@ -947,12 +979,13 @@ export default class Form extends React.Component<FormProps, object> {
     if (data === this.props.data) {
       data = store.data;
     }
-
     if (Array.isArray(action.required) && action.required.length) {
       return store.validateFields(action.required).then(result => {
         if (!result) {
+          dispatchEvent('validateError', this.props.data);
           env.notify('error', __('Form.validateFailed'));
         } else {
+          dispatchEvent('validateSucc', this.props.data);
           this.handleAction(
             e,
             {...action, required: undefined},
@@ -963,7 +996,6 @@ export default class Form extends React.Component<FormProps, object> {
         }
       });
     }
-
     if (
       action.type === 'submit' ||
       action.actionType === 'submit' ||
@@ -983,6 +1015,8 @@ export default class Form extends React.Component<FormProps, object> {
         if (onSubmit && onSubmit(values, action) === false) {
           return Promise.resolve(false);
         }
+        // 走到这里代表校验成功了
+        dispatchEvent('validateSucc', this.props.data);
 
         if (target) {
           this.submitToTarget(target, values);
@@ -1004,19 +1038,29 @@ export default class Form extends React.Component<FormProps, object> {
             .saveRemote(action.api || (api as Api), values, {
               successMessage: saveSuccess,
               errorMessage: saveFailed,
-              onSuccess: () => {
+              onSuccess: (result: Payload) => {
+                // result为提交接口返回的内容
+                dispatchEvent(
+                  'submitSucc',
+                  createObject(this.props.data, {result})
+                );
                 if (
                   !isEffectiveApi(finnalAsyncApi, store.data) ||
                   store.data[finishedField || 'finished']
                 ) {
                   return;
                 }
-
                 return until(
                   () => store.checkRemote(finnalAsyncApi as Api, store.data),
                   (ret: any) => ret && ret[finishedField || 'finished'],
                   cancel => (this.asyncCancel = cancel),
                   checkInterval
+                );
+              },
+              onFailed: (result: Payload) => {
+                dispatchEvent(
+                  'submitFail',
+                  createObject(this.props.data, {error: result})
                 );
               }
             })
@@ -1086,6 +1130,9 @@ export default class Form extends React.Component<FormProps, object> {
     } else if (action.actionType === 'clear') {
       store.setCurrentAction(action);
       store.clear(onReset);
+    } else if (action.actionType === 'validate') {
+      store.setCurrentAction(action);
+      this.validate(true);
     } else if (action.actionType === 'dialog') {
       store.setCurrentAction(action);
       store.openDialog(data);
@@ -1141,7 +1188,6 @@ export default class Form extends React.Component<FormProps, object> {
       if (action.target) {
         this.reloadTarget(action.target, data);
       } else {
-        // 刷自己
         this.receive(data);
       }
       // action.target && this.reloadTarget(action.target, data);
@@ -1395,7 +1441,8 @@ export default class Form extends React.Component<FormProps, object> {
       controlWidth,
       resolveDefinitions,
       lazyChange,
-      formLazyChange
+      formLazyChange,
+      dispatchEvent
     } = props;
 
     const subProps = {
@@ -1410,7 +1457,7 @@ export default class Form extends React.Component<FormProps, object> {
       formHorizontal: horizontal,
       controlWidth,
       disabled: disabled || (control as Schema).disabled || form.loading,
-      btnDisabled: form.loading || form.validating,
+      btnDisabled: disabled || form.loading || form.validating,
       onAction: this.handleAction,
       onQuery: this.handleQuery,
       onChange: this.handleChange,
@@ -1418,6 +1465,7 @@ export default class Form extends React.Component<FormProps, object> {
       addHook: this.addHook,
       removeHook: this.removeHook,
       renderFormItems: this.renderFormItems,
+      formItemDispatchEvent: this.formItemDispatchEvent(dispatchEvent),
       formPristine: form.pristine
       // value: (control as any)?.name
       //   ? getVariable(form.data, (control as any)?.name, canAccessSuperData)
@@ -1606,6 +1654,7 @@ export default class Form extends React.Component<FormProps, object> {
   type: 'form',
   storeType: FormStore.name,
   isolateScope: true,
+  storeExtendsData: (props: any) => props.inheritData,
   shouldSyncSuperStore: (store, props, prevProps) => {
     // 如果是 QuickEdit，让 store 同步 __super 数据。
     if (
@@ -1674,7 +1723,6 @@ export class FormRenderer extends Form {
     // if (this.props.disabled) {
     //   return;
     // }
-
     if (action.target && action.actionType !== 'reload') {
       const scoped = this.context as IScopedContext;
 
@@ -1791,5 +1839,9 @@ export class FormRenderer extends Form {
     }
 
     return super.receive(values);
+  }
+
+  setData(values: object) {
+    return super.setValues(values);
   }
 }

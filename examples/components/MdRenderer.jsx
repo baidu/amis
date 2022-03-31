@@ -1,6 +1,7 @@
 /* eslint-disable no-unused-vars */
 import React from 'react';
-import ReactDOM from 'react-dom';
+import {findDOMNode} from 'react-dom';
+import {createRoot} from 'react-dom/client';
 import {getTheme, render} from '../../src/index';
 import axios from 'axios';
 import TitleBar from '../../src/components/TitleBar';
@@ -12,7 +13,7 @@ import classnames from 'classnames';
 import {Link} from 'react-router-dom';
 import Play from './Play';
 
-class CodePreview extends React.Component<any> {
+class CodePreview extends React.Component {
   state = {
     PlayGround: null
   };
@@ -24,7 +25,7 @@ class CodePreview extends React.Component<any> {
   }
 }
 
-function eachDom(dom: HTMLElement, iterator: (dom: HTMLElement) => void) {
+function eachDom(dom, iterator) {
   if (!dom) {
     return;
   }
@@ -39,7 +40,7 @@ function eachDom(dom: HTMLElement, iterator: (dom: HTMLElement) => void) {
 class Preview extends React.Component {
   static displayName = 'MarkdownRenderer';
   ref = null;
-  doms = [];
+  roots = [];
   constructor(props) {
     super(props);
     this.divRef = this.divRef.bind(this);
@@ -64,12 +65,12 @@ class Preview extends React.Component {
 
   componentDidUpdate() {
     this.renderSchema();
-
     this.fixHtmlPreview();
   }
 
   componentWillUnmount() {
-    this.doms.forEach(dom => ReactDOM.unmountComponentAtNode(dom));
+    // TODO: 会报错，可能得后续 amis 内部的 render 也改才行
+    // this.roots.forEach(root => root.unmount());
   }
 
   divRef(ref) {
@@ -108,20 +109,19 @@ class Preview extends React.Component {
       const origin = script.parentNode;
       origin.parentNode.replaceChild(dom, origin);
 
-      this.doms.push(dom);
-      ReactDOM.unstable_renderSubtreeIntoContainer(
-        this,
+      const root = createRoot(dom);
+      this.roots.push(root);
+      root.render(
         <LazyComponent
           {...this.props}
-          container={() => ReactDOM.findDOMNode(this)}
+          container={() => findDOMNode(this)}
           component={CodePreview}
           code={script.innerText}
           scope={props.scope}
           // unMountOnHidden
           height={height}
           placeholder="加载中，请稍后。。。"
-        />,
-        dom
+        />
       );
     }
   }
@@ -131,9 +131,9 @@ class Preview extends React.Component {
     if (!htmlPreviews && !htmlPreviews.length) {
       return;
     }
-    const ns = getTheme((this.props as any).theme)?.classPrefix;
+    const ns = getTheme(this.props.theme)?.classPrefix;
     [].slice.call(htmlPreviews).forEach(dom => {
-      eachDom(dom as HTMLElement, dom => {
+      eachDom(dom, dom => {
         if (typeof dom.className !== 'string') {
           return;
         }
@@ -157,7 +157,7 @@ class Preview extends React.Component {
   }
 }
 
-export default function (doc: any) {
+export default function (doc) {
   return class extends React.Component {
     popoverDom = null;
 
@@ -167,7 +167,7 @@ export default function (doc: any) {
       headingPopover: false
     };
 
-    popoverRef = (ref: HTMLDivElement) => {
+    popoverRef = ref => {
       this.popoverDom = ref;
     };
 
@@ -188,7 +188,7 @@ export default function (doc: any) {
       ));
     }
 
-    handlePopOverClick = (e: React.MouseEvent<any>) => {
+    handlePopOverClick = e => {
       this.setState({headingPopover: false});
       e.stopPropagation();
       // e.preventDefault();

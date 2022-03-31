@@ -97,7 +97,8 @@ class Position extends React.Component<any, any> {
         overlay,
         target,
         container,
-        this.props.containerPadding
+        this.props.containerPadding,
+        this.props.offset
       )
     );
   }
@@ -173,7 +174,7 @@ interface OverlayProps {
   container?: React.ReactNode | Function;
   target?: React.ReactNode | Function;
   watchTargetSizeChange?: boolean;
-
+  offset?: [number, number];
   onEnter?(node: HTMLElement): any;
   onEntering?(node: HTMLElement): any;
   onEntered?(node: HTMLElement): any;
@@ -238,6 +239,7 @@ export default class Overlay extends React.Component<
       children,
       watchTargetSizeChange,
       transition: Transition,
+      offset,
       ...props
     } = this.props;
 
@@ -259,7 +261,8 @@ export default class Overlay extends React.Component<
           containerPadding,
           target,
           placement,
-          shouldUpdatePosition
+          shouldUpdatePosition,
+          offset
         }}
         ref={this.positionRef}
       >

@@ -8,27 +8,28 @@ import {makeEnv} from '../../helper';
 import moment from 'moment';
 
 test('Renderer:inputMonth click', async () => {
-  const {container, findByText} = render(
-    amisRender(
-      {
-        type: 'form',
-        api: '/api/xxx',
-        body: [
-          {
-            type: 'input-month',
-            name: 'month',
-            label: '时间'
-          }
-        ],
-        title: 'The form',
-        actions: []
-      },
-      {},
-      makeEnv({})
-    )
-  );
+  const {container, findByText, findByPlaceholderText, findByDisplayValue} =
+    render(
+      amisRender(
+        {
+          type: 'form',
+          api: '/api/xxx',
+          body: [
+            {
+              type: 'input-month',
+              name: 'month',
+              label: '时间'
+            }
+          ],
+          title: 'The form',
+          actions: []
+        },
+        {},
+        makeEnv({})
+      )
+    );
 
-  const inputDate = await findByText('请选择月份');
+  const inputDate = await findByPlaceholderText('请选择月份');
 
   fireEvent.click(inputDate);
 
@@ -43,11 +44,11 @@ test('Renderer:inputMonth click', async () => {
 
   const lastYearMonth = moment().subtract(1, 'year').format('YYYY') + '-01';
 
-  await findByText(lastYearMonth);
+  await findByDisplayValue(lastYearMonth);
 
   const value = document.querySelector(
-    '.cxd-DatePicker-value'
-  ) as HTMLSpanElement;
+    '.cxd-DatePicker input'
+  ) as HTMLInputElement;
 
-  expect(value.innerHTML).toEqual(lastYearMonth);
+  expect(value.value).toEqual(lastYearMonth);
 });

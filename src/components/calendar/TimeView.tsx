@@ -1,16 +1,20 @@
 import moment from 'moment';
 import React from 'react';
+import merge from 'lodash/merge';
 import {LocaleProps, localeable} from '../../locale';
 import {Icon} from '../icons';
 import {ClassNamesFn} from '../../theme';
 import Picker from '../Picker';
 import {PickerColumnItem} from '../PickerColumn';
 import {getRange, isMobile} from '../../utils/helper';
+import Downshift from 'downshift';
 
 interface CustomTimeViewProps extends LocaleProps {
   viewDate: moment.Moment;
   selectedDate: moment.Moment;
   dateFormat?: boolean | string;
+  minDate: moment.Moment;
+  maxDate: moment.Moment;
   subtractTime: (
     amount: number,
     type: string,
@@ -22,14 +26,21 @@ interface CustomTimeViewProps extends LocaleProps {
     toSelected?: moment.Moment
   ) => () => void;
   showView: (view: string) => () => void;
+  updateSelectedDate: (event: React.MouseEvent<any>, close?: boolean) => void;
   timeFormat: string;
+  requiredConfirm?: boolean;
+  isEndDate?: boolean;
   classnames: ClassNamesFn;
-  setTime: (type: string, value: any) => void;
+  setTime: (type: string, amount: number) => void;
+  scrollToTop: (type: string, amount: number, i: number, lable?: string) => void;
   onClose?: () => void;
   onConfirm?: (value: number[], types: string[]) => void;
+  setDateTimeState: (state: any) => void;
   useMobileUI: boolean;
   showToolbar?: boolean;
-  onChange?: (value: any) => void;
+  onChange: (value: moment.Moment) => void;
+  timeConstraints?: any;
+  timeRangeHeader?: string;
 }
 
 interface CustomTimeViewState {
@@ -45,6 +56,7 @@ export class CustomTimeView extends React.Component<
   CustomTimeViewProps & LocaleProps,
   CustomTimeViewState
 > {
+
   padValues = {
     hours: 2,
     minutes: 2,
@@ -84,9 +96,84 @@ export class CustomTimeView extends React.Component<
 
   constructor(props: any) {
     super(props);
-    this.state = this.calculateState(this.props);
+    this.state = {
+      ...this.calculateState(this.props),
+      uniqueTag: 0,
+    }
+
+    if (this.props.timeConstraints) {
+      this.timeConstraints = merge(
+        this.timeConstraints,
+        this.props.timeConstraints
+      );
+    }
   }
 
+  componentWillMount() {
+    this.setState({uniqueTag: (new Date()).valueOf()})
+  }
+
+  componentDidMount() {
+    const {
+      timeFormat,
+      selectedDate,
+      viewDate,
+      isEndDate,
+    } = this.props;
+    const formatMap = {
+      hours: 'HH',
+      minutes: 'mm',
+      seconds: 'ss'
+    };
+    const date = selectedDate || (isEndDate ? viewDate.endOf('day') : viewDate);
+    timeFormat.split(':').forEach((format, i) => {
+      const type = /h/i.test(format)
+        ? 'hours'
+        : /m/.test(format)
+        ? 'minutes'
+        : /s/.test(format)
+        ? 'seconds'
+        : '';
+      if (type) {
+        this.scrollToTop(type, parseInt(date.format(formatMap[type]), 10), i, 'init')
+      }
+    })
+  }
+
+  updateSelectedDate = (event: React.MouseEvent<any>) => {
+    // need confirm
+    if (this.props.requiredConfirm) {
+      const viewDate = this.props.viewDate.clone();
+      const currentDate = this.props.selectedDate || viewDate;
+
+      const target = event.target as HTMLElement;
+      let modifier = 0;
+
+      if (~target.className.indexOf('rdtNew')) {
+        modifier = 1;
+      }
+      if (~target.className.indexOf('rdtOld')) {
+        modifier = -1;
+      }
+
+      viewDate
+        .month(viewDate.month() + modifier)
+        .date(parseInt(target.getAttribute('data-value') as string, 10))
+        .hours(currentDate.hours())
+        .minutes(currentDate.minutes())
+        .seconds(currentDate.seconds())
+        .milliseconds(currentDate.milliseconds());
+
+      this.props.setDateTimeState({
+        viewDate,
+        selectedDate: viewDate.clone()
+      });
+      return;
+    }
+
+    this.props.updateSelectedDate(event, true);
+  };
+  
   componentDidUpdate(preProps: CustomTimeViewProps) {
     if (
       preProps.viewDate !== this.props.viewDate ||
@@ -173,6 +260,9 @@ export class CustomTimeView extends React.Component<
       value =
         this.timeConstraints[type].min +
         (value - (this.timeConstraints[type].max + 1));
+    if (value < this.timeConstraints[type].min) {
+      value = this.timeConstraints[type].min;
+    }
     return this.pad(type, value);
   }
 
@@ -384,6 +474,7 @@ export class CustomTimeView extends React.Component<
     this.setState((prevState: CustomTimeViewState) => {
       return {...prevState, ...time};
     });
+    // @ts-ignore
     this.props.onChange && this.props.onChange(value);
   };
 
@@ -437,54 +528,174 @@ export class CustomTimeView extends React.Component<
     );
   };
 
+  setTime = (
+    type: 'hours' | 'minutes' | 'seconds' | 'milliseconds',
+    value: number
+  ) => {
+    const date = (this.props.selectedDate || this.props.viewDate).clone();
+    date[type](value);
+
+    this.props.setDateTimeState({
+      viewDate: date.clone(),
+      selectedDate: date.clone()
+    });
+
+    if (!this.props.requiredConfirm) {
+      this.props.onChange(date);
+    }
+  };
+
+  scrollToTop = (
+    type: 'hours' | 'minutes' | 'seconds' | 'milliseconds',
+    value: number,
+    i: number,
+    label?: string,
+  ) => {
+    let elf: any = document.getElementById(`${this.state.uniqueTag}-${i}-input`);
+    elf.parentNode.scrollTo({
+      top: value * 28,
+      behavior: label === 'init' ? 'auto' : 'smooth'
+    })
+  };
+
+  confirm = () => {
+    let date = (this.props.selectedDate || this.props.viewDate).clone();
+
+    // 如果 minDate 是可用的，且比当前日期晚，则用 minDate
+    if (this.props.minDate?.isValid() && this.props.minDate?.isAfter(date)) {
+      date = this.props.minDate.clone();
+    }
+
+    this.props.setDateTimeState({
+      selectedDate: date
+    });
+    this.props.onChange(date);
+    this.props.onClose && this.props.onClose();
+  };
+
+  cancel = () => {
+    this.props.onClose && this.props.onClose();
+  };
+
+  computedTimeOptions(total: number) {
+    const times: {label: string; value: string}[] = [];
+
+    for (let t = 0; t < total; t++) {
+      const label = t < 10 ? `0${t}` : `${t}`;
+      times.push({label, value: label});
+    }
+
+    return times;
+  }
+
   render() {
-    let counters: Array<JSX.Element | null> = [];
-    const cx = this.props.classnames;
+    const {
+      timeFormat,
+      selectedDate,
+      viewDate,
+      isEndDate,
+      classnames: cx,
+      timeRangeHeader
+    } = this.props;
+    
+    const date = selectedDate || (isEndDate ? viewDate.endOf('day') : viewDate);
+    const inputs: Array<React.ReactNode> = [];
 
     if (isMobile() && this.props.useMobileUI) {
       return (
         <div className={cx('CalendarTime')}>{this.renderTimeViewPicker()}</div>
       );
     }
-    this.state.counters.forEach((c: any) => {
-      if (counters.length) {
-        counters.push(
-          <div
-            key={`sep${counters.length}`}
-            className={cx('CalendarCounter-sep')}
+
+    timeFormat.split(':').forEach((format, i) => {
+      const type = /h/i.test(format)
+        ? 'hours'
+        : /m/.test(format)
+        ? 'minutes'
+        : /s/.test(format)
+        ? 'seconds'
+        : '';
+      if (type) {
+        const min = 0;
+        const max = type === 'hours' ? 23 : 59;
+        const hours = this.computedTimeOptions(24);
+        const times = this.computedTimeOptions(60);
+        const options = type === 'hours' ? hours : times;
+        const formatMap = {
+          hours: 'HH',
+          minutes: 'mm',
+          seconds: 'ss'
+        };
+
+        inputs.push(
+          <Downshift
+            key={i + 'input'}
+            inputValue={date.format(formatMap[type])}
           >
-            :
-          </div>
+            {({getInputProps, openMenu, closeMenu}) => {
+              const inputProps = getInputProps({
+                onFocus: () => openMenu(),
+                onChange: (e: any) =>
+                  this.setTime(
+                    type,
+                    Math.max(
+                      min,
+                      Math.min(
+                        parseInt(
+                          e.currentTarget.value.replace(/\D/g, ''),
+                          10
+                        ) || 0,
+                        max
+                      )
+                    )
+                  )
+              });
+              return (
+                <div className={cx('CalendarInputWrapper')}>
+                  <div 
+                    className={cx(
+                      'CalendarInput-sugs',
+                      type === 'hours' ? 'CalendarInput-sugsHours' : 'CalendarInput-sugsTimes'
+                    )} 
+                    id={`${this.state.uniqueTag}-${i}-input`}
+                  >
+                    {options.map(option => {
+                      return (
+                        <div
+                          key={option.value}
+                          className={cx('CalendarInput-sugsItem', {
+                            'is-highlight':
+                              option.value === date.format(formatMap[type])
+                          })}
+                          onClick={() => {
+                            this.setTime(type, parseInt(option.value, 10));
+                            this.scrollToTop(type, parseInt(option.value, 10), i);
+                            closeMenu();
+                          }}
+                        >
+                          {option.value}
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
+              );
+            }}
+          </Downshift>
         );
+        inputs.push(<span key={i + 'divider'}></span>);
       }
-      counters.push(this.renderCounter(c));
     });
-
-    if (this.state.daypart !== false) {
-      counters.push(this.renderDayPart());
-    }
-
-    if (
-      this.state.counters.length === 3 &&
-      this.props.timeFormat.indexOf('S') !== -1
-    ) {
-      counters.push(
-        <div className={cx('CalendarCounter-sep')} key="sep5">
-          :
+    inputs.length && inputs.pop();
+    console.log(this.props)
+    return (
+      <>
+        <div className={cx(timeRangeHeader ? 'TimeRangeHeaderWrapper' : null)}>
+          {timeRangeHeader}
         </div>
-      );
-      counters.push(
-        <div className={cx('CalendarCounter CalendarCounter--milli')}>
-          <input
-            value={this.state.milliseconds}
-            type="text"
-            onChange={this.updateMilli}
-          />
-        </div>
-      );
-    }
-
-    return <div className={cx('CalendarTime')}>{counters}</div>;
+        <div>{inputs}</div>
+      </>
+    )
   }
 }
 

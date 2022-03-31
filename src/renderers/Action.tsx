@@ -753,6 +753,8 @@ export class Action extends React.Component<ActionProps, ActionState> {
       loading,
       body,
       render,
+      onMouseEnter,
+      onMouseLeave,
       classnames: cx,
       classPrefix: ns
     } = this.props;
@@ -768,7 +770,12 @@ export class Action extends React.Component<ActionProps, ActionState> {
           trigger={tooltipTrigger}
           rootClose={tooltipRootClose}
         >
-          <div className={cx('Action', className)} onClick={this.handleAction}>
+          <div
+            className={cx('Action', className)}
+            onClick={this.handleAction}
+            onMouseEnter={onMouseEnter}
+            onMouseLeave={onMouseLeave}
+          >
             {render('body', body) as JSX.Element}
           </div>
         </TooltipWrapper>
@@ -814,6 +821,8 @@ export class Action extends React.Component<ActionProps, ActionState> {
         loadingClassName={loadingClassName}
         loading={loading}
         onClick={this.handleAction}
+        onMouseEnter={onMouseEnter}
+        onMouseLeave={onMouseLeave}
         type={type && ~allowedType.indexOf(type) ? type : 'button'}
         disabled={disabled}
         componentClass={isMenuItem ? 'a' : componentClass}
@@ -878,6 +887,16 @@ export class ActionRenderer extends React.Component<
   }
 
   @autobind
+  handleMouseEnter(e: React.MouseEvent<any>) {
+    this.props.dispatchEvent(e, this.props.data);
+  }
+
+  @autobind
+  handleMouseLeave(e: React.MouseEvent<any>) {
+    this.props.dispatchEvent(e, this.props.data);
+  }
+
+  @autobind
   isCurrentAction(link: string) {
     const {env, data} = this.props;
     return env.isCurrentUrl(filter(link, data));
@@ -892,6 +911,8 @@ export class ActionRenderer extends React.Component<
         env={env}
         disabled={disabled || btnDisabled}
         onAction={this.handleAction}
+        onMouseEnter={this.handleMouseEnter}
+        onMouseLeave={this.handleMouseLeave}
         loading={loading}
         isCurrentUrl={this.isCurrentAction}
         tooltipContainer={

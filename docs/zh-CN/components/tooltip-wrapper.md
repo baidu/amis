@@ -26,14 +26,14 @@ order: 59
     "items": [
       {
         "type": "tooltip-wrapper",
-        "tooltip": "提示文字",
+        "content": "提示文字",
         "body": "hover 激活文字提示",
         "className": "mb-1"
       },
       {
         "type": "tooltip-wrapper",
         "title": "标题",
-        "tooltip": "提示文字",
+        "content": "提示文字",
         "trigger": "click",
         "body": "click 激活文字提示",
         "className": "mb-1"
@@ -49,7 +49,7 @@ order: 59
 [
   {
     "type": "tooltip-wrapper",
-    "tooltip": "删除提示",
+    "content": "删除提示",
     "inline": true,
     "body": [
       {
@@ -89,7 +89,7 @@ order: 59
       "items": [
         {
           "type": "tooltip-wrapper",
-          "tooltip": "提示文字",
+          "content": "提示文字",
           "body": [
             {
               "type": "icon",
@@ -116,7 +116,7 @@ order: 59
       "items": [
         {
           "type": "tooltip-wrapper",
-          "tooltip": "提示文字",
+          "content": "提示文字",
           "placement": "left",
           "body": [
             {
@@ -132,7 +132,7 @@ order: 59
         },
         {
           "type": "tooltip-wrapper",
-          "tooltip": "提示文字",
+          "content": "提示文字",
           "placement": "right",
           "body": [
             {
@@ -160,7 +160,7 @@ order: 59
       "items": [
         {
           "type": "tooltip-wrapper",
-          "tooltip": "提示文字",
+          "content": "提示文字",
           "placement": "bottom",
           "body": [
             {
@@ -180,6 +180,54 @@ order: 59
 }
 ```
 
+## 位置偏移
+
+组件提供了关于相对提示位置的垂直、水平位置上的偏移，默认[0, 0]。
+
+```schema: scope="body"
+[
+  {
+    "type": "tooltip-wrapper",
+    "title": "标题",
+    "content": "文案提示位置偏移 [10, -20]",
+    "offset": [10, -20],
+    "inline": true,
+    "className": "mr-2",
+    "body": [
+      {
+        "type": "tpl",
+        "tpl": "向右偏移10px向上偏移20px"
+      }
+    ]
+  }
+]
+
+```
+
+## 展示箭头
+
+`showArrow` 为 `false` 不展示箭头。
+
+```schema: scope="body"
+[
+  {
+    "type": "tooltip-wrapper",
+    "title": "标题",
+    "content": "提示内容",
+    "showArrow": false,
+    "inline": true,
+    "className": "mr-2",
+    "body": [
+      {
+        "type": "tpl",
+        "tpl": "没有箭头"
+      }
+    ]
+  }
+]
+
+```
+
 ## 主题色
 
 组件提供了两个不同的主题：`dark` 和 `light`，默认使用`light`。
@@ -189,7 +237,7 @@ order: 59
   {
     "type": "tooltip-wrapper",
     "title": "标题",
-    "tooltip": "文案提示",
+    "content": "文案提示",
     "inline": true,
     "className": "mr-2",
     "body": [
@@ -202,7 +250,7 @@ order: 59
   {
     "type": "tooltip-wrapper",
     "title": "标题",
-    "tooltip": "文案提示",
+    "content": "文案提示",
     "inline": true,
     "tooltipTheme": "dark",
     "body": [
@@ -216,9 +264,34 @@ order: 59
 
 ```
 
+## 延迟打开&关闭
+
+`mouseEnterDelay` 为延迟展示, `mouseLeaveDelay` 为延迟隐藏，
+
+```schema: scope="body"
+[
+  {
+    "type": "tooltip-wrapper",
+    "title": "标题",
+    "content": "提示内容",
+    "mouseEnterDelay": 1000,
+    "mouseLeaveDelay": 2000,
+    "inline": true,
+    "className": "mr-2",
+    "body": [
+      {
+        "type": "tpl",
+        "tpl": "延迟1s展示，延迟2s隐藏"
+      }
+    ]
+  }
+]
+
+```
+
 ## 动态文案
 
-`tooltip` 和 `title` 支持变量映射，可以从上下文中动态获取提示文案。
+`content` 和 `title` 支持变量映射，可以从上下文中动态获取提示文案。
 
 ```schema
 {
@@ -228,7 +301,7 @@ order: 59
   },
   body: {
     "type": "tooltip-wrapper",
-    "tooltip": "${text}",
+    "content": "${text}",
     "body": {
       "type": "html",
       "style": {
@@ -252,21 +325,21 @@ order: 59
 [
   {
     "type": "tooltip-wrapper",
-    "tooltip": "文字提示",
+    "content": "文字提示",
     "inline": true,
     "className": "p-1 mr-3 border-2 border-solid border-indigo-400",
     "body": "内联容器1"
   },
   {
     "type": "tooltip-wrapper",
-    "tooltip": "文字提示",
+    "content": "文字提示",
     "inline": true,
     "className": "p-1 mr-3 border-2 border-solid border-indigo-400",
     "body": "内联容器2"
   },
   {
     "type": "tooltip-wrapper",
-    "tooltip": "文字提示",
+    "content": "文字提示",
     "className": "p-1 mt-3 border-2 border-solid border-green-400",
     "body": "非内联容器"
   }
@@ -281,7 +354,7 @@ order: 59
 ```schema: scope="body"
 {
   "type": "tooltip-wrapper",
-  "tooltip": "文字提示(加粗)",
+  "content": "文字提示(加粗)",
   "inline": true,
   "style": {
     fontStyle: "italic"
@@ -305,7 +378,7 @@ order: 59
 ```schema: scope="body"
 {
   "type": "tooltip-wrapper",
-  "tooltip": "文字提示",
+  "content": "文字提示",
   "wrapperComponent": "pre",
   "body": "function HelloWorld() {\n    console.log('Hello World');\n}"
 }
@@ -317,10 +390,16 @@ order: 59
 | ---------------- | ----------------------------------------------------------------------- | ------------------- | ---------------------------------------------- |
 | type             | `string`                                                                | `"tooltip-wrapper"` | 指定为文字提示容器组件                         |
 | title            | `string`                                                                | `""`                | 文字提示标题                                   |
-| tooltip          | `string`                                                                | `""`                | 文字提示                                       |
+| content          | `string`                                                                | `""`                | 文字提示内容, 兼容之前的 tooltip 属性          |
 | placement        | `"top" \| "left" \| "right" \| "bottom" `                               | `"top"`             | 文字提示浮层出现位置                           |
+| tooltipTheme     | `"light" \| "dark"`                                                     | `"light"`           | 主题样式， 默认为 light                        |
+| offset           | `[number, number]`                                                      | `[0, 0]`            | 文字提示浮层位置相对偏移量，单位 px            |
+| showArrow        | `boolean`                                                               | `true`              | 是否展示浮层指向箭头                           |
+| enterable        | `boolean`                                                               | `true`              | 是否鼠标可以移入到浮层中                       |
+| disabled         | `boolean`                                                               | `false`             | 是否禁用浮层提示                               |
 | trigger          | `"hover" \| "click" \| "focus" \| Array<"hover" \| "click" \| "focus">` | `"hover"`           | 浮层触发方式，支持数组写法`["hover", "click"]` |
-| delay            | `number`                                                                | `0`                 | 浮层隐藏延迟时间，单位 ms                      |
+| mouseEnterDelay  | `number`                                                                | `0`                 | 浮层延迟展示时间，单位 ms                      |
+| mouseLeaveDelay  | `number`                                                                | `300`               | 浮层延迟隐藏时间，单位 ms                      |
 | rootClose        | `boolean`                                                               | `true`              | 是否点击非内容区域关闭提示                     |
 | inline           | `boolean`                                                               | `false`             | 内容区是否内联显示                             |
 | wrapperComponent | `string`                                                                | `"div" \| "span"`   | 容器标签名                                     |

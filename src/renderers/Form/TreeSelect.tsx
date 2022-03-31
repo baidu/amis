@@ -18,9 +18,15 @@ import {Api} from '../../types';
 import {isEffectiveApi} from '../../utils/api';
 import Spinner from '../../components/Spinner';
 import ResultBox from '../../components/ResultBox';
-import {autobind, getTreeAncestors, isMobile} from '../../utils/helper';
+import {
+  autobind,
+  getTreeAncestors,
+  isMobile,
+  createObject
+} from '../../utils/helper';
 import {findDOMNode} from 'react-dom';
 import {normalizeOptions} from '../../components/Select';
+import {Action} from '../../types';
 
 /**
  * Tree 下拉选择框。
@@ -63,6 +69,11 @@ export interface TreeSelectControlSchema extends FormOptionsControl {
    * 选父级的时候，是否只把子节点的值包含在内
    */
   onlyChildren?: boolean;
+
+  /**
+   * 单选时，只运行选择叶子节点
+   */
+  onlyLeaf?: boolean;
 
   /**
    * 顶级节点是否可以创建子节点
@@ -118,8 +129,11 @@ export default class TreeSelectControl extends React.Component<
     resetValue: '',
     hideNodePathLabel: false,
     enableNodePath: false,
-    pathSeparator: '/'
+    pathSeparator: '/',
+    selfDisabledAffectChildren: true
   };
+
+  treeRef: any;
 
   container: React.RefObject<HTMLDivElement> = React.createRef();
 
@@ -185,16 +199,20 @@ export default class TreeSelectControl extends React.Component<
     );
   }
 
-  handleFocus() {
+  handleFocus(e: any) {
+    const {dispatchEvent} = this.props;
     this.setState({
       isFocused: true
     });
+    dispatchEvent('focus', e);
   }
 
-  handleBlur() {
+  handleBlur(e: any) {
+    const {dispatchEvent} = this.props;
     this.setState({
       isFocused: false
     });
+    dispatchEvent('blur', e);
   }
 
   handleKeyPress(e: React.KeyboardEvent) {
@@ -257,19 +275,19 @@ export default class TreeSelectControl extends React.Component<
   }
 
   handleChange(value: any) {
-    const {onChange, multiple} = this.props;
+    const {multiple} = this.props;
 
     if (!multiple) {
       this.close();
     }
 
     multiple || !this.state.inputValue
-      ? onChange(value)
+      ? this.resultChangeEvent(value)
       : this.setState(
           {
             inputValue: ''
           },
-          () => onChange(value)
+          () => this.resultChangeEvent(value)
         );
   }
 
@@ -405,19 +423,13 @@ export default class TreeSelectControl extends React.Component<
 
   @autobind
   handleResultChange(value: Array<Option>) {
-    const {
-      joinValues,
-      extractValue,
-      delimiter,
-      valueField,
-      onChange,
-      multiple
-    } = this.props;
+    const {joinValues, extractValue, delimiter, valueField, multiple} =
+      this.props;
 
     let newValue: any = Array.isArray(value) ? value.concat() : [];
 
     if (!multiple && !newValue.length) {
-      onChange('');
+      this.resultChangeEvent('');
       return;
     }
 
@@ -428,8 +440,30 @@ export default class TreeSelectControl extends React.Component<
     if (joinValues) {
       newValue = newValue.join(delimiter || ',');
     }
+    this.resultChangeEvent(newValue);
+  }
 
-    onChange(newValue);
+  doAction(action: Action, data: any, throwErrors: boolean) {
+    if (action.actionType && ['clear', 'reset'].includes(action.actionType)) {
+      this.clearValue();
+    }
+  }
+
+  @autobind
+  async resultChangeEvent(value: any) {
+    const {onChange, dispatchEvent, data} = this.props;
+
+    const rendererEvent = await dispatchEvent(
+      'change',
+      createObject(data, {
+        value
+      })
+    );
+
+    if (rendererEvent?.prevented) {
+      return;
+    }
+    onChange && onChange(value);
   }
 
   @autobind
@@ -447,6 +481,11 @@ export default class TreeSelectControl extends React.Component<
         ? ancestors.map(item => `${item[labelField || 'label']}`).join(' / ')
         : item[labelField || 'label']
     }`;
+  }
+
+  @autobind
+  domRef(ref: any) {
+    this.treeRef = ref;
   }
 
   renderOuter() {
@@ -472,6 +511,7 @@ export default class TreeSelectControl extends React.Component<
       showRadio,
       popOverContainer,
       onlyChildren,
+      onlyLeaf,
       classPrefix: ns,
       optionsPlaceholder,
       searchable,
@@ -495,7 +535,8 @@ export default class TreeSelectControl extends React.Component<
       rootCreateTip,
       translate: __,
       deferLoad,
-      expandTreeOptions
+      expandTreeOptions,
+      selfDisabledAffectChildren
     } = this.props;
 
     let filtedOptions =
@@ -506,7 +547,9 @@ export default class TreeSelectControl extends React.Component<
     return (
       <TreeSelector
         classPrefix={ns}
+        onRef={this.domRef}
         onlyChildren={onlyChildren}
+        onlyLeaf={onlyLeaf}
         labelField={labelField}
         valueField={valueField}
         disabled={disabled}
@@ -548,6 +591,7 @@ export default class TreeSelectControl extends React.Component<
         bultinCUD={!addControls && !editControls}
         onDeferLoad={deferLoad}
         onExpandTree={expandTreeOptions}
+        selfDisabledAffectChildren={selfDisabledAffectChildren}
       />
     );
   }

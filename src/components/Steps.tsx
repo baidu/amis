@@ -75,7 +75,6 @@ export interface StepsSchema extends BaseSchema {
    */
    labelPlacement?: 'horizontal' | 'vertical';
 }
-
 export interface StepsProps extends ThemeProps {
   steps: StepSchema[];
   className: string;
@@ -171,8 +170,12 @@ export function Steps(props: StepsProps) {
 
   const mobileUI = useMobileUI && isMobile();
   return (
-    <ul className={cx('Steps',`Steps--Placement-${(progressDot || (labelPlacement === 'vertical' && mode != 'vertical'))
-      ? 'vertical' : ''}`, `Steps--${progressDot ? 'ProgressDot' : ''}`, `Steps--${mode}`, mobileUI ? 'Steps-mobile' : '', className)}>
+    <ul className={cx( // 纵向步骤条暂时不支持labelPlacement属性
+      'Steps',
+      `Steps--Placement-${(progressDot || (labelPlacement === 'vertical' && mode != 'vertical')) ? 'vertical' : ''}`,
+      `Steps--${progressDot ? 'ProgressDot' : ''}`, 
+      `Steps--${mode}`,
+      mobileUI ? 'Steps-mobile' : '', className)}>
       {stepsRow.map((step, i) => {
         const {stepStatus, icon} = getStepStatus(step, i);
         return (
@@ -193,22 +196,15 @@ export function Steps(props: StepsProps) {
                   <div
                     className={cx(
                       'StepsItem-title',
+                      `StepsItem-${progressDot ? 'vertical-ProgressDot' : ''}`,
                       i < current && 'is-success'
                     )}
                   >
-                    {strlen(step.title, 18).len > 18
-                      ? <span data-tooltip={step.title} data-position="top">{setTextLong(step.title)}</span>
-                      : <span>{setTextLong(step.title)}</span>}
-                    <span className={cx('StepsItem-subTitle')}>
-                      {strlen(step.subTitle, 18).len > 18
-                        ? <span data-tooltip={step.subTitle} data-position="top">{setTextLong(step.subTitle)}</span>
-                        : <span>{step.subTitle}</span>}
-                    </span>
+                    <span className={cx('StepsItem-ellText')} title={String(step.title)}>{step.title}</span>
+                    <span className={cx('StepsItem-subTitle', 'StepsItem-ellText')} title={String(step.subTitle)}>{step.subTitle}</span>
                   </div>
-                  <div className={cx('StepsItem-description')}>
-                      {strlen(step.description, 18).len > 18
-                        ? <span data-tooltip={step.description} data-position="top">{setTextLong(step.description)}</span>
-                        : step.description}
+                  <div className={cx('StepsItem-description', 'StepsItem-ellText')} title={String(step.description)}>
+                    <span>{step.description}</span>
                   </div>
                 </div>
               </div>

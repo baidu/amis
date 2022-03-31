@@ -136,7 +136,7 @@ API 还支持配置对象类型
 
 ### 配置请求方式
 
-可以配置`method`指定接口的请求方式，支持：`get`、`post`、`put`、`delete`。
+可以配置`method`指定接口的请求方式，支持：`get`、`post`、`put`、`delete`、`patch`。
 
 > `method`值留空时：
 >
@@ -935,6 +935,101 @@ Access-Control-Expose-Headers: Content-Disposition
       }
     ],
     "actions": []
+}
+```
+
+## GraphQL
+
+1.7.0 及之前的版本需要通过配置 `data` 里的 `query` 和 `variables` 字段可以实现 GraphQL 查询
+
+```schema: scope="body"
+{
+  "type": "form",
+  "api": {
+    "method": "post",
+    "url": "/api/mock2/form/saveForm",
+    "data": {
+      "query": "mutation AddUser($name: String!, $email: String!) { \
+        insert_user(object: { title: $title, email: $email }) { \
+          title \
+          email \
+        } \
+      }",
+      "variables": {
+         "name": "${name}",
+         "email": "${email}"
+      }
+    }
+  },
+  "body": [
+    {
+      "type": "input-text",
+      "name": "name",
+      "label": "姓名："
+    },
+    {
+      "name": "email",
+      "type": "input-email",
+      "label": "邮箱："
+    }
+  ]
+}
+```
+
+1.8.0 及以上版本简化了 GraphQL 的支持，增加了 `graphql` 属性，如果配置了就会自动并自动将 data 当成 `variables`，上面的例子可以简化为下面的写法，除了简化之外还方便了可视化编辑器编辑
+
+```schema: scope="body"
+{
+  "type": "form",
+  "api": {
+    "method": "post",
+    "url": "/api/mock2/form/saveForm",
+    "graphql": "mutation AddUser($name: String!, $email: String!) { \
+        insert_user(object: { name: $name, email: $email }) { \
+          name \
+          email \
+        } \
+    }"
+  },
+  "body": [
+    {
+      "type": "input-text",
+      "name": "name",
+      "label": "姓名："
+    },
+    {
+      "name": "email",
+      "type": "input-email",
+      "label": "邮箱："
+    }
+  ]
+}
+```
+
+如果设置了 `data` 会被当成 `variables`，比如在 CRUD 里设置分页参数，比如下面的例子
+
+```json
+{
+  "type": "crud",
+  "api": {
+    "url": "/api/mock2/sample",
+    "method": "post",
+    "graphql": "{ pages(page: $page, perPage: $perPage) { id, engine } }",
+    "data": {
+      "page": "${page}",
+      "perPage": "${perPage}"
+    }
+  },
+  "columns": [
+    {
+      "name": "id",
+      "label": "ID"
+    },
+    {
+      "name": "engine",
+      "label": "Rendering engine"
+    }
+  ]
 }
 ```
 

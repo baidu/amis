@@ -55,6 +55,12 @@
               background-color: var(--Steps-line-success-bg);
             }
           }
+          .#{$ns}StepsItem-ellText {
+            max-width: px2rem(158px);
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+          }
           .#{$ns}StepsItem-subTitle {
             padding-left: px2rem(10px);
             font-size: var(--Steps-sub-title-fontsize);
@@ -63,6 +69,8 @@
           .#{$ns}StepsItem-description {
             max-width: px2rem(140px);
             white-space: nowrap;
+            position: relative;
+            bottom: px2rem(10px);
           }
         }
       }
@@ -139,6 +147,10 @@
           }
           &-title>span {
             display: inline-block !important;
+            
+          }
+          &-vertical-ProgressDot {
+            right: px2rem(10px);
           }
           &-body {
             text-align: left !important;
@@ -148,7 +160,7 @@
           .#{$ns}StepsItem {
             &-containerProgressDot:after{
                 display: none;
-              }
+            }
           }
         }
       }
@@ -196,10 +208,14 @@
               width: 100%;
               >span {
                 display: block;
+                position: relative;
+                left: px2rem(10px);
               }
               .#{$ns}StepsItem-subTitle {
                 word-break: break-all;
                 padding: 0 px2rem(10px);
+                position: relative;
+                left: px2rem(10px);
               }
             }
             .#{$ns}StepsItem-title:after  {

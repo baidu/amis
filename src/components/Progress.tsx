@@ -3,21 +3,26 @@ import cx from 'classnames';
 import {Circle} from 'rc-progress';
 import {ClassNamesFn, themeable, ThemeProps} from '../theme';
 import {SchemaClassName} from '../Schema';
+interface ColorProps {
+  value: number;
+  color: string;
+}
+
+export type ColorMapType = Array<string> | Array<ColorProps> | string;
+
 interface ProgressProps extends ThemeProps {
   type: 'line' | 'circle' | 'dashboard';
   showLabel: boolean;
   value: number;
   stripe?: boolean;
   animate?: boolean;
-  map?: Array<string>;
+  map?: ColorMapType;
   placeholder?: string;
   format?: (value?: number) => JSX.Element;
   gapDegree?: number;
   gapPosition?: 'top' | 'bottom' | 'left' | 'right';
   strokeWidth?: number;
-  classNames?: string;
   progressClassName?: SchemaClassName;
-  progressBarClassName?: SchemaClassName;
   classnames: ClassNamesFn;
 }
 export class Progress extends React.Component<ProgressProps, Object> {
@@ -25,19 +30,46 @@ export class Progress extends React.Component<ProgressProps, Object> {
     type: 'line',
     placeholder: '-',
     progressClassName: '',
-    progressBarClassName: '',
     map: ['bg-danger', 'bg-warning', 'bg-info', 'bg-success', 'bg-success'],
     showLabel: true
   };
 
-  autoClassName(value: number) {
-    const map = this.props.map;
-    if (!map || !map.length) {
-      return '';
+  getCurrentColor() {
+    const color = this.props.map;
+    if (!color || !color.length) {
+      return 'bg-primary';
     }
-    let index = Math.floor((value * map.length) / 100);
-    index = Math.max(0, Math.min(map.length - 1, index));
-    return map[index];
+    if (typeof color === 'string') {
+      return color;
+    } else {
+      return this.getLevelColor(color);
+    }
+  }
+
+  getLevelColor(color: Array<string> | Array<ColorProps>) {
+    const value = this.props.value;
+    const colorArray = this.getColorArray(color).sort(
+      (a: {value: number}, b: {value: number}) => a.value - b.value
+    );
+    for (let i = 0; i < colorArray.length; i++) {
+      if (colorArray[i].value > value) {
+        return colorArray[i].color;
+      }
+    }
+    return colorArray[colorArray.length - 1].color;
+  }
+
+  getColorArray(color: Array<string> | Array<ColorProps>) {
+    const span = 100 / color.length;
+    return color.map((item, index) => {
+      if (typeof item === 'string') {
+        return {
+          color: item,
+          value: (index + 1) * span
+        };
+      }
+      return item;
+    });
   }
 
   getLabel(prefixCls: string) {
@@ -56,15 +88,13 @@ export class Progress extends React.Component<ProgressProps, Object> {
 
   render() {
     const {
-      classNames,
+      className,
       progressClassName,
-      progressBarClassName,
       type,
       value,
       placeholder,
       stripe,
       animate,
-      showLabel,
       gapDegree,
       gapPosition,
       strokeWidth,
@@ -73,32 +103,32 @@ export class Progress extends React.Component<ProgressProps, Object> {
 
     const isLineType = type === 'line';
     const prefixCls = isLineType ? 'Progress-line' : 'Progress-circle';
+    const bgColor = this.getCurrentColor();
+    const isColorClass = /bg-/.test(bgColor);
 
-    let viewValue: React.ReactNode = (
-      <span className="text-muted">{placeholder}</span>
-    );
+    let viewValue: React.ReactNode;
+    if (typeof value !== 'number') {
+      viewValue = <span className="text-muted">{placeholder}</span>;
+    } else if (type === 'line') {
+      const barStyle: any = {
+        width: `${value}%`
+      };
+      strokeWidth && (barStyle.height = strokeWidth);
+      !isColorClass && (barStyle.backgroundColor = bgColor);
 
-    if (type === 'line') {
       viewValue = [
-        <div
-          key="progress"
-          className={cx(prefixCls, progressClassName, {
-            [`${prefixCls}-no-label`]: !showLabel
-          })}
-        >
+        <div key="progress" className={cx(prefixCls, progressClassName)}>
           <div className={cx(`${prefixCls}-inter`)}>
             <div
               className={cx(
                 `${prefixCls}-bar`,
-                progressBarClassName || this.autoClassName(value),
+                {[bgColor]: isColorClass},
                 {[`${prefixCls}-bar--stripe`]: stripe},
                 {[`${prefixCls}-bar--animate`]: animate && !stripe},
                 {[`${prefixCls}-bar--stripe-animate`]: animate && stripe}
               )}
               title={`${value}%`}
-              style={{
-                width: `${value}%`
-              }}
+              style={barStyle}
             />
           </div>
         </div>,
@@ -118,13 +148,16 @@ export class Progress extends React.Component<ProgressProps, Object> {
       };
 
       viewValue = [
-        <div className={cx(prefixCls)} key="circle">
+        <div
+          className={cx(prefixCls, progressClassName || 'w-ssm')}
+          key="circle"
+        >
           <Circle
             percent={value}
-            strokeColor=""
+            strokeColor={!isColorClass ? bgColor : ''}
             strokeWidth={circleWidth}
             trailWidth={circleWidth}
-            prefixCls={this.autoClassName(value)}
+            prefixCls={isColorClass ? bgColor : ''}
             gapDegree={getGapDegree()}
             gapPosition={gapPos}
           />
@@ -133,7 +166,7 @@ export class Progress extends React.Component<ProgressProps, Object> {
       ];
     }
 
-    return <div className={cx('Progress', classNames)}>{viewValue}</div>;
+    return <div className={cx('Progress', className)}>{viewValue}</div>;
   }
 }
 

@@ -712,8 +712,9 @@ export class Select extends React.Component<SelectProps, SelectState> {
     return selection.map((item, index) => {
       if (!multiple) {
         return (
-          <div className={cx('Select-value', {
-            'is-disabled': disabled
+          <div
+            className={cx('Select-value', {
+              'is-disabled': disabled
             })}
             key={index}
           >
@@ -1134,6 +1135,7 @@ export class Select extends React.Component<SelectProps, SelectState> {
                 <Spinner
                   show
                   icon="reload"
+                  size="sm"
                   spinnerClassName={cx('Select-spinner')}
                 />
               ) : null}

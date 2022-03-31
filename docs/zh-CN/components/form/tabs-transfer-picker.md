@@ -22,7 +22,6 @@ icon:
       "name": "a",
       "sortable": true,
       "selectMode": "tree",
-      "searchable": true,
       "pickerSize": "md",
       "menuTpl": "<div class='flex justify-between'><span>${label}</span>${email ? `<div class='text-muted m-r-xs text-sm text-right'>${email}<br />${phone}</div>`: ''}</div>",
       "valueTpl": "${label}(${value})",
@@ -30,6 +29,7 @@ icon:
         {
           "label": "成员",
           "selectMode": "tree",
+          "searchable": true,
           "children": [
             {
               "label": "法师",
@@ -149,3 +149,16 @@ icon:
 ## 属性表
 
 更多配置请参考[TabsTransfer 组合穿梭器](./tabs-transfer)。
+
+| 事件名称           | 事件参数                                        | 说明                  |
+|-------------------|------------------------------------------------|----------------------|
+| change            |  `value: string` 时间值            |  值变化                           |
+| focus             | -                                 |  获得焦点(非内嵌模式)               |
+| blur              | -                                 |  失去焦点(非内嵌模式)               |
+
+## 动作表
+
+| 动作名称           | 动作配置                 | 说明                    |
+|-------------------|-------------------------|------------------------|
+| clear             | -                       | 清空                    |
+| reset             | -            | 值重置                   |

@@ -585,3 +585,15 @@ order: 68
 | editable              | `boolean`                         | false                               | 收否可编辑标签名                                                                              |
 | scrollable            | `boolean`                         | true                                | 是否导航支持内容溢出滚动。（属性废弃）                                             |
 | sidePosition          | `left` / `right`                  | `left`                              | `sidebar` 模式下，标签栏位置
+
+## 事件表
+
+| 事件名称 | 事件参数 | 说明 |
+| -----  | ------------------------------------ | ------------------ |
+| change |  `value: number \| string` 选项卡切换 | 切换选项卡时触发 |
+
+## 动作表
+
+| 动作名称 | 动作配置 | 说明 |
+| --------------- | ----------------------------------- | -------------- |
+| changeActiveKey | `activeKey: number \| string` 激活项 | 修改激活的tab值  |

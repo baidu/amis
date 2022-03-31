@@ -14,7 +14,13 @@ import {
   str2AsyncFunction
 } from '../utils/api';
 import {Spinner} from '../components';
-import {autobind, isEmpty, isVisible, qsstringify} from '../utils/helper';
+import {
+  autobind,
+  isEmpty,
+  isObjectShallowModified,
+  isVisible,
+  qsstringify
+} from '../utils/helper';
 import {
   BaseSchema,
   SchemaApi,
@@ -185,7 +191,7 @@ export default class Service extends React.Component<ServiceProps> {
       this.socket = this.fetchWSData(props.ws, store.data);
     }
 
-    if (props.defaultData !== prevProps.defaultData) {
+    if (isObjectShallowModified(prevProps.defaultData, props.defaultData)) {
       store.reInitData(props.defaultData);
     }
 
@@ -251,12 +257,18 @@ export default class Service extends React.Component<ServiceProps> {
     let dataProviderFunc = dataProvider;
 
     if (typeof dataProvider === 'string' && dataProvider) {
-      dataProviderFunc = str2AsyncFunction(dataProvider, 'data', 'setData')!;
+      dataProviderFunc = str2AsyncFunction(
+        dataProvider,
+        'data',
+        'setData',
+        'env'
+      )!;
     }
     if (typeof dataProviderFunc === 'function') {
       const unsubscribe = await dataProviderFunc(
         store.data,
-        this.dataProviderSetData
+        this.dataProviderSetData,
+        this.props.env
       );
       if (typeof unsubscribe === 'function') {
         this.dataProviderUnsubscribe = unsubscribe;
@@ -363,6 +375,7 @@ export default class Service extends React.Component<ServiceProps> {
       initFetch,
       initFetchOn,
       store,
+      dataProvider,
       messages: {fetchSuccess, fetchFailed}
     } = this.props;
 
@@ -385,6 +398,10 @@ export default class Service extends React.Component<ServiceProps> {
           errorMessage: fetchFailed
         })
         .then(this.afterDataFetch);
+    }
+
+    if (dataProvider) {
+      this.runDataProvider();
     }
   }
 
@@ -411,22 +428,35 @@ export default class Service extends React.Component<ServiceProps> {
     // 会被覆写
   }
 
+  @autobind
+  handleDialogConfirm(
+    values: object[],
+    action: Action,
+    ctx: any,
+    targets: Array<any>
+  ) {
+    const {store} = this.props;
+    store.closeDialog(true);
+  }
+
+  @autobind
+  handleDialogClose(confirmed = false) {
+    const {store} = this.props;
+    store.closeDialog(confirmed);
+  }
+
   openFeedback(dialog: any, ctx: any) {
     return new Promise(resolve => {
       const {store} = this.props;
-      const parentStore = store.parentStore;
 
-      // 暂时自己不支持弹出 dialog
-      if (parentStore && parentStore.openDialog) {
-        store.setCurrentAction({
-          type: 'button',
-          actionType: 'dialog',
-          dialog: dialog
-        });
-        store.openDialog(ctx, undefined, confirmed => {
-          resolve(confirmed);
-        });
-      }
+      store.setCurrentAction({
+        type: 'button',
+        actionType: 'dialog',
+        dialog: dialog
+      });
+      store.openDialog(ctx, undefined, confirmed => {
+        resolve(confirmed);
+      });
     });
   }
 
@@ -486,18 +516,12 @@ export default class Service extends React.Component<ServiceProps> {
   renderBody() {
     const {render, store, body: schema, classnames: cx} = this.props;
 
-    return (
-      <div className={cx('Service-body')}>
-        {
-          render('body', store.schema || schema, {
-            key: store.schemaKey || 'body',
-            onQuery: this.handleQuery,
-            onAction: this.handleAction,
-            onChange: this.handleChange
-          }) as JSX.Element
-        }
-      </div>
-    );
+    return render('body', store.schema || schema, {
+      key: store.schemaKey || 'body',
+      onQuery: this.handleQuery,
+      onAction: this.handleAction,
+      onChange: this.handleChange
+    }) as JSX.Element;
   }
 
   render() {
@@ -527,6 +551,23 @@ export default class Service extends React.Component<ServiceProps> {
         {this.renderBody()}
 
         <Spinner size="lg" overlay key="info" show={store.loading} />
+
+        {render(
+          // 单独给 feedback 服务的，handleAction 里面先不要处理弹窗
+          'modal',
+          {
+            ...((store.action as Action) &&
+              ((store.action as Action).dialog as object)),
+            type: 'dialog'
+          },
+          {
+            key: 'dialog',
+            data: store.dialogData,
+            onConfirm: this.handleDialogConfirm,
+            onClose: this.handleDialogClose,
+            show: store.dialogOpen
+          }
+        )}
       </div>
     );
   }
@@ -578,5 +619,9 @@ export class ServiceRenderer extends Service {
   reloadTarget(target: string, data?: any) {
     const scoped = this.context as IScopedContext;
     scoped.reload(target, data);
+  }
+
+  setData(values: object) {
+    return super.afterDataFetch(values);
   }
 }

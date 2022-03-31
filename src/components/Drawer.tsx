@@ -204,6 +204,7 @@ export class Drawer extends React.Component<DrawerProps, DrawerState> {
         <Transition
           mountOnEnter
           unmountOnExit
+          appear
           in={show}
           timeout={500}
           onEnter={this.handleEnter}

@@ -93,7 +93,6 @@ export type InputTextRendererEvent =
   | 'focus'
   | 'click'
   | 'change'
-  | 'clear'
   | 'enter';
 
 export interface TextProps extends OptionsControlProps {
@@ -179,7 +178,7 @@ export default class TextControl extends React.PureComponent<
             term: ''
           })
         );
-      } else {
+      } else if (addHook) {
         this.unHook = addHook(async (data: any) => {
           await formItem.loadOptions(
             autoComplete,
@@ -236,10 +235,18 @@ export default class TextControl extends React.PureComponent<
 
     // 光标放到最后
     const len = this.input.value.length;
-    len && this.input.setSelectionRange(len, len);
+    if (len) {
+      // type为email的input元素不支持setSelectionRange，先改为text
+      if (this.input.type === 'email') {
+        this.input.type = 'text';
+        this.input.setSelectionRange(len, len);
+        this.input.type = 'email';
+      } else {
+        this.input.setSelectionRange(len, len);
+      }
+    }
   }
 
-  @bindRendererEvent<TextProps, InputTextRendererEvent>('clear')
   clearValue() {
     const {onChange, resetValue} = this.props;
 
@@ -546,6 +553,8 @@ export default class TextControl extends React.PureComponent<
       multiple,
       creatable,
       borderMode,
+      showCounter,
+      maxLength,
       translate: __
     } = this.props;
     let type = this.props.type?.replace(/^(?:native|input)\-/, '');
@@ -662,6 +671,16 @@ export default class TextControl extends React.PureComponent<
                 >
                   <Icon icon="input-clear" className="icon" />
                 </a>
+              ) : null}
+
+              {showCounter ? (
+                <span className={cx('TextControl-counter')}>
+                  {`${this.valueToString(value)?.length}${
+                    typeof maxLength === 'number' && maxLength
+                      ? `/${maxLength}`
+                      : ''
+                  }`}
+                </span>
               ) : null}
 
               {loading ? (
@@ -832,8 +851,8 @@ export default class TextControl extends React.PureComponent<
         </div>
       ) : (
         <div className={cx(`${ns}TextControl-addOn`, addOn.className)}>
-          {addOn.label ? filter(addOn.label, data) : null}
           {iconElement}
+          {addOn.label ? filter(addOn.label, data) : null}
         </div>
       )
     ) : null;

@@ -137,7 +137,7 @@ export default class IFrame extends React.Component<IFrameProps, object> {
     (this.IFrameRef.current as HTMLIFrameElement)?.contentWindow?.postMessage(
       {
         type: `amis:${type}`,
-        data
+        data: JSON.parse(JSON.stringify(data))
       },
       '*'
     );

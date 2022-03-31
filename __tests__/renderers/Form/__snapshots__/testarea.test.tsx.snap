@@ -55,6 +55,7 @@ exports[`Renderer:textarea 1`] = `
             <textarea
               autocomplete="off"
               autocorrect="off"
+              class="cxd-TextareaControl-input"
               name="a"
               spellcheck="false"
             >

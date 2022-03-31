@@ -6,7 +6,7 @@ import {escapeHtml} from '../utils/tpl-builtin';
 import {buildStyle} from '../utils/style';
 import {TooltipWrapper as TooltipWrapperComp} from '../components';
 
-import type {Trigger} from '../components/TooltipWrapper';
+import type {Trigger, TooltipObject} from '../components/TooltipWrapper';
 
 export interface TooltipWrapperSchema extends BaseSchema {
   /**
@@ -20,7 +20,12 @@ export interface TooltipWrapperSchema extends BaseSchema {
   title?: string;
 
   /**
-   * 文字提示
+   * 文字提示内容，兼容 tooltip，但建议通过 content 来实现提示内容
+   */
+  content?: string;
+
+  /**
+   *  @deprecated 文字提示内容
    */
   tooltip?: string;
 
@@ -30,14 +35,34 @@ export interface TooltipWrapperSchema extends BaseSchema {
   placement?: 'top' | 'right' | 'bottom' | 'left';
 
   /**
+   * 浮层位置相对偏移量
+   */
+  offset?: [number, number];
+
+  /**
+   * 是否展示浮层指向箭头
+   */
+  showArrow?: boolean;
+
+  /**
+   * 是否禁用提示
+   */
+  disabled?: boolean;
+
+  /**
    * 浮层触发方式，默认为hover
    */
   trigger?: Trigger | Array<Trigger>;
 
   /**
-   * 浮层隐藏延迟时间，单位ms，默认0
+   * 浮层延迟显示时间, 单位 ms
    */
-  delay?: number;
+
+  mouseEnterDelay?: number;
+  /**
+   * 浮层延迟隐藏时间, 单位 ms
+   */
+  mouseLeaveDelay?: number;
 
   /**
    * 是否点击非内容区域关闭提示，默认为true
@@ -60,7 +85,7 @@ export interface TooltipWrapperSchema extends BaseSchema {
   inline?: boolean;
 
   /**
-   * 浮层主题色，默认为light
+   * 主题样式， 默认为light
    */
   tooltipTheme?: 'light' | 'dark';
 
@@ -70,6 +95,11 @@ export interface TooltipWrapperSchema extends BaseSchema {
   style?: {
     [propName: string]: any;
   };
+
+  /**
+   * 是否可以移入浮层中, 默认true
+   */
+  enterable?: boolean;
 
   /**
    * 自定义提示浮层样式
@@ -97,6 +127,7 @@ export interface TooltipWrapperProps extends RendererProps {
   /**
    * 文字提示
    */
+  content?: string;
   tooltip?: string;
   /**
    * 文字提示位置
@@ -105,7 +136,11 @@ export interface TooltipWrapperProps extends RendererProps {
   inline?: boolean;
   trigger: Trigger | Array<Trigger>;
   rootClose?: boolean;
-  delay?: number;
+  showArrow?: boolean;
+  offset?: [number, number];
+  disabled?: boolean;
+  mouseEnterDelay?: number;
+  mouseLeaveDelay?: number;
   container?: React.ReactNode;
   style?: React.CSSProperties;
   tooltipStyle?: React.CSSProperties;
@@ -124,7 +159,8 @@ export default class TooltipWrapper extends React.Component<
     | 'placement'
     | 'trigger'
     | 'rootClose'
-    | 'delay'
+    | 'mouseEnterDelay'
+    | 'mouseLeaveDelay'
     | 'inline'
     | 'wrap'
     | 'tooltipTheme'
@@ -132,7 +168,8 @@ export default class TooltipWrapper extends React.Component<
     placement: 'top',
     trigger: 'hover',
     rootClose: true,
-    delay: 0,
+    mouseEnterDelay: 0,
+    mouseLeaveDelay: 200,
     inline: false,
     wrap: false,
     tooltipTheme: 'light'
@@ -172,41 +209,47 @@ export default class TooltipWrapper extends React.Component<
 
   render() {
     const {
-      tooltipClassName,
       classPrefix: ns,
       classnames: cx,
+      tooltipClassName,
+      tooltipTheme,
       container,
       placement,
       rootClose,
       tooltipStyle,
       title,
+      content,
       tooltip,
-      delay,
+      mouseEnterDelay,
+      mouseLeaveDelay,
       trigger,
-      tooltipTheme,
+      offset,
+      showArrow,
+      disabled,
+      enterable,
       data
     } = this.props;
 
-    const tooltipObj = {
-      title: escapeHtml(filter(title, data)),
-      content: escapeHtml(filter(tooltip, data))
+    const tooltipObj: TooltipObject = {
+      title: filter(title, data),
+      content: filter(content || tooltip, data),
+      style: buildStyle(tooltipStyle, data),
+      placement,
+      trigger,
+      rootClose,
+      container,
+      tooltipTheme,
+      tooltipClassName,
+      mouseEnterDelay,
+      mouseLeaveDelay,
+      offset,
+      showArrow,
+      disabled,
+      enterable
     };
 
     return (
-      <TooltipWrapperComp
-        classPrefix={ns}
-        classnames={cx}
-        style={buildStyle(tooltipStyle, data)}
-        placement={placement}
-        tooltip={tooltipObj}
-        trigger={trigger}
-        rootClose={rootClose}
-        delay={delay}
-        container={container}
-        tooltipClassName={cx(tooltipClassName, {
-          'Tooltip--dark': tooltipTheme === 'dark'
-        })}
-      >
+      <TooltipWrapperComp classPrefix={ns} classnames={cx} tooltip={tooltipObj}>
         {this.renderBody()}
       </TooltipWrapperComp>
     );

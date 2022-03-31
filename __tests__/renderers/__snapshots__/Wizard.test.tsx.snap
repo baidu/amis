@@ -164,6 +164,8 @@ exports[`Renderer:Wizard 1`] = `
         className="cxd-Button cxd-Button--default is-disabled"
         disabled={true}
         onClick={[Function]}
+        onMouseEnter={[Function]}
+        onMouseLeave={[Function]}
       >
         <span>
           上一步
@@ -172,6 +174,8 @@ exports[`Renderer:Wizard 1`] = `
       <button
         className="cxd-Button cxd-Button--default"
         onClick={[Function]}
+        onMouseEnter={[Function]}
+        onMouseLeave={[Function]}
         type="button"
       >
         <span>
@@ -1184,6 +1188,8 @@ exports[`Renderer:Wizard initApi 1`] = `
         className="cxd-Button cxd-Button--default is-disabled"
         disabled={true}
         onClick={[Function]}
+        onMouseEnter={[Function]}
+        onMouseLeave={[Function]}
       >
         <span>
           上一步
@@ -1192,6 +1198,8 @@ exports[`Renderer:Wizard initApi 1`] = `
       <button
         className="cxd-Button cxd-Button--default"
         onClick={[Function]}
+        onMouseEnter={[Function]}
+        onMouseLeave={[Function]}
         type="button"
       >
         <span>
@@ -1742,8 +1750,12 @@ exports[`Renderer:Wizard initApi show loading 1`] = `
     className="cxd-Spinner-overlay in"
   />
   <div
-    className="cxd-Spinner in cxd-Spinner--overlay cxd-Spinner--lg"
-  />
+    className="cxd-Spinner cxd-Spinner--overlay in"
+  >
+    <div
+      className="cxd-Spinner-icon cxd-Spinner-icon--lg cxd-Spinner-icon--default"
+    />
+  </div>
 </div>
 `;
 
@@ -1911,6 +1923,8 @@ exports[`Renderer:Wizard initApi show loading 2`] = `
         className="cxd-Button cxd-Button--default is-disabled"
         disabled={true}
         onClick={[Function]}
+        onMouseEnter={[Function]}
+        onMouseLeave={[Function]}
       >
         <span>
           上一步
@@ -1919,6 +1933,8 @@ exports[`Renderer:Wizard initApi show loading 2`] = `
       <button
         className="cxd-Button cxd-Button--default"
         onClick={[Function]}
+        onMouseEnter={[Function]}
+        onMouseLeave={[Function]}
         type="button"
       >
         <span>
@@ -1927,12 +1943,6 @@ exports[`Renderer:Wizard initApi show loading 2`] = `
       </button>
     </div>
   </div>
-  <div
-    className="cxd-Spinner-overlay"
-  />
-  <div
-    className="cxd-Spinner cxd-Spinner--overlay cxd-Spinner--lg"
-  />
 </div>
 `;
 
@@ -2091,6 +2101,8 @@ exports[`Renderer:Wizard readOnly 1`] = `
         className="cxd-Button cxd-Button--default is-disabled"
         disabled={true}
         onClick={[Function]}
+        onMouseEnter={[Function]}
+        onMouseLeave={[Function]}
       >
         <span>
           上一步
@@ -2099,6 +2111,8 @@ exports[`Renderer:Wizard readOnly 1`] = `
       <button
         className="cxd-Button cxd-Button--default"
         onClick={[Function]}
+        onMouseEnter={[Function]}
+        onMouseLeave={[Function]}
         type="button"
       >
         <span>

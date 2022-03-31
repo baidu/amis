@@ -1,16 +1,13 @@
-import {
-  OptionsControlProps,
-  OptionsControl,
-  FormOptionsControl
-} from './Options';
+import {OptionsControlProps, OptionsControl} from './Options';
 import React from 'react';
 import Spinner from '../../components/Spinner';
-import {BaseTransferRenderer} from './Transfer';
-import {SchemaApi, SchemaObject} from '../../Schema';
+import {BaseTabsTransferRenderer} from './TabsTransfer';
 import TabsTransferPicker from '../../components/TabsTransferPicker';
 import {TabsTransferControlSchema} from './TabsTransfer';
 import {autobind, createObject} from '../../utils/helper';
+import {Option, optionValueCompare} from '../../components/Select';
 import {BaseSelection, ItemRenderStates} from '../../components/Selection';
+import {Action} from '../../types';
 
 /**
  * TabsTransferPicker 穿梭器的弹框形态
@@ -32,10 +29,19 @@ export interface TabsTransferProps
       | 'descriptionClassName'
     > {}
 
+interface BaseTransferState {
+  activeKey: number
+}
+
 @OptionsControl({
   type: 'tabs-transfer-picker'
 })
-export class TabsTransferPickerRenderer extends BaseTransferRenderer<TabsTransferProps> {
+export class TabsTransferPickerRenderer extends BaseTabsTransferRenderer<TabsTransferProps> {
+
+  state: BaseTransferState = {
+    activeKey: 0
+  }
+
   @autobind
   optionItemRender(option: any, states: ItemRenderStates) {
     const {menuTpl, render, data} = this.props;
@@ -56,6 +62,20 @@ export class TabsTransferPickerRenderer extends BaseTransferRenderer<TabsTransfe
     return BaseSelection.itemRender(option, states);
   }
 
+
+  // 动作
+  doAction(action: Action) {
+    const {resetValue, onChange} = this.props;
+    switch (action.actionType) {
+      case 'clear':
+        onChange('');
+        break;
+      case 'reset':
+        onChange(resetValue);
+        break;
+    }
+  }
+
   render() {
     const {
       className,
@@ -64,7 +84,6 @@ export class TabsTransferPickerRenderer extends BaseTransferRenderer<TabsTransfe
       selectedOptions,
       sortable,
       loading,
-      searchable,
       searchResultMode,
       showArrow,
       deferLoad,
@@ -79,6 +98,8 @@ export class TabsTransferPickerRenderer extends BaseTransferRenderer<TabsTransfe
     return (
       <div className={cx('TabsTransferControl', className)}>
         <TabsTransferPicker
+          activeKey={this.state.activeKey}
+          onTabChange={this.onTabChange}
           value={selectedOptions}
           disabled={disabled}
           options={options}
@@ -86,7 +107,7 @@ export class TabsTransferPickerRenderer extends BaseTransferRenderer<TabsTransfe
           option2value={this.option2value}
           sortable={sortable}
           searchResultMode={searchResultMode}
-          onSearch={searchable ? this.handleSearch : undefined}
+          onSearch={this.handleTabSearch}
           showArrow={showArrow}
           onDeferLoad={deferLoad}
           selectTitle={selectTitle}

@@ -19,11 +19,11 @@ test('Renderer:tabs-transfer', () => {
               name: 'a',
               sortable: true,
               selectMode: 'tree',
-              searchable: true,
               options: [
                 {
                   label: '成员',
                   selectMode: 'tree',
+                  searchable: true,
                   children: [
                     {
                       label: '法师',

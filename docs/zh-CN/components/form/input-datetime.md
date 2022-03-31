@@ -246,8 +246,8 @@ order: 14
 支持的快捷键除了 [Date](./date#%E5%BF%AB%E6%8D%B7%E9%94%AE) 中的以外，还支持：
 
 - `now`: 现在
-- `{n}hoursago` : n 小时前，例如：`1daysago`，下面用法相同
-- `{n}hourslater` : n 小时前，例如：`1daysago`，下面用法相同
+- `{n}hoursago` : n 小时前，例如：`2hoursago`，下面用法相同
+- `{n}hourslater` : n 小时前，例如：`2hourslater`，下面用法相同
 
 ## UTC
 
@@ -313,4 +313,19 @@ order: 14
 | utc             | `boolean` | `false`                | 保存 utc 值                                                                                                     |
 | clearable       | `boolean` | `true`                 | 是否可清除                                                                                                      |
 | embed           | `boolean` | `false`                | 是否内联                                                                                                        |
-| timeConstraints | `object`  | `true`                 | 请参考： [react-datetime](https://github.com/YouCanBookMe/react-datetime)                                       |
+| timeConstraints | `object`  | `true`                 | 请参考 [input-time](./input-time#控制输入范围) 里的说明                                                         |
+
+## 事件表
+
+| 事件名称           | 事件参数                                        | 说明                  |
+|-------------------|------------------------------------------------|----------------------|
+| change            |  `value: string` 时间值            |  值变化                           |
+| focus             | -                                 |  获得焦点(非内嵌模式)               |
+| blur              | -                                 |  失去焦点(非内嵌模式)               |
+
+## 动作表
+
+| 动作名称           | 动作配置                 | 说明                    |
+|-------------------|-------------------------|------------------------|
+| clear             | -                       | 清空                    |
+| reset             | -                       | 值重置                   |

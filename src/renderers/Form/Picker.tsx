@@ -353,6 +353,7 @@ export default class PickerControl extends React.PureComponent<
       selectedOptions,
       labelField,
       labelTpl,
+      translate: __,
       disabled
     } = this.props;
 
@@ -366,7 +367,7 @@ export default class PickerControl extends React.PureComponent<
             })}
           >
             <span
-              data-tooltip="删除"
+              data-tooltip={__('delete')}
               data-position="bottom"
               className={`${ns}Picker-valueIcon`}
               onClick={this.removeItem.bind(this, index)}

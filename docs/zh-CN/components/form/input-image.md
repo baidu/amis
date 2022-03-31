@@ -262,6 +262,101 @@ app.listen(8080, function () {});
 }
 ```
 
+**initAutoFill**
+
+当表单反显时，可通过`initAutoFill`控制`autoFill`在数据反显时是否执行。
+
+```schema: scope="body"
+{
+  type: 'crud',
+  api: '/api/mock2/crud/list',
+  perPage: 3,
+  columns: [
+    {
+      type: 'operation',
+      label: '操作',
+      buttons: [
+        {
+          type: 'button',
+          label: '修改',
+          level: 'link',
+          size: 'xs',
+          actionType: 'dialog',
+          dialog: {
+            title: '修改',
+            size: 'lg',
+            body: {
+              "type": "form",
+              "horizontal": {
+                "left": 3,
+                "right": 9
+              },
+              "api": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/saveForm",
+              "body": [
+                {
+                  "type": "input-image",
+                  "name": "image",
+                  "label": "image",
+                  "receiver": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/upload/file",
+                  "autoFill": {
+                    "text": "${url}"
+                  },
+                  "initAutoFill": true
+                },
+                {
+                  "type": "input-text",
+                  "name": "text",
+                  "label": "文本",
+                },
+                {
+                  "type": "input-image",
+                  "name": "carousel",
+                  "label": "image",
+                  "receiver": "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/upload/file",
+                  "autoFill": {
+                    "id": "${url}"
+                  },
+                  "initAutoFill": false
+                },
+                {
+                  "type": "input-text",
+                  "name": "id",
+                  "label": "ID",
+                },
+              ]
+            }
+          },
+        },
+      ]
+    },
+    {
+      name: 'id',
+      label: 'ID',
+      type: 'text'
+    },
+    {
+      name: 'text',
+      label: '文本',
+      type: 'text'
+    },
+    {
+      type: 'image',
+      label: '图片',
+      name: 'image',
+      enlargeAble: true,
+      title: '233',
+      thumbMode: 'cover'
+    },
+    {
+      name: 'carousel',
+      label: '轮播图',
+      type: 'carousel',
+      width: '300'
+    },
+  ]
+}
+```
+
 ## 属性表
 
 除了支持 [普通表单项属性表](./formitem#%E5%B1%9E%E6%80%A7%E8%A1%A8) 中的配置以外，还支持下面一些配置
@@ -290,6 +385,7 @@ app.listen(8080, function () {});
 | frameImage         | `string`                        |                        | 默认占位图地址                                                                                                                                   |
 | fixedSize          | `boolean`                       |                        | 是否开启固定尺寸,若开启，需同时设置 fixedSizeClassName                                                                                           |
 | fixedSizeClassName | `string`                        |                        | 开启固定尺寸时，根据此值控制展示尺寸。例如`h-30`,即图片框高为 h-30,AMIS 将自动缩放比率设置默认图所占位置的宽度，最终上传图片根据此尺寸对应缩放。 |
+| initAutoFill       | `boolean`                       | `false`                | 表单反显时是否执行 autoFill                                                                                                                      |
 
 ### Limit 属性表
 
@@ -302,3 +398,27 @@ app.listen(8080, function () {});
 | maxWidth    | `number` |        | 限制图片最大宽度。                                                                                                                                  |
 | maxHeight   | `number` |        | 限制图片最大高度。                                                                                                                                  |
 | aspectRatio | `number` |        | 限制图片宽高比，格式为浮点型数字，默认 `1` 即 `1:1`，如果要设置 `16:9` 请设置 `1.7777777777777777` 即 `16 / 9`。 如果不想限制比率，请设置空字符串。 |
+
+## 事件表
+
+| 事件名称 | 事件参数                 | 说明                 |
+| -------- | ------------------------ | -------------------- |
+| change   | `file: Array<FileValue>` | 选中值发生变化时触发 |
+| remove   | `file: FileValue`        | 被移除的文件         |
+| success  | `file: FileValue`        | 上传成功的文件       |
+| fail     | `file: FileValue`        | 上传失败的文件       |
+
+### FileValue 属性表
+
+| 属性名 | 类型     | 说明                                               |
+| ------ | -------- | -------------------------------------------------- |
+| name   | `string` | 图片名称                                           |
+| value  | `string` | 上传成功后返回的 url                               |
+| state  | `string` | 文件当前状态,值可为 `pending` `uploaded` `invalid` |
+| error  | `string` | 错误信息                                           |
+
+## 动作表
+
+| 动作名称 | 动作配置 | 说明 |
+| -------- | -------- | ---- |
+| clear    | -        | 清空 |

@@ -279,7 +279,7 @@ order: 13
 - `endofthisweek`: 本周日
 - `endofthismonth`:本月底
 - `endoflastmonth`:上月底
-- `{n}daysago` : n 天前，例如：`1daysago`，下面用法相同
+- `{n}daysago` : n 天前，例如：`2daysago`，下面用法相同
 - `{n}dayslater`: n 天后
 - `{n}weeksago`: n 周前
 - `{n}weekslater`: n 周后
@@ -357,17 +357,30 @@ order: 13
 
 除了支持 [普通表单项属性表](./formitem#%E5%B1%9E%E6%80%A7%E8%A1%A8) 中的配置以外，还支持下面一些配置
 
-| 属性名          | 类型      | 默认值         | 说明                                                                                                        |
-| --------------- | --------- | -------------- | ----------------------------------------------------------------------------------------------------------- |
-| value           | `string`  |                | [默认值](./date#%E9%BB%98%E8%AE%A4%E5%80%BC)                                                                |
-| format          | `string`  | `X`            | 日期选择器值格式，更多格式类型请参考 [文档](https://momentjs.com/docs/#/displaying/format/)                 |
-| inputFormat     | `string`  | `YYYY-DD-MM`   | 日期选择器显示格式，即时间戳格式，更多格式类型请参考 [文档](https://momentjs.com/docs/#/displaying/format/) |
-| closeOnSelect   | `boolean` | `false`        | 点选日期后，是否马上关闭选择框                                                                              |
-| placeholder     | `string`  | `"请选择日期"` | 占位文本                                                                                                    |
-| shortcuts       | `string`  |                | 日期快捷键                                                                                                  |
-| minDate         | `string`  |                | 限制最小日期                                                                                                |
-| maxDate         | `string`  |                | 限制最大日期                                                                                                |
-| utc             | `boolean` | `false`        | 保存 utc 值                                                                                                 |
-| clearable       | `boolean` | `true`         | 是否可清除                                                                                                  |
-| embed           | `boolean` | `false`        | 是否内联模式                                                                                                |
-| timeConstraints | `object`  | `true`         | 请参考： [react-datetime](https://github.com/YouCanBookMe/react-datetime)                                   |
+| 属性名        | 类型      | 默认值         | 说明                                                                                                        |
+| ------------- | --------- | -------------- | ----------------------------------------------------------------------------------------------------------- |
+| value         | `string`  |                | [默认值](./date#%E9%BB%98%E8%AE%A4%E5%80%BC)                                                                |
+| format        | `string`  | `X`            | 日期选择器值格式，更多格式类型请参考 [文档](https://momentjs.com/docs/#/displaying/format/)                 |
+| inputFormat   | `string`  | `YYYY-DD-MM`   | 日期选择器显示格式，即时间戳格式，更多格式类型请参考 [文档](https://momentjs.com/docs/#/displaying/format/) |
+| closeOnSelect | `boolean` | `false`        | 点选日期后，是否马上关闭选择框                                                                              |
+| placeholder   | `string`  | `"请选择日期"` | 占位文本                                                                                                    |
+| shortcuts     | `string`  |                | 日期快捷键                                                                                                  |
+| minDate       | `string`  |                | 限制最小日期                                                                                                |
+| maxDate       | `string`  |                | 限制最大日期                                                                                                |
+| utc           | `boolean` | `false`        | 保存 utc 值                                                                                                 |
+| clearable     | `boolean` | `true`         | 是否可清除                                                                                                  |
+| embed         | `boolean` | `false`        | 是否内联模式                                                                                                |
+## 事件表
+
+| 事件名称           | 事件参数                                        | 说明                  |
+|-------------------|------------------------------------------------|----------------------|
+| change            |  `value: string` 时间值            |  值变化                           |
+| focus             | -                                 |  获得焦点(非内嵌模式)               |
+| blur              | -                                 |  失去焦点(非内嵌模式)               |
+
+## 动作表
+
+| 动作名称           | 动作配置                 | 说明                    |
+|-------------------|-------------------------|------------------------|
+| clear             | -                       | 清空                    |
+| reset             | -            | 值重置                   |

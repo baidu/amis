@@ -58,6 +58,7 @@ import {PaginationSchema} from './renderers/Pagination';
 import {AnchorNavSchema} from './renderers/AnchorNav';
 import {AvatarSchema} from './renderers/Avatar';
 import {StepsSchema} from './renderers/Steps';
+import {SpinnerSchema} from './renderers/Spinner';
 import {TimelineSchema} from './renderers/Timeline';
 import {ArrayControlSchema} from './renderers/Form/InputArray';
 import {ButtonGroupControlSchema} from './renderers/Form/ButtonGroupSelect';
@@ -131,6 +132,7 @@ export type SchemaType =
   | 'button-toolbar'
   | 'breadcrumb'
   | 'card'
+  | 'card2'
   | 'cards'
   | 'carousel'
   | 'chart'
@@ -150,6 +152,7 @@ export type SchemaType =
   | 'month'
   | 'static-month' // 这个几个跟表单项同名，再form下面用必须带前缀 static-
   | 'dialog'
+  | 'spinner'
   | 'divider'
   | 'dropdown-button'
   | 'drawer'
@@ -384,6 +387,7 @@ export type SchemaObject =
   | ServiceSchema
   | SparkLineSchema
   | StatusSchema
+  | SpinnerSchema
   | TableSchema
   | TabsSchema
   | TasksSchema
@@ -595,6 +599,13 @@ export interface SchemaApiObject {
    * 如果设置了值，同一个接口，相同参数，指定的时间（单位：ms）内请求将直接走缓存。
    */
   cache?: number;
+
+  /**
+   * 强制将数据附加在 query，默认只有 api 地址中没有用变量的时候 crud 查询接口才会
+   * 自动附加数据到 query 部分，如果想强制附加请设置这个属性。
+   * 对于那种临时加了个变量但是又不想全部参数写一遍的时候配置很有用。
+   */
+  forceAppendDataToQuery?: boolean;
 
   /**
    * qs 配置项

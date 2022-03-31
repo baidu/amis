@@ -1,5 +1,6 @@
 import hoistNonReactStatic from 'hoist-non-react-statics';
 import {observer} from 'mobx-react';
+import {isAlive} from 'mobx-state-tree';
 import React from 'react';
 import {RendererProps} from './factory';
 import {IIRendererStore, IRendererStore} from './store';
@@ -200,7 +201,7 @@ export function HocStoreFactory(renderer: {
             store.initData(
               extendObject(
                 props.data,
-                store.hasRemoteData
+                store.hasRemoteData || store.path === 'page'
                   ? {
                       ...store.data,
                       ...props.data
@@ -257,7 +258,8 @@ export function HocStoreFactory(renderer: {
       componentWillUnmount() {
         const rootStore = this.context as IRendererStore;
         const store = this.store;
-        rootStore.removeStore(store);
+
+        isAlive(store) && rootStore.removeStore(store);
 
         // @ts-ignore
         delete this.store;
