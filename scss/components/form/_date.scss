@@ -225,13 +225,13 @@
       width: #{px2rem(264px)};
       border-right: 1px solid var(--Calendar-input-borderColor);
     }
-  
-    .rdtTimePart{
+
+    .rdtTimePart {
       width: #{px2rem(128px)};
       text-align: center;
     }
-    
-    .rdtTimePartWithS{
+
+    .rdtTimePartWithS {
       width: #{px2rem(192px)};
       text-align: center;
     }
@@ -358,12 +358,12 @@
     top: 100%;
     z-index: 10;
     &Hours {
-      height: #{px2rem(868px)}
-    };
+      height: #{px2rem(868px)};
+    }
     &Times {
       height: #{px2rem(1876px)};
       border-left: 1px solid var(--Calendar-input-borderColor);
-    };
+    }
     &Item {
       text-align: center;
       height: 28px;
@@ -540,7 +540,6 @@
 
 .rdtSwitch {
   text-align: center;
-  color: #000;
   cursor: pointer;
   font-weight: normal;
 

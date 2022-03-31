@@ -405,7 +405,7 @@
   --Calendar-cell-onHover-bg: #{darken($white, 7%)};
   --Calendar-color: var(--text-color);
   --Calendar-fontSize: var(--fontSizeBase);
-  --Calendar-input-borderColor: #f2f2f4;;
+  --Calendar-input-borderColor: var(--borderColor);
   --Calendar-input-borderRadius: var(--borderRadius);
   --Calendar-input-color: var(--info);
   --Calendar-input-fontSize: var(--fontSizeBase);
