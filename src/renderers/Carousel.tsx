@@ -195,12 +195,12 @@ export class Carousel extends React.Component<CarouselProps, CarouselState> {
   doAction(action: Action, data: object, throwErrors: boolean): any {
     const actionType = action?.actionType as string;
     
-    !!~['next', 'prev'].indexOf(actionType) && this.autoSlide(actionType);
-    
-    actionType === 'goto-image' && this.setState({
-      current: (data as any).activeIndex,
-      nextAnimation: ''
-    });
+    if (!!~['next', 'prev'].indexOf(actionType)) {
+      this.autoSlide(actionType);
+    }
+    else if (actionType === 'goto-image') {
+      this.changeSlide((data as any).activeIndex);
+    }
   }
 
   @autobind
@@ -303,7 +303,21 @@ export class Carousel extends React.Component<CarouselProps, CarouselState> {
   }
 
   @autobind
-  changeSlide(index: number) {
+  async changeSlide(index: number) {
+    const {current} = this.state;
+    const {dispatchEvent, data} = this.props;
+
+    const rendererEvent = await dispatchEvent(
+      'change',
+      createObject(data, {
+        activeIndex: index,
+        prevIndex: current
+      })
+    );
+    if (rendererEvent?.prevented) {
+      return;
+    }
+
     this.setState({
       current: index
     });
