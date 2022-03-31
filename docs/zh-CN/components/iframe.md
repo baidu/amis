@@ -32,7 +32,7 @@ order: 51
   },
   "body": {
     "type": "iframe",
-    "src": "https://github.com/${iframeSrc}",
+    "src": "${iframeSrc}",
     "height": 300
   }
 }
