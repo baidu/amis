@@ -109,7 +109,9 @@ export interface Action extends Button {
     | 'goto-step'
     | 'expand'
     | 'collapse'
-    | 'step-submit';
+    | 'step-submit'
+    | 'selectAll'
+    | 'changeTabKey';
   api?: Api;
   asyncApi?: Api;
   payload?: any;
