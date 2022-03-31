@@ -58,7 +58,8 @@ import * as React from 'react';
 import {Renderer} from 'amis';
 
 @Renderer({
-  type: 'my-renderer'
+  type: 'my-renderer',
+  autoVar: true // amis 1.8 之后新增的功能，自动解析出参数里的变量
 })
 class CustomRenderer extends React.Component {
   render() {
@@ -72,7 +73,8 @@ class CustomRenderer extends React.Component {
 
 ```javascript
 Renderer({
-  type: 'my-renderer'
+  type: 'my-renderer',
+  autoVar: true
 })(CustomRenderer);
 ```
 
@@ -147,6 +149,26 @@ class CustomRenderer extends React.Component {
 - `region` 区域名称，你有可能有多个区域可以作为容器，请不要重复。
 - `node` 子节点。
 - `props` 可选，可以通过此对象跟子节点通信等。
+
+### 属性支持变量
+
+> 1.8.0 及以上版本新增配置，之前版本需要调用 amis 里的 resolveVariableAndFilter 方法
+
+前面的例子中组件参数都是静态的，但因为配置了 `autoVar: true`，使得所有组件参数将自动支持变量，比如下面例子中的 `tip` 在组件内拿到的将是解析后的值
+
+```json
+{
+  "type": "page",
+  "data": {
+    "myVar": "var"
+  },
+  "title": "自定义组件示例",
+  "body": {
+    "type": "my-renderer",
+    "tip": "${myVar}"
+  }
+}
+```
 
 ### 表单项的扩展
 
