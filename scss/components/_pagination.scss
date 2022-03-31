@@ -90,7 +90,7 @@
     align-items: center;
 
     input {
-      width: px2rem(50px);
+      width: px2rem(56px);
       height: var(--Pagination-height);
       border: var(--borderWidth) solid var(--borderColor);
       border-radius: var(--borderRadius);
@@ -98,6 +98,9 @@
       margin: 0 px2rem(10px);
       text-align: center;
 
+      &:focus {
+        width: auto;
+      }
       &:focus,
       &:hover {
         outline: none;
