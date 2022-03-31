@@ -132,6 +132,7 @@ export type SchemaType =
   | 'button-toolbar'
   | 'breadcrumb'
   | 'card'
+  | 'card2'
   | 'cards'
   | 'carousel'
   | 'chart'
