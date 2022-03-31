@@ -15,3 +15,17 @@ categories:
     label: chore
   - title: 文档
     label: docs
+
+autolabeler:
+  - label: 'feat'
+    title:
+      - '/feat/i'
+  - label: 'fix'
+    title:
+      - '/fix/i'
+  - label: 'chore'
+    title:
+      - '/chore/i'
+  - label: 'docs'
+    title:
+      - '/docs/i'
