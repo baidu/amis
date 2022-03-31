@@ -47,6 +47,7 @@ export function normalizeApi(
       ...api
     };
   }
+  api.url = typeof api.url === 'string' ? api.url.trim() : api.url;
   return api;
 }
 
