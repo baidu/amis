@@ -534,7 +534,13 @@ export class CustomDaysView extends React.Component<CustomDaysViewProps> {
                     max={max}
                     {...inputProps}
                   /> */}
-                  <div className={cx('CalendarInput-sugs')} id={`${this.state.uniqueTag}-${i}-input`}>
+                  <div 
+                    className={cx(
+                      'CalendarInput-sugs',
+                      type === 'hours' ? 'CalendarInput-sugsHours' : 'CalendarInput-sugsTimes'
+                    )} 
+                    id={`${this.state.uniqueTag}-${i}-input`}
+                  >
                     {options.map(option => {
                       return (
                         <div
