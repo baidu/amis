@@ -189,7 +189,7 @@ export interface TableState {
 
 export default class FormTable extends React.Component<TableProps, TableState> {
   static defaultProps = {
-    placeholder: '空',
+    placeholder: 'placeholder.empty',
     scaffold: {},
     addBtnIcon: 'plus',
     copyBtnIcon: 'copy',
