@@ -15,7 +15,7 @@ order: 51
 ```schema: scope="body"
 {
     "type": "iframe",
-    "src": "https://gitee.com/baidu/amis",
+    "src": "https://github.com/baidu/amis",
     "height": 300
 }
 ```
@@ -28,11 +28,11 @@ order: 51
 {
   "type": "page",
   "data": {
-    "iframeSrc": "baidu/amis"
+    "iframeSrc": "https://github.com/baidu/amis"
   },
   "body": {
     "type": "iframe",
-    "src": "https://gitee.com/${iframeSrc}",
+    "src": "https://github.com/${iframeSrc}",
     "height": 300
   }
 }
