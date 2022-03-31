@@ -90,14 +90,14 @@
     .#{$ns}StepsItem {
       padding: px2rem(5px) 0;
       min-height: 75px;
-      overflow: visible;
+      overflow: hidden !important;
       &-container {
         &Icon:after {
             content: '';
             position: absolute;
             right: 0;
             top: px2rem(32px);
-            height: calc(100% - 23px);
+            height: 9999px;
             left: px2rem(11px);
             width: 1px;
             background-color: var(--Steps-line-bg);
@@ -121,6 +121,7 @@
         }
       }
       &-ProgressDot {
+        margin-left: 10px;
         .#{$ns}StepsItem {
           &-container {
             flex-direction: row;
@@ -137,10 +138,10 @@
                 content: '';
                 position: absolute;
                 display: inline-block;
-                top: px2rem(22px);
+                top: px2rem(28px);
                 width: 1px;
                 left: 3px;
-                height: calc(100% - 5px);
+                height: 9999px;
                 background-color: var(--Steps-line-bg);
               }
             }
