@@ -1149,6 +1149,7 @@ test('Renderer:Page initApi reload by Dialog action', async () => {
   await wait(1000);
 
   expect(container).toMatchSnapshot();
+  await wait(1000);
   expect(fetcher).toHaveBeenCalledTimes(2);
 });
 
