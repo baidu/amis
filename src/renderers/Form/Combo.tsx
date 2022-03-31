@@ -299,7 +299,7 @@ export default class ComboControl extends React.Component<ComboProps> {
     formClassName: '',
     subFormMode: 'normal',
     draggableTip: '',
-    addButtonText: 'Combo.add',
+    addButtonText: 'add',
     canAccessSuperData: false,
     addIcon: true,
     dragIcon: '',
@@ -965,6 +965,7 @@ export default class ComboControl extends React.Component<ComboProps> {
       tabsLabelTpl,
       conditions,
       changeImmediately,
+      addBtnText,
       translate: __
     } = this.props;
 
@@ -988,6 +989,7 @@ export default class ComboControl extends React.Component<ComboProps> {
 
     return (
       <CTabs
+        addBtnText={__(addBtnText || 'add')}
         className={'ComboTabs'}
         mode={tabsStyle}
         activeKey={store.activeKey}
@@ -1006,7 +1008,7 @@ export default class ComboControl extends React.Component<ComboProps> {
                       ) : (
                         ''
                       ),
-                      label: __(addButtonText || 'Combo.add'),
+                      label: __(addButtonText || 'add'),
                       level: 'info',
                       size: 'sm',
                       closeOnClick: true
@@ -1025,10 +1027,10 @@ export default class ComboControl extends React.Component<ComboProps> {
                   <a
                     onClick={this.addItem}
                     data-position="left"
-                    data-tooltip={__('Combo.add')}
+                    data-tooltip={__('add')}
                   >
                     {addIcon ? <Icon icon="plus" className="icon" /> : null}
-                    <span>{__(addButtonText || 'Combo.add')}</span>
+                    <span>{__(addButtonText || 'add')}</span>
                   </a>
                 )
               ) : null}
@@ -1412,7 +1414,7 @@ export default class ComboControl extends React.Component<ComboProps> {
                   'add-button',
                   {
                     type: 'dropdown-button',
-                    label: __(addButtonText || 'Combo.add'),
+                    label: __(addButtonText || 'add'),
                     level: 'info',
                     size: 'sm',
                     closeOnClick: true
@@ -1430,11 +1432,11 @@ export default class ComboControl extends React.Component<ComboProps> {
               ) : (
                 <Button
                   className={cx(`Combo-addBtn`, addButtonClassName)}
-                  tooltip={__('Combo.add')}
+                  tooltip={__('add')}
                   onClick={this.addItem}
                 >
                   {addIcon ? <Icon icon="plus" className="icon" /> : null}
-                  <span>{__(addButtonText || 'Combo.add')}</span>
+                  <span>{__(addButtonText || 'add')}</span>
                 </Button>
               )
             ) : null}

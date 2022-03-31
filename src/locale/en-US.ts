@@ -22,7 +22,7 @@ register('en-US', {
   'clear': 'Clear',
   'ColorPicker.placeholder': 'Select color',
   'SubForm.add': 'New',
-  'Combo.add': 'New',
+  'add': 'New',
   'Combo.dragDropSort': 'Drag to sort',
   'Combo.invalidData': 'invalid data, please remove',
   'Combo.maxLength': 'Maximum item ia {{MaxLength}}}. Please delete some',
@@ -106,6 +106,7 @@ register('en-US', {
   'deleteFailed': 'Delete failed',
   'desc': 'Desc',
   'Dialog.close': 'Close',
+  'Dialog.title': 'Title',
   'Embed.invalidRoot': 'Invalid root selector',
   'Embed.downloading': 'Start downloading',
   'Excel.placeholder': `Drag 'n' drop excel here, or click to select`,
@@ -295,5 +296,6 @@ register('en-US', {
   'pullRefresh.pullingText': 'Pull down to refresh...',
   'pullRefresh.loosingText': 'Release to refresh...',
   'pullRefresh.loadingText': 'Loading...',
-  'pullRefresh.successText': 'Loading success'
+  'pullRefresh.successText': 'Loading success',
+  'Picker.placeholder': 'Click icon on the right'
 });

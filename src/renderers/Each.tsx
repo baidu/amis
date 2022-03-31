@@ -39,7 +39,7 @@ export default class Each extends React.Component<EachProps> {
   static propsList: Array<string> = ['name', 'items', 'value'];
   static defaultProps = {
     className: '',
-    placeholder: '暂无内容'
+    placeholder: 'placeholder.noData'
   };
 
   render() {

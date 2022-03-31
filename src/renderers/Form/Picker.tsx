@@ -99,7 +99,7 @@ export default class PickerControl extends React.PureComponent<
   static defaultProps: Partial<PickerProps> = {
     modalMode: 'dialog',
     multiple: false,
-    placeholder: '请点击右侧的图标',
+    placeholder: 'Picker.placeholder',
     labelField: 'label',
     valueField: 'value',
     pickerSchema: {
@@ -498,38 +498,6 @@ export default class PickerControl extends React.PureComponent<
               }
             )}
           </div>
-          // <div className={`${ns}Picker`}>
-          //         {this.renderValues()}
-
-          //         <Button
-          //             classPrefix={ns}
-          //             className={`${ns}Picker-pickBtn`}
-          //             tooltip="点击选择"
-          //             tooltipContainer={env && env.getModalContainer ? env.getModalContainer : undefined}
-          //             level="info"
-          //             size="sm"
-          //             disabled={disabled}
-          //             onClick={this.open}
-          //             iconOnly
-          //         >
-          //         选定
-          //         </Button>
-
-          //         {render('modal', {
-          //             title: '请选择',
-          //             size: size,
-          //             type: modalMode,
-          //             body: {
-          //                 children: this.renderBody
-          //             }
-          //         }, {
-          //             key: 'modal',
-          //             lazyRender: !!source,
-          //             onConfirm: this.handleModalConfirm,
-          //             onClose: this.close,
-          //             show: this.state.isOpened
-          //         })}
-          //     </div>
         )}
       </div>
     );

@@ -137,7 +137,7 @@ export default class Dialog extends React.Component<DialogProps> {
     'popOverContainer'
   ];
   static defaultProps = {
-    title: '弹框',
+    title: 'Dialog.title',
     bodyClassName: '',
     confirm: true,
     show: true,
