@@ -112,7 +112,6 @@
 
 .#{$ns}DatePicker-shortcuts {
   margin: 0;
-  background: var(--Calendar-shortcuts-bg);
   padding: calc(
       (
           var(--Calendar-shortcuts-height) - var(--Calendar-fontSize) *
@@ -121,7 +120,6 @@
     )
     var(--gap-sm);
   list-style: none;
-  width: px2rem(250px);
 
   & + .rdt .rdtPicker {
     padding-top: 0;
@@ -211,27 +209,28 @@
   width: #{px2rem(472px)};
 }
 
-.rdtTimeWithoutD {}
+.rdtTimeWithoutD {
+}
 
 .rdt {
   user-select: none;
   font-size: var(--Calendar-fontSize);
   color: var(--Calendar-color);
 
-  .rdtDays{
+  .rdtDays {
     display: flex;
     // height: #{px2rem(280px)};
 
-    .rdtDaysPart{
+    .rdtDaysPart {
       width: #{px2rem(264px)};
     }
-  
-    .rdtTimePart{
+
+    .rdtTimePart {
       width: #{px2rem(131px)};
       text-align: center;
     }
-    
-    .rdtTimePartWithS{
+
+    .rdtTimePartWithS {
       width: #{px2rem(199px)};
       text-align: center;
     }
