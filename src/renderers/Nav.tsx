@@ -213,7 +213,6 @@ export interface Link {
 export interface Links extends Array<Link> {}
 
 export interface NavigationState {
-  links?: Links;
   error?: string;
   dropIndicator?: {
     top: number;
