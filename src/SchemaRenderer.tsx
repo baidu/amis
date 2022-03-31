@@ -119,8 +119,8 @@ class BroadcastCmpt extends React.Component<BroadcastCmptProps> {
 
     // 自动解析变量模式，主要是方便直接引入第三方组件库，无需为了支持变量封装一层
     if (autoVar) {
-      for (const key of Object.keys(props)) {
-        if (isPureVariable(props[key])) {
+      for (const key of Object.keys(rest.$schema)) {
+        if (typeof props[key] === 'string') {
           props[key] = resolveVariableAndFilter(
             props[key],
             props.data,
