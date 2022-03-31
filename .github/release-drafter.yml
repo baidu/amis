@@ -1,9 +1,3 @@
-template: |
- 
- ## 更新记录
-
-  $CHANGES
-  
 categories:
   - title: 新功能
     label: feat
@@ -29,3 +23,10 @@ autolabeler:
   - label: 'docs'
     title:
       - '/docs/i'
+
+template: |
+ 
+ ## 更新记录
+
+  $CHANGES
+  
