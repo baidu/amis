@@ -418,7 +418,10 @@ export default class Table extends React.Component<TableProps, object> {
     'toolbarClassName',
     'footerToolbarClassName',
     'itemBadge',
-    'autoFillHeight'
+    'autoFillHeight',
+    'onSelect',
+    'keepItemSelectionOnPageChange',
+    'maxKeepItemSelectionLength'
   ];
   static defaultProps: Partial<TableProps> = {
     className: '',
