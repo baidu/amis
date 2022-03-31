@@ -135,39 +135,6 @@ export function Steps(props: StepsProps) {
     };
   }
 
-  function strlen(str: string | any, max: number): {len: number, index: number} { 
-    let len = 0;
-    let index = 0;
-    if (!str) {
-      return {
-        len: 0,
-        index: 0
-      }
-    }
-    for (let i = 0; i < str.length; i++) {   
-      const character = str.charCodeAt(i);
-      //字母数字占一字符，其余两字符
-      if ((character >= 0x0001 && character <= 0x007e)
-        || (0xff60<=character && character<=0xff9f)) {   
-        len++;   
-      } else {   
-        len += 2;   
-      }
-      if (len < max) {
-        index++;
-      }
-    }   
-    return {len, index};  
-  }
-
-  function setTextLong(content: string | any): string {
-    const {len, index} = strlen(content, 18);
-    if (len > 18) {
-      return content.slice(0, index + 1).concat('...');
-    }
-    return content;
-  }
-
   const mobileUI = useMobileUI && isMobile();
   return (
     <ul className={cx( // 纵向步骤条暂时不支持labelPlacement属性
