@@ -13,6 +13,7 @@ import {
   isArrayChildrenModified,
   getPropValue
 } from '../utils/helper';
+import {Action} from '../types';
 import {Icon} from '../components/icons';
 import {BaseSchema, SchemaCollection, SchemaName, SchemaTpl} from '../Schema';
 import Html from '../components/Html';
@@ -191,6 +192,17 @@ export class Carousel extends React.Component<CarouselProps, CarouselState> {
     this.clearAutoTimeout();
   }
 
+  doAction(action: Action, data: object, throwErrors: boolean): any {
+    const actionType = action?.actionType as string;
+    
+    !!~['next', 'prev'].indexOf(actionType) && this.autoSlide(actionType);
+    
+    actionType === 'goto-image' && this.setState({
+      current: (data as any).activeIndex,
+      nextAnimation: ''
+    });
+  }
+
   @autobind
   prepareAutoSlide() {
     if (this.state.options.length < 2) {
@@ -230,9 +242,9 @@ export class Carousel extends React.Component<CarouselProps, CarouselState> {
   }
 
   @autobind
-  transitFramesTowards(direction: string, nextAnimation: string) {
+  async transitFramesTowards(direction: string, nextAnimation: string) {
     let {current} = this.state;
-
+    let prevIndex = current;
     switch (direction) {
       case 'left':
         current = this.getFrameId('next');
@@ -240,6 +252,18 @@ export class Carousel extends React.Component<CarouselProps, CarouselState> {
       case 'right':
         current = this.getFrameId('prev');
         break;
+    }
+
+    const {dispatchEvent, data} = this.props;
+    const rendererEvent = await dispatchEvent(
+      'change',
+      createObject(data, {
+        activeIndex: current,
+        prevIndex
+      })
+    );
+    if (rendererEvent?.prevented) {
+      return;
     }
 
     this.setState({
