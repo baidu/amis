@@ -70,6 +70,7 @@ export interface RendererBasicConfig {
   weight?: number; // 权重，值越低越优先命中。
   isolateScope?: boolean;
   isFormItem?: boolean;
+  autoVar?: boolean; // 自动解析变量
   // [propName:string]:any;
 }
 
