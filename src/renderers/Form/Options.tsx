@@ -266,7 +266,7 @@ export function registerOptionsControl(config: OptionsConfig) {
       multiple: false,
       placeholder: 'Select.placeholder',
       resetValue: '',
-      deleteConfirmText: '确定要删除？',
+      deleteConfirmText: 'deleteConfirm',
       ...Control.defaultProps
     };
     static propsList: any = (Control as any).propsList
@@ -460,7 +460,7 @@ export function registerOptionsControl(config: OptionsConfig) {
         eventName,
         createObject(data, {
           value: eventData,
-          options,
+          options
         })
       );
       // 返回阻塞标识
@@ -600,7 +600,8 @@ export function registerOptionsControl(config: OptionsConfig) {
       );
 
       const isPrevented = await this.dispatchOptionEvent('change', newValue);
-      isPrevented || (onChange && onChange(newValue, submitOnChange, changeImmediately));
+      isPrevented ||
+        (onChange && onChange(newValue, submitOnChange, changeImmediately));
     }
 
     /**
@@ -779,9 +780,13 @@ export function registerOptionsControl(config: OptionsConfig) {
         return;
       }
 
-      const json = await formItem?.deferLoadOptions(option, api, createObject(data, option));
+      const json = await formItem?.deferLoadOptions(
+        option,
+        api,
+        createObject(data, option)
+      );
       // 触发事件通知,加载完成
-      this.dispatchOptionEvent('loadFinished',json);
+      this.dispatchOptionEvent('loadFinished', json);
     }
 
     @autobind
@@ -995,7 +1000,10 @@ export function registerOptionsControl(config: OptionsConfig) {
         };
       }
       // 触发事件通知
-      const isPrevented = await this.dispatchOptionEvent('add', {...result, idx});
+      const isPrevented = await this.dispatchOptionEvent('add', {
+        ...result,
+        idx
+      });
       if (isPrevented) {
         return;
       }
@@ -1148,7 +1156,7 @@ export function registerOptionsControl(config: OptionsConfig) {
 
       // 如果配置了 deleteConfirmText 让用户先确认。
       const confirmed = deleteConfirmText
-        ? await env.confirm(filter(deleteConfirmText, ctx))
+        ? await env.confirm(filter(__(deleteConfirmText), ctx))
         : true;
       if (!confirmed) {
         return;

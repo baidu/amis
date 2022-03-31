@@ -128,7 +128,6 @@ export interface BaseTransferProps
 export class BaseTransferRenderer<
   T extends OptionsControlProps = BaseTransferProps
 > extends React.Component<T> {
-
   tranferRef?: BaseTransfer;
 
   @autobind
@@ -185,13 +184,10 @@ export class BaseTransferRenderer<
       setOptions(newOptions, true);
 
     // 触发渲染器事件
-    const rendererEvent = await dispatchEvent(
-      'change',
-      {
-        value: newValue,
-        options
-      }
-    );
+    const rendererEvent = await dispatchEvent('change', {
+      value: newValue,
+      options
+    });
     if (rendererEvent?.prevented) {
       return;
     }
@@ -206,7 +202,15 @@ export class BaseTransferRenderer<
 
   @autobind
   async handleSearch(term: string, cancelExecutor: Function) {
-    const {searchApi, options, labelField, valueField, env, data} = this.props;
+    const {
+      searchApi,
+      options,
+      labelField,
+      valueField,
+      env,
+      data,
+      translate: __
+    } = this.props;
 
     if (searchApi) {
       try {
@@ -219,7 +223,7 @@ export class BaseTransferRenderer<
         );
 
         if (!payload.ok) {
-          throw new Error(payload.msg || '搜索请求异常');
+          throw new Error(__(payload.msg || 'networkError'));
         }
 
         const result =

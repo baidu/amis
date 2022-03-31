@@ -94,7 +94,7 @@ export default class TreeControl extends React.Component<TreeProps> {
   static defaultProps: Partial<TreeProps> = {
     placeholder: 'loading',
     multiple: false,
-    rootLabel: '顶级',
+    rootLabel: 'Tree.root',
     rootValue: '',
     showIcon: true,
     enableNodePath: false,
