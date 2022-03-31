@@ -161,7 +161,6 @@
         &:last-child {
           .#{$ns}StepsItem {
             &-containerProgressDot:after{
-
                 display: none;
             }
           }
