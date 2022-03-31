@@ -297,7 +297,7 @@ export interface DateProps extends LocaleProps, ThemeProps {
   // [propName: string]: any;
   onFocus?: Function;
   onBlur?: Function;
-  onRef?: any
+  onRef?: any;
 }
 
 export interface DatePickerState {
@@ -515,13 +515,20 @@ export class DatePicker extends React.Component<DateProps, DatePickerState> {
     if (value === '') {
       onChange('');
     } else {
-      const newDate = moment(value, inputFormat);
-      const dateValue = utc
-        ? moment.utc(newDate).format(format)
-        : newDate.format(format);
-      // 小于 0 的日期丢弃
-      if (!dateValue.startsWith('-')) {
-        onChange(dateValue);
+      // 将输入的格式转成正则匹配，比如 YYYY-MM-DD HH:mm:ss 改成 \d\d\d\d\-
+      // 只有匹配成功才更新
+      const inputCheckRegex = new RegExp(
+        inputFormat!.replace(/[ymdhs]/gi, '\\d').replace(/-/gi, '\\-')
+      );
+      if (inputCheckRegex.test(value)) {
+        const newDate = moment(value, inputFormat);
+        const dateValue = utc
+          ? moment.utc(newDate).format(format)
+          : newDate.format(format);
+        // 小于 0 的日期丢弃
+        if (!dateValue.startsWith('-')) {
+          onChange(dateValue);
+        }
       }
     }
   }
@@ -804,7 +811,7 @@ export class DatePicker extends React.Component<DateProps, DatePickerState> {
               <Calendar
                 value={date}
                 onChange={this.handleChange}
-                requiredConfirm={!!(dateFormat && timeFormat)}
+                requiredConfirm={false}
                 dateFormat={dateFormat}
                 inputFormat={inputFormat}
                 timeFormat={timeFormat}
@@ -843,7 +850,7 @@ export class DatePicker extends React.Component<DateProps, DatePickerState> {
               <Calendar
                 value={date}
                 onChange={this.handleChange}
-                requiredConfirm={!!(dateFormat && timeFormat)}
+                requiredConfirm={false}
                 dateFormat={dateFormat}
                 inputFormat={inputFormat}
                 timeFormat={timeFormat}
