@@ -111,12 +111,12 @@ export function buildApi(
     .join('');
 
   const idx = url.indexOf('?');
-  let replaceExpression = (fragment: string) => {
+  let replaceExpression = (fragment: string, defaultFilter = 'url_encode') => {
     return fragment.replace(
       /__expression__(\d+)__/g,
       (_: any, index: string) => {
         return evaluate(ast.body[index], data, {
-          defaultFilter: 'url_encode'
+          defaultFilter: defaultFilter
         });
       }
     );
@@ -132,6 +132,9 @@ export function buildApi(
     JSONTraverse(params, (value: any, key: string | number, host: any) => {
       if (typeof value === 'string' && /^__expression__(\d+)__$/.test(value)) {
         host[key] = evaluate(ast.body[RegExp.$1].body, data);
+      } else if (typeof value === 'string') {
+        // 参数值里面的片段不能 url_encode 了，所以是不处理
+        host[key] = replaceExpression(host[key], 'raw');
       }
     });
 
