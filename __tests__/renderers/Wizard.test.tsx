@@ -717,6 +717,7 @@ test('Renderer:Wizard send data', async () => {
       website: 'http://amis.baidu.com'
     }
   });
+  await wait(1000);
   expect(container).toMatchSnapshot();
 });
 

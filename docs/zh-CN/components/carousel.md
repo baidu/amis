@@ -127,6 +127,20 @@ itemSchema: {
 | animation                    | `string`  | fade                   | 切换动画效果，默认`fade`，另有`slide`模式               |
 | thumbMode                    | `string`  | `"cover" \| "contain"` | 图片默认缩放模式                                        |
 
+## 事件表
+
+| 事件名称           | 事件参数                                        | 说明                  |
+|-------------------|------------------------------------------------|----------------------|
+| change            | `activeIndex: number` 激活图片的索引 <br> `prevIndex: number` 上一张图片的索引 | 轮播图切换时触发 |
+
+## 动作表
+
+| 动作名称           | 动作配置                 | 说明                    |
+|-------------------|-------------------------|------------------------|
+| next              | -                       | 下一张                  |
+| prev              | -                       | 上一张                  |
+| goto-image        | `activeIndex: number` 切换图片的索引 | 切换轮播图    |
+
 - `type` 请设置成 `carousel`
 - `className` 外层 Dom 的类名
 - `options` 轮播面板数据，默认`[]`，支持以下模式
