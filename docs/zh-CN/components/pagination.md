@@ -44,15 +44,7 @@ order: 73
             "layout": "perPage,pager",
             "mode": "simple",
             "activePage": 2,
-            "lastPage": 99999,
-            "total": 999,
-            "perPage": 10,
-            "maxButtons": 7,
-            "showPerPage": true,
-            "perPageAvailable": [10, 20, 50, 100],
-            "showPageInput": true,
-            "disabled": false
-
+            "hasNext": true
         }
     ]
 }
@@ -62,9 +54,9 @@ order: 73
 | 属性名        | 类型                                      | 默认值                 | 说明                                                                               |
 | ------------- | ----------------------------------------- | ---------------------- | ---------------------------------------------------------------------------------- |
 | type          | `string`                  | `"pagination"` | 指定为 Pagination渲染器          |
+| mode     | `normal \| simple`                                  | `normal`              | 迷你版本/简易版本    只显示左右箭头，配合hasNext使用                                    |
 | layout   | `string \| string[]`       | `total,perPage,pager,go`                | 通过控制layout属性的顺序，调整分页结构布局                                                      |
 | maxButtons    | `number`                                  | `7`                    | 最多显示多少个分页按钮，最小为5                                                             |
-| mode     | `normal \| simple`                                  | `normal`              | 迷你版本/简易版本    主要控制每个页码显示，无边框                                    |
 | lastPage    | `number`                                  |            | 总页数 （设置总条数total的时候，lastPage会重新计算）                                                                    |
 | total    | `number`                                  |            | 总条数                                                                     |
 | activePage  | `number`    |  `1`  |    当前页数    |

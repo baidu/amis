@@ -77,7 +77,7 @@ export interface BasicPaginationProps {
   disabled?: boolean;
 
 
-  // hasNext: boolean;
+  hasNext: boolean;
   onPageChange: (page: number, perPage?: number) => void;
 }
 export interface PaginationProps extends BasicPaginationProps, ThemeProps, LocaleProps {
@@ -119,7 +119,7 @@ export class Pagination extends React.Component<
     this.handlePageNums = this.handlePageNums.bind(this);
   }
 
-  handlePageNumChange(page: number, perPage: number) {
+  handlePageNumChange(page: number, perPage?: number) {
     const props = this.props;
     if (props.disabled) {
       return;
@@ -195,12 +195,18 @@ export class Pagination extends React.Component<
   }
 
   getLastPage() {
-    const {total, perPage, lastPage, activePage} = this.props;
+    const {total, perPage, lastPage, activePage, hasNext} = this.props;
     // 输入total，重新计算lastPage
     if (total || total === 0) {
       return Math.ceil(total / perPage);
     }
-    return Number(lastPage || activePage);
+    if (lastPage) {
+      return Number(lastPage);
+    }
+    if (hasNext) {
+      return Number(activePage + 1);
+    }
+    return Number(activePage);
   }
 
 
@@ -228,13 +234,55 @@ export class Pagination extends React.Component<
       showPageInput,
       className,
       disabled,
+      hasNext,
       translate: __
     } = this.props;
     const {pageNum, perPage, activePage, lastPage} = this.state;
 
+    // 简易模式
+    if (mode === 'simple') {
+      return (
+        <div className={cx('Pagination-wrap', 'Pagination-simple',  {'disabled': disabled}, className)}>
+          <ul key="pager-items" className={cx('Pagination', 'Pagination--sm', 'Pagination-item')}>
+            <li
+              className={cx('Pagination-prev', {
+                'is-disabled': activePage < 2
+              })}
+              onClick={(e: any) => {
+                if (activePage < 2) {
+                  return e.preventDefault();
+                }
+                return this.handlePageNumChange(activePage - 1)
+              }}
+              key="prev"
+            >
+              <span>
+                <Icon icon="left-arrow" className="icon" />
+              </span>
+            </li>
+            <li
+              className={cx('Pagination-next', {
+                'is-disabled': !hasNext
+              })}
+              onClick={(e: any) => {
+                if (!hasNext) {
+                  return e.preventDefault();
+                }
+                return this.handlePageNumChange(activePage + 1, perPage)
+              }}
+              key="next"
+            >
+              <span>
+                <Icon icon="right-arrow" className="icon" />
+              </span>
+            </li>
+          </ul>
+        </div>
+      );
+    }
+
 
     let pageButtons: any = [];
-
     let layoutList: Array<string> = [];
     if (Array.isArray(layout)) {
       layoutList = layout;
@@ -272,10 +320,10 @@ export class Pagination extends React.Component<
     pageButtons.unshift(
       <li
         className={cx('Pagination-prev', {
-          'is-disabled': activePage === 1
+          'is-disabled': activePage < 2
         })}
         onClick={(e: any) => {
-          if (activePage === 1) {
+          if (activePage < 2) {
             return e.preventDefault();
           }
           return this.handlePageNumChange(activePage - 1, perPage)
@@ -306,6 +354,7 @@ export class Pagination extends React.Component<
         </span>
       </li>
     );
+
     const go = <div className={cx('Pagination-inputGroup Pagination-item')} key="go">
         <span className={cx('go-left')} key="go-left">{__('Pagination.goto')}</span>
           <input
@@ -361,7 +410,7 @@ export class Pagination extends React.Component<
       : __('Pagination.totalPage', {lastPage})
     }</div>;
     return (
-      <div className={cx('Pagination-wrap',  {'disabled': disabled, 'Pagination-simple': mode === 'simple'}, className)}>
+      <div className={cx('Pagination-wrap',  {'disabled': disabled}, className)}>
         {
           layoutList.map((layoutItem) => {
             if (layoutItem === 'pager') {
