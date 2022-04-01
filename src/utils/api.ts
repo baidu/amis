@@ -139,7 +139,7 @@ export function buildApi(
     });
 
     api.url =
-      replaceExpression(url.substring(0, idx + 1)) +
+      replaceExpression(url.substring(0, idx + 1), 'raw') +
       qsstringify(
         (api.query = dataMapping(params, data, undefined, api.convertKeyToPath))
       ) +
@@ -147,7 +147,7 @@ export function buildApi(
         ? replaceExpression(url.substring(hashIdx))
         : '');
   } else {
-    api.url = replaceExpression(url);
+    api.url = replaceExpression(url, 'raw');
   }
 
   if (ignoreData) {
