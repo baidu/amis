@@ -858,7 +858,7 @@ const ConditionBuilderWithRemoteOptions = withRemoteConfig({
         }
       }
       this.props.updateConfig(links, 'update');
-      this.props.onOrderChange!(links);
+      this.props.onOrderChange?.(links);
       await this.saveOrder(
         mapTree(links, (link: Link) => {
           // 清除内部加的字段
