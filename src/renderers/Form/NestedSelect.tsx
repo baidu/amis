@@ -895,6 +895,7 @@ export default class NestedSelectControl extends React.Component<
             <Cascader
               onClose={this.close}
               {...this.props}
+              onChange={this.handleResultChange}
               options={this.props.options.slice()}
               value={selectedOptions}
             />
