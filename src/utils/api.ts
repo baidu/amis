@@ -131,7 +131,7 @@ export function buildApi(
     // 将里面的表达式运算完
     JSONTraverse(params, (value: any, key: string | number, host: any) => {
       if (typeof value === 'string' && /^__expression__(\d+)__$/.test(value)) {
-        host[key] = evaluate(ast.body[RegExp.$1].body, data);
+        host[key] = evaluate(ast.body[RegExp.$1].body, data) ?? '';
       } else if (typeof value === 'string') {
         // 参数值里面的片段不能 url_encode 了，所以是不处理
         host[key] = replaceExpression(host[key], 'raw');
