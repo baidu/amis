@@ -394,7 +394,8 @@ export default {
           actions: [
             {
               actionType: 'show',
-              componentId: 'input-text_001'
+              // componentId: 'input-text_001'
+              componentId: 'b_001'
             }
           ]
         }
@@ -410,7 +411,8 @@ export default {
           actions: [
             {
               actionType: 'hidden',
-              componentId: 'input-text_001' // b_001
+              // componentId: 'input-text_001' // b_001
+              componentId: 'b_001'
             }
           ]
         }
@@ -493,6 +495,22 @@ export default {
               id: 'b_002',
               className: 'ml-2',
               label: '打开一个弹窗（模态）'
+            },
+            {
+              type: 'button',
+              label: '隐藏',
+              className: 'ml-2',
+              onEvent: {
+                click: {
+                  actions: [
+                    {
+                      actionType: 'hidden',
+                      // componentId: 'input-text_001' // b_001
+                      componentId: 'b_001'
+                    }
+                  ]
+                }
+              }
             }
           ]
         }
