@@ -111,13 +111,19 @@ export function buildApi(
     .join('');
 
   const idx = url.indexOf('?');
-  let replaceExpression = (fragment: string, defaultFilter = 'url_encode') => {
+  let replaceExpression = (
+    fragment: string,
+    defaultFilter = 'url_encode',
+    defVal: any = undefined
+  ) => {
     return fragment.replace(
       /__expression__(\d+)__/g,
       (_: any, index: string) => {
-        return evaluate(ast.body[index], data, {
-          defaultFilter: defaultFilter
-        });
+        return (
+          evaluate(ast.body[index], data, {
+            defaultFilter: defaultFilter
+          }) ?? defVal
+        );
       }
     );
   };
@@ -134,12 +140,12 @@ export function buildApi(
         host[key] = evaluate(ast.body[RegExp.$1].body, data) ?? '';
       } else if (typeof value === 'string') {
         // 参数值里面的片段不能 url_encode 了，所以是不处理
-        host[key] = replaceExpression(host[key], 'raw');
+        host[key] = replaceExpression(host[key], 'raw', '');
       }
     });
 
     api.url =
-      replaceExpression(url.substring(0, idx + 1), 'raw') +
+      replaceExpression(url.substring(0, idx + 1), 'raw', '') +
       qsstringify(
         (api.query = dataMapping(params, data, undefined, api.convertKeyToPath))
       ) +
@@ -147,7 +153,7 @@ export function buildApi(
         ? replaceExpression(url.substring(hashIdx))
         : '');
   } else {
-    api.url = replaceExpression(url, 'raw');
+    api.url = replaceExpression(url, 'raw', '');
   }
 
   if (ignoreData) {
