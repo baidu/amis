@@ -1,7 +1,7 @@
 import React from 'react';
 import hoistNonReactStatic from 'hoist-non-react-statics';
 import {IFormItemStore, IFormStore} from '../../store/form';
-import {reaction} from 'mobx';
+import {IMapEntries, reaction} from 'mobx';
 
 import {
   RendererProps,
@@ -14,7 +14,9 @@ import {
   ucFirst,
   getWidthRate,
   autobind,
-  isMobile
+  isMobile,
+  createObject,
+  getVariable
 } from '../../utils/helper';
 import {observer} from 'mobx-react';
 import {FormHorizontal, FormSchema, FormSchemaHorizontal} from '.';
@@ -32,6 +34,10 @@ import {
 import {HocStoreFactory} from '../../WithStore';
 import {wrapControl} from './wrapControl';
 import type {OnEventProps} from '../../utils/renderer-event';
+import isEmpty from 'lodash/isEmpty';
+import debounce from 'lodash/debounce';
+import {isEffectiveApi} from '../../utils/api';
+import {dataMapping} from '../../utils/tpl-builtin';
 
 export type FormControlSchemaAlias = SchemaObject;
 
@@ -396,7 +402,8 @@ export interface FormItemConfig extends FormItemBasicConfig {
 }
 
 export class FormItemWrap extends React.Component<FormItemProps> {
-  reaction: any;
+  reaction: Array<() => void> = [];
+  lastSearchTerm: any;
 
   constructor(props: FormItemProps) {
     super(props);
@@ -404,15 +411,25 @@ export class FormItemWrap extends React.Component<FormItemProps> {
     const {formItem: model} = props;
 
     if (model) {
-      this.reaction = reaction(
-        () => `${model.errors.join('')}${model.isFocused}${model.dialogOpen}`,
-        () => this.forceUpdate()
+      this.reaction.push(
+        reaction(
+          () => `${model.errors.join('')}${model.isFocused}${model.dialogOpen}`,
+          () => this.forceUpdate()
+        )
+      );
+      this.reaction.push(
+        reaction(
+          () => JSON.stringify(model.tmpValue),
+          () => this.syncAutoUpdate(model.tmpValue)
+        )
       );
     }
   }
 
   componentWillUnmount() {
-    this.reaction && this.reaction();
+    this.reaction.forEach(fn => fn());
+    this.reaction = [];
+    this.syncAutoUpdate.cancel();
   }
 
   @autobind
@@ -428,6 +445,46 @@ export class FormItemWrap extends React.Component<FormItemProps> {
     model && model.blur();
     this.props.onBlur && this.props.onBlur(e);
   }
+
+  syncAutoUpdate = debounce(
+    (term: any) => {
+      (async (term: string) => {
+        const {autoUpdate, onBulkChange, formItem, data} = this.props;
+        if (!autoUpdate || (autoUpdate && !autoUpdate.mapping)) {
+          return;
+        }
+
+        const {api, showToast} = autoUpdate;
+        let mapping = {...autoUpdate.mapping};
+        const itemName = formItem?.name;
+        const ctx = createObject(data, {
+          [itemName || '']: term
+        });
+        mapping = dataMapping(mapping, ctx);
+        if (
+          !isEmpty(mapping) &&
+          onBulkChange &&
+          isEffectiveApi(api, ctx) &&
+          this.lastSearchTerm !== term
+        ) {
+          const result = await formItem?.loadAutoUpdateData(
+            api,
+            ctx,
+            showToast
+          );
+          if (!result) return;
+          mapping = dataMapping(autoUpdate.mapping, result);
+          this.lastSearchTerm = getVariable(mapping, itemName) ?? term;
+          onBulkChange(mapping);
+        }
+      })(term).catch(e => console.error(e));
+    },
+    250,
+    {
+      trailing: true,
+      leading: false
+    }
+  );
 
   @autobind
   async handleOpenDialog(schema: Schema, data: any) {
@@ -482,6 +539,7 @@ export class FormItemWrap extends React.Component<FormItemProps> {
       return renderControl({
         ...rest,
         onOpenDialog: this.handleOpenDialog,
+
         type,
         classnames: cx,
         formItem: model,

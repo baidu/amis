@@ -129,6 +129,7 @@ register('en-US', {
   'File.upload': 'Upload',
   'File.uploadFailed': 'return data of udpload api is empty',
   'File.uploading': 'Uploading',
+  'FormItem.autoUpdateloadFaild': 'return data of autoUpdate api is error',
   'Form.loadOptionsFailed': 'Failed to load options because: {{reason}}',
   'Form.submit': 'Submit',
   'Form.title': 'Form',

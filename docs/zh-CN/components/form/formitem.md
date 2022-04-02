@@ -1001,27 +1001,96 @@ Table 类型的表单项，要实现服务端校验，可以使用 `路径key` �
 - `status`: 返回 `0` 表示校验成功，`422` 表示校验失败;
 - `errors`: 返回 `status` 为 `422` 时，显示的校验失败信息;
 
+### 配置自动填充
+
+通过配置 "autoUpdate" 来开启自动填充；其中 api 为自动填充数据源接口地址；mapping 为返回结果需要自动填充的 key value 映射关系；
+
+```schema:scope="body"
+{
+  "type": "form",
+  "body": [
+    {
+      "type": "input-text",
+      "label": "浏览器",
+      "name": "browser",
+      "autoUpdate": {
+        api: "/api/mock2/form/autoUpdate?browser=$browser",
+        showToast: true,
+        mapping: {
+          browser: "browser",
+          version: "version",
+          platform1: "${browser}",
+        }
+      }
+    },
+    {
+      "type": "input-text",
+      "label": "版本",
+      "name": "version"
+    },
+    {
+      "type": "input-text",
+      "label": "平台",
+      "name": "platform1"
+    },
+  ]
+}
+```
+
+自动填充接口返回格式如下：
+注意：amis 仅处理接口返回结果仅有一项的数据，默认自动填充相关字段
+
+```json
+{
+  "status": 0,
+  "data": {
+    "rows": [
+      {
+        "key": "value",
+        "key1": "value1"
+      }
+    ]
+  }
+}
+```
+
+或者是
+
+```json
+{
+  "status": 0,
+  "data": {
+    "key": "value",
+    "key1": "value1"
+  }
+}
+```
+
 ## 属性表
 
-| 属性名         | 类型                                               | 默认值 | 说明                                                       |
-| -------------- | -------------------------------------------------- | ------ | ---------------------------------------------------------- |
-| type           | `string`                                           |        | 指定表单项类型                                             |
-| className      | `string`                                           |        | 表单最外层类名                                             |
-| inputClassName | `string`                                           |        | 表单控制器类名                                             |
-| labelClassName | `string`                                           |        | label 的类名                                               |
-| name           | `string`                                           |        | 字段名，指定该表单项提交时的 key                           |
-| value          | `string`                                           |        | 表单默认值                                                 |
-| label          | [模板](../../../docs/concepts/template) 或 `false` |        | 表单项标签                                                 |
-| labelRemark    | [Remark](../remark)                                |        | 表单项标签描述                                             |
-| description    | [模板](../../../docs/concepts/template)            |        | 表单项描述                                                 |
-| placeholder    | `string`                                           |        | 表单项描述                                                 |
-| inline         | `boolean`                                          |        | 是否为 内联 模式                                           |
-| submitOnChange | `boolean`                                          |        | 是否该表单项值发生变化时就提交当前表单。                   |
-| disabled       | `boolean`                                          |        | 当前表单项是否是禁用状态                                   |
-| disabledOn     | [表达式](../../../docs/concepts/expression)        |        | 当前表单项是否禁用的条件                                   |
-| visible        | [表达式](../../../docs/concepts/expression)        |        | 当前表单项是否禁用的条件                                   |
-| visibleOn      | [表达式](../../../docs/concepts/expression)        |        | 当前表单项是否禁用的条件                                   |
-| required       | `boolean`                                          |        | 是否为必填。                                               |
-| requiredOn     | [表达式](../../../docs/concepts/expression)        |        | 过[表达式](../Types.md#表达式)来配置当前表单项是否为必填。 |
-| validations    | [表达式](../../../docs/concepts/expression)        |        | 表单项值格式验证，支持设置多个，多个规则用英文逗号隔开。   |
-| validateApi    | [表达式](../../../docs/types/api)                  |        | 表单校验接口                                               |
+| 属性名               | 类型                                               | 默认值 | 说明                                                       |
+| -------------------- | -------------------------------------------------- | ------ | ---------------------------------------------------------- |
+| type                 | `string`                                           |        | 指定表单项类型                                             |
+| className            | `string`                                           |        | 表单最外层类名                                             |
+| inputClassName       | `string`                                           |        | 表单控制器类名                                             |
+| labelClassName       | `string`                                           |        | label 的类名                                               |
+| name                 | `string`                                           |        | 字段名，指定该表单项提交时的 key                           |
+| value                | `string`                                           |        | 表单默认值                                                 |
+| label                | [模板](../../../docs/concepts/template) 或 `false` |        | 表单项标签                                                 |
+| labelRemark          | [Remark](../remark)                                |        | 表单项标签描述                                             |
+| description          | [模板](../../../docs/concepts/template)            |        | 表单项描述                                                 |
+| placeholder          | `string`                                           |        | 表单项描述                                                 |
+| inline               | `boolean`                                          |        | 是否为 内联 模式                                           |
+| submitOnChange       | `boolean`                                          |        | 是否该表单项值发生变化时就提交当前表单。                   |
+| disabled             | `boolean`                                          |        | 当前表单项是否是禁用状态                                   |
+| disabledOn           | [表达式](../../../docs/concepts/expression)        |        | 当前表单项是否禁用的条件                                   |
+| visible              | [表达式](../../../docs/concepts/expression)        |        | 当前表单项是否禁用的条件                                   |
+| visibleOn            | [表达式](../../../docs/concepts/expression)        |        | 当前表单项是否禁用的条件                                   |
+| required             | `boolean`                                          |        | 是否为必填。                                               |
+| requiredOn           | [表达式](../../../docs/concepts/expression)        |        | 过[表达式](../Types.md#表达式)来配置当前表单项是否为必填。 |
+| validations          | [表达式](../../../docs/concepts/expression)        |        | 表单项值格式验证，支持设置多个，多个规则用英文逗号隔开。   |
+| validateApi          | [表达式](../../../docs/types/api)                  |        | 表单校验接口                                               |
+| autoUpdate           | Object                                             |        | 自动填充配置                                               |
+| autoUpdate.api       | [api](../../types/api)                             |        | 自动填充数据接口地址                                       |
+| autoUpdate.mapping   | Object                                             |        | 自动填充字段映射关系                                       |
+| autoUpdate.showToast | `boolean`                                          |        | 是否展示数据格式错误提示，默认为 false                     |

@@ -134,6 +134,7 @@ register('zh-CN', {
   'File.upload': '文件上传',
   'File.uploadFailed': '接口返回错误，请仔细检查',
   'File.uploading': '上传中...',
+  'FormItem.autoUpdateloadFaild': '接口返回错误，请仔细检查',
   'Form.loadOptionsFailed': '加载选项失败，原因：{{reason}}',
   'Form.submit': '提交',
   'Form.title': '表单',
