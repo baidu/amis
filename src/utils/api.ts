@@ -144,8 +144,10 @@ export function buildApi(
       }
     });
 
+    const left = replaceExpression(url.substring(0, idx), 'raw', '');
     api.url =
-      replaceExpression(url.substring(0, idx + 1), 'raw', '') +
+      left +
+      (~left.indexOf('?') ? '&' : '?') +
       qsstringify(
         (api.query = dataMapping(params, data, undefined, api.convertKeyToPath))
       ) +
