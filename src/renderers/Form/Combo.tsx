@@ -113,16 +113,6 @@ export interface ComboControlSchema extends FormBaseControl {
   addButtonText?: string;
 
   /**
-   * 自定义新增按钮
-   */
-  addBtn?: ButtonSchema;
-
-  /**
-   * 自定义删除按钮
-   */
-  deleteBtn?: ButtonSchema;
-
-  /**
    * 是否可新增
    */
   addable?: boolean;
@@ -690,8 +680,7 @@ export default class ComboControl extends React.Component<ComboProps> {
     if (
       syncDefaultValue !== false &&
       !nullable &&
-      isObjectShallowModified(value, values) &&
-      setPrinstineValue
+      isObjectShallowModified(value, values)
     ) {
       setPrinstineValue({
         ...values
@@ -1161,7 +1150,7 @@ export default class ComboControl extends React.Component<ComboProps> {
     }
 
     // deleteBtn是对象，则根据自定义配置渲染按钮
-    if (typeof deleteBtn === 'object') {
+    if (isObject(deleteBtn)) {
       return render('delete-btn', {
         ...deleteBtn,
         type: 'button',
@@ -1271,7 +1260,7 @@ export default class ComboControl extends React.Component<ComboProps> {
               {addIcon ? <Icon icon="plus" className="icon" /> : null}
               <span>{__(addButtonText || 'Combo.add')}</span>
             </a>
-          ) : typeof addBtn === 'object' ? (
+          ) : isObject(addBtn) ? (
             render('add-button', {
               ...addBtn,
               type: 'button',
