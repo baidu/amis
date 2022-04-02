@@ -670,6 +670,7 @@ export default class NestedSelectControl extends React.Component<
     const {stack, inputValue} = this.state;
     const {
       classnames: cx,
+      translate: __,
       options: propOptions,
       labelField,
       cascade,
@@ -677,8 +678,13 @@ export default class NestedSelectControl extends React.Component<
       multiple,
       disabled,
       onlyChildren,
-      noResultsText
+      render
     } = this.props;
+
+    let noResultsText: any = this.props.noResultsText;
+    if (noResultsText) {
+      noResultsText = render('noResultText', __(noResultsText));
+    }
     const regexp = string2regExp(inputValue || '');
     const flattenTreeWithNodes = flattenTree(stack[0]).filter(option => {
       return regexp.test(option[labelField || 'label']);
@@ -847,7 +853,7 @@ export default class NestedSelectControl extends React.Component<
           useMobileUI={useMobileUI}
           disabled={disabled}
           ref={this.domRef}
-          placeholder={__(placeholder || 'placeholder.empty')}
+          placeholder={__(placeholder ?? 'placeholder.empty')}
           className={cx(`NestedSelect`, {
             'NestedSelect--inline': inline,
             'NestedSelect--single': !multiple,
