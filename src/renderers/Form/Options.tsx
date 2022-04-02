@@ -243,6 +243,7 @@ export const detectProps = itemDetectProps.concat([
   'multiple',
   'hideRoot',
   'checkAll',
+  'defaultCheckAll',
   'showIcon',
   'showRadio',
   'btnDisabled',
