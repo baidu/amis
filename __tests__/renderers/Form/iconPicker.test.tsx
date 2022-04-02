@@ -19,7 +19,7 @@ test('Renderer:icon-picker', async () => {
   ];
   setIconVendor(vendors);
 
-  const {container, getByText, getByTitle} = render(
+  const {container, findByText, getByTitle} = render(
     amisRender(
       {
         type: 'form',
@@ -47,7 +47,7 @@ test('Renderer:icon-picker', async () => {
 
   const input = container.querySelector('input[name="a"]') as any;
   input?.focus();
-  fireEvent.click(getByText(/Glyphicons/));
+  fireEvent.click(await findByText(/Glyphicons/));
 
   fireEvent.change(input!, {
     target: {
