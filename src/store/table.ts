@@ -10,7 +10,7 @@ import {
   Instance
 } from 'mobx-state-tree';
 import {iRendererStore} from './iRenderer';
-import {resolveVariable} from '../utils/tpl-builtin';
+import {resolveVariable, resolveVariableAndFilter} from '../utils/tpl-builtin';
 import isEqual from 'lodash/isEqual';
 import find from 'lodash/find';
 import {
@@ -477,7 +477,11 @@ export const TableStore = iRendererStore
         let prev = groups[groups.length - 1];
         const current = columns[i];
 
-        if (current.groupName === prev.label) {
+        if (
+          current.groupName === prev.label ||
+          resolveVariableAndFilter(current.groupName, self.data) ===
+            resolveVariableAndFilter(prev.label, self.data)
+        ) {
           prev.colSpan++;
           prev.has.push(current);
         } else {
