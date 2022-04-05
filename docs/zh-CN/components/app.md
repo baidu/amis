@@ -70,3 +70,11 @@ order: 99
   - `isDefaultPage` 当你需要自定义 404 页面的时候有用，不要出现多个这样的页面，因为只有第一个才会有用。
   - `visible` 有些页面可能不想出现在菜单中，可以配置成 `false`，另外带参数的路由无需配置，直接就是不可见的。
   - `className` 菜单类名。
+
+## 注意事项
+
+默认的 app 右上角固顶，会遮挡 CRUD 的固定表头，所以需要设置 `affixOffsetTop`，比如下面的例子
+
+```
+let amisScoped = amis.embed('#root', amisJSON, {affixOffsetTop: 50});
+```
