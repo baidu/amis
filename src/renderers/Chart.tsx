@@ -227,6 +227,7 @@ export class Chart extends React.Component<ChartProps> {
 
   componentWillUnmount() {
     this.mounted = false;
+    (this.reloadEcharts as any).cancel();
     clearTimeout(this.timer);
   }
 
