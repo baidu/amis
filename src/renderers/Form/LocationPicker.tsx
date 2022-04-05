@@ -2,6 +2,7 @@ import React from 'react';
 import {themeable, ClassNamesFn, ThemeProps} from '../../theme';
 import FormItem, {FormBaseControl, FormControlProps} from './Item';
 import LocationPicker from '../../components/LocationPicker';
+import {filter} from '../../utils/tpl';
 
 /**
  * Location 选点组件
@@ -42,9 +43,13 @@ export class LocationControl extends React.Component<LocationControlProps> {
   };
 
   render() {
-    return (
+    const {
+      ak,
+      data
+    } = this.props;
+	return (
       <div className={this.props.classnames('LocationControl')}>
-        <LocationPicker {...this.props} />
+        <LocationPicker {...this.props} ak={filter(ak, data)}/>
       </div>
     );
   }

@@ -7,6 +7,7 @@ import {autobind} from '../utils/helper';
 import Alert2 from './Alert2';
 import BaiduMapPicker from './BaiduMapPicker';
 import {LocaleProps, localeable} from '../locale';
+import {filter} from '../utils/tpl';
 
 export interface LocationProps extends ThemeProps, LocaleProps {
   vendor: 'baidu' | 'gaode' | 'tenxun';
@@ -138,7 +139,8 @@ export class LocationPicker extends React.Component<
       popOverContainer,
       vendor,
       coordinatesType,
-      ak
+      ak,
+	  data
     } = this.props;
     const __ = this.props.translate;
     const {isFocused, isOpened} = this.state;
@@ -194,7 +196,7 @@ export class LocationPicker extends React.Component<
           >
             {vendor === 'baidu' ? (
               <BaiduMapPicker
-                ak={ak}
+                ak={filter(ak, data)}
                 value={value}
                 coordinatesType={coordinatesType}
                 onChange={this.handleChange}
