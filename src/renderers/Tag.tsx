@@ -3,15 +3,11 @@
  */
 import React from 'react';
 import {Renderer, RendererProps} from '../factory';
-import {
-  BaseSchema,
-  SchemaClassName,
-  SchemaCollection,
-  SchemaIcon
-} from '../Schema';
-import {filter} from '../utils/tpl';
+import {BaseSchema, SchemaClassName, SchemaIcon} from '../Schema';
+import {getPropValue} from '../utils/helper';
+import {isPureVariable, resolveVariableAndFilter} from '../utils/tpl-builtin';
 
-import Tag, {CheckableTag} from '../components/Tag';
+import Tag from '../components/Tag';
 
 /**
  * Tag
@@ -36,7 +32,7 @@ export interface TagSchema extends BaseSchema {
   /**
    * 标签文本内容
    */
-  label: string | SchemaCollection;
+  label: string;
 
   /**
    * normal: 面性标签，对应color的背景色
@@ -86,42 +82,41 @@ export class TagField extends React.Component<TagProps, object> {
   };
 
   render() {
-    const {
-      checkable,
-      checked,
+    let {
       label,
       icon,
-      closeIcon,
-      closable,
       displayMode,
       color,
       className,
       data,
-      style = {},
-      disabled
+      style = {}
     } = this.props;
 
-    return checkable ? (
-      <CheckableTag
-        checked={checked}
-        disabled={disabled}
-        className={className}
-        style={style}
-      >
-        {label ? filter(label, data) : null}
-      </CheckableTag>
-    ) : (
+    label =
+      getPropValue(this.props) ||
+      (label ? resolveVariableAndFilter(label, data, '| raw') : null);
+
+    if (isPureVariable(icon)) {
+      icon = resolveVariableAndFilter(icon, data);
+    }
+
+    if (isPureVariable(displayMode)) {
+      displayMode = resolveVariableAndFilter(displayMode, data);
+    }
+
+    if (isPureVariable(color)) {
+      color = resolveVariableAndFilter(color, data);
+    }
+
+    return (
       <Tag
-        disabled={disabled}
-        closable={closable}
         className={className}
         displayMode={displayMode}
         color={color}
-        closeIcon={closeIcon}
         icon={icon}
         style={style}
       >
-        {label ? filter(label, data) : null}
+        {label}
       </Tag>
     );
   }
