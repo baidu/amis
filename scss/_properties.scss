@@ -409,7 +409,7 @@
   --Calendar-input-borderRadius: var(--borderRadius);
   --Calendar-input-color: var(--info);
   --Calendar-input-fontSize: var(--fontSizeBase);
-  --Calendar-input-height: #{px2rem(30px)};
+  --Calendar-input-height: #{px2rem(40px)};
   --Calendar-input-lineHeight: var(--lineHeightBase);
   --Calendar-input-onFocused-borderColor: var(--info);
   --Calendar-input-paddingX: #{px2rem(10px)};
@@ -472,7 +472,7 @@
   --Carousel-bg: #f6f8f8;
   --Carousel-dot-borderRadius: #{px2rem(4px)};
   --Carousel-dot-height: #{px2rem(8px)};
-  --Carousel-dot-margin: #{px2rem(8px)} var(--gap-xs);
+  --Carousel-dot-margin: #{px2rem(7px)} var(--gap-xs);
   --Carousel-dot-width: #{px2rem(8px)};
   --Carousel-height: #{px2rem(200px)};
   --Carousel-imageDescription-bottom: #{px2rem(25px)};
@@ -482,15 +482,15 @@
   --Carousel-svg-width: var(--gap-lg);
   --Carousel-transitionDuration: var(--animation-duration);
 
-  --Checkbox--full-inner-size: #{px2rem(12px)};
-  --Checkbox--sm--full-inner-size: #{px2rem(10px)};
+  --Checkbox--full-inner-size: #{px2rem(8px)};
+  --Checkbox--sm--full-inner-size: #{px2rem(8px)};
   --Checkbox--sm-inner-size: calc(var(--Checkbox--sm-size) / 2);
   --Checkbox--sm-size: #{px2rem(16px)};
-  --Checkbox-borderRadius: var(--borderRadius);
+  --Checkbox-borderRadius: #{px2rem(2px)};
   --Checkbox-color: var(--Form-input-borderColor);
   --Checkbox-gap: var(--gap-xs);
   --Checkbox-gb: #fff;
-  --Checkbox-size: var(--Form-fontSize);
+  --Checkbox-size: #{px2rem(16px)};
   --Checkbox-inner-size: calc(var(--Checkbox-size) / 2);
   --Checkbox-onHover-color: var(--info);
   --Checkbox-onDisabled-bg: #e5e7eb;
@@ -500,7 +500,8 @@
   --Checkbox-border-width: var(--Form-input-borderWidth);
   --Checkbox-paddingX: #{px2rem(12px)};
   --Checkbox-button-height: #{px2rem(32px)};
-  --Checkbox-button-line-height: #{px2rem(30px)};
+  --Checkbox-button-line-height: #{px2rem(28px)};
+  --Checkbox-button-min-width: #{px2rem(80px)};
 
   --ColorPicker-bg: var(--white);
   --ColorPicker-borderColor: var(--Form-input-borderColor);
@@ -1350,6 +1351,7 @@
   --Tabs--strong-arrow-size: #{px2rem(24px)};
 
   --Tabs-borderColor: var(--borderColor);
+  --Tabs--simple-split-color: var(--Tabs-borderColor);
   --Tabs-borderRadius: var(--borderRadius);
   --Tabs-borderWidth: var(--borderWidth);
   --Tabs-color: var(--text-color);
@@ -1489,6 +1491,9 @@
 
   --Transfer-title-bg: #f6f8f8;
   --Transfer-selection-maxHeight: #{px2rem(350px)};
+
+  --TabsTransfer-title-bg: #f7f7f9;
+  --TabsTransfer-border-color: #e8e9eb;
 
   --Tree-indent: var(--gap-md);
   --Tree-inputHeight: calc(var(--Form-input-height) * 0.85);

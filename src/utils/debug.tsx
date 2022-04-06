@@ -409,7 +409,10 @@ export function debug(cat: Category, msg: string, ext?: object) {
     msg: msg,
     ext: JSON.stringify(ext)
   };
-  console.debug(log);
+  console.groupCollapsed('amis debug', msg);
+  console.trace(log);
+  console.groupEnd();
+
   store.logs.push(log);
 }
 
@@ -422,10 +425,15 @@ export function warning(cat: Category, msg: string, ext?: object) {
   if (!isEnabled) {
     return;
   }
-  store.logs.push({
+  const log = {
     cat,
     level: 'warn',
     msg: msg,
     ext: JSON.stringify(ext)
-  });
+  };
+
+  console.groupCollapsed('amis debug', msg);
+  console.trace(log);
+  console.groupEnd();
+  store.logs.push(log);
 }

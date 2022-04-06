@@ -835,3 +835,24 @@ true        false        true       [{label: 'A/B/C', value: 'a/b/c'},{label: 'A
 | treeContainerClassName | `string`                                     |                  | tree 最外层容器类名                                                                                                 |
 | enableNodePath         | `boolean`                                    | `false`          | 是否开启节点路径模式                                                                                                |
 | pathSeparator          | `string`                                     | `/`              | 节点路径的分隔符，`enableNodePath`为`true`时生效                                                                    |
+
+
+## 事件表
+
+| 事件名称        | 事件参数                        | 说明                 |
+|--------------- |------------------------        |----------------------|
+| change         | value: `string` 更新后的数据     | 选中值更改 |
+| add            | value: `string` 新增节点信息     | 新增选项 |
+| edit           | value: `string` 编辑节点信息     | 编辑选项 |
+| delete         | value: `string` 删除节点信息     | 删除选项 |
+| loadFinished   | value: `json` 懒加载返回的数据    | 懒加载完成触发 |
+
+
+## 动作表
+
+| 动作名称        | 动作配置                                            | 说明                 |
+|----------------|-------------------------------------------------- |---------------------|
+| expand         | openLevel: `number`<br />initiallyOpen为false时生效| 配置展开层级 |
+| collapse       | -                                                 |  关闭树|
+| clear          | -                                                 | 清除数据 |
+| reset          | -                                                 | 重置数据 |

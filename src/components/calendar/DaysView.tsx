@@ -29,7 +29,9 @@ interface CustomDaysViewProps extends LocaleProps {
   onChange: (value: moment.Moment) => void;
   onConfirm?: (value: number[], types: DateType[]) => void;
   setDateTimeState: (state: any) => void;
+  showTime: () => void;
   setTime: (type: string, amount: number) => void;
+  scrollToTop: (type: string, amount: number, i: number, lable?: string) => void;
   subtractTime: (
     amount: number,
     type: string,
@@ -66,6 +68,7 @@ export class CustomDaysView extends React.Component<CustomDaysViewProps> {
     columns: {options: PickerOption[]}[];
     types: DateType[];
     pickerValue: number[];
+    uniqueTag: any;
   };
 
   getDaysOfWeek(locale: any) {
@@ -173,8 +176,40 @@ export class CustomDaysView extends React.Component<CustomDaysViewProps> {
     this.state = {
       columns,
       types,
-      pickerValue: currentDate.toArray()
+      pickerValue: currentDate.toArray(),
+      uniqueTag: 0,
+    }
+  }
+
+  componentWillMount() {
+    this.setState({uniqueTag: (new Date()).valueOf()})
+  }
+
+  componentDidMount() {
+    const {
+      timeFormat,
+      selectedDate,
+      viewDate,
+      isEndDate,
+    } = this.props;
+    const formatMap = {
+      hours: 'HH',
+      minutes: 'mm',
+      seconds: 'ss'
     };
+    const date = selectedDate || (isEndDate ? viewDate.endOf('day') : viewDate);
+    timeFormat.split(':').forEach((format, i) => {
+      const type = /h/i.test(format)
+        ? 'hours'
+        : /m/.test(format)
+        ? 'minutes'
+        : /s/.test(format)
+        ? 'seconds'
+        : '';
+      if (type) {
+        this.scrollToTop(type, parseInt(date.format(formatMap[type]), 10), i, 'init')
+      }
+    })
   }
 
   updateSelectedDate = (event: React.MouseEvent<any>) => {
@@ -211,6 +246,18 @@ export class CustomDaysView extends React.Component<CustomDaysViewProps> {
     this.props.updateSelectedDate(event, true);
   };
 
+  showTime = () =>{
+    const {selectedDate, viewDate, timeFormat} = this.props
+    return (
+      <div 
+        key="stb"
+        className="rdtShowTime"
+      >
+        {(selectedDate || viewDate || moment()).format(timeFormat)}
+      </div>
+    )
+  }
+
   setTime = (
     type: 'hours' | 'minutes' | 'seconds' | 'milliseconds',
     value: number
@@ -226,6 +273,19 @@ export class CustomDaysView extends React.Component<CustomDaysViewProps> {
     if (!this.props.requiredConfirm) {
       this.props.onChange(date);
     }
+  };
+
+  scrollToTop = (
+    type: 'hours' | 'minutes' | 'seconds' | 'milliseconds',
+    value: number,
+    i: number,
+    label?: string,
+  ) => {
+    let elf: any = document.getElementById(`${this.state.uniqueTag}-${i}-input`);
+    elf.parentNode.scrollTo({
+      top: value * 28,
+      behavior: label === 'init' ? 'auto' : 'smooth'
+    })
   };
 
   confirm = () => {
@@ -419,6 +479,8 @@ export class CustomDaysView extends React.Component<CustomDaysViewProps> {
     const date = selectedDate || (isEndDate ? viewDate.endOf('day') : viewDate);
     const inputs: Array<React.ReactNode> = [];
 
+    inputs.push(this.showTime())
+
     timeFormat.split(':').forEach((format, i) => {
       const type = /h/i.test(format)
         ? 'hours'
@@ -444,7 +506,7 @@ export class CustomDaysView extends React.Component<CustomDaysViewProps> {
             key={i + 'input'}
             inputValue={date.format(formatMap[type])}
           >
-            {({isOpen, getInputProps, openMenu, closeMenu}) => {
+            {({getInputProps, openMenu, closeMenu}) => {
               const inputProps = getInputProps({
                 onFocus: () => openMenu(),
                 onChange: (e: any) =>
@@ -463,53 +525,55 @@ export class CustomDaysView extends React.Component<CustomDaysViewProps> {
                   )
               });
               return (
-                <div className={cx('CalendarInputWrapper')}>
-                  <input
+                <div className={cx('CalendarInputWrapper', 'CalendarInputWrapperMT')}>
+                  {/* <input
                     type="text"
                     value={date.format(formatMap[type])}
                     className={cx('CalendarInput')}
                     min={min}
                     max={max}
                     {...inputProps}
-                  />
-                  {isOpen ? (
-                    <div className={cx('CalendarInput-sugs')}>
-                      {options.map(option => {
-                        return (
-                          <div
-                            key={option.value}
-                            className={cx('CalendarInput-sugsItem', {
-                              'is-highlight':
-                                option.value === date.format(formatMap[type])
-                            })}
-                            onClick={() => {
-                              this.setTime(type, parseInt(option.value, 10));
-                              closeMenu();
-                            }}
-                          >
-                            {option.value}
-                          </div>
-                        );
-                      })}
-                    </div>
-                  ) : null}
+                  /> */}
+                  <div 
+                    className={cx(
+                      'CalendarInput-sugs',
+                      type === 'hours' ? 'CalendarInput-sugsHours' : 'CalendarInput-sugsTimes'
+                    )} 
+                    id={`${this.state.uniqueTag}-${i}-input`}
+                  >
+                    {options.map(option => {
+                      return (
+                        <div
+                          key={option.value}
+                          className={cx(
+                            'CalendarInput-sugsItem', 
+                            {'is-highlight': option.value === date.format(formatMap[type])}
+                          )}
+                          onClick={() => {
+                            this.setTime(type, parseInt(option.value, 10));
+                            this.scrollToTop(type, parseInt(option.value, 10), i);
+                            closeMenu();
+                          }}
+                        >
+                          {option.value}
+                        </div>
+                      );
+                    })}
+                  </div>
                 </div>
               );
             }}
           </Downshift>
         );
-
-        inputs.push(<span key={i + 'divider'}>:</span>);
+        inputs.push(<span key={i + 'divider'}></span>);
       }
     });
-
     inputs.length && inputs.pop();
-
     return <div>{inputs}</div>;
   };
 
   renderFooter = () => {
-    if (!this.props.timeFormat && !this.props.requiredConfirm) {
+    if (!this.props.requiredConfirm) {
       return null;
     }
 
@@ -519,7 +583,6 @@ export class CustomDaysView extends React.Component<CustomDaysViewProps> {
       <tfoot key="tf">
         <tr>
           <td colSpan={7}>
-            {this.props.timeFormat ? this.renderTimes() : null}
             {this.props.requiredConfirm ? (
               <div key="button" className="rdtActions">
                 <a
@@ -586,8 +649,7 @@ export class CustomDaysView extends React.Component<CustomDaysViewProps> {
   };
 
   render() {
-    const {viewDate: date, useMobileUI, embed} = this.props;
-    const footer = this.renderFooter();
+    const {viewDate: date, useMobileUI, embed, timeFormat, classnames: cx} = this.props;
     const locale = date.localeData();
     const __ = this.props.translate;
     if (isMobile() && useMobileUI && !embed) {
@@ -653,12 +715,16 @@ export class CustomDaysView extends React.Component<CustomDaysViewProps> {
       <tbody key="tb">{this.renderDays()}</tbody>
     ];
 
-    footer && tableChildren.push(footer);
-
     return (
-      <div className="rdtDays">
-        <table>{tableChildren}</table>
-      </div>
+      <>
+        <div className={timeFormat ? 'rdtDays' : ''}>
+          <table className={timeFormat ? 'rdtDaysPart' : ''}>{tableChildren}</table>
+          {timeFormat ? (
+            <div className={timeFormat.toLowerCase().indexOf('s') > 0 ? "rdtTimePartWithS" : "rdtTimePart"}>{this.renderTimes()}</div>
+          ) : null}
+        </div>
+        <table>{this.renderFooter()}</table>
+      </>
     );
   }
 }

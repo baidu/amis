@@ -7,7 +7,6 @@
 import React from 'react';
 import moment from 'moment';
 import {findDOMNode} from 'react-dom';
-import cx from 'classnames';
 import {Icon} from './icons';
 import Overlay from './Overlay';
 import {ShortCuts, ShortCutDateRange} from './DatePicker';
@@ -19,11 +18,13 @@ import {PlainObject} from '../types';
 import {isMobile, noop, ucFirst} from '../utils/helper';
 import {LocaleProps, localeable} from '../locale';
 import CalendarMobile from './CalendarMobile';
+import Input from './Input';
 
 export interface DateRangePickerProps extends ThemeProps, LocaleProps {
   className?: string;
   popoverClassName?: string;
-  placeholder?: string;
+  startPlaceholder?: string;
+  endPlaceholder?: string;
   theme?: any;
   format: string;
   utc?: boolean;
@@ -52,6 +53,8 @@ export interface DateRangePickerProps extends ThemeProps, LocaleProps {
   useMobileUI?: boolean;
   onFocus?: Function;
   onBlur?: Function;
+  type?: string;
+  onRef?: any;
 }
 
 export interface DateRangePickerState {
@@ -59,6 +62,9 @@ export interface DateRangePickerState {
   isFocused: boolean;
   startDate?: moment.Moment;
   endDate?: moment.Moment;
+  editState?: 'start' | 'end'; // 编辑开始时间还是结束时间
+  startInputValue?: string;
+  endInputValue?: string;
 }
 
 export const availableRanges: {[propName: string]: any} = {
@@ -94,6 +100,16 @@ export const availableRanges: {[propName: string]: any} = {
 
   // 兼容一下错误的用法
   '1daysago': {
+    label: 'DateRange.1daysago',
+    startDate: (now: moment.Moment) => {
+      return now.add(-1, 'days');
+    },
+    endDate: (now: moment.Moment) => {
+      return now;
+    }
+  },
+
+  '1dayago': {
     label: 'DateRange.1daysago',
     startDate: (now: moment.Moment) => {
       return now.add(-1, 'days');
@@ -390,7 +406,8 @@ export class DateRangePicker extends React.Component<
   DateRangePickerState
 > {
   static defaultProps = {
-    placeholder: 'DateRange.placeholder',
+    startPlaceholder: 'Calendar.startPick',
+    endPlaceholder: 'Calendar.endPick',
     format: 'X',
     inputFormat: 'YYYY-MM-DD',
     joinValues: true,
@@ -454,14 +471,27 @@ export class DateRangePicker extends React.Component<
   }
 
   dom: React.RefObject<HTMLDivElement>;
+  calendarRef: React.RefObject<HTMLDivElement>;
   nextMonth = moment().add(1, 'months');
+
+  startInputRef: React.RefObject<HTMLInputElement>;
+  endInputRef: React.RefObject<HTMLInputElement>;
 
   constructor(props: DateRangePickerProps) {
     super(props);
 
+    this.startInputRef = React.createRef();
+    this.endInputRef = React.createRef();
+    this.calendarRef = React.createRef();
     this.open = this.open.bind(this);
+    this.openStart = this.openStart.bind(this);
+    this.openEnd = this.openEnd.bind(this);
     this.close = this.close.bind(this);
-    this.handleSelectChange = this.handleSelectChange.bind(this);
+    this.startInputChange = this.startInputChange.bind(this);
+    this.endInputChange = this.endInputChange.bind(this);
+    this.handleDateChange = this.handleDateChange.bind(this);
+    this.handleStartDateChange = this.handleStartDateChange.bind(this);
+    this.handeleEndDateChange = this.handeleEndDateChange.bind(this);
     this.handleTimeStartChange = this.handleTimeStartChange.bind(this);
     this.handleTimeEndChange = this.handleTimeEndChange.bind(this);
     this.handleFocus = this.handleFocus.bind(this);
@@ -477,22 +507,65 @@ export class DateRangePicker extends React.Component<
     this.renderDay = this.renderDay.bind(this);
     this.renderQuarter = this.renderQuarter.bind(this);
     this.handleMobileChange = this.handleMobileChange.bind(this);
-    const {format, joinValues, delimiter, value} = this.props;
-
+    this.handleOutClick = this.handleOutClick.bind(this);
+    const {format, joinValues, delimiter, value, inputFormat} = this.props;
+    const {startDate, endDate} = DateRangePicker.unFormatValue(
+      value,
+      format,
+      joinValues,
+      delimiter
+    );
     this.state = {
       isOpened: false,
       isFocused: false,
-      ...DateRangePicker.unFormatValue(value, format, joinValues, delimiter)
+      editState: 'start',
+      startDate,
+      endDate,
+      startInputValue: startDate?.format(inputFormat),
+      endInputValue: endDate?.format(inputFormat)
     };
+  }
+  componentDidMount() {
+    document.body.addEventListener('click', this.handleOutClick, true);
+    this.props?.onRef?.(this);
+  }
+
+  componentWillUnmount() {
+    document.body.removeEventListener('click', this.handleOutClick, true);
+  }
+
+  handleOutClick(e: Event) {
+    if (
+      !e.target ||
+      !this.dom.current ||
+      this.dom.current.contains(e.target as HTMLElement) ||
+      !this.calendarRef.current ||
+      this.calendarRef.current.contains(e.target as HTMLElement)
+    ) {
+      return;
+    }
+    if (this.state.isOpened) {
+      e.preventDefault();
+      this.close();
+    }
   }
 
   componentDidUpdate(prevProps: DateRangePickerProps) {
     const props = this.props;
-    const {value, format, joinValues, delimiter} = props;
+    const {value, format, joinValues, inputFormat, delimiter} = props;
 
     if (prevProps.value !== value) {
+      const {startDate, endDate} = DateRangePicker.unFormatValue(
+        value,
+        format,
+        joinValues,
+        delimiter
+      );
       this.setState({
-        ...DateRangePicker.unFormatValue(value, format, joinValues, delimiter)
+        startDate,
+        endDate,
+        startInputValue: startDate?.format(inputFormat),
+        endInputValue: endDate?.format(inputFormat)
       });
     }
   }
@@ -539,10 +612,31 @@ export class DateRangePicker extends React.Component<
     });
   }
 
+  openStart() {
+    if (this.props.disabled) {
+      return;
+    }
+    this.setState({
+      isOpened: true,
+      editState: 'start'
+    });
+  }
+
+  openEnd() {
+    if (this.props.disabled) {
+      return;
+    }
+    this.setState({
+      isOpened: true,
+      editState: 'end'
+    });
+  }
+
   close() {
     this.setState(
       {
-        isOpened: false
+        isOpened: false,
+        editState: undefined
       },
       this.blur
     );
@@ -612,77 +706,166 @@ export class DateRangePicker extends React.Component<
     return value;
   }
 
-  handleSelectChange(newValue: moment.Moment) {
-    const {embed, timeFormat, minDuration, maxDuration, minDate} = this.props;
+  handleDateChange(newValue: moment.Moment) {
+    let {editState} = this.state;
+    if (editState === 'start') {
+      this.handleStartDateChange(newValue);
+    } else if (editState === 'end') {
+      this.handeleEndDateChange(newValue);
+    }
+  }
+
+  handleStartDateChange(newValue: moment.Moment) {
+    const {timeFormat, minDate, inputFormat, type} = this.props;
+    let {startDate} = this.state;
+    if (minDate && newValue.isBefore(minDate)) {
+      newValue = minDate;
+    }
+    const date = this.filterDate(
+      newValue,
+      startDate || minDate,
+      timeFormat,
+      'start'
+    );
+    const newState = {
+      startDate: date,
+      startInputValue: date.format(inputFormat)
+    } as any;
+    // 这些没有时间的选择点第一次后第二次就是选结束时间
+    if (
+      type === 'input-date-range' ||
+      type === 'input-year-range' ||
+      type === 'input-quarter-range'
+    ) {
+      newState.editState = 'end';
+    }
+    this.setState(newState);
+  }
+
+  handeleEndDateChange(newValue: moment.Moment) {
+    const {embed, timeFormat, inputFormat} = this.props;
     let {startDate, endDate} = this.state;
+    newValue = this.getEndDateByDuration(newValue);
 
-    // 第一次点击只标记起始时间，或者点击了开始时间前面的时间
-    if (this.isFirstClick || newValue.isBefore(startDate)) {
-      // 这种情况说明第二次点击点击了前面的时间，这时要标记为第二次点击
-      if (newValue.isBefore(startDate)) {
-        this.isFirstClick = true;
-      }
-      if (minDate && newValue.isBefore(minDate)) {
-        newValue = minDate;
-      }
+    // 如果结束时间在前面，需要清空开始时间
+    if (newValue.isBefore(startDate)) {
       this.setState({
-        startDate: this.filterDate(
-          newValue,
-          startDate || minDate,
-          timeFormat,
-          'start'
-        ),
-        endDate: undefined
+        startDate: undefined,
+        startInputValue: ''
       });
-    } else {
-      // 第二次点击作为结束时间
-      if (!startDate) {
-        // 不大可能，但只能作为开始时间了
-        startDate = newValue;
-      }
-
-      if (minDuration && newValue.isAfter(startDate.clone().add(minDuration))) {
-        newValue = startDate.clone().add(minDuration);
-      }
-      if (
-        maxDuration &&
-        newValue.isBefore(startDate.clone().add(maxDuration))
-      ) {
-        newValue = startDate.clone().add(maxDuration);
-      }
-      this.setState(
-        {
-          endDate: this.filterDate(newValue, endDate, timeFormat, 'end')
-        },
-        () => {
-          embed && this.confirm();
-        }
-      );
     }
 
-    this.isFirstClick = !this.isFirstClick;
+    const date = this.filterDate(newValue, endDate, timeFormat, 'end');
+    this.setState(
+      {
+        endDate: date,
+        endInputValue: date.format(inputFormat)
+      },
+      () => {
+        embed && this.confirm();
+      }
+    );
+  }
+
+  // 手动控制输入时间
+  startInputChange(e: React.ChangeEvent<HTMLInputElement>) {
+    const {onChange, inputFormat, format, utc} = this.props;
+    const value = e.currentTarget.value;
+    this.setState({startInputValue: value});
+    if (value === '') {
+      onChange('');
+    } else {
+      let newDate = this.getStartDateByDuration(moment(value, inputFormat));
+      this.setState({startDate: newDate});
+    }
+  }
+
+  endInputChange(e: React.ChangeEvent<HTMLInputElement>) {
+    const {onChange, inputFormat, format, utc} = this.props;
+    const value = e.currentTarget.value;
+    this.setState({endInputValue: value});
+    if (value === '') {
+      onChange('');
+    } else {
+      let newDate = this.getEndDateByDuration(moment(value, inputFormat));
+      this.setState({endDate: newDate});
+    }
+  }
+
+  // 根据 duration 修复结束时间
+  getEndDateByDuration(newValue: moment.Moment) {
+    const {minDuration, maxDuration, type} = this.props;
+    let {startDate, endDate, editState} = this.state;
+    if (!startDate) {
+      return newValue;
+    }
+
+    // 时间范围必须统一成同一天，不然会不一致
+    if (type === 'input-time-range' && startDate) {
+      newValue.set({
+        year: startDate.year(),
+        month: startDate.month(),
+        date: startDate.date()
+      });
+    }
+
+    if (minDuration && newValue.isBefore(startDate.clone().add(minDuration))) {
+      newValue = startDate.clone().add(minDuration);
+    }
+
+    if (maxDuration && newValue.isAfter(startDate.clone().add(maxDuration))) {
+      newValue = startDate.clone().add(maxDuration);
+    }
+
+    return newValue;
+  }
+
+  // 根据 duration 修复起始时间
+  getStartDateByDuration(newValue: moment.Moment) {
+    const {minDuration, maxDuration, type} = this.props;
+    let {endDate, editState} = this.state;
+    if (!endDate) {
+      return newValue;
+    }
+    // 时间范围必须统一成同一天，不然会不一致
+    if (type === 'input-time-range' && endDate) {
+      newValue.set({
+        year: endDate.year(),
+        month: endDate.month(),
+        date: endDate.date()
+      });
+    }
+
+    if (
+      minDuration &&
+      newValue.isBefore(endDate.clone().subtract(minDuration))
+    ) {
+      newValue = endDate.clone().subtract(minDuration);
+    }
+
+    if (
+      maxDuration &&
+      newValue.isAfter(endDate.clone().subtract(maxDuration))
+    ) {
+      newValue = endDate.clone().subtract(maxDuration);
+    }
+
+    return newValue;
   }
 
   // 主要用于处理时间的情况
   handleTimeStartChange(newValue: moment.Moment) {
-    const {embed, timeFormat, minDuration, maxDuration, minDate} = this.props;
+    const {embed, timeFormat, inputFormat, minDuration, maxDuration, minDate} =
+      this.props;
     const {startDate, endDate} = this.state;
 
-    if (
-      startDate &&
-      (!endDate || (endDate && newValue.isSame(startDate))) && // 没有结束时间，或者新的时间也是开始时间，这时都会将新值当成结束时间
-      newValue.isSameOrAfter(startDate) &&
-      (!minDuration || newValue.isAfter(startDate.clone().add(minDuration))) &&
-      (!maxDuration || newValue.isBefore(startDate.clone().add(maxDuration)))
-    ) {
-      return this.setState(
-        {
-          endDate: this.filterDate(newValue, endDate, timeFormat, 'end')
-        },
-        () => {
-          embed && this.confirm();
-        }
-      );
+    // 时间范围必须统一成同一天，不然会不一致
+    if (endDate) {
+      newValue.set({
+        year: endDate.year(),
+        month: endDate.month(),
+        date: endDate.date()
+      });
     }
 
     if (minDate && newValue && newValue.isBefore(minDate, 'second')) {
@@ -691,12 +874,8 @@ export class DateRangePicker extends React.Component<
 
     this.setState(
       {
-        startDate: this.filterDate(
-          newValue,
-          startDate || minDate,
-          timeFormat,
-          'start'
-        )
+        startDate: newValue,
+        startInputValue: newValue.format(inputFormat)
       },
       () => {
         embed && this.confirm();
@@ -705,39 +884,40 @@ export class DateRangePicker extends React.Component<
   }
 
   handleTimeEndChange(newValue: moment.Moment) {
-    const {embed, timeFormat, minDuration, maxDuration, maxDate} = this.props;
+    const {embed, timeFormat, inputFormat, minDuration, maxDuration, maxDate} =
+      this.props;
     const {startDate, endDate} = this.state;
-
-    if (
-      endDate &&
-      !startDate &&
-      newValue.isSameOrBefore(endDate) &&
-      (!minDuration ||
-        newValue.isBefore(endDate.clone().subtract(minDuration))) &&
-      (!maxDuration || newValue.isAfter(endDate.clone().subtract(maxDuration)))
-    ) {
-      return this.setState(
-        {
-          startDate: this.filterDate(newValue, startDate, timeFormat, 'start')
-        },
-        () => {
-          embed && this.confirm();
-        }
-      );
+    if (startDate) {
+      newValue.set({
+        year: startDate.year(),
+        month: startDate.month(),
+        date: startDate.date()
+      });
     }
 
     if (maxDate && newValue && newValue.isAfter(maxDate, 'second')) {
       newValue = maxDate;
     }
 
+    if (
+      startDate &&
+      minDuration &&
+      newValue.isAfter(startDate.clone().add(minDuration))
+    ) {
+      newValue = startDate.clone().add(minDuration);
+    }
+    if (
+      startDate &&
+      maxDuration &&
+      newValue.isBefore(startDate.clone().add(maxDuration))
+    ) {
+      newValue = startDate.clone().add(maxDuration);
+    }
+
     this.setState(
       {
-        endDate: this.filterDate(
-          newValue,
-          endDate || maxDate,
-          timeFormat,
-          'end'
-        )
+        endDate: newValue,
+        endInputValue: newValue.format(inputFormat)
       },
       () => {
         embed && this.confirm();
@@ -818,15 +998,19 @@ export class DateRangePicker extends React.Component<
               endDate: () => (item as ShortCutDateRange).endDate
             };
           }
-          return (
-            <li
-              className={`${ns}DateRangePicker-ranger`}
-              onClick={() => this.selectRannge(range)}
-              key={range.key || range.label}
-            >
-              <a>{__(range.label)}</a>
-            </li>
-          );
+          if (Object.keys(range).length) {
+            return (
+              <li
+                className={`${ns}DateRangePicker-ranger`}
+                onClick={() => this.selectRannge(range)}
+                key={range.key || range.label}
+              >
+                <a>{__(range.label)}</a>
+              </li>
+            );
+          } else {
+            return null;
+          }
         })}
       </ul>
     );
@@ -835,9 +1019,35 @@ export class DateRangePicker extends React.Component<
   clearValue(e: React.MouseEvent<any>) {
     e.preventDefault();
     e.stopPropagation();
-    const {resetValue, onChange} = this.props;
+    const {onChange} = this.props;
+    this.setState({startInputValue: '', endInputValue: ''});
+    onChange('');
+  }
 
+  // 清空
+  clear() {
+    const {onChange} = this.props;
+    this.setState({startInputValue: '', endInputValue: ''});
+    onChange('');
+  }
+
+  // 重置
+  reset() {
+    const {resetValue, onChange, format, joinValues, delimiter, inputFormat} = this.props;
+    if (!resetValue) {
+      return;
+    }
+    const {startDate, endDate} = DateRangePicker.unFormatValue(
+      resetValue,
+      format,
+      joinValues,
+      delimiter
+    );
     onChange(resetValue);
+    this.setState({
+      startInputValue: startDate?.format(inputFormat),
+      endInputValue: endDate?.format(inputFormat)
+    })
   }
 
   checkStartIsValidDate(currentDate: moment.Moment) {
@@ -950,6 +1160,7 @@ export class DateRangePicker extends React.Component<
       ranges,
       locale,
       embed,
+      type,
       viewMode = 'days'
     } = this.props;
     const __ = this.props.translate;
@@ -957,18 +1168,19 @@ export class DateRangePicker extends React.Component<
     const {startDate, endDate} = this.state;
 
     return (
-      <div className={`${ns}DateRangePicker-wrap`}>
+      <div className={`${ns}DateRangePicker-wrap`} ref={this.calendarRef}>
         {this.renderRanges(ranges)}
-
         <Calendar
           className={`${ns}DateRangePicker-start`}
           value={startDate}
           // 区分的原因是 time-range 左侧就只能选起始时间，而其它都能在左侧同时同时选择起始和结束
           // TODO: 后续得把 time-range 代码拆分出来
           onChange={
-            viewMode === 'time'
+            type === 'input-datetime-range'
+              ? this.handleStartDateChange
+              : viewMode === 'time'
               ? this.handleTimeStartChange
-              : this.handleSelectChange
+              : this.handleDateChange
           }
           requiredConfirm={false}
           dateFormat={dateFormat}
@@ -981,15 +1193,17 @@ export class DateRangePicker extends React.Component<
           renderDay={this.renderDay}
           renderQuarter={this.renderQuarter}
           locale={locale}
+          timeRangeHeader="开始时间"
         />
-
         <Calendar
           className={`${ns}DateRangePicker-end`}
           value={endDate}
           onChange={
-            viewMode === 'time'
+            type === 'input-datetime-range'
+              ? this.handeleEndDateChange
+              : viewMode === 'time'
               ? this.handleTimeEndChange
-              : this.handleSelectChange
+              : this.handleDateChange
           }
           requiredConfirm={false}
           dateFormat={dateFormat}
@@ -1004,6 +1218,7 @@ export class DateRangePicker extends React.Component<
           renderDay={this.renderDay}
           renderQuarter={this.renderQuarter}
           locale={locale}
+          timeRangeHeader="结束时间"
         />
 
         {embed ? null : (
@@ -1013,7 +1228,10 @@ export class DateRangePicker extends React.Component<
             </a>
             <a
               className={cx('Button', 'Button--primary', 'm-l-sm', {
-                'is-disabled': !this.state.startDate || !this.state.endDate
+                'is-disabled':
+                  !this.state.startDate ||
+                  !this.state.endDate ||
+                  this.state.endDate?.isBefore(this.state.startDate)
               })}
               onClick={this.confirm}
             >
@@ -1030,8 +1248,10 @@ export class DateRangePicker extends React.Component<
       className,
       popoverClassName,
       classPrefix: ns,
+      classnames: cx,
       value,
-      placeholder,
+      startPlaceholder,
+      endPlaceholder,
       popOverContainer,
       inputFormat,
       format,
@@ -1059,21 +1279,6 @@ export class DateRangePicker extends React.Component<
 
     const {isOpened, isFocused, startDate, endDate} = this.state;
 
-    const selectedDate = DateRangePicker.unFormatValue(
-      value,
-      format,
-      joinValues,
-      delimiter
-    );
-    const startViewValue = selectedDate.startDate
-      ? selectedDate.startDate.format(inputFormat)
-      : '';
-    const endViewValue = selectedDate.endDate
-      ? selectedDate.endDate.format(inputFormat)
-      : '';
-    const arr = [];
-    startViewValue && arr.push(startViewValue);
-    endViewValue && arr.push(endViewValue);
     const __ = this.props.translate;
 
     const calendarMobile = (
@@ -1138,17 +1343,32 @@ export class DateRangePicker extends React.Component<
           className
         )}
         ref={this.dom}
-        onClick={this.handleClick}
       >
-        {arr.length ? (
-          <span className={`${ns}DateRangePicker-value`}>
-            {arr.join(__('DateRange.valueConcat'))}
-          </span>
-        ) : (
-          <span className={`${ns}DateRangePicker-placeholder`}>
-            {__(placeholder)}
-          </span>
-        )}
+        <Input
+          className={cx('DateRangePicker-input', {
+            isActive: this.state.editState === 'start'
+          })}
+          onChange={this.startInputChange}
+          onClick={this.openStart}
+          ref={this.startInputRef}
+          placeholder={__(startPlaceholder)}
+          autoComplete="off"
+          value={this.state.startInputValue || ''}
+          disabled={disabled}
+        />
+        <span className={cx('DateRangePicker-input-separator')}>~</span>
+        <Input
+          className={cx('DateRangePicker-input', {
+            isActive: this.state.editState === 'end'
+          })}
+          onChange={this.endInputChange}
+          onClick={this.openEnd}
+          ref={this.endInputRef}
+          placeholder={__(endPlaceholder)}
+          autoComplete="off"
+          value={this.state.endInputValue || ''}
+          disabled={disabled}
+        />
 
         {clearable && !disabled && value ? (
           <a className={`${ns}DateRangePicker-clear`} onClick={this.clearValue}>
@@ -1185,7 +1405,6 @@ export class DateRangePicker extends React.Component<
                 className={cx(`${ns}DateRangePicker-popover`, popoverClassName)}
                 onHide={this.close}
                 onClick={this.handlePopOverClick}
-                overlay
               >
                 {this.renderCalendar()}
               </PopOver>

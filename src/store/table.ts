@@ -940,6 +940,12 @@ export const TableStore = iRendererStore
       // self.expandedRows.clear();
 
       let arr: Array<SRow> = rows.map((item, index) => {
+        if (!isObject(item)) {
+          item = {
+            item
+          };
+        }
+
         let id = String(
           getEntryId ? getEntryId(item, index) : item.__id ?? guid()
         );
@@ -1267,6 +1273,20 @@ export const TableStore = iRendererStore
       });
     }
 
+    function toggleAllColumns() {
+      if (self.activeToggaleColumns.length) {
+        if (self.activeToggaleColumns.length === self.toggableColumns.length) {
+          self.toggableColumns.map(column => column.setToggled(false));
+        } else {
+          self.toggableColumns.map(column => column.setToggled(true));
+        }
+      } else {
+        // 如果没有一个激活的，那就改成全选
+        self.toggableColumns.map(column => column.setToggled(true));
+      }
+      persistSaveToggledColumns();
+    }
+
     return {
       update,
       updateColumns,
@@ -1285,7 +1305,7 @@ export const TableStore = iRendererStore
       stopDragging,
       exchange,
       addForm,
-
+      toggleAllColumns,
       persistSaveToggledColumns,
 
       // events

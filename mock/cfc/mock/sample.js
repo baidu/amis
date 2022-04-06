@@ -25,6 +25,12 @@ module.exports = function (req, res) {
     return bulkUpdate2(req, res);
   } else if (pathname === 'sample/mirror') {
     return mirror(req, res);
+  } else if (pathname === 'sample/array') {
+    return res.json(DB.concat());
+  } else if (pathname === 'sample/itemsHasAnother') {
+    return res.json({myItems: DB.concat()});
+  } else if (pathname === 'sample/arrayInData') {
+    return res.json({data: DB.concat()});
   }
 
   return index(req, res);

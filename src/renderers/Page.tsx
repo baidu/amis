@@ -12,7 +12,12 @@ import {
   FunctionPropertyNames
 } from '../types';
 import {filter, evalExpression} from '../utils/tpl';
-import {isVisible, autobind, bulkBindFunctions} from '../utils/helper';
+import {
+  isVisible,
+  autobind,
+  bulkBindFunctions,
+  isObjectShallowModified
+} from '../utils/helper';
 import {ScopedContext, IScopedContext} from '../Scoped';
 import Alert from '../components/Alert2';
 import {isApiOutdated, isEffectiveApi} from '../utils/api';
@@ -33,6 +38,8 @@ import mapValues from 'lodash/mapValues';
 import {resolveVariable} from '../utils/tpl-builtin';
 import {buildStyle} from '../utils/style';
 import PullRefresh from '../components/PullRefresh';
+import position from '../utils/position';
+import {scrollPosition} from '../utils/scrollPosition';
 
 /**
  * 样式属性名及值
@@ -385,8 +392,9 @@ export default class Page extends React.Component<PageProps> {
 
     if (asideSticky && this.asideInner.current) {
       const dom = this.asideInner.current!;
-      const rect = dom.getBoundingClientRect();
-      dom.style.cssText += `position: sticky; top: ${rect.top}px;`;
+      dom.style.cssText += `position: sticky; top: ${
+        scrollPosition(dom).top
+      }px;`;
     }
   }
 
@@ -419,7 +427,9 @@ export default class Page extends React.Component<PageProps> {
       JSON.stringify(props.cssVars) !== JSON.stringify(prevProps.cssVars)
     ) {
       this.updateVarStyle();
-    } else if (props.defaultData !== prevProps.defaultData) {
+    } else if (
+      isObjectShallowModified(prevProps.defaultData, props.defaultData)
+    ) {
       store.reInitData(props.defaultData);
     }
   }
@@ -633,7 +643,12 @@ export default class Page extends React.Component<PageProps> {
   }
 
   @autobind
-  handleRefresh() {
+  async handleRefresh() {
+    const {dispatchEvent, data} = this.props;
+    const rendererEvent = await dispatchEvent('pullRefresh', data);
+    if (rendererEvent?.prevented) {
+      return;
+    }
     this.reload();
   }
 
@@ -970,5 +985,9 @@ export class PageRenderer extends Page {
           .forEach((item: any) => item.reload && item.reload());
       }
     }, 300);
+  }
+
+  setData(values: object) {
+    return this.props.store.updateData(values);
   }
 }

@@ -1,6 +1,6 @@
 import './polyfills/index';
 import React from 'react';
-import {render as renderReact, unmountComponentAtNode} from 'react-dom';
+import {createRoot} from 'react-dom/client';
 import axios from 'axios';
 import {match} from 'path-to-regexp';
 import copy from 'copy-to-clipboard';
@@ -24,10 +24,15 @@ import attachmentAdpator from '../src/utils/attachmentAdpator';
 export function embed(
   container: string | HTMLElement,
   schema: any,
-  props?: any,
+  props: any = {},
   env?: any
 ) {
   const __ = makeTranslator(env?.locale || props?.locale);
+
+  // app 模式自动加 affixOffsetTop
+  if (!('affixOffsetTop' in props) && schema.type === 'app') {
+    props.affixOffsetTop = 50;
+  }
 
   if (typeof container === 'string') {
     container = document.querySelector(container) as HTMLElement;
@@ -272,15 +277,16 @@ export function embed(
     );
   }
 
-  renderReact(createElements(props), container);
+  const root = createRoot(container);
+  root.render(createElements(props));
 
   return {
     ...scoped,
     updateProps: (props: any, callback?: () => void) => {
-      renderReact(createElements(props), container as HTMLElement, callback);
+      root.render(createElements(props));
     },
     unmount: () => {
-      unmountComponentAtNode(container as HTMLElement);
+      root.unmount();
     }
   };
 }

@@ -23,6 +23,7 @@ import {SimpleMap} from './utils/SimpleMap';
 import type {RendererEvent} from './utils/renderer-event';
 import {observer} from 'mobx-react';
 import {isAlive} from 'mobx-state-tree';
+import {isPureVariable, resolveVariableAndFilter} from './utils/tpl-builtin';
 
 interface SchemaRendererProps extends Partial<RendererProps> {
   schema: Schema;
@@ -102,7 +103,7 @@ class BroadcastCmpt extends React.Component<BroadcastCmptProps> {
   }
 
   render() {
-    const {component: Component, rootStore, ...rest} = this.props;
+    const {component: Component, rootStore, autoVar, ...rest} = this.props;
     const visible = isAlive(rootStore)
       ? rootStore.visibleState[rest.$schema.id || rest.$path]
       : true;
@@ -114,19 +115,33 @@ class BroadcastCmpt extends React.Component<BroadcastCmptProps> {
     if (disable) {
       (rest as any).disabled = true;
     }
+    const props = {...rest};
+
+    // 自动解析变量模式，主要是方便直接引入第三方组件库，无需为了支持变量封装一层
+    if (autoVar) {
+      for (const key of Object.keys(rest.$schema)) {
+        if (typeof props[key] === 'string') {
+          props[key] = resolveVariableAndFilter(
+            props[key],
+            props.data,
+            '| raw'
+          );
+        }
+      }
+    }
 
     // 函数组件不支持 ref https://reactjs.org/docs/refs-and-the-dom.html#refs-and-function-components
     return visible !== false ? (
       isClassComponent ? (
         <Component
           ref={this.childRef}
-          {...rest}
+          {...props}
           rootStore={rootStore}
           dispatchEvent={this.dispatchEvent}
         />
       ) : (
         <Component
-          {...rest}
+          {...props}
           rootStore={rootStore}
           dispatchEvent={this.dispatchEvent}
         />
@@ -414,6 +429,7 @@ export class SchemaRenderer extends React.Component<SchemaRendererProps, any> {
         ref={this.refFn}
         render={this.renderChild}
         component={Component}
+        autoVar={renderer.autoVar}
       />
     );
 

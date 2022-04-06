@@ -83,6 +83,10 @@ import ButtonEventActionSchema from './EventAction/ButtonEvent';
 import InputRatingEventSchema from './EventAction/InputRatingEvent';
 import ExcelEventSchema from './EventAction/ExcelEvent';
 import WizardEventSchema from './EventAction/WizardEvent';
+import InputTreeEventSchema from './EventAction/InputTreeEvent';
+import treeSelectEventSchema from './EventAction/treeSelectEvent';
+import FormEventActionSchema from './EventAction/FormEvent';
+import TransferEventSchema from './EventAction/TransferEvent';
 import WizardSchema from './Wizard';
 import ChartSchema from './Chart';
 import EChartsEditorSchema from './ECharts';
@@ -587,6 +591,26 @@ export const examples = [
                 path: 'examples/event/wizard',
                 component: makeSchemaRenderer(WizardEventSchema)
               },
+              {
+                label: '树形选择框',
+                path: 'examples/event/input-tree',
+                component: makeSchemaRenderer(InputTreeEventSchema)
+              },
+              {
+                label: '树形选择器',
+                path: 'examples/event/tree-select',
+                component: makeSchemaRenderer(treeSelectEventSchema)
+              },
+              {
+                label: 'form表单',
+                path: 'examples/event/form',
+                component: makeSchemaRenderer(FormEventActionSchema)
+              },
+              {
+                label: '穿梭框类组件',
+                path: 'examples/event/transfer',
+                component: makeSchemaRenderer(TransferEventSchema)
+              }
             ]
           },
           {

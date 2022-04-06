@@ -8,7 +8,7 @@ import {makeEnv} from '../../helper';
 import moment from 'moment';
 
 test('Renderer:inputYearRange click', async () => {
-  const {container, findByText, getByText} = render(
+  const {container, findByPlaceholderText, getByText} = render(
     amisRender(
       {
         type: 'form',
@@ -28,7 +28,7 @@ test('Renderer:inputYearRange click', async () => {
     )
   );
 
-  const inputDate = await findByText('请选择年份范围');
+  const inputDate = await findByPlaceholderText('选择开始时间');
 
   fireEvent.click(inputDate);
 
@@ -51,9 +51,8 @@ test('Renderer:inputYearRange click', async () => {
 
   fireEvent.click(confirm);
 
-  const value = document.querySelector(
-    '.cxd-DateRangePicker-value'
-  ) as HTMLSpanElement;
+  const value = document.querySelectorAll('.cxd-DateRangePicker-input')!;
 
-  expect(value.innerHTML).toEqual(thisYearText + ' 至 ' + nextYearText);
+  expect((value[0] as HTMLInputElement).value).toEqual(thisYearText);
+  expect((value[1] as HTMLInputElement).value).toEqual(nextYearText);
 });

@@ -67,9 +67,9 @@ class CollapseGroup extends React.Component<
       }
     } else {
       if (this.props.accordion) {
-        activeKey = [item.id];
+        activeKey = [item.id as string];
       } else {
-        activeKey.push(item.id);
+        activeKey.push(item.id as string);
       }
     }
     this.setState({

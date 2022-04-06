@@ -20,7 +20,6 @@ export default function position(
 ) {
   let parentOffset = {top: 0, left: 0};
   let offset;
-  getComputedStyle;
   // Fixed elements are offset from window (parentOffset = {top:0, left: 0},
   // because it is its only offset parent
   if (getComputedStyle(node).getPropertyValue('position') === 'fixed') {

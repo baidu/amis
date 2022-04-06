@@ -57,6 +57,7 @@ import ChainedSelection from './ChainedSelection';
 import TableSelection from './TableSelection';
 import TreeSelection from './TreeSelection';
 import AssociatedSelection from './AssociatedSelection';
+import PullRefresh from './PullRefresh';
 
 export {
   NotFound,
@@ -117,5 +118,6 @@ export {
   ListGroup,
   NumberInput,
   ArrayInput,
-  AnchorNav
+  AnchorNav,
+  PullRefresh
 };

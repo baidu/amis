@@ -1,12 +1,14 @@
 .#{$ns}Progress {
   display: flex;
   align-items: center;
+  color: var(--text-color);
+  font-size: var(--fontSizeXs);
   &-line {
     display: inline-block;
     width: 100%;
 
     &-inter {
-      height: 10px;
+      height: 100%;
       background-color: var(--Progress-bar-backgroundColor);
       overflow: hidden;
       border-radius: var(--Progress-borderRadius);
@@ -16,8 +18,6 @@
       display: inline-block;
       flex-grow: 1;
       margin-left: 8px;
-      color: var(--text-color);
-      font-size: var(--fontSizeXs);
       white-space: nowrap;
       text-align: left;
       word-break: normal;
@@ -29,10 +29,7 @@
     &-bar {
       float: left;
       width: 0;
-      height: 100%;
-      font-size: 12px;
-      line-height: 10px;
-      text-align: center;
+      height: 10px;
       background: var(--primary);
       transition: width var(--animation-duration) ease;
 
@@ -74,8 +71,7 @@
   }
 
   &-circle {
-    width: 120px;
-    height: 120px;
+    width: 100%;
     position: relative;
     &-text {
       position: absolute;
@@ -84,9 +80,6 @@
       width: 100%;
       margin: 0;
       padding: 0;
-      color: var(--text-color);
-      font-size: 1em;
-      line-height: 1;
       white-space: normal;
       text-align: center;
       transform: translate(-50%, -50%);

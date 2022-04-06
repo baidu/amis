@@ -65,6 +65,7 @@ import './renderers/CRUD';
 import './renderers/Pagination';
 import './renderers/Cards';
 import './renderers/Card';
+import './renderers/Card2';
 import './renderers/Custom';
 import './renderers/Date';
 import './renderers/Dialog';

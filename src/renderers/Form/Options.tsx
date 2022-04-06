@@ -266,7 +266,7 @@ export function registerOptionsControl(config: OptionsConfig) {
       multiple: false,
       placeholder: 'Select.placeholder',
       resetValue: '',
-      deleteConfirmText: '确定要删除？',
+      deleteConfirmText: 'deleteConfirm',
       ...Control.defaultProps
     };
     static propsList: any = (Control as any).propsList
@@ -454,13 +454,13 @@ export function registerOptionsControl(config: OptionsConfig) {
       this.toDispose = [];
     }
 
-    async dispatchChangeEvent(eventData: any = '') {
+    async dispatchOptionEvent(eventName: string, eventData: any = '') {
       const {dispatchEvent, options, data} = this.props;
       const rendererEvent = await dispatchEvent(
-        'change',
+        eventName,
         createObject(data, {
           value: eventData,
-          options,
+          options
         })
       );
       // 返回阻塞标识
@@ -599,8 +599,9 @@ export function registerOptionsControl(config: OptionsConfig) {
         value
       );
 
-      const isPrevented = await this.dispatchChangeEvent(newValue);
-      isPrevented || (onChange && onChange(newValue, submitOnChange, changeImmediately));
+      const isPrevented = await this.dispatchOptionEvent('change', newValue);
+      isPrevented ||
+        (onChange && onChange(newValue, submitOnChange, changeImmediately));
     }
 
     /**
@@ -667,7 +668,7 @@ export function registerOptionsControl(config: OptionsConfig) {
           ? []
           : formItem.filteredOptions.concat();
       const newValue = this.formatValueArray(valueArray);
-      const isPrevented = await this.dispatchChangeEvent(newValue);
+      const isPrevented = await this.dispatchOptionEvent('change', newValue);
       isPrevented || (onChange && onChange(newValue));
     }
 
@@ -767,7 +768,7 @@ export function registerOptionsControl(config: OptionsConfig) {
     }
 
     @autobind
-    deferLoad(option: Option) {
+    async deferLoad(option: Option) {
       const {deferApi, source, env, formItem, data} = this.props;
       const api = option.deferApi || deferApi || source;
 
@@ -779,7 +780,13 @@ export function registerOptionsControl(config: OptionsConfig) {
         return;
       }
 
-      formItem?.deferLoadOptions(option, api, createObject(data, option));
+      const json = await formItem?.deferLoadOptions(
+        option,
+        api,
+        createObject(data, option)
+      );
+      // 触发事件通知,加载完成
+      this.dispatchOptionEvent('loadFinished', json);
     }
 
     @autobind
@@ -992,10 +999,18 @@ export function registerOptionsControl(config: OptionsConfig) {
           [valueField || 'value']: result[labelField || 'label']
         };
       }
+      // 触发事件通知
+      const isPrevented = await this.dispatchOptionEvent('add', {
+        ...result,
+        idx
+      });
+      if (isPrevented) {
+        return;
+      }
 
       // 如果是懒加载的，只懒加载当前节点。
       if (parent?.defer) {
-        this.deferLoad(parent);
+        await this.deferLoad(parent);
       } else if (source && addApi) {
         // 如果配置了 source 且配置了 addApi 直接重新拉取接口就够了
         // 不能不判断 addApi 就刷新，因为有些场景就是临时添加的。
@@ -1095,6 +1110,12 @@ export function registerOptionsControl(config: OptionsConfig) {
         return;
       }
 
+      // 触发事件通知
+      const isPrevented = await this.dispatchOptionEvent('edit', result);
+      if (isPrevented) {
+        return;
+      }
+
       if (source && editApi) {
         this.reload();
       } else {
@@ -1135,9 +1156,15 @@ export function registerOptionsControl(config: OptionsConfig) {
 
       // 如果配置了 deleteConfirmText 让用户先确认。
       const confirmed = deleteConfirmText
-        ? await env.confirm(filter(deleteConfirmText, ctx))
+        ? await env.confirm(filter(__(deleteConfirmText), ctx))
         : true;
       if (!confirmed) {
+        return;
+      }
+
+      // 触发事件通知
+      const isPrevented = await this.dispatchOptionEvent('delete', ctx);
+      if (isPrevented) {
         return;
       }
 

@@ -100,6 +100,7 @@
 }
 
 .#{$ns}DateControl {
+  width: auto !important; // 因为这里要撑开父容器
   &.is-date > .#{$ns}DatePicker {
     min-width: calc(var(--DatePicker-minWidth) + var(--fontSizeLg) * 2);
   }
@@ -111,7 +112,6 @@
 
 .#{$ns}DatePicker-shortcuts {
   margin: 0;
-  background: var(--Calendar-shortcuts-bg);
   padding: calc(
       (
           var(--Calendar-shortcuts-height) - var(--Calendar-fontSize) *
@@ -120,7 +120,6 @@
     )
     var(--gap-sm);
   list-style: none;
-  width: px2rem(250px);
 
   & + .rdt .rdtPicker {
     padding-top: 0;
@@ -202,19 +201,73 @@
 }
 
 // override third-party styles
+.rdtTime {
+  // width: #{px2rem(393px)};
+}
+
+.rdtTimeWithS {
+  // width: #{px2rem(472px)};
+}
+
+.rdtTimeWithoutD {
+}
+
 .rdt {
   user-select: none;
   font-size: var(--Calendar-fontSize);
   color: var(--Calendar-color);
 
+  .rdtDays {
+    display: flex;
+    // height: #{px2rem(280px)};
+
+    .rdtDaysPart {
+      width: #{px2rem(264px)};
+      border-right: 1px solid var(--Calendar-input-borderColor);
+    }
+
+    .rdtTimePart {
+      width: #{px2rem(128px)};
+      text-align: center;
+    }
+
+    .rdtTimePartWithS {
+      width: #{px2rem(192px)};
+      text-align: center;
+    }
+
+    .rdtShowTime {
+      height: #{px2rem(43px)};
+      padding-top: #{px2rem(11px)};
+      margin-left: #{px2rem(2px)};
+      border-bottom: 1px solid var(--Calendar-input-borderColor);
+    }
+  }
+
+  .rdtPickerTime {
+    width: 100%;
+    height: 100%;
+  }
+
+  .rdtPickerDate {
+    width: #{px2rem(272px)};
+    height: 100%;
+  }
+
+  .rdtPickerTimeWithoutD {
+    width: 100%;
+    // height: #{px2rem(240px)};
+  }
+
   .rdtPicker {
     margin-top: 0;
-    padding: var(--gap-sm);
+    // padding: var(--gap-sm);
+    padding: 0;
     background: transparent;
     border: none;
 
     .dow {
-      color: var(--Calendar-wLabel-color);
+      // color: var(--Calendar-wLabel-color);
       font-weight: normal;
     }
 
@@ -263,6 +316,10 @@
     background: transparent;
   }
 
+  tbody {
+    height: #{px2rem(194px)};
+  }
+
   tfoot {
     border-top: 0;
 
@@ -277,8 +334,9 @@
       }
 
       .rdtActions {
-        margin-top: var(--gap-sm);
         text-align: right;
+        padding: var(--gap-sm);
+        border-top: 1px solid var(--Calendar-input-borderColor);
       }
     }
   }
@@ -287,22 +345,29 @@
 .#{$ns}CalendarInputWrapper {
   display: inline-block;
   position: relative;
-
+  // padding-top: #{px2rem(4px)};
+  width: #{px2rem(64px)};
+  height: #{px2rem(224px)};
+  overflow: auto;
   .#{$ns}CalendarInput-sugs {
     list-style: none;
-    position: absolute;
     background: var(--Form-select-menu-bg);
     color: var(--Form-select-menu-color);
-    border: var(--Form-input-borderWidth) solid
-      var(--Form-input-onFocused-borderColor);
     left: px2rem(-1px);
     right: px2rem(-1px);
     top: 100%;
     z-index: 10;
-    max-height: px2rem(200px);
-    overflow: auto;
+    &Hours {
+      height: #{px2rem(868px)};
+    }
+    &Times {
+      height: #{px2rem(1876px)};
+      border-left: 1px solid var(--Calendar-input-borderColor);
+    }
     &Item {
-      padding-left: 4px;
+      text-align: center;
+      height: 28px;
+      line-height: 28px;
       &.is-highlight,
       &:hover {
         color: var(--Form-select-menu-onHover-color);
@@ -312,9 +377,16 @@
   }
 }
 
+.#{$ns}TimeRangeHeaderWrapper {
+  height: 40px;
+  padding-top: 10px;
+  text-align: center;
+  border-bottom: 1px solid var(--Calendar-input-borderColor);
+}
+
 .#{$ns}CalendarInput {
   outline: none;
-  width: 40px;
+  width: #{px2rem(56px)};
   font-size: var(--Calendar-input-fontSize);
   color: var(--Calendar-input-color);
   border: 1px solid var(--Calendar-input-borderColor);
@@ -468,7 +540,6 @@
 
 .rdtSwitch {
   text-align: center;
-  color: #000;
   cursor: pointer;
   font-weight: normal;
 
@@ -482,8 +553,9 @@
   display: table;
   table-layout: fixed;
   border-collapse: separate;
+  border-bottom: 1px solid var(--Calendar-input-borderColor);
+  height: 40px;
   width: 100%;
-  // padding: 0 10px;
 
   > * {
     display: table-cell;

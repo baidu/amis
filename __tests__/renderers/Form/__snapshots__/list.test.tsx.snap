@@ -240,11 +240,7 @@ exports[`Renderer:list:multiple clearable 1`] = `
               <span
                 class="cxd-PlainField"
               >
-                <span
-                  class="text-muted"
-                >
-                  -
-                </span>
+                a,b
               </span>
             </div>
           </div>
@@ -396,11 +392,7 @@ exports[`Renderer:list:multiple clearable 2`] = `
               <span
                 class="cxd-PlainField"
               >
-                <span
-                  class="text-muted"
-                >
-                  -
-                </span>
+                a
               </span>
             </div>
           </div>

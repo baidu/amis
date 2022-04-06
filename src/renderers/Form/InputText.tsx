@@ -93,7 +93,6 @@ export type InputTextRendererEvent =
   | 'focus'
   | 'click'
   | 'change'
-  | 'clear'
   | 'enter';
 
 export interface TextProps extends OptionsControlProps {
@@ -236,10 +235,18 @@ export default class TextControl extends React.PureComponent<
 
     // 光标放到最后
     const len = this.input.value.length;
-    len && this.input.setSelectionRange(len, len);
+    if (len) {
+      // type为email的input元素不支持setSelectionRange，先改为text
+      if (this.input.type === 'email') {
+        this.input.type = 'text';
+        this.input.setSelectionRange(len, len);
+        this.input.type = 'email';
+      } else {
+        this.input.setSelectionRange(len, len);
+      }
+    }
   }
 
-  @bindRendererEvent<TextProps, InputTextRendererEvent>('clear')
   clearValue() {
     const {onChange, resetValue} = this.props;
 
@@ -387,18 +394,28 @@ export default class TextControl extends React.PureComponent<
   }
 
   handleChange(value: any) {
-    const {onChange, multiple, selectedOptions, creatable} = this.props;
+    const {
+      onChange,
+      multiple,
+      options,
+      selectedOptions,
+      creatable,
+      valueField
+    } = this.props;
+    // Downshift传入的selectedItem是valueField字段，需要取回选项
+    const toggledOption = options.find(
+      item => item[valueField || 'value'] === value
+    );
 
     if (multiple) {
       const newValue = selectedOptions.concat();
-      newValue.push({
-        label: value,
-        value: value
-      });
+      toggledOption && newValue.push(toggledOption);
 
       onChange(this.normalizeValue(newValue));
     } else {
-      onChange(value);
+      onChange(
+        toggledOption ? this.normalizeValue([toggledOption])?.[0] : value
+      );
     }
 
     if (multiple || creatable === false) {

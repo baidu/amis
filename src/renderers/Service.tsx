@@ -14,7 +14,13 @@ import {
   str2AsyncFunction
 } from '../utils/api';
 import {Spinner} from '../components';
-import {autobind, isEmpty, isVisible, qsstringify} from '../utils/helper';
+import {
+  autobind,
+  isEmpty,
+  isObjectShallowModified,
+  isVisible,
+  qsstringify
+} from '../utils/helper';
 import {
   BaseSchema,
   SchemaApi,
@@ -185,7 +191,7 @@ export default class Service extends React.Component<ServiceProps> {
       this.socket = this.fetchWSData(props.ws, store.data);
     }
 
-    if (props.defaultData !== prevProps.defaultData) {
+    if (isObjectShallowModified(prevProps.defaultData, props.defaultData)) {
       store.reInitData(props.defaultData);
     }
 
@@ -510,18 +516,12 @@ export default class Service extends React.Component<ServiceProps> {
   renderBody() {
     const {render, store, body: schema, classnames: cx} = this.props;
 
-    return (
-      <div className={cx('Service-body')}>
-        {
-          render('body', store.schema || schema, {
-            key: store.schemaKey || 'body',
-            onQuery: this.handleQuery,
-            onAction: this.handleAction,
-            onChange: this.handleChange
-          }) as JSX.Element
-        }
-      </div>
-    );
+    return render('body', store.schema || schema, {
+      key: store.schemaKey || 'body',
+      onQuery: this.handleQuery,
+      onAction: this.handleAction,
+      onChange: this.handleChange
+    }) as JSX.Element;
   }
 
   render() {
@@ -619,5 +619,9 @@ export class ServiceRenderer extends Service {
   reloadTarget(target: string, data?: any) {
     const scoped = this.context as IScopedContext;
     scoped.reload(target, data);
+  }
+
+  setData(values: object) {
+    return super.afterDataFetch(values);
   }
 }

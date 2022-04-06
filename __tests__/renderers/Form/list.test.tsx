@@ -87,14 +87,14 @@ test('Renderer:list:multiple clearable', async () => {
       makeEnv()
     )
   );
-  await wait(100);
+  await wait(300);
   fireEvent.click(getByText(/Option A/));
-  await wait(100);
+  await wait(300);
   fireEvent.click(getByText(/Option B/));
-  await wait(100);
+  await wait(600);
   expect(container).toMatchSnapshot();
-  await wait(100);
+  await wait(300);
   fireEvent.click(getByText(/Option B/));
-  await wait(100);
+  await wait(600);
   expect(container).toMatchSnapshot();
 });

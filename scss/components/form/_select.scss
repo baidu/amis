@@ -56,7 +56,6 @@
     line-height: px2rem(20px);
   }
   &-placeholder {
-    color: var(--Form-select-placeholderColor);
     line-height: var(--Form-input-lineHeight);
     user-select: none;
     white-space: nowrap;
@@ -80,8 +79,6 @@
     min-height: var(--Form-selectOption-height);
 
     .#{$ns}Select-valueWrap {
-      margin-bottom: calc(var(--gap-xs) * -1);
-
       > input {
         display: inline-block;
         width: px2rem(100px);

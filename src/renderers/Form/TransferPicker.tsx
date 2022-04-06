@@ -7,9 +7,10 @@ import React from 'react';
 import {Api} from '../../types';
 import Spinner from '../../components/Spinner';
 import {BaseTransferRenderer, TransferControlSchema} from './Transfer';
-import TabsTransfer from '../../components/TabsTransfer';
 import {SchemaApi, SchemaObject} from '../../Schema';
 import TransferPicker from '../../components/TransferPicker';
+import {autobind} from '../../utils/helper';
+import {Action} from '../../types';
 
 /**
  * TransferPicker 穿梭器的弹框形态
@@ -44,6 +45,26 @@ export interface TabsTransferProps
   type: 'transfer-picker'
 })
 export class TransferPickerRenderer extends BaseTransferRenderer<TabsTransferProps> {
+
+  @autobind
+  dispatchEvent(name: string) {
+    const {dispatchEvent, data} = this.props;
+    dispatchEvent(name, data);
+  }
+
+  // 动作
+  doAction(action: Action) {
+    const {resetValue, onChange} = this.props;
+    switch (action.actionType) {
+      case 'clear':
+        onChange('');
+        break;
+      case 'reset':
+        onChange(resetValue);
+        break;
+    }
+  }
+
   render() {
     const {
       className,
@@ -104,6 +125,8 @@ export class TransferPickerRenderer extends BaseTransferRenderer<TabsTransferPro
           leftOptions={leftOptions}
           optionItemRender={this.optionItemRender}
           resultItemRender={this.resultItemRender}
+          onFocus={() => this.dispatchEvent('focus')}
+          onBlur={() => this.dispatchEvent('blur')}
         />
 
         <Spinner overlay key="info" show={loading} />

@@ -11,6 +11,7 @@ import {default as DrawerContainer} from '../../src/components/Drawer';
 import {withRouter} from 'react-router';
 import {matchPath} from 'react-router-dom';
 import copy from 'copy-to-clipboard';
+import {qsparse} from '../../src/utils/helper';
 
 function loadEditor() {
   return new Promise(resolve =>
@@ -76,14 +77,32 @@ export default function (schema, showCode, envOverrides) {
             }
           },
           isCurrentUrl: to => {
-            if (!to) {
-              return false;
-            }
+            const history = this.props.history;
             const link = normalizeLink(to);
-            return !!matchPath(history.location.pathname, {
-              path: link,
-              exact: true
-            });
+            const location = history.location;
+            let pathname = link;
+            let search = '';
+            const idx = link.indexOf('?');
+            if (~idx) {
+              pathname = link.substring(0, idx);
+              search = link.substring(idx);
+            }
+
+            if (search) {
+              if (pathname !== location.pathname || !location.search) {
+                return false;
+              }
+              const currentQuery = qsparse(location.search.substring(1));
+              const query = qsparse(search.substring(1));
+
+              return Object.keys(query).every(
+                key => query[key] === currentQuery[key]
+              );
+            } else if (pathname === location.pathname) {
+              return true;
+            }
+
+            return false;
           },
           fetcher: ({url, method, data, config, headers}) => {
             config = config || {};

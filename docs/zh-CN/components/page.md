@@ -278,4 +278,12 @@ Page 默认将页面分为几个区域，分别是**内容区（`body`）**、**
 | interval            | `number`                                  | `3000`                                     | 刷新时间(最小 1000)                                                                   |
 | silentPolling       | `boolean`                                 | `false`                                    | 配置刷新时是否显示加载动画                                                            |
 | stopAutoRefreshWhen | [表达式](../../docs/concepts/expression)  | `""`                                       | 通过表达式来配置停止刷新的条件                                                        |
-| pullRefresh         | `object`                                 | `{disabled: true}`                          | 下拉刷新配置                                                                       |
+| pullRefresh         | `object`                                 | `{disabled: true}`                          | 下拉刷新配置（仅用于移动端）                                                              |
+
+## 事件表
+| 事件名称     | 事件参数 | 说明                                  |
+| ----------- | ------ | ------------------------------------- |
+| pullRefresh |        | 配置下拉刷新后下拉释放后触发（仅用于移动端） |
+
+## 动作表
+无

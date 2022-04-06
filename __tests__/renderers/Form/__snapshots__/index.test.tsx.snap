@@ -135,6 +135,7 @@ Object {
   "config": Object {
     "errorMessage": "saveFailed",
     "method": "post",
+    "onFailed": [Function],
     "onSuccess": [Function],
     "successMessage": "saveSuccess",
   },

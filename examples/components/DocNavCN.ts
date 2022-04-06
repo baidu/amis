@@ -28,10 +28,10 @@ export default [
       },
 
       {
-        label: '1.2.0 版本变更',
-        path: '/zh-CN/docs/start/1-2-0',
+        label: '更新记录',
+        path: '/zh-CN/docs/start/changelog',
         component: React.lazy(() =>
-          import('../../docs/zh-CN/start/1-2-0.md').then(wrapDoc)
+          import('../../docs/zh-CN/start/changelog.md').then(wrapDoc)
         )
       },
 

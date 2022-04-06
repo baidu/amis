@@ -12,10 +12,12 @@ import {
   cloneObject,
   createObject,
   qsparse,
-  uuid
+  uuid,
+  JSONTraverse
 } from './helper';
 import isPlainObject from 'lodash/isPlainObject';
 import {debug} from './debug';
+import {evaluate, parse} from 'amis-formula';
 
 const rSchema = /(?:^|raw\:)(get|post|put|delete|patch|options|head|jsonp):/i;
 
@@ -45,6 +47,7 @@ export function normalizeApi(
       ...api
     };
   }
+  api.url = typeof api.url === 'string' ? api.url.trim() : api.url;
   return api;
 }
 
@@ -94,24 +97,65 @@ export function buildApi(
   }
 
   const raw = (api.url = api.url || '');
-  const idx = api.url.indexOf('?');
+  let ast: any = undefined;
+  try {
+    ast = parse(api.url);
+  } catch (e) {
+    console.warn(`api 配置语法出错：${e}`);
+    return api;
+  }
+  const url = ast.body
+    .map((item: any, index: number) => {
+      return item.type === 'raw' ? item.value : `__expression__${index}__`;
+    })
+    .join('');
+
+  const idx = url.indexOf('?');
+  let replaceExpression = (
+    fragment: string,
+    defaultFilter = 'url_encode',
+    defVal: any = undefined
+  ) => {
+    return fragment.replace(
+      /__expression__(\d+)__/g,
+      (_: any, index: string) => {
+        return (
+          evaluate(ast.body[index], data, {
+            defaultFilter: defaultFilter
+          }) ?? defVal
+        );
+      }
+    );
+  };
 
   if (~idx) {
-    const hashIdx = api.url.indexOf('#');
+    const hashIdx = url.indexOf('#');
     const params = qsparse(
-      api.url.substring(
-        idx + 1,
-        ~hashIdx && hashIdx > idx ? hashIdx : undefined
-      )
+      url.substring(idx + 1, ~hashIdx && hashIdx > idx ? hashIdx : undefined)
     );
+
+    // 将里面的表达式运算完
+    JSONTraverse(params, (value: any, key: string | number, host: any) => {
+      if (typeof value === 'string' && /^__expression__(\d+)__$/.test(value)) {
+        host[key] = evaluate(ast.body[RegExp.$1].body, data) ?? '';
+      } else if (typeof value === 'string') {
+        // 参数值里面的片段不能 url_encode 了，所以是不处理
+        host[key] = replaceExpression(host[key], 'raw', '');
+      }
+    });
+
+    const left = replaceExpression(url.substring(0, idx), 'raw', '');
     api.url =
-      tokenize(api.url.substring(0, idx + 1), data, '| url_encode') +
+      left +
+      (~left.indexOf('?') ? '&' : '?') +
       qsstringify(
         (api.query = dataMapping(params, data, undefined, api.convertKeyToPath))
       ) +
-      (~hashIdx && hashIdx > idx ? api.url.substring(hashIdx) : '');
+      (~hashIdx && hashIdx > idx
+        ? replaceExpression(url.substring(hashIdx))
+        : '');
   } else {
-    api.url = tokenize(api.url, data, '| url_encode');
+    api.url = replaceExpression(url, 'raw', '');
   }
 
   if (ignoreData) {
@@ -135,13 +179,15 @@ export function buildApi(
 
   // get 类请求，把 data 附带到 url 上。
   if (api.method === 'get' || api.method === 'jsonp') {
-    if (!~raw.indexOf('$') && !api.data && autoAppend) {
+    if (
+      !api.data &&
+      ((!~raw.indexOf('$') && autoAppend) || api.forceAppendDataToQuery)
+    ) {
       api.query = api.data = data;
     } else if (
       api.attachDataToQuery === false &&
       api.data &&
-      !~raw.indexOf('$') &&
-      autoAppend
+      ((!~raw.indexOf('$') && autoAppend) || api.forceAppendDataToQuery)
     ) {
       const idx = api.url.indexOf('?');
       if (~idx) {
@@ -169,6 +215,22 @@ export function buildApi(
         api.url += '?' + qsstringify(api.data);
       }
       delete api.data;
+    }
+  }
+
+  if (api.graphql) {
+    if (api.method === 'get') {
+      api.query = api.data = {...api.query, query: api.graphql};
+    } else if (
+      api.method === 'post' ||
+      api.method === 'put' ||
+      api.method === 'patch'
+    ) {
+      api.body = api.data = {
+        query: api.graphql,
+        operationName: api.operationName,
+        variables: cloneObject(api.data)
+      };
     }
   }
 

@@ -30,6 +30,7 @@ import {
 } from '../Schema';
 import {ActionSchema} from './Action';
 import {isAlive} from 'mobx-state-tree';
+import debounce from 'lodash/debounce';
 
 /**
  * Chart 图表渲染器。
@@ -180,6 +181,7 @@ export class Chart extends React.Component<ChartProps> {
 
     this.refFn = this.refFn.bind(this);
     this.reload = this.reload.bind(this);
+    this.reloadEcharts = debounce(this.reloadEcharts.bind(this), 300); //过于频繁更新 ECharts 会报错
     this.handleClick = this.handleClick.bind(this);
     this.mounted = true;
 
@@ -225,6 +227,7 @@ export class Chart extends React.Component<ChartProps> {
 
   componentWillUnmount() {
     this.mounted = false;
+    (this.reloadEcharts as any).cancel();
     clearTimeout(this.timer);
   }
 
@@ -435,12 +438,15 @@ export class Chart extends React.Component<ChartProps> {
         } else {
           this.echarts?.hideLoading();
         }
-
-        this.echarts?.setOption(config!, this.props.replaceChartOption);
+        this.reloadEcharts(config);
       } catch (e) {
         console.warn(e);
       }
     }
+  }
+
+  reloadEcharts(config: any) {
+    this.echarts?.setOption(config!, this.props.replaceChartOption);
   }
 
   render() {
@@ -488,5 +494,9 @@ export class ChartRenderer extends Chart {
     super.componentWillUnmount();
     const scoped = this.context as IScopedContext;
     scoped.unRegisterComponent(this);
+  }
+
+  setData(values: object) {
+    return this.props.store.updateData(values);
   }
 }

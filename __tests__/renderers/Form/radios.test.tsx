@@ -56,6 +56,6 @@ test('Renderer:radios', async () => {
   );
   expect(container).toMatchSnapshot();
   fireEvent.click(getByText(/Option A/));
-  await wait(100);
+  await wait(300);
   expect(container).toMatchSnapshot();
 });

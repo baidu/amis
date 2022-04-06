@@ -1,7 +1,7 @@
 import React from 'react';
 import hoistNonReactStatic from 'hoist-non-react-statics';
 import {IFormItemStore, IFormStore} from '../../store/form';
-import {reaction} from 'mobx';
+import {IMapEntries, reaction} from 'mobx';
 
 import {
   RendererProps,
@@ -14,7 +14,9 @@ import {
   ucFirst,
   getWidthRate,
   autobind,
-  isMobile
+  isMobile,
+  createObject,
+  getVariable
 } from '../../utils/helper';
 import {observer} from 'mobx-react';
 import {FormHorizontal, FormSchema, FormSchemaHorizontal} from '.';
@@ -24,6 +26,7 @@ import {SchemaRemark} from '../Remark';
 import {
   BaseSchema,
   SchemaApi,
+  SchemaApiObject,
   SchemaClassName,
   SchemaExpression,
   SchemaObject,
@@ -32,6 +35,10 @@ import {
 import {HocStoreFactory} from '../../WithStore';
 import {wrapControl} from './wrapControl';
 import type {OnEventProps} from '../../utils/renderer-event';
+import isEmpty from 'lodash/isEmpty';
+import debounce from 'lodash/debounce';
+import {isEffectiveApi} from '../../utils/api';
+import {dataMapping} from '../../utils/tpl-builtin';
 
 export type FormControlSchemaAlias = SchemaObject;
 
@@ -396,7 +403,8 @@ export interface FormItemConfig extends FormItemBasicConfig {
 }
 
 export class FormItemWrap extends React.Component<FormItemProps> {
-  reaction: any;
+  reaction: Array<() => void> = [];
+  lastSearchTerm: any;
 
   constructor(props: FormItemProps) {
     super(props);
@@ -404,15 +412,25 @@ export class FormItemWrap extends React.Component<FormItemProps> {
     const {formItem: model} = props;
 
     if (model) {
-      this.reaction = reaction(
-        () => `${model.errors.join('')}${model.isFocused}${model.dialogOpen}`,
-        () => this.forceUpdate()
+      this.reaction.push(
+        reaction(
+          () => `${model.errors.join('')}${model.isFocused}${model.dialogOpen}`,
+          () => this.forceUpdate()
+        )
+      );
+      this.reaction.push(
+        reaction(
+          () => JSON.stringify(model.tmpValue),
+          () => this.syncAutoFill(model.tmpValue)
+        )
       );
     }
   }
 
   componentWillUnmount() {
-    this.reaction && this.reaction();
+    this.reaction.forEach(fn => fn());
+    this.reaction = [];
+    this.syncAutoFill.cancel();
   }
 
   @autobind
@@ -428,6 +446,42 @@ export class FormItemWrap extends React.Component<FormItemProps> {
     model && model.blur();
     this.props.onBlur && this.props.onBlur(e);
   }
+
+  syncAutoFill = debounce(
+    (term: any) => {
+      (async (term: string) => {
+        const {autoFillApi, onBulkChange, formItem, data} = this.props;
+        if (!autoFillApi) {
+          return;
+        }
+
+        const itemName = formItem?.name;
+        const ctx = createObject(data, {
+          [itemName || '']: term
+        });
+        if (
+          onBulkChange &&
+          isEffectiveApi(autoFillApi, ctx) &&
+          this.lastSearchTerm !== term
+        ) {
+          const result = await formItem?.loadAutoUpdateData(
+            autoFillApi,
+            ctx,
+            !!(autoFillApi as SchemaApiObject)?.silent
+          );
+          if (!result) return;
+
+          this.lastSearchTerm = getVariable(result, itemName) ?? term;
+          onBulkChange(result);
+        }
+      })(term).catch(e => console.error(e));
+    },
+    250,
+    {
+      trailing: true,
+      leading: false
+    }
+  );
 
   @autobind
   async handleOpenDialog(schema: Schema, data: any) {
@@ -482,6 +536,7 @@ export class FormItemWrap extends React.Component<FormItemProps> {
       return renderControl({
         ...rest,
         onOpenDialog: this.handleOpenDialog,
+
         type,
         classnames: cx,
         formItem: model,

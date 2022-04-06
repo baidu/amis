@@ -1,19 +1,20 @@
 import React from 'react';
-import cx from 'classnames';
 
+import {themeable, ThemeProps} from '../../theme';
 import GroupedSelection from '../GroupedSelection';
 import Tabs, {Tab} from '../Tabs';
 import TreeSelection from '../TreeSelection';
+import SearchBox from '../SearchBox';
+import {filterTree, flattenTree} from '../../utils/helper';
 
 import type {VariableItem} from './Editor';
 import type {ItemRenderStates} from '../Selection';
 import type {Option} from '../Select';
 import type {TabsMode} from '../Tabs';
 
-export interface VariableListProps {
+export interface VariableListProps extends ThemeProps {
   className?: string;
   itemClassName?: string;
-  classPrefix?: string;
   data: Array<VariableItem>;
   selectMode?: 'list' | 'tree' | 'tabs';
   tabsMode?: TabsMode;
@@ -21,16 +22,18 @@ export interface VariableListProps {
   onSelect?: (item: VariableItem) => void;
 }
 
-export function VariableList(props: VariableListProps) {
+function VariableList(props: VariableListProps) {
   const {
     data: list,
     className,
-    tabsMode = 'card',
+    classnames: cx,
+    tabsMode = 'line',
     classPrefix: themePrefix,
     itemClassName,
     selectMode,
     onSelect
   } = props;
+  const [filterVars, setFilterVars] = React.useState(list);
   const classPrefix = `${themePrefix}FormulaEditor-VariableList`;
   const itemRender =
     props.itemRender && typeof props.itemRender === 'function'
@@ -48,14 +51,35 @@ export function VariableList(props: VariableListProps) {
           );
         };
 
+  function onSearch(term: string) {
+    const flatten = flattenTree(list);
+    const filtered = flatten.filter(item => ~item.label.indexOf(term));
+
+    setFilterVars(!term ? list : filtered);
+  }
+
+  function renderSearchBox() {
+    return (
+      <div className={cx('FormulaEditor-VariableList-searchBox')}>
+        <SearchBox mini={false} onSearch={onSearch} />
+      </div>
+    );
+  }
+
   return (
-    <div className={cx(className, {'is-scrollable': selectMode !== 'tabs'})}>
+    <div
+      className={cx(
+        className,
+        'FormulaEditor-VariableList',
+        selectMode && `FormulaEditor-VariableList-${selectMode}`
+      )}
+    >
       {selectMode === 'tabs' ? (
         <Tabs
           tabsMode={tabsMode}
           className={cx(`${classPrefix}-base ${classPrefix}-tabs`)}
         >
-          {list.map((item, index) => (
+          {filterVars.map((item, index) => (
             <Tab
               className={cx(`${classPrefix}-tab`)}
               eventKey={index}
@@ -63,6 +87,8 @@ export function VariableList(props: VariableListProps) {
               title={item.label}
             >
               <VariableList
+                classnames={cx}
+                classPrefix={`${classPrefix}-sub-`}
                 className={cx(`${classPrefix}-sub`)}
                 itemRender={itemRender}
                 selectMode={item.selectMode}
@@ -73,22 +99,30 @@ export function VariableList(props: VariableListProps) {
           ))}
         </Tabs>
       ) : selectMode === 'tree' ? (
-        <TreeSelection
-          itemRender={itemRender}
-          className={cx(`${classPrefix}-base`)}
-          multiple={false}
-          options={list}
-          onChange={(item: any) => onSelect?.(item)}
-        />
+        <div className={cx('FormulaEditor-VariableList-body')}>
+          {renderSearchBox()}
+          <TreeSelection
+            itemRender={itemRender}
+            className={cx(`${classPrefix}-base`, 'is-scrollable')}
+            multiple={false}
+            options={filterVars}
+            onChange={(item: any) => onSelect?.(item)}
+          />
+        </div>
       ) : (
-        <GroupedSelection
-          itemRender={itemRender}
-          className={cx(`${classPrefix}-base`)}
-          multiple={false}
-          options={list}
-          onChange={(item: any) => onSelect?.(item)}
-        />
+        <div className={cx('FormulaEditor-VariableList-body')}>
+          {renderSearchBox()}
+          <GroupedSelection
+            itemRender={itemRender}
+            className={cx(`${classPrefix}-base`, 'is-scrollable')}
+            multiple={false}
+            options={filterVars}
+            onChange={(item: any) => onSelect?.(item)}
+          />
+        </div>
       )}
     </div>
   );
 }
+
+export default themeable(VariableList);

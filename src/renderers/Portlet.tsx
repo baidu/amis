@@ -288,6 +288,8 @@ export class Portlet extends React.Component<PortletProps, PortletState> {
       source,
       mountOnEnter,
       scrollable,
+      translate: __,
+      addBtnText,
       divider
     } = this.props;
     const mode = tabsMode || dMode;
@@ -375,6 +377,7 @@ export class Portlet extends React.Component<PortletProps, PortletState> {
 
     return (
       <CTabs
+        addBtnText={__(addBtnText || 'add')}
         classPrefix={ns}
         classnames={cx}
         mode={mode}

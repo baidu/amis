@@ -21,6 +21,15 @@ export class CmptAction implements Action {
     renderer: ListenerContext,
     event: RendererEvent<any>
   ) {
+    /**
+     * 根据唯一ID查找指定组件
+     * 触发组件未指定id或未指定响应组件componentId，则使用触发组件响应
+     */
+    const component =
+      action.componentId && renderer.props.$schema.id !== action.componentId
+        ? event.context.scoped?.getComponentById(action.componentId)
+        : renderer;
+
     // 显隐&状态控制
     if (['show', 'hidden'].includes(action.actionType)) {
       return renderer.props.rootStore.setVisible(
@@ -34,14 +43,15 @@ export class CmptAction implements Action {
       );
     }
 
-    /**
-     * 根据唯一ID查找指定组件
-     * 触发组件未指定id或未指定响应组件componentId，则使用触发组件响应
-     */
-    const component =
-      action.componentId && renderer.props.$schema.id !== action.componentId
-        ? event.context.scoped?.getComponentById(action.componentId)
-        : renderer;
+    // 数据更新
+    if (action.actionType === 'setValue') {
+      const value = dataMapping(action.value, event.data);
+      if (component.setData) {
+        return component.setData(value);
+      } else {
+        return component.props.onChange?.(value);
+      }
+    }
 
     // 刷新
     if (action.actionType === 'reload') {

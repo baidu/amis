@@ -102,6 +102,8 @@ export default class DateRangeControl extends React.Component<DateRangeProps> {
     delimiter: ','
   };
 
+  dateRef?: BaseDateRangePicker;
+
   constructor(props: DateRangeProps) {
     super(props);
 
@@ -170,6 +172,11 @@ export default class DateRangeControl extends React.Component<DateRangeProps> {
     }
   }
 
+  @autobind
+  getRef(ref: BaseDateRangePicker) {
+    this.dateRef = ref;
+  }
+
   // 派发有event的事件
   @autobind
   dispatchEvent(e: React.SyntheticEvent<HTMLElement>) {
@@ -179,15 +186,15 @@ export default class DateRangeControl extends React.Component<DateRangeProps> {
 
   // 动作
   doAction(action: Action, data: object, throwErrors: boolean) {
-    const {resetValue, onChange} = this.props;
+    const {resetValue} = this.props;
 
     if (action.actionType === 'clear') {
-      onChange('');
+      this.dateRef?.clear();
       return;
     }
 
     if (action.actionType === 'reset' && resetValue) {
-      onChange(resetValue);
+      this.dateRef?.reset();
     }
   }
 
@@ -243,6 +250,7 @@ export default class DateRangeControl extends React.Component<DateRangeProps> {
               ? undefined
               : rest.popOverContainer
           }
+          onRef={this.getRef}
           data={data}
           format={format}
           minDate={minDate ? filterDate(minDate, data, format) : undefined}
