@@ -645,13 +645,19 @@ export default class Drawer extends React.Component<DrawerProps> {
           {title ? (
             <div className={cx('Drawer-title')}>
               {render('title', title, {
-                data: store.formData
+                data: store.formData,
+                onConfirm: this.handleDrawerConfirm,
+                onClose: this.handleDrawerClose,
+                onAction: this.handleAction
               })}
             </div>
           ) : null}
           {header
             ? render('header', header, {
-                data: store.formData
+                data: store.formData,
+                onConfirm: this.handleDrawerConfirm,
+                onClose: this.handleDrawerClose,
+                onAction: this.handleAction
               })
             : null}
         </div>
