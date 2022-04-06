@@ -628,11 +628,11 @@ export const FormItemStore = StoreNode.named('FormItemStore')
     const loadAutoUpdateData: (
       api: Api,
       data?: object,
-      showToast?: boolean
+      silent?: boolean
     ) => Promise<Payload> = flow(function* getAutoUpdateData(
       api: string,
       data: object,
-      showToast: boolean = false
+      silent: boolean = true
     ) {
       if (loadAutoUpdateCancel) {
         loadAutoUpdateCancel();
@@ -644,9 +644,11 @@ export const FormItemStore = StoreNode.named('FormItemStore')
           (loadAutoUpdateCancel = executor)
       });
       loadAutoUpdateCancel = null;
+
       if (!json) {
         return;
       }
+
       const result = json.data?.items || json.data?.rows;
       // 只处理仅有一个结果的数据
       if (result?.length === 1) {
@@ -654,7 +656,9 @@ export const FormItemStore = StoreNode.named('FormItemStore')
       } else if (isPlainObject(json.data)) {
         return json.data;
       }
-      showToast && toast.info(self.__('FormItem.autoUpdateloadFaild'));
+
+      !silent && toast.info(self.__('FormItem.autoUpdateloadFaild'));
+
       return;
     });
 

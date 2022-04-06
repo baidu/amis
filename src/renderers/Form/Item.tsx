@@ -26,6 +26,7 @@ import {SchemaRemark} from '../Remark';
 import {
   BaseSchema,
   SchemaApi,
+  SchemaApiObject,
   SchemaClassName,
   SchemaExpression,
   SchemaObject,
@@ -420,7 +421,7 @@ export class FormItemWrap extends React.Component<FormItemProps> {
       this.reaction.push(
         reaction(
           () => JSON.stringify(model.tmpValue),
-          () => this.syncAutoUpdate(model.tmpValue)
+          () => this.syncAutoFill(model.tmpValue)
         )
       );
     }
@@ -429,7 +430,7 @@ export class FormItemWrap extends React.Component<FormItemProps> {
   componentWillUnmount() {
     this.reaction.forEach(fn => fn());
     this.reaction = [];
-    this.syncAutoUpdate.cancel();
+    this.syncAutoFill.cancel();
   }
 
   @autobind
@@ -446,36 +447,32 @@ export class FormItemWrap extends React.Component<FormItemProps> {
     this.props.onBlur && this.props.onBlur(e);
   }
 
-  syncAutoUpdate = debounce(
+  syncAutoFill = debounce(
     (term: any) => {
       (async (term: string) => {
-        const {autoUpdate, onBulkChange, formItem, data} = this.props;
-        if (!autoUpdate || (autoUpdate && !autoUpdate.mapping)) {
+        const {autoFillApi, onBulkChange, formItem, data} = this.props;
+        if (!autoFillApi) {
           return;
         }
 
-        const {api, showToast} = autoUpdate;
-        let mapping = {...autoUpdate.mapping};
         const itemName = formItem?.name;
         const ctx = createObject(data, {
           [itemName || '']: term
         });
-        mapping = dataMapping(mapping, ctx);
         if (
-          !isEmpty(mapping) &&
           onBulkChange &&
-          isEffectiveApi(api, ctx) &&
+          isEffectiveApi(autoFillApi, ctx) &&
           this.lastSearchTerm !== term
         ) {
           const result = await formItem?.loadAutoUpdateData(
-            api,
+            autoFillApi,
             ctx,
-            showToast
+            !!(autoFillApi as SchemaApiObject)?.silent
           );
           if (!result) return;
-          mapping = dataMapping(autoUpdate.mapping, result);
-          this.lastSearchTerm = getVariable(mapping, itemName) ?? term;
-          onBulkChange(mapping);
+
+          this.lastSearchTerm = getVariable(result, itemName) ?? term;
+          onBulkChange(result);
         }
       })(term).catch(e => console.error(e));
     },

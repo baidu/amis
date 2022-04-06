@@ -615,6 +615,11 @@ export interface SchemaApiObject {
     indices?: boolean;
     allowDots?: boolean;
   };
+
+  /**
+   * autoFillApi 是否显示自动填充错误提示
+   */
+  silent?: boolean;
 }
 
 export type SchemaApi = string | SchemaApiObject;

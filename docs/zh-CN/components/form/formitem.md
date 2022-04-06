@@ -1003,7 +1003,7 @@ Table 类型的表单项，要实现服务端校验，可以使用 `路径key` �
 
 ### 配置自动填充
 
-通过配置 "autoUpdate" 来开启自动填充；其中 api 为自动填充数据源接口地址；mapping 为返回结果需要自动填充的 key value 映射关系；
+通过配置 "autoFillApi" 为自动填充数据源接口地址；amis 可以将返回数据自动填充到表单中，例如如下配置；
 
 ```schema:scope="body"
 {
@@ -1013,14 +1013,14 @@ Table 类型的表单项，要实现服务端校验，可以使用 `路径key` �
       "type": "input-text",
       "label": "浏览器",
       "name": "browser",
-      "autoUpdate": {
+      "autoFillApi": {
         api: "/api/mock2/form/autoUpdate?browser=$browser",
-        showToast: true,
-        mapping: {
-          browser: "browser",
-          version: "version",
-          platform1: "${browser}",
-        }
+        replaceData: {
+          browser: "${browser}",
+          version: "${version}",
+          platform1: "${platform}",
+        },
+        silent: false
       }
     },
     {
