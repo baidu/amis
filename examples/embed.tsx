@@ -24,10 +24,15 @@ import attachmentAdpator from '../src/utils/attachmentAdpator';
 export function embed(
   container: string | HTMLElement,
   schema: any,
-  props?: any,
+  props: any = {},
   env?: any
 ) {
   const __ = makeTranslator(env?.locale || props?.locale);
+
+  // app 模式自动加 affixOffsetTop
+  if (!('affixOffsetTop' in props) && schema.type === 'app') {
+    props.affixOffsetTop = 50;
+  }
 
   if (typeof container === 'string') {
     container = document.querySelector(container) as HTMLElement;
