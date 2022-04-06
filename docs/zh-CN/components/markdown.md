@@ -81,6 +81,31 @@ order: 58
 
 可以使用 `![text](video.mp4)` 语法来嵌入视频。
 
+## 高级配置
+
+> 1.8.1 及以上版本
+
+有以下配置：
+
+- html，是否支持 html 标签，默认 false
+- linkify，是否自动识别链接，默认值是 true
+- breaks，是否回车就是换行，默认 false
+
+```schema
+{
+    "type": "page",
+    "body": {
+        "type": "markdown",
+        "value": "# title\n <b>markdown</b>\n http://www.github.com/",
+        "options": {
+            linkify: false,
+            html: true,
+            breaks: true
+        }
+    }
+}
+```
+
 ## 属性表
 
 | 属性名    | 类型     | 默认值 | 说明     |

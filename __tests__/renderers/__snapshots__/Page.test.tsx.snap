@@ -821,7 +821,6 @@ exports[`Renderer:Page handleAction actionType=drawer 1`] = `
           <div
             class="cxd-Spinner-icon cxd-Spinner-icon--lg cxd-Spinner-icon--default"
           />
-          
         </div>
       </div>
       <div
@@ -1976,7 +1975,6 @@ exports[`Renderer:Page initApi show loading 1`] = `
           <div
             className="cxd-Spinner-icon cxd-Spinner-icon--lg cxd-Spinner-icon--default"
           />
-          
         </div>
         <span
           className="cxd-TplField"
@@ -2041,7 +2039,6 @@ exports[`Renderer:Page initApi silentPolling 1`] = `
           <div
             className="cxd-Spinner-icon cxd-Spinner-icon--lg cxd-Spinner-icon--default"
           />
-          
         </div>
         <span
           className="cxd-TplField"

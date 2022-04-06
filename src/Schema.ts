@@ -132,6 +132,7 @@ export type SchemaType =
   | 'button-toolbar'
   | 'breadcrumb'
   | 'card'
+  | 'card2'
   | 'cards'
   | 'carousel'
   | 'chart'
@@ -614,6 +615,11 @@ export interface SchemaApiObject {
     indices?: boolean;
     allowDots?: boolean;
   };
+
+  /**
+   * autoFillApi 是否显示自动填充错误提示
+   */
+  silent?: boolean;
 }
 
 export type SchemaApi = string | SchemaApiObject;
@@ -757,6 +763,11 @@ export interface BaseSchema {
    * 是否显示表达式
    */
   visibleOn?: SchemaExpression;
+
+  /**
+   * 组件唯一 id，主要用于日志采集
+   */
+  id?: string;
 }
 
 export interface Option {

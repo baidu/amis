@@ -25,7 +25,7 @@ register('zh-CN', {
   'clear': '清空',
   'ColorPicker.placeholder': '请选择颜色',
   'SubForm.add': '新增一项',
-  'Combo.add': '新增',
+  'add': '新增',
   'Combo.dragDropSort': '拖拽排序',
   'Combo.invalidData': '数值格式不正确',
   'Combo.maxLength': '组合表单超出{{maxLength}}个，请删除',
@@ -111,6 +111,7 @@ register('zh-CN', {
   'deleteFailed': '删除失败',
   'desc': '降序',
   'Dialog.close': '关闭',
+  'Dialog.title': '弹框',
   'Embed.invalidRoot': '选择器不对，页面上没有此元素',
   'Embed.downloading': '文件即将开始下载',
   'Excel.placeholder': '拖拽 Excel 到这，或点击上传',
@@ -133,6 +134,7 @@ register('zh-CN', {
   'File.upload': '文件上传',
   'File.uploadFailed': '接口返回错误，请仔细检查',
   'File.uploading': '上传中...',
+  'FormItem.autoUpdateloadFaild': '接口返回错误，请仔细检查',
   'Form.loadOptionsFailed': '加载选项失败，原因：{{reason}}',
   'Form.submit': '提交',
   'Form.title': '表单',
@@ -302,5 +304,6 @@ register('zh-CN', {
   'pullRefresh.pullingText': '下拉即可刷新...',
   'pullRefresh.loosingText': '释放即可刷新...',
   'pullRefresh.loadingText': '加载中...',
-  'pullRefresh.successText': '加载成功'
+  'pullRefresh.successText': '加载成功',
+  'Picker.placeholder': '请点击右侧的图标'
 });

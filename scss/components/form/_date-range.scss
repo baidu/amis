@@ -97,7 +97,8 @@
 
 .#{$ns}DateRangePicker-wrap {
   width: auto;
-  padding: var(--gap-sm);
+  // padding-bottom: var(--gap-sm);
+  padding: 0;
 }
 
 .#{$ns}DateRangePicker-start,
@@ -117,8 +118,9 @@
 }
 
 .#{$ns}DateRangePicker-rangers {
-  margin: 0 0 var(--gap-sm);
-  padding: 0;
+  // margin: 0 0 var(--gap-sm);
+  margin: 0;
+  padding: 10px 0 0 10px;
   list-style: none;
 }
 
@@ -133,7 +135,9 @@
 
 .#{$ns}DateRangePicker-actions {
   text-align: right;
-  margin-top: var(--gap-sm);
+  // margin-top: var(--gap-sm);
+  padding: var(--gap-sm);
+  border-top: 1px solid var(--Calendar-input-borderColor);
 }
 
 .#{$ns}DateRangeControl:not(.is-inline) > .#{$ns}DateRangePicker {
@@ -170,7 +174,8 @@
 
   .#{$ns}DateRangePicker-end {
     margin-top: 0;
-    margin-left: var(--gap-sm);
+    // margin-left: var(--gap-sm);
+    border-left: 1px solid var(--Calendar-input-borderColor);
   }
 }
 

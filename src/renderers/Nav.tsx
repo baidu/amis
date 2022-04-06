@@ -213,7 +213,6 @@ export interface Link {
 export interface Links extends Array<Link> {}
 
 export interface NavigationState {
-  links?: Links;
   error?: string;
   dropIndicator?: {
     top: number;
@@ -449,7 +448,7 @@ export class Navigation extends React.Component<
 
     return (
       <li
-        key={link.__id}
+        key={link.__id ?? index}
         data-id={link.__id}
         className={cx('Nav-item', link.className, {
           'is-disabled': disabled || link.disabled || link.loading,
@@ -859,7 +858,7 @@ const ConditionBuilderWithRemoteOptions = withRemoteConfig({
         }
       }
       this.props.updateConfig(links, 'update');
-      this.props.onOrderChange!(links);
+      this.props.onOrderChange?.(links);
       await this.saveOrder(
         mapTree(links, (link: Link) => {
           // 清除内部加的字段

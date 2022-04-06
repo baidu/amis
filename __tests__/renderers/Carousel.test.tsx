@@ -2,7 +2,7 @@ import React = require('react');
 import {render, fireEvent} from '@testing-library/react';
 import '../../src/themes/default';
 import {render as amisRender} from '../../src/index';
-import {makeEnv} from '../helper';
+import {makeEnv, wait} from '../helper';
 
 test('Renderer:carousel', async () => {
   const {container} = render(
@@ -44,5 +44,6 @@ test('Renderer:carousel', async () => {
   const rightArrow = document.querySelector('div.cxd-Carousel-rightArrow');
   fireEvent.click(rightArrow as HTMLDivElement);
 
+  await wait(500);
   expect(container).toMatchSnapshot();
 });

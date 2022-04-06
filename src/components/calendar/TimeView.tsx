@@ -652,7 +652,13 @@ export class CustomTimeView extends React.Component<
               });
               return (
                 <div className={cx('CalendarInputWrapper')}>
-                  <div className={cx('CalendarInput-sugs')} id={`${this.state.uniqueTag}-${i}-input`}>
+                  <div 
+                    className={cx(
+                      'CalendarInput-sugs',
+                      type === 'hours' ? 'CalendarInput-sugsHours' : 'CalendarInput-sugsTimes'
+                    )} 
+                    id={`${this.state.uniqueTag}-${i}-input`}
+                  >
                     {options.map(option => {
                       return (
                         <div
@@ -684,7 +690,7 @@ export class CustomTimeView extends React.Component<
     console.log(this.props)
     return (
       <>
-        <div className={cx('TimeRangeHeaderWrapper')}>
+        <div className={cx(timeRangeHeader ? 'TimeRangeHeaderWrapper' : null)}>
           {timeRangeHeader}
         </div>
         <div>{inputs}</div>

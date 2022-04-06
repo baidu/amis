@@ -120,7 +120,7 @@ export default class TreeSelectControl extends React.Component<
     optionsPlaceholder: 'placeholder.noData',
     multiple: false,
     clearable: true,
-    rootLabel: '顶级',
+    rootLabel: 'Tree.root',
     rootValue: '',
     showIcon: true,
     joinValues: true,
@@ -129,7 +129,8 @@ export default class TreeSelectControl extends React.Component<
     resetValue: '',
     hideNodePathLabel: false,
     enableNodePath: false,
-    pathSeparator: '/'
+    pathSeparator: '/',
+    selfDisabledAffectChildren: true
   };
 
   treeRef: any;
@@ -534,7 +535,8 @@ export default class TreeSelectControl extends React.Component<
       rootCreateTip,
       translate: __,
       deferLoad,
-      expandTreeOptions
+      expandTreeOptions,
+      selfDisabledAffectChildren
     } = this.props;
 
     let filtedOptions =
@@ -589,6 +591,7 @@ export default class TreeSelectControl extends React.Component<
         bultinCUD={!addControls && !editControls}
         onDeferLoad={deferLoad}
         onExpandTree={expandTreeOptions}
+        selfDisabledAffectChildren={selfDisabledAffectChildren}
       />
     );
   }
@@ -621,7 +624,7 @@ export default class TreeSelectControl extends React.Component<
         <ResultBox
           disabled={disabled}
           ref={this.targetRef}
-          placeholder={__(placeholder || '空')}
+          placeholder={__(placeholder || 'placeholder.empty')}
           className={cx(`TreeSelect`, {
             'TreeSelect--inline': inline,
             'TreeSelect--single': !multiple,

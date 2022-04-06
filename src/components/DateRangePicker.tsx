@@ -518,6 +518,7 @@ export class DateRangePicker extends React.Component<
     this.state = {
       isOpened: false,
       isFocused: false,
+      editState: 'start',
       startDate,
       endDate,
       startInputValue: startDate?.format(inputFormat),

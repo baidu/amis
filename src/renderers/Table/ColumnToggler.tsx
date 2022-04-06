@@ -350,7 +350,9 @@ export default class ColumnToggler extends React.Component<
           overlay={typeof overlay === 'boolean' ? overlay : false}
         >
           <header className={cx('ColumnToggler-modal-header')}>
-            <span className={cx('ColumnToggler-modal-title')}>列设置</span>
+            <span className={cx('ColumnToggler-modal-title')}>
+              {__('Table.columnsVisibility')}
+            </span>
             <a
               data-tooltip={__('Dialog.close')}
               data-position="left"

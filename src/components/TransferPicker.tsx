@@ -16,6 +16,10 @@ export interface TransferPickerProps extends Omit<TransferProps, 'itemRender'> {
    * 边框模式，全边框，还是半边框，或者没边框。
    */
   borderMode?: 'full' | 'half' | 'none';
+
+  onFocus?: () => void;
+
+  onBlur?: () => void;
 }
 
 export class TransferPicker extends React.Component<TransferPickerProps> {
@@ -24,6 +28,16 @@ export class TransferPicker extends React.Component<TransferPickerProps> {
   handleConfirm(value: any) {
     this.props.onChange?.(value, this.optionModified);
     this.optionModified = false;
+  }
+
+  @autobind
+  onFoucs() {
+    this.props.onFocus?.();
+  }
+
+  @autobind
+  onBlur() {
+    this.props.onBlur?.();
   }
 
   render() {
@@ -42,6 +56,8 @@ export class TransferPicker extends React.Component<TransferPickerProps> {
     return (
       <PickerContainer
         title={__('Select.placeholder')}
+        onFocus={this.onFoucs}
+        onClose={this.onBlur}
         bodyRender={({onClose, value, onChange, setState, ...states}) => {
           return (
             <Transfer

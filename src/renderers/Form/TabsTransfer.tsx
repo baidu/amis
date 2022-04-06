@@ -15,6 +15,7 @@ import {
   spliceTree
 } from '../../utils/helper';
 import {BaseSelection, ItemRenderStates} from '../../components/Selection';
+import {Action} from '../../types';
 
 /**
  * TabsTransfer
@@ -36,16 +37,43 @@ export interface TabsTransferProps
       | 'descriptionClassName'
     > {}
 
+interface BaseTransferState {
+  activeKey: number;
+}
+
 export class BaseTabsTransferRenderer<
   T extends OptionsControlProps = TabsTransferProps
 > extends BaseTransferRenderer<T> {
+  state: BaseTransferState = {
+    activeKey: 0
+  };
+
+  @autobind
+  async onTabChange(key: number) {
+    const {dispatchEvent} = this.props;
+    const rendererEvent = await dispatchEvent('tab-change', {key});
+    if (rendererEvent?.prevented) {
+      return;
+    }
+    this.setState({
+      activeKey: key
+    });
+  }
+
   @autobind
   async handleTabSearch(
     term: string,
     option: Option,
     cancelExecutor: Function
   ) {
-    const {options, labelField, valueField, env, data} = this.props;
+    const {
+      options,
+      labelField,
+      valueField,
+      env,
+      data,
+      translate: __
+    } = this.props;
     const {searchApi} = option;
 
     if (searchApi) {
@@ -59,13 +87,13 @@ export class BaseTabsTransferRenderer<
         );
 
         if (!payload.ok) {
-          throw new Error(payload.msg || '搜索请求异常');
+          throw new Error(__(payload.msg || 'networkError'));
         }
 
         const result =
           payload.data.options || payload.data.items || payload.data;
         if (!Array.isArray(result)) {
-          throw new Error('CRUD.invalidArray');
+          throw new Error(__('CRUD.invalidArray'));
         }
 
         return result.map(item => {
@@ -220,6 +248,25 @@ export class TabsTransferRenderer extends BaseTabsTransferRenderer<TabsTransferP
     return BaseSelection.itemRender(option, states);
   }
 
+  // 动作
+  doAction(action: Action) {
+    const {resetValue, onChange} = this.props;
+    const activeKey = action?.activeKey as number;
+    switch (action.actionType) {
+      case 'clear':
+        onChange('');
+        break;
+      case 'reset':
+        onChange(resetValue);
+        break;
+      case 'changeTabKey':
+        this.setState({
+          activeKey
+        });
+        break;
+    }
+  }
+
   render() {
     const {
       className,
@@ -240,6 +287,7 @@ export class TabsTransferRenderer extends BaseTabsTransferRenderer<TabsTransferP
     return (
       <div className={cx('TabsTransferControl', className)}>
         <TabsTransfer
+          activeKey={this.state.activeKey}
           value={selectedOptions}
           disabled={disabled}
           options={options}
@@ -255,6 +303,7 @@ export class TabsTransferRenderer extends BaseTabsTransferRenderer<TabsTransferP
           resultTitle={resultTitle}
           optionItemRender={this.optionItemRender}
           resultItemRender={this.resultItemRender}
+          onTabChange={this.onTabChange}
         />
 
         <Spinner overlay key="info" show={loading} />

@@ -58,7 +58,7 @@ exports[`Renderer:dateRange 1`] = `
             >
               <input
                 autocomplete="off"
-                class="cxd-DateRangePicker-input"
+                class="cxd-DateRangePicker-input isActive"
                 placeholder="选择开始时间"
                 type="text"
                 value="2019-06-06"

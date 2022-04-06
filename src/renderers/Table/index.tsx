@@ -418,7 +418,10 @@ export default class Table extends React.Component<TableProps, object> {
     'toolbarClassName',
     'footerToolbarClassName',
     'itemBadge',
-    'autoFillHeight'
+    'autoFillHeight',
+    'onSelect',
+    'keepItemSelectionOnPageChange',
+    'maxKeepItemSelectionLength'
   ];
   static defaultProps: Partial<TableProps> = {
     className: '',
@@ -1483,7 +1486,11 @@ export default class Table extends React.Component<TableProps, object> {
               name: column.name,
               label: column.label
             }
-          : column.searchable),
+          : {
+              type: 'input-text',
+              name: column.name,
+              ...column.searchable
+            }),
         name: column.searchable?.name ?? column.name,
         label: column.searchable?.label ?? column.label,
         mode: 'horizontal'
@@ -2200,6 +2207,30 @@ export default class Table extends React.Component<TableProps, object> {
         columns={store.columnsData}
         onColumnToggle={this.handleColumnToggle}
       >
+        {store.toggableColumns.length ? (
+          <li
+            className={cx('ColumnToggler-menuItem')}
+            key={'selectAll'}
+            onClick={store.toggleAllColumns}
+          >
+            <Checkbox
+              size="sm"
+              classPrefix={ns}
+              key="checkall"
+              checked={!!store.activeToggaleColumns.length}
+              partial={
+                !!(
+                  store.activeToggaleColumns.length &&
+                  store.activeToggaleColumns.length !==
+                    store.toggableColumns.length
+                )
+              }
+            >
+              {__('Checkboxes.selectAll')}
+            </Checkbox>
+          </li>
+        ) : null}
+
         {store.toggableColumns.map(column => (
           <li
             className={cx('ColumnToggler-menuItem')}

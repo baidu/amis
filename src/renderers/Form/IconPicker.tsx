@@ -52,7 +52,7 @@ export default class IconPickerControl extends React.PureComponent<
   > = {
     resetValue: '',
     placeholder: '',
-    noDataTip: '未找到匹配的图标'
+    noDataTip: 'placeholder.noData'
   };
 
   componentDidUpdate(prevProps: IconPickerProps) {

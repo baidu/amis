@@ -593,6 +593,31 @@ Form 支持轮询初始化接口，步骤如下：
   }
 ```
 
+注意这里的 `data` 会进行数据映射，如果想不映射，需要进行转义，比如下面的例子
+
+```schema: scope="body"
+{
+    "type": "form",
+    "data": {
+      "name": "\\${rick}",
+      "email": "rick@gmail.com"
+    },
+    "title": "用户信息",
+    "body": [
+      {
+        "type": "input-text",
+        "name": "name",
+        "label": "姓名"
+      },
+      {
+        "type": "input-email",
+        "name": "email",
+        "label": "邮箱"
+      }
+    ]
+  }
+```
+
 ### 数据格式一致性问题
 
 当表单来初始化表单项值时，需要保持数据格式的一致性。

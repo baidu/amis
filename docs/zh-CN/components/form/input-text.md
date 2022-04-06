@@ -193,6 +193,7 @@ order: 56
 {
     "type": "form",
     "api": "/api/mock2/form/saveForm",
+    "debug": true,
     "body": [
         {
             "name": "text",

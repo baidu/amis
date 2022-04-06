@@ -25,7 +25,7 @@ register('de-DE', {
   'clear': 'Löschen',
   'ColorPicker.placeholder': 'Farbe auswählen',
   'SubForm.add': 'Neu',
-  'Combo.add': 'Neu',
+  'add': 'Neu',
   'Combo.dragDropSort': 'Zum Sortieren ziehen',
   'Combo.invalidData': 'Ungültige Daten, bitte entfernen',
   'Combo.maxLength': 'Maximale Anzahl ist {{MaxLength}}}. Löschen Sie einige Elemente.',
@@ -109,6 +109,7 @@ register('de-DE', {
   'deleteFailed': 'Fehler beim Löschen',
   'desc': 'Absteigend',
   'Dialog.close': 'Schließen',
+  'Dialog.title': 'Titel',
   'Embed.invalidRoot': 'Ungültiger Root-Selektor',
   'Embed.downloading': 'Download starten',
   'fetchFailed': 'Fehler beim Abrufen der API',
@@ -126,6 +127,7 @@ register('de-DE', {
   'File.upload': 'Hochladen',
   'File.uploadFailed': 'Zurückgegebene Daten der Upload-API sind leer',
   'File.uploading': 'Wird hochgeladen...',
+  'FormItem.autoUpdateloadFaild': 'Die Schnittstelle hat einen Fehler zurückgegeben, bitte sorgfältig prüfen',
   'Form.loadOptionsFailed': 'Optionen wurden auf folgendem Grund nicht geladen: {{reason}}',
   'Form.submit': 'Absenden',
   'Form.title': 'Formular',
@@ -293,5 +295,6 @@ register('de-DE', {
   'pullRefresh.pullingText': 'Zum Aktualisieren nach unten ziehen...',
   'pullRefresh.loosingText': 'Zum Aktualisieren freigeben...',
   'pullRefresh.loadingText': 'Laden...',
-  'pullRefresh.successText': 'Laden erfolgreich'
+  'pullRefresh.successText': 'Laden erfolgreich',
+  'Picker.placeholder': 'Klicken Sie rechts auf das Symbol'
 });

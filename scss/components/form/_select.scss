@@ -79,8 +79,6 @@
     min-height: var(--Form-selectOption-height);
 
     .#{$ns}Select-valueWrap {
-      margin-bottom: calc(var(--gap-xs) * -1);
-
       > input {
         display: inline-block;
         width: px2rem(100px);

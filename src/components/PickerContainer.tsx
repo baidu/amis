@@ -29,6 +29,8 @@ export interface PickerContainerProps extends ThemeProps, LocaleProps {
   popOverContainer?: any;
   popOverClassName?: string;
   size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl' | 'full';
+  onFocus?: () => void;
+  onClose?: () => void;
 }
 
 export interface PickerContainerState {
@@ -57,9 +59,12 @@ export class PickerContainer extends React.Component<
 
   @autobind
   handleClick() {
-    this.setState({
-      isOpened: true
-    });
+    this.setState(
+      {
+        isOpened: true
+      }, 
+      (() => this.props.onFocus?.())
+    );
   }
 
   @autobind
@@ -68,8 +73,14 @@ export class PickerContainer extends React.Component<
       {
         isOpened: false
       },
-      callback || (() => this.props.onCancel?.())
-    );
+      () => {
+        this.props.onClose?.();
+        if (callback) {
+          callback();
+          return
+        }
+        this.props.onCancel?.();
+      })
   }
 
   @autobind

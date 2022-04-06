@@ -1,7 +1,7 @@
-import React from 'react';
+import React, {Fragment} from 'react';
 import {findDOMNode} from 'react-dom';
 import {Renderer, RendererProps} from '../factory';
-import {SchemaNode, Action, Schema} from '../types';
+import {SchemaNode, Schema, Action} from '../types';
 import Button from '../components/Button';
 import {ListStore, IListStore, IItem} from '../store/list';
 import {observer} from 'mobx-react';
@@ -9,13 +9,10 @@ import {
   anyChanged,
   getScrollParent,
   difference,
-  ucFirst
+  ucFirst,
+  noop
 } from '../utils/helper';
-import {
-  isPureVariable,
-  resolveVariable,
-  resolveVariableAndFilter
-} from '../utils/tpl-builtin';
+import {isPureVariable, resolveVariableAndFilter} from '../utils/tpl-builtin';
 import Sortable from 'sortablejs';
 import {filter} from '../utils/tpl';
 import {Icon} from '../components/icons';
@@ -27,7 +24,8 @@ import {
   SchemaTpl,
   SchemaTokenizeableString
 } from '../Schema';
-import {CardSchema} from './Card';
+import {CardProps, CardSchema} from './Card';
+import {Card2Props, Card2Schema} from './Card2';
 
 /**
  * Cards 卡片集合渲染器。
@@ -39,7 +37,7 @@ export interface CardsSchema extends BaseSchema {
    */
   type: 'cards';
 
-  card?: Omit<CardSchema, 'type'>;
+  card?: Partial<CardSchema> | Card2Schema;
 
   /**
    * 头部 CSS 类名
@@ -138,12 +136,16 @@ export interface Column {
   [propName: string]: any;
 }
 
+export type CardsRendererEvent = 'change';
+export type CardsRendererAction = 'check-all';
+
 export interface GridProps
   extends RendererProps,
     Omit<CardsSchema, 'className' | 'itemClassName'> {
   store: IListStore;
   selectable?: boolean;
   selected?: Array<any>;
+  checkAll?: boolean;
   multiple?: boolean;
   valueField?: string;
   draggable?: boolean;
@@ -195,7 +197,8 @@ export default class Cards extends React.Component<GridProps, object> {
     hideCheckToggler: false,
     masonryLayout: false,
     affixHeader: true,
-    itemsClassName: ''
+    itemsClassName: '',
+    checkAll: true
   };
 
   dragTip?: HTMLElement;
@@ -572,16 +575,7 @@ export default class Cards extends React.Component<GridProps, object> {
   }
 
   renderActions(region: string) {
-    let {
-      actions,
-      render,
-      store,
-      multiple,
-      selectable,
-      classnames: cx,
-      classPrefix: ns,
-      env
-    } = this.props;
+    let {actions, render, store, classnames: cx} = this.props;
     let btn;
     actions = Array.isArray(actions) ? actions.concat() : [];
 
@@ -782,14 +776,15 @@ export default class Cards extends React.Component<GridProps, object> {
   }
 
   renderCheckAll() {
-    const {store, multiple, selectable} = this.props;
+    const {store, multiple, selectable, checkAll} = this.props;
 
     if (
       !store.selectable ||
       !multiple ||
       !selectable ||
       store.dragging ||
-      !store.items.length
+      !store.items.length ||
+      !checkAll
     ) {
       return null;
     }
@@ -849,6 +844,64 @@ export default class Cards extends React.Component<GridProps, object> {
     return void 0;
   }
 
+  // editor中重写，请勿更改前两个参数
+  renderCard(index: number, card: any, item: IItem, itemClassName: string) {
+    const {
+      render,
+      classnames: cx,
+      store,
+      multiple,
+      checkOnItemClick,
+      hideCheckToggler
+    } = this.props;
+
+    let cardProps: Partial<CardProps | Card2Props> = {
+      className: cx((card && card.className) || '', {
+        'is-checked': item.checked,
+        'is-modified': item.modified,
+        'is-moved': item.moved
+      }),
+      item,
+      itemIndex: item.index,
+      multiple,
+      selectable: store.selectable,
+      checkable: item.checkable,
+      draggable: item.draggable,
+      selected: item.checked,
+      onSelect: item.toggle,
+      dragging: store.dragging,
+      data: item.locals,
+      onAction: this.handleAction,
+      onCheck: this.handleCheck,
+      onQuickChange: store.dragging ? null : this.handleQuickChange
+    };
+
+    // card2属性与card有区别
+    if (card?.type === 'card2') {
+      cardProps = {
+        ...cardProps,
+        item: item.locals,
+        onCheck: item.toggle
+      };
+    }
+
+    return (
+      <div key={item.index} className={cx(itemClassName)}>
+        {render(
+          `card/${index}`,
+          {
+            // @ts-ignore
+            type: card.type || 'card',
+            hideCheckToggler,
+            checkOnItemClick,
+            ...card
+          },
+          cardProps
+        )}
+      </div>
+    );
+  }
+
   render() {
     const {
       className,
@@ -856,24 +909,20 @@ export default class Cards extends React.Component<GridProps, object> {
       columnsCount,
       itemClassName,
       placeholder,
+      card,
       render,
       affixHeader,
-      card,
-      onAction,
-      multiple,
-      hideCheckToggler,
-      checkOnItemClick,
       masonryLayout,
       itemsClassName,
       classnames: cx,
-      data,
       translate: __
     } = this.props;
 
     this.renderedToolbars = []; // 用来记录哪些 toolbar 已经渲染了，已经渲染了就不重复渲染了。
-    let itemFinalClassName: string = columnsCount
+    const itemFinalClassName: string = columnsCount
       ? `Grid-col--sm${Math.round(12 / columnsCount)}`
       : itemClassName || '';
+
     const header = this.renderHeader();
     const heading = this.renderHeading();
     const footer = this.renderFooter();
@@ -914,44 +963,9 @@ export default class Cards extends React.Component<GridProps, object> {
             ref={this.itemsRef}
             className={cx('Cards-body Grid', itemsClassName, masonryClassName)}
           >
-            {store.items.map((item, index) => {
-              return (
-                <div key={item.index} className={cx(itemFinalClassName)}>
-                  {render(
-                    `${index}`,
-                    {
-                      // @ts-ignore
-                      type: 'card',
-                      ...card
-                    },
-                    {
-                      className: cx((card && card.className) || '', {
-                        'is-checked': item.checked,
-                        'is-modified': item.modified,
-                        'is-moved': item.moved
-                      }),
-                      item,
-                      intemIndex: item.index,
-                      multiple,
-                      hideCheckToggler,
-                      selectable: store.selectable,
-                      checkable: item.checkable,
-                      draggable: item.draggable,
-                      selected: item.checked,
-                      onSelect: item.toggle,
-                      dragging: store.dragging,
-                      data: item.locals,
-                      checkOnItemClick,
-                      onAction,
-                      onCheck: this.handleCheck,
-                      onQuickChange: store.dragging
-                        ? null
-                        : this.handleQuickChange
-                    }
-                  )}
-                </div>
-              );
-            })}
+            {store.items.map((item, index) =>
+              this.renderCard(index, card, item, itemFinalClassName)
+            )}
           </div>
         ) : (
           <div className={cx('Cards-placeholder')}>

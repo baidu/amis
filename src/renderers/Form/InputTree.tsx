@@ -94,13 +94,13 @@ export default class TreeControl extends React.Component<TreeProps> {
   static defaultProps: Partial<TreeProps> = {
     placeholder: 'loading',
     multiple: false,
-    rootLabel: '顶级',
+    rootLabel: 'Tree.root',
     rootValue: '',
     showIcon: true,
     enableNodePath: false,
     pathSeparator: '/'
   };
-  treeRef: any
+  treeRef: any;
 
   reload() {
     const reload = this.props.reloadOptions;
@@ -120,15 +120,16 @@ export default class TreeControl extends React.Component<TreeProps> {
     }
   }
 
-
-
   @autobind
   async handleChange(value: any) {
     const {onChange, dispatchEvent, data} = this.props;
 
-    const rendererEvent = await dispatchEvent('change', createObject(data, {
-      value
-    }));
+    const rendererEvent = await dispatchEvent(
+      'change',
+      createObject(data, {
+        value
+      })
+    );
 
     if (rendererEvent?.prevented) {
       return;
