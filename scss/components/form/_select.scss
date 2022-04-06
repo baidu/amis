@@ -56,6 +56,7 @@
     line-height: px2rem(20px);
   }
   &-placeholder {
+    color: var(--Form-select-placeholderColor);
     line-height: var(--Form-input-lineHeight);
     user-select: none;
     white-space: nowrap;
@@ -260,10 +261,6 @@
     &.is-disabled {
       color: var(--Form-select-menu-onDisabled-color);
       background: var(--Form-select-menu-onDisabled-bg);
-    }
-
-    &--placeholder {
-      color: var(--Form-input-placeholderColor);
     }
 
     > label {
