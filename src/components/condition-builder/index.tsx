@@ -31,6 +31,7 @@ export interface ConditionBuilderProps extends ThemeProps, LocaleProps {
   fieldClassName?: string;
   formula?: FormulaPickerProps;
   popOverContainer?: any;
+  renderEtrValue?: any;
 }
 
 export class QueryBuilder extends React.Component<ConditionBuilderProps> {
@@ -211,7 +212,8 @@ export class QueryBuilder extends React.Component<ConditionBuilderProps> {
       searchable,
       builderMode,
       formula,
-      popOverContainer
+      popOverContainer,
+      renderEtrValue
     } = this.props;
 
     const normalizedValue = Array.isArray(value?.children)
@@ -249,6 +251,7 @@ export class QueryBuilder extends React.Component<ConditionBuilderProps> {
         searchable={searchable}
         formula={formula}
         popOverContainer={popOverContainer}
+        renderEtrValue={renderEtrValue}
       />
     );
   }
