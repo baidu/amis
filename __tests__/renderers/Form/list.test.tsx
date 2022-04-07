@@ -1,5 +1,5 @@
 import React = require('react');
-import {render, cleanup, fireEvent} from '@testing-library/react';
+import {render, cleanup, fireEvent, waitFor} from '@testing-library/react';
 import '../../../src/themes/default';
 import {render as amisRender} from '../../../src/index';
 import {makeEnv, wait} from '../../helper';
@@ -51,7 +51,7 @@ test('Renderer:list', async () => {
 });
 
 test('Renderer:list:multiple clearable', async () => {
-  const {getByText, container} = render(
+  const {debug, container, findByText} = render(
     amisRender(
       {
         type: 'form',
@@ -87,14 +87,18 @@ test('Renderer:list:multiple clearable', async () => {
       makeEnv()
     )
   );
-  await wait(300);
-  fireEvent.click(getByText(/Option A/));
-  await wait(300);
-  fireEvent.click(getByText(/Option B/));
-  await wait(600);
+  // 这个是为了用于监视值是否变更完成
+  const refDom = container.querySelector('.cxd-PlainField') as Element;
+
+  fireEvent.click(await findByText(/Option A/));
+  await waitFor(() => expect(refDom.innerHTML).toBe('a'));
   expect(container).toMatchSnapshot();
-  await wait(300);
-  fireEvent.click(getByText(/Option B/));
-  await wait(600);
+
+  fireEvent.click(await findByText(/Option B/));
+  await waitFor(() => expect(refDom.innerHTML).toBe('a,b'));
+  expect(container).toMatchSnapshot();
+
+  fireEvent.click(await findByText(/Option B/));
+  await waitFor(() => expect(refDom.innerHTML).toBe('a'));
   expect(container).toMatchSnapshot();
 });

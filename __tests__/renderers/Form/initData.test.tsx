@@ -1,5 +1,5 @@
 import React = require('react');
-import {render, cleanup, fireEvent} from '@testing-library/react';
+import {render, cleanup, fireEvent, waitFor} from '@testing-library/react';
 import '../../../src/themes/default';
 import {render as amisRender} from '../../../src/index';
 import {makeEnv, wait} from '../../helper';
@@ -287,18 +287,16 @@ test('Form:initData:remote:options:source', async () => {
   );
 
   await initApiPromise;
-  expect(fetcherinitApi).toHaveBeenCalled();
+  await waitFor(() => expect(fetcherinitApi).toHaveBeenCalled());
   expect(fetcherinitApi.mock.calls[0][0].url).toEqual('/api/initApi?op=init');
 
-  await wait(300);
-
   await sourceApiPromise;
-  expect(fetcherSourceApi).toHaveBeenCalled();
-  expect(fetcherSourceApi.mock.calls[0][0].url).toEqual('/api/source?id=1');
+  await waitFor(() => expect(fetcherSourceApi).toHaveBeenCalled());
+  // 这里要取 mock.call[1] 而不是 [0]，因为这里其实会调用两次，第一次被cancel了
+  expect(fetcherSourceApi.mock.calls[1][0].url).toEqual('/api/source?id=1');
 
   fireEvent.click(getByText('Submit'));
-  await wait(500);
-  expect(onSubmit).toBeCalled();
+  await waitFor(() => expect(onSubmit).toBeCalled());
   expect(onSubmit.mock.calls[0][0]).toMatchObject({
     id: 1,
     op: 'init',

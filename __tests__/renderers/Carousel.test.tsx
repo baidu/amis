@@ -22,8 +22,7 @@ test('Renderer:carousel', async () => {
             descriptionClassName: 'block'
           },
           {
-            html:
-              '<div style="width: 100%; height: 300px; background: #e3e3e3; text-align: center; line-height: 300px;">carousel data</div>'
+            html: '<div style="width: 100%; height: 300px; background: #e3e3e3; text-align: center; line-height: 300px;">carousel data</div>'
           },
           {
             image:
@@ -37,11 +36,11 @@ test('Renderer:carousel', async () => {
     )
   );
 
-  const image = document.querySelector('div.cxd-Carousel-item');
+  const image = container.querySelector('div.cxd-Carousel-item');
   fireEvent.mouseEnter(image as HTMLDivElement);
-  const leftArrow = document.querySelector('div.cxd-Carousel-leftArrow');
+  const leftArrow = container.querySelector('div.cxd-Carousel-leftArrow');
   fireEvent.click(leftArrow as HTMLDivElement);
-  const rightArrow = document.querySelector('div.cxd-Carousel-rightArrow');
+  const rightArrow = container.querySelector('div.cxd-Carousel-rightArrow');
   fireEvent.click(rightArrow as HTMLDivElement);
 
   await wait(500);
