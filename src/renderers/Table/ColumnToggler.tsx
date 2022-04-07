@@ -10,7 +10,7 @@ import Button from '../../components/Button';
 import Checkbox from '../../components/Checkbox';
 import TooltipWrapper from '../../components/TooltipWrapper';
 import type {TooltipObject} from '../../components/TooltipWrapper';
-import {noop, autobind} from '../../utils/helper';
+import {noop, autobind, anyChanged} from '../../utils/helper';
 import {filter} from '../../utils/tpl';
 import {Icon} from '../../components/icons';
 import {getIcon} from '../../components/icons';
@@ -119,6 +119,7 @@ export interface ColumnTogglerProps extends RendererProps {
    */
   footerBtnSize?: 'xs' | 'sm' | 'md' | 'lg';
 
+  activeToggaleColumns: Array<IColumn>;
   onColumnToggle: (columns: Array<IColumn>) => void;
   modalContainer?: () => HTMLElement;
 }
@@ -168,6 +169,12 @@ export default class ColumnToggler extends React.Component<
       this.setState({
         isOpened: true
       });
+    }
+  }
+
+  componentDidUpdate(prevProps: ColumnTogglerProps) {
+    if (anyChanged('activeToggaleColumns', prevProps, this.props)) {
+      this.setState({tempColumns: this.props.columns});
     }
   }
 
