@@ -413,6 +413,8 @@ export default class Table extends React.Component<TableProps, object> {
     'saveImmediately',
     'rowClassName',
     'rowClassNameExpr',
+    'affixRowClassNameExpr',
+    'prefixRowClassNameExpr',
     'popOverContainer',
     'headerToolbarClassName',
     'toolbarClassName',
@@ -2504,6 +2506,10 @@ export default class Table extends React.Component<TableProps, object> {
       tableContentClassName,
       translate,
       itemAction,
+      affixRowClassNameExpr,
+      affixRowClassName,
+      prefixRowClassNameExpr,
+      prefixRowClassName,
       autoFillHeight,
       itemActions
     } = this.props;
@@ -2546,6 +2552,8 @@ export default class Table extends React.Component<TableProps, object> {
         data={store.data}
         prefixRow={prefixRow}
         affixRow={affixRow}
+        prefixRowClassName={prefixRowClassName}
+        affixRowClassName={affixRowClassName}
         locale={locale}
         translate={translate}
       />
