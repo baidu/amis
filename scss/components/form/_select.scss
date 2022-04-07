@@ -60,6 +60,7 @@
     line-height: var(--Form-input-lineHeight);
     user-select: none;
     white-space: nowrap;
+    color: var(--Form-select-placeholderColor);
   }
 
   &-value {
