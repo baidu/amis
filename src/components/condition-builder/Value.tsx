@@ -18,6 +18,7 @@ export interface ValueProps extends ThemeProps, LocaleProps {
   disabled?: boolean;
   formula?: FormulaPickerProps;
   popOverContainer?: any;
+  renderEtrValue?: any;
 }
 
 export class Value extends React.Component<ValueProps> {
@@ -32,7 +33,8 @@ export class Value extends React.Component<ValueProps> {
       data,
       disabled,
       formula,
-      popOverContainer
+      popOverContainer,
+      renderEtrValue
     } = this.props;
     let input: JSX.Element | undefined = undefined;
     if (formula) {
@@ -85,7 +87,7 @@ export class Value extends React.Component<ValueProps> {
       input = (
         <DatePicker
           viewMode="time"
-          placeholder={__(field.placeholder) || 'Time.placeholder'}
+          placeholder={__(field.placeholder) || __('Time.placeholder')}
           format={field.format || 'HH:mm'}
           inputFormat={field.inputFormat || 'HH:mm'}
           value={value ?? field.defaultValue}
@@ -135,6 +137,23 @@ export class Value extends React.Component<ValueProps> {
           disabled={disabled}
         />
       );
+    } else if (field.type === 'custom') {
+      input = renderEtrValue
+        ? renderEtrValue(field.value, {
+            data,
+            onChange,
+            value: value ?? field.defaultValue
+          })
+        : null;
+    } else {
+      const res = value ?? (field as any).defaultValue;
+      input = renderEtrValue
+        ? renderEtrValue(field, {
+            data,
+            onChange,
+            value: res ? res[(field as any).name] : res
+          })
+        : null;
     }
 
     return <div className={cx('CBValue')}>{input}</div>;
