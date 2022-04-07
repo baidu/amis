@@ -46,6 +46,8 @@ export interface TableContentProps extends LocaleProps {
   buildItemProps?: (item: IRow, index: number) => any;
   onAction?: (e: React.UIEvent<any>, action: Action, ctx: object) => void;
   rowClassNameExpr?: string;
+  affixRowClassName?: string;
+  prefixRowClassName?: string;
   rowClassName?: string;
   data?: any;
   prefixRow?: Array<any>;
@@ -113,6 +115,8 @@ export class TableContent extends React.Component<TableContentProps> {
       buildItemProps,
       onAction,
       rowClassNameExpr,
+      affixRowClassName,
+      prefixRowClassName,
       data,
       prefixRow,
       locale,
@@ -186,6 +190,8 @@ export class TableContent extends React.Component<TableContentProps> {
               onAction={onAction}
               rowClassNameExpr={rowClassNameExpr}
               rowClassName={rowClassName}
+              prefixRowClassName={prefixRowClassName}
+              affixRowClassName={affixRowClassName}
               rows={rows}
               columns={columns}
               locale={locale}

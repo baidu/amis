@@ -39,6 +39,8 @@ export interface TableBodyProps extends LocaleProps {
   onAction?: (e: React.UIEvent<any>, action: Action, ctx: object) => void;
   rowClassNameExpr?: string;
   rowClassName?: string;
+  affixRowClassName?: string;
+  prefixRowClassName?: string;
   data?: any;
   prefixRow?: Array<any>;
   affixRow?: Array<any>;
@@ -147,7 +149,15 @@ export class TableBody extends React.Component<TableBodyProps> {
     items?: Array<any>,
     rowIndex?: number
   ) {
-    const {columns, render, data, classnames: cx, rows} = this.props;
+    const {
+      columns,
+      render,
+      data,
+      classnames: cx,
+      rows,
+      prefixRowClassName,
+      affixRowClassName
+    } = this.props;
 
     if (!(Array.isArray(items) && items.length)) {
       return null;
@@ -188,7 +198,12 @@ export class TableBody extends React.Component<TableBodyProps> {
 
     return (
       <tr
-        className={cx('Table-tr', 'is-summary')}
+        className={cx(
+          'Table-tr',
+          'is-summary',
+          position === 'prefix' ? prefixRowClassName : '',
+          position === 'affix' ? affixRowClassName : ''
+        )}
         key={`summary-${position}-${rowIndex || 0}`}
       >
         {result.map((item, index) => {
