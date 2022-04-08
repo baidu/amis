@@ -537,7 +537,8 @@ export default class Dialog extends React.Component<DialogProps> {
               </a>
             ) : null}
             {render('title', title, {
-              data: store.formData
+              data: store.formData,
+              onAction: this.handleAction
             })}
           </div>
         ) : showCloseButton !== false && !store.loading ? (
@@ -552,7 +553,8 @@ export default class Dialog extends React.Component<DialogProps> {
 
         {header
           ? render('header', header, {
-              data: store.formData
+              data: store.formData,
+              onAction: this.handleAction
             })
           : null}
 
