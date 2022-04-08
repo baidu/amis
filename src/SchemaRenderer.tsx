@@ -270,14 +270,15 @@ export class SchemaRenderer extends React.Component<SchemaRendererProps, any> {
       : false;
 
     if (
-      !visible &&
-      exprProps &&
-      (exprProps.hidden ||
-        exprProps.visible === false ||
-        schema.hidden ||
-        schema.visible === false ||
-        rest.hidden ||
-        rest.visible === false)
+      visible === false ||
+      (visible !== true &&
+        exprProps &&
+        (exprProps.hidden ||
+          exprProps.visible === false ||
+          schema.hidden ||
+          schema.visible === false ||
+          rest.hidden ||
+          rest.visible === false))
     ) {
       (rest as any).invisible = true;
     }
