@@ -139,20 +139,24 @@ export class Value extends React.Component<ValueProps> {
       );
     } else if (field.type === 'custom') {
       input = renderEtrValue
-        ? renderEtrValue(field.value, {
-            data,
-            onChange,
-            value: value ?? field.defaultValue
-          })
+        ? renderEtrValue(
+            Object.assign({value: value ?? field.defaultValue}, field.value),
+            {
+              data,
+              onChange
+            }
+          )
         : null;
     } else {
       const res = value ?? (field as any).defaultValue;
       input = renderEtrValue
-        ? renderEtrValue(field, {
-            data,
-            onChange,
-            value: res ? res[(field as any).name] : res
-          })
+        ? renderEtrValue(
+            Object.assign({value: res ? res[(field as any).name] : res, field}),
+            {
+              data,
+              onChange
+            }
+          )
         : null;
     }
 
