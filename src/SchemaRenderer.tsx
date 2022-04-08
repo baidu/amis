@@ -83,11 +83,10 @@ export class SchemaRenderer extends React.Component<SchemaRendererProps, any> {
 
     // 监听rootStore更新
     this.reaction = reaction(
-      () => {
-        return `${JSON.stringify(props.rootStore.visibleState)}${JSON.stringify(
-          props.rootStore.disableState
-        )}`;
-      },
+      () =>
+        `${props.rootStore.visibleState[props.schema.id || props.$path]}${
+          props.rootStore.disableState[props.schema.id || props.$path]
+        }`,
       () => this.forceUpdate()
     );
   }
@@ -98,7 +97,7 @@ export class SchemaRenderer extends React.Component<SchemaRendererProps, any> {
   }
 
   componentWillUnmount() {
-    this.reaction && this.reaction();
+    this.reaction?.();
     this.unbindEvent?.();
   }
 
@@ -264,10 +263,10 @@ export class SchemaRenderer extends React.Component<SchemaRendererProps, any> {
     // 控制显隐
     const visible = isAlive(rootStore)
       ? rootStore.visibleState[$schema.id || $path]
-      : true;
+      : undefined;
     const disable = isAlive(rootStore)
       ? rootStore.disableState[$schema.id || $path]
-      : false;
+      : undefined;
 
     if (
       visible === false ||
