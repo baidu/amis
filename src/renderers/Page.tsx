@@ -466,6 +466,7 @@ export default class Page extends React.Component<PageProps> {
       store.openDrawer(ctx);
     } else if (action.actionType === 'ajax') {
       store.setCurrentAction(action);
+
       return store
         .saveRemote(action.api as string, ctx, {
           successMessage:
@@ -485,7 +486,11 @@ export default class Page extends React.Component<PageProps> {
           redirect && env.jumpTo(redirect, action);
           action.reload && this.reloadTarget(action.reload, store.data);
         })
-        .catch(() => {});
+        .catch((e) => {
+          if (throwErrors || action.countDown) {
+            throw e;
+          }
+        });
     } else {
       return onAction(e, action, ctx, throwErrors, delegate || this.context);
     }

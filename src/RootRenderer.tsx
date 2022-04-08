@@ -197,7 +197,11 @@ export class RootRenderer extends React.Component<RootRendererProps> {
               store.data
             );
         })
-        .catch(() => {});
+        .catch((e) => {
+          if (throwErrors || action.countDown) {
+            throw e;
+          }
+        });
     } else if (
       action.actionType === 'copy' &&
       (action.content || action.copy)

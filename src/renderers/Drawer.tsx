@@ -884,7 +884,11 @@ export class DrawerRenderer extends Drawer {
             this.closeTarget(action.close);
           }
         })
-        .catch(() => {});
+        .catch((e) => {
+          if (throwErrors || action.countDown) {
+            throw e;
+          }
+        });
     } else if (onAction) {
       let ret = onAction(
         e,

@@ -488,7 +488,11 @@ export default class Service extends React.Component<ServiceProps> {
           redirect && env.jumpTo(redirect, action);
           action.reload && this.reloadTarget(action.reload, store.data);
         })
-        .catch(() => {});
+        .catch((e) => {
+          if (throwErrors || action.countDown) {
+            throw e;
+          }
+        });
     } else {
       onAction(e, action, data, throwErrors, delegate || this.context);
     }
