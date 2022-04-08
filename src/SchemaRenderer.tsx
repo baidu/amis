@@ -23,6 +23,7 @@ import {SimpleMap} from './utils/SimpleMap';
 import type {RendererEvent} from './utils/renderer-event';
 import {isAlive} from 'mobx-state-tree';
 import {reaction} from 'mobx';
+import {resolveVariableAndFilter} from './utils/tpl-builtin';
 
 interface SchemaRendererProps extends Partial<RendererProps> {
   schema: Schema;
@@ -83,7 +84,9 @@ export class SchemaRenderer extends React.Component<SchemaRendererProps, any> {
     // 监听rootStore更新
     this.reaction = reaction(
       () => {
-        return `${JSON.stringify(props.rootStore)}`;
+        return `${JSON.stringify(props.rootStore.visibleState)}${JSON.stringify(
+          props.rootStore.disableState
+        )}`;
       },
       () => this.forceUpdate()
     );
@@ -95,6 +98,7 @@ export class SchemaRenderer extends React.Component<SchemaRendererProps, any> {
   }
 
   componentWillUnmount() {
+    this.reaction && this.reaction();
     this.unbindEvent?.();
   }
 
@@ -371,6 +375,7 @@ export class SchemaRenderer extends React.Component<SchemaRendererProps, any> {
     }
 
     const isClassComponent = Component.prototype?.isReactComponent;
+
     let props = {
       ...theme.getRendererConfig(renderer.name),
       ...restSchema,
@@ -384,13 +389,25 @@ export class SchemaRenderer extends React.Component<SchemaRendererProps, any> {
       $schema: $schema,
       ref: this.refFn,
       render: this.renderChild,
-      autoVar: renderer.autoVar,
       rootStore: rootStore,
       dispatchEvent: this.dispatchEvent
     };
 
     if (disable) {
       (props as any).disabled = true;
+    }
+
+    // 自动解析变量模式，主要是方便直接引入第三方组件库，无需为了支持变量封装一层
+    if (renderer.autoVar) {
+      for (const key of Object.keys($schema)) {
+        if (typeof props[key] === 'string') {
+          props[key] = resolveVariableAndFilter(
+            props[key],
+            props.data,
+            '| raw'
+          );
+        }
+      }
     }
 
     const component = isClassComponent ? (
