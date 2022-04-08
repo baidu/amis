@@ -68,7 +68,6 @@ import OptionsLocalPageSchema from './Linkage/OptionsLocal';
 import FormSubmitSchema from './Linkage/FormSubmit';
 import CommonEventActionSchema from './EventAction/Common';
 import BroadcastEventActionSchema from './EventAction/Broadcast';
-import CmptEventActionSchema from './EventAction/Cmpt';
 import CustomEventActionSchema from './EventAction/Custom';
 import LogicEventActionSchema from './EventAction/Logic';
 import StopEventActionSchema from './EventAction/Stop';
@@ -538,8 +537,6 @@ export const examples = [
           },
           {
             label: '执行其他组件动作',
-            path: '/examples/event-action/cmpt',
-            component: makeSchemaRenderer(CmptEventActionSchema),
             children: [
               {
                 label: '按钮类组件',
