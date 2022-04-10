@@ -487,7 +487,7 @@ export default class TextControl extends React.PureComponent<
     const {delimiter, joinValues, extractValue, valueField} = this.props;
 
     return joinValues
-      ? value.map(item => item[valueField || 'value']).join(delimiter || ',')
+      ? [value.map(item => item[valueField || 'value']).join(delimiter || ',')]
       : extractValue
       ? value.map(item => item[valueField || 'value'])
       : value;
